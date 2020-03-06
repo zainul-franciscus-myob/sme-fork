@@ -6,6 +6,7 @@ import {
   LOAD_EMPLOYEE_PAYS,
   OPEN_ETP_MODAL,
   SAVE_ETP,
+  SET_EMPLOYEE_PAY_LIST_UNSAVED_MODAL,
   SET_PAY_ITEM_LINE_DIRTY,
   SET_UPGRADE_MODAL_SHOWING,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
@@ -32,6 +33,8 @@ export const getEmployeePayListDefaultState = () => ({
   },
   baseHourlyWagePayItemId: null,
   baseSalaryWagePayItemId: null,
+  isPageEdited: false,
+  unsavedModalIsOpen: false,
 });
 
 const loadEmployeePays = (state, { employeePays }) => ({
@@ -48,6 +51,7 @@ const updateIsEmployeeSelected = (state, { id }) => ({
       ? { ...line, isSelected: !line.isSelected }
       : line
   )),
+  isPageEdited: true,
 });
 
 const updateAreAllEmployeesSelected = (state, { value }) => ({
@@ -56,6 +60,7 @@ const updateAreAllEmployeesSelected = (state, { value }) => ({
     ...line,
     isSelected: value,
   })),
+  isPageEdited: true,
 });
 
 const changeEtpCodeCategory = (state, { etpCodeCategory }) => ({
@@ -101,6 +106,7 @@ const saveEtp = state => ({
     }
     return line;
   }),
+  isPageEdited: true,
 });
 
 const validateEtp = (state, { invalidEtpNames }) => ({
@@ -111,6 +117,7 @@ const validateEtp = (state, { invalidEtpNames }) => ({
 const updatePayPeriodEmployeeLimit = (state, { payPeriodEmployeeLimit }) => ({
   ...state,
   payPeriodEmployeeLimit,
+  isPageEdited: true,
 });
 
 const setPayItemLineDirty = (state, action) => ({
@@ -139,6 +146,7 @@ const updateEmployeePayItem = (state, {
       }
       : line
   )),
+  isPageEdited: true,
 });
 
 const formatPayItemHours = hours => formatNumberWithDecimalScaleRange(hours, 2, 3);
@@ -190,6 +198,11 @@ const setUpgradeModalShowing = (state, { isUpgradeModalShowing }) => ({
   isUpgradeModalShowing,
 });
 
+const setEmployeePayListUnsavedModal = (state, { isOpen }) => ({
+  ...state,
+  unsavedModalIsOpen: isOpen,
+});
+
 export const employeePayListHandlers = {
   [LOAD_EMPLOYEE_PAYS]: loadEmployeePays,
   [UPDATE_IS_EMPLOYEE_SELECTED]: updateIsEmployeeSelected,
@@ -206,4 +219,5 @@ export const employeePayListHandlers = {
   [FORMAT_EMPLOYEE_PAY_ITEM]: formatEmployeePayItem,
   [UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION]: updateEmployeeLineAfterRecalculation,
   [SET_UPGRADE_MODAL_SHOWING]: setUpgradeModalShowing,
+  [SET_EMPLOYEE_PAY_LIST_UNSAVED_MODAL]: setEmployeePayListUnsavedModal,
 };

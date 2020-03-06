@@ -26,6 +26,14 @@ export const getIsPartiallySelected = createSelector(
   (isAllSelected, isSomeSelected) => !isAllSelected && isSomeSelected,
 );
 
+export const getIsUnsavedModalOpen = state => (
+  state.employeePayList.unsavedModalIsOpen
+);
+
+export const getIsPageEdited = state => (
+  state.employeePayList.isPageEdited
+);
+
 export const getNumberOfSelected = state => (
   state.employeePayList.lines.filter(line => line.isSelected).length
 );

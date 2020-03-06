@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { getStep } from './PayRunSelectors';
 import AlertType from './types/AlertType';
 import EmployeePayListModule from './employeePayList/EmployeePayListModule';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -138,4 +139,32 @@ export default class PayRunModule {
   resetState = () => {
     this.dispatcher.resetState();
   };
+
+  redirectToUrl = (url) => {
+    window.location.href = url;
+  }
+
+  getCurrentSubModule = () => {
+    const state = this.store.getState();
+    const currentStep = getStep(state);
+    const subModuleNamesArray = Object.keys(this.subModules);
+    const currentSubModuleName = subModuleNamesArray[currentStep];
+    const currentSubModule = this.subModules[currentSubModuleName];
+    return currentSubModule;
+  }
+
+  attemptToRoute = (navigationFunction) => {
+    const subModule = this.getCurrentSubModule();
+    if (subModule.tryToNavigate) {
+      subModule.tryToNavigate(navigationFunction);
+    } else {
+      navigationFunction();
+    }
+  }
+
+  handlePageTransition = (url) => {
+    this.attemptToRoute(() => {
+      this.redirectToUrl(url);
+    });
+  }
 }

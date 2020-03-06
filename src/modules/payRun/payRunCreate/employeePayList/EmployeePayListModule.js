@@ -1,7 +1,9 @@
 import React from 'react';
 
 import { SUCCESSFULLY_SAVED_DRAFT_PAY_RUN } from '../../payRunMessageTypes';
-import { getIsPayItemLineDirty, getTotals, isValidEtp } from './EmployeePayListSelectors';
+import {
+  getIsPageEdited, getIsPayItemLineDirty, getTotals, isValidEtp,
+} from './EmployeePayListSelectors';
 import { getPayRunListUrl } from '../PayRunSelectors';
 import AlertType from '../types/AlertType';
 import LoadingState from '../../../../components/PageView/LoadingState';
@@ -15,6 +17,7 @@ export default class EmployeePayListModule {
     this.pushMessage = pushMessage;
     this.dispatcher = createEmployeePayListDispatcher(store);
     this.integrator = createEmployeePayListIntegrator(store, integration);
+    this.pendingNavigateFunction = null;
   }
 
   changeEtpCodeCategory = ({ value }) => this.dispatcher.changeEtpCodeCategory({
@@ -189,7 +192,43 @@ export default class EmployeePayListModule {
         onUpgradeModalUpgradeButtonClick={this.redirectToSubscriptionSettings}
         onUpgradeModalDismiss={this.dispatcher.hideUpgradeModal}
         onSaveAndCloseButtonClick={this.saveDraftAndRedirect}
+        onUnsavedModalSave={this.saveDraftAndNavigateAway}
+        onUnsavedModalDiscard={this.onUnsavedModalDiscard}
+        onUnsavedModalCancel={this.closeUnsavedModal}
       />
     );
+  }
+
+  saveDraftAndNavigateAway = () => {
+    this.saveDraft();
+    this.closeUnsavedModal();
+    this.pendingNavigateFunction();
+  }
+
+  onUnsavedModalDiscard = () => {
+    this.closeUnsavedModal();
+    this.pendingNavigateFunction();
+  }
+
+  openUnsavedModal = () => {
+    this.dispatcher.setEmployeePayListIsUnsavedModalOpen({
+      isOpen: true,
+    });
+  }
+
+  closeUnsavedModal = () => {
+    this.dispatcher.setEmployeePayListIsUnsavedModalOpen({
+      isOpen: false,
+    });
+  }
+
+  tryToNavigate = (navigateFunction) => {
+    const state = this.store.getState();
+    this.pendingNavigateFunction = navigateFunction;
+    if (getIsPageEdited(state)) {
+      this.openUnsavedModal();
+    } else {
+      navigateFunction();
+    }
   }
 }

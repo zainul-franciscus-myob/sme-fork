@@ -43,3 +43,4 @@ export const SELECT_TIMESHEETS_ITEM = Symbol('Select or deselect one item of the
 export const SET_UNPROCESSED_TIMESHEET_LINES = Symbol('Set unprocessed timesheet lines');
 export const PREVIEW_PAY_DETAILS = Symbol('Preview pay details');
 export const PREVIEW_PAY_RUN_ACTIVITY = Symbol('Preview pay run activity');
+export const SET_EMPLOYEE_PAY_LIST_UNSAVED_MODAL = Symbol('Open or close employee pay list unsaved modal');

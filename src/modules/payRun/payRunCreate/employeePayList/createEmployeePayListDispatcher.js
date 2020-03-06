@@ -5,6 +5,7 @@ import {
   FORMAT_EMPLOYEE_PAY_ITEM,
   OPEN_ETP_MODAL,
   SAVE_ETP,
+  SET_EMPLOYEE_PAY_LIST_UNSAVED_MODAL,
   SET_PAY_ITEM_LINE_DIRTY,
   SET_TOTAL_NET_PAY,
   SET_UPGRADE_MODAL_SHOWING,
@@ -131,6 +132,13 @@ const createEmployeePayListDispatcher = store => ({
     store.dispatch({
       intent: SET_UPGRADE_MODAL_SHOWING,
       isUpgradeModalShowing: false,
+    });
+  },
+
+  setEmployeePayListIsUnsavedModalOpen: ({ isOpen }) => {
+    store.dispatch({
+      intent: SET_EMPLOYEE_PAY_LIST_UNSAVED_MODAL,
+      isOpen,
     });
   },
 });

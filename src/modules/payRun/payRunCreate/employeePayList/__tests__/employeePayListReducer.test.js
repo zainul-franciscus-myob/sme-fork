@@ -23,22 +23,22 @@ describe('employeePayListReducer', () => {
           ],
         },
       };
-
       const action = {
         intent: UPDATE_IS_EMPLOYEE_SELECTED,
         id: '1',
       };
-
       const expected = {
         employeePayList: {
           lines: [
             { employeeId: '1', isSelected: false },
             { employeeId: '2', isSelected: true },
           ],
+          isPageEdited: true,
         },
       };
 
       const actual = payRunReducer(state, action);
+
       expect(actual).toEqual(expected);
     });
   });
@@ -53,22 +53,22 @@ describe('employeePayListReducer', () => {
           ],
         },
       };
-
       const action = {
         intent: UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
         value: false,
       };
-
       const expected = {
         employeePayList: {
           lines: [
             { employeeId: '1', isSelected: false },
             { employeeId: '2', isSelected: false },
           ],
+          isPageEdited: true,
         },
       };
 
       const actual = payRunReducer(state, action);
+
       expect(actual).toEqual(expected);
     });
   });
@@ -80,7 +80,6 @@ describe('employeePayListReducer', () => {
           etp: {},
         },
       };
-
       const action = {
         intent: OPEN_ETP_MODAL,
         employeeId: '1',
@@ -102,7 +101,6 @@ describe('employeePayListReducer', () => {
           etp: {},
         },
       };
-
       const action = {
         intent: CLOSE_ETP_MODAL,
       };
@@ -125,7 +123,6 @@ describe('employeePayListReducer', () => {
           },
         },
       };
-
       const action = {
         intent: CHANGE_ETP_CODE,
         etpCode: EtpCode.D,
@@ -146,7 +143,6 @@ describe('employeePayListReducer', () => {
           },
         },
       };
-
       const action = {
         intent: CHANGE_ETP_CODE_CATEGORY,
         etpCodeCategory: EtpCodeCategory.DEATH,
@@ -175,7 +171,6 @@ describe('employeePayListReducer', () => {
           },
         },
       };
-
       const action = {
         intent: SAVE_ETP,
       };
@@ -194,7 +189,6 @@ describe('employeePayListReducer', () => {
   describe('formatPayItemAmount', () => {
     const employeeId = '1';
     const payItemId = '2';
-
     const state = {
       employeePayList: {
         lines: [
@@ -209,7 +203,6 @@ describe('employeePayListReducer', () => {
         ],
       },
     };
-
     const action = {
       intent: FORMAT_EMPLOYEE_PAY_ITEM,
       employeeId,
@@ -220,6 +213,7 @@ describe('employeePayListReducer', () => {
 
     it('should format the amount field of a particular pay item to 2 decimal places', () => {
       const actual = payRunReducer(state, action);
+
       expect(actual.employeePayList.lines[0].payItems[0].amount).toEqual('3.00');
     });
 
@@ -228,7 +222,9 @@ describe('employeePayListReducer', () => {
         ...action,
         value: '-',
       };
+
       const actual = payRunReducer(state, modifiedAction);
+
       expect(actual.employeePayList.lines[0].payItems[0].amount).toEqual('0.00');
     });
 
@@ -240,7 +236,9 @@ describe('employeePayListReducer', () => {
           ...action,
           key: 'hours',
         };
+
         const actual = payRunReducer(state, modifiedAction);
+
         expect(actual.employeePayList.lines[0].payItems[0].hours).toEqual('3.00');
       });
 
@@ -250,7 +248,9 @@ describe('employeePayListReducer', () => {
         key: 'hours',
         value: '-',
       };
+
       const actual = payRunReducer(state, modifiedAction);
+
       expect(actual.employeePayList.lines[0].payItems[0].hours).toEqual('0.00');
     });
   });

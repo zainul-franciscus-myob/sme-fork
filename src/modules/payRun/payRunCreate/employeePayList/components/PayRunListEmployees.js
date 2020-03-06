@@ -2,12 +2,15 @@ import { PageHead, Stepper } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsEtpOpen } from '../EmployeePayListSelectors';
-import { getStepNumber, getStepperSteps } from '../../PayRunSelectors';
+import { getIsEtpOpen, getIsUnsavedModalOpen } from '../EmployeePayListSelectors';
+import {
+  getStepNumber, getStepperSteps,
+} from '../../PayRunSelectors';
 import EmployeePayActions from './EmployeePayActions';
 import EmployeePayHeader from '../../components/EmployeePayHeader';
 import EmployeePayTable from './EmployeePayTable';
 import EtpModal from './EtpModal';
+import UnsavedModal from '../../../../../components/modal/UnsavedModal';
 import UpgradeModal from './UpgradeModal';
 import styles from './PayRunListEmployees.module.css';
 
@@ -29,6 +32,10 @@ const PayRunListEmployees = ({
   payRunSteps,
   onUpgradeModalUpgradeButtonClick,
   onUpgradeModalDismiss,
+  isUnsavedModalOpen,
+  onUnsavedModalCancel,
+  onUnsavedModalDiscard,
+  onUnsavedModalSave,
 }) => (
   <React.Fragment>
     <UpgradeModal
@@ -43,6 +50,13 @@ const PayRunListEmployees = ({
       onSaveEtp={onSaveEtp}
     />
     )}
+    { isUnsavedModalOpen && (
+    <UnsavedModal
+      onCancel={onUnsavedModalCancel}
+      onConfirmSave={onUnsavedModalSave}
+      onConfirmUnsave={onUnsavedModalDiscard}
+    />
+    ) }
     <PageHead title="Calculate pays" />
     <div className={styles.stepper}>
       <Stepper activeStepNumber={stepNumber} steps={payRunSteps} />
@@ -67,6 +81,7 @@ const mapStateToProps = state => ({
   isEtpOpen: getIsEtpOpen(state),
   stepNumber: getStepNumber(state),
   payRunSteps: getStepperSteps(state),
+  isUnsavedModalOpen: getIsUnsavedModalOpen(state),
 });
 
 export default connect(mapStateToProps)(PayRunListEmployees);

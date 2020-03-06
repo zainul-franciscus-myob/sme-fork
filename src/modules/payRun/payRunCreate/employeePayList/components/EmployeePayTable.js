@@ -53,6 +53,7 @@ const EmployeePayTable = ({
               <Checkbox
                 name="bulk-select"
                 label="Bulk select"
+                testid="bulkSelectCheckbox"
                 hideLabel
                 onChange={handleCheckboxChange(onSelectAllRows)}
                 checked={isAllSelected}
