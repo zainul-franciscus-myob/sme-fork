@@ -59,9 +59,13 @@ import QuoteLayout from '../QuoteLayout';
 import QuoteLineLayout from '../QuoteLineLayout';
 import createReducer from '../../../../store/createReducer';
 import formatAmount from '../../../../common/valueFormatters/formatAmount';
-import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
-import formatDisplayDiscount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
-import formatDisplayUnitPrice from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
+import formatDisplayAmount
+  from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
+import formatDisplayDiscount
+  from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
+import formatDisplayUnitPrice
+  from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
+import formatUnits from '../../../../common/valueFormatters/formatTaxCalculation/formatUnits';
 import getDefaultState, { DEFAULT_DISCOUNT, DEFAULT_UNITS } from './getDefaultState';
 
 const setInitialState = (state, { context }) => ({ ...state, ...context });
@@ -290,7 +294,19 @@ const resetQuoteTotals = state => ({
   totals: getDefaultState().totals,
 });
 
-const shouldFormatUnits = (key, currentUnits) => key === 'units' && Number(currentUnits) === 0;
+const formatDisplayField = (line, key) => {
+  const fieldMap = {
+    unitPrice: { displayField: 'displayUnitPrice', formatter: formatDisplayUnitPrice },
+    amount: { displayField: 'displayAmount', formatter: formatDisplayAmount },
+    discount: { displayField: 'displayDiscount', formatter: formatDisplayDiscount },
+    units: { displayField: 'units', formatter: formatUnits },
+  };
+  const { displayField, formatter } = fieldMap[key] || {};
+
+  return formatter ? {
+    [displayField]: line[key] && formatter(line[key]),
+  } : {};
+};
 
 const formatQuoteLine = (state, action) => ({
   ...state,
@@ -300,8 +316,7 @@ const formatQuoteLine = (state, action) => ({
       action.index === index
         ? {
           ...line,
-          [action.key]: action.value,
-          units: shouldFormatUnits(action.key, line.units) ? DEFAULT_UNITS : line.units,
+          ...formatDisplayField(line, action.key),
         }
         : line
     )),

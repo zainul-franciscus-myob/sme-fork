@@ -678,33 +678,46 @@ describe('quoteDetailReducer', () => {
   });
 
   describe('FORMAT_QUOTE_LINE', () => {
-    it('should reset the units of line back to 1 if the line is emptied', () => {
-      const state = {
-        quote: {
-          lines: [
-            {
-              units: '',
-            },
-          ],
-        },
-      };
+    [
+      {
+        name: 'unitPrice', displayName: 'displayUnitPrice', value: '10', displayValue: '10.00',
+      },
+      {
+        name: 'discount', displayName: 'displayDiscount', value: '10', displayValue: '10.00',
+      },
+      {
+        name: 'amount', displayName: 'displayAmount', value: '10', displayValue: '10.00',
+      },
+      {
+        name: 'units', displayName: 'units', value: '10.0', displayValue: '10',
+      },
+    ].forEach(({
+      name, displayName, value, displayValue,
+    }) => {
+      it(`should format ${name}`, () => {
+        const state = {
+          quote: {
+            lines: [
+              {
+                [name]: value,
+              },
+            ],
+          },
+        };
 
-      const action = {
-        intent: FORMAT_QUOTE_LINE,
-        key: 'units',
-        index: 0,
-      };
+        const action = {
+          intent: FORMAT_QUOTE_LINE,
+          key: name,
+          index: 0,
+        };
 
-      const actual = quoteDetailReducer(state, action);
+        const actual = quoteDetailReducer(state, action);
 
-      const expected = {
-        units: '1',
-      };
-
-      expect(actual.quote.lines[0]).toEqual(expected);
+        expect(actual.quote.lines[0][displayName]).toEqual(displayValue);
+      });
     });
 
-    it('should just return the state if the key isn\t unitPrice', () => {
+    it('should not format other keys', () => {
       const state = {
         quote: {
           lines: [{}],

@@ -108,10 +108,11 @@ const createQuoteDetailDispatcher = store => ({
     intent: SET_QUOTE_LINE_DIRTY, isLineAmountInputDirty,
   }),
 
-  setQuoteCalculatedLines: ({ lines, totals }) => store.dispatch({
+  setQuoteCalculatedLines: ({ lines, totals }, isSwitchingTaxInclusive) => store.dispatch({
     intent: SET_QUOTE_CALCULATED_LINES,
     lines,
     totals,
+    isSwitchingTaxInclusive,
   }),
 
   loadContactAddress: address => store.dispatch({ intent: LOAD_CONTACT_ADDRESS, address }),

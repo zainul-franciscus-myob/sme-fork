@@ -15,7 +15,6 @@ import {
 import {
   getAccountModalContext,
   getContactModalContext,
-  getDisplayKey,
   getExportPdfFilename,
   getInventoryModalContext,
   getIsCreating,
@@ -323,13 +322,18 @@ export default class QuoteDetailModule {
     this.setQuoteCalculatedLines(taxCalculations, CALCULATE_QUOTE_LINE_TOTALS);
   }
 
+  /*
+   * Workflow:
+   *  1. format - only format the field user blur out
+   *  2. price calculation - update at most one extra field when formula prerequisite met
+   *  3. tax calculation - update total
+   */
   formatQuoteLine = (index, key, value) => {
     if (index >= getLength(this.store.getState())) {
       return;
     }
 
-    const displayKey = getDisplayKey(key);
-    this.dispatcher.formatQuoteLine(index, displayKey, value);
+    this.dispatcher.formatQuoteLine(index, key, value);
 
     const isLineAmountDirty = getIsLineAmountInputDirty(this.store.getState());
     if (isLineAmountDirty) {
@@ -342,7 +346,7 @@ export default class QuoteDetailModule {
     }
   }
 
-  setQuoteCalculatedLines = (taxCalculations, intent) => {
+  setQuoteCalculatedLines = (taxCalculations, intent, isSwitchingTaxInclusive = false) => {
     const state = this.store.getState();
 
     if (getIsTableEmpty(state)) {
@@ -354,7 +358,7 @@ export default class QuoteDetailModule {
       return;
     }
 
-    this.dispatcher.setQuoteCalculatedLines(taxCalculations);
+    this.dispatcher.setQuoteCalculatedLines(taxCalculations, isSwitchingTaxInclusive);
   };
 
   calculateQuoteTaxCodeChange = () => {
@@ -404,9 +408,14 @@ export default class QuoteDetailModule {
 
   calculateQuoteIsTaxInclusiveChange = () => {
     const state = this.store.getState();
-    const taxCalculations = getTaxCalculations(state, { isSwitchingTaxInclusive: true });
+    const isSwitchingTaxInclusive = true;
+    const taxCalculations = getTaxCalculations(state, { isSwitchingTaxInclusive });
 
-    this.setQuoteCalculatedLines(taxCalculations, CALCULATE_QUOTE_TAX_INCLUSIVE_CHANGE);
+    this.setQuoteCalculatedLines(
+      taxCalculations,
+      CALCULATE_QUOTE_TAX_INCLUSIVE_CHANGE,
+      isSwitchingTaxInclusive,
+    );
   }
 
   updateLayout = ({ value }) => {

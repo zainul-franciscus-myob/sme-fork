@@ -240,16 +240,3 @@ export const getTaxCalculations = (state, { isSwitchingTaxInclusive }) => {
 export const getItemSellingDetailsFromCache = (state, itemId) => (
   state.cachedItemSellingDetails[itemId]
 );
-
-export const getDisplayKey = (key) => {
-  switch (key) {
-    case 'amount':
-      return 'displayAmount';
-    case 'discount':
-      return 'displayDiscount';
-    case 'unitPrice':
-      return 'displayUnitPrice';
-    default:
-      return key;
-  }
-};
