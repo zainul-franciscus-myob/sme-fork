@@ -1,7 +1,7 @@
 export const LOAD_RECEIVE_MONEY_DETAIL = Symbol('Load a receive money entry data');
 export const OPEN_MODAL = Symbol('Open a modal');
 export const CLOSE_MODAL = Symbol('Close a modal');
-export const SET_ALERT_MESSAGE = Symbol('Set alert message');
+export const SET_ALERT = Symbol('Set alert');
 export const SET_LOADING_STATE = Symbol('Set loading state');
 export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
 export const DELETE_RECEIVE_MONEY = Symbol('Delete a receive money entry');
@@ -14,3 +14,7 @@ export const ADD_RECEIVE_MONEY_LINE = Symbol('Add receive money line');
 export const DELETE_RECEIVE_MONEY_LINE = Symbol('Delete receive money line');
 export const GET_TAX_CALCULATIONS = Symbol('Get calculated totals');
 export const RESET_TOTALS = Symbol('Reset calculated totals');
+
+export const LOAD_ACCOUNT_AFTER_CREATE = Symbol('Load account detail after create');
+export const LOAD_CONTACT_AFTER_CREATE = Symbol('Load contact after create');
+export const SET_CONTACT_LOADING_STATE = Symbol('Set contact loading state');

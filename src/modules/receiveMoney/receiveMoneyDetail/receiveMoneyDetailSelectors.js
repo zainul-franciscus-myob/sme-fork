@@ -24,6 +24,8 @@ const getPayFromContactOptions = state => state.payFromContactOptions;
 export const getAccountOptions = state => state.accountOptions;
 export const getTaxCodeOptions = state => state.taxCodeOptions;
 
+export const getIsContactLoading = state => state.isContactLoading;
+
 export const getHeaderOptions = createStructuredSelector({
   referenceId: getReferenceId,
   selectedDepositIntoAccountId: getSelectedDepositIntoId,
@@ -34,9 +36,11 @@ export const getHeaderOptions = createStructuredSelector({
   description: getDescription,
   isReportable: getIsReportable,
   isTaxInclusive: getIsTaxInclusive,
+  isContactDisabled: getIsContactLoading,
 });
 
 export const getAlertMessage = state => state.alertMessage;
+export const getAlert = state => state.alert;
 export const getLoadingState = state => state.loadingState;
 
 export const getDefaultTaxCodeId = ({ accountId, accountOptions }) => {
@@ -168,4 +172,37 @@ export const getUrlParams = (state) => {
     businessId,
     ...(!isCreating && { receiveMoneyId: state.receiveMoneyId }),
   };
+};
+
+export const getAccountModalContext = createSelector(
+  getBusinessId,
+  getRegion,
+  (businessId, region) => ({ businessId, region }),
+);
+
+export const getLoadAddedAccountUrlParams = (state, accountId) => {
+  const businessId = getBusinessId(state);
+
+  return { businessId, accountId };
+};
+
+export const getContactModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region };
+};
+
+export const getLoadAddedContactUrlParams = (state, contactId) => {
+  const businessId = getBusinessId(state);
+
+  return { businessId, contactId };
+};
+
+export const getUpdatedContactOptions = (state, updatedOption) => {
+  const contactOptions = getPayFromContactOptions(state);
+
+  return contactOptions.some(option => option.id === updatedOption.id)
+    ? contactOptions.map(option => (option.id === updatedOption.id ? updatedOption : option))
+    : [updatedOption, ...contactOptions];
 };

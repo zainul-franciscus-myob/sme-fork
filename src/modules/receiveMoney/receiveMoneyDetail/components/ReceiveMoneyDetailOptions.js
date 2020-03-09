@@ -49,7 +49,9 @@ class ReceiveMoneyDetailOptions extends Component {
         depositIntoAccountOptions = [],
         selectedDepositIntoAccountId,
         selectedPayFromContactId,
+        isContactDisabled,
       },
+      onAddContact,
     } = this.props;
 
     const primary = (
@@ -68,7 +70,12 @@ class ReceiveMoneyDetailOptions extends Component {
           onChange={this.handleComboBoxChange('selectedPayFromContactId')}
           label="Contact (payer)"
           name="Pay From Contacts"
+          addNewItem={{
+            label: 'Create contact',
+            onAddNew: onAddContact,
+          }}
           hideLabel={false}
+          disabled={isContactDisabled}
         />
         <TextArea
           name="description"

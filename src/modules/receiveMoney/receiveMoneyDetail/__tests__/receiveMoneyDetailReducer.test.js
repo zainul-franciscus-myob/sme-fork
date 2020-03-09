@@ -2,6 +2,8 @@ import {
   ADD_RECEIVE_MONEY_LINE,
   DELETE_RECEIVE_MONEY_LINE,
   GET_TAX_CALCULATIONS,
+  LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_CONTACT_AFTER_CREATE,
   UPDATE_RECEIVE_MONEY_HEADER,
   UPDATE_RECEIVE_MONEY_LINE,
 } from '../../ReceiveMoneyIntents';
@@ -273,6 +275,94 @@ describe('receiveMoneyDetailReducer', () => {
         },
         isLineEdited: false,
       });
+    });
+  });
+
+  describe('LOAD_ACCOUNT_AFTER_CREATE', () => {
+    it('merges new account payload into account options', () => {
+      const state = {
+        accountOptions: [{ thisIsAnAccount: true }],
+      };
+
+      const action = {
+        intent: LOAD_ACCOUNT_AFTER_CREATE,
+        thisIsAnAccount: false,
+      };
+
+      const actual = receiveMoneyReducer(state, action);
+
+      expect(actual.accountOptions).toEqual([
+        { thisIsAnAccount: false },
+        { thisIsAnAccount: true },
+      ]);
+    });
+    it('sets page state to edited', () => {
+      const state = {
+        accountOptions: [{ thisIsAnAccount: true }],
+      };
+
+      const action = {
+        intent: LOAD_ACCOUNT_AFTER_CREATE,
+        thisIsAnAccount: false,
+      };
+
+      const actual = receiveMoneyReducer(state, action);
+
+      expect(actual.isPageEdited).toEqual(true);
+    });
+  });
+
+  describe('LOAD', () => {
+    it('merges new contact payload into contact options', () => {
+      const state = {
+        payFromContactOptions: [{ id: '🐶', name: 'Dog' }],
+      };
+
+      const action = {
+        intent: LOAD_CONTACT_AFTER_CREATE,
+        id: '🐱',
+        name: 'Cat',
+      };
+
+      const actual = receiveMoneyReducer(state, action);
+
+      expect(actual.payFromContactOptions).toEqual([
+        { id: '🐱', name: 'Cat' },
+        { id: '🐶', name: 'Dog' },
+      ]);
+    });
+
+    it('sets page state to edited', () => {
+      const state = {
+        payFromContactOptions: [{ id: '🐶', name: 'Dog' }],
+      };
+
+      const action = {
+        intent: LOAD_CONTACT_AFTER_CREATE,
+        id: '🐱',
+        name: 'Cat',
+      };
+
+      const actual = receiveMoneyReducer(state, action);
+
+      expect(actual.isPageEdited).toEqual(true);
+    });
+
+    it('sets selectedPayFromContactId to created contact', () => {
+      const state = {
+        payFromContactOptions: [{ id: '🐶', name: 'Dog' }],
+        receiveMoney: {},
+      };
+
+      const action = {
+        intent: LOAD_CONTACT_AFTER_CREATE,
+        id: '🐱',
+        name: 'Cat',
+      };
+
+      const actual = receiveMoneyReducer(state, action);
+
+      expect(actual.receiveMoney.selectedPayFromContactId).toEqual('🐱');
     });
   });
 });

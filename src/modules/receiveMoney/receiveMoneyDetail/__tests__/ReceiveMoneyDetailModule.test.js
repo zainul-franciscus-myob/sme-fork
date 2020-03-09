@@ -6,7 +6,7 @@ import {
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
   OPEN_MODAL,
-  SET_ALERT_MESSAGE,
+  SET_ALERT,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_RECEIVE_MONEY,
@@ -39,7 +39,7 @@ const setup = () => {
   return { store, integration, module };
 };
 
-const setupWithNew = () => {
+export const setupWithNew = () => {
   const toolbox = setup();
   const { store, integration, module } = toolbox;
 
@@ -199,7 +199,7 @@ describe('ReceiveMoneyDetailModule', () => {
         SET_SUBMITTING_STATE,
         CLOSE_MODAL,
         SET_SUBMITTING_STATE,
-        SET_ALERT_MESSAGE,
+        SET_ALERT,
       ]);
 
       expect(integration.getRequests()).toEqual([
@@ -263,7 +263,7 @@ describe('ReceiveMoneyDetailModule', () => {
       expect(getIntents(actions)).toEqual([
         SET_SUBMITTING_STATE,
         SET_SUBMITTING_STATE,
-        SET_ALERT_MESSAGE,
+        SET_ALERT,
       ]);
 
       expect(integration.getRequests()).toEqual([

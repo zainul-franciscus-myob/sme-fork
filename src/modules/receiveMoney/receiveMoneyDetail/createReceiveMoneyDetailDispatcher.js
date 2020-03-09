@@ -3,11 +3,14 @@ import {
   CLOSE_MODAL,
   DELETE_RECEIVE_MONEY_LINE,
   GET_TAX_CALCULATIONS,
+  LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_CONTACT_AFTER_CREATE,
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
   OPEN_MODAL,
   RESET_TOTALS,
-  SET_ALERT_MESSAGE,
+  SET_ALERT,
+  SET_CONTACT_LOADING_STATE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_RECEIVE_MONEY_HEADER,
@@ -35,18 +38,12 @@ const createReceiveMoneyDetailDispatcher = ({ store }) => ({
       loadingState,
     });
   },
-  displayAlert: (errorMessage) => {
-    store.dispatch({
-      intent: SET_ALERT_MESSAGE,
-      alertMessage: errorMessage,
-    });
-  },
   dismissAlert: () => {
     store.dispatch({
-      intent: SET_ALERT_MESSAGE,
-      alertMessage: '',
+      intent: SET_ALERT,
     });
   },
+  setAlert: ({ type, message }) => store.dispatch({ intent: SET_ALERT, alert: { type, message } }),
   closeModal: () => {
     store.dispatch({
       intent: CLOSE_MODAL,
@@ -138,7 +135,18 @@ const createReceiveMoneyDetailDispatcher = ({ store }) => ({
       ...response,
     });
   },
-
+  loadAccountAfterCreate: payload => store.dispatch({
+    intent: LOAD_ACCOUNT_AFTER_CREATE,
+    ...payload,
+  }),
+  setContactLoadingState: isContactLoading => store.dispatch({
+    intent: SET_CONTACT_LOADING_STATE,
+    isContactLoading,
+  }),
+  loadContactAfterCreate: payload => store.dispatch({
+    intent: LOAD_CONTACT_AFTER_CREATE,
+    ...payload,
+  }),
 });
 
 export default createReceiveMoneyDetailDispatcher;

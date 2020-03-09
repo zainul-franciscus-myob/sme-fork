@@ -3,6 +3,8 @@ import React from 'react';
 
 import { SUCCESSFULLY_DELETED_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY } from '../receiveMoneyMessageTypes';
 import {
+  getAccountModalContext,
+  getContactModalContext,
   getIndexOfLastLine,
   getIsActionsDisabled,
   getIsLineEdited,
@@ -14,6 +16,8 @@ import {
   getTransactionListUrl,
   isPageEdited,
 } from './receiveMoneyDetailSelectors';
+import AccountModalModule from '../../account/accountModal/AccountModalModule';
+import ContactModalModule from '../../contact/contactModal/ContactModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from '../ModalType';
 import ReceiveMoneyDetailView from './components/ReceiveMoneyDetailView';
@@ -35,7 +39,67 @@ export default class ReceiveMoneyDetailModule {
 
     this.dispatcher = createReceiveMoneyDetailDispatcher({ store: this.store });
     this.integrator = createReceiveMoneyDetailIntegrator({ store: this.store, integration });
+
+    this.accountModalModule = new AccountModalModule({
+      integration,
+    });
+    this.contactModalModule = new ContactModalModule({ integration });
   }
+
+  openContactModal = () => {
+    const state = this.store.getState();
+    const context = getContactModalContext(state);
+
+    this.contactModalModule.run({
+      context,
+      onLoadFailure: message => this.displayFailureAlert(message),
+      onSaveSuccess: this.loadContactAfterCreate,
+    });
+  }
+
+  loadContactAfterCreate = ({ id, message }) => {
+    this.contactModalModule.resetState();
+    this.displaySuccessAlert(message);
+    this.dispatcher.setContactLoadingState(true);
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setContactLoadingState(false);
+      this.dispatcher.loadContactAfterCreate(payload);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setContactLoadingState(false);
+    };
+
+    this.integrator.loadContactAfterCreate({ id, onSuccess, onFailure });
+  }
+
+  openAccountModal = (onChange) => {
+    const state = this.store.getState();
+    const accountModalContext = getAccountModalContext(state);
+    this.accountModalModule.run({
+      context: accountModalContext,
+      onSaveSuccess: payload => this.loadAccountAfterCreate(payload, onChange),
+      onLoadFailure: message => this.displayFailureAlert(message),
+    });
+  };
+
+  loadAccountAfterCreate = ({ id, message }, onChange) => {
+    this.dispatcher.setSubmittingState(true);
+    this.displaySuccessAlert(message);
+    this.accountModalModule.close();
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.loadAccountAfterCreate(payload);
+      onChange(payload);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setSubmittingState(false);
+    };
+    this.integrator.loadAccountAfterCreate({ id, onSuccess, onFailure });
+  };
 
   loadReceiveMoney = () => {
     const onSuccess = (response) => {
@@ -64,7 +128,7 @@ export default class ReceiveMoneyDetailModule {
 
     const onFailure = (error) => {
       this.setSubmittingState(false);
-      this.displayAlert(error.message);
+      this.displayFailureAlert(error.message);
     };
 
     this.integrator.deleteReceiveMoney({ onSuccess, onFailure });
@@ -89,7 +153,7 @@ export default class ReceiveMoneyDetailModule {
 
     const onFailure = (error) => {
       this.setSubmittingState(false);
-      this.displayAlert(error.message);
+      this.displayFailureAlert(error.message);
     };
 
     this.integrator.saveReceiveMoneyEntry({ onSuccess, onFailure });
@@ -151,7 +215,9 @@ export default class ReceiveMoneyDetailModule {
 
   setSubmittingState = isSubmitting => this.dispatcher.setSubmittingState(isSubmitting);
 
-  displayAlert = errorMessage => this.dispatcher.displayAlert(errorMessage);
+  displayFailureAlert = message => this.dispatcher.setAlert({ type: 'danger', message });
+
+  displaySuccessAlert = message => this.dispatcher.setAlert({ type: 'success', message });
 
   openCancelModal = () => {
     if (isPageEdited(this.store.getState())) {
@@ -188,8 +254,13 @@ export default class ReceiveMoneyDetailModule {
   }
 
   render = () => {
+    const accountModal = this.accountModalModule.render();
+    const contactModal = this.contactModalModule.render();
+
     const receiveMoneyView = (
       <ReceiveMoneyDetailView
+        accountModal={accountModal}
+        contactModal={contactModal}
         onUpdateHeaderOptions={this.updateHeaderOptions}
         onSaveButtonClick={this.saveReceiveMoneyEntry}
         onCancelButtonClick={this.openCancelModal}
@@ -202,6 +273,8 @@ export default class ReceiveMoneyDetailModule {
         onAddRow={this.addReceiveMoneyLine}
         onRemoveRow={this.deleteReceiveMoneyLine}
         onRowInputBlur={this.formatAndCalculateTotals}
+        onAddAccount={this.openAccountModal}
+        onAddContact={this.openContactModal}
       />
     );
 
@@ -215,6 +288,15 @@ export default class ReceiveMoneyDetailModule {
   };
 
   saveHandler = () => {
+    if (this.accountModalModule.isOpened()) {
+      this.accountModalModule.save();
+      return;
+    }
+    if (this.contactModalModule.isOpened()) {
+      this.contactModalModule.save();
+      return;
+    }
+
     const state = this.store.getState();
     const modalType = getOpenedModalType(state);
     switch (modalType) {
@@ -242,6 +324,8 @@ export default class ReceiveMoneyDetailModule {
   }
 
   resetState() {
+    this.accountModalModule.resetState();
+    this.contactModalModule.resetState();
     this.dispatcher.resetState();
   }
 

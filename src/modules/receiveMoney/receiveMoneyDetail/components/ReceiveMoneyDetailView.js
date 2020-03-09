@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getLoadingState, getModal, getPageTitle,
+  getAlert, getLoadingState, getModal, getPageTitle,
 } from '../receiveMoneyDetailSelectors';
 import LineItemTemplate from '../../../../components/Feelix/LineItemTemplate/LineItemTemplate';
 import PageView from '../../../../components/PageView/PageView';
@@ -15,6 +15,8 @@ import ReceiveMoneyDetailOptions from './ReceiveMoneyDetailOptions';
 import ReceiveMoneyDetailTable from './ReceiveMoneyDetailTable';
 
 const ReceiveMoneyDetailView = ({
+  accountModal,
+  contactModal,
   onUpdateHeaderOptions,
   onSaveButtonClick,
   onCancelButtonClick,
@@ -22,7 +24,7 @@ const ReceiveMoneyDetailView = ({
   onDismissModal,
   onConfirmCancelButtonClick,
   onConfirmDeleteButtonClick,
-  alertMessage,
+  alert,
   onDismissAlert,
   loadingState,
   pageTitle,
@@ -31,9 +33,14 @@ const ReceiveMoneyDetailView = ({
   onAddRow,
   onRemoveRow,
   onRowInputBlur,
+  onAddAccount,
+  onAddContact,
 }) => {
   const templateOptions = (
-    <ReceiveMoneyDetailOptions onUpdateHeaderOptions={onUpdateHeaderOptions} />
+    <ReceiveMoneyDetailOptions
+      onUpdateHeaderOptions={onUpdateHeaderOptions}
+      onAddContact={onAddContact}
+    />
   );
 
   const actions = (
@@ -44,9 +51,9 @@ const ReceiveMoneyDetailView = ({
     />
   );
 
-  const alertComponent = alertMessage && (
-    <Alert type="danger" onDismiss={onDismissAlert}>
-      {alertMessage}
+  const alertComponent = alert && (
+    <Alert type={alert.type} onDismiss={onDismissAlert}>
+      {alert.message}
     </Alert>
   );
 
@@ -69,11 +76,14 @@ const ReceiveMoneyDetailView = ({
             />
           )
         }
+        {accountModal}
+        {contactModal}
         <ReceiveMoneyDetailTable
           onUpdateRow={onUpdateRow}
           onAddRow={onAddRow}
           onRemoveRow={onRemoveRow}
           onRowInputBlur={onRowInputBlur}
+          onAddAccount={onAddAccount}
         />
       </LineItemTemplate>
     </React.Fragment>
@@ -83,7 +93,7 @@ const ReceiveMoneyDetailView = ({
 };
 
 const mapStateToProps = state => ({
-  alertMessage: getAlertMessage(state),
+  alert: getAlert(state),
   modal: getModal(state),
   loadingState: getLoadingState(state),
   pageTitle: getPageTitle(state),

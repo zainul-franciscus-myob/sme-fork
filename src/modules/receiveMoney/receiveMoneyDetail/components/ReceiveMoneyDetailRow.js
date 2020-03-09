@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getAccountOptions,
+  getIsActionsDisabled,
   getLineDataByIndexSelector,
   getNewLineData,
   getTaxCodeOptions,
@@ -43,6 +44,8 @@ const ReceiveMoneyDetailRow = ({
   newLineData,
   taxCodeOptions,
   accountOptions,
+  onAddAccount,
+  isSubmitting,
   ...feelixInjectedProps
 }) => {
   const data = isNewLineRow ? newLineData : lineData;
@@ -67,6 +70,10 @@ const ReceiveMoneyDetailRow = ({
         items={accountOptions}
         selectedId={accountId}
         onChange={onComboboxChange('accountId', onChange)}
+        addNewAccount={() => onAddAccount(
+          onComboboxChange('accountId', onChange),
+        )}
+        disabled={isSubmitting}
       />
       <AmountInput
         label="Amount"
@@ -75,6 +82,7 @@ const ReceiveMoneyDetailRow = ({
         onChange={onAmountInputChange('amount', onChange)}
         onBlur={onRowInputBlur}
         textAlign="right"
+        disabled={isSubmitting}
       />
       <AmountInput
         label="Quantity"
@@ -84,6 +92,7 @@ const ReceiveMoneyDetailRow = ({
         numeralDecimalScaleMax={6}
         numeralIntegerScale={13}
         textAlign="right"
+        disabled={isSubmitting}
       />
       <TextArea
         label="Description"
@@ -93,6 +102,7 @@ const ReceiveMoneyDetailRow = ({
         name="description"
         value={description}
         onChange={onInputChange(onChange)}
+        disabled={isSubmitting}
       />
       <TaxCodeCombobox
         label="Tax code"
@@ -100,6 +110,7 @@ const ReceiveMoneyDetailRow = ({
         items={taxCodeOptions}
         selectedId={taxCodeId}
         onChange={onComboboxChange('taxCodeId', onChange)}
+        disabled={isSubmitting}
       />
     </LineItemTable.Row>);
 };
@@ -111,6 +122,7 @@ const makeMapRowStateToProps = () => {
     newLineData: getNewLineData(state),
     taxCodeOptions: getTaxCodeOptions(state),
     accountOptions: getAccountOptions(state),
+    isSubmitting: getIsActionsDisabled(state),
   });
 };
 

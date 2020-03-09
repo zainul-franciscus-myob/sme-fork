@@ -1,12 +1,19 @@
 import {
   CREATE_RECEIVE_MONEY,
   DELETE_RECEIVE_MONEY,
+  LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_CONTACT_AFTER_CREATE,
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
   UPDATE_RECEIVE_MONEY,
 } from '../ReceiveMoneyIntents';
 import {
-  getIsCreating, getReceiveMoneyForCreatePayload, getReceiveMoneyForUpdatePayload, getUrlParams,
+  getIsCreating,
+  getLoadAddedAccountUrlParams,
+  getLoadAddedContactUrlParams,
+  getReceiveMoneyForCreatePayload,
+  getReceiveMoneyForUpdatePayload,
+  getUrlParams,
 } from './receiveMoneyDetailSelectors';
 
 const createReceiveMoneyDetailIntegrator = ({ store, integration }) => ({
@@ -51,6 +58,32 @@ const createReceiveMoneyDetailIntegrator = ({ store, integration }) => ({
       intent,
       urlParams,
       content,
+      onSuccess,
+      onFailure,
+    });
+  },
+  loadAccountAfterCreate: ({ id, onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = LOAD_ACCOUNT_AFTER_CREATE;
+    const urlParams = getLoadAddedAccountUrlParams(state, id);
+
+    integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+  loadContactAfterCreate: ({ id, onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = LOAD_CONTACT_AFTER_CREATE;
+    const urlParams = getLoadAddedContactUrlParams(state, id);
+
+    integration.read({
+      intent,
+      urlParams,
       onSuccess,
       onFailure,
     });

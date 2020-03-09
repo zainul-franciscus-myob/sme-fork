@@ -25,6 +25,7 @@ const ReceiveMoneyDetailTable = ({
   onAddRow,
   onRemoveRow,
   onRowInputBlur,
+  onAddAccount,
 }) => {
   const renderRow = (index, data, onChange, labels) => {
     const isNewLineRow = indexOfLastLine < index;
@@ -37,6 +38,7 @@ const ReceiveMoneyDetailTable = ({
         onChange={onChange}
         isNewLineRow={isNewLineRow}
         onRowInputBlur={onRowInputBlur}
+        onAddAccount={onAddAccount}
       />
     );
   };

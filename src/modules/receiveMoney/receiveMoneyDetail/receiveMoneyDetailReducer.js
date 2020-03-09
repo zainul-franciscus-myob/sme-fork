@@ -3,18 +3,21 @@ import {
   CLOSE_MODAL,
   DELETE_RECEIVE_MONEY_LINE,
   GET_TAX_CALCULATIONS,
+  LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_CONTACT_AFTER_CREATE,
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
   OPEN_MODAL,
   RESET_TOTALS,
-  SET_ALERT_MESSAGE,
+  SET_ALERT,
+  SET_CONTACT_LOADING_STATE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_RECEIVE_MONEY_HEADER,
   UPDATE_RECEIVE_MONEY_LINE,
 } from '../ReceiveMoneyIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { getDefaultTaxCodeId } from './receiveMoneyDetailSelectors';
+import { getDefaultTaxCodeId, getUpdatedContactOptions } from './receiveMoneyDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatDisplayAmount from '../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
@@ -52,6 +55,7 @@ const getDefaultState = () => ({
   taxCodeOptions: [],
   modal: undefined,
   alertMessage: '',
+  alert: undefined,
   loadingState: LoadingState.LOADING,
   pageTitle: '',
   isSubmitting: false,
@@ -162,10 +166,7 @@ const setSubmittingState = (state, action) => ({
   isSubmitting: action.isSubmitting,
 });
 
-const setAlertMessage = (state, action) => ({
-  ...state,
-  alertMessage: action.alertMessage,
-});
+const setAlert = (state, { alert }) => ({ ...state, alert });
 
 const openModal = (state, action) => ({
   ...state,
@@ -191,6 +192,24 @@ const getTaxCalculations = (state, action) => ({
   totals: action.totals,
 });
 
+const loadAccountAfterCreate = (state, { intent, ...account }) => ({
+  ...state,
+  accountOptions: [account, ...state.accountOptions],
+  isPageEdited: true,
+});
+
+const setContactLoadingState = (state, { isContactLoading }) => ({ ...state, isContactLoading });
+
+const loadContactAfterCreate = (state, { intent, ...contact }) => ({
+  ...state,
+  receiveMoney: {
+    ...state.receiveMoney,
+    selectedPayFromContactId: contact.id,
+  },
+  payFromContactOptions: getUpdatedContactOptions(state, contact),
+  isPageEdited: true,
+});
+
 const resetTotals = state => ({
   ...state,
   totals: getDefaultState().totals,
@@ -211,12 +230,15 @@ const handlers = {
   [DELETE_RECEIVE_MONEY_LINE]: deleteLine,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_SUBMITTING_STATE]: setSubmittingState,
-  [SET_ALERT_MESSAGE]: setAlertMessage,
+  [SET_ALERT]: setAlert,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [RESET_TOTALS]: resetTotals,
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
+  [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
+  [SET_CONTACT_LOADING_STATE]: setContactLoadingState,
+  [LOAD_CONTACT_AFTER_CREATE]: loadContactAfterCreate,
 };
 const receiveMoneyReducer = createReducer(getDefaultState(), handlers);
 
