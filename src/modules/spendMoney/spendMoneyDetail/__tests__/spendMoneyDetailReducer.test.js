@@ -2,7 +2,10 @@ import Decimal from 'decimal.js';
 
 import {
   ADD_ATTACHMENTS,
+  APPEND_ALERT_MESSAGE,
   GET_TAX_CALCULATIONS,
+  LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_CONTACT_AFTER_CREATE,
   LOAD_SUPPLIER_EXPENSE_ACCOUNT,
   PREFILL_DATA_FROM_IN_TRAY,
   UPDATE_SPEND_MONEY_HEADER,
@@ -648,5 +651,236 @@ describe('spendMoneyDetailReducer', () => {
     };
 
     expect(actual).toEqual(expected);
+  });
+
+  describe('loadAccountAfterCreate', () => {
+    it('should add the newly added account into the accounts list', () => {
+      const state = {
+        accounts: [
+          {
+            id: '1',
+          },
+        ],
+      };
+
+      const newAccount = {
+        id: '123',
+        displayName: 'My quick account',
+        accountType: 'Asset',
+        taxCodeId: '123',
+        displayId: '1-9944',
+      };
+
+      const action = {
+        intent: LOAD_ACCOUNT_AFTER_CREATE,
+        ...newAccount,
+      };
+
+      const actual = spendMoneyReducer(state, action);
+
+      const expected = [
+        newAccount,
+        {
+          id: '1',
+        },
+      ];
+
+      expect(actual.accounts).toEqual(expected);
+    });
+  });
+
+  describe('loadContactAfterCreate', () => {
+    const newContactId = '2';
+
+    const newContact = {
+      contactType: 'Supplier',
+      displayContactType: 'Supplier',
+      displayName: 'Shipping Logs',
+      id: newContactId,
+      displayId: 'SUS0000202',
+      expenseAccountId: '456',
+      isReportable: false,
+    };
+
+    const payToContacts = [
+      {
+        id: '1',
+      },
+    ];
+
+    it('should add the newly added contact into the payToContacts list', () => {
+      const state = {
+        spendMoney: {
+          payToContacts,
+        },
+      };
+
+      const action = {
+        intent: LOAD_CONTACT_AFTER_CREATE,
+        contactId: newContactId,
+        ...newContact,
+      };
+
+      const actual = spendMoneyReducer(state, action);
+
+      const { expenseAccountId, ...expectedContact } = newContact;
+      const expected = [
+        expectedContact,
+        payToContacts[0],
+      ];
+
+      expect(actual.spendMoney.payToContacts).toEqual(expected);
+      expect(actual.spendMoney.selectedPayToContactId).toEqual(newContactId);
+    });
+
+    it('should not update lines if spend money was prefilled but contact is a customer', () => {
+      const state = {
+        inTrayDocumentId: '1',
+        spendMoney: {
+          payToContacts,
+          lines: [],
+        },
+      };
+
+      const updatedContact = {
+        ...newContact,
+        contactType: 'Customer',
+      };
+
+      const action = {
+        intent: LOAD_CONTACT_AFTER_CREATE,
+        contactId: newContactId,
+        ...updatedContact,
+      };
+
+      const actual = spendMoneyReducer(state, action);
+
+      const { expenseAccountId, ...expectedContact } = updatedContact;
+      const expected = [
+        expectedContact,
+        payToContacts[0],
+      ];
+
+      expect(actual.spendMoney.payToContacts).toEqual(expected);
+      expect(actual.spendMoney.selectedPayToContactId).toEqual(newContactId);
+    });
+
+    it('should not update lines if contact is a supplier but spend money was not prefilled', () => {
+      const state = {
+        spendMoney: {
+          payToContacts,
+          lines: [],
+        },
+      };
+
+      const updatedContact = {
+        ...newContact,
+        contactType: 'Supplier',
+      };
+
+      const action = {
+        intent: LOAD_CONTACT_AFTER_CREATE,
+        contactId: newContactId,
+        ...updatedContact,
+      };
+
+      const actual = spendMoneyReducer(state, action);
+
+      const { expenseAccountId, ...expectedContact } = updatedContact;
+      const expected = [
+        expectedContact,
+        payToContacts[0],
+      ];
+
+      expect(actual.spendMoney.payToContacts).toEqual(expected);
+      expect(actual.spendMoney.selectedPayToContactId).toEqual(newContactId);
+    });
+
+    it('should add expenseAccountId and update lines with the expense account id if the spend money was prefilled and contact is a supplier', () => {
+      const state = {
+        inTrayDocumentId: '1',
+        accounts: [],
+        spendMoney: {
+          payToContacts,
+          lines: [
+            {
+              accountId: '5',
+            },
+          ],
+        },
+      };
+
+      const action = {
+        intent: LOAD_CONTACT_AFTER_CREATE,
+        contactId: newContactId,
+        ...newContact,
+      };
+
+      const actual = spendMoneyReducer(state, action);
+
+      const { expenseAccountId, ...expectedContact } = newContact;
+      const expected = [
+        expectedContact,
+        payToContacts[0],
+      ];
+
+      expect(actual.spendMoney.payToContacts).toEqual(expected);
+      expect(actual.spendMoney.selectedPayToContactId).toEqual(newContactId);
+      expect(actual.spendMoney.lines).toEqual([
+        {
+          accountId: '456',
+          taxCodeId: '',
+        },
+      ]);
+    });
+  });
+
+  describe('appendAlert', () => {
+    it('should append an alert to an existing alert', () => {
+      const state = {
+        alert: {
+          type: 'danger',
+          message: 'oh no',
+        },
+      };
+
+      const messageToAppend = 'oh yes';
+
+      const action = {
+        intent: APPEND_ALERT_MESSAGE,
+        message: messageToAppend,
+      };
+
+      const actual = spendMoneyReducer(state, action);
+
+      const expected = {
+        type: 'danger',
+        message: 'oh no; oh yes',
+      };
+
+      expect(actual.alert).toEqual(expected);
+    });
+
+    it('should create a new alert if there is no existing alert', () => {
+      const state = {
+        alert: undefined,
+      };
+
+      const messageToAppend = 'oh yes';
+
+      const action = {
+        intent: APPEND_ALERT_MESSAGE,
+        message: messageToAppend,
+      };
+
+      const actual = spendMoneyReducer(state, action);
+
+      const expected = {
+        type: 'danger',
+        message: 'oh yes',
+      };
+
+      expect(actual.alert).toEqual(expected);
+    });
   });
 });

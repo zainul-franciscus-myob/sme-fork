@@ -1,0 +1,9 @@
+{
+  "contactType": "Supplier",
+  "displayContactType": "Supplier",
+  "displayName": "Shipping Logs",
+  "id": "89",
+  "displayId": "SUS0000202",
+  "expenseAccountId": "456",
+  "isReportable": false
+}

@@ -6,12 +6,11 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage,
+  getAlert,
   getAttachmentCount,
   getIsCreating,
   getIsCreatingFromInTray,
   getIsLoading,
-  getIsSubmitting,
   getModal,
   getPageTitle,
   getShowPrefillInfo,
@@ -30,17 +29,18 @@ import SpendMoneyModal from './SpendMoneyModal';
 import styles from './SpendMoneyDetailView.module.css';
 
 const SpendMoneyDetailView = ({
+  accountModal,
+  contactModal,
   onUpdateHeaderOptions,
   onSaveButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
   onConfirmCancelButtonClick,
   onCloseModal,
-  alertMessage,
+  alert,
   onDismissAlert,
   isCreating,
   isLoading,
-  isSubmitting,
   hasInTrayDocument,
   showSplitView,
   showPrefillInfo,
@@ -48,6 +48,8 @@ const SpendMoneyDetailView = ({
   attachmentCount,
   onConfirmDeleteButtonClick,
   modal,
+  onAddAccount,
+  onAddContact,
   onUpdateRow,
   onAddRow,
   onRemoveRow,
@@ -64,6 +66,7 @@ const SpendMoneyDetailView = ({
   const primaryOptions = (
     <SpendMoneyDetailPrimaryOptions
       onUpdateHeaderOptions={onUpdateHeaderOptions}
+      onAddContact={onAddContact}
     />
   );
   const secondaryOptions = (
@@ -81,9 +84,9 @@ const SpendMoneyDetailView = ({
     />
   );
 
-  const alertComponent = alertMessage && (
-    <Alert type="danger" onDismiss={onDismissAlert}>
-      {alertMessage}
+  const alertComponent = alert && (
+    <Alert type={alert.type} onDismiss={onDismissAlert}>
+      {alert.message}
     </Alert>
   );
 
@@ -106,6 +109,7 @@ const SpendMoneyDetailView = ({
       onAddRow={onAddRow}
       onRemoveRow={onRemoveRow}
       onRowInputBlur={onRowInputBlur}
+      onAddAccount={onAddAccount}
     />
   );
 
@@ -116,6 +120,8 @@ const SpendMoneyDetailView = ({
   const subHeaderChildren = (
     <React.Fragment>
       {inTrayDocumentView}
+      {accountModal}
+      {contactModal}
       {modal && (
         <SpendMoneyModal
           modal={modal}
@@ -159,15 +165,14 @@ const SpendMoneyDetailView = ({
   );
 
   return (
-    <PageView isLoading={isLoading || isSubmitting} view={view} />
+    <PageView loadingState={isLoading} view={view} />
   );
 };
 
 const mapStateToProps = state => ({
-  alertMessage: getAlertMessage(state),
+  alert: getAlert(state),
   modal: getModal(state),
   isLoading: getIsLoading(state),
-  isSubmitting: getIsSubmitting(state),
   isCreating: getIsCreating(state),
   pageTitle: getPageTitle(state),
   attachmentCount: getAttachmentCount(state),

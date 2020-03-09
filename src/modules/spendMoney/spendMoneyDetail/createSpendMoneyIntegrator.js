@@ -3,6 +3,8 @@ import {
   DELETE_SPEND_MONEY,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   LINK_IN_TRAY_DOCUMENT,
+  LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_CONTACT_AFTER_CREATE,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
   LOAD_SPEND_MONEY_DETAIL,
@@ -15,6 +17,8 @@ import {
 } from '../SpendMoneyIntents';
 import {
   getBusinessId,
+  getLoadAddedAccountUrlParams,
+  getLoadAddedContactUrlParams,
   getLoadContactDetailUrlParams,
   getSpendMoneyForCreatePayload,
   getSpendMoneyForUpdatePayload,
@@ -226,6 +230,34 @@ const createSpendMoneyIntegrator = (store, integration) => ({
       urlParams: {
         businessId: getBusinessId(state),
       },
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadAccountAfterCreate: ({ id, onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = LOAD_ACCOUNT_AFTER_CREATE;
+    const urlParams = getLoadAddedAccountUrlParams(state, id);
+
+    integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadContactAfterCreate: ({ id, onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = LOAD_CONTACT_AFTER_CREATE;
+    const urlParams = getLoadAddedContactUrlParams(state, id);
+
+    integration.read({
+      intent,
+      urlParams,
       onSuccess,
       onFailure,
     });

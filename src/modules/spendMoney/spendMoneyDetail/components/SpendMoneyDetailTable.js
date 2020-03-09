@@ -25,6 +25,7 @@ const SpendMoneyDetailTable = ({
   onAddRow,
   onRowInputBlur,
   onUpdateRow,
+  onAddAccount,
 }) => {
   const renderRow = (index, data, onChange, labels) => {
     const isNewLineRow = indexOfLastLine < index;
@@ -37,6 +38,7 @@ const SpendMoneyDetailTable = ({
         onChange={onChange}
         isNewLineRow={isNewLineRow}
         onRowInputBlur={onRowInputBlur}
+        onAddAccount={onAddAccount}
       />
     );
   };

@@ -5,6 +5,7 @@ import classnames from 'classnames';
 
 import {
   getAccountOptions,
+  getIsSubmitting,
   getIsSupplierBlocking,
   getLineDataByIndexSelector,
   getNewLineData,
@@ -44,6 +45,8 @@ const SpendMoneyDetailRow = (props) => {
     accountOptions,
     taxCodeOptions,
     isSupplierBlocking,
+    isSubmitting,
+    onAddAccount,
     ...feelixInjectedProps
   } = props;
   const data = isNewLineRow ? newLineData : lineData;
@@ -57,6 +60,8 @@ const SpendMoneyDetailRow = (props) => {
     prefillStatus = {},
   } = data;
 
+  const onChangeAccountId = onComboboxChange('accountId', onChange);
+
   return (
     <LineItemTable.Row id={index} index={index} {...feelixInjectedProps}>
       <AccountCombobox
@@ -65,7 +70,9 @@ const SpendMoneyDetailRow = (props) => {
         items={accountOptions}
         selectedId={accountId}
         onChange={onComboboxChange('accountId', onChange)}
-        disabled={isSupplierBlocking}
+        disabled={isSupplierBlocking || isSubmitting}
+        addNewAccount={() => onAddAccount(onChangeAccountId)}
+        e
       />
       <AmountInput
         label="Amount"
@@ -76,7 +83,7 @@ const SpendMoneyDetailRow = (props) => {
         onBlur={onRowInputBlur}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.amount) })}
         numeralDecimalScaleMax={2}
-        disabled={isSupplierBlocking}
+        disabled={isSupplierBlocking || isSubmitting}
       />
       <AmountInput
         label="Quantity"
@@ -87,7 +94,7 @@ const SpendMoneyDetailRow = (props) => {
         numeralDecimalScaleMin={0}
         numeralDecimalScaleMax={6}
         numeralIntegerScale={13}
-        disabled={isSupplierBlocking}
+        disabled={isSupplierBlocking || isSubmitting}
       />
       <div className={classnames({ [styles.prefilled]: Boolean(prefillStatus.description) })}>
         <TextArea
@@ -99,6 +106,7 @@ const SpendMoneyDetailRow = (props) => {
           name="description"
           value={description}
           onChange={onChange}
+          disabled={isSubmitting}
         />
       </div>
       <TaxCodeCombobox
@@ -108,7 +116,7 @@ const SpendMoneyDetailRow = (props) => {
         selectedId={taxCodeId}
         onChange={onComboboxChange('taxCodeId', onChange)}
         left
-        disabled={isSupplierBlocking}
+        disabled={isSupplierBlocking || isSubmitting}
       />
     </LineItemTable.Row>
   );
@@ -122,6 +130,7 @@ const makeMapRowStateToProps = () => {
     accountOptions: getAccountOptions(state),
     taxCodeOptions: getTaxCodeOptions(state),
     isSupplierBlocking: getIsSupplierBlocking(state),
+    isSubmitting: getIsSubmitting(state),
   });
 };
 

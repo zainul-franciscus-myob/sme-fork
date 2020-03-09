@@ -3,6 +3,8 @@ import {
   DELETE_SPEND_MONEY,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   LINK_IN_TRAY_DOCUMENT,
+  LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_CONTACT_AFTER_CREATE,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
   LOAD_SPEND_MONEY_DETAIL,
@@ -14,6 +16,8 @@ import {
   UPLOAD_ATTACHMENT,
 } from '../SpendMoneyIntents';
 import attachmentDetailResponse from './data/attachmentDetail';
+import loadAddedAccountResponse from './data/loadAddedAccountResponse';
+import loadAddedContactResponse from './data/loadAddedContactResponse';
 import spendMoneyDetailEntry from './data/spendMoneyDetailEntry';
 import spendMoneyDetailPrefillResponse from './data/spendMoneyDetailPrefill';
 import spendMoneyNewEntry from './data/spendMoneyDetailNewEntry';
@@ -60,6 +64,8 @@ const MemorySpendMoneyMapping = {
   [DOWNLOAD_IN_TRAY_DOCUMENT]: downloadInTrayDocument,
   [PREFILL_DATA_FROM_IN_TRAY]: prefillDataFromInTray,
   [LINK_IN_TRAY_DOCUMENT]: linkInTrayDocument,
+  [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedAccountResponse),
+  [LOAD_CONTACT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedContactResponse),
 };
 
 export default MemorySpendMoneyMapping;

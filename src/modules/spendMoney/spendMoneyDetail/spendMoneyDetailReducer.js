@@ -7,6 +7,8 @@ import {
   DELETE_SPEND_MONEY_LINE,
   GET_TAX_CALCULATIONS,
   HIDE_PREFILL_INFO,
+  LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_CONTACT_AFTER_CREATE,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
   LOAD_SPEND_MONEY_DETAIL,
@@ -17,7 +19,7 @@ import {
   REMOVE_ATTACHMENT,
   REMOVE_ATTACHMENT_BY_INDEX,
   RESET_TOTALS,
-  SET_ALERT_MESSAGE,
+  SET_ALERT,
   SET_IN_TRAY_DOCUMENT_URL,
   SET_LOADING_STATE,
   SET_OPERATION_IN_PROGRESS_STATE,
@@ -32,6 +34,7 @@ import {
 } from '../SpendMoneyIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { getIsContactReportable, getIsReportable } from './spendMoneyDetailSelectors';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../../common/valueFormatters/formatCurrency';
@@ -82,9 +85,9 @@ const getDefaultState = () => ({
     totalTax: '$0.00',
     totalAmount: '$0.00',
   },
-  alertMessage: '',
+  alert: undefined,
   modal: undefined,
-  isLoading: true,
+  isLoading: LoadingState,
   isSubmitting: false,
   isSupplierBlocking: false,
   isPageEdited: false,
@@ -281,9 +284,9 @@ const setSupplierBlockingState = (state, action) => ({
   isSupplierBlocking: action.isSupplierBlocking,
 });
 
-const setAlertMessage = (state, action) => ({
+const setAlert = (state, action) => ({
   ...state,
-  alertMessage: action.alertMessage,
+  alert: action.alert,
 });
 
 const openModal = (state, action) => ({
@@ -392,10 +395,24 @@ const removeAttachment = (state, { id }) => ({
   attachments: state.attachments.filter(attachment => attachment.id !== id),
 });
 
-const appendAlert = (state, { alertMessage }) => ({
-  ...state,
-  alertMessage: state.alertMessage ? `${state.alertMessage}; ${alertMessage}` : alertMessage,
-});
+const appendAlert = (state, { message }) => {
+  if (state.alert) {
+    return {
+      ...state,
+      alert: {
+        ...state.alert,
+        message: `${state.alert.message}; ${message}`,
+      },
+    };
+  }
+  return {
+    ...state,
+    alert: {
+      type: 'danger',
+      message,
+    },
+  };
+};
 
 const setShowSplitView = (state, { showSplitView }) => ({
   ...state,
@@ -480,6 +497,47 @@ const hidePrefillInfo = state => ({
   showPrefillInfo: false,
 });
 
+const loadAccountAfterCreate = (state, { intent, ...account }) => ({
+  ...state,
+  accounts: [account, ...state.accounts],
+  isPageEdited: true,
+});
+
+const wasPrefilled = state => Boolean(state.inTrayDocumentId);
+const contactIsSupplier = ({ contactType }) => contactType === 'Supplier';
+
+const loadContactAfterCreate = (state, {
+  intent, expenseAccountId, contactId, ...rest
+}) => {
+  if (wasPrefilled(state) && contactIsSupplier(rest)) {
+    return {
+      ...state,
+      spendMoney: {
+        ...state.spendMoney,
+        selectedPayToContactId: contactId,
+        payToContacts: [rest, ...state.spendMoney.payToContacts],
+        expenseAccountId,
+        lines: state.spendMoney.lines.length > 0
+          ? updateAllLinesWithExpenseAccount(
+            state.spendMoney.lines,
+            state.accounts,
+            expenseAccountId,
+          )
+          : state.spendMoney.lines,
+      },
+    };
+  }
+
+  return {
+    ...state,
+    spendMoney: {
+      ...state.spendMoney,
+      selectedPayToContactId: contactId,
+      payToContacts: [rest, ...state.spendMoney.payToContacts],
+    },
+  };
+};
+
 const handlers = {
   [UPDATE_SPEND_MONEY_HEADER]: updateHeader,
   [LOAD_NEW_SPEND_MONEY]: loadNewSpendMoney,
@@ -493,7 +551,7 @@ const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_SUPPLIER_BLOCKING_STATE]: setSupplierBlockingState,
-  [SET_ALERT_MESSAGE]: setAlertMessage,
+  [SET_ALERT]: setAlert,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [RESET_TOTALS]: resetTotals,
@@ -513,6 +571,8 @@ const handlers = {
   [CLEAR_IN_TRAY_DOCUMENT_URL]: clearInTrayDocumentUrl,
   [PREFILL_DATA_FROM_IN_TRAY]: prefillDataFromInTray,
   [HIDE_PREFILL_INFO]: hidePrefillInfo,
+  [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
+  [LOAD_CONTACT_AFTER_CREATE]: loadContactAfterCreate,
 };
 const spendMoneyReducer = createReducer(getDefaultState(), handlers);
 

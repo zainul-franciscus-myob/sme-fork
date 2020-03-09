@@ -31,6 +31,7 @@ const SpendMoneyDetailPrimaryOptions = ({
   accountOptions,
   onUpdateHeaderOptions,
   prefillStatus,
+  onAddContact,
 }) => {
   const handleInputChange = (e) => {
     const { value, name } = e.target;
@@ -72,6 +73,10 @@ const SpendMoneyDetailPrimaryOptions = ({
           name="Pay To Contacts"
           hideLabel={false}
           disabled={isSupplierBlocking}
+          addNewItem={{
+            label: 'Create contact',
+            onAddNew: onAddContact,
+          }}
         />
       </div>
       {shouldShowReportable && (

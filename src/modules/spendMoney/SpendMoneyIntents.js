@@ -11,7 +11,7 @@ export const ADD_SPEND_MONEY_LINE = Symbol('Add spend money line');
 export const DELETE_SPEND_MONEY_LINE = Symbol('Delete spend money line');
 export const OPEN_MODAL = Symbol('Open a modal');
 export const CLOSE_MODAL = Symbol('Close a modal');
-export const SET_ALERT_MESSAGE = Symbol('Set alert message');
+export const SET_ALERT = Symbol('Set alert');
 export const SET_LOADING_STATE = Symbol('Set loading state');
 export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
 export const SET_SUPPLIER_BLOCKING_STATE = Symbol('Set supplier blocking state');
@@ -34,3 +34,6 @@ export const SET_IN_TRAY_DOCUMENT_URL = Symbol('Set in tray document url');
 export const CLEAR_IN_TRAY_DOCUMENT_URL = Symbol('Clear in tray document url');
 export const HIDE_PREFILL_INFO = Symbol('Hide prefill info');
 export const LINK_IN_TRAY_DOCUMENT = Symbol('Link in tray document');
+
+export const LOAD_ACCOUNT_AFTER_CREATE = Symbol('Load an account after create');
+export const LOAD_CONTACT_AFTER_CREATE = Symbol('Load a contact after create');

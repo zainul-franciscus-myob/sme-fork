@@ -13,6 +13,13 @@ class TestIntegration {
     this.mapping[intent]({ intent, onSuccess, onFailure });
   }
 
+  readFile = ({
+    intent, params, onSuccess, onFailure,
+  }) => {
+    this.requests.push({ intent, params });
+    this.mapping[intent]({ intent, onSuccess, onFailure });
+  }
+
   write = ({
     intent, params, onSuccess, onFailure,
   }) => {

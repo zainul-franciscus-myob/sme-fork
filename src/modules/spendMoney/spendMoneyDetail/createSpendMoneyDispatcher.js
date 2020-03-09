@@ -7,6 +7,8 @@ import {
   DELETE_SPEND_MONEY_LINE,
   GET_TAX_CALCULATIONS,
   HIDE_PREFILL_INFO,
+  LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_CONTACT_AFTER_CREATE,
   LOAD_REFERENCE_ID,
   LOAD_SUPPLIER_EXPENSE_ACCOUNT,
   OPEN_MODAL,
@@ -15,7 +17,7 @@ import {
   REMOVE_ATTACHMENT,
   REMOVE_ATTACHMENT_BY_INDEX,
   RESET_TOTALS,
-  SET_ALERT_MESSAGE,
+  SET_ALERT,
   SET_IN_TRAY_DOCUMENT_URL,
   SET_LOADING_STATE,
   SET_OPERATION_IN_PROGRESS_STATE,
@@ -70,9 +72,9 @@ const createSpendMoneyDispatcher = store => ({
     store.dispatch({ intent, key, value });
   },
 
-  displayAlert: (alertMessage) => {
-    const intent = SET_ALERT_MESSAGE;
-    store.dispatch({ intent, alertMessage });
+  setAlert: (alert) => {
+    const intent = SET_ALERT;
+    store.dispatch({ intent, alert });
   },
 
   setSubmittingState: (isSubmitting) => {
@@ -128,8 +130,8 @@ const createSpendMoneyDispatcher = store => ({
   },
 
   dismissAlert: () => {
-    const intent = SET_ALERT_MESSAGE;
-    store.dispatch({ intent, alertMessage: '' });
+    const intent = SET_ALERT;
+    store.dispatch({ intent, alert: undefined });
   },
 
   addAttachments: (files) => {
@@ -171,9 +173,9 @@ const createSpendMoneyDispatcher = store => ({
     store.dispatch({ intent, index });
   },
 
-  appendAlert: (alertMessage) => {
+  appendAlert: (message) => {
     const intent = APPEND_ALERT_MESSAGE;
-    store.dispatch({ intent, alertMessage });
+    store.dispatch({ intent, message });
   },
 
   setOperationInProgressState: (id, isInProgress) => {
@@ -206,6 +208,16 @@ const createSpendMoneyDispatcher = store => ({
     store.dispatch({ intent });
   },
 
+  loadAccountAfterCreate: payload => store.dispatch({
+    intent: LOAD_ACCOUNT_AFTER_CREATE,
+    ...payload,
+  }),
+
+  loadContactAfterCreate: (contactId, payload) => store.dispatch({
+    intent: LOAD_CONTACT_AFTER_CREATE,
+    contactId,
+    ...payload,
+  }),
 });
 
 export default createSpendMoneyDispatcher;

@@ -96,7 +96,7 @@ export const getHeaderOptions = createSelector(
   },
 );
 
-export const getAlertMessage = state => state.alertMessage;
+export const getAlert = state => state.alert;
 export const getModalUrl = state => ((state.modal || {}).url);
 export const getModal = state => state.modal;
 export const getIsLoading = state => state.isLoading;
@@ -312,3 +312,29 @@ export const getLinesForTaxCalculation = createSelector(
 export const getIsLineAmountsTaxInclusive = (isTaxInclusive, isSwitchingTaxInclusive) => (
   isSwitchingTaxInclusive ? !isTaxInclusive : isTaxInclusive
 );
+
+export const getAccountModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region };
+};
+
+export const getContactModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region };
+};
+
+export const getLoadAddedAccountUrlParams = (state, accountId) => {
+  const businessId = getBusinessId(state);
+
+  return { businessId, accountId };
+};
+
+export const getLoadAddedContactUrlParams = (state, contactId) => {
+  const businessId = getBusinessId(state);
+
+  return { businessId, contactId };
+};

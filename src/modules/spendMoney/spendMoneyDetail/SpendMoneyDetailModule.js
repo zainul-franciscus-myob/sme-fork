@@ -8,6 +8,8 @@ import {
 } from '../spendMoneyMessageTypes';
 import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalculator';
 import {
+  getAccountModalContext,
+  getContactModalContext,
   getFilesForUpload,
   getHasPrefilledLines,
   getInTrayDocumentId,
@@ -31,6 +33,9 @@ import {
   isPageEdited,
   isReferenceIdDirty,
 } from './spendMoneyDetailSelectors';
+import AccountModalModule from '../../account/accountModal/AccountModalModule';
+import ContactModalModule from '../../contact/contactModal/ContactModalModule';
+import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './components/ModalType';
 import SpendMoneyDetailView from './components/SpendMoneyDetailView';
 import SpendMoneyElementId from './SpendMoneyElementId';
@@ -51,11 +56,70 @@ export default class SpendMoneyDetailModule {
     this.dispatcher = createSpendMoneyDispatcher(this.store);
     this.integrator = createSpendMoneyIntegrator(this.store, integration);
     this.taxCalculate = createTaxCalculator(TaxCalculatorTypes.spendMoney);
+
+    this.accountModalModule = new AccountModalModule({ integration });
+    this.contactModalModule = new ContactModalModule({ integration });
+  }
+
+  openAccountModal = (onChange) => {
+    const state = this.store.getState();
+    const accountModalContext = getAccountModalContext(state);
+    this.accountModalModule.run({
+      context: accountModalContext,
+      onSaveSuccess: payload => this.loadAccountAfterCreate(payload, onChange),
+      onLoadFailure: message => this.dispatcher.setAlert({ type: 'danger', message }),
+    });
+  };
+
+  loadAccountAfterCreate = ({ message, id }, onChange) => {
+    this.dispatcher.setAlert({ type: 'success', message });
+    this.dispatcher.setSubmittingState(true);
+    this.accountModalModule.close();
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.loadAccountAfterCreate(payload);
+      onChange(payload);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setSubmittingState(false);
+    };
+
+    this.integrator.loadAccountAfterCreate({ id, onSuccess, onFailure });
+  };
+
+  openContactModal = () => {
+    const state = this.store.getState();
+    const context = getContactModalContext(state);
+
+    this.contactModalModule.run({
+      context,
+      onSaveSuccess: payload => this.loadContactAfterCreate(payload),
+      onLoadFailure: message => this.dispatcher.setAlert({ type: 'danger', message }),
+    });
+  }
+
+  loadContactAfterCreate = ({ message, id }) => {
+    this.dispatcher.setAlert({ type: 'success', message });
+    this.dispatcher.setSubmittingState(true);
+    this.contactModalModule.resetState();
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.loadContactAfterCreate(id, payload);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setSubmittingState(false);
+    };
+
+    this.integrator.loadContactAfterCreate({ id, onSuccess, onFailure });
   }
 
   prefillSpendMoneyFromInTray(inTrayDocumentId) {
     const onSuccess = (response) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.prefillDataFromInTray(response);
 
       const hasPrefilledLines = getHasPrefilledLines(this.store.getState());
@@ -65,11 +129,13 @@ export default class SpendMoneyDetailModule {
     };
 
     const onFailure = ({ message }) => {
-      this.dispatcher.setLoadingState(false);
-      this.dispatcher.displayAlert(message);
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message,
+      });
     };
 
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.integrator.prefillDataFromInTray({ onSuccess, onFailure, inTrayDocumentId });
   }
 
@@ -78,7 +144,7 @@ export default class SpendMoneyDetailModule {
 
     const onSuccess = intent => (response) => {
       this.dispatcher.loadSpendMoney(intent, response);
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
 
       const inTrayDocumentId = getInTrayDocumentId(state);
@@ -87,15 +153,16 @@ export default class SpendMoneyDetailModule {
       }
     };
 
-    const onFailure = ({ message }) => {
-      this.dispatcher.setLoadingState(false);
-      this.dispatcher.displayAlert(message);
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     const params = getLoadSpendMoneyRequestParams(this.store.getState());
 
     this.integrator.loadSpendMoney({
-      onSuccess, onFailure, ...params,
+      onSuccess,
+      onFailure,
+      ...params,
     });
   };
 
@@ -176,7 +243,10 @@ export default class SpendMoneyDetailModule {
 
     onFailure: (error) => {
       this.dispatcher.setSubmittingState(false);
-      this.dispatcher.displayAlert(error.message);
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message: error.message,
+      });
     },
   });
 
@@ -215,18 +285,6 @@ export default class SpendMoneyDetailModule {
       onFailure: handleLinkFailure,
       linkContent,
     });
-  };
-
-  createSpendMoneyEntry = () => {
-    this.dispatcher.setSubmittingState(true);
-
-    this.integrator.createSpendMoneyEntry(this.getSaveHandlers());
-  };
-
-  updateSpendMoneyEntry = () => {
-    this.dispatcher.setSubmittingState(true);
-
-    this.integrator.updateSpendMoneyEntry(this.getSaveHandlers());
   };
 
   openCancelModal = () => {
@@ -343,7 +401,10 @@ export default class SpendMoneyDetailModule {
 
     const onFailure = (error) => {
       this.dispatcher.setSubmittingState(false);
-      this.dispatcher.displayAlert(error.message);
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message: error.message,
+      });
     };
 
     this.integrator.deleteSpendMoneyTransaction({
@@ -462,7 +523,10 @@ export default class SpendMoneyDetailModule {
     };
 
     const onFailure = ({ message }) => {
-      this.dispatcher.displayAlert(message);
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message,
+      });
     };
 
     this.integrator.downloadInTrayDocument({
@@ -474,11 +538,15 @@ export default class SpendMoneyDetailModule {
 
   render = () => {
     const isCreating = getIsCreating(this.store.getState());
+    const accountModal = this.accountModalModule.render();
+    const contactModal = this.contactModalModule.render();
+
     const spendMoneyView = (
       <SpendMoneyDetailView
+        accountModal={accountModal}
+        contactModal={contactModal}
         onUpdateHeaderOptions={this.updateHeaderOptions}
-        onSaveButtonClick={isCreating
-          ? this.createSpendMoneyEntry : this.updateSpendMoneyEntry}
+        onSaveButtonClick={this.saveSpendMoney}
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
         onCloseModal={this.dispatcher.closeModal}
@@ -489,6 +557,8 @@ export default class SpendMoneyDetailModule {
         onUpdateRow={this.updateSpendMoneyLine}
         onAddRow={this.addSpendMoneyLine}
         onRemoveRow={this.deleteSpendMoneyLine}
+        onAddAccount={this.openAccountModal}
+        onAddContact={this.openContactModal}
         onRowInputBlur={this.formatAndCalculateTotals}
         onAddAttachments={this.addAttachments}
         onRemoveAttachment={this.openDeleteAttachmentModal}
@@ -512,16 +582,32 @@ export default class SpendMoneyDetailModule {
 
   saveSpendMoney = () => {
     const state = this.store.getState();
-    if (getIsSubmitting(state)) return;
+    if (getIsSubmitting(state)) {
+      return;
+    }
 
+    this.dispatcher.setSubmittingState(true);
+
+    const saveHandler = this.getSaveHandlers();
     if (getIsCreating(state)) {
-      this.createSpendMoneyEntry();
+      this.integrator.createSpendMoneyEntry(saveHandler);
     } else {
-      this.updateSpendMoneyEntry();
+      this.integrator.updateSpendMoneyEntry(saveHandler);
     }
   }
 
   saveHandler = () => {
+    // Quick add modals
+    if (this.accountModalModule.isOpened()) {
+      this.accountModalModule.save();
+      return;
+    }
+
+    if (this.contactModalModule.isOpened()) {
+      this.contactModalModule.save();
+      return;
+    }
+
     const state = this.store.getState();
     const modalType = getOpenedModalType(state);
     switch (modalType) {
@@ -545,12 +631,14 @@ export default class SpendMoneyDetailModule {
     this.dispatcher.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
     this.render();
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.loadSpendMoney();
   }
 
   resetState() {
     this.dispatcher.resetState();
+    this.accountModalModule.resetState();
+    this.contactModalModule.resetState();
   }
 
   handlePageTransition = (url) => {
