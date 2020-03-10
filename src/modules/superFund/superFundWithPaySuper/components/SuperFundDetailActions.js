@@ -6,6 +6,7 @@ import {
   getIsAbnLoading,
   getIsCreating,
   getIsSubmitting,
+  getIsSuperFundEditable,
 } from '../SuperFundWithPaySuperSelectors';
 
 const SuperFundActions = ({
@@ -17,13 +18,20 @@ const SuperFundActions = ({
   isSubmitting,
   isCreating,
   isAbnLoading,
+  isSuperFundEditable,
 }) => (
   <ButtonRow
     primary={[
       <Button key="cancel" name="cancel" type="secondary" onClick={onCancelButtonClick} disabled={isSubmitting}>
         Cancel
       </Button>,
-      <Button key="save" name="save" type="primary" onClick={onSaveButtonClick} disabled={isSubmitting || isAbnLoading}>
+      <Button
+        key="save"
+        name="save"
+        type="primary"
+        onClick={onSaveButtonClick}
+        disabled={isSubmitting || isAbnLoading || !isSuperFundEditable}
+      >
         Save
       </Button>,
     ]}
@@ -41,6 +49,7 @@ const mapStateToProps = state => ({
   isSubmitting: getIsSubmitting(state),
   isCreating: getIsCreating(state),
   isAbnLoading: getIsAbnLoading(state),
+  isSuperFundEditable: getIsSuperFundEditable(state),
 });
 
 export default connect(mapStateToProps)(SuperFundActions);

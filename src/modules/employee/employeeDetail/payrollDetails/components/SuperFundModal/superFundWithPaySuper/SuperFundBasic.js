@@ -53,7 +53,7 @@ const SuperFundBasic = ({
         <Alert type="warning">
               It looks like you&apos;re not authorised
                to do this. Only a person from the business with the role of administrator
-               can create a self managed
+               can create or edit a self managed
               super fund in Pay super.
         </Alert>
       )}

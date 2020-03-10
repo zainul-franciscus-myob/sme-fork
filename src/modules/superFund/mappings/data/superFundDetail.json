@@ -16,6 +16,7 @@
     "webSite": "www.apollosuper.com"
   },
   "isPaySuperEnabled": true,
+  "isSuperFundEditable": true,
   "superProducts": [
     {
       "name": "W & M MCCOLL SUPER FUND",
@@ -31,24 +32,62 @@
     }
   ],
   "electronicServiceAddresses": [
-    { "name": "AUSPOSTSMSF" },
-    { "name": "CRSCSSMSF" },
-    { "name": "ClearviewSMSF" },
-    { "name": "CLICKSUPER" },
-    { "name": "Computershare" },
-    { "name": "ESUPERFUND" },
-    { "name": "MACQUARIESMSF" },
-    { "name": "MercerSMSF" },
-    { "name": "MySMSFMailbox" },
-    { "name": "netwealthsmsf" },
-    { "name": "NONSUPER" },
-    { "name": "ozedigateway" },
-    { "name": "QUICKSUPER" },
-    { "name": "RECKONSMSF" },
-    { "name": "smsfdataflow" },
-    { "name": "SUPERCHOICE" },
-    { "name": "superMate" },
-    { "name": "TheSMSFManagers" },
-    { "name": "WESTPAC" }
+    {
+      "name": "AUSPOSTSMSF"
+    },
+    {
+      "name": "CRSCSSMSF"
+    },
+    {
+      "name": "ClearviewSMSF"
+    },
+    {
+      "name": "CLICKSUPER"
+    },
+    {
+      "name": "Computershare"
+    },
+    {
+      "name": "ESUPERFUND"
+    },
+    {
+      "name": "MACQUARIESMSF"
+    },
+    {
+      "name": "MercerSMSF"
+    },
+    {
+      "name": "MySMSFMailbox"
+    },
+    {
+      "name": "netwealthsmsf"
+    },
+    {
+      "name": "NONSUPER"
+    },
+    {
+      "name": "ozedigateway"
+    },
+    {
+      "name": "QUICKSUPER"
+    },
+    {
+      "name": "RECKONSMSF"
+    },
+    {
+      "name": "smsfdataflow"
+    },
+    {
+      "name": "SUPERCHOICE"
+    },
+    {
+      "name": "superMate"
+    },
+    {
+      "name": "TheSMSFManagers"
+    },
+    {
+      "name": "WESTPAC"
+    }
   ]
 }

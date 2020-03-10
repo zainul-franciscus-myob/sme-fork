@@ -19,6 +19,8 @@ export const getSuperFundPageTitle = createSelector(
   isCreating => (isCreating ? 'Create superannuation fund' : 'Edit superannuation fund'),
 );
 
+export const getIsSuperFundEditable = state => state.isSuperFundEditable;
+
 export const getIsPaySuperFund = state => state.superFund.isPaySuperFund;
 
 const getPhoneNumber = state => state.superFund.phoneNumber;
