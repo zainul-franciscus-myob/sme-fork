@@ -4,7 +4,6 @@ import {
 import React from 'react';
 
 import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
-import TaxTableCalculationsModalEnabled from '../../../../../../common/featureToggles/TaxTableCalculationModalEnabled';
 import TfnInput from '../../../../../../components/autoFormatter/TfnInput/TfnInput';
 import handleAmountInputChange from '../../../../../../components/handlers/handleAmountInputChange';
 import handleComboboxChange from '../../../../../../components/handlers/handleComboboxChange';
@@ -55,24 +54,22 @@ const TaxDetails = ({
         />
       </FieldGroup>
       <FieldGroup label="Tax table calculations">
-        {TaxTableCalculationsModalEnabled && (
-          <Field
-            testid="taxTableCalculationLinkField"
-            renderField={() => (
-              <>
+        <Field
+          testid="taxTableCalculationLinkField"
+          renderField={() => (
+            <>
                 Select a tax table using the TFN declaration questions.
-                <br />
-                <Button
-                  type="link"
-                  icon={<Icons.Edit />}
-                  onClick={onTfnModalLinkClick}
-                >
+              <br />
+              <Button
+                type="link"
+                icon={<Icons.Edit />}
+                onClick={onTfnModalLinkClick}
+              >
                     Fill out TFN declaration questions
-                </Button>
-              </>
-            )}
-          />
-        )}
+              </Button>
+            </>
+          )}
+        />
         <Combobox
           label="Tax table"
           hideLabel={false}
