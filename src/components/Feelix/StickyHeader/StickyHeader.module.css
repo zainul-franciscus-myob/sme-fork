@@ -3,7 +3,6 @@
   top: 0px;
   z-index: 12;
   background-color: var(--flx-background-color-application);
-  padding-top: 2rem;
   display: inline-block;
   width: 100%;
 }
