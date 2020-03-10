@@ -79,6 +79,8 @@ const BillServiceTableRow = ({
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.amount) })}
         textAlign="right"
         disabled={isBlocking || isSupplierDisabled}
+        numeralDecimalScaleMin={2}
+        numeralDecimalScaleMax={2}
       />
       <TaxCodeCombobox
         onChange={handleComboboxChange(onChange, 'taxCodeId')}

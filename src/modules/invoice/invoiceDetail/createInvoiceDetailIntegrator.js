@@ -1,8 +1,4 @@
 import {
-  CALCULATE_LINE_TOTALS,
-  CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE,
-  CALCULATE_LINE_TOTALS_ON_ITEM_CHANGE,
-  CALCULATE_LINE_TOTALS_ON_TAX_INCLUSIVE_CHANGE,
   CREATE_INVOICE_DETAIL,
   DELETE_INVOICE_DETAIL,
   EXPORT_INVOICE_PDF,
@@ -22,11 +18,6 @@ import {
 } from '../InvoiceIntents';
 import { getBusinessId, getIsCreating, getIsTaxInclusive } from './selectors/invoiceDetailSelectors';
 import {
-  getCalculateLineTotalsContent,
-  getCalculateLineTotalsOnAmountChangeContent,
-  getCalculateLineTotalsOnItemChangeContent,
-  getCalculateLineTotalsOnTaxInclusiveChangeContent,
-  getCalculateLineTotalsUrlParams,
   getCreateOrUpdateInvoicePayload,
   getCreateOrUpdateInvoiceUrlParams,
   getDeleteInvoiceUrlParams,
@@ -139,78 +130,6 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
     integration.read({
       intent,
       urlParams,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  calculateLineTotals: ({
-    onSuccess, onFailure,
-  }) => {
-    const state = store.getState();
-
-    const urlParams = getCalculateLineTotalsUrlParams(state);
-    const content = getCalculateLineTotalsContent(state);
-
-    integration.write({
-      intent: CALCULATE_LINE_TOTALS,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  calculateLineTotalsOnAmountChange: ({
-    onSuccess, onFailure, index, key,
-  }) => {
-    const state = store.getState();
-
-    const urlParams = getCalculateLineTotalsUrlParams(state);
-    const content = getCalculateLineTotalsOnAmountChangeContent(state, {
-      index,
-      key,
-    });
-
-    integration.write({
-      intent: CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  calculateLineTotalsOnItemChange: ({
-    onSuccess, onFailure, index, itemId,
-  }) => {
-    const state = store.getState();
-
-    const urlParams = getCalculateLineTotalsUrlParams(state);
-    const content = getCalculateLineTotalsOnItemChangeContent(state, {
-      index,
-      itemId,
-    });
-
-    integration.write({
-      intent: CALCULATE_LINE_TOTALS_ON_ITEM_CHANGE,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  calculateLineTotalsOnTaxInclusiveChange: ({ onSuccess, onFailure }) => {
-    const state = store.getState();
-
-    const urlParams = getCalculateLineTotalsUrlParams(state);
-    const content = getCalculateLineTotalsOnTaxInclusiveChangeContent(state);
-
-    integration.write({
-      intent: CALCULATE_LINE_TOTALS_ON_TAX_INCLUSIVE_CHANGE,
-      urlParams,
-      content,
       onSuccess,
       onFailure,
     });

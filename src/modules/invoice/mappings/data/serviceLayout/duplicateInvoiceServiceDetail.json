@@ -156,10 +156,8 @@
     "description": "",
     "unitPrice": "",
     "discount": "",
-    "displayDiscount": "",
     "taxCodeId": "",
     "amount": "",
-    "displayAmount": "",
     "lineTypeId": 17
   },
   "totals": {

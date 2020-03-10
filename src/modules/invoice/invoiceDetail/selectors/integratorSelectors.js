@@ -5,7 +5,6 @@ import {
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
 } from '../../InvoiceIntents';
 import {
-  getAmountPaid,
   getBusinessId,
   getContactId,
   getContactOptions,
@@ -13,7 +12,6 @@ import {
   getInvoice,
   getInvoiceId,
   getIsCreating,
-  getIsTaxInclusive,
   getLines,
   getQuoteIdQueryParam,
 } from './invoiceDetailSelectors';
@@ -113,10 +111,6 @@ export const getLoadItemOptionUrlParams = (state, { itemId }) => ({
   itemId,
 });
 
-export const getCalculateLineTotalsUrlParams = state => ({
-  businessId: getBusinessId(state),
-});
-
 export const getInvoiceHistoryUrlParams = (state) => {
   const isCreating = getIsCreating(state);
 
@@ -125,65 +119,5 @@ export const getInvoiceHistoryUrlParams = (state) => {
 
   return {
     businessId, invoiceId,
-  };
-};
-
-export const getCalculateLineTotalsContent = (state) => {
-  const lines = getLines(state);
-  const isTaxInclusive = getIsTaxInclusive(state);
-  const amountPaid = getAmountPaid(state);
-
-  return {
-    isTaxInclusive,
-    amountPaid,
-    lines,
-  };
-};
-
-export const getCalculateLineTotalsOnAmountChangeContent = (state, { index, key }) => {
-  const amountInput = state.invoice.lines[index][key];
-  const updatedLines = state.invoice.lines.map(
-    (line, lineIndex) => (lineIndex === index
-      ? { ...line, [key]: amountInput }
-      : line),
-  );
-  const isTaxInclusive = getIsTaxInclusive(state);
-  const amountPaid = getAmountPaid(state);
-  const { layout } = state.invoice;
-
-  return {
-    layout,
-    index,
-    key,
-    isTaxInclusive,
-    amountPaid,
-    lines: updatedLines,
-  };
-};
-
-export const getCalculateLineTotalsOnItemChangeContent = (state, { index, itemId }) => {
-  const lines = getLines(state);
-  const isTaxInclusive = getIsTaxInclusive(state);
-  const amountPaid = getAmountPaid(state);
-
-  return {
-    index,
-    itemId,
-    isTaxInclusive,
-    amountPaid,
-    lines,
-  };
-};
-
-export const getCalculateLineTotalsOnTaxInclusiveChangeContent = (state) => {
-  const lines = getLines(state);
-  const isTaxInclusive = getIsTaxInclusive(state);
-  const amountPaid = getAmountPaid(state);
-
-  return {
-    lines,
-    isTaxInclusive,
-    isLineAmountsTaxInclusive: !isTaxInclusive,
-    amountPaid,
   };
 };

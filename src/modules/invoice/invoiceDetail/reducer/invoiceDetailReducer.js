@@ -73,8 +73,10 @@ import { updateExportPdfDetail } from './ExportPdfReducer';
 import InvoiceLayout from '../InvoiceLayout';
 import InvoiceLineLayout from '../InvoiceLineLayout';
 import createReducer from '../../../../store/createReducer';
-import formatAmount from '../../../../common/valueFormatters/formatAmount';
-import getDefaultState from './getDefaultState';
+import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
+import formatDisplayDiscount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
+import formatDisplayUnitPrice from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
+import getDefaultState, { DEFAULT_DISCOUNT, DEFAULT_UNITS } from './getDefaultState';
 
 const setInitialState = (state, { context }) => ({ ...state, ...context });
 
@@ -106,6 +108,12 @@ const loadInvoiceDetail = (state, action) => {
     invoice: {
       ...state.invoice,
       ...action.invoice,
+      lines: action.invoice.lines.map(line => ({
+        ...line,
+        displayAmount: formatDisplayAmount(line.amount),
+        displayDiscount: line.discount ? formatDisplayDiscount(line.discount) : '',
+        displayUnitPrice: line.unitPrice ? formatDisplayUnitPrice(line.unitPrice) : '',
+      })),
     },
     newLine: action.newLine || state.newLine,
     totals: action.totals || state.totals,
@@ -247,7 +255,7 @@ const updateInvoiceLine = (state, action) => {
                 accountOptions: state.accountOptions,
               })
               : line.taxCodeId,
-            units: shouldUpdateUnitForLine(line) ? '1' : line.units,
+            units: shouldUpdateUnitForLine(line) ? DEFAULT_UNITS : line.units,
             displayDiscount: isUpdateDiscount ? action.value : line.displayDiscount,
             displayAmount: isUpdateAmount ? action.value : line.displayAmount,
             displayUnitPrice: isUpdateUnitPrice ? action.value : line.displayUnitPrice,
@@ -272,7 +280,8 @@ const formatInvoiceLine = (state, action) => ({
 
         return {
           ...line,
-          units: isFormatUnits && isUnitsCleared ? '1' : line.units,
+          [action.key]: action.value,
+          units: isFormatUnits && isUnitsCleared ? DEFAULT_UNITS : line.units,
         };
       }
 
@@ -351,15 +360,15 @@ const loadItemSellingDetails = (state, action) => ({
       } = action.itemSellingDetails;
       return {
         ...line,
-        units: '1',
+        units: DEFAULT_UNITS,
         unitOfMeasure,
-        discount: '0',
-        displayDiscount: '0.00',
+        discount: DEFAULT_DISCOUNT,
+        displayDiscount: formatDisplayDiscount(DEFAULT_DISCOUNT),
         description,
         taxCodeId: sellTaxCodeId,
         accountId: incomeAccountId,
         amount: unitPrice,
-        displayAmount: formatAmount(unitPrice),
+        displayAmount: formatDisplayAmount(unitPrice),
       };
     }),
   },

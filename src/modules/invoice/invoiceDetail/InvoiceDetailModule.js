@@ -10,6 +10,7 @@ import {
   getAccountModalContext,
   getContactModalContext,
   getContextForInventoryModal,
+  getDisplayKey,
   getIsCreating,
   getIsLineAmountDirty,
   getIsModalActionDisabled,
@@ -411,8 +412,10 @@ export default class InvoiceDetailModule {
     }
   }
 
-  updateAmount = ({ index, key }) => {
-    this.dispatcher.formatInvoiceLine({ index, key });
+  updateAmount = ({ index, key, value }) => {
+    const displayKey = getDisplayKey(key);
+    this.dispatcher.formatInvoiceLine({ index, key: displayKey, value });
+
     this.calculateLineTotalsOnAmountChange({ index, key });
   }
 
@@ -436,14 +439,11 @@ export default class InvoiceDetailModule {
   }
 
   calculateLineTotalsOnAmountChange = ({ index, key }) => {
-    this.dispatcher.calculateLineAmounts({
-      index,
-      key,
-    });
-    const state = this.store.getState();
-    const isLineAmountDirty = getIsLineAmountDirty(state);
+    const isLineAmountDirty = getIsLineAmountDirty(this.store.getState());
     if (isLineAmountDirty) {
-      const taxCalculations = getTaxCalculations(state, false);
+      this.dispatcher.calculateLineAmounts({ index, key });
+
+      const taxCalculations = getTaxCalculations(this.store.getState(), false);
       this.dispatcher.calculateLineTotals(taxCalculations);
       this.dispatcher.setInvoiceItemLineDirty(false);
     }

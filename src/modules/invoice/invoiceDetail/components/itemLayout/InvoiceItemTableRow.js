@@ -23,21 +23,35 @@ const onComboboxChange = (name, onChange) => (item) => {
   });
 };
 
-const onAmountInputChange = (name, onChange) => (e) => {
+const handleAmountInputChange = onChange => (e) => {
   onChange({
     target: {
-      name,
+      name: e.target.name,
       value: e.target.rawValue,
     },
   });
 };
 
-const onInputBlur = (handler, index, key) => () => handler({ index, key });
+const handleAmountInputBlur = (handler, index) => (e) => {
+  const { name: key, rawValue: value } = e.target;
+
+  handler({ index, key, value });
+};
 
 const InvoiceItemTableRow = ({
   index,
   onChange,
-  invoiceLine,
+  invoiceLine: {
+    itemId,
+    description,
+    accountId,
+    unitOfMeasure,
+    units,
+    displayUnitPrice,
+    displayDiscount,
+    displayAmount,
+    taxCodeId,
+  },
   taxCodeOptions,
   accountOptions,
   itemOptions,
@@ -56,7 +70,7 @@ const InvoiceItemTableRow = ({
         addNewItem={() => onAddItemButtonClick(onChangeItemId)}
         name="itemId"
         items={itemOptions}
-        selectedId={invoiceLine.itemId}
+        selectedId={itemId}
         onChange={onChangeItemId}
         disabled={isSubmitting}
       />
@@ -64,7 +78,7 @@ const InvoiceItemTableRow = ({
       <TextArea
         name="description"
         autoSize
-        value={invoiceLine.description}
+        value={description}
         onChange={onChange}
         disabled={isSubmitting}
       />
@@ -74,7 +88,7 @@ const InvoiceItemTableRow = ({
         hideLabel
         onChange={onChangeAccountId}
         items={accountOptions}
-        selectedId={invoiceLine.accountId}
+        selectedId={accountId}
         addNewAccount={() => onAddAccount(
           onChangeAccountId,
         )}
@@ -83,7 +97,7 @@ const InvoiceItemTableRow = ({
 
       <Input
         name="unitOfMeasure"
-        value={invoiceLine.unitOfMeasure}
+        value={unitOfMeasure}
         onChange={onChange}
         disabled={isSubmitting}
         maxLength={5}
@@ -91,44 +105,49 @@ const InvoiceItemTableRow = ({
 
       <AmountInput
         name="units"
-        value={invoiceLine.units}
-        onChange={onAmountInputChange('units', onChange)}
-        onBlur={onInputBlur(onUpdateAmount, index, 'units')}
+        value={units}
+        onChange={handleAmountInputChange(onChange)}
+        onBlur={handleAmountInputBlur(onUpdateAmount, index)}
         disabled={isSubmitting}
         numeralDecimalScaleMax={6}
       />
 
       <AmountInput
         name="unitPrice"
-        value={invoiceLine.displayUnitPrice}
-        onChange={onAmountInputChange('unitPrice', onChange)}
-        onBlur={onInputBlur(onUpdateAmount, index, 'unitPrice')}
+        value={displayUnitPrice}
+        onChange={handleAmountInputChange(onChange)}
+        onBlur={handleAmountInputBlur(onUpdateAmount, index)}
         textAlign="right"
         disabled={isSubmitting}
+        numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={6}
       />
 
       <AmountInput
         name="discount"
-        value={invoiceLine.displayDiscount}
-        onChange={onAmountInputChange('discount', onChange)}
-        onBlur={onInputBlur(onUpdateAmount, index, 'discount')}
+        value={displayDiscount}
+        onChange={handleAmountInputChange(onChange)}
+        onBlur={handleAmountInputBlur(onUpdateAmount, index)}
         textAlign="right"
         disabled={isSubmitting}
+        numeralDecimalScaleMin={2}
+        numeralDecimalScaleMax={2}
       />
 
       <AmountInput
         name="amount"
-        value={invoiceLine.displayAmount}
-        onChange={onAmountInputChange('amount', onChange)}
-        onBlur={onInputBlur(onUpdateAmount, index, 'amount')}
+        value={displayAmount}
+        onChange={handleAmountInputChange(onChange)}
+        onBlur={handleAmountInputBlur(onUpdateAmount, index)}
         textAlign="right"
         disabled={isSubmitting}
+        numeralDecimalScaleMin={2}
+        numeralDecimalScaleMax={2}
       />
 
       <TaxCodeCombobox
         items={taxCodeOptions}
-        selectedId={invoiceLine.taxCodeId}
+        selectedId={taxCodeId}
         onChange={onComboboxChange('taxCodeId', onChange)}
         disabled={isSubmitting}
         left

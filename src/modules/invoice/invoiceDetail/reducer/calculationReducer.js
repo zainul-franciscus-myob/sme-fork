@@ -1,10 +1,12 @@
 import Decimal from 'decimal.js';
 
-import {
-  getLayout, getLines,
-} from '../selectors/invoiceDetailSelectors';
+import { DEFAULT_DISCOUNT, DEFAULT_UNITS } from './getDefaultState';
+import { getLayout, getLines } from '../selectors/invoiceDetailSelectors';
 import InvoiceLayout from '../InvoiceLayout';
-import formatAmount from '../../../../common/valueFormatters/formatAmount';
+import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
+import formatDisplayDiscount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
+import formatDisplayUnitPrice from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
+import formatUnits from '../../../../common/valueFormatters/formatTaxCalculation/formatUnits';
 
 const calculateAmount = (units, unitPrice, discount) => {
   const calculatedDiscount = Decimal(1).minus(Decimal(discount).div(100));
@@ -34,7 +36,7 @@ const shouldCalculateDiscount = (key, unitPrice, units) => key === 'amount' && u
 const shouldCalculateUnitPrice = (key, unitPrice) => key === 'amount' && unitPrice === 0;
 
 const buildItemLine = (line, key) => {
-  const unitsStr = shouldPrefillUnits(key, line.units) ? '1' : line.units;
+  const unitsStr = shouldPrefillUnits(key, line.units) ? DEFAULT_UNITS : line.units;
   const units = Number(unitsStr);
   const unitPrice = Number(line.unitPrice);
   const amount = unitsStr === '0' ? 0 : Number(line.amount);
@@ -42,20 +44,23 @@ const buildItemLine = (line, key) => {
 
   const updatedLine = {
     ...line,
+    units: formatUnits(units),
     amount: String(amount),
-    displayAmount: formatAmount(line.amount),
-    displayDiscount: formatAmount(line.discount),
-    units: unitsStr,
+    displayAmount: formatDisplayAmount(amount),
+    discount: String(discount),
+    displayDiscount: formatDisplayDiscount(discount),
+    unitPrice: String(unitPrice),
+    displayUnitPrice: formatDisplayUnitPrice(unitPrice),
   };
 
   if (shouldCalculateUnitPrice(key, unitPrice)) {
     const calculatedUnitPrice = calculateUnitPrice(units, amount).valueOf();
     return {
       ...updatedLine,
-      discount: '',
-      displayDiscount: '0.00',
+      discount: DEFAULT_DISCOUNT,
+      displayDiscount: formatDisplayDiscount(DEFAULT_DISCOUNT),
       unitPrice: calculatedUnitPrice,
-      displayUnitPrice: formatAmount(calculatedUnitPrice),
+      displayUnitPrice: formatDisplayUnitPrice(calculatedUnitPrice),
     };
   }
 
@@ -64,7 +69,7 @@ const buildItemLine = (line, key) => {
     return {
       ...updatedLine,
       amount: calculatedAmount,
-      displayAmount: formatAmount(calculatedAmount),
+      displayAmount: formatDisplayAmount(calculatedAmount),
     };
   }
 
@@ -73,17 +78,12 @@ const buildItemLine = (line, key) => {
     return {
       ...updatedLine,
       discount: calculatedDiscount,
-      displayDiscount: formatAmount(calculatedDiscount),
+      displayDiscount: formatDisplayDiscount(calculatedDiscount),
     };
   }
 
   return updatedLine;
 };
-
-const buildServiceLine = line => ({
-  ...line,
-  displayAmount: formatAmount(line.amount),
-});
 
 export const calculateLineAmounts = (state, { key, index }) => {
   const lines = getLines(state);
@@ -97,10 +97,10 @@ export const calculateLineAmounts = (state, { key, index }) => {
         if (index !== lineIndex) {
           return line;
         }
-        if (layout === InvoiceLayout.ITEM_AND_SERVICE) {
-          return buildItemLine(line, key);
-        }
-        return buildServiceLine(line);
+
+        return layout === InvoiceLayout.ITEM_AND_SERVICE
+          ? buildItemLine(line, key)
+          : line;
       }),
     },
   };
@@ -139,9 +139,9 @@ export const calculateLineTotals = (state, { taxCalculations: { lines, totals } 
       return {
         ...line,
         amount: amount.valueOf(),
-        displayAmount: formatAmount(amount.valueOf()),
+        displayAmount: formatDisplayAmount(amount.valueOf()),
         unitPrice: calculatedUnitPrice.valueOf(),
-        displayUnitPrice: formatAmount(calculatedUnitPrice.valueOf()),
+        displayUnitPrice: formatDisplayUnitPrice(calculatedUnitPrice.valueOf()),
       };
     }),
   },

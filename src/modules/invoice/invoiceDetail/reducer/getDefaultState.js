@@ -4,6 +4,9 @@ import LoadingState from '../../../../components/PageView/LoadingState';
 import SaveActionType from '../SaveActionType';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
 
+export const DEFAULT_UNITS = '1';
+export const DEFAULT_DISCOUNT = '0';
+
 const getDefaultState = () => ({
   businessId: '',
   region: '',

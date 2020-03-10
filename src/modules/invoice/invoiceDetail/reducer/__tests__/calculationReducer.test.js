@@ -1,9 +1,6 @@
 import Decimal from 'decimal.js';
 
-import {
-  CALCULATE_LINE_AMOUNTS,
-  CALCULATE_LINE_TOTALS,
-} from '../../../InvoiceIntents';
+import { CALCULATE_LINE_AMOUNTS, CALCULATE_LINE_TOTALS } from '../../../InvoiceIntents';
 import { calculateLineAmounts, calculateLineTotals } from '../calculationReducer';
 
 describe('calculationReducer', () => {
@@ -25,10 +22,12 @@ describe('calculationReducer', () => {
           lines: [
             {
               units: '2',
-              discount: '',
-              unitPrice: '50.00',
               amount: '0',
               displayAmount: '0.00',
+              discount: '0',
+              displayDiscount: '0.00',
+              unitPrice: '50',
+              displayUnitPrice: '50.00',
             },
           ],
         },
@@ -51,12 +50,13 @@ describe('calculationReducer', () => {
         invoice: {
           lines: [
             {
+              units: '2',
               amount: '100',
               displayAmount: '100.00',
-              displayUnitPrice: '50.00',
               unitPrice: '50',
-              units: '2',
-              discount: '',
+              displayUnitPrice: '50.00',
+              discount: '0',
+              displayDiscount: '0.00',
             },
           ],
         },
@@ -80,10 +80,12 @@ describe('calculationReducer', () => {
             lines: [
               {
                 units: '2',
-                discount: '',
-                unitPrice: '50.00',
                 amount: '0',
                 displayAmount: '0.00',
+                discount: '0',
+                displayDiscount: '0.00',
+                unitPrice: '50.00',
+                displayUnitPrice: '50.00',
               },
             ],
           },
@@ -102,12 +104,13 @@ describe('calculationReducer', () => {
             layout: 'itemAndService',
             lines: [
               {
-                amount: '100',
-                discount: '',
-                displayAmount: '100.00',
-                displayDiscount: '0.00',
-                unitPrice: '50.00',
                 units: '2',
+                amount: '100',
+                displayAmount: '100.00',
+                discount: '0',
+                displayDiscount: '0.00',
+                unitPrice: '50',
+                displayUnitPrice: '50.00',
               },
             ],
           },
@@ -123,10 +126,12 @@ describe('calculationReducer', () => {
             lines: [
               {
                 units: '2',
-                discount: '',
-                unitPrice: '50.00',
                 amount: '0',
                 displayAmount: '0.00',
+                discount: '0',
+                displayDiscount: '0.00',
+                unitPrice: '50',
+                displayUnitPrice: '50.00',
               },
             ],
           },
@@ -145,12 +150,13 @@ describe('calculationReducer', () => {
             layout: 'itemAndService',
             lines: [
               {
-                amount: '100',
-                discount: '',
-                displayAmount: '100.00',
-                displayDiscount: '0.00',
-                unitPrice: '50.00',
                 units: '2',
+                amount: '100',
+                displayAmount: '100.00',
+                discount: '0',
+                displayDiscount: '0.00',
+                unitPrice: '50',
+                displayUnitPrice: '50.00',
               },
             ],
           },
@@ -166,10 +172,12 @@ describe('calculationReducer', () => {
             lines: [
               {
                 units: '1',
-                discount: '50',
-                unitPrice: '100.00',
                 amount: '0',
                 displayAmount: '0.00',
+                discount: '50',
+                displayDiscount: '0.00',
+                unitPrice: '100.00',
+                displayUnitPrice: '50.00',
               },
             ],
           },
@@ -188,12 +196,13 @@ describe('calculationReducer', () => {
             layout: 'itemAndService',
             lines: [
               {
-                amount: '50',
-                discount: '50',
-                displayAmount: '50.00',
-                displayDiscount: '50.00',
-                unitPrice: '100.00',
                 units: '1',
+                amount: '50',
+                displayAmount: '50.00',
+                discount: '50',
+                displayDiscount: '50.00',
+                unitPrice: '100',
+                displayUnitPrice: '100.00',
               },
             ],
           },
@@ -209,10 +218,12 @@ describe('calculationReducer', () => {
             lines: [
               {
                 units: '2',
-                discount: '',
-                unitPrice: '0',
                 amount: '100',
                 displayAmount: '100.00',
+                discount: '0',
+                displayDiscount: '0.00',
+                unitPrice: '0',
+                displayUnitPrice: '0.00',
               },
             ],
           },
@@ -231,13 +242,13 @@ describe('calculationReducer', () => {
             layout: 'itemAndService',
             lines: [
               {
-                amount: '100',
-                discount: '',
-                displayAmount: '100.00',
-                displayDiscount: '0.00',
-                displayUnitPrice: '50.00',
-                unitPrice: '50',
                 units: '2',
+                amount: '100',
+                displayAmount: '100.00',
+                discount: '0',
+                displayDiscount: '0.00',
+                unitPrice: '50',
+                displayUnitPrice: '50.00',
               },
             ],
           },
@@ -253,10 +264,12 @@ describe('calculationReducer', () => {
             lines: [
               {
                 units: '1',
-                discount: '',
-                unitPrice: '200',
                 amount: '100',
                 displayAmount: '100.00',
+                discount: '0',
+                displayDiscount: '0.00',
+                unitPrice: '200',
+                displayUnitPrice: '200.00',
               },
             ],
           },
@@ -275,12 +288,13 @@ describe('calculationReducer', () => {
             layout: 'itemAndService',
             lines: [
               {
+                units: '1',
                 amount: '100',
-                discount: '50',
                 displayAmount: '100.00',
+                discount: '50',
                 displayDiscount: '50.00',
                 unitPrice: '200',
-                units: '1',
+                displayUnitPrice: '200.00',
               },
             ],
           },
@@ -295,7 +309,7 @@ describe('calculationReducer', () => {
           updatedKey: 'amount',
           updatedValue: '100',
           expectedFirstLine: {
-            discount: '',
+            discount: '0',
             displayDiscount: '0.00',
             amount: '100',
             displayAmount: '100.00',
@@ -309,46 +323,50 @@ describe('calculationReducer', () => {
           updatedKey: 'discount',
           updatedValue: '10',
           expectedFirstLine: {
-            discount: '10',
-            displayDiscount: '10.00',
+            units: '1',
             amount: '0',
             displayAmount: '0.00',
-            unitPrice: '',
-            units: '1',
+            discount: '10',
+            displayDiscount: '10.00',
+            unitPrice: '0',
+            displayUnitPrice: '0.00',
           },
         },
         {
-          name: 'should not change units when units is empty and updating unitPrice',
+          name: 'should set units to 0 when units is empty and updating unitPrice',
           updatedKey: 'unitPrice',
           updatedValue: '10',
           expectedFirstLine: {
-            discount: '',
-            displayDiscount: '0.00',
+            units: '0',
             amount: '0',
             displayAmount: '0.00',
+            discount: '0',
+            displayDiscount: '0.00',
             unitPrice: '10',
-            units: '',
+            displayUnitPrice: '10.00',
           },
         },
         {
           name: 'should set amount to 0 if units is set to 0',
           initialFirstLine: {
+            units: '1',
             amount: '100',
             displayAmount: '100.00',
+            discount: '0',
+            displayDiscount: '0.00',
             unitPrice: '100',
             displayUnitPrice: '100.00',
-            units: '1',
           },
           updatedKey: 'units',
           updatedValue: '0',
           expectedFirstLine: {
-            discount: '',
-            displayDiscount: '0.00',
+            units: '0',
             amount: '0',
             displayAmount: '0.00',
+            discount: '0',
+            displayDiscount: '0.00',
             unitPrice: '100',
             displayUnitPrice: '100.00',
-            units: '0',
           },
         },
       ].forEach((test) => {
@@ -399,7 +417,7 @@ describe('calculationReducer', () => {
             lines: [
               {
                 amount: '10',
-                displayAmount: '0.00',
+                displayAmount: '10.00',
               },
             ],
           },

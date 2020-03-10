@@ -1,6 +1,6 @@
 {
   "invoice": {
-    "layout": "item",
+    "layout": "itemAndService",
     "contactId": "1",
     "expirationTerm": "OnADayOfTheMonth",
     "expirationDays": 10,
@@ -22,10 +22,8 @@
         "description": "Cooler Large",
         "unitPrice": "520",
         "discount": "10",
-        "displayDiscount": "10.00",
         "taxCodeId": "2",
         "amount": "850.9111",
-        "displayAmount": "850.91",
         "accountId": "123",
         "lineTypeId": 17
       }
@@ -150,10 +148,8 @@
     "description": "",
     "unitPrice": "",
     "discount": "",
-    "displayDiscount": "",
     "taxCodeId": "",
     "amount": "",
-    "displayAmount": "",
     "lineTypeId": 17
   },
   "comments": [

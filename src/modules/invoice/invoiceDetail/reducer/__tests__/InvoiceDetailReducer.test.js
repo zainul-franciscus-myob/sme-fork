@@ -525,6 +525,7 @@ describe('InvoiceDetailReducer', () => {
         intent: LOAD_INVOICE_DETAIL,
         invoice: {
           issueDate: '2019-02-03',
+          lines: [],
         },
         subscription: {
           isTrial: false,

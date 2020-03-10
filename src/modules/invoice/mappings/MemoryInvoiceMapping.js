@@ -1,8 +1,4 @@
 import {
-  CALCULATE_LINE_TOTALS,
-  CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE,
-  CALCULATE_LINE_TOTALS_ON_ITEM_CHANGE,
-  CALCULATE_LINE_TOTALS_ON_TAX_INCLUSIVE_CHANGE,
   CREATE_INVOICE_DETAIL,
   DELETE_INVOICE_DETAIL,
   EXPORT_INVOICE_PDF,
@@ -30,7 +26,6 @@ import {
 import contactAddress from './data/contactAddress';
 import duplicateInvoiceItemDetail from './data/itemLayout/duplicateInvoiceItemDetail';
 import duplicateInvoiceServiceDetail from './data/serviceLayout/duplicateInvoiceServiceDetail';
-import invoiceItemChangeItem from './data/itemLayout/invoiceItemChangeItem';
 import invoiceItemNewDetail from './data/itemLayout/invoiceItemNewDetail';
 import invoiceItemNewDetailFromQuote from './data/itemLayout/invoiceItemNewDetailFromQuote';
 import invoiceListFilterResponse from './data/filterInvoiceList';
@@ -78,12 +73,6 @@ const MemoryInvoiceMapping = {
   [LOAD_CONTACT_ADDRESS]: ({ onSuccess }) => onSuccess(contactAddress),
   [LOAD_CONTACT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedContactResponse),
   [LOAD_PAY_DIRECT]: ({ onSuccess }) => onSuccess(payDirect),
-  [CALCULATE_LINE_TOTALS_ON_TAX_INCLUSIVE_CHANGE]: ({ onSuccess }) => onSuccess(
-    invoiceItemChangeItem,
-  ),
-  [CALCULATE_LINE_TOTALS_ON_ITEM_CHANGE]: ({ onSuccess }) => onSuccess(invoiceItemChangeItem),
-  [CALCULATE_LINE_TOTALS]: ({ onSuccess }) => onSuccess(invoiceItemChangeItem),
-  [CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE]: ({ onSuccess }) => onSuccess(invoiceItemChangeItem),
   [UPLOAD_EMAIL_ATTACHMENT]: ({ onSuccess }) => onSuccess(uploadEmailAttachmentResponse),
   [SEND_EMAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [EXPORT_INVOICE_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),

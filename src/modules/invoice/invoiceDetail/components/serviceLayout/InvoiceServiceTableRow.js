@@ -21,16 +21,20 @@ const onComboboxChange = (name, onChange) => (item) => {
   });
 };
 
-const onAmountInputChange = (name, onChange) => (e) => {
+const handleAmountInputChange = onChange => (e) => {
   onChange({
     target: {
-      name,
+      name: e.target.name,
       value: e.target.rawValue,
     },
   });
 };
 
-const onInputBlur = (handler, index, key) => () => handler({ index, key });
+const handleAmountInputBlur = (handler, index) => (e) => {
+  const { name: key, rawValue: value } = e.target;
+
+  handler({ index, key, value });
+};
 
 const InvoiceServiceTableRow = ({
   invoiceLine,
@@ -80,9 +84,11 @@ const InvoiceServiceTableRow = ({
         name="amount"
         value={displayAmount}
         textAlign="right"
-        onChange={onAmountInputChange('amount', onChange)}
-        onBlur={onInputBlur(onUpdateAmount, index, 'amount')}
+        onChange={handleAmountInputChange(onChange)}
+        onBlur={handleAmountInputBlur(onUpdateAmount, index)}
         disabled={isSubmitting}
+        numeralDecimalScaleMin={2}
+        numeralDecimalScaleMax={2}
       />
       <TaxCodeCombobox
         label="Tax code"

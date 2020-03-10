@@ -1,8 +1,4 @@
 import {
-  CALCULATE_LINE_TOTALS,
-  CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE,
-  CALCULATE_LINE_TOTALS_ON_ITEM_CHANGE,
-  CALCULATE_LINE_TOTALS_ON_TAX_INCLUSIVE_CHANGE,
   CREATE_INVOICE_DETAIL,
   DELETE_INVOICE_DETAIL,
   EXPORT_INVOICE_PDF,
@@ -80,22 +76,6 @@ const HttpInvoiceMapping = {
   [LOAD_PAY_DIRECT]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/invoice/load_pay_direct`,
-  },
-  [CALCULATE_LINE_TOTALS]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/invoice/calculate_line_totals`,
-  },
-  [CALCULATE_LINE_TOTALS_ON_TAX_INCLUSIVE_CHANGE]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/invoice/calculate_line_totals_on_tax_inclusive_change`,
-  },
-  [CALCULATE_LINE_TOTALS_ON_ITEM_CHANGE]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/invoice/calculate_line_totals_on_item_change`,
-  },
-  [CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/invoice/calculate_line_totals_on_amount_change`,
   },
   [UPLOAD_EMAIL_ATTACHMENT]: {
     method: 'POST',

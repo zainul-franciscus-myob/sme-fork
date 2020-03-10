@@ -133,8 +133,8 @@ const createInvoiceDetailDispatcher = store => ({
     intent: UPDATE_INVOICE_LINE, index, key, value,
   }),
 
-  formatInvoiceLine: ({ index, key }) => store.dispatch({
-    intent: FORMAT_INVOICE_LINE, index, key,
+  formatInvoiceLine: ({ index, key, value }) => store.dispatch({
+    intent: FORMAT_INVOICE_LINE, index, key, value,
   }),
 
   setInvoiceItemLineDirty: isLineAmountDirty => store.dispatch({

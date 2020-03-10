@@ -1,6 +1,6 @@
 {
   "invoice": {
-    "layout": "item",
+    "layout": "itemAndService",
     "contactId": "1",
     "expirationTerm": "OnADayOfTheMonth",
     "expirationDays": 4,
@@ -16,24 +16,20 @@
         "units": "2",
         "itemId": "3",
         "description": "Cooler Medium",
-        "unitPrice": "100.00",
+        "unitPrice": "100",
         "discount": "0",
-        "displayDiscount": "0",
         "taxCodeId": "2",
-        "amount": "850.910100",
-        "displayAmount": "850.91",
+        "amount": "850.9101",
         "lineTypeId": 17
       },
       {
         "units": "2",
         "itemId": "4",
         "description": "Cooler Large",
-        "unitPrice": "520.00",
+        "unitPrice": "520",
         "discount": "10",
-        "displayDiscount": "10",
         "taxCodeId": "3",
-        "amount": "850.910100",
-        "displayAmount": "850.91",
+        "amount": "850.9101",
         "lineTypeId": 17
       }
     ]
@@ -157,10 +153,8 @@
     "description": "",
     "unitPrice": "",
     "discount": "",
-    "displayDiscount": "",
     "taxCodeId": "",
     "amount": "",
-    "displayAmount": "",
     "lineTypeId": 17
   },
   "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"],

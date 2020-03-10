@@ -1,6 +1,6 @@
 {
   "invoice": {
-    "layout": "item",
+    "layout": "itemAndService",
     "contactId": "",
     "expirationTerm": "DayOfMonthAfterEOM",
     "expirationDays": 4,
@@ -127,10 +127,8 @@
     "description": "",
     "unitPrice": "",
     "discount": "",
-    "displayDiscount": "",
     "taxCodeId": "",
     "amount": "",
-    "displayAmount": "",
     "lineTypeId": 17
   },
   "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"],
