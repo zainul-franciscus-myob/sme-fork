@@ -225,6 +225,8 @@ const setDate = (date, dateInState) => {
 const setInitialState = (state, action) => {
   const transactionType = getTransactionType(action.context.transactionType);
 
+  const { bankAccount } = action.context;
+
   const dates = transactionType === TransactionTypes.ALLOCATED ? {
     dateFrom: setDate(action.context.dateFrom, state.filterOptions.dateFrom),
     dateTo: setDate(action.context.dateTo, state.filterOptions.dateTo),
@@ -234,6 +236,7 @@ const setInitialState = (state, action) => {
     ...state.filterOptions,
     ...dates,
     transactionType,
+    bankAccount,
   };
 
   const appliedDates = transactionType === TransactionTypes.ALLOCATED ? {
@@ -245,6 +248,7 @@ const setInitialState = (state, action) => {
     ...state.appliedFilterOptions,
     ...appliedDates,
     transactionType,
+    bankAccount,
   };
 
   return {
