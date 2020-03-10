@@ -52,15 +52,6 @@ textarea {
   transition: none !important;
 }
 
-/*
- * @FEELIX - line item table will overflow on mobile devise
- */
-@media (max-width: 992px) {
-  .line-item-table {
-    overflow-x: hidden;
-  }
-}
-
 .line-item-table > *:not(.line-item-table__inner) {
   padding-left: var(--flx-spacing-x-large);
 }
