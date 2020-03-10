@@ -60,3 +60,7 @@ textarea {
     overflow-x: hidden;
   }
 }
+
+.line-item-table > *:not(.line-item-table__inner) {
+  padding-left: var(--flx-spacing-x-large);
+}

@@ -1,0 +1,3 @@
+.noMoveWrapper :global(.line-item__icon-left) {
+  display: none
+}

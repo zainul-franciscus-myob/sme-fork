@@ -64,13 +64,15 @@ const MasterDetailLineItemTemplate = ({
         <div role="presentation" onMouseDown={onMouseDown}>
           {subHeadChildren}
           <Card classes={styles.card}>
-            { optionInfo && (
+            <div className={styles.options}>
+              { optionInfo && (
               <Alert type="info" onDismiss={onDismissOptionInfo}>
                 {optionInfo}
               </Alert>
-            )}
-            {options}
-            <Separator />
+              )}
+              {options}
+              <Separator />
+            </div>
             {tableLayoutOption}
             {table}
           </Card>

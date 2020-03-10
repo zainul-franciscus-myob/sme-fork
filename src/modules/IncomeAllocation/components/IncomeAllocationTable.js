@@ -6,6 +6,7 @@ import {
   getIndexOfLastLine, getTableData,
 } from '../IncomeAllocationSelectors';
 import IncomeAllocationRow from './IncomeAllocationRow';
+import styles from './IncomeAllocationTable.module.css';
 
 class IncomeAllocationTable extends React.Component {
   onChange = (index, name, value) => {
@@ -59,7 +60,11 @@ class IncomeAllocationTable extends React.Component {
         renderRow={this.renderRow}
         data={tableData}
         onRemoveRow={onRemoveRow}
-      />
+      >
+        {/* @Feelix 5.12 */}
+        {/* Add space below line item table to make sure dropdown doesn't get cut off */}
+        <div className={styles.emptySpace} />
+      </LineItemTable>
     );
   }
 }

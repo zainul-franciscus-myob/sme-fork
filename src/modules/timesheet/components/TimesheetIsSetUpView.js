@@ -31,6 +31,7 @@ import {
 } from '../timesheetSelectors';
 import EmployeeCombobox from './EmployeeCombobox';
 import HoursInput from '../../../components/autoFormatter/HoursInput/HoursInput';
+import NoMoveWrapper from '../../../components/LineItemTable/NoMoveWrapper';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import styles from './Timesheet.module.css';
 
@@ -219,30 +220,32 @@ const TimesheetIsSetUpView = ({
           </Columns>
         </div>
         <Separator />
-        <LineItemTable
-          testid="timesheetTable"
-          data={timesheetRows}
-          labels={tableLabels}
-          renderRow={renderRow}
-          columnConfig={columnConfig}
-          onRowChange={onRowChange}
-          onAddRow={onAddRow}
-          onRemoveRow={onRemoveRow}
-        >
-          <LineItemTable.Total>
-            {weekDayLabels.map((label, index) => (
+        <NoMoveWrapper>
+          <LineItemTable
+            testid="timesheetTable"
+            data={timesheetRows}
+            labels={tableLabels}
+            renderRow={renderRow}
+            columnConfig={columnConfig}
+            onRowChange={onRowChange}
+            onAddRow={onAddRow}
+            onRemoveRow={onRemoveRow}
+          >
+            <LineItemTable.Total>
+              {weekDayLabels.map((label, index) => (
+                <LineItemTable.Totals
+                  title={`${label}:`}
+                  amount={weekDayTotals[index]}
+                />
+              ))}
               <LineItemTable.Totals
-                title={`${label}:`}
-                amount={weekDayTotals[index]}
+                totalAmount
+                title="Total hours:"
+                amount={totalHoursSum}
               />
-            ))}
-            <LineItemTable.Totals
-              totalAmount
-              title="Total hours:"
-              amount={totalHoursSum}
-            />
-          </LineItemTable.Total>
-        </LineItemTable>
+            </LineItemTable.Total>
+          </LineItemTable>
+        </NoMoveWrapper>
       </Card>
       <ButtonRow
         secondary={[

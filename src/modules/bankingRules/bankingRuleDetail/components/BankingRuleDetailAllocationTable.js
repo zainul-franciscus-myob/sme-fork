@@ -10,6 +10,7 @@ import {
   getTableData,
   getTaxCodeLabel,
 } from '../bankingRuleDetailSelectors';
+import NoMoveWrapper from '../../../../components/LineItemTable/NoMoveWrapper';
 import TableRow from './BankingRuleDetailAllocationTableRow';
 import styles from './BankingRuleDetailView.module.css';
 
@@ -80,24 +81,26 @@ const BankingRuleDetailAllocationTable = ({
   const remainingClassName = isPercentageRed ? '' : styles.remaining;
   return (
     <div className={remainingClassName}>
-      <LineItemTable
-        labels={labels}
-        renderRow={renderRow}
-        data={tableData}
-        onAddRow={onAddRow}
-        onRowChange={onRowChange}
-        onRemoveRow={onRemoveRow}
-        columnConfig={columnConfig}
-        headerItems={headerItems}
-      >
-        {
+      <NoMoveWrapper>
+        <LineItemTable
+          labels={labels}
+          renderRow={renderRow}
+          data={tableData}
+          onAddRow={onAddRow}
+          onRowChange={onRowChange}
+          onRemoveRow={onRemoveRow}
+          columnConfig={columnConfig}
+          headerItems={headerItems}
+        >
+          {
         showRemainingPercentage && (
         <LineItemTable.Total>
           <LineItemTable.Totals title="Remaining" amount={remainingPercentage} />
         </LineItemTable.Total>
         )
       }
-      </LineItemTable>
+        </LineItemTable>
+      </NoMoveWrapper>
     </div>
   );
 };
