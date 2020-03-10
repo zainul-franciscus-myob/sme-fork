@@ -24,6 +24,7 @@ import getIncomeAllocationRoutes from './modules/IncomeAllocation/getIncomeAlloc
 import getInventoryRoutes from './modules/inventory/getInventoryRoutes';
 import getInvoicePaymentRoutes from './modules/invoicePayment/getInvoicePaymentRoutes';
 import getInvoiceRoutes from './modules/invoice/getInvoiceRoutes';
+import getJobRoutes from './modules/job/getJobRoutes';
 import getLinkBillRoutes from './modules/linkBill/getLinkBillRoutes';
 import getLinkUserRoutes from './modules/linkUser/getLinkUserRoutes';
 import getLinkedAccountsRoutes from './modules/linkedAccounts/getLinkedAccountsRoutes';
@@ -104,6 +105,7 @@ const getRoutes = moduleParams => [
   ...getBankStatementImportRoutes(moduleParams),
   ...getFileUnavailableRoutes(moduleParams),
   ...getTemplateBuilderRoutes(moduleParams),
+  ...getJobRoutes(moduleParams),
 ];
 
 export default getRoutes;

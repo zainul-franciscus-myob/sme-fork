@@ -94,6 +94,7 @@ const RouteName = {
   INVOICE_LOGO_SETTINGS: 'invoiceLogoSettings/invoiceLogoSettings',
   BANK_STATEMENT_IMPORT_LIST: 'bankStatementImport/bankStatementImportList',
   FILE_UNAVAILABLE: 'unavailable',
+  JOB_LIST: 'job/jobList',
 };
 
 export default RouteName;

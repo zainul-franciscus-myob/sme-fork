@@ -1,0 +1,15 @@
+.jobs {
+  position: relative;
+  min-height: 60vh;
+}
+
+.jobs :global(.flx-table-header-sort .svg-icon) {
+  width: 18px;
+}
+
+@media (min-width: 768px) and (max-width: 900px) {
+  .jobs :global(.table-data__cell) {
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+  }
+}

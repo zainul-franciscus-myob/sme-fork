@@ -34,6 +34,7 @@ import InventoryModalMapping from './InventoryModalMapping';
 import InvoiceBusinessMapping from '../../modules/templateBuilder/businessSettings/mappings/HttpInvoiceBusinessMapping';
 import InvoiceMapping from '../../modules/invoice/mappings/HttpInvoiceMapping';
 import InvoicePaymentMapping from '../../modules/invoicePayment/mappings/HttpInvoicePaymentMapping';
+import JobMapping from '../../modules/job/mappings/HttpJobMapping';
 import JournalTransactionListMapping from '../../modules/transactionList/journalTransaction/mappings/HttpJournalTransactionListMapping';
 import LeavePayItemMapping from '../../modules/payItem/leavePayItem/mappings/HttpLeavePayItemMapping';
 import LinkBillMapping from '../../modules/linkBill/mappings/HttpLinkBillMapping';
@@ -160,6 +161,7 @@ const RootMapping = Object.freeze({
   ...RootModuleMapping,
   ...FileUnavailableMapping,
   ...InvoiceBusinessMapping,
+  ...JobMapping,
 });
 
 export default RootMapping;

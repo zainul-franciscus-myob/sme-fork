@@ -1,0 +1,64 @@
+{
+  "entries": [
+    {
+      "id": "1",
+      "number": "012345678901234",
+      "level": "1",
+      "name": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123",
+      "isActive": true,
+      "isJobHeader": false,
+      "income": "999999999.00",
+      "cost": "999999999.00",
+      "expenses": "999999999.00",
+      "netProfit": "-999999999.00"
+    },
+    {
+      "id": "2",
+      "number": "012345678901234",
+      "level": "1",
+      "name": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123",
+      "isActive": true,
+      "isJobHeader": false,
+      "income": "999999999.00",
+      "cost": "999999999.00",
+      "expenses": "999999999.00",
+      "netProfit": "-999999999.00"
+    },
+    {
+      "id": "3",
+      "number": "012345678901234",
+      "level": "1",
+      "name": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123",
+      "isActive": true,
+      "isJobHeader": false,
+      "income": "999999999.00",
+      "cost": "999999999.00",
+      "expenses": "999999999.00",
+      "netProfit": "-999999999.00"
+    },
+    {
+      "id": "4",
+      "number": "012345678901234",
+      "level": "1",
+      "name": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123",
+      "isActive": true,
+      "isJobHeader": false,
+      "income": "999999999.00",
+      "cost": "999999999.00",
+      "expenses": "999999999.00",
+      "netProfit": "-999999999.00"
+    },
+    {
+      "id": "5",
+      "number": "012345678901234",
+      "level": "1",
+      "name": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123",
+      "isActive": true,
+      "isJobHeader": false,
+      "income": "999999999.00",
+      "cost": "999999999.00",
+      "expenses": "999999999.00",
+      "netProfit": "-999999999.00"
+    }
+  ]
+}
