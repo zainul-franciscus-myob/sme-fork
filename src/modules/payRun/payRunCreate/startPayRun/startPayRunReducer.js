@@ -1,5 +1,5 @@
 import {
-  addDays, getDaysInMonth, subDays, subMonths,
+  addDays, addMonths, getDaysInMonth, subDays,
 } from 'date-fns';
 
 import {
@@ -15,32 +15,56 @@ export const getStartPayRunDefaultState = () => ({
   isTableLoading: false,
   currentEditingPayRun: {
     paymentFrequency: 'Weekly',
-    paymentDate: formatIsoDate(new Date()),
-    payPeriodStart: '2019-01-01',
-    payPeriodEnd: formatIsoDate(new Date()),
+    paymentDate: '',
+    payPeriodStart: '',
+    payPeriodEnd: '',
     regularPayCycleOptions: [],
   },
 });
 
-const calculateStartDate = (payCycle, endDateString) => {
-  let startDate;
-  const endDate = new Date(endDateString);
+const calculateWeeklyEndDate = startDate => addDays(startDate, 6);
 
-  if (payCycle === 'Weekly') {
-    startDate = subDays(endDate, 6);
-  } else if (payCycle === 'Fortnightly') {
-    startDate = subDays(endDate, 13);
-  } else if (payCycle === 'Monthly') {
-    const dateInLastMonth = subMonths(endDate, 1);
-    startDate = addDays(dateInLastMonth, 1);
-  } else if (endDate.getDate() <= 15) { // first half for TwiceAMonth
-    startDate = subDays(endDate, 14);
-  } else { // second half for TwiceAMonth
-    const days = getDaysInMonth(endDate);
-    startDate = subDays(endDate, Math.round(days / 2) - 1);
+const calculateFornightlyEndDate = startDate => addDays(startDate, 13);
+
+const calculateMonthlyEndDate = (startDate) => {
+  const sameDateNextMonth = addMonths(startDate, 1);
+  return subDays(sameDateNextMonth, 1);
+};
+
+const calculateTwiceAMonthEndDate = (startDate) => {
+  const daysInMonth = getDaysInMonth(startDate);
+
+  if (startDate.getDate() <= 15) {
+    return addDays(startDate, 14);
   }
 
-  return formatIsoDate(startDate);
+  const secondHalfDays = daysInMonth - 16;
+  return addDays(startDate, secondHalfDays);
+};
+
+export const calculateEndDate = (payCycle, startDateString) => {
+  const startDate = new Date(startDateString);
+
+  switch (payCycle) {
+    case 'Weekly':
+      return formatIsoDate(
+        calculateWeeklyEndDate(startDate),
+      );
+    case 'Fortnightly':
+      return formatIsoDate(
+        calculateFornightlyEndDate(startDate),
+      );
+    case 'Monthly':
+      return formatIsoDate(
+        calculateMonthlyEndDate(startDate),
+      );
+    case 'TwiceAMonth':
+      return formatIsoDate(
+        calculateTwiceAMonthEndDate(startDate),
+      );
+    default:
+      throw new Error(`Invalid payCycle '${payCycle}'`);
+  }
 };
 
 const startNewPayRun = (state, {
@@ -55,7 +79,7 @@ const startNewPayRun = (state, {
     currentEditingPayRun: {
       ...state.currentEditingPayRun,
       paymentFrequency,
-      payPeriodStart: calculateStartDate(paymentFrequency, state.currentEditingPayRun.payPeriodEnd),
+      payPeriodStart: '',
     },
     regularPayCycleOptions,
     draftPayRun,
@@ -64,17 +88,18 @@ const startNewPayRun = (state, {
 
 const setPayPeriodDetails = (state, { key, value }) => {
   let startPayRunPartial;
-  if (value === '') {
+  if (key === 'payPeriodStart') {
+    const payPeriodEnd = calculateEndDate(state.currentEditingPayRun.paymentFrequency, value);
     startPayRunPartial = {
-      [key]: key === 'payPeriodStart'
-        ? calculateStartDate(
-          state.currentEditingPayRun.paymentFrequency, state.currentEditingPayRun.payPeriodEnd,
-        )
-        : formatIsoDate(new Date()),
+      [key]: value,
+      payPeriodEnd,
+      paymentDate: formatIsoDate(addDays(new Date(payPeriodEnd), 1)),
     };
   } else if (key === 'paymentFrequency') {
     startPayRunPartial = {
-      payPeriodStart: calculateStartDate(value, state.currentEditingPayRun.payPeriodEnd),
+      payPeriodStart: '',
+      payPeriodEnd: '',
+      paymentDate: '',
       [key]: value,
     };
   } else {

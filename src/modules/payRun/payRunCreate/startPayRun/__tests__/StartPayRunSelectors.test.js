@@ -4,6 +4,7 @@ import {
   getLoadEmployeePaysRequestContent,
   getPayPeriodEnd,
   getPayPeriodStart,
+  getTimesheetRequiredFieldsFilled,
 } from '../StartPayRunSelectors';
 
 describe('StartPayRunSelectors', () => {
@@ -100,6 +101,45 @@ describe('StartPayRunSelectors', () => {
       const actual = getLoadEmployeePaysRequestContent(state);
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getTimesheetRequiredFieldsFilled', () => {
+    const state = {
+      startPayRun: {
+        currentEditingPayRun: {
+          paymentFrequency: 'Weekly',
+          paymentDate: '2020-03-13',
+          payPeriodStart: '2020-03-13',
+          payPeriodEnd: '2020-03-13',
+        },
+      },
+    };
+
+    it('returns true if all four fields are populated', () => {
+      const actual = getTimesheetRequiredFieldsFilled(state);
+
+      expect(actual).toBeTruthy();
+    });
+
+    it.each([
+      'paymentFrequency',
+      'paymentDate',
+      'payPeriodStart',
+      'payPeriodEnd',
+    ])('returns false if %s is missing', (missingFieldName) => {
+      const stateWithMissingField = {
+        startPayRun: {
+          currentEditingPayRun: {
+            ...state.startPayRun.currentEditingPayRun,
+            [missingFieldName]: '',
+          },
+        },
+      };
+
+      const actual = getTimesheetRequiredFieldsFilled(stateWithMissingField);
+
+      expect(actual).toBeFalsy();
     });
   });
 });

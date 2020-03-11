@@ -42,3 +42,12 @@ export const getLoadTimesheetsParams = state => ({
 });
 
 export const getIsTimesheetUsed = state => state.startPayRun.isTimesheetUsed;
+export const getTimesheetRequiredFieldsFilled = (state) => {
+  const params = getLoadTimesheetsParams(state);
+  return Boolean(
+    params.paymentFrequency
+    && params.paymentDate
+    && params.payPeriodStart
+    && params.payPeriodEnd,
+  );
+};

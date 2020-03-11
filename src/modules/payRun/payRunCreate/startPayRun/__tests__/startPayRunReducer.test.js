@@ -1,4 +1,5 @@
 import { SET_PAY_PERIOD_DETAILS, SET_UNPROCESSED_TIMESHEET_LINES, START_NEW_PAY_RUN } from '../../PayRunIntents';
+import { calculateEndDate } from '../startPayRunReducer';
 import payRunReducer from '../../payRunReducer';
 import startNewPayRun from '../../../mappings/data/payRun/startNewPayRun.json';
 
@@ -9,9 +10,9 @@ describe('startPayRunReducer', () => {
         startPayRun: {
           currentEditingPayRun: {
             paymentFrequency: '',
-            paymentDate: '2019-08-01',
+            paymentDate: '',
             payPeriodStart: '',
-            payPeriodEnd: '2019-08-01',
+            payPeriodEnd: '',
           },
           draftPayRun: null,
         },
@@ -26,9 +27,9 @@ describe('startPayRunReducer', () => {
         startPayRun: {
           currentEditingPayRun: {
             paymentFrequency: 'Fortnightly',
-            paymentDate: '2019-08-01',
-            payPeriodStart: '2019-07-19',
-            payPeriodEnd: '2019-08-01',
+            paymentDate: '',
+            payPeriodStart: '',
+            payPeriodEnd: '',
           },
           regularPayCycleOptions: startNewPayRun.newPayRunDetails.regularPayCycleOptions,
           draftPayRun: startNewPayRun.draftPayRun,
@@ -41,50 +42,170 @@ describe('startPayRunReducer', () => {
     });
   });
 
-  describe('setPayPeriodDetails should calculate period start date', () => {
-    const buildState = (payPeriodEnd, paymentFrequency = '') => ({
-      startPayRun: {
-        currentEditingPayRun: {
-          paymentFrequency,
-          paymentDate: payPeriodEnd,
-          payPeriodStart: '',
-          payPeriodEnd,
+  describe('setPayPeriodDetails', () => {
+    it('should clear all date fields when the payment frequency is changed', () => {
+      const state = {
+        startPayRun: {
+          currentEditingPayRun: {
+            paymentFrequency: '',
+            paymentDate: '2019-08-01',
+            payPeriodStart: '2019-08-01',
+            payPeriodEnd: '2019-08-01',
+          },
         },
-      },
+      };
+      const action = {
+        intent: SET_PAY_PERIOD_DETAILS,
+        key: 'paymentFrequency',
+        value: 'Weekly',
+      };
+
+      const result = payRunReducer(state, action);
+
+      expect(result.startPayRun.currentEditingPayRun.paymentDate).toEqual('');
+      expect(result.startPayRun.currentEditingPayRun.payPeriodStart).toEqual('');
+      expect(result.startPayRun.currentEditingPayRun.payPeriodEnd).toEqual('');
     });
 
-    const buildAction = (key, value) => ({
-      intent: SET_PAY_PERIOD_DETAILS,
-      key,
-      value,
+    it('should update only end date when modifying end date', () => {
+      const state = {
+        startPayRun: {
+          currentEditingPayRun: {
+            paymentFrequency: 'weekly',
+            paymentDate: '2019-08-01',
+            payPeriodStart: '2019-08-01',
+            payPeriodEnd: '2019-08-01',
+          },
+        },
+      };
+      const action = {
+        intent: SET_PAY_PERIOD_DETAILS,
+        key: 'payPeriodEnd',
+        value: '2019-08-02',
+      };
+
+      const result = payRunReducer(state, action);
+
+      expect(result.startPayRun.currentEditingPayRun.payPeriodEnd).toEqual('2019-08-02');
+
+      expect(result.startPayRun.currentEditingPayRun.payPeriodStart).toEqual('2019-08-01');
+      expect(result.startPayRun.currentEditingPayRun.paymentDate).toEqual('2019-08-01');
+      expect(result.startPayRun.currentEditingPayRun.paymentFrequency).toEqual('weekly');
     });
 
-    it('should reset period start date when cleared', () => {
-      const state = buildState('2019-08-01', 'Weekly');
-      const action = buildAction('payPeriodStart', '');
+    describe('payment date', () => {
+      it('Setting the start date should set end date and payment date', () => {
+        const state = {
+          startPayRun: {
+            currentEditingPayRun: {
+              paymentFrequency: 'TwiceAMonth',
+              paymentDate: '',
+              payPeriodStart: '',
+              payPeriodEnd: '',
+            },
+          },
+        };
+        const action = {
+          intent: SET_PAY_PERIOD_DETAILS,
+          key: 'payPeriodStart',
+          value: '2019-08-01',
+        };
 
-      const actual = payRunReducer(state, action);
+        const result = payRunReducer(state, action);
 
-      expect(actual.startPayRun.currentEditingPayRun.payPeriodStart).toEqual('2019-07-26');
+        expect(result.startPayRun.currentEditingPayRun.payPeriodEnd).toEqual('2019-08-15');
+        expect(result.startPayRun.currentEditingPayRun.paymentDate).toEqual('2019-08-16');
+      });
+    });
+  });
+
+  describe('calculateEndDate', () => {
+    describe('weekly pay period', () => {
+      it('sets the end date 6 days forward', () => {
+        const endDate = calculateEndDate('Weekly', '2019-07-26');
+
+        expect(endDate).toEqual('2019-08-01');
+      });
     });
 
-    it.each([
-      ['6 days backward for weekly', '2019-08-01', 'Weekly', '2019-07-26'],
-      ['13 days backward for fortnightly', '2019-08-01', 'Fortnightly', '2019-07-19'],
-      ['last month when 1 day after the same day in last month exists for monthly', '2019-08-10', 'Monthly', '2019-07-11'],
-      ['the start of the month when 1 day after the same day in last month not exists for monthly', '2019-08-31', 'Monthly', '2019-08-01'],
-      ['14 days backward for the first half of the month for twice a month', '2019-08-10', 'TwiceAMonth', '2019-07-27'],
-      ['15 days backward for the second half of 31 days month for twice a month', '2019-08-30', 'TwiceAMonth', '2019-08-15'],
-      ['14 days backward for the second half of 30 days month for twice a month', '2019-06-30', 'TwiceAMonth', '2019-06-16'],
-      ['14 days backward for the second half of Feb in leap year for twice a month', '2020-02-20', 'TwiceAMonth', '2020-02-06'],
-      ['13 days backward for the second half of Feb in non leap year for twice a month', '2019-02-20', 'TwiceAMonth', '2019-02-07'],
-    ])('should set period start date to %s', (_, payPeriodEnd, actionValue, expected) => {
-      const state = buildState(payPeriodEnd);
-      const action = buildAction('paymentFrequency', actionValue);
+    describe('Fortnightly pay period', () => {
+      it('sets the end date 13 days forward', () => {
+        const endDate = calculateEndDate('Fortnightly', '2019-07-19');
 
-      const actual = payRunReducer(state, action);
+        expect(endDate).toEqual('2019-08-01');
+      });
+    });
 
-      expect(actual.startPayRun.currentEditingPayRun.payPeriodStart).toEqual(expected);
+    describe('Monthly pay period', () => {
+      it('sets the end date to 1 day before the start date in the following month', () => {
+        const endDate = calculateEndDate('Monthly', '2019-07-11');
+
+        expect(endDate).toEqual('2019-08-10');
+      });
+
+      it('sets the end date to the last day of the month when the start date is the 1st', () => {
+        const endDate = calculateEndDate('Monthly', '2019-08-01');
+
+        expect(endDate).toEqual('2019-08-31');
+      });
+
+      it('sets the end date to the last day of a 30 day month when the start date is the 1st', () => {
+        const endDate = calculateEndDate('Monthly', '2019-06-01');
+
+        expect(endDate).toEqual('2019-06-30');
+      });
+
+      it('sets the end date to the last day of a 29 day month when the start date is the 1st', () => {
+        const endDate = calculateEndDate('Monthly', '2020-02-01');
+
+        expect(endDate).toEqual('2020-02-29');
+      });
+
+      it('sets the end date to the last day of a 28 day month when the start date is the 1st', () => {
+        const endDate = calculateEndDate('Monthly', '2019-02-01');
+
+        expect(endDate).toEqual('2019-02-28');
+      });
+
+      it('sets the end date to the first day of the next month when the start date is the second day', () => {
+        const endDate = calculateEndDate('Monthly', '2019-02-02');
+
+        expect(endDate).toEqual('2019-03-01');
+      });
+    });
+
+    describe('Twice a month pay period', () => {
+      it('adds 14 days to dates before the 15th of the month', () => {
+        const startDate = '2019-02-01';
+
+        const endDate = calculateEndDate('TwiceAMonth', startDate);
+
+        expect(endDate).toEqual('2019-02-15');
+      });
+
+      it('adds 12 days to dates after the 15th on a 28 day month', () => {
+        const endDate = calculateEndDate('TwiceAMonth', '2019-02-16');
+
+        expect(endDate).toEqual('2019-02-28');
+      });
+
+      it('adds 13 days to dates after the 15th on a 29 day month', () => {
+        const endDate = calculateEndDate('TwiceAMonth', '2020-02-18');
+
+        expect(endDate).toEqual('2020-03-02');
+      });
+
+      it('adds 14 days to dates after the 15th on a 30 day month', () => {
+        const endDate = calculateEndDate('TwiceAMonth', '2019-09-20');
+
+        expect(endDate).toEqual('2019-10-04');
+      });
+
+      it('adds 15 days to dates after the 15th on a 31 day month', () => {
+        const endDate = calculateEndDate('TwiceAMonth', '2019-08-16');
+
+        expect(endDate).toEqual('2019-08-31');
+      });
     });
   });
 

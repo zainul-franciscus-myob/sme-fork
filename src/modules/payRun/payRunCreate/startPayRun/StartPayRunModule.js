@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getIsTimesheetUsed } from './StartPayRunSelectors';
+import { getIsTimesheetUsed, getTimesheetRequiredFieldsFilled } from './StartPayRunSelectors';
 import { getPayRunListUrl } from '../PayRunSelectors';
 import AlertType from '../types/AlertType';
 import LoadingState from '../../../../components/PageView/LoadingState';
@@ -23,7 +23,7 @@ export default class StartPayRunModule {
 
   createNewPayRun = () => {
     this.deleteDraft();
-    this.loadTimesheetsIfUsed();
+    this.attemptLoadTimesheets();
   };
 
   deleteDraft = () => {
@@ -42,9 +42,13 @@ export default class StartPayRunModule {
     this.integrator.deleteDraft({ onSuccess, onFailure });
   }
 
-  loadTimesheetsIfUsed = () => {
+  attemptLoadTimesheets = () => {
     const state = this.store.getState();
-    if (getIsTimesheetUsed(state)) this.loadTimesheets();
+
+    if (!getIsTimesheetUsed(state)) return;
+    if (!getTimesheetRequiredFieldsFilled(state)) return;
+
+    this.loadTimesheets();
   }
 
   loadTimesheets = () => {
@@ -121,16 +125,17 @@ export default class StartPayRunModule {
     this.dispatcher.selectTimesheetsItem(item, isSelected);
   }
 
-  changePayPeriodAndLoadTimesheets = ({ key, value }) => {
+  changePayPeriod = ({ key, value }) => {
     this.dispatcher.setPayPeriodDetails({ key, value });
-    this.loadTimesheetsIfUsed();
+
+    this.attemptLoadTimesheets();
   }
 
 
   getView() {
     return (
       <StartPayRunView
-        onPayPeriodChange={this.changePayPeriodAndLoadTimesheets}
+        onPayPeriodChange={this.changePayPeriod}
         onNextButtonClick={this.loadEmployeePays}
         onExistingPayRunModalCreateClick={this.createNewPayRun}
         onExistingPayRunModalEditClick={this.editExistingPayRun}

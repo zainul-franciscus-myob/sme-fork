@@ -61,7 +61,6 @@ export default class PayRunModule {
     const onSuccess = (response) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.startNewPayRun(response);
-      if (!response.draftPayRun) this.loadTimesheets();
     };
 
     const onFailure = () => {
