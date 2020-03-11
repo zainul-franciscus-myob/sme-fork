@@ -6,12 +6,25 @@
   background: var(--flx-palette-storm-100);
 }
 
-.subscriptionRibbon a {
+.subscriptionRibbon a,
+.subscriptionRibbon a:hover {
+  border: none;
   color: var(--flx-palette-white);
   cursor: pointer;
-  border-bottom: 1px solid rgba(255, 255, 255, .5);
+  font-weight: bold;
 }
 
-.subscriptionRibbon a:hover {
- border-bottom: 1px solid var(--flx-palette-white);
+.subscriptionRibbon a:not([href^='tel:']) span {
+  border-bottom: 2px solid var(--flx-palette-white);
+}
+
+@media screen and (max-width: 768px) {
+  .subscriptionRibbon a {
+    display: block;
+    margin-bottom: var(--flx-spacing-small);
+  }
+
+  .subscriptionRibbon a:last-of-type {
+    margin-bottom: 0;
+  }
 }

@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getMenuLogoUrl,
+  getRegion,
   getShouldDisplayAccountingMenu,
   getShouldDisplayAddMenu,
   getShouldDisplayBankingMenu,
@@ -159,6 +160,7 @@ const NavigationBar = ({
   onLogoutLinkClick,
   onSubscribeNowClick,
   onChangePlanClick,
+  region,
   shouldDisplayHome,
   shouldDisplaySalesMenu,
   shouldDisplayBusinessMenu,
@@ -200,6 +202,7 @@ const NavigationBar = ({
     onLogoutLinkClick,
     onSubscribeNowClick,
     onChangePlanClick,
+    region,
     shouldDisplayBusinessMenu,
     shouldDisplayAddMenu,
     shouldDisplayHelpMenu,
@@ -224,6 +227,7 @@ const NavigationBar = ({
     <SubscriptionRibbon
       trialEndDate={trialEndDate}
       onSubscribeNowClick={onSubscribeNowClick}
+      region={region}
     />
   );
 
@@ -236,6 +240,7 @@ const NavigationBar = ({
 };
 
 const mapStateToProps = state => ({
+  region: getRegion(state),
   shouldDisplayHome: getShowUrls(state),
   shouldDisplayBusinessMenu: getShouldDisplayBusinessMenu(state),
   shouldDisplayBankingMenu: getShouldDisplayBankingMenu(state),

@@ -10,7 +10,12 @@ const pluraliseMessage = (daysUntilExpired) => {
   return `You have ${daysUntilExpired} days left in your free trial. `;
 };
 
-const SubscriptionRibbon = ({ trialEndDate, onSubscribeNowClick }) => {
+const telephoneNumber = (region) => {
+  if (region === 'au') return '1800 370 612';
+  return '0800 60 69 62';
+};
+
+const SubscriptionRibbon = ({ trialEndDate, onSubscribeNowClick, region }) => {
   const now = new Date(Date.now());
   const end = typeof trialEndDate === 'string' ? new Date(trialEndDate) : trialEndDate;
   // The trial expiration date in Archie includes a time, which is significant. Other services will
@@ -22,10 +27,17 @@ const SubscriptionRibbon = ({ trialEndDate, onSubscribeNowClick }) => {
     <p className={styles.subscriptionRibbon}>
       {pluraliseMessage(daysUntilExpired)}
       <a href onClick={onSubscribeNowClick} target="_blank" rel="noopener noreferrer">
-        Subscribe now
+        <span>Subscribe now</span>
+      </a>
+      {' '}
+      or talk to an expert on
+      {' '}
+      <a href={`tel:${telephoneNumber(region).replace(/ /g, '')}`} rel="nofollow">
+        <span>{telephoneNumber(region)}</span>
       </a>
     </p>
   );
 };
+
 
 export default SubscriptionRibbon;
