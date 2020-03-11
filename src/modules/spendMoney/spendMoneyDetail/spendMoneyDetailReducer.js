@@ -38,6 +38,7 @@ import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../../common/valueFormatters/formatCurrency';
+import formatDisplayAmount from '../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const defaultPrefillStatus = {
@@ -73,6 +74,7 @@ const getDefaultState = () => ({
   newLine: {
     accountId: '',
     amount: '',
+    displayAmount: '',
     quantity: '',
     description: '',
     taxCodeId: '',
@@ -233,6 +235,10 @@ const loadSpendMoneyDetail = (state, action) => ({
     ...state.spendMoney,
     ...action.spendMoney,
     originalReferenceId: action.spendMoney.referenceId,
+    lines: action.spendMoney.lines.map(line => ({
+      ...line,
+      displayAmount: formatDisplayAmount(line.amount),
+    })),
   },
   accounts: action.accounts,
   taxCodes: action.taxCodes,
