@@ -55,11 +55,9 @@ export default class PayrollDetailsTabModule {
     store,
     pushMessage,
     saveEmployee,
-    globalCallbacks,
   }) {
     this.integration = integration;
     this.pushMessage = pushMessage;
-    this.globalCallbacks = globalCallbacks;
     this.store = store;
     this.dispatcher = createPayrollDetailsTabDispatchers(store);
     this.integrator = createPayrollDetailsTabIntegrator(store, integration);
@@ -641,8 +639,6 @@ export default class PayrollDetailsTabModule {
 
   getView() {
     const taxTableCalculationModal = this.subModules.taxTableCalculationModal.render();
-    this.globalCallbacks.setupPayrollDetailsCompleted();
-
     return (
       <>
         {taxTableCalculationModal}

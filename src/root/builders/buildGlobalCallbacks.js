@@ -14,6 +14,5 @@ export default ({ closeTasks }) => ({
   inTrayBillSaved: () => closeTasks({ closeEvent: 'inTrayBillSaved' }),
   inTrayUploadOptionsClosed: () => closeTasks({ closeEvent: 'inTrayUploadOptionsClosed' }),
   payrollGeneralSettingsSaved: () => closeTasks({ closeEvent: 'payrollGeneralSettingsSaved' }),
-  setupPayrollDetailsCompleted: () => closeTasks({ closeEvent: 'setupPayrollDetailsCompleted' }),
-  addPaymentDetailsAndSaveSuccess: () => closeTasks({ closeEvent: 'addPaymentDetailsAndSaveSuccess' }),
+  employeeDetailsSaved: () => closeTasks({ closeEvent: 'employeeDetailsSaved' }),
 });

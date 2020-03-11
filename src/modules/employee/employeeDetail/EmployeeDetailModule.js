@@ -131,7 +131,7 @@ export default class EmployeeDetailModule {
     const onSuccess = (response) => {
       this.dispatcher.setSubmittingState(false);
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.globalCallbacks.addPaymentDetailsAndSaveSuccess();
+      this.globalCallbacks.employeeDetailsSaved();
       const state = this.store.getState();
       const isCreating = getIsCreating(state);
       if (isCreating) {

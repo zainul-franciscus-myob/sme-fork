@@ -27,9 +27,6 @@ describe('EmployeeDetailModule', () => {
       popMessages: () => [],
       pushMessage: [],
       replaceURLParams: () => {},
-      globalCallbacks: {
-        setupPayrollDetailsCompleted: jest.fn(),
-      },
     });
     employeeDetailModule.run({
       isPayrollSetup: true,
