@@ -89,13 +89,17 @@ describe('calculationReducer', () => {
       { key: 'units', value: '0' },
       { key: 'discount', value: '100' },
     ].forEach(({ key, value }) => {
-      it(`should not update unitPrice or amount when ${key} is ${value || 'empty'}`, () => {
+      it(`should only update amount when switching tax inclusive toggle but ${key} is ${value || 'empty'}`, () => {
         const partialLine = { [key]: value };
         const state = buildState(partialLine);
 
         const actual = setQuoteCalculatedLines(state, action);
 
-        const expected = buildExpect(partialLine);
+        const expected = buildExpect({
+          ...partialLine,
+          amount: '100',
+          displayAmount: '100.00',
+        });
 
         expect(actual).toEqual(expected);
       });

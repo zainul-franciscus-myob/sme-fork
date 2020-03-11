@@ -113,8 +113,9 @@ export const setQuoteCalculatedLines = (state, { lines, totals, isSwitchingTaxIn
   quote: {
     ...state.quote,
     lines: state.quote.lines.map((line, index) => {
+      const { amount } = lines[index];
+
       if (shouldCalculateUnitPriceWithTaxInclusiveSwitch(line, isSwitchingTaxInclusive)) {
-        const { amount } = lines[index];
         const units = Number(line.units);
         const discount = Number(line.discount);
         const calculatedUnitPrice = calculateUnitPrice(units, amount, discount);
@@ -125,6 +126,14 @@ export const setQuoteCalculatedLines = (state, { lines, totals, isSwitchingTaxIn
           displayAmount: formatDisplayAmount(amount.valueOf()),
           unitPrice: calculatedUnitPrice,
           displayUnitPrice: formatDisplayUnitPrice(calculatedUnitPrice),
+        };
+      }
+
+      if (isSwitchingTaxInclusive) {
+        return {
+          ...line,
+          amount: amount.valueOf(),
+          displayAmount: formatDisplayAmount(amount.valueOf()),
         };
       }
 
