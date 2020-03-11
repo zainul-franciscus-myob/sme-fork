@@ -27,7 +27,7 @@
     "router5": "7.0.2",
     "router5-plugin-browser": "7.0.2",
     "shortid": "2.2.15",
-    "uuid": "7.0.1",
+    "uuid": "7.0.2",
     "whatwg-fetch": "3.0.0"
   },
   "scripts": {
@@ -43,13 +43,13 @@
   "devDependencies": {
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.2",
-    "eslint-config-airbnb": "17.1.0",
+    "eslint-config-airbnb": "18.0.1",
     "eslint-plugin-import": "2.20.1",
-    "eslint-plugin-jest": "23.8.0",
+    "eslint-plugin-jest": "23.8.2",
     "eslint-plugin-jsx-a11y": "6.2.3",
-    "eslint-plugin-react": "7.11.1",
+    "eslint-plugin-react": "7.19.0",
     "eslint-plugin-sort-imports-es6-autofix": "0.5.0",
-    "stylelint": "13.2.0",
+    "stylelint": "13.2.1",
     "stylelint-config-standard": "20.0.0"
   },
   "browserslist": [

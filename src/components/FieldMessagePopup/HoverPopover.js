@@ -2,12 +2,6 @@ import { Popover } from '@myob/myob-widgets';
 import React from 'react';
 
 export default class HoverPopover extends React.Component {
-  static defaultProps = {
-    id: undefined,
-    children: undefined,
-    icon: undefined,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
