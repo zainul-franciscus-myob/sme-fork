@@ -12,6 +12,7 @@ import emptyStateImage from './assets/icon-tasks-empty-state.svg';
 
 const TasksView = ({
   closeTasks,
+  dismissTask,
   closeView,
   closeIntroModal,
   openIntroModal,
@@ -31,7 +32,7 @@ const TasksView = ({
         closeIntroModal={closeIntroModal}
         openIntroModal={openIntroModal}
       />
-      <Onboarding tasks={onboardingTasks} closeTasks={closeTasks} />
+      <Onboarding tasks={onboardingTasks} closeTasks={closeTasks} dismissTask={dismissTask} />
     </div>
   );
 

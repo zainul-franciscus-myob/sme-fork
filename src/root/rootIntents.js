@@ -7,4 +7,5 @@ export const SET_REGION = Symbol('Set current region');
 export const GET_TASKS_LIST = Symbol('Get TASKS');
 export const UPDATE_TASKS = Symbol('Update TASKS');
 export const CLOSE_TASKS = Symbol('Close tasks');
+export const DISMISS_TASK = Symbol('Dismiss task');
 export const LOAD_SUBSCRIPTION = Symbol('Load subscription');

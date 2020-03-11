@@ -1,6 +1,6 @@
-import SettingsService from '../../settings';
-import load from '../../settings/load';
-import save from '../../settings/save';
+import SettingsService from '../index';
+import load from '../load';
+import save from '../save';
 
 jest.mock('../../settings/load');
 jest.mock('../../settings/save');

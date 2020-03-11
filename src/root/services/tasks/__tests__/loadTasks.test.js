@@ -1,8 +1,8 @@
 import { GET_TASKS_LIST } from '../../../rootIntents';
-import load from '../../tasks/load';
+import loadTasks from '../loadTasks';
 
 describe('tasksService', () => {
-  describe('load', () => {
+  describe('loadTasks', () => {
     const businessId = 'business-id';
     const region = 'region';
     const getState = jest.fn();
@@ -21,7 +21,7 @@ describe('tasksService', () => {
     };
 
     it('gives get tasks list', async () => {
-      await load({ dispatcher, integration, store });
+      await loadTasks({ dispatcher, integration, store });
 
       expect(integration.read).toBeCalledWith(
         expect.objectContaining({
@@ -31,7 +31,7 @@ describe('tasksService', () => {
     });
 
     it('gives params', async () => {
-      await load({ dispatcher, integration, store });
+      await loadTasks({ dispatcher, integration, store });
 
       expect(integration.read).toBeCalledWith(
         expect.objectContaining({
@@ -42,7 +42,7 @@ describe('tasksService', () => {
     });
 
     it('gives tasks to the redux store', async () => {
-      await load({ dispatcher, integration, store });
+      await loadTasks({ dispatcher, integration, store });
       expect(dispatcher.loadTasks).toBeCalledWith(data);
     });
   });

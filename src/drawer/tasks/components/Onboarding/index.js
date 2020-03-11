@@ -1,4 +1,4 @@
-import { Label } from '@myob/myob-widgets';
+import Icons from '@myob/myob-widgets/lib/components/Icons';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -15,7 +15,7 @@ const svgPath = (key) => {
 
 const isTaskActive = url => decodeURI(window.location.href).indexOf(url) > -1;
 
-const Onboarding = ({ tasks, closeTasks }) => (
+const Onboarding = ({ tasks, closeTasks, dismissTask }) => (
   <ul className={styles.tasks}>
     {tasks.map((task) => {
       const taskIconPath = svgPath(task.key) || svgPath(task.template);
@@ -30,14 +30,20 @@ const Onboarding = ({ tasks, closeTasks }) => (
             {taskIconPath && (
               <img src={taskIconPath} alt={task.title} width="36" />
             )}
+
             <div className={styles.container}>
+              <div>
+                <h3>{task.title}</h3>
+                <p>{task.description}</p>
+              </div>
               {task.isComplete && (
-                <Label type="boxed" color="green" size="small">
-                  Done
-                </Label>
+                <div className={styles.isComplete}>Done</div>
               )}
-              <h3>{task.title}</h3>
-              <p>{task.description}</p>
+              {!task.isComplete && (
+              <button type="button" className={styles.close} onClick={(event) => { event.preventDefault(); dismissTask(task.key); }}>
+                <Icons.Close />
+              </button>
+              )}
             </div>
           </a>
 

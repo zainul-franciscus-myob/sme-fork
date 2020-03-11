@@ -1,10 +1,6 @@
 import { CLOSE_TASKS } from '../../rootIntents';
-
-const reactsToCloseEvent = (tasks, closeEvent) => {
-  const hasCloseEvent = task => task.closeEvent === closeEvent;
-  return tasks
-  && tasks.some(t => hasCloseEvent(t) || (t.tasks && t.tasks.some(st => hasCloseEvent(st))));
-};
+import isDismissEvent from './isDismissEvent';
+import reactsToCloseEvent from './reactsToCloseEvent';
 
 //  If Event is not a close event of a current task, then don't send it.
 const closeTasks = async ({
@@ -14,7 +10,8 @@ const closeTasks = async ({
   if (!businessId) return;
 
   const { closeEvent } = context;
-  if (!reactsToCloseEvent(tasks, closeEvent)) return;
+  const dismissEvent = isDismissEvent(closeEvent);
+  if (!reactsToCloseEvent(tasks, closeEvent) && !dismissEvent) return;
 
   const newTasks = await new Promise((resolve, reject) => integration.write({
     intent: CLOSE_TASKS,

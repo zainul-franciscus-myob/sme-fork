@@ -1,7 +1,7 @@
 import {
-  GET_TASKS_LIST, LOAD_SETTINGS, SAVE_SETTINGS,
-  SET_BUSINESS_ID, SET_LOADING_STATE, SET_REGION,
-  SET_VIEW_DATA, UPDATE_TASKS,
+  DISMISS_TASK, GET_TASKS_LIST, LOAD_SETTINGS,
+  SAVE_SETTINGS, SET_BUSINESS_ID, SET_LOADING_STATE,
+  SET_REGION, SET_VIEW_DATA, UPDATE_TASKS,
 } from './rootIntents';
 import { LOAD_GLOBAL_BUSINESS_DETAILS } from './services/businessDetails/BusinessDetailsIntents';
 import createReducer from '../store/createReducer';
@@ -69,6 +69,15 @@ const updateTasks = (state, { tasks: newTasks }) => {
   return { ...state, tasks: mergedTasks };
 };
 
+const dismissTask = (state, { taskKey }) => {
+  const tasks = state.tasks.filter(task => task.key !== taskKey);
+
+  return {
+    ...state,
+    tasks,
+  };
+};
+
 const loadBusinessDetails = (state, { businessDetails }) => ({
   ...state,
   proposedBusinessName: businessDetails.organisationName,
@@ -85,6 +94,7 @@ const handlers = {
   [GET_TASKS_LIST]: loadTasks,
   [UPDATE_TASKS]: updateTasks,
   [LOAD_GLOBAL_BUSINESS_DETAILS]: loadBusinessDetails,
+  [DISMISS_TASK]: dismissTask,
 };
 
 const rootReducer = createReducer(getDefaultState(), handlers);

@@ -1,8 +1,8 @@
-import load from '../../tasks/load';
-import tasksService from '../../tasks';
+import loadTasks from '../loadTasks';
+import tasksService from '../index';
 
 jest.mock('../../tasks/closeTasks');
-jest.mock('../../tasks/load');
+jest.mock('../../tasks/loadTasks');
 
 describe('tasksService', () => {
   const context = {};
@@ -11,12 +11,12 @@ describe('tasksService', () => {
   const store = jest.fn();
 
   describe('when loading tasks', () => {
-    it('calls load', () => {
+    it('calls loadTasks', () => {
       const service = tasksService(dispatcher, integration, store);
 
       service.load(context);
 
-      expect(load).toHaveBeenCalled();
+      expect(loadTasks).toHaveBeenCalled();
     });
   });
 });

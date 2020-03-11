@@ -1,4 +1,4 @@
-import save from '../../settings/save';
+import save from '../save';
 
 describe('SettingsService', () => {
   describe('save', () => {

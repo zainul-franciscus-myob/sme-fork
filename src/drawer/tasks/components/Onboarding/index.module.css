@@ -21,7 +21,7 @@
   text-decoration: none;
 }
 
-.tasks .container { width: 100%; }
+.tasks .container { width: 100%; display: flex}
 
 .tasks p {
   font-size: small;
@@ -80,4 +80,21 @@
 .subTasks .completed a:before {
   background: url('assets/tick.svg') no-repeat 4px 4px / 16px var(--flx-palette-golf);
   content: '';
+}
+
+.close {
+  height: 20px;
+  border: none;
+  background-color: unset;
+  float: right;
+  padding: 0;
+  align-self: flex-start;
+}
+
+.isComplete {
+  align-self: flex-start;
+  background-color: rgba(0, 170, 101, 0.2);
+  color: #007747;
+  border-radius: 1.2rem;
+  padding: 0.4rem 1rem;
 }

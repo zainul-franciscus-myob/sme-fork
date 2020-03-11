@@ -19,7 +19,7 @@ export default class TasksModule {
 
   getView = (tasks) => {
     const { tasksService, closeView, store } = this;
-    const { closeTasks } = tasksService;
+    const { closeTasks, dismissTask } = tasksService;
     const onboardingTasks = tasks && tasks.filter(task => task.template !== 'welcome');
     const welcomeTask = tasks && tasks.find(task => task.template === 'welcome');
     const { dispatcher } = this;
@@ -33,6 +33,7 @@ export default class TasksModule {
           closeView={closeView}
           onboardingTasks={onboardingTasks}
           welcomeTask={welcomeTask}
+          dismissTask={dismissTask}
         />
       </Provider>
     );

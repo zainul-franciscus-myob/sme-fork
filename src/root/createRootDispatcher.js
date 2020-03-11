@@ -1,7 +1,7 @@
 import {
-  GET_TASKS_LIST, LOAD_SETTINGS, SAVE_SETTINGS,
-  SET_BUSINESS_ID, SET_LOADING_STATE, SET_REGION,
-  SET_VIEW_DATA, UPDATE_TASKS,
+  DISMISS_TASK, GET_TASKS_LIST,
+  LOAD_SETTINGS, SAVE_SETTINGS, SET_BUSINESS_ID,
+  SET_LOADING_STATE, SET_REGION, SET_VIEW_DATA, UPDATE_TASKS,
 } from './rootIntents';
 import { LOAD_GLOBAL_BUSINESS_DETAILS } from './services/businessDetails/BusinessDetailsIntents';
 
@@ -24,6 +24,11 @@ const createRootDispatcher = store => ({
   updateTasks: (tasks) => {
     const intent = UPDATE_TASKS;
     store.dispatch({ intent, tasks });
+  },
+
+  dismissTask: (taskKey) => {
+    const intent = DISMISS_TASK;
+    store.dispatch({ intent, taskKey });
   },
 
   loadBusinessDetails: ({ businessDetails }) => {
