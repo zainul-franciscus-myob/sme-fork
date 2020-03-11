@@ -26,12 +26,12 @@ const isSeparatorRequired = urls => (
     || urls.dataImportExport
 );
 
-const getMenuLink = (url, label, onMenuLinkClick) => (
+const getMenuLink = (url, label, onMenuLinkClick, target) => (
   <Navigation.MenuLink
     key={label}
     url={url}
     label={label}
-    onClick={handleMenuLinkClick(onMenuLinkClick, url)}
+    onClick={handleMenuLinkClick(onMenuLinkClick, url, target)}
   />
 );
 
@@ -81,7 +81,7 @@ const getItems = ({
   isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
   userEmail && <UnlinkedMenuLink label={userEmail} className={styles.userEmail} />,
   getDisabledMenuLink('my.MYOB account'),
-  urls.paymentDetail && getMenuLink(urls.paymentDetail, 'Payment details', onMenuLinkClick),
+  urls.paymentDetail && getMenuLink(urls.paymentDetail, 'Payment details', onMenuLinkClick, '_blank'),
   onSubscribeNowClick && getMenuLink('', 'Subscribe now', onSubscribeNowClick),
   onChangePlanClick && getMenuLink('', 'Change plan', onChangePlanClick),
   <Navigation.Separator key="separator-links" />,
