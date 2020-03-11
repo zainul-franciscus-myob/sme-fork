@@ -328,7 +328,7 @@ const getRequestParams = (accountId, bankTransaction, filterOptions) => {
 };
 
 export const getDefaultMatchTransactionFilterRequestParams = (bankAccount, bankTransaction) => {
-  const isMatched = bankTransaction.journalLineId || bankTransaction.type === 'splitMatched';
+  const isMatched = bankTransaction.journals.length > 0;
   const contactId = getAppliedPaymentRuleContactId(bankTransaction);
   const filterOptions = {
     contactId,

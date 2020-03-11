@@ -147,8 +147,10 @@ export const getUnallocationPayload = (index, state) => {
 
   return {
     bankAccountId,
-    transactionId: entry.transactionId,
-    journalLineId: entry.journalLineId,
+    entries: entry.journals.map(journal => ({
+      transactionId: entry.transactionId,
+      journalLineId: journal.journalLineId,
+    })),
   };
 };
 
@@ -176,11 +178,12 @@ export const getIsEntryLoading = createSelector(
   ),
 );
 
-export const getOpenEntryDefaultTabId = ({ type, sourceJournal }) => {
+export const getOpenEntryDefaultTabId = ({ type, journals }) => {
   if (type === StatusTypes.splitMatched || type === StatusTypes.paymentRuleMatched) {
     return tabIds.match;
   }
 
+  const sourceJournal = journals[0]?.sourceJournal;
   if (
     type === StatusTypes.unmatched
     || sourceJournal === businessEventTypes.spendMoney
@@ -212,11 +215,10 @@ export const getAppliedPaymentRuleContactId = ({ appliedRule = {} }) => (
   ['Invoice', 'Bill'].includes(appliedRule.ruleType) ? String(appliedRule.contactId) : ''
 );
 
-export const getIsAllocated = ({ type, journalId }) => (
+export const getIsAllocated = ({ type, journals }) => (
   !!((type === StatusTypes.singleAllocation
     || type === StatusTypes.splitAllocation
-    || type === StatusTypes.payment
-    || type === StatusTypes.transfer) && journalId)
+    || type === StatusTypes.transfer) && journals[0].journalId)
 );
 
 export const getIsSplitAllocationSelected = state => (
@@ -333,7 +335,9 @@ export const getOpenTransactionLine = createSelector(
 
 export const getTabItems = createSelector(
   getOpenTransactionLine,
-  ({ sourceJournal = '', type }) => {
+  ({ journals, type }) => {
+    const sourceJournal = journals[0]?.sourceJournal || '';
+
     const isAllocateDisabled = (sourceJournal !== businessEventTypes.spendMoney
     && sourceJournal !== businessEventTypes.receiveMoney
     && sourceJournal !== '') || type === StatusTypes.splitMatched;

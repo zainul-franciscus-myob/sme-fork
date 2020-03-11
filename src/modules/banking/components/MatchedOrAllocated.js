@@ -56,7 +56,6 @@ export default ({
   if ([
     StatusTypes.splitAllocation,
     StatusTypes.transfer,
-    StatusTypes.payment,
   ].includes(type)) {
     return (
       <SplitRowItem

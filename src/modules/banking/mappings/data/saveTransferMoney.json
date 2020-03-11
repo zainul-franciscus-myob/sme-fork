@@ -1,9 +1,13 @@
 {
   "message": "Success! You've successfully created a transfer money",
   "allocateOrMatch": "Transferred to Rental Expense",
-  "journalId": "8373",
-  "journalLineId": "1559",
-  "sourceJournal": "TransferMoney",
+  "journals": [
+    {
+      "journalId": "8373",
+      "journalLineId": "1559",
+      "sourceJournal": "TransferMoney"
+    }
+  ],
   "type": "transfer",
   "taxCode": "",
   "isReportable": false

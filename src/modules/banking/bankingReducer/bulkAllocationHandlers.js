@@ -75,9 +75,7 @@ export const bulkAllocateTransactions = (state, action) => ({
         ...entry,
         isReportable: allocation.isReportable,
         allocateOrMatch: allocation.allocateOrMatch,
-        journalId: allocation.journalId,
-        journalLineId: allocation.journalLineId,
-        sourceJournal: allocation.sourceJournal,
+        journals: allocation.journals,
         type: allocation.type,
         taxCode: allocation.taxCode,
       };
@@ -97,9 +95,7 @@ export const bulkUnallocateTransactions = (state, action) => ({
       return {
         ...entry,
         allocateOrMatch: allocation.allocateOrMatch,
-        journalId: '',
-        journalLineId: '',
-        sourceJournal: '',
+        journals: [],
         type: allocation.type,
         taxCode: '',
       };

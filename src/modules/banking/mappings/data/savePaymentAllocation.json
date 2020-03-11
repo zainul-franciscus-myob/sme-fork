@@ -1,9 +1,13 @@
 {
   "message": "Success! You've successfully allocated payment",
   "allocateOrMatch": "Matched to SP10002 Supplier Payment",
-  "journalId": "8373",
-  "journalLineId": "1559",
-  "sourceJournal": "PayBill",
+  "journals": [
+    {
+      "journalId": "8373",
+      "journalLineId": "1559",
+      "sourceJournal": "PayBill"
+    }
+  ],
   "type": "splitAllocation",
   "taxCode": "",
   "isReportable": false

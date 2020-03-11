@@ -526,7 +526,11 @@ describe('matchTransactionSelectors', () => {
         transactionId: '1',
         deposit: '100',
         date: '2018-05-06',
-        journalLineId: '1',
+        journals: [
+          {
+            journalLineId: '1',
+          },
+        ],
       };
 
       const expected = {

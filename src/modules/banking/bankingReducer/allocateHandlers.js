@@ -10,9 +10,7 @@ export const allocateTransaction = (state, action) => ({
           ...entry,
           isReportable: action.isReportable,
           allocateOrMatch: action.allocateOrMatch,
-          journalId: action.journalId,
-          journalLineId: action.journalLineId,
-          sourceJournal: action.sourceJournal,
+          journals: action.journals,
           type: action.type,
           taxCode: action.taxCode,
           selectedAccountId: action.selectedAccount ? action.selectedAccount.id : undefined,
@@ -31,9 +29,7 @@ export const unallocateTransaction = (state, action) => ({
         ? {
           ...entry,
           allocateOrMatch: action.allocateOrMatch,
-          journalId: '',
-          journalLineId: '',
-          sourceJournal: '',
+          journals: [],
           type: action.type,
           taxCode: '',
         }

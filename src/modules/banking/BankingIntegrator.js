@@ -236,7 +236,7 @@ const createBankingIntegrator = (store, integration) => ({
 
     const urlParams = {
       businessId: getBusinessId(state),
-      transferMoneyId: line.journalId,
+      transferMoneyId: line.journals[0].journalId,
     };
 
     integration.read({
@@ -303,13 +303,13 @@ const createBankingIntegrator = (store, integration) => ({
   }) => {
     const state = store.getState();
 
-    const { withdrawal, journalId } = getBankTransactionLineByIndex(state, index);
+    const { withdrawal, journals } = getBankTransactionLineByIndex(state, index);
     const intent = LOAD_SPLIT_ALLOCATION;
 
     const urlParams = {
       businessId: getBusinessId(state),
       type: withdrawal ? 'spend_money' : 'receive_money',
-      journalId,
+      journalId: journals[0].journalId,
     };
 
     integration.read({

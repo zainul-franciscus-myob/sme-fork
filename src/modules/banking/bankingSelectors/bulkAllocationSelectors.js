@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
 import StatusTypes from '../BankTransactionStatusTypes';
+import flat from '../../../common/flat/flat';
 
 export const getEntrySelectStatus = state => state.entries.map(entry => entry.selected);
 
@@ -64,10 +65,10 @@ export const getBulkUnallocationPayload = ({ entries, filterOptions }) => {
 
   return {
     bankAccountId,
-    entries: filteredEntries.map(entry => ({
+    entries: flat(filteredEntries.map(entry => entry.journals.map(journal => ({
       transactionId: entry.transactionId,
-      journalLineId: entry.journalLineId,
-    })),
+      journalLineId: journal.journalLineId,
+    })))),
   };
 };
 

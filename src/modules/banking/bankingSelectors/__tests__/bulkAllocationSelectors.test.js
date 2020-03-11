@@ -188,38 +188,67 @@ describe('bulkAllocationSelector', () => {
         entries: [
           {
             transactionId: '1',
-            journalLineId: '111',
+            journals: [],
             selected: true,
             type: 'unmatched',
           },
           {
             transactionId: '2',
-            journalLineId: '222',
+            journals: [],
             selected: true,
             type: 'matched',
           },
           {
             transactionId: '3',
-            journalLineId: '333',
+            journals: [
+              {
+                journalLineId: '333',
+              },
+            ],
             type: 'singleAllocation',
           },
           {
             transactionId: '4',
-            journalLineId: '444',
+            journals: [
+              {
+                journalLineId: '444',
+              },
+            ],
             selected: true,
             type: 'singleAllocation',
           },
           {
             transactionId: '5',
-            journalLineId: '555',
+            journals: [
+              {
+                journalLineId: '555',
+              },
+            ],
             selected: true,
             type: 'splitAllocation',
           },
           {
             transactionId: '6',
-            journalLineId: '666',
+            journals: [
+              {
+                journalLineId: '666',
+              },
+            ],
             selected: true,
             type: 'payment',
+          },
+          {
+            transactionId: '7',
+            journals: [
+              {
+                journalLineId: '777',
+              },
+              {
+                journalLineId: '778',
+              },
+            ],
+            selected: true,
+            type: 'splitMatched',
           },
         ],
       };
@@ -238,6 +267,14 @@ describe('bulkAllocationSelector', () => {
           {
             transactionId: '6',
             journalLineId: '666',
+          },
+          {
+            transactionId: '7',
+            journalLineId: '777',
+          },
+          {
+            transactionId: '7',
+            journalLineId: '778',
           },
         ],
       };

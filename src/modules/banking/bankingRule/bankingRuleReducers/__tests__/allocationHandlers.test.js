@@ -144,7 +144,7 @@ describe('allocationHandlers', () => {
       expect(actual.bankingRule.allocations[0].value).toEqual('100.00');
     });
 
-    fit('remove a line and there’s only one line left in the allocation table the amount should become Full amount', () => {
+    it('remove a line and there’s only one line left in the allocation table the amount should become Full amount', () => {
       const action = {
         index: 1,
       };

@@ -207,9 +207,13 @@
       "date": "2018-10-21",
       "description": "Bob the builder",
       "withdrawal": 3300.00,
-      "journalId": "",
-      "journalLineId": "",
-      "sourceJournal": "",
+      "journals": [
+        {
+          "journalId": "",
+          "journalLineId": "",
+          "sourceJournal": ""
+        }
+      ],
       "taxCode": "",
       "note": "",
       "isReportable": false,
@@ -222,9 +226,13 @@
       "date": "2018-10-21",
       "description": "Bob the builder",
       "deposit": 3300.00,
-      "journalId": "",
-      "journalLineId": "",
-      "sourceJournal": "",
+      "journals": [
+        {
+          "journalId": "",
+          "journalLineId": "",
+          "sourceJournal": ""
+        }
+      ],
       "taxCode": "",
       "note": "",
       "isReportable": false,
@@ -237,9 +245,13 @@
       "date": "2018-10-20",
       "description": "Scoop muck and dizzy",
       "withdrawal": 295.00,
-      "journalId": "",
-      "journalLineId": "",
-      "sourceJournal": "",
+      "journals": [
+        {
+          "journalId": "",
+          "journalLineId": "",
+          "sourceJournal": ""
+        }
+      ],
       "taxCode": "",
       "note": "",
       "isReportable": false,
@@ -252,9 +264,13 @@
       "date": "2018-10-11",
       "description": "Rolly too, lofty and wendy",
       "deposit": 1300.00,
-      "journalId": "33",
-      "journalLineId": "",
-      "sourceJournal": "",
+      "journals": [
+        {
+          "journalId": "",
+          "journalLineId": "",
+          "sourceJournal": ""
+        }
+      ],
       "taxCode": "",
       "note": "",
       "isReportable": false,

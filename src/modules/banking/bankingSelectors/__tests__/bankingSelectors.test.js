@@ -16,13 +16,14 @@ describe('bankingSelector', () => {
     [
       ['singleAllocation', true],
       ['splitAllocation', true],
+      ['transfer', true],
       ['matched', false],
       ['unmatched', false],
     ].forEach((args) => {
       const [type, expected] = args;
 
       it(`should return ${expected} when type is ${type}`, () => {
-        const isAllocated = getIsAllocated({ type, journalId: '123' });
+        const isAllocated = getIsAllocated({ type, journals: [{ journalId: '123' }] });
 
         expect(isAllocated).toEqual(expected);
       });
@@ -31,16 +32,17 @@ describe('bankingSelector', () => {
 
   describe('getBankTransactionLineDefaultTabId', () => {
     [
-      ['singleAllocation', businessEventTypes.spendMoney, tabIds.allocate],
-      ['splitAllocation', businessEventTypes.spendMoney, tabIds.allocate],
-      ['payment', businessEventTypes.billPayment, tabIds.payment],
-      ['matched', '', tabIds.match],
-      ['unmatched', '', tabIds.allocate],
+      ['singleAllocation', [{ sourceJournal: businessEventTypes.spendMoney }], tabIds.allocate],
+      ['splitAllocation', [{ sourceJournal: businessEventTypes.spendMoney }], tabIds.allocate],
+      ['matched', [], tabIds.match],
+      ['unmatched', [], tabIds.allocate],
+      ['splitMatched', [], tabIds.match],
+      ['paymentRuleMatched', [], tabIds.match],
     ].forEach((args) => {
-      const [type, sourceJournal, expected] = args;
+      const [type, journals, expected] = args;
 
-      it(`should return ${expected} when sourceJournal is ${sourceJournal} and type is ${type}`, () => {
-        const tabId = getOpenEntryDefaultTabId({ type, sourceJournal });
+      it(`should return ${expected} when sourceJournal is ${journals[0]?.sourceJournal} and type is ${type}`, () => {
+        const tabId = getOpenEntryDefaultTabId({ type, journals });
 
         expect(tabId).toEqual(expected);
       });
@@ -207,7 +209,6 @@ describe('bankingSelector', () => {
     it.each([
       ['allocate', true],
       ['match', true],
-      ['payment', true],
       ['transfer', false],
     ])('should decide whether to show create banking rule button', (tabId, expected) => {
       const state = {
@@ -223,7 +224,7 @@ describe('bankingSelector', () => {
   });
 
   describe('getBalancesForApplyRule', () => {
-    fit('should update balances with all applied transaction lines', () => {
+    it('should update balances with all applied transaction lines', () => {
       const expected = { bankBalance: 1000, myobBalance: 1250, unallocated: 750 };
       const state = {
         entries: [

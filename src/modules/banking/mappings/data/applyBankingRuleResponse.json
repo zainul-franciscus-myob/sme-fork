@@ -2,9 +2,13 @@
   {
     "transactionId": "2",
     "allocateOrMatch": "Water",
-    "journalId": "8373",
-    "journalLineId": "1559",
-    "sourceJournal": "CashPayment",
+    "journals": [
+      {
+        "journalId": "8373",
+        "journalLineId": "1559",
+        "sourceJournal": "CashPayment"
+      }
+    ],
     "type": "singleAllocation",
     "taxCode": "GST",
     "isReportable": false,

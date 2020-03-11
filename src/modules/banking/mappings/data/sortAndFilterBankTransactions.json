@@ -15,9 +15,13 @@
       "description": "Bob the builder",
       "withdrawal": 3300.00,
       "allocateOrMatch": "Internet",
-      "journalId": "456",
-      "journalLineId": "123",
-      "sourceJournal": "CashPayment",
+      "journals": [
+        {
+          "journalId": "456",
+          "journalLineId": "123",
+          "sourceJournal": "CashPayment"
+        }
+      ],
       "taxCode": "GST",
       "note": "",
       "isReportable": true,
@@ -30,9 +34,13 @@
       "description": "Join the crew",
       "withdrawal": 295.00,
       "allocateOrMatch": "Transfered from Rental income",
-      "journalId": "789",
-      "journalLineId": "124",
-      "sourceJournal": "TransferMoney",
+      "journals": [
+        {
+          "journalId": "789",
+          "journalLineId": "124",
+          "sourceJournal": "TransferMoney"
+        }
+      ],
       "taxCode": "FRE",
       "note": "Lofty and wendy",
       "isReportable": true,
@@ -45,9 +53,13 @@
       "description": "Bob the gang have soo much fun",
       "deposit": 1300.00,
       "allocateOrMatch": "Matched to General Journal 573498874",
-      "journalId": "101",
-      "journalLineId": "125",
-      "sourceJournal": "GeneralJournal",
+      "journals": [
+        {
+          "journalId": "101",
+          "journalLineId": "125",
+          "sourceJournal": "GeneralJournal"
+        }
+      ],
       "taxCode": "LOL",
       "note": "the second notable thing",
       "isReportable": false,
@@ -60,9 +72,13 @@
       "description": "Bob rules",
       "deposit": 1300.00,
       "allocateOrMatch": "Spit across account",
-      "journalId": "101",
-      "journalLineId": "126",
-      "sourceJournal": "CashReceipt",
+      "journals": [
+        {
+          "journalId": "101",
+          "journalLineId": "126",
+          "sourceJournal": "CashReceipt"
+        }
+      ],
       "taxCode": "FRE",
       "note": "",
       "isReportable": false,
@@ -75,9 +91,13 @@
       "description": "Bill payment",
       "withdrawal": 1300.00,
       "allocateOrMatch": "Matched to Supplier Payment ABC00012",
-      "journalId": "105",
-      "journalLineId": "128",
-      "sourceJournal": "PayBill",
+      "journals": [
+        {
+          "journalId": "105",
+          "journalLineId": "128",
+          "sourceJournal": "PayBill"
+        }
+      ],
       "taxCode": "",
       "note": "",
       "isReportable": false,
@@ -90,9 +110,13 @@
       "description": "Receive payment",
       "deposit": 1300.00,
       "allocateOrMatch": "Matched to Customer Payment ABC00012",
-      "journalId": "323",
-      "journalLineId": "324",
-      "sourceJournal": "ReceivePayment",
+      "journals": [
+        {
+          "journalId": "323",
+          "journalLineId": "324",
+          "sourceJournal": "ReceivePayment"
+        }
+      ],
       "taxCode": "",
       "note": "",
       "isReportable": false,
