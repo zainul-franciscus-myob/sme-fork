@@ -41,6 +41,7 @@ describe('GeneralJournalDetailModule_QuickAddModal', () => {
       expect(integration.getRequests()).toEqual([
         {
           intent: LOAD_ACCOUNT_AFTER_CREATE,
+          urlParams: { businessId: 'a💩', accountId: '123' },
         },
       ]);
 
