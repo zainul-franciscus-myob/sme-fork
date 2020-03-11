@@ -35,7 +35,9 @@ const EmployeeAllocationView = ({
           <Table.Row key={id}>
             <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
             <Table.RowItem {...tableConfig.actions} cellRole="actions">
-              <Tooltip triggerContent={(
+              <Tooltip
+                placement="left"
+                triggerContent={(
                 <Button type="secondary" size="xs" onClick={() => onRemoveEmployee(id)}>
                   <Icons.Remove />
                 </Button>

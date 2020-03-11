@@ -1,4 +1,6 @@
-import { Button, Icons, Table } from '@myob/myob-widgets';
+import {
+  Button, Icons, Table, Tooltip,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -33,9 +35,16 @@ const ExemptionsTable = ({
       <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
       <Table.RowItem {...tableConfig.type}>{mappedType}</Table.RowItem>
       <Table.RowItem {...tableConfig.actions} cellRole="actions">
-        <Button type="secondary" size="xs" onClick={onButtonClick(onRemoveExemptionPayItem, id)}>
-          <Icons.Remove />
-        </Button>
+        <Tooltip
+          placement="left"
+          triggerContent={(
+          <Button type="secondary" size="xs" onClick={onButtonClick(onRemoveExemptionPayItem, id)}>
+            <Icons.Remove />
+          </Button>
+          )}
+        >
+          Remove exemption
+        </Tooltip>
       </Table.RowItem>
     </Table.Row>
   ));

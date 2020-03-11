@@ -41,7 +41,9 @@ const ExemptionsView = ({
             <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
             <Table.RowItem {...tableConfig.type}>{itemType}</Table.RowItem>
             <Table.RowItem {...tableConfig.actions} cellRole="actions">
-              <Tooltip triggerContent={(
+              <Tooltip
+                placement="left"
+                triggerContent={(
                 <Button type="secondary" size="xs" onClick={() => onRemoveExemption(id)}>
                   <Icons.Remove />
                 </Button>

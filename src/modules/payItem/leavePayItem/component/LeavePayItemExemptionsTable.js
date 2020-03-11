@@ -25,7 +25,9 @@ const LeavePayItemExemptionsTable = ({
       <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
       <Table.RowItem {...tableConfig.type}>{type}</Table.RowItem>
       <Table.RowItem cellRole="actions" {...tableConfig.actions}>
-        <Tooltip triggerContent={(
+        <Tooltip
+          placement="left"
+          triggerContent={(
           <Button type="secondary" size="xs" onClick={onButtonClick(onRemoveExemption, id)}>
             <Icons.Remove />
           </Button>

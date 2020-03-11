@@ -1,4 +1,6 @@
-import { Button, Icons, Table } from '@myob/myob-widgets';
+import {
+  Button, Icons, Table, Tooltip,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -28,9 +30,14 @@ const AllocatedEmployeesTable = ({
     <Table.Row key={id}>
       <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
       <Table.RowItem {...tableConfig.actions} cellRole="actions">
-        <Button type="secondary" size="xs" onClick={onButtonClick(onRemoveAllocatedEmployee, id)}>
-          <Icons.Remove />
-        </Button>
+        <Tooltip
+          placement="left"
+          triggerContent={(
+          <Button type="secondary" size="xs" onClick={onButtonClick(onRemoveAllocatedEmployee, id)}>
+            <Icons.Remove />
+          </Button>
+        )}
+        >Remove employee</Tooltip>
       </Table.RowItem>
     </Table.Row>
   ));
