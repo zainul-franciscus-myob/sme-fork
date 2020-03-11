@@ -1,13 +1,15 @@
 import {
   CREATE_GENERAL_JOURNAL,
   DELETE_GENERAL_JOURNAL,
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_GENERAL_JOURNAL_DETAIL,
   LOAD_NEW_GENERAL_JOURNAL,
   UPDATE_GENERAL_JOURNAL,
 } from '../GeneralJournalIntents';
+import createdAccountResponse from './data/createdAccount';
 import generalJournalDetail from './data/generalJournalDetailEntry';
 import generalJournalDetailNew from './data/generalJournalDetailNewEntry';
-import successResponse from './data/success.json';
+import successResponse from './data/success';
 
 const readGeneralJournalDetail = ({ onSuccess }) => onSuccess(generalJournalDetail);
 
@@ -17,12 +19,15 @@ const deleteGeneralJournalDetail = ({ onSuccess }) => onSuccess(successResponse)
 
 const saveGeneralJournalDetail = ({ onSuccess }) => onSuccess(successResponse);
 
+const loadCreatedAccount = ({ onSuccess }) => onSuccess(createdAccountResponse);
+
 const MemoryGeneralJournalMapping = {
   [LOAD_GENERAL_JOURNAL_DETAIL]: readGeneralJournalDetail,
   [LOAD_NEW_GENERAL_JOURNAL]: newGeneralJournalDetail,
   [DELETE_GENERAL_JOURNAL]: deleteGeneralJournalDetail,
   [CREATE_GENERAL_JOURNAL]: saveGeneralJournalDetail,
   [UPDATE_GENERAL_JOURNAL]: saveGeneralJournalDetail,
+  [LOAD_ACCOUNT_AFTER_CREATE]: loadCreatedAccount,
 };
 
 export default MemoryGeneralJournalMapping;

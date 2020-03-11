@@ -3,10 +3,12 @@ import {
   CLOSE_MODAL,
   DELETE_GENERAL_JOURNAL_LINE,
   GET_TAX_CALCULATIONS,
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_GENERAL_JOURNAL_DETAIL,
   LOAD_NEW_GENERAL_JOURNAL,
   OPEN_MODAL,
-  SET_ALERT_MESSAGE,
+  SET_ALERT,
+  SET_CREATED_ACCOUNT_LOADING_STATE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_GENERAL_JOURNAL_HEADER,
@@ -52,9 +54,10 @@ const getDefaultState = () => ({
   },
   modal: undefined,
   pageTitle: '',
-  alertMessage: '',
+  alert: undefined,
   loadingState: LoadingState.LOADING,
   isSubmitting: false,
+  isCreatedAccountLoading: false,
   isPageEdited: false,
   businessId: '',
   region: '',
@@ -69,7 +72,7 @@ const resetState = () => (getDefaultState());
 const isAccountLineItem = lineKey => lineKey === 'accountId';
 
 const isUpdatingAccountItemInFirstLine = (lineIndex, lineKey) => lineIndex === 0
-      && isAccountLineItem(lineKey);
+  && isAccountLineItem(lineKey);
 
 const getReportingMethodFromSelectAccount = (accounts, selectAccountId) => accounts
   .find(account => account.id === selectAccountId).reportingMethod;
@@ -210,9 +213,14 @@ const setSubmittingState = (state, action) => ({
   isSubmitting: action.isSubmitting,
 });
 
-const setAlertMessage = (state, action) => ({
+const setCreatedAccountLoadingState = (state, action) => ({
   ...state,
-  alertMessage: action.alertMessage,
+  isCreatedAccountLoading: action.isCreatedAccountLoading,
+});
+
+const setAlert = (state, action) => ({
+  ...state,
+  alert: action.alert,
 });
 
 const openModal = (state, action) => ({
@@ -238,7 +246,7 @@ const getTaxCalculations = (state, { taxCalculations: { lines, totals } }) => ({
           ...line,
           creditAmount: amount.valueOf(),
           displayCreditAmount:
-              line.creditAmount && formatAmount(amount.valueOf()),
+            line.creditAmount && formatAmount(amount.valueOf()),
         };
       }
 
@@ -247,7 +255,7 @@ const getTaxCalculations = (state, { taxCalculations: { lines, totals } }) => ({
           ...line,
           debitAmount: amount.valueOf(),
           displayDebitAmount:
-              line.debitAmount && formatAmount(amount.valueOf()),
+            line.debitAmount && formatAmount(amount.valueOf()),
         };
       }
       return { ...line };
@@ -269,6 +277,15 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
+const loadAccountAfterCreate = (state, { intent, ...account }) => ({
+  ...state,
+  accountOptions: [
+    account,
+    ...state.accountOptions,
+  ],
+  isPageEdited: true,
+});
+
 const handlers = {
   [LOAD_GENERAL_JOURNAL_DETAIL]: loadGeneralJournalDetail,
   [LOAD_NEW_GENERAL_JOURNAL]: loadNewGeneralJournal,
@@ -279,11 +296,13 @@ const handlers = {
   [DELETE_GENERAL_JOURNAL_LINE]: deleteLine,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_SUBMITTING_STATE]: setSubmittingState,
-  [SET_ALERT_MESSAGE]: setAlertMessage,
+  [SET_CREATED_ACCOUNT_LOADING_STATE]: setCreatedAccountLoadingState,
+  [SET_ALERT]: setAlert,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
+  [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
 };
 const generalJournalReducer = createReducer(getDefaultState(), handlers);
 

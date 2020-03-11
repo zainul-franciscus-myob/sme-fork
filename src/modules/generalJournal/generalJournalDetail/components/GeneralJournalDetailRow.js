@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getAccountOptions,
+  getIsTableDisabled,
   getLineDataByIndexSelector,
   getNewLineData,
   getTaxCodeOptions,
@@ -32,13 +33,15 @@ const onComboboxChange = (name, onChange) => (item) => {
 
 const GeneralJournalDetailRow = ({
   index,
-  onRowInputBlur,
-  onChange,
   isNewLineRow,
+  isTableDisabled,
   lineData,
   newLineData,
   taxCodeOptions,
   accountOptions,
+  onRowInputBlur,
+  onChange,
+  onCreateAccountButtonClick,
   ...feelixInjectedProps
 }) => {
   const data = isNewLineRow ? newLineData : lineData;
@@ -64,13 +67,15 @@ const GeneralJournalDetailRow = ({
         label="Accounts"
         items={accountOptions}
         selectedId={accountId}
+        addNewAccount={() => onCreateAccountButtonClick(onComboboxChange('accountId', onChange))}
         onChange={onComboboxChange('accountId', onChange)}
+        disabled={isTableDisabled}
       />
       <AmountInput
         label="Debit amount"
         name="debitAmount"
         value={displayDebitAmount}
-        disabled={isDebitDisabled}
+        disabled={isDebitDisabled || isTableDisabled}
         onChange={onAmountInputChange('debitAmount', onChange)}
         onBlur={onRowInputBlur}
       />
@@ -78,7 +83,7 @@ const GeneralJournalDetailRow = ({
         label="Credit amount"
         name="creditAmount"
         value={displayCreditAmount}
-        disabled={isCreditDisabled}
+        disabled={isCreditDisabled || isTableDisabled}
         onChange={onAmountInputChange('creditAmount', onChange)}
         onBlur={onRowInputBlur}
       />
@@ -91,6 +96,7 @@ const GeneralJournalDetailRow = ({
         numeralDecimalScaleMin={0}
         numeralDecimalScaleMax={6}
         numeralIntegerScale={13}
+        disabled={isTableDisabled}
       />
       <TextArea
         rows={1}
@@ -100,12 +106,14 @@ const GeneralJournalDetailRow = ({
         name="description"
         value={description}
         onChange={onChange}
+        disabled={isTableDisabled}
       />
       <TaxCodeCombobox
         label="Tax codes"
         items={taxCodeOptions}
         selectedId={taxCodeId}
         onChange={onComboboxChange('taxCodeId', onChange)}
+        disabled={isTableDisabled}
       />
     </LineItemTable.Row>);
 };
@@ -117,6 +125,7 @@ const makeMapRowStateToProps = () => {
     newLineData: getNewLineData(state),
     taxCodeOptions: getTaxCodeOptions(state),
     accountOptions: getAccountOptions(state),
+    isTableDisabled: getIsTableDisabled(state),
   });
 };
 

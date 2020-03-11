@@ -26,7 +26,7 @@ export const getHeaderOptions = createStructuredSelector({
   gstReportingMethod: getGSTReportingMethod,
 });
 
-export const getAlertMessage = state => state.alertMessage;
+export const getAlert = state => state.alert;
 export const getLoadingState = state => state.loadingState;
 
 const formatNumber = num => num.toFixed(2);
@@ -134,7 +134,8 @@ const getGeneralJournalForCreatePayload = (state) => {
   };
 };
 
-export const getIsActionsDisabled = state => state.isSubmitting;
+export const getIsActionsDisabled = state => state.isSubmitting || state.isCreatedAccountLoading;
+export const getIsTableDisabled = state => state.isCreatedAccountLoading;
 export const isPageEdited = state => state.isPageEdited;
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
@@ -206,6 +207,13 @@ export const getIsLineAmountsTaxInclusive = (state, isSwitchingTaxInclusive) => 
   );
 };
 
+export const getAccountModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region };
+};
+
 export const getSaveGeneralJournalRequest = createSelector(
   getBusinessId,
   getGeneralJournalId,
@@ -247,3 +255,8 @@ export const getLoadGeneralJournalRequest = createSelector(
     };
   },
 );
+
+export const getLoadAccountAfterCreateUrlParams = (state, accountId) => {
+  const businessId = getBusinessId(state);
+  return { businessId, accountId };
+};

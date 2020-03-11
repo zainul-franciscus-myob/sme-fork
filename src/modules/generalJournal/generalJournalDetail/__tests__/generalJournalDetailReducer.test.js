@@ -1,6 +1,6 @@
 import Decimal from 'decimal.js';
 
-import { GET_TAX_CALCULATIONS } from '../../GeneralJournalIntents';
+import { GET_TAX_CALCULATIONS, LOAD_ACCOUNT_AFTER_CREATE } from '../../GeneralJournalIntents';
 import generalJournalReducer from '../generalJournalDetailReducer';
 
 describe('generalJournalDetailReducer', () => {
@@ -156,6 +156,51 @@ describe('generalJournalDetailReducer', () => {
       const actual = generalJournalReducer(state, action);
 
       expect(actual.totals.totalTax).toEqual('-$5.00');
+    });
+  });
+
+  describe('loadAccountAfterCreate', () => {
+    it('adds newly created account into the accounts list', () => {
+      const state = {
+        accountOptions: [
+          {
+            id: '1',
+          },
+        ],
+      };
+
+      const createdAccount = {
+        id: '123',
+        displayName: 'My quick account',
+        accountType: 'Asset',
+        taxCodeId: '123',
+        displayId: '1-9944',
+      };
+
+      const action = {
+        intent: LOAD_ACCOUNT_AFTER_CREATE,
+        ...createdAccount,
+      };
+
+      const actual = generalJournalReducer(state, action);
+
+      const expected = {
+        accountOptions: [
+          {
+            id: '123',
+            displayName: 'My quick account',
+            accountType: 'Asset',
+            taxCodeId: '123',
+            displayId: '1-9944',
+          },
+          {
+            id: '1',
+          },
+        ],
+        isPageEdited: true,
+      };
+
+      expect(actual).toEqual(expected);
     });
   });
 });

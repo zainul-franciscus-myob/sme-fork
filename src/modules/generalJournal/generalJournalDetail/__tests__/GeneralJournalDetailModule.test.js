@@ -4,7 +4,7 @@ import {
   LOAD_GENERAL_JOURNAL_DETAIL,
   LOAD_NEW_GENERAL_JOURNAL,
   OPEN_MODAL,
-  SET_ALERT_MESSAGE,
+  SET_ALERT,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_GENERAL_JOURNAL_HEADER,
@@ -22,7 +22,7 @@ import createGeneralJournalIntegrator from '../createGeneralJournalIntegrator';
 import generalJournalDetailReducer from '../generalJournalDetailReducer';
 
 export const setup = () => {
-  const setRootView = () => {};
+  const setRootView = () => { };
   const pushMessage = jest.fn();
   const integration = new TestIntegration();
 
@@ -255,6 +255,19 @@ describe('GeneralJournalDetailModule', () => {
 
       expect(store.getActions()).toEqual([]);
     });
+
+    it('when account modal is open does not save general journal but saves account', () => {
+      const { module, integration } = setupWithExisting();
+      const onChange = () => { };
+      module.openAccountModal(onChange);
+      module.accountModalModule.save = jest.fn();
+      integration.resetRequests();
+
+      module.saveHandler();
+
+      expect(integration.getRequests()).toEqual([]);
+      expect(module.accountModalModule.save).toHaveBeenCalled();
+    });
   });
 
   describe('saveGeneralJournal', () => {
@@ -295,8 +308,11 @@ describe('GeneralJournalDetailModule', () => {
           isSubmitting: false,
         },
         {
-          alertMessage: 'hello',
-          intent: SET_ALERT_MESSAGE,
+          intent: SET_ALERT,
+          alert: {
+            message: 'hello',
+            type: 'danger',
+          },
         },
       ]);
     });

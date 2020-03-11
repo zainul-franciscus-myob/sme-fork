@@ -1,5 +1,5 @@
 import {
-  CREATE_GENERAL_JOURNAL, SET_ALERT_MESSAGE, SET_SUBMITTING_STATE, UPDATE_GENERAL_JOURNAL,
+  CREATE_GENERAL_JOURNAL, SET_ALERT, SET_SUBMITTING_STATE, UPDATE_GENERAL_JOURNAL,
 } from '../../GeneralJournalIntents';
 import { setupWithExisting, setupWithNew } from './GeneralJournalDetailModule.test';
 
@@ -17,7 +17,7 @@ describe('GeneralJournalDetailModule', () => {
     },
     {
       name: 'save',
-      setup: () => {},
+      setup: () => { },
       do: (module) => {
         module.saveGeneralJournal();
       },
@@ -67,8 +67,11 @@ describe('GeneralJournalDetailModule', () => {
             isSubmitting: false,
           },
           {
-            intent: SET_ALERT_MESSAGE,
-            alertMessage: 'fails',
+            intent: SET_ALERT,
+            alert: {
+              message: 'fails',
+              type: 'danger',
+            },
           },
         ]);
 
@@ -120,8 +123,11 @@ describe('GeneralJournalDetailModule', () => {
             isSubmitting: false,
           },
           {
-            intent: SET_ALERT_MESSAGE,
-            alertMessage: 'fails',
+            intent: SET_ALERT,
+            alert: {
+              message: 'fails',
+              type: 'danger',
+            },
           },
         ]);
 

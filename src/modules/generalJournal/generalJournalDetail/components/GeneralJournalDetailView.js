@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getLoadingState, getModal, getPageTitle,
+  getAlert, getLoadingState, getModal, getPageTitle,
 } from '../generalJournalDetailSelectors';
 import GeneralJournalDetailActions from './GeneralJournalDetailActions';
 import GeneralJournalDetailModal from './GeneralJournalDetailModal';
@@ -15,6 +15,12 @@ import LineItemTemplate from '../../../../components/Feelix/LineItemTemplate/Lin
 import PageView from '../../../../components/PageView/PageView';
 
 const GeneralJournalDetailView = ({
+  alert,
+  loadingState,
+  pageTitle,
+  modal,
+  accountModal,
+  onDismissAlert,
   onUpdateHeaderOptions,
   onSaveButtonClick,
   onCancelButtonClick,
@@ -22,15 +28,11 @@ const GeneralJournalDetailView = ({
   onDismissModal,
   onConfirmCancelButtonClick,
   onConfirmDeleteButtonClick,
-  alertMessage,
-  onDismissAlert,
-  loadingState,
-  pageTitle,
-  modal,
   onUpdateRow,
   onAddRow,
   onRemoveRow,
   onRowInputBlur,
+  onCreateAccountButtonClick,
 }) => {
   const templateOptions = (
     <GeneralJournalDetailOptions onUpdateHeaderOptions={onUpdateHeaderOptions} />
@@ -44,9 +46,9 @@ const GeneralJournalDetailView = ({
     />
   );
 
-  const alertComponent = alertMessage && (
-    <Alert type="danger" onDismiss={onDismissAlert}>
-      {alertMessage}
+  const alertComponent = alert && (
+    <Alert type={alert.type} onDismiss={onDismissAlert}>
+      {alert.message}
     </Alert>
   );
 
@@ -57,6 +59,7 @@ const GeneralJournalDetailView = ({
       actions={actions}
       alert={alertComponent}
     >
+      {accountModal}
       {
         modal && (
           <GeneralJournalDetailModal
@@ -73,6 +76,7 @@ const GeneralJournalDetailView = ({
         onAddRow={onAddRow}
         onRemoveRow={onRemoveRow}
         onRowInputBlur={onRowInputBlur}
+        onCreateAccountButtonClick={onCreateAccountButtonClick}
       />
     </LineItemTemplate>
   );
@@ -81,7 +85,7 @@ const GeneralJournalDetailView = ({
 };
 
 const mapStateToProps = state => ({
-  alertMessage: getAlertMessage(state),
+  alert: getAlert(state),
   modal: getModal(state),
   loadingState: getLoadingState(state),
   pageTitle: getPageTitle(state),

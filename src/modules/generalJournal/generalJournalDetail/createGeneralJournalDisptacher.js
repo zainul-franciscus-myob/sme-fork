@@ -3,10 +3,12 @@ import {
   CLOSE_MODAL,
   DELETE_GENERAL_JOURNAL_LINE,
   GET_TAX_CALCULATIONS,
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_GENERAL_JOURNAL_DETAIL,
   LOAD_NEW_GENERAL_JOURNAL,
   OPEN_MODAL,
-  SET_ALERT_MESSAGE,
+  SET_ALERT,
+  SET_CREATED_ACCOUNT_LOADING_STATE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_GENERAL_JOURNAL_HEADER,
@@ -39,16 +41,22 @@ const createGeneralJournalDispatcher = store => ({
       isSubmitting,
     });
   },
-  setAlertMessage: (alertMessage) => {
+  setCreatedAccountLoadingState: (isCreatedAccountLoading) => {
     store.dispatch({
-      intent: SET_ALERT_MESSAGE,
-      alertMessage,
+      intent: SET_CREATED_ACCOUNT_LOADING_STATE,
+      isCreatedAccountLoading,
+    });
+  },
+  setAlert: (alert) => {
+    store.dispatch({
+      intent: SET_ALERT,
+      alert,
     });
   },
   dismissAlert: () => {
     store.dispatch({
-      intent: SET_ALERT_MESSAGE,
-      alertMessage: '',
+      intent: SET_ALERT,
+      alert: undefined,
     });
   },
   openModal: ({ type, url }) => {
@@ -113,6 +121,12 @@ const createGeneralJournalDispatcher = store => ({
       pageTitle,
       taxCodeOptions,
       accountOptions,
+    });
+  },
+  loadAccountAfterCreate: (payload) => {
+    store.dispatch({
+      intent: LOAD_ACCOUNT_AFTER_CREATE,
+      ...payload,
     });
   },
 });

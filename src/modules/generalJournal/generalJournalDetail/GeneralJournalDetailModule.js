@@ -4,6 +4,7 @@ import React from 'react';
 import { SUCCESSFULLY_DELETED_GENERAL_JOURNAL, SUCCESSFULLY_SAVED_GENERAL_JOURNAL } from '../GeneralJournalMessageTypes';
 import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalculator';
 import {
+  getAccountModalContext,
   getIsActionsDisabled,
   getIsLineAmountsTaxInclusive,
   getIsSale,
@@ -16,6 +17,7 @@ import {
   getTransactionListUrl,
   isPageEdited,
 } from './generalJournalDetailSelectors';
+import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import GeneralJournalDetailView from './components/GeneralJournalDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
@@ -37,6 +39,9 @@ export default class GeneralJournalDetailModule {
     this.salesTaxCalculate = createTaxCalculator(TaxCalculatorTypes.generalJournalSales);
     this.dispatcher = createGeneralJournalDispatcher(this.store);
     this.integrator = createGeneralJournalIntegrator(this.store, integration);
+    this.accountModalModule = new AccountModalModule({
+      integration,
+    });
   }
 
   loadGeneralJournal = () => {
@@ -80,7 +85,10 @@ export default class GeneralJournalDetailModule {
 
     const onFailure = (error) => {
       this.dispatcher.setSubmittingState(false);
-      this.dispatcher.setAlertMessage(error.message);
+      this.dispatcher.setAlert({
+        message: error.message,
+        type: 'danger',
+      });
     };
 
     this.integrator.deleteGeneralJournal({
@@ -108,7 +116,10 @@ export default class GeneralJournalDetailModule {
 
     const onFailure = (error) => {
       this.dispatcher.setSubmittingState(false);
-      this.dispatcher.setAlertMessage(error.message);
+      this.dispatcher.setAlert({
+        message: error.message,
+        type: 'danger',
+      });
     };
 
     this.integrator.saveGeneralJournalDetail({ onSuccess, onFailure });
@@ -193,11 +204,40 @@ export default class GeneralJournalDetailModule {
     });
   }
 
+  openAccountModal = (onChange) => {
+    const state = this.store.getState();
+    const accountModalContext = getAccountModalContext(state);
+    this.accountModalModule.run({
+      context: accountModalContext,
+      onSaveSuccess: payload => this.loadAccountAfterCreate(payload, onChange),
+      onLoadFailure: message => this.dispatcher.setAlert({ message, type: 'danger' }),
+    });
+  };
+
+  loadAccountAfterCreate = ({ message, id }, onChange) => {
+    this.dispatcher.setAlert({ message, type: 'success' });
+    this.dispatcher.setCreatedAccountLoadingState(true);
+    this.accountModalModule.close();
+
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setCreatedAccountLoadingState(false);
+      this.dispatcher.loadAccountAfterCreate(payload);
+      onChange(payload);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setCreatedAccountLoadingState(false);
+    };
+
+    this.integrator.loadAccountAfterCreate({ id, onSuccess, onFailure });
+  };
+
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
   };
 
-  redirectToTransactionList= () => {
+  redirectToTransactionList = () => {
     const state = this.store.getState();
     const transactionListUrl = getTransactionListUrl(state);
     this.redirectToUrl(transactionListUrl);
@@ -214,8 +254,11 @@ export default class GeneralJournalDetailModule {
   }
 
   render = () => {
+    const accountModal = this.accountModalModule.render();
+
     const generalJournalView = (
       <GeneralJournalDetailView
+        accountModal={accountModal}
         onUpdateHeaderOptions={this.updateHeaderOptions}
         onSaveButtonClick={this.saveGeneralJournal}
         onCancelButtonClick={this.openCancelModal}
@@ -228,6 +271,7 @@ export default class GeneralJournalDetailModule {
         onAddRow={this.addGeneralJournalLine}
         onRemoveRow={this.deleteGeneralJournalLine}
         onRowInputBlur={this.formatAndCalculateTotals}
+        onCreateAccountButtonClick={this.openAccountModal}
       />
     );
 
@@ -241,6 +285,12 @@ export default class GeneralJournalDetailModule {
   };
 
   saveHandler = () => {
+    // Quick add modal
+    if (this.accountModalModule.isOpened()) {
+      this.accountModalModule.save();
+      return;
+    }
+
     const state = this.store.getState();
     const modalType = getOpenedModalType(state);
     switch (modalType) {
@@ -255,21 +305,22 @@ export default class GeneralJournalDetailModule {
     }
   }
 
- handlers = {
-   SAVE_ACTION: this.saveHandler,
- };
+  handlers = {
+    SAVE_ACTION: this.saveHandler,
+  };
 
- run(context) {
-   this.dispatcher.setInitialState(context);
-   setupHotKeys(keyMap, this.handlers);
-   this.render();
-   this.dispatcher.setLoadingState(LoadingState.LOADING);
-   this.loadGeneralJournal();
- }
+  run(context) {
+    this.dispatcher.setInitialState(context);
+    setupHotKeys(keyMap, this.handlers);
+    this.render();
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+    this.loadGeneralJournal();
+  }
 
- resetState() {
-   this.dispatcher.resetState();
- }
+  resetState() {
+    this.dispatcher.resetState();
+    this.accountModalModule.resetState();
+  }
 
   handlePageTransition = (url) => {
     const state = this.store.getState();

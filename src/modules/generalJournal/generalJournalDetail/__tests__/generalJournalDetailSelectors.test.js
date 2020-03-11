@@ -5,6 +5,7 @@ import {
   UPDATE_GENERAL_JOURNAL,
 } from '../../GeneralJournalIntents';
 import {
+  getIsActionsDisabled,
   getIsOutOfBalanced,
   getLoadGeneralJournalRequest,
   getSaveGeneralJournalRequest,
@@ -125,6 +126,38 @@ describe('generalJournalSelectors', () => {
       };
 
       const actual = getIsOutOfBalanced(outOfBalanceState);
+      expect(actual).toBe(false);
+    });
+  });
+
+  describe('getIsActionsDisabled', () => {
+    it('returns true when isSubmitting ', () => {
+      const state = {
+        isSubmitting: true,
+        isCreatedAccountLoading: false,
+      };
+
+      const actual = getIsActionsDisabled(state);
+      expect(actual).toBe(true);
+    });
+
+    it('returns true when newly created account is loading', () => {
+      const state = {
+        isSubmitting: false,
+        isCreatedAccountLoading: true,
+      };
+
+      const actual = getIsActionsDisabled(state);
+      expect(actual).toBe(true);
+    });
+
+    it('returns false if NOT isSubmitting AND newly created account is NOT loading', () => {
+      const state = {
+        isSubmitting: false,
+        isCreatedAccountLoading: false,
+      };
+
+      const actual = getIsActionsDisabled(state);
       expect(actual).toBe(false);
     });
   });

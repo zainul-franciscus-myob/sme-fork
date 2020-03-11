@@ -16,13 +16,14 @@ const GeneralJournalDetailTable = ({
     totalOutOfBalance,
   },
   indexOfLastLine,
+  isOutOfBalance,
+  taxLabel,
+  taxCodeLabel,
   onAddRow,
   onUpdateRow,
   onRowInputBlur,
   onRemoveRow,
-  isOutOfBalance,
-  taxLabel,
-  taxCodeLabel,
+  onCreateAccountButtonClick,
 }) => {
   const renderRow = (index, _, onChange, labels) => {
     const isNewLineRow = indexOfLastLine < index;
@@ -32,9 +33,10 @@ const GeneralJournalDetailTable = ({
         index={index}
         key={index}
         labels={labels}
+        isNewLineRow={isNewLineRow}
         onChange={onChange}
         onRowInputBlur={onRowInputBlur}
-        isNewLineRow={isNewLineRow}
+        onCreateAccountButtonClick={onCreateAccountButtonClick}
       />
     );
   };
