@@ -75,6 +75,10 @@ const loadReceiveMoneyDetail = (state, action) => ({
     ...state.receiveMoney,
     ...action.receiveMoney,
     originalReferenceId: action.receiveMoney.referenceId,
+    lines: action.receiveMoney.lines.map(line => ({
+      ...line,
+      displayAmount: formatDisplayAmount(line.amount),
+    })),
   },
   newLine: { ...state.newLine, ...action.newLine },
   totals: action.totals,
