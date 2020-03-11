@@ -68,9 +68,9 @@ describe('BankingRuleListModule', () => {
         }),
       ]);
 
-      expect(integration.getRequests()).toEqual([{
-        intent: LOAD_BANKING_RULE_LIST,
-      }]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: LOAD_BANKING_RULE_LIST }),
+      ]);
     });
 
     it('fails to load', () => {
@@ -94,9 +94,9 @@ describe('BankingRuleListModule', () => {
         },
       ]);
 
-      expect(integration.getRequests()).toEqual([{
-        intent: LOAD_BANKING_RULE_LIST,
-      }]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: LOAD_BANKING_RULE_LIST }),
+      ]);
     });
 
     it('displays alert from inbox', () => {

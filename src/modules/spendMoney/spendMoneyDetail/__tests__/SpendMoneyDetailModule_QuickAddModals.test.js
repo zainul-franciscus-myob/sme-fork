@@ -41,6 +41,7 @@ describe('SpendMoneyDetailModule_QuickAddModals', () => {
       expect(integration.getRequests()).toEqual([
         {
           intent: LOAD_ACCOUNT_AFTER_CREATE,
+          urlParams: { businessId: 'bizId', accountId: '123' },
         },
       ]);
 
@@ -78,6 +79,7 @@ describe('SpendMoneyDetailModule_QuickAddModals', () => {
       expect(integration.getRequests()).toEqual([
         {
           intent: LOAD_ACCOUNT_AFTER_CREATE,
+          urlParams: { businessId: 'bizId', accountId: '123' },
         },
       ]);
     });
@@ -116,6 +118,7 @@ describe('SpendMoneyDetailModule_QuickAddModals', () => {
       expect(integration.getRequests()).toEqual([
         {
           intent: LOAD_CONTACT_AFTER_CREATE,
+          urlParams: { businessId: 'bizId', contactId: '123' },
         },
       ]);
     });
@@ -150,6 +153,7 @@ describe('SpendMoneyDetailModule_QuickAddModals', () => {
       expect(integration.getRequests()).toEqual([
         {
           intent: LOAD_CONTACT_AFTER_CREATE,
+          urlParams: { businessId: 'bizId', contactId: '123' },
         },
       ]);
     });

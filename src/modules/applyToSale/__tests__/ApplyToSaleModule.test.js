@@ -93,7 +93,9 @@ describe('ApplyToSaleModule', () => {
       const { store, module, integration } = setup();
       module.run({ applyToSaleId: '' });
 
-      expect(integration.requests).toEqual([{ intent: LOAD_NEW_APPLY_TO_SALE }]);
+      expect(integration.requests).toEqual([
+        expect.objectContaining({ intent: LOAD_NEW_APPLY_TO_SALE }),
+      ]);
       expect(store.getActions()).toEqual([
         {
           context: {
@@ -118,7 +120,9 @@ describe('ApplyToSaleModule', () => {
       integration.mapFailure(LOAD_NEW_APPLY_TO_SALE);
       module.run({ applyToSaleId: '' });
 
-      expect(integration.requests).toEqual([{ intent: LOAD_NEW_APPLY_TO_SALE }]);
+      expect(integration.requests).toEqual([
+        expect.objectContaining({ intent: LOAD_NEW_APPLY_TO_SALE }),
+      ]);
       expect(store.getActions()).toEqual([
         {
           context: {
@@ -145,7 +149,9 @@ describe('ApplyToSaleModule', () => {
       const { store, module, integration } = setup();
       module.run({ applyToSaleId: '1' });
 
-      expect(integration.requests).toEqual([{ intent: LOAD_APPLY_TO_SALE }]);
+      expect(integration.requests).toEqual([
+        expect.objectContaining({ intent: LOAD_APPLY_TO_SALE }),
+      ]);
       expect(store.getActions()).toEqual([
         {
           context: {
@@ -170,7 +176,9 @@ describe('ApplyToSaleModule', () => {
       integration.mapFailure(LOAD_APPLY_TO_SALE);
       module.run({ applyToSaleId: '1' });
 
-      expect(integration.requests).toEqual([{ intent: LOAD_APPLY_TO_SALE }]);
+      expect(integration.requests).toEqual([
+        expect.objectContaining({ intent: LOAD_APPLY_TO_SALE }),
+      ]);
       expect(store.getActions()).toEqual([
         {
           context: {

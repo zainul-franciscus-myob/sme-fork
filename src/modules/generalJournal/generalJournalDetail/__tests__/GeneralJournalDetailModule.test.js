@@ -84,7 +84,9 @@ describe('GeneralJournalDetailModule', () => {
       const { store, module, integration } = setup();
       module.run({ generalJournalId: 'new' });
 
-      expect(integration.requests).toEqual([{ intent: LOAD_NEW_GENERAL_JOURNAL }]);
+      expect(integration.requests).toEqual([
+        expect.objectContaining({ intent: LOAD_NEW_GENERAL_JOURNAL }),
+      ]);
       expect(store.getActions()).toEqual([
         {
           context: {
@@ -109,7 +111,9 @@ describe('GeneralJournalDetailModule', () => {
       integration.mapFailure(LOAD_NEW_GENERAL_JOURNAL);
       module.run({ generalJournalId: 'new' });
 
-      expect(integration.requests).toEqual([{ intent: LOAD_NEW_GENERAL_JOURNAL }]);
+      expect(integration.requests).toEqual([
+        expect.objectContaining({ intent: LOAD_NEW_GENERAL_JOURNAL }),
+      ]);
       expect(store.getActions()).toEqual([
         {
           context: {
@@ -132,7 +136,9 @@ describe('GeneralJournalDetailModule', () => {
       const { store, module, integration } = setup();
       module.run({ generalJournalId: '1' });
 
-      expect(integration.requests).toEqual([{ intent: LOAD_GENERAL_JOURNAL_DETAIL }]);
+      expect(integration.requests).toEqual([
+        expect.objectContaining({ intent: LOAD_GENERAL_JOURNAL_DETAIL }),
+      ]);
       expect(store.getActions()).toEqual([
         {
           context: {
@@ -157,7 +163,9 @@ describe('GeneralJournalDetailModule', () => {
       integration.mapFailure(LOAD_GENERAL_JOURNAL_DETAIL);
       module.run({ generalJournalId: '1' });
 
-      expect(integration.requests).toEqual([{ intent: LOAD_GENERAL_JOURNAL_DETAIL }]);
+      expect(integration.requests).toEqual([
+        expect.objectContaining({ intent: LOAD_GENERAL_JOURNAL_DETAIL }),
+      ]);
       expect(store.getActions()).toEqual([
         {
           context: {
@@ -271,7 +279,7 @@ describe('GeneralJournalDetailModule', () => {
       module.deleteGeneralJournal();
 
       expect(integration.getRequests()).toEqual([
-        { intent: DELETE_GENERAL_JOURNAL },
+        expect.objectContaining({ intent: DELETE_GENERAL_JOURNAL }),
       ]);
 
       expect(store.getActions()).toEqual([
@@ -303,7 +311,7 @@ describe('GeneralJournalDetailModule', () => {
       module.deleteGeneralJournal();
 
       expect(integration.getRequests()).toEqual([
-        { intent: DELETE_GENERAL_JOURNAL },
+        expect.objectContaining({ intent: DELETE_GENERAL_JOURNAL }),
       ]);
 
       expect(store.getActions()).toEqual([

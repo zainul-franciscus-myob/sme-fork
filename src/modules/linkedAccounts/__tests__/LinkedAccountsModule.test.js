@@ -63,9 +63,7 @@ describe('LinkedAccountsModule', () => {
         expect.objectContaining({ intent: LOAD_LINKED_ACCOUNTS }),
       ]);
       expect(integration.getRequests()).toEqual([
-        {
-          intent: LOAD_LINKED_ACCOUNTS,
-        },
+        expect.objectContaining({ intent: LOAD_LINKED_ACCOUNTS }),
       ]);
     });
 
@@ -91,9 +89,7 @@ describe('LinkedAccountsModule', () => {
         },
       ]);
       expect(integration.getRequests()).toEqual([
-        {
-          intent: LOAD_LINKED_ACCOUNTS,
-        },
+        expect.objectContaining({ intent: LOAD_LINKED_ACCOUNTS }),
       ]);
     });
   });
@@ -154,9 +150,7 @@ describe('LinkedAccountsModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
-          intent: SAVE_LINKED_ACCOUNTS,
-        },
+        expect.objectContaining({ intent: SAVE_LINKED_ACCOUNTS }),
       ]);
     });
 
@@ -196,9 +190,7 @@ describe('LinkedAccountsModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
-          intent: SAVE_LINKED_ACCOUNTS,
-        },
+        expect.objectContaining({ intent: SAVE_LINKED_ACCOUNTS }),
       ]);
     });
   });

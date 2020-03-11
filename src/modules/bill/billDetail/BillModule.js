@@ -33,6 +33,7 @@ import {
   getDuplicateBillUrl,
   getFinalRedirectUrl,
   getReadBillWithExportPdfModalUrl,
+  getSubscriptionSettingsUrl,
 } from './selectors/BillRedirectSelectors';
 import { getExportPdfFilename, getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
 import {
@@ -121,7 +122,6 @@ class BillModule {
 
   prefillBillFromInTray() {
     const onSuccess = (response) => {
-      this.dispatcher.stopLoading();
       this.dispatcher.setDocumentLoadingState(false);
       this.dispatcher.prefillDataFromInTray(response);
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
@@ -384,13 +384,8 @@ class BillModule {
 
     if (getIsLineTaxCodeIdKey(key) || getIsLineAccountIdKey(key)) {
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
-    } else if (getIsLineItemIdKey(key)) {
-      const hasLineBeenPrefilled = getHasLineBeenPrefilled(this.store.getState(), index);
-      if (hasLineBeenPrefilled) {
-        this.dispatcher.updateLineItemId({ index, value });
-      } else {
-        this.loadItemDetailForLine({ index, itemId: value });
-      }
+    } else if (getIsLineItemIdKey(key) && !getHasLineBeenPrefilled(this.store.getState(), index)) {
+      this.loadItemDetailForLine({ index, itemId: value });
     }
   }
 
@@ -532,7 +527,7 @@ class BillModule {
 
     this.contactModalModule.run({
       context,
-      onLoadFailure: message => this.dispatcher.setAlert({ type: 'danger', message }),
+      onLoadFailure: message => this.dispatcher.openDangerAlert({ message }),
       onSaveSuccess: this.loadSupplierAfterCreate,
     });
   };
@@ -660,6 +655,7 @@ class BillModule {
         };
 
         const onFailure = ({ message }) => {
+          this.dispatcher.setDocumentLoadingState(false);
           this.dispatcher.openDangerAlert({ message });
           this.dispatcher.unlinkInTrayDocument();
         };
@@ -713,6 +709,13 @@ class BillModule {
     }
   }
 
+  redirectToSubscriptionSettings = () => {
+    const state = this.store.getState();
+    const url = getSubscriptionSettingsUrl(state);
+
+    this.redirectToUrl(url);
+  }
+
   redirectToBillPayment = () => {
     const state = this.store.getState();
     const url = getBillPaymentUrl(state);
@@ -733,7 +736,6 @@ class BillModule {
         <BillView
           inventoryModal={inventoryModal}
           inTrayModal={inTrayModal}
-          onLoadItemOption={this.loadItemOption}
           accountModal={accountModal}
           onSaveButtonClick={this.saveBill}
           onSaveAndButtonClick={this.openSaveAndModal}

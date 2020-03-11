@@ -43,7 +43,7 @@ export const setupWithNew = () => {
   const toolbox = setup();
   const { store, integration, module } = toolbox;
 
-  module.run({ receiveMoneyId: 'new' });
+  module.run({ receiveMoneyId: 'new', businessId: 'bizId' });
   store.resetActions();
   integration.resetRequests();
 

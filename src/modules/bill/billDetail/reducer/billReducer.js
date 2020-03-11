@@ -40,7 +40,6 @@ import {
   UPDATE_BILL_OPTION,
   UPDATE_EXPORT_PDF_DETAIL,
   UPDATE_LAYOUT,
-  UPDATE_LINE_ITEM_ID,
 } from '../BillIntents';
 import {
   DEFAULT_UNITS, defaultLinePrefillStatus, defaultPrefillStatus, getDefaultState,
@@ -278,21 +277,6 @@ const updateBillLine = (state, action) => ({
       }
       return line;
     }),
-  },
-});
-
-const updateLineItemId = (state, action) => ({
-  ...state,
-  bill: {
-    ...state.bill,
-    lines: state.bill.lines.map(
-      (line, index) => (index === action.index
-        ? ({
-          ...line,
-          itemId: action.value,
-        })
-        : line),
-    ),
   },
 });
 
@@ -605,7 +589,6 @@ const handlers = {
   [STOP_MODAL_BLOCKING]: stopModalBlocking,
   [ADD_BILL_LINE]: addBillLine,
   [UPDATE_BILL_LINE]: updateBillLine,
-  [UPDATE_LINE_ITEM_ID]: updateLineItemId,
   [FORMAT_BILL_LINE]: formatBillLine,
   [CALCULATE_LINE_AMOUNTS]: calculateLineAmounts,
   [REMOVE_BILL_LINE]: removeBillLine,

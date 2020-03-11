@@ -42,7 +42,7 @@ export const setupWithNew = () => {
   const toolbox = setup();
   const { store, integration, module } = toolbox;
 
-  module.run({ spendMoneyId: 'new' });
+  module.run({ spendMoneyId: 'new', businessId: 'bizId' });
   store.resetActions();
   integration.resetRequests();
 

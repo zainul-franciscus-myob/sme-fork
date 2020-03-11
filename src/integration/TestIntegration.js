@@ -7,9 +7,9 @@ class TestIntegration {
   }
 
   read = ({
-    intent, params, onSuccess, onFailure,
+    intent, urlParams, params, onSuccess, onFailure,
   }) => {
-    this.requests.push({ intent, params });
+    this.requests.push({ intent, urlParams, params });
     this.mapping[intent]({ intent, onSuccess, onFailure });
   }
 
@@ -44,6 +44,13 @@ class TestIntegration {
 
   mapFailure = (intent, error = { message: 'fails' }) => {
     this.overrideMapping(intent, ({ onFailure }) => onFailure(error));
+  };
+
+  mapSuccess = (intent, response) => {
+    this.mapping = {
+      ...this.mapping,
+      [intent]: ({ onSuccess }) => onSuccess(response),
+    };
   };
 }
 
