@@ -396,7 +396,7 @@ describe('BillModule_Modal', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        { intent: CREATE_BILL },
+        expect.objectContaining({ intent: CREATE_BILL }),
       ]);
 
       expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
@@ -422,7 +422,7 @@ describe('BillModule_Modal', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        { intent: UPDATE_BILL },
+        expect.objectContaining({ intent: UPDATE_BILL }),
       ]);
 
       expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();

@@ -14,23 +14,23 @@ class TestIntegration {
   }
 
   readFile = ({
-    intent, params, onSuccess, onFailure,
+    intent, urlParams, params, onSuccess, onFailure,
   }) => {
-    this.requests.push({ intent, params });
+    this.requests.push({ intent, urlParams, params });
     this.mapping[intent]({ intent, onSuccess, onFailure });
   }
 
   write = ({
-    intent, params, onSuccess, onFailure,
+    intent, urlParams, params, onSuccess, onFailure,
   }) => {
-    this.requests.push({ intent, params });
+    this.requests.push({ intent, urlParams, params });
     this.mapping[intent]({ intent, onSuccess, onFailure });
   }
 
   writeFormData = ({
-    intent, params, onSuccess, onFailure,
+    intent, urlParams, params, onSuccess, onFailure,
   }) => {
-    this.requests.push({ intent, params });
+    this.requests.push({ intent, urlParams, params });
     this.mapping[intent]({ intent, onSuccess, onFailure });
   }
 

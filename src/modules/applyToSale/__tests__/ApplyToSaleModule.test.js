@@ -267,9 +267,9 @@ describe('ApplyToSaleModule', () => {
         },
       ]);
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: CREATE_APPLY_TO_SALE,
-        },
+        }),
       ]);
       expect(module.redirectToCustomerReturnList).toHaveBeenCalled();
     });
@@ -295,9 +295,9 @@ describe('ApplyToSaleModule', () => {
         },
       ]);
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: CREATE_APPLY_TO_SALE,
-        },
+        }),
       ]);
     });
   });
@@ -320,9 +320,9 @@ describe('ApplyToSaleModule', () => {
         },
       ]);
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: DELETE_APPLY_TO_SALE,
-        },
+        }),
       ]);
       expect(module.redirectToTransactionList).toHaveBeenCalled();
     });
@@ -352,9 +352,9 @@ describe('ApplyToSaleModule', () => {
         },
       ]);
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: DELETE_APPLY_TO_SALE,
-        },
+        }),
       ]);
     });
   });

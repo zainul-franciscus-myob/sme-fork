@@ -179,9 +179,9 @@ describe('DataImportExportModule', () => {
           },
         ]);
         expect(integration.getRequests()).toEqual([
-          {
+          expect.objectContaining({
             intent: test.intent,
-          },
+          }),
         ]);
       });
 
@@ -213,9 +213,9 @@ describe('DataImportExportModule', () => {
           },
         ]);
         expect(integration.getRequests()).toEqual([
-          {
+          expect.objectContaining({
             intent: test.intent,
-          },
+          }),
         ]);
       });
     });

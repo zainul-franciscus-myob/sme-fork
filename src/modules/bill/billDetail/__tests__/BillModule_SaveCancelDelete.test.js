@@ -33,9 +33,9 @@ describe('BillModule_Save', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: CREATE_BILL,
-        },
+        }),
       ]);
 
       expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
@@ -58,9 +58,9 @@ describe('BillModule_Save', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: CREATE_BILL,
-        },
+        }),
       ]);
     });
 
@@ -78,9 +78,9 @@ describe('BillModule_Save', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: UPDATE_BILL,
-        },
+        }),
       ]);
 
       expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
@@ -103,9 +103,9 @@ describe('BillModule_Save', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: UPDATE_BILL,
-        },
+        }),
       ]);
     });
 
@@ -126,9 +126,9 @@ describe('BillModule_Save', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: UPDATE_BILL,
-        },
+        }),
       ]);
     });
 
@@ -146,8 +146,8 @@ describe('BillModule_Save', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        { intent: CREATE_BILL },
-        { intent: LINK_IN_TRAY_DOCUMENT },
+        expect.objectContaining({ intent: CREATE_BILL }),
+        expect.objectContaining({ intent: LINK_IN_TRAY_DOCUMENT }),
       ]);
 
       expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
@@ -175,8 +175,8 @@ describe('BillModule_Save', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        { intent: CREATE_BILL },
-        { intent: LINK_IN_TRAY_DOCUMENT },
+        expect.objectContaining({ intent: CREATE_BILL }),
+        expect.objectContaining({ intent: LINK_IN_TRAY_DOCUMENT }),
       ]);
 
       expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
@@ -205,9 +205,9 @@ describe('BillModule_Save', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: CREATE_BILL,
-        },
+        }),
       ]);
 
       expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
@@ -231,9 +231,9 @@ describe('BillModule_Save', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: CREATE_BILL,
-        },
+        }),
       ]);
     });
   });
@@ -255,9 +255,9 @@ describe('BillModule_Save', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: CREATE_BILL,
-        },
+        }),
       ]);
 
       expect(module.pushMessage).toHaveBeenCalledWith(
@@ -281,9 +281,9 @@ describe('BillModule_Save', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: UPDATE_BILL,
-        },
+        }),
       ]);
 
       expect(module.pushMessage).toHaveBeenCalledWith(
@@ -307,9 +307,9 @@ describe('BillModule_Save', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: CREATE_BILL,
-        },
+        }),
       ]);
     });
   });

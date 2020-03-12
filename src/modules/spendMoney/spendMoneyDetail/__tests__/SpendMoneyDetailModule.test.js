@@ -358,9 +358,9 @@ describe('SpendMoneyDetailModule', () => {
       module.saveHandler();
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: UPDATE_SPEND_MONEY,
-        },
+        }),
       ]);
     });
   });

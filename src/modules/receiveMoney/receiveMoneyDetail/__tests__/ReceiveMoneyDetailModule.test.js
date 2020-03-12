@@ -180,9 +180,9 @@ describe('ReceiveMoneyDetailModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: DELETE_RECEIVE_MONEY,
-        },
+        }),
       ]);
 
       expect(module.redirectToUrl).toHaveBeenCalled();
@@ -203,9 +203,9 @@ describe('ReceiveMoneyDetailModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: DELETE_RECEIVE_MONEY,
-        },
+        }),
       ]);
     });
   });
@@ -224,9 +224,9 @@ describe('ReceiveMoneyDetailModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: CREATE_RECEIVE_MONEY,
-        },
+        }),
       ]);
 
       expect(module.redirectToUrl).toHaveBeenCalled();
@@ -245,9 +245,9 @@ describe('ReceiveMoneyDetailModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: UPDATE_RECEIVE_MONEY,
-        },
+        }),
       ]);
 
       expect(module.redirectToUrl).toHaveBeenCalled();
@@ -267,9 +267,9 @@ describe('ReceiveMoneyDetailModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: CREATE_RECEIVE_MONEY,
-        },
+        }),
       ]);
     });
 
@@ -442,9 +442,9 @@ describe('ReceiveMoneyDetailModule', () => {
       module.saveHandler();
       expect(store.getActions()).not.toEqual([]);
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: UPDATE_RECEIVE_MONEY,
-        },
+        }),
       ]);
     });
   });

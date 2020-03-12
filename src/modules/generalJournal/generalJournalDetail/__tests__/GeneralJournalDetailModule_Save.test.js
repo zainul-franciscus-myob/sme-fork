@@ -42,9 +42,11 @@ describe('GeneralJournalDetailModule', () => {
           },
         ]);
 
-        expect(integration.getRequests()).toEqual([{
-          intent: UPDATE_GENERAL_JOURNAL,
-        }]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: UPDATE_GENERAL_JOURNAL,
+          }),
+        ]);
 
         expect(module.redirectToUrl).toHaveBeenCalledWith('/#/au/a💩/transactionList');
       });
@@ -75,9 +77,11 @@ describe('GeneralJournalDetailModule', () => {
           },
         ]);
 
-        expect(integration.getRequests()).toEqual([{
-          intent: UPDATE_GENERAL_JOURNAL,
-        }]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: UPDATE_GENERAL_JOURNAL,
+          }),
+        ]);
       });
     });
 
@@ -100,7 +104,9 @@ describe('GeneralJournalDetailModule', () => {
           },
         ]);
 
-        expect(integration.getRequests()).toEqual([{ intent: CREATE_GENERAL_JOURNAL }]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: CREATE_GENERAL_JOURNAL }),
+        ]);
 
         expect(module.redirectToUrl).toHaveBeenCalledWith('/#/au/a💩/transactionList');
       });
@@ -131,7 +137,9 @@ describe('GeneralJournalDetailModule', () => {
           },
         ]);
 
-        expect(integration.getRequests()).toEqual([{ intent: CREATE_GENERAL_JOURNAL }]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: CREATE_GENERAL_JOURNAL }),
+        ]);
       });
     });
   });

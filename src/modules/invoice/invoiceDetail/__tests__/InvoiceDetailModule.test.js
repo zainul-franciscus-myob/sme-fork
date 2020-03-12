@@ -60,7 +60,9 @@ describe('InvoiceDetailModule', () => {
           { intent: SET_SUBMITTING_STATE, isSubmitting: true },
           { intent: SET_SUBMITTING_STATE, isSubmitting: false },
         ]);
-        expect(integration.getRequests()).toEqual([{ intent }]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent }),
+        ]);
       });
 
       it('show upgrade modal when monthly limit reach', () => {
@@ -81,7 +83,9 @@ describe('InvoiceDetailModule', () => {
           { intent: SET_SUBMITTING_STATE, isSubmitting: false },
           { intent: SET_UPGRADE_MODAL_SHOWING, isUpgradeModalShowing: true, monthlyLimit },
         ]);
-        expect(integration.getRequests()).toEqual([{ intent }]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent }),
+        ]);
       });
     });
   });
