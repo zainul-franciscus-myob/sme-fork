@@ -41,12 +41,18 @@ import {
   UPDATE_EXPORT_PDF_DETAIL,
   UPDATE_LAYOUT,
 } from '../BillIntents';
-import {
-  DEFAULT_UNITS, defaultLinePrefillStatus, defaultPrefillStatus, getDefaultState,
-} from './getDefaultState';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import { calculateLineAmounts, getTaxCalculations } from './calculationReducer';
-import { getIsCreatingFromInTray, getLoadBillModalType, getUpdatedSupplierOptions } from '../selectors/billSelectors';
+import {
+  defaultLinePrefillStatus,
+  defaultPrefillStatus,
+  getDefaultState,
+} from './getDefaultState';
+import {
+  getIsCreatingFromInTray,
+  getLoadBillModalType,
+  getUpdatedSupplierOptions,
+} from '../selectors/billSelectors';
 import BillLayout from '../types/BillLayout';
 import BillLineLayout from '../types/BillLineLayout';
 import LineTaxTypes from '../types/LineTaxTypes';
@@ -54,10 +60,14 @@ import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
 import formatAmount from '../../../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
-import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
-import formatDisplayDiscount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
-import formatDisplayUnitPrice from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
+import formatDisplayAmount
+  from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
+import formatDisplayDiscount
+  from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
+import formatDisplayUnitPrice
+  from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
+import formatUnits from '../../../../common/valueFormatters/formatTaxCalculation/formatUnits';
 
 const loadBill = (state, action) => {
   const defaultState = getDefaultState();
@@ -280,24 +290,30 @@ const updateBillLine = (state, action) => ({
   },
 });
 
+const formatDisplayField = (line, key) => {
+  const fieldMap = {
+    unitPrice: { displayField: 'displayUnitPrice', formatter: formatDisplayUnitPrice },
+    amount: { displayField: 'displayAmount', formatter: formatDisplayAmount },
+    discount: { displayField: 'displayDiscount', formatter: formatDisplayDiscount },
+    units: { displayField: 'units', formatter: formatUnits },
+  };
+  const { displayField, formatter } = fieldMap[key] || {};
+
+  return formatter ? {
+    [displayField]: line[key] && formatter(line[key]),
+  } : {};
+};
+
 const formatBillLine = (state, action) => ({
   ...state,
   bill: {
     ...state.bill,
-    lines: state.bill.lines.map((line, index) => {
-      if (index === action.index) {
-        const isFormatUnits = action.key === 'units';
-        const isUnitsCleared = Number(line.units) === 0;
-
-        return {
-          ...line,
-          [action.key]: action.value,
-          units: isFormatUnits && isUnitsCleared ? DEFAULT_UNITS : line.units,
-        };
-      }
-
-      return line;
-    }),
+    lines: state.bill.lines.map((line, index) => (
+      index === action.index ? {
+        ...line,
+        ...formatDisplayField(line, action.key),
+      } : line
+    )),
   },
 });
 

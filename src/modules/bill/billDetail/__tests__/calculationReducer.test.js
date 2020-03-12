@@ -6,8 +6,35 @@ import BillLayout from '../types/BillLayout';
 
 describe('calculationReducer', () => {
   describe('GET_TAX_CALCULATIONS', () => {
-    it('should calculate line total correct', () => {
-      const taxCalculations = {
+    const baseline = {
+      units: '2',
+      unitPrice: '45.455',
+      displayUnitPrice: '45.455',
+      discount: '',
+      displayDiscount: '',
+      amount: '0',
+      displayAmount: '0.00',
+    };
+
+    const buildState = partialLine => ({
+      bill: {
+        lines: [{
+          ...baseline,
+          ...partialLine,
+        }],
+        amountPaid: '',
+      },
+      totals: {
+        subTotal: '$0.00',
+        totalTax: '$0.00',
+        totalAmount: '$0.00',
+        amountDue: '$0.00',
+      },
+    });
+
+    const action = {
+      intent: GET_TAX_CALCULATIONS,
+      taxCalculations: {
         lines: [
           { taxExclusiveAmount: Decimal(90.91), taxAmount: Decimal(9.09), amount: Decimal(100) },
         ],
@@ -16,356 +43,269 @@ describe('calculationReducer', () => {
           totalTax: Decimal(9.09),
           totalAmount: Decimal(100),
         },
-      };
+      },
+      isSwitchingTaxInclusive: true,
+    };
 
-      const state = {
-        bill: {
-          lines: [
-            {
-              units: '2',
-              discount: '',
-              unitPrice: '50.00',
-              amount: '0',
-              displayAmount: '0.00',
-            },
-          ],
-          amountPaid: '',
-        },
-        totals: {
-          subTotal: '0',
-          totalTax: '0',
-          totalAmount: '0',
-          amountDue: '0',
-        },
-      };
+    const buildExpect = partialLine => ({
+      bill: {
+        lines: [{
+          ...baseline,
+          ...partialLine,
+        }],
+        amountPaid: '',
+      },
+      isPageEdited: true,
+      isLineEdited: false,
+      totals: {
+        subTotal: '$100.00',
+        totalTax: '$9.09',
+        totalAmount: '$100.00',
+        amountDue: '$100.00',
+      },
+    });
 
-      const action = {
-        intent: GET_TAX_CALCULATIONS,
-        taxCalculations,
-      };
+    it('should calculate unitPrice and update amount and totals', () => {
+      const state = buildState();
 
       const actual = getTaxCalculations(state, action);
 
-      const expected = {
-        isPageEdited: true,
-        isLineEdited: false,
-        bill: {
-          amountPaid: '',
-          lines: [
-            {
-              amount: '100',
-              displayAmount: '100.00',
-              unitPrice: '50',
-              displayUnitPrice: '50.00',
-              units: '2',
-              discount: '',
-            },
-          ],
-        },
-        totals: {
-          subTotal: '$100.00',
-          totalTax: '$9.09',
-          totalAmount: '$100.00',
-          amountDue: '$100.00',
-        },
-      };
+      const expected = buildExpect({
+        amount: '100',
+        displayAmount: '100.00',
+        unitPrice: '50',
+        displayUnitPrice: '50.00',
+      });
 
       expect(actual).toEqual(expected);
+    });
+
+    it('should not update unitPrice or amount when not switching tax inclusive toggle', () => {
+      const state = buildState();
+
+      const actual = getTaxCalculations(state, {
+        ...action,
+        isSwitchingTaxInclusive: false,
+      });
+
+      const expected = buildExpect();
+
+      expect(actual).toEqual(expected);
+    });
+
+    [
+      { key: 'units', value: '' },
+      { key: 'units', value: '0' },
+      { key: 'discount', value: '100' },
+    ].forEach(({ key, value }) => {
+      it(`should only update amount when switching tax inclusive toggle and ${key} is ${value || 'empty'}`, () => {
+        const partialLine = { [key]: value };
+        const state = buildState(partialLine);
+
+        const actual = getTaxCalculations(state, action);
+
+        const expected = buildExpect({
+          ...partialLine,
+          amount: '100',
+          displayAmount: '100.00',
+        });
+
+        expect(actual).toEqual(expected);
+      });
     });
   });
 
   describe('CALCULATE_LINE_AMOUNTS', () => {
-    describe('item layout', () => {
-      it('should calculate amount correctly when update units', () => {
-        const state = {
-          layout: BillLayout.ITEM_AND_SERVICE,
-          bill: {
-            lines: [
-              {
-                units: '2',
-                discount: '',
-                unitPrice: '50.00',
-                amount: '0',
-                displayAmount: '0.00',
-              },
-            ],
-          },
-        };
-
-        const action = {
-          intent: CALCULATE_LINE_AMOUNTS,
-          key: 'units',
-          index: 0,
-        };
-
-        const actual = calculateLineAmounts(state, action);
-
-        const expected = {
-          layout: BillLayout.ITEM_AND_SERVICE,
-          bill: {
-            lines: [
-              {
-                amount: '100',
-                displayAmount: '100.00',
-                discount: '0',
-                displayDiscount: '0.00',
-                unitPrice: '50',
-                displayUnitPrice: '50.00',
-                units: '2',
-              },
-            ],
-          },
-        };
-
-        expect(actual).toEqual(expected);
+    describe('itemAndService layout', () => {
+      const buildState = line => ({
+        layout: BillLayout.ITEM_AND_SERVICE,
+        bill: {
+          lines: [line],
+        },
       });
 
-      it('should calculate amount correctly when update unitPirce', () => {
-        const state = {
-          layout: BillLayout.ITEM_AND_SERVICE,
-          bill: {
-            lines: [
-              {
-                units: '2',
-                discount: '',
-                unitPrice: '50.00',
-                amount: '0',
-                displayAmount: '0.00',
-              },
-            ],
-          },
-        };
-
-        const action = {
-          intent: CALCULATE_LINE_AMOUNTS,
-          key: 'unitPrice',
-          index: 0,
-        };
-
-        const actual = calculateLineAmounts(state, action);
-
-        const expected = {
-          layout: BillLayout.ITEM_AND_SERVICE,
-          bill: {
-            lines: [
-              {
-                amount: '100',
-                displayAmount: '100.00',
-                discount: '0',
-                displayDiscount: '0.00',
-                unitPrice: '50',
-                displayUnitPrice: '50.00',
-                units: '2',
-              },
-            ],
-          },
-        };
-
-        expect(actual).toEqual(expected);
+      const buildAction = key => ({
+        intent: CALCULATE_LINE_AMOUNTS,
+        key,
+        index: 0,
       });
 
-      it('should calculate amount correctly when update discount', () => {
-        const state = {
-          layout: BillLayout.ITEM_AND_SERVICE,
-          bill: {
-            lines: [
-              {
-                units: '1',
-                discount: '50',
-                unitPrice: '100.00',
-                amount: '0',
-                displayAmount: '0.00',
-              },
-            ],
-          },
+      describe('calculate amount', () => {
+        const baseline = {
+          units: '2',
+          unitPrice: '50',
+          displayUnitPrice: '50.00',
+          discount: '',
+          displayDiscount: '',
+          amount: '0',
+          displayAmount: '0.00',
         };
 
-        const action = {
-          intent: CALCULATE_LINE_AMOUNTS,
-          key: 'discount',
-          index: 0,
-        };
+        ['units', 'unitPrice', 'discount'].forEach((key) => {
+          it(`should calculate amount when update ${key}`, () => {
+            const state = buildState(baseline);
 
-        const actual = calculateLineAmounts(state, action);
+            const action = buildAction(key);
 
-        const expected = {
-          layout: BillLayout.ITEM_AND_SERVICE,
-          bill: {
-            lines: [
-              {
-                amount: '50',
-                displayAmount: '50.00',
-                discount: '50',
-                displayDiscount: '50.00',
-                unitPrice: '100',
-                displayUnitPrice: '100.00',
-                units: '1',
-              },
-            ],
-          },
-        };
+            const actual = calculateLineAmounts(state, action);
 
-        expect(actual).toEqual(expected);
+            const expected = buildState({
+              ...baseline,
+              amount: '100',
+              displayAmount: '100.00',
+            });
+
+            expect(actual).toEqual(expected);
+          });
+        });
+
+        it('should not calculate amount when update other field', () => {
+          const state = buildState(baseline);
+
+          const action = buildAction('blah');
+
+          const actual = calculateLineAmounts(state, action);
+
+          expect(actual).toEqual(state);
+        });
+
+        ['units', 'unitPrice'].forEach((key) => {
+          it(`should not calculate amount when ${key} is empty`, () => {
+            const state = buildState({
+              ...baseline,
+              [key]: '',
+            });
+
+            const action = buildAction(key);
+
+            const actual = calculateLineAmounts(state, action);
+
+            expect(actual).toEqual(state);
+          });
+        });
       });
 
-      it('should calculate unitPrice correctly when update amount and unitPrice is 0 and units is not 0', () => {
-        const state = {
-          layout: BillLayout.ITEM_AND_SERVICE,
-          bill: {
-            lines: [
-              {
-                units: '2',
-                discount: '',
-                unitPrice: '0',
-                amount: '100',
-                displayAmount: '100.00',
-              },
-            ],
-          },
+      describe('calculate discount', () => {
+        const baseline = {
+          units: '2',
+          unitPrice: '50',
+          displayUnitPrice: '50.00',
+          discount: '',
+          displayDiscount: '',
+          amount: '90',
+          displayAmount: '90.00',
         };
 
-        const action = {
-          intent: CALCULATE_LINE_AMOUNTS,
-          key: 'amount',
-          index: 0,
-        };
+        it('should calculate discount when update amount', () => {
+          const state = buildState(baseline);
 
-        const actual = calculateLineAmounts(state, action);
+          const action = buildAction('amount');
 
-        const expected = {
-          layout: BillLayout.ITEM_AND_SERVICE,
-          bill: {
-            lines: [
-              {
-                amount: '100',
-                displayAmount: '100.00',
-                discount: '0',
-                displayDiscount: '0.00',
-                unitPrice: '50',
-                displayUnitPrice: '50.00',
-                units: '2',
-              },
-            ],
-          },
-        };
+          const actual = calculateLineAmounts(state, action);
 
-        expect(actual).toEqual(expected);
+          const expected = buildState({
+            ...baseline,
+            discount: '10',
+            displayDiscount: '10.00',
+          });
+
+          expect(actual).toEqual(expected);
+        });
+
+        it('should not calculate discount when key is not amount', () => {
+          const state = buildState(baseline);
+
+          const action = buildAction('blah');
+
+          const actual = calculateLineAmounts(state, action);
+
+          expect(actual).toEqual(state);
+        });
+
+        [
+          { key: 'units', value: '' },
+          { key: 'units', value: '0' },
+          { key: 'amount', value: '' },
+        ].forEach(({ key, value }) => {
+          it(`should not calculate discount when ${key} is ${value || 'empty'}`, () => {
+            const state = buildState({
+              ...baseline,
+              [key]: value,
+            });
+
+            const action = buildAction('amount');
+
+            const actual = calculateLineAmounts(state, action);
+
+            expect(actual).toEqual(state);
+          });
+        });
       });
 
-      it('should calculate discount when update amount and units is not 0', () => {
-        const state = {
-          layout: BillLayout.ITEM_AND_SERVICE,
-          bill: {
-            lines: [
-              {
-                units: '1',
-                discount: '',
-                unitPrice: '200',
-                amount: '100',
-                displayAmount: '100.00',
-              },
-            ],
-          },
+      describe('calculate unitPrice', () => {
+        const baseline = {
+          units: '2',
+          unitPrice: '',
+          displayUnitPrice: '',
+          discount: '10',
+          displayDiscount: '10.00',
+          amount: '90',
+          displayAmount: '90.00',
         };
 
-        const action = {
-          intent: CALCULATE_LINE_AMOUNTS,
-          key: 'amount',
-          index: 0,
-        };
+        it('should calculate unitPrice when update amount', () => {
+          const state = buildState(baseline);
 
-        const actual = calculateLineAmounts(state, action);
+          const action = buildAction('amount');
 
-        const expected = {
-          layout: BillLayout.ITEM_AND_SERVICE,
-          bill: {
-            lines: [
-              {
-                amount: '100',
-                displayAmount: '100.00',
-                discount: '50',
-                displayDiscount: '50.00',
-                unitPrice: '200',
-                displayUnitPrice: '200.00',
-                units: '1',
-              },
-            ],
-          },
-        };
+          const actual = calculateLineAmounts(state, action);
 
-        expect(actual).toEqual(expected);
-      });
+          const expected = buildState({
+            ...baseline,
+            unitPrice: '50',
+            displayUnitPrice: '50.00',
+          });
 
-      it('should remove discount when update amount and units is 0', () => {
-        const state = {
-          layout: BillLayout.ITEM_AND_SERVICE,
-          bill: {
-            lines: [
-              {
-                units: '0',
-                discount: '50',
-                unitPrice: '100',
-                amount: '100',
-                displayAmount: '100.00',
-              },
-            ],
-          },
-        };
+          expect(actual).toEqual(expected);
+        });
 
-        const action = {
-          intent: CALCULATE_LINE_AMOUNTS,
-          key: 'amount',
-          index: 0,
-        };
+        it('should not calculate unitPrice when key is not amount', () => {
+          const state = buildState(baseline);
 
-        const actual = calculateLineAmounts(state, action);
+          const action = buildAction('blah');
 
-        const expected = {
-          layout: BillLayout.ITEM_AND_SERVICE,
-          bill: {
-            lines: [
-              {
-                amount: '100',
-                displayAmount: '100.00',
-                discount: '0',
-                displayDiscount: '0.00',
-                unitPrice: '100',
-                displayUnitPrice: '100.00',
-                units: '0',
-              },
-            ],
-          },
-        };
+          const actual = calculateLineAmounts(state, action);
 
-        expect(actual).toEqual(expected);
+          expect(actual).toEqual(state);
+        });
+
+        [
+          { key: 'units', value: '' },
+          { key: 'units', value: '0' },
+          { key: 'discount', value: '100' },
+          { key: 'amount', value: '' },
+        ].forEach(({ key, value }) => {
+          it(`should not calculate unitPrice when ${key} is ${value || 'empty'}`, () => {
+            const state = buildState({
+              ...baseline,
+              [key]: value,
+            });
+
+            const action = buildAction('amount');
+
+            const actual = calculateLineAmounts(state, action);
+
+            expect(actual).toEqual(state);
+          });
+        });
       });
     });
 
     describe('service layout', () => {
-      it('should format amount correctly', () => {
+      it('should not alter current state', () => {
         const state = {
-          layout: BillLayout.SERVICE,
           bill: {
-            lines: [
-              {
-                amount: '10',
-                displayAmount: '0.00',
-              },
-            ],
-          },
-        };
-
-        const action = {
-          intent: CALCULATE_LINE_AMOUNTS,
-          key: 'amount',
-          index: 0,
-        };
-
-        const actual = calculateLineAmounts(state, action);
-
-        const expected = {
-          layout: BillLayout.SERVICE,
-          bill: {
+            layout: BillLayout.SERVICE,
             lines: [
               {
                 amount: '10',
@@ -375,7 +315,15 @@ describe('calculationReducer', () => {
           },
         };
 
-        expect(actual).toEqual(expected);
+        const action = {
+          intent: CALCULATE_LINE_AMOUNTS,
+          key: 'amount',
+          index: 0,
+        };
+
+        const actual = calculateLineAmounts(state, action);
+
+        expect(actual).toEqual(state);
       });
     });
   });

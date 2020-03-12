@@ -553,25 +553,28 @@ describe('BillModule', () => {
       {
         key: 'isTaxInclusive',
         value: true,
+        isSwitchingTaxInclusive: true,
       },
       {
         key: 'expenseAccountId',
         value: '1',
+        isSwitchingTaxInclusive: false,
       },
-    ].forEach((test) => {
-      it(`calls the tax calculator if key is ${test.key}`, () => {
+    ].forEach(({ key, value, isSwitchingTaxInclusive }) => {
+      it(`calls the tax calculator if key is ${key}`, () => {
         const { module, store } = setUpWithExisting();
 
-        module.updateBillOption({ key: test.key, value: test.value });
+        module.updateBillOption({ key, value });
 
         expect(store.getActions()).toEqual([
           {
             intent: UPDATE_BILL_OPTION,
-            key: test.key,
-            value: test.value,
+            key,
+            value,
           },
           {
             intent: GET_TAX_CALCULATIONS,
+            isSwitchingTaxInclusive,
             taxCalculations: expect.any(Object),
           },
         ]);
@@ -630,6 +633,7 @@ describe('BillModule', () => {
         },
         {
           intent: GET_TAX_CALCULATIONS,
+          isSwitchingTaxInclusive: false,
           taxCalculations: expect.any(Object),
         },
       ]);

@@ -1072,27 +1072,69 @@ describe('billReducer', () => {
   });
 
   describe('FORMAT_BILL_LINE', () => {
-    it('sets units at index to 1 when empty', () => {
+    [
+      {
+        name: 'unitPrice', displayName: 'displayUnitPrice', value: '10', displayValue: '10.00',
+      },
+      {
+        name: 'discount', displayName: 'displayDiscount', value: '10', displayValue: '10.00',
+      },
+      {
+        name: 'amount', displayName: 'displayAmount', value: '10', displayValue: '10.00',
+      },
+      {
+        name: 'units', displayName: 'units', value: '10.0', displayValue: '10',
+      },
+    ].forEach(({
+      name, displayName, value, displayValue,
+    }) => {
+      it(`should format ${name}`, () => {
+        const state = {
+          bill: {
+            lines: [
+              {
+                [name]: value,
+              },
+            ],
+          },
+        };
+
+        const action = {
+          intent: FORMAT_BILL_LINE,
+          key: name,
+          index: 0,
+        };
+
+        const actual = billReducer(state, action);
+
+        expect(actual.bill.lines[0][displayName]).toEqual(displayValue);
+      });
+    });
+
+    it('should not format other keys', () => {
       const state = {
         bill: {
-          lines: [
-            {},
-            {
-              units: '',
-            },
-          ],
+          lines: [{}],
         },
+        something: '',
       };
 
       const action = {
         intent: FORMAT_BILL_LINE,
-        index: 1,
-        key: 'units',
+        key: 'blah',
+        index: 0,
       };
 
       const actual = billReducer(state, action);
 
-      expect(actual.bill.lines[1].units).toEqual('1');
+      const expected = {
+        bill: {
+          lines: [{}],
+        },
+        something: '',
+      };
+
+      expect(actual).toEqual(expected);
     });
   });
 

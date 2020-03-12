@@ -89,7 +89,7 @@ describe('calculationReducer', () => {
       { key: 'units', value: '0' },
       { key: 'discount', value: '100' },
     ].forEach(({ key, value }) => {
-      it(`should only update amount when switching tax inclusive toggle but ${key} is ${value || 'empty'}`, () => {
+      it(`should only update amount when switching tax inclusive toggle and ${key} is ${value || 'empty'}`, () => {
         const partialLine = { [key]: value };
         const state = buildState(partialLine);
 

@@ -285,16 +285,3 @@ export const getTaxCalculations = (state, isSwitchingTaxInclusive) => {
     isLineAmountsTaxInclusive,
   });
 };
-
-export const getDisplayKey = (key) => {
-  switch (key) {
-    case 'amount':
-      return 'displayAmount';
-    case 'discount':
-      return 'displayDiscount';
-    case 'unitPrice':
-      return 'displayUnitPrice';
-    default:
-      return key;
-  }
-};

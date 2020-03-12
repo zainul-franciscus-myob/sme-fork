@@ -76,6 +76,7 @@ import createReducer from '../../../../store/createReducer';
 import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
 import formatDisplayDiscount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
 import formatDisplayUnitPrice from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
+import formatUnits from '../../../../common/valueFormatters/formatTaxCalculation/formatUnits';
 import getDefaultState, { DEFAULT_DISCOUNT, DEFAULT_UNITS } from './getDefaultState';
 
 const setInitialState = (state, { context }) => ({ ...state, ...context });
@@ -224,8 +225,6 @@ const updateInvoiceLine = (state, action) => {
   const isUpdateAccountId = action.key === 'accountId';
   const isUpdateUnitPrice = action.key === 'unitPrice';
 
-  const shouldUpdateUnitForLine = line => isUpdateAccountId && !line.units && line.units !== '0';
-
   const getLineLayout = (layout, key) => {
     const isLineItemLayout = layout === InvoiceLineLayout.ITEM;
     const isUpdateItemId = key === 'itemId';
@@ -255,7 +254,6 @@ const updateInvoiceLine = (state, action) => {
                 accountOptions: state.accountOptions,
               })
               : line.taxCodeId,
-            units: shouldUpdateUnitForLine(line) ? DEFAULT_UNITS : line.units,
             displayDiscount: isUpdateDiscount ? action.value : line.displayDiscount,
             displayAmount: isUpdateAmount ? action.value : line.displayAmount,
             displayUnitPrice: isUpdateUnitPrice ? action.value : line.displayUnitPrice,
@@ -269,24 +267,30 @@ const updateInvoiceLine = (state, action) => {
   });
 };
 
+const formatDisplayField = (line, key) => {
+  const fieldMap = {
+    unitPrice: { displayField: 'displayUnitPrice', formatter: formatDisplayUnitPrice },
+    amount: { displayField: 'displayAmount', formatter: formatDisplayAmount },
+    discount: { displayField: 'displayDiscount', formatter: formatDisplayDiscount },
+    units: { displayField: 'units', formatter: formatUnits },
+  };
+  const { displayField, formatter } = fieldMap[key] || {};
+
+  return formatter ? {
+    [displayField]: line[key] && formatter(line[key]),
+  } : {};
+};
+
 const formatInvoiceLine = (state, action) => ({
   ...state,
   invoice: {
     ...state.invoice,
-    lines: state.invoice.lines.map((line, index) => {
-      if (index === action.index) {
-        const isFormatUnits = action.key === 'units';
-        const isUnitsCleared = line.units === '';
-
-        return {
-          ...line,
-          [action.key]: action.value,
-          units: isFormatUnits && isUnitsCleared ? DEFAULT_UNITS : line.units,
-        };
-      }
-
-      return line;
-    }),
+    lines: state.invoice.lines.map((line, index) => (
+      index === action.index ? {
+        ...line,
+        ...formatDisplayField(line, action.key),
+      } : line
+    )),
   },
 });
 
@@ -358,6 +362,7 @@ const loadItemSellingDetails = (state, action) => ({
         incomeAccountId,
         unitPrice,
       } = action.itemSellingDetails;
+
       return {
         ...line,
         units: DEFAULT_UNITS,
@@ -367,6 +372,8 @@ const loadItemSellingDetails = (state, action) => ({
         description,
         taxCodeId: sellTaxCodeId,
         accountId: incomeAccountId,
+        unitPrice,
+        displayUnitPrice: formatDisplayUnitPrice(unitPrice),
         amount: unitPrice,
         displayAmount: formatDisplayAmount(unitPrice),
       };

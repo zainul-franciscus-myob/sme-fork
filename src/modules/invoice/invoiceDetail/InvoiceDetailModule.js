@@ -10,7 +10,6 @@ import {
   getAccountModalContext,
   getContactModalContext,
   getContextForInventoryModal,
-  getDisplayKey,
   getIsCreating,
   getIsLineAmountDirty,
   getIsModalActionDisabled,
@@ -412,9 +411,14 @@ export default class InvoiceDetailModule {
     }
   }
 
+  /*
+   * Workflow:
+   *  1. format - only format the field user blur out
+   *  2. price calculation - update at most one extra field when formula prerequisite met
+   *  3. tax calculation - update total
+   */
   updateAmount = ({ index, key, value }) => {
-    const displayKey = getDisplayKey(key);
-    this.dispatcher.formatInvoiceLine({ index, key: displayKey, value });
+    this.dispatcher.formatInvoiceLine({ index, key, value });
 
     this.calculateLineTotalsOnAmountChange({ index, key });
   }
@@ -435,7 +439,7 @@ export default class InvoiceDetailModule {
   calculateLineTotalsOnTaxInclusiveChange = () => {
     const state = this.store.getState();
     const taxCalculations = getTaxCalculations(state, true);
-    this.dispatcher.calculateLineTotals(taxCalculations);
+    this.dispatcher.calculateLineTotals(taxCalculations, true);
   }
 
   calculateLineTotalsOnAmountChange = ({ index, key }) => {

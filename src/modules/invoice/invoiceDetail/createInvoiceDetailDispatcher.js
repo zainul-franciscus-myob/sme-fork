@@ -152,8 +152,8 @@ const createInvoiceDetailDispatcher = store => ({
     });
   },
 
-  calculateLineTotals: taxCalculations => store.dispatch({
-    intent: CALCULATE_LINE_TOTALS, taxCalculations,
+  calculateLineTotals: (taxCalculations, isSwitchingTaxInclusive = false) => store.dispatch({
+    intent: CALCULATE_LINE_TOTALS, taxCalculations, isSwitchingTaxInclusive,
   }),
 
   resetInvoiceItemTotals: () => store.dispatch({ intent: RESET_TOTALS }),

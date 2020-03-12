@@ -1,12 +1,13 @@
 import Decimal from 'decimal.js';
 
-import { DEFAULT_DISCOUNT, DEFAULT_UNITS } from './getDefaultState';
 import { getLayout, getLines } from '../selectors/invoiceDetailSelectors';
 import InvoiceLayout from '../InvoiceLayout';
-import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
-import formatDisplayDiscount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
-import formatDisplayUnitPrice from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
-import formatUnits from '../../../../common/valueFormatters/formatTaxCalculation/formatUnits';
+import formatDisplayAmount
+  from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
+import formatDisplayDiscount
+  from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
+import formatDisplayUnitPrice
+  from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
 
 const calculateAmount = (units, unitPrice, discount) => {
   const calculatedDiscount = Decimal(1).minus(Decimal(discount).div(100));
@@ -20,69 +21,65 @@ const calculateDiscount = (units, unitPrice, amount) => {
   const decimalAmount = Decimal(amount);
   return Decimal(1)
     .minus(decimalAmount.div(totalAmount))
-    .times(100)
-    .valueOf()
-    .valueOf();
+    .times(100).valueOf();
 };
 
-const calculateUnitPrice = (units, amount) => Decimal(amount).div(units);
+const calculateUnitPrice = (units, amount, discount) => (
+  Decimal(amount).div(Decimal(1).minus(Decimal(discount).div(100))).div(units).valueOf()
+);
 
-const shouldPrefillUnits = (key, units) => ['amount', 'discount'].includes(key) && units === '';
+const shouldCalculateAmount = (line, key) => ['units', 'unitPrice', 'discount'].includes(key)
+  && line.units !== ''
+  && line.unitPrice !== '';
 
-const shouldCalculateAmount = (key, unitsStr) => unitsStr !== '' && ['units', 'unitPrice', 'discount'].includes(key);
+const shouldCalculateDiscount = (line, key) => key === 'amount'
+  && Number(line.units) !== 0
+  && Number(line.unitPrice) !== 0
+  && line.amount !== '';
 
-const shouldCalculateDiscount = (key, unitPrice, units) => key === 'amount' && unitPrice !== 0 && units !== 0;
-
-const shouldCalculateUnitPrice = (key, unitPrice) => key === 'amount' && unitPrice === 0;
+const shouldCalculateUnitPrice = (line, key) => key === 'amount'
+  && Number(line.units) !== 0
+  && Number(line.unitPrice) === 0
+  && Number(line.discount) !== 100
+  && line.amount !== '';
 
 const buildItemLine = (line, key) => {
-  const unitsStr = shouldPrefillUnits(key, line.units) ? DEFAULT_UNITS : line.units;
-  const units = Number(unitsStr);
+  const units = Number(line.units);
   const unitPrice = Number(line.unitPrice);
-  const amount = unitsStr === '0' ? 0 : Number(line.amount);
   const discount = Number(line.discount);
+  const amount = Number(line.amount);
 
-  const updatedLine = {
-    ...line,
-    units: formatUnits(units),
-    amount: String(amount),
-    displayAmount: formatDisplayAmount(amount),
-    discount: String(discount),
-    displayDiscount: formatDisplayDiscount(discount),
-    unitPrice: String(unitPrice),
-    displayUnitPrice: formatDisplayUnitPrice(unitPrice),
-  };
-
-  if (shouldCalculateUnitPrice(key, unitPrice)) {
-    const calculatedUnitPrice = calculateUnitPrice(units, amount).valueOf();
-    return {
-      ...updatedLine,
-      discount: DEFAULT_DISCOUNT,
-      displayDiscount: formatDisplayDiscount(DEFAULT_DISCOUNT),
-      unitPrice: calculatedUnitPrice,
-      displayUnitPrice: formatDisplayUnitPrice(calculatedUnitPrice),
-    };
-  }
-
-  if (shouldCalculateAmount(key, unitsStr)) {
+  if (shouldCalculateAmount(line, key)) {
     const calculatedAmount = calculateAmount(units, unitPrice, discount);
+
     return {
-      ...updatedLine,
+      ...line,
       amount: calculatedAmount,
       displayAmount: formatDisplayAmount(calculatedAmount),
     };
   }
 
-  if (shouldCalculateDiscount(key, unitPrice, units)) {
+  if (shouldCalculateDiscount(line, key)) {
     const calculatedDiscount = calculateDiscount(units, unitPrice, amount);
+
     return {
-      ...updatedLine,
+      ...line,
       discount: calculatedDiscount,
       displayDiscount: formatDisplayDiscount(calculatedDiscount),
     };
   }
 
-  return updatedLine;
+  if (shouldCalculateUnitPrice(line, key)) {
+    const calculatedUnitPrice = calculateUnitPrice(units, amount, discount);
+
+    return {
+      ...line,
+      unitPrice: calculatedUnitPrice,
+      displayUnitPrice: formatDisplayUnitPrice(calculatedUnitPrice),
+    };
+  }
+
+  return line;
 };
 
 export const calculateLineAmounts = (state, { key, index }) => {
@@ -106,43 +103,46 @@ export const calculateLineAmounts = (state, { key, index }) => {
   };
 };
 
-const getUnitPrice = (units, amount, discount, currentUnitPrice) => {
-  const percent = Number(
-    Decimal(1)
-      .minus(Decimal(discount).div(100))
-      .valueOf(),
-  );
-  if (percent === 0 || units === 0) {
-    return currentUnitPrice;
-  }
-  const unitPrice = amount
-    .div(percent)
-    .div(units);
+const shouldCalculateUnitPriceWithTaxInclusiveSwitch = (line, isSwitchingTaxInclusive) => (
+  isSwitchingTaxInclusive
+  && Number(line.units) !== 0
+  && Number(line.discount) !== 100
+);
 
-  return unitPrice;
-};
-
-export const calculateLineTotals = (state, { taxCalculations: { lines, totals } }) => ({
+export const calculateLineTotals = (
+  state,
+  { taxCalculations: { lines, totals }, isSwitchingTaxInclusive },
+) => ({
   ...state,
   isPageEdited: true,
   invoice: {
     ...state.invoice,
     lines: state.invoice.lines.map((line, index) => {
       const { amount } = lines[index];
-      const { unitPrice, units, discount } = line;
-      const calculatedUnitPrice = getUnitPrice(
-        Number(units),
-        amount,
-        Number(discount),
-        unitPrice,
-      );
-      return {
-        ...line,
-        amount: amount.valueOf(),
-        displayAmount: formatDisplayAmount(amount.valueOf()),
-        unitPrice: calculatedUnitPrice.valueOf(),
-        displayUnitPrice: formatDisplayUnitPrice(calculatedUnitPrice.valueOf()),
-      };
+
+      if (shouldCalculateUnitPriceWithTaxInclusiveSwitch(line, isSwitchingTaxInclusive)) {
+        const units = Number(line.units);
+        const discount = Number(line.discount);
+        const calculatedUnitPrice = calculateUnitPrice(units, amount, discount);
+
+        return {
+          ...line,
+          amount: amount.valueOf(),
+          displayAmount: formatDisplayAmount(amount.valueOf()),
+          unitPrice: calculatedUnitPrice,
+          displayUnitPrice: formatDisplayUnitPrice(calculatedUnitPrice),
+        };
+      }
+
+      if (isSwitchingTaxInclusive) {
+        return {
+          ...line,
+          amount: amount.valueOf(),
+          displayAmount: formatDisplayAmount(amount.valueOf()),
+        };
+      }
+
+      return line;
     }),
   },
   totals: {

@@ -13,7 +13,6 @@ import {
   getBillUid,
   getContextForInventoryModal,
   getCreateSupplierContactModalContext,
-  getDisplayKey,
   getHasLineBeenPrefilled,
   getIsCreating,
   getIsCreatingFromInTray,
@@ -417,9 +416,14 @@ class BillModule {
     }
   }
 
+  /*
+   * Workflow:
+   *  1. format - only format the field user blur out
+   *  2. price calculation - update at most one extra field when formula prerequisite met
+   *  3. tax calculation - update total
+   */
   calculateBillLines = ({ index, key, value }) => {
-    const displayKey = getDisplayKey(key);
-    this.dispatcher.formatBillLine({ index, key: displayKey, value });
+    this.dispatcher.formatBillLine({ index, key, value });
 
     const state = this.store.getState();
     const isLineEdited = getIsLineEdited(state);
@@ -447,7 +451,7 @@ class BillModule {
       ),
     });
 
-    this.dispatcher.getTaxCalculations(taxCalculations);
+    this.dispatcher.getTaxCalculations(taxCalculations, isSwitchingTaxInclusive);
   }
 
   loadItemDetailForLine = ({ index, itemId }) => {

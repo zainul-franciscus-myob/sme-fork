@@ -64,6 +64,7 @@ describe('BillModule_TableBehaviour', () => {
           },
           {
             intent: GET_TAX_CALCULATIONS,
+            isSwitchingTaxInclusive: false,
             taxCalculations: expect.any(Object),
           },
         ]);
@@ -92,6 +93,7 @@ describe('BillModule_TableBehaviour', () => {
           }),
           {
             intent: GET_TAX_CALCULATIONS,
+            isSwitchingTaxInclusive: false,
             taxCalculations: expect.any(Object),
           },
           {
@@ -155,6 +157,7 @@ describe('BillModule_TableBehaviour', () => {
         },
         {
           intent: GET_TAX_CALCULATIONS,
+          isSwitchingTaxInclusive: false,
           taxCalculations: expect.any(Object),
         },
       ]);
@@ -201,7 +204,7 @@ describe('BillModule_TableBehaviour', () => {
         {
           intent: FORMAT_BILL_LINE,
           index: 0,
-          key: 'displayAmount',
+          key: 'amount',
           value: '10.50',
         },
       ]);
@@ -227,7 +230,7 @@ describe('BillModule_TableBehaviour', () => {
         {
           intent: FORMAT_BILL_LINE,
           index: 0,
-          key: 'displayAmount',
+          key: 'amount',
           value: '10.50',
         },
         {
@@ -237,6 +240,7 @@ describe('BillModule_TableBehaviour', () => {
         },
         {
           intent: GET_TAX_CALCULATIONS,
+          isSwitchingTaxInclusive: false,
           taxCalculations: expect.any(Object),
         },
       ]);
@@ -265,6 +269,7 @@ describe('BillModule_TableBehaviour', () => {
         },
         {
           intent: GET_TAX_CALCULATIONS,
+          isSwitchingTaxInclusive: false,
           taxCalculations: expect.any(Object),
         },
       ]);

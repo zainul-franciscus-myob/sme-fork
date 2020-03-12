@@ -431,8 +431,10 @@ const loadItemSellingDetails = (state, action) => ({
         description,
         taxCodeId: sellTaxCodeId,
         allocatedAccountId: incomeAccountId,
+        unitPrice,
+        displayUnitPrice: formatDisplayUnitPrice(unitPrice),
         amount: unitPrice,
-        displayAmount: formatAmount(unitPrice),
+        displayAmount: formatDisplayAmount(unitPrice),
       };
     }),
   },

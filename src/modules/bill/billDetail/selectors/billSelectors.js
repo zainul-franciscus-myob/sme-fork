@@ -223,16 +223,3 @@ export const getLinesForTaxCalculation = createSelector(
 export const getIsLineAmountsTaxInclusive = (isTaxInclusive, isSwitchingTaxInclusive) => (
   isSwitchingTaxInclusive ? !isTaxInclusive : isTaxInclusive
 );
-
-export const getDisplayKey = (key) => {
-  switch (key) {
-    case 'amount':
-      return 'displayAmount';
-    case 'discount':
-      return 'displayDiscount';
-    case 'unitPrice':
-      return 'displayUnitPrice';
-    default:
-      return key;
-  }
-};

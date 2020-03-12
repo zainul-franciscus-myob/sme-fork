@@ -223,9 +223,9 @@ const createBillDispatcher = store => ({
     });
   },
 
-  getTaxCalculations: (taxCalculations) => {
+  getTaxCalculations: (taxCalculations, isSwitchingTaxInclusive = false) => {
     const intent = GET_TAX_CALCULATIONS;
-    store.dispatch({ intent, taxCalculations });
+    store.dispatch({ intent, taxCalculations, isSwitchingTaxInclusive });
   },
 
   formatAmountPaid: () => {

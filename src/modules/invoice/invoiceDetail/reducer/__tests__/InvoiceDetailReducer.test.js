@@ -301,27 +301,6 @@ describe('InvoiceDetailReducer', () => {
       expect(actual.invoice.lines[1].displayAmount).toEqual('20.00');
     });
 
-    it('set unit to 1 when updating account and unit was empty', () => {
-      const modifiedState = {
-        ...state,
-        accountOptions: [
-          {
-            id: '🐱',
-            taxCodeId: '2',
-          },
-        ],
-      };
-      const modifiedAction = {
-        ...action,
-        key: 'accountId',
-        value: '🐱',
-      };
-
-      const actual = invoiceDetailReducer(modifiedState, modifiedAction);
-
-      expect(actual.invoice.lines[1].units).toEqual('1');
-    });
-
     it('does no change unit when updating account and unit was not empty', () => {
       const modifiedState = {
         invoice: {
@@ -446,27 +425,69 @@ describe('InvoiceDetailReducer', () => {
   });
 
   describe('FORMAT_INVOICE_LINE', () => {
-    it('sets units at index to 1 when empty', () => {
+    [
+      {
+        name: 'unitPrice', displayName: 'displayUnitPrice', value: '10', displayValue: '10.00',
+      },
+      {
+        name: 'discount', displayName: 'displayDiscount', value: '10', displayValue: '10.00',
+      },
+      {
+        name: 'amount', displayName: 'displayAmount', value: '10', displayValue: '10.00',
+      },
+      {
+        name: 'units', displayName: 'units', value: '10.0', displayValue: '10',
+      },
+    ].forEach(({
+      name, displayName, value, displayValue,
+    }) => {
+      it(`should format ${name}`, () => {
+        const state = {
+          invoice: {
+            lines: [
+              {
+                [name]: value,
+              },
+            ],
+          },
+        };
+
+        const action = {
+          intent: FORMAT_INVOICE_LINE,
+          key: name,
+          index: 0,
+        };
+
+        const actual = invoiceDetailReducer(state, action);
+
+        expect(actual.invoice.lines[0][displayName]).toEqual(displayValue);
+      });
+    });
+
+    it('should not format other keys', () => {
       const state = {
         invoice: {
-          lines: [
-            {},
-            {
-              units: '',
-            },
-          ],
+          lines: [{}],
         },
+        something: '',
       };
 
       const action = {
         intent: FORMAT_INVOICE_LINE,
-        index: 1,
-        key: 'units',
+        key: 'blah',
+        index: 0,
       };
 
       const actual = invoiceDetailReducer(state, action);
 
-      expect(actual.invoice.lines[1].units).toEqual('1');
+      const expected = {
+        invoice: {
+          lines: [{}],
+        },
+        something: '',
+      };
+
+      expect(actual).toEqual(expected);
     });
   });
 
