@@ -8,7 +8,7 @@ import React from 'react';
 import LinkButton from '../../../components/Button/LinkButton';
 import fileUnavailableGraphic from './fileUnavailableGraphic.svg';
 
-const FileUnavailable = ({ region, businessId, isOnlineOnly }) => {
+const FileUnavailable = ({ isOnlineOnly }) => {
   const arlUserCard = (
     <BaseTemplate>
       <Card>
@@ -31,10 +31,15 @@ const FileUnavailable = ({ region, businessId, isOnlineOnly }) => {
         <PageState
           actions={[
             <LinkButton href="/#/businesses" type="link" icon={<Icons.Switch />}>My businesses</LinkButton>,
-            <LinkButton href={`/#/${region}/${businessId}/dashboard`} type="link" icon={<Icons.Refresh />}>Refresh</LinkButton>,
           ]}
           title="Business upgrading"
-          description="Your business is being upgraded and will be available soon. Refresh this page to check if your business is upgraded."
+          description={
+            <React.Fragment>
+              <p>Your business is being updated and could take up to 2 hours to complete.</p>
+              <p>We apologise for any inconvenience.</p>
+              <p>Check back later to see if your business has updated.</p>
+            </React.Fragment>
+          }
           image={<img src={fileUnavailableGraphic} alt="file unavailable" />}
         />
       </Card>
