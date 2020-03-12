@@ -139,7 +139,7 @@ const GeneralPayrollInformationView = (props) => {
                   key: 'defaultSuperFund',
                   value: id,
                 })}
-                allowClearSelection
+                allowClear
                 selectedId={defaultSuperFund}
                 width="xl"
               />

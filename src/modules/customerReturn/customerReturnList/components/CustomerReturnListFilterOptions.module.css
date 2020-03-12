@@ -10,6 +10,10 @@
   width: var(--flx-width-field-l);
 }
 
+.customerCombobox :global(input[name="customerId"]::placeholder) {
+  color: var(--flx-palette-thunder);
+}
+
 .totalCreditAmount {
   font-weight: 500;
 }

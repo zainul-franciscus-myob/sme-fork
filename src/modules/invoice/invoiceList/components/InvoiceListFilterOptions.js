@@ -73,9 +73,10 @@ class InvoiceListFilterOptions extends React.Component {
               selectedId={customerId}
               onChange={this.onComboBoxChange}
               label="Customer"
-              name="Customer"
+              name="customerId"
               hideLabel={false}
-              hasAllItem
+              hintText="All"
+              allowClear
             />
           </div>
           <DatePicker name="issuedFrom" label="Issued from" value={dateFrom} onSelect={this.onDateChange('dateFrom')} />

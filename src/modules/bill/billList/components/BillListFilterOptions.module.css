@@ -18,6 +18,10 @@
   width: var(--flx-width-field-l);
 }
 
+.supplier :global(input[name="supplier"]::placeholder) {
+  color: var(--flx-palette-thunder);
+}
+
 @media (min-width: 768px) {
   .total div {
     display: inline-block;

@@ -2,3 +2,7 @@
   text-align: end;
   font-weight: var(--flx-font-weight-bold);
 }
+
+.filterOptions :global(input[name="customerId"]::placeholder) {
+  color: var(--flx-palette-thunder);
+}

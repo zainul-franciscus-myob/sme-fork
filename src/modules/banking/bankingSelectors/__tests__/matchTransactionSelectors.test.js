@@ -538,7 +538,7 @@ describe('matchTransactionSelectors', () => {
         bankFeedTransactionId: '1',
         keywords: '',
         showType: 'selected',
-        contactId: '',
+        contactId: undefined,
         includeClosed: false,
         accountId: '123',
         dateFrom: '2018-05-01',

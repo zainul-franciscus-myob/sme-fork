@@ -212,7 +212,7 @@ export const getBankTransactionLineByIndex = (state, index) => {
 };
 
 export const getAppliedPaymentRuleContactId = ({ appliedRule = {} }) => (
-  ['Invoice', 'Bill'].includes(appliedRule.ruleType) ? String(appliedRule.contactId) : ''
+  ['Invoice', 'Bill'].includes(appliedRule.ruleType) ? String(appliedRule.contactId) : undefined
 );
 
 export const getIsAllocated = ({ type, journals }) => (

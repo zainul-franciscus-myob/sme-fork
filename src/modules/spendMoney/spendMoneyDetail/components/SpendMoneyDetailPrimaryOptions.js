@@ -77,6 +77,7 @@ const SpendMoneyDetailPrimaryOptions = ({
             label: 'Create contact',
             onAddNew: onAddContact,
           }}
+          allowClear
         />
       </div>
       {shouldShowReportable && (
@@ -91,7 +92,7 @@ const SpendMoneyDetailPrimaryOptions = ({
       )}
       {shouldShowAccountCode && (
         <AccountCombobox
-          allowClearSelection
+          allowClear
           items={accountOptions}
           selectedId={expenseAccountId}
           onChange={handleComboBoxChange('expenseAccountId')}

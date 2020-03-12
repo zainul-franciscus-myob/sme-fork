@@ -42,7 +42,7 @@ const PayrollDetailSuperannuationDetails = ({
             'selectedSuperFundId',
             onUpdatePayrollDetailSuperannuationDetails,
           )}
-          allowClearSelection
+          allowClear
           addNewItem={{
             label: 'Create superannuation fund',
             onAddNew: onOpenSuperFundModal,

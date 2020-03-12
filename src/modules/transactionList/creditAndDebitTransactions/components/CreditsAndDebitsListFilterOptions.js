@@ -45,13 +45,17 @@ const CreditsAndDebitsListFilterOptions = ({
         <Select.Option value={value} label={label} key={value} />
       ))}
     </Select>
-    <AccountCombobox
-      label="Account"
-      name="accountId"
-      items={accountList}
-      selectedId={accountId}
-      onChange={handleComboboxChange('accountId', onUpdateFilters)}
-    />
+    <div className={styles.accountCombo}>
+      <AccountCombobox
+        label="Account"
+        name="accountId"
+        items={accountList}
+        selectedId={accountId}
+        onChange={handleComboboxChange('accountId', onUpdateFilters)}
+        hintText="All"
+        allowClear
+      />
+    </div>
     <FilterBarSearch
       className={styles.search}
       label="Search"

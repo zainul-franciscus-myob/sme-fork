@@ -1,19 +1,10 @@
 import { Combobox } from '@myob/myob-widgets';
 import React from 'react';
 
-const buildItems = ({ hasAllItem, allItem, items }) => {
-  if (hasAllItem) {
-    return [allItem, ...items];
-  }
-
-  return items;
-};
-
 const ContactCombobox = (props) => {
   const {
     items = [],
     selectedId,
-    hasAllItem,
     onChange,
     ...otherProps
   } = props;
@@ -24,26 +15,25 @@ const ContactCombobox = (props) => {
     { columnName: 'displayContactType', columnWidth: '10rem' },
   ];
 
-  const allItem = { displayName: 'All', id: undefined };
-
-  const emptyValue = hasAllItem ? allItem : {};
-
   const selectedItem = items
-    .find(option => option.id === selectedId) || emptyValue;
+    .find(option => option.id === selectedId) || {};
+
+  const onComboboxChange = (item) => {
+    const newItem = item || {};
+    if (selectedId !== newItem.id) {
+      onChange(newItem);
+    }
+  };
 
   return (
     <Combobox
       metaData={metaData}
-      items={buildItems({ hasAllItem, allItem, items })}
+      items={items}
       selected={selectedItem}
-      onChange={onChange}
+      onChange={onComboboxChange}
       {...otherProps}
     />
   );
-};
-
-ContactCombobox.defaultProps = {
-  selectedId: null,
 };
 
 export default ContactCombobox;

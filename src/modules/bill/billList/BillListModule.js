@@ -187,9 +187,9 @@ export default class BillListModule {
     });
   };
 
-  updateFilterOptions = ({ filterName, value }) => this.store.dispatch({
+  updateFilterOptions = ({ key, value }) => this.store.dispatch({
     intent: UPDATE_FILTER_OPTIONS,
-    filterName,
+    filterName: key,
     value,
   });
 

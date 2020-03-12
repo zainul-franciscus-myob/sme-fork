@@ -86,7 +86,7 @@ const SellingDetails = ({
       items={sellingAccounts}
       requiredLabel="This is required"
       selectedId={allocateToAccountId}
-      allowClearSelection
+      allowClear
       disabled={!enabled}
       onChange={handleComboboxChange('allocateToAccountId', onSellingDetailsChange)}
     />
@@ -95,7 +95,7 @@ const SellingDetails = ({
       requiredLabel="This is required"
       selectedId={taxCodeId}
       label={taxLabel}
-      allowClearSelection
+      allowClear
       disabled={!enabled}
       onChange={handleComboboxChange('taxCodeId', onSellingDetailsChange)}
       width="sm"

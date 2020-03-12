@@ -65,11 +65,13 @@ const MatchTransactionOptions = (props) => {
           showAllFilters && (
             <FilterGroup>
               <ContactCombobox
-                hasAllItem
                 label="Contact"
                 items={contacts}
                 selectedId={contactId}
+                name="contactId"
                 onChange={handleComboboxChange('contactId', onUpdateMatchTransactionOptions)}
+                hintText="All"
+                allowClear
               />
               {
                 showIncludeClosedCheckbox && (

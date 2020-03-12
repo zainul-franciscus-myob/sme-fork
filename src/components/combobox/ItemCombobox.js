@@ -18,20 +18,23 @@ const ItemCombobox = (props) => {
   const selectedItem = items
     .find(option => option.id === selectedId) || {};
 
+  const onComboboxChange = (item) => {
+    const newItem = item || {};
+    if (selectedId !== newItem.id) {
+      onChange(newItem);
+    }
+  };
+
   return (
     <Combobox
       metaData={metaData}
       items={items}
       selected={selectedItem}
-      onChange={onChange}
+      onChange={onComboboxChange}
       addNewItem={addNewItem && { label: 'Create item', onAddNew: addNewItem }}
       {...otherProps}
     />
   );
-};
-
-ItemCombobox.defaultProps = {
-  selectedId: null,
 };
 
 export default ItemCombobox;

@@ -1,12 +1,12 @@
 import { DatePicker } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { getCustomerFilterOptions, getFilterOptions, getTotal } from '../quoteListSelectors';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
 import FilterBar from '../../../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
-import style from './QuoteListView.module.css';
+import styles from './QuoteListView.module.css';
 
 class QuoteListFilterOptions extends React.Component {
   onComboBoxChange = (item) => {
@@ -44,16 +44,17 @@ class QuoteListFilterOptions extends React.Component {
     } = this.props;
 
     return (
-      <Fragment>
+      <div className={styles.filterOptions}>
         <FilterBar onApply={onApplyFilter}>
           <CustomerCombobox
             items={customerFilterOptions}
             selectedId={customerId}
             onChange={this.onComboBoxChange}
             label="Customer"
-            name="Customer"
+            name="customerId"
             hideLabel={false}
-            hasAllItem
+            hintText="All"
+            allowClear
           />
           <FilterBar.Group>
             <DatePicker name="issuedFrom" label="Issued from" value={dateFrom} onSelect={this.onFilterChange('dateFrom')} />
@@ -62,10 +63,10 @@ class QuoteListFilterOptions extends React.Component {
           <FilterBarSearch name="search" value={keywords} onChange={this.onSearchBoxChange} />
         </FilterBar>
         <hr />
-        <div className={style.total}>
+        <div className={styles.total}>
           {`Total amount ${total}`}
         </div>
-      </Fragment>
+      </div>
     );
   }
 }

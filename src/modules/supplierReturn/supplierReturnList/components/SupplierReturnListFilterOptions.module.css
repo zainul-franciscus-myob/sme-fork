@@ -1,5 +1,9 @@
-.supplierCombobox :global(.form-group) { 
+.supplierCombobox :global(.form-group) {
   width: var(--flx-width-field-l);
+}
+
+.supplierCombobox :global(input[name="supplierId"]::placeholder) {
+  color: var(--flx-palette-thunder);
 }
 
 .totals {

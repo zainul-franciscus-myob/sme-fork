@@ -18,19 +18,22 @@ const CountryCombobox = (props) => {
   const selectedItem = countryList
     .find(option => option.value === selectedId) || {};
 
+  const onComboboxChange = (item) => {
+    const newItem = item || {};
+    if (selectedId !== newItem.value) {
+      onChange(newItem);
+    }
+  };
+
   return (
     <Combobox
       metaData={metaData}
       items={countryList}
       selected={selectedItem}
-      onChange={onChange}
+      onChange={onComboboxChange}
       {...otherProps}
     />
   );
-};
-
-CountryCombobox.defaultProps = {
-  selectedId: null,
 };
 
 export default CountryCombobox;

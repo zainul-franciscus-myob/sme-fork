@@ -97,7 +97,7 @@ const getDefaultState = () => ({
       totalAmount: 0,
       filterOptions: {
         showType: 'closeMatches',
-        contactId: 'All',
+        contactId: undefined,
         keywords: '',
         includeClosed: false,
       },

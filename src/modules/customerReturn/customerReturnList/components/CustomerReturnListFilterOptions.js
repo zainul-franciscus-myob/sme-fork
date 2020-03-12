@@ -11,11 +11,10 @@ import {
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
 import FilterBar from '../../../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
-import style from './CustomerReturnListFilterOptions.module.css';
+import handleInputChange from '../../../../components/handlers/handleInputChange';
+import styles from './CustomerReturnListFilterOptions.module.css';
 
-const onTextFieldChange = handler => ({ target: { name: key, value } }) => handler({ key, value });
-
-const onComboBoxChange = (key, handler) => ({ value }) => handler({ key, value });
+const handleComboboxChange = (key, handler) => ({ value } = {}) => handler({ key, value });
 
 const CustomerReturnListFilterOptions = ({
   onUpdateFilterBarOptions,
@@ -30,15 +29,17 @@ const CustomerReturnListFilterOptions = ({
 }) => (
   <React.Fragment>
     <FilterBar onApply={onApplyFilter}>
-      <div className={style.customerCombobox}>
+      <div className={styles.customerCombobox}>
         <CustomerCombobox
           label="Customer"
           name="customerId"
           hideLabel={false}
           items={customerFilterOptions}
           selectedId={customerId}
-          onChange={onComboBoxChange('customerId', onUpdateFilterBarOptions)}
+          onChange={handleComboboxChange('customerId', onUpdateFilterBarOptions)}
           width="lg"
+          hintText="All"
+          allowClear
         />
       </div>
       <FilterBarSearch
@@ -48,16 +49,16 @@ const CustomerReturnListFilterOptions = ({
         placeholder=""
         maxLength={255}
         value={keywords}
-        onChange={onTextFieldChange(onUpdateFilterBarOptions)}
+        onChange={handleInputChange(onUpdateFilterBarOptions)}
       />
     </FilterBar>
 
     <hr />
 
-    <div className={style.totals}>
-      <span className={style.totalAmount}>{`Total amount ${totalAmount}`}</span>
+    <div className={styles.totals}>
+      <span className={styles.totalAmount}>{`Total amount ${totalAmount}`}</span>
 
-      <span className={style.totalCreditAmount}>{`Total balance due ${totalCreditAmount}`}</span>
+      <span className={styles.totalCreditAmount}>{`Total balance due ${totalCreditAmount}`}</span>
     </div>
 
   </React.Fragment>

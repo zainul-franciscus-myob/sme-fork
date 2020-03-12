@@ -27,6 +27,10 @@
   width: var(--flx-width-field-l);
 }
 
+.customer :global(input[name="customerId"]::placeholder) {
+  color: var(--flx-palette-thunder);
+}
+
 @media (min-width: 768px) {
   .totals {
     display: flex;

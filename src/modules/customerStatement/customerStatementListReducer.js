@@ -29,7 +29,7 @@ import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate
 const getDefaultDateRange = () => addMonths(new Date(), -3);
 
 const defaultFilterOptions = {
-  selectedCustomerId: 'All',
+  selectedCustomerId: undefined,
   showZeroAmount: false,
 };
 
@@ -106,12 +106,11 @@ const loadCustomerStatements = (state, { payload }) => ({
   ...state,
   filterOptions: {
     ...state.filterOptions,
-    selectedCustomerId: state.filterOptions.selectedCustomerId || payload.customerOptions[0].value,
+    selectedCustomerId: state.filterOptions.selectedCustomerId,
   },
   appliedFilterOptions: {
     ...state.appliedFilterOptions,
-    selectedCustomerId: state.appliedFilterOptions.selectedCustomerId
-    || payload.customerOptions[0].value,
+    selectedCustomerId: state.appliedFilterOptions.selectedCustomerId,
   },
   customerStatements: payload.customerStatements,
   customerOptions: payload.customerOptions,

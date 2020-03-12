@@ -1,6 +1,5 @@
 export default {
   supplierFilters: [
-    { name: 'All Suppliers', value: 'All' },
     { name: 'The Reject Shop', value: '1' },
     { name: 'Big Kevs steak knives', value: '2' },
     { name: 'The Crystal Palace', value: '3' },

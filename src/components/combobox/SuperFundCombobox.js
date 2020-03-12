@@ -6,7 +6,6 @@ const SuperFundCombobox = (props) => {
     items = [],
     selectedId,
     onChange,
-    allowClearSelection,
     ...otherProps
   } = props;
 
@@ -14,39 +13,26 @@ const SuperFundCombobox = (props) => {
     { columnName: 'name', showData: true },
   ];
 
-  const clearSelectionText = 'None';
-
-  const clearSelectionItem = { name: clearSelectionText };
   const formattedItems = items.map(({ name, ...rest }) => ({ ...rest, name: ` ${name}` }));
 
-  const completedItems = allowClearSelection
-    ? [clearSelectionItem, ...formattedItems]
-    : formattedItems;
-
-  const selectedItem = completedItems.find(option => option.id === selectedId) || {};
+  const selectedItem = formattedItems.find(option => option.id === selectedId) || {};
 
   const onComboboxChange = (item) => {
-    if (item.displayId === clearSelectionText) {
-      onChange({ id: '' });
-    } else {
-      onChange(item);
+    const newItem = item || {};
+    if (selectedId !== newItem.id) {
+      onChange(newItem);
     }
   };
 
   return (
     <Combobox
       metaData={metaData}
-      items={completedItems}
+      items={formattedItems}
       selected={selectedItem}
       onChange={onComboboxChange}
       {...otherProps}
     />
   );
-};
-
-SuperFundCombobox.defaultProps = {
-  selectedId: null,
-  allowClearSelection: false,
 };
 
 export default SuperFundCombobox;

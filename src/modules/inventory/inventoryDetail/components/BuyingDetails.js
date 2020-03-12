@@ -74,7 +74,7 @@ const BuyingDetails = ({
       requiredLabel="This is required"
       items={buyingAccounts}
       selectedId={allocateToAccountId}
-      allowClearSelection
+      allowClear
       onChange={handleComboboxChange('allocateToAccountId', onBuyingDetailsChange)}
     />
     <TaxCodeCombobox
@@ -83,7 +83,7 @@ const BuyingDetails = ({
       selectedId={taxCodeId}
       requiredLabel="This is required"
       label={taxLabel}
-      allowClearSelection
+      allowClear
       onChange={handleComboboxChange('taxCodeId', onBuyingDetailsChange)}
       width="sm"
     />

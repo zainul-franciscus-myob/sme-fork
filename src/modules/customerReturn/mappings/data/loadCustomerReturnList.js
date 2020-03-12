@@ -1,6 +1,5 @@
 export default {
   customerFilters: [
-    { name: 'All', value: 'All' },
     { name: 'Cameron James', value: '1' },
     { name: 'John Smith', value: '2' },
     { name: 'Serena Jaramillo', value: '3' },
@@ -8,7 +7,6 @@ export default {
   ],
   sortOrder: 'asc',
   orderBy: 'DateOccurred',
-  customerId: 'All',
   totalAmount: '$2,100.00',
   totalCreditAmount: '$56.34',
   entries: [

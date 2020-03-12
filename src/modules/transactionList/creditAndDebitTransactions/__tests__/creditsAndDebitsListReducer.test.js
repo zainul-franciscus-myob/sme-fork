@@ -40,7 +40,7 @@ describe('creditsAndDebitsListReducer', () => {
 
       const filterOptions = {
         sourceJournal,
-        accountId: 'All',
+        accountId: undefined,
         dateFrom,
         dateTo,
         keywords: '',
@@ -85,7 +85,7 @@ describe('creditsAndDebitsListReducer', () => {
 
       const filterOptions = {
         sourceJournal: 'Foo',
-        accountId: 'All',
+        accountId: undefined,
         dateFrom,
         dateTo,
         keywords: '',
@@ -177,7 +177,7 @@ describe('creditsAndDebitsListReducer', () => {
           dateFrom: '2019-12-01',
           dateTo: '2019-12-31',
           keywords: 'keywords',
-          accountId: 'All',
+          accountId: undefined,
         },
       };
 
@@ -191,7 +191,7 @@ describe('creditsAndDebitsListReducer', () => {
 
       const expected = {
         ...filterOptions,
-        accountId: 'All',
+        accountId: undefined,
       };
 
       const action = { intent: REPLACE_FILTER_OPTIONS, filterOptions };

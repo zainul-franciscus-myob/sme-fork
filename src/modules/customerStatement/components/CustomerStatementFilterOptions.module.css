@@ -5,3 +5,7 @@
 .customerCombobox :global(.form-group__input-group) {
   width: var(--flx-width-field-m);
 }
+
+.customerCombobox :global(input[name="selectedCustomerId"]::placeholder) {
+  color: var(--flx-palette-thunder);
+}

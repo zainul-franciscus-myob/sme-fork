@@ -6,7 +6,6 @@ const AccountCombobox = (props) => {
     items = [],
     selectedId,
     onChange,
-    allowClearSelection,
     addNewAccount,
     ...otherProps
   } = props;
@@ -17,44 +16,32 @@ const AccountCombobox = (props) => {
     { columnName: 'accountType', columnWidth: '10rem' },
   ];
 
-  const clearSelectionText = 'None';
 
-  const clearSelectionItem = { displayId: clearSelectionText };
   const formattedItems = items
     && items.map(({ displayName, ...rest }) => ({
       ...rest,
       displayName: ` ${displayName}`,
     }));
 
-  const completedItems = allowClearSelection
-    ? [clearSelectionItem, ...formattedItems]
-    : formattedItems;
-
-  const selectedItem = completedItems.find(option => option.id === selectedId) || {};
+  const selectedItem = formattedItems.find(option => option.id === selectedId) || {};
 
   const onComboboxChange = (item) => {
-    if (item.displayId === clearSelectionText) {
-      onChange({ id: '' });
-    } else {
-      onChange(item);
+    const newItem = item || {};
+    if (selectedId !== newItem.id) {
+      onChange(newItem);
     }
   };
 
   return (
     <Combobox
       metaData={metaData}
-      items={completedItems}
+      items={formattedItems}
       selected={selectedItem}
       onChange={onComboboxChange}
       addNewItem={addNewAccount && { onAddNew: addNewAccount, label: 'Create account' }}
       {...otherProps}
     />
   );
-};
-
-AccountCombobox.defaultProps = {
-  selectedId: null,
-  allowClearSelection: false,
 };
 
 export default AccountCombobox;

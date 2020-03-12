@@ -56,11 +56,11 @@ describe('customerReturnListSelectors', () => {
       const state = {
         entries: [],
         defaultFilterOptions: {
-          customerId: 'All',
+          customerId: undefined,
           keywords: '',
         },
         appliedFilterOptions: {
-          customerId: 'All',
+          customerId: undefined,
           keywords: '',
         },
       };
@@ -73,7 +73,7 @@ describe('customerReturnListSelectors', () => {
       const state = {
         entries: [],
         defaultFilterOptions: {
-          customerId: 'All',
+          customerId: undefined,
           keywords: '',
         },
         appliedFilterOptions: {

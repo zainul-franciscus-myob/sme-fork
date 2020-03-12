@@ -13,7 +13,7 @@ import handleDateChange from '../../../components/handlers/handleDateChange';
 import handleSelectChange from '../../../components/handlers/handleSelectChange';
 import styles from './CustomerStatementFilterOptions.module.css';
 
-const handleComboboxChange = (key, handler) => (item) => {
+const handleComboboxChange = (key, handler) => (item = {}) => {
   handler({
     key,
     value: item.value,
@@ -59,6 +59,8 @@ const CustomerStatementFilterOptions = ({
         selectedId={selectedCustomerId}
         onChange={handleComboboxChange('selectedCustomerId', onUpdateFilters)}
         hideLabel={false}
+        hintText="All"
+        allowClear
       />
     </div>
   );

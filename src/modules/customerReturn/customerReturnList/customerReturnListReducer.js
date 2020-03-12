@@ -14,7 +14,7 @@ import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 const defaultFilterOptions = {
-  customerId: 'All',
+  customerId: undefined,
   keywords: '',
 };
 
@@ -47,11 +47,11 @@ const loadCustomerReturnList = (state, {
   ...rest,
   filterOptions: {
     ...state.filterOptions,
-    customerId: state.filterOptions.customerId || customerFilters[0].value,
+    customerId: state.filterOptions.customerId,
   },
   appliedFilterOptions: {
     ...state.appliedFilterOptions,
-    customerId: state.appliedFilterOptions.customerId || customerFilters[0].value,
+    customerId: state.appliedFilterOptions.customerId,
   },
   sortOrder: state.sortOrder || defaultSortingOption.sortOrder,
   orderBy: state.orderBy || defaultSortingOption.orderBy,

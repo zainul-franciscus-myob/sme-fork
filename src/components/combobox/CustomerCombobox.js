@@ -1,20 +1,11 @@
 import { Combobox } from '@myob/myob-widgets';
 import React from 'react';
 
-const buildItems = ({ hasAllItem, allItem, items }) => {
-  if (hasAllItem) {
-    return [allItem, ...items];
-  }
-
-  return items;
-};
-
 const CustomerCombobox = (props) => {
   const {
     items = [],
     selectedId,
     onChange,
-    hasAllItem,
     ...otherProps
   } = props;
 
@@ -22,26 +13,25 @@ const CustomerCombobox = (props) => {
     { columnName: 'name', showData: true },
   ];
 
-  const allItem = { name: 'All', value: undefined };
-
-  const emptyValue = hasAllItem ? allItem : {};
-
   const selectedItem = items
-    .find(option => option.value === selectedId) || emptyValue;
+    .find(option => option.value === selectedId) || {};
+
+  const onComboboxChange = (item) => {
+    const newItem = item || {};
+    if (selectedId !== newItem.value) {
+      onChange(newItem);
+    }
+  };
 
   return (
     <Combobox
       metaData={metaData}
-      items={buildItems({ hasAllItem, allItem, items })}
+      items={items}
       selected={selectedItem}
-      onChange={onChange}
+      onChange={onComboboxChange}
       {...otherProps}
     />
   );
-};
-
-CustomerCombobox.defaultProps = {
-  selectedId: null,
 };
 
 export default CustomerCombobox;

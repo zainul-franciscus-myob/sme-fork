@@ -76,6 +76,7 @@ class ReceiveMoneyDetailOptions extends Component {
           }}
           hideLabel={false}
           disabled={isContactDisabled}
+          allowClear
         />
         <TextArea
           name="description"

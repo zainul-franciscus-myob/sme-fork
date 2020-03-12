@@ -6,3 +6,7 @@
 .search {
   width: 14rem;
 }
+
+.accountCombo :global(input[name="accountId"]::placeholder) {
+  color: var(--flx-palette-thunder);
+}

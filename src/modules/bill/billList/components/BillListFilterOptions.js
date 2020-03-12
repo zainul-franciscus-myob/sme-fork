@@ -15,13 +15,10 @@ import {
 import FilterBar from '../../../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
 import SupplierCombobox from '../../../../components/combobox/SupplierCombobox';
+import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
+import handleDateChange from '../../../../components/handlers/handleDateChange';
+import handleSelectChange from '../../../../components/handlers/handleSelectChange';
 import styles from './BillListFilterOptions.module.css';
-
-const onSelectChange = (key, handler) => e => handler({ filterName: key, value: e.target.value });
-
-const onDatePickerChange = (filterName, handler) => ({ value }) => handler({ filterName, value });
-
-const handleComboBoxChange = (key, handler) => item => handler({ filterName: key, value: item.id });
 
 const BillListFilterOptions = ({
   filterOptions: {
@@ -42,7 +39,7 @@ const BillListFilterOptions = ({
 }) => (
   <React.Fragment>
     <FilterBar onApply={onApplyFilter}>
-      <Select name="status" label="Status" value={status} onChange={onSelectChange('status', onUpdateFilters)}>
+      <Select name="status" label="Status" value={status} onChange={handleSelectChange('status', onUpdateFilters)}>
         {statusFilterOptions.map(({ name, value }) => (
           <Select.Option value={value} label={name} key={value} />
         ))}
@@ -54,18 +51,19 @@ const BillListFilterOptions = ({
           hideLabel={false}
           items={supplierFilterOptions}
           selectedId={supplierId}
-          onChange={handleComboBoxChange('supplierId', onUpdateFilters)}
-          hasAllItem
+          onChange={handleComboboxChange('supplierId', onUpdateFilters)}
+          hintText="All"
+          allowClear
         />
       </div>
       <FilterBar.Group>
-        <DatePicker label="Issue from" name="dateFrom" value={dateFrom} onSelect={onDatePickerChange('dateFrom', onUpdateFilters)} />
-        <DatePicker label="Issue to" name="dateTo" value={dateTo} onSelect={onDatePickerChange('dateTo', onUpdateFilters)} />
+        <DatePicker label="Issue from" name="dateFrom" value={dateFrom} onSelect={handleDateChange('dateFrom', onUpdateFilters)} />
+        <DatePicker label="Issue to" name="dateTo" value={dateTo} onSelect={handleDateChange('dateTo', onUpdateFilters)} />
       </FilterBar.Group>
       <FilterBarSearch
         name="search"
         value={keywords}
-        onChange={onSelectChange('keywords', onUpdateFilters)}
+        onChange={handleSelectChange('keywords', onUpdateFilters)}
       />
     </FilterBar>
     <hr />

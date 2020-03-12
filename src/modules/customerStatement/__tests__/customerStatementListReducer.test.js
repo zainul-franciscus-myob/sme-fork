@@ -3,35 +3,6 @@ import customerStatementListReducer from '../customerStatementListReducer';
 
 describe('customerStatementListReducer', () => {
   describe('loadCustomerStatements', () => {
-    it('should use the initial value of customerOptions if selectedCustomerId doesn\'t exist', () => {
-      const state = {
-        filterOptions: {
-          selectedCustomerId: '',
-        },
-        appliedFilterOptions: {
-          selectedCustomerId: '',
-        },
-      };
-
-      const action = {
-        intent: LOAD_CUSTOMER_STATEMENTS,
-        payload: {
-          customerOptions: [
-            {
-              value: 'some-value',
-            },
-          ],
-        },
-      };
-
-      const actual = customerStatementListReducer(state, action);
-
-      const expected = 'some-value';
-
-      expect(actual.filterOptions.selectedCustomerId).toEqual(expected);
-      expect(actual.appliedFilterOptions.selectedCustomerId).toEqual(expected);
-    });
-
     it('should not use the initial value of customerOptions if selectedCustomerId exists', () => {
       const state = {
         filterOptions: {

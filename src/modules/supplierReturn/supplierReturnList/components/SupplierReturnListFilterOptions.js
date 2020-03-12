@@ -7,11 +7,9 @@ import {
 import FilterBar from '../../../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
 import SupplierCombobox from '../../../../components/combobox/SupplierCombobox';
+import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
+import handleInputChange from '../../../../components/handlers/handleInputChange';
 import styles from './SupplierReturnListFilterOptions.module.css';
-
-const onTextFieldChange = handler => ({ target: { name: key, value } }) => handler({ key, value });
-
-const onSupplierComboboxChange = handler => ({ id }) => handler({ key: 'supplierId', value: id });
 
 const SupplierReturnListFilterOptions = ({
   onUpdateFilterBarOptions,
@@ -33,7 +31,9 @@ const SupplierReturnListFilterOptions = ({
           hideLabel={false}
           items={supplierFilterOptions}
           selectedId={supplierId}
-          onChange={onSupplierComboboxChange(onUpdateFilterBarOptions)}
+          onChange={handleComboboxChange('supplierId', onUpdateFilterBarOptions)}
+          hintText="All"
+          allowClear
         />
       </div>
       <FilterBarSearch
@@ -43,7 +43,7 @@ const SupplierReturnListFilterOptions = ({
         placeholder="Search"
         maxLength={255}
         value={keywords}
-        onChange={onTextFieldChange(onUpdateFilterBarOptions)}
+        onChange={handleInputChange(onUpdateFilterBarOptions)}
       />
     </FilterBar>
 

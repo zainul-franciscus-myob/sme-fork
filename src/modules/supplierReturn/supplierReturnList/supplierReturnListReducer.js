@@ -14,7 +14,7 @@ import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 const defaultFilterOptions = {
-  supplierId: 'All',
+  supplierId: undefined,
   keywords: '',
 };
 

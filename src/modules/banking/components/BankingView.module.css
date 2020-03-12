@@ -107,6 +107,10 @@
   margin-bottom: 1rem;
 }
 
+.filterOptions :global(input[name="contactId"]::placeholder) {
+  color: var(--flx-palette-thunder);
+}
+
 @media (min-width: 768px) {
   .paymentAllocationFilterOptions {
     display: grid;

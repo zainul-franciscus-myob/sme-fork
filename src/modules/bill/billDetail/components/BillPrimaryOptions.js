@@ -67,7 +67,7 @@ const BillPrimaryOptions = ({
     />
     {shouldShowAccountCode && (
     <AccountCombobox
-      allowClearSelection
+      allowClear
       items={accountOptions}
       selectedId={expenseAccountId}
       onChange={handleComboboxChange('expenseAccountId', onUpdateBillOption)}

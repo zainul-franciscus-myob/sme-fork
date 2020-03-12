@@ -125,7 +125,7 @@ const ContactDetails = ({
       isSupplier && (
         <AccountCombobox
           disabled={isLoadingAccount}
-          allowClearSelection
+          allowClear
           label="Expense account"
           labelAccessory={(
             <Tooltip>

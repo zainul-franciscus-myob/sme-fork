@@ -8,7 +8,6 @@ const TaxCodeCombobox = (props) => {
     selectedId,
     onChange,
     disabled,
-    allowClearSelection,
     ...otherProps
   } = props;
 
@@ -18,26 +17,20 @@ const TaxCodeCombobox = (props) => {
     { columnName: 'displayRate', columnWidth: '5rem' },
   ];
 
-  const clearSelectionText = 'None';
-
-  const clearSelectionItem = { displayName: clearSelectionText };
-  const completedItems = allowClearSelection ? [clearSelectionItem, ...items] : items;
-
-  const selectedItem = completedItems
+  const selectedItem = items
     .find(option => option.id === selectedId) || {};
 
   const onComboboxChange = (item) => {
-    if (item.displayName === clearSelectionText) {
-      onChange({ id: '' });
-    } else {
-      onChange(item);
+    const newItem = item || {};
+    if (selectedId !== newItem.id) {
+      onChange(newItem);
     }
   };
 
   return (
     <Combobox
       metaData={metaData}
-      items={completedItems}
+      items={items}
       onChange={onComboboxChange}
       selected={selectedItem}
       disabled={disabled}
