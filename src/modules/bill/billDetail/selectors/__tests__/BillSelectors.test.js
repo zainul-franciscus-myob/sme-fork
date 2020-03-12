@@ -6,6 +6,7 @@ import {
   getLoadBillModalType,
   getNewLineIndex,
   getPageTitle,
+  getPrefillButtonText,
   getTableData,
   getUpdatedSupplierOptions,
 } from '../billSelectors';
@@ -270,6 +271,28 @@ describe('BillSelectors', () => {
       const actual = getUpdatedSupplierOptions({ supplierOptions: [option1] }, option2);
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getPrefillButtonText', () => {
+    it('show prefill when new', () => {
+      const state = {
+        billId: 'new',
+      };
+
+      const actual = getPrefillButtonText(state);
+
+      expect(actual).toEqual('Prefill from a source document');
+    });
+
+    it('show link when existing', () => {
+      const state = {
+        billId: '👨🏻‍💻',
+      };
+
+      const actual = getPrefillButtonText(state);
+
+      expect(actual).toEqual('Link a source document');
     });
   });
 });

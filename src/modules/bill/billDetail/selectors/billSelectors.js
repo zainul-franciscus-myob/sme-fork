@@ -22,6 +22,11 @@ export const getIsCreatingFromInTray = createSelector(
   (isCreating, source) => isCreating && source === 'inTray',
 );
 
+export const getPrefillButtonText = createSelector(
+  getIsCreating,
+  (isCreating) => (isCreating ? 'Prefill from a source document' : 'Link a source document'),
+);
+
 export const getLoadingState = state => state.loadingState;
 
 export const getTotalTaxLabel = state => getRegionToDialectText(state.region)('Tax');

@@ -9,7 +9,7 @@ import {
   getInTrayDocument,
   getIsDocumentLoading,
 } from '../selectors/BillInTrayDocumentSelectors';
-import { getIsCreatingFromInTray } from '../selectors/billSelectors';
+import { getIsCreatingFromInTray, getPrefillButtonText } from '../selectors/billSelectors';
 import Thumbnail from '../../../../components/Thumbnail/Thumbnail';
 import styles from './BillInTrayDocumentView.module.css';
 
@@ -17,6 +17,7 @@ const BillInTrayDocumentView = ({
   hasInTrayDocumentId,
   inTrayDocument,
   isCreatingFromInTray,
+  prefillButtonText,
   onPrefillButtonClick,
   onOpenSplitViewButtonClick,
   onUnlinkDocumentButtonClick,
@@ -48,7 +49,7 @@ const BillInTrayDocumentView = ({
   const noDocumentView = (
     <div>
       <Button type="link" onClick={onPrefillButtonClick} icon={<Icons.GenericDocument />}>
-        Prefill from a source document
+        {prefillButtonText}
       </Button>
     </div>
   );
@@ -77,6 +78,7 @@ const mapStateToProps = state => ({
   inTrayDocument: getInTrayDocument(state),
   isDocumentLoading: getIsDocumentLoading(state),
   isCreatingFromInTray: getIsCreatingFromInTray(state),
+  prefillButtonText: getPrefillButtonText(state),
 });
 
 export default connect(mapStateToProps)(BillInTrayDocumentView);
