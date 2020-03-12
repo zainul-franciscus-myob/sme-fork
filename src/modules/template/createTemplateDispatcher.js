@@ -1,4 +1,3 @@
-
 import {
   LOAD_NEW_TEMPLATE,
   LOAD_PAY_DIRECT,
@@ -16,7 +15,7 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import { getImageKey } from './templateSelectors';
 
-const createTemplateDispatcher = store => ({
+const createTemplateDispatcher = (store) => ({
   setInitialState: (context) => {
     store.dispatch({ intent: SET_INITIAL_STATE, context });
   },
@@ -45,14 +44,14 @@ const createTemplateDispatcher = store => ({
   selectFile: (file) => {
     const reader = new FileReader();
     const key = getImageKey(store.getState());
-    reader.readAsDataURL(file);
-    reader.onload = () => {
+    reader.onload = (e) => {
       store.dispatch({
         intent: UPDATE_TEMPLATE_OPTION,
         key,
-        value: reader.result,
+        value: e.target.result,
       });
     };
+    reader.readAsDataURL(file);
   },
 
   selectFileFromStore: () => {
@@ -63,13 +62,13 @@ const createTemplateDispatcher = store => ({
 
   setTempFile: (file) => {
     const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
+    reader.onload = (e) => {
       store.dispatch({
         intent: SET_TEMP_FILE,
-        file: reader.result,
+        file: e.target.result,
       });
     };
+    reader.readAsDataURL(file);
   },
 
   removeFile: () => {
@@ -99,7 +98,7 @@ const createTemplateDispatcher = store => ({
     });
   },
 
-  setPayDirectLoadingState: isLoading => store.dispatch({
+  setPayDirectLoadingState: (isLoading) => store.dispatch({
     intent: SET_PAY_DIRECT_LOADING_STATE, isLoading,
   }),
 

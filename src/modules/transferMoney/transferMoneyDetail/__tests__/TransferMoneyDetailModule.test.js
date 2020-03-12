@@ -89,7 +89,7 @@ describe('TransferMoneyDetailModule', () => {
         intent: LOAD_TRANSFER_MONEY_DETAIL,
       },
     ].forEach((test) => {
-      describe('when new', () => {
+      describe(`when ${test.name}`, () => {
         it('successfully load', () => {
           const { module, store, integration } = setup();
 
