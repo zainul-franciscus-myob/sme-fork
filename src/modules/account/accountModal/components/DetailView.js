@@ -10,7 +10,6 @@ import AccountCashFlowClassification from './AccountCashFlowClassification';
 import AccountName from './AccountName';
 import AccountNotes from './AccountNotes';
 import AccountNumber from './AccountNumber';
-import AccountOpeningBalance from './AccountOpeningBalance';
 import AccountTaxCode from './AccountTaxCode';
 import AccountTypeSection from './AccountTypeSection';
 import ParentHeaderSelect from './ParentHeaderSelect';
@@ -33,7 +32,6 @@ const DetailView = ({
       onBlur={onAccountNumberBlur}
     />
     <AccountName onChange={onAccountChange} />
-    <AccountOpeningBalance onChange={onAccountChange} />
     <AccountTaxCode onChange={onAccountChange} />
     <AccountNotes onChange={onAccountChange} />
     {showCashFlow && (
