@@ -1,6 +1,7 @@
 import {
   CLOSE_MODAL,
   CREATE_BILL,
+  DOWNLOAD_IN_TRAY_DOCUMENT,
   GET_TAX_CALCULATIONS,
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
@@ -12,6 +13,7 @@ import {
   SET_ATTACHMENT_ID,
   SET_DOCUMENT_LOADING_STATE,
   SET_IN_TRAY_DOCUMENT_ID,
+  SET_SHOW_SPLIT_VIEW,
   START_BLOCKING,
   START_SUPPLIER_BLOCKING,
   STOP_BLOCKING,
@@ -25,10 +27,14 @@ import { CREATE_CONTACT_MODAL, LOAD_CONTACT_MODAL } from '../../../contact/Conta
 import { LOAD_IN_TRAY_MODAL } from '../../../inTray/InTrayIntents';
 import { LOAD_NEW_ITEM, SAVE_ITEM } from '../../../inventory/inventoryModal/InventoryModalIntents';
 import { SUCCESSFULLY_SAVED_BILL } from '../types/BillMessageTypes';
-import { setUpNewBillWithPrefilled, setUpWithExisting, setUpWithNew } from './BillModule.test';
+import {
+  mockCreateObjectUrl, setUpNewBillWithPrefilled, setUpWithExisting, setUpWithNew,
+} from './BillModule.test';
 import ModalType from '../types/ModalType';
 
 describe('BillModule_Modal', () => {
+  mockCreateObjectUrl();
+
   describe('inventory modal', () => {
     it('runs the inventoryModalModule when modal opens', () => {
       const { module } = setUpWithNew();
@@ -228,6 +234,11 @@ describe('BillModule_Modal', () => {
         { intent: SET_DOCUMENT_LOADING_STATE, isDocumentLoading: false },
         expect.objectContaining({ intent: PREFILL_BILL_FROM_IN_TRAY }),
         expect.objectContaining({ intent: GET_TAX_CALCULATIONS }),
+        { intent: SET_SHOW_SPLIT_VIEW, showSplitView: true },
+        {
+          inTrayDocumentUrl: 'http://www.🐀.com',
+          intent: DOWNLOAD_IN_TRAY_DOCUMENT,
+        },
       ]);
 
       expect(integration.getRequests()).toContainEqual(
@@ -254,6 +265,11 @@ describe('BillModule_Modal', () => {
         { intent: SET_DOCUMENT_LOADING_STATE, isDocumentLoading: false },
         expect.objectContaining({ intent: PREFILL_BILL_FROM_IN_TRAY }),
         expect.objectContaining({ intent: GET_TAX_CALCULATIONS }),
+        { intent: SET_SHOW_SPLIT_VIEW, showSplitView: true },
+        {
+          inTrayDocumentUrl: 'http://www.🐀.com',
+          intent: DOWNLOAD_IN_TRAY_DOCUMENT,
+        },
       ]);
 
       expect(integration.getRequests()).toContainEqual(

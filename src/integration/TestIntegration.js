@@ -3,7 +3,7 @@ import RootMapping from './memoryMapping/RootMapping';
 class TestIntegration {
   constructor() {
     this.requests = [];
-    this.mapping = RootMapping;
+    this.resetMapping();
   }
 
   read = ({
@@ -35,6 +35,8 @@ class TestIntegration {
   }
 
   resetRequests = () => { this.requests = []; }
+
+  resetMapping = () => { this.mapping = { ...RootMapping }; }
 
   getRequests = () => this.requests;
 

@@ -13,11 +13,13 @@ import {
   UPDATE_BILL_LINE,
 } from '../BillIntents';
 import {
-  setUp, setUpNewBillWithPrefilled, setUpWithExisting, setUpWithNew,
+  mockCreateObjectUrl, setUp, setUpNewBillWithPrefilled, setUpWithExisting, setUpWithNew,
 } from './BillModule.test';
 import loadItemAndServiceBillWithOneLineResponse from './fixtures/loadItemAndServiceBillWithOneLine';
 
 describe('BillModule_TableBehaviour', () => {
+  mockCreateObjectUrl();
+
   describe('updateBillLine', () => {
     it('updates key with value', () => {
       const { module, store } = setUpWithNew();

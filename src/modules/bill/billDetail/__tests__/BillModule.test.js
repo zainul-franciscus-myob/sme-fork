@@ -20,12 +20,24 @@ import {
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import { SUCCESSFULLY_SAVED_BILL, SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK } from '../types/BillMessageTypes';
 import BillModule from '../BillModule';
+import InTrayModalModule from '../../../inTray/inTrayModal/InTrayModalModule';
 import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
 import billReducer from '../reducer/billReducer';
 import createBillDispatcher from '../createBillDispatcher';
 import createBillIntegrator from '../createBillIntegrator';
+import loadItemAndServiceBill from '../mappings/data/loadItemAndServiceBill.json';
 import prefillBillFromInTrayResponse from '../mappings/data/prefillBillFromSupplierFeed';
+
+export const mockCreateObjectUrl = () => {
+  const { createObjectURL } = URL;
+  beforeAll(() => {
+    URL.createObjectURL = () => 'http://www.🐀.com';
+  });
+  afterAll(() => {
+    URL.createObjectURL = createObjectURL;
+  });
+};
 
 export const setUp = () => {
   const setRootView = () => {};
@@ -70,6 +82,35 @@ export const setUpWithNew = () => {
   store.resetActions();
   integration.resetRequests();
 
+  return {
+    module,
+    integration,
+    store,
+    pushMessage,
+  };
+};
+
+export const setUpWithFailDocumentLoad = () => {
+  const {
+    module,
+    integration,
+    store,
+    pushMessage,
+  } = setUp();
+  integration.mapFailure(DOWNLOAD_IN_TRAY_DOCUMENT);
+  module.inTrayModalModule = new InTrayModalModule({ integration });
+
+  module.run({ billId: 'new', businessId: 'bizId', region: 'au' });
+
+  store.resetActions();
+  integration.resetRequests();
+
+  module.openInTrayModal();
+  module.inTrayModalModule.onSaveSuccess('🔖');
+
+  store.resetActions();
+  integration.resetRequests();
+  integration.resetMapping();
   return {
     module,
     integration,
@@ -129,6 +170,8 @@ export const setUpNewBillWithPrefilled = () => {
 
 
 describe('BillModule', () => {
+  mockCreateObjectUrl();
+
   describe('run', () => {
     [
       {
@@ -209,12 +252,114 @@ describe('BillModule', () => {
       });
     });
 
+    describe('with document', () => {
+      const setupWithDocument = () => {
+        const { module, integration, store } = setUp();
+        integration.overrideMapping(LOAD_BILL, ({ onSuccess }) => {
+          onSuccess({
+            ...loadItemAndServiceBill,
+            attachmentId: '19eb4da0-8c52-4307-9ca7-74bd481f5b99',
+          });
+        });
+
+        return { module, integration, store };
+      };
+
+      it('should successfully load', () => {
+        const { module, integration, store } = setupWithDocument();
+
+        const context = {
+          billId: '🐀',
+          businessId: '🐷',
+          region: 'au',
+        };
+        module.run(context);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_INITIAL_STATE,
+            context,
+          },
+          {
+            intent: START_LOADING,
+          },
+          {
+            intent: STOP_LOADING,
+          },
+          expect.objectContaining({
+            intent: LOAD_BILL,
+          }),
+          {
+            intent: SET_SHOW_SPLIT_VIEW,
+            showSplitView: true,
+          },
+          {
+            intent: DOWNLOAD_IN_TRAY_DOCUMENT,
+            inTrayDocumentUrl: 'http://www.🐀.com',
+          },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: LOAD_BILL }),
+          expect.objectContaining({
+            intent: DOWNLOAD_IN_TRAY_DOCUMENT,
+            params: { isAttachment: true },
+          }),
+        ]);
+      });
+
+      it('should fail to load', () => {
+        const { module, integration, store } = setupWithDocument();
+        integration.mapFailure(DOWNLOAD_IN_TRAY_DOCUMENT);
+
+        const context = {
+          billId: '🐀',
+          businessId: '🐷',
+          region: 'au',
+        };
+        module.run(context);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_INITIAL_STATE,
+            context,
+          },
+          {
+            intent: START_LOADING,
+          },
+          {
+            intent: STOP_LOADING,
+          },
+          expect.objectContaining({
+            intent: LOAD_BILL,
+          }),
+          {
+            intent: SET_SHOW_SPLIT_VIEW,
+            showSplitView: true,
+          },
+          {
+            intent: SET_SHOW_SPLIT_VIEW,
+            showSplitView: false,
+          },
+          {
+            intent: OPEN_ALERT,
+            message: 'fails',
+            type: 'danger',
+          },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: LOAD_BILL }),
+          expect.objectContaining({ intent: DOWNLOAD_IN_TRAY_DOCUMENT }),
+        ]);
+      });
+    });
+
     describe('prefill bill', () => {
       const context = {
         billId: 'new',
         businessId: '🐷',
         region: 'au',
         source: 'inTray',
+        inTrayDocumentId: '🍟',
       };
 
       const expectedActionsWithoutPrefillAndTaxCalc = [
@@ -232,6 +377,14 @@ describe('BillModule', () => {
           intent: LOAD_BILL,
         }),
         {
+          intent: SET_SHOW_SPLIT_VIEW,
+          showSplitView: true,
+        },
+        {
+          intent: DOWNLOAD_IN_TRAY_DOCUMENT,
+          inTrayDocumentUrl: 'http://www.🐀.com',
+        },
+        {
           intent: SET_DOCUMENT_LOADING_STATE,
           isDocumentLoading: true,
         },
@@ -243,6 +396,7 @@ describe('BillModule', () => {
 
       const expectedIntegrationRequests = [
         expect.objectContaining({ intent: LOAD_NEW_BILL }),
+        expect.objectContaining({ intent: DOWNLOAD_IN_TRAY_DOCUMENT }),
         expect.objectContaining({ intent: PREFILL_BILL_FROM_IN_TRAY }),
       ];
 
@@ -293,6 +447,57 @@ describe('BillModule', () => {
             intent: OPEN_ALERT,
             message: 'fails',
             type: 'danger',
+          }),
+        ]);
+        expect(integration.getRequests()).toEqual(expectedIntegrationRequests);
+      });
+
+      it('should fail to download document', () => {
+        const { module, integration, store } = setUp();
+        integration.mapFailure(DOWNLOAD_IN_TRAY_DOCUMENT);
+
+        module.run(context);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_INITIAL_STATE,
+            context,
+          },
+          {
+            intent: START_LOADING,
+          },
+          {
+            intent: STOP_LOADING,
+          },
+          expect.objectContaining({
+            intent: LOAD_BILL,
+          }),
+          {
+            intent: SET_SHOW_SPLIT_VIEW,
+            showSplitView: true,
+          },
+          {
+            intent: SET_SHOW_SPLIT_VIEW,
+            showSplitView: false,
+          },
+          {
+            intent: OPEN_ALERT,
+            message: 'fails',
+            type: 'danger',
+          },
+          {
+            intent: SET_DOCUMENT_LOADING_STATE,
+            isDocumentLoading: true,
+          },
+          {
+            intent: SET_DOCUMENT_LOADING_STATE,
+            isDocumentLoading: false,
+          },
+          expect.objectContaining({
+            intent: PREFILL_BILL_FROM_IN_TRAY,
+          }),
+          expect.objectContaining({
+            intent: GET_TAX_CALCULATIONS,
           }),
         ]);
         expect(integration.getRequests()).toEqual(expectedIntegrationRequests);
@@ -434,8 +639,7 @@ describe('BillModule', () => {
   describe('splitView', () => {
     describe('downloadDocument', () => {
       it('opens split view and downloads document if document has not been downloaded before', () => {
-        const { module, store, integration } = setUpNewBillWithPrefilled();
-        URL.createObjectURL = jest.fn();
+        const { module, store, integration } = setUpWithFailDocumentLoad();
 
         const blob = new Blob([], { type: 'application/pdf' });
         integration.mapSuccess(DOWNLOAD_IN_TRAY_DOCUMENT, blob);
@@ -444,20 +648,19 @@ describe('BillModule', () => {
 
         expect(store.getActions()).toEqual([
           { intent: SET_SHOW_SPLIT_VIEW, showSplitView: true },
-          expect.objectContaining({ intent: DOWNLOAD_IN_TRAY_DOCUMENT }),
+          {
+            intent: DOWNLOAD_IN_TRAY_DOCUMENT,
+            inTrayDocumentUrl: 'http://www.🐀.com',
+          },
         ]);
 
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: DOWNLOAD_IN_TRAY_DOCUMENT }),
         ]);
-
-        expect(URL.createObjectURL).toHaveBeenCalledWith(blob);
       });
 
       it('opens split view but does not download document if it has already been downloaded', () => {
         const { module, store } = setUpNewBillWithPrefilled();
-        URL.createObjectURL = jest.fn();
-        store.state.inTrayDocumentUrl = 'url';
 
         module.downloadDocument();
 
@@ -467,7 +670,7 @@ describe('BillModule', () => {
       });
 
       it('closes split view and shows alert if document download fails', () => {
-        const { module, store, integration } = setUpNewBillWithPrefilled();
+        const { module, store, integration } = setUpWithFailDocumentLoad();
 
         integration.mapFailure(DOWNLOAD_IN_TRAY_DOCUMENT, { message: 'download failure' });
 

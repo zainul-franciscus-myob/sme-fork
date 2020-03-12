@@ -11,9 +11,13 @@ import {
   UPDATE_BILL_ID,
 } from '../BillIntents';
 import { SUCCESSFULLY_DELETED_BILL, SUCCESSFULLY_SAVED_BILL, SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK } from '../types/BillMessageTypes';
-import { setUpNewBillWithPrefilled, setUpWithExisting, setUpWithNew } from './BillModule.test';
+import {
+  mockCreateObjectUrl, setUpNewBillWithPrefilled, setUpWithExisting, setUpWithNew,
+} from './BillModule.test';
 
 describe('BillModule_Save', () => {
+  mockCreateObjectUrl();
+
   describe('saveBill', () => {
     it('successfully creates a new bill', () => {
       const { module, store, integration } = setUpWithNew();

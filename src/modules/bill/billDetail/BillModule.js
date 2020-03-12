@@ -37,6 +37,7 @@ import {
 } from './selectors/BillRedirectSelectors';
 import { getExportPdfFilename, getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
 import {
+  getHasInTrayDocumentId,
   getHasInTrayDocumentUrl,
   getInTrayModalContext,
   getShouldLinkInTrayDocument,
@@ -138,12 +139,14 @@ class BillModule {
 
   loadBill = () => {
     const onSuccess = (response) => {
-      const state = this.store.getState();
-
       this.dispatcher.stopLoading();
       this.dispatcher.loadBill(response);
 
-      if (getIsCreatingFromInTray(state)) {
+      if (getHasInTrayDocumentId(this.store.getState())) {
+        this.downloadDocument();
+      }
+
+      if (getIsCreatingFromInTray(this.store.getState())) {
         this.prefillBillFromInTray();
       }
     };
@@ -645,6 +648,7 @@ class BillModule {
 
         if (getIsCreating(state)) {
           this.prefillBillFromInTray();
+          this.downloadDocument();
           return;
         }
 
@@ -652,6 +656,7 @@ class BillModule {
           this.dispatcher.openSuccessAlert({ message });
           this.dispatcher.setAttachmentId(attachmentId);
           this.prefillBillFromInTray();
+          this.downloadDocument();
         };
 
         const onFailure = ({ message }) => {
