@@ -4,6 +4,14 @@
     "ParameterValue": "myob-sme-web-ui-development-bucket"
   },
   {
+    "ParameterKey": "AcmCertificate",
+    "ParameterValue": "arn:aws:acm:us-east-1:590476131038:certificate/ab7beb60-de1b-49ac-9164-4b123a678321"
+  },
+  {
+    "ParameterKey": "Aliases",
+    "ParameterValue": "development-sme-web.app.myob.com"
+  },
+  {
     "ParameterKey": "ACLDefaultAction",
     "ParameterValue": "BLOCK"
   }

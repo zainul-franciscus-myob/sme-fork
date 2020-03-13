@@ -10,5 +10,9 @@
   {
     "ParameterKey": "Aliases",
     "ParameterValue": "pdv-sme-web.app.myob.com"
+  },
+  {
+    "ParameterKey": "ACLDefaultAction",
+    "ParameterValue": "BLOCK"
   }
 ]

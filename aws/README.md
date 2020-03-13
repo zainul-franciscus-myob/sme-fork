@@ -14,34 +14,26 @@ Recovery should be as simple as doing a complete Pheonix Deployment of our infra
     - Naming convention of these files is _important_ as the scripts have expectations.
 
 ```
-stack.json
+sme-web-ui-stack.json
 /params
-   |_ prod.json
-   |_ qa.json
-   |_ etc
+   |_ production-params.json
+   |_ preview-params.json
+   |_ ...etc
 
 ```
 
 ### Deploy
 
-1. Locally from your machine, `auth-myob` yourself to `core-accounting`.
+1. Locally from your machine, `myob-auth l` yourself to `core-accounting`.
 2. From root of the repo,
 
-`$ ./aws/deploy-stack < prod | qa | etc> `
+`$ ./aws/deploy-stack [development|integration|pdv|preview|production]`
 
 #### New Stacks
 If you want to deploy a new stack, perhaps for temporarily for demonstration, make a new `xxx-params.json`.
 
-1. `$ vim aws/params/EXAMPLE-params.json`
+1. `$ vim aws/params/example-params.json`
 
-Add required fields
-```
-[
-  {
-    "ParameterKey": "BucketName",
-    "ParameterValue": "myob-sme-web-ui-EXAMPLE-bucket"
-  }
-]
-```
+Add required fields (copy from `integration-params.json` for example)
 
-2. `$ ./aws/deploy-stack EXAMPLE`
+2. `$ ./aws/deploy-stack example`

@@ -37,7 +37,7 @@ The flow requires the use of 3 separate MYOB JavaScript SDKs.
 
 :earth_asia: [IDS Admin Portal]
 
-IDS Configuration is a whitelist of permitted service-to-service commincation.
+IDS Configuration is a whitelist of permitted service-to-service communication.
 Each entry defines a permitted hop between two parties, you can conceptualise a series of permitted sequential API calls like this:
 
 ![ids admin entries](../images/ids-admin-entry.jpg)

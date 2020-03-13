@@ -60,12 +60,16 @@ steps:
   - wait
 
   - name: ':rocket: :hatched_chick: Deploy Development App'
-    command: ./ops/bin/deploy development
+    commands:
+      - ./aws/deploy-stack development
+      - ./ops/bin/deploy development
     agents:
       queue: cacc-prod-dflt
 
   - name: ':rocket: :eagle: Deploy Integration App'
-    command: ./ops/bin/deploy integration
+    commands:
+      - ./aws/deploy-stack integration
+      - ./ops/bin/deploy integration
     branches: master hotfix/*
     agents:
       queue: cacc-prod-dflt
@@ -82,7 +86,9 @@ steps:
     if: build.message != 'Scheduled build for sme-web for 7AM AEST'
 
   - name: ':rocket: :eagle: Deploy PDV App'
-    command: ./ops/bin/deploy pdv
+    commands:
+      - ./aws/deploy-stack pdv
+      - ./ops/bin/deploy pdv
     branches: master hotfix/*
     agents:
       queue: cacc-prod-dflt
@@ -99,7 +105,9 @@ steps:
     if: build.message != 'Scheduled build for sme-web for 7AM AEST'
 
   - name: ':rocket: :eagle: Deploy Production App'
-    command: ./ops/bin/deploy production
+    commands:
+      - ./aws/deploy-stack production
+      - ./ops/bin/deploy production
     branches: master hotfix/*
     agents:
       queue: cacc-prod-dflt
@@ -122,7 +130,9 @@ steps:
     branches: master hotfix/*
 
   - name: ':rocket: :eagle: Deploy Preview App'
-    command: ./ops/bin/deploy preview
+    commands:
+      - ./aws/deploy-stack preview
+      - ./ops/bin/deploy preview
     branches: master hotfix/*
     agents:
       queue: cacc-prod-dflt

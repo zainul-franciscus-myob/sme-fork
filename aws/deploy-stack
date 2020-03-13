@@ -10,22 +10,59 @@ fi
 PARAMETERS=$1
 STACKNAME="sme-web-ui-${1}-stack"
 REGION=ap-southeast-2
+CHANGE_SET_NAME=sme-web-ui-`date +%s`
 
 operation() {
   AWS_DEFAULT_REGION=$REGION AWS_REGION=$REGION aws cloudformation describe-stack-resources --stack-name $STACKNAME > /dev/null 2>&1
   exists=$?
 
   if [ 0 == $exists ]; then
-    echo 'update'
+    echo 'UPDATE'
   else
-    echo 'create'
+    echo 'CREATE'
   fi
 }
 op=$(operation)
-echo "running $op-stack for ${STACKNAME}"
 
-aws cloudformation ${op}-stack \
-  --region ${REGION} \
+create_change_set() {
+  echo "creating change set for ${op} ${STACKNAME}"
+  aws cloudformation create-change-set \
+    --region ${REGION} \
+    --change-set-name ${CHANGE_SET_NAME} \
+    --change-set-type ${op} \
+    --stack-name ${STACKNAME} \
+    --template-body file://aws/sme-web-ui-stack.json \
+    --parameters file://aws/params/$PARAMETERS-params.json
+
+  aws cloudformation wait change-set-create-complete \
+    --stack-name ${STACKNAME} \
+    --change-set-name ${CHANGE_SET_NAME} > /dev/null 2>&1 || true
+}
+
+execute_change_set() {
+  echo "executing new change set for ${STACKNAME}"
+  aws cloudformation execute-change-set \
+    --region ${REGION} \
+    --change-set-name ${CHANGE_SET_NAME} \
+    --stack-name ${STACKNAME}
+}
+
+delete_change_set() {
+  echo "no changes, deleting empty change set for ${STACKNAME}"
+  aws cloudformation delete-change-set \
+    --region ${REGION} \
+    --change-set-name ${CHANGE_SET_NAME} \
+    --stack-name ${STACKNAME}
+}
+
+create_change_set
+
+CHANGE_SET_LENGTH=$(aws cloudformation describe-change-set \
   --stack-name ${STACKNAME} \
-  --template-body file://aws/sme-web-ui-stack.json \
-  --parameters file://aws/params/$PARAMETERS-params.json
+  --change-set-name ${CHANGE_SET_NAME} | jq '.Changes | length')
+
+if [ ${CHANGE_SET_LENGTH} != 0 ]; then
+  execute_change_set
+else
+  delete_change_set
+fi
