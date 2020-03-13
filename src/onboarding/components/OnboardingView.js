@@ -27,9 +27,23 @@ class OnboardingView extends Component {
     this.state = {
       businessNameError: '',
       industryError: '',
+      hasRendered: false,
     };
     this.dispatcher = dispatcher;
     this.onSave = onSave;
+  }
+
+  componentDidMount() {
+    this.onFirstRender();
+  }
+
+  onFirstRender = () => {
+    const { hasRendered } = this.state;
+    const { onLoad } = this.props;
+    if (hasRendered) return;
+
+    this.setState({ hasRendered: true });
+    onLoad();
   }
 
   industryItems = () => Industries.map(industry => ({ id: industry }));

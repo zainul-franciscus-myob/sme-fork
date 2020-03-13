@@ -18,7 +18,7 @@ import tasksService from './services/tasks';
 
 export default class RootModule {
   constructor({
-    integration, router,
+    integration, router, sendTelemetryEvent,
   }) {
     const { constructPath, replaceURLParamsAndReload } = router;
 
@@ -51,6 +51,7 @@ export default class RootModule {
       tasksService: this.tasksService,
       toggleTasks: this.drawer.toggleTasks,
       businessDetailsService: this.businessDetailsService,
+      sendTelemetryEvent,
     });
 
     this.globalCallbacks = buildGlobalCallbacks({
@@ -92,6 +93,7 @@ export default class RootModule {
 
     this.drawer.run(routeProps);
     this.nav.run({ ...routeProps, onPageTransition: module.handlePageTransition });
+    this.onboarding.run(routeProps);
 
     module.resetState();
     module.run(context);

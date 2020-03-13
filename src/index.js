@@ -19,6 +19,10 @@ async function main(integrationType, telemetryType, leanEngageType) {
 
   const createIntegration = (await import(`./integration/create${integrationType}Integration.js`)).default;
   const integration = createIntegration();
+  const initializeTelemetry = (await import(`./telemetry/initialize${telemetryType}Telemetry`)).default;
+  const telemetry = initializeTelemetry(Config.SEGMENT_WRITE_KEY);
+  const initializeLeanEngage = (await import(`./leanEngage/initialize${leanEngageType}LeanEngage`)).default;
+  const startLeanEngage = initializeLeanEngage(Config.LEAN_ENGAGE_APP_ID);
 
   const router = new Router({
     defaultRoute: 'businessList/businessList',
@@ -28,6 +32,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
   const rootModule = new RootModule({
     integration,
     router,
+    sendTelemetryEvent: telemetry,
   });
 
   const featureToggles = await loadFeatureToggles(integration);
@@ -50,11 +55,6 @@ async function main(integrationType, telemetryType, leanEngageType) {
       module.unsubscribeFromStore();
     });
   };
-
-  const initializeTelemetry = (await import(`./telemetry/initialize${telemetryType}Telemetry`)).default;
-  const telemetry = initializeTelemetry(Config.SEGMENT_WRITE_KEY);
-  const initializeLeanEngage = (await import(`./leanEngage/initialize${leanEngageType}LeanEngage`)).default;
-  const startLeanEngage = initializeLeanEngage(Config.LEAN_ENGAGE_APP_ID);
 
   const showAppcues = ({ routeParams }) => {
     const { appcue } = routeParams;

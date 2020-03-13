@@ -4,13 +4,19 @@ import OnboardingView from './components/OnboardingView';
 
 class OnboardingModule {
   constructor({
-    dispatcher, settingsService, tasksService, toggleTasks, businessDetailsService,
+    dispatcher,
+    settingsService,
+    tasksService,
+    toggleTasks,
+    businessDetailsService,
+    sendTelemetryEvent,
   }) {
     this.dispatcher = dispatcher;
     this.settingsService = settingsService;
     this.tasksService = tasksService;
     this.toggleTasks = toggleTasks;
     this.businessDetailsService = businessDetailsService;
+    this.sendTelemetryEvent = sendTelemetryEvent;
   }
 
   save = async (event, data) => {
@@ -22,14 +28,30 @@ class OnboardingModule {
     this.toggleTasks();
   }
 
+  onboardingVisited = () => {
+    const {
+      sendTelemetryEvent, routeProps,
+    } = this;
+
+    sendTelemetryEvent(routeProps);
+  }
+
   render = () => {
-    const { dispatcher, save } = this;
-    return (<OnboardingView onSave={save} dispatcher={dispatcher} />);
+    const { dispatcher, save, onboardingVisited } = this;
+    return (
+      <OnboardingView
+        onSave={save}
+        dispatcher={dispatcher}
+        onLoad={onboardingVisited}
+      />
+    );
   };
 
   resetState = () => null;
 
-  run = () => null;
+  run = routeProps => {
+    this.routeProps = { ...routeProps, currentRouteName: 'onboarding' };
+  }
 
   unsubscribeFromStore = () => null;
 }
