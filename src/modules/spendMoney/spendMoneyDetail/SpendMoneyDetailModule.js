@@ -129,6 +129,7 @@ export default class SpendMoneyDetailModule {
     };
 
     const onFailure = ({ message }) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setAlert({
         type: 'danger',
         message,
@@ -150,6 +151,7 @@ export default class SpendMoneyDetailModule {
       const inTrayDocumentId = getInTrayDocumentId(state);
       if (inTrayDocumentId) {
         this.prefillSpendMoneyFromInTray(inTrayDocumentId);
+        this.openSplitView();
       }
     };
 
@@ -523,6 +525,7 @@ export default class SpendMoneyDetailModule {
     };
 
     const onFailure = ({ message }) => {
+      this.dispatcher.setShowSplitView(false);
       this.dispatcher.setAlert({
         type: 'danger',
         message,

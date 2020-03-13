@@ -4,10 +4,13 @@ import {
   CREATE_SPEND_MONEY,
   DELETE_SPEND_MONEY,
   DOWNLOAD_IN_TRAY_DOCUMENT,
+  GET_TAX_CALCULATIONS,
   LOAD_NEW_SPEND_MONEY,
   LOAD_SPEND_MONEY_DETAIL,
   PREFILL_DATA_FROM_IN_TRAY,
+  RESET_TOTALS,
   SET_ALERT,
+  SET_IN_TRAY_DOCUMENT_URL,
   SET_LOADING_STATE,
   SET_SHOW_SPLIT_VIEW,
   SET_SUBMITTING_STATE,
@@ -22,6 +25,16 @@ import TestStore from '../../../../store/TestStore';
 import createSpendMoneyDispatcher from '../createSpendMoneyDispatcher';
 import createSpendMoneyIntegrator from '../createSpendMoneyIntegrator';
 import spendMoneyDetailReducer from '../spendMoneyDetailReducer';
+
+const mockCreateObjectUrl = () => {
+  const { createObjectURL } = URL;
+  beforeAll(() => {
+    URL.createObjectURL = () => 'http://www.🐀.com';
+  });
+  afterAll(() => {
+    URL.createObjectURL = createObjectURL;
+  });
+};
 
 const setup = () => {
   const store = new TestStore(spendMoneyDetailReducer);
@@ -73,6 +86,8 @@ const setUpWithPageEdited = () => {
 };
 
 describe('SpendMoneyDetailModule', () => {
+  mockCreateObjectUrl();
+
   describe('addSpendMoneyLine', () => {
     it('adds a new spend money line', () => {
       const { module, store } = setupWithNew();
@@ -93,6 +108,190 @@ describe('SpendMoneyDetailModule', () => {
   });
 
   describe('run', () => {
+    describe('with in tray document', () => {
+      const loadSpendMoneyActions = [
+        expect.objectContaining({
+          intent: SET_INITIAL_STATE,
+        }),
+        {
+          intent: SET_LOADING_STATE,
+          isLoading: LoadingState.LOADING,
+        },
+        expect.objectContaining({
+          intent: LOAD_NEW_SPEND_MONEY,
+        }),
+        {
+          intent: SET_LOADING_STATE,
+          isLoading: LoadingState.LOADING_SUCCESS,
+        },
+        {
+          intent: RESET_TOTALS,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          isLoading: LoadingState.LOADING,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          isLoading: LoadingState.LOADING_SUCCESS,
+        },
+        expect.objectContaining({
+          intent: PREFILL_DATA_FROM_IN_TRAY,
+        }),
+      ];
+
+      it('successfully load', () => {
+        const { store, integration, module } = setup();
+        module.run({ spendMoneyId: 'new', inTrayDocumentId: '🍌', businessId: '👺' });
+
+        expect(store.getActions()).toEqual([
+          ...loadSpendMoneyActions,
+          expect.objectContaining({
+            intent: GET_TAX_CALCULATIONS,
+          }),
+          {
+            intent: SET_SHOW_SPLIT_VIEW,
+            showSplitView: true,
+          },
+          {
+            inTrayDocumentUrl: 'http://www.🐀.com',
+            intent: SET_IN_TRAY_DOCUMENT_URL,
+          },
+        ]);
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: LOAD_NEW_SPEND_MONEY }),
+          expect.objectContaining({
+            intent: PREFILL_DATA_FROM_IN_TRAY,
+            urlParams: {
+              businessId: '👺',
+              inTrayDocumentId: '🍌',
+            },
+          }),
+          expect.objectContaining({
+            intent: DOWNLOAD_IN_TRAY_DOCUMENT,
+            urlParams: {
+              businessId: '👺',
+              inTrayDocumentId: '🍌',
+            },
+          }),
+        ]);
+      });
+
+      it('fail to download in tray document', () => {
+        const { store, integration, module } = setup();
+        integration.mapFailure(DOWNLOAD_IN_TRAY_DOCUMENT);
+        module.run({ spendMoneyId: 'new', inTrayDocumentId: '🍌', businessId: '👺' });
+
+        expect(store.getActions()).toEqual([
+          ...loadSpendMoneyActions,
+          expect.objectContaining({
+            intent: GET_TAX_CALCULATIONS,
+          }),
+          {
+            intent: SET_SHOW_SPLIT_VIEW,
+            showSplitView: true,
+          },
+          {
+            intent: SET_SHOW_SPLIT_VIEW,
+            showSplitView: false,
+          },
+          {
+            intent: SET_ALERT,
+            alert: {
+              message: 'fails',
+              type: 'danger',
+            },
+          },
+        ]);
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: LOAD_NEW_SPEND_MONEY }),
+          expect.objectContaining({
+            intent: PREFILL_DATA_FROM_IN_TRAY,
+            urlParams: {
+              businessId: '👺',
+              inTrayDocumentId: '🍌',
+            },
+          }),
+          expect.objectContaining({
+            intent: DOWNLOAD_IN_TRAY_DOCUMENT,
+            urlParams: {
+              businessId: '👺',
+              inTrayDocumentId: '🍌',
+            },
+          }),
+        ]);
+      });
+
+      it('fail to prefill in tray document', () => {
+        const { store, integration, module } = setup();
+        integration.mapFailure(PREFILL_DATA_FROM_IN_TRAY);
+        module.run({ spendMoneyId: 'new', inTrayDocumentId: '🍌', businessId: '👺' });
+
+        expect(store.getActions()).toEqual([
+          expect.objectContaining({
+            intent: SET_INITIAL_STATE,
+          }),
+          {
+            intent: SET_LOADING_STATE,
+            isLoading: LoadingState.LOADING,
+          },
+          expect.objectContaining({
+            intent: LOAD_NEW_SPEND_MONEY,
+          }),
+          {
+            intent: SET_LOADING_STATE,
+            isLoading: LoadingState.LOADING_SUCCESS,
+          },
+          {
+            intent: RESET_TOTALS,
+          },
+          {
+            intent: SET_LOADING_STATE,
+            isLoading: LoadingState.LOADING,
+          },
+          {
+            intent: SET_LOADING_STATE,
+            isLoading: LoadingState.LOADING_SUCCESS,
+          },
+          {
+            intent: SET_ALERT,
+            alert: {
+              message: 'fails',
+              type: 'danger',
+            },
+          },
+          {
+            intent: SET_SHOW_SPLIT_VIEW,
+            showSplitView: true,
+          },
+          {
+            inTrayDocumentUrl: 'http://www.🐀.com',
+            intent: SET_IN_TRAY_DOCUMENT_URL,
+          },
+        ]);
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: LOAD_NEW_SPEND_MONEY }),
+          expect.objectContaining({
+            intent: PREFILL_DATA_FROM_IN_TRAY,
+            urlParams: {
+              businessId: '👺',
+              inTrayDocumentId: '🍌',
+            },
+          }),
+          expect.objectContaining({
+            intent: DOWNLOAD_IN_TRAY_DOCUMENT,
+            urlParams: {
+              businessId: '👺',
+              inTrayDocumentId: '🍌',
+            },
+          }),
+        ]);
+      });
+    });
+
     it('should fail loading if we cannot load a new spend money', () => {
       const { store, integration, module } = setup();
       integration.mapFailure(LOAD_NEW_SPEND_MONEY);
@@ -130,27 +329,6 @@ describe('SpendMoneyDetailModule', () => {
           intent: SET_LOADING_STATE,
           isLoading: LoadingState.LOADING_FAIL,
         },
-      ]);
-    });
-  });
-
-  describe('prefillSpendMoneyFromInTray', () => {
-    it('should display an alert if it fails to prefill', () => {
-      const { module, store, integration } = setupWithNew();
-
-      integration.mapFailure(PREFILL_DATA_FROM_IN_TRAY);
-
-      const inTrayDocumentId = '1';
-      module.prefillSpendMoneyFromInTray(inTrayDocumentId);
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: SET_LOADING_STATE,
-          isLoading: LoadingState.LOADING,
-        },
-        expect.objectContaining({
-          intent: SET_ALERT,
-        }),
       ]);
     });
   });
@@ -284,9 +462,17 @@ describe('SpendMoneyDetailModule', () => {
           intent: SET_SHOW_SPLIT_VIEW,
           showSplitView: true,
         },
-        expect.objectContaining({
+        {
+          intent: SET_SHOW_SPLIT_VIEW,
+          showSplitView: false,
+        },
+        {
           intent: SET_ALERT,
-        }),
+          alert: {
+            message: 'fails',
+            type: 'danger',
+          },
+        },
       ]);
     });
   });
