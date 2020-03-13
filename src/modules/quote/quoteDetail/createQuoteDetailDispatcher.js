@@ -13,6 +13,7 @@ import {
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_QUOTE_DETAIL,
   OPEN_MODAL,
+  RELOAD_QUOTE_DETAIL,
   REMOVE_EMAIL_ATTACHMENT,
   REMOVE_QUOTE_LINE,
   RESET_EMAIL_QUOTE_DETAIL,
@@ -68,9 +69,9 @@ const createQuoteDetailDispatcher = store => ({
 
   dismissModalAlert: () => store.dispatch({ intent: SET_MODAL_ALERT }),
 
-  loadQuote: (payload, message) => store.dispatch({
-    intent: LOAD_QUOTE_DETAIL, ...payload, message,
-  }),
+  loadQuote: (payload) => store.dispatch({ intent: LOAD_QUOTE_DETAIL, ...payload }),
+
+  reloadQuote: (payload) => store.dispatch({ intent: RELOAD_QUOTE_DETAIL, ...payload }),
 
   updateQuoteIdAfterCreate: quoteId => store.dispatch({
     intent: UPDATE_QUOTE_ID_AFTER_CREATE, quoteId,

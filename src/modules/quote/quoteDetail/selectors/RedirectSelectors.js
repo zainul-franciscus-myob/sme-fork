@@ -42,12 +42,6 @@ export const getQuoteReadWithEmailModalUrl = (state) => {
   return `${readQuoteUrl}?openSendEmail=true`;
 };
 
-export const getQuoteReadWithExportPdfModalUrl = (state) => {
-  const readQuoteUrl = getReadQuoteUrl(state);
-
-  return `${readQuoteUrl}?openExportPdf=true`;
-};
-
 export const getQuoteListURL = (state) => {
   const baseUrl = getBaseUrl(state);
 

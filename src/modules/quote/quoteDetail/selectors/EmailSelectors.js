@@ -1,11 +1,14 @@
 import { createSelector } from 'reselect';
 
+import ModalType from '../ModalType';
+
 const getEmailToAddresses = state => state.emailQuote.toEmail;
 const getCcEmailToAddresses = state => state.emailQuote.ccToEmail;
 const getIsEmailMeACopy = state => state.emailQuote.isEmailMeACopy;
 const getEmailSubject = state => state.emailQuote.subject;
 const getEmailMessageBody = state => state.emailQuote.messageBody;
 const getEmailTemplateName = state => state.emailQuote.templateName;
+const getHasEmailReplyDetails = state => state.emailQuote.hasEmailReplyDetails;
 
 export const getEmailQuoteDetail = createSelector(
   getEmailToAddresses,
@@ -51,4 +54,10 @@ export const getFilesForUpload = (state, files) => (
   files.filter(file => state.emailQuote.attachments.find(
     attachment => attachment.file === file,
   ).state === 'queued')
+);
+
+export const getEmailModalType = (state) => (
+  getHasEmailReplyDetails(state)
+    ? ModalType.EMAIL_QUOTE
+    : ModalType.EMAIL_SETTINGS
 );

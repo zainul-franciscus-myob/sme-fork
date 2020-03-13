@@ -99,43 +99,6 @@ describe('quoteDetailReducer', () => {
         expect(actual.emailQuote).toEqual(expected);
       });
     });
-
-    describe('alert and modalAlert', () => {
-      const action = {
-        intent: LOAD_QUOTE_DETAIL,
-        message: {
-          content: 'Well done',
-        },
-        quote: {
-          quoteNumber: '123',
-          lines: [],
-        },
-      };
-
-      it('set modal alert if email modal is open', () => {
-        const expected = { type: 'success', message: 'Well done' };
-
-        const actual = quoteDetailReducer({ quoteId: '1', openSendEmail: 'true' }, action);
-
-        expect(actual.modalAlert).toEqual(expected);
-      });
-
-      it('set page alert if email modal is not open', () => {
-        const expected = { type: 'success', message: 'Well done' };
-
-        const updatedAction = {
-          ...action,
-          context: {
-            ...action.context,
-            openSendEmail: 'false',
-          },
-        };
-
-        const actual = quoteDetailReducer({}, updatedAction);
-
-        expect(actual.alert).toEqual(expected);
-      });
-    });
   });
 
   describe('SET_ACCOUNT_LOADING_STATE', () => {

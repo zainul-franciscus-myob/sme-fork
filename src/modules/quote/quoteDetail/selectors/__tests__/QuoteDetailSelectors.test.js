@@ -2,12 +2,10 @@ import {
   getAccountModalContext,
   getIsAccountComboboxDisabled,
   getIsTaxCalculationRequired,
-  getLoadQuoteDetailModalType,
   getQuoteDetailOptions,
   getTemplateOptions,
   getUpdatedContactOptions,
 } from '../QuoteDetailSelectors';
-import ModalType from '../../ModalType';
 import QuoteLayout from '../../QuoteLayout';
 
 describe('QuoteDetailSelectors', () => {
@@ -129,31 +127,6 @@ describe('QuoteDetailSelectors', () => {
 
       expect(actual).toEqual(expected);
     });
-  });
-
-  describe('getLoadQuoteDetailModalType', () => {
-    it.each([
-      [ModalType.NONE, false, undefined, undefined, { hasEmailReplyDetails: true }],
-      [ModalType.EMAIL_INVOICE, false, 'true', undefined, { hasEmailReplyDetails: true }],
-      [ModalType.EMAIL_SETTINGS, false, 'true', undefined, { hasEmailReplyDetails: false }],
-      [ModalType.EXPORT_PDF, false, undefined, 'true', { hasEmailReplyDetails: true }],
-      [ModalType.NONE, true, undefined, undefined, { hasEmailReplyDetails: true }],
-      [ModalType.NONE, true, 'true', undefined, { hasEmailReplyDetails: true }],
-      [ModalType.NONE, true, 'true', undefined, { hasEmailReplyDetails: false }],
-      [ModalType.NONE, true, undefined, 'true', { hasEmailReplyDetails: true }],
-    ], ('should return modal type %s', (
-      expected, isCreating, openSendEmail, openExportPdf, emailQuote,
-    ) => {
-      const customState = {
-        invoiceId: isCreating ? 'new' : '1',
-        openSendEmail,
-        openExportPdf,
-      };
-
-      const actual = getLoadQuoteDetailModalType(customState, emailQuote);
-
-      expect(actual).toEqual(expected);
-    }));
   });
 
   describe('getIsAccountComboboxDisabled', () => {

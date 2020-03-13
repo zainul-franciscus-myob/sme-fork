@@ -12,8 +12,6 @@ export const getRegion = state => state.region;
 export const getQuoteId = state => state.quoteId;
 export const getLayoutQueryParam = state => state.layout;
 export const getDuplicateQuoteIdQueryParam = state => state.duplicatedQuoteId;
-export const getOpenSendEmailQueryParam = state => state.openSendEmail;
-export const getOpenExportPdfQueryParam = state => state.openExportPdf;
 
 export const getLoadingState = state => state.loadingState;
 export const getIsSubmitting = state => state.isSubmitting;
@@ -129,10 +127,6 @@ export const getQuoteDetailOptions = createStructuredSelector({
   taxExclusiveLabel: getTaxExclusiveLabel,
 });
 
-export const getRouteUrlParams = state => ({
-  openExportPdf: getOpenExportPdfQueryParam(state),
-});
-
 export const getShouldReload = (state) => {
   const isCreating = getIsCreating(state);
   const duplicatedQuoteId = getDuplicateQuoteIdQueryParam(state);
@@ -147,42 +141,10 @@ export const getShouldSaveAndExportPdf = (state) => {
   return isCreating || isPageEdited;
 };
 
-export const getShouldOpenExportPdfModal = (state) => {
-  const isCreating = getIsCreating(state);
-  const openExportPdf = getOpenExportPdfQueryParam(state);
-
-  return !isCreating && openExportPdf === 'true';
-};
-
 export const getExportPdfFilename = (state) => {
   const quoteNumber = getQuoteNumber(state);
 
   return `${quoteNumber}.pdf`;
-};
-
-export const getShouldOpenEmailModal = (state) => {
-  const isCreating = getIsCreating(state);
-  const openSendEmail = getOpenSendEmailQueryParam(state);
-
-  return !isCreating && openSendEmail === 'true';
-};
-
-export const getLoadQuoteDetailModalType = (context, emailQuote) => {
-  const shouldOpenEmailModal = getShouldOpenEmailModal(context);
-  if (shouldOpenEmailModal) {
-    const { hasEmailReplyDetails } = emailQuote || {};
-
-    return hasEmailReplyDetails
-      ? ModalType.EMAIL_QUOTE
-      : ModalType.EMAIL_SETTINGS;
-  }
-
-  const shouldOpenExportPdfModal = getShouldOpenExportPdfModal(context);
-  if (shouldOpenExportPdfModal) {
-    return ModalType.EXPORT_PDF;
-  }
-
-  return ModalType.NONE;
 };
 
 export const getContactModalContext = (state) => {

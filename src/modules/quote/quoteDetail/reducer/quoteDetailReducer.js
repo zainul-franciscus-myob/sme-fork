@@ -13,6 +13,7 @@ import {
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_QUOTE_DETAIL,
   OPEN_MODAL,
+  RELOAD_QUOTE_DETAIL,
   REMOVE_EMAIL_ATTACHMENT,
   REMOVE_QUOTE_LINE,
   RESET_EMAIL_QUOTE_DETAIL,
@@ -50,21 +51,16 @@ import {
 } from './EmailReducer';
 import { calculatePartialQuoteLineAmounts, setQuoteCalculatedLines } from './calculationReducer';
 import {
-  getLoadQuoteDetailModalType,
-  getShouldOpenEmailModal,
-  getUpdatedContactOptions,
+  getBusinessId, getQuoteId, getRegion, getUpdatedContactOptions,
 } from '../selectors/QuoteDetailSelectors';
-import ModalType from '../ModalType';
+import LoadingState from '../../../../components/PageView/LoadingState';
 import QuoteLayout from '../QuoteLayout';
 import QuoteLineLayout from '../QuoteLineLayout';
 import createReducer from '../../../../store/createReducer';
 import formatAmount from '../../../../common/valueFormatters/formatAmount';
-import formatDisplayAmount
-  from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
-import formatDisplayDiscount
-  from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
-import formatDisplayUnitPrice
-  from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
+import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
+import formatDisplayDiscount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
+import formatDisplayUnitPrice from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
 import formatUnits from '../../../../common/valueFormatters/formatTaxCalculation/formatUnits';
 import getDefaultState, { DEFAULT_DISCOUNT, DEFAULT_UNITS } from './getDefaultState';
 
@@ -86,13 +82,6 @@ const setModalSubmittingState = (state, { isModalSubmitting }) => ({ ...state, i
 
 const setModalAlert = (state, { modalAlert }) => ({ ...state, modalAlert });
 
-const getLoadQuoteDetailModalAndPageAlert = (state, alertMessage) => {
-  const shouldOpenEmailModal = getShouldOpenEmailModal(state);
-  const alert = ({ type: 'success', message: alertMessage.content });
-
-  return shouldOpenEmailModal ? { modalAlert: alert } : { pageAlert: alert };
-};
-
 const getLoadQuoteDetailEmailQuote = (emailQuote, quoteNumber) => (
   emailQuote
     ? {
@@ -104,61 +93,62 @@ const getLoadQuoteDetailEmailQuote = (emailQuote, quoteNumber) => (
     : {}
 );
 
-const loadQuoteDetail = (state, action) => {
+const loadQuoteDetail = (state, action) => ({
+  ...state,
+  pageTitle: action.pageTitle,
+  quote: {
+    ...state.quote,
+    ...action.quote,
+    lines: action.quote.lines.map(line => ({
+      ...line,
+      displayAmount: formatDisplayAmount(line.amount),
+      displayDiscount: line.discount ? formatDisplayDiscount(line.discount) : '',
+      displayUnitPrice: line.unitPrice ? formatDisplayUnitPrice(line.unitPrice) : '',
+    })),
+  },
+  newLine: {
+    ...state.newLine,
+    ...action.newLine,
+  },
+  totals: action.totals,
+  contactOptions: action.contactOptions,
+  expirationTermOptions: action.expirationTermOptions,
+  commentOptions: action.commentOptions,
+  itemTemplateOptions: action.itemTemplateOptions || state.itemTemplateOptions,
+  serviceTemplateOptions: action.serviceTemplateOptions || state.serviceTemplateOptions,
+  itemOptions: action.itemOptions,
+  accountOptions: action.accountOptions,
+  taxCodeOptions: action.taxCodeOptions,
+  emailQuote: {
+    ...state.emailQuote,
+    ...getLoadQuoteDetailEmailQuote(action.emailQuote, action.quote.quoteNumber),
+  },
+  emailQuoteDefaultState: {
+    ...state.emailQuoteDefaultState,
+    ...getLoadQuoteDetailEmailQuote(action.emailQuote, action.quote.quoteNumber),
+  },
+  exportPdf: {
+    ...state.exportPdf,
+    ...action.exportPdf,
+  },
+});
+
+const reloadQuoteDetail = (state, action) => {
   const defaultState = getDefaultState();
 
-  const modalType = getLoadQuoteDetailModalType(state, action.emailQuote);
-  const modal = modalType === ModalType.NONE
-    ? undefined
-    : { type: modalType };
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+  const quoteId = getQuoteId(state);
 
-  const { modalAlert, pageAlert } = action.message
-    ? getLoadQuoteDetailModalAndPageAlert(state, action.message)
-    : {};
+  const context = { businessId, region, quoteId };
 
-  return ({
-    ...state,
-    openExportPdf: defaultState.openExportPdf,
-    alert: pageAlert,
-    modal,
-    modalAlert,
-    pageTitle: action.pageTitle,
-    quote: {
-      ...state.quote,
-      ...action.quote,
-      lines: action.quote.lines.map(line => ({
-        ...line,
-        displayAmount: formatDisplayAmount(line.amount),
-        displayDiscount: line.discount ? formatDisplayDiscount(line.discount) : '',
-        displayUnitPrice: line.unitPrice ? formatDisplayUnitPrice(line.unitPrice) : '',
-      })),
-    },
-    newLine: {
-      ...state.newLine,
-      ...action.newLine,
-    },
-    totals: action.totals,
-    contactOptions: action.contactOptions,
-    expirationTermOptions: action.expirationTermOptions,
-    commentOptions: action.commentOptions,
-    itemTemplateOptions: action.itemTemplateOptions || state.itemTemplateOptions,
-    serviceTemplateOptions: action.serviceTemplateOptions || state.serviceTemplateOptions,
-    itemOptions: action.itemOptions,
-    accountOptions: action.accountOptions,
-    taxCodeOptions: action.taxCodeOptions,
-    emailQuote: {
-      ...state.emailQuote,
-      ...getLoadQuoteDetailEmailQuote(action.emailQuote, action.quote.quoteNumber),
-    },
-    emailQuoteDefaultState: {
-      ...state.emailQuoteDefaultState,
-      ...getLoadQuoteDetailEmailQuote(action.emailQuote, action.quote.quoteNumber),
-    },
-    exportPdf: {
-      ...state.exportPdf,
-      ...action.exportPdf,
-    },
-  });
+  const initialState = {
+    ...defaultState,
+    ...context,
+    loadingState: LoadingState.LOADING_SUCCESS,
+  };
+
+  return loadQuoteDetail(initialState, action);
 };
 
 const updateQuoteIdAfterCreate = (state, action) => ({
@@ -460,6 +450,7 @@ const handlers = {
   [SET_MODAL_ALERT]: setModalAlert,
 
   [LOAD_QUOTE_DETAIL]: loadQuoteDetail,
+  [RELOAD_QUOTE_DETAIL]: reloadQuoteDetail,
   [UPDATE_QUOTE_ID_AFTER_CREATE]: updateQuoteIdAfterCreate,
   [UPDATE_QUOTE_DETAIL_HEADER_OPTIONS]: updateQuoteDetailHeaderOptions,
   [UPDATE_LAYOUT]: updateLayout,

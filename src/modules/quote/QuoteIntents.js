@@ -15,6 +15,7 @@ export const UPDATE_FILTER_OPTIONS = Symbol('Update filter Options');
 export const LOAD_NEW_QUOTE_DETAIL = Symbol('Load a new quote');
 export const LOAD_NEW_DUPLICATE_QUOTE_DETAIL = Symbol('Load a new duplicate quote');
 export const LOAD_QUOTE_DETAIL = Symbol('Load an existing quote');
+export const RELOAD_QUOTE_DETAIL = Symbol('Reload a quote');
 export const CREATE_QUOTE_DETAIL = Symbol('Create a new quote');
 export const UPDATE_QUOTE_DETAIL = Symbol('Update a quote');
 export const DELETE_QUOTE_DETAIL = Symbol('Delete a quote');

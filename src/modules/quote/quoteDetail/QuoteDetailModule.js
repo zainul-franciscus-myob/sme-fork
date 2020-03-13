@@ -30,7 +30,6 @@ import {
   getModalUrl,
   getNewLineIndex,
   getOpenedModalType,
-  getRouteUrlParams,
   getShouldReload,
   getShouldSaveAndExportPdf,
   getTaxCalculations,
@@ -41,10 +40,8 @@ import {
   getCreateNewQuoteUrl,
   getInvoiceAndQuoteSettingsUrl,
   getQuoteListURL,
-  getQuoteReadWithEmailModalUrl,
-  getQuoteReadWithExportPdfModalUrl,
 } from './selectors/RedirectSelectors';
-import { getFilesForUpload } from './selectors/EmailSelectors';
+import { getEmailModalType, getFilesForUpload } from './selectors/EmailSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
 import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
@@ -96,6 +93,22 @@ export default class QuoteDetailModule {
 
     const onFailure = () => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    };
+
+    this.integrator.loadQuote({ onSuccess, onFailure });
+  }
+
+  reloadQuote = ({ onSuccess: next = () => {} }) => {
+    this.dispatcher.setSubmittingState(true);
+
+    const onSuccess = (payload) => {
+      this.dispatcher.reloadQuote(payload);
+      next();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.displayFailureAlert(message);
     };
 
     this.integrator.loadQuote({ onSuccess, onFailure });
@@ -184,15 +197,16 @@ export default class QuoteDetailModule {
     this.createOrUpdateQuote({ onSuccess });
   }
 
-  saveAndExportPdf = () => {
+  saveAndReload = ({ onSuccess: next = () => {} }) => {
     const onSuccess = ({ message, id }) => {
       const state = this.store.getState();
       const isCreating = getIsCreating(state);
       if (isCreating) {
         this.dispatcher.updateQuoteIdAfterCreate(id);
+        this.replaceURLParams({ quoteId: id });
       }
-      this.pushSuccessfulSaveMessage(message);
-      this.redirectToReadQuoteWithExportPdfModal();
+
+      this.reloadQuote({ onSuccess: () => next({ message }) });
     };
 
     this.createOrUpdateQuote({ onSuccess });
@@ -230,20 +244,6 @@ export default class QuoteDetailModule {
   redirectToCreateDuplicateQuote = () => {
     const state = this.store.getState();
     const url = getCreateDuplicateQuoteUrl(state);
-
-    this.redirectToUrl(url);
-  }
-
-  redirectToReadQuoteWithExportPdfModal = () => {
-    const state = this.store.getState();
-    const url = getQuoteReadWithExportPdfModalUrl(state);
-
-    this.redirectToUrl(url);
-  }
-
-  redirectToReadQuoteWithEmailModal = () => {
-    const state = this.store.getState();
-    const url = getQuoteReadWithEmailModalUrl(state);
 
     this.redirectToUrl(url);
   }
@@ -541,6 +541,10 @@ export default class QuoteDetailModule {
     this.dispatcher.openModal({ type: ModalType.UNSAVED, url });
   }
 
+  openExportPdfModal = () => {
+    this.dispatcher.openModal({ type: ModalType.EXPORT_PDF });
+  }
+
   convertToInvoiceOrOpenUnsavedModal = () => {
     const state = this.store.getState();
     if (getIsPageEdited(state)) {
@@ -565,15 +569,15 @@ export default class QuoteDetailModule {
   }[saveAndAction]())
 
   saveAndEmailQuote = () => {
-    const onSuccess = (successResponse) => {
-      if (getIsCreating(this.store.getState())) {
-        this.dispatcher.updateQuoteIdAfterCreate(successResponse.id);
-      }
-      this.pushSuccessfulSaveMessage(successResponse.message);
-      this.redirectToReadQuoteWithEmailModal();
+    const onSuccess = ({ message }) => {
+      const state = this.store.getState();
+      const type = getEmailModalType(state);
+
+      this.dispatcher.openModal({ type });
+      this.dispatcher.setModalAlert({ type: 'success', message });
     };
 
-    this.createOrUpdateQuote({ onSuccess });
+    this.saveAndReload({ onSuccess });
   }
 
   addEmailAttachments = (files) => {
@@ -671,20 +675,15 @@ export default class QuoteDetailModule {
     const state = this.store.getState();
     const shouldSaveAndExportPdf = getShouldSaveAndExportPdf(state);
     if (shouldSaveAndExportPdf) {
-      this.saveAndExportPdf();
+      this.saveAndReload({ onSuccess: this.openExportPdfModal });
     } else {
-      this.dispatcher.openModal({ type: ModalType.EXPORT_PDF });
+      this.openExportPdfModal();
     }
   }
 
   readMessages = () => {
     const [message] = this.popMessages(this.messageTypes);
     this.message = message;
-  }
-
-  updateURLFromState = (state) => {
-    const params = getRouteUrlParams(state);
-    this.replaceURLParams(params);
   }
 
   render = () => {
@@ -827,7 +826,6 @@ export default class QuoteDetailModule {
     this.render();
 
     this.readMessages();
-    this.store.subscribe(this.updateURLFromState);
 
     this.loadQuote(this.message);
   }
