@@ -1383,7 +1383,7 @@ describe('billReducer', () => {
           supplierId: '2',
           supplierInvoiceNumber: '123',
           issueDate: '2018-10-02',
-          isTaxInclusive: false,
+          isTaxInclusive: true,
           lines: [],
         },
         newLine: {
@@ -1415,7 +1415,7 @@ describe('billReducer', () => {
           supplierId: '2',
           supplierInvoiceNumber: '123',
           issueDate: '2018-10-02',
-          isTaxInclusive: false,
+          isTaxInclusive: true,
           lines: [],
         },
         prefillStatus: {

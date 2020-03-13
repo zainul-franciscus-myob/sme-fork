@@ -33,7 +33,7 @@ export const getDefaultState = () => ({
     supplierInvoiceNumber: '',
     expirationTerm: '',
     expirationDays: '',
-    isTaxInclusive: false,
+    isTaxInclusive: true,
     isReportable: false,
     originalExpenseAccountId: '',
     expenseAccountId: '',
