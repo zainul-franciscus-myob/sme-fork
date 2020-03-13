@@ -83,6 +83,7 @@ export default class BankingRuleDetailModule {
     const state = this.store.getState();
     if (getLoadingState(state) === LoadingState.LOADING) return;
 
+    this.dismissModal();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = ({ message }) => {
@@ -100,13 +101,13 @@ export default class BankingRuleDetailModule {
     const onFailure = ({ message }) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.displayAlert(message);
-      this.dismissModal();
     };
 
     this.integrator.saveBankingRule(onSuccess, onFailure);
   }
 
   deleteBankingRule = () => {
+    this.dismissModal();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = ({ message }) => {

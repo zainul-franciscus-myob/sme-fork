@@ -53,10 +53,9 @@ const createBankingRuleDetailDispatcher = store => ({
     });
   },
 
-  setIsPageEdited: (isPageEdited) => {
+  setIsPageEdited: () => {
     store.dispatch({
       intent: SET_IS_PAGE_EDITED,
-      isPageEdited,
     });
   },
 
