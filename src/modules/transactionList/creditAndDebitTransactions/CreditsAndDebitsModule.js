@@ -9,6 +9,7 @@ import {
   getSettings,
   getURLParams,
 } from './creditsAndDebitsListSelectors';
+import { getIsSwitchingTab } from '../transactionListSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
 import { tabItemIds } from '../tabItems';
 import TransactionListView from './components/CreditsAndDebitsListView';
@@ -17,20 +18,24 @@ import createCreditsAndDebitsListIntegrator from './createCreditsAndDebitsListIn
 
 export default class CreditsAndDebitsModule {
   constructor({
-    integration, store, setAlert, replaceURLParams,
+    integration, store, setAlert, setLastLoadingTab, replaceURLParams,
   }) {
     this.store = store;
     this.setAlert = setAlert;
+    this.setLastLoadingTab = setLastLoadingTab;
     this.replaceURLParams = replaceURLParams;
     this.dispatcher = createCreditsAndDebitsListDispatcher(store);
     this.integrator = createCreditsAndDebitsListIntegrator(store, integration);
   }
 
   getView({ pageHead, alert, subHead }) {
-    if (!getIsLoaded(this.store.getState())) {
-      this.loadCreditsAndDebitsList();
-    } else {
-      this.filterCreditsAndDebitsList();
+    const state = this.store.getState();
+    if (getIsSwitchingTab(state)) {
+      if (!getIsLoaded(state)) {
+        this.loadCreditsAndDebitsList();
+      } else {
+        this.filterCreditsAndDebitsList();
+      }
     }
 
     return (
@@ -70,12 +75,14 @@ export default class CreditsAndDebitsModule {
     };
 
     const onFailure = ({ message }) => {
+      this.dispatcher.setLoadingState(false);
       this.setAlert({
         type: 'danger',
         message,
       });
     };
 
+    this.setLastLoadingTab();
     this.integrator.loadCreditsAndDebitsList({
       onSuccess,
       onFailure,
@@ -106,6 +113,7 @@ export default class CreditsAndDebitsModule {
 
     const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
 
+    this.setLastLoadingTab();
     this.integrator.filterCreditsAndDebitsList({
       onSuccess,
       onFailure,

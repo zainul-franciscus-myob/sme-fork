@@ -26,6 +26,7 @@ import {
   getSortOrder,
   getURLParams,
 } from './journalTransactionListSelectors';
+import { getIsSwitchingTab } from '../transactionListSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
 import { tabItemIds } from '../tabItems';
 import TransactionListView from './components/JournalTransactionListView';
@@ -34,19 +35,23 @@ import debounce from '../../../common/debounce/debounce';
 const SETTING_KEY = tabItemIds.journal;
 export default class JournalTransactionModule {
   constructor({
-    integration, store, setAlert, replaceURLParams,
+    integration, store, setAlert, setLastLoadingTab, replaceURLParams,
   }) {
     this.integration = integration;
     this.store = store;
     this.setAlert = setAlert;
+    this.setLastLoadingTab = setLastLoadingTab;
     this.replaceURLParams = replaceURLParams;
   }
 
   getView({ pageHead, alert, subHead }) {
-    if (!getIsLoaded(this.store.getState())) {
-      this.loadTransactionList();
-    } else {
-      this.filterTransactionList();
+    const state = this.store.getState();
+    if (getIsSwitchingTab(state)) {
+      if (!getIsLoaded(state)) {
+        this.loadTransactionList();
+      } else {
+        this.filterTransactionList();
+      }
     }
 
     return (
@@ -95,8 +100,12 @@ export default class JournalTransactionModule {
       });
     };
 
-    const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
+    const onFailure = ({ message }) => {
+      this.setLoadingState(false);
+      this.setAlert({ message, type: 'danger' });
+    };
 
+    this.setLastLoadingTab();
     this.integration.read({
       intent,
       params: {
@@ -145,6 +154,7 @@ export default class JournalTransactionModule {
     const filterOptions = getRequestFilterOptions(state);
     const sortOrder = getSortOrder(state);
 
+    this.setLastLoadingTab();
     this.integration.read({
       intent,
       urlParams,

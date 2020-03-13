@@ -2,7 +2,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import { SET_ALERT, SET_TAB } from './TransactionListIntents';
+import { SET_ALERT, SET_LAST_LOADING_TAB, SET_TAB } from './TransactionListIntents';
 import { SUCCESSFULLY_DELETED_APPLY_TO_SALE } from '../applyToSale/ApplyToSaleMessageType';
 import { SUCCESSFULLY_DELETED_BILL_PAYMENT, SUCCESSFULLY_SAVED_BILL_PAYMENT } from '../billPayment/BillPaymentMessageTypes';
 import { SUCCESSFULLY_DELETED_ELECTRONIC_PAYMENT } from '../electronicPayments/electronicPaymentMesssageTypes';
@@ -50,12 +50,14 @@ export default class TransactionListModule {
       [tabItemIds.debitsAndCredits]: new CreditsAndDebitsModule({
         integration,
         setAlert: this.setAlert,
+        setLastLoadingTab: () => this.setLastLoadingTab(tabItemIds.debitsAndCredits),
         store: this.store,
         replaceURLParams,
       }),
       [tabItemIds.journal]: new JournalTransactionModule({
         integration,
         setAlert: this.setAlert,
+        setLastLoadingTab: () => this.setLastLoadingTab(tabItemIds.journal),
         store: this.store,
         replaceURLParams,
       }),
@@ -85,6 +87,11 @@ export default class TransactionListModule {
     });
   }
 
+  dismissAlert = () => this.store.dispatch({
+    intent: SET_ALERT,
+    alert: undefined,
+  });
+
   setTab = (tabId) => {
     const state = this.store.getState();
     const activeTabId = getActiveTab(state);
@@ -96,7 +103,12 @@ export default class TransactionListModule {
       intent: SET_TAB,
       tabId,
     });
-  }
+  };
+
+  setLastLoadingTab = (tabId) => this.store.dispatch({
+    intent: SET_LAST_LOADING_TAB,
+    lastLoadingTab: tabId,
+  });
 
   setInitialState = (context) => {
     this.store.dispatch({
@@ -111,6 +123,7 @@ export default class TransactionListModule {
         <TransactionListView
           tabViews={this.subModules}
           onTabSelected={this.setTab}
+          onDismissAlert={this.dismissAlert}
           pageHeadTitle="Find transactions"
         />
       </Provider>
