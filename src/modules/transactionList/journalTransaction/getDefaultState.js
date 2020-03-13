@@ -12,9 +12,6 @@ const getDefaultState = () => ({
   filterOptions: {
     ...defaultFilterOptions,
   },
-  appliedFilterOptions: {
-    ...defaultFilterOptions,
-  },
   pagination: {},
   sortOrder: 'desc',
   orderBy: 'Date',

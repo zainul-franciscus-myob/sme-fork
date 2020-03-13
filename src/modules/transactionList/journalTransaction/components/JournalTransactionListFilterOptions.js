@@ -1,4 +1,5 @@
 import {
+  FilterBar,
   Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
@@ -6,7 +7,6 @@ import React from 'react';
 
 import { getFilterOptions, getSourceJournalFilterOptions } from '../journalTransactionListSelectors';
 import { getRegion } from '../../transactionListSelectors';
-import FilterBar from '../../../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
 import PeriodPicker from '../../../../components/PeriodPicker/PeriodPicker';
 
@@ -20,7 +20,6 @@ const JournalTransactionListFilterOptions = ({
   },
   region,
   sourceJournalFilterOptions,
-  onApplyFilter,
   onUpdateFilters,
   onUpdateMultiFilters,
 }) => {
@@ -46,7 +45,7 @@ const JournalTransactionListFilterOptions = ({
   };
 
   return (
-    <FilterBar onApply={onApplyFilter}>
+    <FilterBar>
       <PeriodPicker
         region={region}
         dateFrom={dateFrom}

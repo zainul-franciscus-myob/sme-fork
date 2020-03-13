@@ -42,11 +42,6 @@ export const getRequestFilterOptions = createSelector(
   ({ period, ...requestFilterOptions }) => requestFilterOptions,
 );
 
-export const getAppliedFilterOptions = createSelector(
-  getJournalState,
-  ({ appliedFilterOptions }) => appliedFilterOptions,
-);
-
 export const getSourceJournalFilterOptions = createSelector(
   getJournalState,
   ({ sourceJournalFilters }) => sourceJournalFilters.map(
@@ -107,13 +102,13 @@ export const getIsLoaded = createSelector(
   isLoading => !isLoading,
 );
 
-const getAppliedSourceJournal = createSelector(
+const getSourceJournal = createSelector(
   getJournalState,
-  state => state.appliedFilterOptions.sourceJournal,
+  state => state.filterOptions.sourceJournal,
 );
 
 export const getURLParams = createStructuredSelector({
-  sourceJournal: getAppliedSourceJournal,
+  sourceJournal: getSourceJournal,
 });
 
 const getDefaultFilterOptions = createSelector(
@@ -122,16 +117,16 @@ const getDefaultFilterOptions = createSelector(
 );
 
 export const getIsDefaultFilters = createSelector(
-  getAppliedFilterOptions,
+  getFilterOptions,
   getDefaultFilterOptions,
-  (appliedFilterOptions, defaultFilterOptions) => shallowCompare(
-    appliedFilterOptions,
+  (filterOptions, defaultFilterOptions) => shallowCompare(
+    filterOptions,
     defaultFilterOptions,
   ),
 );
 
 export const getSettings = createSelector(
-  getAppliedFilterOptions,
+  getFilterOptions,
   getSortOrder,
   getOrderBy,
   (filterOptions, sortOrder, orderBy) => ({
@@ -165,13 +160,13 @@ export const getOffset = createSelector(
 );
 
 export const getLoadTransactionListNextPageParams = createSelector(
-  getAppliedFilterOptions,
+  getFilterOptions,
   getSortOrder,
   getOrderBy,
   getOffset,
-  (appliedFilterOptions, sortOrder, orderBy, offset) => (
+  (filterOptions, sortOrder, orderBy, offset) => (
     {
-      ...appliedFilterOptions,
+      ...filterOptions,
       sortOrder,
       orderBy,
       offset,

@@ -1,6 +1,6 @@
 let timer;
 
-export default (handler, delay) => (...args) => {
+export default (handler, delay = 500) => (...args) => {
   if (timer) {
     clearTimeout(timer);
   }

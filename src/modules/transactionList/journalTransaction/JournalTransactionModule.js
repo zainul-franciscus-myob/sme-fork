@@ -14,7 +14,6 @@ import {
   UPDATE_MULTI_FILTER_OPTIONS,
 } from './JournalTransactionListIntents';
 import {
-  getAppliedFilterOptions,
   getBusinessId,
   getFilterOptions,
   getFlipSortOrder,
@@ -30,6 +29,7 @@ import {
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
 import { tabItemIds } from '../tabItems';
 import TransactionListView from './components/JournalTransactionListView';
+import debounce from '../../../common/debounce/debounce';
 
 const SETTING_KEY = tabItemIds.journal;
 export default class JournalTransactionModule {
@@ -54,7 +54,6 @@ export default class JournalTransactionModule {
         onSort={this.sortTransactionList}
         onUpdateFilters={this.updateFilterOptions}
         onUpdateMultiFilters={this.updateMultiFilterOptions}
-        onApplyFilter={this.filterTransactionList}
         onLoadMoreButtonClick={this.loadTransactionListNextPage}
         pageHead={pageHead}
         subHead={subHead}
@@ -158,6 +157,8 @@ export default class JournalTransactionModule {
     });
   };
 
+  debouncedFilterTransactionList = debounce(this.filterTransactionList);
+
   setSortOrder = (orderBy, newSortOrder) => {
     this.store.dispatch({
       intent: SET_SORT_ORDER,
@@ -192,7 +193,7 @@ export default class JournalTransactionModule {
 
     const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
 
-    const filterOptions = getAppliedFilterOptions(state);
+    const filterOptions = getFilterOptions(state);
     this.integration.read({
       intent,
       urlParams,
@@ -270,6 +271,12 @@ export default class JournalTransactionModule {
       filterName,
       value,
     });
+
+    if (filterName === 'keywords') {
+      this.debouncedFilterTransactionList();
+    } else {
+      this.filterTransactionList();
+    }
   };
 
   updateMultiFilterOptions = (filterUpdates) => {
@@ -278,6 +285,7 @@ export default class JournalTransactionModule {
       intent,
       filterUpdates,
     });
+    this.filterTransactionList();
   };
 
   updateURLFromState = (state) => {

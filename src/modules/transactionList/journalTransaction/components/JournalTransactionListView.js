@@ -27,7 +27,6 @@ const JournalTransactionListView = (props) => {
     loadMoreButtonStatus,
     onUpdateFilters,
     onUpdateMultiFilters,
-    onApplyFilter,
     onSort,
     onLoadMoreButtonClick,
     pageHead,
@@ -39,7 +38,6 @@ const JournalTransactionListView = (props) => {
     <JournalTransactionListFilterOptions
       onUpdateFilters={onUpdateFilters}
       onUpdateMultiFilters={onUpdateMultiFilters}
-      onApplyFilter={onApplyFilter}
     />
   );
 

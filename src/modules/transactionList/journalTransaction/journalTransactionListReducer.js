@@ -43,7 +43,6 @@ const setInitialState = (state, {
     ...state,
     defaultFilterOptions: defaultFilterOptionsForRegion,
     filterOptions,
-    applie1dFilterOptions: filterOptions,
     sortOrder: settings.sortOrder,
     orderBy: settings.orderBy,
     isNextPageLoading: false,
@@ -60,10 +59,6 @@ const loadTransactionList = (state, action) => ({
     ...state.filterOptions,
     ...action.filterOptions,
   },
-  appliedFilterOptions: {
-    ...state.appliedFilterOptions,
-    ...action.filterOptions,
-  },
   pagination: {
     hasNextPage: action.pagination.hasNextPage,
     offset: action.pagination.offset,
@@ -73,7 +68,6 @@ const loadTransactionList = (state, action) => ({
 const sortAndFilterTransactionList = (state, action) => ({
   ...state,
   entries: action.entries,
-  appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
   pagination: {
     hasNextPage: action.pagination.hasNextPage,
     offset: action.pagination.offset,
