@@ -36,17 +36,6 @@
   font-weight: var(--flx-font-weight-normal);
 }
 
-.bankFeedImage {
-  margin-left: auto;
-  display: flex;
-  align-items: flex-end;
-  width: 50%;
-}
-
-.bankFeedImage img {
-  width: 100%;
-}
-
 /*
   @FEELIX:
   Feelix's spinner tries to center itself with margin auto, We want left aligned.

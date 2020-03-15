@@ -5,16 +5,11 @@ import React from 'react';
 import { getIsDetailLoading, getIsEmpty } from '../../selectors/DashboardTrackingSelectors';
 import DashboardTrackingChart from './DashboardTrackingChart';
 import DashboardTrackingLegend from './DashboardTrackingLegend';
-import emptyStateImage from './tracking-empty-state.svg';
+import emptyStateImage from './dashboard-empty-state-business-tracking.svg';
 import styles from './DashboardTrackingDetail.module.css';
 
-const DashboardTrackingDetail = ({
-  isDetailLoading,
-  isEmpty,
-}) => {
-  if (isDetailLoading) {
-    return <PageState title={<Spinner size="medium" />} description="Loading" />;
-  }
+const DashboardTrackingDetail = ({ isDetailLoading, isEmpty }) => {
+  if (isDetailLoading) return <PageState title={<Spinner size="medium" />} description="Loading" />;
 
   if (isEmpty) {
     return (
@@ -22,7 +17,7 @@ const DashboardTrackingDetail = ({
         <PageState
           title="No information to show"
           description="Try selecting a different financial year,  or start entering transactions for the selected year."
-          image={<img src={emptyStateImage} style={{ width: '50%' }} alt="No information to show" />}
+          image={<img src={emptyStateImage} style={{ width: '50%' }} alt="no tracking" />}
         />
       </div>
     );
@@ -31,6 +26,7 @@ const DashboardTrackingDetail = ({
   return (
     <div className={styles.chartContainer}>
       <DashboardTrackingLegend />
+
       <div className={styles.chart}>
         <DashboardTrackingChart />
       </div>

@@ -1,7 +1,4 @@
-import {
-  Button,
-  Card,
-} from '@myob/myob-widgets';
+import { Button, Card } from '@myob/myob-widgets';
 import React from 'react';
 
 import dogImg from './dog-image.svg';
@@ -14,11 +11,9 @@ const onClick = () => {
 const DashboardLeanEngageCard = () => (
   <Card>
     <div className={styles.dogImage}>
-      <img
-        src={dogImg}
-        alt=""
-      />
+      <img src={dogImg} alt="feedback" />
     </div>
+
     <div className={styles.content}>
       <h3>Got feedback about the new dashboard experience?</h3>
       <Button type="link" onClick={onClick}>

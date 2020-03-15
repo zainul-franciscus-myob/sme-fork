@@ -20,6 +20,7 @@ import CardView from '../../../../components/CardView/CardView';
 import DashboardCardHeader from '../DashboardCardHeader';
 import DashboardTotalSummary from '../DashboardTotalSummary';
 import DashboardUnallocations from './DashboardBankingUnallocations';
+import EmptyStatesBankFeeds from './dashboard-empty-state-bank-feeds.svg';
 import ErrorCard from '../ErrorCard';
 import LinkButton from '../../../../components/Button/LinkButton';
 import styles from './DashboardBankingCard.module.css';
@@ -46,33 +47,35 @@ const DashboardBankingCard = ({
   const emptyView = (
     <PageState
       title="Manage your day-to-day"
-      description="Automatically and securely import your bank and credit card transactions with bank feeds."
       actions={[
-        <LinkButton
-          href={addBankFeedUrl}
-          isOpenInNewTab
-          icon={<Icons.Add />}
-        >
-        Add bank feed
-        </LinkButton>]}
-    />
-
+        <LinkButton href={addBankFeedUrl} isOpenInNewTab icon={<Icons.Add />}>
+          Add bank feed
+        </LinkButton>,
+      ]}
+      description="Automatically and securely import your bank and credit card transactions with bank feeds."
+      image={<img src={EmptyStatesBankFeeds} alt="no bankfeeds" style={{ width: '50%' }} />}
+    >
+    </PageState>
   );
 
   const bankingView = (
     <div className={styles.container}>
       <DashboardCardHeader title="Manage your day-to-day" />
+
       <hr />
+
       <AccountCombobox
         label="Bank account"
         items={bankFeedsAccounts}
         selectedId={selectedBankFeedAccount}
         onChange={onBankFeedAccountChange}
       />
+
       <div>
         Last reconciled
         <span className={styles.reconcileDate}>{lastReconcileDate}</span>
       </div>
+
       <DashboardTotalSummary
         className={styles.balances}
         items={[
@@ -80,15 +83,14 @@ const DashboardBankingCard = ({
           { title: 'Ledger balance', content: ledgerBalance },
         ]}
       />
+
       <DashboardUnallocations onLinkClick={onLinkClick} />
     </div>
   );
 
   const view = isBankFeedAvailable ? bankingView : emptyView;
 
-  return (
-    <CardView isLoading={isLoading} view={view} />
-  );
+  return <CardView isLoading={isLoading} view={view} />;
 };
 
 const mapStateToProps = state => ({

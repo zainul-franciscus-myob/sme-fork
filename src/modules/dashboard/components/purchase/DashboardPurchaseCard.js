@@ -14,6 +14,7 @@ import DashboardCardHeader from '../DashboardCardHeader';
 import DashboardPurchaseChart from './DashboardPurchaseChart';
 import DashboardPurchaseTable from './DashboardPurchaseTable';
 import DashboardPurchaseTotalSummary from './DashboardPurchaseTotalSummary';
+import EmptyStatesExpenses from './dashboard-empty-state-purchases.svg';
 import ErrorCard from '../ErrorCard';
 import styles from './DashboardPurchaseCard.module.css';
 
@@ -48,8 +49,11 @@ const DashboardPurchaseCard = ({
         <Button type="link" icon={<Icons.Add />} onClick={handleLinkClick(onLinkClick, createBillLink)}>
           Create bill
         </Button>
+
       </DashboardCardHeader>
+
       <hr />
+
       <DashboardPurchaseTotalSummary />
       {tableView}
     </div>
@@ -62,15 +66,14 @@ const DashboardPurchaseCard = ({
     </div>
   );
 
-  const actions = [
-    <Button type="link" icon={<Icons.Add />} onClick={handleLinkClick(onLinkClick, createBillLink)}>Create bill</Button>,
-  ];
-
   const emptyView = (
     <PageState
       title="Keep on top of your expenses"
-      actions={actions}
+      actions={[
+        <Button type="link" icon={<Icons.Add />} onClick={handleLinkClick(onLinkClick, createBillLink)}>Create bill</Button>,
+      ]}
       description="Keep track of outstanding bills, and see how you're tracking over time."
+      image={<img src={EmptyStatesExpenses} style={{ width: '50%' }} alt="no expenses" />}
     />
   );
 
@@ -78,9 +81,7 @@ const DashboardPurchaseCard = ({
 
   const view = isEmpty ? emptyView : purchaseView;
 
-  return (
-    <CardView isLoading={isLoading} view={view} />
-  );
+  return <CardView isLoading={isLoading} view={view} />;
 };
 
 const mapStateToProps = state => ({

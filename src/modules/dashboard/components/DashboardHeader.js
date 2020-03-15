@@ -3,7 +3,6 @@ import React from 'react';
 
 import { getDashboardHeader } from '../selectors/DashboardSelectors';
 import BankFeedBalance from './BankFeedBalance';
-import headerImage from './top-right-corner-illustration.svg';
 import styles from './DashboardHeader.module.css';
 
 const Greeting = ({ greeting, businessName, inspirationalQuote }) => (
@@ -22,9 +21,6 @@ const Greeting = ({ greeting, businessName, inspirationalQuote }) => (
 const BankFeedBalanceAndImage = ({ showBankFeedBalance }) => (
   <div className={styles.card}>
     {showBankFeedBalance && <BankFeedBalance />}
-    <div className={styles.bankFeedImage}>
-      <img src={headerImage} alt="" />
-    </div>
   </div>
 );
 

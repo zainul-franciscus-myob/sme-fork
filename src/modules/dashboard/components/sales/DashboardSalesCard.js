@@ -14,6 +14,7 @@ import DashboardCardHeader from '../DashboardCardHeader';
 import DashboardSalesChart from './DashboardSalesChart';
 import DashboardSalesTable from './DashboardSalesTable';
 import DashboardSalesTotalSummary from './DashboardSalesTotalSummary';
+import EmptyStatesSales from './dashboard-empty-state-sales.svg';
 import ErrorCard from '../ErrorCard';
 import styles from './DashboardSalesCard.module.css';
 
@@ -51,8 +52,11 @@ const DashboardSalesCard = ({
           Create invoice
         </Button>
       </DashboardCardHeader>
+
       <hr />
+
       <DashboardSalesTotalSummary />
+
       {tableView}
     </div>
   );
@@ -64,25 +68,23 @@ const DashboardSalesCard = ({
     </div>
   );
 
-  const actions = [
-    <Button type="link" icon={<Icons.Add />} onClick={handleLinkClick(onLinkClick, createInvoiceLink)}>Create invoice</Button>,
-  ];
-
   const emptyView = (
     <PageState
       title="Invoicing that gets you paid fast"
-      actions={actions}
+      actions={[
+        <Button key={1} type="link" icon={<Icons.Add />} onClick={handleLinkClick(onLinkClick, createInvoiceLink)}>Create invoice</Button>,
+      ]}
       description="Create professional invoices in a few clicks, and stay on top of overdue payments with online invoice tracking."
-    />
+      image={<img src={EmptyStatesSales} alt="no invoices" style={{ width: '50%' }} />}
+    >
+    </PageState>
   );
 
   if (hasError) return <ErrorCard onTry={onReload} />;
 
   const view = isEmpty ? emptyView : salesView;
 
-  return (
-    <CardView isLoading={isLoading} view={view} />
-  );
+  return <CardView isLoading={isLoading} view={view} />;
 };
 
 const mapStateToProps = state => ({
