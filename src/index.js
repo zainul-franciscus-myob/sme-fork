@@ -1,9 +1,11 @@
 import './index.css';
 import '@myob/myob-styles/dist/design-tokens/css/design-tokens.css';
 import '@myob/myob-styles/dist/styles/myob-clean.css';
+import { detect } from 'detect-browser';
 
 import { initializeAuth } from './Auth';
 import Config, { initializeConfig } from './Config';
+import IEBlockPage from './components/IE/IEBlockPage';
 import Inbox from './inbox';
 import RootModule from './root/rootModule';
 import Router from './router/Router';
@@ -13,6 +15,13 @@ import stopResizeAnimation from './stopResizeAnimation';
 import unbindAllKeys from './hotKeys/unbindAllKeys';
 
 async function main(integrationType, telemetryType, leanEngageType) {
+  const browser = detect();
+  const isIE = browser.name === 'ie';
+  if (isIE) {
+    document.write(IEBlockPage);
+    return;
+  }
+
   await initializeConfig();
   initializeAuth();
   stopResizeAnimation();
