@@ -13,16 +13,16 @@ import onlinePaymentMethodsImage from './OnlinePaymentMethods.png';
 import styles from './OnlinePaymentOptions.module.css';
 
 const OnlinePaymentOptions = ({
-  isLoading,
-  isTrial,
-  isServiceAvailable,
-  isRegistered,
-  payDirectLink,
   accountId,
   accountOptions,
+  isLoading,
+  isRegistered,
+  isServiceAvailable,
+  isTrial,
   onUpdateSalesSettingsItem,
+  payDirectLink,
 }) => {
-  const label = 'Online payments';
+  const label = 'Online';
   const imgAlt = 'Online payment methods';
 
   const setupInfo = (
@@ -39,17 +39,21 @@ const OnlinePaymentOptions = ({
     return (
       <Field
         label={label}
+        hideLabel
         renderField={() => (
           <>
+            <legend>{label}</legend>
+
             <img
               src={onlinePaymentMethodsImage}
               alt={imgAlt}
               className={styles.onlinePaymentMethodsImage}
             />
+
             <div className={styles.trialView}>
               {setupInfo}
               <Alert type="info" inline>
-                Online payments aren&rsquo;t available whilst on a trial
+                Online payments aren&apos;t available whilst on a trial
               </Alert>
             </div>
           </>
@@ -63,7 +67,9 @@ const OnlinePaymentOptions = ({
       <Field
         label={label}
         renderField={() => (
-          <div className={styles.spinner}><Spinner size="small" /></div>
+          <div className={styles.spinner}>
+            <Spinner size="small" />
+          </div>
         )}
       />
     );
@@ -75,10 +81,15 @@ const OnlinePaymentOptions = ({
     return (
       <Field
         label={label}
+        hideLabel
         renderField={() => (
-          <div className={styles.status}>
-            <ServiceUnavailableImage tooltipMessage={tooltipMessage} />
-          </div>
+          <>
+            <legend>{label}</legend>
+
+            <div className={styles.status}>
+              <ServiceUnavailableImage tooltipMessage={tooltipMessage} />
+            </div>
+          </>
         )}
       />
     );
@@ -95,7 +106,7 @@ const OnlinePaymentOptions = ({
         iconRight
         isOpenInNewTab
       >
-          Edit preferences
+        Edit preferences
       </LinkButton>
     </p>
   );
@@ -118,8 +129,11 @@ const OnlinePaymentOptions = ({
     <>
       <Field
         label={label}
+        hideLabel
         renderField={() => (
           <>
+            <legend className="margin-bottom-10">{label}</legend>
+
             <img
               src={onlinePaymentMethodsImage}
               alt={imgAlt}
@@ -129,6 +143,7 @@ const OnlinePaymentOptions = ({
           </>
         )}
       />
+
       { isRegistered && (
         <Field
           label="Account for receiving online payments"
