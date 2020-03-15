@@ -79,7 +79,62 @@
           "hasTfn": false
         }
       },
-      "taxFileNumberStatus": "hasTfn"
+      "taxFileNumberStatus": "hasTfn",
+      "taxTableCalculation": {
+        "selectedResidencyStatus": "AustralianResident",
+        "residencyStatusOptions": [
+          {
+            "value": "AustralianResident",
+            "label": "Australian resident for tax purposes"
+          },
+          {
+            "value": "WorkingHoliday",
+            "label": "A working holiday maker"
+          },
+          {
+            "value": "ForeignResident",
+            "label": "A foreign resident for tax purposes"
+          }
+        ],
+        "hasTaxFreeThreshold": false,
+        "hasSLFSDebt": false,
+        "isHortiShearer": false,
+        "isWithholdingVariation": false,
+        "selectedSeniorTaxOffset": "None",
+        "seniorTaxOffsetOptions": [
+          {
+            "value": "None",
+            "label": "None"
+          },
+          {
+            "value": "Single",
+            "label": "Single"
+          },
+          {
+            "value": "MemberOfACouple",
+            "label": "A member of a couple"
+          },
+          {
+            "value": "IllnessSeparated",
+            "label": "Member of an illness separated couple"
+          }
+        ],
+        "selectedMedicareLevy": "None",
+        "medicareLevyOptions": [
+          {
+            "value": "None",
+            "label": "None"
+          },
+          {
+            "value": "Half",
+            "label": "Half medicare levy exemption"
+          },
+          {
+            "value": "Full",
+            "label": "Full medicare levy exemption"
+          }
+        ]
+      }
     },
     "wage": {
       "selectedPayBasis": "Salary",
