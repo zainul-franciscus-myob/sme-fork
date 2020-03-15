@@ -1,8 +1,9 @@
+import JobDetailModule from './jobDetail/JobDetailModule';
 import JobListModule from './jobList/JobListModule';
 import RouteName from '../../router/RouteName';
 
 const getJobRoutes = ({
-  integration, setRootView, popMessages,
+  integration, setRootView, popMessages, pushMessage,
 }) => {
   const routes = [
     {
@@ -12,6 +13,12 @@ const getJobRoutes = ({
         integration, setRootView, popMessages,
       }),
       documentTitle: 'Jobs',
+    },
+    {
+      name: RouteName.JOB_DETAIL,
+      path: '/:region/:businessId/job/:jobId',
+      module: new JobDetailModule({ integration, setRootView, pushMessage }),
+      documentTitle: 'Job',
     },
   ];
 

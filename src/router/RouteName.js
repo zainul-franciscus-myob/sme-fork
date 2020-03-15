@@ -95,6 +95,7 @@ const RouteName = {
   BANK_STATEMENT_IMPORT_LIST: 'bankStatementImport/bankStatementImportList',
   FILE_UNAVAILABLE: 'unavailable',
   JOB_LIST: 'job/jobList',
+  JOB_DETAIL: 'job/jobDetail',
 };
 
 export default RouteName;

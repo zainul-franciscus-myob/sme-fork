@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { getJobCreateLink } from './jobListSelector';
 import JobListView from './components/JobListView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
@@ -26,6 +27,7 @@ export default class JobListModule {
         <JobListView
           onDismissAlert={this.dispatcher.dismissAlert}
           onUpdateFilters={this.dispatcher.updateFilterOptions}
+          onAddJobButtonClick={this.redirectToAddJob}
           onApplyFilter={this.filterJobList}
         />
       </Provider>
@@ -44,6 +46,13 @@ export default class JobListModule {
     };
 
     this.integrator.loadJobList({ onSuccess, onFailure });
+  }
+
+  redirectToAddJob = () => {
+    const state = this.store.getState();
+    const url = getJobCreateLink(state);
+
+    window.location.href = url;
   }
 
   filterJobList = () => {

@@ -1,5 +1,6 @@
 import {
   Alert,
+  Button,
   PageHead,
   Table,
 } from '@myob/myob-widgets';
@@ -70,6 +71,7 @@ const JobListView = (props) => {
     loadingState,
     alert,
     onDismissAlert,
+    onAddJobButtonClick,
     onUpdateFilters,
     onApplyFilter,
     showStatusColumn,
@@ -89,7 +91,9 @@ const JobListView = (props) => {
   );
 
   const pageHead = (
-    <PageHead title="Jobs" />
+    <PageHead title="Jobs">
+      <Button onClick={onAddJobButtonClick}>Create job</Button>
+    </PageHead>
   );
 
   const tableHeader = (

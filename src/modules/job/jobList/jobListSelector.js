@@ -43,3 +43,9 @@ export const getJobListUrlParams = (state) => {
 
   return { businessId };
 };
+
+export const getJobCreateLink = createSelector(
+  getBusinessId,
+  getRegion,
+  (businessId, region) => `/#/${region}/${businessId}/job/new`,
+);
