@@ -4,6 +4,7 @@ import {
   getReportsUrls,
   getSalesUrls,
   getShouldDisplayChangePlan,
+  getShouldShowPaymentDetail,
   getShowUrls,
   noOpRouteNames,
 } from '../NavigationSelectors';
@@ -165,6 +166,45 @@ describe('NavigationSelectors', () => {
 
         expect(actual[test.routeName]).toEqual(`https://🐸.com/#/🇦🇺/🍟/${test.suffix}`);
       });
+    });
+  });
+
+  describe('shouldShowPaymentDetail', () => {
+    const state = {
+      routeParams: {
+        businessId: '🍟',
+        region: '🇦🇺',
+      },
+      enabledFeatures: [RouteName.PAYMENT_DETAIL],
+      isTrial: false,
+    };
+
+    it('shows', () => {
+      const actual = getShouldShowPaymentDetail(state);
+
+      expect(actual).toEqual(true);
+    });
+
+    it('does not show when no url', () => {
+      const modifiedState = {
+        ...state,
+        enabledFeatures: [],
+      };
+
+      const actual = getShouldShowPaymentDetail(modifiedState);
+
+      expect(actual).toEqual(false);
+    });
+
+    it('does not show when is trial', () => {
+      const modifiedState = {
+        ...state,
+        isTrial: true,
+      };
+
+      const actual = getShouldShowPaymentDetail(modifiedState);
+
+      expect(actual).toEqual(false);
     });
   });
 });

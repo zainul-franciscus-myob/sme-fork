@@ -14,6 +14,7 @@ export const getIsCurrentUserAdvisor = state => state.isCurrentUserAdvisor;
 
 const getUrls = state => state.urls;
 export const getTrialEndDate = state => state.trialEndDate;
+const getIsTrial = state => state.isTrial;
 
 export const getBusinessId = ({ routeParams: { businessId = '' } }) => businessId;
 export const getRegion = state => state.routeParams.region;
@@ -228,6 +229,12 @@ export const getBusinessUrls = createSelector(
     paymentDetail: enabledUrls.paymentDetail,
     subscription: enabledUrls.subscription,
   }),
+);
+
+export const getShouldShowPaymentDetail = createSelector(
+  getBusinessUrls,
+  getIsTrial,
+  (businessUrls, isTrial) => Boolean(businessUrls.paymentDetail) && !isTrial,
 );
 
 export const getPurchasesUrls = createSelector(

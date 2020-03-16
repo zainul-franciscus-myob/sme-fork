@@ -16,6 +16,8 @@ const getDefaultState = () => ({
   myReportsUrl: '',
   subscriptionType: '',
   isCurrentUserAdvisor: false,
+  isTrial: false,
+  trialEndDate: '',
 });
 
 const setLoadingState = (state, { isLoading }) => ({
@@ -29,6 +31,7 @@ const loadBusinessDetails = (state, action) => ({
   userEmail: action.userEmail,
   enabledFeatures: action.enabledFeatures,
   isReadOnly: action.isReadOnly,
+  isTrial: action.isTrial,
   trialEndDate: action.trialEndDate,
   isCurrentUserAdvisor: action.isCurrentUserAdvisor,
   subscriptionType: action.subscriptionType,

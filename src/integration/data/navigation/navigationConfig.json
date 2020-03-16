@@ -67,6 +67,7 @@
     "paymentDetail",
     "subscription"
   ],
+  "isTrial": false,
   "isReadOnly": true,
   "isCurrentUserAdvisor": true
 }

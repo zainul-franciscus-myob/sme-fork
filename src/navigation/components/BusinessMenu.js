@@ -11,6 +11,7 @@ import {
   getIsCurrentUserAdvisor,
   getIsReadOnly,
   getSerialNumber,
+  getShouldShowPaymentDetail,
   getUserEmail,
 } from '../NavigationSelectors';
 import BusinessAvatar from '../../components/BusinessAvatar/BusinessAvatar';
@@ -62,9 +63,10 @@ const getItems = ({
   urls,
   serialNumber,
   userEmail,
+  shouldShowPaymentDetail,
+  isCurrentUserAdvisor,
   onMenuLinkClick,
   onLogoutLinkClick,
-  isCurrentUserAdvisor,
   onSubscribeNowClick,
   onChangePlanClick,
 }) => [
@@ -81,7 +83,7 @@ const getItems = ({
   isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
   userEmail && <UnlinkedMenuLink label={userEmail} className={styles.userEmail} />,
   getDisabledMenuLink('my.MYOB account'),
-  urls.paymentDetail && getMenuLink(urls.paymentDetail, 'Payment details', onMenuLinkClick, '_blank'),
+  shouldShowPaymentDetail ? getMenuLink(urls.paymentDetail, 'Payment details', onMenuLinkClick, '_blank') : undefined,
   onSubscribeNowClick && getMenuLink('', 'Subscribe now', onSubscribeNowClick),
   onChangePlanClick && getMenuLink('', 'Change plan', onChangePlanClick),
   <Navigation.Separator key="separator-links" />,
@@ -107,6 +109,7 @@ const BusinessMenu = ({
   urls,
   activeNav,
   isCurrentUserAdvisor,
+  shouldShowPaymentDetail,
   onMenuSelect,
   onMenuLinkClick,
   onLogoutLinkClick,
@@ -128,6 +131,7 @@ const BusinessMenu = ({
         urls,
         serialNumber,
         userEmail,
+        shouldShowPaymentDetail,
         isCurrentUserAdvisor,
         onMenuLinkClick,
         onLogoutLinkClick,
@@ -147,7 +151,7 @@ const mapStateToProps = state => ({
   activeNav: getActiveNav(state),
   isReadOnly: getIsReadOnly(state),
   isCurrentUserAdvisor: getIsCurrentUserAdvisor(state),
-
+  shouldShowPaymentDetail: getShouldShowPaymentDetail(state),
 });
 
 export default connect(mapStateToProps)(BusinessMenu);
