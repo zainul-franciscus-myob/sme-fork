@@ -17,6 +17,7 @@ import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSea
 import SupplierCombobox from '../../../../components/combobox/SupplierCombobox';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import handleDateChange from '../../../../components/handlers/handleDateChange';
+import handleInputChange from '../../../../components/handlers/handleInputChange';
 import handleSelectChange from '../../../../components/handlers/handleSelectChange';
 import styles from './BillListFilterOptions.module.css';
 
@@ -39,7 +40,7 @@ const BillListFilterOptions = ({
 }) => (
   <React.Fragment>
     <FilterBar onApply={onApplyFilter}>
-      <Select name="status" label="Status" value={status} onChange={handleSelectChange('status', onUpdateFilters)}>
+      <Select name="status" label="Status" value={status} onChange={handleSelectChange(onUpdateFilters)}>
         {statusFilterOptions.map(({ name, value }) => (
           <Select.Option value={value} label={name} key={value} />
         ))}
@@ -61,9 +62,9 @@ const BillListFilterOptions = ({
         <DatePicker label="Issue to" name="dateTo" value={dateTo} onSelect={handleDateChange('dateTo', onUpdateFilters)} />
       </FilterBar.Group>
       <FilterBarSearch
-        name="search"
+        name="keywords"
         value={keywords}
-        onChange={handleSelectChange('keywords', onUpdateFilters)}
+        onChange={handleInputChange(onUpdateFilters)}
       />
     </FilterBar>
     <hr />
