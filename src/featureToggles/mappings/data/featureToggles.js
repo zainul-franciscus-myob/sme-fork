@@ -8,4 +8,5 @@
  */
 export default {
   isSpendMoneyBankPaymentEnabled: true,
+  isPayRunCSATEnabled: true,
 };

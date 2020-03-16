@@ -4,14 +4,19 @@ import PayRunModule from './payRunCreate/PayRunModule';
 import RouteName from '../../router/RouteName';
 
 const getPayRunRoutes = ({
-  integration, setRootView, pushMessage, popMessages, replaceURLParams,
+  integration,
+  setRootView,
+  pushMessage,
+  popMessages,
+  replaceURLParams,
+  featureToggles,
 }) => {
   const routes = [
     {
       name: RouteName.PAY_RUN_CREATE,
       path: '/:region/:businessId/payRun/new',
       module: new PayRunModule({
-        integration, setRootView, pushMessage,
+        integration, setRootView, pushMessage, featureToggles,
       }),
       documentTitle: 'Pay run',
     },

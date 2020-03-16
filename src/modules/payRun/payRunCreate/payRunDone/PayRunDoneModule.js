@@ -11,12 +11,21 @@ export default class PayRunDoneModule {
   constructor({
     integration,
     store,
+    featureToggles,
   }) {
     this.integration = integration;
     this.store = store;
+    this.featureToggles = featureToggles;
   }
 
+  openLeanEngageSurvey = () => {
+    if (this.featureToggles.isPayRunCSATEnabled) {
+      window.leanengage('triggerSurvey', 'payrun-csat');
+    }
+  };
+
   closePayRun = () => {
+    this.openLeanEngageSurvey();
     const state = this.store.getState();
     window.location.href = getPayRunListUrl(state);
   };
@@ -39,5 +48,10 @@ export default class PayRunDoneModule {
         onStpReportingClick={this.goToStpReporting}
       />
     );
+  }
+
+  tryToNavigate = (navigateFunction) => {
+    this.openLeanEngageSurvey();
+    navigateFunction();
   }
 }

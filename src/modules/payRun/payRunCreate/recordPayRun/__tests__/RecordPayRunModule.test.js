@@ -16,10 +16,10 @@ describe('RecordPayRunModule', () => {
     const setRootView = () => (<div />);
     const payRunModule = new PayRunModule({ integration, setRootView, pushMessage });
 
-    const employeePayListModule = new RecordPayRunModule({
+    const recordPayRunModule = new RecordPayRunModule({
       integration, store: payRunModule.store, pushMessage,
     });
-    const view = employeePayListModule.getView();
+    const view = recordPayRunModule.getView();
 
     const wrappedView = (
       <Provider store={payRunModule.store}>

@@ -44,7 +44,13 @@ const PayRunDoneView = ({
       </Card>
       <ButtonRow
         primary={[
-          <Button key="close" name="close" type="primary" onClick={onCloseButtonClick}>
+          <Button
+            key="close"
+            name="close"
+            type="primary"
+            onClick={onCloseButtonClick}
+            testid="closeButton"
+          >
               Close
           </Button>,
         ]}

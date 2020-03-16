@@ -20,11 +20,13 @@ export default class PayRunModule {
     integration,
     setRootView,
     pushMessage,
+    featureToggles,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.store = new Store(payRunReducer);
     this.pushMessage = pushMessage;
+    this.featureToggles = featureToggles;
     this.dispatcher = createPayRunDispatchers(this.store);
     this.integrator = createPayRunIntegrator(this.store, integration);
     this.subModules = {
@@ -51,6 +53,7 @@ export default class PayRunModule {
       payRunDoneModule: new PayRunDoneModule({
         integration,
         store: this.store,
+        featureToggles,
       }),
     };
   }
