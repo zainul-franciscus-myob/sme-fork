@@ -14,7 +14,7 @@ export default class LearnPayrollModule {
 
   onClick = (region, businessId) => {
     this.globalCallbacks.learnPayrollCompleted();
-    window.location.href = `/#/${region}/${businessId}/payrollSettings?tab=general`;
+    window.location.href = `/#/${region}/${businessId}/payrollSettings?tab=general&appcue=-M0y1kf_l3LrPAMMzISp`;
   };
 
   resetState = () => {};
