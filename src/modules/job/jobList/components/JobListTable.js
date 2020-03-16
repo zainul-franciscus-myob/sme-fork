@@ -11,18 +11,19 @@ import {
 } from '../jobListSelector';
 import JobListTableBody from './JobListTableBody';
 import StickyTableBody from '../../../../components/StickyTable/StickyTableBody';
-import noResultStateImage from './no-results-state.svg';
+import emptyStateImage from './empty-state-jobs.svg';
+import noResultStateImage from './no-results-found.svg';
 import style from './JobListTable.module.css';
 
-const noResultsPageState = (
+const emptyPageState = onAddJobButtonClick => (
   <PageState
     title="You haven't created any Jobs yet..."
-    image={<img className={style.jobsNoResultImg} src={noResultStateImage} alt="No results found" />}
+    image={<img className={style.jobsNoResultImg} src={emptyStateImage} alt="No results found" />}
     actions={[
       <Button
         key={1}
         type="link"
-        // onClick={onAddJobButtonClick}
+        onClick={onAddJobButtonClick}
         icon={<Icons.Add />}
       >
         Create Job
@@ -31,19 +32,20 @@ const noResultsPageState = (
   />
 );
 
-const noFilteredResultsPageState = (
+const noResultsPageState = (
   <PageState
     title="No results found"
-    description="Perhaps check spelling or remove filters and try again"
+    description="Perhaps check spelling or remove the filters and try again"
     image={<img className={style.jobsNoResultImg} src={noResultStateImage} alt="No results found" />}
   />
 );
 
-const emptyTableView = isDefaultFilters => (isDefaultFilters
-  ? noResultsPageState
-  : noFilteredResultsPageState);
+const emptyTableView = (isDefaultFilter, onAddJobButtonClick) => (isDefaultFilter
+  ? emptyPageState(onAddJobButtonClick)
+  : noResultsPageState);
 
 const JobListTable = ({
+  onAddJobButtonClick,
   isTableEmpty,
   isTableLoading,
   tableConfig,
@@ -52,7 +54,7 @@ const JobListTable = ({
   <StickyTableBody
     isLoading={isTableLoading}
     isEmpty={isTableEmpty}
-    emptyView={emptyTableView(isDefaultFilter)}
+    emptyView={emptyTableView(isDefaultFilter, onAddJobButtonClick)}
   >
     <JobListTableBody tableConfig={tableConfig} />
   </StickyTableBody>

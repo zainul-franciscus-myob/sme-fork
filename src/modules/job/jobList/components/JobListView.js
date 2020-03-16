@@ -150,6 +150,7 @@ const JobListView = (props) => {
       >
         <JobListTable
           tableConfig={tableConfig}
+          onAddJobButtonClick={onAddJobButtonClick}
         />
       </StandardTemplate>
     </div>
