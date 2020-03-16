@@ -9,6 +9,7 @@ const UnmatchedRowItem = ({
   onFocus,
   onBlur,
   onAllocate,
+  onAddAccount,
 }) => {
   const {
     isFocused,
@@ -24,6 +25,7 @@ const UnmatchedRowItem = ({
         onBlur={onBlur}
         autoFocus
         label="Allocate to"
+        addNewAccount={() => onAddAccount(onAllocate)}
         hideLabel
         preventTabbingOnSelect
       />

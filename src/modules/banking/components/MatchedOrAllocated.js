@@ -10,6 +10,7 @@ import UnmatchedRowItem from './UnmatchedRowItem';
 
 export default ({
   entry,
+  onAddAccount,
   onSplitRowItemClick,
   onMatchRowItemClick,
   onMatchedToFocus,
@@ -70,6 +71,7 @@ export default ({
     return (
       <AllocatedRowItem
         entry={entry}
+        onAddAccount={onAddAccount}
         onUnallocate={() => onUnallocate(index)}
         onAllocate={item => onAllocate(index, item)}
         onFocus={() => onMatchedToFocus(index)}
@@ -80,6 +82,7 @@ export default ({
 
   return (
     <UnmatchedRowItem
+      onAddAccount={onAddAccount}
       entry={entry}
       onAllocate={item => onAllocate(index, item)}
       onFocus={() => onUnmatchedFocus(index)}

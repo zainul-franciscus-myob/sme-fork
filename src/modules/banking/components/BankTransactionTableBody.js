@@ -176,6 +176,7 @@ const BankTransactionTableBody = (props) => {
   const rows = entries.map((entry, index) => (
     <BankTransactionTableRow
       key={index}
+      onAddAccount={onAddAccount}
       onHeaderClick={onHeaderClick}
       onSplitRowItemClick={onSplitRowItemClick}
       onMatchRowItemClick={onMatchRowItemClick}

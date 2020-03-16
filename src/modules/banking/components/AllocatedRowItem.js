@@ -10,6 +10,7 @@ import styles from './AllocatedRowItem.module.css';
 
 const AllocatedRowItem = ({
   entry,
+  onAddAccount,
   onFocus,
   onBlur,
   onAllocate,
@@ -49,6 +50,7 @@ const AllocatedRowItem = ({
         autoFocus
         preventTabbingOnSelect
         selectedId={entry.selectedAccountId}
+        addNewAccount={() => onAddAccount(onAllocate)}
       />
     </div>
   );

@@ -135,6 +135,7 @@ const BankTransactionTableRow = ({
   onEditNote,
   onPendingNoteChange,
   onNoteBlur,
+  onAddAccount,
   onHeaderClick,
   onSplitRowItemClick,
   onMatchRowItemClick,
@@ -153,6 +154,7 @@ const BankTransactionTableRow = ({
   const matchedOrAllocatedRowItem = (
     <MatchedOrAllocated
       entry={entry}
+      onAddAccount={onAddAccount}
       onSplitRowItemClick={onSplitRowItemClick}
       onMatchRowItemClick={onMatchRowItemClick}
       onAllocate={onAllocate}

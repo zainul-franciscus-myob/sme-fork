@@ -1115,10 +1115,12 @@ export default class BankingModule {
     this.accountModalModule.close();
     this.dispatcher.setLoadingSingleAccountState(true);
     const onSuccess = (payload) => {
+      const state = this.store.getState();
       this.dispatcher.setLoadingSingleAccountState(false);
-      const activeTabId = getOpenEntryActiveTabId(this.store.getState());
+      const activeTabId = getOpenEntryActiveTabId(state);
+      const openPosition = getOpenPosition(state);
       this.dispatcher.loadAccountAfterCreate(payload);
-      if (activeTabId === tabIds.allocate) {
+      if (activeTabId === tabIds.allocate && openPosition > 0) {
         this.dispatcher.appendAccountToAllocateTable(payload);
       }
       onAccountCreated(payload);
