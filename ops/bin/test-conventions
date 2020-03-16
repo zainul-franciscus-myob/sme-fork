@@ -1,0 +1,4 @@
+#!/bin/bash
+set -euo pipefail
+
+ops/bin/env "echo '--- Running convention tests' && yarn test src/__tests__/*.convention.js"

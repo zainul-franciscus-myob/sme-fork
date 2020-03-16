@@ -1,4 +1,4 @@
 #!/bin/bash
 set -euo pipefail
 
-ops/bin/env "echo '--- Running unit tests' && yarn test --coverage"
+ops/bin/env "echo '--- Running unit tests' && yarn test --coverage --testPathIgnorePatterns \"\.convention\.\""
