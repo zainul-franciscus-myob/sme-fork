@@ -2,6 +2,8 @@ import { businessEventToFeatureMap } from '../../../../common/types/BusinessEven
 import InvoiceHistoryAccordionStatus from '../InvoiceHistoryAccordionStatus';
 import InvoiceHistoryStatus from '../InvoiceHistoryStatus';
 
+export const getInvoiceHistory = state => state.invoiceHistory;
+
 const getShowLink = (line) => {
   const {
     sourceJournalType,
@@ -11,7 +13,7 @@ const getShowLink = (line) => {
   return feature && referenceNo;
 };
 
-export const getInvoiceHistory = state => state.invoiceHistory.map(line => ({
+export const getInvoiceHistoryTable = state => state.invoiceHistory.map(line => ({
   ...line,
   showLink: getShowLink(line),
 }));

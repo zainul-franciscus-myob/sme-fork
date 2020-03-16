@@ -9,6 +9,7 @@ const getIsEmailMeACopy = state => state.emailInvoice.isEmailMeACopy;
 const getEmailSubject = state => state.emailInvoice.subject;
 const getEmailMessageBody = state => state.emailInvoice.messageBody;
 const getEmailTemplateName = state => state.emailInvoice.templateName;
+const getHasEmailReplyDetails = state => state.emailInvoice.hasEmailReplyDetails;
 
 export const getEmailInvoiceDetail = createSelector(
   getEmailToAddresses,
@@ -82,6 +83,8 @@ export const getFilesForUpload = (state, files) => (
   ).state === 'queued')
 );
 
-export const getIsEmailModalOpen = state => (
-  state.modalType === InvoiceDetailModalType.EMAIL_INVOICE
+export const getEmailModalType = (state) => (
+  getHasEmailReplyDetails(state)
+    ? InvoiceDetailModalType.EMAIL_INVOICE
+    : InvoiceDetailModalType.EMAIL_SETTINGS
 );

@@ -4,12 +4,10 @@ import {
   getInvoiceDetailTotals,
   getInvoiceLine,
   getLoadInvoiceDetailEmailInvoice,
-  getLoadInvoiceDetailModalType,
   getShouldReload,
   getTemplateOptions,
   getUpdatedContactOptions,
 } from '../invoiceDetailSelectors';
-import InvoiceDetailModalType from '../../InvoiceDetailModalType';
 import InvoiceLayout from '../../InvoiceLayout';
 
 describe('invoiceDetailSelectors', () => {
@@ -221,31 +219,6 @@ describe('invoiceDetailSelectors', () => {
 
       expect(actual).toEqual(expected);
     });
-  });
-
-  describe('getLoadInvoiceDetailModalType', () => {
-    it.each([
-      [InvoiceDetailModalType.NONE, false, undefined, undefined, { hasEmailReplyDetails: true }],
-      [InvoiceDetailModalType.EMAIL_INVOICE, false, 'true', undefined, { hasEmailReplyDetails: true }],
-      [InvoiceDetailModalType.EMAIL_SETTINGS, false, 'true', undefined, { hasEmailReplyDetails: false }],
-      [InvoiceDetailModalType.EXPORT_PDF, false, undefined, 'true', { hasEmailReplyDetails: true }],
-      [InvoiceDetailModalType.NONE, true, undefined, undefined, { hasEmailReplyDetails: true }],
-      [InvoiceDetailModalType.NONE, true, 'true', undefined, { hasEmailReplyDetails: true }],
-      [InvoiceDetailModalType.NONE, true, 'true', undefined, { hasEmailReplyDetails: false }],
-      [InvoiceDetailModalType.NONE, true, undefined, 'true', { hasEmailReplyDetails: true }],
-    ], ('should return modal type %s', (
-      expected, isCreating, openSendEmail, openExportPdf, emailInvoice,
-    ) => {
-      const customState = {
-        invoiceId: isCreating ? 'new' : '1',
-        openSendEmail,
-        openExportPdf,
-      };
-
-      const actual = getLoadInvoiceDetailModalType(customState, emailInvoice);
-
-      expect(actual).toEqual(expected);
-    }));
   });
 
   describe('getLoadInvoiceDetailEmailInvoice', () => {

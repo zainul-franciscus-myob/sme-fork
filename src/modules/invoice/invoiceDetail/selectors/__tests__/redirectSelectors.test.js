@@ -2,7 +2,6 @@ import {
   getCreateDuplicateInvoiceUrl,
   getCreateNewInvoiceUrl,
   getInvoiceListUrl,
-  getInvoiceReadWithEmailModalUrl,
   getRedirectRefUrl,
 } from '../redirectSelectors';
 
@@ -22,15 +21,6 @@ describe('redirectSelectors', () => {
     it('returns the correct Url for invoice list page', () => {
       const expected = '/#/au/abc/invoice';
       const actual = getInvoiceListUrl(state);
-
-      expect(expected).toEqual(actual);
-    });
-  });
-
-  describe('getInvoiceReadWithEmailModalUrl', () => {
-    it('returns the correct Url for invoice read/update screen', () => {
-      const expected = '/#/au/abc/invoice/1?openSendEmail=true';
-      const actual = getInvoiceReadWithEmailModalUrl(state);
 
       expect(expected).toEqual(actual);
     });

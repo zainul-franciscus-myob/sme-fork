@@ -18,8 +18,8 @@ import {
   getIsTableEmpty,
   getModalType,
   getNewLineIndex,
-  getRouteURLParams,
   getShouldReload,
+  getShouldSaveAndReload,
   getShowOnlinePayment,
   getTaxCalculations,
 } from './selectors/invoiceDetailSelectors';
@@ -29,13 +29,11 @@ import {
   getInvoiceAndQuoteSettingsUrl,
   getInvoiceListUrl,
   getInvoicePaymentUrl,
-  getInvoiceReadWithEmailModalUrl,
-  getInvoiceReadWithExportPdfModalUrl,
   getRedirectRefUrl,
   getSubscriptionSettingsUrl,
 } from './selectors/redirectSelectors';
-import { getExportPdfFilename, getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
-import { getFilesForUpload } from './selectors/emailSelectors';
+import { getEmailModalType, getFilesForUpload } from './selectors/emailSelectors';
+import { getExportPdfFilename } from './selectors/exportPdfSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
 import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
@@ -123,6 +121,22 @@ export default class InvoiceDetailModule {
     this.integrator.loadInvoice({ onSuccess, onFailure });
   }
 
+  reloadInvoice = ({ onSuccess: next = () => {} }) => {
+    this.dispatcher.setSubmittingState(true);
+
+    const onSuccess = (payload) => {
+      this.dispatcher.reloadInvoice(payload);
+      next();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.displayFailureAlert(message);
+    };
+
+    this.integrator.loadInvoice({ onSuccess, onFailure });
+  }
+
   createOrUpdateInvoice = ({ onSuccess }) => {
     if (getIsSubmitting(this.store.getState())) return;
 
@@ -184,43 +198,43 @@ export default class InvoiceDetailModule {
     this.createOrUpdateInvoice({ onSuccess });
   }
 
+  saveAndReload = ({ onSuccess: next = () => {} }) => {
+    const state = this.store.getState();
+    const isCreating = getIsCreating(state);
+
+    const onReloadSuccess = ({ message }) => {
+      if (isCreating) {
+        this.loadInvoiceHistory();
+      }
+      next({ message });
+    };
+
+    const onCreateOrUpdateInvoiceSuccess = ({ message, id }) => {
+      if (isCreating) {
+        this.dispatcher.updateInvoiceIdAfterCreate(id);
+        this.replaceURLParams({ invoiceId: id });
+      }
+
+      this.reloadInvoice({ onSuccess: () => onReloadSuccess({ message }) });
+    };
+
+    this.createOrUpdateInvoice({ onSuccess: onCreateOrUpdateInvoiceSuccess });
+  }
+
   saveAndEmailInvoice = () => {
     this.closeModal();
 
     const state = this.store.getState();
-    const isCreating = getIsCreating(state);
-    const isPageEdited = getIsPageEdited(state);
-
-    if (!isCreating && !isPageEdited) {
-      this.redirectToReadInvoiceWithEmailModal();
-    } else {
-      const onSuccess = (successResponse) => {
-        if (getIsCreating(this.store.getState())) {
-          this.dispatcher.updateInvoiceIdAfterCreate(successResponse.id);
-        }
-        this.pushSuccessfulSaveMessage(successResponse.message);
-        this.redirectToReadInvoiceWithEmailModal();
+    const shouldSaveAndReload = getShouldSaveAndReload(state);
+    if (shouldSaveAndReload) {
+      const onSuccess = ({ message }) => {
+        this.openEmailModal();
+        this.dispatcher.displayModalAlert({ type: 'success', message });
       };
-
-      this.createOrUpdateInvoice({ onSuccess });
+      this.saveAndReload({ onSuccess });
+    } else {
+      this.openEmailModal();
     }
-  }
-
-  saveAndExportPdf = () => {
-    this.closeModal();
-
-    const onSuccess = ({ message, id }) => {
-      const state = this.store.getState();
-      const isCreating = getIsCreating(state);
-      if (isCreating) {
-        this.dispatcher.updateInvoiceIdAfterCreate(id);
-      }
-
-      this.pushSuccessfulSaveMessage(message);
-      this.redirectToReadInvoiceWithExportPdfModal();
-    };
-
-    this.createOrUpdateInvoice({ onSuccess });
   }
 
   saveAndRedirectToInvoicePayment = () => {
@@ -303,20 +317,6 @@ export default class InvoiceDetailModule {
   redirectToCreateDuplicateInvoiceUrl = () => {
     const state = this.store.getState();
     const url = getCreateDuplicateInvoiceUrl(state);
-
-    this.redirectToUrl(url);
-  }
-
-  redirectToReadInvoiceWithEmailModal = () => {
-    const state = this.store.getState();
-    const url = getInvoiceReadWithEmailModalUrl(state);
-
-    this.redirectToUrl(url);
-  }
-
-  redirectToReadInvoiceWithExportPdfModal = () => {
-    const state = this.store.getState();
-    const url = getInvoiceReadWithExportPdfModalUrl(state);
 
     this.redirectToUrl(url);
   }
@@ -530,6 +530,16 @@ export default class InvoiceDetailModule {
     this.dispatcher.setModalType(InvoiceDetailModalType.SAVE_AND_DUPLICATE);
   }
 
+  openExportPdfModal = () => {
+    this.dispatcher.setModalType(InvoiceDetailModalType.EXPORT_PDF);
+  }
+
+  openEmailModal = () => {
+    const state = this.store.getState();
+    const type = getEmailModalType(state);
+    this.dispatcher.setModalType(type);
+  }
+
   executeSaveAndAction = saveAction => (
     saveAction === SaveActionType.SAVE_AND_CREATE_NEW
       ? this.openSaveAndCreateNewModal()
@@ -649,11 +659,11 @@ export default class InvoiceDetailModule {
 
   openExportPdfModalOrSaveAndExportPdf = () => {
     const state = this.store.getState();
-    const shouldSaveAndExport = getShouldSaveAndExportPdf(state);
-    if (shouldSaveAndExport) {
-      this.saveAndExportPdf();
+    const shouldSaveAndReload = getShouldSaveAndReload(state);
+    if (shouldSaveAndReload) {
+      this.saveAndReload({ onSuccess: this.openExportPdfModal });
     } else {
-      this.dispatcher.setModalType(InvoiceDetailModalType.EXPORT_PDF);
+      this.openExportPdfModal();
     }
   }
 
@@ -699,11 +709,6 @@ export default class InvoiceDetailModule {
   readMessages = () => {
     const [message] = this.popMessages(this.messageTypes);
     this.message = message;
-  }
-
-  updateURLFromState = (state) => {
-    const params = getRouteURLParams(state);
-    this.replaceURLParams(params);
   }
 
   resetState = () => {
@@ -779,7 +784,6 @@ export default class InvoiceDetailModule {
     this.render();
 
     this.readMessages();
-    this.store.subscribe(this.updateURLFromState);
 
     this.loadInvoice(this.message);
 

@@ -1,11 +1,9 @@
-import {
-  Button, Icons, Table,
-} from '@myob/myob-widgets';
+import { Button, Icons, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classNames from 'classnames';
 
-import { getInvoiceHistory } from '../../selectors/invoiceHistorySelectors';
+import { getInvoiceHistoryTable } from '../../selectors/invoiceHistorySelectors';
 import InvoiceHistoryStatus from '../../InvoiceHistoryStatus';
 import InvoiceHistoryStatusPretty from '../../InvoiceHistoryStatusPretty';
 import styles from './InvoiceHistoryTable.module.css';
@@ -72,7 +70,7 @@ const InvoiceHistoryTable = ({ invoiceHistory, onClickOnRefNo }) => (
 );
 
 const mapStateToProps = state => ({
-  invoiceHistory: getInvoiceHistory(state),
+  invoiceHistory: getInvoiceHistoryTable(state),
 });
 
 export default connect(mapStateToProps)(InvoiceHistoryTable);

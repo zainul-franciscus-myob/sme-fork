@@ -1,7 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 import { TaxCalculatorTypes, createTaxCalculator } from '../../../../common/taxCalculator';
-import InvoiceDetailModalType from '../InvoiceDetailModalType';
 import InvoiceLayout from '../InvoiceLayout';
 import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
@@ -13,8 +12,6 @@ export const getRegion = state => state.region;
 export const getInvoiceId = state => state.invoiceId;
 export const getQuoteIdQueryParam = state => state.quoteId;
 export const getDuplicatedInvoiceIdQueryParam = state => state.duplicatedInvoiceId;
-export const getOpenSendEmailQueryParam = state => state.openSendEmail;
-export const getOpenExportPdfQueryParam = state => state.openExportPdf;
 
 export const getLoadingState = state => state.loadingState;
 export const getIsSubmitting = state => state.isSubmitting;
@@ -166,46 +163,6 @@ export const getAmountDue = state => (
   calculateAmountDue(getTotals(state).totalAmount, getAmountPaid(state))
 );
 
-
-const getShouldOpenEmailModal = (state) => {
-  const isCreating = getIsCreating(state);
-  const openSendEmail = getOpenSendEmailQueryParam(state);
-
-  return !isCreating && openSendEmail === 'true';
-};
-
-const getShouldOpenExportPdfModal = (state) => {
-  const isCreating = getIsCreating(state);
-  const openExportPdf = getOpenExportPdfQueryParam(state);
-
-  return !isCreating && openExportPdf === 'true';
-};
-
-export const getLoadInvoiceDetailModalType = (state, emailInvoice) => {
-  const shouldOpenEmailModal = getShouldOpenEmailModal(state);
-  if (shouldOpenEmailModal) {
-    const { hasEmailReplyDetails } = emailInvoice || {};
-
-    return hasEmailReplyDetails
-      ? InvoiceDetailModalType.EMAIL_INVOICE
-      : InvoiceDetailModalType.EMAIL_SETTINGS;
-  }
-
-  const shouldOpenExportPdfModal = getShouldOpenExportPdfModal(state);
-  if (shouldOpenExportPdfModal) {
-    return InvoiceDetailModalType.EXPORT_PDF;
-  }
-
-  return InvoiceDetailModalType.NONE;
-};
-
-export const getLoadInvoiceDetailModalAndPageAlert = (state, alertMessage) => {
-  const shouldOpenEmailModal = getShouldOpenEmailModal(state);
-  const alert = ({ type: 'success', message: alertMessage.content });
-
-  return shouldOpenEmailModal ? { modalAlert: alert } : { pageAlert: alert };
-};
-
 export const getLoadInvoiceDetailEmailInvoice = (emailInvoice, invoiceNumber) => (
   emailInvoice
     ? {
@@ -238,10 +195,6 @@ export const getInvoiceLine = createSelector(
   getInvoiceLineByIndex,
   (newLine, line) => line || newLine,
 );
-
-export const getRouteURLParams = state => ({
-  openSendEmail: getOpenSendEmailQueryParam(state),
-});
 
 export const getShouldReload = (state) => {
   const isCreating = getIsCreating(state);
@@ -284,4 +237,11 @@ export const getTaxCalculations = (state, isSwitchingTaxInclusive) => {
     isTaxInclusive,
     isLineAmountsTaxInclusive,
   });
+};
+
+export const getShouldSaveAndReload = (state) => {
+  const isCreating = getIsCreating(state);
+  const isPageEdited = getIsPageEdited(state);
+
+  return isCreating || isPageEdited;
 };

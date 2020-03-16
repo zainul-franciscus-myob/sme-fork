@@ -20,6 +20,7 @@ export const LOAD_NEW_INVOICE_DETAIL = Symbol('Load a new invoice');
 export const LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE = Symbol('Load a new invoice from a quote');
 export const LOAD_NEW_DUPLICATE_INVOICE_DETAIL = Symbol('Load a new duplicate invoice');
 export const LOAD_INVOICE_DETAIL = Symbol('Load an existing invoice');
+export const RELOAD_INVOICE_DETAIL = Symbol('Reload an invoice');
 export const CREATE_INVOICE_DETAIL = Symbol('Create a new invoice');
 export const UPDATE_INVOICE_DETAIL = Symbol('Update a new invoice');
 export const DELETE_INVOICE_DETAIL = Symbol('Delete invoice detail');

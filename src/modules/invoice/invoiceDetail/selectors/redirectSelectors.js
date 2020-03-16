@@ -42,13 +42,6 @@ export const getInvoiceListUrl = (state) => {
   return `${baseUrl}/invoice`;
 };
 
-export const getInvoiceReadWithEmailModalUrl = (state) => {
-  const baseUrl = getBaseUrl(state);
-  const invoiceId = getInvoiceId(state);
-
-  return `${baseUrl}/invoice/${invoiceId}?openSendEmail=true`;
-};
-
 const getCreateInvoiceUrl = (state) => {
   const baseUrl = getBaseUrl(state);
 
@@ -69,13 +62,6 @@ export const getCreateDuplicateInvoiceUrl = (state) => {
   const invoiceId = getInvoiceId(state);
 
   return `${createNewUrl}?duplicatedInvoiceId=${invoiceId}`;
-};
-
-export const getInvoiceReadWithExportPdfModalUrl = (state) => {
-  const baseUrl = getBaseUrl(state);
-  const invoiceId = getInvoiceId(state);
-
-  return `${baseUrl}/invoice/${invoiceId}?openExportPdf=true`;
 };
 
 export const getSubscriptionSettingsUrl = (state) => {

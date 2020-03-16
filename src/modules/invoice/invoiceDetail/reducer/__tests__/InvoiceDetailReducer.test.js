@@ -4,11 +4,13 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
   LOAD_ITEM_OPTION,
+  RELOAD_INVOICE_DETAIL,
   REMOVE_INVOICE_LINE,
   SET_UPGRADE_MODAL_SHOWING,
   UPDATE_INVOICE_LAYOUT,
   UPDATE_INVOICE_LINE,
 } from '../../../InvoiceIntents';
+import InvoiceHistoryAccordianStatus from '../../InvoiceHistoryAccordionStatus';
 import InvoiceLayout from '../../InvoiceLayout';
 import InvoiceLineLayout from '../../InvoiceLineLayout';
 import invoiceDetailReducer from '../invoiceDetailReducer';
@@ -591,6 +593,59 @@ describe('InvoiceDetailReducer', () => {
         expect(actual.subscription.isUpgradeModalShowing).toBeFalsy();
         expect(actual.subscription.monthlyLimit.hasHitLimit).toBeFalsy();
       });
+    });
+  });
+
+  describe('RELOAD_INVOICE_DETAIL', () => {
+    const businessId = 'businessId';
+    const region = 'region';
+    const invoiceId = 'invoiceid';
+    const duplicatedInvoiceId = 'duplicatedInvoiceId';
+    const quoteId = 'quoteId';
+
+    const state = {
+      businessId, region, invoiceId, duplicatedInvoiceId, quoteId,
+    };
+
+    const action = {
+      intent: RELOAD_INVOICE_DETAIL,
+      invoice: { invoiceId, lines: [] },
+      subscription: { },
+    };
+
+    it('maintains business id, region, and invoice id', () => {
+      const actual = invoiceDetailReducer(state, action);
+
+      expect(actual.businessId).toEqual(businessId);
+      expect(actual.region).toEqual(region);
+      expect(actual.invoiceId).toEqual(invoiceId);
+      expect(actual.duplicatedInvoiceId).toBeUndefined();
+      expect(actual.quoteId).toBeUndefined();
+    });
+
+    it('maintains pay direct data', () => {
+      const payDirect = {
+        isLoading: false,
+        isServiceAvailable: true,
+        isRegistered: false,
+        baseUrl: 'baseUrl',
+      };
+
+      const actual = invoiceDetailReducer({ ...state, payDirect }, action);
+
+      expect(actual.payDirect).toEqual(payDirect);
+    });
+
+    it('maintains history data', () => {
+      const invoiceHistory = [{}, {}];
+      const invoiceHistoryAccordionStatus = InvoiceHistoryAccordianStatus.OPEN;
+
+      const actual = invoiceDetailReducer(
+        { ...state, invoiceHistory, invoiceHistoryAccordionStatus }, action,
+      );
+
+      expect(actual.invoiceHistory).toEqual(invoiceHistory);
+      expect(actual.invoiceHistoryAccordionStatus).toEqual(invoiceHistoryAccordionStatus);
     });
   });
 });

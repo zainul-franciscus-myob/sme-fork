@@ -13,8 +13,6 @@ const getDefaultState = () => ({
   invoiceId: '',
   quoteId: undefined,
   duplicatedInvoiceId: undefined,
-  openSendEmail: undefined,
-  openExportPdf: undefined,
   loadingState: LoadingState.LOADING,
   alert: undefined,
   modalType: InvoiceDetailModalType.NONE,

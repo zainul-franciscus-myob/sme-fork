@@ -12,6 +12,7 @@ import {
   LOAD_ITEM_OPTION,
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_PAY_DIRECT,
+  RELOAD_INVOICE_DETAIL,
   REMOVE_EMAIL_ATTACHMENT,
   REMOVE_INVOICE_LINE,
   RESET_EMAIL_INVOICE_DETAIL,
@@ -92,9 +93,9 @@ const createInvoiceDetailDispatcher = store => ({
     });
   },
 
-  loadInvoice: (payload, message) => store.dispatch({
-    intent: LOAD_INVOICE_DETAIL, ...payload, message,
-  }),
+  loadInvoice: (payload) => store.dispatch({ intent: LOAD_INVOICE_DETAIL, ...payload }),
+
+  reloadInvoice: (payload) => store.dispatch({ intent: RELOAD_INVOICE_DETAIL, ...payload }),
 
   loadContactAddress: address => store.dispatch({ intent: LOAD_CONTACT_ADDRESS, address }),
 

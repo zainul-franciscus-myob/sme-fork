@@ -12,6 +12,7 @@ import {
   LOAD_ITEM_OPTION,
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_PAY_DIRECT,
+  RELOAD_INVOICE_DETAIL,
   REMOVE_EMAIL_ATTACHMENT,
   REMOVE_INVOICE_LINE,
   RESET_EMAIL_INVOICE_DETAIL,
@@ -56,11 +57,14 @@ import {
 } from './EmailReducer';
 import { calculateLineAmounts, calculateLineTotals } from './calculationReducer';
 import {
+  getBusinessId,
+  getInvoiceId,
   getLoadInvoiceDetailEmailInvoice,
-  getLoadInvoiceDetailModalAndPageAlert,
-  getLoadInvoiceDetailModalType,
+  getRegion,
   getUpdatedContactOptions,
 } from '../selectors/invoiceDetailSelectors';
+import { getInvoiceHistory, getInvoiceHistoryAccordionStatus } from '../selectors/invoiceHistorySelectors';
+import { getPayDirect } from '../selectors/payDirectSelectors';
 import {
   loadInvoiceHistory,
   setInvoiceHistoryClosed,
@@ -72,6 +76,7 @@ import { loadPayDirect, setPayDirectLoadingState } from './PayDirectReducer';
 import { updateExportPdfDetail } from './ExportPdfReducer';
 import InvoiceLayout from '../InvoiceLayout';
 import InvoiceLineLayout from '../InvoiceLineLayout';
+import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
 import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
 import formatDisplayDiscount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
@@ -97,11 +102,6 @@ const setModalSubmittingState = (state, { isModalSubmitting }) => ({ ...state, i
 
 const loadInvoiceDetail = (state, action) => {
   const defaultState = getDefaultState();
-  const modalType = getLoadInvoiceDetailModalType(state, action.emailInvoice);
-
-  const { modalAlert, pageAlert } = action.message
-    ? getLoadInvoiceDetailModalAndPageAlert(state, action.message)
-    : {};
 
   return {
     ...state,
@@ -136,9 +136,6 @@ const loadInvoiceDetail = (state, action) => {
       ...state.exportPdf,
       ...action.exportPdf,
     },
-    modalType,
-    modalAlert,
-    alert: pageAlert,
     subscription: {
       ...defaultState.subscription,
       ...action.subscription,
@@ -147,6 +144,34 @@ const loadInvoiceDetail = (state, action) => {
         ? !!action.subscription.monthlyLimit.hasHitLimit
         : defaultState.subscription.isUpgradeModalShowing,
     },
+  };
+};
+
+const reloadInvoiceDetail = (state, action) => {
+  const defaultState = getDefaultState();
+
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+  const invoiceId = getInvoiceId(state);
+  const payDirect = getPayDirect(state);
+  const invoiceHistory = getInvoiceHistory(state);
+  const invoiceHistoryAccordionStatus = getInvoiceHistoryAccordionStatus(state);
+
+  const context = { businessId, region, invoiceId };
+
+  const initialState = {
+    ...defaultState,
+    ...context,
+  };
+
+  const loadState = loadInvoiceDetail(initialState, action);
+
+  return {
+    ...loadState,
+    payDirect,
+    invoiceHistory,
+    invoiceHistoryAccordionStatus,
+    loadingState: LoadingState.LOADING_SUCCESS,
   };
 };
 
@@ -392,6 +417,7 @@ const handlers = {
   [SET_MODAL_SUBMITTING_STATE]: setModalSubmittingState,
   [SET_UPGRADE_MODAL_SHOWING]: setUpgradeModalShowing,
   [LOAD_INVOICE_DETAIL]: loadInvoiceDetail,
+  [RELOAD_INVOICE_DETAIL]: reloadInvoiceDetail,
   [LOAD_CONTACT_ADDRESS]: loadContactAddress,
   [LOAD_CONTACT_AFTER_CREATE]: loadContactAfterCreate,
   [LOAD_ITEM_OPTION]: loadItemOption,

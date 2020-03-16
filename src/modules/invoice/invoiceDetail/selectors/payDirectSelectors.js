@@ -4,6 +4,7 @@ import {
   getBusinessId, getIsAllowOnlinePayments, getIsTrial, getSerialNumber,
 } from './invoiceDetailSelectors';
 
+export const getPayDirect = state => state.payDirect;
 const getIsLoading = state => state.payDirect.isLoading;
 const getIsServiceAvailable = state => state.payDirect.isServiceAvailable;
 const getHasSetUpOnlinePayments = state => state.payDirect.isRegistered;
