@@ -1,9 +1,7 @@
 import {
   CLOSE_MODAL,
-  CREATE_JOB,
   DELETE_JOB,
   LOAD_JOB_DETAIL,
-  LOAD_NEW_JOB,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
@@ -32,127 +30,6 @@ describe('JobDetailModule', () => {
 
     return { store, integration, module };
   };
-
-  const setupWithNew = () => {
-    const toolbox = setup();
-    const { store, integration, module } = toolbox;
-
-    module.run({ jobId: 'new' });
-    store.resetActions();
-    integration.resetRequests();
-
-    return toolbox;
-  };
-
-  describe('create job', () => {
-    it('successfully load new job', () => {
-      const { store, integration, module } = setupWithNew();
-
-      module.run({});
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: SET_INITIAL_STATE,
-          context: {},
-        },
-        {
-          intent: SET_LOADING_STATE,
-          loadingState: LoadingState.LOADING,
-        },
-        {
-          intent: SET_LOADING_STATE,
-          loadingState: LoadingState.LOADING_SUCCESS,
-        },
-        expect.objectContaining({
-          intent: LOAD_NEW_JOB,
-        }),
-      ]);
-
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: LOAD_NEW_JOB,
-        }),
-      ]);
-    });
-
-    it('fails to create job', () => {
-      const { store, integration, module } = setupWithNew();
-      integration.mapFailure(LOAD_NEW_JOB);
-
-      module.run({});
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: SET_INITIAL_STATE,
-          context: {},
-        },
-        {
-          intent: SET_LOADING_STATE,
-          loadingState: LoadingState.LOADING,
-        },
-        {
-          intent: SET_LOADING_STATE,
-          loadingState: LoadingState.LOADING_FAIL,
-        },
-      ]);
-
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: LOAD_NEW_JOB,
-        }),
-      ]);
-    });
-
-    it('successfully save new job', () => {
-      const { store, integration, module } = setupWithNew();
-
-      module.updateOrCreateJob();
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: SET_SUBMITTING_STATE,
-          isSubmitting: true,
-        },
-        {
-          intent: SET_SUBMITTING_STATE,
-          isSubmitting: false,
-        },
-      ]);
-
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: CREATE_JOB,
-        }),
-      ]);
-    });
-
-    it('fails to save new job', () => {
-      const { store, integration, module } = setupWithNew();
-      integration.mapFailure(CREATE_JOB);
-
-      module.updateOrCreateJob();
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: SET_SUBMITTING_STATE,
-          isSubmitting: true,
-        },
-        {
-          intent: SET_SUBMITTING_STATE,
-          isSubmitting: false,
-        },
-        expect.objectContaining({
-          intent: SET_ALERT_MESSAGE,
-        }),
-      ]);
-
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: CREATE_JOB,
-        }),
-      ]);
-    });
-  });
 
   describe('update job', () => {
     it('successfully load job', () => {

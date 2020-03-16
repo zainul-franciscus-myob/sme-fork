@@ -12,7 +12,7 @@ const DisplayId = (props) => {
   } = props;
 
   return (
-    <FieldGroup label="Job name">
+    <FieldGroup label="Job Details">
       <Input
         name="displayIid"
         label="DisplayId"
