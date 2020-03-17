@@ -79,7 +79,7 @@ export default class Router {
       const routeProps = {
         routeParams: route.params,
         currentRouteName: route.name,
-        previousRouteName: previousRoute.name,
+        previousRouteName: previousRoute ? previousRoute.name : undefined,
       };
 
       beforeAll({ routeProps });
