@@ -52,6 +52,10 @@ const getDefaultState = () => ({
     dateTo: formatIsoDate(new Date()),
     keywords: '',
   },
+  pagination: {
+    hasNextPage: false,
+    offset: 0,
+  },
   orderBy: 'Date',
   sortOrder: 'desc',
   alert: undefined,
@@ -59,6 +63,7 @@ const getDefaultState = () => ({
   isModalBlocking: false,
   hasError: false,
   isLoading: true,
+  isLoadingMore: false,
   isTableLoading: false,
   isBulkLoading: false,
   isLoadingAccount: false,

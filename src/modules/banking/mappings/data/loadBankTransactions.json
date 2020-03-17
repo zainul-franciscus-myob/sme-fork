@@ -277,5 +277,9 @@
       "allocateOrMatch": "2 matches available",
       "type": "transfer"
     }
-  ]
+  ],
+  "pagination": {
+    "offset": 50,
+    "hasNextPage": true
+  }
 }

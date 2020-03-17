@@ -104,7 +104,121 @@
       "type": "payment"
     },
     {
-      "transactionId": "5",
+      "transactionId": "6",
+      "transactionUid": "123e4567-e89b-12d3-a456-789123456795",
+      "date": "2018-10-05",
+      "description": "Receive payment",
+      "deposit": 1300.00,
+      "allocateOrMatch": "Matched to Customer Payment ABC00012",
+      "journals": [
+        {
+          "journalId": "323",
+          "journalLineId": "324",
+          "sourceJournal": "ReceivePayment"
+        }
+      ],
+      "taxCode": "",
+      "note": "",
+      "isReportable": false,
+      "type": "payment"
+    },
+    {
+      "transactionId": "7",
+      "transactionUid": "123e4567-e89b-12d3-a456-789123456790",
+      "date": "2018-10-01",
+      "description": "Bob the builder",
+      "withdrawal": 3300.00,
+      "allocateOrMatch": "Internet",
+      "journals": [
+        {
+          "journalId": "456",
+          "journalLineId": "123",
+          "sourceJournal": "CashPayment"
+        }
+      ],
+      "taxCode": "GST",
+      "note": "",
+      "isReportable": true,
+      "type": "singleAllocation"
+    },
+    {
+      "transactionId": "8",
+      "transactionUid": "123e4567-e89b-12d3-a456-789123456791",
+      "date": "2018-09-21",
+      "description": "Join the crew",
+      "withdrawal": 295.00,
+      "allocateOrMatch": "Transfered from Rental income",
+      "journals": [
+        {
+          "journalId": "789",
+          "journalLineId": "124",
+          "sourceJournal": "TransferMoney"
+        }
+      ],
+      "taxCode": "FRE",
+      "note": "Lofty and wendy",
+      "isReportable": true,
+      "type": "splitAllocation"
+    },
+    {
+      "transactionId": "9",
+      "transactionUid": "123e4567-e89b-12d3-a456-789123456792",
+      "date": "2018-09-01",
+      "description": "Bob the gang have soo much fun",
+      "deposit": 1300.00,
+      "allocateOrMatch": "Matched to General Journal 573498874",
+      "journals": [
+        {
+          "journalId": "101",
+          "journalLineId": "125",
+          "sourceJournal": "GeneralJournal"
+        }
+      ],
+      "taxCode": "LOL",
+      "note": "the second notable thing",
+      "isReportable": false,
+      "type": "splitAllocation"
+    },
+    {
+      "transactionId": "10",
+      "transactionUid": "123e4567-e89b-12d3-a456-789123456793",
+      "date": "2018-10-01",
+      "description": "Bob rules",
+      "deposit": 1300.00,
+      "allocateOrMatch": "Spit across account",
+      "journals": [
+        {
+          "journalId": "101",
+          "journalLineId": "126",
+          "sourceJournal": "CashReceipt"
+        }
+      ],
+      "taxCode": "FRE",
+      "note": "",
+      "isReportable": false,
+      "type": "splitAllocation"
+    },
+    {
+      "transactionId": "11",
+      "transactionUid": "123e4567-e89b-12d3-a456-789123456794",
+      "date": "2018-10-02",
+      "description": "Bill payment",
+      "withdrawal": 1300.00,
+      "allocateOrMatch": "Matched to Supplier Payment ABC00012",
+      "journals": [
+        {
+          "journalId": "105",
+          "journalLineId": "128",
+          "sourceJournal": "PayBill"
+        }
+      ],
+      "taxCode": "",
+      "note": "",
+      "isReportable": false,
+      "type": "payment"
+    },
+    {
+      "transactionId": "12",
       "transactionUid": "123e4567-e89b-12d3-a456-789123456795",
       "date": "2018-10-05",
       "description": "Receive payment",

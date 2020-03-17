@@ -7,6 +7,7 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
+  LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_MATCH_TRANSFER_MONEY,
   LOAD_SPLIT_ALLOCATION,
@@ -35,6 +36,7 @@ import applyBankingRuleResponse from './data/applyBankingRuleResponse.json';
 import attachmentDetailResponse from './data/attachmentDetail';
 import attachments from './data/loadAttachmentsResponse';
 import bankTransactions from './data/loadBankTransactions';
+import bankTransactionsNextPage from './data/loadBankTransactionsNextPage';
 import bulkAllocatedBankTransaction from './data/bulkAllocatedBankTransaction';
 import bulkUnallocatedBankTransaction from './data/bulkUnallocatedBankTransaction';
 import createBankingRuleResponse from './data/createBankingRuleResponse';
@@ -56,6 +58,7 @@ import updateNoteResponse from './data/updateBankFeedNoteResponse';
 import uploadAttachmentResponse from './data/uploadAttachmentResponse';
 
 const loadBankTransactions = ({ onSuccess }) => onSuccess(bankTransactions);
+const loadBankTransactionsNextPage = ({ onSuccess }) => onSuccess(bankTransactionsNextPage);
 const filterBankTransactions = ({ onSuccess }) => onSuccess(filteredBankTransactions);
 const allocateBankTransaction = ({ onSuccess }) => onSuccess(allocatedBankTransaction);
 const unallocateBankTransaction = ({ onSuccess }) => onSuccess(unallocatedBankTransaction);
@@ -88,6 +91,7 @@ const loadAddedAccount = ({ onSuccess }) => onSuccess(loadAddedAccountResponse);
 
 const MemoryBankingMapping = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,
+  [LOAD_BANK_TRANSACTIONS_NEXT_PAGE]: loadBankTransactionsNextPage,
   [SORT_AND_FILTER_BANK_TRANSACTIONS]: filterBankTransactions,
   [ALLOCATE_TRANSACTION]: allocateBankTransaction,
   [BULK_ALLOCATE_TRANSACTIONS]: saveBulkAllocation,

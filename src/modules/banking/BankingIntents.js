@@ -1,5 +1,7 @@
 export const SET_ALERT_MESSAGE = Symbol('Set alert message');
 export const SET_LOADING_STATE = Symbol('Set loading state');
+export const START_LOADING_MORE = Symbol('Start loading more');
+export const STOP_LOADING_MORE = Symbol('Stop loading more');
 export const SET_ERROR_STATE = Symbol('Set error state');
 export const SET_ALERT = Symbol('Set the Alert of the page');
 
@@ -10,6 +12,7 @@ export const START_MODAL_BLOCKING = Symbol('Start modal blocking');
 export const STOP_MODAL_BLOCKING = Symbol('Stop modal blocking');
 
 export const LOAD_BANK_TRANSACTIONS = Symbol('Load list of bank transactions');
+export const LOAD_BANK_TRANSACTIONS_NEXT_PAGE = Symbol('Load list of bank transactions next page');
 export const SORT_AND_FILTER_BANK_TRANSACTIONS = Symbol('Sort and filter list of bank transactions');
 export const SET_TABLE_LOADING_STATE = Symbol('Set Table loading state');
 export const UPDATE_FILTER_OPTIONS = Symbol('Update filter Options');

@@ -14,6 +14,7 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
+  LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_MATCH_TRANSFER_MONEY,
   LOAD_NEW_SPLIT_ALLOCATION,
@@ -57,7 +58,9 @@ import {
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
   SORT_MATCH_TRANSFER_MONEY,
+  START_LOADING_MORE,
   START_MODAL_BLOCKING,
+  STOP_LOADING_MORE,
   STOP_MODAL_BLOCKING,
   TOGGLE_MATCH_TRANSACTION_SELECT_ALL_STATE,
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
@@ -121,6 +124,14 @@ const createBankingDispatcher = store => ({
     store.dispatch({
       intent: LOAD_BANK_TRANSACTIONS,
       ...payload,
+    });
+  },
+
+  loadBankTransactionsNextPage: ({ entries, pagination }) => {
+    store.dispatch({
+      intent: LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
+      entries,
+      pagination,
     });
   },
 
@@ -203,6 +214,18 @@ const createBankingDispatcher = store => ({
     });
   },
 
+  startLoadingMore: () => {
+    store.dispatch({
+      intent: START_LOADING_MORE,
+    });
+  },
+
+  stopLoadingMore: () => {
+    store.dispatch({
+      intent: STOP_LOADING_MORE,
+    });
+  },
+
   updateFilterOptions: ({ filterName, value }) => {
     store.dispatch({
       intent: UPDATE_FILTER_OPTIONS,
@@ -237,7 +260,6 @@ const createBankingDispatcher = store => ({
       isLoading,
     });
   },
-
 
   loadMatchTransferMoney: (index, payload) => {
     store.dispatch({ intent: LOAD_MATCH_TRANSFER_MONEY, index, entries: payload });

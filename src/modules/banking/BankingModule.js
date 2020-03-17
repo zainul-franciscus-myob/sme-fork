@@ -165,6 +165,7 @@ export default class BankingModule {
         onImportStatementButtonClick={this.redirectToBankStatementImport}
         onLinkFromInTrayButtonClick={this.openInTrayModal}
         onAddAccount={this.openAccountModal}
+        onLoadMoreButtonClick={this.loadBankTransactionsNextPage}
       />
     );
 
@@ -362,6 +363,25 @@ export default class BankingModule {
     });
   }
 
+  loadBankTransactionsNextPage = () => {
+    this.dispatcher.startLoadingMore();
+
+    const onSuccess = (payload) => {
+      this.dispatcher.stopLoadingMore();
+      this.dispatcher.loadBankTransactionsNextPage(payload);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.stopLoadingMore();
+      this.dispatcher.setAlert({ message, type: 'danger' });
+    };
+
+    this.integrator.loadBankTransactionsNextPage({
+      onSuccess,
+      onFailure,
+    });
+  }
+
   bankAccountChange = ({ value }) => {
     this.dispatcher.updateFilterOptions({ filterName: 'bankAccount', value });
     this.confirmBefore(this.filterBankTransactions)();
@@ -381,7 +401,10 @@ export default class BankingModule {
       this.dispatcher.sortAndFilterBankTransactions(false, payload);
     };
 
-    const onFailure = ({ message }) => this.dispatcher.setAlert({ message, type: 'danger' });
+    const onFailure = ({ message }) => {
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.setAlert({ message, type: 'danger' });
+    };
 
     this.integrator.filterBankTransactions({
       onSuccess,
@@ -403,7 +426,10 @@ export default class BankingModule {
       this.dispatcher.sortAndFilterBankTransactions(true, payload);
     };
 
-    const onFailure = ({ message }) => this.dispatcher.setAlert({ message, type: 'danger' });
+    const onFailure = ({ message }) => {
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.setAlert({ message, type: 'danger' });
+    };
 
     this.integrator.sortBankTransactions({
       orderBy,

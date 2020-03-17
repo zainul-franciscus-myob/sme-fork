@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getHasError, getIsEntryLoading, getIsLoading, getModalType,
+  getAlert, getHasError, getIsEntryLoading, getIsLoading, getLoadMoreButtonStatus, getModalType,
 } from '../bankingSelectors';
 import { selectedCountSelector, showBulkActionsSelector } from '../bankingSelectors/bulkAllocationSelectors';
 import BankTransactionFilterOptions from './BankTransactionFilterOptions';
@@ -13,6 +13,7 @@ import BankTransactionPageHead from './BankTransactionPageHead';
 import BankTransactionTable from './BankTransactionTable';
 import BankingModal from './BankingModal';
 import BulkAllocationPopover from './BulkAllocationPopover';
+import LoadMoreButton from '../../../components/PaginatedListTemplate/LoadMoreButton';
 import NoContentView from './NoContentView';
 import PageView from '../../../components/PageView/PageView';
 import styles from './BankingView.module.css';
@@ -93,6 +94,8 @@ const BankingView = (props) => {
     onNoteBlur,
     onImportStatementButtonClick,
     onLinkFromInTrayButtonClick,
+    onLoadMoreButtonClick,
+    loadMoreButtonStatus,
   } = props;
 
   const filterBar = (
@@ -146,7 +149,7 @@ const BankingView = (props) => {
 
   const transactionListView = (
     <div className={`${isEntryLoading ? styles.entryLoading : ''} ${styles.bankTransactionView}`}>
-      <StandardTemplate sticky="none" alert={alertComponent} pageHead={pageHead} filterBar={filterBar}>
+      <StandardTemplate sticky="all" alert={alertComponent} pageHead={pageHead} filterBar={filterBar}>
         {modal}
         {accountModal}
         {inTrayModal}
@@ -202,6 +205,10 @@ const BankingView = (props) => {
           onLinkFromInTrayButtonClick={onLinkFromInTrayButtonClick}
         />
       </StandardTemplate>
+      <LoadMoreButton
+        onLoadMoreButtonClick={onLoadMoreButtonClick}
+        loadMoreButtonStatus={loadMoreButtonStatus}
+      />
     </div>
   );
 
@@ -220,6 +227,7 @@ const mapStateToProps = state => ({
   modalType: getModalType(state),
   selectedCount: selectedCountSelector(state),
   showBulkActions: showBulkActionsSelector(state),
+  loadMoreButtonStatus: getLoadMoreButtonStatus(state),
 });
 
 export default connect(mapStateToProps)(BankingView);

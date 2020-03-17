@@ -14,6 +14,7 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
+  LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_MATCH_TRANSFER_MONEY,
   LOAD_NEW_SPLIT_ALLOCATION,
@@ -57,7 +58,9 @@ import {
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
   SORT_MATCH_TRANSFER_MONEY,
+  START_LOADING_MORE,
   START_MODAL_BLOCKING,
+  STOP_LOADING_MORE,
   STOP_MODAL_BLOCKING,
   TOGGLE_MATCH_TRANSACTION_SELECT_ALL_STATE,
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
@@ -174,7 +177,27 @@ const loadBankTransactions = (state, action) => ({
     ...state.appliedFilterOptions,
     bankAccount: action.bankAccount,
   },
+  pagination: action.pagination,
 });
+
+const loadBankTransactionsNextPage = (state, action) => {
+  const allTransactionIds = state.entries.map(transaction => transaction.transactionId);
+
+  const entries = action.entries.filter(
+    transaction => !allTransactionIds.includes(transaction.transactionId),
+  );
+
+  return ({
+    ...state,
+    entries: [
+      ...state.entries,
+      ...entries,
+    ],
+    pagination: {
+      ...action.pagination,
+    },
+  });
+};
 
 const sortAndFilterBankTransactions = (state, action) => ({
   ...state,
@@ -183,6 +206,9 @@ const sortAndFilterBankTransactions = (state, action) => ({
   appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
   sortOrder: action.sortOrder,
   orderBy: action.orderBy,
+  pagination: {
+    ...action.pagination,
+  },
 });
 
 const updateFilterOptions = (state, action) => ({
@@ -201,6 +227,16 @@ const setTableLoadingState = (state, action) => ({
 const setLoadingState = (state, action) => ({
   ...state,
   isLoading: action.isLoading,
+});
+
+const startLoadingMore = state => ({
+  ...state,
+  isLoadingMore: true,
+});
+
+const stopLoadingMore = state => ({
+  ...state,
+  isLoadingMore: false,
 });
 
 const setErrorState = (state, action) => ({
@@ -357,10 +393,13 @@ export const setLoadingSingleAccountState = (state, action) => ({
 
 const handlers = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,
+  [LOAD_BANK_TRANSACTIONS_NEXT_PAGE]: loadBankTransactionsNextPage,
   [SORT_AND_FILTER_BANK_TRANSACTIONS]: sortAndFilterBankTransactions,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [SET_LOADING_STATE]: setLoadingState,
+  [START_LOADING_MORE]: startLoadingMore,
+  [STOP_LOADING_MORE]: stopLoadingMore,
   [SET_ERROR_STATE]: setErrorState,
   [SET_ALERT]: setAlert,
   [RESET_STATE]: resetState,

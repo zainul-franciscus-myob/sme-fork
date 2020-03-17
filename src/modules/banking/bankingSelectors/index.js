@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 import { businessEventTypes } from '../../../common/types/BusinessEventTypeMap';
 import { tabIds } from '../tabItems';
 import Config from '../../../Config';
+import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import Region from '../Region';
 import StatusTypes from '../BankTransactionStatusTypes';
 import TransactionTypes from '../TransactionTypes';
@@ -442,3 +443,79 @@ export const getAccountModalContext = (state) => {
 
   return { businessId, region };
 };
+
+export const getOffset = state => state.pagination.offset;
+
+export const getLoadMoreButtonStatus = (state) => {
+  const isTableLoading = getIsTableLoading(state);
+  const { isLoadingMore } = state;
+  const isLastPage = state.pagination && !state.pagination.hasNextPage;
+
+  if (isLastPage || isTableLoading) {
+    return LoadMoreButtonStatuses.HIDDEN;
+  }
+
+  if (isLoadingMore) {
+    return LoadMoreButtonStatuses.LOADING;
+  }
+  return LoadMoreButtonStatuses.SHOWN;
+};
+
+export const getLoadBankTransactionsUrlParams = createSelector(
+  getBusinessId,
+  businessId => ({ businessId }),
+);
+export const getLoadBankTransactionsParams = createSelector(
+  getFilterOptions,
+  getSortOrder,
+  getOrderBy,
+  (filterOptions, sortOrder, orderBy) => ({
+    ...filterOptions,
+    sortOrder,
+    orderBy,
+  }),
+);
+
+export const getLoadBankTransactionsNextPageUrlParams = createSelector(
+  getBusinessId,
+  businessId => ({ businessId }),
+);
+export const getLoadBankTransactionsNextPageParams = createSelector(
+  getFilterOptions,
+  getSortOrder,
+  getOrderBy,
+  getOffset,
+  (filterOptions, sortOrder, orderBy, offset) => ({
+    ...filterOptions,
+    sortOrder,
+    orderBy,
+    offset,
+  }),
+);
+
+export const getFilterBankTransactionsUrlParams = createSelector(
+  getBusinessId,
+  businessId => ({ businessId }),
+);
+export const getFilterBankTransactionsParams = createSelector(
+  getFilterOptions,
+  getSortOrder,
+  getOrderBy,
+  (filterOptions, sortOrder, orderBy) => ({
+    ...filterOptions,
+    sortOrder,
+    orderBy,
+    offset: 0,
+  }),
+);
+
+export const getSortBankTransactionsUrlParams = createSelector(
+  getBusinessId,
+  businessId => ({ businessId }),
+);
+export const getSortBankTransactionsParams = (state, orderBy) => ({
+  ...getAppliedFilterOptions(state),
+  sortOrder: getFlipSortOrder(state),
+  orderBy,
+  offset: 0,
+});

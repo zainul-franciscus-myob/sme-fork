@@ -7,6 +7,7 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
+  LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_MATCH_TRANSFER_MONEY,
   LOAD_SPLIT_ALLOCATION,
@@ -26,16 +27,20 @@ import {
 } from './BankingIntents';
 import {
   getAllocationPayload,
-  getAppliedFilterOptions,
   getBankTransactionLineByIndex,
   getBusinessId,
   getEditingNoteTransaction,
+  getFilterBankTransactionsParams,
+  getFilterBankTransactionsUrlParams,
   getFilterOptions,
-  getFlipSortOrder,
+  getLoadBankTransactionsNextPageParams,
+  getLoadBankTransactionsNextPageUrlParams,
+  getLoadBankTransactionsParams,
+  getLoadBankTransactionsUrlParams,
   getOpenPosition,
-  getOrderBy,
   getPendingNote,
-  getSortOrder,
+  getSortBankTransactionsParams,
+  getSortBankTransactionsUrlParams,
   getUnallocationPayload,
 } from './bankingSelectors';
 import {
@@ -65,20 +70,31 @@ const createBankingIntegrator = (store, integration) => ({
     const state = store.getState();
 
     const intent = LOAD_BANK_TRANSACTIONS;
-    const urlParams = { businessId: getBusinessId(state) };
-
-    const fitlerOptions = getFilterOptions(state);
-    const sortOrder = getSortOrder(state);
-    const orderBy = getOrderBy(state);
+    const urlParams = getLoadBankTransactionsUrlParams(state);
+    const params = getLoadBankTransactionsParams(state);
 
     integration.read({
       intent,
       urlParams,
-      params: {
-        ...fitlerOptions,
-        sortOrder,
-        orderBy,
-      },
+      params,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadBankTransactionsNextPage: ({
+    onSuccess, onFailure,
+  }) => {
+    const state = store.getState();
+
+    const intent = LOAD_BANK_TRANSACTIONS_NEXT_PAGE;
+    const urlParams = getLoadBankTransactionsNextPageUrlParams(state);
+    const params = getLoadBankTransactionsNextPageParams(state);
+
+    integration.read({
+      intent,
+      urlParams,
+      params,
       onSuccess,
       onFailure,
     });
@@ -88,20 +104,13 @@ const createBankingIntegrator = (store, integration) => ({
     const state = store.getState();
 
     const intent = SORT_AND_FILTER_BANK_TRANSACTIONS;
-    const urlParams = { businessId: getBusinessId(state) };
-
-    const fitlerOptions = getFilterOptions(state);
-    const sortOrder = getSortOrder(state);
-    const orderBy = getOrderBy(state);
+    const urlParams = getFilterBankTransactionsUrlParams(state);
+    const params = getFilterBankTransactionsParams(state);
 
     integration.read({
       intent,
       urlParams,
-      params: {
-        ...fitlerOptions,
-        sortOrder,
-        orderBy,
-      },
+      params,
       onSuccess,
       onFailure,
     });
@@ -111,19 +120,13 @@ const createBankingIntegrator = (store, integration) => ({
     const state = store.getState();
 
     const intent = SORT_AND_FILTER_BANK_TRANSACTIONS;
-    const urlParams = { businessId: getBusinessId(state) };
-
-    const fitlerOptions = getAppliedFilterOptions(state);
-    const sortOrder = getFlipSortOrder(state);
+    const urlParams = getSortBankTransactionsUrlParams(state);
+    const params = getSortBankTransactionsParams(state, orderBy);
 
     integration.read({
       intent,
       urlParams,
-      params: {
-        ...fitlerOptions,
-        sortOrder,
-        orderBy,
-      },
+      params,
       onSuccess,
       onFailure,
     });
