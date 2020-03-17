@@ -32,12 +32,17 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class SalesSettingsModule {
   constructor({
-    integration, setRootView, popMessages, replaceURLParams,
+    integration,
+    setRootView,
+    popMessages,
+    replaceURLParams,
+    addedPaymentDetails,
   }) {
     this.integration = integration;
     this.store = new Store(salesSettingsReducer);
     this.setRootView = setRootView;
     this.popMessages = popMessages;
+    this.closePaymentDetailsTask = addedPaymentDetails;
     this.replaceURLParams = replaceURLParams;
     this.dispatcher = createSalesSettingsDispatcher(this.store);
     this.integrator = createSalesSettingsIntegrator(this.store, integration);
@@ -73,6 +78,10 @@ export default class SalesSettingsModule {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setAlert({ type: 'success', message });
       this.dispatcher.saveDataTab();
+
+      if (getSelectedTab(state) === mainTabIds.payments) {
+        this.closePaymentDetailsTask();
+      }
     };
 
     const onFailure = ({ message }) => {

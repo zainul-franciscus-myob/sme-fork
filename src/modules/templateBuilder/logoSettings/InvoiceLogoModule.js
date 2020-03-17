@@ -120,8 +120,8 @@ class InvoiceLogoModule {
     window.location.href = `/#/${region}/${businessId}${path}`;
   };
 
-  redirectToEmailSettings = () => {
-    this.redirectToPath('/invoiceEmailSettings');
+  redirectToPaymentDetails = () => {
+    this.redirectToPath('/salesSettings?selectedTab=payments');
   };
 
   handleModalSave = (type) => {
@@ -162,7 +162,7 @@ class InvoiceLogoModule {
       });
 
       this.uploadedLogoCallback();
-      this.redirectToEmailSettings();
+      this.redirectToPaymentDetails();
     };
 
     const onFailure = ({ message }) => {
