@@ -98,7 +98,7 @@ const initializeHttpTelemetry = (segmentWriteKey) => {
   let userId;
   let businessId;
 
-  return ({ currentRouteName, routeParams }) => {
+  return ({ currentRouteName, previousRouteName, routeParams }) => {
     if (window.analytics) {
       userId = identifyUser(userId, businessId, routeParams);
       businessId = associateUserWithGroup(businessId, routeParams);
@@ -106,6 +106,7 @@ const initializeHttpTelemetry = (segmentWriteKey) => {
     }
     if (window.newrelic) {
       window.newrelic.setCustomAttribute('currentRouteName', currentRouteName);
+      window.newrelic.setCustomAttribute('previousRouteName', previousRouteName);
       window.newrelic.setCustomAttribute('buildNumber', process.env.REACT_APP_BUILD_NUMBER || 'dev');
     }
   };

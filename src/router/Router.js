@@ -72,13 +72,14 @@ export default class Router {
 
     this.router.add(routerConfig);
 
-    this.router.subscribe(async ({ route }) => {
+    this.router.subscribe(async ({ route, previousRoute }) => {
       const { module, title } = moduleMapping[route.name];
       document.title = this.buildDocumentTitle(title);
 
       const routeProps = {
         routeParams: route.params,
         currentRouteName: route.name,
+        previousRouteName: previousRoute.name,
       };
 
       beforeAll({ routeProps });
