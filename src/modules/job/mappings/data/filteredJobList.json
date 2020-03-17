@@ -3,31 +3,31 @@
     {
       "id": "1",
       "number": "100",
-      "level": "0",
+      "level": 0,
       "name": "Project 1",
       "isActive": true,
       "isHeader": true,
-      "income": "999,999,999.00",
-      "cost": "999,999,999.00",
-      "expenses": "999,999,999.00",
-      "netProfit": "-999,999,999.00"
+      "income": "9,999,999.00",
+      "cost": "9,999,999.00",
+      "expenses": "9,999,999.00",
+      "netProfit": "-9,999,999.00"
     },
     {
       "id": "2",
       "number": "110",
-      "level": "1",
+      "level": 1,
       "name": "Sub project 1",
       "isActive": true,
       "isHeader": true,
-      "income": "99,999,999.00",
-      "cost": "99,999,999.00",
-      "expenses": "99,999,999.00",
-      "netProfit": "-99,999,999.00"
+      "income": "999,999.00",
+      "cost": "999,999.00",
+      "expenses": "999,999.00",
+      "netProfit": "-999,999.00"
     },
     {
       "id": "3",
       "number": "120",
-      "level": "2",
+      "level": 2,
       "name": "Project 1 thing",
       "isActive": true,
       "isHeader": false,
@@ -39,31 +39,31 @@
     {
       "id": "13",
       "number": "150",
-      "level": "0",
+      "level": 0,
       "name": "Inactive Project",
       "isActive": false,
       "isHeader": true,
-      "income": "999,999,999.00",
-      "cost": "999,999,999.00",
-      "expenses": "999,999,999.00",
-      "netProfit": "-999,999,999.00"
+      "income": "9,999,999.00",
+      "cost": "9,999,999.00",
+      "expenses": "9,999,999.00",
+      "netProfit": "-9,999,999.00"
     },
     {
       "id": "14",
       "number": "160",
-      "level": "1",
+      "level": 1,
       "name": "Inactive sub project",
       "isActive": false,
       "isHeader": true,
-      "income": "99,999,999.00",
-      "cost": "99,999,999.00",
-      "expenses": "99,999,999.00",
-      "netProfit": "-99,999,999.00"
+      "income": "999,999.00",
+      "cost": "999,999.00",
+      "expenses": "999,999.00",
+      "netProfit": "-999,999.00"
     },
     {
       "id": "15",
       "number": "170",
-      "level": "2",
+      "level": 2,
       "name": "Inactive project thing",
       "isActive": false,
       "isHeader": true,
@@ -75,43 +75,43 @@
     {
       "id": "16",
       "number": "180",
-      "level": "3",
+      "level": 3,
       "name": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123",
       "isActive": false,
       "isHeader": false,
-      "income": "999,999,999.00",
-      "cost": "999,999,999.00",
-      "expenses": "999,999,999.00",
-      "netProfit": "-999,999,999.00"
+      "income": "9,999,999.00",
+      "cost": "9,999,999.00",
+      "expenses": "9,999,999.00",
+      "netProfit": "-9,999,999.00"
     },
     {
       "id": "4",
       "number": "200",
-      "level": "0",
+      "level": 0,
       "name": "Liabilities",
       "isActive": true,
       "isHeader": true,
-      "income": "999,999,999.00",
-      "cost": "999,999,999.00",
-      "expenses": "999,999,999.00",
-      "netProfit": "-999,999,999.00"
+      "income": "9,999,999.00",
+      "cost": "9,999,999.00",
+      "expenses": "9,999,999.00",
+      "netProfit": "-9,999,999.00"
     },
     {
       "id": "5",
       "number": "210",
-      "level": "1",
+      "level": 1,
       "name": "Current liabilities",
       "isActive": true,
       "isHeader": true,
-      "income": "99,999,999.00",
-      "cost": "99,999,999.00",
-      "expenses": "99,999,999.00",
-      "netProfit": "-99,999,999.00"
+      "income": "999,999.00",
+      "cost": "999,999.00",
+      "expenses": "999,999.00",
+      "netProfit": "-999,999.00"
     },
     {
       "id": "6",
       "number": "220",
-      "level": "2",
+      "level": 2,
       "name": "Credit cards",
       "isActive": true,
       "isHeader": true,
@@ -123,7 +123,7 @@
     {
       "id": "7",
       "number": "230",
-      "level": "3",
+      "level": 3,
       "name": "Visa cards",
       "isActive": true,
       "isHeader": false,
@@ -135,7 +135,7 @@
     {
       "id": "8",
       "number": "240",
-      "level": "2",
+      "level": 2,
       "name": "Deposits collected",
       "isActive": true,
       "isHeader": false,
@@ -147,62 +147,62 @@
     {
       "id": "9",
       "number": "100000000000000",
-      "level": "0",
+      "level": 0,
       "name": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123",
       "isActive": true,
       "isHeader": true,
-      "income": "999,999,999.00",
-      "cost": "999,999,999.00",
-      "expenses": "999,999,999.00",
-      "netProfit": "-999,999,999.00"
+      "income": "9,999,999.00",
+      "cost": "9,999,999.00",
+      "expenses": "9,999,999.00",
+      "netProfit": "-9,999,999.00"
     },
     {
       "id": "17",
       "number": "101000000000000",
-      "level": "1",
+      "level": 1,
       "name": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123",
       "isActive": false,
       "isHeader": true,
-      "income": "999,999,999.00",
-      "cost": "999,999,999.00",
-      "expenses": "999,999,999.00",
-      "netProfit": "-999,999,999.00"
+      "income": "9,999,999.00",
+      "cost": "9,999,999.00",
+      "expenses": "9,999,999.00",
+      "netProfit": "-9,999,999.00"
     },
     {
       "id": "10",
       "number": "110000000000000",
-      "level": "1",
+      "level": 1,
       "name": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123",
       "isActive": true,
       "isHeader": true,
-      "income": "999,999,999.00",
-      "cost": "999,999,999.00",
-      "expenses": "999,999,999.00",
-      "netProfit": "-999,999,999.00"
+      "income": "9,999,999.00",
+      "cost": "9,999,999.00",
+      "expenses": "9,999,999.00",
+      "netProfit": "-9,999,999.00"
     },
     {
       "id": "11",
       "number": "120000000000000",
-      "level": "2",
+      "level": 2,
       "name": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123",
       "isActive": true,
       "isHeader": true,
-      "income": "999,999,999.00",
-      "cost": "999,999,999.00",
-      "expenses": "999,999,999.00",
-      "netProfit": "-999,999,999.00"
+      "income": "9,999,999.00",
+      "cost": "9,999,999.00",
+      "expenses": "9,999,999.00",
+      "netProfit": "-9,999,999.00"
     },
     {
       "id": "12",
       "number": "130000000000000",
-      "level": "3",
+      "level": 3,
       "name": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123",
       "isActive": true,
       "isHeader": false,
-      "income": "999,999,999.00",
-      "cost": "999,999,999.00",
-      "expenses": "999,999,999.00",
-      "netProfit": "-999,999,999.00"
+      "income": "9,999,999.00",
+      "cost": "9,999,999.00",
+      "expenses": "9,999,999.00",
+      "netProfit": "-9,999,999.00"
     }
   ]
 }
