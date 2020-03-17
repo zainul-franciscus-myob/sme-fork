@@ -9,7 +9,7 @@ import {
   UPDATE_JOB,
 } from '../JobIntents';
 import jobDetailLoadResponse from './data/jobDetailEntry';
-import jobListFilterResponse from './data/filterJobList';
+import jobListFilterResponse from './data/filteredJobList';
 import jobListLoadResponse from './data/jobList';
 import loadNewJobModalResponse from './data/loadNewJobModalResponse';
 import newJobDetailResponse from './data/jobDetailNewEntry';

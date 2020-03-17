@@ -37,6 +37,54 @@
       "netProfit": "-9,999,999.00"
     },
     {
+      "id": "13",
+      "number": "150",
+      "level": "0",
+      "name": "Inactive Project",
+      "isActive": false,
+      "isHeader": true,
+      "income": "999,999,999.00",
+      "cost": "999,999,999.00",
+      "expenses": "999,999,999.00",
+      "netProfit": "-999,999,999.00"
+    },
+    {
+      "id": "14",
+      "number": "160",
+      "level": "1",
+      "name": "Inactive sub project",
+      "isActive": false,
+      "isHeader": true,
+      "income": "99,999,999.00",
+      "cost": "99,999,999.00",
+      "expenses": "99,999,999.00",
+      "netProfit": "-99,999,999.00"
+    },
+    {
+      "id": "15",
+      "number": "170",
+      "level": "2",
+      "name": "Inactive project thing",
+      "isActive": false,
+      "isHeader": true,
+      "income": "9,999,999.00",
+      "cost": "9,999,999.00",
+      "expenses": "9,999,999.00",
+      "netProfit": "-9,999,999.00"
+    },
+    {
+      "id": "16",
+      "number": "180",
+      "level": "3",
+      "name": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123",
+      "isActive": false,
+      "isHeader": false,
+      "income": "999,999,999.00",
+      "cost": "999,999,999.00",
+      "expenses": "999,999,999.00",
+      "netProfit": "-999,999,999.00"
+    },
+    {
       "id": "4",
       "number": "200",
       "level": "0",
@@ -102,6 +150,18 @@
       "level": "0",
       "name": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123",
       "isActive": true,
+      "isHeader": true,
+      "income": "999,999,999.00",
+      "cost": "999,999,999.00",
+      "expenses": "999,999,999.00",
+      "netProfit": "-999,999,999.00"
+    },
+    {
+      "id": "17",
+      "number": "101000000000000",
+      "level": "1",
+      "name": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123",
+      "isActive": false,
       "isHeader": true,
       "income": "999,999,999.00",
       "cost": "999,999,999.00",

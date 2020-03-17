@@ -1,0 +1,44 @@
+.rootHeader {
+  font-size: var(--flx-font-size-heading-medium);
+}
+
+.headerJob {
+  font-weight: var(--flx-font-weight-bold);
+}
+
+@media (min-width: 768px) {
+  .indent[data-indent-level="1"] {
+    padding-left: 1rem;
+  }
+
+  .indent[data-indent-level="2"] {
+    padding-left: 2rem;
+  }
+
+  .indent[data-indent-level="3"] {
+    padding-left: 3rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .indent[data-indent-level="1"] {
+    padding-left: 2rem;
+  }
+
+  .indent[data-indent-level="2"] {
+    padding-left: 4rem;
+  }
+
+  .indent[data-indent-level="3"] {
+    padding-left: 6rem;
+  }
+}
+
+@media (pointer: coarse) and (min-width: 768px) {
+  :global(.table-data__cell--nowrap) {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
