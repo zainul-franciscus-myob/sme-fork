@@ -1,5 +1,6 @@
 import States from '../common/States';
 
+export const getSource = state => state.source;
 export const getRegion = state => state.region;
 export const getBusinessId = state => state.businessId;
 export const getBaseUrl = (state) => {

@@ -28,8 +28,9 @@ const getStpRoutes = ({
     {
       name: RouteName.STP_ERRORS,
       path: '/:region/:businessId/stp/errors',
+      allowedParams: ['source'],
       module: new StpErrorsModule({
-        integration, setRootView,
+        integration, setRootView, replaceURLParams,
       }),
       documentTitle: 'STP Errors',
     },

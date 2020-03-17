@@ -16,6 +16,7 @@ const getDefaultState = () => ({
   isLoading: false,
   businessId: '',
   region: '',
+  source: '',
   errorMessage: '',
   errors: {
     businessDetails: [],

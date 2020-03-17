@@ -11,6 +11,7 @@ import {
   getErrorMessage,
   getIsBusinessDetailsModalOpen,
   getPayItemsErrors,
+  getSource,
 } from '../stpErrorsSelectors';
 import { getIsLoading } from '../../stpSetup/stepModules/NotifyAto/stpNotifyAtoModuleSelectors';
 import BusinessDetailsErrorsCard from './BusinessDetailsErrorsCard';
@@ -25,6 +26,7 @@ const StpErrorsView = ({
   onEmployeeNameClick,
   onPayItemClick,
   onGetStartedClick,
+  closeTabHandler,
   onBusinessDetailsEditLinkClick,
   onModalCancel,
   onBusinessDetailsFieldChange,
@@ -36,17 +38,20 @@ const StpErrorsView = ({
   businessDetailsModalIsOpen,
   employeeInformationErrors,
   payItemsErrors,
+  source,
 }) => {
   if (errorCount === 0 && !errorMessage && !isLoading) {
     return (
       <NoErrorsSplash
         onGetStartedClick={onGetStartedClick}
+        closeTabHandler={closeTabHandler}
+        source={source}
       />
     );
   }
 
   const pageHead = (
-    <PageHead title="Single Touch Payroll setup errors" />
+    <PageHead title="Single Touch Payroll errors" />
   );
   const alert = (
     errorMessage && <Alert type="danger">{errorMessage}</Alert>
@@ -103,6 +108,7 @@ const mapStateToProps = state => ({
   employeeInformationErrors: getEmployeeInformationErrors(state),
   payItemsErrors: getPayItemsErrors(state),
   businessDetailsModalIsOpen: getIsBusinessDetailsModalOpen(state),
+  source: getSource(state),
 });
 
 export default connect(mapStateToProps)(StpErrorsView);

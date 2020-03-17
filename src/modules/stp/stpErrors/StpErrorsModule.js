@@ -17,6 +17,7 @@ import {
   getBusinessId,
   getEmployeePageUrl,
   getPayItemPageUrl,
+  getSource,
   getStpSetupUrl,
   getSubmitBusinessDetailsContent,
 } from './stpErrorsSelectors';
@@ -28,9 +29,11 @@ export default class StpErrorsModule {
   constructor({
     setRootView,
     integration,
+    replaceURLParams,
   }) {
     this.setRootView = setRootView;
     this.integration = integration;
+    this.replaceURLParams = replaceURLParams;
     this.store = new Store(stpErrorsReducer);
   }
 
@@ -146,6 +149,10 @@ export default class StpErrorsModule {
     });
   }
 
+  closeTab = () => {
+    window.close();
+  }
+
   render = () => {
     const wrappedView = (
       <Provider store={this.store}>
@@ -154,6 +161,7 @@ export default class StpErrorsModule {
           onEmployeeNameClick={this.openEmployeePage}
           onPayItemClick={this.openPayItemPage}
           onGetStartedClick={this.goToStpSetup}
+          closeTabHandler={this.closeTab}
           onBusinessDetailsEditLinkClick={this.openBusinessDetailModal}
           onModalCancel={() => this.setBusinessDetailsModalIsOpen(false)}
           onBusinessDetailsFieldChange={this.onBusinessDetailsFieldChange}
@@ -205,7 +213,16 @@ export default class StpErrorsModule {
     });
   }
 
+  updateURLFromState = () => {
+    const params = {
+      source: getSource(this.store.getState()),
+    };
+
+    this.replaceURLParams(params);
+  }
+
   run = (context) => {
+    this.store.subscribe(this.updateURLFromState);
     this.setInitialState(context);
     this.loadStpErrors();
     this.render();

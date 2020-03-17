@@ -1,4 +1,4 @@
-import { getEmployeePageUrl, getPayItemPageUrl } from '../stpErrorsSelectors';
+import { getEmployeePageUrl, getPayItemPageUrl, getSource } from '../stpErrorsSelectors';
 
 describe('getEmployeePageUrl', () => {
   it('returns expected url', () => {
@@ -39,5 +39,15 @@ describe('getPayItemPageUrl', () => {
     const url = getPayItemPageUrl(state, itemType, id);
 
     expect(url).toEqual('/#/au/123/payItem?tab=tax');
+  });
+});
+
+describe('getSource', () => {
+  it('returns the source', () => {
+    const state = {
+      source: 'a_source',
+    };
+
+    expect(getSource(state)).toEqual('a_source');
   });
 });

@@ -6,16 +6,33 @@ import React from 'react';
 import StandardTemplate from '../../../../components/Feelix/StandardTemplate/StandardTemplate';
 import successDoneCompleteImage from './success-done-complete.svg';
 
-const NoErrorsSplash = ({ onGetStartedClick }) => (
+const StpSplash = ({ onGetStartedClick }) => (
+  <PageState
+    title="All clear! No more errors"
+    description="Now you can start to set up Single Touch Payroll reporting"
+    actions={[<Button type="primary" onClick={onGetStartedClick}>Get started</Button>]}
+    image={<img src={successDoneCompleteImage} alt="All clear!" />}
+  />
+);
+
+const PayRunCreateSplash = ({ onDoneClick }) => (
+  <PageState
+    title="Single touch payroll ready!"
+    description="All of your payroll information meets ATO requirements for Single Touch Payroll reporting."
+    actions={[<Button type="primary" onClick={onDoneClick}>Done</Button>]}
+    image={<img src={successDoneCompleteImage} alt="All clear!" />}
+  />
+);
+
+const NoErrorsSplash = ({ onGetStartedClick, closeTabHandler, source }) => (
   <StandardTemplate
     pageHead={<PageHead title="Single touch payroll setup ready!" />}
   >
-    <PageState
-      title="All clear! No more errors"
-      description="Now you can start to set up Single Touch Payroll reporting"
-      actions={[<Button type="primary" onClick={onGetStartedClick}>Get started</Button>]}
-      image={<img src={successDoneCompleteImage} alt="All clear!" />}
-    />
+    {source === 'payRunCreate' ? (
+      <PayRunCreateSplash onDoneClick={closeTabHandler} />
+    ) : (
+      <StpSplash onGetStartedClick={onGetStartedClick} />
+    )}
   </StandardTemplate>
 );
 
