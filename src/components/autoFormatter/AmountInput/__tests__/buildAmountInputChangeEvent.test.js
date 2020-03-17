@@ -83,4 +83,19 @@ describe('buildAmountInputChangeEvent', () => {
       },
     });
   });
+
+  it('returns undefined when value is undefined', () => {
+    const modifiedEvent = {
+      ...event,
+      target: {
+        ...event.target,
+        rawValue: undefined,
+      },
+    };
+    const currentValue = '';
+
+    const actual = buildAmountInputChangeEvent(modifiedEvent, currentValue);
+
+    expect(actual).toEqual(undefined);
+  });
 });

@@ -13,7 +13,7 @@ const buildAmountInputChangeEvent = (e, currentValue) => {
   }
 
   if (Number.isNaN(number)) {
-    if (currentValue.length !== 0) {
+    if (currentValue && currentValue.length !== 0) {
       return copyEventWithValue(e, '');
     }
 
