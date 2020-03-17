@@ -4,7 +4,7 @@ import React from 'react';
 const CustomerCombobox = (props) => {
   const {
     items = [],
-    selectedId,
+    selectedId = '',
     onChange,
     ...otherProps
   } = props;
@@ -18,7 +18,8 @@ const CustomerCombobox = (props) => {
 
   const onComboboxChange = (item) => {
     const newItem = item || {};
-    if (selectedId !== newItem.value) {
+    const { value: id = '' } = newItem;
+    if (selectedId !== id) {
       onChange(newItem);
     }
   };

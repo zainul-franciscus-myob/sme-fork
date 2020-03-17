@@ -6,7 +6,7 @@ import countryList from '../../sharedData/countryList';
 const CountryCombobox = (props) => {
   const {
     items,
-    selectedId,
+    selectedId = '',
     onChange,
     ...otherProps
   } = props;
@@ -20,7 +20,8 @@ const CountryCombobox = (props) => {
 
   const onComboboxChange = (item) => {
     const newItem = item || {};
-    if (selectedId !== newItem.value) {
+    const { value: id = '' } = newItem;
+    if (selectedId !== id) {
       onChange(newItem);
     }
   };

@@ -4,7 +4,7 @@ import React from 'react';
 const AccountCombobox = (props) => {
   const {
     items = [],
-    selectedId,
+    selectedId = '',
     onChange,
     addNewAccount,
     ...otherProps
@@ -27,7 +27,8 @@ const AccountCombobox = (props) => {
 
   const onComboboxChange = (item) => {
     const newItem = item || {};
-    if (selectedId !== newItem.id) {
+    const { id = '' } = newItem;
+    if (selectedId !== id) {
       onChange(newItem);
     }
   };

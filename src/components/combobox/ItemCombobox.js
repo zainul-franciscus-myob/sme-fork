@@ -9,7 +9,7 @@ const metaData = [
 const ItemCombobox = (props) => {
   const {
     items = [],
-    selectedId,
+    selectedId = '',
     onChange,
     addNewItem,
     ...otherProps
@@ -20,7 +20,8 @@ const ItemCombobox = (props) => {
 
   const onComboboxChange = (item) => {
     const newItem = item || {};
-    if (selectedId !== newItem.id) {
+    const { id = '' } = newItem;
+    if (selectedId !== id) {
       onChange(newItem);
     }
   };

@@ -4,7 +4,7 @@ import React from 'react';
 const SuperFundCombobox = (props) => {
   const {
     items = [],
-    selectedId,
+    selectedId = '',
     onChange,
     ...otherProps
   } = props;
@@ -19,7 +19,8 @@ const SuperFundCombobox = (props) => {
 
   const onComboboxChange = (item) => {
     const newItem = item || {};
-    if (selectedId !== newItem.id) {
+    const { id = '' } = newItem;
+    if (selectedId !== id) {
       onChange(newItem);
     }
   };

@@ -5,7 +5,7 @@ import Combobox from './Combobox';
 const TaxCodeCombobox = (props) => {
   const {
     items = [],
-    selectedId,
+    selectedId = '',
     onChange,
     disabled,
     ...otherProps
@@ -22,7 +22,8 @@ const TaxCodeCombobox = (props) => {
 
   const onComboboxChange = (item) => {
     const newItem = item || {};
-    if (selectedId !== newItem.id) {
+    const { id = '' } = newItem;
+    if (selectedId !== id) {
       onChange(newItem);
     }
   };
