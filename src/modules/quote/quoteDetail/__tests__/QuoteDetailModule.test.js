@@ -44,21 +44,14 @@ describe('QuoteDetailModule', () => {
     return { module, store, integration };
   };
 
-  const setUpWithNew = () => {
+  const setUpWithRun = ({ isCreating = false, isPageEdited = false } = {}) => {
     const { module, integration, store } = setUp();
 
-    module.run({ quoteId: 'new', businessId: 'businessId', region: 'au' });
+    module.run({ quoteId: isCreating ? 'new' : 'quoteId', businessId: 'businessId', region: 'au' });
 
-    store.resetActions();
-    integration.resetRequests();
-
-    return { module, integration, store };
-  };
-
-  const setUpWithExisting = () => {
-    const { module, integration, store } = setUp();
-
-    module.run({ quoteId: 'quoteId', businessId: 'businessId', region: 'au' });
+    if (isPageEdited) {
+      module.updateQuoteDetailHeaderOptions({ key: 'note', value: 'random' });
+    }
 
     store.resetActions();
     integration.resetRequests();
@@ -69,7 +62,7 @@ describe('QuoteDetailModule', () => {
   describe('saveAndEmailQuote', () => {
     describe('new quote', () => {
       it('create quote, update quote id, update url params, reload quote, open email modal and show alert inside modal', () => {
-        const { module, store, integration } = setUpWithNew();
+        const { module, store, integration } = setUpWithRun({ isCreating: true });
         module.replaceURLParams = jest.fn();
 
         module.saveAndEmailQuote();
@@ -90,7 +83,7 @@ describe('QuoteDetailModule', () => {
       });
 
       it('does not open email modal when create quote failed', () => {
-        const { module, store, integration } = setUpWithNew();
+        const { module, store, integration } = setUpWithRun({ isCreating: true });
         const message = 'Error';
         integration.mapFailure(CREATE_QUOTE_DETAIL, { message });
         module.replaceURLParams = jest.fn();
@@ -108,7 +101,7 @@ describe('QuoteDetailModule', () => {
       });
 
       it('does not open email modal when reload quote failed', () => {
-        const { module, store, integration } = setUpWithNew();
+        const { module, store, integration } = setUpWithRun({ isCreating: true });
         const message = 'Error';
         integration.mapFailure(LOAD_QUOTE_DETAIL, { message });
 
@@ -128,17 +121,9 @@ describe('QuoteDetailModule', () => {
       });
     });
 
-    describe('existing quote', () => {
-      const setUpWithEdited = () => {
-        const { module, store, integration } = setUpWithExisting();
-        module.updateQuoteDetailHeaderOptions({ key: 'note', value: 'random' });
-        store.resetActions();
-
-        return { module, store, integration };
-      };
-
+    describe('existing quote that has been edited', () => {
       it('update quote, reload quote, open export pdf modal and show alert inside modal', () => {
-        const { module, store, integration } = setUpWithEdited();
+        const { module, store, integration } = setUpWithRun({ isPageEdited: true });
         module.replaceURLParams = jest.fn();
 
         module.saveAndEmailQuote();
@@ -158,7 +143,7 @@ describe('QuoteDetailModule', () => {
       });
 
       it('does not open export pdf modal when update quote failed', () => {
-        const { module, store, integration } = setUpWithEdited();
+        const { module, store, integration } = setUpWithRun({ isPageEdited: true });
         const message = 'Error';
         integration.mapFailure(UPDATE_QUOTE_DETAIL, { message });
 
@@ -175,7 +160,7 @@ describe('QuoteDetailModule', () => {
       });
 
       it('does not open export pdf modal when reload quote failed', () => {
-        const { module, store, integration } = setUpWithEdited();
+        const { module, store, integration } = setUpWithRun({ isPageEdited: true });
         const message = 'Error';
         integration.mapFailure(LOAD_QUOTE_DETAIL, { message });
 
@@ -191,6 +176,19 @@ describe('QuoteDetailModule', () => {
           expect.objectContaining({ intent: UPDATE_QUOTE_DETAIL }),
           expect.objectContaining({ intent: LOAD_QUOTE_DETAIL }),
         ]);
+      });
+    });
+
+    describe('existing quote that has not been edited', () => {
+      it('open email modal', () => {
+        const { module, store, integration } = setUpWithRun();
+
+        module.saveAndEmailQuote();
+
+        expect(store.getActions()).toEqual([
+          { intent: OPEN_MODAL, modal: { type: ModalType.EMAIL_QUOTE } },
+        ]);
+        expect(integration.getRequests().length).toBe(0);
       });
     });
 
@@ -220,7 +218,7 @@ describe('QuoteDetailModule', () => {
   describe('exportPdfOrSaveAndExportPdf', () => {
     describe('new quote', () => {
       it('create quote, update quote id, update url params, reload quote, open export pdf modal and show alert inside modal', () => {
-        const { module, store, integration } = setUpWithNew();
+        const { module, store, integration } = setUpWithRun({ isCreating: true });
         module.replaceURLParams = jest.fn();
 
         module.exportPdfOrSaveAndExportPdf();
@@ -240,7 +238,7 @@ describe('QuoteDetailModule', () => {
       });
 
       it('does not open export pdf modal when create quote failed', () => {
-        const { module, store, integration } = setUpWithNew();
+        const { module, store, integration } = setUpWithRun({ isCreating: true });
         const message = 'Error';
         integration.mapFailure(CREATE_QUOTE_DETAIL, { message });
         module.replaceURLParams = jest.fn();
@@ -258,7 +256,7 @@ describe('QuoteDetailModule', () => {
       });
 
       it('does not open export pdf modal when reload quote failed', () => {
-        const { module, store, integration } = setUpWithNew();
+        const { module, store, integration } = setUpWithRun({ isCreating: true });
         const message = 'Error';
         integration.mapFailure(LOAD_QUOTE_DETAIL, { message });
 
@@ -279,16 +277,8 @@ describe('QuoteDetailModule', () => {
     });
 
     describe('existing quote that has been edited', () => {
-      const setUpWithEdited = () => {
-        const { module, store, integration } = setUpWithExisting();
-        module.updateQuoteDetailHeaderOptions({ key: 'note', value: 'random' });
-        store.resetActions();
-
-        return { module, store, integration };
-      };
-
       it('update quote, reload quote, open export pdf modal and show alert inside modal', () => {
-        const { module, store, integration } = setUpWithEdited();
+        const { module, store, integration } = setUpWithRun({ isPageEdited: true });
         module.replaceURLParams = jest.fn();
 
         module.exportPdfOrSaveAndExportPdf();
@@ -307,7 +297,7 @@ describe('QuoteDetailModule', () => {
       });
 
       it('does not open export pdf modal when update quote failed', () => {
-        const { module, store, integration } = setUpWithEdited();
+        const { module, store, integration } = setUpWithRun({ isPageEdited: true });
         const message = 'Error';
         integration.mapFailure(UPDATE_QUOTE_DETAIL, { message });
 
@@ -324,7 +314,7 @@ describe('QuoteDetailModule', () => {
       });
 
       it('does not open export pdf modal when reload quote failed', () => {
-        const { module, store, integration } = setUpWithEdited();
+        const { module, store, integration } = setUpWithRun({ isPageEdited: true });
         const message = 'Error';
         integration.mapFailure(LOAD_QUOTE_DETAIL, { message });
 
@@ -345,7 +335,7 @@ describe('QuoteDetailModule', () => {
 
     describe('existing quote that has not been edited', () => {
       it('open export pdf modal', () => {
-        const { module, store, integration } = setUpWithExisting();
+        const { module, store, integration } = setUpWithRun();
 
         module.exportPdfOrSaveAndExportPdf();
 

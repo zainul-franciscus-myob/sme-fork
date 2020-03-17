@@ -31,7 +31,7 @@ import {
   getNewLineIndex,
   getOpenedModalType,
   getShouldReload,
-  getShouldSaveAndExportPdf,
+  getShouldSaveAndReload,
   getTaxCalculations,
 } from './selectors/QuoteDetailSelectors';
 import {
@@ -541,6 +541,13 @@ export default class QuoteDetailModule {
     this.dispatcher.openModal({ type: ModalType.UNSAVED, url });
   }
 
+  openEmailModal = () => {
+    const state = this.store.getState();
+    const type = getEmailModalType(state);
+
+    this.dispatcher.openModal({ type });
+  }
+
   openExportPdfModal = () => {
     this.dispatcher.openModal({ type: ModalType.EXPORT_PDF });
   }
@@ -569,15 +576,18 @@ export default class QuoteDetailModule {
   }[saveAndAction]())
 
   saveAndEmailQuote = () => {
-    const onSuccess = ({ message }) => {
-      const state = this.store.getState();
-      const type = getEmailModalType(state);
+    const state = this.store.getState();
+    const shouldSaveAndReload = getShouldSaveAndReload(state);
+    if (shouldSaveAndReload) {
+      const onSuccess = ({ message }) => {
+        this.openEmailModal();
+        this.dispatcher.setModalAlert({ type: 'success', message });
+      };
 
-      this.dispatcher.openModal({ type });
-      this.dispatcher.setModalAlert({ type: 'success', message });
-    };
-
-    this.saveAndReload({ onSuccess });
+      this.saveAndReload({ onSuccess });
+    } else {
+      this.openEmailModal();
+    }
   }
 
   addEmailAttachments = (files) => {
@@ -673,8 +683,8 @@ export default class QuoteDetailModule {
 
   exportPdfOrSaveAndExportPdf = () => {
     const state = this.store.getState();
-    const shouldSaveAndExportPdf = getShouldSaveAndExportPdf(state);
-    if (shouldSaveAndExportPdf) {
+    const shouldSaveAndReload = getShouldSaveAndReload(state);
+    if (shouldSaveAndReload) {
       this.saveAndReload({ onSuccess: this.openExportPdfModal });
     } else {
       this.openExportPdfModal();
