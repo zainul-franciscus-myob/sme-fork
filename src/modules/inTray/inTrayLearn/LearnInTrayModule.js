@@ -17,22 +17,21 @@ class LearnInTrayModule {
 
   render = (region, businessId) => this.setRootView(
     <LearnComponent
-      title="Upload bills and receipts to your In Tray"
+      title="Automatically track and manage your bills and expenses"
       media={<WistiaVideoPlayer hashedId="jlxo7xiunr" />}
     >
-      <h3>Why upload your bills?</h3>
+      <h3>Why upload your expense documents?</h3>
 
       <p>
         Ditch the paper and upload your bills and receipts to the In tray.
-        You’ll always have your source documents at the ready, and we’ll lend a helping hand
-        in turning them into transactions.
+        It’s the easiest way minimise data entry and keep your records organised and accurate.
       </p>
 
       <h3>How does it work?</h3>
 
       <ol>
-        <li>Upload your bills and receipts, from your computer, mobile app or email</li>
-        <li>Our smart technology fills most of the data</li>
+        <li>Upload your bills and receipts from your computer, mobile app or email</li>
+        <li>Your documents are digitally scanned and transcribed in seconds</li>
         <li>Review, record and celebrate doing things right</li>
       </ol>
 
