@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getAppliedFilterOptionsType,
+  getAlert,
   getLoadingState,
+  getType,
 } from '../AccountListSelectors';
 import { tabItems } from '../tabItems';
 import AccountListFilterOptions from './AccountListFilterOptions';
@@ -23,7 +24,6 @@ const AccountListView = ({
   selectedTab,
   onDismissAlert,
   onUpdateFilterOptions,
-  onApplyFilter,
   onTabSelect,
   onEditLinkedAccountButtonClick,
   onCreateAccountButtonClick,
@@ -49,7 +49,6 @@ const AccountListView = ({
   const filterBar = (
     <AccountListFilterOptions
       onUpdateFilterOptions={onUpdateFilterOptions}
-      onApplyFilter={onApplyFilter}
     />
   );
 
@@ -83,7 +82,7 @@ const AccountListView = ({
 const mapStateToProps = state => ({
   loadingState: getLoadingState(state),
   alert: getAlert(state),
-  selectedTab: getAppliedFilterOptionsType(state),
+  selectedTab: getType(state),
 });
 
 export default connect(mapStateToProps)(AccountListView);

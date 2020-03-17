@@ -21,11 +21,6 @@ const getDefaultState = () => ({
     showInactive: false,
     type: tabIds.all,
   },
-  appliedFilterOptions: {
-    keywords: '',
-    showInactive: false,
-    type: tabIds.all,
-  },
   entries: [],
   hasFlexibleAccountNumbers: false,
 });
@@ -34,7 +29,6 @@ const setInitialState = (state, { context, settings }) => ({
   ...state,
   ...context,
   filterOptions: settings || state.filterOptions,
-  appliedFilterOptions: settings || state.appliedFilterOptions,
 });
 
 const resetState = () => ({ ...getDefaultState() });
@@ -51,9 +45,6 @@ const setAlert = (state, action) => ({
 
 const sortAndFilterAccountList = (state, action) => ({
   ...state,
-  appliedFilterOptions: action.isSort
-    ? state.appliedFilterOptions
-    : state.filterOptions,
   entries: action.entries,
   hasFlexibleAccountNumbers: action.hasFlexibleAccountNumbers,
 });
@@ -70,10 +61,6 @@ const setAccountListTab = (state, { tabId }) => ({
   ...state,
   filterOptions: {
     ...state.filterOptions,
-    type: tabId,
-  },
-  appliedFilterOptions: {
-    ...state.appliedFilterOptions,
     type: tabId,
   },
 });

@@ -11,7 +11,7 @@ import {
   getBusinessId,
 } from './accountDetailSelectors';
 
-const createAccountListIntegrator = (store, integration) => ({
+const createAccountDetailIntegrator = (store, integration) => ({
   loadAccountDetail: (onSuccess, onFailure) => {
     const state = store.getState();
     const intent = LOAD_ACCOUNT_DETAIL;
@@ -87,4 +87,4 @@ const createAccountListIntegrator = (store, integration) => ({
   },
 });
 
-export default createAccountListIntegrator;
+export default createAccountDetailIntegrator;

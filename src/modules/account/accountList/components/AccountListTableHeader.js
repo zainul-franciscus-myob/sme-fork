@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAppliedFilterOptionsShowInactive,
+  getShowInactive,
   getTableTaxCodeHeader,
 } from '../AccountListSelectors';
 
@@ -47,7 +47,7 @@ const AccountListTableHeader = (props) => {
 };
 
 const mapStateToProps = state => ({
-  showInactive: getAppliedFilterOptionsShowInactive(state),
+  showInactive: getShowInactive(state),
   taxCodeHeader: getTableTaxCodeHeader(state),
 });
 

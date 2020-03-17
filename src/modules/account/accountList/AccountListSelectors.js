@@ -14,11 +14,9 @@ export const getIsTableLoading = state => state.isTableLoading;
 
 export const getFilterOptions = state => state.filterOptions;
 
-export const getAppliedFilterOptions = state => state.appliedFilterOptions;
+export const getShowInactive = state => state.filterOptions.showInactive;
 
-export const getAppliedFilterOptionsShowInactive = state => state.appliedFilterOptions.showInactive;
-
-export const getAppliedFilterOptionsType = state => state.appliedFilterOptions.type;
+export const getType = state => state.filterOptions.type;
 
 const getEntries = state => state.entries;
 

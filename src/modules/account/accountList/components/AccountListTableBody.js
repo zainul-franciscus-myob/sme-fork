@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 import classNames from 'classnames';
 
-import { getAppliedFilterOptionsShowInactive, getTableEntries } from '../AccountListSelectors';
+import { getShowInactive, getTableEntries } from '../AccountListSelectors';
 import styles from './AccountListTableBody.module.css';
 
 const StatusRowItem = ({ tableConfig, isInactive }) => (
@@ -128,7 +128,7 @@ const AccountListTableBody = ({
 };
 
 const mapStateToProps = state => ({
-  showInactive: getAppliedFilterOptionsShowInactive(state),
+  showInactive: getShowInactive(state),
   entries: getTableEntries(state),
 });
 

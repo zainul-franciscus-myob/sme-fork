@@ -2,9 +2,9 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAppliedFilterOptionsShowInactive,
   getIsTableEmpty,
   getIsTableLoading,
+  getShowInactive,
   getTableTaxCodeHeader,
 } from '../AccountListSelectors';
 import { withStatus, withoutStatus } from './AccountListWidthConfig';
@@ -58,7 +58,7 @@ const AccountListTable = (props) => {
 const mapStateToProps = state => ({
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
-  showInactive: getAppliedFilterOptionsShowInactive(state),
+  showInactive: getShowInactive(state),
   taxCodeHeader: getTableTaxCodeHeader(state),
 });
 

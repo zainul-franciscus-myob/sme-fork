@@ -7,7 +7,7 @@ import {
   SUCCESSFULLY_SAVED_ACCOUNT,
 } from '../AccountMessageTypes';
 import {
-  getAppliedFilterOptions, getImportChartOfAccountsUrl, getLinkedAccountUrl, getNewAccountUrl,
+  getFilterOptions, getImportChartOfAccountsUrl, getLinkedAccountUrl, getNewAccountUrl,
 } from './AccountListSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
 import AccountListView from './components/AccountListView';
@@ -17,6 +17,7 @@ import Store from '../../../store/Store';
 import accountListReducer from './accountListReducer';
 import createAccountListDispatcher from './createAccountListDispatcher';
 import createAccountListIntegrator from './createAccountListIntegrator';
+import debounce from '../../../common/debounce/debounce';
 
 const messageTypes = [
   SUCCESSFULLY_DELETED_ACCOUNT, SUCCESSFULLY_SAVED_ACCOUNT,
@@ -80,12 +81,21 @@ export default class AccountListModule {
     window.location.href = getNewAccountUrl(this.store.getState());
   }
 
+  updateFilterOptions = ({ key, value }) => {
+    this.dispatcher.setAccountListFilterOptions({ key, value });
+
+    if (key === 'keywords') {
+      debounce(this.filterAccountList)();
+    } else {
+      this.filterAccountList();
+    }
+  }
+
   render = () => {
     const accountView = (
       <AccountListView
         onDismissAlert={this.dispatcher.dismissAlert}
-        onUpdateFilterOptions={this.dispatcher.setAccountListFilterOptions}
-        onApplyFilter={this.filterAccountList}
+        onUpdateFilterOptions={this.updateFilterOptions}
         onTabSelect={this.setTab}
         onEditLinkedAccountButtonClick={this.redirectToLinkedAccounts}
         onImportChartOfAccountsClick={this.redirectToImportChartOfAccounts}
@@ -142,7 +152,7 @@ export default class AccountListModule {
     this.render();
     this.readMessages();
     this.store.subscribe(state => (
-      saveSettings(context.businessId, RouteName.ACCOUNT_LIST, getAppliedFilterOptions(state))
+      saveSettings(context.businessId, RouteName.ACCOUNT_LIST, getFilterOptions(state))
     ));
     this.loadAccountList();
   }
