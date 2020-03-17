@@ -1,4 +1,4 @@
-const IEBlockPage = `<div style="padding:2.4rem;text-align:center">
+const IEBlockPage = `<div style="padding:2.4rem;margin-top:2.4rem;text-align:center">
   <img
     src="assets/something-went-wrong.svg"
     alt="something went wrong" />
