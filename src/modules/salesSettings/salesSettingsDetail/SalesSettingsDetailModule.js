@@ -26,6 +26,7 @@ import actionTypes from './components/templates/actionTypes';
 import createSalesSettingsDispatcher from './createSalesSettingsDispatcher';
 import createSalesSettingsIntegrator from './createSalesSettingsIntegrator';
 import keyMap from '../../../hotKeys/keyMap';
+import loadSubscriptionUrl from '../../settings/subscription/loadSubscriptionUrl';
 import modalTypes from './modalTypes';
 import salesSettingsReducer from './salesSettingsDetailReducer';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
@@ -60,6 +61,7 @@ export default class SalesSettingsModule {
     };
 
     const templateListSortOrder = getSortOrder(state);
+
     this.integrator.loadSalesSettings({
       templateListSortOrder,
       onSuccess,
@@ -69,9 +71,11 @@ export default class SalesSettingsModule {
 
   updateSalesSettings = () => {
     const state = this.store.getState();
+
     if (getLoadingState(state) === LoadingState.LOADING) return;
 
     this.dispatcher.setLoadingState(LoadingState.LOADING);
+
     const content = getSalesSettingsPayload(state);
 
     const onSuccess = ({ message }) => {
@@ -118,19 +122,20 @@ export default class SalesSettingsModule {
 
   onConfirmSwitchTab = () => {
     const state = this.store.getState();
+
     this.dispatcher.setTab(state.pendingTab);
     this.dispatcher.closeModal();
   };
 
-  closeModal = () => {
-    this.dispatcher.closeModal();
-  };
+  closeModal = () => this.dispatcher.closeModal();
 
   saveEmailSettings = () => {
     const state = this.store.getState();
+
     if (getLoadingState(state) === LoadingState.LOADING) return;
 
     const content = getTabData(state);
+
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = ({ message }) => {
@@ -149,13 +154,13 @@ export default class SalesSettingsModule {
 
   sortTemplateList = (orderBy) => {
     const state = this.store.getState();
-    if (getIsTemplatesLoading(state)) {
-      return;
-    }
+
+    if (getIsTemplatesLoading(state)) return;
 
     this.dispatcher.setTemplateListLoadingState(true);
 
     const sortOrder = getNewSortOrder(orderBy)(state);
+
     this.dispatcher.setTemplateListSortOrder(orderBy, sortOrder);
 
     const onSuccess = ({ templates }) => {
@@ -178,6 +183,7 @@ export default class SalesSettingsModule {
 
   deleteTemplate = () => {
     this.dispatcher.setTemplateListLoadingState(true);
+
     const templateName = getPendingDeleteTemplate(this.store.getState());
 
     const onSuccess = ({ message }) => {
@@ -216,18 +222,28 @@ export default class SalesSettingsModule {
     }
   };
 
+  subscribeNow = async () => {
+    const businessId = getBusinessId(this.store.getState());
+    const url = await loadSubscriptionUrl(this.integration, businessId, window.location.href);
+
+    if (!url) return;
+
+    window.location.href = url;
+  };
+
   render = () => {
     const salesSettingsView = (
       <SalesSettingsView
-        onDismissAlert={this.dispatcher.dismissAlert}
-        onUpdateSalesSettingsItem={this.dispatcher.updateSalesSettingsItem}
-        onSalesSettingsSave={this.updateSalesSettings}
-        onTabSelect={this.switchTab}
-        onConfirmSwitchTab={this.onConfirmSwitchTab}
-        onConfirmDeleteTemplate={this.onConfirmDeleteTemplate}
         onCloseModal={this.closeModal}
-        onUpdateEmailSettings={this.dispatcher.updateEmailSettings}
+        onConfirmDeleteTemplate={this.onConfirmDeleteTemplate}
+        onConfirmSwitchTab={this.onConfirmSwitchTab}
+        onDismissAlert={this.dispatcher.dismissAlert}
+        onSalesSettingsSave={this.updateSalesSettings}
         onSaveEmailSettings={this.saveEmailSettings}
+        onSubscribeNowClick={this.subscribeNow}
+        onTabSelect={this.switchTab}
+        onUpdateEmailSettings={this.dispatcher.updateEmailSettings}
+        onUpdateSalesSettingsItem={this.dispatcher.updateSalesSettingsItem}
         templateHandlers={{
           onCreateTemplate: this.redirectToCreateNewTemplate,
           onSortTemplateList: this.sortTemplateList,
@@ -236,17 +252,15 @@ export default class SalesSettingsModule {
       />
     );
 
-    const wrappedView = (
-      <Provider store={this.store}>{salesSettingsView}</Provider>
+    this.setRootView(
+      <Provider store={this.store}>{salesSettingsView}</Provider>,
     );
-
-    this.setRootView(wrappedView);
   };
 
   saveHandler = () => {
     const state = this.store.getState();
-
     const modalType = getModalType(state);
+
     if (modalType) return;
 
     const selectTab = getSelectedTab(state);
@@ -257,22 +271,14 @@ export default class SalesSettingsModule {
       [mainTabIds.emailDefaults]: this.saveEmailSettings,
     }[selectTab];
 
-    if (handler) {
-      handler();
-    }
+    if (handler) { handler(); }
   };
 
-  handlers = {
-    SAVE_ACTION: this.saveHandler,
-  };
+  handlers = { SAVE_ACTION: this.saveHandler };
 
-  unsubscribeFromStore = () => {
-    this.store.unsubscribeAll();
-  };
+  unsubscribeFromStore = () => this.store.unsubscribeAll();
 
-  resetState = () => {
-    this.dispatcher.resetState();
-  };
+  resetState = () => this.dispatcher.resetState();
 
   readMessages = () => {
     const [successMessage] = this.popMessages([TEMPLATE_UPDATED]);
@@ -280,20 +286,19 @@ export default class SalesSettingsModule {
     if (successMessage) {
       const { content: message } = successMessage;
 
-      this.dispatcher.setAlert({
-        type: 'success',
-        message,
-      });
+      this.dispatcher.setAlert({ type: 'success', message });
     }
   };
 
-  updateURLFromState = state => this.replaceURLParams(getUrlTabParams(state))
+  updateURLFromState = state => this.replaceURLParams(getUrlTabParams(state));
 
   run = (context) => {
     this.dispatcher.setInitialState(context);
     this.store.subscribe(this.updateURLFromState);
     this.dispatcher.setLoadingState(LoadingState.LOADING);
+
     setupHotKeys(keyMap, this.handlers);
+
     this.render();
     this.readMessages();
     this.loadSalesSettings();
@@ -301,9 +306,8 @@ export default class SalesSettingsModule {
     const showOnlinePaymentOptions = getShowOnlinePaymentOptions(
       this.store.getState(),
     );
-    if (showOnlinePaymentOptions) {
-      this.loadPayDirectSettings();
-    }
+
+    if (showOnlinePaymentOptions) this.loadPayDirectSettings();
   };
 
   redirectToCreateNewTemplate = () => {

@@ -11,27 +11,27 @@ import AuDirectDeposit from './AuDirectDeposit';
 import OnlinePaymentOptions from './OnlinePaymentOptions';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 
-const AuPaymentOptions = ({ onUpdateSalesSettingsItem, salesSettings }) => (
+const AuPaymentOptions = ({ onUpdateSalesSettingsItem, salesSettings, onSubscribeNowClick }) => (
   <>
     <Field
-      label="Mail"
       hideLabel
+      label="Mail"
       renderField={() => <legend className="margin-bottom-00">Direct deposit</legend>}
     />
 
     <CheckboxGroup
-      label="Allow payments by direct deposit"
       hideLabel
+      label="Allow payments by direct deposit"
       renderCheckbox={() => (
         <Checkbox
-          name="isAllowPaymentsByDirectDeposit"
+          checked={salesSettings.isAllowPaymentsByDirectDeposit}
           label="Allow payments by direct deposit"
           labelAccessory={(
             <Tooltip triggerContent={<Icons.Info />}>
               Show direct deposit details at the bottom of your invoices
             </Tooltip>
           )}
-          checked={salesSettings.isAllowPaymentsByDirectDeposit}
+          name="isAllowPaymentsByDirectDeposit"
           onChange={handleCheckboxChange(onUpdateSalesSettingsItem)}
         />
       )}
@@ -45,24 +45,24 @@ const AuPaymentOptions = ({ onUpdateSalesSettingsItem, salesSettings }) => (
     <hr />
 
     <Field
-      label="Mail"
       hideLabel
+      label="Mail"
       renderField={() => <legend className="margin-bottom-00">Mail</legend>}
     />
 
     <CheckboxGroup
-      label="Allow payments by mail"
       hideLabel
+      label="Allow payments by mail"
       renderCheckbox={() => (
         <Checkbox
-          name="isAllowPaymentsByMail"
+          checked={salesSettings.isAllowPaymentsByMail}
           label="Allow payments by mail"
           labelAccessory={(
             <Tooltip triggerContent={<Icons.Info />}>
               Show your business address on your invoices
             </Tooltip>
           )}
-          checked={salesSettings.isAllowPaymentsByMail}
+          name="isAllowPaymentsByMail"
           onChange={handleCheckboxChange(onUpdateSalesSettingsItem)}
         />
       )}
@@ -70,7 +70,10 @@ const AuPaymentOptions = ({ onUpdateSalesSettingsItem, salesSettings }) => (
 
     <hr />
 
-    <OnlinePaymentOptions onUpdateSalesSettingsItem={onUpdateSalesSettingsItem} />
+    <OnlinePaymentOptions
+      onSubscribeNowClick={onSubscribeNowClick}
+      onUpdateSalesSettingsItem={onUpdateSalesSettingsItem}
+    />
   </>
 );
 

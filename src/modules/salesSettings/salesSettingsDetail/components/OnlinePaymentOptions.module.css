@@ -1,41 +1,27 @@
-.account > :global(*) {
-  margin-bottom: 0;
-}
-
-.unRegisteredView > :global(*),
-.trialView > :global(*) {
-  margin-bottom: 0;
-}
-
-.trialView > :global(p) {
-  margin-bottom: var(--flx-spacing-x-small);
+/* @FEELIX */
+.account > :global(p) {
+  margin-bottom: var(--flx-spacing-clear);
 }
 
 .account :global(.form-group__input-group) {
-  padding-bottom: 1rem;
+  padding-bottom: var(--flx-spacing-x-small);
 }
 
-.status {
-  font-weight: bold;
-  color: green;
-  line-height: 3rem;
+.spacingBottomSmall {
+  margin-bottom: var(--flx-spacing-small);
 }
 
-.registeredView {
-  margin: 0.5rem 0 0 0;
+.activeStatus {
+  color: var(--flx-palette-golf);
+  font-weight: var(--flx-font-weight-bold);
 }
 
-.unRegisteredView :global(.btn) {
-  padding-top: 0.6rem;
+.inactiveStatus {
+  color: var(--flx-palette-berry);
+  font-weight: var(--flx-font-weight-bold);
 }
 
 .onlinePaymentMethodsImage {
-  height: 3.1rem;
-  padding-bottom: 0.5rem;
-  width: auto;
-}
-
-.spinner {
-  width: 1rem;
-  padding: 0.2rem;
+  display: block;
+  margin-bottom: var(--flx-spacing-small);
 }

@@ -1,5 +1,5 @@
 import {
-  Alert, Field, Icons, Spinner,
+  Button, Field, Icons, Spinner,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -21,41 +21,51 @@ const OnlinePaymentOptions = ({
   isTrial,
   onUpdateSalesSettingsItem,
   payDirectLink,
+  onSubscribeNowClick,
 }) => {
   const label = 'Online';
-  const imgAlt = 'Online payment methods';
+  const img = (
+    <img
+      alt="Online payment methods"
+      className={styles.onlinePaymentMethodsImage}
+      height="32"
+      src={onlinePaymentMethodsImage}
+      width="250"
+    />
+  );
 
   const setupInfo = (
     <p>
-      Setting up online payment allows your customers to
+      Online payments allow your customers to
       pay direct from their emailed invoice -
-      meaning you get paid faster and minimise the risk of overdue payments.
-      <br />
-      <a href="https://help.myob.com/wiki/x/r51qAg" target="_blank" rel="noopener noreferrer">Learn more</a>
+      meaning you get paid faster and minimise overdue invoices. <a href="https://help.myob.com/wiki/x/r51qAg" target="_blank" rel="noopener noreferrer">Learn more</a>
     </p>
   );
 
   if (isTrial) {
     return (
       <Field
-        label={label}
         hideLabel
+        label={label}
         renderField={() => (
           <>
-            <legend>{label}</legend>
+            <legend className="margin-bottom-10">{label}</legend>
 
-            <img
-              src={onlinePaymentMethodsImage}
-              alt={imgAlt}
-              className={styles.onlinePaymentMethodsImage}
-            />
+            {img}
 
-            <div className={styles.trialView}>
-              {setupInfo}
-              <Alert type="info" inline>
-                Online payments aren&apos;t available whilst on a trial
-              </Alert>
-            </div>
+            This feature is only <b>available to subscribers</b>.
+
+            <Button
+              className={styles.spacingBottomSmall}
+              icon={<Icons.OpenExternalLink />}
+              iconRight
+              onClick={onSubscribeNowClick}
+              type="link"
+            >
+              Subscribe now
+            </Button>
+
+            {setupInfo}
           </>
         )}
       />
@@ -63,32 +73,19 @@ const OnlinePaymentOptions = ({
   }
 
   if (isLoading) {
-    return (
-      <Field
-        label={label}
-        renderField={() => (
-          <div className={styles.spinner}>
-            <Spinner size="small" />
-          </div>
-        )}
-      />
-    );
+    return <Field label={label} renderField={() => <Spinner size="small" />} />;
   }
 
   if (!isServiceAvailable) {
-    const tooltipMessage = 'The online payments service is currently unavailable. Please try again later.';
-
     return (
       <Field
-        label={label}
         hideLabel
+        label={label}
         renderField={() => (
           <>
             <legend>{label}</legend>
 
-            <div className={styles.status}>
-              <ServiceUnavailableImage tooltipMessage={tooltipMessage} />
-            </div>
+            <ServiceUnavailableImage tooltipMessage="The online payments service is currently unavailable. Please try again later." />
           </>
         )}
       />
@@ -96,11 +93,12 @@ const OnlinePaymentOptions = ({
   }
 
   const registeredView = (
-    <p className={styles.registeredView}>
-        You have online invoice payments
-      <span className={styles.status}> activated</span>
-      <span>. </span>
+    <>
+      You have online invoice payments
+      <span className={styles.activeStatus}> activated</span>.
+
       <LinkButton
+        className={styles.spacingBottomSmall}
         href={payDirectLink}
         icon={<Icons.OpenExternalLink />}
         iconRight
@@ -108,13 +106,16 @@ const OnlinePaymentOptions = ({
       >
         Edit preferences
       </LinkButton>
-    </p>
+    </>
   );
 
   const unregisteredView = (
-    <div className={styles.unRegisteredView}>
-      {setupInfo}
+    <>
+      You have online invoice payments
+      <span className={styles.inactiveStatus}> inactive</span>.
+
       <LinkButton
+        className={styles.spacingBottomSmall}
         href={payDirectLink}
         icon={<Icons.OpenExternalLink />}
         iconRight
@@ -122,7 +123,9 @@ const OnlinePaymentOptions = ({
       >
         Set up online payments options
       </LinkButton>
-    </div>
+
+      {setupInfo}
+    </>
   );
 
   return (
@@ -134,11 +137,8 @@ const OnlinePaymentOptions = ({
           <>
             <legend className="margin-bottom-10">{label}</legend>
 
-            <img
-              src={onlinePaymentMethodsImage}
-              alt={imgAlt}
-              className={styles.onlinePaymentMethodsImage}
-            />
+            {img}
+
             { isRegistered ? registeredView : unregisteredView }
           </>
         )}
@@ -150,11 +150,11 @@ const OnlinePaymentOptions = ({
           renderField={() => (
             <div className={styles.account}>
               <AccountCombobox
-                label="Account for receiving online payments"
                 hideLabel
                 items={accountOptions}
-                selectedId={accountId}
+                label="Account for receiving online payments"
                 onChange={handleComboboxChange('accountId', onUpdateSalesSettingsItem)}
+                selectedId={accountId}
               />
               <p>
                 This account must match the bank account you chose when

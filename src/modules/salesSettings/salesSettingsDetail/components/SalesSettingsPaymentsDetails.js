@@ -22,6 +22,7 @@ import styles from './SalesSettingsPaymentsDetails.module.css';
 const SalesSettingsPaymentsDetails = ({
   dateInputPostfix,
   dateOfMonth,
+  onSubscribeNowClick,
   onUpdateSalesSettingsItem,
   paymentTerms,
   region,
@@ -32,15 +33,15 @@ const SalesSettingsPaymentsDetails = ({
   const paymentTerm = (
     <FieldGroup label="Default payment terms">
       <p>
-          Choose the default payment terms for your invoices.
-          You can always change these terms when creating an invoice.
+        Choose the default payment terms for your invoices.
+        You can always change these terms when creating an invoice.
       </p>
 
       <Select
-        name="paymentType"
         label="Payment is"
-        value={salesSettings.paymentType}
+        name="paymentType"
         onChange={handleInputChange(onUpdateSalesSettingsItem)}
+        value={salesSettings.paymentType}
       >
         {
           paymentTerms.map(({ name, value }) => (
@@ -50,24 +51,24 @@ const SalesSettingsPaymentsDetails = ({
 
       { showDateField && (
         <Field
-          label="Date input field"
           hideLabel
+          label="Date input field"
           renderField={() => (
             <div className={styles.dateInput}>
               {
                 showDateInput ? (
                   <input
-                    name="numberOfDaysForBalanceDue"
                     className="form-control"
-                    value={salesSettings.numberOfDaysForBalanceDue}
+                    name="numberOfDaysForBalanceDue"
                     onChange={handleInputChange(onUpdateSalesSettingsItem)}
+                    value={salesSettings.numberOfDaysForBalanceDue}
                   />
                 ) : (
                   <select
-                    name="numberOfDaysForBalanceDue"
                     className="form-control"
-                    value={salesSettings.numberOfDaysForBalanceDue}
+                    name="numberOfDaysForBalanceDue"
                     onChange={handleInputChange(onUpdateSalesSettingsItem)}
+                    value={salesSettings.numberOfDaysForBalanceDue}
                   >
                     {dateOfMonth.map(({ name, value }) => (
                       <option key={value} value={value}>{name}</option>
@@ -94,7 +95,10 @@ const SalesSettingsPaymentsDetails = ({
         Select the payment options you want to include on your sales invoice.
       </p>
 
-      <PaymentOptions onUpdateSalesSettingsItem={onUpdateSalesSettingsItem} />
+      <PaymentOptions
+        onSubscribeNowClick={onSubscribeNowClick}
+        onUpdateSalesSettingsItem={onUpdateSalesSettingsItem}
+      />
     </FieldGroup>
   );
 

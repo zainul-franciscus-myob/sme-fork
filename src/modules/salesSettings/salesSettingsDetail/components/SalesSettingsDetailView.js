@@ -21,20 +21,21 @@ import SalesSettingsTemplateDetails from './SalesSettingsTemplateDetails';
 import Tabs from '../../../../components/Tabs/Tabs';
 
 const SalesSettingsDetailView = ({
+  alert,
   loadingState,
+  modalType,
+  onCloseModal,
+  onConfirmDeleteTemplate,
+  onConfirmSwitchTab,
+  onDismissAlert,
+  onSalesSettingsSave,
+  onSaveEmailSettings,
+  onSubscribeNowClick,
+  onTabSelect,
+  onUpdateEmailSettings,
+  onUpdateSalesSettingsItem,
   selectedTab,
   showActions,
-  modalType,
-  onDismissAlert,
-  alert,
-  onUpdateSalesSettingsItem,
-  onSalesSettingsSave,
-  onTabSelect,
-  onConfirmSwitchTab,
-  onConfirmDeleteTemplate,
-  onCloseModal,
-  onUpdateEmailSettings,
-  onSaveEmailSettings,
   templateHandlers,
 }) => {
   const Content = {
@@ -48,6 +49,7 @@ const SalesSettingsDetailView = ({
   const contentProps = {
     [mainTabIds.payments]: {
       onUpdateSalesSettingsItem,
+      onSubscribeNowClick,
     },
     [mainTabIds.layoutAndTheme]: {
       onUpdateSalesSettingsItem,
@@ -69,8 +71,8 @@ const SalesSettingsDetailView = ({
   const subHeadTabs = (
     <Tabs
       items={mainTabItems}
-      selected={selectedTab}
       onSelected={onTabSelect}
+      selected={selectedTab}
     />
   );
 
@@ -81,42 +83,40 @@ const SalesSettingsDetailView = ({
   );
 
   const view = (
-    <React.Fragment>
+    <>
       {
         modalType && (
           <SaleSettingsModal
             modalType={modalType}
             onCloseModal={onCloseModal}
-            onConfirmSwitchTab={onConfirmSwitchTab}
             onConfirmDeleteTemplate={onConfirmDeleteTemplate}
+            onConfirmSwitchTab={onConfirmSwitchTab}
           />
         )
       }
       <FormTemplate
         alert={alertComponent}
-        sticky="none"
         pageHead="Invoice and quote settings"
+        sticky="none"
       >
         {subHeadTabs}
+
         <Content {...contentProps} />
-        {showActions && (
-          <SalesSettingsDetailActions onSaveButtonClick={saveHandler} />
-        )}
+
+        {showActions && <SalesSettingsDetailActions onSaveButtonClick={saveHandler} />}
       </FormTemplate>
-    </React.Fragment>
+    </>
   );
 
-  return (
-    <PageView loadingState={loadingState} view={view} />
-  );
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
-  loadingState: getLoadingState(state),
   alert: getAlert(state),
+  loadingState: getLoadingState(state),
+  modalType: getModalType(state),
   selectedTab: getSelectedTab(state),
   showActions: getShowActions(state),
-  modalType: getModalType(state),
 });
 
 export default connect(mapStateToProps)(SalesSettingsDetailView);
