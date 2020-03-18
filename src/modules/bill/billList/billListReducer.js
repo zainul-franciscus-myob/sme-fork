@@ -29,7 +29,6 @@ const defaultFilterOptions = {
 const getDefaultState = () => ({
   settingsVersion: '84650621-cb7b-4405-8c69-a61e0be4b896',
   filterOptions: defaultFilterOptions,
-  appliedFilterOptions: defaultFilterOptions,
   defaultFilterOptions,
   supplierFilters: [],
   statusFilters: [],
@@ -79,10 +78,6 @@ const setInitialStateWithQueryParams = (context, initialState) => {
       ...initialState.filterOptions,
       ...updatedFilterOptions,
     },
-    appliedFilterOptions: {
-      ...initialState.appliedFilterOptions,
-      ...updatedFilterOptions,
-    },
     orderBy: orderBy || initialState.orderBy,
     sortOrder: sortOrder || initialState.sortOrder,
   });
@@ -96,7 +91,6 @@ const setInitialStateWithSettings = (context, settings, initialState) => ({
   ...initialState,
   ...context,
   filterOptions: settings.filterOptions,
-  appliedFilterOptions: settings.filterOptions,
   sortOrder: settings.sortOrder,
   orderBy: settings.orderBy,
 });
@@ -188,9 +182,6 @@ const sortAndFilterBillList = (state, action) => ({
   total: action.total,
   totalDue: action.totalDue,
   totalOverdue: action.totalOverdue,
-  appliedFilterOptions: action.isSort
-    ? state.appliedFilterOptions
-    : state.filterOptions,
   pagination: {
     ...action.pagination,
   },

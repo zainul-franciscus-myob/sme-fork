@@ -9,6 +9,7 @@ import Store from '../../../store/Store';
 import contactListReducer from './contactListReducer';
 import createContactListDispatcher from './createContactListDispatcher';
 import createContactListIntegrator from './createContactListIntegrator';
+import debounce from '../../../common/debounce/debounce';
 
 const messageTypes = [
   SUCCESSFULLY_DELETED_CONTACT, SUCCESSFULLY_SAVED_CONTACT,
@@ -33,9 +34,8 @@ export default class ContactListModule {
         <ContactListView
           onAddContactButtonClick={this.redirectToAddContact}
           onDismissAlert={this.dispatcher.dismissAlert}
-          onUpdateFilters={this.dispatcher.updateFilterOptions}
-          onApplyFilter={this.filterContactList}
-          onSort={this.sortContactList}
+          onUpdateFilters={this.updateFilterOptions}
+          onSort={this.updateSortOrder}
           onLoadMoreButtonClick={this.loadContactListNextPage}
           // Disabled until decision on whether Reset link will be on all list screens
           // onResetFilter={this.resetFilters}
@@ -43,6 +43,16 @@ export default class ContactListModule {
       </Provider>
     );
     this.setRootView(view);
+  };
+
+  updateFilterOptions = ({ filterName, value }) => {
+    this.dispatcher.updateFilterOptions({ filterName, value });
+
+    if (filterName === 'keywords') {
+      this.debouncedSortAndFilterContactList();
+    } else {
+      this.sortAndFilterContactList();
+    }
   };
 
   loadContactList = () => {
@@ -74,12 +84,12 @@ export default class ContactListModule {
     this.integrator.loadContactListNextPage({ onSuccess, onFailure });
   };
 
-  filterContactList = () => {
+  sortAndFilterContactList = () => {
     this.dispatcher.setTableLoadingState(true);
 
     const onSuccess = ({ entries, pagination }) => {
       this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.sortAndFilterContactList({ entries, isSort: false, pagination });
+      this.dispatcher.sortAndFilterContactList({ entries, pagination });
     };
 
     const onFailure = ({ message }) => {
@@ -87,34 +97,22 @@ export default class ContactListModule {
       this.dispatcher.setAlert({ message, type: 'danger' });
     };
 
-    this.integrator.filterContactList({ onSuccess, onFailure });
+    this.integrator.sortAndFilterContactList({ onSuccess, onFailure });
   };
 
-  sortContactList = (orderBy) => {
-    this.dispatcher.setTableLoadingState(true);
+  debouncedSortAndFilterContactList = debounce(this.sortAndFilterContactList);
 
+  updateSortOrder = (orderBy) => {
     const state = this.store.getState();
     const newSortOrder = orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
     this.dispatcher.setSortOrder(orderBy, newSortOrder);
 
-    const onSuccess = ({ entries, pagination }) => {
-      this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.sortAndFilterContactList({ entries, isSort: true, pagination });
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.setAlert({ message, type: 'danger' });
-    };
-
-    this.integrator.sortContactList({
-      orderBy, sortOrder: newSortOrder, onSuccess, onFailure,
-    });
+    this.sortAndFilterContactList();
   };
 
   resetFilters = () => {
     this.dispatcher.resetFilters();
-    this.filterContactList();
+    this.sortAndFilterContactList();
   }
 
   readMessages = () => {

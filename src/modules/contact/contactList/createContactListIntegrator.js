@@ -3,7 +3,6 @@ import {
   getContactListUrlParams,
   getFilterContactListParams,
   getLoadContactListNextPageParams,
-  getSortContactListParams,
 } from './contactListSelector';
 
 const createContactListIntegrator = (store, integration) => ({
@@ -18,25 +17,12 @@ const createContactListIntegrator = (store, integration) => ({
       intent, urlParams, params, onSuccess, onFailure,
     });
   },
-  filterContactList: ({ onSuccess, onFailure }) => {
+  sortAndFilterContactList: ({ onSuccess, onFailure }) => {
     const intent = SORT_AND_FILTER_CONTACT_LIST;
 
     const state = store.getState();
     const urlParams = getContactListUrlParams(state);
     const params = getFilterContactListParams(state);
-
-    integration.read({
-      intent, urlParams, params, onSuccess, onFailure,
-    });
-  },
-  sortContactList: ({
-    orderBy, sortOrder, onSuccess, onFailure,
-  }) => {
-    const intent = SORT_AND_FILTER_CONTACT_LIST;
-
-    const state = store.getState();
-    const urlParams = getContactListUrlParams(state);
-    const params = getSortContactListParams(state, orderBy, sortOrder);
 
     integration.read({
       intent, urlParams, params, onSuccess, onFailure,

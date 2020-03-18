@@ -1,9 +1,9 @@
+import { FilterBar } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getAccountOptions, getFilterOptions } from '../BankStatementImportListSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
-import FilterBar from '../../../../components/Feelix/FilterBar/FilterBar';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import styles from './BankStatementImportListFilterOptions.module.css';
 
@@ -13,9 +13,8 @@ const BankStatementImportListFilterOptions = ({
     accountId,
   },
   onUpdateFilterBarOptions,
-  onApplyFilter,
 }) => (
-  <FilterBar onApply={onApplyFilter}>
+  <FilterBar>
     <div className={styles.account}>
       <AccountCombobox
         label="Bank account"

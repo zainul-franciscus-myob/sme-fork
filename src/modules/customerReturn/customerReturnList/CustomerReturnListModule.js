@@ -17,6 +17,7 @@ import Store from '../../../store/Store';
 import createCustomerReturnListDispatcher from './createCustomerReturnListDispatcher';
 import createCustomerReturnListIntegrator from './createCustomerReturnListIntegrator';
 import customerReturnListReducer from './customerReturnListReducer';
+import debounce from '../../../common/debounce/debounce';
 
 const messageTypes = [SUCCESSFULLY_SAVED_PAY_REFUND, SUCCESSFULLY_SAVED_APPLY_TO_SALE];
 
@@ -75,12 +76,12 @@ export default class CustomerReturnListModule {
     this.integrator.loadCustomerReturnList({ onSuccess, onFailure });
   };
 
-  filterCustomerReturnList = () => {
+  sortAndFilterCustomerReturnList = () => {
     this.dispatcher.setTableLoadingState(true);
 
     const onSuccess = ({ entries, totalAmount, totalCreditAmount }) => {
       this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.filterCustomerReturnList({
+      this.dispatcher.sortAndFilterCustomerReturnList({
         entries,
         totalAmount,
         totalCreditAmount,
@@ -94,47 +95,35 @@ export default class CustomerReturnListModule {
       });
     };
 
-    this.integrator.filterCustomerReturnList({ onSuccess, onFailure });
+    this.integrator.sortAndFilterCustomerReturnList({ onSuccess, onFailure });
   };
 
-  sortCustomerReturnList = (orderBy) => {
+  debouncedSortAndFilterCustomerReturnList = debounce(this.sortAndFilterCustomerReturnList);
+
+  updateSortOrder = (orderBy) => {
     const state = this.store.getState();
-
-    this.dispatcher.setTableLoadingState(true);
-
     const newSortOrder = getNewSortOrder(orderBy)(state);
     this.dispatcher.setSortOrder(orderBy, newSortOrder);
 
-    const onSuccess = ({ entries, totalAmount, totalCreditAmount }) => {
-      this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.sortCustomerReturnList({ entries, totalAmount, totalCreditAmount });
-    };
-
-    const onFailure = (error) => {
-      this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.setAlert({
-        message: error.message, type: 'danger',
-      });
-    };
-
-    this.integrator.sortCustomerReturnList({
-      orderBy,
-      onSuccess,
-      onFailure,
-    });
+    this.sortAndFilterCustomerReturnList();
   };
 
   updateFilterBarOptions = ({ key, value }) => {
     this.dispatcher.updateFilterBarOptions({ key, value });
-  }
+
+    if (key === 'keywords') {
+      this.debouncedSortAndFilterCustomerReturnList();
+    } else {
+      this.sortAndFilterCustomerReturnList();
+    }
+  };
 
   render = () => {
     const View = (
       <CustomerReturnListView
         onUpdateFilterBarOptions={this.updateFilterBarOptions}
-        onApplyFilter={this.filterCustomerReturnList}
         onDismissAlert={this.dispatcher.dismissAlert}
-        onSort={this.sortCustomerReturnList}
+        onSort={this.updateSortOrder}
         onCreateRefundClick={this.redirectToCreateRefund}
         onCreateApplyToSaleClick={this.redirectToCreateApplyToSale}
       />

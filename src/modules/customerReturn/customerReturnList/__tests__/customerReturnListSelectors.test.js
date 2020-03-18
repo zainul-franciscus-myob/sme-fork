@@ -59,7 +59,7 @@ describe('customerReturnListSelectors', () => {
           customerId: undefined,
           keywords: '',
         },
-        appliedFilterOptions: {
+        filterOptions: {
           customerId: undefined,
           keywords: '',
         },
@@ -69,14 +69,14 @@ describe('customerReturnListSelectors', () => {
 
       expect(actual).toEqual(TableBodyType.EMPTY);
     });
-    it('returns TableBodyType.NO_RESULTS when there are no entries with applied filter options', () => {
+    it('returns TableBodyType.NO_RESULTS when there are no entries with filter options', () => {
       const state = {
         entries: [],
         defaultFilterOptions: {
           customerId: undefined,
           keywords: '',
         },
-        appliedFilterOptions: {
+        filterOptions: {
           customerId: 'some customer',
           keywords: 'abc',
         },

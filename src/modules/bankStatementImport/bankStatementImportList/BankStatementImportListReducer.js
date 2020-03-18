@@ -26,9 +26,6 @@ const getDefaultState = () => ({
   filterOptions: {
     accountId: '',
   },
-  appliedFilterOptions: {
-    accountId: '',
-  },
   sortOrder: 'desc',
   orderBy: 'ImportedDate',
   entries: [],
@@ -45,7 +42,6 @@ const loadBankStatementImportList = (state, {
   ...state,
   accountOptions,
   filterOptions,
-  appliedFilterOptions: filterOptions,
   entries,
 });
 
@@ -57,10 +53,9 @@ const updateFilterBarOptions = (state, { key, value }) => ({
   },
 });
 
-const sortAndFilterBankStatementImportList = (state, { entries, isSort }) => ({
+const sortAndFilterBankStatementImportList = (state, { entries }) => ({
   ...state,
   entries,
-  appliedFilterOptions: isSort ? state.appliedFilterOptions : state.filterOptions,
 });
 
 const setTableLoadingState = (state, { isTableLoading }) => ({
@@ -98,7 +93,7 @@ const setModalType = (state, { modalType }) => ({
   ...state,
   modalType,
   importModal: modalType === ModalTypes.IMPORT ? {
-    accountId: state.appliedFilterOptions.accountId,
+    accountId: state.filterOptions.accountId,
   } : undefined,
 });
 

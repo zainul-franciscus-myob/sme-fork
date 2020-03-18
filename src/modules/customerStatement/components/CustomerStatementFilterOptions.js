@@ -1,12 +1,11 @@
 import {
-  Card, Checkbox, CheckboxGroup, DatePicker, Select,
+  Card, Checkbox, CheckboxGroup, DatePicker, FilterBar, Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getCustomerOptions, getFilterOptions, getTemplateAdditionalOptions } from '../selectors/customerStatementListSelectors';
 import CustomerCombobox from '../../../components/combobox/CustomerCombobox';
-import FilterBar from '../../../components/Feelix/FilterBar/FilterBar';
 import StatementType from '../StatementType';
 import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import handleDateChange from '../../../components/handlers/handleDateChange';
@@ -33,7 +32,6 @@ const CustomerStatementFilterOptions = ({
     showZeroAmount,
   },
   customerOptions,
-  onApplyFilters,
   onUpdateFilters,
   onUpdateTemplateAdditionalOptions,
 }) => {
@@ -84,7 +82,7 @@ const CustomerStatementFilterOptions = ({
 
   const invoiceFilterOptions = (
     <>
-      <FilterBar onApply={onApplyFilters}>
+      <FilterBar>
         {statementTypeSelect}
         <DatePicker
           name="statementDate"
@@ -115,7 +113,7 @@ const CustomerStatementFilterOptions = ({
 
   const activityFilterOptions = (
     <>
-      <FilterBar onApply={onApplyFilters}>
+      <FilterBar>
         {statementTypeSelect}
         <DatePicker
           name="fromDate"

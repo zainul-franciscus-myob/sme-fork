@@ -1,6 +1,6 @@
+import { FilterBar } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
-
 
 import {
   getCustomerFilterOptions,
@@ -9,7 +9,6 @@ import {
   getTotalCreditAmount,
 } from '../CustomerReturnListSelectors';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
-import FilterBar from '../../../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 import styles from './CustomerReturnListFilterOptions.module.css';
@@ -18,7 +17,6 @@ const handleComboboxChange = (key, handler) => ({ value } = {}) => handler({ key
 
 const CustomerReturnListFilterOptions = ({
   onUpdateFilterBarOptions,
-  onApplyFilter,
   totalAmount,
   totalCreditAmount,
   customerFilterOptions,
@@ -28,7 +26,7 @@ const CustomerReturnListFilterOptions = ({
   },
 }) => (
   <React.Fragment>
-    <FilterBar onApply={onApplyFilter}>
+    <FilterBar>
       <div className={styles.customerCombobox}>
         <CustomerCombobox
           label="Customer"

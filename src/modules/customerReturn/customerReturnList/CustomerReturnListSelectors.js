@@ -24,10 +24,8 @@ export const getOrderBy = state => state.orderBy;
 
 export const getSortOrder = state => state.sortOrder;
 
-export const getAppliedFilterOptions = state => state.appliedFilterOptions;
-
 export const getSettings = createSelector(
-  getAppliedFilterOptions,
+  getFilterOptions,
   getSortOrder,
   getOrderBy,
   (filterOptions, sortOrder, orderBy) => ({
@@ -60,14 +58,14 @@ export const isDefaultFilters = ({
 const getDefaultFilterOptions = state => state.defaultFilterOptions;
 
 export const getTableBodyState = createSelector(
-  getAppliedFilterOptions,
+  getFilterOptions,
   getDefaultFilterOptions,
   getEntries,
-  (appliedFilterOptions, defaultFilterOptions, entries) => {
+  (filterOptions, defaultFilterOptions, entries) => {
     if (entries.length > 0) {
       return TableBodyType.TABLE;
     }
-    if (isDefaultFilters(appliedFilterOptions, defaultFilterOptions)) {
+    if (isDefaultFilters(filterOptions, defaultFilterOptions)) {
       return TableBodyType.EMPTY;
     }
     return TableBodyType.NO_RESULTS;

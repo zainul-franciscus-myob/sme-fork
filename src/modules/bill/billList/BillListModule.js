@@ -20,7 +20,6 @@ import {
 } from '../billDetail/types/BillMessageTypes';
 import {
   flipSortOrder,
-  getAppliedFilterOptions,
   getBusinessId,
   getFilterOptions,
   getOffset,
@@ -35,6 +34,7 @@ import LoadingState from '../../../components/PageView/LoadingState';
 import RouteName from '../../../router/RouteName';
 import Store from '../../../store/Store';
 import billListReducer from './billListReducer';
+import debounce from '../../../common/debounce/debounce';
 
 const messageTypes = [
   SUCCESSFULLY_DELETED_BILL,
@@ -57,8 +57,7 @@ export default class BillListModule {
     const billListView = (
       <BillListView
         onUpdateFilters={this.updateFilterOptions}
-        onApplyFilter={this.filterBillList}
-        onSort={this.sortBillList}
+        onSort={this.updateSortOrder}
         onDismissAlert={this.dismissAlert}
         onCreateButtonClick={this.redirectToCreateNewBill}
         onLoadMoreButtonClick={this.loadBillListNextPage}
@@ -128,7 +127,7 @@ export default class BillListModule {
     });
   };
 
-  filterBillList = () => {
+  sortAndFilterBillList = () => {
     const state = this.store.getState();
 
     this.setTableLoadingState(true);
@@ -145,7 +144,6 @@ export default class BillListModule {
       this.setTableLoadingState(false);
       this.store.dispatch({
         intent,
-        isSort: false,
         pagination,
         entries,
         totalDue,
@@ -177,6 +175,8 @@ export default class BillListModule {
     });
   };
 
+  debouncedSortAndFilterBillList = debounce(this.sortAndFilterBillList);
+
   setAlert = ({ message, type }) => {
     this.store.dispatch({
       intent: SET_ALERT,
@@ -187,11 +187,19 @@ export default class BillListModule {
     });
   };
 
-  updateFilterOptions = ({ key, value }) => this.store.dispatch({
-    intent: UPDATE_FILTER_OPTIONS,
-    filterName: key,
-    value,
-  });
+  updateFilterOptions = ({ key, value }) => {
+    this.store.dispatch({
+      intent: UPDATE_FILTER_OPTIONS,
+      filterName: key,
+      value,
+    });
+
+    if (key === 'keywords') {
+      this.debouncedSortAndFilterBillList();
+    } else {
+      this.sortAndFilterBillList();
+    }
+  };
 
   startLoadingMore = () => {
     this.store.dispatch({
@@ -248,51 +256,12 @@ export default class BillListModule {
     });
   }
 
-  sortBillList = (orderBy) => {
+  updateSortOrder = (orderBy) => {
     const state = this.store.getState();
-    this.setTableLoadingState(true);
-
     const newSortOrder = orderBy === getOrderBy(state) ? flipSortOrder(state) : 'asc';
     this.setSortOrder(orderBy, newSortOrder);
 
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    const intent = SORT_AND_FILTER_BILL_LIST;
-    const onSuccess = ({
-      entries, total, totalDue, pagination, totalOverdue,
-    }) => {
-      this.setTableLoadingState(false);
-      this.store.dispatch({
-        intent,
-        entries,
-        isSort: true,
-        total,
-        totalDue,
-        totalOverdue,
-        pagination,
-      });
-    };
-
-    const onFailure = ({ message }) => {
-      this.setTableLoadingState(false);
-      this.setAlert({ message, type: 'danger' });
-    };
-
-    const filterOptions = getAppliedFilterOptions(state);
-    this.integration.read({
-      intent,
-      urlParams,
-      params: {
-        ...filterOptions,
-        sortOrder: newSortOrder,
-        orderBy,
-        offset: 0,
-      },
-      onSuccess,
-      onFailure,
-    });
+    this.sortAndFilterBillList();
   };
 
   setSortOrder = (orderBy, newSortOrder) => {

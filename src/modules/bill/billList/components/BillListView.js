@@ -47,7 +47,6 @@ const BillListView = (props) => {
     loadMoreButtonStatus,
     onDismissAlert,
     onUpdateFilters,
-    onApplyFilter,
     onSort,
     onCreateButtonClick,
     onLoadMoreButtonClick,
@@ -62,7 +61,6 @@ const BillListView = (props) => {
   const filterBar = (
     <BillListFilterOptions
       onUpdateFilters={onUpdateFilters}
-      onApplyFilter={onApplyFilter}
     />
   );
 

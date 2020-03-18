@@ -1,4 +1,4 @@
-import { DatePicker, Select } from '@myob/myob-widgets';
+import { DatePicker, FilterBar, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classnames from 'classnames';
@@ -12,7 +12,6 @@ import {
   getTotalDue,
   getTotalOverdue,
 } from '../billListSelectors';
-import FilterBar from '../../../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
 import SupplierCombobox from '../../../../components/combobox/SupplierCombobox';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
@@ -35,11 +34,10 @@ const BillListFilterOptions = ({
   totalDue,
   totalOverdue,
   hasOverdue,
-  onApplyFilter,
   onUpdateFilters,
 }) => (
   <React.Fragment>
-    <FilterBar onApply={onApplyFilter}>
+    <FilterBar>
       <Select name="status" label="Status" value={status} onChange={handleSelectChange(onUpdateFilters)}>
         {statusFilterOptions.map(({ name, value }) => (
           <Select.Option value={value} label={name} key={value} />

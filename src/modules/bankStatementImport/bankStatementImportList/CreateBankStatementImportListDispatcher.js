@@ -57,10 +57,9 @@ const CreateBankStatementImportListDispatcher = store => ({
     ...response,
   }),
 
-  sortAndFilterBankStatementImportList: (entries, isSort) => store.dispatch({
+  sortAndFilterBankStatementImportList: (entries) => store.dispatch({
     intent: SORT_AND_FILTER_BANK_STATEMENT_IMPORT_LIST,
     entries,
-    isSort,
   }),
 
   importBankStatement: () => store.dispatch({

@@ -140,21 +140,21 @@ describe('CustomerReturnListModule', () => {
     });
   });
 
-  describe('sortCustomerReturnList', () => {
+  describe('updateSortOrder', () => {
     it('successfully sorts', () => {
       const { store, integration, module } = setupWithRun();
 
-      module.sortCustomerReturnList('DisplayId');
+      module.updateSortOrder('DisplayId');
 
       expect(store.getActions()).toEqual([
-        {
-          intent: SET_TABLE_LOADING_STATE,
-          isTableLoading: true,
-        },
         {
           intent: SET_SORT_ORDER,
           sortOrder: 'asc',
           orderBy: 'DisplayId',
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: true,
         },
         {
           intent: SET_TABLE_LOADING_STATE,
@@ -176,17 +176,17 @@ describe('CustomerReturnListModule', () => {
       const { store, integration, module } = setupWithRun();
       integration.mapFailure(SORT_AND_FILTER_CUSTOMER_RETURN_LIST);
 
-      module.sortCustomerReturnList('DisplayId');
+      module.updateSortOrder('DisplayId');
 
       expect(store.getActions()).toEqual([
-        {
-          intent: SET_TABLE_LOADING_STATE,
-          isTableLoading: true,
-        },
         {
           intent: SET_SORT_ORDER,
           sortOrder: 'asc',
           orderBy: 'DisplayId',
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: true,
         },
         {
           intent: SET_TABLE_LOADING_STATE,
@@ -211,7 +211,7 @@ describe('CustomerReturnListModule', () => {
     it('flips the sorting order, when ordering by the same key', () => {
       const { store, integration, module } = setupWithRun();
 
-      module.sortCustomerReturnList('DisplayId');
+      module.updateSortOrder('DisplayId');
       expect(store.getActions()).toContainEqual(
         {
           intent: SET_SORT_ORDER,
@@ -223,7 +223,7 @@ describe('CustomerReturnListModule', () => {
       store.resetActions();
       integration.resetRequests();
 
-      module.sortCustomerReturnList('DisplayId');
+      module.updateSortOrder('DisplayId');
       expect(store.getActions()).toContainEqual(
         {
           intent: SET_SORT_ORDER,
@@ -234,11 +234,11 @@ describe('CustomerReturnListModule', () => {
     });
   });
 
-  describe('filterCustomerReturnList', () => {
+  describe('sortAndFilterCustomerReturnList', () => {
     it('successfully apply filter', () => {
       const { store, integration, module } = setupWithRun();
 
-      module.filterCustomerReturnList();
+      module.sortAndFilterCustomerReturnList();
 
       expect(store.getActions()).toEqual([
         {
@@ -265,7 +265,7 @@ describe('CustomerReturnListModule', () => {
       const { store, integration, module } = setupWithRun();
       integration.mapFailure(SORT_AND_FILTER_CUSTOMER_RETURN_LIST);
 
-      module.filterCustomerReturnList();
+      module.sortAndFilterCustomerReturnList();
 
       expect(store.getActions()).toEqual([
         {
@@ -294,8 +294,8 @@ describe('CustomerReturnListModule', () => {
   });
 
   describe('updateFilterOptions', () => {
-    it('updates key with value', () => {
-      const { module, store } = setup();
+    it('updates filter options and triggers filtering', () => {
+      const { module, integration, store } = setupWithRun();
       module.updateFilterBarOptions({ key: '🔑', value: '🐼' });
 
       expect(store.getActions()).toEqual([
@@ -304,6 +304,22 @@ describe('CustomerReturnListModule', () => {
           value: '🐼',
           intent: UPDATE_FILTER_BAR_OPTIONS,
         },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: true,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: false,
+        },
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_CUSTOMER_RETURN_LIST,
+        }),
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_CUSTOMER_RETURN_LIST,
+        }),
       ]);
     });
   });

@@ -8,9 +8,6 @@ describe('customerReturnListReducer', () => {
         filterOptions: {
           customerId: 'some customerId',
         },
-        appliedFilterOptions: {
-          customerId: 'some customerId',
-        },
       };
 
       const action = {
@@ -30,7 +27,6 @@ describe('customerReturnListReducer', () => {
       const expected = 'some customerId';
 
       expect(actual.filterOptions.customerId).toEqual(expected);
-      expect(actual.appliedFilterOptions.customerId).toEqual(expected);
     });
   });
 });

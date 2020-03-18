@@ -22,7 +22,6 @@ export const getEmailSubject = state => state.emailModalOptions.subject;
 export const getEmailMessage = state => state.emailModalOptions.message;
 export const getModal = state => state.modal;
 export const getAlert = state => state.alert;
-export const getAppliedFilterOptions = state => state.appliedFilterOptions;
 
 export const getDefaultTemplateOption = state => (
   getStatementType(state) === StatementType.INVOICE
@@ -126,7 +125,7 @@ const getFlipSortOrder = ({ sortOrder }) => (sortOrder === 'desc' ? 'asc' : 'des
 export const getNewSortOrder = (state, orderBy) => (orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc');
 
 export const getSettings = createSelector(
-  getAppliedFilterOptions,
+  getFilterOptions,
   getTemplateAdditionalOptions,
   getSortOrder,
   getOrderBy,
@@ -149,10 +148,10 @@ export const getFileName = (state) => {
 export const getDefaultFilterOptions = ({ defaultFilterOptions }) => defaultFilterOptions;
 
 export const getIsDefaultFilters = createSelector(
-  getAppliedFilterOptions,
+  getFilterOptions,
   getDefaultFilterOptions,
-  (appliedFilterOptions, defaultFilterOptions) => shallowCompare(
-    appliedFilterOptions, defaultFilterOptions,
+  (filterOptions, defaultFilterOptions) => shallowCompare(
+    filterOptions, defaultFilterOptions,
   ),
 );
 

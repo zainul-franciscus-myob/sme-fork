@@ -49,9 +49,9 @@ const createContactListDispatcher = store => ({
   loadContactListNextPage: ({ entries, pagination }) => {
     store.dispatch({ intent: LOAD_CONTACT_LIST_NEXT_PAGE, entries, pagination });
   },
-  sortAndFilterContactList: ({ entries, isSort, pagination }) => {
+  sortAndFilterContactList: ({ entries, pagination }) => {
     store.dispatch({
-      intent: SORT_AND_FILTER_CONTACT_LIST, entries, isSort, pagination,
+      intent: SORT_AND_FILTER_CONTACT_LIST, entries, pagination,
     });
   },
 });

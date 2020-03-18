@@ -52,7 +52,6 @@ const getDefaultState = () => ({
   defaultFilterOptions,
   filterOptions: defaultFilterOptions,
   templateAdditionalOptions: defaultTemplateAdditionalOptions,
-  appliedFilterOptions: defaultFilterOptions,
   ...defaultSortingOption,
   emailModalOptions: {
     fromEmail: '',
@@ -94,10 +93,6 @@ const setInitialState = (state, {
     ...state.templateAdditionalOptions,
     ...settings.templateAdditionalOptions,
   },
-  appliedFilterOptions: {
-    ...state.appliedFilterOptions,
-    ...settings.filterOptions,
-  },
   sortOrder: settings.sortOrder,
   orderBy: settings.orderBy,
 });
@@ -107,10 +102,6 @@ const loadCustomerStatements = (state, { payload }) => ({
   filterOptions: {
     ...state.filterOptions,
     selectedCustomerId: state.filterOptions.selectedCustomerId,
-  },
-  appliedFilterOptions: {
-    ...state.appliedFilterOptions,
-    selectedCustomerId: state.appliedFilterOptions.selectedCustomerId,
   },
   customerStatements: payload.customerStatements,
   customerOptions: payload.customerOptions,
@@ -126,10 +117,9 @@ const loadCustomerStatements = (state, { payload }) => ({
   },
 });
 
-const sortAndFilterCustomerStatementList = (state, { payload, filterOptions }) => ({
+const sortAndFilterCustomerStatementList = (state, { payload }) => ({
   ...state,
   customerStatements: payload.customerStatements,
-  appliedFilterOptions: filterOptions,
 });
 
 const updateFilterOptions = (state, action) => ({

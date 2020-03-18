@@ -67,22 +67,12 @@ const createCustomerReturnListDispatcher = store => ({
     key,
     value,
   }),
-  filterCustomerReturnList: ({ entries, totalAmount, totalCreditAmount }) => {
+  sortAndFilterCustomerReturnList: ({ entries, totalAmount, totalCreditAmount }) => {
     store.dispatch({
       intent: SORT_AND_FILTER_CUSTOMER_RETURN_LIST,
       entries,
       totalAmount,
       totalCreditAmount,
-      isSort: false,
-    });
-  },
-  sortCustomerReturnList: ({ entries, totalAmount, totalCreditAmount }) => {
-    store.dispatch({
-      intent: SORT_AND_FILTER_CUSTOMER_RETURN_LIST,
-      entries,
-      totalAmount,
-      totalCreditAmount,
-      isSort: true,
     });
   },
 });

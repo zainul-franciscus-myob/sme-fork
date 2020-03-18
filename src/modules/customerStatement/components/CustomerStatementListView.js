@@ -14,7 +14,6 @@ const CustomerStatementListView = ({
   loadingState,
   modal,
   alert,
-  onApplyFilters,
   onUpdateFilters,
   onUpdateTemplateAdditionalOptions,
   onToggleAllCustomerStatements,
@@ -33,7 +32,6 @@ const CustomerStatementListView = ({
   const pageHead = <PageHead title="Customer statements" />;
   const filterOptions = (
     <CustomerStatementFilterOptions
-      onApplyFilters={onApplyFilters}
       onUpdateFilters={onUpdateFilters}
       onUpdateTemplateAdditionalOptions={onUpdateTemplateAdditionalOptions}
     />

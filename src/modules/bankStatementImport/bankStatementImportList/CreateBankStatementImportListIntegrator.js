@@ -5,7 +5,6 @@ import {
   SORT_AND_FILTER_BANK_STATEMENT_IMPORT_LIST,
 } from '../BankStatementImportIntents';
 import {
-  getAppliedFilterOptions,
   getBusinessId,
   getContentForImport,
   getFilterOptions,
@@ -32,10 +31,10 @@ const CreateBankStatementImportListIntegrator = (store, integration) => ({
     });
   },
 
-  sortAndFilterBankStatementImportList: ({ onSuccess, onFailure, isSort }) => {
+  sortAndFilterBankStatementImportList: ({ onSuccess, onFailure }) => {
     const state = store.getState();
 
-    const filterOptions = isSort ? getAppliedFilterOptions(state) : getFilterOptions(state);
+    const filterOptions = getFilterOptions(state);
     const sortOrder = getSortOrder(state);
     const orderBy = getOrderBy(state);
     const params = {

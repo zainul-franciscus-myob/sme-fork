@@ -1,9 +1,8 @@
-import { Checkbox, Select } from '@myob/myob-widgets';
+import { Checkbox, FilterBar, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getFilterOptions, getTypeFilterOptions } from '../contactListSelector';
-import FilterBar from '../../../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
 
 class ContactListFilterOptions extends React.Component {
@@ -34,12 +33,11 @@ class ContactListFilterOptions extends React.Component {
     const {
       filterOptions: { type, keywords, showInactive },
       typeFilterOptions,
-      onApplyFilter,
       onResetFilter,
     } = this.props;
 
     return (
-      <FilterBar onApply={onApplyFilter} onReset={onResetFilter}>
+      <FilterBar onReset={onResetFilter}>
         <Select
           name="type"
           label="Contact type"

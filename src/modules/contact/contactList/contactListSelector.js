@@ -10,7 +10,6 @@ export const getLoadingState = state => state.loadingState;
 export const getIsTableLoading = state => state.isTableLoading;
 export const getShowHiddenColumns = state => state.showHiddenColumns;
 export const getFilterOptions = state => state.filterOptions;
-export const getAppliedFilterOptions = state => state.appliedFilterOptions;
 export const getDefaultFilterOptions = state => state.defaultFilterOptions;
 export const getOrderBy = state => state.orderBy;
 export const getSortOrder = state => state.sortOrder;
@@ -45,10 +44,10 @@ export const getOrder = ({ sortOrder, orderBy }) => ({
 export const getFlipSortOrder = state => (state.sortOrder === 'desc' ? 'asc' : 'desc');
 
 export const getIsDefaultFilters = createSelector(
-  getAppliedFilterOptions,
+  getFilterOptions,
   getDefaultFilterOptions,
-  (appliedFilterOptions, defaultFilterOptions) => shallowCompare(
-    appliedFilterOptions, defaultFilterOptions,
+  (filterOptions, defaultFilterOptions) => shallowCompare(
+    filterOptions, defaultFilterOptions,
   ),
 );
 
@@ -109,12 +108,4 @@ export const getContactListUrlParams = (state) => {
   const businessId = getBusinessId(state);
 
   return { businessId };
-};
-
-export const getSortContactListParams = (state, orderBy, sortOrder) => {
-  const filterOptions = getAppliedFilterOptions(state);
-
-  return {
-    ...filterOptions, orderBy, sortOrder, offset: 0,
-  };
 };

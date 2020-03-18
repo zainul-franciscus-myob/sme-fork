@@ -30,8 +30,6 @@ export const getFilterOptions = ({ filterOptions }) => filterOptions;
 
 export const getDefaultFilterOptions = ({ defaultFilterOptions }) => defaultFilterOptions;
 
-export const getAppliedFilterOptions = ({ appliedFilterOptions }) => appliedFilterOptions;
-
 const getSettingsVersion = state => state.settingsVersion;
 
 export const getSupplierFilterOptions = state => state.supplierFilters;
@@ -98,7 +96,7 @@ export const getHasOverdue = createSelector(
 
 export const getSettings = createSelector(
   getSettingsVersion,
-  getAppliedFilterOptions,
+  getFilterOptions,
   getSortOrder,
   getOrderBy,
   (settingsVersion, filterOptions, sortOrder, orderBy) => ({
@@ -111,10 +109,10 @@ export const getSettings = createSelector(
 
 
 const getIsDefaultFilters = createSelector(
-  getAppliedFilterOptions,
+  getFilterOptions,
   getDefaultFilterOptions,
-  (appliedFilterOptions, defaultFilterOptions) => shallowCompare(
-    appliedFilterOptions,
+  (filterOptions, defaultFilterOptions) => shallowCompare(
+    filterOptions,
     defaultFilterOptions,
   ),
 );

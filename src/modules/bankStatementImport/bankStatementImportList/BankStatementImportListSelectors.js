@@ -4,7 +4,6 @@ export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 export const getLoadingState = state => state.loadingState;
 export const getFilterOptions = state => state.filterOptions;
-export const getAppliedFilterOptions = state => state.appliedFilterOptions;
 export const getIsTableLoading = state => state.isTableLoading;
 export const getIsSubmitting = state => state.isSubmitting;
 export const getOrderBy = state => state.orderBy;

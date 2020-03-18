@@ -26,7 +26,6 @@ const defaultFilterOptions = {
 const getDefaultState = () => ({
   defaultFilterOptions,
   filterOptions: defaultFilterOptions,
-  appliedFilterOptions: defaultFilterOptions,
   typeFilters: [],
   entries: [],
   alert: undefined,
@@ -59,10 +58,6 @@ const loadContactList = (state, action) => ({
     ...state.defaultFilterOptions,
     type: action.type,
   },
-  appliedFilterOptions: {
-    ...state.appliedFilterOptions,
-    type: action.type,
-  },
 });
 
 const setTableLoadingState = (state, action) => ({
@@ -88,7 +83,6 @@ const setAlert = (state, action) => ({
 const sortAndFilterContactList = (state, action) => ({
   ...state,
   entries: action.entries,
-  appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
   showHiddenColumns: state.filterOptions.showInactive,
   pagination: {
     hasNextPage: action.pagination.hasNextPage,

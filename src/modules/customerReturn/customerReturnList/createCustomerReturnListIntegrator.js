@@ -1,6 +1,5 @@
 import { LOAD_CUSTOMER_RETURN_LIST, SORT_AND_FILTER_CUSTOMER_RETURN_LIST } from '../CustomerReturnIntents';
 import {
-  getAppliedFilterOptions,
   getBusinessId,
   getFilterOptions,
   getOrderBy,
@@ -32,7 +31,7 @@ const createCustomerReturnListIntegrator = (store, integration) => ({
       onFailure,
     });
   },
-  filterCustomerReturnList: ({ onSuccess, onFailure }) => {
+  sortAndFilterCustomerReturnList: ({ onSuccess, onFailure }) => {
     const intent = SORT_AND_FILTER_CUSTOMER_RETURN_LIST;
 
     const state = store.getState();
@@ -47,30 +46,6 @@ const createCustomerReturnListIntegrator = (store, integration) => ({
     const params = {
       ...filterOptions,
       sortOrder,
-      orderBy,
-    };
-
-    integration.read({
-      intent,
-      urlParams,
-      params,
-      onSuccess,
-      onFailure,
-    });
-  },
-  sortCustomerReturnList: ({ orderBy, onSuccess, onFailure }) => {
-    const state = store.getState();
-
-    const intent = SORT_AND_FILTER_CUSTOMER_RETURN_LIST;
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    const filterOptions = getAppliedFilterOptions(state);
-    const params = {
-      ...filterOptions,
-      sortOrder: getSortOrder(state),
       orderBy,
     };
 

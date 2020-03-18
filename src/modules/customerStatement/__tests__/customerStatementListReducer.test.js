@@ -8,9 +8,6 @@ describe('customerStatementListReducer', () => {
         filterOptions: {
           selectedCustomerId: 'some-id',
         },
-        appliedFilterOptions: {
-          selectedCustomerId: 'some-id',
-        },
       };
 
       const action = {
@@ -29,7 +26,6 @@ describe('customerStatementListReducer', () => {
       const expected = 'some-id';
 
       expect(actual.filterOptions.selectedCustomerId).toEqual(expected);
-      expect(actual.appliedFilterOptions.selectedCustomerId).toEqual(expected);
     });
   });
 

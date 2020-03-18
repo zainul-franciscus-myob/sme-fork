@@ -41,10 +41,9 @@ const createCustomerStatementListDispatcher = store => ({
     payload,
   }),
 
-  sortAndFilterCustomerStatementList: (payload, filterOptions) => store.dispatch({
+  sortAndFilterCustomerStatementList: (payload) => store.dispatch({
     intent: SORT_AND_FILTER_CUSTOMER_STATEMENTS,
     payload,
-    filterOptions,
   }),
 
   updateFilterOptions: ({ key, value }) => store.dispatch({

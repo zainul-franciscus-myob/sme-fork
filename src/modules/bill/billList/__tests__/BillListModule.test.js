@@ -7,6 +7,7 @@ import {
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_BILL_LIST,
+  UPDATE_FILTER_OPTIONS,
 } from '../../BillIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import { START_LOADING_MORE, STOP_LOADING_MORE } from '../../billDetail/BillIntents';
@@ -144,21 +145,21 @@ describe('BillListModule', () => {
     });
   });
 
-  describe('sortBillList', () => {
+  describe('updateSortOrder', () => {
     it('successfully sort', () => {
       const { store, integration, module } = setupWithRun();
 
-      module.sortBillList('DisplayId');
+      module.updateSortOrder('DisplayId');
 
       expect(store.getActions()).toEqual([
-        {
-          intent: SET_TABLE_LOADING_STATE,
-          isTableLoading: true,
-        },
         {
           intent: SET_SORT_ORDER,
           sortOrder: 'asc',
           orderBy: 'DisplayId',
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: true,
         },
         {
           intent: SET_TABLE_LOADING_STATE,
@@ -180,18 +181,18 @@ describe('BillListModule', () => {
       const { store, integration, module } = setupWithRun();
       integration.mapFailure(SORT_AND_FILTER_BILL_LIST);
 
-      module.sortBillList('DisplayId');
+      module.updateSortOrder('DisplayId');
 
 
       expect(store.getActions()).toEqual([
         {
-          intent: SET_TABLE_LOADING_STATE,
-          isTableLoading: true,
-        },
-        {
           intent: SET_SORT_ORDER,
           sortOrder: 'asc',
           orderBy: 'DisplayId',
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: true,
         },
         {
           intent: SET_TABLE_LOADING_STATE,
@@ -215,8 +216,8 @@ describe('BillListModule', () => {
 
     it('flips the sorting order, when ordering by the same key', () => {
       const { store, module } = setupWithRun();
-      module.sortBillList('DisplayId');
-      module.sortBillList('DisplayId');
+      module.updateSortOrder('DisplayId');
+      module.updateSortOrder('DisplayId');
 
       expect(store.getActions()).toContainEqual(
         {
@@ -233,10 +234,10 @@ describe('BillListModule', () => {
     });
   });
 
-  describe('filterBillList', () => {
+  describe('sortAndFilterBillList', () => {
     it('successfully apply filter', () => {
       const { store, integration, module } = setupWithRun();
-      module.filterBillList();
+      module.sortAndFilterBillList();
 
       expect(store.getActions()).toEqual([
         {
@@ -264,7 +265,7 @@ describe('BillListModule', () => {
       const { store, integration, module } = setupWithRun();
       integration.mapFailure(SORT_AND_FILTER_BILL_LIST);
 
-      module.filterBillList();
+      module.sortAndFilterBillList();
 
       expect(store.getActions()).toEqual([
         {
@@ -342,6 +343,38 @@ describe('BillListModule', () => {
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: LOAD_BILL_LIST_NEXT_PAGE,
+        }),
+      ]);
+    });
+  });
+
+  describe('updateFilterOptions', () => {
+    it('updates filter options and triggers filtering', () => {
+      const { store, integration, module } = setupWithRun();
+      module.updateFilterOptions({ key: '🔑', value: '🐼' });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: UPDATE_FILTER_OPTIONS,
+          filterName: '🔑',
+          value: '🐼',
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: true,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: false,
+        },
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_BILL_LIST,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_BILL_LIST,
         }),
       ]);
     });

@@ -2,10 +2,8 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  getAppliedFilterOptions,
   getDefaultTemplateOption,
   getFileName,
-  getFilterOptions,
   getIsModalSubmitting,
   getNewSortOrder,
   getOpenedModalType,
@@ -48,15 +46,12 @@ export default class CustomerStatementListModule {
     this.integrator.loadCustomerStatementList({ onSuccess, onFailure });
   }
 
-  filterCustomerStatementList = () => {
-    const state = this.store.getState();
-    const filterOptions = getFilterOptions(state);
-
+  sortAndfilterCustomerStatementList = () => {
     this.dispatcher.setTableLoadingState(true);
 
     const onSuccess = (payload) => {
       this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.sortAndFilterCustomerStatementList(payload, filterOptions);
+      this.dispatcher.sortAndFilterCustomerStatementList(payload);
     };
 
     const onFailure = ({ message }) => {
@@ -65,28 +60,15 @@ export default class CustomerStatementListModule {
     };
 
     this.integrator.sortAndfilterCustomerStatementList({ onSuccess, onFailure });
-  }
+  };
 
-  sortCustomerStatementsList = (orderBy) => {
+  updateSortOrder = (orderBy) => {
     const state = this.store.getState();
     const newSortOrder = getNewSortOrder(state, orderBy);
-    const filterOptions = getAppliedFilterOptions(state);
-
-    this.dispatcher.setTableLoadingState(true);
     this.dispatcher.setSortOrder(orderBy, newSortOrder);
 
-    const onSuccess = (payload) => {
-      this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.sortAndFilterCustomerStatementList(payload, filterOptions);
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.setAlert({ type: 'danger', message });
-    };
-
-    this.integrator.sortAndfilterCustomerStatementList({ onSuccess, onFailure });
-  }
+    this.sortAndfilterCustomerStatementList();
+  };
 
   selectPDFOption = (pdfOption) => {
     if (pdfOption === PDFType.DEFAULT_TEMPLATE) {
@@ -94,7 +76,7 @@ export default class CustomerStatementListModule {
     } else if (pdfOption === PDFType.CHOOSE_TEMPLATE) {
       this.dispatcher.openModal(ModalType.PDF);
     }
-  }
+  };
 
   downloadDefaultPDF = () => {
     const state = this.store.getState();
@@ -184,11 +166,16 @@ export default class CustomerStatementListModule {
 
   dismissAlert = () => this.dispatcher.setAlert(undefined);
 
+  updateFilterOptions = ({ key, value }) => {
+    this.dispatcher.updateFilterOptions({ key, value });
+
+    this.sortAndfilterCustomerStatementList();
+  };
+
   render = () => {
     const view = (
       <CustomerStatementListView
-        onApplyFilters={this.filterCustomerStatementList}
-        onUpdateFilters={this.dispatcher.updateFilterOptions}
+        onUpdateFilters={this.updateFilterOptions}
         onUpdateTemplateAdditionalOptions={this.dispatcher.updateTemplateAdditionalOptions}
         onToggleAllCustomerStatements={this.dispatcher.toggleAllCustomerStatements}
         onSelectCustomerStatement={this.dispatcher.selectCustomerStatement}
@@ -201,7 +188,7 @@ export default class CustomerStatementListModule {
         onUpdateTemplateOption={this.dispatcher.updateTemplateOption}
         onSendEmail={this.sendEmail}
         onUpdateEmailOptions={this.dispatcher.updateEmailOption}
-        onSort={this.sortCustomerStatementsList}
+        onSort={this.updateSortOrder}
       />
     );
 

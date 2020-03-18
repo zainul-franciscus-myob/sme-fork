@@ -33,12 +33,12 @@ export default class BankStatementImportListModule {
     this.integrator.loadBankStatementImportList({ onSuccess, onFailure });
   };
 
-  filterBankStatementImportList = () => {
+  sortAndFilterBankStatementImportList = () => {
     this.dispatcher.setTableLoadingState(true);
 
     const onSuccess = ({ entries }) => {
       this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.sortAndFilterBankStatementImportList(entries, false);
+      this.dispatcher.sortAndFilterBankStatementImportList(entries);
     };
 
     const onFailure = ({ message }) => {
@@ -46,27 +46,21 @@ export default class BankStatementImportListModule {
       this.dispatcher.setAlert({ message, type: 'danger' });
     };
 
-    this.integrator.sortAndFilterBankStatementImportList({ onSuccess, onFailure, isSort: false });
+    this.integrator.sortAndFilterBankStatementImportList({ onSuccess, onFailure });
   };
 
-  sortBankStatementImportList = (orderBy) => {
+  updateSortOrder = (orderBy) => {
     const state = this.store.getState();
-    this.dispatcher.setTableLoadingState(true);
-
     const newSortOrder = getNewSortOrder(orderBy)(state);
     this.dispatcher.setSortOrder(orderBy, newSortOrder);
 
-    const onSuccess = ({ entries }) => {
-      this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.sortAndFilterBankStatementImportList(entries, true);
-    };
+    this.sortAndFilterBankStatementImportList();
+  };
 
-    const onFailure = ({ message }) => {
-      this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.setAlert({ message, type: 'danger' });
-    };
+  updateFilterBarOptions = ({ key, value }) => {
+    this.dispatcher.updateFilterBarOptions({ key, value });
 
-    this.integrator.sortAndFilterBankStatementImportList({ onSuccess, onFailure, isSort: true });
+    this.sortAndFilterBankStatementImportList();
   };
 
   openImportModal = () => this.dispatcher.setModalType(ModalTypes.IMPORT);
@@ -86,7 +80,7 @@ export default class BankStatementImportListModule {
       this.dispatcher.importBankStatement();
       this.dispatcher.setAlert({ message, type: 'success' });
       this.closeModal();
-      this.filterBankStatementImportList();
+      this.sortAndFilterBankStatementImportList();
     };
 
     const onFailure = ({ message }) => {
@@ -116,19 +110,24 @@ export default class BankStatementImportListModule {
     this.integrator.deleteBankStatement({ onSuccess, onFailure });
   };
 
+  updateFilterBarOptions = ({ key, value }) => {
+    this.dispatcher.updateFilterBarOptions({ key, value });
+
+    this.sortAndFilterBankStatementImportList();
+  };
+
   render = () => {
     const View = (
       <BankStatementImportListView
-        onUpdateFilterBarOptions={this.dispatcher.updateFilterBarOptions}
+        onUpdateFilterBarOptions={this.updateFilterBarOptions}
         onUpdateImportModal={this.dispatcher.updateImportModal}
         onImportButtonClick={this.openImportModal}
         onDeleteButtonClick={this.openDeleteModal}
         onConfirmImportButtonClick={this.importBankStatement}
         onConfirmDeleteButtonClick={this.deleteBankStatement}
         onCloseModal={this.closeModal}
-        onApplyFilter={this.filterBankStatementImportList}
         onDismissAlert={this.dispatcher.dismissAlert}
-        onSort={this.sortBankStatementImportList}
+        onSort={this.updateSortOrder}
       />
     );
 

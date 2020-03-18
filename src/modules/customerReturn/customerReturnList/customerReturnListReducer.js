@@ -29,7 +29,6 @@ const getDefaultState = () => ({
   isTableLoading: false,
   filterOptions: defaultFilterOptions,
   defaultFilterOptions,
-  appliedFilterOptions: defaultFilterOptions,
   sortOrder: '',
   orderBy: '',
   totalAmount: '',
@@ -49,10 +48,6 @@ const loadCustomerReturnList = (state, {
     ...state.filterOptions,
     customerId: state.filterOptions.customerId,
   },
-  appliedFilterOptions: {
-    ...state.appliedFilterOptions,
-    customerId: state.appliedFilterOptions.customerId,
-  },
   sortOrder: state.sortOrder || defaultSortingOption.sortOrder,
   orderBy: state.orderBy || defaultSortingOption.orderBy,
   customerFilterOptions: customerFilters,
@@ -68,13 +63,12 @@ const updateFilterBarOptions = (state, action) => ({
 
 const sortAndFilterCustomerReturnList = (state,
   {
-    entries, totalAmount, totalCreditAmount, isSort,
+    entries, totalAmount, totalCreditAmount,
   }) => ({
   ...state,
   entries,
   totalAmount,
   totalCreditAmount,
-  appliedFilterOptions: isSort ? state.appliedFilterOptions : state.filterOptions,
 });
 
 const setTableLoadingState = (state, action) => ({
@@ -110,10 +104,6 @@ const setInitalState = (state, {
   ...context,
   filterOptions: {
     ...state.filterOptions,
-    ...settings.filterOptions,
-  },
-  appliedFilterOptions: {
-    ...state.appliedFilterOptions,
     ...settings.filterOptions,
   },
   sortOrder: settings.sortOrder,

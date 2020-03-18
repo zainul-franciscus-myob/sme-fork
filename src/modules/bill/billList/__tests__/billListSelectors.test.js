@@ -164,7 +164,7 @@ describe('billListSelectors', () => {
         defaultFilterOptions: {
           status: 'All',
         },
-        appliedFilterOptions: {
+        filterOptions: {
           status: 'All',
         },
         entries: [1],
@@ -181,7 +181,7 @@ describe('billListSelectors', () => {
         defaultFilterOptions: {
           status: 'All',
         },
-        appliedFilterOptions: {
+        filterOptions: {
           status: 'All',
         },
       };
@@ -197,7 +197,7 @@ describe('billListSelectors', () => {
         defaultFilterOptions: {
           status: 'All',
         },
-        appliedFilterOptions: {
+        filterOptions: {
           status: '🐸',
         },
       };

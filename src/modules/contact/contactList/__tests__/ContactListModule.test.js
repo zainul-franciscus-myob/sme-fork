@@ -7,6 +7,7 @@ import {
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_CONTACT_LIST,
+  UPDATE_FILTER_OPTIONS,
 } from '../../ContactIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import ContactListModule from '../ContactListModule';
@@ -91,11 +92,11 @@ describe('ContactListModule', () => {
     });
   });
 
-  describe('filterContactList', () => {
+  describe('sortAndFilterContactList', () => {
     it('successfully apply filter', () => {
       const { store, integration, module } = setupWithRun();
 
-      module.filterContactList();
+      module.sortAndFilterContactList();
 
       expect(store.getActions()).toEqual([
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
@@ -112,7 +113,7 @@ describe('ContactListModule', () => {
       const { store, integration, module } = setupWithRun();
       integration.mapFailure(SORT_AND_FILTER_CONTACT_LIST, { message });
 
-      module.filterContactList();
+      module.sortAndFilterContactList();
 
       expect(store.getActions()).toEqual([
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
@@ -125,16 +126,16 @@ describe('ContactListModule', () => {
     });
   });
 
-  describe('sortContactList', () => {
+  describe('updateSortOrder', () => {
     it('successfully sort', () => {
       const orderBy = 'Overdue';
       const { store, integration, module } = setupWithRun();
 
-      module.sortContactList(orderBy);
+      module.updateSortOrder(orderBy);
 
       expect(store.getActions()).toEqual([
-        { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
         { intent: SET_SORT_ORDER, sortOrder: 'asc', orderBy },
+        { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
         expect.objectContaining({ intent: SORT_AND_FILTER_CONTACT_LIST }),
       ]);
@@ -149,11 +150,11 @@ describe('ContactListModule', () => {
       const { store, integration, module } = setupWithRun();
       integration.mapFailure(SORT_AND_FILTER_CONTACT_LIST, { message });
 
-      module.sortContactList(orderBy);
+      module.updateSortOrder(orderBy);
 
       expect(store.getActions()).toEqual([
-        { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
         { intent: SET_SORT_ORDER, sortOrder: 'asc', orderBy },
+        { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
         { intent: SET_ALERT, alert: { type: 'danger', message } },
       ]);
@@ -166,8 +167,8 @@ describe('ContactListModule', () => {
       const orderBy = 'Overdue';
       const { store, module } = setupWithRun();
 
-      module.sortContactList(orderBy);
-      module.sortContactList(orderBy);
+      module.updateSortOrder(orderBy);
+      module.updateSortOrder(orderBy);
 
       expect(store.getActions()).toContainEqual(
         { intent: SET_SORT_ORDER, sortOrder: 'asc', orderBy },
@@ -206,6 +207,23 @@ describe('ContactListModule', () => {
       ]);
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({ intent: LOAD_CONTACT_LIST_NEXT_PAGE }),
+      ]);
+    });
+  });
+
+  describe('updateFilterOptions', () => {
+    it('updates filter options and triggers filtering', () => {
+      const { store, integration, module } = setupWithRun();
+      module.updateFilterOptions({ filterName: '🔑', value: '🐼' });
+
+      expect(store.getActions()).toEqual([
+        { intent: UPDATE_FILTER_OPTIONS, filterName: '🔑', value: '🐼' },
+        { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
+        { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
+        expect.objectContaining({ intent: SORT_AND_FILTER_CONTACT_LIST }),
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: SORT_AND_FILTER_CONTACT_LIST }),
       ]);
     });
   });

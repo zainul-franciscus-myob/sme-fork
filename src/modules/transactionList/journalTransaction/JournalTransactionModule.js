@@ -51,13 +51,13 @@ export default class JournalTransactionModule {
       if (!getIsLoaded(state)) {
         this.loadTransactionList();
       } else {
-        this.filterTransactionList();
+        this.sortAndFilterTransactionList();
       }
     }
 
     return (
       <TransactionListView
-        onSort={this.sortTransactionList}
+        onSort={this.updateSortOrder}
         onUpdateFilters={this.updateFilterOptions}
         onUpdateMultiFilters={this.updateMultiFilterOptions}
         onLoadMoreButtonClick={this.loadTransactionListNextPage}
@@ -128,7 +128,7 @@ export default class JournalTransactionModule {
     });
   };
 
-  filterTransactionList = () => {
+  sortAndFilterTransactionList = () => {
     const state = this.store.getState();
     this.setTableLoadingState(true);
 
@@ -143,7 +143,6 @@ export default class JournalTransactionModule {
       this.store.dispatch({
         intent,
         entries,
-        isSort: false,
         sortOrder,
         pagination,
       });
@@ -153,6 +152,7 @@ export default class JournalTransactionModule {
 
     const filterOptions = getRequestFilterOptions(state);
     const sortOrder = getSortOrder(state);
+    const orderBy = getOrderBy(state);
 
     this.setLastLoadingTab();
     this.integration.read({
@@ -161,13 +161,15 @@ export default class JournalTransactionModule {
       params: {
         ...filterOptions,
         sortOrder,
+        orderBy,
+        offset: 0,
       },
       onSuccess,
       onFailure,
     });
   };
 
-  debouncedFilterTransactionList = debounce(this.filterTransactionList);
+  debouncedSortAndFilterTransactionList = debounce(this.sortAndFilterTransactionList);
 
   setSortOrder = (orderBy, newSortOrder) => {
     this.store.dispatch({
@@ -177,45 +179,12 @@ export default class JournalTransactionModule {
     });
   };
 
-  sortTransactionList = (orderBy) => {
+  updateSortOrder = (orderBy) => {
     const state = this.store.getState();
-    this.setTableLoadingState(true);
-
     const newSortOrder = orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
     this.setSortOrder(orderBy, newSortOrder);
 
-    const intent = SORT_AND_FILTER_TRANSACTION_LIST;
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    const onSuccess = ({ entries, sortOrder, pagination }) => {
-      this.setTableLoadingState(false);
-      this.store.dispatch({
-        intent,
-        entries,
-        isSort: true,
-        sortOrder,
-        pagination,
-      });
-    };
-
-    const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
-
-    const filterOptions = getFilterOptions(state);
-    this.integration.read({
-      intent,
-      urlParams,
-      params: {
-        ...filterOptions,
-        sortOrder: newSortOrder,
-        orderBy,
-        offset: 0,
-      },
-      onSuccess,
-      onFailure,
-    });
+    this.sortAndFilterTransactionList();
   };
 
   loadTransactionListNextPage = () => {
@@ -283,9 +252,9 @@ export default class JournalTransactionModule {
     });
 
     if (filterName === 'keywords') {
-      this.debouncedFilterTransactionList();
+      this.debouncedSortAndFilterTransactionList();
     } else {
-      this.filterTransactionList();
+      this.sortAndFilterTransactionList();
     }
   };
 
@@ -295,7 +264,7 @@ export default class JournalTransactionModule {
       intent,
       filterUpdates,
     });
-    this.filterTransactionList();
+    this.sortAndFilterTransactionList();
   };
 
   updateURLFromState = (state) => {

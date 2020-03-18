@@ -71,7 +71,6 @@ const ContactListView = (props) => {
     onDismissAlert,
     onAddContactButtonClick,
     onUpdateFilters,
-    onApplyFilter,
     onResetFilter,
     onSort,
     onLoadMoreButtonClick,
@@ -110,7 +109,6 @@ const ContactListView = (props) => {
   const filterBar = (
     <ContactListFilterOptions
       onUpdateFilters={onUpdateFilters}
-      onApplyFilter={onApplyFilter}
       onResetFilter={onResetFilter}
     />
   );
