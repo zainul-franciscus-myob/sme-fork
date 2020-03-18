@@ -17,7 +17,7 @@ const getPayFromAccounts = state => state.spendMoney.payFromAccounts;
 const getPayToContacts = state => state.spendMoney.payToContacts;
 const getDate = state => state.spendMoney.date;
 const getDescription = state => state.spendMoney.description;
-const getExpenseAccountId = state => state.spendMoney.expenseAccountId;
+export const getExpenseAccountId = state => state.spendMoney.expenseAccountId;
 const getLines = state => state.spendMoney.lines;
 export const getInTrayDocumentId = state => state.inTrayDocumentId;
 export const getIsReportable = state => state.spendMoney.isReportable;
@@ -67,7 +67,7 @@ const getContactType = (contactId, contacts) => contacts.find(
   contact => contact.id === contactId,
 ).contactType;
 
-const getShouldShowAccountCode = createSelector(
+export const getShouldShowAccountCode = createSelector(
   getIsCreatingFromInTray,
   getSelectedPayToContactId,
   getPayToContacts,

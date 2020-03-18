@@ -191,6 +191,34 @@ describe('BillModule_Modal', () => {
       expect(module.contactModalModule.resetState).toHaveBeenCalled();
     });
 
+    it('when creating from in tray - it saves the newly added supplier, shows success alert, and calls tax calc if supplier has default expense account', () => {
+      const { module, store, integration } = setUpNewBillWithPrefilled();
+
+      module.contactModalModule.resetState = jest.fn();
+
+      integration.mapSuccess(CREATE_CONTACT_MODAL, { id: 'supplierId', message: 'message' });
+
+      module.openSupplierModal();
+      module.contactModalModule.save();
+
+      expect(store.getActions()).toEqual([
+        { intent: OPEN_ALERT, type: 'success', message: 'message' },
+        { intent: START_SUPPLIER_BLOCKING },
+        { intent: STOP_SUPPLIER_BLOCKING },
+        expect.objectContaining({ intent: LOAD_SUPPLIER_AFTER_CREATE, supplierId: 'supplierId' }),
+        {
+          intent: GET_TAX_CALCULATIONS,
+          isSwitchingTaxInclusive: false,
+          taxCalculations: expect.any(Object),
+        },
+      ]);
+
+      expect(integration.getRequests()).toContainEqual(
+        expect.objectContaining({ intent: LOAD_SUPPLIER_AFTER_CREATE, urlParams: { businessId: 'bizId', supplierId: 'supplierId' } }),
+      );
+
+      expect(module.contactModalModule.resetState).toHaveBeenCalled();
+    });
     it('displays page failure alert when contact modal fails to load', () => {
       const { module, store, integration } = setUpWithNew();
 

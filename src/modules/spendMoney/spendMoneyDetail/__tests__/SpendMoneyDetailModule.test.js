@@ -7,6 +7,7 @@ import {
   GET_TAX_CALCULATIONS,
   LOAD_NEW_SPEND_MONEY,
   LOAD_SPEND_MONEY_DETAIL,
+  LOAD_SUPPLIER_EXPENSE_ACCOUNT,
   PREFILL_DATA_FROM_IN_TRAY,
   RESET_TOTALS,
   SET_ALERT,
@@ -14,7 +15,9 @@ import {
   SET_LOADING_STATE,
   SET_SHOW_SPLIT_VIEW,
   SET_SUBMITTING_STATE,
+  SET_SUPPLIER_BLOCKING_STATE,
   UPDATE_SPEND_MONEY,
+  UPDATE_SPEND_MONEY_HEADER,
 } from '../../SpendMoneyIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import LoadingState from '../../../../components/PageView/LoadingState';
@@ -56,6 +59,17 @@ export const setupWithNew = () => {
   const { store, integration, module } = toolbox;
 
   module.run({ spendMoneyId: 'new', businessId: 'bizId' });
+  store.resetActions();
+  integration.resetRequests();
+
+  return toolbox;
+};
+
+export const setUpWithNewFromInTray = () => {
+  const toolbox = setup();
+  const { store, integration, module } = toolbox;
+
+  module.run({ spendMoneyId: 'new', businessId: 'bizId', inTrayDocumentId: 'docId' });
   store.resetActions();
   integration.resetRequests();
 
@@ -330,6 +344,90 @@ describe('SpendMoneyDetailModule', () => {
           isLoading: LoadingState.LOADING_FAIL,
         },
       ]);
+    });
+  });
+
+  describe('updateHeaderOptions', () => {
+    describe('key is selectedPayToContactId', () => {
+      describe('when creating from in tray', () => {
+        it('should load expense account id, calls tax calc. if contact is supplier and has default expense account', () => {
+          const { module, store, integration } = setUpWithNewFromInTray();
+          module.updateHeaderOptions({ key: 'selectedPayToContactId', value: '2' });
+
+          expect(store.getActions()).toEqual([
+            {
+              intent: UPDATE_SPEND_MONEY_HEADER,
+              key: 'selectedPayToContactId',
+              value: '2',
+            },
+            {
+              intent: SET_SUPPLIER_BLOCKING_STATE,
+              isSupplierBlocking: true,
+            },
+            {
+              intent: SET_SUPPLIER_BLOCKING_STATE,
+              isSupplierBlocking: false,
+            },
+            expect.objectContaining({
+              intent: LOAD_SUPPLIER_EXPENSE_ACCOUNT,
+            }),
+            {
+              intent: GET_TAX_CALCULATIONS,
+              taxCalculations: expect.any(Object),
+            },
+          ]);
+
+          expect(integration.getRequests()).toContainEqual(
+            expect.objectContaining({
+              intent: LOAD_SUPPLIER_EXPENSE_ACCOUNT,
+            }),
+          );
+        });
+
+        it('should not load expense account id if contact is not supplier', () => {
+          const { module, store } = setUpWithNewFromInTray();
+          module.updateHeaderOptions({ key: 'selectedPayToContactId', value: '1' });
+
+          expect(store.getActions()).toEqual([
+            {
+              intent: UPDATE_SPEND_MONEY_HEADER,
+              key: 'selectedPayToContactId',
+              value: '1',
+            },
+          ]);
+        });
+
+        it('should load expense account id but not call tax calc. if contact is supplier but does not have default expense account', () => {
+          const { module, store, integration } = setUpWithNewFromInTray();
+          integration.mapSuccess(LOAD_SUPPLIER_EXPENSE_ACCOUNT, {});
+          module.updateHeaderOptions({ key: 'selectedPayToContactId', value: '2' });
+
+          expect(store.getActions()).toEqual([
+            {
+              intent: UPDATE_SPEND_MONEY_HEADER,
+              key: 'selectedPayToContactId',
+              value: '2',
+            },
+            {
+              intent: SET_SUPPLIER_BLOCKING_STATE,
+              isSupplierBlocking: true,
+            },
+            {
+              intent: SET_SUPPLIER_BLOCKING_STATE,
+              isSupplierBlocking: false,
+            },
+            expect.objectContaining({
+              intent: LOAD_SUPPLIER_EXPENSE_ACCOUNT,
+            }),
+          ]);
+
+          expect(integration.getRequests()).toContainEqual(
+            expect.objectContaining({
+              intent: LOAD_SUPPLIER_EXPENSE_ACCOUNT,
+            }),
+          );
+        });
+      });
     });
   });
 

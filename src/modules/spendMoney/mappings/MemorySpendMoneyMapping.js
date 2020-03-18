@@ -56,7 +56,7 @@ const MemorySpendMoneyMapping = {
   [DELETE_SPEND_MONEY]: deleteSpendMoney,
   [UPDATE_SPEND_MONEY]: updateSpendMoney,
   [LOAD_REFERENCE_ID]: getSpendMoneyNextReferenceId,
-  [LOAD_SUPPLIER_EXPENSE_ACCOUNT]: supplierExpenseAccountId,
+  [LOAD_SUPPLIER_EXPENSE_ACCOUNT]: ({ onSuccess }) => onSuccess(supplierExpenseAccountId),
   [LOAD_SPEND_MONEY_DETAIL]: loadSpendMoneyDetail,
   [UPLOAD_ATTACHMENT]: uploadAttachment,
   [REMOVE_ATTACHMENT]: removeAttachment,

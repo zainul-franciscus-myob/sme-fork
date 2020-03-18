@@ -10,6 +10,7 @@ import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalc
 import {
   getAccountModalContext,
   getContactModalContext,
+  getExpenseAccountId,
   getFilesForUpload,
   getHasPrefilledLines,
   getInTrayDocumentId,
@@ -27,6 +28,7 @@ import {
   getOpenedModalType,
   getSaveUrl,
   getSeletedPayToContactType,
+  getShouldShowAccountCode,
   getSpendMoneyId,
   getTaxCodeOptions,
   getTransactionListUrl,
@@ -108,6 +110,11 @@ export default class SpendMoneyDetailModule {
     const onSuccess = (payload) => {
       this.dispatcher.setSubmittingState(false);
       this.dispatcher.loadContactAfterCreate(id, payload);
+
+      const state = this.store.getState();
+      if (getShouldShowAccountCode(state) && getExpenseAccountId(state)) {
+        this.getTaxCalculations({ isSwitchingTaxInclusive: false });
+      }
     };
 
     const onFailure = () => {
@@ -190,8 +197,12 @@ export default class SpendMoneyDetailModule {
     this.dispatcher.setSupplierBlockingState(true);
 
     const onSuccess = (response) => {
-      this.dispatcher.loadSupplierExpenseAccount(response);
       this.dispatcher.setSupplierBlockingState(false);
+      this.dispatcher.loadSupplierExpenseAccount(response);
+
+      if (getExpenseAccountId(this.store.getState())) {
+        this.getTaxCalculations({ isSwitchingTaxInclusive: false });
+      }
     };
     const onFailure = ({ message }) => {
       this.dispatcher.openDangerAlert({ message });

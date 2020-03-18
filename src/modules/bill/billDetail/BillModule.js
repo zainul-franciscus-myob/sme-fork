@@ -13,6 +13,7 @@ import {
   getBillUid,
   getContextForInventoryModal,
   getCreateSupplierContactModalContext,
+  getExpenseAccountId,
   getHasLineBeenPrefilled,
   getIsCreating,
   getIsCreatingFromInTray,
@@ -487,8 +488,13 @@ class BillModule {
     this.dispatcher.startBlocking();
 
     const onSuccess = (response) => {
-      this.dispatcher.loadSupplierDetail(response);
       this.dispatcher.stopBlocking();
+      this.dispatcher.loadSupplierDetail(response);
+
+      const state = this.store.getState();
+      if (getIsCreatingFromInTray(state) && getExpenseAccountId(state)) {
+        this.getTaxCalculations({ isSwitchingTaxInclusive: false });
+      }
     };
     const onFailure = ({ message }) => {
       this.dispatcher.openDangerAlert({ message });
@@ -547,6 +553,11 @@ class BillModule {
     const onSuccess = (payload) => {
       this.dispatcher.stopSupplierBlocking();
       this.dispatcher.loadSupplierAfterCreate(id, payload);
+
+      const state = this.store.getState();
+      if (getIsCreatingFromInTray(state) && getExpenseAccountId(state)) {
+        this.getTaxCalculations({ isSwitchingTaxInclusive: false });
+      }
     };
 
     const onFailure = () => {

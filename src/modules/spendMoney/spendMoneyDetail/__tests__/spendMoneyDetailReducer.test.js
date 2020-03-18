@@ -798,6 +798,7 @@ describe('spendMoneyDetailReducer', () => {
 
     it('should add expenseAccountId and update lines with the expense account id if the spend money was prefilled and contact is a supplier', () => {
       const state = {
+        spendMoneyId: 'new',
         inTrayDocumentId: '1',
         accounts: [],
         spendMoney: {

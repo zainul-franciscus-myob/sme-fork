@@ -151,7 +151,7 @@ export const setUpNewBillWithPrefilled = () => {
 
   module.run({
     billId: 'new',
-    businessId: '🐷',
+    businessId: 'bizId',
     region: 'au',
     inTrayDocumentId: '🍟',
     source: 'inTray',
@@ -520,7 +520,7 @@ describe('BillModule', () => {
       ]);
     });
 
-    it('load supplier detail if key is supplierId', () => {
+    it('loads supplier detail if key is supplierId but does not call tax calc. if is not creating from in tray', () => {
       const { module, integration, store } = setUpWithNew();
 
       module.updateBillOption({ key: 'supplierId', value: '1' });
@@ -534,11 +534,75 @@ describe('BillModule', () => {
         {
           intent: START_BLOCKING,
         },
+        {
+          intent: STOP_BLOCKING,
+        },
+        expect.objectContaining({
+          intent: LOAD_SUPPLIER_DETAIL,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_SUPPLIER_DETAIL,
+        }),
+      ]);
+    });
+
+    it('loads supplier detail if key is supplierId but does not call tax calc. if is creating from in tray but supplier has no default expense account', () => {
+      const { module, integration, store } = setUpWithNew();
+      integration.mapSuccess(LOAD_SUPPLIER_DETAIL, {});
+
+      module.updateBillOption({ key: 'supplierId', value: '1' });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: UPDATE_BILL_OPTION,
+          key: 'supplierId',
+          value: '1',
+        },
+        {
+          intent: START_BLOCKING,
+        },
+        {
+          intent: STOP_BLOCKING,
+        },
+        expect.objectContaining({
+          intent: LOAD_SUPPLIER_DETAIL,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_SUPPLIER_DETAIL,
+        }),
+      ]);
+    });
+
+    it('loads supplier detail if key is supplierId, calls tax calc if creating from in tray and supplier has default expense account', () => {
+      const { module, integration, store } = setUpNewBillWithPrefilled();
+
+      module.updateBillOption({ key: 'supplierId', value: '1' });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: UPDATE_BILL_OPTION,
+          key: 'supplierId',
+          value: '1',
+        },
+        {
+          intent: START_BLOCKING,
+        },
+        {
+          intent: STOP_BLOCKING,
+        },
         expect.objectContaining({
           intent: LOAD_SUPPLIER_DETAIL,
         }),
         {
-          intent: STOP_BLOCKING,
+          intent: GET_TAX_CALCULATIONS,
+          isSwitchingTaxInclusive: false,
+          taxCalculations: expect.any(Object),
         },
       ]);
 

@@ -33,7 +33,7 @@ import {
   UPLOAD_ATTACHMENT_FAILED,
 } from '../SpendMoneyIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { getIsContactReportable, getIsReportable } from './spendMoneyDetailSelectors';
+import { getIsContactReportable, getIsCreatingFromInTray, getIsReportable } from './spendMoneyDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
@@ -509,13 +509,11 @@ const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   isPageEdited: true,
 });
 
-const wasPrefilled = state => Boolean(state.inTrayDocumentId);
 const contactIsSupplier = ({ contactType }) => contactType === 'Supplier';
-
 const loadContactAfterCreate = (state, {
   intent, expenseAccountId, contactId, ...rest
 }) => {
-  if (wasPrefilled(state) && contactIsSupplier(rest)) {
+  if (getIsCreatingFromInTray(state) && contactIsSupplier(rest)) {
     return {
       ...state,
       spendMoney: {
