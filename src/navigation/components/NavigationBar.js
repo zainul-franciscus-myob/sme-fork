@@ -182,7 +182,6 @@ const NavigationBar = ({
   hasTasks,
   businessName,
 }) => {
-  console.log(shouldDisplaySubscriptionNow);
   const primaryMenuItems = getPrimary({
     onMenuSelect,
     onMenuLinkClick,
