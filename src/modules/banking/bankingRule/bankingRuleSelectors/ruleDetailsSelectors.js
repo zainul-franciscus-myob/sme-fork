@@ -2,8 +2,8 @@ import { createSelector } from 'reselect';
 
 import {
   formatCurrency,
-  getAppliedFilterOptions,
   getDisplayName,
+  getFilterOptions,
   getOpenTransactionLine,
 } from '../../bankingSelectors';
 import ApplyTypes from '../ApplyTypes';
@@ -29,7 +29,7 @@ export const getBankAccounts = createSelector(
 
 export const getBankTransactionDetails = createSelector(
   getOpenTransactionLine,
-  getAppliedFilterOptions,
+  getFilterOptions,
   getBankAccounts,
   (transaction, filterOptions, accountList) => {
     const {

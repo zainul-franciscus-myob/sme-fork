@@ -45,13 +45,6 @@ const getDefaultState = () => ({
     dateTo: formatIsoDate(new Date()),
     keywords: '',
   },
-  appliedFilterOptions: {
-    transactionType: TransactionTypes.UNALLOCATED,
-    bankAccount: '',
-    dateFrom: formatIsoDate(getDefaultDateRange()),
-    dateTo: formatIsoDate(new Date()),
-    keywords: '',
-  },
   pagination: {
     hasNextPage: false,
     offset: 0,

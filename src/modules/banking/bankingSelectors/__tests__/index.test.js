@@ -207,7 +207,7 @@ describe('Bank transactions index selectors', () => {
 
     describe('getSortBankTransactionsParams', () => {
       const state = {
-        appliedFilterOptions: {
+        filterOptions: {
           dateTo: 'dateTo',
           dateFrom: 'dateFrom',
           otherFilters: 'otherFilters',

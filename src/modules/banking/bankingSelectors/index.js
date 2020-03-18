@@ -29,8 +29,6 @@ export const getAlert = ({ alert }) => alert;
 
 export const getModalAlert = state => state.modalAlert;
 
-export const getAppliedFilterOptions = ({ appliedFilterOptions }) => appliedFilterOptions;
-
 export const getBankAccounts = state => state.bankAccounts;
 
 export const getEntries = state => state.entries;
@@ -514,7 +512,7 @@ export const getSortBankTransactionsUrlParams = createSelector(
   businessId => ({ businessId }),
 );
 export const getSortBankTransactionsParams = (state, orderBy) => ({
-  ...getAppliedFilterOptions(state),
+  ...state.filterOptions,
   sortOrder: getFlipSortOrder(state),
   orderBy,
   offset: 0,

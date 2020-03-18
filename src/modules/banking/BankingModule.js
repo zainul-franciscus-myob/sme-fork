@@ -39,6 +39,7 @@ import Store from '../../store/Store';
 import bankingReducer from './bankingReducer';
 import createBankingDispatcher from './BankingDispatcher';
 import createBankingIntegrator from './BankingIntegrator';
+import debounce from '../../common/debounce/debounce';
 import openBlob from '../../common/blobOpener/openBlob';
 
 export default class BankingModule {
@@ -63,9 +64,17 @@ export default class BankingModule {
     });
   }
 
+  updateFilterOptions = ({ filterName, value }) => {
+    this.dispatcher.updateFilterOptions({ filterName, value });
+    if (filterName === 'keywords') {
+      debounce(this.filterBankTransactions)();
+    } else {
+      this.filterBankTransactions();
+    }
+  }
+
   render = () => {
     const {
-      updateFilterOptions,
       dismissAlert,
       dismissModalAlert,
       focusEntry,
@@ -98,8 +107,7 @@ export default class BankingModule {
       <BankingView
         inTrayModal={inTrayModal}
         accountModal={accountModal}
-        onUpdateFilters={updateFilterOptions}
-        onApplyFilter={this.confirmBefore(this.filterBankTransactions)}
+        onUpdateFilters={this.confirmBefore(this.updateFilterOptions)}
         onBankAccountChange={this.bankAccountChange}
         onSort={this.confirmBefore(this.sortBankTransactions)}
         onDismissAlert={dismissAlert}

@@ -36,7 +36,6 @@ class BankTransactionFilterOptions extends React.Component {
         keywords,
       },
       transactionTypes,
-      onApplyFilter,
       shouldDisplayDateRange,
     } = this.props;
 
@@ -49,7 +48,7 @@ class BankTransactionFilterOptions extends React.Component {
 
     return (
       <React.Fragment>
-        <FilterBar onApply={onApplyFilter}>
+        <FilterBar>
           <FilterBar.Group>
             <Select name="transactionType" label="Status" value={transactionType} onChange={this.onSelectChange} width="sm">
               {transactionTypes.map(({ label, value }) => (

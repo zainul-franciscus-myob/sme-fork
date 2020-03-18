@@ -173,10 +173,6 @@ const loadBankTransactions = (state, action) => ({
     ...state.filterOptions,
     bankAccount: action.bankAccount,
   },
-  appliedFilterOptions: {
-    ...state.appliedFilterOptions,
-    bankAccount: action.bankAccount,
-  },
   pagination: action.pagination,
 });
 
@@ -203,7 +199,6 @@ const sortAndFilterBankTransactions = (state, action) => ({
   ...state,
   entries: action.entries,
   balances: action.balances,
-  appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
   sortOrder: action.sortOrder,
   orderBy: action.orderBy,
   pagination: {
@@ -275,23 +270,10 @@ const setInitialState = (state, action) => {
     bankAccount,
   };
 
-  const appliedDates = transactionType === TransactionTypes.ALLOCATED ? {
-    dateFrom: setDate(action.context.dateFrom, state.appliedFilterOptions.dateFrom),
-    dateTo: setDate(action.context.dateTo, state.appliedFilterOptions.dateTo),
-  } : {};
-
-  const appliedFilterOptions = {
-    ...state.appliedFilterOptions,
-    ...appliedDates,
-    transactionType,
-    bankAccount,
-  };
-
   return {
     ...state,
     ...action.context,
     filterOptions,
-    appliedFilterOptions,
   };
 };
 

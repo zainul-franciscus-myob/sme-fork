@@ -30,7 +30,6 @@ const BankingView = (props) => {
     showBulkActions,
     getBankingRuleModal,
     onUpdateFilters,
-    onApplyFilter,
     onAddAccount,
     onBankAccountChange,
     onSort,
@@ -101,7 +100,6 @@ const BankingView = (props) => {
   const filterBar = (
     <BankTransactionFilterOptions
       onUpdateFilters={onUpdateFilters}
-      onApplyFilter={onApplyFilter}
     />
   );
 
