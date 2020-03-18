@@ -18,6 +18,7 @@ import {
   OPEN_ALERT,
   OPEN_MODAL,
   PREFILL_BILL_FROM_IN_TRAY,
+  RELOAD_BILL,
   REMOVE_BILL_LINE,
   RESET_TOTALS,
   SET_ATTACHMENT_ID,
@@ -43,14 +44,12 @@ import {
 } from '../BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import { calculateLineAmounts, getTaxCalculations } from './calculationReducer';
+import { defaultLinePrefillStatus, defaultPrefillStatus, getDefaultState } from './getDefaultState';
 import {
-  defaultLinePrefillStatus,
-  defaultPrefillStatus,
-  getDefaultState,
-} from './getDefaultState';
-import {
+  getBillId,
+  getBusinessId,
   getIsCreatingFromInTray,
-  getLoadBillModalType,
+  getRegion,
   getUpdatedSupplierOptions,
 } from '../selectors/billSelectors';
 import BillLayout from '../types/BillLayout';
@@ -60,12 +59,9 @@ import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
 import formatAmount from '../../../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
-import formatDisplayAmount
-  from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
-import formatDisplayDiscount
-  from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
-import formatDisplayUnitPrice
-  from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
+import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
+import formatDisplayDiscount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
+import formatDisplayUnitPrice from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
 import formatUnits from '../../../../common/valueFormatters/formatTaxCalculation/formatUnits';
 
@@ -73,8 +69,6 @@ const loadBill = (state, action) => {
   const defaultState = getDefaultState();
 
   const isCreating = state.billId === 'new';
-
-  const modalType = getLoadBillModalType(state);
 
   return ({
     ...state,
@@ -109,12 +103,29 @@ const loadBill = (state, action) => {
       ...action.response.exportPdf,
     },
     openExportPdf: defaultState.openExportPdf,
-    modalType,
     inTrayDocument: {
       ...action.response.inTrayDocument,
       uploadedDate: '', // PAPI can not provide correct uploadedDate as part of bill loading, ignore it before the fix is in place
     },
   });
+};
+
+const reloadBill = (state, action) => {
+  const defaultState = getDefaultState();
+
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+  const billId = getBillId(state);
+
+  const context = { businessId, region, billId };
+
+  const initialState = {
+    ...defaultState,
+    ...context,
+    loadingState: LoadingState.LOADING_SUCCESS,
+  };
+
+  return loadBill(initialState, action);
 };
 
 const setInitialState = (state, action) => ({ ...state, ...action.context });
@@ -590,6 +601,7 @@ const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
   [LOAD_BILL]: loadBill,
+  [RELOAD_BILL]: reloadBill,
   [UPDATE_BILL_OPTION]: updateBillOption,
   [UPDATE_LAYOUT]: updateLayout,
   [OPEN_MODAL]: openModal,

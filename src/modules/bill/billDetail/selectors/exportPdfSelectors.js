@@ -30,7 +30,7 @@ export const getExportPdfQueryParams = state => ({
   formName: getExportPdfTemplate(state),
 });
 
-export const getShouldSaveAndExportPdf = (state) => {
+export const getShouldSaveAndReload = (state) => {
   const isCreating = getIsCreating(state);
   const isPageEdited = getIsPageEdited(state);
 

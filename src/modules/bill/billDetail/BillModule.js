@@ -24,7 +24,6 @@ import {
   getIsTaxInclusive,
   getLinesForTaxCalculation,
   getNewLineIndex,
-  getRouteUrlParams,
   getTaxCodeOptions,
 } from './selectors/billSelectors';
 import {
@@ -32,10 +31,9 @@ import {
   getCreateNewBillUrl,
   getDuplicateBillUrl,
   getFinalRedirectUrl,
-  getReadBillWithExportPdfModalUrl,
   getSubscriptionSettingsUrl,
 } from './selectors/BillRedirectSelectors';
-import { getExportPdfFilename, getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
+import { getExportPdfFilename, getShouldSaveAndReload } from './selectors/exportPdfSelectors';
 import {
   getHasInTrayDocumentId,
   getHasInTrayDocumentUrl,
@@ -159,6 +157,22 @@ class BillModule {
     this.integrator.loadBill({ onSuccess, onFailure });
   }
 
+  reloadBill = ({ onSuccess: next = () => {} }) => {
+    this.dispatcher.startBlocking();
+
+    const onSuccess = (response) => {
+      this.dispatcher.reloadBill(response);
+      next();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.stopBlocking();
+      this.dispatcher.openDangerAlert({ message });
+    };
+
+    this.integrator.loadBill({ onSuccess, onFailure });
+  }
+
   linkAfterSave = (onSuccess, response) => {
     const state = this.store.getState();
 
@@ -272,21 +286,17 @@ class BillModule {
     this.saveBillAnd({ onSuccess });
   };
 
-  saveAndExportPdf = () => {
-    const redirectToReadBillWithExportModal = () => {
-      const state = this.store.getState();
-      const url = getReadBillWithExportPdfModalUrl(state);
-      window.location.href = url;
-    };
-
-    const onSuccess = ({ id }) => {
+  saveAndReload = ({ onSuccess: next = () => {} }) => {
+    const onSuccess = ({ message, id }) => {
       this.globalCallbacks.inTrayBillSaved();
       const state = this.store.getState();
       const isCreating = getIsCreating(state);
       if (isCreating) {
         this.dispatcher.updateBillId(id);
+        this.replaceURLParams({ billId: id });
       }
-      redirectToReadBillWithExportModal();
+
+      this.reloadBill({ onSuccess: () => next({ message }) });
     };
 
     this.saveBillAnd({ onSuccess });
@@ -524,13 +534,17 @@ class BillModule {
     this.integrator.exportPdf({ onSuccess, onFailure });
   }
 
+  openExportPdfModal = () => {
+    this.dispatcher.openModal({ modalType: ModalType.ExportPdf });
+  }
+
   openExportPdfModalOrSaveAndExportPdf = () => {
     const state = this.store.getState();
-    const shouldSaveAndExport = getShouldSaveAndExportPdf(state);
+    const shouldSaveAndExport = getShouldSaveAndReload(state);
     if (shouldSaveAndExport) {
-      this.saveAndExportPdf();
+      this.saveAndReload({ onSuccess: this.openExportPdfModal });
     } else {
-      this.dispatcher.openModal({ modalType: ModalType.ExportPdf });
+      this.openExportPdfModal();
     }
   }
 
@@ -566,11 +580,6 @@ class BillModule {
 
     this.integrator.loadSupplierAfterCreate({ id, onSuccess, onFailure });
   };
-
-  updateUrlFromState = (state) => {
-    const params = getRouteUrlParams(state);
-    this.replaceURLParams(params);
-  }
 
   readMessages = () => {
     const messageTypes = [SUCCESSFULLY_SAVED_BILL, SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK];
@@ -834,7 +843,6 @@ class BillModule {
     });
     this.render();
     this.readMessages();
-    this.store.subscribe(this.updateUrlFromState);
     this.loadBill();
   }
 }

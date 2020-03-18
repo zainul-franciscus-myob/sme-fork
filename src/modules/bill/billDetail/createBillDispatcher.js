@@ -18,6 +18,7 @@ import {
   OPEN_ALERT,
   OPEN_MODAL,
   PREFILL_BILL_FROM_IN_TRAY,
+  RELOAD_BILL,
   REMOVE_BILL_LINE,
   RESET_TOTALS,
   SET_ATTACHMENT_ID,
@@ -81,6 +82,10 @@ const createBillDispatcher = store => ({
       intent: LOAD_BILL,
       response,
     });
+  },
+
+  reloadBill: (response) => {
+    store.dispatch({ intent: RELOAD_BILL, response });
   },
 
   updateBillOption: ({ key, value }) => {

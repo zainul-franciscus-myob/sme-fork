@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 
-import ModalType from '../types/ModalType';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 
 export const getBillId = state => state.billId;
@@ -157,22 +156,6 @@ export const getIsNewLine = createSelector(
 
 export const getNewLineIndex = getBillLinesLength;
 
-const getShouldOpenExportPdfModal = (state) => {
-  const isCreating = getIsCreating(state);
-  const openExportPdf = getOpenExportPdfQueryParam(state);
-
-  return !isCreating && openExportPdf === 'true';
-};
-
-export const getLoadBillModalType = (state) => {
-  const shouldOpenExportPdfModal = getShouldOpenExportPdfModal(state);
-  if (shouldOpenExportPdfModal) {
-    return ModalType.ExportPdf;
-  }
-
-  return ModalType.None;
-};
-
 export const getContextForInventoryModal = (state) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);
@@ -181,10 +164,6 @@ export const getContextForInventoryModal = (state) => {
     businessId, region, isBuying: true, isSelling: false,
   });
 };
-
-export const getRouteUrlParams = state => ({
-  openExportPdf: getOpenExportPdfQueryParam(state),
-});
 
 export const getAccountModalContext = (state) => {
   const businessId = getBusinessId(state);

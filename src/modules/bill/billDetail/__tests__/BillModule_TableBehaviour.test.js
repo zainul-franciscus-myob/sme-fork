@@ -13,7 +13,7 @@ import {
   UPDATE_BILL_LINE,
 } from '../BillIntents';
 import {
-  mockCreateObjectUrl, setUp, setUpNewBillWithPrefilled, setUpWithExisting, setUpWithNew,
+  mockCreateObjectUrl, setUp, setUpNewBillWithPrefilled, setUpWithRun,
 } from './BillModule.test';
 import loadItemAndServiceBillWithOneLineResponse from './fixtures/loadItemAndServiceBillWithOneLine';
 
@@ -22,7 +22,7 @@ describe('BillModule_TableBehaviour', () => {
 
   describe('updateBillLine', () => {
     it('updates key with value', () => {
-      const { module, store } = setUpWithNew();
+      const { module, store } = setUpWithRun({ isCreating: true });
 
       module.updateBillLine({ index: 0, key: 'amount', value: '10' });
 
@@ -47,7 +47,7 @@ describe('BillModule_TableBehaviour', () => {
       },
     ].forEach((test) => {
       it(`calls the tax calculator after updating key with value if key is ${test.key}`, () => {
-        const { module, store } = setUpWithExisting();
+        const { module, store } = setUpWithRun();
 
         module.updateBillLine({
           index: 0,
@@ -73,7 +73,7 @@ describe('BillModule_TableBehaviour', () => {
 
     describe('when key is itemId', () => {
       it('loads item detail for line if line has not been prefilled', () => {
-        const { module, store, integration } = setUpWithExisting();
+        const { module, store, integration } = setUpWithRun();
 
         module.updateBillLine({ index: 0, key: 'itemId', value: '1' });
 
@@ -127,7 +127,7 @@ describe('BillModule_TableBehaviour', () => {
 
   describe('addBillLine', () => {
     it('adds a new line and updates the line', () => {
-      const { module, store } = setUpWithExisting();
+      const { module, store } = setUpWithRun();
 
       module.addBillLine({ id: '2', description: 'hello' });
 
@@ -146,7 +146,7 @@ describe('BillModule_TableBehaviour', () => {
   describe('removeBillLine', () => {
     it('removes the line from the table and calls the tax calculator if the table is not empty', () => {
       // This sets up a table with two existing lines
-      const { module, store } = setUpWithExisting();
+      const { module, store } = setUpWithRun();
 
       module.removeBillLine({ index: 1 });
 
@@ -192,7 +192,7 @@ describe('BillModule_TableBehaviour', () => {
 
   describe('calculateBillLines', () => {
     it('only formats the display value for that key if line has not been edited', () => {
-      const { module, store } = setUpWithNew();
+      const { module, store } = setUpWithRun({ isCreating: true });
 
       module.calculateBillLines({
         index: 0,
@@ -211,7 +211,7 @@ describe('BillModule_TableBehaviour', () => {
     });
 
     it('formats the display value for that key and calculate line amounts and calls tax calculator if line has been edited', () => {
-      const { module, store } = setUpWithExisting();
+      const { module, store } = setUpWithRun();
       // This update action dirties the line
       module.updateBillLine({
         index: 0,
@@ -249,7 +249,7 @@ describe('BillModule_TableBehaviour', () => {
 
   describe('calculateAmountPaid', () => {
     it('only formats the amount paid if table is empty', () => {
-      const { module, store } = setUpWithNew();
+      const { module, store } = setUpWithRun({ isCreating: true });
       module.calculateAmountPaid();
 
       expect(store.getActions()).toEqual([
@@ -260,7 +260,7 @@ describe('BillModule_TableBehaviour', () => {
     });
 
     it('formats the amount paid and calls the tax calc. if table is not empty', () => {
-      const { module, store } = setUpWithExisting();
+      const { module, store } = setUpWithRun();
       module.calculateAmountPaid();
 
       expect(store.getActions()).toEqual([

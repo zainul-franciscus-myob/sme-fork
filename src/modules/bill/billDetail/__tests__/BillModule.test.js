@@ -1,4 +1,5 @@
 import {
+  CREATE_BILL,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   FAIL_LOADING,
   GET_TAX_CALCULATIONS,
@@ -7,13 +8,17 @@ import {
   LOAD_NEW_DUPLICATE_BILL,
   LOAD_SUPPLIER_DETAIL,
   OPEN_ALERT,
+  OPEN_MODAL,
   PREFILL_BILL_FROM_IN_TRAY,
+  RELOAD_BILL,
   SET_DOCUMENT_LOADING_STATE,
   SET_SHOW_SPLIT_VIEW,
   START_BLOCKING,
   START_LOADING,
   STOP_BLOCKING,
   STOP_LOADING,
+  UPDATE_BILL,
+  UPDATE_BILL_ID,
   UPDATE_BILL_OPTION,
   UPDATE_LAYOUT,
 } from '../BillIntents';
@@ -21,6 +26,7 @@ import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import { SUCCESSFULLY_SAVED_BILL, SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK } from '../types/BillMessageTypes';
 import BillModule from '../BillModule';
 import InTrayModalModule from '../../../inTray/inTrayModal/InTrayModalModule';
+import ModalType from '../types/ModalType';
 import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
 import billReducer from '../reducer/billReducer';
@@ -69,27 +75,6 @@ export const setUp = () => {
   };
 };
 
-export const setUpWithNew = () => {
-  const {
-    module,
-    integration,
-    store,
-    pushMessage,
-  } = setUp();
-
-  module.run({ billId: 'new', businessId: 'bizId', region: 'au' });
-
-  store.resetActions();
-  integration.resetRequests();
-
-  return {
-    module,
-    integration,
-    store,
-    pushMessage,
-  };
-};
-
 export const setUpWithFailDocumentLoad = () => {
   const {
     module,
@@ -119,7 +104,7 @@ export const setUpWithFailDocumentLoad = () => {
   };
 };
 
-export const setUpWithExisting = () => {
+export const setUpWithRun = ({ isCreating = false, isPageEdited = false } = {}) => {
   const {
     module,
     integration,
@@ -128,7 +113,11 @@ export const setUpWithExisting = () => {
   } = setUp();
 
   // With the current memory data, there are two lines created when this set up is created
-  module.run({ billId: 'billId', businessId: 'bizId', region: 'au' });
+  module.run({ billId: isCreating ? 'new' : 'billId', businessId: 'bizId', region: 'au' });
+
+  if (isPageEdited) {
+    module.updateBillOption({ key: 'option', value: 'A' });
+  }
 
   store.resetActions();
   integration.resetRequests();
@@ -167,7 +156,6 @@ export const setUpNewBillWithPrefilled = () => {
     pushMessage,
   };
 };
-
 
 describe('BillModule', () => {
   mockCreateObjectUrl();
@@ -507,7 +495,7 @@ describe('BillModule', () => {
 
   describe('updateBillOption', () => {
     it('updates key with value', () => {
-      const { module, store } = setUpWithNew();
+      const { module, store } = setUpWithRun({ isCreating: true });
 
       module.updateBillOption({ key: 'supplierInvoiceNumber', value: '1' });
 
@@ -521,7 +509,7 @@ describe('BillModule', () => {
     });
 
     it('loads supplier detail if key is supplierId but does not call tax calc. if is not creating from in tray', () => {
-      const { module, integration, store } = setUpWithNew();
+      const { module, integration, store } = setUpWithRun({ isCreating: true });
 
       module.updateBillOption({ key: 'supplierId', value: '1' });
 
@@ -550,7 +538,7 @@ describe('BillModule', () => {
     });
 
     it('loads supplier detail if key is supplierId but does not call tax calc. if is creating from in tray but supplier has no default expense account', () => {
-      const { module, integration, store } = setUpWithNew();
+      const { module, integration, store } = setUpWithRun({ isCreating: true });
       integration.mapSuccess(LOAD_SUPPLIER_DETAIL, {});
 
       module.updateBillOption({ key: 'supplierId', value: '1' });
@@ -626,7 +614,7 @@ describe('BillModule', () => {
       },
     ].forEach(({ key, value, isSwitchingTaxInclusive }) => {
       it(`calls the tax calculator if key is ${key}`, () => {
-        const { module, store } = setUpWithExisting();
+        const { module, store } = setUpWithRun();
 
         module.updateBillOption({ key, value });
 
@@ -656,7 +644,7 @@ describe('BillModule', () => {
       },
     ].forEach((test) => {
       it(`does not call the tax calculator if key is ${test.key} and table is empty`, () => {
-        const { module, store } = setUpWithNew();
+        const { module, store } = setUpWithRun({ isCreating: true });
 
         module.updateBillOption({ key: test.key, value: test.value });
 
@@ -673,7 +661,7 @@ describe('BillModule', () => {
 
   describe('updateLayout', () => {
     it('updates the layout of the bill', () => {
-      const { module, store } = setUpWithNew();
+      const { module, store } = setUpWithRun({ isCreating: true });
 
       module.updateLayout({ value: 'itemAndService' });
 
@@ -686,7 +674,7 @@ describe('BillModule', () => {
     });
 
     it('calls the tax calculator after updating layout if table has lines', () => {
-      const { module, store } = setUpWithExisting();
+      const { module, store } = setUpWithRun();
 
       module.updateLayout({ value: 'itemAndService' });
 
@@ -796,6 +784,146 @@ describe('BillModule', () => {
           { intent: OPEN_ALERT, message: '✌️', type: test.messageType },
         ]),
       );
+    });
+  });
+
+  describe('openExportPdfModalOrSaveAndExportPdf', () => {
+    describe('new bill', () => {
+      it('create bill, update bill id, update url params, reload bill, open export pdf modal and show alert inside modal', () => {
+        const { module, store, integration } = setUpWithRun({ isCreating: true });
+        module.globalCallbacks.inTrayBillSaved = jest.fn();
+        module.replaceURLParams = jest.fn();
+
+        module.openExportPdfModalOrSaveAndExportPdf();
+
+        expect(store.getActions()).toEqual([
+          { intent: START_BLOCKING },
+          { intent: STOP_BLOCKING },
+          { intent: UPDATE_BILL_ID, id: '1' },
+          { intent: START_BLOCKING },
+          expect.objectContaining({ intent: RELOAD_BILL }),
+          { intent: OPEN_MODAL, modalType: ModalType.ExportPdf },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: CREATE_BILL }),
+          { intent: LOAD_BILL, urlParams: { businessId: 'bizId', billId: '1' } },
+        ]);
+        expect(module.replaceURLParams).toHaveBeenCalled();
+      });
+
+      it('does not open export pdf modal when create bill failed', () => {
+        const { module, store, integration } = setUpWithRun({ isCreating: true });
+        const message = 'Error';
+        integration.mapFailure(CREATE_BILL, { message });
+        module.replaceURLParams = jest.fn();
+
+        module.openExportPdfModalOrSaveAndExportPdf();
+
+        expect(store.getActions()).toEqual([
+          { intent: START_BLOCKING },
+          { intent: STOP_BLOCKING },
+          { intent: OPEN_ALERT, type: 'danger', message },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: CREATE_BILL }),
+        ]);
+      });
+
+      it('does not open export pdf modal when reload bill failed', () => {
+        const { module, store, integration } = setUpWithRun({ isCreating: true });
+        const message = 'Error';
+        integration.mapFailure(LOAD_BILL, { message });
+        module.globalCallbacks.inTrayBillSaved = jest.fn();
+
+        module.openExportPdfModalOrSaveAndExportPdf();
+
+        expect(store.getActions()).toEqual([
+          { intent: START_BLOCKING },
+          { intent: STOP_BLOCKING },
+          { intent: UPDATE_BILL_ID, id: '1' },
+          { intent: START_BLOCKING },
+          { intent: STOP_BLOCKING },
+          { intent: OPEN_ALERT, type: 'danger', message },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: CREATE_BILL }),
+          expect.objectContaining({ intent: LOAD_BILL }),
+        ]);
+      });
+    });
+
+    describe('existing bill that has been edited', () => {
+      it('update bill, reload bill, open export pdf modal and show alert inside modal', () => {
+        const { module, store, integration } = setUpWithRun({ isPageEdited: true });
+        module.globalCallbacks.inTrayBillSaved = jest.fn();
+        module.replaceURLParams = jest.fn();
+
+        module.openExportPdfModalOrSaveAndExportPdf();
+
+        expect(store.getActions()).toEqual([
+          { intent: START_BLOCKING },
+          { intent: STOP_BLOCKING },
+          { intent: START_BLOCKING },
+          expect.objectContaining({ intent: RELOAD_BILL }),
+          { intent: OPEN_MODAL, modalType: ModalType.ExportPdf },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: UPDATE_BILL }),
+          { intent: LOAD_BILL, urlParams: { businessId: 'bizId', billId: 'billId' } },
+        ]);
+        expect(module.replaceURLParams).not.toHaveBeenCalled();
+      });
+
+      it('does not open export pdf modal when update bill failed', () => {
+        const { module, store, integration } = setUpWithRun({ isPageEdited: true });
+        const message = 'Error';
+        integration.mapFailure(UPDATE_BILL, { message });
+
+        module.openExportPdfModalOrSaveAndExportPdf();
+
+        expect(store.getActions()).toEqual([
+          { intent: START_BLOCKING },
+          { intent: STOP_BLOCKING },
+          { intent: OPEN_ALERT, type: 'danger', message },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: UPDATE_BILL }),
+        ]);
+      });
+
+      it('does not open export pdf modal when reload bill failed', () => {
+        const { module, store, integration } = setUpWithRun({ isPageEdited: true });
+        const message = 'Error';
+        integration.mapFailure(LOAD_BILL, { message });
+        module.globalCallbacks.inTrayBillSaved = jest.fn();
+
+        module.openExportPdfModalOrSaveAndExportPdf();
+
+        expect(store.getActions()).toEqual([
+          { intent: START_BLOCKING },
+          { intent: STOP_BLOCKING },
+          { intent: START_BLOCKING },
+          { intent: STOP_BLOCKING },
+          { intent: OPEN_ALERT, type: 'danger', message },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: UPDATE_BILL }),
+          expect.objectContaining({ intent: LOAD_BILL }),
+        ]);
+      });
+    });
+
+    describe('existing bill that has not been edited', () => {
+      it('open export pdf modal', () => {
+        const { module, store, integration } = setUpWithRun();
+
+        module.openExportPdfModalOrSaveAndExportPdf();
+
+        expect(store.getActions()).toEqual([
+          { intent: OPEN_MODAL, modalType: ModalType.ExportPdf },
+        ]);
+        expect(integration.getRequests().length).toBe(0);
+      });
     });
   });
 });

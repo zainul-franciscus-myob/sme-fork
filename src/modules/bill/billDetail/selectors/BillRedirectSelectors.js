@@ -38,14 +38,6 @@ export const getDuplicateBillUrl = createSelector(
   (region, businessId, billId) => `/#/${region}/${businessId}/bill/new?duplicatedBillId=${billId}`,
 );
 
-export const getReadBillWithExportPdfModalUrl = (state) => {
-  const businessId = getBusinessId(state);
-  const region = getRegion(state);
-  const billId = getBillId(state);
-
-  return `/#/${region}/${businessId}/bill/${billId}?openExportPdf=true`;
-};
-
 const getBaseUrl = (state) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);
@@ -57,12 +49,6 @@ export const getSubscriptionSettingsUrl = (state) => {
   const baseUrl = getBaseUrl(state);
 
   return `${baseUrl}/settings/subscription`;
-};
-
-export const getBillListUrl = (state) => {
-  const baseUrl = getBaseUrl(state);
-
-  return `${baseUrl}/bill`;
 };
 
 const isNegativeAmount = amount => amount[0] === '-' && amount[1] === '$';

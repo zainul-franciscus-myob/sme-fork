@@ -10,17 +10,19 @@ import {
   UPDATE_BILL,
   UPDATE_BILL_ID,
 } from '../BillIntents';
-import { SUCCESSFULLY_DELETED_BILL, SUCCESSFULLY_SAVED_BILL, SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK } from '../types/BillMessageTypes';
 import {
-  mockCreateObjectUrl, setUpNewBillWithPrefilled, setUpWithExisting, setUpWithNew,
-} from './BillModule.test';
+  SUCCESSFULLY_DELETED_BILL,
+  SUCCESSFULLY_SAVED_BILL,
+  SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
+} from '../types/BillMessageTypes';
+import { mockCreateObjectUrl, setUpNewBillWithPrefilled, setUpWithRun } from './BillModule.test';
 
 describe('BillModule_Save', () => {
   mockCreateObjectUrl();
 
   describe('saveBill', () => {
     it('successfully creates a new bill', () => {
-      const { module, store, integration } = setUpWithNew();
+      const { module, store, integration } = setUpWithRun({ isCreating: true });
       module.pushMessage = jest.fn();
       module.globalCallbacks.inTrayBillSaved = jest.fn();
       module.finalRedirect = jest.fn();
@@ -46,7 +48,7 @@ describe('BillModule_Save', () => {
     });
 
     it('fails to create a new bill', () => {
-      const { module, store, integration } = setUpWithNew();
+      const { module, store, integration } = setUpWithRun({ isCreating: true });
       integration.mapFailure(CREATE_BILL);
 
       module.saveBill();
@@ -65,7 +67,7 @@ describe('BillModule_Save', () => {
     });
 
     it('successfully updates an existing bill', () => {
-      const { module, store, integration } = setUpWithExisting();
+      const { module, store, integration } = setUpWithRun();
       module.pushMessage = jest.fn();
       module.globalCallbacks.inTrayBillSaved = jest.fn();
       module.finalRedirect = jest.fn();
@@ -91,7 +93,7 @@ describe('BillModule_Save', () => {
     });
 
     it('fails to update an existing bill', () => {
-      const { module, store, integration } = setUpWithExisting();
+      const { module, store, integration } = setUpWithRun();
       integration.mapFailure(UPDATE_BILL);
 
       module.saveBill();
@@ -110,7 +112,7 @@ describe('BillModule_Save', () => {
     });
 
     it('show upgrade subscription modal and NOT save bill if save response contains monthlyLimit', () => {
-      const { module, store, integration } = setUpWithExisting();
+      const { module, store, integration } = setUpWithRun();
       integration.mapSuccess(UPDATE_BILL, { monthlyLimit: 100 });
 
       module.saveBill();
@@ -192,7 +194,7 @@ describe('BillModule_Save', () => {
 
   describe('saveAndCreateNewBill', () => {
     it('successfully saves bill and redirect to the create new bill page', () => {
-      const { module, store, integration } = setUpWithNew();
+      const { module, store, integration } = setUpWithRun({ isCreating: true });
       module.globalCallbacks.inTrayBillSaved = jest.fn();
       module.pushMessage = jest.fn();
 
@@ -218,7 +220,7 @@ describe('BillModule_Save', () => {
     });
 
     it('fails to save bill', () => {
-      const { module, store, integration } = setUpWithNew();
+      const { module, store, integration } = setUpWithRun({ isCreating: true });
       integration.mapFailure(CREATE_BILL);
 
       module.saveAndCreateNewBill();
@@ -240,7 +242,7 @@ describe('BillModule_Save', () => {
 
   describe('saveAndDuplicateBill', () => {
     it('successfully creates a new bill and redirect to the create bill page with prefilled information from the newly created bill', () => {
-      const { module, store, integration } = setUpWithNew();
+      const { module, store, integration } = setUpWithRun({ isCreating: true });
       integration.mapSuccess(CREATE_BILL, { id: 'id' });
       module.pushMessage = jest.fn();
       module.globalCallbacks.inTrayBillSaved = jest.fn();
@@ -268,7 +270,7 @@ describe('BillModule_Save', () => {
     });
 
     it('successfully updates an existing bill and redirect to the create bill page with prefilled information from the updated bill', () => {
-      const { module, store, integration } = setUpWithExisting();
+      const { module, store, integration } = setUpWithRun();
       module.pushMessage = jest.fn();
       module.globalCallbacks.inTrayBillSaved = jest.fn();
 
@@ -294,7 +296,7 @@ describe('BillModule_Save', () => {
     });
 
     it('fails to save bill', () => {
-      const { module, store, integration } = setUpWithNew();
+      const { module, store, integration } = setUpWithRun({ isCreating: true });
       integration.mapFailure(CREATE_BILL);
 
       module.saveAndDuplicateBill();
@@ -316,7 +318,7 @@ describe('BillModule_Save', () => {
 
   describe('cancelBill', () => {
     it('redirects on user confirming cancel', () => {
-      const { module } = setUpWithExisting();
+      const { module } = setUpWithRun();
       module.addBillLine({ id: '2', description: 'hello' });
 
       module.openCancelModal();
@@ -328,7 +330,7 @@ describe('BillModule_Save', () => {
 
   describe('deleteBill', () => {
     it('successfully deletes bill', () => {
-      const { module, store, integration } = setUpWithExisting();
+      const { module, store, integration } = setUpWithRun();
       module.pushMessage = jest.fn();
 
       module.deleteBill();
