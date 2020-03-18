@@ -1,3 +1,5 @@
+import LoadingState from '../../../components/PageView/LoadingState';
+
 export const defaultFilterOptions = {
   sourceJournal: 'All',
   keywords: '',
@@ -15,7 +17,7 @@ const getDefaultState = () => ({
   pagination: {},
   sortOrder: 'desc',
   orderBy: 'Date',
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   isTableLoading: false,
   isNextPageLoading: false,
 });

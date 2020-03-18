@@ -12,6 +12,7 @@ import {
 import { getIsSwitchingTab } from '../transactionListSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
 import { tabItemIds } from '../tabItems';
+import LoadingState from '../../../components/PageView/LoadingState';
 import TransactionListView from './components/CreditsAndDebitsListView';
 import createCreditsAndDebitsListDispatcher from './createCreditsAndDebitsListDispatcher';
 import createCreditsAndDebitsListIntegrator from './createCreditsAndDebitsListIntegrator';
@@ -70,16 +71,12 @@ export default class CreditsAndDebitsModule {
 
   loadCreditsAndDebitsList = () => {
     const onSuccess = (response) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadCreditsAndDebitsList(response);
     };
 
-    const onFailure = ({ message }) => {
-      this.dispatcher.setLoadingState(false);
-      this.setAlert({
-        type: 'danger',
-        message,
-      });
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.setLastLoadingTab();

@@ -3,6 +3,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 import { businessEventToFeatureMap } from '../../../common/types/BusinessEventTypeMap';
 import { tabItemIds } from '../tabItems';
 import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
+import LoadingState from '../../../components/PageView/LoadingState';
 import shallowCompare from '../../../common/shallowCompare/shallowCompare';
 
 const getJournalState = state => state.journalTransactions;
@@ -92,14 +93,14 @@ export const getIsTableLoading = createSelector(
   state => state.isTableLoading,
 );
 
-export const getIsLoading = createSelector(
+export const getLoadingState = createSelector(
   getJournalState,
-  state => state.isLoading,
+  state => state.loadingState,
 );
 
 export const getIsLoaded = createSelector(
-  getIsLoading,
-  isLoading => !isLoading,
+  getLoadingState,
+  loadingState => loadingState !== LoadingState.LOADING,
 );
 
 const getSourceJournal = createSelector(

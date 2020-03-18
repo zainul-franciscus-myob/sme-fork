@@ -1,5 +1,6 @@
 import { REPLACE_FILTER_OPTIONS, SET_INITIAL_STATE, UPDATE_FILTER_OPTIONS } from '../CreditsAndDebitsListIntents';
 import LoadMoreButtonStatuses from '../../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
+import LoadingState from '../../../../components/PageView/LoadingState';
 import Periods from '../../../../components/PeriodPicker/Periods';
 import createReducer from '../../../../store/createReducer';
 import getDateRangeByPeriodAndRegion from '../../../../components/PeriodPicker/getDateRangeByPeriodAndRegion';
@@ -55,7 +56,7 @@ describe('creditsAndDebitsListReducer', () => {
         sourceJournalFilters: [],
         sortOrder: 'desc',
         orderBy: 'Date',
-        isLoading: true,
+        loadingState: LoadingState.LOADING,
         isTableLoading: false,
         loadMoreButtonStatus: LoadMoreButtonStatuses.HIDDEN,
         pagination: {},
@@ -100,7 +101,7 @@ describe('creditsAndDebitsListReducer', () => {
         sourceJournalFilters: [],
         sortOrder: 'desc',
         orderBy: 'Date',
-        isLoading: true,
+        loadingState: LoadingState.LOADING,
         isTableLoading: false,
         loadMoreButtonStatus: LoadMoreButtonStatuses.HIDDEN,
         pagination: {},

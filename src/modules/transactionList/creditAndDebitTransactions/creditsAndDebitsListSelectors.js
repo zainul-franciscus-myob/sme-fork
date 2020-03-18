@@ -2,6 +2,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 
 import { businessEventToFeatureMap } from '../../../common/types/BusinessEventTypeMap';
 import { tabItemIds as tabItems } from '../tabItems';
+import LoadingState from '../../../components/PageView/LoadingState';
 import getDefaultState from './getDefaultState';
 import shallowCompare from '../../../common/shallowCompare/shallowCompare';
 
@@ -94,14 +95,14 @@ export const getIsTableLoading = createSelector(
   state => state.isTableLoading,
 );
 
-export const getIsLoading = createSelector(
+export const getLoadingState = createSelector(
   getCreditsAndDebitsState,
-  state => state.isLoading,
+  state => state.loadingState,
 );
 
 export const getIsLoaded = createSelector(
-  getIsLoading,
-  isLoading => !isLoading,
+  getLoadingState,
+  loadingState => loadingState !== LoadingState.LOADING,
 );
 
 const getAppliedSourceJournal = createSelector(

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsLoading, getLoadMoreButtonStatus,
+  getLoadMoreButtonStatus, getLoadingState,
 } from '../creditsAndDebitsListSelectors';
 import JournalTransactionListFilterOptions from './CreditsAndDebitsListFilterOptions';
 import JournalTransactionListTable from './CreditsAndDebitsListTable';
@@ -21,7 +21,7 @@ export const tableConfig = {
 };
 
 const CreditsAndDebitsListView = ({
-  isLoading,
+  loadingState,
   onUpdateFilters,
   onApplyFilter,
   onPeriodChange,
@@ -60,11 +60,11 @@ const CreditsAndDebitsListView = ({
     />
   );
 
-  return <PageView isLoading={isLoading} view={transactionListView} />;
+  return <PageView loadingState={loadingState} view={transactionListView} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   loadMoreButtonStatus: getLoadMoreButtonStatus(state),
 });
 

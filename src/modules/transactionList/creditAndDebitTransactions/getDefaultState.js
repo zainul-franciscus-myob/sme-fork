@@ -1,4 +1,5 @@
 import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
+import LoadingState from '../../../components/PageView/LoadingState';
 import Periods from '../../../components/PeriodPicker/Periods';
 
 const getDefaultState = () => ({
@@ -19,7 +20,7 @@ const getDefaultState = () => ({
   },
   sortOrder: 'desc',
   orderBy: 'Date',
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   isTableLoading: false,
   loadMoreButtonStatus: LoadMoreButtonStatuses.HIDDEN,
   pagination: {},

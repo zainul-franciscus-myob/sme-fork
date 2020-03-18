@@ -29,6 +29,7 @@ import {
 import { getIsSwitchingTab } from '../transactionListSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
 import { tabItemIds } from '../tabItems';
+import LoadingState from '../../../components/PageView/LoadingState';
 import TransactionListView from './components/JournalTransactionListView';
 import debounce from '../../../common/debounce/debounce';
 
@@ -90,7 +91,7 @@ export default class JournalTransactionModule {
     };
 
     const onSuccess = (response) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent,
         ...response,
@@ -100,9 +101,8 @@ export default class JournalTransactionModule {
       });
     };
 
-    const onFailure = ({ message }) => {
-      this.setLoadingState(false);
-      this.setAlert({ message, type: 'danger' });
+    const onFailure = () => {
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.setLastLoadingTab();
@@ -258,11 +258,11 @@ export default class JournalTransactionModule {
     this.store.unsubscribeAll();
   };
 
-  setLoadingState = (isLoading) => {
+  setLoadingState = (loadingState) => {
     const intent = SET_LOADING_STATE;
     this.store.dispatch({
       intent,
-      isLoading,
+      loadingState,
     });
   };
 

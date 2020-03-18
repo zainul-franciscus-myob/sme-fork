@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsLoading,
   getLoadMoreButtonStatus,
+  getLoadingState,
 } from '../journalTransactionListSelectors';
 import JournalTransactionListFilterOptions from './JournalTransactionListFilterOptions';
 import JournalTransactionListTable from './JournalTransactionListTable';
@@ -23,7 +23,7 @@ export const tableConfig = {
 
 const JournalTransactionListView = (props) => {
   const {
-    isLoading,
+    loadingState,
     loadMoreButtonStatus,
     onUpdateFilters,
     onUpdateMultiFilters,
@@ -63,11 +63,11 @@ const JournalTransactionListView = (props) => {
     />
   );
 
-  return <PageView isLoading={isLoading} view={transactionListView} />;
+  return <PageView loadingState={loadingState} view={transactionListView} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   loadMoreButtonStatus: getLoadMoreButtonStatus(state),
 });
 

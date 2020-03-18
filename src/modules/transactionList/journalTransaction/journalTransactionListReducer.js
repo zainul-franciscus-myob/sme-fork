@@ -126,7 +126,7 @@ const setTableLoadingState = (state, action) => ({
 
 const setLoadingState = (state, action) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState: action.loadingState,
 });
 
 const setIsNextPageLoadingState = (state, action) => ({
