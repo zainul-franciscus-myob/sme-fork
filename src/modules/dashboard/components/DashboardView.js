@@ -18,6 +18,7 @@ import DashboardPurchaseCard from './purchase/DashboardPurchaseCard';
 import DashboardSalesCard from './sales/DashboardSalesCard';
 import DashboardTrackingCard from './tracking/DashboardTrackingCard';
 import PageView from '../../../components/PageView/PageView';
+import footerImage from './footer-right-illustration.svg';
 import styles from './DashboardView.module.css';
 
 const DashboardView = ({
@@ -79,6 +80,8 @@ const DashboardView = ({
 
           {shouldShowLeanEngage && <DashboardLeanEngageCard />}
         </div>
+
+        <img src={footerImage} alt="" />
       </div>
     </div>
   );
