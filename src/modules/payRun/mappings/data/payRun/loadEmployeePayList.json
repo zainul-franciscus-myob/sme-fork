@@ -1,5 +1,7 @@
 {
   "stpRegistrationStatus": "registered",
+  "baseHourlyWagePayItemId": 2,
+  "baseSalaryWagePayItemId": 1,
   "employeePays": [
     {
       "employeeId": 21,

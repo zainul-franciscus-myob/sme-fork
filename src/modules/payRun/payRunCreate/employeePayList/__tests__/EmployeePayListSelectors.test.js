@@ -22,6 +22,8 @@ import {
 import EtpCode from '../types/EtpCode';
 import deductionPayItemEntries from './fixtures/deductionPayItemEntries';
 import employeePayList from './fixtures/stateWithEmployeePayItems';
+import employeePayListWithNegativeBaseSalary from './fixtures/stateWithNegativeBaseSalary';
+import employeePayListWithPositiveBaseSalary from './fixtures/stateWithPositiveBaseSalary';
 import employerExpensePayItemEntries from './fixtures/employerExpensePayItemEntries';
 import expectedRecalculatePayPayload from './fixtures/expectedRecalculatePayPayload';
 import leavePayItemEntries from './fixtures/leavePayItemEntries';
@@ -394,6 +396,25 @@ describe('EmployeePayListSelectors', () => {
   });
 
   describe('getWagePayItemEntries', () => {
+    describe('show zero for negative values on base salary', () => {
+      it('sets base salary amount to zero when it is negative', () => {
+        const actualWagePayItemEntries = getWagePayItemEntries(employeePayListWithNegativeBaseSalary, { employeeId: '21' });
+
+        expect(actualWagePayItemEntries[0].amount).toEqual('0.00');
+      });
+
+      it('passes the existing base salary amount when it is positive', () => {
+        const actualWagePayItemEntries = getWagePayItemEntries(employeePayListWithPositiveBaseSalary, { employeeId: '21' });
+        expect(actualWagePayItemEntries[0].amount).toEqual('100000.00');
+      });
+
+      it('does not set other pay items to zero when they are negative', () => {
+        const actualWagePayItemEntries = getWagePayItemEntries(employeePayListWithNegativeBaseSalary, { employeeId: '21' });
+
+        expect(actualWagePayItemEntries[1].amount).toEqual('-100000.00');
+      });
+    });
+
     it('returns sorted wage pay item entries', () => {
       const actualWagePayItemEntries = getWagePayItemEntries(employeePayList, { employeeId: '21' });
 

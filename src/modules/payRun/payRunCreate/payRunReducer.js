@@ -141,6 +141,8 @@ const editExistingPayRun = (state, action) => {
     employeePays,
     selectedEmployeeIds,
     unprocessedTimesheetSelections,
+    baseSalaryWagePayItemId,
+    baseHourlyWagePayItemId,
     ...draftPayRunDetails
   } = action.draftPayRun;
 
@@ -161,6 +163,8 @@ const editExistingPayRun = (state, action) => {
     },
     [EMPLOYEE_PAY_LIST]: {
       ...state[EMPLOYEE_PAY_LIST],
+      baseSalaryWagePayItemId,
+      baseHourlyWagePayItemId,
       lines: getEmployeePayLines(
         employeePays, ep => (isEmployeeSelected(ep.employeeId, selectedEmployeeIds)),
       ),
