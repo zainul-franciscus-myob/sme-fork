@@ -88,6 +88,7 @@ const BillItemAndServiceTableRow = ({
           value={description}
           onChange={onChange}
           disabled={isBlocking || isSupplierDisabled}
+          maxLength={255}
         />
       </div>
       <AccountCombobox
@@ -106,6 +107,7 @@ const BillItemAndServiceTableRow = ({
         onBlur={handleAmountInputBlur(onRowInputBlur, index)}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.units) })}
         disabled={isBlocking || isSupplierDisabled}
+        numeralIntegerScale={12}
         numeralDecimalScaleMax={6}
       />
       <AmountInput

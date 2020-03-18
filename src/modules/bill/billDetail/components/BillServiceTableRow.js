@@ -60,6 +60,7 @@ const BillServiceTableRow = ({
         name="description"
         value={description}
         onChange={onChange}
+        maxLength={255}
         autoSize
       />
       <AccountCombobox
