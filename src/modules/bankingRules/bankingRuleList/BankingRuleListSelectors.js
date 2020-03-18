@@ -7,11 +7,10 @@ export const getBusinessId = state => state.businessId;
 export const getLoadingState = state => state.loadingState;
 export const getSortOrder = state => state.sortOrder;
 export const getOrderBy = state => state.orderBy;
-export const getAppliedFilterOptions = state => state.appliedFilterOptions;
 export const getFilterOptions = state => state.filterOptions;
 export const getIsTableLoading = state => state.isTableLoading;
 export const getAlert = state => state.alert;
-export const getIsFilterStateChanged = state => state.appliedFilterOptions.keywords !== '';
+export const getIsFilterStateChanged = state => state.filterOptions.keywords !== '';
 const getEntries = state => state.entries;
 
 export const getOrder = createSelector(
@@ -25,7 +24,7 @@ export const getOrder = createSelector(
 
 export const getIsTableEmpty = state => state.entries.length === 0;
 
-export const getIsStatusDisplayed = state => state.appliedFilterOptions.showInactive;
+export const getIsStatusDisplayed = state => state.filterOptions.showInactive;
 
 export const getSelectedBankingRuleUrl = (state, bankingRuleType) => {
   const params = getQueryFromParams({

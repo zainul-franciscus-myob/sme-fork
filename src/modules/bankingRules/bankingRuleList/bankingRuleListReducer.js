@@ -23,10 +23,6 @@ const getDefaultState = () => ({
     keywords: '',
     showInactive: false,
   },
-  appliedFilterOptions: {
-    keywords: '',
-    showInactive: false,
-  },
   entries: [],
 });
 
@@ -40,7 +36,6 @@ const loadBankingRuleList = (state, action) => ({
 const sortAndFilterBankingRuleList = (state, action) => ({
   ...state,
   entries: action.entries,
-  appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
 });
 
 const setSortOrder = (state, action) => ({

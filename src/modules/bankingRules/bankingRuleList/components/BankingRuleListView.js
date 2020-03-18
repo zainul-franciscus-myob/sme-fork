@@ -19,7 +19,6 @@ const BankingRuleListView = ({
   loadingState,
   onSort,
   onSelectBankingRule,
-  onApplyFilters,
   onUpdateFilters,
   onDismissAlert,
 }) => {
@@ -32,7 +31,6 @@ const BankingRuleListView = ({
   const filterBar = (
     <BankingRuleListFilterOptions
       onUpdateFilters={onUpdateFilters}
-      onApplyFilters={onApplyFilters}
     />
   );
 

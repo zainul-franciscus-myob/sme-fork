@@ -1,3 +1,4 @@
+import * as debounce from '../../../../common/debounce/debounce';
 import {
   LOAD_BANKING_RULE_LIST,
   SET_ALERT,
@@ -210,31 +211,17 @@ describe('BankingRuleListModule', () => {
   });
 
   describe('filterBankingRuleList', () => {
-    const setupWithFilter = () => {
-      const toolbox = setupWithRun();
-      const { store, module } = toolbox;
+    it('successfully apply filter', () => {
+      const { store, integration, module } = setupWithRun();
 
-      module.dispatcher.updateFilterOptions({ key: 'keywords', value: '😗' });
+      module.updateFilterOptions({ key: 'showInactive', value: true });
 
       expect(store.getActions()).toEqual([
         {
           intent: UPDATE_FILTER_OPTIONS,
-          key: 'keywords',
-          value: '😗',
+          key: 'showInactive',
+          value: true,
         },
-      ]);
-
-      store.resetActions();
-
-      return toolbox;
-    };
-
-    it('successfully apply filter', () => {
-      const { store, integration, module } = setupWithFilter();
-
-      module.filterBankingRuleList();
-
-      expect(store.getActions()).toEqual([
         {
           intent: SET_TABLE_LOADING_STATE,
           isTableLoading: true,
@@ -252,19 +239,24 @@ describe('BankingRuleListModule', () => {
         expect.objectContaining({
           intent: SORT_AND_FILTER_BANKING_RULE_LIST,
           params: expect.objectContaining({
-            keywords: '😗',
+            showInactive: true,
           }),
         }),
       ]);
     });
 
     it('fails to apply filter', () => {
-      const { store, integration, module } = setupWithFilter();
+      const { store, integration, module } = setupWithRun();
       integration.mapFailure(SORT_AND_FILTER_BANKING_RULE_LIST);
 
-      module.filterBankingRuleList();
+      module.updateFilterOptions({ key: 'showInactive', value: true });
 
       expect(store.getActions()).toEqual([
+        {
+          intent: UPDATE_FILTER_OPTIONS,
+          key: 'showInactive',
+          value: true,
+        },
         {
           intent: SET_TABLE_LOADING_STATE,
           isTableLoading: true,
@@ -284,6 +276,15 @@ describe('BankingRuleListModule', () => {
           intent: SORT_AND_FILTER_BANKING_RULE_LIST,
         }),
       ]);
+    });
+
+    it('debounces keyword filter', () => {
+      const { module } = setupWithRun();
+      debounce.default = jest.fn().mockImplementation(fn => fn);
+
+      module.updateFilterOptions({ key: 'keywords', value: '🐛' });
+
+      expect(debounce.default).toHaveBeenCalled();
     });
   });
 });

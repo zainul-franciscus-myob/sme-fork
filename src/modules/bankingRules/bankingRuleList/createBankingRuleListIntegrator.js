@@ -1,6 +1,5 @@
 import { LOAD_BANKING_RULE_LIST, SORT_AND_FILTER_BANKING_RULE_LIST } from './BankingRuleListIntents';
 import {
-  getAppliedFilterOptions,
   getBusinessId,
   getFilterOptions,
   getNewSortOrder,
@@ -44,7 +43,7 @@ const createBankingRuleListIntegrator = (store, integration) => ({
   sortBankingRuleList: ({ orderBy, onSuccess, onFailure }) => {
     const state = store.getState();
     const sortOrder = getNewSortOrder(state, orderBy);
-    const filterOptions = getAppliedFilterOptions(state);
+    const filterOptions = getFilterOptions(state);
 
     integration.read({
       intent: SORT_AND_FILTER_BANKING_RULE_LIST,

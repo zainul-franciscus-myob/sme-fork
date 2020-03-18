@@ -14,6 +14,7 @@ import Store from '../../../store/Store';
 import bankingRuleListReducer from './bankingRuleListReducer';
 import createBankingRuleListDispatcher from './createBankingRuleListDispatcher';
 import createBankingRuleListIntegrator from './createBankingRuleListIntegrator';
+import debounce from '../../../common/debounce/debounce';
 
 const messageTypes = [
   SUCCESSFULLY_DELETED_BANKING_RULE,
@@ -78,12 +79,21 @@ export default class BankingRuleListModule {
     window.location.href = getSelectedBankingRuleUrl(state, value);
   };
 
+  updateFilterOptions = ({ key, value }) => {
+    this.dispatcher.updateFilterOptions({ key, value });
+
+    if (key === 'keywords') {
+      debounce(this.filterBankingRuleList)();
+    } else {
+      this.filterBankingRuleList();
+    }
+  }
+
   render = () => {
     const bankingRuleListView = (
       <BankingRuleListView
         onSort={this.sortBankingRuleList}
-        onApplyFilters={this.filterBankingRuleList}
-        onUpdateFilters={this.dispatcher.updateFilterOptions}
+        onUpdateFilters={this.updateFilterOptions}
         onDismissAlert={this.dismissAlert}
         onSelectBankingRule={this.selectBankingRule}
       />
