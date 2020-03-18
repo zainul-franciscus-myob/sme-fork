@@ -34,7 +34,6 @@ const ItemListView = ({
   loadMoreButtonStatus,
   onDismissAlert,
   onUpdateFilters,
-  onApplyFilter,
   onSort,
   onCreateItem,
   onLoadMoreButtonClick,
@@ -48,7 +47,6 @@ const ItemListView = ({
   const filterBar = (
     <ItemListFilterOptions
       onUpdateFilters={onUpdateFilters}
-      onApplyFilter={onApplyFilter}
     />
   );
 

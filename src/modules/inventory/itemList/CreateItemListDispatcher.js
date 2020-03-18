@@ -79,10 +79,11 @@ const CreateItemListDispatcher = store => ({
       ...response,
     });
   },
-  updateFilterOptions: (filterOption) => {
+  updateFilterOptions: ({ key, value }) => {
     store.dispatch({
       intent: UPDATE_FILTER_OPTIONS,
-      ...filterOption,
+      key,
+      value,
     });
   },
   setSortOrder: (orderBy) => {

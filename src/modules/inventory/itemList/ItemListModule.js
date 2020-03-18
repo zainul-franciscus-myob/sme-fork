@@ -13,6 +13,7 @@ import CreateItemListDispatcher from './CreateItemListDispatcher';
 import CreateItemListIntegrator from './CreateItemListIntegrator';
 import ItemListView from './components/ItemListView';
 import Store from '../../../store/Store';
+import debounce from '../../../common/debounce/debounce';
 import itemListReducer from './itemListReducer';
 
 const messageTypes = [
@@ -34,7 +35,6 @@ export default class ItemListModule {
   render = () => {
     const itemListView = (
       <ItemListView
-        onApplyFilter={this.filterItemList}
         onUpdateFilters={this.updateFilterOptions}
         onDismissAlert={this.dismissAlert}
         onSort={this.sortItemList}
@@ -139,8 +139,14 @@ export default class ItemListModule {
     }
   }
 
-  updateFilterOptions = (filterOption) => {
-    this.dispatcher.updateFilterOptions(filterOption);
+  updateFilterOptions = ({ key, value }) => {
+    this.dispatcher.updateFilterOptions({ key, value });
+
+    if (key === 'keywords') {
+      debounce(this.filterItemList)();
+    } else {
+      this.filterItemList();
+    }
   }
 
   dismissAlert = () => {

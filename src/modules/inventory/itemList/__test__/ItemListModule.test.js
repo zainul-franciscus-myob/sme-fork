@@ -1,3 +1,4 @@
+import * as debounce from '../../../../common/debounce/debounce';
 import {
   LOAD_ITEM_LIST,
   LOAD_NEXT_PAGE,
@@ -7,6 +8,7 @@ import {
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_ITEM_LIST,
+  UPDATE_FILTER_OPTIONS,
 } from '../../InventoryIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import CreateItemListDispatcher from '../CreateItemListDispatcher';
@@ -332,6 +334,84 @@ describe('ItemListModule', () => {
           intent: LOAD_NEXT_PAGE,
         }),
       ]);
+    });
+  });
+
+  describe('updateFilterOptions', () => {
+    it('successfully filters', () => {
+      const { module, store, integration } = setupWithRun();
+
+      module.updateFilterOptions({ key: 'showInactive', value: true });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: UPDATE_FILTER_OPTIONS,
+          key: 'showInactive',
+          value: true,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: true,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: false,
+        },
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ITEM_LIST,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ITEM_LIST,
+        }),
+      ]);
+    });
+
+    it('fails to filter', () => {
+      const { module, store, integration } = setupWithRun();
+      integration.mapFailure(SORT_AND_FILTER_ITEM_LIST);
+
+      module.updateFilterOptions({ key: 'showInactive', value: true });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: UPDATE_FILTER_OPTIONS,
+          key: 'showInactive',
+          value: true,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: true,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: false,
+        },
+        {
+          intent: SET_ALERT,
+          alert: {
+            type: 'danger',
+            message: 'fails',
+          },
+        },
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ITEM_LIST,
+        }),
+      ]);
+    });
+
+    it('debounces when updating `keywords` filter', () => {
+      const { module } = setupWithRun();
+      debounce.default = jest.fn().mockImplementation(fn => fn);
+
+      module.updateFilterOptions({ key: 'keywords', value: '🐛' });
+
+      expect(debounce.default).toHaveBeenCalled();
     });
   });
 });

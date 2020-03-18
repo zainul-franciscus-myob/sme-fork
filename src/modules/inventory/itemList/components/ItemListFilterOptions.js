@@ -4,59 +4,31 @@ import React from 'react';
 
 import { getFilterOptions, getTypeOptions } from '../itemListSelectors';
 import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
+import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
+import handleInputChange from '../../../../components/handlers/handleInputChange';
+import handleSelectChange from '../../../../components/handlers/handleSelectChange';
 
-class ItemListFilterOptions extends React.Component {
-  onSelectChange = (e) => {
-    const filterName = 'type';
-    const { value } = e.target;
-
-    const { onUpdateFilters } = this.props;
-
-    onUpdateFilters({ filterName, value });
-  }
-
-  onSearchBoxChange = (e) => {
-    const filterName = 'keywords';
-    const { value } = e.target;
-    const { onUpdateFilters } = this.props;
-
-    onUpdateFilters({ filterName, value });
-  }
-
-  onCheckboxChange = (e) => {
-    const filterName = 'showInactive';
-    const value = e.target.checked;
-    const { onUpdateFilters } = this.props;
-    onUpdateFilters({ filterName, value });
-  }
-
-
-  render = () => {
-    const {
-      filterOptions: {
-        type,
-        keywords,
-        showInactive,
-      },
-      typeOptions,
-      onApplyFilter,
-    } = this.props;
-
-    return (
-      <FilterBar onApply={onApplyFilter}>
-        <Select name="type" label="Item type" value={type} onChange={this.onSelectChange}>
-          {typeOptions.map(({ label, value }) => (
-            <Select.Option value={value} label={label} key={value} />
-          ))}
-        </Select>
-        <FilterBarSearch name="keyword" value={keywords} onChange={this.onSearchBoxChange} />
-        <FilterBar.Item>
-          <Checkbox id="Check_Box" name="showInactive" label="Show inactive" checked={showInactive} onChange={this.onCheckboxChange} />
-        </FilterBar.Item>
-      </FilterBar>
-    );
-  }
-}
+const ItemListFilterOptions = ({
+  filterOptions: {
+    type,
+    keywords,
+    showInactive,
+  },
+  typeOptions,
+  onUpdateFilters,
+}) => (
+  <FilterBar>
+    <Select name="type" label="Item type" value={type} onChange={handleSelectChange(onUpdateFilters)}>
+      {typeOptions.map(({ label, value }) => (
+        <Select.Option value={value} label={label} key={value} />
+      ))}
+    </Select>
+    <FilterBarSearch name="keywords" value={keywords} onChange={handleInputChange(onUpdateFilters)} />
+    <FilterBar.Item>
+      <Checkbox id="Check_Box" name="showInactive" label="Show inactive" checked={showInactive} onChange={handleCheckboxChange(onUpdateFilters)} />
+    </FilterBar.Item>
+  </FilterBar>
+);
 
 const mapStateToProps = state => ({
   typeOptions: getTypeOptions(state),

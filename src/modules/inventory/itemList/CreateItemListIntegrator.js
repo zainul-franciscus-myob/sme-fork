@@ -1,6 +1,5 @@
 import { LOAD_ITEM_LIST, LOAD_NEXT_PAGE, SORT_AND_FILTER_ITEM_LIST } from '../InventoryIntents';
 import {
-  getAppliedFilterOptions,
   getBusinessId,
   getFilterOptions,
   getFlipSortOrder,
@@ -29,7 +28,7 @@ const CreateItemListIntegrator = (store, integration) => ({
   },
   sortItemList: ({ onSuccess, onFailure, orderBy }) => {
     const state = store.getState();
-    const filterOptions = getAppliedFilterOptions(state);
+    const filterOptions = getFilterOptions(state);
     const newSortOrder = orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
     const urlParams = {
       businessId: getBusinessId(state),

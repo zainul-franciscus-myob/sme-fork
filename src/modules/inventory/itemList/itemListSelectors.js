@@ -7,8 +7,6 @@ export const getBusinessId = state => state.businessId;
 
 export const getFilterOptions = ({ filterOptions }) => filterOptions;
 
-export const getAppliedFilterOptions = ({ appliedFilterOptions }) => appliedFilterOptions;
-
 export const getTableEntries = ({ entries }) => entries;
 
 export const getRegion = state => state.region;
@@ -90,13 +88,13 @@ export const getLoadMoreButtonStatus = (state) => {
 export const getOffset = state => state.pagination.offset;
 
 export const getLoadNextPageParams = createSelector(
-  getAppliedFilterOptions,
+  getFilterOptions,
   getSortOrder,
   getOrderBy,
   getOffset,
-  (appliedFilterOptions, sortOrder, orderBy, offset) => (
+  (filterOptions, sortOrder, orderBy, offset) => (
     {
-      ...appliedFilterOptions,
+      ...filterOptions,
       sortOrder,
       orderBy,
       offset,

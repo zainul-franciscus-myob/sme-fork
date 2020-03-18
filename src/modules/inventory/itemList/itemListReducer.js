@@ -21,11 +21,6 @@ const getDefaultState = () => ({
     keywords: '',
     showInactive: false,
   },
-  appliedFilterOptions: {
-    type: 'All',
-    keywords: '',
-    showInactive: false,
-  },
   orderBy: '',
   sortOrder: '',
   typeFilters: [],
@@ -50,10 +45,6 @@ const loadItemList = (state, action) => ({
     ...state.filterOptions,
     type: action.type,
   },
-  appliedFilterOptions: {
-    ...state.appliedFilterOptions,
-    type: action.type,
-  },
   pagination: {
     hasNextPage: action.pagination.hasNextPage,
     offset: action.pagination.offset,
@@ -75,7 +66,6 @@ const sortAndFilterItemList = (state, action) => ({
   ...state,
   entries: action.entries,
   isFilteredList: action.isFilteredList,
-  appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
   showHiddenColumns: state.filterOptions.showInactive,
   pagination: {
     hasNextPage: action.pagination.hasNextPage,
@@ -87,7 +77,7 @@ const updateFilterOptions = (state, action) => ({
   ...state,
   filterOptions: {
     ...state.filterOptions,
-    [action.filterName]: action.value,
+    [action.key]: action.value,
   },
 });
 
