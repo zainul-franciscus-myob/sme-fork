@@ -17,7 +17,7 @@ const getDefaultState = () => ({
   subscriptionType: '',
   isCurrentUserAdvisor: false,
   isTrial: false,
-  trialEndDate: '',
+  trialEndDate: undefined,
 });
 
 const setLoadingState = (state, { isLoading }) => ({

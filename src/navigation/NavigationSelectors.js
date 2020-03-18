@@ -317,3 +317,7 @@ export const getShouldDisplayReportsMenu = createSelector(
 );
 
 export const getShouldDisplayChangePlan = ({ subscriptionType }) => subscriptionType === 'paid';
+
+export const getShouldDisplaySubscriptionNow = state => (
+  hasBusinessId(state) && Boolean(getTrialEndDate(state))
+);

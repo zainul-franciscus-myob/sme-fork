@@ -16,6 +16,7 @@ import {
   getShouldDisplayPurchasesMenu,
   getShouldDisplayReportsMenu,
   getShouldDisplaySalesMenu,
+  getShouldDisplaySubscriptionNow,
   getShowUrls,
   getTrialEndDate,
   hasBusinessId,
@@ -181,6 +182,7 @@ const NavigationBar = ({
   hasTasks,
   businessName,
 }) => {
+  console.log(shouldDisplaySubscriptionNow);
   const primaryMenuItems = getPrimary({
     onMenuSelect,
     onMenuLinkClick,
@@ -255,7 +257,7 @@ const mapStateToProps = state => ({
   shouldDisplayHelpMenu: hasBusinessId(state),
   shouldDisplayTasksMenu: hasBusinessId(state),
   shouldDisplayChangePlan: getShouldDisplayChangePlan(state),
-  shouldDisplaySubscriptionNow: hasBusinessId(state) && getTrialEndDate(state) != null,
+  shouldDisplaySubscriptionNow: getShouldDisplaySubscriptionNow(state),
   trialEndDate: getTrialEndDate(state),
   menuLogoUrl: getMenuLogoUrl(state)(window.location.href),
 });

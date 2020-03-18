@@ -4,6 +4,7 @@ import {
   getReportsUrls,
   getSalesUrls,
   getShouldDisplayChangePlan,
+  getShouldDisplaySubscriptionNow,
   getShouldShowPaymentDetail,
   getShowUrls,
   noOpRouteNames,
@@ -205,6 +206,46 @@ describe('NavigationSelectors', () => {
       const actual = getShouldShowPaymentDetail(modifiedState);
 
       expect(actual).toEqual(false);
+    });
+  });
+
+  describe('shouldDisplaySubscriptionNow', () => {
+    const state = {
+      routeParams: {
+        businessId: '🍟',
+      },
+      trialEndDate: '2020-02-02',
+    };
+
+    it('true when is a trial business', () => {
+      const actual = getShouldDisplaySubscriptionNow(state);
+
+      expect(actual).toEqual(true);
+    });
+
+    [
+      {
+        name: 'no businessId',
+        state: {
+          ...state,
+          routeParams: {
+            businessId: undefined,
+          },
+        },
+      },
+      {
+        name: 'no trial end date',
+        state: {
+          ...state,
+          trialEndDate: undefined,
+        },
+      },
+    ].forEach(test => {
+      it(`false when ${test.name}`, () => {
+        const actual = getShouldDisplaySubscriptionNow(test.state);
+
+        expect(actual).toEqual(false);
+      });
     });
   });
 });
