@@ -150,6 +150,10 @@ describe('BankingRuleListModule', () => {
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: SORT_AND_FILTER_BANKING_RULE_LIST,
+          params: expect.objectContaining({
+            sortOrder: 'desc',
+            orderBy: 'Name',
+          }),
         }),
       ]);
     });

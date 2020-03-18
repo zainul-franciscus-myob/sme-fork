@@ -2,7 +2,6 @@ import { LOAD_BANKING_RULE_LIST, SORT_AND_FILTER_BANKING_RULE_LIST } from './Ban
 import {
   getBusinessId,
   getFilterOptions,
-  getNewSortOrder,
   getOrderBy,
   getSortOrder,
 } from './BankingRuleListSelectors';
@@ -20,7 +19,7 @@ const createBankingRuleListIntegrator = (store, integration) => ({
       onFailure,
     });
   },
-  filterBankingRuleList: ({ onSuccess, onFailure }) => {
+  sortAndFilterBankingRuleList: ({ onSuccess, onFailure }) => {
     const state = store.getState();
     const filterOptions = getFilterOptions(state);
     const sortOrder = getSortOrder(state);
@@ -40,26 +39,6 @@ const createBankingRuleListIntegrator = (store, integration) => ({
       onFailure,
     });
   },
-  sortBankingRuleList: ({ orderBy, onSuccess, onFailure }) => {
-    const state = store.getState();
-    const sortOrder = getNewSortOrder(state, orderBy);
-    const filterOptions = getFilterOptions(state);
-
-    integration.read({
-      intent: SORT_AND_FILTER_BANKING_RULE_LIST,
-      urlParams: {
-        businessId: getBusinessId(state),
-      },
-      params: {
-        ...filterOptions,
-        sortOrder,
-        orderBy,
-      },
-      onSuccess,
-      onFailure,
-    });
-  },
-
 });
 
 export default createBankingRuleListIntegrator;

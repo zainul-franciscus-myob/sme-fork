@@ -161,6 +161,10 @@ describe('ItemListModule', () => {
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: SORT_AND_FILTER_ITEM_LIST,
+          params: expect.objectContaining({
+            sortOrder: 'desc',
+            orderBy: 'DisplayId',
+          }),
         }),
       ]);
     });

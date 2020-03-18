@@ -82,7 +82,7 @@ export default class ItemListModule {
     };
 
     this.dispatcher.setTableLoadingState(true);
-    this.integrator.sortItemList({ onSuccess, onFailure, orderBy });
+    this.integrator.sortAndFilterItemList({ onSuccess, onFailure, orderBy });
   };
 
   filterItemList = () => {
@@ -97,7 +97,7 @@ export default class ItemListModule {
     };
 
     this.dispatcher.setTableLoadingState(true);
-    this.integrator.filterItemList({ onSuccess, onFailure });
+    this.integrator.sortAndFilterItemList({ onSuccess, onFailure });
   };
 
   loadNextPage = () => {

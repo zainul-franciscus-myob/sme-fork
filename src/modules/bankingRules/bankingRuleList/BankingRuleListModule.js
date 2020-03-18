@@ -58,7 +58,7 @@ export default class BankingRuleListModule {
 
     const onFailure = ({ message }) => this.dispatcher.setAlert({ message, type: 'danger' });
 
-    this.integrator.sortBankingRuleList({ orderBy, onSuccess, onFailure });
+    this.integrator.sortAndFilterBankingRuleList({ onSuccess, onFailure });
   }
 
   filterBankingRuleList = () => {
@@ -71,7 +71,7 @@ export default class BankingRuleListModule {
 
     const onFailure = ({ message }) => this.dispatcher.setAlert({ message, type: 'danger' });
 
-    this.integrator.filterBankingRuleList({ onSuccess, onFailure });
+    this.integrator.sortAndFilterBankingRuleList({ onSuccess, onFailure });
   }
 
   selectBankingRule = (value) => {
