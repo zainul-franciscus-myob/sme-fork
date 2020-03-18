@@ -69,4 +69,17 @@ describe('convertRoutesToRouterConfig', () => {
 
     expect(actual[0].path).toEqual('/freddo');
   });
+
+  it('allows the passing of defaultParameters', () => {
+    const routes = [
+      {
+        name: '🐸',
+        path: '/freddo',
+        defaultParams: { region: '🌏' },
+      },
+    ];
+    const actual = convertRoutesToRouterConfig(routes);
+
+    expect(actual[0].defaultParams).toEqual({ region: '🌏' });
+  });
 });

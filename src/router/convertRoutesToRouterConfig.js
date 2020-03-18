@@ -7,9 +7,12 @@ const getFullPath = (path, queryParams = []) => {
   return queryPath ? `${fixedPath}?${queryPath}` : fixedPath;
 };
 
-const buildSubRoute = ({ name, path, allowedParams }) => ({
+const buildSubRoute = ({
+  name, path, allowedParams, defaultParams,
+}) => ({
   name,
   path: getFullPath(path, allowedParams),
+  defaultParams,
 });
 
 const convertRoutesToRouterConfig = routes => routes.map(buildSubRoute);
