@@ -12,7 +12,7 @@
     "abortcontroller-polyfill": "1.4.0",
     "chart.js": "2.9.3",
     "classnames": "2.2.6",
-    "cleave.js": "1.5.8",
+    "cleave.js": "1.5.3",
     "copy-to-clipboard": "3.3.1",
     "date-fns": "2.11.0",
     "decimal.js": "10.2.0",
@@ -25,8 +25,8 @@
     "react-redux": "7.2.0",
     "react-scripts": "3.4.0",
     "reselect": "4.0.0",
-    "router5": "8.0.0",
-    "router5-plugin-browser": "8.0.0",
+    "router5": "7.0.2",
+    "router5-plugin-browser": "7.0.2",
     "shortid": "2.2.15",
     "uuid": "7.0.2",
     "whatwg-fetch": "3.0.0"
@@ -34,7 +34,7 @@
   "scripts": {
     "start": "react-scripts start",
     "start:with-bff": "REACT_APP_INTEGRATION_TYPE=AuthHttp react-scripts start",
-    "test": "TZ=UTC react-scripts test --env=jsdom --testPathIgnorePatterns \"\\.convention\\.\"",
+    "test": "TZ=UTC react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint:js": "eslint ./src",
     "lint:js:fix": "eslint ./src --fix",
