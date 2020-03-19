@@ -3,6 +3,7 @@ import React from 'react';
 
 import LearnComponent from '../../../components/LearnTemplate/LearnComponent';
 import WistiaVideoPlayer from '../../../components/WistiaVideoPlayer/WistiaVideoPlayer';
+import styles from '../../../components/LearnTemplate/LearnComponent.module.css';
 
 class LearnInTrayModule {
   constructor({ setRootView, globalCallbacks }) {
@@ -35,11 +36,13 @@ class LearnInTrayModule {
         <li>Review, record and celebrate doing things right</li>
       </ol>
 
-      <ButtonRow
-        secondary={[
-          <Button type="primary" key="tryItOut" onClick={() => this.onTryItOut(region, businessId)}>Try it out</Button>,
-        ]}
-      />
+      <div className={styles.buttonContainer}>
+        <ButtonRow
+          secondary={[
+            <Button type="primary" key="tryItOut" onClick={() => this.onTryItOut(region, businessId)}>Try it out</Button>,
+          ]}
+        />
+      </div>
     </LearnComponent>,
   );
 

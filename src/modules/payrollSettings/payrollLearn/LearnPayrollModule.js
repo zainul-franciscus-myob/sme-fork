@@ -3,6 +3,7 @@ import React from 'react';
 
 import LearnComponent from '../../../components/LearnTemplate/LearnComponent';
 import WistiaVideoPlayer from '../../../components/WistiaVideoPlayer/WistiaVideoPlayer';
+import styles from '../../../components/LearnTemplate/LearnComponent.module.css';
 
 export default class LearnPayrollModule {
   constructor({
@@ -53,11 +54,13 @@ export default class LearnPayrollModule {
           <li>Run a pay run</li>
         </ol>
 
-        <ButtonRow
-          secondary={[
-            <Button type="primary" key="setupPayroll" onClick={() => this.onClick(region, businessId)}>Set up payroll settings</Button>,
-          ]}
-        />
+        <div className={styles.buttonContainer}>
+          <ButtonRow
+            secondary={[
+              <Button type="primary" key="setupPayroll" onClick={() => this.onClick(region, businessId)}>Set up payroll settings</Button>,
+            ]}
+          />
+        </div>
       </LearnComponent>,
     );
   }

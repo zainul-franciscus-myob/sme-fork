@@ -1,0 +1,16 @@
+.textContainer {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.buttonContainer {
+  display: flex;
+  flex: 1;
+  align-items: flex-end;
+  margin-top: 3rem;
+}
+
+.textContainer li {
+  margin-bottom: 1rem;
+}

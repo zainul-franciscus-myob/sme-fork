@@ -3,6 +3,7 @@ import React from 'react';
 
 import EmployeeLearnImage from './EmployeeLearnImage';
 import LearnComponent from '../../../components/LearnTemplate/LearnComponent';
+import baseStyles from '../../../components/LearnTemplate/LearnComponent.module.css';
 import styles from './LearnEmployeeModule.module.css';
 
 export default class LearnEmployeeModule {
@@ -36,14 +37,16 @@ export default class LearnEmployeeModule {
         <li>3. Employee contract, including salary and wage details</li>
         <li>
             4. Any forms for variations or exemptions
-            (for example, Medicare levy variation declaration)
+            (for example, Medicare levy variation&nbsp;declaration)
         </li>
       </ol>
-      <ButtonRow
-        secondary={[
-          <Button type="primary" key="gotIt" onClick={() => this.onClick(region, businessId)}>Got it</Button>,
-        ]}
-      />
+      <div className={baseStyles.buttonContainer}>
+        <ButtonRow
+          secondary={[
+            <Button type="primary" key="gotIt" onClick={() => this.onClick(region, businessId)}>Got it</Button>,
+          ]}
+        />
+      </div>
     </LearnComponent>,
   )
 

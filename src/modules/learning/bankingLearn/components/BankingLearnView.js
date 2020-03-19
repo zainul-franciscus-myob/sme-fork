@@ -4,6 +4,7 @@ import React from 'react';
 
 import LearnComponent from '../../../../components/LearnTemplate/LearnComponent';
 import WistiaVideoPlayer from '../../../../components/WistiaVideoPlayer/WistiaVideoPlayer';
+import styles from '../../../../components/LearnTemplate/LearnComponent.module.css';
 
 const BankingLearnView = ({
   onClick,
@@ -28,11 +29,13 @@ const BankingLearnView = ({
       <li>See how your business is doing</li>
     </ol>
 
-    <ButtonRow
-      secondary={[
-        <Button type="primary" key="connectYourBank" disabled={isLoading} onClick={() => onClick(serialNumber, businessId)}>Connect your bank</Button>,
-      ]}
-    />
+    <div className={styles.buttonContainer}>
+      <ButtonRow
+        secondary={[
+          <Button type="primary" key="connectYourBank" disabled={isLoading} onClick={() => onClick(serialNumber, businessId)}>Connect your bank</Button>,
+        ]}
+      />
+    </div>
   </LearnComponent>);
 
 const mapStateToProps = ({ isLoading, businessId, serialNumber }) => ({

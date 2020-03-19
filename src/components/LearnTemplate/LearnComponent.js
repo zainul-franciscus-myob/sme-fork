@@ -4,6 +4,7 @@ import {
 import React from 'react';
 
 import PageView from '../PageView/PageView';
+import styles from './LearnComponent.module.css';
 
 const LearnComponent = ({ title, children, media }) => {
   const view = (
@@ -14,7 +15,7 @@ const LearnComponent = ({ title, children, media }) => {
         {media
           ? (
             <Columns>
-              <div>
+              <div className={styles.textContainer}>
                 {children}
               </div>
 
