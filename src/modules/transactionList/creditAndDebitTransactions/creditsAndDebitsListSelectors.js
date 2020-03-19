@@ -41,10 +41,6 @@ export const getFilterOptions = createSelector(
   getCreditsAndDebitsState,
   ({ filterOptions }) => filterOptions,
 );
-export const getAppliedFilterOptions = createSelector(
-  getCreditsAndDebitsState,
-  ({ appliedFilterOptions }) => appliedFilterOptions,
-);
 
 export const getSourceJournalFilterOptions = createSelector(
   getCreditsAndDebitsState,
@@ -105,13 +101,13 @@ export const getIsLoaded = createSelector(
   loadingState => loadingState !== LoadingState.LOADING,
 );
 
-const getAppliedSourceJournal = createSelector(
+const getSourceJournal = createSelector(
   getCreditsAndDebitsState,
-  state => state.appliedFilterOptions.sourceJournal,
+  state => state.filterOptions.sourceJournal,
 );
 
 export const getURLParams = createStructuredSelector({
-  sourceJournal: getAppliedSourceJournal,
+  sourceJournal: getSourceJournal,
 });
 
 export const getAccountList = createSelector(
@@ -130,13 +126,13 @@ const getOffset = createSelector(
 );
 
 export const getLoadNextPageParams = createSelector(
-  getAppliedFilterOptions,
+  getFilterOptions,
   getSortOrder,
   getOrderBy,
   getOffset,
-  (appliedFilterOptions, sortOrder, orderBy, offset) => (
+  (filterOptions, sortOrder, orderBy, offset) => (
     {
-      ...appliedFilterOptions,
+      ...filterOptions,
       sortOrder,
       orderBy,
       offset,
@@ -145,7 +141,7 @@ export const getLoadNextPageParams = createSelector(
 );
 
 export const getSettings = createSelector(
-  getAppliedFilterOptions,
+  getFilterOptions,
   getSortOrder,
   getOrderBy,
   (filterOptions, sortOrder, orderBy) => ({
@@ -158,9 +154,9 @@ export const getSettings = createSelector(
 const getDefaultFilterOptions = () => getDefaultState().filterOptions;
 
 export const getIsDefaultFilters = createSelector(
-  getAppliedFilterOptions,
-  (appliedFilterOptions) => {
+  getFilterOptions,
+  (filterOptions) => {
     const defaultFilterOptions = getDefaultFilterOptions();
-    return shallowCompare(appliedFilterOptions, defaultFilterOptions);
+    return shallowCompare(filterOptions, defaultFilterOptions);
   },
 );

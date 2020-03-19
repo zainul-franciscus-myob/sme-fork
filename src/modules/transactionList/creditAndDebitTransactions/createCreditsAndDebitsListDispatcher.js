@@ -57,13 +57,12 @@ const createCreditsAndDebitsListDispatcher = store => ({
     });
   },
 
-  sortAndFilterCreditsAndDebitsList: (isSort, entries, sortOrder, pagination) => {
+  sortAndFilterCreditsAndDebitsList: ({ entries, pagination }) => {
     const intent = SORT_AND_FILTER_CREDITS_AND_DEBITS_LIST;
+
     store.dispatch({
       intent,
       entries,
-      isSort,
-      sortOrder,
       pagination,
     });
   },

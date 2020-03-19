@@ -12,12 +12,6 @@ const getDefaultState = () => ({
     keywords: '',
     period: Periods.thisMonth,
   },
-  appliedFilterOptions: {
-    accountId: undefined,
-    sourceJournal: 'All',
-    keywords: '',
-    period: Periods.thisMonth,
-  },
   sortOrder: 'desc',
   orderBy: 'Date',
   loadingState: LoadingState.LOADING,

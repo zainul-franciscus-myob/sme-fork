@@ -4,7 +4,6 @@ import {
   SORT_AND_FILTER_CREDITS_AND_DEBITS_LIST,
 } from './CreditsAndDebitsListIntents';
 import {
-  getAppliedFilterOptions,
   getBusinessId,
   getFilterOptions,
   getLoadNextPageParams,
@@ -40,7 +39,7 @@ const createCreditsAndDebitsListIntegrator = (store, integration) => ({
     });
   },
 
-  filterCreditsAndDebitsList: ({
+  sortAndFilterCreditsAndDebitsList: ({
     onSuccess, onFailure,
   }) => {
     const state = store.getState();
@@ -50,40 +49,16 @@ const createCreditsAndDebitsListIntegrator = (store, integration) => ({
       businessId: getBusinessId(state),
     };
 
-    const filterOptions = getFilterOptions(state);
     const sortOrder = getSortOrder(state);
     const orderBy = getOrderBy(state);
 
+    const filterOptions = getFilterOptions(state);
     integration.read({
       intent,
       urlParams,
       params: {
         ...filterOptions,
         sortOrder,
-        orderBy,
-      },
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  sortCreditsAndDebitsList: ({
-    onSuccess, onFailure, orderBy, newSortOrder,
-  }) => {
-    const state = store.getState();
-    const intent = SORT_AND_FILTER_CREDITS_AND_DEBITS_LIST;
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    const filterOptions = getAppliedFilterOptions(state);
-    integration.read({
-      intent,
-      urlParams,
-      params: {
-        ...filterOptions,
-        sortOrder: newSortOrder,
         orderBy,
       },
       onSuccess,

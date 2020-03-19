@@ -16,6 +16,7 @@ import LoadingState from '../../../components/PageView/LoadingState';
 import TransactionListView from './components/CreditsAndDebitsListView';
 import createCreditsAndDebitsListDispatcher from './createCreditsAndDebitsListDispatcher';
 import createCreditsAndDebitsListIntegrator from './createCreditsAndDebitsListIntegrator';
+import debounce from '../../../common/debounce/debounce';
 
 export default class CreditsAndDebitsModule {
   constructor({
@@ -35,7 +36,7 @@ export default class CreditsAndDebitsModule {
       if (!getIsLoaded(state)) {
         this.loadCreditsAndDebitsList();
       } else {
-        this.filterCreditsAndDebitsList();
+        this.sortAndFilterCreditsAndDebitsList();
       }
     }
 
@@ -43,7 +44,6 @@ export default class CreditsAndDebitsModule {
       <TransactionListView
         onSort={this.sortCreditsAndDebitsList}
         onUpdateFilters={this.updateFilterOptions}
-        onApplyFilter={this.filterCreditsAndDebitsList}
         onPeriodChange={this.updatePeriodDateRange}
         onLoadMoreButtonClick={this.loadNextPage}
         pageHead={pageHead}
@@ -67,6 +67,7 @@ export default class CreditsAndDebitsModule {
     this.dispatcher.updatePeriodDateRange({
       period, dateFrom, dateTo,
     });
+    this.sortAndFilterCreditsAndDebitsList();
   }
 
   loadCreditsAndDebitsList = () => {
@@ -93,7 +94,10 @@ export default class CreditsAndDebitsModule {
       this.dispatcher.setNextPageLoadingState(false);
     };
 
-    const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
+    const onFailure = ({ message }) => {
+      this.dispatcher.setNextPageLoadingState(false);
+      this.setAlert({ message, type: 'danger' });
+    };
 
     this.integrator.loadNextPage({
       onSuccess,
@@ -101,48 +105,41 @@ export default class CreditsAndDebitsModule {
     });
   }
 
-  filterCreditsAndDebitsList = () => {
-    this.dispatcher.setTableLoadingState(true);
-    const onSuccess = ({ entries, sortOrder, pagination }) => {
-      this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.sortAndFilterCreditsAndDebitsList(false, entries, sortOrder, pagination);
-    };
-
-    const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
-
-    this.setLastLoadingTab();
-    this.integrator.filterCreditsAndDebitsList({
-      onSuccess,
-      onFailure,
-    });
-  }
-
   sortCreditsAndDebitsList = (orderBy) => {
     const state = this.store.getState();
-    this.dispatcher.setTableLoadingState(true);
-
     const newSortOrder = getNewSortOrder(state, orderBy);
     this.dispatcher.setSortOrder(orderBy, newSortOrder);
 
+    this.sortAndFilterCreditsAndDebitsList();
+  }
 
-    const onSuccess = ({ entries, sortOrder, pagination }) => {
+  sortAndFilterCreditsAndDebitsList = () => {
+    this.dispatcher.setTableLoadingState(true);
+
+    const onSuccess = ({ entries, pagination }) => {
       this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.sortAndFilterCreditsAndDebitsList(true, entries, sortOrder, pagination);
+      this.dispatcher.sortAndFilterCreditsAndDebitsList({ entries, pagination });
     };
 
-    const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
+    const onFailure = ({ message }) => {
+      this.dispatcher.setTableLoadingState(false);
+      this.setAlert({ message, type: 'danger' });
+    };
 
-    this.integrator.sortCreditsAndDebitsList({
-      onSuccess,
-      onFailure,
-      orderBy,
-      newSortOrder,
-    });
-  }
+    this.integrator.sortAndFilterCreditsAndDebitsList({ onSuccess, onFailure });
+  };
+
+  debouncedSortAndFilterList = debounce(this.sortAndFilterCreditsAndDebitsList);
 
   updateFilterOptions = ({ key, value }) => {
     this.dispatcher.updateFilterOptions(key, value);
-  }
+
+    if (key === 'keywords') {
+      this.debouncedSortAndFilterList();
+    } else {
+      this.sortAndFilterCreditsAndDebitsList();
+    }
+  };
 
   updateURLFromState = (state) => {
     const isActive = getIsActive(state);

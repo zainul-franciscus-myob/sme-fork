@@ -34,7 +34,6 @@ const setInitialState = (state, {
     ...state,
     ...context,
     filterOptions,
-    appliedFilterOptions: filterOptions,
     orderBy: settings.orderBy || state.orderBy,
     sortOrder: settings.sortOrder || state.sortOrder,
   });
@@ -53,7 +52,6 @@ const sortAndFilterCreditsAndDebitsList = (state, action) => ({
   ...state,
   entries: action.entries,
   pagination: action.pagination,
-  appliedFilterOptions: action.isSort ? state.appliedFilterOptions : { ...state.filterOptions },
   loadMoreButtonStatus: loadMoreButtonStatusBasedOnHasNextPage(action.pagination.hasNextPage),
 });
 
