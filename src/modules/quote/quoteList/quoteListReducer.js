@@ -34,7 +34,6 @@ const getDefaultState = () => ({
   settingsVersion: '24264afc-07b6-4993-8aa6-693dd1378d57',
   defaultFilterOptions,
   filterOptions: defaultFilterOptions,
-  appliedFilterOptions: defaultFilterOptions,
   ...defaultSortOptions,
   customerFilters: [],
   entries: [],
@@ -70,7 +69,6 @@ const setInitialState = (state, {
     ...state,
     ...context,
     filterOptions: settings.filterOptions,
-    appliedFilterOptions: settings.filterOptions,
     sortOrder: settings.sortOrder,
     orderBy: settings.orderBy,
   };
@@ -129,7 +127,6 @@ const sortAndFilterQuoteList = (state, action) => ({
   ...state,
   entries: action.entries,
   total: action.total,
-  appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
   pagination: action.pagination,
 });
 

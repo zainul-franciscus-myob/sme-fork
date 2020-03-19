@@ -8,6 +8,7 @@ import {
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_QUOTE_LIST,
+  UPDATE_FILTER_OPTIONS,
 } from '../../QuoteIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import LoadingState from '../../../../components/PageView/LoadingState';
@@ -95,13 +96,14 @@ describe('QuoteListModule', () => {
     });
   });
 
-  describe('filterQuoteList', () => {
+  describe('updateFilterOptions', () => {
     it('successfully apply filter', () => {
       const { store, integration, module } = setupWithRun();
 
-      module.filterQuoteList();
+      module.updateFilterOptions({ filterName: 'customerId', value: '1' });
 
       expect(store.getActions()).toEqual([
+        { intent: UPDATE_FILTER_OPTIONS, filterName: 'customerId', value: '1' },
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
         expect.objectContaining({ intent: SORT_AND_FILTER_QUOTE_LIST }),
@@ -116,9 +118,10 @@ describe('QuoteListModule', () => {
       const { store, integration, module } = setupWithRun();
       integration.mapFailure(SORT_AND_FILTER_QUOTE_LIST, { message });
 
-      module.filterQuoteList();
+      module.updateFilterOptions({ filterName: 'customerId', value: '1' });
 
       expect(store.getActions()).toEqual([
+        { intent: UPDATE_FILTER_OPTIONS, filterName: 'customerId', value: '1' },
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
         { intent: SET_ALERT, alert: { type: 'danger', message } },
@@ -137,8 +140,8 @@ describe('QuoteListModule', () => {
       module.sortQuoteList(orderBy);
 
       expect(store.getActions()).toEqual([
-        { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
         { intent: SET_SORT_ORDER, sortOrder: 'asc', orderBy },
+        { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
         expect.objectContaining({ intent: SORT_AND_FILTER_QUOTE_LIST }),
       ]);
@@ -156,8 +159,8 @@ describe('QuoteListModule', () => {
       module.sortQuoteList(orderBy);
 
       expect(store.getActions()).toEqual([
-        { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
         { intent: SET_SORT_ORDER, sortOrder: 'asc', orderBy },
+        { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
         { intent: SET_ALERT, alert: { type: 'danger', message } },
       ]);

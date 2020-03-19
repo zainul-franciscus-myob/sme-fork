@@ -75,7 +75,6 @@ describe('quoteListReducer', () => {
         keywords: '🦒',
         customerId: '1',
       });
-      expect(actual.filterOptions).toEqual(actual.appliedFilterOptions);
       expect(actual.sortOrder).toEqual('asc');
       expect(actual.orderBy).toEqual('DisplayId');
     });

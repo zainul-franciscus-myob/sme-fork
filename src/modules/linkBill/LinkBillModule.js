@@ -44,42 +44,33 @@ export default class LinkBillModule {
     this.integrator.loadLinkBill({ onSuccess, onFailure });
   }
 
-  updateFilterOptions = ({ key, value }) => this.dispatcher.updateFilterOptions({ key, value })
+  updateFilterOptions = ({ key, value }) => {
+    this.dispatcher.updateFilterOptions({ key, value });
+    this.sortAndFilterLinkBillList();
+  }
 
-  filterLinkBillList = () => {
-    this.dispatcher.setTableLoadingState(true);
-
-    const onSuccess = (response) => {
-      this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.filterLinkBillList(response);
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.setAlert({ message, type: 'danger' });
-    };
-
-    this.integrator.filterLinkBillList({ onSuccess, onFailure });
-  };
-
-  sortLinkBillList = (orderBy) => {
-    this.dispatcher.setTableLoadingState(true);
-
+  updateSortOption = (orderBy) => {
     const state = this.store.getState();
     const sortOrder = getNewSortOrder(orderBy)(state);
     this.dispatcher.setSortOrder(orderBy, sortOrder);
 
+    this.sortAndFilterLinkBillList();
+  }
+
+  sortAndFilterLinkBillList = () => {
+    this.dispatcher.setTableLoadingState(true);
+
     const onSuccess = (response) => {
       this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.sortLinkBillList(response);
+      this.dispatcher.sortAndFilterLinkBillList(response);
     };
 
     const onFailure = ({ message }) => {
-      this.setTableLoadingState(false);
+      this.dispatcher.setTableLoadingState(false);
       this.dispatcher.setAlert({ message, type: 'danger' });
     };
 
-    this.integrator.sortLinkBillList({ onSuccess, onFailure });
+    this.integrator.sortAndFilterLinkBillList({ onSuccess, onFailure });
   }
 
   linkDocumentToBill = () => {
@@ -140,8 +131,7 @@ export default class LinkBillModule {
       <Provider store={this.store}>
         <LinkBillView
           onUpdateFilterOptions={this.updateFilterOptions}
-          onApplyFilters={this.filterLinkBillList}
-          onSort={this.sortLinkBillList}
+          onSort={this.updateSortOption}
           onBillSelect={this.dispatcher.updateBillSelection}
           onCancelButtonClick={this.redirectToInTrayListPage}
           onLinkButtonClick={this.linkDocumentToBill}

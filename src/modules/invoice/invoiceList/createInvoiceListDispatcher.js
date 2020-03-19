@@ -10,8 +10,7 @@ import {
   UPDATE_FILTER_OPTIONS,
 } from '../InvoiceIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { getAppliedFilterOptions } from '../../linkBill/LinkBillSelectors';
-import { getFilterOptions } from './invoiceListSelectors';
+import { getAppliedFilterOptions, getFilterOptions } from './invoiceListSelectors';
 
 const createInvoiceListDispatcher = store => ({
   setInitialState: (context, settings) => {

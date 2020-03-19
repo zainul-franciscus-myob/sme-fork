@@ -18,7 +18,6 @@ const SupplierReturnListView = ({
   loadingState,
   onSort,
   onUpdateFilterBarOptions,
-  onApplyFilter,
   onDismissAlert,
   onCreateRefundClick,
   onCreatePurchaseClick,
@@ -36,7 +35,6 @@ const SupplierReturnListView = ({
   const filterBar = (
     <SupplierReturnListFilterOptions
       onUpdateFilterBarOptions={onUpdateFilterBarOptions}
-      onApplyFilter={onApplyFilter}
     />
   );
 

@@ -40,12 +40,11 @@ class QuoteListFilterOptions extends React.Component {
       },
       customerFilterOptions,
       total,
-      onApplyFilter,
     } = this.props;
 
     return (
       <div className={styles.filterOptions}>
-        <FilterBar onApply={onApplyFilter}>
+        <FilterBar>
           <CustomerCombobox
             items={customerFilterOptions}
             selectedId={customerId}

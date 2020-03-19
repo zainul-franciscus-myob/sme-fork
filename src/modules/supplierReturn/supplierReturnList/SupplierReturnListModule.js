@@ -12,6 +12,7 @@ import Store from '../../../store/Store';
 import SupplierReturnListView from './components/SupplierReturnListView';
 import createSupplierReturnListDispatcher from './createSupplierReturnListDispatcher';
 import createSupplierReturnListIntegrator from './createSupplierReturnListIntegrator';
+import debounce from '../../../common/debounce/debounce';
 import supplierReturnListReducer from './supplierReturnListReducer';
 
 const messageTypes = [SUCCESSFULLY_SAVED_RECEIVE_REFUND, SUCCESSFULLY_SAVED_PURCHASE_RETURN];
@@ -32,8 +33,7 @@ export default class SupplierReturnListModule {
     const view = (
       <Provider store={this.store}>
         <SupplierReturnListView
-          onUpdateFilterBarOptions={this.dispatcher.updateFilterBarOptions}
-          onApplyFilter={this.filterSupplierReturnList}
+          onUpdateFilterBarOptions={this.updateFilterBarOptions}
           onDismissAlert={this.dispatcher.dismissAlert}
           onSort={this.sortSupplierReturnList}
           onCreateRefundClick={this.redirectToCreateRefund}
@@ -57,7 +57,7 @@ export default class SupplierReturnListModule {
     this.integrator.loadSupplierReturnList({ onSuccess, onFailure });
   };
 
-  filterSupplierReturnList = () => {
+  sortAndFilterSupplierReturnList = () => {
     this.dispatcher.setTableLoadingState(true);
 
     const onSuccess = (payload) => {
@@ -70,27 +70,25 @@ export default class SupplierReturnListModule {
       this.dispatcher.setAlert({ message, type: 'danger' });
     };
 
-    this.integrator.filterSupplierList({ onSuccess, onFailure });
-  };
+    this.integrator.sortAndFilterSupplierReturnList({ onSuccess, onFailure });
+  }
+
+  updateFilterBarOptions = ({ key, value }) => {
+    this.dispatcher.updateFilterBarOptions({ key, value });
+
+    if (key === 'keywords') {
+      debounce(this.sortAndFilterSupplierReturnList)();
+    } else {
+      this.sortAndFilterSupplierReturnList();
+    }
+  }
 
   sortSupplierReturnList = (orderBy) => {
     const state = this.store.getState();
     const newSortOrder = getNewSortOrder(state, orderBy);
     this.dispatcher.setSortOrder(orderBy, newSortOrder);
 
-    this.dispatcher.setTableLoadingState(true);
-
-    const onSuccess = (payload) => {
-      this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.sortAndFilterSupplierReturnList(payload, true);
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.setAlert({ message, type: 'danger' });
-    };
-
-    this.integrator.sortSupplierReturnList({ onSuccess, onFailure });
+    this.sortAndFilterSupplierReturnList();
   };
 
   redirectToCreateRefund = (id) => {

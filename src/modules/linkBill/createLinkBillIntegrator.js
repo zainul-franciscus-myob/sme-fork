@@ -1,6 +1,5 @@
 import { LINK_DOCUMENT_TO_BILL, LOAD_LINK_BILL, SORT_AND_FILTER_BILL_LIST } from './LinkBillIntents';
 import {
-  getAppliedFilterOptions,
   getBusinessId,
   getDocumentId,
   getFilterOptions,
@@ -26,7 +25,7 @@ const createLinkBillIntegrator = (store, integration) => ({
     });
   },
 
-  filterLinkBillList: ({ onSuccess, onFailure }) => {
+  sortAndFilterLinkBillList: ({ onSuccess, onFailure }) => {
     const intent = SORT_AND_FILTER_BILL_LIST;
 
     const state = store.getState();
@@ -46,31 +45,6 @@ const createLinkBillIntegrator = (store, integration) => ({
       intent,
       urlParams,
       params,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  sortLinkBillList: ({
-    onSuccess, onFailure,
-  }) => {
-    const intent = SORT_AND_FILTER_BILL_LIST;
-    const state = store.getState();
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-    const sortOrder = getSortOrder(state);
-    const orderBy = getOrderBy(state);
-    const filterOptions = getAppliedFilterOptions(state);
-
-    integration.read({
-      intent,
-      urlParams,
-      params: {
-        ...filterOptions,
-        sortOrder,
-        orderBy,
-      },
       onSuccess,
       onFailure,
     });

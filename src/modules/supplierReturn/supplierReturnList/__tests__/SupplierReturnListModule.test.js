@@ -6,6 +6,7 @@ import {
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_SUPPLIER_RETURN_LIST,
+  UPDATE_FILTER_BAR_OPTIONS,
 } from '../../SupplierReturnIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import LoadingState from '../../../../components/PageView/LoadingState';
@@ -91,13 +92,14 @@ describe('SupplierReturnListModule', () => {
     });
   });
 
-  describe('filterSupplierReturnList', () => {
+  describe('updateFilterBarOptions', () => {
     it('successfully apply filter', () => {
       const { store, integration, module } = setupWithRun();
 
-      module.filterSupplierReturnList();
+      module.updateFilterBarOptions({ key: 'supplierId', value: '1' });
 
       expect(store.getActions()).toEqual([
+        { intent: UPDATE_FILTER_BAR_OPTIONS, key: 'supplierId', value: '1' },
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
         expect.objectContaining({ intent: SORT_AND_FILTER_SUPPLIER_RETURN_LIST }),
@@ -112,9 +114,10 @@ describe('SupplierReturnListModule', () => {
       const { store, integration, module } = setupWithRun();
       integration.mapFailure(SORT_AND_FILTER_SUPPLIER_RETURN_LIST, { message });
 
-      module.filterSupplierReturnList();
+      module.updateFilterBarOptions({ key: 'supplierId', value: '1' });
 
       expect(store.getActions()).toEqual([
+        { intent: UPDATE_FILTER_BAR_OPTIONS, key: 'supplierId', value: '1' },
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
         { intent: SET_ALERT, alert: { type: 'danger', message } },

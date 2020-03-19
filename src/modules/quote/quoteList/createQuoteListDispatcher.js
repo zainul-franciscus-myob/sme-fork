@@ -46,10 +46,13 @@ const createQuoteListDispatcher = store => ({
     store.dispatch({ intent: LOAD_QUOTE_LIST_NEXT_PAGE, entries, pagination });
   },
   sortAndFilterQuoteList: ({
-    entries, isSort, total, pagination,
+    entries, total, pagination,
   }) => {
     store.dispatch({
-      intent: SORT_AND_FILTER_QUOTE_LIST, entries, isSort, total, pagination,
+      intent: SORT_AND_FILTER_QUOTE_LIST,
+      entries,
+      total,
+      pagination,
     });
   },
 });

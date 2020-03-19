@@ -1,5 +1,4 @@
 import {
-  getAppliedFilterOptions,
   getBusinessId,
   getFilterOptions,
   getOrderBy,
@@ -20,16 +19,8 @@ export const getParams = (state) => {
   return { ...filterOptions, sortOrder, orderBy };
 };
 
-export const getAppliedParams = (state) => {
-  const appliedFilterOptions = getAppliedFilterOptions(state);
-  const sortOrder = getSortOrder(state);
-  const orderBy = getOrderBy(state);
-
-  return { ...appliedFilterOptions, sortOrder, orderBy };
-};
-
 export const getSettings = (state) => {
-  const filterOptions = getAppliedFilterOptions(state);
+  const filterOptions = getFilterOptions(state);
   const sortOrder = getSortOrder(state);
   const orderBy = getOrderBy(state);
 

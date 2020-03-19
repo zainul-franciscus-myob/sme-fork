@@ -4,7 +4,6 @@ import {
   getLoadNextPageParams,
   getLoadQuoteListParams,
   getQuoteListUrlParams,
-  getSortQuoteListParams,
 } from './quoteListSelectors';
 
 const createQuoteListIntegrator = (store, integration) => ({
@@ -19,25 +18,12 @@ const createQuoteListIntegrator = (store, integration) => ({
       intent, urlParams, params, onSuccess, onFailure,
     });
   },
-  filterQuoteList: ({ onSuccess, onFailure }) => {
+  sortAndFilterQuoteList: ({ onSuccess, onFailure }) => {
     const intent = SORT_AND_FILTER_QUOTE_LIST;
 
     const state = store.getState();
     const urlParams = getQuoteListUrlParams(state);
     const params = getFilterQuoteListParams(state);
-
-    integration.read({
-      intent, urlParams, params, onSuccess, onFailure,
-    });
-  },
-  sortQuoteList: ({
-    orderBy, sortOrder, onSuccess, onFailure,
-  }) => {
-    const intent = SORT_AND_FILTER_QUOTE_LIST;
-
-    const state = store.getState();
-    const urlParams = getQuoteListUrlParams(state);
-    const params = getSortQuoteListParams(state, orderBy, sortOrder);
 
     integration.read({
       intent, urlParams, params, onSuccess, onFailure,

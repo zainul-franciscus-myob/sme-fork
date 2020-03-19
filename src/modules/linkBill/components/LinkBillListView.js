@@ -6,7 +6,6 @@ import LinkBillListTable from './LinkBillListTable';
 
 const LinkBillListView = ({
   onUpdateFilterOptions,
-  onApplyFilters,
   onSort,
   onBillSelect,
 }) => {
@@ -16,7 +15,6 @@ const LinkBillListView = ({
         <>
           <LinkBillListOptions
             onUpdateFilterOptions={onUpdateFilterOptions}
-            onApplyFilters={onApplyFilters}
           />
           <Separator />
           <LinkBillListTable

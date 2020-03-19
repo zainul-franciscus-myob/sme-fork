@@ -9,7 +9,6 @@ export const getAlert = state => state.alert;
 export const getLoadingState = state => state.loadingState;
 export const getIsTableLoading = state => state.isTableLoading;
 export const getFilterOptions = state => state.filterOptions;
-export const getAppliedFilterOptions = state => state.appliedFilterOptions;
 export const getDefaultFilterOptions = state => state.defaultFilterOptions;
 export const getCustomerFilterOptions = state => state.customerFilters;
 export const getEntries = state => state.entries;
@@ -54,7 +53,7 @@ export const getLoadMoreButtonStatus = (state) => {
 };
 
 export const getSettings = createSelector(
-  getAppliedFilterOptions,
+  getFilterOptions,
   getSortOrder,
   getOrderBy,
   getSettingsVersion,
@@ -64,10 +63,10 @@ export const getSettings = createSelector(
 );
 
 export const getIsDefaultFilter = createSelector(
-  getAppliedFilterOptions,
+  getFilterOptions,
   getDefaultFilterOptions,
-  (appliedFilterOptions, defaultFilterOptions) => shallowCompare(
-    appliedFilterOptions, defaultFilterOptions,
+  (filterOptions, defaultFilterOptions) => shallowCompare(
+    filterOptions, defaultFilterOptions,
   ),
 );
 
@@ -89,7 +88,11 @@ export const getLoadQuoteListParams = (state) => {
   const sortOrder = getSortOrder(state);
   const orderBy = getOrderBy(state);
 
-  return { ...filterOptions, sortOrder, orderBy };
+  return {
+    ...filterOptions,
+    sortOrder,
+    orderBy,
+  };
 };
 
 export const getFilterQuoteListParams = (state) => {
@@ -98,25 +101,23 @@ export const getFilterQuoteListParams = (state) => {
   const orderBy = getOrderBy(state);
 
   return {
-    ...filterOptions, sortOrder, orderBy, offset: 0,
-  };
-};
-
-export const getSortQuoteListParams = (state, orderBy, sortOrder) => {
-  const filterOptions = getAppliedFilterOptions(state);
-
-  return {
-    ...filterOptions, sortOrder, orderBy, offset: 0,
+    ...filterOptions,
+    sortOrder,
+    orderBy,
+    offset: 0,
   };
 };
 
 export const getLoadNextPageParams = (state) => {
-  const appliedFilterOptions = getAppliedFilterOptions(state);
+  const filterOptions = getFilterOptions(state);
   const sortOrder = getSortOrder(state);
   const orderBy = getOrderBy(state);
   const offset = getOffset(state);
 
   return {
-    ...appliedFilterOptions, sortOrder, orderBy, offset,
+    ...filterOptions,
+    sortOrder,
+    orderBy,
+    offset,
   };
 };

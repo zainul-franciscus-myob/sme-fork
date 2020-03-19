@@ -10,7 +10,6 @@ export const getRegion = state => state.region;
 
 export const getLoadingState = state => state.loadingState;
 export const getFilterOptions = state => state.filterOptions;
-export const getAppliedFilterOptions = state => state.appliedFilterOptions;
 export const getSortOrder = state => state.sortOrder;
 export const getOrderBy = state => state.orderBy;
 export const getTotalAmount = state => state.totalAmount;
@@ -43,10 +42,10 @@ export const getNewSortOrder = (state, orderBy) => (orderBy === getOrderBy(state
 const getDefaultFilterOptions = ({ defaultFilterOptions }) => defaultFilterOptions;
 
 export const getIsDefaultFilters = createSelector(
-  getAppliedFilterOptions,
+  getFilterOptions,
   getDefaultFilterOptions,
-  (appliedFilterOptions, defaultFilterOptions) => shallowCompare(
-    defaultFilterOptions, appliedFilterOptions,
+  (filterOptions, defaultFilterOptions) => shallowCompare(
+    defaultFilterOptions, filterOptions,
   ),
 );
 

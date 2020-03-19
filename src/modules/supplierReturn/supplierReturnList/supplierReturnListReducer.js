@@ -29,7 +29,6 @@ const getDefaultState = () => ({
   isTableLoading: false,
   defaultFilterOptions,
   filterOptions: defaultFilterOptions,
-  appliedFilterOptions: defaultFilterOptions,
   totalAmount: '',
   totalDebitAmount: '',
   entries: [],
@@ -52,10 +51,6 @@ const setInitialState = (state, {
   ...context,
   filterOptions: {
     ...state.filterOptions,
-    ...settings.filterOptions,
-  },
-  appliedFilterOptions: {
-    ...state.appliedFilterOptions,
     ...settings.filterOptions,
   },
   sortOrder: settings.sortOrder,
@@ -91,7 +86,6 @@ const sortAndFilterSupplierReturnList = (state,
   }) => ({
   ...state,
   ...rest,
-  appliedFilterOptions: isSort ? state.appliedFilterOptions : state.filterOptions,
 });
 
 const setTableLoadingState = (state, action) => ({

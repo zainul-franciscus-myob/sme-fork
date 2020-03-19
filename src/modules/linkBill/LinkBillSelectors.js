@@ -15,7 +15,6 @@ export const getDocumentId = state => state.documentId;
 
 export const getSupplierFilterOptions = state => state.supplierFilterOptions;
 export const getFilterOptions = state => state.filterOptions;
-export const getAppliedFilterOptions = state => state.appliedFilterOptions;
 
 export const getSortOrder = state => state.sortOrder;
 export const getOrderBy = state => state.orderBy;

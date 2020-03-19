@@ -24,10 +24,6 @@ const getDefaultState = () => ({
     supplierId: '',
     showPaidBills: false,
   },
-  appliedFilterOptions: {
-    supplierId: '',
-    showPaidBills: false,
-  },
   alert: undefined,
   loadingState: LoadingState.LOADING,
   isTableLoading: false,
@@ -79,7 +75,6 @@ const setSortOrder = (state, action) => ({
 const sortAndFilterBillList = (state, action) => ({
   ...state,
   bills: action.bills,
-  appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
 });
 
 const resetState = () => getDefaultState();

@@ -16,7 +16,6 @@ const QuoteListView = (props) => {
     loadMoreButtonStatus,
     onDismissAlert,
     onUpdateFilters,
-    onApplyFilter,
     onSort,
     onAddQuote,
     onLoadQuoteListNextPage,
@@ -31,7 +30,6 @@ const QuoteListView = (props) => {
   const filterBar = (
     <QuoteListFilterOptions
       onUpdateFilters={onUpdateFilters}
-      onApplyFilter={onApplyFilter}
     />
   );
 

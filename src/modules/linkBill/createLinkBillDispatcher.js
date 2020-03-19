@@ -35,19 +35,10 @@ const createLinkBillDispatcher = store => ({
     });
   },
 
-  filterLinkBillList: (bills) => {
+  sortAndFilterLinkBillList: (bills) => {
     store.dispatch({
       intent: SORT_AND_FILTER_BILL_LIST,
       bills,
-      isSort: false,
-    });
-  },
-
-  sortLinkBillList: (bills) => {
-    store.dispatch({
-      intent: SORT_AND_FILTER_BILL_LIST,
-      bills,
-      isSort: true,
     });
   },
 

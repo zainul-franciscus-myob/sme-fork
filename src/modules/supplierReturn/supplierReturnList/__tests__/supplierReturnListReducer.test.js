@@ -6,7 +6,6 @@ describe('supplierReturnListReducer', () => {
     it('should transform the supplierFilters to be consumable by the ui', () => {
       const state = {
         filterOptions: {},
-        appliedFilterOptions: {},
       };
 
       const action = {
@@ -25,7 +24,6 @@ describe('supplierReturnListReducer', () => {
 
       const expected = {
         filterOptions: {},
-        appliedFilterOptions: {},
         supplierFilterOptions: [
           {
             displayName: 'All suppliers',

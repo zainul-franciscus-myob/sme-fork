@@ -1,49 +1,47 @@
-{
-  "bills": [
-    {
-      "id": "1",
-      "businessEventUid": "1abc",
-      "issueDate": "02/12/2018",
-      "supplierName": "Daenerys Targaryen",
-      "supplierInvoiceNumber": "PO111",
-      "amount": "10000.00",
-      "isPaid": false
-    },
-    {
-      "id": "2",
-      "businessEventUid": "2abc",
-      "issueDate": "02/12/2018",
-      "supplierName": "Daenerys Targaryen",
-      "supplierInvoiceNumber": "PO112",
-      "amount": "20000.00",
-      "isPaid": false
-    },
-    {
-      "id": "3",
-      "businessEventUid": "3abc",
-      "issueDate": "02/12/2018",
-      "supplierName": "Daenerys Targaryen",
-      "supplierInvoiceNumber": "PO113",
-      "amount": "30000.00",
-      "isPaid": false
-    },
-    {
-      "id": "4",
-      "businessEventUid": "4abc",
-      "issueDate": "02/12/2018",
-      "supplierName": "Daenerys Targaryen",
-      "supplierInvoiceNumber": "PO114",
-      "amount": "10000.00",
-      "isPaid": false
-    },
-    {
-      "id": "5",
-      "businessEventUid": "5abc",
-      "issueDate": "02/12/2018",
-      "supplierName": "Daenerys Targaryen",
-      "supplierInvoiceNumber": "PO115",
-      "amount": "50000.00",
-      "isPaid": false
-    }
-  ]
-}
+[
+  {
+    "id": "1",
+    "businessEventUid": "1abc",
+    "issueDate": "02/12/2018",
+    "supplierName": "Daenerys Targaryen",
+    "supplierInvoiceNumber": "PO111",
+    "amount": "10000.00",
+    "isPaid": false
+  },
+  {
+    "id": "2",
+    "businessEventUid": "2abc",
+    "issueDate": "02/12/2018",
+    "supplierName": "Daenerys Targaryen",
+    "supplierInvoiceNumber": "PO112",
+    "amount": "20000.00",
+    "isPaid": false
+  },
+  {
+    "id": "3",
+    "businessEventUid": "3abc",
+    "issueDate": "02/12/2018",
+    "supplierName": "Daenerys Targaryen",
+    "supplierInvoiceNumber": "PO113",
+    "amount": "30000.00",
+    "isPaid": false
+  },
+  {
+    "id": "4",
+    "businessEventUid": "4abc",
+    "issueDate": "02/12/2018",
+    "supplierName": "Daenerys Targaryen",
+    "supplierInvoiceNumber": "PO114",
+    "amount": "10000.00",
+    "isPaid": false
+  },
+  {
+    "id": "5",
+    "businessEventUid": "5abc",
+    "issueDate": "02/12/2018",
+    "supplierName": "Daenerys Targaryen",
+    "supplierInvoiceNumber": "PO115",
+    "amount": "50000.00",
+    "isPaid": false
+  }
+]

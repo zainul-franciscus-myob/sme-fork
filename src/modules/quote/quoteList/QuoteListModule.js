@@ -16,6 +16,7 @@ import RouteName from '../../../router/RouteName';
 import Store from '../../../store/Store';
 import createQuoteListDispatcher from './createQuoteListDispatcher';
 import createQuoteListIntegrator from './createQuoteListIntegrator';
+import debounce from '../../../common/debounce/debounce';
 import quoteListReducer from './quoteListReducer';
 
 const messageTypes = [
@@ -40,10 +41,9 @@ export default class QuoteListModule {
     const view = (
       <Provider store={this.store}>
         <QuoteListView
-          onApplyFilter={this.filterQuoteList}
           onDismissAlert={this.dispatcher.dismissAlert}
           onSort={this.sortQuoteList}
-          onUpdateFilters={this.dispatcher.updateFilterOptions}
+          onUpdateFilters={this.updateFilterOptions}
           onAddQuote={this.redirectToAddQuote}
           onLoadQuoteListNextPage={this.loadQuoteListNextPage}
         />
@@ -81,13 +81,15 @@ export default class QuoteListModule {
     this.integrator.loadQuoteListNextPage({ onSuccess, onFailure });
   }
 
-  filterQuoteList = () => {
+  sortAndFilterQuoteList = () => {
     this.dispatcher.setTableLoadingState(true);
 
     const onSuccess = ({ entries, total, pagination }) => {
       this.dispatcher.setTableLoadingState(false);
       this.dispatcher.sortAndFilterQuoteList({
-        entries, isSort: false, total, pagination,
+        entries,
+        total,
+        pagination,
       });
     };
 
@@ -96,31 +98,29 @@ export default class QuoteListModule {
       this.dispatcher.setAlert({ message, type: 'danger' });
     };
 
-    this.integrator.filterQuoteList({ onSuccess, onFailure });
+    this.integrator.sortAndFilterQuoteList({ onSuccess, onFailure });
+  }
+
+  updateFilterOptions = ({ filterName, value }) => {
+    this.dispatcher.updateFilterOptions({ filterName, value });
+
+    if (filterName === 'keywords') {
+      debounce(this.sortAndFilterQuoteList)();
+    } else {
+      this.sortAndFilterQuoteList();
+    }
+  }
+
+  filterQuoteList = () => {
+    this.sortAndFilterQuoteList();
   };
 
   sortQuoteList = (orderBy) => {
     const state = this.store.getState();
-    this.dispatcher.setTableLoadingState(true);
-
     const newSortOrder = orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
     this.dispatcher.setSortOrder(orderBy, newSortOrder);
 
-    const onSuccess = ({ entries, total, pagination }) => {
-      this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.sortAndFilterQuoteList({
-        entries, isSort: true, total, pagination,
-      });
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.setAlert({ message, type: 'danger' });
-    };
-
-    this.integrator.sortQuoteList({
-      orderBy, sortOrder: newSortOrder, onSuccess, onFailure,
-    });
+    this.sortAndFilterQuoteList();
   };
 
   readMessages = () => {
