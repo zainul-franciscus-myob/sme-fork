@@ -64,6 +64,7 @@ const createInvoiceListDispatcher = store => ({
       },
     });
   },
+  dismissAlert: () => store.dispatch({ intent: SET_ALERT }),
   setNextPageLoadingState: (isNextPageLoading) => {
     const intent = SET_NEXT_PAGE_LOADING_STATE;
     store.dispatch({

@@ -50,9 +50,9 @@ export const getSerialNumber = state => state.serialNumber;
 
 export const getIsTrial = state => state.subscription.isTrial;
 
-export const getIsUpgradeModalShowing = ({ isUpgradeModalShowing }) => isUpgradeModalShowing;
+export const getIsUpgradeModalShowing = state => state.subscription.isUpgradeModalShowing;
 
-export const getMonthlyLimit = ({ monthlyLimit }) => monthlyLimit;
+export const getMonthlyLimit = state => state.subscription.monthlyLimit;
 
 export const getIsLineAmountDirty = state => state.isLineAmountDirty;
 

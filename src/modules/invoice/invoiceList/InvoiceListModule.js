@@ -151,7 +151,7 @@ export default class InvoiceListModule {
       <InvoiceListView
         onApplyFilter={this.filterInvoiceList}
         onUpdateFilter={this.updateFilterOptions}
-        onDismissAlert={this.dismissAlert}
+        onDismissAlert={this.dispatcher.dismissAlert}
         onSort={this.sortInvoiceList}
         onLoadMoreButtonClick={this.loadNextPage}
         onCreateInvoiceButtonClick={this.redirectToCreateNewInvoice}
