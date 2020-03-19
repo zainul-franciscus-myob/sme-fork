@@ -14,8 +14,6 @@ export const getActiveEntryId = state => state.inTrayList.activeEntryId;
 
 export const getFilterOptions = state => state.inTrayList.filterOptions;
 
-export const getAppliedFilterOptions = state => state.inTrayList.appliedFilterOptions;
-
 export const getSortOrder = state => state.inTrayList.sortOrder;
 
 export const getOrderBy = state => state.inTrayList.orderBy;

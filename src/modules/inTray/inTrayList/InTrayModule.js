@@ -29,6 +29,7 @@ import Store from '../../../store/Store';
 import actionTypes from './actionTypes';
 import createInTrayDispatcher from './createInTrayDispatcher';
 import createInTrayIntegrator from './createInTrayIntegrator';
+import debounce from '../../../common/debounce/debounce';
 import inTrayReducer from './reducer/inTrayReducer';
 import modalTypes from './modalTypes';
 import openBlob from '../../../common/blobOpener/openBlob';
@@ -94,17 +95,12 @@ export default class InTrayModule {
     }
   };
 
-  filterInTrayList = () => {
-    const state = this.store.getState();
-    if (getIsEntryLoading(state)) {
-      return;
-    }
-
+  sortAndFilterInTrayList = () => {
     this.dispatcher.setInTrayListTableLoadingState(true);
 
     const onSuccess = (response) => {
       this.dispatcher.setInTrayListTableLoadingState(false);
-      this.dispatcher.filterInTrayList(response);
+      this.dispatcher.sortAndFilterInTrayList(response);
       this.startPolling();
     };
 
@@ -113,7 +109,7 @@ export default class InTrayModule {
       this.dispatcher.setAlert({ message: error.message, type: 'danger' });
     };
 
-    this.integrator.filterInTrayList({ onSuccess, onFailure });
+    this.integrator.sortAndfilterInTrayList({ onSuccess, onFailure });
   }
 
   sortInTrayList = (orderBy) => {
@@ -122,25 +118,10 @@ export default class InTrayModule {
       return;
     }
 
-    this.dispatcher.setInTrayListTableLoadingState(true);
-
     const sortOrder = getNewSortOrder(orderBy)(state);
     this.dispatcher.setInTrayListSortOrder(orderBy, sortOrder);
 
-    const onSuccess = (response) => {
-      this.dispatcher.setInTrayListTableLoadingState(false);
-      this.dispatcher.sortInTrayList(response);
-      this.startPolling();
-    };
-
-    const onFailure = (error) => {
-      this.dispatcher.setInTrayListTableLoadingState(false);
-      this.dispatcher.setAlert({ message: error.message, type: 'danger' });
-    };
-
-    this.integrator.sortInTrayList({
-      orderBy, sortOrder, onSuccess, onFailure,
-    });
+    this.sortAndFilterInTrayList();
   }
 
   uploadInTrayFiles = (files) => {
@@ -359,6 +340,17 @@ export default class InTrayModule {
     this.dispatcher.unsetDocumentViewerUrl();
   }
 
+  updateFilterOptions = ({ key, value }) => {
+    const state = this.store.getState();
+    if (getIsEntryLoading(state)) {
+      return;
+    }
+
+    this.dispatcher.setInTrayListFilterOptions({ key, value });
+
+    debounce(this.sortAndFilterInTrayList)();
+  }
+
   render = () => {
     const inTrayView = (
       <InTrayView
@@ -368,8 +360,7 @@ export default class InTrayModule {
           onUploadButtonClick: this.uploadInTrayFiles,
         }}
         inTrayListListeners={{
-          onUpdateFilterOptions: this.dispatcher.setInTrayListFilterOptions,
-          onApplyFilter: this.filterInTrayList,
+          onUpdateFilterOptions: this.updateFilterOptions,
           onSort: this.sortInTrayList,
           handleActionSelect: this.handleActionSelect,
           onEntryActive: this.activateEntryRow,

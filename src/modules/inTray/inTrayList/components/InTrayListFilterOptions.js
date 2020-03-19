@@ -1,4 +1,4 @@
-import { Button, Card } from '@myob/myob-widgets';
+import { Card } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -11,7 +11,6 @@ const InTrayListFilterOptions = (props) => {
   const {
     keywords,
     onUpdateFilterOptions,
-    onApplyFilter,
   } = props;
 
   return (
@@ -22,7 +21,6 @@ const InTrayListFilterOptions = (props) => {
         value={keywords}
         onChange={handleInputChange(onUpdateFilterOptions)}
       />
-      <Button type="secondary" onClick={onApplyFilter}>Apply filter</Button>
     </Card>
   );
 };

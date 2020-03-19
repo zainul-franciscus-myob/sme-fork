@@ -7,14 +7,13 @@ import {
   POLL_INTRAY_LIST,
   SORT_AND_FILTER_IN_TRAY_LIST,
 } from '../InTrayIntents';
+import { getBusinessId } from './selectors/InTraySelectors';
 import {
-  getAppliedFilterOptions,
   getDocumentIds,
   getFilterOptions,
   getOrderBy,
   getSortOrder,
 } from './selectors/InTrayListSelectors';
-import { getBusinessId } from './selectors/InTraySelectors';
 
 const createInTrayIntegrator = (store, integration) => ({
   loadInTray: ({ onSuccess, onFailure }) => {
@@ -36,7 +35,7 @@ const createInTrayIntegrator = (store, integration) => ({
     });
   },
 
-  filterInTrayList: ({ onSuccess, onFailure }) => {
+  sortAndfilterInTrayList: ({ onSuccess, onFailure }) => {
     const intent = SORT_AND_FILTER_IN_TRAY_LIST;
 
     const state = store.getState();
@@ -56,32 +55,6 @@ const createInTrayIntegrator = (store, integration) => ({
       intent,
       urlParams,
       params,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  sortInTrayList: ({
-    orderBy, sortOrder, onSuccess, onFailure,
-  }) => {
-    const intent = SORT_AND_FILTER_IN_TRAY_LIST;
-
-    const state = store.getState();
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    const filterOptions = getAppliedFilterOptions(state);
-
-    integration.read({
-      intent,
-      urlParams,
-      params: {
-        ...filterOptions,
-        sortOrder,
-        orderBy,
-      },
       onSuccess,
       onFailure,
     });

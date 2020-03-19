@@ -63,9 +63,6 @@ const getDefaultState = () => ({
     filterOptions: {
       keywords: '',
     },
-    appliedFilterOptions: {
-      keywords: '',
-    },
     sortOrder: '',
     orderBy: '',
     entries: [],
@@ -162,7 +159,6 @@ const handlers = {
   [UNSET_DOCUMENT_VIEWER_URL]: unsetDocumentViewerUrl,
 
   [POLL_INTRAY_LIST]: pollInTrayList,
-
 };
 
 const inTrayReducer = createReducer(getDefaultState(), handlers);

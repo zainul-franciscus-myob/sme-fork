@@ -14,13 +14,10 @@ const updateInTrayListState = (state, inTrayListState) => ({
 });
 
 export const sortAndFilterInTrayList = (state, action) => {
-  const { entries, isSort } = action;
+  const { entries } = action;
   const { activeEntryId } = state;
   const isActiveEntryIdExist = entries.some(entry => entry.id === activeEntryId);
   return updateInTrayListState(state, {
-    appliedFilterOptions: isSort
-      ? state.inTrayList.appliedFilterOptions
-      : state.inTrayList.filterOptions,
     entries,
     activeEntryId: isActiveEntryIdExist ? activeEntryId : undefined,
   });

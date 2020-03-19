@@ -41,7 +41,6 @@ const InTrayView = ({
   },
   inTrayListListeners: {
     onUpdateFilterOptions,
-    onApplyFilter,
     onSort,
     onDownload,
     onDelete,
@@ -92,7 +91,6 @@ const InTrayView = ({
   const filterBar = (
     <InTrayListFilterOptions
       onUpdateFilterOptions={onUpdateFilterOptions}
-      onApplyFilter={onApplyFilter}
     />
   );
 

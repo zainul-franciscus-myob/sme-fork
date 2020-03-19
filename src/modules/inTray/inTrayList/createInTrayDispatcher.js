@@ -62,12 +62,11 @@ const createInTrayDispatcher = store => ({
     store.dispatch({ intent, ...payload });
   },
 
-  filterInTrayList: (response) => {
+  sortAndFilterInTrayList: (response) => {
     const intent = SORT_AND_FILTER_IN_TRAY_LIST;
     store.dispatch({
       intent,
       ...response,
-      isSort: false,
     });
   },
 
@@ -84,15 +83,6 @@ const createInTrayDispatcher = store => ({
     store.dispatch({
       intent,
       entryId,
-    });
-  },
-
-  sortInTrayList: (response) => {
-    const intent = SORT_AND_FILTER_IN_TRAY_LIST;
-    store.dispatch({
-      intent,
-      ...response,
-      isSort: true,
     });
   },
 
