@@ -133,11 +133,11 @@ describe('ItemListModule', () => {
     });
   });
 
-  describe('sortItemList', () => {
+  describe('updateSort', () => {
     it('successfully sorts', () => {
       const { store, integration, module } = setupWithRun();
 
-      module.sortItemList('DisplayId');
+      module.updateSort('DisplayId');
 
       expect(store.getActions()).toEqual([
         {
@@ -173,7 +173,7 @@ describe('ItemListModule', () => {
       const { store, integration, module } = setupWithRun();
       integration.mapFailure(SORT_AND_FILTER_ITEM_LIST);
 
-      module.sortItemList('DisplayId');
+      module.updateSort('DisplayId');
 
       expect(store.getActions()).toEqual([
         {
@@ -207,11 +207,11 @@ describe('ItemListModule', () => {
 
     it('flips the sorting order, when ordering by the same key', () => {
       const { store, integration, module } = setupWithRun();
-      module.sortItemList('DisplayId');
+      module.updateSort('DisplayId');
       store.resetActions();
       integration.resetRequests();
 
-      module.sortItemList('DisplayId');
+      module.updateSort('DisplayId');
 
       expect(store.getActions()).toContainEqual(
         {
@@ -220,65 +220,6 @@ describe('ItemListModule', () => {
           orderBy: 'DisplayId',
         },
       );
-    });
-  });
-
-  describe('filterItemList', () => {
-    it('successfully apply filter', () => {
-      const { store, integration, module } = setupWithRun();
-
-      module.filterItemList();
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: SET_TABLE_LOADING_STATE,
-          isTableLoading: true,
-        },
-        {
-          intent: SET_TABLE_LOADING_STATE,
-          isTableLoading: false,
-        },
-        expect.objectContaining({
-          intent: SORT_AND_FILTER_ITEM_LIST,
-        }),
-      ]);
-
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: SORT_AND_FILTER_ITEM_LIST,
-        }),
-      ]);
-    });
-
-    it('fails to apply filter', () => {
-      const { store, integration, module } = setupWithRun();
-      integration.mapFailure(SORT_AND_FILTER_ITEM_LIST);
-
-      module.filterItemList();
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: SET_TABLE_LOADING_STATE,
-          isTableLoading: true,
-        },
-        {
-          intent: SET_TABLE_LOADING_STATE,
-          isTableLoading: false,
-        },
-        {
-          intent: SET_ALERT,
-          alert: {
-            message: 'fails',
-            type: 'danger',
-          },
-        },
-      ]);
-
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: SORT_AND_FILTER_ITEM_LIST,
-        }),
-      ]);
     });
   });
 

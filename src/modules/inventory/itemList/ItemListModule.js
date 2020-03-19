@@ -37,7 +37,7 @@ export default class ItemListModule {
       <ItemListView
         onUpdateFilters={this.updateFilterOptions}
         onDismissAlert={this.dismissAlert}
-        onSort={this.sortItemList}
+        onSort={this.updateSort}
         onCreateItem={this.createItem}
         onLoadMoreButtonClick={this.loadNextPage}
       />
@@ -68,24 +68,7 @@ export default class ItemListModule {
     this.integrator.loadItemList({ onSuccess, onFailure });
   }
 
-  sortItemList = (orderBy) => {
-    this.dispatcher.setSortOrder(orderBy);
-
-    const onSuccess = (response) => {
-      this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.sortItemList(response);
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.setAlert({ message, type: 'danger' });
-    };
-
-    this.dispatcher.setTableLoadingState(true);
-    this.integrator.sortAndFilterItemList({ onSuccess, onFailure, orderBy });
-  };
-
-  filterItemList = () => {
+  sortAndFilterItemList = () => {
     const onSuccess = (response) => {
       this.dispatcher.setTableLoadingState(false);
       this.dispatcher.filterItemList(response);
@@ -139,13 +122,19 @@ export default class ItemListModule {
     }
   }
 
+  updateSort = (orderBy) => {
+    this.dispatcher.setSortOrder(orderBy);
+
+    this.sortAndFilterItemList();
+  }
+
   updateFilterOptions = ({ key, value }) => {
     this.dispatcher.updateFilterOptions({ key, value });
 
     if (key === 'keywords') {
-      debounce(this.filterItemList)();
+      debounce(this.sortAndFilterItemList)();
     } else {
-      this.filterItemList();
+      this.sortAndFilterItemList();
     }
   }
 

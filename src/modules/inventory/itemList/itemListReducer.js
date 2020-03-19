@@ -65,7 +65,6 @@ const setTableLoadingState = (state, action) => ({
 const sortAndFilterItemList = (state, action) => ({
   ...state,
   entries: action.entries,
-  isFilteredList: action.isFilteredList,
   showHiddenColumns: state.filterOptions.showInactive,
   pagination: {
     hasNextPage: action.pagination.hasNextPage,
@@ -75,6 +74,7 @@ const sortAndFilterItemList = (state, action) => ({
 
 const updateFilterOptions = (state, action) => ({
   ...state,
+  isFilteredList: true,
   filterOptions: {
     ...state.filterOptions,
     [action.key]: action.value,
