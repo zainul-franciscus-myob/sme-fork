@@ -1,11 +1,21 @@
 {
   "job": {
     "id": "",
-    "name": "abcdefg",
-    "displayId": "123456",
-    "isActive": true,
-    "customerId": 1,
+    "name": "",
+    "number": "",
+    "isInactive": false,
+    "customerId": "",
     "isHeader": false,
-    "description": "afwefwe"
-  }
+    "description": ""
+  },
+  "customerOptions": [
+    {
+      "name": "James Smith",
+      "value": "1"
+    },
+    {
+      "name": "Sony",
+      "value": "2"
+    }
+  ]
 }

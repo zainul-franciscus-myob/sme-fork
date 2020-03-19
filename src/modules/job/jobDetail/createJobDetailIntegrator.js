@@ -6,23 +6,19 @@ import {
   UPDATE_JOB,
 } from '../JobIntents';
 import {
-  getBusinessId, getJob, getJobId, getRegion,
+  getBusinessId, getJob, getJobDetails, getJobId, getRegion,
 } from './jobDetailSelectors';
 
 const createJobDetailIntegrator = (store, integration) => ({
   loadNewJob: ({ onSuccess, onFailure }) => {
     const urlParams = {
       businessId: getBusinessId(store.getState()),
-    };
-
-    const params = {
       region: getRegion(store.getState()),
     };
 
     integration.read({
       intent: LOAD_NEW_JOB,
       urlParams,
-      params,
       onSuccess,
       onFailure,
     });
@@ -78,7 +74,7 @@ const createJobDetailIntegrator = (store, integration) => ({
 
   createJob: ({ onSuccess, onFailure }) => {
     const state = store.getState();
-    const content = getJob(state);
+    const content = getJobDetails(state);
     const urlParams = {
       businessId: getBusinessId(state),
     };

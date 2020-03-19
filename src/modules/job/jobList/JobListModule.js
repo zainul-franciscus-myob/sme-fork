@@ -1,6 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import {
+  SUCCESSFULLY_DELETED_JOB,
+  SUCCESSFULLY_SAVED_JOB,
+} from '../JobMessageTypes';
 import { getJobCreateLink } from './jobListSelector';
 import JobListView from './components/JobListView';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -8,6 +12,10 @@ import Store from '../../../store/Store';
 import createJobListDispatcher from './createJobListDispatcher';
 import createJobListIntegrator from './createJobListIntegrator';
 import jobListReducer from './jobListReducer';
+
+const messageTypes = [
+  SUCCESSFULLY_DELETED_JOB, SUCCESSFULLY_SAVED_JOB,
+];
 
 export default class JobListModule {
   constructor({
@@ -17,6 +25,7 @@ export default class JobListModule {
     this.store = new Store(jobListReducer);
     this.setRootView = setRootView;
     this.popMessages = popMessages;
+    this.messageTypes = messageTypes;
     this.dispatcher = createJobListDispatcher(this.store);
     this.integrator = createJobListIntegrator(this.store, integration);
   }

@@ -3,15 +3,13 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getIsCreating, getLoadingState, getModalType,
+  getAlertMessage, getIsCreating, getLoadingState, getModalType, getPageHeadTitle,
 } from '../jobDetailSelectors';
 import CancelModal from '../../../../components/modal/CancelModal';
 import DeleteModal from '../../../../components/modal/DeleteModal';
-import DisplayId from './DisplayId';
 import FormCard from '../../../../components/FormCard/FormCard';
 import JobDetailActions from './JobDetailActions';
 import JobDetails from './JobDetails';
-import JobHeader from './JobHeader';
 import PageView from '../../../../components/PageView/PageView';
 
 const JobDetailView = ({
@@ -20,6 +18,7 @@ const JobDetailView = ({
   modalType,
   alertMessage,
   onJobDetailsChange,
+  pageHeadTitle,
   onDismissAlert,
   onCancelModal,
   onDeleteModal,
@@ -54,7 +53,7 @@ const JobDetailView = ({
 
   const view = (
     <FormTemplate
-      pageHead={<JobHeader />}
+      pageHead={pageHeadTitle}
       alert={alertComponent}
       sticky="none"
       actions={(
@@ -72,7 +71,6 @@ const JobDetailView = ({
           isCreating={isCreating}
           onJobDetailsChange={onJobDetailsChange}
         />
-        <DisplayId onJobDetailsChange={onJobDetailsChange} />
       </FormCard>
 
     </FormTemplate>
@@ -82,6 +80,7 @@ const JobDetailView = ({
 };
 
 const mapStateToProps = state => ({
+  pageHeadTitle: getPageHeadTitle(state),
   isCreating: getIsCreating(state),
   loadingState: getLoadingState(state),
   modalType: getModalType(state),

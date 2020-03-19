@@ -2,10 +2,20 @@
   "job": {
     "id": "",
     "name": "abcdefg",
-    "displayId": "123456",
-    "isActive": true,
-    "customerId": 1,
+    "number": "123456",
+    "isInactive": true,
+    "customerId": "1",
     "isHeader": false,
     "description": "afwefwe"
-  }
+  },
+  "customerOptions": [
+    {
+      "name": "James Smith",
+      "value": "1"
+    },
+    {
+      "name": "Sony",
+      "value": "2"
+    }
+  ]
 }

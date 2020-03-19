@@ -141,7 +141,20 @@ export default class JobDetailModule {
   };
 
   loadNewJob = () => {
-    this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+    const onSuccess = (payload) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.loadNewJob(payload);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    };
+
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+    this.integrator.loadNewJob({
+      onSuccess,
+      onFailure,
+    });
   }
 
   deleteJob = () => {

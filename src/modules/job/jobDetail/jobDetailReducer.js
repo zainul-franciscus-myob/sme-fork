@@ -16,12 +16,13 @@ const getDefaultState = () => ({
   job: {
     id: '',
     name: '',
-    displayId: '',
-    isActive: true,
+    number: '',
+    isInactive: false,
     customerId: '',
     isHeader: false,
     description: '',
   },
+  customerOptions: [],
   isCreating: false,
   loadingState: LoadingState.LOADING,
   isSubmitting: false,
@@ -41,6 +42,7 @@ const loadJobDetail = (state, action) => ({
     ...state.job,
     ...action.job,
   },
+  customerOptions: action.customerOptions,
 });
 
 const setLoadingState = (state, { loadingState }) => ({
