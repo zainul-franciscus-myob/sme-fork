@@ -149,24 +149,30 @@ const updateLine = (state, action) => ({
   },
 });
 
-const addLine = (state, action) => ({
-  ...state,
-  ...pageEdited,
-  spendMoney: {
-    ...state.spendMoney,
-    lines: [
-      ...state.spendMoney.lines,
-      {
-        ...state.newLine,
-        ...action.line,
-        taxCodeId: getDefaultTaxCodeId({
-          accountId: action.line.accountId,
-          accounts: state.accounts,
-        }),
-      },
-    ],
-  },
-});
+const addLine = (state, action) => {
+  const isUpdateAmount = action.line.amount;
+  const displayAmount = isUpdateAmount || state.newLine.displayAmount;
+
+  return {
+    ...state,
+    ...pageEdited,
+    spendMoney: {
+      ...state.spendMoney,
+      lines: [
+        ...state.spendMoney.lines,
+        {
+          ...state.newLine,
+          ...action.line,
+          displayAmount,
+          taxCodeId: getDefaultTaxCodeId({
+            accountId: action.line.accountId,
+            accounts: state.accounts,
+          }),
+        },
+      ],
+    },
+  };
+};
 
 const deleteLine = (state, action) => ({
   ...state,
