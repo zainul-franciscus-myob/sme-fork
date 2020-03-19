@@ -13,7 +13,6 @@
     "note": "Some note/description",
     "memo": "Not displayed on UI",
     "billNumber": "00000123",
-    "displayBillNumber": "00000123",
     "issueDate": "2018-11-02",
     "amountPaid": "77.77",
     "lines": [

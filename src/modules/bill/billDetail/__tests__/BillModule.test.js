@@ -793,6 +793,7 @@ describe('BillModule', () => {
         const { module, store, integration } = setUpWithRun({ isCreating: true });
         module.globalCallbacks.inTrayBillSaved = jest.fn();
         module.replaceURLParams = jest.fn();
+        module.pushMessage = jest.fn();
 
         module.openExportPdfModalOrSaveAndExportPdf();
 
@@ -809,6 +810,7 @@ describe('BillModule', () => {
           { intent: LOAD_BILL, urlParams: { businessId: 'bizId', billId: '1' } },
         ]);
         expect(module.replaceURLParams).toHaveBeenCalled();
+        expect(module.pushMessage).not.toHaveBeenCalled();
       });
 
       it('does not open export pdf modal when create bill failed', () => {

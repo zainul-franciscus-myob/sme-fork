@@ -218,10 +218,6 @@ class BillModule {
         this.linkAfterSave(onSuccess, response);
       } else {
         this.dispatcher.stopBlocking();
-        this.pushMessage({
-          type: SUCCESSFULLY_SAVED_BILL,
-          content: response.message,
-        });
         onSuccess(response);
       }
     };
@@ -240,7 +236,8 @@ class BillModule {
   };
 
   saveBill = () => {
-    const onSuccess = () => {
+    const onSuccess = ({ message }) => {
+      this.pushMessage({ type: SUCCESSFULLY_SAVED_BILL, content: message });
       this.globalCallbacks.inTrayBillSaved();
       this.finalRedirect();
     };
@@ -258,7 +255,10 @@ class BillModule {
       window.location.href = url;
     };
 
-    const onSuccess = () => redirectToCreateNewBill();
+    const onSuccess = ({ message }) => {
+      this.pushMessage({ type: SUCCESSFULLY_SAVED_BILL, content: message });
+      redirectToCreateNewBill();
+    };
 
     this.saveBillAnd({ onSuccess });
   };
@@ -272,7 +272,8 @@ class BillModule {
       window.location.href = url;
     };
 
-    const onSuccess = ({ id }) => {
+    const onSuccess = ({ message, id }) => {
+      this.pushMessage({ type: SUCCESSFULLY_SAVED_BILL, content: message });
       this.globalCallbacks.inTrayBillSaved();
       const state = this.store.getState();
       const isCreating = getIsCreating(state);

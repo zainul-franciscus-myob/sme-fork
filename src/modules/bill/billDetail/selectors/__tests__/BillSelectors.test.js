@@ -149,11 +149,11 @@ describe('BillSelectors', () => {
       expect(actual).toEqual('Create bill');
     });
 
-    it('returns "Bill displayBillNumber" when updating', () => {
+    it('returns "Bill billNumber" when updating', () => {
       const state = {
         billId: '1',
         bill: {
-          displayBillNumber: '123',
+          billNumber: '123',
         },
       };
 

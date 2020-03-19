@@ -59,15 +59,15 @@ export const getExpirationDays = state => state.bill.expirationDays;
 export const getPageTitle = createSelector(
   getIsCreatingFromInTray,
   getIsCreating,
-  state => state.bill.displayBillNumber,
-  (isCreatingFromInTray, isCreating, displayBillNumber) => {
+  state => state.bill.billNumber,
+  (isCreatingFromInTray, isCreating, billNumber) => {
     if (isCreatingFromInTray) {
       return 'Create bill from In Tray';
     }
     if (isCreating) {
       return 'Create bill';
     }
-    return `Bill ${displayBillNumber}`;
+    return `Bill ${billNumber}`;
   },
 );
 
