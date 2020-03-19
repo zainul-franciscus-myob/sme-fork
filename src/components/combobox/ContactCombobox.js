@@ -32,6 +32,7 @@ const ContactCombobox = (props) => {
       items={items}
       selected={selectedItem}
       onChange={onComboboxChange}
+      noMatchFoundMessage="No contact found"
       {...otherProps}
     />
   );

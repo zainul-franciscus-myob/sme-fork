@@ -31,6 +31,7 @@ const SuperFundCombobox = (props) => {
       items={formattedItems}
       selected={selectedItem}
       onChange={onComboboxChange}
+      noMatchFoundMessage="No super fund found"
       {...otherProps}
     />
   );

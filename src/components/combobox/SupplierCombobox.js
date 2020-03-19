@@ -30,6 +30,7 @@ const SupplierCombobox = (props) => {
       items={items}
       selected={selectedItem}
       onChange={onComboboxChange}
+      noMatchFoundMessage="No supplier found"
       {...otherProps}
     />
   );

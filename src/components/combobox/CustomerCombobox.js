@@ -30,6 +30,7 @@ const CustomerCombobox = (props) => {
       items={items}
       selected={selectedItem}
       onChange={onComboboxChange}
+      noMatchFoundMessage="No customer found"
       {...otherProps}
     />
   );

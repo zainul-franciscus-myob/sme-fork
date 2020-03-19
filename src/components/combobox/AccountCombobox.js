@@ -40,6 +40,7 @@ const AccountCombobox = (props) => {
       selected={selectedItem}
       onChange={onComboboxChange}
       addNewItem={addNewAccount && { onAddNew: addNewAccount, label: 'Create account' }}
+      noMatchFoundMessage="No account found"
       {...otherProps}
     />
   );

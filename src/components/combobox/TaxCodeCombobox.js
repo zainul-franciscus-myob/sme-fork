@@ -35,6 +35,7 @@ const TaxCodeCombobox = (props) => {
       onChange={onComboboxChange}
       selected={selectedItem}
       disabled={disabled}
+      noMatchFoundMessage="No tax code found"
       {...otherProps}
     />
   );

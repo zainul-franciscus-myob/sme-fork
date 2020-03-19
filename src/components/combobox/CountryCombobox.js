@@ -32,6 +32,7 @@ const CountryCombobox = (props) => {
       items={countryList}
       selected={selectedItem}
       onChange={onComboboxChange}
+      noMatchFoundMessage="No country found"
       {...otherProps}
     />
   );

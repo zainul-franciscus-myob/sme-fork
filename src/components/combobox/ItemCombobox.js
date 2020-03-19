@@ -33,6 +33,7 @@ const ItemCombobox = (props) => {
       selected={selectedItem}
       onChange={onComboboxChange}
       addNewItem={addNewItem && { label: 'Create item', onAddNew: addNewItem }}
+      noMatchFoundMessage="No item found"
       {...otherProps}
     />
   );
