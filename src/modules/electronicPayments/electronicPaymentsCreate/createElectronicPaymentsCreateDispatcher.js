@@ -9,7 +9,6 @@ import {
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_TRANSACTIONS,
-  UPDATE_APPLIED_FILTER_OPTIONS,
   UPDATE_BANK_FILE_DETAILS,
   UPDATE_FILTER_OPTIONS,
   UPDATE_SELECTED_ACCOUNT_ID,
@@ -94,13 +93,6 @@ const createElectronicPaymentsCreateDispatcher = store => ({
       intent: UPDATE_SELECTED_ACCOUNT_ID,
       key,
       value,
-    });
-  },
-
-  updateAppliedFilterOptions: (filterOptions) => {
-    store.dispatch({
-      intent: UPDATE_APPLIED_FILTER_OPTIONS,
-      filterOptions,
     });
   },
 

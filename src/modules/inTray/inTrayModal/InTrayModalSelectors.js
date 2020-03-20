@@ -20,8 +20,6 @@ export const getIsUploadAllowed = state => state.isUploadAllowed;
 
 export const getFilterOptions = state => state.filterOptions;
 
-export const getAppliedFilterOptions = state => state.appliedFilterOptions;
-
 export const getSortOrder = state => state.sortOrder;
 
 export const getOrderBy = state => state.orderBy;

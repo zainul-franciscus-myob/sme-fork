@@ -10,6 +10,7 @@ const FilterBarSearch = ({
   onChange,
   className = styles.search,
   placeholder = '',
+  disabled = false,
 }) => (
   <Search
     name={name}
@@ -20,6 +21,7 @@ const FilterBarSearch = ({
     value={value}
     onChange={onChange}
     className={className}
+    disabled={disabled}
   />
 );
 

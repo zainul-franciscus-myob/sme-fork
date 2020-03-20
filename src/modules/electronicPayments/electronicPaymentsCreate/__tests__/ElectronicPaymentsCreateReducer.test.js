@@ -8,9 +8,6 @@ describe('ElectronicPaymentsCreateReducer', () => {
         filterOptions: {
           paymentType: '',
         },
-        appliedFilterOptions: {
-          paymentType: '',
-        },
       };
 
       const action = {
@@ -27,9 +24,6 @@ describe('ElectronicPaymentsCreateReducer', () => {
         filterOptions: {
           paymentType: 'SpendMoney',
         },
-        appliedFilterOptions: {
-          paymentType: 'SpendMoney',
-        },
       };
 
       expect(electronicPaymentsCreateReducer(state, action)).toEqual(expected);
@@ -38,9 +32,6 @@ describe('ElectronicPaymentsCreateReducer', () => {
     it('should set the payment type to PayEmployees if the isSpendMoneyEnabled toggle is false', () => {
       const state = {
         filterOptions: {
-          paymentType: '',
-        },
-        appliedFilterOptions: {
           paymentType: '',
         },
       };
@@ -57,9 +48,6 @@ describe('ElectronicPaymentsCreateReducer', () => {
         paymentType: 'SpendMoney',
         isSpendMoneyEnabled: false,
         filterOptions: {
-          paymentType: 'PayEmployees',
-        },
-        appliedFilterOptions: {
           paymentType: 'PayEmployees',
         },
       };

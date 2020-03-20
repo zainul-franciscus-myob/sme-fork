@@ -31,7 +31,6 @@ const InTrayModalView = ({
   },
   inTrayListListeners: {
     onUpdateFilterOptions,
-    onApplyFilter,
     onSort,
     onUpload,
     onView,
@@ -47,7 +46,6 @@ const InTrayModalView = ({
   const filterBar = (
     <InTrayModalFilterOptions
       onUpdateFilterOptions={onUpdateFilterOptions}
-      onApplyFilter={onApplyFilter}
     />
   );
 

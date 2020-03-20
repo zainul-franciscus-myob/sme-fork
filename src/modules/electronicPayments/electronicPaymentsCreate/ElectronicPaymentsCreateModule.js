@@ -3,8 +3,6 @@ import React from 'react';
 
 import {
   flipSortOrder,
-  getAppliedFilterOptions,
-  getFilterOptions,
   getIsPaymentDateToday,
   getOrderBy,
   getUrlParams,
@@ -67,7 +65,7 @@ export default class ElectronicPaymentsModule {
     this.integrator.loadAccountsAndElectronicPayments({ onSuccess, onFailure });
   };
 
-  fetchTransactions = ({ filterOptions }) => {
+  fetchTransactions = () => {
     this.dispatcher.setIsTableLoading(true);
 
     const onSuccess = (response) => {
@@ -80,7 +78,7 @@ export default class ElectronicPaymentsModule {
       this.dispatcher.setAlert({ type: 'danger', message });
     };
 
-    this.integrator.fetchElectronicPayments({ filterOptions, onSuccess, onFailure });
+    this.integrator.fetchElectronicPayments({ onSuccess, onFailure });
   };
 
   recordAndDownloadBankFile = () => {
@@ -102,11 +100,10 @@ export default class ElectronicPaymentsModule {
     this.integrator.recordAndDownloadBankFile({ onSuccess, onFailure });
   };
 
-  filterElectronicPayments = () => {
-    const state = this.store.getState();
-    const filterOptions = getFilterOptions(state);
-    this.fetchTransactions({ filterOptions });
-    this.dispatcher.updateAppliedFilterOptions(filterOptions);
+  updateFilterBarOptions = ({ key, value }) => {
+    this.dispatcher.updateFilterBarOptions({ key, value });
+
+    this.fetchTransactions();
   };
 
   sortElectronicPayments = (orderBy) => {
@@ -114,8 +111,7 @@ export default class ElectronicPaymentsModule {
     const newSortOrder = orderBy === getOrderBy(state) ? flipSortOrder(state) : 'asc';
     this.dispatcher.setSortOrder(orderBy, newSortOrder);
 
-    const filterOptions = getAppliedFilterOptions(state);
-    this.fetchTransactions({ filterOptions });
+    this.fetchTransactions();
   };
 
   openModal = () => {
@@ -152,8 +148,7 @@ export default class ElectronicPaymentsModule {
     const wrappedView = (
       <Provider store={this.store}>
         <ElectronicPaymentsCreateView
-          onUpdateFilterBarOptions={this.dispatcher.updateFilterBarOptions}
-          onApplyFilter={this.filterElectronicPayments}
+          onUpdateFilterBarOptions={this.updateFilterBarOptions}
           onAccountChange={this.dispatcher.updateSelectedAccountId}
           selectAll={this.dispatcher.selectAll}
           selectItem={this.dispatcher.selectItem}

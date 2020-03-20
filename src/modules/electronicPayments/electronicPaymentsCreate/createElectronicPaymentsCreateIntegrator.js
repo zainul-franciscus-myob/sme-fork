@@ -32,11 +32,14 @@ const createElectronicPaymentsCreateIntegrator = (store, integration) => ({
     });
   },
 
-  fetchElectronicPayments: ({ filterOptions, onSuccess, onFailure }) => {
+  fetchElectronicPayments: ({ onSuccess, onFailure }) => {
     const state = store.getState();
+
     const urlParams = {
       businessId: getBusinessId(state),
     };
+
+    const filterOptions = getFilterOptions(state);
     const params = {
       ...filterOptions,
       sortOrder: getSortOrder(state),

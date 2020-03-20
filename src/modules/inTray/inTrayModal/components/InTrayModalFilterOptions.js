@@ -1,30 +1,36 @@
+import { FilterBar } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getFilterOptions } from '../InTrayModalSelectors';
-import FilterBar from '../../../../components/Feelix/FilterBar/FilterBar';
+import { getFilterOptions, getIsEntryLoading } from '../InTrayModalSelectors';
 import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
 const InTrayModalFilterOptions = (props) => {
   const {
-    keywords,
+    filterOptions: {
+      keywords,
+    },
+    isEntryLoading,
     onUpdateFilterOptions,
-    onApplyFilter,
   } = props;
 
   return (
-    <FilterBar onApply={onApplyFilter}>
+    <FilterBar>
       <FilterBarSearch
         id="keywords"
         name="keywords"
         value={keywords}
         onChange={handleInputChange(onUpdateFilterOptions)}
+        disabled={isEntryLoading}
       />
     </FilterBar>
   );
 };
 
-const mapStateToProps = state => getFilterOptions(state);
+const mapStateToProps = state => ({
+  filterOptions: getFilterOptions(state),
+  isEntryLoading: getIsEntryLoading(state),
+});
 
 export default connect(mapStateToProps)(InTrayModalFilterOptions);

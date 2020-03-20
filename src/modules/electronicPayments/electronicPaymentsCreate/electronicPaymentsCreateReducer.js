@@ -11,7 +11,6 @@ import {
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_TRANSACTIONS,
-  UPDATE_APPLIED_FILTER_OPTIONS,
   UPDATE_BANK_FILE_DETAILS,
   UPDATE_FILTER_OPTIONS,
   UPDATE_SELECTED_ACCOUNT_ID,
@@ -40,11 +39,6 @@ const getDefaultState = () => ({
     dateTo: formatIsoDate(new Date()),
     paymentType: '',
   },
-  appliedFilterOptions: {
-    dateFrom: formatIsoDate(getDefaultDateRange()),
-    dateTo: formatIsoDate(new Date()),
-    paymentType: '',
-  },
   sortOrder: 'desc',
   alert: undefined,
 });
@@ -56,10 +50,6 @@ const setInitialState = (state, { context }) => {
     ...context,
     filterOptions: {
       ...state.filterOptions,
-      paymentType: context.isSpendMoneyEnabled ? paymentType : 'PayEmployees',
-    },
-    appliedFilterOptions: {
-      ...state.appliedFilterOptions,
       paymentType: context.isSpendMoneyEnabled ? paymentType : 'PayEmployees',
     },
   };
@@ -88,13 +78,6 @@ const updateFilterOptions = (state, { key, value }) => ({
   },
 });
 
-const updateAppliedFilterOptions = (state, action) => ({
-  ...state,
-  appliedFilterOptions: {
-    ...action.filterOptions,
-  },
-});
-
 const updateSelectedAccountId = (state, action) => ({
   ...state,
   selectedAccountId: action.value,
@@ -119,7 +102,6 @@ const setSortOrder = (state, action) => ({
 const sortAndFilterTransactions = (state, { response }) => ({
   ...state,
   transactions: response.transactions,
-  appliedFilterOptions: response.isSort ? state.appliedFilterOptions : state.filterOptions,
 });
 
 const selectAllTransactions = (state, action) => ({
@@ -167,7 +149,6 @@ const handlers = {
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [RESET_STATE]: resetState,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
-  [UPDATE_APPLIED_FILTER_OPTIONS]: updateAppliedFilterOptions,
   [UPDATE_SELECTED_ACCOUNT_ID]: updateSelectedAccountId,
   [SET_SORT_ORDER]: setSortOrder,
   [SORT_AND_FILTER_TRANSACTIONS]: sortAndFilterTransactions,

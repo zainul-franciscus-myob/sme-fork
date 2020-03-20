@@ -1,7 +1,6 @@
 export const SET_LOADING_STATE = Symbol('Set loading state');
 export const SET_ALERT = Symbol('Set alert');
 export const UPDATE_FILTER_OPTIONS = Symbol('Update filter options');
-export const UPDATE_APPLIED_FILTER_OPTIONS = Symbol('Update applied filter options');
 export const LOAD_ACCOUNTS_AND_TRANSACTIONS = Symbol('Load accounts and transactions');
 export const UPDATE_SELECTED_ACCOUNT_ID = Symbol('Update selected account id');
 export const SORT_AND_FILTER_TRANSACTIONS = Symbol('Sort and filter transactions');

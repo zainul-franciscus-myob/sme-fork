@@ -3,14 +3,17 @@ import {
   LOAD_IN_TRAY_MODAL,
   VIEW_IN_TRAY_MODAL_DOCUMENT,
 } from '../InTrayIntents';
-import { getBusinessId, getOrderBy, getSortOrder } from './InTrayModalSelectors';
+import {
+  getBusinessId, getFilterOptions, getOrderBy, getSortOrder,
+} from './InTrayModalSelectors';
 
 const createInTrayModalIntegrator = (store, integration) => ({
-  loadInTrayModal: ({ filterOptions, onSuccess, onFailure }) => {
+  loadInTrayModal: ({ onSuccess, onFailure }) => {
     const intent = LOAD_IN_TRAY_MODAL;
 
     const state = store.getState();
     const businessId = getBusinessId(state);
+    const filterOptions = getFilterOptions(state);
     const sortOrder = getSortOrder(state);
     const orderBy = getOrderBy(state);
 

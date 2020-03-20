@@ -31,9 +31,6 @@ const getDefaultState = () => ({
   filterOptions: {
     keywords: '',
   },
-  appliedFilterOptions: {
-    keywords: '',
-  },
   sortOrder: 'desc',
   orderBy: 'ReceivedOn',
   entries: [],
@@ -64,9 +61,6 @@ const setAlert = (state, action) => ({
 
 const sortAndFilterInTrayModal = (state, action) => ({
   ...state,
-  appliedFilterOptions: action.isSort
-    ? state.appliedFilterOptions
-    : state.filterOptions,
   entries: action.entries,
 });
 

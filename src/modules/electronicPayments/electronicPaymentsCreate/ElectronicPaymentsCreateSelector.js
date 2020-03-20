@@ -15,7 +15,6 @@ export const getReferenceNumber = state => state.referenceNumber;
 export const getDateOfPayment = state => state.dateOfPayment;
 export const getBankStatementDescription = state => state.bankStatementDescription;
 export const getFilterOptions = state => state.filterOptions;
-export const getAppliedFilterOptions = state => state.appliedFilterOptions;
 export const getSelectedAccountId = state => state.selectedAccountId;
 export const getModal = state => state.modal;
 export const getBusinessId = state => state.businessId;
@@ -86,7 +85,7 @@ export const getIsPaymentDateToday = createSelector(
 );
 
 export const getUrlParams = createSelector(
-  getAppliedFilterOptions,
+  getFilterOptions,
   filterOptions => ({
     paymentType: filterOptions.paymentType,
   }),

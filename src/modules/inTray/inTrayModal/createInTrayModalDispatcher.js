@@ -51,21 +51,11 @@ const createInTrayModalDispatcher = store => ({
     store.dispatch({ intent, ...payload });
   },
 
-  filterInTrayList: (response) => {
+  sortAndFilterInTrayList: (response) => {
     const intent = SORT_AND_FILTER_IN_TRAY_MODAL;
     store.dispatch({
       intent,
       ...response,
-      isSort: false,
-    });
-  },
-
-  sortInTrayList: (response) => {
-    const intent = SORT_AND_FILTER_IN_TRAY_MODAL;
-    store.dispatch({
-      intent,
-      ...response,
-      isSort: true,
     });
   },
 

@@ -9,7 +9,6 @@ const ElectronicPaymentsCreateFilter = ({
   dateFrom,
   dateTo,
   onUpdateFilterBarOptions,
-  onApplyFilter,
   isSpendMoneyEnabled,
 }) => {
   const onDatePickerChange = filterName => ({ value }) => {
@@ -17,7 +16,7 @@ const ElectronicPaymentsCreateFilter = ({
   };
 
   return (
-    <FilterBar onApply={onApplyFilter}>
+    <FilterBar>
       <FilterBar.Group>
         {isSpendMoneyEnabled && (
         <Select

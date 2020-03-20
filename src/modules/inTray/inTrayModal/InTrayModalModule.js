@@ -3,7 +3,6 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  getAppliedFilterOptions,
   getFilterOptions,
   getIsEntryLoading,
   getNewSortOrder,
@@ -15,6 +14,7 @@ import InTrayModalView from './components/InTrayModalView';
 import Store from '../../../store/Store';
 import createInTrayModalDispatcher from './createInTrayModalDispatcher';
 import createInTrayModalIntegrator from './createInTrayModalIntegrator';
+import debounce from '../../../common/debounce/debounce';
 import inTrayModalReducer from './InTrayModalReducer';
 
 export default class InTrayModalModule {
@@ -44,18 +44,12 @@ export default class InTrayModalModule {
     this.integrator.loadInTrayModal({ filterOptions, onSuccess, onFailure });
   };
 
-  filterInTrayList = () => {
-    const state = this.store.getState();
-    const filterOptions = getFilterOptions(state);
-    if (getIsEntryLoading(state)) {
-      return;
-    }
-
+  sortAndFilterInTrayList = () => {
     this.dispatcher.setTableLoadingState(true);
 
     const onSuccess = (response) => {
       this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.filterInTrayList(response);
+      this.dispatcher.sortAndFilterInTrayList(response);
     };
 
     const onFailure = (error) => {
@@ -63,34 +57,27 @@ export default class InTrayModalModule {
       this.dispatcher.setAlert({ message: error.message, type: 'danger' });
     };
 
-    this.integrator.loadInTrayModal({ filterOptions, onSuccess, onFailure });
+    this.integrator.loadInTrayModal({ onSuccess, onFailure });
   };
 
-  sortInTrayList = (orderBy) => {
+  debouncedSortAndFilterInTrayList = debounce(this.sortAndFilterInTrayList);
+
+  updateFilterOptions = ({ key, value }) => {
+    this.dispatcher.setFilterOptions({ key, value });
+
+    this.debouncedSortAndFilterInTrayList();
+  };
+
+  updateSortOrder = (orderBy) => {
     const state = this.store.getState();
-    const filterOptions = getAppliedFilterOptions(state);
     if (getIsEntryLoading(state)) {
       return;
     }
-
-    this.dispatcher.setTableLoadingState(true);
 
     const sortOrder = getNewSortOrder(orderBy)(state);
     this.dispatcher.setSortOrder(orderBy, sortOrder);
 
-    const onSuccess = (response) => {
-      this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.sortInTrayList(response);
-    };
-
-    const onFailure = (error) => {
-      this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.setAlert({ message: error.message, type: 'danger' });
-    };
-
-    this.integrator.loadInTrayModal({
-      filterOptions, onSuccess, onFailure,
-    });
+    this.sortAndFilterInTrayList();
   };
 
   uploadInTrayFiles = (files) => {
@@ -180,9 +167,8 @@ export default class InTrayModalModule {
           onCloseModal: this.close,
         }}
         inTrayListListeners={{
-          onUpdateFilterOptions: this.dispatcher.setFilterOptions,
-          onApplyFilter: this.filterInTrayList,
-          onSort: this.sortInTrayList,
+          onUpdateFilterOptions: this.updateFilterOptions,
+          onSort: this.updateSortOrder,
           onUpload: this.uploadInTrayFiles,
           onView: this.viewInTrayDocument,
           onSelect: this.dispatcher.setSelectedDocumentId,
