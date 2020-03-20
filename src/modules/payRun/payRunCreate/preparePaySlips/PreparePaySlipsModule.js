@@ -88,6 +88,7 @@ export default class PreparePaySlipsModule {
     };
 
     const onFailure = (message) => {
+      // eslint-disable-next-line no-console
       console.log(`Failed to download Pay Slip. ${message}`);
     };
 

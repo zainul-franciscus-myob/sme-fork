@@ -6,6 +6,7 @@ export default class DebugStore extends Store {
 
   dispatch = (action) => {
     this.superDispatch(action);
+    // eslint-disable-next-line no-console
     console.log('Action:', action, '\n', 'State:', this.getState());
   }
 }

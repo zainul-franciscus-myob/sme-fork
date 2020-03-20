@@ -62,6 +62,7 @@ export default class NavigationModule {
     };
     const onFailure = () => {
       this.setLoadingState(false);
+      // eslint-disable-next-line no-console
       console.log('Failed to load navigation config');
     };
 
@@ -113,6 +114,7 @@ export default class NavigationModule {
     const businessId = getBusinessId(this.store.getState());
     const url = await loadSubscriptionUrl(this.integration, businessId, window.location.href);
     if (!url) {
+      // eslint-disable-next-line no-console
       console.warn('"Subscription details" url has no value');
       return;
     }
@@ -127,6 +129,7 @@ export default class NavigationModule {
       window.location.href,
     );
     if (!url) {
+      // eslint-disable-next-line no-console
       console.warn('"Subscription details" url has no value');
       return;
     }

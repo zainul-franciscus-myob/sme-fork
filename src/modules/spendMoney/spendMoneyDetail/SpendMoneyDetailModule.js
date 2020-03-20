@@ -183,6 +183,7 @@ export default class SpendMoneyDetailModule {
     };
 
     const onFailure = () => {
+      // eslint-disable-next-line no-console
       console.log('Failed to load the next reference Id');
     };
 

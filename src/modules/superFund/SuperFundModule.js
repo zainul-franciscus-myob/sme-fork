@@ -46,6 +46,7 @@ export default class SuperFundModule {
     const intent = superFundId === 'new' ? LOAD_NEW_SUPER_FUND : LOAD_SUPER_FUND;
 
     const onSuccess = payload => this.loadSuperFundModule(context, payload);
+    // eslint-disable-next-line no-console
     const onFailure = () => console.log('Failed to get initial load');
 
     this.integration.read({

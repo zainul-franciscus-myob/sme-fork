@@ -94,6 +94,7 @@ const getRowButtonWrapper = (wrapper, index) => wrapper.find('button.testButton'
 
 describe('AccordionTable', () => {
   /* We're hiding a specific set of console errors so as to not pollute the console. */
+  // eslint-disable-next-line no-console
   console.error = jest.fn(mockConsoleMethod(console.error));
 
   it('renders', () => {

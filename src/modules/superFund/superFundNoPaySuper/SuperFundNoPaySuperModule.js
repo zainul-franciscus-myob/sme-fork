@@ -206,6 +206,7 @@ export default class SuperFundNoPaySuperModule {
     };
 
     const onFailure = (response) => {
+      // eslint-disable-next-line no-console
       console.log(response);
     };
 
