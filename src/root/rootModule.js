@@ -17,9 +17,9 @@ import buildGlobalCallbacks from './builders/buildGlobalCallbacks';
 import tasksService from './services/tasks';
 
 export default class RootModule {
-  constructor({
+  init = ({
     integration, router, sendTelemetryEvent,
-  }) {
+  }) => {
     const { constructPath, replaceURLParamsAndReload } = router;
 
     this.store = new Store(RootReducer);
@@ -58,6 +58,8 @@ export default class RootModule {
       closeTasks: this.tasksService.closeTasks,
     });
   }
+
+  getRegion = () => this.store.getState().region;
 
   render = (component) => {
     const root = document.getElementById('root');

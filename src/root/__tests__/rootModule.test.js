@@ -4,7 +4,8 @@ describe('rootModule', () => {
   it('can be instantiated', () => {
     const integration = jest.fn();
     const router = jest.fn();
-    const root = new RootModule({ integration, router });
+    const root = new RootModule();
+    root.init({ integration, router });
 
     expect(root).toBeDefined();
   });
@@ -18,7 +19,8 @@ describe('rootModule', () => {
     );
 
     const createAndRunModule = async (...runArgs) => {
-      const root = new RootModule({
+      const root = new RootModule();
+      root.init({
         integration: jest.fn(),
         router: jest.fn(),
       });

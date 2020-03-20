@@ -1,7 +1,7 @@
 import { acquireToken } from '../Auth';
 import createHttpIntegration from './createHttpIntegration';
 
-const createAuthHttpIntegration = () => {
+const createAuthHttpIntegration = ({ getRegion }) => {
   const getAdditionalHeaders = async () => {
     const token = await acquireToken();
 
@@ -11,6 +11,7 @@ const createAuthHttpIntegration = () => {
   };
 
   return createHttpIntegration({
+    getRegion,
     getAdditionalHeaders,
   });
 };

@@ -17,8 +17,12 @@ async function main(integrationType, telemetryType, leanEngageType) {
   initializeAuth();
   stopResizeAnimation();
 
+  const rootModule = new RootModule();
+
   const createIntegration = (await import(`./integration/create${integrationType}Integration.js`)).default;
-  const integration = createIntegration();
+  const integration = createIntegration({
+    getRegion: rootModule.getRegion,
+  });
   const initializeTelemetry = (await import(`./telemetry/initialize${telemetryType}Telemetry`)).default;
   const telemetry = initializeTelemetry(Config.SEGMENT_WRITE_KEY);
   const initializeLeanEngage = (await import(`./leanEngage/initialize${leanEngageType}LeanEngage`)).default;
@@ -29,7 +33,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
   });
   const inbox = new Inbox();
 
-  const rootModule = new RootModule({
+  rootModule.init({
     integration,
     router,
     sendTelemetryEvent: telemetry,

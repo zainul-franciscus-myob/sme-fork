@@ -132,7 +132,7 @@ const writeFormData = async ({
   sendXHRRequest(requestSpec.method, url, headers, body, onSuccess, onFailure, onProgress);
 };
 
-const createHttpIntegration = ({ getAdditionalHeaders = NO_OP } = { }) => ({
+const createHttpIntegration = ({ getAdditionalHeaders = NO_OP, getRegion } = { }) => ({
   read: async ({
     intent,
     urlParams,
@@ -153,7 +153,11 @@ const createHttpIntegration = ({ getAdditionalHeaders = NO_OP } = { }) => ({
     const additionalHeaders = await getAdditionalHeaders();
     const requestOptions = {
       method: requestSpec.method,
-      headers: { ...getDefaultHttpHeaders(), ...additionalHeaders },
+      headers: {
+        ...getDefaultHttpHeaders(),
+        ...additionalHeaders,
+        region: getRegion() || '',
+      },
       signal: controller.signal,
       credentials: 'include',
     };
