@@ -5,19 +5,28 @@ import React from 'react';
 import { findButtonWithTestId } from '../../../../../common/tests/selectors';
 import PayRunModule from '../../PayRunModule';
 import RecordPayRunModule from '../RecordPayRunModule';
+import openBlob from '../../../../../common/blobOpener/openBlob';
+
+jest.mock('../../../../../common/blobOpener/openBlob');
 
 describe('RecordPayRunModule', () => {
-  const constructRecordPayRunModule = () => {
+  const defaultFeatureToggles = {
+    isPayRunReportsEnabled: true,
+  };
+  const constructRecordPayRunModule = (featureToggles = defaultFeatureToggles) => {
     const integration = {
       readFile: ({ onSuccess }) => onSuccess('FOO'),
       write: ({ onSuccess }) => { onSuccess({ message: 'success' }); },
     };
     const pushMessage = () => {};
     const setRootView = () => (<div />);
-    const payRunModule = new PayRunModule({ integration, setRootView, pushMessage });
+
+    const payRunModule = new PayRunModule({
+      integration, setRootView, pushMessage, featureToggles,
+    });
 
     const recordPayRunModule = new RecordPayRunModule({
-      integration, store: payRunModule.store, pushMessage,
+      integration, store: payRunModule.store, pushMessage, featureToggles,
     });
     const view = recordPayRunModule.getView();
 
@@ -48,6 +57,72 @@ describe('RecordPayRunModule', () => {
       findButtonWithTestId(wrapper, 'saveAndCloseButton').simulate('click');
 
       expect(window.location.href.endsWith('/payRun')).toBe(true);
+    });
+  });
+
+  describe('preview pay run activity', () => {
+    it('calls the openBlob function', () => {
+      const wrapper = constructRecordPayRunModule();
+
+      const reportLink = findButtonWithTestId(wrapper, 'previewPayRunActivityButton');
+      reportLink.simulate('click');
+
+      expect(openBlob).toHaveBeenCalled();
+    });
+
+    it('shows up when the feature toggle is on', () => {
+      const featureToggles = {
+        isPayRunReportsEnabled: true,
+      };
+      const wrapper = constructRecordPayRunModule(featureToggles);
+
+      const previewPayRunActivityButton = findButtonWithTestId(wrapper, 'previewPayRunActivityButton');
+
+      expect(previewPayRunActivityButton).toHaveLength(1);
+    });
+
+    it('does not show when the feature toggle is off', () => {
+      const featureToggles = {
+        isPayRunReportsEnabled: false,
+      };
+      const wrapper = constructRecordPayRunModule(featureToggles);
+
+      const previewPayRunActivityButton = findButtonWithTestId(wrapper, 'previewPayRunActivityButton');
+
+      expect(previewPayRunActivityButton).toHaveLength(0);
+    });
+  });
+
+  describe('preview pay details', () => {
+    it('calls the openBlob function', () => {
+      const wrapper = constructRecordPayRunModule();
+
+      const reportLink = findButtonWithTestId(wrapper, 'previewPayDetailsButton');
+      reportLink.simulate('click');
+
+      expect(openBlob).toHaveBeenCalled();
+    });
+
+    it('shows up when the feature toggle is on', () => {
+      const featureToggles = {
+        isPayRunReportsEnabled: true,
+      };
+      const wrapper = constructRecordPayRunModule(featureToggles);
+
+      const previewPayDetailsButton = findButtonWithTestId(wrapper, 'previewPayDetailsButton');
+
+      expect(previewPayDetailsButton).toHaveLength(1);
+    });
+
+    it('does not show when the feature toggle is off', () => {
+      const featureToggles = {
+        isPayRunReportsEnabled: false,
+      };
+      const wrapper = constructRecordPayRunModule(featureToggles);
+
+      const previewPayDetailsButton = findButtonWithTestId(wrapper, 'previewPayDetailsButton');
+
+      expect(previewPayDetailsButton).toHaveLength(0);
     });
   });
 });
