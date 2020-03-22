@@ -12,6 +12,7 @@ import areValuesEqual from './areValuesEqual';
 import copyEventWithValue from '../autoFormatter/AmountInput/copyEventWithValue';
 import createValidator from './validate';
 import evaluate from './evaluate';
+import isCalculableExpression from './isCalculableExpression';
 import styles from './Calculator.module.css';
 
 const CalculatorTooltip = ({ value, width }) => {
@@ -79,9 +80,7 @@ const onWrappedOnChange = ({
     const event = copyEventWithValue(e, value);
     setCurrValue(addCommasInPlace(value));
     onChange(event);
-
-    const isExpression = Number.isNaN(Number(removeCommas(value)));
-    setIsActive(isExpression);
+    setIsActive(isCalculableExpression(value));
   }
 };
 
