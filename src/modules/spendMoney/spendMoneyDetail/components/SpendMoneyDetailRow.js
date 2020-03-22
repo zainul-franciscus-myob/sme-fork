@@ -12,7 +12,6 @@ import {
   getTaxCodeOptions,
 } from '../spendMoneyDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
-import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import Calculator from '../../../../components/Calculator/Calculator';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 import styles from './SpendMoneyDetailRow.module.css';
@@ -85,12 +84,12 @@ const SpendMoneyDetailRow = (props) => {
         numeralDecimalScaleMin={2}
         disabled={isSupplierBlocking || isSubmitting}
       />
-      <AmountInput
+      <Calculator
         label="Quantity"
         name="quantity"
         value={quantity}
         onChange={onAmountInputChange('quantity', onChange)}
-        onBlur={onAmountInputChange('quantity', onChange)}
+        onBlur={onRowInputBlur}
         numeralDecimalScaleMin={0}
         numeralDecimalScaleMax={6}
         numeralIntegerScale={13}

@@ -10,9 +10,9 @@ import {
 } from './formatter';
 import areValuesEqual from './areValuesEqual';
 import copyEventWithValue from '../autoFormatter/AmountInput/copyEventWithValue';
+import createValidator from './validate';
 import evaluate from './evaluate';
 import styles from './Calculator.module.css';
-import validate from './validate';
 
 const CalculatorTooltip = ({ value, width }) => {
   const tooltipStyle = { width };
@@ -56,14 +56,22 @@ const onWrappedBlur = ({
   const event = copyEventWithValue(e, valueWithDecimalPlaces);
 
   // Trigger onChange to give parsed value to parent
-  onChange(event);
+  if (value) {
+    onChange(event);
+  }
+
   onBlur(event);
 
   // Stop showing calculator tooltip
   setIsActive(false);
 };
 
-const onWrappedOnChange = (setCurrValue, onChange) => (e) => {
+const onWrappedOnChange = ({
+  setCurrValue,
+  setIsActive,
+  validate,
+  onChange,
+}) => (e) => {
   const { value } = e.target;
   const isValidValue = validate(value);
 
@@ -71,6 +79,9 @@ const onWrappedOnChange = (setCurrValue, onChange) => (e) => {
     const event = copyEventWithValue(e, value);
     setCurrValue(addCommasInPlace(value));
     onChange(event);
+
+    const isExpression = Number.isNaN(Number(removeCommas(value)));
+    setIsActive(isExpression);
   }
 };
 
@@ -84,6 +95,7 @@ const Calculator = ({
   onChange,
   numeralDecimalScaleMin = 0,
   numeralDecimalScaleMax = 2,
+  numeralIntegerScale,
   className,
   disabled,
 }) => {
@@ -102,7 +114,13 @@ const Calculator = ({
     setCurrValue(formattedValue);
   }
 
-  const onCalculatorChange = onWrappedOnChange(setCurrValue, onChange);
+  const validate = createValidator({ numeralIntegerScale });
+  const onCalculatorChange = onWrappedOnChange({
+    setCurrValue,
+    setIsActive,
+    onChange,
+    validate,
+  });
   const onCalculatorBlur = onWrappedBlur({
     setCurrValue,
     onChange,
@@ -134,7 +152,6 @@ const Calculator = ({
         value={currValue}
         onChange={onCalculatorChange}
         onBlur={onCalculatorBlur}
-        onFocus={() => setIsActive(true)}
         className={className}
         disabled={disabled}
       />

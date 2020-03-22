@@ -40,46 +40,56 @@ describe('Calculator', () => {
     return wrapper;
   };
 
+  const triggerOnChangeForInput = ({ wrapper, name, value }) => {
+    const event = {
+      target: {
+        name,
+        value,
+      },
+    };
+
+    const element = wrapper.find(`.${testClassname}`).at(1);
+    element.prop('onChange')(event);
+    wrapper.update();
+  };
+
+  const triggerOnBlurForInput = ({ wrapper, name, value }) => {
+    const event = {
+      target: {
+        name,
+        value,
+      },
+    };
+
+    const element = wrapper.find(`.${testClassname}`).at(1);
+    element.prop('onBlur')(event);
+    wrapper.update();
+  };
+
   describe('onChange', () => {
-    it('should trigger if a valid value is given', async () => {
+    it('should trigger if a valid value is given', () => {
       // Set up
       let actualValue = '';
       const onChange = (e) => { actualValue = e.target.value; };
       const wrapper = setUp({ onChange });
 
-      const event = {
-        target: {
-          name: 'amount',
-          value: '1',
-        },
-      };
-
       // Execute
-      const element = wrapper.find(`.${testClassname}`).at(1);
-      element.prop('onChange')(event);
-      wrapper.update();
+      const value = '1';
+      triggerOnChangeForInput({ wrapper, name: 'amount', value });
 
       // Asert
-      expect(actualValue).toEqual('1');
+      expect(actualValue).toEqual(value);
     });
 
-    it('should not trigger if an invalid value is given', async () => {
+    it('should not trigger if an invalid value is given', () => {
       // Set up
       let actualValue = '';
       const onChange = (e) => { actualValue = e.target.value; };
       const wrapper = setUp({ onChange });
 
-      const event = {
-        target: {
-          name: 'amount',
-          value: '@',
-        },
-      };
-
       // Execute
-      const element = wrapper.find(`.${testClassname}`).at(1);
-      element.prop('onChange')(event);
-      wrapper.update();
+      const value = '@';
+      triggerOnChangeForInput({ wrapper, name: 'amount', value });
 
       // Asert
       expect(actualValue).toEqual('');
@@ -87,70 +97,85 @@ describe('Calculator', () => {
   });
 
   describe('onBlur', () => {
-    it('should trigger an onChange and onBlur with the correcly evaluated value', async () => {
+    it('should trigger an onChange and onBlur with the correcly evaluated value', () => {
       // Set up
       let onChangeValue = '';
       let onBlurValue = '';
 
       const onChange = (e) => { onChangeValue = e.target.value; };
       const onBlur = (e) => { onBlurValue = e.target.value; };
-
       const wrapper = setUp({ onChange, onBlur });
 
-      const event = {
-        target: {
-          name: 'amount',
-          value: '1',
-        },
-      };
+      // Execute
+      const value = '1';
+      triggerOnBlurForInput({ wrapper, name: 'amount', value });
+
+      // Asert
+      expect(onChangeValue).toEqual(value);
+      expect(onBlurValue).toEqual(value);
+    });
+
+    it('should not trigger an onChange if the value is empty', () => {
+      // Set up
+      let onChangeValue = '1';
+      let onBlurValue = '1';
+
+      const onChange = (e) => { onChangeValue = e.target.value; };
+      const onBlur = (e) => { onBlurValue = e.target.value; };
+      const wrapper = setUp({ onChange, onBlur });
 
       // Execute
-      const element = wrapper.find(`.${testClassname}`).at(1);
-      element.prop('onBlur')(event);
-      wrapper.update();
+      const value = '';
+      triggerOnBlurForInput({ wrapper, name: 'amount', value });
 
       // Asert
       expect(onChangeValue).toEqual('1');
-      expect(onBlurValue).toEqual('1');
+      expect(onBlurValue).toEqual(value);
     });
   });
 
   describe('CalculatorTooltip', () => {
-    it('should not initially be rendered', async () => {
-      const wrapper = setUp({});
-      expect(wrapper.find('CalculatorTooltip').exists()).toBe(false);
-    });
+    describe('when onChange is triggered', () => {
+      it('should not be render when input is empty', () => {
+        const wrapper = setUp({ onChange: () => { } });
 
-    it('should render when calculator is placed in focus', async () => {
-      const wrapper = setUp({});
+        triggerOnChangeForInput({ wrapper, name: 'amount', value: '' });
 
-      const element = wrapper.find(`.${testClassname}`).at(1);
-      element.prop('onFocus')();
-      wrapper.update();
-
-      expect(wrapper.find('CalculatorTooltip').exists()).toBe(true);
-    });
-
-    it('should disappear when calculator is blurred', async () => {
-      const wrapper = setUp({
-        onChange: () => { },
-        onBlur: () => { },
+        expect(wrapper.find('CalculatorTooltip').exists()).toBe(false);
       });
 
-      const element = wrapper.find(`.${testClassname}`).at(1);
-      element.prop('onFocus')();
-      wrapper.update();
+      it('should not render when input is a number', () => {
+        const wrapper = setUp({ onChange: () => { } });
 
-      const focusedElement = wrapper.find(`.${testClassname}`).at(1);
-      focusedElement.prop('onBlur')({
-        target: {
-          name: 'amount',
-          value: '1',
-        },
+        triggerOnChangeForInput({ wrapper, name: 'amount', value: '123' });
+
+        expect(wrapper.find('CalculatorTooltip').exists()).toBe(false);
       });
-      wrapper.update();
 
-      expect(wrapper.find('CalculatorTooltip').exists()).toBe(false);
+      it('should render when input is a calculable expression', () => {
+        const wrapper = setUp({ onChange: () => {} });
+
+        triggerOnChangeForInput({ wrapper, name: 'amount', value: '2 + 2' });
+
+        expect(wrapper.find('CalculatorTooltip').exists()).toBe(true);
+      });
+    });
+
+    describe('when onBlur is triggered', () => {
+      it('should disappear if it\'s currently rendered', () => {
+        const wrapper = setUp({
+          onChange: () => { },
+          onBlur: () => { },
+        });
+
+        triggerOnChangeForInput({ wrapper, name: 'amount', value: '2 + 2' });
+
+        expect(wrapper.find('CalculatorTooltip').exists()).toBe(true);
+
+        triggerOnBlurForInput({ wrapper, name: 'amount', value: '4' });
+
+        expect(wrapper.find('CalculatorTooltip').exists()).toBe(false);
+      });
     });
   });
 

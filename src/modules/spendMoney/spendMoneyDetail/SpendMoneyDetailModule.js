@@ -377,7 +377,10 @@ export default class SpendMoneyDetailModule {
   }
 
   formatAndCalculateTotals = () => {
-    this.getTaxCalculations({ isSwitchingTaxInclusive: false });
+    const state = this.store.getState();
+    if (isPageEdited(state)) {
+      this.getTaxCalculations({ isSwitchingTaxInclusive: false });
+    }
   }
 
   getTaxCalculations = ({ isSwitchingTaxInclusive }) => {
