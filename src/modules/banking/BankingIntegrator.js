@@ -2,7 +2,6 @@ import {
   ALLOCATE_TRANSACTION,
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
-  BULK_UNALLOCATE_TRANSACTIONS,
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ATTACHMENTS,
@@ -20,9 +19,7 @@ import {
   SAVE_TRANSFER_MONEY,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
-  UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
-  UNMATCH_TRANSACTION,
   UPLOAD_ATTACHMENT,
 } from './BankingIntents';
 import {
@@ -196,7 +193,7 @@ const createBankingIntegrator = (store, integration) => ({
   }) => {
     const state = store.getState();
 
-    const intent = BULK_UNALLOCATE_TRANSACTIONS;
+    const intent = UNALLOCATE_TRANSACTION;
     const urlParams = { businessId: getBusinessId(state) };
 
     const content = getBulkUnallocationPayload(state);
@@ -215,7 +212,7 @@ const createBankingIntegrator = (store, integration) => ({
   }) => {
     const state = store.getState();
 
-    const intent = UNMATCH_TRANSACTION;
+    const intent = UNALLOCATE_TRANSACTION;
     const urlParams = { businessId: getBusinessId(state) };
 
     const content = getUnmatchTransactionPayload(state);
@@ -345,7 +342,7 @@ const createBankingIntegrator = (store, integration) => ({
   unallocateOpenEntryTransaction: ({
     onSuccess, onFailure,
   }) => {
-    const intent = UNALLOCATE_OPEN_ENTRY_TRANSACTION;
+    const intent = UNALLOCATE_TRANSACTION;
     const state = store.getState();
 
     const index = getOpenPosition(state);

@@ -6,7 +6,6 @@ import {
   APPEND_NEW_ACCOUNT_TO_ALLOCATE_TABLE,
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
-  BULK_UNALLOCATE_TRANSACTIONS,
   CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
   DELETE_SPLIT_ALLOCATION_LINE,
@@ -63,9 +62,7 @@ import {
   STOP_LOADING_MORE,
   STOP_MODAL_BLOCKING,
   TOGGLE_MATCH_TRANSACTION_SELECT_ALL_STATE,
-  UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
-  UNMATCH_TRANSACTION,
   UNSELECT_TRANSACTIONS,
   UPDATE_BULK_ALLOCATION_OPTIONS,
   UPDATE_FILTER_OPTIONS,
@@ -160,13 +157,6 @@ const createBankingDispatcher = store => ({
     });
   },
 
-  bulkUnallocateTransactions: ({ entries }) => {
-    store.dispatch({
-      intent: BULK_UNALLOCATE_TRANSACTIONS,
-      entries,
-    });
-  },
-
   applyRuleToTransactions: (entries) => {
     store.dispatch({
       intent: APPLY_RULE_TO_TRANSACTIONS,
@@ -174,11 +164,10 @@ const createBankingDispatcher = store => ({
     });
   },
 
-  unAllocateTransaction: (index, payload) => {
+  unAllocateTransaction: ({ entries }) => {
     store.dispatch({
       intent: UNALLOCATE_TRANSACTION,
-      index,
-      ...payload,
+      entries,
     });
   },
 
@@ -308,22 +297,6 @@ const createBankingDispatcher = store => ({
   saveSplitAllocation: (index, payload) => {
     store.dispatch({
       intent: SAVE_SPLIT_ALLOCATION,
-      index,
-      ...payload,
-    });
-  },
-
-  unAllocateOpenEntryTransaction: (index, payload) => {
-    store.dispatch({
-      intent: UNALLOCATE_OPEN_ENTRY_TRANSACTION,
-      index,
-      ...payload,
-    });
-  },
-
-  unmatchTransaction: (index, payload) => {
-    store.dispatch({
-      intent: UNMATCH_TRANSACTION,
       index,
       ...payload,
     });

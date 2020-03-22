@@ -6,7 +6,6 @@ import {
   APPEND_NEW_ACCOUNT_TO_ALLOCATE_TABLE,
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
-  BULK_UNALLOCATE_TRANSACTIONS,
   CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
   DELETE_SPLIT_ALLOCATION_LINE,
@@ -63,9 +62,7 @@ import {
   STOP_LOADING_MORE,
   STOP_MODAL_BLOCKING,
   TOGGLE_MATCH_TRANSACTION_SELECT_ALL_STATE,
-  UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
-  UNMATCH_TRANSACTION,
   UNSELECT_TRANSACTIONS,
   UPDATE_BULK_ALLOCATION_OPTIONS,
   UPDATE_FILTER_OPTIONS,
@@ -121,15 +118,15 @@ import {
   updateSplitAllocationHeader,
   updateSplitAllocationLine,
 } from './splitAllocationHandlers';
-import { allocateTransaction, unallocateTransaction } from './allocateHandlers';
+import { allocateTransaction } from './allocateHandlers';
 import { appliedTransactions } from './applyRuleResultHandlers';
 import {
   bulkAllocateTransactions,
-  bulkUnallocateTransactions,
   resetBulkAllocation,
   selectAllTransactions,
   selectTransaction,
   setBulkLoading,
+  unallocateTransactions,
   unselectTransactions,
   updateBulkAllocationOptions,
 } from './bulkAllocationHandlers';
@@ -394,12 +391,10 @@ const handlers = {
   [STOP_MODAL_BLOCKING]: stopModalBlocking,
   [SET_MODAL_ALERT]: setModalAlert,
   [ALLOCATE_TRANSACTION]: allocateTransaction,
-  [UNALLOCATE_TRANSACTION]: unallocateTransaction,
+  [UNALLOCATE_TRANSACTION]: unallocateTransactions,
   [COLLAPSE_TRANSACTION_LINE]: collapseTransactionLine,
   [SET_OPEN_ENTRY_POSITION]: setOpenPosition,
   [SET_OPEN_ENTRY_LOADING_STATE]: setOpenEntryLoadingState,
-  [UNALLOCATE_OPEN_ENTRY_TRANSACTION]: unallocateTransaction,
-  [UNMATCH_TRANSACTION]: unallocateTransaction,
   [UPDATE_SPLIT_ALLOCATION_HEADER]: updateSplitAllocationHeader,
   [ADD_SPLIT_ALLOCATION_LINE]: addSplitAllocationLine,
   [UPDATE_SPLIT_ALLOCATION_LINE]: updateSplitAllocationLine,
@@ -432,7 +427,6 @@ const handlers = {
   [SELECT_ALL_TRANSACTIONS]: selectAllTransactions,
   [UPDATE_BULK_ALLOCATION_OPTIONS]: updateBulkAllocationOptions,
   [BULK_ALLOCATE_TRANSACTIONS]: bulkAllocateTransactions,
-  [BULK_UNALLOCATE_TRANSACTIONS]: bulkUnallocateTransactions,
   [RESET_BULK_ALLOCATION]: resetBulkAllocation,
   [SET_BULK_LOADING_STATE]: setBulkLoading,
   [APPLY_RULE_TO_TRANSACTIONS]: appliedTransactions,

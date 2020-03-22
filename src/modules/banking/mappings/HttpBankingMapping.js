@@ -2,7 +2,6 @@ import {
   ALLOCATE_TRANSACTION,
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
-  BULK_UNALLOCATE_TRANSACTIONS,
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ATTACHMENTS,
@@ -20,9 +19,7 @@ import {
   SAVE_TRANSFER_MONEY,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
-  UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
-  UNMATCH_TRANSACTION,
   UPLOAD_ATTACHMENT,
 } from '../BankingIntents';
 import {
@@ -58,14 +55,6 @@ const HttpBankingMapping = {
     getPath: ({ businessId }) => `/${businessId}/banking/bulk_allocate_bank_transactions`,
   },
   [UNALLOCATE_TRANSACTION]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/banking/unallocate_bank_transaction`,
-  },
-  [BULK_UNALLOCATE_TRANSACTIONS]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/banking/bulk_unallocate_bank_transactions`,
-  },
-  [UNALLOCATE_OPEN_ENTRY_TRANSACTION]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/banking/unallocate_bank_transaction`,
   },
@@ -136,10 +125,6 @@ const HttpBankingMapping = {
   [REMOVE_ATTACHMENT]: {
     method: 'DELETE',
     getPath: ({ businessId, documentId }) => `/${businessId}/banking/delete_attachment/${documentId}`,
-  },
-  [UNMATCH_TRANSACTION]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/banking/unmatch_transaction`,
   },
   [SAVE_PENDING_NOTE]: {
     method: 'PUT',

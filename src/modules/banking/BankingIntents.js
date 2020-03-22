@@ -25,7 +25,6 @@ export const UNALLOCATE_TRANSACTION = Symbol('Unallocate an allocated bank trans
 export const SET_OPEN_ENTRY_LOADING_STATE = Symbol('Set bank transaction open entry loading state');
 export const SET_OPEN_ENTRY_POSITION = Symbol('Set bank transaction open entry position');
 export const COLLAPSE_TRANSACTION_LINE = Symbol('Collapse bank transaction entry');
-export const UNALLOCATE_OPEN_ENTRY_TRANSACTION = Symbol('Unallocate allocated transaction from expand line');
 
 export const UPDATE_SPLIT_ALLOCATION_HEADER = Symbol('Update the header of split allocation in accordion table');
 export const ADD_SPLIT_ALLOCATION_LINE = Symbol('Add split allocation line');
@@ -38,7 +37,6 @@ export const LOAD_NEW_SPLIT_ALLOCATION = Symbol('Load new split allocation trans
 export const LOAD_MATCH_TRANSACTIONS = Symbol('Load list of match transactions');
 export const SORT_AND_FILTER_MATCH_TRANSACTIONS = Symbol('Sort and filter list of match transactions');
 export const SAVE_MATCH_TRANSACTION = Symbol('Save match transaction');
-export const UNMATCH_TRANSACTION = Symbol('Unmatch matched transaction');
 export const SHOW_SELECTED_MATCH_TRANSACTIONS = Symbol('Show selected matched transaction');
 export const UPDATE_MATCH_TRANSACTION_OPTIONS = Symbol('Update match transaction filter Options');
 export const SET_MATCH_TRANSACTION_SORT_ORDER = Symbol('Set match transaction sort order');
@@ -65,7 +63,6 @@ export const SELECT_TRANSACTION = Symbol('Select bank transaction');
 export const SELECT_ALL_TRANSACTIONS = Symbol('Select all bank transactions');
 export const UPDATE_BULK_ALLOCATION_OPTIONS = Symbol('Update bulk allocation options');
 export const BULK_ALLOCATE_TRANSACTIONS = Symbol('Bulk allocate transactions');
-export const BULK_UNALLOCATE_TRANSACTIONS = Symbol('Bulk unallocate transactions');
 export const SET_BULK_LOADING_STATE = Symbol('Set bulk loading state for bulk allocation');
 export const RESET_BULK_ALLOCATION = Symbol('Reset the state of the bulk allocation options');
 

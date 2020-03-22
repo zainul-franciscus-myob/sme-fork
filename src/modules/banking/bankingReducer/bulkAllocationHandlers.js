@@ -85,7 +85,7 @@ export const bulkAllocateTransactions = (state, action) => ({
   }),
 });
 
-export const bulkUnallocateTransactions = (state, action) => ({
+export const unallocateTransactions = (state, action) => ({
   ...state,
   balances: getBalancesForBulkResult(state, action.entries, false),
   entries: state.entries.map((entry) => {

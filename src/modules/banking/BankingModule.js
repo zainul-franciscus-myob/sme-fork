@@ -308,7 +308,7 @@ export default class BankingModule {
 
     const onSuccess = (payload) => {
       this.dispatcher.setEntryLoadingState(index, false);
-      this.dispatcher.unAllocateTransaction(index, payload);
+      this.dispatcher.unAllocateTransaction(payload);
       this.dispatcher.setAlert({
         type: 'success',
         message: payload.message,
@@ -333,7 +333,7 @@ export default class BankingModule {
 
     const onSuccess = (payload) => {
       this.dispatcher.setBulkLoadingState(false);
-      this.dispatcher.bulkUnallocateTransactions(payload);
+      this.dispatcher.unAllocateTransaction(payload);
       this.dispatcher.setAlert({
         type: 'success',
         message: payload.message,
@@ -672,7 +672,7 @@ export default class BankingModule {
     const index = getOpenPosition(state);
     const onSuccess = (payload) => {
       this.dispatcher.setOpenEntryLoadingState(false);
-      this.dispatcher.unmatchTransaction(index, payload);
+      this.dispatcher.unAllocateTransaction(payload);
       this.ifOpen(index, () => this.loadMatchTransaction(index))();
     };
 
@@ -692,12 +692,9 @@ export default class BankingModule {
   }
 
   unallocateOpenEntryTransaction = () => {
-    const state = this.store.getState();
-    const index = getOpenPosition(state);
-
     const onSuccess = (payload) => {
       this.dispatcher.setOpenEntryLoadingState(false);
-      this.dispatcher.unAllocateOpenEntryTransaction(index, payload);
+      this.dispatcher.unAllocateTransaction(payload);
     };
 
     const onFailure = ({ message }) => {

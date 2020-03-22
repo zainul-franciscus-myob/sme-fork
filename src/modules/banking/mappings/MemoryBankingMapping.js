@@ -2,7 +2,6 @@ import {
   ALLOCATE_TRANSACTION,
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
-  BULK_UNALLOCATE_TRANSACTIONS,
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ATTACHMENTS,
@@ -20,9 +19,7 @@ import {
   SAVE_TRANSFER_MONEY,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
-  UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
-  UNMATCH_TRANSACTION,
   UPLOAD_ATTACHMENT,
 } from '../BankingIntents';
 import {
@@ -38,7 +35,6 @@ import attachments from './data/loadAttachmentsResponse';
 import bankTransactions from './data/loadBankTransactions';
 import bankTransactionsNextPage from './data/loadBankTransactionsNextPage';
 import bulkAllocatedBankTransaction from './data/bulkAllocatedBankTransaction';
-import bulkUnallocatedBankTransaction from './data/bulkUnallocatedBankTransaction';
 import createBankingRuleResponse from './data/createBankingRuleResponse';
 import filteredBankTransactions from './data/sortAndFilterBankTransactions';
 import filteredMatchTransactions from './data/sortAndFilterMatchTransactions';
@@ -77,14 +73,12 @@ const loadMatchTransferMoneyTransactions = ({ onSuccess }) => onSuccess(
 );
 const saveTransferMoney = ({ onSuccess }) => onSuccess(saveTransferMoneyPayload);
 const saveBulkAllocation = ({ onSuccess }) => onSuccess(bulkAllocatedBankTransaction);
-const saveBulkUnallocation = ({ onSuccess }) => onSuccess(bulkUnallocatedBankTransaction);
 const createBankingRule = ({ onSuccess }) => onSuccess(createBankingRuleResponse);
 const applyBankingRule = ({ onSuccess }) => onSuccess(applyBankingRuleResponse);
 const loadAttachments = ({ onSuccess }) => onSuccess(attachments);
 const uploadAttachment = ({ onSuccess }) => onSuccess(uploadAttachmentResponse);
 const openAttachment = ({ onSuccess }) => onSuccess(attachmentDetailResponse);
 const removeAttachment = ({ onSuccess }) => onSuccess(successResponse);
-const unmatchTransaction = ({ onSuccess }) => onSuccess(unallocatedBankTransaction);
 const updateNote = ({ onSuccess }) => onSuccess(updateNoteResponse);
 const linkInTrayDocument = ({ onSuccess }) => onSuccess(linkInTrayDocumentResponse);
 const loadAddedAccount = ({ onSuccess }) => onSuccess(loadAddedAccountResponse);
@@ -96,14 +90,11 @@ const MemoryBankingMapping = {
   [ALLOCATE_TRANSACTION]: allocateBankTransaction,
   [BULK_ALLOCATE_TRANSACTIONS]: saveBulkAllocation,
   [UNALLOCATE_TRANSACTION]: unallocateBankTransaction,
-  [BULK_UNALLOCATE_TRANSACTIONS]: saveBulkUnallocation,
-  [UNALLOCATE_OPEN_ENTRY_TRANSACTION]: unallocateBankTransaction,
   [LOAD_SPLIT_ALLOCATION]: loadSplitAlloation,
   [SAVE_SPLIT_ALLOCATION]: saveSplitAllocation,
   [LOAD_MATCH_TRANSACTIONS]: loadMatchTransactions,
   [SORT_AND_FILTER_MATCH_TRANSACTIONS]: sortAndFilterMatchTransactions,
   [SAVE_MATCH_TRANSACTION]: saveMatchTransaction,
-  [UNMATCH_TRANSACTION]: unmatchTransaction,
   [LOAD_TRANSFER_MONEY]: loadTransferMoney,
   [LOAD_MATCH_TRANSFER_MONEY]: loadMatchTransferMoneyTransactions,
   [SAVE_TRANSFER_MONEY]: saveTransferMoney,

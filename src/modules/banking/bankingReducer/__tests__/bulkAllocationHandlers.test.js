@@ -1,8 +1,8 @@
 import {
   bulkAllocateTransactions,
-  bulkUnallocateTransactions,
   selectAllTransactions,
   selectTransaction,
+  unallocateTransactions,
   updateBulkAllocationOptions,
 } from '../bulkAllocationHandlers';
 
@@ -326,7 +326,7 @@ describe('bulkAllocationHandlers', () => {
         ],
       };
 
-      const actual = bulkUnallocateTransactions(state, {
+      const actual = unallocateTransactions(state, {
         entries: [
           {
             transactionId: '1',
