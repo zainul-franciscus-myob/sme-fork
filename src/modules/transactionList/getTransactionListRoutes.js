@@ -14,6 +14,15 @@ const getTransactionListRoutes = ({
       }),
       documentTitle: 'Transactions',
     },
+    {
+      name: RouteName.GENERAL_JOURNAL_LIST,
+      path: '/:region/:businessId/generalJournalList/',
+      allowedParams: ['sourceJournal'],
+      module: new TransactionListModule({
+        integration, setRootView, popMessages, replaceURLParams,
+      }),
+      documentTitle: 'Transactions',
+    },
   ];
 
   return routes;

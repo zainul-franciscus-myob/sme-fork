@@ -39,6 +39,7 @@ export const activeMapping = {
   [RouteName.RECEIVE_REFUND]: 'banking',
 
   [RouteName.GENERAL_JOURNAL_DETAIL]: 'accounting',
+  [RouteName.GENERAL_JOURNAL_LIST]: 'accounting',
   [RouteName.ACCOUNT_LIST]: 'accounting',
   [RouteName.LINKED_ACCOUNTS]: 'accounting',
   [RouteName.TAX_LIST]: 'accounting',
@@ -105,7 +106,7 @@ export const featuresConfig = {
   transferMoneyCreate: { routeName: RouteName.TRANSFER_MONEY_DETAIL, params: { transferMoneyId: 'new' } },
   transactionList: { routeName: RouteName.TRANSACTION_LIST },
 
-  generalJournalList: { routeName: RouteName.TRANSACTION_LIST, params: { sourceJournal: 'General' } },
+  generalJournalList: { routeName: RouteName.GENERAL_JOURNAL_LIST, params: { sourceJournal: 'General' } },
   generalJournalCreate: { routeName: RouteName.GENERAL_JOURNAL_DETAIL, params: { generalJournalId: 'new' } },
   accountList: { routeName: RouteName.ACCOUNT_LIST },
   linkedAccounts: { routeName: RouteName.LINKED_ACCOUNTS },

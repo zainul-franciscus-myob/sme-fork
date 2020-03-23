@@ -5,6 +5,7 @@ const RouteName = {
   RECEIVE_MONEY_DETAIL: 'receiveMoney/receiveMoneyDetail',
   TRANSFER_MONEY_DETAIL: 'transferMoney/transferMoneyDetail',
   TRANSACTION_LIST: 'transactionList/transactionList',
+  GENERAL_JOURNAL_LIST: 'generalJournal/generalJournalList',
   CONTACT_LIST: 'contact/contactList',
   CONTACT_DETAIL: 'contact/contactDetail',
   INCOME_ALLOCATION: 'incomeAllocation/incomeAllocation',
