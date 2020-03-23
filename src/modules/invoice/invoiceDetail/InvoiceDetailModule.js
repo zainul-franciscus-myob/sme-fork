@@ -57,7 +57,7 @@ const messageTypes = [
 
 export default class InvoiceDetailModule {
   constructor({
-    integration, setRootView, pushMessage, popMessages, replaceURLParams, reload,
+    integration, setRootView, pushMessage, popMessages, replaceURLParams, reload, globalCallbacks,
   }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -65,6 +65,7 @@ export default class InvoiceDetailModule {
     this.messageTypes = messageTypes;
     this.replaceURLParams = replaceURLParams;
     this.reload = reload;
+    this.globalCallbacks = globalCallbacks;
 
     this.store = new Store(invoiceDetailReducer);
     this.dispatcher = createInvoiceDetailDispatcher(this.store);
@@ -696,6 +697,7 @@ export default class InvoiceDetailModule {
   }
 
   pushSuccessfulSaveMessage = (message) => {
+    this.globalCallbacks.invoiceSaved();
     this.pushMessage({
       type: SUCCESSFULLY_SAVED_INVOICE,
       content: message,

@@ -3,7 +3,7 @@ import InvoiceListModule from './invoiceList/InvoiceListModule';
 import RouteName from '../../router/RouteName';
 
 const getInvoiceRoutes = ({
-  integration, setRootView, popMessages, pushMessage, replaceURLParams, reload,
+  integration, setRootView, popMessages, pushMessage, replaceURLParams, reload, globalCallbacks,
 }) => {
   const routes = [
     {
@@ -20,7 +20,13 @@ const getInvoiceRoutes = ({
       path: '/:region/:businessId/invoice/:invoiceId',
       allowedParams: ['layout', 'quoteId', 'openSendEmail', 'duplicatedInvoiceId'],
       module: new InvoiceDetailModule({
-        integration, setRootView, pushMessage, popMessages, replaceURLParams, reload,
+        integration,
+        setRootView,
+        pushMessage,
+        popMessages,
+        replaceURLParams,
+        reload,
+        globalCallbacks,
       }),
       documentTitle: 'Invoice',
     },
