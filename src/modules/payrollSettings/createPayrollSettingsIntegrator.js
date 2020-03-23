@@ -12,18 +12,11 @@ import {
   UPDATE_GENERAL_PAYROLL_INFORMATION,
 } from './PayrollSettingsIntents';
 import {
-  getAppliedFilterOptions,
-  getFilterOptions,
-  getOrderBy,
-  getSortOrder,
-} from './selectors/superFundListSelectors';
-import {
   getBusinessId,
   getGeneralPayrollInformationUrlParams,
   getUpdateGeneralPayrollInformationContent,
 } from './selectors/payrollSettingsSelectors';
 import {
-  getEmploymentClassificationAppliedFilterOptions,
   getEmploymentClassificationFilterOptions,
   getEmploymentClassificationOrderBy,
   getEmploymentClassificationSortOrder,
@@ -33,6 +26,7 @@ import {
   getNewEmploymentClassificationUrlParams,
   getSaveEmploymentClassificationContent,
 } from './selectors/employmentClassificationDetailSelectors';
+import { getFilterOptions, getOrderBy, getSortOrder } from './selectors/superFundListSelectors';
 
 const createPayrollSettingsIntegrator = (store, integration) => ({
   loadSuperFundList: ({ onSuccess, onFailure }) => {
@@ -47,7 +41,7 @@ const createPayrollSettingsIntegrator = (store, integration) => ({
     });
   },
 
-  filterSuperFundList: ({ onSuccess, onFailure }) => {
+  sortAndFilterSuperFundList: ({ onSuccess, onFailure }) => {
     const intent = SORT_AND_FILTER_SUPER_FUND_LIST;
 
     const state = store.getState();
@@ -75,32 +69,6 @@ const createPayrollSettingsIntegrator = (store, integration) => ({
     });
   },
 
-  sortSuperFundList: ({
-    orderBy, sortOrder, onSuccess, onFailure,
-  }) => {
-    const intent = SORT_AND_FILTER_SUPER_FUND_LIST;
-
-    const state = store.getState();
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    const filterOptions = getAppliedFilterOptions(state);
-
-    integration.read({
-      intent,
-      urlParams,
-      params: {
-        ...filterOptions,
-        sortOrder,
-        orderBy,
-      },
-      onSuccess,
-      onFailure,
-    });
-  },
-
   loadEmploymentClassificationList: ({ onSuccess, onFailure }) => {
     const intent = LOAD_EMPLOYMENT_CLASSIFICATION_LIST;
 
@@ -113,7 +81,7 @@ const createPayrollSettingsIntegrator = (store, integration) => ({
     });
   },
 
-  filterEmploymentClassificationList: ({ onSuccess, onFailure }) => {
+  sortAndFilterEmploymentClassificationList: ({ onSuccess, onFailure }) => {
     const intent = SORT_AND_FILTER_EMPLOYMENT_CLASSIFICATION_LIST;
 
     const state = store.getState();
@@ -136,32 +104,6 @@ const createPayrollSettingsIntegrator = (store, integration) => ({
       intent,
       urlParams,
       params,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  sortEmploymentClassificationList: ({
-    orderBy, sortOrder, onSuccess, onFailure,
-  }) => {
-    const intent = SORT_AND_FILTER_EMPLOYMENT_CLASSIFICATION_LIST;
-
-    const state = store.getState();
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    const filterOptions = getEmploymentClassificationAppliedFilterOptions(state);
-
-    integration.read({
-      intent,
-      urlParams,
-      params: {
-        ...filterOptions,
-        sortOrder,
-        orderBy,
-      },
       onSuccess,
       onFailure,
     });

@@ -11,11 +11,10 @@ const SuperFundListFilterOptions = (props) => {
   const {
     keywords,
     onUpdateFilterOptions,
-    onApplyFilter,
   } = props;
 
   return (
-    <FilterBar onApply={onApplyFilter}>
+    <FilterBar>
       <FilterBarSearch
         id="keywords"
         name="keywords"

@@ -22,6 +22,7 @@ import PayrollSettingsView from './components/PayrollSettingsView';
 import Store from '../../store/Store';
 import createPayrollSettingsDispatcher from './createPayrollSettingsDispatcher';
 import createPayrollSettingsIntegrator from './createPayrollSettingsIntegrator';
+import debounce from '../../common/debounce/debounce';
 import payrollSettingsReducer from './reducer/payrollSettingsReducer';
 
 const messageTypes = [SUCCESSFULLY_DELETED_SUPER_FUND, SUCCESSFULLY_SAVED_SUPER_FUND];
@@ -90,12 +91,12 @@ export default class PayrollSettingsModule {
     this.integrator.loadSuperFundList({ onSuccess, onFailure });
   }
 
-  filterSuperFundList = () => {
+  sortAndFilterSuperFundList = () => {
     this.dispatcher.setSuperFundListTableLoadingState(true);
 
     const onSuccess = (response) => {
       this.dispatcher.setSuperFundListTableLoadingState(false);
-      this.dispatcher.filterSuperFundList(response);
+      this.dispatcher.sortAndFilterSuperFundList(response);
     };
 
     const onFailure = (error) => {
@@ -103,29 +104,21 @@ export default class PayrollSettingsModule {
       this.dispatcher.setAlert({ message: error.message, type: 'danger' });
     };
 
-    this.integrator.filterSuperFundList({ onSuccess, onFailure });
+    this.integrator.sortAndFilterSuperFundList({ onSuccess, onFailure });
   }
 
   sortSuperFundList = (orderBy) => {
-    this.dispatcher.setSuperFundListTableLoadingState(true);
-
     const state = this.store.getState();
     const sortOrder = getNewSortOrder(orderBy)(state);
     this.dispatcher.setSuperFundListSortOrder(orderBy, sortOrder);
 
-    const onSuccess = (response) => {
-      this.dispatcher.setSuperFundListTableLoadingState(false);
-      this.dispatcher.sortSuperFundList(response);
-    };
+    this.sortAndFilterSuperFundList();
+  }
 
-    const onFailure = (error) => {
-      this.dispatcher.setSuperFundListTableLoadingState(false);
-      this.dispatcher.setAlert({ message: error.message, type: 'danger' });
-    };
+  setSuperFundListFilterOptions = ({ key, value }) => {
+    this.dispatcher.setSuperFundListFilterOptions({ key, value });
 
-    this.integrator.sortSuperFundList({
-      orderBy, sortOrder, onSuccess, onFailure,
-    });
+    debounce(this.sortAndFilterSuperFundList)();
   }
 
   redirectSuperannuationFundToCreateSuperFund= () => {
@@ -155,12 +148,12 @@ export default class PayrollSettingsModule {
     this.integrator.loadEmploymentClassificationList({ onSuccess, onFailure });
   }
 
-  filterEmploymentClassificationList = () => {
+  sortAndFilterEmploymentClassificationList = () => {
     this.dispatcher.setEmploymentClassificationListTableLoadingState(true);
 
     const onSuccess = (response) => {
       this.dispatcher.setEmploymentClassificationListTableLoadingState(false);
-      this.dispatcher.filterEmploymentClassificationList(response);
+      this.dispatcher.sortAndFilterEmploymentClassificationList(response);
     };
 
     const onFailure = (error) => {
@@ -168,29 +161,21 @@ export default class PayrollSettingsModule {
       this.dispatcher.setAlert({ message: error.message, type: 'danger' });
     };
 
-    this.integrator.filterEmploymentClassificationList({ onSuccess, onFailure });
+    this.integrator.sortAndFilterEmploymentClassificationList({ onSuccess, onFailure });
   }
 
   sortEmploymentClassificationList = (orderBy) => {
-    this.dispatcher.setEmploymentClassificationListTableLoadingState(true);
-
     const state = this.store.getState();
     const sortOrder = getNewEmploymentClassificationSortOrder(orderBy)(state);
     this.dispatcher.setEmploymentClassificationListSortOrder(orderBy, sortOrder);
 
-    const onSuccess = (response) => {
-      this.dispatcher.setEmploymentClassificationListTableLoadingState(false);
-      this.dispatcher.sortEmploymentClassificationList(response);
-    };
+    this.sortAndFilterEmploymentClassificationList();
+  }
 
-    const onFailure = (error) => {
-      this.dispatcher.setEmploymentClassificationListTableLoadingState(false);
-      this.dispatcher.setAlert({ message: error.message, type: 'danger' });
-    };
+  setEmploymentClassificationListFilterOptions = ({ key, value }) => {
+    this.dispatcher.setEmploymentClassificationListFilterOptions({ key, value });
 
-    this.integrator.sortEmploymentClassificationList({
-      orderBy, sortOrder, onSuccess, onFailure,
-    });
+    debounce(this.sortAndFilterEmploymentClassificationList)();
   }
 
   closeEmploymentClassificationDetailModal = () => {
@@ -275,7 +260,7 @@ export default class PayrollSettingsModule {
         message,
       });
 
-      this.filterEmploymentClassificationList();
+      this.sortAndFilterEmploymentClassificationList();
     };
     const onFailure = ({ message }) => {
       this.dispatcher.setEmploymentClassificationDetailIsLoading(false);
@@ -302,7 +287,7 @@ export default class PayrollSettingsModule {
         message,
       });
 
-      this.filterEmploymentClassificationList();
+      this.sortAndFilterEmploymentClassificationList();
     };
     const onFailure = ({ message }) => {
       this.dispatcher.setEmploymentClassificationDetailIsLoading(false);
@@ -406,8 +391,7 @@ export default class PayrollSettingsModule {
         onSelectTab={this.setTab}
         superFundListeners={{
           onCreateButtonClick: this.redirectSuperannuationFundToCreateSuperFund,
-          onUpdateFilterOptions: this.dispatcher.setSuperFundListFilterOptions,
-          onApplyFilter: this.filterSuperFundList,
+          onUpdateFilterOptions: this.setSuperFundListFilterOptions,
           onSort: this.sortSuperFundList,
         }}
         generalPayrollInformationListeners={{
@@ -422,8 +406,7 @@ export default class PayrollSettingsModule {
         }}
         employmentClassificationListeners={{
           onCreateButtonClick: this.openNewEmployeeClassificationDetailModal,
-          onUpdateFilterOptions: this.dispatcher.setEmploymentClassificationListFilterOptions,
-          onApplyFilter: this.filterEmploymentClassificationList,
+          onUpdateFilterOptions: this.setEmploymentClassificationListFilterOptions,
           onSort: this.sortEmploymentClassificationList,
           onClickRowButton: this.openEmployeeClassificationDetailModal,
         }}

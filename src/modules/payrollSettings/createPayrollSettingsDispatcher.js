@@ -101,21 +101,11 @@ const createPayrollSettingsDispatcher = store => ({
     });
   },
 
-  filterSuperFundList: (response) => {
+  sortAndFilterSuperFundList: (response) => {
     const intent = SORT_AND_FILTER_SUPER_FUND_LIST;
     store.dispatch({
       intent,
       ...response,
-      isSort: false,
-    });
-  },
-
-  sortSuperFundList: (response) => {
-    const intent = SORT_AND_FILTER_SUPER_FUND_LIST;
-    store.dispatch({
-      intent,
-      ...response,
-      isSort: true,
     });
   },
 
@@ -177,21 +167,11 @@ const createPayrollSettingsDispatcher = store => ({
     });
   },
 
-  filterEmploymentClassificationList: (response) => {
+  sortAndFilterEmploymentClassificationList: (response) => {
     const intent = SORT_AND_FILTER_EMPLOYMENT_CLASSIFICATION_LIST;
     store.dispatch({
       intent,
       ...response,
-      isSort: false,
-    });
-  },
-
-  sortEmploymentClassificationList: (response) => {
-    const intent = SORT_AND_FILTER_EMPLOYMENT_CLASSIFICATION_LIST;
-    store.dispatch({
-      intent,
-      ...response,
-      isSort: true,
     });
   },
 
@@ -268,7 +248,6 @@ const createPayrollSettingsDispatcher = store => ({
       employmentClassification,
     });
   },
-
 
   setGeneralPayrollInformationLoadingState: (loadingState) => {
     const intent = SET_GENERAL_PAYROLL_INFORMATION_LOADING_STATE;

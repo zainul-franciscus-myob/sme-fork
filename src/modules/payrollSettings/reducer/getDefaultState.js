@@ -11,9 +11,6 @@ const getDefaultState = () => ({
     filterOptions: {
       keywords: '',
     },
-    appliedFilterOptions: {
-      keywords: '',
-    },
     sortOrder: '',
     orderBy: '',
     entries: [],
@@ -22,9 +19,6 @@ const getDefaultState = () => ({
     loadingState: LoadingState.LOADING,
     isTableLoading: false,
     filterOptions: {
-      keywords: '',
-    },
-    appliedFilterOptions: {
       keywords: '',
     },
     sortOrder: '',

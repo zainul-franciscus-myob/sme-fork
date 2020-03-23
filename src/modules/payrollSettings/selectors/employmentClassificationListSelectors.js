@@ -11,9 +11,6 @@ export const getIsTableLoading = state => state.employmentClassificationList.isT
 export const getEmploymentClassificationFilterOptions = state => (
   state.employmentClassificationList.filterOptions);
 
-export const getEmploymentClassificationAppliedFilterOptions = state => (
-  state.employmentClassificationList.appliedFilterOptions);
-
 export const getEmploymentClassificationSortOrder = state => (
   state.employmentClassificationList.sortOrder);
 

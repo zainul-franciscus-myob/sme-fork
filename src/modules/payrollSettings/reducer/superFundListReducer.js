@@ -13,9 +13,6 @@ export const loadSuperFundList = (state, action) => updateSuperFundListState(sta
 });
 
 export const sortAndFilterSuperFundList = (state, action) => updateSuperFundListState(state, {
-  appliedFilterOptions: action.isSort
-    ? state.superFundList.appliedFilterOptions
-    : state.superFundList.filterOptions,
   entries: action.entries,
 });
 

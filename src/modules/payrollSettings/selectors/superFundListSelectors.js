@@ -10,8 +10,6 @@ export const getIsTableLoading = state => state.superFundList.isTableLoading;
 
 export const getFilterOptions = state => state.superFundList.filterOptions;
 
-export const getAppliedFilterOptions = state => state.superFundList.appliedFilterOptions;
-
 export const getSortOrder = state => state.superFundList.sortOrder;
 
 export const getOrderBy = state => state.superFundList.orderBy;

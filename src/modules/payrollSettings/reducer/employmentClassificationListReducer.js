@@ -15,9 +15,6 @@ export const loadEmploymentClassificationList = (state, action) => (
 
 export const sortAndFilterEmploymentClassificationList = (state, action) => (
   updateEmploymentClassificationListState(state, {
-    appliedFilterOptions: action.isSort
-      ? state.employmentClassificationList.appliedFilterOptions
-      : state.employmentClassificationList.filterOptions,
     entries: action.entries,
   }));
 
