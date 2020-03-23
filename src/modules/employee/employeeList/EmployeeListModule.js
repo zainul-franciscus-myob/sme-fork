@@ -19,7 +19,6 @@ import {
 } from '../../../SystemIntents';
 import { SUCCESSFULLY_DELETED_EMPLOYEE, SUCCESSFULLY_SAVED_EMPLOYEE } from '../EmployeeMessageTypes';
 import {
-  getAppliedFilterOptions,
   getBusinessId,
   getFilterEmployeeListNextPageParams,
   getLoadEmployeeListNextPageParams,
@@ -29,6 +28,7 @@ import {
 import EmployeeListView from './components/EmployeeListView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
+import debounce from '../../../common/debounce/debounce';
 import employeeListReducer from './employeeListReducer';
 
 const messageTypes = [
@@ -55,11 +55,15 @@ export default class EmployeeListModule {
     window.location.href = `/#/${region}/${businessId}/employee/new`;
   }
 
-  updateFilterBarOptions = ({ key, value }) => this.store.dispatch({
-    intent: UPDATE_FILTER_BAR_OPTIONS,
-    key,
-    value,
-  });
+  updateFilterBarOptions = ({ key, value }) => {
+    this.store.dispatch({ intent: UPDATE_FILTER_BAR_OPTIONS, key, value });
+
+    if (key === 'keywords') {
+      debounce(this.sortAndFilterEmployeeList)();
+    } else {
+      this.sortAndFilterEmployeeList();
+    }
+  }
 
   setSortOrder = (orderBy, sortOrder) => this.store.dispatch({
     intent: SET_SORT_ORDER,
@@ -69,46 +73,10 @@ export default class EmployeeListModule {
 
   sortEmployeeList = (orderBy) => {
     const state = this.store.getState();
-    this.setTableLoadingState(true);
-
     const newSortOrder = getNewSortOrder(orderBy)(state);
     this.setSortOrder(orderBy, newSortOrder);
 
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    const intent = SORT_AND_FILTER_EMPLOYEE_LIST;
-    const onSuccess = ({ entries, pagination }) => {
-      this.setTableLoadingState(false);
-      this.store.dispatch({
-        intent,
-        entries,
-        isSort: true,
-        pagination,
-      });
-    };
-
-    const onFailure = (error) => {
-      this.setTableLoadingState(false);
-      this.setAlert({
-        message: error.message, type: 'danger',
-      });
-    };
-
-    const filterOptions = getAppliedFilterOptions(state);
-    this.integration.read({
-      intent,
-      urlParams,
-      params: {
-        ...filterOptions,
-        sortOrder: newSortOrder,
-        orderBy,
-        offset: 0,
-      },
-      onSuccess,
-      onFailure,
-    });
+    this.sortAndFilterEmployeeList();
   };
 
   loadEmployeeList = () => {
@@ -150,7 +118,7 @@ export default class EmployeeListModule {
     });
   }
 
-  filterEmployeeList = () => {
+  sortAndFilterEmployeeList = () => {
     const state = this.store.getState();
     this.setTableLoadingState(true);
 
@@ -166,7 +134,6 @@ export default class EmployeeListModule {
         intent,
         entries,
         pagination,
-        isSort: false,
       });
     };
 
@@ -253,7 +220,6 @@ export default class EmployeeListModule {
       <EmployeeListView
         onEmployeeCreateButtonClick={this.redirectToCreateEmployee}
         onUpdateFilterBarOptions={this.updateFilterBarOptions}
-        onApplyFilter={this.filterEmployeeList}
         onSort={this.sortEmployeeList}
         onDismissAlert={this.dismissAlert}
         onLoadMoreButtonClick={this.loadEmployeeListNextPage}

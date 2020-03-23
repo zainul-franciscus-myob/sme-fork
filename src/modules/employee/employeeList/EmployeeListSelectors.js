@@ -34,7 +34,6 @@ export const getNewSortOrder = orderBy => state => (orderBy === getOrderBy(state
   ? flipSortOrder(state)
   : 'asc');
 
-export const getAppliedFilterOptions = state => state.appliedFilterOptions;
 export const getIsTableEmpty = state => state.entries.length === 0;
 
 export const getLoadMoreButtonStatus = (state) => {

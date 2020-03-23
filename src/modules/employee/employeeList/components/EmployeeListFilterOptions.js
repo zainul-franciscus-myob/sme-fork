@@ -16,11 +16,10 @@ const EmployeeListFilterOptions = (props) => {
     onUpdateFilterBarOptions,
     keywords,
     showInactive,
-    onApplyFilter,
   } = props;
 
   return (
-    <FilterBar onApply={onApplyFilter}>
+    <FilterBar>
       <FilterBarSearch id="keywords" name="keywords" value={keywords} onChange={onTextFieldChange(onUpdateFilterBarOptions)} />
       <FilterBar.Item>
         <Checkbox id="showInactive" name="showInactive" label="Show inactive employees" checked={showInactive} onChange={onCheckBoxChange(onUpdateFilterBarOptions)} />

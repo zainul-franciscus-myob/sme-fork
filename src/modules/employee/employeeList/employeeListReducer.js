@@ -10,10 +10,7 @@ import {
   STOP_LOADING_MORE,
   UPDATE_FILTER_BAR_OPTIONS,
 } from '../EmployeeIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
@@ -21,10 +18,6 @@ const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
   isTableLoading: false,
   filterOptions: {
-    keywords: '',
-    showInactive: false,
-  },
-  appliedFilterOptions: {
     keywords: '',
     showInactive: false,
   },
@@ -68,7 +61,6 @@ const loadEmployeeList = (state, { intent, ...response }) => ({
 const sortAndFilterEmployeeList = (state, action) => ({
   ...state,
   entries: action.entries,
-  appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
   pagination: {
     hasNextPage: action.pagination.hasNextPage,
     offset: action.pagination.offset,

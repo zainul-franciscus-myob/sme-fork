@@ -22,7 +22,6 @@ const EmployeeListView = ({
   onEmployeeCreateButtonClick,
   onUpdateFilterBarOptions,
   loadingState,
-  onApplyFilter,
   alert,
   onDismissAlert,
   onSort,
@@ -41,10 +40,7 @@ const EmployeeListView = ({
   );
 
   const filterBar = (
-    <EmployeeListFilterOptions
-      onUpdateFilterBarOptions={onUpdateFilterBarOptions}
-      onApplyFilter={onApplyFilter}
-    />
+    <EmployeeListFilterOptions onUpdateFilterBarOptions={onUpdateFilterBarOptions} />
   );
 
   const employeeListTable = (
