@@ -1,5 +1,5 @@
 import {
-  Checkbox, CheckboxGroup, FieldGroup, Input, RadioButton, RadioButtonGroup, Tooltip,
+  Checkbox, CheckboxGroup, FieldGroup, Icons, Input, RadioButton, RadioButtonGroup, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -146,7 +146,11 @@ const ContactDetails = ({
     <Input
       name="referenceId"
       label="Contact ID"
-      requiredLabel="This is required"
+      labelAccessory={(
+        <Tooltip triggerContent={<Icons.Info />}>
+          Enter a reference or account ID for this contact
+        </Tooltip>
+      )}
       value={referenceId}
       onChange={onInputChange(onContactDetailsChange)}
       width="sm"
