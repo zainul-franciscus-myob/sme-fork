@@ -10,7 +10,6 @@ import {
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_PAY_RUN_LIST,
-  UPDATE_APPLIED_FILTER_OPTIONS,
   UPDATE_FILTER_OPTIONS,
 } from './PayRunListIntents';
 import createReducer from '../../../store/createReducer';
@@ -29,10 +28,6 @@ const getDefaultState = () => ({
   businessId: '',
   region: '',
   filterOptions: {
-    dateFrom: formatIsoDate(getDefaultDateRange()),
-    dateTo: formatIsoDate(new Date()),
-  },
-  appliedFilterOptions: {
     dateFrom: formatIsoDate(getDefaultDateRange()),
     dateTo: formatIsoDate(new Date()),
   },
@@ -73,20 +68,12 @@ const setSortOrder = (state, action) => ({
   sortOrder: action.sortOrder,
 });
 
-const updateAppliedFilterOptions = (state, action) => ({
-  ...state,
-  filtersTouched: true,
-  appliedFilterOptions: {
-    ...action.filterOptions,
-  },
-});
 
 const sortAndFilterPayRunList = (state, action) => ({
   ...state,
   entries: action.entries,
   sortOrder: action.sortOrder,
   stpRegistrationStatus: action.stpRegistrationStatus,
-  appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
 });
 
 const handlers = {
@@ -98,7 +85,6 @@ const handlers = {
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
   [SET_SORT_ORDER]: setSortOrder,
   [SORT_AND_FILTER_PAY_RUN_LIST]: sortAndFilterPayRunList,
-  [UPDATE_APPLIED_FILTER_OPTIONS]: updateAppliedFilterOptions,
 };
 
 const payRunListReducer = createReducer(getDefaultState(), handlers);

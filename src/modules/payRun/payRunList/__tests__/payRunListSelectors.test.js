@@ -1,4 +1,4 @@
-import { getEmptyState, shouldShowEmptyState } from '../payRunListSelectors';
+import { getEmptyState, getFlipSortOrder, shouldShowEmptyState } from '../payRunListSelectors';
 import emptyViewTypes from '../emptyViewTypes';
 
 describe('payRunListSelectors', () => {
@@ -109,6 +109,24 @@ describe('payRunListSelectors', () => {
 
         expect(shouldShowEmptyState(state)).toEqual(true);
       });
+    });
+  });
+
+  describe('getFlipSortOrder', () => {
+    it('should return desc when sort order is asc', () => {
+      const state = {
+        sortOrder: 'asc',
+      };
+      const actual = getFlipSortOrder(state);
+      expect(actual).toEqual('desc');
+    });
+
+    it('should return asc when sort order is desc', () => {
+      const state = {
+        sortOrder: 'desc',
+      };
+      const actual = getFlipSortOrder(state);
+      expect(actual).toEqual('asc');
     });
   });
 });

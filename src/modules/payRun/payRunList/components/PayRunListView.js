@@ -21,7 +21,6 @@ const PayRunListView = (props) => {
     onSort,
     onDismissAlert,
     onCreatePayRun,
-    onApplyFilter,
     onUpdateFilterBarOptions,
     onStpSignUpClick,
   } = props;
@@ -34,7 +33,6 @@ const PayRunListView = (props) => {
 
   const filterBar = (
     <PayRunListFilterOptions
-      onApplyFilter={onApplyFilter}
       onUpdateFilterBarOptions={onUpdateFilterBarOptions}
     />
   );

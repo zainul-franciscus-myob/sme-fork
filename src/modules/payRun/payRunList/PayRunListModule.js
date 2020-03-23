@@ -8,17 +8,17 @@ import {
 import {
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_PAY_RUN_LIST,
-  UPDATE_APPLIED_FILTER_OPTIONS,
   UPDATE_FILTER_OPTIONS,
 } from './PayRunListIntents';
 import { SUCCESSFULLY_SAVED_DRAFT_PAY_RUN } from '../payRunMessageTypes';
 import {
-  getAppliedFilterOptions,
   getBusinessId,
   getCreatePayRunUrl,
   getFilterOptions,
+  getFlipSortOrder,
   getSortOrder,
   getStpRegistrationUrl,
 } from './payRunListSelectors';
@@ -57,50 +57,26 @@ export default class PayrunListModule {
     }
   }
 
-  applyFilter = () => {
-    this.filterPayRunList();
-  }
-
   updateFilterBarOptions = ({ filterName, value }) => {
     this.store.dispatch({
       intent: UPDATE_FILTER_OPTIONS,
       filterName,
       value,
     });
+    this.sortAndFilterPayRunList({ setLoadingFunc: this.setTableLoadingState });
   }
 
   loadPayRunList = () => {
-    const state = this.store.getState();
-    const filterOptions = getFilterOptions(state);
-
-    this.fetchPayRunList({
-      filterOptions,
-      isSort: false,
-      setLoadingFunc: isLoading => this.setIsLoading(isLoading),
-    });
-  }
-
-  filterPayRunList = () => {
-    const state = this.store.getState();
-    const filterOptions = getFilterOptions(state);
-
-    this.fetchPayRunList({
-      filterOptions,
-      isSort: false,
-      setLoadingFunc: isLoading => this.setTableLoadingState(isLoading),
-    });
-    this.updateAppliedFilterOptions(filterOptions);
+    this.sortAndFilterPayRunList({ setLoadingFunc: this.setIsLoading });
   }
 
   sortPayRunList = () => {
-    const state = this.store.getState();
-    const filterOptions = getAppliedFilterOptions(state);
-
-    this.fetchPayRunList({
-      filterOptions,
-      isSort: true,
-      setLoadingFunc: isLoading => this.setTableLoadingState(isLoading),
+    const sortOrder = getFlipSortOrder(this.store.getState());
+    this.store.dispatch({
+      intent: SET_SORT_ORDER,
+      sortOrder,
     });
+    this.sortAndFilterPayRunList({ setLoadingFunc: this.setTableLoadingState });
   }
 
   setAlert = (alert) => {
@@ -110,7 +86,7 @@ export default class PayrunListModule {
     });
   }
 
-  fetchPayRunList = ({ filterOptions, isSort, setLoadingFunc }) => {
+  sortAndFilterPayRunList = ({ setLoadingFunc }) => {
     const state = this.store.getState();
     setLoadingFunc(true);
     const intent = SORT_AND_FILTER_PAY_RUN_LIST;
@@ -124,7 +100,6 @@ export default class PayrunListModule {
       this.store.dispatch({
         intent,
         entries,
-        isSort,
         sortOrder,
         stpRegistrationStatus,
       });
@@ -132,31 +107,16 @@ export default class PayrunListModule {
 
     const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
 
-    let sortOrder;
-    if (isSort) {
-      sortOrder = getSortOrder(state) === 'desc' ? 'asc' : 'desc';
-    } else {
-      sortOrder = getSortOrder(state);
-    }
-
     this.integration.read({
       intent,
       urlParams,
       params: {
-        ...filterOptions,
-        sortOrder,
+        ...getFilterOptions(state),
+        sortOrder: getSortOrder(state),
         orderBy: 'PaymentDate',
       },
       onSuccess,
       onFailure,
-    });
-  }
-
-  updateAppliedFilterOptions = (filterOptions) => {
-    const intent = UPDATE_APPLIED_FILTER_OPTIONS;
-    this.store.dispatch({
-      intent,
-      filterOptions,
     });
   }
 
@@ -200,7 +160,7 @@ export default class PayrunListModule {
     });
   }
 
-  setIsLoading(isLoading) {
+  setIsLoading = (isLoading) => {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
       isLoading,
@@ -225,7 +185,6 @@ export default class PayrunListModule {
         onCreatePayRun={this.redirectToCreatePayrun}
         onDismissAlert={this.dismissAlert}
         onSort={this.sortPayRunList}
-        onApplyFilter={this.applyFilter}
         onUpdateFilterBarOptions={this.updateFilterBarOptions}
         onStpSignUpClick={this.goToStpReporting}
       />

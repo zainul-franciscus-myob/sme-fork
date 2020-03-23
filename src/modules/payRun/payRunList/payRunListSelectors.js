@@ -9,7 +9,6 @@ export const getRegion = state => state.region;
 
 export const getCreatePayRunUrl = state => `/#/${state.region}/${state.businessId}/payRun/new`;
 export const getSortOrder = ({ sortOrder }) => sortOrder;
-export const getAppliedFilterOptions = ({ appliedFilterOptions }) => appliedFilterOptions;
 export const getFilterOptions = ({ filterOptions }) => filterOptions;
 
 export const getOrder = ({ sortOrder }) => ({
@@ -48,3 +47,5 @@ export const getStpRegistrationUrl = (state) => {
   const { businessId, region } = state;
   return `/#/${region}/${businessId}/stp/getStarted`;
 };
+
+export const getFlipSortOrder = state => (state.sortOrder === 'desc' ? 'asc' : 'desc');
