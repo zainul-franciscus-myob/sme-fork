@@ -27,16 +27,16 @@ export default class StartPayRunModule {
   };
 
   deleteDraft = () => {
+    this.dispatcher.deleteDraft();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
+
     const onSuccess = () => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.dismissAlert();
-      this.dispatcher.deleteDraft();
     };
 
     const onFailure = () => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.dispatcher.deleteDraft();
     };
 
     this.integrator.deleteDraft({ onSuccess, onFailure });
