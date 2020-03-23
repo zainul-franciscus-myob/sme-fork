@@ -24,7 +24,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
     getRegion: rootModule.getRegion,
   });
   const initializeTelemetry = (await import(`./telemetry/initialize${telemetryType}Telemetry`)).default;
-  const telemetry = initializeTelemetry(Config.SEGMENT_WRITE_KEY);
+  const telemetry = initializeTelemetry();
   const initializeLeanEngage = (await import(`./leanEngage/initialize${leanEngageType}LeanEngage`)).default;
   const startLeanEngage = initializeLeanEngage(Config.LEAN_ENGAGE_APP_ID);
 

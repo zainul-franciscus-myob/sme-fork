@@ -1,6 +1,5 @@
 import { getUser } from '../Auth';
 import { parsePath, parseUrl } from './parseUrlAndPath';
-import initilizeSegment from './initializeSegment';
 
 const associateUserWithGroup = (currentBusinessId, { businessId }) => {
   if (businessId && currentBusinessId !== businessId) {
@@ -89,12 +88,7 @@ const recordPageVisit = (currentRouteName, userId, businessId) => {
   window.analytics.page(currentRouteName, pageViewProperties, pageViewOptions);
 };
 
-const initializeHttpTelemetry = (segmentWriteKey) => {
-  initilizeSegment();
-  if (window.analytics && !window.analytics.initialize && segmentWriteKey) {
-    window.analytics.load(segmentWriteKey);
-  }
-
+const initializeHttpTelemetry = () => {
   let userId;
   let businessId;
 
