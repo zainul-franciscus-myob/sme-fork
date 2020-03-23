@@ -22,9 +22,9 @@ import invoiceListReducer from '../invoiceListReducer';
 describe('InvoiceListModule', () => {
   const setup = () => {
     // Mock loadSettings from localstorage to prevent side effects
-    localStorageDriver.loadSettings = () => {};
+    localStorageDriver.loadSettings = () => { };
 
-    const setRootView = () => {};
+    const setRootView = () => { };
     const popMessages = () => [];
     const store = new TestStore(invoiceListReducer);
     const integration = new TestIntegration();
@@ -142,13 +142,6 @@ describe('InvoiceListModule', () => {
           customerId: undefined,
           status: 'All',
         },
-        appliedFilterOptions: {
-          dateFrom: '2017-01-01',
-          dateTo: '2020-03-03',
-          keywords: '🦆',
-          customerId: undefined,
-          status: 'All',
-        },
         sortOrder: 'asc',
         orderBy: '🤡',
       };
@@ -193,6 +186,10 @@ describe('InvoiceListModule', () => {
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: SORT_AND_FILTER_INVOICE_LIST,
+          params: expect.objectContaining({
+            sortOrder: 'asc',
+            orderBy: 'DisplayId',
+          }),
         }),
       ]);
     });
@@ -260,12 +257,19 @@ describe('InvoiceListModule', () => {
   });
 
   describe('filterInvoiceList', () => {
-    it('successfully apply filter', () => {
+    it('successfully applies filter', () => {
       const { store, integration, module } = setupWithRun();
 
-      module.filterInvoiceList();
+      jest.useFakeTimers();
+      module.filterInvoiceList({ filterName: 'keywords', value: 'Tax' });
+      jest.runAllTimers();
 
       expect(store.getActions()).toEqual([
+        {
+          filterName: 'keywords',
+          value: 'Tax',
+          intent: UPDATE_FILTER_OPTIONS,
+        },
         {
           intent: SET_TABLE_LOADING_STATE,
           isLoading: true,
@@ -290,9 +294,16 @@ describe('InvoiceListModule', () => {
       const { store, integration, module } = setupWithRun();
       integration.mapFailure(SORT_AND_FILTER_INVOICE_LIST);
 
-      module.filterInvoiceList();
+      jest.useFakeTimers();
+      module.filterInvoiceList({ filterName: 'keywords', value: 'Tax' });
+      jest.runAllTimers();
 
       expect(store.getActions()).toEqual([
+        {
+          filterName: 'keywords',
+          value: 'Tax',
+          intent: UPDATE_FILTER_OPTIONS,
+        },
         {
           intent: SET_TABLE_LOADING_STATE,
           isLoading: true,
@@ -373,21 +384,6 @@ describe('InvoiceListModule', () => {
         expect.objectContaining({
           intent: LOAD_NEXT_PAGE,
         }),
-      ]);
-    });
-  });
-
-  describe('updateFilterOptions', () => {
-    it('updates key with value', () => {
-      const { module, store } = setup();
-      module.updateFilterOptions({ filterName: 'keywords', value: '🐼' });
-
-      expect(store.getActions()).toEqual([
-        {
-          filterName: 'keywords',
-          value: '🐼',
-          intent: UPDATE_FILTER_OPTIONS,
-        },
       ]);
     });
   });

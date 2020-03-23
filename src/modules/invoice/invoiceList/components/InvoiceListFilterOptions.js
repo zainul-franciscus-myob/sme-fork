@@ -1,4 +1,4 @@
-import { DatePicker, Select } from '@myob/myob-widgets';
+import { DatePicker, FilterBar, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React, { Fragment } from 'react';
 import classnames from 'classnames';
@@ -13,7 +13,6 @@ import {
   getTotalOverdue,
 } from '../invoiceListSelectors';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
-import FilterBar from '../../../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
 import styles from './InvoiceListFilterOptions.module.css';
 
@@ -48,7 +47,6 @@ class InvoiceListFilterOptions extends React.Component {
         dateFrom,
         keywords,
       },
-      onApplyFilter,
       customerFilterOptions,
       statusFilterOptions,
       total,
@@ -57,9 +55,10 @@ class InvoiceListFilterOptions extends React.Component {
       hasOverdue,
     } = this.props;
 
+
     return (
       <Fragment>
-        <FilterBar onApply={onApplyFilter}>
+        <FilterBar>
           <div className={styles.status}>
             <Select name="status" label="Status" value={status} onChange={this.onSelectChange}>
               {statusFilterOptions.map(({ name, value }) => (

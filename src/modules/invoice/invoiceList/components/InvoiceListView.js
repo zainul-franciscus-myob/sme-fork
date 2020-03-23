@@ -28,7 +28,6 @@ const tableConfig = {
 
 const InvoiceListView = ({
   alert,
-  onApplyFilter,
   onUpdateFilter,
   onSort,
   loadingState,
@@ -39,7 +38,6 @@ const InvoiceListView = ({
 }) => {
   const filterBar = (
     <InvoiceListFilterOptions
-      onApplyFilter={onApplyFilter}
       onUpdateFilter={onUpdateFilter}
     />
   );

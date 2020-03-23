@@ -30,7 +30,6 @@ const getInitialState = () => ({
   settingsVersion: '24264afc-07b6-4993-8aa6-693dd1378d57',
   defaultFilterOptions,
   filterOptions: defaultFilterOptions,
-  appliedFilterOptions: defaultFilterOptions,
   sortOrder: 'desc',
   orderBy: 'DateDue',
   customerFilterOptions: [],
@@ -78,10 +77,6 @@ const setInitialStateWithQueryParams = (context, initialState) => {
       ...initialState.filterOptions,
       ...updatedFilterOptions,
     },
-    appliedFilterOptions: {
-      ...initialState.appliedFilterOptions,
-      ...updatedFilterOptions,
-    },
     orderBy: orderBy || initialState.orderBy,
     sortOrder: sortOrder || initialState.sortOrder,
   });
@@ -95,7 +90,6 @@ const setInitialStateWithSettings = (context, settings, initialState) => ({
   ...initialState,
   ...context,
   filterOptions: settings.filterOptions,
-  appliedFilterOptions: settings.filterOptions,
   sortOrder: settings.sortOrder,
   orderBy: settings.orderBy,
 });
@@ -147,7 +141,6 @@ const setSortOrder = (state, action) => ({
 
 const sortAndFilterInvoiceList = (state, action) => ({
   ...state,
-  appliedFilterOptions: action.filterOptions,
   entries: action.entries,
   total: action.total,
   totalDue: action.totalDue,

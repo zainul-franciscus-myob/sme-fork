@@ -10,7 +10,6 @@ import {
   UPDATE_FILTER_OPTIONS,
 } from '../InvoiceIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { getAppliedFilterOptions, getFilterOptions } from './invoiceListSelectors';
 
 const createInvoiceListDispatcher = store => ({
   setInitialState: (context, settings) => {
@@ -77,32 +76,16 @@ const createInvoiceListDispatcher = store => ({
       ...response,
     });
   },
-  sortInvoiceList: ({
-    entries, total, totalDue, totalOverdue, pagination,
-  }) => {
-    const filterOptions = getAppliedFilterOptions(store.getState());
-    store.dispatch({
-      intent: SORT_AND_FILTER_INVOICE_LIST,
-      entries,
-      total,
-      totalDue,
-      totalOverdue,
-      filterOptions,
-      pagination,
-    });
-  },
-  filterInvoiceList: ({
+  sortAndFilterInvoiceList: ({
     entries,
     total,
     totalDue,
     totalOverdue,
     pagination,
   }) => {
-    const filterOptions = getFilterOptions(store.getState());
     store.dispatch({
       intent: SORT_AND_FILTER_INVOICE_LIST,
       entries,
-      filterOptions,
       total,
       totalDue,
       totalOverdue,

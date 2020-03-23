@@ -73,20 +73,20 @@ describe('invoiceListReducer', () => {
   });
 
   describe('getIsDefaultFilters', () => {
-    it('should retrun false when default filters arent applied', () => {
+    it('should return false when default filters arent applied', () => {
       const state = {
         defaultFilterOptions: { keywords: 'not', type: 'abc' },
-        appliedFilterOptions: { keywords: 'the same', type: 'abc' },
+        filterOptions: { keywords: 'the same', type: 'abc' },
       };
       const expected = false;
       const actual = getIsDefaultFilters(state);
 
       expect(actual).toEqual(expected);
     });
-    it('should retrun true when default filters are applied', () => {
+    it('should return true when default filters are applied', () => {
       const state = {
         defaultFilterOptions: { keywords: 'the same', type: 'abc' },
-        appliedFilterOptions: { keywords: 'the same', type: 'abc' },
+        filterOptions: { keywords: 'the same', type: 'abc' },
       };
       const expected = true;
       const actual = getIsDefaultFilters(state);

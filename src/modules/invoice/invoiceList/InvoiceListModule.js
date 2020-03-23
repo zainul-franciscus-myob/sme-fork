@@ -20,6 +20,7 @@ import RouteName from '../../../router/RouteName';
 import Store from '../../../store/Store';
 import createInvoiceListDispatcher from './createInvoiceListDispatcher';
 import createInvoiceListIntegrator from './createInvoiceListIntegrator';
+import debounce from '../../../common/debounce/debounce';
 import invoiceListReducer from './invoiceListReducer';
 
 const messageTypes = [
@@ -59,26 +60,23 @@ export default class InvoiceListModule {
     const newSortOrder = orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
     this.dispatcher.setSortOrder({ orderBy, newSortOrder });
 
-    const onSuccess = ({
-      entries, total, totalDue, totalOverdue, pagination,
-    }) => {
-      this.dispatcher.setTableLoadingState(false);
+    this.sortAndFilterInvoiceList();
+  }
 
-      this.dispatcher.sortInvoiceList({
-        entries, total, totalDue, totalOverdue, pagination,
-      });
-    };
+  filterInvoiceList = ({ filterName, value }) => {
+    this.dispatcher.updateFilterOptions({
+      filterName,
+      value,
+    });
 
-    const onFailure = ({ message }) => {
-      this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.setAlert({ message, type: 'danger' });
-    };
-
-    this.dispatcher.setTableLoadingState(true);
-    this.integrator.sortInvoiceList({ orderBy, onSuccess, onFailure });
+    if (filterName === 'keywords') {
+      this.debounceFilterInvoiceList();
+    } else {
+      this.sortAndFilterInvoiceList();
+    }
   };
 
-  filterInvoiceList = () => {
+  sortAndFilterInvoiceList = () => {
     const onSuccess = ({
       entries,
       total,
@@ -87,7 +85,7 @@ export default class InvoiceListModule {
       pagination,
     }) => {
       this.dispatcher.setTableLoadingState(false);
-      this.dispatcher.filterInvoiceList({
+      this.dispatcher.sortAndFilterInvoiceList({
         entries,
         total,
         totalDue,
@@ -102,7 +100,7 @@ export default class InvoiceListModule {
     };
 
     this.dispatcher.setTableLoadingState(true);
-    this.integrator.filterInvoiceList({ onSuccess, onFailure });
+    this.integrator.sortAndFilterInvoiceList({ onSuccess, onFailure });
   };
 
   loadNextPage = () => {
@@ -149,8 +147,7 @@ export default class InvoiceListModule {
   render = () => {
     const invoiceListView = (
       <InvoiceListView
-        onApplyFilter={this.filterInvoiceList}
-        onUpdateFilter={this.updateFilterOptions}
+        onUpdateFilter={this.filterInvoiceList}
         onDismissAlert={this.dispatcher.dismissAlert}
         onSort={this.sortInvoiceList}
         onLoadMoreButtonClick={this.loadNextPage}
@@ -166,12 +163,7 @@ export default class InvoiceListModule {
     this.setRootView(wrappedView);
   };
 
-  updateFilterOptions = ({ filterName, value }) => {
-    this.dispatcher.updateFilterOptions({
-      filterName,
-      value,
-    });
-  };
+  debounceFilterInvoiceList = debounce(this.sortAndFilterInvoiceList);
 
   resetState() {
     this.dispatcher.resetState();

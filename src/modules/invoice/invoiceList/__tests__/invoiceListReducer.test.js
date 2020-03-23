@@ -69,7 +69,6 @@ describe('invoiceListReducer', () => {
         customerId: '1',
         status: 'Open',
       });
-      expect(actual.filterOptions).toEqual(actual.appliedFilterOptions);
       expect(actual.sortOrder).toEqual('asc');
       expect(actual.orderBy).toEqual('DisplayId');
     });

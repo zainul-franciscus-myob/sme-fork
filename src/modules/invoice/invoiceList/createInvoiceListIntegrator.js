@@ -5,10 +5,9 @@ import {
 } from '../InvoiceIntents';
 import {
   getBusinessId,
-  getFilterInvoiceListRequest,
   getLoadInvoiceListRequest,
   getLoadNextPageParams,
-  getSortInvoiceListRequest,
+  getSortAndFilterInvoiceListRequest,
 } from './invoiceListSelectors';
 
 const createInvoiceListIntegrator = (store, integration) => ({
@@ -20,18 +19,10 @@ const createInvoiceListIntegrator = (store, integration) => ({
       onFailure,
     });
   },
-  sortInvoiceList: ({ orderBy, onSuccess, onFailure }) => {
+  sortAndFilterInvoiceList: ({ onSuccess, onFailure }) => {
     integration.read({
       intent: SORT_AND_FILTER_INVOICE_LIST,
-      ...getSortInvoiceListRequest(store.getState(), orderBy),
-      onSuccess,
-      onFailure,
-    });
-  },
-  filterInvoiceList: ({ onSuccess, onFailure }) => {
-    integration.read({
-      intent: SORT_AND_FILTER_INVOICE_LIST,
-      ...getFilterInvoiceListRequest(store.getState()),
+      ...getSortAndFilterInvoiceListRequest(store.getState()),
       onSuccess,
       onFailure,
     });

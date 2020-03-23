@@ -12,8 +12,6 @@ export const convertToUnixTime = date => new Date(date).getTime().toString();
 
 export const getFilterOptions = ({ filterOptions }) => filterOptions;
 
-export const getAppliedFilterOptions = ({ appliedFilterOptions }) => appliedFilterOptions;
-
 const getSettingsVersion = state => state.settingsVersion;
 
 const getEntries = ({ entries }) => entries;
@@ -89,17 +87,17 @@ export const getHasOverdue = createSelector(
 export const getDefaultFilterOptions = ({ defaultFilterOptions }) => defaultFilterOptions;
 
 export const getIsDefaultFilters = createSelector(
-  getAppliedFilterOptions,
+  getFilterOptions,
   getDefaultFilterOptions,
-  (appliedFilterOptions, defaultFilterOptions) => shallowCompare(
-    appliedFilterOptions,
+  (filterOptions, defaultFilterOptions) => shallowCompare(
+    filterOptions,
     defaultFilterOptions,
   ),
 );
 
 export const getSettings = createSelector(
   getSettingsVersion,
-  getAppliedFilterOptions,
+  getFilterOptions,
   getSortOrder,
   getOrderBy,
   (settingsVersion, filterOptions, sortOrder, orderBy) => ({
@@ -158,26 +156,7 @@ export const getLoadInvoiceListRequest = createSelector(
   }),
 );
 
-export const getSortInvoiceListRequest = (state, orderBy) => {
-  const filterOptions = getAppliedFilterOptions(state);
-  const newSortOrder = orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
-
-  const urlParams = {
-    businessId: getBusinessId(state),
-  };
-
-  return {
-    urlParams,
-    params: {
-      ...filterOptions,
-      sortOrder: newSortOrder,
-      offset: 0,
-      orderBy,
-    },
-  };
-};
-
-export const getFilterInvoiceListRequest = createSelector(
+export const getSortAndFilterInvoiceListRequest = createSelector(
   getBusinessId,
   getOrderBy,
   getSortOrder,
