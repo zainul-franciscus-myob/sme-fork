@@ -45,7 +45,6 @@ const PaySuperCreateView = ({
   accounts,
   onUpdateFilterBarOptions,
   onRecord,
-  onApplyFilter,
   onAccountChange,
   selectedAccountId,
   balanceValue,
@@ -104,7 +103,7 @@ const PaySuperCreateView = ({
       )}
       <PageHead title="Create super payment" testid="paySuperCreateHeader" />
       <Card>
-        <FilterBar onApply={onApplyFilter}>
+        <FilterBar>
           <FilterBar.Group>
             <DatePicker label="Transactions from" name="datepicker-from" value={dateFrom} onSelect={onDatePickerChange('dateFrom')} />
             <DatePicker label="Transactions to" name="datepicker-to" value={dateTo} onSelect={onDatePickerChange('dateTo')} />

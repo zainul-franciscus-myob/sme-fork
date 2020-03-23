@@ -14,7 +14,6 @@ export const getDateOfPayment = state => (state.dateOfPayment);
 export const getBatchPaymentId = state => (state.batchPaymentId);
 
 export const getFilterOptions = state => (state.filterOptions);
-export const getAppliedFilterOptions = ({ appliedFilterOptions }) => appliedFilterOptions;
 export const getSelectedAccountId = state => (state.selectedAccountId);
 export const getBalanceValue = (state) => {
   if (state.accounts && state.accounts.length > 0 && state.selectedAccountId) {
@@ -54,11 +53,27 @@ export const getOrder = createSelector(
 export const getModal = state => state.modal;
 export const getSuperPaymentListUrl = state => `/#/${state.region}/${state.businessId}/paySuper`;
 
+export const getSortAndFilterSuperPaymentsUrlParams = createSelector(
+  getBusinessId,
+  businessId => ({ businessId }),
+);
+
+export const getSortAndFilterSuperPaymentsParams = createSelector(
+  getFilterOptions,
+  getSortOrder,
+  getOrderBy,
+  (filterOptions, sortOrder, orderBy) => ({
+    ...filterOptions,
+    sortOrder,
+    orderBy,
+  }),
+);
+
 export const getRecordPaySuperContent = state => ({
   accessToken: state.accessToken,
   accountId: state.selectedAccountId,
-  dateFrom: state.appliedFilterOptions.dateFrom,
-  dateTo: state.appliedFilterOptions.dateTo,
+  dateFrom: state.filterOptions.dateFrom,
+  dateTo: state.filterOptions.dateTo,
   dateOfPayment: state.dateOfPayment,
   referenceNumber: state.referenceNumber,
   paySuperDescription: state.paySuperDescription,

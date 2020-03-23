@@ -3,10 +3,8 @@ import React from 'react';
 
 import { SUCCESSFULLY_CREATED_SUPER_PAYMENT } from '../paySuperMessageTypes';
 import {
-  getAppliedFilterOptions,
   getBatchPaymentId,
   getBusinessId,
-  getFilterOptions,
   getOrderBy,
   getRegion,
   getSuperPaymentListUrl,
@@ -67,27 +65,25 @@ export default class PaySuperCreateModule {
     this.filterSuperPayments();
   };
 
-  filterSuperPayments = () => {
-    const state = this.store.getState();
-    const filterOptions = getFilterOptions(state);
-
-    this.fetchSuperPayments({ filterOptions });
-    this.dispatcher.updateAppliedFilterOptions(filterOptions);
+  updateFilterBarOptions = ({ filterName, value }) => {
+    this.dispatcher.updateFilterBarOptions({ filterName, value });
+    this.sortAndFilterSuperPayments();
   };
 
-  fetchSuperPayments = ({ filterOptions }) => {
+  sortAndFilterSuperPayments = () => {
     this.dispatcher.setIsTableLoading(true);
 
     const onSuccess = ({ entries }) => {
-      this.dispatcher.sortAndFilterPayments(entries);
       this.dispatcher.setIsTableLoading(false);
+      this.dispatcher.sortAndFilterPayments(entries);
     };
 
     const onFailure = ({ message }) => {
+      this.dispatcher.setIsTableLoading(false);
       this.dispatcher.setAlert({ message, type: 'danger' });
     };
 
-    this.integrator.fetchSuperPayments({ filterOptions, onSuccess, onFailure });
+    this.integrator.sortAndFilterSuperPayments({ onSuccess, onFailure });
   };
 
   getFirstAccountId = accounts => accounts && accounts[0] && accounts[0].id;
@@ -113,14 +109,10 @@ export default class PaySuperCreateModule {
 
   sortSuperPayments = (orderBy) => {
     const state = this.store.getState();
-    const filterOptions = getAppliedFilterOptions(state);
-
     const newSortOrder = orderBy === getOrderBy(state) ? this.flipSortOrder(state) : 'asc';
     this.dispatcher.setSortOrder(orderBy, newSortOrder);
 
-    this.fetchSuperPayments({
-      filterOptions,
-    });
+    this.sortAndFilterSuperPayments();
   };
 
   recordPaySuper = () => {
@@ -199,8 +191,7 @@ export default class PaySuperCreateModule {
           onAccountChange={this.dispatcher.updateSelectedAccountId}
           onInputChange={this.dispatcher.updateInputField}
           onSort={this.sortSuperPayments}
-          onUpdateFilterBarOptions={this.dispatcher.updateFilterBarOptions}
-          onApplyFilter={this.filterSuperPayments}
+          onUpdateFilterBarOptions={this.updateFilterBarOptions}
           employeeTransactionModal={employeeTransactionModal}
           paySuperAuthorisationModal={paySuperAuthorisationModal}
           onDateLinkClick={this.openEmployeeTransactionModal}

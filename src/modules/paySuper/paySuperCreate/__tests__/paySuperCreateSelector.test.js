@@ -1,4 +1,4 @@
-import { getBalanceValue, getTotalPayment } from '../paySuperCreateSelector';
+import { getBalanceValue, getSortAndFilterSuperPaymentsParams, getTotalPayment } from '../paySuperCreateSelector';
 import { getOrder } from '../../../banking/bankingSelectors';
 
 describe('paySuperCreateSelector', () => {
@@ -133,6 +133,28 @@ describe('paySuperCreateSelector', () => {
       expect(result).toEqual({
         column: 'SomeColumn',
         descending: true,
+      });
+    });
+  });
+
+  describe('getSortAndFilterSuperPaymentsParams', () => {
+    it('returns sorting and filtering params', () => {
+      const state = {
+        sortOrder: 'asc',
+        orderBy: 'DateOccurred',
+        filterOptions: {
+          dateTo: 'dateTo',
+          dateFrom: 'dateFrom',
+        },
+      };
+
+      const actual = getSortAndFilterSuperPaymentsParams(state);
+
+      expect(actual).toEqual({
+        sortOrder: 'asc',
+        orderBy: 'DateOccurred',
+        dateTo: 'dateTo',
+        dateFrom: 'dateFrom',
       });
     });
   });

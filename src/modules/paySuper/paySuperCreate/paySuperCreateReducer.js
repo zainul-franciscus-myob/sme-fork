@@ -12,7 +12,6 @@ import {
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_SUPER_PAYMENTS,
-  UPDATE_APPLIED_FILTER_OPTIONS,
   UPDATE_AUTHORISATION_INFORMATION,
   UPDATE_BATCH_PAYMENT_ID,
   UPDATE_DETAIL_HEADER_FIELDS,
@@ -47,10 +46,6 @@ const getDefaultState = () => ({
     dateFrom: formatIsoDate(getDefaultDateRange()),
     dateTo: formatIsoDate(new Date()),
   },
-  appliedFilterOptions: {
-    dateFrom: formatIsoDate(getDefaultDateRange()),
-    dateTo: formatIsoDate(new Date()),
-  },
   sortOrder: 'desc',
   alert: undefined,
   modal: undefined,
@@ -82,13 +77,6 @@ const updateFilterOptions = (state, action) => ({
   },
 });
 
-const updateAppliedFilterOptions = (state, action) => ({
-  ...state,
-  appliedFilterOptions: {
-    ...action.filterOptions,
-  },
-});
-
 const updateSelectedAccountId = (state, action) => ({
   ...state,
   selectedAccountId: action.value,
@@ -113,7 +101,6 @@ const setSortOrder = (state, action) => ({
 const sortAndFilterSuperPayments = (state, action) => ({
   ...state,
   superPayments: action.entries,
-  appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
 });
 
 const selectAllSuperPayments = (state, action) => ({
@@ -180,7 +167,6 @@ const handlers = {
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [RESET_STATE]: resetState,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
-  [UPDATE_APPLIED_FILTER_OPTIONS]: updateAppliedFilterOptions,
   [UPDATE_SELECTED_ACCOUNT_ID]: updateSelectedAccountId,
   [SET_SORT_ORDER]: setSortOrder,
   [SORT_AND_FILTER_SUPER_PAYMENTS]: sortAndFilterSuperPayments,

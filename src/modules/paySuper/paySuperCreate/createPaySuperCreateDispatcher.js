@@ -10,7 +10,6 @@ import {
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_SUPER_PAYMENTS,
-  UPDATE_APPLIED_FILTER_OPTIONS,
   UPDATE_BATCH_PAYMENT_ID,
   UPDATE_DETAIL_HEADER_FIELDS,
   UPDATE_FILTER_OPTIONS,
@@ -53,13 +52,6 @@ const createPaySuperCreateDispatcher = store => ({
     store.dispatch({
       intent: SORT_AND_FILTER_SUPER_PAYMENTS,
       entries,
-    });
-  },
-
-  updateAppliedFilterOptions: (filterOptions) => {
-    store.dispatch({
-      intent: UPDATE_APPLIED_FILTER_OPTIONS,
-      filterOptions,
     });
   },
 

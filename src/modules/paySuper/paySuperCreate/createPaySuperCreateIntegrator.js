@@ -8,6 +8,8 @@ import {
   getFilterOptions,
   getOrderBy,
   getRecordPaySuperContent,
+  getSortAndFilterSuperPaymentsParams,
+  getSortAndFilterSuperPaymentsUrlParams,
   getSortOrder,
 } from './paySuperCreateSelector';
 
@@ -33,20 +35,15 @@ const createPaySuperCreateIntegrator = (store, integration) => ({
     });
   },
 
-  fetchSuperPayments: ({ filterOptions, onSuccess, onFailure }) => {
+  sortAndFilterSuperPayments: ({ onSuccess, onFailure }) => {
     const state = store.getState();
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
+    const urlParams = getSortAndFilterSuperPaymentsUrlParams(state);
+    const params = getSortAndFilterSuperPaymentsParams(state);
 
     integration.read({
       intent: SORT_AND_FILTER_SUPER_PAYMENTS,
       urlParams,
-      params: {
-        ...filterOptions,
-        sortOrder: getSortOrder(state),
-        orderBy: getOrderBy(state),
-      },
+      params,
       onSuccess,
       onFailure,
     });
