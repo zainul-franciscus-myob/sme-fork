@@ -29,6 +29,7 @@ It is designed to work hand-in-hand with [sme-web-bff](https://github.com/MYOB-T
 1. [Getting request logs](docs/debugging/getting-request-logs.md)
 1. [Local debugging](docs/debugging/local-debugging.md)
 1. [Fixing bugs](docs/debugging/fixing-bugs.md)
+1. [Known Errors](docs/debugging/known-errors.md)
 
 ## Infrastructure
 
