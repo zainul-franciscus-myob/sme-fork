@@ -141,6 +141,5 @@ export const featuresConfig = {
   payrollSettings: { routeName: RouteName.PAYROLL_SETTINGS },
   userList: { routeName: RouteName.USER_LIST },
   dataImportExport: { routeName: RouteName.DATA_IMPORT_EXPORT },
-  myMyobAccount: { routeName: '' },
   paymentDetail: { routeName: RouteName.PAYMENT_DETAIL },
 };

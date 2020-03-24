@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import BusinessDetailsService from './services/businessDetails';
+import Config from '../Config';
 import CreateRootDispatcher from './createRootDispatcher';
 import CreateRootIntegrator from './createRootIntegrator';
 import DrawerModule from '../drawer/DrawerModule';
@@ -41,6 +42,7 @@ export default class RootModule {
       constructPath,
       integration,
       replaceURLParamsAndReload,
+      config: Config,
       toggleTasks: this.drawer.toggleTasks,
       toggleHelp: this.drawer.toggleHelp,
     });

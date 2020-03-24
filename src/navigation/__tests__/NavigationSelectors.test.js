@@ -1,7 +1,5 @@
 import {
-  getBusinessUrls,
   getMenuLogoUrl,
-  getReportsUrls,
   getSalesUrls,
   getShouldDisplayChangePlan,
   getShouldDisplaySubscriptionNow,
@@ -91,24 +89,6 @@ describe('NavigationSelectors', () => {
     });
   });
 
-  describe('getBusinessUrls', () => {
-    it(`build url when enabled features includes ${RouteName.PAYMENT_DETAIL}`, () => {
-      const state = {
-        routeParams: {
-          businessId: '🍟',
-        },
-        serialNumber: '🍕',
-        selfServicePortalUrl: 'https://🦘.com',
-        enabledFeatures: [RouteName.PAYMENT_DETAIL],
-        currentRouteName: 'payment/paymentDetail',
-      };
-
-      const actual = getBusinessUrls(state);
-
-      expect(actual[RouteName.PAYMENT_DETAIL]).toEqual('https://🦘.com/#/paymentProfile?businessId=🍟&serialNumber=🍕');
-    });
-  });
-
   describe('getShouldDisplayChangePlan', () => {
     describe('when the user has a paid subscription', () => {
       it('displays the "Subscription details" option', () => {
@@ -125,68 +105,26 @@ describe('NavigationSelectors', () => {
     });
   });
 
-  describe('getReportsUrl', () => {
-    [
-      {
-        routeName: RouteName.REPORTS_PDF_STYLE_TEMPLATES,
-        suffix: 'pdfStyleTemplates',
-      },
-      {
-        routeName: RouteName.REPORTS_STANDARD,
-        suffix: 'reports/standardReports',
-      },
-      {
-        routeName: RouteName.REPORTS_FAVOURITE,
-        suffix: 'reports/favouriteReports',
-      },
-      {
-        routeName: RouteName.REPORTS_CUSTOM,
-        suffix: 'reports/customReports',
-      },
-      {
-        routeName: RouteName.REPORTS_EXCEPTION,
-        suffix: 'reports/exceptionsReports',
-      },
-      {
-        routeName: RouteName.REPORTS_PACK_BUILDER,
-        suffix: 'reports/reportPackBuilder',
-      },
-    ].forEach((test) => {
-      it(`build url when enabled features includes ${test.routeName}`, () => {
-        const state = {
-          routeParams: {
-            businessId: '🍟',
-            region: '🇦🇺',
-          },
-          myReportsUrl: 'https://🐸.com',
-          enabledFeatures: [test.routeName],
-          currentRouteName: 'reports/reportsPdf',
-        };
-
-        const actual = getReportsUrls(state);
-
-        expect(actual[test.routeName]).toEqual(`https://🐸.com/#/🇦🇺/🍟/${test.suffix}`);
-      });
-    });
-  });
-
   describe('shouldShowPaymentDetail', () => {
     const state = {
       routeParams: {
         businessId: '🍟',
         region: '🇦🇺',
       },
+      urls: {
+        [RouteName.PAYMENT_DETAIL]: 'payment-detail-url',
+      },
       enabledFeatures: [RouteName.PAYMENT_DETAIL],
       isTrial: false,
     };
 
-    it('shows', () => {
+    it('shows by default', () => {
       const actual = getShouldShowPaymentDetail(state);
 
       expect(actual).toEqual(true);
     });
 
-    it('does not show when no url', () => {
+    it('does not show when it is not enabled', () => {
       const modifiedState = {
         ...state,
         enabledFeatures: [],

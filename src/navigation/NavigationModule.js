@@ -2,14 +2,16 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  LOAD_CONFIG, LOAD_NAVIGATION_CONFIG, SET_LOADING_STATE, SET_ROUTE_INFO,
+  LOAD_CONFIG, LOAD_NAVIGATION_CONFIG, SET_LOADING_STATE, SET_ROUTE_INFO, SET_URLS,
 } from './NavigationIntents';
 import { RESET_STATE } from '../SystemIntents';
 import { featuresConfig } from './navConfig';
-import { getBusinessId, getShowUrls } from './NavigationSelectors';
+import {
+  getBusinessId, getPaymentDetailUrl, getRegion, getReportsUrl, getShowUrls,
+} from './NavigationSelectors';
 import { logout } from '../Auth';
-import Config from '../Config';
 import NavigationBar from './components/NavigationBar';
+import RouteName from '../router/RouteName';
 import Store from '../store/Store';
 import loadChangePlanUrl from '../modules/settings/subscription/loadChangePlanUrl';
 import loadSubscriptionUrl from '../modules/settings/subscription/loadSubscriptionUrl';
@@ -21,6 +23,7 @@ export default class NavigationModule {
     setNavigationView,
     constructPath,
     replaceURLParamsAndReload,
+    config,
     toggleHelp,
     toggleTasks,
   }) {
@@ -30,6 +33,7 @@ export default class NavigationModule {
     this.store = new Store(navReducer);
     this.replaceURLParamsAndReload = replaceURLParamsAndReload;
     this.onPageTransition = undefined;
+    this.config = config;
     this.toggleHelp = toggleHelp;
     this.toggleTasks = toggleTasks;
   }
@@ -59,6 +63,7 @@ export default class NavigationModule {
       // TODO: To be removed in next patch version
       // This is a temporary fix for Feelix bug introduced in version 5.10.0
       window.dispatchEvent(new Event('resize'));
+      this.buildUrls();
     };
     const onFailure = () => {
       this.setLoadingState(false);
@@ -74,25 +79,63 @@ export default class NavigationModule {
     });
   };
 
-  buildUrls = (routeParams) => {
-    const { region, businessId } = routeParams;
-    if (region && businessId) {
-      return Object.entries(featuresConfig)
-        .map(([key, feature]) => {
-          const url = `/#${this.constructPath(feature.routeName, { region, businessId, ...feature.params })}`;
-          return { [key]: url };
-        })
-        .reduce((acc, obj) => ({ ...acc, ...obj }), {});
-    }
+  buildUrls = () => {
+    const state = this.store.getState();
+    const reportsUrl = getReportsUrl(state);
+    const paymentDetailUrl = getPaymentDetailUrl(state);
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
 
-    return {};
+    const urls = Object.entries(featuresConfig)
+      .map(([key, feature]) => ({
+        [key]: this.buildUrl({
+          region,
+          businessId,
+          key,
+          feature,
+          reportsUrl,
+          paymentDetailUrl,
+        }),
+      }))
+      .reduce((acc, obj) => ({ ...acc, ...obj }), {});
+
+    this.store.dispatch({
+      intent: SET_URLS,
+      urls,
+    });
   }
 
+  buildUrl = ({
+    region,
+    businessId,
+    key,
+    feature,
+    reportsUrl,
+    paymentDetailUrl,
+  }) => {
+    switch (key) {
+      case RouteName.REPORTS_PDF_STYLE_TEMPLATES:
+        return `${reportsUrl}/pdfStyleTemplates`;
+      case RouteName.REPORTS_STANDARD:
+        return `${reportsUrl}/reports/standardReports`;
+      case RouteName.REPORTS_FAVOURITE:
+        return `${reportsUrl}/reports/favouriteReports`;
+      case RouteName.REPORTS_CUSTOM:
+        return `${reportsUrl}/reports/customReports`;
+      case RouteName.REPORTS_EXCEPTION:
+        return `${reportsUrl}/reports/exceptionsReports`;
+      case RouteName.REPORTS_PACK_BUILDER:
+        return `${reportsUrl}/reports/reportPackBuilder`;
+      case RouteName.PAYMENT_DETAIL:
+        return paymentDetailUrl;
+      default:
+        return `/#${this.constructPath(feature.routeName, { region, businessId, ...feature.params })}`;
+    }
+  };
+
   buildAndSetRoutingInfo = ({ currentRouteName, routeParams }) => {
-    const urls = this.buildUrls(routeParams);
     this.store.dispatch({
       intent: SET_ROUTE_INFO,
-      urls,
       currentRouteName,
       routeParams,
     });
@@ -101,8 +144,8 @@ export default class NavigationModule {
   loadConfig = () => {
     this.store.dispatch({
       intent: LOAD_CONFIG,
-      selfServicePortalUrl: Config.SELF_SERVICE_PORTAL_URL,
-      myReportsUrl: Config.MY_REPORTS_URL,
+      selfServicePortalUrl: this.config.SELF_SERVICE_PORTAL_URL,
+      myReportsUrl: this.config.MY_REPORTS_URL,
     });
   }
 

@@ -1,5 +1,5 @@
 import {
-  LOAD_CONFIG, LOAD_NAVIGATION_CONFIG, SET_LOADING_STATE, SET_ROUTE_INFO,
+  LOAD_CONFIG, LOAD_NAVIGATION_CONFIG, SET_LOADING_STATE, SET_ROUTE_INFO, SET_URLS,
 } from './NavigationIntents';
 import createReducer from '../store/createReducer';
 
@@ -39,9 +39,13 @@ const loadBusinessDetails = (state, action) => ({
 
 const setRouteInfo = (state, action) => ({
   ...state,
-  urls: action.urls,
   currentRouteName: action.currentRouteName,
   routeParams: action.routeParams,
+});
+
+const setUrls = (state, action) => ({
+  ...state,
+  urls: action.urls,
 });
 
 const loadConfig = (state, {
@@ -57,6 +61,7 @@ const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [LOAD_NAVIGATION_CONFIG]: loadBusinessDetails,
   [SET_ROUTE_INFO]: setRouteInfo,
+  [SET_URLS]: setUrls,
   [LOAD_CONFIG]: loadConfig,
 };
 
