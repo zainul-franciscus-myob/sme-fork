@@ -77,6 +77,10 @@ describe('invoiceListReducer', () => {
       const state = {
         defaultFilterOptions: { keywords: 'not', type: 'abc' },
         filterOptions: { keywords: 'the same', type: 'abc' },
+        customerFilterOptions: [],
+        statusFilterOptions: [
+          { value: 'All' },
+        ],
       };
       const expected = false;
       const actual = getIsDefaultFilters(state);
@@ -85,8 +89,12 @@ describe('invoiceListReducer', () => {
     });
     it('should return true when default filters are applied', () => {
       const state = {
-        defaultFilterOptions: { keywords: 'the same', type: 'abc' },
-        filterOptions: { keywords: 'the same', type: 'abc' },
+        defaultFilterOptions: { keywords: 'the same', type: 'abc', status: 'All' },
+        filterOptions: { keywords: 'the same', type: 'abc', status: 'All' },
+        customerFilterOptions: [],
+        statusFilterOptions: [
+          { value: 'All' },
+        ],
       };
       const expected = true;
       const actual = getIsDefaultFilters(state);
