@@ -111,7 +111,8 @@ export const setUpWithRun = ({ isCreating = false, isPageEdited = false } = {}) 
     pushMessage,
   } = setUp();
 
-  // With the current memory data, there are two lines created when this set up is created
+  // With the current memory data, there are two lines created
+  // when this set up is created for an existing bill
   module.run({ billId: isCreating ? 'new' : 'billId', businessId: 'bizId', region: 'au' });
 
   if (isPageEdited) {
@@ -507,97 +508,131 @@ describe('BillModule', () => {
       ]);
     });
 
-    it('loads supplier detail if key is supplierId but does not call tax calc. if is not creating from in tray', () => {
-      const { module, integration, store } = setUpWithRun({ isCreating: true });
+    describe('when update key is supplierId', () => {
+      it('loads supplier detail but does not call tax calculator if user is viewing or editing an existing bill', () => {
+        const { module, integration, store } = setUpWithRun();
 
-      module.updateBillOption({ key: 'supplierId', value: '1' });
+        module.updateBillOption({ key: 'supplierId', value: '2' });
 
-      expect(store.getActions()).toEqual([
-        {
-          intent: UPDATE_BILL_OPTION,
-          key: 'supplierId',
-          value: '1',
-        },
-        {
-          intent: START_BLOCKING,
-        },
-        {
-          intent: STOP_BLOCKING,
-        },
-        expect.objectContaining({
-          intent: LOAD_SUPPLIER_DETAIL,
-        }),
-      ]);
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_BILL_OPTION,
+            key: 'supplierId',
+            value: '2',
+          },
+          {
+            intent: START_BLOCKING,
+          },
+          {
+            intent: STOP_BLOCKING,
+          },
+          expect.objectContaining({
+            intent: LOAD_SUPPLIER_DETAIL,
+          }),
+        ]);
 
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: LOAD_SUPPLIER_DETAIL,
-        }),
-      ]);
-    });
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_SUPPLIER_DETAIL,
+          }),
+        ]);
+      });
 
-    it('loads supplier detail if key is supplierId but does not call tax calc. if is creating from in tray but supplier has no default expense account', () => {
-      const { module, integration, store } = setUpWithRun({ isCreating: true });
-      integration.mapSuccess(LOAD_SUPPLIER_DETAIL, {});
+      it('loads supplier detail but does not call tax calculator - if the user is creating a new bill but the selected supplier has no associated expense account', () => {
+        const { module, integration, store } = setUpWithRun();
+        integration.mapSuccess(LOAD_SUPPLIER_DETAIL, {});
 
-      module.updateBillOption({ key: 'supplierId', value: '1' });
+        module.updateBillOption({ key: 'supplierId', value: '2' });
 
-      expect(store.getActions()).toEqual([
-        {
-          intent: UPDATE_BILL_OPTION,
-          key: 'supplierId',
-          value: '1',
-        },
-        {
-          intent: START_BLOCKING,
-        },
-        {
-          intent: STOP_BLOCKING,
-        },
-        expect.objectContaining({
-          intent: LOAD_SUPPLIER_DETAIL,
-        }),
-      ]);
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_BILL_OPTION,
+            key: 'supplierId',
+            value: '2',
+          },
+          {
+            intent: START_BLOCKING,
+          },
+          {
+            intent: STOP_BLOCKING,
+          },
+          expect.objectContaining({
+            intent: LOAD_SUPPLIER_DETAIL,
+          }),
+        ]);
 
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: LOAD_SUPPLIER_DETAIL,
-        }),
-      ]);
-    });
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_SUPPLIER_DETAIL,
+          }),
+        ]);
+      });
 
-    it('loads supplier detail if key is supplierId, calls tax calc if creating from in tray and supplier has default expense account', () => {
-      const { module, integration, store } = setUpNewBillWithPrefilled();
+      it('loads supplier detail and does not call tax calc - if user is creating a new bill and the selected supplier has default expense account - but the table is empty', () => {
+        const { module, integration, store } = setUpWithRun({ isCreating: true });
 
-      module.updateBillOption({ key: 'supplierId', value: '1' });
+        module.updateBillOption({ key: 'supplierId', value: '2' });
 
-      expect(store.getActions()).toEqual([
-        {
-          intent: UPDATE_BILL_OPTION,
-          key: 'supplierId',
-          value: '1',
-        },
-        {
-          intent: START_BLOCKING,
-        },
-        {
-          intent: STOP_BLOCKING,
-        },
-        expect.objectContaining({
-          intent: LOAD_SUPPLIER_DETAIL,
-        }),
-        {
-          intent: GET_TAX_CALCULATIONS,
-          isSwitchingTaxInclusive: false,
-          taxCalculations: expect.any(Object),
-        },
-      ]);
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_BILL_OPTION,
+            key: 'supplierId',
+            value: '2',
+          },
+          {
+            intent: START_BLOCKING,
+          },
+          {
+            intent: STOP_BLOCKING,
+          },
+          expect.objectContaining({
+            intent: LOAD_SUPPLIER_DETAIL,
+          }),
+        ]);
 
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: LOAD_SUPPLIER_DETAIL,
-        }),
-      ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_SUPPLIER_DETAIL,
+          }),
+        ]);
+      });
+
+      it('loads supplier detail and calls tax calc - if user is creating a new bill and the selected supplier has default expense account - and the table has lines', () => {
+        const { module, integration, store } = setUpWithRun({ isCreating: true });
+        module.addBillLine({ id: '2', description: 'hello' });
+        integration.resetRequests();
+        store.resetActions();
+
+        module.updateBillOption({ key: 'supplierId', value: '2' });
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_BILL_OPTION,
+            key: 'supplierId',
+            value: '2',
+          },
+          {
+            intent: START_BLOCKING,
+          },
+          {
+            intent: STOP_BLOCKING,
+          },
+          expect.objectContaining({
+            intent: LOAD_SUPPLIER_DETAIL,
+          }),
+          {
+            intent: GET_TAX_CALCULATIONS,
+            isSwitchingTaxInclusive: false,
+            taxCalculations: expect.any(Object),
+          },
+        ]);
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_SUPPLIER_DETAIL,
+          }),
+        ]);
+      });
     });
 
     [

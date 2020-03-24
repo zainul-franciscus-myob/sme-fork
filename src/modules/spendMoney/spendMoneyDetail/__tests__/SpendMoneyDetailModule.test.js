@@ -349,9 +349,13 @@ describe('SpendMoneyDetailModule', () => {
 
   describe('updateHeaderOptions', () => {
     describe('key is selectedPayToContactId', () => {
-      describe('when creating from in tray', () => {
+      describe('when is creating new spend money', () => {
         it('should load expense account id, calls tax calc. if contact is supplier and has default expense account', () => {
-          const { module, store, integration } = setUpWithNewFromInTray();
+          const { module, store, integration } = setupWithNew();
+          module.addSpendMoneyLine({ amount: '10' });
+          store.resetActions();
+          integration.resetRequests();
+
           module.updateHeaderOptions({ key: 'selectedPayToContactId', value: '2' });
 
           expect(store.getActions()).toEqual([
@@ -385,7 +389,7 @@ describe('SpendMoneyDetailModule', () => {
         });
 
         it('should not load expense account id if contact is not supplier', () => {
-          const { module, store } = setUpWithNewFromInTray();
+          const { module, store } = setupWithNew();
           module.updateHeaderOptions({ key: 'selectedPayToContactId', value: '1' });
 
           expect(store.getActions()).toEqual([
@@ -398,7 +402,8 @@ describe('SpendMoneyDetailModule', () => {
         });
 
         it('should load expense account id but not call tax calc. if contact is supplier but does not have default expense account', () => {
-          const { module, store, integration } = setUpWithNewFromInTray();
+          const { module, store, integration } = setupWithNew();
+
           integration.mapSuccess(LOAD_SUPPLIER_EXPENSE_ACCOUNT, {});
           module.updateHeaderOptions({ key: 'selectedPayToContactId', value: '2' });
 

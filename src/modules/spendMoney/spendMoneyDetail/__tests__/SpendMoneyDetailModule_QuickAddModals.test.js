@@ -91,7 +91,7 @@ describe('SpendMoneyDetailModule_QuickAddModals', () => {
 
       module.loadContactAfterCreate({
         message: 'well done',
-        id: '123',
+        id: '1',
       });
 
       expect(store.getActions()).toEqual([
@@ -118,7 +118,7 @@ describe('SpendMoneyDetailModule_QuickAddModals', () => {
       expect(integration.getRequests()).toEqual([
         {
           intent: LOAD_CONTACT_AFTER_CREATE,
-          urlParams: { businessId: 'bizId', contactId: '123' },
+          urlParams: { businessId: 'bizId', contactId: '1' },
         },
       ]);
     });

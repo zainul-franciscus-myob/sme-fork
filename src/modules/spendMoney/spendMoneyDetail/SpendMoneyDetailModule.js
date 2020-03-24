@@ -27,7 +27,6 @@ import {
   getModalUrl,
   getOpenedModalType,
   getSaveUrl,
-  getSeletedPayToContactType,
   getShouldShowAccountCode,
   getSpendMoneyId,
   getTaxCodeOptions,
@@ -229,11 +228,8 @@ export default class SpendMoneyDetailModule {
     }
 
     const stateAfterUpdate = this.store.getState();
-    if (key === 'selectedPayToContactId' && getIsCreatingFromInTray(stateAfterUpdate)) {
-      const selectedContactType = getSeletedPayToContactType(stateAfterUpdate);
-      if (selectedContactType === 'Supplier') {
-        this.loadSupplierExpenseAccount();
-      }
+    if (key === 'selectedPayToContactId' && getShouldShowAccountCode(stateAfterUpdate)) {
+      this.loadSupplierExpenseAccount();
     }
   };
 

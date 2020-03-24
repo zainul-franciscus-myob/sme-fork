@@ -7,6 +7,7 @@ import {
   getIsReportableDisabled,
   getLineDataByIndexSelector,
   getLinesForTaxCalculation,
+  getShouldShowAccountCode,
   getSpendMoneyForCreatePayload,
   getSpendMoneyForUpdatePayload,
 } from '../spendMoneyDetailSelectors';
@@ -297,6 +298,59 @@ describe('spendMoneySelectors', () => {
       const actual = getLinesForTaxCalculation(state);
 
       expect(actual[0].lineTypeId).toEqual('6');
+    });
+  });
+
+  describe('getShouldShowAccountCode', () => {
+    const payToContacts = [
+      {
+        contactType: 'Customer',
+        id: '1',
+      },
+      {
+        contactType: 'Supplier',
+        id: '2',
+      },
+
+    ];
+
+    it('returns true if is creating and selected contact is a supplier', () => {
+      const state = {
+        spendMoneyId: 'new',
+        spendMoney: {
+          selectedPayToContactId: '2',
+          payToContacts,
+        },
+      };
+
+      const actual = getShouldShowAccountCode(state);
+      expect(actual).toBeTruthy();
+    });
+
+    it('returns false if is creating and selected contact is not a supplier', () => {
+      const state = {
+        spendMoneyId: 'new',
+        spendMoney: {
+          selectedPayToContactId: '1',
+          payToContacts,
+        },
+      };
+
+      const actual = getShouldShowAccountCode(state);
+      expect(actual).toBeFalsy();
+    });
+
+    it('returns false if is not creating', () => {
+      const state = {
+        spendMoneyId: '1',
+        spendMoney: {
+          selectedPayToContactId: '1',
+          payToContacts,
+        },
+      };
+
+      const actual = getShouldShowAccountCode(state);
+      expect(actual).toBeFalsy();
     });
   });
 });

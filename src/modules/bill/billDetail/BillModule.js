@@ -497,7 +497,7 @@ class BillModule {
       this.dispatcher.loadSupplierDetail(response);
 
       const state = this.store.getState();
-      if (getIsCreatingFromInTray(state) && getExpenseAccountId(state)) {
+      if (getIsCreating(state) && getExpenseAccountId(state)) {
         this.getTaxCalculations({ isSwitchingTaxInclusive: false });
       }
     };
@@ -564,7 +564,7 @@ class BillModule {
       this.dispatcher.loadSupplierAfterCreate(id, payload);
 
       const state = this.store.getState();
-      if (getIsCreatingFromInTray(state) && getExpenseAccountId(state)) {
+      if (getIsCreating(state) && getExpenseAccountId(state)) {
         this.getTaxCalculations({ isSwitchingTaxInclusive: false });
       }
     };

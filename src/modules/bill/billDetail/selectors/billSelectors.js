@@ -172,6 +172,8 @@ export const getAccountModalContext = (state) => {
   return { businessId, region };
 };
 
+export const getShouldShowAccountCode = getIsCreating;
+
 export const getIsSupplierBlocking = state => state.isSupplierBlocking;
 
 

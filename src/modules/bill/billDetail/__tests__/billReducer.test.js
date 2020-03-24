@@ -500,10 +500,9 @@ describe('billReducer', () => {
       },
     };
 
-    it('updates expenseAccountId and all lines with the accountId if creating from in tray', () => {
+    it('updates expenseAccountId and all lines with the accountId if is creating new bill', () => {
       const state = {
         billId: 'new',
-        source: 'inTray',
         bill,
         supplierOptions: [
           { id: '1', expenseAccountId: '1' },
@@ -530,21 +529,7 @@ describe('billReducer', () => {
       expect(actual.bill.expenseAccountId).toEqual('1');
     });
 
-    it('does not update expenseAccountId or lines with the accountId if not creating from in tray', () => {
-      const state = {
-        billId: 'new',
-        source: 'notInTray',
-        bill,
-      };
-
-      const actual = billReducer(state, action);
-      const expectedLines = bill.lines;
-
-      expect(actual.bill.lines).toEqual(expectedLines);
-      expect(actual.bill.expenseAccountId).toEqual('2');
-    });
-
-    it('does not update expenseAccountId or lines with the accountId if updating existing bill', () => {
+    it('does not update expenseAccountId or lines with the accountId if not is creating new bill', () => {
       const state = {
         billId: 'id',
         bill,
@@ -577,10 +562,9 @@ describe('billReducer', () => {
       },
     };
 
-    it('updates expenseAccountId and all lines with the accountId if creating from in tray', () => {
+    it('updates expenseAccountId and all lines with the accountId if is creating new bill', () => {
       const state = {
         billId: 'new',
-        source: 'inTray',
         bill,
         supplierOptions: [
           { id: '1', expenseAccountId: '1' },
@@ -607,24 +591,7 @@ describe('billReducer', () => {
       expect(actual.bill.expenseAccountId).toEqual('2');
     });
 
-    it('does not update expenseAccountId or lines with the accountId if not creating from in tray', () => {
-      const state = {
-        billId: 'new',
-        source: 'notInTray',
-        supplierOptions: [
-          { id: '1', expenseAccountId: '1' },
-        ],
-        bill,
-      };
-
-      const actual = billReducer(state, action);
-      const expectedLines = bill.lines;
-
-      expect(actual.bill.lines).toEqual(expectedLines);
-      expect(actual.bill.expenseAccountId).toEqual('1');
-    });
-
-    it('does not update expenseAccountId or lines with the accountId if updating existing bill', () => {
+    it('does not update expenseAccountId or lines with the accountId if is not creating new bill', () => {
       const state = {
         billId: 'id',
         supplierOptions: [

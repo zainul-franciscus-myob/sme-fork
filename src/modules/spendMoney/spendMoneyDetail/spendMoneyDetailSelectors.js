@@ -68,10 +68,10 @@ const getContactType = (contactId, contacts) => contacts.find(
 ).contactType;
 
 export const getShouldShowAccountCode = createSelector(
-  getIsCreatingFromInTray,
+  getIsCreating,
   getSelectedPayToContactId,
   getPayToContacts,
-  (isCreatingFromInTray, contactId, contacts) => isCreatingFromInTray && contactId && getContactType(contactId, contacts) === 'Supplier',
+  (isCreating, contactId, contacts) => isCreating && contactId && getContactType(contactId, contacts) === 'Supplier',
 );
 
 export const getHeaderOptions = createSelector(

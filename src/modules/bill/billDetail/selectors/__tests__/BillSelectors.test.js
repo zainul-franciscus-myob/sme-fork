@@ -6,6 +6,7 @@ import {
   getNewLineIndex,
   getPageTitle,
   getPrefillButtonText,
+  getShouldShowAccountCode,
   getTableData,
   getUpdatedSupplierOptions,
 } from '../billSelectors';
@@ -96,6 +97,17 @@ describe('BillSelectors', () => {
       const actual = getIsNewLine(state, props);
 
       expect(actual).toEqual(true);
+    });
+  });
+
+  describe('getShouldShowAccountCode', () => {
+    it('returns true for all create new scenarios', () => {
+      const state = {
+        billId: 'new',
+      };
+
+      const actual = getShouldShowAccountCode(state);
+      expect(actual).toBeTruthy();
     });
   });
 

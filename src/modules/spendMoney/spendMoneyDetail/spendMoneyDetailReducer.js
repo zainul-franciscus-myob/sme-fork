@@ -33,7 +33,9 @@ import {
   UPLOAD_ATTACHMENT_FAILED,
 } from '../SpendMoneyIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { getIsContactReportable, getIsCreatingFromInTray, getIsReportable } from './spendMoneyDetailSelectors';
+import {
+  getIsContactReportable, getIsCreating, getIsReportable,
+} from './spendMoneyDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
@@ -519,7 +521,7 @@ const contactIsSupplier = ({ contactType }) => contactType === 'Supplier';
 const loadContactAfterCreate = (state, {
   intent, expenseAccountId, contactId, ...rest
 }) => {
-  if (getIsCreatingFromInTray(state) && contactIsSupplier(rest)) {
+  if (getIsCreating(state) && contactIsSupplier(rest)) {
     return {
       ...state,
       spendMoney: {

@@ -48,7 +48,7 @@ import { defaultLinePrefillStatus, defaultPrefillStatus, getDefaultState } from 
 import {
   getBillId,
   getBusinessId,
-  getIsCreatingFromInTray,
+  getIsCreating,
   getRegion,
   getUpdatedSupplierOptions,
 } from '../selectors/billSelectors';
@@ -353,10 +353,10 @@ const loadSupplierDetail = (state, action) => ({
   bill: {
     ...state.bill,
     supplierAddress: action.response.supplierAddress,
-    expenseAccountId: getIsCreatingFromInTray(state)
+    expenseAccountId: getIsCreating(state)
       ? action.response.expenseAccountId
       : state.bill.expenseAccountId,
-    lines: state.bill.lines.length > 0 && getIsCreatingFromInTray(state)
+    lines: state.bill.lines.length > 0 && getIsCreating(state)
       ? updateAllLinesWithExpenseAccount(
         state.bill.lines,
         state.accountOptions,
@@ -374,10 +374,10 @@ const loadSupplierAfterCreate = (state, {
     ...state.bill,
     supplierId,
     supplierAddress,
-    expenseAccountId: getIsCreatingFromInTray(state)
+    expenseAccountId: getIsCreating(state)
       ? expenseAccountId
       : state.bill.expenseAccountId,
-    lines: state.bill.lines.length > 0 && getIsCreatingFromInTray(state)
+    lines: state.bill.lines.length > 0 && getIsCreating(state)
       ? updateAllLinesWithExpenseAccount(
         state.bill.lines,
         state.accountOptions,
