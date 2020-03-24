@@ -4,6 +4,8 @@ import {
   getAmountDue,
   getBillId,
   getBusinessId,
+  getDuplicatedBillId,
+  getIsCreating,
   getIsCreatingFromInTray,
   getRegion,
   getSupplierId,
@@ -79,4 +81,11 @@ export const getBillPaymentUrl = (state) => {
   const urlParams = getQueryFromParams(redirectParams);
 
   return `${baseUrl}/billPayment/new${urlParams}`;
+};
+
+export const getShouldReloadModule = (state) => {
+  const isCreating = getIsCreating(state);
+  const duplicatedBillId = getDuplicatedBillId(state);
+
+  return isCreating && !duplicatedBillId;
 };

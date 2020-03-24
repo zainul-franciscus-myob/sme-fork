@@ -31,6 +31,7 @@ import {
   getCreateNewBillUrl,
   getDuplicateBillUrl,
   getFinalRedirectUrl,
+  getShouldReloadModule,
   getSubscriptionSettingsUrl,
 } from './selectors/BillRedirectSelectors';
 import { getExportPdfFilename, getShouldSaveAndReload } from './selectors/exportPdfSelectors';
@@ -66,7 +67,7 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 class BillModule {
   constructor({
-    integration, setRootView, pushMessage, popMessages, replaceURLParams, globalCallbacks,
+    integration, setRootView, pushMessage, popMessages, replaceURLParams, globalCallbacks, reload,
   }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -83,6 +84,7 @@ class BillModule {
     this.inTrayModalModule = new InTrayModalModule({ integration });
     this.taxCalculate = createTaxCalculator(TaxCalculatorTypes.bill);
     this.globalCallbacks = globalCallbacks;
+    this.reload = reload;
   }
 
   openAccountModal = (onChange) => {
@@ -248,16 +250,15 @@ class BillModule {
   saveAndCreateNewBill = () => {
     this.dispatcher.closeModal();
 
-    const redirectToCreateNewBill = () => {
-      this.globalCallbacks.inTrayBillSaved();
-      const state = this.store.getState();
-      const url = getCreateNewBillUrl(state);
-      window.location.href = url;
-    };
-
     const onSuccess = ({ message }) => {
+      this.globalCallbacks.inTrayBillSaved();
       this.pushMessage({ type: SUCCESSFULLY_SAVED_BILL, content: message });
-      redirectToCreateNewBill();
+
+      if (getShouldReloadModule(this.store.getState())) {
+        this.reload();
+      } else {
+        this.redirectToCreateNewBill();
+      }
     };
 
     this.saveBillAnd({ onSuccess });
@@ -266,22 +267,15 @@ class BillModule {
   saveAndDuplicateBill = () => {
     this.dispatcher.closeModal();
 
-    const redirectToDuplicateBill = () => {
-      const state = this.store.getState();
-      const url = getDuplicateBillUrl(state);
-      window.location.href = url;
-    };
-
     const onSuccess = ({ message, id }) => {
-      this.pushMessage({ type: SUCCESSFULLY_SAVED_BILL, content: message });
       this.globalCallbacks.inTrayBillSaved();
-      const state = this.store.getState();
-      const isCreating = getIsCreating(state);
+      this.pushMessage({ type: SUCCESSFULLY_SAVED_BILL, content: message });
 
-      if (isCreating) {
+      if (getIsCreating(this.store.getState())) {
         this.dispatcher.updateBillId(id);
       }
-      redirectToDuplicateBill();
+
+      this.redirectToDuplicateBill();
     };
 
     this.saveBillAnd({ onSuccess });
@@ -738,6 +732,20 @@ class BillModule {
       window.location.href = url;
     }
   }
+
+  redirectToCreateNewBill = () => {
+    const state = this.store.getState();
+    const url = getCreateNewBillUrl(state);
+
+    this.redirectToUrl(url);
+  };
+
+  redirectToDuplicateBill = () => {
+    const state = this.store.getState();
+    const url = getDuplicateBillUrl(state);
+
+    this.redirectToUrl(url);
+  };
 
   redirectToSubscriptionSettings = () => {
     const state = this.store.getState();

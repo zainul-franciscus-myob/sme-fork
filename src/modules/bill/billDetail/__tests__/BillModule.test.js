@@ -61,7 +61,6 @@ export const setUp = () => {
     replaceURLParams,
     globalCallbacks,
   });
-  module.redirectToUrl = jest.fn();
   const store = new TestStore(billReducer);
   module.store = store;
   module.dispatcher = createBillDispatcher(store);

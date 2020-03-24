@@ -15,7 +15,9 @@ import {
   SUCCESSFULLY_SAVED_BILL,
   SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
 } from '../types/BillMessageTypes';
-import { mockCreateObjectUrl, setUpNewBillWithPrefilled, setUpWithRun } from './BillModule.test';
+import {
+  mockCreateObjectUrl, setUp, setUpNewBillWithPrefilled, setUpWithRun,
+} from './BillModule.test';
 
 describe('BillModule_Save', () => {
   mockCreateObjectUrl();
@@ -193,10 +195,47 @@ describe('BillModule_Save', () => {
   });
 
   describe('saveAndCreateNewBill', () => {
-    it('successfully saves bill and redirect to the create new bill page', () => {
+    it('successfully saves bill and reloads the module to create another new bill', () => {
       const { module, store, integration } = setUpWithRun({ isCreating: true });
       module.globalCallbacks.inTrayBillSaved = jest.fn();
       module.pushMessage = jest.fn();
+      module.reload = jest.fn();
+
+      module.saveAndCreateNewBill();
+
+      expect(store.getActions()).toEqual([
+        { intent: CLOSE_MODAL },
+        { intent: START_BLOCKING },
+        { intent: STOP_BLOCKING },
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: CREATE_BILL,
+        }),
+      ]);
+
+      expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
+      expect(module.pushMessage).toHaveBeenCalledWith(
+        expect.objectContaining({ type: SUCCESSFULLY_SAVED_BILL }),
+      );
+      expect(module.reload).toHaveBeenCalledWith();
+    });
+
+    it('successfully saves bill and redirects to create a new bill if the user was originally on a create duplicated bill', () => {
+      const { module, store, integration } = setUp();
+      module.run({
+        billId: 'new',
+        duplicatedBillId: 'dupId',
+        businessId: 'bizId',
+        region: 'au',
+      });
+      store.resetActions();
+      integration.resetRequests();
+
+      module.globalCallbacks.inTrayBillSaved = jest.fn();
+      module.pushMessage = jest.fn();
+      module.reload = jest.fn();
 
       module.saveAndCreateNewBill();
 
@@ -262,10 +301,10 @@ describe('BillModule_Save', () => {
         }),
       ]);
 
+      expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
       expect(module.pushMessage).toHaveBeenCalledWith(
         expect.objectContaining({ type: SUCCESSFULLY_SAVED_BILL }),
       );
-      expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
       expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/bill/new?duplicatedBillId=id'));
     });
 
