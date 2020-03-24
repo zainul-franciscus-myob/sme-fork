@@ -24,13 +24,11 @@ const JobRowItem = ({
   value,
   indentLevel,
   isHeader,
-  isRootHeader,
   title,
 }) => {
   const className = classNames({
     [styles.headerJob]: isHeader,
     [styles.indent]: indentLevel > 0,
-    [styles.rootHeader]: isRootHeader,
   });
 
   return (
@@ -57,8 +55,6 @@ const JobListTableBody = (props) => {
       level,
     } = entry;
 
-    const isRootHeader = level === 0;
-
     return (
     <Table.Row key={id}>
       <JobRowItem
@@ -67,14 +63,12 @@ const JobListTableBody = (props) => {
         title={number}
         indentLevel={level}
         isHeader={isHeader}
-        isRootHeader={isRootHeader}
       />
       <JobRowItem
         config={tableConfig.name}
         value={isHeader ? name : <a href={link}>{name}</a>}
         title={name}
         isHeader={isHeader}
-        isRootHeader={isRootHeader}
       />
       {showStatusColumn ? inactiveRow({ tableConfig, entry }) : undefined}
       <JobRowItem
@@ -82,28 +76,24 @@ const JobListTableBody = (props) => {
         value={income}
         title={income}
         isHeader={isHeader}
-        isRootHeader={isRootHeader}
       />
       <JobRowItem
         config={tableConfig.cost}
         value={cost}
         title={cost}
         isHeader={isHeader}
-        isRootHeader={isRootHeader}
       />
       <JobRowItem
         config={tableConfig.expenses}
         value={expenses}
         title={expenses}
         isHeader={isHeader}
-        isRootHeader={isRootHeader}
       />
       <JobRowItem
         config={tableConfig.netProfit}
         value={netProfit}
         title={netProfit}
         isHeader={isHeader}
-        isRootHeader={isRootHeader}
       />
     </Table.Row>
     );
