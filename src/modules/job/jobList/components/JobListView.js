@@ -73,7 +73,6 @@ const JobListView = (props) => {
     onDismissAlert,
     onAddJobButtonClick,
     onUpdateFilters,
-    onApplyFilter,
     showStatusColumn,
   } = props;
 
@@ -86,7 +85,6 @@ const JobListView = (props) => {
   const filterBar = (
     <JobListFilterOptions
       onUpdateFilters={onUpdateFilters}
-      onApplyFilter={onApplyFilter}
     />
   );
 

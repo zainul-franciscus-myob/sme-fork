@@ -10,13 +10,12 @@ import handleInputChange from '../../../../components/handlers/handleInputChange
 
 const JobListFilterOptions = ({
   onUpdateFilters,
-  onApplyFilter,
   filterOptions: {
     keywords,
     showInactive,
   },
 }) => (
-  <FilterBar onApply={onApplyFilter}>
+  <FilterBar>
     <FilterBarSearch
       name="keywords"
       maxLength={255}

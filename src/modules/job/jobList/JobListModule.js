@@ -11,6 +11,7 @@ import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import createJobListDispatcher from './createJobListDispatcher';
 import createJobListIntegrator from './createJobListIntegrator';
+import debounce from '../../../common/debounce/debounce';
 import jobListReducer from './jobListReducer';
 
 const messageTypes = [
@@ -30,14 +31,25 @@ export default class JobListModule {
     this.integrator = createJobListIntegrator(this.store, integration);
   }
 
+  updateFilterOptions = ({ key, value }) => {
+    this.dispatcher.updateFilterOptions({
+      key,
+      value,
+    });
+    if (key === 'keywords') {
+      debounce(this.filterJobList)();
+    } else {
+      this.filterJobList();
+    }
+  }
+
   render = () => {
     const view = (
       <Provider store={this.store}>
         <JobListView
           onDismissAlert={this.dispatcher.dismissAlert}
-          onUpdateFilters={this.dispatcher.updateFilterOptions}
+          onUpdateFilters={this.updateFilterOptions}
           onAddJobButtonClick={this.redirectToAddJob}
-          onApplyFilter={this.filterJobList}
         />
       </Provider>
     );
