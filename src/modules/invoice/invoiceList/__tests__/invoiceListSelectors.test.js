@@ -1,5 +1,5 @@
 import {
-  getIsDefaultFilters, getLoadMoreButtonStatus, getTableEntries,
+  getFilterOptions, getIsDefaultFilters, getLoadMoreButtonStatus, getTableEntries,
 } from '../invoiceListSelectors';
 import LoadMoreButtonStatuses from '../../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 
@@ -133,6 +133,52 @@ describe('invoiceListReducer', () => {
         },
       };
       expect(getLoadMoreButtonStatus(state)).toEqual(LoadMoreButtonStatuses.SHOWN);
+    });
+  });
+
+  describe('getFilterOptions', () => {
+    it('should return correct status and customerId if they are valid', () => {
+      const state = {
+        filterOptions: {
+          customerId: '1',
+          status: 'foo',
+        },
+        customerFilterOptions: [
+          { value: '1' },
+        ],
+        statusFilterOptions: [
+          { value: 'foo' },
+        ],
+      };
+
+      const expected = {
+        customerId: '1',
+        status: 'foo',
+      };
+
+      expect(getFilterOptions(state)).toEqual(expected);
+    });
+
+    it('should return default value if customerId and status no longer valid', () => {
+      const state = {
+        filterOptions: {
+          customerId: 'All',
+          status: 'bar',
+        },
+        customerFilterOptions: [
+          { value: '1' },
+        ],
+        statusFilterOptions: [
+          { value: 'All' },
+        ],
+      };
+
+      const expected = {
+        customerId: undefined,
+        status: 'All',
+      };
+
+      expect(getFilterOptions(state)).toEqual(expected);
     });
   });
 });

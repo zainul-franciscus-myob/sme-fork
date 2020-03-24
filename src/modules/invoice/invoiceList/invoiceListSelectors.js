@@ -8,9 +8,34 @@ export const getBusinessId = ({ businessId }) => businessId;
 
 export const getRegion = state => state.region;
 
+export const getOrderBy = state => state.orderBy;
+
+export const getCustomerFilterOptions = state => state.customerFilterOptions;
+
+export const getStatusFilterOptions = state => state.statusFilterOptions;
+
+export const getAlert = state => state.alert;
+
+export const getTotal = state => state.total;
+
+export const getTotalDue = state => state.totalDue;
+
+export const getTotalOverdue = state => state.totalOverdue;
+
 export const convertToUnixTime = date => new Date(date).getTime().toString();
 
-export const getFilterOptions = ({ filterOptions }) => filterOptions;
+export const getFilterOptions = (state) => {
+  const customerOptions = getCustomerFilterOptions(state);
+  const statusOptions = getStatusFilterOptions(state);
+  const { filterOptions } = state;
+  const selectedCustomer = customerOptions.find(({ value }) => value === filterOptions.customerId);
+  const selectedStatus = statusOptions.find(({ value }) => value === filterOptions.status);
+  return {
+    ...filterOptions,
+    customerId: selectedCustomer && selectedCustomer.value,
+    status: selectedStatus ? selectedStatus.value : 'All',
+  };
+};
 
 const getSettingsVersion = state => state.settingsVersion;
 
@@ -64,20 +89,6 @@ export const getOrder = ({ sortOrder, orderBy }) => ({
   column: orderBy,
   descending: sortOrder === 'desc',
 });
-
-export const getOrderBy = state => state.orderBy;
-
-export const getCustomerFilterOptions = state => state.customerFilterOptions;
-
-export const getStatusFilterOptions = state => state.statusFilterOptions;
-
-export const getAlert = state => state.alert;
-
-export const getTotal = state => state.total;
-
-export const getTotalDue = state => state.totalDue;
-
-export const getTotalOverdue = state => state.totalOverdue;
 
 export const getHasOverdue = createSelector(
   getTotalOverdue,
