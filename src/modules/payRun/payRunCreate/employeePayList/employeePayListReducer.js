@@ -24,6 +24,7 @@ export const getEmployeePayListDefaultState = () => ({
   isUpgradeModalShowing: false,
   isPayItemLineDirty: false,
   lines: [],
+  originalLines: [],
   invalidEtpNames: [],
   etp: {
     employeeId: '',
@@ -42,6 +43,7 @@ const loadEmployeePays = (state, { employeePays }) => ({
   baseHourlyWagePayItemId: employeePays.baseHourlyWagePayItemId,
   baseSalaryWagePayItemId: employeePays.baseSalaryWagePayItemId,
   lines: getEmployeePayLines(employeePays.employeePays, () => (true)),
+  originalLines: getEmployeePayLines(employeePays.employeePays, () => (true)),
 });
 
 const updateIsEmployeeSelected = (state, { id }) => ({
@@ -190,6 +192,13 @@ const updateEmployeeLineAfterRecalculation = (state, { employeeId, recalculatedE
         ),
       }
       : line
+  )),
+  originalLines: state.originalLines.map(originalLine => (
+    originalLine.employeeId === employeeId ? {
+      ...originalLine,
+      ...recalculatedEmployeePay,
+    }
+      : originalLine
   )),
 });
 

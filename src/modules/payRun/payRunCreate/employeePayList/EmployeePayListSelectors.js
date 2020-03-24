@@ -151,6 +151,11 @@ const isEmployerExpensePayItem = payItemType => ['Expense', 'SuperannuationExpen
 const getEmployeeLineByEmployeeId = (state, employeeId) => state.employeePayList.lines.find(
   line => line.employeeId === employeeId,
 );
+const getOriginalEmployeeLineByEmployeeId = (
+  state, employeeId,
+) => state.employeePayList.originalLines.find(
+  line => line.employeeId === employeeId,
+);
 
 const getBaseHourlyWagePayItemId = state => state.employeePayList.baseHourlyWagePayItemId;
 const getBaseSalaryWagePayItemId = state => state.employeePayList.baseSalaryWagePayItemId;
@@ -269,6 +274,7 @@ export const getRecalculatePayPayload = ({
   const editedPayItem = editedEmployeeLine.payItems.find(
     payItem => payItem.payItemId === payItemId,
   );
+  const originalEmployeeLine = getOriginalEmployeeLineByEmployeeId(state, employeeId);
 
   return {
     employeeId,
@@ -276,7 +282,7 @@ export const getRecalculatePayPayload = ({
     paymentDate: state.startPayRun.currentEditingPayRun.paymentDate,
     payPeriodStart: state.startPayRun.currentEditingPayRun.payPeriodStart,
     payPeriodEnd: state.startPayRun.currentEditingPayRun.payPeriodEnd,
-    payItems: editedEmployeeLine.payItems.map(
+    payItems: originalEmployeeLine.payItems.map(
       payItem => getPayItemLineForRecalculatePayload(payItem),
     ),
     editedField,

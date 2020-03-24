@@ -168,6 +168,7 @@ const editExistingPayRun = (state, action) => {
       lines: getEmployeePayLines(
         employeePays, ep => (isEmployeeSelected(ep.employeeId, selectedEmployeeIds)),
       ),
+      originalLines: employeePays,
     },
   };
 };

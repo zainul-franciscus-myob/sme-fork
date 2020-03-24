@@ -104,6 +104,24 @@ describe('payRunReducer', () => {
             ],
           },
         ],
+        originalLines: [
+          {
+            employeeId: 21,
+            payInfo: 'pay information 1',
+            payItems: [
+              { line: 1 },
+              { line: 2 },
+            ],
+          },
+          {
+            employeeId: 22,
+            payInfo: 'pay information 2',
+            payItems: [
+              { line: 3 },
+              { line: 4 },
+            ],
+          },
+        ],
       };
 
       expect(result.employeePayList).toEqual(expected);

@@ -6,6 +6,7 @@ import {
   OPEN_ETP_MODAL,
   SAVE_ETP,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
+  UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
   UPDATE_IS_EMPLOYEE_SELECTED,
 } from '../../PayRunIntents';
 import EtpCode from '../types/EtpCode';
@@ -183,6 +184,120 @@ describe('employeePayListReducer', () => {
           etpCode: EtpCode.B,
         },
       ]);
+    });
+  });
+
+  describe('UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION', () => {
+    it('should update employee line and original employee line', () => {
+      const state = {
+        employeePayList: {
+          lines: [
+            {
+              employeeId: '1',
+              name: 'Mary Jones',
+              gross: 1500,
+              payg: 100,
+              deduction: 300,
+              netPay: 700,
+              super: 150,
+              payItems: [{
+                payItemId: '11',
+                payItemName: 'PayGWithholding',
+                type: 'Tax',
+                amount: '222.00',
+                isSubmitting: true,
+                hours: '1.00',
+              }],
+            },
+          ],
+          originalLines: [
+            {
+              employeeId: '1',
+              name: 'Mary Jones',
+              gross: 1500,
+              payg: 100,
+              deduction: 300,
+              netPay: 700,
+              super: 150,
+              payItems: [{
+                payItemId: '11',
+                payItemName: 'PayGWithholding',
+                type: 'Tax',
+                amount: '222.00',
+                hours: '0.00',
+              }],
+            },
+          ],
+        },
+      };
+      const recalculatedEmployeePay = {
+        employeeId: '1',
+        name: 'Mary Jones',
+        gross: 1500,
+        payg: 100,
+        deduction: 300,
+        netPay: 700,
+        super: 150,
+        payItems: [
+          {
+            payItemId: '11',
+            payItemName: 'PayGWithholding',
+            type: 'Tax',
+            amount: '222.00',
+            hours: '1.00',
+          },
+        ],
+      };
+      const action = {
+        intent: UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
+        employeeId: '1',
+        recalculatedEmployeePay,
+      };
+      const expected = {
+        employeePayList: {
+          lines: [
+            {
+              employeeId: '1',
+              name: 'Mary Jones',
+              gross: 1500,
+              payg: 100,
+              deduction: 300,
+              netPay: 700,
+              super: 150,
+              payItems: [{
+                payItemId: '11',
+                payItemName: 'PayGWithholding',
+                type: 'Tax',
+                isSubmitting: false,
+                amount: '222.00',
+                hours: '1.00',
+              }],
+            },
+          ],
+          originalLines: [
+            {
+              employeeId: '1',
+              name: 'Mary Jones',
+              gross: 1500,
+              payg: 100,
+              deduction: 300,
+              netPay: 700,
+              super: 150,
+              payItems: [{
+                payItemId: '11',
+                payItemName: 'PayGWithholding',
+                type: 'Tax',
+                amount: '222.00',
+                hours: '1.00',
+              }],
+            },
+          ],
+        },
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual).toEqual(expected);
     });
   });
 
