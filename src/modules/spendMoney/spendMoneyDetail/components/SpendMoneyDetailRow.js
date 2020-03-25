@@ -12,7 +12,7 @@ import {
   getTaxCodeOptions,
 } from '../spendMoneyDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
-import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
+import Calculator from '../../../../components/Calculator/Calculator';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 import styles from './SpendMoneyDetailRow.module.css';
 
@@ -73,7 +73,7 @@ const SpendMoneyDetailRow = (props) => {
         disabled={isSupplierBlocking || isSubmitting}
         addNewAccount={() => onAddAccount(onChangeAccountId)}
       />
-      <AmountInput
+      <Calculator
         label="Amount"
         hideLabel
         name="amount"
@@ -81,10 +81,10 @@ const SpendMoneyDetailRow = (props) => {
         onChange={onAmountInputChange('amount', onChange)}
         onBlur={onRowInputBlur}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.amount) })}
-        numeralDecimalScaleMax={2}
+        numeralDecimalScaleMin={2}
         disabled={isSupplierBlocking || isSubmitting}
       />
-      <AmountInput
+      <Calculator
         label="Quantity"
         name="quantity"
         value={quantity}

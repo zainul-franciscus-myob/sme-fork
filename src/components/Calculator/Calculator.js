@@ -1,17 +1,17 @@
 import { Input } from '@myob/myob-widgets';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import shortid from 'shortid';
 
 import {
   addCommasInPlace,
   addDecimalPlaces,
-  formatValue,
   removeCommas,
 } from './formatter';
 import areValuesEqual from './areValuesEqual';
 import copyEventWithValue from '../autoFormatter/AmountInput/copyEventWithValue';
 import createValidator from './validate';
 import evaluate from './evaluate';
+import getNewCursorPosition from './getNewCursorPosition';
 import isCalculableExpression from './isCalculableExpression';
 import styles from './Calculator.module.css';
 
@@ -22,7 +22,7 @@ const CalculatorTooltip = ({ value, width }) => {
   return (
     <div style={tooltipStyle} className={styles.tooltip}>
       <span style={tooltipTextStyle} className={styles.tooltipText}>
-        {`= ${evaluate(removeCommas(value))}`}
+        {`= ${value}`}
       </span>
       <div className={styles.arrowDown} />
     </div>
@@ -39,21 +39,17 @@ const onWrappedBlur = ({
 }) => (e) => {
   const { value } = e.target;
 
-  const parsedValue = evaluate(removeCommas(value));
-  const formattedValue = formatValue(
+  const valueWithoutCommas = removeCommas(value);
+  const parsedValue = evaluate(valueWithoutCommas);
+  const valueWithDecimalPlaces = addDecimalPlaces(
     parsedValue,
     numeralDecimalScaleMin,
     numeralDecimalScaleMax,
   );
 
   // Trigger setCurrValue to update value visible to user
-  setCurrValue(formattedValue);
+  setCurrValue(valueWithDecimalPlaces);
 
-  const valueWithDecimalPlaces = addDecimalPlaces(
-    parsedValue,
-    numeralDecimalScaleMin,
-    numeralDecimalScaleMax,
-  );
   const event = copyEventWithValue(e, valueWithDecimalPlaces);
 
   // Trigger onChange to give parsed value to parent
@@ -62,8 +58,6 @@ const onWrappedBlur = ({
   }
 
   onBlur(event);
-
-  // Stop showing calculator tooltip
   setIsActive(false);
 };
 
@@ -72,15 +66,18 @@ const onWrappedOnChange = ({
   setIsActive,
   validate,
   onChange,
+  setNewCursorPosition,
 }) => (e) => {
   const { value } = e.target;
   const isValidValue = validate(value);
 
   if (isValidValue) {
-    const event = copyEventWithValue(e, value);
-    setCurrValue(addCommasInPlace(value));
+    const valueWithoutCommas = removeCommas(value);
+    const event = copyEventWithValue(e, valueWithoutCommas);
+    setCurrValue(valueWithoutCommas);
     onChange(event);
-    setIsActive(isCalculableExpression(value));
+    setIsActive(isCalculableExpression(valueWithoutCommas));
+    setNewCursorPosition(value);
   }
 };
 
@@ -89,7 +86,7 @@ const Calculator = ({
   name,
   label,
   hideLabel,
-  value,
+  value = '',
   onBlur,
   onChange,
   numeralDecimalScaleMin = 0,
@@ -98,19 +95,48 @@ const Calculator = ({
   className,
   disabled,
 }) => {
-  const formattedValue = formatValue(
-    value,
-    numeralDecimalScaleMin,
-    numeralDecimalScaleMax,
-  );
+  const valueWithoutCommas = removeCommas(value);
+
   // eslint-disable-next-line no-unused-vars
   const [id, _] = useState(shortid.generate());
-  const [currValue, setCurrValue] = useState(formattedValue);
+  const [currValue, setCurrValue] = useState(valueWithoutCommas);
   const [target, setTarget] = useState(null);
   const [isActive, setIsActive] = useState(false);
 
+  // State associated with cursor positioning
+  const [cursorPosition, setCursorPosition] = useState(0);
+  const [updateCursorPosition, shouldUpdateCursorPosition] = useState(false);
+
+  const setNewCursorPosition = (newValue) => {
+    const newCursorPosition = getNewCursorPosition({
+      endPosition: target.selectionEnd,
+      oldValue: currValue,
+      value: newValue,
+    });
+
+    setCursorPosition(newCursorPosition);
+    shouldUpdateCursorPosition(true);
+  };
+
+  const setCursorPositionOnPage = () => {
+    shouldUpdateCursorPosition(false);
+
+    if (target != null) {
+      target.setSelectionRange(cursorPosition, cursorPosition);
+    }
+  };
+
+  useEffect(() => {
+    if (!updateCursorPosition) {
+      return;
+    }
+
+    setCursorPositionOnPage();
+  });
+
+
   if (!areValuesEqual(currValue, value)) {
-    setCurrValue(formattedValue);
+    setCurrValue(valueWithoutCommas);
   }
 
   const validate = createValidator({ numeralIntegerScale });
@@ -119,6 +145,7 @@ const Calculator = ({
     setIsActive,
     onChange,
     validate,
+    setNewCursorPosition,
   });
   const onCalculatorBlur = onWrappedBlur({
     setCurrValue,
@@ -131,13 +158,20 @@ const Calculator = ({
 
   const elementId = propId || id;
   const width = target ? target.offsetWidth : 0;
+  const formattedValue = addCommasInPlace(currValue);
+  const parsedValue = evaluate(currValue);
+  const valueWithDecimalPlaces = addDecimalPlaces(
+    parsedValue,
+    numeralDecimalScaleMin,
+    numeralDecimalScaleMax,
+  );
 
   return (
     <>
       {
         isActive && (
           <CalculatorTooltip
-            value={currValue}
+            value={valueWithDecimalPlaces}
             width={width}
           />
         )
@@ -148,7 +182,7 @@ const Calculator = ({
         name={name}
         label={label}
         hideLabel={hideLabel}
-        value={currValue}
+        value={formattedValue}
         onChange={onCalculatorChange}
         onBlur={onCalculatorBlur}
         className={className}

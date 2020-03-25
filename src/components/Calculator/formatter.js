@@ -50,33 +50,6 @@ const addCommas = (number) => {
   return number;
 };
 
-const hasCommas = (value) => {
-  const formattedValue = String(value);
-  const regexPattern = /,/;
-  return Boolean(formattedValue.match(regexPattern));
-};
-
-export const formatValue = (value, numeralDecimalScaleMin, numeralDecimalScaleMax) => {
-  if (value === undefined) {
-    return '';
-  }
-
-  const valueWithoutCommas = hasCommas(value)
-    ? removeCommas(value)
-    : String(value);
-
-  const valueWithDecimalPlaces = addDecimalPlaces(
-    valueWithoutCommas,
-    numeralDecimalScaleMin,
-    numeralDecimalScaleMax,
-  );
-
-  const valueWithCommas = addCommas(valueWithDecimalPlaces);
-
-  return valueWithCommas;
-};
-
-
 const replaceNumber = ({
   acc,
   index,
@@ -105,13 +78,13 @@ export const addCommasInPlace = (value) => {
     return '';
   }
 
-  const valueWithoutCommas = removeCommas(value);
+  const stringValue = String(value);
   const regexPattern = /[,.0-9]*/g;
-  const allNumberGroupings = valueWithoutCommas.match(regexPattern).filter(v => Boolean(v));
+  const allNumberGroupings = stringValue.match(regexPattern).filter(v => Boolean(v));
   const formattedNumberGroupings = allNumberGroupings.map(addCommas);
 
   const formattedString = replaceNumber({
-    acc: valueWithoutCommas,
+    acc: stringValue,
     index: 0,
     originalNumbers: allNumberGroupings,
     formattedNumbers: formattedNumberGroupings,
