@@ -30,11 +30,13 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class GeneralJournalDetailModule {
   constructor({
-    integration, setRootView, pushMessage,
+    integration, setRootView, popMessages, pushMessage, reload,
   }) {
     this.store = new Store(generalJournalDetailReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
+    this.popMessages = popMessages;
+    this.reload = reload;
     this.purchasesTaxCalculate = createTaxCalculator(TaxCalculatorTypes.generalJournalPurchases);
     this.salesTaxCalculate = createTaxCalculator(TaxCalculatorTypes.generalJournalSales);
     this.dispatcher = createGeneralJournalDispatcher(this.store);
@@ -112,6 +114,39 @@ export default class GeneralJournalDetailModule {
       const state = this.store.getState();
       const url = getSaveUrl(state);
       this.redirectToUrl(url);
+    };
+
+    const onFailure = (error) => {
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setAlert({
+        message: error.message,
+        type: 'danger',
+      });
+    };
+
+    this.integrator.saveGeneralJournalDetail({ onSuccess, onFailure });
+  }
+
+  saveUnsavedChanges = () => {
+    const state = this.store.getState();
+    if (getIsActionsDisabled(state)) return;
+
+    const modalUrl = getModalUrl(state);
+    this.dispatcher.closeModal();
+    this.dispatcher.setSubmittingState(true);
+
+    const onSuccess = (response) => {
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
+        content: response.message,
+      });
+      this.dispatcher.setSubmittingState(false);
+
+      if (window.location.href.includes(modalUrl)) {
+        this.reload();
+      } else {
+        this.redirectToUrl(modalUrl);
+      }
     };
 
     const onFailure = (error) => {
@@ -245,8 +280,14 @@ export default class GeneralJournalDetailModule {
 
   redirectToModalUrl = () => {
     const state = this.store.getState();
-    const url = getModalUrl(state);
-    this.redirectToUrl(url);
+    const modalUrl = getModalUrl(state);
+
+    if (window.location.href.includes(modalUrl)) {
+      this.reload();
+      return;
+    }
+
+    this.redirectToUrl(modalUrl);
   }
 
   redirectToUrl = (url) => {
@@ -263,9 +304,19 @@ export default class GeneralJournalDetailModule {
         onSaveButtonClick={this.saveGeneralJournal}
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
-        onDismissModal={this.dispatcher.closeModal}
-        onConfirmDeleteButtonClick={this.deleteGeneralJournal}
-        onConfirmCancelButtonClick={this.redirectToModalUrl}
+        confirmModalListeners={{
+          onDismissModal: this.dispatcher.closeModal,
+          deleteModal: {
+            onConfirm: this.deleteGeneralJournal,
+          },
+          cancelModal: {
+            onConfirm: this.redirectToModalUrl,
+          },
+          unsavedModal: {
+            onConfirmSave: this.saveUnsavedChanges,
+            onConfirmUnsave: this.redirectToModalUrl,
+          },
+        }}
         onDismissAlert={this.dispatcher.dismissAlert}
         onUpdateRow={this.updateGeneralJournalLine}
         onAddRow={this.addGeneralJournalLine}
@@ -299,6 +350,8 @@ export default class GeneralJournalDetailModule {
         // DO NOTHING
         break;
       case ModalType.UNSAVED:
+        this.saveUnsavedChanges();
+        break;
       default:
         this.saveGeneralJournal();
         break;
@@ -309,10 +362,21 @@ export default class GeneralJournalDetailModule {
     SAVE_ACTION: this.saveHandler,
   };
 
+  readMessages = () => {
+    const messageTypes = [SUCCESSFULLY_SAVED_GENERAL_JOURNAL];
+    const [successMessage] = this.popMessages(messageTypes);
+
+    if (successMessage) {
+      const { content: message } = successMessage;
+      this.dispatcher.setAlert({ message, type: 'success' });
+    }
+  };
+
   run(context) {
     this.dispatcher.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
     this.render();
+    this.readMessages();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.loadGeneralJournal();
   }

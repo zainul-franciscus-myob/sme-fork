@@ -25,9 +25,7 @@ const GeneralJournalDetailView = ({
   onSaveButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
-  onDismissModal,
-  onConfirmCancelButtonClick,
-  onConfirmDeleteButtonClick,
+  confirmModalListeners,
   onUpdateRow,
   onAddRow,
   onRemoveRow,
@@ -64,10 +62,7 @@ const GeneralJournalDetailView = ({
         modal && (
           <GeneralJournalDetailModal
             modal={modal}
-            onDismissModal={onDismissModal}
-            onConfirmSave={onSaveButtonClick}
-            onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
-            onConfirmCancelButtonClick={onConfirmCancelButtonClick}
+            listeners={confirmModalListeners}
           />
         )
       }

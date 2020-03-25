@@ -7,15 +7,17 @@ import UnsavedModal from '../../../../components/modal/UnsavedModal';
 
 const GeneralJournalDetailModal = ({
   modal: { type = '' },
-  onDismissModal,
-  onConfirmSave,
-  onConfirmDeleteButtonClick,
-  onConfirmCancelButtonClick,
+  listeners: {
+    onDismissModal,
+    deleteModal,
+    cancelModal,
+    unsavedModal,
+  },
 }) => {
   if (type === ModalType.DELETE) {
     return (
       <DeleteModal
-        onConfirm={onConfirmDeleteButtonClick}
+        onConfirm={deleteModal.onConfirm}
         onCancel={onDismissModal}
         title="Delete this transaction?"
       />
@@ -24,16 +26,16 @@ const GeneralJournalDetailModal = ({
   if (type === ModalType.CANCEL) {
     return (
       <CancelModal
-        onConfirm={onConfirmCancelButtonClick}
+        onConfirm={cancelModal.onConfirm}
         onCancel={onDismissModal}
       />
     );
   }
   return (
     <UnsavedModal
-      onConfirmSave={onConfirmSave}
+      onConfirmSave={unsavedModal.onConfirmSave}
       onConfirmSaveText="Record"
-      onConfirmUnsave={onConfirmCancelButtonClick}
+      onConfirmUnsave={unsavedModal.onConfirmUnsave}
       onCancel={onDismissModal}
       title="Record changes?"
       description="Looks like you've made changes. Do you want to record these changes?"

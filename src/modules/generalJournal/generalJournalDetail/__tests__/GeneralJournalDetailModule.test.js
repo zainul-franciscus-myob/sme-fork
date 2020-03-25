@@ -24,43 +24,45 @@ import generalJournalDetailReducer from '../generalJournalDetailReducer';
 export const setup = () => {
   const setRootView = () => { };
   const pushMessage = jest.fn();
+  const popMessages = () => [];
   const integration = new TestIntegration();
 
-  const module = new GeneralJournalDetailModule({ integration, setRootView, pushMessage });
-  module.redirectToUrl = jest.fn();
+  const module = new GeneralJournalDetailModule({
+    integration, setRootView, pushMessage, popMessages,
+  });
   const store = new TestStore(generalJournalDetailReducer);
   module.store = store;
   module.dispatcher = createGeneralJournalDispatcher(module.store);
   module.integrator = createGeneralJournalIntegrator(store, integration);
 
   return {
-    store, module, integration, pushMessage,
+    store, module, integration, pushMessage, popMessages,
   };
 };
 
 export const setupWithExisting = () => {
   const {
-    store, module, integration, pushMessage,
+    store, module, integration, pushMessage, popMessages,
   } = setup();
-  module.run({ generalJournalId: '1', businessId: 'a💩', region: 'au' });
+  module.run({ generalJournalId: '1', businessId: 'bizId', region: 'au' });
   store.resetActions();
   integration.resetRequests();
 
   return {
-    store, module, integration, pushMessage,
+    store, module, integration, pushMessage, popMessages,
   };
 };
 
 export const setupWithNew = () => {
   const {
-    store, module, integration, pushMessage,
+    store, module, integration, pushMessage, popMessages,
   } = setup();
-  module.run({ generalJournalId: 'new', businessId: 'a💩', region: 'au' });
+  module.run({ generalJournalId: 'new', businessId: 'bizId', region: 'au' });
   store.resetActions();
   integration.resetRequests();
 
   return {
-    store, module, integration, pushMessage,
+    store, module, integration, pushMessage, popMessages,
   };
 };
 
@@ -270,15 +272,29 @@ describe('GeneralJournalDetailModule', () => {
     });
   });
 
-  describe('saveGeneralJournal', () => {
-    it('does nothing when already submitting', () => {
-      const { module, store, integration } = setupWithExisting();
-      module.dispatcher.setSubmittingState(true);
-      store.resetActions();
+  describe('handlePageTransition', () => {
+    it('redirects to transaction list page when page not edited', () => {
+      const { module } = setupWithExisting();
 
-      module.saveGeneralJournal();
+      module.handlePageTransition('/#/au/bizId/transactionList');
 
-      expect(integration.getRequests()).toEqual([]);
+      expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/transactionList'));
+    });
+
+    it('open unsaved modal when page edited', () => {
+      const { module, store } = setupEditedPage();
+
+      module.handlePageTransition('/#/au/bizId/transactionList');
+
+      expect(store.actions).toEqual([
+        {
+          intent: OPEN_MODAL,
+          modal: {
+            type: ModalType.UNSAVED,
+            url: '/#/au/bizId/transactionList',
+          },
+        },
+      ]);
     });
   });
 
@@ -345,33 +361,7 @@ describe('GeneralJournalDetailModule', () => {
         content: 'Great Work! You\'ve done it well!',
       });
 
-      expect(module.redirectToUrl).toHaveBeenCalledWith('/#/au/a💩/transactionList');
-    });
-  });
-
-  describe('handlePageTransition', () => {
-    it('redirects when page not edited', () => {
-      const { module } = setupWithExisting();
-
-      module.handlePageTransition('/#/au/a💩/transactionList');
-
-      expect(module.redirectToUrl).toHaveBeenCalledWith('/#/au/a💩/transactionList');
-    });
-
-    it('open unsaved modal when page edited', () => {
-      const { module, store } = setupEditedPage();
-
-      module.handlePageTransition('/#/au/a💩/transactionList');
-
-      expect(store.actions).toEqual([
-        {
-          intent: OPEN_MODAL,
-          modal: {
-            type: ModalType.UNSAVED,
-            url: '/#/au/a💩/transactionList',
-          },
-        },
-      ]);
+      expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/transactionList'));
     });
   });
 });
