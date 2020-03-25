@@ -18,7 +18,6 @@ const RecordPayRunView = ({
   payRunSteps,
   onPreviewPayRunActivityClick,
   onPreviewPayDetailsClick,
-  isPayRunReportsEnabled,
 }) => (
   <>
     <PageHead title="Record and report" />
@@ -39,7 +38,6 @@ const RecordPayRunView = ({
       onSaveAndCloseButtonClick={onSaveAndCloseButtonClick}
       onPreviewPayDetailsClick={onPreviewPayDetailsClick}
       onPreviewPayRunActivityClick={onPreviewPayRunActivityClick}
-      isPayRunReportsEnabled={isPayRunReportsEnabled}
     />
   </>
 );

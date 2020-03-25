@@ -16,12 +16,10 @@ export default class RecordPayRunModule {
     integration,
     store,
     pushMessage,
-    featureToggles,
   }) {
     this.integration = integration;
     this.pushMessage = pushMessage;
     this.store = store;
-    this.featureToggles = featureToggles;
     this.dispatcher = createRecordPayRunDispatchers(store);
     this.integrator = createRecordPayRunIntegrator(store, integration);
     this.stpDeclarationModule = new StpDeclarationModalModule({
@@ -131,7 +129,6 @@ export default class RecordPayRunModule {
           onSaveAndCloseButtonClick={this.saveDraftAndRedirect}
           onPreviewPayDetailsClick={this.previewPayDetails}
           onPreviewPayRunActivityClick={this.onPreviewPayRunActivityClick}
-          isPayRunReportsEnabled={this.featureToggles && this.featureToggles.isPayRunReportsEnabled}
         />
       </>
     );

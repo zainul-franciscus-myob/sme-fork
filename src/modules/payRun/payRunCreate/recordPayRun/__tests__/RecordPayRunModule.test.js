@@ -10,10 +10,7 @@ import openBlob from '../../../../../common/blobOpener/openBlob';
 jest.mock('../../../../../common/blobOpener/openBlob');
 
 describe('RecordPayRunModule', () => {
-  const defaultFeatureToggles = {
-    isPayRunReportsEnabled: true,
-  };
-  const constructRecordPayRunModule = (featureToggles = defaultFeatureToggles) => {
+  const constructRecordPayRunModule = () => {
     const integration = {
       readFile: ({ onSuccess }) => onSuccess('FOO'),
       write: ({ onSuccess }) => { onSuccess({ message: 'success' }); },
@@ -22,11 +19,11 @@ describe('RecordPayRunModule', () => {
     const setRootView = () => (<div />);
 
     const payRunModule = new PayRunModule({
-      integration, setRootView, pushMessage, featureToggles,
+      integration, setRootView, pushMessage,
     });
 
     const recordPayRunModule = new RecordPayRunModule({
-      integration, store: payRunModule.store, pushMessage, featureToggles,
+      integration, store: payRunModule.store, pushMessage,
     });
     const view = recordPayRunModule.getView();
 
@@ -69,28 +66,6 @@ describe('RecordPayRunModule', () => {
 
       expect(openBlob).toHaveBeenCalled();
     });
-
-    it('shows up when the feature toggle is on', () => {
-      const featureToggles = {
-        isPayRunReportsEnabled: true,
-      };
-      const wrapper = constructRecordPayRunModule(featureToggles);
-
-      const previewPayRunActivityButton = findButtonWithTestId(wrapper, 'previewPayRunActivityButton');
-
-      expect(previewPayRunActivityButton).toHaveLength(1);
-    });
-
-    it('does not show when the feature toggle is off', () => {
-      const featureToggles = {
-        isPayRunReportsEnabled: false,
-      };
-      const wrapper = constructRecordPayRunModule(featureToggles);
-
-      const previewPayRunActivityButton = findButtonWithTestId(wrapper, 'previewPayRunActivityButton');
-
-      expect(previewPayRunActivityButton).toHaveLength(0);
-    });
   });
 
   describe('preview pay details', () => {
@@ -101,28 +76,6 @@ describe('RecordPayRunModule', () => {
       reportLink.simulate('click');
 
       expect(openBlob).toHaveBeenCalled();
-    });
-
-    it('shows up when the feature toggle is on', () => {
-      const featureToggles = {
-        isPayRunReportsEnabled: true,
-      };
-      const wrapper = constructRecordPayRunModule(featureToggles);
-
-      const previewPayDetailsButton = findButtonWithTestId(wrapper, 'previewPayDetailsButton');
-
-      expect(previewPayDetailsButton).toHaveLength(1);
-    });
-
-    it('does not show when the feature toggle is off', () => {
-      const featureToggles = {
-        isPayRunReportsEnabled: false,
-      };
-      const wrapper = constructRecordPayRunModule(featureToggles);
-
-      const previewPayDetailsButton = findButtonWithTestId(wrapper, 'previewPayDetailsButton');
-
-      expect(previewPayDetailsButton).toHaveLength(0);
     });
   });
 });
