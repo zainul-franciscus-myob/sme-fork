@@ -11,6 +11,7 @@ import {
   START_NEW_PAY_RUN,
   VALIDATE_ETP,
   VALIDATE_PAY_PERIOD_EMPLOYEE_LIMIT,
+  VALIDATE_STP_REGISTRATION,
 } from '../payRunCreate/PayRunIntents';
 import { EXPORT_TRANSACTION_PDF } from '../payRunIntents';
 
@@ -26,6 +27,10 @@ const PayRunMapping = {
   [LOAD_EMPLOYEE_PAYS]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/payRun/load_employee_pays`,
+  },
+  [VALIDATE_STP_REGISTRATION]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/stp/registration_items_validation_for_pay_run`,
   },
   [RECALCULATE_PAY]: {
     method: 'POST',

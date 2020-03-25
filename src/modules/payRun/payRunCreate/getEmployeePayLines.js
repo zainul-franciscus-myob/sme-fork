@@ -1,5 +1,7 @@
-const getEmployeePayLines = (employeePays, isSelectedFunc) => (
-  employeePays.map(employeePay => ({
+const getEmployeePayLines = (employeePays, isSelectedFunc) => {
+  if (!Array.isArray(employeePays)) return [];
+
+  return employeePays.map(employeePay => ({
     ...employeePay,
     isSelected: isSelectedFunc(employeePay),
     payItems: employeePay.payItems.map(
@@ -8,6 +10,7 @@ const getEmployeePayLines = (employeePays, isSelectedFunc) => (
         isSubmitting: false,
       }),
     ),
-  })));
+  }));
+};
 
 export default getEmployeePayLines;

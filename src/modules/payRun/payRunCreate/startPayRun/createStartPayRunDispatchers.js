@@ -5,6 +5,7 @@ import {
   SELECT_TIMESHEETS_ITEM,
   SET_IS_TABLE_LOADING,
   SET_PAY_PERIOD_DETAILS,
+  SET_SHOW_STP_VALIDATION_ERROR_MODAL,
   SET_STP_REGISTRATION_STATUS,
   SET_UNPROCESSED_TIMESHEET_LINES,
 } from '../PayRunIntents';
@@ -23,6 +24,13 @@ const createStartPayRunDispatchers = store => ({
 
   editExistingPayRun: (draftPayRun) => {
     store.dispatch({ intent: EDIT_EXISTING_PAY_RUN, draftPayRun });
+  },
+
+  setShowStpValidationErrorModal: (showStpValidationErrorModal) => {
+    store.dispatch({
+      intent: SET_SHOW_STP_VALIDATION_ERROR_MODAL,
+      showStpValidationErrorModal,
+    });
   },
 
   setStpRegistrationStatus: (stpRegistrationStatus) => {

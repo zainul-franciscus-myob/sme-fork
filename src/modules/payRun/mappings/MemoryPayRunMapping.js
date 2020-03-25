@@ -11,6 +11,7 @@ import {
   START_NEW_PAY_RUN,
   VALIDATE_ETP,
   VALIDATE_PAY_PERIOD_EMPLOYEE_LIMIT,
+  VALIDATE_STP_REGISTRATION,
 } from '../payRunCreate/PayRunIntents';
 import { EXPORT_TRANSACTION_PDF } from '../payRunIntents';
 import loadEmployeePayList from './data/payRun/loadEmployeePayList';
@@ -25,6 +26,7 @@ import validatePayPeriodEmployeeLimit from './data/payRun/validatePayPeriodEmplo
 const PayRunMapping = {
   [START_NEW_PAY_RUN]: ({ onSuccess }) => onSuccess(startNewPayRun),
   [LOAD_EMPLOYEE_PAYS]: ({ onSuccess }) => onSuccess(loadEmployeePayList),
+  [VALIDATE_STP_REGISTRATION]: ({ onSuccess }) => onSuccess({ hasRegistrationErrors: true }),
   [VALIDATE_ETP]: ({ onSuccess }) => onSuccess(validateEtp),
   [VALIDATE_PAY_PERIOD_EMPLOYEE_LIMIT]: ({ onSuccess }) => (
     onSuccess(validatePayPeriodEmployeeLimit)

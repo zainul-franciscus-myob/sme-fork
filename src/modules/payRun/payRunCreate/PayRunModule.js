@@ -34,6 +34,7 @@ export default class PayRunModule {
         integration,
         store: this.store,
         pushMessage,
+        featureToggles,
       }),
       employeePayListModule: new EmployeePayListModule({
         integration,

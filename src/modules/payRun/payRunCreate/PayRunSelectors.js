@@ -114,3 +114,13 @@ export const getPayrollSettingsLink = (state) => {
   const { businessId, region } = state;
   return `/#/${region}/${businessId}/payrollSettings?tab=general`;
 };
+
+
+export const getRegion = state => state.region;
+
+export const getStpErrorUrl = state => {
+  const region = getRegion(state);
+  const businessId = getBusinessId(state);
+
+  return `/#/${region}/${businessId}/stp/errors`;
+};

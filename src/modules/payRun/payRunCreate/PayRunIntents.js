@@ -14,6 +14,9 @@ export const LOAD_EMPLOYEE_PAYS = Symbol('Load employee pays');
 export const RECORD_PAYMENTS = Symbol('Record payments');
 export const SET_PAY_PERIOD_DETAILS = Symbol('Set pay period details');
 
+export const VALIDATE_STP_REGISTRATION = Symbol('Validates STP registration');
+export const SET_SHOW_STP_VALIDATION_ERROR_MODAL = Symbol('Sets the flag for showing or not showing the STP Validation Error Modal');
+
 export const UPDATE_IS_EMPLOYEE_SELECTED = Symbol('Update is employee selected');
 export const UPDATE_ARE_ALL_EMPLOYEES_SELECTED = Symbol('Update are all employees selected');
 export const OPEN_ETP_MODAL = Symbol('Open ETP modal');

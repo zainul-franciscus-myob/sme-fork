@@ -6,7 +6,7 @@ const StartPayRunActions = ({
 }) => (
   <ButtonRow
     primary={[
-      <Button key="save" name="save" type="primary" onClick={onNextButtonClick}>
+      <Button key="save" name="save" type="primary" onClick={onNextButtonClick} testid="nextButton">
           Next
       </Button>,
     ]}

@@ -5,6 +5,7 @@ import {
 import {
   SET_IS_TABLE_LOADING,
   SET_PAY_PERIOD_DETAILS,
+  SET_SHOW_STP_VALIDATION_ERROR_MODAL,
   START_NEW_PAY_RUN,
 } from '../PayRunIntents';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
@@ -13,6 +14,7 @@ export const getStartPayRunDefaultState = () => ({
   isPayrollSetup: true,
   isTimesheetUsed: false,
   isTableLoading: false,
+  showStpValidationErrorModal: false,
   currentEditingPayRun: {
     paymentFrequency: 'Weekly',
     paymentDate: '',
@@ -24,7 +26,7 @@ export const getStartPayRunDefaultState = () => ({
 
 const calculateWeeklyEndDate = startDate => addDays(startDate, 6);
 
-const calculateFornightlyEndDate = startDate => addDays(startDate, 13);
+const calculateFortnightlyEndDate = startDate => addDays(startDate, 13);
 
 const calculateMonthlyEndDate = (startDate) => {
   const sameDateNextMonth = addMonths(startDate, 1);
@@ -52,7 +54,7 @@ export const calculateEndDate = (payCycle, startDateString) => {
       );
     case 'Fortnightly':
       return formatIsoDate(
-        calculateFornightlyEndDate(startDate),
+        calculateFortnightlyEndDate(startDate),
       );
     case 'Monthly':
       return formatIsoDate(
@@ -122,8 +124,14 @@ const setIsTableLoading = (state, { isTableLoading }) => ({
   isTableLoading,
 });
 
+const setShowStpValidationErrorModal = (state, { showStpValidationErrorModal }) => ({
+  ...state,
+  showStpValidationErrorModal,
+});
+
 export const startPayRunHandlers = {
   [START_NEW_PAY_RUN]: startNewPayRun,
   [SET_PAY_PERIOD_DETAILS]: setPayPeriodDetails,
   [SET_IS_TABLE_LOADING]: setIsTableLoading,
+  [SET_SHOW_STP_VALIDATION_ERROR_MODAL]: setShowStpValidationErrorModal,
 };

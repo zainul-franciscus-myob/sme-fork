@@ -41,6 +41,10 @@ export const getLoadTimesheetsParams = state => ({
   paymentFrequency: state.startPayRun.currentEditingPayRun.paymentFrequency,
 });
 
+export const getShowStpValidationErrorModal = state => (
+  state.startPayRun.showStpValidationErrorModal
+);
+
 export const getIsTimesheetUsed = state => state.startPayRun.isTimesheetUsed;
 export const getTimesheetRequiredFieldsFilled = (state) => {
   const params = getLoadTimesheetsParams(state);

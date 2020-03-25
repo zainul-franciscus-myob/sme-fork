@@ -13,6 +13,7 @@ import {
   getIsTableLoading,
   getIsTimesheetUsed,
   getRegularPayCycleOptions,
+  getShowStpValidationErrorModal,
   getStartPayRun,
   getTimesheets,
   isThereExistingPayRun,
@@ -24,10 +25,12 @@ import {
 import ExistingPayRunModal from './ExistingPayRunModal';
 import FormCard from '../../../../../components/FormCard/FormCard';
 import StartPayRunActions from './StartPayRunActions';
+import StpValidationErrorModal from './StpValidationErrorModal';
 import TimesheetsTable from './TimesheetsTable';
 import handleDatePickerChange from '../../../../../components/handlers/handleDatePickerChange';
 import handleSelectChange from '../../../../../components/handlers/handleSelectChange';
 import styles from './StartPayRunView.module.css';
+
 
 const StartPayRunView = ({
   startPayRun: {
@@ -37,6 +40,7 @@ const StartPayRunView = ({
       payPeriodStart,
       payPeriodEnd,
     },
+    showStpValidationErrorModal,
   },
   stepNumber,
   existingPayRun,
@@ -52,6 +56,9 @@ const StartPayRunView = ({
   selectAll,
   isTableLoading,
   isTimesheetUsed,
+  onStpValidationErrorModalCancel,
+  onStpValidationErrorModalContinue,
+  onStpValidationErrorModalUpdateDetails,
 }) => (
   <div className={styles.startPayRun}>
     <PageHead title="Create pay run" testid="startPayRunViewPageHead" />
@@ -88,13 +95,19 @@ const StartPayRunView = ({
         )}
       </FormCard>
     </FormHorizontal>
-    {existingPayRun && (
+    { existingPayRun && (
       <ExistingPayRunModal
         onGoBackButtonClick={onExistingPayRunModalGoBackClick}
         onEditExistingPayRunClick={onExistingPayRunModalEditClick}
         onCreatePayRunClick={onExistingPayRunModalCreateClick}
       />
     )}
+    { showStpValidationErrorModal && (
+    <StpValidationErrorModal
+      onCancel={onStpValidationErrorModalCancel}
+      onContinue={onStpValidationErrorModalContinue}
+      onUpdateDetails={onStpValidationErrorModalUpdateDetails}
+    />)}
     <StartPayRunActions
       onNextButtonClick={onNextButtonClick}
     />
@@ -110,6 +123,7 @@ const mapStateToProps = state => ({
   timesheets: getTimesheets(state),
   isTableLoading: getIsTableLoading(state),
   isTimesheetUsed: getIsTimesheetUsed(state),
+  showStpValidationErrorModal: getShowStpValidationErrorModal(state),
 });
 
 export default connect(mapStateToProps)(StartPayRunView);
