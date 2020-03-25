@@ -1,0 +1,41 @@
+{
+  "startPayRun": {
+    "currentEditingPayRun": {
+      "paymentFrequency": "Weekly",
+      "paymentDate": "2019-09-11",
+      "payPeriodStart": "2019-09-05",
+      "payPeriodEnd": "2019-09-11"
+    }
+  },
+  "employeePayList": {
+    "lines": [
+      {
+        "employeeId": "21",
+        "name": "Mary Jones",
+        "gross": 1500,
+        "payg": 100,
+        "deduction": 300,
+        "netPay": 700,
+        "super": 150,
+        "payItems": [
+          {
+            "payItemId": "2",
+            "payItemName": "Base Hourly",
+            "type": "HourlyWage",
+            "amount": "100000.00",
+            "hours": "0.00"
+          },
+          {
+            "payItemId": "1",
+            "payItemName": "Other Hourly",
+            "type": "HourlyWage",
+            "amount": "100000.00",
+            "hours": "0.00"
+          }
+        ]
+      }
+    ],
+    "baseHourlyWagePayItemId": "2",
+    "baseSalaryWagePayItemId": "100"
+  }
+}

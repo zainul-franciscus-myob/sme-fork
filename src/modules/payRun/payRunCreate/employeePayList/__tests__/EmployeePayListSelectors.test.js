@@ -22,7 +22,9 @@ import {
 import EtpCode from '../types/EtpCode';
 import deductionPayItemEntries from './fixtures/deductionPayItemEntries';
 import employeePayList from './fixtures/stateWithEmployeePayItems';
+import employeePayListWithNegativeBaseHourly from './fixtures/stateWithNegativeBaseHourly';
 import employeePayListWithNegativeBaseSalary from './fixtures/stateWithNegativeBaseSalary';
+import employeePayListWithPositiveBaseHourly from './fixtures/stateWithPositiveBaseHourly';
 import employeePayListWithPositiveBaseSalary from './fixtures/stateWithPositiveBaseSalary';
 import employerExpensePayItemEntries from './fixtures/employerExpensePayItemEntries';
 import expectedRecalculatePayPayload from './fixtures/expectedRecalculatePayPayload';
@@ -410,6 +412,25 @@ describe('EmployeePayListSelectors', () => {
 
       it('does not set other pay items to zero when they are negative', () => {
         const actualWagePayItemEntries = getWagePayItemEntries(employeePayListWithNegativeBaseSalary, { employeeId: '21' });
+
+        expect(actualWagePayItemEntries[1].amount).toEqual('-100000.00');
+      });
+    });
+
+    describe('show zero for negative values on base hourly', () => {
+      it('sets base hourly amount to zero when it is negative', () => {
+        const actualWagePayItemEntries = getWagePayItemEntries(employeePayListWithNegativeBaseHourly, { employeeId: '21' });
+
+        expect(actualWagePayItemEntries[0].amount).toEqual('0.00');
+      });
+
+      it('passes the existing base salary amount when it is positive', () => {
+        const actualWagePayItemEntries = getWagePayItemEntries(employeePayListWithPositiveBaseHourly, { employeeId: '21' });
+        expect(actualWagePayItemEntries[0].amount).toEqual('100000.00');
+      });
+
+      it('does not set other pay items to zero when they are negative', () => {
+        const actualWagePayItemEntries = getWagePayItemEntries(employeePayListWithNegativeBaseHourly, { employeeId: '21' });
 
         expect(actualWagePayItemEntries[1].amount).toEqual('-100000.00');
       });
