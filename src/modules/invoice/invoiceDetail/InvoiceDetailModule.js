@@ -122,7 +122,7 @@ export default class InvoiceDetailModule {
     this.integrator.loadInvoice({ onSuccess, onFailure });
   }
 
-  reloadInvoice = ({ onSuccess: next = () => {} }) => {
+  reloadInvoice = ({ onSuccess: next = () => { } }) => {
     this.dispatcher.setSubmittingState(true);
 
     const onSuccess = (payload) => {
@@ -199,7 +199,7 @@ export default class InvoiceDetailModule {
     this.createOrUpdateInvoice({ onSuccess });
   }
 
-  saveAndReload = ({ onSuccess: next = () => {} }) => {
+  saveAndReload = ({ onSuccess: next = () => { } }) => {
     const state = this.store.getState();
     const isCreating = getIsCreating(state);
 
@@ -568,6 +568,7 @@ export default class InvoiceDetailModule {
     this.dispatcher.setSubmittingState(true);
 
     const onSuccess = ({ message }) => {
+      this.globalCallbacks.invoiceSaved();
       this.dispatcher.setSubmittingState(false);
       this.pushMessage({
         type: SUCCESSFULLY_EMAILED_INVOICE,
@@ -641,6 +642,7 @@ export default class InvoiceDetailModule {
     this.dispatcher.setModalSubmittingState(true);
 
     const onSuccess = (data) => {
+      this.globalCallbacks.invoiceSaved();
       this.dispatcher.setModalSubmittingState(false);
       this.closeModal();
 
