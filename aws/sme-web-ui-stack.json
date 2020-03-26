@@ -61,7 +61,7 @@
 		    "AcmCertificateArn": {
 			 "Ref": "AcmCertificate"
 		     },
-                    "MinimumProtocolVersion" : "TLSv1.1_2016" 
+                    "MinimumProtocolVersion" : "TLSv1.1_2016"
             },
             "Aliases": { "Ref" : "Aliases" },
             "WebACLId" : { "Ref" : "WebACL" }
@@ -85,6 +85,10 @@
       "Properties": {
         "Name": "IPSet for whitelisting office IP adresses",
         "IPSetDescriptors": [
+          {
+            "Type": "IPV4",
+            "Value": "13.54.103.69/32"
+          },
           {
             "Type" : "IPV4",
             "Value" : "59.100.228.148/30"
