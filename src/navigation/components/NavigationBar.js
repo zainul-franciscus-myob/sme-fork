@@ -11,6 +11,7 @@ import {
   getShouldDisplayBusinessMenu,
   getShouldDisplayChangePlan,
   getShouldDisplayContactMenu,
+  getShouldDisplayCreateBusiness,
   getShouldDisplayInTray,
   getShouldDisplayPayrollMenu,
   getShouldDisplayPurchasesMenu,
@@ -53,56 +54,56 @@ const getPrimary = ({
 }) => [
   shouldDisplayHome && <Home key="Home" />,
   shouldDisplaySalesMenu && (
-  <SalesMenu
-    key="SalesMenu"
-    onMenuSelect={onMenuSelect}
-    onMenuLinkClick={onMenuLinkClick}
-  />
+    <SalesMenu
+      key="SalesMenu"
+      onMenuSelect={onMenuSelect}
+      onMenuLinkClick={onMenuLinkClick}
+    />
   ),
   shouldDisplayPurchasesMenu && (
-  <PurchasesMenu
-    key="PurchasesMenu"
-    onMenuSelect={onMenuSelect}
-    onMenuLinkClick={onMenuLinkClick}
-  />
+    <PurchasesMenu
+      key="PurchasesMenu"
+      onMenuSelect={onMenuSelect}
+      onMenuLinkClick={onMenuLinkClick}
+    />
   ),
   shouldDisplayBankingMenu && (
-  <BankingMenu
-    key="BankingMenu"
-    onMenuSelect={onMenuSelect}
-    onMenuLinkClick={onMenuLinkClick}
-  />
+    <BankingMenu
+      key="BankingMenu"
+      onMenuSelect={onMenuSelect}
+      onMenuLinkClick={onMenuLinkClick}
+    />
   ),
   shouldDisplayAccountingMenu && (
-  <AccountingMenu
-    key="AccountingMenu"
-    onMenuSelect={onMenuSelect}
-    onMenuLinkClick={onMenuLinkClick}
-  />
+    <AccountingMenu
+      key="AccountingMenu"
+      onMenuSelect={onMenuSelect}
+      onMenuLinkClick={onMenuLinkClick}
+    />
   ),
   shouldDisplayPayrollMenu && (
-  <PayrollMenu
-    key="PayrollMenu"
-    onMenuSelect={onMenuSelect}
-    onMenuLinkClick={onMenuLinkClick}
-  />
+    <PayrollMenu
+      key="PayrollMenu"
+      onMenuSelect={onMenuSelect}
+      onMenuLinkClick={onMenuLinkClick}
+    />
   ),
   shouldDisplayContactMenu && (
-  <ContactMenu
-    key="ContactMenu"
-    onMenuSelect={onMenuSelect}
-    onMenuLinkClick={onMenuLinkClick}
-  />
+    <ContactMenu
+      key="ContactMenu"
+      onMenuSelect={onMenuSelect}
+      onMenuLinkClick={onMenuLinkClick}
+    />
   ),
   shouldDisplayReportsMenu && (
-  <ReportsMenu
-    key="Reports"
-    onMenuSelect={onMenuSelect}
-    onMenuLinkClick={onMenuLinkClick}
-  />
+    <ReportsMenu
+      key="Reports"
+      onMenuSelect={onMenuSelect}
+      onMenuLinkClick={onMenuLinkClick}
+    />
   ),
   shouldDisplayInTray && (
-  <InTray key="InTray" onMenuLinkClick={onMenuLinkClick} />
+    <InTray key="InTray" onMenuLinkClick={onMenuLinkClick} />
   ),
 ].filter(Boolean);
 
@@ -113,6 +114,7 @@ const getSecondary = ({
   shouldDisplayTasksMenu,
   shouldDisplayChangePlan,
   shouldDisplaySubscriptionNow,
+  shouldDisplayCreateBusiness,
   onMenuSelect,
   onMenuLinkClick,
   onHelpLinkClick,
@@ -120,36 +122,38 @@ const getSecondary = ({
   onLogoutLinkClick,
   onSubscribeNowClick,
   onChangePlanClick,
+  onCreateBusinessClick,
   hasTasks,
   businessName,
 }) => [
   shouldDisplayAddMenu && (
-  <AddMenu
-    className={styles.add}
-    key="AddMenu"
-    onMenuSelect={onMenuSelect}
-    onMenuLinkClick={onMenuLinkClick}
-  />
+    <AddMenu
+      className={styles.add}
+      key="AddMenu"
+      onMenuSelect={onMenuSelect}
+      onMenuLinkClick={onMenuLinkClick}
+    />
   ),
   shouldDisplayHelpMenu && (
-  <Help className={styles.help} key="Help" onMenuLinkClick={onHelpLinkClick} />
+    <Help className={styles.help} key="Help" onMenuLinkClick={onHelpLinkClick} />
   ),
   shouldDisplayTasksMenu && (
-  <Tasks className={styles.tasks} key="Tasks" onMenuLinkClick={onTasksLinkClick} showNotificationIcon={hasTasks} />
+    <Tasks className={styles.tasks} key="Tasks" onMenuLinkClick={onTasksLinkClick} showNotificationIcon={hasTasks} />
   ),
   shouldDisplayBusinessMenu && (
-  <BusinessMenu
-    key="BusinessMenu"
-    businessName={businessName}
-    onMenuSelect={onMenuSelect}
-    onMenuLinkClick={onMenuLinkClick}
-    onSubscribeNowClick={shouldDisplaySubscriptionNow && onSubscribeNowClick}
-    onLogoutLinkClick={onLogoutLinkClick}
-    onChangePlanClick={shouldDisplayChangePlan && onChangePlanClick}
-  />
+    <BusinessMenu
+      key="BusinessMenu"
+      businessName={businessName}
+      onMenuSelect={onMenuSelect}
+      onMenuLinkClick={onMenuLinkClick}
+      onSubscribeNowClick={shouldDisplaySubscriptionNow && onSubscribeNowClick}
+      onLogoutLinkClick={onLogoutLinkClick}
+      onChangePlanClick={shouldDisplayChangePlan && onChangePlanClick}
+      onCreateBusinessClick={shouldDisplayCreateBusiness && onCreateBusinessClick}
+    />
   ),
   !shouldDisplayBusinessMenu && (
-  <Logout key="Logout" onMenuLinkClick={onLogoutLinkClick} />
+    <Logout key="Logout" onMenuLinkClick={onLogoutLinkClick} />
   ),
 ].filter(Boolean);
 
@@ -161,6 +165,7 @@ const NavigationBar = ({
   onLogoutLinkClick,
   onSubscribeNowClick,
   onChangePlanClick,
+  onCreateBusinessClick,
   region,
   shouldDisplayHome,
   shouldDisplaySalesMenu,
@@ -176,6 +181,7 @@ const NavigationBar = ({
   shouldDisplayAddMenu,
   shouldDisplayTasksMenu,
   shouldDisplayChangePlan,
+  shouldDisplayCreateBusiness,
   shouldDisplaySubscriptionNow,
   trialEndDate,
   menuLogoUrl,
@@ -203,12 +209,14 @@ const NavigationBar = ({
     onLogoutLinkClick,
     onSubscribeNowClick,
     onChangePlanClick,
+    onCreateBusinessClick,
     region,
     shouldDisplayBusinessMenu,
     shouldDisplayAddMenu,
     shouldDisplayHelpMenu,
     shouldDisplayTasksMenu,
     shouldDisplayChangePlan,
+    shouldDisplayCreateBusiness,
     shouldDisplaySubscriptionNow,
     hasTasks,
     businessName,
@@ -256,6 +264,7 @@ const mapStateToProps = state => ({
   shouldDisplayHelpMenu: hasBusinessId(state),
   shouldDisplayTasksMenu: hasBusinessId(state),
   shouldDisplayChangePlan: getShouldDisplayChangePlan(state),
+  shouldDisplayCreateBusiness: getShouldDisplayCreateBusiness(state),
   shouldDisplaySubscriptionNow: getShouldDisplaySubscriptionNow(state),
   trialEndDate: getTrialEndDate(state),
   menuLogoUrl: getMenuLogoUrl(state)(window.location.href),

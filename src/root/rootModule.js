@@ -45,6 +45,7 @@ export default class RootModule {
       config: Config,
       toggleTasks: this.drawer.toggleTasks,
       toggleHelp: this.drawer.toggleHelp,
+      sendTelemetryEvent,
     });
 
     this.onboarding = new OnboardingModule({

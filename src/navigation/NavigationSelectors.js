@@ -248,12 +248,12 @@ export const getShouldDisplayInTray = createSelector(
   (isLoading, url) => !isLoading && Boolean(url),
 );
 
-
 export const getHomeUrl = createSelector(
   getBusinessId,
   getRegion,
   (businessId, region) => `#/${region}/${businessId}/dashboard`,
 );
+
 export const getIsHomeActive = state => getActiveNav(state) === 'home';
 
 export const getReportsUrls = createSelector(
@@ -267,6 +267,7 @@ export const getReportsUrls = createSelector(
     reportsPdfStyleTemplates: enabledUrls.reportsPdfStyleTemplates,
   }),
 );
+
 export const getShouldDisplayReportsMenu = createSelector(
   getIsLoading,
   getReportsUrls,
@@ -278,3 +279,9 @@ export const getShouldDisplayChangePlan = ({ subscriptionType }) => subscription
 export const getShouldDisplaySubscriptionNow = state => (
   hasBusinessId(state) && Boolean(getTrialEndDate(state))
 );
+
+export const getShouldDisplayCreateBusiness = state => {
+  const region = getRegion(state);
+
+  return region === 'au';
+};

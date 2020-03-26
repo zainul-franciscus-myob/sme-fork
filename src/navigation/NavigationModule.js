@@ -26,6 +26,7 @@ export default class NavigationModule {
     config,
     toggleHelp,
     toggleTasks,
+    sendTelemetryEvent,
   }) {
     this.integration = integration;
     this.setNavigationView = setNavigationView;
@@ -36,6 +37,7 @@ export default class NavigationModule {
     this.config = config;
     this.toggleHelp = toggleHelp;
     this.toggleTasks = toggleTasks;
+    this.sendTelemetryEvent = sendTelemetryEvent;
   }
 
   setLoadingState = (isLoading) => {
@@ -164,6 +166,12 @@ export default class NavigationModule {
     this.redirectToPage(url);
   }
 
+  createBusiness = async () => {
+    const telemetryProps = { ...this.routeProps, currentRouteName: 'createNewBusiness' };
+    this.sendTelemetryEvent(telemetryProps);
+    this.redirectToPage('https://checkout.myob.com/au/trial?productId=52&identity=true');
+  }
+
   changePlan = async () => {
     const businessId = getBusinessId(this.store.getState());
     const url = await loadChangePlanUrl(
@@ -189,6 +197,7 @@ export default class NavigationModule {
       store,
       subscribeNow,
       changePlan,
+      createBusiness,
     } = this;
 
     return (
@@ -200,6 +209,7 @@ export default class NavigationModule {
           onHelpLinkClick={toggleHelp}
           onSubscribeNowClick={subscribeNow}
           onChangePlanClick={changePlan}
+          onCreateBusinessClick={createBusiness}
           onTasksLinkClick={toggleTasks}
           onLogoutLinkClick={logout}
           hasTasks={tasks && tasks.some(t => !t.isComplete)}
@@ -213,9 +223,9 @@ export default class NavigationModule {
     this.onPageTransition = onPageTransition;
   }
 
-  run = ({
-    routeParams, currentRouteName, onPageTransition,
-  }) => {
+  run = routeProps => {
+    const { routeParams, currentRouteName, onPageTransition } = routeProps;
+    this.routeProps = routeProps;
     const previousBusinessId = getBusinessId(this.store.getState());
     const currentBusinessId = routeParams.businessId;
     this.loadConfig();

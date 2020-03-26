@@ -20,11 +20,11 @@ import styles from './BusinessMenu.module.css';
 
 const isSeparatorRequired = urls => (
   urls.businessDetails
-    || urls.incomeAllocation
-    || urls.salesSettings
-    || urls.payrollSettings
-    || urls.userList
-    || urls.dataImportExport
+  || urls.incomeAllocation
+  || urls.salesSettings
+  || urls.payrollSettings
+  || urls.userList
+  || urls.dataImportExport
 );
 
 const getMenuLink = (url, label, onMenuLinkClick, target) => (
@@ -69,6 +69,7 @@ const getItems = ({
   onLogoutLinkClick,
   onSubscribeNowClick,
   onChangePlanClick,
+  onCreateBusinessClick,
 }) => [
   isCurrentUserAdvisor
     ? manageMyClientsMenuItem(onMenuLinkClick)
@@ -86,6 +87,7 @@ const getItems = ({
   shouldShowPaymentDetail ? getMenuLink(urls.paymentDetail, 'Payment details', onMenuLinkClick, '_blank') : undefined,
   onSubscribeNowClick && getMenuLink('', 'Subscribe now', onSubscribeNowClick),
   onChangePlanClick && getMenuLink('', 'Change plan', onChangePlanClick),
+  onCreateBusinessClick && getMenuLink('', 'Create business', onCreateBusinessClick),
   <Navigation.Separator key="separator-links" />,
   serialNumber && <UnlinkedMenuLink label={`Serial number: ${serialNumber}`} />,
   getMenuLinkWithIcon('', 'Logout', <Icons.SignOut />, onLogoutLinkClick),
@@ -115,33 +117,35 @@ const BusinessMenu = ({
   onLogoutLinkClick,
   onSubscribeNowClick,
   onChangePlanClick,
+  onCreateBusinessClick,
   isReadOnly,
 }) => (
-  <div className={styles.businessMenu}>
-    <Navigation.Menu
-      label={(
-        <div className={styles.avatar}>
-          <BusinessAvatar businessName={businessName} />
-          {businessName}
-          {isReadOnly && <ReadonlyStatus />}
-          <div className={styles.caret}><Icons.Caret /></div>
-        </div>
-    )}
-      items={getItems({
-        urls,
-        serialNumber,
-        userEmail,
-        shouldShowPaymentDetail,
-        isCurrentUserAdvisor,
-        onMenuLinkClick,
-        onLogoutLinkClick,
-        onSubscribeNowClick,
-        onChangePlanClick,
-      })}
-      onSelect={onMenuSelect}
-      active={activeNav === 'business'}
-    />
-  </div>
+    <div className={styles.businessMenu}>
+      <Navigation.Menu
+        label={(
+          <div className={styles.avatar}>
+            <BusinessAvatar businessName={businessName} />
+            {businessName}
+            {isReadOnly && <ReadonlyStatus />}
+            <div className={styles.caret}><Icons.Caret /></div>
+          </div>
+        )}
+        items={getItems({
+          urls,
+          serialNumber,
+          userEmail,
+          shouldShowPaymentDetail,
+          isCurrentUserAdvisor,
+          onMenuLinkClick,
+          onLogoutLinkClick,
+          onSubscribeNowClick,
+          onChangePlanClick,
+          onCreateBusinessClick,
+        })}
+        onSelect={onMenuSelect}
+        active={activeNav === 'business'}
+      />
+    </div>
 );
 
 const mapStateToProps = state => ({
