@@ -90,6 +90,7 @@ const QuoteDetailOptions = (props) => {
         expirationDays={expirationDays}
         expirationTerm={expirationTerm}
         label="Expiry date"
+        popoverLabel="Quote expires"
         requiredLabel={requiredLabel}
       />
       <BooleanRadioButtonGroup

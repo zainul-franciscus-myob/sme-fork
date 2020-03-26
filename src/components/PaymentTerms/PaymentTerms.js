@@ -20,6 +20,7 @@ const PaymentTerms = ({
   onChange,
   label = 'Due date',
   requiredLabel = 'This is required',
+  popoverLabel = 'Payment is',
 }) => {
   const paymentTermsPopoverLabel = getPaymentTermsPopoverLabel({
     issueDate,
@@ -36,7 +37,7 @@ const PaymentTerms = ({
     <React.Fragment>
       <Select
         name="expirationTerm"
-        label="Payment is"
+        label={popoverLabel}
         value={expirationTerm}
         onChange={handleSelectChange(onChange)}
       >
