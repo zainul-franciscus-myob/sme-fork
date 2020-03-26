@@ -11,15 +11,12 @@ describe('PayRunDoneModule', () => {
     const integration = { write: ({ onSuccess }) => { onSuccess({ message: 'success' }); } };
     const pushMessage = () => {};
     const setRootView = () => (<div />);
-    const featureToggles = {
-      isPayRunSCATEnabled: true,
-    };
     const payRunModule = new PayRunModule({
-      integration, setRootView, pushMessage, featureToggles,
+      integration, setRootView, pushMessage,
     });
 
     const payRunDoneModule = new PayRunDoneModule({
-      integration, store: payRunModule.store, pushMessage, featureToggles,
+      integration, store: payRunModule.store, pushMessage,
     });
     const view = payRunDoneModule.getView();
 

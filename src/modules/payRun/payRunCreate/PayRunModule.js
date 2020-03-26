@@ -54,7 +54,6 @@ export default class PayRunModule {
       payRunDoneModule: new PayRunDoneModule({
         integration,
         store: this.store,
-        featureToggles,
       }),
     };
   }

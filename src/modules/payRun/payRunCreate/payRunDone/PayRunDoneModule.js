@@ -11,17 +11,13 @@ export default class PayRunDoneModule {
   constructor({
     integration,
     store,
-    featureToggles,
   }) {
     this.integration = integration;
     this.store = store;
-    this.featureToggles = featureToggles;
   }
 
   openLeanEngageSurvey = () => {
-    if (this.featureToggles.isPayRunCSATEnabled) {
-      window.leanengage('triggerSurvey', 'payrun-csat');
-    }
+    window.leanengage('triggerSurvey', 'payrun-csat');
   };
 
   closePayRun = () => {
