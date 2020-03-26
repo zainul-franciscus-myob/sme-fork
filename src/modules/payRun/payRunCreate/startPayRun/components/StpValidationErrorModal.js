@@ -15,7 +15,7 @@ const StpValidationErrorModal = ({
 }) => (
   <Modal
     testid="stpValidationErrorModal"
-    title="Update payroll details before recording?"
+    title="Update payroll details before pay run?"
     onCancel={onCancel}
     onContinue={onContinue}
     onUpdateDetails={onUpdateDetails}
@@ -23,7 +23,7 @@ const StpValidationErrorModal = ({
     <Modal.Body>
       <h3>
         Looks like some of your payroll information doesn&#39;t meet ATO
-        requirements fro Single Touch payroll
+        requirements for Single Touch Payroll
       </h3>
 
       <p>
@@ -31,7 +31,7 @@ const StpValidationErrorModal = ({
       </p>
 
       <p>
-        If you continue and click Record, it&#39;s likely this report will be rejected
+        If you continue the pay run, it&#39;s likely this report will be rejected
         by the ATO, and you&#39;ll
         need to update and submit this information later.
       </p>

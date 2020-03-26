@@ -122,5 +122,5 @@ export const getStpErrorUrl = state => {
   const region = getRegion(state);
   const businessId = getBusinessId(state);
 
-  return `/#/${region}/${businessId}/stp/errors`;
+  return `/#/${region}/${businessId}/stp/errors?source=payRunCreate`;
 };

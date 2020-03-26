@@ -17,7 +17,7 @@ const StpSplash = ({ onGetStartedClick }) => (
 
 const PayRunCreateSplash = ({ onDoneClick }) => (
   <PageState
-    title="Single touch payroll ready!"
+    title="Single Touch Payroll ready!"
     description="All of your payroll information meets ATO requirements for Single Touch Payroll reporting."
     actions={[<Button type="primary" onClick={onDoneClick}>Done</Button>]}
     image={<img src={successDoneCompleteImage} alt="All clear!" />}
@@ -26,7 +26,7 @@ const PayRunCreateSplash = ({ onDoneClick }) => (
 
 const NoErrorsSplash = ({ onGetStartedClick, closeTabHandler, source }) => (
   <StandardTemplate
-    pageHead={<PageHead title="Single touch payroll setup ready!" />}
+    pageHead={<PageHead title="Single Touch Payroll setup ready!" />}
   >
     {source === 'payRunCreate' ? (
       <PayRunCreateSplash onDoneClick={closeTabHandler} />
