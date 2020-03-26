@@ -14,7 +14,6 @@ import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
   job: {
-    id: '',
     name: '',
     number: '',
     isInactive: false,
@@ -22,11 +21,15 @@ const getDefaultState = () => ({
     isHeader: false,
     description: '',
   },
+  pageTitle: '',
+  modal: {
+    type: '',
+    url: '',
+  },
   customerOptions: [],
   isCreating: false,
   loadingState: LoadingState.LOADING,
   isSubmitting: false,
-  modalType: '',
   alertMessage: '',
   isPageEdited: false,
   businessId: '',
@@ -43,6 +46,7 @@ const loadJobDetail = (state, action) => ({
     ...action.job,
   },
   customerOptions: action.customerOptions,
+  pageTitle: action.pageTitle,
 });
 
 const setLoadingState = (state, { loadingState }) => ({
@@ -72,12 +76,17 @@ const setAlertMessage = (state, action) => ({
 
 const openModal = (state, action) => ({
   ...state,
-  modalType: action.modalType,
+  modal: {
+    ...action.modal,
+  },
 });
 
 const closeModal = state => ({
   ...state,
-  modalType: '',
+  modal: {
+    type: '',
+    url: '',
+  },
 });
 
 const setInitialState = (state, action) => ({

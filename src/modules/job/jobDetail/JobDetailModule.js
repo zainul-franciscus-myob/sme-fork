@@ -8,13 +8,14 @@ import {
 import {
   getBusinessId,
   getIsCreating,
-  getModalType,
+  getModal,
   getRegion,
   isPageEdited,
 } from './jobDetailSelectors';
 import { getIsSubmitting } from '../jobModal/JobModalSelectors';
 import JobDetailView from './components/JobDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';
+import ModalType from '../ModalType';
 import Store from '../../../store/Store';
 import createJobDetailDispatcher from './createJobDetailDispatcher';
 import createJobDetailIntegrator from './createJobDetailIntegrator';
@@ -44,7 +45,7 @@ export default class JobDetailModule {
         onCloseModal={this.dispatcher.closeModal}
         onSaveButtonClick={this.updateOrCreateJob}
         onDeleteModal={this.deleteJob}
-        onCancelModal={this.redirectToJobList}
+        onCancelModal={this.onCancel}
       />
     );
 
@@ -59,6 +60,7 @@ export default class JobDetailModule {
   updateOrCreateJob = () => {
     const state = this.store.getState();
     const isCreating = getIsCreating(state);
+    const modal = getModal(state);
 
     if (getIsSubmitting(state)) return;
 
@@ -68,7 +70,8 @@ export default class JobDetailModule {
         content: message,
       });
       this.dispatcher.setSubmittingState(false);
-      this.redirectToJobList();
+
+      this.redirectToUrl(modal.url);
     };
 
     const onFailure = (error) => {
@@ -122,14 +125,14 @@ export default class JobDetailModule {
   openCancelModal = () => {
     const state = this.store.getState();
     if (isPageEdited(state)) {
-      this.dispatcher.openModal('cancel');
+      this.dispatcher.openModal({ type: ModalType.CANCEL });
     } else {
       this.redirectToJobList();
     }
   };
 
   openDeleteModal = () => {
-    this.dispatcher.openModal('delete');
+    this.dispatcher.openModal({ type: ModalType.DELETE });
   };
 
   redirectToJobList = () => {
@@ -182,8 +185,8 @@ export default class JobDetailModule {
 
   saveHandler = () => {
     const state = this.store.getState();
-    const modalType = getModalType(state);
-    if (modalType) return;
+    const modal = getModal(state);
+    if (modal.type) return;
 
     this.updateOrCreateJob();
   }
@@ -201,5 +204,33 @@ export default class JobDetailModule {
 
   resetState() {
     this.dispatcher.resetState();
+  }
+
+  openUnsavedModal = (url) => {
+    this.dispatcher.openModal({ type: ModalType.UNSAVED, url });
+  }
+
+  onCancel = () => {
+    const state = this.store.getState();
+    const modal = getModal(state);
+
+    this.redirectToUrl(modal.url);
+  }
+
+  redirectToUrl = (url) => {
+    if (url) {
+      window.location.href = url;
+    } else {
+      this.redirectToJobList();
+    }
+  }
+
+  handlePageTransition = (url) => {
+    const state = this.store.getState();
+    if (isPageEdited(state)) {
+      this.openUnsavedModal(url);
+    } else {
+      this.redirectToUrl(url);
+    }
   }
 }

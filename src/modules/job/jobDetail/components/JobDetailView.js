@@ -3,19 +3,21 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getIsCreating, getLoadingState, getModalType, getPageHeadTitle,
+  getAlertMessage, getIsCreating, getLoadingState, getModal, getPageTitle,
 } from '../jobDetailSelectors';
 import CancelModal from '../../../../components/modal/CancelModal';
 import DeleteModal from '../../../../components/modal/DeleteModal';
 import FormCard from '../../../../components/FormCard/FormCard';
 import JobDetailActions from './JobDetailActions';
 import JobDetails from './JobDetails';
+import ModalType from '../../ModalType';
 import PageView from '../../../../components/PageView/PageView';
+import UnsavedModal from '../../../../components/modal/UnsavedModal';
 
 const JobDetailView = ({
   isCreating,
   loadingState,
-  modalType,
+  modal,
   alertMessage,
   onJobDetailsChange,
   pageHeadTitle,
@@ -33,20 +35,28 @@ const JobDetailView = ({
     </Alert>
   );
 
-  let modal;
-  if (modalType === 'cancel') {
-    modal = (
+  let modalElement;
+  if (modal.type === ModalType.CANCEL) {
+    modalElement = (
       <CancelModal
         onCancel={onCloseModal}
         onConfirm={onCancelModal}
       />
     );
-  } else if (modalType === 'delete') {
-    modal = (
+  } else if (modal.type === ModalType.DELETE) {
+    modalElement = (
       <DeleteModal
         onCancel={onCloseModal}
         onConfirm={onDeleteModal}
         title="Delete this job?"
+      />
+    );
+  } else if (modal.type === ModalType.UNSAVED) {
+    modalElement = (
+      <UnsavedModal
+        onConfirmSave={onSaveButtonClick}
+        onConfirmUnsave={onCancelModal}
+        onCancel={onCloseModal}
       />
     );
   }
@@ -65,7 +75,7 @@ const JobDetailView = ({
         />
       )}
     >
-      {modal}
+      {modalElement}
       <FormCard>
         <JobDetails
           isCreating={isCreating}
@@ -80,10 +90,10 @@ const JobDetailView = ({
 };
 
 const mapStateToProps = state => ({
-  pageHeadTitle: getPageHeadTitle(state),
+  pageHeadTitle: getPageTitle(state),
   isCreating: getIsCreating(state),
   loadingState: getLoadingState(state),
-  modalType: getModalType(state),
+  modal: getModal(state),
   alertMessage: getAlertMessage(state),
 });
 

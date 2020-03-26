@@ -6,7 +6,7 @@ import {
   UPDATE_JOB,
 } from '../JobIntents';
 import {
-  getBusinessId, getJob, getJobDetails, getJobId, getRegion,
+  getBusinessId, getJobDetails, getJobId, getRegion,
 } from './jobDetailSelectors';
 
 const createJobDetailIntegrator = (store, integration) => ({
@@ -58,7 +58,7 @@ const createJobDetailIntegrator = (store, integration) => ({
 
   updateJob: ({ onSuccess, onFailure }) => {
     const state = store.getState();
-    const content = getJob(state);
+    const content = getJobDetails(state);
     const urlParams = {
       businessId: getBusinessId(state),
       jobId: getJobId(state),

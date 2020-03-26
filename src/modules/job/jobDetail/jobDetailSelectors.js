@@ -1,4 +1,4 @@
-import { createSelector, createStructuredSelector } from 'reselect';
+import { createStructuredSelector } from 'reselect';
 
 export const getJobId = state => state.jobId;
 
@@ -6,9 +6,11 @@ export const getIsCreating = state => state.jobId === 'new';
 
 export const getAlertMessage = state => state.alertMessage;
 
-export const getModalType = state => state.modalType;
+export const getModal = state => state.modal;
 
 export const getLoadingState = state => state.loadingState;
+
+export const getPageTitle = state => state.pageTitle;
 
 export const getCustomerOptions = state => state.customerOptions;
 
@@ -27,16 +29,6 @@ export const getJobHeaderDetails = createStructuredSelector({
   isCreating: getIsCreating,
   title: state => state.readonly.title,
   status: state => state.readonly.status,
-});
-
-export const getPageHeadTitle = createSelector(
-  getIsCreating,
-  getJobDetails,
-  (isCreating, jobDetails) => (isCreating ? 'Create job' : jobDetails.name),
-);
-
-export const getJob = ({ job }) => ({
-  ...job,
 });
 
 export const getIsActionsDisabled = state => state.isSubmitting;

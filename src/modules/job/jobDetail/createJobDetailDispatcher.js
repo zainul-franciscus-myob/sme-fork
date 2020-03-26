@@ -15,7 +15,7 @@ const createJobDetailDispatcher = store => ({
 
   resetState: () => store.dispatch({ intent: RESET_STATE }),
 
-  openModal: modalType => store.dispatch({ intent: OPEN_MODAL, modalType }),
+  openModal: modal => store.dispatch({ intent: OPEN_MODAL, modal }),
 
   closeModal: () => store.dispatch({ intent: CLOSE_MODAL }),
 
