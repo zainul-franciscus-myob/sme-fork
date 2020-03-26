@@ -36,6 +36,11 @@ const JobDetailView = ({
   );
 
   let modalElement;
+  const deleteBody = (
+    <div>Deleting this job will remove it from all transactions.<br />
+      This can&apos;t be undone, or recoverd later.
+    </div>
+  );
   if (modal.type === ModalType.CANCEL) {
     modalElement = (
       <CancelModal
@@ -48,7 +53,8 @@ const JobDetailView = ({
       <DeleteModal
         onCancel={onCloseModal}
         onConfirm={onDeleteModal}
-        title="Delete this job?"
+        title="Delete job?"
+        body={deleteBody}
       />
     );
   } else if (modal.type === ModalType.UNSAVED) {

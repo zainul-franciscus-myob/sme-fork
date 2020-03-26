@@ -2,7 +2,7 @@ import { Button, Modal } from '@myob/myob-widgets';
 import React from 'react';
 
 const DeleteModal = ({
-  onCancel, onConfirm, title,
+  onCancel, onConfirm, title, body,
 }) => (
   <Modal
     title={title}
@@ -11,7 +11,7 @@ const DeleteModal = ({
     canClose={false}
   >
     <Modal.Body>
-      This can&apos;t be undone, or recovered later.
+      {body || 'This can\'t be undone, or recovered later.'}
     </Modal.Body>
     <Modal.Footer>
       <Button type="secondary" onClick={onCancel}>Go back</Button>
