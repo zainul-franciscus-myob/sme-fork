@@ -56,7 +56,6 @@ const ContactDetailsTab = (props) => {
         value={contactDetail.state}
         onChange={onSelectChange(onContactDetailsChange)
         }
-        requiredLabel="State/territory is required"
         width="xs"
       >
         {stateOptions.map(
@@ -74,7 +73,6 @@ const ContactDetailsTab = (props) => {
           name="firstName"
           value={contactDetail.firstName}
           onChange={onInputChange(onContactDetailsChange)}
-          requiredLabel="First name is required"
           width="lg"
         />
         <Input
@@ -107,7 +105,6 @@ const ContactDetailsTab = (props) => {
           name="country"
           selectedId={contactDetail.country}
           onChange={onComboBoxChange(onContactDetailsChange, 'country')}
-          requiredLabel="Country is required"
           width="lg"
         />
         <TextArea
@@ -115,7 +112,6 @@ const ContactDetailsTab = (props) => {
           name="address"
           value={contactDetail.address}
           onChange={onInputChange(onContactDetailsChange)}
-          requiredLabel="Address is required"
           rows={3}
           width="lg"
         />
@@ -124,7 +120,6 @@ const ContactDetailsTab = (props) => {
           name="suburb"
           value={contactDetail.suburb}
           onChange={onInputChange(onContactDetailsChange)}
-          requiredLabel="Suburb/town/locality is required"
           width="lg"
         />
         {stateInput}
@@ -133,7 +128,6 @@ const ContactDetailsTab = (props) => {
           name="postcode"
           value={contactDetail.postcode}
           onChange={onInputChange(onContactDetailsChange)}
-          requiredLabel="Postcode is required"
           width="xs"
         />
         <Input

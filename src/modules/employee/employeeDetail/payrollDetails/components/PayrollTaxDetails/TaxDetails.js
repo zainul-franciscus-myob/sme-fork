@@ -50,7 +50,6 @@ const TaxDetails = ({
           value={taxFileNumber}
           onChange={handleInputChange(onPayrollTaxDetailsChange)}
           disabled={!isTfnEditable}
-          requiredLabel="Tax file number is required"
         />
       </FieldGroup>
       <FieldGroup label="Tax table calculations">
