@@ -8,9 +8,9 @@ import {
   getIsTableEmpty, getIsTableLoading, getOrder, getTableBodyState,
 } from '../CustomerReturnListSelectors';
 import CustomerReturnListTableBody from './CustomerReturnListTableBody';
+import Icon from '../../../../components/Icon/Icon';
 import TableBodyType from '../TableBodyType';
 import TableView from '../../../../components/TableView/TableView';
-import noResultStateImage from './no-results-state.svg';
 import widthConfig from './widthConfig';
 
 const tableConfig = {
@@ -50,7 +50,7 @@ const CustomerReturnListTable = ({
     <PageState
       title="No results found :("
       description="Try different filters to find the customer you are looking for."
-      image={<img src={noResultStateImage} style={{ width: '60%' }} alt="No results found" />}
+      image={<Icon.NoResultState alt="No results found" />}
     />
   );
 

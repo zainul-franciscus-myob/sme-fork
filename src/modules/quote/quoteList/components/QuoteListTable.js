@@ -7,10 +7,10 @@ import React from 'react';
 import {
   getIsDefaultFilter, getIsTableEmpty, getIsTableLoading, getOrder,
 } from '../quoteListSelectors';
+import Icon from '../../../../components/Icon/Icon';
 import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
 import QuoteListTableBody from './QuoteListTableBody';
 import TableView from '../../../../components/TableView/TableView';
-import emptyImage from './empty.svg';
 
 const tableConfig = {
   referenceId: { width: '14.0rem', valign: 'top' },
@@ -48,7 +48,7 @@ const QuoteListTable = ({
     <PageState
       title="No quotes found"
       description="Perhaps check the dates or remove the filters and try again."
-      image={(<img src={emptyImage} alt="No quotes found" />)}
+      image={(<Icon.NoResultState alt="No quotes found" />)}
     />
   );
 

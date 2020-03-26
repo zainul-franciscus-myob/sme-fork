@@ -6,8 +6,8 @@ import { getIsDefaultFilters, getIsTableEmpty, getIsTableLoading } from '../sele
 import CustomerStatementListTableActions from './CustomerStatementListTableActions';
 import CustomerStatementListTableBody from './CustomerStatementListTableBody';
 import CustomerStatementListTableHeader from './CustomerStatementListTableHeader';
+import Icon from '../../../components/Icon/Icon';
 import TableView from '../../../components/TableView/TableView';
-import emptyResults from './no-results-state.svg';
 
 const name = 'Customer name';
 const contactPerson = 'Contact person';
@@ -58,7 +58,7 @@ const CustomerStatementListTable = ({
   onSort,
 }) => {
   const noResultImage = (
-    <img src={emptyResults} alt="No result found" />
+    <Icon.NoResultState alt="No result found" />
   );
 
   const emptyView = isDefaultFilters ? (

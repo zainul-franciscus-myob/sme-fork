@@ -8,10 +8,10 @@ import {
   getIsTableEmpty, getIsTableLoading, getTableBodyState,
 } from '../billListSelectors';
 import BillListTableBody from './BillListTableBody';
+import Icon from '../../../../components/Icon/Icon';
 import StickyTableBody from '../../../../components/StickyTable/StickyTableBody';
 import TableBodyType from '../TableBodyType';
 import billsEmptyStateImage from './bills-empty-state.svg';
-import noResultStateImage from './no-results-state.svg';
 
 const BillListTable = ({
   isTableEmpty,
@@ -24,7 +24,7 @@ const BillListTable = ({
     <PageState
       title="No bills found"
       description="Perhaps check the dates or remove the filters and try again."
-      image={<img src={noResultStateImage} style={{ width: '60%' }} alt="No bills found" />}
+      image={<Icon.NoResultState alt="No bills found" />}
     />
   );
 

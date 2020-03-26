@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getIsDefaultFilters, getIsTableEmpty, getIsTableLoading } from '../invoiceListSelectors';
+import Icon from '../../../../components/Icon/Icon';
 import InvoiceListTableBody from './InvoiceListTableBody';
 import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
 import StickyTableBody from '../../../../components/StickyTable/StickyTableBody';
-import emptyImage from './empty.svg';
 
 const InvoiceListTable = ({
   isTableLoading,
@@ -34,7 +34,7 @@ const InvoiceListTable = ({
     <PageState
       title="No invoices found"
       description="Perhaps check the dates or remove the filters and try again."
-      image={(<img src={emptyImage} alt="No invoices found" />)}
+      image={(<Icon.NoResultState alt="No invoices found" />)}
     />
   );
 

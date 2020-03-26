@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getPayDirectOptions } from '../selectors/payDirectSelectors';
-import OnlinePaymentMethodsImage from '../assets/OnlinePaymentMethods.png';
+import OnlinePaymentMethodsImage from '../../../../common/images/OnlinePaymentMethods.png';
 import ServiceUnavailableImage from '../../../../components/ServiceUnavailableImage/ServiceUnavailableImage';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import styles from './InvoiceDetailOnlinePaymentMethod.module.css';

@@ -9,7 +9,7 @@ import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import LinkButton from '../../../../components/Button/LinkButton';
 import ServiceUnavailableImage from '../../../../components/ServiceUnavailableImage/ServiceUnavailableImage';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
-import onlinePaymentMethodsImage from './OnlinePaymentMethods.png';
+import onlinePaymentMethodsImage from '../../../../common/images/OnlinePaymentMethods.png';
 import styles from './OnlinePaymentOptions.module.css';
 
 const OnlinePaymentOptions = ({

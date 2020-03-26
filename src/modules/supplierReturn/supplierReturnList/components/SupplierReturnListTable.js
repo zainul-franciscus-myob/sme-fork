@@ -5,8 +5,8 @@ import React from 'react';
 import {
   getIsDefaultFilters, getIsTableEmpty, getIsTableLoading,
 } from '../selectors/SupplierReturnListSelectors';
+import Icon from '../../../../components/Icon/Icon';
 import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
-import NoResultStateIcon from '../../../../components/Icon/NoResultStateIcon';
 import StickyTableBody from '../../../../components/StickyTable/StickyTableBody';
 import SupplierReturnListTableBody from './SupplierReturnListTableBody';
 
@@ -18,7 +18,7 @@ const SupplierReturnListTable = ({
   onCreateRefundClick,
   onCreatePurchaseClick,
 }) => {
-  const image = <NoResultStateIcon />;
+  const image = <Icon.NoResultState />;
   const emptyView = isDefaultFilters ? (
     <NoResultPageState
       title="No supplier returns yet"
