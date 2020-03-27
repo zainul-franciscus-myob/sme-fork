@@ -253,7 +253,6 @@ export const getHomeUrl = createSelector(
   getRegion,
   (businessId, region) => `#/${region}/${businessId}/dashboard`,
 );
-
 export const getIsHomeActive = state => getActiveNav(state) === 'home';
 
 export const getReportsUrls = createSelector(
@@ -267,7 +266,6 @@ export const getReportsUrls = createSelector(
     reportsPdfStyleTemplates: enabledUrls.reportsPdfStyleTemplates,
   }),
 );
-
 export const getShouldDisplayReportsMenu = createSelector(
   getIsLoading,
   getReportsUrls,
@@ -285,3 +283,10 @@ export const getShouldDisplayCreateBusiness = state => {
 
   return region === 'au';
 };
+
+export const getShouldDisplayLiveChat = createSelector(
+  hasBusinessId,
+  getRegion,
+  getIsTrial,
+  (businessId, region, trialist) => businessId && region === 'au' && trialist,
+);

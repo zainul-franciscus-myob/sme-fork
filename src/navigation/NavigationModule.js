@@ -54,9 +54,7 @@ export default class NavigationModule {
 
     const businessId = getBusinessId(this.store.getState());
     const intent = LOAD_NAVIGATION_CONFIG;
-    const urlParams = {
-      businessId,
-    };
+    const urlParams = { businessId };
     const onSuccess = (config) => {
       this.setLoadingState(false);
 
@@ -67,6 +65,7 @@ export default class NavigationModule {
       window.dispatchEvent(new Event('resize'));
       this.buildUrls();
     };
+
     const onFailure = () => {
       this.setLoadingState(false);
       // eslint-disable-next-line no-console
@@ -105,7 +104,7 @@ export default class NavigationModule {
       intent: SET_URLS,
       urls,
     });
-  }
+  };
 
   buildUrl = ({
     region,
@@ -141,7 +140,7 @@ export default class NavigationModule {
       currentRouteName,
       routeParams,
     });
-  }
+  };
 
   loadConfig = () => {
     this.store.dispatch({
@@ -149,11 +148,11 @@ export default class NavigationModule {
       selfServicePortalUrl: this.config.SELF_SERVICE_PORTAL_URL,
       myReportsUrl: this.config.MY_REPORTS_URL,
     });
-  }
+  };
 
   redirectToPage = (url) => {
     window.location.href = url;
-  }
+  };
 
   subscribeNow = async () => {
     const businessId = getBusinessId(this.store.getState());
@@ -164,7 +163,7 @@ export default class NavigationModule {
       return;
     }
     this.redirectToPage(url);
-  }
+  };
 
   createBusiness = async () => {
     const telemetryProps = { ...this.routeProps, currentRouteName: 'createNewBusiness' };
@@ -185,9 +184,15 @@ export default class NavigationModule {
       return;
     }
     this.redirectToPage(url);
-  }
+  };
 
-  render = (tasks, businessName = '') => {
+  render = (
+    tasks,
+    businessId = '',
+    businessName = '',
+    businessRole = '',
+    serialNumber = '',
+  ) => {
     const {
       constructPath,
       redirectToPage,
@@ -213,15 +218,18 @@ export default class NavigationModule {
           onTasksLinkClick={toggleTasks}
           onLogoutLinkClick={logout}
           hasTasks={tasks && tasks.some(t => !t.isComplete)}
+          businessId={businessId}
           businessName={businessName}
+          businessRole={businessRole}
+          serialNumber={serialNumber}
         />
       </Provider>
     );
-  }
+  };
 
   setOnPageTransition = (onPageTransition) => {
     this.onPageTransition = onPageTransition;
-  }
+  };
 
   run = routeProps => {
     const { routeParams, currentRouteName, onPageTransition } = routeProps;

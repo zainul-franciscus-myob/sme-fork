@@ -5,14 +5,17 @@ import LoadingPageState from '../../components/LoadingPageState/LoadingPageState
 import style from './RootView.module.css';
 
 const RootView = ({
+  businessId,
+  businessName,
+  businessRole,
+  children,
+  drawer,
+  isLoading,
   nav,
   onboarding,
-  children,
-  isLoading,
+  serialNumber,
   shouldShowOnboarding,
-  drawer,
   tasks,
-  businessName,
 }) => {
   if (isLoading) return <LoadingPageState />;
   if (shouldShowOnboarding) return onboarding.render();
@@ -21,7 +24,13 @@ const RootView = ({
     <div id="main" className={style.main}>
       { drawer.render(tasks) }
       <div className={style.navAndRootView}>
-        { nav.render(tasks, businessName) }
+        { nav.render(
+          tasks,
+          businessId,
+          businessName,
+          businessRole,
+          serialNumber,
+        ) }
         { children }
       </div>
     </div>
@@ -29,12 +38,20 @@ const RootView = ({
 };
 
 const mapStateToProps = ({
-  isLoading, tasks, businessDetails: { organisationName }, shouldShowOnboarding,
-}) => ({
+  businessDetails: { organisationName, serialNumber },
+  businessId,
+  businessRole,
   isLoading,
-  tasks,
-  businessName: organisationName,
   shouldShowOnboarding,
+  tasks,
+}) => ({
+  businessId,
+  businessName: organisationName,
+  businessRole,
+  isLoading,
+  serialNumber,
+  shouldShowOnboarding,
+  tasks,
 });
 
 export default connect(mapStateToProps)(RootView);

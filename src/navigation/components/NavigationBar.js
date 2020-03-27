@@ -13,6 +13,7 @@ import {
   getShouldDisplayContactMenu,
   getShouldDisplayCreateBusiness,
   getShouldDisplayInTray,
+  getShouldDisplayLiveChat,
   getShouldDisplayPayrollMenu,
   getShouldDisplayPurchasesMenu,
   getShouldDisplayReportsMenu,
@@ -20,6 +21,7 @@ import {
   getShouldDisplaySubscriptionNow,
   getShowUrls,
   getTrialEndDate,
+  getUserEmail,
   hasBusinessId,
 } from '../NavigationSelectors';
 import AccountingMenu from './AccountingMenu';
@@ -30,6 +32,7 @@ import ContactMenu from './ContactMenu';
 import Help from './Help';
 import Home from './Home';
 import InTray from './InTray';
+import LiveChat from '../../liveChat/LiveChat';
 import Logout from './Logout';
 import PayrollMenu from './PayrollMenu';
 import PurchasesMenu from './PurchasesMenu';
@@ -187,6 +190,11 @@ const NavigationBar = ({
   menuLogoUrl,
   hasTasks,
   businessName,
+  businessId,
+  businessRole,
+  email,
+  serialNumber,
+  shouldDisplayLiveChat,
 }) => {
   const primaryMenuItems = getPrimary({
     onMenuSelect,
@@ -240,10 +248,24 @@ const NavigationBar = ({
     />
   );
 
+  const liveChat = (
+    shouldDisplayLiveChat && businessRole === 'Business owner'
+  ) && (
+    <LiveChat
+      businessId={businessId}
+      businessName={businessName}
+      businessRole={businessRole}
+      email={email}
+      region={region}
+      serialNumber={serialNumber}
+    />
+  );
+
   return (
     <div className={styles.navigation}>
       {trialToBuyRibbon}
       <Navigation brand={brand} primary={primary} secondary={secondary} fluid />
+      {liveChat}
     </div>
   );
 };
@@ -268,6 +290,8 @@ const mapStateToProps = state => ({
   shouldDisplaySubscriptionNow: getShouldDisplaySubscriptionNow(state),
   trialEndDate: getTrialEndDate(state),
   menuLogoUrl: getMenuLogoUrl(state)(window.location.href),
+  shouldDisplayLiveChat: getShouldDisplayLiveChat(state),
+  email: getUserEmail(state),
 });
 
 export default connect(mapStateToProps)(NavigationBar);
