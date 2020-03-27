@@ -20,12 +20,10 @@ export default class StartPayRunModule {
     integration,
     store,
     pushMessage,
-    featureToggles,
   }) {
     this.integration = integration;
     this.pushMessage = pushMessage;
     this.store = store;
-    this.featureToggles = featureToggles;
     this.dispatcher = createStartPayRunDispatchers(store);
     this.integrator = createStartPayRunIntegrator(store, integration);
   }
@@ -106,7 +104,7 @@ export default class StartPayRunModule {
     this.dispatcher.setUnprocessedTimesheetLines();
   };
 
-  callStpValidation = () => {
+  validateStp = () => {
     const onSuccess = (response) => {
       const { hasRegistrationErrors } = response;
 
@@ -126,14 +124,6 @@ export default class StartPayRunModule {
       onSuccess,
       onFailure,
     });
-  };
-
-  validateStp = () => {
-    if (this.featureToggles && this.featureToggles.isPayRunStpValidationEnabled) {
-      this.callStpValidation();
-    } else {
-      this.loadEmployeePays();
-    }
   };
 
   loadEmployeePays = () => {

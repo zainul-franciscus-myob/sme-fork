@@ -9,5 +9,4 @@
 export default {
   isSpendMoneyBankPaymentEnabled: true,
   isNZPayrollEnabled: true,
-  isPayRunStpValidationEnabled: true,
 };
