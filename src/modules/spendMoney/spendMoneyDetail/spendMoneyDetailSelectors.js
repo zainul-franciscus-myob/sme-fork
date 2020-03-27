@@ -282,13 +282,19 @@ export const getInTrayUrl = createSelector(
   (businessId, region) => `/#/${region}/${businessId}/inTray`,
 );
 
+export const getCreateUrl = createSelector(
+  getBusinessId,
+  getRegion,
+  (businessId, region) => `/#/${region}/${businessId}/spendMoney/new`,
+);
+
 export const getSaveUrl = createSelector(
   getIsCreatingFromInTray,
   getModalUrl,
   getTransactionListUrl,
   getInTrayUrl,
   (isCreatingFromInTray, modalUrl, transactionListUrl, inTrayUrl) => {
-    if (isCreatingFromInTray) {
+    if (isCreatingFromInTray && !modalUrl) {
       return inTrayUrl;
     }
     return modalUrl || transactionListUrl;

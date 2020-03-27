@@ -7,6 +7,7 @@ import {
   getIsReportableDisabled,
   getLineDataByIndexSelector,
   getLinesForTaxCalculation,
+  getSaveUrl,
   getShouldShowAccountCode,
   getSpendMoneyForCreatePayload,
   getSpendMoneyForUpdatePayload,
@@ -75,6 +76,39 @@ describe('spendMoneySelectors', () => {
       lines: [{ a: 'foo', accounts: [], taxCodes: [] }],
     },
   };
+
+  describe('getSaveUrl', () => {
+    const state = {
+      businessId: '123',
+      region: 'au',
+    };
+
+    it('should return transaction list URL if there is no inTrayDocumentId and no modal url', () => {
+      const actual = getSaveUrl(state);
+      expect(actual).toEqual('/#/au/123/transactionList');
+    });
+
+    it('should return in tray url if is creating from in tray and there is no modal url', () => {
+      const actual = getSaveUrl({
+        ...state,
+        spendMoneyId: 'new',
+        inTrayDocumentId: 'documentId',
+      });
+      expect(actual).toEqual('/#/au/123/inTray');
+    });
+
+    it('should return modal url if there is modal url', () => {
+      const actual = getSaveUrl({
+        ...state,
+        spendMoneyId: 'new',
+        inTrayDocumentId: 'documentId',
+        modal: {
+          url: 'modalUrl',
+        },
+      });
+      expect(actual).toEqual('modalUrl');
+    });
+  });
 
   describe('getSpendMoneyForUpdatePayload', () => {
     it('it removes extraneious fields from the payload', () => {

@@ -5,6 +5,7 @@ import {
   DELETE_SPEND_MONEY,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   GET_TAX_CALCULATIONS,
+  LINK_IN_TRAY_DOCUMENT,
   LOAD_NEW_SPEND_MONEY,
   LOAD_SPEND_MONEY_DETAIL,
   LOAD_SUPPLIER_EXPENSE_ACCOUNT,
@@ -20,6 +21,7 @@ import {
   UPDATE_SPEND_MONEY_HEADER,
 } from '../../SpendMoneyIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
+import { SUCCESSFULLY_SAVED_SPEND_MONEY, SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK } from '../../spendMoneyMessageTypes';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import ModalType from '../components/ModalType';
 import SpendMoneyDetailModule from '../SpendMoneyDetailModule';
@@ -44,13 +46,18 @@ const setup = () => {
   const integration = new TestIntegration();
   const setRootView = () => {};
   const pushMessage = () => {};
+  const popMessages = () => [];
 
-  const module = new SpendMoneyDetailModule({ integration, setRootView, pushMessage });
+  const module = new SpendMoneyDetailModule({
+    integration, setRootView, pushMessage, popMessages,
+  });
   module.store = store;
   module.dispatcher = createSpendMoneyDispatcher(store);
   module.integrator = createSpendMoneyIntegrator(store, integration);
 
-  return { store, integration, module };
+  return {
+    store, integration, module, popMessages,
+  };
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -436,24 +443,109 @@ describe('SpendMoneyDetailModule', () => {
     });
   });
 
+  // TODO - Need to test for the redirection scenarios after save
   describe('saveSpendMoney', () => {
-    /*
+    describe('not from in tray', () => {
+      /*
       Testing onSuccess for create and update spend money
     */
-    [
-      {
-        intent: CREATE_SPEND_MONEY,
-        setup: setupWithNew,
-      },
-      {
-        intent: UPDATE_SPEND_MONEY,
-        setup: setUpWithExisting,
-      },
-    ].forEach((test) => {
-      it('should save', () => {
-        const { module, store, integration } = test.setup();
+      [
+        {
+          intent: CREATE_SPEND_MONEY,
+          setup: setupWithNew,
+        },
+        {
+          intent: UPDATE_SPEND_MONEY,
+          setup: setUpWithExisting,
+        },
+      ].forEach((test) => {
+        it('should save', () => {
+          const { module, store, integration } = test.setup();
+          module.pushMessage = jest.fn();
 
-        module.redirectToUrl = jest.fn();
+          module.saveSpendMoney();
+
+          expect(store.getActions()).toEqual([
+            {
+              intent: SET_SUBMITTING_STATE,
+              isSubmitting: true,
+            },
+            {
+              intent: SET_SUBMITTING_STATE,
+              isSubmitting: false,
+            },
+          ]);
+
+          expect(integration.getRequests()).toEqual([
+            expect.objectContaining({
+              intent: test.intent,
+            }),
+          ]);
+
+          expect(module.pushMessage).toHaveBeenCalledWith(
+            expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY }),
+          );
+        });
+      });
+
+      /*
+      Testing onFailure for create and update spend money
+    */
+      [
+        {
+          intent: CREATE_SPEND_MONEY,
+          setup: setupWithNew,
+        },
+        {
+          intent: UPDATE_SPEND_MONEY,
+          setup: setUpWithExisting,
+        },
+      ].forEach((test) => {
+        it('should shown an alert if it fails', () => {
+          const { module, store, integration } = test.setup();
+
+          integration.mapFailure(test.intent);
+          module.saveSpendMoney();
+
+          expect(store.getActions()).toEqual([
+            {
+              intent: SET_SUBMITTING_STATE,
+              isSubmitting: true,
+            },
+            {
+              intent: SET_SUBMITTING_STATE,
+              isSubmitting: false,
+            },
+            expect.objectContaining({
+              intent: SET_ALERT,
+            }),
+          ]);
+        });
+      });
+
+      it('should do an early return if it\'s already submitting', () => {
+        const { module, store, integration } = setUpWithExisting();
+
+        const dontTriggerOnSuccess = () => {};
+        integration.overrideMapping(UPDATE_SPEND_MONEY, dontTriggerOnSuccess);
+
+        // Setup: this will trigger an update spend money request,
+        // but will not trigger the onSuccess which means that
+        // the submitting state will not be set to false
+        module.saveSpendMoney();
+        store.resetActions();
+
+        module.saveSpendMoney();
+
+        expect(store.getActions()).toEqual([]);
+      });
+    });
+
+    describe('from in tray', () => {
+      it('successfully creates a spend money and link in tray document', () => {
+        const { module, store, integration } = setUpWithNewFromInTray();
+        module.pushMessage = jest.fn();
+
         module.saveSpendMoney();
 
         expect(store.getActions()).toEqual([
@@ -469,29 +561,23 @@ describe('SpendMoneyDetailModule', () => {
 
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({
-            intent: test.intent,
+            intent: CREATE_SPEND_MONEY,
+          }),
+          expect.objectContaining({
+            intent: LINK_IN_TRAY_DOCUMENT,
           }),
         ]);
+
+        expect(module.pushMessage).toHaveBeenCalledWith(
+          expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY }),
+        );
       });
-    });
 
-    /*
-      Testing onFailure for create and update spend money
-    */
-    [
-      {
-        intent: CREATE_SPEND_MONEY,
-        setup: setupWithNew,
-      },
-      {
-        intent: UPDATE_SPEND_MONEY,
-        setup: setUpWithExisting,
-      },
-    ].forEach((test) => {
-      it('should shown an alert if it fails', () => {
-        const { module, store, integration } = test.setup();
+      it('successfully creates a spend money but fails to link in tray document', () => {
+        const { module, store, integration } = setUpWithNewFromInTray();
+        integration.mapFailure(LINK_IN_TRAY_DOCUMENT);
+        module.pushMessage = jest.fn();
 
-        integration.mapFailure(test.intent);
         module.saveSpendMoney();
 
         expect(store.getActions()).toEqual([
@@ -503,27 +589,21 @@ describe('SpendMoneyDetailModule', () => {
             intent: SET_SUBMITTING_STATE,
             isSubmitting: false,
           },
+        ]);
+
+        expect(integration.getRequests()).toEqual([
           expect.objectContaining({
-            intent: SET_ALERT,
+            intent: CREATE_SPEND_MONEY,
+          }),
+          expect.objectContaining({
+            intent: LINK_IN_TRAY_DOCUMENT,
           }),
         ]);
+
+        expect(module.pushMessage).toHaveBeenCalledWith(
+          expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK }),
+        );
       });
-    });
-
-    it('should do an early return if it\'s already submitting', () => {
-      const { module, store, integration } = setUpWithExisting();
-
-      const dontTriggerOnSuccess = () => {};
-      integration.overrideMapping(UPDATE_SPEND_MONEY, dontTriggerOnSuccess);
-
-      // Setup: this will trigger an update spend money request, but will not trigger the onSuccess
-      // which means that the submitting state will not be set to false
-      module.saveSpendMoney();
-      store.resetActions();
-
-      module.saveSpendMoney();
-
-      expect(store.getActions()).toEqual([]);
     });
   });
 

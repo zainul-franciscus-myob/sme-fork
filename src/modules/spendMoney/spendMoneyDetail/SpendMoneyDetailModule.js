@@ -10,6 +10,7 @@ import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalc
 import {
   getAccountModalContext,
   getContactModalContext,
+  getCreateUrl,
   getExpenseAccountId,
   getFilesForUpload,
   getHasPrefilledLines,
@@ -24,6 +25,7 @@ import {
   getLinesForTaxCalculation,
   getLinkInTrayContentWithoutSpendMoneyId,
   getLoadSpendMoneyRequestParams,
+  getModal,
   getModalUrl,
   getOpenedModalType,
   getSaveUrl,
@@ -49,11 +51,13 @@ import spendMoneyDetailReducer from './spendMoneyDetailReducer';
 
 export default class SpendMoneyDetailModule {
   constructor({
-    integration, setRootView, pushMessage,
+    integration, setRootView, pushMessage, popMessages, reload,
   }) {
     this.store = new Store(spendMoneyDetailReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
+    this.popMessages = popMessages;
+    this.reload = reload;
     this.dispatcher = createSpendMoneyDispatcher(this.store);
     this.integrator = createSpendMoneyIntegrator(this.store, integration);
     this.taxCalculate = createTaxCalculator(TaxCalculatorTypes.spendMoney);
@@ -248,10 +252,15 @@ export default class SpendMoneyDetailModule {
       this.dispatcher.setSubmittingState(false);
 
       const url = getSaveUrl(state);
-      this.redirectToUrl(url);
+      if (this.isRedirectToSamePage(url)) {
+        this.reload();
+      } else this.redirectToUrl(url);
     },
 
     onFailure: (error) => {
+      if (getModal(this.store.getState())) {
+        this.dispatcher.closeModal();
+      }
       this.dispatcher.setSubmittingState(false);
       this.dispatcher.setAlert({
         type: 'danger',
@@ -268,10 +277,8 @@ export default class SpendMoneyDetailModule {
         type: SUCCESSFULLY_SAVED_SPEND_MONEY,
         content: response.message,
       });
-
       this.dispatcher.setSubmittingState(false);
-      const url = getSaveUrl(state);
-      this.redirectToUrl(url);
+      this.redirectAfterLink();
     };
 
     const handleLinkFailure = () => {
@@ -281,8 +288,7 @@ export default class SpendMoneyDetailModule {
       });
 
       this.dispatcher.setSubmittingState(false);
-      const url = getSaveUrl(state);
-      this.redirectToUrl(url);
+      this.redirectAfterLink();
     };
 
     const linkContent = {
@@ -322,17 +328,36 @@ export default class SpendMoneyDetailModule {
     this.dispatcher.openModal({ type: ModalType.UNSAVED, url });
   }
 
-  redirectToModalUrl = () => {
+  handleOnDiscardButtonClickFromUnsavedModal = () => {
     const state = this.store.getState();
     const url = getModalUrl(state);
-    this.redirectToUrl(url);
-  }
 
-  redirectToUrl = (url) => {
-    if (url) {
-      window.location.href = url;
+    if (this.isRedirectToSamePage(url)) {
+      if (getIsCreatingFromInTray(state)) {
+        this.redirectToUrl(getCreateUrl(state));
+      } else {
+        this.reload();
+      }
+    } else {
+      this.redirectToUrl(url);
     }
   }
+
+  redirectAfterLink = () => {
+    const state = this.store.getState();
+    const redirectUrl = getSaveUrl(state);
+
+    if (this.isRedirectToSamePage(redirectUrl)) {
+      // Not calling reload here because reload preserves the inTrayDocumentId param
+      // and so prefills the spend money if the user is clicking on the nav option
+      // to create Spend Money from a Create Spend Money from In Tray,
+      // on successful link and save, the page should redirects to
+      // Create Spend Money without prefill
+      this.redirectToUrl(getCreateUrl(state));
+    } else {
+      this.redirectToUrl(redirectUrl);
+    }
+  };
 
   redirectToInTrayList = () => {
     const state = this.store.getState();
@@ -347,6 +372,14 @@ export default class SpendMoneyDetailModule {
 
     window.location.href = transactionListUrl;
   };
+
+  redirectToUrl = (url) => {
+    if (url) {
+      window.location.href = url;
+    }
+  }
+
+  isRedirectToSamePage = (redirectUrl) => window.location.href.includes(redirectUrl);
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
@@ -564,7 +597,7 @@ export default class SpendMoneyDetailModule {
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
         onCloseModal={this.dispatcher.closeModal}
-        onConfirmCancelButtonClick={this.redirectToModalUrl}
+        onConfirmCancelButtonClick={this.handleOnDiscardButtonClickFromUnsavedModal}
         onConfirmDeleteButtonClick={this.deleteSpendMoneyTransaction}
         onDismissAlert={this.dispatcher.dismissAlert}
         isCreating={isCreating}
@@ -641,10 +674,24 @@ export default class SpendMoneyDetailModule {
     SAVE_ACTION: this.saveHandler,
   };
 
+  readMessages = () => {
+    const messageTypes = [
+      SUCCESSFULLY_SAVED_SPEND_MONEY,
+      SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
+    ];
+    const [successMessage] = this.popMessages(messageTypes);
+
+    if (successMessage) {
+      const { content: message } = successMessage;
+      this.dispatcher.setAlert({ message, type: 'success' });
+    }
+  };
+
   run(context) {
     this.dispatcher.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
     this.render();
+    this.readMessages();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.loadSpendMoney();
   }
