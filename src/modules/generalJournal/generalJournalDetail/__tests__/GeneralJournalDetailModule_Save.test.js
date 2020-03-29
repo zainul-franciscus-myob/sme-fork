@@ -139,6 +139,7 @@ describe('GeneralJournalDetailModule', () => {
     });
   });
 
+  // TO DO - Test that the final redirect is correct after Nav spike is done
   describe('unsaved modal confirm actions', () => {
     describe('saves from unsaved modal', () => {
       it('successfully creates a new general journal and reloads module to show fresh create screen', () => {
@@ -175,9 +176,6 @@ describe('GeneralJournalDetailModule', () => {
           expect.objectContaining({ type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL }),
         );
 
-        // unable to mock window.location for each test case
-        // so this assertion sometimes passes and sometimes fails
-        //
         // expect(module.reload).toHaveBeenCalled();
       });
 

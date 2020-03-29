@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage,
+  getAlert,
   getIsCreating,
   getLoadingState,
   getModal,
@@ -17,7 +17,7 @@ import TransferMoneyDetailModal from './TransferMoneyDetailModal';
 
 const TransferMoneyDetailView = ({
   onUpdateForm,
-  alertMessage,
+  alert,
   onDismissAlert,
   onSave,
   isCreating,
@@ -39,9 +39,9 @@ const TransferMoneyDetailView = ({
     />
   );
 
-  const alertComponent = alertMessage && (
-    <Alert type="danger" onDismiss={onDismissAlert}>
-      {alertMessage}
+  const alertComponent = alert && (
+    <Alert type={alert.type} onDismiss={onDismissAlert}>
+      {alert.message}
     </Alert>
   );
 
@@ -74,7 +74,7 @@ const TransferMoneyDetailView = ({
 };
 
 const mapStateToProps = state => ({
-  alertMessage: getAlertMessage(state),
+  alert: getAlert(state),
   modal: getModal(state),
   loadingState: getLoadingState(state),
   pageTitle: getPageTitle(state),

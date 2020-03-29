@@ -9,6 +9,7 @@ import {
   getIsActionsDisabled,
   getIsLineEdited,
   getIsTableEmpty,
+  getModal,
   getModalUrl,
   getOpenedModalType,
   getSaveUrl,
@@ -30,12 +31,14 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class ReceiveMoneyDetailModule {
   constructor({
-    integration, setRootView, pushMessage,
+    integration, setRootView, pushMessage, reload, popMessages,
   }) {
     this.integration = integration;
     this.store = new Store(receiveMoneyDetailReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
+    this.popMessages = popMessages;
+    this.reload = reload;
 
     this.dispatcher = createReceiveMoneyDetailDispatcher({ store: this.store });
     this.integrator = createReceiveMoneyDetailIntegrator({ store: this.store, integration });
@@ -135,7 +138,8 @@ export default class ReceiveMoneyDetailModule {
   }
 
   saveReceiveMoneyEntry = () => {
-    if (getIsActionsDisabled(this.store.getState())) return;
+    const state = this.store.getState();
+    if (getIsActionsDisabled(state)) return;
 
     this.setSubmittingState(true);
 
@@ -146,12 +150,14 @@ export default class ReceiveMoneyDetailModule {
       });
       this.setSubmittingState(false);
 
-      const state = this.store.getState();
       const url = getSaveUrl(state);
-      this.redirectToUrl(url);
+      this.redirectToUrlOrReloadModule(url);
     };
 
     const onFailure = (error) => {
+      if (getModal(state)) {
+        this.closeModal();
+      }
       this.setSubmittingState(false);
       this.displayFailureAlert(error.message);
     };
@@ -243,15 +249,22 @@ export default class ReceiveMoneyDetailModule {
     this.redirectToUrl(transactionListUrl);
   };
 
-  redirectToModalUrl = () => {
+  handleOnDiscardClickFromUnsavedModal = () => {
     const state = this.store.getState();
     const url = getModalUrl(state);
-    this.redirectToUrl(url);
+
+    this.redirectToUrlOrReloadModule(url);
+  }
+
+  redirectToUrlOrReloadModule = (url) => {
+    if (window.location.href.includes(url)) {
+      this.reload();
+    } else this.redirectToUrl(url);
   }
 
   redirectToUrl = (url) => {
     window.location.href = url;
-  }
+  };
 
   render = () => {
     const accountModal = this.accountModalModule.render();
@@ -267,7 +280,7 @@ export default class ReceiveMoneyDetailModule {
         onDeleteButtonClick={this.openDeleteModal}
         onDismissModal={this.closeModal}
         onConfirmDeleteButtonClick={this.deleteReceiveMoney}
-        onConfirmCancelButtonClick={this.redirectToModalUrl}
+        onConfirmCancelButtonClick={this.handleOnDiscardClickFromUnsavedModal}
         onDismissAlert={this.dismissAlert}
         onUpdateRow={this.updateReceiveMoneyLine}
         onAddRow={this.addReceiveMoneyLine}
@@ -315,10 +328,21 @@ export default class ReceiveMoneyDetailModule {
     SAVE_ACTION: this.saveHandler,
   };
 
+  readMessages = () => {
+    const messageTypes = [SUCCESSFULLY_SAVED_RECEIVE_MONEY];
+    const [successMessage] = this.popMessages(messageTypes);
+
+    if (successMessage) {
+      const { content: message } = successMessage;
+      this.dispatcher.setAlert({ message, type: 'success' });
+    }
+  };
+
   run(context) {
     this.dispatcher.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
     this.render();
+    this.readMessages();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.loadReceiveMoney();
   }

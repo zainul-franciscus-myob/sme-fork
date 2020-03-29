@@ -3,7 +3,7 @@ import {
   LOAD_NEW_TRANSFER_MONEY,
   LOAD_TRANSFER_MONEY_DETAIL,
   OPEN_MODAL,
-  SET_ALERT_MESSAGE,
+  SET_ALERT,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_FORM,
@@ -36,10 +36,10 @@ const createTransferMoneyDetailDispatcher = store => ({
       value,
     });
   },
-  setAlertMessage: (alertMessage) => {
+  setAlert: (alert) => {
     store.dispatch({
-      intent: SET_ALERT_MESSAGE,
-      alertMessage,
+      intent: SET_ALERT,
+      alert,
     });
   },
   openModal: ({ type, url }) => {

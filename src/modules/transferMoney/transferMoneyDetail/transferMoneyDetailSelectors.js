@@ -103,7 +103,7 @@ export const getCreateTransferMoneyPayload = createSelector(
 
 export const getIsActionsDisabled = state => state.isSubmitting;
 export const isPageEdited = state => state.isPageEdited;
-export const getAlertMessage = state => state.alertMessage;
+export const getAlert = state => state.alert;
 export const getLoadingState = state => state.loadingState;
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;

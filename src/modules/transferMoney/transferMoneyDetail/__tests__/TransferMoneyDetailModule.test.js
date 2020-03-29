@@ -5,7 +5,7 @@ import {
   LOAD_NEW_TRANSFER_MONEY,
   LOAD_TRANSFER_MONEY_DETAIL,
   OPEN_MODAL,
-  SET_ALERT_MESSAGE,
+  SET_ALERT,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_FORM,
@@ -26,8 +26,12 @@ describe('TransferMoneyDetailModule', () => {
     const store = new TestStore(transferMoneyReducer);
     const integration = new TestIntegration();
     const setRootView = () => {};
+    const pushMessage = () => {};
+    const popMessages = () => [];
 
-    const module = new TransferMoneyDetailModule({ store, integration, setRootView });
+    const module = new TransferMoneyDetailModule({
+      store, integration, setRootView, popMessages, pushMessage,
+    });
     module.store = store;
     module.dispatcher = createTransferMoneyDetailDispatcher(store);
     module.integrator = createTransferMoneyDetailIntegrator(store, integration);
@@ -222,10 +226,11 @@ describe('TransferMoneyDetailModule', () => {
           isSubmitting: false,
         },
         {
-          intent: SET_ALERT_MESSAGE,
-          alertMessage: 'fails',
+          intent: SET_ALERT,
+          alert: { message: 'fails', type: 'danger' },
         },
       ]);
+
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: DELETE_TRANSFER_MONEY,
@@ -234,6 +239,8 @@ describe('TransferMoneyDetailModule', () => {
     });
   });
 
+  // TODO: Test redirection after create for save and save from unsaved modal once
+  // Nav spike is done
   describe('createTransferMoneyEntry', () => {
     it('successfully create', () => {
       const { module, store, integration } = setupWithNew();
@@ -276,10 +283,45 @@ describe('TransferMoneyDetailModule', () => {
           isSubmitting: false,
         },
         {
-          intent: SET_ALERT_MESSAGE,
-          alertMessage: 'fails',
+          intent: SET_ALERT,
+          alert: { message: 'fails', type: 'danger' },
         },
       ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: CREATE_TRANSFER_MONEY,
+        }),
+      ]);
+    });
+
+    it('fails to create and closes modal if there was a modal opened', () => {
+      const { module, store, integration } = setupWithEditedPage();
+      integration.mapFailure(CREATE_TRANSFER_MONEY);
+
+      module.handlePageTransition('url'); // open unsaved modal
+      store.resetActions();
+
+      module.createTransferMoneyEntry();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: CLOSE_MODAL,
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
+        {
+          intent: SET_ALERT,
+          alert: { message: 'fails', type: 'danger' },
+        },
+      ]);
+
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: CREATE_TRANSFER_MONEY,
@@ -300,62 +342,15 @@ describe('TransferMoneyDetailModule', () => {
   });
 
   describe('saveHandler', () => {
-    const setupWithOpenUnsavedModal = () => {
-      const toolbox = setupWithNew();
-      const { module, store } = toolbox;
-
+    // TODO: Test redirect after save once Nav Spike is done
+    it('should save when an unsaved modal is open', () => {
+      const { module, store, integration } = setupWithEditedPage();
+      module.reload = jest.fn();
       module.openUnsavedModal();
       store.resetActions();
 
-      return toolbox;
-    };
-
-
-    it('successfully create', () => {
-      const { module, store, integration } = setupWithOpenUnsavedModal();
-      module.redirectToUrl = jest.fn();
-      module.pushMessage = jest.fn();
-
       module.saveHandler();
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: SET_SUBMITTING_STATE,
-          isSubmitting: true,
-        },
-      ]);
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: CREATE_TRANSFER_MONEY,
-        }),
-      ]);
-      expect(module.redirectToUrl).toHaveBeenCalledWith('/#/au/👋/transactionList');
-      expect(module.pushMessage).toHaveBeenCalledWith({
-        type: SUCCESSFULLY_SAVED_TRANSFER_MONEY,
-        content: expect.any(String),
-      });
-    });
-
-    it('fails to create', () => {
-      const { module, store, integration } = setupWithOpenUnsavedModal();
-      integration.mapFailure(CREATE_TRANSFER_MONEY);
-
-      module.saveHandler();
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: SET_SUBMITTING_STATE,
-          isSubmitting: true,
-        },
-        {
-          intent: SET_SUBMITTING_STATE,
-          isSubmitting: false,
-        },
-        {
-          intent: SET_ALERT_MESSAGE,
-          alertMessage: 'fails',
-        },
-      ]);
+      expect(store.getActions()).not.toEqual([]);
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: CREATE_TRANSFER_MONEY,
@@ -364,8 +359,9 @@ describe('TransferMoneyDetailModule', () => {
     });
 
     it('does nothing when already submitting', () => {
-      const { module, store, integration } = setupWithOpenUnsavedModal();
+      const { module, store, integration } = setupWithEditedPage();
       module.dispatcher.setSubmittingState(true);
+      module.openUnsavedModal();
       store.resetActions();
 
       module.saveHandler();

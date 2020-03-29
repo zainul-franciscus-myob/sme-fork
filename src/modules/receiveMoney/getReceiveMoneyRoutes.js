@@ -2,14 +2,14 @@ import ReceiveMoneyDetailModule from './receiveMoneyDetail/ReceiveMoneyDetailMod
 import RouteName from '../../router/RouteName';
 
 const getReceiveMoneyRoutes = ({
-  integration, setRootView, pushMessage,
+  integration, setRootView, pushMessage, popMessages, reload,
 }) => {
   const routes = [
     {
       name: RouteName.RECEIVE_MONEY_DETAIL,
       path: '/:region/:businessId/receiveMoney/:receiveMoneyId',
       module: new ReceiveMoneyDetailModule({
-        integration, setRootView, pushMessage,
+        integration, setRootView, pushMessage, popMessages, reload,
       }),
       documentTitle: 'Receive money',
     },

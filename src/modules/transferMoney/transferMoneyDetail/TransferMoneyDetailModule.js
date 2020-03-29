@@ -5,6 +5,7 @@ import { SUCCESSFULLY_DELETED_TRANSFER_MONEY, SUCCESSFULLY_SAVED_TRANSFER_MONEY 
 import {
   getIsActionsDisabled,
   getIsCreating,
+  getModal,
   getModalUrl,
   getOpenedModalType,
   getSaveUrl,
@@ -23,10 +24,12 @@ import transferMoneyDetailReducer from './transferMoneyDetailReducer';
 
 export default class TransferMoneyDetailModule {
   constructor({
-    integration, setRootView, pushMessage,
+    integration, setRootView, pushMessage, popMessages, reload,
   }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
+    this.popMessages = popMessages;
+    this.reload = reload;
     this.store = new Store(transferMoneyDetailReducer);
     this.dispatcher = createTransferMoneyDetailDispatcher(this.store);
     this.integrator = createTransferMoneyDetailIntegrator(this.store, integration);
@@ -51,17 +54,24 @@ export default class TransferMoneyDetailModule {
     this.redirectToUrl(transactionListUrl);
   };
 
-  redirectToModalUrl = () => {
+  handleOnDiscardClickFromUnsavedModal = () => {
     const state = this.store.getState();
     const url = getModalUrl(state);
-    this.redirectToUrl(url);
+
+    this.redirectToUrlOrReloadModule(url);
+  }
+
+  redirectToUrlOrReloadModule = (url) => {
+    if (window.location.href.includes(url)) {
+      this.reload();
+    } else this.redirectToUrl(url);
   }
 
   redirectToUrl = (url) => {
     window.location.href = url;
   }
 
-  dismissAlert = () => this.dispatcher.setAlertMessage('');
+  dismissAlert = () => this.dispatcher.setAlert();
 
   createTransferMoneyEntry = () => {
     const state = this.store.getState();
@@ -74,12 +84,15 @@ export default class TransferMoneyDetailModule {
       });
 
       const url = getSaveUrl(state);
-      this.redirectToUrl(url);
+      this.redirectToUrlOrReloadModule(url);
     };
 
     const onFailure = (error) => {
+      if (getModal(this.store.getState())) {
+        this.dispatcher.closeModal();
+      }
       this.dispatcher.setSubmittingState(false);
-      this.dispatcher.setAlertMessage(error.message);
+      this.dispatcher.setAlert({ message: error.message, type: 'danger' });
     };
 
     this.dispatcher.setSubmittingState(true);
@@ -100,7 +113,7 @@ export default class TransferMoneyDetailModule {
 
     const onFailure = (error) => {
       this.dispatcher.setSubmittingState(false);
-      this.dispatcher.setAlertMessage(error.message);
+      this.dispatcher.setAlert({ message: error.message, type: 'danger' });
     };
 
     this.integrator.deleteTranferMoney({ onSuccess, onFailure });
@@ -151,7 +164,7 @@ export default class TransferMoneyDetailModule {
         onSave={this.createTransferMoneyEntry}
         onCancel={this.openCancelModal}
         onDelete={this.openDeleteModal}
-        onConfirmCancelButtonClick={this.redirectToModalUrl}
+        onConfirmCancelButtonClick={this.handleOnDiscardClickFromUnsavedModal}
         onConfirmDeleteButtonClick={this.deleteTransferMoney}
         onDismissModal={this.dispatcher.closeModal}
       />);
@@ -185,10 +198,21 @@ export default class TransferMoneyDetailModule {
     SAVE_ACTION: this.saveHandler,
   };
 
+  readMessages = () => {
+    const messageTypes = [SUCCESSFULLY_SAVED_TRANSFER_MONEY];
+    const [successMessage] = this.popMessages(messageTypes);
+
+    if (successMessage) {
+      const { content: message } = successMessage;
+      this.dispatcher.setAlert({ message, type: 'success' });
+    }
+  };
+
   run(context) {
     this.dispatcher.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
     this.render();
+    this.readMessages();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.loadTransferMoney();
   }

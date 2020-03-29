@@ -3,7 +3,7 @@ import {
   LOAD_NEW_TRANSFER_MONEY,
   LOAD_TRANSFER_MONEY_DETAIL,
   OPEN_MODAL,
-  SET_ALERT_MESSAGE,
+  SET_ALERT,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_FORM,
@@ -29,7 +29,7 @@ const getDefaultState = () => ({
   isPageEdited: false,
   loadingState: LoadingState.LOADING,
   modal: undefined,
-  alertMessage: '',
+  alert: undefined,
   businessId: '',
   region: '',
 });
@@ -74,9 +74,9 @@ const setSubmittingState = (state, action) => ({
   isSubmitting: action.isSubmitting,
 });
 
-const setAlertMessage = (state, action) => ({
+const setAlert = (state, action) => ({
   ...state,
-  alertMessage: action.alertMessage,
+  alert: action.alert,
 });
 
 const openModal = (state, action) => ({
@@ -102,7 +102,7 @@ const handlers = {
   [LOAD_NEW_TRANSFER_MONEY]: loadNewTransferMoney,
   [UPDATE_FORM]: updateForm,
   [SET_SUBMITTING_STATE]: setSubmittingState,
-  [SET_ALERT_MESSAGE]: setAlertMessage,
+  [SET_ALERT]: setAlert,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [RESET_STATE]: resetState,

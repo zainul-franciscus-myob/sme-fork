@@ -14,6 +14,7 @@ import {
   UPDATE_RECEIVE_MONEY_LINE,
 } from '../../ReceiveMoneyIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
+import { SUCCESSFULLY_SAVED_RECEIVE_MONEY } from '../../receiveMoneyMessageTypes';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import ModalType from '../../ModalType';
 import ReceiveMoneyDetailModule from '../ReceiveMoneyDetailModule';
@@ -30,8 +31,11 @@ const setup = () => {
   const integration = new TestIntegration();
   const setRootView = () => { };
   const pushMessage = () => { };
+  const popMessages = () => [];
 
-  const module = new ReceiveMoneyDetailModule({ integration, setRootView, pushMessage });
+  const module = new ReceiveMoneyDetailModule({
+    integration, setRootView, pushMessage, popMessages,
+  });
   module.store = store;
   module.dispatcher = createReceiveMoneyDetailDispatcher({ store });
   module.integrator = createReceiveMoneyDetailIntegrator({ store, integration });
@@ -210,17 +214,23 @@ describe('ReceiveMoneyDetailModule', () => {
     });
   });
 
+  // TODO: Test redirect after save once Nav Spike is done
   describe('saveReceiveMoneyEntry', () => {
     it('should create', () => {
       const { store, integration, module } = setupWithNew();
-      module.redirectToUrl = jest.fn();
+      module.pushMessage = jest.fn();
 
       module.saveReceiveMoneyEntry();
-      const actions = store.getActions();
 
-      expect(getIntents(actions)).toEqual([
-        SET_SUBMITTING_STATE,
-        SET_SUBMITTING_STATE,
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
       ]);
 
       expect(integration.getRequests()).toEqual([
@@ -229,19 +239,26 @@ describe('ReceiveMoneyDetailModule', () => {
         }),
       ]);
 
-      expect(module.redirectToUrl).toHaveBeenCalled();
+      expect(module.pushMessage).toHaveBeenCalledWith(
+        expect.objectContaining({ type: SUCCESSFULLY_SAVED_RECEIVE_MONEY }),
+      );
     });
 
     it('should update', () => {
       const { store, integration, module } = setupWithExisting();
-      module.redirectToUrl = jest.fn();
+      module.pushMessage = jest.fn();
 
       module.saveReceiveMoneyEntry();
-      const actions = store.getActions();
 
-      expect(getIntents(actions)).toEqual([
-        SET_SUBMITTING_STATE,
-        SET_SUBMITTING_STATE,
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
       ]);
 
       expect(integration.getRequests()).toEqual([
@@ -250,7 +267,9 @@ describe('ReceiveMoneyDetailModule', () => {
         }),
       ]);
 
-      expect(module.redirectToUrl).toHaveBeenCalled();
+      expect(module.pushMessage).toHaveBeenCalledWith(
+        expect.objectContaining({ type: SUCCESSFULLY_SAVED_RECEIVE_MONEY }),
+      );
     });
 
     it('should fail', () => {
@@ -258,12 +277,53 @@ describe('ReceiveMoneyDetailModule', () => {
       integration.mapFailure(CREATE_RECEIVE_MONEY);
 
       module.saveReceiveMoneyEntry();
-      const actions = store.getActions();
 
-      expect(getIntents(actions)).toEqual([
-        SET_SUBMITTING_STATE,
-        SET_SUBMITTING_STATE,
-        SET_ALERT,
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
+        expect.objectContaining({
+          intent: SET_ALERT,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: CREATE_RECEIVE_MONEY,
+        }),
+      ]);
+    });
+
+    it('should fail and close modal if there was a modal open', () => {
+      const { store, integration, module } = setupWithNew();
+      integration.mapFailure(CREATE_RECEIVE_MONEY);
+
+      module.addReceiveMoneyLine({ amount: '1' }); // Make page dirty
+      module.handlePageTransition('url'); // open unsaved modal
+      store.resetActions();
+
+      module.saveReceiveMoneyEntry();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: CLOSE_MODAL,
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
+        expect.objectContaining({
+          intent: SET_ALERT,
+        }),
       ]);
 
       expect(integration.getRequests()).toEqual([
@@ -404,6 +464,7 @@ describe('ReceiveMoneyDetailModule', () => {
       ]);
     });
 
+    // TODO: Test redirect after save once Nav Spike is done
     it('should redirect to a url', () => {
       const { module } = setupWithExisting();
       module.redirectToUrl = jest.fn();
@@ -434,8 +495,10 @@ describe('ReceiveMoneyDetailModule', () => {
       expect(store.getActions()).toEqual([]);
     });
 
+    // TODO: Test redirect after save once Nav Spike is done
     it('should save when an unsaved modal is open', () => {
       const { module, store, integration } = setUpWithPageEdited();
+      module.reload = jest.fn();
       module.openUnsavedModal();
       store.resetActions();
 
