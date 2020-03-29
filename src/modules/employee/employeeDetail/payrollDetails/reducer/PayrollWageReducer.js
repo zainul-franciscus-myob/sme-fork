@@ -92,6 +92,7 @@ const payCycleMultiplier = {
   Fortnightly: 26,
   TwiceAMonth: 24,
   Monthly: 12,
+  Quarterly: 4,
 };
 
 const calculateAnnualSalary = (hourlyRate, payPeriodHours, payCycle) => hourlyRate

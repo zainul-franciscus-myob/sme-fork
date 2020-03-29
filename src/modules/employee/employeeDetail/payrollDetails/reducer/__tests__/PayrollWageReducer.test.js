@@ -145,15 +145,16 @@ describe('PayrollWageReducer', () => {
 
   describe('updatePayrollWageAnnualSalary', () => {
     it.each([
-      ['Weekly', '1.00'],
-      ['Fortnightly', '2.00'],
-      ['TwiceAMonth', '2.1667'],
-      ['Monthly', '4.3333'],
-    ])('should calculate hourly rate for a %s pay cycle', (payCycle, expectedHourlyRate) => {
+      ['Weekly', '40', '25.00'],
+      ['Fortnightly', '80', '25.00'],
+      ['TwiceAMonth', '88', '24.6212'],
+      ['Monthly', '173.3333', '25.00'],
+      ['Quarterly', '520', '25.00'],
+    ])('should calculate hourly rate for a %s pay cycle', (payCycle, payPeriodHours, expectedHourlyRate) => {
       const state = {
         payrollDetails: {
           wage: {
-            payPeriodHours: '10',
+            payPeriodHours,
             selectedPayCycle: payCycle,
           },
         },
@@ -161,7 +162,7 @@ describe('PayrollWageReducer', () => {
 
       const action = {
         intent: UPDATE_PAYROLL_WAGE_ANNUAL_SALARY,
-        value: '520',
+        value: '52000',
       };
 
       const actual = employeeDetailReducer(state, action);
@@ -170,10 +171,10 @@ describe('PayrollWageReducer', () => {
         isPageEdited: true,
         payrollDetails: {
           wage: {
-            payPeriodHours: '10',
+            payPeriodHours,
             hourlyRate: expectedHourlyRate,
             selectedPayCycle: payCycle,
-            annualSalary: '520.00',
+            annualSalary: '52000.00',
           },
         },
       };
