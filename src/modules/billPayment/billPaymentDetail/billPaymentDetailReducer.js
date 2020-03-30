@@ -91,10 +91,27 @@ const loadBillPayment = (state, action) => ({
 
 const loadBillList = (state, action) => ({
   ...state,
-  entries: action.entries.map(entry => ({
-    ...entry,
-    paidAmount: state.applyPaymentToBillId === entry.id ? state.paymentAmount : '',
-  })),
+  entries: action.entries.map(entry => {
+    const prevEntry = state.entries.find(prev => prev.id === entry.id);
+    const shouldApplyPaymentTo = state.applyPaymentToBillId === entry.id;
+
+    if (shouldApplyPaymentTo) {
+      return {
+        ...entry,
+        paidAmount: state.paymentAmount,
+      };
+    }
+
+    if (prevEntry) {
+      return {
+        ...entry,
+        paidAmount: prevEntry.paidAmount,
+        discountAmount: prevEntry.discountAmount,
+      };
+    }
+
+    return entry;
+  }),
 });
 
 const updateHeaderOption = (state, action) => ({
