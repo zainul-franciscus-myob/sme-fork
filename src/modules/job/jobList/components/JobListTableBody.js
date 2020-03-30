@@ -59,7 +59,7 @@ const JobListTableBody = (props) => {
     <Table.Row key={id}>
       <JobRowItem
         config={tableConfig.number}
-        value={number}
+        value={isHeader ? number : <a href={link}>{number}</a>}
         title={number}
         indentLevel={level}
         isHeader={isHeader}
