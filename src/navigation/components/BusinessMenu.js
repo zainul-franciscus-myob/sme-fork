@@ -59,6 +59,8 @@ const UnlinkedMenuLink = ({ label, className }) => (
   <li className={classNames(styles.unlink, className)}><a role="button">{label}</a></li>
 );
 
+const createBusinessEnabled = () => ['dev', 'development', 'integration', 'pdv'].includes(process.env.NODE_ENV);
+
 const getItems = ({
   urls,
   serialNumber,
@@ -87,7 +89,7 @@ const getItems = ({
   shouldShowPaymentDetail ? getMenuLink(urls.paymentDetail, 'Payment details', onMenuLinkClick, '_blank') : undefined,
   onSubscribeNowClick && getMenuLink('', 'Subscribe now', onSubscribeNowClick),
   onChangePlanClick && getMenuLink('', 'Change plan', onChangePlanClick),
-  onCreateBusinessClick && getMenuLink('', 'Create business', onCreateBusinessClick),
+  createBusinessEnabled() && onCreateBusinessClick && getMenuLink('', 'Create business', onCreateBusinessClick),
   <Navigation.Separator key="separator-links" />,
   serialNumber && <UnlinkedMenuLink label={`Serial number: ${serialNumber}`} />,
   getMenuLinkWithIcon('', 'Logout', <Icons.SignOut />, onLogoutLinkClick),
