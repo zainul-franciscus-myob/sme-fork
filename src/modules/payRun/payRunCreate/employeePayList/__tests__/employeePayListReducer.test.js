@@ -3,6 +3,7 @@ import {
   CHANGE_ETP_CODE_CATEGORY,
   CLOSE_ETP_MODAL,
   FORMAT_EMPLOYEE_PAY_ITEM,
+  LOAD_EMPLOYEE_PAYS,
   OPEN_ETP_MODAL,
   SAVE_ETP,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
@@ -367,6 +368,64 @@ describe('employeePayListReducer', () => {
       const actual = payRunReducer(state, modifiedAction);
 
       expect(actual.employeePayList.lines[0].payItems[0].hours).toEqual('0.00');
+    });
+  });
+
+  describe('LOAD_EMPLOYEE_PAYS', () => {
+    const action = {
+      intent: LOAD_EMPLOYEE_PAYS,
+      employeePays: {
+        baseHourlyWagePayItemId: 2,
+        baseSalaryWagePayItemId: 1,
+        employeePays: [
+          {
+            employeeId: 21,
+            payItems: [
+              {
+                payItemId: 1,
+                payItemName: 'Salary Wage',
+                amount: '-100.00',
+                hours: '0.00',
+              },
+              {
+                payItemId: 2,
+                payItemName: 'Hourly Wage',
+                amount: '-100.00',
+                hours: '-10.00',
+              },
+              {
+                payItemId: 3,
+                payItemName: 'Annual leave',
+                amount: '-10.00',
+                hours: '0.00',
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    it('sets negative amount to zero for base salary pay item in the lines', () => {
+      const actual = payRunReducer({}, action);
+
+      expect(actual.employeePayList.lines[0].payItems[0].amount).toEqual('0.00');
+    });
+
+    it('does not set negative amount to zero for other pay items', () => {
+      const actual = payRunReducer({}, action);
+      expect(actual.employeePayList.lines[0].payItems[2].amount).toEqual('-10.00');
+    });
+
+    it('sets negative amount to zero for base hourly pay item in the lines', () => {
+      const actual = payRunReducer({}, action);
+
+      expect(actual.employeePayList.lines[0].payItems[1].amount).toEqual('0.00');
+    });
+
+    it('sets negative hours to zero for base hourly pay item in the lines', () => {
+      const actual = payRunReducer({}, action);
+
+      expect(actual.employeePayList.lines[0].payItems[1].hours).toEqual('0.00');
     });
   });
 });

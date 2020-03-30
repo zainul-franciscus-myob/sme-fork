@@ -185,8 +185,6 @@ export const getWagePayItemEntries = createSelector(
     .sort((a, b) => wagePayItemComparator(a, b, [baseHourlyWagePayItemId, baseSalaryWagePayItemId]))
     .map(payItem => ({
       ...payItem,
-      amount: [baseSalaryWagePayItemId, baseHourlyWagePayItemId].includes(payItem.payItemId)
-        && parseFloat(payItem.amount) < 0 ? '0.00' : payItem.amount,
       shouldShowHours: payItem.type === 'HourlyWage',
     })),
 );

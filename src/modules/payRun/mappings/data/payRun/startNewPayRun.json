@@ -1,6 +1,8 @@
 {
   "isPayrollSetup": true,
   "isTimesheetUsed": true,
+  "baseHourlyWagePayItemId": 2,
+  "baseSalaryWagePayItemId": 1,
   "newPayRunDetails": {
     "paymentFrequency": "Fortnightly",
     "regularPayCycleOptions": [

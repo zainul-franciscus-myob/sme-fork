@@ -16,6 +16,7 @@ import {
   UPDATE_PAY_PERIOD_EMPLOYEE_LIMIT,
   VALIDATE_ETP,
 } from '../PayRunIntents';
+import clearNegatives from '../clearNegativesInPayItems';
 import formatNumberWithDecimalScaleRange from '../../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 import getEmployeePayLines from '../getEmployeePayLines';
 
@@ -42,7 +43,10 @@ const loadEmployeePays = (state, { employeePays }) => ({
   ...state,
   baseHourlyWagePayItemId: employeePays.baseHourlyWagePayItemId,
   baseSalaryWagePayItemId: employeePays.baseSalaryWagePayItemId,
-  lines: getEmployeePayLines(employeePays.employeePays, () => (true)),
+  lines: clearNegatives(
+    getEmployeePayLines(employeePays.employeePays, () => (true)),
+    [employeePays.baseSalaryWagePayItemId, employeePays.baseHourlyWagePayItemId],
+  ),
   originalLines: getEmployeePayLines(employeePays.employeePays, () => (true)),
 });
 

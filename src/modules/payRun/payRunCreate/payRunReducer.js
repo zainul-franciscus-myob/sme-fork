@@ -28,6 +28,7 @@ import {
 } from './preparePaySlips/preparePaySlipsReducer';
 import { getStartPayRunDefaultState, startPayRunHandlers } from './startPayRun/startPayRunReducer';
 import LoadingState from '../../../components/PageView/LoadingState';
+import clearNegatives from './clearNegativesInPayItems';
 import createReducer from '../../../store/createReducer';
 import getEmployeePayLines from './getEmployeePayLines';
 import uuid from '../../../common/uuid/uuid';
@@ -165,9 +166,9 @@ const editExistingPayRun = (state, action) => {
       ...state[EMPLOYEE_PAY_LIST],
       baseSalaryWagePayItemId,
       baseHourlyWagePayItemId,
-      lines: getEmployeePayLines(
+      lines: clearNegatives(getEmployeePayLines(
         employeePays, ep => (isEmployeeSelected(ep.employeeId, selectedEmployeeIds)),
-      ),
+      ), [baseSalaryWagePayItemId, baseHourlyWagePayItemId]),
       originalLines: employeePays,
     },
   };
