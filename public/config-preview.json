@@ -5,7 +5,8 @@
   "BFF_BASE_URL": "https://preview-sme-web-bff.svc.platform.myob.com",
   "MY_REPORTS_URL": "https://reports.myob.com",
   "MANAGE_BANK_FEEDS_BASE_URL": "https://my.myob.com/pages/bankfeedsAdministrationRedirector.aspx",
-  "LEAN_ENGAGE_APP_ID" : "1534af9d-01fa-45e0-9df6-3b9c4f6c20cb",
+  "SEGMENT_WRITE_KEY": "tJUkEx77fYC0a3OtpUZY1JXG8s0KkWub",
+  "LEAN_ENGAGE_APP_ID": "514c0ce1-4aee-4839-bc2e-7b64eac9c51b",
   "MY_MYOB_AU_URL": "https://my.myob.com.au",
   "MY_MYOB_NZ_URL": "https://my.myob.co.nz",
   "SELF_SERVICE_PORTAL_URL": "https://myaccount.myob.com"

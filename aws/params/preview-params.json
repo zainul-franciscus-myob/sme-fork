@@ -5,14 +5,14 @@
   },
   {
     "ParameterKey": "AcmCertificate",
-    "ParameterValue": "arn:aws:acm:us-east-1:590476131038:certificate/11677eb0-fc35-44ae-a625-c22d014b377c"
+    "ParameterValue": "arn:aws:acm:us-east-1:590476131038:certificate/956c8962-3c17-41e1-ac2f-ebbb1f8a9ae9"
   },
   {
     "ParameterKey": "Aliases",
-    "ParameterValue": "app.myob.com"
+    "ParameterValue": "preview-sme-web.app.myob.com"
   },
   {
     "ParameterKey": "ACLDefaultAction",
-    "ParameterValue": "ALLOW"
+    "ParameterValue": "BLOCK"
   }
 ]

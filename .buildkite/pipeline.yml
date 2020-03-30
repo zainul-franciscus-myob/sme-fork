@@ -23,7 +23,7 @@ steps:
 
   - name: ':package: :hatched_chick: Build Integration Javascript'
     command: ./ops/bin/build integration
-    branches: master hotfix/*
+    branches: master
     env:
       REACT_APP_BUILD_NUMBER: ${BUILDKITE_BUILD_NUMBER}
     agents:
@@ -32,7 +32,7 @@ steps:
 
   - name: ':package: :hatched_chick: Build PDV Javascript'
     command: ./ops/bin/build pdv
-    branches: master hotfix/*
+    branches: master
     env:
       REACT_APP_BUILD_NUMBER: ${BUILDKITE_BUILD_NUMBER}
     agents:
@@ -70,7 +70,7 @@ steps:
     commands:
       - ./aws/deploy-stack integration
       - ./ops/bin/deploy integration
-    branches: master hotfix/*
+    branches: master
     agents:
       queue: cacc-prod-dflt
 
@@ -78,7 +78,7 @@ steps:
 
   - name: ':white_check_mark: Record "dev" release'
     command: 'myob-release dev sme-web'
-    branches: master hotfix/*
+    branches: master
     agents:
       queue: cacc-prod-dflt
 
@@ -89,7 +89,7 @@ steps:
     commands:
       - ./aws/deploy-stack pdv
       - ./ops/bin/deploy pdv
-    branches: master hotfix/*
+    branches: master
     agents:
       queue: cacc-prod-dflt
 
@@ -97,17 +97,17 @@ steps:
 
   - name: ':white_check_mark: Record "qa" release'
     command: 'myob-release qa sme-web'
-    branches: master hotfix/*
+    branches: master
     agents:
       queue: cacc-prod-dflt
 
   - block:
     if: build.message != 'Scheduled build for sme-web for 7AM AEST'
 
-  - name: ':rocket: :eagle: Deploy Production App'
+  - name: ':rocket: :eagle: Deploy Preview App'
     commands:
-      - ./aws/deploy-stack production
-      - ./ops/bin/deploy production
+      - ./aws/deploy-stack preview
+      - ./ops/bin/deploy preview
     branches: master hotfix/*
     agents:
       queue: cacc-prod-dflt
@@ -129,10 +129,10 @@ steps:
   - block:
     branches: master hotfix/*
 
-  - name: ':rocket: :eagle: Deploy Preview App'
+  - name: ':rocket: :eagle: Deploy Production App'
     commands:
-      - ./aws/deploy-stack preview
-      - ./ops/bin/deploy preview
+      - ./aws/deploy-stack production
+      - ./ops/bin/deploy production
     branches: master hotfix/*
     agents:
       queue: cacc-prod-dflt
