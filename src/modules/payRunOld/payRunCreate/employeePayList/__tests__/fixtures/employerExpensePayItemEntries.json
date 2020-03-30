@@ -1,0 +1,18 @@
+[
+  {
+    "payItemId": "9",
+    "payItemName": "Coffee Reimbursement",
+    "type": "Expense",
+    "amount": "10000.00",
+    "hours": "0.00",
+    "shouldShowHours": false
+  },
+  {
+    "payItemId": "10",
+    "payItemName": "Mortgage repayment",
+    "type": "SuperannuationExpense",
+    "amount": "10000.00",
+    "hours": "0.00",
+    "shouldShowHours": false
+  }
+]

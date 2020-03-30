@@ -46,6 +46,9 @@ import PayRefundMapping from '../../modules/payRefund/mappings/MemoryPayRefundMa
 import PayRunDetailMapping from '../../modules/payRun/mappings/MemoryPayRunDetailMapping';
 import PayRunListMapping from '../../modules/payRun/mappings/MemoryPayRunListMapping';
 import PayRunMapping from '../../modules/payRun/mappings/MemoryPayRunMapping';
+import PayRunOldDetailMapping from '../../modules/payRunOld/mappings/MemoryPayRunDetailMapping';
+import PayRunOldListMapping from '../../modules/payRunOld/mappings/MemoryPayRunListMapping';
+import PayRunOldMapping from '../../modules/payRunOld/mappings/MemoryPayRunMapping';
 import PaySuperAuthorisationModalMapping from '../../modules/paySuper/paySuperAuthorisationModal/mappings/MemoryPaySuperAuthorisationModalMapping';
 import PaySuperCreateMapping from '../../modules/paySuper/paySuperCreate/mappings/MemoryPaySuperCreateMapping';
 import PaySuperListMapping from '../../modules/paySuper/paySuperList/mappings/MemoryPaySuperListMapping';
@@ -115,8 +118,12 @@ const RootMapping = Object.freeze({
   ...PayRefundMapping,
   ...ApplyToSaleMapping,
   ...PayItemMapping,
+  ...PayRunMapping,
   ...PayRunListMapping,
   ...PayRunDetailMapping,
+  ...PayRunOldMapping,
+  ...PayRunOldListMapping,
+  ...PayRunOldDetailMapping,
   ...TimesheetMapping,
   ...SuperPayItemMapping,
   ...DeductionPayItemMapping,
@@ -128,7 +135,6 @@ const RootMapping = Object.freeze({
   ...BankingRuleMapping,
   ...BankReconciliationMapping,
   ...BankingRuleDetailMapping,
-  ...PayRunMapping,
   ...PaySuperListMapping,
   ...PaySuperReadMapping,
   ...LinkBillMapping,

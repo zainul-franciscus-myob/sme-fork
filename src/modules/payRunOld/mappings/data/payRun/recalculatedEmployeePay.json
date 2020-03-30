@@ -1,0 +1,104 @@
+{
+  "employeeId": "21",
+  "name": "Mary Jones",
+  "gross": 2500,
+  "payg": 200,
+  "deduction": 300,
+  "netPay": 1000,
+  "super": 350,
+  "payItems": [
+    {
+      "payItemId": 1,
+      "payItemName": "Salary Wage",
+      "type": "SalaryWage",
+      "stpCategory": "GrossPayments",
+      "amount": "100000.00",
+      "hours": "0.00"
+    },
+    {
+      "payItemId": 2,
+      "payItemName": "Hourly Wage",
+      "type": "HourlyWage",
+      "stpCategory": "GrossPayments",
+      "amount": "20000",
+      "hours": "38.50",
+      "leaveWarning": {
+        "currentLeaveBalance": 14.07,
+        "leaveAccruedThisPay": 1.67,
+        "leaveBeingPaid": 20,
+        "projectedLeaveBalance": -4.04
+      }
+    },
+    {
+      "payItemId": 3,
+      "payItemName": "Annual leave",
+      "type": "HourlyWage",
+      "stpCategory": "GrossPayments",
+      "amount": "0.00",
+      "hours": "0.00",
+      "LeaveWarning": null
+    },
+    {
+      "payItemId": 4,
+      "payItemName": "Sick leave",
+      "type": "HourlyWage",
+      "stpCategory": "GrossPayments",
+      "amount": "0.00",
+      "hours": "0.00",
+      "leaveWarning": {
+        "currentLeaveBalance": 14.07,
+        "leaveAccruedThisPay": 1.67,
+        "leaveBeingPaid": 20,
+        "projectedLeaveBalance": 4.04
+      }
+    },
+    {
+      "payItemId": 5,
+      "payItemName": "Child support deduction",
+      "type": "Deduction",
+      "stpCategory": "NotReportable",
+      "amount": "100.00",
+      "hours": "0.00"
+    },
+    {
+      "payItemId": 6,
+      "payItemName": "Superannuation deduction before tax",
+      "type": "SuperannuationDeductionBeforeTax",
+      "stpCategory": "NotReportable",
+      "amount": "200.00",
+      "hours": "0.00"
+    },
+    {
+      "payItemId": 7,
+      "payItemName": "Superannuation deduction after tax",
+      "type": "SuperannuationDeductionAfterTax",
+      "stpCategory": "NotReportable",
+      "amount": "100.00",
+      "hours": "0.00"
+    },
+    {
+      "payItemId": 8,
+      "payItemName": "Random deduction",
+      "type": "Deduction",
+      "stpCategory": "NotReportable",
+      "amount": "5000.00",
+      "hours": "0.00"
+    },
+    {
+      "payItemId": 9,
+      "payItemName": "Annual leave accrual",
+      "type": "Entitlement",
+      "stpCategory": "NotReportable",
+      "amount": "0.00",
+      "hours": "30.00"
+    },
+    {
+      "payItemId": 10,
+      "payItemName": "Sick leave accrual",
+      "type": "Entitlement",
+      "stpCategory": "NotReportable",
+      "amount": "0.00",
+      "hours": "30.00"
+    }
+  ]
+}

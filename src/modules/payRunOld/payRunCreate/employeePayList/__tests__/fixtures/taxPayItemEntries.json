@@ -1,0 +1,10 @@
+[
+  {
+    "payItemId": "11",
+    "payItemName": "PayGWithholding",
+    "type": "Tax",
+    "amount": "222.00",
+    "hours": "0.00",
+    "shouldShowHours": false
+  }
+]
