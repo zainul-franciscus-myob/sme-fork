@@ -397,9 +397,11 @@ describe('BillModule', () => {
           expect.objectContaining({
             intent: PREFILL_BILL_FROM_IN_TRAY,
           }),
-          expect.objectContaining({
+          {
             intent: GET_TAX_CALCULATIONS,
-          }),
+            isSwitchingTaxInclusive: false,
+            taxCalculations: expect.any(Object),
+          },
         ]);
 
         expect(integration.getRequests()).toEqual(expectedIntegrationRequests);
@@ -484,9 +486,11 @@ describe('BillModule', () => {
           expect.objectContaining({
             intent: PREFILL_BILL_FROM_IN_TRAY,
           }),
-          expect.objectContaining({
+          {
             intent: GET_TAX_CALCULATIONS,
-          }),
+            isSwitchingTaxInclusive: false,
+            taxCalculations: expect.any(Object),
+          },
         ]);
         expect(integration.getRequests()).toEqual(expectedIntegrationRequests);
       });

@@ -255,7 +255,11 @@ describe('BillModule_Modal', () => {
         { intent: SET_DOCUMENT_LOADING_STATE, isDocumentLoading: true },
         { intent: SET_DOCUMENT_LOADING_STATE, isDocumentLoading: false },
         expect.objectContaining({ intent: PREFILL_BILL_FROM_IN_TRAY }),
-        expect.objectContaining({ intent: GET_TAX_CALCULATIONS }),
+        {
+          intent: GET_TAX_CALCULATIONS,
+          isSwitchingTaxInclusive: false,
+          taxCalculations: expect.any(Object),
+        },
         { intent: SET_SHOW_SPLIT_VIEW, showSplitView: true },
         {
           inTrayDocumentUrl: 'http://www.🐀.com',
@@ -286,7 +290,11 @@ describe('BillModule_Modal', () => {
         { intent: SET_DOCUMENT_LOADING_STATE, isDocumentLoading: true },
         { intent: SET_DOCUMENT_LOADING_STATE, isDocumentLoading: false },
         expect.objectContaining({ intent: PREFILL_BILL_FROM_IN_TRAY }),
-        expect.objectContaining({ intent: GET_TAX_CALCULATIONS }),
+        {
+          intent: GET_TAX_CALCULATIONS,
+          isSwitchingTaxInclusive: false,
+          taxCalculations: expect.any(Object),
+        },
         { intent: SET_SHOW_SPLIT_VIEW, showSplitView: true },
         {
           inTrayDocumentUrl: 'http://www.🐀.com',
