@@ -13,11 +13,11 @@ import classNames from 'classnames';
 
 import BusinessRoles from '../fixtures/businessRoles';
 import Industries from '../fixtures/Industries';
-import customersImage from '../assets/customers.svg';
 import handleComboboxChange from '../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../components/handlers/handleInputChange';
 import handleSelectChange from '../../components/handlers/handleSelectChange';
 import styles from './OnboardingView.module.css';
+import welcomeImage from '../assets/welcome.svg';
 
 const industryData = [{ columnName: 'id', showData: true }];
 
@@ -99,7 +99,7 @@ class OnboardingView extends Component {
         </div>
 
         <div className={classNames(styles.column, styles.img)}>
-          <img src={customersImage} alt="placeholder" width="100%" height="auto" />
+          <img src={welcomeImage} alt="Grid of 20 people from different industries, including trades, retail and food service" width="100%" height="auto" />
         </div>
 
         <div className={classNames(styles.column, styles.form)}>
