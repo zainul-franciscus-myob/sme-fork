@@ -1,0 +1,64 @@
+{
+  "businessName": "Clearwater NZ",
+  "serialNumber": "485151505687",
+  "region": "nz",
+  "userEmail": "tony.stark@starkindustry.com",
+  "enabledFeatures": [
+    "quoteList",
+    "quoteCreate",
+    "invoiceList",
+    "invoiceCreate",
+    "invoicePaymentCreate",
+    "customerReturnList",
+    "itemList",
+    "customerStatementList",
+
+    "billList",
+    "billCreate",
+    "billPaymentCreate",
+    "supplierReturnList",
+
+    "bankTransactionList",
+    "bankReconciliation",
+    "bankingRuleList",
+    "bankFeeds",
+    "electronicPaymentBankCreate",
+    "spendMoneyCreate",
+    "receiveMoneyCreate",
+    "transferMoneyCreate",
+    "transactionList",
+
+    "generalJournalList",
+    "generalJournalCreate",
+    "accountList",
+    "linkedAccounts",
+    "taxList",
+    "prepareBasOrIas",
+
+    "employeeListNz",
+
+    "contactList",
+    "contactCreate",
+
+    "reportsStandard",
+    "reportsFavourite",
+    "reportsCustom",
+    "reportsException",
+    "reportsPackBuilder",
+    "reportsPdfStyleTemplates",
+
+    "inTrayList",
+
+    "businessDetails",
+    "incomeAllocation",
+    "salesSettings",
+    "payrollSettings",
+    "userList",
+    "dataImportExport",
+    "myMyobAccount",
+    "paymentDetail",
+    "subscription"
+  ],
+  "isReadOnly": false,
+  "isCurrentUserAdvisor": true
+}

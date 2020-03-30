@@ -15,6 +15,7 @@ import getCustomerStatementRoutes from './modules/customerStatement/getCustomerS
 import getDashboardRoutes from './modules/dashboard/getDashboardRoutes';
 import getDataImportExportRoutes from './modules/dataImportExport/getDataImportExportRoutes';
 import getElectronicPaymentsRoutes from './modules/electronicPayments/getElectronicPaymentsRoutes';
+import getEmployeeNzRoutes from './modules/nzPayroll/employee/getEmployeeNzRoutes';
 import getEmployeePayRoutes from './modules/employeePay/getEmployeePayRoutes';
 import getEmployeeRoutes from './modules/employee/getEmployeeRoutes';
 import getFileUnavailableRoutes from './modules/fileUnavailable/getFileUnavailableRoutes';
@@ -108,6 +109,7 @@ const getRoutes = moduleParams => [
   ...getFileUnavailableRoutes(moduleParams),
   ...getTemplateBuilderRoutes(moduleParams),
   ...getJobRoutes(moduleParams),
+  ...getEmployeeNzRoutes(moduleParams),
 ];
 
 export default getRoutes;

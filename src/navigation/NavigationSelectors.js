@@ -117,10 +117,26 @@ export const getPayrollUrls = createSelector(
     stpReporting: enabledUrls.stpReporting,
   }),
 );
+
+export const getPayrollNzUrls = createSelector(
+  getEnabledUrls,
+  (enabledUrls) => ({
+    employeeListNz: enabledUrls.employeeListNz,
+  }),
+);
+
 export const getShouldDisplayPayrollMenu = createSelector(
   getIsLoading,
   getPayrollUrls,
-  (isLoading, urls) => !isLoading && Object.values(urls).some(Boolean),
+  getRegion,
+  (isLoading, urls, region) => !isLoading && region === 'au' && Object.values(urls).some(Boolean),
+);
+
+export const getShouldDisplayPayrollNzMenu = createSelector(
+  getIsLoading,
+  getPayrollNzUrls,
+  getRegion,
+  (isLoading, urls, region) => !isLoading && region === 'nz' && Object.values(urls).some(Boolean),
 );
 
 export const getBankingUrls = createSelector(

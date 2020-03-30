@@ -15,6 +15,7 @@ import {
   getShouldDisplayInTray,
   getShouldDisplayLiveChat,
   getShouldDisplayPayrollMenu,
+  getShouldDisplayPayrollNzMenu,
   getShouldDisplayPurchasesMenu,
   getShouldDisplayReportsMenu,
   getShouldDisplaySalesMenu,
@@ -35,6 +36,7 @@ import InTray from './InTray';
 import LiveChat from '../../liveChat/LiveChat';
 import Logout from './Logout';
 import PayrollMenu from './PayrollMenu';
+import PayrollNzMenu from './PayrollNzMenu';
 import PurchasesMenu from './PurchasesMenu';
 import ReportsMenu from './ReportsMenu';
 import SalesMenu from './SalesMenu';
@@ -52,6 +54,7 @@ const getPrimary = ({
   shouldDisplayContactMenu,
   shouldDisplayAccountingMenu,
   shouldDisplayPayrollMenu,
+  shouldDisplayPayrollNzMenu,
   shouldDisplayInTray,
   shouldDisplayReportsMenu,
 }) => [
@@ -87,6 +90,13 @@ const getPrimary = ({
   shouldDisplayPayrollMenu && (
     <PayrollMenu
       key="PayrollMenu"
+      onMenuSelect={onMenuSelect}
+      onMenuLinkClick={onMenuLinkClick}
+    />
+  ),
+  shouldDisplayPayrollNzMenu && (
+    <PayrollNzMenu
+      key="PayrollNzMenu"
       onMenuSelect={onMenuSelect}
       onMenuLinkClick={onMenuLinkClick}
     />
@@ -177,6 +187,7 @@ const NavigationBar = ({
   shouldDisplayContactMenu,
   shouldDisplayAccountingMenu,
   shouldDisplayPayrollMenu,
+  shouldDisplayPayrollNzMenu,
   shouldDisplayPurchasesMenu,
   shouldDisplayInTray,
   shouldDisplayReportsMenu,
@@ -206,6 +217,7 @@ const NavigationBar = ({
     shouldDisplayContactMenu,
     shouldDisplayAccountingMenu,
     shouldDisplayPayrollMenu,
+    shouldDisplayPayrollNzMenu,
     shouldDisplayInTray,
     shouldDisplayReportsMenu,
   });
@@ -279,6 +291,7 @@ const mapStateToProps = state => ({
   shouldDisplayAccountingMenu: getShouldDisplayAccountingMenu(state),
   shouldDisplaySalesMenu: getShouldDisplaySalesMenu(state),
   shouldDisplayPayrollMenu: getShouldDisplayPayrollMenu(state),
+  shouldDisplayPayrollNzMenu: getShouldDisplayPayrollNzMenu(state),
   shouldDisplayPurchasesMenu: getShouldDisplayPurchasesMenu(state),
   shouldDisplayInTray: getShouldDisplayInTray(state),
   shouldDisplayReportsMenu: getShouldDisplayReportsMenu(state),

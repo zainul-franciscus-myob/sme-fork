@@ -45,6 +45,8 @@ export const activeMapping = {
   [RouteName.TAX_LIST]: 'accounting',
   [RouteName.PREPARE_BAS_OR_IAS]: 'accounting',
 
+  [RouteName.EMPLOYEE_LIST_NZ]: 'payroll',
+
   [RouteName.EMPLOYEE_LIST]: 'payroll',
   [RouteName.EMPLOYEE_DETAIL]: 'payroll',
   [RouteName.PAY_RUN_OLD_LIST]: 'payroll',
@@ -112,6 +114,8 @@ export const featuresConfig = {
   linkedAccounts: { routeName: RouteName.LINKED_ACCOUNTS },
   taxList: { routeName: RouteName.TAX_LIST },
   prepareBasOrIas: { routeName: RouteName.PREPARE_BAS_OR_IAS },
+
+  employeeListNz: { routeName: RouteName.EMPLOYEE_LIST_NZ },
 
   employeeList: { routeName: RouteName.EMPLOYEE_LIST },
   employeeCreate: { routeName: RouteName.EMPLOYEE_DETAIL, params: { employeeId: 'new' } },
