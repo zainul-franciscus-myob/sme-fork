@@ -83,12 +83,12 @@ export default class QuoteDetailModule {
     this.inventoryModalModule = new InventoryModalModule({ integration });
   }
 
-  loadQuote = (message) => {
+  loadQuote = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (payload) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.dispatcher.loadQuote(payload, message);
+      this.dispatcher.loadQuote(payload);
     };
 
     const onFailure = () => {
@@ -163,8 +163,9 @@ export default class QuoteDetailModule {
     const url = getModalUrl(state);
     this.dispatcher.closeModal();
 
-    const onSuccess = () => {
-      this.redirectToUrl(url);
+    const onSuccess = ({ message }) => {
+      this.pushSuccessfulSaveMessage(message);
+      this.redirectToUrlOrReloadModule(url);
     };
 
     this.createOrUpdateQuote({ onSuccess });
@@ -227,6 +228,12 @@ export default class QuoteDetailModule {
     window.location.href = url;
   }
 
+  redirectToUrlOrReloadModule = (url) => {
+    if (window.location.href.includes(url)) {
+      this.reload();
+    } else this.redirectToUrl(url);
+  }
+
   redirectToQuoteList = () => {
     const state = this.store.getState();
     const url = getQuoteListURL(state);
@@ -262,11 +269,11 @@ export default class QuoteDetailModule {
     this.redirectToUrl(url);
   }
 
-  redirectToModalUrl = () => {
+  handleOnDiscardButtonClickFromUnsavedModal = () => {
     const state = this.store.getState();
     const url = getModalUrl(state);
 
-    this.redirectToUrl(url);
+    this.redirectToUrlOrReloadModule(url);
   }
 
   updateQuoteDetailHeaderOptions = ({ key, value }) => {
@@ -692,8 +699,12 @@ export default class QuoteDetailModule {
   }
 
   readMessages = () => {
-    const [message] = this.popMessages(this.messageTypes);
-    this.message = message;
+    const [successMessage] = this.popMessages(this.messageTypes);
+
+    if (successMessage) {
+      const { content: message } = successMessage;
+      this.dispatcher.setAlert({ message, type: 'success' });
+    }
   }
 
   render = () => {
@@ -738,7 +749,7 @@ export default class QuoteDetailModule {
             onConfirmCancelButtonClick: this.redirectToQuoteList,
             onConfirmDeleteButtonClick: this.deleteQuote,
             onConfirmSaveButtonClick: this.saveUnsavedChanges,
-            onConfirmUnsaveButtonClick: this.redirectToModalUrl,
+            onConfirmUnsaveButtonClick: this.handleOnDiscardButtonClickFromUnsavedModal,
             onConfirmSaveAndCreateNewButtonClick: this.saveAndCreateNew,
             onConfirmSaveAndDuplicateButtonClick: this.saveAndDuplicate,
             onEmailQuoteDetailChange: this.dispatcher.updateEmailQuoteDetail,
@@ -811,6 +822,8 @@ export default class QuoteDetailModule {
         this.saveAndDuplicate();
         break;
       case ModalType.UNSAVED:
+        this.saveUnsavedChanges();
+        break;
       default:
         this.saveQuote();
         break;
@@ -837,6 +850,6 @@ export default class QuoteDetailModule {
 
     this.readMessages();
 
-    this.loadQuote(this.message);
+    this.loadQuote();
   }
 }
