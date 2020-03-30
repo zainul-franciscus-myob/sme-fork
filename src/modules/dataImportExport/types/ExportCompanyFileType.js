@@ -5,7 +5,7 @@ const ExportCompanyFileType = {
   MYOB_AO: 'MyobAO',
   MYOB_AO_CLASSIC: 'MyobAOCLASSIC', // Currently not supported
   RECKON_APS: 'ReckonAPS',
-  SAGE_HANDI_LEDGER: 'SageHandiLedger', // Currently not supported
+  SAGE_HANDI_LEDGER: 'HandiLedger',
 };
 
 export default ExportCompanyFileType;

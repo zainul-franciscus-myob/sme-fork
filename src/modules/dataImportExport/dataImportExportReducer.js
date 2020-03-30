@@ -62,6 +62,7 @@ const getDefaultState = () => ({
         { name: 'MYOB AE MAS', value: ExportCompanyFileType.MYOB_AE_MAS },
         { name: 'MYOB AO', value: ExportCompanyFileType.MYOB_AO },
         { name: 'Reckon APS', value: ExportCompanyFileType.RECKON_APS },
+        { name: 'Sage Handiledger', value: ExportCompanyFileType.SAGE_HANDI_LEDGER },
       ],
     },
   },
