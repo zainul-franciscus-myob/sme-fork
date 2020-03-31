@@ -92,13 +92,16 @@ const BankingRuleDetailAllocationTable = ({
           columnConfig={columnConfig}
           headerItems={headerItems}
         >
-          {
-        showRemainingPercentage && (
-        <LineItemTable.Total>
-          <LineItemTable.Totals title="Remaining" amount={remainingPercentage} />
-        </LineItemTable.Total>
-        )
-      }
+          <div className={styles.totals}>
+            {
+              showRemainingPercentage && (
+
+                <LineItemTable.Total>
+                  <LineItemTable.Totals title="Remaining" amount={remainingPercentage} />
+                </LineItemTable.Total>
+              )
+            }
+        </div>
         </LineItemTable>
       </NoMoveWrapper>
     </div>

@@ -5,3 +5,7 @@
 .allocationTable :global(.line-item-table [data-label="Account"]) {
   flex: 1 1;
 }
+
+.totals {
+  min-height: 14rem;
+}
