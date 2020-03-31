@@ -1,86 +1,9 @@
-import Decimal from 'decimal.js';
-
 import QuoteLayout from '../QuoteLayout';
+import buildLineWithCalculatedAmounts from '../../../../common/itemAndServiceLayout/buildLineWithCalculatedAmounts';
+import calculateUnitPrice from '../../../../common/itemAndServiceLayout/calculateUnitPrice';
 import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
-import formatDisplayAmount
-  from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
-import formatDisplayDiscount
-  from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
-import formatDisplayUnitPrice
-  from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
-
-const calculateAmount = (units, unitPrice, discount) => {
-  const calculatedDiscount = Decimal(1).minus(Decimal(discount).div(100));
-  return Decimal(units)
-    .times(unitPrice)
-    .times(calculatedDiscount).valueOf();
-};
-
-const calculateDiscount = (units, unitPrice, amount) => {
-  const totalAmount = Decimal(units).times(unitPrice);
-  const decimalAmount = Decimal(amount);
-  return Decimal(1)
-    .minus(decimalAmount.div(totalAmount))
-    .times(100).valueOf();
-};
-
-const calculateUnitPrice = (units, amount, discount) => (
-  Decimal(amount).div(Decimal(1).minus(Decimal(discount).div(100))).div(units).valueOf()
-);
-
-const shouldCalculateAmount = (line, key) => ['units', 'unitPrice', 'discount'].includes(key)
-    && line.units !== ''
-    && line.unitPrice !== '';
-
-const shouldCalculateDiscount = (line, key) => key === 'amount'
-  && Number(line.units) !== 0
-  && Number(line.unitPrice) !== 0
-  && line.amount !== '';
-
-const shouldCalculateUnitPrice = (line, key) => key === 'amount'
-  && Number(line.units) !== 0
-  && Number(line.unitPrice) === 0
-  && Number(line.discount) !== 100
-  && line.amount !== '';
-
-const buildItemServiceLine = (line, key) => {
-  const units = Number(line.units);
-  const unitPrice = Number(line.unitPrice);
-  const discount = Number(line.discount);
-  const amount = Number(line.amount);
-
-  if (shouldCalculateAmount(line, key)) {
-    const calculatedAmount = calculateAmount(units, unitPrice, discount);
-
-    return {
-      ...line,
-      amount: calculatedAmount,
-      displayAmount: formatDisplayAmount(calculatedAmount),
-    };
-  }
-
-  if (shouldCalculateDiscount(line, key)) {
-    const calculatedDiscount = calculateDiscount(units, unitPrice, amount);
-
-    return {
-      ...line,
-      discount: calculatedDiscount,
-      displayDiscount: formatDisplayDiscount(calculatedDiscount),
-    };
-  }
-
-  if (shouldCalculateUnitPrice(line, key)) {
-    const calculatedUnitPrice = calculateUnitPrice(units, amount, discount);
-
-    return {
-      ...line,
-      unitPrice: calculatedUnitPrice,
-      displayUnitPrice: formatDisplayUnitPrice(calculatedUnitPrice),
-    };
-  }
-
-  return line;
-};
+import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
+import formatDisplayUnitPrice from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
 
 export const calculatePartialQuoteLineAmounts = (state, action) => {
   const { layout } = state.quote;
@@ -92,7 +15,7 @@ export const calculatePartialQuoteLineAmounts = (state, action) => {
         ...state.quote,
         lines: state.quote.lines.map((line, index) => (
           action.index === index
-            ? buildItemServiceLine(line, action.key)
+            ? buildLineWithCalculatedAmounts(line, action.key)
             : line
         )),
       },
