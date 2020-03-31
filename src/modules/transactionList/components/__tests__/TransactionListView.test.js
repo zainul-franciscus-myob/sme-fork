@@ -3,10 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { tabItemIds } from '../../tabItems';
-import CreditsAndDebitsListView from '../../creditAndDebitTransactions/components/CreditsAndDebitsListView';
-import JournalTransactionListView from '../../journalTransaction/components/JournalTransactionListView';
 import Store from '../../../../store/Store';
-import TrasnactionListView from '../TransactionListView';
+import TransactionListView from '../TransactionListView';
 import transactionListReducer from '../../transactionListReducer';
 
 describe('TransactionListView', () => {
@@ -16,26 +14,16 @@ describe('TransactionListView', () => {
 
     const view = (
       <Provider store={store}>
-        <TrasnactionListView
-          businessId=""
-          onUpdateFilters={() => {}}
-          onApplyFilter={() => {}}
-          onSort={() => {}}
+        <TransactionListView
+          selectedTab={tabItemIds.debitsAndCredits}
+          onTabSelected={() => {}}
+          alert={{ type: 'danger', message: 'some-message ' }}
           onDismissAlert={() => {}}
-          onCreateNewEntry={() => {}}
-          onAddTransaction={() => {}}
-          tabViews={{
-            [tabItemIds.journal]: {
-              getView() {
-                return <JournalTransactionListView />;
-              },
-            },
-            [tabItemIds.debitsAndCredits]: {
-              getView() {
-                return <CreditsAndDebitsListView />;
-              },
-            },
-          }}
+          pageHeadTitle={'Some Title'}
+          onUpdateFilters={() => {}}
+          onPeriodChange={() => {}}
+          onSort={() => {}}
+          onLoadMoreButtonClick={() => {}}
         />
       </Provider>
     );

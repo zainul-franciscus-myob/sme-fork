@@ -1,8 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import { SET_ALERT, SET_LAST_LOADING_TAB, SET_TAB } from './TransactionListIntents';
+import { DEBITS_AND_CREDITS, JOURNAL_TRANSACTIONS } from './getDefaultState';
 import { SUCCESSFULLY_DELETED_APPLY_TO_SALE } from '../applyToSale/ApplyToSaleMessageType';
 import { SUCCESSFULLY_DELETED_BILL_PAYMENT, SUCCESSFULLY_SAVED_BILL_PAYMENT } from '../billPayment/BillPaymentMessageTypes';
 import { SUCCESSFULLY_DELETED_ELECTRONIC_PAYMENT } from '../electronicPayments/electronicPaymentMesssageTypes';
@@ -15,12 +14,23 @@ import { SUCCESSFULLY_DELETED_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY } 
 import { SUCCESSFULLY_DELETED_RECEIVE_REFUND } from '../receiveRefund/ReceiveRefundMessageTypes';
 import { SUCCESSFULLY_DELETED_SPEND_MONEY, SUCCESSFULLY_SAVED_SPEND_MONEY } from '../spendMoney/spendMoneyMessageTypes';
 import { SUCCESSFULLY_DELETED_TRANSFER_MONEY, SUCCESSFULLY_SAVED_TRANSFER_MONEY } from '../transferMoney/transferMoneyMessageTypes';
-import { getActiveTab } from './transactionListSelectors';
-import { tabItemIds } from './tabItems';
-import CreditsAndDebitsModule from './creditAndDebitTransactions/CreditsAndDebitsModule';
-import JournalTransactionModule from './journalTransaction/JournalTransactionModule';
+import {
+  getActiveTab,
+  getIsSwitchingTab,
+  getNewSortOrder,
+  getSettings,
+  getURLParams,
+} from './selectors/transactionListSelectors';
+import { getIsCreditsAndDebitsLoaded } from './selectors/creditsAndDebitsSelectors';
+import { getIsTransactionsLoaded } from './selectors/journalTransactionSelectors';
+import { loadSettings, saveSettings } from '../../store/localStorageDriver';
+import LoadingState from '../../components/PageView/LoadingState';
+import RouteName from '../../router/RouteName';
 import Store from '../../store/Store';
 import TransactionListView from './components/TransactionListView';
+import createTransactionListDispatcher from './createTransactionListDispatcher';
+import createTransactionListIntegrator from './createTransactionListIntegrator';
+import debounce from '../../common/debounce/debounce';
 import transactionListReducer from './transactionListReducer';
 
 const messageTypes = [
@@ -46,30 +56,193 @@ export default class TransactionListModule {
     this.popMessages = popMessages;
     this.messageTypes = messageTypes;
     this.replaceURLParams = replaceURLParams;
-    this.subModules = {
-      [tabItemIds.debitsAndCredits]: new CreditsAndDebitsModule({
-        integration,
-        setAlert: this.setAlert,
-        setLastLoadingTab: () => this.setLastLoadingTab(tabItemIds.debitsAndCredits),
-        store: this.store,
-        replaceURLParams,
-      }),
-      [tabItemIds.journal]: new JournalTransactionModule({
-        integration,
-        setAlert: this.setAlert,
-        setLastLoadingTab: () => this.setLastLoadingTab(tabItemIds.journal),
-        store: this.store,
-        replaceURLParams,
-      }),
+    this.dispatcher = createTransactionListDispatcher(this.store);
+    this.integrator = createTransactionListIntegrator(this.store, this.integration);
+  }
+
+  /* Credits and debits */
+  loadCreditsAndDebitsList = () => {
+    this.setLastLoadingTab(DEBITS_AND_CREDITS);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setLoadingState(DEBITS_AND_CREDITS, LoadingState.LOADING_SUCCESS);
+      this.dispatcher.loadCreditsAndDebitsList(response);
     };
+
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(DEBITS_AND_CREDITS, LoadingState.LOADING_FAIL);
+    };
+
+    this.integrator.loadCreditsAndDebitsList({
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  loadCreditsAndDebitsNextPage = () => {
+    this.dispatcher.setNextPageLoadingState(DEBITS_AND_CREDITS, true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.loadCreditsAndDebitsNextPage(response);
+      this.dispatcher.setNextPageLoadingState(DEBITS_AND_CREDITS, false);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setNextPageLoadingState(DEBITS_AND_CREDITS, false);
+      this.setAlert({ message, type: 'danger' });
+    };
+
+    this.integrator.loadCreditsAndDebitsNextPage({
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  sortAndFilterCreditsAndDebitsList = () => {
+    this.dispatcher.setTableLoadingState(DEBITS_AND_CREDITS, true);
+    this.setLastLoadingTab(DEBITS_AND_CREDITS);
+
+    const onSuccess = ({ entries, pagination }) => {
+      this.dispatcher.setTableLoadingState(DEBITS_AND_CREDITS, false);
+      this.dispatcher.sortAndFilterCreditsAndDebitsList({ entries, pagination });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setTableLoadingState(DEBITS_AND_CREDITS, false);
+      this.setAlert({ message, type: 'danger' });
+    };
+
+    this.integrator.sortAndFilterCreditsAndDebitsList({ onSuccess, onFailure });
+  };
+
+  debouncedSortAndFilterCreditsAndDebitsList = debounce(this.sortAndFilterCreditsAndDebitsList);
+
+  /* Journal transactions */
+  loadTransactionList = () => {
+    this.setLastLoadingTab(JOURNAL_TRANSACTIONS);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setLoadingState(JOURNAL_TRANSACTIONS, LoadingState.LOADING_SUCCESS);
+      this.dispatcher.loadJournalTransactions(response);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(JOURNAL_TRANSACTIONS, LoadingState.LOADING_FAIL);
+    };
+
+    this.integrator.loadTransactionList({ onSuccess, onFailure });
+  }
+
+  sortAndFilterTransactionList = () => {
+    this.dispatcher.setTableLoadingState(JOURNAL_TRANSACTIONS, true);
+    this.setLastLoadingTab(JOURNAL_TRANSACTIONS);
+
+    const onSuccess = ({ entries, pagination }) => {
+      this.dispatcher.setTableLoadingState(JOURNAL_TRANSACTIONS, false);
+      this.dispatcher.sortAndFilterJournalTransactions({
+        entries,
+        pagination,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setTableLoadingState(JOURNAL_TRANSACTIONS, false);
+      this.setAlert({ message, type: 'danger' });
+    };
+
+    this.integrator.sortAndFilterTransactionList({ onSuccess, onFailure });
+  };
+
+  loadTransactionListNextPage = () => {
+    this.dispatcher.setNextPageLoadingState(JOURNAL_TRANSACTIONS, true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setNextPageLoadingState(JOURNAL_TRANSACTIONS, false);
+      this.dispatcher.loadTransactionListNextPage(response);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setNextPageLoadingState(JOURNAL_TRANSACTIONS, false);
+      this.setAlert({ message, type: 'danger' });
+    };
+
+    this.integrator.loadTransactionListNextPage({ onSuccess, onFailure });
+  };
+
+  debouncedSortAndFilterTransactionList = debounce(this.sortAndFilterTransactionList);
+
+  /* Common */
+  sort = (orderBy) => {
+    const state = this.store.getState();
+    const activeTab = getActiveTab(state);
+    const newSortOrder = getNewSortOrder(state, orderBy);
+    this.dispatcher.setSortOrder(orderBy, newSortOrder);
+
+    if (activeTab === DEBITS_AND_CREDITS) {
+      this.sortAndFilterCreditsAndDebitsList();
+    } else {
+      this.sortAndFilterTransactionList();
+    }
+  }
+
+  sortAndFilter = (key, debouncedFunc, func) => {
+    if (key === 'keywords') {
+      debouncedFunc();
+    } else {
+      func();
+    }
+  }
+
+  updateFilterOptions = ({ key, value }) => {
+    const state = this.store.getState();
+    const activeTab = getActiveTab(state);
+    this.dispatcher.updateFilterOptions(key, value);
+
+    if (activeTab === DEBITS_AND_CREDITS) {
+      this.sortAndFilter(
+        key,
+        this.debouncedSortAndFilterCreditsAndDebitsList,
+        this.sortAndFilterCreditsAndDebitsList,
+      );
+    } else {
+      this.sortAndFilter(
+        key,
+        this.debouncedSortAndFilterTransactionList,
+        this.sortAndFilterTransactionList,
+      );
+    }
+  };
+
+  updatePeriodDateRange = ({ period, dateFrom, dateTo }) => {
+    const state = this.store.getState();
+    const activeTab = getActiveTab(state);
+    this.dispatcher.updatePeriodDateRange({
+      period,
+      dateFrom,
+      dateTo,
+    });
+    if (activeTab === DEBITS_AND_CREDITS) {
+      this.sortAndFilterCreditsAndDebitsList();
+    } else {
+      this.sortAndFilterTransactionList();
+    }
+  }
+
+  loadNextPage = () => {
+    const state = this.store.getState();
+    const activeTab = getActiveTab(state);
+
+    if (activeTab === DEBITS_AND_CREDITS) {
+      this.loadCreditsAndDebitsNextPage();
+    } else {
+      this.loadTransactionListNextPage();
+    }
   }
 
   readMessages = () => {
     const [successMessage] = this.popMessages(this.messageTypes);
     if (successMessage) {
-      const {
-        content: message,
-      } = successMessage;
+      const { content: message } = successMessage;
       this.setAlert({
         type: 'success',
         message,
@@ -77,76 +250,90 @@ export default class TransactionListModule {
     }
   }
 
-  setAlert = ({ message, type }) => {
-    this.store.dispatch({
-      intent: SET_ALERT,
-      alert: {
-        message,
-        type,
-      },
-    });
-  }
+  setAlert = ({ message, type }) => this.dispatcher.setAlert({ message, type });
 
-  dismissAlert = () => this.store.dispatch({
-    intent: SET_ALERT,
-    alert: undefined,
-  });
+  dismissAlert = () => this.dispatcher.dismissAlert();
 
   setTab = (tabId) => {
-    const state = this.store.getState();
-    const activeTabId = getActiveTab(state);
-
-    const filterOptions = this.subModules[activeTabId].getFilterOptions();
-    this.subModules[tabId].replaceFilterOptions(filterOptions);
-
-    this.store.dispatch({
-      intent: SET_TAB,
-      tabId,
-    });
-  };
-
-  setLastLoadingTab = (tabId) => this.store.dispatch({
-    intent: SET_LAST_LOADING_TAB,
-    lastLoadingTab: tabId,
-  });
-
-  setInitialState = (context) => {
-    this.store.dispatch({
-      intent: SET_INITIAL_STATE,
-      context,
-    });
+    this.dispatcher.setTab(tabId);
+    this.setView(tabId);
   }
+
+  loadCreditsAndDebitsTab = () => {
+    const state = this.store.getState();
+    const isSwitchingTab = getIsSwitchingTab(state);
+
+    if (isSwitchingTab) {
+      if (!getIsCreditsAndDebitsLoaded(state)) {
+        this.loadCreditsAndDebitsList();
+      } else {
+        this.sortAndFilterCreditsAndDebitsList();
+      }
+    }
+  }
+
+  loadTransactionListTab = () => {
+    const state = this.store.getState();
+    const isSwitchingTab = getIsSwitchingTab(state);
+
+    if (isSwitchingTab) {
+      if (!getIsTransactionsLoaded(state)) {
+        this.loadTransactionList();
+      } else {
+        this.sortAndFilterTransactionList();
+      }
+    }
+  }
+
+  setView = (tabId) => {
+    if (tabId === DEBITS_AND_CREDITS) {
+      this.loadCreditsAndDebitsTab();
+    } else {
+      this.loadTransactionListTab();
+    }
+  }
+
+  setLastLoadingTab = (tabId) => this.dispatcher.setLastLoadingTab(tabId);
+
+  setInitialState = (context, settings) => this.dispatcher.setInitialState(context, settings);
 
   render = () => {
     const wrappedView = (
       <Provider store={this.store}>
         <TransactionListView
-          tabViews={this.subModules}
           onTabSelected={this.setTab}
           onDismissAlert={this.dismissAlert}
           pageHeadTitle="Find transactions"
+          onUpdateFilters={this.updateFilterOptions}
+          onPeriodChange={this.updatePeriodDateRange}
+          onSort={this.sort}
+          onLoadMoreButtonClick={this.loadNextPage}
         />
       </Provider>
     );
     this.setRootView(wrappedView);
   };
 
-  unsubscribeFromStore = () => {
-    this.store.unsubscribeAll();
-  };
+  unsubscribeFromStore = () => this.store.unsubscribeAll();
 
   run(context) {
-    this.setInitialState(context);
-    Object.values(this.subModules).forEach(
-      subModule => subModule.run(context),
-    );
+    const settings = loadSettings(context.businessId, RouteName.TRANSACTION_LIST);
+    this.setInitialState(context, settings);
+    this.store.subscribe((state) => {
+      this.updateURLFromState(state);
+      saveSettings(context.businessId, RouteName.TRANSACTION_LIST, getSettings(state));
+    });
     this.render();
     this.readMessages();
+    this.loadCreditsAndDebitsTab();
   }
 
   resetState() {
-    this.store.dispatch({
-      intent: RESET_STATE,
-    });
+    this.dispatcher.resetState();
+  }
+
+  updateURLFromState = (state) => {
+    const params = getURLParams(state);
+    this.replaceURLParams(params);
   }
 }

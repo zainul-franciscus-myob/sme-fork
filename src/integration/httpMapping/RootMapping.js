@@ -12,7 +12,6 @@ import BillMapping from '../../modules/bill/billList/mappings/HttpBillMapping';
 import BillPaymentMapping from '../../modules/billPayment/mappings/HttpBillPaymentMapping';
 import BusinessMapping from '../../modules/business/mappings/HttpBusinessMapping';
 import ContactMapping from '../../modules/contact/mappings/HttpContactMapping';
-import CreditsAndDebitsListMapping from '../../modules/transactionList/creditAndDebitTransactions/mappings/HttpCreditsAndDebitsListMapping';
 import CustomerReturnMapping from '../../modules/customerReturn/mappings/HttpCustomerReturnMapping';
 import CustomerStatementMapping from '../../modules/customerStatement/mappings/HttpCustomerStatementMapping';
 import DashboardMapping from '../../modules/dashboard/mappings/HttpDashboardMapping';
@@ -35,7 +34,6 @@ import InvoiceBusinessMapping from '../../modules/templateBuilder/businessSettin
 import InvoiceMapping from '../../modules/invoice/mappings/HttpInvoiceMapping';
 import InvoicePaymentMapping from '../../modules/invoicePayment/mappings/HttpInvoicePaymentMapping';
 import JobMapping from '../../modules/job/mappings/HttpJobMapping';
-import JournalTransactionListMapping from '../../modules/transactionList/journalTransaction/mappings/HttpJournalTransactionListMapping';
 import LeavePayItemMapping from '../../modules/payItem/leavePayItem/mappings/HttpLeavePayItemMapping';
 import LinkBillMapping from '../../modules/linkBill/mappings/HttpLinkBillMapping';
 import LinkUserMapping from '../../modules/linkUser/mappings/HttpLinkUserMapping';
@@ -79,6 +77,7 @@ import TaxTableCalculationsMapping from '../../modules/employee/employeeDetail/p
 import TemplateBuilderMapping from '../../modules/templateBuilder/mappings/HttpTemplateBuilderMapping';
 import TemplateMapping from '../../modules/template/mappings/HttpTemplateMapping';
 import TimesheetMapping from '../../modules/timesheet/mappings/HttpTimesheetMapping';
+import TransactionListMapping from '../../modules/transactionList/mappings/HttpTransactionListMapping';
 import TransferMoneyMapping from '../../modules/transferMoney/mappings/HttpTransferMoneyMapping';
 import UserMapping from '../../modules/user/mappings/HttpUserMapping';
 import WagePayItemMapping from '../../modules/payItem/wagePayItem/mappings/HttpWagePayItemMapping';
@@ -96,7 +95,6 @@ const RootMapping = Object.freeze({
   ...InvoiceMapping,
   ...ReceiveMoneyMapping,
   ...SpendMoneyMapping,
-  ...JournalTransactionListMapping,
   ...TransferMoneyMapping,
   ...TaxMapping,
   ...BankingMapping,
@@ -148,7 +146,6 @@ const RootMapping = Object.freeze({
   ...CustomerStatementMapping,
   ...SubscriptionMapping,
   ...EmployeePayMapping,
-  ...CreditsAndDebitsListMapping,
   ...SettingMapping,
   ...TaskMapping,
   ...PaySuperCreateMapping,
@@ -168,6 +165,7 @@ const RootMapping = Object.freeze({
   ...FileUnavailableMapping,
   ...InvoiceBusinessMapping,
   ...JobMapping,
+  ...TransactionListMapping,
 });
 
 export default RootMapping;
