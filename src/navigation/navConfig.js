@@ -115,7 +115,7 @@ export const featuresConfig = {
   taxList: { routeName: RouteName.TAX_LIST },
   prepareBasOrIas: { routeName: RouteName.PREPARE_BAS_OR_IAS },
 
-  employeeListNz: { routeName: RouteName.EMPLOYEE_LIST_NZ },
+  // employeeListNz: { routeName: RouteName.EMPLOYEE_LIST_NZ },
 
   employeeList: { routeName: RouteName.EMPLOYEE_LIST },
   employeeCreate: { routeName: RouteName.EMPLOYEE_DETAIL, params: { employeeId: 'new' } },
