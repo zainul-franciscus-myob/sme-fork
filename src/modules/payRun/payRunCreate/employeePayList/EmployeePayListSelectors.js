@@ -260,7 +260,7 @@ export const getShouldShowExpensePayItemTableRows = createSelector(
 );
 
 const getPayItemLineForRecalculatePayload = (payItem) => {
-  const { payItemName, isSubmitting, ...restOfPayItem } = payItem;
+  const { isSubmitting, ...restOfPayItem } = payItem;
   return restOfPayItem;
 };
 

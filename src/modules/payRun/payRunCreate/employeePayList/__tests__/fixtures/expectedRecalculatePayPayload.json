@@ -7,66 +7,77 @@
   "payItems": [
     {
       "payItemId": "1",
+      "payItemName": "Salary Wage",
       "type": "SalaryWage",
       "amount": "100000.00",
       "hours": "0.00"
     },
     {
       "payItemId": "2",
+      "payItemName": "Hourly Wage",
       "type": "HourlyWage",
       "amount": "1.00",
       "hours": "38.50"
     },
     {
       "payItemId": "3",
+      "payItemName": "Child support deduction",
       "type": "Deduction",
       "amount": "100.00",
       "hours": "0.00"
     },
     {
       "payItemId": "4",
+      "payItemName": "Superannuation deduction before tax",
       "type": "SuperannuationDeductionBeforeTax",
       "amount": "200.00",
       "hours": "0.00"
     },
     {
       "payItemId": "5",
+      "payItemName": "Superannuation deduction after tax",
       "type": "SuperannuationDeductionAfterTax",
       "amount": "100.00",
       "hours": "0.00"
     },
     {
       "payItemId": "6",
+      "payItemName": "Child support deduction",
       "type": "Deduction",
       "amount": "5000.00",
       "hours": "0.00"
     },
     {
       "payItemId": "7",
+      "payItemName": "Annual Leave",
       "type": "Entitlement",
       "amount": "0.00",
       "hours": "30.00"
     },
     {
       "payItemId": "8",
+      "payItemName": "Sick Leave",
       "type": "Entitlement",
       "amount": "0.00",
       "hours": "10.00"
     },
     {
       "payItemId": "9",
+      "payItemName": "Coffee Reimbursement",
       "type": "Expense",
       "amount": "10000.00",
       "hours": "0.00"
     },
     {
       "payItemId": "10",
+      "payItemName": "Mortgage repayment",
       "type": "SuperannuationExpense",
       "amount": "10000.00",
       "hours": "0.00"
     },
     {
       "payItemId": "11",
+      "payItemName": "PayGWithholding",
       "type": "Tax",
       "amount": "222.00",
       "hours": "0.00"
@@ -75,6 +86,7 @@
   "editedField": "hours",
   "editedPayItem": {
     "payItemId": "2",
+    "payItemName": "Hourly Wage",
     "type": "HourlyWage",
     "amount": "0.00",
     "hours": "38.50"
