@@ -15,3 +15,4 @@ export const UPDATE_HEADER_OPTION = Symbol('Update header option');
 export const SELECT_ROW = Symbol('Select row');
 export const SELECT_ALL = Symbol('Select all');
 export const SET_SORT_ORDER = Symbol('Set sort order');
+export const RESET_STATEMENT_DATE = Symbol('Reset statement date to todays date');

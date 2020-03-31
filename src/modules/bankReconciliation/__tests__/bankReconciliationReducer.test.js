@@ -1,4 +1,6 @@
-import { SELECT_ALL, SELECT_ROW, SET_SORT_ORDER } from '../BankReconciliationIntents';
+import {
+  LOAD_BANK_RECONCILIATION, SELECT_ALL, SELECT_ROW, SET_SORT_ORDER,
+} from '../BankReconciliationIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
 import bankReconciliationDetailReducer from '../bankReconciliationReducer';
 
@@ -19,6 +21,42 @@ describe('bankReconciliationReducer', () => {
       expect(selectedAccountId).toEqual('123');
     });
 
+    it('should map bankBalanceDate to statementDate if it exists', () => {
+      const state = {};
+
+      const action = {
+        intent: SET_INITIAL_STATE,
+        context: {
+          bankBalanceDate: '22/02/2020',
+        },
+      };
+
+      const {
+        statementDate,
+      } = bankReconciliationDetailReducer(state, action);
+
+      expect(statementDate).toEqual('2020-02-22');
+    });
+
+    it('should map bankBalance to closingBankStatementBalance and set overwriteClosingBankStatementBalance', () => {
+      const state = {};
+
+      const action = {
+        intent: SET_INITIAL_STATE,
+        context: {
+          bankBalance: '12,000',
+        },
+      };
+
+      const {
+        closingBankStatementBalance,
+        overwriteClosingBankStatementBalance,
+      } = bankReconciliationDetailReducer(state, action);
+
+      expect(closingBankStatementBalance).toEqual('12,000');
+      expect(overwriteClosingBankStatementBalance).toEqual(false);
+    });
+
     it('should leave selectedAccountId empty if bankAccount doesnt exist', () => {
       const state = {};
 
@@ -30,6 +68,42 @@ describe('bankReconciliationReducer', () => {
       const { selectedAccountId } = bankReconciliationDetailReducer(state, action);
 
       expect(selectedAccountId).toEqual('');
+    });
+  });
+
+  describe('loadBankReconciliation', () => {
+    it('should not overwrite closingBankStatementBalance', () => {
+      const state = {
+        closingBankStatementBalance: '12.00',
+        overwriteClosingBankStatementBalance: false,
+      };
+
+      const action = {
+        intent: LOAD_BANK_RECONCILIATION,
+        closingBankStatementBalance: '202,020.00',
+      };
+
+      const actual = bankReconciliationDetailReducer(state, action);
+
+      expect(actual.closingBankStatementBalance).toEqual('12.00');
+      expect(actual.overwriteClosingBankStatementBalance).toEqual(true);
+    });
+
+    it('should overwrite closingBankStatementBalance', () => {
+      const state = {
+        closingBankStatementBalance: '12.00',
+        overwriteClosingBankStatementBalance: true,
+      };
+
+      const action = {
+        intent: LOAD_BANK_RECONCILIATION,
+        closingBankStatementBalance: '202,020.00',
+      };
+
+      const actual = bankReconciliationDetailReducer(state, action);
+
+      expect(actual.closingBankStatementBalance).toEqual('202,020.00');
+      expect(actual.overwriteClosingBankStatementBalance).toEqual(true);
     });
   });
 

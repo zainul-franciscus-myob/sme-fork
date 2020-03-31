@@ -1,4 +1,5 @@
 import {
+  getBalances,
   getBankAccount,
   getBusinessId,
   getRegion,
@@ -15,9 +16,13 @@ const getBaseUrl = (state) => {
 // eslint-disable-next-line import/prefer-default-export
 export const getBankReconciliationUrl = (state) => {
   const baseUrl = getBaseUrl(state);
+  const balances = getBalances(state);
+  const { bankBalanceDate, bankBalance } = balances;
 
   const params = {
     bankAccount: getBankAccount(state),
+    bankBalanceDate,
+    bankBalance,
   };
 
   const urlParams = getQueryFromParams(params);

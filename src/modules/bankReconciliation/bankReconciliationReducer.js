@@ -1,8 +1,11 @@
+import { parse } from 'date-fns';
+
 import {
   CLOSE_MODAL,
   LOAD_BANK_RECONCILIATION,
   LOAD_BANK_RECONCILIATION_WITH_BANK_ACCOUNT,
   OPEN_MODAL,
+  RESET_STATEMENT_DATE,
   SELECT_ALL,
   SELECT_ROW,
   SET_ALERT,
@@ -29,6 +32,7 @@ const getDefaultState = () => ({
   statementDate: formatIsoDate(new Date()),
   selectedAccountId: '',
   closingBankStatementBalance: '',
+  overwriteClosingBankStatementBalance: true,
   calculatedClosingBalance: 0,
   lastReconcileDate: '',
   entries: [],
@@ -48,12 +52,22 @@ const setTableLoadingState = (state, action) => ({
 });
 
 const setInitialState = (state, action) => {
-  const { bankAccount, ...rest } = action.context;
+  const {
+    bankAccount,
+    bankBalanceDate,
+    bankBalance,
+    ...rest
+  } = action.context;
 
   return {
     ...state,
     ...rest,
     selectedAccountId: bankAccount || '',
+    closingBankStatementBalance: bankBalance || '',
+    overwriteClosingBankStatementBalance: !bankBalance,
+    statementDate: bankBalanceDate
+      ? formatIsoDate(parse(bankBalanceDate, 'dd/MM/yyyy', new Date()))
+      : state.statementDate,
   };
 };
 
@@ -62,9 +76,13 @@ const setSubmittingState = (state, action) => ({
   isSubmitting: action.isSubmitting,
 });
 
-const loadBankReconciliation = (state, { intent, ...rest }) => ({
+const loadBankReconciliation = (state, { intent, closingBankStatementBalance, ...rest }) => ({
   ...state,
   ...rest,
+  closingBankStatementBalance: state.overwriteClosingBankStatementBalance
+    ? closingBankStatementBalance
+    : state.closingBankStatementBalance,
+  overwriteClosingBankStatementBalance: true,
 });
 
 const setAlert = (state, action) => ({
@@ -158,6 +176,11 @@ const updateReconciliationResult = state => ({
   entries: state.entries.filter(entry => !entry.isChecked),
 });
 
+const resetStatementDate = state => ({
+  ...state,
+  statementDate: getDefaultState().statementDate,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_LOADING_STATE]: setLoadingState,
@@ -175,6 +198,7 @@ const handlers = {
   [UPDATE_RESULT]: updateReconciliationResult,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
+  [RESET_STATEMENT_DATE]: resetStatementDate,
 };
 
 const bankReconciliationDetailReducer = createReducer(getDefaultState(), handlers);

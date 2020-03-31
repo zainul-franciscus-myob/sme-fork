@@ -5,6 +5,7 @@ import {
   LOAD_BANK_RECONCILIATION,
   LOAD_BANK_RECONCILIATION_WITH_BANK_ACCOUNT,
   OPEN_MODAL,
+  RESET_STATEMENT_DATE,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
@@ -398,34 +399,57 @@ describe('BankReconciliationModule', () => {
       expect(integration.getRequests()).toEqual([]);
     });
 
-    [
-      { key: 'selectedAccountId', value: '123🦁' },
-      { key: 'statementDate', value: '2020-10-12' },
-    ].forEach((test) => {
-      it(`reloads after update ${test.key}`, () => {
-        const { module, integration, store } = setupWithBankAccount();
+    it('reloads after updating selectedAccountId', () => {
+      const { module, integration, store } = setupWithBankAccount();
+      const headerOptions = { key: 'selectedAccountId', value: '123🦁' };
 
-        module.updateHeaderOption(test);
+      module.updateHeaderOption(headerOptions);
 
-        expect(store.getActions()).toEqual([
-          { intent: UPDATE_HEADER_OPTION, ...test },
-          {
-            intent: SET_TABLE_LOADING_STATE,
-            isTableLoading: true,
-          },
-          {
-            intent: SET_TABLE_LOADING_STATE,
-            isTableLoading: false,
-          },
-          expect.objectContaining({
-            intent: SORT_AND_FILTER_BANK_RECONCILIATION,
-          }),
-        ]);
+      expect(store.getActions()).toEqual([
+        { intent: UPDATE_HEADER_OPTION, ...headerOptions },
+        { intent: RESET_STATEMENT_DATE },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: true,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: false,
+        },
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_BANK_RECONCILIATION,
+        }),
+      ]);
 
-        expect(integration.getRequests()).toEqual([
-          expect.objectContaining({ intent: SORT_AND_FILTER_BANK_RECONCILIATION }),
-        ]);
-      });
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: SORT_AND_FILTER_BANK_RECONCILIATION }),
+      ]);
+    });
+
+    it('reloads after updating statementDate', () => {
+      const { module, integration, store } = setupWithBankAccount();
+      const headerOptions = { key: 'statementDate', value: '2020-10-12' };
+
+      module.updateHeaderOption(headerOptions);
+
+      expect(store.getActions()).toEqual([
+        { intent: UPDATE_HEADER_OPTION, ...headerOptions },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: true,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: false,
+        },
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_BANK_RECONCILIATION,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: SORT_AND_FILTER_BANK_RECONCILIATION }),
+      ]);
     });
 
     [

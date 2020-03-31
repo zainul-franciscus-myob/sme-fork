@@ -4,6 +4,7 @@ import {
   LOAD_BANK_RECONCILIATION,
   LOAD_BANK_RECONCILIATION_WITH_BANK_ACCOUNT,
   OPEN_MODAL,
+  RESET_STATEMENT_DATE,
   SELECT_ALL,
   SELECT_ROW,
   SET_ALERT,
@@ -126,6 +127,7 @@ const createBankReconciliationDispatcher = store => ({
       ...response,
     });
   },
+  resetStatementDate: () => store.dispatch({ intent: RESET_STATEMENT_DATE }),
 });
 
 export default createBankReconciliationDispatcher;

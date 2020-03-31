@@ -75,6 +75,9 @@ export default class BankReconciliationModule {
     });
 
     if (this.shouldLoad(key, value)) {
+      if (key === 'selectedAccountId') {
+        this.dispatcher.resetStatementDate();
+      }
       this.sortAndFilterBankReconciliation();
     }
   };
