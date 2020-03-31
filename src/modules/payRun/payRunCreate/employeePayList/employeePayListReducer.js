@@ -184,19 +184,26 @@ const formatEmployeePayItem = (state, {
   )),
 });
 
+const updateTheEditedEmployeePayItems = (
+  state, employeeId, recalculatedEmployeePay,
+) => (state.lines.map(line => (
+  line.employeeId === employeeId
+    ? {
+      ...line,
+      ...recalculatedEmployeePay,
+      payItems: recalculatedEmployeePay.payItems.map(
+        payItem => ({ ...payItem, isSubmitting: false }),
+      ),
+    }
+    : line
+)));
+
 const updateEmployeeLineAfterRecalculation = (state, { employeeId, recalculatedEmployeePay }) => ({
   ...state,
-  lines: state.lines.map(line => (
-    line.employeeId === employeeId
-      ? {
-        ...line,
-        ...recalculatedEmployeePay,
-        payItems: recalculatedEmployeePay.payItems.map(
-          payItem => ({ ...payItem, isSubmitting: false }),
-        ),
-      }
-      : line
-  )),
+  lines: clearNegatives(
+    updateTheEditedEmployeePayItems(state, employeeId, recalculatedEmployeePay),
+    [state.baseHourlyWagePayItemId, state.baseSalaryWagePayItemId],
+  ),
   originalLines: state.originalLines.map(originalLine => (
     originalLine.employeeId === employeeId ? {
       ...originalLine,

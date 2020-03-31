@@ -100,7 +100,7 @@ const getSelectedEmployeeIds = state => (
     .map(employeePay => employeePay.employeeId)
 );
 
-const getEmployeePays = state => (state.employeePayList.lines);
+const getEmployeePays = state => (state.employeePayList.originalLines);
 const getUnprocessedTimesheetLines = state => state.unprocessedTimesheetLines;
 
 export const getSaveDraftContent = state => ({

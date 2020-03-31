@@ -78,6 +78,7 @@ const HoursInputField = ({
     name="hours"
     label="Hours"
     hideLabel
+    numeralPositiveOnly
     textAlign="right"
     value={value}
     onChange={handleInputChange(onChange, employeeId, payItemId)}

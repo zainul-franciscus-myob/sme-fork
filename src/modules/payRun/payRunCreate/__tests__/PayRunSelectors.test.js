@@ -196,6 +196,23 @@ describe('PayRunSelectors', () => {
             isSelected: true,
           },
         ],
+        originalLines: [
+          {
+            employeeId: 21,
+            payItems: [{ payItemId: '38' }, { payItemId: '39' }],
+            isSelected: false,
+          },
+          {
+            employeeId: 23,
+            payItems: [{ payItemId: '39' }, { payItemId: '40' }],
+            isSelected: true,
+          },
+          {
+            employeeId: 25,
+            payItems: [{ payItemId: '39' }, { payItemId: '40' }],
+            isSelected: true,
+          },
+        ],
       },
     };
 
@@ -220,7 +237,7 @@ describe('PayRunSelectors', () => {
     });
 
     it('includes all the employeePays lines', () => {
-      expect(saveDraftContent.employeePays).toEqual(state.employeePayList.lines);
+      expect(saveDraftContent.employeePays).toEqual(state.employeePayList.originalLines);
     });
   });
 });
