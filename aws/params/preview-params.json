@@ -13,6 +13,6 @@
   },
   {
     "ParameterKey": "ACLDefaultAction",
-    "ParameterValue": "BLOCK"
+    "ParameterValue": "ALLOW"
   }
 ]
