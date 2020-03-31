@@ -44,7 +44,7 @@ const BusinessDetailsModal = ({
   showCountryField,
 }) => {
   const onComboBoxChange = (handler, key) => (option) => {
-    const { value } = option;
+    const { id: value } = option;
     handler({ key, value });
   };
 

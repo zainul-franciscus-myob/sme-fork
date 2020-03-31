@@ -64,11 +64,11 @@ export const getContactHeaderDetails = createStructuredSelector({
 
 const MAX_PHONE_NUMBERS = 3;
 
-const compareStateByValue = ({ value: stateA }, { value: stateB }) => stateA.localeCompare(stateB);
+const compareStateByValue = ({ id: stateA }, { id: stateB }) => stateA.localeCompare(stateB);
 
 const findStatesInCountry = (selectedCountry) => {
   const matchingCountry = countryList.find(
-    country => country.value === selectedCountry,
+    country => country.id === selectedCountry,
   );
 
   if (!matchingCountry) {

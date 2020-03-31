@@ -11,7 +11,7 @@ import styles from './QuoteListView.module.css';
 class QuoteListFilterOptions extends React.Component {
   onComboBoxChange = (item) => {
     const filterName = 'customerId';
-    const { value } = item;
+    const { id: value } = item;
     const { onUpdateFilters } = this.props;
 
     onUpdateFilters({ filterName, value });

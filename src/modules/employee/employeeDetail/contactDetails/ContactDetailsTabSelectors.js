@@ -23,7 +23,7 @@ const getSelectedCountry = state => state.contactDetail.country;
 export const getStateOptions = createSelector(
   getSelectedCountry,
   selectedcountry => (countryList
-    .find(country => country.value === selectedcountry) || {}).states,
+    .find(country => country.id === selectedcountry) || {}).states,
 );
 
 export const getIsStateDropdown = createSelector(

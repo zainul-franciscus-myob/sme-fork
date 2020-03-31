@@ -32,7 +32,7 @@ const onSelectChange = handler => (e) => {
 };
 
 const onComboBoxChange = (handler, key) => (option) => {
-  const { value } = option;
+  const { id: value } = option;
   handler({ key, value });
 };
 
@@ -59,7 +59,7 @@ const ContactDetailsTab = (props) => {
         width="xs"
       >
         {stateOptions.map(
-          ({ name, value }) => <Select.Option key={value} value={value} label={name} />,
+          ({ name, id }) => <Select.Option key={id} value={id} label={name} />,
         )}
       </Select>
     )

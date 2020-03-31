@@ -76,7 +76,7 @@
   "contactOptions": [
     {
       "name": "Cow Feed",
-      "value": "2"
+      "id": "2"
     }
   ],
   "itemOptions": [

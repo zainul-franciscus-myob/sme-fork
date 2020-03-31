@@ -12,11 +12,11 @@
   "customerOptions": [
     {
       "name": "James Smith",
-      "value": "1"
+      "id": "1"
     },
     {
       "name": "Sony",
-      "value": "2"
+      "id": "2"
     }
   ]
 }

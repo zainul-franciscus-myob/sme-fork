@@ -34,7 +34,7 @@ import handleInputChange from '../../../../components/handlers/handleInputChange
 import handleRadioButtonChange from '../../../../components/handlers/handleRadioButtonChange';
 import styles from './BankingRuleDetailTransactionSection.module.css';
 
-const onCustomerComboBoxChange = (key, handler) => ({ value }) => handler({ key, value });
+const onCustomerComboBoxChange = (key, handler) => ({ id: value }) => handler({ key, value });
 
 const BankingRuleBillTransactionSection = ({
   supplierId,

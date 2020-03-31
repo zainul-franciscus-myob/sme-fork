@@ -1,9 +1,9 @@
 export default {
   customerFilters: [
-    { name: 'Cameron James', value: '1' },
-    { name: 'John Smith', value: '2' },
-    { name: 'Serena Jaramillo', value: '3' },
-    { name: 'Krzysztof Coleman', value: '4' },
+    { name: 'Cameron James', id: '1' },
+    { name: 'John Smith', id: '2' },
+    { name: 'Serena Jaramillo', id: '3' },
+    { name: 'Krzysztof Coleman', id: '4' },
   ],
   total: '$1,747.00',
   entries: [

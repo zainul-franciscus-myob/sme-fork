@@ -13,7 +13,7 @@ import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSea
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 import styles from './CustomerReturnListFilterOptions.module.css';
 
-const handleComboboxChange = (key, handler) => ({ value } = {}) => handler({ key, value });
+const handleComboboxChange = (key, handler) => ({ id: value } = {}) => handler({ key, value });
 
 const CustomerReturnListFilterOptions = ({
   onUpdateFilterBarOptions,

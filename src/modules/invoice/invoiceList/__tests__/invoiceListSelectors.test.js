@@ -152,7 +152,7 @@ describe('invoiceListReducer', () => {
           status: 'foo',
         },
         customerFilterOptions: [
-          { value: '1' },
+          { id: '1' },
         ],
         statusFilterOptions: [
           { value: 'foo' },
@@ -174,7 +174,7 @@ describe('invoiceListReducer', () => {
           status: 'bar',
         },
         customerFilterOptions: [
-          { value: '1' },
+          { id: '1' },
         ],
         statusFilterOptions: [
           { value: 'All' },

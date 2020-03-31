@@ -33,15 +33,15 @@ describe('QuoteDetailSelectors', () => {
         contactOptions: [
           {
             name: 'Cow Feed 1',
-            value: '1',
+            id: '1',
           },
           {
             name: 'Cow Feed 2',
-            value: '2',
+            id: '2',
           },
           {
             name: 'Cow Feed 3',
-            value: '3',
+            id: '3',
           },
         ],
         expirationTermOptions: [
@@ -113,9 +113,9 @@ describe('QuoteDetailSelectors', () => {
         ],
         isTaxInclusive: true,
         contactOptions: [
-          { name: 'Cow Feed 1', value: '1' },
-          { name: 'Cow Feed 2', value: '2' },
-          { name: 'Cow Feed 3', value: '3' },
+          { name: 'Cow Feed 1', id: '1' },
+          { name: 'Cow Feed 2', id: '2' },
+          { name: 'Cow Feed 3', id: '3' },
         ],
         isCalculating: false,
         isCustomerDisabled: true,
@@ -164,9 +164,9 @@ describe('QuoteDetailSelectors', () => {
 
   describe('getUpdatedCustomerOptions', () => {
     it('should contain newly added contact option', () => {
-      const option1 = { value: '1', name: 'Option 1' };
+      const option1 = { id: '1', name: 'Option 1' };
       const option2 = {
-        value: '2',
+        id: '2',
         name: 'Option 2',
       };
       const expected = [option2, option1];

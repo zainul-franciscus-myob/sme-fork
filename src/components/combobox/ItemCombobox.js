@@ -1,5 +1,6 @@
-import { Combobox } from '@myob/myob-widgets';
 import React from 'react';
+
+import Combobox from './Combobox';
 
 const metaData = [
   { columnName: 'itemId', columnWidth: '15rem', showData: true },
@@ -8,30 +9,13 @@ const metaData = [
 
 const ItemCombobox = (props) => {
   const {
-    items = [],
-    selectedId = '',
-    onChange,
     addNewItem,
     ...otherProps
   } = props;
 
-  const selectedItem = items
-    .find(option => option.id === selectedId) || {};
-
-  const onComboboxChange = (item) => {
-    const newItem = item || {};
-    const { id = '' } = newItem;
-    if (selectedId !== id) {
-      onChange(newItem);
-    }
-  };
-
   return (
     <Combobox
       metaData={metaData}
-      items={items}
-      selected={selectedItem}
-      onChange={onComboboxChange}
       addNewItem={addNewItem && { label: 'Create item', onAddNew: addNewItem }}
       noMatchFoundMessage="No item found"
       {...otherProps}

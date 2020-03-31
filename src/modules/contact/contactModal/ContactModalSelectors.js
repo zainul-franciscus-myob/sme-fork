@@ -60,11 +60,11 @@ export const getAbnLink = createSelector(getAbn, abn => (abn
   ? `https://abr.business.gov.au/ABN/View?id=${abn}`
   : 'https://abr.business.gov.au/'));
 
-const compareStateByValue = ({ value: stateA }, { value: stateB }) => stateA.localeCompare(stateB);
+const compareStateByValue = ({ id: stateA }, { id: stateB }) => stateA.localeCompare(stateB);
 
 const findStatesInCountry = (selectedCountry) => {
   const matchingCountry = countryList.find(
-    country => country.value === selectedCountry,
+    country => country.id === selectedCountry,
   );
 
   if (!matchingCountry) {

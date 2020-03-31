@@ -157,8 +157,8 @@ export const getContactModalContext = (state) => {
 export const getUpdatedContactOptions = (state, updatedOption) => {
   const contactOptions = getContactOptions(state);
 
-  return contactOptions.some(option => option.value === updatedOption.value)
-    ? contactOptions.map(option => (option.value === updatedOption.value ? updatedOption : option))
+  return contactOptions.some(option => option.id === updatedOption.id)
+    ? contactOptions.map(option => (option.id === updatedOption.id ? updatedOption : option))
     : [updatedOption, ...contactOptions];
 };
 

@@ -96,7 +96,7 @@ describe('integratorSelectors', () => {
         contactOptions: [
           {
             name: 'Cow Feed',
-            value: '2',
+            id: '2',
           },
         ],
         accountOptions: [
@@ -211,11 +211,11 @@ describe('integratorSelectors', () => {
         contactOptions: [
           {
             name: 'Cameron, James',
-            value: '1',
+            id: '1',
           },
           {
             name: 'Kev',
-            value: '2',
+            id: '2',
           },
         ],
       };

@@ -10,7 +10,7 @@
   "contactOptions": [
     {
       "name": "James Smith",
-      "value": "1"
+      "id": "1"
     }
   ],
   "accountOptions": [

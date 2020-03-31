@@ -10,7 +10,7 @@ import handleInputChange from '../../../../../components/handlers/handleInputCha
 import style from './Address.module.css';
 
 const onComboBoxChange = (handler, key) => (option) => {
-  const { value } = option;
+  const { id: value } = option;
   handler({ key, value });
 };
 
@@ -48,8 +48,8 @@ const Address = ({
       width="xs"
     >
       {[<Select.Option value="placeholder" label="" hidden />].concat(
-        stateOptions.map(({ name, value }) => (
-          <Select.Option key={value} value={value} label={name} />
+        stateOptions.map(({ name, id }) => (
+          <Select.Option key={id} value={id} label={name} />
         )),
       )}
     </Select>

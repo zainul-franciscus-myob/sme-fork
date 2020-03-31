@@ -37,11 +37,11 @@
   "customers": [
     {
       "name": "A-Z Stationery Supplies",
-      "value": "1"
+      "id": "1"
     },
     {
       "name": "Cow Feed",
-      "value": "2"
+      "id": "2"
     }
   ],
   "expirationTermOptions": [

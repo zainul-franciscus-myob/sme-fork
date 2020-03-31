@@ -80,15 +80,15 @@ describe('invoiceDetailSelectors', () => {
     contactOptions: [
       {
         name: 'Cow Feed 1',
-        value: '1',
+        id: '1',
       },
       {
         name: 'Cow Feed 2',
-        value: '2',
+        id: '2',
       },
       {
         name: 'Cow Feed 3',
-        value: '3',
+        id: '3',
       },
     ],
     expirationTermOptions: [
@@ -168,9 +168,9 @@ describe('invoiceDetailSelectors', () => {
           },
         ],
         contactOptions: [
-          { name: 'Cow Feed 1', value: '1' },
-          { name: 'Cow Feed 2', value: '2' },
-          { name: 'Cow Feed 3', value: '3' },
+          { name: 'Cow Feed 1', id: '1' },
+          { name: 'Cow Feed 2', id: '2' },
+          { name: 'Cow Feed 3', id: '3' },
         ],
         isCustomerDisabled: true,
         isSubmitting: false,
@@ -274,8 +274,8 @@ describe('invoiceDetailSelectors', () => {
 
   describe('getUpdatedContactOptions', () => {
     it('should contain newly added contact option', () => {
-      const option1 = { value: '1', name: 'Option 1' };
-      const option2 = { value: '2', name: 'Option 2' };
+      const option1 = { id: '1', name: 'Option 1' };
+      const option2 = { id: '2', name: 'Option 2' };
       const expected = [option2, option1];
 
       const actual = getUpdatedContactOptions({ contactOptions: [option1] }, option2);
@@ -284,8 +284,8 @@ describe('invoiceDetailSelectors', () => {
     });
 
     it('should contain updated contact option', () => {
-      const option1 = { value: '1', name: 'Option 1' };
-      const option2 = { value: '1', name: 'Updated option 1' };
+      const option1 = { id: '1', name: 'Option 1' };
+      const option2 = { id: '1', name: 'Updated option 1' };
       const expected = [option2];
 
       const actual = getUpdatedContactOptions({ contactOptions: [option1] }, option2);

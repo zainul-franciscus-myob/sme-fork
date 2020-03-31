@@ -12,7 +12,7 @@ import handleInputChange from '../../../../components/handlers/handleInputChange
 const handleCustomerComboboxChange = (key, handler) => (item) => {
   // Have to use custom handler because of mis-match between property names
   // in common handler, and property name expected by Customer Combobox.
-  handler({ key, value: item.value });
+  handler({ key, value: item.id });
 };
 
 const JobDetails = (props) => {

@@ -28,11 +28,11 @@ export const getFilterOptions = (state) => {
   const customerOptions = getCustomerFilterOptions(state);
   const statusOptions = getStatusFilterOptions(state);
   const { filterOptions } = state;
-  const selectedCustomer = customerOptions.find(({ value }) => value === filterOptions.customerId);
+  const selectedCustomer = customerOptions.find(({ id }) => id === filterOptions.customerId);
   const selectedStatus = statusOptions.find(({ value }) => value === filterOptions.status);
   return {
     ...filterOptions,
-    customerId: selectedCustomer && selectedCustomer.value,
+    customerId: selectedCustomer && selectedCustomer.id,
     status: selectedStatus ? selectedStatus.value : 'All',
   };
 };

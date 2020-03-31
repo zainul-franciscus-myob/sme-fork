@@ -15,7 +15,7 @@ import styles from './CustomerStatementFilterOptions.module.css';
 const handleComboboxChange = (key, handler) => (item = {}) => {
   handler({
     key,
-    value: item.value,
+    value: item.id,
   });
 };
 

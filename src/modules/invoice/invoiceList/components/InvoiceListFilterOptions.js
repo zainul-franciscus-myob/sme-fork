@@ -18,7 +18,7 @@ import styles from './InvoiceListFilterOptions.module.css';
 
 class InvoiceListFilterOptions extends React.Component {
   onComboBoxChange = (item) => {
-    const { value } = item;
+    const { id: value } = item;
     const { onUpdateFilter } = this.props;
     onUpdateFilter({ filterName: 'customerId', value });
   }

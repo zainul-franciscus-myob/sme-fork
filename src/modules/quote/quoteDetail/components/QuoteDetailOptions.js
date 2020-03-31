@@ -14,7 +14,7 @@ import styles from './QuoteDetailOptions.module.css';
 
 const onComboBoxChange = handler => (option) => {
   const key = 'contactId';
-  const { value } = option;
+  const { id: value } = option;
 
   handler({ key, value });
 };

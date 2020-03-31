@@ -69,7 +69,7 @@ export const getCreateOrUpdateInvoicePayload = (state) => {
 
   const contacts = getContactOptions(state);
   const contactId = getContactId(state);
-  const { name: contactName } = contacts.find(({ value }) => contactId === value) || {};
+  const { name: contactName } = contacts.find(({ id }) => contactId === id) || {};
 
   const lines = getLines(state);
 
