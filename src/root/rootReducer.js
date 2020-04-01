@@ -1,5 +1,5 @@
 import {
-  DISMISS_TASK, GET_TASKS_LIST, LOAD_SETTINGS,
+  DISMISS_TASK, GET_TASKS_LIST, LOAD_SETTINGS, LOAD_SHARED_INFO, LOAD_SUBSCRIPTION,
   SAVE_SETTINGS, SET_BUSINESS_ID, SET_LOADING_STATE,
   SET_REGION, SET_VIEW_DATA, UPDATE_TASKS,
 } from './rootIntents';
@@ -11,6 +11,8 @@ const getDefaultState = () => ({
   tasks: [],
   settings: [],
   businessDetails: {},
+  currentUser: {},
+  subscription: {},
   isLoading: false,
   areOnboardingSettingsLoaded: false,
   proposedBusinessName: '',
@@ -84,6 +86,16 @@ const loadBusinessDetails = (state, { businessDetails }) => ({
   businessDetails,
 });
 
+const loadSharedInfo = (state, { sharedInfo }) => ({
+  ...state,
+  ...sharedInfo,
+});
+
+const loadSubscription = (state, { subscription }) => ({
+  ...state,
+  subscription,
+});
+
 const handlers = {
   [SET_LOADING_STATE]: setLoading,
   [LOAD_SETTINGS]: setOnboarding,
@@ -95,6 +107,8 @@ const handlers = {
   [UPDATE_TASKS]: updateTasks,
   [LOAD_GLOBAL_BUSINESS_DETAILS]: loadBusinessDetails,
   [DISMISS_TASK]: dismissTask,
+  [LOAD_SHARED_INFO]: loadSharedInfo,
+  [LOAD_SUBSCRIPTION]: loadSubscription,
 };
 
 const rootReducer = createReducer(getDefaultState(), handlers);

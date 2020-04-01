@@ -37,6 +37,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
     integration,
     router,
     sendTelemetryEvent: telemetry,
+    startLeanEngage,
   });
 
   const featureToggles = await loadFeatureToggles(integration);
@@ -69,7 +70,6 @@ async function main(integrationType, telemetryType, leanEngageType) {
     unbindAllKeys();
     unsubscribeAllModulesFromStore();
     telemetry(routeProps);
-    startLeanEngage(routeProps);
     showAppcues(routeProps);
   };
 

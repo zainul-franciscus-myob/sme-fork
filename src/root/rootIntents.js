@@ -9,3 +9,4 @@ export const UPDATE_TASKS = Symbol('Update TASKS');
 export const CLOSE_TASKS = Symbol('Close tasks');
 export const DISMISS_TASK = Symbol('Dismiss task');
 export const LOAD_SUBSCRIPTION = Symbol('Load subscription');
+export const LOAD_SHARED_INFO = Symbol('Load shared info');

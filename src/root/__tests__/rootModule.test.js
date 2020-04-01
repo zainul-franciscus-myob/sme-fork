@@ -18,11 +18,12 @@ describe('rootModule', () => {
         .forEach((key) => { obj[key] = jest.fn(); }),
     );
 
-    const createAndRunModule = async (...runArgs) => {
+    const createAndRunModule = async (routeProps, module, context, lastBusinessId) => {
       const root = new RootModule();
       root.init({
         integration: jest.fn(),
         router: jest.fn(),
+        startLeanEngage: jest.fn(),
       });
       stubFunctionsOn(
         root.settingsService,
@@ -31,7 +32,8 @@ describe('rootModule', () => {
         root.drawer,
         root.integrator,
       );
-      await root.run(...runArgs);
+      root.last_business_id = lastBusinessId;
+      await root.run(routeProps, module, context);
       return root;
     };
 
@@ -65,6 +67,43 @@ describe('rootModule', () => {
         const module = buildModule();
         await createAndRunModule(buildRouteProps(), module, context);
         expect(module.run).toBeCalledTimes(1);
+      });
+    });
+
+    describe('loadSharedInfo', () => {
+      it('does not load shared info when business id is not set', async () => {
+        const root = await createAndRunModule(buildRouteProps(), buildModule(), context);
+        expect(root.integrator.loadSharedInfo).toBeCalledTimes(0);
+      });
+
+      it('does not load shared info when business id is the same', async () => {
+        const root = await createAndRunModule(buildRouteProps('id'), buildModule(), context, 'id');
+        expect(root.integrator.loadSharedInfo).toBeCalledTimes(0);
+      });
+
+      it('loads shared info when a different business id is set', async () => {
+        const root = await createAndRunModule(buildRouteProps('id'), buildModule(), context);
+        expect(root.integrator.loadSharedInfo).toBeCalledTimes(1);
+      });
+    });
+
+    describe('runLeanEngage', () => {
+      it('does not run lean engage when business id is not set', async () => {
+        const root = await createAndRunModule(buildRouteProps(), buildModule(), context);
+        expect(root.startLeanEngage).toBeCalledTimes(0);
+      });
+
+      it('runs lean engage when business id is the same', async () => {
+        const root = await createAndRunModule(buildRouteProps('id'), buildModule(), context, 'id');
+        expect(root.startLeanEngage).toBeCalledTimes(1);
+      });
+
+      it('runs lean engage when a different business id is set', async () => {
+        const root = await createAndRunModule(buildRouteProps('id'), buildModule(), context);
+
+        root.integrator.loadSharedInfo.mock.calls[0][0].onSuccess();
+
+        expect(root.startLeanEngage).toBeCalledTimes(1);
       });
     });
   });

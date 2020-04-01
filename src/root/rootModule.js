@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import { getLeanEngageInfo } from './rootSelectors';
 import BusinessDetailsService from './services/businessDetails';
 import Config from '../Config';
 import CreateRootDispatcher from './createRootDispatcher';
@@ -19,7 +20,7 @@ import tasksService from './services/tasks';
 
 export default class RootModule {
   init = ({
-    integration, router, sendTelemetryEvent,
+    integration, router, sendTelemetryEvent, startLeanEngage,
   }) => {
     const { constructPath, replaceURLParamsAndReload } = router;
 
@@ -32,6 +33,7 @@ export default class RootModule {
     this.settingsService = SettingsService(this.dispatcher, integration, this.store);
     this.businessDetailsService = BusinessDetailsService(this.dispatcher, integration, this.store);
     this.last_business_id = null;
+    this.startLeanEngage = startLeanEngage;
 
     this.drawer = new DrawerModule({
       integration,
@@ -64,6 +66,29 @@ export default class RootModule {
 
   getRegion = () => this.store.getState().region;
 
+  loadSharedInfo = () => {
+    const onSuccess = (sharedInfo) => {
+      this.dispatcher.loadSharedInfo(sharedInfo);
+      this.runLeanEngage();
+    };
+
+    this.integrator.loadSharedInfo({ onSuccess });
+  };
+
+  loadSubscription = async () => {
+    const onSuccess = (subscription) => {
+      this.dispatcher.loadSubscription(subscription);
+    };
+
+    await this.integrator.loadSubscription({ onSuccess });
+  };
+
+  runLeanEngage = () => {
+    const state = this.store.getState();
+
+    this.startLeanEngage(getLeanEngageInfo(state));
+  };
+
   render = (component) => {
     const root = document.getElementById('root');
     ReactDOM.unmountComponentAtNode(root);
@@ -88,11 +113,15 @@ export default class RootModule {
     this.dispatcher.setBusinessId(businessId);
     this.dispatcher.setRegion(region);
 
-    if (businessId && businessId !== this.last_business_id) {
-      await this.integrator.loadSubscriptions();
-      this.tasksService.load();
-      this.settingsService.load();
-      this.businessDetailsService.load();
+    if (businessId) {
+      if (businessId !== this.last_business_id) {
+        await this.loadSubscription();
+        this.loadSharedInfo();
+        this.tasksService.load();
+        this.settingsService.load();
+      } else {
+        this.runLeanEngage();
+      }
     }
     this.last_business_id = businessId;
 

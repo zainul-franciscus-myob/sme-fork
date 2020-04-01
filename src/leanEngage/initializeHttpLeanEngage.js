@@ -21,14 +21,24 @@ const init = (window, doc, script, url, apiName, a, m) => {
 };
 /* eslint-enable */
 
-const start = appId => leanengage('start', getLeanEnagageFields(getUser(), appId)); // eslint-disable-line no-undef
+const start = ({
+  appId, businessDetails, currentUser, subscription,
+}) => leanengage('start', getLeanEnagageFields({ // eslint-disable-line no-undef
+  userAuth: getUser(),
+  appId,
+  businessDetails,
+  currentUser,
+  subscription,
+}));
 
 const initializeLeanEngage = (appId) => {
   init(window, document, 'script', '//www.leanengage.com/leanengage.v1.js', 'leanengage');
 
-  const startLeanEnage = ({ routeParams: { businessId } }) => {
-    if (businessId && isLoggedIn()) {
-      start(appId);
+  const startLeanEnage = ({ businessDetails, currentUser, subscription }) => {
+    if (isLoggedIn()) {
+      start({
+        appId, businessDetails, currentUser, subscription,
+      });
     }
   };
   return startLeanEnage;

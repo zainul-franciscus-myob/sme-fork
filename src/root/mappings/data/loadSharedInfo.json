@@ -1,0 +1,24 @@
+{
+  "businessDetails": {
+    "phoneNumber": "03 9555 4567",
+    "region": "AU",
+    "organisationName": "Clearwater Pty Ltd",
+    "abn": "80000000001",
+    "gstBranchNumber": "123",
+    "acn": "123123123",
+    "fax": "03 9555 7886",
+    "email": "info@clearwater.com.au",
+    "address": "25 Spring Street\nBlackburn\nVIC, 3130",
+    "financialYear": "2019",
+    "lastMonthInFinancialYear": "6",
+    "openingBalanceDate": "2014-07-01T00:00:00",
+    "serialNumber": "612312344567",
+    "hasLockPeriod": true,
+    "lockDate": "2019-11-11"
+  },
+  "currentUser": {
+    "email": "abc@gmail.com",
+    "userName": "rivneg",
+    "isAdvisor": false
+  }
+}

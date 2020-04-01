@@ -16,5 +16,11 @@
     {
       "name": "Payroll"
     }
-  ]
+  ],
+  "product": {
+    "id":"1",
+    "name":"Stub Product",
+    "displayName":"Stub Product",
+    "productLine":"Stub Product"
+  }
 }

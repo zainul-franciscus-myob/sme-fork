@@ -1,6 +1,6 @@
 import {
   DISMISS_TASK, GET_TASKS_LIST,
-  LOAD_SETTINGS, SAVE_SETTINGS, SET_BUSINESS_ID,
+  LOAD_SETTINGS, LOAD_SHARED_INFO, LOAD_SUBSCRIPTION, SAVE_SETTINGS, SET_BUSINESS_ID,
   SET_LOADING_STATE, SET_REGION, SET_VIEW_DATA, UPDATE_TASKS,
 } from './rootIntents';
 import { LOAD_GLOBAL_BUSINESS_DETAILS } from './services/businessDetails/BusinessDetailsIntents';
@@ -54,6 +54,16 @@ const createRootDispatcher = store => ({
   setViewData: (data) => {
     const intent = SET_VIEW_DATA;
     store.dispatch({ intent, data });
+  },
+
+  loadSharedInfo: (sharedInfo) => {
+    const intent = LOAD_SHARED_INFO;
+    store.dispatch({ intent, sharedInfo });
+  },
+
+  loadSubscription: (subscription) => {
+    const intent = LOAD_SUBSCRIPTION;
+    store.dispatch({ intent, subscription });
   },
 });
 
