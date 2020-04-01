@@ -10,17 +10,12 @@ const getEmployeeRoutes = ({
   pushMessage,
   replaceURLParams,
   globalCallbacks,
-  featureToggles,
 }) => {
-  const { isNZPayrollEnabled } = featureToggles;
-  const pathRegion = isNZPayrollEnabled ? '/au' : '/:region';
-  const defaultParams = isNZPayrollEnabled ? { region: 'au' } : undefined;
-
   const routes = [
     {
       name: RouteName.EMPLOYEE_LIST,
-      path: `${pathRegion}/:businessId/employee/`,
-      defaultParams,
+      path: '/au/:businessId/employee/',
+      defaultParams: { region: 'au' },
       module: new EmployeeListModule({
         integration, setRootView, popMessages,
       }),
@@ -28,7 +23,8 @@ const getEmployeeRoutes = ({
     },
     {
       name: RouteName.EMPLOYEE_DETAIL,
-      path: '/:region/:businessId/employee/:employeeId',
+      path: '/au/:businessId/employee/:employeeId',
+      defaultParams: { region: 'au' },
       allowedParams: ['mainTab', 'subTab'],
       module: new EmployeeDetailModule({
         integration,

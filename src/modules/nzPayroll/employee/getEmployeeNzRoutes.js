@@ -6,7 +6,6 @@ const getEmployeeNzRoutes = ({
   integration,
   setRootView,
   popMessages,
-  featureToggles,
 }) => {
   const routes = [
     {
@@ -20,7 +19,7 @@ const getEmployeeNzRoutes = ({
     },
   ];
 
-  return featureToggles.isNZPayrollEnabled ? routes : [];
+  return routes;
 };
 
 export default getEmployeeNzRoutes;

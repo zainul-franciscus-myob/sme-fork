@@ -115,8 +115,6 @@ export const featuresConfig = {
   taxList: { routeName: RouteName.TAX_LIST },
   prepareBasOrIas: { routeName: RouteName.PREPARE_BAS_OR_IAS },
 
-  // employeeListNz: { routeName: RouteName.EMPLOYEE_LIST_NZ },
-
   employeeList: { routeName: RouteName.EMPLOYEE_LIST },
   employeeCreate: { routeName: RouteName.EMPLOYEE_DETAIL, params: { employeeId: 'new' } },
   payRunList: { routeName: RouteName.PAY_RUN_OLD_LIST },
@@ -126,6 +124,8 @@ export const featuresConfig = {
   electronicPaymentPayrollCreate: { routeName: RouteName.ELECTRONIC_PAYMENTS_CREATE, params: { paymentType: 'PayEmployees' } },
   superPaymentList: { routeName: RouteName.PAY_SUPER_LIST },
   stpReporting: { routeName: RouteName.STP_REPORTING_CENTRE },
+
+  employeeListNz: { routeName: RouteName.EMPLOYEE_LIST_NZ },
 
   contactList: { routeName: RouteName.CONTACT_LIST },
   contactCreate: { routeName: RouteName.CONTACT_DETAIL, params: { contactId: 'new' } },

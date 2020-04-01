@@ -8,5 +8,4 @@
  */
 export default {
   isSpendMoneyBankPaymentEnabled: true,
-  isNZPayrollEnabled: true,
 };
