@@ -1,3 +1,5 @@
+import chatIcon from './icon-chat.svg';
+
 const liveChatConfig = (
   businessId,
   businessName,
@@ -47,10 +49,11 @@ const liveChatConfig = (
         enabled: true,
         openDelay: 100,
         effectDuration: 100,
-        template: ''
-          + '<div class="cx-widget cx-webchat-chat-button" data-message="ChatButton" data-gcb-service-node="true">'
-            + '<span class="i18n" data-message="ChatButton" />'
-          + '</div>',
+        template: `
+          <div class="cx-widget cx-webchat-chat-button" data-message="ChatButton" data-gcb-service-node="true">
+            <img src=${chatIcon} alt="live chat" width="25" height="25" />
+          </div>
+        `,
       },
       form: {
         wrapper: '<div></div>',

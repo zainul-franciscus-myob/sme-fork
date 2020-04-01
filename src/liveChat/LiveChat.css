@@ -1,26 +1,23 @@
 .cx-theme-myob {
   background-color: var(--flx-palette-white);
-  border-top-left-radius: var(--flx-size-border-radius-small);
-  border-top-right-radius: var(--flx-size-border-radius-small);
-  color: var(--flx-palette-storm-100);
+  border-radius: var(--flx-border-radius-button) var(--flx-border-radius-button) 0 0;
+  color: var(--flx-palette-thunder);
   font-family: var(--flx-font-family);
 }
 
 .cx-theme-myob .cx-side-button-group {
-  bottom: var(--flx-spacing-medium);
-  margin: 0;
-  right: var(--flx-spacing-medium);
+  bottom: var(--flx-spacing-xx-large);
+  right: var(--flx-spacing-xx-large);
   top: auto;
   transform: rotate(0);
   z-index: var(--flx-zindex-popover) !important;
 }
 
 .cx-theme-myob .cx-webchat-chat-button {
-  background-color: var(--flx-palette-golf);
-  border-radius: 1.875rem;
-  color: var(--flx-palette-white);
-  font-weight: var(--flx-font-weight-normal);
-  padding: var(--flx-spacing-tiny) var(--flx-spacing-small) !important;
+  border-radius: 100%;
+  box-shadow: var(--flx-shadow-popover);
+  margin: 0;
+  padding: var(--flx-spacing-small) !important;
 }
 
 .cx-theme-myob .cx-buttons-window-control button:focus { border: none; }
@@ -28,7 +25,7 @@
 .cx-theme-myob .cx-buttons-window-control [class*='svg-icon'] { fill: var(--flx-palette-white); }
 
 .cx-theme-myob .cx-titlebar {
-  background: var(--flx-palette-golf);
+  background: #6100a5;
   border-radius: var(--flx-border-radius-button) var(--flx-border-radius-button) 0 0;
   color: var(--flx-palette-white);
   padding: var(--flx-spacing-tiny) var(--flx-spacing-medium);
@@ -91,19 +88,15 @@
 }
 
 .cx-theme-myob .cx-btn-primary {
-  background: var(--flx-palette-golf);
-  border-color: var(--flx-palette-golf);
+  background: #6100a5;
+  border-color: #6100a5;
   color: var(--flx-palette-white);
 }
 
-.cx-theme-myob .cx-btn-primary:focus {
-  background-color: #007747;
-  border-color: #002b19;
-}
-
+.cx-theme-myob .cx-btn-primary:focus,
 .cx-theme-myob .cx-btn-primary:hover {
-  background-color: #007747;
-  border-color: #006d41;
+  background-color: var(--flx-palette-dusk-100);
+  border-color: var(--flx-palette-dusk-100);
 }
 
 .cx-theme-myob .cx-input-container {
@@ -115,7 +108,7 @@
 }
 
 .cx-theme-myob .cx-time {
-  color: var(--flx-palette-storm-28);
+  color: var(--flx-palette-storm-72);
 }
 
 .cx-theme-myob .cx-transcript .cx-message-group > .cx-message.cx-agent:first-child .cx-bubble-arrow {

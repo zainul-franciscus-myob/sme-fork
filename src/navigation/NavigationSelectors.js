@@ -301,7 +301,7 @@ export const getShouldDisplayCreateBusiness = state => {
 };
 
 export const getShouldDisplayLiveChat = () => {
-  if (process.env.NODE_ENV === 'production') return false;
+  if (process.env.NODE_ENV !== 'production') return false;
 
   return createSelector(
     hasBusinessId,
