@@ -14,6 +14,6 @@
   color: var(--flx-color-alert-error-link);
 }
 
-.totals {
+.totals :global(.line-item__total) {
   min-height: 14rem;
 }

@@ -6,6 +6,6 @@
   flex: 1 1;
 }
 
-.totals {
+.totals :global(.line-item__total) {
   min-height: 14rem;
 }

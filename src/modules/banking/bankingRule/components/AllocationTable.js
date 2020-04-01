@@ -90,13 +90,13 @@ const AllocationTable = ({
         headerItems={headerItems}
       >
         <div className={styles.totals}>
-          {
-            showRemainingPercentage && (
-            <LineItemTable.Total>
-              <LineItemTable.Totals title="Remaining" amount={remainingPercentage} />
-            </LineItemTable.Total>
-            )
-          }
+          <LineItemTable.Total>
+            {
+              showRemainingPercentage && (
+                <LineItemTable.Totals title="Remaining" amount={remainingPercentage} />
+              )
+            }
+          </LineItemTable.Total>
         </div>
       </LineItemTable>
     </div>
