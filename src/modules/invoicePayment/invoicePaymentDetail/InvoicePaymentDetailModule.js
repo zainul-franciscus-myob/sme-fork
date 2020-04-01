@@ -6,9 +6,11 @@ import {
   SUCCESSFULLY_SAVED_INVOICE_PAYMENT,
 } from '../InvoicePaymentMessageTypes';
 import {
+  getApplyPaymentToInvoiceId,
   getBusinessId,
   getCustomerId,
   getIsActionsDisabled,
+  getIsCreating,
   getIsPageEdited,
   getModalUrl,
   getOpenedModalType,
@@ -47,7 +49,7 @@ export default class InvoicePaymentDetailModule {
         onDeleteButtonClick={this.openDeleteModal}
         onConfirmDelete={this.deleteInvoicePayment}
         onCancelButtonClick={this.openCancelModal}
-        onConfirmCancel={this.redirectToTransactionList}
+        onConfirmCancel={this.cancelInvoicePayment}
         onConfirmSaveButtonClick={this.saveUnsavedChanges}
         onConfirmUnsaveButtonClick={this.redirectToModalUrl}
       />
@@ -108,6 +110,22 @@ export default class InvoicePaymentDetailModule {
     this.redirectToUrl(`/#/${region}/${businessId}/transactionList`);
   };
 
+  redirectToInvoiceList= () => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    this.redirectToUrl(`/#/${region}/${businessId}/invoice`);
+  };
+
+  redirectToInvoiceDetail= (invoiceId) => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    this.redirectToUrl(`/#/${region}/${businessId}/invoice/${invoiceId}`);
+  };
+
   redirectToModalUrl = () => {
     const state = this.store.getState();
     const url = getModalUrl(state);
@@ -135,7 +153,14 @@ export default class InvoicePaymentDetailModule {
         type: SUCCESSFULLY_SAVED_INVOICE_PAYMENT,
         content: message,
       });
-      this.redirectToTransactionList();
+
+      const state = this.store.getState();
+      const isCreating = getIsCreating(state);
+      if (isCreating) {
+        this.redirectToInvoiceList();
+      } else {
+        this.redirectToTransactionList();
+      }
     };
 
     this.createOrUpdateInvoicePayment({ onSuccess });
@@ -191,6 +216,21 @@ export default class InvoicePaymentDetailModule {
     this.integrator.loadInvoiceList({ onSuccess, onFailure });
   };
 
+  cancelInvoicePayment = () => {
+    const state = this.store.getState();
+    const isCreating = getIsCreating(state);
+    if (isCreating) {
+      const invoiceId = getApplyPaymentToInvoiceId(state);
+      if (invoiceId) {
+        this.redirectToInvoiceDetail(invoiceId);
+      } else {
+        this.redirectToInvoiceList();
+      }
+    } else {
+      this.redirectToTransactionList();
+    }
+  }
+
   openDeleteModal = () => this.dispatcher.openModal({ type: InvoicePaymentModalTypes.DELETE });
 
   openCancelModal = () => {
@@ -199,7 +239,7 @@ export default class InvoicePaymentDetailModule {
     if (getIsPageEdited(state)) {
       this.dispatcher.openModal({ type: InvoicePaymentModalTypes.CANCEL });
     } else {
-      this.redirectToTransactionList();
+      this.cancelInvoicePayment();
     }
   };
 

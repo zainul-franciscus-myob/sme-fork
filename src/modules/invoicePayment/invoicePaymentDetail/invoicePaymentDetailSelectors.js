@@ -31,6 +31,7 @@ export const getTotalReceived = state => (
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 export const getInvoicePaymentId = state => state.invoicePaymentId;
+export const getApplyPaymentToInvoiceId = state => state.applyPaymentToInvoiceId;
 export const getIsActionsDisabled = state => state.isSubmitting;
 export const getAlertMessage = state => state.alertMessage;
 export const getModal = state => state.modal;

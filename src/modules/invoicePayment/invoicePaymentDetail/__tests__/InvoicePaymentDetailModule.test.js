@@ -45,11 +45,13 @@ describe('InvoicePaymentDetailModule', () => {
     return { store, integration, module };
   };
 
-  const setupWithNew = () => {
+  const setupWithNew = ({ applyPaymentToInvoiceId } = {}) => {
     const toolbox = setup();
     const { store, integration, module } = toolbox;
 
-    module.run({ businessId: '1', region: 'au', invoicePaymentId: 'new' });
+    module.run({
+      businessId: '1', region: 'au', invoicePaymentId: 'new', applyPaymentToInvoiceId,
+    });
     store.resetActions();
     integration.resetRequests();
 
@@ -294,6 +296,32 @@ describe('InvoicePaymentDetailModule', () => {
     });
   });
 
+  describe('cancelInvoicePayment', () => {
+    it('redirect to transaction list on existing invoice payment', () => {
+      const { module } = setupWithExisting();
+
+      module.cancelInvoicePayment();
+
+      expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/transactionList'));
+    });
+
+    it('redirect to invoice list on new invoice payment', () => {
+      const { module } = setupWithNew();
+
+      module.cancelInvoicePayment();
+
+      expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/invoice'));
+    });
+
+    it('redirect to invoice detail on prefilled invoice payment', () => {
+      const { module } = setupWithNew({ applyPaymentToInvoiceId: 'invoiceId' });
+
+      module.cancelInvoicePayment();
+
+      expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/invoice/invoiceId'));
+    });
+  });
+
   describe('saveHandler', () => {
     const setupWithOpenModal = (modalType, openHandler) => {
       const toolbox = setupWithPageEdited();
@@ -374,13 +402,17 @@ describe('InvoicePaymentDetailModule', () => {
         name: 'create',
         setupHandler: setupWithNew,
         intent: CREATE_INVOICE_PAYMENT,
+        redirectUrl: '/#/au/1/invoice',
       },
       {
         name: 'update',
         setupHandler: setupWithExisting,
         intent: UPDATE_INVOICE_PAYMENT,
+        redirectUrl: '/#/au/1/transactionList',
       },
-    ].forEach(({ name, setupHandler, intent }) => {
+    ].forEach(({
+      name, setupHandler, intent, redirectUrl,
+    }) => {
       it(`successfully ${name}`, () => {
         const { module, store, integration } = setupHandler();
         module.pushMessage = jest.fn();
@@ -406,7 +438,7 @@ describe('InvoicePaymentDetailModule', () => {
           type: SUCCESSFULLY_SAVED_INVOICE_PAYMENT,
           content: 'Great Work! You\'ve done it well!',
         });
-        expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/transactionList'));
+        expect(window.location.href).toEqual(expect.stringContaining(redirectUrl));
       });
 
       it(`fails to ${name}`, () => {
@@ -597,13 +629,31 @@ describe('InvoicePaymentDetailModule', () => {
       ]);
     });
 
-    it('redirects when page not edited', () => {
-      const { module, store } = setupWithExisting();
+    describe('when page not edited', () => {
+      it('redirect to transaction list on existing invoice payment', () => {
+        const { module, store } = setupWithExisting();
 
-      module.openCancelModal();
+        module.openCancelModal();
 
-      expect(store.getActions()).toEqual([]);
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/transactionList'));
+        expect(store.getActions()).toEqual([]);
+        expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/transactionList'));
+      });
+
+      it('redirect to invoice list on new invoice payment', () => {
+        const { module } = setupWithNew();
+
+        module.openCancelModal();
+
+        expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/invoice'));
+      });
+
+      it('redirect to invoice detail on prefilled invoice payment', () => {
+        const { module } = setupWithNew({ applyPaymentToInvoiceId: 'invoiceId' });
+
+        module.openCancelModal();
+
+        expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/invoice/invoiceId'));
+      });
     });
   });
 
