@@ -26,6 +26,7 @@ const getDefaultState = () => ({
     balance: '',
     employeeBankStatementDesc: '',
     transactionDesc: '',
+    lines: [],
   },
   alert: '',
   loadingState: LoadingState.LOADING,
