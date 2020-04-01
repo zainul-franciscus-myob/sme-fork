@@ -29,6 +29,7 @@ import {
   getBusinessId,
   getIsCreating,
   getIsPageEdited,
+  getIsSuperFundEditable,
   getRegion,
   getSaveSuperFundPayload,
   getSuperFundId,
@@ -275,9 +276,18 @@ export default class SuperFundWithPaySuperModule {
     SAVE_ACTION: this.saveSuperFund,
   };
 
+  bindHotKeys = () => {
+    const userCanSave = getIsSuperFundEditable(this.store.getState());
+    if (userCanSave) {
+      setupHotKeys(keyMap, this.handlers);
+    }
+  }
+
   run({ context, payload }) {
     this.setInitialState(context, payload);
-    setupHotKeys(keyMap, this.handlers);
+
+    this.bindHotKeys();
+
     this.render();
   }
 
