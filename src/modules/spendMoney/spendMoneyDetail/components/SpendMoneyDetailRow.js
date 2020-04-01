@@ -114,7 +114,6 @@ const SpendMoneyDetailRow = (props) => {
         items={taxCodeOptions}
         selectedId={taxCodeId}
         onChange={onComboboxChange('taxCodeId', onChange)}
-        left
         disabled={isSupplierBlocking || isSubmitting}
       />
     </LineItemTable.Row>

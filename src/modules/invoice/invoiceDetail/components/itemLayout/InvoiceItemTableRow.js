@@ -150,7 +150,6 @@ const InvoiceItemTableRow = ({
         selectedId={taxCodeId}
         onChange={onComboboxChange('taxCodeId', onChange)}
         disabled={isSubmitting}
-        left
       />
     </LineItemTable.Row>
   );

@@ -1,11 +1,8 @@
 import { Combobox as FeelixCombobox } from '@myob/myob-widgets';
 import React from 'react';
-import classNames from 'classnames';
-
-import styles from './Combobox.module.css';
 
 const Combobox = ({
-  left, selectedId = '', items = [], onChange, ...props
+  selectedId = '', items = [], onChange, ...props
 }) => {
   const selectedItem = items
     .find(option => option.id === selectedId) || {};
@@ -19,17 +16,12 @@ const Combobox = ({
   };
 
   return (
-    <div className={classNames({
-      [styles.left]: left,
-    })}
-    >
-      <FeelixCombobox
-        selected={selectedItem}
-        onChange={onComboboxChange}
-        items={items}
-        {...props}
-      />
-    </div>
+    <FeelixCombobox
+      selected={selectedItem}
+      onChange={onComboboxChange}
+      items={items}
+      {...props}
+    />
   );
 };
 
