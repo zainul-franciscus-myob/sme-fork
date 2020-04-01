@@ -3,7 +3,6 @@ import { DEBITS_AND_CREDITS, JOURNAL_TRANSACTIONS } from '../getDefaultState';
 import {
   LOAD_CREDITS_AND_DEBITS_LIST,
   LOAD_CREDITS_AND_DEBITS_NEXT_PAGE,
-  LOAD_TRANSACTION_LIST,
   LOAD_TRANSACTION_NEXT_PAGE,
   SET_ALERT,
   SET_LAST_LOADING_TAB,
@@ -159,60 +158,7 @@ describe('TransactionListModule', () => {
   });
 
   describe('setTab', () => {
-    it('should load journal transactions if it hasn\'t been loaded before', () => {
-      const { module, store, integration } = setupWithRun();
-
-      module.setTab(JOURNAL_TRANSACTIONS);
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: SET_TAB,
-          tabId: JOURNAL_TRANSACTIONS,
-        },
-        {
-          intent: SET_LAST_LOADING_TAB,
-          lastLoadingTab: JOURNAL_TRANSACTIONS,
-        },
-        {
-          intent: SET_LOADING_STATE,
-          key: JOURNAL_TRANSACTIONS,
-          loadingState: LoadingState.LOADING_SUCCESS,
-        },
-        expect.objectContaining({
-          intent: LOAD_TRANSACTION_LIST,
-        }),
-      ]);
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: LOAD_TRANSACTION_LIST,
-        }),
-      ]);
-    });
-
-    it('should handle if journal transactions fails to load', () => {
-      const { module, store, integration } = setupWithRun();
-      integration.mapFailure(LOAD_TRANSACTION_LIST);
-
-      module.setTab(JOURNAL_TRANSACTIONS);
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: SET_TAB,
-          tabId: JOURNAL_TRANSACTIONS,
-        },
-        {
-          intent: SET_LAST_LOADING_TAB,
-          lastLoadingTab: JOURNAL_TRANSACTIONS,
-        },
-        {
-          intent: SET_LOADING_STATE,
-          key: JOURNAL_TRANSACTIONS,
-          loadingState: LoadingState.LOADING_FAIL,
-        },
-      ]);
-    });
-
-    it('should sort and filter journal transactions if it has been loaded before', () => {
+    it('should sort and filter journal transactions', () => {
       const { module, store, integration } = setUpWithJournalTransactionLoaded();
 
       module.setTab(JOURNAL_TRANSACTIONS);

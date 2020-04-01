@@ -1,7 +1,6 @@
 import {
   LOAD_CREDITS_AND_DEBITS_LIST,
   LOAD_CREDITS_AND_DEBITS_NEXT_PAGE,
-  LOAD_TRANSACTION_LIST,
   LOAD_TRANSACTION_NEXT_PAGE,
   SORT_AND_FILTER_CREDITS_AND_DEBITS_LIST,
   SORT_AND_FILTER_TRANSACTION_LIST,
@@ -84,28 +83,6 @@ const createTransactionListIntegrator = (store, integration) => ({
       intent,
       urlParams,
       params,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  loadTransactionList: ({ onSuccess, onFailure }) => {
-    const state = store.getState();
-    const intent = LOAD_TRANSACTION_LIST;
-
-    const filterOptions = getFilterOptions(state);
-    const urlParams = { businessId: getBusinessId(state) };
-    const sortingOptions = getSortingForJournalTransactions(state);
-    const params = {
-      ...filterOptions,
-      ...sortingOptions,
-      offset: 0,
-    };
-
-    integration.read({
-      intent,
-      params,
-      urlParams,
       onSuccess,
       onFailure,
     });

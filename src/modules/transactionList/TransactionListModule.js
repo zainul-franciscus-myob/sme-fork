@@ -22,7 +22,6 @@ import {
   getURLParams,
 } from './selectors/transactionListSelectors';
 import { getIsCreditsAndDebitsLoaded } from './selectors/creditsAndDebitsSelectors';
-import { getIsTransactionsLoaded } from './selectors/journalTransactionSelectors';
 import { loadSettings, saveSettings } from '../../store/localStorageDriver';
 import LoadingState from '../../components/PageView/LoadingState';
 import RouteName from '../../router/RouteName';
@@ -118,21 +117,6 @@ export default class TransactionListModule {
   debouncedSortAndFilterCreditsAndDebitsList = debounce(this.sortAndFilterCreditsAndDebitsList);
 
   /* Journal transactions */
-  loadTransactionList = () => {
-    this.setLastLoadingTab(JOURNAL_TRANSACTIONS);
-
-    const onSuccess = (response) => {
-      this.dispatcher.setLoadingState(JOURNAL_TRANSACTIONS, LoadingState.LOADING_SUCCESS);
-      this.dispatcher.loadJournalTransactions(response);
-    };
-
-    const onFailure = () => {
-      this.dispatcher.setLoadingState(JOURNAL_TRANSACTIONS, LoadingState.LOADING_FAIL);
-    };
-
-    this.integrator.loadTransactionList({ onSuccess, onFailure });
-  }
-
   sortAndFilterTransactionList = () => {
     this.dispatcher.setTableLoadingState(JOURNAL_TRANSACTIONS, true);
     this.setLastLoadingTab(JOURNAL_TRANSACTIONS);
@@ -277,11 +261,7 @@ export default class TransactionListModule {
     const isSwitchingTab = getIsSwitchingTab(state);
 
     if (isSwitchingTab) {
-      if (!getIsTransactionsLoaded(state)) {
-        this.loadTransactionList();
-      } else {
-        this.sortAndFilterTransactionList();
-      }
+      this.sortAndFilterTransactionList();
     }
   }
 

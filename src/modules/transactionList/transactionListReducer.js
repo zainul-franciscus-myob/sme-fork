@@ -2,7 +2,6 @@ import { DEBITS_AND_CREDITS, JOURNAL_TRANSACTIONS, getDefaultState } from './get
 import {
   LOAD_CREDITS_AND_DEBITS_LIST,
   LOAD_CREDITS_AND_DEBITS_NEXT_PAGE,
-  LOAD_TRANSACTION_LIST,
   LOAD_TRANSACTION_NEXT_PAGE,
   SET_ALERT,
   SET_LAST_LOADING_TAB,
@@ -147,18 +146,6 @@ const loadCreditsAndDebitsNextPage = (state, action) => ({
   },
 });
 
-const loadTransactionList = (state, action) => ({
-  ...state,
-  [JOURNAL_TRANSACTIONS]: {
-    ...state[JOURNAL_TRANSACTIONS],
-    entries: action.entries,
-    pagination: {
-      hasNextPage: action.pagination.hasNextPage,
-      offset: action.pagination.offset,
-    },
-  },
-});
-
 const sortAndFilterTransactionList = (state, action) => ({
   ...state,
   [JOURNAL_TRANSACTIONS]: {
@@ -168,6 +155,7 @@ const sortAndFilterTransactionList = (state, action) => ({
       hasNextPage: action.pagination.hasNextPage,
       offset: action.pagination.offset,
     },
+    loadMoreButtonStatus: getLoadMoreButtonStatus(action.pagination.hasNextPage),
   },
 });
 
@@ -199,7 +187,6 @@ const handlers = {
   [LOAD_CREDITS_AND_DEBITS_LIST]: loadCreditsAndDebitsList,
   [SORT_AND_FILTER_CREDITS_AND_DEBITS_LIST]: sortAndFilterCreditsAndDebitsList,
   [LOAD_CREDITS_AND_DEBITS_NEXT_PAGE]: loadCreditsAndDebitsNextPage,
-  [LOAD_TRANSACTION_LIST]: loadTransactionList,
   [SORT_AND_FILTER_TRANSACTION_LIST]: sortAndFilterTransactionList,
   [LOAD_TRANSACTION_NEXT_PAGE]: loadTransactionNextPage,
 };

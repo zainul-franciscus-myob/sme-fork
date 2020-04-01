@@ -3,7 +3,6 @@ import React from 'react';
 
 import {
   getLoadMoreButtonStatus,
-  getLoadingState,
 } from '../selectors/journalTransactionSelectors';
 import JournalTransactionListTable from './JournalTransactionListTable';
 import JournalTransactionListTableHeader from './JournalTransactionListTableHeader';
@@ -23,7 +22,6 @@ export const tableConfig = {
 
 const JournalTransactionListView = (props) => {
   const {
-    loadingState,
     loadMoreButtonStatus,
     onUpdateFilters,
     onPeriodChange,
@@ -63,11 +61,10 @@ const JournalTransactionListView = (props) => {
     />
   );
 
-  return <PageView loadingState={loadingState} view={transactionListView} />;
+  return <PageView view={transactionListView} />;
 };
 
 const mapStateToProps = state => ({
-  loadingState: getLoadingState(state),
   loadMoreButtonStatus: getLoadMoreButtonStatus(state),
 });
 

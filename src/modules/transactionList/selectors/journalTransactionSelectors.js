@@ -9,7 +9,6 @@ import {
   getSortOrder,
 } from './transactionListSelectors';
 import { getDefaultState } from '../getDefaultState';
-import LoadingState from '../../../components/PageView/LoadingState';
 
 const getJournalTransactions = (state) => state.journalTransaction;
 
@@ -48,16 +47,6 @@ export const getIsTableEmpty = createSelector(
 export const getIsTableLoading = createSelector(
   getJournalTransactions,
   state => state.isTableLoading,
-);
-
-export const getLoadingState = createSelector(
-  getJournalTransactions,
-  state => state.loadingState,
-);
-
-export const getIsTransactionsLoaded = createSelector(
-  getLoadingState,
-  (loadingState) => loadingState !== LoadingState.LOADING,
 );
 
 export const getLoadMoreButtonStatus = createSelector(

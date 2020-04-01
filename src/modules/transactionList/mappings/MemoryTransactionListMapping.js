@@ -1,7 +1,6 @@
 import {
   LOAD_CREDITS_AND_DEBITS_LIST,
   LOAD_CREDITS_AND_DEBITS_NEXT_PAGE,
-  LOAD_TRANSACTION_LIST,
   LOAD_TRANSACTION_NEXT_PAGE,
   SORT_AND_FILTER_CREDITS_AND_DEBITS_LIST,
   SORT_AND_FILTER_TRANSACTION_LIST,
@@ -9,7 +8,6 @@ import {
 import creditsAndDebitsListFilterResponse from './data/filterCreditsAndDebitsList.json';
 import creditsAndDebitsListLoadResponse from './data/loadCreditsAndDebitsList.json';
 import transactionListFilterResponse from './data/filterTransactionList.json';
-import transactionListLoadResponse from './data/loadTransactionList.json';
 
 const sortAndFilterCreditsAndDebitsList = ({ onSuccess }) => (
   onSuccess(creditsAndDebitsListFilterResponse)
@@ -20,7 +18,6 @@ const loadNextPageForCreditsAndDebits = ({ onSuccess }) => (
 );
 
 const sortAndFilterTransactionList = ({ onSuccess }) => onSuccess(transactionListFilterResponse);
-const loadTransactionList = ({ onSuccess }) => onSuccess(transactionListLoadResponse);
 const loadNextPageForJournalTransactions = ({ onSuccess }) => (
   onSuccess(transactionListFilterResponse)
 );
@@ -31,7 +28,6 @@ const MemoryTransactionListMapping = {
   [LOAD_CREDITS_AND_DEBITS_LIST]: loadCreditsAndDebitsList,
   [LOAD_TRANSACTION_NEXT_PAGE]: loadNextPageForJournalTransactions,
   [SORT_AND_FILTER_TRANSACTION_LIST]: sortAndFilterTransactionList,
-  [LOAD_TRANSACTION_LIST]: loadTransactionList,
 };
 
 export default MemoryTransactionListMapping;

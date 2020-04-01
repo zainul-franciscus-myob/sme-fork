@@ -12,6 +12,5 @@ export const LOAD_CREDITS_AND_DEBITS_LIST = Symbol('Load list of credits and deb
 export const SORT_AND_FILTER_CREDITS_AND_DEBITS_LIST = Symbol('Sort and filter list of credits and debits');
 export const LOAD_CREDITS_AND_DEBITS_NEXT_PAGE = Symbol('Load credit and debits next page');
 
-export const LOAD_TRANSACTION_LIST = Symbol('Load list of transactions');
 export const SORT_AND_FILTER_TRANSACTION_LIST = Symbol('Sort and filter list of transactions');
 export const LOAD_TRANSACTION_NEXT_PAGE = Symbol('Load transaction next page');

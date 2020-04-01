@@ -1,7 +1,6 @@
 import {
   LOAD_CREDITS_AND_DEBITS_LIST,
   LOAD_CREDITS_AND_DEBITS_NEXT_PAGE,
-  LOAD_TRANSACTION_LIST,
   LOAD_TRANSACTION_NEXT_PAGE,
   SET_ALERT,
   SET_LAST_LOADING_TAB,
@@ -66,14 +65,6 @@ const createTransactionListDispatcher = store => ({
       intent,
       entries,
       pagination,
-    });
-  },
-
-  loadJournalTransactions: (response) => {
-    const intent = LOAD_TRANSACTION_LIST;
-    store.dispatch({
-      intent,
-      ...response,
     });
   },
 
