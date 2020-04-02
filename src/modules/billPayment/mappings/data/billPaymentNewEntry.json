@@ -29,9 +29,17 @@
       "accountType": "Asset",
       "taxCodeId": "124",
       "displayId": "2-123"
+    },
+    {
+      "id": "789",
+      "displayName": "Electronic clearing account",
+      "accountType": "Asset",
+      "taxCodeId": "124",
+      "displayId": "1-109"
     }
   ],
   "accountId": "123",
   "referenceId": "BP0000002",
-  "showPaidBills": false
+  "showPaidBills": false,
+  "electronicClearingAccountId": "789"
 }

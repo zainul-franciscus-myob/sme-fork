@@ -27,6 +27,8 @@ const getTaxExclusiveLabel = state => getRegionToDialectText(state.region)('Tax 
 export const getTaxCodeOptions = state => state.taxCodes;
 export const getAccountOptions = state => state.accounts;
 export const getRegion = state => state.region;
+const getElectronicClearingAccountId = state => state.spendMoney.electronicClearingAccountId;
+const getBankStatementText = state => state.spendMoney.bankStatementText;
 
 const getHeadersProperties = createStructuredSelector({
   referenceId: getReferenceId,
@@ -42,6 +44,8 @@ const getHeadersProperties = createStructuredSelector({
   taxInclusiveLabel: getTaxInclusiveLabel,
   taxExclusiveLabel: getTaxExclusiveLabel,
   region: getRegion,
+  electronicClearingAccountId: getElectronicClearingAccountId,
+  bankStatementText: getBankStatementText,
 });
 
 export const getIsReportableDisabled = createSelector(
@@ -74,14 +78,28 @@ export const getShouldShowAccountCode = createSelector(
   (isCreating, contactId, contacts) => isCreating && contactId && getContactType(contactId, contacts) === 'Supplier',
 );
 
+export const getShowBankStatementText = createSelector(
+  getSelectedPayFromId,
+  getElectronicClearingAccountId,
+  (accountId, electronicClearingAccountId) => accountId === electronicClearingAccountId,
+);
+
 export const getHeaderOptions = createSelector(
   getHeadersProperties,
   getIsReportableDisabled,
   getShouldShowReportable,
   getShouldShowAccountCode,
-  (headerProps, isReportableDisabled, shouldShowReportable, shouldShowAccountCode) => {
+  getShowBankStatementText,
+  (
+    headerProps,
+    isReportableDisabled,
+    shouldShowReportable,
+    shouldShowAccountCode,
+    showBankStatementText,
+  ) => {
     const {
-      payFromAccounts = [], payToContacts = [],
+      payFromAccounts = [],
+      payToContacts = [],
       ...headerOptions
     } = headerProps;
 
@@ -92,6 +110,7 @@ export const getHeaderOptions = createSelector(
       isReportableDisabled,
       shouldShowReportable,
       shouldShowAccountCode,
+      showBankStatementText,
     };
   },
 );

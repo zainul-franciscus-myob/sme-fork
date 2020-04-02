@@ -48,9 +48,12 @@ const createSpendMoneyIntegrator = (store, integration) => ({
     });
   },
 
-  loadNextReferenceId: ({ onSuccess, onFailure, accountId }) => {
+  loadNextReferenceId: ({
+    onSuccess, onFailure, accountId, updateBankStatementText,
+  }) => {
     const state = store.getState();
     if (isReferenceIdDirty(state)) {
+      updateBankStatementText();
       return;
     }
 

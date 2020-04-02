@@ -29,6 +29,13 @@
       "accountType": "Asset",
       "taxCodeId": "124",
       "displayId": "2-123"
+    },
+    {
+      "id": "789",
+      "displayName": "Electronic clearing account",
+      "accountType": "Asset",
+      "taxCodeId": "124",
+      "displayId": "1-109"
     }
   ],
   "date": "2019-03-28",
@@ -46,5 +53,6 @@
       "paidAmount": "2500.05",
       "discountAmount": "0.00"
     }
-  ]
+  ],
+  "electronicClearingAccountId": "789"
 }

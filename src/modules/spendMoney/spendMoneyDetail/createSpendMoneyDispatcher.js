@@ -16,6 +16,7 @@ import {
   PREFILL_DATA_FROM_IN_TRAY,
   REMOVE_ATTACHMENT,
   REMOVE_ATTACHMENT_BY_INDEX,
+  RESET_BANK_STATEMENT_TEXT,
   RESET_TOTALS,
   SET_ALERT,
   SET_IN_TRAY_DOCUMENT_URL,
@@ -24,6 +25,7 @@ import {
   SET_SHOW_SPLIT_VIEW,
   SET_SUBMITTING_STATE,
   SET_SUPPLIER_BLOCKING_STATE,
+  UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_SPEND_MONEY_HEADER,
   UPDATE_SPEND_MONEY_LINE,
   UPDATE_UPLOAD_PROGRESS,
@@ -217,6 +219,17 @@ const createSpendMoneyDispatcher = store => ({
     intent: LOAD_CONTACT_AFTER_CREATE,
     contactId,
     ...payload,
+  }),
+
+  resetBankStatementText: ({ key, value }) => {
+    store.dispatch({
+      intent: RESET_BANK_STATEMENT_TEXT,
+      key,
+      value,
+    });
+  },
+  updateBankStatementText: () => store.dispatch({
+    intent: UPDATE_BANK_STATEMENT_TEXT,
   }),
 });
 

@@ -9,6 +9,8 @@ import {
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_SUPPLIER_EXPENSE_ACCOUNT,
   PREFILL_DATA_FROM_IN_TRAY,
+  RESET_BANK_STATEMENT_TEXT,
+  UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_SPEND_MONEY_HEADER,
   UPDATE_SPEND_MONEY_LINE,
   UPLOAD_ATTACHMENT,
@@ -905,6 +907,83 @@ describe('spendMoneyDetailReducer', () => {
       const actual = spendMoneyReducer(state, action);
 
       expect(actual.spendMoney.lines[0].displayAmount).toEqual('1');
+    });
+  });
+
+  describe('updateBankStatementText', () => {
+    it('should update bank statement text if the selected account is the electronic cleared account', () => {
+      const state = {
+        spendMoney: {
+          referenceId: '55',
+          selectedPayFromAccountId: '1',
+          electronicClearingAccountId: '1',
+        },
+      };
+
+      const action = {
+        intent: UPDATE_BANK_STATEMENT_TEXT,
+      };
+
+      const actual = spendMoneyReducer(state, action);
+
+      expect(actual.spendMoney.bankStatementText).toEqual('Payment 55');
+      expect(actual.spendMoney.originalBankStatementText).toEqual('Payment 55');
+    });
+
+    it('should not update bank statement text if the selected account is the electronic cleared account', () => {
+      const state = {
+        spendMoney: {
+          referenceId: '55',
+          selectedPayFromAccountId: '2',
+          electronicClearingAccountId: '1',
+          originalBankStatementText: 'original-text',
+        },
+      };
+
+      const action = {
+        intent: UPDATE_BANK_STATEMENT_TEXT,
+      };
+
+      const actual = spendMoneyReducer(state, action);
+
+      expect(actual.spendMoney.bankStatementText).toEqual('');
+      expect(actual.spendMoney.originalBankStatementText).toEqual('original-text');
+    });
+  });
+
+  describe('resetBankStatementText', () => {
+    it('should prefill bankStatementText with originalBankStatementText if field is cleared', () => {
+      const state = {
+        spendMoney: {
+          originalBankStatementText: 'some-text',
+        },
+      };
+
+      const action = {
+        intent: RESET_BANK_STATEMENT_TEXT,
+        value: '',
+      };
+
+      const actual = spendMoneyReducer(state, action);
+
+      expect(actual.spendMoney.bankStatementText).toEqual('some-text');
+    });
+
+    it('should update bankStatementText with value if field is not cleared', () => {
+      const state = {
+        spendMoney: {
+          originalBankStatementText: 'some-text',
+        },
+      };
+
+      const action = {
+        intent: RESET_BANK_STATEMENT_TEXT,
+        value: 'updated-text',
+      };
+
+      const actual = spendMoneyReducer(state, action);
+
+      expect(actual.spendMoney.bankStatementText).toEqual('updated-text');
     });
   });
 });

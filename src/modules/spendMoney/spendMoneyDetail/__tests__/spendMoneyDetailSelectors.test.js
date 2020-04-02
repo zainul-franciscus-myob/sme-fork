@@ -9,6 +9,7 @@ import {
   getLinesForTaxCalculation,
   getSaveUrl,
   getShouldShowAccountCode,
+  getShowBankStatementText,
   getSpendMoneyForCreatePayload,
   getSpendMoneyForUpdatePayload,
 } from '../spendMoneyDetailSelectors';
@@ -385,6 +386,34 @@ describe('spendMoneySelectors', () => {
 
       const actual = getShouldShowAccountCode(state);
       expect(actual).toBeFalsy();
+    });
+  });
+
+  describe('getShowBankStatementText', () => {
+    it('should show bank statement text when selected pay to account id matches electronic cleared account id', () => {
+      const state = {
+        spendMoney: {
+          selectedPayFromAccountId: '1',
+          electronicClearingAccountId: '1',
+        },
+      };
+
+      const showBankStatementText = getShowBankStatementText(state);
+
+      expect(showBankStatementText).toEqual(true);
+    });
+
+    it('should not show bank statement text when selected pay to account id doesn\'t match electronic cleared account id', () => {
+      const state = {
+        spendMoney: {
+          selectedPayFromAccountId: '2',
+          electronicClearingAccountId: '1',
+        },
+      };
+
+      const showBankStatementText = getShowBankStatementText(state);
+
+      expect(showBankStatementText).toEqual(false);
     });
   });
 });

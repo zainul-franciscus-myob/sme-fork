@@ -1,4 +1,4 @@
-import { getSaveBillPaymentPayload, getShouldLoadBillList } from '../BillPaymentDetailSelectors';
+import { getSaveBillPaymentPayload, getShouldLoadBillList, getShowBankStatementText } from '../BillPaymentDetailSelectors';
 
 describe('BillPaymentSelector', () => {
   describe('getShouldLoadBillList', () => {
@@ -54,6 +54,7 @@ describe('BillPaymentSelector', () => {
         description: 'Payment to Thi and Cameo',
         accountId: '37',
         supplierId: '102',
+        accounts: [],
         suppliers: [{ id: '102', displayName: 'Name, Supplier' }],
         entries: [
           {
@@ -70,6 +71,7 @@ describe('BillPaymentSelector', () => {
         description: 'Payment to Thi and Cameo',
         accountId: '37',
         supplierId: '102',
+        bankStatementText: '',
         supplierName: 'Name, Supplier',
         entries: [
           {
@@ -94,6 +96,7 @@ describe('BillPaymentSelector', () => {
         accountId: '37',
         supplierId: '102',
         suppliers: [{ id: '102', displayName: 'Name, Supplier' }],
+        accounts: [],
         entries: [
           {
             paidAmount: '',
@@ -135,17 +138,58 @@ describe('BillPaymentSelector', () => {
             discountAmount: '20.85',
           },
         ],
+        accounts: [],
       };
 
       const expected = {
         date: '2018-11-26',
         referenceId: '000012',
+        bankStatementText: '',
         description: 'Payment to Thi and Cameo',
         accountId: '37',
       };
 
       const actual = getSaveBillPaymentPayload(state);
       expect(actual).toEqual(expected);
+    });
+
+    it('should use bank statement text in state if selected account is electronic cleared account', () => {
+      const state = {
+        billPaymentId: 'new',
+        bankStatementText: 'some-text',
+        suppliers: [],
+        entries: [],
+        accountId: '1',
+        electronicClearingAccountId: '1',
+      };
+
+      const actual = getSaveBillPaymentPayload(state);
+
+      expect(actual.bankStatementText).toEqual('some-text');
+    });
+  });
+
+  describe('getShowBankStatementText', () => {
+    it('should show bank statement text when selected account is electronics clearing account', () => {
+      const state = {
+        accountId: '4',
+        electronicClearingAccountId: '4',
+      };
+
+      const showBankStatementText = getShowBankStatementText(state);
+
+      expect(showBankStatementText).toEqual(true);
+    });
+
+    it('should not show bank statement text when selected account is not electronics clearing account', () => {
+      const state = {
+        accountId: '1',
+        electronicClearingAccountId: '4',
+      };
+
+      const showBankStatementText = getShowBankStatementText(state);
+
+      expect(showBankStatementText).toEqual(false);
     });
   });
 });

@@ -7,6 +7,7 @@ import {
   GET_TAX_CALCULATIONS,
   LINK_IN_TRAY_DOCUMENT,
   LOAD_NEW_SPEND_MONEY,
+  LOAD_REFERENCE_ID,
   LOAD_SPEND_MONEY_DETAIL,
   LOAD_SUPPLIER_EXPENSE_ACCOUNT,
   PREFILL_DATA_FROM_IN_TRAY,
@@ -17,6 +18,7 @@ import {
   SET_SHOW_SPLIT_VIEW,
   SET_SUBMITTING_STATE,
   SET_SUPPLIER_BLOCKING_STATE,
+  UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_SPEND_MONEY,
   UPDATE_SPEND_MONEY_HEADER,
 } from '../../SpendMoneyIntents';
@@ -355,6 +357,72 @@ describe('SpendMoneyDetailModule', () => {
   });
 
   describe('updateHeaderOptions', () => {
+    describe('key is selectedPayFromAccountId', () => {
+      describe('when on a new spend money', () => {
+        it('should load the next reference id if the reference field hasn\'t been changed', () => {
+          const { module, store, integration } = setupWithNew();
+
+          module.updateHeaderOptions({ key: 'selectedPayFromAccountId', value: '2' });
+
+          expect(store.getActions()).toEqual([
+            {
+              intent: UPDATE_SPEND_MONEY_HEADER,
+              key: 'selectedPayFromAccountId',
+              value: '2',
+            },
+            expect.objectContaining({
+              intent: LOAD_REFERENCE_ID,
+            }),
+          ]);
+          expect(integration.getRequests()).toEqual([
+            expect.objectContaining({
+              intent: LOAD_REFERENCE_ID,
+            }),
+          ]);
+        });
+
+        it('should not load the next reference id if the reference field has been changed and should update the bank statement text ', () => {
+          const { module, store, integration } = setupWithNew();
+
+          module.updateHeaderOptions({ key: 'referenceId', value: 'hello ' });
+          store.resetActions();
+
+          module.updateHeaderOptions({ key: 'selectedPayFromAccountId', value: '2' });
+
+          expect(store.getActions()).toEqual([
+            {
+              intent: UPDATE_SPEND_MONEY_HEADER,
+              key: 'selectedPayFromAccountId',
+              value: '2',
+            },
+            {
+              intent: UPDATE_BANK_STATEMENT_TEXT,
+            },
+          ]);
+          expect(integration.getRequests()).toEqual([]);
+        });
+      });
+
+      describe('when on an existing spend money', () => {
+        it('should update the bank statement text', () => {
+          const { module, store } = setUpWithExisting();
+
+          module.updateHeaderOptions({ key: 'selectedPayFromAccountId', value: '2' });
+
+          expect(store.getActions()).toEqual([
+            {
+              intent: UPDATE_SPEND_MONEY_HEADER,
+              key: 'selectedPayFromAccountId',
+              value: '2',
+            },
+            {
+              intent: UPDATE_BANK_STATEMENT_TEXT,
+            },
+          ]);
+        });
+      });
+    });
+
     describe('key is selectedPayToContactId', () => {
       describe('when is creating new spend money', () => {
         it('should load expense account id, calls tax calc. if contact is supplier and has default expense account', () => {

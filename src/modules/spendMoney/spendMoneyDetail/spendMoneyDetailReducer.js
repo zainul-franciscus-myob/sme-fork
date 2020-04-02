@@ -18,6 +18,7 @@ import {
   PREFILL_DATA_FROM_IN_TRAY,
   REMOVE_ATTACHMENT,
   REMOVE_ATTACHMENT_BY_INDEX,
+  RESET_BANK_STATEMENT_TEXT,
   RESET_TOTALS,
   SET_ALERT,
   SET_IN_TRAY_DOCUMENT_URL,
@@ -26,6 +27,7 @@ import {
   SET_SHOW_SPLIT_VIEW,
   SET_SUBMITTING_STATE,
   SET_SUPPLIER_BLOCKING_STATE,
+  UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_SPEND_MONEY_HEADER,
   UPDATE_SPEND_MONEY_LINE,
   UPDATE_UPLOAD_PROGRESS,
@@ -34,7 +36,7 @@ import {
 } from '../SpendMoneyIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
-  getIsContactReportable, getIsCreating, getIsReportable,
+  getIsContactReportable, getIsCreating, getIsReportable, getShowBankStatementText,
 } from './spendMoneyDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
@@ -72,6 +74,9 @@ const getDefaultState = () => ({
     lines: [],
     payFromAccounts: [],
     payToContacts: [],
+    electronicClearingAccountId: '',
+    bankStatementText: '',
+    originalBankStatementText: '',
   },
   newLine: {
     accountId: '',
@@ -218,24 +223,42 @@ const updateHeader = (state, { key, value }) => {
   };
 };
 
-const loadNewSpendMoney = (state, action) => ({
-  ...state,
-  spendMoney: {
-    ...state.spendMoney,
-    ...action.spendMoney,
-    date: formatIsoDate(new Date()),
-    originalReferenceId: action.spendMoney.referenceId,
-  },
-  accounts: action.accounts,
-  taxCodes: action.taxCodes,
-  newLine: {
-    ...state.newLine,
-    ...action.newLine,
-  },
-  isLoading: false,
-  pageTitle: action.pageTitle,
-  inTrayDocument: { ...state.inTrayDocument, ...action.document },
-});
+const getBankStatementText = (state, referenceId) => {
+  const shouldSetBankstatementText = getShowBankStatementText(state);
+  return shouldSetBankstatementText ? `Payment ${referenceId}` : '';
+};
+
+const loadNewSpendMoney = (state, action) => {
+  const newState = {
+    ...state,
+    spendMoney: {
+      ...state.spendMoney,
+      ...action.spendMoney,
+      date: formatIsoDate(new Date()),
+      originalReferenceId: action.spendMoney.referenceId,
+    },
+    accounts: action.accounts,
+    taxCodes: action.taxCodes,
+    newLine: {
+      ...state.newLine,
+      ...action.newLine,
+    },
+    isLoading: false,
+    pageTitle: action.pageTitle,
+    inTrayDocument: { ...state.inTrayDocument, ...action.document },
+  };
+
+  const bankStatementText = getBankStatementText(newState, action.spendMoney.referenceId);
+
+  return {
+    ...newState,
+    spendMoney: {
+      ...newState.spendMoney,
+      bankStatementText,
+      originalBankStatementText: bankStatementText,
+    },
+  };
+};
 
 const loadSpendMoneyDetail = (state, action) => ({
   ...state,
@@ -243,6 +266,7 @@ const loadSpendMoneyDetail = (state, action) => ({
     ...state.spendMoney,
     ...action.spendMoney,
     originalReferenceId: action.spendMoney.referenceId,
+    originalBankStatementText: action.spendMoney.bankStatementText,
     lines: action.spendMoney.lines.map(line => ({
       ...line,
       displayAmount: formatDisplayAmount(line.amount),
@@ -259,14 +283,20 @@ const loadSpendMoneyDetail = (state, action) => ({
   attachments: action.attachments,
 });
 
-const loadReferenceId = (state, action) => ({
-  ...state,
-  spendMoney: {
-    ...state.spendMoney,
-    referenceId: action.referenceId,
-    originalReferenceId: action.referenceId,
-  },
-});
+const loadReferenceId = (state, action) => {
+  const bankStatementText = getBankStatementText(state, action.referenceId);
+
+  return {
+    ...state,
+    spendMoney: {
+      ...state.spendMoney,
+      referenceId: action.referenceId,
+      originalReferenceId: action.referenceId,
+      bankStatementText,
+      originalBankStatementText: bankStatementText || state.originalBankStatementText,
+    },
+  };
+};
 
 const loadSupplierExpenseAccount = (state, action) => ({
   ...state,
@@ -550,6 +580,29 @@ const loadContactAfterCreate = (state, {
   };
 };
 
+const resetBankStatementText = (state, { value }) => ({
+  ...state,
+  spendMoney: {
+    ...state.spendMoney,
+    bankStatementText: !value ? state.spendMoney.originalBankStatementText : value,
+  },
+  isPageEdited: true,
+});
+
+const updateBankStatementText = (state) => {
+  const bankStatementText = getBankStatementText(state, state.spendMoney.referenceId);
+
+  return {
+    ...state,
+    spendMoney: {
+      ...state.spendMoney,
+      bankStatementText,
+      originalBankStatementText: bankStatementText || state.spendMoney.originalBankStatementText,
+    },
+    isPageEdited: true,
+  };
+};
+
 const handlers = {
   [UPDATE_SPEND_MONEY_HEADER]: updateHeader,
   [LOAD_NEW_SPEND_MONEY]: loadNewSpendMoney,
@@ -585,6 +638,8 @@ const handlers = {
   [HIDE_PREFILL_INFO]: hidePrefillInfo,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [LOAD_CONTACT_AFTER_CREATE]: loadContactAfterCreate,
+  [RESET_BANK_STATEMENT_TEXT]: resetBankStatementText,
+  [UPDATE_BANK_STATEMENT_TEXT]: updateBankStatementText,
 };
 const spendMoneyReducer = createReducer(getDefaultState(), handlers);
 

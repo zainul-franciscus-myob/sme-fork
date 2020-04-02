@@ -194,6 +194,7 @@ export default class SpendMoneyDetailModule {
       onSuccess,
       onFailure,
       accountId,
+      updateBankStatementText: this.dispatcher.updateBankStatementText,
     });
   };
 
@@ -217,11 +218,15 @@ export default class SpendMoneyDetailModule {
   };
 
   updateHeaderOptions = ({ key, value }) => {
-    if (key === 'selectedPayFromAccountId' && getIsCreating(this.store.getState())) {
-      this.loadNextReferenceId(value);
-    }
-
     this.dispatcher.updateHeaderOptions({ key, value });
+
+    if (key === 'selectedPayFromAccountId') {
+      if (getIsCreating(this.store.getState())) {
+        this.loadNextReferenceId(value);
+      } else {
+        this.dispatcher.updateBankStatementText();
+      }
+    }
 
     if (key === 'isTaxInclusive') {
       this.getTaxCalculations({ isSwitchingTaxInclusive: true });
@@ -615,6 +620,7 @@ export default class SpendMoneyDetailModule {
         onCloseSplitView={this.closeSplitView}
         onOpenSplitView={this.openSplitView}
         onClosePrefillInfo={this.dispatcher.hidePrefillInfo}
+        onBlurBankStatementText={this.dispatcher.resetBankStatementText}
       />
     );
 

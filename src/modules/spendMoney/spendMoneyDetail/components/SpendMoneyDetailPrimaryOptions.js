@@ -1,5 +1,5 @@
 import {
-  TextArea, Tooltip,
+  Input, TextArea, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -11,6 +11,7 @@ import {
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import ContactCombobox from '../../../../components/combobox/ContactCombobox';
 import ReportableCheckbox from '../../../../components/ReportableCheckbox/ReportableCheckbox';
+import handleInputChange from '../../../../components/handlers/handleInputChange';
 import styles from './SpendMoneyDetailPrimaryOptions.module.css';
 
 const SpendMoneyDetailPrimaryOptions = ({
@@ -22,23 +23,20 @@ const SpendMoneyDetailPrimaryOptions = ({
     payFromAccounts,
     selectedPayToContactId,
     selectedPayFromAccountId,
+    bankStatementText,
     isReportableDisabled,
     shouldShowReportable,
     shouldShowAccountCode,
+    showBankStatementText,
     region,
     expenseAccountId,
   },
   accountOptions,
   onUpdateHeaderOptions,
+  onBlurBankStatementText,
   prefillStatus,
   onAddContact,
 }) => {
-  const handleInputChange = (e) => {
-    const { value, name } = e.target;
-
-    onUpdateHeaderOptions({ key: name, value });
-  };
-
   const handleCheckboxChange = (e) => {
     const { checked, name } = e.target;
 
@@ -107,6 +105,19 @@ const SpendMoneyDetailPrimaryOptions = ({
           disabled={isSupplierBlocking}
         />
       )}
+      {
+        showBankStatementText && (
+          <Input
+            name="bankStatementText"
+            label="Bank statement text"
+            value={bankStatementText}
+            onChange={handleInputChange(onUpdateHeaderOptions)}
+            onBlur={handleInputChange(onBlurBankStatementText)}
+            requiredLabel="This is required"
+            maxLength={18}
+          />
+        )
+      }
       <div className={classnames({ [styles.prefilled]: prefillStatus.description })}>
         <TextArea
           name="description"
@@ -116,7 +127,7 @@ const SpendMoneyDetailPrimaryOptions = ({
           maxLength={255}
           resize="vertical"
           value={description}
-          onChange={handleInputChange}
+          onChange={handleInputChange(onUpdateHeaderOptions)}
         />
       </div>
     </React.Fragment>

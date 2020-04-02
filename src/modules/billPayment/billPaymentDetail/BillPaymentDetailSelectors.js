@@ -6,6 +6,7 @@ import {
   LOAD_NEW_BILL_PAYMENT,
   UPDATE_BILL_PAYMENT,
 } from '../BillPaymentIntents';
+import formatAmount from '../../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../../common/valueFormatters/formatCurrency';
 import tableViewTypes from './tableViewTypes';
 
@@ -18,11 +19,13 @@ export const getApplyPaymentToBillId = state => state.applyPaymentToBillId;
 const getSuppliers = state => state.suppliers;
 const getAccounts = state => state.accounts;
 const getAccountId = state => state.accountId;
+const getElectronicClearingAccountId = state => state.electronicClearingAccountId;
 export const getSupplierId = state => state.supplierId;
 const getReferenceId = state => state.referenceId;
 const getDate = state => state.date;
 export const getShowPaidBills = state => state.showPaidBills;
 const getDescription = state => state.description;
+const getBankStatementText = state => state.bankStatementText;
 export const getIsPageEdited = state => state.isPageEdited;
 export const getModalType = state => state.modalType;
 
@@ -40,14 +43,6 @@ export const getTitle = createSelector(
       : `Payment to supplier ${referenceId}`
   ),
 );
-
-const formatAmount = amount => Intl
-  .NumberFormat('en-AU', {
-    style: 'decimal',
-    minimumFractionDigits: '2',
-    maximumFractionDigits: '2',
-  })
-  .format(amount);
 
 const calculateBalanceOwed = (billAmount, discountAmount) => (
   formatAmount(Number(billAmount) - Number(discountAmount))
@@ -77,6 +72,12 @@ export const getBillEntries = createSelector(
   ),
 );
 
+export const getShowBankStatementText = createSelector(
+  getAccountId,
+  getElectronicClearingAccountId,
+  (accountId, electronicClearingAccountId) => accountId === electronicClearingAccountId,
+);
+
 export const getBillPaymentOptions = createStructuredSelector({
   suppliers: getSuppliers,
   accounts: getAccounts,
@@ -87,6 +88,8 @@ export const getBillPaymentOptions = createStructuredSelector({
   description: getDescription,
   shouldDisableFields: getShouldDisableFields,
   isCreating: getIsCreating,
+  bankStatementText: getBankStatementText,
+  showBankStatementText: getShowBankStatementText,
 });
 
 export const getShouldLoadBillList = (key, value, state) => {
@@ -166,6 +169,7 @@ const getCreateBillPaymentPayload = (state) => {
     date: getDate(state),
     referenceId: referenceId === originalReferenceId ? undefined : referenceId,
     description: getDescription(state),
+    bankStatementText: getShowBankStatementText(state) ? getBankStatementText(state) : '',
     accountId: getAccountId(state),
     supplierId: getSupplierId(state),
     supplierName: getSupplierName(state),
@@ -176,6 +180,7 @@ const getCreateBillPaymentPayload = (state) => {
 const getUpdateBillPaymentPayload = state => ({
   date: getDate(state),
   referenceId: getReferenceId(state),
+  bankStatementText: getShowBankStatementText(state) ? getBankStatementText(state) : '',
   description: getDescription(state),
   accountId: getAccountId(state),
 });

@@ -4,6 +4,7 @@
     "uid": "feaece10-b112-4d1e-8e62-26291ae0ce44",
     "isTaxInclusive": true,
     "selectedPayFromAccountId": "123",
+    "electronicClearingAccountId": "789",
     "payFromAccounts": [
       {
         "id": "123",
@@ -18,6 +19,13 @@
         "accountType": "Asset",
         "taxCodeId": "124",
         "displayId": "2-123"
+      },
+      {
+        "id": "789",
+        "displayName": "Electronic clearing account",
+        "accountType": "Asset",
+        "taxCodeId": "124",
+        "displayId": "1-109"
       }
     ],
     "payToContacts": [

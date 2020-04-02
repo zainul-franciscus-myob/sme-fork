@@ -2,10 +2,12 @@ import {
   CLOSE_MODAL,
   LOAD_BILL_LIST,
   OPEN_MODAL,
+  RESET_BANK_STATEMENT_TEXT,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   SET_TABLE_LOADING_STATE,
+  UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_HEADER_OPTION,
   UPDATE_REFERENCE_ID,
   UPDATE_TABLE_INPUT_FIELD,
@@ -61,6 +63,13 @@ const createBillPaymentDetailDispatcher = store => ({
       value,
     });
   },
+  resetBankStatementText: ({ key, value }) => {
+    store.dispatch({
+      intent: RESET_BANK_STATEMENT_TEXT,
+      key,
+      value,
+    });
+  },
   setAlertMessage: (alertMessage) => {
     store.dispatch({
       intent: SET_ALERT_MESSAGE,
@@ -94,6 +103,9 @@ const createBillPaymentDetailDispatcher = store => ({
       ...response,
     });
   },
+  updateBankStatementText: () => store.dispatch({
+    intent: UPDATE_BANK_STATEMENT_TEXT,
+  }),
 });
 
 export default createBillPaymentDetailDispatcher;

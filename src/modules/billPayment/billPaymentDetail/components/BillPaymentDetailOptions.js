@@ -21,7 +21,10 @@ const BillPaymentOptions = ({
   accountId,
   description,
   referenceId,
+  bankStatementText,
+  showBankStatementText,
   onUpdateHeaderOption,
+  onBlurBankStatementText,
   date,
   shouldDisableFields,
   isCreating,
@@ -47,6 +50,19 @@ const BillPaymentOptions = ({
         selectedId={accountId}
         onChange={onComboBoxChange(onUpdateHeaderOption)('accountId')}
       />
+      {
+        showBankStatementText && (
+          <Input
+            name="bankStatementText"
+            label="Bank statement text"
+            value={bankStatementText}
+            onChange={onTextFieldChange(onUpdateHeaderOption)}
+            onBlur={onTextFieldChange(onBlurBankStatementText)}
+            requiredLabel={requiredLabel}
+            maxLength={18}
+          />
+        )
+      }
       <TextArea
         name="description"
         label="Description of transaction"

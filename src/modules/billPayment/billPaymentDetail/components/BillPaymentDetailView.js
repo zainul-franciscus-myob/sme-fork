@@ -20,6 +20,7 @@ const BillPaymentDetailView = ({
   title,
   isCreating,
   onUpdateHeaderOption,
+  onBlurBankStatementText,
   onUpdateTableInputField,
   onCancelButtonClick,
   onDeleteButtonClick,
@@ -65,7 +66,10 @@ const BillPaymentDetailView = ({
   const view = (
     <LineItemTemplate
       pageHead={title}
-      options={<BillPaymentOptions onUpdateHeaderOption={onUpdateHeaderOption} />}
+      options={<BillPaymentOptions
+        onUpdateHeaderOption={onUpdateHeaderOption}
+        onBlurBankStatementText={onBlurBankStatementText}
+      />}
       actions={actions}
       alert={alertComponent}
       sticky="none"

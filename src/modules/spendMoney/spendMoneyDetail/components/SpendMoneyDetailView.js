@@ -62,10 +62,12 @@ const SpendMoneyDetailView = ({
   onCloseSplitView,
   onOpenSplitView,
   onClosePrefillInfo,
+  onBlurBankStatementText,
 }) => {
   const primaryOptions = (
     <SpendMoneyDetailPrimaryOptions
       onUpdateHeaderOptions={onUpdateHeaderOptions}
+      onBlurBankStatementText={onBlurBankStatementText}
       onAddContact={onAddContact}
     />
   );

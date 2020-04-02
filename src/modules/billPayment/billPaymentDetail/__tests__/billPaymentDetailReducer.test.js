@@ -1,5 +1,5 @@
 import {
-  LOAD_BILL_LIST,
+  LOAD_BILL_LIST, LOAD_NEW_BILL_PAYMENT, RESET_BANK_STATEMENT_TEXT, UPDATE_REFERENCE_ID,
 } from '../../BillPaymentIntents';
 import billPaymentDetailReducer from '../billPaymentDetailReducer';
 
@@ -72,6 +72,111 @@ describe('billPaymentDetailReducer', () => {
         paidAmount: '300',
         discountAmount: '200',
       }));
+    });
+  });
+
+  describe('RESET_BANK_STATEMENT_TEXT', () => {
+    it('should reset bank statement text if it\'s cleared', () => {
+      const state = {
+        bankStatementText: 'some-text',
+        originalBankStatementText: 'the-original-text',
+      };
+
+      const action = {
+        intent: RESET_BANK_STATEMENT_TEXT,
+        value: '',
+      };
+
+      const actual = billPaymentDetailReducer(state, action);
+
+      expect(actual.bankStatementText).toEqual('the-original-text');
+    });
+
+    it('should use the given value if it hasn\'t been cleared', () => {
+      const state = {
+        bankStatementText: 'some-text',
+        originalBankStatementText: 'the-original-text',
+      };
+
+      const action = {
+        intent: RESET_BANK_STATEMENT_TEXT,
+        value: 'some-new-value',
+      };
+
+      const actual = billPaymentDetailReducer(state, action);
+
+      expect(actual.bankStatementText).toEqual('some-new-value');
+    });
+  });
+
+  describe('UPDATE_REFERENCE_ID', () => {
+    it('should set the bankStatementText to the new referenceId', () => {
+      const state = {
+        accountId: '1',
+        electronicClearingAccountId: '1',
+      };
+
+      const action = {
+        intent: UPDATE_REFERENCE_ID,
+        referenceId: '123',
+      };
+
+      const actual = billPaymentDetailReducer(state, action);
+
+      expect(actual.bankStatementText).toEqual('Payment 123');
+      expect(actual.originalBankStatementText).toEqual('Payment 123');
+    });
+
+    it('should not set the bankStatementText and should keep the originalBankStatementText', () => {
+      const state = {
+        accountId: '1',
+        electronicClearingAccountId: '2',
+        originalBankStatementText: 'Payment 567',
+      };
+
+      const action = {
+        intent: UPDATE_REFERENCE_ID,
+        referenceId: '123',
+      };
+
+      const actual = billPaymentDetailReducer(state, action);
+
+      expect(actual.bankStatementText).toEqual('');
+      expect(actual.originalBankStatementText).toEqual('Payment 567');
+    });
+  });
+
+  describe('LOAD_NEW_BILL_PAYMENT', () => {
+    it('should set the bankStatementText if the initially set account is electronics clearing account', () => {
+      const state = {};
+
+      const action = {
+        intent: LOAD_NEW_BILL_PAYMENT,
+        electronicClearingAccountId: '1',
+        accountId: '1',
+        referenceId: '123',
+      };
+
+      const actual = billPaymentDetailReducer(state, action);
+
+      expect(actual.bankStatementText).toEqual('Payment 123');
+      expect(actual.originalBankStatementText).toEqual('Payment 123');
+    });
+
+    it('should not set the bankStatementText', () => {
+      const state = {};
+
+      const action = {
+        intent: LOAD_NEW_BILL_PAYMENT,
+        electronicClearingAccountId: '2',
+        accountId: '1',
+        referenceId: '123',
+      };
+
+      const actual = billPaymentDetailReducer(state, action);
+
+      expect(actual.bankStatementText).toEqual('');
+      expect(actual.originalBankStatementText).toEqual('');
     });
   });
 });

@@ -10,6 +10,7 @@ import {
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   SET_TABLE_LOADING_STATE,
+  UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_BILL_PAYMENT,
   UPDATE_HEADER_OPTION,
   UPDATE_REFERENCE_ID,
@@ -440,7 +441,7 @@ describe('BillPaymentDetailModule', () => {
     });
 
     describe('update account id', () => {
-      it('does nothing when reference id edited', () => {
+      it('only updates the bank statement text when reference id edited', () => {
         const { module, store, integration } = setupWithExisting();
         module.updateHeaderOption({ key: 'referenceId', value: '123' });
         store.resetActions();
@@ -452,6 +453,9 @@ describe('BillPaymentDetailModule', () => {
             intent: UPDATE_HEADER_OPTION,
             key: 'accountId',
             value: '2',
+          },
+          {
+            intent: UPDATE_BANK_STATEMENT_TEXT,
           },
         ]);
         expect(integration.getRequests()).toEqual([]);

@@ -4,15 +4,18 @@ import {
   LOAD_BILL_PAYMENT,
   LOAD_NEW_BILL_PAYMENT,
   OPEN_MODAL,
+  RESET_BANK_STATEMENT_TEXT,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   SET_TABLE_LOADING_STATE,
+  UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_HEADER_OPTION,
   UPDATE_REFERENCE_ID,
   UPDATE_TABLE_INPUT_FIELD,
 } from '../BillPaymentIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import { getShowBankStatementText } from './BillPaymentDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
@@ -25,10 +28,12 @@ const getDefaultState = () => ({
   supplierId: '',
   accounts: [],
   accountId: '',
+  electronicClearingAccountId: '',
   showPaidBills: false,
   referenceId: '',
   originalReferenceId: '',
   description: '',
+  bankStatementText: '',
   date: formatIsoDate(new Date()),
   entries: [],
   totalPaid: '',
@@ -66,15 +71,31 @@ const setSubmittingState = (state, action) => ({
   isSubmitting: action.isSubmitting,
 });
 
-const loadNewBillPayment = (state, action) => ({
-  ...state,
-  suppliers: action.suppliers,
-  accounts: action.accounts,
-  accountId: action.accountId,
-  showPaidBills: action.showPaidBills,
-  referenceId: action.referenceId,
-  originalReferenceId: action.referenceId,
-});
+const getBankStatementText = (state, referenceId) => {
+  const shouldSetBankstatementText = getShowBankStatementText(state);
+  return shouldSetBankstatementText ? `Payment ${referenceId}` : '';
+};
+
+const loadNewBillPayment = (state, action) => {
+  const newState = {
+    ...state,
+    suppliers: action.suppliers,
+    accounts: action.accounts,
+    accountId: action.accountId,
+    showPaidBills: action.showPaidBills,
+    referenceId: action.referenceId,
+    originalReferenceId: action.referenceId,
+    electronicClearingAccountId: action.electronicClearingAccountId,
+  };
+
+  const bankStatementText = getBankStatementText(newState, action.referenceId);
+
+  return {
+    ...newState,
+    bankStatementText,
+    originalBankStatementText: bankStatementText,
+  };
+};
 
 const loadBillPayment = (state, action) => ({
   ...state,
@@ -87,6 +108,9 @@ const loadBillPayment = (state, action) => ({
   originalReferenceId: action.referenceId,
   entries: action.entries,
   description: action.description,
+  bankStatementText: action.bankStatementText,
+  originalBankStatementText: action.bankStatementText,
+  electronicClearingAccountId: action.electronicClearingAccountId,
 });
 
 const loadBillList = (state, action) => ({
@@ -120,6 +144,23 @@ const updateHeaderOption = (state, action) => ({
   [action.key]: action.value,
 });
 
+const resetBankStatementText = (state, { value }) => ({
+  ...state,
+  ...pageEdited,
+  bankStatementText: !value ? state.originalBankStatementText : value,
+});
+
+const updateBankStatementText = (state) => {
+  const bankStatementText = getBankStatementText(state, state.referenceId);
+
+  return {
+    ...state,
+    ...pageEdited,
+    bankStatementText,
+    originalBankStatementText: bankStatementText || state.originalBankStatementText,
+  };
+};
+
 const updateTableInputField = (state, action) => ({
   ...state,
   ...pageEdited,
@@ -133,12 +174,18 @@ const updateTableInputField = (state, action) => ({
   )),
 });
 
-const updateReferenceId = (state, action) => ({
-  ...state,
-  ...pageEdited,
-  referenceId: action.referenceId,
-  originalReferenceId: action.referenceId,
-});
+const updateReferenceId = (state, action) => {
+  const bankStatementText = getBankStatementText(state, action.referenceId);
+
+  return {
+    ...state,
+    ...pageEdited,
+    referenceId: action.referenceId,
+    originalReferenceId: action.referenceId,
+    bankStatementText,
+    originalBankStatementText: bankStatementText || state.originalBankStatementText,
+  };
+};
 
 const openModal = (state, action) => ({
   ...state,
@@ -170,6 +217,8 @@ const handlers = {
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [SET_ALERT_MESSAGE]: setAlertMessage,
+  [RESET_BANK_STATEMENT_TEXT]: resetBankStatementText,
+  [UPDATE_BANK_STATEMENT_TEXT]: updateBankStatementText,
 };
 
 const billPaymentDetailReducer = createReducer(getDefaultState(), handlers);

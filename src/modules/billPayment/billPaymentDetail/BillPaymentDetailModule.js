@@ -89,6 +89,7 @@ export default class BillPaymentModule {
     const state = this.store.getState();
 
     if (getIsReferenceIdDirty(state)) {
+      this.dispatcher.updateBankStatementText();
       return;
     }
 
@@ -210,6 +211,7 @@ export default class BillPaymentModule {
     const billPaymentView = (
       <BillPaymentView
         onUpdateHeaderOption={this.updateHeaderOption}
+        onBlurBankStatementText={this.dispatcher.resetBankStatementText}
         onUpdateTableInputField={this.dispatcher.updateTableInputField}
         onSaveButtonClick={this.saveBillPayment}
         onCancelButtonClick={this.openCancelModal}
