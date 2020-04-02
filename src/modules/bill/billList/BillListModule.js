@@ -13,11 +13,7 @@ import {
 } from '../BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { START_LOADING_MORE, STOP_LOADING_MORE } from '../billDetail/BillIntents';
-import {
-  SUCCESSFULLY_DELETED_BILL,
-  SUCCESSFULLY_SAVED_BILL,
-  SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
-} from '../billDetail/types/BillMessageTypes';
+import { SUCCESSFULLY_DELETED_BILL, SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK } from '../billDetail/types/BillMessageTypes';
 import { SUCCESSFULLY_SAVED_BILL_PAYMENT } from '../../billPayment/BillPaymentMessageTypes';
 import {
   flipSortOrder,
@@ -39,7 +35,6 @@ import debounce from '../../../common/debounce/debounce';
 
 const messageTypes = [
   SUCCESSFULLY_DELETED_BILL,
-  SUCCESSFULLY_SAVED_BILL,
   SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
   SUCCESSFULLY_SAVED_BILL_PAYMENT,
 ];

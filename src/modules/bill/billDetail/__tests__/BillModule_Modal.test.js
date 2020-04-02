@@ -433,12 +433,30 @@ describe('BillModule_Modal', () => {
       ]);
     });
 
-    it('does not open cancel modal and redirects if page has been edited', () => {
-      const { module } = setUpWithRun({ isCreating: true });
+    describe('when page not edited', () => {
+      it('redirects to bill list on new bill', () => {
+        const { module } = setUpWithRun({ isCreating: true });
 
-      module.openCancelModal();
+        module.openCancelModal();
 
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/bill'));
+        expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/bill'));
+      });
+
+      it('redirects to bill list on existing bill', () => {
+        const { module } = setUpWithRun();
+
+        module.openCancelModal();
+
+        expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/bill'));
+      });
+
+      it('redirects to in tray on prefilled bill', () => {
+        const { module } = setUpNewBillWithPrefilled();
+
+        module.openCancelModal();
+
+        expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/bill'));
+      });
     });
   });
 });

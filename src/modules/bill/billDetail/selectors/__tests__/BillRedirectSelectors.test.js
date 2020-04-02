@@ -1,33 +1,6 @@
-import { getBillPaymentUrl, getFinalRedirectUrl } from '../BillRedirectSelectors';
+import { getBillPaymentUrl } from '../BillRedirectSelectors';
 
 describe('BillRedirectSelectors', () => {
-  describe('getFinalRedirectUrl', () => {
-    it('returns intray url when is creating from intray', () => {
-      const state = {
-        billId: 'new',
-        source: 'inTray',
-        businessId: 'a',
-        region: 'au',
-      };
-
-      const actual = getFinalRedirectUrl(state);
-
-      expect(actual).toEqual('/#/au/a/inTray');
-    });
-
-    it('returns bill list url when is not creating from intray', () => {
-      const state = {
-        billId: 'new',
-        businessId: 'a',
-        region: 'au',
-      };
-
-      const actual = getFinalRedirectUrl(state);
-
-      expect(actual).toEqual('/#/au/a/bill');
-    });
-  });
-
   describe('getBillPaymentUrl', () => {
     [
       {

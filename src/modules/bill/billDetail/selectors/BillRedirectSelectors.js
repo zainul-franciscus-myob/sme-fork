@@ -6,25 +6,21 @@ import {
   getBusinessId,
   getDuplicatedBillId,
   getIsCreating,
-  getIsCreatingFromInTray,
   getRegion,
   getSupplierId,
 } from './billSelectors';
 import getQueryFromParams from '../../../../common/getQueryFromParams/getQueryFromParams';
 
-export const getFinalRedirectUrl = createSelector(
-  getIsCreatingFromInTray,
-  getBusinessId,
+export const getBillListUrl = createSelector(
   getRegion,
-  (isCreatingFromInTray, businessId, region) => {
-    const inTrayUrl = `/#/${region}/${businessId}/inTray`;
-    const billListUrl = `/#/${region}/${businessId}/bill`;
+  getBusinessId,
+  (region, businessId) => `/#/${region}/${businessId}/bill`,
+);
 
-    if (isCreatingFromInTray) {
-      return inTrayUrl;
-    }
-    return billListUrl;
-  },
+export const getInTrayUrl = createSelector(
+  getRegion,
+  getBusinessId,
+  (region, businessId) => `/#/${region}/${businessId}/inTray`,
 );
 
 export const getCreateNewBillUrl = createSelector(

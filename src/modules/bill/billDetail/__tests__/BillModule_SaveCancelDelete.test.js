@@ -3,7 +3,9 @@ import {
   CREATE_BILL,
   DELETE_BILL,
   LINK_IN_TRAY_DOCUMENT,
+  LOAD_BILL,
   OPEN_ALERT,
+  RELOAD_BILL,
   SET_UPGRADE_MODAL_SHOWING,
   START_BLOCKING,
   STOP_BLOCKING,
@@ -25,28 +27,25 @@ describe('BillModule_Save', () => {
   describe('saveBill', () => {
     it('successfully creates a new bill', () => {
       const { module, store, integration } = setUpWithRun({ isCreating: true });
-      module.pushMessage = jest.fn();
       module.globalCallbacks.inTrayBillSaved = jest.fn();
-      module.finalRedirect = jest.fn();
 
       module.saveBill();
 
       expect(store.getActions()).toEqual([
         { intent: START_BLOCKING },
         { intent: STOP_BLOCKING },
+        { intent: UPDATE_BILL_ID, id: '1' },
+        { intent: START_BLOCKING },
+        expect.objectContaining({ intent: RELOAD_BILL }),
+        { intent: OPEN_ALERT, type: 'success', message: "Success! You've successfully created a new bill." },
       ]);
 
       expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: CREATE_BILL,
-        }),
+        expect.objectContaining({ intent: CREATE_BILL }),
+        { intent: LOAD_BILL, urlParams: { businessId: 'bizId', billId: '1' } },
       ]);
 
       expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
-      expect(module.finalRedirect).toHaveBeenCalled();
-      expect(module.pushMessage).toHaveBeenCalledWith(
-        expect.objectContaining({ type: SUCCESSFULLY_SAVED_BILL }),
-      );
     });
 
     it('fails to create a new bill', () => {
@@ -70,28 +69,24 @@ describe('BillModule_Save', () => {
 
     it('successfully updates an existing bill', () => {
       const { module, store, integration } = setUpWithRun();
-      module.pushMessage = jest.fn();
       module.globalCallbacks.inTrayBillSaved = jest.fn();
-      module.finalRedirect = jest.fn();
 
       module.saveBill();
 
       expect(store.getActions()).toEqual([
         { intent: START_BLOCKING },
         { intent: STOP_BLOCKING },
+        { intent: START_BLOCKING },
+        expect.objectContaining({ intent: RELOAD_BILL }),
+        { intent: OPEN_ALERT, type: 'success', message: "Great Work! You've done it well!" },
       ]);
 
       expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: UPDATE_BILL,
-        }),
+        expect.objectContaining({ intent: UPDATE_BILL }),
+        { intent: LOAD_BILL, urlParams: { businessId: 'bizId', billId: 'billId' } },
       ]);
 
       expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
-      expect(module.finalRedirect).toHaveBeenCalled();
-      expect(module.pushMessage).toHaveBeenCalledWith(
-        expect.objectContaining({ type: SUCCESSFULLY_SAVED_BILL }),
-      );
     });
 
     it('fails to update an existing bill', () => {
@@ -140,7 +135,6 @@ describe('BillModule_Save', () => {
       const { module, store, integration } = setUpNewBillWithPrefilled();
       module.pushMessage = jest.fn();
       module.globalCallbacks.inTrayBillSaved = jest.fn();
-      module.finalRedirect = jest.fn();
 
       module.saveBill();
 
@@ -155,13 +149,13 @@ describe('BillModule_Save', () => {
       ]);
 
       expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
-      expect(module.finalRedirect).toHaveBeenCalled();
       expect(module.pushMessage).toHaveBeenCalledWith(
         {
           type: SUCCESSFULLY_SAVED_BILL,
           content: 'Bill successfully created from document',
         },
       );
+      expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/inTray'));
     });
 
     it('successfully creates a new bill but fails to link bill to document', () => {
@@ -169,7 +163,6 @@ describe('BillModule_Save', () => {
       integration.mapFailure(LINK_IN_TRAY_DOCUMENT);
       module.pushMessage = jest.fn();
       module.globalCallbacks.inTrayBillSaved = jest.fn();
-      module.finalRedirect = jest.fn();
 
       module.saveBill();
 
@@ -184,13 +177,13 @@ describe('BillModule_Save', () => {
       ]);
 
       expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
-      expect(module.finalRedirect).toHaveBeenCalled();
       expect(module.pushMessage).toHaveBeenCalledWith(
         {
           type: SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
           content: 'Bill created, but the document failed to link. Open the bill to link the document again',
         },
       );
+      expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/inTray'));
     });
   });
 
@@ -356,14 +349,31 @@ describe('BillModule_Save', () => {
   });
 
   describe('cancelBill', () => {
-    it('redirects on user confirming cancel', () => {
-      const { module } = setUpWithRun();
+    it('redirects to bill list on new bill', () => {
+      const { module } = setUpWithRun({ isCreating: true });
       module.addBillLine({ id: '2', description: 'hello' });
 
-      module.openCancelModal();
       module.cancelBill();
 
       expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/bill'));
+    });
+
+    it('redirects to bill list on existing bill', () => {
+      const { module } = setUpWithRun();
+      module.addBillLine({ id: '2', description: 'hello' });
+
+      module.cancelBill();
+
+      expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/bill'));
+    });
+
+    it('redirects to in tray on prefilled bill', () => {
+      const { module } = setUpNewBillWithPrefilled();
+      module.addBillLine({ id: '2', description: 'hello' });
+
+      module.cancelBill();
+
+      expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/inTray'));
     });
   });
 

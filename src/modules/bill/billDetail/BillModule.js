@@ -27,10 +27,11 @@ import {
   getTaxCodeOptions,
 } from './selectors/billSelectors';
 import {
+  getBillListUrl,
   getBillPaymentUrl,
   getCreateNewBillUrl,
   getDuplicateBillUrl,
-  getFinalRedirectUrl,
+  getInTrayUrl,
   getShouldReloadModule,
   getSubscriptionSettingsUrl,
 } from './selectors/BillRedirectSelectors';
@@ -113,13 +114,6 @@ class BillModule {
     };
     this.integrator.loadAccountAfterCreate({ id, onSuccess, onFailure });
   };
-
-  finalRedirect = () => {
-    const state = this.store.getState();
-    const finalRedirectUrl = getFinalRedirectUrl(state);
-
-    window.location.href = finalRedirectUrl;
-  }
 
   prefillBillFromInTray() {
     const onSuccess = (response) => {
@@ -238,13 +232,21 @@ class BillModule {
   };
 
   saveBill = () => {
-    const onSuccess = ({ message }) => {
-      this.pushMessage({ type: SUCCESSFULLY_SAVED_BILL, content: message });
-      this.globalCallbacks.inTrayBillSaved();
-      this.finalRedirect();
-    };
-
-    this.saveBillAnd({ onSuccess });
+    const state = this.store.getState();
+    const isCreatingFromInTray = getIsCreatingFromInTray(state);
+    if (isCreatingFromInTray) {
+      const onSuccess = ({ message }) => {
+        this.pushMessage({ type: SUCCESSFULLY_SAVED_BILL, content: message });
+        this.globalCallbacks.inTrayBillSaved();
+        this.redirectToInTray();
+      };
+      this.saveBillAnd({ onSuccess });
+    } else {
+      const onSuccess = ({ message }) => {
+        this.dispatcher.openSuccessAlert({ message });
+      };
+      this.saveAndReload({ onSuccess });
+    }
   };
 
   saveAndCreateNewBill = () => {
@@ -307,7 +309,7 @@ class BillModule {
         type: SUCCESSFULLY_DELETED_BILL,
         content: message,
       });
-      this.finalRedirect();
+      this.redirectToBillList();
     };
 
     const onFailure = ({ message }) => {
@@ -319,7 +321,13 @@ class BillModule {
   };
 
   cancelBill = () => {
-    this.finalRedirect();
+    const state = this.store.getState();
+    const isCreatingFromInTray = getIsCreatingFromInTray(state);
+    if (isCreatingFromInTray) {
+      this.redirectToInTray();
+    } else {
+      this.redirectToBillList();
+    }
   };
 
   openSaveAndModal = (saveActionType) => {
@@ -340,7 +348,7 @@ class BillModule {
         modalType: ModalType.CancelModal,
       });
     } else {
-      this.finalRedirect();
+      this.cancelBill();
     }
   };
 
@@ -754,9 +762,23 @@ class BillModule {
     this.redirectToUrl(url);
   }
 
+  redirectToBillList = () => {
+    const state = this.store.getState();
+    const url = getBillListUrl(state);
+
+    this.redirectToUrl(url);
+  }
+
   redirectToBillPayment = () => {
     const state = this.store.getState();
     const url = getBillPaymentUrl(state);
+
+    this.redirectToUrl(url);
+  }
+
+  redirectToInTray = () => {
+    const state = this.store.getState();
+    const url = getInTrayUrl(state);
 
     this.redirectToUrl(url);
   }
