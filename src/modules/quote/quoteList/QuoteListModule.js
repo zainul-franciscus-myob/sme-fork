@@ -1,11 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import {
-  SUCCESSFULLY_DELETED_QUOTE,
-  SUCCESSFULLY_EMAILED_QUOTE,
-  SUCCESSFULLY_SAVED_QUOTE,
-} from '../quoteDetail/QuoteMessageTypes';
+import { SUCCESSFULLY_DELETED_QUOTE, SUCCESSFULLY_EMAILED_QUOTE } from '../quoteDetail/QuoteMessageTypes';
 import {
   getFlipSortOrder, getOrderBy, getQuoteCreateUrl, getSettings,
 } from './quoteListSelectors';
@@ -20,7 +16,6 @@ import debounce from '../../../common/debounce/debounce';
 import quoteListReducer from './quoteListReducer';
 
 const messageTypes = [
-  SUCCESSFULLY_SAVED_QUOTE,
   SUCCESSFULLY_DELETED_QUOTE,
   SUCCESSFULLY_EMAILED_QUOTE,
 ];

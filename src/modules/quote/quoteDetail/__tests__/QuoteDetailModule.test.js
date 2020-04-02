@@ -61,6 +61,125 @@ describe('QuoteDetailModule', () => {
     return { module, integration, store };
   };
 
+  describe('saveQuote', () => {
+    describe('new quote', () => {
+      it('create quote, update quote id, update url params, reload quote, and show success alert', () => {
+        const { module, store, integration } = setUpWithRun({ isCreating: true });
+        module.replaceURLParams = jest.fn();
+
+        module.saveQuote();
+
+        expect(store.getActions()).toEqual([
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: UPDATE_QUOTE_ID_AFTER_CREATE, quoteId: '1' },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          expect.objectContaining({ intent: RELOAD_QUOTE_DETAIL }),
+          { intent: SET_ALERT, alert: { type: 'success', message: 'Great Work! You\'ve done it well!' } },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: CREATE_QUOTE_DETAIL }),
+          expect.objectContaining({ intent: LOAD_QUOTE_DETAIL }),
+        ]);
+        expect(module.replaceURLParams).toHaveBeenCalled();
+      });
+
+      it('show danger alert when create quote failed', () => {
+        const { module, store, integration } = setUpWithRun({ isCreating: true });
+        const message = 'Error';
+        integration.mapFailure(CREATE_QUOTE_DETAIL, { message });
+        module.replaceURLParams = jest.fn();
+
+        module.saveQuote();
+
+        expect(store.getActions()).toEqual([
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+          { intent: SET_ALERT, alert: { type: 'danger', message } },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: CREATE_QUOTE_DETAIL }),
+        ]);
+      });
+
+      it('show danger alert when reload quote failed', () => {
+        const { module, store, integration } = setUpWithRun({ isCreating: true });
+        const message = 'Error';
+        integration.mapFailure(LOAD_QUOTE_DETAIL, { message });
+
+        module.saveQuote();
+
+        expect(store.getActions()).toEqual([
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: UPDATE_QUOTE_ID_AFTER_CREATE, quoteId: '1' },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+          { intent: SET_ALERT, alert: { type: 'danger', message } },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: CREATE_QUOTE_DETAIL }),
+          expect.objectContaining({ intent: LOAD_QUOTE_DETAIL }),
+        ]);
+      });
+    });
+
+    describe('existing quote that has been edited', () => {
+      it('update quote, reload quote, show success alert', () => {
+        const { module, store, integration } = setUpWithRun({ isPageEdited: true });
+        module.replaceURLParams = jest.fn();
+
+        module.saveQuote();
+
+        expect(store.getActions()).toEqual([
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          expect.objectContaining({ intent: RELOAD_QUOTE_DETAIL }),
+          { intent: SET_ALERT, alert: { type: 'success', message: 'Great Work! You\'ve done it well!' } },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: UPDATE_QUOTE_DETAIL }),
+          expect.objectContaining({ intent: LOAD_QUOTE_DETAIL }),
+        ]);
+        expect(module.replaceURLParams).not.toHaveBeenCalled();
+      });
+
+      it('show danger alert when update quote failed', () => {
+        const { module, store, integration } = setUpWithRun({ isPageEdited: true });
+        const message = 'Error';
+        integration.mapFailure(UPDATE_QUOTE_DETAIL, { message });
+
+        module.saveQuote();
+
+        expect(store.getActions()).toEqual([
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+          { intent: SET_ALERT, alert: { type: 'danger', message } },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: UPDATE_QUOTE_DETAIL }),
+        ]);
+      });
+
+      it('show danger alert when reload quote failed', () => {
+        const { module, store, integration } = setUpWithRun({ isPageEdited: true });
+        const message = 'Error';
+        integration.mapFailure(LOAD_QUOTE_DETAIL, { message });
+
+        module.saveQuote();
+
+        expect(store.getActions()).toEqual([
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+          { intent: SET_ALERT, alert: { type: 'danger', message } },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: UPDATE_QUOTE_DETAIL }),
+          expect.objectContaining({ intent: LOAD_QUOTE_DETAIL }),
+        ]);
+      });
+    });
+  });
+
   describe('saveAndEmailQuote', () => {
     describe('new quote', () => {
       it('create quote, update quote id, update url params, reload quote, open email modal and show alert inside modal', () => {

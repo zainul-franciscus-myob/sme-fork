@@ -150,12 +150,10 @@ export default class QuoteDetailModule {
 
   saveQuote = () => {
     const onSuccess = ({ message }) => {
-      this.dispatcher.setSubmittingState(false);
-      this.pushSuccessfulSaveMessage(message);
-      this.redirectToQuoteList();
+      this.displaySuccessAlert(message);
     };
 
-    this.createOrUpdateQuote({ onSuccess });
+    this.saveAndReload({ onSuccess });
   }
 
   saveUnsavedChanges = () => {
