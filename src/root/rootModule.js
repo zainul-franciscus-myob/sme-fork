@@ -119,6 +119,7 @@ export default class RootModule {
         this.loadSharedInfo();
         this.tasksService.load();
         this.settingsService.load();
+        this.businessDetailsService.load();
       } else {
         this.runLeanEngage();
       }
