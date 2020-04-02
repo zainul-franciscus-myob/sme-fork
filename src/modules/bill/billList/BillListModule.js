@@ -18,6 +18,7 @@ import {
   SUCCESSFULLY_SAVED_BILL,
   SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
 } from '../billDetail/types/BillMessageTypes';
+import { SUCCESSFULLY_SAVED_BILL_PAYMENT } from '../../billPayment/BillPaymentMessageTypes';
 import {
   flipSortOrder,
   getBusinessId,
@@ -40,6 +41,7 @@ const messageTypes = [
   SUCCESSFULLY_DELETED_BILL,
   SUCCESSFULLY_SAVED_BILL,
   SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
+  SUCCESSFULLY_SAVED_BILL_PAYMENT,
 ];
 
 export default class BillListModule {

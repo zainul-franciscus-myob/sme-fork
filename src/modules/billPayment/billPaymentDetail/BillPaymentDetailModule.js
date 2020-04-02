@@ -3,8 +3,10 @@ import React from 'react';
 
 import { SUCCESSFULLY_DELETED_BILL_PAYMENT, SUCCESSFULLY_SAVED_BILL_PAYMENT } from '../BillPaymentMessageTypes';
 import {
+  getApplyPaymentToBillId,
   getBusinessId,
   getIsActionsDisabled,
+  getIsCreating,
   getIsPageEdited,
   getIsReferenceIdDirty,
   getModalType,
@@ -113,6 +115,22 @@ export default class BillPaymentModule {
     window.location.href = `/#/${region}/${businessId}/transactionList`;
   }
 
+  redirectToBillList= () => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/bill`;
+  }
+
+  redirectToBillDetail= (billId) => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/bill/${billId}`;
+  }
+
   dismissAlert = () => this.dispatcher.setAlertMessage('')
 
   saveBillPayment = () => {
@@ -127,7 +145,13 @@ export default class BillPaymentModule {
         type: SUCCESSFULLY_SAVED_BILL_PAYMENT,
         content: response.message,
       });
-      this.redirectToTransactionList();
+
+      const isCreating = getIsCreating(state);
+      if (isCreating) {
+        this.redirectToBillList();
+      } else {
+        this.redirectToTransactionList();
+      }
     };
 
     const onFailure = ({ message }) => {
@@ -142,7 +166,7 @@ export default class BillPaymentModule {
     if (getIsPageEdited(this.store.getState())) {
       this.dispatcher.openModal('cancel');
     } else {
-      this.redirectToTransactionList();
+      this.cancelBillPayment();
     }
   };
 
@@ -171,6 +195,17 @@ export default class BillPaymentModule {
     this.integrator.deleteBillPayment({ onSuccess, onFailure });
   }
 
+  cancelBillPayment = () => {
+    const state = this.store.getState();
+    const isCreating = getIsCreating(state);
+    if (isCreating) {
+      const billId = getApplyPaymentToBillId(state);
+      this.redirectToBillDetail(billId);
+    } else {
+      this.redirectToTransactionList();
+    }
+  }
+
   render = () => {
     const billPaymentView = (
       <BillPaymentView
@@ -180,7 +215,7 @@ export default class BillPaymentModule {
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
         onCloseModal={this.dispatcher.closeModal}
-        onCancelModal={this.redirectToTransactionList}
+        onCancelModal={this.cancelBillPayment}
         onDeleteModal={this.deleteBillPayment}
         onDismissAlert={this.dismissAlert}
       />

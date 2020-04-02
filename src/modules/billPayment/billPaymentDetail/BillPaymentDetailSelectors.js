@@ -14,6 +14,7 @@ export const getIsTableLoading = state => state.isTableLoading;
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 export const getBillPaymentId = state => state.billPaymentId;
+export const getApplyPaymentToBillId = state => state.applyPaymentToBillId;
 const getSuppliers = state => state.suppliers;
 const getAccounts = state => state.accounts;
 const getAccountId = state => state.accountId;

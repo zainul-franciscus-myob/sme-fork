@@ -39,11 +39,11 @@ describe('BillPaymentDetailModule', () => {
     return { store, integration, module };
   };
 
-  const setupWithNew = () => {
+  const setupWithNew = ({ applyPaymentToBillId } = {}) => {
     const toolbox = setup();
     const { store, integration, module } = toolbox;
 
-    module.run({ billPaymentId: 'new' });
+    module.run({ billPaymentId: 'new', applyPaymentToBillId });
     store.resetActions();
     integration.resetRequests();
 
@@ -218,23 +218,50 @@ describe('BillPaymentDetailModule', () => {
     });
   });
 
+  describe('cancelBillPayment', () => {
+    it('redirect to transaction list on existing bill payment', () => {
+      const { module } = setupWithExisting();
+
+      module.cancelBillPayment();
+
+      expect(window.location.href).toEqual(expect.stringContaining('/transactionList'));
+    });
+
+    it('redirect to bill list on new bill payment', () => {
+      const { module } = setupWithNew();
+
+      module.cancelBillPayment();
+
+      expect(window.location.href).toEqual(expect.stringContaining('/bill'));
+    });
+
+    it('redirect to bill detail on prefilled bill payment', () => {
+      const { module } = setupWithNew({ applyPaymentToBillId: 'billId' });
+
+      module.cancelBillPayment();
+
+      expect(window.location.href).toEqual(expect.stringContaining('/bill/billId'));
+    });
+  });
+
   describe('saveBillPayment', () => {
     [
       {
         name: 'create',
         setup: setupWithNew,
         intent: CREATE_BILL_PAYMENT,
+        redirectUrl: '/bill',
       },
       {
         name: 'update',
         setup: setupWithExisting,
         intent: UPDATE_BILL_PAYMENT,
+        redirectUrl: '/transactionList',
       },
     ].forEach((test) => {
       it(`successfully ${test.name}`, () => {
         const { module, store, integration } = test.setup();
         module.pushMessage = jest.fn();
-        module.redirectToTransactionList = jest.fn();
 
         module.saveBillPayment();
 
@@ -257,7 +284,7 @@ describe('BillPaymentDetailModule', () => {
           type: SUCCESSFULLY_SAVED_BILL_PAYMENT,
           content: expect.any(String),
         });
-        expect(module.redirectToTransactionList).toHaveBeenCalled();
+        expect(window.location.href).toEqual(expect.stringContaining(test.redirectUrl));
       });
 
       it(`fails to ${test.name}`, () => {
@@ -331,17 +358,18 @@ describe('BillPaymentDetailModule', () => {
         name: 'create',
         setup: setupWithNew,
         intent: CREATE_BILL_PAYMENT,
+        redirectUrl: '/bill',
       },
       {
         name: 'update',
         setup: setupWithExisting,
         intent: UPDATE_BILL_PAYMENT,
+        redirectUrl: '/transactionList',
       },
     ].forEach((test) => {
       it(`successfully ${test.name}`, () => {
         const { module, store, integration } = test.setup();
         module.pushMessage = jest.fn();
-        module.redirectToTransactionList = jest.fn();
 
         module.saveHandler();
 
@@ -364,7 +392,7 @@ describe('BillPaymentDetailModule', () => {
           type: SUCCESSFULLY_SAVED_BILL_PAYMENT,
           content: 'Great Work! You\'ve done it well!',
         });
-        expect(module.redirectToTransactionList).toHaveBeenCalled();
+        expect(window.location.href).toEqual(expect.stringContaining(test.redirectUrl));
       });
 
       it(`fails to ${test.name}`, () => {
@@ -665,14 +693,31 @@ describe('BillPaymentDetailModule', () => {
       ]);
     });
 
-    it('redirects when page not edited', () => {
-      const { module, store } = setupWithExisting();
-      module.redirectToTransactionList = jest.fn();
+    describe('when page not edited', () => {
+      it('redirect to transaction list on existing bill payment', () => {
+        const { module, store } = setupWithExisting();
 
-      module.openCancelModal();
+        module.openCancelModal();
 
-      expect(store.getActions()).toEqual([]);
-      expect(module.redirectToTransactionList).toHaveBeenCalled();
+        expect(store.getActions()).toEqual([]);
+        expect(window.location.href).toEqual(expect.stringContaining('/transactionList'));
+      });
+
+      it('redirect to bill list on new bill payment', () => {
+        const { module } = setupWithNew();
+
+        module.openCancelModal();
+
+        expect(window.location.href).toEqual(expect.stringContaining('/bill'));
+      });
+
+      it('redirect to bill detail on prefilled bill payment', () => {
+        const { module } = setupWithNew({ applyPaymentToBillId: 'billId' });
+
+        module.openCancelModal();
+
+        expect(window.location.href).toEqual(expect.stringContaining('/billId'));
+      });
     });
   });
 });

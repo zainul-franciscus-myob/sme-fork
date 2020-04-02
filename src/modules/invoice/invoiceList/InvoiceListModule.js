@@ -6,6 +6,7 @@ import {
   SUCCESSFULLY_EMAILED_INVOICE,
   SUCCESSFULLY_SAVED_INVOICE,
 } from '../invoiceDetail/invoiceMessageTypes';
+import { SUCCESSFULLY_SAVED_INVOICE_PAYMENT } from '../../invoicePayment/InvoicePaymentMessageTypes';
 import {
   getBusinessId,
   getFlipSortOrder,
@@ -27,6 +28,7 @@ const messageTypes = [
   SUCCESSFULLY_DELETED_INVOICE,
   SUCCESSFULLY_EMAILED_INVOICE,
   SUCCESSFULLY_SAVED_INVOICE,
+  SUCCESSFULLY_SAVED_INVOICE_PAYMENT,
 ];
 
 export default class InvoiceListModule {
