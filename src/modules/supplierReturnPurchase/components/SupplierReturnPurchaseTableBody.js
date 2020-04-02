@@ -25,7 +25,7 @@ const SupplierReturnPurchaseTableBody = ({
           <Table.Row key={row.id}>
             <Table.RowItem {...tableConfig.date}>{row.date}</Table.RowItem>
             <Table.RowItem {...tableConfig.purchaseNumber}>
-              <a href={row.link}>{row.purchaseNumber}</a>
+              <a href={row.link} target="_blank" rel="noopener noreferrer">{row.purchaseNumber}</a>
             </Table.RowItem>
             <Table.RowItem {...tableConfig.status}>
               <Label type="boxed" color={row.statusLabelColour}>{row.status}</Label>

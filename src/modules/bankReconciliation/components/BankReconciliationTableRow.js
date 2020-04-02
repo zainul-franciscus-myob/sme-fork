@@ -24,7 +24,7 @@ const BankReconciliationTableRow = ({
     : AccordionRowTypes.NORMAL;
 
   const getRefEntryLink = (entry.link ? (
-    <a href={entry.link}>{entry.referenceId}</a>
+    <a href={entry.link} target="_blank" rel="noopener noreferrer">{entry.referenceId}</a>
   ) : (
     <Tooltip placement="bottom" triggerContent={entry.referenceId}>
         This transaction type can only be viewed and edited from your desktop AccountRight software

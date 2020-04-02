@@ -33,7 +33,7 @@ const CustomerStatementListTableBody = ({
               columnName={tableConfig.name.columnName}
               {...tableConfig.name.styles}
             >
-              <a href={customerStatement.link}>{customerStatement.name}</a>
+              <a href={customerStatement.link} target="_blank" rel="noopener noreferrer">{customerStatement.name}</a>
 
             </Table.RowItem>
             <Table.RowItem

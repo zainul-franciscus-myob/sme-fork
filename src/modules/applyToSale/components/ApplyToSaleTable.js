@@ -38,7 +38,7 @@ const ApplyToSaleTable = ({
             <Table.Row key={invoice.invoiceId}>
               <Table.RowItem {...tableConfig.issueDate}>{invoice.issueDate}</Table.RowItem>
               <Table.RowItem {...tableConfig.invoiceNumber}>
-                <a href={invoice.link}>{invoice.invoiceNumber}</a>
+                <a href={invoice.link} target="_blank" rel="noopener noreferrer">{invoice.invoiceNumber}</a>
               </Table.RowItem>
               <Table.RowItem {...tableConfig.status}>
                 <Label color={invoice.labelColour} type="boxed">
