@@ -104,6 +104,134 @@ describe('InvoiceDetailModule', () => {
     });
   });
 
+  describe('saveInvoice', () => {
+    describe('new invoice', () => {
+      it('create invoice, update invoice id, update url params, reload invoice, load history, and show success alert inside modal', () => {
+        const { module, store, integration } = setupWithRun({ isCreating: true });
+        module.replaceURLParams = jest.fn();
+
+        module.saveInvoice();
+
+        expect(store.getActions()).toEqual([
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+          { intent: UPDATE_INVOICE_ID_AFTER_CREATE, invoiceId: '1' },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          expect.objectContaining({ intent: RELOAD_INVOICE_DETAIL }),
+          { intent: SET_INVOICE_HISTORY_LOADING },
+          expect.objectContaining({ intent: LOAD_INVOICE_HISTORY }),
+          { intent: SET_ALERT, alert: { type: 'success', message: "Great Work! You've done it well!" } },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: CREATE_INVOICE_DETAIL }),
+          expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
+          expect.objectContaining({ intent: LOAD_INVOICE_HISTORY }),
+        ]);
+        expect(module.replaceURLParams).toHaveBeenCalled();
+      });
+
+      it('show danger alert when create invoice failed', () => {
+        const { module, store, integration } = setupWithRun({ isCreating: true });
+        const message = 'Error';
+        integration.mapFailure(CREATE_INVOICE_DETAIL, { message });
+        module.replaceURLParams = jest.fn();
+
+        module.saveAndEmailInvoice();
+
+        expect(store.getActions()).toEqual([
+          { intent: SET_MODAL_TYPE, modalType: '' },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+          { intent: SET_ALERT, alert: { type: 'danger', message } },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: CREATE_INVOICE_DETAIL }),
+        ]);
+      });
+
+      it('show danger alert when reload invoice failed', () => {
+        const { module, store, integration } = setupWithRun({ isCreating: true });
+        const message = 'Error';
+        integration.mapFailure(LOAD_INVOICE_DETAIL, { message });
+
+        module.saveAndEmailInvoice();
+
+        expect(store.getActions()).toEqual([
+          { intent: SET_MODAL_TYPE, modalType: '' },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+          { intent: UPDATE_INVOICE_ID_AFTER_CREATE, invoiceId: '1' },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+          { intent: SET_ALERT, alert: { type: 'danger', message } },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: CREATE_INVOICE_DETAIL }),
+          expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
+        ]);
+      });
+    });
+
+    describe('existing invoice', () => {
+      it('update invoice, reload invoice and show success alert inside modal', () => {
+        const { module, store, integration } = setupWithRun({ isPageEdited: true });
+        module.replaceURLParams = jest.fn();
+
+        module.saveInvoice();
+
+        expect(store.getActions()).toEqual([
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          expect.objectContaining({ intent: RELOAD_INVOICE_DETAIL }),
+          { intent: SET_ALERT, alert: { type: 'success', message: "Great Work! You've done it well!" } },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: UPDATE_INVOICE_DETAIL }),
+          expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
+        ]);
+        expect(module.replaceURLParams).not.toHaveBeenCalled();
+      });
+
+      it('show danger alert when update invoice failed', () => {
+        const { module, store, integration } = setupWithRun({ isPageEdited: true });
+        const message = 'Error';
+        integration.mapFailure(UPDATE_INVOICE_DETAIL, { message });
+
+        module.saveInvoice();
+
+        expect(store.getActions()).toEqual([
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+          { intent: SET_ALERT, alert: { type: 'danger', message } },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: UPDATE_INVOICE_DETAIL }),
+        ]);
+      });
+
+      it('show danger alert when reload invoice failed', () => {
+        const { module, store, integration } = setupWithRun({ isPageEdited: true });
+        const message = 'Error';
+        integration.mapFailure(LOAD_INVOICE_DETAIL, { message });
+
+        module.saveInvoice();
+
+        expect(store.getActions()).toEqual([
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+          { intent: SET_ALERT, alert: { type: 'danger', message } },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: UPDATE_INVOICE_DETAIL }),
+          expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
+        ]);
+      });
+    });
+  });
+
   describe('saveAndEmailInvoice', () => {
     describe('new invoice', () => {
       it('create invoice, update invoice id, update url params, reload invoice, load history, open email modal and show alert inside modal', () => {

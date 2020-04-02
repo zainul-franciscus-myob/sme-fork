@@ -162,11 +162,10 @@ export default class InvoiceDetailModule {
 
   saveInvoice = () => {
     const onSuccess = ({ message }) => {
-      this.pushSuccessfulSaveMessage(message);
-      this.redirectToInvoiceList();
+      this.displaySuccessAlert(message);
     };
 
-    this.createOrUpdateInvoice({ onSuccess });
+    this.saveAndReload({ onSuccess });
   }
 
   saveAndCreateNewInvoice = () => {
