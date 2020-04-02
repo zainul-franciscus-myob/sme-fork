@@ -20,3 +20,4 @@ export const TOGGLE_ALL_CUSTOMER_STATEMENTS = Symbol('Toggle all customer statem
 export const UNSELECT_ALL_CUSTOMER_STATEMENTS = Symbol('Unselect all customer statements');
 export const SELECT_CUSTOMER_STATEMENT = Symbol('Select customer statement');
 export const SET_SORT_ORDER = Symbol('Set sort order');
+export const SET_IS_DOWNLOADING_DEFAULT_PDF = Symbol('Set is downloading PDF');

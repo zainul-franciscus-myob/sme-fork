@@ -202,3 +202,11 @@ export const getTaxCalculations = (state, { isSwitchingTaxInclusive }) => {
 export const getItemSellingDetailsFromCache = (state, itemId) => (
   state.cachedItemSellingDetails[itemId]
 );
+
+export const getIsExportingPDF = createSelector(
+  getModal,
+  getIsModalActionDisabled,
+  (modal, isModalActionDisabled) => (
+    modal && modal.type === ModalType.EXPORT_PDF && isModalActionDisabled
+  ),
+);

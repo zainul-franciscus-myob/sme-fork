@@ -164,3 +164,11 @@ export const getOpenedModalType = (state) => {
 
   return modal.type;
 };
+
+export const getIsDownloadingDefaultPDF = state => state.isDownloadingDefaultPDF;
+
+export const getIsDownloadingPDF = createSelector(
+  getOpenedModalType,
+  getIsModalSubmitting,
+  (modalType, isModalSubmitting) => modalType === ModalType.PDF && isModalSubmitting,
+);

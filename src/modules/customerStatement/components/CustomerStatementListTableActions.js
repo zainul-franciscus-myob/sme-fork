@@ -1,5 +1,10 @@
 import {
-  BulkActions, Button, Dropdown, Icons, Separator,
+  BulkActions,
+  Button,
+  Dropdown,
+  Icons,
+  Separator,
+  Spinner,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -8,13 +13,16 @@ import {
   getAreActionsDisabled,
   getCustomersSelected,
   getIsDownloadPDFDisabled,
+  getIsDownloadingDefaultPDF,
   getIsSomeSelected,
 } from '../selectors/customerStatementListSelectors';
 import PDFType from '../PDFType';
+import styles from './CustomerStatementListTableActions.module.css';
 
 const CustomerStatementListTableActions = ({
   isSomeSelected,
   isDownloadPDFDisabled,
+  isDownloadingPDF,
   areActionsDisabled,
   customersSelected,
   onSelectPDFDropdown,
@@ -54,6 +62,7 @@ const CustomerStatementListTableActions = ({
   return isSomeSelected && (
     <BulkActions>
       {PDFDropdown}
+      { isDownloadingPDF && <span className={styles.downloadSpinner}><Spinner size="small" /></span> }
       <Button type="secondary" onClick={onClickEmailButton} disabled={areActionsDisabled}>Email</Button>
       <Separator direction="vertical" />
       {`${customersSelected} customers selected ${PDFDisabledText}`}
@@ -64,6 +73,7 @@ const CustomerStatementListTableActions = ({
 const mapStateToProps = state => ({
   isSomeSelected: getIsSomeSelected(state),
   isDownloadPDFDisabled: getIsDownloadPDFDisabled(state),
+  isDownloadingPDF: getIsDownloadingDefaultPDF(state),
   areActionsDisabled: getAreActionsDisabled(state),
   customersSelected: getCustomersSelected(state),
 });

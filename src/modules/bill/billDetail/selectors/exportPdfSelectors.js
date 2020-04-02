@@ -1,9 +1,17 @@
 import { createSelector } from 'reselect';
 
 import {
-  getBillId, getBillLayout, getBillNumber, getBusinessId, getIsCreating, getIsPageEdited,
+  getBillId,
+  getBillLayout,
+  getBillNumber,
+  getBusinessId,
+  getIsCreating,
+  getIsModalBlocking,
+  getIsPageEdited,
+  getModalType,
 } from './billSelectors';
 import BillLayout from '../types/BillLayout';
+import ModalType from '../types/ModalType';
 
 
 export const getExportPdfTemplate = state => state.exportPdf.template;
@@ -42,3 +50,11 @@ export const getExportPdfFilename = (state) => {
 
   return `${billNumber}.pdf`;
 };
+
+export const getIsExportingPDF = createSelector(
+  getModalType,
+  getIsModalBlocking,
+  (modalType, isModalBlocking) => (
+    modalType === ModalType.ExportPdf && isModalBlocking
+  ),
+);

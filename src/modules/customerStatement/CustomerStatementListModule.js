@@ -83,9 +83,11 @@ export default class CustomerStatementListModule {
     const templateOption = getDefaultTemplateOption(state);
 
     this.dispatcher.setAreActionsDisabled(true);
+    this.dispatcher.setIsDownloadingDefaultPDF(true);
 
     const onSuccess = (data) => {
       this.dispatcher.setAreActionsDisabled(false);
+      this.dispatcher.setIsDownloadingDefaultPDF(false);
       this.dispatcher.unselectAllCustomerStatements();
       this.dispatcher.setAlert({
         message: 'Success! Your customer statements have been downloaded.',
@@ -100,6 +102,7 @@ export default class CustomerStatementListModule {
 
     const onFailure = ({ message }) => {
       this.dispatcher.setAreActionsDisabled(false);
+      this.dispatcher.setIsDownloadingDefaultPDF(false);
       this.dispatcher.setAlert({ type: 'danger', message });
     };
 

@@ -7,6 +7,7 @@ import {
   SELECT_CUSTOMER_STATEMENT,
   SET_ALERT,
   SET_ARE_ACTIONS_DISABLED,
+  SET_IS_DOWNLOADING_DEFAULT_PDF,
   SET_LOADING_STATE,
   SET_MODAL_ALERT_MESSAGE,
   SET_MODAL_SUBMITTING_STATE,
@@ -70,6 +71,7 @@ const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
   isTableLoading: false,
   areActionsDisabled: false,
+  isDownloadingDefaultPDF: false,
   modal: undefined,
   alert: undefined,
 });
@@ -245,6 +247,11 @@ const closeModal = state => ({
 
 const resetState = () => getDefaultState();
 
+const setIsDownloadingDefaultPDF = (state, { isDownloadingDefaultPDF }) => ({
+  ...state,
+  isDownloadingDefaultPDF,
+});
+
 const handlers = ({
   [SET_INITIAL_STATE]: setInitialState,
   [SET_LOADING_STATE]: setLoadingState,
@@ -266,6 +273,7 @@ const handlers = ({
   [UNSELECT_ALL_CUSTOMER_STATEMENTS]: unselectAllCustomerStatements,
   [SELECT_CUSTOMER_STATEMENT]: selectCustomerStatement,
   [SET_SORT_ORDER]: setSortOrder,
+  [SET_IS_DOWNLOADING_DEFAULT_PDF]: setIsDownloadingDefaultPDF,
 });
 
 export default createReducer(getDefaultState, handlers);

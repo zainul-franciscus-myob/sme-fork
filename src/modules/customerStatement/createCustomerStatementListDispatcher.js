@@ -5,6 +5,7 @@ import {
   SELECT_CUSTOMER_STATEMENT,
   SET_ALERT,
   SET_ARE_ACTIONS_DISABLED,
+  SET_IS_DOWNLOADING_DEFAULT_PDF,
   SET_LOADING_STATE,
   SET_MODAL_ALERT_MESSAGE,
   SET_MODAL_SUBMITTING_STATE,
@@ -110,6 +111,11 @@ const createCustomerStatementListDispatcher = store => ({
   setAlert: alert => store.dispatch({
     intent: SET_ALERT,
     alert,
+  }),
+
+  setIsDownloadingDefaultPDF: isDownloadingDefaultPDF => store.dispatch({
+    intent: SET_IS_DOWNLOADING_DEFAULT_PDF,
+    isDownloadingDefaultPDF,
   }),
 
   setInitialState: (context, settings) => store.dispatch({

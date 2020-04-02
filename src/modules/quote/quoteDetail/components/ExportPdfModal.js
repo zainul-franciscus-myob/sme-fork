@@ -1,12 +1,17 @@
-import { Button, Modal, Select } from '@myob/myob-widgets';
+import {
+  Button, Modal, Select, Spinner,
+} from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import React from 'react';
 
+import { getIsExportingPDF } from '../selectors/QuoteDetailSelectors';
 import handleSelectChange from '../../../../components/handlers/handleSelectChange';
 
 const ExportPdfModal = ({
   template,
   templateOptions,
   isActionDisabled,
+  isExportingPDF,
   onCancel,
   onConfirmExportPdfButtonClick,
   onChangeExportPdfForm,
@@ -39,8 +44,13 @@ const ExportPdfModal = ({
       >
         Export
       </Button>
+      { isExportingPDF && <Spinner size="small" /> }
     </Modal.Footer>
   </Modal>
 );
 
-export default ExportPdfModal;
+const mapStateToProps = state => ({
+  isExportingPDF: getIsExportingPDF(state),
+});
+
+export default connect(mapStateToProps)(ExportPdfModal);

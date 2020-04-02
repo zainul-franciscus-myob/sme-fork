@@ -1,11 +1,13 @@
 import {
   getAccountModalContext,
   getIsAccountComboboxDisabled,
+  getIsExportingPDF,
   getIsTaxCalculationRequired,
   getQuoteDetailOptions,
   getTemplateOptions,
   getUpdatedContactOptions,
 } from '../QuoteDetailSelectors';
+import ModalType from '../../ModalType';
 import QuoteLayout from '../../QuoteLayout';
 
 describe('QuoteDetailSelectors', () => {
@@ -285,6 +287,54 @@ describe('QuoteDetailSelectors', () => {
       const actual = getIsTaxCalculationRequired(state);
 
       expect(actual).toBe(false);
+    });
+  });
+
+  describe('getIsDownloadingPDF', () => {
+    it('should return true when modal is submitting and modal type is pdf', () => {
+      const state = {
+        isModalSubmitting: true,
+        modal: {
+          type: ModalType.EXPORT_PDF,
+        },
+      };
+      const actual = getIsExportingPDF(state);
+
+      expect(actual).toBeTruthy();
+    });
+
+    it('should return false when modal is not submitting', () => {
+      const state = {
+        isModalSubmitting: false,
+        modal: {
+          type: ModalType.EXPORT_PDF,
+        },
+      };
+      const actual = getIsExportingPDF(state);
+
+      expect(actual).toBeFalsy();
+    });
+
+    it('should return false when modal type is not export pdf', () => {
+      const state = {
+        isModalSubmitting: true,
+        modal: {
+          type: ModalType.EMAIL_QUOTE,
+        },
+      };
+      const actual = getIsExportingPDF(state);
+
+      expect(actual).toBeFalsy();
+    });
+
+    it('should return false when modal is not open', () => {
+      const state = {
+        isModalSubmitting: false,
+        modal: undefined,
+      };
+      const actual = getIsExportingPDF(state);
+
+      expect(actual).toBeFalsy();
     });
   });
 });

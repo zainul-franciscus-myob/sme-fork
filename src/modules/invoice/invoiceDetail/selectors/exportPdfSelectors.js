@@ -1,4 +1,13 @@
-import { getBusinessId, getInvoiceId, getInvoiceNumber } from './invoiceDetailSelectors';
+import { createSelector } from 'reselect';
+
+import {
+  getBusinessId,
+  getInvoiceId,
+  getInvoiceNumber,
+  getIsModalActionDisabled,
+  getModalType,
+} from './invoiceDetailSelectors';
+import InvoiceDetailModalType from '../InvoiceDetailModalType';
 
 export const getExportPdfTemplate = state => state.exportPdf.template;
 
@@ -18,3 +27,11 @@ export const getExportPdfFilename = (state) => {
 
   return `${invoiceNumber}.pdf`;
 };
+
+export const getIsExportingPDF = createSelector(
+  getModalType,
+  getIsModalActionDisabled,
+  (modalType, isModalActionDisabled) => (
+    modalType === InvoiceDetailModalType.EXPORT_PDF && isModalActionDisabled
+  ),
+);

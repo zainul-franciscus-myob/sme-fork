@@ -1,10 +1,14 @@
 import {
-  Alert, Button, Modal, Select, Separator,
+  Alert, Button, Modal, Select, Separator, Spinner,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getCustomersSelected, getTemplateOptions } from '../selectors/customerStatementListSelectors';
+import {
+  getCustomersSelected,
+  getIsDownloadingPDF,
+  getTemplateOptions,
+} from '../selectors/customerStatementListSelectors';
 import handleSelectChange from '../../../components/handlers/handleSelectChange';
 
 const CustomerStatementPDFModal = ({
@@ -15,6 +19,7 @@ const CustomerStatementPDFModal = ({
   onDismissModalAlert,
   onUpdateTemplateOption,
   onDownloadPDF,
+  isDownloadingPDF,
 }) => (
   <Modal
     title="Download PDF"
@@ -36,6 +41,7 @@ const CustomerStatementPDFModal = ({
     <Modal.Footer>
       <Button type="secondary" onClick={onDismissModal} disabled={isModalSubmitting}>Cancel</Button>
       <Button type="primary" onClick={onDownloadPDF} disabled={isModalSubmitting}>Download PDF</Button>
+      { isDownloadingPDF && <Spinner size="small" /> }
     </Modal.Footer>
   </Modal>
 );
@@ -43,6 +49,7 @@ const CustomerStatementPDFModal = ({
 const mapStateToProps = state => ({
   templateOptions: getTemplateOptions(state),
   customersSelected: getCustomersSelected(state),
+  isDownloadingPDF: getIsDownloadingPDF(state),
 });
 
 export default connect(mapStateToProps)(CustomerStatementPDFModal);
