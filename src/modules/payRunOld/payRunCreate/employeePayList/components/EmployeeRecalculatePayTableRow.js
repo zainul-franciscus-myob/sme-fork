@@ -72,6 +72,7 @@ const HoursInputField = ({
   payItemId,
   onChange,
   onBlur,
+  isSubmitting,
   leaveWarning,
 }) => (
   <HoursInput
@@ -79,6 +80,7 @@ const HoursInputField = ({
     label="Hours"
     hideLabel
     textAlign="right"
+    disabled={isSubmitting}
     value={value}
     onChange={handleInputChange(onChange, employeeId, payItemId)}
     onBlur={handleInputChange(onBlur, employeeId, payItemId)}
@@ -112,6 +114,7 @@ const EmployeeRecalculatePayTableRow = ({
       payItemId={payItemId}
       onChange={onChange}
       onBlur={onBlur}
+      isSubmitting={isSubmitting}
       leaveWarning={leaveWarning}
     />);
 
