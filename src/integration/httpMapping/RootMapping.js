@@ -20,6 +20,7 @@ import DeductionPayItemMapping from '../../modules/payItem/deductionPayItem/mapp
 import ElectronicPaymentsCreateMapping from '../../modules/electronicPayments/electronicPaymentsCreate/mappings/HttpElectronicPaymentsCreateMapping';
 import ElectronicPaymentsReadMapping from '../../modules/electronicPayments/electronicPaymentsRead/mappings/HttpElectronicPaymentsReadMapping';
 import EmployeeMapping from '../../modules/employee/mappings/HttpEmployeeMapping';
+import EmployeeNzMapping from '../../modules/nzPayroll/employee/mappings/HttpEmployeeNzMapping';
 import EmployeePayMapping from '../../modules/employeePay/mappings/HttpEmployeePayMapping';
 import ExpensePayItemMapping from '../../modules/payItem/expensePayItem/mappings/HttpExpensePayItemMapping';
 import FeatureTogglesMapping from '../../featureToggles/mappings/HttpFeatureTogglesMapping';
@@ -165,6 +166,7 @@ const RootMapping = Object.freeze({
   ...FileUnavailableMapping,
   ...InvoiceBusinessMapping,
   ...JobMapping,
+  ...EmployeeNzMapping,
   ...TransactionListMapping,
 });
 

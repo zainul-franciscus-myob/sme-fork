@@ -1,21 +1,25 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import EmployeeListNzView from './components/EmployeeListNzView';
+import LoadingState from '../../../../components/PageView/LoadingState';
 import Store from '../../../../store/Store';
 import createEmployeeListNzDispatcher from './createEmployeeListNzDispatcher';
+import createEmployeeListNzIntegrator from './createEmployeeListNzIntegrator';
 import employeeListNzReducer from './employeeListNzReducer';
-
 
 export default class EmployeeListNzModule {
   constructor({ setRootView, integration }) {
     this.setRootView = setRootView;
     this.integration = integration;
     this.store = new Store(employeeListNzReducer);
-    this.dispatcher = createEmployeeListNzDispatcher(this.store);
+    this.dispatcher = createEmployeeListNzDispatcher({ store: this.store });
+    this.integrator = createEmployeeListNzIntegrator({ store: this.store, integration });
   }
 
   render = () => {
-    const wrappedView = <Provider store={this.store}><h1>Hello World</h1></Provider>;
+    const view = <EmployeeListNzView />;
+    const wrappedView = <Provider store={this.store}>{view}</Provider>;
     this.setRootView(wrappedView);
   }
 
@@ -23,12 +27,23 @@ export default class EmployeeListNzModule {
     this.store.unsubscribeAll();
   }
 
-  setInitialState = context => this.dispatcher.setInitialState(context);
+  loadEmployeeList = () => {
+    const onSuccess = (response) => {
+      this.dispatcher.loadEmployeeList(response);
+    };
 
-  resetState = () => this.dispatcher.resetState();
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    };
 
-  run(context) {
-    this.setInitialState(context);
-    this.render();
+    this.integrator.loadEmployeeList({ onSuccess, onFailure });
   }
+
+   resetState = () => this.dispatcher.resetState();
+
+   run(context) {
+     this.dispatcher.setInitialState(context);
+     this.render();
+     this.loadEmployeeList();
+   }
 }
