@@ -7,20 +7,15 @@
   background-color: var(--flx-palette-storm-83);
 }
 
-/*
-  @FEELIX:
-  Chaining our classname twice for a higher specificity to override Feelix
-*/
-.userEmail.userEmail > :global(a) {
-  font-weight: var(--flx-font-weight-bold);
-}
 .avatar {
-  display:flex;
+  display: flex;
   align-items: center;
 }
+
 .caret {
   padding-left: var(--flx-spacing-x-tiny);
 }
+
 /*
   @FEELIX:
   Override Feelix hover color with its nav link color
@@ -31,10 +26,14 @@
   cursor: default;
 }
 
-/*
-  @FEELIX:
-  Override Feelix menu item icon alignment
-*/
+.businessMenu ul {
+  padding-bottom: var(--flx-spacing-tiny);
+}
+
+.businessMenu :global(.flx-navbar__menu-item .dropdown-menu) {
+  margin-bottom: 0;
+}
+
 .businessMenu li[role="menuitem"] a[role="button"] {
   display: flex;
   align-items: center;
@@ -43,4 +42,26 @@
 
 .businessMenu li[role="menuitem"] a[role="button"] svg {
   margin-right: var(--flx-spacing-x-tiny);
+}
+
+.businessMenu .userDetails a {
+  background: var(--flx-palette-storm-06);
+  font-size: var(--flx-font-size-text-small);
+  margin: 0 var(--flx-spacing-tiny);
+  padding: var(--flx-spacing-x-tiny) var(--flx-spacing-tiny);
+}
+
+.businessMenu .userDetails a:hover {
+  background: var(--flx-palette-storm-06);
+}
+
+.businessMenu .userEmail a {
+  border-top-left-radius: var(--flx-border-radius-button);
+  border-top-right-radius: var(--flx-border-radius-button);
+  margin-top: var(--flx-spacing-tiny);
+}
+
+.businessMenu .serialNumber a {
+  border-bottom-left-radius: var(--flx-border-radius-button);
+  border-bottom-right-radius: var(--flx-border-radius-button);
 }

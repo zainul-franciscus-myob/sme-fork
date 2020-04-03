@@ -46,9 +46,8 @@ export default class NavigationModule {
 
   loadBusinessInfo = () => {
     const state = this.store.getState();
-    if (!getShowUrls(state)) {
-      return;
-    }
+
+    if (!getShowUrls(state)) return;
 
     this.setLoadingState(true);
 
@@ -57,7 +56,6 @@ export default class NavigationModule {
     const urlParams = { businessId };
     const onSuccess = (config) => {
       this.setLoadingState(false);
-
       this.store.dispatch({ ...config, intent });
       this.replaceURLParamsAndReload({ businessId, region: config.region.toLowerCase() });
       // TODO: To be removed in next patch version
@@ -157,19 +155,21 @@ export default class NavigationModule {
   subscribeNow = async () => {
     const businessId = getBusinessId(this.store.getState());
     const url = await loadSubscriptionUrl(this.integration, businessId, window.location.href);
+
     if (!url) {
       // eslint-disable-next-line no-console
       console.warn('"Subscription details" url has no value');
       return;
     }
+
     this.redirectToPage(url);
   };
 
   createBusiness = async () => {
     const telemetryProps = { ...this.routeProps, currentRouteName: 'createNewBusiness' };
     this.sendTelemetryEvent(telemetryProps);
-    this.redirectToPage('https://checkout.myob.com/au/trial?productId=52&identity=true');
-  }
+    this.redirectToPage('http://myob.com.au/new-ea-create-new-business');
+  };
 
   changePlan = async () => {
     const businessId = getBusinessId(this.store.getState());
@@ -178,11 +178,13 @@ export default class NavigationModule {
       businessId,
       window.location.href,
     );
+
     if (!url) {
       // eslint-disable-next-line no-console
       console.warn('"Subscription details" url has no value');
       return;
     }
+
     this.redirectToPage(url);
   };
 
@@ -194,33 +196,33 @@ export default class NavigationModule {
     serialNumber = '',
   ) => {
     const {
+      changePlan,
       constructPath,
-      redirectToPage,
+      createBusiness,
       onPageTransition,
-      toggleHelp,
-      toggleTasks,
+      redirectToPage,
       store,
       subscribeNow,
-      changePlan,
-      createBusiness,
+      toggleHelp,
+      toggleTasks,
     } = this;
 
     return (
       <Provider store={store}>
         <NavigationBar
-          constructPath={constructPath}
-          onMenuSelect={redirectToPage}
-          onMenuLinkClick={onPageTransition}
-          onHelpLinkClick={toggleHelp}
-          onSubscribeNowClick={subscribeNow}
-          onChangePlanClick={changePlan}
-          onCreateBusinessClick={createBusiness}
-          onTasksLinkClick={toggleTasks}
-          onLogoutLinkClick={logout}
-          hasTasks={tasks && tasks.some(t => !t.isComplete)}
           businessId={businessId}
           businessName={businessName}
           businessRole={businessRole}
+          constructPath={constructPath}
+          hasTasks={tasks && tasks.some(t => !t.isComplete)}
+          onChangePlanClick={changePlan}
+          onCreateBusinessClick={createBusiness}
+          onHelpLinkClick={toggleHelp}
+          onLogoutLinkClick={logout}
+          onMenuLinkClick={onPageTransition}
+          onMenuSelect={redirectToPage}
+          onSubscribeNowClick={subscribeNow}
+          onTasksLinkClick={toggleTasks}
           serialNumber={serialNumber}
         />
       </Provider>
@@ -233,12 +235,16 @@ export default class NavigationModule {
 
   run = routeProps => {
     const { routeParams, currentRouteName, onPageTransition } = routeProps;
+
     this.routeProps = routeProps;
+
     const previousBusinessId = getBusinessId(this.store.getState());
     const currentBusinessId = routeParams.businessId;
+
     this.loadConfig();
     this.buildAndSetRoutingInfo({ currentRouteName, routeParams });
     this.setOnPageTransition(onPageTransition);
+
     if (previousBusinessId !== currentBusinessId && currentBusinessId) {
       this.loadBusinessInfo();
       this.store.dispatch({ intent: RESET_STATE });

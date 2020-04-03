@@ -50,10 +50,6 @@ const getMenuLinkWithIcon = (url, label, icon, onMenuLinkClick, target) => (
 const manageMyClientsMenuItem = onMenuLinkClick => getMenuLinkWithIcon('https://partner.myob.com/ledgers/live', 'Manage my clients', <Icons.Switch />, onMenuLinkClick, '_blank');
 const switchBusinessMenuItem = onMenuLinkClick => getMenuLinkWithIcon('#/businesses', 'Switch business', <Icons.Switch />, onMenuLinkClick, undefined);
 
-const getDisabledMenuLink = label => (
-  <Navigation.MenuLink key={label} url="" label={label} disabled />
-);
-
 const UnlinkedMenuLink = ({ label, className }) => (
   // eslint-disable-next-line jsx-a11y/anchor-is-valid
   <li className={classNames(styles.unlink, className)}><a role="button">{label}</a></li>
@@ -73,10 +69,8 @@ const getItems = ({
   onChangePlanClick,
   onCreateBusinessClick,
 }) => [
-  isCurrentUserAdvisor
-    ? manageMyClientsMenuItem(onMenuLinkClick)
-    : switchBusinessMenuItem(onMenuLinkClick),
-  <Navigation.Separator key="separator-switch-business" />,
+  onSubscribeNowClick && getMenuLinkWithIcon('', 'Subscribe now', <Icons.OpenExternalLink />, onSubscribeNowClick, '_blank'),
+  onSubscribeNowClick && <Navigation.Separator key="separator" />,
   urls.businessDetails && getMenuLink(urls.businessDetails, 'Business details', onMenuLinkClick),
   urls.incomeAllocation && getMenuLink(urls.incomeAllocation, 'Income allocation', onMenuLinkClick),
   urls.salesSettings && getMenuLink(urls.salesSettings, 'Invoice and quote settings', onMenuLinkClick),
@@ -84,15 +78,21 @@ const getItems = ({
   urls.userList && getMenuLink(urls.userList, 'Users', onMenuLinkClick),
   urls.dataImportExport && getMenuLink(urls.dataImportExport, 'Import and export data', onMenuLinkClick),
   isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
-  userEmail && <UnlinkedMenuLink label={userEmail} className={styles.userEmail} />,
-  getDisabledMenuLink('my.MYOB account'),
-  shouldShowPaymentDetail ? getMenuLink(urls.paymentDetail, 'Payment details', onMenuLinkClick, '_blank') : undefined,
-  onSubscribeNowClick && getMenuLink('', 'Subscribe now', onSubscribeNowClick),
-  onChangePlanClick && getMenuLink('', 'Change plan', onChangePlanClick),
-  createBusinessEnabled() && onCreateBusinessClick && getMenuLink('', 'Create business', onCreateBusinessClick),
-  <Navigation.Separator key="separator-links" />,
-  serialNumber && <UnlinkedMenuLink label={`Serial number: ${serialNumber}`} />,
-  getMenuLinkWithIcon('', 'Logout', <Icons.SignOut />, onLogoutLinkClick),
+  onChangePlanClick && getMenuLinkWithIcon('', 'Change plan', <Icons.OpenExternalLink />, onChangePlanClick),
+  shouldShowPaymentDetail ? getMenuLinkWithIcon(urls.paymentDetail, 'Payment details', <Icons.Wallet />, onMenuLinkClick, '_blank') : undefined,
+  isCurrentUserAdvisor
+    ? manageMyClientsMenuItem(onMenuLinkClick)
+    : switchBusinessMenuItem(onMenuLinkClick),
+  createBusinessEnabled() && onCreateBusinessClick && getMenuLinkWithIcon('', 'Create new business', <Icons.Add />, onCreateBusinessClick),
+  getMenuLinkWithIcon('', 'Log out', <Icons.SignOut />, onLogoutLinkClick),
+  userEmail && <UnlinkedMenuLink
+    label={userEmail}
+    className={classNames(styles.userDetails, styles.userEmail)}
+  />,
+  serialNumber && <UnlinkedMenuLink
+    label={`Serial no. ${serialNumber}`}
+    className={classNames(styles.userDetails, styles.serialNumber)}
+  />,
 ].filter(Boolean);
 
 const ReadonlyStatus = () => (
