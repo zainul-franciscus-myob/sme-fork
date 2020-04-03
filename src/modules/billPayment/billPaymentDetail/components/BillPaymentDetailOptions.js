@@ -51,7 +51,8 @@ const BillPaymentOptions = ({
         onChange={onComboBoxChange(onUpdateHeaderOption)('accountId')}
       />
       {
-        showBankStatementText && (
+        // @TO-DO: Remove the `false` once backend is ready
+        showBankStatementText && false && (
           <Input
             name="bankStatementText"
             label="Bank statement text"
