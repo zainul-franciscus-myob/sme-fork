@@ -38,7 +38,7 @@ const getEmployeeRoutes = ({
     },
     {
       name: RouteName.ONBOARDING_LEARN_EMPLOYEE,
-      path: '/:region/:businessId/employee/learn',
+      path: '/:region/:businessId/learn/employee',
       module: new LearnEmployeeModule({
         setRootView,
         integration,
