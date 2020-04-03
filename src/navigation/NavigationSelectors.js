@@ -300,13 +300,9 @@ export const getShouldDisplayCreateBusiness = state => {
   return region === 'au';
 };
 
-export const getShouldDisplayLiveChat = () => {
-  if (process.env.NODE_ENV !== 'production') return false;
-
-  return createSelector(
-    hasBusinessId,
-    getRegion,
-    getIsTrial,
-    (businessId, region, trialist) => businessId && region === 'au' && trialist,
-  );
-};
+export const getShouldDisplayLiveChat = createSelector(
+  hasBusinessId,
+  getRegion,
+  getIsTrial,
+  (businessId, region, trialist) => businessId && region === 'au' && trialist,
+);
