@@ -3,5 +3,5 @@ import save from './save';
 
 export default (dispatcher, integration, store) => ({
   load: () => load(dispatcher, integration, store),
-  save: () => save(dispatcher, integration, store),
+  save: (data) => save(dispatcher, integration, data),
 });
