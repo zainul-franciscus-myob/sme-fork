@@ -171,8 +171,8 @@ class OnboardingView extends Component {
 
 const mapStateToProps = ({ businessRole, industry, proposedBusinessName }) => ({
   businessName: proposedBusinessName,
-  businessRole: businessRole || 'Bookkeeper',
-  industry: industry || '',
+  businessRole,
+  industry,
 });
 
 export { OnboardingView as View };

@@ -1,15 +1,12 @@
 import { SAVE_SETTINGS } from '../../rootIntents';
+import buildOnboardingSettings from '../../builders/buildOnboardingSettings';
 
-const save = async (dispatcher, integration, {
-  businessId,
-  businessName,
-  businessRole,
-  industry,
-  region,
-  onboardingComplete,
-}) => {
+const save = async (dispatcher, integration, store) => {
   const intent = SAVE_SETTINGS;
+  const state = store.getState();
+  const { businessId } = state;
   const urlParams = { businessId };
+  const onboardingSettings = buildOnboardingSettings(state);
 
   dispatcher.setLoadingState(true);
 
@@ -17,13 +14,7 @@ const save = async (dispatcher, integration, {
     const settings = await new Promise((resolve, reject) => integration.write({
       intent,
       urlParams,
-      content: {
-        businessName,
-        businessRole,
-        industry,
-        region,
-        onboardingComplete,
-      },
+      content: onboardingSettings,
       onSuccess: resolve,
       onFailure: reject,
     }));

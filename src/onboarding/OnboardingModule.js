@@ -19,34 +19,25 @@ class OnboardingModule {
     this.sendTelemetryEvent = sendTelemetryEvent;
   }
 
-  save = async (event, { businessName, businessRole, industry }) => {
+  save = async (event, data) => {
     event.preventDefault();
 
-    const onboardingData = {
-      businessName,
-      businessRole,
-      industry,
-      businessId: this.businessId,
-      region: this.region,
-      onboardingComplete: true,
-    };
-
-    await this.settingsService.save(onboardingData);
+    await this.settingsService.save(data);
     await this.tasksService.load();
     await this.businessDetailsService.load();
-
     this.toggleTasks();
-  };
+  }
 
   onboardingVisited = () => {
-    const { sendTelemetryEvent, routeProps } = this;
+    const {
+      sendTelemetryEvent, routeProps,
+    } = this;
 
     sendTelemetryEvent(routeProps);
-  };
+  }
 
   render = () => {
     const { dispatcher, save, onboardingVisited } = this;
-
     return (
       <OnboardingView
         onSave={save}
@@ -59,12 +50,8 @@ class OnboardingModule {
   resetState = () => null;
 
   run = routeProps => {
-    const { routeParams: { businessId, region } } = routeProps;
-
-    this.businessId = businessId;
-    this.region = region;
     this.routeProps = { ...routeProps, currentRouteName: 'onboarding' };
-  };
+  }
 
   unsubscribeFromStore = () => null;
 }
