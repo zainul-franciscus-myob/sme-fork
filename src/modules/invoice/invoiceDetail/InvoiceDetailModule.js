@@ -23,6 +23,7 @@ import {
   getShowOnlinePayment,
   getTaxCalculations,
 } from './selectors/invoiceDetailSelectors';
+import { getCanSaveEmailSettings, getEmailModalType, getFilesForUpload } from './selectors/emailSelectors';
 import {
   getCreateDuplicateInvoiceUrl,
   getCreateNewInvoiceUrl,
@@ -32,7 +33,6 @@ import {
   getRedirectRefUrl,
   getSubscriptionSettingsUrl,
 } from './selectors/redirectSelectors';
-import { getEmailModalType, getFilesForUpload } from './selectors/emailSelectors';
 import { getExportPdfFilename } from './selectors/exportPdfSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
@@ -546,11 +546,6 @@ export default class InvoiceDetailModule {
       : this.openSaveAndDuplicateModal()
   )
 
-  openSalesSettingsTabAndCloseModal = () => {
-    this.redirectToInvoiceAndQuoteSettings();
-    this.closeEmailSettingsModal();
-  }
-
   payInvoice = () => {
     if (getIsPageEdited(this.store.getState())) {
       this.dispatcher.setModalType(InvoiceDetailModalType.APPLY_PAYMENT_UNSAVED_CHANGES);
@@ -624,15 +619,43 @@ export default class InvoiceDetailModule {
     });
   };
 
-  closeEmailInvoiceDetailModal = () => {
-    this.closeModal();
-    this.dispatcher.resetOpenSendEmailParam();
-    this.dispatcher.resetEmailInvoiceDetail();
+  handleSaveEmailSettings = () => {
+    if (getCanSaveEmailSettings(this.store.getState())) {
+      this.saveEmailSettings();
+    } else {
+      this.dispatcher.displayModalAlert({
+        type: 'danger',
+        message: 'Reply-to email address is required',
+      });
+    }
+  };
+
+  saveEmailSettings = () => {
+    this.dispatcher.setModalSubmittingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.saveEmailSettings();
+      this.closeModal();
+      this.dispatcher.setModalSubmittingState(false);
+
+      this.openEmailModal();
+      this.dispatcher.displayModalAlert({
+        type: 'success',
+        message: response.message,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setModalSubmittingState(false);
+      this.dispatcher.displayModalAlert({ type: 'danger', message });
+    };
+
+    this.integrator.saveEmailSettings({ onSuccess, onFailure });
   }
 
-  closeEmailSettingsModal = () => {
+  closeEmailModal = () => {
     this.closeModal();
-    this.dispatcher.resetOpenSendEmailParam();
+    this.dispatcher.resetEmailInvoiceDetail();
   }
 
   exportPdf = () => {
@@ -947,13 +970,14 @@ export default class InvoiceDetailModule {
           onConfirmSaveAndDuplicate: this.saveAndDuplicateInvoice,
         }}
         emailSettingsModalListeners={{
-          onConfirm: this.openSalesSettingsTabAndCloseModal,
-          onCloseModal: this.closeEmailSettingsModal,
+          onChange: this.updateEmailInvoiceDetail,
+          onConfirm: this.handleSaveEmailSettings,
+          onCloseModal: this.closeEmailModal,
           onDismissAlert: this.dispatcher.dismissModalAlert,
         }}
         emailInvoiceDetailModalListeners={{
           onConfirm: this.sendEmail,
-          onCloseModal: this.closeEmailInvoiceDetailModal,
+          onCloseModal: this.closeEmailModal,
           onEmailInvoiceDetailChange: this.updateEmailInvoiceDetail,
           onDismissAlert: this.dispatcher.dismissModalAlert,
           onAddAttachments: this.addEmailAttachments,

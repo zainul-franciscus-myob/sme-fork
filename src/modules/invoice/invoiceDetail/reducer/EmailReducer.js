@@ -1,6 +1,13 @@
-export const resetOpenSendEmailParam = state => ({
+export const saveEmailSettings = (state) => ({
   ...state,
-  openSendEmail: 'false',
+  emailInvoice: {
+    ...state.emailInvoice,
+    hasEmailReplyDetails: true,
+  },
+  emailInvoiceDefaultState: {
+    ...state.emailInvoice,
+    hasEmailReplyDetails: true,
+  },
 });
 
 export const resetEmailInvoiceDetail = state => ({

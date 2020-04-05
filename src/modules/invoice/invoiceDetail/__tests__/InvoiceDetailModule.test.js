@@ -22,40 +22,40 @@ import createInvoiceDetailIntegrator from '../createInvoiceDetailIntegrator';
 import invoiceDetailReducer from '../reducer/invoiceDetailReducer';
 import loadInvoiceDetailResponse from '../../mappings/data/serviceLayout/invoiceServiceDetail';
 
+export const setup = () => {
+  const store = new TestStore(invoiceDetailReducer);
+  const integration = new TestIntegration();
+  const module = new InvoiceDetailModule({
+    integration,
+    setRootView: () => {},
+    pushMessage: () => {},
+    popMessages: () => [],
+    replaceURLParams: () => {},
+    reload: () => {},
+  });
+  module.store = store;
+  module.dispatcher = createInvoiceDetailDispatcher(store);
+  module.integrator = createInvoiceDetailIntegrator(store, integration);
+
+  return { store, module, integration };
+};
+
+export const setupWithRun = ({ isCreating = false, isPageEdited = false } = {}) => {
+  const { store, integration, module } = setup();
+
+  module.run({ businessId: 'businessId', region: Region.au, invoiceId: isCreating ? 'new' : 'invoiceId' });
+
+  if (isPageEdited) {
+    module.updateHeaderOptions({ key: 'note', value: 'random' });
+  }
+
+  store.resetActions();
+  integration.resetRequests();
+
+  return { store, integration, module };
+};
+
 describe('InvoiceDetailModule', () => {
-  const setup = () => {
-    const store = new TestStore(invoiceDetailReducer);
-    const integration = new TestIntegration();
-    const module = new InvoiceDetailModule({
-      integration,
-      setRootView: () => {},
-      pushMessage: () => {},
-      popMessages: () => [],
-      replaceURLParams: () => {},
-      reload: () => {},
-    });
-    module.store = store;
-    module.dispatcher = createInvoiceDetailDispatcher(store);
-    module.integrator = createInvoiceDetailIntegrator(store, integration);
-
-    return { store, module, integration };
-  };
-
-  const setupWithRun = ({ isCreating = false, isPageEdited = false } = {}) => {
-    const { store, integration, module } = setup();
-
-    module.run({ businessId: 'businessId', region: Region.au, invoiceId: isCreating ? 'new' : 'invoiceId' });
-
-    if (isPageEdited) {
-      module.updateHeaderOptions({ key: 'note', value: 'random' });
-    }
-
-    store.resetActions();
-    integration.resetRequests();
-
-    return { store, integration, module };
-  };
-
   describe('createOrUpdateInvoice', () => {
     describe.each([
       ['create', true],
@@ -303,34 +303,39 @@ describe('InvoiceDetailModule', () => {
     });
 
     describe('existing invoice that has been edited', () => {
-      it('update invoice, reload invoice, open export pdf modal and show alert inside modal', () => {
+      it('update invoice, reload invoice, open email modal and show alert inside modal', () => {
         const { module, store, integration } = setupWithRun({ isPageEdited: true });
         module.replaceURLParams = jest.fn();
 
-        module.openExportPdfModalOrSaveAndExportPdf();
+        module.saveAndEmailInvoice();
 
         expect(store.getActions()).toEqual([
+          { intent: SET_MODAL_TYPE, modalType: '' },
           { intent: SET_SUBMITTING_STATE, isSubmitting: true },
           { intent: SET_SUBMITTING_STATE, isSubmitting: false },
           { intent: SET_SUBMITTING_STATE, isSubmitting: true },
           expect.objectContaining({ intent: RELOAD_INVOICE_DETAIL }),
-          { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.EXPORT_PDF },
+          { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.EMAIL_INVOICE },
+          { intent: SET_MODAL_ALERT, modalAlert: { type: 'success', message: "Great Work! You've done it well!" } },
         ]);
+
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: UPDATE_INVOICE_DETAIL }),
           expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
         ]);
+
         expect(module.replaceURLParams).not.toHaveBeenCalled();
       });
 
-      it('does not open export pdf modal when update invoice failed', () => {
+      it('does not open email modal when update invoice failed', () => {
         const { module, store, integration } = setupWithRun({ isPageEdited: true });
         const message = 'Error';
         integration.mapFailure(UPDATE_INVOICE_DETAIL, { message });
 
-        module.openExportPdfModalOrSaveAndExportPdf();
+        module.saveAndEmailInvoice();
 
         expect(store.getActions()).toEqual([
+          { intent: SET_MODAL_TYPE, modalType: '' },
           { intent: SET_SUBMITTING_STATE, isSubmitting: true },
           { intent: SET_SUBMITTING_STATE, isSubmitting: false },
           { intent: SET_ALERT, alert: { type: 'danger', message } },
@@ -340,14 +345,15 @@ describe('InvoiceDetailModule', () => {
         ]);
       });
 
-      it('does not open export pdf modal when reload invoice failed', () => {
+      it('does not open email modal when reload invoice failed', () => {
         const { module, store, integration } = setupWithRun({ isPageEdited: true });
         const message = 'Error';
         integration.mapFailure(LOAD_INVOICE_DETAIL, { message });
 
-        module.openExportPdfModalOrSaveAndExportPdf();
+        module.saveAndEmailInvoice();
 
         expect(store.getActions()).toEqual([
+          { intent: SET_MODAL_TYPE, modalType: '' },
           { intent: SET_SUBMITTING_STATE, isSubmitting: true },
           { intent: SET_SUBMITTING_STATE, isSubmitting: false },
           { intent: SET_SUBMITTING_STATE, isSubmitting: true },
@@ -370,7 +376,7 @@ describe('InvoiceDetailModule', () => {
         return { module, store, integration };
       };
 
-      it('update invoice, reload invoice, open export pdf modal and show alert inside modal', () => {
+      it('update invoice, reload invoice, open email modal and show alert inside modal', () => {
         const { module, store, integration } = setUpWithEdited();
         module.replaceURLParams = jest.fn();
 
@@ -385,14 +391,16 @@ describe('InvoiceDetailModule', () => {
           { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.EMAIL_INVOICE },
           { intent: SET_MODAL_ALERT, modalAlert: { type: 'success', message: "Great Work! You've done it well!" } },
         ]);
+
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: UPDATE_INVOICE_DETAIL }),
           expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
         ]);
+
         expect(module.replaceURLParams).not.toHaveBeenCalled();
       });
 
-      it('does not open export pdf modal when update invoice failed', () => {
+      it('does not open email modal when update invoice failed', () => {
         const { module, store, integration } = setUpWithEdited();
         const message = 'Error';
         integration.mapFailure(UPDATE_INVOICE_DETAIL, { message });
@@ -410,7 +418,7 @@ describe('InvoiceDetailModule', () => {
         ]);
       });
 
-      it('does not open export pdf modal when reload invoice failed', () => {
+      it('does not open email modal when reload invoice failed', () => {
         const { module, store, integration } = setUpWithEdited();
         const message = 'Error';
         integration.mapFailure(LOAD_INVOICE_DETAIL, { message });
@@ -434,7 +442,7 @@ describe('InvoiceDetailModule', () => {
 
     describe('does not have reply email address', () => {
       it('open email settings', () => {
-        const { module, store, integration } = setupWithRun();
+        const { module, store, integration } = setup();
         integration.mapSuccess(LOAD_INVOICE_DETAIL, {
           ...loadInvoiceDetailResponse,
           emailInvoice: {

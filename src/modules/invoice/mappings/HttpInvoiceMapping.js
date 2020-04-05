@@ -18,6 +18,7 @@ import {
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
   LOAD_NEXT_PAGE,
   LOAD_PAY_DIRECT,
+  SAVE_EMAIL_SETTINGS,
   SEND_EMAIL,
   SORT_AND_FILTER_INVOICE_LIST,
   UPDATE_INVOICE_DETAIL,
@@ -84,6 +85,10 @@ const HttpInvoiceMapping = {
   [SEND_EMAIL]: {
     method: 'POST',
     getPath: ({ businessId, invoiceId }) => `/${businessId}/invoice/send_invoice_email/${invoiceId}`,
+  },
+  [SAVE_EMAIL_SETTINGS]: {
+    method: 'PUT',
+    getPath: ({ businessId }) => `/${businessId}/invoice/save_email_settings`,
   },
   [EXPORT_INVOICE_PDF]: {
     method: 'GET',

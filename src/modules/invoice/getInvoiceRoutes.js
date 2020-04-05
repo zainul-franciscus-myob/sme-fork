@@ -18,7 +18,7 @@ const getInvoiceRoutes = ({
     {
       name: RouteName.INVOICE_DETAIL,
       path: '/:region/:businessId/invoice/:invoiceId',
-      allowedParams: ['layout', 'quoteId', 'openSendEmail', 'duplicatedInvoiceId'],
+      allowedParams: ['layout', 'quoteId', 'duplicatedInvoiceId'],
       module: new InvoiceDetailModule({
         integration,
         setRootView,

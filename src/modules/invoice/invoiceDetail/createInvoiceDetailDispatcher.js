@@ -16,8 +16,8 @@ import {
   REMOVE_EMAIL_ATTACHMENT,
   REMOVE_INVOICE_LINE,
   RESET_EMAIL_INVOICE_DETAIL,
-  RESET_OPEN_SEND_EMAIL,
   RESET_TOTALS,
+  SAVE_EMAIL_SETTINGS,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
   SET_INVOICE_HISTORY_CLOSED,
@@ -159,6 +159,11 @@ const createInvoiceDetailDispatcher = store => ({
 
   resetInvoiceItemTotals: () => store.dispatch({ intent: RESET_TOTALS }),
 
+
+  saveEmailSettings: () => store.dispatch({
+    intent: SAVE_EMAIL_SETTINGS,
+  }),
+
   updateEmailInvoiceDetail: (key, value) => store.dispatch({
     intent: UPDATE_EMAIL_INVOICE_DETAIL, key, value,
   }),
@@ -189,8 +194,6 @@ const createInvoiceDetailDispatcher = store => ({
     const intent = REMOVE_EMAIL_ATTACHMENT;
     store.dispatch({ intent, index });
   },
-
-  resetOpenSendEmailParam: () => store.dispatch({ intent: RESET_OPEN_SEND_EMAIL }),
 
   updateExportPdfDetail: ({ key, value }) => store.dispatch({
     intent: UPDATE_EXPORT_PDF_DETAIL, key, value,

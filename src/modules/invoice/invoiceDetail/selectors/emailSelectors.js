@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect';
 
-import { getBusinessId, getInvoiceId } from './invoiceDetailSelectors';
+import {
+  getBusinessId, getInvoiceId,
+} from './invoiceDetailSelectors';
 import InvoiceDetailModalType from '../InvoiceDetailModalType';
 
 const getEmailToAddresses = state => state.emailInvoice.toEmail;
@@ -10,6 +12,27 @@ const getEmailSubject = state => state.emailInvoice.subject;
 const getEmailMessageBody = state => state.emailInvoice.messageBody;
 const getEmailTemplateName = state => state.emailInvoice.templateName;
 const getHasEmailReplyDetails = state => state.emailInvoice.hasEmailReplyDetails;
+export const getFromName = state => state.emailInvoice.fromName;
+export const getFromEmail = state => state.emailInvoice.fromEmail;
+
+export const getCanSaveEmailSettings = createSelector(
+  getFromEmail,
+  getFromName,
+  (fromEmail, fromName) => fromEmail && fromName,
+);
+
+export const getSaveEmailSettingsUrlParams = state => ({ businessId: getBusinessId(state) });
+export const getSaveEmailSettingsContent = state => state.emailInvoice;
+
+export const getEmailDetailFromLoadInvoiceDetail = ({ emailInvoice, invoiceNumber }) => (
+  emailInvoice
+    ? {
+      ...emailInvoice,
+      toEmail: emailInvoice.toEmail.length > 0 ? emailInvoice.toEmail : [''],
+      ccToEmail: emailInvoice.ccToEmail.length > 0 ? emailInvoice.ccToEmail : [''],
+      subject: emailInvoice.includeInvoiceNumberInEmail ? `Invoice ${invoiceNumber}; ${emailInvoice.subject}` : emailInvoice.subject,
+    }
+    : {});
 
 export const getEmailInvoiceDetail = createSelector(
   getEmailToAddresses,

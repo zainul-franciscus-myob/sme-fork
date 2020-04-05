@@ -18,6 +18,7 @@ import {
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
   LOAD_NEXT_PAGE,
   LOAD_PAY_DIRECT,
+  SAVE_EMAIL_SETTINGS,
   SEND_EMAIL,
   SORT_AND_FILTER_INVOICE_LIST,
   UPDATE_INVOICE_DETAIL,
@@ -42,6 +43,7 @@ import loadItemOption from './data/loadItemOption';
 import loadItemOptions from './data/loadItemOptions';
 import loadItemSellingDetailsResponse from './data/loadItemSellingDetailsResponse';
 import payDirect from './data/loadPayDirect';
+import saveEmailSettingsSuccessResponse from './data/saveEmailSettingsSuccessResponse';
 import successResponse from './data/success';
 import uploadEmailAttachmentResponse from './data/uploadEmailAttachmentResponse';
 
@@ -75,6 +77,7 @@ const MemoryInvoiceMapping = {
   [LOAD_PAY_DIRECT]: ({ onSuccess }) => onSuccess(payDirect),
   [UPLOAD_EMAIL_ATTACHMENT]: ({ onSuccess }) => onSuccess(uploadEmailAttachmentResponse),
   [SEND_EMAIL]: ({ onSuccess }) => onSuccess(successResponse),
+  [SAVE_EMAIL_SETTINGS]: ({ onSuccess }) => onSuccess(saveEmailSettingsSuccessResponse),
   [EXPORT_INVOICE_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
   [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedAccountResponse),
   [LOAD_ITEM_OPTION]: ({ onSuccess }) => onSuccess(loadItemOption),

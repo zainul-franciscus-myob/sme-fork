@@ -16,8 +16,8 @@ import {
   REMOVE_EMAIL_ATTACHMENT,
   REMOVE_INVOICE_LINE,
   RESET_EMAIL_INVOICE_DETAIL,
-  RESET_OPEN_SEND_EMAIL,
   RESET_TOTALS,
+  SAVE_EMAIL_SETTINGS,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
   SET_INVOICE_HISTORY_CLOSED,
@@ -49,7 +49,7 @@ import {
   addAttachments,
   removeEmailAttachment,
   resetEmailInvoiceDetail,
-  resetOpenSendEmailParam,
+  saveEmailSettings,
   updateEmailInvoiceDetail,
   uploadEmailAttachment,
   uploadEmailAttachmentFailed,
@@ -59,10 +59,10 @@ import { calculateLineAmounts, calculateLineTotals } from './calculationReducer'
 import {
   getBusinessId,
   getInvoiceId,
-  getLoadInvoiceDetailEmailInvoice,
   getRegion,
   getUpdatedContactOptions,
 } from '../selectors/invoiceDetailSelectors';
+import { getEmailDetailFromLoadInvoiceDetail } from '../selectors/emailSelectors';
 import { getInvoiceHistory, getInvoiceHistoryAccordionStatus } from '../selectors/invoiceHistorySelectors';
 import { getPayDirect } from '../selectors/payDirectSelectors';
 import {
@@ -126,11 +126,17 @@ const loadInvoiceDetail = (state, action) => {
     taxCodeOptions: action.taxCodeOptions || state.taxCodeOptions,
     emailInvoice: {
       ...state.emailInvoice,
-      ...getLoadInvoiceDetailEmailInvoice(action.emailInvoice, action.invoice.invoiceNumber),
+      ...getEmailDetailFromLoadInvoiceDetail({
+        emailInvoice: action.emailInvoice,
+        invoiceNumber: action.invoice.invoiceNumber,
+      }),
     },
     emailInvoiceDefaultState: {
       ...state.emailInvoiceDefaultState,
-      ...getLoadInvoiceDetailEmailInvoice(action.emailInvoice, action.invoice.invoiceNumber),
+      ...getEmailDetailFromLoadInvoiceDetail({
+        emailInvoice: action.emailInvoice,
+        invoiceNumber: action.invoice.invoiceNumber,
+      }),
     },
     exportPdf: {
       ...state.exportPdf,
@@ -439,9 +445,9 @@ const handlers = {
   [LOAD_PAY_DIRECT]: loadPayDirect,
   [SET_PAY_DIRECT_LOADING_STATE]: setPayDirectLoadingState,
 
+  [SAVE_EMAIL_SETTINGS]: saveEmailSettings,
   [UPDATE_EMAIL_INVOICE_DETAIL]: updateEmailInvoiceDetail,
   [RESET_EMAIL_INVOICE_DETAIL]: resetEmailInvoiceDetail,
-  [RESET_OPEN_SEND_EMAIL]: resetOpenSendEmailParam,
   [ADD_EMAIL_ATTACHMENTS]: addAttachments,
   [UPLOAD_EMAIL_ATTACHMENT]: uploadEmailAttachment,
   [UPLOAD_EMAIL_ATTACHMENT_FAILED]: uploadEmailAttachmentFailed,

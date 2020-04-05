@@ -12,6 +12,7 @@ import {
   LOAD_ITEM_OPTIONS,
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_PAY_DIRECT,
+  SAVE_EMAIL_SETTINGS,
   SEND_EMAIL,
   UPDATE_INVOICE_DETAIL,
   UPLOAD_EMAIL_ATTACHMENT,
@@ -31,7 +32,12 @@ import {
   getLoadPayDirectUrlParams,
 } from './selectors/integratorSelectors';
 import { getExportPdfQueryParams, getExportPdfUrlParams } from './selectors/exportPdfSelectors';
-import { getSendEmailPayload, getSendEmailUrlParams } from './selectors/emailSelectors';
+import {
+  getSaveEmailSettingsContent,
+  getSaveEmailSettingsUrlParams,
+  getSendEmailPayload,
+  getSendEmailUrlParams,
+} from './selectors/emailSelectors';
 
 const createInvoiceDetailIntegrator = (store, integration) => ({
   loadInvoice: ({ onSuccess, onFailure }) => {
@@ -130,6 +136,22 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
     integration.read({
       intent,
       urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  saveEmailSettings: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = SAVE_EMAIL_SETTINGS;
+    const urlParams = getSaveEmailSettingsUrlParams(state);
+    const content = getSaveEmailSettingsContent(state);
+
+    integration.write({
+      intent,
+      urlParams,
+      content,
       onSuccess,
       onFailure,
     });

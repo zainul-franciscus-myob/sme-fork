@@ -49,9 +49,9 @@ export const CALCULATE_LINE_TOTALS_ON_TAX_INCLUSIVE_CHANGE = Symbol('Calculate l
 export const CALCULATE_LINE_AMOUNTS = Symbol('Calculate line amounts');
 
 export const SEND_EMAIL = Symbol('Send email');
+export const SAVE_EMAIL_SETTINGS = Symbol('Save email settings');
 export const UPDATE_EMAIL_INVOICE_DETAIL = Symbol('Update email invoice detail');
 export const RESET_EMAIL_INVOICE_DETAIL = Symbol('Reset email invoice detail');
-export const RESET_OPEN_SEND_EMAIL = Symbol('Reset open send email');
 export const ADD_EMAIL_ATTACHMENTS = Symbol('Add email attachments');
 export const UPLOAD_EMAIL_ATTACHMENT = Symbol('Upload email attachment');
 export const UPLOAD_EMAIL_ATTACHMENT_FAILED = Symbol('Upload email attachment failed');

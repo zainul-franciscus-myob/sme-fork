@@ -1,0 +1,19 @@
+{
+  "message": "Successfully updated email settings",
+  "emailInvoice": {
+    "hasEmailReplyDetails": true,
+    "isEmailMeACopy": false,
+    "businessName": "Hot Choccers",
+    "ccToEmail": ["t-pain@myob.com", "hamzzz@myob.com"],
+    "fromEmail": "tpain@myob.com",
+    "fromName": "Romeo Romeo",
+    "messageBody": "Let's make some hot chocolate!!",
+    "subject": "Hot Chocolate is life",
+    "toEmail": ["geoff.spires@myob.com", "tom.xu@myob.com"],
+    "toName": "Geoff Speirs",
+    "includeInvoiceNumberInEmail": true,
+    "attachments": [],
+    "templateName": "a"
+  }
+}
+

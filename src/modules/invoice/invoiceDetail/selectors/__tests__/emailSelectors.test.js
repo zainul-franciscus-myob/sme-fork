@@ -1,6 +1,101 @@
-import { getEmailAttachments, getFilesForUpload, getSendEmailPayload } from '../emailSelectors';
+import {
+  getCanSaveEmailSettings,
+  getEmailAttachments,
+  getEmailDetailFromLoadInvoiceDetail,
+  getFilesForUpload,
+  getSendEmailPayload,
+} from '../emailSelectors';
 
 describe('emailSelectors', () => {
+  describe('getEmailDetailFromLoadInvoiceDetail', () => {
+    const invoiceNumber = '1';
+
+    it('modifies subject to include invoice number if includeInvoiceNumberInEmail is true', () => {
+      const emailInvoice = {
+        hasEmailReplyDetails: true,
+        ccToEmail: ['t-pain@myob.com', 'hamzzz@myob.com'],
+        toEmail: ['geoff.spires@myob.com', 'tom.xu@myob.com'],
+        includeInvoiceNumberInEmail: true,
+        subject: 'Hot Chocolate is life',
+        otherStuff: 'otherStuff',
+      };
+
+      const actual = getEmailDetailFromLoadInvoiceDetail({ emailInvoice, invoiceNumber });
+
+      expect(actual.subject).toEqual('Invoice 1; Hot Chocolate is life');
+    });
+
+    it('defaults toEmail to an array of empty string if toEmail is empty', () => {
+      const emailInvoice = {
+        hasEmailReplyDetails: true,
+        ccToEmail: ['t-pain@myob.com', 'hamzzz@myob.com'],
+        toEmail: [],
+        includeInvoiceNumberInEmail: false,
+        subject: 'Hot Chocolate is life',
+        otherStuff: 'otherStuff',
+      };
+
+      const actual = getEmailDetailFromLoadInvoiceDetail({ emailInvoice, invoiceNumber });
+
+      expect(actual.toEmail).toEqual(['']);
+    });
+
+    it('defaults ccToEmail to an array of empty string if ccToEmail is empty', () => {
+      const emailInvoice = {
+        hasEmailReplyDetails: true,
+        ccToEmail: [],
+        toEmail: ['geoff.spires@myob.com', 'tom.xu@myob.com'],
+        includeInvoiceNumberInEmail: false,
+        subject: 'Hot Chocolate is life',
+        otherStuff: 'otherStuff',
+      };
+
+      const actual = getEmailDetailFromLoadInvoiceDetail({ emailInvoice, invoiceNumber });
+
+      expect(actual.ccToEmail).toEqual(['']);
+    });
+
+    it('returns an empty object if there is no emailInvoice in payload', () => {
+      const actual = getEmailDetailFromLoadInvoiceDetail({
+        emailInvoice: undefined,
+        invoiceNumber,
+      });
+      expect(actual).toEqual({});
+    });
+  });
+
+  describe('getCanSaveEmailSettings', () => {
+    it('should return true if neither fromEmail nor fromName is empty', () => {
+      const state = {
+        emailInvoice: {
+          fromName: 'a',
+          fromEmail: 'b',
+        },
+      };
+
+      const actual = getCanSaveEmailSettings(state);
+      expect(actual).toBeTruthy();
+    });
+
+    [
+      { fromName: 'a', fromEmail: '' },
+      { fromName: '', fromEmail: 'b' },
+      { fromName: '', fromEmail: '' },
+    ].forEach(({ fromName, fromEmail }) => {
+      it('should return false if either fromName or fromEmail is empty', () => {
+        const state = {
+          emailInvoice: {
+            fromName,
+            fromEmail,
+          },
+        };
+
+        const actual = getCanSaveEmailSettings(state);
+        expect(actual).toBeFalsy();
+      });
+    });
+  });
+
   describe('getSendEmailPayload', () => {
     it('returns the right shape for the email invoice payload', () => {
       const state = {

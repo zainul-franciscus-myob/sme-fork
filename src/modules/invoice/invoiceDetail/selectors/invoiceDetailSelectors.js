@@ -163,17 +163,6 @@ export const getAmountDue = state => (
   calculateAmountDue(getTotals(state).totalAmount, getAmountPaid(state))
 );
 
-export const getLoadInvoiceDetailEmailInvoice = (emailInvoice, invoiceNumber) => (
-  emailInvoice
-    ? {
-      ...emailInvoice,
-      toEmail: emailInvoice.toEmail.length > 0 ? emailInvoice.toEmail : [''],
-      ccToEmail: emailInvoice.ccToEmail.length > 0 ? emailInvoice.ccToEmail : [''],
-      subject: emailInvoice.includeInvoiceNumberInEmail ? `Invoice ${invoiceNumber}; ${emailInvoice.subject}` : emailInvoice.subject,
-    }
-    : {}
-);
-
 export const getUpdatedContactOptions = (state, updatedOption) => {
   const contactOptions = getContactOptions(state);
 

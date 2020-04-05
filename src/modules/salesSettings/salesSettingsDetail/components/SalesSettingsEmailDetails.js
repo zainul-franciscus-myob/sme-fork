@@ -1,5 +1,5 @@
 import {
-  Card, Checkbox, CheckboxGroup, FieldGroup, Input, TextArea,
+  Card, Checkbox, CheckboxGroup, FieldGroup, Input, TextArea, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -36,10 +36,30 @@ const SalesSettingsEmailDetails = (props) => {
       <FieldGroup label="Email signature">
         <p>
           Customise your email signature and the email address your invoices are sent from.
-          Also, choose whether or not to send PDF attachments with your emails.
         </p>
-        <Input name="fromName" label="From name" value={fromName} onChange={onInputChange(onUpdateEmailSettings)} />
-        <Input name="replyToEmail" label="Reply-to email address" value={replyToEmail} onChange={onInputChange(onUpdateEmailSettings)} />
+        <Input
+          name="fromName"
+          label="From name"
+          labelAccessory={(
+            <Tooltip>
+              The name that will display when your clients receive an invoice.
+              This could be your business name or contact person.
+            </Tooltip>
+          )}
+          value={fromName}
+          onChange={onInputChange(onUpdateEmailSettings)}
+        />
+        <Input
+          name="replyToEmail"
+          label="Reply-to email address"
+          labelAccessory={(
+            <Tooltip>
+              The email address used when your clients reply to an emailed invoice.
+            </Tooltip>
+          )}
+          value={replyToEmail}
+          onChange={onInputChange(onUpdateEmailSettings)}
+        />
       </FieldGroup>
     </Card>
   );

@@ -3,7 +3,6 @@ import {
   getInvoiceDetailOptions,
   getInvoiceDetailTotals,
   getInvoiceLine,
-  getLoadInvoiceDetailEmailInvoice,
   getShouldReload,
   getTemplateOptions,
   getUpdatedContactOptions,
@@ -221,49 +220,6 @@ describe('invoiceDetailSelectors', () => {
     });
   });
 
-  describe('getLoadInvoiceDetailEmailInvoice', () => {
-    it('uses default subject if include invoice number in email is false', () => {
-      const emailInvoice = {
-        hasEmailReplyDetails: true,
-        isEmailMeACopy: false,
-        businessName: 'Hot Choccers',
-        ccToEmail: ['t-pain@myob.com', 'hamzzz@myob.com'],
-        fromEmail: 'tom.xu@myob.com',
-        fromName: 'Tom Xu',
-        messageBody: "Let's make some hot chocolate!!",
-        subject: 'Hot Chocolate is life',
-        toEmail: ['geoff.spires@myob.com', 'tom.xu@myob.com'],
-        toName: 'Geoff Speirs',
-        includeInvoiceNumberInEmail: false,
-        attachments: [],
-      };
-
-      const actual = getLoadInvoiceDetailEmailInvoice(emailInvoice, '123');
-
-      expect(actual.subject).toEqual('Hot Chocolate is life');
-    });
-
-    it('builds subject with invoice number if include invoice number in email is true', () => {
-      const emailInvoice = {
-        hasEmailReplyDetails: true,
-        isEmailMeACopy: false,
-        businessName: 'Hot Choccers',
-        ccToEmail: ['t-pain@myob.com', 'hamzzz@myob.com'],
-        fromEmail: 'tom.xu@myob.com',
-        fromName: 'Tom Xu',
-        messageBody: "Let's make some hot chocolate!!",
-        subject: 'Hot Chocolate is life',
-        toEmail: ['geoff.spires@myob.com', 'tom.xu@myob.com'],
-        toName: 'Geoff Speirs',
-        includeInvoiceNumberInEmail: true,
-        attachments: [],
-      };
-
-      const actual = getLoadInvoiceDetailEmailInvoice(emailInvoice, '123');
-
-      expect(actual.subject).toEqual('Invoice 123; Hot Chocolate is life');
-    });
-  });
   describe('getAccountModalContext', () => {
     it('returns region and businesID from state', () => {
       const actual = getAccountModalContext(state);

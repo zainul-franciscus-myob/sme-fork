@@ -43,10 +43,9 @@ const InvoiceDetailModal = ({
   if (modalType === InvoiceDetailModalType.EMAIL_SETTINGS) {
     return (
       <EmailSettingsModal
+        onChange={emailSettingsModalListeners.onChange}
         onCancel={emailSettingsModalListeners.onCloseModal}
         onConfirm={emailSettingsModalListeners.onConfirm}
-        title="Enter email reply details in settings"
-        description="Looks like there are no email reply details for you business in Invoice and quote settings. You'll need to enter these details before you can send this email."
         alert={alert}
         onDismissAlert={emailSettingsModalListeners.onDismissAlert}
       />

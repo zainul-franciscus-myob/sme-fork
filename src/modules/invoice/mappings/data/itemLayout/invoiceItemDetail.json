@@ -36,8 +36,8 @@
     "isEmailMeACopy": false,
     "businessName": "Hot Choccers",
     "ccToEmail": [ "t-pain@myob.com","hamzzz@myob.com" ],
-    "fromEmail": "tom.xu@myob.com",
-    "fromName": "Tom Xu",
+    "fromEmail": "tpain@myob.com",
+    "fromName": "Romeo Romeo",
     "messageBody": "Let's make some hot chocolate!!",
     "subject": "Hot Chocolate is life",
     "toEmail": [ "geoff.spires@myob.com","tom.xu@myob.com" ],
@@ -178,7 +178,7 @@
     "discount": "",
     "taxCodeId": "",
     "amount": "",
-    "lineTypeId": 17,
+    "lineTypeId": 17
   },
   "serialNumber": "000000000000",
   "exportPdf": {

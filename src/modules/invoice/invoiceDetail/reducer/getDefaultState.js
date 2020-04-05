@@ -88,6 +88,7 @@ const getDefaultState = () => ({
     toName: '',
     attachments: [],
     templateName: '',
+    emailDefaultSettings: {},
   },
   exportPdf: {
     template: '',
