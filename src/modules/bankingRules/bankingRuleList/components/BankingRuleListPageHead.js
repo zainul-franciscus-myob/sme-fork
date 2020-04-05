@@ -31,7 +31,7 @@ const items = [
 ];
 
 const BankingRuleListPageHead = ({ onSelectBankingRule }) => (
-  <PageHead title="Bank feed rules">
+  <PageHead title="Bank rules">
     <Dropdown
       onSelect={onSelectBankingRule}
       items={items}

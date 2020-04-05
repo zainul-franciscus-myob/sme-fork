@@ -47,7 +47,7 @@ const TemplateDetailsHeaderStyle = ({
           defaultColorIfBlack="#ffffff"
         />
         <RadioButtonGroup
-          label="PDF style:"
+          label="PDF style"
           name="headerBusinessDetailsStyle"
           value={headerBusinessDetailsStyle}
           renderRadios={({ value, ...props }) => [

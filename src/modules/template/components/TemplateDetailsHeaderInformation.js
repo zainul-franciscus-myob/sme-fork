@@ -44,6 +44,7 @@ const uploadLogoPrompt = (
     <strong>PNG</strong>
     {' '}
     files
+    {' '}
     <strong>under 2MB</strong>
   </div>
 );

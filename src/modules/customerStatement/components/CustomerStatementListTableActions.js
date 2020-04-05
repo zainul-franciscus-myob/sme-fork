@@ -37,7 +37,7 @@ const CustomerStatementListTableActions = ({
     />,
     <Dropdown.Item
       key={PDFType.CHOOSE_TEMPLATE}
-      label="Choose template..."
+      label="Select template"
       value={PDFType.CHOOSE_TEMPLATE}
       disabled={areActionsDisabled}
     />,

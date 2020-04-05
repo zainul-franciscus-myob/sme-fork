@@ -74,7 +74,7 @@ const InTrayView = ({
   );
 
   const pageHead = (
-    <PageHead title="In Tray">
+    <PageHead title="In tray">
       <Button type="secondary" onClick={onUploadOptionsButtonClicked}>
         More ways to upload
       </Button>

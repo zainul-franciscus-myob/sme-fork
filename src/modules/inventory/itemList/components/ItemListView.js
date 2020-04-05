@@ -19,10 +19,10 @@ const tableConfig = {
   referenceId: { width: '12.8rem', valign: 'top', columnName: 'Item ID' },
   name: { width: 'flex-1', valign: 'top', columnName: 'Name' },
   sellingPrice: {
-    width: '14.5rem',
+    width: '14.8rem',
     valign: 'top',
     align: 'right',
-    columnName: 'Selling price($)',
+    columnName: 'Selling price ($)',
   },
   status: { width: '9rem', align: 'left', columnName: 'Status' },
   tax: { width: '9rem', valign: 'top' },

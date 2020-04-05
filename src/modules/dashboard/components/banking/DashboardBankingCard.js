@@ -5,7 +5,7 @@ import React from 'react';
 
 import {
   getAddBankFeedUrl,
-  getBankBalanceDate,
+  getBalanceDateText,
   getBankFeedAccounts,
   getBankLatestClosingBalance,
   getCurrentBalance,
@@ -33,7 +33,7 @@ const DashboardBankingCard = ({
   isLoading,
   bankFeedsAccounts,
   selectedBankFeedAccount,
-  bankBalanceDate,
+  bankBalanceDateText,
   lastReconcileDate,
   isBankFeedAvailable,
   bankFeedBalance,
@@ -41,8 +41,6 @@ const DashboardBankingCard = ({
   addBankFeedUrl,
 }) => {
   if (hasError) return <ErrorCard onTry={onReload} />;
-
-  const tooltipText = `Closing account balance as of ${bankBalanceDate}`;
 
   const emptyView = (
     <PageState
@@ -79,7 +77,7 @@ const DashboardBankingCard = ({
       <DashboardTotalSummary
         className={styles.balances}
         items={[
-          { title: 'Bank feed balance', content: bankFeedBalance, labelAccessory: (<Tooltip>{tooltipText}</Tooltip>) },
+          { title: 'Bank feed balance', content: bankFeedBalance, labelAccessory: (<Tooltip>{bankBalanceDateText}</Tooltip>) },
           { title: 'Ledger balance', content: ledgerBalance },
         ]}
       />
@@ -102,8 +100,9 @@ const mapStateToProps = state => ({
   lastReconcileDate: getLastReconcileDate(state),
   bankFeedBalance: getBankLatestClosingBalance(state),
   ledgerBalance: getCurrentBalance(state),
-  bankBalanceDate: getBankBalanceDate(state),
+  bankBalanceDateText: getBalanceDateText(state),
   addBankFeedUrl: getAddBankFeedUrl(state),
+
 });
 
 export default connect(mapStateToProps)(DashboardBankingCard);

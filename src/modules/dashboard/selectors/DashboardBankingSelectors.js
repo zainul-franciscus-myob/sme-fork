@@ -13,7 +13,7 @@ export const getBankFeedAccounts = state => state.banking.bankFeedAccounts;
 
 export const getSelectedBankFeedAccount = state => state.banking.bankFeedAccountId;
 
-export const getLastReconcileDate = state => state.banking.lastReconcileDate;
+export const getLastReconcileDate = state => state.banking.lastReconcileDate || 'Never reconciled';
 
 export const getBankBalanceDate = state => state.banking.bankBalanceDate;
 
@@ -26,6 +26,15 @@ export const getBankLatestClosingBalance = state => state.banking.bankLatestClos
 export const getIsBankFeedAvailable = state => !!state.banking.bankFeedAccounts.length;
 
 export const getUnallocatedTransactionsTotal = state => state.banking.unallocatedTransactionsTotal;
+
+export const getBalanceDateText = createSelector(
+  getBankBalanceDate,
+  (balanceDate) => (
+    balanceDate.length > 0
+      ? `Closing account balance as of ${balanceDate}`
+      : 'Your bank hasn\'t provided a statement date.'
+  ),
+);
 
 export const getLoadBankingParams = state => (
   {

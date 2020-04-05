@@ -72,7 +72,7 @@ const BankReconciliationView = ({
     />
   );
 
-  const pageHead = <PageHead title="Reconcile account" />;
+  const pageHead = <PageHead title="Reconcile accounts" />;
 
   const tableHeader = (
     <BankReconciliationTableHeader

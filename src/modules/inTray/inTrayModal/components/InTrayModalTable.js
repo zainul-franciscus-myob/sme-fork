@@ -37,7 +37,7 @@ const InTrayModalTable = ({
         <HeaderSort title="Date uploaded" sortName="ReceivedOn" activeSort={order} onSort={onSort} />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.invoiceNumber}>
-        <HeaderSort title="Supplier invoice no." sortName="InvoiceNumber" activeSort={order} onSort={onSort} />
+        <HeaderSort title="Supplier invoice no" sortName="InvoiceNumber" activeSort={order} onSort={onSort} />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.issuedDate}>
         <HeaderSort title="Issue date" sortName="InvoiceDate" activeSort={order} onSort={onSort} />

@@ -54,7 +54,7 @@ const BankReconciliationOptions = ({
       </div>
       <div className="form-group">
         <Label>
-          {`Last reconciled: ${
+          {`Date last reconciled ${
             hasReconciled ? lastReconcileDate : 'Never'
           }`}
         </Label>

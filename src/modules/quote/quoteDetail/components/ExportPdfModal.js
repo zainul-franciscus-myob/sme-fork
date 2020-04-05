@@ -42,7 +42,7 @@ const ExportPdfModal = ({
         onClick={onConfirmExportPdfButtonClick}
         disabled={isActionDisabled}
       >
-        Export
+        View
       </Button>
       { isExportingPDF && <Spinner size="small" /> }
     </Modal.Footer>

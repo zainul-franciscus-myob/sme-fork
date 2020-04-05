@@ -59,7 +59,8 @@ const InventoryDetailView = ({
     );
   }
 
-  const pageHead = isCreating ? 'Create item' : <PageHead title={originalName} tag={isInactive && <Label type="boxed">Inactive</Label>} />;
+  const pageHead = isCreating ? 'Create item'
+    : <PageHead title={`Item ${originalName}`} tag={isInactive && <Label type="boxed">Inactive</Label>} />;
 
   const alertComponent = alertMessage && (
     <Alert type="danger" onDismiss={onDismissAlert}>

@@ -25,7 +25,7 @@ const BuyingDetails = ({
   onBuyingDetailsChange,
   onEnableStateChange,
 }) => (
-  <FieldGroup label="Buying Details">
+  <FieldGroup label="Buying details">
     <CheckboxGroup
       hideLabel
       label="isBuyItem"
@@ -69,7 +69,7 @@ const BuyingDetails = ({
       width="xs"
     />
     <AccountCombobox
-      label="Account for tracking purchase"
+      label="Account for tracking purchases"
       disabled={!enabled}
       requiredLabel="This is required"
       items={buyingAccounts}

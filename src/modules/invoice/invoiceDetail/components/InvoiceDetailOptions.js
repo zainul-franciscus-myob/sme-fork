@@ -85,7 +85,7 @@ const InvoiceDetailOptions = ({
       />
       <Input
         name="purchaseOrderNumber"
-        label="Customer PO Number"
+        label="Customer PO number"
         value={purchaseOrderNumber}
         onChange={handleInputChange(onUpdateHeaderOptions)}
         maxLength={20}

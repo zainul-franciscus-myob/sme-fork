@@ -29,7 +29,7 @@ const SellingDetails = ({
   onSellingDetailsChange,
   onEnableStateChange,
 }) => (
-  <FieldGroup label="Selling Details">
+  <FieldGroup label="Selling details">
     <CheckboxGroup
       hideLabel
       label="isSellItem"

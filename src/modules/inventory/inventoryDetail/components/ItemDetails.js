@@ -16,7 +16,7 @@ const ItemDetails = ({
   isInactive,
   onItemDetailsChange,
 }) => (
-  <FieldGroup label="Item Details">
+  <FieldGroup label="Item details">
     <Input
       name="name"
       label="Name"

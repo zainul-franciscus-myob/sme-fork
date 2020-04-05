@@ -54,7 +54,7 @@ const QuoteDetailFooter = ({
     <LineItemTable.Total>
       <LineItemTable.Totals title="Subtotal" amount={subTotal} />
       <LineItemTable.Totals title={taxLabel} amount={totalTax} />
-      <LineItemTable.Totals totalAmount title="Total amount" amount={totalAmount} />
+      <LineItemTable.Totals totalAmount title="Total" amount={totalAmount} />
     </LineItemTable.Total>
   </div>
 );

@@ -17,7 +17,7 @@ const tableConfig = {
   date: { columnName: 'Issue date', valign: 'top' },
   invoiceNumber: { columnName: 'Invoice number', valign: 'top' },
   customer: { columnName: 'Customer', valign: 'top' },
-  customerPurchaseOrderNo: { columnName: 'Customer PO No', valign: 'top' },
+  customerPurchaseOrderNo: { columnName: 'Customer PO no', valign: 'top' },
   amount: { columnName: 'Amount ($)', valign: 'top', align: 'right' },
   creditAmount: { columnName: 'Balance due ($)', valign: 'top', align: 'right' },
   payRefund: { columnName: 'Record refund', valign: 'top' },

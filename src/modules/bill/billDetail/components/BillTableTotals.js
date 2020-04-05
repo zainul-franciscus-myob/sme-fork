@@ -47,7 +47,7 @@ const BillTableTotals = ({
       <LineItemTable.Totals title={totalTaxLabel} amount={totalTax} />
       <LineItemTable.Totals totalAmount title="Total" amount={totalAmount} />
       {amountPaidInputLine}
-      <LineItemTable.Totals totalAmount title="Balance Due" amount={amountDue} />
+      <LineItemTable.Totals totalAmount title="Balance due" amount={amountDue} />
     </LineItemTable.Total>
   );
 };

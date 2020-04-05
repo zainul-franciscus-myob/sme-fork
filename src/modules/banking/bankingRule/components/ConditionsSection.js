@@ -20,7 +20,7 @@ const matchers = {
     { name: 'Contains', value: 'Contains' },
   ],
   [FieldTypes.amount]: [
-    { name: 'Equal', value: 'Equal' },
+    { name: 'Equals', value: 'Equal' },
   ],
 };
 

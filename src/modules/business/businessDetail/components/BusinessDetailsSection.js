@@ -14,7 +14,7 @@ const onInputChange = handler => (e) => {
 const BusinessDetailsSection = ({
   serialNumber, organisationName, tradingName, isAu, onChange,
 }) => (
-  <FieldGroup label="Business Details">
+  <FieldGroup label="Business details">
     <ReadOnly name="serialNumber" label="MYOB serial number">
       {serialNumber}
     </ReadOnly>

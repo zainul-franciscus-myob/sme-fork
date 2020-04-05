@@ -18,7 +18,7 @@ const LoadMoreButton = (props) => {
   const button = (
     <div className={style.button}>
       <Button key="loadMore" name="loadMore" type="secondary" onClick={onLoadMoreButtonClick}>
-            Load More
+            Load more
       </Button>
     </div>
   );

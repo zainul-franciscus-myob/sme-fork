@@ -22,7 +22,7 @@ const tableConfig = {
   invoiceNumber: {
     width: 'flex-1',
     valign: 'middle',
-    columnName: 'Supplier invoice no.',
+    columnName: 'Supplier invoice no',
     splitViewColumnName: 'Supplier inv no',
   },
   issuedDate: { width: 'flex-1', valign: 'middle', columnName: 'Issue date' },

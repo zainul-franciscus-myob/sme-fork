@@ -8,7 +8,7 @@ const Home = ({ url, isActive }) => (
   <Navigation.Link
     active={isActive}
     url={url}
-    label="Home"
+    label="Dashboard"
   />
 );
 

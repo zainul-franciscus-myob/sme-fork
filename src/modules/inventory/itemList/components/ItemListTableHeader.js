@@ -31,7 +31,7 @@ const ItemListTableHeader = ({
       )
     }
     <Table.HeaderItem {...tableConfig.sellingPrice}>
-      <HeaderSort title="Selling price($)" sortName="SellPrice" activeSort={order} onSort={onSort} />
+      <HeaderSort title="Selling price ($)" sortName="SellPrice" activeSort={order} onSort={onSort} />
     </Table.HeaderItem>
     <Table.HeaderItem {...tableConfig.tax}>
       <HeaderSort title={title} sortName="IsSellPriceTaxInclusive" activeSort={order} onSort={onSort} />

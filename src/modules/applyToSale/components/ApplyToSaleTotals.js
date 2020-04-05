@@ -6,7 +6,7 @@ import styles from './ApplyToSaleTotals.module.css';
 
 const ApplyToSaleTotals = ({ totalAmountApplied }) => (
   <div className={styles.totalAmountApplied}>
-    {`Total Amount Applied ${totalAmountApplied}`}
+    {`Total amount applied ${totalAmountApplied}`}
   </div>
 );
 

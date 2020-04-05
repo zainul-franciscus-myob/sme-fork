@@ -68,7 +68,7 @@ const BankTransactionPageHead = ({
 
   return (
     <div className={styles.pageHead}>
-      <PageHead title="Bank feed transactions">
+      <PageHead title="Bank transactions">
         <Button type="secondary" onClick={onImportStatementButtonClick}>Import statement</Button>
       </PageHead>
       <TotalsHeader
