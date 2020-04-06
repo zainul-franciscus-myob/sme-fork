@@ -58,7 +58,7 @@ describe('getLeanEngageFields', () => {
         user_type: 'SME',
         region: 'AU',
         account_status: 'active',
-        product_type: '1_Stub Product',
+        product_type: 'Stub Product_1',
       },
       company: {
         company_id: '15eb4530-4e9d-49be-b7ae-324b4e252cae',
