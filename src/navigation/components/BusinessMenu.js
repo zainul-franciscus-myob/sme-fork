@@ -55,8 +55,6 @@ const UnlinkedMenuLink = ({ label, className }) => (
   <li className={classNames(styles.unlink, className)}><a role="button">{label}</a></li>
 );
 
-const createBusinessEnabled = () => ['dev', 'development', 'integration', 'pdv'].includes(process.env.NODE_ENV);
-
 const getItems = ({
   urls,
   serialNumber,
@@ -83,7 +81,7 @@ const getItems = ({
   isCurrentUserAdvisor
     ? manageMyClientsMenuItem(onMenuLinkClick)
     : switchBusinessMenuItem(onMenuLinkClick),
-  createBusinessEnabled() && onCreateBusinessClick && getMenuLinkWithIcon('', 'Create new business', <Icons.Add />, onCreateBusinessClick),
+  onCreateBusinessClick && getMenuLinkWithIcon('', 'Create new business', <Icons.Add />, onCreateBusinessClick),
   getMenuLinkWithIcon('', 'Log out', <Icons.SignOut />, onLogoutLinkClick),
   userEmail && <UnlinkedMenuLink
     label={userEmail}
