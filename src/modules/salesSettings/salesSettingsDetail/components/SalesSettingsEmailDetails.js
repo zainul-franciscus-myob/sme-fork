@@ -33,9 +33,10 @@ const SalesSettingsEmailDetails = (props) => {
 
   const emailSignature = (
     <Card>
-      <FieldGroup label="Email signature">
+      <FieldGroup label="Email settings">
         <p>
-          Customise your email signature and the email address your invoices are sent from.
+          These email settings apply to all email sent on your behalf from MYOB.
+          This includes invoices, quotes and pay slips (payroll).
         </p>
         <Input
           name="fromName"
