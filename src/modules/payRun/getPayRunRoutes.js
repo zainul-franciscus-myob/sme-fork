@@ -14,7 +14,7 @@ const getPayRunRoutes = ({
   const routes = [
     {
       name: RouteName.PAY_RUN_CREATE,
-      path: '/:region/:businessId/payRunNew/new',
+      path: '/:region/:businessId/payRun/new',
       module: new PayRunModule({
         integration, setRootView, pushMessage, featureToggles,
       }),
@@ -22,7 +22,7 @@ const getPayRunRoutes = ({
     },
     {
       name: RouteName.PAY_RUN_LIST,
-      path: '/:region/:businessId/payRunNew/',
+      path: '/:region/:businessId/payRun/',
       module: new PayRunListModule({
         integration, setRootView, popMessages, replaceURLParams,
       }),
@@ -30,7 +30,7 @@ const getPayRunRoutes = ({
     },
     {
       name: RouteName.PAY_RUN_DETAIL,
-      path: '/:region/:businessId/payRunNew/:payRunId',
+      path: '/:region/:businessId/payRun/:payRunId',
       module: new PayRunDetailModule({
         integration, setRootView,
       }),

@@ -73,6 +73,7 @@ const HoursInputField = ({
   onChange,
   onBlur,
   leaveWarning,
+  isSubmitting,
 }) => (
   <HoursInput
     name="hours"
@@ -84,6 +85,7 @@ const HoursInputField = ({
     onChange={handleInputChange(onChange, employeeId, payItemId)}
     onBlur={handleInputChange(onBlur, employeeId, payItemId)}
     warningBody={getWarningMessage(getLeaveWarning(value, leaveWarning), employeeName)}
+    disabled={isSubmitting}
   />
 );
 
@@ -114,6 +116,7 @@ const EmployeeRecalculatePayTableRow = ({
       onChange={onChange}
       onBlur={onBlur}
       leaveWarning={leaveWarning}
+      isSubmitting={isSubmitting}
     />);
 
   const amountRowItem = (

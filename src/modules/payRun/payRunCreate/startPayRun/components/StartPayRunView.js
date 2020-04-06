@@ -61,7 +61,6 @@ const StartPayRunView = ({
   onStpValidationErrorModalUpdateDetails,
 }) => (
   <div className={styles.startPayRun}>
-    new new new
     <PageHead title="Create pay run" testid="startPayRunViewPageHead" />
     <div className={styles.stepper}>
       <Stepper activeStepNumber={stepNumber} steps={payRunSteps} />

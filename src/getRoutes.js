@@ -31,7 +31,6 @@ import getLinkUserRoutes from './modules/linkUser/getLinkUserRoutes';
 import getLinkedAccountsRoutes from './modules/linkedAccounts/getLinkedAccountsRoutes';
 import getPayItemRoutes from './modules/payItem/getPayItemRoutes';
 import getPayRefundRoutes from './modules/payRefund/getPayRefundRoutes';
-import getPayRunOldRoutes from './modules/payRunOld/getPayRunRoutes';
 import getPayRunRoutes from './modules/payRun/getPayRunRoutes';
 import getPaySuperRoutes from './modules/paySuper/getPaySuperRoutes';
 import getPayrollSettingsRoutes from './modules/payrollSettings/getPayrollSettingsRoutes';
@@ -88,7 +87,6 @@ const getRoutes = moduleParams => [
   ...getBankingRuleRoutes(moduleParams),
   ...getBankReconciliationRoutes(moduleParams),
   ...getPayRunRoutes(moduleParams),
-  ...getPayRunOldRoutes(moduleParams),
   ...getTimesheetRoutes(moduleParams),
   ...getPaySuperRoutes(moduleParams),
   ...getLinkBillRoutes(moduleParams),
