@@ -47,6 +47,7 @@ const getDefaultState = () => ({
     description: '',
     unitPrice: '',
     unitOfMeasure: '',
+    jobId: '',
     taxCodeId: '',
     accountId: '',
     discount: '',
@@ -72,6 +73,7 @@ const getDefaultState = () => ({
   serialNumber: '',
   contactOptions: [],
   accountOptions: [],
+  jobOptions: [],
   taxCodeOptions: [],
   itemOptions: [],
   expirationTermOptions: [],
@@ -111,6 +113,7 @@ const getDefaultState = () => ({
   invoiceHistoryAccordionStatus: InvoiceHistoryAccordionStatus.LOADING,
   redirectRefJournalId: '',
   redirectRefJournalType: '',
+  isInvoiceJobColumnEnabled: false,
 });
 
 export default getDefaultState;

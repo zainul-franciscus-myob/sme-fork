@@ -59,6 +59,7 @@ import { calculateLineAmounts, calculateLineTotals } from './calculationReducer'
 import {
   getBusinessId,
   getInvoiceId,
+  getIsInvoiceJobColumnEnabled,
   getRegion,
   getUpdatedContactOptions,
 } from '../selectors/invoiceDetailSelectors';
@@ -162,6 +163,7 @@ const reloadInvoiceDetail = (state, action) => {
   const payDirect = getPayDirect(state);
   const invoiceHistory = getInvoiceHistory(state);
   const invoiceHistoryAccordionStatus = getInvoiceHistoryAccordionStatus(state);
+  const isInvoiceJobColumnEnabled = getIsInvoiceJobColumnEnabled(state);
 
   const context = { businessId, region, invoiceId };
 
@@ -177,6 +179,7 @@ const reloadInvoiceDetail = (state, action) => {
     payDirect,
     invoiceHistory,
     invoiceHistoryAccordionStatus,
+    isInvoiceJobColumnEnabled,
     loadingState: LoadingState.LOADING_SUCCESS,
   };
 };
@@ -255,6 +258,7 @@ const updateInvoiceLine = (state, action) => {
   const isUpdateAmount = action.key === 'amount';
   const isUpdateAccountId = action.key === 'accountId';
   const isUpdateUnitPrice = action.key === 'unitPrice';
+  const isUpdateJob = action.key === 'jobId';
 
   const getLineLayout = (layout, key) => {
     const isLineItemLayout = layout === InvoiceLineLayout.ITEM;
@@ -285,6 +289,7 @@ const updateInvoiceLine = (state, action) => {
                 accountOptions: state.accountOptions,
               })
               : line.taxCodeId,
+            jobId: isUpdateJob ? action.value : line.jobId,
             displayDiscount: isUpdateDiscount ? action.value : line.displayDiscount,
             displayAmount: isUpdateAmount ? action.value : line.displayAmount,
             displayUnitPrice: isUpdateUnitPrice ? action.value : line.displayUnitPrice,

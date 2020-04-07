@@ -3,7 +3,14 @@ import InvoiceListModule from './invoiceList/InvoiceListModule';
 import RouteName from '../../router/RouteName';
 
 const getInvoiceRoutes = ({
-  integration, setRootView, popMessages, pushMessage, replaceURLParams, reload, globalCallbacks,
+  integration,
+  setRootView,
+  popMessages,
+  pushMessage,
+  replaceURLParams,
+  reload,
+  globalCallbacks,
+  featureToggles,
 }) => {
   const routes = [
     {
@@ -27,6 +34,7 @@ const getInvoiceRoutes = ({
         replaceURLParams,
         reload,
         globalCallbacks,
+        featureToggles,
       }),
       documentTitle: 'Invoice',
     },

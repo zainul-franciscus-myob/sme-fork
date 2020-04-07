@@ -32,6 +32,7 @@ export const setup = () => {
     popMessages: () => [],
     replaceURLParams: () => {},
     reload: () => {},
+    featureToggles: { isInvoiceJobColumnEnabled: true },
   });
   module.store = store;
   module.dispatcher = createInvoiceDetailDispatcher(store);
@@ -450,7 +451,9 @@ describe('InvoiceDetailModule', () => {
             hasEmailReplyDetails: false,
           },
         });
-        module.run({ invoiceId: 'invoiceId', businessId: 'businessId', region: 'au' });
+        module.run({
+          invoiceId: 'invoiceId', businessId: 'businessId', region: 'au',
+        });
         store.resetActions();
         integration.resetRequests();
 

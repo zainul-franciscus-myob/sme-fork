@@ -37,6 +37,7 @@ export const getIsAllowOnlinePayments = state => state.invoice.isAllowOnlinePaym
 export const getAmountPaid = state => state.invoice.amountPaid;
 export const getLines = state => state.invoice.lines;
 export const getLength = state => state.invoice.lines.length;
+export const getIsInvoiceJobColumnEnabled = state => state.isInvoiceJobColumnEnabled;
 
 export const getNewLine = state => state.newLine;
 export const getTotals = state => state.totals;
@@ -46,6 +47,7 @@ export const getExpirationTermOptions = state => state.expirationTermOptions;
 export const getTaxCodeOptions = state => state.taxCodeOptions;
 export const getItemOptions = state => state.itemOptions;
 export const getAccountOptions = state => state.accountOptions;
+export const getJobOptions = state => state.jobOptions;
 export const getSerialNumber = state => state.serialNumber;
 
 export const getIsTrial = state => state.subscription.isTrial;

@@ -57,7 +57,14 @@ const messageTypes = [
 
 export default class InvoiceDetailModule {
   constructor({
-    integration, setRootView, pushMessage, popMessages, replaceURLParams, reload, globalCallbacks,
+    integration,
+    setRootView,
+    pushMessage,
+    popMessages,
+    replaceURLParams,
+    reload,
+    globalCallbacks,
+    featureToggles,
   }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -70,6 +77,8 @@ export default class InvoiceDetailModule {
     this.store = new Store(invoiceDetailReducer);
     this.dispatcher = createInvoiceDetailDispatcher(this.store);
     this.integrator = createInvoiceDetailIntegrator(this.store, integration);
+
+    this.isInvoiceJobColumnEnabled = featureToggles.isInvoiceJobColumnEnabled;
 
     this.accountModalModule = new AccountModalModule({
       integration,
@@ -805,7 +814,10 @@ export default class InvoiceDetailModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState(context);
+    this.dispatcher.setInitialState({
+      ...context,
+      isInvoiceJobColumnEnabled: this.isInvoiceJobColumnEnabled,
+    });
     setupHotKeys(keyMap, this.handlers);
     this.render();
 

@@ -6,10 +6,12 @@ import {
   getAccountOptions,
   getInvoiceLine,
   getIsSubmitting,
+  getJobOptions,
   getTaxCodeOptions,
 } from '../../selectors/invoiceDetailSelectors';
 import AccountCombobox from '../../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../../components/autoFormatter/AmountInput/AmountInput';
+import JobCombobox from '../../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../../components/combobox/TaxCodeCombobox';
 
 const onComboboxChange = (name, onChange) => (item) => {
@@ -42,19 +44,23 @@ const InvoiceServiceTableRow = ({
   index,
   isSubmitting,
   accountOptions,
+  jobOptions,
   onChange,
   onUpdateAmount,
   onAddAccount,
+  isInvoiceJobColumnEnabled,
   ...feelixInjectedProps
 }) => {
   const {
     description,
     accountId,
+    jobId,
     taxCodeId,
     displayAmount,
   } = invoiceLine;
 
   const onChangeAccountId = onComboboxChange('accountId', onChange);
+  const onChangeJobId = onComboboxChange('jobId', onChange);
 
   return (
     <LineItemTable.Row
@@ -90,6 +96,15 @@ const InvoiceServiceTableRow = ({
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
+      {isInvoiceJobColumnEnabled && <JobCombobox
+        label="Job"
+        onChange={onChangeJobId}
+        items={jobOptions}
+        selectedId={jobId}
+        disabled={isSubmitting}
+        allowClear
+        left
+      />}
       <TaxCodeCombobox
         label="Tax code"
         hideLabel
@@ -107,6 +122,7 @@ const mapStateToProps = (state, props) => ({
   taxCodeOptions: getTaxCodeOptions(state),
   isSubmitting: getIsSubmitting(state),
   accountOptions: getAccountOptions(state),
+  jobOptions: getJobOptions(state),
 });
 
 export default connect(mapStateToProps)(InvoiceServiceTableRow);

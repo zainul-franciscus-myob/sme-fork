@@ -2,7 +2,7 @@ import { LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getTableData, getTaxCodeLabel } from '../../selectors/invoiceDetailSelectors';
+import { getIsInvoiceJobColumnEnabled, getTableData, getTaxCodeLabel } from '../../selectors/invoiceDetailSelectors';
 import InvoiceItemTableRow from './InvoiceItemTableRow';
 
 const InvoiceItemTable = ({
@@ -16,9 +16,11 @@ const InvoiceItemTable = ({
     onAddItemButtonClick,
     onAddAccount,
     onLoadAccounts,
+    onLoadJobs,
     onLoadItems,
   },
   taxCodeLabel,
+  isInvoiceJobColumnEnabled,
 }) => {
   const itemIdLabel = 'Item ID';
   const itemNameLabel = 'Description';
@@ -28,7 +30,10 @@ const InvoiceItemTable = ({
   const unitPriceLabel = 'Unit price';
   const discountLabel = 'Discount (%)';
   const amountLabel = 'Amount ($)';
+  const jobLabel = 'Job';
   const requiredLabel = 'This is required';
+
+  const jobColumn = <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>;
 
   const headerItems = [
     <LineItemTable.HeaderItem>{itemIdLabel}</LineItemTable.HeaderItem>,
@@ -43,6 +48,7 @@ const InvoiceItemTable = ({
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {amountLabel}
     </LineItemTable.HeaderItem>,
+    (isInvoiceJobColumnEnabled ? jobColumn : undefined),
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {taxCodeLabel}
     </LineItemTable.HeaderItem>,
@@ -57,6 +63,7 @@ const InvoiceItemTable = ({
     unitPriceLabel,
     discountLabel,
     amountLabel,
+    jobLabel,
     taxCodeLabel,
   ];
 
@@ -88,6 +95,10 @@ const InvoiceItemTable = ({
           styles: { width: '12.4rem', align: 'right' },
         },
         {
+          columnName: jobLabel,
+          styles: { width: '9rem' },
+        },
+        {
           columnName: amountLabel,
           styles: { width: '12.4rem', align: 'right' },
         },
@@ -109,7 +120,9 @@ const InvoiceItemTable = ({
       onAddItemButtonClick={onAddItemButtonClick}
       onAddAccount={onAddAccount}
       onLoadAccounts={onLoadAccounts}
+      onLoadJobs={onLoadJobs}
       onLoadItems={onLoadItems}
+      isInvoiceJobColumnEnabled={isInvoiceJobColumnEnabled}
     />
   );
 
@@ -132,6 +145,7 @@ const InvoiceItemTable = ({
 const mapStateToProps = state => ({
   tableData: getTableData(state),
   taxCodeLabel: getTaxCodeLabel(state),
+  isInvoiceJobColumnEnabled: getIsInvoiceJobColumnEnabled(state),
 });
 
 export default connect(mapStateToProps)(InvoiceItemTable);

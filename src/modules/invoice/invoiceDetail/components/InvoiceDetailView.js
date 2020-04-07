@@ -116,8 +116,14 @@ const InvoiceDetailView = ({
   );
 
   const table = isServiceLayout
-    ? <InvoiceServiceTable listeners={serviceLayoutListeners} footer={notesAndTotals} />
-    : <InvoiceItemTable listeners={itemLayoutListeners} footer={notesAndTotals} />;
+    ? <InvoiceServiceTable
+      listeners={serviceLayoutListeners}
+      footer={notesAndTotals}
+    />
+    : <InvoiceItemTable
+      listeners={itemLayoutListeners}
+      footer={notesAndTotals}
+    />;
 
   const layoutPopver = (
     <InvoiceDetailLayoutPopover onUpdateInvoiceLayout={onUpdateInvoiceLayout} />

@@ -7,11 +7,13 @@ import {
   getInvoiceLine,
   getIsSubmitting,
   getItemOptions,
+  getJobOptions,
   getTaxCodeOptions,
 } from '../../selectors/invoiceDetailSelectors';
 import AccountCombobox from '../../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../../components/autoFormatter/AmountInput/AmountInput';
 import ItemCombobox from '../../../../../components/combobox/ItemCombobox';
+import JobCombobox from '../../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../../components/combobox/TaxCodeCombobox';
 
 const onComboboxChange = (name, onChange) => (item) => {
@@ -50,19 +52,23 @@ const InvoiceItemTableRow = ({
     displayUnitPrice,
     displayDiscount,
     displayAmount,
+    jobId,
     taxCodeId,
   },
   taxCodeOptions,
   accountOptions,
+  jobOptions,
   itemOptions,
   isSubmitting,
   onUpdateAmount,
   onAddItemButtonClick,
   onAddAccount,
+  isInvoiceJobColumnEnabled,
   ...feelixInjectedProps
 }) => {
   const onChangeAccountId = onComboboxChange('accountId', onChange);
   const onChangeItemId = onComboboxChange('itemId', onChange);
+  const onChangeJobId = onComboboxChange('jobId', onChange);
 
   return (
     <LineItemTable.Row {...feelixInjectedProps} id={index} index={index}>
@@ -145,6 +151,15 @@ const InvoiceItemTableRow = ({
         numeralDecimalScaleMax={2}
       />
 
+      {isInvoiceJobColumnEnabled && <JobCombobox
+        items={jobOptions}
+        selectedId={jobId}
+        onChange={onChangeJobId}
+        disabled={isSubmitting}
+        allowClear
+        left
+      />}
+
       <TaxCodeCombobox
         items={taxCodeOptions}
         selectedId={taxCodeId}
@@ -161,6 +176,7 @@ const mapStateToProps = (state, props) => ({
   taxCodeOptions: getTaxCodeOptions(state),
   itemOptions: getItemOptions(state),
   accountOptions: getAccountOptions(state),
+  jobOptions: getJobOptions(state),
 });
 
 export default connect(mapStateToProps)(InvoiceItemTableRow);

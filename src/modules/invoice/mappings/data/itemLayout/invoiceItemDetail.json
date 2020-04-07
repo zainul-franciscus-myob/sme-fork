@@ -24,6 +24,7 @@
         "description": "Cooler Large",
         "unitPrice": "520",
         "discount": "10",
+        "jobId": "1",
         "taxCodeId": "2",
         "amount": "850.9111",
         "accountId": "92",
@@ -88,6 +89,23 @@
       "accountType": "Assets",
       "taxCodeId": "124",
       "displayId": "6-789"
+    }
+  ],
+  "jobOptions": [
+    {
+      "id": "1",
+      "jobNumber": "100",
+      "jobName": "Job 1"
+    },
+    {
+      "id": "2",
+      "jobNumber": "200",
+      "jobName": "Job 2 with a long name"
+    },
+    {
+      "id": "3",
+      "jobNumber": "12345678901234",
+      "jobName": "Job 3 with an even longer name"
     }
   ],
   "expirationTermOptions": [
@@ -176,6 +194,7 @@
     "description": "",
     "unitPrice": "",
     "discount": "",
+    "jobId": "",
     "taxCodeId": "",
     "amount": "",
     "lineTypeId": 17
