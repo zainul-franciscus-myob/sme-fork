@@ -5,6 +5,16 @@ import LearnComponent from '../../../components/LearnTemplate/LearnComponent';
 import WistiaVideoPlayer from '../../../components/WistiaVideoPlayer/WistiaVideoPlayer';
 import styles from '../../../components/LearnTemplate/LearnComponent.module.css';
 
+const STP = () => (
+  <a
+    href="https://www.myob.com/au/single-touch-payroll/Resources-and-help"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Single Touch Payroll (STP)
+  </a>
+);
+
 export default class LearnPayrollModule {
   constructor({
     setRootView, globalCallbacks,
@@ -35,23 +45,23 @@ export default class LearnPayrollModule {
     this.setRootView(
       <LearnComponent
         media={<WistiaVideoPlayer hashedId="5tbg16n8ps" />}
-        title="Get to know payroll"
+        title="Reclaim your time with simple, powerful payroll"
       >
-        <h3>Industry leading payroll for your growing business</h3>
+        <h3>Accurate and efficient payroll at your fingertips</h3>
 
         <p>
-          Payroll that grows with your business, from employee #1 and beyond
-          <br />
-          Simple, fast, and always on the ATO&apos;s good side
+          Payroll doesn’t have to be complicated.
+          With MYOB’s payroll software, you can pay your employees easily, automate super
+          contributions and report your payroll on time with MYOB’s expert <STP />.
         </p>
 
-        <h3>How does it work?</h3>
+        <h3>How to set up payroll:</h3>
 
         <ol>
-          <li>Set up payroll settings</li>
+          <li>Confirm your payroll settings</li>
           <li>Add your employees</li>
-          <li>Get set up for Single Touch Payroll reporting</li>
-          <li>Run a pay run</li>
+          <li>Set up <STP /> reporting</li>
+          <li>Process your first pay run and you’re ready to roll!</li>
         </ol>
 
         <div className={styles.buttonContainer}>
