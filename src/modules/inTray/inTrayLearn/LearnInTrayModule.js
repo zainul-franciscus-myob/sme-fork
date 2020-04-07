@@ -18,28 +18,38 @@ class LearnInTrayModule {
 
   render = (region, businessId) => this.setRootView(
     <LearnComponent
-      title="Automatically track and manage your bills and expenses"
+      title="Save time and paper with your In Tray"
       media={<WistiaVideoPlayer hashedId="jlxo7xiunr" />}
     >
-      <h3>Why upload your expense documents?</h3>
+      <h3>Make the most of your In Tray</h3>
 
       <p>
-        Ditch the paper and upload your bills and receipts to the In tray.
-        It’s the easiest way minimise data entry and keep your records organised and accurate.
+        Ditch the paper and upload your bills and receipts straight into your In Tray.
+        You’ll be able to access these documents any time, and we’ll even help out with
+        pre-filling your transactions with our Optical Character Recognition (OCR) technology.
       </p>
 
-      <h3>How does it work?</h3>
+      <h3>How does your In Tray work?</h3>
 
       <ol>
-        <li>Upload your bills and receipts from your computer, mobile app or email</li>
-        <li>Your documents are digitally scanned and transcribed in seconds</li>
-        <li>Review, record and celebrate doing things right</li>
+        <li>
+          Upload your bills and receipts from your computer, mobile app or forward them
+          straight from your email
+        </li>
+        <li>
+          Get our smart Optical Character Recognition (OCR) technology to pre-fill most of the data
+        </li>
+        <li>
+          Review the details and record straight away
+        </li>
       </ol>
 
       <div className={styles.buttonContainer}>
         <ButtonRow
           secondary={[
-            <Button type="primary" key="tryItOut" onClick={() => this.onTryItOut(region, businessId)}>Try it out</Button>,
+            <Button type="primary" key="tryItOut" onClick={() => this.onTryItOut(region, businessId)}>
+              Upload to In Tray
+            </Button>,
           ]}
         />
       </div>
