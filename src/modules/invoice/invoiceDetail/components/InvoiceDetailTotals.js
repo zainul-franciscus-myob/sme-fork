@@ -32,7 +32,7 @@ const InvoiceDetailTotals = ({
     <LineItemTable.Total>
       <LineItemTable.Totals title="Subtotal" amount={subTotal} />
       <LineItemTable.Totals title={taxLabel} amount={totalTax} />
-      <LineItemTable.Totals title="Total amount" totalAmount amount={totalAmount} />
+      <LineItemTable.Totals title="Total" totalAmount amount={totalAmount} />
       {amountPaidInputLine}
       <LineItemTable.Totals title="Balance due" totalAmount amount={amountDue} />
     </LineItemTable.Total>

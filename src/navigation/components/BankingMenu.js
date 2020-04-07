@@ -27,7 +27,7 @@ const getMenuLink = (url, label, onMenuLinkClick) => (
 const getItems = (urls, onMenuLinkClick) => [
   urls.bankTransactionList && getMenuLink(urls.bankTransactionList, 'Bank transactions', onMenuLinkClick),
   urls.bankReconciliation && getMenuLink(urls.bankReconciliation, 'Reconcile accounts', onMenuLinkClick),
-  urls.bankingRuleList && getMenuLink(urls.bankingRuleList, 'Banking rules', onMenuLinkClick),
+  urls.bankingRuleList && getMenuLink(urls.bankingRuleList, 'Bank rules', onMenuLinkClick),
   urls.bankFeeds && getMenuLink(urls.bankFeeds, 'Manage bank feeds', onMenuLinkClick),
   isBankingSeparatorRequired(urls) && <Navigation.Separator key="separator-banking" />,
   urls.electronicPaymentCreate && getMenuLink(urls.electronicPaymentCreate, 'Bank file payments', onMenuLinkClick),
