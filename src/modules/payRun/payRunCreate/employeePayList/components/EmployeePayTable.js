@@ -1,5 +1,5 @@
 import {
-  AccordionTable, Checkbox, FieldGroup, Table, Tooltip,
+  AccordionTable, Card, Checkbox, FieldGroup, Table, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -13,7 +13,6 @@ import {
 } from '../EmployeePayListSelectors';
 import EmployeeRecalculatePayTable from './EmployeeRecalculatePayTable';
 import EtpModalOpenButton from './EtpModalOpenButton';
-import FormCard from '../../../../../components/FormCard/FormCard';
 import handleCheckboxChange from '../../../../../components/handlers/handleCheckboxChange';
 import styles from './EmployeePayTable.module.css';
 
@@ -40,8 +39,8 @@ const EmployeePayTable = ({
   onEmployeePayItemChange,
   onEmployeePayItemBlur,
 }) => (
-  <div className={styles.employeePayTable}>
-    <FormCard>
+    <Card>
+      <div className={styles.employeePayTable}>
       <FieldGroup label="Select employees to pay">
         {`${numberOfSelected} employees selected`}
       </FieldGroup>
@@ -128,8 +127,8 @@ const EmployeePayTable = ({
           </Table.Body>
         )}
       />
-    </FormCard>
-  </div>
+      </div>
+    </Card>
 );
 
 const mapStateToProps = state => ({

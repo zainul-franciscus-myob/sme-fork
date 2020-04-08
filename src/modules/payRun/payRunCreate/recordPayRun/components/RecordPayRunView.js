@@ -1,11 +1,12 @@
-import { FieldGroup, PageHead, Stepper } from '@myob/myob-widgets';
+import {
+  Card, FieldGroup, PageHead, Stepper,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getNumberOfSelected } from '../RecordPayRunSelectors';
 import { getStepNumber, getStepperSteps } from '../../PayRunSelectors';
 import EmployeePayHeader from '../../components/EmployeePayHeader';
-import FormCard from '../../../../../components/FormCard/FormCard';
 import RecordPayRunActions from './RecordPayRunActions';
 import styles from './RecordPayRunView.module.css';
 
@@ -25,13 +26,13 @@ const RecordPayRunView = ({
       <Stepper activeStepNumber={stepNumber} steps={payRunSteps} />
     </div>
     <EmployeePayHeader />
-    <FormCard>
+    <Card>
       <FieldGroup label={`Record pay for ${numberOfSelected} employees?`}>
         View the preview reports to check everything is correct.
         Once you’ve recorded these payments, you&apos;ll need to authorise MYOB to
         send this information to the ATO as part of Single Touch Payroll.
       </FieldGroup>
-    </FormCard>
+    </Card>
     <RecordPayRunActions
       onRecordButtonClick={recordPayments}
       onPreviousButtonClick={onPreviousButtonClick}

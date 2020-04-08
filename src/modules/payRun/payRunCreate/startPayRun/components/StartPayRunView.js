@@ -1,4 +1,5 @@
 import {
+  Card,
   DatePicker,
   FieldGroup,
   FormHorizontal,
@@ -23,7 +24,6 @@ import {
   getStepperSteps,
 } from '../../PayRunSelectors';
 import ExistingPayRunModal from './ExistingPayRunModal';
-import FormCard from '../../../../../components/FormCard/FormCard';
 import StartPayRunActions from './StartPayRunActions';
 import StpValidationErrorModal from './StpValidationErrorModal';
 import TimesheetsTable from './TimesheetsTable';
@@ -65,8 +65,8 @@ const StartPayRunView = ({
     <div className={styles.stepper}>
       <Stepper activeStepNumber={stepNumber} steps={payRunSteps} />
     </div>
-    <FormHorizontal>
-      <FormCard>
+    <Card>
+      <FormHorizontal>
         <FieldGroup label="Select pay run details" testid="payCycleDropDown">
           <Select
             name="paymentFrequency"
@@ -93,8 +93,8 @@ const StartPayRunView = ({
           selectItem={selectItem}
         />
         )}
-      </FormCard>
-    </FormHorizontal>
+      </FormHorizontal>
+    </Card>
     { existingPayRun && (
       <ExistingPayRunModal
         onGoBackButtonClick={onExistingPayRunModalGoBackClick}
