@@ -4,8 +4,8 @@ import NoResultPageState from '../../../../../components/NoResultPageState/NoRes
 
 const ReportsEmpty = () => (
   <NoResultPageState
-    title="Nothing to see here!"
-    description="Pay your employees already"
+    title="No results found"
+    description="You made no employee termination payments in this payroll year."
   />
 );
 
