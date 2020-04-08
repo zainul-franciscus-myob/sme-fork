@@ -45,6 +45,7 @@ const getDefaultState = () => ({
     descriptionDirty: false,
     amount: '',
     taxCodeId: '',
+    jobId: '',
     allocatedAccountId: '',
     units: '',
     unitOfMeasure: '',
@@ -65,6 +66,7 @@ const getDefaultState = () => ({
   commentOptions: [],
   itemOptions: [],
   accountOptions: [],
+  jobOptions: [],
   taxCodeOptions: [],
   itemTemplateOptions: {
     templateOptions: [],
@@ -90,6 +92,7 @@ const getDefaultState = () => ({
     template: '',
   },
   cachedItemSellingDetails: {},
+  isInvoiceJobColumnEnabled: false,
 });
 
 export default getDefaultState;

@@ -36,6 +36,7 @@ describe('QuoteDetailModule', () => {
       popMessages,
       reload,
       replaceURLParams,
+      featureToggles: { isQuoteJobColumnEnabled: true },
     });
     module.redirectToUrl = jest.fn();
     const store = new TestStore(quoteDetailReducer);

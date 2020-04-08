@@ -2,7 +2,7 @@ import { LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getTableData, getTaxCodeLabel } from '../../selectors/QuoteDetailSelectors';
+import { getIsQuoteJobColumnEnabled, getTableData, getTaxCodeLabel } from '../../selectors/QuoteDetailSelectors';
 import QuoteItemAndServiceTableRow from './QuoteItemAndServiceTableRow';
 
 const itemIdLabel = 'Item ID';
@@ -13,6 +13,7 @@ const unitPriceLabel = 'Unit price';
 const discountLabel = 'Discount (%)';
 const amountLabel = 'Amount ($)';
 const unitOfMeasureLabel = 'Unit';
+const jobLabel = 'Job';
 const requiredLabel = 'Required';
 
 const QuoteItemAndServiceTable = ({
@@ -27,7 +28,10 @@ const QuoteItemAndServiceTable = ({
     onAddAccountButtonClick,
   },
   taxCodeLabel,
+  isQuoteJobColumnEnabled,
 }) => {
+  const jobColumn = <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>;
+
   const headerItems = [
     <LineItemTable.HeaderItem>
       {itemIdLabel}
@@ -47,6 +51,7 @@ const QuoteItemAndServiceTable = ({
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {amountLabel}
     </LineItemTable.HeaderItem>,
+    (isQuoteJobColumnEnabled ? jobColumn : undefined),
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {taxCodeLabel}
     </LineItemTable.HeaderItem>,
@@ -61,6 +66,7 @@ const QuoteItemAndServiceTable = ({
     unitPriceLabel,
     discountLabel,
     amountLabel,
+    jobLabel,
     taxCodeLabel,
   ];
 
@@ -100,6 +106,10 @@ const QuoteItemAndServiceTable = ({
           styles: { width: '12.4rem', align: 'right' },
         },
         {
+          columnName: jobLabel,
+          styles: { width: '8.4rem' },
+        },
+        {
           columnName: taxCodeLabel,
           styles: { width: '8.4rem' },
         },
@@ -120,6 +130,7 @@ const QuoteItemAndServiceTable = ({
       onAddItemButtonClick={onAddItemButtonClick}
       onAddAccountButtonClick={onAddAccountButtonClick}
       labels={labels}
+      isQuoteJobColumnEnabled={isQuoteJobColumnEnabled}
     />
   );
 
@@ -143,6 +154,7 @@ const QuoteItemAndServiceTable = ({
 const mapStateToProps = state => ({
   emptyQuoteLines: getTableData(state),
   taxCodeLabel: getTaxCodeLabel(state),
+  isQuoteJobColumnEnabled: getIsQuoteJobColumnEnabled(state),
 });
 
 export default connect(mapStateToProps)(QuoteItemAndServiceTable);

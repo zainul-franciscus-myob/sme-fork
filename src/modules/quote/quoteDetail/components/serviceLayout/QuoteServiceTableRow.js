@@ -6,11 +6,13 @@ import {
   getAccountOptions,
   getIsAccountComboboxDisabled,
   getIsCalculating,
+  getJobOptions,
   getQuoteLine,
   getTaxCodeOptions,
 } from '../../selectors/QuoteDetailSelectors';
 import AccountCombobox from '../../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../../components/autoFormatter/AmountInput/AmountInput';
+import JobCombobox from '../../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../../components/combobox/TaxCodeCombobox';
 
 const onComboboxChange = (name, onChange) => item => onChange({
@@ -38,6 +40,7 @@ const handleAmountInputBlur = (handler, index) => (e) => {
 const QuoteServiceTableRow = ({
   quoteLine,
   index,
+  jobOptions,
   taxCodeOptions,
   accountOptions,
   onChange,
@@ -45,11 +48,13 @@ const QuoteServiceTableRow = ({
   onAddAccount,
   isAccountComboboxDisabled,
   isCalculating,
+  isQuoteJobColumnEnabled,
   ...feelixInjectedProps
 }) => {
   const {
     description,
     allocatedAccountId,
+    jobId,
     taxCodeId,
     displayAmount,
   } = quoteLine;
@@ -89,6 +94,14 @@ const QuoteServiceTableRow = ({
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
+      {isQuoteJobColumnEnabled && <JobCombobox
+        items={jobOptions}
+        selectedId={jobId}
+        onChange={onComboboxChange('jobId', onChange)}
+        disabled={isCalculating}
+        allowClear
+        left
+      />}
       <TaxCodeCombobox
         label="Tax code"
         onChange={onComboboxChange('taxCodeId', onChange)}
@@ -102,6 +115,7 @@ const QuoteServiceTableRow = ({
 
 const mapStateToProps = (state, props) => ({
   quoteLine: getQuoteLine(state, props),
+  jobOptions: getJobOptions(state),
   taxCodeOptions: getTaxCodeOptions(state),
   accountOptions: getAccountOptions(state),
   isAccountComboboxDisabled: getIsAccountComboboxDisabled(state),

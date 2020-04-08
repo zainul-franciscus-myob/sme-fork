@@ -67,9 +67,16 @@ const QuoteDetailView = ({
   const footer = <QuoteDetailFooter onUpdateNote={onUpdateHeaderOptions} />;
 
   const table = ({
-    [QuoteLayout.SERVICE]: <QuoteServiceTable listeners={serviceLayoutListeners} footer={footer} />,
+    [QuoteLayout.SERVICE]:
+      <QuoteServiceTable
+        listeners={serviceLayoutListeners}
+        footer={footer}
+      />,
     [QuoteLayout.ITEM_AND_SERVICE]: (
-      <QuoteItemAndServiceTable listeners={itemAndServiceLayoutListeners} footer={footer} />
+      <QuoteItemAndServiceTable
+        listeners={itemAndServiceLayoutListeners}
+        footer={footer}
+      />
     ),
   }[layout]);
 

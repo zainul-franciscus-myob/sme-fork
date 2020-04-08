@@ -64,7 +64,7 @@ const messageTypes = [
 
 export default class QuoteDetailModule {
   constructor({
-    integration, setRootView, pushMessage, popMessages, reload, replaceURLParams,
+    integration, setRootView, pushMessage, popMessages, reload, replaceURLParams, featureToggles,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -77,6 +77,8 @@ export default class QuoteDetailModule {
     this.store = new Store(quoteDetailReducer);
     this.dispatcher = createQuoteDetailDispatcher(this.store);
     this.integrator = createQuoteDetailIntegrator(this.store, integration);
+
+    this.isQuoteJobColumnEnabled = featureToggles.isQuoteJobColumnEnabled;
 
     this.contactModalModule = new ContactModalModule({ integration });
     this.accountModalModule = new AccountModalModule({ integration });
@@ -842,7 +844,10 @@ export default class QuoteDetailModule {
   }
 
   run(context) {
-    this.dispatcher.setInitialState(context);
+    this.dispatcher.setInitialState({
+      ...context,
+      isQuoteJobColumnEnabled: this.isQuoteJobColumnEnabled,
+    });
     setupHotKeys(keyMap, this.handlers);
     this.render();
 

@@ -51,7 +51,7 @@ import {
 } from './EmailReducer';
 import { calculatePartialQuoteLineAmounts, setQuoteCalculatedLines } from './calculationReducer';
 import {
-  getBusinessId, getQuoteId, getRegion, getUpdatedContactOptions,
+  getBusinessId, getIsQuoteJobColumnEnabled, getQuoteId, getRegion, getUpdatedContactOptions,
 } from '../selectors/QuoteDetailSelectors';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import QuoteLayout from '../QuoteLayout';
@@ -118,6 +118,7 @@ const loadQuoteDetail = (state, action) => ({
   serviceTemplateOptions: action.serviceTemplateOptions || state.serviceTemplateOptions,
   itemOptions: action.itemOptions,
   accountOptions: action.accountOptions,
+  jobOptions: action.jobOptions,
   taxCodeOptions: action.taxCodeOptions,
   emailQuote: {
     ...state.emailQuote,
@@ -139,12 +140,14 @@ const reloadQuoteDetail = (state, action) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);
   const quoteId = getQuoteId(state);
+  const isQuoteJobColumnEnabled = getIsQuoteJobColumnEnabled(state);
 
   const context = { businessId, region, quoteId };
 
   const initialState = {
     ...defaultState,
     ...context,
+    isQuoteJobColumnEnabled,
     loadingState: LoadingState.LOADING_SUCCESS,
   };
 
@@ -256,6 +259,7 @@ const updateQuoteLine = (state, action) => ({
           displayDiscount: action.key === 'discount' ? action.value : line.displayDiscount,
           displayAmount: action.key === 'amount' ? action.value : line.displayAmount,
           displayUnitPrice: action.key === 'unitPrice' ? action.value : line.displayUnitPrice,
+          jobId: action.key === 'jobId' ? action.value : line.jobId,
           taxCodeId: action.key === 'allocatedAccountId'
             ? getDefaultTaxCodeId({ accountId: action.value, accountOptions: state.accountOptions })
             : line.taxCodeId,
