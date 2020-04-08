@@ -1,5 +1,10 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import {
+  LOAD_NEW_DUPLICATE_SPEND_MONEY,
+  LOAD_NEW_SPEND_MONEY,
+  LOAD_SPEND_MONEY_DETAIL,
+} from '../SpendMoneyIntents';
 import ModalType from './components/ModalType';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
@@ -29,6 +34,7 @@ export const getAccountOptions = state => state.accounts;
 export const getRegion = state => state.region;
 const getElectronicClearingAccountId = state => state.spendMoney.electronicClearingAccountId;
 const getBankStatementText = state => state.spendMoney.bankStatementText;
+const getDuplicatedSpendMoneyId = (state) => state.duplicatedSpendMoneyId;
 
 const getHeadersProperties = createStructuredSelector({
   referenceId: getReferenceId,
@@ -253,10 +259,30 @@ export const getLoadContactDetailUrlParams = createStructuredSelector({
   contactId: getSelectedPayToContactId,
 });
 
-export const getLoadSpendMoneyRequestParams = createStructuredSelector({
-  spendMoneyId: getSpendMoneyId,
-  isCreating: getIsCreating,
-});
+export const getLoadSpendMoneyRequestParams = createSelector(
+  getBusinessId,
+  getIsCreating,
+  getSpendMoneyId,
+  getDuplicatedSpendMoneyId,
+  (businessId, isCreating, spendMoneyId, duplicatedSpendMoneyId) => {
+    if (isCreating) {
+      if (duplicatedSpendMoneyId) {
+        return {
+          businessId,
+          duplicatedSpendMoneyId,
+        };
+      }
+
+      return {
+        businessId,
+      };
+    }
+    return {
+      businessId,
+      spendMoneyId,
+    };
+  },
+);
 
 const getInTrayDocument = state => state.inTrayDocument;
 
@@ -305,6 +331,10 @@ export const getCreateUrl = createSelector(
   getBusinessId,
   getRegion,
   (businessId, region) => `/#/${region}/${businessId}/spendMoney/new`,
+);
+
+export const getDuplicatedUrl = (state, spendMoneyId) => (
+  `${getCreateUrl(state)}?duplicatedSpendMoneyId=${spendMoneyId}`
 );
 
 export const getSaveUrl = createSelector(
@@ -363,3 +393,25 @@ export const getLoadAddedContactUrlParams = (state, contactId) => {
 
   return { businessId, contactId };
 };
+
+export const getShouldReloadModule = createSelector(
+  getIsCreating,
+  getDuplicatedSpendMoneyId,
+  (isCreating, duplicatedSpendMoneyId) => isCreating && !duplicatedSpendMoneyId,
+);
+
+export const getLoadSpendMoneyIntent = createSelector(
+  getIsCreating,
+  getDuplicatedSpendMoneyId,
+  (isCreating, duplicatedSpendMoneyId) => {
+    if (isCreating) {
+      if (duplicatedSpendMoneyId) {
+        return LOAD_NEW_DUPLICATE_SPEND_MONEY;
+      }
+
+      return LOAD_NEW_SPEND_MONEY;
+    }
+
+    return LOAD_SPEND_MONEY_DETAIL;
+  },
+);

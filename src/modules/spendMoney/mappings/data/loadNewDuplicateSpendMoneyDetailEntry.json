@@ -1,0 +1,169 @@
+{
+  "spendMoney": {
+    "id": "789",
+    "uid": "feaece10-b112-4d1e-8e62-26291ae0ce44",
+    "referenceId": "SM1234567",
+    "date": "2018-11-02",
+    "isTaxInclusive": false,
+    "isReportable": false,
+    "description": "Bob the builder",
+    "selectedPayFromAccountId": "456",
+    "selectedPayToContactId": "2",
+    "electronicClearingAccountId": "789",
+    "lines": [
+      {
+        "jobId": "",
+        "id": "1",
+        "accountId": "789",
+        "amount": "1000.00",
+        "quantity": "5",
+        "description": "Bob",
+        "taxCodeId": "123",
+        "taxAmount": "80.10",
+        "lineSubTypeId": 8
+      },
+      {
+        "jobId": "",
+        "id": "2",
+        "accountId": "456",
+        "amount": "2352.00",
+        "description": "the builder",
+        "taxCodeId": "123",
+        "quantity": "",
+        "taxAmount": "280.10",
+        "lineSubTypeId": 8
+      }
+    ],
+    "payFromAccounts": [
+      {
+        "id": "123",
+        "displayName": "My Bank",
+        "accountType": "Asset",
+        "taxCodeId": "123",
+        "displayId": "1-123"
+      },
+      {
+        "id": "456",
+        "displayName": "My Other Bank",
+        "accountType": "Asset",
+        "taxCodeId": "124",
+        "displayId": "2-123"
+      },
+      {
+        "id": "789",
+        "displayName": "Electronic clearing account",
+        "accountType": "Asset",
+        "taxCodeId": "124",
+        "displayId": "1-109"
+      }
+    ],
+    "payToContacts": [
+      {
+        "contactType": "Customer",
+        "displayContactType": "Customer",
+        "displayName": "A-Z Stationery Customer",
+        "id": "1",
+        "displayId": "CUS000001",
+        "isReportable": false
+      },
+      {
+        "contactType": "Supplier",
+        "displayContactType": "Supplier",
+        "displayName": "Cow Feed Supplier",
+        "id": "2",
+        "displayId": "CUS000003",
+        "isReportable": true,
+        "expenseAccountId": "456"
+      },
+      {
+        "contactType": "Other",
+        "displayContactType": "Personal",
+        "displayName": "Other contact",
+        "id": "3",
+        "displayId": "CUS000004"
+      }
+    ]
+  },
+  "accounts": [
+    {
+      "id": "123",
+      "displayName": "My Sales Account 1",
+      "accountType": "Sales",
+      "taxCodeId": "123",
+      "displayId": "1-123"
+    },
+    {
+      "id": "456",
+      "displayName": "My Assets Account 1",
+      "accountType": "Assets",
+      "taxCodeId": "124",
+      "displayId": "2-123"
+    },
+    {
+      "id": "789",
+      "displayName": "My (Inactive) Assets Account 2",
+      "accountType": "Assets",
+      "taxCodeId": "124",
+      "displayId": "2-124"
+    }
+  ],
+  "taxCodes": [
+    {
+      "description": "Goods & Services Tax",
+      "displayName": "GST",
+      "displayRate": "10%",
+      "codeType": "GST_VAT",
+      "id": "1",
+      "rate": "10",
+      "threshold": "0",
+      "childrenCalculationCollection": [],
+      "calculationMethod": "2",
+      "roundingMethod": "2",
+      "collectedBehaviour": "1",
+      "payedBehaviour": "1",
+      "isWithholding": false,
+      "thresholdRate": "10",
+      "includeInGstReturn": false
+    },
+    {
+      "description": "No ABN Withholding",
+      "displayName": "ABN",
+      "displayRate": "47%",
+      "id": "2",
+      "rate": "47",
+      "codeType": "NoABN_TFN",
+      "threshold": "0",
+      "childrenCalculationCollection": [],
+      "calculationMethod": "2",
+      "roundingMethod": "2",
+      "collectedBehaviour": "1",
+      "payedBehaviour": "1",
+      "isWithholding": false,
+      "thresholdRate": "10",
+      "includeInGstReturn": false
+    }
+  ],
+  "newLine": {
+    "jobId": "",
+    "accountId": "",
+    "amount": "",
+    "quantity": "",
+    "description": "",
+    "taxCodeId": "",
+    "taxAmount": "",
+    "lineSubTypeId": 8
+  },
+  "pageTitle": "Spend money transaction SM1234567",
+  "attachments": [
+    {
+      "id": "6ea58e30-d5c9-4030-84ae-715f266becd4",
+      "name": "Invoice.pdf",
+      "size": 1000000
+    },
+    {
+      "id": "6ea58e30-d5c9-4030-84ae-715f266becd5",
+      "name": "Another invoice.pdf",
+      "size": 2000000
+    }
+  ]
+}

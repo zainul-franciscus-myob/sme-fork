@@ -26,6 +26,7 @@ import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import { SUCCESSFULLY_SAVED_SPEND_MONEY, SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK } from '../../spendMoneyMessageTypes';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import ModalType from '../components/ModalType';
+import SaveActionType from '../components/SaveActionType';
 import SpendMoneyDetailModule from '../SpendMoneyDetailModule';
 import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
@@ -671,6 +672,175 @@ describe('SpendMoneyDetailModule', () => {
         expect(module.pushMessage).toHaveBeenCalledWith(
           expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK }),
         );
+      });
+    });
+  });
+
+  describe('handleSaveAndAction', () => {
+    [
+      { action: SaveActionType.SAVE_AND_CREATE_NEW },
+      { action: SaveActionType.SAVE_AND_DUPLICATE },
+    ].forEach(({ action }) => {
+      describe('not from in tray', () => {
+        /*
+        Testing onSuccess for create and update spend money
+      */
+        [
+          {
+            intent: CREATE_SPEND_MONEY,
+            setup: setupWithNew,
+          },
+          {
+            intent: UPDATE_SPEND_MONEY,
+            setup: setUpWithExisting,
+          },
+        ].forEach((test) => {
+          fit('should save', () => {
+            const { module, store, integration } = test.setup();
+            module.pushMessage = jest.fn();
+            module.reload = jest.fn();
+
+            module.handleSaveAndAction(action);
+
+            expect(store.getActions()).toEqual([
+              {
+                intent: SET_SUBMITTING_STATE,
+                isSubmitting: true,
+              },
+              {
+                intent: SET_SUBMITTING_STATE,
+                isSubmitting: false,
+              },
+            ]);
+
+            expect(integration.getRequests()).toEqual([
+              expect.objectContaining({
+                intent: test.intent,
+              }),
+            ]);
+
+            expect(module.pushMessage).toHaveBeenCalledWith(
+              expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY }),
+            );
+          });
+        });
+
+        /*
+        Testing onFailure for create and update spend money
+      */
+        [
+          {
+            intent: CREATE_SPEND_MONEY,
+            setup: setupWithNew,
+          },
+          {
+            intent: UPDATE_SPEND_MONEY,
+            setup: setUpWithExisting,
+          },
+        ].forEach((test) => {
+          it('should shown an alert if it fails', () => {
+            const { module, store, integration } = test.setup();
+
+            integration.mapFailure(test.intent);
+            module.handleSaveAndAction(action);
+
+            expect(store.getActions()).toEqual([
+              {
+                intent: SET_SUBMITTING_STATE,
+                isSubmitting: true,
+              },
+              {
+                intent: SET_SUBMITTING_STATE,
+                isSubmitting: false,
+              },
+              expect.objectContaining({
+                intent: SET_ALERT,
+              }),
+            ]);
+          });
+        });
+
+        it('should do an early return if it\'s already submitting', () => {
+          const { module, store, integration } = setUpWithExisting();
+
+          const dontTriggerOnSuccess = () => {};
+          integration.overrideMapping(UPDATE_SPEND_MONEY, dontTriggerOnSuccess);
+
+          // Setup: this will trigger an update spend money request,
+          // but will not trigger the onSuccess which means that
+          // the submitting state will not be set to false
+          module.handleSaveAndAction(action);
+          store.resetActions();
+
+          module.handleSaveAndAction(action);
+
+          expect(store.getActions()).toEqual([]);
+        });
+      });
+
+      describe('from in tray', () => {
+        it('successfully creates a spend money and link in tray document', () => {
+          const { module, store, integration } = setUpWithNewFromInTray();
+          module.pushMessage = jest.fn();
+
+          module.saveSpendMoney();
+
+          expect(store.getActions()).toEqual([
+            {
+              intent: SET_SUBMITTING_STATE,
+              isSubmitting: true,
+            },
+            {
+              intent: SET_SUBMITTING_STATE,
+              isSubmitting: false,
+            },
+          ]);
+
+          expect(integration.getRequests()).toEqual([
+            expect.objectContaining({
+              intent: CREATE_SPEND_MONEY,
+            }),
+            expect.objectContaining({
+              intent: LINK_IN_TRAY_DOCUMENT,
+            }),
+          ]);
+
+          expect(module.pushMessage).toHaveBeenCalledWith(
+            expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY }),
+          );
+        });
+
+        it('successfully creates a spend money but fails to link in tray document', () => {
+          const { module, store, integration } = setUpWithNewFromInTray();
+          integration.mapFailure(LINK_IN_TRAY_DOCUMENT);
+          module.pushMessage = jest.fn();
+
+          module.saveSpendMoney();
+
+          expect(store.getActions()).toEqual([
+            {
+              intent: SET_SUBMITTING_STATE,
+              isSubmitting: true,
+            },
+            {
+              intent: SET_SUBMITTING_STATE,
+              isSubmitting: false,
+            },
+          ]);
+
+          expect(integration.getRequests()).toEqual([
+            expect.objectContaining({
+              intent: CREATE_SPEND_MONEY,
+            }),
+            expect.objectContaining({
+              intent: LINK_IN_TRAY_DOCUMENT,
+            }),
+          ]);
+
+          expect(module.pushMessage).toHaveBeenCalledWith(
+            expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK }),
+          );
+        });
       });
     });
   });

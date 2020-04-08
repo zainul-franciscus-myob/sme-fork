@@ -11,6 +11,7 @@ import {
   getAccountModalContext,
   getContactModalContext,
   getCreateUrl,
+  getDuplicatedUrl,
   getExpenseAccountId,
   getFilesForUpload,
   getHasPrefilledLines,
@@ -24,11 +25,11 @@ import {
   getIsTaxInclusive,
   getLinesForTaxCalculation,
   getLinkInTrayContentWithoutSpendMoneyId,
-  getLoadSpendMoneyRequestParams,
   getModal,
   getModalUrl,
   getOpenedModalType,
   getSaveUrl,
+  getShouldReloadModule,
   getShouldShowAccountCode,
   getSpendMoneyId,
   getTaxCodeOptions,
@@ -40,6 +41,7 @@ import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './components/ModalType';
+import SaveActionType from './components/SaveActionType';
 import SpendMoneyDetailView from './components/SpendMoneyDetailView';
 import SpendMoneyElementId from './SpendMoneyElementId';
 import Store from '../../../store/Store';
@@ -155,6 +157,9 @@ export default class SpendMoneyDetailModule {
 
     const onSuccess = intent => (response) => {
       this.dispatcher.loadSpendMoney(intent, response);
+      if (getShouldShowAccountCode(this.store.getState())) {
+        this.loadSupplierExpenseAccount();
+      }
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
 
@@ -169,12 +174,9 @@ export default class SpendMoneyDetailModule {
       this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    const params = getLoadSpendMoneyRequestParams(this.store.getState());
-
     this.integrator.loadSpendMoney({
       onSuccess,
       onFailure,
-      ...params,
     });
   };
 
@@ -246,7 +248,7 @@ export default class SpendMoneyDetailModule {
     onSuccess: (response) => {
       const state = this.store.getState();
       if (getIsCreatingFromInTray(state)) {
-        this.linkAfterSave(response);
+        this.linkAfterSave(this.redirectAfterLink, response);
         return;
       }
       this.pushMessage({
@@ -274,16 +276,16 @@ export default class SpendMoneyDetailModule {
     },
   });
 
-  linkAfterSave = (response) => {
+  linkAfterSave = (onSuccess, response) => {
     const state = this.store.getState();
 
-    const handleSuccess = () => {
+    const handleLinkSuccess = () => {
       this.pushMessage({
         type: SUCCESSFULLY_SAVED_SPEND_MONEY,
         content: response.message,
       });
       this.dispatcher.setSubmittingState(false);
-      this.redirectAfterLink();
+      onSuccess(response);
     };
 
     const handleLinkFailure = () => {
@@ -291,9 +293,8 @@ export default class SpendMoneyDetailModule {
         type: SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
         content: 'Spend money created, but the document failed to link.',
       });
-
       this.dispatcher.setSubmittingState(false);
-      this.redirectAfterLink();
+      onSuccess(response);
     };
 
     const linkContent = {
@@ -302,7 +303,7 @@ export default class SpendMoneyDetailModule {
     };
 
     this.integrator.linkInTrayDocument({
-      onSuccess: handleSuccess,
+      onSuccess: handleLinkSuccess,
       onFailure: handleLinkFailure,
       linkContent,
     });
@@ -599,6 +600,7 @@ export default class SpendMoneyDetailModule {
         contactModal={contactModal}
         onUpdateHeaderOptions={this.updateHeaderOptions}
         onSaveButtonClick={this.saveSpendMoney}
+        onSaveAndButtonClick={this.handleSaveAndAction}
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
         onCloseModal={this.dispatcher.closeModal}
@@ -633,6 +635,75 @@ export default class SpendMoneyDetailModule {
     this.setRootView(wrappedView);
   };
 
+  saveAndCreateNew = () => {
+    const onSuccess = ({ message }) => {
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_SPEND_MONEY,
+        content: message,
+      });
+      const state = this.store.getState();
+      const url = getCreateUrl(state);
+      if (getShouldReloadModule(state)) {
+        this.reload();
+      } else {
+        this.redirectToUrl(url);
+      }
+    };
+
+    this.saveSpendMoneyAnd({ onSuccess });
+  };
+
+  saveAndDuplicate = () => {
+    const onSuccess = ({ message, id }) => {
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_SPEND_MONEY,
+        content: message,
+      });
+
+      const url = getDuplicatedUrl(this.store.getState(), id);
+      this.redirectToUrl(url);
+    };
+
+    this.saveSpendMoneyAnd({ onSuccess });
+  };
+
+  handleSaveAndAction = (actionType) => {
+    if (actionType === SaveActionType.SAVE_AND_CREATE_NEW) {
+      this.saveAndCreateNew();
+    } else if (actionType === SaveActionType.SAVE_AND_DUPLICATE) {
+      this.saveAndDuplicate();
+    }
+  }
+
+  saveSpendMoneyAnd = ({ onSuccess }) => {
+    this.dispatcher.setSubmittingState(true);
+
+    const handleSaveSuccess = (response) => {
+      this.dispatcher.setSubmittingState(false);
+      const state = this.store.getState();
+      if (getIsCreatingFromInTray(state)) {
+        this.linkAfterSave(onSuccess, response);
+      } else {
+        onSuccess(response);
+      }
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.openDangerAlert({ message });
+    };
+
+    this.saveOrCreateSpendMoney({ onSuccess: handleSaveSuccess, onFailure });
+  }
+
+  saveOrCreateSpendMoney = ({ onSuccess, onFailure }) => {
+    if (getIsCreating(this.store.getState())) {
+      this.integrator.createSpendMoneyEntry({ onSuccess, onFailure });
+    } else {
+      this.integrator.updateSpendMoneyEntry({ onSuccess, onFailure });
+    }
+  }
+
   saveSpendMoney = () => {
     const state = this.store.getState();
     if (getIsSubmitting(state)) {
@@ -642,11 +713,7 @@ export default class SpendMoneyDetailModule {
     this.dispatcher.setSubmittingState(true);
 
     const saveHandler = this.getSaveHandlers();
-    if (getIsCreating(state)) {
-      this.integrator.createSpendMoneyEntry(saveHandler);
-    } else {
-      this.integrator.updateSpendMoneyEntry(saveHandler);
-    }
+    this.saveOrCreateSpendMoney(saveHandler);
   }
 
   saveHandler = () => {

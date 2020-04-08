@@ -5,6 +5,7 @@ import {
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
+  LOAD_NEW_DUPLICATE_SPEND_MONEY,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
   LOAD_SPEND_MONEY_DETAIL,
@@ -24,6 +25,10 @@ const HttpSpendMoneyMapping = {
   [LOAD_SPEND_MONEY_DETAIL]: {
     method: 'GET',
     getPath: ({ businessId, spendMoneyId }) => `/${businessId}/spendMoney/load_spend_money_detail/${spendMoneyId}`,
+  },
+  [LOAD_NEW_DUPLICATE_SPEND_MONEY]: {
+    method: 'GET',
+    getPath: ({ businessId, duplicatedSpendMoneyId }) => `/${businessId}/spendMoney/load_new_duplicate_spend_money/${duplicatedSpendMoneyId}`,
   },
   [CREATE_SPEND_MONEY]: {
     method: 'POST',

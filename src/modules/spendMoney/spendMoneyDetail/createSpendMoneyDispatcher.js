@@ -228,6 +228,7 @@ const createSpendMoneyDispatcher = store => ({
       value,
     });
   },
+
   updateBankStatementText: () => store.dispatch({
     intent: UPDATE_BANK_STATEMENT_TEXT,
   }),

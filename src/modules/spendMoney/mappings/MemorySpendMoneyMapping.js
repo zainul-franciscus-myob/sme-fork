@@ -5,6 +5,7 @@ import {
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
+  LOAD_NEW_DUPLICATE_SPEND_MONEY,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
   LOAD_SPEND_MONEY_DETAIL,
@@ -18,6 +19,7 @@ import {
 import attachmentDetailResponse from './data/attachmentDetail';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadAddedContactResponse from './data/loadAddedContactResponse';
+import newDuplicateSpendMoneyDetailEntry from './data/loadNewDuplicateSpendMoneyDetailEntry';
 import spendMoneyDetailEntry from './data/spendMoneyDetailEntry';
 import spendMoneyDetailPrefillResponse from './data/spendMoneyDetailPrefill';
 import spendMoneyNewEntry from './data/spendMoneyDetailNewEntry';
@@ -27,6 +29,8 @@ import supplierExpenseAccountId from './data/supplierExpenseAccountId';
 import uploadAttachmentResponse from './data/uploadAttachmentResponse';
 
 const newSpendMoney = ({ onSuccess }) => onSuccess(spendMoneyNewEntry);
+
+const newDuplicatedSpendMoney = ({ onSuccess }) => onSuccess(newDuplicateSpendMoneyDetailEntry);
 
 const saveSpendMoney = ({ onSuccess }) => onSuccess(successResponse);
 
@@ -58,6 +62,7 @@ const MemorySpendMoneyMapping = {
   [LOAD_REFERENCE_ID]: getSpendMoneyNextReferenceId,
   [LOAD_SUPPLIER_EXPENSE_ACCOUNT]: ({ onSuccess }) => onSuccess(supplierExpenseAccountId),
   [LOAD_SPEND_MONEY_DETAIL]: loadSpendMoneyDetail,
+  [LOAD_NEW_DUPLICATE_SPEND_MONEY]: newDuplicatedSpendMoney,
   [UPLOAD_ATTACHMENT]: uploadAttachment,
   [REMOVE_ATTACHMENT]: removeAttachment,
   [OPEN_ATTACHMENT]: openAttachment,

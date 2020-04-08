@@ -33,6 +33,7 @@ const SpendMoneyDetailView = ({
   contactModal,
   onUpdateHeaderOptions,
   onSaveButtonClick,
+  onSaveAndButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
   onConfirmCancelButtonClick,
@@ -81,6 +82,7 @@ const SpendMoneyDetailView = ({
     <SpendMoneyDetailActions
       isCreating={isCreating}
       onSaveButtonClick={onSaveButtonClick}
+      onSaveAndButtonClick={onSaveAndButtonClick}
       onCancelButtonClick={onCancelButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}
     />

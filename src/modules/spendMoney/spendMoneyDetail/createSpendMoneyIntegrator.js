@@ -5,9 +5,7 @@ import {
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
-  LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
-  LOAD_SPEND_MONEY_DETAIL,
   LOAD_SUPPLIER_EXPENSE_ACCOUNT,
   OPEN_ATTACHMENT,
   PREFILL_DATA_FROM_IN_TRAY,
@@ -20,6 +18,8 @@ import {
   getLoadAddedAccountUrlParams,
   getLoadAddedContactUrlParams,
   getLoadContactDetailUrlParams,
+  getLoadSpendMoneyIntent,
+  getLoadSpendMoneyRequestParams,
   getSpendMoneyForCreatePayload,
   getSpendMoneyForUpdatePayload,
   getSpendMoneyId,
@@ -29,16 +29,11 @@ import {
 
 const createSpendMoneyIntegrator = (store, integration) => ({
   loadSpendMoney: ({
-    onSuccess, onFailure, spendMoneyId, isCreating,
+    onSuccess, onFailure,
   }) => {
-    const intent = isCreating
-      ? LOAD_NEW_SPEND_MONEY
-      : LOAD_SPEND_MONEY_DETAIL;
-
-    const urlParams = {
-      businessId: getBusinessId(store.getState()),
-      ...(!isCreating && { spendMoneyId }),
-    };
+    const state = store.getState();
+    const intent = getLoadSpendMoneyIntent(state);
+    const urlParams = getLoadSpendMoneyRequestParams(state);
 
     integration.read({
       intent,

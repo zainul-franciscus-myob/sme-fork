@@ -1,5 +1,6 @@
 export const LOAD_NEW_SPEND_MONEY = Symbol('Load a new empty spend money entry data');
 export const LOAD_SPEND_MONEY_DETAIL = Symbol('Load a spend money entry data');
+export const LOAD_NEW_DUPLICATE_SPEND_MONEY = Symbol('Load new duplicate spend money');
 export const LOAD_SUPPLIER_EXPENSE_ACCOUNT = Symbol('Load supplier expense account');
 export const LOAD_REFERENCE_ID = Symbol('Load the reference id');
 export const CREATE_SPEND_MONEY = Symbol('Create a new spend money entry');
