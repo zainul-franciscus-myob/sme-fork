@@ -24,7 +24,8 @@ describe('FinalisationModule', () => {
           onSuccess({
             employees: [
               {
-                name: 'NEW USER',
+                firstName: 'Joe',
+                lastName: 'Smith',
                 id: '123',
               },
             ],
@@ -67,7 +68,7 @@ describe('FinalisationModule', () => {
       wrapper.update();
 
       expect(wrapper.find(Table.Row)).toHaveLength(1);
-      expect(wrapper.find(Table.Row).first().text()).toContain('NEW USER');
+      expect(wrapper.find(Table.Row).first().text()).toContain('Joe');
     });
   });
 

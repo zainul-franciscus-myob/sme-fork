@@ -11,8 +11,11 @@ const tableConfig = {
   checkbox: {
     columnName: '', width: 'auto', cellRole: 'checkbox', valign: 'middle',
   },
-  employeeName: {
-    columnName: 'Employee', width: 'flex-1', valign: 'middle',
+  employeeFirstName: {
+    columnName: 'First name', width: 'flex-1', valign: 'middle',
+  },
+  employeeLastName: {
+    columnName: 'Last name', width: 'flex-1', valign: 'middle',
   },
   terminationDate: {
     columnName: 'Employment end date', width: 'flex-1', valign: 'middle', textWrap: 'wrap',
@@ -68,8 +71,11 @@ const FinalisationEmployeesTable = ({
             }
         />
       </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.employeeName}>
-        {tableConfig.employeeName.columnName}
+      <Table.HeaderItem {...tableConfig.employeeFirstName}>
+        {tableConfig.employeeFirstName.columnName}
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.employeeLastName}>
+        {tableConfig.employeeLastName.columnName}
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.terminationDate}>
         {tableConfig.terminationDate.columnName}
@@ -109,8 +115,11 @@ const FinalisationEmployeesTable = ({
           checked={employee.isSelected}
         />
       </Table.RowItem>
-      <Table.RowItem {...tableConfig.employeeName}>
-        {employee.name}
+      <Table.RowItem {...tableConfig.employeeFirstName}>
+        {employee.firstName}
+      </Table.RowItem>
+      <Table.RowItem {...tableConfig.employeeLastName}>
+        {employee.lastName}
       </Table.RowItem>
       <Table.RowItem {...tableConfig.terminationDate}>
         {employee.terminationDate}
