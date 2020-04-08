@@ -5,9 +5,11 @@ import {
   LOAD_EMPLOYMENT_CLASSIFICATION_LIST,
   LOAD_GENERAL_PAYROLL_INFORMATION,
   LOAD_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL,
+  LOAD_PAY_SLIP_EMAIL_DEFAULTS,
   LOAD_SUPER_FUND_LIST,
   SORT_AND_FILTER_EMPLOYMENT_CLASSIFICATION_LIST,
   SORT_AND_FILTER_SUPER_FUND_LIST,
+  SUBMIT_PAY_SLIP_EMAIL_DEFAULTS,
   UPDATE_EMPLOYMENT_CLASSIFICATION,
   UPDATE_GENERAL_PAYROLL_INFORMATION,
 } from '../PayrollSettingsIntents';
@@ -56,6 +58,14 @@ const HttpPayrollSettingsMapping = {
   [UPDATE_GENERAL_PAYROLL_INFORMATION]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/payrollSettings/update_general_payroll_information`,
+  },
+  [LOAD_PAY_SLIP_EMAIL_DEFAULTS]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/payrollSettings/load_pay_slip_email_defaults`,
+  },
+  [SUBMIT_PAY_SLIP_EMAIL_DEFAULTS]: {
+    method: 'PUT',
+    getPath: ({ businessId }) => `/${businessId}/payrollSettings/submit_pay_slip_email_defaults`,
   },
 };
 

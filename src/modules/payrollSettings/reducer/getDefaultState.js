@@ -44,6 +44,11 @@ const getDefaultState = () => ({
     useTimesheetsWeekStarts: '',
     isUseTimesheetsChanged: false,
   },
+  paySlipEmailDefaults: {
+    loadingState: LoadingState.LOADING_SUCCESS,
+    subject: '',
+    message: '',
+  },
   isPageEdited: false,
 });
 

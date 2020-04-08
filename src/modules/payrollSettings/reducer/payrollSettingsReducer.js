@@ -1,11 +1,13 @@
 import {
   CHANGE_EMPLOYMENT_CLASSIFICATION_DETAIL,
   CHANGE_GENERAL_PAYROLL_INFORMATION,
+  CHANGE_PAY_SLIP_EMAIL_DEFAULTS_FIELD,
   CLOSE_MODAL,
   LOAD_EMPLOYMENT_CLASSIFICATION_DETAIL,
   LOAD_EMPLOYMENT_CLASSIFICATION_LIST,
   LOAD_GENERAL_PAYROLL_INFORMATION,
   LOAD_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL,
+  LOAD_PAY_SLIP_EMAIL_DEFAULTS,
   LOAD_SUPER_FUND_LIST,
   OPEN_MODAL,
   SET_ALERT,
@@ -22,6 +24,7 @@ import {
   SET_IS_USE_TIMESHEETS_CHANGED,
   SET_MODAL_TYPE,
   SET_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL_INITIAL_STATE,
+  SET_PAY_SLIP_EMAIL_DEFAULTS_LOADING_STATE,
   SET_SUPER_FUND_LIST_FILTER_OPTIONS,
   SET_SUPER_FUND_LIST_LOADING_STATE,
   SET_SUPER_FUND_LIST_SORT_ORDER,
@@ -43,6 +46,7 @@ import {
   setEmploymentClassificationInitialState,
   setNewEmploymentClassificationInitialState,
 } from './employmentClassificationDetailReducer';
+import { changePaySlipEmailDefaultsField, loadPaySlipEmailDefaults, setPaySlipEmailDefaultsLoadingState } from './paySlipEmailDefaultsReducer';
 import {
   loadEmploymentClassificationList,
   setEmploymentClassificationListFilterOption,
@@ -191,6 +195,9 @@ const handlers = {
   [SET_IS_PAGE_EDITED]: setIsPageEdited,
   [SET_GENERAL_PAYROLL_INFORMATION_LOADING_STATE]: setGeneralPayrollInformationIsLoading,
   [SET_IS_CURRENT_YEAR_PROVIDED]: setIsCurrentYearProvided,
+  [SET_PAY_SLIP_EMAIL_DEFAULTS_LOADING_STATE]: setPaySlipEmailDefaultsLoadingState,
+  [LOAD_PAY_SLIP_EMAIL_DEFAULTS]: loadPaySlipEmailDefaults,
+  [CHANGE_PAY_SLIP_EMAIL_DEFAULTS_FIELD]: changePaySlipEmailDefaultsField,
 };
 
 const payrollSettingsReducer = createReducer(getDefaultState(), handlers);

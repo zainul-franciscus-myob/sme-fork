@@ -5,9 +5,11 @@ import {
   LOAD_EMPLOYMENT_CLASSIFICATION_LIST,
   LOAD_GENERAL_PAYROLL_INFORMATION,
   LOAD_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL,
+  LOAD_PAY_SLIP_EMAIL_DEFAULTS,
   LOAD_SUPER_FUND_LIST,
   SORT_AND_FILTER_EMPLOYMENT_CLASSIFICATION_LIST,
   SORT_AND_FILTER_SUPER_FUND_LIST,
+  SUBMIT_PAY_SLIP_EMAIL_DEFAULTS,
   UPDATE_EMPLOYMENT_CLASSIFICATION,
   UPDATE_GENERAL_PAYROLL_INFORMATION,
 } from './PayrollSettingsIntents';
@@ -27,6 +29,7 @@ import {
   getSaveEmploymentClassificationContent,
 } from './selectors/employmentClassificationDetailSelectors';
 import { getFilterOptions, getOrderBy, getSortOrder } from './selectors/superFundListSelectors';
+import { getPaySlipEmailDefaultsContent, getPaySlipEmailDefaultsUrlParams } from './selectors/paySlipEmailDefaultsSelectors';
 
 const createPayrollSettingsIntegrator = (store, integration) => ({
   loadSuperFundList: ({ onSuccess, onFailure }) => {
@@ -138,6 +141,39 @@ const createPayrollSettingsIntegrator = (store, integration) => ({
       urlParams,
       onSuccess,
       onFailure,
+    });
+  },
+
+  loadPaySlipEmailDefaults: ({
+    onSuccess, onFailure,
+  }) => {
+    const intent = LOAD_PAY_SLIP_EMAIL_DEFAULTS;
+
+    const state = store.getState();
+    const urlParams = getPaySlipEmailDefaultsUrlParams(state);
+
+    integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  submitPaySlipEmailDefaults: ({
+    onSuccess, onFailure,
+  }) => {
+    const intent = SUBMIT_PAY_SLIP_EMAIL_DEFAULTS;
+    const state = store.getState();
+    const urlParams = getPaySlipEmailDefaultsUrlParams(state);
+    const content = getPaySlipEmailDefaultsContent(state);
+
+    integration.write({
+      intent,
+      onSuccess,
+      onFailure,
+      urlParams,
+      content,
     });
   },
 

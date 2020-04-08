@@ -5,9 +5,11 @@ import {
   LOAD_EMPLOYMENT_CLASSIFICATION_LIST,
   LOAD_GENERAL_PAYROLL_INFORMATION,
   LOAD_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL,
+  LOAD_PAY_SLIP_EMAIL_DEFAULTS,
   LOAD_SUPER_FUND_LIST,
   SORT_AND_FILTER_EMPLOYMENT_CLASSIFICATION_LIST,
   SORT_AND_FILTER_SUPER_FUND_LIST,
+  SUBMIT_PAY_SLIP_EMAIL_DEFAULTS,
   UPDATE_EMPLOYMENT_CLASSIFICATION,
   UPDATE_GENERAL_PAYROLL_INFORMATION,
 } from '../PayrollSettingsIntents';
@@ -17,6 +19,7 @@ import loadEmployeeClassificationListResponse from './data/employmentClassificat
 import loadEmploymentClassificationDetailResponse from './data/loadEmploymentClassificationDetailResponse';
 import loadGeneralPayrollInformationResponse from './data/loadGeneralPayrollInformationResponse';
 import loadNewEmploymentClassificationDetailResponse from './data/loadNewEmploymentClassificationDetailResponse';
+import loadPaySlipEmailDefaultsResponse from './data/loadPaySlipEmailDefaultsResponse';
 import loadSuperFundListResponse from './data/superannuationList';
 import successResponse from '../../../integration/data/success.json';
 
@@ -42,6 +45,10 @@ const loadGeneralPayrollInformationDetail = ({ onSuccess }) => onSuccess(
   loadGeneralPayrollInformationResponse,
 );
 
+const loadPaySlipEmailDefaults = ({ onSuccess }) => onSuccess(
+  loadPaySlipEmailDefaultsResponse,
+);
+
 const successfulRequest = ({ onSuccess }) => onSuccess(successResponse);
 
 const MemoryPayrollSettingsMapping = {
@@ -56,6 +63,8 @@ const MemoryPayrollSettingsMapping = {
   [DELETE_EMPLOYMENT_CLASSIFICATION]: successfulRequest,
   [LOAD_GENERAL_PAYROLL_INFORMATION]: loadGeneralPayrollInformationDetail,
   [UPDATE_GENERAL_PAYROLL_INFORMATION]: successfulRequest,
+  [LOAD_PAY_SLIP_EMAIL_DEFAULTS]: loadPaySlipEmailDefaults,
+  [SUBMIT_PAY_SLIP_EMAIL_DEFAULTS]: successfulRequest,
 };
 
 export default MemoryPayrollSettingsMapping;

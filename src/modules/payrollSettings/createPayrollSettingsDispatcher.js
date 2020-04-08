@@ -1,11 +1,13 @@
 import {
   CHANGE_EMPLOYMENT_CLASSIFICATION_DETAIL,
   CHANGE_GENERAL_PAYROLL_INFORMATION,
+  CHANGE_PAY_SLIP_EMAIL_DEFAULTS_FIELD,
   CLOSE_MODAL,
   LOAD_EMPLOYMENT_CLASSIFICATION_DETAIL,
   LOAD_EMPLOYMENT_CLASSIFICATION_LIST,
   LOAD_GENERAL_PAYROLL_INFORMATION,
   LOAD_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL,
+  LOAD_PAY_SLIP_EMAIL_DEFAULTS,
   LOAD_SUPER_FUND_LIST,
   OPEN_MODAL,
   SET_ALERT,
@@ -22,6 +24,7 @@ import {
   SET_IS_USE_TIMESHEETS_CHANGED,
   SET_MODAL_TYPE,
   SET_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL_INITIAL_STATE,
+  SET_PAY_SLIP_EMAIL_DEFAULTS_LOADING_STATE,
   SET_SUPER_FUND_LIST_FILTER_OPTIONS,
   SET_SUPER_FUND_LIST_LOADING_STATE,
   SET_SUPER_FUND_LIST_SORT_ORDER,
@@ -140,6 +143,31 @@ const createPayrollSettingsDispatcher = store => ({
     store.dispatch({
       intent,
       isTableLoading,
+    });
+  },
+
+  setPaySlipEmailDefaultsLoadingState: (loadingState) => {
+    const intent = SET_PAY_SLIP_EMAIL_DEFAULTS_LOADING_STATE;
+    store.dispatch({
+      intent,
+      loadingState,
+    });
+  },
+
+  loadPaySlipEmailDefaults: (response) => {
+    const intent = LOAD_PAY_SLIP_EMAIL_DEFAULTS;
+    store.dispatch({
+      intent,
+      response,
+    });
+  },
+
+  changePaySlipEmailDefaultsField: ({ key, value }) => {
+    const intent = CHANGE_PAY_SLIP_EMAIL_DEFAULTS_FIELD;
+    store.dispatch({
+      intent,
+      key,
+      value,
     });
   },
 

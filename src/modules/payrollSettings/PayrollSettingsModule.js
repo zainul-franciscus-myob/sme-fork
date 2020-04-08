@@ -71,9 +71,28 @@ export default class PayrollSettingsModule {
       [tabIds.superFundList]: this.loadSuperFundList,
       [tabIds.classification]: this.loadEmploymentClassificationList,
       [tabIds.general]: this.loadGeneralPayrollInformation,
+      [tabIds.paySlipEmailDefaults]: this.loadPaySlipEmailDefaults,
     }[selectedTab] || (() => {});
 
     loadData();
+  }
+
+  loadPaySlipEmailDefaults = () => {
+    this.dispatcher.setPaySlipEmailDefaultsLoadingState(LoadingState.LOADING);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setPaySlipEmailDefaultsLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.loadPaySlipEmailDefaults(response);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setPaySlipEmailDefaultsLoadingState(LoadingState.LOADING_FAIL);
+    };
+
+    this.integrator.loadPaySlipEmailDefaults({
+      onSuccess,
+      onFailure,
+    });
   }
 
   loadSuperFundList = () => {
@@ -350,6 +369,30 @@ export default class PayrollSettingsModule {
     }
   }
 
+  submitPaySlipEmailDefaults = () => {
+    this.dispatcher.setPaySlipEmailDefaultsLoadingState(LoadingState.LOADING);
+
+    const onSuccess = ({ message }) => {
+      this.dispatcher.setPaySlipEmailDefaultsLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setAlert({
+        message,
+        type: 'success',
+      });
+    };
+    const onFailure = ({ message }) => {
+      this.dispatcher.setPaySlipEmailDefaultsLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setAlert({
+        message,
+        type: 'danger',
+      });
+    };
+
+    this.integrator.submitPaySlipEmailDefaults({
+      onSuccess,
+      onFailure,
+    });
+  }
+
   resetState = () => {
     this.dispatcher.resetState();
   };
@@ -418,6 +461,10 @@ export default class PayrollSettingsModule {
           onSaveEmploymentClassificationDetail: this.saveEmploymentClassification,
           onDeleteEmploymentClassificationDetail: this.deleteEmploymentClassification,
           onDismissEmploymentClassificationAlert: this.dismissEmploymentClassificationAlert,
+        }}
+        paySlipEmailDefaultsListeners={{
+          onPaySlipEmailDefaultsFieldChange: this.dispatcher.changePaySlipEmailDefaultsField,
+          onPaySlipEmailDefaultsSave: this.submitPaySlipEmailDefaults,
         }}
       />
     );

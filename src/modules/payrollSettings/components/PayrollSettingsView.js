@@ -1,5 +1,5 @@
 import {
-  Alert, StandardTemplate,
+  Alert,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -9,14 +9,17 @@ import { tabIds, tabItems } from '../tabItems';
 // Temporarily hide the Classification tab
 // import EmployeeClassificationListView from
 // './employmentClassificationList/EmploymentClassificationListView';
+import { tabItemsWithoutPaySlipEmailDefaults } from '../tabItemsWithoutPaySlipEmailDefaults';
 import EmploymentClassificationDetailModal from './employmentClassificationDetail/EmploymentClassificationDetailModal';
 import GeneralPayrollInformationView from './generalPayrollInformation/GeneralPayrollInformationView';
 import ModalType from '../ModalType';
+import PaySlipEmailDefaultsView from './paySlipEmailDefaults/PaySlipEmailDefaultsView';
 import SuperFundListView from './superFundList/SuperFundListView';
 import Tabs from '../../../components/Tabs/Tabs';
+import paySlipEmailDefaultsTabEnabled from '../../../common/featureToggles/paySlipEmailDefaultsTabFeatureToggle';
 
-const EmptyView = ({ pageHead, alert, tabs }) => (
-  <StandardTemplate sticky="none" pageHead={pageHead} alert={alert} subHeadChildren={tabs} />
+const getTabItems = () => (
+  paySlipEmailDefaultsTabEnabled ? tabItems : tabItemsWithoutPaySlipEmailDefaults
 );
 
 const PayrollSettingsView = (props) => {
@@ -30,6 +33,7 @@ const PayrollSettingsView = (props) => {
     // employmentClassificationListeners, <-- Temporarily hide the Classification tab
     employmentClassificationDetailListeners,
     generalPayrollInformationListeners,
+    paySlipEmailDefaultsListeners,
   } = props;
 
   const alertComponent = alert && (
@@ -38,7 +42,9 @@ const PayrollSettingsView = (props) => {
     </Alert>
   );
 
-  const tabsComponent = <Tabs items={tabItems} selected={selectedTab} onSelected={onSelectTab} />;
+  const tabsComponent = (
+    <Tabs items={getTabItems()} selected={selectedTab} onSelected={onSelectTab} />
+  );
 
   const modal = {
     [ModalType.EMPLOYMENT_CLASSIFICATION_DETAIL]: <EmploymentClassificationDetailModal
@@ -51,7 +57,7 @@ const PayrollSettingsView = (props) => {
     // Temporarily hide the Classification tab
     // [tabIds.classification]: EmployeeClassificationListView,
     [tabIds.superFundList]: SuperFundListView,
-    [tabIds.paySlips]: EmptyView,
+    [tabIds.paySlipEmailDefaults]: PaySlipEmailDefaultsView,
   }[selectedTab];
 
   const listeners = {
@@ -59,6 +65,7 @@ const PayrollSettingsView = (props) => {
     // Temporarily hide the Classification tab
     // [tabIds.classification]: employmentClassificationListeners,
     [tabIds.general]: generalPayrollInformationListeners,
+    [tabIds.paySlipEmailDefaults]: paySlipEmailDefaultsListeners,
   }[selectedTab];
 
   return (

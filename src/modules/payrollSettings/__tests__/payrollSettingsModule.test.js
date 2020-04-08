@@ -1,14 +1,18 @@
-import { ReadOnly } from '@myob/myob-widgets';
+import { Alert, ReadOnly } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 
+import * as paySlipEmailDefaultsTabEnabled from '../../../common/featureToggles/paySlipEmailDefaultsTabFeatureToggle';
 import {
-  SET_EMPLOYMENT_CLASSIFICATION_LIST_FILTER_OPTIONS, SET_EMPLOYMENT_CLASSIFICATION_LIST_SORT_ORDER,
-  SET_EMPLOYMENT_CLASSIFICATION_LIST_TABLE_LOADING_STATE,
-  SET_SUPER_FUND_LIST_FILTER_OPTIONS, SET_SUPER_FUND_LIST_SORT_ORDER,
+  LOAD_PAY_SLIP_EMAIL_DEFAULTS, SET_EMPLOYMENT_CLASSIFICATION_LIST_FILTER_OPTIONS,
+  SET_EMPLOYMENT_CLASSIFICATION_LIST_SORT_ORDER,
+  SET_EMPLOYMENT_CLASSIFICATION_LIST_TABLE_LOADING_STATE, SET_SUPER_FUND_LIST_FILTER_OPTIONS,
+  SET_SUPER_FUND_LIST_SORT_ORDER,
   SET_SUPER_FUND_LIST_TABLE_LOADING_STATE,
   SORT_AND_FILTER_EMPLOYMENT_CLASSIFICATION_LIST,
   SORT_AND_FILTER_SUPER_FUND_LIST,
+  SUBMIT_PAY_SLIP_EMAIL_DEFAULTS,
 } from '../PayrollSettingsIntents';
+import { findButtonWithTestId } from '../../../common/tests/selectors';
 import { tabIds } from '../tabItems';
 import LoadingState from '../../../components/PageView/LoadingState';
 import PayrollSettingsModule from '../PayrollSettingsModule';
@@ -18,24 +22,27 @@ import YearInput from '../../../components/autoFormatter/YearInput/YearInput';
 import createPayrollSettingsDispatcher from '../createPayrollSettingsDispatcher';
 import createPayrollSettingsIntegrator from '../createPayrollSettingsIntegrator';
 import loadGeneralPayrollInformationResponse from '../mappings/data/loadGeneralPayrollInformationResponse';
+import loadPaySlipEmailDefaultsResponse from '../mappings/data/loadPaySlipEmailDefaultsResponse';
 import payrollSettingsReducer from '../reducer/payrollSettingsReducer';
+
+const defaultIntegration = {
+  read: ({ onSuccess }) => {
+    onSuccess(
+      loadGeneralPayrollInformationResponse,
+    );
+  },
+};
 
 describe('PayrollSettingsModule', () => {
   const businessId = 'businessId';
   const region = 'au';
 
-  const constructPayrollSettingsModule = (generalPayrollInformationResponse) => {
-    const context = { tab: tabIds.general };
+  const constructPayrollSettingsModule = (
+    integration = defaultIntegration, tab = tabIds.general,
+  ) => {
+    const context = { tab };
     const popMessages = () => (['']);
     const replaceURLParams = url => (url);
-
-    const integration = {
-      read: ({ onSuccess }) => {
-        onSuccess(
-          generalPayrollInformationResponse || loadGeneralPayrollInformationResponse,
-        );
-      },
-    };
 
     let wrapper;
     const setRootView = (component) => {
@@ -85,7 +92,14 @@ describe('PayrollSettingsModule', () => {
 
   describe('Current Year field', () => {
     it('sets the current year to ReadOnly when current year is provided', () => {
-      const wrapper = constructPayrollSettingsModule();
+      const integration = {
+        read: ({ onSuccess }) => {
+          onSuccess(
+            loadGeneralPayrollInformationResponse,
+          );
+        },
+      };
+      const wrapper = constructPayrollSettingsModule(integration);
 
       const currentYearField = wrapper.find({ testid: 'currentYearField' }).find(ReadOnly);
       expect(currentYearField).toHaveLength(1);
@@ -98,12 +112,120 @@ describe('PayrollSettingsModule', () => {
         ...loadGeneralPayrollInformationResponse,
         currentYear: null,
       };
+      const integration = {
+        read: ({ onSuccess }) => {
+          onSuccess(
+            generalPayrollInformationResponse,
+          );
+        },
+      };
 
-      const wrapper = constructPayrollSettingsModule(generalPayrollInformationResponse);
+      const wrapper = constructPayrollSettingsModule(integration);
 
       const currentYearField = wrapper.find({ testid: 'currentYearField' }).find(YearInput);
 
       expect(currentYearField).toHaveLength(1);
+    });
+  });
+
+  describe('pay slip email defaults tab', () => {
+    describe('paySlipEmailDefaultsTabEnabled', () => {
+      it('should include the tab when paySlipEmailDefaultsTabEnabled is true', () => {
+        paySlipEmailDefaultsTabEnabled.default = true;
+        const wrapper = constructPayrollSettingsModule();
+        const paySlipEmailDefaultsTab = wrapper.findWhere(
+          c => c.name() === 'TabItem' && c.text().includes('Pay slip email defaults'),
+        );
+
+        expect(paySlipEmailDefaultsTab).toHaveLength(1);
+      });
+
+      it('should not include the tab when paySlipEmailDefaultsTabEnabled is false', () => {
+        paySlipEmailDefaultsTabEnabled.default = false;
+        const wrapper = constructPayrollSettingsModule();
+        const paySlipEmailDefaultsTab = wrapper.findWhere(
+          c => c.name() === 'TabItem' && c.text().includes('Pay slip email defaults'),
+        );
+
+        expect(paySlipEmailDefaultsTab).toHaveLength(0);
+      });
+    });
+
+    describe('value loading', () => {
+      it('should fetch current defaults', () => {
+        const integration = {
+          read: jest.fn(),
+        };
+        constructPayrollSettingsModule(integration, tabIds.paySlipEmailDefaults);
+
+        expect(integration.read).toHaveBeenCalledWith(expect.objectContaining({
+          intent: LOAD_PAY_SLIP_EMAIL_DEFAULTS,
+        }));
+      });
+
+      it('should populate fields with response data', () => {
+        const integration = {
+          read: ({ onSuccess }) => onSuccess(loadPaySlipEmailDefaultsResponse),
+        };
+        const wrapper = constructPayrollSettingsModule(integration, tabIds.paySlipEmailDefaults);
+
+        const subjectInput = wrapper.findWhere(
+          c => c.name() === 'Input' && c.prop('label') === 'Subject',
+        );
+        const messageInput = wrapper.findWhere(
+          c => c.name() === 'TextArea' && c.prop('label') === 'Message',
+        );
+        expect(subjectInput.prop('value')).toEqual(loadPaySlipEmailDefaultsResponse.subject);
+        expect(messageInput.prop('value')).toEqual(loadPaySlipEmailDefaultsResponse.message);
+      });
+    });
+
+    describe('saving', () => {
+      it('should write data to the integration on save button click', () => {
+        const integration = {
+          read: ({ onSuccess }) => onSuccess(loadPaySlipEmailDefaultsResponse),
+          write: jest.fn(),
+        };
+        const wrapper = constructPayrollSettingsModule(integration, tabIds.paySlipEmailDefaults);
+        const saveButton = findButtonWithTestId(wrapper, 'saveButton');
+        saveButton.simulate('click');
+
+        expect(integration.write).toHaveBeenCalledWith(expect.objectContaining({
+          intent: SUBMIT_PAY_SLIP_EMAIL_DEFAULTS,
+        }));
+      });
+
+      it('should render an alert if the submission fails', () => {
+        const integration = {
+          read: ({ onSuccess }) => onSuccess(loadPaySlipEmailDefaultsResponse),
+          write: ({ onFailure }) => onFailure({ message: 'test message' }),
+        };
+        const wrapper = constructPayrollSettingsModule(integration, tabIds.paySlipEmailDefaults);
+        const saveButton = findButtonWithTestId(wrapper, 'saveButton');
+
+        saveButton.simulate('click');
+
+        const alert = wrapper.find(Alert);
+        expect(alert).toHaveLength(1);
+        expect(alert.text()).toContain('test message');
+        expect(alert.prop('type')).toEqual('danger');
+      });
+
+      it('should render success message if the submission succeeds', () => {
+        const integration = {
+          read: ({ onSuccess }) => onSuccess(loadPaySlipEmailDefaultsResponse),
+          write: ({ onSuccess }) => onSuccess({ message: 'test message' }),
+        };
+        const wrapper = constructPayrollSettingsModule(integration, tabIds.paySlipEmailDefaults);
+        const saveButton = findButtonWithTestId(wrapper, 'saveButton');
+
+        saveButton.simulate('click');
+
+        const alert = wrapper.find(Alert);
+        expect(alert).toHaveLength(1);
+        expect(alert.text()).toContain('test message');
+        expect(alert.prop('type')).toEqual('success');
+      });
     });
   });
 
