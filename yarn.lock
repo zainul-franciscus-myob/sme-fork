@@ -1890,15 +1890,15 @@
   resolved "https://npm.myob.com/npm/@myob/ldal/-/0.2.4/ldal-0.2.4.tgz#17cf7f18196150a8aeb9bdf880c9eced274092ee"
   integrity sha512-YtTcUfYbRLD2YgjPqkiN2PLMiDtnAPV6AZ+o+BqGgElOak6QWv/aqMrPBkJfj8dPVhFcxpZ2iV7RowswE+k5sg==
 
-"@myob/myob-styles@5.13.0":
-  version "5.13.0"
-  resolved "https://npm.myob.com/npm/@myob/myob-styles/-/5.13.0/styles-5.13.0.tgz#63475db41a4090697d81b319ab719002fda342d4"
-  integrity sha512-HAAVUq8txwBABT/JHq8KhMnO9S/TYdiLeYmS4o1DyK7zwbymHdLsSNBIKOJQOiPxJbHMvIyg/tQ/p2yjRMWD8A==
+"@myob/myob-styles@5.14.0":
+  version "5.14.0"
+  resolved "https://npm.myob.com/npm/@myob/myob-styles/-/5.14.0/styles-5.14.0.tgz#0307d524e37f0864e160d17216fd46cc7aa409cc"
+  integrity sha512-uveL4ujoUVGO3LzisMImkxVVcGHK4TkVrW8ncFpWxwdIgIY832scABPdI/PmYeXTpRUmLH/TE8C2pbEIzBBcHw==
 
-"@myob/myob-widgets@5.13.0":
-  version "5.13.0"
-  resolved "https://npm.myob.com/npm/@myob/myob-widgets/-/5.13.0/widgets-5.13.0.tgz#8b7926bd2bc52f52dc6267ab5708096781d95b43"
-  integrity sha512-4Y0GHqA+0qesqMxCYZHWPfGw3g7QKS05jp9ifvNMCUwBMc9IkT1pTyVm9STY/ozom0/ofHdAqmGjrsO8M91k4Q==
+"@myob/myob-widgets@5.14.0":
+  version "5.14.0"
+  resolved "https://npm.myob.com/npm/@myob/myob-widgets/-/5.14.0/widgets-5.14.0.tgz#7d4f44b9ced4045267d22e9a22c10c19dd88a2ac"
+  integrity sha512-dhC7POGqVyepazDfmaa8aL2LF8Uc5fQPflXm4TwOkvi3jmk62dVhcE6bKqOUYlp1QWU5ELK1wcI9x2BJyZ//Ng==
   dependencies:
     accounting "0.4.1"
     classnames "2.2.5"
@@ -1908,6 +1908,7 @@
     draft-js-export-html "1.2.0"
     draft-js-utils "1.4.0"
     estraverse "4.2.0"
+    focus-visible "^5.0.2"
     immutable "^3.8.2"
     lodash.bindall "4.4.0"
     lodash.clone "4.5.0"
@@ -1933,6 +1934,7 @@
     react-sticky-el "1.0.20"
     react-transition-group "2.2.1"
     react-with-direction "1.3.0"
+    resize-observer-polyfill "^1.5.1"
     shortid "2.2.8"
     store2 "2.7.0"
     validate.js "0.11.1"
@@ -6130,6 +6132,11 @@ focus-trap@^3.0.0:
   dependencies:
     tabbable "^3.1.0"
     xtend "^4.0.1"
+
+focus-visible@^5.0.2:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/focus-visible/-/focus-visible-5.1.0.tgz#4b9d40143b865f53eafbd93ca66672b3bf9e7b6a"
+  integrity sha512-nPer0rjtzdZ7csVIu233P2cUm/ks/4aVSI+5KUkYrYpgA7ujgC3p6J7FtFU+AIMWwnwYQOB/yeiOITxFeYIXiw==
 
 follow-redirects@^1.0.0:
   version "1.9.0"
@@ -11835,6 +11842,11 @@ reselect@4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/reselect/-/reselect-4.0.0.tgz#f2529830e5d3d0e021408b246a206ef4ea4437f7"
   integrity sha512-qUgANli03jjAyGlnbYVAV5vvnOmJnODyABz51RdBN7M4WaVu8mecZWgyQNkG8Yqe3KRGRt0l4K4B3XVEULC4CA==
+
+resize-observer-polyfill@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
+  integrity sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==
 
 resolve-cwd@^2.0.0:
   version "2.0.0"
