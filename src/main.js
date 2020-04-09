@@ -19,13 +19,17 @@ async function main(integrationType, telemetryType, leanEngageType) {
 
   const rootModule = new RootModule();
 
-  const createIntegration = (await import(`./integration/create${integrationType}Integration.js`)).default;
+  const integrationPath = `./integration/create${integrationType}Integration.js`;
+  const telemetryPath = `./telemetry/initialize${telemetryType}Telemetry`;
+  const leanEngagePath = `./leanEngage/initialize${leanEngageType}LeanEngage`;
+
+  const createIntegration = (await import(integrationPath)).default;
   const integration = createIntegration({
     getRegion: rootModule.getRegion,
   });
-  const initializeTelemetry = (await import(`./telemetry/initialize${telemetryType}Telemetry`)).default;
+  const initializeTelemetry = (await import(telemetryPath)).default;
   const telemetry = initializeTelemetry();
-  const initializeLeanEngage = (await import(`./leanEngage/initialize${leanEngageType}LeanEngage`)).default;
+  const initializeLeanEngage = (await import(leanEngagePath)).default;
   const startLeanEngage = initializeLeanEngage(Config.LEAN_ENGAGE_APP_ID);
 
   const router = new Router({
