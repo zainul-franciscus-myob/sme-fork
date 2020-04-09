@@ -32,7 +32,7 @@ describe('receiveMoneyDetailReducer', () => {
       expect(actual.receiveMoney.lines[1].hello).toEqual(3);
     });
 
-    it('updates both amount and displayAmount when key is amount', () => {
+    it('updates amount when key is amount', () => {
       const state = {
         receiveMoney: {
           lines: [
@@ -51,7 +51,6 @@ describe('receiveMoneyDetailReducer', () => {
       const actual = receiveMoneyReducer(state, action);
 
       expect(actual.receiveMoney.lines[0].amount).toEqual('1234');
-      expect(actual.receiveMoney.lines[0].displayAmount).toEqual('1234');
     });
 
     it('updates taxCodeId and accountId when key is accountId', () => {
@@ -263,7 +262,6 @@ describe('receiveMoneyDetailReducer', () => {
           lines: [
             {
               amount: '5',
-              displayAmount: '5.00',
             },
           ],
           isTaxInclusive: false,

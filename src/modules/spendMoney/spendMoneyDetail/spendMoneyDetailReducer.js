@@ -41,9 +41,7 @@ import {
 } from './spendMoneyDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
-import formatAmount from '../../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../../common/valueFormatters/formatCurrency';
-import formatDisplayAmount from '../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const defaultPrefillStatus = {
@@ -82,7 +80,6 @@ const getDefaultState = () => ({
   newLine: {
     accountId: '',
     amount: '',
-    displayAmount: '',
     quantity: '',
     description: '',
     taxCodeId: '',
@@ -130,11 +127,9 @@ const getLinePrefillStatus = (key, currentStateLinePrefillStatus) => {
 
 const updateSpendMoneyLine = (line, { lineKey, lineValue }, accounts) => {
   const isUpdateAccount = lineKey === 'accountId';
-  const isUpdateAmount = lineKey === 'amount';
 
   const updatedLine = {
     ...line,
-    displayAmount: isUpdateAmount ? lineValue : line.displayAmount,
     taxCodeId: isUpdateAccount
       ? getDefaultTaxCodeId({ accountId: lineValue, accounts })
       : line.taxCodeId,
@@ -157,30 +152,24 @@ const updateLine = (state, action) => ({
   },
 });
 
-const addLine = (state, action) => {
-  const isUpdateAmount = action.line.amount;
-  const displayAmount = isUpdateAmount || state.newLine.displayAmount;
-
-  return {
-    ...state,
-    ...pageEdited,
-    spendMoney: {
-      ...state.spendMoney,
-      lines: [
-        ...state.spendMoney.lines,
-        {
-          ...state.newLine,
-          ...action.line,
-          displayAmount,
-          taxCodeId: getDefaultTaxCodeId({
-            accountId: action.line.accountId,
-            accounts: state.accounts,
-          }),
-        },
-      ],
-    },
-  };
-};
+const addLine = (state, action) => ({
+  ...state,
+  ...pageEdited,
+  spendMoney: {
+    ...state.spendMoney,
+    lines: [
+      ...state.spendMoney.lines,
+      {
+        ...state.newLine,
+        ...action.line,
+        taxCodeId: getDefaultTaxCodeId({
+          accountId: action.line.accountId,
+          accounts: state.accounts,
+        }),
+      },
+    ],
+  },
+});
 
 const deleteLine = (state, action) => ({
   ...state,
@@ -268,10 +257,6 @@ const loadSpendMoneyDetail = (state, action) => ({
     ...action.spendMoney,
     originalReferenceId: action.spendMoney.referenceId,
     originalBankStatementText: action.spendMoney.bankStatementText,
-    lines: action.spendMoney.lines.map(line => ({
-      ...line,
-      displayAmount: formatDisplayAmount(line.amount),
-    })),
   },
   accounts: action.accounts,
   taxCodes: action.taxCodes,
@@ -354,7 +339,6 @@ const getTaxCalculations = (state, { taxCalculations: { lines, totals } }) => ({
       return {
         ...line,
         amount: amount.valueOf(),
-        displayAmount: formatAmount(amount.valueOf()),
       };
     }),
   },
@@ -483,7 +467,6 @@ const clearInTrayDocumentUrl = state => ({
 const getPrefilledLineFromInTray = (state, prefilledLine, expenseAccountId) => ({
   ...state.newLine,
   amount: prefilledLine.amount,
-  displayAmount: prefilledLine.amount,
   description: prefilledLine.description || state.newLine.description,
   accountId: expenseAccountId || state.newLine.accountId,
   taxCodeId: expenseAccountId

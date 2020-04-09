@@ -10,7 +10,7 @@ import {
   getTaxCodeOptions,
 } from '../selectors/receiveMoneyDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
-import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
+import AmountInput from '../../../../components/autoFormatter/AmountInput/FormattedAmountInput';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 
 const onComboboxChange = (name, handler) => (item) => {
@@ -51,7 +51,7 @@ const ReceiveMoneyDetailRow = ({
   const data = isNewLineRow ? newLineData : lineData;
 
   const {
-    displayAmount,
+    amount,
     units,
     description,
     accountId,
@@ -78,10 +78,11 @@ const ReceiveMoneyDetailRow = ({
       <AmountInput
         label="Amount"
         name="amount"
-        value={displayAmount}
+        value={amount}
         onChange={onAmountInputChange('amount', onChange)}
         onBlur={onRowInputBlur}
         textAlign="right"
+        numeralDecimalScaleMin={2}
         disabled={isSubmitting}
       />
       <AmountInput

@@ -7,7 +7,6 @@ import {
   addDecimalPlaces,
   removeCommas,
 } from './formatter';
-import areValuesEqual from './areValuesEqual';
 import copyEventWithValue from '../autoFormatter/AmountInput/copyEventWithValue';
 import createValidator from './validate';
 import evaluate from './evaluate';
@@ -65,7 +64,6 @@ const onWrappedOnChange = ({
   setCurrValue,
   setIsActive,
   validate,
-  onChange,
   setNewCursorPosition,
 }) => (e) => {
   const { value } = e.target;
@@ -73,9 +71,7 @@ const onWrappedOnChange = ({
 
   if (isValidValue) {
     const valueWithoutCommas = removeCommas(value);
-    const event = copyEventWithValue(e, valueWithoutCommas);
     setCurrValue(valueWithoutCommas);
-    onChange(event);
     setIsActive(isCalculableExpression(valueWithoutCommas));
     setNewCursorPosition(value);
   }
@@ -95,11 +91,9 @@ const Calculator = ({
   className,
   disabled,
 }) => {
-  const valueWithoutCommas = removeCommas(value);
-
   // eslint-disable-next-line no-unused-vars
   const [id, _] = useState(shortid.generate());
-  const [currValue, setCurrValue] = useState(valueWithoutCommas);
+  const [currValue, setCurrValue] = useState(value);
   const [target, setTarget] = useState(null);
   const [isActive, setIsActive] = useState(false);
 
@@ -134,10 +128,16 @@ const Calculator = ({
     setCursorPositionOnPage();
   });
 
+  useEffect(() => {
+    const valueWithDecimalPlaces = addDecimalPlaces(
+      value,
+      numeralDecimalScaleMin,
+      numeralDecimalScaleMax,
+    );
 
-  if (!areValuesEqual(currValue, value)) {
-    setCurrValue(valueWithoutCommas);
-  }
+    // Trigger setCurrValue to update value visible to user
+    setCurrValue(valueWithDecimalPlaces);
+  }, [numeralDecimalScaleMax, numeralDecimalScaleMin, value]);
 
   const validate = createValidator({ numeralIntegerScale });
   const onCalculatorChange = onWrappedOnChange({

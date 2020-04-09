@@ -22,7 +22,6 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { getDefaultTaxCodeId, getUpdatedContactOptions } from './selectors/receiveMoneyDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
-import formatDisplayAmount from '../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
@@ -43,7 +42,6 @@ const getDefaultState = () => ({
   newLine: {
     accountId: '',
     amount: '',
-    displayAmount: '',
     units: '',
     description: '',
     taxCodeId: '',
@@ -79,10 +77,6 @@ const loadReceiveMoneyDetail = (state, action) => ({
     ...state.receiveMoney,
     ...action.receiveMoney,
     originalReferenceId: action.receiveMoney.referenceId,
-    lines: action.receiveMoney.lines.map(line => ({
-      ...line,
-      displayAmount: formatDisplayAmount(line.amount),
-    })),
   },
   newLine: { ...state.newLine, ...action.newLine },
   totals: action.totals,
@@ -103,7 +97,6 @@ const updateLine = (state, action) => ({
       if (index === action.lineIndex) {
         return ({
           ...line,
-          displayAmount: action.lineKey === 'amount' ? action.lineValue : line.displayAmount,
           taxCodeId: action.lineKey === 'accountId'
             ? getDefaultTaxCodeId({
               accountId: action.lineValue,
@@ -194,7 +187,6 @@ const getTaxCalculations = (state, action) => ({
     lines: action.lines.map(line => ({
       ...line,
       amount: line.amount.valueOf(),
-      displayAmount: formatDisplayAmount(line.amount.valueOf()),
     })),
   },
   totals: action.totals,

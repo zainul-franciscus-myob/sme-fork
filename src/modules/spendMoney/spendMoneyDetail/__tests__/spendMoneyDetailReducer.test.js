@@ -2,7 +2,6 @@ import Decimal from 'decimal.js';
 
 import {
   ADD_ATTACHMENTS,
-  ADD_SPEND_MONEY_LINE,
   APPEND_ALERT_MESSAGE,
   GET_TAX_CALCULATIONS,
   LOAD_ACCOUNT_AFTER_CREATE,
@@ -439,7 +438,6 @@ describe('spendMoneyDetailReducer', () => {
             expenseAccountId: '1',
             lines: [{
               amount: '10.00',
-              displayAmount: '10.00',
               description: 'Cooler Large',
               accountId: '1',
               taxCodeId: '1',
@@ -573,7 +571,6 @@ describe('spendMoneyDetailReducer', () => {
           spendMoney: {
             lines: [{
               amount: '10.00',
-              displayAmount: '10.00',
               accountId: '',
               taxCodeId: '',
               prefillStatus: {
@@ -618,7 +615,6 @@ describe('spendMoneyDetailReducer', () => {
         lines: [
           {
             amount: '0',
-            displayAmount: '0.00',
           },
         ],
       },
@@ -642,7 +638,6 @@ describe('spendMoneyDetailReducer', () => {
         lines: [
           {
             amount: '100',
-            displayAmount: '100.00',
           },
         ],
       },
@@ -885,28 +880,6 @@ describe('spendMoneyDetailReducer', () => {
       };
 
       expect(actual.alert).toEqual(expected);
-    });
-  });
-
-  describe('addLine', () => {
-    it('should update displayAmount if amount is being updated', () => {
-      const state = {
-        accounts: [],
-        spendMoney: {
-          lines: [],
-        },
-      };
-
-      const action = {
-        intent: ADD_SPEND_MONEY_LINE,
-        line: {
-          amount: '1',
-        },
-      };
-
-      const actual = spendMoneyReducer(state, action);
-
-      expect(actual.spendMoney.lines[0].displayAmount).toEqual('1');
     });
   });
 

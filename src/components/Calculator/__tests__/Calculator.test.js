@@ -67,7 +67,7 @@ describe('Calculator', () => {
   };
 
   describe('onChange', () => {
-    it('should trigger if a valid value is given', () => {
+    it('should not trigger if a value is given', () => {
       // Set up
       let actualValue = '';
       const onChange = (e) => { actualValue = e.target.value; };
@@ -75,20 +75,6 @@ describe('Calculator', () => {
 
       // Execute
       const value = '1';
-      triggerOnChangeForInput({ wrapper, name: 'amount', value });
-
-      // Asert
-      expect(actualValue).toEqual(value);
-    });
-
-    it('should not trigger if an invalid value is given', () => {
-      // Set up
-      let actualValue = '';
-      const onChange = (e) => { actualValue = e.target.value; };
-      const wrapper = setUp({ onChange });
-
-      // Execute
-      const value = '@';
       triggerOnChangeForInput({ wrapper, name: 'amount', value });
 
       // Asert
@@ -190,6 +176,7 @@ describe('Calculator', () => {
       value: '5',
       className: testClassname,
     });
+    wrapper.update();
 
     const updatedValue = wrapper.find(`.${testClassname}`).at(1).prop('value');
 

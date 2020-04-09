@@ -52,7 +52,7 @@ const SpendMoneyDetailRow = (props) => {
   const data = isNewLineRow ? newLineData : lineData;
 
   const {
-    displayAmount = '',
+    amount = '',
     description = '',
     accountId,
     taxCodeId,
@@ -77,7 +77,7 @@ const SpendMoneyDetailRow = (props) => {
         label="Amount"
         hideLabel
         name="amount"
-        value={displayAmount}
+        value={amount}
         onChange={onAmountInputChange('amount', onChange)}
         onBlur={onRowInputBlur}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.amount) })}
