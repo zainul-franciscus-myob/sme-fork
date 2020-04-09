@@ -5,6 +5,7 @@ import {
   GET_TAX_CALCULATIONS,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
+  LOAD_DUPLICATE_RECEIVE_MONEY,
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
   OPEN_MODAL,
@@ -13,11 +14,12 @@ import {
   SET_CONTACT_LOADING_STATE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
+  UPDATE_ID_AFTER_CREATE,
   UPDATE_RECEIVE_MONEY_HEADER,
   UPDATE_RECEIVE_MONEY_LINE,
 } from '../ReceiveMoneyIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { getDefaultTaxCodeId, getUpdatedContactOptions } from './receiveMoneyDetailSelectors';
+import { getDefaultTaxCodeId, getUpdatedContactOptions } from './selectors/receiveMoneyDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatDisplayAmount from '../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
@@ -36,6 +38,8 @@ const getDefaultState = () => ({
     selectedPayFromContactId: '',
     lines: [],
   },
+  receiveMoneyId: '', // the 'id' extracted from the URL
+  duplicateReceiveMoneyId: '',
   newLine: {
     accountId: '',
     amount: '',
@@ -214,6 +218,14 @@ const loadContactAfterCreate = (state, { intent, ...contact }) => ({
   isPageEdited: true,
 });
 
+const updateIdAfterCreate = (state, { id }) => ({
+  ...state,
+  receiveMoney: {
+    ...state.receiveMoney,
+    id,
+  },
+});
+
 const resetTotals = state => ({
   ...state,
   totals: getDefaultState().totals,
@@ -227,6 +239,7 @@ const setInitialState = (state, action) => ({
 const handlers = {
   [LOAD_RECEIVE_MONEY_DETAIL]: loadReceiveMoneyDetail,
   [LOAD_NEW_RECEIVE_MONEY]: loadNewReceiveMoney,
+  [LOAD_DUPLICATE_RECEIVE_MONEY]: loadReceiveMoneyDetail,
   [GET_TAX_CALCULATIONS]: getTaxCalculations,
   [UPDATE_RECEIVE_MONEY_HEADER]: updateHeader,
   [UPDATE_RECEIVE_MONEY_LINE]: updateLine,
@@ -243,6 +256,7 @@ const handlers = {
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [SET_CONTACT_LOADING_STATE]: setContactLoadingState,
   [LOAD_CONTACT_AFTER_CREATE]: loadContactAfterCreate,
+  [UPDATE_ID_AFTER_CREATE]: updateIdAfterCreate,
 };
 const receiveMoneyReducer = createReducer(getDefaultState(), handlers);
 

@@ -6,7 +6,7 @@ import React from 'react';
 
 import {
   getAlert, getLoadingState, getModal, getPageTitle,
-} from '../receiveMoneyDetailSelectors';
+} from '../selectors/receiveMoneyDetailSelectors';
 import LineItemTemplate from '../../../../components/Feelix/LineItemTemplate/LineItemTemplate';
 import PageView from '../../../../components/PageView/PageView';
 import ReceiveMoneyDetailActions from './ReceiveMoneyDetailActions';
@@ -19,6 +19,7 @@ const ReceiveMoneyDetailView = ({
   contactModal,
   onUpdateHeaderOptions,
   onSaveButtonClick,
+  onSaveAndButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
   onDismissModal,
@@ -46,6 +47,7 @@ const ReceiveMoneyDetailView = ({
   const actions = (
     <ReceiveMoneyDetailActions
       onSaveButtonClick={onSaveButtonClick}
+      onSaveAndButtonClick={onSaveAndButtonClick}
       onCancelButtonClick={onCancelButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}
     />

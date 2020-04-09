@@ -4,7 +4,7 @@ import {
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
-import { getHeaderOptions } from '../receiveMoneyDetailSelectors';
+import { getHeaderOptions } from '../selectors/receiveMoneyDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import ContactCombobox from '../../../../components/combobox/ContactCombobox';
 

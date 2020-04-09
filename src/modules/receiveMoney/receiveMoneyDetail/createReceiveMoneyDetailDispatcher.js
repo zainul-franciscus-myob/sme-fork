@@ -5,19 +5,19 @@ import {
   GET_TAX_CALCULATIONS,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
-  LOAD_NEW_RECEIVE_MONEY,
-  LOAD_RECEIVE_MONEY_DETAIL,
   OPEN_MODAL,
   RESET_TOTALS,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
+  UPDATE_ID_AFTER_CREATE,
   UPDATE_RECEIVE_MONEY_HEADER,
   UPDATE_RECEIVE_MONEY_LINE,
 } from '../ReceiveMoneyIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { getIsCreating, getTransactionListUrl } from './receiveMoneyDetailSelectors';
+import { getLoadReceiveMoneyIntent } from './selectors/integrationSelectors';
+import { getTransactionListUrl } from './selectors/redirectSelectors';
 import ModalType from '../ModalType';
 
 const createReceiveMoneyDetailDispatcher = ({ store }) => ({
@@ -126,9 +126,7 @@ const createReceiveMoneyDetailDispatcher = ({ store }) => ({
     });
   },
   loadReceiveMoney: (response) => {
-    const intent = getIsCreating(store.getState())
-      ? LOAD_NEW_RECEIVE_MONEY
-      : LOAD_RECEIVE_MONEY_DETAIL;
+    const intent = getLoadReceiveMoneyIntent(store.getState());
 
     store.dispatch({
       intent,
@@ -146,6 +144,10 @@ const createReceiveMoneyDetailDispatcher = ({ store }) => ({
   loadContactAfterCreate: payload => store.dispatch({
     intent: LOAD_CONTACT_AFTER_CREATE,
     ...payload,
+  }),
+  updateIdAfterCreate: id => store.dispatch({
+    intent: UPDATE_ID_AFTER_CREATE,
+    id,
   }),
 });
 

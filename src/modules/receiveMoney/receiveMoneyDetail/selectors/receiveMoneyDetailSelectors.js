@@ -1,14 +1,15 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
-import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalculator';
-import ModalType from '../ModalType';
-import formatCurrency from '../../../common/valueFormatters/formatCurrency';
-import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
+import { TaxCalculatorTypes, createTaxCalculator } from '../../../../common/taxCalculator';
+import ModalType from '../../ModalType';
+import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
+import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 
 const calculate = createTaxCalculator(TaxCalculatorTypes.receiveMoney);
 
 export const getIsLineEdited = state => state.isLineEdited;
 export const getIsCreating = state => state.receiveMoneyId === 'new';
+export const getDuplicateReceiveMoneyIdQueryParam = (state) => state.duplicateReceiveMoneyId;
 
 const getReferenceId = state => state.receiveMoney.referenceId;
 const getSelectedDepositIntoId = state => state.receiveMoney.selectedDepositIntoAccountId;
@@ -77,30 +78,6 @@ export const getReceiveMoneyId = state => state.receiveMoney.id;
 
 export const getTotals = state => state.totals;
 
-export const getReceiveMoneyForCreatePayload = (state) => {
-  const {
-    referenceId,
-    originalReferenceId,
-    ...rest
-  } = getReceiveMoney(state);
-
-  const referenceIdForPayload = referenceId === originalReferenceId ? undefined : referenceId;
-
-  return {
-    ...rest,
-    referenceId: referenceIdForPayload,
-  };
-};
-
-export const getReceiveMoneyForUpdatePayload = (state) => {
-  const {
-    originalReferenceId,
-    ...rest
-  } = getReceiveMoney(state);
-
-  return rest;
-};
-
 export const getCalculatedTotalsPayload = (state) => {
   const { lines, isTaxInclusive } = getReceiveMoney(state);
   return {
@@ -119,18 +96,6 @@ export const getTaxLabel = state => getRegionToDialectText(state.region)('Tax');
 
 export const getModal = state => state.modal;
 export const getModalUrl = state => ((state.modal || {}).url);
-
-export const getTransactionListUrl = createSelector(
-  getBusinessId,
-  getRegion,
-  (businessId, region) => `/#/${region}/${businessId}/transactionList`,
-);
-
-export const getSaveUrl = (state) => {
-  const modalUrl = getModalUrl(state);
-  const transactionListUrl = getTransactionListUrl(state);
-  return modalUrl || transactionListUrl;
-};
 
 export const getOpenedModalType = (state) => {
   const modal = getModal(state) || { type: ModalType.NONE };
@@ -165,38 +130,17 @@ export const getTaxCalculations = (state, isSwitchingTaxInclusive) => {
   };
 };
 
-export const getUrlParams = (state) => {
-  const businessId = getBusinessId(state);
-  const isCreating = getIsCreating(state);
-  return {
-    businessId,
-    ...(!isCreating && { receiveMoneyId: state.receiveMoneyId }),
-  };
-};
-
 export const getAccountModalContext = createSelector(
   getBusinessId,
   getRegion,
   (businessId, region) => ({ businessId, region }),
 );
 
-export const getLoadAddedAccountUrlParams = (state, accountId) => {
-  const businessId = getBusinessId(state);
-
-  return { businessId, accountId };
-};
-
 export const getContactModalContext = (state) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);
 
   return { businessId, region };
-};
-
-export const getLoadAddedContactUrlParams = (state, contactId) => {
-  const businessId = getBusinessId(state);
-
-  return { businessId, contactId };
 };
 
 export const getUpdatedContactOptions = (state, updatedOption) => {

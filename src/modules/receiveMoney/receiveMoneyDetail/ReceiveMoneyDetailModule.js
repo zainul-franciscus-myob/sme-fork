@@ -7,21 +7,28 @@ import {
   getContactModalContext,
   getIndexOfLastLine,
   getIsActionsDisabled,
+  getIsCreating,
   getIsLineEdited,
   getIsTableEmpty,
   getModal,
   getModalUrl,
   getOpenedModalType,
-  getSaveUrl,
   getTaxCalculations,
-  getTransactionListUrl,
   isPageEdited,
-} from './receiveMoneyDetailSelectors';
+} from './selectors/receiveMoneyDetailSelectors';
+import {
+  getCreateReceiveMoneyUrl,
+  getDuplicateReceiveMoneyUrl,
+  getSaveUrl,
+  getShouldReload,
+  getTransactionListUrl,
+} from './selectors/redirectSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from '../ModalType';
 import ReceiveMoneyDetailView from './components/ReceiveMoneyDetailView';
+import SaveActionType from './components/SaveActionType';
 import Store from '../../../store/Store';
 import createReceiveMoneyDetailDispatcher from './createReceiveMoneyDetailDispatcher';
 import createReceiveMoneyDetailIntegrator from './createReceiveMoneyDetailIntegrator';
@@ -137,24 +144,13 @@ export default class ReceiveMoneyDetailModule {
     this.integrator.deleteReceiveMoney({ onSuccess, onFailure });
   }
 
-  saveReceiveMoneyEntry = () => {
-    const state = this.store.getState();
-    if (getIsActionsDisabled(state)) return;
+  createOrUpdateReceiveMoney = (onSuccess) => {
+    if (getIsActionsDisabled(this.store.getState())) return;
 
     this.setSubmittingState(true);
 
-    const onSuccess = (response) => {
-      this.pushMessage({
-        type: SUCCESSFULLY_SAVED_RECEIVE_MONEY,
-        content: response.message,
-      });
-      this.setSubmittingState(false);
-
-      const url = getSaveUrl(state);
-      this.redirectToUrlOrReloadModule(url);
-    };
-
     const onFailure = (error) => {
+      const state = this.store.getState();
       if (getModal(state)) {
         this.closeModal();
       }
@@ -162,8 +158,52 @@ export default class ReceiveMoneyDetailModule {
       this.displayFailureAlert(error.message);
     };
 
-    this.integrator.saveReceiveMoneyEntry({ onSuccess, onFailure });
+    this.integrator.saveReceiveMoney({ onSuccess, onFailure });
   }
+
+  saveReceiveMoney = () => {
+    const onSuccess = (response) => {
+      this.pushSuccessfulSaveMessage(response.message);
+      this.setSubmittingState(false);
+
+      const url = getSaveUrl(this.store.getState());
+      this.redirectToUrlOrReloadModule(url);
+    };
+
+    this.createOrUpdateReceiveMoney(onSuccess);
+  }
+
+  saveAndDuplicate = () => {
+    const onSuccess = ({ message, id }) => {
+      if (getIsCreating(this.store.getState())) {
+        this.dispatcher.updateIdAfterCreate(id);
+      }
+
+      this.pushSuccessfulSaveMessage(message);
+      this.redirectToDuplicateReceiveMoney();
+    };
+
+    this.createOrUpdateReceiveMoney(onSuccess);
+  }
+
+  saveAndCreateNew = () => {
+    const onSuccess = ({ message }) => {
+      this.pushSuccessfulSaveMessage(message);
+
+      if (getShouldReload(this.store.getState())) {
+        this.reload();
+      } else {
+        this.redirectToCreateReceiveMoney();
+      }
+    };
+
+    this.createOrUpdateReceiveMoney(onSuccess);
+  }
+
+  saveAnd = saveAndAction => ({
+    [SaveActionType.SAVE_AND_CREATE_NEW]: this.saveAndCreateNew,
+    [SaveActionType.SAVE_AND_DUPLICATE]: this.saveAndDuplicate,
+  }[saveAndAction]())
 
   updateHeaderOptions = ({ key, value }) => {
     this.dispatcher.updateHeaderOptions({ key, value });
@@ -243,6 +283,13 @@ export default class ReceiveMoneyDetailModule {
 
   dismissAlert = () => this.dispatcher.dismissAlert();
 
+  pushSuccessfulSaveMessage = (message) => {
+    this.pushMessage({
+      type: SUCCESSFULLY_SAVED_RECEIVE_MONEY,
+      content: message,
+    });
+  }
+
   redirectToTransactionList = () => {
     const state = this.store.getState();
     const transactionListUrl = getTransactionListUrl(state);
@@ -256,9 +303,29 @@ export default class ReceiveMoneyDetailModule {
     this.redirectToUrlOrReloadModule(url);
   }
 
+  redirectToDuplicateReceiveMoney = () => {
+    const state = this.store.getState();
+    const url = getDuplicateReceiveMoneyUrl(state);
+
+    this.redirectToUrl(url);
+  }
+
+  redirectToCreateReceiveMoney = () => {
+    const state = this.store.getState();
+    const url = getCreateReceiveMoneyUrl(state);
+
+    this.redirectToUrl(url);
+  }
+
   redirectToUrlOrReloadModule = (url) => {
+    const state = this.store.getState();
+
     if (window.location.href.includes(url)) {
-      this.reload();
+      if (window.location.href.includes(getDuplicateReceiveMoneyUrl(state))) {
+        this.redirectToCreateReceiveMoney();
+      } else {
+        this.reload();
+      }
     } else this.redirectToUrl(url);
   }
 
@@ -275,7 +342,8 @@ export default class ReceiveMoneyDetailModule {
         accountModal={accountModal}
         contactModal={contactModal}
         onUpdateHeaderOptions={this.updateHeaderOptions}
-        onSaveButtonClick={this.saveReceiveMoneyEntry}
+        onSaveButtonClick={this.saveReceiveMoney}
+        onSaveAndButtonClick={this.saveAnd}
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
         onDismissModal={this.closeModal}
@@ -319,7 +387,7 @@ export default class ReceiveMoneyDetailModule {
         break;
       case ModalType.UNSAVED:
       default:
-        this.saveReceiveMoneyEntry();
+        this.saveReceiveMoney();
         break;
     }
   }

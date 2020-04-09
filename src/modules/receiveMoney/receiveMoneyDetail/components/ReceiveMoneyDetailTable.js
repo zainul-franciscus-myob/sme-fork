@@ -8,7 +8,7 @@ import {
   getTaxCodeLabel,
   getTaxLabel,
   getTotals,
-} from '../receiveMoneyDetailSelectors';
+} from '../selectors/receiveMoneyDetailSelectors';
 import ReceiveMoneyDetailRow from './ReceiveMoneyDetailRow';
 
 const ReceiveMoneyDetailTable = ({

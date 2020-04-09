@@ -8,7 +8,7 @@ import {
   getLineDataByIndexSelector,
   getNewLineData,
   getTaxCodeOptions,
-} from '../receiveMoneyDetailSelectors';
+} from '../selectors/receiveMoneyDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';

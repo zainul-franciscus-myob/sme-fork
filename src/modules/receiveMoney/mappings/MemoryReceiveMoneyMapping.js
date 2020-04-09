@@ -3,10 +3,12 @@ import {
   DELETE_RECEIVE_MONEY,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
+  LOAD_DUPLICATE_RECEIVE_MONEY,
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
   UPDATE_RECEIVE_MONEY,
 } from '../ReceiveMoneyIntents';
+import duplicateReceiveMoneyEntry from './data/duplicateReceiveMoneyEntry';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadAddedContactResponse from './data/loadAddedContactResponse';
 import receiveMoneyDetailEntry from './data/receiveMoneyDetailEntry';
@@ -20,6 +22,7 @@ const saveReceiveMoney = ({ onSuccess }) => onSuccess(successResponse);
 const updateReceiveMoney = ({ onSuccess }) => onSuccess(successResponse);
 const loadAccountAfterCreate = ({ onSuccess }) => onSuccess(loadAddedAccountResponse);
 const loadContactAfterCreate = ({ onSuccess }) => onSuccess(loadAddedContactResponse);
+const loadDuplicateReceiveMoney = ({ onSuccess }) => onSuccess(duplicateReceiveMoneyEntry);
 
 const MemoryReceiveMoneyMapping = {
   [LOAD_NEW_RECEIVE_MONEY]: loadNewReceiveMoney,
@@ -29,6 +32,7 @@ const MemoryReceiveMoneyMapping = {
   [UPDATE_RECEIVE_MONEY]: updateReceiveMoney,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [LOAD_CONTACT_AFTER_CREATE]: loadContactAfterCreate,
+  [LOAD_DUPLICATE_RECEIVE_MONEY]: loadDuplicateReceiveMoney,
 };
 
 export default MemoryReceiveMoneyMapping;

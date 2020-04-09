@@ -3,28 +3,24 @@ import {
   DELETE_RECEIVE_MONEY,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
-  LOAD_NEW_RECEIVE_MONEY,
-  LOAD_RECEIVE_MONEY_DETAIL,
   UPDATE_RECEIVE_MONEY,
 } from '../ReceiveMoneyIntents';
 import {
   getIsCreating,
+} from './selectors/receiveMoneyDetailSelectors';
+import {
   getLoadAddedAccountUrlParams,
   getLoadAddedContactUrlParams,
+  getLoadReceiveMoneyIntent,
   getReceiveMoneyForCreatePayload,
   getReceiveMoneyForUpdatePayload,
   getUrlParams,
-} from './receiveMoneyDetailSelectors';
+} from './selectors/integrationSelectors';
 
 const createReceiveMoneyDetailIntegrator = ({ store, integration }) => ({
   loadReceiveMoney: ({ onSuccess, onFailure }) => {
     const state = store.getState();
-    const isCreating = getIsCreating(state);
-
-    const intent = isCreating
-      ? LOAD_NEW_RECEIVE_MONEY
-      : LOAD_RECEIVE_MONEY_DETAIL;
-
+    const intent = getLoadReceiveMoneyIntent(state);
     const urlParams = getUrlParams(state);
 
     integration.read({
@@ -37,6 +33,7 @@ const createReceiveMoneyDetailIntegrator = ({ store, integration }) => ({
   deleteReceiveMoney: ({ onSuccess, onFailure }) => {
     const state = store.getState();
     const urlParams = getUrlParams(state);
+
     integration.write({
       intent: DELETE_RECEIVE_MONEY,
       urlParams,
@@ -44,7 +41,7 @@ const createReceiveMoneyDetailIntegrator = ({ store, integration }) => ({
       onFailure,
     });
   },
-  saveReceiveMoneyEntry: ({ onSuccess, onFailure }) => {
+  saveReceiveMoney: ({ onSuccess, onFailure }) => {
     const state = store.getState();
     const isCreating = getIsCreating(state);
 

@@ -3,6 +3,7 @@ import {
   DELETE_RECEIVE_MONEY,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
+  LOAD_DUPLICATE_RECEIVE_MONEY,
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
   UPDATE_RECEIVE_MONEY,
@@ -36,6 +37,10 @@ const HttpReceiveMoneyMapping = {
   [LOAD_CONTACT_AFTER_CREATE]: {
     method: 'GET',
     getPath: ({ businessId, contactId }) => `/${businessId}/receiveMoney/load_contact/${contactId}`,
+  },
+  [LOAD_DUPLICATE_RECEIVE_MONEY]: {
+    method: 'GET',
+    getPath: ({ businessId, duplicateReceiveMoneyId }) => `/${businessId}/receiveMoney/load_duplicate_receive_money_detail/${duplicateReceiveMoneyId}`,
   },
 };
 

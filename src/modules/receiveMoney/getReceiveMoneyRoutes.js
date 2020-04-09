@@ -8,6 +8,7 @@ const getReceiveMoneyRoutes = ({
     {
       name: RouteName.RECEIVE_MONEY_DETAIL,
       path: '/:region/:businessId/receiveMoney/:receiveMoneyId',
+      allowedParams: ['duplicateReceiveMoneyId'],
       module: new ReceiveMoneyDetailModule({
         integration, setRootView, pushMessage, popMessages, reload,
       }),
