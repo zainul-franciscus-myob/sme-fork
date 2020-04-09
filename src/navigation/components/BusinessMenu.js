@@ -41,7 +41,7 @@ const getMenuLinkWithIcon = (url, label, icon, onMenuLinkClick, target) => (
     key={label}
     url={url}
     label={label}
-    onClick={handleMenuLinkClick(onMenuLinkClick, url)}
+    onClick={handleMenuLinkClick(onMenuLinkClick, url, target)}
     icon={icon}
     target={target}
   />
