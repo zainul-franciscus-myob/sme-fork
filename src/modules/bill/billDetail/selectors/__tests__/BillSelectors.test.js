@@ -2,6 +2,7 @@ import {
   getAccountModalContext,
   getBillLine,
   getHasLineBeenPrefilled,
+  getHasNoteBeenPrefilled,
   getIsNewLine,
   getNewLineIndex,
   getPageTitle,
@@ -108,6 +109,20 @@ describe('BillSelectors', () => {
 
       const actual = getShouldShowAccountCode(state);
       expect(actual).toBeTruthy();
+    });
+  });
+
+  describe('getHasNoteBeenPrefilled', () => {
+    it('returns true if the note has been automatically prefilled', () => {
+      const state = { prefillStatus: { note: true } };
+      const actual = getHasNoteBeenPrefilled(state);
+      expect(actual).toEqual(true);
+    });
+
+    it('returns false if the note has not been automatically prefilled', () => {
+      const state = { prefillStatus: { note: false } };
+      const actual = getHasNoteBeenPrefilled(state);
+      expect(actual).toEqual(false);
     });
   });
 

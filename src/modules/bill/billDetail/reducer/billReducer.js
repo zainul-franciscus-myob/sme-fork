@@ -467,6 +467,7 @@ const prefillBillFromInTray = (state, action) => {
       isTaxInclusive: shouldPrefillLines ? bill.isTaxInclusive : state.bill.isTaxInclusive,
       originalExpenseAccountId: bill.expenseAccountId || state.bill.originalExpenseAccountId,
       expenseAccountId: bill.expenseAccountId || state.bill.expenseAccountId,
+      note: state.bill.note || bill.note,
       lines: shouldPrefillLines
         ? getPrefilledLines(state, lines, bill.expenseAccountId)
         : state.bill.lines,
@@ -476,6 +477,7 @@ const prefillBillFromInTray = (state, action) => {
       supplierInvoiceNumber: !state.bill.supplierInvoiceNumber
         && Boolean(bill.supplierInvoiceNumber),
       issueDate: Boolean(bill.issueDate),
+      note: !state.bill.note && Boolean(bill.note),
     },
     inTrayDocument: document,
     showPrefillInfo: true,

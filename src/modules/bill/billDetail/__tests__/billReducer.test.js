@@ -1159,6 +1159,7 @@ describe('billReducer', () => {
         supplierInvoiceNumber: '1234',
         issueDate: '2018-11-02',
         isTaxInclusive: true,
+        note: 'Some notes',
       },
       lines: [{
         id: '',
@@ -1213,6 +1214,7 @@ describe('billReducer', () => {
           supplierInvoiceNumber: '1234',
           issueDate: '2018-11-02',
           isTaxInclusive: true,
+          note: 'Some notes',
           lines: [{
             id: '',
             amount: '500.77',
@@ -1229,6 +1231,7 @@ describe('billReducer', () => {
           supplierId: true,
           supplierInvoiceNumber: true,
           issueDate: true,
+          note: true,
         },
       }));
     });
@@ -1249,6 +1252,7 @@ describe('billReducer', () => {
         response: {
           ...response,
           layout: 'itemAndService',
+          note: 'Some notes',
           lines: [
             {
               id: '',
@@ -1272,6 +1276,7 @@ describe('billReducer', () => {
           supplierInvoiceNumber: '1234',
           issueDate: '2018-11-02',
           isTaxInclusive: true,
+          note: 'Some notes',
           lines: [{
             id: '',
             description: 'Hello',
@@ -1294,6 +1299,7 @@ describe('billReducer', () => {
           supplierId: true,
           supplierInvoiceNumber: true,
           issueDate: true,
+          note: true,
         },
       }));
     });
@@ -1306,6 +1312,7 @@ describe('billReducer', () => {
           supplierInvoiceNumber: '123',
           issueDate: '2018-10-02',
           isTaxInclusive: false,
+          note: 'Some note typed by the user',
           lines: [
             { id: '1' },
           ],
@@ -1331,6 +1338,7 @@ describe('billReducer', () => {
           supplierInvoiceNumber: '123',
           issueDate: '2018-11-02',
           isTaxInclusive: false,
+          note: 'Some note typed by the user',
           lines: [
             { id: '1' },
           ],
@@ -1339,6 +1347,7 @@ describe('billReducer', () => {
           supplierId: false,
           supplierInvoiceNumber: false,
           issueDate: true,
+          note: false,
         },
       }));
     });
@@ -1389,6 +1398,7 @@ describe('billReducer', () => {
           supplierId: false,
           supplierInvoiceNumber: false,
           issueDate: false,
+          note: false,
         },
       }));
     });

@@ -118,6 +118,8 @@ export const getLines = state => state.bill.lines;
 
 export const getNote = state => state.bill.note;
 
+export const getHasNoteBeenPrefilled = state => state.prefillStatus.note;
+
 export const getIsLinesEmpty = createSelector(
   getLines,
   lines => lines.length === 0,
