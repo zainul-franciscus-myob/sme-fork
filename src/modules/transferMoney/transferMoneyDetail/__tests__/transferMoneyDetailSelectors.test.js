@@ -1,5 +1,5 @@
 import { LOAD_NEW_TRANSFER_MONEY, LOAD_TRANSFER_MONEY_DETAIL } from '../../TransferMoneyIntents';
-import { getBalance, getLoadTranferMoneyUrlParams, getLoadTransferMoneyIntent } from '../transferMoneyDetailSelectors';
+import { getBalance, getLoadTransferMoneyIntent, getLoadTransferMoneyUrlParams } from '../transferMoneyDetailSelectors';
 
 const accounts = [
   {
@@ -154,7 +154,7 @@ describe('transferMoneyDetailSelectors', () => {
         transferMoneyId: '🥮',
       };
 
-      const actual = getLoadTranferMoneyUrlParams(state);
+      const actual = getLoadTransferMoneyUrlParams(state);
 
       expect(actual).toEqual({
         businessId: '👩‍🚀',
@@ -168,7 +168,7 @@ describe('transferMoneyDetailSelectors', () => {
         transferMoneyId: 'new',
       };
 
-      const actual = getLoadTranferMoneyUrlParams(state);
+      const actual = getLoadTransferMoneyUrlParams(state);
 
       expect(actual).toEqual({
         businessId: '👩‍🚀',

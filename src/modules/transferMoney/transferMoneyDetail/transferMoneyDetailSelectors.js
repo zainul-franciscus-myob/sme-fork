@@ -1,6 +1,10 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
-import { LOAD_NEW_TRANSFER_MONEY, LOAD_TRANSFER_MONEY_DETAIL } from '../TransferMoneyIntents';
+import {
+  LOAD_NEW_DUPLICATE_TRANSFER_MONEY,
+  LOAD_NEW_TRANSFER_MONEY,
+  LOAD_TRANSFER_MONEY_DETAIL,
+} from '../TransferMoneyIntents';
 import ModalType from '../ModalType';
 
 export const getTransferMoneyId = state => state.transferMoneyId;
@@ -108,6 +112,7 @@ export const getLoadingState = state => state.loadingState;
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 export const getPageTitle = state => state.transferMoney.pageTitle;
+export const getDuplicateTransferMoneyId = state => state.duplicateTransferMoneyId;
 
 export const getModal = state => state.modal;
 export const getModalUrl = state => ((state.modal || {}).url);
@@ -136,19 +141,30 @@ export const getOpenedModalType = (state) => {
 
 export const getLoadTransferMoneyIntent = createSelector(
   getIsCreating,
-  isCreating => (isCreating ? LOAD_NEW_TRANSFER_MONEY : LOAD_TRANSFER_MONEY_DETAIL),
+  getDuplicateTransferMoneyId,
+  (isCreating, duplicateId) => {
+    if (isCreating) {
+      return duplicateId ? LOAD_NEW_DUPLICATE_TRANSFER_MONEY : LOAD_NEW_TRANSFER_MONEY;
+    }
+    return LOAD_TRANSFER_MONEY_DETAIL;
+  },
 );
 
-export const getLoadTranferMoneyUrlParams = createSelector(
+export const getLoadTransferMoneyUrlParams = createSelector(
   getIsCreating,
   getBusinessId,
   getTransferMoneyId,
-  (isCreating, businessId, transferMoneyId) => (isCreating ? {
-    businessId,
-  } : {
-    businessId,
-    transferMoneyId,
-  }),
+  getDuplicateTransferMoneyId,
+  (isCreating, businessId, transferMoneyId, duplicateTransferMoneyId) => {
+    if (isCreating) {
+      return duplicateTransferMoneyId
+        ? { duplicateTransferMoneyId, businessId } : { businessId };
+    }
+    return {
+      businessId,
+      transferMoneyId,
+    };
+  },
 );
 
 export const getDeleteTransferMoneyUrlParams = createSelector(
@@ -160,9 +176,17 @@ export const getDeleteTransferMoneyUrlParams = createSelector(
   }),
 );
 
-export const getCreateTranferMoneyUrlParams = createSelector(
+export const getCreateTransferMoneyUrlParams = createSelector(
   getBusinessId,
   businessId => ({
     businessId,
   }),
 );
+
+export const getCreateNewUrl = createSelector(
+  getRegion,
+  getBusinessId,
+  (region, businessId) => `/#/${region}/${businessId}/transferMoney/new`,
+);
+
+export const getDuplicateUrl = (state, spendMoneyId) => `${getCreateNewUrl(state)}?duplicateTransferMoneyId=${spendMoneyId}`;

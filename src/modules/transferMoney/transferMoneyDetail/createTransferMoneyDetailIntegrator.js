@@ -2,11 +2,11 @@ import {
   CREATE_TRANSFER_MONEY, DELETE_TRANSFER_MONEY,
 } from '../TransferMoneyIntents';
 import {
-  getCreateTranferMoneyUrlParams,
   getCreateTransferMoneyPayload,
+  getCreateTransferMoneyUrlParams,
   getDeleteTransferMoneyUrlParams,
-  getLoadTranferMoneyUrlParams,
   getLoadTransferMoneyIntent,
+  getLoadTransferMoneyUrlParams,
 } from './transferMoneyDetailSelectors';
 
 const createTransferMoneyDetailIntegrator = (store, integration) => ({
@@ -15,7 +15,7 @@ const createTransferMoneyDetailIntegrator = (store, integration) => ({
 
     integration.write({
       intent: CREATE_TRANSFER_MONEY,
-      urlParams: getCreateTranferMoneyUrlParams(state),
+      urlParams: getCreateTransferMoneyUrlParams(state),
       content: getCreateTransferMoneyPayload(state),
       onSuccess,
       onFailure,
@@ -36,7 +36,7 @@ const createTransferMoneyDetailIntegrator = (store, integration) => ({
 
     integration.read({
       intent: getLoadTransferMoneyIntent(state),
-      urlParams: getLoadTranferMoneyUrlParams(state),
+      urlParams: getLoadTransferMoneyUrlParams(state),
       onSuccess,
       onFailure,
     });

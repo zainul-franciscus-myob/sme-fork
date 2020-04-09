@@ -14,6 +14,7 @@ import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import { SUCCESSFULLY_DELETED_TRANSFER_MONEY, SUCCESSFULLY_SAVED_TRANSFER_MONEY } from '../../transferMoneyMessageTypes';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import ModalType from '../../ModalType';
+import SaveActionType from '../../SaveActionType';
 import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
 import TransferMoneyDetailModule from '../TransferMoneyDetailModule';
@@ -241,13 +242,13 @@ describe('TransferMoneyDetailModule', () => {
 
   // TODO: Test redirection after create for save and save from unsaved modal once
   // Nav spike is done
-  describe('createTransferMoneyEntry', () => {
+  describe('handleSaveAction', () => {
     it('successfully create', () => {
       const { module, store, integration } = setupWithNew();
       module.redirectToUrl = jest.fn();
       module.pushMessage = jest.fn();
 
-      module.createTransferMoneyEntry();
+      module.handleSaveAction();
 
       expect(store.getActions()).toEqual([
         {
@@ -271,7 +272,7 @@ describe('TransferMoneyDetailModule', () => {
       const { module, store, integration } = setupWithNew();
       integration.mapFailure(CREATE_TRANSFER_MONEY);
 
-      module.createTransferMoneyEntry();
+      module.handleSaveAction();
 
       expect(store.getActions()).toEqual([
         {
@@ -302,7 +303,7 @@ describe('TransferMoneyDetailModule', () => {
       module.handlePageTransition('url'); // open unsaved modal
       store.resetActions();
 
-      module.createTransferMoneyEntry();
+      module.handleSaveAction();
 
       expect(store.getActions()).toEqual([
         {
@@ -334,10 +335,85 @@ describe('TransferMoneyDetailModule', () => {
       module.dispatcher.setSubmittingState(true);
       store.resetActions();
 
-      module.createTransferMoneyEntry();
+      module.handleSaveAction();
 
       expect(store.getActions()).toEqual([]);
       expect(integration.getRequests()).toEqual([]);
+    });
+  });
+
+  describe('handleSaveActionAnd', () => {
+    [
+      {
+        action: SaveActionType.SAVE_AND_CREATE_NEW, url: '/#/au/👋/transferMoney/new',
+      },
+      {
+        action: SaveActionType.SAVE_AND_DUPLICATE, url: '/#/au/👋/transferMoney/new?duplicateTransferMoneyId=123',
+      },
+    ].forEach(({ action, url }) => {
+      it(`successfully create when ${action}`, () => {
+        const { module, store, integration } = setupWithNew();
+        module.redirectToUrl = jest.fn();
+        module.pushMessage = jest.fn();
+
+        module.handleSaveAndAction(action);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_SUBMITTING_STATE,
+            isSubmitting: true,
+          },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: CREATE_TRANSFER_MONEY,
+          }),
+        ]);
+        expect(module.redirectToUrl).toHaveBeenCalledWith(url);
+        expect(module.pushMessage).toHaveBeenCalledWith({
+          type: SUCCESSFULLY_SAVED_TRANSFER_MONEY,
+          content: expect.any(String),
+        });
+      });
+
+      it(`fails to create when ${action}`, () => {
+        const { module, store, integration } = setupWithNew();
+        integration.mapFailure(CREATE_TRANSFER_MONEY);
+
+        module.handleSaveAndAction(action);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_SUBMITTING_STATE,
+            isSubmitting: true,
+          },
+          {
+            intent: SET_SUBMITTING_STATE,
+            isSubmitting: false,
+          },
+          {
+            intent: SET_ALERT,
+            alert: { message: 'fails', type: 'danger' },
+          },
+        ]);
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: CREATE_TRANSFER_MONEY,
+          }),
+        ]);
+      });
+
+      it(`does nothing when already submitting when ${action}`, () => {
+        const { module, store, integration } = setupWithNew();
+        module.dispatcher.setSubmittingState(true);
+        store.resetActions();
+
+        module.handleSaveAndAction(action);
+
+        expect(store.getActions()).toEqual([]);
+        expect(integration.getRequests()).toEqual([]);
+      });
     });
   });
 

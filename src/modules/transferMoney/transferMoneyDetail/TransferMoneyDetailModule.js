@@ -3,6 +3,8 @@ import React from 'react';
 
 import { SUCCESSFULLY_DELETED_TRANSFER_MONEY, SUCCESSFULLY_SAVED_TRANSFER_MONEY } from '../transferMoneyMessageTypes';
 import {
+  getCreateNewUrl,
+  getDuplicateUrl,
   getIsActionsDisabled,
   getIsCreating,
   getModal,
@@ -14,6 +16,7 @@ import {
 } from './transferMoneyDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from '../ModalType';
+import SaveActionType from '../SaveActionType';
 import Store from '../../../store/Store';
 import TransferMoneyDetailView from './components/TransferMoneyDetailView';
 import createTransferMoneyDetailDispatcher from './createTransferMoneyDetailDispatcher';
@@ -73,7 +76,7 @@ export default class TransferMoneyDetailModule {
 
   dismissAlert = () => this.dispatcher.setAlert();
 
-  createTransferMoneyEntry = () => {
+  createTransferMoneyEntry = (onPostCreate) => {
     const state = this.store.getState();
     if (getIsActionsDisabled(state)) return;
 
@@ -83,8 +86,7 @@ export default class TransferMoneyDetailModule {
         content: response.message,
       });
 
-      const url = getSaveUrl(state);
-      this.redirectToUrlOrReloadModule(url);
+      onPostCreate(response);
     };
 
     const onFailure = (error) => {
@@ -161,7 +163,8 @@ export default class TransferMoneyDetailModule {
       <TransferMoneyDetailView
         onUpdateForm={this.dispatcher.updateForm}
         onDismissAlert={this.dismissAlert}
-        onSave={this.createTransferMoneyEntry}
+        onSave={this.handleSaveAction}
+        onSaveAnd={this.handleSaveAndAction}
         onCancel={this.openCancelModal}
         onDelete={this.openDeleteModal}
         onConfirmCancelButtonClick={this.handleOnDiscardClickFromUnsavedModal}
@@ -174,6 +177,28 @@ export default class TransferMoneyDetailModule {
     );
 
     this.setRootView(wrappedView);
+  }
+
+  handleSaveAndAction = (actionType) => {
+    const onPostCreate = (response) => {
+      const state = this.store.getState();
+      if (actionType === SaveActionType.SAVE_AND_CREATE_NEW) {
+        this.redirectToUrlOrReloadModule(getCreateNewUrl(state));
+      } else if (actionType === SaveActionType.SAVE_AND_DUPLICATE) {
+        this.redirectToUrlOrReloadModule(getDuplicateUrl(state, response.id));
+      }
+    };
+
+    this.createTransferMoneyEntry(onPostCreate);
+  }
+
+  handleSaveAction = () => {
+    const onPostCreate = () => {
+      const url = getSaveUrl(this.store.getState());
+      this.redirectToUrlOrReloadModule(url);
+    };
+
+    this.createTransferMoneyEntry(onPostCreate);
   }
 
   saveHandler = () => {
@@ -189,7 +214,7 @@ export default class TransferMoneyDetailModule {
         break;
       case ModalType.UNSAVED:
       default:
-        this.createTransferMoneyEntry();
+        this.handleSaveAction();
         break;
     }
   }

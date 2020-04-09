@@ -20,6 +20,7 @@ const TransferMoneyDetailView = ({
   alert,
   onDismissAlert,
   onSave,
+  onSaveAnd,
   isCreating,
   modal,
   onConfirmCancelButtonClick,
@@ -34,6 +35,7 @@ const TransferMoneyDetailView = ({
     <TransferMoneyDetailActions
       isCreating={isCreating}
       onSave={onSave}
+      onSaveAnd={onSaveAnd}
       onCancel={onCancel}
       onDelete={onDelete}
     />

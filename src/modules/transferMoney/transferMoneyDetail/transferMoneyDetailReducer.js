@@ -14,6 +14,7 @@ import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
+  duplicateTransferMoneyId: '',
   transferMoneyId: '',
   transferMoney: {
     referenceId: '',
