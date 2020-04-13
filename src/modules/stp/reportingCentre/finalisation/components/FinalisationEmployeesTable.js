@@ -1,5 +1,5 @@
 import {
-  BulkActions, Button, Checkbox, Dropdown, Icons, Table,
+  BulkActions, Button, Checkbox, Dropdown, HeaderSort, Icons, Table,
 } from '@myob/myob-widgets';
 import React from 'react';
 
@@ -52,6 +52,8 @@ const FinalisationEmployeesTable = ({
   onFinaliseClick,
   onRemoveFinalisationClick,
   onEmployeeSummaryReportClick,
+  onSort,
+  activeSort,
 }) => {
   const selectedCount = employees.filter(e => e.isSelected).length;
 
@@ -72,10 +74,10 @@ const FinalisationEmployeesTable = ({
         />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.employeeFirstName}>
-        {tableConfig.employeeFirstName.columnName}
+        <HeaderSort title={tableConfig.employeeFirstName.columnName} sortName="FirstName" activeSort={activeSort} onSort={onSort} />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.employeeLastName}>
-        {tableConfig.employeeLastName.columnName}
+        <HeaderSort title={tableConfig.employeeLastName.columnName} sortName="LastName" activeSort={activeSort} onSort={onSort} />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.terminationDate}>
         {tableConfig.terminationDate.columnName}

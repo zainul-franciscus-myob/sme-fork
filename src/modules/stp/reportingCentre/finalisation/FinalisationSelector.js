@@ -35,3 +35,8 @@ export const getSubmitEmployeesRemoveFinalisationContent = state => ({
 });
 export const getIsDirty = state => state.isDirty;
 export const getUnsavedChangesModalIsOpen = state => state.unsavedChangesModalIsOpen;
+export const getActiveSort = ({ sortOrder, orderBy }) => ({
+  column: orderBy,
+  descending: sortOrder === 'desc',
+});
+export const getFlipSortOrder = state => (state.sortOrder === 'desc' ? 'asc' : 'desc');

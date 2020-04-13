@@ -3,6 +3,7 @@ import {
   LOAD_INITIAL_EMPLOYEES_AND_HEADERS,
   OPEN_EMPLOYEE_SUMMARY_REPORT,
   OPEN_EOFY_YTD_REPORT,
+  SORT_EMPLOYEES,
   SUBMIT_EMPLOYEES_FINALISATION,
   SUBMIT_EMPLOYEES_REMOVE_FINALISATION,
 } from './FinalisationIntents';
@@ -113,6 +114,31 @@ const createFinalisationIntegrator = (store, integration) => ({
 
     integration.readFile({
       intent: OPEN_EMPLOYEE_SUMMARY_REPORT,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+
+  sortEmployees: ({
+    onSuccess, onFailure, orderBy, sortOrder,
+  }) => {
+    const state = store.getState();
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    const params = {
+      year: getSelectedPayrollYear(state),
+      orderBy,
+      sortOrder,
+    };
+
+    integration.read({
+      intent: SORT_EMPLOYEES,
       urlParams,
       params,
       onSuccess,

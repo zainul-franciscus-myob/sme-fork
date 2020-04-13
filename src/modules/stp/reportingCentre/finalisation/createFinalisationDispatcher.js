@@ -6,12 +6,13 @@ import {
   RESET_EVENT_ID,
   SELECT_ALL_EMPLOYEES,
   SELECT_EMPLOYEES_ITEM,
-  SET_FILTERED_EMPLOYEES,
   SET_IS_RFBA_ENABLED,
   SET_LOADING_STATE,
   SET_SELECTED_PAYROLL_YEAR,
+  SET_SORTED_EMPLOYEES,
   SET_TABLE_LOADING_STATE,
   SET_UNSAVED_CHANGES_MODAL,
+  SORT_EMPLOYEES,
   UPDATE_EMPLOYEE_ROW,
 } from './FinalisationIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
@@ -27,6 +28,14 @@ const createFinalisationDispatcher = store => ({
   resetState: () => {
     store.dispatch({
       intent: RESET_STATE,
+    });
+  },
+
+  setSort: ({ orderBy, sortOrder }) => {
+    store.dispatch({
+      intent: SORT_EMPLOYEES,
+      orderBy,
+      sortOrder,
     });
   },
 
@@ -65,10 +74,10 @@ const createFinalisationDispatcher = store => ({
     });
   },
 
-  setFilteredEmployees: (response) => {
+  setSortedEmployees: (employees) => {
     store.dispatch({
-      intent: SET_FILTERED_EMPLOYEES,
-      response,
+      intent: SET_SORTED_EMPLOYEES,
+      employees,
     });
   },
 
@@ -76,13 +85,6 @@ const createFinalisationDispatcher = store => ({
     store.dispatch({
       intent: SET_IS_RFBA_ENABLED,
       isRFBAEnabled,
-    });
-  },
-
-  clearEmployees: () => {
-    store.dispatch({
-      intent: SET_FILTERED_EMPLOYEES,
-      response: { employees: [] },
     });
   },
 

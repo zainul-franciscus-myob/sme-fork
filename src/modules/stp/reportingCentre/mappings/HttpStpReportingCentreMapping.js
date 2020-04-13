@@ -23,6 +23,7 @@ import {
   LOAD_INITIAL_EMPLOYEES_AND_HEADERS,
   OPEN_EMPLOYEE_SUMMARY_REPORT,
   OPEN_EOFY_YTD_REPORT,
+  SORT_EMPLOYEES,
   SUBMIT_EMPLOYEES_FINALISATION,
   SUBMIT_EMPLOYEES_REMOVE_FINALISATION,
 } from '../finalisation/FinalisationIntents';
@@ -111,6 +112,10 @@ const HttpStpReportingCentreMapping = {
   [OPEN_EMPLOYEE_SUMMARY_REPORT]: {
     method: 'GET',
     getPath: ({ businessId, employeeId }) => `/${businessId}/stp/eofy_employee_report/${employeeId}`,
+  },
+  [SORT_EMPLOYEES]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/stp/eofy_finalisation_sort_employees`,
   },
 };
 

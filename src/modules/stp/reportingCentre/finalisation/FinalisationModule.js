@@ -1,7 +1,12 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getIsDirty, getSelectedPayrollYear, getStpDeclarationContext } from './FinalisationSelector';
+import {
+  getFlipSortOrder,
+  getIsDirty,
+  getSelectedPayrollYear,
+  getStpDeclarationContext,
+} from './FinalisationSelector';
 import FinalisationView from './components/FinalisationView';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import Store from '../../../../store/Store';
@@ -221,6 +226,33 @@ export default class FinalisationModule {
     });
   }
 
+  sortEmployees = (orderBy) => {
+    const state = this.store.getState();
+    const newSortOrder = getFlipSortOrder(state);
+
+    this.dispatcher.setTableLoadingState(true);
+
+    const onSuccess = (employees) => {
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.setSort({
+        orderBy,
+        sortOrder: newSortOrder,
+      });
+      this.dispatcher.setSortedEmployees(employees);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setTableLoadingState(false);
+    };
+
+    this.integrator.sortEmployees({
+      onSuccess,
+      onFailure,
+      orderBy,
+      sortOrder: newSortOrder,
+    });
+  }
+
   getView() {
     const stpModal = this.stpDeclarationModalModule.getView();
 
@@ -241,6 +273,7 @@ export default class FinalisationModule {
           }}
           onVerificationReportClick={this.openYtdVerificationReport}
           onEmployeeSummaryReportClick={this.openEmployeeSummaryReport}
+          onSort={this.sortEmployees}
         />
       </Provider>
     );

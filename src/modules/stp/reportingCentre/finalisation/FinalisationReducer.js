@@ -8,7 +8,10 @@ import {
   SET_IS_RFBA_ENABLED,
   SET_LOADING_STATE,
   SET_SELECTED_PAYROLL_YEAR,
+  SET_SORTED_EMPLOYEES,
+  SET_TABLE_LOADING_STATE,
   SET_UNSAVED_CHANGES_MODAL,
+  SORT_EMPLOYEES,
   UPDATE_EMPLOYEE_ROW,
 } from './FinalisationIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
@@ -30,6 +33,8 @@ export const getDefaultState = () => ({
   isRFBAEnabled: false,
   employeesCount: null,
   isDirty: false,
+  sortOrder: 'asc',
+  orderBy: 'FirstName',
   unsavedChangesModalIsOpen: false,
 });
 
@@ -123,6 +128,22 @@ const resetDirtyFlag = state => ({
   isDirty: false,
 });
 
+const setSort = (state, action) => ({
+  ...state,
+  sortOrder: action.sortOrder,
+  orderBy: action.orderBy,
+});
+
+const setEmployees = (state, { employees }) => ({
+  ...state,
+  employees,
+});
+
+const setIsTableLoading = (state, { isTableLoading }) => ({
+  ...state,
+  isTableLoading,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [LOAD_INITIAL_EMPLOYEES_AND_HEADERS]: setInitialFinalisationInformation,
@@ -136,6 +157,9 @@ const handlers = {
   [RESET_EVENT_ID]: resetEventId,
   [SET_UNSAVED_CHANGES_MODAL]: setUnsavedChangesModal,
   [RESET_DIRTY_FLAG]: resetDirtyFlag,
+  [SORT_EMPLOYEES]: setSort,
+  [SET_SORTED_EMPLOYEES]: setEmployees,
+  [SET_TABLE_LOADING_STATE]: setIsTableLoading,
 };
 
 const finalisationReducer = createReducer(getDefaultState(), handlers);

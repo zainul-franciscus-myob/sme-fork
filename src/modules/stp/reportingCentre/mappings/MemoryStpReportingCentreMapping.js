@@ -23,6 +23,7 @@ import {
   LOAD_INITIAL_EMPLOYEES_AND_HEADERS,
   OPEN_EMPLOYEE_SUMMARY_REPORT,
   OPEN_EOFY_YTD_REPORT,
+  SORT_EMPLOYEES,
   SUBMIT_EMPLOYEES_FINALISATION,
   SUBMIT_EMPLOYEES_REMOVE_FINALISATION,
 } from '../finalisation/FinalisationIntents';
@@ -73,6 +74,9 @@ const MemoryStpReportingCentreMapping = {
   [LOAD_EMPLOYEE_YTD_REPORT]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
   [OPEN_EOFY_YTD_REPORT]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
   [OPEN_EMPLOYEE_SUMMARY_REPORT]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
+  [SORT_EMPLOYEES]: ({ onSuccess }) => (
+    onSuccess(loadFinalisationInitialEmployeesAndHeaderDetailsResponse.employees)
+  ),
 };
 
 export default MemoryStpReportingCentreMapping;

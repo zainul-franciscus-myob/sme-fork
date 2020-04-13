@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getActiveSort,
   getEmployees,
   getEmployeesCount,
   getGrossPaymentYtd,
@@ -52,6 +53,8 @@ const FinalisationView = ({
   unsavedChangesModalListeners,
   onVerificationReportClick,
   onEmployeeSummaryReportClick,
+  onSort,
+  activeSort,
 }) => {
   const view = (
     <>
@@ -90,6 +93,8 @@ const FinalisationView = ({
           onFinaliseClick={onFinaliseClick}
           onRemoveFinalisationClick={onRemoveFinalisationClick}
           onEmployeeSummaryReportClick={onEmployeeSummaryReportClick}
+          onSort={onSort}
+          activeSort={activeSort}
         />
       </Card>
     </>
@@ -116,6 +121,7 @@ const mapStateToProps = state => ({
   shouldShowFinaliseButton: getShouldShowFinaliseButton(state),
   shouldShowRemoveFinalisationButton: getShouldShowRemoveFinalisationButton(state),
   unsavedChangesModalIsOpen: getUnsavedChangesModalIsOpen(state),
+  activeSort: getActiveSort(state),
 });
 
 export default connect(mapStateToProps)(FinalisationView);
