@@ -2,6 +2,7 @@ import {
   CREATE_GENERAL_JOURNAL,
   DELETE_GENERAL_JOURNAL,
   LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_DUPLICATE_GENERAL_JOURNAL,
   LOAD_GENERAL_JOURNAL_DETAIL,
   LOAD_NEW_GENERAL_JOURNAL,
   UPDATE_GENERAL_JOURNAL,
@@ -31,6 +32,10 @@ const HttpGeneralJournalMapping = {
   [LOAD_ACCOUNT_AFTER_CREATE]: {
     method: 'GET',
     getPath: ({ businessId, accountId }) => `/${businessId}/generalJournal/load_account/${accountId}`,
+  },
+  [LOAD_DUPLICATE_GENERAL_JOURNAL]: {
+    method: 'GET',
+    getPath: ({ businessId, duplicateGeneralJournalId }) => `/${businessId}/generalJournal/load_duplicate_general_journal_detail/${duplicateGeneralJournalId}`,
   },
 };
 

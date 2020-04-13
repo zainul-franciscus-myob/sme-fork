@@ -4,8 +4,6 @@ import {
   DELETE_GENERAL_JOURNAL_LINE,
   GET_TAX_CALCULATIONS,
   LOAD_ACCOUNT_AFTER_CREATE,
-  LOAD_GENERAL_JOURNAL_DETAIL,
-  LOAD_NEW_GENERAL_JOURNAL,
   OPEN_MODAL,
   SET_ALERT,
   SET_CREATED_ACCOUNT_LOADING_STATE,
@@ -13,9 +11,10 @@ import {
   SET_SUBMITTING_STATE,
   UPDATE_GENERAL_JOURNAL_HEADER,
   UPDATE_GENERAL_JOURNAL_LINE,
+  UPDATE_ID_AFTER_CREATE,
 } from '../GeneralJournalIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { getIsCreating } from './generalJournalDetailSelectors';
+import { getLoadGeneralJournalIntent } from './generalJournalDetailSelectors';
 
 const createGeneralJournalDispatcher = store => ({
   setInitialState: (context) => {
@@ -110,8 +109,7 @@ const createGeneralJournalDispatcher = store => ({
     generalJournal, totals, newLine, pageTitle, taxCodeOptions, accountOptions,
   }) => {
     const state = store.getState();
-    const isCreating = getIsCreating(state);
-    const intent = isCreating ? LOAD_NEW_GENERAL_JOURNAL : LOAD_GENERAL_JOURNAL_DETAIL;
+    const intent = getLoadGeneralJournalIntent(state);
 
     store.dispatch({
       intent,
@@ -129,6 +127,10 @@ const createGeneralJournalDispatcher = store => ({
       ...payload,
     });
   },
+  updateIdAfterCreate: id => store.dispatch({
+    intent: UPDATE_ID_AFTER_CREATE,
+    id,
+  }),
 });
 
 export default createGeneralJournalDispatcher;

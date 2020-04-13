@@ -23,6 +23,7 @@ const GeneralJournalDetailView = ({
   onDismissAlert,
   onUpdateHeaderOptions,
   onSaveButtonClick,
+  onSaveAndButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
   confirmModalListeners,
@@ -39,6 +40,7 @@ const GeneralJournalDetailView = ({
   const actions = (
     <GeneralJournalDetailActions
       onSaveButtonClick={onSaveButtonClick}
+      onSaveAndButtonClick={onSaveAndButtonClick}
       onCancelButtonClick={onCancelButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}
     />

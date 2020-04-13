@@ -8,6 +8,7 @@ const getGeneralJournalRoutes = ({
     {
       name: RouteName.GENERAL_JOURNAL_DETAIL,
       path: '/:region/:businessId/generalJournal/:generalJournalId',
+      allowedParams: ['duplicateGeneralJournalId'],
       module: new GeneralJournalDetailModule({
         integration, setRootView, popMessages, pushMessage, reload,
       }),

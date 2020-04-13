@@ -6,6 +6,7 @@ import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalc
 import {
   getAccountModalContext,
   getIsActionsDisabled,
+  getIsCreating,
   getIsLineAmountsTaxInclusive,
   getIsSale,
   getIsTaxInclusive,
@@ -17,10 +18,12 @@ import {
   getTransactionListUrl,
   isPageEdited,
 } from './generalJournalDetailSelectors';
+import { getCreateGeneralJournalUrl, getDuplicateGeneralJournalUrl, getShouldReload } from './selectors/redirectSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import GeneralJournalDetailView from './components/GeneralJournalDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
+import SaveActionType from './SaveActionType';
 import Store from '../../../store/Store';
 import createGeneralJournalDispatcher from './createGeneralJournalDisptacher';
 import createGeneralJournalIntegrator from './createGeneralJournalIntegrator';
@@ -99,11 +102,23 @@ export default class GeneralJournalDetailModule {
     });
   }
 
-  saveGeneralJournal = () => {
+  createGeneralJournal = (onSuccess) => {
     if (getIsActionsDisabled(this.store.getState())) return;
 
     this.dispatcher.setSubmittingState(true);
 
+    const onFailure = (error) => {
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setAlert({
+        message: error.message,
+        type: 'danger',
+      });
+    };
+
+    this.integrator.saveGeneralJournalDetail({ onSuccess, onFailure });
+  }
+
+  saveGeneralJournal = () => {
     const onSuccess = (response) => {
       this.pushMessage({
         type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
@@ -116,15 +131,58 @@ export default class GeneralJournalDetailModule {
       this.redirectToUrl(url);
     };
 
-    const onFailure = (error) => {
-      this.dispatcher.setSubmittingState(false);
-      this.dispatcher.setAlert({
-        message: error.message,
-        type: 'danger',
+    this.createGeneralJournal(onSuccess);
+  }
+
+  saveAndDuplicate = () => {
+    const onSuccess = ({ message, id }) => {
+      if (getIsCreating(this.store.getState())) {
+        this.dispatcher.updateIdAfterCreate(id);
+      }
+
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
+        content: message,
       });
+      this.dispatcher.setSubmittingState(false);
+      this.redirectToDuplicateGeneralJournal();
     };
 
-    this.integrator.saveGeneralJournalDetail({ onSuccess, onFailure });
+    this.createGeneralJournal(onSuccess);
+  }
+
+  saveAndCreateNew = () => {
+    const onSuccess = ({ message }) => {
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
+        content: message,
+      });
+
+      if (getShouldReload(this.store.getState())) {
+        this.reload();
+      } else {
+        this.redirectToCreateGeneralJournal();
+      }
+    };
+
+    this.createGeneralJournal(onSuccess);
+  }
+
+  saveAnd = saveAndAction => ({
+    [SaveActionType.SAVE_AND_CREATE_NEW]: this.saveAndCreateNew,
+    [SaveActionType.SAVE_AND_DUPLICATE]: this.saveAndDuplicate,
+  }[saveAndAction]())
+
+  redirectToDuplicateGeneralJournal = () => {
+    const url = getDuplicateGeneralJournalUrl(this.store.getState());
+
+    this.redirectToUrl(url);
+  }
+
+  redirectToCreateGeneralJournal = () => {
+    const url = getCreateGeneralJournalUrl(this.store.getState());
+
+    this.redirectToUrl(url);
   }
 
   saveUnsavedChanges = () => {
@@ -302,6 +360,7 @@ export default class GeneralJournalDetailModule {
         accountModal={accountModal}
         onUpdateHeaderOptions={this.updateHeaderOptions}
         onSaveButtonClick={this.saveGeneralJournal}
+        onSaveAndButtonClick={this.saveAnd}
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
         confirmModalListeners={{

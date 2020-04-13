@@ -2,6 +2,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 
 import {
   CREATE_GENERAL_JOURNAL,
+  LOAD_DUPLICATE_GENERAL_JOURNAL,
   LOAD_GENERAL_JOURNAL_DETAIL,
   LOAD_NEW_GENERAL_JOURNAL,
   UPDATE_GENERAL_JOURNAL,
@@ -214,6 +215,8 @@ export const getAccountModalContext = (state) => {
   return { businessId, region };
 };
 
+export const getDuplicateGeneralJournalIdQueryParam = (state) => state.duplicateGeneralJournalId;
+
 export const getSaveGeneralJournalRequest = createSelector(
   getBusinessId,
   getGeneralJournalId,
@@ -237,18 +240,30 @@ export const getSaveGeneralJournalRequest = createSelector(
   },
 );
 
+export const getLoadGeneralJournalIntent = createSelector(
+  getIsCreating,
+  getDuplicateGeneralJournalIdQueryParam,
+  (isCreating, duplicateGeneralJournalId) => {
+    if (isCreating) {
+      return duplicateGeneralJournalId ? LOAD_DUPLICATE_GENERAL_JOURNAL : LOAD_NEW_GENERAL_JOURNAL;
+    }
+    return LOAD_GENERAL_JOURNAL_DETAIL;
+  },
+);
+
 export const getLoadGeneralJournalRequest = createSelector(
   getBusinessId,
   getGeneralJournalId,
+  getDuplicateGeneralJournalIdQueryParam,
   getIsCreating,
-  (businessId, generalJournalId, isCreating) => {
-    const urlParams = isCreating ? {
+  getLoadGeneralJournalIntent,
+  (businessId, generalJournalId, duplicateGeneralJournalId, isCreating, intent) => {
+    const urlParams = {
       businessId,
-    } : {
-      businessId,
-      generalJournalId,
+      generalJournalId: isCreating ? undefined : generalJournalId,
+      duplicateGeneralJournalId,
     };
-    const intent = isCreating ? LOAD_NEW_GENERAL_JOURNAL : LOAD_GENERAL_JOURNAL_DETAIL;
+
     return {
       intent,
       urlParams,

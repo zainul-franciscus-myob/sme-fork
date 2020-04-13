@@ -15,3 +15,5 @@ export const UPDATE_GENERAL_JOURNAL_LINE = Symbol('Update general journal line')
 export const ADD_GENERAL_JOURNAL_LINE = Symbol('Add general journal line');
 export const DELETE_GENERAL_JOURNAL_LINE = Symbol('Delete general journal line');
 export const GET_TAX_CALCULATIONS = Symbol('Get tax calculations');
+export const LOAD_DUPLICATE_GENERAL_JOURNAL = Symbol('Load a duplicate general journal entry');
+export const UPDATE_ID_AFTER_CREATE = Symbol('Update general journal id after creating an entry');

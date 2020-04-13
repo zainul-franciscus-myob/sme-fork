@@ -4,6 +4,7 @@ import {
   DELETE_GENERAL_JOURNAL_LINE,
   GET_TAX_CALCULATIONS,
   LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_DUPLICATE_GENERAL_JOURNAL,
   LOAD_GENERAL_JOURNAL_DETAIL,
   LOAD_NEW_GENERAL_JOURNAL,
   OPEN_MODAL,
@@ -13,6 +14,7 @@ import {
   SET_SUBMITTING_STATE,
   UPDATE_GENERAL_JOURNAL_HEADER,
   UPDATE_GENERAL_JOURNAL_LINE,
+  UPDATE_ID_AFTER_CREATE,
 } from '../GeneralJournalIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { getDefaultTaxCodeId, getIsSale } from './generalJournalDetailSelectors';
@@ -286,8 +288,18 @@ const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   isPageEdited: true,
 });
 
+const updateIdAfterCreate = (state, { id }) => ({
+  ...state,
+  generalJournal: {
+    ...state.generalJournal,
+    id,
+  },
+  generalJournalId: id,
+});
+
 const handlers = {
   [LOAD_GENERAL_JOURNAL_DETAIL]: loadGeneralJournalDetail,
+  [LOAD_DUPLICATE_GENERAL_JOURNAL]: loadGeneralJournalDetail,
   [LOAD_NEW_GENERAL_JOURNAL]: loadNewGeneralJournal,
   [GET_TAX_CALCULATIONS]: getTaxCalculations,
   [UPDATE_GENERAL_JOURNAL_HEADER]: updateHeader,
@@ -303,6 +315,7 @@ const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
+  [UPDATE_ID_AFTER_CREATE]: updateIdAfterCreate,
 };
 const generalJournalReducer = createReducer(getDefaultState(), handlers);
 
