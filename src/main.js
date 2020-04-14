@@ -7,6 +7,9 @@ import Config, { initializeConfig } from './Config';
 import Inbox from './inbox';
 import RootModule from './root/rootModule';
 import Router from './router/Router';
+import getCreateIntegration from './integration/getCreateIntegration';
+import getInitializeLeanEngage from './leanEngage/getInitializeLeanEngage';
+import getInitializeTelemetry from './telemetry/getInitializeTelemetry';
 import getRoutes from './getRoutes';
 import loadFeatureToggles from './featureToggles/loadFeatureToggles';
 import stopResizeAnimation from './stopResizeAnimation';
@@ -19,13 +22,13 @@ async function main(integrationType, telemetryType, leanEngageType) {
 
   const rootModule = new RootModule();
 
-  const createIntegration = (await import(`./integration/create${integrationType}Integration.js`)).default;
+  const createIntegration = getCreateIntegration(integrationType);
   const integration = createIntegration({
     getRegion: rootModule.getRegion,
   });
-  const initializeTelemetry = (await import(`./telemetry/initialize${telemetryType}Telemetry`)).default;
+  const initializeTelemetry = getInitializeTelemetry(telemetryType);
   const telemetry = initializeTelemetry();
-  const initializeLeanEngage = (await import(`./leanEngage/initialize${leanEngageType}LeanEngage`)).default;
+  const initializeLeanEngage = getInitializeLeanEngage(leanEngageType);
   const startLeanEngage = initializeLeanEngage(Config.LEAN_ENGAGE_APP_ID);
 
   const router = new Router({
