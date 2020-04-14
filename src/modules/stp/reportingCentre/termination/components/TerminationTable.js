@@ -12,8 +12,11 @@ const tableConfig = {
   isSelected: {
     columnName: '', width: 'auto', cellRole: 'checkbox', valign: 'middle',
   },
-  employeeName: {
-    columnName: 'Employee', width: 'flex-1', valign: 'middle',
+  firstName: {
+    columnName: 'First name', width: 'flex-1', valign: 'middle',
+  },
+  lastName: {
+    columnName: 'Last name', width: 'flex-1', valign: 'middle',
   },
   etpCount: {
     columnName: 'Employment termination payments (ETP)', width: 'flex-2', valign: 'middle',
@@ -34,8 +37,11 @@ const TerminationTable = ({
 }) => {
   const header = (
     <Table.Header>
-      <Table.HeaderItem {...tableConfig.employeeName}>
-        {tableConfig.employeeName.columnName}
+      <Table.HeaderItem {...tableConfig.firstName}>
+        {tableConfig.firstName.columnName}
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.lastName}>
+        {tableConfig.lastName.columnName}
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.etpCount}>
         {tableConfig.etpCount.columnName}
@@ -49,8 +55,11 @@ const TerminationTable = ({
 
   const rows = employees.map(row => (
     <Table.Row key={row.id} rowData={{ id: row.id }}>
-      <Table.RowItem {...tableConfig.employeeName}>
-        {row.name}
+      <Table.RowItem {...tableConfig.firstName}>
+        {row.firstName}
+      </Table.RowItem>
+      <Table.RowItem {...tableConfig.lastName}>
+        {row.lastName}
       </Table.RowItem>
       <Table.RowItem {...tableConfig.etpCount}>
         {hasEtps(row.etpCount) ? (
