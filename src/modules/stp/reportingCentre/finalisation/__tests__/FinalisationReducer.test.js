@@ -25,7 +25,6 @@ describe('FinalisationReducer', () => {
           payId: 'effa0c73-65c4-409d-a20c-623fbe0c8b17',
           firstName: 'Alf',
           lastName: 'Galang',
-          name: 'Alf Galang',
           etpCount: 0,
           terminationDate: '12/08/2019',
           payrollYear: 2020,
