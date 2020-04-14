@@ -1,4 +1,4 @@
-import { Button, Modal } from '@myob/myob-widgets';
+import { Alert, Button, Modal } from '@myob/myob-widgets';
 import React from 'react';
 
 const PayrollYearWarningModal = ({
@@ -6,10 +6,12 @@ const PayrollYearWarningModal = ({
 }) => (
   <Modal
     title={title}
-    size="small"
     onCancel={onCancel}
   >
     <Modal.Body>
+      <Alert type="warning">
+        The current payroll year can&apos;t be altered after you&apos;ve saved it.
+      </Alert>
       {description}
     </Modal.Body>
     <Modal.Footer>
