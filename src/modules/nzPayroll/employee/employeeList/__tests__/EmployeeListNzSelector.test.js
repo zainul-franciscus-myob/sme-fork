@@ -27,17 +27,24 @@ describe('EmployeeListNzSelector', () => {
 
   describe('getEmployeeEntries', () => {
     it('should return employee entries', () => {
+      const businessId = 12345;
+      const region = 'nz';
+
       const employees = [
         {
           id: '123',
           name: 'Employee, One',
+          link: `/#/${region}/${businessId}/employee/123`,
         },
         {
-          id: '123',
+          id: '124',
           name: 'Employee, Two',
+          link: `/#/${region}/${businessId}/employee/124`,
         }];
       const state = {
         entries: employees,
+        region,
+        businessId,
       };
 
       const actual = getEmployeeList(state);

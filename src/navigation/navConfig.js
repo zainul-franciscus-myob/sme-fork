@@ -46,6 +46,7 @@ export const activeMapping = {
   [RouteName.PREPARE_BAS_OR_IAS]: 'accounting',
 
   [RouteName.EMPLOYEE_LIST_NZ]: 'payroll',
+  [RouteName.EMPLOYEE_DETAIL_NZ]: 'payroll',
 
   [RouteName.EMPLOYEE_LIST]: 'payroll',
   [RouteName.EMPLOYEE_DETAIL]: 'payroll',

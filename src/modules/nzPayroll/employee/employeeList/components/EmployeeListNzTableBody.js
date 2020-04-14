@@ -9,7 +9,7 @@ const EmployeeListNZTableBody = props => {
 
   const rows = entries.map(entry => (
     <Table.Row key={entry.id}>
-      <Table.RowItem {...tableConfig.name}>{entry.name}</Table.RowItem>
+      <Table.RowItem {...tableConfig.name}><a href={entry.link}>{entry.name}</a></Table.RowItem>
       <Table.RowItem {...tableConfig.phoneNumber}>{entry.phone}</Table.RowItem>
       <Table.RowItem {...tableConfig.email}>{entry.email}</Table.RowItem>
     </Table.Row>

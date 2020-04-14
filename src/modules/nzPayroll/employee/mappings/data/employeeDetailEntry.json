@@ -1,0 +1,8 @@
+{
+  "contactDetail": {
+    "firstName": "Bob",
+    "lastName": "The builder",
+    "isInactive": false,
+    "employeeNumber": "0012"
+  }
+}

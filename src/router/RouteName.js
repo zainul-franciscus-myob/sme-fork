@@ -24,6 +24,7 @@ const RouteName = {
   USER_DETAIL: 'user/userDetail',
   EMPLOYEE_LIST: 'employee/employeeList',
   EMPLOYEE_LIST_NZ: 'employee/employeeListNz',
+  EMPLOYEE_DETAIL_NZ: 'employee/employeeDetailNz',
   EMPLOYEE_DETAIL: 'employee/employeeDetail',
   BILL_LIST: 'bill/billList',
   BILL_DETAIL: 'bill/billDetail',
