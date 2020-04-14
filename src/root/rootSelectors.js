@@ -6,3 +6,4 @@ export const getLeanEngageInfo = state => ({
   currentUser: state.currentUser,
   subscription: state.subscription,
 });
+export const getHasCheckedBrowserAlert = state => state.hasCheckedBrowserAlert;

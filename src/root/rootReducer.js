@@ -1,7 +1,7 @@
 import {
   DISMISS_TASK, GET_TASKS_LIST, LOAD_SETTINGS, LOAD_SHARED_INFO, LOAD_SUBSCRIPTION,
-  SAVE_SETTINGS, SET_BUSINESS_ID, SET_LOADING_STATE,
-  SET_REGION, SET_VIEW_DATA, UPDATE_TASKS,
+  SAVE_SETTINGS, SET_BROWSER_ALERT, SET_BUSINESS_ID, SET_HAS_CHECKED_BROWSER_ALERT,
+  SET_LOADING_STATE, SET_REGION, SET_VIEW_DATA, UPDATE_TASKS,
 } from './rootIntents';
 import { LOAD_GLOBAL_BUSINESS_DETAILS } from './services/businessDetails/BusinessDetailsIntents';
 import createReducer from '../store/createReducer';
@@ -14,6 +14,8 @@ const getDefaultState = () => ({
   currentUser: {},
   subscription: {},
   isLoading: false,
+  browserAlert: undefined,
+  hasCheckedBrowserAlert: false,
   areOnboardingSettingsLoaded: false,
   proposedBusinessName: '',
 });
@@ -96,6 +98,16 @@ const loadSubscription = (state, { subscription }) => ({
   subscription,
 });
 
+const setBrowserAlert = (state, { alert }) => ({
+  ...state,
+  browserAlert: alert,
+});
+
+const setHasCheckedBrowserAlert = (state) => ({
+  ...state,
+  hasCheckedBrowserAlert: true,
+});
+
 const handlers = {
   [SET_LOADING_STATE]: setLoading,
   [LOAD_SETTINGS]: setOnboarding,
@@ -109,6 +121,8 @@ const handlers = {
   [DISMISS_TASK]: dismissTask,
   [LOAD_SHARED_INFO]: loadSharedInfo,
   [LOAD_SUBSCRIPTION]: loadSubscription,
+  [SET_BROWSER_ALERT]: setBrowserAlert,
+  [SET_HAS_CHECKED_BROWSER_ALERT]: setHasCheckedBrowserAlert,
 };
 
 const rootReducer = createReducer(getDefaultState(), handlers);

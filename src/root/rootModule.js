@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { getLeanEngageInfo } from './rootSelectors';
+import { getHasCheckedBrowserAlert, getLeanEngageInfo } from './rootSelectors';
 import BusinessDetailsService from './services/businessDetails';
 import Config from '../Config';
 import CreateRootDispatcher from './createRootDispatcher';
@@ -16,6 +16,7 @@ import RootView from './components/RootView';
 import SettingsService from './services/settings';
 import Store from '../store/Store';
 import buildGlobalCallbacks from './builders/buildGlobalCallbacks';
+import isNotSupportedAndShowAlert from '../common/browser/isNotSupportedAndShowAlert';
 import tasksService from './services/tasks';
 
 export default class RootModule {
@@ -99,6 +100,7 @@ export default class RootModule {
           drawer={this.drawer}
           nav={this.nav}
           onboarding={this.onboarding}
+          onDismissBrowserAlert={this.closeBrowserAlert}
         >
           {component}
         </RootView>
@@ -106,6 +108,17 @@ export default class RootModule {
     );
     ReactDOM.render(view, root);
   };
+
+  openBrowserAlert = () => {
+    this.dispatcher.setBrowserAlert({
+      type: 'danger',
+      message: 'Your browser version is not fully supported, some pages may not work as expected. Please upgrade to the latest version.',
+    });
+  }
+
+  closeBrowserAlert = () => {
+    this.dispatcher.setBrowserAlert();
+  }
 
   run = async (routeProps, module, context) => {
     const { routeParams: { businessId, region }, currentRouteName } = routeProps;
@@ -125,6 +138,13 @@ export default class RootModule {
       }
     }
     this.last_business_id = businessId;
+
+    if (!getHasCheckedBrowserAlert(this.store.getState())) {
+      if (isNotSupportedAndShowAlert()) {
+        this.openBrowserAlert();
+      }
+      this.dispatcher.setHasCheckedBrowserAlert(true);
+    }
 
     this.drawer.run(routeProps);
     this.nav.run({ ...routeProps, onPageTransition: module.handlePageTransition });

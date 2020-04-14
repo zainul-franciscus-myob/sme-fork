@@ -1,3 +1,4 @@
+import { Alert } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -16,6 +17,8 @@ const RootView = ({
   serialNumber,
   shouldShowOnboarding,
   tasks,
+  browserAlert,
+  onDismissBrowserAlert,
 }) => {
   if (isLoading) return <LoadingPageState />;
   if (shouldShowOnboarding) return onboarding.render();
@@ -31,6 +34,13 @@ const RootView = ({
           businessRole,
           serialNumber,
         ) }
+        {browserAlert && (
+          <div className={style.browserAlert}>
+            <Alert type={browserAlert.type} onDismiss={onDismissBrowserAlert}>
+              {browserAlert.message}
+            </Alert>
+          </div>
+        )}
         { children }
       </div>
     </div>
@@ -44,6 +54,7 @@ const mapStateToProps = ({
   isLoading,
   shouldShowOnboarding,
   tasks,
+  browserAlert,
 }) => ({
   businessId,
   businessName: organisationName,
@@ -52,6 +63,7 @@ const mapStateToProps = ({
   serialNumber,
   shouldShowOnboarding,
   tasks,
+  browserAlert,
 });
 
 export default connect(mapStateToProps)(RootView);

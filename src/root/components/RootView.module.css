@@ -19,3 +19,13 @@
     flex: none;
   }
 }
+
+.browserAlert {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.6rem 1.6rem;
+}
+
+.browserAlert :global(.alert) {
+  margin-bottom: 0;
+}

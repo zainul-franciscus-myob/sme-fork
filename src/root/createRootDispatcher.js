@@ -1,7 +1,8 @@
 import {
   DISMISS_TASK, GET_TASKS_LIST,
-  LOAD_SETTINGS, LOAD_SHARED_INFO, LOAD_SUBSCRIPTION, SAVE_SETTINGS, SET_BUSINESS_ID,
-  SET_LOADING_STATE, SET_REGION, SET_VIEW_DATA, UPDATE_TASKS,
+  LOAD_SETTINGS, LOAD_SHARED_INFO, LOAD_SUBSCRIPTION, SAVE_SETTINGS, SET_BROWSER_ALERT,
+  SET_BUSINESS_ID, SET_HAS_CHECKED_BROWSER_ALERT, SET_LOADING_STATE, SET_REGION,
+  SET_VIEW_DATA, UPDATE_TASKS,
 } from './rootIntents';
 import { LOAD_GLOBAL_BUSINESS_DETAILS } from './services/businessDetails/BusinessDetailsIntents';
 
@@ -64,6 +65,16 @@ const createRootDispatcher = store => ({
   loadSubscription: (subscription) => {
     const intent = LOAD_SUBSCRIPTION;
     store.dispatch({ intent, subscription });
+  },
+
+  setBrowserAlert: (alert) => {
+    const intent = SET_BROWSER_ALERT;
+    store.dispatch({ intent, alert });
+  },
+
+  setHasCheckedBrowserAlert: () => {
+    const intent = SET_HAS_CHECKED_BROWSER_ALERT;
+    store.dispatch({ intent });
   },
 });
 
