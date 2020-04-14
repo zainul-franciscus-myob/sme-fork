@@ -78,7 +78,7 @@ const DashboardBankingCard = ({
         className={styles.balances}
         items={[
           { title: 'Bank feed balance', content: bankFeedBalance, labelAccessory: (<Tooltip>{bankBalanceDateText}</Tooltip>) },
-          { title: 'Ledger balance', content: ledgerBalance },
+          { title: 'Calculated balance', content: ledgerBalance },
         ]}
       />
 
