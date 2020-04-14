@@ -30,6 +30,7 @@ import {
   SET_SUPPLIER_BLOCKING_STATE,
   UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_SPEND_MONEY_HEADER,
+  UPDATE_SPEND_MONEY_ID,
   UPDATE_SPEND_MONEY_LINE,
   UPDATE_UPLOAD_PROGRESS,
   UPLOAD_ATTACHMENT,
@@ -224,7 +225,7 @@ const loadNewSpendMoney = (state, action) => {
     spendMoney: {
       ...state.spendMoney,
       ...action.spendMoney,
-      date: formatIsoDate(new Date()),
+      date: action.spendMoney.date || formatIsoDate(new Date()),
       originalReferenceId: action.spendMoney.referenceId,
     },
     accounts: action.accounts,
@@ -587,6 +588,11 @@ const updateBankStatementText = (state) => {
   };
 };
 
+const updateSpendMoneyId = (state, { spendMoneyId }) => ({
+  ...state,
+  spendMoneyId,
+});
+
 const handlers = {
   [UPDATE_SPEND_MONEY_HEADER]: updateHeader,
   [LOAD_NEW_SPEND_MONEY]: loadNewSpendMoney,
@@ -625,6 +631,7 @@ const handlers = {
   [LOAD_CONTACT_AFTER_CREATE]: loadContactAfterCreate,
   [RESET_BANK_STATEMENT_TEXT]: resetBankStatementText,
   [UPDATE_BANK_STATEMENT_TEXT]: updateBankStatementText,
+  [UPDATE_SPEND_MONEY_ID]: updateSpendMoneyId,
 };
 const spendMoneyReducer = createReducer(getDefaultState(), handlers);
 

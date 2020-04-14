@@ -20,6 +20,7 @@ import {
   getLoadContactDetailUrlParams,
   getLoadSpendMoneyIntent,
   getLoadSpendMoneyRequestParams,
+  getLoadSpendMoneyRequestUrlParams,
   getSpendMoneyForCreatePayload,
   getSpendMoneyForUpdatePayload,
   getSpendMoneyId,
@@ -33,11 +34,13 @@ const createSpendMoneyIntegrator = (store, integration) => ({
   }) => {
     const state = store.getState();
     const intent = getLoadSpendMoneyIntent(state);
-    const urlParams = getLoadSpendMoneyRequestParams(state);
+    const urlParams = getLoadSpendMoneyRequestUrlParams(state);
+    const params = getLoadSpendMoneyRequestParams(state);
 
     integration.read({
       intent,
       urlParams,
+      params,
       onSuccess: onSuccess(intent),
       onFailure,
     });

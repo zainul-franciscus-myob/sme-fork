@@ -21,6 +21,7 @@ import {
   UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_SPEND_MONEY,
   UPDATE_SPEND_MONEY_HEADER,
+  UPDATE_SPEND_MONEY_ID,
 } from '../../SpendMoneyIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import { SUCCESSFULLY_SAVED_SPEND_MONEY, SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK } from '../../spendMoneyMessageTypes';
@@ -695,14 +696,14 @@ describe('SpendMoneyDetailModule', () => {
             setup: setUpWithExisting,
           },
         ].forEach((test) => {
-          fit('should save', () => {
+          it('should save', () => {
             const { module, store, integration } = test.setup();
             module.pushMessage = jest.fn();
             module.reload = jest.fn();
 
             module.handleSaveAndAction(action);
 
-            expect(store.getActions()).toEqual([
+            const commonActions = [
               {
                 intent: SET_SUBMITTING_STATE,
                 isSubmitting: true,
@@ -711,7 +712,20 @@ describe('SpendMoneyDetailModule', () => {
                 intent: SET_SUBMITTING_STATE,
                 isSubmitting: false,
               },
-            ]);
+            ];
+
+            const expectedActions = (
+              action === SaveActionType.SAVE_AND_DUPLICATE
+              && test.intent === CREATE_SPEND_MONEY ? [
+                  ...commonActions,
+                  {
+                    intent: UPDATE_SPEND_MONEY_ID,
+                    spendMoneyId: '1',
+                  },
+                ] : commonActions
+            );
+
+            expect(store.getActions()).toEqual(expectedActions);
 
             expect(integration.getRequests()).toEqual([
               expect.objectContaining({
@@ -726,8 +740,8 @@ describe('SpendMoneyDetailModule', () => {
         });
 
         /*
-        Testing onFailure for create and update spend money
-      */
+          Testing onFailure for create and update spend money
+        */
         [
           {
             intent: CREATE_SPEND_MONEY,

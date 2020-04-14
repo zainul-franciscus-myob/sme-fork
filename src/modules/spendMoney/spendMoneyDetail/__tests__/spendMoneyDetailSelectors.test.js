@@ -8,6 +8,7 @@ import {
   getLineDataByIndexSelector,
   getLinesForTaxCalculation,
   getSaveUrl,
+  getShouldReloadModule,
   getShouldShowAccountCode,
   getShowBankStatementText,
   getSpendMoneyForCreatePayload,
@@ -414,6 +415,58 @@ describe('spendMoneySelectors', () => {
       const showBankStatementText = getShowBankStatementText(state);
 
       expect(showBankStatementText).toEqual(false);
+    });
+  });
+
+  describe('getShouldReloadModule', () => {
+    it('should not reload when editing existing record', () => {
+      const state = {
+        isCreating: false,
+        selectedBankAccountId: '1',
+        selectedDate: '01/01/2020',
+        spendMoney: {
+          selectedPayFromAccountId: '1',
+          date: '01/01/2020',
+        },
+      };
+      expect(getShouldReloadModule(state)).toEqual(false);
+    });
+    it('should not reload when save and duplicate', () => {
+      const state = {
+        isCreating: false,
+        selectedBankAccountId: '1',
+        duplicatedSpendMoneyId: '1',
+        selectedDate: '01/01/2020',
+        spendMoney: {
+          selectedPayFromAccountId: '1',
+          date: '01/01/2020',
+        },
+      };
+      expect(getShouldReloadModule(state)).toEqual(false);
+    });
+    it('should not reload when selected bank account changed', () => {
+      const state = {
+        isCreating: true,
+        selectedBankAccountId: '2',
+        selectedDate: '01/01/2020',
+        spendMoney: {
+          selectedPayFromAccountId: '1',
+          date: '01/01/2020',
+        },
+      };
+      expect(getShouldReloadModule(state)).toEqual(false);
+    });
+    it('should not reload when issue date changed', () => {
+      const state = {
+        isCreating: true,
+        selectedBankAccountId: '1',
+        selectedDate: '01/01/2020',
+        spendMoney: {
+          selectedPayFromAccountId: '1',
+          date: '01/02/2020',
+        },
+      };
+      expect(getShouldReloadModule(state)).toEqual(false);
     });
   });
 });

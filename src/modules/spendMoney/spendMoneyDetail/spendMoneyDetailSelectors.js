@@ -10,6 +10,8 @@ import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
 const getReferenceId = state => state.spendMoney.referenceId;
 const getSelectedPayFromId = state => state.spendMoney.selectedPayFromAccountId;
+const getSelectedBankAccountId = state => state.selectedBankAccountId;
+const getSelectedDate = state => state.selectedDate;
 export const getSelectedPayToContactId = state => state.spendMoney.selectedPayToContactId;
 export const getSeletedPayToContactType = createSelector(
   getSelectedPayToContactId,
@@ -34,7 +36,7 @@ export const getAccountOptions = state => state.accounts;
 export const getRegion = state => state.region;
 const getElectronicClearingAccountId = state => state.spendMoney.electronicClearingAccountId;
 const getBankStatementText = state => state.spendMoney.bankStatementText;
-const getDuplicatedSpendMoneyId = (state) => state.duplicatedSpendMoneyId;
+export const getDuplicatedSpendMoneyId = (state) => state.duplicatedSpendMoneyId;
 
 const getHeadersProperties = createStructuredSelector({
   referenceId: getReferenceId,
@@ -261,6 +263,18 @@ export const getLoadContactDetailUrlParams = createStructuredSelector({
 
 export const getLoadSpendMoneyRequestParams = createSelector(
   getBusinessId,
+  getSelectedBankAccountId,
+  getSelectedDate,
+  (businessId, selectedBankAccountId, selectedDate) => (
+    selectedBankAccountId && selectedDate ? {
+      selectedBankAccountId,
+      selectedDate,
+    } : {}
+  ),
+);
+
+export const getLoadSpendMoneyRequestUrlParams = createSelector(
+  getBusinessId,
   getIsCreating,
   getSpendMoneyId,
   getDuplicatedSpendMoneyId,
@@ -333,8 +347,17 @@ export const getCreateUrl = createSelector(
   (businessId, region) => `/#/${region}/${businessId}/spendMoney/new`,
 );
 
-export const getDuplicatedUrl = (state, spendMoneyId) => (
-  `${getCreateUrl(state)}?duplicatedSpendMoneyId=${spendMoneyId}`
+export const getCreateAndNewUrl = createSelector(
+  getCreateUrl,
+  getSelectedPayFromId,
+  getDate,
+  (createUrl, payFromAccountId, date) => `${createUrl}?selectedBankAccountId=${payFromAccountId}&selectedDate=${date}`,
+);
+
+export const getDuplicatedUrl = createSelector(
+  getCreateUrl,
+  getSpendMoneyId,
+  (createUrl, spendMoneyId) => `${createUrl}?duplicatedSpendMoneyId=${spendMoneyId}`,
 );
 
 export const getSaveUrl = createSelector(
@@ -397,7 +420,13 @@ export const getLoadAddedContactUrlParams = (state, contactId) => {
 export const getShouldReloadModule = createSelector(
   getIsCreating,
   getDuplicatedSpendMoneyId,
-  (isCreating, duplicatedSpendMoneyId) => isCreating && !duplicatedSpendMoneyId,
+  getSelectedBankAccountId,
+  getSelectedDate,
+  getSelectedPayFromId,
+  getDate,
+  (isCreating, duplicatedSpendMoneyId, bankAccountId, selectedDate, payFromId, date) => (
+    isCreating && !duplicatedSpendMoneyId && bankAccountId === payFromId && selectedDate === date
+  ),
 );
 
 export const getLoadSpendMoneyIntent = createSelector(

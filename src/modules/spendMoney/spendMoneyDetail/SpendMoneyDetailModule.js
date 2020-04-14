@@ -10,7 +10,9 @@ import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalc
 import {
   getAccountModalContext,
   getContactModalContext,
+  getCreateAndNewUrl,
   getCreateUrl,
+  getDuplicatedSpendMoneyId,
   getDuplicatedUrl,
   getExpenseAccountId,
   getFilesForUpload,
@@ -212,7 +214,7 @@ export default class SpendMoneyDetailModule {
       }
     };
     const onFailure = ({ message }) => {
-      this.dispatcher.openDangerAlert({ message });
+      this.dispatcher.setAlert({ message, type: 'danger' });
       this.dispatcher.setSupplierBlockingState(false);
     };
 
@@ -339,7 +341,8 @@ export default class SpendMoneyDetailModule {
     const url = getModalUrl(state);
 
     if (this.isRedirectToSamePage(url)) {
-      if (getIsCreatingFromInTray(state)) {
+      if (getIsCreatingFromInTray(state)
+        || getDuplicatedSpendMoneyId(state)) {
         this.redirectToUrl(getCreateUrl(state));
       } else {
         this.reload();
@@ -642,12 +645,10 @@ export default class SpendMoneyDetailModule {
         content: message,
       });
       const state = this.store.getState();
-      const url = getCreateUrl(state);
+      const url = getCreateAndNewUrl(state);
       if (getShouldReloadModule(state)) {
         this.reload();
-      } else {
-        this.redirectToUrl(url);
-      }
+      } else this.redirectToUrl(url);
     };
 
     this.saveSpendMoneyAnd({ onSuccess });
@@ -660,7 +661,12 @@ export default class SpendMoneyDetailModule {
         content: message,
       });
 
-      const url = getDuplicatedUrl(this.store.getState(), id);
+      if (getIsCreating(this.store.getState())) {
+        this.dispatcher.updateSpendMoneyId(id);
+      }
+
+      const url = getDuplicatedUrl(this.store.getState());
+
       this.redirectToUrl(url);
     };
 
@@ -668,6 +674,10 @@ export default class SpendMoneyDetailModule {
   };
 
   handleSaveAndAction = (actionType) => {
+    const state = this.store.getState();
+    if (getIsSubmitting(state)) {
+      return;
+    }
     if (actionType === SaveActionType.SAVE_AND_CREATE_NEW) {
       this.saveAndCreateNew();
     } else if (actionType === SaveActionType.SAVE_AND_DUPLICATE) {
@@ -690,7 +700,7 @@ export default class SpendMoneyDetailModule {
 
     const onFailure = ({ message }) => {
       this.dispatcher.setSubmittingState(false);
-      this.dispatcher.openDangerAlert({ message });
+      this.dispatcher.setAlert({ message });
     };
 
     this.saveOrCreateSpendMoney({ onSuccess: handleSaveSuccess, onFailure });

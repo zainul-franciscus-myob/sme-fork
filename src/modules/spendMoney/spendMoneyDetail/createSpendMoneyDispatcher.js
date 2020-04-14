@@ -27,6 +27,7 @@ import {
   SET_SUPPLIER_BLOCKING_STATE,
   UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_SPEND_MONEY_HEADER,
+  UPDATE_SPEND_MONEY_ID,
   UPDATE_SPEND_MONEY_LINE,
   UPDATE_UPLOAD_PROGRESS,
   UPLOAD_ATTACHMENT,
@@ -231,6 +232,11 @@ const createSpendMoneyDispatcher = store => ({
 
   updateBankStatementText: () => store.dispatch({
     intent: UPDATE_BANK_STATEMENT_TEXT,
+  }),
+
+  updateSpendMoneyId: (spendMoneyId) => store.dispatch({
+    intent: UPDATE_SPEND_MONEY_ID,
+    spendMoneyId,
   }),
 });
 
