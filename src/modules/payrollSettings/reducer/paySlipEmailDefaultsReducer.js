@@ -14,6 +14,8 @@ export const loadPaySlipEmailDefaults = (state, { response }) => (
   updatePaySlipEmailDefaultsState(state, {
     subject: response.subject,
     message: response.message,
+    fromName: response.fromName,
+    replyToEmail: response.replyToEmail,
   })
 );
 

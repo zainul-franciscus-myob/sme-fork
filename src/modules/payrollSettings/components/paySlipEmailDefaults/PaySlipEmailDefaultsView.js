@@ -5,7 +5,13 @@ import { connect } from 'react-redux';
 import Button from '@myob/myob-widgets/lib/components/Button/Button';
 import React from 'react';
 
-import { getLoadingState, getMessage, getSubject } from '../../selectors/paySlipEmailDefaultsSelectors';
+import {
+  getFromName,
+  getLoadingState,
+  getMessage,
+  getReplyToEmail,
+  getSubject,
+} from '../../selectors/paySlipEmailDefaultsSelectors';
 import PageView from '../../../../components/PageView/PageView';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
@@ -16,6 +22,8 @@ const PaySlipEmailDefaultsView = ({
   loadingState,
   message,
   subject,
+  fromName,
+  replyToEmail,
   listeners: {
     onPaySlipEmailDefaultsFieldChange,
     onPaySlipEmailDefaultsSave,
@@ -46,6 +54,30 @@ const PaySlipEmailDefaultsView = ({
           </FieldGroup>
         </FormHorizontal>
       </Card>
+      <Card>
+        <FormHorizontal layout="primary">
+          <FieldGroup label="Email settings">
+            <p>
+            These email settings apply to all email sent on your behalf from MYOB.
+            This includes invoices, quotes and pay slips (payroll).
+            </p>
+            <Input
+              label="From name"
+              width="xl"
+              value={fromName}
+              name="fromName"
+              onChange={handleInputChange(onPaySlipEmailDefaultsFieldChange)}
+            />
+            <Input
+              label="Reply-to email address"
+              width="xl"
+              value={replyToEmail}
+              name="replyToEmail"
+              onChange={handleInputChange(onPaySlipEmailDefaultsFieldChange)}
+            />
+          </FieldGroup>
+        </FormHorizontal>
+      </Card>
       <ButtonRow
         primary={[
           <Button testid="saveButton" key="SaveButton" onClick={onPaySlipEmailDefaultsSave}>Save</Button>,
@@ -68,6 +100,8 @@ const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   subject: getSubject(state),
   message: getMessage(state),
+  fromName: getFromName(state),
+  replyToEmail: getReplyToEmail(state),
 });
 
 export default connect(mapStateToProps)(PaySlipEmailDefaultsView);

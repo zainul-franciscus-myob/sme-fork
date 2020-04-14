@@ -175,8 +175,16 @@ describe('PayrollSettingsModule', () => {
         const messageInput = wrapper.findWhere(
           c => c.name() === 'TextArea' && c.prop('label') === 'Message',
         );
+        const fromNameInput = wrapper.findWhere(
+          c => c.name() === 'Input' && c.prop('label') === 'From name',
+        );
+        const replyToEmailInput = wrapper.findWhere(
+          c => c.name() === 'Input' && c.prop('label') === 'Reply-to email address',
+        );
         expect(subjectInput.prop('value')).toEqual(loadPaySlipEmailDefaultsResponse.subject);
         expect(messageInput.prop('value')).toEqual(loadPaySlipEmailDefaultsResponse.message);
+        expect(fromNameInput.prop('value')).toEqual(loadPaySlipEmailDefaultsResponse.fromName);
+        expect(replyToEmailInput.prop('value')).toEqual(loadPaySlipEmailDefaultsResponse.replyToEmail);
       });
     });
 
