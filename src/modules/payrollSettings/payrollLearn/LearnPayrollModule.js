@@ -67,7 +67,7 @@ export default class LearnPayrollModule {
         <div className={styles.buttonContainer}>
           <ButtonRow
             secondary={[
-              <Button type="primary" key="setupPayroll" onClick={() => this.onClick(region, businessId)}>Set up payroll settings</Button>,
+              <Button type="primary" key="setupPayroll" onClick={() => this.onClick(region, businessId)}>Confirm payroll settings</Button>,
             ]}
           />
         </div>
