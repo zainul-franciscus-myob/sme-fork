@@ -106,9 +106,12 @@ export const getFilteredExemptionOptions = createSelector(
   ),
 );
 
+const isSelectedExemptionPayGWithholding = state => state.deductionPayItemModal.deductionPayItem.exemptions.filter(item => item.name === 'PAYG Withholding').length > 0;
+
 export const getExemptionAllocations = createStructuredSelector({
   exemptions: getExemptions,
   exemptionOptions: getFilteredExemptionOptions,
+  isSelectedExemptionPayGWithholding,
 });
 
 export const getFormattedAmount = value => String((Number(value) || 0).toFixed(2));

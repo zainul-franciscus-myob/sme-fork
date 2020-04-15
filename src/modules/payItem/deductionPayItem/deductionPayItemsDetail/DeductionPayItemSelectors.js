@@ -90,9 +90,12 @@ const getFilteredListOfExemptions = createSelector(
   ),
 );
 
+const isSelectedExemptionPayGWithholding = state => state.exemptionAllocations.selectedExemptions.filter(item => item.name === 'PAYG Withholding').length > 0;
+
 export const getExemptionAllocations = createStructuredSelector({
   selectedExemptions: getSelectedExemptions,
   filteredListOfExemptions: getFilteredListOfExemptions,
+  isSelectedExemptionPayGWithholding,
 });
 
 export const getSaveDeductionPayItemPayload = state => ({

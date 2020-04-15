@@ -1,5 +1,6 @@
 import {
   getDeductionPayItemModalPayload,
+  getExemptionAllocations,
   getFilteredEmployeeOptions,
   getFilteredExemptionOptions,
   getFormattedAmount,
@@ -146,6 +147,67 @@ describe('DeductionPayItemModalSelectors', () => {
 
       expect(actual.find(item => item.id === '1')).toBeFalsy();
       expect(actual.find(item => item.id === '2')).toBeDefined();
+    });
+  });
+
+  describe('isSelectedExemptionPayGWithholding', () => {
+    it('should return true if selected exemption has PayG Withholding exemption', () => {
+      const state = {
+        deductionPayItemModal: {
+          deductionPayItem: {
+            exemptions: [
+              {
+                name: 'PAYG Withholding',
+                id: '33',
+                itemType: 'Tax',
+              },
+              {
+                name: 'Salary Sacrifice',
+                id: '33',
+                itemType: 'Tax',
+              },
+            ],
+          },
+          exemptionOptions: [],
+        },
+      };
+
+      const exemptionAllocations = getExemptionAllocations(state);
+      expect(exemptionAllocations.isSelectedExemptionPayGWithholding).toEqual(true);
+    });
+
+    it('should return false if selected exemption does not have is PayG Withholding exemption', () => {
+      const state = {
+        deductionPayItemModal: {
+          deductionPayItem: {
+            exemptions: [
+              {
+                name: 'Salary Sacrifice',
+                id: '33',
+                itemType: 'Tax',
+              },
+            ],
+          },
+          exemptionOptions: [],
+        },
+      };
+
+      const exemptionAllocations = getExemptionAllocations(state);
+      expect(exemptionAllocations.isSelectedExemptionPayGWithholding).toEqual(false);
+    });
+
+    it('should return false if no exemption is selected', () => {
+      const state = {
+        deductionPayItemModal: {
+          deductionPayItem: {
+            exemptions: [],
+          },
+          exemptionOptions: [],
+        },
+      };
+
+      const exemptionAllocations = getExemptionAllocations(state);
+      expect(exemptionAllocations.isSelectedExemptionPayGWithholding).toEqual(false);
     });
   });
 });

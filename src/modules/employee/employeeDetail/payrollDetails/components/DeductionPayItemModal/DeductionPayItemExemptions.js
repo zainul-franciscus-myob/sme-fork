@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button, Combobox, FieldGroup, Icons, Table, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
@@ -35,6 +36,7 @@ const handleComboboxChange = (handler, key) => (item) => {
 const DeductionPayItemExemptions = ({
   exemptions,
   exemptionOptions,
+  isSelectedExemptionPayGWithholding,
   onAddItem,
   onRemoveItem,
 }) => (
@@ -76,6 +78,7 @@ const DeductionPayItemExemptions = ({
       onChange={handleComboboxChange(onAddItem, 'exemptions')}
       width="lg"
     />
+    {isSelectedExemptionPayGWithholding && <Alert type="info">Deductions exempt from tax automatically reduce the employee&apos;s gross pay.</Alert>}
   </FieldGroup>);
 
 const mapToStateProps = getExemptionAllocations;

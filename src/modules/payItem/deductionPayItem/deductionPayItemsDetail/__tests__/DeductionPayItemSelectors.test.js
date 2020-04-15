@@ -1,4 +1,4 @@
-import { getSaveDeductionPayItemPayload } from '../DeductionPayItemSelectors';
+import { getExemptionAllocations, getSaveDeductionPayItemPayload } from '../DeductionPayItemSelectors';
 
 describe('deductionPayItemSelector', () => {
   describe('getSaveDeductionPayItemPayload', () => {
@@ -88,6 +88,61 @@ describe('deductionPayItemSelector', () => {
       };
 
       expect(payload).toEqual(expected);
+    });
+  });
+
+  describe('isSelectedExemptionPayGWithholding', () => {
+    it('should return true if selected exemption has PayG Withholding exemption', () => {
+      const state = {
+        exemptionAllocations: {
+          selectedExemptions: [
+            {
+              name: 'PAYG Withholding',
+              id: '33',
+              itemType: 'Tax',
+            },
+            {
+              name: 'Salary Sacrifice',
+              id: '33',
+              itemType: 'Tax',
+            },
+          ],
+          exemptions: [],
+        },
+      };
+
+      const exemptionAllocations = getExemptionAllocations(state);
+      expect(exemptionAllocations.isSelectedExemptionPayGWithholding).toEqual(true);
+    });
+
+    it('should return false if selected exemption does not have is PayG Withholding exemption', () => {
+      const state = {
+        exemptionAllocations: {
+          selectedExemptions: [
+            {
+              name: 'Salary Sacrifice',
+              id: '33',
+              itemType: 'Tax',
+            },
+          ],
+          exemptions: [],
+        },
+      };
+
+      const exemptionAllocations = getExemptionAllocations(state);
+      expect(exemptionAllocations.isSelectedExemptionPayGWithholding).toEqual(false);
+    });
+
+    it('should return false if no exemption is selected', () => {
+      const state = {
+        exemptionAllocations: {
+          selectedExemptions: [],
+          exemptions: [],
+        },
+      };
+
+      const exemptionAllocations = getExemptionAllocations(state);
+      expect(exemptionAllocations.isSelectedExemptionPayGWithholding).toEqual(false);
     });
   });
 });

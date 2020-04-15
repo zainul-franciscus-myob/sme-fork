@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button, Combobox, FieldGroup, Icons, Table, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
@@ -26,7 +27,11 @@ const tableConfig = {
 };
 
 const ExemptionsView = ({
-  selectedExemptions, filteredListOfExemptions, onExemptionSelected, onRemoveExemption,
+  selectedExemptions,
+  filteredListOfExemptions,
+  isSelectedExemptionPayGWithholding,
+  onExemptionSelected,
+  onRemoveExemption,
 }) => (
   <FieldGroup label={title} className={styles.editableTable}>
     <Table>
@@ -66,6 +71,7 @@ const ExemptionsView = ({
       onChange={handleComboboxChange('exemptions', onExemptionSelected)}
       width="lg"
     />
+    {isSelectedExemptionPayGWithholding && <Alert type="info">Deductions exempt from tax automatically reduce the employee&apos;s gross pay.</Alert>}
   </FieldGroup>);
 
 const mapToStateProps = getExemptionAllocations;
