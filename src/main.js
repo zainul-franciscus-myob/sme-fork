@@ -3,7 +3,7 @@ import '@myob/myob-styles/dist/design-tokens/css/design-tokens.css';
 import '@myob/myob-styles/dist/styles/myob-clean.css';
 
 import { initializeAuth } from './Auth';
-import Config, { initializeConfig } from './Config';
+import Config from './Config';
 import Inbox from './inbox';
 import RootModule from './root/rootModule';
 import Router from './router/Router';
@@ -13,7 +13,6 @@ import stopResizeAnimation from './stopResizeAnimation';
 import unbindAllKeys from './hotKeys/unbindAllKeys';
 
 async function main(integrationType, telemetryType, leanEngageType) {
-  await initializeConfig();
   initializeAuth();
   stopResizeAnimation();
 
@@ -82,7 +81,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
 }
 
 main(
-  process.env.REACT_APP_INTEGRATION_TYPE,
-  process.env.REACT_APP_TELEMETRY_TYPE,
-  process.env.REACT_APP_LEAN_ENGAGE_TYPE,
+  Config.INTEGRATION_TYPE,
+  Config.TELEMETRY_TYPE,
+  Config.LEAN_ENGAGE_TYPE,
 );

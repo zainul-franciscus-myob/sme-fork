@@ -1,21 +1,15 @@
-import { fetch } from 'whatwg-fetch';
-
-const configURL = `${window.location.origin}/config-${process.env.REACT_APP_BUILD_NUMBER || 'dev'}.json`;
-
-const Config = {};
-
-const initializeConfig = async () => {
-  const isConfigInitalized = Object.keys(Config).length !== 0;
-  if (isConfigInitalized) {
-    return;
-  }
-
-  const res = await fetch(configURL);
-  const localConfig = await res.json();
-
-  Object.assign(Config, localConfig);
-  Object.freeze(Config);
+export default {
+  INTEGRATION_TYPE: process.env.REACT_APP_INTEGRATION_TYPE,
+  TELEMETRY_TYPE: process.env.REACT_APP_TELEMETRY_TYPE,
+  LEAN_ENGAGE_TYPE: process.env.REACT_APP_LEAN_ENGAGE_TYPE,
+  AUTHENTICATION_AUTHORITY: process.env.REACT_APP_AUTHENTICATION_AUTHORITY,
+  AUTHENTICATION_WEB_CLIENT_ID: process.env.REACT_APP_AUTHENTICATION_WEB_CLIENT_ID,
+  AUTHENTICATION_BFF_CLIENT_ID: process.env.REACT_APP_AUTHENTICATION_BFF_CLIENT_ID,
+  BFF_BASE_URL: process.env.REACT_APP_BFF_BASE_URL,
+  MY_REPORTS_URL: process.env.REACT_APP_MY_REPORTS_URL,
+  MANAGE_BANK_FEEDS_BASE_URL: process.env.REACT_APP_MANAGE_BANK_FEEDS_BASE_URL,
+  LEAN_ENGAGE_APP_ID: process.env.REACT_APP_LEAN_ENGAGE_APP_ID,
+  MY_MYOB_AU_URL: process.env.REACT_APP_MY_MYOB_AU_URL,
+  MY_MYOB_NZ_URL: process.env.REACT_APP_MY_MYOB_NZ_URL,
+  SELF_SERVICE_PORTAL_URL: process.env.REACT_APP_SELF_SERVICE_PORTAL_URL,
 };
-
-export default Config;
-export { initializeConfig };
