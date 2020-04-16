@@ -13,5 +13,4 @@ REACT_APP_LEAN_ENGAGE_APP_ID=1534af9d-01fa-45e0-9df6-3b9c4f6c20cb \
 REACT_APP_MY_MYOB_AU_URL=https://my.myob.com.au \
 REACT_APP_MY_MYOB_NZ_URL=https://my.myob.co.nz \
 REACT_APP_SELF_SERVICE_PORTAL_URL=https://myaccount.myob.com \
-REACT_APP_PAY_SLIP_EMAIL_DEFAULTS_TAB_FEATURE_TOGGLE=false \
 $@

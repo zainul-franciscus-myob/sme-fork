@@ -1,7 +1,6 @@
 import { Alert, ReadOnly } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 
-import * as paySlipEmailDefaultsTabEnabled from '../../../common/featureToggles/paySlipEmailDefaultsTabFeatureToggle';
 import {
   LOAD_PAY_SLIP_EMAIL_DEFAULTS, SET_EMPLOYMENT_CLASSIFICATION_LIST_FILTER_OPTIONS,
   SET_EMPLOYMENT_CLASSIFICATION_LIST_SORT_ORDER,
@@ -129,26 +128,13 @@ describe('PayrollSettingsModule', () => {
   });
 
   describe('pay slip email defaults tab', () => {
-    describe('paySlipEmailDefaultsTabEnabled', () => {
-      it('should include the tab when paySlipEmailDefaultsTabEnabled is true', () => {
-        paySlipEmailDefaultsTabEnabled.default = true;
-        const wrapper = constructPayrollSettingsModule();
-        const paySlipEmailDefaultsTab = wrapper.findWhere(
-          c => c.name() === 'TabItem' && c.text().includes('Pay slip email defaults'),
-        );
+    it('should include the paySlipEmailDefaultsTab', () => {
+      const wrapper = constructPayrollSettingsModule();
+      const paySlipEmailDefaultsTab = wrapper.findWhere(
+        c => c.name() === 'TabItem' && c.text().includes('Pay slip email defaults'),
+      );
 
-        expect(paySlipEmailDefaultsTab).toHaveLength(1);
-      });
-
-      it('should not include the tab when paySlipEmailDefaultsTabEnabled is false', () => {
-        paySlipEmailDefaultsTabEnabled.default = false;
-        const wrapper = constructPayrollSettingsModule();
-        const paySlipEmailDefaultsTab = wrapper.findWhere(
-          c => c.name() === 'TabItem' && c.text().includes('Pay slip email defaults'),
-        );
-
-        expect(paySlipEmailDefaultsTab).toHaveLength(0);
-      });
+      expect(paySlipEmailDefaultsTab).toHaveLength(1);
     });
 
     describe('value loading', () => {

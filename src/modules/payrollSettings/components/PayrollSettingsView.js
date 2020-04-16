@@ -9,18 +9,12 @@ import { tabIds, tabItems } from '../tabItems';
 // Temporarily hide the Classification tab
 // import EmployeeClassificationListView from
 // './employmentClassificationList/EmploymentClassificationListView';
-import { tabItemsWithoutPaySlipEmailDefaults } from '../tabItemsWithoutPaySlipEmailDefaults';
 import EmploymentClassificationDetailModal from './employmentClassificationDetail/EmploymentClassificationDetailModal';
 import GeneralPayrollInformationView from './generalPayrollInformation/GeneralPayrollInformationView';
 import ModalType from '../ModalType';
 import PaySlipEmailDefaultsView from './paySlipEmailDefaults/PaySlipEmailDefaultsView';
 import SuperFundListView from './superFundList/SuperFundListView';
 import Tabs from '../../../components/Tabs/Tabs';
-import paySlipEmailDefaultsTabEnabled from '../../../common/featureToggles/paySlipEmailDefaultsTabFeatureToggle';
-
-const getTabItems = () => (
-  paySlipEmailDefaultsTabEnabled ? tabItems : tabItemsWithoutPaySlipEmailDefaults
-);
 
 const PayrollSettingsView = (props) => {
   const {
@@ -43,7 +37,7 @@ const PayrollSettingsView = (props) => {
   );
 
   const tabsComponent = (
-    <Tabs items={getTabItems()} selected={selectedTab} onSelected={onSelectTab} />
+    <Tabs items={tabItems} selected={selectedTab} onSelected={onSelectTab} />
   );
 
   const modal = {
