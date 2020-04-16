@@ -132,7 +132,7 @@ const writeFormData = async ({
   sendXHRRequest(requestSpec.method, url, headers, body, onSuccess, onFailure, onProgress);
 };
 
-const createHttpIntegration = ({ getAdditionalHeaders = NO_OP, getRegion } = { }) => ({
+const createHttpIntegration = ({ getAdditionalHeaders = NO_OP, getRegion } = {}) => ({
   read: async ({
     intent,
     urlParams,
