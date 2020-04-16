@@ -1,26 +1,22 @@
 .allocated {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: 1fr auto;
   grid-gap: var(--flx-spacing-x-tiny);
-  padding: var(--flx-spacing-tiny) var(--flx-spacing-clear) var(--flx-spacing-tiny) var(--flx-spacing-x-small);
+}
+
+.focusedAllocating {
+  display: flex;
+  width: 100%;
 }
 
 .allocating {
-  display: flex;
-  padding: 0.3rem var(--flx-spacing-x-small);
-}
-
-.unmatch :global(button) {
-  background: none;
-  border: none;
-  padding: var(--flx-spacing-clear) var(--flx-spacing-clear) var(--flx-spacing-clear) 0.6rem;
+  width: 100%;
+  padding: 0.3rem var(--flx-spacing-x-small) 0.3rem 0.2rem;
 }
 
 .allocating :global(.form-group) {
-  width: 100%;
   margin-bottom: var(--flx-spacing-clear);
-  max-width: var(--flx-width-field-xl);
 }
 
 .allocating :global(.form-group__label-group) {
@@ -29,41 +25,40 @@
 
 .reportable {
   display: flex;
+  padding-top: var(--flx-spacing-tiny);
+  padding-bottom: var(--flx-spacing-tiny);
+  padding-right: var(--flx-spacing-x-tiny);
 }
 
 .allocationInfo {
   position: relative;
   display: grid;
-  grid-template-columns: auto 1fr 1.8rem;
+  grid-template-columns: auto 1fr;
   grid-gap: var(--flx-spacing-x-tiny);
 }
 
-.unmatch {
-  position: absolute;
-  right: 0;
-  top: 0;
-  opacity: 0;
+.reportableHidden {
+  grid-template-columns: auto;
+  padding-left: var(--flx-spacing-x-small);
 }
 
-.unmatch:focus {
-  opacity: 1;
+.hovering :global(input) {
+  background-color: rgba(255,255,255,0.5);
+  border: 0.1rem solid rgba(197, 201, 206, 0.5);
 }
 
-.allocated:hover .unmatch {
-  opacity: 1;
+.hovering :global(a) {
+  border: 0.1rem solid rgba(197, 201, 206, 0.6)
 }
 
-.unmatch :global(button:hover:not(.active):not([disabled])) {
-  background: none;
-  box-shadow: var(--flx-spacing-xx-tiny) 0 3px 0 var(--flx-palette-storm-06);
-  padding: var(--flx-spacing-clear) var(--flx-spacing-clear) var(--flx-spacing-clear) 0.6rem;
-  border: none;
+.hovering :global(a > svg) {
+  opacity: 0.65
 }
 
-@media (pointer: coarse) {
-  .unmatch {
-    opacity: 1;
-  }
+.allocatedWand {
+  padding-left: var(--flx-spacing-x-small);
+  padding-top: var(--flx-spacing-tiny);
+  padding-bottom: var(--flx-spacing-tiny);
 }
 
 @media (min-width: 1024px) {

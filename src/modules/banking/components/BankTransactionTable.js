@@ -54,9 +54,9 @@ const BankTransactionTable = ({
   onMatchRowItemClick,
   onMatchedToFocus,
   onUnmatchedFocus,
+  onEntryHover,
   onUnmatchedBlur,
   onAllocate,
-  onUnallocate,
   onSort,
   order,
   entries,
@@ -129,8 +129,8 @@ const BankTransactionTable = ({
       onMatchedToBlur={onMatchedToBlur}
       onMatchedToFocus={onMatchedToFocus}
       onAllocate={onAllocate}
-      onUnallocate={onUnallocate}
       onUnmatchedFocus={onUnmatchedFocus}
+      onEntryHover={onEntryHover}
       onUnmatchedBlur={onUnmatchedBlur}
       openPosition={openPosition}
       onTabChange={onTabChange}

@@ -10,7 +10,8 @@
 
 .allocating {
   display: flex;
-  padding: 0.3rem var(--flx-spacing-x-small);
+  width: 100%;
+  padding: 0.3rem var(--flx-spacing-x-small) 0.3rem 0.2rem;
 }
 
 .allocating :global(.form-group) {
@@ -21,4 +22,25 @@
 
 .allocating :global(.form-group__label-group) {
   display: none;
+}
+
+.allocating :global(input::placeholder) {
+  color: var(--flx-palette-dusk-100);
+}
+
+.allocating :global(input::-ms-input-placeholder) {
+  color: var(--flx-palette-dusk-100);
+}
+
+.hovering :global(input) {
+  background-color: rgba(255,255,255,0.5);
+  border: 0.1rem solid rgba(197, 201, 206, 0.5);
+}
+
+.hovering :global(a) {
+  border: 0.1rem solid rgba(197, 201, 206, 0.6)
+}
+
+.hovering :global(a > svg) {
+  opacity: 0.65
 }

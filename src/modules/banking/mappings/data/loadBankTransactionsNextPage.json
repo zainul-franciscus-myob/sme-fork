@@ -136,6 +136,10 @@
           "sourceJournal": "CashPayment"
         }
       ],
+      "appliedRule": {
+        "ruleType": "Bill",
+        "ruleName": "Water Rule"
+      },
       "taxCode": "GST",
       "note": "",
       "isReportable": true,
@@ -186,6 +190,10 @@
       "description": "Bob rules",
       "deposit": 1300.00,
       "allocateOrMatch": "Spit across account",
+      "appliedRule": {
+        "ruleType": "Bill",
+        "ruleName": "Water Rule"
+      },
       "journals": [
         {
           "journalId": "101",

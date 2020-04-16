@@ -140,10 +140,10 @@ const BankTransactionTableRow = ({
   onSplitRowItemClick,
   onMatchRowItemClick,
   onAllocate,
-  onUnallocate,
   onMatchedToBlur,
   onMatchedToFocus,
   onUnmatchedFocus,
+  onEntryHover,
   onUnmatchedBlur,
   isExpanded,
   isSelected,
@@ -158,10 +158,10 @@ const BankTransactionTableRow = ({
       onSplitRowItemClick={onSplitRowItemClick}
       onMatchRowItemClick={onMatchRowItemClick}
       onAllocate={onAllocate}
-      onUnallocate={onUnallocate}
       onMatchedToBlur={onMatchedToBlur}
       onMatchedToFocus={onMatchedToFocus}
       onUnmatchedFocus={onUnmatchedFocus}
+      onEntryHover={onEntryHover}
       onUnmatchedBlur={onUnmatchedBlur}
       index={index}
       isExpanded={isExpanded}
@@ -260,9 +260,15 @@ const BankTransactionTableRow = ({
         </div>
         { mobileInfoColumn }
         { desktopInfoColumn }
-        <div className={styles.allocationColumn}>
-          {matchedOrAllocatedRowItem}
-          <div className={styles.taxCode}>{entry.taxCode}</div>
+        <div className={classNames(styles.allocationColumn, styles.allocationColumnTableRow)}>
+          <div
+            className={styles.allocationAndTaxCode}
+            onMouseEnter={() => onEntryHover(index, true)}
+            onMouseLeave={() => onEntryHover(index, false)}
+          >
+            {matchedOrAllocatedRowItem}
+            <div className={styles.taxCode}>{entry.taxCode}</div>
+          </div>
           <div className={styles.action}>
             <Button type="secondary" size="xs" onClick={handleRowEvent(onHeaderClick, index)}>
               {expandIcon}

@@ -36,6 +36,7 @@ import {
   SET_BULK_LOADING_STATE,
   SET_EDITING_NOTE_STATE,
   SET_ENTRY_FOCUS,
+  SET_ENTRY_HOVERED,
   SET_ENTRY_LOADING_STATE,
   SET_ERROR_STATE,
   SET_LOADING_SINGLE_ACCOUNT_STATE,
@@ -85,6 +86,14 @@ const createBankingDispatcher = store => ({
       intent: SET_ENTRY_FOCUS,
       index,
       isFocused: true,
+    });
+  },
+
+  hoverEntry: (index, isHovered) => {
+    store.dispatch({
+      intent: SET_ENTRY_HOVERED,
+      index,
+      isHovered,
     });
   },
 
@@ -312,13 +321,6 @@ const createBankingDispatcher = store => ({
     store.dispatch({
       intent: OPEN_MODAL,
       modalType: ModalTypes.CANCEL,
-    });
-  },
-
-  openBulkUnallocateModal: () => {
-    store.dispatch({
-      intent: OPEN_MODAL,
-      modalType: ModalTypes.BULK_UNALLOCATE,
     });
   },
 

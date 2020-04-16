@@ -25,9 +25,9 @@ const BankTransactionTableBody = (props) => {
     onMatchRowItemClick,
     onMatchedToBlur,
     onMatchedToFocus,
+    onEntryHover,
     onUnmatchedFocus,
     onUnmatchedBlur,
-    onUnallocate,
     onAllocate,
     openPosition,
     activeTabId,
@@ -181,11 +181,11 @@ const BankTransactionTableBody = (props) => {
       onSplitRowItemClick={onSplitRowItemClick}
       onMatchRowItemClick={onMatchRowItemClick}
       onMatchedToFocus={onMatchedToFocus}
+      onEntryHover={onEntryHover}
       onMatchedToBlur={onMatchedToBlur}
       onUnmatchedBlur={onUnmatchedBlur}
       onUnmatchedFocus={onUnmatchedFocus}
       onAllocate={onAllocate}
-      onUnallocate={onUnallocate}
       index={index}
       isExpanded={index === openPosition}
       isSelected={entrySelectStatus[index]}

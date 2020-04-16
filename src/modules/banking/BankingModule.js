@@ -78,6 +78,7 @@ export default class BankingModule {
       dismissAlert,
       dismissModalAlert,
       focusEntry,
+      hoverEntry,
       blurEntry,
       collapseTransactionLine,
       updateSplitAllocationHeader,
@@ -113,12 +114,12 @@ export default class BankingModule {
         onDismissAlert={dismissAlert}
         onDismissModalAlert={dismissModalAlert}
         onAllocate={this.allocateTransaction}
-        onUnallocate={this.unallocateTransaction}
         onSplitRowItemClick={this.confirmBefore(this.toggleLine)}
         onMatchRowItemClick={this.confirmBefore(this.toggleLine)}
         onMatchedToBlur={blurEntry}
         onMatchedToFocus={focusEntry}
         onUnmatchedFocus={focusEntry}
+        onEntryHover={hoverEntry}
         onUnmatchedBlur={blurEntry}
         onHeaderClick={this.confirmBefore(this.toggleLine)}
         onTabChange={this.confirmBefore(this.changeOpenEntryTab)}
@@ -156,10 +157,8 @@ export default class BankingModule {
         onSelectAllTransactions={this.selectAllTransactions}
         onUpdateBulkAllocationOption={updateBulkAllocationOption}
         onSaveBulkAllocation={this.saveBulkAllocation}
-        onSaveBulkUnallocation={this.openBulkUnallocateModal}
         onCloseBulkAllocation={resetBulkAllocation}
         onCancelUnallocateModal={closeModal}
-        onConfirmUnallocateModal={this.bulkUnallocateTransactions}
         onOpenBankingRuleModal={openBankingRuleModal}
         onOpenTransferMoneyModal={this.openTransferMoneyModal}
         onRenderBankingRuleModal={this.renderBankingRuleModal}
@@ -302,57 +301,6 @@ export default class BankingModule {
     this.afterCancel = () => onConfirm(index);
     this.dispatcher.openUnmatchTransactionModal();
   }
-
-  unallocateTransaction = (index) => {
-    this.dispatcher.setEntryLoadingState(index, true);
-
-    const onSuccess = (payload) => {
-      this.dispatcher.setEntryLoadingState(index, false);
-      this.dispatcher.unAllocateTransaction(payload);
-      this.dispatcher.setAlert({
-        type: 'success',
-        message: payload.message,
-      });
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.setEntryLoadingState(index, false);
-      this.dispatcher.setAlert({
-        type: 'danger',
-        message,
-      });
-    };
-
-    this.integrator.unallocateTranscation({ index, onSuccess, onFailure });
-  }
-
-  bulkUnallocateTransactions = () => {
-    this.dispatcher.closeModal();
-    this.dispatcher.collapseTransactionLine();
-    this.dispatcher.setBulkLoadingState(true);
-
-    const onSuccess = (payload) => {
-      this.dispatcher.setBulkLoadingState(false);
-      this.dispatcher.unAllocateTransaction(payload);
-      this.dispatcher.setAlert({
-        type: 'success',
-        message: payload.message,
-      });
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.setBulkLoadingState(false);
-      this.dispatcher.setAlert({
-        type: 'danger',
-        message,
-      });
-    };
-
-    this.integrator.bulkUnallocateTransactions({
-      onSuccess,
-      onFailure,
-    });
-  };
 
   loadBankTransactions = () => {
     const onSuccess = (payload) => {
@@ -715,10 +663,6 @@ export default class BankingModule {
   openCancelModal = ({ onConfirm = () => {} }) => {
     this.afterCancel = onConfirm;
     this.dispatcher.openCancelModal();
-  };
-
-  openBulkUnallocateModal = () => {
-    this.dispatcher.openBulkUnallocateModal();
   };
 
   cancelModal = () => {

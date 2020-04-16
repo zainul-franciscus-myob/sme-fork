@@ -1,5 +1,5 @@
 import {
-  Alert, BulkActions, Button, StandardTemplate,
+  Alert, BulkActions, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -34,7 +34,6 @@ const BankingView = (props) => {
     onBankAccountChange,
     onSort,
     onAllocate,
-    onUnallocate,
     onDismissAlert,
     onDismissModalAlert,
     onSplitRowItemClick,
@@ -42,6 +41,7 @@ const BankingView = (props) => {
     onMatchedToBlur,
     onMatchedToFocus,
     onUnmatchedFocus,
+    onEntryHover,
     onUnmatchedBlur,
     onHeaderClick,
     onTabChange,
@@ -78,9 +78,7 @@ const BankingView = (props) => {
     onSelectAllTransactions,
     onUpdateBulkAllocationOption,
     onSaveBulkAllocation,
-    onSaveBulkUnallocation,
     onCloseBulkAllocation,
-    onConfirmUnallocateModal,
     onOpenBankingRuleModal,
     onOpenTransferMoneyModal,
     onRenderBankingRuleModal,
@@ -123,7 +121,6 @@ const BankingView = (props) => {
       getBankingRuleModal={getBankingRuleModal}
       onCloseModal={onCloseModal}
       onConfirmCancelModal={onCancelModal}
-      onConfirmUnallocateModal={onConfirmUnallocateModal}
       onConfirmUnmatchTransactionModal={onCancelModal}
       onRenderBankingRuleModal={onRenderBankingRuleModal}
       onDeleteAttachmentModal={onDeleteAttachmentModal}
@@ -139,7 +136,6 @@ const BankingView = (props) => {
         onSaveBulkAllocation={onSaveBulkAllocation}
         onCloseBulkAllocation={onCloseBulkAllocation}
       />
-      <Button type="secondary" onClick={onSaveBulkUnallocation}>Unallocate</Button>
       <BulkActions.Counter count={selectedCount} />
       <div className={styles.popover} />
     </BulkActions>
@@ -156,12 +152,12 @@ const BankingView = (props) => {
           onSort={onSort}
           onAddAccount={onAddAccount}
           onAllocate={onAllocate}
-          onUnallocate={onUnallocate}
           onMatchedToBlur={onMatchedToBlur}
           onMatchedToFocus={onMatchedToFocus}
           onSplitRowItemClick={onSplitRowItemClick}
           onMatchRowItemClick={onMatchRowItemClick}
           onUnmatchedFocus={onUnmatchedFocus}
+          onEntryHover={onEntryHover}
           onUnmatchedBlur={onUnmatchedBlur}
           onHeaderClick={onHeaderClick}
           onTabChange={onTabChange}

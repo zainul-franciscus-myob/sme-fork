@@ -1,5 +1,10 @@
 {
   "message": "Bank transaction unmatched",
-  "allocateOrMatch": "1 match available",
-  "type": "matched"
+  "entries": [
+    {
+      "transactionId": "20",
+      "allocateOrMatch": "1 match available",
+      "type": "match"
+    }
+  ]
 }

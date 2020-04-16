@@ -53,6 +53,15 @@
   padding-bottom: var(--flx-spacing-x-tiny);
 }
 
+.allocationColumnTableRow {
+  grid-template-columns: auto 3.2rem;
+}
+
+.allocationAndTaxCode {
+  display: flex;
+  justify-content: space-between;
+}
+
 .description {
   display: grid;
   grid-template-columns: 2fr 1fr;

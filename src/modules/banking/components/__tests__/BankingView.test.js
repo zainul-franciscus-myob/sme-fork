@@ -19,7 +19,6 @@ describe('TransactionListView', () => {
           onSort={() => {}}
           onDismissAlert={() => {}}
           onAllocate={() => {}}
-          onUnallocate={() => {}}
           onMatchedToBlur={() => {}}
           onMatchedToFocus={() => {}}
           onUnmatchedFocus={() => {}}

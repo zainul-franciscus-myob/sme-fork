@@ -42,7 +42,6 @@ import {
 } from './bankingSelectors';
 import {
   getBulkAllocationPayload,
-  getBulkUnallocationPayload,
 } from './bankingSelectors/bulkAllocationSelectors';
 import {
   getCreateTransferMoneyPayload,
@@ -158,45 +157,6 @@ const createBankingIntegrator = (store, integration) => ({
     const urlParams = { businessId: getBusinessId(state) };
 
     const content = getBulkAllocationPayload(state);
-
-    integration.write({
-      intent,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  unallocateTranscation: ({
-    index, onSuccess, onFailure,
-  }) => {
-    const state = store.getState();
-
-    const intent = UNALLOCATE_TRANSACTION;
-    const urlParams = { businessId: getBusinessId(state) };
-
-    const content = getUnallocationPayload(index, state);
-
-    integration.write({
-      intent,
-      allowParallelRequests: true,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  bulkUnallocateTransactions: ({
-    onSuccess, onFailure,
-  }) => {
-    const state = store.getState();
-
-    const intent = UNALLOCATE_TRANSACTION;
-    const urlParams = { businessId: getBusinessId(state) };
-
-    const content = getBulkUnallocationPayload(state);
 
     integration.write({
       intent,

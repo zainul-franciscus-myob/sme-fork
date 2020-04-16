@@ -36,6 +36,7 @@ import {
   SET_BULK_LOADING_STATE,
   SET_EDITING_NOTE_STATE,
   SET_ENTRY_FOCUS,
+  SET_ENTRY_HOVERED,
   SET_ENTRY_LOADING_STATE,
   SET_ERROR_STATE,
   SET_LOADING_SINGLE_ACCOUNT_STATE,
@@ -165,6 +166,7 @@ const loadBankTransactions = (state, action) => ({
     ...entry,
     isFocused: false,
     isLoading: false,
+    isHovered: false,
   })),
   filterOptions: {
     ...state.filterOptions,
@@ -304,7 +306,23 @@ export const setEntryFocus = (state, action) => ({
   ...state,
   entries: state.entries.map(
     (entry, index) => (
-      index === action.index ? { ...entry, isFocused: action.isFocused } : entry
+      index === action.index ? {
+        ...entry,
+        isFocused: action.isFocused,
+        isHovered: action.isFocused,
+      } : entry
+    ),
+  ),
+});
+
+export const setEntryHovered = (state, action) => ({
+  ...state,
+  entries: state.entries.map(
+    (entry, index) => (
+      index === action.index ? {
+        ...entry,
+        isHovered: action.isHovered,
+      } : entry
     ),
   ),
 });
@@ -384,6 +402,7 @@ const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
   [SET_ENTRY_FOCUS]: setEntryFocus,
+  [SET_ENTRY_HOVERED]: setEntryHovered,
   [SET_ENTRY_LOADING_STATE]: setEntryLoading,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,

@@ -1,5 +1,6 @@
 import { Button } from '@myob/myob-widgets';
 import React from 'react';
+import classNames from 'classnames';
 
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import styles from './UnmatchedRowItem.module.css';
@@ -13,21 +14,27 @@ const UnmatchedRowItem = ({
 }) => {
   const {
     isFocused,
+    isHovered,
     accountList,
     allocateOrMatch,
   } = entry;
 
+  const additionalStyling = isHovered && !isFocused ? styles.hovering : '';
+  const hintText = isFocused ? '' : allocateOrMatch;
   const focusedView = (
-    <div className={styles.allocating}>
+    <div className={classNames(styles.allocating, additionalStyling)}>
       <AccountCombobox
         items={accountList}
         onChange={onAllocate}
         onBlur={onBlur}
-        autoFocus
+        onFocus={onFocus}
+        autoFocus={isFocused}
         label="Allocate to"
+        hintText={hintText}
         addNewAccount={() => onAddAccount(onAllocate)}
         hideLabel
         preventTabbingOnSelect
+        width="xl"
       />
     </div>
   );
@@ -44,7 +51,7 @@ const UnmatchedRowItem = ({
     </div>
   );
 
-  return isFocused ? focusedView : defaultView;
+  return isFocused || isHovered ? focusedView : defaultView;
 };
 
 export default UnmatchedRowItem;

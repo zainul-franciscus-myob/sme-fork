@@ -1,12 +1,22 @@
 import {
-  Button, Icons, Label, Tooltip,
+  Label, Tooltip,
 } from '@myob/myob-widgets';
 import React from 'react';
+import classNames from 'classnames';
 
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import AllocatedButton from './AllocatedButton';
 import AutoAllocated from './AutoAllocated';
 import styles from './AllocatedRowItem.module.css';
+
+const ReportableLabel = () => (
+  <Tooltip
+    className={styles.reportable}
+    triggerContent={<Label type="boxed" color="blue" size="small">R</Label>}
+  >
+    Reportable payment
+  </Tooltip>
+);
 
 const AllocatedRowItem = ({
   entry,
@@ -14,40 +24,27 @@ const AllocatedRowItem = ({
   onFocus,
   onBlur,
   onAllocate,
-  onUnallocate,
 }) => {
   const {
     allocateOrMatch,
     isFocused,
+    isHovered,
     accountList,
     isReportable,
     appliedRule,
   } = entry;
 
-  const label = isReportable && (
-    <Tooltip
-      className={styles.reportable}
-      triggerContent={<Label type="boxed" color="blue" size="small">R</Label>}
-    >
-      Reportable payment
-    </Tooltip>
-  );
-
-  const unmatchButton = (
-    <Button type="secondary" size="xs" onClick={onUnallocate}>
-      <Icons.UnLink />
-    </Button>
-  );
-
-  const focusedView = (
-    <div className={styles.allocating}>
+  const additionalStyling = isHovered && !isFocused ? styles.hovering : '';
+  const combobox = (
+    <div className={classNames(styles.allocating, additionalStyling)}>
       <AccountCombobox
         items={accountList}
         label="Allocate to"
         hideLabel
+        autoFocus={isFocused}
         onChange={onAllocate}
+        onFocus={onFocus}
         onBlur={onBlur}
-        autoFocus
         preventTabbingOnSelect
         selectedId={entry.selectedAccountId}
         addNewAccount={() => onAddAccount(onAllocate)}
@@ -55,22 +52,28 @@ const AllocatedRowItem = ({
     </div>
   );
 
-  const defaultView = (
-    <div className={styles.allocated}>
-      <div className={styles.allocationInfo}>
-        { appliedRule && <AutoAllocated /> }
-        <AllocatedButton onClick={onFocus} onFocus={onFocus}>
-          {allocateOrMatch}
-        </AllocatedButton>
-        <Tooltip className={styles.unmatch} triggerContent={unmatchButton}>
-          Unmatch
-        </Tooltip>
-      </div>
-      {label}
+  const focusedView = (
+    <div className={styles.focusedAllocating}>
+      {appliedRule && <AutoAllocated className={styles.allocatedWand} />}
+      {combobox}
+      {isReportable && <ReportableLabel />}
     </div>
   );
 
-  return isFocused ? focusedView : defaultView;
+  const reportableHiddenStyling = appliedRule ? '' : styles.reportableHidden;
+  const defaultView = (
+    <div className={styles.allocated}>
+      <div className={classNames(styles.allocationInfo, reportableHiddenStyling)}>
+        {appliedRule && <AutoAllocated className={styles.allocatedWand} />}
+        <AllocatedButton onClick={onFocus} onFocus={onFocus}>
+          {allocateOrMatch}
+        </AllocatedButton>
+      </div>
+      {isReportable && <ReportableLabel />}
+    </div>
+  );
+
+  return isFocused || isHovered ? focusedView : defaultView;
 };
 
 export default AllocatedRowItem;

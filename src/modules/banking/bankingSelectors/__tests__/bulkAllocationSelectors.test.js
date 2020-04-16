@@ -1,6 +1,6 @@
 import {
   getBulkAllocationPayload,
-  getBulkSelectStatus, getBulkUnallocationPayload,
+  getBulkSelectStatus,
   getIsEditedEntryInBulkSelection,
 } from '../bulkAllocationSelectors';
 
@@ -174,111 +174,6 @@ describe('bulkAllocationSelector', () => {
         ],
       };
       const actual = getBulkAllocationPayload(state);
-
-      expect(actual).toEqual(expected);
-    });
-  });
-
-  describe('getBulkUnallocationPayload', () => {
-    it('build bulk unallocation payload', () => {
-      const state = {
-        filterOptions: {
-          bankAccount: '1',
-        },
-        entries: [
-          {
-            transactionId: '1',
-            journals: [],
-            selected: true,
-            type: 'unmatched',
-          },
-          {
-            transactionId: '2',
-            journals: [],
-            selected: true,
-            type: 'matched',
-          },
-          {
-            transactionId: '3',
-            journals: [
-              {
-                journalLineId: '333',
-              },
-            ],
-            type: 'singleAllocation',
-          },
-          {
-            transactionId: '4',
-            journals: [
-              {
-                journalLineId: '444',
-              },
-            ],
-            selected: true,
-            type: 'singleAllocation',
-          },
-          {
-            transactionId: '5',
-            journals: [
-              {
-                journalLineId: '555',
-              },
-            ],
-            selected: true,
-            type: 'splitAllocation',
-          },
-          {
-            transactionId: '6',
-            journals: [
-              {
-                journalLineId: '666',
-              },
-            ],
-            selected: true,
-            type: 'payment',
-          },
-          {
-            transactionId: '7',
-            journals: [
-              {
-                journalLineId: '777',
-              },
-              {
-                journalLineId: '778',
-              },
-            ],
-            selected: true,
-            type: 'splitMatched',
-          },
-        ],
-      };
-
-      const expected = {
-        bankAccountId: '1',
-        entries: [
-          {
-            transactionId: '4',
-            journalLineId: '444',
-          },
-          {
-            transactionId: '5',
-            journalLineId: '555',
-          },
-          {
-            transactionId: '6',
-            journalLineId: '666',
-          },
-          {
-            transactionId: '7',
-            journalLineId: '777',
-          },
-          {
-            transactionId: '7',
-            journalLineId: '778',
-          },
-        ],
-      };
-      const actual = getBulkUnallocationPayload(state);
 
       expect(actual).toEqual(expected);
     });

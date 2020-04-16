@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect';
 
 import StatusTypes from '../BankTransactionStatusTypes';
-import flat from '../../../common/flat/flat';
 
 export const getEntrySelectStatus = state => state.entries.map(entry => entry.selected);
 
@@ -50,25 +49,6 @@ export const getBulkAllocationPayload = ({ entries, filterOptions, bulkAllocatio
       withdrawal: entry.withdrawal,
       date: entry.date,
     })),
-  };
-};
-
-const ineligibleBulkUnallocationTypes = [
-  StatusTypes.unmatched, StatusTypes.matched,
-];
-const filterBulkUnallocationEntries = entries => entries.filter(
-  entry => !ineligibleBulkUnallocationTypes.includes(entry.type) && entry.selected,
-);
-export const getBulkUnallocationPayload = ({ entries, filterOptions }) => {
-  const filteredEntries = filterBulkUnallocationEntries(entries);
-  const { bankAccount: bankAccountId } = filterOptions;
-
-  return {
-    bankAccountId,
-    entries: flat(filteredEntries.map(entry => entry.journals.map(journal => ({
-      transactionId: entry.transactionId,
-      journalLineId: journal.journalLineId,
-    })))),
   };
 };
 

@@ -18,7 +18,6 @@ export default ({
   onUnmatchedBlur,
   onUnmatchedFocus,
   onAllocate,
-  onUnallocate,
   index,
   isExpanded,
 }) => {
@@ -72,7 +71,6 @@ export default ({
       <AllocatedRowItem
         entry={entry}
         onAddAccount={onAddAccount}
-        onUnallocate={() => onUnallocate(index)}
         onAllocate={item => onAllocate(index, item)}
         onFocus={() => onMatchedToFocus(index)}
         onBlur={() => onMatchedToBlur(index)}
