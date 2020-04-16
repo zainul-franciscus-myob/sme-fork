@@ -147,10 +147,15 @@ export default class PayRunDetailModule {
 
   onEmployeePayDeleteSuccess = (message) => {
     this.setAlert({ message, type: 'success' });
-    this.loadPayRunDetails();
+
+    const onFailure = () => {
+      this.redirectToPayRunList();
+    };
+
+    this.loadPayRunDetailsWithOnFailure(onFailure);
   };
 
-  loadPayRunDetails = () => {
+  loadPayRunDetailsWithOnFailure = (onFailure) => {
     this.setLoadingState(LoadingState.LOADING);
     const intent = LOAD_PAY_RUN_DETAILS;
 
@@ -165,16 +170,20 @@ export default class PayRunDetailModule {
       this.setLoadingState(LoadingState.LOADING_SUCCESS);
     };
 
-    const onFailure = () => {
-      this.setLoadingState(LoadingState.LOADING_FAIL);
-    };
-
     this.integration.read({
       onSuccess,
       onFailure,
       urlParams,
       intent,
     });
+  };
+
+  loadPayRunDetails = () => {
+    const onFailure = () => {
+      this.setLoadingState(LoadingState.LOADING_FAIL);
+    };
+
+    this.loadPayRunDetailsWithOnFailure(onFailure);
   };
 
   exportPdf = (transactionId) => {
