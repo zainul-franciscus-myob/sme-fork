@@ -10,23 +10,7 @@ fi
 
 ENV=$1
 BUILD_CONFIG_FILE=config.$ENV
-NEW_RELIC_SRC=noop.js
-case $ENV in
-  "integration"|"pdv")
-    NEW_RELIC_SRC=preprod.js
-    ;;
-  "preview")
-    NEW_RELIC_SRC=preview.js
-    ;;
-  "production")
-    NEW_RELIC_SRC=prod.js
-    ;;
-esac
-
-BUILD_FILES="find ./build -ipath ./build/newrelic -prune -type f -o -type f"
-
-NEW_RELIC_FILE="find ./build -iname ${NEW_RELIC_SRC}"
 
 ./ops/bin/env "echo '--- Building with $BUILD_CONFIG_FILE' && \
               . ${BUILD_CONFIG_FILE} yarn react-scripts build && \
-              (${BUILD_FILES}; ${NEW_RELIC_FILE}) | xargs tar czfv build-${ENV}.tar.gz"
+              tar czf build-${ENV}.tar.gz build"
