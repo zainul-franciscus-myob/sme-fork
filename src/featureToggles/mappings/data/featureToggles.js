@@ -10,4 +10,5 @@ export default {
   isSpendMoneyBankPaymentEnabled: true,
   isInvoiceJobColumnEnabled: true,
   isQuoteJobColumnEnabled: true,
+  isBillJobColumnEnabled: true,
 };

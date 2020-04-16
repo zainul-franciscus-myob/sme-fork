@@ -127,6 +127,8 @@ export const getIsLinesEmpty = createSelector(
 
 const getBillLinesLength = state => state.bill.lines.length;
 
+export const getIsBillJobColumnEnabled = state => state.isBillJobColumnEnabled;
+
 export const getTableData = createSelector(
   getBillLinesLength,
   len => Array(len).fill({}),
@@ -147,6 +149,8 @@ export const getBillLine = (state, { index }) => {
 export const getAccountOptions = state => state.accountOptions;
 
 export const getTaxCodeOptions = state => state.taxCodeOptions;
+
+export const getJobOptions = state => state.jobOptions;
 
 export const getItemOptions = state => state.itemOptions;
 

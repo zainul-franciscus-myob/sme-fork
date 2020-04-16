@@ -2,6 +2,7 @@
   "units": "1",
   "unitPrice": "50.55",
   "description": "Some new item",
+  "jobId": "2",
   "taxCodeId": "2",
   "accountId": "1",
   "discount": "25",

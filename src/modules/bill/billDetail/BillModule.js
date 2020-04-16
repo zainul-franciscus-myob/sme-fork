@@ -68,7 +68,14 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 class BillModule {
   constructor({
-    integration, setRootView, pushMessage, popMessages, replaceURLParams, globalCallbacks, reload,
+    integration,
+    setRootView,
+    pushMessage,
+    popMessages,
+    replaceURLParams,
+    globalCallbacks,
+    reload,
+    featureToggles,
   }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -77,6 +84,7 @@ class BillModule {
     this.store = new Store(billReducer);
     this.dispatcher = createBillDispatcher(this.store);
     this.integrator = createBillIntegrator(this.store, integration);
+    this.isBillJobColumnEnabled = featureToggles.isBillJobColumnEnabled;
     this.accountModalModule = new AccountModalModule({
       integration,
     });
@@ -868,7 +876,10 @@ class BillModule {
   }
 
   run(context) {
-    this.setInitialState(context);
+    this.setInitialState({
+      ...context,
+      isBillJobColumnEnabled: this.isBillJobColumnEnabled,
+    });
     setupHotKeys(keyMap, {
       SAVE_ACTION: this.saveBill,
     });

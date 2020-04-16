@@ -60,6 +60,7 @@ export const setUp = () => {
     popMessages,
     replaceURLParams,
     globalCallbacks,
+    featureToggles: { isBillJobColumnEnabled: true },
   });
   const store = new TestStore(billReducer);
   module.store = store;
@@ -187,6 +188,7 @@ describe('BillModule', () => {
           duplicatedBillId: test.duplicatedBillId,
           businessId: '🐷',
           region: 'au',
+          isBillJobColumnEnabled: true,
         };
         module.run(context);
 
@@ -219,6 +221,7 @@ describe('BillModule', () => {
           duplicatedBillId: test.duplicatedBillId,
           businessId: '🐷',
           region: 'au',
+          isBillJobColumnEnabled: true,
         };
         module.run(context);
 
@@ -260,6 +263,7 @@ describe('BillModule', () => {
           billId: '🐀',
           businessId: '🐷',
           region: 'au',
+          isBillJobColumnEnabled: true,
         };
         module.run(context);
 
@@ -303,6 +307,7 @@ describe('BillModule', () => {
           billId: '🐀',
           businessId: '🐷',
           region: 'au',
+          isBillJobColumnEnabled: true,
         };
         module.run(context);
 
@@ -348,6 +353,7 @@ describe('BillModule', () => {
         region: 'au',
         source: 'inTray',
         inTrayDocumentId: '🍟',
+        isBillJobColumnEnabled: true,
       };
 
       const expectedActionsWithoutPrefillAndTaxCalc = [

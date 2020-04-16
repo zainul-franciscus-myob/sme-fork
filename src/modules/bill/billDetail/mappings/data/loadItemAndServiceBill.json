@@ -25,6 +25,7 @@
         "description": "Cooler Large",
         "unitPrice": "520",
         "discount": "10",
+        "jobId": "2",
         "taxCodeId": "123",
         "amount": "850.9101",
         "lineSubTypeId": "13"
@@ -34,6 +35,7 @@
         "id": "2",
         "description": "Cooler Extra Large",
         "accountId": "123",
+        "jobId": "3",
         "taxCodeId": "124",
         "amount": "850.9101",
         "unitPrice": "",
@@ -76,6 +78,23 @@
       "id": "4",
       "itemId": "101",
       "description": "Cooler Medium"
+    }
+  ],
+  "jobOptions": [
+    {
+      "id": "1",
+      "jobNumber": "100",
+      "jobName": "Job 1"
+    },
+    {
+      "id": "2",
+      "jobNumber": "200",
+      "jobName": "Job 2 with a long name"
+    },
+    {
+      "id": "3",
+      "jobNumber": "12345678901234",
+      "jobName": "Job 3 with an even longer name"
     }
   ],
   "taxCodeOptions": [
@@ -155,6 +174,7 @@
     "unitPrice": "",
     "discount": "",
     "amount": "",
+    "jobId": "",
     "taxCodeId": "",
     "lineSubTypeId": ""
   },

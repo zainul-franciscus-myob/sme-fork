@@ -172,7 +172,9 @@ describe('BillModule_TableBehaviour', () => {
         LOAD_BILL,
         ({ onSuccess }) => onSuccess(loadItemAndServiceBillWithOneLineResponse),
       );
-      module.run({ billId: '🍉', businessId: '🐷', region: 'au' });
+      module.run({
+        billId: '🍉', businessId: '🐷', region: 'au', isBillJobColumnEnabled: true,
+      });
       store.resetActions();
       integration.resetRequests();
 

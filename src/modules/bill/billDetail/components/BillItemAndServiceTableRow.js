@@ -10,11 +10,13 @@ import {
   getIsNewLine,
   getIsSupplierBlocking,
   getItemOptions,
+  getJobOptions,
   getTaxCodeOptions,
 } from '../selectors/billSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import ItemCombobox from '../../../../components/combobox/ItemCombobox';
+import JobCombobox from '../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 import styles from './BillTableRow.module.css';
 
@@ -44,6 +46,7 @@ const BillItemAndServiceTableRow = ({
   index,
   billLine,
   accountOptions,
+  jobOptions,
   taxCodeOptions,
   itemOptions,
   isBlocking,
@@ -54,12 +57,14 @@ const BillItemAndServiceTableRow = ({
   onAddAccount,
   onRowInputBlur,
   onAddItemButtonClick,
+  isBillJobColumnEnabled,
   ...feelixInjectedProps
 }) => {
   const prefillStatus = billLine.prefillStatus || {};
   const {
     description,
     accountId,
+    jobId,
     taxCodeId,
     displayAmount,
     units,
@@ -143,6 +148,14 @@ const BillItemAndServiceTableRow = ({
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
+      {isBillJobColumnEnabled && <JobCombobox
+        items={jobOptions}
+        selectedId={jobId}
+        onChange={handleComboboxChange(onChange, 'jobId')}
+        disabled={isBlocking || isSupplierDisabled}
+        allowClear
+        left
+      />}
       <TaxCodeCombobox
         items={taxCodeOptions}
         selectedId={taxCodeId}
@@ -157,6 +170,7 @@ const mapStateToProps = (state, props) => ({
   billLine: getBillLine(state, props),
   itemOptions: getItemOptions(state),
   accountOptions: getAccountOptions(state),
+  jobOptions: getJobOptions(state),
   taxCodeOptions: getTaxCodeOptions(state),
   isNewLine: getIsNewLine(state, props),
   isBlocking: getIsBlocking(state),

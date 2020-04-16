@@ -1012,6 +1012,10 @@ describe('billReducer', () => {
           expected: false,
         },
         {
+          key: 'jobId',
+          expected: false,
+        },
+        {
           key: 'taxCodeId',
           expected: false,
         },

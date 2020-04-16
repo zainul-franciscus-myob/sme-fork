@@ -3,7 +3,14 @@ import BillModule from './billDetail/BillModule';
 import RouteName from '../../router/RouteName';
 
 const getBillRoutes = ({
-  integration, setRootView, pushMessage, popMessages, replaceURLParams, globalCallbacks, reload,
+  integration,
+  setRootView,
+  pushMessage,
+  popMessages,
+  replaceURLParams,
+  globalCallbacks,
+  reload,
+  featureToggles,
 }) => {
   const routes = [
     {
@@ -26,6 +33,7 @@ const getBillRoutes = ({
         popMessages,
         globalCallbacks,
         reload,
+        featureToggles,
       }),
       documentTitle: 'Bill',
     },

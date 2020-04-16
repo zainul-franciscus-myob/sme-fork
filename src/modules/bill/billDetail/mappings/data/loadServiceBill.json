@@ -20,6 +20,7 @@
         "description": "Yak shaving - 1/2 an hour",
         "accountId": "123",
         "amount": "48.5",
+        "jobId": "2",
         "taxCodeId": "124",
         "lineSubTypeId": "11"
       },
@@ -28,6 +29,7 @@
         "description": "Yak shower - 1/2 an hour",
         "accountId": "456",
         "amount": "50",
+        "jobId": "3",
         "taxCodeId": "123",
         "lineSubTypeId": "11"
       },
@@ -36,6 +38,7 @@
         "description": "Yak blow dry - 1/2 an hour",
         "accountId": "123",
         "amount": "12.5",
+        "jobId": "1",
         "taxCodeId": "124",
         "lineSubTypeId": "11"
       }
@@ -62,6 +65,23 @@
       "accountType": "Assets",
       "taxCodeId": "124",
       "displayId": "6-789"
+    }
+  ],
+  "jobOptions": [
+    {
+      "id": "1",
+      "jobNumber": "100",
+      "jobName": "Job 1"
+    },
+    {
+      "id": "2",
+      "jobNumber": "200",
+      "jobName": "Job 2 with a long name"
+    },
+    {
+      "id": "3",
+      "jobNumber": "12345678901234",
+      "jobName": "Job 3 with an even longer name"
     }
   ],
   "taxCodeOptions": [
@@ -137,6 +157,7 @@
     "description": "",
     "accountId": "",
     "amount": "",
+    "jobId": "",
     "taxCodeId": "",
     "lineSubTypeId": ""
   },
