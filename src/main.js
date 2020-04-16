@@ -51,6 +51,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
     pushMessage: inbox.pushMessage,
     replaceURLParams: router.replaceURLParams,
     reload: router.reload,
+    navigateTo: router.navigateTo,
     globalCallbacks: rootModule.globalCallbacks,
     featureToggles,
   });
