@@ -13,6 +13,7 @@ import styles from './InvoiceDetailOnlinePaymentMethod.module.css';
 const openNewTab = url => () => window.open(url);
 
 const InvoiceDetailOnlinePaymentMethod = ({
+  disabled,
   isLoading,
   isTrial,
   isServiceAvailable,
@@ -72,12 +73,14 @@ const InvoiceDetailOnlinePaymentMethod = ({
 
   const allowOnlinePayment = (
     <CheckboxGroup
+      disabled={disabled}
       label={label}
       renderCheckbox={() => (
         <div className={styles.onlinePaymentCheckboxGroup}>
           <Checkbox
             name="isAllowOnlinePayments"
             label=""
+            disabled={disabled}
             checked={isAllowOnlinePayments}
             onChange={handleCheckboxChange(onUpdateAllowOnlinePayments)}
           />
@@ -102,7 +105,7 @@ const InvoiceDetailOnlinePaymentMethod = ({
               alt={imgAlt}
               className={styles.onlinePaymentMethodsImageSetUp}
             />
-            <Button type="link" icon={<Icons.OpenExternalLink />} iconLeft onClick={openNewTab(setUpOnlinePaymentsLink)}>
+            <Button disabled={disabled} type="link" icon={<Icons.OpenExternalLink />} iconLeft onClick={openNewTab(setUpOnlinePaymentsLink)}>
               Set up
             </Button>
           </span>

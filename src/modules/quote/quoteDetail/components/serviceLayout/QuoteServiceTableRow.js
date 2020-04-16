@@ -6,6 +6,7 @@ import {
   getAccountOptions,
   getIsAccountComboboxDisabled,
   getIsCalculating,
+  getIsReadOnlyLayout,
   getJobOptions,
   getQuoteLine,
   getTaxCodeOptions,
@@ -49,6 +50,7 @@ const QuoteServiceTableRow = ({
   isAccountComboboxDisabled,
   isCalculating,
   isQuoteJobColumnEnabled,
+  isReadOnlyLayout,
   ...feelixInjectedProps
 }) => {
   const {
@@ -73,6 +75,7 @@ const QuoteServiceTableRow = ({
         value={description}
         onChange={onChange}
         autoSize
+        disabled={isReadOnlyLayout}
       />
       <AccountCombobox
         label="Allocate to"
@@ -80,7 +83,7 @@ const QuoteServiceTableRow = ({
         items={accountOptions}
         selectedId={allocatedAccountId}
         addNewAccount={() => onAddAccount(onComboboxChange('allocatedAccountId', onChange))}
-        disabled={isAccountComboboxDisabled || isCalculating}
+        disabled={isAccountComboboxDisabled || isCalculating || isReadOnlyLayout}
       />
       <AmountInput
         label="Amount ($)"
@@ -90,7 +93,7 @@ const QuoteServiceTableRow = ({
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index)}
         textAlign="right"
-        disabled={isCalculating}
+        disabled={isCalculating || isReadOnlyLayout}
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
@@ -98,7 +101,7 @@ const QuoteServiceTableRow = ({
         items={jobOptions}
         selectedId={jobId}
         onChange={onComboboxChange('jobId', onChange)}
-        disabled={isCalculating}
+        disabled={isCalculating || isReadOnlyLayout}
         allowClear
         left
       />}
@@ -107,7 +110,7 @@ const QuoteServiceTableRow = ({
         onChange={onComboboxChange('taxCodeId', onChange)}
         items={taxCodeOptions}
         selectedId={taxCodeId}
-        disabled={isCalculating}
+        disabled={isCalculating || isReadOnlyLayout}
       />
     </LineItemTable.Row>
   );
@@ -120,6 +123,7 @@ const mapStateToProps = (state, props) => ({
   accountOptions: getAccountOptions(state),
   isAccountComboboxDisabled: getIsAccountComboboxDisabled(state),
   isCalculating: getIsCalculating(state),
+  isReadOnlyLayout: getIsReadOnlyLayout(state),
 });
 
 export default connect(mapStateToProps)(QuoteServiceTableRow);

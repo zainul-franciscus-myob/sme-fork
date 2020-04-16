@@ -2,7 +2,7 @@ import { Combobox, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getInvoiceDetailNotes } from '../selectors/invoiceDetailSelectors';
+import { getInvoiceDetailNotes, getIsReadOnlyLayout } from '../selectors/invoiceDetailSelectors';
 import handleTextAreaChange from '../../../../components/handlers/handleTextAreaChange';
 import styles from './InvoiceDetailView.module.css';
 
@@ -11,6 +11,7 @@ const onNoteChange = handler => ({ value }) => {
 };
 
 const InvoiceDetailNotes = ({
+  isReadOnlyLayout,
   note,
   commentOptions,
   onUpdateHeaderOptions,
@@ -20,6 +21,7 @@ const InvoiceDetailNotes = ({
       name="note"
       label="Notes to customer"
       hideLabel={false}
+      disabled={isReadOnlyLayout}
       metaData={[
         { columnName: 'value', showData: true },
       ]}
@@ -28,6 +30,7 @@ const InvoiceDetailNotes = ({
     />
     <TextArea
       value={note}
+      disabled={isReadOnlyLayout}
       resize="vertical"
       name="note"
       label="Notes to customer"
@@ -39,6 +42,9 @@ const InvoiceDetailNotes = ({
   </div>
 );
 
-const mapStateToProps = state => getInvoiceDetailNotes(state);
+const mapStateToProps = state => ({
+  ...getInvoiceDetailNotes(state),
+  isReadOnlyLayout: getIsReadOnlyLayout(state),
+});
 
 export default connect(mapStateToProps)(InvoiceDetailNotes);

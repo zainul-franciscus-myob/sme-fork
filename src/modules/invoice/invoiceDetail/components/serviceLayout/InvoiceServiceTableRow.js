@@ -5,6 +5,7 @@ import React from 'react';
 import {
   getAccountOptions,
   getInvoiceLine,
+  getIsReadOnlyLayout,
   getIsSubmitting,
   getJobOptions,
   getTaxCodeOptions,
@@ -43,6 +44,7 @@ const InvoiceServiceTableRow = ({
   taxCodeOptions,
   index,
   isSubmitting,
+  isReadOnlyLayout,
   accountOptions,
   jobOptions,
   onChange,
@@ -73,7 +75,7 @@ const InvoiceServiceTableRow = ({
         autoSize
         value={description}
         onChange={onChange}
-        disabled={isSubmitting}
+        disabled={isSubmitting || isReadOnlyLayout}
       />
       <AccountCombobox
         label="Account"
@@ -82,7 +84,7 @@ const InvoiceServiceTableRow = ({
         items={accountOptions}
         selectedId={accountId}
         addNewAccount={() => onAddAccount(onChangeAccountId)}
-        disabled={isSubmitting}
+        disabled={isSubmitting || isReadOnlyLayout}
       />
       <AmountInput
         label="Amount"
@@ -92,7 +94,7 @@ const InvoiceServiceTableRow = ({
         textAlign="right"
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onUpdateAmount, index)}
-        disabled={isSubmitting}
+        disabled={isSubmitting || isReadOnlyLayout}
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
@@ -101,7 +103,7 @@ const InvoiceServiceTableRow = ({
         onChange={onChangeJobId}
         items={jobOptions}
         selectedId={jobId}
-        disabled={isSubmitting}
+        disabled={isSubmitting || isReadOnlyLayout}
         allowClear
         left
       />}
@@ -111,7 +113,7 @@ const InvoiceServiceTableRow = ({
         onChange={onComboboxChange('taxCodeId', onChange)}
         items={taxCodeOptions}
         selectedId={taxCodeId}
-        disabled={isSubmitting}
+        disabled={isSubmitting || isReadOnlyLayout}
       />
     </LineItemTable.Row>
   );
@@ -121,6 +123,7 @@ const mapStateToProps = (state, props) => ({
   invoiceLine: getInvoiceLine(state, props),
   taxCodeOptions: getTaxCodeOptions(state),
   isSubmitting: getIsSubmitting(state),
+  isReadOnlyLayout: getIsReadOnlyLayout(state),
   accountOptions: getAccountOptions(state),
   jobOptions: getJobOptions(state),
 });

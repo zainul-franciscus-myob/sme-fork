@@ -1,10 +1,12 @@
 import { Alert } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
+import classNames from 'classnames';
 
 import {
   getAlert,
   getIsCalculating,
+  getIsReadOnlyLayout,
   getLayout,
   getLoadingState,
   getModal,
@@ -20,6 +22,7 @@ import QuoteDetailPageHead from './QuoteDetailPageHead';
 import QuoteItemAndServiceTable from './itemLayout/QuoteItemAndServiceTable';
 import QuoteLayout from '../QuoteLayout';
 import QuoteServiceTable from './serviceLayout/QuoteServiceTable';
+import styles from './QuoteDetailView.module.css';
 
 const QuoteDetailView = ({
   contactModal,
@@ -38,6 +41,7 @@ const QuoteDetailView = ({
   itemAndServiceLayoutListeners,
   quoteActionListeners,
   modalListeners,
+  isReadOnlyLayout,
 }) => {
   const actions = <QuoteDetailActions listeners={quoteActionListeners} />;
 
@@ -66,24 +70,33 @@ const QuoteDetailView = ({
 
   const footer = <QuoteDetailFooter onUpdateNote={onUpdateHeaderOptions} />;
 
+  const serviceTable = (
+    <QuoteServiceTable
+      listeners={serviceLayoutListeners}
+      footer={footer}
+    />
+  );
+
+  const itemAndServiceTable = (
+    <QuoteItemAndServiceTable
+      listeners={itemAndServiceLayoutListeners}
+      footer={footer}
+    />
+  );
+
   const table = ({
-    [QuoteLayout.SERVICE]:
-      <QuoteServiceTable
-        listeners={serviceLayoutListeners}
-        footer={footer}
-      />,
-    [QuoteLayout.ITEM_AND_SERVICE]: (
-      <QuoteItemAndServiceTable
-        listeners={itemAndServiceLayoutListeners}
-        footer={footer}
-      />
-    ),
+    [QuoteLayout.SERVICE]: serviceTable,
+    [QuoteLayout.ITEM_AND_SERVICE]: itemAndServiceTable,
+    [QuoteLayout.PROFESSIONAL]: serviceTable,
+    [QuoteLayout.TIME_BILLING]: itemAndServiceTable,
+    [QuoteLayout.MISCELLANEOUS]: itemAndServiceTable,
   }[layout]);
 
   const layoutPopover = (
     <QuoteDetailLayoutPopover
       layout={layout}
       isCalculating={isCalculating}
+      isReadOnlyLayout={isReadOnlyLayout}
       onUpdateLayout={onUpdateLayout}
     />
   );
@@ -100,7 +113,9 @@ const QuoteDetailView = ({
       { accountModal }
       { inventoryModal }
       { layoutPopover }
-      { table }
+      <div className={classNames(isReadOnlyLayout && styles.disabledTable)}>
+        { table }
+      </div>
     </LineItemTemplate>
   );
 
@@ -113,6 +128,7 @@ const mapStateToProps = state => ({
   alert: getAlert(state),
   layout: getLayout(state),
   isCalculating: getIsCalculating(state),
+  isReadOnlyLayout: getIsReadOnlyLayout(state),
 });
 
 export default connect(mapStateToProps)(QuoteDetailView);

@@ -72,6 +72,19 @@ export const getIsServiceLayout = createSelector(
   layout => layout === InvoiceLayout.SERVICE,
 );
 
+export const getIsReadOnlyLayout = createSelector(
+  getLayout,
+  layout => ![InvoiceLayout.SERVICE, InvoiceLayout.ITEM_AND_SERVICE].includes(layout),
+);
+
+export const getReadOnlyMessage = createSelector(
+  getLayout,
+  (layout) => (
+    `This invoice is missing information because the ${layout} invoice layout isn't 
+    supported in the browser. Switch to AccountRight desktop to use this feature.`
+  ),
+);
+
 const getCommentOptions = state => state.comments.map(comment => ({ value: comment }));
 
 export const getIsCustomerDisabled = createSelector(

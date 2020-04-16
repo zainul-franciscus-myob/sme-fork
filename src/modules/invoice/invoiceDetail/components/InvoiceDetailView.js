@@ -1,12 +1,14 @@
 import { Alert } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
+import classNames from 'classnames';
 
 import {
   getAlert,
   getIsCreating,
-  getIsServiceLayout,
+  getIsReadOnlyLayout,
   getIsSubmitting,
+  getLayout,
   getLoadingState,
   getModalAlert,
   getModalType,
@@ -21,6 +23,7 @@ import InvoiceDetailNotes from './InvoiceDetailNotes';
 import InvoiceDetailOptions from './InvoiceDetailOptions';
 import InvoiceDetailTotals from './InvoiceDetailTotals';
 import InvoiceItemTable from './itemLayout/InvoiceItemTable';
+import InvoiceLayout from '../InvoiceLayout';
 import InvoiceServiceTable from './serviceLayout/InvoiceServiceTable';
 import LineItemTemplate from '../../../../components/Feelix/LineItemTemplate/LineItemTemplate';
 import MoreInformation from './MoreInformation';
@@ -30,6 +33,7 @@ import styles from './InvoiceDetailView.module.css';
 
 const InvoiceDetailView = ({
   accountModal,
+  layout,
   inventoryModal,
   loadingState,
   isCreating,
@@ -38,7 +42,7 @@ const InvoiceDetailView = ({
   emailInvoiceDetail,
   templateOptions,
   isActionsDisabled,
-  isServiceLayout,
+  isReadOnlyLayout,
   modalAlert,
   onDismissAlert,
   onChangeAmountToPay,
@@ -115,15 +119,27 @@ const InvoiceDetailView = ({
     </div>
   );
 
-  const table = isServiceLayout
-    ? <InvoiceServiceTable
+  const serviceTable = (
+    <InvoiceServiceTable
       listeners={serviceLayoutListeners}
       footer={notesAndTotals}
     />
-    : <InvoiceItemTable
+  );
+
+  const itemAndServiceTable = (
+    <InvoiceItemTable
       listeners={itemLayoutListeners}
       footer={notesAndTotals}
-    />;
+    />
+  );
+
+  const table = ({
+    [InvoiceLayout.SERVICE]: serviceTable,
+    [InvoiceLayout.ITEM_AND_SERVICE]: itemAndServiceTable,
+    [InvoiceLayout.PROFESSIONAL]: serviceTable,
+    [InvoiceLayout.TIME_BILLING]: itemAndServiceTable,
+    [InvoiceLayout.MISCELLANEOUS]: itemAndServiceTable,
+  }[layout]);
 
   const layoutPopver = (
     <InvoiceDetailLayoutPopover onUpdateInvoiceLayout={onUpdateInvoiceLayout} />
@@ -148,7 +164,9 @@ const InvoiceDetailView = ({
         {inventoryModal}
         {modal}
         {layoutPopver}
-        {table}
+        <div className={classNames(isReadOnlyLayout && styles.disabledTable)}>
+          {table}
+        </div>
       </LineItemTemplate>
       {!isCreating
       && (
@@ -171,9 +189,10 @@ const mapStateToProps = state => ({
   emailInvoiceDetail: getEmailInvoiceDetail(state),
   loadingState: getLoadingState(state),
   isActionsDisabled: getIsSubmitting(state),
-  isServiceLayout: getIsServiceLayout(state),
   templateOptions: getTemplateOptions(state),
   isCreating: getIsCreating(state),
+  layout: getLayout(state),
+  isReadOnlyLayout: getIsReadOnlyLayout(state),
 });
 
 export default connect(mapStateToProps)(InvoiceDetailView);

@@ -212,3 +212,16 @@ export const getIsExportingPDF = createSelector(
     modal && modal.type === ModalType.EXPORT_PDF && isModalActionDisabled
   ),
 );
+
+export const getIsReadOnlyLayout = createSelector(
+  getLayout,
+  (layout) => ![QuoteLayout.SERVICE, QuoteLayout.ITEM_AND_SERVICE].includes(layout),
+);
+
+export const getReadOnlyMessage = createSelector(
+  getLayout,
+  (layout) => (
+    `This quote is missing information because the ${layout} quote layout isn't 
+    supported in the browser. Switch to AccountRight desktop to use this feature.`
+  ),
+);

@@ -5,6 +5,7 @@ import React from 'react';
 import {
   getAccountOptions,
   getIsCalculating,
+  getIsReadOnlyLayout,
   getItemOptions,
   getJobOptions,
   getQuoteLineByIndex,
@@ -60,6 +61,7 @@ const QuoteItemAndServiceTableRow = ({
   accountOptions,
   onChange,
   isCalculating,
+  isReadOnlyLayout,
   onTableRowAmountInputBlur,
   onAddItemButtonClick,
   onAddAccountButtonClick,
@@ -79,14 +81,14 @@ const QuoteItemAndServiceTableRow = ({
       onChange={onComboboxChange('itemId', onChange)}
       label="Item number"
       name="itemId"
-      disabled={isCalculating}
+      disabled={isCalculating || isReadOnlyLayout}
     />
     <TextArea
       name="description"
       label="Item name"
       value={description}
       onChange={onChange}
-      disabled={isCalculating}
+      disabled={isCalculating || isReadOnlyLayout}
       autoSize
     />
     <AccountCombobox
@@ -95,14 +97,14 @@ const QuoteItemAndServiceTableRow = ({
       items={accountOptions}
       selectedId={allocatedAccountId}
       addNewAccount={() => onAddAccountButtonClick(onComboboxChange('allocatedAccountId', onChange))}
-      disabled={isCalculating}
+      disabled={isCalculating || isReadOnlyLayout}
     />
     <Input
       name="unitOfMeasure"
       label="Unit"
       value={unitOfMeasure}
       onChange={onChange}
-      disabled={isCalculating}
+      disabled={isCalculating || isReadOnlyLayout}
       maxLength={5}
     />
     <AmountInput
@@ -112,7 +114,7 @@ const QuoteItemAndServiceTableRow = ({
       onChange={handleAmountInputChange(onChange)}
       onBlur={handleAmountInputBlur(onTableRowAmountInputBlur, index)}
       textAlign="right"
-      disabled={isCalculating}
+      disabled={isCalculating || isReadOnlyLayout}
       numeralDecimalScaleMax={6}
     />
     <AmountInput
@@ -123,7 +125,7 @@ const QuoteItemAndServiceTableRow = ({
       onChange={handleAmountInputChange(onChange)}
       onBlur={handleAmountInputBlur(onTableRowAmountInputBlur, index)}
       textAlign="right"
-      disabled={isCalculating}
+      disabled={isCalculating || isReadOnlyLayout}
       numeralDecimalScaleMin={2}
       numeralDecimalScaleMax={6}
     />
@@ -135,7 +137,7 @@ const QuoteItemAndServiceTableRow = ({
       onChange={handleAmountInputChange(onChange)}
       onBlur={handleAmountInputBlur(onTableRowAmountInputBlur, index)}
       textAlign="right"
-      disabled={isCalculating}
+      disabled={isCalculating || isReadOnlyLayout}
       numeralDecimalScaleMin={2}
       numeralDecimalScaleMax={2}
     />
@@ -147,7 +149,7 @@ const QuoteItemAndServiceTableRow = ({
       onChange={handleAmountInputChange(onChange)}
       onBlur={handleAmountInputBlur(onTableRowAmountInputBlur, index)}
       textAlign="right"
-      disabled={isCalculating}
+      disabled={isCalculating || isReadOnlyLayout}
       numeralDecimalScaleMin={2}
       numeralDecimalScaleMax={2}
     />
@@ -155,7 +157,7 @@ const QuoteItemAndServiceTableRow = ({
       items={jobOptions}
       selectedId={jobId}
       onChange={onComboboxChange('jobId', onChange)}
-      disabled={isCalculating}
+      disabled={isCalculating || isReadOnlyLayout}
       allowClear
       left
     />}
@@ -163,7 +165,7 @@ const QuoteItemAndServiceTableRow = ({
       items={taxCodeOptions}
       selectedId={taxCodeId}
       onChange={onComboboxChange('taxCodeId', onChange)}
-      disabled={isCalculating}
+      disabled={isCalculating || isReadOnlyLayout}
     />
   </LineItemTable.Row>
 );
@@ -175,6 +177,7 @@ const mapStateToProps = (state, props) => ({
   taxCodeOptions: getTaxCodeOptions(state),
   accountOptions: getAccountOptions(state),
   isCalculating: getIsCalculating(state),
+  isReadOnlyLayout: getIsReadOnlyLayout(state),
 });
 
 export default connect(mapStateToProps)(QuoteItemAndServiceTableRow);

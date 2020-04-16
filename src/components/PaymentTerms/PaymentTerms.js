@@ -21,6 +21,7 @@ const PaymentTerms = ({
   label = 'Due date',
   requiredLabel = 'This is required',
   popoverLabel = 'Payment is',
+  disabled,
 }) => {
   const paymentTermsPopoverLabel = getPaymentTermsPopoverLabel({
     issueDate,
@@ -36,6 +37,7 @@ const PaymentTerms = ({
   const popoverBody = (
     <React.Fragment>
       <Select
+        disabled={disabled}
         name="expirationTerm"
         label={popoverLabel}
         value={expirationTerm}
@@ -80,15 +82,21 @@ const PaymentTerms = ({
     </React.Fragment>
   );
 
+  const triggerButton = <Button disabled={disabled} type="secondary">{paymentTermsPopoverLabel}</Button>;
+
+  const view = disabled ? triggerButton : (
+    <Popover body={popoverBody} preferPlace="below" closeOnOuterAction>
+      {triggerButton}
+    </Popover>
+  );
+
   return (
     <Field
       label={label}
       requiredLabel={requiredLabel}
       renderField={() => (
         <div className={styles.popover}>
-          <Popover body={popoverBody} preferPlace="below" closeOnOuterAction>
-            <Button type="secondary">{paymentTermsPopoverLabel}</Button>
-          </Popover>
+          {view}
         </div>
       )}
     />

@@ -1,0 +1,7 @@
+.disabledTable :global(.line-item--body .line-item__data) {
+  background-color: var(--flx-palette-storm-06);
+}
+
+.disabledTable :global(.line-item__icon-right button) {
+  display: none;
+}

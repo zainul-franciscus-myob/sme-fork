@@ -4,11 +4,12 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsActionsDisabled, getIsCreating } from '../selectors/QuoteDetailSelectors';
+import { getIsActionsDisabled, getIsCreating, getIsReadOnlyLayout } from '../selectors/QuoteDetailSelectors';
 import SaveActionType from '../SaveActionType';
 
 const QuoteDetailActions = ({
   isCreating,
+  isReadOnlyLayout,
   isActionsDisabled,
   listeners: {
     onSaveButtonClick,
@@ -32,6 +33,26 @@ const QuoteDetailActions = ({
       value={SaveActionType.SAVE_AND_DUPLICATE}
     />,
   ];
+
+  const backButton = (
+    <Button
+      key="back"
+      name="back"
+      type="primary"
+      onClick={onCancelButtonClick}
+    >
+      Go back
+    </Button>
+  );
+
+  if (isReadOnlyLayout) {
+    return (
+      <ButtonRow
+        primary={[
+          backButton,
+        ]}
+      />);
+  }
 
   return (
     <ButtonRow
@@ -118,6 +139,7 @@ const QuoteDetailActions = ({
 const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   isActionsDisabled: getIsActionsDisabled(state),
+  isReadOnlyLayout: getIsReadOnlyLayout(state),
 });
 
 export default connect(mapStateToProps)(QuoteDetailActions);

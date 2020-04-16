@@ -5,6 +5,7 @@ import React from 'react';
 import {
   getAccountOptions,
   getInvoiceLine,
+  getIsReadOnlyLayout,
   getIsSubmitting,
   getItemOptions,
   getJobOptions,
@@ -60,6 +61,7 @@ const InvoiceItemTableRow = ({
   jobOptions,
   itemOptions,
   isSubmitting,
+  isReadOnlyLayout,
   onUpdateAmount,
   onAddItemButtonClick,
   onAddAccount,
@@ -78,7 +80,7 @@ const InvoiceItemTableRow = ({
         items={itemOptions}
         selectedId={itemId}
         onChange={onChangeItemId}
-        disabled={isSubmitting}
+        disabled={isSubmitting || isReadOnlyLayout}
       />
 
       <TextArea
@@ -86,7 +88,7 @@ const InvoiceItemTableRow = ({
         autoSize
         value={description}
         onChange={onChange}
-        disabled={isSubmitting}
+        disabled={isSubmitting || isReadOnlyLayout}
       />
 
       <AccountCombobox
@@ -98,14 +100,14 @@ const InvoiceItemTableRow = ({
         addNewAccount={() => onAddAccount(
           onChangeAccountId,
         )}
-        disabled={isSubmitting}
+        disabled={isSubmitting || isReadOnlyLayout}
       />
 
       <Input
         name="unitOfMeasure"
         value={unitOfMeasure}
         onChange={onChange}
-        disabled={isSubmitting}
+        disabled={isSubmitting || isReadOnlyLayout}
         maxLength={5}
       />
 
@@ -114,7 +116,7 @@ const InvoiceItemTableRow = ({
         value={units}
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onUpdateAmount, index)}
-        disabled={isSubmitting}
+        disabled={isSubmitting || isReadOnlyLayout}
         numeralDecimalScaleMax={6}
       />
 
@@ -124,7 +126,7 @@ const InvoiceItemTableRow = ({
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onUpdateAmount, index)}
         textAlign="right"
-        disabled={isSubmitting}
+        disabled={isSubmitting || isReadOnlyLayout}
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={6}
       />
@@ -135,7 +137,7 @@ const InvoiceItemTableRow = ({
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onUpdateAmount, index)}
         textAlign="right"
-        disabled={isSubmitting}
+        disabled={isSubmitting || isReadOnlyLayout}
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
@@ -146,7 +148,7 @@ const InvoiceItemTableRow = ({
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onUpdateAmount, index)}
         textAlign="right"
-        disabled={isSubmitting}
+        disabled={isSubmitting || isReadOnlyLayout}
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
@@ -155,7 +157,7 @@ const InvoiceItemTableRow = ({
         items={jobOptions}
         selectedId={jobId}
         onChange={onChangeJobId}
-        disabled={isSubmitting}
+        disabled={isSubmitting || isReadOnlyLayout}
         allowClear
         left
       />}
@@ -164,7 +166,7 @@ const InvoiceItemTableRow = ({
         items={taxCodeOptions}
         selectedId={taxCodeId}
         onChange={onComboboxChange('taxCodeId', onChange)}
-        disabled={isSubmitting}
+        disabled={isSubmitting || isReadOnlyLayout}
       />
     </LineItemTable.Row>
   );
@@ -177,6 +179,7 @@ const mapStateToProps = (state, props) => ({
   itemOptions: getItemOptions(state),
   accountOptions: getAccountOptions(state),
   jobOptions: getJobOptions(state),
+  isReadOnlyLayout: getIsReadOnlyLayout(state),
 });
 
 export default connect(mapStateToProps)(InvoiceItemTableRow);

@@ -5,12 +5,18 @@ import React from 'react';
 import {
   getIsActionsDisabled,
   getIsCreating,
+  getIsReadOnlyLayout,
   getPageTitle,
   getTotalAmount,
 } from '../selectors/QuoteDetailSelectors';
 
 const QuoteDetailPageHead = ({
-  isCreating, isActionsDisabled, totalAmount, pageTitle, onConvertToInvoiceButtonClick,
+  isCreating,
+  isActionsDisabled,
+  isReadOnlyLayout,
+  totalAmount,
+  pageTitle,
+  onConvertToInvoiceButtonClick,
 }) => {
   const totalItems = !isCreating && [
     <TotalsHeader.TotalItem
@@ -25,7 +31,7 @@ const QuoteDetailPageHead = ({
       key="convertToInvoice"
       type="link"
       icon={<Icons.ReopenedDocument />}
-      disabled={isActionsDisabled}
+      disabled={isActionsDisabled || isReadOnlyLayout}
       onClick={onConvertToInvoiceButtonClick}
     >
       Convert to invoice
@@ -40,6 +46,7 @@ const mapStateToProps = state => ({
   isActionsDisabled: getIsActionsDisabled(state),
   totalAmount: getTotalAmount(state),
   pageTitle: getPageTitle(state),
+  isReadOnlyLayout: getIsReadOnlyLayout(state),
 });
 
 export default connect(mapStateToProps)(QuoteDetailPageHead);

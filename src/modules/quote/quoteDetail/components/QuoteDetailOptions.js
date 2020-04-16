@@ -1,10 +1,14 @@
 import {
-  DatePicker, DetailHeader, Input, ReadOnly,
+  Alert,
+  DatePicker,
+  DetailHeader,
+  Input,
+  ReadOnly,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React, { Fragment } from 'react';
 
-import { getQuoteDetailOptions } from '../selectors/QuoteDetailSelectors';
+import { getIsReadOnlyLayout, getQuoteDetailOptions, getReadOnlyMessage } from '../selectors/QuoteDetailSelectors';
 import BooleanRadioButtonGroup from '../../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
 import PaymentTerms from '../../../../components/PaymentTerms/PaymentTerms';
@@ -35,6 +39,8 @@ const QuoteDetailOptions = (props) => {
     contactOptions,
     isCalculating,
     isCustomerDisabled,
+    isReadOnlyLayout,
+    readOnlyMessage,
     taxInclusiveLabel,
     taxExclusiveLabel,
     onUpdateHeaderOptions,
@@ -50,7 +56,7 @@ const QuoteDetailOptions = (props) => {
         label="Customer"
         name="contactId"
         hideLabel={false}
-        disabled={isCustomerDisabled}
+        disabled={isCustomerDisabled || isReadOnlyLayout}
         addNewItem={{
           label: 'Create customer',
           onAddNew: onAddCustomerButtonClick,
@@ -69,12 +75,14 @@ const QuoteDetailOptions = (props) => {
         value={quoteNumber}
         onChange={handleInputChange(onUpdateHeaderOptions)}
         requiredLabel={requiredLabel}
+        disabled={isReadOnlyLayout}
       />
       <Input
         name="purchaseOrderNumber"
         label="Customer PO number"
         value={purchaseOrderNumber}
         onChange={handleInputChange(onUpdateHeaderOptions)}
+        disabled={isReadOnlyLayout}
       />
       <DatePicker
         label="Issue date"
@@ -82,6 +90,7 @@ const QuoteDetailOptions = (props) => {
         value={issueDate}
         onSelect={handleDateChange('issueDate', onUpdateHeaderOptions)}
         requiredLabel={requiredLabel}
+        disabled={isReadOnlyLayout}
       />
       <PaymentTerms
         onChange={onUpdateHeaderOptions}
@@ -92,6 +101,7 @@ const QuoteDetailOptions = (props) => {
         label="Expiry date"
         popoverLabel="Quote expires"
         requiredLabel={requiredLabel}
+        disabled={isReadOnlyLayout}
       />
       <BooleanRadioButtonGroup
         name="isTaxInclusive"
@@ -100,18 +110,29 @@ const QuoteDetailOptions = (props) => {
         trueLabel={taxInclusiveLabel}
         falseLabel={taxExclusiveLabel}
         handler={onUpdateHeaderOptions}
-        disabled={isCalculating}
+        disabled={isCalculating || isReadOnlyLayout}
       />
     </Fragment>
   );
 
+  const readOnlyWarning = (
+    <Alert type="info">
+      {readOnlyMessage}
+    </Alert>
+  );
+
   return (
     <div className={styles.options}>
+      { isReadOnlyLayout && readOnlyWarning }
       <DetailHeader primary={primary} secondary={secondary} />
     </div>
   );
 };
 
-const mapStateToProps = state => getQuoteDetailOptions(state);
+const mapStateToProps = state => ({
+  ...getQuoteDetailOptions(state),
+  isReadOnlyLayout: getIsReadOnlyLayout(state),
+  readOnlyMessage: getReadOnlyMessage(state),
+});
 
 export default connect(mapStateToProps)(QuoteDetailOptions);

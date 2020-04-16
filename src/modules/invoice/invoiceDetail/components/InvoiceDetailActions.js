@@ -4,12 +4,13 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsCreating, getIsSubmitting } from '../selectors/invoiceDetailSelectors';
+import { getIsCreating, getIsReadOnlyLayout, getIsSubmitting } from '../selectors/invoiceDetailSelectors';
 import SaveActionType from '../SaveActionType';
 
 const InvoiceDetailActions = ({
   isCreating,
   isSubmitting,
+  isReadOnlyLayout,
   listeners: {
     onSaveButtonClick,
     onSaveAndButtonClick,
@@ -108,6 +109,18 @@ const InvoiceDetailActions = ({
     </Button>
   );
 
+  const backButton = (
+    <Button
+      key="back"
+      name="back"
+      type="primary"
+      onClick={onCancelButtonClick}
+      disabled={isSubmitting}
+    >
+      Go back
+    </Button>
+  );
+
   const deleteButton = (
     <Button
       key="delete"
@@ -121,6 +134,18 @@ const InvoiceDetailActions = ({
   );
 
   const separator = <Separator direction="vertical" />;
+
+  if (isReadOnlyLayout) {
+    return (
+      <ButtonRow
+        primary={[
+          backButton,
+        ]}
+        secondary={[
+          recordPaymentButton,
+        ]}
+      />);
+  }
 
   return (
     <ButtonRow
@@ -143,6 +168,7 @@ const InvoiceDetailActions = ({
 const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   isSubmitting: getIsSubmitting(state),
+  isReadOnlyLayout: getIsReadOnlyLayout(state),
 });
 
 export default connect(mapStateToProps)(InvoiceDetailActions);

@@ -1,4 +1,5 @@
 import {
+  Alert,
   DatePicker,
   DetailHeader,
   Input,
@@ -8,7 +9,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getInvoiceDetailOptions } from '../selectors/invoiceDetailSelectors';
+import { getInvoiceDetailOptions, getIsReadOnlyLayout, getReadOnlyMessage } from '../selectors/invoiceDetailSelectors';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
 import InvoiceDetailOnlinePaymentMethod from './InvoiceDetailOnlinePaymentMethod';
 import PaymentTerms from '../../../../components/PaymentTerms/PaymentTerms';
@@ -34,6 +35,8 @@ const InvoiceDetailOptions = ({
   taxExclusiveLabel,
   onUpdateHeaderOptions,
   onAddContactButtonClick,
+  isReadOnlyLayout,
+  readOnlyMessage,
 }) => {
   const onComboBoxChange = handler => (option) => {
     const key = 'contactId';
@@ -67,7 +70,7 @@ const InvoiceDetailOptions = ({
         label="Customer"
         name="contactId"
         hideLabel={false}
-        disabled={isCustomerDisabled}
+        disabled={isCustomerDisabled || isReadOnlyLayout}
         requiredLabel={requiredLabel}
       />
       {billingAddress}
@@ -82,6 +85,7 @@ const InvoiceDetailOptions = ({
         value={invoiceNumber}
         onChange={handleInputChange(onUpdateHeaderOptions)}
         requiredLabel={requiredLabel}
+        disabled={isReadOnlyLayout}
       />
       <Input
         name="purchaseOrderNumber"
@@ -89,15 +93,18 @@ const InvoiceDetailOptions = ({
         value={purchaseOrderNumber}
         onChange={handleInputChange(onUpdateHeaderOptions)}
         maxLength={20}
+        disabled={isReadOnlyLayout}
       />
       <DatePicker
         label="Issue date"
         requiredLabel={requiredLabel}
         name="issueDate"
         value={issueDate}
+        disabled={isReadOnlyLayout}
         onSelect={handleDateChange('issueDate', onUpdateHeaderOptions)}
       />
       <PaymentTerms
+        disabled={isReadOnlyLayout}
         onChange={onUpdateHeaderOptions}
         issueDate={issueDate}
         expirationTermOptions={expirationTermOptions}
@@ -106,6 +113,7 @@ const InvoiceDetailOptions = ({
       />
       {showOnlinePayment && (
         <InvoiceDetailOnlinePaymentMethod
+          disabled={isReadOnlyLayout}
           onUpdateAllowOnlinePayments={onUpdateHeaderOptions}
         />
       )}
@@ -115,18 +123,29 @@ const InvoiceDetailOptions = ({
         value={isTaxInclusive ? taxInclusiveLabel : taxExclusiveLabel}
         options={[taxInclusiveLabel, taxExclusiveLabel]}
         onChange={onIsTaxInclusiveChange(onUpdateHeaderOptions)}
-        disabled={isSubmitting}
+        disabled={isSubmitting || isReadOnlyLayout}
       />
     </div>
   );
 
+  const readOnlyWarning = (
+    <Alert type="info">
+      {readOnlyMessage}
+    </Alert>
+  );
+
   return (
     <div className={styles.options}>
+      { isReadOnlyLayout && readOnlyWarning }
       <DetailHeader primary={primary} secondary={secondary} />
     </div>
   );
 };
 
-const mapStateToProps = state => getInvoiceDetailOptions(state);
+const mapStateToProps = state => ({
+  ...getInvoiceDetailOptions(state),
+  isReadOnlyLayout: getIsReadOnlyLayout(state),
+  readOnlyMessage: getReadOnlyMessage(state),
+});
 
 export default connect(mapStateToProps)(InvoiceDetailOptions);

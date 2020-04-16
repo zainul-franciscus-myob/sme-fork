@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getCommentOptions,
+  getIsReadOnlyLayout,
   getNote,
   getTaxLabel,
   getTotals,
@@ -28,6 +29,7 @@ const QuoteDetailFooter = ({
   note,
   commentOptions,
   onUpdateNote,
+  isReadOnlyLayout,
 }) => (
   <div className={styles.footer}>
     <div className={styles.note}>
@@ -40,6 +42,7 @@ const QuoteDetailFooter = ({
         ]}
         items={commentOptions}
         onChange={handleNoteChange(onUpdateNote)}
+        disabled={isReadOnlyLayout}
       />
       <TextArea
         value={note}
@@ -49,6 +52,7 @@ const QuoteDetailFooter = ({
         hideLabel
         rows={3}
         onChange={handleInputChange(onUpdateNote)}
+        disabled={isReadOnlyLayout}
       />
     </div>
     <LineItemTable.Total>
@@ -64,6 +68,7 @@ const mapStateToProps = state => ({
   taxLabel: getTaxLabel(state),
   note: getNote(state),
   commentOptions: getCommentOptions(state),
+  isReadOnlyLayout: getIsReadOnlyLayout(state),
 });
 
 export default connect(mapStateToProps)(QuoteDetailFooter);
