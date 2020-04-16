@@ -28,7 +28,7 @@ describe('createEmployeeDetailNzDispatcher', () => {
     it('should dispatch RESET_STATE intent', () => {
       employeeDetailNzDispatcher.resetState();
 
-      expect(store.dispatch).toHaveBeenCalledWith(RESET_STATE);
+      expect(store.dispatch).toHaveBeenCalledWith({ intent: RESET_STATE });
     });
   });
 

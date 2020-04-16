@@ -10,7 +10,7 @@ const createEmployeeDetailNzDispatcher = ({ store }) => ({
 
   resetState: () => {
     const intent = RESET_STATE;
-    store.dispatch(intent);
+    store.dispatch({ intent });
   },
 
   loadEmployeeDetails: (response) => {
