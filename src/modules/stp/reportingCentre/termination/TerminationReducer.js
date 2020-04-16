@@ -6,7 +6,9 @@ import {
   SET_LOADING_STATE,
   SET_NEW_EVENT_ID,
   SET_SELECTED_PAYROLL_YEAR,
+  SET_SORTED_EMPLOYEES,
   SET_TABLE_LOADING_STATE,
+  SORT_TERMINATION_EMPLOYEES,
 } from './TerminationIntents';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
@@ -51,6 +53,17 @@ const setFilteredEmployees = (state, { response }) => ({
   ...response,
 });
 
+const setSortedEmployees = (state, { response }) => ({
+  ...state,
+  ...response,
+});
+
+const setSort = (state, action) => ({
+  ...state,
+  sortOrder: action.sortOrder,
+  orderBy: action.orderBy,
+});
+
 const setSelectedPayrollYear = (state, { selectedPayrollYear }) => ({
   ...state,
   selectedPayrollYear,
@@ -78,6 +91,8 @@ const handlers = {
   [SET_EMPLOYEES]: setEmployees,
   [SET_SELECTED_PAYROLL_YEAR]: setSelectedPayrollYear,
   [SET_FILTERED_EMPLOYEES]: setFilteredEmployees,
+  [SET_SORTED_EMPLOYEES]: setSortedEmployees,
+  [SORT_TERMINATION_EMPLOYEES]: setSort,
   [SET_EMPLOYEE_TERMINATION_DATE]: setTerminationDate,
   [SET_NEW_EVENT_ID]: setNewEventId,
 };

@@ -6,7 +6,9 @@ import {
   SET_LOADING_STATE,
   SET_NEW_EVENT_ID,
   SET_SELECTED_PAYROLL_YEAR,
+  SET_SORTED_EMPLOYEES,
   SET_TABLE_LOADING_STATE,
+  SORT_TERMINATION_EMPLOYEES,
 } from './TerminationIntents';
 
 const createTerminationDispatcher = store => ({
@@ -55,6 +57,21 @@ const createTerminationDispatcher = store => ({
     store.dispatch({
       intent: SET_FILTERED_EMPLOYEES,
       response,
+    });
+  },
+
+  setSortedEmployees: (response) => {
+    store.dispatch({
+      intent: SET_SORTED_EMPLOYEES,
+      response,
+    });
+  },
+
+  setSort: ({ orderBy, sortOrder }) => {
+    store.dispatch({
+      intent: SORT_TERMINATION_EMPLOYEES,
+      orderBy,
+      sortOrder,
     });
   },
 

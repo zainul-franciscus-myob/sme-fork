@@ -11,6 +11,7 @@ import {
 import {
   FILTER_TERMINATION_EMPLOYEES,
   LOAD_TERMINATION_EMPLOYEES,
+  SORT_TERMINATION_EMPLOYEES,
 } from '../termination/TerminationIntents';
 import {
   LOAD_ATO_SETTINGS,
@@ -40,6 +41,7 @@ import loadFinalisationEmployeesAndHeaderDetailsForYearResponse from './data/loa
 import loadFinalisationInitialEmployeesAndHeaderDetailsResponse from './data/loadFinalisationInitialEmployeesAndHeaderDetailsResponse';
 import loadPayEventDetails from './data/loadPayEventDetailResponse';
 import loadPayEventsResponse from './data/loadPayEventsResponse';
+import sortEmployeesResponse from './data/sortTerminationEmployeesResponse';
 import stpRegistrationStatus from './data/stpRegistrationStatus';
 import submitEmployeesFinalisation from './data/submitEmployeesFinalisation';
 import submitEmployeesRemoveFinalisation from './data/submitEmployeesRemoveFinalisation';
@@ -60,6 +62,7 @@ const MemoryStpReportingCentreMapping = {
   },
   [LOAD_TERMINATION_EMPLOYEES]: ({ onSuccess }) => onSuccess(loadEmployeesResponse),
   [FILTER_TERMINATION_EMPLOYEES]: ({ onSuccess }) => onSuccess(filterEmployeesResponse),
+  [SORT_TERMINATION_EMPLOYEES]: ({ onSuccess }) => onSuccess(sortEmployeesResponse),
   [UPDATE_STP_EMPLOYEES]: () => {},
   [LOAD_EMPLOYEE_ETP]: ({ onSuccess }) => onSuccess(loadEmployeeEtps),
   [DELETE_EMPLOYEE_ETP]: () => {},

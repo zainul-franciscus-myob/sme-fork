@@ -11,6 +11,7 @@ import {
 import {
   FILTER_TERMINATION_EMPLOYEES,
   LOAD_TERMINATION_EMPLOYEES,
+  SORT_TERMINATION_EMPLOYEES,
 } from '../termination/TerminationIntents';
 import {
   LOAD_ATO_SETTINGS,
@@ -116,6 +117,10 @@ const HttpStpReportingCentreMapping = {
   [SORT_EMPLOYEES]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/stp/eofy_finalisation_sort_employees`,
+  },
+  [SORT_TERMINATION_EMPLOYEES]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/stp/termination_employees_sort_employees`,
   },
 };
 

@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getSelectedPayrollYear, getStpDeclarationContext } from './TerminationSelector';
+import { getFlipSortOrder, getSelectedPayrollYear, getStpDeclarationContext } from './TerminationSelector';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import Store from '../../../../store/Store';
 import StpDeclarationModalModule from '../../stpDeclarationModal/StpDeclarationModalModule';
@@ -58,6 +58,33 @@ export default class TerminationModule {
     };
 
     this.integrator.filterEmployees({ onSuccess, onFailure });
+  };
+
+  sortEmployees = (orderBy) => {
+    const state = this.store.getState();
+    const newSortOrder = getFlipSortOrder(state);
+
+    this.dispatcher.setTableLoadingState(true);
+
+    const onSuccess = (employees) => {
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.setSort({
+        orderBy,
+        sortOrder: newSortOrder,
+      });
+      this.dispatcher.setSortedEmployees(employees);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setTableLoadingState(false);
+    };
+
+    this.integrator.sortEmployees({
+      onSuccess,
+      onFailure,
+      orderBy,
+      sortOrder: newSortOrder,
+    });
   };
 
   terminateEmployees = () => {
@@ -125,6 +152,7 @@ export default class TerminationModule {
           onTerminationDateChange={this.onTerminationDateChange}
           onTerminateEmployees={this.onTerminateEmployees}
           onUnterminateEmployee={this.onUnterminateEmployee}
+          onSort={this.sortEmployees}
         />
       </Provider>
     );

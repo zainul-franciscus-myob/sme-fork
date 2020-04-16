@@ -1,5 +1,5 @@
 import {
-  Button, Card, DatePicker, Icons, Table,
+  Button, Card, DatePicker, HeaderSort, Icons, Table,
 } from '@myob/myob-widgets';
 import React from 'react';
 
@@ -34,14 +34,16 @@ const TerminationTable = ({
   employees,
   onTerminationDateChange,
   onUnterminateEmployee,
+  onSort,
+  activeSort,
 }) => {
   const header = (
     <Table.Header>
       <Table.HeaderItem {...tableConfig.firstName}>
-        {tableConfig.firstName.columnName}
+        <HeaderSort title={tableConfig.firstName.columnName} sortName="FirstName" activeSort={activeSort} onSort={onSort} />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.lastName}>
-        {tableConfig.lastName.columnName}
+        <HeaderSort title={tableConfig.lastName.columnName} sortName="LastName" activeSort={activeSort} onSort={onSort} />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.etpCount}>
         {tableConfig.etpCount.columnName}

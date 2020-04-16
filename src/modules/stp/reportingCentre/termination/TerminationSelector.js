@@ -52,3 +52,9 @@ export const getEtpCountText = (etpCount) => {
   }
   return `${etpCount} payments`;
 };
+
+export const getActiveSort = ({ sortOrder, orderBy }) => ({
+  column: orderBy,
+  descending: sortOrder === 'desc',
+});
+export const getFlipSortOrder = state => (state.sortOrder === 'desc' ? 'asc' : 'desc');

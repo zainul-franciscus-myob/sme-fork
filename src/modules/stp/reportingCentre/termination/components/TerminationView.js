@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getActiveSort,
   getEmployees,
   getIsTableLoading,
   getLoadingState,
@@ -26,6 +27,8 @@ const TerminationView = ({
   onTerminationDateChange,
   onTerminateEmployees,
   onUnterminateEmployee,
+  onSort,
+  activeSort,
 }) => {
   const terminationTable = (
     <TerminationTable
@@ -33,6 +36,8 @@ const TerminationView = ({
       employees={employees}
       onTerminationDateChange={onTerminationDateChange}
       onUnterminateEmployee={onUnterminateEmployee}
+      onSort={onSort}
+      activeSort={activeSort}
     />
   );
 
@@ -63,6 +68,7 @@ const mapStateToProps = state => ({
   payrollYears: getPayrollYears(state),
   payrollYear: getSelectedPayrollYear(state),
   employees: getEmployees(state),
+  activeSort: getActiveSort(state),
 });
 
 export default connect(mapStateToProps)(TerminationView);
