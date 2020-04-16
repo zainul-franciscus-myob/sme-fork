@@ -17,12 +17,6 @@ export default class EmployeeListNzModule {
     this.integrator = createEmployeeListNzIntegrator({ store: this.store, integration });
   }
 
-  render = () => {
-    const view = <EmployeeListNzView />;
-    const wrappedView = <Provider store={this.store}>{view}</Provider>;
-    this.setRootView(wrappedView);
-  }
-
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
   }
@@ -39,11 +33,17 @@ export default class EmployeeListNzModule {
     this.integrator.loadEmployeeList({ onSuccess, onFailure });
   }
 
-   resetState = () => this.dispatcher.resetState();
+  resetState = () => this.dispatcher.resetState();
 
-   run(context) {
-     this.dispatcher.setInitialState(context);
-     this.render();
-     this.loadEmployeeList();
-   }
+  render() {
+    const view = <EmployeeListNzView />;
+    const wrappedView = <Provider store={this.store}>{view}</Provider>;
+    this.setRootView(wrappedView);
+  }
+
+  run(context) {
+    this.dispatcher.setInitialState(context);
+    this.render();
+    this.loadEmployeeList();
+  }
 }

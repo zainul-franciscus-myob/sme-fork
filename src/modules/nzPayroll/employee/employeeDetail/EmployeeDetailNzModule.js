@@ -39,7 +39,7 @@ export default class EmployeeDetailNzModule {
     this.integrator.loadEmployeeDetails({ onSuccess, onFailure });
   };
 
-  render = () => {
+  render() {
     const employeeDetailNzView = <EmployeeDetailNzView tabView={this.subModule} />;
     const wrappedView = <Provider store={this.store}>{employeeDetailNzView}</Provider>;
     this.setRootView(wrappedView);
