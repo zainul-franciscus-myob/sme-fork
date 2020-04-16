@@ -67,7 +67,7 @@ const getItems = ({
   onChangePlanClick,
   onCreateBusinessClick,
 }) => [
-  onSubscribeNowClick && getMenuLinkWithIcon('', 'Subscribe now', <Icons.OpenExternalLink />, onSubscribeNowClick, '_blank'),
+  onSubscribeNowClick && getMenuLinkWithIcon('', 'Subscribe now', <Icons.OpenExternalLink />, onSubscribeNowClick),
   onSubscribeNowClick && <Navigation.Separator key="separator" />,
   urls.businessDetails && getMenuLink(urls.businessDetails, 'Business details', onMenuLinkClick),
   urls.incomeAllocation && getMenuLink(urls.incomeAllocation, 'Income allocation', onMenuLinkClick),
