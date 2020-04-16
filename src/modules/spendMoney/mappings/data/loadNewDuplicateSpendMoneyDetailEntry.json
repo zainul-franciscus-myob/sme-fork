@@ -12,7 +12,7 @@
     "electronicClearingAccountId": "789",
     "lines": [
       {
-        "jobId": "",
+        "jobId": "1",
         "id": "1",
         "accountId": "789",
         "amount": "1000.00",
@@ -23,7 +23,7 @@
         "lineSubTypeId": 8
       },
       {
-        "jobId": "",
+        "jobId": "1",
         "id": "2",
         "accountId": "456",
         "amount": "2352.00",
@@ -141,6 +141,23 @@
       "isWithholding": false,
       "thresholdRate": "10",
       "includeInGstReturn": false
+    }
+  ],
+  "jobs": [
+    {
+      "id": "1",
+      "jobNumber": "100",
+      "jobName": "Job 1"
+    },
+    {
+      "id": "2",
+      "jobNumber": "200",
+      "jobName": "Job 2 with a long name"
+    },
+    {
+      "id": "3",
+      "jobNumber": "12345678901234",
+      "jobName": "Job 3 with an even longer name"
     }
   ],
   "newLine": {

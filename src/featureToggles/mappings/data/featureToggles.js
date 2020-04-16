@@ -11,4 +11,5 @@ export default {
   isInvoiceJobColumnEnabled: true,
   isQuoteJobColumnEnabled: true,
   isBillJobColumnEnabled: true,
+  isSpendMoneyJobColumnEnabled: true,
 };

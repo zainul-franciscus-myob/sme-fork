@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getIndexOfLastLine,
+  getIsSpendMoneyJobColumnEnabled,
   getTableData,
   getTaxCodeLabel,
   getTaxLabel,
@@ -26,6 +27,7 @@ const SpendMoneyDetailTable = ({
   onRowInputBlur,
   onUpdateRow,
   onAddAccount,
+  isSpendMoneyJobColumnEnabled,
 }) => {
   const renderRow = (index, data, onChange, labels) => {
     const isNewLineRow = indexOfLastLine < index;
@@ -62,6 +64,7 @@ const SpendMoneyDetailTable = ({
       label: 'Description',
       styles: {},
     },
+    ...isSpendMoneyJobColumnEnabled ? [{ label: 'Job', styles: { width: '10rem' } }] : [],
     {
       label: taxCodeLabel,
       requiredLabel: 'Required',
@@ -116,6 +119,7 @@ const mapStateToProps = state => ({
   tableData: getTableData(state),
   taxLabel: getTaxLabel(state),
   taxCodeLabel: getTaxCodeLabel(state),
+  isSpendMoneyJobColumnEnabled: getIsSpendMoneyJobColumnEnabled(state),
 });
 
 export default connect(mapStateToProps)(SpendMoneyDetailTable);

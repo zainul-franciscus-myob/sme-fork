@@ -33,6 +33,7 @@ const getTaxInclusiveLabel = state => getRegionToDialectText(state.region)('Tax 
 const getTaxExclusiveLabel = state => getRegionToDialectText(state.region)('Tax exclusive');
 export const getTaxCodeOptions = state => state.taxCodes;
 export const getAccountOptions = state => state.accounts;
+export const getJobOptions = state => state.jobs;
 export const getRegion = state => state.region;
 const getElectronicClearingAccountId = state => state.spendMoney.electronicClearingAccountId;
 const getBankStatementText = state => state.spendMoney.bankStatementText;
@@ -55,6 +56,8 @@ const getHeadersProperties = createStructuredSelector({
   electronicClearingAccountId: getElectronicClearingAccountId,
   bankStatementText: getBankStatementText,
 });
+
+export const getIsSpendMoneyJobColumnEnabled = state => state.isSpendMoneyJobColumnEnabled;
 
 export const getIsReportableDisabled = createSelector(
   getPayToContacts,

@@ -55,7 +55,7 @@ import spendMoneyDetailReducer from './spendMoneyDetailReducer';
 
 export default class SpendMoneyDetailModule {
   constructor({
-    integration, setRootView, pushMessage, popMessages, reload,
+    integration, setRootView, pushMessage, popMessages, reload, featureToggles,
   }) {
     this.store = new Store(spendMoneyDetailReducer);
     this.setRootView = setRootView;
@@ -65,6 +65,8 @@ export default class SpendMoneyDetailModule {
     this.dispatcher = createSpendMoneyDispatcher(this.store);
     this.integrator = createSpendMoneyIntegrator(this.store, integration);
     this.taxCalculate = createTaxCalculator(TaxCalculatorTypes.spendMoney);
+
+    this.isSpendMoneyJobColumnEnabled = featureToggles.isSpendMoneyJobColumnEnabled;
 
     this.accountModalModule = new AccountModalModule({ integration });
     this.contactModalModule = new ContactModalModule({ integration });
@@ -771,7 +773,10 @@ export default class SpendMoneyDetailModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState(context);
+    this.dispatcher.setInitialState({
+      ...context,
+      isSpendMoneyJobColumnEnabled: this.isSpendMoneyJobColumnEnabled,
+    });
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.readMessages();

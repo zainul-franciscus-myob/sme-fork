@@ -53,7 +53,11 @@ const setup = () => {
   const popMessages = () => [];
 
   const module = new SpendMoneyDetailModule({
-    integration, setRootView, pushMessage, popMessages,
+    integration,
+    setRootView,
+    pushMessage,
+    popMessages,
+    featureToggles: { isSpendMoneyJobColumnEnabled: true },
   });
   module.store = store;
   module.dispatcher = createSpendMoneyDispatcher(store);

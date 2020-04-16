@@ -5,14 +5,17 @@ import classnames from 'classnames';
 
 import {
   getAccountOptions,
+  getIsSpendMoneyJobColumnEnabled,
   getIsSubmitting,
   getIsSupplierBlocking,
+  getJobOptions,
   getLineDataByIndexSelector,
   getNewLineData,
   getTaxCodeOptions,
 } from '../spendMoneyDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import Calculator from '../../../../components/Calculator/Calculator';
+import JobCombobox from '../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 import styles from './SpendMoneyDetailRow.module.css';
 
@@ -44,9 +47,11 @@ const SpendMoneyDetailRow = (props) => {
     newLineData,
     accountOptions,
     taxCodeOptions,
+    jobOptions,
     isSupplierBlocking,
     isSubmitting,
     onAddAccount,
+    isSpendMoneyJobColumnEnabled,
     ...feelixInjectedProps
   } = props;
   const data = isNewLineRow ? newLineData : lineData;
@@ -57,10 +62,12 @@ const SpendMoneyDetailRow = (props) => {
     accountId,
     taxCodeId,
     quantity,
+    jobId,
     prefillStatus = {},
   } = data;
 
   const onChangeAccountId = onComboboxChange('accountId', onChange);
+  const onChangeJobId = onComboboxChange('jobId', onChange);
 
   return (
     <LineItemTable.Row id={index} index={index} {...feelixInjectedProps}>
@@ -108,6 +115,15 @@ const SpendMoneyDetailRow = (props) => {
           disabled={isSubmitting}
         />
       </div>
+      {isSpendMoneyJobColumnEnabled && <JobCombobox
+        label="Job"
+        onChange={onChangeJobId}
+        items={jobOptions}
+        selectedId={jobId}
+        disabled={isSubmitting}
+        allowClear
+        left
+      />}
       <TaxCodeCombobox
         label="Tax code"
         hideLabel={false}
@@ -127,6 +143,8 @@ const makeMapRowStateToProps = () => {
     newLineData: getNewLineData(state),
     accountOptions: getAccountOptions(state),
     taxCodeOptions: getTaxCodeOptions(state),
+    jobOptions: getJobOptions(state),
+    isSpendMoneyJobColumnEnabled: getIsSpendMoneyJobColumnEnabled(state),
     isSupplierBlocking: getIsSupplierBlocking(state),
     isSubmitting: getIsSubmitting(state),
   });
