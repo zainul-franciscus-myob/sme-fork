@@ -2,6 +2,7 @@ import {
   LOAD_DEDUCTIONS_LIST,
   LOAD_EXPENSES_LIST,
   LOAD_LEAVE_LIST,
+  LOAD_PAYROLL_SETTINGS,
   LOAD_SUPERANNUATION_LIST,
   LOAD_TAX_PAY_ITEM,
   LOAD_WAGES_LIST,
@@ -61,6 +62,10 @@ const HttpPayItemMapping = {
   [UPDATE_TAX_PAY_ITEM]: {
     method: 'PUT',
     getPath: ({ businessId }) => `/${businessId}/taxPayItem/update_tax_pay_item`,
+  },
+  [LOAD_PAYROLL_SETTINGS]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/payrollSettings/load_general_payroll_information`,
   },
 };
 

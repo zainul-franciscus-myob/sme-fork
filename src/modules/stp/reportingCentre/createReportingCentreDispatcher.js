@@ -2,6 +2,7 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_PAYROLL_IS_SET_UP,
   SET_STP_REGISTRATION_STATUS,
   SET_TAB,
 } from './ReportingCentreIntents';
@@ -45,6 +46,13 @@ const createReportingCentreDispatcher = store => ({
     store.dispatch({
       intent: SET_TAB,
       tab,
+    });
+  },
+
+  setPayrollIsSetUp: (payrollIsSetUp) => {
+    store.dispatch({
+      intent: SET_PAYROLL_IS_SET_UP,
+      payrollIsSetUp,
     });
   },
 

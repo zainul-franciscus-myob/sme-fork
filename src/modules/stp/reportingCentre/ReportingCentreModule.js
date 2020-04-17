@@ -69,7 +69,11 @@ export default class ReportingCentreModule {
 
     const onSuccess = (response) => {
       this.dispatcher.setRegistrationStatus(response);
-      if (response.status === 'registered') {
+      if (!response.payrollIsSetUp) {
+        this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+        this.dispatcher.setPayrollIsSetUp(false);
+      } else if (response.status === 'registered') {
+        this.dispatcher.setPayrollIsSetUp(true);
         this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
         this.runTab();
       } else {

@@ -184,6 +184,7 @@ export const getNewExpensesSortOrder = (state, { orderBy }) => (
     : 'asc'
 );
 
+export const getPayrollIsSetUp = state => state.payrollIsSetUp;
 export const getTaxPayItemDetail = state => state.taxPayItem.tax;
 export const getTaxPayItemAccounts = state => state.taxPayItem.accounts;
 export const getTaxPayItemAtoReportingCategoryList = state => (
@@ -194,6 +195,8 @@ export const getSaveTaxPayItemPayload = state => ({
   atoReportingCategory: state.taxPayItem.tax.atoReportingCategory,
   accountId: state.taxPayItem.tax.accountId,
 });
+export const getLoadingState = state => state.loadingState;
+export const getPayrollSettingsLink = state => `/#/${state.region}/${state.businessId}/payrollSettings?tab=general`;
 
 export const getLoadTabContentIntent = createSelector(
   getTab,

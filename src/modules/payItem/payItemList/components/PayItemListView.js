@@ -10,14 +10,22 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getModal, getShowActionButtonForTax, getTab,
+  getAlert,
+  getLoadingState,
+  getModal,
+  getPayrollIsSetUp,
+  getPayrollSettingsLink,
+  getShowActionButtonForTax,
+  getTab,
 } from '../PayItemListSelectors';
 import { tabIds, tabItems } from '../tabItems';
+import PageView from '../../../../components/PageView/PageView';
 import PayItemDeductionsTable from './PayItemDeductionsTable';
 import PayItemExpensesTable from './PayItemExpensesTable';
 import PayItemLeaveTable from './PayItemLeaveTable';
 import PayItemSuperannuationTable from './PayItemSuperannuationTable';
 import PayItemWagesTable from './PayItemWagesTable';
+import PayrollNotSetup from '../../../../components/Payroll/PayrollNotSetup';
 import Tabs from '../../../../components/Tabs/Tabs';
 import TaxPayItemView from './TaxPayItemView';
 import UnsavedModal from '../../../../components/modal/UnsavedModal';
@@ -32,6 +40,9 @@ const PayItemListView = ({
   onConfirmCancelButtonClick,
   onDismissModal,
   modal,
+  loadingState,
+  payrollSettingsLink,
+  payrollIsSetUp,
 }) => {
   const { onCreatePayItemButtonClick, onSaveTaxPayItemButtonClick } = listeners;
 
@@ -106,7 +117,17 @@ const PayItemListView = ({
     </BaseTemplate>
   );
 
-  return payItemView;
+  const payrollNotSetUpView = (
+    <PayrollNotSetup
+      description="Before you create pay items, you'll need to enter a payroll year."
+      payrollSettingsLink={payrollSettingsLink}
+    />
+  );
+
+  return <PageView
+    loadingState={loadingState}
+    view={payrollIsSetUp ? payItemView : payrollNotSetUpView}
+  />;
 };
 
 const mapStateToProps = state => ({
@@ -114,6 +135,9 @@ const mapStateToProps = state => ({
   showActionButtonForTax: getShowActionButtonForTax(state),
   alert: getAlert(state),
   modal: getModal(state),
+  loadingState: getLoadingState(state),
+  payrollSettingsLink: getPayrollSettingsLink(state),
+  payrollIsSetUp: getPayrollIsSetUp(state),
 });
 
 export default connect(mapStateToProps)(PayItemListView);

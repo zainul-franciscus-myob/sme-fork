@@ -2,6 +2,7 @@ import {
   LOAD_DEDUCTIONS_LIST,
   LOAD_EXPENSES_LIST,
   LOAD_LEAVE_LIST,
+  LOAD_PAYROLL_SETTINGS,
   LOAD_SUPERANNUATION_LIST,
   LOAD_TAX_PAY_ITEM,
   LOAD_WAGES_LIST,
@@ -18,6 +19,7 @@ import expensesListLoadResponse from './data/loadExpenseList';
 import expensesListSortResponse from './data/sortExpenseList';
 import leaveListLoadResponse from './data/loadLeaveList';
 import leaveListSortResponse from './data/sortLeaveList';
+import payrollSettings from './data/payrollSettings';
 import success from './data/success';
 import superannuationListLoadResponse from './data/loadSuperannuationList';
 import superannuationListSortResponse from './data/sortSuperannuationList';
@@ -49,6 +51,8 @@ const loadTaxPayItem = ({ onSuccess }) => onSuccess(taxPayItemResponse);
 
 const updateTaxPayItem = ({ onSuccess }) => onSuccess(success);
 
+const loadPayrollSettings = ({ onSuccess }) => onSuccess(payrollSettings);
+
 const MemoryPayItemMapping = {
   [LOAD_WAGES_LIST]: loadWagesList,
   [SORT_WAGES_LIST]: sortWagesList,
@@ -62,6 +66,7 @@ const MemoryPayItemMapping = {
   [SORT_EXPENSES_LIST]: sortExpensesList,
   [LOAD_TAX_PAY_ITEM]: loadTaxPayItem,
   [UPDATE_TAX_PAY_ITEM]: updateTaxPayItem,
+  [LOAD_PAYROLL_SETTINGS]: loadPayrollSettings,
 };
 
 export default MemoryPayItemMapping;

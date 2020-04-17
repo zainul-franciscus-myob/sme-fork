@@ -12,7 +12,7 @@ import {
 } from '../PayRunSelectors';
 import AlertContainer from './AlertContainer';
 import PageView from '../../../../components/PageView/PageView';
-import PayrollNotSetup from './PayrollNotSetup';
+import PayrollNotSetup from '../../../../components/Payroll/PayrollNotSetup';
 import PreviousStepModal from './PreviousStepModal';
 
 const PayRunView = ({
@@ -45,7 +45,10 @@ const PayRunView = ({
       {stepViews[step]}
     </BaseTemplate>
   ) : (
-    <PayrollNotSetup payrollSettingsLink={payrollSettingsLink} />
+    <PayrollNotSetup
+      description="Before you can create a pay run, you'll need to enter a payroll year."
+      payrollSettingsLink={payrollSettingsLink}
+    />
   );
 
   return <PageView loadingState={loadingState} view={view} />;

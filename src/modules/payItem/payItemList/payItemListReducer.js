@@ -11,6 +11,8 @@ import {
   SET_DEDUCTIONS_SORT_ORDER,
   SET_EXPENSES_SORT_ORDER,
   SET_LEAVE_SORT_ORDER,
+  SET_LOADING_STATE,
+  SET_PAYROLL_IS_SET_UP,
   SET_SUBMITTING_STATE,
   SET_SUPERANNUATION_SORT_ORDER,
   SET_TAB,
@@ -27,11 +29,14 @@ import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
+  loadingState: LoadingState.LOADING,
   isTableLoading: false,
   isSubmitting: false,
+  payrollIsSetUp: true,
   tab: 'wages',
   wages: {
     orderBy: '',
@@ -74,6 +79,11 @@ const getDefaultState = () => ({
 const setInitialState = (state, action) => ({
   ...state,
   ...action.context,
+});
+
+const setLoadingState = (state, { loadingState }) => ({
+  ...state,
+  loadingState,
 });
 
 const setSubmittingState = (state, action) => ({
@@ -265,6 +275,11 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
+const setPayrollIsSetUp = (state, action) => ({
+  ...state,
+  payrollIsSetUp: action.payrollIsSetUp,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [SET_SUBMITTING_STATE]: setSubmittingState,
@@ -291,6 +306,8 @@ const handlers = {
   [UPDATE_TAX_PAY_ITEM_DETAIL]: updateTaxPayItemDetail,
   [CLOSE_MODAL]: closeModal,
   [OPEN_MODAL]: openModal,
+  [SET_LOADING_STATE]: setLoadingState,
+  [SET_PAYROLL_IS_SET_UP]: setPayrollIsSetUp,
 };
 
 const payItemListReducer = createReducer(getDefaultState(), handlers);

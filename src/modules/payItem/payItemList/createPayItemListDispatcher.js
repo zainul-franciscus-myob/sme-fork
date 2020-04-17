@@ -2,6 +2,8 @@ import {
   CLOSE_MODAL,
   OPEN_MODAL,
   SET_ALERT,
+  SET_LOADING_STATE,
+  SET_PAYROLL_IS_SET_UP,
   SET_SUBMITTING_STATE,
   SET_TAB,
   SET_TABLE_LOADING_STATE,
@@ -79,6 +81,20 @@ const createPayItemListDispatcher = store => ({
     store.dispatch({
       intent: SET_TABLE_LOADING_STATE,
       isTableLoading,
+    });
+  },
+
+  setLoadingState: (loadingState) => {
+    store.dispatch({
+      intent: SET_LOADING_STATE,
+      loadingState,
+    });
+  },
+
+  setPayrollIsSetUp: (payrollIsSetUp) => {
+    store.dispatch({
+      intent: SET_PAYROLL_IS_SET_UP,
+      payrollIsSetUp,
     });
   },
 

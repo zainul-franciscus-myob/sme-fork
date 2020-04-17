@@ -28,3 +28,7 @@ export const SORT_EXPENSES_LIST = Symbol('Sort expenses list');
 export const LOAD_TAX_PAY_ITEM = Symbol('Load tax pay item');
 export const UPDATE_TAX_PAY_ITEM = Symbol('Update tax pay item');
 export const UPDATE_TAX_PAY_ITEM_DETAIL = Symbol('Update tax pay item detail');
+
+export const LOAD_PAYROLL_SETTINGS = Symbol('Load general payroll settings');
+export const SET_LOADING_STATE = Symbol('Set the loading state');
+export const SET_PAYROLL_IS_SET_UP = Symbol('Set payroll is set up');

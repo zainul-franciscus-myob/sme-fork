@@ -1,0 +1,21 @@
+{
+  "currentYear": "2020",
+  "taxTableRevisionDate": "23/08/2019",
+  "hoursInWorkWeek": 443.09,
+  "withholdingPayerNumber": "00 123 456 789",
+  "roundNetPay": 71150.05,
+  "defaultSuperFund": "2",
+  "defaultSuperFundOptions": [
+    {
+      "name": "Foo",
+      "id": "1"
+    },
+    {
+      "name": "Bar",
+      "id": "2"
+    }
+  ],
+  "useTimesheets": false,
+  "useTimesheetsWeekStarts": "Monday",
+  "useTimesheetsAction": "TimeBillingAndPayroll"
+}

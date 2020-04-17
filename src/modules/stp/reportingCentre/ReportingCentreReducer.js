@@ -2,6 +2,7 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_PAYROLL_IS_SET_UP,
   SET_STP_REGISTRATION_STATUS,
   SET_TAB,
 } from './ReportingCentreIntents';
@@ -16,6 +17,7 @@ const getDefaultState = () => ({
   status: '',
   agentAbn: '',
   agentNumber: '',
+  payrollIsSetUp: true,
 });
 
 const setValidTab = (tab) => {
@@ -58,6 +60,11 @@ const setRegistration = (state, { response }) => ({
   ...response,
 });
 
+const setPayrollIsSetUp = (state, { payrollIsSetUp }) => ({
+  ...state,
+  payrollIsSetUp,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -65,6 +72,7 @@ const handlers = {
   [SET_ALERT]: setAlert,
   [SET_TAB]: setTab,
   [SET_STP_REGISTRATION_STATUS]: setRegistration,
+  [SET_PAYROLL_IS_SET_UP]: setPayrollIsSetUp,
 };
 
 const reportingCentreReducer = createReducer(getDefaultState(), handlers);

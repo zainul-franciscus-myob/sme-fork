@@ -2,6 +2,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  LOAD_PAYROLL_SETTINGS,
   SET_DEDUCTIONS_SORT_ORDER,
   SET_EXPENSES_SORT_ORDER,
   SET_LEAVE_SORT_ORDER,
@@ -49,6 +50,7 @@ import {
   getUrlTabParams,
 } from './PayItemListSelectors';
 import { tabIds } from './tabItems';
+import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
 import PayItemListView from './components/PayItemListView';
 import Store from '../../../store/Store';
@@ -365,12 +367,42 @@ export default class PayItemListModule {
 
   updateURLFromState = state => this.replaceURLParams(getUrlTabParams(state))
 
+  setLoadingState = (loadingState) => {
+    this.dispatcher.setLoadingState(loadingState);
+  }
+
+  loadPayrollSettings = () => {
+    const state = this.store.getState();
+    const intent = LOAD_PAYROLL_SETTINGS;
+    this.setLoadingState(LoadingState.LOADING);
+
+    const onSuccess = (response) => {
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
+      if (response && response.currentYear) {
+        this.loadTabContentList();
+      } else {
+        this.dispatcher.setPayrollIsSetUp(false);
+      }
+    };
+
+    const onFailure = () => {
+      this.setLoadingState(LoadingState.LOADING_FAIL);
+    };
+
+    this.integration.read({
+      intent,
+      urlParams: { businessId: getBusinessId(state) },
+      onSuccess,
+      onFailure,
+    });
+  }
+
   run(context) {
     this.dispatcher.setInitialState(context);
     this.store.subscribe(this.updateURLFromState);
     this.render();
     this.readMessages();
-    this.loadTabContentList();
+    this.loadPayrollSettings();
   }
 
   resetState = () => {

@@ -21,7 +21,7 @@ import { mainTabItems } from '../tabItems';
 import ConfirmModal from './ConfirmModal';
 import EmployeeDetailActions from './EmployeeDetailActions';
 import PageView from '../../../../components/PageView/PageView';
-import PayrollNotSetup from './PayrollNotSetup';
+import PayrollNotSetup from '../../../../components/Payroll/PayrollNotSetup';
 
 const EmployeeDetailView = ({
   isPayrollSetup,
@@ -78,7 +78,10 @@ const EmployeeDetailView = ({
       { actions }
     </BaseTemplate>
   ) : (
-    <PayrollNotSetup payrollSettingsLink={payrollSettingsLink} />
+    <PayrollNotSetup
+      description="Before you can create an employee, you'll need to enter a payroll year."
+      payrollSettingsLink={payrollSettingsLink}
+    />
   );
 
   return <PageView loadingState={loadingState} view={view} />;
