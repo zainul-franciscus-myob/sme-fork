@@ -43,6 +43,7 @@ const getDefaultState = () => ({
     accountId: '',
     amount: '',
     units: '',
+    jobId: '',
     description: '',
     taxCodeId: '',
   },
@@ -54,6 +55,7 @@ const getDefaultState = () => ({
   depositIntoAccountOptions: [],
   payFromContactOptions: [],
   accountOptions: [],
+  jobOptions: [],
   taxCodeOptions: [],
   modal: undefined,
   alertMessage: '',
@@ -65,6 +67,7 @@ const getDefaultState = () => ({
   isPageEdited: false,
   businessId: '',
   region: '',
+  isReceiveMoneyJobColumnEnabled: false,
 });
 
 const pageEdited = { isPageEdited: true };
@@ -84,6 +87,7 @@ const loadReceiveMoneyDetail = (state, action) => ({
   depositIntoAccountOptions: action.depositIntoAccountOptions,
   payFromContactOptions: action.payFromContactOptions,
   accountOptions: action.accountOptions,
+  jobOptions: action.jobOptions,
   taxCodeOptions: action.taxCodeOptions,
 });
 
@@ -154,6 +158,7 @@ const loadNewReceiveMoney = (state, action) => ({
   depositIntoAccountOptions: action.depositIntoAccountOptions,
   payFromContactOptions: action.payFromContactOptions,
   accountOptions: action.accountOptions,
+  jobOptions: action.jobOptions,
   taxCodeOptions: action.taxCodeOptions,
 });
 

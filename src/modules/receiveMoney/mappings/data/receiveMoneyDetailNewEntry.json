@@ -8,6 +8,7 @@
     "accountId": "",
     "amount": "",
     "units": "",
+    "jobId": "",
     "description": "",
     "taxCodeId": "",
     "lineTypeId": "6"
@@ -66,6 +67,23 @@
       "accountType": "Assets",
       "taxCodeId": "2",
       "displayId": "6-789"
+    }
+  ],
+  "jobOptions": [
+    {
+      "id": "1",
+      "jobNumber": "100",
+      "jobName": "Job 1"
+    },
+    {
+      "id": "2",
+      "jobNumber": "200",
+      "jobName": "Job 2 with a long name"
+    },
+    {
+      "id": "3",
+      "jobNumber": "12345678901234",
+      "jobName": "Job 3 with an even longer name"
     }
   ],
   "taxCodeOptions": [

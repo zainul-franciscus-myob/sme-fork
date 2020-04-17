@@ -13,6 +13,7 @@
         "accountId": "789",
         "amount": 1000,
         "units": "10",
+        "jobId": "2",
         "description": "Bob",
         "taxCodeId": "4",
         "lineTypeId": "6"
@@ -22,6 +23,7 @@
         "accountId": "456",
         "amount": 2352,
         "units": "34",
+        "jobId": "2",
         "description": "the builder",
         "taxCodeId": "2",
         "lineTypeId": "6"
@@ -37,6 +39,7 @@
     "accountId": "",
     "amount": "",
     "units": "",
+    "jobId": "",
     "description": "",
     "taxCodeId": "",
     "lineTypeId": "6"
@@ -95,6 +98,23 @@
       "accountType": "Assets",
       "taxCodeId": "2",
       "displayId": "6-789"
+    }
+  ],
+  "jobOptions": [
+    {
+      "id": "1",
+      "jobNumber": "100",
+      "jobName": "Job 1"
+    },
+    {
+      "id": "2",
+      "jobNumber": "200",
+      "jobName": "Job 2 with a long name"
+    },
+    {
+      "id": "3",
+      "jobNumber": "12345678901234",
+      "jobName": "Job 3 with an even longer name"
     }
   ],
   "taxCodeOptions": [

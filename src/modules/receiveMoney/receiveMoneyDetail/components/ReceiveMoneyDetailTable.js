@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getIndexOfLastLine,
+  getIsReceiveMoneyJobColumnEnabled,
   getTableData,
   getTaxCodeLabel,
   getTaxLabel,
@@ -26,6 +27,7 @@ const ReceiveMoneyDetailTable = ({
   onRemoveRow,
   onRowInputBlur,
   onAddAccount,
+  isReceiveMoneyJobColumnEnabled,
 }) => {
   const renderRow = (index, data, onChange, labels) => {
     const isNewLineRow = indexOfLastLine < index;
@@ -39,6 +41,7 @@ const ReceiveMoneyDetailTable = ({
         isNewLineRow={isNewLineRow}
         onRowInputBlur={onRowInputBlur}
         onAddAccount={onAddAccount}
+        isReceiveMoneyJobColumnEnabled={isReceiveMoneyJobColumnEnabled}
       />
     );
   };
@@ -58,6 +61,7 @@ const ReceiveMoneyDetailTable = ({
       label: 'Quantity',
       styles: { width: '9rem' },
     },
+    ...(isReceiveMoneyJobColumnEnabled ? [{ label: 'Job', styles: { width: '9rem' } }] : []),
     {
       label: 'Description',
       styles: {},
@@ -113,6 +117,7 @@ const ReceiveMoneyDetailTable = ({
 const mapStateToProps = state => ({
   amountTotals: getTotals(state),
   indexOfLastLine: getIndexOfLastLine(state),
+  isReceiveMoneyJobColumnEnabled: getIsReceiveMoneyJobColumnEnabled(state),
   tableData: getTableData(state),
   taxLabel: getTaxLabel(state),
   taxCodeLabel: getTaxCodeLabel(state),

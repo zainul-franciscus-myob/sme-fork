@@ -38,7 +38,12 @@ const setup = () => {
   const reload = () => {};
 
   const module = new ReceiveMoneyDetailModule({
-    integration, setRootView, pushMessage, popMessages, reload,
+    integration,
+    setRootView,
+    pushMessage,
+    popMessages,
+    reload,
+    featureToggles: { isReceiveMoneyJobColumnEnabled: true },
   });
   module.store = store;
   module.dispatcher = createReceiveMoneyDetailDispatcher({ store });

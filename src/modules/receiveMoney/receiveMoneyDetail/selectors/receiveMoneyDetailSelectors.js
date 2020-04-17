@@ -20,9 +20,12 @@ const getIsReportable = state => state.receiveMoney.isReportable;
 const getIsTaxInclusive = state => state.receiveMoney.isTaxInclusive;
 const getLines = state => state.receiveMoney.lines;
 
+export const getIsReceiveMoneyJobColumnEnabled = state => state.isReceiveMoneyJobColumnEnabled;
+
 const getDepositIntoAccountOptions = state => state.depositIntoAccountOptions;
 const getPayFromContactOptions = state => state.payFromContactOptions;
 export const getAccountOptions = state => state.accountOptions;
+export const getJobOptions = state => state.jobOptions;
 export const getTaxCodeOptions = state => state.taxCodeOptions;
 
 export const getIsContactLoading = state => state.isContactLoading;

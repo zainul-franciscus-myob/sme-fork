@@ -5,12 +5,14 @@ import React from 'react';
 import {
   getAccountOptions,
   getIsActionsDisabled,
+  getJobOptions,
   getLineDataByIndexSelector,
   getNewLineData,
   getTaxCodeOptions,
 } from '../selectors/receiveMoneyDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/FormattedAmountInput';
+import JobCombobox from '../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 
 const onComboboxChange = (name, handler) => (item) => {
@@ -42,10 +44,12 @@ const ReceiveMoneyDetailRow = ({
   isNewLineRow,
   lineData,
   newLineData,
+  jobOptions,
   taxCodeOptions,
   accountOptions,
   onAddAccount,
   isSubmitting,
+  isReceiveMoneyJobColumnEnabled,
   ...feelixInjectedProps
 }) => {
   const data = isNewLineRow ? newLineData : lineData;
@@ -53,6 +57,7 @@ const ReceiveMoneyDetailRow = ({
   const {
     amount,
     units,
+    jobId,
     description,
     accountId,
     taxCodeId,
@@ -95,6 +100,14 @@ const ReceiveMoneyDetailRow = ({
         textAlign="right"
         disabled={isSubmitting}
       />
+      {isReceiveMoneyJobColumnEnabled && <JobCombobox
+        items={jobOptions}
+        selectedId={jobId}
+        onChange={onComboboxChange('jobId', onChange)}
+        disabled={isSubmitting}
+        allowClear
+        left
+      />}
       <TextArea
         label="Description"
         hideLabel
@@ -121,6 +134,7 @@ const makeMapRowStateToProps = () => {
   return (state, ownProps) => ({
     lineData: lineDataByIndex(state, ownProps),
     newLineData: getNewLineData(state),
+    jobOptions: getJobOptions(state),
     taxCodeOptions: getTaxCodeOptions(state),
     accountOptions: getAccountOptions(state),
     isSubmitting: getIsActionsDisabled(state),

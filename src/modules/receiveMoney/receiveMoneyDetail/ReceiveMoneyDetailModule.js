@@ -38,7 +38,7 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class ReceiveMoneyDetailModule {
   constructor({
-    integration, setRootView, pushMessage, reload, popMessages,
+    integration, setRootView, pushMessage, reload, popMessages, featureToggles,
   }) {
     this.integration = integration;
     this.store = new Store(receiveMoneyDetailReducer);
@@ -49,6 +49,8 @@ export default class ReceiveMoneyDetailModule {
 
     this.dispatcher = createReceiveMoneyDetailDispatcher({ store: this.store });
     this.integrator = createReceiveMoneyDetailIntegrator({ store: this.store, integration });
+
+    this.isReceiveMoneyJobColumnEnabled = featureToggles.isReceiveMoneyJobColumnEnabled;
 
     this.accountModalModule = new AccountModalModule({
       integration,
@@ -407,7 +409,10 @@ export default class ReceiveMoneyDetailModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState(context);
+    this.dispatcher.setInitialState({
+      ...context,
+      isReceiveMoneyJobColumnEnabled: this.isReceiveMoneyJobColumnEnabled,
+    });
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.readMessages();
