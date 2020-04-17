@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 
+import EtpPayItemStpCategories from '../types/EtpPayItemStpCategory';
 import formatAmount from '../../../../common/valueFormatters/formatAmount';
 import formatNumberWithDecimalScaleRange from '../../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 
@@ -77,7 +78,7 @@ export const getIsEtpCodeCategorySelected = createSelector(
 );
 export const getInvalidEtpNames = state => state.employeePayList.invalidEtpNames;
 
-const isEtpPayItem = ({ stpCategory }) => ['ETPTaxableComponent', 'ETPTaxFreeComponent', 'ETPTaxWithholding'].includes(stpCategory);
+const isEtpPayItem = ({ stpCategory }) => EtpPayItemStpCategories.includes(stpCategory);
 const isEmptyPayItem = ({ amount }) => Number(amount) === 0;
 const isUpdateableEtpCode = ({ etpCode }) => Boolean(etpCode);
 
@@ -90,7 +91,7 @@ export const isEtpAlertForLineShown = line => (
 );
 
 export const isEtpSelectionForLineShown = line => (
-  isUpdateableEtpCode(line) || isNonEmptyEtpLine(line)
+  isNonEmptyEtpLine(line)
 );
 
 export const isValidEtp = ({ invalidEtpNames }) => invalidEtpNames.length === 0;

@@ -251,60 +251,108 @@ describe('EmployeePayListSelectors', () => {
       etpCode: undefined,
     };
 
-    [
-      {
-        stpCategory: 'ETPTaxableComponent',
-      },
-      {
-        stpCategory: 'ETPTaxFreeComponent',
-      },
-      {
-        stpCategory: 'ETPTaxWithholding',
-      },
-    ].forEach((test) => {
-      it(`true when has ${test.stpCategory} and non empty amount`, () => {
+    describe('stpCategory', () => {
+      [
+        {
+          stpCategory: 'ETPTaxableComponent',
+        },
+        {
+          stpCategory: 'ETPTaxFreeComponent',
+        },
+        {
+          stpCategory: 'ETPTaxWithholding',
+        },
+      ].forEach((test) => {
+        it(`returns true when has ${test.stpCategory} and non empty amount`, () => {
+          const modifiedLine = {
+            ...line,
+            payItems: line.payItems.map(payItem => ({ ...payItem, stpCategory: test.stpCategory })),
+          };
+
+          const actual = isEtpSelectionForLineShown(modifiedLine);
+
+          expect(actual).toEqual(true);
+        });
+      });
+
+      it('returns false when has no etp pay items', () => {
         const modifiedLine = {
           ...line,
-          payItems: line.payItems.map(payItem => ({ ...payItem, stpCategory: test.stpCategory })),
+          payItems: line.payItems.map(payItem => ({ ...payItem, stpCategory: 'something else' })),
         };
 
         const actual = isEtpSelectionForLineShown(modifiedLine);
 
-        expect(actual).toEqual(true);
+        expect(actual).toEqual(false);
       });
     });
 
-    it('true when has existing etpCode', () => {
-      const modifiedLine = {
-        ...line,
-        etpCode: EtpCode.B,
-      };
+    describe('amount', () => {
+      it('returns true when one of the etp pay items is not zero', () => {
+        const employeeLine = {
+          etpCode: EtpCode.B,
+          payItems: [
+            {
+              payItemId: '1',
+              amount: '0.00',
+              stpCategory: 'ETPTaxableComponent',
+            },
+            {
+              payItemId: '2',
+              amount: '2.00',
+              stpCategory: 'ETPTaxWithholding',
+            },
+          ],
+        };
 
-      const actual = isEtpSelectionForLineShown(modifiedLine);
+        const result = isEtpSelectionForLineShown(employeeLine);
 
-      expect(actual).toEqual(true);
-    });
+        expect(result).toEqual(true);
+      });
 
-    it('false when has empty etp pay item', () => {
-      const modifiedLine = {
-        ...line,
-        payItems: line.payItems.map(payItem => ({ ...payItem, amount: '0.00' })),
-      };
+      it('returns true when all of the etp pay items are non zero', () => {
+        const employeeLine = {
+          etpCode: EtpCode.B,
+          payItems: [
+            {
+              payItemId: '1',
+              amount: '1.00',
+              stpCategory: 'ETPTaxableComponent',
+            },
+            {
+              payItemId: '2',
+              amount: '2.00',
+              stpCategory: 'ETPTaxWithholding',
+            },
+          ],
+        };
 
-      const actual = isEtpSelectionForLineShown(modifiedLine);
+        const result = isEtpSelectionForLineShown(employeeLine);
 
-      expect(actual).toEqual(false);
-    });
+        expect(result).toEqual(true);
+      });
 
-    it('false when has no etp pay items', () => {
-      const modifiedLine = {
-        ...line,
-        payItems: line.payItems.map(payItem => ({ ...payItem, stpCategory: 'something else' })),
-      };
+      it('returns false when all etp pay items are zero', () => {
+        const employeeLine = {
+          etpCode: EtpCode.B,
+          payItems: [
+            {
+              payItemId: '1',
+              amount: '0.00',
+              stpCategory: 'ETPTaxableComponent',
+            },
+            {
+              payItemId: '2',
+              amount: '0.00',
+              stpCategory: 'ETPTaxWithholding',
+            },
+          ],
+        };
 
-      const actual = isEtpSelectionForLineShown(modifiedLine);
+        const result = isEtpSelectionForLineShown(employeeLine);
 
-      expect(actual).toEqual(false);
+        expect(result).toEqual(false);
+      });
     });
   });
 

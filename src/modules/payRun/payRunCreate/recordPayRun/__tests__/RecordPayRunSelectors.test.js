@@ -17,6 +17,7 @@ describe('RecordPayRunSelectors', () => {
         {
           employeeId: '22',
           isSelected: true,
+          payItems: [],
         },
       ];
 
@@ -32,10 +33,12 @@ describe('RecordPayRunSelectors', () => {
             {
               employeeId: '21',
               isSelected: false,
+              payItems: [],
             },
             {
               employeeId: '22',
               isSelected: true,
+              payItems: [],
             },
           ],
         },
@@ -49,6 +52,74 @@ describe('RecordPayRunSelectors', () => {
       expect(actual.payPeriodStart).toEqual(paymentDates.payPeriodStart);
       expect(actual.payPeriodEnd).toEqual(paymentDates.payPeriodEnd);
       expect(actual.employeePayLines).toEqual(lines);
+    });
+
+    it('should remove the etp code for empty etp lines', () => {
+      const state = {
+        payRunId: '21e38491-f9ad-4a06-9da0-540ec07cf551',
+        startPayRun: {
+          currentEditingPayRun: {},
+        },
+        employeePayList: {
+          lines: [
+            {
+              employeeId: '22',
+              isSelected: true,
+              etpCode: 'B',
+              payItems: [
+                {
+                  payItemId: '1',
+                  amount: '0.00',
+                  stpCategory: 'ETPTaxableComponent',
+                },
+                {
+                  payItemId: '2',
+                  amount: '0.00',
+                  stpCategory: 'ETPTaxWithholding',
+                },
+              ],
+            },
+          ],
+        },
+      };
+
+      const actual = getRecordPayContents(state);
+
+      expect(actual.employeePayLines[0].etpCode).toBeUndefined();
+    });
+
+    it('should not remove the etp code when there are etp pay items', () => {
+      const state = {
+        payRunId: '21e38491-f9ad-4a06-9da0-540ec07cf551',
+        startPayRun: {
+          currentEditingPayRun: {},
+        },
+        employeePayList: {
+          lines: [
+            {
+              employeeId: '22',
+              isSelected: true,
+              etpCode: 'B',
+              payItems: [
+                {
+                  payItemId: '1',
+                  amount: '0.00',
+                  stpCategory: 'ETPTaxableComponent',
+                },
+                {
+                  payItemId: '2',
+                  amount: '100.00',
+                  stpCategory: 'ETPTaxWithholding',
+                },
+              ],
+            },
+          ],
+        },
+      };
+
+      const actual = getRecordPayContents(state);
+
+      expect(actual.employeePayLines[0].etpCode).toEqual('B');
     });
   });
 
