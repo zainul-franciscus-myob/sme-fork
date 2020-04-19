@@ -6,7 +6,6 @@ import {
   DOWNLOAD_IN_TRAY_DOCUMENT,
   FAIL_LOADING,
   FORMAT_AMOUNT_PAID,
-  FORMAT_BILL_LINE,
   GET_TAX_CALCULATIONS,
   HIDE_PREFILL_INFO,
   LOAD_ACCOUNT_AFTER_CREATE,
@@ -60,11 +59,7 @@ import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
 import formatAmount from '../../../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
-import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
-import formatDisplayDiscount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
-import formatDisplayUnitPrice from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
-import formatUnits from '../../../../common/valueFormatters/formatTaxCalculation/formatUnits';
 
 const loadBill = (state, action) => {
   const defaultState = getDefaultState();
@@ -80,12 +75,6 @@ const loadBill = (state, action) => {
         ? formatIsoDate(state.today)
         : action.response.bill.issueDate,
       displayAmountPaid: formatCurrency(action.response.bill.amountPaid || 0),
-      lines: action.response.bill.lines.map(line => ({
-        ...line,
-        displayAmount: formatDisplayAmount(line.amount || 0),
-        displayDiscount: line.discount ? formatDisplayDiscount(line.discount) : '',
-        displayUnitPrice: line.unitPrice ? formatDisplayUnitPrice(line.unitPrice) : '',
-      })),
     },
     newLine: {
       ...state.newLine,
@@ -286,8 +275,6 @@ const updateBillLine = (state, action) => ({
         return {
           ...line,
           id: type === line.type ? line.id : '',
-          displayDiscount: action.key === 'discount' ? action.value : line.displayDiscount,
-          displayAmount: action.key === 'amount' ? action.value : line.displayAmount,
           taxCodeId: action.key === 'accountId'
             ? getDefaultTaxCodeId({ accountId: action.value, accountOptions: state.accountOptions })
             : line.taxCodeId,
@@ -301,33 +288,6 @@ const updateBillLine = (state, action) => ({
       }
       return line;
     }),
-  },
-});
-
-const formatDisplayField = (line, key) => {
-  const fieldMap = {
-    unitPrice: { displayField: 'displayUnitPrice', formatter: formatDisplayUnitPrice },
-    amount: { displayField: 'displayAmount', formatter: formatDisplayAmount },
-    discount: { displayField: 'displayDiscount', formatter: formatDisplayDiscount },
-    units: { displayField: 'units', formatter: formatUnits },
-  };
-  const { displayField, formatter } = fieldMap[key] || {};
-
-  return formatter ? {
-    [displayField]: line[key] && formatter(line[key]),
-  } : {};
-};
-
-const formatBillLine = (state, action) => ({
-  ...state,
-  bill: {
-    ...state.bill,
-    lines: state.bill.lines.map((line, index) => (
-      index === action.index ? {
-        ...line,
-        ...formatDisplayField(line, action.key),
-      } : line
-    )),
   },
 });
 
@@ -437,9 +397,6 @@ const getPrefilledLines = (state, lines, expenseAccountId) => lines.map(
     taxCodeId: expenseAccountId
       ? getDefaultTaxCodeId({ accountId: expenseAccountId, accountOptions: state.accountOptions })
       : state.newLine.taxCodeId,
-    displayAmount: formatDisplayAmount(line.amount || 0),
-    displayDiscount: line.discount ? formatDisplayDiscount(line.discount) : '',
-    displayUnitPrice: line.unitPrice ? formatDisplayUnitPrice(line.unitPrice) : '',
     prefillStatus: {
       description: Boolean(line.description),
       amount: Boolean(line.amount),
@@ -520,17 +477,10 @@ const loadItemDetailForLine = (state, action) => ({
         return line;
       }
 
-      const updatedLine = {
+      return {
         ...line,
         ...action.updatedLine,
       };
-
-      return ({
-        ...updatedLine,
-        displayAmount: formatDisplayAmount(updatedLine.amount || 0),
-        displayDiscount: formatDisplayDiscount(updatedLine.discount || 0),
-        displayUnitPrice: formatDisplayUnitPrice(updatedLine.unitPrice || 0),
-      });
     }),
   },
 });
@@ -622,7 +572,6 @@ const handlers = {
   [STOP_MODAL_BLOCKING]: stopModalBlocking,
   [ADD_BILL_LINE]: addBillLine,
   [UPDATE_BILL_LINE]: updateBillLine,
-  [FORMAT_BILL_LINE]: formatBillLine,
   [CALCULATE_LINE_AMOUNTS]: calculateLineAmounts,
   [REMOVE_BILL_LINE]: removeBillLine,
   [SET_CALCULATED_BILL_LINES_AND_TOTALS]: setCalculatedBillLinesAndTotals,

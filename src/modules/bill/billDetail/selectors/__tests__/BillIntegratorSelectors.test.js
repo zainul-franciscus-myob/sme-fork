@@ -207,10 +207,8 @@ describe('IntegratorSelectors', () => {
         description: 'Cooler Large',
         unitPrice: '520',
         discount: '10',
-        displayDiscount: '10.00',
         taxCodeId: '2',
         amount: '850.9111',
-        displayAmount: '850.91',
         accountId: '92',
       },
     ];

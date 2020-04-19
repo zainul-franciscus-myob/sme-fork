@@ -33,7 +33,6 @@ export const STOP_LOADING_MORE = Symbol('Stop loading more');
 
 export const ADD_BILL_LINE = Symbol('Add bill line');
 export const UPDATE_BILL_LINE = Symbol('Update bill line');
-export const FORMAT_BILL_LINE = Symbol('Format bill line');
 export const SET_CALCULATED_BILL_LINES_AND_TOTALS = Symbol('Set calculated bill lines and totals');
 export const LOAD_ITEM_DETAIL_FOR_LINE = Symbol('Load item detail for line');
 export const GET_TAX_CALCULATIONS = Symbol('Get tax calculations');

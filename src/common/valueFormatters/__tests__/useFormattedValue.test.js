@@ -26,6 +26,12 @@ describe('useFormattedValue', () => {
 
       expect(hook.current.formattedValue).toBe('123.00');
     });
+
+    it('should set isDirty as false', () => {
+      const hook = setup({ value: '123' });
+
+      expect(hook.current.isDirty).toBeFalsy();
+    });
   });
 
   it('update without formatting when typing', () => {
@@ -59,9 +65,24 @@ describe('useFormattedValue', () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 
+  it('does not trigger onChange when user blur out without typing', () => {
+    const onChange = jest.fn();
+    const hook = setup({ onChange });
+
+    act(() => {
+      hook.current.newOnBlur({ target: { value: '1' } });
+    });
+
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
   it('triggers onChange when finish typing', () => {
     const onChange = jest.fn();
     const hook = setup({ onChange });
+
+    act(() => {
+      hook.current.newOnChange({ target: { value: '1' } });
+    });
 
     act(() => {
       hook.current.newOnBlur({ target: { value: '1' } });
@@ -98,6 +119,10 @@ describe('useFormattedValue', () => {
     const onChange = jest.fn();
     const onBlur = jest.fn();
     const hook = setup({ value: '1234', onBlur, onChange });
+
+    act(() => {
+      hook.current.newOnChange({ target: { value: '' } });
+    });
 
     act(() => {
       hook.current.newOnBlur({ target: { value: '' } });

@@ -9,11 +9,8 @@ describe('calculationReducer', () => {
     const baseline = {
       units: '2',
       unitPrice: '45.455',
-      displayUnitPrice: '45.455',
       discount: '',
-      displayDiscount: '',
       amount: '0',
-      displayAmount: '0.00',
     };
 
     const buildState = partialLine => ({
@@ -72,9 +69,7 @@ describe('calculationReducer', () => {
 
       const expected = buildExpect({
         amount: '100',
-        displayAmount: '100.00',
         unitPrice: '50',
-        displayUnitPrice: '50.00',
       });
 
       expect(actual).toEqual(expected);
@@ -107,7 +102,6 @@ describe('calculationReducer', () => {
         const expected = buildExpect({
           ...partialLine,
           amount: '100',
-          displayAmount: '100.00',
         });
 
         expect(actual).toEqual(expected);
@@ -134,11 +128,8 @@ describe('calculationReducer', () => {
         const baseline = {
           units: '2',
           unitPrice: '50',
-          displayUnitPrice: '50.00',
           discount: '',
-          displayDiscount: '',
           amount: '0',
-          displayAmount: '0.00',
         };
 
         ['units', 'unitPrice', 'discount'].forEach((key) => {
@@ -189,11 +180,8 @@ describe('calculationReducer', () => {
         const baseline = {
           units: '2',
           unitPrice: '50',
-          displayUnitPrice: '50.00',
           discount: '',
-          displayDiscount: '',
           amount: '90',
-          displayAmount: '90.00',
         };
 
         it('should calculate discount when update amount', () => {
@@ -246,11 +234,8 @@ describe('calculationReducer', () => {
         const baseline = {
           units: '2',
           unitPrice: '',
-          displayUnitPrice: '',
           discount: '10',
-          displayDiscount: '10.00',
           amount: '90',
-          displayAmount: '90.00',
         };
 
         it('should calculate unitPrice when update amount', () => {
@@ -309,7 +294,6 @@ describe('calculationReducer', () => {
             lines: [
               {
                 amount: '10',
-                displayAmount: '10.00',
               },
             ],
           },

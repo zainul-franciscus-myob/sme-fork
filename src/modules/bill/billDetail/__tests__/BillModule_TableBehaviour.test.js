@@ -2,7 +2,6 @@ import {
   ADD_BILL_LINE,
   CALCULATE_LINE_AMOUNTS,
   FORMAT_AMOUNT_PAID,
-  FORMAT_BILL_LINE,
   GET_TAX_CALCULATIONS,
   LOAD_BILL,
   LOAD_ITEM_DETAIL_FOR_LINE,
@@ -193,25 +192,6 @@ describe('BillModule_TableBehaviour', () => {
   });
 
   describe('calculateBillLines', () => {
-    it('only formats the display value for that key if line has not been edited', () => {
-      const { module, store } = setUpWithRun({ isCreating: true });
-
-      module.calculateBillLines({
-        index: 0,
-        key: 'amount',
-        value: '10.50',
-      });
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: FORMAT_BILL_LINE,
-          index: 0,
-          key: 'amount',
-          value: '10.50',
-        },
-      ]);
-    });
-
     it('formats the display value for that key and calculate line amounts and calls tax calculator if line has been edited', () => {
       const { module, store } = setUpWithRun();
       // This update action dirties the line
@@ -229,12 +209,6 @@ describe('BillModule_TableBehaviour', () => {
       });
 
       expect(store.getActions()).toEqual([
-        {
-          intent: FORMAT_BILL_LINE,
-          index: 0,
-          key: 'amount',
-          value: '10.50',
-        },
         {
           intent: CALCULATE_LINE_AMOUNTS,
           key: 'amount',

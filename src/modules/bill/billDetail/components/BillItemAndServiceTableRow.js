@@ -14,7 +14,7 @@ import {
   getTaxCodeOptions,
 } from '../selectors/billSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
-import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
+import AmountInput from '../../../../components/autoFormatter/AmountInput/FormattedAmountInput';
 import ItemCombobox from '../../../../components/combobox/ItemCombobox';
 import JobCombobox from '../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
@@ -66,11 +66,11 @@ const BillItemAndServiceTableRow = ({
     accountId,
     jobId,
     taxCodeId,
-    displayAmount,
+    amount,
     units,
-    displayUnitPrice,
+    unitPrice,
     itemId,
-    displayDiscount,
+    discount,
   } = billLine;
 
   return (
@@ -117,7 +117,7 @@ const BillItemAndServiceTableRow = ({
       />
       <AmountInput
         name="unitPrice"
-        value={displayUnitPrice}
+        value={unitPrice}
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index)}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.unitPrice) })}
@@ -128,7 +128,7 @@ const BillItemAndServiceTableRow = ({
       />
       <AmountInput
         name="discount"
-        value={displayDiscount}
+        value={discount}
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index)}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.discount) })}
@@ -139,7 +139,7 @@ const BillItemAndServiceTableRow = ({
       />
       <AmountInput
         name="amount"
-        value={displayAmount}
+        value={amount}
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index)}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.amount) })}

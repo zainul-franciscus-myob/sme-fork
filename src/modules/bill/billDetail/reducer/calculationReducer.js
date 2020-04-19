@@ -5,8 +5,6 @@ import BillLayout from '../types/BillLayout';
 import buildLineWithCalculatedAmounts from '../../../../common/itemAndServiceLayout/buildLineWithCalculatedAmounts';
 import calculateUnitPrice from '../../../../common/itemAndServiceLayout/calculateUnitPrice';
 import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
-import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
-import formatDisplayUnitPrice from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
 
 export const calculateLineAmounts = (state, { key, index }) => {
   const lines = getLines(state);
@@ -66,9 +64,7 @@ export const getTaxCalculations = (
           return {
             ...line,
             amount: amount.valueOf(),
-            displayAmount: formatDisplayAmount(amount.valueOf()),
             unitPrice: calculatedUnitPrice,
-            displayUnitPrice: formatDisplayUnitPrice(calculatedUnitPrice),
           };
         }
 
@@ -76,7 +72,6 @@ export const getTaxCalculations = (
           return {
             ...line,
             amount: amount.valueOf(),
-            displayAmount: formatDisplayAmount(amount.valueOf()),
           };
         }
 

@@ -6,7 +6,6 @@ import {
   DOWNLOAD_IN_TRAY_DOCUMENT,
   FAIL_LOADING,
   FORMAT_AMOUNT_PAID,
-  FORMAT_BILL_LINE,
   GET_TAX_CALCULATIONS,
   HIDE_PREFILL_INFO,
   LOAD_ACCOUNT_AFTER_CREATE,
@@ -206,10 +205,6 @@ const createBillDispatcher = store => ({
     intent: LOAD_ITEM_DETAIL_FOR_LINE,
     index,
     updatedLine,
-  }),
-
-  formatBillLine: ({ index, key, value }) => store.dispatch({
-    intent: FORMAT_BILL_LINE, index, key, value,
   }),
 
   updateBillLine: ({ index, key, value }) => {

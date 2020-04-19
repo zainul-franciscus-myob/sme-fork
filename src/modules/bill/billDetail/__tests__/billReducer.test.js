@@ -1,7 +1,6 @@
 import {
   ADD_BILL_LINE,
   FORMAT_AMOUNT_PAID,
-  FORMAT_BILL_LINE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_ITEM_OPTION,
@@ -715,7 +714,7 @@ describe('billReducer', () => {
       expect(actual.bill.lines[1].hello).toEqual(3);
     });
 
-    it('updates both discount and displayDiscount when key is discount', () => {
+    it('updates both discount when key is discount', () => {
       const state = {
         bill: {
           lines: [
@@ -734,10 +733,9 @@ describe('billReducer', () => {
       const actual = billReducer(state, action);
 
       expect(actual.bill.lines[0].discount).toEqual('1234');
-      expect(actual.bill.lines[0].displayDiscount).toEqual('1234');
     });
 
-    it('updates both amount and displayAmount when key is amount', () => {
+    it('updates both amount when key is amount', () => {
       const state = {
         bill: {
           lines: [
@@ -756,7 +754,6 @@ describe('billReducer', () => {
       const actual = billReducer(state, action);
 
       expect(actual.bill.lines[0].amount).toEqual('1234');
-      expect(actual.bill.lines[0].displayAmount).toEqual('1234');
     });
 
     it('updates taxCodeId and accountId when key is accountId', () => {
@@ -1042,73 +1039,6 @@ describe('billReducer', () => {
     });
   });
 
-  describe('FORMAT_BILL_LINE', () => {
-    [
-      {
-        name: 'unitPrice', displayName: 'displayUnitPrice', value: '10', displayValue: '10.00',
-      },
-      {
-        name: 'discount', displayName: 'displayDiscount', value: '10', displayValue: '10.00',
-      },
-      {
-        name: 'amount', displayName: 'displayAmount', value: '10', displayValue: '10.00',
-      },
-      {
-        name: 'units', displayName: 'units', value: '10.0', displayValue: '10',
-      },
-    ].forEach(({
-      name, displayName, value, displayValue,
-    }) => {
-      it(`should format ${name}`, () => {
-        const state = {
-          bill: {
-            lines: [
-              {
-                [name]: value,
-              },
-            ],
-          },
-        };
-
-        const action = {
-          intent: FORMAT_BILL_LINE,
-          key: name,
-          index: 0,
-        };
-
-        const actual = billReducer(state, action);
-
-        expect(actual.bill.lines[0][displayName]).toEqual(displayValue);
-      });
-    });
-
-    it('should not format other keys', () => {
-      const state = {
-        bill: {
-          lines: [{}],
-        },
-        something: '',
-      };
-
-      const action = {
-        intent: FORMAT_BILL_LINE,
-        key: 'blah',
-        index: 0,
-      };
-
-      const actual = billReducer(state, action);
-
-      const expected = {
-        bill: {
-          lines: [{}],
-        },
-        something: '',
-      };
-
-      expect(actual).toEqual(expected);
-    });
-  });
-
   describe('FORMAT_AMOUNT_PAID', () => {
     const state = {
       bill: {
@@ -1168,7 +1098,6 @@ describe('billReducer', () => {
       lines: [{
         id: '',
         amount: '500.77',
-        displayAmount: '500.77',
       }],
       document,
     };
@@ -1222,9 +1151,6 @@ describe('billReducer', () => {
           lines: [{
             id: '',
             amount: '500.77',
-            displayAmount: '500.77',
-            displayDiscount: '',
-            displayUnitPrice: '',
             prefillStatus: {
               ...defaultLinePrefillStatus,
               amount: true,
@@ -1262,10 +1188,8 @@ describe('billReducer', () => {
               id: '',
               description: 'Hello',
               amount: '20.44',
-              displayAmount: '20.44',
               unitPrice: '21.44',
               discount: '0',
-              displayDiscount: '0.00',
             },
           ],
         },
@@ -1285,11 +1209,8 @@ describe('billReducer', () => {
             id: '',
             description: 'Hello',
             amount: '20.44',
-            displayAmount: '20.44',
             unitPrice: '21.44',
             discount: '0',
-            displayDiscount: '0.00',
-            displayUnitPrice: '21.44',
             prefillStatus: {
               ...defaultLinePrefillStatus,
               description: true,

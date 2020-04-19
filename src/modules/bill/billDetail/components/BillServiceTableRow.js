@@ -13,7 +13,7 @@ import {
   getTaxCodeOptions,
 } from '../selectors/billSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
-import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
+import AmountInput from '../../../../components/autoFormatter/AmountInput/FormattedAmountInput';
 import JobCombobox from '../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 import styles from './BillTableRow.module.css';
@@ -55,7 +55,7 @@ const BillServiceTableRow = ({
 }) => {
   const prefillStatus = billLine.prefillStatus || {};
   const {
-    description, accountId, jobId, taxCodeId, displayAmount,
+    description, accountId, jobId, taxCodeId, amount,
   } = billLine;
 
   return (
@@ -78,7 +78,7 @@ const BillServiceTableRow = ({
       />
       <AmountInput
         name="amount"
-        value={displayAmount}
+        value={amount}
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index)}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.amount) })}

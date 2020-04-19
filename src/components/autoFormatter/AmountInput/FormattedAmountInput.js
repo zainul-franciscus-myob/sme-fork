@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 
 import AutoFormatter from '../AutoFormatterCore/AutoFormatterWithMessage';
 import copyEventWithValue from './copyEventWithValue';
-import formatNumberWithDecimalScaleRange from '../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
+import formatNumberWithRoundedScaleRange from '../../../common/valueFormatters/formatNumberWithRoundedScaleRange';
 import useFormattedValue from '../../../common/valueFormatters/useFormattedValue';
 
 export const buildOnBlurEvent = e => {
@@ -36,7 +36,7 @@ const AmountInput = ({
   ...props
 }) => {
   const onFormat = useCallback(
-    val => formatNumberWithDecimalScaleRange(
+    val => formatNumberWithRoundedScaleRange(
       val,
       numeralDecimalScaleMin,
       numeralDecimalScaleMax,

@@ -440,13 +440,10 @@ class BillModule {
 
   /*
    * Workflow:
-   *  1. format - only format the field user blur out
-   *  2. price calculation - update at most one extra field when formula prerequisite met
-   *  3. tax calculation - update total
+   *  1. price calculation - update at most one extra field when formula prerequisite met
+   *  2. tax calculation - update total
    */
-  calculateBillLines = ({ index, key, value }) => {
-    this.dispatcher.formatBillLine({ index, key, value });
-
+  calculateBillLines = ({ index, key }) => {
     const state = this.store.getState();
     const isLineEdited = getIsLineEdited(state);
     if (isLineEdited) {
