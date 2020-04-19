@@ -7,7 +7,7 @@ import {
   getIsModalActionDisabled,
   getModalType,
 } from './invoiceDetailSelectors';
-import InvoiceDetailModalType from '../InvoiceDetailModalType';
+import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
 
 export const getExportPdfTemplate = state => state.exportPdf.template;
 

@@ -23,6 +23,7 @@ import {
   getIsPageEdited,
   getIsTaxInclusive,
   getLinesForTaxCalculation,
+  getModalType,
   getNewLineIndex,
   getTaxCodeOptions,
 } from './selectors/billSelectors';
@@ -51,6 +52,7 @@ import {
   getIsTaxInclusiveKey,
 } from './selectors/BillModuleSelectors';
 import { getLinkInTrayContentWithoutIds } from './selectors/BillIntegratorSelectors';
+import { shouldShowSaveAmountDueWarningModal } from './selectors/BillSaveSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import BillView from './components/BillView';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
@@ -239,8 +241,23 @@ class BillModule {
     });
   };
 
+  handleSaveBill = () => {
+    const state = this.store.getState();
+    if (shouldShowSaveAmountDueWarningModal(state)) {
+      const modalType = ModalType.SaveAmountDueWarning;
+      this.dispatcher.openModal({ modalType });
+    } else {
+      this.saveBill();
+    }
+  }
+
   saveBill = () => {
     const state = this.store.getState();
+
+    if (getModalType(state)) {
+      this.closeModal();
+    }
+
     const isCreatingFromInTray = getIsCreatingFromInTray(state);
     if (isCreatingFromInTray) {
       const onSuccess = ({ message }) => {
@@ -495,7 +512,6 @@ class BillModule {
   calculateAmountPaid = () => {
     const state = this.store.getState();
     const isLinesEmpty = getIsLinesEmpty(state);
-    this.dispatcher.formatAmountPaid();
 
     if (!isLinesEmpty) {
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
@@ -802,7 +818,7 @@ class BillModule {
           inventoryModal={inventoryModal}
           inTrayModal={inTrayModal}
           accountModal={accountModal}
-          onSaveButtonClick={this.saveBill}
+          onSaveButtonClick={this.handleSaveBill}
           onSaveAndButtonClick={this.openSaveAndModal}
           onCancelButtonClick={this.openCancelModal}
           onDeleteButtonClick={this.openDeleteModal}
@@ -810,6 +826,7 @@ class BillModule {
           onModalClose={this.closeModal}
           onCancelModalConfirm={this.cancelBill}
           onDeleteModalConfirm={this.deleteBill}
+          onConfirmSaveAmountDueWarningButtonClick={this.saveBill}
           onConfirmSaveAndCreateNewButtonClick={this.saveAndCreateNewBill}
           onConfirmSaveAndDuplicateButtonClick={this.saveAndDuplicateBill}
           onDismissAlert={this.closeAlert}

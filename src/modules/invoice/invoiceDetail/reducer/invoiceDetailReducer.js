@@ -55,14 +55,15 @@ import {
   uploadEmailAttachmentFailed,
   uploadEmailAttachmentUploadProgress,
 } from './EmailReducer';
-import { calculateLineAmounts, calculateLineTotals } from './calculationReducer';
 import {
+  calculateAmountDue,
   getBusinessId,
   getInvoiceId,
   getIsInvoiceJobColumnEnabled,
   getRegion,
   getUpdatedContactOptions,
 } from '../selectors/invoiceDetailSelectors';
+import { calculateLineAmounts, calculateLineTotals } from './calculationReducer';
 import { getEmailDetailFromLoadInvoiceDetail } from '../selectors/emailSelectors';
 import { getInvoiceHistory, getInvoiceHistoryAccordionStatus } from '../selectors/invoiceHistorySelectors';
 import { getPayDirect } from '../selectors/payDirectSelectors';
@@ -75,8 +76,8 @@ import {
 } from './InvoiceHistoryReducer';
 import { loadPayDirect, setPayDirectLoadingState } from './PayDirectReducer';
 import { updateExportPdfDetail } from './ExportPdfReducer';
-import InvoiceLayout from '../InvoiceLayout';
-import InvoiceLineLayout from '../InvoiceLineLayout';
+import InvoiceLayout from '../types/InvoiceLayout';
+import InvoiceLineLayout from '../types/InvoiceLineLayout';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
 import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
@@ -110,6 +111,7 @@ const loadInvoiceDetail = (state, action) => {
     invoice: {
       ...state.invoice,
       ...action.invoice,
+      status: action.invoice.status || defaultState.invoice.status,
       lines: action.invoice.lines.map(line => ({
         ...line,
         displayAmount: formatDisplayAmount(line.amount),
@@ -118,7 +120,12 @@ const loadInvoiceDetail = (state, action) => {
       })),
     },
     newLine: action.newLine || state.newLine,
-    totals: action.totals || state.totals,
+    totals: action.totals
+      ? {
+        ...action.totals,
+        originalAmountDue: calculateAmountDue(action.totals.totalAmount, action.invoice.amountPaid),
+      }
+      : defaultState.totals,
     comments: action.comments || state.comments,
     serialNumber: action.serialNumber,
     contactOptions: action.contactOptions || state.contactOptions,

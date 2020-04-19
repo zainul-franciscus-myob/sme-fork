@@ -7,7 +7,7 @@ import {
   getTemplateOptions,
   getUpdatedContactOptions,
 } from '../invoiceDetailSelectors';
-import InvoiceLayout from '../../InvoiceLayout';
+import InvoiceLayout from '../../types/InvoiceLayout';
 
 describe('invoiceDetailSelectors', () => {
   const state = {
@@ -188,17 +188,17 @@ describe('invoiceDetailSelectors', () => {
       const totals = {
         subTotal: '123.55',
         totalTax: '-4.45',
-        totalAmount: '128.00',
+        totalAmount: '128',
       };
-      const amountPaid = '10.00';
+      const amountPaid = '10';
       const isCreating = false;
 
       const expected = {
-        subTotal: '$123.55',
-        totalTax: '-$4.45',
-        totalAmount: '$128.00',
-        amountPaid: '$10.00',
-        amountDue: '$118.00',
+        subTotal: '123.55',
+        totalTax: '-4.45',
+        totalAmount: '128',
+        amountPaid: '10',
+        amountDue: '118',
         isCreating,
       };
 

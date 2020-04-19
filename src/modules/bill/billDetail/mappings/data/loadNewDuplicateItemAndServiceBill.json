@@ -173,10 +173,10 @@
     "lineSubTypeId": ""
   },
   "totals": {
-    "subTotal": "$48.50",
-    "totalTax": "$4.39",
-    "totalAmount": "$48.30",
-    "amountDue": "$88.88"
+    "subTotal": "48.5",
+    "totalTax": "4.39",
+    "totalAmount": "48.3",
+    "amountDue": "88.88"
   },
   "subscription": {
     "monthlyLimit": {

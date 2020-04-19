@@ -1,16 +1,21 @@
+import { connect } from 'react-redux';
 import React from 'react';
 
+import { getSaveAndCreateNewModalBody, getSaveAndDuplicateModalBody } from '../selectors/invoiceSaveSelectors';
 import CancelModal from '../../../../components/modal/CancelModal';
 import DeleteModal from '../../../../components/modal/DeleteModal';
 import EmailInvoiceModal from './email/EmailInvoiceModal';
 import EmailSettingsModal from './email/EmailSettingsModal';
 import ExportPdfModal from './ExportPdfModal';
-import InvoiceDetailModalType from '../InvoiceDetailModalType';
+import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
 import InvoiceDetailSaveAndConfirmModal from './InvoiceDetailSaveAndConfirmModal';
+import SaveAmountDueWarningModal from './SaveAmountDueWarningModal';
 import UnsavedModal from '../../../../components/modal/UnsavedModal';
 
 const InvoiceDetailModal = ({
   modalType,
+  saveAndCreateNewModalBody,
+  saveAndDuplicateModalBody,
   emailInvoiceDetail,
   templateOptions,
   isActionsDisabled,
@@ -52,11 +57,20 @@ const InvoiceDetailModal = ({
     );
   }
 
+  if (modalType === InvoiceDetailModalType.SAVE_AMOUNT_DUE_WARNING) {
+    return (
+      <SaveAmountDueWarningModal
+        onConfirm={saveAndConfirmModalListeners.onConfirmSaveAmountDueWarning}
+        onCancel={saveAndConfirmModalListeners.onCloseModal}
+      />
+    );
+  }
+
   if (modalType === InvoiceDetailModalType.SAVE_AND_CREATE_NEW) {
     return (
       <InvoiceDetailSaveAndConfirmModal
         title="Save and create new"
-        description="This will save your current invoice and create a new invoice. This means you will no longer be able to change the customer."
+        description={saveAndCreateNewModalBody}
         onCancel={saveAndConfirmModalListeners.onCloseModal}
         onConfirmSave={saveAndConfirmModalListeners.onConfirmSaveAndCreateNew}
       />
@@ -67,7 +81,7 @@ const InvoiceDetailModal = ({
     return (
       <InvoiceDetailSaveAndConfirmModal
         title="Save and duplicate"
-        description="This will save your current invoice and create a new invoice with the same information. This means you'll no longer be able to change the customer."
+        description={saveAndDuplicateModalBody}
         onCancel={saveAndConfirmModalListeners.onCloseModal}
         onConfirmSave={saveAndConfirmModalListeners.onConfirmSaveAndDuplicate}
       />
@@ -122,4 +136,9 @@ const InvoiceDetailModal = ({
   );
 };
 
-export default InvoiceDetailModal;
+const mapStateToProps = state => ({
+  saveAndCreateNewModalBody: getSaveAndCreateNewModalBody(state),
+  saveAndDuplicateModalBody: getSaveAndDuplicateModalBody(state),
+});
+
+export default connect(mapStateToProps)(InvoiceDetailModal);

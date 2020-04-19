@@ -1,4 +1,6 @@
-import { getSaveBillPaymentPayload, getShouldLoadBillList, getShowBankStatementText } from '../BillPaymentDetailSelectors';
+import {
+  getBillEntries, getSaveBillPaymentPayload, getShouldLoadBillList, getShowBankStatementText,
+} from '../BillPaymentDetailSelectors';
 
 describe('BillPaymentSelector', () => {
   describe('getShouldLoadBillList', () => {
@@ -42,6 +44,137 @@ describe('BillPaymentSelector', () => {
       const actual = getShouldLoadBillList(key, value, state);
 
       expect(actual).toBe(expected);
+    });
+  });
+
+  describe('getBillEntries', () => {
+    it('returns the right shape for bill entries', () => {
+      const state = {
+        region: 'au',
+        businessId: '123',
+        entries: [
+          {
+            id: '378',
+            billNumber: '0000024',
+            status: 'Closed',
+            date: '27/03/2019',
+            billAmount: '2500.00',
+            discountAmount: '100.00',
+            paidAmount: '3000.00',
+          },
+        ],
+      };
+
+      const expected = [
+        {
+          id: '378',
+          billNumber: '0000024',
+          status: 'Closed',
+          date: '27/03/2019',
+          billAmount: '2,500.00',
+          discountAmount: '100.00',
+          paidAmount: '3000.00',
+          balanceOwed: '2,400.00',
+          overAmount: '600.00',
+          link: '/#/au/123/bill/378',
+          labelColour: 'green',
+        },
+      ];
+
+      const actual = getBillEntries(state);
+      expect(actual).toEqual(expected);
+    });
+
+    it('calculates balance owed from billAmount and discountAmount', () => {
+      const state = {
+        entries: [
+          {
+            status: 'Open',
+            billAmount: '2500.00',
+            discountAmount: '1000.00',
+            paidAmount: '',
+          },
+        ],
+      };
+
+      const actual = getBillEntries(state);
+      expect(actual[0].balanceOwed).toEqual('1,500.00');
+    });
+
+    describe('overAmount', () => {
+      it('calculates overAmount if there is a paidAmount', () => {
+        const state = {
+          entries: [
+            {
+              status: 'Open',
+              billAmount: '1000',
+              discountAmount: '100',
+              paidAmount: '2000',
+            },
+          ],
+        };
+
+        const actual = getBillEntries(state);
+        expect(actual[0].overAmount).toEqual('1,100.00');
+      });
+
+      it('returns undefined for overAmount if there is no paidAmount', () => {
+        const state = {
+          entries: [
+            {
+              status: 'Open',
+              billAmount: '1000',
+              discountAmount: '100',
+              paidAmount: '',
+            },
+          ],
+        };
+
+        const actual = getBillEntries(state);
+        expect(actual[0].overAmount).toBeUndefined();
+      });
+    });
+
+    it('builds entry link for each entry', () => {
+      const state = {
+        region: 'au',
+        businessId: '123',
+        entries: [
+          {
+            id: 'id',
+            status: 'Open',
+            billAmount: '2500.00',
+            discountAmount: '1000.00',
+            paidAmount: '',
+          },
+        ],
+      };
+
+      const actual = getBillEntries(state);
+      expect(actual[0].link).toEqual('/#/au/123/bill/id');
+    });
+
+    it('sets the colour of the bill entry status', () => {
+      const state = {
+        entries: [
+          {
+            status: 'Open',
+            billAmount: '2500.00',
+            discountAmount: '1000.00',
+            paidAmount: '',
+          },
+          {
+            status: 'Closed',
+            billAmount: '2500.00',
+            discountAmount: '1000.00',
+            paidAmount: '',
+          },
+        ],
+      };
+
+      const actual = getBillEntries(state);
+      expect(actual[0].labelColour).toEqual('light-grey');
+      expect(actual[1].labelColour).toEqual('green');
     });
   });
 

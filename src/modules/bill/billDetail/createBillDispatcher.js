@@ -5,7 +5,6 @@ import {
   CLOSE_MODAL,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   FAIL_LOADING,
-  FORMAT_AMOUNT_PAID,
   GET_TAX_CALCULATIONS,
   HIDE_PREFILL_INFO,
   LOAD_ACCOUNT_AFTER_CREATE,
@@ -226,12 +225,6 @@ const createBillDispatcher = store => ({
   getTaxCalculations: (taxCalculations, isSwitchingTaxInclusive = false) => {
     const intent = GET_TAX_CALCULATIONS;
     store.dispatch({ intent, taxCalculations, isSwitchingTaxInclusive });
-  },
-
-  formatAmountPaid: () => {
-    store.dispatch({
-      intent: FORMAT_AMOUNT_PAID,
-    });
   },
 
   loadSupplierDetail: (response) => {

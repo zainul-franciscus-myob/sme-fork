@@ -15,7 +15,8 @@
     "chargeForLatePayment": 123.12,
     "discountForEarlyPayment": 3546.34,
     "numberOfDaysForDiscount": 10,
-    "amountPaid": "10.00",
+    "amountPaid": "10",
+    "status": "Open",
     "lines": [
       {
         "id": "345",
@@ -206,9 +207,9 @@
     "lineTypeId": 17
   },
   "totals": {
-    "subTotal": "48.50",
+    "subTotal": "48.5",
     "totalTax": "4.39",
-    "totalAmount": "48.30"
+    "totalAmount": "48.3"
   },
   "serialNumber": "000000000000",
   "exportPdf": {

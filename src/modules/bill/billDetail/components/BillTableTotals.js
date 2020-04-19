@@ -5,7 +5,6 @@ import React from 'react';
 import {
   getAmountDue,
   getAmountPaid,
-  getDisplayAmountPaid,
   getIsBlocking,
   getIsCreating,
   getSubTotal,
@@ -13,13 +12,14 @@ import {
   getTotalTax,
   getTotalTaxLabel,
 } from '../selectors/billSelectors';
+import LineItemTableTotalsFormattedCurrency from '../../../../components/LineItemTable/LineItemTableTotalsFormattedCurrency';
 import LineItemTableTotalsInput from '../../../../components/LineItemTable/LineItemTableTotalsInput';
 import handleAmountInputChange from '../../../../components/handlers/handleAmountInputChange';
 
 const BillTableTotals = ({
   isCreating,
   isBlocking,
-  displayAmountPaid,
+  amountPaid,
   totalAmount,
   amountDue,
   subTotal,
@@ -32,22 +32,22 @@ const BillTableTotals = ({
     <LineItemTableTotalsInput
       label="Amount paid ($)"
       name="amountPaid"
-      value={displayAmountPaid}
+      value={amountPaid}
       onChange={handleAmountInputChange(onUpdateBillOption)}
       onBlur={onAmountPaidBlur}
       disabled={isBlocking}
     />
   ) : (
-    <LineItemTable.Totals title="Amount paid" amount={displayAmountPaid} />
+    <LineItemTableTotalsFormattedCurrency title="Amount paid" amount={amountPaid} />
   ));
 
   return (
     <LineItemTable.Total>
-      <LineItemTable.Totals title="Subtotal" amount={subTotal} />
-      <LineItemTable.Totals title={totalTaxLabel} amount={totalTax} />
-      <LineItemTable.Totals totalAmount title="Total" amount={totalAmount} />
+      <LineItemTableTotalsFormattedCurrency title="Subtotal" amount={subTotal} />
+      <LineItemTableTotalsFormattedCurrency title={totalTaxLabel} amount={totalTax} />
+      <LineItemTableTotalsFormattedCurrency totalAmount title="Total" amount={totalAmount} />
       {amountPaidInputLine}
-      <LineItemTable.Totals totalAmount title="Balance due" amount={amountDue} />
+      <LineItemTableTotalsFormattedCurrency totalAmount title="Balance due" amount={amountDue} />
     </LineItemTable.Total>
   );
 };
@@ -55,7 +55,6 @@ const BillTableTotals = ({
 const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   isBlocking: getIsBlocking(state),
-  displayAmountPaid: getDisplayAmountPaid(state),
   amountPaid: getAmountPaid(state),
   totalAmount: getTotalAmount(state),
   amountDue: getAmountDue(state),

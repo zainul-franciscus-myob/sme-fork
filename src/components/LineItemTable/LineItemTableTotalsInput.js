@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AmountInput from '../autoFormatter/AmountInput/AmountInput';
+import FormattedAmountInput from '../autoFormatter/AmountInput/FormattedAmountInput';
 
 const LineItemTableTotalsInput = (props) => {
   const {
@@ -13,7 +13,7 @@ const LineItemTableTotalsInput = (props) => {
         <h4>{label}</h4>
       </td>
       <td className="line-item__amount">
-        <AmountInput
+        <FormattedAmountInput
           hideLabel
           textAlign="right"
           name={name}
@@ -22,6 +22,7 @@ const LineItemTableTotalsInput = (props) => {
           onChange={onChange}
           onBlur={onBlur}
           disabled={disabled}
+          numeralDecimalScaleMin={2}
         />
       </td>
     </tr>

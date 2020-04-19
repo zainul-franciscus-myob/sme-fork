@@ -22,10 +22,10 @@ describe('calculationReducer', () => {
         amountPaid: '',
       },
       totals: {
-        subTotal: '$0.00',
-        totalTax: '$0.00',
-        totalAmount: '$0.00',
-        amountDue: '$0.00',
+        subTotal: '0',
+        totalTax: '0',
+        totalAmount: '0',
+        amountDue: '0',
       },
     });
 
@@ -55,10 +55,10 @@ describe('calculationReducer', () => {
       isPageEdited: true,
       isLineEdited: false,
       totals: {
-        subTotal: '$100.00',
-        totalTax: '$9.09',
-        totalAmount: '$100.00',
-        amountDue: '$100.00',
+        subTotal: '100',
+        totalTax: '9.09',
+        totalAmount: '100',
+        amountDue: '100',
       },
     });
 

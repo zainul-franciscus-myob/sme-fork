@@ -23,7 +23,7 @@ import InvoiceDetailNotes from './InvoiceDetailNotes';
 import InvoiceDetailOptions from './InvoiceDetailOptions';
 import InvoiceDetailTotals from './InvoiceDetailTotals';
 import InvoiceItemTable from './itemLayout/InvoiceItemTable';
-import InvoiceLayout from '../InvoiceLayout';
+import InvoiceLayout from '../types/InvoiceLayout';
 import InvoiceServiceTable from './serviceLayout/InvoiceServiceTable';
 import LineItemTemplate from '../../../../components/Feelix/LineItemTemplate/LineItemTemplate';
 import MoreInformation from './MoreInformation';

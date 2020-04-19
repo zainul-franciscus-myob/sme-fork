@@ -1,6 +1,5 @@
 import {
   ADD_BILL_LINE,
-  FORMAT_AMOUNT_PAID,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_ITEM_OPTION,
@@ -69,7 +68,12 @@ describe('billReducer', () => {
       const action = {
         intent: LOAD_BILL,
         response: {
-          bill: { lines: [] },
+          bill: {
+            lines: [],
+          },
+          totals: {
+            amountDue: '0',
+          },
         },
       };
 
@@ -91,6 +95,9 @@ describe('billReducer', () => {
             issueDate: '2019-02-03',
             lines: [],
           },
+          totals: {
+            amountDue: '0',
+          },
         },
       };
 
@@ -108,6 +115,9 @@ describe('billReducer', () => {
           bill: {
             issueDate: '2019-02-03',
             lines: [],
+          },
+          totals: {
+            amountDue: '0',
           },
           subscription: {
             monthlyLimit: {
@@ -1036,27 +1046,6 @@ describe('billReducer', () => {
           expect(actual.isLineEdited).toEqual(test.expected);
         });
       });
-    });
-  });
-
-  describe('FORMAT_AMOUNT_PAID', () => {
-    const state = {
-      bill: {
-        amountPaid: '0',
-      },
-    };
-
-    const action = {
-      intent: FORMAT_AMOUNT_PAID,
-    };
-
-    const actual = billReducer(state, action);
-
-    expect(actual).toEqual({
-      bill: {
-        amountPaid: '0',
-        displayAmountPaid: '0.00',
-      },
     });
   });
 

@@ -1,3 +1,4 @@
+import BillStatus from '../types/BillStatus';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
 
@@ -40,9 +41,8 @@ export const getDefaultState = () => ({
     billNumber: '',
     issueDate: formatIsoDate(new Date()),
     lines: [],
-    status: '',
+    status: BillStatus.NONE,
     amountPaid: '',
-    displayAmountPaid: '',
 
     // arl compatibility fields
     // used for update, but not visible
@@ -80,6 +80,7 @@ export const getDefaultState = () => ({
     totalTax: '',
     totalAmount: '',
     amountDue: '',
+    originalAmountDue: '',
   },
   loadingState: LoadingState.LOADING,
   isPageEdited: false,

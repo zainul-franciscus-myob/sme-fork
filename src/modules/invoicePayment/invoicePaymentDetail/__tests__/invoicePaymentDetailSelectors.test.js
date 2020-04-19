@@ -35,6 +35,7 @@ describe('invoicePaymentDetailSelectors', () => {
         paidAmount: '2500.05',
         discountedBalance: '0',
         discountAmount: '0',
+        overAmount: '2,500.05',
         link: '/#/au/1/invoice/378',
         statusColor: 'light-grey',
       },
@@ -63,6 +64,7 @@ describe('invoicePaymentDetailSelectors', () => {
         paidAmount: '2500.05',
         discountedBalance: '1,500.00',
         discountAmount: '1000.00',
+        overAmount: '1,000.05',
       }));
 
       const actual = getEntries(modifiedState);
@@ -86,6 +88,43 @@ describe('invoicePaymentDetailSelectors', () => {
 
       const actual = getEntries(modifiedState);
       expect(actual).toEqual(modifiedExpected);
+    });
+
+    describe('overAmount', () => {
+      it('calculates overAmount if there is a paidAmount', () => {
+        const modifiedState = {
+          businessId: '1',
+          region: 'au',
+          invoicePaymentId: '123',
+          entries: [
+            {
+              id: '378',
+              invoiceNumber: '0000023',
+              status: 'Open',
+              date: '27/03/2019',
+              balanceDue: '1000',
+              paidAmount: '2000',
+              discountAmount: '100',
+            },
+          ],
+        };
+
+        const actual = getEntries(modifiedState);
+        expect(actual[0].overAmount).toEqual('1,100.00');
+      });
+
+      it('returns undefined for overAmount if there is no paidAmount', () => {
+        const modifiedState = {
+          ...state,
+          entries: state.entries.map(entry => ({
+            ...entry,
+            paidAmount: '',
+          })),
+        };
+
+        const actual = getEntries(modifiedState);
+        expect(actual[0].overAmount).toBeUndefined();
+      });
     });
   });
 

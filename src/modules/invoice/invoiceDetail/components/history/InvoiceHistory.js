@@ -10,8 +10,8 @@ import {
 import AccordionRowTypes from '../../../../../components/Accordion/AccordionRowTypes';
 import AccordionTable from '../../../../../components/Accordion/AccordionTable';
 import CollapsibleTableRow from '../../../../../components/Accordion/CollapsibleTableRow';
-import InvoiceHistoryAccordianStatus from '../../InvoiceHistoryAccordionStatus';
-import InvoiceHistoryStatusPretty from '../../InvoiceHistoryStatusPretty';
+import InvoiceHistoryAccordianStatus from '../../types/InvoiceHistoryAccordionStatus';
+import InvoiceHistoryStatusPretty from '../../types/InvoiceHistoryStatusPretty';
 import InvoiceHistoryTable from './InvoiceHistoryTable';
 import ServiceUnavailableImage from '../../../../../components/ServiceUnavailableImage/ServiceUnavailableImage';
 import styles from './InvoiceHistory.module.css';

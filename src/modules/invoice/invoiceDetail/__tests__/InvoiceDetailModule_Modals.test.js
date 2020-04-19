@@ -6,7 +6,7 @@ import {
   SET_MODAL_TYPE,
 } from '../../InvoiceIntents';
 import { setup } from './InvoiceDetailModule.test';
-import InvoiceDetailModalType from '../InvoiceDetailModalType';
+import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
 import loadInvoiceDetailResponse from '../../mappings/data/serviceLayout/invoiceServiceDetail';
 
 describe('InvoiceDetailModule_Modals', () => {

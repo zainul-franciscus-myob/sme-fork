@@ -1,5 +1,5 @@
 import { getIsExportingPDF } from '../exportPdfSelectors';
-import InvoiceDetailModalType from '../../InvoiceDetailModalType';
+import InvoiceDetailModalType from '../../types/InvoiceDetailModalType';
 
 describe('exportPdfSelectors', () => {
   describe('getIsExportingPDF', () => {

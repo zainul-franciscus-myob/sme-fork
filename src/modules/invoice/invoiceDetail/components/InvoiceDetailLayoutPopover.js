@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getIsReadOnlyLayout, getIsSubmitting, getLayout } from '../selectors/invoiceDetailSelectors';
-import InvoiceLayout from '../InvoiceLayout';
+import InvoiceLayout from '../types/InvoiceLayout';
 import Popover from '../../../../components/Feelix/Popover/Popover';
 import styles from './InvoiceDetailLayoutPopover.module.css';
 

@@ -5,7 +5,7 @@ import {
   SUCCESSFULLY_DELETED_INVOICE,
   SUCCESSFULLY_EMAILED_INVOICE,
   SUCCESSFULLY_SAVED_INVOICE,
-} from './invoiceMessageTypes';
+} from './types/invoiceMessageTypes';
 import {
   getAccountModalContext,
   getContactModalContext,
@@ -34,14 +34,15 @@ import {
   getSubscriptionSettingsUrl,
 } from './selectors/redirectSelectors';
 import { getExportPdfFilename } from './selectors/exportPdfSelectors';
+import { shouldShowSaveAmountDueWarningModal } from './selectors/invoiceSaveSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
 import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
-import InvoiceDetailElementId from './InvoiceDetailElementId';
-import InvoiceDetailModalType from './InvoiceDetailModalType';
+import InvoiceDetailElementId from './types/InvoiceDetailElementId';
+import InvoiceDetailModalType from './types/InvoiceDetailModalType';
 import InvoiceDetailView from './components/InvoiceDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';
-import SaveActionType from './SaveActionType';
+import SaveActionType from './types/SaveActionType';
 import Store from '../../../store/Store';
 import createInvoiceDetailDispatcher from './createInvoiceDetailDispatcher';
 import createInvoiceDetailIntegrator from './createInvoiceDetailIntegrator';
@@ -169,8 +170,21 @@ export default class InvoiceDetailModule {
     this.integrator.createOrUpdateInvoice({ onSuccess: onSuccessInterceptor, onFailure });
   }
 
+  handleSaveInvoice = () => {
+    const state = this.store.getState();
+    if (shouldShowSaveAmountDueWarningModal(state)) {
+      const modalType = InvoiceDetailModalType.SAVE_AMOUNT_DUE_WARNING;
+      this.dispatcher.setModalType(modalType);
+    } else {
+      this.saveInvoice();
+    }
+  }
+
   saveInvoice = () => {
     const onSuccess = ({ message }) => {
+      if (getModalType(this.store.getState())) {
+        this.closeModal();
+      }
       this.displaySuccessAlert(message);
     };
 
@@ -804,7 +818,7 @@ export default class InvoiceDetailModule {
         this.saveAndDuplicateInvoice();
         break;
       default:
-        this.saveInvoice();
+        this.handleSaveInvoice();
         break;
     }
   };
@@ -963,7 +977,7 @@ export default class InvoiceDetailModule {
           onLoadItems: this.loadItems,
         }}
         invoiceActionListeners={{
-          onSaveButtonClick: this.saveInvoice,
+          onSaveButtonClick: this.handleSaveInvoice,
           onSaveAndButtonClick: this.executeSaveAndAction,
           onSaveAndEmailButtonClick: this.saveAndEmailInvoice,
           onPayInvoiceButtonClick: this.payInvoice,
@@ -980,6 +994,7 @@ export default class InvoiceDetailModule {
           onCloseModal: this.closeModal,
           onConfirmSaveAndCreateNew: this.saveAndCreateNewInvoice,
           onConfirmSaveAndDuplicate: this.saveAndDuplicateInvoice,
+          onConfirmSaveAmountDueWarning: this.saveInvoice,
         }}
         emailSettingsModalListeners={{
           onChange: this.updateEmailInvoiceDetail,

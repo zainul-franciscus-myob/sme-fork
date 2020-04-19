@@ -1,4 +1,4 @@
-import InvoiceHistoryAccordianStatus from '../InvoiceHistoryAccordionStatus';
+import InvoiceHistoryAccordianStatus from '../types/InvoiceHistoryAccordionStatus';
 
 export const setInvoiceHistoryLoading = state => ({
   ...state,

@@ -4,7 +4,6 @@ import { getBillLayout, getLines } from '../selectors/billSelectors';
 import BillLayout from '../types/BillLayout';
 import buildLineWithCalculatedAmounts from '../../../../common/itemAndServiceLayout/buildLineWithCalculatedAmounts';
 import calculateUnitPrice from '../../../../common/itemAndServiceLayout/calculateUnitPrice';
-import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
 
 export const calculateLineAmounts = (state, { key, index }) => {
   const lines = getLines(state);
@@ -45,7 +44,7 @@ export const getTaxCalculations = (
   const subTotal = totals.subTotal.valueOf();
   const totalTax = totals.totalTax.valueOf();
   const totalAmount = totals.totalAmount.valueOf();
-  const amountDue = calculateAmountDue(totalAmount, Number(amountPaid));
+  const amountDue = calculateAmountDue(totalAmount, Number(amountPaid)).valueOf();
 
   return {
     ...state,
@@ -80,10 +79,10 @@ export const getTaxCalculations = (
     },
     totals: {
       ...state.totals,
-      subTotal: formatCurrency(subTotal),
-      totalTax: formatCurrency(totalTax),
-      totalAmount: formatCurrency(totalAmount),
-      amountDue: formatCurrency(amountDue),
+      subTotal,
+      totalTax,
+      totalAmount,
+      amountDue,
     },
   };
 };

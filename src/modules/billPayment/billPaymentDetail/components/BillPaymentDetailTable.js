@@ -6,6 +6,7 @@ import Table from '@myob/myob-widgets/lib/components/Table/Table';
 import {
   getBillEntries,
   getEmptyViewType,
+  getIsCreating,
   getIsTableEmpty,
   getIsTableLoading,
   getShouldDisableFields,
@@ -20,12 +21,28 @@ const onInputFieldChange = (handler, index) => ({ target: { name: key, rawValue:
   handler({ key, value, index })
 );
 
+const OverPaidInfoMessage = ({ overAmount }) => (
+  <>
+    <div>
+      This payment will create a&nbsp;
+      <b>{overAmount}</b>
+      &nbsp;debit
+      .
+    </div>
+    <br />
+    <div>
+      Go to <b>Supplier returns</b> to apply the debit to an open bill or record a refund.
+    </div>
+  </>
+);
+
 const BillPaymentDetailTable = ({
   entries,
   totalAmount,
   emptyViewType,
   onUpdateTableInputField,
   shouldDisableFields,
+  isCreating,
   isTableEmpty,
   isTableLoading,
 }) => {
@@ -95,6 +112,11 @@ const BillPaymentDetailTable = ({
                 textAlign="right"
                 name="paidAmount"
                 value={row.paidAmount}
+                infoBody={
+                  isCreating
+                  && row.overAmount
+                  && <OverPaidInfoMessage overAmount={row.overAmount} />
+                }
                 onChange={onInputFieldChange(onUpdateTableInputField, index)}
                 onBlur={onInputFieldChange(onUpdateTableInputField, index)}
                 numeralDecimalScaleMin={2}
@@ -154,6 +176,7 @@ const BillPaymentDetailTable = ({
 
 const mapStateToProps = state => ({
   entries: getBillEntries(state),
+  isCreating: getIsCreating(state),
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
   shouldDisableFields: getShouldDisableFields(state),

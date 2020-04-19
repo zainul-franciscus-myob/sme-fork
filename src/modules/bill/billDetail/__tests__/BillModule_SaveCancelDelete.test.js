@@ -5,6 +5,7 @@ import {
   LINK_IN_TRAY_DOCUMENT,
   LOAD_BILL,
   OPEN_ALERT,
+  OPEN_MODAL,
   RELOAD_BILL,
   SET_UPGRADE_MODAL_SHOWING,
   START_BLOCKING,
@@ -20,9 +21,48 @@ import {
 import {
   mockCreateObjectUrl, setUp, setUpNewBillWithPrefilled, setUpWithRun,
 } from './BillModule.test';
+import ModalType from '../types/ModalType';
+import loadItemAndServiceBill from '../mappings/data/loadItemAndServiceBill.json';
 
 describe('BillModule_Save', () => {
   mockCreateObjectUrl();
+
+  describe('handleSaveBill', () => {
+    const setUpWithClosedBillEdited = () => {
+      const { module, store, integration } = setUp();
+      integration.overrideMapping(LOAD_BILL, ({ onSuccess }) => {
+        onSuccess({
+          ...loadItemAndServiceBill,
+          bill: {
+            ...loadItemAndServiceBill.bill,
+            status: 'Closed',
+          },
+        });
+      });
+
+      module.run({ billId: 'billId', businessId: 'bizId', region: 'au' });
+      module.updateBillOption({ key: 'option', value: 'A' });
+
+      store.resetActions();
+      integration.resetRequests();
+
+      return { module, store, integration };
+    };
+
+    it('should open save amount due warning modal', () => {
+      const { module, store } = setUpWithClosedBillEdited();
+
+      module.globalCallbacks.inTrayBillSaved = jest.fn();
+      module.handleSaveBill();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: OPEN_MODAL,
+          modalType: ModalType.SaveAmountDueWarning,
+        },
+      ]);
+    });
+  });
 
   describe('saveBill', () => {
     it('successfully creates a new bill', () => {

@@ -1,8 +1,8 @@
 import { createSelector, createStructuredSelector } from 'reselect';
+import Decimal from 'decimal.js';
 
 import { TaxCalculatorTypes, createTaxCalculator } from '../../../../common/taxCalculator';
-import InvoiceLayout from '../InvoiceLayout';
-import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
+import InvoiceLayout from '../types/InvoiceLayout';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 
 const calculate = createTaxCalculator(TaxCalculatorTypes.invoice);
@@ -132,9 +132,9 @@ export const getInvoiceDetailNotes = createStructuredSelector({
   commentOptions: getCommentOptions,
 });
 
-export const calculateAmountDue = (totalAmount, amountPaid) => (
-  (Number(totalAmount) - Number(amountPaid)).toFixed(2)
-);
+export const calculateAmountDue = (totalAmount, amountPaid) => Decimal(totalAmount).minus(
+  Decimal(amountPaid),
+).valueOf();
 
 export const getTaxLabel = createRegionDialectSelector('Tax');
 
@@ -144,11 +144,11 @@ export const getInvoiceDetailTotals = createSelector(
   getIsCreating,
   getTaxLabel,
   (totals, amountPaid, isCreating, taxLabel) => ({
-    subTotal: formatCurrency(totals.subTotal),
-    totalTax: formatCurrency(totals.totalTax),
-    totalAmount: formatCurrency(totals.totalAmount),
-    amountPaid: isCreating ? amountPaid : formatCurrency(amountPaid),
-    amountDue: formatCurrency(calculateAmountDue(totals.totalAmount, amountPaid)),
+    subTotal: totals.subTotal,
+    totalTax: totals.totalTax,
+    totalAmount: totals.totalAmount,
+    amountPaid,
+    amountDue: calculateAmountDue(totals.totalAmount, amountPaid),
     isCreating,
     taxLabel,
   }),
@@ -166,9 +166,9 @@ export const getInvoiceDetailTotalHeader = createSelector(
   getTitle,
   getIsCreating,
   (totals, amountPaid, title, isCreating) => ({
-    totalAmount: formatCurrency(totals.totalAmount),
-    amountPaid: formatCurrency(amountPaid),
-    amountDue: formatCurrency(calculateAmountDue(totals.totalAmount, amountPaid)),
+    totalAmount: totals.totalAmount,
+    amountPaid,
+    amountDue: calculateAmountDue(totals.totalAmount, amountPaid),
     title,
     isCreating,
   }),

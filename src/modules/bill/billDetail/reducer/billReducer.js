@@ -5,7 +5,6 @@ import {
   CLOSE_MODAL,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   FAIL_LOADING,
-  FORMAT_AMOUNT_PAID,
   GET_TAX_CALCULATIONS,
   HIDE_PREFILL_INFO,
   LOAD_ACCOUNT_AFTER_CREATE,
@@ -54,11 +53,10 @@ import {
 } from '../selectors/billSelectors';
 import BillLayout from '../types/BillLayout';
 import BillLineLayout from '../types/BillLineLayout';
+import BillStatus from '../types/BillStatus';
 import LineTaxTypes from '../types/LineTaxTypes';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
-import formatAmount from '../../../../common/valueFormatters/formatAmount';
-import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const loadBill = (state, action) => {
@@ -71,10 +69,14 @@ const loadBill = (state, action) => {
     ...action.response,
     bill: {
       ...action.response.bill,
+      status: action.response.bill.status || BillStatus.NONE,
       issueDate: isCreating
         ? formatIsoDate(state.today)
         : action.response.bill.issueDate,
-      displayAmountPaid: formatCurrency(action.response.bill.amountPaid || 0),
+    },
+    totals: {
+      ...action.response.totals,
+      originalAmountDue: action.response.totals.amountDue,
     },
     newLine: {
       ...state.newLine,
@@ -150,7 +152,6 @@ const updateBillOption = (state, action) => {
     bill: {
       ...state.bill,
       expirationDays: shouldSetExpirationDaysTo1 ? '1' : state.bill.expirationDays,
-      displayAmountPaid: action.key === 'amountPaid' ? action.value : state.bill.displayAmountPaid,
       lines: state.bill.lines.length > 0 && action.key === 'expenseAccountId'
         ? updateAllLinesWithExpenseAccount(state.bill.lines, state.accountOptions, action.value)
         : state.bill.lines,
@@ -303,14 +304,6 @@ const removeBillLine = (state, action) => {
   };
 };
 
-const formatAmountPaid = state => ({
-  ...state,
-  bill: {
-    ...state.bill,
-    displayAmountPaid: formatAmount(state.bill.amountPaid),
-  },
-});
-
 const loadSupplierDetail = (state, action) => ({
   ...state,
   bill: {
@@ -447,10 +440,10 @@ const prefillBillFromInTray = (state, action) => {
 const resetTotals = state => ({
   ...state,
   totals: {
-    subTotal: '$0.00',
-    totalTax: '$0.00',
-    totalAmount: '$0.00',
-    amountDue: '$0.00',
+    subTotal: '0',
+    totalTax: '0',
+    totalAmount: '0',
+    amountDue: '0',
   },
 });
 
@@ -587,7 +580,6 @@ const handlers = {
   [UPDATE_BILL_ID]: updateBillId,
   [SET_UPGRADE_MODAL_SHOWING]: setUpgradeModalShowing,
   [UPDATE_EXPORT_PDF_DETAIL]: updateExportPdfDetail,
-  [FORMAT_AMOUNT_PAID]: formatAmountPaid,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [SET_SHOW_SPLIT_VIEW]: setShowSplitView,
   [SET_IN_TRAY_DOCUMENT_ID]: setInTrayDocumentId,

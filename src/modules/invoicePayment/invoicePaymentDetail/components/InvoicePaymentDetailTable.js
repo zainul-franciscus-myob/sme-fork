@@ -36,6 +36,21 @@ const onAmountChange = (handler, index) => (e) => {
   handler({ name, value: rawValue, index });
 };
 
+const OverPaidInfoMessage = ({ overAmount }) => (
+  <>
+    <div>
+      This payment will create a&nbsp;
+      <b>{overAmount}</b>
+      &nbsp;credit
+      .
+    </div>
+    <br />
+    <div>
+      Go to <b>Customer returns</b> to apply the credit to an open invoice or record a refund.
+    </div>
+  </>
+);
+
 const InvoicePaymentDetailTable = ({
   entries,
   isCreating,
@@ -79,6 +94,11 @@ const InvoicePaymentDetailTable = ({
               <AmountInput
                 name="paidAmount"
                 value={entry.paidAmount}
+                infoBody={
+                  isCreating
+                  && entry.overAmount
+                  && <OverPaidInfoMessage overAmount={entry.overAmount} />
+                }
                 textAlign="right"
                 disabled={!isCreating}
                 onChange={onAmountChange(onUpdateInvoicePaymentEntries, index)}

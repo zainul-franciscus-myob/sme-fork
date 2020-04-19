@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getInvoiceDetailTotals } from '../selectors/invoiceDetailSelectors';
+import LineItemTableTotalsFormattedCurrency from '../../../../components/LineItemTable/LineItemTableTotalsFormattedCurrency';
 import LineItemTableTotalsInput from '../../../../components/LineItemTable/LineItemTableTotalsInput';
 
 const onAmountInputChange = handler => e => handler(e.target.rawValue);
@@ -25,16 +26,16 @@ const InvoiceDetailTotals = ({
       onChange={onAmountInputChange(onChange)}
     />
   ) : (
-    <LineItemTable.Totals title="Amount paid" amount={amountPaid} />
+    <LineItemTableTotalsFormattedCurrency title="Amount paid" amount={amountPaid} />
   );
 
   return (
     <LineItemTable.Total>
-      <LineItemTable.Totals title="Subtotal" amount={subTotal} />
-      <LineItemTable.Totals title={taxLabel} amount={totalTax} />
-      <LineItemTable.Totals title="Total" totalAmount amount={totalAmount} />
+      <LineItemTableTotalsFormattedCurrency title="Subtotal" amount={subTotal} />
+      <LineItemTableTotalsFormattedCurrency title={taxLabel} amount={totalTax} />
+      <LineItemTableTotalsFormattedCurrency title="Total" totalAmount amount={totalAmount} />
       {amountPaidInputLine}
-      <LineItemTable.Totals title="Balance due" totalAmount amount={amountDue} />
+      <LineItemTableTotalsFormattedCurrency title="Balance due" totalAmount amount={amountDue} />
     </LineItemTable.Total>
   );
 };

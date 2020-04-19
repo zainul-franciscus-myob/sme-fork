@@ -38,8 +38,6 @@ export const getTotalTax = state => state.totals.totalTax;
 
 export const getTotalAmount = state => state.totals.totalAmount;
 
-export const getDisplayAmountPaid = state => state.bill.displayAmountPaid;
-
 export const getAmountDue = state => state.totals.amountDue;
 
 export const getBillNumber = state => state.bill.billNumber;

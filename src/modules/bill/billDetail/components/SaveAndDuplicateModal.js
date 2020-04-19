@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getIsBlocking } from '../selectors/billSelectors';
+import { getSaveAndDuplicateModalBody } from '../selectors/BillSaveSelectors';
 
 const SaveAndDuplicateModal = ({
   onConfirmSaveAndDuplicateButtonClick,
   onCancel,
   isBlocking,
+  modalBody,
 }) => (
   <Modal
     title="Save and duplicate"
@@ -15,7 +17,7 @@ const SaveAndDuplicateModal = ({
     onCancel={onCancel}
   >
     <Modal.Body>
-      {"This will save your current bill and create a new bill with the same information. This means you'll no longer be able to change the supplier."}
+      {modalBody}
     </Modal.Body>
     <Modal.Footer>
       <Button type="secondary" onClick={onCancel} disabled={isBlocking}>Go back</Button>
@@ -26,6 +28,7 @@ const SaveAndDuplicateModal = ({
 
 const mapStateToProps = state => ({
   isBlocking: getIsBlocking(state),
+  modalBody: getSaveAndDuplicateModalBody(state),
 });
 
 export default connect(mapStateToProps)(SaveAndDuplicateModal);

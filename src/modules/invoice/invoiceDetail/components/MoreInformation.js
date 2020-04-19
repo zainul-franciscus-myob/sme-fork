@@ -1,7 +1,7 @@
 import { FieldGroup, StandardTemplate } from '@myob/myob-widgets';
 import React from 'react';
 
-import InvoiceDetailElementId from '../InvoiceDetailElementId';
+import InvoiceDetailElementId from '../types/InvoiceDetailElementId';
 import InvoiceHistory from './history/InvoiceHistory';
 
 const MoreInformation = ({

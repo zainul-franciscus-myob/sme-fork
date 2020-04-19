@@ -1,7 +1,8 @@
-import InvoiceDetailModalType from '../InvoiceDetailModalType';
-import InvoiceHistoryAccordionStatus from '../InvoiceHistoryAccordionStatus';
+import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
+import InvoiceHistoryAccordionStatus from '../types/InvoiceHistoryAccordionStatus';
+import InvoiceStatus from '../types/InvoiceStatus';
 import LoadingState from '../../../../components/PageView/LoadingState';
-import SaveActionType from '../SaveActionType';
+import SaveActionType from '../types/SaveActionType';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
 
 export const DEFAULT_UNITS = '1';
@@ -38,7 +39,8 @@ const getDefaultState = () => ({
     chargeForLatePayment: 0,
     discountForEarlyPayment: 0,
     numberOfDaysForDiscount: 0,
-    amountPaid: '0.00',
+    amountPaid: '0',
+    status: InvoiceStatus.NONE,
     lines: [],
   },
   newLine: {
@@ -57,9 +59,10 @@ const getDefaultState = () => ({
     displayUnitPrice: '',
   },
   totals: {
-    subTotal: '0.00',
-    totalTax: '0.00',
-    totalAmount: '0.00',
+    subTotal: '0',
+    totalTax: '0',
+    totalAmount: '0',
+    originalAmountDue: '0',
   },
   itemTemplate: {
     defaultTemplate: '',

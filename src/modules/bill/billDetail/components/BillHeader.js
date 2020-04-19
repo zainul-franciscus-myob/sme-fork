@@ -6,18 +6,19 @@ import React from 'react';
 
 import {
   getAmountDue,
-  getDisplayAmountPaid,
+  getAmountPaid,
   getIsCreating,
   getPageTitle,
   getTotalAmount,
 } from '../selectors/billSelectors';
+import TotalsHeaderItemFormattedCurrency from '../../../../components/TotalsHeader/TotalsHeaderItemFormattedCurrency';
 
 const BillHeader = ({
   isCreating,
   pageTitle,
-  displayTotalAmount,
-  displayAmountPaid,
-  displayAmountDue,
+  amountPaid,
+  totalAmount,
+  amountDue,
   onCreatePaymentClick,
 }) => {
   const actions = [
@@ -40,20 +41,20 @@ const BillHeader = ({
       title={pageTitle}
       actions={actions}
       totalItems={[
-        <TotalsHeader.TotalItem
+        <TotalsHeaderItemFormattedCurrency
           key="totalAmount"
           label="Total amount"
-          count={displayTotalAmount}
+          count={totalAmount}
         />,
-        <TotalsHeader.TotalItem
+        <TotalsHeaderItemFormattedCurrency
           key="totalPaid"
           label="Total paid"
-          count={displayAmountPaid}
+          count={amountPaid}
         />,
-        <TotalsHeader.TotalItem
+        <TotalsHeaderItemFormattedCurrency
           key="balanceDue"
           label="Balance due"
-          count={displayAmountDue}
+          count={amountDue}
         />,
       ]}
     />
@@ -63,9 +64,9 @@ const BillHeader = ({
 const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   pageTitle: getPageTitle(state),
-  displayTotalAmount: getTotalAmount(state),
-  displayAmountPaid: getDisplayAmountPaid(state),
-  displayAmountDue: getAmountDue(state),
+  amountDue: getAmountDue(state),
+  amountPaid: getAmountPaid(state),
+  totalAmount: getTotalAmount(state),
 });
 
 

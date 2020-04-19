@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getIsCreating, getIsReadOnlyLayout, getIsSubmitting } from '../selectors/invoiceDetailSelectors';
-import SaveActionType from '../SaveActionType';
+import SaveActionType from '../types/SaveActionType';
 
 const InvoiceDetailActions = ({
   isCreating,

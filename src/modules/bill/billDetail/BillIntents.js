@@ -27,7 +27,6 @@ export const REMOVE_BILL_LINE = Symbol('Remove bill line');
 export const PREFILL_BILL_FROM_IN_TRAY = Symbol('Prefill bill from in tray');
 export const RESET_TOTALS = Symbol('Reset totals');
 export const UPDATE_BILL_ID = Symbol('Update bill id');
-export const FORMAT_AMOUNT_PAID = Symbol('Format amount paid');
 export const START_LOADING_MORE = Symbol('Start loading more');
 export const STOP_LOADING_MORE = Symbol('Stop loading more');
 

@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getIsBlocking } from '../selectors/billSelectors';
-import { getSaveAndCreateNewModalBody } from '../selectors/BillSaveSelectors';
+import { getSaveAmountDueWarningModalBody } from '../selectors/BillSaveSelectors';
 
-const SaveAndCreateNewModal = ({
+const SaveAmountDueWarningModal = ({
   isBlocking,
-  modalBody,
-  onConfirmSaveAndCreateNewButtonClick,
+  onConfirm,
   onCancel,
+  modalBody,
 }) => (
   <Modal
-    title="Save and create new"
+    title="Save bill?"
     size="small"
     onCancel={onCancel}
   >
@@ -21,14 +21,14 @@ const SaveAndCreateNewModal = ({
     </Modal.Body>
     <Modal.Footer>
       <Button type="secondary" onClick={onCancel} disabled={isBlocking}>Go back</Button>
-      <Button type="primary" onClick={onConfirmSaveAndCreateNewButtonClick} disabled={isBlocking}>Save</Button>
+      <Button type="primary" onClick={onConfirm} disabled={isBlocking}>Save</Button>
     </Modal.Footer>
   </Modal>
 );
 
 const mapStateToProps = state => ({
+  modalBody: getSaveAmountDueWarningModalBody(state),
   isBlocking: getIsBlocking(state),
-  modalBody: getSaveAndCreateNewModalBody(state),
 });
 
-export default connect(mapStateToProps)(SaveAndCreateNewModal);
+export default connect(mapStateToProps)(SaveAmountDueWarningModal);

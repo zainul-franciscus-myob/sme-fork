@@ -24,7 +24,7 @@ const handleOnBlur = handle => event => {
   }
 };
 
-const AmountInput = ({
+const FormattedAmountInput = ({
   numeralDecimalScaleMin = 0,
   numeralDecimalScaleMax = 2,
   numeralIntegerScale,
@@ -69,4 +69,4 @@ const AmountInput = ({
   );
 };
 
-export default AmountInput;
+export default FormattedAmountInput;

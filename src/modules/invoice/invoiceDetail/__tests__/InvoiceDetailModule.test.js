@@ -12,7 +12,7 @@ import {
   UPDATE_INVOICE_DETAIL,
   UPDATE_INVOICE_ID_AFTER_CREATE,
 } from '../../InvoiceIntents';
-import InvoiceDetailModalType from '../InvoiceDetailModalType';
+import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
 import InvoiceDetailModule from '../InvoiceDetailModule';
 import Region from '../../../../common/types/Region';
 import TestIntegration from '../../../../integration/TestIntegration';
@@ -102,6 +102,42 @@ describe('InvoiceDetailModule', () => {
           expect.objectContaining({ intent }),
         ]);
       });
+    });
+  });
+
+  describe('handleSaveInvoice', () => {
+    const setUpWithClosedInvoiceEdited = () => {
+      const { module, store, integration } = setup();
+      integration.overrideMapping(LOAD_INVOICE_DETAIL, ({ onSuccess }) => {
+        onSuccess({
+          ...loadInvoiceDetailResponse,
+          invoice: {
+            ...loadInvoiceDetailResponse.invoice,
+            status: 'Closed',
+          },
+        });
+      });
+
+      module.run({ invoiceId: 'invoiceId', businessId: 'bizId', region: 'au' });
+      module.updateHeaderOptions({ key: 'option', value: 'A' });
+
+      store.resetActions();
+      integration.resetRequests();
+
+      return { module, store, integration };
+    };
+
+    it('should open save amount due warning modal', () => {
+      const { module, store } = setUpWithClosedInvoiceEdited();
+
+      module.handleSaveInvoice();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_MODAL_TYPE,
+          modalType: InvoiceDetailModalType.SAVE_AMOUNT_DUE_WARNING,
+        },
+      ]);
     });
   });
 

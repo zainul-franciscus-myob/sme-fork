@@ -14,7 +14,7 @@
     "billNumber": "00000123",
     "note": "",
     "issueDate": "",
-    "amountPaid": "0.00",
+    "amountPaid": "0",
     "lines": []
   },
   "accountOptions": [
@@ -150,10 +150,10 @@
     "lineSubTypeId": ""
   },
   "totals": {
-    "subTotal": "$0.00",
-    "totalTax": "$0.00",
-    "totalAmount": "$0.00",
-    "amountDue": "$0.00"
+    "subTotal": "0",
+    "totalTax": "0",
+    "totalAmount": "0",
+    "amountDue": "0"
   },
   "subscription": {
     "monthlyLimit": {

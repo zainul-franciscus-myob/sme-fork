@@ -1,5 +1,5 @@
 import { getLayout, getLines } from '../selectors/invoiceDetailSelectors';
-import InvoiceLayout from '../InvoiceLayout';
+import InvoiceLayout from '../types/InvoiceLayout';
 import buildLineWithCalculatedAmounts from '../../../../common/itemAndServiceLayout/buildLineWithCalculatedAmounts';
 import calculateUnitPrice from '../../../../common/itemAndServiceLayout/calculateUnitPrice';
 import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';

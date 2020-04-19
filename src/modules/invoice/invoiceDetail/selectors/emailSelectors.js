@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import {
   getBusinessId, getInvoiceId,
 } from './invoiceDetailSelectors';
-import InvoiceDetailModalType from '../InvoiceDetailModalType';
+import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
 
 const getEmailToAddresses = state => state.emailInvoice.toEmail;
 const getCcEmailToAddresses = state => state.emailInvoice.ccToEmail;

@@ -1,6 +1,6 @@
 import { businessEventToFeatureMap } from '../../../../common/types/BusinessEventTypeMap';
-import InvoiceHistoryAccordionStatus from '../InvoiceHistoryAccordionStatus';
-import InvoiceHistoryStatus from '../InvoiceHistoryStatus';
+import InvoiceHistoryAccordionStatus from '../types/InvoiceHistoryAccordionStatus';
+import InvoiceHistoryStatus from '../types/InvoiceHistoryStatus';
 
 export const getInvoiceHistory = state => state.invoiceHistory;
 

@@ -14,6 +14,7 @@
     "displayBillNumber": "00000123",
     "issueDate": "2018-11-02",
     "amountPaid": "77.77",
+    "status": "Closed",
     "lines": [
       {
         "id": "345",
@@ -162,10 +163,10 @@
     "lineSubTypeId": ""
   },
   "totals": {
-    "subTotal": "$48.50",
-    "totalTax": "$4.39",
-    "totalAmount": "$48.30",
-    "amountDue": "$88.88"
+    "subTotal": "48.5",
+    "totalTax": "4.39",
+    "totalAmount": "48.3",
+    "amountDue": "88.88"
   },
   "itemTemplateOptions": {
     "defaultTemplate": "b",

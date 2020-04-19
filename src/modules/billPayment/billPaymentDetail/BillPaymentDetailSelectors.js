@@ -45,7 +45,7 @@ export const getTitle = createSelector(
 );
 
 const calculateBalanceOwed = (billAmount, discountAmount) => (
-  formatAmount(Number(billAmount) - Number(discountAmount))
+  Number(billAmount) - Number(discountAmount)
 );
 
 const getEntries = state => state.entries;
@@ -57,6 +57,14 @@ const getLabelColour = status => ({
   Closed: 'green',
 }[status]);
 
+const getOverAmount = entry => {
+  if (!entry.paidAmount) return undefined;
+
+  const balanceOwed = calculateBalanceOwed(entry.billAmount, entry.discountAmount);
+  const overAmount = Number(entry.paidAmount) - balanceOwed;
+  return overAmount > 0 ? formatAmount(overAmount) : undefined;
+};
+
 export const getBillEntries = createSelector(
   getEntries, getBusinessId, getRegion,
   (
@@ -65,7 +73,8 @@ export const getBillEntries = createSelector(
     entry => ({
       ...entry,
       billAmount: formatAmount(Number(entry.billAmount)),
-      balanceOwed: calculateBalanceOwed(entry.billAmount, entry.discountAmount),
+      balanceOwed: formatAmount(calculateBalanceOwed(entry.billAmount, entry.discountAmount)),
+      overAmount: getOverAmount(entry),
       link: getEntryLink(entry.id, businessId, region),
       labelColour: getLabelColour(entry.status),
     }),

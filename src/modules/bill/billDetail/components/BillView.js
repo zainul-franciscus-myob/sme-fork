@@ -54,6 +54,7 @@ const BillView = ({
   onModalClose,
   onCancelModalConfirm,
   onDeleteModalConfirm,
+  onConfirmSaveAmountDueWarningButtonClick,
   onConfirmSaveAndDuplicateButtonClick,
   onConfirmSaveAndCreateNewButtonClick,
   onDismissAlert,
@@ -128,6 +129,7 @@ const BillView = ({
           onModalClose={onModalClose}
           onCancelModalConfirm={onCancelModalConfirm}
           onDeleteModalConfirm={onDeleteModalConfirm}
+          onConfirmSaveAmountDueWarningButtonClick={onConfirmSaveAmountDueWarningButtonClick}
           onConfirmSaveAndCreateNewButtonClick={
             onConfirmSaveAndCreateNewButtonClick
           }

@@ -6,6 +6,7 @@ import CancelModal from '../../../../components/modal/CancelModal';
 import DeleteModal from '../../../../components/modal/DeleteModal';
 import ExportPdfModal from './ExportPdfModal';
 import ModalType from '../types/ModalType';
+import SaveAmountDueWarningModal from './SaveAmountDueWarningModal';
 import SaveAndCreateNewModal from './SaveAndCreateNewModal';
 import SaveAndDuplicateModal from './SaveAndDuplicateModal';
 import UnlinkDocumentModal from './UnlinkDocumentModal';
@@ -15,6 +16,7 @@ const BillModal = ({
   onModalClose,
   onCancelModalConfirm,
   onDeleteModalConfirm,
+  onConfirmSaveAmountDueWarningButtonClick,
   onConfirmSaveAndDuplicateButtonClick,
   onConfirmSaveAndCreateNewButtonClick,
   onUnlinkDocumentConfirm,
@@ -28,6 +30,10 @@ const BillModal = ({
     onConfirm={onDeleteModalConfirm}
     onCancel={onModalClose}
     title="Delete this bill?"
+  />),
+  [ModalType.SaveAmountDueWarning]: (<SaveAmountDueWarningModal
+    onConfirm={onConfirmSaveAmountDueWarningButtonClick}
+    onCancel={onModalClose}
   />),
   [ModalType.SaveAndCreateNew]: (<SaveAndCreateNewModal
     onConfirmSaveAndCreateNewButtonClick={onConfirmSaveAndCreateNewButtonClick}

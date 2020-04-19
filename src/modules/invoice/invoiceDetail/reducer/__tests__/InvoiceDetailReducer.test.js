@@ -10,9 +10,9 @@ import {
   UPDATE_INVOICE_LAYOUT,
   UPDATE_INVOICE_LINE,
 } from '../../../InvoiceIntents';
-import InvoiceHistoryAccordianStatus from '../../InvoiceHistoryAccordionStatus';
-import InvoiceLayout from '../../InvoiceLayout';
-import InvoiceLineLayout from '../../InvoiceLineLayout';
+import InvoiceHistoryAccordianStatus from '../../types/InvoiceHistoryAccordionStatus';
+import InvoiceLayout from '../../types/InvoiceLayout';
+import InvoiceLineLayout from '../../types/InvoiceLineLayout';
 import invoiceDetailReducer from '../invoiceDetailReducer';
 
 describe('InvoiceDetailReducer', () => {

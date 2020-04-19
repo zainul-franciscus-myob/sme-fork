@@ -1,6 +1,6 @@
 import { getMostRecentStatus, getMostRecentStatusColor } from '../invoiceHistorySelectors';
-import InvoiceHistoryAccordionStatus from '../../InvoiceHistoryAccordionStatus';
-import InvoiceHistoryStatus from '../../InvoiceHistoryStatus';
+import InvoiceHistoryAccordionStatus from '../../types/InvoiceHistoryAccordionStatus';
+import InvoiceHistoryStatus from '../../types/InvoiceHistoryStatus';
 
 describe('invoiceHistorySelectors', () => {
   describe('getMostRecentStatus', () => {

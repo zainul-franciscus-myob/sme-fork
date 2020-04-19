@@ -23,11 +23,11 @@ const InfoMessage = ({
   const isCredit = type === 'Sale';
   const creditOrDebit = isCredit ? 'credit' : 'debit';
   const page = isCredit ? 'Customer returns' : 'Supplier returns';
-  const invoiceOrBill = isCredit ? 'invoice' : 'debit';
+  const invoiceOrBill = isCredit ? 'invoice' : 'bill';
   return (
     <>
       <div>
-        This payment will create a &nbsp;
+        This payment will create a&nbsp;
         <b>{overAmount}</b>
         &nbsp;
         {creditOrDebit}

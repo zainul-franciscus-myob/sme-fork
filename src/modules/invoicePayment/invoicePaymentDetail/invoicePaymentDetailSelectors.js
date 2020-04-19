@@ -50,6 +50,18 @@ const getStatusColor = entry => (
   }[entry.status]
 );
 
+const calculateDiscountedBalance = (entry) => (
+  Number(entry.balanceDue) - Number(entry.discountAmount)
+);
+
+const getOverAmount = entry => {
+  if (!entry.paidAmount) return undefined;
+
+  const balanceOwed = calculateDiscountedBalance(entry);
+  const overAmount = Number(entry.paidAmount) - balanceOwed;
+  return overAmount > 0 ? formatAmount(overAmount) : undefined;
+};
+
 export const getEntries = createSelector(
   state => state.entries,
   getBusinessId,
@@ -59,7 +71,8 @@ export const getEntries = createSelector(
     ...entry,
     balanceDue: formatAmount(entry.balanceDue),
     discountedBalance: isCreating
-      ? formatAmount((Number(entry.balanceDue) - Number(entry.discountAmount))) : '0',
+      ? formatAmount(calculateDiscountedBalance(entry)) : '0',
+    overAmount: getOverAmount(entry),
     link: getInvoiceLink(entry, businessId, region),
     statusColor: getStatusColor(entry),
   })),

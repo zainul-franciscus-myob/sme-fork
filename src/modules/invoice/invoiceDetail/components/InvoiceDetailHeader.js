@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getInvoiceDetailTotalHeader } from '../selectors/invoiceDetailSelectors';
+import TotalsHeaderItemFormattedCurrency from '../../../../components/TotalsHeader/TotalsHeaderItemFormattedCurrency';
 
 const InvoiceDetailHeader = ({
   totalAmount,
@@ -23,17 +24,17 @@ const InvoiceDetailHeader = ({
   ];
 
   const totalItems = [
-    <TotalsHeader.TotalItem
+    <TotalsHeaderItemFormattedCurrency
       key="totalAmount"
       label="Total amount"
       count={totalAmount}
     />,
-    <TotalsHeader.TotalItem
+    <TotalsHeaderItemFormattedCurrency
       key="totalPaid"
       label="Total paid"
       count={amountPaid}
     />,
-    <TotalsHeader.TotalItem
+    <TotalsHeaderItemFormattedCurrency
       key="balanceDue"
       label="Balance due"
       count={amountDue}
