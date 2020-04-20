@@ -18,7 +18,6 @@ describe('Navigation Module', () => {
         integrationIntents.push(intent);
         onSuccess({
           region: '🇦🇺',
-          serialNumber: '🍕',
         });
       },
     },
@@ -126,7 +125,7 @@ describe('Navigation Module', () => {
         const state = navigationModule.store.getState();
 
         expect(state.urls[RouteName.PAYMENT_DETAIL])
-          .toEqual('self-service-portal.url/#/paymentProfile?businessId=🍟&serialNumber=🍕');
+          .toEqual('self-service-portal.url/#/paymentProfile?businessId=🍟');
       });
     });
   });

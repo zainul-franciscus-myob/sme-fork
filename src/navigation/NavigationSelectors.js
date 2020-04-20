@@ -27,8 +27,7 @@ const getSelfServicePortalUrl = state => state.selfServicePortalUrl;
 export const getPaymentDetailUrl = createSelector(
   getSelfServicePortalUrl,
   getBusinessId,
-  getSerialNumber,
-  (selfServicePortalUrl, businessId, serialNumber) => `${selfServicePortalUrl}/#/paymentProfile?businessId=${businessId}&serialNumber=${serialNumber}`,
+  (selfServicePortalUrl, businessId) => `${selfServicePortalUrl}/#/paymentProfile?businessId=${businessId}`,
 );
 
 export const getReportsUrl = createSelector(
