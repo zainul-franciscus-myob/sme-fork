@@ -26,8 +26,7 @@ const OverPaidInfoMessage = ({ overAmount }) => (
     <div>
       This payment will create a&nbsp;
       <b>{overAmount}</b>
-      &nbsp;debit
-      .
+      &nbsp;debit.
     </div>
     <br />
     <div>

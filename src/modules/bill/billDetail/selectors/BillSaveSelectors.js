@@ -48,6 +48,10 @@ export const getSaveAmountDueWarningModalBody = state => {
       return 'There is a payment recorded against this bill. Are you sure you want to save the changes?';
     }
 
+    if (Number(amountDue) < 0) {
+      return 'If you save, you\'ll be creating a supplier debit as the balance due is negative.';
+    }
+
     return 'If you save, you\'ll be changing the bill status to open as there is now a balance due.';
   }
 
