@@ -15,7 +15,7 @@ const tableConfig = {
     columnName: 'First name', width: 'flex-1', valign: 'middle',
   },
   employeeLastName: {
-    columnName: 'Last name', width: 'flex-1', valign: 'middle',
+    columnName: 'Surname or family name', width: 'flex-2', valign: 'middle',
   },
   terminationDate: {
     columnName: 'Employment end date', width: 'flex-1', valign: 'middle', textWrap: 'wrap',
@@ -59,7 +59,7 @@ const FinalisationEmployeesTable = ({
 
   const header = (
     <Table.Header>
-      <Table.HeaderItem {...tableConfig.checkbox}>
+      <Table.HeaderItem {...tableConfig.checkbox} width="3.5rem">
         <Checkbox
           name="bulk-select"
           label="Bulk select"

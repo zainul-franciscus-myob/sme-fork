@@ -36,7 +36,6 @@ export default class ReportingCentreModule {
 
   setupSubModules = (context) => {
     this.subModules = {
-      // Uncomment each module as it is built - Jordan
       [tabIds.reports]: new ReportsModule({
         integration: this.integration,
         context,

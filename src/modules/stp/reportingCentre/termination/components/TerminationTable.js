@@ -16,7 +16,7 @@ const tableConfig = {
     columnName: 'First name', width: 'flex-1', valign: 'middle',
   },
   lastName: {
-    columnName: 'Last name', width: 'flex-1', valign: 'middle',
+    columnName: 'Surname or family name', width: 'flex-2', valign: 'middle',
   },
   etpCount: {
     columnName: 'Employment termination payments (ETP)', width: 'flex-2', valign: 'middle',
