@@ -4,14 +4,21 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
 
-export const getDefaultState = () => ({
+const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
   contactDetail: {
     firstName: '',
     lastName: '',
-    address: '',
     isInactive: false,
     employeeNumber: '',
+    country: '',
+    address: '',
+    suburb: '',
+    state: '',
+    postcode: '',
+    phoneNumbers: [],
+    email: '',
+    notes: '',
   },
 });
 

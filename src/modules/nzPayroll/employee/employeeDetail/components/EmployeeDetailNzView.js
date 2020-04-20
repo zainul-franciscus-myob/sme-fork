@@ -21,6 +21,7 @@ const EmployeeDetailNzView = ({
 }) => {
   const subHeadTabs = (
     <Tabs
+      selected={'contactDetails'}
       items={mainTabItems}
     />
   );

@@ -12,6 +12,7 @@ import TestStore from '../../../../../store/TestStore';
 import createEmployeeDetailNzDispatcher from '../createEmployeeDetailNzDispatcher';
 import createEmployeeDetailNzIntegrator from '../createEmployeeDetailNzIntegrator';
 import employeeDetailNzReducer from '../employeeDetailNzReducer';
+import employeeDetailResponse from '../../mappings/data/employeeDetailEntry';
 
 describe('EmployeeDetailNzModule', () => {
   const setup = () => {
@@ -44,6 +45,7 @@ describe('EmployeeDetailNzModule', () => {
       const {
         store, integration, module, wrapper,
       } = setup();
+      integration.mapSuccess(LOAD_EMPLOYEE_DETAIL, employeeDetailResponse);
 
       module.run(context);
 
@@ -54,12 +56,7 @@ describe('EmployeeDetailNzModule', () => {
         },
         {
           intent: LOAD_EMPLOYEE_DETAIL,
-          contactDetail: {
-            firstName: 'Bob',
-            lastName: 'The builder',
-            isInactive: false,
-            employeeNumber: '0012',
-          },
+          ...employeeDetailResponse,
         },
       ]);
 

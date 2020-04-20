@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
-export const getEntries = state => state.entries;
+const getEntries = state => state.entries;
+
 export const getRegion = state => state.region;
 export const getBusinessId = state => state.businessId;
 export const getLoadingState = state => state.loadingState;

@@ -3,6 +3,18 @@
     "firstName": "Bob",
     "lastName": "The builder",
     "isInactive": false,
-    "employeeNumber": "0012"
+    "employeeNumber": "0012",
+    "country": "New Zealand",
+    "address": "2/34 Park Avenue",
+    "suburb": "Auckland",
+    "state": "Auckland",
+    "postcode": "7400",
+    "email": "bob@thebuilder.com",
+    "phoneNumbers": [
+      "03 93883848",
+      "03 94839483",
+      "03 94839482"
+    ],
+    "notes":"notes"
   }
 }

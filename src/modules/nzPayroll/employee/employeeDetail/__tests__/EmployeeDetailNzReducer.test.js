@@ -1,16 +1,33 @@
 import { LOAD_EMPLOYEE_DETAIL, SET_LOADING_STATE } from '../../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import LoadingState from '../../../../../components/PageView/LoadingState';
-import employeeDetailNzReducer, { getDefaultState } from '../employeeDetailNzReducer';
+import employeeDetailNzReducer from '../employeeDetailNzReducer';
 
-describe('employeeListNzReducer', () => {
+const defaultState = {
+  loadingState: LoadingState.LOADING,
+  contactDetail: {
+    firstName: '',
+    lastName: '',
+    isInactive: false,
+    employeeNumber: '',
+    country: '',
+    address: '',
+    suburb: '',
+    state: '',
+    postcode: '',
+    phoneNumbers: [],
+    email: '',
+    notes: '',
+  },
+};
+
+describe('EmployeeDetailNzReducer', () => {
   describe('setInitialState', () => {
-    it('should set the default state as the initial state', () => {
+    it('should set initial state with context', () => {
       const context = {
         businessId: 'id',
         region: 'nz',
       };
-
       const action = {
         intent: SET_INITIAL_STATE,
         context,
@@ -18,32 +35,23 @@ describe('employeeListNzReducer', () => {
 
       const result = employeeDetailNzReducer(undefined, action);
 
-      expect(result).toEqual({ ...getDefaultState(), ...context });
+      expect(result).toEqual({ ...defaultState, ...context });
     });
   });
 
   describe('resetState', () => {
-    it('should set to default state when state is reset', () => {
+    it('resets state to the default state', () => {
       const state = {
-        loadingState: LoadingState.LOADING_SUCCESS,
-        contactDetail: {
-          firstName: 'Bob',
-          lastName: 'The Builder',
-          address: 'New Zealand',
-          isInactive: true,
-          employeeNumber: '00012',
-        },
+        firstName: 'Bob',
+        businessId: 'id',
       };
-
       const action = {
         intent: RESET_STATE,
       };
 
-      const expectedState = getDefaultState();
-
       const result = employeeDetailNzReducer(state, action);
 
-      expect(result).toEqual(expectedState);
+      expect(result).toEqual(defaultState);
     });
   });
 
@@ -52,9 +60,7 @@ describe('employeeListNzReducer', () => {
       const state = {
         loadingState: LoadingState.LOADING,
       };
-
       const loadingState = LoadingState.LOADING_SUCCESS;
-
       const action = {
         intent: SET_LOADING_STATE,
         loadingState,
@@ -68,22 +74,30 @@ describe('employeeListNzReducer', () => {
 
   describe('loadEmployeeDetail', () => {
     it('should load the Employee Contact Details', () => {
-      const state = getDefaultState();
-
       const contactDetail = {
         firstName: 'Bob',
         lastName: 'The Builder',
-        address: 'New Zealand',
         isInactive: true,
         employeeNumber: '00012',
+        country: 'New Zealand',
+        address: '2/34 Park Avenue',
+        suburb: 'Auckland',
+        state: '',
+        postcode: '7400',
+        email: 'e@email.com',
+        phoneNumbers: [
+          '03 93883848',
+          '03 94839483',
+          '03 94839482',
+        ],
+        notes: '',
       };
-
       const action = {
         intent: LOAD_EMPLOYEE_DETAIL,
         contactDetail,
       };
 
-      const result = employeeDetailNzReducer(state, action);
+      const result = employeeDetailNzReducer({}, action);
 
       expect(result).toEqual({ contactDetail, loadingState: LoadingState.LOADING_SUCCESS });
     });
