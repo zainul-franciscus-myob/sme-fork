@@ -5,9 +5,17 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getHasError, getIsEntryLoading, getIsLoading, getLoadMoreButtonStatus, getModalType,
+  getAlert,
+  getHasError,
+  getIsEntryLoading,
+  getIsLoading,
+  getLoadMoreButtonStatus,
+  getModalType,
 } from '../bankingSelectors';
-import { selectedCountSelector, showBulkActionsSelector } from '../bankingSelectors/bulkAllocationSelectors';
+import {
+  getBulkMessage,
+  showBulkActionsSelector,
+} from '../bankingSelectors/bulkAllocationSelectors';
 import BankTransactionFilterOptions from './BankTransactionFilterOptions';
 import BankTransactionPageHead from './BankTransactionPageHead';
 import BankTransactionTable from './BankTransactionTable';
@@ -26,7 +34,7 @@ const BankingView = (props) => {
     isLoading,
     isEntryLoading,
     alert,
-    selectedCount,
+    bulkMessage,
     showBulkActions,
     getBankingRuleModal,
     onUpdateFilters,
@@ -95,17 +103,29 @@ const BankingView = (props) => {
     loadMoreButtonStatus,
   } = props;
 
-  const filterBar = (
-    <BankTransactionFilterOptions
-      onUpdateFilters={onUpdateFilters}
-    />
+  const bulkActions = (
+    <BulkActions>
+      <BulkAllocationPopover
+        onUpdateBulkAllocationOption={onUpdateBulkAllocationOption}
+        onSaveBulkAllocation={onSaveBulkAllocation}
+        onCloseBulkAllocation={onCloseBulkAllocation}
+      />
+      { bulkMessage }
+      <div className={styles.popover} />
+    </BulkActions>
   );
 
   const pageHead = (
-    <BankTransactionPageHead
-      onBankAccountChange={onBankAccountChange}
-      onImportStatementButtonClick={onImportStatementButtonClick}
-    />
+    <>
+      <BankTransactionPageHead
+        onBankAccountChange={onBankAccountChange}
+        onImportStatementButtonClick={onImportStatementButtonClick}
+      />
+      <BankTransactionFilterOptions
+        onUpdateFilters={onUpdateFilters}
+      />
+      {showBulkActions && bulkActions}
+    </>
   );
 
   const alertComponent = alert && (
@@ -129,25 +149,12 @@ const BankingView = (props) => {
     />
     ));
 
-  const bulkActions = (
-    <BulkActions>
-      <BulkAllocationPopover
-        onUpdateBulkAllocationOption={onUpdateBulkAllocationOption}
-        onSaveBulkAllocation={onSaveBulkAllocation}
-        onCloseBulkAllocation={onCloseBulkAllocation}
-      />
-      <BulkActions.Counter count={selectedCount} />
-      <div className={styles.popover} />
-    </BulkActions>
-  );
-
   const transactionListView = (
     <div className={`${isEntryLoading ? styles.entryLoading : ''} ${styles.bankTransactionView}`}>
-      <StandardTemplate sticky="all" alert={alertComponent} pageHead={pageHead} filterBar={filterBar}>
+      <StandardTemplate sticky="all" alert={alertComponent} pageHead={pageHead}>
         {modal}
         {accountModal}
         {inTrayModal}
-        {showBulkActions && bulkActions}
         <BankTransactionTable
           onSort={onSort}
           onAddAccount={onAddAccount}
@@ -219,7 +226,7 @@ const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
   isEntryLoading: getIsEntryLoading(state),
   modalType: getModalType(state),
-  selectedCount: selectedCountSelector(state),
+  bulkMessage: getBulkMessage(state),
   showBulkActions: showBulkActionsSelector(state),
   loadMoreButtonStatus: getLoadMoreButtonStatus(state),
 });

@@ -1,14 +1,19 @@
 import { createSelector } from 'reselect';
 
+import { getEntries } from './index';
 import StatusTypes from '../BankTransactionStatusTypes';
 
 export const getEntrySelectStatus = state => state.entries.map(entry => entry.selected);
 
-export const selectedCountSelector = state => state.entries.filter(entry => entry.selected).length;
-export const showBulkActionsSelector = state => selectedCountSelector(state) > 0;
+const getSelectedCount = state => state.entries.filter(entry => entry.selected).length;
+export const showBulkActionsSelector = state => getSelectedCount(state) > 0;
+export const getBulkMessage = createSelector(
+  getSelectedCount,
+  selectedCount => `${selectedCount} transaction${selectedCount > 1 ? 's' : ''} selected (max 50)`,
+);
 
 export const getBulkSelectStatus = createSelector(
-  selectedCountSelector,
+  getSelectedCount,
   state => state.entries.length,
   (selectedCount, entryCount) => {
     if (selectedCount === entryCount) {
@@ -52,8 +57,28 @@ export const getBulkAllocationPayload = ({ entries, filterOptions, bulkAllocatio
   };
 };
 
-export const getIsAllSelected = state => state.entries.every(entry => entry.selected);
+const getIsAllSelected = state => state.entries.every(entry => entry.selected);
+export const BULK_LIMITATION = 50;
+export const getRemainingAvailable = createSelector(
+  getSelectedCount,
+  selectedCount => Math.max(BULK_LIMITATION - selectedCount, 0),
+);
+export const getIsMaximumSelected = createSelector(
+  getRemainingAvailable,
+  remaining => remaining === 0,
+);
+export const getCanSelectMore = createSelector(
+  getIsAllSelected,
+  getIsMaximumSelected,
+  (isAllSelected, isMaximumSelected) => !isAllSelected && !isMaximumSelected,
+);
+
 export const getIsBulkLoading = state => state.isBulkLoading;
+export const getIsCheckboxDisabled = (state, index) => {
+  const entries = getEntries(state);
+
+  return getIsBulkLoading(state) || !(entries[index].selected || getCanSelectMore(state));
+};
 
 export const getIsEditedEntryInBulkSelection = state => (
   state.openPosition >= 0 && state.openEntry.isEdited && state.entries[state.openPosition].selected

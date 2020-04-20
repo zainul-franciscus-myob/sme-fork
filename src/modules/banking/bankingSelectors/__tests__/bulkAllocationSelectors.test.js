@@ -1,6 +1,10 @@
 import {
+  BULK_LIMITATION,
   getBulkAllocationPayload,
+  getBulkMessage,
   getBulkSelectStatus,
+  getCanSelectMore,
+  getIsCheckboxDisabled,
   getIsEditedEntryInBulkSelection,
 } from '../bulkAllocationSelectors';
 
@@ -245,6 +249,137 @@ describe('bulkAllocationSelector', () => {
       const actual = getIsEditedEntryInBulkSelection(state);
 
       expect(actual).toBe(false);
+    });
+  });
+
+  describe('getCanSelectMore', () => {
+    it('return false when all selected', () => {
+      const state = {
+        entries: [
+          {
+            selected: true,
+          },
+        ],
+      };
+
+      const actual = getCanSelectMore(state);
+
+      expect(actual).toBe(false);
+    });
+
+    it('return false when maximum selected', () => {
+      const state = {
+        entries: Array(BULK_LIMITATION).fill({
+          selected: true,
+        }),
+      };
+
+      const actual = getCanSelectMore(state);
+
+      expect(actual).toBe(false);
+    });
+
+    it('return true when not all selected and not reaching maximum', () => {
+      const state = {
+        entries: [
+          ...Array(BULK_LIMITATION - 1).fill({
+            selected: true,
+          }),
+          {},
+        ],
+      };
+
+      const actual = getCanSelectMore(state);
+
+      expect(actual).toBe(true);
+    });
+  });
+
+  describe('getIsCheckboxDisabled', () => {
+    it('return true when bulk loading', () => {
+      const state = {
+        isBulkLoading: true,
+      };
+
+      const actual = getIsCheckboxDisabled(state, 0);
+
+      expect(actual).toBe(true);
+    });
+
+    it('return true when cannot select more and current line is not selected', () => {
+      const state = {
+        isBulkLoading: false,
+        entries: [
+          ...Array(BULK_LIMITATION).fill({
+            selected: true,
+          }),
+          {},
+        ],
+      };
+
+      const actual = getIsCheckboxDisabled(state, BULK_LIMITATION);
+
+      expect(actual).toBe(true);
+    });
+
+    it('return false when current line is selected', () => {
+      const state = {
+        isBulkLoading: false,
+        entries: Array(BULK_LIMITATION).fill({
+          selected: true,
+        }),
+      };
+
+      const actual = getIsCheckboxDisabled(state, 0);
+
+      expect(actual).toBe(false);
+    });
+
+    it('return false when can select more', () => {
+      const state = {
+        isBulkLoading: false,
+        entries: [
+          ...Array(BULK_LIMITATION - 1).fill({
+            selected: true,
+          }),
+          {},
+        ],
+      };
+
+      const actual = getIsCheckboxDisabled(state, BULK_LIMITATION - 1);
+
+      expect(actual).toBe(false);
+    });
+  });
+
+  describe('getBulkMessage', () => {
+    it('build message for single selection', () => {
+      const state = {
+        entries: [{
+          selected: true,
+        }],
+      };
+
+      const actual = getBulkMessage(state);
+
+      expect(actual).toBe('1 transaction selected (max 50)');
+    });
+
+    it('build message for single selection', () => {
+      const state = {
+        entries: [
+          {
+            selected: true,
+          },
+          {
+            selected: true,
+          },
+        ],
+      };
+
+      const actual = getBulkMessage(state);
+
+      expect(actual).toBe('2 transactions selected (max 50)');
     });
   });
 });

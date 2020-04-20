@@ -16,16 +16,16 @@ import {
   getRegion,
 } from './bankingSelectors';
 import {
+  getCanSelectMore,
+  getIsEditedEntryInBulkSelection,
+} from './bankingSelectors/bulkAllocationSelectors';
+import {
   getDefaultMatchTransactionFilterRequestParams,
   getMatchTransactionFlipSortOrder,
   getMatchTransactionOrderBy,
   getShowType,
 } from './bankingSelectors/matchTransactionSelectors';
 import { getFilesForUpload, getInTrayModalContext } from './bankingSelectors/attachmentsSelectors';
-import {
-  getIsAllSelected,
-  getIsEditedEntryInBulkSelection,
-} from './bankingSelectors/bulkAllocationSelectors';
 import {
   getMatchTransferMoneyFlipSortOrder,
   getMatchTransferMoneyOrderBy,
@@ -863,9 +863,9 @@ export default class BankingModule {
   selectAllTransactions = () => {
     const state = this.store.getState();
     const isEdited = getIsOpenEntryEdited(state);
-    const isAllSelected = getIsAllSelected(state);
+    const canSelectMore = getCanSelectMore(state);
 
-    if (isEdited && !isAllSelected) {
+    if (isEdited && canSelectMore) {
       this.openCancelModal({
         onConfirm: () => {
           this.dispatcher.collapseTransactionLine();

@@ -1,4 +1,4 @@
-import { DatePicker, Select } from '@myob/myob-widgets';
+import { Card, DatePicker, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -47,7 +47,7 @@ class BankTransactionFilterOptions extends React.Component {
     );
 
     return (
-      <React.Fragment>
+      <Card>
         <FilterBar>
           <FilterBar.Group>
             <Select name="transactionType" label="Status" value={transactionType} onChange={this.onSelectChange} width="sm">
@@ -59,7 +59,7 @@ class BankTransactionFilterOptions extends React.Component {
           </FilterBar.Group>
           <FilterBarSearch id="Search_Box" name="Search" value={keywords} onChange={this.onSearchBoxChange} />
         </FilterBar>
-      </React.Fragment>
+      </Card>
     );
   }
 }

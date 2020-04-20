@@ -1,31 +1,26 @@
+import { getBalancesForBulkResult } from '../bankingSelectors';
 import {
-  getBalancesForBulkResult,
-} from '../bankingSelectors';
-import { getIsAllSelected } from '../bankingSelectors/bulkAllocationSelectors';
+  getIsMaximumSelected,
+  getRemainingAvailable,
+} from '../bankingSelectors/bulkAllocationSelectors';
 
-export const selectTransaction = (state, action) => ({
-  ...state,
-  entries: state.entries.map(
-    (entry, index) => (
-      index === action.index
-        ? {
-          ...entry,
-          selected: action.value,
-        }
-        : entry
-    ),
-  ),
-});
-
-export const selectAllTransactions = (state) => {
-  const isAllSelected = getIsAllSelected(state);
+export const selectTransaction = (state, action) => {
+  if (getIsMaximumSelected(state) && action.value) {
+    return state;
+  }
 
   return {
     ...state,
-    entries: state.entries.map(entry => ({
-      ...entry,
-      selected: !isAllSelected,
-    })),
+    entries: state.entries.map(
+      (entry, index) => (
+        index === action.index
+          ? {
+            ...entry,
+            selected: action.value,
+          }
+          : entry
+      ),
+    ),
   };
 };
 
@@ -36,6 +31,24 @@ export const unselectTransactions = state => ({
     selected: false,
   })),
 });
+
+export const selectAllTransactions = (state) => {
+  const entryIdsToSelect = state.entries
+    .filter(entry => !entry.selected)
+    .map(entry => entry.transactionId)
+    .slice(0, getRemainingAvailable(state));
+
+  if (entryIdsToSelect.length > 0) {
+    return {
+      ...state,
+      entries: state.entries.map(entry => (
+        entryIdsToSelect.includes(entry.transactionId) ? { ...entry, selected: true } : entry
+      )),
+    };
+  }
+
+  return unselectTransactions(state);
+};
 
 const getDefaultTaxCodeId = (accountId, accounts) => {
   const account = accounts.find(({ id }) => id === accountId);

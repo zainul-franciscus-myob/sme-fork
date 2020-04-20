@@ -1,3 +1,4 @@
+import { BULK_LIMITATION } from '../../bankingSelectors/bulkAllocationSelectors';
 import {
   bulkAllocateTransactions,
   selectAllTransactions,
@@ -11,24 +12,17 @@ describe('bulkAllocationHandlers', () => {
     it('should select a transaction', () => {
       const state = {
         entries: [
-          {
-            transactionId: '1',
-          },
-          {
-            transactionId: '2',
-          },
+          {},
+          {},
         ],
       };
 
       const expected = {
         entries: [
           {
-            transactionId: '1',
             selected: true,
           },
-          {
-            transactionId: '2',
-          },
+          {},
         ],
       };
 
@@ -37,14 +31,26 @@ describe('bulkAllocationHandlers', () => {
       expect(actual).toEqual(expected);
     });
 
+    it('should not select a transaction when selected number exceed limitation', () => {
+      const state = {
+        entries: [
+          ...Array(BULK_LIMITATION).fill({
+            selected: true,
+          }),
+          {},
+        ],
+      };
+
+      const actual = selectTransaction(state, { index: BULK_LIMITATION, value: true });
+
+      expect(actual).toEqual(state);
+    });
+
     it('should unselect a transaction', () => {
       const state = {
         entries: [
+          {},
           {
-            transactionId: '1',
-          },
-          {
-            transactionId: '2',
             selected: true,
           },
         ],
@@ -52,11 +58,8 @@ describe('bulkAllocationHandlers', () => {
 
       const expected = {
         entries: [
+          {},
           {
-            transactionId: '1',
-          },
-          {
-            transactionId: '2',
             selected: false,
           },
         ],
@@ -69,28 +72,23 @@ describe('bulkAllocationHandlers', () => {
   });
 
   describe('selectAllTransctions', () => {
-    it('should select all transactions when not all selected', () => {
+    it('should select maximum transactions when not maximum selected', () => {
       const state = {
-        entries: [
-          {
-            transactionId: '1',
-            selected: true,
-          },
-          {
-            transactionId: '2',
-          },
-        ],
+        entries: Array(BULK_LIMITATION + 1)
+          .fill({})
+          .map((_, index) => ({ transactionId: String(index) })),
       };
 
       const expected = {
         entries: [
+          ...Array(BULK_LIMITATION)
+            .fill({})
+            .map((_, index) => ({
+              transactionId: String(index),
+              selected: true,
+            })),
           {
-            transactionId: '1',
-            selected: true,
-          },
-          {
-            transactionId: '2',
-            selected: true,
+            transactionId: String(BULK_LIMITATION),
           },
         ],
       };
@@ -104,11 +102,9 @@ describe('bulkAllocationHandlers', () => {
       const state = {
         entries: [
           {
-            transactionId: '1',
             selected: true,
           },
           {
-            transactionId: '2',
             selected: true,
           },
         ],
@@ -117,11 +113,9 @@ describe('bulkAllocationHandlers', () => {
       const expected = {
         entries: [
           {
-            transactionId: '1',
             selected: false,
           },
           {
-            transactionId: '2',
             selected: false,
           },
         ],

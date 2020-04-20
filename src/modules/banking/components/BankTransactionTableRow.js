@@ -12,7 +12,7 @@ import {
   getPendingNote,
   getShouldShowNote,
 } from '../bankingSelectors';
-import { getIsBulkLoading } from '../bankingSelectors/bulkAllocationSelectors';
+import { getIsCheckboxDisabled } from '../bankingSelectors/bulkAllocationSelectors';
 import ClearableTextArea from '../../../components/ClearableTextArea/ClearableTextArea';
 import MatchedOrAllocated from './MatchedOrAllocated';
 import handleTextAreaChange from '../../../components/handlers/handleTextAreaChange';
@@ -147,7 +147,7 @@ const BankTransactionTableRow = ({
   onUnmatchedBlur,
   isExpanded,
   isSelected,
-  isBulkLoading,
+  isCheckboxDisabled,
   onSelectTransaction,
   children,
 }) => {
@@ -255,7 +255,7 @@ const BankTransactionTableRow = ({
             hideLabel
             onChange={onCheckboxChange(onSelectTransaction, index)}
             checked={entry.selected}
-            disabled={isBulkLoading}
+            disabled={isCheckboxDisabled}
           />
         </div>
         { mobileInfoColumn }
@@ -288,9 +288,11 @@ const makeMapRowStateToProps = () => {
     const isSubmittingNote = getIsSubmittingNote(state, ownProps.index);
     const pendingNote = isEditingNote && getPendingNote(state);
     const shouldShowNote = getShouldShowNote(state, ownProps.index);
+    const entry = getBankEntryByIndex(state, ownProps);
+    const isCheckboxDisabled = getIsCheckboxDisabled(state, ownProps.index);
     return {
-      isBulkLoading: getIsBulkLoading(state),
-      entry: getBankEntryByIndex(state, ownProps),
+      isCheckboxDisabled,
+      entry,
       isEditingNote,
       isSubmittingNote,
       pendingNote,
