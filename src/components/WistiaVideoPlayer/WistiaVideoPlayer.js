@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
 import classNames from 'classnames';
 
@@ -8,8 +7,9 @@ import styles from './WistiaVideoPlayer.module.css';
 class WistiaVideoPlayer extends Component {
   constructor(props) {
     super(props);
-    const { hashedId, ...embedOptions } = this.props;
-    // _wq is used in Wistia Video Library, need to stay as it is
+    const { hashedId, className, ...embedOptions } = this.props;
+    // _wq is used in the Wistia Video Library and needs to stay as it is
+    /* eslint no-underscore-dangle: ["error", { "allow": ['_wq', '_w2q'] }] */
     window._wq = window._wq || [];
     window._wq.push({
       id: hashedId,
@@ -37,10 +37,11 @@ class WistiaVideoPlayer extends Component {
   }
 
   render() {
-    const { hashedId } = this.props;
+    const { className, hashedId } = this.props;
     const wistiaEmbedDefaultClass = `wistia_embed wistia_async_${hashedId} videoFoam=true`;
+
     return (
-      <div className={styles.wistiaVideoPlayer}>
+      <div className={classNames(className, styles.wistiaVideoPlayer)}>
         <div className={styles.wistiaVideoPlayer__wrapper}>
           <div className={classNames(wistiaEmbedDefaultClass, styles.wistiaVideoPlayer__embed)}>
             &nbsp;

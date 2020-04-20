@@ -1,0 +1,20 @@
+.logos {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+@media screen and (max-width: 1024px) {
+  .logos {
+    display: block;
+    text-align: center;
+  }
+
+  .logos img,
+  .logos a {
+    display: inline-block;
+    margin: 0 14px var(--flx-spacing-tiny);
+    vertical-align: middle;
+  }
+}

@@ -1,5 +1,4 @@
-
-import { GET_SERIAL_NUMBER } from '../../bankingLearnIntents';
+import { GET_SERIAL_NUMBER } from '../bankingLearnIntents';
 
 const HttpBankLearnsMapping = {
   [GET_SERIAL_NUMBER]: {

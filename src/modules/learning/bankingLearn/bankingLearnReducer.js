@@ -1,11 +1,8 @@
-
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { SET_LOADING_STATE, SET_SERIAL_NUMBER } from '../bankingLearnIntents';
+import { SET_LOADING_STATE, SET_SERIAL_NUMBER } from './bankingLearnIntents';
 import createReducer from '../../../store/createReducer';
 
-const getDefaultState = () => ({
-  serialNumber: null,
-});
+const getDefaultState = () => ({ serialNumber: null });
 
 const resetState = () => getDefaultState();
 

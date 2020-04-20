@@ -1,13 +1,11 @@
-.checklist li {
-    list-style-image: url('./assets/check_icon.svg');
+.checklist li { list-style-image: url('./assets/check_icon.svg'); }
+
+.flex-center {
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
-.learnImage {
-    margin: Auto;
-}
-
-@media (max-width: 500px){
-   .learnImage {
-    display: flex;
-   }
+@media screen and (max-width: 800px) {
+  .mt-sm-x-large { margin-top: var(--flx-spacing-x-large); }
 }

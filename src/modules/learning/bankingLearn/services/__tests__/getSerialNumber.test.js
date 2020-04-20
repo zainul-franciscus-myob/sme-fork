@@ -1,4 +1,4 @@
-import { GET_SERIAL_NUMBER } from '../../../../bankingLearnIntents';
+import { GET_SERIAL_NUMBER } from '../../bankingLearnIntents';
 import getSerialNumber from '../getSerialNumber';
 
 describe('getSerialNumber', () => {

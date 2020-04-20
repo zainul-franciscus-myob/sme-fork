@@ -1,4 +1,4 @@
-import { GET_SERIAL_NUMBER } from '../../../bankingLearnIntents';
+import { GET_SERIAL_NUMBER } from '../bankingLearnIntents';
 
 const getSerialNumber = async ({
   integration, context, onSuccess, onFailure,

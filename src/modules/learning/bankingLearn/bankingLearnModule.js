@@ -1,18 +1,16 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import BankingLearnView from './components/BankingLearnView';
+import BankingLearnView from './components/bankingLearnView';
 import Config from '../../../Config';
 import Store from '../../../store/Store';
 import bankingLearnReducer from './bankingLearnReducer';
-import createLearnBankFeedIntegrator from './services/banking';
-import createLearnBankingDispatcher from './createLearnBankingDispatcher';
+import createLearnBankFeedIntegrator from './services';
+import createLearnBankingDispatcher from './createBankingLearnDispatcher';
 import getQueryFromParams from '../../../common/getQueryFromParams/getQueryFromParams';
 
-export default class LearnBankingModule {
-  constructor({
-    setRootView, learnBankingCompleted, integration,
-  }) {
+export default class BankingLearnModule {
+  constructor({ integration, setRootView, learnBankingCompleted }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.learnBankingCompleted = learnBankingCompleted;
@@ -37,7 +35,7 @@ export default class LearnBankingModule {
     };
     this.dispatcher.setLoading(true);
     this.integrator.getSerialNumber({ onSuccess, onFailure });
-  }
+  };
 
   connectBankFeedUrl = (serialNumber, businessId) => {
     const baseUrl = Config.MANAGE_BANK_FEEDS_BASE_URL;
@@ -47,7 +45,7 @@ export default class LearnBankingModule {
       Action: 'app',
     });
     return `${baseUrl}${queryParams}`;
-  }
+  };
 
   onClick = (serialNumber, businessId) => {
     this.learnBankingCompleted();
@@ -55,12 +53,12 @@ export default class LearnBankingModule {
     window.open(url, '_blank');
   };
 
-  resetState = () => {};
-
-  unsubscribeFromStore = () => {};
-
-  redirectToUrl = (url) => {
-    if (url) window.location.href = url;
+  render = () => {
+    this.setRootView(
+      <Provider store={this.store}>
+        <BankingLearnView onClick={this.onClick} />
+      </Provider>,
+    );
   };
 
   run = (context) => {
@@ -69,12 +67,7 @@ export default class LearnBankingModule {
     this.render();
   };
 
-  render = () => {
-    const bankingLearnView = (
-      <Provider store={this.store}>
-        <BankingLearnView onClick={this.onClick} />
-      </Provider>
-    );
-    this.setRootView(bankingLearnView);
-  }
+  resetState = () => {};
+
+  unsubscribeFromStore = () => {};
 }

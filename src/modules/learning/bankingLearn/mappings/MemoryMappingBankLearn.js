@@ -1,5 +1,4 @@
-
-import { GET_SERIAL_NUMBER } from '../../bankingLearnIntents';
+import { GET_SERIAL_NUMBER } from '../bankingLearnIntents';
 import loadBankFeedsResponse from './data/loadBankFeeds';
 
 const loadSerialNumber = ({ onSuccess }) => onSuccess(loadBankFeedsResponse);

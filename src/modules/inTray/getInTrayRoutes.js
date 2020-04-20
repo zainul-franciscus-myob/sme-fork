@@ -1,5 +1,5 @@
 import InTrayModule from './inTrayList/InTrayModule';
-import LearnInTrayModule from './inTrayLearn/LearnInTrayModule';
+import LearnInTrayModule from '../learning/inTrayLearn/LearnInTrayModule';
 import RouteName from '../../router/RouteName';
 
 const getInTrayRoutes = ({

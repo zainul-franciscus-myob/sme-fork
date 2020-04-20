@@ -1,0 +1,27 @@
+.learnTemplate ol { margin-bottom: var(--flx-spacing-clear); }
+.learnTemplate ol li { margin-bottom: var(--flx-spacing-x-small); }
+
+.learnTemplate .mt-xx-large { margin-top: var(--flx-spacing-xx-large); }
+
+.learnTemplate .row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.learnTemplate .column {
+  flex: 1;
+  margin-right: var(--flx-spacing-small);
+}
+
+.learnTemplate .column:only-child,
+.learnTemplate .column:last-child { margin-right: var(--flx-spacing-clear); }
+
+@media screen and (max-width: 800px) {
+  .learnTemplate .column {
+    flex-basis: 100%;
+    margin-right: 0;
+  }
+
+  .learnTemplate .mt-sm-x-large { margin-top: var(--flx-spacing-x-large); }
+}

@@ -1,4 +1,4 @@
-import LearnPayrollModule from './payrollLearn/LearnPayrollModule';
+import LearnPayrollModule from '../learning/payrollLearn/LearnPayrollModule';
 import PayrollSettingsModule from './PayrollSettingsModule';
 import RouteName from '../../router/RouteName';
 

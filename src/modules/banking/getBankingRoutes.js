@@ -1,5 +1,5 @@
+import BankingLearnModule from '../learning/bankingLearn/bankingLearnModule';
 import BankingModule from './BankingModule';
-import LearnBankingModule from '../learning/bankingLearn/LearnBankingModule';
 import RouteName from '../../router/RouteName';
 
 const getBankingRoutes = ({
@@ -16,7 +16,9 @@ const getBankingRoutes = ({
   {
     name: RouteName.ONBOARDING_LEARN_BANKING,
     path: '/:region/:businessId/banking/learn',
-    module: new LearnBankingModule({ integration, setRootView, learnBankingCompleted }),
+    module: new BankingLearnModule({
+      integration, setRootView, learnBankingCompleted,
+    }),
     documentTitle: 'Learn banking',
   },
 ];
