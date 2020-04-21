@@ -20,7 +20,8 @@
         "id": "345",
         "description": "Yak shaving - 1/2 an hour",
         "accountId": "123",
-        "amount": "48.50",
+        "taxAmount": "0.5",
+        "taxExclusiveAmount": "48",
         "taxCodeId": "124",
         "lineTypeId": 17
       },
@@ -28,7 +29,8 @@
         "id": "346",
         "description": "Yak shower - 1/2 an hour",
         "accountId": "456",
-        "amount": "50.00",
+        "taxAmount": "1",
+        "taxExclusiveAmount": "49",
         "taxCodeId": "123",
         "lineTypeId": 17
       },
@@ -36,7 +38,8 @@
         "id": "347",
         "description": "Yak blow dry - 1/2 an hour",
         "accountId": "123",
-        "amount": "12.50",
+        "taxAmount": "0.5",
+        "taxExclusiveAmount": "12",
         "taxCodeId": "124",
         "lineTypeId": 17
       }
@@ -175,13 +178,7 @@
     "discount": "",
     "jobId": "",
     "taxCodeId": "",
-    "amount": "",
     "lineTypeId": 17
-  },
-  "totals": {
-    "subTotal": "48.5",
-    "totalTax": "4.39",
-    "totalAmount": "48.3"
   },
   "comments": [
     "Happy Holiday!",

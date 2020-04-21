@@ -146,7 +146,6 @@
     "discount": "",
     "jobId": "",
     "taxCodeId": "",
-    "amount": "",
     "lineTypeId": 17
   },
   "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"],

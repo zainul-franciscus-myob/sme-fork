@@ -1,3 +1,5 @@
+import Decimal from 'decimal.js';
+
 import {
   ADD_EMAIL_ATTACHMENTS,
   ADD_INVOICE_LINE,
@@ -79,6 +81,7 @@ import { updateExportPdfDetail } from './ExportPdfReducer';
 import InvoiceLayout from '../types/InvoiceLayout';
 import InvoiceLineLayout from '../types/InvoiceLineLayout';
 import LoadingState from '../../../../components/PageView/LoadingState';
+import calculateTotals from '../../../../common/taxCalculator/calculateTotals';
 import createReducer from '../../../../store/createReducer';
 import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
 import formatDisplayDiscount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
@@ -102,6 +105,16 @@ const setModalAlert = (state, { modalAlert }) => ({ ...state, modalAlert });
 
 const setModalSubmittingState = (state, { isModalSubmitting }) => ({ ...state, isModalSubmitting });
 
+const setTotalsOnLoad = ({ isTaxInclusive, lines, amountPaid }) => {
+  const totals = calculateTotals({ isTaxInclusive, lines });
+  const originalAmountDue = calculateAmountDue(totals.totalAmount, amountPaid);
+
+  return {
+    ...totals,
+    originalAmountDue,
+  };
+};
+
 const loadInvoiceDetail = (state, action) => {
   const defaultState = getDefaultState();
 
@@ -112,20 +125,29 @@ const loadInvoiceDetail = (state, action) => {
       ...state.invoice,
       ...action.invoice,
       status: action.invoice.status || defaultState.invoice.status,
-      lines: action.invoice.lines.map(line => ({
-        ...line,
-        displayAmount: formatDisplayAmount(line.amount),
-        displayDiscount: line.discount ? formatDisplayDiscount(line.discount) : '',
-        displayUnitPrice: line.unitPrice ? formatDisplayUnitPrice(line.unitPrice) : '',
-      })),
+      lines: action.invoice.lines.map(line => {
+        const amount = action.invoice.isTaxInclusive
+          ? (new Decimal(line.taxExclusiveAmount).add(line.taxAmount)).valueOf()
+          : (new Decimal(line.taxExclusiveAmount)).valueOf();
+
+        return {
+          ...line,
+          amount,
+          displayAmount: formatDisplayAmount(amount),
+          displayDiscount: line.discount ? formatDisplayDiscount(line.discount) : '',
+          displayUnitPrice: line.unitPrice ? formatDisplayUnitPrice(line.unitPrice) : '',
+        };
+      }),
     },
-    newLine: action.newLine || state.newLine,
-    totals: action.totals
-      ? {
-        ...action.totals,
-        originalAmountDue: calculateAmountDue(action.totals.totalAmount, action.invoice.amountPaid),
-      }
-      : defaultState.totals,
+    totals: action.invoice.lines.length === 0
+      ? defaultState.totals
+      : {
+        ...setTotalsOnLoad(action.invoice),
+      },
+    newLine: {
+      ...state.newLine,
+      ...action.newLine,
+    },
     comments: action.comments || state.comments,
     serialNumber: action.serialNumber,
     contactOptions: action.contactOptions || state.contactOptions,

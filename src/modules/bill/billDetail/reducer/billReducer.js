@@ -1,3 +1,5 @@
+import Decimal from 'decimal.js';
+
 import {
   ADD_BILL_LINE,
   CALCULATE_LINE_AMOUNTS,
@@ -41,7 +43,7 @@ import {
   UPDATE_LAYOUT,
 } from '../BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
-import { calculateLineAmounts, getTaxCalculations } from './calculationReducer';
+import { calculateAmountDue, calculateLineAmounts, getTaxCalculations } from './calculationReducer';
 import { defaultLinePrefillStatus, defaultPrefillStatus, getDefaultState } from './getDefaultState';
 import {
   getBillId,
@@ -56,8 +58,20 @@ import BillLineLayout from '../types/BillLineLayout';
 import BillStatus from '../types/BillStatus';
 import LineTaxTypes from '../types/LineTaxTypes';
 import LoadingState from '../../../../components/PageView/LoadingState';
+import calculateTotals from '../../../../common/taxCalculator/calculateTotals';
 import createReducer from '../../../../store/createReducer';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
+
+const setTotalsOnLoad = ({ isTaxInclusive, lines, amountPaid }) => {
+  const totals = calculateTotals({ isTaxInclusive, lines });
+  const amountDue = calculateAmountDue(totals.totalAmount, amountPaid);
+
+  return {
+    ...totals,
+    amountDue,
+    originalAmountDue: amountDue,
+  };
+};
 
 const loadBill = (state, action) => {
   const defaultState = getDefaultState();
@@ -73,11 +87,22 @@ const loadBill = (state, action) => {
       issueDate: isCreating
         ? formatIsoDate(state.today)
         : action.response.bill.issueDate,
+      lines: action.response.bill.lines.map(line => {
+        const amount = action.response.bill.isTaxInclusive
+          ? (new Decimal(line.taxExclusiveAmount).add(line.taxAmount)).valueOf()
+          : (new Decimal(line.taxExclusiveAmount)).valueOf();
+
+        return {
+          ...line,
+          amount,
+        };
+      }),
     },
-    totals: {
-      ...action.response.totals,
-      originalAmountDue: action.response.totals.amountDue,
-    },
+    totals: action.response.bill.lines.length === 0
+      ? defaultState.totals
+      : {
+        ...setTotalsOnLoad(action.response.bill),
+      },
     newLine: {
       ...state.newLine,
       ...action.response.newLine,

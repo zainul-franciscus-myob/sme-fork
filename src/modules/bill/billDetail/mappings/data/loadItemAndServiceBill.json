@@ -28,7 +28,8 @@
         "discount": "10",
         "jobId": "2",
         "taxCodeId": "123",
-        "amount": "850.9101",
+        "taxAmount": "0.9101",
+        "taxExclusiveAmount": "850",
         "lineSubTypeId": "13"
       },
       {
@@ -38,7 +39,8 @@
         "accountId": "123",
         "jobId": "3",
         "taxCodeId": "124",
-        "amount": "850.9101",
+        "taxAmount": "0.9101",
+        "taxExclusiveAmount": "850",
         "unitPrice": "",
         "discount": "",
         "units": "",
@@ -174,16 +176,9 @@
     "units": "",
     "unitPrice": "",
     "discount": "",
-    "amount": "",
     "jobId": "",
     "taxCodeId": "",
     "lineSubTypeId": ""
-  },
-  "totals": {
-    "subTotal": "48.5",
-    "totalTax": "4.39",
-    "totalAmount": "48.3",
-    "amountDue": "88.88"
   },
   "itemTemplateOptions": {
     "defaultTemplate": "b",

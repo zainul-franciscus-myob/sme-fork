@@ -32,7 +32,7 @@ const shouldCalculateUnitPriceWithTaxInclusiveSwitch = (line, isSwitchingTaxIncl
   && Number(line.discount) !== 100
 );
 
-const calculateAmountDue = (totalAmount, amountPaid) => Decimal(totalAmount).minus(
+export const calculateAmountDue = (totalAmount, amountPaid) => Decimal(totalAmount).minus(
   Decimal(amountPaid),
 );
 

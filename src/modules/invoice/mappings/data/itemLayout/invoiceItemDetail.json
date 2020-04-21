@@ -27,7 +27,8 @@
         "discount": "10",
         "jobId": "1",
         "taxCodeId": "2",
-        "amount": "850.9111",
+        "taxAmount": "0.9111",
+        "taxExclusiveAmount": "850",
         "accountId": "92",
         "lineTypeId": 17
       }
@@ -183,11 +184,6 @@
       "includeInGstReturn": false
     }
   ],
-  "totals": {
-    "subTotal": "48.5",
-    "totalTax": "4.39",
-    "totalAmount": "48.3"
-  },
   "newLine": {
     "units": "",
     "itemId": "",
@@ -197,7 +193,6 @@
     "discount": "",
     "jobId": "",
     "taxCodeId": "",
-    "amount": "",
     "lineTypeId": 17
   },
   "serialNumber": "000000000000",

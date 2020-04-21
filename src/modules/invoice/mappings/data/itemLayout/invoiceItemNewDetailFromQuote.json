@@ -19,7 +19,8 @@
         "unitPrice": "100",
         "discount": "0",
         "taxCodeId": "2",
-        "amount": "850.9101",
+        "taxAmount": "0.9111",
+        "taxExclusiveAmount": "850",
         "lineTypeId": 17
       },
       {
@@ -29,7 +30,8 @@
         "unitPrice": "520",
         "discount": "10",
         "taxCodeId": "3",
-        "amount": "850.9101",
+        "taxAmount": "0.9101",
+        "taxExclusiveAmount": "850",
         "lineTypeId": 17
       }
     ]
@@ -158,11 +160,6 @@
       "includeInGstReturn": false
     }
   ],
-  "totals": {
-    "subTotal": "48.5",
-    "totalTax": "4.39",
-    "totalAmount": "48.3"
-  },
   "newLine": {
     "units": "",
     "itemId": "",
@@ -172,7 +169,6 @@
     "discount": "",
     "jobId": "",
     "taxCodeId": "",
-    "amount": "",
     "lineTypeId": 17
   },
   "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"],

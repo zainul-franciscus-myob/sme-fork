@@ -144,16 +144,9 @@
     "description": "",
     "unitPrice": "",
     "discount": "",
-    "amount": "",
     "jobId": "",
     "taxCodeId": "",
     "lineSubTypeId": ""
-  },
-  "totals": {
-    "subTotal": "0",
-    "totalTax": "0",
-    "totalAmount": "0",
-    "amountDue": "0"
   },
   "subscription": {
     "monthlyLimit": {
