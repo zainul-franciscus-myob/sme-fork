@@ -9,3 +9,4 @@ export const CREATE_TRANSFER_MONEY = Symbol('Create a transfer money entry');
 export const SET_ALERT = Symbol('Set alert');
 export const OPEN_MODAL = Symbol('Open modal');
 export const CLOSE_MODAL = Symbol('Close modal');
+export const SET_DUPLICATE_ID = Symbol('Set duplicate id');

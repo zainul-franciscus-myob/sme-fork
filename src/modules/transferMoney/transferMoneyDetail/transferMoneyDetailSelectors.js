@@ -112,7 +112,7 @@ export const getLoadingState = state => state.loadingState;
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 export const getPageTitle = state => state.transferMoney.pageTitle;
-export const getDuplicateTransferMoneyId = state => state.duplicateTransferMoneyId;
+export const getDuplicateId = state => state.duplicateId;
 
 export const getModal = state => state.modal;
 export const getModalUrl = state => ((state.modal || {}).url);
@@ -141,7 +141,7 @@ export const getOpenedModalType = (state) => {
 
 export const getLoadTransferMoneyIntent = createSelector(
   getIsCreating,
-  getDuplicateTransferMoneyId,
+  getDuplicateId,
   (isCreating, duplicateId) => {
     if (isCreating) {
       return duplicateId ? LOAD_NEW_DUPLICATE_TRANSFER_MONEY : LOAD_NEW_TRANSFER_MONEY;
@@ -154,11 +154,11 @@ export const getLoadTransferMoneyUrlParams = createSelector(
   getIsCreating,
   getBusinessId,
   getTransferMoneyId,
-  getDuplicateTransferMoneyId,
-  (isCreating, businessId, transferMoneyId, duplicateTransferMoneyId) => {
+  getDuplicateId,
+  (isCreating, businessId, transferMoneyId, duplicateId) => {
     if (isCreating) {
-      return duplicateTransferMoneyId
-        ? { duplicateTransferMoneyId, businessId } : { businessId };
+      return duplicateId
+        ? { duplicateId, businessId } : { businessId };
     }
     return {
       businessId,
@@ -188,5 +188,3 @@ export const getCreateNewUrl = createSelector(
   getBusinessId,
   (region, businessId) => `/#/${region}/${businessId}/transferMoney/new`,
 );
-
-export const getDuplicateUrl = (state, spendMoneyId) => `${getCreateNewUrl(state)}?duplicateTransferMoneyId=${spendMoneyId}`;

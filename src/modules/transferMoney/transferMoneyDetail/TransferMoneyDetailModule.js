@@ -1,10 +1,9 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_TRANSFER_MONEY, SUCCESSFULLY_SAVED_TRANSFER_MONEY } from '../transferMoneyMessageTypes';
+import { DUPLICATE_TRANSFER_MONEY, SUCCESSFULLY_DELETED_TRANSFER_MONEY, SUCCESSFULLY_SAVED_TRANSFER_MONEY } from '../transferMoneyMessageTypes';
 import {
   getCreateNewUrl,
-  getDuplicateUrl,
   getIsActionsDisabled,
   getIsCreating,
   getModal,
@@ -27,12 +26,12 @@ import transferMoneyDetailReducer from './transferMoneyDetailReducer';
 
 export default class TransferMoneyDetailModule {
   constructor({
-    integration, setRootView, pushMessage, popMessages, reload,
+    integration, setRootView, pushMessage, popMessages, navigateTo,
   }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.popMessages = popMessages;
-    this.reload = reload;
+    this.navigateTo = navigateTo;
     this.store = new Store(transferMoneyDetailReducer);
     this.dispatcher = createTransferMoneyDetailDispatcher(this.store);
     this.integrator = createTransferMoneyDetailIntegrator(this.store, integration);
@@ -54,24 +53,14 @@ export default class TransferMoneyDetailModule {
   redirectToTransactionList = () => {
     const state = this.store.getState();
     const transactionListUrl = getTransactionListUrl(state);
-    this.redirectToUrl(transactionListUrl);
+    this.navigateTo(transactionListUrl);
   };
 
   handleOnDiscardClickFromUnsavedModal = () => {
     const state = this.store.getState();
     const url = getModalUrl(state);
 
-    this.redirectToUrlOrReloadModule(url);
-  }
-
-  redirectToUrlOrReloadModule = (url) => {
-    if (window.location.href.includes(url)) {
-      this.reload();
-    } else this.redirectToUrl(url);
-  }
-
-  redirectToUrl = (url) => {
-    window.location.href = url;
+    this.navigateTo(url);
   }
 
   dismissAlert = () => this.dispatcher.setAlert();
@@ -182,11 +171,15 @@ export default class TransferMoneyDetailModule {
   handleSaveAndAction = (actionType) => {
     const onPostCreate = (response) => {
       const state = this.store.getState();
-      if (actionType === SaveActionType.SAVE_AND_CREATE_NEW) {
-        this.redirectToUrlOrReloadModule(getCreateNewUrl(state));
-      } else if (actionType === SaveActionType.SAVE_AND_DUPLICATE) {
-        this.redirectToUrlOrReloadModule(getDuplicateUrl(state, response.id));
+
+      if (actionType === SaveActionType.SAVE_AND_DUPLICATE) {
+        this.pushMessage({
+          type: DUPLICATE_TRANSFER_MONEY,
+          duplicateId: response.id,
+        });
       }
+
+      this.navigateTo(getCreateNewUrl(state));
     };
 
     this.createTransferMoneyEntry(onPostCreate);
@@ -195,7 +188,7 @@ export default class TransferMoneyDetailModule {
   handleSaveAction = () => {
     const onPostCreate = () => {
       const url = getSaveUrl(this.store.getState());
-      this.redirectToUrlOrReloadModule(url);
+      this.navigateTo(url);
     };
 
     this.createTransferMoneyEntry(onPostCreate);
@@ -215,7 +208,6 @@ export default class TransferMoneyDetailModule {
       case ModalType.UNSAVED:
       default:
         this.handleSaveAction();
-        break;
     }
   }
 
@@ -224,13 +216,20 @@ export default class TransferMoneyDetailModule {
   };
 
   readMessages = () => {
-    const messageTypes = [SUCCESSFULLY_SAVED_TRANSFER_MONEY];
-    const [successMessage] = this.popMessages(messageTypes);
-
-    if (successMessage) {
-      const { content: message } = successMessage;
-      this.dispatcher.setAlert({ message, type: 'success' });
-    }
+    this.popMessages([
+      SUCCESSFULLY_SAVED_TRANSFER_MONEY,
+      DUPLICATE_TRANSFER_MONEY,
+    ]).forEach(message => {
+      switch (message.type) {
+        case SUCCESSFULLY_SAVED_TRANSFER_MONEY:
+          this.dispatcher.setAlert({ message: message.content, type: 'success' });
+          break;
+        case DUPLICATE_TRANSFER_MONEY:
+          this.dispatcher.setDuplicateId(message.duplicateId);
+          break;
+        default:
+      }
+    });
   };
 
   run(context) {
@@ -247,7 +246,7 @@ export default class TransferMoneyDetailModule {
     if (isPageEdited(state)) {
       this.openUnsavedModal(url);
     } else {
-      this.redirectToUrl(url);
+      this.navigateTo(url);
     }
   }
 }

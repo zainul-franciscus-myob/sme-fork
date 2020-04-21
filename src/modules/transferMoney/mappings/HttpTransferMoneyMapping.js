@@ -13,7 +13,7 @@ const HttpTransferMoneyMapping = {
   },
   [LOAD_NEW_DUPLICATE_TRANSFER_MONEY]: {
     method: 'GET',
-    getPath: ({ businessId, duplicateTransferMoneyId }) => `/${businessId}/transferMoney/load_new_duplicate_transfer_money/${duplicateTransferMoneyId}`,
+    getPath: ({ businessId, duplicateId }) => `/${businessId}/transferMoney/load_new_duplicate_transfer_money/${duplicateId}`,
   },
   [CREATE_TRANSFER_MONEY]: {
     method: 'POST',

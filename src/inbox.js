@@ -8,10 +8,10 @@ export default class Inbox {
   }
 
   popMessages = (types = []) => {
-    const messsages = this.inbox.filter(({ type }) => types.includes(type));
+    const messages = this.inbox.filter(({ type }) => types.includes(type));
 
     this.inbox = [];
-    return messsages;
+    return messages;
   }
 
   clearInbox = () => {

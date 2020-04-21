@@ -4,6 +4,7 @@ import {
   LOAD_TRANSFER_MONEY_DETAIL,
   OPEN_MODAL,
   SET_ALERT,
+  SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_FORM,
@@ -14,7 +15,7 @@ import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
-  duplicateTransferMoneyId: '',
+  duplicateId: '',
   transferMoneyId: '',
   transferMoney: {
     referenceId: '',
@@ -97,6 +98,11 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
+const setDuplicateId = (state, action) => ({
+  ...state,
+  duplicateId: action.duplicateId,
+});
+
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [LOAD_TRANSFER_MONEY_DETAIL]: loadTransferMoneyDetail,
@@ -108,6 +114,7 @@ const handlers = {
   [CLOSE_MODAL]: closeModal,
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
+  [SET_DUPLICATE_ID]: setDuplicateId,
 };
 
 const transferMoneyReducer = createReducer(getDefaultState(), handlers);

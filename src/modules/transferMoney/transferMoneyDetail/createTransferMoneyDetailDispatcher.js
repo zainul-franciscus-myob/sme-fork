@@ -4,6 +4,7 @@ import {
   LOAD_TRANSFER_MONEY_DETAIL,
   OPEN_MODAL,
   SET_ALERT,
+  SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_FORM,
@@ -70,6 +71,12 @@ const createTransferMoneyDetailDispatcher = store => ({
   resetState: () => {
     store.dispatch({
       intent: RESET_STATE,
+    });
+  },
+  setDuplicateId: (duplicateId) => {
+    store.dispatch({
+      intent: SET_DUPLICATE_ID,
+      duplicateId,
     });
   },
 });

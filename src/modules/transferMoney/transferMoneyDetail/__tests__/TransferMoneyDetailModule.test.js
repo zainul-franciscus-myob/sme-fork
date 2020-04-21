@@ -2,16 +2,18 @@ import {
   CLOSE_MODAL,
   CREATE_TRANSFER_MONEY,
   DELETE_TRANSFER_MONEY,
+  LOAD_NEW_DUPLICATE_TRANSFER_MONEY,
   LOAD_NEW_TRANSFER_MONEY,
   LOAD_TRANSFER_MONEY_DETAIL,
   OPEN_MODAL,
   SET_ALERT,
+  SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_FORM,
 } from '../../TransferMoneyIntents';
+import { DUPLICATE_TRANSFER_MONEY, SUCCESSFULLY_DELETED_TRANSFER_MONEY, SUCCESSFULLY_SAVED_TRANSFER_MONEY } from '../../transferMoneyMessageTypes';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
-import { SUCCESSFULLY_DELETED_TRANSFER_MONEY, SUCCESSFULLY_SAVED_TRANSFER_MONEY } from '../../transferMoneyMessageTypes';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import ModalType from '../../ModalType';
 import SaveActionType from '../../SaveActionType';
@@ -156,6 +158,78 @@ describe('TransferMoneyDetailModule', () => {
         });
       });
     });
+
+    it('displays success save message', () => {
+      const { module, store } = setup();
+      module.popMessages = () => [
+        {
+          type: SUCCESSFULLY_SAVED_TRANSFER_MONEY,
+          content: '🦄',
+        },
+      ];
+
+      module.run({ transferMoneyId: 'new' });
+
+      expect(store.getActions()).toContainEqual({
+        intent: SET_ALERT,
+        alert: {
+          type: 'success',
+          message: '🦄',
+        },
+      });
+    });
+
+    it('loads duplicate when receive duplicate message', () => {
+      const { module, store, integration } = setup();
+      module.popMessages = () => [
+        {
+          type: DUPLICATE_TRANSFER_MONEY,
+          duplicateId: '🦖',
+        },
+      ];
+
+      module.run({
+        businessId: '👋',
+        region: 'au',
+        transferMoneyId: 'new',
+      });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_INITIAL_STATE,
+          context: {
+            businessId: '👋',
+            region: 'au',
+            transferMoneyId: 'new',
+          },
+        },
+        {
+          intent: SET_DUPLICATE_ID,
+          duplicateId: '🦖',
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING,
+        },
+        expect.objectContaining({
+          intent: LOAD_NEW_TRANSFER_MONEY,
+        }),
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_NEW_DUPLICATE_TRANSFER_MONEY,
+          urlParams: {
+            businessId: '👋',
+            duplicateId: '🦖',
+          },
+        }),
+      ]);
+    });
   });
 
   describe('deleteTransferMoney', () => {
@@ -183,7 +257,7 @@ describe('TransferMoneyDetailModule', () => {
     describe('successfully delete', () => {
       const { module, store, integration } = setupWithOpenDeleteModal();
       module.pushMessage = jest.fn();
-      module.redirectToUrl = jest.fn();
+      module.navigateTo = jest.fn();
 
       module.deleteTransferMoney();
 
@@ -205,7 +279,7 @@ describe('TransferMoneyDetailModule', () => {
         type: SUCCESSFULLY_DELETED_TRANSFER_MONEY,
         content: expect.any(String),
       });
-      expect(module.redirectToUrl).toHaveBeenCalledWith('/#/au/👋/transactionList');
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/👋/transactionList');
     });
 
     describe('fail to delete', () => {
@@ -240,12 +314,10 @@ describe('TransferMoneyDetailModule', () => {
     });
   });
 
-  // TODO: Test redirection after create for save and save from unsaved modal once
-  // Nav spike is done
   describe('handleSaveAction', () => {
     it('successfully create', () => {
       const { module, store, integration } = setupWithNew();
-      module.redirectToUrl = jest.fn();
+      module.navigateTo = jest.fn();
       module.pushMessage = jest.fn();
 
       module.handleSaveAction();
@@ -261,7 +333,7 @@ describe('TransferMoneyDetailModule', () => {
           intent: CREATE_TRANSFER_MONEY,
         }),
       ]);
-      expect(module.redirectToUrl).toHaveBeenCalledWith('/#/au/👋/transactionList');
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/👋/transactionList');
       expect(module.pushMessage).toHaveBeenCalledWith({
         type: SUCCESSFULLY_SAVED_TRANSFER_MONEY,
         content: expect.any(String),
@@ -345,15 +417,15 @@ describe('TransferMoneyDetailModule', () => {
   describe('handleSaveActionAnd', () => {
     [
       {
-        action: SaveActionType.SAVE_AND_CREATE_NEW, url: '/#/au/👋/transferMoney/new',
+        action: SaveActionType.SAVE_AND_CREATE_NEW,
       },
       {
-        action: SaveActionType.SAVE_AND_DUPLICATE, url: '/#/au/👋/transferMoney/new?duplicateTransferMoneyId=123',
+        action: SaveActionType.SAVE_AND_DUPLICATE,
       },
-    ].forEach(({ action, url }) => {
+    ].forEach(({ action }) => {
       it(`successfully create when ${action}`, () => {
         const { module, store, integration } = setupWithNew();
-        module.redirectToUrl = jest.fn();
+        module.navigateTo = jest.fn();
         module.pushMessage = jest.fn();
 
         module.handleSaveAndAction(action);
@@ -369,10 +441,23 @@ describe('TransferMoneyDetailModule', () => {
             intent: CREATE_TRANSFER_MONEY,
           }),
         ]);
-        expect(module.redirectToUrl).toHaveBeenCalledWith(url);
+        expect(module.navigateTo).toHaveBeenCalledWith('/#/au/👋/transferMoney/new');
         expect(module.pushMessage).toHaveBeenCalledWith({
           type: SUCCESSFULLY_SAVED_TRANSFER_MONEY,
           content: expect.any(String),
+        });
+      });
+
+      it('pushes message with id when save and duplicate', () => {
+        const { module } = setupWithNew();
+        module.navigateTo = jest.fn();
+        module.pushMessage = jest.fn();
+
+        module.handleSaveAndAction(SaveActionType.SAVE_AND_DUPLICATE);
+
+        expect(module.pushMessage).toHaveBeenCalledWith({
+          type: DUPLICATE_TRANSFER_MONEY,
+          duplicateId: '123',
         });
       });
 
@@ -421,7 +506,7 @@ describe('TransferMoneyDetailModule', () => {
     // TODO: Test redirect after save once Nav Spike is done
     it('should save when an unsaved modal is open', () => {
       const { module, store, integration } = setupWithEditedPage();
-      module.reload = jest.fn();
+      module.navigateTo = jest.fn();
       module.openUnsavedModal();
       store.resetActions();
 
@@ -432,6 +517,7 @@ describe('TransferMoneyDetailModule', () => {
           intent: CREATE_TRANSFER_MONEY,
         }),
       ]);
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/👋/transactionList');
     });
 
     it('does nothing when already submitting', () => {
@@ -497,23 +583,23 @@ describe('TransferMoneyDetailModule', () => {
 
     it('redirects when page not edited', () => {
       const { module, store } = setupWithNew();
-      module.redirectToUrl = jest.fn();
+      module.navigateTo = jest.fn();
 
       module.openCancelModal();
 
       expect(store.getActions()).toEqual([]);
-      expect(module.redirectToUrl).toHaveBeenCalledWith('/#/au/👋/transactionList');
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/👋/transactionList');
     });
   });
 
   describe('handlePageTransition', () => {
     it('redirects to url when not edited', () => {
       const { module } = setupWithNew();
-      module.redirectToUrl = jest.fn();
+      module.navigateTo = jest.fn();
 
       module.handlePageTransition('🤪');
 
-      expect(module.redirectToUrl).toHaveBeenCalledWith('🤪');
+      expect(module.navigateTo).toHaveBeenCalledWith('🤪');
     });
 
     it('opens unsaved modal when edited', () => {
