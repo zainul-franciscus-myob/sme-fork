@@ -9,7 +9,7 @@ const calculate = createTaxCalculator(TaxCalculatorTypes.receiveMoney);
 
 export const getIsLineEdited = state => state.isLineEdited;
 export const getIsCreating = state => state.receiveMoneyId === 'new';
-export const getDuplicateReceiveMoneyIdQueryParam = (state) => state.duplicateReceiveMoneyId;
+export const getDuplicateId = (state) => state.duplicateId;
 
 const getReferenceId = state => state.receiveMoney.referenceId;
 const getSelectedDepositIntoId = state => state.receiveMoney.selectedDepositIntoAccountId;
@@ -76,8 +76,6 @@ export const getNewLineData = state => state.newLine;
 export const getIndexOfLastLine = state => state.receiveMoney.lines.length - 1;
 
 export const getReceiveMoney = state => state.receiveMoney;
-
-export const getReceiveMoneyId = state => state.receiveMoney.id;
 
 export const getTotals = state => state.totals;
 

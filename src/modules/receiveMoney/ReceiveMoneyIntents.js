@@ -20,4 +20,4 @@ export const LOAD_CONTACT_AFTER_CREATE = Symbol('Load contact after create');
 export const SET_CONTACT_LOADING_STATE = Symbol('Set contact loading state');
 
 export const LOAD_DUPLICATE_RECEIVE_MONEY = Symbol('Load a duplicate receive money entry');
-export const UPDATE_ID_AFTER_CREATE = Symbol('Update receive money id after creating an entry');
+export const SET_DUPLICATE_ID = Symbol('Set duplicate id');

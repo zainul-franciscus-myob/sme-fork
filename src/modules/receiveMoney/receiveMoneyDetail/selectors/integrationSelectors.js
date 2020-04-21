@@ -1,7 +1,7 @@
 import { LOAD_DUPLICATE_RECEIVE_MONEY, LOAD_NEW_RECEIVE_MONEY, LOAD_RECEIVE_MONEY_DETAIL } from '../../ReceiveMoneyIntents';
 import {
   getBusinessId,
-  getDuplicateReceiveMoneyIdQueryParam,
+  getDuplicateId,
   getIsCreating,
   getReceiveMoney,
 } from './receiveMoneyDetailSelectors';
@@ -10,8 +10,8 @@ export const getLoadReceiveMoneyIntent = (state) => {
   const isCreating = getIsCreating(state);
 
   if (isCreating) {
-    const duplicateReceiveMoneyId = getDuplicateReceiveMoneyIdQueryParam(state);
-    if (duplicateReceiveMoneyId) {
+    const duplicateId = getDuplicateId(state);
+    if (duplicateId) {
       return LOAD_DUPLICATE_RECEIVE_MONEY;
     }
 
@@ -61,13 +61,13 @@ export const getUrlParams = (state) => {
   const businessId = getBusinessId(state);
   const isCreating = getIsCreating(state);
   const receiveMoneyId = isCreating ? undefined : state.receiveMoneyId;
-  const duplicateReceiveMoneyId = isCreating
-    ? getDuplicateReceiveMoneyIdQueryParam(state)
+  const duplicateId = isCreating
+    ? getDuplicateId(state)
     : undefined;
 
   return {
     businessId,
     receiveMoneyId,
-    duplicateReceiveMoneyId,
+    duplicateId,
   };
 };

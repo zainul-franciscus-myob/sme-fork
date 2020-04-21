@@ -9,9 +9,9 @@ import {
   RESET_TOTALS,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
+  SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
-  UPDATE_ID_AFTER_CREATE,
   UPDATE_RECEIVE_MONEY_HEADER,
   UPDATE_RECEIVE_MONEY_LINE,
 } from '../ReceiveMoneyIntents';
@@ -145,9 +145,9 @@ const createReceiveMoneyDetailDispatcher = ({ store }) => ({
     intent: LOAD_CONTACT_AFTER_CREATE,
     ...payload,
   }),
-  updateIdAfterCreate: id => store.dispatch({
-    intent: UPDATE_ID_AFTER_CREATE,
-    id,
+  setDuplicateId: duplicateId => store.dispatch({
+    intent: SET_DUPLICATE_ID,
+    duplicateId,
   }),
 });
 

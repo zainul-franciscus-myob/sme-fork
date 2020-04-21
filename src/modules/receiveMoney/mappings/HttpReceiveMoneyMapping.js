@@ -40,7 +40,7 @@ const HttpReceiveMoneyMapping = {
   },
   [LOAD_DUPLICATE_RECEIVE_MONEY]: {
     method: 'GET',
-    getPath: ({ businessId, duplicateReceiveMoneyId }) => `/${businessId}/receiveMoney/load_duplicate_receive_money_detail/${duplicateReceiveMoneyId}`,
+    getPath: ({ businessId, duplicateId }) => `/${businessId}/receiveMoney/load_duplicate_receive_money_detail/${duplicateId}`,
   },
 };
 

@@ -8,15 +8,15 @@ import {
   LOAD_RECEIVE_MONEY_DETAIL,
   OPEN_MODAL,
   SET_ALERT,
+  SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
-  UPDATE_ID_AFTER_CREATE,
   UPDATE_RECEIVE_MONEY,
   UPDATE_RECEIVE_MONEY_HEADER,
   UPDATE_RECEIVE_MONEY_LINE,
 } from '../../ReceiveMoneyIntents';
+import { DUPLICATE_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY } from '../../receiveMoneyMessageTypes';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
-import { SUCCESSFULLY_SAVED_RECEIVE_MONEY } from '../../receiveMoneyMessageTypes';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import ModalType from '../../ModalType';
 import ReceiveMoneyDetailModule from '../ReceiveMoneyDetailModule';
@@ -35,14 +35,12 @@ const setup = () => {
   const setRootView = () => { };
   const pushMessage = () => { };
   const popMessages = () => [];
-  const reload = () => {};
 
   const module = new ReceiveMoneyDetailModule({
     integration,
     setRootView,
     pushMessage,
     popMessages,
-    reload,
     featureToggles: { isReceiveMoneyJobColumnEnabled: true },
   });
   module.store = store;
@@ -56,7 +54,11 @@ export const setupWithNew = () => {
   const toolbox = setup();
   const { store, integration, module } = toolbox;
 
-  module.run({ receiveMoneyId: 'new', businessId: 'bizId' });
+  module.run({
+    receiveMoneyId: 'new',
+    businessId: 'bizId',
+    region: 'au',
+  });
   store.resetActions();
   integration.resetRequests();
 
@@ -67,7 +69,11 @@ const setupWithExisting = () => {
   const toolbox = setup();
   const { store, integration, module } = toolbox;
 
-  module.run({ receiveMoneyId: '1' });
+  module.run({
+    receiveMoneyId: '1',
+    businessId: 'bizId',
+    region: 'au',
+  });
   store.resetActions();
   integration.resetRequests();
 
@@ -78,7 +84,12 @@ const setupWithDuplicate = () => {
   const toolbox = setup();
   const { store, integration, module } = toolbox;
 
-  module.run({ receiveMoneyId: 'new', duplicateReceiveMoneyId: '2' });
+  module.run({
+    receiveMoneyId: 'new',
+    duplicateId: '2',
+    businessId: 'bizId',
+    region: 'au',
+  });
   store.resetActions();
   integration.resetRequests();
 
@@ -90,7 +101,11 @@ export const setUpWithPageEdited = () => {
   const toolbox = setup();
   const { store, integration, module } = toolbox;
 
-  module.run({ receiveMoneyId: '1' });
+  module.run({
+    businessId: 'bizId',
+    region: 'au',
+    receiveMoneyId: '1',
+  });
   const lineIndex = 0;
   const lineKey = 'amount';
   const lineValue = '1.00';
@@ -164,13 +179,21 @@ describe('ReceiveMoneyDetailModule', () => {
 
     it('should successfully load with duplicate', () => {
       const { store, integration, module } = setup();
+      module.popMessages = () => [{
+        type: DUPLICATE_RECEIVE_MONEY,
+        duplicateId: '🦖',
+      }];
 
-      module.run({ receiveMoneyId: 'new', duplicateReceiveMoneyId: '1' });
+      module.run({ businessId: 'bizId', receiveMoneyId: 'new' });
 
       expect(store.getActions()).toEqual([
         expect.objectContaining({
           intent: SET_INITIAL_STATE,
         }),
+        {
+          intent: SET_DUPLICATE_ID,
+          duplicateId: '🦖',
+        },
         {
           intent: SET_LOADING_STATE,
           loadingState: LoadingState.LOADING,
@@ -187,6 +210,10 @@ describe('ReceiveMoneyDetailModule', () => {
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: LOAD_DUPLICATE_RECEIVE_MONEY,
+          urlParams: {
+            businessId: 'bizId',
+            duplicateId: '🦖',
+          },
         }),
       ]);
     });
@@ -222,7 +249,7 @@ describe('ReceiveMoneyDetailModule', () => {
   describe('deleteReceiveMoney', () => {
     it('should delete', () => {
       const { store, integration, module } = setupWithExisting();
-      module.redirectToUrl = jest.fn();
+      module.navigateTo = jest.fn();
 
       module.deleteReceiveMoney();
       const actions = store.getActions();
@@ -238,7 +265,7 @@ describe('ReceiveMoneyDetailModule', () => {
         }),
       ]);
 
-      expect(module.redirectToUrl).toHaveBeenCalled();
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/transactionList');
     });
 
     it('should fail', () => {
@@ -267,6 +294,7 @@ describe('ReceiveMoneyDetailModule', () => {
   describe('saveReceiveMoney', () => {
     it('should create', () => {
       const { store, integration, module } = setupWithNew();
+      module.navigateTo = jest.fn();
       module.pushMessage = jest.fn();
 
       module.saveReceiveMoney();
@@ -291,10 +319,12 @@ describe('ReceiveMoneyDetailModule', () => {
       expect(module.pushMessage).toHaveBeenCalledWith(
         expect.objectContaining({ type: SUCCESSFULLY_SAVED_RECEIVE_MONEY }),
       );
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/transactionList');
     });
 
     it('should update', () => {
       const { store, integration, module } = setupWithExisting();
+      module.navigateTo = jest.fn();
       module.pushMessage = jest.fn();
 
       module.saveReceiveMoney();
@@ -319,6 +349,7 @@ describe('ReceiveMoneyDetailModule', () => {
       expect(module.pushMessage).toHaveBeenCalledWith(
         expect.objectContaining({ type: SUCCESSFULLY_SAVED_RECEIVE_MONEY }),
       );
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/transactionList');
     });
 
     it('should fail', () => {
@@ -399,21 +430,18 @@ describe('ReceiveMoneyDetailModule', () => {
   });
 
   describe('saveAndDuplicate', () => {
-    it('should update id after creating a receive money', () => {
+    it('successfully save and redirect', () => {
       const { store, integration, module } = setupWithNew();
-      integration.mapSuccess(CREATE_RECEIVE_MONEY, { id: '1' });
+      integration.mapSuccess(CREATE_RECEIVE_MONEY, { message: '🙏', id: '1' });
+      module.navigateTo = jest.fn();
+      module.pushMessage = jest.fn();
 
-      module.redirectToUrl = jest.fn();
       module.saveAnd(SaveActionType.SAVE_AND_DUPLICATE);
 
       expect(store.getActions()).toEqual([
         {
           intent: SET_SUBMITTING_STATE,
           isSubmitting: true,
-        },
-        {
-          intent: UPDATE_ID_AFTER_CREATE,
-          id: '1',
         },
       ]);
       expect(integration.getRequests()).toEqual([
@@ -421,57 +449,23 @@ describe('ReceiveMoneyDetailModule', () => {
           intent: CREATE_RECEIVE_MONEY,
         }),
       ]);
-      expect(module.redirectToUrl).toHaveBeenCalled();
-    });
-
-    it('should not update id if we\'re updating an existing receive money', () => {
-      const { store, integration, module } = setupWithExisting();
-
-      module.redirectToUrl = jest.fn();
-      module.saveAnd(SaveActionType.SAVE_AND_DUPLICATE);
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: SET_SUBMITTING_STATE,
-          isSubmitting: true,
-        },
-      ]);
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: UPDATE_RECEIVE_MONEY,
-        }),
-      ]);
-      expect(module.redirectToUrl).toHaveBeenCalled();
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: SUCCESSFULLY_SAVED_RECEIVE_MONEY,
+        content: '🙏',
+      });
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: DUPLICATE_RECEIVE_MONEY,
+        duplicateId: '1',
+      });
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/receiveMoney/new');
     });
   });
 
   describe('saveAndCreateNew', () => {
-    it('should reload if user on create receive money page', () => {
-      const { store, integration, module } = setupWithNew();
-
-      module.reload = jest.fn();
-      module.saveAnd(SaveActionType.SAVE_AND_CREATE_NEW);
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: SET_SUBMITTING_STATE,
-          isSubmitting: true,
-        },
-      ]);
-
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: CREATE_RECEIVE_MONEY,
-        }),
-      ]);
-
-      expect(module.reload).toHaveBeenCalled();
-    });
-
-    it('should navigate to create receive money page if user on duplicate receive money page', () => {
+    it('should save and navigate to create receive money page', () => {
       const { store, integration, module } = setupWithDuplicate();
+      module.navigateTo = jest.fn();
 
-      module.redirectToUrl = jest.fn();
       module.saveAnd(SaveActionType.SAVE_AND_CREATE_NEW);
 
       expect(store.getActions()).toEqual([
@@ -487,7 +481,7 @@ describe('ReceiveMoneyDetailModule', () => {
         }),
       ]);
 
-      expect(module.redirectToUrl).toHaveBeenCalled();
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/receiveMoney/new');
     });
   });
 
@@ -563,11 +557,11 @@ describe('ReceiveMoneyDetailModule', () => {
 
     it('should redirect to transaction list', () => {
       const { module } = setupWithExisting();
+      module.navigateTo = jest.fn();
 
-      module.redirectToUrl = jest.fn();
       module.openCancelModal();
 
-      expect(module.redirectToUrl).toHaveBeenCalled();
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/transactionList');
     });
   });
 
@@ -606,15 +600,14 @@ describe('ReceiveMoneyDetailModule', () => {
       ]);
     });
 
-    // TODO: Test redirect after save once Nav Spike is done
     it('should redirect to a url', () => {
       const { module } = setupWithExisting();
-      module.redirectToUrl = jest.fn();
+      module.navigateTo = jest.fn();
 
       const url = 'some-url';
 
       module.handlePageTransition(url);
-      expect(module.redirectToUrl).toHaveBeenCalledWith(url);
+      expect(module.navigateTo).toHaveBeenCalledWith(url);
     });
   });
 
@@ -637,24 +630,33 @@ describe('ReceiveMoneyDetailModule', () => {
       expect(store.getActions()).toEqual([]);
     });
 
-    // TODO: Test redirect after save once Nav Spike is done
     it('should save when an unsaved modal is open', () => {
       const { module, store, integration } = setUpWithPageEdited();
-      module.reload = jest.fn();
+      module.navigateTo = jest.fn();
       module.openUnsavedModal();
       store.resetActions();
 
       module.saveHandler();
+
       expect(store.getActions()).not.toEqual([]);
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: UPDATE_RECEIVE_MONEY,
         }),
       ]);
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/transactionList');
     });
   });
 
-  // @TODO: Test this once Nav spike is done
-  // describe('handleOnDiscardClickFromUnsavedModal', () => {
-  // });
+  describe('handleOnDiscardClickFromUnsavedModal', () => {
+    it('navigate to pending url', () => {
+      const { module } = setUpWithPageEdited();
+      module.navigateTo = jest.fn();
+      module.openUnsavedModal('😻');
+
+      module.saveHandler();
+
+      expect(module.navigateTo).toHaveBeenCalledWith('😻');
+    });
+  });
 });

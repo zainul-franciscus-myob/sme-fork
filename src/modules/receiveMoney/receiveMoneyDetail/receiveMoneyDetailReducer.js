@@ -12,9 +12,9 @@ import {
   RESET_TOTALS,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
+  SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
-  UPDATE_ID_AFTER_CREATE,
   UPDATE_RECEIVE_MONEY_HEADER,
   UPDATE_RECEIVE_MONEY_LINE,
 } from '../ReceiveMoneyIntents';
@@ -38,7 +38,7 @@ const getDefaultState = () => ({
     lines: [],
   },
   receiveMoneyId: '', // the 'id' extracted from the URL
-  duplicateReceiveMoneyId: '',
+  duplicateId: '',
   newLine: {
     accountId: '',
     amount: '',
@@ -215,14 +215,6 @@ const loadContactAfterCreate = (state, { intent, ...contact }) => ({
   isPageEdited: true,
 });
 
-const updateIdAfterCreate = (state, { id }) => ({
-  ...state,
-  receiveMoney: {
-    ...state.receiveMoney,
-    id,
-  },
-});
-
 const resetTotals = state => ({
   ...state,
   totals: getDefaultState().totals,
@@ -231,6 +223,11 @@ const resetTotals = state => ({
 const setInitialState = (state, action) => ({
   ...state,
   ...action.context,
+});
+
+const setDuplicateId = (state, action) => ({
+  ...state,
+  duplicateId: action.duplicateId,
 });
 
 const handlers = {
@@ -253,7 +250,7 @@ const handlers = {
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [SET_CONTACT_LOADING_STATE]: setContactLoadingState,
   [LOAD_CONTACT_AFTER_CREATE]: loadContactAfterCreate,
-  [UPDATE_ID_AFTER_CREATE]: updateIdAfterCreate,
+  [SET_DUPLICATE_ID]: setDuplicateId,
 };
 const receiveMoneyReducer = createReducer(getDefaultState(), handlers);
 
