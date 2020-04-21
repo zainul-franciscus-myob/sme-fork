@@ -16,25 +16,24 @@ import styles from './PrepareBasView.module.css';
 
 const openNewTab = url => () => window.open(url);
 
-const PrepareBasView = ({ lodgeStatementLink }) => (
+const GstAndProvisionalTaxView = ({ lodgeStatementLink }) => (
   <SmallScreenTemplate>
-    <PageHead title="Prepare BAS or IAS" />
+    <PageHead title="GST and provisional tax" />
     <Card
       body={
         <Card.Body
           classes={[styles.container]}
           child={
             <>
-              <img className={styles.illustration} src={illustrationBAS} alt="Prepare BAS or IAS" />
+              <img className={styles.illustration} src={illustrationBAS} alt="GST and provisional tax" />
               <div>
                 <p className={styles.text}>
-                  We&lsquo;ll save you time preparing your next activity statement
-                  (BAS or IAS) by using the information
-                  in your business to fill in some of the details.
+                  We&lsquo;ll save you time preparing your next GST return by
+                  using the information in your business to fill in some of the details.
                 </p>
                 <p className={styles.text}>
-                  Once you&lsquo;ve filled in the required fields you can lodge
-                  online and get confirmation from ATO within seconds.
+                  Once you&lsquo;ve filled in the required fields you can file online
+                  and get confirmation from Inland revenue within seconds.
                 </p>
                 <Button
                   className={styles.button}
@@ -58,4 +57,4 @@ const mapStateToProps = state => ({
   lodgeStatementLink: getLodgeStatementLink(state),
 });
 
-export default connect(mapStateToProps)(PrepareBasView);
+export default connect(mapStateToProps)(GstAndProvisionalTaxView);

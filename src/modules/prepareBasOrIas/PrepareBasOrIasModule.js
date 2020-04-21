@@ -5,7 +5,8 @@ import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../SystemIntents';
-import PrepareBasView from './components/PrepareBasView';
+import { getRegion } from './prepareBasSelectors';
+import RegionToTaxActivityViewMapping from './RegionToTaxActivityViewMapping';
 import Store from '../../store/Store';
 import prepareBasOrIasReducer from './prepareBasOrIasReducer';
 
@@ -19,13 +20,14 @@ export default class PrepareBasOrIasModule {
   }
 
   render = () => {
-    const prepareBasView = (
-      <PrepareBasView />
-    );
+    const state = this.store.getState();
+    const region = getRegion(state);
+
+    const TaxActivityView = RegionToTaxActivityViewMapping[region];
 
     const wrappedView = (
       <Provider store={this.store}>
-        {prepareBasView}
+        <TaxActivityView />
       </Provider>
     );
 
