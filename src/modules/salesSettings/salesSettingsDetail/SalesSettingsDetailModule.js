@@ -10,13 +10,13 @@ import {
   getModalType,
   getNewSortOrder,
   getPendingDeleteTemplate,
+  getPendingTab,
   getRegion,
   getSalesSettingsPayload,
   getSelectedTab,
   getShowOnlinePaymentOptions,
   getSortOrder,
   getTabData,
-  getUrlTabParams,
 } from './SalesSettingsDetailSelectors';
 import { mainTabIds } from './tabItems';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -117,14 +117,17 @@ export default class SalesSettingsModule {
       this.dispatcher.openModal(modalTypes.switchTab);
     } else {
       this.dispatcher.setTab(selectedTab);
+      this.replaceURLParams({ selectedTab });
     }
   };
 
   onConfirmSwitchTab = () => {
     const state = this.store.getState();
+    const pendingTab = getPendingTab(state);
 
-    this.dispatcher.setTab(state.pendingTab);
+    this.dispatcher.setTab(pendingTab);
     this.dispatcher.closeModal();
+    this.replaceURLParams({ selectedTab: pendingTab });
   };
 
   closeModal = () => this.dispatcher.closeModal();
@@ -290,11 +293,8 @@ export default class SalesSettingsModule {
     }
   };
 
-  updateURLFromState = state => this.replaceURLParams(getUrlTabParams(state));
-
   run = (context) => {
     this.dispatcher.setInitialState(context);
-    this.store.subscribe(this.updateURLFromState);
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     setupHotKeys(keyMap, this.handlers);

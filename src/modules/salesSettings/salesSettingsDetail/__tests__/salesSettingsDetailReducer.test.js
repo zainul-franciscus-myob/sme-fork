@@ -3,10 +3,47 @@ import {
   SET_TAB,
   UPDATE_SALES_SETTINGS_ITEM,
 } from '../../SalesSettingsIntents';
+import { SET_INITIAL_STATE } from '../../../../SystemIntents';
+import { mainTabIds } from '../tabItems';
 import salesSettingsDetailReducer from '../salesSettingsDetailReducer';
 
 describe('salesSettingsReducer', () => {
   const reducer = salesSettingsDetailReducer;
+
+  describe('setInitialState', () => {
+    const action = {
+      intent: SET_INITIAL_STATE,
+      context: {
+        businessId: '🦖',
+        region: '🦕',
+        selectedTab: mainTabIds.templates,
+      },
+    };
+
+    describe('puts context into state', () => {
+      const actual = reducer({}, action);
+
+      expect(actual).toEqual({
+        businessId: '🦖',
+        region: '🦕',
+        selectedTab: mainTabIds.templates,
+      });
+    });
+
+    describe(`use ${mainTabIds.layoutAndTheme} when unknown selectedTab`, () => {
+      const modifiedAction = {
+        ...action,
+        context: {
+          ...action.context,
+          selectedTab: '🐛',
+        },
+      };
+
+      const actual = reducer({}, modifiedAction);
+
+      expect(actual.selectedTab).toEqual(mainTabIds.layoutAndTheme);
+    });
+  });
 
   describe('updateSalesSettingsItem', () => {
     it('updates sales settings for CashOnDelivery', () => {

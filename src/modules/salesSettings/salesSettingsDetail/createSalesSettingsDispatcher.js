@@ -57,7 +57,6 @@ const createSalesSettingsDispatcher = store => ({
     store.dispatch({
       intent: SET_TAB,
       selectedTab,
-      pendingTab: '',
     });
   },
 

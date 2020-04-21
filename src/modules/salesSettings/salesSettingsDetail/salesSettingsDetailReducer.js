@@ -95,10 +95,16 @@ const setLoadingState = (state, { loadingState }) => ({
   loadingState,
 });
 
-const setInitialState = (state, action) => ({
-  ...state,
-  ...action.context,
-});
+const setInitialState = (state, action) => {
+  const { selectedTab } = action.context;
+  const isKnownTabId = Object.keys(mainTabIds).includes(selectedTab);
+
+  return {
+    ...state,
+    ...action.context,
+    selectedTab: isKnownTabId ? selectedTab : mainTabIds.layoutAndTheme,
+  };
+};
 
 const setAlert = (state, action) => ({
   ...state,

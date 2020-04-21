@@ -1,6 +1,6 @@
-import { createSelector, createStructuredSelector } from 'reselect';
+import { createSelector } from 'reselect';
 
-import { mainTabIds, mainTabItems } from './tabItems';
+import { mainTabItems } from './tabItems';
 import Region from '../../../common/types/Region';
 
 export const getLoadingState = state => state.loadingState;
@@ -141,16 +141,4 @@ export const getOnlinePaymentOptions = createSelector(
   },
 );
 
-export const getTab = createSelector(
-  getSelectedTab,
-  (stateTab) => {
-    const tabIdKeys = Object.keys(mainTabIds);
-    const isValidTab = tabIdKeys.includes(stateTab);
-
-    return isValidTab ? stateTab : mainTabIds.layoutAndTheme;
-  },
-);
-
-export const getUrlTabParams = createStructuredSelector({
-  selectedTab: getTab,
-});
+export const getPendingTab = state => state.pendingTab;
