@@ -13,5 +13,5 @@ export default {
   isBillJobColumnEnabled: true,
   isReceiveMoneyJobColumnEnabled: true,
   isSpendMoneyJobColumnEnabled: true,
-  isJobKeeperTabEnabled: false,
+  isJobKeeperTabEnabled: true,
 };

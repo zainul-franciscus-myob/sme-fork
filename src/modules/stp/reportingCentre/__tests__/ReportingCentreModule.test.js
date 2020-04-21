@@ -74,14 +74,14 @@ describe('ReportingCentreModule', () => {
       const wrapper = setupModule('registered', tabIds.reports, true, { isJobKeeperTabEnabled: true });
 
       const tabs = wrapper.find(Tabs);
-      expect(tabs.prop('items').find(item => item.id === tabIds.jobKeeperPayments)).toBeTruthy();
+      expect(tabs.prop('items').find(item => item.id === tabIds.jobKeeper)).toBeTruthy();
     });
 
     it('does not show if the feature toggle is on', () => {
       const wrapper = setupModule('registered', tabIds.reports, true);
 
       const tabs = wrapper.find(Tabs);
-      expect(tabs.prop('items').find(item => item.id === tabIds.jobKeeperPayments)).toBeFalsy();
+      expect(tabs.prop('items').find(item => item.id === tabIds.jobKeeper)).toBeFalsy();
     });
   });
 });

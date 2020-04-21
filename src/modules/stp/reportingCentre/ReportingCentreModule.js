@@ -10,6 +10,7 @@ import {
 import { tabIds } from './TabItems';
 import AtoSettingsModule from './atoSettings/AtoSettingsModule';
 import FinalisationModule from './finalisation/FinalisationModule';
+import JobKeeperModule from './jobKeeper/JobKeeperModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ReportingCentreReducer from './ReportingCentreReducer';
 import ReportingCentreView from './components/ReportingCentreView';
@@ -57,6 +58,10 @@ export default class ReportingCentreModule {
         integration: this.integration,
         context,
         setAlert: this.dispatcher.setAlert,
+      }),
+      [tabIds.jobKeeper]: new JobKeeperModule({
+        integration: this.integration,
+        context,
       }),
     };
   };
