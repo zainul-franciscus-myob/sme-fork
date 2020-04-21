@@ -161,9 +161,6 @@ export default class SpendMoneyDetailModule {
 
     const onSuccess = intent => (response) => {
       this.dispatcher.loadSpendMoney(intent, response);
-      if (getShouldShowAccountCode(this.store.getState())) {
-        this.loadSupplierExpenseAccount();
-      }
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
 
