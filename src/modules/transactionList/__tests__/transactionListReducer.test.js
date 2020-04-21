@@ -89,6 +89,96 @@ describe('transactionListReducer', () => {
 
       expect(actual.filterOptions).toEqual(filterOptions);
     });
+
+    it('should use settings for start & end date if period is custom', () => {
+      const state = getDefaultState();
+
+      const settings = {
+        filterOptions: {
+          period: Periods.custom,
+          dateFrom: '2020-03-01',
+          dateTo: '2020-04-01',
+        },
+      };
+
+      const context = {};
+
+      const action = {
+        intent: SET_INITIAL_STATE,
+        settings,
+        context,
+      };
+
+      const filterOptions = {
+        dateFrom: '2020-03-01',
+        dateTo: '2020-04-01',
+        keywords: '',
+        period: Periods.custom,
+        sourceJournal: 'All',
+      };
+
+      const actual = transactionListReducer(state, action);
+
+      expect(actual.filterOptions).toEqual(filterOptions);
+    });
+
+    it('should ignore start & end date in settings if period is not custom', () => {
+      const state = getDefaultState();
+
+      const settings = {
+        filterOptions: {
+          period: Periods.thisMonth,
+          dateFrom: '2020-03-01',
+          dateTo: '2020-04-01',
+        },
+      };
+
+      const context = {};
+
+      const action = {
+        intent: SET_INITIAL_STATE,
+        settings,
+        context,
+      };
+
+      const filterOptions = {
+        dateFrom,
+        dateTo,
+        keywords: '',
+        period: Periods.thisMonth,
+        sourceJournal: 'All',
+      };
+
+      const actual = transactionListReducer(state, action);
+
+      expect(actual.filterOptions).toEqual(filterOptions);
+    });
+
+    it('should set correct initial state when no filterOptions in settings', () => {
+      const state = getDefaultState();
+
+      const settings = { filterOptions: {} };
+
+      const context = {};
+
+      const action = {
+        intent: SET_INITIAL_STATE,
+        settings,
+        context,
+      };
+
+      const filterOptions = {
+        dateFrom,
+        dateTo,
+        keywords: '',
+        period: Periods.thisMonth,
+        sourceJournal: 'All',
+      };
+
+      const actual = transactionListReducer(state, action);
+
+      expect(actual.filterOptions).toEqual(filterOptions);
+    });
   });
 
   describe('SET_TAB', () => {

@@ -17,6 +17,7 @@ import {
 } from './TransactionListIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import LoadMoreButtonStatuses from '../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
+import Periods from '../../components/PeriodPicker/Periods';
 import createReducer from '../../store/createReducer';
 import getDateRangeByPeriodAndRegion from '../../components/PeriodPicker/getDateRangeByPeriodAndRegion';
 
@@ -27,10 +28,14 @@ const setInitialState = (state, {
   settings,
   sourceJournal,
 }) => {
+  const period = settings.filterOptions.period || state.filterOptions.period;
+  const filterDates = period !== Periods.custom
+    ? getDateRangeByPeriodAndRegion(context.region, new Date(), period) : {};
+
   const filterOptions = {
     ...state.filterOptions,
-    ...getDateRangeByPeriodAndRegion(context.region, new Date(), state.filterOptions.period),
     ...settings.filterOptions,
+    ...filterDates,
     sourceJournal: (
       sourceJournal || settings.filterOptions.sourceJournal || state.filterOptions.sourceJournal
     ),
