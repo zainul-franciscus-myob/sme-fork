@@ -7,11 +7,11 @@ import {
   OPEN_MODAL,
   SET_ALERT,
   SET_CREATED_ACCOUNT_LOADING_STATE,
+  SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_GENERAL_JOURNAL_HEADER,
   UPDATE_GENERAL_JOURNAL_LINE,
-  UPDATE_ID_AFTER_CREATE,
 } from '../GeneralJournalIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { getLoadGeneralJournalIntent } from './generalJournalDetailSelectors';
@@ -127,9 +127,9 @@ const createGeneralJournalDispatcher = store => ({
       ...payload,
     });
   },
-  updateIdAfterCreate: id => store.dispatch({
-    intent: UPDATE_ID_AFTER_CREATE,
-    id,
+  setDuplicateId: duplicateId => store.dispatch({
+    intent: SET_DUPLICATE_ID,
+    duplicateId,
   }),
 });
 

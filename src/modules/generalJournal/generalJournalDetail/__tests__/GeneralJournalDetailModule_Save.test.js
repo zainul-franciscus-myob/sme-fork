@@ -21,6 +21,7 @@ describe('GeneralJournalDetailModule', () => {
     it('successfully creates a new general journal', () => {
       const { module, store, integration } = setupWithNew();
       module.pushMessage = jest.fn();
+      module.navigateTo = jest.fn();
 
       module.saveGeneralJournal();
 
@@ -42,7 +43,7 @@ describe('GeneralJournalDetailModule', () => {
       expect(module.pushMessage).toHaveBeenCalledWith(
         expect.objectContaining({ type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL }),
       );
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/transactionList'));
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/transactionList');
     });
 
     it('fail to create a new general journal', () => {
@@ -80,6 +81,7 @@ describe('GeneralJournalDetailModule', () => {
     it('successfully saves', () => {
       const { module, store, integration } = setupWithExisting();
       module.pushMessage = jest.fn();
+      module.navigateTo = jest.fn();
 
       module.saveGeneralJournal();
 
@@ -103,7 +105,7 @@ describe('GeneralJournalDetailModule', () => {
       expect(module.pushMessage).toHaveBeenCalledWith(
         expect.objectContaining({ type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL }),
       );
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/transactionList'));
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/transactionList');
     });
 
     it('fails to save', () => {
@@ -139,13 +141,12 @@ describe('GeneralJournalDetailModule', () => {
     });
   });
 
-  // TO DO - Test that the final redirect is correct after Nav spike is done
   describe('unsaved modal confirm actions', () => {
     describe('saves from unsaved modal', () => {
       it('successfully creates a new general journal and reloads module to show fresh create screen', () => {
         const { module, store, integration } = setupWithNew();
         module.pushMessage = jest.fn();
-        module.reload = jest.fn();
+        module.navigateTo = jest.fn();
 
         module.addGeneralJournalLine({ accountId: '4' }); // edit page
         module.handlePageTransition('/#/au/bizId/generalJournal/new');
@@ -176,12 +177,13 @@ describe('GeneralJournalDetailModule', () => {
           expect.objectContaining({ type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL }),
         );
 
-        // expect(module.reload).toHaveBeenCalled();
+        expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/generalJournal/new');
       });
 
       it('successfully updates a general journal and redirects to modal url', () => {
         const { module, store, integration } = setupWithExisting();
         module.pushMessage = jest.fn();
+        module.navigateTo = jest.fn();
 
         module.addGeneralJournalLine({ accountId: '4' }); // edit page
         module.handlePageTransition('/#/au/bizId/someOtherPage');
@@ -211,7 +213,7 @@ describe('GeneralJournalDetailModule', () => {
         expect(module.pushMessage).toHaveBeenCalledWith(
           expect.objectContaining({ type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL }),
         );
-        expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/someOtherPage'));
+        expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/someOtherPage');
       });
 
       it('fails to save and closes unsaved modal', () => {

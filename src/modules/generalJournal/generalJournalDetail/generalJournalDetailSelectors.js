@@ -215,7 +215,7 @@ export const getAccountModalContext = (state) => {
   return { businessId, region };
 };
 
-export const getDuplicateGeneralJournalIdQueryParam = (state) => state.duplicateGeneralJournalId;
+export const getDuplicateId = (state) => state.duplicateId;
 
 export const getSaveGeneralJournalRequest = createSelector(
   getBusinessId,
@@ -242,10 +242,10 @@ export const getSaveGeneralJournalRequest = createSelector(
 
 export const getLoadGeneralJournalIntent = createSelector(
   getIsCreating,
-  getDuplicateGeneralJournalIdQueryParam,
-  (isCreating, duplicateGeneralJournalId) => {
+  getDuplicateId,
+  (isCreating, duplicateId) => {
     if (isCreating) {
-      return duplicateGeneralJournalId ? LOAD_DUPLICATE_GENERAL_JOURNAL : LOAD_NEW_GENERAL_JOURNAL;
+      return duplicateId ? LOAD_DUPLICATE_GENERAL_JOURNAL : LOAD_NEW_GENERAL_JOURNAL;
     }
     return LOAD_GENERAL_JOURNAL_DETAIL;
   },
@@ -254,14 +254,14 @@ export const getLoadGeneralJournalIntent = createSelector(
 export const getLoadGeneralJournalRequest = createSelector(
   getBusinessId,
   getGeneralJournalId,
-  getDuplicateGeneralJournalIdQueryParam,
+  getDuplicateId,
   getIsCreating,
   getLoadGeneralJournalIntent,
-  (businessId, generalJournalId, duplicateGeneralJournalId, isCreating, intent) => {
+  (businessId, generalJournalId, duplicateId, isCreating, intent) => {
     const urlParams = {
       businessId,
       generalJournalId: isCreating ? undefined : generalJournalId,
-      duplicateGeneralJournalId,
+      duplicateId,
     };
 
     return {
@@ -274,4 +274,11 @@ export const getLoadGeneralJournalRequest = createSelector(
 export const getLoadAccountAfterCreateUrlParams = (state, accountId) => {
   const businessId = getBusinessId(state);
   return { businessId, accountId };
+};
+
+export const getCreateGeneralJournalUrl = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return `/#/${region}/${businessId}/generalJournal/new`;
 };

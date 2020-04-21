@@ -10,11 +10,11 @@ import {
   OPEN_MODAL,
   SET_ALERT,
   SET_CREATED_ACCOUNT_LOADING_STATE,
+  SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_GENERAL_JOURNAL_HEADER,
   UPDATE_GENERAL_JOURNAL_LINE,
-  UPDATE_ID_AFTER_CREATE,
 } from '../GeneralJournalIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { getDefaultTaxCodeId, getIsSale } from './generalJournalDetailSelectors';
@@ -25,6 +25,7 @@ import formatCurrency from '../../../common/valueFormatters/formatCurrency';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
+  duplicateId: '',
   generalJournal: {
     id: '',
     referenceId: '',
@@ -288,13 +289,9 @@ const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   isPageEdited: true,
 });
 
-const updateIdAfterCreate = (state, { id }) => ({
+const setDuplicateId = (state, action) => ({
   ...state,
-  generalJournal: {
-    ...state.generalJournal,
-    id,
-  },
-  generalJournalId: id,
+  duplicateId: action.duplicateId,
 });
 
 const handlers = {
@@ -315,7 +312,7 @@ const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
-  [UPDATE_ID_AFTER_CREATE]: updateIdAfterCreate,
+  [SET_DUPLICATE_ID]: setDuplicateId,
 };
 const generalJournalReducer = createReducer(getDefaultState(), handlers);
 

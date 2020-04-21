@@ -7,15 +7,14 @@ import {
   LOAD_NEW_GENERAL_JOURNAL,
   OPEN_MODAL,
   SET_ALERT,
+  SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
-  UPDATE_GENERAL_JOURNAL,
   UPDATE_GENERAL_JOURNAL_HEADER,
   UPDATE_GENERAL_JOURNAL_LINE,
-  UPDATE_ID_AFTER_CREATE,
 } from '../../GeneralJournalIntents';
+import { DUPLICATE_GENERAL_JOURNAL, SUCCESSFULLY_DELETED_GENERAL_JOURNAL, SUCCESSFULLY_SAVED_GENERAL_JOURNAL } from '../../GeneralJournalMessageTypes';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
-import { SUCCESSFULLY_DELETED_GENERAL_JOURNAL } from '../../GeneralJournalMessageTypes';
 import GeneralJournalDetailModule from '../GeneralJournalDetailModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import ModalType from '../ModalType';
@@ -76,8 +75,14 @@ const setupWithDuplicate = () => {
     store, module, integration, pushMessage, popMessages,
   } = setup();
   module.run({
-    generalJournalId: 'new', duplicateGeneralJournalId: '1', businessId: 'bizId', region: 'au',
+    generalJournalId: 'new', businessId: 'bizId', region: 'au',
   });
+  module.popMessages = () => [
+    {
+      type: DUPLICATE_GENERAL_JOURNAL,
+      duplicateId: '1',
+    },
+  ];
   store.resetActions();
   integration.resetRequests();
 
@@ -208,16 +213,24 @@ describe('GeneralJournalDetailModule', () => {
 
     it('should successfully load with duplicate', () => {
       const { store, integration, module } = setup();
+      module.popMessages = () => [{
+        type: DUPLICATE_GENERAL_JOURNAL,
+        duplicateId: '👨🏻‍💻',
+      }];
 
-      module.run({ generalJournalId: 'new', duplicateGeneralJournalId: '1' });
+      module.run({ businessId: 'bizId', generalJournalId: 'new' });
 
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
           context: {
+            businessId: 'bizId',
             generalJournalId: 'new',
-            duplicateGeneralJournalId: '1',
           },
+        },
+        {
+          intent: SET_DUPLICATE_ID,
+          duplicateId: '👨🏻‍💻',
         },
         {
           intent: SET_LOADING_STATE,
@@ -235,6 +248,10 @@ describe('GeneralJournalDetailModule', () => {
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: LOAD_DUPLICATE_GENERAL_JOURNAL,
+          urlParams: {
+            businessId: 'bizId',
+            duplicateId: '👨🏻‍💻',
+          },
         }),
       ]);
     });
@@ -326,25 +343,18 @@ describe('GeneralJournalDetailModule', () => {
   });
 
   describe('saveAndDuplicate', () => {
-    it('should update id after creating a general journal', () => {
+    it('should save and redirect', () => {
       const { store, integration, module } = setupWithNew();
-      integration.mapSuccess(CREATE_GENERAL_JOURNAL, { id: '1' });
+      integration.mapSuccess(CREATE_GENERAL_JOURNAL, { id: '1', message: '🤖' });
+      module.navigateTo = jest.fn();
+      module.pushMessage = jest.fn();
 
-      module.redirectToUrl = jest.fn();
       module.saveAnd(SaveActionType.SAVE_AND_DUPLICATE);
 
       expect(store.getActions()).toEqual([
         {
           intent: SET_SUBMITTING_STATE,
           isSubmitting: true,
-        },
-        {
-          intent: UPDATE_ID_AFTER_CREATE,
-          id: '1',
-        },
-        {
-          intent: SET_SUBMITTING_STATE,
-          isSubmitting: false,
         },
       ]);
       expect(integration.getRequests()).toEqual([
@@ -352,62 +362,24 @@ describe('GeneralJournalDetailModule', () => {
           intent: CREATE_GENERAL_JOURNAL,
         }),
       ]);
-      expect(module.redirectToUrl).toHaveBeenCalled();
-    });
-
-    it('should not update id if we\'re updating an existing general journal', () => {
-      const { store, integration, module } = setupWithExisting();
-
-      module.redirectToUrl = jest.fn();
-      module.saveAnd(SaveActionType.SAVE_AND_DUPLICATE);
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: SET_SUBMITTING_STATE,
-          isSubmitting: true,
-        },
-        {
-          intent: SET_SUBMITTING_STATE,
-          isSubmitting: false,
-        },
-      ]);
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: UPDATE_GENERAL_JOURNAL,
-        }),
-      ]);
-      expect(module.redirectToUrl).toHaveBeenCalled();
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
+        content: '🤖',
+      });
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: DUPLICATE_GENERAL_JOURNAL,
+        duplicateId: '1',
+      });
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/generalJournal/new');
     });
   });
 
 
   describe('saveAndCreateNew', () => {
-    it('should reload if user on create general journal page', () => {
-      const { store, integration, module } = setupWithNew();
-
-      module.reload = jest.fn();
-      module.saveAnd(SaveActionType.SAVE_AND_CREATE_NEW);
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: SET_SUBMITTING_STATE,
-          isSubmitting: true,
-        },
-      ]);
-
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: CREATE_GENERAL_JOURNAL,
-        }),
-      ]);
-
-      expect(module.reload).toHaveBeenCalled();
-    });
-
-    it('should navigate to create general journal page if user on duplicate general journal page', () => {
+    it('should save and navigate to create general journal page', () => {
       const { store, integration, module } = setupWithDuplicate();
+      module.navigateTo = jest.fn();
 
-      module.redirectToUrl = jest.fn();
       module.saveAnd(SaveActionType.SAVE_AND_CREATE_NEW);
 
       expect(store.getActions()).toEqual([
@@ -423,17 +395,18 @@ describe('GeneralJournalDetailModule', () => {
         }),
       ]);
 
-      expect(module.redirectToUrl).toHaveBeenCalled();
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/generalJournal/new');
     });
   });
 
   describe('handlePageTransition', () => {
     it('redirects to transaction list page when page not edited', () => {
       const { module } = setupWithExisting();
+      module.navigateTo = jest.fn();
 
       module.handlePageTransition('/#/au/bizId/transactionList');
 
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/transactionList'));
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/transactionList');
     });
 
     it('open unsaved modal when page edited', () => {
@@ -492,6 +465,7 @@ describe('GeneralJournalDetailModule', () => {
       const {
         module, store, integration, pushMessage,
       } = setupWithExisting();
+      module.navigateTo = jest.fn();
       module.openDeleteModal();
       store.resetActions();
 
@@ -516,7 +490,7 @@ describe('GeneralJournalDetailModule', () => {
         content: 'Great Work! You\'ve done it well!',
       });
 
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/transactionList'));
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/transactionList');
     });
   });
 });

@@ -35,7 +35,7 @@ const HttpGeneralJournalMapping = {
   },
   [LOAD_DUPLICATE_GENERAL_JOURNAL]: {
     method: 'GET',
-    getPath: ({ businessId, duplicateGeneralJournalId }) => `/${businessId}/generalJournal/load_duplicate_general_journal_detail/${duplicateGeneralJournalId}`,
+    getPath: ({ businessId, duplicateId }) => `/${businessId}/generalJournal/load_duplicate_general_journal_detail/${duplicateId}`,
   },
 };
 

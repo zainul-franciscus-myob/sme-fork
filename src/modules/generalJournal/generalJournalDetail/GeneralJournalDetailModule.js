@@ -1,12 +1,12 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_GENERAL_JOURNAL, SUCCESSFULLY_SAVED_GENERAL_JOURNAL } from '../GeneralJournalMessageTypes';
+import { DUPLICATE_GENERAL_JOURNAL, SUCCESSFULLY_DELETED_GENERAL_JOURNAL, SUCCESSFULLY_SAVED_GENERAL_JOURNAL } from '../GeneralJournalMessageTypes';
 import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalculator';
 import {
   getAccountModalContext,
+  getCreateGeneralJournalUrl,
   getIsActionsDisabled,
-  getIsCreating,
   getIsLineAmountsTaxInclusive,
   getIsSale,
   getIsTaxInclusive,
@@ -18,7 +18,6 @@ import {
   getTransactionListUrl,
   isPageEdited,
 } from './generalJournalDetailSelectors';
-import { getCreateGeneralJournalUrl, getDuplicateGeneralJournalUrl, getShouldReload } from './selectors/redirectSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import GeneralJournalDetailView from './components/GeneralJournalDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -33,13 +32,13 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class GeneralJournalDetailModule {
   constructor({
-    integration, setRootView, popMessages, pushMessage, reload,
+    integration, setRootView, popMessages, pushMessage, navigateTo,
   }) {
     this.store = new Store(generalJournalDetailReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.popMessages = popMessages;
-    this.reload = reload;
+    this.navigateTo = navigateTo;
     this.purchasesTaxCalculate = createTaxCalculator(TaxCalculatorTypes.generalJournalPurchases);
     this.salesTaxCalculate = createTaxCalculator(TaxCalculatorTypes.generalJournalSales);
     this.dispatcher = createGeneralJournalDispatcher(this.store);
@@ -128,61 +127,36 @@ export default class GeneralJournalDetailModule {
 
       const state = this.store.getState();
       const url = getSaveUrl(state);
-      this.redirectToUrl(url);
+      this.navigateTo(url);
     };
 
     this.createGeneralJournal(onSuccess);
   }
 
-  saveAndDuplicate = () => {
+  saveAnd = saveAndAction => {
     const onSuccess = ({ message, id }) => {
-      if (getIsCreating(this.store.getState())) {
-        this.dispatcher.updateIdAfterCreate(id);
-      }
-
-      this.pushMessage({
-        type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
-        content: message,
-      });
-      this.dispatcher.setSubmittingState(false);
-      this.redirectToDuplicateGeneralJournal();
-    };
-
-    this.createGeneralJournal(onSuccess);
-  }
-
-  saveAndCreateNew = () => {
-    const onSuccess = ({ message }) => {
       this.pushMessage({
         type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
         content: message,
       });
 
-      if (getShouldReload(this.store.getState())) {
-        this.reload();
-      } else {
-        this.redirectToCreateGeneralJournal();
+      if (saveAndAction === SaveActionType.SAVE_AND_DUPLICATE) {
+        this.pushMessage({
+          type: DUPLICATE_GENERAL_JOURNAL,
+          duplicateId: id,
+        });
       }
+
+      this.redirectToCreateGeneralJournal();
     };
 
     this.createGeneralJournal(onSuccess);
-  }
-
-  saveAnd = saveAndAction => ({
-    [SaveActionType.SAVE_AND_CREATE_NEW]: this.saveAndCreateNew,
-    [SaveActionType.SAVE_AND_DUPLICATE]: this.saveAndDuplicate,
-  }[saveAndAction]())
-
-  redirectToDuplicateGeneralJournal = () => {
-    const url = getDuplicateGeneralJournalUrl(this.store.getState());
-
-    this.redirectToUrl(url);
   }
 
   redirectToCreateGeneralJournal = () => {
     const url = getCreateGeneralJournalUrl(this.store.getState());
 
-    this.redirectToUrl(url);
+    this.navigateTo(url);
   }
 
   saveUnsavedChanges = () => {
@@ -200,11 +174,7 @@ export default class GeneralJournalDetailModule {
       });
       this.dispatcher.setSubmittingState(false);
 
-      if (window.location.href.includes(modalUrl)) {
-        this.reload();
-      } else {
-        this.redirectToUrl(modalUrl);
-      }
+      this.navigateTo(modalUrl);
     };
 
     const onFailure = (error) => {
@@ -333,23 +303,14 @@ export default class GeneralJournalDetailModule {
   redirectToTransactionList = () => {
     const state = this.store.getState();
     const transactionListUrl = getTransactionListUrl(state);
-    this.redirectToUrl(transactionListUrl);
+    this.navigateTo(transactionListUrl);
   }
 
   redirectToModalUrl = () => {
     const state = this.store.getState();
     const modalUrl = getModalUrl(state);
 
-    if (window.location.href.includes(modalUrl)) {
-      this.reload();
-      return;
-    }
-
-    this.redirectToUrl(modalUrl);
-  }
-
-  redirectToUrl = (url) => {
-    window.location.href = url;
+    this.navigateTo(modalUrl);
   }
 
   render = () => {
@@ -422,13 +383,16 @@ export default class GeneralJournalDetailModule {
   };
 
   readMessages = () => {
-    const messageTypes = [SUCCESSFULLY_SAVED_GENERAL_JOURNAL];
-    const [successMessage] = this.popMessages(messageTypes);
-
-    if (successMessage) {
-      const { content: message } = successMessage;
-      this.dispatcher.setAlert({ message, type: 'success' });
-    }
+    this.popMessages([
+      SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
+      DUPLICATE_GENERAL_JOURNAL,
+    ]).forEach(message => {
+      if (message.type === SUCCESSFULLY_SAVED_GENERAL_JOURNAL) {
+        this.dispatcher.setAlert({ message: message.content, type: 'success' });
+      } else if (message.type === DUPLICATE_GENERAL_JOURNAL) {
+        this.dispatcher.setDuplicateId(message.duplicateId);
+      }
+    });
   };
 
   run(context) {
@@ -450,7 +414,7 @@ export default class GeneralJournalDetailModule {
     if (isPageEdited(state)) {
       this.dispatcher.openModal({ type: ModalType.UNSAVED, url });
     } else {
-      this.redirectToUrl(url);
+      this.navigateTo(url);
     }
   }
 }
