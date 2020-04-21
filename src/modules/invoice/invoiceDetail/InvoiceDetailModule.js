@@ -434,18 +434,6 @@ export default class InvoiceDetailModule {
     }
   }
 
-  /*
-   * Workflow:
-   *  1. format - only format the field user blur out
-   *  2. price calculation - update at most one extra field when formula prerequisite met
-   *  3. tax calculation - update total
-   */
-  updateAmount = ({ index, key, value }) => {
-    this.dispatcher.formatInvoiceLine({ index, key, value });
-
-    this.calculateLineTotalsOnAmountChange({ index, key });
-  }
-
   calculateLineTotals = () => {
     const state = this.store.getState();
 
@@ -465,6 +453,11 @@ export default class InvoiceDetailModule {
     this.dispatcher.calculateLineTotals(taxCalculations, true);
   }
 
+  /*
+   * Workflow:
+   *  1. price calculation - update at most one extra field when formula prerequisite met
+   *  2. tax calculation - update total
+   */
   calculateLineTotalsOnAmountChange = ({ index, key }) => {
     const isLineAmountDirty = getIsLineAmountDirty(this.store.getState());
     if (isLineAmountDirty) {
@@ -962,7 +955,7 @@ export default class InvoiceDetailModule {
           onAddRow: this.addInvoiceLine,
           onRemoveRow: this.removeInvoiceLine,
           onUpdateRow: this.updateInvoiceLine,
-          onUpdateAmount: this.updateAmount,
+          onUpdateAmount: this.calculateLineTotalsOnAmountChange,
           onAddAccount: this.openAccountModal,
           onLoadAccounts: this.loadAccounts,
         }}
@@ -970,7 +963,7 @@ export default class InvoiceDetailModule {
           onAddRow: this.addInvoiceLine,
           onRemoveRow: this.removeInvoiceLine,
           onUpdateRow: this.updateInvoiceLine,
-          onUpdateAmount: this.updateAmount,
+          onUpdateAmount: this.calculateLineTotalsOnAmountChange,
           onAddItemButtonClick: this.openInventoryModalModule,
           onAddAccount: this.openAccountModal,
           onLoadAccounts: this.loadAccounts,

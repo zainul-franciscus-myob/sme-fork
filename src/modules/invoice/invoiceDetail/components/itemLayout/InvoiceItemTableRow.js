@@ -12,7 +12,7 @@ import {
   getTaxCodeOptions,
 } from '../../selectors/invoiceDetailSelectors';
 import AccountCombobox from '../../../../../components/combobox/AccountCombobox';
-import AmountInput from '../../../../../components/autoFormatter/AmountInput/AmountInput';
+import Calculator from '../../../../../components/Calculator/Calculator';
 import ItemCombobox from '../../../../../components/combobox/ItemCombobox';
 import JobCombobox from '../../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../../components/combobox/TaxCodeCombobox';
@@ -50,9 +50,9 @@ const InvoiceItemTableRow = ({
     accountId,
     unitOfMeasure,
     units,
-    displayUnitPrice,
-    displayDiscount,
-    displayAmount,
+    unitPrice,
+    discount,
+    amount,
     jobId,
     taxCodeId,
   },
@@ -111,18 +111,19 @@ const InvoiceItemTableRow = ({
         maxLength={5}
       />
 
-      <AmountInput
+      <Calculator
         name="units"
         value={units}
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onUpdateAmount, index)}
         disabled={isSubmitting || isReadOnlyLayout}
+        numeralDecimalScaleMin={0}
         numeralDecimalScaleMax={6}
       />
 
-      <AmountInput
+      <Calculator
         name="unitPrice"
-        value={displayUnitPrice}
+        value={unitPrice}
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onUpdateAmount, index)}
         textAlign="right"
@@ -131,9 +132,9 @@ const InvoiceItemTableRow = ({
         numeralDecimalScaleMax={6}
       />
 
-      <AmountInput
+      <Calculator
         name="discount"
-        value={displayDiscount}
+        value={discount}
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onUpdateAmount, index)}
         textAlign="right"
@@ -142,9 +143,9 @@ const InvoiceItemTableRow = ({
         numeralDecimalScaleMax={2}
       />
 
-      <AmountInput
+      <Calculator
         name="amount"
-        value={displayAmount}
+        value={amount}
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onUpdateAmount, index)}
         textAlign="right"

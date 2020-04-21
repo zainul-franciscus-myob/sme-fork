@@ -5,7 +5,6 @@ import {
   ADD_INVOICE_LINE,
   CALCULATE_LINE_AMOUNTS,
   CALCULATE_LINE_TOTALS,
-  FORMAT_INVOICE_LINE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
@@ -83,10 +82,6 @@ import InvoiceLineLayout from '../types/InvoiceLineLayout';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import calculateTotals from '../../../../common/taxCalculator/calculateTotals';
 import createReducer from '../../../../store/createReducer';
-import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
-import formatDisplayDiscount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
-import formatDisplayUnitPrice from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
-import formatUnits from '../../../../common/valueFormatters/formatTaxCalculation/formatUnits';
 import getDefaultState, { DEFAULT_DISCOUNT, DEFAULT_UNITS } from './getDefaultState';
 
 const setInitialState = (state, { context }) => ({ ...state, ...context });
@@ -133,9 +128,6 @@ const loadInvoiceDetail = (state, action) => {
         return {
           ...line,
           amount,
-          displayAmount: formatDisplayAmount(amount),
-          displayDiscount: line.discount ? formatDisplayDiscount(line.discount) : '',
-          displayUnitPrice: line.unitPrice ? formatDisplayUnitPrice(line.unitPrice) : '',
         };
       }),
     },
@@ -283,10 +275,7 @@ const calculateLineLayout = (layout, key) => {
 };
 
 const updateInvoiceLine = (state, action) => {
-  const isUpdateDiscount = action.key === 'discount';
-  const isUpdateAmount = action.key === 'amount';
   const isUpdateAccountId = action.key === 'accountId';
-  const isUpdateUnitPrice = action.key === 'unitPrice';
   const isUpdateJob = action.key === 'jobId';
 
   const getLineLayout = (layout, key) => {
@@ -319,9 +308,6 @@ const updateInvoiceLine = (state, action) => {
               })
               : line.taxCodeId,
             jobId: isUpdateJob ? action.value : line.jobId,
-            displayDiscount: isUpdateDiscount ? action.value : line.displayDiscount,
-            displayAmount: isUpdateAmount ? action.value : line.displayAmount,
-            displayUnitPrice: isUpdateUnitPrice ? action.value : line.displayUnitPrice,
             [action.key]: action.value,
           };
         }
@@ -331,33 +317,6 @@ const updateInvoiceLine = (state, action) => {
     },
   });
 };
-
-const formatDisplayField = (line, key) => {
-  const fieldMap = {
-    unitPrice: { displayField: 'displayUnitPrice', formatter: formatDisplayUnitPrice },
-    amount: { displayField: 'displayAmount', formatter: formatDisplayAmount },
-    discount: { displayField: 'displayDiscount', formatter: formatDisplayDiscount },
-    units: { displayField: 'units', formatter: formatUnits },
-  };
-  const { displayField, formatter } = fieldMap[key] || {};
-
-  return formatter ? {
-    [displayField]: line[key] && formatter(line[key]),
-  } : {};
-};
-
-const formatInvoiceLine = (state, action) => ({
-  ...state,
-  invoice: {
-    ...state.invoice,
-    lines: state.invoice.lines.map((line, index) => (
-      index === action.index ? {
-        ...line,
-        ...formatDisplayField(line, action.key),
-      } : line
-    )),
-  },
-});
 
 const addInvoiceLine = state => ({
   ...state,
@@ -433,14 +392,11 @@ const loadItemSellingDetails = (state, action) => ({
         units: DEFAULT_UNITS,
         unitOfMeasure,
         discount: DEFAULT_DISCOUNT,
-        displayDiscount: formatDisplayDiscount(DEFAULT_DISCOUNT),
         description,
         taxCodeId: sellTaxCodeId,
         accountId: incomeAccountId,
         unitPrice,
-        displayUnitPrice: formatDisplayUnitPrice(unitPrice),
         amount: unitPrice,
-        displayAmount: formatDisplayAmount(unitPrice),
       };
     }),
   },
@@ -470,7 +426,6 @@ const handlers = {
   [ADD_INVOICE_LINE]: addInvoiceLine,
   [REMOVE_INVOICE_LINE]: removeInvoiceLine,
   [UPDATE_INVOICE_LINE]: updateInvoiceLine,
-  [FORMAT_INVOICE_LINE]: formatInvoiceLine,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
 
   [SET_INVOICE_ITEM_LINE_DIRTY]: setInvoiceItemLineDirty,

@@ -1,6 +1,5 @@
 import {
   ADD_INVOICE_LINE,
-  FORMAT_INVOICE_LINE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
   LOAD_ITEM_OPTION,
@@ -276,33 +275,6 @@ describe('InvoiceDetailReducer', () => {
       expect(actual.invoice.lines[1].taxCodeId).toEqual('');
     });
 
-
-    it('updates displayDiscount when updating discount', () => {
-      const modifiedAction = {
-        ...action,
-        key: 'discount',
-        value: '20.00',
-      };
-
-      const actual = invoiceDetailReducer(state, modifiedAction);
-
-      expect(actual.invoice.lines[1].discount).toEqual('20.00');
-      expect(actual.invoice.lines[1].displayDiscount).toEqual('20.00');
-    });
-
-    it('updates displayAmount when updating amount', () => {
-      const modifiedAction = {
-        ...action,
-        key: 'amount',
-        value: '20.00',
-      };
-
-      const actual = invoiceDetailReducer(state, modifiedAction);
-
-      expect(actual.invoice.lines[1].amount).toEqual('20.00');
-      expect(actual.invoice.lines[1].displayAmount).toEqual('20.00');
-    });
-
     it('does no change unit when updating account and unit was not empty', () => {
       const modifiedState = {
         invoice: {
@@ -423,73 +395,6 @@ describe('InvoiceDetailReducer', () => {
       const actual = invoiceDetailReducer(state, action);
 
       expect(actual.isPageEdited).toEqual(true);
-    });
-  });
-
-  describe('FORMAT_INVOICE_LINE', () => {
-    [
-      {
-        name: 'unitPrice', displayName: 'displayUnitPrice', value: '10', displayValue: '10.00',
-      },
-      {
-        name: 'discount', displayName: 'displayDiscount', value: '10', displayValue: '10.00',
-      },
-      {
-        name: 'amount', displayName: 'displayAmount', value: '10', displayValue: '10.00',
-      },
-      {
-        name: 'units', displayName: 'units', value: '10.0', displayValue: '10',
-      },
-    ].forEach(({
-      name, displayName, value, displayValue,
-    }) => {
-      it(`should format ${name}`, () => {
-        const state = {
-          invoice: {
-            lines: [
-              {
-                [name]: value,
-              },
-            ],
-          },
-        };
-
-        const action = {
-          intent: FORMAT_INVOICE_LINE,
-          key: name,
-          index: 0,
-        };
-
-        const actual = invoiceDetailReducer(state, action);
-
-        expect(actual.invoice.lines[0][displayName]).toEqual(displayValue);
-      });
-    });
-
-    it('should not format other keys', () => {
-      const state = {
-        invoice: {
-          lines: [{}],
-        },
-        something: '',
-      };
-
-      const action = {
-        intent: FORMAT_INVOICE_LINE,
-        key: 'blah',
-        index: 0,
-      };
-
-      const actual = invoiceDetailReducer(state, action);
-
-      const expected = {
-        invoice: {
-          lines: [{}],
-        },
-        something: '',
-      };
-
-      expect(actual).toEqual(expected);
     });
   });
 

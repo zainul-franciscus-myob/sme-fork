@@ -37,15 +37,11 @@ export const UPDATE_INVOICE_LAYOUT = Symbol('Update invoice layout');
 export const ADD_INVOICE_LINE = Symbol('Add invoice line');
 export const REMOVE_INVOICE_LINE = Symbol('Remove invoice line');
 export const UPDATE_INVOICE_LINE = Symbol('Update invoice line');
-export const FORMAT_INVOICE_LINE = Symbol('Format invoice line');
 export const LOAD_ACCOUNT_AFTER_CREATE = Symbol('Load account after create');
 
 export const SET_INVOICE_ITEM_LINE_DIRTY = Symbol('Set invoice item line amount dirty');
 export const RESET_TOTALS = Symbol('Reset totals');
 export const CALCULATE_LINE_TOTALS = Symbol('Calculate line totals');
-export const CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE = Symbol('Calculate line totals on amount change');
-export const CALCULATE_LINE_TOTALS_ON_ITEM_CHANGE = Symbol('Calculate line totals on item change');
-export const CALCULATE_LINE_TOTALS_ON_TAX_INCLUSIVE_CHANGE = Symbol('Calculate line totals on tax inclusive change');
 export const CALCULATE_LINE_AMOUNTS = Symbol('Calculate line amounts');
 
 export const SEND_EMAIL = Symbol('Send email');

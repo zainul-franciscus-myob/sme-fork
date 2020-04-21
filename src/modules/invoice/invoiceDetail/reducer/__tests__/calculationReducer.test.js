@@ -8,7 +8,6 @@ describe('calculationReducer', () => {
     const baseline = {
       units: '2',
       unitPrice: '45.455',
-      displayUnitPrice: '45.455',
       discount: '',
       displayDiscount: '',
       amount: '0',
@@ -66,9 +65,7 @@ describe('calculationReducer', () => {
 
       const expected = buildExpect({
         amount: '100',
-        displayAmount: '100.00',
         unitPrice: '50',
-        displayUnitPrice: '50.00',
       });
 
       expect(actual).toEqual(expected);
@@ -101,7 +98,6 @@ describe('calculationReducer', () => {
         const expected = buildExpect({
           ...partialLine,
           amount: '100',
-          displayAmount: '100.00',
         });
 
         expect(actual).toEqual(expected);
@@ -109,6 +105,7 @@ describe('calculationReducer', () => {
     });
   });
 
+  // TODO: Remove display amount once Calculator is applied to all quote, invoice and bill
   describe('CALCULATE_LINE_AMOUNTS', () => {
     describe('itemAndService layout', () => {
       const buildState = line => ({

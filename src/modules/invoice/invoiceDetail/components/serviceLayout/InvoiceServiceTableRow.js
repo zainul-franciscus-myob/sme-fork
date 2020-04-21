@@ -11,7 +11,7 @@ import {
   getTaxCodeOptions,
 } from '../../selectors/invoiceDetailSelectors';
 import AccountCombobox from '../../../../../components/combobox/AccountCombobox';
-import AmountInput from '../../../../../components/autoFormatter/AmountInput/AmountInput';
+import Calculator from '../../../../../components/Calculator/Calculator';
 import JobCombobox from '../../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../../components/combobox/TaxCodeCombobox';
 
@@ -58,7 +58,7 @@ const InvoiceServiceTableRow = ({
     accountId,
     jobId,
     taxCodeId,
-    displayAmount,
+    amount,
   } = invoiceLine;
 
   const onChangeAccountId = onComboboxChange('accountId', onChange);
@@ -86,11 +86,11 @@ const InvoiceServiceTableRow = ({
         addNewAccount={() => onAddAccount(onChangeAccountId)}
         disabled={isSubmitting || isReadOnlyLayout}
       />
-      <AmountInput
+      <Calculator
         label="Amount"
         hideLabel
         name="amount"
-        value={displayAmount}
+        value={amount}
         textAlign="right"
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onUpdateAmount, index)}

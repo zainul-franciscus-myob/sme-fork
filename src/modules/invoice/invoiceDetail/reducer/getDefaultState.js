@@ -53,10 +53,7 @@ const getDefaultState = () => ({
     taxCodeId: '',
     accountId: '',
     discount: '',
-    displayDiscount: '',
     amount: '',
-    displayAmount: '',
-    displayUnitPrice: '',
   },
   totals: {
     subTotal: '0',

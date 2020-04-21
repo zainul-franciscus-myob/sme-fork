@@ -3,7 +3,6 @@ import {
   ADD_INVOICE_LINE,
   CALCULATE_LINE_AMOUNTS,
   CALCULATE_LINE_TOTALS,
-  FORMAT_INVOICE_LINE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
@@ -132,10 +131,6 @@ const createInvoiceDetailDispatcher = store => ({
 
   updateInvoiceLine: (index, key, value) => store.dispatch({
     intent: UPDATE_INVOICE_LINE, index, key, value,
-  }),
-
-  formatInvoiceLine: ({ index, key, value }) => store.dispatch({
-    intent: FORMAT_INVOICE_LINE, index, key, value,
   }),
 
   setInvoiceItemLineDirty: isLineAmountDirty => store.dispatch({
