@@ -4,6 +4,9 @@ import React from 'react';
 
 import {
   getActiveSort,
+  getEmployees,
+  getIsTableLoading,
+  getLoadingState,
   getPayrollYears,
   getSelectedPayrollYear,
 } from '../JobKeeperSelector';
@@ -14,8 +17,11 @@ import PageView from '../../../../../components/PageView/PageView';
 const JobKeeperView = ({
   payrollYears,
   payrollYear,
+  employees,
 }) => {
-  const jobKeeperTable = (<JobKeeperTable />);
+  const jobKeeperTable = (<JobKeeperTable
+    employees={employees}
+  />);
 
   const page = (<BaseTemplate>
     <JobKeeperFilter
@@ -31,8 +37,11 @@ const JobKeeperView = ({
 };
 
 const mapStateToProps = state => ({
+  loadingState: getLoadingState(state),
+  isTableLoading: getIsTableLoading(state),
   payrollYears: getPayrollYears(state),
   payrollYear: getSelectedPayrollYear(state),
+  employees: getEmployees(state),
   activeSort: getActiveSort(state),
 });
 

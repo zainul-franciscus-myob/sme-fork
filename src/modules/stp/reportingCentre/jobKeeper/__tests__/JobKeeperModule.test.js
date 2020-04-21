@@ -3,14 +3,12 @@ import { mount } from 'enzyme';
 import JobKeeperModule from '../JobKeeperModule';
 
 describe('jobKeeperModule', () => {
-  const constructModule = (integration) => {
+  const constructModule = () => {
     const setAlertMock = jest.fn();
     const module = new JobKeeperModule({
-      integration,
-      // integration: {
-      //   ...defaultIntegration,
-      //   ...integration,
-      // },
+      integration: {
+        read: ({ onSuccess }) => onSuccess({}),
+      },
     });
 
     const wrapper = mount(module.getView());

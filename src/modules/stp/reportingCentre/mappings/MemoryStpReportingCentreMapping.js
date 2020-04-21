@@ -29,6 +29,9 @@ import {
   SUBMIT_EMPLOYEES_REMOVE_FINALISATION,
 } from '../finalisation/FinalisationIntents';
 import {
+  LOAD_INITIAL_JOB_KEEPER_EMPLOYEES,
+} from '../jobKeeper/JobKeeperIntents';
+import {
   LOAD_STP_REGISTRATION_STATUS,
   UPDATE_STP_EMPLOYEES,
 } from '../ReportingCentreIntents';
@@ -39,6 +42,7 @@ import loadEmployeeEtps from './data/loadEmployeeEtps';
 import loadEmployeesResponse from './data/loadTerminationEmployeesResponse';
 import loadFinalisationEmployeesAndHeaderDetailsForYearResponse from './data/loadFinalisationEmployeesAndHeaderDetailsForYearResponse';
 import loadFinalisationInitialEmployeesAndHeaderDetailsResponse from './data/loadFinalisationInitialEmployeesAndHeaderDetailsResponse';
+import loadJobKeeperInitialEmployees from './data/loadJobKeeperInitialEmployees';
 import loadPayEventDetails from './data/loadPayEventDetailResponse';
 import loadPayEventsResponse from './data/loadPayEventsResponse';
 import sortEmployeesResponse from './data/sortTerminationEmployeesResponse';
@@ -63,9 +67,9 @@ const MemoryStpReportingCentreMapping = {
   [LOAD_TERMINATION_EMPLOYEES]: ({ onSuccess }) => onSuccess(loadEmployeesResponse),
   [FILTER_TERMINATION_EMPLOYEES]: ({ onSuccess }) => onSuccess(filterEmployeesResponse),
   [SORT_TERMINATION_EMPLOYEES]: ({ onSuccess }) => onSuccess(sortEmployeesResponse),
-  [UPDATE_STP_EMPLOYEES]: () => {},
+  [UPDATE_STP_EMPLOYEES]: () => { },
   [LOAD_EMPLOYEE_ETP]: ({ onSuccess }) => onSuccess(loadEmployeeEtps),
-  [DELETE_EMPLOYEE_ETP]: () => {},
+  [DELETE_EMPLOYEE_ETP]: () => { },
   [LOAD_INITIAL_EMPLOYEES_AND_HEADERS]:
     ({ onSuccess }) => onSuccess(loadFinalisationInitialEmployeesAndHeaderDetailsResponse),
   [LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR]:
@@ -80,6 +84,7 @@ const MemoryStpReportingCentreMapping = {
   [SORT_EMPLOYEES]: ({ onSuccess }) => (
     onSuccess(loadFinalisationInitialEmployeesAndHeaderDetailsResponse.employees)
   ),
+  [LOAD_INITIAL_JOB_KEEPER_EMPLOYEES]: ({ onSuccess }) => onSuccess(loadJobKeeperInitialEmployees),
 };
 
 export default MemoryStpReportingCentreMapping;

@@ -1,0 +1,48 @@
+{
+  "employees": [
+    {
+      "id": "100001",
+      "payId": "effa0c73-65c4-409d-a20c-623fbe0c8b17",
+      "firstName": "Alf",
+      "lastName": "Galang"
+    },
+    {
+      "id": "100002",
+      "payId": "73f25da3-32ef-4ad9-a5cb-74e241b0506b",
+      "firstName": "Sarah",
+      "lastName": "Boss"
+    },
+    {
+      "firstName": "Harpy",
+      "id": "100003",
+      "isFinalised": false,
+      "lastName": "Brawn"
+    },
+    {
+      "firstName": "Gran",
+      "id": "100004",
+      "isFinalised": false,
+      "lastName": "Gedup"
+    }
+  ],
+  "payrollYears": [
+    {
+      "endDate": "2020-06-30",
+      "label": "2019/20",
+      "startDate": "2019-07-01",
+      "year": "2020"
+    },
+    {
+      "endDate": "2019-06-30",
+      "label": "2018/19",
+      "startDate": "2018-07-01",
+      "year": "2019"
+    },
+    {
+      "endDate": "2018-06-30",
+      "label": "2017/18",
+      "startDate": "2017-07-01",
+      "year": "2018"
+    }
+  ]
+}

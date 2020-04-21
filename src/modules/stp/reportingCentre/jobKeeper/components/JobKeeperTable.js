@@ -20,6 +20,7 @@ const tableConfig = {
 
 
 const JobKeeperTable = ({
+  employees,
   onSort,
   activeSort,
 }) => {
@@ -40,6 +41,21 @@ const JobKeeperTable = ({
     </Table.Header>
   );
 
+  const rows = employees.map(row => (
+    <Table.Row key={row.id} rowData={{ id: row.id }}>
+      <Table.RowItem {...tableConfig.firstName}>
+        {row.firstName}
+      </Table.RowItem>
+      <Table.RowItem {...tableConfig.lastName}>
+        {row.lastName}
+      </Table.RowItem>
+      <Table.RowItem {...tableConfig.firstFortnight}>
+      </Table.RowItem>
+      <Table.RowItem {...tableConfig.finalFortnight}>
+      </Table.RowItem>
+    </Table.Row>
+  ));
+
   const table = (
     <TableView
       header={header}
@@ -49,7 +65,7 @@ const JobKeeperTable = ({
       onRowSelect={() => { }}
     >
       <Table.Body>
-        {/* {rows} */}
+        {rows}
       </Table.Body>
     </TableView>
   );
