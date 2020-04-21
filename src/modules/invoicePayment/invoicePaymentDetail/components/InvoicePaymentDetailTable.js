@@ -11,7 +11,7 @@ import {
   getTotalReceived,
 } from '../invoicePaymentDetailSelectors';
 import { getResponsiveConfig } from './getResponsiveConfig';
-import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
+import Calculator from '../../../../components/Calculator/Calculator';
 import TableView from '../../../../components/TableView/TableView';
 import styles from './InvoicePaymentDetailTable.module.css';
 
@@ -77,20 +77,19 @@ const InvoicePaymentDetailTable = ({
             </Table.RowItem>
             <Table.RowItem {...tableConfig.balanceDue} valign="middle" align="right">{entry.balanceDue}</Table.RowItem>
             <Table.RowItem {...tableConfig.discountGiven}>
-              <AmountInput
+              <Calculator
                 name="discountAmount"
                 value={entry.discountAmount}
                 textAlign="right"
                 disabled={!isCreating}
                 onChange={onAmountChange(onUpdateInvoicePaymentEntries, index)}
-                onBlur={onAmountChange(onUpdateInvoicePaymentEntries, index)}
                 numeralDecimalScaleMin={2}
                 numeralDecimalScaleMax={2}
               />
             </Table.RowItem>
             <Table.RowItem {...tableConfig.discountedBalance} valign="middle" align="right">{entry.discountedBalance}</Table.RowItem>
             <Table.RowItem {...tableConfig.amountReceived}>
-              <AmountInput
+              <Calculator
                 name="paidAmount"
                 value={entry.paidAmount}
                 infoBody={
@@ -101,7 +100,6 @@ const InvoicePaymentDetailTable = ({
                 textAlign="right"
                 disabled={!isCreating}
                 onChange={onAmountChange(onUpdateInvoicePaymentEntries, index)}
-                onBlur={onAmountChange(onUpdateInvoicePaymentEntries, index)}
                 numeralDecimalScaleMin={2}
                 numeralDecimalScaleMax={2}
               />

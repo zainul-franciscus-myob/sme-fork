@@ -118,6 +118,34 @@ describe('Calculator', () => {
       expect(onChangeValue).toEqual('1');
       expect(onBlurValue).toEqual(value);
     });
+
+    it('should trigger an onChange even if onBlur is not provided', () => {
+      // Set up
+      let onChangeValue = '';
+
+      const onChange = (e) => { onChangeValue = e.target.value; };
+      const onBlur = undefined;
+      const wrapper = setUp({ onChange, onBlur });
+
+      // Execute
+      const value = '1';
+      triggerOnBlurForInput({ wrapper, name: 'amount', value });
+
+      // Asert
+      expect(onChangeValue).toEqual(value);
+    });
+
+    it('should not trigger an onBlur if onBlur is not provided', () => {
+      // Set up
+      const onChange = jest.fn();
+      const onBlur = undefined;
+      const wrapper = setUp({ onChange, onBlur });
+
+      // Execute and assert
+      expect(() => {
+        triggerOnBlurForInput({ wrapper, name: 'amount', value: '' });
+      }).not.toThrow();
+    });
   });
 
   describe('CalculatorTooltip', () => {

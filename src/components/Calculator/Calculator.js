@@ -1,12 +1,10 @@
-import { Input } from '@myob/myob-widgets';
+import { InputBox } from '@myob/myob-widgets';
 import React, { useEffect, useState } from 'react';
+import classnames from 'classnames';
 import shortid from 'shortid';
 
-import {
-  addCommasInPlace,
-  addDecimalPlaces,
-  removeCommas,
-} from './formatter';
+import { addCommasInPlace, addDecimalPlaces, removeCommas } from './formatter';
+import FieldMessagePopup from '../FieldMessagePopup/FieldMessagePopup';
 import copyEventWithValue from '../autoFormatter/AmountInput/copyEventWithValue';
 import createValidator from './validate';
 import evaluate from './evaluate';
@@ -56,7 +54,10 @@ const onWrappedBlur = ({
     onChange(event);
   }
 
-  onBlur(event);
+  if (onBlur) {
+    onBlur(event);
+  }
+
   setIsActive(false);
 };
 
@@ -90,6 +91,16 @@ const Calculator = ({
   numeralIntegerScale,
   className,
   disabled,
+  errorId,
+  requiredId,
+  labelAccessory,
+  requiredLabel,
+  textAlign,
+  infoBody,
+  warningBody,
+  errorMessage,
+  errorMessageInline,
+  ...inputBoxProps
 }) => {
   // eslint-disable-next-line no-unused-vars
   const [id, _] = useState(shortid.generate());
@@ -176,17 +187,35 @@ const Calculator = ({
           />
         )
       }
-      <Input
+      <FieldMessagePopup
         id={elementId}
         reference={setTarget}
-        name={name}
         label={label}
         hideLabel={hideLabel}
-        value={formattedValue}
-        onChange={onCalculatorChange}
-        onBlur={onCalculatorBlur}
-        className={className}
-        disabled={disabled}
+        errorId={errorId}
+        requiredId={requiredId}
+        labelAccessory={labelAccessory}
+        errorMessage={errorMessage}
+        errorMessageInline={errorMessageInline}
+        warningBody={warningBody}
+        infoBody={infoBody}
+        requiredLabel={requiredLabel}
+        width={width}
+        renderField={props => (
+          <InputBox
+            {...props}
+            {...inputBoxProps}
+            name={name}
+            value={formattedValue}
+            onChange={onCalculatorChange}
+            onBlur={onCalculatorBlur}
+            className={classnames('form-control', className, {
+              'text-align-center': textAlign === 'center',
+              'text-align-right': textAlign === 'right',
+            })}
+            disabled={disabled}
+          />
+        )}
       />
     </>
   );
