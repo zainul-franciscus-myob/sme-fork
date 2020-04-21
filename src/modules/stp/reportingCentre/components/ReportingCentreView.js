@@ -24,13 +24,14 @@ const ReportingCentreView = ({
   onTabSelected,
   payrollIsSetUp,
   payrollSettingsLink,
+  featureToggles,
 }) => {
   const actions = (
     <div />
   );
   const tabs = (
     <Tabs
-      items={getTabItems()}
+      items={getTabItems(featureToggles)}
       selected={selectedTab}
       onSelected={onTabSelected}
     />

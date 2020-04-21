@@ -24,9 +24,11 @@ export default class ReportingCentreModule {
     integration,
     setRootView,
     replaceURLParams,
+    featureToggles,
   }) {
     this.setRootView = setRootView;
     this.integration = integration;
+    this.featureToggles = featureToggles;
     this.replaceURLParams = replaceURLParams;
     this.store = new Store(ReportingCentreReducer);
     this.integrator = createReportingCentreIntegrator(this.store, this.integration);
@@ -126,6 +128,7 @@ export default class ReportingCentreModule {
           tabModules={this.subModules}
           onDismissAlert={this.dispatcher.clearAlert}
           onTabSelected={this.setSelectedTab}
+          featureToggles={this.featureToggles}
         />
       </Provider>
     );

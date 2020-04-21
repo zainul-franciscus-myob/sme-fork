@@ -7,7 +7,7 @@ import ReportingCentreModule from '../ReportingCentreModule';
 import ReportingCentreView from '../components/ReportingCentreView';
 
 describe('ReportingCentreModule', () => {
-  const setupModule = (registrationStatus, tab, payrollIsSetUp) => {
+  const setupModule = (registrationStatus, tab, payrollIsSetUp, featureToggles = {}) => {
     const context = {
       region: 'au',
       businessId: '123',
@@ -30,6 +30,7 @@ describe('ReportingCentreModule', () => {
       integration,
       setRootView,
       replaceURLParams: url => (url),
+      featureToggles,
     });
 
     module.run(context);
@@ -66,5 +67,21 @@ describe('ReportingCentreModule', () => {
     const payrollNotSetUpView = wrapper.find(PayrollNotSetup);
 
     expect(payrollNotSetUpView).toHaveLength(1);
+  });
+
+  describe('Job keeper tab', () => {
+    it('shows if the feature toggle is on', () => {
+      const wrapper = setupModule('registered', tabIds.reports, true, { isJobKeeperTabEnabled: true });
+
+      const tabs = wrapper.find(Tabs);
+      expect(tabs.prop('items').find(item => item.id === tabIds.jobKeeperPayments)).toBeTruthy();
+    });
+
+    it('does not show if the feature toggle is on', () => {
+      const wrapper = setupModule('registered', tabIds.reports, true);
+
+      const tabs = wrapper.find(Tabs);
+      expect(tabs.prop('items').find(item => item.id === tabIds.jobKeeperPayments)).toBeFalsy();
+    });
   });
 });

@@ -6,7 +6,7 @@ import StpGetStartedModule from './stpGetStarted/StpGetStartedModule';
 import StpSetupModule from './stpSetup/StpSetupModule';
 
 const getStpRoutes = ({
-  integration, setRootView, replaceURLParams,
+  integration, setRootView, replaceURLParams, featureToggles,
 }) => {
   const routes = [
     {
@@ -39,7 +39,7 @@ const getStpRoutes = ({
       allowedParams: ['tab'],
       path: '/:region/:businessId/stp/reportingCentre',
       module: new ReportingCentreModule({
-        integration, setRootView, replaceURLParams,
+        integration, setRootView, replaceURLParams, featureToggles,
       }),
       documentTitle: 'Single Touch Payroll reporting',
     },
