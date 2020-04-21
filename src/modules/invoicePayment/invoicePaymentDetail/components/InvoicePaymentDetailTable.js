@@ -83,6 +83,7 @@ const InvoicePaymentDetailTable = ({
                 textAlign="right"
                 disabled={!isCreating}
                 onChange={onAmountChange(onUpdateInvoicePaymentEntries, index)}
+                onBlur={onAmountChange(onUpdateInvoicePaymentEntries, index)}
                 numeralDecimalScaleMin={2}
                 numeralDecimalScaleMax={2}
               />
@@ -100,6 +101,7 @@ const InvoicePaymentDetailTable = ({
                 textAlign="right"
                 disabled={!isCreating}
                 onChange={onAmountChange(onUpdateInvoicePaymentEntries, index)}
+                onBlur={onAmountChange(onUpdateInvoicePaymentEntries, index)}
                 numeralDecimalScaleMin={2}
                 numeralDecimalScaleMax={2}
               />
