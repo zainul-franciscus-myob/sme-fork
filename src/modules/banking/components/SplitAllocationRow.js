@@ -4,7 +4,7 @@ import React from 'react';
 
 import { getLineDataByIndexSelector, getNewLineData } from '../bankingSelectors/splitAllocationSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
-import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
+import Calculator from '../../../components/Calculator/Calculator';
 import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
 
 const handleComboBoxChange = (name, onChange) => item => onChange({
@@ -62,19 +62,18 @@ const SplitAllocationRow = (props) => {
         onChange={handleComboBoxChange('accountId', onChange)}
         addNewAccount={() => onAddAccount(handleComboBoxChange('accountId', onChange))}
       />
-      <AmountInput
+      <Calculator
         disabled={disabled}
         label="Amount"
         hideLabel
         name="amount"
         value={amount}
         onChange={handleAmountChange(onChange)}
-        onBlur={handleAmountChange(onChange)}
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
         textAlign="right"
       />
-      <AmountInput
+      <Calculator
         disabled={disabled}
         label="AmountPercent"
         hideLabel
@@ -83,7 +82,7 @@ const SplitAllocationRow = (props) => {
         onChange={handleAmountChange(onChange)}
         textAlign="right"
       />
-      <AmountInput
+      <Calculator
         disabled={disabled}
         label="Quantity"
         hideLabel
@@ -91,6 +90,7 @@ const SplitAllocationRow = (props) => {
         numeralIntegerScale={19}
         name="quantity"
         value={quantity}
+        textAlign="right"
         onChange={handleAmountChange(onChange)}
       />
       <TextArea

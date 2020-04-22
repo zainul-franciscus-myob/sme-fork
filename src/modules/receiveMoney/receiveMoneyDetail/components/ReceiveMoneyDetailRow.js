@@ -11,7 +11,7 @@ import {
   getTaxCodeOptions,
 } from '../selectors/receiveMoneyDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
-import AmountInput from '../../../../components/autoFormatter/AmountInput/FormattedAmountInput';
+import Calculator from '../../../../components/Calculator/Calculator';
 import JobCombobox from '../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 
@@ -80,7 +80,7 @@ const ReceiveMoneyDetailRow = ({
         )}
         disabled={isSubmitting}
       />
-      <AmountInput
+      <Calculator
         label="Amount"
         name="amount"
         value={amount}
@@ -90,7 +90,7 @@ const ReceiveMoneyDetailRow = ({
         numeralDecimalScaleMin={2}
         disabled={isSubmitting}
       />
-      <AmountInput
+      <Calculator
         label="Quantity"
         name="units"
         value={units}

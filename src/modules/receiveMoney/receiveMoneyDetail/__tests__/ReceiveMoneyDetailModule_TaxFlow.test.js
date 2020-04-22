@@ -47,7 +47,7 @@ describe('ReceiveMoneyDetailModule_TaxFlow', () => {
     {
       name: 'on blur field',
       do: (module) => {
-        module.formatAndCalculateTotals();
+        module.calculateLineTotals();
       },
     },
   ].forEach((test) => {

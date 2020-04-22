@@ -235,7 +235,7 @@ export default class ReceiveMoneyDetailModule {
     this.dispatcher.getCalculatedTotals({ lines, totals });
   }
 
-  formatAndCalculateTotals = () => {
+  calculateLineTotals = () => {
     const state = this.store.getState();
     const isLineEdited = getIsLineEdited(state);
     if (isLineEdited) {
@@ -314,7 +314,7 @@ export default class ReceiveMoneyDetailModule {
         onUpdateRow={this.updateReceiveMoneyLine}
         onAddRow={this.addReceiveMoneyLine}
         onRemoveRow={this.deleteReceiveMoneyLine}
-        onRowInputBlur={this.formatAndCalculateTotals}
+        onRowInputBlur={this.calculateLineTotals}
         onAddAccount={this.openAccountModal}
         onAddContact={this.openContactModal}
       />

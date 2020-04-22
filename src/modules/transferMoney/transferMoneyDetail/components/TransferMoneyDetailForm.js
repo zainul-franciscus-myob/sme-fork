@@ -7,7 +7,7 @@ import React from 'react';
 import { getBalance, getTransferMoneyProperties } from '../transferMoneyDetailSelectors';
 import AccountBalances from './TransferMoneyAccountBalance';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
-import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
+import Calculator from '../../../../components/Calculator/Calculator';
 import handleAmountInputChange from '../../../../components/handlers/handleAmountInputChange';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import handleDateChange from '../../../../components/handlers/handleDateChange';
@@ -28,13 +28,12 @@ const TransferMoneyDetailForm = ({
 }) => {
   const primary = (
     <React.Fragment>
-      <AmountInput
+      <Calculator
         label="Amount ($)"
         requiredLabel="This is required"
         name="amount"
         value={amount}
         onChange={handleAmountInputChange(onUpdateForm)}
-        onBlur={handleAmountInputChange(onUpdateForm)}
         numeralIntegerScale={13}
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={5}
