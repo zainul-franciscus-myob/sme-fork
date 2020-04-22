@@ -28,7 +28,7 @@ const HttpSpendMoneyMapping = {
   },
   [LOAD_NEW_DUPLICATE_SPEND_MONEY]: {
     method: 'GET',
-    getPath: ({ businessId, duplicatedSpendMoneyId }) => `/${businessId}/spendMoney/load_new_duplicate_spend_money/${duplicatedSpendMoneyId}`,
+    getPath: ({ businessId, duplicateId }) => `/${businessId}/spendMoney/load_new_duplicate_spend_money/${duplicateId}`,
   },
   [CREATE_SPEND_MONEY]: {
     method: 'POST',

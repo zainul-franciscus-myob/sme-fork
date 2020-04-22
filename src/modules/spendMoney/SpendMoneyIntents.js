@@ -40,4 +40,6 @@ export const LOAD_ACCOUNT_AFTER_CREATE = Symbol('Load an account after create');
 export const LOAD_CONTACT_AFTER_CREATE = Symbol('Load a contact after create');
 export const RESET_BANK_STATEMENT_TEXT = Symbol('Reset bank statement text');
 export const UPDATE_BANK_STATEMENT_TEXT = Symbol('Update bank statement text');
-export const UPDATE_SPEND_MONEY_ID = Symbol('Update spend money id');
+export const SET_DUPLICATE_ID = Symbol('Set duplicate id');
+export const SET_PREFILL_NEW = Symbol('Set prefill new');
+export const SET_PREFILL_INTRAY_DOCUMENT_ID = Symbol('Set prefill in tray document id');

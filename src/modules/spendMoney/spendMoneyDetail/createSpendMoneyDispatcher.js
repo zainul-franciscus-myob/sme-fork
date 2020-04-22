@@ -19,15 +19,17 @@ import {
   RESET_BANK_STATEMENT_TEXT,
   RESET_TOTALS,
   SET_ALERT,
+  SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_URL,
   SET_LOADING_STATE,
   SET_OPERATION_IN_PROGRESS_STATE,
+  SET_PREFILL_INTRAY_DOCUMENT_ID,
+  SET_PREFILL_NEW,
   SET_SHOW_SPLIT_VIEW,
   SET_SUBMITTING_STATE,
   SET_SUPPLIER_BLOCKING_STATE,
   UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_SPEND_MONEY_HEADER,
-  UPDATE_SPEND_MONEY_ID,
   UPDATE_SPEND_MONEY_LINE,
   UPDATE_UPLOAD_PROGRESS,
   UPLOAD_ATTACHMENT,
@@ -234,9 +236,20 @@ const createSpendMoneyDispatcher = store => ({
     intent: UPDATE_BANK_STATEMENT_TEXT,
   }),
 
-  updateSpendMoneyId: (spendMoneyId) => store.dispatch({
-    intent: UPDATE_SPEND_MONEY_ID,
-    spendMoneyId,
+  setDuplicateId: duplicateId => store.dispatch({
+    intent: SET_DUPLICATE_ID,
+    duplicateId,
+  }),
+
+  setPrefillNew: ({ selectedBankAccountId, selectedDate }) => store.dispatch({
+    intent: SET_PREFILL_NEW,
+    selectedBankAccountId,
+    selectedDate,
+  }),
+
+  setPrefillInTrayDocumentId: inTrayDocumentId => store.dispatch({
+    intent: SET_PREFILL_INTRAY_DOCUMENT_ID,
+    inTrayDocumentId,
   }),
 });
 

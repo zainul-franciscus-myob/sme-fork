@@ -9,7 +9,7 @@ import ModalType from './components/ModalType';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
 const getReferenceId = state => state.spendMoney.referenceId;
-const getSelectedPayFromId = state => state.spendMoney.selectedPayFromAccountId;
+export const getSelectedPayFromId = state => state.spendMoney.selectedPayFromAccountId;
 const getSelectedBankAccountId = state => state.selectedBankAccountId;
 const getSelectedDate = state => state.selectedDate;
 export const getSelectedPayToContactId = state => state.spendMoney.selectedPayToContactId;
@@ -22,7 +22,7 @@ export const getSeletedPayToContactType = createSelector(
 );
 const getPayFromAccounts = state => state.spendMoney.payFromAccounts;
 const getPayToContacts = state => state.spendMoney.payToContacts;
-const getDate = state => state.spendMoney.date;
+export const getDate = state => state.spendMoney.date;
 const getDescription = state => state.spendMoney.description;
 export const getExpenseAccountId = state => state.spendMoney.expenseAccountId;
 const getLines = state => state.spendMoney.lines;
@@ -37,7 +37,7 @@ export const getJobOptions = state => state.jobs;
 export const getRegion = state => state.region;
 const getElectronicClearingAccountId = state => state.spendMoney.electronicClearingAccountId;
 const getBankStatementText = state => state.spendMoney.bankStatementText;
-export const getDuplicatedSpendMoneyId = (state) => state.duplicatedSpendMoneyId;
+export const getDuplicateId = (state) => state.duplicateId;
 
 const getHeadersProperties = createStructuredSelector({
   referenceId: getReferenceId,
@@ -280,13 +280,13 @@ export const getLoadSpendMoneyRequestUrlParams = createSelector(
   getBusinessId,
   getIsCreating,
   getSpendMoneyId,
-  getDuplicatedSpendMoneyId,
-  (businessId, isCreating, spendMoneyId, duplicatedSpendMoneyId) => {
+  getDuplicateId,
+  (businessId, isCreating, spendMoneyId, duplicateId) => {
     if (isCreating) {
-      if (duplicatedSpendMoneyId) {
+      if (duplicateId) {
         return {
           businessId,
-          duplicatedSpendMoneyId,
+          duplicateId,
         };
       }
 
@@ -350,19 +350,6 @@ export const getCreateUrl = createSelector(
   (businessId, region) => `/#/${region}/${businessId}/spendMoney/new`,
 );
 
-export const getCreateAndNewUrl = createSelector(
-  getCreateUrl,
-  getSelectedPayFromId,
-  getDate,
-  (createUrl, payFromAccountId, date) => `${createUrl}?selectedBankAccountId=${payFromAccountId}&selectedDate=${date}`,
-);
-
-export const getDuplicatedUrl = createSelector(
-  getCreateUrl,
-  getSpendMoneyId,
-  (createUrl, spendMoneyId) => `${createUrl}?duplicatedSpendMoneyId=${spendMoneyId}`,
-);
-
 export const getSaveUrl = createSelector(
   getIsCreatingFromInTray,
   getModalUrl,
@@ -420,24 +407,12 @@ export const getLoadAddedContactUrlParams = (state, contactId) => {
   return { businessId, contactId };
 };
 
-export const getShouldReloadModule = createSelector(
-  getIsCreating,
-  getDuplicatedSpendMoneyId,
-  getSelectedBankAccountId,
-  getSelectedDate,
-  getSelectedPayFromId,
-  getDate,
-  (isCreating, duplicatedSpendMoneyId, bankAccountId, selectedDate, payFromId, date) => (
-    isCreating && !duplicatedSpendMoneyId && bankAccountId === payFromId && selectedDate === date
-  ),
-);
-
 export const getLoadSpendMoneyIntent = createSelector(
   getIsCreating,
-  getDuplicatedSpendMoneyId,
-  (isCreating, duplicatedSpendMoneyId) => {
+  getDuplicateId,
+  (isCreating, duplicateId) => {
     if (isCreating) {
-      if (duplicatedSpendMoneyId) {
+      if (duplicateId) {
         return LOAD_NEW_DUPLICATE_SPEND_MONEY;
       }
 

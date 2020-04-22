@@ -2,16 +2,17 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import copy from 'copy-to-clipboard';
 
+import {
+  PREFILL_INTRAY_DOCUMENT,
+  SUCCESSFULLY_SAVED_SPEND_MONEY,
+  SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
+} from '../../spendMoney/spendMoneyMessageTypes';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { SUCCESSFULLY_LINKED_DOCUMENT_TO_BILL } from '../inTrayMessageTypes';
 import {
   SUCCESSFULLY_SAVED_BILL,
   SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
 } from '../../bill/billDetail/types/BillMessageTypes';
-import {
-  SUCCESSFULLY_SAVED_SPEND_MONEY,
-  SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
-} from '../../spendMoney/spendMoneyMessageTypes';
 import { getBusinessId, getRegion } from './selectors/InTraySelectors';
 import { getEmail, getIsUploadOptionsLoading } from './selectors/UploadOptionsSelectors';
 import {
@@ -44,11 +45,12 @@ const messageTypes = [
 
 export default class InTrayModule {
   constructor({
-    integration, setRootView, popMessages, globalCallbacks,
+    integration, setRootView, popMessages, pushMessage, globalCallbacks,
   }) {
     this.integration = integration;
     this.store = new Store(inTrayReducer);
     this.popMessages = popMessages;
+    this.pushMessage = pushMessage;
     this.messageTypes = messageTypes;
     this.setRootView = setRootView;
     this.popMessages = popMessages;
@@ -277,7 +279,12 @@ export default class InTrayModule {
     const businessId = getBusinessId(state);
     const region = getRegion(state);
 
-    window.location.href = `/#/${region}/${businessId}/spendMoney/new?inTrayDocumentId=${id}`;
+    this.pushMessage({
+      type: PREFILL_INTRAY_DOCUMENT,
+      inTrayDocumentId: id,
+    });
+
+    window.location.href = `/#/${region}/${businessId}/spendMoney/new`;
   }
 
   openMoreUploadOptionsDialog = () => {

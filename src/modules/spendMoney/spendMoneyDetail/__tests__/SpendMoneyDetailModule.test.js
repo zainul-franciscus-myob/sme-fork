@@ -6,6 +6,7 @@ import {
   DOWNLOAD_IN_TRAY_DOCUMENT,
   GET_TAX_CALCULATIONS,
   LINK_IN_TRAY_DOCUMENT,
+  LOAD_NEW_DUPLICATE_SPEND_MONEY,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
   LOAD_SPEND_MONEY_DETAIL,
@@ -13,18 +14,26 @@ import {
   PREFILL_DATA_FROM_IN_TRAY,
   RESET_TOTALS,
   SET_ALERT,
+  SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_URL,
   SET_LOADING_STATE,
+  SET_PREFILL_INTRAY_DOCUMENT_ID,
+  SET_PREFILL_NEW,
   SET_SHOW_SPLIT_VIEW,
   SET_SUBMITTING_STATE,
   SET_SUPPLIER_BLOCKING_STATE,
   UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_SPEND_MONEY,
   UPDATE_SPEND_MONEY_HEADER,
-  UPDATE_SPEND_MONEY_ID,
 } from '../../SpendMoneyIntents';
+import {
+  DUPLICATE_SPEND_MONEY,
+  PREFILL_INTRAY_DOCUMENT,
+  PREFILL_NEW,
+  SUCCESSFULLY_SAVED_SPEND_MONEY,
+  SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
+} from '../../spendMoneyMessageTypes';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
-import { SUCCESSFULLY_SAVED_SPEND_MONEY, SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK } from '../../spendMoneyMessageTypes';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import ModalType from '../components/ModalType';
 import SaveActionType from '../components/SaveActionType';
@@ -68,12 +77,11 @@ const setup = () => {
   };
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export const setupWithNew = () => {
   const toolbox = setup();
   const { store, integration, module } = toolbox;
 
-  module.run({ spendMoneyId: 'new', businessId: 'bizId' });
+  module.run({ spendMoneyId: 'new', businessId: 'bizId', region: 'au' });
   store.resetActions();
   integration.resetRequests();
 
@@ -83,8 +91,14 @@ export const setupWithNew = () => {
 export const setUpWithNewFromInTray = () => {
   const toolbox = setup();
   const { store, integration, module } = toolbox;
+  module.popMessages = () => [{
+    type: PREFILL_INTRAY_DOCUMENT,
+    inTrayDocumentId: 'docId',
+  }];
 
-  module.run({ spendMoneyId: 'new', businessId: 'bizId', inTrayDocumentId: 'docId' });
+  module.run({
+    spendMoneyId: 'new', businessId: 'bizId', region: 'au',
+  });
   store.resetActions();
   integration.resetRequests();
 
@@ -95,7 +109,7 @@ const setUpWithExisting = () => {
   const toolbox = setup();
   const { store, integration, module } = toolbox;
 
-  module.run({ spendMoneyId: '1' });
+  module.run({ spendMoneyId: '1', businessId: 'bizId', region: 'au' });
   store.resetActions();
   integration.resetRequests();
 
@@ -103,10 +117,9 @@ const setUpWithExisting = () => {
 };
 
 const setUpWithPageEdited = () => {
-  const toolbox = setup();
+  const toolbox = setUpWithExisting();
   const { store, integration, module } = toolbox;
 
-  module.run({ spendMoneyId: '1' });
   module.updateSpendMoneyLine(0, 'accountId', '4');
   store.resetActions();
   integration.resetRequests();
@@ -143,6 +156,10 @@ describe('SpendMoneyDetailModule', () => {
           intent: SET_INITIAL_STATE,
         }),
         {
+          intent: SET_PREFILL_INTRAY_DOCUMENT_ID,
+          inTrayDocumentId: '🍌',
+        },
+        {
           intent: SET_LOADING_STATE,
           isLoading: LoadingState.LOADING,
         },
@@ -171,7 +188,12 @@ describe('SpendMoneyDetailModule', () => {
 
       it('successfully load', () => {
         const { store, integration, module } = setup();
-        module.run({ spendMoneyId: 'new', inTrayDocumentId: '🍌', businessId: '👺' });
+        module.popMessages = () => [{
+          type: PREFILL_INTRAY_DOCUMENT,
+          inTrayDocumentId: '🍌',
+        }];
+
+        module.run({ spendMoneyId: 'new', businessId: '👺' });
 
         expect(store.getActions()).toEqual([
           ...loadSpendMoneyActions,
@@ -210,7 +232,12 @@ describe('SpendMoneyDetailModule', () => {
       it('fail to download in tray document', () => {
         const { store, integration, module } = setup();
         integration.mapFailure(DOWNLOAD_IN_TRAY_DOCUMENT);
-        module.run({ spendMoneyId: 'new', inTrayDocumentId: '🍌', businessId: '👺' });
+        module.popMessages = () => [{
+          type: PREFILL_INTRAY_DOCUMENT,
+          inTrayDocumentId: '🍌',
+        }];
+
+        module.run({ spendMoneyId: 'new', businessId: '👺' });
 
         expect(store.getActions()).toEqual([
           ...loadSpendMoneyActions,
@@ -256,12 +283,21 @@ describe('SpendMoneyDetailModule', () => {
       it('fail to prefill in tray document', () => {
         const { store, integration, module } = setup();
         integration.mapFailure(PREFILL_DATA_FROM_IN_TRAY);
-        module.run({ spendMoneyId: 'new', inTrayDocumentId: '🍌', businessId: '👺' });
+        module.popMessages = () => [{
+          type: PREFILL_INTRAY_DOCUMENT,
+          inTrayDocumentId: '🍌',
+        }];
+
+        module.run({ spendMoneyId: 'new', businessId: '👺' });
 
         expect(store.getActions()).toEqual([
           expect.objectContaining({
             intent: SET_INITIAL_STATE,
           }),
+          {
+            intent: SET_PREFILL_INTRAY_DOCUMENT_ID,
+            inTrayDocumentId: '🍌',
+          },
           {
             intent: SET_LOADING_STATE,
             isLoading: LoadingState.LOADING,
@@ -358,6 +394,202 @@ describe('SpendMoneyDetailModule', () => {
           intent: SET_LOADING_STATE,
           isLoading: LoadingState.LOADING_FAIL,
         },
+      ]);
+    });
+
+    it('successfully load from save and create new', () => {
+      const { store, integration, module } = setup();
+      module.popMessages = () => [
+        {
+          type: PREFILL_NEW,
+          selectedBankAccountId: '123',
+          selectedDate: '2020-04-23',
+        },
+      ];
+
+      module.run({ businessId: '👺', region: 'au', spendMoneyId: 'new' });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_INITIAL_STATE,
+          context: {
+            isSpendMoneyJobColumnEnabled: true,
+            businessId: '👺',
+            region: 'au',
+            spendMoneyId: 'new',
+          },
+        },
+        {
+          intent: SET_PREFILL_NEW,
+          selectedBankAccountId: '123',
+          selectedDate: '2020-04-23',
+        },
+        {
+          intent: SET_LOADING_STATE,
+          isLoading: LoadingState.LOADING,
+        },
+        expect.objectContaining({
+          intent: LOAD_NEW_SPEND_MONEY,
+        }),
+        {
+          intent: SET_LOADING_STATE,
+          isLoading: LoadingState.LOADING_SUCCESS,
+        },
+        {
+          intent: RESET_TOTALS,
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_NEW_SPEND_MONEY,
+          urlParams: {
+            businessId: '👺',
+          },
+        }),
+      ]);
+    });
+
+    it('fails to load from save and create new', () => {
+      const { store, integration, module } = setup();
+      integration.mapFailure(LOAD_NEW_SPEND_MONEY);
+      module.popMessages = () => [
+        {
+          type: PREFILL_NEW,
+          selectedBankAccountId: '123',
+          selectedDate: '2020-04-23',
+        },
+      ];
+
+      module.run({ businessId: '👺', region: 'au', spendMoneyId: 'new' });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_INITIAL_STATE,
+          context: {
+            isSpendMoneyJobColumnEnabled: true,
+            businessId: '👺',
+            region: 'au',
+            spendMoneyId: 'new',
+          },
+        },
+        {
+          intent: SET_PREFILL_NEW,
+          selectedBankAccountId: '123',
+          selectedDate: '2020-04-23',
+        },
+        {
+          intent: SET_LOADING_STATE,
+          isLoading: LoadingState.LOADING,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          isLoading: LoadingState.LOADING_FAIL,
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_NEW_SPEND_MONEY,
+          urlParams: {
+            businessId: '👺',
+          },
+        }),
+      ]);
+    });
+
+    it('successfully load duplicate', () => {
+      const { store, integration, module } = setup();
+      module.popMessages = () => [
+        {
+          type: DUPLICATE_SPEND_MONEY,
+          duplicateId: '🦄',
+        },
+      ];
+
+      module.run({ businessId: '👺', region: 'au', spendMoneyId: 'new' });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_INITIAL_STATE,
+          context: {
+            isSpendMoneyJobColumnEnabled: true,
+            businessId: '👺',
+            region: 'au',
+            spendMoneyId: 'new',
+          },
+        },
+        {
+          intent: SET_DUPLICATE_ID,
+          duplicateId: '🦄',
+        },
+        {
+          intent: SET_LOADING_STATE,
+          isLoading: LoadingState.LOADING,
+        },
+        expect.objectContaining({
+          intent: LOAD_NEW_DUPLICATE_SPEND_MONEY,
+        }),
+        {
+          intent: SET_LOADING_STATE,
+          isLoading: LoadingState.LOADING_SUCCESS,
+        },
+        expect.objectContaining({
+          intent: GET_TAX_CALCULATIONS,
+        }),
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_NEW_DUPLICATE_SPEND_MONEY,
+          urlParams: {
+            businessId: '👺',
+            duplicateId: '🦄',
+          },
+        }),
+      ]);
+    });
+
+    it('fails to load duplicate', () => {
+      const { store, integration, module } = setup();
+      integration.mapFailure(LOAD_NEW_DUPLICATE_SPEND_MONEY);
+      module.popMessages = () => [
+        {
+          type: DUPLICATE_SPEND_MONEY,
+          duplicateId: '🦄',
+        },
+      ];
+
+      module.run({ businessId: '👺', region: 'au', spendMoneyId: 'new' });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_INITIAL_STATE,
+          context: {
+            isSpendMoneyJobColumnEnabled: true,
+            businessId: '👺',
+            region: 'au',
+            spendMoneyId: 'new',
+          },
+        },
+        {
+          intent: SET_DUPLICATE_ID,
+          duplicateId: '🦄',
+        },
+        {
+          intent: SET_LOADING_STATE,
+          isLoading: LoadingState.LOADING,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          isLoading: LoadingState.LOADING_FAIL,
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_NEW_DUPLICATE_SPEND_MONEY,
+          urlParams: {
+            businessId: '👺',
+            duplicateId: '🦄',
+          },
+        }),
       ]);
     });
   });
@@ -536,6 +768,7 @@ describe('SpendMoneyDetailModule', () => {
         it('should save', () => {
           const { module, store, integration } = test.setup();
           module.pushMessage = jest.fn();
+          module.navigateTo = jest.fn();
 
           module.saveSpendMoney();
 
@@ -559,6 +792,7 @@ describe('SpendMoneyDetailModule', () => {
           expect(module.pushMessage).toHaveBeenCalledWith(
             expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY }),
           );
+          expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/transactionList');
         });
       });
 
@@ -619,6 +853,7 @@ describe('SpendMoneyDetailModule', () => {
       it('successfully creates a spend money and link in tray document', () => {
         const { module, store, integration } = setUpWithNewFromInTray();
         module.pushMessage = jest.fn();
+        module.navigateTo = jest.fn();
 
         module.saveSpendMoney();
 
@@ -645,12 +880,14 @@ describe('SpendMoneyDetailModule', () => {
         expect(module.pushMessage).toHaveBeenCalledWith(
           expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY }),
         );
+        expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/inTray');
       });
 
       it('successfully creates a spend money but fails to link in tray document', () => {
         const { module, store, integration } = setUpWithNewFromInTray();
         integration.mapFailure(LINK_IN_TRAY_DOCUMENT);
         module.pushMessage = jest.fn();
+        module.navigateTo = jest.fn();
 
         module.saveSpendMoney();
 
@@ -677,90 +914,241 @@ describe('SpendMoneyDetailModule', () => {
         expect(module.pushMessage).toHaveBeenCalledWith(
           expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK }),
         );
+        expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/inTray');
       });
     });
   });
 
   describe('handleSaveAndAction', () => {
+    describe('save and duplicate', () => {
+      it('should create and redirect to create', () => {
+        const { module, store, integration } = setupWithNew();
+        integration.mapSuccess(CREATE_SPEND_MONEY, {
+          message: '👽',
+          id: '🦕',
+        });
+        module.pushMessage = jest.fn();
+        module.navigateTo = jest.fn();
+
+        module.handleSaveAndAction(SaveActionType.SAVE_AND_DUPLICATE);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_SUBMITTING_STATE,
+            isSubmitting: true,
+          },
+          {
+            intent: SET_SUBMITTING_STATE,
+            isSubmitting: false,
+          },
+        ]);
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: CREATE_SPEND_MONEY,
+          }),
+        ]);
+
+        expect(module.pushMessage).toHaveBeenCalledWith(
+          {
+            type: SUCCESSFULLY_SAVED_SPEND_MONEY,
+            content: '👽',
+          },
+        );
+        expect(module.pushMessage).toHaveBeenCalledWith({
+          type: DUPLICATE_SPEND_MONEY,
+          duplicateId: '🦕',
+        });
+        expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/spendMoney/new');
+      });
+
+      it('should update and redirect to create', () => {
+        const { module, store, integration } = setUpWithExisting();
+        integration.mapSuccess(UPDATE_SPEND_MONEY, {
+          message: '👽',
+          id: '🦕',
+        });
+        module.pushMessage = jest.fn();
+        module.navigateTo = jest.fn();
+
+        module.handleSaveAndAction(SaveActionType.SAVE_AND_DUPLICATE);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_SUBMITTING_STATE,
+            isSubmitting: true,
+          },
+          {
+            intent: SET_SUBMITTING_STATE,
+            isSubmitting: false,
+          },
+        ]);
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: UPDATE_SPEND_MONEY,
+          }),
+        ]);
+
+        expect(module.pushMessage).toHaveBeenCalledWith({
+          type: SUCCESSFULLY_SAVED_SPEND_MONEY,
+          content: '👽',
+        });
+        expect(module.pushMessage).toHaveBeenCalledWith({
+          type: DUPLICATE_SPEND_MONEY,
+          duplicateId: '🦕',
+        });
+        expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/spendMoney/new');
+      });
+    });
+
+    describe('save and new', () => {
+      it('should create', () => {
+        const { module, store, integration } = setupWithNew();
+        integration.mapSuccess(CREATE_SPEND_MONEY, {
+          message: '👽',
+          id: '🦕',
+        });
+        module.pushMessage = jest.fn();
+        module.navigateTo = jest.fn();
+
+        module.handleSaveAndAction(SaveActionType.SAVE_AND_CREATE_NEW);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_SUBMITTING_STATE,
+            isSubmitting: true,
+          },
+          {
+            intent: SET_SUBMITTING_STATE,
+            isSubmitting: false,
+          },
+        ]);
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: CREATE_SPEND_MONEY,
+          }),
+        ]);
+
+        expect(module.pushMessage).toHaveBeenCalledWith({
+          type: SUCCESSFULLY_SAVED_SPEND_MONEY,
+          content: '👽',
+        });
+        expect(module.pushMessage).toHaveBeenCalledWith({
+          type: PREFILL_NEW,
+          selectedBankAccountId: '123',
+          selectedDate: '2020-04-22',
+        });
+        expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/spendMoney/new');
+      });
+
+      it('should update', () => {
+        const { module, store, integration } = setUpWithExisting();
+        integration.mapSuccess(UPDATE_SPEND_MONEY, {
+          message: '👽',
+          id: '🦕',
+        });
+        module.pushMessage = jest.fn();
+        module.navigateTo = jest.fn();
+
+        module.handleSaveAndAction(SaveActionType.SAVE_AND_CREATE_NEW);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_SUBMITTING_STATE,
+            isSubmitting: true,
+          },
+          {
+            intent: SET_SUBMITTING_STATE,
+            isSubmitting: false,
+          },
+        ]);
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: UPDATE_SPEND_MONEY,
+          }),
+        ]);
+
+        expect(module.pushMessage).toHaveBeenCalledWith({
+          type: SUCCESSFULLY_SAVED_SPEND_MONEY,
+          content: '👽',
+        });
+        expect(module.pushMessage).toHaveBeenCalledWith({
+          type: PREFILL_NEW,
+          selectedBankAccountId: '456',
+          selectedDate: '2018-11-02',
+        });
+        expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/spendMoney/new');
+      });
+    });
     [
       { action: SaveActionType.SAVE_AND_CREATE_NEW },
       { action: SaveActionType.SAVE_AND_DUPLICATE },
     ].forEach(({ action }) => {
-      describe('not from in tray', () => {
-        /*
-        Testing onSuccess for create and update spend money
-      */
-        [
-          {
-            intent: CREATE_SPEND_MONEY,
-            setup: setupWithNew,
-          },
-          {
-            intent: UPDATE_SPEND_MONEY,
-            setup: setUpWithExisting,
-          },
-        ].forEach((test) => {
-          it('should save', () => {
-            const { module, store, integration } = test.setup();
-            module.pushMessage = jest.fn();
-            module.reload = jest.fn();
+      describe(`when ${action}`, () => {
+        describe('not from in tray', () => {
+          /*
+            Testing onFailure for create and update spend money
+          */
+          [
+            {
+              intent: CREATE_SPEND_MONEY,
+              setup: setupWithNew,
+            },
+            {
+              intent: UPDATE_SPEND_MONEY,
+              setup: setUpWithExisting,
+            },
+          ].forEach((test) => {
+            it('should shown an alert if it fails', () => {
+              const { module, store, integration } = test.setup();
+
+              integration.mapFailure(test.intent);
+              module.handleSaveAndAction(action);
+
+              expect(store.getActions()).toEqual([
+                {
+                  intent: SET_SUBMITTING_STATE,
+                  isSubmitting: true,
+                },
+                {
+                  intent: SET_SUBMITTING_STATE,
+                  isSubmitting: false,
+                },
+                expect.objectContaining({
+                  intent: SET_ALERT,
+                }),
+              ]);
+            });
+          });
+
+          it('should do an early return if it\'s already submitting', () => {
+            const { module, store, integration } = setUpWithExisting();
+
+            const dontTriggerOnSuccess = () => {};
+            integration.overrideMapping(UPDATE_SPEND_MONEY, dontTriggerOnSuccess);
+
+            // Setup: this will trigger an update spend money request,
+            // but will not trigger the onSuccess which means that
+            // the submitting state will not be set to false
+            module.handleSaveAndAction(action);
+            store.resetActions();
 
             module.handleSaveAndAction(action);
 
-            const commonActions = [
-              {
-                intent: SET_SUBMITTING_STATE,
-                isSubmitting: true,
-              },
-              {
-                intent: SET_SUBMITTING_STATE,
-                isSubmitting: false,
-              },
-            ];
-
-            const expectedActions = (
-              action === SaveActionType.SAVE_AND_DUPLICATE
-              && test.intent === CREATE_SPEND_MONEY ? [
-                  ...commonActions,
-                  {
-                    intent: UPDATE_SPEND_MONEY_ID,
-                    spendMoneyId: '1',
-                  },
-                ] : commonActions
-            );
-
-            expect(store.getActions()).toEqual(expectedActions);
-
-            expect(integration.getRequests()).toEqual([
-              expect.objectContaining({
-                intent: test.intent,
-              }),
-            ]);
-
-            expect(module.pushMessage).toHaveBeenCalledWith(
-              expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY }),
-            );
+            expect(store.getActions()).toEqual([]);
           });
         });
 
-        /*
-          Testing onFailure for create and update spend money
-        */
-        [
-          {
-            intent: CREATE_SPEND_MONEY,
-            setup: setupWithNew,
-          },
-          {
-            intent: UPDATE_SPEND_MONEY,
-            setup: setUpWithExisting,
-          },
-        ].forEach((test) => {
-          it('should shown an alert if it fails', () => {
-            const { module, store, integration } = test.setup();
+        describe('from in tray', () => {
+          it('successfully creates a spend money and link in tray document', () => {
+            const { module, store, integration } = setUpWithNewFromInTray();
+            module.pushMessage = jest.fn();
+            module.navigateTo = jest.fn();
 
-            integration.mapFailure(test.intent);
-            module.handleSaveAndAction(action);
+            module.saveSpendMoney();
 
             expect(store.getActions()).toEqual([
               {
@@ -771,93 +1159,56 @@ describe('SpendMoneyDetailModule', () => {
                 intent: SET_SUBMITTING_STATE,
                 isSubmitting: false,
               },
+            ]);
+
+            expect(integration.getRequests()).toEqual([
               expect.objectContaining({
-                intent: SET_ALERT,
+                intent: CREATE_SPEND_MONEY,
+              }),
+              expect.objectContaining({
+                intent: LINK_IN_TRAY_DOCUMENT,
               }),
             ]);
+
+            expect(module.pushMessage).toHaveBeenCalledWith(
+              expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY }),
+            );
+            expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/inTray');
           });
-        });
 
-        it('should do an early return if it\'s already submitting', () => {
-          const { module, store, integration } = setUpWithExisting();
+          it('successfully creates a spend money but fails to link in tray document', () => {
+            const { module, store, integration } = setUpWithNewFromInTray();
+            integration.mapFailure(LINK_IN_TRAY_DOCUMENT);
+            module.pushMessage = jest.fn();
+            module.navigateTo = jest.fn();
 
-          const dontTriggerOnSuccess = () => {};
-          integration.overrideMapping(UPDATE_SPEND_MONEY, dontTriggerOnSuccess);
+            module.saveSpendMoney();
 
-          // Setup: this will trigger an update spend money request,
-          // but will not trigger the onSuccess which means that
-          // the submitting state will not be set to false
-          module.handleSaveAndAction(action);
-          store.resetActions();
+            expect(store.getActions()).toEqual([
+              {
+                intent: SET_SUBMITTING_STATE,
+                isSubmitting: true,
+              },
+              {
+                intent: SET_SUBMITTING_STATE,
+                isSubmitting: false,
+              },
+            ]);
 
-          module.handleSaveAndAction(action);
+            expect(integration.getRequests()).toEqual([
+              expect.objectContaining({
+                intent: CREATE_SPEND_MONEY,
+              }),
+              expect.objectContaining({
+                intent: LINK_IN_TRAY_DOCUMENT,
+              }),
+            ]);
 
-          expect(store.getActions()).toEqual([]);
-        });
-      });
-
-      describe('from in tray', () => {
-        it('successfully creates a spend money and link in tray document', () => {
-          const { module, store, integration } = setUpWithNewFromInTray();
-          module.pushMessage = jest.fn();
-
-          module.saveSpendMoney();
-
-          expect(store.getActions()).toEqual([
-            {
-              intent: SET_SUBMITTING_STATE,
-              isSubmitting: true,
-            },
-            {
-              intent: SET_SUBMITTING_STATE,
-              isSubmitting: false,
-            },
-          ]);
-
-          expect(integration.getRequests()).toEqual([
-            expect.objectContaining({
-              intent: CREATE_SPEND_MONEY,
-            }),
-            expect.objectContaining({
-              intent: LINK_IN_TRAY_DOCUMENT,
-            }),
-          ]);
-
-          expect(module.pushMessage).toHaveBeenCalledWith(
-            expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY }),
-          );
-        });
-
-        it('successfully creates a spend money but fails to link in tray document', () => {
-          const { module, store, integration } = setUpWithNewFromInTray();
-          integration.mapFailure(LINK_IN_TRAY_DOCUMENT);
-          module.pushMessage = jest.fn();
-
-          module.saveSpendMoney();
-
-          expect(store.getActions()).toEqual([
-            {
-              intent: SET_SUBMITTING_STATE,
-              isSubmitting: true,
-            },
-            {
-              intent: SET_SUBMITTING_STATE,
-              isSubmitting: false,
-            },
-          ]);
-
-          expect(integration.getRequests()).toEqual([
-            expect.objectContaining({
-              intent: CREATE_SPEND_MONEY,
-            }),
-            expect.objectContaining({
-              intent: LINK_IN_TRAY_DOCUMENT,
-            }),
-          ]);
-
-          expect(module.pushMessage).toHaveBeenCalledWith(
-            expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK }),
-          );
+            expect(module.pushMessage).toHaveBeenCalledWith(
+              expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK }),
+            );
+            expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/inTray');
+          });
         });
       });
     });
@@ -979,7 +1330,7 @@ describe('SpendMoneyDetailModule', () => {
       const { module, integration } = setUpWithExisting();
 
       module.openUnsavedModal('some-url');
-      module.redirectToUrl = jest.fn();
+      module.navigateTo = jest.fn();
       module.saveHandler();
 
       expect(integration.getRequests()).toEqual([
@@ -987,6 +1338,7 @@ describe('SpendMoneyDetailModule', () => {
           intent: UPDATE_SPEND_MONEY,
         }),
       ]);
+      expect(module.navigateTo).toHaveBeenCalledWith('some-url');
     });
   });
 });

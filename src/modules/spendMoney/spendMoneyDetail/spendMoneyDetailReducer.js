@@ -22,15 +22,17 @@ import {
   RESET_BANK_STATEMENT_TEXT,
   RESET_TOTALS,
   SET_ALERT,
+  SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_URL,
   SET_LOADING_STATE,
   SET_OPERATION_IN_PROGRESS_STATE,
+  SET_PREFILL_INTRAY_DOCUMENT_ID,
+  SET_PREFILL_NEW,
   SET_SHOW_SPLIT_VIEW,
   SET_SUBMITTING_STATE,
   SET_SUPPLIER_BLOCKING_STATE,
   UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_SPEND_MONEY_HEADER,
-  UPDATE_SPEND_MONEY_ID,
   UPDATE_SPEND_MONEY_LINE,
   UPDATE_UPLOAD_PROGRESS,
   UPLOAD_ATTACHMENT,
@@ -59,6 +61,10 @@ const defaultLinePrefillStatus = {
 };
 
 const getDefaultState = () => ({
+  duplicateId: '',
+  inTrayDocumentId: '',
+  selectedBankAccountId: '',
+  selectedDate: '',
   spendMoney: {
     id: '',
     uid: '',
@@ -595,9 +601,20 @@ const updateBankStatementText = (state) => {
   };
 };
 
-const updateSpendMoneyId = (state, { spendMoneyId }) => ({
+const setDuplicateId = (state, action) => ({
   ...state,
-  spendMoneyId,
+  duplicateId: action.duplicateId,
+});
+
+const setPrefillNew = (state, action) => ({
+  ...state,
+  selectedBankAccountId: action.selectedBankAccountId,
+  selectedDate: action.selectedDate,
+});
+
+const setPrefillInTrayDocumentId = (state, action) => ({
+  ...state,
+  inTrayDocumentId: action.inTrayDocumentId,
 });
 
 const handlers = {
@@ -638,7 +655,9 @@ const handlers = {
   [LOAD_CONTACT_AFTER_CREATE]: loadContactAfterCreate,
   [RESET_BANK_STATEMENT_TEXT]: resetBankStatementText,
   [UPDATE_BANK_STATEMENT_TEXT]: updateBankStatementText,
-  [UPDATE_SPEND_MONEY_ID]: updateSpendMoneyId,
+  [SET_DUPLICATE_ID]: setDuplicateId,
+  [SET_PREFILL_NEW]: setPrefillNew,
+  [SET_PREFILL_INTRAY_DOCUMENT_ID]: setPrefillInTrayDocumentId,
 };
 const spendMoneyReducer = createReducer(getDefaultState(), handlers);
 

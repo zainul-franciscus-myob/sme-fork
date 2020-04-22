@@ -2,6 +2,9 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  DUPLICATE_SPEND_MONEY,
+  PREFILL_INTRAY_DOCUMENT,
+  PREFILL_NEW,
   SUCCESSFULLY_DELETED_SPEND_MONEY,
   SUCCESSFULLY_SAVED_SPEND_MONEY,
   SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
@@ -10,10 +13,8 @@ import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalc
 import {
   getAccountModalContext,
   getContactModalContext,
-  getCreateAndNewUrl,
   getCreateUrl,
-  getDuplicatedSpendMoneyId,
-  getDuplicatedUrl,
+  getDate,
   getExpenseAccountId,
   getFilesForUpload,
   getHasPrefilledLines,
@@ -31,7 +32,7 @@ import {
   getModalUrl,
   getOpenedModalType,
   getSaveUrl,
-  getShouldReloadModule,
+  getSelectedPayFromId,
   getShouldShowAccountCode,
   getSpendMoneyId,
   getTaxCodeOptions,
@@ -55,13 +56,13 @@ import spendMoneyDetailReducer from './spendMoneyDetailReducer';
 
 export default class SpendMoneyDetailModule {
   constructor({
-    integration, setRootView, pushMessage, popMessages, reload, featureToggles,
+    integration, setRootView, pushMessage, popMessages, navigateTo, featureToggles,
   }) {
     this.store = new Store(spendMoneyDetailReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.popMessages = popMessages;
-    this.reload = reload;
+    this.navigateTo = navigateTo;
     this.dispatcher = createSpendMoneyDispatcher(this.store);
     this.integrator = createSpendMoneyIntegrator(this.store, integration);
     this.taxCalculate = createTaxCalculator(TaxCalculatorTypes.spendMoney);
@@ -260,9 +261,7 @@ export default class SpendMoneyDetailModule {
       this.dispatcher.setSubmittingState(false);
 
       const url = getSaveUrl(state);
-      if (this.isRedirectToSamePage(url)) {
-        this.reload();
-      } else this.redirectToUrl(url);
+      this.navigateTo(url);
     },
 
     onFailure: (error) => {
@@ -339,32 +338,14 @@ export default class SpendMoneyDetailModule {
     const state = this.store.getState();
     const url = getModalUrl(state);
 
-    if (this.isRedirectToSamePage(url)) {
-      if (getIsCreatingFromInTray(state)
-        || getDuplicatedSpendMoneyId(state)) {
-        this.redirectToUrl(getCreateUrl(state));
-      } else {
-        this.reload();
-      }
-    } else {
-      this.redirectToUrl(url);
-    }
+    this.navigateTo(url);
   }
 
   redirectAfterLink = () => {
     const state = this.store.getState();
     const redirectUrl = getSaveUrl(state);
 
-    if (this.isRedirectToSamePage(redirectUrl)) {
-      // Not calling reload here because reload preserves the inTrayDocumentId param
-      // and so prefills the spend money if the user is clicking on the nav option
-      // to create Spend Money from a Create Spend Money from In Tray,
-      // on successful link and save, the page should redirects to
-      // Create Spend Money without prefill
-      this.redirectToUrl(getCreateUrl(state));
-    } else {
-      this.redirectToUrl(redirectUrl);
-    }
+    this.navigateTo(redirectUrl);
   };
 
   redirectToInTrayList = () => {
@@ -380,14 +361,6 @@ export default class SpendMoneyDetailModule {
 
     window.location.href = transactionListUrl;
   };
-
-  redirectToUrl = (url) => {
-    if (url) {
-      window.location.href = url;
-    }
-  }
-
-  isRedirectToSamePage = (redirectUrl) => window.location.href.includes(redirectUrl);
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
@@ -637,51 +610,38 @@ export default class SpendMoneyDetailModule {
     this.setRootView(wrappedView);
   };
 
-  saveAndCreateNew = () => {
-    const onSuccess = ({ message }) => {
-      this.pushMessage({
-        type: SUCCESSFULLY_SAVED_SPEND_MONEY,
-        content: message,
-      });
-      const state = this.store.getState();
-      const url = getCreateAndNewUrl(state);
-      if (getShouldReloadModule(state)) {
-        this.reload();
-      } else this.redirectToUrl(url);
-    };
+  handleSaveAndAction = (actionType) => {
+    const state = this.store.getState();
+    if (getIsSubmitting(state)) {
+      return;
+    }
 
-    this.saveSpendMoneyAnd({ onSuccess });
-  };
-
-  saveAndDuplicate = () => {
     const onSuccess = ({ message, id }) => {
       this.pushMessage({
         type: SUCCESSFULLY_SAVED_SPEND_MONEY,
         content: message,
       });
 
-      if (getIsCreating(this.store.getState())) {
-        this.dispatcher.updateSpendMoneyId(id);
+      if (actionType === SaveActionType.SAVE_AND_DUPLICATE) {
+        this.pushMessage({
+          type: DUPLICATE_SPEND_MONEY,
+          duplicateId: id,
+        });
       }
 
-      const url = getDuplicatedUrl(this.store.getState());
+      if (actionType === SaveActionType.SAVE_AND_CREATE_NEW) {
+        this.pushMessage({
+          type: PREFILL_NEW,
+          selectedBankAccountId: getSelectedPayFromId(state),
+          selectedDate: getDate(state),
+        });
+      }
 
-      this.redirectToUrl(url);
+      const url = getCreateUrl(state);
+      this.navigateTo(url);
     };
 
     this.saveSpendMoneyAnd({ onSuccess });
-  };
-
-  handleSaveAndAction = (actionType) => {
-    const state = this.store.getState();
-    if (getIsSubmitting(state)) {
-      return;
-    }
-    if (actionType === SaveActionType.SAVE_AND_CREATE_NEW) {
-      this.saveAndCreateNew();
-    } else if (actionType === SaveActionType.SAVE_AND_DUPLICATE) {
-      this.saveAndDuplicate();
-    }
   }
 
   saveSpendMoneyAnd = ({ onSuccess }) => {
@@ -757,16 +717,33 @@ export default class SpendMoneyDetailModule {
   };
 
   readMessages = () => {
-    const messageTypes = [
+    this.popMessages([
       SUCCESSFULLY_SAVED_SPEND_MONEY,
       SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
-    ];
-    const [successMessage] = this.popMessages(messageTypes);
-
-    if (successMessage) {
-      const { content: message } = successMessage;
-      this.dispatcher.setAlert({ message, type: 'success' });
-    }
+      DUPLICATE_SPEND_MONEY,
+      PREFILL_NEW,
+      PREFILL_INTRAY_DOCUMENT,
+    ]).forEach(message => {
+      switch (message.type) {
+        case SUCCESSFULLY_SAVED_SPEND_MONEY:
+        case SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK:
+          this.dispatcher.setAlert({ message: message.content, type: 'success' });
+          break;
+        case DUPLICATE_SPEND_MONEY:
+          this.dispatcher.setDuplicateId(message.duplicateId);
+          break;
+        case PREFILL_NEW:
+          this.dispatcher.setPrefillNew({
+            selectedBankAccountId: message.selectedBankAccountId,
+            selectedDate: message.selectedDate,
+          });
+          break;
+        case PREFILL_INTRAY_DOCUMENT:
+          this.dispatcher.setPrefillInTrayDocumentId(message.inTrayDocumentId);
+          break;
+        default:
+      }
+    });
   };
 
   run(context) {
@@ -792,7 +769,7 @@ export default class SpendMoneyDetailModule {
     if (isPageEdited(state)) {
       this.openUnsavedModal(url);
     } else {
-      this.redirectToUrl(url);
+      this.navigateTo(url);
     }
   }
 }
