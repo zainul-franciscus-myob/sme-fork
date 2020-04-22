@@ -44,5 +44,39 @@
       "startDate": "2017-07-01",
       "year": "2018"
     }
+  ],
+  "firstFortnightOptions": [
+    {
+      "dates": "30 Mar - 12 Apr",
+      "allowanceDescription": "JOBKEEPER-START-FN01",
+      "fn": "01"
+    },
+    {
+      "dates": "13 Apr - 26 Apr",
+      "allowanceDescription": "JOBKEEPER-START-FN02",
+      "fn": "02"
+    },
+    {
+      "dates": "27 Apr - 10 May",
+      "allowanceDescription": "JOBKEEPER-START-FN03",
+      "fn": "03"
+    }
+  ],
+  "finalFortnightOptions": [
+    {
+      "dates": "30 Mar - 12 Apr",
+      "allowanceDescription": "JOBKEEPER-FINISH-FN01",
+      "fn": "01"
+    },
+    {
+      "dates": "13 Apr - 26 Apr",
+      "allowanceDescription": "JOBKEEPER-FINISH-FN02",
+      "fn": "02"
+    },
+    {
+      "dates": "27 Apr - 10 May",
+      "allowanceDescription": "JOBKEEPER-FINISH-FN03",
+      "fn": "03"
+    }
   ]
 }

@@ -1,6 +1,7 @@
 import { Card, HeaderSort, Table } from '@myob/myob-widgets';
 import React from 'react';
 
+import JobKeeperFortnightCombobox from './JobKeeperFortnightCombobox';
 import TableView from '../../../../../components/TableView/TableView';
 
 const tableConfig = {
@@ -11,7 +12,7 @@ const tableConfig = {
     columnName: 'Surname or family name', width: 'flex-2', valign: 'middle',
   },
   firstFortnight: {
-    columnName: 'First JobKeeper fortnight', width: 'flex-2', valign: 'middle',
+    columnName: 'First JobKeeper fortnight', width: 'flex-2', valign: 'middle', textWrap: 'wrap',
   },
   finalFortnight: {
     columnName: 'Final JobKeeper fortnight', width: 'flex-2', valign: 'middle', textWrap: 'wrap',
@@ -23,6 +24,8 @@ const JobKeeperTable = ({
   employees,
   onSort,
   activeSort,
+  firstFortnightOptions,
+  finalFortnightOptions,
 }) => {
   const header = (
     <Table.Header>
@@ -50,8 +53,16 @@ const JobKeeperTable = ({
         {row.lastName}
       </Table.RowItem>
       <Table.RowItem {...tableConfig.firstFortnight}>
+        <JobKeeperFortnightCombobox
+          name="firstFortnightCombobox"
+          fortnightOptions={firstFortnightOptions}
+        />
       </Table.RowItem>
       <Table.RowItem {...tableConfig.finalFortnight}>
+        <JobKeeperFortnightCombobox
+          name="finalFortnightCombobox"
+          fortnightOptions={finalFortnightOptions}
+        />
       </Table.RowItem>
     </Table.Row>
   ));

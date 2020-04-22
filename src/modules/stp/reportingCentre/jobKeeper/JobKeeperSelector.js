@@ -8,3 +8,5 @@ export const getActiveSort = ({ sortOrder, orderBy }) => ({
 export const getBusinessId = state => state.businessId;
 export const getIsTableLoading = state => state.isTableLoading;
 export const getEmployees = state => state.employees;
+export const getFinalFortnightOptions = state => state.finalFortnightOptions;
+export const getFirstFortnightOptions = state => state.firstFortnightOptions;

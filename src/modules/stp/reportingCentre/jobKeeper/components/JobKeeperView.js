@@ -1,10 +1,16 @@
-import { BaseTemplate } from '@myob/myob-widgets';
+import {
+  BaseTemplate,
+  Button,
+  ButtonRow,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
   getActiveSort,
   getEmployees,
+  getFinalFortnightOptions,
+  getFirstFortnightOptions,
   getIsTableLoading,
   getLoadingState,
   getPayrollYears,
@@ -18,10 +24,21 @@ const JobKeeperView = ({
   payrollYears,
   payrollYear,
   employees,
+  finalFortnightOptions,
+  firstFortnightOptions,
 }) => {
   const jobKeeperTable = (<JobKeeperTable
     employees={employees}
+    firstFortnightOptions={firstFortnightOptions}
+    finalFortnightOptions={finalFortnightOptions}
   />);
+
+  const actions = (
+    <ButtonRow>
+      <Button type="primary" onClick={() => {}}>Notify the ATO</Button>
+    </ButtonRow>
+  );
+
 
   const page = (<BaseTemplate>
     <JobKeeperFilter
@@ -29,6 +46,7 @@ const JobKeeperView = ({
       payrollYear={payrollYear}
     />
     {jobKeeperTable}
+    {actions}
   </BaseTemplate>);
 
   return (
@@ -43,6 +61,8 @@ const mapStateToProps = state => ({
   payrollYear: getSelectedPayrollYear(state),
   employees: getEmployees(state),
   activeSort: getActiveSort(state),
+  firstFortnightOptions: getFirstFortnightOptions(state),
+  finalFortnightOptions: getFinalFortnightOptions(state),
 });
 
 export default connect(mapStateToProps)(JobKeeperView);
