@@ -4,12 +4,15 @@ import {
   CLOSE_MODAL,
   LOAD_EXISTING_PAY_ITEM,
   LOAD_NEW_PAY_ITEM,
+  MARK_WAGE_AS_JOBKEEPER,
   OPEN_MODAL,
   REMOVE_EMPLOYEE,
   REMOVE_EXEMPTION,
+  SAVE_ORIGINAL_WAGE_JOBKEEPER,
   SET_ALERT,
   SET_IS_SUBMITTING,
   SET_LOADING_STATE,
+  TOGGLE_JOB_KEEPER,
   UPDATE_DETAILS,
   UPDATE_OVERRIDE_ACCOUNT,
 } from './WagePayItemIntents';
@@ -41,6 +44,12 @@ const getDefaultState = () => ({
   isLoading: false,
   isPageEdited: false,
   alert: undefined,
+  isJobKeeper: false,
+  originalWageValues: {
+    name: '',
+    atoReportingCategory: '',
+    payBasis: '',
+  },
 });
 
 const resetState = () => (getDefaultState());
@@ -152,6 +161,77 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
+const toggleJobKeeper = (state, { isJobKeeper }) => {
+  const jobKeeperPayItemValues = {
+    name: 'JOBKEEPER-TOPUP',
+    atoReportingCategory: 'AllowanceOther',
+    payBasis: 'Salary',
+  };
+
+  if (state.payItem === 'new') {
+    // create
+    if (isJobKeeper) {
+      return {
+        ...state,
+        isJobKeeper,
+        wage: {
+          ...state.wage,
+          ...jobKeeperPayItemValues,
+        },
+      };
+    }
+    return {
+      ...state,
+      isJobKeeper,
+      wage: getDefaultState().wage,
+    };
+  }
+  // updating
+  if (isJobKeeper) {
+    return {
+      ...state,
+      isJobKeeper,
+      wage: {
+        ...state.wage,
+        ...jobKeeperPayItemValues,
+      },
+    };
+  }
+  return {
+    ...state,
+    isJobKeeper,
+    wage: {
+      ...state.wage,
+      ...state.originalWageValues,
+    },
+  };
+};
+
+const saveOriginalWage = (state, action) => ({
+  ...state,
+  originalWageValues: action.originalWageValues,
+});
+
+const markWageAsJobKeeper = state => {
+  const jobKeeperPayItemValues = {
+    name: 'JOBKEEPER-TOPUP',
+    atoReportingCategory: 'AllowanceOther',
+    payBasis: 'Salary',
+  };
+
+  if (state.wage.name === jobKeeperPayItemValues.name
+    && state.wage.atoReportingCategory === jobKeeperPayItemValues.atoReportingCategory
+    && state.wage.payBasis === jobKeeperPayItemValues.payBasis
+  ) {
+    return {
+      ...state,
+      isJobKeeper: true,
+    };
+  }
+
+  return state;
+};
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -168,6 +248,9 @@ const handlers = {
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [SET_ALERT]: setAlert,
+  [TOGGLE_JOB_KEEPER]: toggleJobKeeper,
+  [SAVE_ORIGINAL_WAGE_JOBKEEPER]: saveOriginalWage,
+  [MARK_WAGE_AS_JOBKEEPER]: markWageAsJobKeeper,
 };
 
 const wagePayItemReducer = createReducer(getDefaultState(), handlers);

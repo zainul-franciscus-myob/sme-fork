@@ -34,6 +34,8 @@ const WagePayItemView = ({
   onCloseModal,
   onDismissAlert,
   alert,
+  featureToggles,
+  onJobKeeperChange,
 }) => {
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -63,6 +65,8 @@ const WagePayItemView = ({
             onDetailsChange={onDetailsChange}
             onAmountInputBlur={onAmountInputBlur}
             onOverrideAccountChange={onOverrideAccountChange}
+            featureToggles={featureToggles}
+            onJobKeeperChange={onJobKeeperChange}
           />
         </FormHorizontal>
       </div>

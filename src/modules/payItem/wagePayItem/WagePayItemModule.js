@@ -9,12 +9,15 @@ import {
   DELETE_PAY_ITEM,
   LOAD_EXISTING_PAY_ITEM,
   LOAD_NEW_PAY_ITEM,
+  MARK_WAGE_AS_JOBKEEPER,
   OPEN_MODAL,
   REMOVE_EMPLOYEE,
   REMOVE_EXEMPTION,
+  SAVE_ORIGINAL_WAGE_JOBKEEPER,
   SET_ALERT,
   SET_IS_SUBMITTING,
   SET_LOADING_STATE,
+  TOGGLE_JOB_KEEPER,
   UPDATE_DETAILS,
   UPDATE_OVERRIDE_ACCOUNT,
   UPDATE_PAY_ITEM,
@@ -38,12 +41,13 @@ import wagePayItemReducer from './wagePayItemReducer';
 
 export default class WagePayItemModule {
   constructor({
-    integration, setRootView, pushMessage,
+    integration, setRootView, pushMessage, featureToggles,
   }) {
     this.integration = integration;
     this.store = new Store(wagePayItemReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
+    this.featureToggles = featureToggles;
   }
 
   setInitialState = (context) => {
@@ -71,6 +75,20 @@ export default class WagePayItemModule {
         intent,
         ...payload,
       });
+
+      if (!getIsCreating(state) && this.featureToggles.isJobKeeperTabEnabled) {
+        this.store.dispatch({
+          intent: SAVE_ORIGINAL_WAGE_JOBKEEPER,
+          originalWageValues: {
+            name: payload.wage.name,
+            atoReportingCategory: payload.wage.atoReportingCategory,
+            payBasis: payload.wage.payBasis,
+          },
+        });
+        this.store.dispatch({
+          intent: MARK_WAGE_AS_JOBKEEPER,
+        });
+      }
     };
 
     const onFailure = ({ message }) => {
@@ -231,6 +249,13 @@ export default class WagePayItemModule {
     },
   })
 
+  onJobKeeperChange = ({ value }) => {
+    this.store.dispatch({
+      intent: TOGGLE_JOB_KEEPER,
+      isJobKeeper: value,
+    });
+  }
+
   saveHandler = () => {
     const state = this.store.getState();
     const modalType = getModalType(state);
@@ -267,6 +292,8 @@ export default class WagePayItemModule {
           onConfirmDelete={this.confirmDelete}
           onCloseModal={this.closeModal}
           onDismissAlert={this.dismissAlert}
+          featureToggles={this.featureToggles}
+          onJobKeeperChange={this.onJobKeeperChange}
         />
       </Provider>
     ));

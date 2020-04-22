@@ -7,7 +7,7 @@ import SuperPayItemModule from './superPayItem/SuperPayItemModule';
 import WagePayItemModule from './wagePayItem/WagePayItemModule';
 
 const getPayItemRoutes = ({
-  integration, setRootView, popMessages, pushMessage, replaceURLParams,
+  integration, setRootView, popMessages, pushMessage, replaceURLParams, featureToggles,
 }) => {
   const routes = [
     {
@@ -43,7 +43,7 @@ const getPayItemRoutes = ({
       name: RouteName.PAY_ITEM_WAGE,
       path: '/:region/:businessId/payItem/wage/:payItemId',
       module: new WagePayItemModule({
-        integration, setRootView, pushMessage,
+        integration, setRootView, pushMessage, featureToggles,
       }),
       documentTitle: 'Wage pay item',
     },

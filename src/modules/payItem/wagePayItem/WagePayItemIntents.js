@@ -16,3 +16,6 @@ export const REMOVE_EMPLOYEE = Symbol('Remove employee from selected list');
 export const ADD_EXEMPTION = Symbol('Add exemption to selected list');
 export const REMOVE_EXEMPTION = Symbol('Remove exemption from selected list');
 export const UPDATE_OVERRIDE_ACCOUNT = Symbol('Update override account');
+export const TOGGLE_JOB_KEEPER = Symbol('Toggle the job keeper checkbox');
+export const SAVE_ORIGINAL_WAGE_JOBKEEPER = Symbol('Save original wage values for job keeper');
+export const MARK_WAGE_AS_JOBKEEPER = Symbol('Mark wage as jobkeeper');

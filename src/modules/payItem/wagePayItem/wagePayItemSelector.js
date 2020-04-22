@@ -20,6 +20,8 @@ export const getBusinessId = state => state.businessId;
 
 export const getAlert = state => state.alert;
 
+export const getIsJobKeeper = state => state.isJobKeeper;
+
 export const getWage = state => state.wage;
 export const getAccounts = state => state.accounts;
 export const getDefaultAccountId = state => state.defaultAccountId;
