@@ -80,7 +80,7 @@ const InvoiceItemTable = ({
         },
         {
           columnName: unitLabel,
-          styles: { width: '10rem' },
+          styles: { width: '8.4rem' },
         },
         {
           columnName: accountLabel,
@@ -96,7 +96,7 @@ const InvoiceItemTable = ({
         },
         {
           columnName: jobLabel,
-          styles: { width: '9rem' },
+          styles: { width: '8.4rem' },
         },
         {
           columnName: amountLabel,
@@ -104,7 +104,7 @@ const InvoiceItemTable = ({
         },
         {
           columnName: taxCodeLabel,
-          styles: { width: '9rem' },
+          styles: { width: '8.4rem' },
         },
       ],
     },

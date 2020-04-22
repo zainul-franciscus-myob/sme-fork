@@ -43,7 +43,7 @@ const QuoteItemAndServiceTable = ({
       {accountLabel}
     </LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{unitOfMeasureLabel}</LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>{unitLabel}</LineItemTable.HeaderItem>,
+    <LineItemTable.HeaderItem>{unitLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>
       {unitPriceLabel}
     </LineItemTable.HeaderItem>,

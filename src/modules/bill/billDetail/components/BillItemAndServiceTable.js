@@ -107,11 +107,11 @@ const BillItemAndServiceTable = ({
         },
         {
           columnName: jobLabel,
-          styles: { width: '10rem' },
+          styles: { width: '8.4rem' },
         },
         {
           columnName: taxCodeLabel,
-          styles: { width: '9rem' },
+          styles: { width: '8.4rem' },
         },
       ],
     },
