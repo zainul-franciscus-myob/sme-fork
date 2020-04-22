@@ -1,4 +1,5 @@
 import {
+  calculateAmountDue,
   getAccountModalContext,
   getInvoiceDetailOptions,
   getInvoiceDetailTotals,
@@ -205,6 +206,43 @@ describe('invoiceDetailSelectors', () => {
       const actual = getInvoiceDetailTotals.resultFunc(totals, amountPaid, isCreating);
 
       expect(actual).toEqual(expected);
+    });
+
+    it('should set amound paid to 0 if it is empty', () => {
+      const totals = {
+        subTotal: '123.55',
+        totalTax: '-4.45',
+        totalAmount: '128',
+      };
+      const amountPaid = '';
+      const isCreating = false;
+
+      const expected = {
+        subTotal: '123.55',
+        totalTax: '-4.45',
+        totalAmount: '128',
+        amountPaid: '0.00',
+        amountDue: '128',
+        isCreating,
+      };
+
+      const actual = getInvoiceDetailTotals.resultFunc(totals, amountPaid, isCreating);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('calculateAmountDue', () => {
+    it('calculate amount correctly', () => {
+      const actual = calculateAmountDue('1.23', '1.11');
+
+      expect(actual).toEqual('0.12');
+    });
+
+    it('returns totalAmount when paid is empty', () => {
+      const actual = calculateAmountDue('1.23', '');
+
+      expect(actual).toEqual('1.23');
     });
   });
 

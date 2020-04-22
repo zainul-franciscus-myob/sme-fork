@@ -132,9 +132,13 @@ export const getInvoiceDetailNotes = createStructuredSelector({
   commentOptions: getCommentOptions,
 });
 
-export const calculateAmountDue = (totalAmount, amountPaid) => Decimal(totalAmount).minus(
-  Decimal(amountPaid),
-).valueOf();
+export const calculateAmountDue = (totalAmount, amountPaid) => {
+  const total = Decimal(totalAmount);
+  const paid = Decimal(amountPaid || '0');
+  return (
+    total.minus(paid).valueOf()
+  );
+};
 
 export const getTaxLabel = createRegionDialectSelector('Tax');
 
@@ -147,7 +151,7 @@ export const getInvoiceDetailTotals = createSelector(
     subTotal: totals.subTotal,
     totalTax: totals.totalTax,
     totalAmount: totals.totalAmount,
-    amountPaid,
+    amountPaid: amountPaid === '' ? '0.00' : amountPaid,
     amountDue: calculateAmountDue(totals.totalAmount, amountPaid),
     isCreating,
     taxLabel,
