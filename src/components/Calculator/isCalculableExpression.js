@@ -1,8 +1,5 @@
-import evaluate from './evaluate';
-
-const isCalculableExpression = (value) => {
+const isCalculableExpression = (value, parsedValue) => {
   const isNotANumber = Number.isNaN(Number(value));
-  const parsedValue = evaluate(value);
   const isACalculableExpression = parsedValue !== '';
   return isNotANumber && isACalculableExpression;
 };

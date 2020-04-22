@@ -28,7 +28,6 @@ const CalculatorTooltip = ({ value, width }) => {
 
 const onWrappedBlur = ({
   setCurrValue,
-  onChange,
   onBlur,
   setIsActive,
   numeralDecimalScaleMin,
@@ -46,35 +45,46 @@ const onWrappedBlur = ({
 
   // Trigger setCurrValue to update value visible to user
   setCurrValue(valueWithDecimalPlaces);
-
-  const event = copyEventWithValue(e, valueWithDecimalPlaces);
-
-  // Trigger onChange to give parsed value to parent
-  if (value) {
-    onChange(event);
-  }
+  setIsActive(false);
 
   if (onBlur) {
+    const event = copyEventWithValue(e, valueWithDecimalPlaces);
     onBlur(event);
   }
-
-  setIsActive(false);
 };
 
 const onWrappedOnChange = ({
   setCurrValue,
+  setEvaluatedValue,
   setIsActive,
-  validate,
   setNewCursorPosition,
+  onChange,
+  validate,
+  numeralDecimalScaleMin,
+  numeralDecimalScaleMax,
 }) => (e) => {
   const { value } = e.target;
   const isValidValue = validate(value);
 
   if (isValidValue) {
     const valueWithoutCommas = removeCommas(value);
+    const parsedValue = evaluate(valueWithoutCommas);
+    const isCalculable = isCalculableExpression(valueWithoutCommas, String(parsedValue));
+    const valueWithDecimalPlaces = addDecimalPlaces(
+      parsedValue,
+      numeralDecimalScaleMin,
+      numeralDecimalScaleMax,
+    );
+
     setCurrValue(valueWithoutCommas);
-    setIsActive(isCalculableExpression(valueWithoutCommas));
+    setEvaluatedValue(valueWithDecimalPlaces);
+    setIsActive(isCalculable);
     setNewCursorPosition(value);
+
+    if (onChange) {
+      const event = copyEventWithValue(e, valueWithDecimalPlaces);
+      onChange(event);
+    }
   }
 };
 
@@ -104,7 +114,10 @@ const Calculator = ({
 }) => {
   // eslint-disable-next-line no-unused-vars
   const [id, _] = useState(shortid.generate());
-  const [currValue, setCurrValue] = useState(value);
+  const [currValue, setCurrValue] = useState('');
+  const [evaluatedValue, setEvaluatedValue] = useState('');
+
+  // State associated with tooltip
   const [target, setTarget] = useState(null);
   const [isActive, setIsActive] = useState(false);
 
@@ -146,43 +159,45 @@ const Calculator = ({
       numeralDecimalScaleMax,
     );
 
-    // Trigger setCurrValue to update value visible to user
-    setCurrValue(valueWithDecimalPlaces);
+    if (value !== evaluatedValue) {
+      setCurrValue(valueWithDecimalPlaces);
+      setEvaluatedValue(value);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [numeralDecimalScaleMax, numeralDecimalScaleMin, value]);
 
   const validate = createValidator({ numeralIntegerScale });
+
   const onCalculatorChange = onWrappedOnChange({
     setCurrValue,
+    setEvaluatedValue,
     setIsActive,
+    setNewCursorPosition,
     onChange,
     validate,
-    setNewCursorPosition,
+    numeralDecimalScaleMin,
+    numeralDecimalScaleMax,
   });
+
   const onCalculatorBlur = onWrappedBlur({
     setCurrValue,
-    onChange,
-    onBlur,
     setIsActive,
+    onBlur,
     numeralDecimalScaleMin,
     numeralDecimalScaleMax,
   });
 
   const elementId = propId || id;
   const width = target ? target.offsetWidth : 0;
+
   const formattedValue = addCommasInPlace(currValue);
-  const parsedValue = evaluate(currValue);
-  const valueWithDecimalPlaces = addDecimalPlaces(
-    parsedValue,
-    numeralDecimalScaleMin,
-    numeralDecimalScaleMax,
-  );
 
   return (
     <>
       {
         isActive && (
           <CalculatorTooltip
-            value={valueWithDecimalPlaces}
+            value={evaluatedValue}
             width={width}
           />
         )

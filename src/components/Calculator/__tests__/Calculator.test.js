@@ -67,7 +67,7 @@ describe('Calculator', () => {
   };
 
   describe('onChange', () => {
-    it('should not trigger if a value is given', () => {
+    it('should trigger if a value is given', () => {
       // Set up
       let actualValue = '';
       const onChange = (e) => { actualValue = e.target.value; };
@@ -78,61 +78,49 @@ describe('Calculator', () => {
       triggerOnChangeForInput({ wrapper, name: 'amount', value });
 
       // Asert
-      expect(actualValue).toEqual('');
+      expect(actualValue).toEqual('1');
+    });
+
+    it('should not trigger an onChange if onChange is not provided', () => {
+      // Set up
+      const onChange = undefined;
+      const wrapper = setUp({ onChange });
+
+      // Execute and assert
+      expect(() => {
+        triggerOnChangeForInput({ wrapper, name: 'amount', value: '' });
+      }).not.toThrow();
+    });
+
+    it('should not trigger if given an invalid value', () => {
+      // Set up
+      let actualValue = '';
+      const onChange = (e) => { actualValue = e.target.value; };
+      const wrapper = setUp({ onChange });
+
+      // Execute
+      const value = 'garbage value';
+      triggerOnChangeForInput({ wrapper, name: 'amount', value });
+
+      // Asert
+      expect(actualValue).toEqual(actualValue);
     });
   });
 
   describe('onBlur', () => {
     it('should trigger an onChange and onBlur with the correcly evaluated value', () => {
       // Set up
-      let onChangeValue = '';
       let onBlurValue = '';
 
-      const onChange = (e) => { onChangeValue = e.target.value; };
       const onBlur = (e) => { onBlurValue = e.target.value; };
-      const wrapper = setUp({ onChange, onBlur });
+      const wrapper = setUp({ onBlur });
 
       // Execute
       const value = '1';
       triggerOnBlurForInput({ wrapper, name: 'amount', value });
 
       // Asert
-      expect(onChangeValue).toEqual(value);
       expect(onBlurValue).toEqual(value);
-    });
-
-    it('should not trigger an onChange if the value is empty', () => {
-      // Set up
-      let onChangeValue = '1';
-      let onBlurValue = '1';
-
-      const onChange = (e) => { onChangeValue = e.target.value; };
-      const onBlur = (e) => { onBlurValue = e.target.value; };
-      const wrapper = setUp({ onChange, onBlur });
-
-      // Execute
-      const value = '';
-      triggerOnBlurForInput({ wrapper, name: 'amount', value });
-
-      // Asert
-      expect(onChangeValue).toEqual('1');
-      expect(onBlurValue).toEqual(value);
-    });
-
-    it('should trigger an onChange even if onBlur is not provided', () => {
-      // Set up
-      let onChangeValue = '';
-
-      const onChange = (e) => { onChangeValue = e.target.value; };
-      const onBlur = undefined;
-      const wrapper = setUp({ onChange, onBlur });
-
-      // Execute
-      const value = '1';
-      triggerOnBlurForInput({ wrapper, name: 'amount', value });
-
-      // Asert
-      expect(onChangeValue).toEqual(value);
     });
 
     it('should not trigger an onBlur if onBlur is not provided', () => {
