@@ -2,8 +2,6 @@ import QuoteLayout from '../QuoteLayout';
 import buildLineWithCalculatedAmounts from '../../../../common/itemAndServiceLayout/buildLineWithCalculatedAmounts';
 import calculateUnitPrice from '../../../../common/itemAndServiceLayout/calculateUnitPrice';
 import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
-import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
-import formatDisplayUnitPrice from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
 
 export const calculatePartialQuoteLineAmounts = (state, action) => {
   const { layout } = state.quote;
@@ -46,9 +44,7 @@ export const setQuoteCalculatedLines = (state, { lines, totals, isSwitchingTaxIn
         return {
           ...line,
           amount: amount.valueOf(),
-          displayAmount: formatDisplayAmount(amount.valueOf()),
           unitPrice: calculatedUnitPrice,
-          displayUnitPrice: formatDisplayUnitPrice(calculatedUnitPrice),
         };
       }
 
@@ -56,7 +52,6 @@ export const setQuoteCalculatedLines = (state, { lines, totals, isSwitchingTaxIn
         return {
           ...line,
           amount: amount.valueOf(),
-          displayAmount: formatDisplayAmount(amount.valueOf()),
         };
       }
 

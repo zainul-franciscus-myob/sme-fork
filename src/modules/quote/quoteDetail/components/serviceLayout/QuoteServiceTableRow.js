@@ -12,7 +12,7 @@ import {
   getTaxCodeOptions,
 } from '../../selectors/QuoteDetailSelectors';
 import AccountCombobox from '../../../../../components/combobox/AccountCombobox';
-import AmountInput from '../../../../../components/autoFormatter/AmountInput/AmountInput';
+import Calculator from '../../../../../components/Calculator/Calculator';
 import JobCombobox from '../../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../../components/combobox/TaxCodeCombobox';
 
@@ -58,7 +58,7 @@ const QuoteServiceTableRow = ({
     allocatedAccountId,
     jobId,
     taxCodeId,
-    displayAmount,
+    amount,
   } = quoteLine;
 
   return (
@@ -85,11 +85,11 @@ const QuoteServiceTableRow = ({
         addNewAccount={() => onAddAccount(onComboboxChange('allocatedAccountId', onChange))}
         disabled={isAccountComboboxDisabled || isCalculating || isReadOnlyLayout}
       />
-      <AmountInput
+      <Calculator
         label="Amount ($)"
         hideLabel
         name="amount"
-        value={displayAmount}
+        value={amount}
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index)}
         textAlign="right"

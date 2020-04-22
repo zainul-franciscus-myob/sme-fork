@@ -12,7 +12,7 @@ import {
   getShouldDisableFields,
   getTotalAmount,
 } from '../BillPaymentDetailSelectors';
-import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
+import Calculator from '../../../../components/Calculator/Calculator';
 import TableView from '../../../../components/TableView/TableView';
 import styles from './BillPaymentDetailTable.module.css';
 import tableViewTypes from '../tableViewTypes';
@@ -90,7 +90,7 @@ const BillPaymentDetailTable = ({
             </Table.RowItem>
             <Table.RowItem {...tableConfig.billAmount}>{row.billAmount}</Table.RowItem>
             <Table.RowItem {...tableConfig.discountAmount}>
-              <AmountInput
+              <Calculator
                 disabled={shouldDisableFields}
                 textAlign="right"
                 name="discountAmount"
@@ -106,7 +106,7 @@ const BillPaymentDetailTable = ({
             </Table.RowItem>
             <Table.RowItem {...tableConfig.balanceOwed}>{row.balanceOwed}</Table.RowItem>
             <Table.RowItem {...tableConfig.paidAmount}>
-              <AmountInput
+              <Calculator
                 disabled={shouldDisableFields}
                 textAlign="right"
                 name="paidAmount"

@@ -27,7 +27,6 @@ export const ADD_QUOTE_LINE = Symbol('Add quote line');
 export const UPDATE_QUOTE_LINE = Symbol('Update quote line');
 export const REMOVE_QUOTE_LINE = Symbol('Remove quote line');
 export const RESET_QUOTE_TOTALS = Symbol('Reset quote totals');
-export const FORMAT_QUOTE_LINE = Symbol('Format quote line');
 
 export const CALCULATE_QUOTE_LINE_TOTALS = Symbol('Calculate quote line totals');
 export const CALCULATE_QUOTE_ITEM_CHANGE = Symbol('Calculate quote item change');

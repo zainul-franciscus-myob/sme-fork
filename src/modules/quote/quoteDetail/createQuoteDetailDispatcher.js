@@ -5,7 +5,6 @@ import {
   CALCULATE_LINE_AMOUNTS,
   CHANGE_EXPORT_PDF_TEMPLATE,
   CLOSE_MODAL,
-  FORMAT_QUOTE_LINE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
@@ -93,10 +92,6 @@ const createQuoteDetailDispatcher = store => ({
 
   removeQuoteLine: index => store.dispatch({
     intent: REMOVE_QUOTE_LINE, index,
-  }),
-
-  formatQuoteLine: (index, key, value) => store.dispatch({
-    intent: FORMAT_QUOTE_LINE, index, key, value,
   }),
 
   resetQuoteTotals: () => store.dispatch({ intent: RESET_QUOTE_TOTALS }),

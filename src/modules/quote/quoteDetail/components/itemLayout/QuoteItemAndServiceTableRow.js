@@ -12,7 +12,7 @@ import {
   getTaxCodeOptions,
 } from '../../selectors/QuoteDetailSelectors';
 import AccountCombobox from '../../../../../components/combobox/AccountCombobox';
-import AmountInput from '../../../../../components/autoFormatter/AmountInput/AmountInput';
+import Calculator from '../../../../../components/Calculator/Calculator';
 import ItemCombobox from '../../../../../components/combobox/ItemCombobox';
 import JobCombobox from '../../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../../components/combobox/TaxCodeCombobox';
@@ -49,9 +49,9 @@ const QuoteItemAndServiceTableRow = ({
     allocatedAccountId,
     unitOfMeasure,
     units,
-    displayUnitPrice,
-    displayDiscount,
-    displayAmount,
+    unitPrice,
+    discount,
+    amount,
     jobId,
     taxCodeId,
   },
@@ -107,7 +107,7 @@ const QuoteItemAndServiceTableRow = ({
       disabled={isCalculating || isReadOnlyLayout}
       maxLength={5}
     />
-    <AmountInput
+    <Calculator
       name="units"
       label="No of units"
       value={units}
@@ -117,11 +117,11 @@ const QuoteItemAndServiceTableRow = ({
       disabled={isCalculating || isReadOnlyLayout}
       numeralDecimalScaleMax={6}
     />
-    <AmountInput
+    <Calculator
       label="Unit price"
       hideLabel
       name="unitPrice"
-      value={displayUnitPrice}
+      value={unitPrice}
       onChange={handleAmountInputChange(onChange)}
       onBlur={handleAmountInputBlur(onTableRowAmountInputBlur, index)}
       textAlign="right"
@@ -129,11 +129,11 @@ const QuoteItemAndServiceTableRow = ({
       numeralDecimalScaleMin={2}
       numeralDecimalScaleMax={6}
     />
-    <AmountInput
+    <Calculator
       label="Discount"
       hideLabel
       name="discount"
-      value={displayDiscount}
+      value={discount}
       onChange={handleAmountInputChange(onChange)}
       onBlur={handleAmountInputBlur(onTableRowAmountInputBlur, index)}
       textAlign="right"
@@ -141,11 +141,11 @@ const QuoteItemAndServiceTableRow = ({
       numeralDecimalScaleMin={2}
       numeralDecimalScaleMax={2}
     />
-    <AmountInput
+    <Calculator
       label="Amount"
       hideLabel
       name="amount"
-      value={displayAmount}
+      value={amount}
       onChange={handleAmountInputChange(onChange)}
       onBlur={handleAmountInputBlur(onTableRowAmountInputBlur, index)}
       textAlign="right"

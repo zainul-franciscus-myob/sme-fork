@@ -13,7 +13,7 @@ import {
   getTaxCodeOptions,
 } from '../selectors/billSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
-import AmountInput from '../../../../components/autoFormatter/AmountInput/FormattedAmountInput';
+import Calculator from '../../../../components/Calculator/Calculator';
 import JobCombobox from '../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 import styles from './BillTableRow.module.css';
@@ -76,7 +76,7 @@ const BillServiceTableRow = ({
         selectedId={accountId}
         disabled={isBlocking || isSupplierDisabled}
       />
-      <AmountInput
+      <Calculator
         name="amount"
         value={amount}
         onChange={handleAmountInputChange(onChange)}

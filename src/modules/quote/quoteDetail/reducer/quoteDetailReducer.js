@@ -5,7 +5,6 @@ import {
   CALCULATE_LINE_AMOUNTS,
   CHANGE_EXPORT_PDF_TEMPLATE,
   CLOSE_MODAL,
-  FORMAT_QUOTE_LINE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
@@ -57,11 +56,6 @@ import LoadingState from '../../../../components/PageView/LoadingState';
 import QuoteLayout from '../QuoteLayout';
 import QuoteLineLayout from '../QuoteLineLayout';
 import createReducer from '../../../../store/createReducer';
-import formatAmount from '../../../../common/valueFormatters/formatAmount';
-import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
-import formatDisplayDiscount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
-import formatDisplayUnitPrice from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
-import formatUnits from '../../../../common/valueFormatters/formatTaxCalculation/formatUnits';
 import getDefaultState, { DEFAULT_DISCOUNT, DEFAULT_UNITS } from './getDefaultState';
 
 const setInitialState = (state, { context }) => ({ ...state, ...context });
@@ -99,12 +93,6 @@ const loadQuoteDetail = (state, action) => ({
   quote: {
     ...state.quote,
     ...action.quote,
-    lines: action.quote.lines.map(line => ({
-      ...line,
-      displayAmount: formatDisplayAmount(line.amount),
-      displayDiscount: line.discount ? formatDisplayDiscount(line.discount) : '',
-      displayUnitPrice: line.unitPrice ? formatDisplayUnitPrice(line.unitPrice) : '',
-    })),
   },
   newLine: {
     ...state.newLine,
@@ -230,9 +218,6 @@ const addQuoteLine = (state, action) => {
         ...state.quote.lines,
         {
           ...state.newLine,
-          displayUnitPrice: partialLine.unitPrice || state.newLine.displayUnitPrice,
-          displayDiscount: partialLine.discount || state.newLine.displayDiscount,
-          displayAmount: partialLine.amount || state.newLine.displayAmount,
           descriptionDirty: Boolean(partialLine.description),
           type,
           taxCodeId,
@@ -256,9 +241,6 @@ const updateQuoteLine = (state, action) => ({
         return {
           ...line,
           id: line.type === lineLayout ? line.id : '',
-          displayDiscount: action.key === 'discount' ? action.value : line.displayDiscount,
-          displayAmount: action.key === 'amount' ? action.value : line.displayAmount,
-          displayUnitPrice: action.key === 'unitPrice' ? action.value : line.displayUnitPrice,
           jobId: action.key === 'jobId' ? action.value : line.jobId,
           taxCodeId: action.key === 'allocatedAccountId'
             ? getDefaultTaxCodeId({ accountId: action.value, accountOptions: state.accountOptions })
@@ -286,35 +268,6 @@ const removeQuoteLine = (state, action) => ({
 const resetQuoteTotals = state => ({
   ...state,
   totals: getDefaultState().totals,
-});
-
-const formatDisplayField = (line, key) => {
-  const fieldMap = {
-    unitPrice: { displayField: 'displayUnitPrice', formatter: formatDisplayUnitPrice },
-    amount: { displayField: 'displayAmount', formatter: formatDisplayAmount },
-    discount: { displayField: 'displayDiscount', formatter: formatDisplayDiscount },
-    units: { displayField: 'units', formatter: formatUnits },
-  };
-  const { displayField, formatter } = fieldMap[key] || {};
-
-  return formatter ? {
-    [displayField]: line[key] && formatter(line[key]),
-  } : {};
-};
-
-const formatQuoteLine = (state, action) => ({
-  ...state,
-  quote: {
-    ...state.quote,
-    lines: state.quote.lines.map((line, index) => (
-      action.index === index
-        ? {
-          ...line,
-          ...formatDisplayField(line, action.key),
-        }
-        : line
-    )),
-  },
 });
 
 const setQuoteSubmittingState = (state, action) => ({
@@ -421,14 +374,11 @@ const loadItemSellingDetails = (state, action) => ({
         units: DEFAULT_UNITS,
         unitOfMeasure,
         discount: DEFAULT_DISCOUNT,
-        displayDiscount: formatAmount(DEFAULT_DISCOUNT),
         description,
         taxCodeId: sellTaxCodeId,
         allocatedAccountId: incomeAccountId,
         unitPrice,
-        displayUnitPrice: formatDisplayUnitPrice(unitPrice),
         amount: unitPrice,
-        displayAmount: formatDisplayAmount(unitPrice),
       };
     }),
   },
@@ -462,7 +412,6 @@ const handlers = {
   [ADD_QUOTE_LINE]: addQuoteLine,
   [UPDATE_QUOTE_LINE]: updateQuoteLine,
   [REMOVE_QUOTE_LINE]: removeQuoteLine,
-  [FORMAT_QUOTE_LINE]: formatQuoteLine,
 
   [RESET_QUOTE_TOTALS]: resetQuoteTotals,
 

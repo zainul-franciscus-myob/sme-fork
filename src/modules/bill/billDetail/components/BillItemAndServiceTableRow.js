@@ -14,7 +14,7 @@ import {
   getTaxCodeOptions,
 } from '../selectors/billSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
-import AmountInput from '../../../../components/autoFormatter/AmountInput/FormattedAmountInput';
+import Calculator from '../../../../components/Calculator/Calculator';
 import ItemCombobox from '../../../../components/combobox/ItemCombobox';
 import JobCombobox from '../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
@@ -105,7 +105,7 @@ const BillItemAndServiceTableRow = ({
         selectedId={accountId}
         disabled={isBlocking || isSupplierDisabled}
       />
-      <AmountInput
+      <Calculator
         name="units"
         value={units}
         onChange={handleAmountInputChange(onChange)}
@@ -115,7 +115,7 @@ const BillItemAndServiceTableRow = ({
         numeralIntegerScale={12}
         numeralDecimalScaleMax={6}
       />
-      <AmountInput
+      <Calculator
         name="unitPrice"
         value={unitPrice}
         onChange={handleAmountInputChange(onChange)}
@@ -126,7 +126,7 @@ const BillItemAndServiceTableRow = ({
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={6}
       />
-      <AmountInput
+      <Calculator
         name="discount"
         value={discount}
         onChange={handleAmountInputChange(onChange)}
@@ -137,7 +137,7 @@ const BillItemAndServiceTableRow = ({
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
-      <AmountInput
+      <Calculator
         name="amount"
         value={amount}
         onChange={handleAmountInputChange(onChange)}

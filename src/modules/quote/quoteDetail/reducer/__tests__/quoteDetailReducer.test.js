@@ -1,7 +1,6 @@
 import {
   ADD_QUOTE_LINE,
   CHANGE_EXPORT_PDF_TEMPLATE,
-  FORMAT_QUOTE_LINE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_QUOTE_DETAIL,
@@ -374,52 +373,6 @@ describe('quoteDetailReducer', () => {
       expect(actual.quote.lines[0].type).toEqual('item');
     });
 
-    it('set displayAmount when amount has been changed', () => {
-      const state = {
-        quote: {
-          lines: [],
-        },
-        newLine: {
-          defaultData: 'defaultData',
-        },
-      };
-      const action = {
-        intent: ADD_QUOTE_LINE,
-        line: {
-          id: 'notUsed',
-          amount: '1',
-        },
-      };
-
-      const actual = quoteDetailReducer(state, action);
-
-      expect(actual.quote.lines[0].displayAmount).toEqual('1');
-      expect(actual.quote.lines[0].amount).toEqual('1');
-    });
-
-    it('set displayDiscount when discount has been changed', () => {
-      const state = {
-        quote: {
-          lines: [],
-        },
-        newLine: {
-          defaultData: 'defaultData',
-        },
-      };
-      const action = {
-        intent: ADD_QUOTE_LINE,
-        line: {
-          id: 'notUsed',
-          discount: '1',
-        },
-      };
-
-      const actual = quoteDetailReducer(state, action);
-
-      expect(actual.quote.lines[0].displayDiscount).toEqual('1');
-      expect(actual.quote.lines[0].discount).toEqual('1');
-    });
-
     it('set description dirty when description has been changed', () => {
       const state = {
         quote: {
@@ -463,72 +416,6 @@ describe('quoteDetailReducer', () => {
       const actual = quoteDetailReducer(state, action);
 
       expect(actual.quote.lines[1].hello).toEqual(3);
-    });
-
-    it('updates both amount and displayAmount when key is amount', () => {
-      const state = {
-        quote: {
-          lines: [
-            {
-              amount: '1',
-              displayAmount: '1',
-            },
-          ],
-        },
-      };
-
-      const action = {
-        intent: UPDATE_QUOTE_LINE, index: 0, key: 'amount', value: '3',
-      };
-
-      const actual = quoteDetailReducer(state, action);
-
-      expect(actual.quote.lines[0].amount).toEqual('3');
-      expect(actual.quote.lines[0].displayAmount).toEqual('3');
-    });
-
-    it('updates both discount and displayDiscount when key is discount', () => {
-      const state = {
-        quote: {
-          lines: [
-            {
-              discount: '1',
-              displayDiscount: '1',
-            },
-          ],
-        },
-      };
-
-      const action = {
-        intent: UPDATE_QUOTE_LINE, index: 0, key: 'discount', value: '3',
-      };
-
-      const actual = quoteDetailReducer(state, action);
-
-      expect(actual.quote.lines[0].discount).toEqual('3');
-      expect(actual.quote.lines[0].displayDiscount).toEqual('3');
-    });
-
-    it('updates both unitPrice and displayUnitPrice when key is unitPrice', () => {
-      const state = {
-        quote: {
-          lines: [
-            {
-              unitPrice: '1',
-              displayUnitPrice: '1',
-            },
-          ],
-        },
-      };
-
-      const action = {
-        intent: UPDATE_QUOTE_LINE, index: 0, key: 'unitPrice', value: '3',
-      };
-
-      const actual = quoteDetailReducer(state, action);
-
-      expect(actual.quote.lines[0].unitPrice).toEqual('3');
-      expect(actual.quote.lines[0].displayUnitPrice).toEqual('3');
     });
 
     it('updates taxCodeId and allocatedAccountId when key is allocatedAccountId', () => {
@@ -640,73 +527,6 @@ describe('quoteDetailReducer', () => {
     });
   });
 
-  describe('FORMAT_QUOTE_LINE', () => {
-    [
-      {
-        name: 'unitPrice', displayName: 'displayUnitPrice', value: '10', displayValue: '10.00',
-      },
-      {
-        name: 'discount', displayName: 'displayDiscount', value: '10', displayValue: '10.00',
-      },
-      {
-        name: 'amount', displayName: 'displayAmount', value: '10', displayValue: '10.00',
-      },
-      {
-        name: 'units', displayName: 'units', value: '10.0', displayValue: '10',
-      },
-    ].forEach(({
-      name, displayName, value, displayValue,
-    }) => {
-      it(`should format ${name}`, () => {
-        const state = {
-          quote: {
-            lines: [
-              {
-                [name]: value,
-              },
-            ],
-          },
-        };
-
-        const action = {
-          intent: FORMAT_QUOTE_LINE,
-          key: name,
-          index: 0,
-        };
-
-        const actual = quoteDetailReducer(state, action);
-
-        expect(actual.quote.lines[0][displayName]).toEqual(displayValue);
-      });
-    });
-
-    it('should not format other keys', () => {
-      const state = {
-        quote: {
-          lines: [{}],
-        },
-        something: '',
-      };
-
-      const action = {
-        intent: FORMAT_QUOTE_LINE,
-        key: 'blah',
-        index: 0,
-      };
-
-      const actual = quoteDetailReducer(state, action);
-
-      const expected = {
-        quote: {
-          lines: [{}],
-        },
-        something: '',
-      };
-
-      expect(actual).toEqual(expected);
-    });
-  });
-
   describe('LOAD_ITEM_SELLING_DETAILS', () => {
     it('should populate line amounts when item is tax inclusive and quote is inclusive', () => {
       const state = {
@@ -740,9 +560,6 @@ describe('quoteDetailReducer', () => {
             unitPrice: 10,
             description: 'item',
             discount: '0',
-            displayAmount: '10.00',
-            displayUnitPrice: '10.00',
-            displayDiscount: '0.00',
             taxCodeId: '1',
             unitOfMeasure: 'kg',
             units: '1',
@@ -786,9 +603,6 @@ describe('quoteDetailReducer', () => {
             unitPrice: 11,
             description: 'item',
             discount: '0',
-            displayAmount: '11.00',
-            displayUnitPrice: '11.00',
-            displayDiscount: '0.00',
             taxCodeId: '1',
             unitOfMeasure: 'kg',
             units: '1',
@@ -832,9 +646,6 @@ describe('quoteDetailReducer', () => {
             unitPrice: 9.09,
             description: 'item',
             discount: '0',
-            displayAmount: '9.09',
-            displayUnitPrice: '9.09',
-            displayDiscount: '0.00',
             taxCodeId: '1',
             unitOfMeasure: 'kg',
             units: '1',
@@ -878,9 +689,6 @@ describe('quoteDetailReducer', () => {
             unitPrice: 10,
             description: 'item',
             discount: '0',
-            displayAmount: '10.00',
-            displayUnitPrice: '10.00',
-            displayDiscount: '0.00',
             taxCodeId: '1',
             unitOfMeasure: 'kg',
             units: '1',
