@@ -1,3 +1,5 @@
+import { obfuscateEmail, obfuscateName } from '../common/obfuscate/obfuscate';
+
 const getLeanEnagageFields = ({
   userAuth,
   appId,
@@ -10,7 +12,7 @@ const getLeanEnagageFields = ({
   return {
     user_id: userId,
     name: currentUser.userName,
-    email: currentUser.email,
+    email: obfuscateEmail(currentUser.email),
     user_identity_id: userId,
     software_id: businessDetails.serialNumber,
     custom_data: {
@@ -21,7 +23,7 @@ const getLeanEnagageFields = ({
     },
     company: {
       company_id: subscription.businessId,
-      name: businessDetails.organisationName,
+      name: obfuscateName(businessDetails.organisationName),
     },
     app_id: appId,
   };

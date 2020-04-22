@@ -51,7 +51,7 @@ describe('getLeanEngageFields', () => {
     const expected = {
       user_id: 'exists',
       name: 'rivneg',
-      email: 'abc@gmail.com',
+      email: 'a*c@gmail.com',
       user_identity_id: 'exists',
       software_id: '612312344567',
       custom_data: {
@@ -62,7 +62,7 @@ describe('getLeanEngageFields', () => {
       },
       company: {
         company_id: '15eb4530-4e9d-49be-b7ae-324b4e252cae',
-        name: 'Clearwater Pty Ltd',
+        name: 'C*********P**L**',
       },
       app_id: 'appId',
     };
