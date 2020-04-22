@@ -1,10 +1,12 @@
 import { mount } from 'enzyme';
 
+
 import { LOAD_EMPLOYEE_DETAIL, SET_LOADING_STATE } from '../../EmployeeNzIntents';
 import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import ContactDetailsNzTabView from '../contactDetails/components/contactDetailsNzTab';
 import EmployeeDetailNzModule from '../EmployeeDetailNzModule';
-import EmployeeDetailNzView from '../components/EmployeeDetailNzView';
+import EmployeeDetailsNzView from '../components/EmployeeDetailsNzView';
+import EmploymentDetailsTab from '../employmentDetails/components/EmploymentDetailsTab';
 import LoadingFailPageState from '../../../../../components/PageView/LoadingFailPageState';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import TestIntegration from '../../../../../integration/TestIntegration';
@@ -68,7 +70,7 @@ describe('EmployeeDetailNzModule', () => {
       ]);
 
       wrapper.update();
-      expect(wrapper.find(EmployeeDetailNzView).exists()).toBe(true);
+      expect(wrapper.find(EmployeeDetailsNzView).exists()).toBe(true);
       expect(wrapper.find(ContactDetailsNzTabView).exists()).toBe(true);
     });
 
@@ -100,8 +102,26 @@ describe('EmployeeDetailNzModule', () => {
       ]);
 
       wrapper.update();
-      expect(wrapper.find(EmployeeDetailNzView).exists()).toBe(true);
+      expect(wrapper.find(EmployeeDetailsNzView).exists()).toBe(true);
       expect(wrapper.find(LoadingFailPageState).exists()).toBe(true);
+    });
+
+    it('should move to payroll details page when payroll detail tab is clicked', () => {
+      const {
+        integration, module, wrapper,
+      } = setup();
+      integration.mapSuccess(LOAD_EMPLOYEE_DETAIL, employeeDetailResponse);
+
+      module.run(context);
+      wrapper.update();
+
+      wrapper.find('TabItem')
+        .findWhere(c => c.prop('item')?.id === 'payrollDetails')
+        .find('a')
+        .simulate('click');
+      wrapper.update();
+
+      expect(wrapper.find(EmploymentDetailsTab).exists()).toBe(true);
     });
   });
 });

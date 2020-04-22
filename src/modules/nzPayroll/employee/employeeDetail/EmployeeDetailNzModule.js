@@ -1,8 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { tabItems } from './tabItems';
 import ContactDetailsNzTabModule from './contactDetails/ContactDetailsNzTabModule';
-import EmployeeDetailNzView from './components/EmployeeDetailNzView';
+import EmployeeDetailsNzView from './components/EmployeeDetailsNzView';
+import EmploymentDetailsNzModule from './employmentDetails/EmploymentDetailsNzModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import Store from '../../../../store/Store';
 import createEmployeeDetailNzDispatcher from './createEmployeeDetailNzDispatcher';
@@ -16,7 +18,10 @@ export default class EmployeeDetailNzModule {
     this.store = new Store(employeeDetailNzReducer);
     this.dispatcher = createEmployeeDetailNzDispatcher({ store: this.store });
     this.integrator = createEmployeeDetailNzIntegrator({ store: this.store, integration });
-    this.subModule = new ContactDetailsNzTabModule();
+    this.subModules = {
+      contactDetails: new ContactDetailsNzTabModule(),
+      employmentDetails: new EmploymentDetailsNzModule(),
+    };
   }
 
   unsubscribeFromStore = () => {
@@ -40,7 +45,12 @@ export default class EmployeeDetailNzModule {
   };
 
   render() {
-    const employeeDetailNzView = <EmployeeDetailNzView tabView={this.subModule} />;
+    const employeeDetailNzView = <EmployeeDetailsNzView
+      tabItems={tabItems}
+      subModules={this.subModules}
+      onMainTabSelected={this.dispatcher.setMainTab}
+      onSubTabSelected={this.dispatcher.setSubTab}
+    />;
     const wrappedView = <Provider store={this.store}>{employeeDetailNzView}</Provider>;
     this.setRootView(wrappedView);
   }

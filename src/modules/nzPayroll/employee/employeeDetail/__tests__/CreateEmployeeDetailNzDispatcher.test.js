@@ -1,5 +1,8 @@
-import { LOAD_EMPLOYEE_DETAIL, SET_LOADING_STATE } from '../../EmployeeNzIntents';
+import {
+  LOAD_EMPLOYEE_DETAIL, SET_LOADING_STATE, SET_MAIN_TAB, SET_SUB_TAB,
+} from '../../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../../SystemIntents';
+import { tabIds } from '../tabItems';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import createEmployeeDetailNzDispatcher from '../createEmployeeDetailNzDispatcher';
 
@@ -53,6 +56,27 @@ describe('createEmployeeDetailNzDispatcher', () => {
         intent: SET_LOADING_STATE,
         loadingState,
       }));
+    });
+  });
+
+  describe('setMainTab', () => {
+    it('should dispatch a SET_MAIN_TAB intent', () => {
+      employeeDetailNzDispatcher.setMainTab(tabIds.contactDetails);
+      expect(store.dispatch).toHaveBeenCalledWith({
+        intent: SET_MAIN_TAB,
+        mainTab: tabIds.contactDetails,
+      });
+    });
+  });
+
+  describe('setSubTab', () => {
+    it('should dispatch a SET_SUB_TAB intent', () => {
+      employeeDetailNzDispatcher.setSubTab(tabIds.payrollDetails, tabIds.employmentDetails);
+      expect(store.dispatch).toHaveBeenCalledWith({
+        intent: SET_SUB_TAB,
+        mainTab: tabIds.payrollDetails,
+        subTab: tabIds.employmentDetails,
+      });
     });
   });
 });

@@ -1,4 +1,6 @@
-import { LOAD_EMPLOYEE_DETAIL, SET_LOADING_STATE } from '../EmployeeNzIntents';
+import {
+  LOAD_EMPLOYEE_DETAIL, SET_LOADING_STATE, SET_MAIN_TAB, SET_SUB_TAB,
+} from '../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 
 const createEmployeeDetailNzDispatcher = ({ store }) => ({
@@ -22,6 +24,17 @@ const createEmployeeDetailNzDispatcher = ({ store }) => ({
     const intent = SET_LOADING_STATE;
     store.dispatch({ intent, loadingState });
   },
+
+  setMainTab: (mainTab) => {
+    const intent = SET_MAIN_TAB;
+    store.dispatch({ intent, mainTab });
+  },
+
+  setSubTab: (mainTab, subTab) => store.dispatch({
+    intent: SET_SUB_TAB,
+    mainTab,
+    subTab,
+  }),
 
 });
 
