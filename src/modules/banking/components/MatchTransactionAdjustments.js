@@ -21,20 +21,34 @@ import handleInputChange from '../../../components/handlers/handleInputChange';
 const getTableColumns = ({ taxCodeLabel, isBankingJobColumnEnabled }) => [
   { label: 'Account', requiredLabel: 'required', textWrap: 'wrap' },
   {
-    label: 'Amount ($)', align: 'right', requiredLabel: 'required', width: '16.4rem',
+    label: 'Amount ($)', align: 'right', requiredLabel: 'required',
   },
   {
-    label: 'Quantity', align: 'right', width: '10.6rem',
+    label: 'Quantity', align: 'right',
   },
-  isBankingJobColumnEnabled ? { label: 'Job', width: '16.4rem', textWrap: 'wrap' } : null,
   { label: 'Description' },
+  isBankingJobColumnEnabled ? { label: 'Job', textWrap: 'wrap' } : null,
   {
-    label: taxCodeLabel, requiredLabel: 'required', width: '16.4rem', textWrap: 'wrap',
+    label: taxCodeLabel, requiredLabel: 'required', textWrap: 'wrap',
+  },
+];
+
+const getResponsiveWidths = (taxCodeLabel, isBankingJobColumnEnabled) => [
+  {
+    'min-width': '1160px',
+    config: [
+      { columnName: 'Account', styles: { width: 'flex-1' } },
+      { columnName: 'Amount ($)', styles: { width: '16.4rem' } },
+      { columnName: 'Quantity', styles: { width: '10.6rem' } },
+      { columnName: 'Description', styles: { width: 'flex-1' } },
+      ...isBankingJobColumnEnabled ? [{ columnName: 'Job', styles: { width: '16.4rem' } }] : [],
+      { columnName: taxCodeLabel, styles: { width: '16.4rem' } },
+    ],
   },
 ];
 
 const renderRow = (accounts, taxCodes, jobs, [
-  accountColumn, amountColumn, quantityColumn, jobColumn, descColumn, taxColumn,
+  accountColumn, amountColumn, quantityColumn, descColumn, jobColumn, taxColumn,
 ], onAddAccount, isLoadingAccount, isBankingJobColumnEnabled) => (index, adjustment, onChange) => {
   const {
     id, accountId, amount = '', quantity = '', description, taxCodeId, jobId,
@@ -77,6 +91,12 @@ const renderRow = (accounts, taxCodes, jobs, [
           disabled={isLoadingAccount}
         />
       </BulkAdd.RowItem>
+      <BulkAdd.RowItem
+        columnName={descColumn.label}
+        {...descColumn}
+      >
+        <Input name="description" disabled={isLoadingAccount} onChange={handleInputChange(onChange)} value={description} />
+      </BulkAdd.RowItem>
       {isBankingJobColumnEnabled && <BulkAdd.RowItem
         columnName={jobColumn.label}
         {...jobColumn}
@@ -89,12 +109,6 @@ const renderRow = (accounts, taxCodes, jobs, [
           allowClear
         />
       </BulkAdd.RowItem> }
-      <BulkAdd.RowItem
-        columnName={descColumn.label}
-        {...descColumn}
-      >
-        <Input name="description" disabled={isLoadingAccount} onChange={handleInputChange(onChange)} value={description} />
-      </BulkAdd.RowItem>
       <BulkAdd.RowItem
         columnName={taxColumn.label}
         {...taxColumn}
@@ -127,9 +141,10 @@ const MatchTransactionAdjustments = ({
     taxCodeLabel,
     isBankingJobColumnEnabled,
   });
+  const responsiveWidths = getResponsiveWidths(taxCodeLabel, isBankingJobColumnEnabled);
 
   return (
-    <BulkAdd>
+    <BulkAdd responsiveWidths={responsiveWidths}>
       <BulkAdd.Header>
         {tableColumns.filter(e => e).map(column => (
           <BulkAdd.HeaderItem
