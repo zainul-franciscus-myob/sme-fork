@@ -54,6 +54,7 @@ class QuoteListFilterOptions extends React.Component {
             hideLabel={false}
             hintText="All"
             allowClear
+            hasAllItem
           />
           <FilterBar.Group>
             <DatePicker name="issuedFrom" label="Issued from" value={dateFrom} onSelect={this.onFilterChange('dateFrom')} />

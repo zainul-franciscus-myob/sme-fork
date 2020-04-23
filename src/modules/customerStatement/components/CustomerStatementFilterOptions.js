@@ -59,6 +59,7 @@ const CustomerStatementFilterOptions = ({
         hideLabel={false}
         hintText="All"
         allowClear
+        hasAllItem
       />
     </div>
   );

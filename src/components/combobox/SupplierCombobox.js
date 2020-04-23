@@ -9,9 +9,10 @@ const SupplierCombobox = (props) => {
 
   return (
     <Combobox
+      {...props}
       metaData={metaData}
       noMatchFoundMessage="No supplier found"
-      {...props}
+      allItemColumnName="displayName"
     />
   );
 };

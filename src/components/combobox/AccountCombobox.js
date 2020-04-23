@@ -27,6 +27,7 @@ const AccountCombobox = (props) => {
       items={formattedItems}
       addNewItem={addNewAccount && { onAddNew: addNewAccount, label: 'Create account' }}
       noMatchFoundMessage="No account found"
+      allItemColumnName="displayId"
       {...otherProps}
     />
   );

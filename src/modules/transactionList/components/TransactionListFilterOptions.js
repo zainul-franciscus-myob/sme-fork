@@ -66,6 +66,7 @@ const TransactionListFilterOptions = ({
               onChange={handleComboboxChange('accountId', onUpdateFilters)}
               hintText="All"
               allowClear
+              hasAllItem
             />
           </div>
         )

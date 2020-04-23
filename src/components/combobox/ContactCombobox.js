@@ -13,6 +13,7 @@ const ContactCombobox = (props) => {
     <Combobox
       metaData={metaData}
       noMatchFoundMessage="No contact found"
+      allItemColumnName="displayName"
       {...props}
     />
   );

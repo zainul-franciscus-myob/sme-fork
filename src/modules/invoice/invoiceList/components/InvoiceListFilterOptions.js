@@ -55,7 +55,6 @@ class InvoiceListFilterOptions extends React.Component {
       hasOverdue,
     } = this.props;
 
-
     return (
       <Fragment>
         <FilterBar>
@@ -74,6 +73,7 @@ class InvoiceListFilterOptions extends React.Component {
               label="Customer"
               name="customerId"
               hideLabel={false}
+              hasAllItem
               hintText="All"
               allowClear
             />

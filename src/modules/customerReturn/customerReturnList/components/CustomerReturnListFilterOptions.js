@@ -25,41 +25,42 @@ const CustomerReturnListFilterOptions = ({
     customerId,
   },
 }) => (
-  <React.Fragment>
-    <FilterBar>
-      <div className={styles.customerCombobox}>
-        <CustomerCombobox
-          label="Customer"
-          name="customerId"
-          hideLabel={false}
-          items={customerFilterOptions}
-          selectedId={customerId}
-          onChange={handleComboboxChange('customerId', onUpdateFilterBarOptions)}
-          width="lg"
-          hintText="All"
-          allowClear
+    <React.Fragment>
+      <FilterBar>
+        <div className={styles.customerCombobox}>
+          <CustomerCombobox
+            label="Customer"
+            name="customerId"
+            hideLabel={false}
+            items={customerFilterOptions}
+            selectedId={customerId}
+            onChange={handleComboboxChange('customerId', onUpdateFilterBarOptions)}
+            width="lg"
+            hintText="All"
+            allowClear
+            hasAllItem
+          />
+        </div>
+        <FilterBarSearch
+          id="keywords"
+          label="Search"
+          name="keywords"
+          placeholder=""
+          maxLength={255}
+          value={keywords}
+          onChange={handleInputChange(onUpdateFilterBarOptions)}
         />
+      </FilterBar>
+
+      <hr />
+
+      <div className={styles.totals}>
+        <span className={styles.totalAmount}>{`Total amount ${totalAmount}`}</span>
+
+        <span className={styles.totalCreditAmount}>{`Total balance due ${totalCreditAmount}`}</span>
       </div>
-      <FilterBarSearch
-        id="keywords"
-        label="Search"
-        name="keywords"
-        placeholder=""
-        maxLength={255}
-        value={keywords}
-        onChange={handleInputChange(onUpdateFilterBarOptions)}
-      />
-    </FilterBar>
 
-    <hr />
-
-    <div className={styles.totals}>
-      <span className={styles.totalAmount}>{`Total amount ${totalAmount}`}</span>
-
-      <span className={styles.totalCreditAmount}>{`Total balance due ${totalCreditAmount}`}</span>
-    </div>
-
-  </React.Fragment>
+    </React.Fragment>
 );
 
 const mapStateToProps = state => ({

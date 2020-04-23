@@ -72,6 +72,7 @@ const MatchTransactionOptions = (props) => {
                 onChange={handleComboboxChange('contactId', onUpdateMatchTransactionOptions)}
                 hintText="All"
                 allowClear
+                hasAllItem
               />
               {
                 showIncludeClosedCheckbox && (
