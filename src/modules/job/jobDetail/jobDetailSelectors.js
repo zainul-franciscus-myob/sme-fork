@@ -1,4 +1,4 @@
-import { createSelector, createStructuredSelector } from 'reselect';
+import { createStructuredSelector } from 'reselect';
 
 export const getBusinessId = state => state.businessId;
 
@@ -20,21 +20,13 @@ export const getCustomerOptions = state => state.customerOptions;
 
 export const getRegion = state => state.region;
 
-export const getIsCustomerDisabled = createSelector(
-  getIsCreating,
-  getIsCustomerLoading,
-  (isCreating, isCustomerLoading) => (
-    !isCreating || isCustomerLoading
-  ),
-);
-
 export const getJobDetails = createStructuredSelector({
   name: state => state.job.name,
   number: state => state.job.number,
   description: state => state.job.description,
   isInactive: state => state.job.isInactive,
   customerId: state => state.job.customerId,
-  isCustomerDisabled: getIsCustomerDisabled,
+  isCustomerDisabled: getIsCustomerLoading,
   isHeader: state => state.job.isHeader,
 });
 
