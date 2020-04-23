@@ -13,14 +13,15 @@ import jobKeeperReducer from './JobKeeperReducer';
 export default class JobKeeperModule {
   constructor({
     integration,
-    // context,
-    // setAlert,
+    context,
   }) {
     this.store = new Store(jobKeeperReducer);
     this.integration = integration;
     this.dispatcher = createJobKeeperDispatcher(this.store);
     this.integrator = createJobKeeperIntegrator(this.store, integration);
     this.stpDeclarationModule = new StpDeclarationModalModule({ integration });
+
+    this.dispatcher.setInitialState(context);
   }
 
   loadInitialEmployeesAndHeaderDetails = () => {

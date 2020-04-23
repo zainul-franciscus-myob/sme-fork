@@ -1,5 +1,6 @@
 import {
   SET_FILTERED_EMPLOYEES,
+  SET_INITIAL_STATE,
   SET_JOB_KEEPER_INITIAL,
   SET_LOADING_STATE,
   SET_SELECTED_PAYROLL_YEAR,
@@ -9,6 +10,13 @@ import {
 } from './JobKeeperIntents';
 
 const createJobKeeperDispatcher = store => ({
+  setInitialState: (context) => {
+    store.dispatch({
+      intent: SET_INITIAL_STATE,
+      context,
+    });
+  },
+
   setLoadingState: (loadingState) => {
     store.dispatch({
       intent: SET_LOADING_STATE,

@@ -1,5 +1,6 @@
 import {
   SET_FILTERED_EMPLOYEES,
+  SET_INITIAL_STATE,
   SET_JOB_KEEPER_INITIAL,
   SET_LOADING_STATE,
   SET_SELECTED_PAYROLL_YEAR,
@@ -20,6 +21,11 @@ export const getDefaultState = () => ({
   employees: [],
   sortOrder: 'asc',
   orderBy: 'FirstName',
+});
+
+const setInitialState = (state, { context }) => ({
+  ...state,
+  ...context,
 });
 
 const setSelectedPayrollYear = (state, { selectedPayrollYear }) => ({
@@ -67,6 +73,7 @@ const handlers = {
   [SET_FILTERED_EMPLOYEES]: setFilteredEmployees,
   [SET_SORTED_EMPLOYEES]: setSortedEmployees,
   [SORT_JOB_KEEPER_EMPLOYEES]: setSort,
+  [SET_INITIAL_STATE]: setInitialState,
 };
 
 const jobKeeperReducer = createReducer(getDefaultState(), handlers);

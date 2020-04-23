@@ -8,3 +8,4 @@ export const FILTER_JOB_KEEPER_EMPLOYEES = Symbol('Filter JobKeeper employees');
 export const SET_FILTERED_EMPLOYEES = Symbol('Set filtered employees');
 export const SORT_JOB_KEEPER_EMPLOYEES = Symbol('Sort employees');
 export const UPDATE_JOB_KEEPER_PAYMENTS = Symbol('Update job keeper employees payments');
+export const SET_INITIAL_STATE = Symbol('Set the initial state');

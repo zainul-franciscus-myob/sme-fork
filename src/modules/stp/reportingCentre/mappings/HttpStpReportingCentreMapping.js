@@ -28,6 +28,7 @@ import {
   SUBMIT_EMPLOYEES_FINALISATION,
   SUBMIT_EMPLOYEES_REMOVE_FINALISATION,
 } from '../finalisation/FinalisationIntents';
+import { LOAD_INITIAL_JOB_KEEPER_EMPLOYEES } from '../jobKeeper/JobKeeperIntents';
 import {
   LOAD_STP_REGISTRATION_STATUS,
   UPDATE_STP_EMPLOYEES,
@@ -122,6 +123,13 @@ const HttpStpReportingCentreMapping = {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/stp/termination_employees_sort_employees`,
   },
+  [LOAD_INITIAL_JOB_KEEPER_EMPLOYEES]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/stp/job_keeper_payments_initial`,
+  },
+  // [FILTER_JOB_KEEPER_EMPLOYEES]
+  // [SORT_JOB_KEEPER_EMPLOYEES]
+  // [UPDATE_JOB_KEEPER_PAYMENTS]
 };
 
 export default HttpStpReportingCentreMapping;

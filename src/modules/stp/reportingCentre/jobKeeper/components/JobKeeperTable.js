@@ -1,4 +1,4 @@
-import { Card, HeaderSort, Table } from '@myob/myob-widgets';
+import { Card, Table } from '@myob/myob-widgets';
 import React from 'react';
 
 import JobKeeperFortnightCombobox from './JobKeeperFortnightCombobox';
@@ -23,8 +23,6 @@ const tableConfig = {
 
 const JobKeeperTable = ({
   employees,
-  onSort,
-  activeSort,
   firstFortnightOptions,
   finalFortnightOptions,
   isTableLoading,
@@ -32,10 +30,10 @@ const JobKeeperTable = ({
   const header = (
     <Table.Header>
       <Table.HeaderItem {...tableConfig.firstName}>
-        <HeaderSort title={tableConfig.firstName.columnName} sortName="FirstName" activeSort={activeSort} onSort={onSort} />
+        {tableConfig.firstName.columnName}
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.lastName}>
-        <HeaderSort title={tableConfig.lastName.columnName} sortName="LastName" activeSort={activeSort} onSort={onSort} />
+        {tableConfig.lastName.columnName}
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.firstFortnight}>
         {tableConfig.firstFortnight.columnName}
