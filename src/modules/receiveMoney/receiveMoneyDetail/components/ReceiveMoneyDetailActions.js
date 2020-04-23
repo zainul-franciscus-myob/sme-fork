@@ -39,7 +39,7 @@ const ReceiveMoneyDetailActions = ({
           onSelect={onSaveAndButtonClick}
           toggle={(
             <Dropdown.Toggle disabled={isActionsDisabled}>
-              Record and...
+              Record and new
               <Icons.Caret />
             </Dropdown.Toggle>
           )}
