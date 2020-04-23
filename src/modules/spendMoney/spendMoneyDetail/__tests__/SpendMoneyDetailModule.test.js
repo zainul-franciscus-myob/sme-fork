@@ -1003,8 +1003,27 @@ describe('SpendMoneyDetailModule', () => {
     });
 
     describe('save and new', () => {
+      const setupWithSelectedDate = (setupWith) => {
+        const toolbox = setupWith();
+        const { module, store } = toolbox;
+
+        module.updateHeaderOptions({ key: 'date', value: '2020-04-19' });
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_SPEND_MONEY_HEADER,
+            key: 'date',
+            value: '2020-04-19',
+          },
+        ]);
+
+        store.resetActions();
+
+        return toolbox;
+      };
+
       it('should create', () => {
-        const { module, store, integration } = setupWithNew();
+        const { module, store, integration } = setupWithSelectedDate(setupWithNew);
         integration.mapSuccess(CREATE_SPEND_MONEY, {
           message: '👽',
           id: '🦕',
@@ -1038,13 +1057,13 @@ describe('SpendMoneyDetailModule', () => {
         expect(module.pushMessage).toHaveBeenCalledWith({
           type: PREFILL_NEW,
           selectedBankAccountId: '123',
-          selectedDate: '2020-04-22',
+          selectedDate: '2020-04-19',
         });
         expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/spendMoney/new');
       });
 
       it('should update', () => {
-        const { module, store, integration } = setUpWithExisting();
+        const { module, store, integration } = setupWithSelectedDate(setUpWithExisting);
         integration.mapSuccess(UPDATE_SPEND_MONEY, {
           message: '👽',
           id: '🦕',
@@ -1078,7 +1097,7 @@ describe('SpendMoneyDetailModule', () => {
         expect(module.pushMessage).toHaveBeenCalledWith({
           type: PREFILL_NEW,
           selectedBankAccountId: '456',
-          selectedDate: '2018-11-02',
+          selectedDate: '2020-04-19',
         });
         expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/spendMoney/new');
       });
