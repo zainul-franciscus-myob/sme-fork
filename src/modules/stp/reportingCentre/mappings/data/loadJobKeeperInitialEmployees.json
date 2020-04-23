@@ -4,13 +4,17 @@
       "id": "100001",
       "payId": "effa0c73-65c4-409d-a20c-623fbe0c8b17",
       "firstName": "Alf",
-      "lastName": "Galang"
+      "lastName": "Galang",
+      "firstFortnight": "02",
+      "finalFortnight": null
     },
     {
       "id": "100002",
       "payId": "73f25da3-32ef-4ad9-a5cb-74e241b0506b",
       "firstName": "Sarah",
-      "lastName": "Boss"
+      "lastName": "Boss",
+      "firstFortnight": "02",
+      "finalFortnight": "03"
     },
     {
       "firstName": "Harpy",

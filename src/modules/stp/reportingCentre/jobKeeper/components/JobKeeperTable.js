@@ -4,6 +4,7 @@ import React from 'react';
 import JobKeeperFortnightCombobox from './JobKeeperFortnightCombobox';
 import TableView from '../../../../../components/TableView/TableView';
 
+
 const tableConfig = {
   firstName: {
     columnName: 'First name', width: 'flex-1', valign: 'middle',
@@ -26,6 +27,7 @@ const JobKeeperTable = ({
   activeSort,
   firstFortnightOptions,
   finalFortnightOptions,
+  isTableLoading,
 }) => {
   const header = (
     <Table.Header>
@@ -56,12 +58,14 @@ const JobKeeperTable = ({
         <JobKeeperFortnightCombobox
           name="firstFortnightCombobox"
           fortnightOptions={firstFortnightOptions}
+          selectedFn={row.firstFortnight}
         />
       </Table.RowItem>
       <Table.RowItem {...tableConfig.finalFortnight}>
         <JobKeeperFortnightCombobox
           name="finalFortnightCombobox"
           fortnightOptions={finalFortnightOptions}
+          selectedFn={row.finalFortnight}
         />
       </Table.RowItem>
     </Table.Row>
@@ -70,10 +74,8 @@ const JobKeeperTable = ({
   const table = (
     <TableView
       header={header}
-      // isLoading={isTableLoading}
-      // isEmpty={employees.length === 0}
-      // emptyView={<ReportsEmpty />}
-      onRowSelect={() => { }}
+      isLoading={isTableLoading}
+      isEmpty={employees.length === 0}
     >
       <Table.Body>
         {rows}
@@ -91,7 +93,8 @@ const JobKeeperTable = ({
         enter a final JobKeeper fortnight, and notify the ATO.
       </p>
       <p>
-        For more information about JobKeeper payments, visit the ATO.
+        For more information about JobKeeper payments,&nbsp;
+        <a href="https://www.ato.gov.au/General/JobKeeper-Payment/Employers/" target="_blank" rel="noopener noreferrer">visit the ATO.</a>
       </p>
       {table}
     </>

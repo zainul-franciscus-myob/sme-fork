@@ -1,5 +1,15 @@
-import { LOAD_INITIAL_JOB_KEEPER_EMPLOYEES } from './JobKeeperIntents';
-import { getBusinessId } from './JobKeeperSelector';
+import {
+  FILTER_JOB_KEEPER_EMPLOYEES,
+  LOAD_INITIAL_JOB_KEEPER_EMPLOYEES,
+  SORT_JOB_KEEPER_EMPLOYEES,
+  UPDATE_JOB_KEEPER_PAYMENTS,
+} from './JobKeeperIntents';
+import {
+  getBusinessId,
+  getFilterEmployeesParams,
+  getSelectedPayrollYear,
+  getUpdateJobKeeperPaymentsContent,
+} from './JobKeeperSelector';
 
 const createJobKeeperIntegrator = (store, integration) => ({
   loadInitialEmployeesAndHeaderDetails: ({ onSuccess, onFailure }) => {
@@ -14,6 +24,63 @@ const createJobKeeperIntegrator = (store, integration) => ({
       onFailure,
     });
   },
+
+  filterEmployees: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+    const params = getFilterEmployeesParams(state);
+
+    integration.read({
+      intent: FILTER_JOB_KEEPER_EMPLOYEES,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  updateJobKeeperPayments: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+    const content = getUpdateJobKeeperPaymentsContent(state);
+
+    integration.write({
+      intent: UPDATE_JOB_KEEPER_PAYMENTS,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  sortEmployees: ({
+    onSuccess, onFailure, orderBy, sortOrder,
+  }) => {
+    const state = store.getState();
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    const params = {
+      year: getSelectedPayrollYear(state),
+      orderBy,
+      sortOrder,
+    };
+
+    integration.read({
+      intent: SORT_JOB_KEEPER_EMPLOYEES,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
+    });
+  },
+
 });
 
 export default createJobKeeperIntegrator;

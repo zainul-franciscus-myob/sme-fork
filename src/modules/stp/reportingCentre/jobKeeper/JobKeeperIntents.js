@@ -1,4 +1,10 @@
 export const SET_LOADING_STATE = Symbol('Set the loading state');
 export const SET_JOB_KEEPER_INITIAL = Symbol('Sets JobKeeper initial');
 export const SET_TABLE_LOADING_STATE = Symbol('Set the table loading state');
+export const SET_SORTED_EMPLOYEES = Symbol('Set employees after sort');
+export const SET_SELECTED_PAYROLL_YEAR = Symbol('Set selected payroll year');
 export const LOAD_INITIAL_JOB_KEEPER_EMPLOYEES = Symbol('Load initial JobKeeper employee list and header');
+export const FILTER_JOB_KEEPER_EMPLOYEES = Symbol('Filter JobKeeper employees');
+export const SET_FILTERED_EMPLOYEES = Symbol('Set filtered employees');
+export const SORT_JOB_KEEPER_EMPLOYEES = Symbol('Sort employees');
+export const UPDATE_JOB_KEEPER_PAYMENTS = Symbol('Update job keeper employees payments');

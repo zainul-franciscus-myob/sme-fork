@@ -3,6 +3,12 @@ import {
   LOAD_EMPLOYEE_ETP,
 } from '../etps/EtpIntents';
 import {
+  FILTER_JOB_KEEPER_EMPLOYEES,
+  LOAD_INITIAL_JOB_KEEPER_EMPLOYEES,
+  SORT_JOB_KEEPER_EMPLOYEES,
+  UPDATE_JOB_KEEPER_PAYMENTS,
+} from '../jobKeeper/JobKeeperIntents';
+import {
   FILTER_PAY_EVENTS,
   LOAD_EMPLOYEE_YTD_REPORT,
   LOAD_PAY_EVENTS,
@@ -29,9 +35,6 @@ import {
   SUBMIT_EMPLOYEES_REMOVE_FINALISATION,
 } from '../finalisation/FinalisationIntents';
 import {
-  LOAD_INITIAL_JOB_KEEPER_EMPLOYEES,
-} from '../jobKeeper/JobKeeperIntents';
-import {
   LOAD_STP_REGISTRATION_STATUS,
   UPDATE_STP_EMPLOYEES,
 } from '../ReportingCentreIntents';
@@ -46,6 +49,7 @@ import loadJobKeeperInitialEmployees from './data/loadJobKeeperInitialEmployees'
 import loadPayEventDetails from './data/loadPayEventDetailResponse';
 import loadPayEventsResponse from './data/loadPayEventsResponse';
 import sortEmployeesResponse from './data/sortTerminationEmployeesResponse';
+import sortJobKeeperEmployees from './data/sortJobKeeperEmployees';
 import stpRegistrationStatus from './data/stpRegistrationStatus';
 import submitEmployeesFinalisation from './data/submitEmployeesFinalisation';
 import submitEmployeesRemoveFinalisation from './data/submitEmployeesRemoveFinalisation';
@@ -85,6 +89,9 @@ const MemoryStpReportingCentreMapping = {
     onSuccess(loadFinalisationInitialEmployeesAndHeaderDetailsResponse.employees)
   ),
   [LOAD_INITIAL_JOB_KEEPER_EMPLOYEES]: ({ onSuccess }) => onSuccess(loadJobKeeperInitialEmployees),
+  [FILTER_JOB_KEEPER_EMPLOYEES]: ({ onSuccess }) => onSuccess({ employees: [] }),
+  [SORT_JOB_KEEPER_EMPLOYEES]: ({ onSuccess }) => onSuccess(sortJobKeeperEmployees),
+  [UPDATE_JOB_KEEPER_PAYMENTS]: () => {},
 };
 
 export default MemoryStpReportingCentreMapping;

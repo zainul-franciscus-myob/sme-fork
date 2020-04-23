@@ -26,16 +26,24 @@ const JobKeeperView = ({
   employees,
   finalFortnightOptions,
   firstFortnightOptions,
+  onPayrollYearChange,
+  onSort,
+  activeSort,
+  isTableLoading,
+  onNotifyAtoClick,
 }) => {
   const jobKeeperTable = (<JobKeeperTable
     employees={employees}
     firstFortnightOptions={firstFortnightOptions}
     finalFortnightOptions={finalFortnightOptions}
+    onSort={onSort}
+    isTableLoading={isTableLoading}
+    activeSort={activeSort}
   />);
 
   const actions = (
     <ButtonRow>
-      <Button type="primary" onClick={() => {}}>Notify the ATO</Button>
+      <Button type="primary" onClick={onNotifyAtoClick}>Notify the ATO</Button>
     </ButtonRow>
   );
 
@@ -44,6 +52,7 @@ const JobKeeperView = ({
     <JobKeeperFilter
       payrollYears={payrollYears}
       payrollYear={payrollYear}
+      onPayrollYearChange={onPayrollYearChange}
     />
     {jobKeeperTable}
     {actions}
