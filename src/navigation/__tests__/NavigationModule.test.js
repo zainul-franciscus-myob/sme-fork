@@ -125,7 +125,7 @@ describe('Navigation Module', () => {
         const state = navigationModule.store.getState();
 
         expect(state.urls[RouteName.PAYMENT_DETAIL])
-          .toEqual('self-service-portal.url/#/billingAndPayments?businessId=🍟');
+          .toEqual('self-service-portal.url/#/paymentProfile?businessId=🍟');
       });
     });
   });
