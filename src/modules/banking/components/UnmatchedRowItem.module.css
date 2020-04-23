@@ -1,6 +1,7 @@
 .unallocated {
   display: flex;
   padding: var(--flx-spacing-tiny) var(--flx-spacing-clear) var(--flx-spacing-tiny) var(--flx-spacing-x-small);
+  overflow: auto;
 }
 
 .unallocated :global(.btn-link) {
