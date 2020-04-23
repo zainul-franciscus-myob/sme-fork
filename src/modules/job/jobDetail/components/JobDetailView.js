@@ -20,6 +20,8 @@ const JobDetailView = ({
   modal,
   alertMessage,
   onJobDetailsChange,
+  contactModal,
+  onAddCustomerButtonClick,
   pageHeadTitle,
   onDismissAlert,
   onCancelModal,
@@ -82,10 +84,12 @@ const JobDetailView = ({
       )}
     >
       {modalElement}
+      {contactModal}
       <FormCard>
         <JobDetails
           isCreating={isCreating}
           onJobDetailsChange={onJobDetailsChange}
+          onAddCustomerButtonClick={onAddCustomerButtonClick}
         />
       </FormCard>
 

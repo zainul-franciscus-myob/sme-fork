@@ -1,9 +1,12 @@
 import {
   CLOSE_MODAL,
+  LOAD_CUSTOMER_AFTER_CREATE,
   LOAD_JOB_DETAIL,
   LOAD_NEW_JOB,
   OPEN_MODAL,
+  SET_ALERT,
   SET_ALERT_MESSAGE,
+  SET_CUSTOMER_LOADING_STATE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_JOB_DETAILS,
@@ -43,6 +46,8 @@ const createJobDetailDispatcher = store => ({
     alertMessage: errorMessage,
   }),
 
+  setAlert: ({ type, message }) => store.dispatch({ intent: SET_ALERT, alert: { type, message } }),
+
   loadJobDetail: content => store.dispatch({
     intent: LOAD_JOB_DETAIL,
     ...content,
@@ -60,6 +65,14 @@ const createJobDetailDispatcher = store => ({
       value,
     });
   },
+
+  setCustomerLoadingState: isCustomerLoading => store.dispatch({
+    intent: SET_CUSTOMER_LOADING_STATE, isCustomerLoading,
+  }),
+
+  loadCustomerAfterCreate: (customerId, payload) => store.dispatch({
+    intent: LOAD_CUSTOMER_AFTER_CREATE, customerId, ...payload,
+  }),
 });
 
 export default createJobDetailDispatcher;

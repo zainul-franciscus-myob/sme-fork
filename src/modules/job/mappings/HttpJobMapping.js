@@ -2,6 +2,7 @@ import {
   CREATE_JOB,
   DELETE_JOB,
   FILTER_JOB_LIST,
+  LOAD_CUSTOMER_AFTER_CREATE,
   LOAD_JOB_DETAIL,
   LOAD_JOB_LIST,
   LOAD_JOB_MODAL,
@@ -41,6 +42,10 @@ const JobListMapping = {
   [LOAD_JOB_MODAL]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/job/load_new_job_modal`,
+  },
+  [LOAD_CUSTOMER_AFTER_CREATE]: {
+    method: 'GET',
+    getPath: ({ businessId, customerId }) => `/${businessId}/invoice/load_contact/${customerId}`,
   },
 };
 

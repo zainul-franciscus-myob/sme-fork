@@ -1,4 +1,6 @@
-import { createStructuredSelector } from 'reselect';
+import { createSelector, createStructuredSelector } from 'reselect';
+
+export const getBusinessId = state => state.businessId;
 
 export const getJobId = state => state.jobId;
 
@@ -12,9 +14,19 @@ export const getLoadingState = state => state.loadingState;
 
 export const getPageTitle = state => state.pageTitle;
 
+export const getIsCustomerLoading = state => state.isCustomerLoading;
+
 export const getCustomerOptions = state => state.customerOptions;
 
 export const getRegion = state => state.region;
+
+export const getIsCustomerDisabled = createSelector(
+  getIsCreating,
+  getIsCustomerLoading,
+  (isCreating, isCustomerLoading) => (
+    !isCreating || isCustomerLoading
+  ),
+);
 
 export const getJobDetails = createStructuredSelector({
   name: state => state.job.name,
@@ -22,6 +34,7 @@ export const getJobDetails = createStructuredSelector({
   description: state => state.job.description,
   isInactive: state => state.job.isInactive,
   customerId: state => state.job.customerId,
+  isCustomerDisabled: getIsCustomerDisabled,
   isHeader: state => state.job.isHeader,
 });
 
@@ -31,8 +44,25 @@ export const getJobHeaderDetails = createStructuredSelector({
   status: state => state.readonly.status,
 });
 
+export const getCustomerModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region, contactType: 'Customer' };
+};
+
+export const getLoadAddedCustomerUrlParams = (state, customerId) => {
+  const businessId = getBusinessId(state);
+
+  return { businessId, customerId };
+};
+
+export const getUpdatedCustomerOptions = (state, updatedOption) => {
+  const customerOptions = getCustomerOptions(state);
+
+  return [updatedOption, ...customerOptions];
+};
+
 export const getIsActionsDisabled = state => state.isSubmitting;
 
 export const isPageEdited = state => state.isPageEdited;
-
-export const getBusinessId = state => state.businessId;

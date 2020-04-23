@@ -1,12 +1,13 @@
 import {
   CREATE_JOB,
   DELETE_JOB,
+  LOAD_CUSTOMER_AFTER_CREATE,
   LOAD_JOB_DETAIL,
   LOAD_NEW_JOB,
   UPDATE_JOB,
 } from '../JobIntents';
 import {
-  getBusinessId, getJobDetails, getJobId, getRegion,
+  getBusinessId, getJobDetails, getJobId, getLoadAddedCustomerUrlParams, getRegion,
 } from './jobDetailSelectors';
 
 const createJobDetailIntegrator = (store, integration) => ({
@@ -82,6 +83,20 @@ const createJobDetailIntegrator = (store, integration) => ({
       intent: CREATE_JOB,
       urlParams,
       content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadCustomerAfterCreate: ({ id, onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = LOAD_CUSTOMER_AFTER_CREATE;
+    const urlParams = getLoadAddedCustomerUrlParams(state, id);
+
+    integration.read({
+      intent,
+      urlParams,
       onSuccess,
       onFailure,
     });

@@ -7,12 +7,14 @@ import {
 } from '../JobMessageTypes';
 import {
   getBusinessId,
+  getCustomerModalContext,
   getIsCreating,
   getModal,
   getRegion,
   isPageEdited,
 } from './jobDetailSelectors';
 import { getIsSubmitting } from '../jobModal/JobModalSelectors';
+import ContactModalModule from '../../contact/contactModal/ContactModalModule';
 import JobDetailView from './components/JobDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from '../ModalType';
@@ -33,11 +35,16 @@ export default class JobDetailModule {
     this.pushMessage = pushMessage;
     this.dispatcher = createJobDetailDispatcher(this.store);
     this.integrator = createJobDetailIntegrator(this.store, integration);
+    this.customerModalModule = new ContactModalModule({ integration });
   }
 
   render = () => {
+    const contactModal = this.customerModalModule.render();
+
     const jobDetailView = (
       <JobDetailView
+        contactModal={contactModal}
+        onAddCustomerButtonClick={this.openCustomerModal}
         onJobDetailsChange={this.dispatcher.updateJobDetails}
         onDismissAlert={this.dispatcher.dismissAlert}
         onDeleteButtonClick={this.openDeleteModal}
@@ -184,6 +191,12 @@ export default class JobDetailModule {
   }
 
   saveHandler = () => {
+    // Quick add modals
+    if (this.customerModalModule.isOpened()) {
+      this.customerModalModule.save();
+      return;
+    }
+
     const state = this.store.getState();
     const modal = getModal(state);
     if (modal.type) return;
@@ -203,6 +216,7 @@ export default class JobDetailModule {
   }
 
   resetState() {
+    this.customerModalModule.resetState();
     this.dispatcher.resetState();
   }
 
@@ -215,6 +229,38 @@ export default class JobDetailModule {
     const modal = getModal(state);
 
     this.redirectToUrl(modal.url);
+  }
+
+  displayFailureAlert = message => this.dispatcher.setAlert({ type: 'danger', message });
+
+  displaySuccessAlert = message => this.dispatcher.setAlert({ type: 'success', message })
+
+  openCustomerModal = () => {
+    const state = this.store.getState();
+    const context = getCustomerModalContext(state);
+
+    this.customerModalModule.run({
+      context,
+      onLoadFailure: message => this.displayFailureAlert(message),
+      onSaveSuccess: this.loadCustomerAfterCreate,
+    });
+  }
+
+  loadCustomerAfterCreate = ({ message, id }) => {
+    this.customerModalModule.resetState();
+    this.displaySuccessAlert(message);
+    this.dispatcher.setCustomerLoadingState(true);
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setCustomerLoadingState(false);
+      this.dispatcher.loadCustomerAfterCreate(id, payload);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setCustomerLoadingState(false);
+    };
+
+    this.integrator.loadCustomerAfterCreate({ id, onSuccess, onFailure });
   }
 
   redirectToUrl = (url) => {

@@ -18,6 +18,7 @@ const handleCustomerComboboxChange = (key, handler) => (item) => {
 const JobDetails = (props) => {
   const {
     onJobDetailsChange,
+    onAddCustomerButtonClick,
     customerOptions,
     job,
   } = props;
@@ -27,6 +28,7 @@ const JobDetails = (props) => {
     name,
     isInactive,
     customerId,
+    isCustomerDisabled,
     description,
   } = job;
 
@@ -60,6 +62,11 @@ const JobDetails = (props) => {
         selectedId={customerId}
         items={customerOptions}
         onChange={handleCustomerComboboxChange('customerId', onJobDetailsChange)}
+        addNewItem={{
+          label: 'Create customer',
+          onAddNew: onAddCustomerButtonClick,
+        }}
+        disabled={isCustomerDisabled}
         width="lg"
         allowClear
       />
