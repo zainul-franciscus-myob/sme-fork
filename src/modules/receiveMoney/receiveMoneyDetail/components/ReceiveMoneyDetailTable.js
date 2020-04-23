@@ -61,11 +61,11 @@ const ReceiveMoneyDetailTable = ({
       label: 'Quantity',
       styles: { width: '9rem' },
     },
-    ...(isReceiveMoneyJobColumnEnabled ? [{ label: 'Job', styles: { width: '9rem' } }] : []),
     {
       label: 'Description',
       styles: {},
     },
+    ...(isReceiveMoneyJobColumnEnabled ? [{ label: 'Job', styles: { width: '9rem' } }] : []),
     {
       label: taxCodeLabel,
       requiredLabel: 'required',

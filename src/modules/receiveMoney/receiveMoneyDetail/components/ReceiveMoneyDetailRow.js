@@ -100,14 +100,6 @@ const ReceiveMoneyDetailRow = ({
         textAlign="right"
         disabled={isSubmitting}
       />
-      {isReceiveMoneyJobColumnEnabled && <JobCombobox
-        items={jobOptions}
-        selectedId={jobId}
-        onChange={onComboboxChange('jobId', onChange)}
-        disabled={isSubmitting}
-        allowClear
-        left
-      />}
       <TextArea
         label="Description"
         hideLabel
@@ -118,6 +110,14 @@ const ReceiveMoneyDetailRow = ({
         onChange={onInputChange(onChange)}
         disabled={isSubmitting}
       />
+      {isReceiveMoneyJobColumnEnabled && <JobCombobox
+        items={jobOptions}
+        selectedId={jobId}
+        onChange={onComboboxChange('jobId', onChange)}
+        disabled={isSubmitting}
+        allowClear
+        left
+      />}
       <TaxCodeCombobox
         label="Tax code"
         hideLabel
