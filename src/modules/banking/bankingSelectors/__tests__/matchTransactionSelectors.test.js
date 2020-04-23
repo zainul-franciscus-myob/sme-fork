@@ -51,7 +51,7 @@ describe('matchTransactionSelectors', () => {
           ],
           adjustments: [
             {
-              amount: '10', description: 'desc', accountId: '123', taxCodeId: '12', quantity: '1',
+              amount: '10', description: 'desc', accountId: '123', taxCodeId: '12', quantity: '1', jobId: '1',
             },
           ],
         },
@@ -88,6 +88,7 @@ describe('matchTransactionSelectors', () => {
           accountId: '123',
           taxCodeId: '12',
           quantity: '1',
+          jobId: '1',
         },
       ],
     };
@@ -229,7 +230,7 @@ describe('matchTransactionSelectors', () => {
             ],
             adjustments: [
               {
-                amount: '10', description: 'desc', accountId: '123', taxCodeId: '12',
+                amount: '10', description: 'desc', accountId: '123', taxCodeId: '12', jobId: '1',
               },
             ],
           },

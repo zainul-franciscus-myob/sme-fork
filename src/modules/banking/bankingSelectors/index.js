@@ -384,7 +384,11 @@ export const getDisplayName = (id, accountList) => {
 
 export const getTaxCodes = state => state.taxCodes;
 
+export const getJobs = state => state.jobs;
+
 export const getTitle = state => getRegionToDialectText(state.region)('Tax');
+
+export const getIsBankingJobColumnEnabled = state => state.isBankingJobColumnEnabled;
 
 export const getBankingRuleInitState = createSelector(
   getOpenTransactionLine,

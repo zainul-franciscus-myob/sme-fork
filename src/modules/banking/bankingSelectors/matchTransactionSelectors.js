@@ -166,13 +166,14 @@ export const getMatchTransactionPayload = (state, index) => {
   const matchTransactions = getTableEntries(state);
 
   const adjustments = getAdjustments(state).map(({
-    amount, description, accountId, taxCodeId, quantity,
+    amount, description, accountId, taxCodeId, quantity, jobId,
   }) => ({
     amount,
     description,
     accountId,
     taxCodeId,
     quantity,
+    jobId,
   }));
 
   const selectedTransactions = matchTransactions.filter(({ selected }) => Boolean(selected));

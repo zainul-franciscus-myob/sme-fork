@@ -6,16 +6,19 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getAccounts, getAdjustments } from '../bankingSelectors/matchTransactionSelectors';
-import { getIsLoadingAccount, getTaxCodes } from '../bankingSelectors';
+import {
+  getIsBankingJobColumnEnabled, getIsLoadingAccount, getJobs, getTaxCodes,
+} from '../bankingSelectors/index';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
+import JobCombobox from '../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 import handleAmountInputChange from '../../../components/handlers/handleAmountInputChange';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 
-const getTableColumns = ({ taxCodeLabel }) => [
+const getTableColumns = ({ taxCodeLabel, isBankingJobColumnEnabled }) => [
   { label: 'Account', requiredLabel: 'required', textWrap: 'wrap' },
   {
     label: 'Amount ($)', align: 'right', requiredLabel: 'required', width: '16.4rem',
@@ -23,17 +26,18 @@ const getTableColumns = ({ taxCodeLabel }) => [
   {
     label: 'Quantity', align: 'right', width: '10.6rem',
   },
+  isBankingJobColumnEnabled ? { label: 'Job', width: '16.4rem', textWrap: 'wrap' } : null,
   { label: 'Description' },
   {
     label: taxCodeLabel, requiredLabel: 'required', width: '16.4rem', textWrap: 'wrap',
   },
 ];
 
-const renderRow = (accounts, taxCodes, [
-  accountColumn, amountColumn, quantityColumn, descColumn, taxColumn,
-], onAddAccount, isLoadingAccount) => (index, adjustment, onChange) => {
+const renderRow = (accounts, taxCodes, jobs, [
+  accountColumn, amountColumn, quantityColumn, jobColumn, descColumn, taxColumn,
+], onAddAccount, isLoadingAccount, isBankingJobColumnEnabled) => (index, adjustment, onChange) => {
   const {
-    id, accountId, amount = '', quantity = '', description, taxCodeId,
+    id, accountId, amount = '', quantity = '', description, taxCodeId, jobId,
   } = adjustment;
   return (
     <BulkAdd.Row key={id} index={index}>
@@ -73,6 +77,18 @@ const renderRow = (accounts, taxCodes, [
           disabled={isLoadingAccount}
         />
       </BulkAdd.RowItem>
+      {isBankingJobColumnEnabled && <BulkAdd.RowItem
+        columnName={jobColumn.label}
+        {...jobColumn}
+      >
+        <JobCombobox
+          onChange={handleComboboxChange('jobId', onChange)}
+          items={jobs}
+          selectedId={jobId}
+          disabled={isLoadingAccount}
+          allowClear
+        />
+      </BulkAdd.RowItem> }
       <BulkAdd.RowItem
         columnName={descColumn.label}
         {...descColumn}
@@ -102,17 +118,20 @@ const MatchTransactionAdjustments = ({
   adjustments,
   accounts,
   taxCodes,
+  jobs,
   taxCodeLabel,
   isLoadingAccount,
+  isBankingJobColumnEnabled,
 }) => {
   const tableColumns = getTableColumns({
     taxCodeLabel,
+    isBankingJobColumnEnabled,
   });
 
   return (
     <BulkAdd>
       <BulkAdd.Header>
-        {tableColumns.map(column => (
+        {tableColumns.filter(e => e).map(column => (
           <BulkAdd.HeaderItem
             key={column.label}
             columnName={column.label}
@@ -125,7 +144,10 @@ const MatchTransactionAdjustments = ({
       </BulkAdd.Header>
       <BulkAdd.Rows
         data={adjustments}
-        renderRow={renderRow(accounts, taxCodes, tableColumns, onAddAccount, isLoadingAccount)}
+        renderRow={renderRow(
+          accounts, taxCodes, jobs,
+          tableColumns, onAddAccount, isLoadingAccount, isBankingJobColumnEnabled,
+        )}
         onRowChange={onUpdateAdjustment}
         onRemoveRow={onRemoveAdjustment}
         onAddRow={onAddAdjustment}
@@ -138,8 +160,10 @@ const mapStateToProps = state => ({
   adjustments: getAdjustments(state),
   taxCodes: getTaxCodes(state),
   accounts: getAccounts(state),
+  jobs: getJobs(state),
   taxCodeLabel: getRegionToDialectText(state.region)('Tax code'),
   isLoadingAccount: getIsLoadingAccount(state),
+  isBankingJobColumnEnabled: getIsBankingJobColumnEnabled(state),
 });
 
 export default connect(mapStateToProps)(MatchTransactionAdjustments);

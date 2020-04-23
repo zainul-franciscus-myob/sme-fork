@@ -38,6 +38,7 @@ const getDefaultState = () => ({
   suppliers: [],
   customers: [],
   taxCodes: [],
+  jobs: [],
   filterOptions: {
     transactionType: TransactionTypes.UNALLOCATED,
     bankAccount: '',

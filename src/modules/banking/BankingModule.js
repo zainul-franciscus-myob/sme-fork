@@ -44,12 +44,13 @@ import openBlob from '../../common/blobOpener/openBlob';
 
 export default class BankingModule {
   constructor({
-    integration, setRootView,
+    integration, setRootView, featureToggles,
   }) {
     this.store = new Store(bankingReducer);
     this.setRootView = setRootView;
     this.dispatcher = createBankingDispatcher(this.store);
     this.integrator = createBankingIntegrator(this.store, integration);
+    this.isBankingJobColumnEnabled = featureToggles.isBankingJobColumnEnabled;
     this.bankingRuleModule = new BankingRuleModule(
       {
         integration,
@@ -1119,7 +1120,10 @@ export default class BankingModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState(context);
+    this.dispatcher.setInitialState({
+      ...context,
+      isBankingJobColumnEnabled: this.isBankingJobColumnEnabled,
+    });
     this.render();
     this.dispatcher.setLoadingState(true);
     this.loadBankTransactions();

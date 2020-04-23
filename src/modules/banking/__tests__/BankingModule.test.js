@@ -30,6 +30,7 @@ describe('BankingModule', () => {
       setRootView,
       pushMessage,
       popMessages,
+      featureToggles: { isBankingJobColumnEnabled: true },
     });
     const store = new TestStore(bankingReducer);
     module.store = store;
@@ -63,7 +64,7 @@ describe('BankingModule', () => {
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
-          context: {},
+          context: { isBankingJobColumnEnabled: true },
         },
         {
           intent: SET_LOADING_STATE,
@@ -94,7 +95,7 @@ describe('BankingModule', () => {
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
-          context: {},
+          context: { isBankingJobColumnEnabled: true },
         },
         {
           intent: SET_LOADING_STATE,

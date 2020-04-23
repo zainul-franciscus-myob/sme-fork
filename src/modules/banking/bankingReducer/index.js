@@ -162,6 +162,7 @@ const loadBankTransactions = (state, action) => ({
   suppliers: action.suppliers,
   customers: action.customers,
   taxCodes: action.taxCodes,
+  jobs: action.jobs,
   entries: action.entries.map(entry => ({
     ...entry,
     isFocused: false,
