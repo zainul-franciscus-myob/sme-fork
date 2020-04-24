@@ -33,11 +33,6 @@ const getDefaultState = () => ({
 
 const resetState = () => getDefaultState();
 
-const setInitialState = (state = getDefaultState(), { context }) => ({
-  ...state,
-  ...context,
-});
-
 const loadContactDetail = (state, payload) => ({
   ...state.contactDetail,
   ...payload.contactDetail,
@@ -64,14 +59,30 @@ const setMainTab = (state, { mainTab }) => ({
   },
 });
 
-const setSubTab = (state, { mainTab, subTab }) => ({
+const setSubTab = (state, { mainTab, subTab }) => (
+  mainTab && subTab
+    ? {
+      ...state,
+      tabs: {
+        ...state.tabs,
+        subTabs: {
+          ...state.tabs.subTabs,
+          [mainTab]: subTab,
+        },
+      },
+    }
+    : state
+);
+
+const setInitialState = (
+  state = getDefaultState(),
+  { context: { mainTab, subTab, ...params } },
+) => ({
   ...state,
+  ...params,
   tabs: {
-    ...state.tabs,
-    subTabs: {
-      ...state.tabs.subTabs,
-      [mainTab]: subTab,
-    },
+    main: mainTab || state.tabs.main,
+    subTabs: setSubTab(state, { mainTab, subTab }).tabs.subTabs,
   },
 });
 

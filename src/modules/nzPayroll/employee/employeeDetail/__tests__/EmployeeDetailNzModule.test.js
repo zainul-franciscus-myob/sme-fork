@@ -17,6 +17,9 @@ import employeeDetailNzReducer from '../employeeDetailNzReducer';
 import employeeDetailResponse from '../../mappings/data/employeeDetailEntry';
 
 describe('EmployeeDetailNzModule', () => {
+  afterEach(jest.clearAllMocks);
+
+  const replaceURLParams = jest.fn();
   const setup = () => {
     const store = new TestStore(employeeDetailNzReducer);
     const integration = new TestIntegration();
@@ -26,7 +29,7 @@ describe('EmployeeDetailNzModule', () => {
       wrapper = mount(component);
     };
 
-    const module = new EmployeeDetailNzModule({ integration, setRootView });
+    const module = new EmployeeDetailNzModule({ integration, setRootView, replaceURLParams });
     module.store = store;
     module.dispatcher = createEmployeeDetailNzDispatcher({ store });
     module.integrator = createEmployeeDetailNzIntegrator({ store, integration });
@@ -106,22 +109,45 @@ describe('EmployeeDetailNzModule', () => {
       expect(wrapper.find(LoadingFailPageState).exists()).toBe(true);
     });
 
-    it('should move to payroll details page when payroll detail tab is clicked', () => {
-      const {
-        integration, module, wrapper,
-      } = setup();
-      integration.mapSuccess(LOAD_EMPLOYEE_DETAIL, employeeDetailResponse);
+    describe('When clicking tab payroll details tab', () => {
+      it('should move to payroll details page', () => {
+        const {
+          integration, module, wrapper,
+        } = setup();
+        integration.mapSuccess(LOAD_EMPLOYEE_DETAIL, employeeDetailResponse);
 
-      module.run(context);
-      wrapper.update();
+        module.run(context);
+        wrapper.update();
 
-      wrapper.find('TabItem')
-        .findWhere(c => c.prop('item')?.id === 'payrollDetails')
-        .find('a')
-        .simulate('click');
-      wrapper.update();
+        wrapper.find('TabItem')
+          .findWhere(c => c.prop('item')?.id === 'payrollDetails')
+          .find('a')
+          .simulate('click');
+        wrapper.update();
 
-      expect(wrapper.find(EmploymentDetailsTab).exists()).toBe(true);
+        expect(wrapper.find(EmploymentDetailsTab).exists()).toBe(true);
+      });
+
+      it('should update the url', () => {
+        const {
+          integration, module, wrapper,
+        } = setup();
+        integration.mapSuccess(LOAD_EMPLOYEE_DETAIL, employeeDetailResponse);
+
+        module.run(context);
+        wrapper.update();
+
+        wrapper.find('TabItem')
+          .findWhere(c => c.prop('item')?.id === 'payrollDetails')
+          .find('a')
+          .simulate('click');
+        wrapper.update();
+
+        expect(replaceURLParams).toHaveBeenLastCalledWith({
+          mainTab: 'payrollDetails',
+          subTab: 'employmentDetails',
+        });
+      });
     });
   });
 });

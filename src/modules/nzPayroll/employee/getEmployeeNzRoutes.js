@@ -6,6 +6,7 @@ const getEmployeeNzRoutes = ({
   integration,
   setRootView,
   popMessages,
+  replaceURLParams,
 }) => {
   const routes = [
     {
@@ -25,6 +26,7 @@ const getEmployeeNzRoutes = ({
       module: new EmployeeDetailNzModule({
         integration,
         setRootView,
+        replaceURLParams,
       }),
       documentTitle: 'Employee',
     },

@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { getURLParams } from './EmployeeDetailNzSelectors';
 import { tabItems } from './tabItems';
 import ContactDetailsNzTabModule from './contactDetails/ContactDetailsNzTabModule';
 import EmployeeDetailsNzView from './components/EmployeeDetailsNzView';
@@ -12,9 +13,10 @@ import createEmployeeDetailNzIntegrator from './createEmployeeDetailNzIntegrator
 import employeeDetailNzReducer from './employeeDetailNzReducer';
 
 export default class EmployeeDetailNzModule {
-  constructor({ setRootView, integration }) {
+  constructor({ setRootView, integration, replaceURLParams }) {
     this.setRootView = setRootView;
     this.integration = integration;
+    this.replaceURLParams = replaceURLParams;
     this.store = new Store(employeeDetailNzReducer);
     this.dispatcher = createEmployeeDetailNzDispatcher({ store: this.store });
     this.integrator = createEmployeeDetailNzIntegrator({ store: this.store, integration });
@@ -27,6 +29,8 @@ export default class EmployeeDetailNzModule {
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
   }
+
+  updateURLFromState = state => this.replaceURLParams(getURLParams(state));
 
   setInitialState = context => this.dispatcher.setInitialState(context);
 
@@ -44,12 +48,22 @@ export default class EmployeeDetailNzModule {
     this.integrator.loadEmployeeDetails({ onSuccess, onFailure });
   };
 
+  setMainTab = (mainTab) => {
+    this.dispatcher.setMainTab(mainTab);
+    this.replaceURLParams(getURLParams(this.store.getState()));
+  }
+
+  setSubTab = (mainTab, subTab) => {
+    this.dispatcher.setSubTab(mainTab, subTab);
+    this.replaceURLParams({ mainTab, subTab });
+  }
+
   render() {
     const employeeDetailNzView = <EmployeeDetailsNzView
       tabItems={tabItems}
       subModules={this.subModules}
-      onMainTabSelected={this.dispatcher.setMainTab}
-      onSubTabSelected={this.dispatcher.setSubTab}
+      onMainTabSelected={this.setMainTab}
+      onSubTabSelected={this.setSubTab}
     />;
     const wrappedView = <Provider store={this.store}>{employeeDetailNzView}</Provider>;
     this.setRootView(wrappedView);

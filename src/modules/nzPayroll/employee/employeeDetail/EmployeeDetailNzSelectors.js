@@ -16,3 +16,9 @@ export const getCurrentSubTab = createSelector(
   getSubTabs,
   (mainTab, subTabs) => subTabs[mainTab],
 );
+
+export const getURLParams = createSelector(
+  getMainTab,
+  getCurrentSubTab,
+  (mainTab, subTab) => ({ mainTab, subTab }),
+);

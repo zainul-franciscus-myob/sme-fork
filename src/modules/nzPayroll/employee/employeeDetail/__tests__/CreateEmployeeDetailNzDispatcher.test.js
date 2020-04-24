@@ -17,7 +17,11 @@ describe('createEmployeeDetailNzDispatcher', () => {
 
   describe('setInitialState', () => {
     it('should dispatch SET_INITIAL_STATE intent with context', () => {
-      const context = {};
+      const context = {
+        mainTab: 'mainTab',
+        subTab: 'subTab',
+        businessId: 1,
+      };
       employeeDetailNzDispatcher.setInitialState(context);
 
       expect(store.dispatch).toHaveBeenCalledWith(expect.objectContaining({

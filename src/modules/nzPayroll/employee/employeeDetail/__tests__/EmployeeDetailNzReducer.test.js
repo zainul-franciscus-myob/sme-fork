@@ -1,5 +1,8 @@
 import {
-  LOAD_EMPLOYEE_DETAIL, SET_LOADING_STATE, SET_MAIN_TAB, SET_SUB_TAB,
+  LOAD_EMPLOYEE_DETAIL,
+  SET_LOADING_STATE,
+  SET_MAIN_TAB,
+  SET_SUB_TAB,
 } from '../../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import { tabIds } from '../tabItems';
@@ -45,6 +48,24 @@ describe('EmployeeDetailNzReducer', () => {
       const result = employeeDetailNzReducer(undefined, action);
 
       expect(result).toEqual({ ...defaultState, ...context });
+    });
+
+    it('should set the initial mainTab and subTab from context', () => {
+      const context = {
+        businessId: 'id',
+        region: 'nz',
+        mainTab: 'mainTab',
+        subTab: 'subTab',
+      };
+      const action = {
+        intent: SET_INITIAL_STATE,
+        context,
+      };
+
+      const result = employeeDetailNzReducer(undefined, action);
+
+      expect(result).toHaveProperty('tabs.main', context.mainTab);
+      expect(result).toHaveProperty(`tabs.subTabs.${context.mainTab}`, context.subTab);
     });
   });
 
@@ -134,6 +155,26 @@ describe('EmployeeDetailNzReducer', () => {
 
       const result = employeeDetailNzReducer(defaultState, action);
       expect(result).toHaveProperty(`tabs.subTabs.${action.mainTab}`, action.subTab);
+    });
+
+    it('should not update state if mainTab is undefiend', () => {
+      const action = {
+        intent: SET_SUB_TAB,
+        subTab: 'tab 1 a',
+      };
+
+      const result = employeeDetailNzReducer(defaultState, action);
+      expect(result).toEqual(defaultState);
+    });
+
+    it('should not update state if subTab is undefiend', () => {
+      const action = {
+        intent: SET_SUB_TAB,
+        mainTab: 'tab 1',
+      };
+
+      const result = employeeDetailNzReducer(defaultState, action);
+      expect(result).toEqual(defaultState);
     });
   });
 });
