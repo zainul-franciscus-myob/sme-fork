@@ -143,6 +143,8 @@ const InvoiceDetailActions = ({
         ]}
         secondary={[
           recordPaymentButton,
+          exportPdfButton,
+          saveAndEmailButton,
         ]}
       />);
   }
