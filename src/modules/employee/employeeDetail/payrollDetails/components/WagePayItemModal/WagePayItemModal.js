@@ -24,6 +24,8 @@ const WagePayItemModal = ({
   onRemoveEmployee,
   onExemptionSelected,
   onRemoveExemption,
+  featureToggles,
+  onJobKeeperChange,
 }) => {
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -37,6 +39,8 @@ const WagePayItemModal = ({
       <WagePayItemDetails
         onDetailsChange={onDetailsChange}
         onOverrideAccountChange={onOverrideAccountChange}
+        featureToggles={featureToggles}
+        onJobKeeperChange={onJobKeeperChange}
       />
       <WagePayItemEmployeeAllocation
         onEmployeeSelected={onEmployeeSelected}

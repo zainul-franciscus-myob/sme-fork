@@ -45,6 +45,7 @@ export default class EmployeeDetailModule {
     pushMessage,
     replaceURLParams,
     globalCallbacks,
+    featureToggles,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -68,6 +69,7 @@ export default class EmployeeDetailModule {
         pushMessage,
         saveEmployee: this.saveEmployee,
         globalCallbacks,
+        featureToggles,
       }),
       paymentDetails: new PaymentDetailsTabModule({
         integration,

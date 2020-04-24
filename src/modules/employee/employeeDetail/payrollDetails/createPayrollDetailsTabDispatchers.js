@@ -37,6 +37,7 @@ import {
   LOAD_SUPER_PAY_ITEM_MODAL,
   LOAD_TAX_PAY_ITEM_MODAL,
   LOAD_WAGE_PAY_ITEM_MODAL,
+  MARK_WAGE_AS_JOBKEEPER,
   OPEN_DEDUCTION_PAY_ITEM_MODAL,
   OPEN_EXPENSE_PAY_ITEM_MODAL,
   OPEN_LEAVE_PAY_ITEM_MODAL,
@@ -97,6 +98,7 @@ import {
   SET_WAGE_PAY_ITEM_MODAL_LOADING_STATE,
   SET_WAGE_PAY_ITEM_MODAL_SUBMITTING_STATE,
   SHOW_CONTACT_DETAILS,
+  TOGGLE_JOB_KEEPER,
   UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER,
   UPDATE_DEDUCTION_PAY_ITEM_MODAL,
   UPDATE_EXPENSE_PAY_ITEM_MODAL,
@@ -826,6 +828,14 @@ const createPayrollDetailsTabDispatchers = store => ({
   updateLeavePayItemModalName: ({ value }) => {
     const intent = UPDATE_LEAVE_PAY_ITEM_MODAL_NAME;
     store.dispatch({ intent, value });
+  },
+
+  markAsJobKeeper: () => {
+    store.dispatch({ intent: MARK_WAGE_AS_JOBKEEPER });
+  },
+
+  toggleJobKeeper: ({ value }) => {
+    store.dispatch({ intent: TOGGLE_JOB_KEEPER, isJobKeeper: value });
   },
 });
 

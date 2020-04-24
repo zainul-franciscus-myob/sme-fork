@@ -55,6 +55,7 @@ export default class PayrollDetailsTabModule {
     store,
     pushMessage,
     saveEmployee,
+    featureToggles,
   }) {
     this.integration = integration;
     this.pushMessage = pushMessage;
@@ -65,6 +66,7 @@ export default class PayrollDetailsTabModule {
       taxTableCalculationModal: new TaxTableCalculationModalModule({ integration }),
     };
     this.saveEmployee = saveEmployee;
+    this.featureToggles = featureToggles;
   }
 
   updatePayrollWagePayBasisAndStandardPayItems = ({ value }) => {
@@ -235,6 +237,11 @@ export default class PayrollDetailsTabModule {
     const onSuccess = (response) => {
       this.dispatcher.setWagePayItemModalLoadingState(false);
       this.dispatcher.loadWagePayItemModal(response);
+
+      if (!getIsWagePayItemModalCreating(this.store.getState())
+        && this.featureToggles.isJobKeeperTabEnabled) {
+        this.dispatcher.markAsJobKeeper();
+      }
     };
 
     const onFailure = (response) => {
@@ -688,6 +695,8 @@ export default class PayrollDetailsTabModule {
             onSave: this.saveWagePayItemModal,
             onCancel: this.dispatcher.closeWagePayItemModal,
             onDismissAlert: this.dispatcher.dismissWagePayItemModalAlert,
+            featureToggles: this.featureToggles,
+            onJobKeeperChange: this.dispatcher.toggleJobKeeper,
           }}
           expensePayItemModalListeners={{
             onDismissAlert: this.dispatcher.dismissExpensePayItemModalAlert,

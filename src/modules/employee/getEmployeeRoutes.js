@@ -10,6 +10,7 @@ const getEmployeeRoutes = ({
   pushMessage,
   replaceURLParams,
   globalCallbacks,
+  featureToggles,
 }) => {
   const routes = [
     {
@@ -33,6 +34,7 @@ const getEmployeeRoutes = ({
         pushMessage,
         replaceURLParams,
         globalCallbacks,
+        featureToggles,
       }),
       documentTitle: 'Employee',
     },

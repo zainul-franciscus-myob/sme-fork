@@ -38,6 +38,8 @@ const getSelectedEmployees = state => getWage(state).selectedEmployees;
 
 const getEmployees = state => getWagePayItemModal(state).employees;
 
+export const getIsJobKeeper = state => getWagePayItemModal(state).isJobKeeper;
+
 const getFilteredListOfEmployees = createSelector(
   getEmployees,
   getSelectedEmployees,

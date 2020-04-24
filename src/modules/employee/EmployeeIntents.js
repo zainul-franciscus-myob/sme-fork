@@ -170,3 +170,5 @@ export const REMOVE_LEAVE_PAY_ITEM_MODAL_LINKED_WAGE = Symbol('Remove leave pay 
 export const UPDATE_LEAVE_PAY_ITEM_MODAL_NAME = Symbol('Update leave pay item modal name');
 export const UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS = Symbol('Update leave pay item modal calculation basis');
 export const UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS_AMOUNTS = Symbol('Update leave pay item modal calculation basis amounts');
+export const TOGGLE_JOB_KEEPER = Symbol('Toggle the job keeper checkbox');
+export const MARK_WAGE_AS_JOBKEEPER = Symbol('Mark wage as jobkeeper');

@@ -4,12 +4,14 @@ import {
   CLOSE_WAGE_PAY_ITEM_MODAL,
   CREATE_WAGE_PAY_ITEM_MODAL,
   LOAD_WAGE_PAY_ITEM_MODAL,
+  MARK_WAGE_AS_JOBKEEPER,
   OPEN_WAGE_PAY_ITEM_MODAL,
   REMOVE_WAGE_PAY_ITEM_MODAL_EMPLOYEE,
   REMOVE_WAGE_PAY_ITEM_MODAL_EXEMPTION,
   SET_WAGE_PAY_ITEM_MODAL_ALERT,
   SET_WAGE_PAY_ITEM_MODAL_LOADING_STATE,
   SET_WAGE_PAY_ITEM_MODAL_SUBMITTING_STATE,
+  TOGGLE_JOB_KEEPER,
   UPDATE_WAGE_PAY_ITEM_MODAL,
   UPDATE_WAGE_PAY_ITEM_MODAL_DETAILS,
   UPDATE_WAGE_PAY_ITEM_MODAL_OVERRIDE_ACCOUNT,
@@ -40,6 +42,7 @@ const getWagePayItemModalDefaultState = () => ({
   atoReportCategoryList: [],
   employees: [],
   exemptions: [],
+  isJobKeeper: false,
 });
 
 const openWagePayItemModal = (state, { id }) => {
@@ -202,6 +205,65 @@ const removeWagePayItemModalExemption = (state, { id }) => ({
   },
 });
 
+
+const toggleJobKeeper = (state, { isJobKeeper }) => {
+  const jobKeeperPayItemValues = {
+    name: 'JOBKEEPER-TOPUP',
+    atoReportingCategory: 'AllowanceOther',
+    payBasis: 'Salary',
+  };
+
+  if (state.wagePayItemModal.id === 'new') {
+    // create
+    if (isJobKeeper) {
+      return {
+        ...state,
+        wagePayItemModal: {
+          ...state.wagePayItemModal,
+          isJobKeeper,
+          wage: {
+            ...state.wagePayItemModal.wage,
+            ...jobKeeperPayItemValues,
+          },
+        },
+      };
+    }
+    return {
+      ...state,
+      wagePayItemModal: {
+        ...state.wagePayItemModal,
+        isJobKeeper,
+        wage: getWagePayItemModalDefaultState().wage,
+      },
+    };
+  }
+
+  return state;
+};
+
+const markWageAsJobKeeper = state => {
+  const jobKeeperPayItemValues = {
+    name: 'JOBKEEPER-TOPUP',
+    atoReportingCategory: 'AllowanceOther',
+    payBasis: 'Salary',
+  };
+
+  if (state.wagePayItemModal.wage.name === jobKeeperPayItemValues.name
+    && state.wagePayItemModal.wage.atoReportingCategory
+      === jobKeeperPayItemValues.atoReportingCategory
+    && state.wagePayItemModal.wage.payBasis === jobKeeperPayItemValues.payBasis
+  ) {
+    return {
+      ...state,
+      wagePayItemModal: {
+        ...state.wagePayItemModal,
+        isJobKeeper: true,
+      },
+    };
+  }
+  return state;
+};
+
 export default {
   [OPEN_WAGE_PAY_ITEM_MODAL]: openWagePayItemModal,
   [SET_WAGE_PAY_ITEM_MODAL_LOADING_STATE]: setWagePayItemModalLoadingState,
@@ -217,4 +279,6 @@ export default {
   [REMOVE_WAGE_PAY_ITEM_MODAL_EXEMPTION]: removeWagePayItemModalExemption,
   [CREATE_WAGE_PAY_ITEM_MODAL]: createWagePayItemModal,
   [UPDATE_WAGE_PAY_ITEM_MODAL]: updateWagePayItemModal,
+  [TOGGLE_JOB_KEEPER]: toggleJobKeeper,
+  [MARK_WAGE_AS_JOBKEEPER]: markWageAsJobKeeper,
 };
