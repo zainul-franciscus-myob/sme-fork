@@ -8,6 +8,7 @@ import {
   CALCULATE_QUOTE_TAX_INCLUSIVE_CHANGE,
 } from '../QuoteIntents';
 import {
+  DUPLICATE_QUOTE,
   SUCCESSFULLY_DELETED_QUOTE,
   SUCCESSFULLY_EMAILED_QUOTE,
   SUCCESSFULLY_SAVED_QUOTE,
@@ -30,12 +31,11 @@ import {
   getModalUrl,
   getNewLineIndex,
   getOpenedModalType,
-  getShouldReload,
+  getQuoteId,
   getShouldSaveAndReload,
   getTaxCalculations,
 } from './selectors/QuoteDetailSelectors';
 import {
-  getCreateDuplicateQuoteUrl,
   getCreateInvoiceFromQuoteUrl,
   getCreateNewQuoteUrl,
   getInvoiceAndQuoteSettingsUrl,
@@ -58,20 +58,21 @@ import openBlob from '../../../common/blobOpener/openBlob';
 import quoteDetailReducer from './reducer/quoteDetailReducer';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
-const messageTypes = [
-  SUCCESSFULLY_SAVED_QUOTE,
-];
-
 export default class QuoteDetailModule {
   constructor({
-    integration, setRootView, pushMessage, popMessages, reload, replaceURLParams, featureToggles,
+    integration,
+    setRootView,
+    pushMessage,
+    popMessages,
+    navigateTo,
+    replaceURLParams,
+    featureToggles,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.popMessages = popMessages;
-    this.messageTypes = messageTypes;
-    this.reload = reload;
+    this.navigateTo = navigateTo;
     this.replaceURLParams = replaceURLParams;
 
     this.store = new Store(quoteDetailReducer);
@@ -165,7 +166,7 @@ export default class QuoteDetailModule {
 
     const onSuccess = ({ message }) => {
       this.pushSuccessfulSaveMessage(message);
-      this.redirectToUrlOrReloadModule(url);
+      this.navigateTo(url);
     };
 
     this.createOrUpdateQuote({ onSuccess });
@@ -173,14 +174,9 @@ export default class QuoteDetailModule {
 
   saveAndCreateNew = () => {
     const onSuccess = ({ message }) => {
-      const state = this.store.getState();
       this.pushSuccessfulSaveMessage(message);
 
-      if (getShouldReload(state)) {
-        this.reload();
-      } else {
-        this.redirectToCreateQuote();
-      }
+      this.redirectToCreateQuote();
     };
 
     this.createOrUpdateQuote({ onSuccess });
@@ -191,8 +187,13 @@ export default class QuoteDetailModule {
       if (getIsCreating(this.store.getState())) {
         this.dispatcher.updateQuoteIdAfterCreate(id);
       }
+
       this.pushSuccessfulSaveMessage(message);
-      this.redirectToCreateDuplicateQuote();
+      this.pushMessage({
+        type: DUPLICATE_QUOTE,
+        duplicateId: getQuoteId(this.store.getState()),
+      });
+      this.redirectToCreateQuote();
     };
 
     this.createOrUpdateQuote({ onSuccess });
@@ -224,56 +225,39 @@ export default class QuoteDetailModule {
     });
   }
 
-  redirectToUrl = (url) => {
-    window.location.href = url;
-  }
-
-  redirectToUrlOrReloadModule = (url) => {
-    if (window.location.href.includes(url)) {
-      this.reload();
-    } else this.redirectToUrl(url);
-  }
-
   redirectToQuoteList = () => {
     const state = this.store.getState();
     const url = getQuoteListURL(state);
 
-    this.redirectToUrl(url);
+    this.navigateTo(url);
   }
 
   redirectToCreateQuote = () => {
     const state = this.store.getState();
     const url = getCreateNewQuoteUrl(state);
 
-    this.redirectToUrl(url);
-  }
-
-  redirectToCreateDuplicateQuote = () => {
-    const state = this.store.getState();
-    const url = getCreateDuplicateQuoteUrl(state);
-
-    this.redirectToUrl(url);
+    this.navigateTo(url);
   }
 
   redirectToCreateInvoice = () => {
     const state = this.store.getState();
     const url = getCreateInvoiceFromQuoteUrl(state);
 
-    this.redirectToUrl(url);
+    this.navigateTo(url);
   }
 
   redirectToInvoiceAndQuoteSettings = () => {
     const state = this.store.getState();
     const url = getInvoiceAndQuoteSettingsUrl(state);
 
-    this.redirectToUrl(url);
+    this.navigateTo(url);
   }
 
   handleOnDiscardButtonClickFromUnsavedModal = () => {
     const state = this.store.getState();
     const url = getModalUrl(state);
 
-    this.redirectToUrlOrReloadModule(url);
+    this.navigateTo(url);
   }
 
   updateQuoteDetailHeaderOptions = ({ key, value }) => {
@@ -696,12 +680,20 @@ export default class QuoteDetailModule {
   }
 
   readMessages = () => {
-    const [successMessage] = this.popMessages(this.messageTypes);
-
-    if (successMessage) {
-      const { content: message } = successMessage;
-      this.dispatcher.setAlert({ message, type: 'success' });
-    }
+    this.popMessages([
+      SUCCESSFULLY_SAVED_QUOTE,
+      DUPLICATE_QUOTE,
+    ]).forEach(message => {
+      switch (message.type) {
+        case SUCCESSFULLY_SAVED_QUOTE:
+          this.dispatcher.setAlert({ message: message.content, type: 'success' });
+          break;
+        case DUPLICATE_QUOTE:
+          this.dispatcher.setDuplicateId(message.duplicateId);
+          break;
+        default:
+      }
+    });
   }
 
   render = () => {
@@ -836,7 +828,7 @@ export default class QuoteDetailModule {
     if (getIsPageEdited(state)) {
       this.openUnsavedModal(url);
     } else {
-      this.redirectToUrl(url);
+      this.navigateTo(url);
     }
   }
 

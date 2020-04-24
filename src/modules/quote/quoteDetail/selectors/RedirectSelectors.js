@@ -22,13 +22,6 @@ export const getCreateNewQuoteUrl = (state) => {
   return `${createQuoteUrl}?layout=${layout}`;
 };
 
-export const getCreateDuplicateQuoteUrl = (state) => {
-  const createQuoteUrl = getCreateQuoteUrl(state);
-  const quoteId = getQuoteId(state);
-
-  return `${createQuoteUrl}?duplicatedQuoteId=${quoteId}`;
-};
-
 const getReadQuoteUrl = (state) => {
   const baseUrl = getBaseUrl(state);
   const quoteId = getQuoteId(state);

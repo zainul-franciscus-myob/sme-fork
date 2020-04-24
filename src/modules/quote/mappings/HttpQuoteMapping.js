@@ -38,7 +38,7 @@ const HttpQuoteMapping = {
   },
   [LOAD_NEW_DUPLICATE_QUOTE_DETAIL]: {
     method: 'GET',
-    getPath: ({ businessId, duplicatedQuoteId }) => `/${businessId}/quote/load_duplicate_quote_detail/${duplicatedQuoteId}`,
+    getPath: ({ businessId, duplicateId }) => `/${businessId}/quote/load_duplicate_quote_detail/${duplicateId}`,
   },
   [LOAD_QUOTE_DETAIL]: {
     method: 'GET',

@@ -20,6 +20,7 @@ export const CREATE_QUOTE_DETAIL = Symbol('Create a new quote');
 export const UPDATE_QUOTE_DETAIL = Symbol('Update a quote');
 export const DELETE_QUOTE_DETAIL = Symbol('Delete a quote');
 export const UPDATE_QUOTE_ID_AFTER_CREATE = Symbol('Update quote id after create');
+export const SET_DUPLICATE_ID = Symbol('Set duplicate id');
 export const UPDATE_QUOTE_DETAIL_HEADER_OPTIONS = Symbol('Update quote header options');
 export const UPDATE_LAYOUT = Symbol('Update layout');
 

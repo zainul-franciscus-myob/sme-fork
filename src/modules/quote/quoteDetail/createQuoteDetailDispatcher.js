@@ -21,6 +21,7 @@ import {
   SET_ACCOUNT_LOADING_STATE,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
+  SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
   SET_MODAL_SUBMITTING_STATE,
@@ -74,6 +75,11 @@ const createQuoteDetailDispatcher = store => ({
 
   updateQuoteIdAfterCreate: quoteId => store.dispatch({
     intent: UPDATE_QUOTE_ID_AFTER_CREATE, quoteId,
+  }),
+
+  setDuplicateId: duplicateId => store.dispatch({
+    intent: SET_DUPLICATE_ID,
+    duplicateId,
   }),
 
   updateQuoteDetailHeaderOptions: (key, value) => store.dispatch({

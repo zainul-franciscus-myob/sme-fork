@@ -4,6 +4,7 @@ import createRouter from 'router5';
 import buildModuleContext from './buildModuleContext';
 import convertRoutesToRouterConfig from './convertRoutesToRouterConfig';
 import getRouteNameToModuleMapping from './getRouteNameToModuleMapping';
+import isCurrentRoute from './isCurrentRoute';
 import removeEmptyParams from './removeEmptyParams';
 
 export default class Router {
@@ -15,6 +16,7 @@ export default class Router {
     this.router.usePlugin(browserPlugin({ useHash: true }));
   }
 
+  // @DEPRECATED
   reload = () => {
     const currentRoute = this.router.getState();
     this.router.navigate(currentRoute.name, currentRoute.params, { reload: true });
@@ -36,6 +38,7 @@ export default class Router {
     this.router.replaceHistoryState(currentRoute.name, newParams);
   }
 
+  // @DEPRECATED
   replaceURLParamsAndReload = (params) => {
     const currentRoute = this.router.getState();
 
@@ -58,17 +61,17 @@ export default class Router {
     window.location.reload();
   }
 
-  navigateTo = (url, openInNewTab) => {
+  navigateTo = (newPath, openInNewTab) => {
     if (!openInNewTab) {
-      const isCurrentRoute = window.location.href.includes(url);
+      const prevPath = `/${window.location.hash}`;
 
-      if (isCurrentRoute) {
+      if (isCurrentRoute(prevPath, newPath)) {
         this.reload();
       }
 
-      window.location.href = url;
+      window.location.href = newPath;
     } else {
-      window.open(url, '_blank');
+      window.open(newPath, '_blank');
     }
   }
 

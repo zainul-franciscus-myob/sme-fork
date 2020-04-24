@@ -1,16 +1,22 @@
 import {
   CLOSE_MODAL,
   CREATE_QUOTE_DETAIL,
+  LOAD_NEW_DUPLICATE_QUOTE_DETAIL,
+  LOAD_NEW_QUOTE_DETAIL,
   LOAD_QUOTE_DETAIL,
   OPEN_MODAL,
   RELOAD_QUOTE_DETAIL,
   SET_ALERT,
+  SET_DUPLICATE_ID,
+  SET_LOADING_STATE,
   SET_MODAL_ALERT,
   SET_SUBMITTING_STATE,
   UPDATE_QUOTE_DETAIL,
   UPDATE_QUOTE_ID_AFTER_CREATE,
 } from '../../QuoteIntents';
-import { SUCCESSFULLY_SAVED_QUOTE } from '../QuoteMessageTypes';
+import { DUPLICATE_QUOTE, SUCCESSFULLY_SAVED_QUOTE } from '../QuoteMessageTypes';
+import { SET_INITIAL_STATE } from '../../../../SystemIntents';
+import LoadingState from '../../../../components/PageView/LoadingState';
 import ModalType from '../ModalType';
 import QuoteDetailModule from '../QuoteDetailModule';
 import TestIntegration from '../../../../integration/TestIntegration';
@@ -25,7 +31,6 @@ describe('QuoteDetailModule', () => {
     const setRootView = () => {};
     const pushMessage = () => {};
     const popMessages = () => [];
-    const reload = () => {};
     const replaceURLParams = () => {};
     const integration = new TestIntegration();
 
@@ -34,7 +39,6 @@ describe('QuoteDetailModule', () => {
       setRootView,
       pushMessage,
       popMessages,
-      reload,
       replaceURLParams,
       featureToggles: { isQuoteJobColumnEnabled: true },
     });
@@ -61,6 +65,197 @@ describe('QuoteDetailModule', () => {
 
     return { module, integration, store };
   };
+
+  describe('run', () => {
+    [
+      {
+        case: 'new',
+        quoteId: 'new',
+        intent: LOAD_NEW_QUOTE_DETAIL,
+      },
+      {
+        case: 'existing',
+        quoteId: '1',
+        intent: LOAD_QUOTE_DETAIL,
+      },
+    ].forEach(test => {
+      describe(`when ${test.name}`, () => {
+        it('succesfully load', () => {
+          const { module, store, integration } = setUp();
+
+          module.run({ businessId: 'businessId', region: 'au', quoteId: test.quoteId });
+
+          expect(store.getActions()).toEqual([
+            {
+              intent: SET_INITIAL_STATE,
+              context: {
+                businessId: 'businessId',
+                region: 'au',
+                quoteId: test.quoteId,
+                isQuoteJobColumnEnabled: true,
+              },
+            },
+            {
+              intent: SET_LOADING_STATE,
+              loadingState: LoadingState.LOADING,
+            },
+            {
+              intent: SET_LOADING_STATE,
+              loadingState: LoadingState.LOADING_SUCCESS,
+            },
+            expect.objectContaining({
+              intent: LOAD_QUOTE_DETAIL,
+            }),
+          ]);
+          expect(integration.getRequests()).toEqual([
+            expect.objectContaining({
+              intent: test.intent,
+            }),
+          ]);
+        });
+
+        it('fails to load new', () => {
+          const { module, store, integration } = setUp();
+          integration.mapFailure(test.intent);
+
+          module.run({ businessId: 'businessId', region: 'au', quoteId: test.quoteId });
+
+          expect(store.getActions()).toEqual([
+            {
+              intent: SET_INITIAL_STATE,
+              context: {
+                businessId: 'businessId',
+                region: 'au',
+                quoteId: test.quoteId,
+                isQuoteJobColumnEnabled: true,
+              },
+            },
+            {
+              intent: SET_LOADING_STATE,
+              loadingState: LoadingState.LOADING,
+            },
+            {
+              intent: SET_LOADING_STATE,
+              loadingState: LoadingState.LOADING_FAIL,
+            },
+          ]);
+          expect(integration.getRequests()).toEqual([
+            expect.objectContaining({
+              intent: test.intent,
+            }),
+          ]);
+        });
+      });
+    });
+
+    it('shows success alert when got saved message', () => {
+      const { module, store } = setUp();
+      module.popMessages = () => [{
+        type: SUCCESSFULLY_SAVED_QUOTE,
+        content: '🤣',
+      }];
+
+      module.run({ businessId: 'businessId', region: 'au', quoteId: 'new' });
+
+      expect(store.getActions()).toContainEqual({
+        intent: SET_ALERT,
+        alert: {
+          type: 'success',
+          message: '🤣',
+        },
+      });
+    });
+
+    it('successfully loads duplicate', () => {
+      const { module, store, integration } = setUp();
+      module.popMessages = () => [{
+        type: DUPLICATE_QUOTE,
+        duplicateId: '🐛',
+      }];
+
+      module.run({ businessId: 'businessId', region: 'au', quoteId: 'new' });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_INITIAL_STATE,
+          context: {
+            businessId: 'businessId',
+            region: 'au',
+            quoteId: 'new',
+            isQuoteJobColumnEnabled: true,
+          },
+        },
+        {
+          intent: SET_DUPLICATE_ID,
+          duplicateId: '🐛',
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
+        expect.objectContaining({
+          intent: LOAD_QUOTE_DETAIL,
+        }),
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_NEW_DUPLICATE_QUOTE_DETAIL,
+          urlParams: {
+            businessId: 'businessId',
+            duplicateId: '🐛',
+          },
+        }),
+      ]);
+    });
+
+    it('fails to load duplicate', () => {
+      const { module, store, integration } = setUp();
+      integration.mapFailure(LOAD_NEW_DUPLICATE_QUOTE_DETAIL);
+      module.popMessages = () => [{
+        type: DUPLICATE_QUOTE,
+        duplicateId: '🐛',
+      }];
+
+      module.run({ businessId: 'businessId', region: 'au', quoteId: 'new' });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_INITIAL_STATE,
+          context: {
+            businessId: 'businessId',
+            region: 'au',
+            quoteId: 'new',
+            isQuoteJobColumnEnabled: true,
+          },
+        },
+        {
+          intent: SET_DUPLICATE_ID,
+          duplicateId: '🐛',
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_FAIL,
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_NEW_DUPLICATE_QUOTE_DETAIL,
+          urlParams: {
+            businessId: 'businessId',
+            duplicateId: '🐛',
+          },
+        }),
+      ]);
+    });
+  });
 
   describe('saveQuote', () => {
     describe('new quote', () => {
@@ -472,10 +667,10 @@ describe('QuoteDetailModule', () => {
   describe('handlePageTransition', () => {
     it('should open an unsaved modal if page has been edited', () => {
       const { module, store } = setUpWithRun({ isPageEdited: true });
-
       const url = 'some-url';
 
       module.handlePageTransition(url);
+
       expect(store.getActions()).toEqual([
         {
           intent: OPEN_MODAL,
@@ -489,12 +684,160 @@ describe('QuoteDetailModule', () => {
 
     it('should redirect to a url if page has not been edited', () => {
       const { module } = setUpWithRun();
-      module.redirectToUrl = jest.fn();
-
+      module.navigateTo = jest.fn();
       const url = 'some-url';
 
       module.handlePageTransition(url);
-      expect(module.redirectToUrl).toHaveBeenCalledWith(url);
+
+      expect(module.navigateTo).toHaveBeenCalledWith(url);
+    });
+  });
+
+  describe('saveAndDuplicate', () => {
+    it('should create and redirect with response id', () => {
+      const { module, store, integration } = setUpWithRun({ isCreating: true });
+      integration.mapSuccess(CREATE_QUOTE_DETAIL, {
+        message: '🤞',
+        id: '👨🏻‍💻',
+      });
+      module.navigateTo = jest.fn();
+      module.pushMessage = jest.fn();
+
+      module.saveAndDuplicate();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: UPDATE_QUOTE_ID_AFTER_CREATE,
+          quoteId: '👨🏻‍💻',
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: CREATE_QUOTE_DETAIL,
+          urlParams: {
+            businessId: 'businessId',
+          },
+        }),
+      ]);
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: SUCCESSFULLY_SAVED_QUOTE,
+        content: '🤞',
+      });
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: DUPLICATE_QUOTE,
+        duplicateId: '👨🏻‍💻',
+      });
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/businessId/quote/new?layout=itemAndService');
+    });
+
+    it('fails to create', () => {
+      const { module, store, integration } = setUpWithRun({ isCreating: true });
+      integration.mapFailure(CREATE_QUOTE_DETAIL);
+      module.pushMessage = jest.fn();
+
+      module.saveAndDuplicate();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
+        {
+          intent: SET_ALERT,
+          alert: {
+            message: 'fails',
+            type: 'danger',
+          },
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: CREATE_QUOTE_DETAIL,
+          urlParams: {
+            businessId: 'businessId',
+          },
+        }),
+      ]);
+    });
+
+    it('should update and redirect with current id', () => {
+      const { module, store, integration } = setUpWithRun({ isCreating: false });
+      integration.mapSuccess(UPDATE_QUOTE_DETAIL, {
+        message: '🤞',
+        id: '👨🏻‍💻',
+      });
+      module.navigateTo = jest.fn();
+      module.pushMessage = jest.fn();
+
+      module.saveAndDuplicate();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: UPDATE_QUOTE_DETAIL,
+          urlParams: {
+            businessId: 'businessId',
+            quoteId: 'quoteId',
+          },
+        }),
+      ]);
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: SUCCESSFULLY_SAVED_QUOTE,
+        content: '🤞',
+      });
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: DUPLICATE_QUOTE,
+        duplicateId: 'quoteId',
+      });
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/businessId/quote/new?layout=itemAndService');
+    });
+
+    it('fails to update', () => {
+      const { module, store, integration } = setUpWithRun({ isCreating: false });
+      integration.mapFailure(UPDATE_QUOTE_DETAIL);
+      module.pushMessage = jest.fn();
+
+      module.saveAndDuplicate();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
+        {
+          intent: SET_ALERT,
+          alert: {
+            message: 'fails',
+            type: 'danger',
+          },
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: UPDATE_QUOTE_DETAIL,
+          urlParams: {
+            businessId: 'businessId',
+            quoteId: 'quoteId',
+          },
+        }),
+      ]);
     });
   });
 
@@ -503,7 +846,7 @@ describe('QuoteDetailModule', () => {
     it('successfully creates', () => {
       const { module, store, integration } = setUpWithRun({ isCreating: true, isPageEdited: true });
       module.pushMessage = jest.fn();
-      module.reload = jest.fn();
+      module.navigateTo = jest.fn();
 
       const navRedirectToUrl = '/#/au/businessId/quote/new';
       module.handlePageTransition(navRedirectToUrl); // open unsaved modal
@@ -531,11 +874,14 @@ describe('QuoteDetailModule', () => {
         type: SUCCESSFULLY_SAVED_QUOTE,
         content: expect.any(String),
       });
+
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/businessId/quote/new');
     });
 
     it('successfully updates', () => {
       const { module, store, integration } = setUpWithRun({ isPageEdited: true });
       module.pushMessage = jest.fn();
+      module.navigateTo = jest.fn();
 
       const navRedirectToUrl = '/#/au/businessId/quote/new';
       module.handlePageTransition(navRedirectToUrl); // open unsaved modal
@@ -563,6 +909,8 @@ describe('QuoteDetailModule', () => {
         type: SUCCESSFULLY_SAVED_QUOTE,
         content: expect.any(String),
       });
+
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/businessId/quote/new');
     });
 
     it('fails to save and close unsaved modal', () => {
@@ -657,33 +1005,38 @@ describe('QuoteDetailModule', () => {
         },
       },
     ].forEach((test) => {
-      it(`should not save quote given the modal type ${test.type}`, () => {
-        const { module, integration } = setUpWithRun({ isPageEdited: true });
+      describe(`when ${test.type}`, () => {
+        it(`should not save quote given the modal type ${test.type}`, () => {
+          const { module, integration } = setUpWithRun({ isPageEdited: true });
 
-        test.setup(module, integration);
-        module.saveHandler();
+          test.setup(module, integration);
+          module.saveHandler();
 
-        expect(integration.getRequests()).not.toContain(
-          expect.objectContaining({
-            intent: UPDATE_QUOTE_DETAIL,
-          }),
-        );
-      });
+          expect(integration.getRequests()).not.toContain(
+            expect.objectContaining({
+              intent: UPDATE_QUOTE_DETAIL,
+            }),
+          );
+        });
 
-      it('should save quote given an unsaved modal is open', () => {
-        const { module, store, integration } = setUpWithRun({ isPageEdited: true });
-        module.pushMessage = jest.fn();
+        it('should save quote given an unsaved modal is open', () => {
+          const { module, store, integration } = setUpWithRun({ isPageEdited: true });
+          module.pushMessage = jest.fn();
+          module.navigateTo = jest.fn();
 
-        const navRedirectToUrl = '/#/au/businessId/quote/new';
-        module.handlePageTransition(navRedirectToUrl); // open unsaved modal
-        store.resetActions();
+          const navRedirectToUrl = '/#/au/businessId/quote/new';
+          module.handlePageTransition(navRedirectToUrl); // open unsaved modal
+          store.resetActions();
 
-        module.saveHandler();
-        expect(integration.getRequests()).toEqual([
-          expect.objectContaining({
-            intent: UPDATE_QUOTE_DETAIL,
-          }),
-        ]);
+          module.saveHandler();
+
+          expect(integration.getRequests()).toEqual([
+            expect.objectContaining({
+              intent: UPDATE_QUOTE_DETAIL,
+            }),
+          ]);
+          expect(module.navigateTo).toHaveBeenCalledWith('/#/au/businessId/quote/new');
+        });
       });
     });
   });

@@ -11,7 +11,7 @@ export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 export const getQuoteId = state => state.quoteId;
 export const getLayoutQueryParam = state => state.layout;
-export const getDuplicateQuoteIdQueryParam = state => state.duplicatedQuoteId;
+export const getDuplicateId = state => state.duplicateId;
 
 export const getLoadingState = state => state.loadingState;
 export const getIsSubmitting = state => state.isSubmitting;
@@ -129,13 +129,6 @@ export const getQuoteDetailOptions = createStructuredSelector({
   taxExclusiveLabel: getTaxExclusiveLabel,
 });
 
-export const getShouldReload = (state) => {
-  const isCreating = getIsCreating(state);
-  const duplicatedQuoteId = getDuplicateQuoteIdQueryParam(state);
-
-  return isCreating && !duplicatedQuoteId;
-};
-
 export const getShouldSaveAndReload = (state) => {
   const isCreating = getIsCreating(state);
   const isPageEdited = getIsPageEdited(state);
@@ -221,7 +214,7 @@ export const getIsReadOnlyLayout = createSelector(
 export const getReadOnlyMessage = createSelector(
   getLayout,
   (layout) => (
-    `This quote is missing information because the ${layout} quote layout isn't 
+    `This quote is missing information because the ${layout} quote layout isn't
     supported in the browser. Switch to AccountRight desktop to use this feature.`
   ),
 );

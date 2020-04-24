@@ -6,7 +6,7 @@ import {
 import {
   getBusinessId,
   getContactId,
-  getDuplicateQuoteIdQueryParam,
+  getDuplicateId,
   getExportPdfTemplate,
   getIsCreating,
   getLayoutQueryParam,
@@ -18,8 +18,9 @@ export const getLoadQuoteIntent = (state) => {
   const isCreating = getIsCreating(state);
 
   if (isCreating) {
-    const duplicatedQuoteId = getDuplicateQuoteIdQueryParam(state);
-    if (duplicatedQuoteId) {
+    const duplicateId = getDuplicateId(state);
+
+    if (duplicateId) {
       return LOAD_NEW_DUPLICATE_QUOTE_DETAIL;
     }
 
@@ -34,9 +35,9 @@ export const getLoadQuoteUrlParams = (state) => {
   const businessId = getBusinessId(state);
 
   const quoteId = isCreating ? undefined : getQuoteId(state);
-  const duplicatedQuoteId = isCreating ? getDuplicateQuoteIdQueryParam(state) : undefined;
+  const duplicateId = isCreating ? getDuplicateId(state) : undefined;
 
-  return { businessId, quoteId, duplicatedQuoteId };
+  return { businessId, quoteId, duplicateId };
 };
 
 export const getLoadQuoteQueryParams = (state) => {

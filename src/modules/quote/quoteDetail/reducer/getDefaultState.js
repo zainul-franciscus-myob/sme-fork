@@ -10,6 +10,7 @@ const getDefaultState = () => ({
   businessId: '',
   region: '',
   quoteId: '',
+  duplicateId: '',
   loadingState: LoadingState.LOADING,
   isSubmitting: false,
   isPageEdited: false,

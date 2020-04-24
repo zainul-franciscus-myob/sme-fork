@@ -21,6 +21,7 @@ import {
   SET_ACCOUNT_LOADING_STATE,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
+  SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
   SET_MODAL_SUBMITTING_STATE,
@@ -145,6 +146,11 @@ const reloadQuoteDetail = (state, action) => {
 const updateQuoteIdAfterCreate = (state, action) => ({
   ...state,
   quoteId: action.quoteId,
+});
+
+const setDuplicateId = (state, action) => ({
+  ...state,
+  duplicateId: action.duplicateId,
 });
 
 const getDefaultTemplate = (value, itemTemplateOptions, serviceTemplateOptions) => {
@@ -406,6 +412,7 @@ const handlers = {
   [LOAD_QUOTE_DETAIL]: loadQuoteDetail,
   [RELOAD_QUOTE_DETAIL]: reloadQuoteDetail,
   [UPDATE_QUOTE_ID_AFTER_CREATE]: updateQuoteIdAfterCreate,
+  [SET_DUPLICATE_ID]: setDuplicateId,
   [UPDATE_QUOTE_DETAIL_HEADER_OPTIONS]: updateQuoteDetailHeaderOptions,
   [UPDATE_LAYOUT]: updateLayout,
 

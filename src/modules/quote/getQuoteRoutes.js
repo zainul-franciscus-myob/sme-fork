@@ -3,7 +3,7 @@ import QuoteListModule from './quoteList/QuoteListModule';
 import RouteName from '../../router/RouteName';
 
 const getQuoteRoutes = ({
-  integration, setRootView, pushMessage, popMessages, reload, replaceURLParams, featureToggles,
+  integration, setRootView, pushMessage, popMessages, navigateTo, replaceURLParams, featureToggles,
 }) => {
   const routes = [
     {
@@ -17,13 +17,13 @@ const getQuoteRoutes = ({
     {
       name: RouteName.QUOTE_DETAIL,
       path: '/:region/:businessId/quote/:quoteId',
-      allowedParams: ['layout', 'duplicatedQuoteId'],
+      allowedParams: ['layout'],
       module: new QuoteDetailModule({
         integration,
         setRootView,
         pushMessage,
         popMessages,
-        reload,
+        navigateTo,
         replaceURLParams,
         featureToggles,
       }),

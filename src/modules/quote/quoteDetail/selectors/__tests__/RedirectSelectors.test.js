@@ -1,4 +1,4 @@
-import { getCreateDuplicateQuoteUrl, getCreateInvoiceFromQuoteUrl, getCreateNewQuoteUrl } from '../RedirectSelectors';
+import { getCreateInvoiceFromQuoteUrl, getCreateNewQuoteUrl } from '../RedirectSelectors';
 
 describe('RedirectSelectors', () => {
   const state = {
@@ -22,15 +22,6 @@ describe('RedirectSelectors', () => {
     it('returns the correct URL to create a new quote from another quote CRUD page', () => {
       const expected = '/#/au/businessId/quote/new?layout=service';
       const actual = getCreateNewQuoteUrl(state);
-
-      expect(expected).toEqual(actual);
-    });
-  });
-
-  describe('getCreateDuplicateQuoteURL', () => {
-    it('returns the correct URL to create a duplicate quote from another quote CRUD page', () => {
-      const expected = '/#/au/businessId/quote/new?duplicatedQuoteId=1';
-      const actual = getCreateDuplicateQuoteUrl(state);
 
       expect(expected).toEqual(actual);
     });
