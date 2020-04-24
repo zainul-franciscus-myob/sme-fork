@@ -38,15 +38,17 @@ const setInitialState = (state = getDefaultState(), { context }) => ({
   ...context,
 });
 
-const loadContactDetail = (state, action) => ({
+const loadContactDetail = (state, payload) => ({
   ...state.contactDetail,
-  ...action.contactDetail,
+  ...payload.contactDetail,
 });
 
 const loadEmployeeDetail = (state, action) => ({
   ...state,
   loadingState: LoadingState.LOADING_SUCCESS,
-  contactDetail: loadContactDetail(state, action),
+
+  ...action.payload,
+  contactDetail: loadContactDetail(state, action.payload),
 });
 
 const setLoadingState = (state, { loadingState }) => ({

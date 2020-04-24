@@ -38,7 +38,7 @@ const employeeDetails = {
 
 const { contactDetail: cd } = employeeDetails;
 
-describe('<ContactDetailsNzTabView />', () => {
+describe('<ContactDetailsNzTab />', () => {
   let store;
 
   beforeEach(() => {
@@ -51,7 +51,7 @@ describe('<ContactDetailsNzTabView />', () => {
   describe('should render Input fields', () => {
     const setup = () => {
       const wrapper = mountWithProvider(<ContactDetailsNzTabView />);
-      store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, ...employeeDetails });
+      store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, payload: employeeDetails });
       wrapper.update();
       return wrapper;
     };
@@ -87,7 +87,7 @@ describe('<ContactDetailsNzTabView />', () => {
 
   it('should render employee contact details fields', () => {
     const wrapper = mountWithProvider(<ContactDetailsNzTabView />);
-    store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, ...employeeDetails });
+    store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, payload: employeeDetails });
     wrapper.update();
 
     expect(wrapper.find({ label: 'Address' }).first().type()).toBe(FieldGroup);
@@ -139,7 +139,7 @@ describe('<ContactDetailsNzTabView />', () => {
         },
       };
       const wrapper = mountWithProvider(<ContactDetailsNzTabView />);
-      store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, ...response });
+      store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, payload: response });
       wrapper.update();
 
       const inactiveEmpCheckbox = wrapper.find(
@@ -162,7 +162,7 @@ describe('<ContactDetailsNzTabView />', () => {
         },
       };
       const wrapper = mountWithProvider(<ContactDetailsNzTabView />);
-      store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, ...response });
+      store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, payload: response });
       wrapper.update();
 
       const inactiveEmpCheckbox = wrapper.find(

@@ -16,5 +16,20 @@
       "03 94839482"
     ],
     "notes":"notes"
-  }
+  },
+  "payrollDetails": {
+    "employmentDetails": {
+      "dateOfBirth": "2000-12-25T00:00:00",
+      "gender": "Not Set",
+      "startDate": "2010-07-02T00:00:00",
+      "terminationDate": "",
+      "employmentStatus": "Casual"
+    }
+  },
+  "genderOptions": [
+    {"name":"-","value":"NotSet"},
+    {"name":"Male","value":"Male"},
+    {"name":"Female","value":"Female"},
+    {"name":"Unspecified","value":"Indeterminate"}
+  ]
 }

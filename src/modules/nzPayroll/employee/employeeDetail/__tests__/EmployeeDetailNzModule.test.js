@@ -58,7 +58,7 @@ describe('EmployeeDetailNzModule', () => {
         },
         {
           intent: LOAD_EMPLOYEE_DETAIL,
-          ...employeeDetailResponse,
+          payload: employeeDetailResponse,
         },
       ]);
 

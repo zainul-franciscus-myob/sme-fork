@@ -17,7 +17,7 @@ const createEmployeeDetailNzDispatcher = ({ store }) => ({
 
   loadEmployeeDetails: (response) => {
     const intent = LOAD_EMPLOYEE_DETAIL;
-    store.dispatch({ intent, ...response });
+    store.dispatch({ intent, payload: response });
   },
 
   setLoadingState: (loadingState) => {

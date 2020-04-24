@@ -82,7 +82,7 @@ describe('EmployeeDetailNzReducer', () => {
   });
 
   describe('loadEmployeeDetail', () => {
-    it('should load the Employee Contact Details', () => {
+    it('should load the Employee Details', () => {
       const contactDetail = {
         firstName: 'Bob',
         lastName: 'The Builder',
@@ -103,7 +103,7 @@ describe('EmployeeDetailNzReducer', () => {
       };
       const action = {
         intent: LOAD_EMPLOYEE_DETAIL,
-        contactDetail,
+        payload: { contactDetail },
       };
 
       const result = employeeDetailNzReducer({}, action);

@@ -57,7 +57,7 @@ describe('<EmployeeDetailNzView />', () => {
     };
 
     beforeEach(() => {
-      store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, ...response });
+      store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, payload: response });
     });
 
     describe('tabs', () => {
