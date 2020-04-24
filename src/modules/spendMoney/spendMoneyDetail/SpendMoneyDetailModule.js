@@ -610,38 +610,64 @@ export default class SpendMoneyDetailModule {
     this.setRootView(wrappedView);
   };
 
-  handleSaveAndAction = (actionType) => {
-    const state = this.store.getState();
-    if (getIsSubmitting(state)) {
-      return;
-    }
+  saveAndCreateNew = () => {
+    const onSuccess = ({ message }) => {
+      const state = this.store.getState();
 
-    const onSuccess = ({ message, id }) => {
       this.pushMessage({
         type: SUCCESSFULLY_SAVED_SPEND_MONEY,
         content: message,
       });
 
-      if (actionType === SaveActionType.SAVE_AND_DUPLICATE) {
-        this.pushMessage({
-          type: DUPLICATE_SPEND_MONEY,
-          duplicateId: id,
-        });
-      }
-
-      if (actionType === SaveActionType.SAVE_AND_CREATE_NEW) {
-        this.pushMessage({
-          type: PREFILL_NEW,
-          selectedBankAccountId: getSelectedPayFromId(state),
-          selectedDate: getDate(state),
-        });
-      }
+      this.pushMessage({
+        type: PREFILL_NEW,
+        selectedBankAccountId: getSelectedPayFromId(state),
+        selectedDate: getDate(state),
+      });
 
       const url = getCreateUrl(state);
       this.navigateTo(url);
     };
 
     this.saveSpendMoneyAnd({ onSuccess });
+  }
+
+  saveAndDuplicate = () => {
+    const onSuccess = ({ message, id }) => {
+      const state = this.store.getState();
+      const isCreating = getIsCreating(state);
+      const duplicateId = isCreating ? id : getSpendMoneyId(state);
+
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_SPEND_MONEY,
+        content: message,
+      });
+
+      this.pushMessage({
+        type: DUPLICATE_SPEND_MONEY,
+        duplicateId,
+      });
+
+      const url = getCreateUrl(state);
+      this.navigateTo(url);
+    };
+
+    this.saveSpendMoneyAnd({ onSuccess });
+  }
+
+  handleSaveAndAction = (actionType) => {
+    const state = this.store.getState();
+    if (getIsSubmitting(state)) {
+      return;
+    }
+
+    if (actionType === SaveActionType.SAVE_AND_CREATE_NEW) {
+      this.saveAndCreateNew();
+    }
+
+    if (actionType === SaveActionType.SAVE_AND_DUPLICATE) {
+      this.saveAndDuplicate();
+    }
   }
 
   saveSpendMoneyAnd = ({ onSuccess }) => {

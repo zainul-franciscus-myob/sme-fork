@@ -966,7 +966,6 @@ describe('SpendMoneyDetailModule', () => {
         const { module, store, integration } = setUpWithExisting();
         integration.mapSuccess(UPDATE_SPEND_MONEY, {
           message: '👽',
-          id: '🦕',
         });
         module.pushMessage = jest.fn();
         module.navigateTo = jest.fn();
@@ -996,7 +995,7 @@ describe('SpendMoneyDetailModule', () => {
         });
         expect(module.pushMessage).toHaveBeenCalledWith({
           type: DUPLICATE_SPEND_MONEY,
-          duplicateId: '🦕',
+          duplicateId: '1',
         });
         expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/spendMoney/new');
       });

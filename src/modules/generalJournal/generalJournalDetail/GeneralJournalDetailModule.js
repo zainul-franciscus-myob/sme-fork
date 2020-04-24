@@ -6,7 +6,9 @@ import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalc
 import {
   getAccountModalContext,
   getCreateGeneralJournalUrl,
+  getGeneralJournalId,
   getIsActionsDisabled,
+  getIsCreating,
   getIsLineAmountsTaxInclusive,
   getIsSale,
   getIsTaxInclusive,
@@ -133,24 +135,49 @@ export default class GeneralJournalDetailModule {
     this.createGeneralJournal(onSuccess);
   }
 
-  saveAnd = saveAndAction => {
+  saveAndDuplicate = () => {
     const onSuccess = ({ message, id }) => {
+      const state = this.store.getState();
+      const isCreating = getIsCreating(state);
+      const duplicateId = isCreating ? id : getGeneralJournalId(state);
+
       this.pushMessage({
         type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
         content: message,
       });
 
-      if (saveAndAction === SaveActionType.SAVE_AND_DUPLICATE) {
-        this.pushMessage({
-          type: DUPLICATE_GENERAL_JOURNAL,
-          duplicateId: id,
-        });
-      }
+      this.pushMessage({
+        type: DUPLICATE_GENERAL_JOURNAL,
+        duplicateId,
+      });
 
       this.redirectToCreateGeneralJournal();
     };
 
     this.createGeneralJournal(onSuccess);
+  }
+
+  saveAndCreateNew = () => {
+    const onSuccess = ({ message }) => {
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
+        content: message,
+      });
+
+      this.redirectToCreateGeneralJournal();
+    };
+
+    this.createGeneralJournal(onSuccess);
+  }
+
+  saveAnd = saveAndAction => {
+    if (saveAndAction === SaveActionType.SAVE_AND_CREATE_NEW) {
+      this.saveAndCreateNew();
+    }
+
+    if (saveAndAction === SaveActionType.SAVE_AND_DUPLICATE) {
+      this.saveAndDuplicate();
+    }
   }
 
   redirectToCreateGeneralJournal = () => {

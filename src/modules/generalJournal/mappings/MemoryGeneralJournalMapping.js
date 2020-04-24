@@ -7,6 +7,7 @@ import {
   LOAD_NEW_GENERAL_JOURNAL,
   UPDATE_GENERAL_JOURNAL,
 } from '../GeneralJournalIntents';
+import createGeneralJournalResponse from './data/createGeneralJournal';
 import createdAccountResponse from './data/createdAccount';
 import duplicateGeneralJournalEntry from './data/duplicateGeneralJournalEntry';
 import generalJournalDetail from './data/generalJournalDetailEntry';
@@ -19,7 +20,9 @@ const newGeneralJournalDetail = ({ onSuccess }) => onSuccess(generalJournalDetai
 
 const deleteGeneralJournalDetail = ({ onSuccess }) => onSuccess(successResponse);
 
-const saveGeneralJournalDetail = ({ onSuccess }) => onSuccess(successResponse);
+const createGeneralJournal = ({ onSuccess }) => onSuccess(createGeneralJournalResponse);
+
+const updateGeneralJournal = ({ onSuccess }) => onSuccess(successResponse);
 
 const loadCreatedAccount = ({ onSuccess }) => onSuccess(createdAccountResponse);
 
@@ -29,8 +32,8 @@ const MemoryGeneralJournalMapping = {
   [LOAD_GENERAL_JOURNAL_DETAIL]: readGeneralJournalDetail,
   [LOAD_NEW_GENERAL_JOURNAL]: newGeneralJournalDetail,
   [DELETE_GENERAL_JOURNAL]: deleteGeneralJournalDetail,
-  [CREATE_GENERAL_JOURNAL]: saveGeneralJournalDetail,
-  [UPDATE_GENERAL_JOURNAL]: saveGeneralJournalDetail,
+  [CREATE_GENERAL_JOURNAL]: createGeneralJournal,
+  [UPDATE_GENERAL_JOURNAL]: updateGeneralJournal,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadCreatedAccount,
   [LOAD_DUPLICATE_GENERAL_JOURNAL]: loadDuplicateGeneralJournal,
 };

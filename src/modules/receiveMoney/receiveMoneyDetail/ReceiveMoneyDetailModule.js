@@ -7,11 +7,13 @@ import {
   getContactModalContext,
   getIndexOfLastLine,
   getIsActionsDisabled,
+  getIsCreating,
   getIsLineEdited,
   getIsTableEmpty,
   getModal,
   getModalUrl,
   getOpenedModalType,
+  getReceiveMoneyId,
   getTaxCalculations,
   isPageEdited,
 } from './selectors/receiveMoneyDetailSelectors';
@@ -172,21 +174,42 @@ export default class ReceiveMoneyDetailModule {
     this.createOrUpdateReceiveMoney(onSuccess);
   }
 
-  saveAnd = saveActionType => {
+  saveAndDuplicate =() => {
     const onSuccess = ({ message, id }) => {
-      this.pushSuccessfulSaveMessage(message);
+      const state = this.store.getState();
+      const isCreating = getIsCreating(state);
+      const duplicateId = isCreating ? id : getReceiveMoneyId(state);
 
-      if (saveActionType === SaveActionType.SAVE_AND_DUPLICATE) {
-        this.pushMessage({
-          type: DUPLICATE_RECEIVE_MONEY,
-          duplicateId: id,
-        });
-      }
+      this.pushSuccessfulSaveMessage(message);
+      this.pushMessage({
+        type: DUPLICATE_RECEIVE_MONEY,
+        duplicateId,
+      });
 
       this.redirectToCreateReceiveMoney();
     };
 
     this.createOrUpdateReceiveMoney(onSuccess);
+  }
+
+  saveAndCreateNew = () => {
+    const onSuccess = ({ message }) => {
+      this.pushSuccessfulSaveMessage(message);
+
+      this.redirectToCreateReceiveMoney();
+    };
+
+    this.createOrUpdateReceiveMoney(onSuccess);
+  }
+
+  saveAnd = saveActionType => {
+    if (saveActionType === SaveActionType.SAVE_AND_DUPLICATE) {
+      this.saveAndDuplicate();
+    }
+
+    if (saveActionType === SaveActionType.SAVE_AND_CREATE_NEW) {
+      this.saveAndCreateNew();
+    }
   }
 
   updateHeaderOptions = ({ key, value }) => {

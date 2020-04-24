@@ -10,6 +10,7 @@ import {
   SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
+  UPDATE_GENERAL_JOURNAL,
   UPDATE_GENERAL_JOURNAL_HEADER,
   UPDATE_GENERAL_JOURNAL_LINE,
 } from '../../GeneralJournalIntents';
@@ -345,7 +346,7 @@ describe('GeneralJournalDetailModule', () => {
   describe('saveAndDuplicate', () => {
     it('should save and redirect', () => {
       const { store, integration, module } = setupWithNew();
-      integration.mapSuccess(CREATE_GENERAL_JOURNAL, { id: '1', message: '🤖' });
+      integration.mapSuccess(CREATE_GENERAL_JOURNAL, { id: '🍌', message: '🤖' });
       module.navigateTo = jest.fn();
       module.pushMessage = jest.fn();
 
@@ -360,6 +361,36 @@ describe('GeneralJournalDetailModule', () => {
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: CREATE_GENERAL_JOURNAL,
+        }),
+      ]);
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
+        content: '🤖',
+      });
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: DUPLICATE_GENERAL_JOURNAL,
+        duplicateId: '🍌',
+      });
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/generalJournal/new');
+    });
+
+    it('should save and redirect', () => {
+      const { store, integration, module } = setupWithExisting();
+      integration.mapSuccess(UPDATE_GENERAL_JOURNAL, { message: '🤖' });
+      module.navigateTo = jest.fn();
+      module.pushMessage = jest.fn();
+
+      module.saveAnd(SaveActionType.SAVE_AND_DUPLICATE);
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: UPDATE_GENERAL_JOURNAL,
         }),
       ]);
       expect(module.pushMessage).toHaveBeenCalledWith({

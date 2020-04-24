@@ -17,6 +17,7 @@ import {
   UPLOAD_ATTACHMENT,
 } from '../SpendMoneyIntents';
 import attachmentDetailResponse from './data/attachmentDetail';
+import createSpendMoneyResponse from './data/createSpendMoney';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadAddedContactResponse from './data/loadAddedContactResponse';
 import newDuplicateSpendMoneyDetailEntry from './data/loadNewDuplicateSpendMoneyDetailEntry';
@@ -24,7 +25,7 @@ import spendMoneyDetailEntry from './data/spendMoneyDetailEntry';
 import spendMoneyDetailPrefillResponse from './data/spendMoneyDetailPrefill';
 import spendMoneyNewEntry from './data/spendMoneyDetailNewEntry';
 import spendMoneyReferenceId from './data/spendMoneyDetailReferenceId';
-import successResponse from './data/createSpendMoney';
+import successResponse from './data/successResponse';
 import supplierExpenseAccountId from './data/supplierExpenseAccountId';
 import uploadAttachmentResponse from './data/uploadAttachmentResponse';
 
@@ -32,7 +33,7 @@ const newSpendMoney = ({ onSuccess }) => onSuccess(spendMoneyNewEntry);
 
 const newDuplicatedSpendMoney = ({ onSuccess }) => onSuccess(newDuplicateSpendMoneyDetailEntry);
 
-const saveSpendMoney = ({ onSuccess }) => onSuccess(successResponse);
+const createSpendMoney = ({ onSuccess }) => onSuccess(createSpendMoneyResponse);
 
 const deleteSpendMoney = ({ onSuccess }) => onSuccess(successResponse);
 
@@ -56,7 +57,7 @@ const linkInTrayDocument = ({ onSuccess }) => onSuccess(successResponse);
 
 const MemorySpendMoneyMapping = {
   [LOAD_NEW_SPEND_MONEY]: newSpendMoney,
-  [CREATE_SPEND_MONEY]: saveSpendMoney,
+  [CREATE_SPEND_MONEY]: createSpendMoney,
   [DELETE_SPEND_MONEY]: deleteSpendMoney,
   [UPDATE_SPEND_MONEY]: updateSpendMoney,
   [LOAD_REFERENCE_ID]: getSpendMoneyNextReferenceId,

@@ -430,9 +430,9 @@ describe('ReceiveMoneyDetailModule', () => {
   });
 
   describe('saveAndDuplicate', () => {
-    it('successfully save and redirect', () => {
+    it('successfully create and redirect', () => {
       const { store, integration, module } = setupWithNew();
-      integration.mapSuccess(CREATE_RECEIVE_MONEY, { message: '🙏', id: '1' });
+      integration.mapSuccess(CREATE_RECEIVE_MONEY, { message: '🙏', id: '🦖' });
       module.navigateTo = jest.fn();
       module.pushMessage = jest.fn();
 
@@ -447,6 +447,36 @@ describe('ReceiveMoneyDetailModule', () => {
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: CREATE_RECEIVE_MONEY,
+        }),
+      ]);
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: SUCCESSFULLY_SAVED_RECEIVE_MONEY,
+        content: '🙏',
+      });
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: DUPLICATE_RECEIVE_MONEY,
+        duplicateId: '🦖',
+      });
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/receiveMoney/new');
+    });
+
+    it('successfully update and redirect', () => {
+      const { store, integration, module } = setupWithExisting();
+      integration.mapSuccess(UPDATE_RECEIVE_MONEY, { message: '🙏' });
+      module.navigateTo = jest.fn();
+      module.pushMessage = jest.fn();
+
+      module.saveAnd(SaveActionType.SAVE_AND_DUPLICATE);
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: UPDATE_RECEIVE_MONEY,
         }),
       ]);
       expect(module.pushMessage).toHaveBeenCalledWith({

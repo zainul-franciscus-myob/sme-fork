@@ -10,6 +10,7 @@ const calculate = createTaxCalculator(TaxCalculatorTypes.receiveMoney);
 export const getIsLineEdited = state => state.isLineEdited;
 export const getIsCreating = state => state.receiveMoneyId === 'new';
 export const getDuplicateId = (state) => state.duplicateId;
+export const getReceiveMoneyId = state => state.receiveMoneyId;
 
 const getReferenceId = state => state.receiveMoney.referenceId;
 const getSelectedDepositIntoId = state => state.receiveMoney.selectedDepositIntoAccountId;
