@@ -31,6 +31,7 @@ const JobKeeperView = ({
   activeSort,
   isTableLoading,
   onNotifyAtoClick,
+  onEmployeeChange,
 }) => {
   const jobKeeperTable = (<JobKeeperTable
     employees={employees}
@@ -39,6 +40,7 @@ const JobKeeperView = ({
     onSort={onSort}
     isTableLoading={isTableLoading}
     activeSort={activeSort}
+    onEmployeeChange={onEmployeeChange}
   />);
 
   const actions = (

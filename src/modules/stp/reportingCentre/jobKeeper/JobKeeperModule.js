@@ -14,12 +14,14 @@ export default class JobKeeperModule {
   constructor({
     integration,
     context,
+    setAlert,
   }) {
     this.store = new Store(jobKeeperReducer);
     this.integration = integration;
     this.dispatcher = createJobKeeperDispatcher(this.store);
     this.integrator = createJobKeeperIntegrator(this.store, integration);
     this.stpDeclarationModule = new StpDeclarationModalModule({ integration });
+    this.setAlert = setAlert;
 
     this.dispatcher.setInitialState(context);
   }
@@ -41,6 +43,7 @@ export default class JobKeeperModule {
 
   filterEmployeesByYear = (payrollYear) => {
     this.dispatcher.setSelectedPayrollYear(payrollYear);
+    this.dispatcher.clearEmployees();
     this.dispatcher.setTableLoadingState(true);
 
     const onSuccess = (response) => {
@@ -107,6 +110,10 @@ export default class JobKeeperModule {
     this.stpDeclarationModule.run(context, this.updateJobKeeperPayments);
   }
 
+  updateEmployeeRow = ({ key, value, rowId }) => {
+    this.dispatcher.updateEmployeeRow({ key, value, rowId });
+  }
+
   run = () => {
     this.loadInitialEmployeesAndHeaderDetails();
   };
@@ -121,6 +128,7 @@ export default class JobKeeperModule {
           onNotifyAtoClick={this.openStpDeclarationModal}
           onPayrollYearChange={this.filterEmployeesByYear}
           onSort={this.sortEmployees}
+          onEmployeeChange={this.updateEmployeeRow}
         />
       </Provider>);
   }

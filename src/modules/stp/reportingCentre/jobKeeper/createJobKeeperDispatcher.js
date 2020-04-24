@@ -3,10 +3,12 @@ import {
   SET_INITIAL_STATE,
   SET_JOB_KEEPER_INITIAL,
   SET_LOADING_STATE,
+  SET_NEW_EVENT_ID,
   SET_SELECTED_PAYROLL_YEAR,
   SET_SORTED_EMPLOYEES,
   SET_TABLE_LOADING_STATE,
   SORT_JOB_KEEPER_EMPLOYEES,
+  UPDATE_EMPLOYEE_ROW,
 } from './JobKeeperIntents';
 
 const createJobKeeperDispatcher = store => ({
@@ -38,6 +40,13 @@ const createJobKeeperDispatcher = store => ({
     });
   },
 
+  clearEmployees: () => {
+    store.dispatch({
+      intent: SET_FILTERED_EMPLOYEES,
+      response: { employees: [] },
+    });
+  },
+
   setTableLoadingState: (isTableLoading) => {
     store.dispatch({
       intent: SET_TABLE_LOADING_STATE,
@@ -64,6 +73,21 @@ const createJobKeeperDispatcher = store => ({
       intent: SORT_JOB_KEEPER_EMPLOYEES,
       orderBy,
       sortOrder,
+    });
+  },
+
+  updateEmployeeRow: ({ key, value, rowId }) => {
+    store.dispatch({
+      intent: UPDATE_EMPLOYEE_ROW,
+      key,
+      value,
+      rowId,
+    });
+  },
+
+  setNewEventId: () => {
+    store.dispatch({
+      intent: SET_NEW_EVENT_ID,
     });
   },
 });

@@ -2,6 +2,7 @@ import {
   DELETE_EMPLOYEE_ETP,
   LOAD_EMPLOYEE_ETP,
 } from '../etps/EtpIntents';
+import { FILTER_JOB_KEEPER_EMPLOYEES, LOAD_INITIAL_JOB_KEEPER_EMPLOYEES, UPDATE_JOB_KEEPER_PAYMENTS } from '../jobKeeper/JobKeeperIntents';
 import {
   FILTER_PAY_EVENTS,
   LOAD_EMPLOYEE_YTD_REPORT,
@@ -28,7 +29,6 @@ import {
   SUBMIT_EMPLOYEES_FINALISATION,
   SUBMIT_EMPLOYEES_REMOVE_FINALISATION,
 } from '../finalisation/FinalisationIntents';
-import { LOAD_INITIAL_JOB_KEEPER_EMPLOYEES } from '../jobKeeper/JobKeeperIntents';
 import {
   LOAD_STP_REGISTRATION_STATUS,
   UPDATE_STP_EMPLOYEES,
@@ -127,9 +127,14 @@ const HttpStpReportingCentreMapping = {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/stp/job_keeper_payments_initial`,
   },
-  // [FILTER_JOB_KEEPER_EMPLOYEES]
-  // [SORT_JOB_KEEPER_EMPLOYEES]
-  // [UPDATE_JOB_KEEPER_PAYMENTS]
+  [FILTER_JOB_KEEPER_EMPLOYEES]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/stp/job_keeper_payments_filter`,
+  },
+  [UPDATE_JOB_KEEPER_PAYMENTS]: {
+    method: 'PUT',
+    getPath: ({ businessId }) => `/${businessId}/stp/update_job_keeper_payments`,
+  },
 };
 
 export default HttpStpReportingCentreMapping;

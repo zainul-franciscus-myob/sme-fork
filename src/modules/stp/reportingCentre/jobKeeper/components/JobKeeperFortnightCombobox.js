@@ -11,7 +11,7 @@ const JobKeeperFortnightCombobox = ({
   selectedFn,
 }) => {
   const selected = fortnightOptions.find(
-    option => option.fn === selectedFn,
+    option => option.id === selectedFn,
   ) || {};
 
   const metaData = [

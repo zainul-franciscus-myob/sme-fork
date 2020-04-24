@@ -3,6 +3,7 @@ import React from 'react';
 
 import JobKeeperFortnightCombobox from './JobKeeperFortnightCombobox';
 import TableView from '../../../../../components/TableView/TableView';
+import handleComboboxChange from '../../../../../components/handlers/handleComboboxChange';
 
 
 const tableConfig = {
@@ -26,6 +27,7 @@ const JobKeeperTable = ({
   firstFortnightOptions,
   finalFortnightOptions,
   isTableLoading,
+  onEmployeeChange,
 }) => {
   const header = (
     <Table.Header>
@@ -57,6 +59,9 @@ const JobKeeperTable = ({
           name="firstFortnightCombobox"
           fortnightOptions={firstFortnightOptions}
           selectedFn={row.firstFortnight}
+          onChange={handleComboboxChange('firstFortnight', ({ key, value }) => onEmployeeChange({
+            key, value, rowId: row.employeeId,
+          }))}
         />
       </Table.RowItem>
       <Table.RowItem {...tableConfig.finalFortnight}>
@@ -64,6 +69,9 @@ const JobKeeperTable = ({
           name="finalFortnightCombobox"
           fortnightOptions={finalFortnightOptions}
           selectedFn={row.finalFortnight}
+          onChange={handleComboboxChange('finalFortnight', ({ key, value }) => onEmployeeChange({
+            key, value, rowId: row.employeeId,
+          }))}
         />
       </Table.RowItem>
     </Table.Row>

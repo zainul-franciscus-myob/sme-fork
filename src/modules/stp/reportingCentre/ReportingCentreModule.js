@@ -62,6 +62,7 @@ export default class ReportingCentreModule {
       [tabIds.jobKeeper]: new JobKeeperModule({
         integration: this.integration,
         context,
+        setAlert: this.dispatcher.setAlert,
       }),
     };
   };

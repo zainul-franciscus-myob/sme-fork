@@ -3,10 +3,12 @@ import {
   SET_INITIAL_STATE,
   SET_JOB_KEEPER_INITIAL,
   SET_LOADING_STATE,
+  SET_NEW_EVENT_ID,
   SET_SELECTED_PAYROLL_YEAR,
   SET_SORTED_EMPLOYEES,
   SET_TABLE_LOADING_STATE,
   SORT_JOB_KEEPER_EMPLOYEES,
+  UPDATE_EMPLOYEE_ROW,
 } from './JobKeeperIntents';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
@@ -64,6 +66,18 @@ const setSort = (state, action) => ({
   orderBy: action.orderBy,
 });
 
+const updateEmployeeRow = (state, { key, value, rowId }) => ({
+  ...state,
+  employees: state.employees.map(e => (
+    e.employeeId === rowId
+      ? { ...e, [key]: value, isDirty: true }
+      : { ...e })),
+});
+
+const setNewEventId = state => ({
+  ...state,
+  eventId: uuid(),
+});
 
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
@@ -74,6 +88,8 @@ const handlers = {
   [SET_SORTED_EMPLOYEES]: setSortedEmployees,
   [SORT_JOB_KEEPER_EMPLOYEES]: setSort,
   [SET_INITIAL_STATE]: setInitialState,
+  [UPDATE_EMPLOYEE_ROW]: updateEmployeeRow,
+  [SET_NEW_EVENT_ID]: setNewEventId,
 };
 
 const jobKeeperReducer = createReducer(getDefaultState(), handlers);
