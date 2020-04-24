@@ -2,7 +2,9 @@ import { Field, Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAbn, getAbnLink, getRegion } from '../contactDetailSelectors';
+import {
+  getAbn, getAbnLink, getAbnValidationResult, getIsValidatingAbn, getRegion,
+} from '../contactDetailSelectors';
 import AbnInput from '../../../../components/autoFormatter/AbnInput/AbnInput';
 import LinkButton from '../../../../components/Button/LinkButton';
 
@@ -15,7 +17,10 @@ const AbnSection = ({
   abn,
   abnLink,
   region,
+  validationResult,
+  isLoading,
   onContactDetailsChange,
+  onBlur,
 }) => {
   const auView = (
     <React.Fragment>
@@ -23,8 +28,11 @@ const AbnSection = ({
         name="abn"
         label="ABN"
         value={abn}
+        onBlur={onBlur}
         onChange={onAbnInputChange(onContactDetailsChange)}
         width="sm"
+        validationResult={validationResult}
+        isLoading={isLoading}
       />
       <Field
         label="ABN lookup"
@@ -53,6 +61,8 @@ const mapStateToProps = state => ({
   abn: getAbn(state),
   abnLink: getAbnLink(state),
   region: getRegion(state),
+  validationResult: getAbnValidationResult(state),
+  isLoading: getIsValidatingAbn(state),
 });
 
 export default connect(mapStateToProps)(AbnSection);

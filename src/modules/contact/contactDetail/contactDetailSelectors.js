@@ -27,6 +27,8 @@ export const getAbnLink = state => (state.contact.abn
   : 'https://abr.business.gov.au/');
 
 export const getRegion = state => state.region;
+export const getAbnValidationResult = state => state.abnValidationResult;
+export const getIsValidatingAbn = state => state.isValidatingAbn;
 
 export const getContactDetails = createStructuredSelector({
   selectedContactType: state => state.contact.selectedContactType,

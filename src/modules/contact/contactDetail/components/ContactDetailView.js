@@ -33,6 +33,7 @@ const ContactDetailView = ({
   onCancelButtonClick,
   onDeleteButtonClick,
   onAddAccount,
+  onAbnBlur,
 }) => {
   const alertComponent = alertMessage && (
     <Alert type="danger" onDismiss={onDismissAlert}>
@@ -79,6 +80,7 @@ const ContactDetailView = ({
           isCreating={isCreating}
           onContactDetailsChange={onContactDetailsChange}
           onAddAccount={onAddAccount}
+          onAbnBlur={onAbnBlur}
         />
         <BillingAddress onAddressChange={onBillingAddressChange} />
         <ShippingAddress onAddressChange={onShippingAddressChange} />

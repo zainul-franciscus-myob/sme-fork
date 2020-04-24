@@ -1,0 +1,11 @@
+{
+  "abn": "123 345 567",
+  "status": "Cancelled",
+  "effectiveFrom": "28 Jul 2000",
+  "gstRegistered": true,
+  "gstEffectiveFrom": "28 Jul 2000",
+  "entityType": "Australian private company",
+  "entityName": "MYOB",
+  "tradingName": "MYOB Trader",
+  "postcode": "3109"
+}

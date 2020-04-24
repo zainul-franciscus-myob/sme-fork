@@ -44,6 +44,7 @@ const ContactDetails = ({
   expenseAccountId,
   onContactDetailsChange,
   onAddAccount,
+  onAbnBlur,
 }) => (
   <FieldGroup label="Details">
     <RadioButtonGroup
@@ -120,7 +121,7 @@ const ContactDetails = ({
         )}
       />
       )}
-    <AbnSection onContactDetailsChange={onContactDetailsChange} />
+    <AbnSection onContactDetailsChange={onContactDetailsChange} onBlur={onAbnBlur} />
     {
       isSupplier && (
         <AccountCombobox

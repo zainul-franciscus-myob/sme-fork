@@ -84,5 +84,16 @@
   ],
   "reminders": {
     "url": "https://portal.sit.reminders.myob.com/preferences/customer"
+  },
+  "abnValidationResult": {
+    "abn": "123 345 567",
+    "status": "Active",
+    "gstRegistered": true,
+    "effectiveFrom": "28 Jul 2000",
+    "gstEffectiveFrom": "28 Jul 2000",
+    "entityType": "Australian private company",
+    "entityName": "MYOB",
+    "tradingName": "MYOB Trader",
+    "postcode": "3109"
   }
 }

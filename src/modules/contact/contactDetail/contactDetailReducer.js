@@ -1,9 +1,12 @@
 import {
+  CLEAR_ABN_VALIDATION_RESULT,
   CLOSE_MODAL,
+  LOAD_ABN_VALIDATION_RESULT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_DETAIL,
   LOAD_NEW_CONTACT,
   OPEN_MODAL,
+  SET_ABN_VALIDATE_STATE,
   SET_ALERT_MESSAGE,
   SET_LOADING_SINGLE_ACCOUNT_STATE,
   SET_LOADING_STATE,
@@ -80,6 +83,8 @@ const getDefaultState = () => ({
   reminders: {
     url: '',
   },
+  abnValidationResult: undefined,
+  isValidatingAbn: false,
 });
 
 const resetState = () => (getDefaultState());
@@ -105,6 +110,7 @@ const loadContactDetail = (state, action) => ({
   },
   contactTypes: action.contactTypes,
   accountOptions: action.accountOptions,
+  abnValidationResult: action.abnValidationResult,
   reminders: {
     ...state.reminders,
     ...action.reminders,
@@ -189,6 +195,23 @@ export const setLoadingSingleAccountState = (state, action) => ({
   isLoadingAccount: action.isLoadingAccount,
 });
 
+const setAbnValidateState = (state, { isValidatingAbn }) => ({
+  ...state,
+  isValidatingAbn,
+});
+
+const setAbnValidationResult = (state, action) => ({
+  ...state,
+  abnValidationResult: {
+    ...action,
+  },
+});
+
+const clearAbnValidationResult = (state) => ({
+  ...state,
+  abnValidationResult: undefined,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [LOAD_NEW_CONTACT]: loadContactDetail,
@@ -204,6 +227,9 @@ const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [SET_LOADING_SINGLE_ACCOUNT_STATE]: setLoadingSingleAccountState,
+  [SET_ABN_VALIDATE_STATE]: setAbnValidateState,
+  [LOAD_ABN_VALIDATION_RESULT]: setAbnValidationResult,
+  [CLEAR_ABN_VALIDATION_RESULT]: clearAbnValidationResult,
 };
 
 const contactDetailReducer = createReducer(getDefaultState(), handlers);

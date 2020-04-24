@@ -1,9 +1,12 @@
 import {
+  CLEAR_ABN_VALIDATION_RESULT,
   CLOSE_MODAL,
+  LOAD_ABN_VALIDATION_RESULT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_DETAIL,
   LOAD_NEW_CONTACT,
   OPEN_MODAL,
+  SET_ABN_VALIDATE_STATE,
   SET_ALERT_MESSAGE,
   SET_LOADING_SINGLE_ACCOUNT_STATE,
   SET_LOADING_STATE,
@@ -92,6 +95,26 @@ const createContactDetailDispatcher = store => ({
     store.dispatch({
       intent: SET_LOADING_SINGLE_ACCOUNT_STATE,
       isLoadingAccount,
+    });
+  },
+
+  setAbnValidateState: (isValidatingAbn) => {
+    store.dispatch({
+      intent: SET_ABN_VALIDATE_STATE,
+      isValidatingAbn,
+    });
+  },
+
+  loadAbnValidationResult: (payload) => {
+    store.dispatch({
+      intent: LOAD_ABN_VALIDATION_RESULT,
+      ...payload,
+    });
+  },
+
+  clearAbnValidationResult: () => {
+    store.dispatch({
+      intent: CLEAR_ABN_VALIDATION_RESULT,
     });
   },
 });

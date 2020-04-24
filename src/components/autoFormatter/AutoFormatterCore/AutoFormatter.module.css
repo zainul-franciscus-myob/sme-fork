@@ -19,3 +19,12 @@
     max-width: var(--flx-width-field-xl);
   }
 }
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+}
+
+.accessory {
+  padding-left: var(--flx-spacing-tiny);
+}

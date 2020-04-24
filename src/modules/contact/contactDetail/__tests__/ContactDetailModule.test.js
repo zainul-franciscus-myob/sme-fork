@@ -1,9 +1,12 @@
 import {
+  CLEAR_ABN_VALIDATION_RESULT,
   CLOSE_MODAL,
   CREATE_CONTACT,
   DELETE_CONTACT,
+  LOAD_ABN_VALIDATION_RESULT,
   LOAD_CONTACT_DETAIL,
   LOAD_NEW_CONTACT,
+  SET_ABN_VALIDATE_STATE,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
@@ -313,6 +316,89 @@ describe('ContactDetailModule', () => {
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: DELETE_CONTACT,
+        }),
+      ]);
+    });
+  });
+
+  describe('validate abn', () => {
+    it('clear validation result if abn is empty', () => {
+      const { store, module } = setup();
+      store.state = {
+        contact: {
+          abn: '',
+        },
+      };
+      module.validateAbn();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: CLEAR_ABN_VALIDATION_RESULT,
+        },
+      ]);
+    });
+
+    it('successfully validate abn', () => {
+      const { store, integration, module } = setup();
+      store.state = {
+        contact: {
+          abn: '123',
+        },
+      };
+      module.validateAbn();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_ABN_VALIDATE_STATE,
+          isValidatingAbn: true,
+        },
+        {
+          intent: SET_ABN_VALIDATE_STATE,
+          isValidatingAbn: false,
+        },
+        expect.objectContaining({
+          intent: LOAD_ABN_VALIDATION_RESULT,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_ABN_VALIDATION_RESULT,
+        }),
+      ]);
+    });
+
+    it('fail to validate abn', () => {
+      const { store, integration, module } = setup();
+      store.state = {
+        contact: {
+          abn: '123',
+        },
+      };
+      integration.mapFailure(LOAD_ABN_VALIDATION_RESULT);
+
+      module.validateAbn();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_ABN_VALIDATE_STATE,
+          isValidatingAbn: true,
+        },
+        {
+          intent: SET_ABN_VALIDATE_STATE,
+          isValidatingAbn: false,
+        },
+        {
+          intent: CLEAR_ABN_VALIDATION_RESULT,
+        },
+        expect.objectContaining({
+          intent: SET_ALERT_MESSAGE,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_ABN_VALIDATION_RESULT,
         }),
       ]);
     });

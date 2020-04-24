@@ -2,6 +2,7 @@ import {
   CREATE_CONTACT,
   CREATE_CONTACT_MODAL,
   DELETE_CONTACT,
+  LOAD_ABN_VALIDATION_RESULT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_DETAIL,
   LOAD_CONTACT_LIST,
@@ -56,6 +57,10 @@ const ContactListMapping = {
   [LOAD_ACCOUNT_AFTER_CREATE]: {
     method: 'GET',
     getPath: ({ businessId, accountId }) => `/${businessId}/contact/load_account/${accountId}`,
+  },
+  [LOAD_ABN_VALIDATION_RESULT]: {
+    method: 'GET',
+    getPath: ({ businessId, abn }) => `/${businessId}/contact/validate_abn/${abn}`,
   },
 };
 

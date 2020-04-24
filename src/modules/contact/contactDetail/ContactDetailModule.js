@@ -6,6 +6,7 @@ import {
   SUCCESSFULLY_SAVED_CONTACT,
 } from '../ContactMessageTypes';
 import {
+  getAbn,
   getAccountModalContext,
   getBusinessId,
   getIsCreating,
@@ -82,6 +83,7 @@ export default class ContactDetailModule {
         onCancelModal={this.redirectToContactList}
         accountModal={accountModal}
         onAddAccount={this.openAccountModal}
+        onAbnBlur={this.validateAbn}
       />
     );
 
@@ -91,6 +93,31 @@ export default class ContactDetailModule {
       </Provider>
     );
     this.setRootView(wrappedView);
+  }
+
+  validateAbn = () => {
+    const onSuccess = (payload) => {
+      this.dispatcher.setAbnValidateState(false);
+      this.dispatcher.loadAbnValidationResult(payload);
+    };
+
+    const onFailure = (error) => {
+      this.dispatcher.setAbnValidateState(false);
+      this.dispatcher.clearAbnValidationResult();
+      this.dispatcher.displayAlert(error.message);
+    };
+
+    const abn = getAbn(this.store.getState());
+    if (!abn) {
+      this.dispatcher.clearAbnValidationResult();
+    } else {
+      this.dispatcher.setAbnValidateState(true);
+      this.integrator.validateAbn({
+        abn,
+        onSuccess,
+        onFailure,
+      });
+    }
   }
 
   updateOrCreateContact = () => {

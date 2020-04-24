@@ -1,0 +1,43 @@
+.validationResult {
+  display: grid;
+  grid-template-columns: var(--flx-spacing-medium) auto;
+  grid-gap: var(--flx-spacing-x-tiny);
+  align-items: center;
+  cursor: pointer;
+  min-width: 12rem;
+}
+
+.label {
+  font-weight: bold;
+  padding-right: var(--flx-spacing-x-tiny);
+}
+
+.separator {
+  height: var(--flx-spacing-x-small);
+}
+
+.active {
+  font-weight: bold;
+  color: var(--flx-background-color-alert-success-icon);
+}
+
+.cancelled {
+  font-weight: bold;
+  color: var(--flx-background-color-alert-warning-icon);
+}
+
+.icon {
+  display: flex;
+}
+
+.iconActive :global(svg) {
+  fill: var(--flx-background-color-alert-success-icon);
+}
+
+.iconCancelled :global(svg) {
+  fill: var(--flx-fill-warning-icon-outer);
+}
+
+.iconInvalid :global(svg) {
+  fill: var(--flx-background-color-alert-error-icon);
+}

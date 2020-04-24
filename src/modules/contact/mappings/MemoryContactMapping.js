@@ -2,6 +2,7 @@ import {
   CREATE_CONTACT,
   CREATE_CONTACT_MODAL,
   DELETE_CONTACT,
+  LOAD_ABN_VALIDATION_RESULT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_DETAIL,
   LOAD_CONTACT_LIST,
@@ -20,6 +21,7 @@ import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadNewContactModalResponse from './data/loadNewContactModalResponse';
 import newContactDetailResponse from './data/contactDetailNewEntry';
 import success from './data/success.json';
+import validateAbnResponse from './data/validateAbnResult';
 
 const sortAndFilterContactList = ({ onSuccess }) => onSuccess(contactListFilterResponse);
 const loadContactList = ({ onSuccess }) => onSuccess(contactListLoadResponse);
@@ -30,6 +32,7 @@ const deleteContact = ({ onSuccess }) => onSuccess(success);
 const updateContact = ({ onSuccess }) => onSuccess(success);
 const createContact = ({ onSuccess }) => onSuccess(success);
 const loadNewAccount = ({ onSuccess }) => onSuccess(loadAddedAccountResponse);
+const validateAbn = ({ onSuccess }) => onSuccess(validateAbnResponse);
 
 const ContactListMapping = {
   [LOAD_CONTACT_LIST]: loadContactList,
@@ -43,6 +46,7 @@ const ContactListMapping = {
   [CREATE_CONTACT_MODAL]: ({ onSuccess }) => onSuccess(createContactModalResponse),
   [LOAD_CONTACT_LIST_NEXT_PAGE]: contactListNextPage,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadNewAccount,
+  [LOAD_ABN_VALIDATION_RESULT]: validateAbn,
 };
 
 export default ContactListMapping;

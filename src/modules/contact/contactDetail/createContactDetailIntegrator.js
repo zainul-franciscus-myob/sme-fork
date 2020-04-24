@@ -1,6 +1,7 @@
 import {
   CREATE_CONTACT,
   DELETE_CONTACT,
+  LOAD_ABN_VALIDATION_RESULT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_DETAIL,
   LOAD_NEW_CONTACT,
@@ -100,6 +101,20 @@ const createContactDetailIntegrator = (store, integration) => ({
 
     integration.read({
       intent, urlParams, onSuccess, onFailure,
+    });
+  },
+
+  validateAbn: ({ abn, onSuccess, onFailure }) => {
+    const urlParams = {
+      businessId: getBusinessId(store.getState()),
+      abn,
+    };
+
+    integration.read({
+      intent: LOAD_ABN_VALIDATION_RESULT,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 });

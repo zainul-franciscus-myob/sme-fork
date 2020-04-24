@@ -10,6 +10,9 @@ export const SET_SORT_ORDER = Symbol('Set sort order for contact list');
 export const LOAD_CONTACT_LIST_NEXT_PAGE = Symbol('Load contact list next page');
 export const SET_NEXT_PAGE_LOADING_STATE = Symbol('Set next page loading state');
 export const LOAD_ACCOUNT_AFTER_CREATE = Symbol('Load account detail after create');
+export const SET_ABN_VALIDATE_STATE = Symbol('Set ABN validate state');
+export const LOAD_ABN_VALIDATION_RESULT = Symbol('Load ABN validation result');
+export const CLEAR_ABN_VALIDATION_RESULT = Symbol('Clear ABN validation result');
 
 export const SET_ALERT_MESSAGE = Symbol('Set alert message');
 export const LOAD_CONTACT_DETAIL = Symbol('Load an existing contact');

@@ -16,6 +16,7 @@ const Input = ({
   className,
   width,
   requiredLabel,
+  inputAccessory,
   ...inputBoxProps
 }) => (
   <Field
@@ -27,19 +28,22 @@ const Input = ({
     errorMessageInline={errorMessageInline}
     requiredLabel={requiredLabel}
     renderField={({ errorId, ...props }) => (
-      <Cleave
-        {...props}
-        {...inputBoxProps}
-        className={classnames('form-control', className, {
-          'text-align-center': textAlign === 'center',
-          'text-align-right': textAlign === 'right',
-          [styles.xs]: width === 'xs',
-          [styles.sm]: width === 'sm',
-          [styles.md]: width === 'md',
-          [styles.lg]: width === 'lg',
-          [styles.xl]: width === 'xl',
-        })}
-      />
+      <div className={styles.inputContainer}>
+        <Cleave
+          {...props}
+          {...inputBoxProps}
+          className={classnames('form-control', className, {
+            'text-align-center': textAlign === 'center',
+            'text-align-right': textAlign === 'right',
+            [styles.xs]: width === 'xs',
+            [styles.sm]: width === 'sm',
+            [styles.md]: width === 'md',
+            [styles.lg]: width === 'lg',
+            [styles.xl]: width === 'xl',
+          })}
+        />
+        {inputAccessory && <div className={styles.accessory}>{inputAccessory}</div>}
+      </div>
     )}
   />
 );
