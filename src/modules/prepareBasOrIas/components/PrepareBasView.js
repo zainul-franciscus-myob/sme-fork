@@ -34,7 +34,7 @@ const PrepareBasView = ({ lodgeStatementLink }) => (
                 </p>
                 <p className={styles.text}>
                   Once you&lsquo;ve filled in the required fields you can lodge
-                  online and get confirmation from ATO within seconds.
+                  online and get confirmation from the ATO within seconds.
                 </p>
                 <Button
                   className={styles.button}
