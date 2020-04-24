@@ -77,7 +77,7 @@ const getItems = ({
   urls.dataImportExport && getMenuLink(urls.dataImportExport, 'Import and export data', onMenuLinkClick),
   isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
   onChangePlanClick && getMenuLinkWithIcon('', 'Change plan', <Icons.OpenExternalLink />, onChangePlanClick),
-  shouldShowPaymentDetail ? getMenuLinkWithIcon(urls.paymentDetail, 'Payment details', <Icons.Wallet />, onMenuLinkClick, '_blank') : undefined,
+  shouldShowPaymentDetail ? getMenuLinkWithIcon(urls.paymentDetail, 'Billing and payments', <Icons.Wallet />, onMenuLinkClick, '_blank') : undefined,
   isCurrentUserAdvisor
     ? manageMyClientsMenuItem(onMenuLinkClick)
     : switchBusinessMenuItem(onMenuLinkClick),
