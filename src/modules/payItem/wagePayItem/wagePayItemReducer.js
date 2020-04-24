@@ -8,7 +8,6 @@ import {
   OPEN_MODAL,
   REMOVE_EMPLOYEE,
   REMOVE_EXEMPTION,
-  SAVE_ORIGINAL_WAGE_JOBKEEPER,
   SET_ALERT,
   SET_IS_SUBMITTING,
   SET_LOADING_STATE,
@@ -168,7 +167,7 @@ const toggleJobKeeper = (state, { isJobKeeper }) => {
     payBasis: 'Salary',
   };
 
-  if (state.payItem === 'new') {
+  if (state.payItemId === 'new') {
     // create
     if (isJobKeeper) {
       return {
@@ -186,31 +185,8 @@ const toggleJobKeeper = (state, { isJobKeeper }) => {
       wage: getDefaultState().wage,
     };
   }
-  // updating
-  if (isJobKeeper) {
-    return {
-      ...state,
-      isJobKeeper,
-      wage: {
-        ...state.wage,
-        ...jobKeeperPayItemValues,
-      },
-    };
-  }
-  return {
-    ...state,
-    isJobKeeper,
-    wage: {
-      ...state.wage,
-      ...state.originalWageValues,
-    },
-  };
+  return state;
 };
-
-const saveOriginalWage = (state, action) => ({
-  ...state,
-  originalWageValues: action.originalWageValues,
-});
 
 const markWageAsJobKeeper = state => {
   const jobKeeperPayItemValues = {
@@ -249,7 +225,6 @@ const handlers = {
   [CLOSE_MODAL]: closeModal,
   [SET_ALERT]: setAlert,
   [TOGGLE_JOB_KEEPER]: toggleJobKeeper,
-  [SAVE_ORIGINAL_WAGE_JOBKEEPER]: saveOriginalWage,
   [MARK_WAGE_AS_JOBKEEPER]: markWageAsJobKeeper,
 };
 

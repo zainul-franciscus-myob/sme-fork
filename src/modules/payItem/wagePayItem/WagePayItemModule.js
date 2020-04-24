@@ -13,7 +13,6 @@ import {
   OPEN_MODAL,
   REMOVE_EMPLOYEE,
   REMOVE_EXEMPTION,
-  SAVE_ORIGINAL_WAGE_JOBKEEPER,
   SET_ALERT,
   SET_IS_SUBMITTING,
   SET_LOADING_STATE,
@@ -77,14 +76,6 @@ export default class WagePayItemModule {
       });
 
       if (!getIsCreating(state) && this.featureToggles.isJobKeeperTabEnabled) {
-        this.store.dispatch({
-          intent: SAVE_ORIGINAL_WAGE_JOBKEEPER,
-          originalWageValues: {
-            name: payload.wage.name,
-            atoReportingCategory: payload.wage.atoReportingCategory,
-            payBasis: payload.wage.payBasis,
-          },
-        });
         this.store.dispatch({
           intent: MARK_WAGE_AS_JOBKEEPER,
         });

@@ -8,6 +8,7 @@ import {
   getAccounts,
   getAtoReportCategoryList,
   getDefaultAccountId,
+  getIsCreating,
   getIsHourlyView,
   getIsJobKeeper,
   getOverrideAccount,
@@ -31,6 +32,7 @@ const DetailsView = ({
   featureToggles,
   isJobKeeper,
   onJobKeeperChange,
+  isCreating,
 }) => (<FieldGroup label="Details">
     {featureToggles && featureToggles.isJobKeeperTabEnabled
       && <CheckboxGroup
@@ -43,6 +45,7 @@ const DetailsView = ({
             name="jobKeeper"
             label="JobKeeper top-up payment"
             onChange={handleCheckboxChange(onJobKeeperChange)}
+            disabled={!isCreating}
             checked={isJobKeeper}
           />
         )}
@@ -106,6 +109,7 @@ const mapStateToProps = state => ({
   overrideAccount: getOverrideAccount(state),
   isHourlyView: getIsHourlyView(state),
   isJobKeeper: getIsJobKeeper(state),
+  isCreating: getIsCreating(state),
 });
 
 export default connect(mapStateToProps)(DetailsView);
