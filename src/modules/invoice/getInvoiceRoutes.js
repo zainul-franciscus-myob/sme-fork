@@ -11,6 +11,7 @@ const getInvoiceRoutes = ({
   reload,
   globalCallbacks,
   featureToggles,
+  navigateTo,
 }) => {
   const routes = [
     {
@@ -35,6 +36,7 @@ const getInvoiceRoutes = ({
         reload,
         globalCallbacks,
         featureToggles,
+        navigateTo,
       }),
       documentTitle: 'Invoice',
     },

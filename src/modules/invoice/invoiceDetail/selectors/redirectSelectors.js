@@ -70,8 +70,13 @@ export const getSubscriptionSettingsUrl = (state) => {
   return `${baseUrl}/settings/subscription`;
 };
 
-export const getRedirectRefUrl = (state) => {
+export const getRedirectRefUrl = (state, { redirectRefJournalType, redirectRefJournalId }) => {
   const baseUrl = getBaseUrl(state);
-  const feature = businessEventToFeatureMap[state.redirectRefJournalType];
-  return `${baseUrl}/${feature}/${state.redirectRefJournalId}`;
+  const feature = businessEventToFeatureMap[redirectRefJournalType];
+  return `${baseUrl}/${feature}/${redirectRefJournalId}`;
 };
+
+export const getRedirectState = ({ redirectUrl, isOpenInNewTab }) => ({
+  redirectUrl,
+  isOpenInNewTab,
+});

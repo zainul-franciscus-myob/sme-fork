@@ -13,8 +13,6 @@ describe('redirectSelectors', () => {
     invoice: {
       layout: 'service',
     },
-    redirectRefJournalId: 1,
-    redirectRefJournalType: 'ReceivePayment',
   };
 
   describe('getInvoiceListUrl', () => {
@@ -47,8 +45,10 @@ describe('redirectSelectors', () => {
   describe('getRedirectRefUrl', () => {
     it('returns the correct Url with ref journal id', () => {
       const expected = '/#/au/abc/invoicePayment/1';
-      const actual = getRedirectRefUrl(state);
-
+      const actual = getRedirectRefUrl(state, {
+        redirectRefJournalId: 1,
+        redirectRefJournalType: 'ReceivePayment',
+      });
       expect(expected).toEqual(actual);
     });
   });

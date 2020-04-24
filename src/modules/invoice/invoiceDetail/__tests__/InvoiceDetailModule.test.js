@@ -7,6 +7,7 @@ import {
   SET_INVOICE_HISTORY_LOADING,
   SET_MODAL_ALERT,
   SET_MODAL_TYPE,
+  SET_REDIRECT_STATE,
   SET_SUBMITTING_STATE,
   SET_UPGRADE_MODAL_SHOWING,
   UPDATE_INVOICE_DETAIL,
@@ -639,6 +640,28 @@ describe('InvoiceDetailModule', () => {
         ]);
         expect(integration.getRequests().length).toBe(0);
       });
+    });
+  });
+
+  describe('handlePageTransition', () => {
+    describe('page is not edited', () => {
+      const { module } = setupWithRun({ isPageEdited: false });
+      module.navigateTo = jest.fn();
+
+      module.handlePageTransition('foo');
+
+      expect(module.navigateTo).toHaveBeenCalledWith('foo');
+    });
+
+    describe('page is edited', () => {
+      const { module, store } = setupWithRun({ isPageEdited: true });
+
+      module.handlePageTransition('foo');
+
+      expect(store.getActions()).toEqual([
+        { intent: SET_REDIRECT_STATE, redirectUrl: 'foo', isOpenInNewTab: false },
+        { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.REDIRECT_TO_URL },
+      ]);
     });
   });
 });

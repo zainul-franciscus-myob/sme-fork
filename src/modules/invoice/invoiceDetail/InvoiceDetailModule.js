@@ -31,6 +31,7 @@ import {
   getInvoiceListUrl,
   getInvoicePaymentUrl,
   getRedirectRefUrl,
+  getRedirectState,
   getSubscriptionSettingsUrl,
 } from './selectors/redirectSelectors';
 import { getExportPdfFilename } from './selectors/exportPdfSelectors';
@@ -66,6 +67,7 @@ export default class InvoiceDetailModule {
     reload,
     globalCallbacks,
     featureToggles,
+    navigateTo,
   }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -86,6 +88,7 @@ export default class InvoiceDetailModule {
     });
     this.contactModalModule = new ContactModalModule({ integration });
     this.inventoryModalModule = new InventoryModalModule({ integration });
+    this.navigateTo = navigateTo;
   }
 
   openAccountModal = (onChange) => {
@@ -294,54 +297,46 @@ export default class InvoiceDetailModule {
     });
   }
 
-  redirectToUrl = (url) => {
-    window.location.href = url;
-  }
-
-  redirectToUrlInNewTab = (url) => {
-    window.open(url, '_blank');
-  }
-
   redirectToInvoiceList = () => {
     const state = this.store.getState();
     const url = getInvoiceListUrl(state);
 
-    this.redirectToUrl(url);
+    this.navigateTo(url);
   }
 
   redirectToSubscriptionSettings = () => {
     const state = this.store.getState();
     const url = getSubscriptionSettingsUrl(state);
 
-    this.redirectToUrl(url);
+    this.navigateTo(url);
   }
 
   redirectToInvoicePayment = () => {
     const state = this.store.getState();
     const url = getInvoicePaymentUrl(state);
 
-    this.redirectToUrl(url);
+    this.navigateTo(url);
   }
 
   redirectToInvoiceAndQuoteSettings = () => {
     const state = this.store.getState();
     const url = getInvoiceAndQuoteSettingsUrl(state);
 
-    this.redirectToUrl(url);
+    this.navigateTo(url);
   }
 
   redirectToCreateInvoice = () => {
     const state = this.store.getState();
     const url = getCreateNewInvoiceUrl(state);
 
-    this.redirectToUrl(url);
+    this.navigateTo(url);
   }
 
   redirectToCreateDuplicateInvoiceUrl = () => {
     const state = this.store.getState();
     const url = getCreateDuplicateInvoiceUrl(state);
 
-    this.redirectToUrl(url);
+    this.navigateTo(url);
   }
 
   loadContactAddress = () => {
@@ -514,13 +509,21 @@ export default class InvoiceDetailModule {
   };
 
   redirectToRefUrl = () => {
-    const url = getRedirectRefUrl(this.store.getState());
-    this.redirectToUrlInNewTab(url);
+    const { redirectUrl, isOpenInNewTab } = getRedirectState(this.store.getState());
+    this.navigateTo(redirectUrl, isOpenInNewTab);
   };
 
   redirectToRefPage = (ref) => {
-    this.dispatcher.setRedirectRef(ref);
-    if (getIsPageEdited(this.store.getState())) {
+    const state = this.store.getState();
+    const url = getRedirectRefUrl(state, {
+      redirectRefJournalId: ref.journalId,
+      redirectRefJournalType: ref.sourceJournalType,
+    });
+    this.dispatcher.setRedirectState({
+      redirectUrl: url,
+      isOpenInNewTab: true,
+    });
+    if (getIsPageEdited(state)) {
       this.dispatcher.setModalType(InvoiceDetailModalType.REDIRECT_TO_URL);
     } else {
       this.redirectToRefUrl();
@@ -1039,5 +1042,18 @@ export default class InvoiceDetailModule {
       </Provider>
     );
     this.setRootView(wrappedView);
+  }
+
+  handlePageTransition = (url) => {
+    const state = this.store.getState();
+    if (getIsPageEdited(state)) {
+      this.dispatcher.setRedirectState({
+        redirectUrl: url,
+        isOpenInNewTab: false,
+      });
+      this.dispatcher.setModalType(InvoiceDetailModalType.REDIRECT_TO_URL);
+    } else {
+      this.navigateTo(url);
+    }
   }
 }

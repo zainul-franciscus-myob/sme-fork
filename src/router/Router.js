@@ -58,14 +58,18 @@ export default class Router {
     window.location.reload();
   }
 
-  navigateTo = (url) => {
-    const isCurrentRoute = window.location.href.includes(url);
+  navigateTo = (url, openInNewTab) => {
+    if (!openInNewTab) {
+      const isCurrentRoute = window.location.href.includes(url);
 
-    if (isCurrentRoute) {
-      this.reload();
+      if (isCurrentRoute) {
+        this.reload();
+      }
+
+      window.location.href = url;
+    } else {
+      window.open(url, '_blank');
     }
-
-    window.location.href = url;
   }
 
   buildDocumentTitle = title => (title ? `MYOB - ${title}` : 'MYOB')

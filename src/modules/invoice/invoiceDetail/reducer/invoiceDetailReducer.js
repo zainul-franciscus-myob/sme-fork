@@ -31,7 +31,7 @@ import {
   SET_MODAL_SUBMITTING_STATE,
   SET_MODAL_TYPE,
   SET_PAY_DIRECT_LOADING_STATE,
-  SET_REDIRECT_REF,
+  SET_REDIRECT_STATE,
   SET_SUBMITTING_STATE,
   SET_UPGRADE_MODAL_SHOWING,
   UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
@@ -357,10 +357,10 @@ const setInvoiceItemLineDirty = (state, action) => ({
   isLineAmountDirty: action.isLineAmountDirty,
 });
 
-export const setRedirectRef = (state, { redirectRefJournalId, redirectRefJournalType }) => ({
+export const setRedirectState = (state, { redirectUrl, isOpenInNewTab }) => ({
   ...state,
-  redirectRefJournalId,
-  redirectRefJournalType,
+  redirectUrl,
+  isOpenInNewTab,
 });
 
 const setUpgradeModalShowing = (state, { isUpgradeModalShowing, monthlyLimit }) => ({
@@ -449,7 +449,7 @@ const handlers = {
   [SET_INVOICE_HISTORY_UNAVAILABLE]: setInvoiceHistoryUnavailable,
   [SET_INVOICE_HISTORY_CLOSED]: setInvoiceHistoryClosed,
   [SET_INVOICE_HISTORY_OPEN]: setInvoiceHistoryOpen,
-  [SET_REDIRECT_REF]: setRedirectRef,
+  [SET_REDIRECT_STATE]: setRedirectState,
   [LOAD_INVOICE_HISTORY]: loadInvoiceHistory,
 
   [CALCULATE_LINE_TOTALS]: calculateLineTotals,
