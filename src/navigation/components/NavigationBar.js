@@ -58,7 +58,7 @@ const getPrimary = ({
   shouldDisplayInTray,
   shouldDisplayReportsMenu,
 }) => [
-  shouldDisplayHome && <Home key="Home" />,
+  shouldDisplayHome && <Home key="Home" onMenuLinkClick={onMenuLinkClick} />,
   shouldDisplaySalesMenu && (
     <SalesMenu
       key="SalesMenu"
