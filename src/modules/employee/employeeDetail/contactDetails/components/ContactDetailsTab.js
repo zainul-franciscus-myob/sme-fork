@@ -94,7 +94,12 @@ const ContactDetailsTab = (props) => {
           label="Inactive employee"
           hideLabel
           renderCheckbox={() => (
-            <Checkbox name="isInactive" label="Inactive employee" checked={contactDetail.isInactive} onChange={onCheckBoxChange(onContactDetailsChange)} />
+            <Checkbox
+              name="isInactive"
+              label="Inactive employee"
+              checked={contactDetail.isInactive}
+              onChange={onCheckBoxChange(onContactDetailsChange)}
+            />
           )}
         />
       </FieldGroup>

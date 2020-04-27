@@ -1,0 +1,20 @@
+{
+  "message": "Your employee has been saved.",
+  "contactDetail": {
+    "firstName": "Updated Bob",
+    "lastName": "The builder",
+    "address": "2/34 Park Avenue",
+    "suburb": "Auckland",
+    "state": "Auckland",
+    "postcode": "3456",
+    "country": "New Zealand",
+    "phoneNumbers": [
+      "03 93883848",
+      "03 94839483"
+    ],
+    "email": "bob@thebuilder.com",
+    "notes": "nz payroll employee",
+    "isInactive": false,
+    "employeeNumber": "0012"
+  }
+}

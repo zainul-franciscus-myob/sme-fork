@@ -1,5 +1,6 @@
 import {
   LOAD_EMPLOYEE_DETAIL, SET_LOADING_STATE, SET_MAIN_TAB, SET_SUB_TAB,
+  UPDATE_EMPLOYEE, UPDATE_EMPLOYEE_FAILED,
 } from '../../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import { tabIds } from '../tabItems';
@@ -46,6 +47,30 @@ describe('createEmployeeDetailNzDispatcher', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(expect.objectContaining({
         intent: LOAD_EMPLOYEE_DETAIL,
+        ...response,
+      }));
+    });
+  });
+
+  describe('updateEmployeeDetails', () => {
+    it('should dispatch UPDATE_EMPLOYEE intent', () => {
+      const response = {};
+      employeeDetailNzDispatcher.updateEmployeeDetails(response);
+
+      expect(store.dispatch).toHaveBeenCalledWith(expect.objectContaining({
+        intent: UPDATE_EMPLOYEE,
+        ...response,
+      }));
+    });
+  });
+
+  describe('updateEmployeeFailed', () => {
+    it('should dispatch UPDATE_EMPLOYEE intent', () => {
+      const response = {};
+      employeeDetailNzDispatcher.updateEmployeeFailed(response);
+
+      expect(store.dispatch).toHaveBeenCalledWith(expect.objectContaining({
+        intent: UPDATE_EMPLOYEE_FAILED,
         ...response,
       }));
     });

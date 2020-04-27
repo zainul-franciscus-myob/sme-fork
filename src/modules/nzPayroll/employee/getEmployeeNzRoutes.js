@@ -6,6 +6,7 @@ const getEmployeeNzRoutes = ({
   integration,
   setRootView,
   popMessages,
+  pushMessage,
   replaceURLParams,
 }) => {
   const routes = [
@@ -14,7 +15,10 @@ const getEmployeeNzRoutes = ({
       path: '/nz/:businessId/employee/',
       defaultParams: { region: 'nz' },
       module: new EmployeeListNzModule({
-        integration, setRootView, popMessages,
+        integration,
+        setRootView,
+        popMessages,
+        pushMessage,
       }),
       documentTitle: 'Employees',
     },
@@ -26,6 +30,8 @@ const getEmployeeNzRoutes = ({
       module: new EmployeeDetailNzModule({
         integration,
         setRootView,
+        popMessages,
+        pushMessage,
         replaceURLParams,
       }),
       documentTitle: 'Employee',

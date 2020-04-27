@@ -3,8 +3,11 @@ import {
   getCurrentSubTab,
   getEmployeeFullName,
   getEmployeeId,
+  getEmployeeListUrl,
+  getIsSubmitting,
   getLoadingState,
   getMainTab,
+  getModal,
 } from '../EmployeeDetailNzSelectors';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 
@@ -95,6 +98,35 @@ describe('EmployeeDetailNzSelectors', () => {
       };
       expect(getCurrentSubTab(state))
         .toBeUndefined();
+    });
+  });
+
+  describe('getEmployeeListUrl', () => {
+    it('should build Employee List Url', () => {
+      const state = { businessId: 'id', region: 'nz' };
+
+      const actual = getEmployeeListUrl(state);
+
+      expect(actual).toEqual('/#/nz/id/employee');
+    });
+  });
+
+  it('should return modal from state', () => {
+    const modal = { type: 'some-type' };
+    const state = { modal };
+
+    const actual = getModal(state);
+
+    expect(actual).toEqual(modal);
+  });
+
+  describe('getIsSubmitting', () => {
+    it('should return submitting state', () => {
+      const state = { isSubmitting: true };
+
+      const actual = getIsSubmitting(state);
+
+      expect(actual).toEqual(true);
     });
   });
 });

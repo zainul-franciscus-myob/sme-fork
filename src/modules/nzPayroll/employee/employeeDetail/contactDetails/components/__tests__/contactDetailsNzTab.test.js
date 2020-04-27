@@ -64,13 +64,10 @@ describe('<ContactDetailsNzTab />', () => {
       { label: 'First name', name: 'firstName', data: cd.firstName },
       { label: 'Surname or family name', name: 'lastName', data: cd.lastName },
       { label: 'Employee number', name: 'employeeNumber', data: cd.employeeNumber },
-      { label: 'City/town', name: 'city', data: cd.suburb },
+      { label: 'City/town', name: 'suburb', data: cd.suburb },
       { label: 'Postcode', name: 'postcode', data: cd.postcode },
-      { label: 'Region', name: 'region', data: cd.state },
+      { label: 'Region', name: 'state', data: cd.state },
       { label: 'Email', name: 'email', data: cd.email },
-      { label: 'Phone', name: 'phone1', data: cd.phoneNumbers[0] },
-      { label: 'Phone', name: 'phone2', data: cd.phoneNumbers[1] },
-      { label: 'Phone', name: 'phone3', data: cd.phoneNumbers[2] },
     ])('Input Field: %p', ({
       label, name, data,
     }) => {
@@ -80,7 +77,6 @@ describe('<ContactDetailsNzTab />', () => {
         label,
         name,
         value: data,
-        disabled: true,
       }));
     });
   });
@@ -99,7 +95,6 @@ describe('<ContactDetailsNzTab />', () => {
       },
     );
     expect(inactiveEmpCheckbox.type()).toBe(Checkbox);
-    expect(inactiveEmpCheckbox.prop('disabled')).toBe(true);
 
     const addressField = wrapper.find(
       {
@@ -109,7 +104,6 @@ describe('<ContactDetailsNzTab />', () => {
       },
     );
     expect(addressField.type()).toBe(TextArea);
-    expect(addressField.prop('disabled')).toBe(true);
 
     const countryField = wrapper.find(
       {
@@ -119,7 +113,6 @@ describe('<ContactDetailsNzTab />', () => {
       },
     ).first();
     expect(countryField.type()).toBe(CountryCombobox);
-    expect(countryField.prop('disabled')).toBe(true);
 
     const notesField = wrapper.find(
       {
@@ -129,6 +122,32 @@ describe('<ContactDetailsNzTab />', () => {
       },
     );
     expect(notesField.exists()).toBe(true);
+  });
+
+  describe('PhoneNumberList', () => {
+    it('should render PhoneNumberList without add button ', () => {
+      const wrapper = mountWithProvider(<ContactDetailsNzTabView />);
+      const payload = employeeDetails;
+      store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, payload });
+      wrapper.update();
+      expect(wrapper.find('PhoneNumberList').exists()).toBe(true);
+      expect(wrapper.find('PhoneNumberList').prop('phoneNumbers').length).toEqual(3);
+      expect(wrapper.find('PhoneNumberList').prop('hasAddPhoneButton')).toEqual(false);
+    });
+
+    it('should render PhoneNumberList without add button ', () => {
+      const wrapper = mountWithProvider(<ContactDetailsNzTabView />);
+      const payload = {
+        contactDetail: {
+          phoneNumbers: [],
+        },
+      };
+      store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, payload });
+      wrapper.update();
+
+      expect(wrapper.find('PhoneNumberList').exists()).toBe(true);
+      expect(wrapper.find('PhoneNumberList').prop('hasAddPhoneButton')).toEqual(true);
+    });
   });
 
   describe('when employee is active', () => {

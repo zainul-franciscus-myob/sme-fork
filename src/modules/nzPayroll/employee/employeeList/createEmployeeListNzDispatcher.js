@@ -1,4 +1,6 @@
-import { LOAD_EMPLOYEE_LIST, SET_LOADING_STATE } from '../EmployeeNzIntents';
+import {
+  DISMISS_ALERT, LOAD_EMPLOYEE_LIST, SET_ALERT, SET_LOADING_STATE,
+} from '../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 
 const createEmployeeListNzDispatcher = ({ store }) => ({
@@ -21,6 +23,16 @@ const createEmployeeListNzDispatcher = ({ store }) => ({
   setLoadingState: (loadingState) => {
     const intent = SET_LOADING_STATE;
     store.dispatch({ intent, loadingState });
+  },
+
+  setAlert: ({ type, message }) => {
+    const intent = SET_ALERT;
+    store.dispatch({ intent, alert: { type, message } });
+  },
+
+  dismissAlert: () => {
+    const intent = DISMISS_ALERT;
+    store.dispatch({ intent });
   },
 
 });

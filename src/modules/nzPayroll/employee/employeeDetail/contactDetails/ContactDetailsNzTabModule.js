@@ -1,13 +1,20 @@
 import React from 'react';
 
 import ContactDetailsNzTabView from './components/contactDetailsNzTab';
+import createContactDetailsTabDispatchers from './createContactDetailsTabDispatchers';
 
 export default class ContactDetailsNzTabModule {
-  constructor() {
-    this.view = <ContactDetailsNzTabView />;
+  constructor({
+    store,
+  }) {
+    this.dispatcher = createContactDetailsTabDispatchers(store);
   }
 
   getView() {
-    return (this.view);
+    return (
+      <ContactDetailsNzTabView
+        onContactDetailsChange={this.dispatcher.updateContactDetails}
+      />
+    );
   }
 }

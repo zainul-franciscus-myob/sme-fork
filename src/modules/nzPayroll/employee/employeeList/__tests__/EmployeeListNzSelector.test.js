@@ -1,3 +1,4 @@
+import { getAlert } from '../../employeeDetail/EmployeeDetailNzSelectors';
 import { getBusinessId, getEmployeeList, getLoadingState } from '../EmployeeListNzSelector';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 
@@ -49,6 +50,28 @@ describe('EmployeeListNzSelector', () => {
 
       const actual = getEmployeeList(state);
       expect(actual).toEqual(employees);
+    });
+  });
+
+  describe('getAlert', () => {
+    it('should return the alert from store', () => {
+      const alert = {
+        type: 'some-type',
+        message: 'message',
+      };
+      const state = { alert };
+
+      const actual = getAlert(state);
+
+      expect(actual).toEqual(alert);
+    });
+
+    it('should return undefined', () => {
+      const state = { some: 'props' };
+
+      const actual = getAlert(state);
+
+      expect(actual).toEqual(undefined);
     });
   });
 });

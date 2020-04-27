@@ -1,8 +1,9 @@
+import { Alert } from '@myob/myob-widgets';
 import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { LOAD_EMPLOYEE_LIST } from '../../../EmployeeNzIntents';
+import { LOAD_EMPLOYEE_LIST, SET_ALERT } from '../../../EmployeeNzIntents';
 import EmployeeListNzView from '../EmployeeListNzView';
 import Store from '../../../../../../store/Store';
 import employeeListNzReducer from '../../employeeListNzReducer';
@@ -64,5 +65,20 @@ describe('<EmployeeListNzView />', () => {
     expect(wrapper.text()).toContain('uncle bob');
     expect(wrapper.text()).toContain('j@gmail.com');
     expect(wrapper.text()).toContain('0424345464');
+  });
+
+  it('should display alert Component ', () => {
+    const wrapper = mountWithProvider(<EmployeeListNzView />);
+    const response = { entries: [] };
+    store.dispatch({ intent: LOAD_EMPLOYEE_LIST, ...response });
+    const alert = { type: 'success', message: 'alert message' };
+
+    store.dispatch({ intent: SET_ALERT, alert });
+    wrapper.update();
+
+    expect(wrapper.text()).toContain('alert message');
+    expect(wrapper.find(Alert).props()).toEqual(expect.objectContaining({
+      type: 'success',
+    }));
   });
 });

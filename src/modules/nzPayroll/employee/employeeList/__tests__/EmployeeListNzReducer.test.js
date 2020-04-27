@@ -1,4 +1,4 @@
-import { LOAD_EMPLOYEE_LIST, SET_LOADING_STATE } from '../../EmployeeNzIntents';
+import { LOAD_EMPLOYEE_LIST, SET_ALERT, SET_LOADING_STATE } from '../../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import employeeListNzReducer from '../employeeListNzReducer';
@@ -79,6 +79,42 @@ describe('employeeListNzReducer', () => {
       const result = employeeListNzReducer(state, action);
 
       expect(result).toEqual({ ...state, ...context });
+    });
+  });
+
+  describe('setAlert', () => {
+    const alert = {
+      type: 'some-type',
+      message: 'message',
+    };
+
+    it('should set passed in alert into store', () => {
+      const state = { some: 'props' };
+      const action = {
+        intent: SET_ALERT,
+        alert,
+      };
+      const expectedState = {
+        ...state,
+        alert,
+      };
+
+      const result = employeeListNzReducer(state, action);
+
+      expect(result).toEqual(expectedState);
+    });
+
+    it('should set alert to undefined', () => {
+      const action = {
+        intent: SET_ALERT,
+        alert: undefined,
+      };
+      const expectedState = { alert: undefined };
+      const state = { alert };
+
+      const result = employeeListNzReducer(state, action);
+
+      expect(result).toEqual(expectedState);
     });
   });
 });

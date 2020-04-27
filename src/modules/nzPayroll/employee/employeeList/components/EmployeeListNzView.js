@@ -1,22 +1,34 @@
-import { Button, PageHead, StandardTemplate } from '@myob/myob-widgets';
+import {
+  Alert, Button, PageHead, StandardTemplate,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getLoadingState } from '../EmployeeListNzSelector';
+import { getAlert, getLoadingState } from '../EmployeeListNzSelector';
 import EmployeeListNzTable from './EmployeeListNzTable';
 import PageView from '../../../../../components/PageView/PageView';
 
-const EmployeeListNzView = ({ loadingState }) => {
+const EmployeeListNzView = ({
+  loadingState,
+  alert,
+  onDismissAlert,
+}) => {
   const pageHead = (
     <PageHead title="Employees">
       <Button onClick={() => {}}>Create employee</Button>
     </PageHead>
   );
 
+  const alertComponent = alert && (
+    <Alert type={alert.type} onDismiss={onDismissAlert}>
+      {alert.message}
+    </Alert>
+  );
+
   const employeeListNzTable = <EmployeeListNzTable />;
 
   const view = (
-    <StandardTemplate pageHead={pageHead}>
+    <StandardTemplate pageHead={pageHead} alert={alertComponent}>
       {employeeListNzTable}
     </StandardTemplate>
   );
@@ -26,6 +38,7 @@ const EmployeeListNzView = ({ loadingState }) => {
 
 const mapStateToProps = state => ({
   loadingState: getLoadingState(state),
+  alert: getAlert(state),
 });
 
 export default connect(mapStateToProps)(EmployeeListNzView);

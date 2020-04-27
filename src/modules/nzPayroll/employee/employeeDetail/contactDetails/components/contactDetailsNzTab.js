@@ -9,10 +9,30 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
+import { getAddPhoneButton, getContactDetail } from '../contactDetailsNzSelector';
 import CountryCombobox from '../../../../../../components/combobox/CountryCombobox';
-import getContactDetail from '../contactDetailsNzSelector';
+import PhoneNumberList from '../../../../../../components/phoneNumberList/PhoneNumberList';
 
-const ContactDetailsNzTabView = ({ contactDetail }) => {
+const onInputChange = handler => (e) => {
+  const { name, value } = e.target;
+  handler({ key: name, value });
+};
+
+const onCheckBoxChange = handler => (e) => {
+  const { name, checked } = e.target;
+  handler({ key: name, value: checked });
+};
+
+const onComboBoxChange = (handler, key) => (option) => {
+  const { id: value } = option;
+  handler({ key, value });
+};
+
+const onPhoneNumberChange = handler => (phoneNumbers) => {
+  handler({ key: 'phoneNumbers', value: phoneNumbers });
+};
+
+const ContactDetailsNzTabView = ({ contactDetail, showAddPhoneButton, onContactDetailsChange }) => {
   const view = (
     <FormHorizontal layout="primary">
       <FieldGroup label="Details">
@@ -20,24 +40,24 @@ const ContactDetailsNzTabView = ({ contactDetail }) => {
           label="First name"
           name="firstName"
           value={contactDetail.firstName}
+          onChange={onInputChange(onContactDetailsChange)}
           requiredLabel="First name is required"
           width="lg"
-          disabled
         />
         <Input
           label="Surname or family name"
           name="lastName"
           value={contactDetail.lastName}
+          onChange={onInputChange(onContactDetailsChange)}
           requiredLabel="Surname or family name is required"
           width="lg"
-          disabled
         />
         <Input
           label="Employee number"
           name="employeeNumber"
           value={contactDetail.employeeNumber}
+          onChange={onInputChange(onContactDetailsChange)}
           width="sm"
-          disabled
         />
         <CheckboxGroup
           label="Inactive employee"
@@ -47,7 +67,7 @@ const ContactDetailsNzTabView = ({ contactDetail }) => {
               name="isInactive"
               label="Inactive employee"
               checked={contactDetail.isInactive}
-              disabled
+              onChange={onCheckBoxChange(onContactDetailsChange)}
             />
           )}
         />
@@ -57,9 +77,8 @@ const ContactDetailsNzTabView = ({ contactDetail }) => {
           label="Country"
           name="country"
           selectedId={contactDetail.country}
-          onChange={() => {}}
+          onChange={onComboBoxChange(onContactDetailsChange, 'country')}
           width="lg"
-          disabled
         />
         <TextArea
           label="Address"
@@ -67,59 +86,40 @@ const ContactDetailsNzTabView = ({ contactDetail }) => {
           value={contactDetail.address}
           width="lg"
           rows={4}
-          onChange={() => {}}
-          disabled
+          onChange={onInputChange(onContactDetailsChange)}
         />
         <Input
           label="City/town"
-          name="city"
+          name="suburb"
           value={contactDetail.suburb}
+          onChange={onInputChange(onContactDetailsChange)}
           width="lg"
-          disabled
         />
         <Input
           label="Region"
-          name="region"
+          name="state"
           value={contactDetail.state}
+          onChange={onInputChange(onContactDetailsChange)}
           width="lg"
-          disabled
         />
         <Input
           label="Postcode"
           name="postcode"
           value={contactDetail.postcode}
+          onChange={onInputChange(onContactDetailsChange)}
           width="xs"
-          disabled
         />
         <Input
           label="Email"
           name="email"
           value={contactDetail.email}
+          onChange={onInputChange(onContactDetailsChange)}
           width="lg"
-          disabled
         />
-        <Input
-          label="Phone"
-          name="phone1"
-          value={contactDetail.phoneNumbers[0]}
-          width="lg"
-          disabled
-        />
-        <Input
-          label="Phone"
-          name="phone2"
-          value={contactDetail.phoneNumbers[1]}
-          width="lg"
-          hideLabel
-          disabled
-        />
-        <Input
-          label="Phone"
-          name="phone3"
-          value={contactDetail.phoneNumbers[2]}
-          width="lg"
-          hideLabel
-          disabled
+        <PhoneNumberList
+          phoneNumbers={contactDetail.phoneNumbers}
+          hasAddPhoneButton={showAddPhoneButton}
+          onPhoneNumbersChange={onPhoneNumberChange(onContactDetailsChange)}
         />
       </FieldGroup>
       <FieldGroup label="More information">
@@ -129,8 +129,7 @@ const ContactDetailsNzTabView = ({ contactDetail }) => {
           value={contactDetail.notes}
           rows={3}
           width="lg"
-          onChange={() => {}}
-          disabled
+          onChange={onInputChange(onContactDetailsChange)}
         />
       </FieldGroup>
     </FormHorizontal>
@@ -141,6 +140,7 @@ const ContactDetailsNzTabView = ({ contactDetail }) => {
 
 const mapStateToProps = state => ({
   contactDetail: getContactDetail(state),
+  showAddPhoneButton: getAddPhoneButton(state),
 });
 
 export default connect(mapStateToProps)(ContactDetailsNzTabView);

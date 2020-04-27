@@ -19,8 +19,10 @@ describe('EmployeeListNzModule', () => {
     let wrapper;
 
     const setRootView = (component) => { wrapper = mount(component); };
+    const popMessages = () => [];
 
-    const module = new EmployeeListNzModule({ integration, setRootView });
+
+    const module = new EmployeeListNzModule({ integration, setRootView, popMessages });
     module.store = store;
     module.dispatcher = createEmployeeListNzDispatcher({ store });
     module.integrator = createEmployeeListNzIntegrator({ store, integration });
