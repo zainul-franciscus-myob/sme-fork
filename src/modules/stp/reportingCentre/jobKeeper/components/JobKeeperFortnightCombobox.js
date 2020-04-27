@@ -1,7 +1,6 @@
 import { Combobox } from '@myob/myob-widgets';
 import React from 'react';
 
-
 const JobKeeperFortnightCombobox = ({
   fortnightOptions,
   onChange,
@@ -9,10 +8,12 @@ const JobKeeperFortnightCombobox = ({
   label,
   width,
   selectedFn,
+  allowClear,
+  ...props
 }) => {
   const selected = fortnightOptions.find(
     option => option.id === selectedFn,
-  ) || {};
+  ) || null;
 
   const metaData = [
     {
@@ -28,15 +29,17 @@ const JobKeeperFortnightCombobox = ({
   ];
 
   return (
-  <Combobox
-    items={fortnightOptions}
-    name={name}
-    label={label}
-    width={width}
-    selected={selected}
-    onChange={onChange}
-    metaData={metaData}
-  />);
+    <Combobox
+      items={fortnightOptions}
+      name={name}
+      label={label}
+      width={width}
+      selected={selected}
+      onChange={onChange}
+      metaData={metaData}
+      allowClear={allowClear}
+      {...props}
+    />);
 };
 
 export default JobKeeperFortnightCombobox;

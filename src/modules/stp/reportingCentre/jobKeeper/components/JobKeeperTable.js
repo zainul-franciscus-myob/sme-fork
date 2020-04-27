@@ -3,8 +3,6 @@ import React from 'react';
 
 import JobKeeperFortnightCombobox from './JobKeeperFortnightCombobox';
 import TableView from '../../../../../components/TableView/TableView';
-import handleComboboxChange from '../../../../../components/handlers/handleComboboxChange';
-
 
 const tableConfig = {
   firstName: {
@@ -21,6 +19,12 @@ const tableConfig = {
   },
 };
 
+const handleComboboxChange = (key, handler) => (item) => {
+  handler({
+    key,
+    value: item ? item.id : null,
+  });
+};
 
 const JobKeeperTable = ({
   employees,
@@ -47,7 +51,7 @@ const JobKeeperTable = ({
   );
 
   const rows = employees.map(row => (
-    <Table.Row key={row.id} rowData={{ id: row.id }}>
+    <Table.Row key={row.employeeId} rowData={{ id: row.employeeId }}>
       <Table.RowItem {...tableConfig.firstName}>
         {row.firstName}
       </Table.RowItem>
@@ -58,7 +62,10 @@ const JobKeeperTable = ({
         <JobKeeperFortnightCombobox
           name="firstFortnightCombobox"
           fortnightOptions={firstFortnightOptions}
+          label="firstFortnightCombobox"
+          hideLabel
           selectedFn={row.firstFortnight}
+          allowClear={row.allowClearFirstFortnight}
           onChange={handleComboboxChange('firstFortnight', ({ key, value }) => onEmployeeChange({
             key, value, rowId: row.employeeId,
           }))}
@@ -69,6 +76,9 @@ const JobKeeperTable = ({
           name="finalFortnightCombobox"
           fortnightOptions={finalFortnightOptions}
           selectedFn={row.finalFortnight}
+          label="finalFortnightCombobox"
+          hideLabel
+          allowClear={row.allowClearFinalFortnight}
           onChange={handleComboboxChange('finalFortnight', ({ key, value }) => onEmployeeChange({
             key, value, rowId: row.employeeId,
           }))}

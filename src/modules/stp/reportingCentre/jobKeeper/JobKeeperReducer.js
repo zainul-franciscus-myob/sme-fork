@@ -40,9 +40,19 @@ const setLoadingState = (state, { loadingState }) => ({
   loadingState,
 });
 
+const addAllowClearToEmployees = response => {
+  if (!response || !response.employees) return [];
+  return response.employees.map(e => ({
+    ...e,
+    allowClearFirstFortnight: (!e.firstFortnight),
+    allowClearFinalFortnight: (!e.finalFortnight),
+  }));
+};
+
 const setJobKeeperInitial = (state, { response }) => ({
   ...state,
   ...response,
+  employees: addAllowClearToEmployees(response),
 });
 
 const setIsTableLoading = (state, { isTableLoading }) => ({

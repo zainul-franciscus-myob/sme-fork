@@ -1,7 +1,7 @@
 {
   "employees": [
     {
-      "id": "100001",
+      "employeeId": "100001",
       "payId": "effa0c73-65c4-409d-a20c-623fbe0c8b17",
       "firstName": "Alf",
       "lastName": "Galang",
@@ -9,7 +9,7 @@
       "finalFortnight": null
     },
     {
-      "id": "100002",
+      "employeeId": "100002",
       "payId": "73f25da3-32ef-4ad9-a5cb-74e241b0506b",
       "firstName": "Sarah",
       "lastName": "Boss",
@@ -18,13 +18,13 @@
     },
     {
       "firstName": "Harpy",
-      "id": "100003",
+      "employeeId": "100003",
       "isFinalised": false,
       "lastName": "Brawn"
     },
     {
       "firstName": "Gran",
-      "id": "100004",
+      "employeeId": "100004",
       "isFinalised": false,
       "lastName": "Gedup"
     }
@@ -53,34 +53,34 @@
     {
       "dates": "30 Mar - 12 Apr",
       "allowanceDescription": "JOBKEEPER-START-FN01",
-      "fn": "01"
+      "id": "01"
     },
     {
       "dates": "13 Apr - 26 Apr",
       "allowanceDescription": "JOBKEEPER-START-FN02",
-      "fn": "02"
+      "id": "02"
     },
     {
       "dates": "27 Apr - 10 May",
       "allowanceDescription": "JOBKEEPER-START-FN03",
-      "fn": "03"
+      "id": "03"
     }
   ],
   "finalFortnightOptions": [
     {
       "dates": "30 Mar - 12 Apr",
       "allowanceDescription": "JOBKEEPER-FINISH-FN01",
-      "fn": "01"
+      "id": "01"
     },
     {
       "dates": "13 Apr - 26 Apr",
       "allowanceDescription": "JOBKEEPER-FINISH-FN02",
-      "fn": "02"
+      "id": "02"
     },
     {
       "dates": "27 Apr - 10 May",
       "allowanceDescription": "JOBKEEPER-FINISH-FN03",
-      "fn": "03"
+      "id": "03"
     }
   ]
 }
