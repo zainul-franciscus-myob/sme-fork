@@ -1,7 +1,7 @@
 export const getRegion = state => state.region;
 export const getPayrollYears = state => state.payrollYears;
 export const getLoadingState = state => state.loadingState;
-export const getSelectedPayrollYear = state => state.selectedPayrollYear;
+export const getSelectedPayrollYear = state => (state.selectedPayrollYear === '' ? '2020' : state.selectedPayrollYear);
 export const getActiveSort = ({ sortOrder, orderBy }) => ({
   column: orderBy,
   descending: sortOrder === 'desc',
