@@ -2,7 +2,12 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import { SUCCESSFULLY_UPDATED_JOB_KEEPER_PAYMENTS } from '../MessageTypes';
-import { getFlipSortOrder, getStpDeclarationContext, getStpReportTabUrl } from './JobKeeperSelector';
+import {
+  getFlipSortOrder,
+  getIsDirty,
+  getStpDeclarationContext,
+  getStpReportTabUrl,
+} from './JobKeeperSelector';
 import JobKeeperView from './components/JobKeeperView';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import Store from '../../../../store/Store';
@@ -123,6 +128,37 @@ export default class JobKeeperModule {
     this.dispatcher.updateEmployeeRow({ key, value, rowId });
   }
 
+  tryToNavigate = (navigationFunction) => {
+    const isDirty = getIsDirty(this.store.getState());
+    if (!isDirty) {
+      navigationFunction();
+    } else {
+      this.openUnsavedChangesModal(navigationFunction);
+    }
+  }
+
+  openUnsavedChangesModal = (navigationFunction) => {
+    this.pendingNavigationFunction = navigationFunction;
+
+    this.dispatcher.setUnsavedChangesModal(true);
+  }
+
+  closeUnsavedChangesModal = () => {
+    this.dispatcher.setUnsavedChangesModal(false);
+    this.pendingNavigationFunction = null;
+  }
+
+  onUnsavedChangesCancel = () => {
+    this.closeUnsavedChangesModal();
+  }
+
+  onUnsavedChangesConfirm = () => {
+    this.pendingNavigationFunction();
+    this.dispatcher.setUnsavedChangesModal(false);
+    this.dispatcher.resetDirtyFlag();
+    this.pendingNavigationFunction = null;
+  }
+
   run = () => {
     this.loadInitialEmployeesAndHeaderDetails();
   };
@@ -138,6 +174,10 @@ export default class JobKeeperModule {
           onPayrollYearChange={this.filterEmployeesByYear}
           onSort={this.sortEmployees}
           onEmployeeChange={this.updateEmployeeRow}
+          unsavedChangesModalListeners={{
+            onCancel: this.onUnsavedChangesCancel,
+            onConfirm: this.onUnsavedChangesConfirm,
+          }}
         />
       </Provider>);
   }

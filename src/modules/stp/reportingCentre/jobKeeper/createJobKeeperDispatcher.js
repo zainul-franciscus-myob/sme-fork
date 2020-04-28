@@ -1,4 +1,5 @@
 import {
+  RESET_DIRTY_FLAG,
   SET_FILTERED_EMPLOYEES,
   SET_INITIAL_STATE,
   SET_JOB_KEEPER_INITIAL,
@@ -7,6 +8,7 @@ import {
   SET_SELECTED_PAYROLL_YEAR,
   SET_SORTED_EMPLOYEES,
   SET_TABLE_LOADING_STATE,
+  SET_UNSAVED_CHANGES_MODAL,
   SORT_JOB_KEEPER_EMPLOYEES,
   UPDATE_EMPLOYEE_ROW,
 } from './JobKeeperIntents';
@@ -88,6 +90,19 @@ const createJobKeeperDispatcher = store => ({
   setNewEventId: () => {
     store.dispatch({
       intent: SET_NEW_EVENT_ID,
+    });
+  },
+
+  setUnsavedChangesModal: (isOpen) => {
+    store.dispatch({
+      intent: SET_UNSAVED_CHANGES_MODAL,
+      isOpen,
+    });
+  },
+
+  resetDirtyFlag: () => {
+    store.dispatch({
+      intent: RESET_DIRTY_FLAG,
     });
   },
 });

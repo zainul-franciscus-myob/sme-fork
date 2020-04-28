@@ -11,3 +11,5 @@ export const UPDATE_JOB_KEEPER_PAYMENTS = Symbol('Update job keeper employees pa
 export const SET_INITIAL_STATE = Symbol('Set the initial state');
 export const UPDATE_EMPLOYEE_ROW = Symbol('Update employee row value');
 export const SET_NEW_EVENT_ID = Symbol('Set a new event id');
+export const RESET_DIRTY_FLAG = Symbol('Resets the dirty flag back to false');
+export const SET_UNSAVED_CHANGES_MODAL = Symbol('open unsaved changes modal');

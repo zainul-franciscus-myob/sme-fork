@@ -1,4 +1,5 @@
 import {
+  RESET_DIRTY_FLAG,
   SET_FILTERED_EMPLOYEES,
   SET_INITIAL_STATE,
   SET_JOB_KEEPER_INITIAL,
@@ -7,6 +8,7 @@ import {
   SET_SELECTED_PAYROLL_YEAR,
   SET_SORTED_EMPLOYEES,
   SET_TABLE_LOADING_STATE,
+  SET_UNSAVED_CHANGES_MODAL,
   SORT_JOB_KEEPER_EMPLOYEES,
   UPDATE_EMPLOYEE_ROW,
 } from './JobKeeperIntents';
@@ -23,6 +25,8 @@ export const getDefaultState = () => ({
   employees: [],
   sortOrder: 'asc',
   orderBy: 'FirstName',
+  isDirty: false,
+  unsavedChangesModalIsOpen: false,
 });
 
 const setInitialState = (state, { context }) => ({
@@ -52,6 +56,7 @@ const addAllowClearToEmployees = response => {
 const setJobKeeperInitial = (state, { response }) => ({
   ...state,
   ...response,
+  isDirty: false,
   employees: addAllowClearToEmployees(response),
 });
 
@@ -63,6 +68,7 @@ const setIsTableLoading = (state, { isTableLoading }) => ({
 const setFilteredEmployees = (state, { response }) => ({
   ...state,
   ...response,
+  isDirty: false,
 });
 
 const setSortedEmployees = (state, { response }) => ({
@@ -76,8 +82,19 @@ const setSort = (state, action) => ({
   orderBy: action.orderBy,
 });
 
+const setUnsavedChangesModal = (state, { isOpen }) => ({
+  ...state,
+  unsavedChangesModalIsOpen: isOpen,
+});
+
+const resetDirtyFlag = state => ({
+  ...state,
+  isDirty: false,
+});
+
 const updateEmployeeRow = (state, { key, value, rowId }) => ({
   ...state,
+  isDirty: true,
   employees: state.employees.map(e => (
     e.employeeId === rowId
       ? { ...e, [key]: value, isDirty: true }
@@ -99,6 +116,8 @@ const handlers = {
   [SORT_JOB_KEEPER_EMPLOYEES]: setSort,
   [SET_INITIAL_STATE]: setInitialState,
   [UPDATE_EMPLOYEE_ROW]: updateEmployeeRow,
+  [SET_UNSAVED_CHANGES_MODAL]: setUnsavedChangesModal,
+  [RESET_DIRTY_FLAG]: resetDirtyFlag,
   [SET_NEW_EVENT_ID]: setNewEventId,
 };
 

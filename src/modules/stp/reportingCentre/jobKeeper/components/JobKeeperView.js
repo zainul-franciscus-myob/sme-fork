@@ -15,7 +15,9 @@ import {
   getLoadingState,
   getPayrollYears,
   getSelectedPayrollYear,
+  getUnsavedChangesModalIsOpen,
 } from '../JobKeeperSelector';
+import CancelModal from '../../../../../components/modal/CancelModal';
 import JobKeeperFilter from './JobKeeperFilter';
 import JobKeeperTable from './JobKeeperTable';
 import PageView from '../../../../../components/PageView/PageView';
@@ -32,6 +34,8 @@ const JobKeeperView = ({
   isTableLoading,
   onNotifyAtoClick,
   onEmployeeChange,
+  unsavedChangesModalIsOpen,
+  unsavedChangesModalListeners,
 }) => {
   const jobKeeperTable = (<JobKeeperTable
     employees={employees}
@@ -51,6 +55,12 @@ const JobKeeperView = ({
 
 
   const page = (<BaseTemplate>
+    {unsavedChangesModalIsOpen && (
+      <CancelModal
+        onConfirm={unsavedChangesModalListeners.onConfirm}
+        onCancel={unsavedChangesModalListeners.onCancel}
+      />
+    )}
     <JobKeeperFilter
       payrollYears={payrollYears}
       payrollYear={payrollYear}
@@ -73,6 +83,7 @@ const mapStateToProps = state => ({
   employees: getEmployees(state),
   activeSort: getActiveSort(state),
   firstFortnightOptions: getFirstFortnightOptions(state),
+  unsavedChangesModalIsOpen: getUnsavedChangesModalIsOpen(state),
   finalFortnightOptions: getFinalFortnightOptions(state),
 });
 

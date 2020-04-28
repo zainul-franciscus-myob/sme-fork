@@ -28,6 +28,9 @@ export const getUpdateJobKeeperPaymentsContent = state => ({
   employees: state.employees.filter(emp => emp.isDirty),
 });
 
+export const getIsDirty = state => state.isDirty;
+export const getUnsavedChangesModalIsOpen = state => state.unsavedChangesModalIsOpen;
+
 export const getStpReportTabUrl = state => (
   `/#/${state.region}/${state.businessId}/stp/reportingCentre?tab=reports`
 );
