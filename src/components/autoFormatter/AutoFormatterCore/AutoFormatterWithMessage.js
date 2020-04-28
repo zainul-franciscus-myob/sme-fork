@@ -30,6 +30,7 @@ const Input = ({
   requiredLabel,
   value,
   onChange,
+  width,
   ...inputBoxProps
 }) => {
   const [cleave, setCleave] = useState(null);
@@ -56,6 +57,7 @@ const Input = ({
       warningBody={warningBody}
       infoBody={infoBody}
       requiredLabel={requiredLabel}
+      width={width}
       renderField={({ errorId, ...props }) => (
         <Cleave
           {...props}

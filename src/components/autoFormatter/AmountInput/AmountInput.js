@@ -35,6 +35,7 @@ const AmountInput = ({
   onBlur,
   value,
   requiredLabel,
+  width,
   ...props
 }) => (
   <AutoFormatter
@@ -50,6 +51,7 @@ const AmountInput = ({
       numeralIntegerScale,
       numeralPositiveOnly,
     }}
+    width={width}
   />
 );
 

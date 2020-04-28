@@ -22,6 +22,7 @@ const PayDetailsFieldGroup = ({
       value={hourlyRate}
       disabled
       textAlign="right"
+      width="xs"
     />
     <Select
       label="Pay cycle"

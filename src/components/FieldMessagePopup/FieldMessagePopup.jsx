@@ -71,6 +71,11 @@ class FieldMessagePopup extends React.Component {
      * This associates the required message to the field. Used for accessibility purposes.
      */
     requiredId: PropTypes.string,
+
+    /**
+     * Sets the width of a field.
+     */
+    width: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl']),
   };
 
   static defaultProps = {
@@ -161,6 +166,7 @@ class FieldMessagePopup extends React.Component {
       errorId,
       requiredLabel,
       requiredId,
+      width,
       ...otherProps
     } = this.props;
     return (
@@ -175,7 +181,10 @@ class FieldMessagePopup extends React.Component {
         })}
       >
         {this.renderLabel()}
-        <div className="form-group__input-group">
+        <div className={classnames('form-group__input-group', {
+          [`form-group__input-group--${width}`]: width,
+        })}
+        >
           {renderField({
             ...otherProps,
             errorId: this.errorId,
