@@ -14,6 +14,7 @@ import {
   UPDATE_BILL_ID,
 } from '../BillIntents';
 import {
+  DUPLICATE_BILL,
   SUCCESSFULLY_DELETED_BILL,
   SUCCESSFULLY_SAVED_BILL,
   SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
@@ -174,6 +175,7 @@ describe('BillModule_Save', () => {
     it('successfully creates a new bill and link bill to document', () => {
       const { module, store, integration } = setUpNewBillWithPrefilled();
       module.pushMessage = jest.fn();
+      module.navigateTo = jest.fn();
       module.globalCallbacks.inTrayBillSaved = jest.fn();
 
       module.saveBill();
@@ -195,13 +197,14 @@ describe('BillModule_Save', () => {
           content: 'Bill successfully created from document',
         },
       );
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/inTray'));
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/inTray');
     });
 
     it('successfully creates a new bill but fails to link bill to document', () => {
       const { module, store, integration } = setUpNewBillWithPrefilled();
       integration.mapFailure(LINK_IN_TRAY_DOCUMENT);
       module.pushMessage = jest.fn();
+      module.navigateTo = jest.fn();
       module.globalCallbacks.inTrayBillSaved = jest.fn();
 
       module.saveBill();
@@ -223,7 +226,7 @@ describe('BillModule_Save', () => {
           content: 'Bill created, but the document failed to link. Open the bill to link the document again',
         },
       );
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/inTray'));
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/inTray');
     });
   });
 
@@ -232,7 +235,7 @@ describe('BillModule_Save', () => {
       const { module, store, integration } = setUpWithRun({ isCreating: true });
       module.globalCallbacks.inTrayBillSaved = jest.fn();
       module.pushMessage = jest.fn();
-      module.reload = jest.fn();
+      module.navigateTo = jest.fn();
 
       module.saveAndCreateNewBill();
 
@@ -252,23 +255,26 @@ describe('BillModule_Save', () => {
       expect(module.pushMessage).toHaveBeenCalledWith(
         expect.objectContaining({ type: SUCCESSFULLY_SAVED_BILL }),
       );
-      expect(module.reload).toHaveBeenCalledWith();
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/bill/new');
     });
 
     it('successfully saves bill and redirects to create a new bill if the user was originally on a create duplicated bill', () => {
       const { module, store, integration } = setUp();
       module.run({
         billId: 'new',
-        duplicatedBillId: 'dupId',
         businessId: 'bizId',
         region: 'au',
       });
+      module.popMessages = () => [{
+        type: DUPLICATE_BILL,
+        duplicateId: '🐶',
+      }];
       store.resetActions();
       integration.resetRequests();
 
       module.globalCallbacks.inTrayBillSaved = jest.fn();
+      module.navigateTo = jest.fn();
       module.pushMessage = jest.fn();
-      module.reload = jest.fn();
 
       module.saveAndCreateNewBill();
 
@@ -288,7 +294,7 @@ describe('BillModule_Save', () => {
       expect(module.pushMessage).toHaveBeenCalledWith(
         expect.objectContaining({ type: SUCCESSFULLY_SAVED_BILL }),
       );
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/bill/new'));
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/bill/new');
     });
 
     it('fails to save bill', () => {
@@ -315,8 +321,9 @@ describe('BillModule_Save', () => {
   describe('saveAndDuplicateBill', () => {
     it('successfully creates a new bill and redirect to the create bill page with prefilled information from the newly created bill', () => {
       const { module, store, integration } = setUpWithRun({ isCreating: true });
-      integration.mapSuccess(CREATE_BILL, { id: 'id' });
+      integration.mapSuccess(CREATE_BILL, { message: '🍉', id: '🍍' });
       module.pushMessage = jest.fn();
+      module.navigateTo = jest.fn();
       module.globalCallbacks.inTrayBillSaved = jest.fn();
 
       module.saveAndDuplicateBill();
@@ -325,7 +332,6 @@ describe('BillModule_Save', () => {
         { intent: CLOSE_MODAL },
         { intent: START_BLOCKING },
         { intent: STOP_BLOCKING },
-        { intent: UPDATE_BILL_ID, id: 'id' },
       ]);
 
       expect(integration.getRequests()).toEqual([
@@ -335,15 +341,22 @@ describe('BillModule_Save', () => {
       ]);
 
       expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
-      expect(module.pushMessage).toHaveBeenCalledWith(
-        expect.objectContaining({ type: SUCCESSFULLY_SAVED_BILL }),
-      );
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/bill/new?duplicatedBillId=id'));
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: SUCCESSFULLY_SAVED_BILL,
+        content: '🍉',
+      });
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: DUPLICATE_BILL,
+        duplicateId: '🍍',
+      });
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/bill/new');
     });
 
     it('successfully updates an existing bill and redirect to the create bill page with prefilled information from the updated bill', () => {
       const { module, store, integration } = setUpWithRun();
+      integration.mapSuccess(UPDATE_BILL, { message: '🍉' });
       module.pushMessage = jest.fn();
+      module.navigateTo = jest.fn();
       module.globalCallbacks.inTrayBillSaved = jest.fn();
 
       module.saveAndDuplicateBill();
@@ -360,11 +373,16 @@ describe('BillModule_Save', () => {
         }),
       ]);
 
-      expect(module.pushMessage).toHaveBeenCalledWith(
-        expect.objectContaining({ type: SUCCESSFULLY_SAVED_BILL }),
-      );
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: SUCCESSFULLY_SAVED_BILL,
+        content: '🍉',
+      });
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: DUPLICATE_BILL,
+        duplicateId: 'billId',
+      });
       expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/bill/new?duplicatedBillId=billId'));
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/bill/new');
     });
 
     it('fails to save bill', () => {
@@ -391,29 +409,32 @@ describe('BillModule_Save', () => {
   describe('cancelBill', () => {
     it('redirects to bill list on new bill', () => {
       const { module } = setUpWithRun({ isCreating: true });
+      module.navigateTo = jest.fn();
       module.addBillLine({ id: '2', description: 'hello' });
 
       module.cancelBill();
 
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/bill'));
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/bill');
     });
 
     it('redirects to bill list on existing bill', () => {
       const { module } = setUpWithRun();
+      module.navigateTo = jest.fn();
       module.addBillLine({ id: '2', description: 'hello' });
 
       module.cancelBill();
 
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/bill'));
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/bill');
     });
 
     it('redirects to in tray on prefilled bill', () => {
       const { module } = setUpNewBillWithPrefilled();
+      module.navigateTo = jest.fn();
       module.addBillLine({ id: '2', description: 'hello' });
 
       module.cancelBill();
 
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/inTray'));
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/inTray');
     });
   });
 
@@ -421,6 +442,7 @@ describe('BillModule_Save', () => {
     it('successfully deletes bill', () => {
       const { module, store, integration } = setUpWithRun();
       module.pushMessage = jest.fn();
+      module.navigateTo = jest.fn();
 
       module.deleteBill();
 
@@ -437,7 +459,7 @@ describe('BillModule_Save', () => {
       expect(module.pushMessage).toHaveBeenCalledWith(
         expect.objectContaining({ type: SUCCESSFULLY_DELETED_BILL }),
       );
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/bill'));
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/bill');
     });
   });
 });

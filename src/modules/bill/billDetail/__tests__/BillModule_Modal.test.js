@@ -433,29 +433,33 @@ describe('BillModule_Modal', () => {
       ]);
     });
 
+    it('open cancel modal when bill prefilled from in tray', () => {
+      const { module, store } = setUpNewBillWithPrefilled();
+
+      module.openCancelModal();
+
+      expect(store.getActions()).toEqual([
+        { intent: OPEN_MODAL, modalType: ModalType.CancelModal },
+      ]);
+    });
+
     describe('when page not edited', () => {
       it('redirects to bill list on new bill', () => {
         const { module } = setUpWithRun({ isCreating: true });
+        module.navigateTo = jest.fn();
 
         module.openCancelModal();
 
-        expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/bill'));
+        expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/bill');
       });
 
       it('redirects to bill list on existing bill', () => {
         const { module } = setUpWithRun();
+        module.navigateTo = jest.fn();
 
         module.openCancelModal();
 
-        expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/bill'));
-      });
-
-      it('redirects to in tray on prefilled bill', () => {
-        const { module } = setUpNewBillWithPrefilled();
-
-        module.openCancelModal();
-
-        expect(window.location.href).toEqual(expect.stringContaining('/#/au/bizId/bill'));
+        expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/bill');
       });
     });
   });

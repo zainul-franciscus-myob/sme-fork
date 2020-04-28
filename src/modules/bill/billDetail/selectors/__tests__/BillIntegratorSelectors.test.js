@@ -39,7 +39,7 @@ describe('IntegratorSelectors', () => {
     it('returns LOAD_NEW_DUPLICATE_BILL when creating duplicate', () => {
       const state = {
         billId: 'new',
-        duplicatedBillId: '2',
+        duplicateId: '2',
       };
 
       const actual = getLoadBillIntent(state);
@@ -80,14 +80,14 @@ describe('IntegratorSelectors', () => {
       const state = {
         businessId: 'a',
         billId: 'new',
-        duplicatedBillId: '2',
+        duplicateId: '2',
       };
 
       const actual = getLoadBillUrlParams(state);
 
       expect(actual).toEqual({
         businessId: 'a',
-        duplicatedBillId: '2',
+        duplicateId: '2',
       });
     });
   });

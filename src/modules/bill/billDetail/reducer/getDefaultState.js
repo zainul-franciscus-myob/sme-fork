@@ -23,7 +23,7 @@ export const getDefaultState = () => ({
   today: new Date(),
   businessId: '',
   billId: '',
-  duplicatedBillId: '',
+  duplicateId: '',
   openExportPdf: undefined,
   region: '',
   layout: '',

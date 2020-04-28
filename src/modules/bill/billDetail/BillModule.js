@@ -2,6 +2,8 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  DUPLICATE_BILL,
+  PREFILL_INTRAY_DOCUMENT,
   SUCCESSFULLY_DELETED_BILL,
   SUCCESSFULLY_SAVED_BILL,
   SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
@@ -31,9 +33,7 @@ import {
   getBillListUrl,
   getBillPaymentUrl,
   getCreateNewBillUrl,
-  getDuplicateBillUrl,
   getInTrayUrl,
-  getShouldReloadModule,
   getSubscriptionSettingsUrl,
 } from './selectors/BillRedirectSelectors';
 import { getExportPdfFilename, getShouldSaveAndReload } from './selectors/exportPdfSelectors';
@@ -76,7 +76,7 @@ class BillModule {
     popMessages,
     replaceURLParams,
     globalCallbacks,
-    reload,
+    navigateTo,
     featureToggles,
   }) {
     this.setRootView = setRootView;
@@ -95,7 +95,7 @@ class BillModule {
     this.inTrayModalModule = new InTrayModalModule({ integration });
     this.taxCalculate = createTaxCalculator(TaxCalculatorTypes.bill);
     this.globalCallbacks = globalCallbacks;
-    this.reload = reload;
+    this.navigateTo = navigateTo;
   }
 
   openAccountModal = (onChange) => {
@@ -281,11 +281,7 @@ class BillModule {
       this.globalCallbacks.inTrayBillSaved();
       this.pushMessage({ type: SUCCESSFULLY_SAVED_BILL, content: message });
 
-      if (getShouldReloadModule(this.store.getState())) {
-        this.reload();
-      } else {
-        this.redirectToCreateNewBill();
-      }
+      this.redirectToCreateNewBill();
     };
 
     this.saveBillAnd({ onSuccess });
@@ -295,14 +291,15 @@ class BillModule {
     this.dispatcher.closeModal();
 
     const onSuccess = ({ message, id }) => {
+      const state = this.store.getState();
+      const isCreating = getIsCreating(state);
+      const duplicateId = isCreating ? id : getBillId(state);
+
       this.globalCallbacks.inTrayBillSaved();
       this.pushMessage({ type: SUCCESSFULLY_SAVED_BILL, content: message });
+      this.pushMessage({ type: DUPLICATE_BILL, duplicateId });
 
-      if (getIsCreating(this.store.getState())) {
-        this.dispatcher.updateBillId(id);
-      }
-
-      this.redirectToDuplicateBill();
+      this.redirectToCreateNewBill();
     };
 
     this.saveBillAnd({ onSuccess });
@@ -606,17 +603,29 @@ class BillModule {
   };
 
   readMessages = () => {
-    const messageTypes = [SUCCESSFULLY_SAVED_BILL, SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK];
-    const [successMessage] = this.popMessages(messageTypes);
-
-    if (successMessage) {
-      const { content: message, type } = successMessage;
-      if (type === SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK) {
-        this.dispatcher.openInfoAlert({ message });
-      } else {
-        this.dispatcher.openSuccessAlert({ message });
+    this.popMessages([
+      SUCCESSFULLY_SAVED_BILL,
+      SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
+      DUPLICATE_BILL,
+      PREFILL_INTRAY_DOCUMENT,
+    ]).forEach(message => {
+      switch (message.type) {
+        case SUCCESSFULLY_SAVED_BILL:
+          this.dispatcher.openSuccessAlert({ message: message.content });
+          break;
+        case SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK:
+          this.dispatcher.openInfoAlert({ message: message.content });
+          break;
+        case DUPLICATE_BILL:
+          this.dispatcher.setDuplicateId(message.duplicateId);
+          break;
+        case PREFILL_INTRAY_DOCUMENT:
+          this.dispatcher.setInTrayDocumentId(message.inTrayDocumentId);
+          this.dispatcher.setSource('inTray');
+          break;
+        default:
       }
-    }
+    });
   };
 
   loadItemOption = ({ itemId }, onChangeItemTableRow) => {
@@ -756,52 +765,39 @@ class BillModule {
     this.integrator.unlinkInTrayDocument({ onSuccess, onFailure });
   };
 
-  redirectToUrl = (url) => {
-    if (url) {
-      window.location.href = url;
-    }
-  }
-
   redirectToCreateNewBill = () => {
     const state = this.store.getState();
     const url = getCreateNewBillUrl(state);
 
-    this.redirectToUrl(url);
-  };
-
-  redirectToDuplicateBill = () => {
-    const state = this.store.getState();
-    const url = getDuplicateBillUrl(state);
-
-    this.redirectToUrl(url);
+    this.navigateTo(url);
   };
 
   redirectToSubscriptionSettings = () => {
     const state = this.store.getState();
     const url = getSubscriptionSettingsUrl(state);
 
-    this.redirectToUrl(url);
+    this.navigateTo(url);
   }
 
   redirectToBillList = () => {
     const state = this.store.getState();
     const url = getBillListUrl(state);
 
-    this.redirectToUrl(url);
+    this.navigateTo(url);
   }
 
   redirectToBillPayment = () => {
     const state = this.store.getState();
     const url = getBillPaymentUrl(state);
 
-    this.redirectToUrl(url);
+    this.navigateTo(url);
   }
 
   redirectToInTray = () => {
     const state = this.store.getState();
     const url = getInTrayUrl(state);
 
-    this.redirectToUrl(url);
+    this.navigateTo(url);
   }
 
   onUpgradeModalUpgradeButtonClick = this.redirectToSubscriptionSettings;

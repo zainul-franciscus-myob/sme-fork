@@ -4,8 +4,6 @@ import {
   getAmountDue,
   getBillId,
   getBusinessId,
-  getDuplicatedBillId,
-  getIsCreating,
   getRegion,
   getSupplierId,
 } from './billSelectors';
@@ -27,13 +25,6 @@ export const getCreateNewBillUrl = createSelector(
   getRegion,
   getBusinessId,
   (region, businessId) => `/#/${region}/${businessId}/bill/new`,
-);
-
-export const getDuplicateBillUrl = createSelector(
-  getRegion,
-  getBusinessId,
-  getBillId,
-  (region, businessId, billId) => `/#/${region}/${businessId}/bill/new?duplicatedBillId=${billId}`,
 );
 
 const getBaseUrl = (state) => {
@@ -77,11 +68,4 @@ export const getBillPaymentUrl = (state) => {
   const urlParams = getQueryFromParams(redirectParams);
 
   return `${baseUrl}/billPayment/new${urlParams}`;
-};
-
-export const getShouldReloadModule = (state) => {
-  const isCreating = getIsCreating(state);
-  const duplicatedBillId = getDuplicatedBillId(state);
-
-  return isCreating && !duplicatedBillId;
 };

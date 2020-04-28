@@ -22,8 +22,10 @@ import {
   SET_ATTACHMENT_ID,
   SET_CALCULATED_BILL_LINES_AND_TOTALS,
   SET_DOCUMENT_LOADING_STATE,
+  SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_ID,
   SET_SHOW_SPLIT_VIEW,
+  SET_SOURCE,
   SET_UPGRADE_MODAL_SHOWING,
   START_BLOCKING,
   START_LOADING,
@@ -326,6 +328,20 @@ const createBillDispatcher = store => ({
     store.dispatch({
       intent: SET_ATTACHMENT_ID,
       attachmentId,
+    });
+  },
+
+  setDuplicateId: (duplicateId) => {
+    store.dispatch({
+      intent: SET_DUPLICATE_ID,
+      duplicateId,
+    });
+  },
+
+  setSource: source => {
+    store.dispatch({
+      intent: SET_SOURCE,
+      source,
     });
   },
 });

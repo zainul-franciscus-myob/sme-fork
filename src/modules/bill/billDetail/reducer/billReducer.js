@@ -24,8 +24,10 @@ import {
   SET_ATTACHMENT_ID,
   SET_CALCULATED_BILL_LINES_AND_TOTALS,
   SET_DOCUMENT_LOADING_STATE,
+  SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_ID,
   SET_SHOW_SPLIT_VIEW,
+  SET_SOURCE,
   SET_UPGRADE_MODAL_SHOWING,
   START_BLOCKING,
   START_LOADING,
@@ -570,6 +572,16 @@ const setUpgradeModalShowing = (state, { isUpgradeModalShowing, monthlyLimit }) 
   },
 });
 
+const setDuplicateId = (state, action) => ({
+  ...state,
+  duplicateId: action.duplicateId,
+});
+
+const setSource = (state, action) => ({
+  ...state,
+  source: action.source,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -613,6 +625,8 @@ const handlers = {
   [SET_DOCUMENT_LOADING_STATE]: setDocumentLoadingState,
   [HIDE_PREFILL_INFO]: hidePrefillInfo,
   [SET_ATTACHMENT_ID]: setAttachmentId,
+  [SET_DUPLICATE_ID]: setDuplicateId,
+  [SET_SOURCE]: setSource,
 };
 
 const billReducer = createReducer(getDefaultState(), handlers);

@@ -3,16 +3,17 @@ import React from 'react';
 import copy from 'copy-to-clipboard';
 
 import {
-  PREFILL_INTRAY_DOCUMENT,
+  PREFILL_INTRAY_DOCUMENT as PREFILL_INTRAY_DOCUMENT_FOR_BILL,
+  SUCCESSFULLY_SAVED_BILL,
+  SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
+} from '../../bill/billDetail/types/BillMessageTypes';
+import {
+  PREFILL_INTRAY_DOCUMENT as PREFILL_INTRAY_DOCUMENT_FOR_SPEND_MONEY,
   SUCCESSFULLY_SAVED_SPEND_MONEY,
   SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
 } from '../../spendMoney/spendMoneyMessageTypes';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { SUCCESSFULLY_LINKED_DOCUMENT_TO_BILL } from '../inTrayMessageTypes';
-import {
-  SUCCESSFULLY_SAVED_BILL,
-  SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
-} from '../../bill/billDetail/types/BillMessageTypes';
 import { getBusinessId, getRegion } from './selectors/InTraySelectors';
 import { getEmail, getIsUploadOptionsLoading } from './selectors/UploadOptionsSelectors';
 import {
@@ -271,7 +272,12 @@ export default class InTrayModule {
     const businessId = getBusinessId(state);
     const region = getRegion(state);
 
-    window.location.href = `/#/${region}/${businessId}/bill/new?inTrayDocumentId=${id}&source=inTray`;
+    this.pushMessage({
+      type: PREFILL_INTRAY_DOCUMENT_FOR_BILL,
+      inTrayDocumentId: id,
+    });
+
+    window.location.href = `/#/${region}/${businessId}/bill/new`;
   }
 
   redirectToCreateSpendMoney = (id) => {
@@ -280,7 +286,7 @@ export default class InTrayModule {
     const region = getRegion(state);
 
     this.pushMessage({
-      type: PREFILL_INTRAY_DOCUMENT,
+      type: PREFILL_INTRAY_DOCUMENT_FOR_SPEND_MONEY,
       inTrayDocumentId: id,
     });
 

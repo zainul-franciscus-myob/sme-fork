@@ -13,7 +13,7 @@ import {
   getBillLayout,
   getBillUid,
   getBusinessId,
-  getDuplicatedBillId,
+  getDuplicateId,
   getExpenseAccountId,
   getIsCreating,
   getIsCreatingFromInTray,
@@ -38,10 +38,10 @@ export const getSaveBillUrlParams = createSelector(
 
 export const getLoadBillIntent = createSelector(
   getIsCreating,
-  getDuplicatedBillId,
-  (isCreating, duplicatedBillId) => {
+  getDuplicateId,
+  (isCreating, duplicateId) => {
     if (isCreating) {
-      if (duplicatedBillId) {
+      if (duplicateId) {
         return LOAD_NEW_DUPLICATE_BILL;
       }
 
@@ -56,13 +56,13 @@ export const getLoadBillUrlParams = createSelector(
   getIsCreating,
   getBusinessId,
   getBillId,
-  getDuplicatedBillId,
-  (isCreating, businessId, billId, duplicatedBillId) => {
+  getDuplicateId,
+  (isCreating, businessId, billId, duplicateId) => {
     if (isCreating) {
-      if (duplicatedBillId) {
+      if (duplicateId) {
         return {
           businessId,
-          duplicatedBillId,
+          duplicateId,
         };
       }
 

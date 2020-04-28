@@ -6,7 +6,7 @@ export const getBillId = state => state.billId;
 
 export const getBillUid = state => state.bill.uid;
 
-export const getDuplicatedBillId = state => state.duplicatedBillId;
+export const getDuplicateId = state => state.duplicateId;
 
 export const getOpenExportPdfQueryParam = state => state.openExportPdf;
 

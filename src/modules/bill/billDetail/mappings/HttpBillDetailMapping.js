@@ -28,7 +28,7 @@ const HttpBillDetailMapping = {
   },
   [LOAD_NEW_DUPLICATE_BILL]: {
     method: 'GET',
-    getPath: ({ businessId, duplicatedBillId }) => `/${businessId}/bill/load_new_duplicate_bill/${duplicatedBillId}`,
+    getPath: ({ businessId, duplicateId }) => `/${businessId}/bill/load_new_duplicate_bill/${duplicateId}`,
   },
   [LOAD_SUPPLIER_DETAIL]: {
     method: 'GET',

@@ -52,3 +52,5 @@ export const SET_DOCUMENT_LOADING_STATE = Symbol('Set document loading state');
 export const HIDE_PREFILL_INFO = Symbol('Hide prefill info');
 export const LINK_IN_TRAY_DOCUMENT = Symbol('Link in tray document');
 export const SET_ATTACHMENT_ID = Symbol('Set attachment id');
+export const SET_DUPLICATE_ID = Symbol('Set duplicate id');
+export const SET_SOURCE = Symbol('Set source');

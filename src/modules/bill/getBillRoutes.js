@@ -9,7 +9,7 @@ const getBillRoutes = ({
   popMessages,
   replaceURLParams,
   globalCallbacks,
-  reload,
+  navigateTo,
   featureToggles,
 }) => {
   const routes = [
@@ -32,7 +32,7 @@ const getBillRoutes = ({
         replaceURLParams,
         popMessages,
         globalCallbacks,
-        reload,
+        navigateTo,
         featureToggles,
       }),
       documentTitle: 'Bill',

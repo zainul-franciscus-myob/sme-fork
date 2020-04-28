@@ -12,7 +12,10 @@ import {
   PREFILL_BILL_FROM_IN_TRAY,
   RELOAD_BILL,
   SET_DOCUMENT_LOADING_STATE,
+  SET_DUPLICATE_ID,
+  SET_IN_TRAY_DOCUMENT_ID,
   SET_SHOW_SPLIT_VIEW,
+  SET_SOURCE,
   START_BLOCKING,
   START_LOADING,
   STOP_BLOCKING,
@@ -22,8 +25,13 @@ import {
   UPDATE_BILL_OPTION,
   UPDATE_LAYOUT,
 } from '../BillIntents';
+import {
+  DUPLICATE_BILL,
+  PREFILL_INTRAY_DOCUMENT,
+  SUCCESSFULLY_SAVED_BILL,
+  SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
+} from '../types/BillMessageTypes';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
-import { SUCCESSFULLY_SAVED_BILL, SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK } from '../types/BillMessageTypes';
 import BillModule from '../BillModule';
 import InTrayModalModule from '../../../inTray/inTrayModal/InTrayModalModule';
 import ModalType from '../types/ModalType';
@@ -138,13 +146,15 @@ export const setUpNewBillWithPrefilled = () => {
     store,
     pushMessage,
   } = setUp();
+  module.popMessages = () => [{
+    type: PREFILL_INTRAY_DOCUMENT,
+    inTrayDocumentId: '🍟',
+  }];
 
   module.run({
     billId: 'new',
     businessId: 'bizId',
     region: 'au',
-    inTrayDocumentId: '🍟',
-    source: 'inTray',
   });
 
   store.resetActions();
@@ -173,19 +183,12 @@ describe('BillModule', () => {
         billId: '🔑',
         requestIntent: LOAD_BILL,
       },
-      {
-        name: 'load new duplicated',
-        billId: 'new',
-        duplicatedBillId: '🍉',
-        requestIntent: LOAD_NEW_DUPLICATE_BILL,
-      },
     ].forEach((test) => {
       it(`should successfully ${test.name}`, () => {
         const { module, integration, store } = setUp();
 
         const context = {
           billId: test.billId,
-          duplicatedBillId: test.duplicatedBillId,
           businessId: '🐷',
           region: 'au',
           isBillJobColumnEnabled: true,
@@ -218,7 +221,6 @@ describe('BillModule', () => {
 
         const context = {
           billId: test.billId,
-          duplicatedBillId: test.duplicatedBillId,
           businessId: '🐷',
           region: 'au',
           isBillJobColumnEnabled: true,
@@ -240,6 +242,140 @@ describe('BillModule', () => {
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: test.requestIntent }),
         ]);
+      });
+    });
+
+    it('should successfully load duplicate', () => {
+      const { module, integration, store } = setUp();
+      module.popMessages = () => [{
+        type: DUPLICATE_BILL,
+        duplicateId: '🐶',
+      }];
+
+      const context = {
+        billId: 'new',
+        businessId: '🐷',
+        region: 'au',
+        isBillJobColumnEnabled: true,
+      };
+      module.run(context);
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_INITIAL_STATE,
+          context,
+        },
+        {
+          intent: SET_DUPLICATE_ID,
+          duplicateId: '🐶',
+        },
+        {
+          intent: START_LOADING,
+        },
+        {
+          intent: STOP_LOADING,
+        },
+        expect.objectContaining({
+          intent: LOAD_BILL,
+        }),
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_NEW_DUPLICATE_BILL,
+          urlParams: {
+            businessId: '🐷',
+            duplicateId: '🐶',
+          },
+        }),
+      ]);
+    });
+
+    it('should fail to load duplicate bill', () => {
+      const { module, integration, store } = setUp();
+      module.popMessages = () => [{
+        type: DUPLICATE_BILL,
+        duplicateId: '🐶',
+      }];
+      integration.mapFailure(LOAD_NEW_DUPLICATE_BILL);
+      const context = {
+        billId: 'new',
+        businessId: '🐷',
+        region: 'au',
+        isBillJobColumnEnabled: true,
+      };
+
+      module.run(context);
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_INITIAL_STATE,
+          context,
+        },
+        {
+          intent: SET_DUPLICATE_ID,
+          duplicateId: '🐶',
+        },
+        {
+          intent: START_LOADING,
+        },
+        {
+          intent: FAIL_LOADING,
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_NEW_DUPLICATE_BILL,
+          urlParams: {
+            businessId: '🐷',
+            duplicateId: '🐶',
+          },
+        }),
+      ]);
+    });
+
+    it('displays a success alert on successfully save', () => {
+      const { module, store } = setUp();
+      module.popMessages = () => [{
+        type: SUCCESSFULLY_SAVED_BILL,
+        content: '🥬',
+      }];
+
+      const context = {
+        billId: 'new',
+        businessId: '🐷',
+        region: 'au',
+        isBillJobColumnEnabled: true,
+      };
+
+      module.run(context);
+
+      expect(store.getActions()).toContainEqual({
+        intent: OPEN_ALERT,
+        type: 'success',
+        message: '🥬',
+      });
+    });
+
+    it('displays an info alert on successfully save but not link', () => {
+      const { module, store } = setUp();
+      module.popMessages = () => [{
+        type: SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
+        content: '🥬',
+      }];
+
+      const context = {
+        billId: 'new',
+        businessId: '🐷',
+        region: 'au',
+        isBillJobColumnEnabled: true,
+      };
+
+      module.run(context);
+
+      expect(store.getActions()).toContainEqual({
+        intent: OPEN_ALERT,
+        type: 'info',
+        message: '🥬',
       });
     });
 
@@ -351,8 +487,6 @@ describe('BillModule', () => {
         billId: 'new',
         businessId: '🐷',
         region: 'au',
-        source: 'inTray',
-        inTrayDocumentId: '🍟',
         isBillJobColumnEnabled: true,
       };
 
@@ -360,6 +494,14 @@ describe('BillModule', () => {
         {
           intent: SET_INITIAL_STATE,
           context,
+        },
+        {
+          intent: SET_IN_TRAY_DOCUMENT_ID,
+          inTrayDocumentId: '🍟',
+        },
+        {
+          intent: SET_SOURCE,
+          source: 'inTray',
         },
         {
           intent: START_LOADING,
@@ -396,6 +538,11 @@ describe('BillModule', () => {
 
       it('should successfully prefill bill from intray and calls tax calculator', () => {
         const { module, integration, store } = setUp();
+        module.popMessages = () => [{
+          type: PREFILL_INTRAY_DOCUMENT,
+          inTrayDocumentId: '🍟',
+        }];
+
         module.run(context);
 
         expect(store.getActions()).toEqual([
@@ -415,6 +562,10 @@ describe('BillModule', () => {
 
       it('should successfully prefill bill from intray and not call tax calculator', () => {
         const { module, integration, store } = setUp();
+        module.popMessages = () => [{
+          type: PREFILL_INTRAY_DOCUMENT,
+          inTrayDocumentId: '🍟',
+        }];
         integration.overrideMapping(PREFILL_BILL_FROM_IN_TRAY, ({ onSuccess }) => onSuccess({
           ...prefillBillFromInTrayResponse,
           lines: [],
@@ -433,6 +584,10 @@ describe('BillModule', () => {
 
       it('should fail to prefill bill from intray', () => {
         const { module, integration, store } = setUp();
+        module.popMessages = () => [{
+          type: PREFILL_INTRAY_DOCUMENT,
+          inTrayDocumentId: '🍟',
+        }];
         integration.mapFailure(PREFILL_BILL_FROM_IN_TRAY);
 
         module.run(context);
@@ -450,6 +605,10 @@ describe('BillModule', () => {
 
       it('should fail to download document', () => {
         const { module, integration, store } = setUp();
+        module.popMessages = () => [{
+          type: PREFILL_INTRAY_DOCUMENT,
+          inTrayDocumentId: '🍟',
+        }];
         integration.mapFailure(DOWNLOAD_IN_TRAY_DOCUMENT);
 
         module.run(context);
@@ -458,6 +617,14 @@ describe('BillModule', () => {
           {
             intent: SET_INITIAL_STATE,
             context,
+          },
+          {
+            intent: SET_IN_TRAY_DOCUMENT_ID,
+            inTrayDocumentId: '🍟',
+          },
+          {
+            intent: SET_SOURCE,
+            source: 'inTray',
           },
           {
             intent: START_LOADING,
