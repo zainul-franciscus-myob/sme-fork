@@ -14,8 +14,8 @@ import handleInputChange from '../../../../components/handlers/handleInputChange
 import style from './NzBankDetailsSection.module.css';
 
 const handleFormattedInputChange = handler => (e) => {
-  const { name, rawValue } = e.target;
-  handler({ key: name, value: rawValue });
+  const { name, value } = e.target;
+  handler({ key: name, value });
 };
 
 const AuBankDetailsSection = ({
