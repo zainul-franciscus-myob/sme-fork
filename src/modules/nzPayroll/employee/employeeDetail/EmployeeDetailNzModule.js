@@ -11,7 +11,8 @@ import EmployeeDetailsNzView from './components/EmployeeDetailsNzView';
 import EmploymentDetailsNzModule from './employmentDetails/EmploymentDetailsNzModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import ModalTypes from './ModalTypes';
-import Store from '../../../../store/Store';
+import SalaryAndWagesModule from './salaryAndWages/salaryAndWagesModule';
+import Store from '../../../../store/DebugStore';
 import createEmployeeDetailNzDispatcher from './createEmployeeDetailNzDispatcher';
 import createEmployeeDetailNzIntegrator from './createEmployeeDetailNzIntegrator';
 import employeeDetailNzReducer from './employeeDetailNzReducer';
@@ -30,6 +31,7 @@ export default class EmployeeDetailNzModule {
     this.subModules = {
       contactDetails: new ContactDetailsNzTabModule({ store: this.store }),
       employmentDetails: new EmploymentDetailsNzModule(),
+      salaryAndWages: new SalaryAndWagesModule(),
     };
   }
 

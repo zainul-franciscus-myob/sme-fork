@@ -24,6 +24,11 @@
       "startDate": "2010-07-02T00:00:00",
       "terminationDate": "",
       "employmentStatus": "Casual"
+    },
+    "wage": {
+      "selectedPayBasis": "Salary",
+      "hourlyRate": "48.0764",
+      "selectedPayCycle": "Weekly"
     }
   },
   "genderOptions": [
@@ -31,5 +36,11 @@
     {"name":"Male","value":"Male"},
     {"name":"Female","value":"Female"},
     {"name":"Unspecified","value":"Indeterminate"}
+  ],
+  "payCycleOptions": [
+    { "id": "Weekly", "displayName": "Weekly" },
+    { "id": "Fortnightly", "displayName": "Fortnightly" },
+    { "id": "FourWeekly", "displayName": "Four weekly" },
+    { "id": "Monthly", "displayName": "Monthly" }
   ]
 }

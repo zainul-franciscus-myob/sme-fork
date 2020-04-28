@@ -5,12 +5,14 @@ import {
   SET_SAVING_STATE, SET_SUBMITTING_STATE, UPDATE_EMPLOYEE, UPDATE_EMPLOYEE_FAILED,
 } from '../../EmployeeNzIntents';
 import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
+import { tabIds } from '../tabItems';
 import ContactDetailsNzTabView from '../contactDetails/components/contactDetailsNzTab';
 import EmployeeDetailNzModule from '../EmployeeDetailNzModule';
 import EmployeeDetailsNzView from '../components/EmployeeDetailsNzView';
 import EmploymentDetailsTab from '../employmentDetails/components/EmploymentDetailsTab';
 import LoadingFailPageState from '../../../../../components/PageView/LoadingFailPageState';
 import LoadingState from '../../../../../components/PageView/LoadingState';
+import SalaryAndWagesTabView from '../salaryAndWages/components/SalaryAndWagesTabView';
 import TestIntegration from '../../../../../integration/TestIntegration';
 import TestStore from '../../../../../store/TestStore';
 import createEmployeeDetailNzDispatcher from '../createEmployeeDetailNzDispatcher';
@@ -111,7 +113,9 @@ describe('EmployeeDetailNzModule', () => {
       expect(wrapper.find(EmployeeDetailsNzView).exists()).toBe(true);
       expect(wrapper.find(LoadingFailPageState).exists()).toBe(true);
     });
+  });
 
+  describe('Sub tabs', () => {
     describe('When clicking tab payroll details tab', () => {
       it('should move to payroll details page', () => {
         const {
@@ -150,6 +154,28 @@ describe('EmployeeDetailNzModule', () => {
           mainTab: 'payrollDetails',
           subTab: 'employmentDetails',
         });
+      });
+    });
+
+    describe.each([
+      [{ mainTab: tabIds.contactDetails }, ContactDetailsNzTabView],
+      [{ mainTab: tabIds.payrollDetails }, EmploymentDetailsTab],
+      [{ mainTab: tabIds.payrollDetails, subTab: tabIds.salaryAndWages }, SalaryAndWagesTabView],
+    ])('When tab %p is selected', ({ mainTab, subTab }, TabView) => {
+      it(`should display ${TabView.displayName}`, () => {
+        const {
+          integration, module, wrapper,
+        } = setup();
+        integration.mapSuccess(LOAD_EMPLOYEE_DETAIL, employeeDetailResponse);
+
+        module.run(context);
+        module.setMainTab(mainTab);
+        if (subTab) {
+          module.setSubTab(mainTab, subTab);
+        }
+        wrapper.update();
+
+        expect(wrapper.find(TabView).exists()).toEqual(true);
       });
     });
   });
