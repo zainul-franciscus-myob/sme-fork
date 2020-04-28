@@ -1,7 +1,8 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getFlipSortOrder, getSelectedPayrollYear, getStpDeclarationContext } from './JobKeeperSelector';
+import { SUCCESSFULLY_UPDATED_JOB_KEEPER_PAYMENTS } from '../MessageTypes';
+import { getFlipSortOrder, getStpDeclarationContext, getStpReportTabUrl } from './JobKeeperSelector';
 import JobKeeperView from './components/JobKeeperView';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import Store from '../../../../store/Store';
@@ -15,6 +16,7 @@ export default class JobKeeperModule {
     integration,
     context,
     setAlert,
+    pushMessage,
   }) {
     this.store = new Store(jobKeeperReducer);
     this.integration = integration;
@@ -22,6 +24,7 @@ export default class JobKeeperModule {
     this.integrator = createJobKeeperIntegrator(this.store, integration);
     this.stpDeclarationModule = new StpDeclarationModalModule({ integration });
     this.setAlert = setAlert;
+    this.pushMessage = pushMessage;
 
     this.dispatcher.setInitialState(context);
   }
@@ -87,14 +90,20 @@ export default class JobKeeperModule {
     });
   };
 
+
+  redirectToReportTab = () => {
+    const state = this.store.getState();
+    window.location.href = getStpReportTabUrl(state);
+  };
+
   updateJobKeeperPayments = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = ({ message }) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.setAlert({ type: 'success', message });
       this.dispatcher.setNewEventId();
-      this.filterEmployeesByYear(getSelectedPayrollYear(this.store.getState()));
+      this.pushMessage({ type: SUCCESSFULLY_UPDATED_JOB_KEEPER_PAYMENTS, content: message });
+      this.redirectToReportTab();
     };
 
     const onFailure = ({ message }) => {

@@ -26,11 +26,16 @@ describe('ReportingCentreModule', () => {
       wrapper = mount(component);
     };
 
+    const pushMessage = () => {};
+    const popMessages = () => [];
+
     const module = new ReportingCentreModule({
       integration,
       setRootView,
       replaceURLParams: url => (url),
       featureToggles,
+      pushMessage,
+      popMessages,
     });
 
     module.run(context);

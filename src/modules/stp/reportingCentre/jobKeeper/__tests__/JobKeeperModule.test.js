@@ -9,6 +9,7 @@ describe('jobKeeperModule', () => {
       integration: {
         read: ({ onSuccess }) => onSuccess({}),
       },
+      pushMessage: () => {},
     });
 
     const wrapper = mount(module.getView());

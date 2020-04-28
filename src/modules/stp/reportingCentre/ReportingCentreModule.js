@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { SUCCESSFULLY_UPDATED_JOB_KEEPER_PAYMENTS } from './MessageTypes';
 import {
   getAgentDetails,
   getRegistrationUrl,
@@ -20,12 +21,18 @@ import TerminationModule from './termination/TerminationModule';
 import createReportingCentreDispatcher from './createReportingCentreDispatcher';
 import createReportingCentreIntegrator from './createReportingCentreIntegrator';
 
+const messageTypes = [
+  SUCCESSFULLY_UPDATED_JOB_KEEPER_PAYMENTS,
+];
+
 export default class ReportingCentreModule {
   constructor({
     integration,
     setRootView,
     replaceURLParams,
     featureToggles,
+    pushMessage,
+    popMessages,
   }) {
     this.setRootView = setRootView;
     this.integration = integration;
@@ -34,6 +41,9 @@ export default class ReportingCentreModule {
     this.store = new Store(ReportingCentreReducer);
     this.integrator = createReportingCentreIntegrator(this.store, this.integration);
     this.dispatcher = createReportingCentreDispatcher(this.store);
+    this.popMessages = popMessages;
+    this.pushMessage = pushMessage;
+    this.messageTypes = messageTypes;
     this.subModules = {};
   }
 
@@ -63,8 +73,21 @@ export default class ReportingCentreModule {
         integration: this.integration,
         context,
         setAlert: this.dispatcher.setAlert,
+        pushMessage: this.pushMessage,
       }),
     };
+  };
+
+  readMessages = () => {
+    const [successMessage] = this.popMessages(this.messageTypes);
+
+    if (successMessage) {
+      const { content: message } = successMessage;
+      this.dispatcher.setAlert({
+        type: 'success',
+        message,
+      });
+    }
   };
 
   redirectToRegistration = () => {
@@ -124,6 +147,7 @@ export default class ReportingCentreModule {
     this.store.subscribe(this.updateURLFromState);
     this.dispatcher.setInitialState(context);
     this.render();
+    this.readMessages();
     this.loadRegistrationStatus();
   }
 
