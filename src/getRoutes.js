@@ -29,6 +29,7 @@ import getJobRoutes from './modules/job/getJobRoutes';
 import getLinkBillRoutes from './modules/linkBill/getLinkBillRoutes';
 import getLinkUserRoutes from './modules/linkUser/getLinkUserRoutes';
 import getLinkedAccountsRoutes from './modules/linkedAccounts/getLinkedAccountsRoutes';
+import getLogoutRoutes from './modules/logout/getLogoutRoutes';
 import getPayItemRoutes from './modules/payItem/getPayItemRoutes';
 import getPayRefundRoutes from './modules/payRefund/getPayRefundRoutes';
 import getPayRunRoutes from './modules/payRun/getPayRunRoutes';
@@ -108,6 +109,7 @@ const getRoutes = moduleParams => [
   ...getTemplateBuilderRoutes(moduleParams),
   ...getJobRoutes(moduleParams),
   ...getEmployeeNzRoutes(moduleParams),
+  ...getLogoutRoutes(moduleParams),
 ];
 
 export default getRoutes;

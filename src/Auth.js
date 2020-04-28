@@ -26,8 +26,12 @@ export const login = () => {
   }
 };
 
-export const logout = () => {
+export const logout = (logoutReports = true) => {
   authenticationContext.logOut();
+  if (logoutReports) {
+    // logging out reports application so user won't be able to access reports after app logout
+    window.location.href = `${Config.MY_REPORTS_URL}/#/logout`;
+  }
 };
 
 export const isLoggedIn = () => !!authenticationContext.getUser();
