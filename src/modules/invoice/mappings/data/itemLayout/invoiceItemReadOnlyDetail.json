@@ -1,60 +1,86 @@
 {
   "invoice": {
-    "layout": "service",
-    "contactId": "2",
-    "expirationTerm": "OnADayOfTheMonth",
-    "expirationDays": "4",
-    "chargeForLatePayment": 123.12,
-    "discountForEarlyPayment": 3546.34,
-    "numberOfDaysForDiscount": 10,
+    "id": "123",
+    "layout": "itemAndService",
+    "contactId": "1",
+    "address": "Footloose Dance Studio\r\n45 Huntly Road\r\nNorth Ryde  NSW  2113\r\nAustralia\r\n",
+    "invoiceNumber": "IN00000123",
+    "note": "Thank you! Footloose",
+    "purchaseOrderNumber": "PO123",
+    "issueDate": "2019-02-28T00:00:00",
+    "isAllowOnlinePayments": false,
     "isTaxInclusive": true,
-    "invoiceNumber": "00000124",
-    "address": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
-    "issueDate": "2018-11-02",
-    "orderNumber": "123",
-    "note": "Thank you!",
+    "expirationTerm": "OnADayOfTheMonth",
+    "expirationDays": 10,
+    "chargeForLatePayment": 123.12,
+    "discountForEarlyPayment": 546.34,
+    "numberOfDaysForDiscount": 10,
     "amountPaid": "10.00",
-    "isAllowOnlinePayments": true,
+    "status": "Open",
     "lines": [
       {
-        "id": "345",
-        "type": "service",
-        "description": "Yak shaving - 1/2 an hour",
-        "accountId": "123",
-        "taxAmount": "0.5",
-        "taxExclusiveAmount": "48",
-        "taxCodeId": "124",
+        "id": "323",
+        "type": "header",
+        "description": "Coolest Header",
+        "lineTypeId": -1
+      },
+      {
+        "id": "1",
+        "type": "item",
+        "units": "2",
+        "itemId": "3",
+        "description": "Cooler Large",
+        "unitPrice": "520",
+        "discount": "10",
+        "jobId": "1",
+        "taxCodeId": "2",
+        "taxAmount": "0.9111",
+        "taxExclusiveAmount": "850",
+        "accountId": "92",
         "lineTypeId": 17
       },
       {
-        "id": "346",
-        "type": "service",
-        "description": "Yak shower - 1/2 an hour",
-        "accountId": "456",
-        "taxAmount": "1",
-        "taxExclusiveAmount": "49",
-        "taxCodeId": "123",
-        "lineTypeId": 17
-      },
-      {
-        "id": "347",
-        "type": "service",
-        "description": "Yak blow dry - 1/2 an hour",
-        "accountId": "123",
-        "taxAmount": "0.5",
-        "taxExclusiveAmount": "12",
-        "taxCodeId": "124",
-        "lineTypeId": 17
+        "id": "675",
+        "type": "subTotal",
+        "taxAmount": "0.9111",
+        "taxExclusiveAmount": "850",
+        "lineTypeId": -1
       }
     ]
   },
+  "emailInvoice": {
+    "hasEmailReplyDetails": true,
+    "isEmailMeACopy": false,
+    "businessName": "Hot Choccers",
+    "ccToEmail": [ "t-pain@myob.com","hamzzz@myob.com" ],
+    "fromEmail": "tpain@myob.com",
+    "fromName": "Romeo Romeo",
+    "messageBody": "Let's make some hot chocolate!!",
+    "subject": "Hot Chocolate is life",
+    "toEmail": [ "geoff.spires@myob.com","tom.xu@myob.com" ],
+    "toName": "Geoff Speirs",
+    "includeInvoiceNumberInEmail": true,
+    "attachments": [],
+    "templateName": "a"
+  },
+  "templateOptions" : [
+    {
+      "name": "a",
+      "label": "apple"
+    },
+    {
+      "name": "b",
+      "label": "banana"
+    }
+  ],
+  "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"],
   "contactOptions": [
     {
-      "name": "A-Z Stationery Supplies",
+      "name": "Cameron, James",
       "id": "1"
     },
     {
-      "name": "Patrick Bateman",
+      "name": "Kev",
       "id": "2"
     }
   ],
@@ -96,6 +122,32 @@
       "id": "3",
       "jobNumber": "12345678901234",
       "jobName": "Job 3 with an even longer name"
+    }
+  ],
+  "expirationTermOptions": [
+    {
+      "value": "OnADayOfTheMonth",
+      "name": "Due on a date of this month"
+    },
+    {
+      "value": "Prepaid",
+      "name": "Prepaid"
+    },
+    {
+      "value": "InAGivenNumberOfDays",
+      "name": "Due in a number of days after the issue date"
+    },
+    {
+      "value": "CashOnDelivery",
+      "name": "Cash on delivery"
+    },
+    {
+      "value": "DayOfMonthAfterEOM",
+      "name": "Due on a date of next month"
+    },
+    {
+      "value": "NumberOfDaysAfterEOM",
+      "name": "Due in a number of days after the end of the month"
     }
   ],
   "itemOptions": [
@@ -146,32 +198,6 @@
       "includeInGstReturn": false
     }
   ],
-  "expirationTermOptions": [
-    {
-      "value": "OnADayOfTheMonth",
-      "name": "Due on a date of this month"
-    },
-    {
-      "value": "Prepaid",
-      "name": "Prepaid"
-    },
-    {
-      "value": "InAGivenNumberOfDays",
-      "name": "Due in a number of days after the issue date"
-    },
-    {
-      "value": "CashOnDelivery",
-      "name": "Cash on delivery"
-    },
-    {
-      "value": "DayOfMonthAfterEOM",
-      "name": "Due on a date of next month"
-    },
-    {
-      "value": "NumberOfDaysAfterEOM",
-      "name": "Due in a number of days after the end of the month"
-    }
-  ],
   "newLine": {
     "type": "",
     "units": "",
@@ -184,18 +210,11 @@
     "taxCodeId": "",
     "lineTypeId": 17
   },
-  "comments": [
-    "Happy Holiday!",
-    "Great doing business",
-    "don't call us we'll call you"
-  ],
   "serialNumber": "000000000000",
+  "exportPdf": {
+    "template": "a"
+  },
   "subscription": {
-    "isTrial": false,
-    "monthlyLimit": {
-      "limit": 5,
-      "used": 4,
-      "hasHitLimit": false
-    }
+    "isTrial": false
   }
 }

@@ -4,11 +4,14 @@ import {
   getInvoiceDetailOptions,
   getInvoiceDetailTotals,
   getInvoiceLine,
+  getIsLinesSupported,
+  getIsReadOnlyLayout,
   getShouldReload,
   getTemplateOptions,
   getUpdatedContactOptions,
 } from '../invoiceDetailSelectors';
 import InvoiceLayout from '../../types/InvoiceLayout';
+import InvoiceLineType from '../../types/InvoiceLineType';
 
 describe('invoiceDetailSelectors', () => {
   const state = {
@@ -380,6 +383,75 @@ describe('invoiceDetailSelectors', () => {
       expect(actual).toEqual({
         freddo: '🐸',
       });
+    });
+
+    describe('returns subtitle line', () => {
+      const modifiedState = {
+        ...state,
+        invoice: {
+          ...state.invoice,
+          lines: [{ type: InvoiceLineType.SUB_TOTAL, description: 'Description', amount: '10' }],
+        },
+      };
+
+      const actual = getInvoiceLine(modifiedState, { index: 0 });
+
+      expect(actual).toEqual({ type: InvoiceLineType.SUB_TOTAL, description: 'Subtotal', amount: '10' });
+    });
+  });
+
+  describe('getIsLinesSupported', () => {
+    it.each([
+      [InvoiceLineType.SERVICE, true],
+      [InvoiceLineType.ITEM, true],
+      [InvoiceLineType.HEADER, false],
+      [InvoiceLineType.SUB_TOTAL, false],
+    ])('validate whether invoice with %s line type are supported', (type, expected) => {
+      const lines = [
+        { type: InvoiceLineType.SERVICE },
+        { type: InvoiceLineType.ITEM },
+        { type },
+      ];
+
+      const actual = getIsLinesSupported.resultFunc(lines);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getIsReadOnlyLayout', () => {
+    it.each([
+      [InvoiceLayout.SERVICE, false],
+      [InvoiceLayout.ITEM_AND_SERVICE, false],
+      [InvoiceLayout.PROFESSIONAL, true],
+      [InvoiceLayout.TIME_BILLING, true],
+      [InvoiceLayout.MISCELLANEOUS, true],
+      ['N/A', true],
+    ])('%s layout', (layout, expected) => {
+      const actual = getIsReadOnlyLayout({ invoice: { layout, lines: [] } });
+
+      expect(actual).toEqual(expected);
+    });
+
+    it.each([
+      [InvoiceLineType.SERVICE, false],
+      [InvoiceLineType.ITEM, false],
+      [InvoiceLineType.HEADER, true],
+      [InvoiceLineType.SUB_TOTAL, true],
+      ['N/A', true],
+    ])('have %s line type', (type, expected) => {
+      const actual = getIsReadOnlyLayout({
+        invoice: {
+          layout: InvoiceLayout.ITEM_AND_SERVICE,
+          lines: [
+            { type: InvoiceLineType.SERVICE },
+            { type: InvoiceLineType.ITEM },
+            { type },
+          ],
+        },
+      });
+
+      expect(actual).toEqual(expected);
     });
   });
 });

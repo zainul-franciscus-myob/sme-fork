@@ -17,6 +17,7 @@
     "lines": [
       {
         "id": "1",
+        "type": "item",
         "units": "2",
         "itemId": "3",
         "description": "Cooler Large",
@@ -155,6 +156,7 @@
     }
   ],
   "newLine": {
+    "type": "",
     "units": "",
     "itemId": "",
     "accountId": "",

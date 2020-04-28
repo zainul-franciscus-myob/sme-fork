@@ -10,8 +10,7 @@ import {
   UPDATE_INVOICE_LINE,
 } from '../../../InvoiceIntents';
 import InvoiceHistoryAccordianStatus from '../../types/InvoiceHistoryAccordionStatus';
-import InvoiceLayout from '../../types/InvoiceLayout';
-import InvoiceLineLayout from '../../types/InvoiceLineLayout';
+import InvoiceLineType from '../../types/InvoiceLineType';
 import invoiceDetailReducer from '../invoiceDetailReducer';
 
 describe('InvoiceDetailReducer', () => {
@@ -80,11 +79,11 @@ describe('InvoiceDetailReducer', () => {
           lines: [
             {
               id: '1',
-              layout: 'item',
+              type: 'item',
             },
             {
               id: '2',
-              layout: 'service',
+              type: 'service',
             },
           ],
         },
@@ -100,7 +99,7 @@ describe('InvoiceDetailReducer', () => {
       expect(actual.invoice.lines).toEqual([
         {
           id: '',
-          layout: 'service',
+          type: 'service',
         },
       ]);
     });
@@ -112,7 +111,7 @@ describe('InvoiceDetailReducer', () => {
           lines: [
             {
               id: '2',
-              layout: 'service',
+              type: 'service',
             },
           ],
         },
@@ -128,7 +127,7 @@ describe('InvoiceDetailReducer', () => {
       expect(actual.invoice.lines).toEqual([
         {
           id: '',
-          layout: 'service',
+          type: 'service',
         },
       ]);
     });
@@ -163,14 +162,14 @@ describe('InvoiceDetailReducer', () => {
       expect(actual.isPageEdited).toEqual(true);
     });
 
-    it(`sets the line layout to ${InvoiceLineLayout.ITEM} when key is itemId`, () => {
+    it(`sets the line type to ${InvoiceLineType.ITEM} when key is itemId`, () => {
       const modifiedState = {
         ...state,
         invoice: {
           ...state.invoice,
           lines: state.invoice.lines.map(line => ({
             ...line,
-            layout: InvoiceLineLayout.SERVICE,
+            type: InvoiceLineType.SERVICE,
           })),
         },
       };
@@ -183,33 +182,33 @@ describe('InvoiceDetailReducer', () => {
 
       const actual = invoiceDetailReducer(modifiedState, modifiedAction);
 
-      expect(actual.invoice.lines[1].layout).toEqual(InvoiceLineLayout.ITEM);
+      expect(actual.invoice.lines[1].type).toEqual(InvoiceLineType.ITEM);
     });
 
-    it(`sets the line layout to ${InvoiceLineLayout.SERVICE} when key is anything but itemId`, () => {
+    it(`sets the line type to ${InvoiceLineType.SERVICE} when key is anything but itemId`, () => {
       const actual = invoiceDetailReducer(state, action);
 
-      expect(actual.invoice.lines[1].layout).toEqual(InvoiceLineLayout.SERVICE);
+      expect(actual.invoice.lines[1].type).toEqual(InvoiceLineType.SERVICE);
     });
 
-    it(`does not set the line layout when already ${InvoiceLineLayout.ITEM}`, () => {
+    it(`does not set the line type when already ${InvoiceLineType.ITEM}`, () => {
       const modifiedState = {
         ...state,
         invoice: {
           ...state.invoice,
           lines: state.invoice.lines.map(line => ({
             ...line,
-            layout: InvoiceLineLayout.ITEM,
+            type: InvoiceLineType.ITEM,
           })),
         },
       };
 
       const actual = invoiceDetailReducer(modifiedState, action);
 
-      expect(actual.invoice.lines[1].layout).toEqual(InvoiceLineLayout.ITEM);
+      expect(actual.invoice.lines[1].type).toEqual(InvoiceLineType.ITEM);
     });
 
-    it('clears the line ids if the line layout is changed', () => {
+    it('clears the line ids if the line type is changed', () => {
       const modifiedState = {
         ...state,
         invoice: {
@@ -217,7 +216,7 @@ describe('InvoiceDetailReducer', () => {
           lines: state.invoice.lines.map(line => ({
             ...line,
             id: '1',
-            layout: InvoiceLayout.SERVICE,
+            type: InvoiceLineType.SERVICE,
           })),
         },
       };
@@ -497,6 +496,33 @@ describe('InvoiceDetailReducer', () => {
 
         expect(actual.subscription.isUpgradeModalShowing).toBeFalsy();
         expect(actual.subscription.monthlyLimit.hasHitLimit).toBeFalsy();
+      });
+    });
+
+    describe('line type', () => {
+      it.each([
+        [InvoiceLineType.SERVICE, '10'],
+        [InvoiceLineType.ITEM, '10'],
+        [InvoiceLineType.HEADER, undefined],
+        [InvoiceLineType.SUB_TOTAL, '10'],
+      ])('calculate amount for %s line', (type, expected) => {
+        const state = {};
+        const action = {
+          intent: LOAD_INVOICE_DETAIL,
+          invoice: {
+            issueDate: '2019-02-03',
+            isTaxInclusive: true,
+            lines: [{ type, taxExclusiveAmount: '9.99', taxAmount: '0.01' }],
+          },
+          subscription: {
+            isTrial: false,
+            monthlyLimit: { hasHitLimit: false },
+          },
+        };
+
+        const actual = invoiceDetailReducer(state, action);
+
+        expect(actual.invoice.lines[0].amount).toEqual(expected);
       });
     });
   });

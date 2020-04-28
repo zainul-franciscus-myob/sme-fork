@@ -2,10 +2,12 @@ import Decimal from 'decimal.js';
 
 import { CALCULATE_LINE_AMOUNTS, CALCULATE_LINE_TOTALS } from '../../../InvoiceIntents';
 import { calculateLineAmounts, calculateLineTotals } from '../calculationReducer';
+import InvoiceLineType from '../../types/InvoiceLineType';
 
 describe('calculationReducer', () => {
   describe('CALCULATE_LINE_TOTALS', () => {
     const baseline = {
+      type: 'item',
       units: '2',
       unitPrice: '45.455',
       discount: '',
@@ -16,10 +18,11 @@ describe('calculationReducer', () => {
 
     const buildState = partialLine => ({
       invoice: {
-        lines: [{
-          ...baseline,
-          ...partialLine,
-        }],
+        lines: [
+          { type: InvoiceLineType.HEADER, lineTypeId: -1 },
+          { ...baseline, ...partialLine },
+          { type: InvoiceLineType.SUB_TOTAL, lineTypeId: -1, amount: '100.00' },
+        ],
       },
       totals: {
         subTotal: '0',
@@ -32,7 +35,9 @@ describe('calculationReducer', () => {
       intent: CALCULATE_LINE_TOTALS,
       taxCalculations: {
         lines: [
+          { taxExclusiveAmount: 0, taxAmount: 0, amount: 0 },
           { taxExclusiveAmount: Decimal(90.91), taxAmount: Decimal(9.09), amount: Decimal(100) },
+          { taxExclusiveAmount: 100, taxAmount: 0, amount: 100 },
         ],
         totals: {
           subTotal: Decimal(100),
@@ -45,10 +50,11 @@ describe('calculationReducer', () => {
 
     const buildExpect = partialLine => ({
       invoice: {
-        lines: [{
-          ...baseline,
-          ...partialLine,
-        }],
+        lines: [
+          { type: InvoiceLineType.HEADER, lineTypeId: -1 },
+          { ...baseline, ...partialLine },
+          { type: InvoiceLineType.SUB_TOTAL, lineTypeId: -1, amount: '100.00' },
+        ],
       },
       isPageEdited: true,
       totals: {
@@ -123,6 +129,7 @@ describe('calculationReducer', () => {
 
       describe('calculate amount', () => {
         const baseline = {
+          type: 'item',
           units: '2',
           unitPrice: '50',
           displayUnitPrice: '50.00',
@@ -178,6 +185,7 @@ describe('calculationReducer', () => {
 
       describe('calculate discount', () => {
         const baseline = {
+          type: 'item',
           units: '2',
           unitPrice: '50',
           displayUnitPrice: '50.00',
@@ -235,6 +243,7 @@ describe('calculationReducer', () => {
 
       describe('calculate unitPrice', () => {
         const baseline = {
+          type: 'item',
           units: '2',
           unitPrice: '',
           displayUnitPrice: '',
@@ -311,6 +320,25 @@ describe('calculationReducer', () => {
           key: 'amount',
           index: 0,
         };
+
+        const actual = calculateLineAmounts(state, action);
+
+        expect(actual).toEqual(state);
+      });
+    });
+
+    describe('incalculable line type', () => {
+      it.each([
+        [InvoiceLineType.HEADER, ''],
+        [InvoiceLineType.SUB_TOTAL, '123.00'],
+      ])('should not calculate %s line', (type, amount) => {
+        const state = {
+          invoice: {
+            layout: 'service',
+            lines: [{ type, amount }],
+          },
+        };
+        const action = { intent: CALCULATE_LINE_AMOUNTS, key: 'amount', index: 0 };
 
         const actual = calculateLineAmounts(state, action);
 

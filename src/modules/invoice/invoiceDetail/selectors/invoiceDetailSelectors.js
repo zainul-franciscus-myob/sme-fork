@@ -3,6 +3,7 @@ import Decimal from 'decimal.js';
 
 import { TaxCalculatorTypes, createTaxCalculator } from '../../../../common/taxCalculator';
 import InvoiceLayout from '../types/InvoiceLayout';
+import InvoiceLineType from '../types/InvoiceLineType';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 
 const calculate = createTaxCalculator(TaxCalculatorTypes.invoice);
@@ -72,16 +73,34 @@ export const getIsServiceLayout = createSelector(
   layout => layout === InvoiceLayout.SERVICE,
 );
 
+const getIsLineTypeSupported = line => [
+  InvoiceLineType.SERVICE, InvoiceLineType.ITEM,
+].includes(line.type);
+
+const getIsLayoutSupported = createSelector(
+  getLayout, layout => [
+    InvoiceLayout.SERVICE, InvoiceLayout.ITEM_AND_SERVICE,
+  ].includes(layout),
+);
+
+export const getIsLinesSupported = createSelector(
+  getLines,
+  lines => lines.every(line => getIsLineTypeSupported(line)),
+);
+
 export const getIsReadOnlyLayout = createSelector(
-  getLayout,
-  layout => ![InvoiceLayout.SERVICE, InvoiceLayout.ITEM_AND_SERVICE].includes(layout),
+  getIsLayoutSupported,
+  getIsLinesSupported,
+  (isLayoutSupported, isLinesSupported) => !isLayoutSupported || !isLinesSupported,
 );
 
 export const getReadOnlyMessage = createSelector(
+  getIsLayoutSupported,
   getLayout,
-  (layout) => (
-    `This invoice is missing information because the ${layout} invoice layout isn't 
-    supported in the browser. Switch to AccountRight desktop to use this feature.`
+  (isLayoutSupported, layout) => (
+    !isLayoutSupported
+      ? `This invoice is missing information because the ${layout} invoice layout isn't supported in the browser. Switch to AccountRight desktop to use this feature.`
+      : 'This invoice is read only because it contains unsupported features. Switch to AccountRight desktop to edit this invoice.'
   ),
 );
 
@@ -201,7 +220,15 @@ const getInvoiceLineByIndex = (state, props) => state.invoice.lines[props.index]
 export const getInvoiceLine = createSelector(
   getNewLine,
   getInvoiceLineByIndex,
-  (newLine, line) => line || newLine,
+  (newLine, line) => {
+    if (line) {
+      return line.type === InvoiceLineType.SUB_TOTAL
+        ? { ...line, description: 'Subtotal' }
+        : line;
+    }
+
+    return newLine;
+  },
 );
 
 export const getShouldReload = (state) => {

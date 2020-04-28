@@ -13,6 +13,7 @@
     "issueDate": "2019-02-28T00:00:00",
     "lines": [
       {
+        "type": "item",
         "units": "2",
         "itemId": "3",
         "description": "Cooler Medium",
@@ -24,6 +25,7 @@
         "lineTypeId": 17
       },
       {
+        "type": "item",
         "units": "2",
         "itemId": "4",
         "description": "Cooler Large",
@@ -161,6 +163,7 @@
     }
   ],
   "newLine": {
+    "type": "",
     "units": "",
     "itemId": "",
     "accountId": "",

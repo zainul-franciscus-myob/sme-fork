@@ -1,7 +1,12 @@
 import { getLayout, getLines } from '../selectors/invoiceDetailSelectors';
 import InvoiceLayout from '../types/InvoiceLayout';
+import InvoiceLineType from '../types/InvoiceLineType';
 import buildLineWithCalculatedAmounts from '../../../../common/itemAndServiceLayout/buildLineWithCalculatedAmounts';
 import calculateUnitPrice from '../../../../common/itemAndServiceLayout/calculateUnitPrice';
+
+export const getIsCalculableLine = line => [
+  InvoiceLineType.SERVICE, InvoiceLineType.ITEM,
+].includes(line.type);
 
 export const calculateLineAmounts = (state, { key, index }) => {
   const lines = getLines(state);
@@ -16,7 +21,7 @@ export const calculateLineAmounts = (state, { key, index }) => {
           return line;
         }
 
-        return layout === InvoiceLayout.ITEM_AND_SERVICE
+        return layout === InvoiceLayout.ITEM_AND_SERVICE && getIsCalculableLine(line)
           ? buildLineWithCalculatedAmounts(line, key)
           : line;
       }),
@@ -32,14 +37,21 @@ const shouldCalculateUnitPriceWithTaxInclusiveSwitch = (line, isSwitchingTaxIncl
 
 export const calculateLineTotals = (
   state,
-  { taxCalculations: { lines, totals }, isSwitchingTaxInclusive },
+  {
+    taxCalculations: { lines: calculatedLines, totals: calculatedTotals },
+    isSwitchingTaxInclusive,
+  },
 ) => ({
   ...state,
   isPageEdited: true,
   invoice: {
     ...state.invoice,
     lines: state.invoice.lines.map((line, index) => {
-      const { amount } = lines[index];
+      if (!getIsCalculableLine(line)) {
+        return line;
+      }
+
+      const { amount } = calculatedLines[index];
 
       if (shouldCalculateUnitPriceWithTaxInclusiveSwitch(line, isSwitchingTaxInclusive)) {
         const units = Number(line.units);
@@ -65,8 +77,8 @@ export const calculateLineTotals = (
   },
   totals: {
     ...state.totals,
-    subTotal: totals.subTotal.valueOf(),
-    totalTax: totals.totalTax.valueOf(),
-    totalAmount: totals.totalAmount.valueOf(),
+    subTotal: calculatedTotals.subTotal.valueOf(),
+    totalTax: calculatedTotals.totalTax.valueOf(),
+    totalAmount: calculatedTotals.totalAmount.valueOf(),
   },
 });

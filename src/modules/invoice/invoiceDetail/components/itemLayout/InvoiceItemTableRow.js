@@ -13,6 +13,8 @@ import {
 } from '../../selectors/invoiceDetailSelectors';
 import AccountCombobox from '../../../../../components/combobox/AccountCombobox';
 import Calculator from '../../../../../components/Calculator/Calculator';
+import InvoiceLineType from '../../types/InvoiceLineType';
+import InvoiceTableReadOnlyRowItem from '../InvoiceTableReadOnlyRowItem';
 import ItemCombobox from '../../../../../components/combobox/ItemCombobox';
 import JobCombobox from '../../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../../components/combobox/TaxCodeCombobox';
@@ -45,6 +47,7 @@ const InvoiceItemTableRow = ({
   index,
   onChange,
   invoiceLine: {
+    type,
     itemId,
     description,
     accountId,
@@ -71,6 +74,23 @@ const InvoiceItemTableRow = ({
   const onChangeAccountId = onComboboxChange('accountId', onChange);
   const onChangeItemId = onComboboxChange('itemId', onChange);
   const onChangeJobId = onComboboxChange('jobId', onChange);
+
+  if ([InvoiceLineType.HEADER, InvoiceLineType.SUB_TOTAL].includes(type)) {
+    return (
+      <LineItemTable.Row index={index} id={index} {...feelixInjectedProps}>
+        <InvoiceTableReadOnlyRowItem />
+        <InvoiceTableReadOnlyRowItem value={description} />
+        <InvoiceTableReadOnlyRowItem />
+        <InvoiceTableReadOnlyRowItem />
+        <InvoiceTableReadOnlyRowItem />
+        <InvoiceTableReadOnlyRowItem />
+        <InvoiceTableReadOnlyRowItem />
+        <InvoiceTableReadOnlyRowItem value={amount} />
+        {isInvoiceJobColumnEnabled && <InvoiceTableReadOnlyRowItem />}
+        <InvoiceTableReadOnlyRowItem />
+      </LineItemTable.Row>
+    );
+  }
 
   return (
     <LineItemTable.Row {...feelixInjectedProps} id={index} index={index}>

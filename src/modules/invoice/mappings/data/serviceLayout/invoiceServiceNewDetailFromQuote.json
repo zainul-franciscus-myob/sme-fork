@@ -14,6 +14,7 @@
     "lines": [
       {
         "id": "345",
+        "type": "service",
         "description": "Yak shaving - 1/2 an hour",
         "accountId": "123",
         "taxAmount": "0.5",
@@ -23,6 +24,7 @@
       },
       {
         "id": "346",
+        "type": "service",
         "description": "Yak shower - 1/2 an hour",
         "accountId": "456",
         "taxAmount": "1",
@@ -32,6 +34,7 @@
       },
       {
         "id": "347",
+        "type": "service",
         "description": "Yak blow dry - 1/2 an hour",
         "accountId": "123",
         "taxAmount": "0.5",
@@ -179,6 +182,7 @@
     }
   ],
   "newLine": {
+    "type": "",
     "units": "",
     "itemId": "",
     "accountId": "",

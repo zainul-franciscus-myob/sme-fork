@@ -19,6 +19,16 @@
     "status": "Open",
     "lines": [
       {
+        "id": "467",
+        "type": "header",
+        "description": "Yak services",
+        "accountId": "",
+        "taxAmount": "0",
+        "taxExclusiveAmount": "0",
+        "taxCodeId": "",
+        "lineTypeId": -1
+      },
+      {
         "id": "345",
         "type": "service",
         "description": "Yak shaving - 1/2 an hour",
@@ -39,14 +49,41 @@
         "lineTypeId": 17
       },
       {
+        "id": "675",
+        "type": "subTotal",
+        "taxAmount": "1.5",
+        "taxExclusiveAmount": "77",
+        "accountId": "",
+        "taxCodeId": "",
+        "lineTypeId": -1
+      },
+      {
+        "id": "323",
+        "type": "header",
+        "lineTypeId": -1
+      },
+      {
+        "id": "467",
+        "type": "header",
+        "description": "Yak consultations",
+        "lineTypeId": -1
+      },
+      {
         "id": "347",
         "type": "service",
-        "description": "Yak blow dry - 1/2 an hour",
+        "description": "Yak wellness - an hour",
         "accountId": "123",
         "taxAmount": "0.5",
         "taxExclusiveAmount": "12",
         "taxCodeId": "124",
         "lineTypeId": 17
+      },
+      {
+        "id": "675",
+        "type": "subTotal",
+        "taxAmount": "0.5",
+        "taxExclusiveAmount": "12",
+        "lineTypeId": -1
       }
     ]
   },

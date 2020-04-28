@@ -27,13 +27,16 @@ import {
 import contactAddress from './data/contactAddress';
 import duplicateInvoiceItemDetail from './data/itemLayout/duplicateInvoiceItemDetail';
 import duplicateInvoiceServiceDetail from './data/serviceLayout/duplicateInvoiceServiceDetail';
+import invoiceItemDetail from './data/itemLayout/invoiceItemDetail';
 import invoiceItemNewDetail from './data/itemLayout/invoiceItemNewDetail';
 import invoiceItemNewDetailFromQuote from './data/itemLayout/invoiceItemNewDetailFromQuote';
+import invoiceItemReadOnlyDetail from './data/itemLayout/invoiceItemReadOnlyDetail';
 import invoiceListFilterResponse from './data/filterInvoiceList';
 import invoiceListLoadResponse from './data/loadInvoiceList';
 import invoiceServiceDetail from './data/serviceLayout/invoiceServiceDetail';
 import invoiceServiceNewDetail from './data/serviceLayout/invoiceServiceNewDetail';
 import invoiceServiceNewDetailFromQuote from './data/serviceLayout/invoiceServiceNewDetailFromQuote';
+import invoiceServiceReadOnlyDetail from './data/serviceLayout/invoiceServiceReadOnlyDetail';
 import loadAccountOptions from './data/loadAccountOptions';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadAddedContactResponse from './data/loadAddedContactResponse';
@@ -69,7 +72,23 @@ const MemoryInvoiceMapping = {
       : duplicateInvoiceItemDetail,
   ),
   [CREATE_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess({ ...successResponse, id: '1' }),
-  [LOAD_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess(invoiceServiceDetail),
+  [LOAD_INVOICE_DETAIL]: ({ urlParams = {}, onSuccess }) => {
+    switch (urlParams.invoiceId) {
+      case 'service-readonly-id':
+        onSuccess(invoiceServiceReadOnlyDetail);
+        break;
+      case 'item-readonly-id':
+        onSuccess(invoiceItemReadOnlyDetail);
+        break;
+      case 'item-id':
+        onSuccess(invoiceItemDetail);
+        break;
+      case 'service-id':
+      default:
+        onSuccess(invoiceServiceDetail);
+        break;
+    }
+  },
   [UPDATE_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [DELETE_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [LOAD_CONTACT_ADDRESS]: ({ onSuccess }) => onSuccess(contactAddress),

@@ -64,7 +64,7 @@ import {
   getRegion,
   getUpdatedContactOptions,
 } from '../selectors/invoiceDetailSelectors';
-import { calculateLineAmounts, calculateLineTotals } from './calculationReducer';
+import { calculateLineAmounts, calculateLineTotals, getIsCalculableLine } from './calculationReducer';
 import { getEmailDetailFromLoadInvoiceDetail } from '../selectors/emailSelectors';
 import { getInvoiceHistory, getInvoiceHistoryAccordionStatus } from '../selectors/invoiceHistorySelectors';
 import { getPayDirect } from '../selectors/payDirectSelectors';
@@ -77,8 +77,7 @@ import {
 } from './InvoiceHistoryReducer';
 import { loadPayDirect, setPayDirectLoadingState } from './PayDirectReducer';
 import { updateExportPdfDetail } from './ExportPdfReducer';
-import InvoiceLayout from '../types/InvoiceLayout';
-import InvoiceLineLayout from '../types/InvoiceLineLayout';
+import InvoiceLineType from '../types/InvoiceLineType';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import calculateTotals from '../../../../common/taxCalculator/calculateTotals';
 import createReducer from '../../../../store/createReducer';
@@ -101,7 +100,8 @@ const setModalAlert = (state, { modalAlert }) => ({ ...state, modalAlert });
 const setModalSubmittingState = (state, { isModalSubmitting }) => ({ ...state, isModalSubmitting });
 
 const setTotalsOnLoad = ({ isTaxInclusive, lines, amountPaid }) => {
-  const totals = calculateTotals({ isTaxInclusive, lines });
+  const calculableLines = lines.filter(line => getIsCalculableLine(line));
+  const totals = calculateTotals({ isTaxInclusive, lines: calculableLines });
   const originalAmountDue = calculateAmountDue(totals.totalAmount, amountPaid);
 
   return {
@@ -121,14 +121,19 @@ const loadInvoiceDetail = (state, action) => {
       ...action.invoice,
       status: action.invoice.status || defaultState.invoice.status,
       lines: action.invoice.lines.map(line => {
-        const amount = action.invoice.isTaxInclusive
-          ? (new Decimal(line.taxExclusiveAmount).add(line.taxAmount)).valueOf()
-          : (new Decimal(line.taxExclusiveAmount)).valueOf();
+        if ([
+          InvoiceLineType.SERVICE,
+          InvoiceLineType.ITEM,
+          InvoiceLineType.SUB_TOTAL,
+        ].includes(line.type)) {
+          const amount = action.invoice.isTaxInclusive
+            ? (new Decimal(line.taxExclusiveAmount).add(line.taxAmount)).valueOf()
+            : (new Decimal(line.taxExclusiveAmount)).valueOf();
 
-        return {
-          ...line,
-          amount,
-        };
+          return { ...line, amount };
+        }
+
+        return line;
       }),
     },
     totals: action.invoice.lines.length === 0
@@ -250,7 +255,7 @@ const updateInvoiceLayout = (state, action) => ({
     ...state.invoice,
     layout: action.layout,
     lines: state.invoice.lines
-      .filter(line => line.layout === InvoiceLineLayout.SERVICE)
+      .filter(line => line.type === InvoiceLineType.SERVICE)
       .map(line => ({
         ...line,
         id: '',
@@ -263,30 +268,16 @@ const getDefaultTaxCodeId = ({ accountId, accountOptions }) => {
   return account === undefined ? '' : account.taxCodeId;
 };
 
-const calculateLineLayout = (layout, key) => {
-  const isItemLayout = layout === InvoiceLayout.ITEM;
-  const isUpdateItemId = key === 'itemId';
-
-  if (isItemLayout) {
-    return layout;
-  }
-
-  return isUpdateItemId ? InvoiceLayout.ITEM : InvoiceLayout.SERVICE;
-};
-
 const updateInvoiceLine = (state, action) => {
   const isUpdateAccountId = action.key === 'accountId';
   const isUpdateJob = action.key === 'jobId';
 
-  const getLineLayout = (layout, key) => {
-    const isLineItemLayout = layout === InvoiceLineLayout.ITEM;
-    const isUpdateItemId = key === 'itemId';
-
-    if (isLineItemLayout) {
+  const getLineType = (layout, key) => {
+    if (layout === InvoiceLineType.ITEM) {
       return layout;
     }
 
-    return isUpdateItemId ? InvoiceLineLayout.ITEM : InvoiceLineLayout.SERVICE;
+    return key === 'itemId' ? InvoiceLineType.ITEM : InvoiceLineType.SERVICE;
   };
 
   return ({
@@ -295,12 +286,13 @@ const updateInvoiceLine = (state, action) => {
     invoice: {
       ...state.invoice,
       lines: state.invoice.lines.map((line, index) => {
-        const lineLayout = calculateLineLayout(line.layout, action.key);
         if (index === action.index) {
+          const type = getLineType(line.type, action.key);
+
           return {
             ...line,
-            layout: getLineLayout(line.layout, action.key),
-            id: lineLayout === line.layout ? line.id : '',
+            type,
+            id: type === line.type ? line.id : '',
             taxCodeId: isUpdateAccountId
               ? getDefaultTaxCodeId({
                 accountId: action.value,
