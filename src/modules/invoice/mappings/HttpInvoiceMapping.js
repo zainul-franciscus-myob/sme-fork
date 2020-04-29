@@ -48,7 +48,7 @@ const HttpInvoiceMapping = {
   },
   [LOAD_NEW_DUPLICATE_INVOICE_DETAIL]: {
     method: 'GET',
-    getPath: ({ businessId, duplicatedInvoiceId }) => `/${businessId}/invoice/load_new_duplicate_invoice_detail/${duplicatedInvoiceId}`,
+    getPath: ({ businessId, duplicateId }) => `/${businessId}/invoice/load_new_duplicate_invoice_detail/${duplicateId}`,
   },
   [CREATE_INVOICE_DETAIL]: {
     method: 'POST',

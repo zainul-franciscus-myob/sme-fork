@@ -19,6 +19,7 @@ import {
   SAVE_EMAIL_SETTINGS,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
+  SET_DUPLICATE_ID,
   SET_INVOICE_HISTORY_CLOSED,
   SET_INVOICE_HISTORY_LOADING,
   SET_INVOICE_HISTORY_OPEN,
@@ -116,6 +117,11 @@ const createInvoiceDetailDispatcher = store => ({
     intent: UPDATE_INVOICE_ID_AFTER_CREATE, invoiceId,
   }),
 
+  setDuplicateId: duplicateId => store.dispatch({
+    intent: SET_DUPLICATE_ID,
+    duplicateId,
+  }),
+
   updateHeaderOptions: (key, value) => store.dispatch({
     intent: UPDATE_INVOICE_DETAIL_HEADER_OPTIONS, key, value,
   }),
@@ -127,7 +133,6 @@ const createInvoiceDetailDispatcher = store => ({
   addInvoiceLine: () => store.dispatch({ intent: ADD_INVOICE_LINE }),
 
   removeInvoiceLine: index => store.dispatch({ intent: REMOVE_INVOICE_LINE, index }),
-
 
   updateInvoiceLine: (index, key, value) => store.dispatch({
     intent: UPDATE_INVOICE_LINE, index, key, value,

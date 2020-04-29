@@ -39,7 +39,7 @@ describe('integratorSelectors', () => {
     it('should load new invoice detail from existing invoice', () => {
       const state = {
         invoiceId: 'new',
-        duplicatedInvoiceId: '1',
+        duplicateId: '1',
       };
 
       const expected = LOAD_NEW_DUPLICATE_INVOICE_DETAIL;

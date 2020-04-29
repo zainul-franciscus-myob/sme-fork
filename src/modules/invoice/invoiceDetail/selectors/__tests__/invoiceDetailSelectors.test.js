@@ -6,7 +6,6 @@ import {
   getInvoiceLine,
   getIsLinesSupported,
   getIsReadOnlyLayout,
-  getShouldReload,
   getTemplateOptions,
   getUpdatedContactOptions,
 } from '../invoiceDetailSelectors';
@@ -246,18 +245,6 @@ describe('invoiceDetailSelectors', () => {
       const actual = calculateAmountDue('1.23', '');
 
       expect(actual).toEqual('1.23');
-    });
-  });
-
-  describe('getShouldReload', () => {
-    it.each([
-      ['1', '1', false],
-      ['new', '1', false],
-      ['new', '', true],
-    ])('should validate whether the page should reload', (invoiceId, duplicatedInvoiceId, expected) => {
-      const actual = getShouldReload({ invoiceId, duplicatedInvoiceId });
-
-      expect(actual).toEqual(expected);
     });
   });
 

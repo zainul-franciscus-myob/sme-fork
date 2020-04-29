@@ -2,6 +2,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  DUPLICATE_INVOICE,
   SUCCESSFULLY_DELETED_INVOICE,
   SUCCESSFULLY_EMAILED_INVOICE,
   SUCCESSFULLY_SAVED_INVOICE,
@@ -10,6 +11,7 @@ import {
   getAccountModalContext,
   getContactModalContext,
   getContextForInventoryModal,
+  getInvoiceId,
   getIsCreating,
   getIsLineAmountDirty,
   getIsModalActionDisabled,
@@ -18,14 +20,12 @@ import {
   getIsTableEmpty,
   getModalType,
   getNewLineIndex,
-  getShouldReload,
   getShouldSaveAndReload,
   getShowOnlinePayment,
   getTaxCalculations,
 } from './selectors/invoiceDetailSelectors';
 import { getCanSaveEmailSettings, getEmailModalType, getFilesForUpload } from './selectors/emailSelectors';
 import {
-  getCreateDuplicateInvoiceUrl,
   getCreateNewInvoiceUrl,
   getInvoiceAndQuoteSettingsUrl,
   getInvoiceListUrl,
@@ -52,11 +52,6 @@ import keyMap from '../../../hotKeys/keyMap';
 import openBlob from '../../../common/blobOpener/openBlob';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
-const messageTypes = [
-  SUCCESSFULLY_SAVED_INVOICE,
-  SUCCESSFULLY_EMAILED_INVOICE,
-];
-
 export default class InvoiceDetailModule {
   constructor({
     integration,
@@ -64,7 +59,6 @@ export default class InvoiceDetailModule {
     pushMessage,
     popMessages,
     replaceURLParams,
-    reload,
     globalCallbacks,
     featureToggles,
     navigateTo,
@@ -72,9 +66,7 @@ export default class InvoiceDetailModule {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.popMessages = popMessages;
-    this.messageTypes = messageTypes;
     this.replaceURLParams = replaceURLParams;
-    this.reload = reload;
     this.globalCallbacks = globalCallbacks;
 
     this.store = new Store(invoiceDetailReducer);
@@ -119,13 +111,13 @@ export default class InvoiceDetailModule {
     this.integrator.loadAccountAfterCreate({ id, onSuccess, onFailure });
   };
 
-  loadInvoice = (message) => {
+  loadInvoice = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (payload) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setSubmittingState(false);
-      this.dispatcher.loadInvoice(payload, message);
+      this.dispatcher.loadInvoice(payload);
     };
 
     const onFailure = () => {
@@ -198,14 +190,9 @@ export default class InvoiceDetailModule {
     this.closeModal();
 
     const onSuccess = ({ message }) => {
-      const state = this.store.getState();
       this.pushSuccessfulSaveMessage(message);
 
-      if (getShouldReload(state)) {
-        this.reload();
-      } else {
-        this.redirectToCreateInvoice();
-      }
+      this.redirectToCreateInvoice();
     };
 
     this.createOrUpdateInvoice({ onSuccess });
@@ -213,12 +200,18 @@ export default class InvoiceDetailModule {
 
   saveAndDuplicateInvoice = () => {
     this.closeModal();
-    const onSuccess = (successResponse) => {
-      if (getIsCreating(this.store.getState())) {
-        this.dispatcher.updateInvoiceIdAfterCreate(successResponse.id);
-      }
-      this.pushSuccessfulSaveMessage(successResponse.message);
-      this.redirectToCreateDuplicateInvoiceUrl();
+    const onSuccess = ({ message, id }) => {
+      const state = this.store.getState();
+      const isCreating = getIsCreating(state);
+      const duplicateId = isCreating ? id : getInvoiceId(state);
+
+      this.pushSuccessfulSaveMessage(message);
+      this.pushMessage({
+        type: DUPLICATE_INVOICE,
+        duplicateId,
+      });
+
+      this.redirectToCreateInvoice();
     };
 
     this.createOrUpdateInvoice({ onSuccess });
@@ -328,13 +321,6 @@ export default class InvoiceDetailModule {
   redirectToCreateInvoice = () => {
     const state = this.store.getState();
     const url = getCreateNewInvoiceUrl(state);
-
-    this.navigateTo(url);
-  }
-
-  redirectToCreateDuplicateInvoiceUrl = () => {
-    const state = this.store.getState();
-    const url = getCreateDuplicateInvoiceUrl(state);
 
     this.navigateTo(url);
   }
@@ -752,8 +738,25 @@ export default class InvoiceDetailModule {
   displaySuccessAlert = message => this.dispatcher.setAlert({ type: 'success', message })
 
   readMessages = () => {
-    const [message] = this.popMessages(this.messageTypes);
-    this.message = message;
+    this.popMessages([
+      SUCCESSFULLY_SAVED_INVOICE,
+      SUCCESSFULLY_EMAILED_INVOICE,
+      DUPLICATE_INVOICE,
+    ]).forEach(message => {
+      switch (message.type) {
+        case SUCCESSFULLY_SAVED_INVOICE:
+        case SUCCESSFULLY_EMAILED_INVOICE:
+          this.dispatcher.setAlert({
+            type: 'success',
+            message: message.content,
+          });
+          break;
+        case DUPLICATE_INVOICE:
+          this.dispatcher.setDuplicateId(message.duplicateId);
+          break;
+        default:
+      }
+    });
   }
 
   resetState = () => {
@@ -833,7 +836,7 @@ export default class InvoiceDetailModule {
 
     this.readMessages();
 
-    this.loadInvoice(this.message);
+    this.loadInvoice();
 
     const showOnlinePayment = getShowOnlinePayment(this.store.getState());
     if (showOnlinePayment) {

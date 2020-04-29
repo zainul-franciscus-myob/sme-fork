@@ -12,7 +12,7 @@ export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 export const getInvoiceId = state => state.invoiceId;
 export const getQuoteIdQueryParam = state => state.quoteId;
-export const getDuplicatedInvoiceIdQueryParam = state => state.duplicatedInvoiceId;
+export const getDuplicateId = state => state.duplicateId;
 
 export const getLoadingState = state => state.loadingState;
 export const getIsSubmitting = state => state.isSubmitting;
@@ -230,13 +230,6 @@ export const getInvoiceLine = createSelector(
     return newLine;
   },
 );
-
-export const getShouldReload = (state) => {
-  const isCreating = getIsCreating(state);
-  const duplicatedInvoiceId = getDuplicatedInvoiceIdQueryParam(state);
-
-  return isCreating && !duplicatedInvoiceId;
-};
 
 export const getAccountModalContext = (state) => {
   const businessId = getBusinessId(state);

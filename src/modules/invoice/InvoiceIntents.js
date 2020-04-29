@@ -30,6 +30,7 @@ export const SET_CONTACT_LOADING_STATE = Symbol('Set contact loading state');
 export const LOAD_PAY_DIRECT = Symbol('Load pay direct');
 export const SET_PAY_DIRECT_LOADING_STATE = Symbol('Set pay direct loading state');
 export const UPDATE_INVOICE_ID_AFTER_CREATE = Symbol('Update invoice id after create');
+export const SET_DUPLICATE_ID = Symbol('Set duplicate id');
 export const UPDATE_INVOICE_DETAIL_HEADER_OPTIONS = Symbol('Update invoice header options');
 export const UPDATE_INVOICE_PAYMENT_AMOUNT = Symbol('Update the payment amount for a new invoice');
 export const UPDATE_INVOICE_LAYOUT = Symbol('Update invoice layout');

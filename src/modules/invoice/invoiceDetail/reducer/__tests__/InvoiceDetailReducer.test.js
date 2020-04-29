@@ -531,11 +531,11 @@ describe('InvoiceDetailReducer', () => {
     const businessId = 'businessId';
     const region = 'region';
     const invoiceId = 'invoiceid';
-    const duplicatedInvoiceId = 'duplicatedInvoiceId';
+    const duplicateId = 'duplicateId';
     const quoteId = 'quoteId';
 
     const state = {
-      businessId, region, invoiceId, duplicatedInvoiceId, quoteId,
+      businessId, region, invoiceId, duplicateId, quoteId,
     };
 
     const action = {
@@ -550,7 +550,7 @@ describe('InvoiceDetailReducer', () => {
       expect(actual.businessId).toEqual(businessId);
       expect(actual.region).toEqual(region);
       expect(actual.invoiceId).toEqual(invoiceId);
-      expect(actual.duplicatedInvoiceId).toBeUndefined();
+      expect(actual.duplicateId).toBeUndefined();
       expect(actual.quoteId).toBeUndefined();
     });
 

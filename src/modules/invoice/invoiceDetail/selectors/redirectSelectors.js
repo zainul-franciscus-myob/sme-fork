@@ -57,13 +57,6 @@ export const getCreateNewInvoiceUrl = (state) => {
   return `${createNewUrl}?layout=${layout}`;
 };
 
-export const getCreateDuplicateInvoiceUrl = (state) => {
-  const createNewUrl = getCreateInvoiceUrl(state);
-  const invoiceId = getInvoiceId(state);
-
-  return `${createNewUrl}?duplicatedInvoiceId=${invoiceId}`;
-};
-
 export const getSubscriptionSettingsUrl = (state) => {
   const baseUrl = getBaseUrl(state);
 

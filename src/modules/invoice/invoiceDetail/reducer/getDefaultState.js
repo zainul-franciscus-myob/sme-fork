@@ -13,7 +13,7 @@ const getDefaultState = () => ({
   region: '',
   invoiceId: '',
   quoteId: undefined,
-  duplicatedInvoiceId: undefined,
+  duplicateId: undefined,
   loadingState: LoadingState.LOADING,
   alert: undefined,
   modalType: InvoiceDetailModalType.NONE,

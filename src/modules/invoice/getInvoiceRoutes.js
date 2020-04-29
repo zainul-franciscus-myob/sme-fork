@@ -8,7 +8,6 @@ const getInvoiceRoutes = ({
   popMessages,
   pushMessage,
   replaceURLParams,
-  reload,
   globalCallbacks,
   featureToggles,
   navigateTo,
@@ -26,14 +25,13 @@ const getInvoiceRoutes = ({
     {
       name: RouteName.INVOICE_DETAIL,
       path: '/:region/:businessId/invoice/:invoiceId',
-      allowedParams: ['layout', 'quoteId', 'duplicatedInvoiceId'],
+      allowedParams: ['layout', 'quoteId'],
       module: new InvoiceDetailModule({
         integration,
         setRootView,
         pushMessage,
         popMessages,
         replaceURLParams,
-        reload,
         globalCallbacks,
         featureToggles,
         navigateTo,

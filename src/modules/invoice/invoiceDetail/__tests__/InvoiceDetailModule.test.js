@@ -13,6 +13,7 @@ import {
   UPDATE_INVOICE_DETAIL,
   UPDATE_INVOICE_ID_AFTER_CREATE,
 } from '../../InvoiceIntents';
+import { DUPLICATE_INVOICE, SUCCESSFULLY_SAVED_INVOICE } from '../types/invoiceMessageTypes';
 import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
 import InvoiceDetailModule from '../InvoiceDetailModule';
 import Region from '../../../../common/types/Region';
@@ -662,6 +663,256 @@ describe('InvoiceDetailModule', () => {
         { intent: SET_REDIRECT_STATE, redirectUrl: 'foo', isOpenInNewTab: false },
         { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.REDIRECT_TO_URL },
       ]);
+    });
+  });
+
+  describe('saveAndCreateNewInvoice', () => {
+    it('successfully creates', () => {
+      const { module, integration, store } = setupWithRun({ isCreating: true });
+      integration.mapSuccess(CREATE_INVOICE_DETAIL, { message: '🦕' });
+      module.navigateTo = jest.fn();
+      module.pushMessage = jest.fn();
+      module.globalCallbacks = { invoiceSaved: jest.fn() };
+
+      module.saveAndCreateNewInvoice();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_MODAL_TYPE,
+          modalType: '',
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: CREATE_INVOICE_DETAIL,
+          urlParams: {
+            businessId: 'businessId',
+          },
+        }),
+      ]);
+      expect(module.globalCallbacks.invoiceSaved).toHaveBeenCalled();
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: SUCCESSFULLY_SAVED_INVOICE,
+        content: '🦕',
+      });
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/businessId/invoice/new?layout=item');
+    });
+
+    it('successfully updates', () => {
+      const { module, integration, store } = setupWithRun({ isCreating: false });
+      integration.mapSuccess(UPDATE_INVOICE_DETAIL, { message: '🦕' });
+      module.navigateTo = jest.fn();
+      module.pushMessage = jest.fn();
+      module.globalCallbacks = { invoiceSaved: jest.fn() };
+
+      module.saveAndCreateNewInvoice();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_MODAL_TYPE,
+          modalType: '',
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: UPDATE_INVOICE_DETAIL,
+          urlParams: {
+            businessId: 'businessId',
+            invoiceId: 'invoiceId',
+          },
+        }),
+      ]);
+      expect(module.globalCallbacks.invoiceSaved).toHaveBeenCalled();
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: SUCCESSFULLY_SAVED_INVOICE,
+        content: '🦕',
+      });
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/businessId/invoice/new?layout=service');
+    });
+
+    it('fails to create', () => {
+      const { module, integration, store } = setupWithRun({ isCreating: true });
+      integration.mapFailure(CREATE_INVOICE_DETAIL);
+      module.navigateTo = jest.fn();
+      module.globalCallbacks = { invoiceSaved: jest.fn() };
+
+      module.saveAndCreateNewInvoice();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_MODAL_TYPE,
+          modalType: '',
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
+        {
+          intent: SET_ALERT,
+          alert: {
+            message: 'fails',
+            type: 'danger',
+          },
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: CREATE_INVOICE_DETAIL,
+          urlParams: {
+            businessId: 'businessId',
+          },
+        }),
+      ]);
+      expect(module.globalCallbacks.invoiceSaved).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('saveAndDuplicateInvoice', () => {
+    it('successfully creates', () => {
+      const { module, integration, store } = setupWithRun({ isCreating: true });
+      integration.mapSuccess(CREATE_INVOICE_DETAIL, { message: '🦕', id: '🍍' });
+      module.navigateTo = jest.fn();
+      module.pushMessage = jest.fn();
+      module.globalCallbacks = { invoiceSaved: jest.fn() };
+
+      module.saveAndDuplicateInvoice();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_MODAL_TYPE,
+          modalType: '',
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: CREATE_INVOICE_DETAIL,
+          urlParams: {
+            businessId: 'businessId',
+          },
+        }),
+      ]);
+      expect(module.globalCallbacks.invoiceSaved).toHaveBeenCalled();
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: SUCCESSFULLY_SAVED_INVOICE,
+        content: '🦕',
+      });
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: DUPLICATE_INVOICE,
+        duplicateId: '🍍',
+      });
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/businessId/invoice/new?layout=item');
+    });
+
+    it('successfully updates', () => {
+      const { module, integration, store } = setupWithRun({ isCreating: false });
+      integration.mapSuccess(UPDATE_INVOICE_DETAIL, { message: '🦕' });
+      module.navigateTo = jest.fn();
+      module.pushMessage = jest.fn();
+      module.globalCallbacks = { invoiceSaved: jest.fn() };
+
+      module.saveAndDuplicateInvoice();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_MODAL_TYPE,
+          modalType: '',
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: UPDATE_INVOICE_DETAIL,
+          urlParams: {
+            businessId: 'businessId',
+            invoiceId: 'invoiceId',
+          },
+        }),
+      ]);
+      expect(module.globalCallbacks.invoiceSaved).toHaveBeenCalled();
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: SUCCESSFULLY_SAVED_INVOICE,
+        content: '🦕',
+      });
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: DUPLICATE_INVOICE,
+        duplicateId: 'invoiceId',
+      });
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/businessId/invoice/new?layout=service');
+    });
+
+    it('fails to create', () => {
+      const { module, integration, store } = setupWithRun({ isCreating: true });
+      integration.mapFailure(CREATE_INVOICE_DETAIL);
+      module.navigateTo = jest.fn();
+      module.globalCallbacks = { invoiceSaved: jest.fn() };
+
+      module.saveAndDuplicateInvoice();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_MODAL_TYPE,
+          modalType: '',
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
+        {
+          intent: SET_ALERT,
+          alert: {
+            message: 'fails',
+            type: 'danger',
+          },
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: CREATE_INVOICE_DETAIL,
+          urlParams: {
+            businessId: 'businessId',
+          },
+        }),
+      ]);
+      expect(module.globalCallbacks.invoiceSaved).not.toHaveBeenCalled();
     });
   });
 });

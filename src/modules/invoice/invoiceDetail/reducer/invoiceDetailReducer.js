@@ -21,6 +21,7 @@ import {
   SAVE_EMAIL_SETTINGS,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
+  SET_DUPLICATE_ID,
   SET_INVOICE_HISTORY_CLOSED,
   SET_INVOICE_HISTORY_LOADING,
   SET_INVOICE_HISTORY_OPEN,
@@ -394,6 +395,11 @@ const loadItemSellingDetails = (state, action) => ({
   },
 });
 
+const setDuplicateId = (state, action) => ({
+  ...state,
+  duplicateId: action.duplicateId,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -411,6 +417,7 @@ const handlers = {
   [LOAD_ITEM_OPTION]: loadItemOption,
   [SET_CONTACT_LOADING_STATE]: setContactLoadingState,
   [UPDATE_INVOICE_ID_AFTER_CREATE]: updateInvoiceIdAfterCreate,
+  [SET_DUPLICATE_ID]: setDuplicateId,
   [UPDATE_INVOICE_DETAIL_HEADER_OPTIONS]: setInvoiceDetailHeaderOptions,
   [UPDATE_INVOICE_PAYMENT_AMOUNT]: updatePaymentAmount,
   [UPDATE_INVOICE_LAYOUT]: updateInvoiceLayout,

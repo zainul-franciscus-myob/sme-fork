@@ -8,7 +8,7 @@ import {
   getBusinessId,
   getContactId,
   getContactOptions,
-  getDuplicatedInvoiceIdQueryParam,
+  getDuplicateId,
   getInvoice,
   getInvoiceId,
   getIsCreating,
@@ -25,8 +25,8 @@ export const getLoadInvoiceIntent = (state) => {
       return LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE;
     }
 
-    const duplicatedInvoiceId = getDuplicatedInvoiceIdQueryParam(state);
-    if (duplicatedInvoiceId) {
+    const duplicateId = getDuplicateId(state);
+    if (duplicateId) {
       return LOAD_NEW_DUPLICATE_INVOICE_DETAIL;
     }
 
@@ -48,10 +48,10 @@ export const getLoadInvoiceUrlParams = (state) => {
   const businessId = getBusinessId(state);
   const invoiceId = isCreating ? undefined : getInvoiceId(state);
   const quoteId = isCreating ? getQuoteIdQueryParam(state) : undefined;
-  const duplicatedInvoiceId = isCreating ? getDuplicatedInvoiceIdQueryParam(state) : undefined;
+  const duplicateId = isCreating ? getDuplicateId(state) : undefined;
 
   return {
-    businessId, invoiceId, quoteId, duplicatedInvoiceId,
+    businessId, invoiceId, quoteId, duplicateId,
   };
 };
 
