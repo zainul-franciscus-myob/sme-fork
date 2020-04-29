@@ -1,8 +1,9 @@
-import { Card, Table } from '@myob/myob-widgets';
+import { Alert, Card, Table } from '@myob/myob-widgets';
 import React from 'react';
 
 import JobKeeperFortnightCombobox from './JobKeeperFortnightCombobox';
 import TableView from '../../../../../components/TableView/TableView';
+import styles from './JobKeeperTable.module.css';
 
 const tableConfig = {
   firstName: {
@@ -112,6 +113,9 @@ const JobKeeperTable = ({
         For more information about JobKeeper payments,&nbsp;
         <a href="https://www.ato.gov.au/General/JobKeeper-Payment/Employers/" target="_blank" rel="noopener noreferrer">visit the ATO.</a>
       </p>
+      <div className={styles.info}>
+        <Alert type="info">JobKeeper fortnights notified to the ATO will update below after the STP report has sent.&nbsp;</Alert>
+      </div>
       {table}
     </>
   );
