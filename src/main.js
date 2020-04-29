@@ -50,7 +50,6 @@ async function main(integrationType, telemetryType, leanEngageType) {
     popMessages: inbox.popMessages,
     pushMessage: inbox.pushMessage,
     replaceURLParams: router.replaceURLParams,
-    reload: router.reload,
     navigateTo: router.navigateTo,
     globalCallbacks: rootModule.globalCallbacks,
     featureToggles,

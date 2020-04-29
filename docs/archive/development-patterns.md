@@ -58,10 +58,9 @@ export default createFooDispatcher;
 // Bring it all together in the module, which loads Foo data when the module is run.
 export default class FooModule {
   constructor({
-    integration, reload,
+    integration,
   }) {
     this.integration = integration;
-    this.reload = reload;
     this.store = new Store();
     this.integrator = createFooIntegrator(this.store, this.integration);
     this.dispatcher = createFooDispatcher(this.store);
