@@ -159,6 +159,10 @@ export default class JobKeeperModule {
     this.pendingNavigationFunction = null;
   }
 
+  onPayrollYearChange = (payrollYear) => {
+    this.tryToNavigate(() => this.filterEmployeesByYear(payrollYear));
+  }
+
   run = () => {
     this.loadInitialEmployeesAndHeaderDetails();
   };
@@ -171,7 +175,7 @@ export default class JobKeeperModule {
         {declarationModal}
         <JobKeeperView
           onNotifyAtoClick={this.openStpDeclarationModal}
-          onPayrollYearChange={this.filterEmployeesByYear}
+          onPayrollYearChange={this.onPayrollYearChange}
           onSort={this.sortEmployees}
           onEmployeeChange={this.updateEmployeeRow}
           unsavedChangesModalListeners={{

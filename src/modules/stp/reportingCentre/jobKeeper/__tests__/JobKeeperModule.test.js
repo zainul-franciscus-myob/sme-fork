@@ -63,4 +63,37 @@ describe('jobKeeperModule', () => {
       }));
     });
   });
+
+  describe('onPayrollYearChange', () => {
+    it('calls filterEmployeeByYear when there is no change', () => {
+      const { module } = constructModule();
+      module.filterEmployeesByYear = jest.fn(module.filterEmployeesByYear);
+
+
+      module.onPayrollYearChange('2020');
+
+      expect(module.filterEmployeesByYear).toHaveBeenCalled();
+    });
+
+    it('opens the unsaved modal when the table is dirty', () => {
+      const { module, wrapper } = constructModule();
+      module.filterEmployeesByYear = jest.fn(module.filterEmployeesByYear);
+      module.openUnsavedChangesModal = jest.fn(module.openUnsavedChangesModal);
+      module.updateEmployeeRow({
+        key: 'firstFortnight',
+        value: '05',
+        rowId: loadJobKeeperInitialEmployees.employees[0].employeeId,
+      });
+
+      module.onPayrollYearChange('2020');
+      wrapper.update();
+
+      expect(module.filterEmployeesByYear).not.toHaveBeenCalled();
+      expect(module.openUnsavedChangesModal).toHaveBeenCalled();
+      expect(module.store.getState()).toEqual(expect.objectContaining({
+        unsavedChangesModalIsOpen: true,
+        isDirty: true,
+      }));
+    });
+  });
 });
