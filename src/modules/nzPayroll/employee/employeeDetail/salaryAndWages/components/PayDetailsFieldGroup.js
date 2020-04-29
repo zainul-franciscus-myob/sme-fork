@@ -1,5 +1,5 @@
 import { FieldGroup, ReadOnly, Select } from '@myob/myob-widgets';
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
 
@@ -8,10 +8,20 @@ const PayDetailsFieldGroup = ({
   selectedPayBasis,
   selectedPayCycle,
   payCycleOptions = [],
-}) => (
-  <FieldGroup label="Pay Details">
+  onWageDetailsChange,
+}) => {
+  const onInputChange = useCallback(
+    event => onWageDetailsChange({
+      key: event.target.name,
+      value: event.target.value,
+    }),
+    [onWageDetailsChange],
+  );
+
+  return (
+  <FieldGroup label="Pay details">
     <ReadOnly
-      name="payBasis"
+      name="selectedPayBasis"
       label="Pay basis"
     >
       {selectedPayBasis}
@@ -20,16 +30,16 @@ const PayDetailsFieldGroup = ({
       label="Hourly rate ($)"
       name="hourlyRate"
       value={hourlyRate}
-      disabled
       textAlign="right"
       width="xs"
+      onChange={onInputChange}
     />
     <Select
       label="Pay cycle"
-      name="payCycle"
+      name="selectedPayCycle"
       value={selectedPayCycle}
-      disabled
       width="sm"
+      onChange={onInputChange}
     >
       {
         payCycleOptions.map(({ id, displayName }) => (
@@ -38,6 +48,7 @@ const PayDetailsFieldGroup = ({
       }
     </Select>
   </FieldGroup>
-);
+  );
+};
 
 export default PayDetailsFieldGroup;

@@ -4,7 +4,7 @@ import React from 'react';
 
 import {
   getHourlyRate, getPayCycleOptions, getSelectedPayBasis, getSelectedPayCycle,
-} from '../EmploymentDetailsSelectors';
+} from '../salaryAndWageSelectors';
 import PayDetailsFieldGroup from './PayDetailsFieldGroup';
 
 const SalaryAndWagesTabView = ({
@@ -12,6 +12,7 @@ const SalaryAndWagesTabView = ({
   selectedPayBasis,
   selectedPayCycle,
   payCycleOptions,
+  onWageDetailsChange,
 }) => (
   <FormHorizontal layout="primary">
     <PayDetailsFieldGroup
@@ -19,6 +20,7 @@ const SalaryAndWagesTabView = ({
       selectedPayBasis={selectedPayBasis}
       selectedPayCycle={selectedPayCycle}
       payCycleOptions={payCycleOptions}
+      onWageDetailsChange={onWageDetailsChange}
     />
   </FormHorizontal>
 );

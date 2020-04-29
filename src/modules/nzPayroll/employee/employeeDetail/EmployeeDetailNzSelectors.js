@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
 const getContactDetail = state => state.contactDetail;
+const getPayrollDetails = ({ payrollDetails }) => payrollDetails;
 
 export const getAlert = state => state.alert;
 export const getBusinessId = state => state.businessId;
@@ -19,7 +20,8 @@ export const getEmployeeFullName = createSelector(
 
 export const getEmployeePayload = createSelector(
   getContactDetail,
-  contactDetail => ({ contactDetail }),
+  getPayrollDetails,
+  (contactDetail, payrollDetails) => ({ contactDetail, payrollDetails }),
 );
 
 export const getEmployeeListUrl = createSelector(

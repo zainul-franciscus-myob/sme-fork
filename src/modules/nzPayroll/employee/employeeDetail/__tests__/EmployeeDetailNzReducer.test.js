@@ -316,6 +316,11 @@ describe('EmployeeDetailNzReducer', () => {
           ],
           notes: '',
         },
+        payrollDetails: {
+          wage: {
+            hourlyRate: '123.45',
+          },
+        },
       };
 
       const contactDetail = {
@@ -336,10 +341,17 @@ describe('EmployeeDetailNzReducer', () => {
         ],
         notes: '',
       };
+
+      const payrollDetails = {
+        wage: {
+          hourlyRate: '543.21',
+        },
+      };
       const action = {
         intent: UPDATE_EMPLOYEE,
         message: 'Nice work',
         contactDetail,
+        payrollDetails,
       };
 
       const expectedState = {
@@ -348,6 +360,7 @@ describe('EmployeeDetailNzReducer', () => {
           message: 'Nice work',
         },
         contactDetail,
+        payrollDetails,
         loadingState: LoadingState.LOADING_SUCCESS,
         isPageEdited: false,
         isSubmitting: false,

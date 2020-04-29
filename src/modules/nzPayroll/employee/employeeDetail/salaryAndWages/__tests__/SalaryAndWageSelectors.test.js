@@ -1,8 +1,8 @@
 import {
   getHourlyRate, getPayCycleOptions, getSelectedPayBasis, getSelectedPayCycle,
-} from '../EmploymentDetailsSelectors';
+} from '../salaryAndWageSelectors';
 
-describe('EmploymentDetailsSelectors', () => {
+describe('salaryAndWageSelectors', () => {
   const state = {
     payrollDetails: {
       wage: {

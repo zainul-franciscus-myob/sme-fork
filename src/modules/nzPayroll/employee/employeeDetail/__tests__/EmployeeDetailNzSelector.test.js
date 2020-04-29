@@ -4,6 +4,7 @@ import {
   getEmployeeFullName,
   getEmployeeId,
   getEmployeeListUrl,
+  getEmployeePayload,
   getIsSubmitting,
   getLoadingState,
   getMainTab,
@@ -127,6 +128,30 @@ describe('EmployeeDetailNzSelectors', () => {
       const actual = getIsSubmitting(state);
 
       expect(actual).toEqual(true);
+    });
+  });
+
+  describe('getEmployeePayload', () => {
+    const contactDetail = {
+      firstName: 'Bob',
+      lastName: 'The Builder',
+    };
+    const payrollDetails = {
+      wage: {
+        hourlyRate: '100',
+      },
+    };
+    const state = {
+      contactDetail,
+      payrollDetails,
+    };
+
+    it('should contain the contactDetail', () => {
+      expect(getEmployeePayload(state)).toMatchObject({ contactDetail });
+    });
+
+    it('should contain the payrollDetails', () => {
+      expect(getEmployeePayload(state)).toMatchObject({ payrollDetails });
     });
   });
 });

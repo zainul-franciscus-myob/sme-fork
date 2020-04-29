@@ -9,6 +9,7 @@ import { tabIds } from './tabItems';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import contactDetailsNzTabReducer from './contactDetails/contactDetailsNzTabReducer';
 import createReducer from '../../../../store/createReducer';
+import slarayAndWageReducer from './salaryAndWages/slarayAndWageReducer';
 
 const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
@@ -71,6 +72,7 @@ const updateEmployeeDetail = (state, action) => ({
   ...state,
   loadingState: LoadingState.LOADING_SUCCESS,
   contactDetail: loadContactDetail(state, action),
+  payrollDetails: action.payrollDetails,
   alert: { type: 'success', message: action.message },
   isPageEdited: false,
   isSubmitting: false,
@@ -156,6 +158,7 @@ const handlers = {
   [SET_MAIN_TAB]: setMainTab,
   [SET_SUB_TAB]: setSubTab,
   ...contactDetailsNzTabReducer,
+  ...slarayAndWageReducer,
 };
 
 const employeeDetailNzReducer = createReducer(getDefaultState(), handlers);
