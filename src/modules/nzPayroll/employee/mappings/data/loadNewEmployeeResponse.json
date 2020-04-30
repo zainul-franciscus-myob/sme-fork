@@ -1,0 +1,28 @@
+{
+  "contactDetail":{
+     "country":"New Zealand"
+  },
+  "payrollDetails":{
+     "employmentDetails":{
+        "employmentStatus":"Casual"
+     }
+  },
+  "genderOptions":[
+     {
+        "name":"-",
+        "value":"NotSet"
+     },
+     {
+        "name":"Male",
+        "value":"Male"
+     },
+     {
+        "name":"Female",
+        "value":"Female"
+     },
+     {
+        "name":"Unspecified",
+        "value":"Indeterminate"
+     }
+  ]
+}

@@ -1,9 +1,6 @@
 import { mount } from 'enzyme';
 
-import {
-  CLOSE_MODAL, DELETE_EMPLOYEE, LOAD_EMPLOYEE_DETAIL, OPEN_MODAL, SET_LOADING_STATE,
-  SET_SAVING_STATE, SET_SUBMITTING_STATE, UPDATE_EMPLOYEE, UPDATE_EMPLOYEE_FAILED,
-} from '../../EmployeeNzIntents';
+import * as intents from '../../EmployeeNzIntents';
 import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import { tabIds } from '../tabItems';
 import ContactDetailsNzTabView from '../contactDetails/components/contactDetailsNzTab';
@@ -28,13 +25,17 @@ describe('EmployeeDetailNzModule', () => {
   const setup = () => {
     const store = new TestStore(employeeDetailNzReducer);
     const integration = new TestIntegration();
+    const popMessages = () => [];
+    const pushMessages = () => [];
 
     let wrapper;
     const setRootView = (component) => {
       wrapper = mount(component);
     };
 
-    const module = new EmployeeDetailNzModule({ integration, setRootView, replaceURLParams });
+    const module = new EmployeeDetailNzModule({
+      integration, setRootView, replaceURLParams, popMessages, pushMessages,
+    });
     module.store = store;
     module.dispatcher = createEmployeeDetailNzDispatcher({ store });
     module.integrator = createEmployeeDetailNzIntegrator({ store, integration });
@@ -55,7 +56,7 @@ describe('EmployeeDetailNzModule', () => {
       const {
         store, integration, module, wrapper,
       } = setup();
-      integration.mapSuccess(LOAD_EMPLOYEE_DETAIL, employeeDetailResponse);
+      integration.mapSuccess(intents.LOAD_EMPLOYEE_DETAIL, employeeDetailResponse);
 
       module.run(context);
 
@@ -65,14 +66,14 @@ describe('EmployeeDetailNzModule', () => {
           context,
         },
         {
-          intent: LOAD_EMPLOYEE_DETAIL,
+          intent: intents.LOAD_EMPLOYEE_DETAIL,
           payload: employeeDetailResponse,
         },
       ]);
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
-          intent: LOAD_EMPLOYEE_DETAIL,
+          intent: intents.LOAD_EMPLOYEE_DETAIL,
           urlParams: { ...context },
         }),
       ]);
@@ -87,7 +88,7 @@ describe('EmployeeDetailNzModule', () => {
         store, integration, module, wrapper,
       } = setup();
 
-      integration.mapFailure(LOAD_EMPLOYEE_DETAIL);
+      integration.mapFailure(intents.LOAD_EMPLOYEE_DETAIL);
 
       module.run(context);
 
@@ -97,14 +98,14 @@ describe('EmployeeDetailNzModule', () => {
           context,
         },
         {
-          intent: SET_LOADING_STATE,
+          intent: intents.SET_LOADING_STATE,
           loadingState: LoadingState.LOADING_FAIL,
         },
       ]);
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
-          intent: LOAD_EMPLOYEE_DETAIL,
+          intent: intents.LOAD_EMPLOYEE_DETAIL,
           urlParams: { ...context },
         }),
       ]);
@@ -115,13 +116,40 @@ describe('EmployeeDetailNzModule', () => {
     });
   });
 
+  it('should load new employee detail', () => {
+    const {
+      store, integration, module, wrapper,
+    } = setup();
+    const newContext = { businessId: 'id', employeeId: 'new' };
+    module.run(newContext);
+
+    expect(store.getActions()).toMatchObject([
+      {
+        intent: SET_INITIAL_STATE,
+        context: newContext,
+      },
+      {
+        intent: intents.LOAD_EMPLOYEE_DETAIL,
+        payload: expect.anything(),
+      },
+    ]);
+
+    expect(integration.getRequests()).toMatchObject([
+      { intent: intents.LOAD_NEW_EMPLOYEE_DETAIL },
+    ]);
+
+    wrapper.update();
+    expect(wrapper.find(EmployeeDetailsNzView).exists()).toBe(true);
+    expect(wrapper.find(ContactDetailsNzTabView).exists()).toBe(true);
+  });
+
   describe('Sub tabs', () => {
     describe('When clicking tab payroll details tab', () => {
       it('should move to payroll details page', () => {
         const {
           integration, module, wrapper,
         } = setup();
-        integration.mapSuccess(LOAD_EMPLOYEE_DETAIL, employeeDetailResponse);
+        integration.mapSuccess(intents.LOAD_EMPLOYEE_DETAIL, employeeDetailResponse);
 
         module.run(context);
         wrapper.update();
@@ -139,7 +167,7 @@ describe('EmployeeDetailNzModule', () => {
         const {
           integration, module, wrapper,
         } = setup();
-        integration.mapSuccess(LOAD_EMPLOYEE_DETAIL, employeeDetailResponse);
+        integration.mapSuccess(intents.LOAD_EMPLOYEE_DETAIL, employeeDetailResponse);
 
         module.run(context);
         wrapper.update();
@@ -166,7 +194,7 @@ describe('EmployeeDetailNzModule', () => {
         const {
           integration, module, wrapper,
         } = setup();
-        integration.mapSuccess(LOAD_EMPLOYEE_DETAIL, employeeDetailResponse);
+        integration.mapSuccess(intents.LOAD_EMPLOYEE_DETAIL, employeeDetailResponse);
 
         module.run(context);
         module.setMainTab(mainTab);
@@ -186,7 +214,7 @@ describe('EmployeeDetailNzModule', () => {
         store, integration, module, wrapper,
       } = setup();
 
-      integration.mapSuccess(UPDATE_EMPLOYEE, updateEmployeeDetailResponse);
+      integration.mapSuccess(intents.UPDATE_EMPLOYEE, updateEmployeeDetailResponse);
 
       module.run(context);
       wrapper.update();
@@ -203,17 +231,17 @@ describe('EmployeeDetailNzModule', () => {
 
       expect(store.getActions()).toEqual([
         {
-          intent: SET_SAVING_STATE,
+          intent: intents.SET_SAVING_STATE,
         },
         {
-          intent: UPDATE_EMPLOYEE,
+          intent: intents.UPDATE_EMPLOYEE,
           ...updateEmployeeDetailResponse,
         },
       ]);
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
-          intent: UPDATE_EMPLOYEE,
+          intent: intents.UPDATE_EMPLOYEE,
           urlParams: { ...context },
         }),
       ]);
@@ -224,7 +252,7 @@ describe('EmployeeDetailNzModule', () => {
         store, integration, module, wrapper,
       } = setup();
 
-      integration.mapFailure(UPDATE_EMPLOYEE, { message: 'Failed' });
+      integration.mapFailure(intents.UPDATE_EMPLOYEE, { message: 'Failed' });
 
       module.run(context);
       wrapper.update();
@@ -239,34 +267,48 @@ describe('EmployeeDetailNzModule', () => {
 
       expect(store.getActions()).toEqual([
         {
-          intent: SET_SAVING_STATE,
+          intent: intents.SET_SAVING_STATE,
         },
         {
-          intent: UPDATE_EMPLOYEE_FAILED,
+          intent: intents.UPDATE_EMPLOYEE_FAILED,
           message: 'Failed',
         },
       ]);
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
-          intent: UPDATE_EMPLOYEE,
+          intent: intents.UPDATE_EMPLOYEE,
           urlParams: { ...context },
         }),
       ]);
+    });
+
+    it('should reloads module with new employeeID when creating new employee', () => {
+      const { module, wrapper, integration } = setup();
+      const newContext = { businessId: 'id', employeeId: 'new' };
+      integration.mapSuccess(intents.UPDATE_EMPLOYEE, { employeeId: 1234 });
+      module.run(newContext);
+      module.pushMessage = jest.fn();
+      wrapper.update();
+
+      module.onSaveButtonClick();
+
+      expect(window.location.href.includes('new')).toBe(false);
+      expect(window.location.href.includes('1234')).toBe(true);
     });
   });
 
   describe('Cancel button', () => {
     it('navigates to employee list page', () => {
       const { wrapper, integration } = setup();
-      integration.mapFailure(DELETE_EMPLOYEE, { message: 'Failed' });
-
+      integration.mapFailure(intents.DELETE_EMPLOYEE, { message: 'Failed' });
       wrapper.update();
 
       wrapper
         .find({ name: 'cancel' })
         .find('Button')
         .simulate('click');
+
       expect(window.location.href.endsWith('/employee')).toBe(true);
     });
 
@@ -277,7 +319,7 @@ describe('EmployeeDetailNzModule', () => {
 
       expect(store.getActions()).toMatchObject([
         {
-          intent: OPEN_MODAL,
+          intent: intents.OPEN_MODAL,
           modal: { type: 'UNSAVED', url: expect.any(String) },
         },
       ]);
@@ -295,7 +337,7 @@ describe('EmployeeDetailNzModule', () => {
 
       expect(store.getActions()).toMatchObject([
         {
-          intent: OPEN_MODAL,
+          intent: intents.OPEN_MODAL,
           modal: { type: 'DELETE', url: expect.any(String) },
         },
       ]);
@@ -305,7 +347,7 @@ describe('EmployeeDetailNzModule', () => {
 
     it('should delete employee', () => {
       const { module, integration, store } = setup();
-      integration.mapSuccess(DELETE_EMPLOYEE, {});
+      integration.mapSuccess(intents.DELETE_EMPLOYEE, {});
       module.run(context);
       store.resetActions();
       integration.resetRequests();
@@ -315,12 +357,12 @@ describe('EmployeeDetailNzModule', () => {
 
       expect(store.getActions()).toEqual(expect.arrayContaining(
         [
-          { intent: CLOSE_MODAL },
-          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: intents.CLOSE_MODAL },
+          { intent: intents.SET_SUBMITTING_STATE, isSubmitting: true },
         ],
       ));
       expect(integration.getRequests()).toEqual([
-        { intent: DELETE_EMPLOYEE, urlParams: { ...context } },
+        { intent: intents.DELETE_EMPLOYEE, urlParams: { ...context } },
       ]);
       expect(module.pushMessage).toHaveBeenCalled();
     });

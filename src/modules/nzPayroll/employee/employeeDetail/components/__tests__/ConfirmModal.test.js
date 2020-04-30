@@ -10,7 +10,11 @@ const props = {
 };
 
 describe('ConfirmModal', () => {
-  const wrapper = mount(<ConfirmModal {...props} />);
+  let wrapper;
+  beforeAll(() => {
+    wrapper = mount(<ConfirmModal {...props} />);
+  });
+
   it('does returns UnsavedModal when type is not provided', () => {
     expect(wrapper.find('UnsavedModal').exists()).toBe(true);
     expect(wrapper.find('DeleteModal').exists()).toBe(false);

@@ -41,6 +41,7 @@ export default class EmployeeListNzModule {
   render() {
     const view = <EmployeeListNzView
       onDismissAlert={this.dismissAlert}
+      onEmployeeCreateButtonClick={this.redirectToCreateEmployee}
     />;
     const wrappedView = <Provider store={this.store}>{view}</Provider>;
     this.setRootView(wrappedView);
@@ -75,4 +76,10 @@ export default class EmployeeListNzModule {
       });
     }
   };
+
+  redirectToCreateEmployee = () => {
+    const state = this.store.getState();
+    const { businessId, region } = state;
+    window.location.href = `/#/${region}/${businessId}/employee/new`;
+  }
 }

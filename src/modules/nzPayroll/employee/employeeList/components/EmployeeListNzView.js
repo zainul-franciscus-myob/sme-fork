@@ -12,10 +12,11 @@ const EmployeeListNzView = ({
   loadingState,
   alert,
   onDismissAlert,
+  onEmployeeCreateButtonClick,
 }) => {
   const pageHead = (
     <PageHead title="Employees">
-      <Button onClick={() => {}}>Create employee</Button>
+      <Button onClick={onEmployeeCreateButtonClick}>Create employee</Button>
     </PageHead>
   );
 

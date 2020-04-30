@@ -59,7 +59,7 @@ describe('createEmployeeDetailNzIntegrator', () => {
         { store, integration },
       );
 
-      employeeDetailNzIntegrator.saveEmployeeDetails(
+      employeeDetailNzIntegrator.createOrSaveEmployeeDetails(
         { onSuccess, onFailure },
       );
 

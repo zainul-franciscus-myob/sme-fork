@@ -10,7 +10,7 @@ describe('EmployeeDetailNzSelectors', () => {
   };
   describe('getContactDetail', () => {
     it('should return contact details', () => {
-      const expectedState = { ...state.contactDetail };
+      const expectedState = state.contactDetail;
 
       const actual = getContactDetail(state);
 

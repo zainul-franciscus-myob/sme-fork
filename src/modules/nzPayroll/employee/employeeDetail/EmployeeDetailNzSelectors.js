@@ -12,10 +12,14 @@ export const isPageEdited = state => state.isPageEdited;
 export const getModal = state => state.modal;
 export const getModalUrl = createSelector(getModal, (modal = {}) => modal.url);
 export const getIsSubmitting = state => state.isSubmitting;
+export const getIsCreating = state => state.employeeId === 'new';
+
 
 export const getEmployeeFullName = createSelector(
   getContactDetail,
-  contactDetail => `${contactDetail.firstName} ${contactDetail.lastName}`,
+  getIsCreating,
+  (contactDetail, isCreating) => (isCreating ? 'Create employee'
+    : `${contactDetail.firstName} ${contactDetail.lastName}`),
 );
 
 export const getEmployeePayload = createSelector(

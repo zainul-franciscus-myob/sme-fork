@@ -230,10 +230,7 @@ describe('EmployeeDetailNzReducer', () => {
   describe('openModal', () => {
     it('should set modal in store', () => {
       const modal = { type: 'DELETE', url: 'url' };
-      const action = {
-        intent: OPEN_MODAL,
-        modal,
-      };
+      const action = { intent: OPEN_MODAL, modal };
       const expectedState = { modal };
 
       const actual = employeeDetailNzReducer({}, action);
@@ -257,16 +254,8 @@ describe('EmployeeDetailNzReducer', () => {
   describe('setAlert', () => {
     it('should set the alert in store', () => {
       const state = { alert: undefined };
-
-      const alert = {
-        type: 'success',
-        message: 'alert set',
-      };
-
-      const action = {
-        intent: SET_ALERT,
-        alert,
-      };
+      const alert = { type: 'success', message: 'alert set' };
+      const action = { intent: SET_ALERT, alert };
 
       const actual = employeeDetailNzReducer(state, action);
 
@@ -276,16 +265,9 @@ describe('EmployeeDetailNzReducer', () => {
 
   describe('dismissAlert', () => {
     it('should reset the alert in store', () => {
-      const state = {
-        alert: {
-          type: 'success',
-          message: 'alert set',
-        },
-      };
-
-      const action = {
-        intent: DISMISS_ALERT,
-      };
+      const alert = { type: 'success', message: 'alert set' };
+      const state = { alert };
+      const action = { intent: DISMISS_ALERT };
 
       const actual = employeeDetailNzReducer(state, action);
 
@@ -366,7 +348,6 @@ describe('EmployeeDetailNzReducer', () => {
         isSubmitting: false,
       };
 
-
       const actual = employeeDetailNzReducer(state, action);
 
       expect(actual).toEqual(expectedState);
@@ -409,9 +390,7 @@ describe('EmployeeDetailNzReducer', () => {
         loadingState: LoadingState.LOADING,
         isSubmitting: true,
       };
-
       const action = { intent: UPDATE_EMPLOYEE_FAILED, message: 'Failed' };
-
       const expectedState = {
         loadingState: LoadingState.LOADING_SUCCESS,
         isSubmitting: false,
@@ -421,8 +400,8 @@ describe('EmployeeDetailNzReducer', () => {
         },
       };
 
-
       const actual = employeeDetailNzReducer(state, action);
+
       expect(actual).toEqual(expectedState);
     });
   });

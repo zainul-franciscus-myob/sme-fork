@@ -5,6 +5,7 @@ import {
   getEmployeeId,
   getEmployeeListUrl,
   getEmployeePayload,
+  getIsCreating,
   getIsSubmitting,
   getLoadingState,
   getMainTab,
@@ -59,7 +60,16 @@ describe('EmployeeDetailNzSelectors', () => {
       };
 
       const actual = getEmployeeFullName(state);
+
       expect(actual).toEqual('Bob The Builder');
+    });
+
+    it('returns Create employee as the full name when creating new employee', () => {
+      const state = { employeeId: 'new' };
+
+      const actual = getEmployeeFullName(state);
+
+      expect(actual).toEqual('Create employee');
     });
   });
 
@@ -131,19 +141,29 @@ describe('EmployeeDetailNzSelectors', () => {
     });
   });
 
+  describe('getIsCreating', () => {
+    it('should return true when employeeId is new', () => {
+      const state = { employeeId: 'new' };
+
+      const actual = getIsCreating(state);
+
+      expect(actual).toEqual(true);
+    });
+    it('should return false when employeeId is not new', () => {
+      const state = { employeeId: 'id' };
+
+      const actual = getIsCreating(state);
+
+      expect(actual).toEqual(false);
+    });
+  });
+
   describe('getEmployeePayload', () => {
     const contactDetail = {
       firstName: 'Bob',
       lastName: 'The Builder',
     };
     const payrollDetails = {
-      employmentDetails: {
-        employmentStatus: 'Casual',
-        terminationDate: '2015-0-01T:00:00:00',
-        startDate: '2010-0-01T:00:00:00',
-        genderOptions: [{ name: 'Gender 1', value: 'Gender 1' }],
-        dateOfBirth: '2000-01-01T00:00:00',
-      },
       wage: {
         hourlyRate: '100',
       },

@@ -87,5 +87,15 @@ describe('EmployeeListNzModule', () => {
 
       expect(wrapper.find(LoadingFailPageState).exists()).toBe(true);
     });
+
+    it('Create employee button should redirect to employee module', () => {
+      const { module, wrapper } = setup();
+      module.run({ businessId: 'id' });
+      wrapper.update();
+
+      wrapper.find('Button').props().onClick();
+
+      expect(window.location.href.endsWith('/new')).toBe(true);
+    });
   });
 });

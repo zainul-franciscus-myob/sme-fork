@@ -3,7 +3,7 @@ import React from 'react';
 
 import { SUCCESSFULLY_DELETED_EMPLOYEE, SUCCESSFULLY_SAVED_EMPLOYEE } from '../EmployeeMessageTypes';
 import {
-  getEmployeeListUrl, getModalUrl, getURLParams, isPageEdited,
+  getEmployeeListUrl, getIsCreating, getModalUrl, getURLParams, isPageEdited,
 } from './EmployeeDetailNzSelectors';
 import { tabItems } from './tabItems';
 import ContactDetailsNzTabModule from './contactDetails/ContactDetailsNzTabModule';
@@ -19,12 +19,13 @@ import employeeDetailNzReducer from './employeeDetailNzReducer';
 
 export default class EmployeeDetailNzModule {
   constructor({
-    setRootView, integration, replaceURLParams, pushMessage,
+    setRootView, integration, replaceURLParams, pushMessage, popMessages,
   }) {
     this.setRootView = setRootView;
     this.integration = integration;
     this.replaceURLParams = replaceURLParams;
     this.pushMessage = pushMessage;
+    this.popMessages = popMessages;
     this.store = new Store(employeeDetailNzReducer);
     this.dispatcher = createEmployeeDetailNzDispatcher({ store: this.store });
     this.integrator = createEmployeeDetailNzIntegrator({ store: this.store, integration });
@@ -91,6 +92,7 @@ export default class EmployeeDetailNzModule {
   run(context) {
     this.setInitialState(context);
     this.render();
+    this.readMessages();
     this.loadEmployeeDetails();
   }
 
@@ -101,12 +103,21 @@ export default class EmployeeDetailNzModule {
       this.dispatcher.updateEmployeeFailed(response.message);
     };
 
-    this.integrator.saveEmployeeDetails({ onSuccess, onFailure });
+    this.integrator.createOrSaveEmployeeDetails({ onSuccess, onFailure });
   }
 
   onSaveButtonClick = () => {
     const onSuccess = (response) => {
-      this.dispatcher.updateEmployeeDetails(response);
+      const isCreating = getIsCreating(this.store.getState());
+      if (isCreating) {
+        this.pushMessage({
+          type: SUCCESSFULLY_SAVED_EMPLOYEE,
+          content: response.message,
+        });
+        this.redirectWithEmployeeId(response.employeeId);
+      } else {
+        this.dispatcher.updateEmployeeDetails(response);
+      }
     };
 
     this.saveEmployee(onSuccess);
@@ -176,5 +187,27 @@ export default class EmployeeDetailNzModule {
   redirectToModalUrl = () => {
     const url = getModalUrl(this.store.getState());
     this.redirectToUrl(url);
+  };
+
+  redirectWithEmployeeId = (employeeId) => {
+    const { businessId, region } = this.store.getState();
+    this.redirectToUrl(`/#/${region}/${businessId}/employee/${employeeId}`);
+  }
+
+
+  readMessages = () => {
+    const [inboxMessage] = this.popMessages(
+      [
+        SUCCESSFULLY_DELETED_EMPLOYEE,
+        SUCCESSFULLY_SAVED_EMPLOYEE,
+      ],
+    );
+
+    if (inboxMessage) {
+      this.dispatcher.setAlert({
+        type: 'success',
+        message: inboxMessage.content,
+      });
+    }
   };
 }
