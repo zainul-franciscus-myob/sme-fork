@@ -10,6 +10,7 @@ import SaveAmountDueWarningModal from './SaveAmountDueWarningModal';
 import SaveAndCreateNewModal from './SaveAndCreateNewModal';
 import SaveAndDuplicateModal from './SaveAndDuplicateModal';
 import UnlinkDocumentModal from './UnlinkDocumentModal';
+import UnsavedModal from '../../../../components/modal/UnsavedModal';
 
 const BillModal = ({
   modalType,
@@ -19,6 +20,8 @@ const BillModal = ({
   onConfirmSaveAmountDueWarningButtonClick,
   onConfirmSaveAndDuplicateButtonClick,
   onConfirmSaveAndCreateNewButtonClick,
+  onConfirmSaveAndRedirect,
+  onDiscardAndRedirect,
   onUnlinkDocumentConfirm,
   exportPdfModalListeners,
 }) => ({
@@ -43,6 +46,15 @@ const BillModal = ({
     onConfirmSaveAndDuplicateButtonClick={onConfirmSaveAndDuplicateButtonClick}
     onCancel={onModalClose}
   />),
+  [ModalType.Unsaved]: (
+    <UnsavedModal
+      onConfirmSave={onConfirmSaveAndRedirect}
+      onConfirmUnsave={onDiscardAndRedirect}
+      onCancel={onModalClose}
+      title="Record changes?"
+      description="Looks like you've made changes. Do you want to record these changes?"
+    />
+  ),
   [ModalType.ExportPdf]: (<ExportPdfModal listeners={exportPdfModalListeners} />),
   [ModalType.UnlinkDocument]: (<UnlinkDocumentModal
     onConfirm={onUnlinkDocumentConfirm}

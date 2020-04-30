@@ -24,6 +24,7 @@ import {
   SET_DOCUMENT_LOADING_STATE,
   SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_ID,
+  SET_REDIRECT_URL,
   SET_SHOW_SPLIT_VIEW,
   SET_SOURCE,
   SET_UPGRADE_MODAL_SHOWING,
@@ -342,6 +343,13 @@ const createBillDispatcher = store => ({
     store.dispatch({
       intent: SET_SOURCE,
       source,
+    });
+  },
+
+  setRedirectUrl: (redirectUrl) => {
+    store.dispatch({
+      intent: SET_REDIRECT_URL,
+      redirectUrl,
     });
   },
 });

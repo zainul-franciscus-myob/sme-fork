@@ -71,6 +71,8 @@ const BillView = ({
   onUpgradeModalDismiss,
   onUpgradeModalUpgradeButtonClick,
   onCreatePaymentClick,
+  onConfirmSaveAndRedirect,
+  onDiscardAndRedirect,
 }) => {
   const tableLayoutOption = (
     <BillLayoutPopover
@@ -138,6 +140,8 @@ const BillView = ({
           }
           exportPdfModalListeners={exportPdfModalListeners}
           onUnlinkDocumentConfirm={onUnlinkDocumentConfirm}
+          onConfirmSaveAndRedirect={onConfirmSaveAndRedirect}
+          onDiscardAndRedirect={onDiscardAndRedirect}
         />
       )}
       {!isSplitViewShown && (

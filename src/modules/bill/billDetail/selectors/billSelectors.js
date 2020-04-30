@@ -10,6 +10,8 @@ export const getDuplicateId = state => state.duplicateId;
 
 export const getOpenExportPdfQueryParam = state => state.openExportPdf;
 
+export const getRedirectUrl = state => state.redirectUrl;
+
 export const getIsCreating = createSelector(
   getBillId,
   billId => billId === 'new',

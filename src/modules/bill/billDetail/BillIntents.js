@@ -54,3 +54,4 @@ export const LINK_IN_TRAY_DOCUMENT = Symbol('Link in tray document');
 export const SET_ATTACHMENT_ID = Symbol('Set attachment id');
 export const SET_DUPLICATE_ID = Symbol('Set duplicate id');
 export const SET_SOURCE = Symbol('Set source');
+export const SET_REDIRECT_URL = Symbol('Set redirect url');

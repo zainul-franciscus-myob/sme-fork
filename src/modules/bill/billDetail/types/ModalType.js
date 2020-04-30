@@ -7,4 +7,5 @@ export default {
   ExportPdf: 'exportPdf',
   UnlinkDocument: 'unlinkDocument',
   None: '',
+  Unsaved: 'unsaved',
 };

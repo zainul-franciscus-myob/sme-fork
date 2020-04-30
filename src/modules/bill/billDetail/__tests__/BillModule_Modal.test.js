@@ -1,5 +1,6 @@
 import {
   CLOSE_MODAL,
+  CREATE_BILL,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   GET_TAX_CALCULATIONS,
   LINK_IN_TRAY_DOCUMENT,
@@ -12,6 +13,7 @@ import {
   SET_ATTACHMENT_ID,
   SET_DOCUMENT_LOADING_STATE,
   SET_IN_TRAY_DOCUMENT_ID,
+  SET_REDIRECT_URL,
   SET_SHOW_SPLIT_VIEW,
   START_BLOCKING,
   START_SUPPLIER_BLOCKING,
@@ -461,6 +463,55 @@ describe('BillModule_Modal', () => {
 
         expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/bill');
       });
+    });
+  });
+
+  describe('unsaved modal', () => {
+    it('opens unsaved modal if page has been edited', () => {
+      const { module, store } = setUpWithRun({ isCreating: true, isPageEdited: true });
+      store.resetActions();
+
+      module.handlePageTransition('/#/foo');
+
+      expect(store.getActions()).toEqual([
+        { intent: SET_REDIRECT_URL, redirectUrl: '/#/foo' },
+        { intent: OPEN_MODAL, modalType: ModalType.Unsaved },
+      ]);
+    });
+
+    it('redirect to target url if page not edited ', () => {
+      const { module, navigateTo } = setUpWithRun({ isCreating: true });
+      module.handlePageTransition('/#/foo');
+
+      expect(navigateTo).toBeCalledWith('/#/foo');
+    });
+
+    it('should save and redirect when confirm modal', () => {
+      const {
+        module,
+        integration,
+        navigateTo,
+      } = setUpWithRun({ isCreating: true, isPageEdited: true });
+      integration.resetRequests();
+      module.handlePageTransition('/#/bar');
+      module.saveAndRedirect();
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: CREATE_BILL }),
+      ]);
+      expect(navigateTo).toBeCalledWith('/#/bar');
+    });
+
+    it('should redirect without save when click on discard', () => {
+      const {
+        module,
+        integration,
+        navigateTo,
+      } = setUpWithRun({ isCreating: true, isPageEdited: true });
+      integration.resetRequests();
+      module.handlePageTransition('/#/bar');
+      module.discardAndRedirect();
+      expect(integration.getRequests()).toEqual([]);
+      expect(navigateTo).toBeCalledWith('/#/bar');
     });
   });
 });

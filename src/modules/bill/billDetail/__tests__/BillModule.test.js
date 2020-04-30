@@ -58,7 +58,10 @@ export const setUp = () => {
   const pushMessage = () => {};
   const popMessages = () => [];
   const replaceURLParams = () => {};
-  const globalCallbacks = {};
+  const navigateTo = jest.fn();
+  const globalCallbacks = {
+    inTrayBillSaved: jest.fn(),
+  };
   const integration = new TestIntegration();
 
   const module = new BillModule({
@@ -68,6 +71,7 @@ export const setUp = () => {
     popMessages,
     replaceURLParams,
     globalCallbacks,
+    navigateTo,
     featureToggles: { isBillJobColumnEnabled: true },
   });
   const store = new TestStore(billReducer);
@@ -80,6 +84,7 @@ export const setUp = () => {
     store,
     integration,
     pushMessage,
+    navigateTo,
   };
 };
 
@@ -118,6 +123,7 @@ export const setUpWithRun = ({ isCreating = false, isPageEdited = false } = {}) 
     integration,
     store,
     pushMessage,
+    navigateTo,
   } = setUp();
 
   // With the current memory data, there are two lines created
@@ -135,6 +141,7 @@ export const setUpWithRun = ({ isCreating = false, isPageEdited = false } = {}) 
     module,
     integration,
     store,
+    navigateTo,
     pushMessage,
   };
 };

@@ -26,6 +26,7 @@ import {
   SET_DOCUMENT_LOADING_STATE,
   SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_ID,
+  SET_REDIRECT_URL,
   SET_SHOW_SPLIT_VIEW,
   SET_SOURCE,
   SET_UPGRADE_MODAL_SHOWING,
@@ -582,6 +583,11 @@ const setSource = (state, action) => ({
   source: action.source,
 });
 
+const setRedirectUrl = (state, { redirectUrl }) => ({
+  ...state,
+  redirectUrl,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -627,6 +633,7 @@ const handlers = {
   [SET_ATTACHMENT_ID]: setAttachmentId,
   [SET_DUPLICATE_ID]: setDuplicateId,
   [SET_SOURCE]: setSource,
+  [SET_REDIRECT_URL]: setRedirectUrl,
 };
 
 const billReducer = createReducer(getDefaultState(), handlers);

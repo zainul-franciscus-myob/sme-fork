@@ -27,6 +27,7 @@ import {
   getLinesForTaxCalculation,
   getModalType,
   getNewLineIndex,
+  getRedirectUrl,
   getTaxCodeOptions,
 } from './selectors/billSelectors';
 import {
@@ -273,6 +274,24 @@ class BillModule {
       this.saveAndReload({ onSuccess });
     }
   };
+
+  discardAndRedirect = () => {
+    this.dispatcher.closeModal();
+    const url = getRedirectUrl(this.store.getState());
+    this.navigateTo(url);
+  }
+
+  saveAndRedirect = () => {
+    this.dispatcher.closeModal();
+
+    const onSuccess = () => {
+      this.globalCallbacks.inTrayBillSaved();
+      const url = getRedirectUrl(this.store.getState());
+      this.navigateTo(url);
+    };
+
+    this.saveBillAnd({ onSuccess });
+  }
 
   saveAndCreateNewBill = () => {
     this.dispatcher.closeModal();
@@ -816,6 +835,8 @@ class BillModule {
           accountModal={accountModal}
           onSaveButtonClick={this.handleSaveBill}
           onSaveAndButtonClick={this.openSaveAndModal}
+          onConfirmSaveAndRedirect={this.saveAndRedirect}
+          onDiscardAndRedirect={this.discardAndRedirect}
           onCancelButtonClick={this.openCancelModal}
           onDeleteButtonClick={this.openDeleteModal}
           onExportPdfButtonClick={this.openExportPdfModalOrSaveAndExportPdf}
@@ -896,6 +917,16 @@ class BillModule {
     this.render();
     this.readMessages();
     this.loadBill();
+  }
+
+  handlePageTransition = (url) => {
+    const state = this.store.getState();
+    if (getIsPageEdited(state)) {
+      this.dispatcher.setRedirectUrl(url);
+      this.dispatcher.openModal({ modalType: ModalType.Unsaved });
+    } else {
+      this.navigateTo(url);
+    }
   }
 }
 
