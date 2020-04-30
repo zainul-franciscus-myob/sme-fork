@@ -137,6 +137,13 @@ describe('EmployeeDetailNzSelectors', () => {
       lastName: 'The Builder',
     };
     const payrollDetails = {
+      employmentDetails: {
+        employmentStatus: 'Casual',
+        terminationDate: '2015-0-01T:00:00:00',
+        startDate: '2010-0-01T:00:00:00',
+        genderOptions: [{ name: 'Gender 1', value: 'Gender 1' }],
+        dateOfBirth: '2000-01-01T00:00:00',
+      },
       wage: {
         hourlyRate: '100',
       },

@@ -1,13 +1,20 @@
 import React from 'react';
 
 import EmploymentDetailsNzTab from './components/EmploymentDetailsTab';
+import createEmploymentDetailsTabDispatchers from './createEmploymentDetailsDispatcher';
 
 export default class EmploymentDetailsNzModule {
-  constructor() {
-    this.view = <EmploymentDetailsNzTab />;
+  constructor({
+    store,
+  }) {
+    this.dispatcher = createEmploymentDetailsTabDispatchers(store);
   }
 
   getView() {
-    return (this.view);
+    return (
+      <EmploymentDetailsNzTab
+        onEmploymentDetailsChange={this.dispatcher.updateEmploymentDetails}
+      />
+    );
   }
 }

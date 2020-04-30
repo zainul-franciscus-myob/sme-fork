@@ -9,6 +9,7 @@ import { tabIds } from './tabItems';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import contactDetailsNzTabReducer from './contactDetails/contactDetailsNzTabReducer';
 import createReducer from '../../../../store/createReducer';
+import employementDetailsReducer from './employmentDetails/employementDetailsReducer';
 import slarayAndWageReducer from './salaryAndWages/slarayAndWageReducer';
 
 const getDefaultState = () => ({
@@ -158,6 +159,7 @@ const handlers = {
   [SET_MAIN_TAB]: setMainTab,
   [SET_SUB_TAB]: setSubTab,
   ...contactDetailsNzTabReducer,
+  ...employementDetailsReducer,
   ...slarayAndWageReducer,
 };
 

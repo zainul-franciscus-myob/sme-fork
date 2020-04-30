@@ -30,7 +30,7 @@ export default class EmployeeDetailNzModule {
     this.integrator = createEmployeeDetailNzIntegrator({ store: this.store, integration });
     this.subModules = {
       contactDetails: new ContactDetailsNzTabModule({ store: this.store }),
-      employmentDetails: new EmploymentDetailsNzModule(),
+      employmentDetails: new EmploymentDetailsNzModule({ store: this.store }),
       salaryAndWages: new SalaryAndWagesModule({ store: this.store }),
     };
   }

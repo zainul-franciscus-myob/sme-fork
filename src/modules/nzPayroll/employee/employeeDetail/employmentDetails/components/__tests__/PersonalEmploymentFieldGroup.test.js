@@ -10,16 +10,23 @@ describe('<PersonalEmploymentFieldGroup />', () => {
     calculatedAge: 50,
     gender: 'gender1',
     genderOptions: [{ name: 'gender1', value: 'Gender 1' }, { name: 'gender2', value: 'Gender 2' }],
+    onDateChange: jest.fn(),
+    onSelectChange: jest.fn(),
   };
 
   describe('dateOfBirth field', () => {
+    const name = 'dateOfBirth';
     it('should display the date of birth', () => {
       const wrapper = mount(<PersonalEmploymentFieldGroup {...props} />);
-      const field = wrapper.find({ name: 'dateOfBirth' }).find(DatePicker);
+      const field = wrapper.find({ name }).find(DatePicker);
 
       expect(field.exists()).toBe(true);
       expect(field.prop('label')).toEqual('Date of birth');
       expect(field.prop('value')).toEqual(props.dateOfBirth);
+    });
+    it('should execute the onDateChange', () => {
+      mount(<PersonalEmploymentFieldGroup {...props} />);
+      expect(props.onDateChange).toHaveBeenCalledWith(name);
     });
   });
 
@@ -37,9 +44,10 @@ describe('<PersonalEmploymentFieldGroup />', () => {
 
 
   describe('gender field', () => {
+    const name = 'gender';
     it('should display the gender', () => {
       const wrapper = mount(<PersonalEmploymentFieldGroup {...props} />);
-      const field = wrapper.find({ name: 'gender' }).find(Select);
+      const field = wrapper.find({ name }).find(Select);
 
       expect(field.exists()).toBe(true);
       expect(field.prop('label')).toEqual('Gender');
@@ -47,7 +55,7 @@ describe('<PersonalEmploymentFieldGroup />', () => {
     });
     it('should contain the options provided', () => {
       const wrapper = mount(<PersonalEmploymentFieldGroup {...props} />);
-      const field = wrapper.find({ name: 'gender' }).find(Select);
+      const field = wrapper.find({ name }).find(Select);
 
       const optionComponents = field.find(Select.Option);
       const optionProps = optionComponents.map(c => ({ name: c.prop('label'), value: c.prop('value') }));

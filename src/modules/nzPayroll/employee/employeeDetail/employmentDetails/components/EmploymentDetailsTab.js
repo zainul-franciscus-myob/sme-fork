@@ -1,6 +1,6 @@
 import { FormHorizontal } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import {
   getCalculatedAge,
@@ -23,21 +23,37 @@ const EmploymentDetailsNzTab = ({
   startDate,
   terminationDate,
   employmentStatus,
-}) => (
-  <FormHorizontal layout="primary">
+  onEmploymentDetailsChange,
+}) => {
+  const onInputChange = useCallback(
+    target => onEmploymentDetailsChange({
+      key: target.name,
+      value: target.value,
+    }),
+    [onEmploymentDetailsChange],
+  );
+
+  const onDateChange = (fieldName) => ({ value }) => onInputChange({ name: fieldName, value });
+
+  const onSelectChange = ({ target }) => onInputChange(target);
+
+  return (<FormHorizontal layout="primary">
     <PersonalEmploymentFieldGroup
       dateOfBirth={dateOfBirth}
       gender={gender}
       calculatedAge={calculatedAge}
       genderOptions={genderOptions}
+      onDateChange={onDateChange}
+      onSelectChange={onSelectChange}
     />
     <EmploymentFieldGroup
       startDate={startDate}
       terminationDate={terminationDate}
       employmentStatus={employmentStatus}
+      onDateChange={onDateChange}
     />
-  </FormHorizontal>
-);
+  </FormHorizontal>);
+};
 
 const mapStateToProps = (state) => ({
   dateOfBirth: getDateOfBirth(state),

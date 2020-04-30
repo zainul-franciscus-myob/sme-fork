@@ -3,19 +3,20 @@ import {
 } from '@myob/myob-widgets';
 import React from 'react';
 
+
 const PersonalEmploymentFieldGroup = ({
-  dateOfBirth, calculatedAge, gender, genderOptions = [],
+  dateOfBirth, calculatedAge, gender, genderOptions = [], onDateChange, onSelectChange,
 }) => (
   <FieldGroup label="Personal">
     <DatePicker
       name="dateOfBirth"
       label="Date of birth"
       value={dateOfBirth}
-      disabled
       width="sm"
+      onSelect={onDateChange('dateOfBirth')}
     />
     <ReadOnly name="calculatedAge" label="Calculated age">{ calculatedAge }</ReadOnly>
-    <Select name="gender" label="Gender" value={gender} width="sm" disabled>
+    <Select name="gender" label="Gender" value={gender} width="sm" onChange={onSelectChange}>
       {
         genderOptions.map(
           ({ value, name }) => <Select.Option key={value} value={value} label={name} />,
