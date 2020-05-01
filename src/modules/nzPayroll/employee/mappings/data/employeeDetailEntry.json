@@ -26,7 +26,7 @@
       "employmentStatus": "Casual"
     },
     "wage": {
-      "selectedPayBasis": "Salary",
+      "selectedPayBasis": "Hourly",
       "hourlyRate": "48.0764",
       "selectedPayCycle": "Weekly"
     }

@@ -10,7 +10,7 @@ import LoadingState from '../../../../components/PageView/LoadingState';
 import contactDetailsNzTabReducer from './contactDetails/contactDetailsNzTabReducer';
 import createReducer from '../../../../store/createReducer';
 import employementDetailsReducer from './employmentDetails/employementDetailsReducer';
-import slarayAndWageReducer from './salaryAndWages/slarayAndWageReducer';
+import salaryAndWageReducer from './salaryAndWages/salaryAndWageReducer';
 
 const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
@@ -160,7 +160,7 @@ const handlers = {
   [SET_SUB_TAB]: setSubTab,
   ...contactDetailsNzTabReducer,
   ...employementDetailsReducer,
-  ...slarayAndWageReducer,
+  ...salaryAndWageReducer,
 };
 
 const employeeDetailNzReducer = createReducer(getDefaultState(), handlers);

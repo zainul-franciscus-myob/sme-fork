@@ -30,8 +30,10 @@ const PayDetailsFieldGroup = ({
       label="Hourly rate ($)"
       name="hourlyRate"
       value={hourlyRate}
+      numeralDecimalScaleMax={4}
+      numeralIntegerScale={12}
       textAlign="right"
-      width="xs"
+      width="sm"
       onChange={onInputChange}
     />
     <Select
