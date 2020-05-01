@@ -165,6 +165,7 @@ const SpendMoneyDetailView = ({
       showDetail={showSplitView}
       more={more}
       templateClassName={styles.wrapper}
+      detailHeaderClassName={styles.detail}
     />
   );
 

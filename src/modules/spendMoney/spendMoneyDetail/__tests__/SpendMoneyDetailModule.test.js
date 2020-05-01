@@ -6,6 +6,7 @@ import {
   DOWNLOAD_IN_TRAY_DOCUMENT,
   GET_TAX_CALCULATIONS,
   LINK_IN_TRAY_DOCUMENT,
+  LOAD_ABN_FROM_CONTACT,
   LOAD_NEW_DUPLICATE_SPEND_MONEY,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
@@ -13,6 +14,7 @@ import {
   LOAD_SUPPLIER_EXPENSE_ACCOUNT,
   PREFILL_DATA_FROM_IN_TRAY,
   RESET_TOTALS,
+  SET_ABN_LOADING_STATE,
   SET_ALERT,
   SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_URL,
@@ -42,6 +44,7 @@ import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
 import createSpendMoneyDispatcher from '../createSpendMoneyDispatcher';
 import createSpendMoneyIntegrator from '../createSpendMoneyIntegrator';
+import spendMoneyDetailEntry from '../../mappings/data/spendMoneyDetailEntry';
 import spendMoneyDetailReducer from '../spendMoneyDetailReducer';
 
 const mockCreateObjectUrl = () => {
@@ -592,6 +595,58 @@ describe('SpendMoneyDetailModule', () => {
         }),
       ]);
     });
+
+    it('successfully loads existing with an abn', () => {
+      const { store, integration, module } = setup();
+      integration.mapSuccess(LOAD_SPEND_MONEY_DETAIL, {
+        ...spendMoneyDetailEntry,
+        spendMoney: {
+          ...spendMoneyDetailEntry.spendMoney,
+          selectedPayToContactId: '123',
+        },
+      });
+
+      module.run({ businessId: '👺', region: 'au', spendMoneyId: '1' });
+
+      expect(store.getActions()).toEqual(expect.arrayContaining([
+        {
+          intent: SET_INITIAL_STATE,
+          context: {
+            isSpendMoneyJobColumnEnabled: true,
+            businessId: '👺',
+            region: 'au',
+            spendMoneyId: '1',
+          },
+        },
+        {
+          intent: SET_LOADING_STATE,
+          isLoading: LoadingState.LOADING,
+        },
+        expect.objectContaining({
+          intent: LOAD_SPEND_MONEY_DETAIL,
+        }),
+        {
+          intent: SET_LOADING_STATE,
+          isLoading: LoadingState.LOADING_SUCCESS,
+        },
+        expect.objectContaining({
+          intent: GET_TAX_CALCULATIONS,
+        }),
+      ]));
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_SPEND_MONEY_DETAIL,
+        }),
+        expect.objectContaining({
+          intent: LOAD_ABN_FROM_CONTACT,
+          urlParams: {
+            contactId: '123',
+            businessId: '👺',
+          },
+        }),
+      ]);
+    });
   });
 
   describe('updateHeaderOptions', () => {
@@ -662,6 +717,55 @@ describe('SpendMoneyDetailModule', () => {
     });
 
     describe('key is selectedPayToContactId', () => {
+      const loadingAbnActions = [
+        {
+          intent: SET_ABN_LOADING_STATE,
+          isAbnLoading: true,
+        },
+        {
+          intent: SET_ABN_LOADING_STATE,
+          isAbnLoading: false,
+        },
+        expect.objectContaining({
+          intent: LOAD_ABN_FROM_CONTACT,
+        }),
+      ];
+
+
+      describe('it should load the abn from the selected contact', () => {
+        const { module, store, integration } = setUpWithExisting();
+
+        module.updateHeaderOptions({ key: 'selectedPayToContactId', value: '2' });
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_SPEND_MONEY_HEADER,
+            key: 'selectedPayToContactId',
+            value: '2',
+          },
+          {
+            intent: SET_ABN_LOADING_STATE,
+            isAbnLoading: true,
+          },
+          {
+            intent: SET_ABN_LOADING_STATE,
+            isAbnLoading: false,
+          },
+          expect.objectContaining({
+            intent: LOAD_ABN_FROM_CONTACT,
+          }),
+        ]);
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_ABN_FROM_CONTACT,
+            urlParams: expect.objectContaining({
+              contactId: '2',
+            }),
+          }),
+        ]);
+      });
+
       describe('when is creating new spend money', () => {
         it('should load expense account id, calls tax calc. if contact is supplier and has default expense account', () => {
           const { module, store, integration } = setupWithNew();
@@ -692,13 +796,18 @@ describe('SpendMoneyDetailModule', () => {
               intent: GET_TAX_CALCULATIONS,
               taxCalculations: expect.any(Object),
             },
+            ...loadingAbnActions,
           ]);
 
-          expect(integration.getRequests()).toContainEqual(
+          expect(integration.getRequests()).toEqual([
+            expect.objectContaining({ intent: LOAD_SUPPLIER_EXPENSE_ACCOUNT }),
             expect.objectContaining({
-              intent: LOAD_SUPPLIER_EXPENSE_ACCOUNT,
+              intent: LOAD_ABN_FROM_CONTACT,
+              urlParams: expect.objectContaining({
+                contactId: '2',
+              }),
             }),
-          );
+          ]);
         });
 
         it('should not load expense account id if contact is not supplier', () => {
@@ -711,6 +820,7 @@ describe('SpendMoneyDetailModule', () => {
               key: 'selectedPayToContactId',
               value: '1',
             },
+            ...loadingAbnActions,
           ]);
         });
 
@@ -737,13 +847,13 @@ describe('SpendMoneyDetailModule', () => {
             expect.objectContaining({
               intent: LOAD_SUPPLIER_EXPENSE_ACCOUNT,
             }),
+            ...loadingAbnActions,
           ]);
 
-          expect(integration.getRequests()).toContainEqual(
-            expect.objectContaining({
-              intent: LOAD_SUPPLIER_EXPENSE_ACCOUNT,
-            }),
-          );
+          expect(integration.getRequests()).toEqual([
+            expect.objectContaining({ intent: LOAD_SUPPLIER_EXPENSE_ACCOUNT }),
+            expect.objectContaining({ intent: LOAD_ABN_FROM_CONTACT }),
+          ]);
         });
       });
     });

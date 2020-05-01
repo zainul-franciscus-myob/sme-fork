@@ -33,6 +33,7 @@ import {
   getOpenedModalType,
   getSaveUrl,
   getSelectedPayFromId,
+  getSelectedPayToContactId,
   getShouldShowAccountCode,
   getSpendMoneyId,
   getTaxCodeOptions,
@@ -159,6 +160,38 @@ export default class SpendMoneyDetailModule {
 
   loadSpendMoney = () => {
     const state = this.store.getState();
+    if (getIsCreating(state)) {
+      this.loadNewSpendMoney();
+    } else {
+      this.loadExistingSpendMoney();
+    }
+  };
+
+  loadExistingSpendMoney = () => {
+    const onSuccess = intent => (response) => {
+      this.dispatcher.loadSpendMoney(intent, response);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.getTaxCalculations({ isSwitchingTaxInclusive: false });
+
+      const state = this.store.getState();
+      const contactId = getSelectedPayToContactId(state);
+      if (contactId) {
+        this.loadAbnFromContact(contactId);
+      }
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    };
+
+    this.integrator.loadSpendMoney({
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  loadNewSpendMoney = () => {
+    const state = this.store.getState();
 
     const onSuccess = intent => (response) => {
       this.dispatcher.loadSpendMoney(intent, response);
@@ -180,7 +213,7 @@ export default class SpendMoneyDetailModule {
       onSuccess,
       onFailure,
     });
-  };
+  }
 
   loadNextReferenceId = (accountId) => {
     const onSuccess = ({ referenceId }) => {
@@ -221,6 +254,21 @@ export default class SpendMoneyDetailModule {
     this.integrator.loadSupplierExpenseAccount({ onSuccess, onFailure });
   };
 
+  loadAbnFromContact = (contactId) => {
+    this.dispatcher.setLoadingAbnState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setLoadingAbnState(false);
+      this.dispatcher.loadAbn(response);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setLoadingAbnState(false);
+    };
+
+    this.integrator.loadAbnFromContact({ contactId, onSuccess, onFailure });
+  }
+
   updateHeaderOptions = ({ key, value }) => {
     this.dispatcher.updateHeaderOptions({ key, value });
 
@@ -241,8 +289,11 @@ export default class SpendMoneyDetailModule {
     }
 
     const stateAfterUpdate = this.store.getState();
-    if (key === 'selectedPayToContactId' && getShouldShowAccountCode(stateAfterUpdate)) {
-      this.loadSupplierExpenseAccount();
+    if (key === 'selectedPayToContactId') {
+      if (getShouldShowAccountCode(stateAfterUpdate)) {
+        this.loadSupplierExpenseAccount();
+      }
+      this.loadAbnFromContact(value);
     }
   };
 

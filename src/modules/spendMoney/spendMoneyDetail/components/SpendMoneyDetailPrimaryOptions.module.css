@@ -1,8 +1,34 @@
 .contactComboBox {
+  display: flex;
+  flex-wrap: wrap;
   margin-bottom: var(--flx-spacing-tiny);
+}
+
+.maximiseContactCombobox :global(.form-group) {
+  width: 100%;
+}
+
+.contactComboBox :global(.flx-popover) {
+  display: flex;
+  margin-left: var(--flx-spacing-x-tiny);
+  margin-top: var(--flx-spacing-x-tiny);
 }
 
 .prefilled input,
 .prefilled textarea {
   background-color: #d5e3f9;
+}
+
+.spinner {
+  display: flex;
+}
+
+.spinner :global(.flx-loading-spinner--fade-in) {
+  align-self: center;
+}
+
+@media only screen and (min-width: 768px) {
+  .contactComboBox :global(.form-group) {
+    min-width: var(--flx-width-field-l);
+  }
 }

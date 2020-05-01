@@ -43,3 +43,6 @@ export const UPDATE_BANK_STATEMENT_TEXT = Symbol('Update bank statement text');
 export const SET_DUPLICATE_ID = Symbol('Set duplicate id');
 export const SET_PREFILL_NEW = Symbol('Set prefill new');
 export const SET_PREFILL_INTRAY_DOCUMENT_ID = Symbol('Set prefill in tray document id');
+
+export const LOAD_ABN_FROM_CONTACT = Symbol('Load abn given a contact id');
+export const SET_ABN_LOADING_STATE = Symbol('Set abn loading state');

@@ -3,6 +3,7 @@ import {
   DELETE_SPEND_MONEY,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   LINK_IN_TRAY_DOCUMENT,
+  LOAD_ABN_FROM_CONTACT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_REFERENCE_ID,
@@ -255,6 +256,20 @@ const createSpendMoneyIntegrator = (store, integration) => ({
 
     const intent = LOAD_CONTACT_AFTER_CREATE;
     const urlParams = getLoadAddedContactUrlParams(state, id);
+
+    integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadAbnFromContact: ({ contactId, onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = LOAD_ABN_FROM_CONTACT;
+    const urlParams = getLoadAddedContactUrlParams(state, contactId);
 
     integration.read({
       intent,

@@ -1,13 +1,21 @@
 import {
-  Input, TextArea, Tooltip,
+  Input, Spinner, TextArea, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classnames from 'classnames';
 
 import {
-  getAccountOptions, getHeaderOptions, getIsSupplierBlocking, getPrefillStatus,
+  getAbn,
+  getAbnLink,
+  getAccountOptions,
+  getEditContactUrl,
+  getHeaderOptions,
+  getIsAbnLoading,
+  getIsSupplierBlocking,
+  getPrefillStatus,
 } from '../spendMoneyDetailSelectors';
+import AbnPopover from '../../../../components/autoFormatter/AbnInput/AbnPopover';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import ContactCombobox from '../../../../components/combobox/ContactCombobox';
 import ReportableCheckbox from '../../../../components/ReportableCheckbox/ReportableCheckbox';
@@ -32,6 +40,10 @@ const SpendMoneyDetailPrimaryOptions = ({
     expenseAccountId,
   },
   accountOptions,
+  abn,
+  isAbnLoading,
+  abnLink,
+  editContactUrl,
   onUpdateHeaderOptions,
   onBlurBankStatementText,
   prefillStatus,
@@ -47,6 +59,23 @@ const SpendMoneyDetailPrimaryOptions = ({
     onUpdateHeaderOptions({ key, value: item.id });
   };
 
+  const abnSpinner = (
+    <div className={styles.spinner}>
+      <Spinner size="small" />
+    </div>
+  );
+
+  const abnDetail = (
+    <AbnPopover
+      {...abn}
+      abnLink={abnLink}
+      editContactUrl={editContactUrl}
+    />
+  );
+
+  const abnInfo = isAbnLoading ? abnSpinner : (abn && abnDetail);
+  const abnShown = abn ? '' : styles.maximiseContactCombobox;
+
   return (
     <React.Fragment>
       <AccountCombobox
@@ -56,10 +85,12 @@ const SpendMoneyDetailPrimaryOptions = ({
         items={payFromAccounts}
         selectedId={selectedPayFromAccountId}
         onChange={handleComboBoxChange('selectedPayFromAccountId')}
+        width="xl"
       />
       <div
         className={classnames(
           styles.contactComboBox,
+          abnShown,
           { [styles.prefilled]: prefillStatus.selectedPayToContactId },
         )}
       >
@@ -76,7 +107,9 @@ const SpendMoneyDetailPrimaryOptions = ({
             onAddNew: onAddContact,
           }}
           allowClear
+          width="xl"
         />
+        {abnInfo}
       </div>
       {shouldShowReportable && (
         <ReportableCheckbox
@@ -103,6 +136,7 @@ const SpendMoneyDetailPrimaryOptions = ({
           name="expenseAccountId"
           hideLabel={false}
           disabled={isSupplierBlocking}
+          width="xl"
         />
       )}
       {
@@ -115,6 +149,7 @@ const SpendMoneyDetailPrimaryOptions = ({
             onBlur={handleInputChange(onBlurBankStatementText)}
             requiredLabel="This is required"
             maxLength={18}
+            width="xl"
           />
         )
       }
@@ -128,6 +163,7 @@ const SpendMoneyDetailPrimaryOptions = ({
           resize="vertical"
           value={description}
           onChange={handleInputChange(onUpdateHeaderOptions)}
+          width="xl"
         />
       </div>
     </React.Fragment>
@@ -139,6 +175,10 @@ const mapStateToProps = state => ({
   headerOptions: getHeaderOptions(state),
   accountOptions: getAccountOptions(state),
   prefillStatus: getPrefillStatus(state),
+  abn: getAbn(state),
+  isAbnLoading: getIsAbnLoading(state),
+  abnLink: getAbnLink(state),
+  editContactUrl: getEditContactUrl(state),
 });
 
 export default connect(mapStateToProps)(SpendMoneyDetailPrimaryOptions);

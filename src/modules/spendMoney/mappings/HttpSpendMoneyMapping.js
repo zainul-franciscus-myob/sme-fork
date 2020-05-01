@@ -3,6 +3,7 @@ import {
   DELETE_SPEND_MONEY,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   LINK_IN_TRAY_DOCUMENT,
+  LOAD_ABN_FROM_CONTACT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_NEW_DUPLICATE_SPEND_MONEY,
@@ -81,6 +82,10 @@ const HttpSpendMoneyMapping = {
   [LOAD_CONTACT_AFTER_CREATE]: {
     method: 'GET',
     getPath: ({ businessId, contactId }) => `/${businessId}/spendMoney/load_contact/${contactId}`,
+  },
+  [LOAD_ABN_FROM_CONTACT]: {
+    method: 'GET',
+    getPath: ({ businessId, contactId }) => `/${businessId}/spendMoney/load_abn_from_contact/${contactId}`,
   },
 };
 

@@ -7,6 +7,7 @@ import {
   DELETE_SPEND_MONEY_LINE,
   GET_TAX_CALCULATIONS,
   HIDE_PREFILL_INFO,
+  LOAD_ABN_FROM_CONTACT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_REFERENCE_ID,
@@ -18,6 +19,7 @@ import {
   REMOVE_ATTACHMENT_BY_INDEX,
   RESET_BANK_STATEMENT_TEXT,
   RESET_TOTALS,
+  SET_ABN_LOADING_STATE,
   SET_ALERT,
   SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_URL,
@@ -251,6 +253,17 @@ const createSpendMoneyDispatcher = store => ({
     intent: SET_PREFILL_INTRAY_DOCUMENT_ID,
     inTrayDocumentId,
   }),
+
+  setLoadingAbnState: isAbnLoading => store.dispatch({
+    intent: SET_ABN_LOADING_STATE,
+    isAbnLoading,
+  }),
+
+  loadAbn: abn => store.dispatch({
+    intent: LOAD_ABN_FROM_CONTACT,
+    abn,
+  }),
+
 });
 
 export default createSpendMoneyDispatcher;

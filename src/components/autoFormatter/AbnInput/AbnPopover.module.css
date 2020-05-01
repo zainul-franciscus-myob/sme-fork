@@ -7,6 +7,10 @@
   min-width: 12rem;
 }
 
+.noIcon {
+  grid-template-columns: auto;
+}
+
 .label {
   font-weight: bold;
   padding-right: var(--flx-spacing-x-tiny);
@@ -26,6 +30,11 @@
   color: var(--flx-background-color-alert-warning-icon);
 }
 
+.invalid {
+  font-weight: bold;
+  color: var(--flx-background-color-alert-error-icon);
+}
+
 .icon {
   display: flex;
 }
@@ -40,4 +49,8 @@
 
 .iconInvalid :global(svg) {
   fill: var(--flx-background-color-alert-error-icon);
+}
+
+.statusText {
+  color: var(--flx-color-link);
 }

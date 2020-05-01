@@ -7,6 +7,7 @@ import {
   DELETE_SPEND_MONEY_LINE,
   GET_TAX_CALCULATIONS,
   HIDE_PREFILL_INFO,
+  LOAD_ABN_FROM_CONTACT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_NEW_DUPLICATE_SPEND_MONEY,
@@ -21,6 +22,7 @@ import {
   REMOVE_ATTACHMENT_BY_INDEX,
   RESET_BANK_STATEMENT_TEXT,
   RESET_TOTALS,
+  SET_ABN_LOADING_STATE,
   SET_ALERT,
   SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_URL,
@@ -102,11 +104,13 @@ const getDefaultState = () => ({
     totalTax: '$0.00',
     totalAmount: '$0.00',
   },
+  abn: undefined,
   alert: undefined,
   modal: undefined,
   isLoading: LoadingState,
   isSubmitting: false,
   isSupplierBlocking: false,
+  isAbnLoading: false,
   isPageEdited: false,
   businessId: '',
   region: '',
@@ -493,7 +497,7 @@ const getPrefilledLineFromInTray = (state, prefilledLine, expenseAccountId) => (
 });
 
 const prefillDataFromInTray = (state, action) => {
-  const { spendMoney, document } = action.response;
+  const { spendMoney, document, abn } = action.response;
   const {
     selectedPayToContactId,
     description,
@@ -530,6 +534,7 @@ const prefillDataFromInTray = (state, action) => {
       date: Boolean(spendMoney.date),
       isTaxInclusive: Boolean(spendMoney.isTaxInclusive),
     },
+    abn,
     showPrefillInfo: true,
   };
 };
@@ -617,6 +622,16 @@ const setPrefillInTrayDocumentId = (state, action) => ({
   inTrayDocumentId: action.inTrayDocumentId,
 });
 
+const setAbnLoadingState = (state, action) => ({
+  ...state,
+  isAbnLoading: action.isAbnLoading,
+});
+
+const loadAbnFromContact = (state, action) => ({
+  ...state,
+  abn: action.abn,
+});
+
 const handlers = {
   [UPDATE_SPEND_MONEY_HEADER]: updateHeader,
   [LOAD_NEW_SPEND_MONEY]: loadNewSpendMoney,
@@ -658,6 +673,8 @@ const handlers = {
   [SET_DUPLICATE_ID]: setDuplicateId,
   [SET_PREFILL_NEW]: setPrefillNew,
   [SET_PREFILL_INTRAY_DOCUMENT_ID]: setPrefillInTrayDocumentId,
+  [SET_ABN_LOADING_STATE]: setAbnLoadingState,
+  [LOAD_ABN_FROM_CONTACT]: loadAbnFromContact,
 };
 const spendMoneyReducer = createReducer(getDefaultState(), handlers);
 

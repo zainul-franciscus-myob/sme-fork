@@ -3,6 +3,7 @@ import {
   DELETE_SPEND_MONEY,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   LINK_IN_TRAY_DOCUMENT,
+  LOAD_ABN_FROM_CONTACT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_NEW_DUPLICATE_SPEND_MONEY,
@@ -16,6 +17,7 @@ import {
   UPDATE_SPEND_MONEY,
   UPLOAD_ATTACHMENT,
 } from '../SpendMoneyIntents';
+import abnDetail from './data/abnDetail';
 import attachmentDetailResponse from './data/attachmentDetail';
 import createSpendMoneyResponse from './data/createSpendMoney';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
@@ -72,6 +74,7 @@ const MemorySpendMoneyMapping = {
   [LINK_IN_TRAY_DOCUMENT]: linkInTrayDocument,
   [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedAccountResponse),
   [LOAD_CONTACT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedContactResponse),
+  [LOAD_ABN_FROM_CONTACT]: ({ onSuccess }) => onSuccess(abnDetail),
 };
 
 export default MemorySpendMoneyMapping;

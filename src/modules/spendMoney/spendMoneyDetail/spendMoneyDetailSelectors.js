@@ -38,6 +38,8 @@ export const getRegion = state => state.region;
 const getElectronicClearingAccountId = state => state.spendMoney.electronicClearingAccountId;
 const getBankStatementText = state => state.spendMoney.bankStatementText;
 export const getDuplicateId = (state) => state.duplicateId;
+export const getAbn = (state) => state.abn;
+export const getIsAbnLoading = (state) => state.isAbnLoading;
 
 const getHeadersProperties = createStructuredSelector({
   referenceId: getReferenceId,
@@ -421,4 +423,15 @@ export const getLoadSpendMoneyIntent = createSelector(
 
     return LOAD_SPEND_MONEY_DETAIL;
   },
+);
+
+export const getAbnLink = state => (state.abn
+  ? `https://abr.business.gov.au/ABN/View?id=${state.abn.abn}`
+  : 'https://abr.business.gov.au/');
+
+export const getEditContactUrl = createSelector(
+  getBusinessId,
+  getRegion,
+  getSelectedPayToContactId,
+  (businessId, region, contactId) => `/#/${region}/${businessId}/contact/${contactId}`,
 );

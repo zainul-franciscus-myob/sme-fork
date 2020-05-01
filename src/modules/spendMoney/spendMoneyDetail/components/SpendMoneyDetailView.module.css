@@ -1,3 +1,12 @@
 .wrapper {
   --prefill-background-color: #d5e3f9;
 }
+
+/**
+  @FEELIX:
+  To have the abn popover next to the contact combobox, we need to extend
+  the width of the primary header option.
+**/
+.detail :global(.flx-detail-header__primary) {
+  max-width: 42.2rem;
+}
