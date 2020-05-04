@@ -23,7 +23,7 @@ We need to login to the private registry located at [`https://npm.myob.com/npm/`
 1. Ask [`#tr-platform-enable`](https://myob.slack.com/archives/C3F2M5NFP) for access to the private registry
 1. Login to the regsitry
     ```sh
-    npm login --scope @myob --registry=https://npm.myob.com/npm/
+    npm login --registry=https://npm.myob.com/npm/ --scope=@myob --always-auth
     ```
     * `username` will be your `cloudsmith.io` username
     * `password` will be your [`cloudsmith.io` api key](https://cloudsmith.io/user/settings/api/)
