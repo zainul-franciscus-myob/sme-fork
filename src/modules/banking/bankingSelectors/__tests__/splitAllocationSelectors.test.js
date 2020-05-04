@@ -54,6 +54,7 @@ describe('splitAllocationSelectors', () => {
                 accountId: '123',
                 amount: '1000.00',
                 description: 'my description',
+                jobId: '444',
                 taxCodeId: '333',
                 accounts: [{}, {}],
                 taxCodes: [{}, {}],
@@ -78,6 +79,7 @@ describe('splitAllocationSelectors', () => {
           accountId: '123',
           amount: '1000.00',
           description: 'my description',
+          jobId: '444',
           taxCodeId: '333',
         }],
       };
@@ -113,6 +115,7 @@ describe('splitAllocationSelectors', () => {
                 accountId: '123',
                 amount: '1000.00',
                 description: 'my description',
+                jobId: '444',
                 taxCodeId: '333',
                 accounts: [{}, {}],
                 taxCodes: [{}, {}],
@@ -137,6 +140,7 @@ describe('splitAllocationSelectors', () => {
           accountId: '123',
           amount: '1000.00',
           description: 'my description',
+          jobId: '444',
           taxCodeId: '333',
         }],
       };

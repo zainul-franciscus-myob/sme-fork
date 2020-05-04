@@ -2,9 +2,15 @@ import { LineItemTable, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getLineDataByIndexSelector, getNewLineData } from '../bankingSelectors/splitAllocationSelectors';
+import {
+  getIsBankingJobColumnEnabled, getJobs,
+} from '../bankingSelectors';
+import {
+  getLineDataByIndexSelector, getNewLineData,
+} from '../bankingSelectors/splitAllocationSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import Calculator from '../../../components/Calculator/Calculator';
+import JobCombobox from '../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
 
 const handleComboBoxChange = (name, onChange) => item => onChange({
@@ -33,6 +39,8 @@ const SplitAllocationRow = (props) => {
     labels,
     disabled,
     newLineData,
+    jobOptions,
+    isBankingJobColumnEnabled,
     ...feelixInjectedProps
   } = props;
   const data = isNewLineRow ? newLineData : lineData;
@@ -44,6 +52,7 @@ const SplitAllocationRow = (props) => {
     accountId,
     taxCodes,
     accounts = [],
+    jobId,
     taxCodeId,
     quantity = '',
   } = data;
@@ -103,6 +112,15 @@ const SplitAllocationRow = (props) => {
         onChange={onChange}
         autoSize
       />
+      {isBankingJobColumnEnabled && <JobCombobox
+        label="Job"
+        onChange={handleComboBoxChange('jobId', onChange)}
+        items={jobOptions}
+        selectedId={jobId}
+        disabled={disabled}
+        allowClear
+        left
+      />}
       <TaxCodeCombobox
         disabled={disabled}
         items={taxCodes}
@@ -117,6 +135,8 @@ const makeMapRowStateToProps = () => {
   return (state, ownProps) => ({
     lineData: lineDataByIndex(state, ownProps),
     newLineData: getNewLineData(state),
+    jobOptions: getJobs(state),
+    isBankingJobColumnEnabled: getIsBankingJobColumnEnabled(state),
   });
 };
 

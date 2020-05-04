@@ -4,9 +4,10 @@ import React from 'react';
 
 import {
   getIndexOfLastLine,
-  getTableData, getTaxLabel, getTotals,
+  getTableData, getTaxLabel,
+  getTotals,
 } from '../bankingSelectors/splitAllocationSelectors';
-import { getIsLoadingAccount } from '../bankingSelectors';
+import { getIsBankingJobColumnEnabled, getIsLoadingAccount } from '../bankingSelectors';
 import SplitAllocationRow from './SplitAllocationRow';
 
 const accountLabel = 'Account';
@@ -14,7 +15,8 @@ const amountLabelDollar = 'Amount ($)';
 const amountLabelPercent = 'Amount (%)';
 const quantityLabel = 'Quantity';
 const lineDescription = 'Line description';
-const requiredLabel = 'This is required';
+const jobLabel = 'Job';
+const requiredText = 'This is required';
 
 
 const onRowChange = handler => (index, key, value) => handler(index, key, value);
@@ -51,63 +53,69 @@ const SplitAllocationTable = (props) => {
     onDeleteSplitAllocationLine,
     onAddAccount,
     isLoadingAccount,
+    isBankingJobColumnEnabled,
   } = props;
 
   const labels = [
-    accountLabel, amountLabelDollar, amountLabelPercent, quantityLabel, lineDescription, taxLabel,
+    accountLabel,
+    amountLabelDollar,
+    amountLabelPercent,
+    quantityLabel,
+    lineDescription,
+    jobLabel,
+    taxLabel,
+  ];
+
+  const columns = [
+    {
+      columnName: accountLabel,
+      requiredLabel: requiredText,
+      styles: { width: '35.2rem' },
+    },
+    {
+      columnName: amountLabelDollar,
+      requiredLabel: requiredText,
+      styles: { width: '12.5rem', align: 'right' },
+    },
+    {
+      columnName: amountLabelPercent,
+      requiredLabel: requiredText,
+      styles: { width: '12.5rem', align: 'right' },
+    },
+    {
+      columnName: quantityLabel,
+      styles: { width: '9rem' },
+    },
+    {
+      columnName: lineDescription,
+      styles: {},
+    },
+    ...isBankingJobColumnEnabled ? [{ columnName: jobLabel, styles: { width: '8.4rem' } }] : [],
+    {
+      columnName: taxLabel,
+      requiredLabel: requiredText,
+      styles: { width: '8.4rem' },
+    },
   ];
 
   const columnConfig = [
     {
-      config: [
-        {
-          columnName: accountLabel,
-          styles: { width: '35.2rem' },
-        },
-        {
-          columnName: amountLabelDollar,
-          styles: { width: '12.5rem', align: 'right' },
-        },
-        {
-          columnName: amountLabelPercent,
-          styles: { width: '12.5rem', align: 'right' },
-        },
-        {
-          columnName: quantityLabel,
-          styles: { width: '9rem' },
-        },
-        {
-          columnName: lineDescription,
-          styles: {},
-        },
-        {
-          columnName: taxLabel,
-          styles: { width: '8.4rem' },
-        },
-      ],
+      config: columns.map(({ columnName, styles }) => ({
+        columnName,
+        styles,
+      })),
     },
   ];
 
-  const headerItems = [
-    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
-      {accountLabel}
-    </LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
-      {amountLabelDollar}
-    </LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
-      {amountLabelPercent}
-    </LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem>
-      {quantityLabel}
-    </LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem>
-      {lineDescription}
-    </LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
-      {taxLabel}
-    </LineItemTable.HeaderItem>,
-  ];
+  const headerItems = columns.map(({ columnName, requiredLabel }) => (
+    <LineItemTable.HeaderItem
+      key={columnName}
+      columnName={columnName}
+      requiredLabel={requiredLabel}
+    >
+      {columnName}
+    </LineItemTable.HeaderItem>
+  ));
 
   return (
     <LineItemTable
@@ -134,6 +142,7 @@ const mapStateToProps = state => ({
   totals: getTotals(state),
   taxLabel: getTaxLabel(state),
   isLoadingAccount: getIsLoadingAccount(state),
+  isBankingJobColumnEnabled: getIsBankingJobColumnEnabled(state),
 });
 
 export default connect(mapStateToProps)(SplitAllocationTable);

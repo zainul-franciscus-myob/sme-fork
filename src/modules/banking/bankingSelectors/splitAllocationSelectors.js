@@ -131,9 +131,9 @@ export const getSplitAllocationPayload = (state, index) => {
     isReportable: isWithdrawal && isSupplier ? isReportable : undefined,
     date,
     lines: lines.map(({
-      accountId, amount, description, taxCodeId, quantity,
+      accountId, amount, description, taxCodeId, jobId, quantity,
     }) => ({
-      accountId, amount, description, taxCodeId, quantity,
+      accountId, amount, description, taxCodeId, jobId, quantity,
     })),
   };
 };

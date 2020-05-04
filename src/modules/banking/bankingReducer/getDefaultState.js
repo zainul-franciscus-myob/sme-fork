@@ -85,6 +85,7 @@ const getDefaultState = () => ({
       totalAmount: 0,
       newLine: {
         accountId: '',
+        jobId: '',
         taxCodeId: '',
         description: '',
         amount: '',
