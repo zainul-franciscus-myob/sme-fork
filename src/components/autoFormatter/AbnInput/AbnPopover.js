@@ -115,8 +115,8 @@ const AbnPopover = ({
         details.
       </div>
       <br />
-      {editContactLink}
-      {abnLinkInfo}
+      {editContactUrl && editContactLink}
+      {abnLink && abnLinkInfo}
     </>
   );
 
@@ -128,7 +128,7 @@ const AbnPopover = ({
         for this contact.
       </div>
       <br />
-      {editContactLink}
+      {editContactUrl && editContactLink}
     </>
   );
 
