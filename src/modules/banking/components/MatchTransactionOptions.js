@@ -25,7 +25,6 @@ import styles from './BankingView.module.css';
 
 const showTypes = [
   { label: 'Close matches', value: 'closeMatches' },
-  { label: 'Last 90 days', value: 'last90Days' },
   { label: 'All transactions', value: 'all' },
   { label: 'Selected transactions', value: 'selected' },
 ];

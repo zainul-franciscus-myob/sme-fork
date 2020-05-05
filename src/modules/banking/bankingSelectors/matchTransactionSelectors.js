@@ -296,10 +296,15 @@ export const getShowIncludeClosedCheckbox = createSelector(
 );
 
 const DayOffsetMap = {
-  closeMatches: { from: 5, to: 5 },
-  last90Days: { from: 90, to: 0 },
+  closeMatches: { from: 90, to: 90 },
   all: { from: 365, to: 365 },
   selected: { from: 5, to: 5 },
+};
+
+const AmountOffsetMap = {
+  closeMatches: { from: 0.1, to: 0.1 },
+  all: { from: 0, to: 9999999999 },
+  selected: { from: 0.1, to: 0.1 },
 };
 
 const getRequestParams = (accountId, bankTransaction, filterOptions) => {
@@ -310,8 +315,12 @@ const getRequestParams = (accountId, bankTransaction, filterOptions) => {
   const amount = Number(bankTransaction.withdrawal || bankTransaction.deposit);
   const offset = DayOffsetMap[showType];
   const isCredit = Boolean(bankTransaction.deposit);
-  const amountFrom = ['closeMatches', 'selected'].includes(showType) ? amount - 0.1 : 0;
-  const amountTo = ['closeMatches', 'selected'].includes(showType) ? amount + 0.1 : 9999999999;
+  const amountFrom = ['closeMatches', 'selected'].includes(showType)
+    ? amount - AmountOffsetMap[showType].from
+    : AmountOffsetMap[showType].from;
+  const amountTo = ['closeMatches', 'selected'].includes(showType)
+    ? amount + AmountOffsetMap[showType].to
+    : AmountOffsetMap[showType].to;
   const transactionDate = new Date(date);
   return {
     showType,

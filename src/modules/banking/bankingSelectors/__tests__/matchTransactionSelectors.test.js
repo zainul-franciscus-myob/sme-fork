@@ -381,8 +381,8 @@ describe('matchTransactionSelectors', () => {
         contactId: '1',
         includeClosed: true,
         accountId: '123',
-        dateFrom: '2018-05-01',
-        dateTo: '2018-05-11',
+        dateFrom: '2018-02-05',
+        dateTo: '2018-08-04',
         amountFrom: 99.9,
         amountTo: 100.1,
       };
@@ -426,49 +426,6 @@ describe('matchTransactionSelectors', () => {
         accountId: '123',
         dateFrom: '2017-05-06',
         dateTo: '2019-05-06',
-        amountFrom: 0,
-        amountTo: 9999999999,
-      };
-
-      const actual = getMatchTransactionFilterRequestParams(state);
-      expect(actual).toEqual(expected);
-    });
-
-    it('should return correct request params when showType is last90Days', () => {
-      const state = {
-        filterOptions: {
-          bankAccount: '123',
-        },
-        openPosition: 0,
-        entries: [
-          {
-            transactionId: '1',
-            deposit: '100',
-            date: '2018-05-06',
-          },
-        ],
-        openEntry: {
-          match: {
-            filterOptions: {
-              showType: 'last90Days',
-              contactId: '1',
-              includeClosed: true,
-              keywords: '123',
-            },
-          },
-        },
-      };
-
-      const expected = {
-        isCredit: true,
-        bankFeedTransactionId: '1',
-        showType: 'last90Days',
-        keywords: '123',
-        contactId: '1',
-        includeClosed: true,
-        accountId: '123',
-        dateFrom: '2018-02-05',
-        dateTo: '2018-05-06',
         amountFrom: 0,
         amountTo: 9999999999,
       };
