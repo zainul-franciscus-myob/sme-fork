@@ -48,7 +48,7 @@ import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalM
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
 import QuoteDetailView from './components/QuoteDetailView';
-import QuoteLineLayout from './QuoteLineLayout';
+import QuoteLineType from './QuoteLineType';
 import SaveActionType from './SaveActionType';
 import Store from '../../../store/Store';
 import createQuoteDetailDispatcher from './createQuoteDetailDispatcher';
@@ -279,7 +279,7 @@ export default class QuoteDetailModule {
     const newLineIndex = getNewLineIndex(state);
     const newLine = getLineByIndex(state, { index: newLineIndex });
 
-    if (newLine.type === QuoteLineLayout.ITEM) {
+    if (newLine.type === QuoteLineType.ITEM) {
       this.calculateQuoteItemChange(newLineIndex, newLine.itemId);
     }
   }

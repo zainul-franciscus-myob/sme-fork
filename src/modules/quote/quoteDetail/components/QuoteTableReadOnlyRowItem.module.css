@@ -1,0 +1,6 @@
+.readonly {
+  line-height: var(--flx-height-field-m);
+  padding: 0 var(--flx-spacing-tiny);
+  color: var(--flx-color-input-label);
+  font-weight: var(--flx-font-weight-bold);
+}

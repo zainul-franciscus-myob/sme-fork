@@ -8,13 +8,15 @@ import {
   getIsReadOnlyLayout,
   getItemOptions,
   getJobOptions,
-  getQuoteLineByIndex,
+  getQuoteLine,
   getTaxCodeOptions,
 } from '../../selectors/QuoteDetailSelectors';
 import AccountCombobox from '../../../../../components/combobox/AccountCombobox';
 import Calculator from '../../../../../components/Calculator/Calculator';
 import ItemCombobox from '../../../../../components/combobox/ItemCombobox';
 import JobCombobox from '../../../../../components/combobox/JobCombobox';
+import QuoteLineType from '../../QuoteLineType';
+import QuoteTableReadOnlyRowItem from '../QuoteTableReadOnlyRowItem';
 import TaxCodeCombobox from '../../../../../components/combobox/TaxCodeCombobox';
 
 const onComboboxChange = (name, onChange) => (item) => {
@@ -44,6 +46,7 @@ const handleAmountInputBlur = (handler, index) => (e) => {
 const QuoteItemAndServiceTableRow = ({
   index,
   quoteLine: {
+    type,
     itemId,
     description,
     allocatedAccountId,
@@ -67,7 +70,25 @@ const QuoteItemAndServiceTableRow = ({
   onAddAccountButtonClick,
   isQuoteJobColumnEnabled,
   ...feelixInjectedProps
-}) => (
+}) => {
+  if ([QuoteLineType.HEADER, QuoteLineType.SUB_TOTAL].includes(type)) {
+    return (
+      <LineItemTable.Row index={index} id={index} {...feelixInjectedProps}>
+        <QuoteTableReadOnlyRowItem />
+        <QuoteTableReadOnlyRowItem value={description} />
+        <QuoteTableReadOnlyRowItem />
+        <QuoteTableReadOnlyRowItem />
+        <QuoteTableReadOnlyRowItem />
+        <QuoteTableReadOnlyRowItem />
+        <QuoteTableReadOnlyRowItem />
+        <QuoteTableReadOnlyRowItem value={amount} />
+        {isQuoteJobColumnEnabled && <QuoteTableReadOnlyRowItem />}
+        <QuoteTableReadOnlyRowItem />
+      </LineItemTable.Row>
+    );
+  }
+
+  return (
   <LineItemTable.Row
     {...feelixInjectedProps}
     id={index}
@@ -168,10 +189,11 @@ const QuoteItemAndServiceTableRow = ({
       disabled={isCalculating || isReadOnlyLayout}
     />
   </LineItemTable.Row>
-);
+  );
+};
 
 const mapStateToProps = (state, props) => ({
-  quoteLine: getQuoteLineByIndex(state, props),
+  quoteLine: getQuoteLine(state, props),
   itemOptions: getItemOptions(state),
   jobOptions: getJobOptions(state),
   taxCodeOptions: getTaxCodeOptions(state),

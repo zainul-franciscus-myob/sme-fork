@@ -51,11 +51,15 @@ import {
 } from './EmailReducer';
 import { calculatePartialQuoteLineAmounts, setQuoteCalculatedLines } from './calculationReducer';
 import {
-  getBusinessId, getIsQuoteJobColumnEnabled, getQuoteId, getRegion, getUpdatedContactOptions,
+  getBusinessId,
+  getIsQuoteJobColumnEnabled,
+  getQuoteId,
+  getRegion,
+  getUpdatedContactOptions,
 } from '../selectors/QuoteDetailSelectors';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import QuoteLayout from '../QuoteLayout';
-import QuoteLineLayout from '../QuoteLineLayout';
+import QuoteLineType from '../QuoteLineType';
 import createReducer from '../../../../store/createReducer';
 import getDefaultState, { DEFAULT_DISCOUNT, DEFAULT_UNITS } from './getDefaultState';
 
@@ -167,7 +171,7 @@ const updateLayout = (state, { value }) => ({
     ...state.quote,
     layout: value,
     lines: state.quote.lines
-      .filter(line => line.type === QuoteLineLayout.SERVICE)
+      .filter(line => line.type === QuoteLineType.SERVICE)
       .map(line => ({
         ...line,
         id: '',
@@ -175,7 +179,7 @@ const updateLayout = (state, { value }) => ({
   },
   newLine: {
     ...state.newLine,
-    type: value === QuoteLayout.ITEM_AND_SERVICE ? QuoteLineLayout.ITEM : QuoteLineLayout.SERVICE,
+    type: value === QuoteLayout.ITEM_AND_SERVICE ? QuoteLineType.ITEM : QuoteLineType.SERVICE,
   },
   emailQuote: {
     ...state.emailQuote,
@@ -208,8 +212,8 @@ const getDefaultTaxCodeId = ({ accountId, accountOptions }) => {
 const addQuoteLine = (state, action) => {
   const { id, ...partialLine } = action.line;
   const type = partialLine.itemId
-    ? QuoteLineLayout.ITEM
-    : QuoteLineLayout.SERVICE;
+    ? QuoteLineType.ITEM
+    : QuoteLineType.SERVICE;
 
   const taxCodeId = partialLine.allocatedAccountId ? getDefaultTaxCodeId({
     accountOptions: state.accountOptions,
@@ -242,7 +246,7 @@ const updateQuoteLine = (state, action) => ({
     ...state.quote,
     lines: state.quote.lines.map((line, index) => {
       if (index === action.index) {
-        const lineLayout = action.key === 'itemId' ? QuoteLineLayout.ITEM : line.type;
+        const lineLayout = action.key === 'itemId' ? QuoteLineType.ITEM : line.type;
 
         return {
           ...line,

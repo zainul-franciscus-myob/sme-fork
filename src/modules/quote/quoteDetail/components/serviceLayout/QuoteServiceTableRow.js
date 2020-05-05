@@ -14,6 +14,8 @@ import {
 import AccountCombobox from '../../../../../components/combobox/AccountCombobox';
 import Calculator from '../../../../../components/Calculator/Calculator';
 import JobCombobox from '../../../../../components/combobox/JobCombobox';
+import QuoteLineType from '../../QuoteLineType';
+import QuoteTableReadOnlyRowItem from '../QuoteTableReadOnlyRowItem';
 import TaxCodeCombobox from '../../../../../components/combobox/TaxCodeCombobox';
 
 const onComboboxChange = (name, onChange) => item => onChange({
@@ -54,12 +56,25 @@ const QuoteServiceTableRow = ({
   ...feelixInjectedProps
 }) => {
   const {
+    type,
     description,
     allocatedAccountId,
     jobId,
     taxCodeId,
     amount,
   } = quoteLine;
+
+  if ([QuoteLineType.HEADER, QuoteLineType.SUB_TOTAL].includes(type)) {
+    return (
+      <LineItemTable.Row index={index} id={index} {...feelixInjectedProps}>
+        <QuoteTableReadOnlyRowItem value={description} />
+        <QuoteTableReadOnlyRowItem />
+        <QuoteTableReadOnlyRowItem value={amount} />
+        {isQuoteJobColumnEnabled && <QuoteTableReadOnlyRowItem />}
+        <QuoteTableReadOnlyRowItem />
+      </LineItemTable.Row>
+    );
+  }
 
   return (
     <LineItemTable.Row

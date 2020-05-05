@@ -1,7 +1,12 @@
 import QuoteLayout from '../QuoteLayout';
+import QuoteLineType from '../QuoteLineType';
 import buildLineWithCalculatedAmounts from '../../../../common/itemAndServiceLayout/buildLineWithCalculatedAmounts';
 import calculateUnitPrice from '../../../../common/itemAndServiceLayout/calculateUnitPrice';
 import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
+
+export const getIsCalculableLine = line => [
+  QuoteLineType.SERVICE, QuoteLineType.ITEM,
+].includes(line.type);
 
 export const calculatePartialQuoteLineAmounts = (state, action) => {
   const { layout } = state.quote;
@@ -12,7 +17,7 @@ export const calculatePartialQuoteLineAmounts = (state, action) => {
       quote: {
         ...state.quote,
         lines: state.quote.lines.map((line, index) => (
-          action.index === index
+          action.index === index && getIsCalculableLine(line)
             ? buildLineWithCalculatedAmounts(line, action.key)
             : line
         )),
@@ -29,12 +34,18 @@ const shouldCalculateUnitPriceWithTaxInclusiveSwitch = (line, isSwitchingTaxIncl
     && Number(line.discount) !== 100
 );
 
-export const setQuoteCalculatedLines = (state, { lines, totals, isSwitchingTaxInclusive }) => ({
+export const setQuoteCalculatedLines = (state, {
+  lines: calculatedLines, totals: calculatedTotals, isSwitchingTaxInclusive,
+}) => ({
   ...state,
   quote: {
     ...state.quote,
     lines: state.quote.lines.map((line, index) => {
-      const { amount } = lines[index];
+      if (!getIsCalculableLine(line)) {
+        return line;
+      }
+
+      const { amount } = calculatedLines[index];
 
       if (shouldCalculateUnitPriceWithTaxInclusiveSwitch(line, isSwitchingTaxInclusive)) {
         const units = Number(line.units);
@@ -60,8 +71,8 @@ export const setQuoteCalculatedLines = (state, { lines, totals, isSwitchingTaxIn
   },
   totals: {
     ...state.totals,
-    subTotal: formatCurrency(totals.subTotal.valueOf()),
-    totalTax: formatCurrency(totals.totalTax.valueOf()),
-    totalAmount: formatCurrency(totals.totalAmount.valueOf()),
+    subTotal: formatCurrency(calculatedTotals.subTotal.valueOf()),
+    totalTax: formatCurrency(calculatedTotals.totalTax.valueOf()),
+    totalAmount: formatCurrency(calculatedTotals.totalAmount.valueOf()),
   },
 });

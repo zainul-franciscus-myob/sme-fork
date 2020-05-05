@@ -6,6 +6,7 @@ import { calculatePartialQuoteLineAmounts, setQuoteCalculatedLines } from '../ca
 describe('calculationReducer', () => {
   describe('SET_QUOTE_CALCULATED_LINES', () => {
     const baseline = {
+      type: 'item',
       units: '2',
       unitPrice: '45.455',
       discount: '',
@@ -117,6 +118,7 @@ describe('calculationReducer', () => {
 
       describe('calculate amount', () => {
         const baseline = {
+          type: 'item',
           units: '2',
           unitPrice: '50',
           discount: '',
@@ -169,6 +171,7 @@ describe('calculationReducer', () => {
 
       describe('calculate discount', () => {
         const baseline = {
+          type: 'item',
           units: '2',
           unitPrice: '50',
           discount: '',
@@ -223,6 +226,7 @@ describe('calculationReducer', () => {
 
       describe('calculate unitPrice', () => {
         const baseline = {
+          type: 'item',
           units: '2',
           unitPrice: '',
           discount: '10',

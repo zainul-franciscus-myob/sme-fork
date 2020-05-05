@@ -2,13 +2,17 @@ import {
   getAccountModalContext,
   getIsAccountComboboxDisabled,
   getIsExportingPDF,
+  getIsLinesSupported,
+  getIsReadOnlyLayout,
   getIsTaxCalculationRequired,
   getQuoteDetailOptions,
+  getQuoteLine,
   getTemplateOptions,
   getUpdatedContactOptions,
 } from '../QuoteDetailSelectors';
 import ModalType from '../../ModalType';
 import QuoteLayout from '../../QuoteLayout';
+import QuoteLineType from '../../QuoteLineType';
 
 describe('QuoteDetailSelectors', () => {
   describe('getQuoteDetailOptions', () => {
@@ -335,6 +339,87 @@ describe('QuoteDetailSelectors', () => {
       const actual = getIsExportingPDF(state);
 
       expect(actual).toBeFalsy();
+    });
+  });
+
+  describe('getQuoteLine', () => {
+    const newLine = { pingu: '🐧' };
+
+    describe('returns new line', () => {
+      const actual = getQuoteLine.resultFunc(newLine, undefined);
+
+      expect(actual).toEqual(newLine);
+    });
+
+    describe('returns existing line', () => {
+      const line = { freddo: '🐸' };
+
+      const actual = getQuoteLine.resultFunc(newLine, line);
+
+      expect(actual).toEqual(line);
+    });
+
+    describe('returns subtitle line', () => {
+      const line = { type: QuoteLineType.SUB_TOTAL, amount: '10' };
+
+      const actual = getQuoteLine.resultFunc(newLine, line);
+
+      expect(actual).toEqual({ type: QuoteLineType.SUB_TOTAL, description: 'Subtotal', amount: '10' });
+    });
+  });
+
+  describe('getIsLinesSupported', () => {
+    it.each([
+      [QuoteLineType.SERVICE, true],
+      [QuoteLineType.ITEM, true],
+      [QuoteLineType.HEADER, false],
+      [QuoteLineType.SUB_TOTAL, false],
+    ])('validate whether invoice with %s line type are supported', (type, expected) => {
+      const lines = [
+        { type: QuoteLineType.SERVICE },
+        { type: QuoteLineType.ITEM },
+        { type },
+      ];
+
+      const actual = getIsLinesSupported.resultFunc(lines);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getIsReadOnlyLayout', () => {
+    it.each([
+      [QuoteLayout.SERVICE, false],
+      [QuoteLayout.ITEM_AND_SERVICE, false],
+      [QuoteLayout.PROFESSIONAL, true],
+      [QuoteLayout.TIME_BILLING, true],
+      [QuoteLayout.MISCELLANEOUS, true],
+      ['N/A', true],
+    ])('%s layout', (layout, expected) => {
+      const actual = getIsReadOnlyLayout({ quote: { layout, lines: [] } });
+
+      expect(actual).toEqual(expected);
+    });
+
+    it.each([
+      [QuoteLineType.SERVICE, false],
+      [QuoteLineType.ITEM, false],
+      [QuoteLineType.HEADER, true],
+      [QuoteLineType.SUB_TOTAL, true],
+      ['N/A', true],
+    ])('have %s line type', (type, expected) => {
+      const actual = getIsReadOnlyLayout({
+        quote: {
+          layout: QuoteLayout.ITEM_AND_SERVICE,
+          lines: [
+            { type: QuoteLineType.SERVICE },
+            { type: QuoteLineType.ITEM },
+            { type },
+          ],
+        },
+      });
+
+      expect(actual).toEqual(expected);
     });
   });
 });

@@ -3,6 +3,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 import { TaxCalculatorTypes, createTaxCalculator } from '../../../../common/taxCalculator';
 import ModalType from '../ModalType';
 import QuoteLayout from '../QuoteLayout';
+import QuoteLineType from '../QuoteLineType';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 
 const calculate = createTaxCalculator(TaxCalculatorTypes.quote);
@@ -78,16 +79,22 @@ export const getIsActionsDisabled = createSelector(
 
 export const getNewLineIndex = state => state.quote.lines.length - 1;
 export const getLineByIndex = (state, props) => state.quote.lines[props.index];
-export const getQuoteLineByIndex = (state, { index }) => (
-  state.quote.lines[index] ? state.quote.lines[index] : state.newLine
-);
+
 export const getIsTableEmpty = createSelector(getLength, len => len === 0);
 export const getTableData = createSelector(getLength, len => Array(len).fill({}));
 
 export const getQuoteLine = createSelector(
   getNewLine,
   getLineByIndex,
-  (newLine, line) => line || newLine,
+  (newLine, line) => {
+    if (line) {
+      return line.type === QuoteLineType.SUB_TOTAL
+        ? { ...line, description: 'Subtotal' }
+        : line;
+    }
+
+    return newLine;
+  },
 );
 
 export const getTaxInclusiveLabel = createSelector(
@@ -206,15 +213,33 @@ export const getIsExportingPDF = createSelector(
   ),
 );
 
+const getIsLineTypeSupported = line => [
+  QuoteLineType.SERVICE, QuoteLineType.ITEM,
+].includes(line.type);
+
+const getIsLayoutSupported = createSelector(
+  getLayout, layout => [
+    QuoteLayout.SERVICE, QuoteLayout.ITEM_AND_SERVICE,
+  ].includes(layout),
+);
+
+export const getIsLinesSupported = createSelector(
+  getLines,
+  lines => lines.every(line => getIsLineTypeSupported(line)),
+);
+
 export const getIsReadOnlyLayout = createSelector(
-  getLayout,
-  (layout) => ![QuoteLayout.SERVICE, QuoteLayout.ITEM_AND_SERVICE].includes(layout),
+  getIsLayoutSupported,
+  getIsLinesSupported,
+  (isLayoutSupported, isLinesSupported) => !isLayoutSupported || !isLinesSupported,
 );
 
 export const getReadOnlyMessage = createSelector(
+  getIsLayoutSupported,
   getLayout,
-  (layout) => (
-    `This quote is missing information because the ${layout} quote layout isn't
-    supported in the browser. Switch to AccountRight desktop to use this feature.`
+  (isLayoutSupported, layout) => (
+    !isLayoutSupported
+      ? `This quote is missing information because the ${layout} quote layout isn't supported in the browser. Switch to AccountRight desktop to use this feature.`
+      : 'This quote is read only because it contains unsupported features. Switch to AccountRight desktop to edit this quote.'
   ),
 );

@@ -26,6 +26,8 @@ import loadItemSellingDetailsResponse from './data/loadItemSellingDetailsRespons
 import loadNewQuoteDetail from './data/loadNewQuoteDetail';
 import loadQuoteDetail from './data/loadQuoteDetail';
 import loadQuoteListNextPageResponse from './data/loadNextQuoteList';
+import loadReadOnlyItemQuoteDetail from './data/loadReadOnlyItemQuoteDetail';
+import loadReadOnlyServiceQuoteDetail from './data/loadReadOnlyServiceQuoteDetail';
 import quoteListFilterResponse from './data/filterQuoteList';
 import quoteListLoadResponse from './data/loadQuoteList';
 import successResponse from './data/success.json';
@@ -38,7 +40,19 @@ const MemoryQuoteMapping = {
 
   [LOAD_NEW_QUOTE_DETAIL]: ({ onSuccess }) => onSuccess(loadNewQuoteDetail),
   [LOAD_NEW_DUPLICATE_QUOTE_DETAIL]: ({ onSuccess }) => onSuccess(loadDuplicateQuoteDetail),
-  [LOAD_QUOTE_DETAIL]: ({ onSuccess }) => onSuccess(loadQuoteDetail),
+  [LOAD_QUOTE_DETAIL]: ({ urlParams = {}, onSuccess }) => {
+    switch (urlParams.quoteId) {
+      case 'service-readonly-id':
+        onSuccess(loadReadOnlyServiceQuoteDetail);
+        break;
+      case 'item-readonly-id':
+        onSuccess(loadReadOnlyItemQuoteDetail);
+        break;
+      default:
+        onSuccess(loadQuoteDetail);
+        break;
+    }
+  },
   [CREATE_QUOTE_DETAIL]: ({ onSuccess }) => onSuccess({ ...successResponse, id: '1' }),
   [UPDATE_QUOTE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [DELETE_QUOTE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
