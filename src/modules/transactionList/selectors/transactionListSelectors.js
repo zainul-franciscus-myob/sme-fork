@@ -79,10 +79,7 @@ export const getIsDefaultFilters = createSelector(
   },
 );
 
-const getSourceJournal = createSelector(
-  (state) => state,
-  state => state.filterOptions.sourceJournal,
-);
+const getSourceJournal = state => state.filterOptions.sourceJournal;
 
 export const getURLParams = createStructuredSelector({
   sourceJournal: getSourceJournal,

@@ -66,12 +66,11 @@ describe('TransactionListModule', () => {
     return toolbox;
   };
 
-  const setUpWithJournalTransactionsTabActive = () => {
-    const toolbox = setup();
+  const setupWithTab = (tab) => {
+    const toolbox = setupWithRun();
     const { module, store, integration } = toolbox;
 
-    module.run({});
-    module.setTab(JOURNAL_TRANSACTIONS);
+    module.setTab(tab);
     store.resetActions();
     integration.resetRequests();
 
@@ -228,7 +227,7 @@ describe('TransactionListModule', () => {
     });
 
     it('should sort and filter credits and debits if it has been loaded before', () => {
-      const { module, store, integration } = setUpWithJournalTransactionsTabActive();
+      const { module, store, integration } = setupWithTab(JOURNAL_TRANSACTIONS);
 
       module.setTab(DEBITS_AND_CREDITS);
 
@@ -263,7 +262,7 @@ describe('TransactionListModule', () => {
     });
 
     it('should handle if filter credits and debits fails to load', () => {
-      const { module, store, integration } = setUpWithJournalTransactionsTabActive();
+      const { module, store, integration } = setupWithTab(JOURNAL_TRANSACTIONS);
       integration.mapFailure(SORT_AND_FILTER_CREDITS_AND_DEBITS_LIST);
 
       module.setTab(DEBITS_AND_CREDITS);
@@ -298,42 +297,46 @@ describe('TransactionListModule', () => {
   });
 
   describe('updateFilterOptions', () => {
-    it('should update a filter option and sort and filter credits and debits', () => {
-      const { module, integration, store } = setupWithRun();
+    [
+      {
+        tab: DEBITS_AND_CREDITS,
+        intent: SORT_AND_FILTER_CREDITS_AND_DEBITS_LIST,
+      },
+      {
+        tab: JOURNAL_TRANSACTIONS,
+        intent: SORT_AND_FILTER_TRANSACTION_LIST,
+      },
+    ].forEach(test => {
+      describe(`when ${test.tab}`, () => {
+        it('should update a filter option and sort and filter', () => {
+          const { module, integration, store } = setupWithTab(test.tab);
 
-      module.updateFilterOptions({ key: 'sourceJournal', value: 'All' });
+          module.updateFilterOptions({ key: 'dateFrom', value: '2020-10-10' });
 
-      expect(store.getActions()[0]).toEqual({
-        intent: UPDATE_FILTER_OPTIONS,
-        filterName: 'sourceJournal',
-        value: 'All',
+          expect(store.getActions()[0]).toEqual({
+            intent: UPDATE_FILTER_OPTIONS,
+            filterName: 'dateFrom',
+            value: '2020-10-10',
+          });
+          expect(integration.getRequests()).toEqual([
+            expect.objectContaining({
+              intent: test.intent,
+            }),
+          ]);
+        });
+
+        it('should update urls params when update sourceJournal', () => {
+          const { module } = setupWithTab(test.tab);
+
+          module.replaceURLParams = jest.fn();
+
+          module.updateFilterOptions({ key: 'sourceJournal', value: 'All' });
+
+          expect(module.replaceURLParams).toHaveBeenCalledWith({
+            sourceJournal: 'All',
+          });
+        });
       });
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: SORT_AND_FILTER_CREDITS_AND_DEBITS_LIST,
-        }),
-      ]);
-    });
-
-    it('should update a filter option and sort and filter journal transaction list', () => {
-      const { module, integration, store } = setupWithRun();
-
-      module.setTab(JOURNAL_TRANSACTIONS);
-      store.resetActions();
-      integration.resetRequests();
-
-      module.updateFilterOptions({ key: 'sourceJournal', value: 'All' });
-
-      expect(store.getActions()[0]).toEqual({
-        intent: UPDATE_FILTER_OPTIONS,
-        filterName: 'sourceJournal',
-        value: 'All',
-      });
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: SORT_AND_FILTER_TRANSACTION_LIST,
-        }),
-      ]);
     });
   });
 

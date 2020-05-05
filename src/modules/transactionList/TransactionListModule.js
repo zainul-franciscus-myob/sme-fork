@@ -182,6 +182,10 @@ export default class TransactionListModule {
     const activeTab = getActiveTab(state);
     this.dispatcher.updateFilterOptions(key, value);
 
+    if (key === 'sourceJournal') {
+      this.updateURLFromState();
+    }
+
     if (activeTab === DEBITS_AND_CREDITS) {
       this.sortAndFilter(
         key,
@@ -300,7 +304,6 @@ export default class TransactionListModule {
     const settings = loadSettings(context.businessId, RouteName.TRANSACTION_LIST);
     this.setInitialState(context, settings);
     this.store.subscribe((state) => {
-      this.updateURLFromState(state);
       saveSettings(context.businessId, RouteName.TRANSACTION_LIST, getSettings(state));
     });
     this.render();
@@ -312,7 +315,8 @@ export default class TransactionListModule {
     this.dispatcher.resetState();
   }
 
-  updateURLFromState = (state) => {
+  updateURLFromState = () => {
+    const state = this.store.getState();
     const params = getURLParams(state);
     this.replaceURLParams(params);
   }
