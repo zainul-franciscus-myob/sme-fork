@@ -19,7 +19,7 @@ export const Column = ({ children, className }) => (
 );
 
 export const LearnCallToAction = ({ children, className }) => (
-  <div className={classNames(styles['mt-xx-large'], className)}>
+  <div className={classNames(styles['mt-xx-large'], styles['mt-sm-medium'], className)}>
     { children }
   </div>
 );

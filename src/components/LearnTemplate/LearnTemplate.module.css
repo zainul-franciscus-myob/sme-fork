@@ -24,4 +24,6 @@
   }
 
   .learnTemplate .mt-sm-x-large { margin-top: var(--flx-spacing-x-large); }
+
+  .learnTemplate .mt-sm-medium { margin-top: var(--flx-spacing-medium); }
 }

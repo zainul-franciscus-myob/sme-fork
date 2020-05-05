@@ -6,8 +6,12 @@ import {
   Column, LearnCallToAction, LearnTemplate, LearnVideo, Row,
 } from '../../../../components/LearnTemplate/LearnTemplate';
 import imageANZ from '../assets/anz.svg';
+import imageASB from '../assets/asb.svg';
+import imageBNZ from '../assets/bnz.svg';
 import imageCBA from '../assets/cba.svg';
+import imageKiwiBank from '../assets/kiwiBank.svg';
 import imageNAB from '../assets/nab.svg';
+import imageTSB from '../assets/tsb.svg';
 import imageWestpac from '../assets/westpac.svg';
 import styles from './bankingLearnView.module.css';
 
@@ -68,17 +72,27 @@ const BankingLearnView = ({
 
       <Column>
         <LearnVideo hashedId="8w115lybv7" />
-        {
-          region === 'au'
-            ? <div className={styles.logos}>
-                <img src={imageWestpac} alt="Westpac bank" width="80" />
-                <img src={imageNAB} alt="NAB bank" width="60" />
-                <img src={imageANZ} alt="ANZ bank" width="60" />
-                <img src={imageCBA} alt="Commonwealth bank" width="150" />
-                <a href="https://www.myob.com/au/accounting-software/bankfeeds/feeds" target="_blank" rel="noopener noreferrer">View full list</a>
-              </div>
-            : null
-        }
+          <div className={styles.logos}>
+            {
+              region === 'au'
+                ? <>
+                    <img src={imageWestpac} alt="Westpac bank" width="80" />
+                    <img src={imageNAB} alt="NAB bank" width="60" />
+                    <img src={imageANZ} alt="ANZ bank" width="60" />
+                    <img src={imageCBA} alt="Commonwealth bank" width="150" />
+                    <a href="https://www.myob.com/au/accounting-software/bankfeeds/feeds" target="_blank" rel="noopener noreferrer">View full list</a>
+                  </>
+                : <>
+                    <img src={imageANZ} alt="ANZ bank" width="60" />
+                    <img src={imageASB} alt="ASB bank" width="50" />
+                    <img src={imageWestpac} alt="Westpac bank" width="80" />
+                    <img src={imageBNZ} alt="BNZ bank" width="40" />
+                    <img src={imageKiwiBank} alt="Kiwi bank" width="30" />
+                    <img src={imageTSB} alt="TSB bank" width="60" />
+                    <a href="https://www.myob.com/nz/accounting-software/bankfeeds/feeds" target="_blank" rel="noopener noreferrer">View full list</a>
+                  </>
+            }
+          </div>
       </Column>
     </Row>
   </LearnTemplate>
