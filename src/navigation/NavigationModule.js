@@ -168,7 +168,7 @@ export default class NavigationModule {
   createBusiness = async () => {
     const telemetryProps = { ...this.routeProps, currentRouteName: 'createNewBusiness' };
     this.sendTelemetryEvent(telemetryProps);
-    this.redirectToPage('http://myob.com.au/new-ea-create-new-business');
+    this.redirectToPage(this.config.CREATE_BUSINESS_URL);
   };
 
   changePlan = async () => {
