@@ -46,3 +46,4 @@ export const SET_PREFILL_INTRAY_DOCUMENT_ID = Symbol('Set prefill in tray docume
 
 export const LOAD_ABN_FROM_CONTACT = Symbol('Load abn given a contact id');
 export const SET_ABN_LOADING_STATE = Symbol('Set abn loading state');
+export const CLEAR_ABN = Symbol('Clear the abn');

@@ -293,7 +293,11 @@ export default class SpendMoneyDetailModule {
       if (getShouldShowAccountCode(stateAfterUpdate)) {
         this.loadSupplierExpenseAccount();
       }
-      this.loadAbnFromContact(value);
+      if (value) {
+        this.loadAbnFromContact(value);
+      } else if (!value) {
+        this.dispatcher.clearAbn();
+      }
     }
   };
 

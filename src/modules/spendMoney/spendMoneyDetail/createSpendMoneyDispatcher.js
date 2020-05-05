@@ -2,6 +2,7 @@ import {
   ADD_ATTACHMENTS,
   ADD_SPEND_MONEY_LINE,
   APPEND_ALERT_MESSAGE,
+  CLEAR_ABN,
   CLEAR_IN_TRAY_DOCUMENT_URL,
   CLOSE_MODAL,
   DELETE_SPEND_MONEY_LINE,
@@ -264,6 +265,9 @@ const createSpendMoneyDispatcher = store => ({
     abn,
   }),
 
+  clearAbn: () => store.dispatch({
+    intent: CLEAR_ABN,
+  }),
 });
 
 export default createSpendMoneyDispatcher;

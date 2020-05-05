@@ -1,5 +1,6 @@
 import {
   ADD_SPEND_MONEY_LINE,
+  CLEAR_ABN,
   CLOSE_MODAL,
   CREATE_SPEND_MONEY,
   DELETE_SPEND_MONEY,
@@ -732,7 +733,7 @@ describe('SpendMoneyDetailModule', () => {
       ];
 
 
-      describe('it should load the abn from the selected contact', () => {
+      it('should load the abn from the selected contact', () => {
         const { module, store, integration } = setUpWithExisting();
 
         module.updateHeaderOptions({ key: 'selectedPayToContactId', value: '2' });
@@ -763,6 +764,23 @@ describe('SpendMoneyDetailModule', () => {
               contactId: '2',
             }),
           }),
+        ]);
+      });
+
+      it('should clear the abn given the contact has been cleared', () => {
+        const { module, store } = setUpWithExisting();
+
+        module.updateHeaderOptions({ key: 'selectedPayToContactId', value: '' });
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_SPEND_MONEY_HEADER,
+            key: 'selectedPayToContactId',
+            value: '',
+          },
+          {
+            intent: CLEAR_ABN,
+          },
         ]);
       });
 

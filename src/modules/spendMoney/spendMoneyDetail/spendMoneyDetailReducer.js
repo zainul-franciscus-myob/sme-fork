@@ -2,6 +2,7 @@ import {
   ADD_ATTACHMENTS,
   ADD_SPEND_MONEY_LINE,
   APPEND_ALERT_MESSAGE,
+  CLEAR_ABN,
   CLEAR_IN_TRAY_DOCUMENT_URL,
   CLOSE_MODAL,
   DELETE_SPEND_MONEY_LINE,
@@ -632,6 +633,11 @@ const loadAbnFromContact = (state, action) => ({
   abn: action.abn,
 });
 
+const clearAbn = (state) => ({
+  ...state,
+  abn: undefined,
+});
+
 const handlers = {
   [UPDATE_SPEND_MONEY_HEADER]: updateHeader,
   [LOAD_NEW_SPEND_MONEY]: loadNewSpendMoney,
@@ -675,6 +681,7 @@ const handlers = {
   [SET_PREFILL_INTRAY_DOCUMENT_ID]: setPrefillInTrayDocumentId,
   [SET_ABN_LOADING_STATE]: setAbnLoadingState,
   [LOAD_ABN_FROM_CONTACT]: loadAbnFromContact,
+  [CLEAR_ABN]: clearAbn,
 };
 const spendMoneyReducer = createReducer(getDefaultState(), handlers);
 
