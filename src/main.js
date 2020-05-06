@@ -52,6 +52,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
     replaceURLParams: router.replaceURLParams,
     navigateTo: router.navigateTo,
     globalCallbacks: rootModule.globalCallbacks,
+    isToggleOn: rootModule.isToggleOn,
     featureToggles,
   });
 

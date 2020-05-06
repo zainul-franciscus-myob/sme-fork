@@ -10,6 +10,7 @@ REACT_APP_BFF_BASE_URL=https://production-sme-web-bff.svc.platform.myob.com \
 REACT_APP_MY_REPORTS_URL=https://reports.myob.com \
 REACT_APP_MANAGE_BANK_FEEDS_BASE_URL=https://my.myob.com/pages/bankfeedsAdministrationRedirector.aspx \
 REACT_APP_LEAN_ENGAGE_APP_ID=1534af9d-01fa-45e0-9df6-3b9c4f6c20cb \
+REACT_APP_SPLIT_IO_API_KEY=SDKu5ama2eh82f7ght37n8lt48kku4qk2m227rr \
 REACT_APP_MY_MYOB_AU_URL=https://my.myob.com.au \
 REACT_APP_MY_MYOB_NZ_URL=https://my.myob.co.nz \
 REACT_APP_SELF_SERVICE_PORTAL_URL=https://myaccount.myob.com \

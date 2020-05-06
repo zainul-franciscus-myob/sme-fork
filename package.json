@@ -9,6 +9,7 @@
     "@myob/myob-styles": "5.14.0",
     "@myob/myob-widgets": "5.14.0",
     "@myob/tax-calculator": "0.0.15",
+    "@splitsoftware/splitio": "10.11.1",
     "abortcontroller-polyfill": "1.4.0",
     "chart.js": "2.9.3",
     "classnames": "2.2.6",

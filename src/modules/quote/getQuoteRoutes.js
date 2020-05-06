@@ -3,7 +3,7 @@ import QuoteListModule from './quoteList/QuoteListModule';
 import RouteName from '../../router/RouteName';
 
 const getQuoteRoutes = ({
-  integration, setRootView, pushMessage, popMessages, navigateTo, replaceURLParams, featureToggles,
+  integration, setRootView, pushMessage, popMessages, navigateTo, replaceURLParams, isToggleOn,
 }) => {
   const routes = [
     {
@@ -25,7 +25,7 @@ const getQuoteRoutes = ({
         popMessages,
         navigateTo,
         replaceURLParams,
-        featureToggles,
+        isToggleOn,
       }),
       documentTitle: 'Quote',
     },

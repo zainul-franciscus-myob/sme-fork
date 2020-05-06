@@ -14,6 +14,7 @@ import OnboardingModule from '../onboarding/OnboardingModule';
 import RootReducer from './rootReducer';
 import RootView from './components/RootView';
 import SettingsService from './services/settings';
+import SplitToggle from '../splitToggle/index.js';
 import Store from '../store/Store';
 import buildGlobalCallbacks from './builders/buildGlobalCallbacks';
 import isNotSupportedAndShowAlert from '../common/browser/isNotSupportedAndShowAlert';
@@ -35,6 +36,7 @@ export default class RootModule {
     this.businessDetailsService = BusinessDetailsService(this.dispatcher, integration, this.store);
     this.last_business_id = null;
     this.startLeanEngage = startLeanEngage;
+    this.featureToggles = new SplitToggle();
 
     this.drawer = new DrawerModule({
       integration,
@@ -84,6 +86,8 @@ export default class RootModule {
     await this.integrator.loadSubscription({ onSuccess });
   };
 
+  isToggleOn = (toggleName) => this.featureToggles.isToggleOn(toggleName);
+
   runLeanEngage = () => {
     const state = this.store.getState();
 
@@ -129,6 +133,7 @@ export default class RootModule {
     if (businessId) {
       if (businessId !== this.last_business_id) {
         await this.loadSubscription();
+        await this.featureToggles.init({ region, businessId });
         this.loadSharedInfo();
         this.tasksService.load();
         this.settingsService.load();

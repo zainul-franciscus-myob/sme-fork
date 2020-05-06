@@ -66,7 +66,7 @@ export default class QuoteDetailModule {
     popMessages,
     navigateTo,
     replaceURLParams,
-    featureToggles,
+    isToggleOn,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -79,7 +79,7 @@ export default class QuoteDetailModule {
     this.dispatcher = createQuoteDetailDispatcher(this.store);
     this.integrator = createQuoteDetailIntegrator(this.store, integration);
 
-    this.isQuoteJobColumnEnabled = featureToggles.isQuoteJobColumnEnabled;
+    this.isToggleOn = isToggleOn;
 
     this.contactModalModule = new ContactModalModule({ integration });
     this.accountModalModule = new AccountModalModule({ integration });
@@ -835,7 +835,7 @@ export default class QuoteDetailModule {
   run(context) {
     this.dispatcher.setInitialState({
       ...context,
-      isQuoteJobColumnEnabled: this.isQuoteJobColumnEnabled,
+      isQuoteJobColumnEnabled: this.isToggleOn('essentials-jobs'),
     });
     setupHotKeys(keyMap, this.handlers);
     this.render();

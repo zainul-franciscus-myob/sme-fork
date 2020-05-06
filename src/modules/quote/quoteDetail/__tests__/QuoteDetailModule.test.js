@@ -32,6 +32,7 @@ describe('QuoteDetailModule', () => {
     const pushMessage = () => {};
     const popMessages = () => [];
     const replaceURLParams = () => {};
+    const isToggleOn = () => true;
     const integration = new TestIntegration();
 
     const module = new QuoteDetailModule({
@@ -40,7 +41,7 @@ describe('QuoteDetailModule', () => {
       pushMessage,
       popMessages,
       replaceURLParams,
-      featureToggles: { isQuoteJobColumnEnabled: true },
+      isToggleOn,
     });
     module.redirectToUrl = jest.fn();
     const store = new TestStore(quoteDetailReducer);
