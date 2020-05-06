@@ -8,6 +8,7 @@ import {
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
+  SET_REDIRECT_URL,
   SET_SUBMITTING_STATE,
   SET_TABLE_LOADING_STATE,
   UPDATE_BANK_STATEMENT_TEXT,
@@ -31,13 +32,20 @@ describe('BillPaymentDetailModule', () => {
     const integration = new TestIntegration();
     const setRootView = () => {};
     const pushMessage = () => {};
+    const navigateTo = jest.fn((url) => {
+      window.location.href = url;
+    });
 
-    const module = new BillPaymentModule({ integration, setRootView, pushMessage });
+    const module = new BillPaymentModule({
+      integration, setRootView, pushMessage, navigateTo,
+    });
     module.store = store;
     module.dispatcher = createBillPaymentDetailDispatcher(store);
     module.integrator = createBillPaymentDetailIntegrator(store, integration);
 
-    return { store, integration, module };
+    return {
+      store, integration, module, navigateTo,
+    };
   };
 
   const setupWithNew = ({ applyPaymentToBillId } = {}) => {
@@ -722,6 +730,108 @@ describe('BillPaymentDetailModule', () => {
 
         expect(window.location.href).toEqual(expect.stringContaining('/billId'));
       });
+    });
+  });
+
+  describe('handlePageTransition', () => {
+    const setupWithEditedPage = () => {
+      const toolbox = setupWithExisting();
+      const { module, store } = toolbox;
+
+      module.updateHeaderOption({ key: 'description', value: '🐄' });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: UPDATE_HEADER_OPTION,
+          key: 'description',
+          value: '🐄',
+        },
+      ]);
+
+      store.resetActions();
+
+      return toolbox;
+    };
+
+    it('opens unsaved modal when page is edited', () => {
+      const { module, store } = setupWithEditedPage();
+
+      module.handlePageTransition('/#/foo');
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_REDIRECT_URL,
+          redirectUrl: '/#/foo',
+        },
+        {
+          intent: OPEN_MODAL,
+          modalType: 'unsaved',
+        },
+      ]);
+    });
+
+    it('redirect when page is not edited', () => {
+      const { module, navigateTo } = setupWithExisting();
+
+      module.handlePageTransition('/#/foo');
+
+      expect(navigateTo).toBeCalledWith('/#/foo');
+    });
+
+    it('should save and redirect when confirm modal', () => {
+      const { module, integration, navigateTo } = setupWithEditedPage();
+      integration.resetRequests();
+      module.handlePageTransition('/#/bar');
+      module.saveAndRedirect();
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: UPDATE_BILL_PAYMENT }),
+      ]);
+      expect(navigateTo).toBeCalledWith('/#/bar');
+    });
+
+    it(' redirect when discard modal', () => {
+      const { module, integration, navigateTo } = setupWithEditedPage();
+      integration.resetRequests();
+      module.handlePageTransition('/#/bar');
+      module.discardAndRedirect();
+      expect(navigateTo).toBeCalledWith('/#/bar');
+    });
+  });
+
+  describe('closeUnsaveModal', () => {
+    const setupWithEditedPage = () => {
+      const toolbox = setupWithExisting();
+      const { module, store } = toolbox;
+
+      module.updateHeaderOption({ key: 'description', value: '🐄' });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: UPDATE_HEADER_OPTION,
+          key: 'description',
+          value: '🐄',
+        },
+      ]);
+
+      store.resetActions();
+
+      return toolbox;
+    };
+
+    it('should clear redirect url', () => {
+      const { module, store } = setupWithEditedPage();
+
+      module.closeUnsaveModal();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_REDIRECT_URL,
+          redirectUrl: '',
+        },
+        {
+          intent: CLOSE_MODAL,
+        },
+      ]);
     });
   });
 });

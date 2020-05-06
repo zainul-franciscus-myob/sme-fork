@@ -10,6 +10,7 @@ import {
   getIsPageEdited,
   getIsReferenceIdDirty,
   getModalType,
+  getRedirectUrl,
   getRegion,
   getShouldLoadBillList,
   getSupplierId,
@@ -24,12 +25,15 @@ import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class BillPaymentModule {
-  constructor({ integration, setRootView, pushMessage }) {
+  constructor({
+    integration, setRootView, pushMessage, navigateTo,
+  }) {
     this.store = new Store(billPaymentReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.dispatcher = createBillPaymentDetailDispatcher(this.store);
     this.integrator = createBillPaymentDetailIntegrator(this.store, integration);
+    this.navigateTo = navigateTo;
   }
 
   loadBillPayment = () => {
@@ -113,7 +117,7 @@ export default class BillPaymentModule {
     const businessId = getBusinessId(state);
     const region = getRegion(state);
 
-    window.location.href = `/#/${region}/${businessId}/transactionList`;
+    this.navigateTo(`/#/${region}/${businessId}/transactionList`);
   }
 
   redirectToBillList= () => {
@@ -121,7 +125,7 @@ export default class BillPaymentModule {
     const businessId = getBusinessId(state);
     const region = getRegion(state);
 
-    window.location.href = `/#/${region}/${businessId}/bill`;
+    this.navigateTo(`/#/${region}/${businessId}/bill`);
   }
 
   redirectToBillDetail= (billId) => {
@@ -129,7 +133,7 @@ export default class BillPaymentModule {
     const businessId = getBusinessId(state);
     const region = getRegion(state);
 
-    window.location.href = `/#/${region}/${businessId}/bill/${billId}`;
+    this.navigateTo(`/#/${region}/${businessId}/bill/${billId}`);
   }
 
   dismissAlert = () => this.dispatcher.setAlertMessage('')
@@ -147,11 +151,16 @@ export default class BillPaymentModule {
         content: response.message,
       });
 
-      const isCreating = getIsCreating(state);
-      if (isCreating) {
-        this.redirectToBillList();
+      const url = getRedirectUrl(state);
+      if (url) {
+        this.navigateTo(url);
       } else {
-        this.redirectToTransactionList();
+        const isCreating = getIsCreating(state);
+        if (isCreating) {
+          this.redirectToBillList();
+        } else {
+          this.redirectToTransactionList();
+        }
       }
     };
 
@@ -220,6 +229,9 @@ export default class BillPaymentModule {
         onCancelModal={this.cancelBillPayment}
         onDeleteModal={this.deleteBillPayment}
         onDismissAlert={this.dismissAlert}
+        onConfirmSaveAndRedirect={this.saveAndRedirect}
+        onDiscardAndRedirect={this.discardAndRedirect}
+        onCloseUnsaveModal={this.closeUnsaveModal}
       />
     );
 
@@ -254,5 +266,31 @@ export default class BillPaymentModule {
 
   resetState() {
     this.dispatcher.resetState();
+  }
+
+  discardAndRedirect = () => {
+    this.dispatcher.closeModal();
+    const url = getRedirectUrl(this.store.getState());
+    this.navigateTo(url);
+  }
+
+  saveAndRedirect = () => {
+    this.dispatcher.closeModal();
+    this.saveBillPayment();
+  }
+
+  closeUnsaveModal = () => {
+    this.dispatcher.setRedirectUrl('');
+    this.dispatcher.closeModal();
+  }
+
+  handlePageTransition = (url) => {
+    const state = this.store.getState();
+    if (getIsPageEdited(state)) {
+      this.dispatcher.setRedirectUrl(url);
+      this.dispatcher.openModal('unsaved');
+    } else {
+      this.navigateTo(url);
+    }
   }
 }

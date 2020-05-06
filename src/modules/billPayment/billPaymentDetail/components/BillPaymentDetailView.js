@@ -13,6 +13,7 @@ import CancelModal from '../../../../components/modal/CancelModal';
 import DeleteModal from '../../../../components/modal/DeleteModal';
 import LineItemTemplate from '../../../../components/Feelix/LineItemTemplate/LineItemTemplate';
 import PageView from '../../../../components/PageView/PageView';
+import UnsavedModal from '../../../../components/modal/UnsavedModal';
 
 const BillPaymentDetailView = ({
   loadingState,
@@ -25,6 +26,9 @@ const BillPaymentDetailView = ({
   onCancelButtonClick,
   onDeleteButtonClick,
   onSaveButtonClick,
+  onConfirmSaveAndRedirect,
+  onDiscardAndRedirect,
+  onCloseUnsaveModal,
   onCancelModal,
   onCloseModal,
   onDeleteModal,
@@ -45,6 +49,16 @@ const BillPaymentDetailView = ({
         onCancel={onCloseModal}
         onConfirm={onDeleteModal}
         title="Delete this payment?"
+      />
+    );
+  } else if (modalType === 'unsaved') {
+    modal = (
+      <UnsavedModal
+        onConfirmSave={onConfirmSaveAndRedirect}
+        onConfirmUnsave={onDiscardAndRedirect}
+        onCancel={onCloseUnsaveModal}
+        title="Record changes?"
+        description="Looks like you've made changes. Do you want to record these changes?"
       />
     );
   }

@@ -7,6 +7,7 @@ import {
   RESET_BANK_STATEMENT_TEXT,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
+  SET_REDIRECT_URL,
   SET_SUBMITTING_STATE,
   SET_TABLE_LOADING_STATE,
   UPDATE_BANK_STATEMENT_TEXT,
@@ -202,6 +203,11 @@ const setAlertMessage = (state, action) => ({
   alertMessage: action.alertMessage,
 });
 
+const setRedirectUrl = (state, { redirectUrl }) => ({
+  ...state,
+  redirectUrl,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_LOADING_STATE]: setLoadingState,
@@ -219,6 +225,7 @@ const handlers = {
   [SET_ALERT_MESSAGE]: setAlertMessage,
   [RESET_BANK_STATEMENT_TEXT]: resetBankStatementText,
   [UPDATE_BANK_STATEMENT_TEXT]: updateBankStatementText,
+  [SET_REDIRECT_URL]: setRedirectUrl,
 };
 
 const billPaymentDetailReducer = createReducer(getDefaultState(), handlers);

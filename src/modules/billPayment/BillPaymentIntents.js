@@ -15,3 +15,4 @@ export const CLOSE_MODAL = Symbol('Close modal');
 export const SET_ALERT_MESSAGE = Symbol('Set alert message');
 export const RESET_BANK_STATEMENT_TEXT = Symbol('Reset bank statement text');
 export const UPDATE_BANK_STATEMENT_TEXT = Symbol('Update bank statement text');
+export const SET_REDIRECT_URL = Symbol('Set redirect url');

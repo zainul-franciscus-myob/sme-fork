@@ -28,6 +28,7 @@ const getDescription = state => state.description;
 const getBankStatementText = state => state.bankStatementText;
 export const getIsPageEdited = state => state.isPageEdited;
 export const getModalType = state => state.modalType;
+export const getRedirectUrl = state => state.redirectUrl;
 
 export const getIsCreating = state => state.billPaymentId === 'new';
 export const getShouldDisableFields = state => state.billPaymentId !== 'new';

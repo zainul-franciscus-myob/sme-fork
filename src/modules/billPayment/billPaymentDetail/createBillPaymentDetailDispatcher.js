@@ -5,6 +5,7 @@ import {
   RESET_BANK_STATEMENT_TEXT,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
+  SET_REDIRECT_URL,
   SET_SUBMITTING_STATE,
   SET_TABLE_LOADING_STATE,
   UPDATE_BANK_STATEMENT_TEXT,
@@ -106,6 +107,12 @@ const createBillPaymentDetailDispatcher = store => ({
   updateBankStatementText: () => store.dispatch({
     intent: UPDATE_BANK_STATEMENT_TEXT,
   }),
+  setRedirectUrl: (redirectUrl) => {
+    store.dispatch({
+      intent: SET_REDIRECT_URL,
+      redirectUrl,
+    });
+  },
 });
 
 export default createBillPaymentDetailDispatcher;
