@@ -1,3 +1,4 @@
+import errorCode from '../errorCode';
 import handleResponse from '../handleResponse';
 
 describe('handleResponse', () => {
@@ -45,7 +46,7 @@ describe('handleResponse', () => {
     it('should redirect to permission denied', async () => {
       const forbiddenCodePromise = Promise.resolve({
         status: 403,
-        json: () => { },
+        json: () => ({}),
       });
 
       await handleResponse({
@@ -57,6 +58,25 @@ describe('handleResponse', () => {
       });
 
       expect(window.location.href).toBe('http://localhost/#/au/1234-3456-123456-123456/permissionDenied');
+    });
+
+    it('should redirect to linked user', async () => {
+      const forbiddenCodePromise = Promise.resolve({
+        status: 403,
+        json: () => ({
+          code: errorCode.UNLINKED_USER,
+        }),
+      });
+
+      await handleResponse({
+        fetchedPromise: forbiddenCodePromise,
+        responseParser,
+        onSuccess,
+        onFailure,
+        urlParams: { businessId: '1234-3456-123456-123456' },
+      });
+
+      expect(window.location.href).toContain('http://localhost/#/au/1234-3456-123456-123456/linkUser');
     });
   });
 

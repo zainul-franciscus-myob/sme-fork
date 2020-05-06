@@ -4,7 +4,7 @@ import isLinkUserPage from '../isLinkUserPage';
 
 
 const unlinkedUserHandler = {
-  canHandle: (response, responseBody) => response.status === 400
+  canHandle: (response, responseBody) => response.status === 403
         && responseBody.code === errorCode.UNLINKED_USER,
   handle: ({ businessId }) => {
     const currentUrl = window.location.href;

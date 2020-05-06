@@ -10,8 +10,8 @@ const defaultHandler = {
 
 const handlers = [
   // ordering is important.
-  permissionDeniedHandler,
   unlinkedUserHandler,
+  permissionDeniedHandler,
   fileUnavailableHandler,
   defaultHandler,
 ];
