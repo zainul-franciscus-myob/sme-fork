@@ -4,6 +4,7 @@ export const tabIds = {
 
   employmentDetails: 'employmentDetails',
   salaryAndWages: 'salaryAndWages',
+  leave: 'leave',
 };
 
 export const tabItems = [
@@ -14,6 +15,7 @@ export const tabItems = [
     subTabs: [
       { id: tabIds.employmentDetails, label: 'Employment details' },
       { id: tabIds.salaryAndWages, label: 'Salary and wages' },
+      { id: tabIds.leave, label: 'Leave' },
     ],
   },
 ];

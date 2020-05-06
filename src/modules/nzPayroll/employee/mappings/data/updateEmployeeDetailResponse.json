@@ -16,5 +16,29 @@
     "notes": "nz payroll employee",
     "isInactive": false,
     "employeeNumber": "0012"
+  },
+  "payrollDetails": {
+    "employmentDetails": {
+      "dateOfBirth": "2000-12-25T00:00:00",
+      "gender": "Not Set",
+      "startDate": "2010-07-02T00:00:00",
+      "terminationDate": "",
+      "employmentStatus": "Casual"
+    },
+    "wage": {
+      "selectedPayBasis": "Hourly",
+      "hourlyRate": "48.0764",
+      "selectedPayCycle": "Weekly"
+    },
+    "leave": {
+      "holidayPay": "8.12",
+      "sickLeaveCurrentBalance": "4.0",
+      "sickLeaveAnnualEntitlement": "5.0",
+      "sickLeaveMaximumToAccure": "5.0",
+      "nextAnniversaryDate": "2020-12-25",
+      "sickLeaveOpeningBalance": "10.00",
+      "alternativeCurrentBalance": "10.00",
+      "alternativeOpeningBalance": "10.00"
+    }
   }
 }

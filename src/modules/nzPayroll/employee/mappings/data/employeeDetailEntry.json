@@ -10,12 +10,8 @@
     "state": "Auckland",
     "postcode": "7400",
     "email": "bob@thebuilder.com",
-    "phoneNumbers": [
-      "03 93883848",
-      "03 94839483",
-      "03 94839482"
-    ],
-    "notes":"notes"
+    "phoneNumbers": ["03 93883848", "03 94839483", "03 94839482"],
+    "notes": "notes"
   },
   "payrollDetails": {
     "employmentDetails": {
@@ -29,13 +25,23 @@
       "selectedPayBasis": "Hourly",
       "hourlyRate": "48.0764",
       "selectedPayCycle": "Weekly"
+    },
+    "leave": {
+      "holidayPay": "8.12",
+      "sickLeaveCurrentBalance": "4.0",
+      "sickLeaveAnnualEntitlement": "5.0",
+      "sickLeaveMaximumToAccure": "5.0",
+      "nextAnniversaryDate": "2020-12-25",
+      "sickLeaveOpeningBalance": "10.00",
+      "alternativeCurrentBalance": "10.00",
+      "alternativeOpeningBalance": "10.00"
     }
   },
   "genderOptions": [
-    {"name":"-","value":"NotSet"},
-    {"name":"Male","value":"Male"},
-    {"name":"Female","value":"Female"},
-    {"name":"Unspecified","value":"Indeterminate"}
+    { "name": "-", "value": "NotSet" },
+    { "name": "Male", "value": "Male" },
+    { "name": "Female", "value": "Female" },
+    { "name": "Unspecified", "value": "Indeterminate" }
   ],
   "payCycleOptions": [
     { "id": "Weekly", "displayName": "Weekly" },

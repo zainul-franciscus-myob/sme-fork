@@ -9,6 +9,7 @@ import { tabItems } from './tabItems';
 import ContactDetailsNzTabModule from './contactDetails/ContactDetailsNzTabModule';
 import EmployeeDetailsNzView from './components/EmployeeDetailsNzView';
 import EmploymentDetailsNzModule from './employmentDetails/EmploymentDetailsNzModule';
+import LeaveModule from './leave/LeaveModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import ModalTypes from './ModalTypes';
 import SalaryAndWagesModule from './salaryAndWages/salaryAndWagesModule';
@@ -33,6 +34,8 @@ export default class EmployeeDetailNzModule {
       contactDetails: new ContactDetailsNzTabModule({ store: this.store }),
       employmentDetails: new EmploymentDetailsNzModule({ store: this.store }),
       salaryAndWages: new SalaryAndWagesModule({ store: this.store }),
+      leave: new LeaveModule({ store: this.store }),
+
     };
   }
 

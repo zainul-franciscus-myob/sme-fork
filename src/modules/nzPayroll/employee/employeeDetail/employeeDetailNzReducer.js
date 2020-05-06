@@ -10,6 +10,7 @@ import LoadingState from '../../../../components/PageView/LoadingState';
 import contactDetailsNzTabReducer from './contactDetails/contactDetailsNzTabReducer';
 import createReducer from '../../../../store/createReducer';
 import employementDetailsReducer from './employmentDetails/employementDetailsReducer';
+import leaveReducer from './leave/leaveReducer';
 import salaryAndWageReducer from './salaryAndWages/salaryAndWageReducer';
 
 const getDefaultState = () => ({
@@ -161,6 +162,7 @@ const handlers = {
   ...contactDetailsNzTabReducer,
   ...employementDetailsReducer,
   ...salaryAndWageReducer,
+  ...leaveReducer,
 };
 
 const employeeDetailNzReducer = createReducer(getDefaultState(), handlers);
