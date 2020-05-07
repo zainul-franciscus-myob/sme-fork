@@ -13,6 +13,7 @@ import classNames from 'classnames';
 
 import BusinessRoles from '../fixtures/businessRoles';
 import Industries from '../fixtures/Industries';
+import LoadingPageState from '../../components/LoadingPageState/LoadingPageState';
 import handleComboboxChange from '../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../components/handlers/handleInputChange';
 import handleSelectChange from '../../components/handlers/handleSelectChange';
@@ -22,15 +23,16 @@ import welcomeImage from '../assets/welcome.svg';
 const industryData = [{ columnName: 'id', showData: true }];
 
 class OnboardingView extends Component {
-  constructor({ dispatcher, onSave }) {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       businessNameError: '',
       industryError: '',
       hasRendered: false,
     };
-    this.dispatcher = dispatcher;
-    this.onSave = onSave;
+    this.dispatcher = props.dispatcher;
+    this.onSave = props.onSave;
+    this.businessId = props.businessId;
   }
 
   componentDidMount() {
@@ -84,11 +86,14 @@ class OnboardingView extends Component {
       onChangeBusinessRole,
       onChangeIndustry,
       props: {
+        businessId,
         businessName,
         businessRole,
         industry,
       },
     } = this;
+
+    if (!businessId) return <LoadingPageState />;
 
     const { businessNameError, industryError } = this.state;
 

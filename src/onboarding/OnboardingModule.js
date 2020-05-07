@@ -45,10 +45,13 @@ class OnboardingModule {
   };
 
   render = () => {
-    const { dispatcher, save, onboardingVisited } = this;
+    const {
+      dispatcher, save, onboardingVisited, businessId,
+    } = this;
 
     return (
       <OnboardingView
+        businessId={businessId}
         onSave={save}
         dispatcher={dispatcher}
         onLoad={onboardingVisited}
