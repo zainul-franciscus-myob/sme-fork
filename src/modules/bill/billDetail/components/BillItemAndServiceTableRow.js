@@ -8,12 +8,15 @@ import {
   getBillLine,
   getIsBlocking,
   getIsNewLine,
+  getIsReadOnlyLayout,
   getIsSupplierBlocking,
   getItemOptions,
   getJobOptions,
   getTaxCodeOptions,
 } from '../selectors/billSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
+import BillLineType from '../types/BillLineType';
+import BillTableReadOnlyRowItem from './BillTableReadOnlyRowItem';
 import Calculator from '../../../../components/Calculator/Calculator';
 import ItemCombobox from '../../../../components/combobox/ItemCombobox';
 import JobCombobox from '../../../../components/combobox/JobCombobox';
@@ -53,6 +56,7 @@ const BillItemAndServiceTableRow = ({
   isSupplierDisabled,
   isNewLine,
   isLineWithoutItemFromInTray,
+  isReadOnlyLayout,
   onChange,
   onAddAccount,
   onRowInputBlur,
@@ -62,6 +66,7 @@ const BillItemAndServiceTableRow = ({
 }) => {
   const prefillStatus = billLine.prefillStatus || {};
   const {
+    type,
     description,
     accountId,
     jobId,
@@ -72,6 +77,23 @@ const BillItemAndServiceTableRow = ({
     itemId,
     discount,
   } = billLine;
+
+  if ([BillLineType.HEADER, BillLineType.SUB_TOTAL].includes(type)) {
+    return (
+      <LineItemTable.Row index={index} id={index} {...feelixInjectedProps}>
+        <BillTableReadOnlyRowItem />
+        <BillTableReadOnlyRowItem value={description} />
+        <BillTableReadOnlyRowItem />
+        <BillTableReadOnlyRowItem />
+        <BillTableReadOnlyRowItem />
+        <BillTableReadOnlyRowItem />
+        <BillTableReadOnlyRowItem />
+        <BillTableReadOnlyRowItem value={amount} />
+        {isBillJobColumnEnabled && <BillTableReadOnlyRowItem />}
+        <BillTableReadOnlyRowItem />
+      </LineItemTable.Row>
+    );
+  }
 
   return (
     <LineItemTable.Row
@@ -84,7 +106,7 @@ const BillItemAndServiceTableRow = ({
         items={itemOptions}
         selectedId={itemId}
         onChange={handleComboboxChange(onChange, 'itemId')}
-        disabled={isBlocking || isSupplierDisabled}
+        disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
       />
       <div className={classnames({ [styles.prefilled]: Boolean(prefillStatus.description) })}>
         <TextArea
@@ -92,7 +114,7 @@ const BillItemAndServiceTableRow = ({
           autoSize
           value={description}
           onChange={onChange}
-          disabled={isBlocking || isSupplierDisabled}
+          disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
           maxLength={255}
         />
       </div>
@@ -103,7 +125,7 @@ const BillItemAndServiceTableRow = ({
         )}
         items={accountOptions}
         selectedId={accountId}
-        disabled={isBlocking || isSupplierDisabled}
+        disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
       />
       <Calculator
         name="units"
@@ -111,7 +133,7 @@ const BillItemAndServiceTableRow = ({
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index)}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.units) })}
-        disabled={isBlocking || isSupplierDisabled}
+        disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
         numeralIntegerScale={12}
         numeralDecimalScaleMax={6}
       />
@@ -122,7 +144,7 @@ const BillItemAndServiceTableRow = ({
         onBlur={handleAmountInputBlur(onRowInputBlur, index)}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.unitPrice) })}
         textAlign="right"
-        disabled={isBlocking || isSupplierDisabled}
+        disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={6}
       />
@@ -133,7 +155,7 @@ const BillItemAndServiceTableRow = ({
         onBlur={handleAmountInputBlur(onRowInputBlur, index)}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.discount) })}
         textAlign="right"
-        disabled={isBlocking || isSupplierDisabled}
+        disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
@@ -144,7 +166,7 @@ const BillItemAndServiceTableRow = ({
         onBlur={handleAmountInputBlur(onRowInputBlur, index)}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.amount) })}
         textAlign="right"
-        disabled={isBlocking || isSupplierDisabled}
+        disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
@@ -152,7 +174,7 @@ const BillItemAndServiceTableRow = ({
         items={jobOptions}
         selectedId={jobId}
         onChange={handleComboboxChange(onChange, 'jobId')}
-        disabled={isBlocking || isSupplierDisabled}
+        disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
         allowClear
         left
       />}
@@ -160,7 +182,7 @@ const BillItemAndServiceTableRow = ({
         items={taxCodeOptions}
         selectedId={taxCodeId}
         onChange={handleComboboxChange(onChange, 'taxCodeId')}
-        disabled={isBlocking || isSupplierDisabled}
+        disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
       />
     </LineItemTable.Row>
   );
@@ -175,6 +197,7 @@ const mapStateToProps = (state, props) => ({
   isNewLine: getIsNewLine(state, props),
   isBlocking: getIsBlocking(state),
   isSupplierDisabled: getIsSupplierBlocking(state),
+  isReadOnlyLayout: getIsReadOnlyLayout(state),
 });
 
 export default connect(mapStateToProps)(BillItemAndServiceTableRow);

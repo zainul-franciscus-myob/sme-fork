@@ -14,7 +14,7 @@ import {
   UPDATE_LAYOUT,
 } from '../BillIntents';
 import BillLayout from '../types/BillLayout';
-import BillLineLayout from '../types/BillLineLayout';
+import BillLineType from '../types/BillLineType';
 import LineTaxTypes from '../types/LineTaxTypes';
 import billReducer from '../reducer/billReducer';
 
@@ -152,6 +152,34 @@ describe('billReducer', () => {
         expect(actual.subscription.isUpgradeModalShowing).toBeFalsy();
       });
     });
+
+    describe('line type', () => {
+      it.each([
+        [BillLineType.SERVICE, '10'],
+        [BillLineType.ITEM, '10'],
+        [BillLineType.HEADER, undefined],
+        [BillLineType.SUB_TOTAL, '10'],
+      ])('calculate amount for %s line', (type, expected) => {
+        const state = {};
+        const action = {
+          intent: LOAD_BILL,
+          response: {
+            bill: {
+              amountPaid: '10',
+              isTaxInclusive: true,
+              lines: [{ type, taxExclusiveAmount: '9.99', taxAmount: '0.01' }],
+            },
+            totals: {
+              amountDue: '0',
+            },
+          },
+        };
+
+        const actual = billReducer(state, action);
+
+        expect(actual.bill.lines[0].amount).toEqual(expected);
+      });
+    });
   });
 
   describe('SET_CALCULATED_BILL_LINES_AND_TOTALS', () => {
@@ -225,8 +253,8 @@ describe('billReducer', () => {
         layout: BillLayout.ITEM_AND_SERVICE,
         bill: {
           lines: [
-            { type: BillLineLayout.SERVICE, id: 'something' },
-            { type: BillLineLayout.ITEM_AND_SERVICE, id: 'somethingElse' },
+            { type: BillLineType.SERVICE, id: 'something' },
+            { type: BillLineType.ITEM_AND_SERVICE, id: 'somethingElse' },
           ],
         },
       };
@@ -235,7 +263,7 @@ describe('billReducer', () => {
 
       const actual = billReducer(state, action);
 
-      const expected = [{ type: BillLineLayout.SERVICE, id: '' }];
+      const expected = [{ type: BillLineType.SERVICE, id: '' }];
 
       expect(actual.bill.lines).toEqual(expected);
     });
@@ -245,7 +273,7 @@ describe('billReducer', () => {
         layout: BillLayout.SERVICE,
         bill: {
           lines: [
-            { type: BillLineLayout.SERVICE, id: 'a' },
+            { type: BillLineType.SERVICE, id: 'a' },
           ],
         },
       };
@@ -254,7 +282,7 @@ describe('billReducer', () => {
 
       const actual = billReducer(state, action);
 
-      const expected = [{ type: BillLineLayout.SERVICE, id: '' }];
+      const expected = [{ type: BillLineType.SERVICE, id: '' }];
 
       expect(actual.bill.lines).toEqual(expected);
     });
@@ -819,7 +847,7 @@ describe('billReducer', () => {
       const state = {
         bill: {
           lines: [
-            { type: BillLineLayout.SERVICE, id: '1' },
+            { type: BillLineType.SERVICE, id: '1' },
           ],
         },
       };
@@ -858,7 +886,7 @@ describe('billReducer', () => {
         bill: {
           lines: [
             {
-              type: BillLineLayout.ITEM,
+              type: BillLineType.ITEM,
               accountId: '1',
             },
           ],
@@ -884,7 +912,7 @@ describe('billReducer', () => {
         bill: {
           lines: [
             {
-              type: BillLineLayout.SERVICE,
+              type: BillLineType.SERVICE,
               accountId: '1',
             },
           ],

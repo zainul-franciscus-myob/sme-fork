@@ -7,6 +7,7 @@ import {
   getAccountOptions,
   getExpenseAccountId,
   getIsBlocking,
+  getIsReadOnlyLayout,
   getIsReportable,
   getIsSupplierDisabled,
   getRegion,
@@ -34,6 +35,7 @@ const BillPrimaryOptions = ({
   region,
   isSupplierDisabled,
   isBlocking,
+  isReadOnlyLayout,
   prefillStatus,
   onUpdateBillOption,
   onAddSupplierButtonClick,
@@ -50,7 +52,7 @@ const BillPrimaryOptions = ({
         name="supplierId"
         requiredLabel="This is required"
         hideLabel={false}
-        disabled={isSupplierDisabled || isBlocking}
+        disabled={isSupplierDisabled || isBlocking || isReadOnlyLayout}
         addNewItem={{
           label: 'Create supplier',
           onAddNew: onAddSupplierButtonClick,
@@ -64,6 +66,7 @@ const BillPrimaryOptions = ({
       region={region}
       name="isReportable"
       onChange={handleCheckboxChange(onUpdateBillOption)}
+      disabled={isSupplierDisabled || isBlocking || isReadOnlyLayout}
     />
     {shouldShowAccountCode && (
     <AccountCombobox
@@ -79,7 +82,7 @@ const BillPrimaryOptions = ({
           )}
       name="expenseAccountId"
       hideLabel={false}
-      disabled={isSupplierDisabled || isBlocking}
+      disabled={isSupplierDisabled || isBlocking || isReadOnlyLayout}
     />
     )}
   </React.Fragment>
@@ -97,6 +100,7 @@ const mapStateToProps = state => ({
   isSupplierDisabled: getIsSupplierDisabled(state),
   isBlocking: getIsBlocking(state),
   prefillStatus: getPrefillStatus(state),
+  isReadOnlyLayout: getIsReadOnlyLayout(state),
 });
 
 export default connect(mapStateToProps)(BillPrimaryOptions);

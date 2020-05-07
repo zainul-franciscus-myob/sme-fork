@@ -9,6 +9,7 @@ import {
   getExpirationTerm,
   getExpirationTermOptions,
   getIsBlocking,
+  getIsReadOnlyLayout,
   getIsSupplierBlocking,
   getIsTaxInclusive,
   getIssueDate,
@@ -35,6 +36,7 @@ const BillSecondaryOptions = ({
   taxExclusiveLabel,
   isBlocking,
   isSupplierDisabled,
+  isReadOnlyLayout,
   prefillStatus,
   onUpdateBillOption,
 }) => (
@@ -46,6 +48,7 @@ const BillSecondaryOptions = ({
       requiredLabel="This is required"
       onChange={handleInputChange(onUpdateBillOption)}
       maxLength={8}
+      disabled={isReadOnlyLayout}
     />
     <Input
       name="supplierInvoiceNumber"
@@ -54,6 +57,7 @@ const BillSecondaryOptions = ({
       className={classnames({ [styles.prefilled]: prefillStatus.supplierInvoiceNumber })}
       value={supplierInvoiceNumber}
       onChange={handleInputChange(onUpdateBillOption)}
+      disabled={isReadOnlyLayout}
     />
     <div className={
       classnames(styles.formControlWrapper, { [styles.prefilled]: prefillStatus.issueDate })}
@@ -64,6 +68,7 @@ const BillSecondaryOptions = ({
         value={issueDate}
         requiredLabel="This is required"
         onSelect={handleDateChange('issueDate', onUpdateBillOption)}
+        disabled={isReadOnlyLayout}
       />
     </div>
     <PaymentTerms
@@ -72,6 +77,7 @@ const BillSecondaryOptions = ({
       expirationTermOptions={expirationTermOptions}
       expirationDays={expirationDays}
       expirationTerm={expirationTerm}
+      disabled={isReadOnlyLayout}
     />
     <BooleanRadioButtonGroup
       name="isTaxInclusive"
@@ -80,7 +86,7 @@ const BillSecondaryOptions = ({
       trueLabel={taxInclusiveLabel}
       falseLabel={taxExclusiveLabel}
       handler={onUpdateBillOption}
-      disabled={isBlocking || isSupplierDisabled}
+      disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
     />
   </React.Fragment>
 );
@@ -99,6 +105,7 @@ const mapStateToProps = state => ({
   isBlocking: getIsBlocking(state),
   isSupplierDisabled: getIsSupplierBlocking(state),
   prefillStatus: getPrefillStatus(state),
+  isReadOnlyLayout: getIsReadOnlyLayout(state),
 });
 
 export default connect(mapStateToProps)(BillSecondaryOptions);

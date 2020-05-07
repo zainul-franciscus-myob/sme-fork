@@ -22,6 +22,9 @@ import loadItemAndServiceBill from './data/loadItemAndServiceBill';
 import loadItemOption from './data/loadItemOption';
 import loadNewBill from './data/loadNewBill';
 import loadNewDuplicateItemAndServiceBill from './data/loadNewDuplicateItemAndServiceBill';
+import loadReadOnlyItemAndServiceBill from './data/loadReadOnlyItemAndServiceBill';
+import loadReadOnlyServiceBill from './data/loadReadOnlyServiceBill';
+import loadServiceBill from './data/loadServiceBill';
 import loadSupplierDetail from './data/loadSupplierDetail';
 import loadSupplierResponse from './data/loadSupplierResponse';
 import prefillBillFromInTray from './data/prefillBillFromSupplierFeed';
@@ -29,7 +32,23 @@ import successResponse from './data/success';
 import updatedLineForItemDetail from './data/updatedLineForItemDetail';
 
 const MemoryBillDetailMapping = {
-  [LOAD_BILL]: ({ onSuccess }) => onSuccess(loadItemAndServiceBill),
+  [LOAD_BILL]: ({ urlParams = {}, onSuccess }) => {
+    switch (urlParams.billId) {
+      case 'service-readonly-id':
+        onSuccess(loadReadOnlyServiceBill);
+        break;
+      case 'item-readonly-id':
+        onSuccess(loadReadOnlyItemAndServiceBill);
+        break;
+      case 'service-id':
+        onSuccess(loadServiceBill);
+        break;
+      case 'item-id':
+      default:
+        onSuccess(loadItemAndServiceBill);
+        break;
+    }
+  },
   [LOAD_NEW_BILL]: ({ onSuccess }) => onSuccess(loadNewBill),
   [LOAD_NEW_DUPLICATE_BILL]: ({ onSuccess }) => onSuccess(loadNewDuplicateItemAndServiceBill),
   [DELETE_BILL]: ({ onSuccess }) => onSuccess(successResponse),

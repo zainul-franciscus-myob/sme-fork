@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 
+import BillLayout from '../types/BillLayout';
+import BillLineType from '../types/BillLineType';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 
 export const getBillId = state => state.billId;
@@ -141,8 +143,11 @@ export const getBillLine = (state, { index }) => {
   const { newLine } = state;
 
   if (line) {
-    return line;
+    return line.type === BillLineType.SUB_TOTAL
+      ? { ...line, description: 'Subtotal' }
+      : line;
   }
+
   return newLine;
 };
 
@@ -214,4 +219,35 @@ export const getLinesForTaxCalculation = createSelector(
 
 export const getIsLineAmountsTaxInclusive = (isTaxInclusive, isSwitchingTaxInclusive) => (
   isSwitchingTaxInclusive ? !isTaxInclusive : isTaxInclusive
+);
+
+const getIsLineTypeSupported = line => [
+  BillLineType.SERVICE, BillLineType.ITEM,
+].includes(line.type);
+
+const getIsLayoutSupported = createSelector(
+  getBillLayout, layout => [
+    BillLayout.SERVICE, BillLayout.ITEM_AND_SERVICE,
+  ].includes(layout),
+);
+
+export const getIsLinesSupported = createSelector(
+  getLines,
+  lines => lines.every(line => getIsLineTypeSupported(line)),
+);
+
+export const getIsReadOnlyLayout = createSelector(
+  getIsLayoutSupported,
+  getIsLinesSupported,
+  (isLayoutSupported, isLinesSupported) => !isLayoutSupported || !isLinesSupported,
+);
+
+export const getReadOnlyMessage = createSelector(
+  getIsLayoutSupported,
+  getBillLayout,
+  (isLayoutSupported, layout) => (
+    !isLayoutSupported
+      ? `This bill is missing information because the ${layout} bill layout isn't supported in the browser. Switch to AccountRight desktop to use this feature.`
+      : 'This bill is read only because it contains unsupported features. Switch to AccountRight desktop to edit this bill.'
+  ),
 );

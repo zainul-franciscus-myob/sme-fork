@@ -2,8 +2,13 @@ import Decimal from 'decimal.js';
 
 import { getBillLayout, getLines } from '../selectors/billSelectors';
 import BillLayout from '../types/BillLayout';
+import BillLineType from '../types/BillLineType';
 import buildLineWithCalculatedAmounts from '../../../../common/itemAndServiceLayout/buildLineWithCalculatedAmounts';
 import calculateUnitPrice from '../../../../common/itemAndServiceLayout/calculateUnitPrice';
+
+export const getIsCalculableLine = line => [
+  BillLineType.SERVICE, BillLineType.ITEM,
+].includes(line.type);
 
 export const calculateLineAmounts = (state, { key, index }) => {
   const lines = getLines(state);
@@ -18,7 +23,7 @@ export const calculateLineAmounts = (state, { key, index }) => {
           return line;
         }
 
-        return layout === BillLayout.ITEM_AND_SERVICE
+        return layout === BillLayout.ITEM_AND_SERVICE && getIsCalculableLine(line)
           ? buildLineWithCalculatedAmounts(line, key)
           : line;
       }),
@@ -38,12 +43,15 @@ export const calculateAmountDue = (totalAmount, amountPaid) => Decimal(totalAmou
 
 export const getTaxCalculations = (
   state,
-  { taxCalculations: { lines, totals }, isSwitchingTaxInclusive },
+  {
+    taxCalculations: { lines: calculatedLines, totals: calculatedTotals },
+    isSwitchingTaxInclusive,
+  },
 ) => {
   const { amountPaid } = state.bill;
-  const subTotal = totals.subTotal.valueOf();
-  const totalTax = totals.totalTax.valueOf();
-  const totalAmount = totals.totalAmount.valueOf();
+  const subTotal = calculatedTotals.subTotal.valueOf();
+  const totalTax = calculatedTotals.totalTax.valueOf();
+  const totalAmount = calculatedTotals.totalAmount.valueOf();
   const amountDue = calculateAmountDue(totalAmount, Number(amountPaid)).valueOf();
 
   return {
@@ -53,7 +61,11 @@ export const getTaxCalculations = (
     bill: {
       ...state.bill,
       lines: state.bill.lines.map((line, index) => {
-        const { amount } = lines[index];
+        if (!getIsCalculableLine(line)) {
+          return line;
+        }
+
+        const { amount } = calculatedLines[index];
 
         if (shouldCalculateUnitPriceWithTaxInclusiveSwitch(line, isSwitchingTaxInclusive)) {
           const units = Number(line.units);

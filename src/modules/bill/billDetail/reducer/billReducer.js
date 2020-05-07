@@ -46,7 +46,9 @@ import {
   UPDATE_LAYOUT,
 } from '../BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
-import { calculateAmountDue, calculateLineAmounts, getTaxCalculations } from './calculationReducer';
+import {
+  calculateAmountDue, calculateLineAmounts, getIsCalculableLine, getTaxCalculations,
+} from './calculationReducer';
 import { defaultLinePrefillStatus, defaultPrefillStatus, getDefaultState } from './getDefaultState';
 import {
   getBillId,
@@ -57,7 +59,7 @@ import {
   getUpdatedSupplierOptions,
 } from '../selectors/billSelectors';
 import BillLayout from '../types/BillLayout';
-import BillLineLayout from '../types/BillLineLayout';
+import BillLineType from '../types/BillLineType';
 import BillStatus from '../types/BillStatus';
 import LineTaxTypes from '../types/LineTaxTypes';
 import LoadingState from '../../../../components/PageView/LoadingState';
@@ -66,7 +68,8 @@ import createReducer from '../../../../store/createReducer';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const setTotalsOnLoad = ({ isTaxInclusive, lines, amountPaid }) => {
-  const totals = calculateTotals({ isTaxInclusive, lines });
+  const calculableLines = lines.filter(line => getIsCalculableLine(line));
+  const totals = calculateTotals({ isTaxInclusive, lines: calculableLines });
   const amountDue = calculateAmountDue(totals.totalAmount, amountPaid);
 
   return {
@@ -91,14 +94,15 @@ const loadBill = (state, action) => {
         ? formatIsoDate(state.today)
         : action.response.bill.issueDate,
       lines: action.response.bill.lines.map(line => {
-        const amount = action.response.bill.isTaxInclusive
-          ? (new Decimal(line.taxExclusiveAmount).add(line.taxAmount)).valueOf()
-          : (new Decimal(line.taxExclusiveAmount)).valueOf();
+        if ([BillLineType.SERVICE, BillLineType.ITEM, BillLineType.SUB_TOTAL].includes(line.type)) {
+          const amount = action.response.bill.isTaxInclusive
+            ? (new Decimal(line.taxExclusiveAmount).add(line.taxAmount)).valueOf()
+            : (new Decimal(line.taxExclusiveAmount)).valueOf();
 
-        return {
-          ...line,
-          amount,
-        };
+          return { ...line, amount };
+        }
+
+        return line;
       }),
     },
     totals: action.response.bill.lines.length === 0
@@ -205,7 +209,7 @@ const updateLayout = (state, { value }) => ({
   bill: {
     ...state.bill,
     lines: state.bill.lines
-      .filter(line => line.type === BillLineLayout.SERVICE)
+      .filter(line => line.type === BillLineType.SERVICE)
       .map(line => ({
         ...line,
         id: '',
@@ -271,14 +275,14 @@ const addBillLine = state => ({
 const calculateLineLayout = (lineLayout, updateKey) => {
   const isUpdateItemId = updateKey === 'itemId';
 
-  if (lineLayout === BillLineLayout.ITEM) {
+  if (lineLayout === BillLineType.ITEM) {
     return lineLayout;
   }
 
-  return isUpdateItemId ? BillLineLayout.ITEM : BillLineLayout.SERVICE;
+  return isUpdateItemId ? BillLineType.ITEM : BillLineType.SERVICE;
 };
 
-const getLineSubTypeId = type => (type === BillLineLayout.ITEM
+const getLineSubTypeId = type => (type === BillLineType.ITEM
   ? LineTaxTypes.DEFAULT_ITEM_LINE_SUB_TYPE_ID
   : LineTaxTypes.DEFAULT_SERVICE_LINE_SUB_TYPE_ID);
 

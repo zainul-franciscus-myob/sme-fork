@@ -17,6 +17,17 @@
     "status": "Closed",
     "lines": [
       {
+        "id": "344",
+        "type": "header",
+        "description": "SERVICE HEADER",
+        "accountId": "",
+        "taxAmount": "",
+        "taxExclusiveAmount": "",
+        "jobId": "",
+        "taxCodeId": "",
+        "lineSubTypeId": "-1"
+      },
+      {
         "id": "345",
         "type": "service",
         "description": "Yak shaving - 1/2 an hour",

@@ -5,9 +5,9 @@
   },
   "entries": [
     {
-      "id": "982",
+      "id": "service-id",
       "number": "00000086",
-      "invoiceNumber": "",
+      "invoiceNumber": "SERVICE",
       "supplier": "Amsler Pty Ltd",
       "dateIssued": "11/02/2020",
       "billAmount": "17.00",
@@ -17,8 +17,9 @@
       "hasAttachment": false
     },
     {
-      "id": "765",
+      "id": "item-id",
       "number": "00000083",
+      "invoiceNumber": "ITEM",
       "supplier": "Marciano Alfonso",
       "dateIssued": "31/01/2020",
       "billAmount": "-540.00",
@@ -28,8 +29,9 @@
       "hasAttachment": false
     },
     {
-      "id": "768",
+      "id": "service-readonly-id",
       "number": "00000084",
+      "invoiceNumber": "SERVICE-READONLY",
       "supplier": "Marciano Alfonso",
       "dateIssued": "31/01/2020",
       "billAmount": "600.00",
@@ -39,8 +41,9 @@
       "hasAttachment": false
     },
     {
-      "id": "769",
+      "id": "item-readonly-id",
       "number": "00000085",
+      "invoiceNumber": "ITEM-READONLY",
       "supplier": "Marciano Alfonso",
       "dateIssued": "31/01/2020",
       "billAmount": "-533.42",

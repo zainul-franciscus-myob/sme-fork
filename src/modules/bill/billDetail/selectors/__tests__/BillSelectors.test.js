@@ -3,7 +3,9 @@ import {
   getBillLine,
   getHasLineBeenPrefilled,
   getHasNoteBeenPrefilled,
+  getIsLinesSupported,
   getIsNewLine,
+  getIsReadOnlyLayout,
   getNewLineIndex,
   getPageTitle,
   getPrefillButtonText,
@@ -11,6 +13,8 @@ import {
   getTableData,
   getUpdatedSupplierOptions,
 } from '../billSelectors';
+import BillLayout from '../../types/BillLayout';
+import BillLineType from '../../types/BillLineType';
 
 describe('BillSelectors', () => {
   describe('getNewLineIndex', () => {
@@ -244,6 +248,70 @@ describe('BillSelectors', () => {
           id: '1',
         },
       );
+    });
+
+    describe('returns subtitle line', () => {
+      const state = {
+        bill: {
+          lines: [{ type: BillLineType.SUB_TOTAL, description: 'Description', amount: '10' }],
+        },
+      };
+
+      const actual = getBillLine(state, { index: 0 });
+
+      expect(actual).toEqual({ type: BillLineType.SUB_TOTAL, description: 'Subtotal', amount: '10' });
+    });
+  });
+
+  describe('getIsLinesSupported', () => {
+    it.each([
+      [BillLineType.SERVICE, true],
+      [BillLineType.ITEM, true],
+      [BillLineType.HEADER, false],
+      [BillLineType.SUB_TOTAL, false],
+    ])('validate whether invoice with %s line type are supported', (type, expected) => {
+      const lines = [
+        { type: BillLineType.SERVICE },
+        { type: BillLineType.ITEM },
+        { type },
+      ];
+
+      const actual = getIsLinesSupported.resultFunc(lines);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getIsReadOnlyLayout', () => {
+    it.each([
+      [BillLayout.SERVICE, false],
+      [BillLayout.ITEM_AND_SERVICE, false],
+      ['N/A', true],
+    ])('%s layout', (layout, expected) => {
+      const actual = getIsReadOnlyLayout({ layout, bill: { lines: [] } });
+
+      expect(actual).toEqual(expected);
+    });
+
+    it.each([
+      [BillLineType.SERVICE, false],
+      [BillLineType.ITEM, false],
+      [BillLineType.HEADER, true],
+      [BillLineType.SUB_TOTAL, true],
+      ['N/A', true],
+    ])('have %s line type', (type, expected) => {
+      const actual = getIsReadOnlyLayout({
+        layout: BillLayout.ITEM_AND_SERVICE,
+        bill: {
+          lines: [
+            { type: BillLineType.SERVICE },
+            { type: BillLineType.ITEM },
+            { type },
+          ],
+        },
+      });
+
+      expect(actual).toEqual(expected);
     });
   });
 

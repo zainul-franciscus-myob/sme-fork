@@ -9,6 +9,7 @@
   "layout": "itemAndService",
   "lines": [
     {
+      "type": "item",
       "description": "Cooler Large",
       "amount": "10",
       "units": "2",
@@ -18,6 +19,7 @@
       "isSupplierFeedPrefilled": true
     },
     {
+      "type": "item",
       "description": "Cooler Not Large",
       "amount": "20",
       "units": "2",

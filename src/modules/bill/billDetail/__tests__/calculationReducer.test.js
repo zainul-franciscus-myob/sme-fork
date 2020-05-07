@@ -3,10 +3,12 @@ import Decimal from 'decimal.js';
 import { CALCULATE_LINE_AMOUNTS, GET_TAX_CALCULATIONS } from '../BillIntents';
 import { calculateLineAmounts, getTaxCalculations } from '../reducer/calculationReducer';
 import BillLayout from '../types/BillLayout';
+import BillLineType from '../types/BillLineType';
 
 describe('calculationReducer', () => {
   describe('GET_TAX_CALCULATIONS', () => {
     const baseline = {
+      type: BillLineType.ITEM,
       units: '2',
       unitPrice: '45.455',
       discount: '',
@@ -126,6 +128,7 @@ describe('calculationReducer', () => {
 
       describe('calculate amount', () => {
         const baseline = {
+          type: BillLineType.ITEM,
           units: '2',
           unitPrice: '50',
           discount: '',
@@ -178,6 +181,7 @@ describe('calculationReducer', () => {
 
       describe('calculate discount', () => {
         const baseline = {
+          type: BillLineType.ITEM,
           units: '2',
           unitPrice: '50',
           discount: '',
@@ -232,6 +236,7 @@ describe('calculationReducer', () => {
 
       describe('calculate unitPrice', () => {
         const baseline = {
+          type: BillLineType.ITEM,
           units: '2',
           unitPrice: '',
           discount: '10',
@@ -304,6 +309,25 @@ describe('calculationReducer', () => {
           key: 'amount',
           index: 0,
         };
+
+        const actual = calculateLineAmounts(state, action);
+
+        expect(actual).toEqual(state);
+      });
+    });
+
+    describe('incalculable line type', () => {
+      it.each([
+        [BillLineType.HEADER, ''],
+        [BillLineType.SUB_TOTAL, '123.00'],
+      ])('should not calculate %s line', (type, amount) => {
+        const state = {
+          bill: {
+            layout: 'service',
+            lines: [{ type, amount }],
+          },
+        };
+        const action = { intent: CALCULATE_LINE_AMOUNTS, key: 'amount', index: 0 };
 
         const actual = calculateLineAmounts(state, action);
 

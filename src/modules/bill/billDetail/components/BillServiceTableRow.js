@@ -8,11 +8,14 @@ import {
   getBillLine,
   getIsBlocking,
   getIsNewLine,
+  getIsReadOnlyLayout,
   getIsSupplierBlocking,
   getJobOptions,
   getTaxCodeOptions,
 } from '../selectors/billSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
+import BillLineType from '../types/BillLineType';
+import BillTableReadOnlyRowItem from './BillTableReadOnlyRowItem';
 import Calculator from '../../../../components/Calculator/Calculator';
 import JobCombobox from '../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
@@ -47,12 +50,25 @@ const BillServiceTableRow = ({
   isNewLine,
   isBlocking,
   isSupplierDisabled,
+  isReadOnlyLayout,
   onChange,
   onRowInputBlur,
   onAddAccount,
   isBillJobColumnEnabled,
   ...feelixInjectedProps
 }) => {
+  if ([BillLineType.HEADER, BillLineType.SUB_TOTAL].includes(billLine.type)) {
+    return (
+      <LineItemTable.Row index={index} id={index} {...feelixInjectedProps}>
+        <BillTableReadOnlyRowItem value={billLine.description} />
+        <BillTableReadOnlyRowItem />
+        <BillTableReadOnlyRowItem value={billLine.amount} />
+        {isBillJobColumnEnabled && <BillTableReadOnlyRowItem />}
+        <BillTableReadOnlyRowItem />
+      </LineItemTable.Row>
+    );
+  }
+
   const prefillStatus = billLine.prefillStatus || {};
   const {
     description, accountId, jobId, taxCodeId, amount,
@@ -66,6 +82,7 @@ const BillServiceTableRow = ({
         onChange={onChange}
         maxLength={255}
         autoSize
+        disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
       />
       <AccountCombobox
         onChange={handleComboboxChange(onChange, 'accountId')}
@@ -74,7 +91,7 @@ const BillServiceTableRow = ({
         )}
         items={accountOptions}
         selectedId={accountId}
-        disabled={isBlocking || isSupplierDisabled}
+        disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
       />
       <Calculator
         name="amount"
@@ -83,7 +100,7 @@ const BillServiceTableRow = ({
         onBlur={handleAmountInputBlur(onRowInputBlur, index)}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.amount) })}
         textAlign="right"
-        disabled={isBlocking || isSupplierDisabled}
+        disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
@@ -91,7 +108,7 @@ const BillServiceTableRow = ({
         items={jobOptions}
         selectedId={jobId}
         onChange={handleComboboxChange(onChange, 'jobId')}
-        disabled={isBlocking || isSupplierDisabled}
+        disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
         allowClear
         left
       />}
@@ -99,7 +116,7 @@ const BillServiceTableRow = ({
         onChange={handleComboboxChange(onChange, 'taxCodeId')}
         items={taxCodeOptions}
         selectedId={taxCodeId}
-        disabled={isBlocking || isSupplierDisabled}
+        disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
       />
     </LineItemTable.Row>
   );
@@ -113,6 +130,7 @@ const mapStateToProps = (state, props) => ({
   isNewLine: getIsNewLine(state, props),
   isBlocking: getIsBlocking(state, props),
   isSupplierDisabled: getIsSupplierBlocking(state),
+  isReadOnlyLayout: getIsReadOnlyLayout(state),
 });
 
 export default connect(mapStateToProps)(BillServiceTableRow);

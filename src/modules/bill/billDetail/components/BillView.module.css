@@ -11,3 +11,15 @@
 .wrapper {
   --prefill-background-color: #d5e3f9;
 }
+
+.disabledTable :global(.line-item__icon-right button) {
+  display: none;
+}
+
+.disabledTable :global(.line-item--body .line-item__data) {
+  background-color: #eef0f2;
+}
+
+.disabledTable :global(.line-item__row-wrapper:last-child) {
+  display: none;
+}

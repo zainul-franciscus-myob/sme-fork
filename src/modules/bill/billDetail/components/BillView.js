@@ -1,18 +1,17 @@
 import { connect } from 'react-redux';
 import React from 'react';
+import classNames from 'classnames';
 
 import {
   getBillLayout,
   getIsAlertShown,
   getIsBlocking,
   getIsModalShown,
+  getIsReadOnlyLayout,
   getLoadingState,
+  getReadOnlyMessage,
 } from '../selectors/billSelectors';
-import {
-  getIsDocumentLoading,
-  getShowPrefillInfo,
-  getShowSplitView,
-} from '../selectors/BillInTrayDocumentSelectors';
+import { getIsDocumentLoading, getShowPrefillInfo, getShowSplitView } from '../selectors/BillInTrayDocumentSelectors';
 import BillActions from './BillActions';
 import BillAlert from './BillAlert';
 import BillDocumentViewer from './BillDocumentViewer';
@@ -31,6 +30,18 @@ import PageView from '../../../../components/PageView/PageView';
 import UpgradeModal from './UpgradeModal';
 import styles from './BillView.module.css';
 
+const getOptionInfo = ({ isReadOnlyLayout, readOnlyMessage, showPrefillInfo }) => {
+  if (isReadOnlyLayout) {
+    return readOnlyMessage;
+  }
+
+  if (showPrefillInfo) {
+    return 'We\'ve used your document to fill in some details. Check the fields highlighted in blue.';
+  }
+
+  return undefined;
+};
+
 const BillView = ({
   serviceLayoutListeners,
   itemAndServiceLayoutListeners,
@@ -42,6 +53,8 @@ const BillView = ({
   isDocumentLoading,
   loadingState,
   showPrefillInfo,
+  isReadOnlyLayout,
+  readOnlyMessage,
   layout,
   inventoryModal,
   inTrayModal,
@@ -154,11 +167,11 @@ const BillView = ({
     </div>
   );
 
-  const prefillInfo = 'We\'ve used your document to fill in some details. Check the fields highlighted in blue.';
+  const optionInfo = getOptionInfo({ isReadOnlyLayout, readOnlyMessage, showPrefillInfo });
 
   const view = (
     <MasterDetailLineItemTemplate
-      optionInfo={showPrefillInfo && prefillInfo}
+      optionInfo={optionInfo}
       onDismissOptionInfo={onClosePrefillInfo}
       detailHeaderClassName={styles.secondaryOptions}
       primaryOptions={(
@@ -171,7 +184,11 @@ const BillView = ({
         <BillSecondaryOptions onUpdateBillOption={onUpdateBillOption} />
       }
       tableLayoutOption={tableLayoutOption}
-      table={table}
+      table={(
+        <div className={classNames(isReadOnlyLayout && styles.disabledTable)}>
+          {table}
+        </div>
+      )}
       actions={(
         <BillActions
           onSaveButtonClick={onSaveButtonClick}
@@ -208,6 +225,8 @@ const mapStateToProps = state => ({
   isDocumentLoading: getIsDocumentLoading(state),
   isSplitViewShown: getShowSplitView(state),
   showPrefillInfo: getShowPrefillInfo(state),
+  isReadOnlyLayout: getIsReadOnlyLayout(state),
+  readOnlyMessage: getReadOnlyMessage(state),
 });
 
 export default connect(mapStateToProps)(BillView);
