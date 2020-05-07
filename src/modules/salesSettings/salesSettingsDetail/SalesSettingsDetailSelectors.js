@@ -47,13 +47,15 @@ export const getReminderLink = state => `${state.reminders.url}?consumer=ARL&ori
 
 const getTemplateSettings = state => state.templateSettings;
 
+export const encodeTemplateName = name => encodeURIComponent(name);
+
 export const getTemplates = createSelector(
   getRegion,
   getBusinessId,
   getTemplateSettings,
   (region, businessId, { templates }) => templates.map(template => ({
     ...template,
-    link: `/#/${region}/${businessId}/template/${template.name}`,
+    link: `/#/${region}/${businessId}/template/${encodeTemplateName(template.name)}`,
   })),
 );
 

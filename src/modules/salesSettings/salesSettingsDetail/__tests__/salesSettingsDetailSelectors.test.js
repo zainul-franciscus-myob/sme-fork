@@ -1,5 +1,9 @@
 import {
-  getPayDirectLink, getReminderLink, getShowDateField, getShowDateInput,
+  getPayDirectLink,
+  getReminderLink,
+  getShowDateField,
+  getShowDateInput,
+  getTemplates,
 } from '../SalesSettingsDetailSelectors';
 
 describe('salesSettingsSelectors', () => {
@@ -133,6 +137,21 @@ describe('salesSettingsSelectors', () => {
       const expected = 'https://foo.bar?consumer=ARL&origin=global&cfid=123';
 
       expect(getReminderLink(state)).toEqual(expected);
+    });
+  });
+
+  describe('getTemplates', () => {
+    it.each([
+      ['IckyLeaks - Service & Items2', '/#/au/bizId/template/IckyLeaks%20-%20Service%20%26%20Items2'],
+      ['Special template for special people', '/#/au/bizId/template/Special%20template%20for%20special%20people'],
+    ])('returns link with encoded template name', (name, expected) => {
+      const templateSettings = {
+        templates: [{ name }],
+      };
+
+      const actual = getTemplates.resultFunc('au', 'bizId', templateSettings);
+
+      expect(actual[0].link).toEqual(expected);
     });
   });
 });

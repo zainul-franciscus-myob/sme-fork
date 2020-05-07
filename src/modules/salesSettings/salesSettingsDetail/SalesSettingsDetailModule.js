@@ -3,6 +3,7 @@ import React from 'react';
 
 import { TEMPLATE_UPDATED } from '../../template/MessageTypes';
 import {
+  encodeTemplateName,
   getBusinessId,
   getIsPageEdited,
   getIsTemplatesLoading,
@@ -323,6 +324,6 @@ export default class SalesSettingsModule {
     const businessId = getBusinessId(state);
     const region = getRegion(state);
 
-    window.location.href = `/#/${region}/${businessId}/template/${name}`;
+    window.location.href = `/#/${region}/${businessId}/template/${encodeTemplateName(name)}`;
   };
 }
