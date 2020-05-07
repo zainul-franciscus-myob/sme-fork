@@ -12,7 +12,6 @@ import {
 } from '../bankingSelectors/splitAllocationSelectors';
 import { loadOpenEntry } from './openEntryHandlers';
 import { tabIds } from '../tabItems';
-import formatAmount from '../../../common/valueFormatters/formatAmount';
 import getDefaultState from './getDefaultState';
 
 const isAccountLineItem = lineKey => lineKey === 'accountId';
@@ -202,7 +201,7 @@ export const loadNewSplitAllocation = (state, action) => {
     lines: [
       {
         ...newLine,
-        amount: formatAmount(totalAmount),
+        amount: totalAmount,
         amountPercent: 100,
       },
     ],

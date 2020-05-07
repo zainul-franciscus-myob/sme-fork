@@ -199,4 +199,12 @@ describe('Calculator', () => {
     // Asert
     expect(updatedValue).toEqual('5');
   });
+
+  it('sets the value as 0 if given a formatted value', () => {
+    const wrapper = setUp({ value: '1,000' });
+    const updatedValue = wrapper.find(`.${testClassname}`).at(1).prop('value');
+
+    // Asert
+    expect(updatedValue).toEqual('0');
+  });
 });
