@@ -2,8 +2,6 @@ import handleErrorResponse from './handleErrorResponse';
 
 const handleError = (error, onFailure) => error.name !== 'AbortError' && onFailure(error);
 
-class BadResponseStatusCodeError extends Error { }
-
 const handleResponse = async ({
   fetchedPromise,
   responseParser,
@@ -18,7 +16,8 @@ const handleResponse = async ({
       const responseBody = await response.json();
       handleErrorResponse({ response, responseBody, urlParams });
 
-      throw new BadResponseStatusCodeError(responseBody.message);
+      onFailure(responseBody);
+      return;
     }
 
     const payload = await responseParser(response);
