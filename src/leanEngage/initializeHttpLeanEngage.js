@@ -31,11 +31,17 @@ const start = ({
   subscription,
 }));
 
+const isUserInfoAvailable = ({ businessDetails, currentUser, subscription }) => (
+  Object.keys(businessDetails).length > 0
+    && Object.keys(currentUser).length > 0
+    && Object.keys(subscription).length > 0
+);
+
 const initializeLeanEngage = (appId) => {
   init(window, document, 'script', '//www.leanengage.com/leanengage.v1.js', 'leanengage');
 
   const startLeanEnage = ({ businessDetails, currentUser, subscription }) => {
-    if (isLoggedIn()) {
+    if (isLoggedIn() && isUserInfoAvailable({ businessDetails, currentUser, subscription })) {
       start({
         appId, businessDetails, currentUser, subscription,
       });
