@@ -32,6 +32,10 @@ export default class SplitToggle {
         this.client = client;
         resolve();
       });
+
+      client.on(client.Event.SDK_READY_TIMED_OUT, () => {
+        resolve();
+      });
     });
   }
 
