@@ -431,7 +431,7 @@ const getPrefilledLines = (state, lines, expenseAccountId) => lines.map(
 
 const prefillBillFromInTray = (state, action) => {
   const {
-    layout, bill, lines, document,
+    layout, bill, lines, document, supplierOptions,
   } = action.response;
 
   const shouldPrefillLines = state.bill.lines.length === 0
@@ -454,6 +454,10 @@ const prefillBillFromInTray = (state, action) => {
         ? getPrefilledLines(state, lines, bill.expenseAccountId)
         : state.bill.lines,
     },
+    supplierOptions: supplierOptions.length && !supplierOptions
+      .some(so => state.supplierOptions.some(({ id }) => id === so.id))
+      ? [...supplierOptions, ...state.supplierOptions]
+      : state.supplierOptions,
     prefillStatus: {
       supplierId: !state.bill.supplierId && Boolean(bill.supplierId),
       supplierInvoiceNumber: !state.bill.supplierInvoiceNumber

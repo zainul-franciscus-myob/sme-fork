@@ -1116,6 +1116,7 @@ describe('billReducer', () => {
         id: '',
         amount: '500.77',
       }],
+      supplierOptions: [],
       document,
     };
 
@@ -1129,6 +1130,7 @@ describe('billReducer', () => {
       prefillStatus,
       isPageEdited: true,
       showPrefillInfo: true,
+      supplierOptions: [],
     });
 
     const defaultLinePrefillStatus = {
@@ -1148,6 +1150,7 @@ describe('billReducer', () => {
         },
         isPageEdited: false,
         inTrayDocument: undefined,
+        supplierOptions: [],
       };
 
       const action = {
@@ -1192,6 +1195,7 @@ describe('billReducer', () => {
         },
         isPageEdited: false,
         inTrayDocument: undefined,
+        supplierOptions: [],
       };
 
       const action = {
@@ -1264,6 +1268,7 @@ describe('billReducer', () => {
         },
         isPageEdited: false,
         inTrayDocument: undefined,
+        supplierOptions: [],
       };
 
       const action = {
@@ -1309,6 +1314,7 @@ describe('billReducer', () => {
         },
         isPageEdited: false,
         inTrayDocument: undefined,
+        supplierOptions: [],
       };
 
       const action = {
@@ -1322,6 +1328,7 @@ describe('billReducer', () => {
           },
           lines: [],
           document,
+          supplierOptions: [],
         },
       };
 
@@ -1343,6 +1350,61 @@ describe('billReducer', () => {
           note: false,
         },
       }));
+    });
+
+    describe('supplerOptions', () => {
+      const supplierOptionA = { id: '1', displayName: 'A' };
+      const supplierOptionB = { id: '2', displayName: 'B' };
+      const state = {
+        layout: 'itemAndService',
+        bill: { lines: [] },
+        newLine: { id: '' },
+        isPageEdited: false,
+        inTrayDocument: undefined,
+        supplierOptions: [supplierOptionA],
+      };
+
+      it('add prefilled supplier to supplier options if supplier does not exist', () => {
+        const action = {
+          intent: PREFILL_BILL_FROM_IN_TRAY,
+          response: {
+            ...response,
+            supplierOptions: [supplierOptionB],
+          },
+        };
+
+        const actual = billReducer(state, action);
+
+        expect(actual.supplierOptions).toEqual([supplierOptionB, supplierOptionA]);
+      });
+
+      it('does not add prefilled supplier to supplier options if supplier exists', () => {
+        const action = {
+          intent: PREFILL_BILL_FROM_IN_TRAY,
+          response: {
+            ...response,
+            supplierOptions: [supplierOptionA],
+          },
+        };
+
+        const actual = billReducer(state, action);
+
+        expect(actual.supplierOptions).toEqual([supplierOptionA]);
+      });
+
+      it('does not add prefilled supplier to supplier options if there is no prefilled supplier', () => {
+        const action = {
+          intent: PREFILL_BILL_FROM_IN_TRAY,
+          response: {
+            ...response,
+            supplierOptions: [],
+          },
+        };
+
+        const actual = billReducer(state, action);
+
+        expect(actual.supplierOptions).toEqual([supplierOptionA]);
+      });
     });
   });
 
