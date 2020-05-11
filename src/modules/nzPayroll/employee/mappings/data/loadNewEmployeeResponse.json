@@ -15,7 +15,9 @@
       "hourlyRate": "",
       "selectedPayCycle": ""
     },
-    "leave": {}
+    "leave": {
+      "nextAnniversaryDate":""
+    }
   },
   "genderOptions": [
     {"name":"-","value":"NotSet"},

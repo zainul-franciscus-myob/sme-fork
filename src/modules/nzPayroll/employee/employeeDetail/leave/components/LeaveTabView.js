@@ -18,7 +18,7 @@ const LeaveTabView = ({
     value: event.target.value,
   });
 
-  const onDateChange = (fieldName) => ({ value }) => onInputChange({ name: fieldName, value });
+  const onDateChange = (fieldName) => ({ value }) => onLeaveChange({ key: fieldName, value });
 
   return (
     <FormHorizontal layout="primary">
@@ -27,7 +27,8 @@ const LeaveTabView = ({
           label="Holiday pay (%)"
           numeralIntegerScale={3}
           numeralDecimalScaleMin={2}
-          numeralDecimalScaleMax={5}
+          numeralDecimalScaleMax={4}
+          numeralPositiveOnly
           width="xs"
           name="holidayPay"
           textAlign="right"
@@ -44,7 +45,8 @@ const LeaveTabView = ({
           label="Annual entitlement (days)"
           name="sickLeaveAnnualEntitlement"
           numeralDecimalScaleMax={4}
-          numeralIntegerScale={12}
+          numeralIntegerScale={5}
+          numeralPositiveOnly
           textAlign="right"
           width="xs"
           value={leave.sickLeaveAnnualEntitlement}
@@ -54,7 +56,8 @@ const LeaveTabView = ({
           label="Maximum to accure (days)"
           name="sickLeaveMaximumToAccure"
           numeralDecimalScaleMax={4}
-          numeralIntegerScale={12}
+          numeralIntegerScale={5}
+          numeralPositiveOnly
           textAlign="right"
           width="xs"
           onChange={onInputChange}
@@ -71,7 +74,7 @@ const LeaveTabView = ({
           label="Opening balance (days)"
           name="sickLeaveOpeningBalance"
           numeralDecimalScaleMax={4}
-          numeralIntegerScale={12}
+          numeralIntegerScale={5}
           textAlign="right"
           width="xs"
           onChange={onInputChange}
@@ -87,7 +90,7 @@ const LeaveTabView = ({
           label="Opening balance (days)"
           name="alternativeOpeningBalance"
           numeralDecimalScaleMax={4}
-          numeralIntegerScale={12}
+          numeralIntegerScale={5}
           textAlign="right"
           width="xs"
           onChange={onInputChange}

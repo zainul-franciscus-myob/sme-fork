@@ -7,6 +7,7 @@ import ContactDetailsNzTabView from '../contactDetails/components/contactDetails
 import EmployeeDetailNzModule from '../EmployeeDetailNzModule';
 import EmployeeDetailsNzView from '../components/EmployeeDetailsNzView';
 import EmploymentDetailsTab from '../employmentDetails/components/EmploymentDetailsTab';
+import LeaveTabView from '../leave/components/LeaveTabView';
 import LoadingFailPageState from '../../../../../components/PageView/LoadingFailPageState';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import SalaryAndWagesTabView from '../salaryAndWages/components/SalaryAndWagesTabView';
@@ -188,7 +189,9 @@ describe('EmployeeDetailNzModule', () => {
     describe.each([
       [{ mainTab: tabIds.contactDetails }, ContactDetailsNzTabView],
       [{ mainTab: tabIds.payrollDetails }, EmploymentDetailsTab],
+      [{ mainTab: tabIds.payrollDetails }, EmploymentDetailsTab],
       [{ mainTab: tabIds.payrollDetails, subTab: tabIds.salaryAndWages }, SalaryAndWagesTabView],
+      [{ mainTab: tabIds.payrollDetails, subTab: tabIds.leave }, LeaveTabView],
     ])('When tab %p is selected', ({ mainTab, subTab }, TabView) => {
       it(`should display ${TabView.displayName}`, () => {
         const {

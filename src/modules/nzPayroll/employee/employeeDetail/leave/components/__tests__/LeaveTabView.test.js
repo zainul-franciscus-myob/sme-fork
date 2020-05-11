@@ -15,17 +15,22 @@ describe('LeaveTabView', () => {
     store = new TestStore(employeeDetailNzReducer);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   const mountWithProvider = component => mount(component,
     { wrappingComponent: Provider, wrappingComponentProps: { store } });
 
   const setup = () => {
     store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, payload: employeeDetail });
-    const wrapper = mountWithProvider(<LeaveTabView />);
-    return wrapper;
+    const onLeaveChange = jest.fn();
+    const wrapper = mountWithProvider(<LeaveTabView onLeaveChange={onLeaveChange} />);
+    return { wrapper, onLeaveChange };
   };
 
   it('should render LeaveTabView', () => {
-    const wrapper = setup();
+    const { wrapper } = setup();
 
     const view = wrapper.find('LeaveTabView');
 
@@ -33,7 +38,7 @@ describe('LeaveTabView', () => {
   });
 
   it('should have proper props', () => {
-    const wrapper = setup();
+    const { wrapper } = setup();
     const { leave } = employeeDetail.payrollDetails;
 
     const view = wrapper.find('LeaveTabView');
@@ -42,7 +47,7 @@ describe('LeaveTabView', () => {
   });
 
   it('should have proper props', () => {
-    const wrapper = setup();
+    const { wrapper } = setup();
     const { leave } = employeeDetail.payrollDetails;
 
     const view = wrapper.find('LeaveTabView');
@@ -61,7 +66,7 @@ describe('LeaveTabView', () => {
       { label: 'Opening balance (days)', name: 'alternativeOpeningBalance', data: leave.alternativeOpeningBalance },
 
     ])('AmountInput Field: %p', ({ label, name, data }) => {
-      const wrapper = setup();
+      const { wrapper } = setup();
 
       const field = wrapper.find({ name }).find('AmountInput');
 
@@ -76,7 +81,7 @@ describe('LeaveTabView', () => {
       { label: 'Current balance (days)', name: 'sickLeaveCurrentBalance', data: leave.sickLeaveCurrentBalance },
       { label: 'Current balance (days)', name: 'alternativeCurrentBalance', data: leave.alternativeCurrentBalance },
     ])('ReadOnly Field: %p', ({ label, name, data }) => {
-      const wrapper = setup();
+      const { wrapper } = setup();
 
       const field = wrapper.find({ name }).find('ReadOnly');
 
@@ -88,7 +93,7 @@ describe('LeaveTabView', () => {
     });
 
     it('Datepicker should render with proper props', () => {
-      const wrapper = setup();
+      const { wrapper } = setup();
 
       const field = wrapper.find('DatePicker');
 
@@ -97,6 +102,32 @@ describe('LeaveTabView', () => {
         label: 'Next anniversary date',
         value: leave.nextAnniversaryDate,
       });
+    });
+  });
+
+  describe('LeaveTabView input fields calls onLeaveChange on user interaction', () => {
+    it.each([
+      'holidayPay',
+      'sickLeaveAnnualEntitlement',
+      'sickLeaveMaximumToAccure',
+      'sickLeaveOpeningBalance',
+      'alternativeOpeningBalance',
+    ])('AmountInput Field: %p', (name) => {
+      const { wrapper, onLeaveChange } = setup();
+      const field = wrapper.find({ name }).find('AmountInput');
+
+      field.props().onChange({ target: { name, value: '5' } });
+
+      expect(onLeaveChange).toHaveBeenCalledTimes(1);
+    });
+
+    it('Datepicker calls onLeaveChange when selecting the date', () => {
+      const { wrapper, onLeaveChange } = setup();
+      const field = wrapper.find('DatePicker');
+
+      field.props().onSelect({ target: { fieldName: 'nextAnniversaryDate', value: '' } });
+
+      expect(onLeaveChange).toHaveBeenCalledTimes(1);
     });
   });
 });
