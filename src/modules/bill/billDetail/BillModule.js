@@ -57,6 +57,7 @@ import { shouldShowSaveAmountDueWarningModal } from './selectors/BillSaveSelecto
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import BillView from './components/BillView';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
+import FeatureToggle from '../../../FeatureToggles';
 import InTrayModalModule from '../../inTray/inTrayModal/InTrayModalModule';
 import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
 import ModalType from './types/ModalType';
@@ -78,7 +79,7 @@ class BillModule {
     replaceURLParams,
     globalCallbacks,
     navigateTo,
-    featureToggles,
+    isToggleOn,
   }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -87,7 +88,7 @@ class BillModule {
     this.store = new Store(billReducer);
     this.dispatcher = createBillDispatcher(this.store);
     this.integrator = createBillIntegrator(this.store, integration);
-    this.isBillJobColumnEnabled = featureToggles.isBillJobColumnEnabled;
+    this.isToggleOn = isToggleOn;
     this.accountModalModule = new AccountModalModule({
       integration,
     });
@@ -909,7 +910,7 @@ class BillModule {
   run(context) {
     this.setInitialState({
       ...context,
-      isBillJobColumnEnabled: this.isBillJobColumnEnabled,
+      isBillJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
     });
     setupHotKeys(keyMap, {
       SAVE_ACTION: this.saveBill,

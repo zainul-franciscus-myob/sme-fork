@@ -34,7 +34,7 @@ export const setup = () => {
     popMessages: () => [],
     replaceURLParams: () => {},
     reload: () => {},
-    featureToggles: { isInvoiceJobColumnEnabled: true },
+    isToggleOn: () => true,
   });
   module.store = store;
   module.dispatcher = createInvoiceDetailDispatcher(store);

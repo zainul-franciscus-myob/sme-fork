@@ -61,7 +61,6 @@ import {
   calculateAmountDue,
   getBusinessId,
   getInvoiceId,
-  getIsInvoiceJobColumnEnabled,
   getRegion,
   getUpdatedContactOptions,
 } from '../selectors/invoiceDetailSelectors';
@@ -190,7 +189,6 @@ const reloadInvoiceDetail = (state, action) => {
   const payDirect = getPayDirect(state);
   const invoiceHistory = getInvoiceHistory(state);
   const invoiceHistoryAccordionStatus = getInvoiceHistoryAccordionStatus(state);
-  const isInvoiceJobColumnEnabled = getIsInvoiceJobColumnEnabled(state);
 
   const context = { businessId, region, invoiceId };
 
@@ -206,7 +204,6 @@ const reloadInvoiceDetail = (state, action) => {
     payDirect,
     invoiceHistory,
     invoiceHistoryAccordionStatus,
-    isInvoiceJobColumnEnabled,
     loadingState: LoadingState.LOADING_SUCCESS,
   };
 };

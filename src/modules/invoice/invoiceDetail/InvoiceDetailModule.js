@@ -38,6 +38,7 @@ import { getExportPdfFilename } from './selectors/exportPdfSelectors';
 import { shouldShowSaveAmountDueWarningModal } from './selectors/invoiceSaveSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
+import FeatureToggle from '../../../FeatureToggles';
 import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
 import InvoiceDetailElementId from './types/InvoiceDetailElementId';
 import InvoiceDetailModalType from './types/InvoiceDetailModalType';
@@ -60,7 +61,7 @@ export default class InvoiceDetailModule {
     popMessages,
     replaceURLParams,
     globalCallbacks,
-    featureToggles,
+    isToggleOn,
     navigateTo,
   }) {
     this.setRootView = setRootView;
@@ -73,7 +74,7 @@ export default class InvoiceDetailModule {
     this.dispatcher = createInvoiceDetailDispatcher(this.store);
     this.integrator = createInvoiceDetailIntegrator(this.store, integration);
 
-    this.isInvoiceJobColumnEnabled = featureToggles.isInvoiceJobColumnEnabled;
+    this.isToggleOn = isToggleOn;
 
     this.accountModalModule = new AccountModalModule({
       integration,
@@ -829,7 +830,7 @@ export default class InvoiceDetailModule {
   run(context) {
     this.dispatcher.setInitialState({
       ...context,
-      isInvoiceJobColumnEnabled: this.isInvoiceJobColumnEnabled,
+      isInvoiceJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
     });
     setupHotKeys(keyMap, this.handlers);
     this.render();

@@ -52,7 +52,6 @@ import {
 import { calculatePartialQuoteLineAmounts, setQuoteCalculatedLines } from './calculationReducer';
 import {
   getBusinessId,
-  getIsQuoteJobColumnEnabled,
   getQuoteId,
   getRegion,
   getUpdatedContactOptions,
@@ -133,14 +132,12 @@ const reloadQuoteDetail = (state, action) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);
   const quoteId = getQuoteId(state);
-  const isQuoteJobColumnEnabled = getIsQuoteJobColumnEnabled(state);
 
   const context = { businessId, region, quoteId };
 
   const initialState = {
     ...defaultState,
     ...context,
-    isQuoteJobColumnEnabled,
     loadingState: LoadingState.LOADING_SUCCESS,
   };
 

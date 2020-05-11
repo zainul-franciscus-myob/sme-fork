@@ -53,7 +53,6 @@ import { defaultLinePrefillStatus, defaultPrefillStatus, getDefaultState } from 
 import {
   getBillId,
   getBusinessId,
-  getIsBillJobColumnEnabled,
   getIsCreating,
   getRegion,
   getUpdatedSupplierOptions,
@@ -140,14 +139,12 @@ const reloadBill = (state, action) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);
   const billId = getBillId(state);
-  const isBillJobColumnEnabled = getIsBillJobColumnEnabled(state);
 
   const context = { businessId, region, billId };
 
   const initialState = {
     ...defaultState,
     ...context,
-    isBillJobColumnEnabled,
     loadingState: LoadingState.LOADING_SUCCESS,
   };
 

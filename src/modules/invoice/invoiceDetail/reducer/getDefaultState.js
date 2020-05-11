@@ -113,7 +113,6 @@ const getDefaultState = () => ({
   invoiceHistoryAccordionStatus: InvoiceHistoryAccordionStatus.LOADING,
   redirectRefJournalId: '',
   redirectRefJournalType: '',
-  isInvoiceJobColumnEnabled: false,
 });
 
 export default getDefaultState;

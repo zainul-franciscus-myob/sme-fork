@@ -24,6 +24,7 @@ import {
 } from './selectors/redirectSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
+import FeatureToggle from '../../../FeatureToggles';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from '../ModalType';
 import ReceiveMoneyDetailView from './components/ReceiveMoneyDetailView';
@@ -37,7 +38,7 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class ReceiveMoneyDetailModule {
   constructor({
-    integration, setRootView, pushMessage, navigateTo, popMessages, featureToggles,
+    integration, setRootView, pushMessage, navigateTo, popMessages, isToggleOn,
   }) {
     this.integration = integration;
     this.store = new Store(receiveMoneyDetailReducer);
@@ -49,7 +50,7 @@ export default class ReceiveMoneyDetailModule {
     this.dispatcher = createReceiveMoneyDetailDispatcher({ store: this.store });
     this.integrator = createReceiveMoneyDetailIntegrator({ store: this.store, integration });
 
-    this.isReceiveMoneyJobColumnEnabled = featureToggles.isReceiveMoneyJobColumnEnabled;
+    this.isToggleOn = isToggleOn;
 
     this.accountModalModule = new AccountModalModule({
       integration,
@@ -396,7 +397,7 @@ export default class ReceiveMoneyDetailModule {
   run(context) {
     this.dispatcher.setInitialState({
       ...context,
-      isReceiveMoneyJobColumnEnabled: this.isReceiveMoneyJobColumnEnabled,
+      isReceiveMoneyJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
     });
     setupHotKeys(keyMap, this.handlers);
     this.render();

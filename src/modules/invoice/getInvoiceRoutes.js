@@ -9,7 +9,7 @@ const getInvoiceRoutes = ({
   pushMessage,
   replaceURLParams,
   globalCallbacks,
-  featureToggles,
+  isToggleOn,
   navigateTo,
 }) => {
   const routes = [
@@ -33,7 +33,7 @@ const getInvoiceRoutes = ({
         popMessages,
         replaceURLParams,
         globalCallbacks,
-        featureToggles,
+        isToggleOn,
         navigateTo,
       }),
       documentTitle: 'Invoice',

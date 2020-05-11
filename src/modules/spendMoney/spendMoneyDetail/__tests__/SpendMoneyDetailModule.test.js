@@ -64,13 +64,14 @@ const setup = () => {
   const setRootView = () => {};
   const pushMessage = () => {};
   const popMessages = () => [];
+  const isToggleOn = () => true;
 
   const module = new SpendMoneyDetailModule({
     integration,
     setRootView,
     pushMessage,
     popMessages,
-    featureToggles: { isSpendMoneyJobColumnEnabled: true },
+    isToggleOn,
   });
   module.store = store;
   module.dispatcher = createSpendMoneyDispatcher(store);

@@ -44,7 +44,7 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
   getIsContactReportable,
-  getIsCreating, getIsReportable, getIsSpendMoneyJobColumnEnabled, getShowBankStatementText,
+  getIsCreating, getIsReportable, getShowBankStatementText,
 } from './spendMoneyDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
@@ -252,7 +252,6 @@ const loadNewSpendMoney = (state, action) => {
     isLoading: false,
     pageTitle: action.pageTitle,
     inTrayDocument: { ...state.inTrayDocument, ...action.document },
-    isSpendMoneyJobColumnEnabled: getIsSpendMoneyJobColumnEnabled(state),
   };
 
   const bankStatementText = getBankStatementText(newState, action.spendMoney.referenceId);
@@ -285,7 +284,6 @@ const loadSpendMoneyDetail = (state, action) => ({
   isLoading: false,
   pageTitle: action.pageTitle,
   attachments: action.attachments,
-  isSpendMoneyJobColumnEnabled: getIsSpendMoneyJobColumnEnabled(state),
 });
 
 const loadReferenceId = (state, action) => {

@@ -58,6 +58,7 @@ export const setUp = () => {
   const pushMessage = () => {};
   const popMessages = () => [];
   const replaceURLParams = () => {};
+  const isToggleOn = () => true;
   const navigateTo = jest.fn();
   const globalCallbacks = {
     inTrayBillSaved: jest.fn(),
@@ -72,7 +73,7 @@ export const setUp = () => {
     replaceURLParams,
     globalCallbacks,
     navigateTo,
-    featureToggles: { isBillJobColumnEnabled: true },
+    isToggleOn,
   });
   const store = new TestStore(billReducer);
   module.store = store;

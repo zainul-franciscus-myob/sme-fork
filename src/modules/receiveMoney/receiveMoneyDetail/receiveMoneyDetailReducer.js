@@ -67,7 +67,6 @@ const getDefaultState = () => ({
   isPageEdited: false,
   businessId: '',
   region: '',
-  isReceiveMoneyJobColumnEnabled: false,
 });
 
 const pageEdited = { isPageEdited: true };

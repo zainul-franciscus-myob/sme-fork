@@ -44,6 +44,7 @@ import {
 import { getEmailModalType, getFilesForUpload } from './selectors/EmailSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
+import FeatureToggle from '../../../FeatureToggles';
 import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
@@ -835,7 +836,7 @@ export default class QuoteDetailModule {
   run(context) {
     this.dispatcher.setInitialState({
       ...context,
-      isQuoteJobColumnEnabled: this.isToggleOn('essentials-jobs'),
+      isQuoteJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
     });
     setupHotKeys(keyMap, this.handlers);
     this.render();

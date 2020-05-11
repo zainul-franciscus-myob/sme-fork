@@ -90,7 +90,6 @@ const getDefaultState = () => ({
     template: '',
   },
   cachedItemSellingDetails: {},
-  isInvoiceJobColumnEnabled: false,
 });
 
 export default getDefaultState;

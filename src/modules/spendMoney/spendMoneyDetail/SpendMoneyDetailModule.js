@@ -43,6 +43,7 @@ import {
 } from './spendMoneyDetailSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
+import FeatureToggle from '../../../FeatureToggles';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './components/ModalType';
 import SaveActionType from './components/SaveActionType';
@@ -57,7 +58,7 @@ import spendMoneyDetailReducer from './spendMoneyDetailReducer';
 
 export default class SpendMoneyDetailModule {
   constructor({
-    integration, setRootView, pushMessage, popMessages, navigateTo, featureToggles,
+    integration, setRootView, pushMessage, popMessages, navigateTo, isToggleOn,
   }) {
     this.store = new Store(spendMoneyDetailReducer);
     this.setRootView = setRootView;
@@ -68,7 +69,7 @@ export default class SpendMoneyDetailModule {
     this.integrator = createSpendMoneyIntegrator(this.store, integration);
     this.taxCalculate = createTaxCalculator(TaxCalculatorTypes.spendMoney);
 
-    this.isSpendMoneyJobColumnEnabled = featureToggles.isSpendMoneyJobColumnEnabled;
+    this.isToggleOn = isToggleOn;
 
     this.accountModalModule = new AccountModalModule({ integration });
     this.contactModalModule = new ContactModalModule({ integration });
@@ -830,7 +831,7 @@ export default class SpendMoneyDetailModule {
   run(context) {
     this.dispatcher.setInitialState({
       ...context,
-      isSpendMoneyJobColumnEnabled: this.isSpendMoneyJobColumnEnabled,
+      isSpendMoneyJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
     });
     setupHotKeys(keyMap, this.handlers);
     this.render();
