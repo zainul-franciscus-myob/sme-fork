@@ -34,6 +34,7 @@ import { tabIds } from './tabItems';
 import AccountModalModule from '../account/accountModal/AccountModalModule';
 import BankingRuleModule from './bankingRule/BankingRuleModule';
 import BankingView from './components/BankingView';
+import FeatureToggle from '../../FeatureToggles';
 import InTrayModalModule from '../inTray/inTrayModal/InTrayModalModule';
 import Store from '../../store/Store';
 import bankingReducer from './bankingReducer';
@@ -44,13 +45,13 @@ import openBlob from '../../common/blobOpener/openBlob';
 
 export default class BankingModule {
   constructor({
-    integration, setRootView, featureToggles,
+    integration, setRootView, isToggleOn,
   }) {
     this.store = new Store(bankingReducer);
     this.setRootView = setRootView;
     this.dispatcher = createBankingDispatcher(this.store);
     this.integrator = createBankingIntegrator(this.store, integration);
-    this.isBankingJobColumnEnabled = featureToggles.isBankingJobColumnEnabled;
+    this.isToggleOn = isToggleOn;
     this.bankingRuleModule = new BankingRuleModule(
       {
         integration,
@@ -1122,7 +1123,7 @@ export default class BankingModule {
   run(context) {
     this.dispatcher.setInitialState({
       ...context,
-      isBankingJobColumnEnabled: this.isBankingJobColumnEnabled,
+      isBankingJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
     });
     this.render();
     this.dispatcher.setLoadingState(true);

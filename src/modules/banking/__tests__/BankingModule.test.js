@@ -23,6 +23,7 @@ describe('BankingModule', () => {
     const setRootView = () => {};
     const pushMessage = () => {};
     const popMessages = () => [];
+    const isToggleOn = () => true;
     const integration = new TestIntegration();
 
     const module = new BankingModule({
@@ -30,7 +31,7 @@ describe('BankingModule', () => {
       setRootView,
       pushMessage,
       popMessages,
-      featureToggles: { isBankingJobColumnEnabled: true },
+      isToggleOn,
     });
     const store = new TestStore(bankingReducer);
     module.store = store;
