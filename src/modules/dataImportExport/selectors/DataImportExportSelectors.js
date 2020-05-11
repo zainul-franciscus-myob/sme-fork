@@ -40,6 +40,8 @@ export const getDuplicateRecordsOption = state => (
   state.import.duplicateRecordsOption
 );
 
+export const getDeleteUnusedAccounts = state => state.import.deleteUnusedAccounts;
+
 export const getChartOfAccountExportDetail = state => state.export.chartOfAccounts;
 
 export const getContactIdentifyBy = state => state.import.contacts.identifyBy;

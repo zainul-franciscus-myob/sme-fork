@@ -7,6 +7,7 @@ import {
   SET_SELECTED_TAB,
   UPDATE_CONTACTS_IDENTIFY_BY,
   UPDATE_CONTACTS_TYPE,
+  UPDATE_DELETE_UNUSED_ACCOUNTS_VALUE,
   UPDATE_DUPLICATE_RECORDS_OPTION,
   UPDATE_EXPORT_CHART_OF_ACCOUNTS_DETAIL,
   UPDATE_EXPORT_COMPANY_FILE_DETAIL,
@@ -103,6 +104,13 @@ const createDataImportExportDispatcher = store => ({
   updateDuplicateRecordsOption: ({ value }) => {
     store.dispatch({
       intent: UPDATE_DUPLICATE_RECORDS_OPTION,
+      value,
+    });
+  },
+
+  updateDeleteUnusedAccounts: ({ value }) => {
+    store.dispatch({
+      intent: UPDATE_DELETE_UNUSED_ACCOUNTS_VALUE,
       value,
     });
   },

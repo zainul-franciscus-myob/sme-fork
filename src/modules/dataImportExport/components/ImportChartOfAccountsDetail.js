@@ -1,5 +1,6 @@
 import React from 'react';
 
+import DeleteUnusedAccounts from './DeleteUnusedAccounts';
 import DuplicateRecords from './DuplicateRecords';
 import UploadFile from './UploadFile';
 
@@ -7,6 +8,7 @@ const ImportChartOfAccountsDetail = ({
   onFileSelected,
   onFileRemove,
   onDuplicateRecordsOptionChange,
+  onDeleteUnusedAccountsChange,
 }) => (
   <>
     <UploadFile
@@ -15,6 +17,9 @@ const ImportChartOfAccountsDetail = ({
     />
     <DuplicateRecords
       onDuplicateRecordsOptionChange={onDuplicateRecordsOptionChange}
+    />
+    <DeleteUnusedAccounts
+      onDeleteUnusedAccountsChange={onDeleteUnusedAccountsChange}
     />
   </>
 );

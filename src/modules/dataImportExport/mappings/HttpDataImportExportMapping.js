@@ -1,4 +1,5 @@
 import {
+  BULK_DELETE_UNUSED_ACCOUNTS,
   EXPORT_CHART_OF_ACCOUNTS,
   EXPORT_COMPANY_FILE,
   EXPORT_COMPANY_FILE_RESULT,
@@ -16,6 +17,10 @@ const HttpDataImportExportMapping = {
   [LOAD_DATA_IMPORT_EXPORT]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/dataImportExport/load_data_import_export`,
+  },
+  [BULK_DELETE_UNUSED_ACCOUNTS]: {
+    method: 'DELETE',
+    getPath: ({ businessId }) => `/${businessId}/dataImportExport/bulk_delete_accounts`,
   },
   [IMPORT_CHART_OF_ACCOUNTS]: {
     method: 'POST',

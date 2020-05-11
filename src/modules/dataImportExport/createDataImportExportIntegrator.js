@@ -1,4 +1,5 @@
 import {
+  BULK_DELETE_UNUSED_ACCOUNTS,
   EXPORT_CHART_OF_ACCOUNTS,
   EXPORT_COMPANY_FILE,
   EXPORT_COMPANY_FILE_RESULT,
@@ -34,6 +35,21 @@ const createDataImportExportIntegrator = (store, integration) => ({
       intent: LOAD_DATA_IMPORT_EXPORT,
       urlParams,
       onSuccess,
+      onFailure,
+    });
+  },
+
+  bulkDeleteUnusedAccounts: ({ onDeleteSuccess, onFailure }) => {
+    const state = store.getState();
+    const businessId = getBusinessId(state);
+    const urlParams = { businessId };
+    const content = {};
+
+    integration.write({
+      intent: BULK_DELETE_UNUSED_ACCOUNTS,
+      urlParams,
+      content,
+      onSuccess: onDeleteSuccess,
       onFailure,
     });
   },

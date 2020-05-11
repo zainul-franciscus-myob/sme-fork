@@ -1,4 +1,5 @@
 import {
+  BULK_DELETE_UNUSED_ACCOUNTS,
   EXPORT_CHART_OF_ACCOUNTS,
   EXPORT_COMPANY_FILE,
   EXPORT_COMPANY_FILE_RESULT,
@@ -11,6 +12,7 @@ import {
   IMPORT_TRANSACTION_JOURNALS,
   LOAD_DATA_IMPORT_EXPORT,
 } from '../DataImportExportIntents';
+import bulkDeleteResponseData from './data/bulkDeleteResponse';
 import exportCompanyFileResponse from './data/exportCompanyFile';
 import exportCompanyFileResultResponse from './data/exportCompanyFileResult';
 import loadDataImportExportResponse from './data/loadDataImportExport';
@@ -21,6 +23,7 @@ const exportCompanyFileResult = ({ onSuccess }) => onSuccess(exportCompanyFileRe
 const loadDataImportExport = ({ onSuccess }) => onSuccess(loadDataImportExportResponse);
 const importEntity = ({ onSuccess }) => onSuccess(successMessage);
 const exportEntity = ({ onSuccess }) => onSuccess(new Blob([], { type: 'text/plain' }));
+const bulkDeleteResponse = ({ onSuccess }) => onSuccess(bulkDeleteResponseData);
 
 const MemoryDataImportExportMapping = {
   [LOAD_DATA_IMPORT_EXPORT]: loadDataImportExport,
@@ -34,6 +37,7 @@ const MemoryDataImportExportMapping = {
   [IMPORT_GENERAL_JOURNALS]: importEntity,
   [IMPORT_TRANSACTION_JOURNALS]: importEntity,
   [IMPORT_TIMESHEETS]: importEntity,
+  [BULK_DELETE_UNUSED_ACCOUNTS]: bulkDeleteResponse,
 };
 
 export default MemoryDataImportExportMapping;

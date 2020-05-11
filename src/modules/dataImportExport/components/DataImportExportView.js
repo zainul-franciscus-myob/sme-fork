@@ -5,6 +5,7 @@ import React from 'react';
 import {
   getAlert,
   getCurrentDataTypeInCurrentTab,
+  getDeleteUnusedAccounts,
   getLoadingState,
   getModalType,
   getTab,
@@ -39,6 +40,8 @@ const DataImportExportView = ({
   onDuplicateRecordsOptionChange,
   onCancelImportData,
   onConfirmImportData,
+  onDeleteUnusedAccountsChange,
+  deleteUnusedAccounts,
 }) => {
   const actions = isDataTypeSelectedForTab && (
     <DataImportExportActions
@@ -56,6 +59,7 @@ const DataImportExportView = ({
     <ImportConfirmModal
       onCancelImportData={onCancelImportData}
       onConfirmImportData={onConfirmImportData}
+      deleteUnusedAccounts={deleteUnusedAccounts}
     />
   );
 
@@ -69,6 +73,7 @@ const DataImportExportView = ({
           onUpdateImportDataType={onUpdateImportDataType}
           onUpdateContactsIdentifyBy={onUpdateContactsIdentifyBy}
           onUpdateContactsType={onUpdateContactsType}
+          onDeleteUnusedAccountsChange={onDeleteUnusedAccountsChange}
         />,
         [TabItem.EXPORT]: <ExportTabContent
           onUpdateExportDataType={onUpdateExportDataType}
@@ -99,6 +104,7 @@ const mapStateToProps = state => ({
   alert: getAlert(state),
   modalType: getModalType(state),
   selectedTab: getTab(state),
+  deleteUnusedAccounts: getDeleteUnusedAccounts(state),
 });
 
 export default connect(mapStateToProps)(DataImportExportView);

@@ -23,6 +23,7 @@ const ImportTabContent = ({
   onUpdateImportDataType,
   onUpdateContactsIdentifyBy,
   onUpdateContactsType,
+  onDeleteUnusedAccountsChange,
 }) => (
   <FormHorizontal layout="primary">
     <Select
@@ -51,6 +52,7 @@ const ImportTabContent = ({
         onFileSelected={onFileSelected}
         onFileRemove={onFileRemove}
         onDuplicateRecordsOptionChange={onDuplicateRecordsOptionChange}
+        onDeleteUnusedAccountsChange={onDeleteUnusedAccountsChange}
       />,
       [ImportExportDataType.CONTACTS]: <ImportContactsDetail
         onFileSelected={onFileSelected}

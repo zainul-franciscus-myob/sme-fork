@@ -3,6 +3,7 @@ import React from 'react';
 
 import {
   getCurrentDataTypeInCurrentTab,
+  getDeleteUnusedAccounts,
   getFileValidationError,
   getIsFileValid,
   getTab,
@@ -81,6 +82,20 @@ export default class DataImportExportModule {
     }
   }
 
+  handleChartOfAccountsImport = (onSuccess, onFailure) => {
+    const state = this.store.getState();
+    const deleteUnusedAccounts = getDeleteUnusedAccounts(state);
+    if (deleteUnusedAccounts) {
+      const onDeleteSuccess = () => {
+        this.integrator.importChartOfAccounts({ onSuccess, onFailure });
+      };
+
+      return this.integrator.bulkDeleteUnusedAccounts({ onDeleteSuccess, onFailure });
+    }
+
+    return this.integrator.importChartOfAccounts({ onSuccess, onFailure });
+  };
+
   importData = () => {
     const state = this.store.getState();
     const dataType = getCurrentDataTypeInCurrentTab(state);
@@ -100,7 +115,7 @@ export default class DataImportExportModule {
 
     switch (dataType) {
       case ImportExportDataType.CHART_OF_ACCOUNTS:
-        return this.integrator.importChartOfAccounts({ onSuccess, onFailure });
+        return this.handleChartOfAccountsImport(onSuccess, onFailure);
       case ImportExportDataType.CONTACTS:
         return this.integrator.importContacts({ onSuccess, onFailure });
       case ImportExportDataType.EMPLOYEES:
@@ -249,6 +264,7 @@ export default class DataImportExportModule {
           onFileSelected={this.dispatcher.addImportFile}
           onFileRemove={this.dispatcher.removeImportFile}
           onDuplicateRecordsOptionChange={this.dispatcher.updateDuplicateRecordsOption}
+          onDeleteUnusedAccountsChange={this.dispatcher.updateDeleteUnusedAccounts}
         />
       </Provider>
     );

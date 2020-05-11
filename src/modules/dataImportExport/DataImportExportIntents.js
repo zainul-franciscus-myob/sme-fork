@@ -9,6 +9,7 @@ export const UPDATE_IMPORT_DATA_TYPE = Symbol('Update import data type');
 
 export const ADD_IMPORT_FILE = Symbol('Add import file');
 export const UPDATE_DUPLICATE_RECORDS_OPTION = Symbol('Update duplicate records option');
+export const UPDATE_DELETE_UNUSED_ACCOUNTS_VALUE = Symbol('Update delete unused accounts checkbox');
 export const IMPORT_CHART_OF_ACCOUNTS = Symbol('Import chart of accounts');
 export const IMPORT_CONTACTS = Symbol('Import contacts');
 export const IMPORT_EMPLOYEES = Symbol('Import employees');
@@ -16,6 +17,8 @@ export const IMPORT_ITEMS = Symbol('Import items');
 export const IMPORT_GENERAL_JOURNALS = Symbol('Import general journals');
 export const IMPORT_TRANSACTION_JOURNALS = Symbol('Import transaction journals');
 export const IMPORT_TIMESHEETS = Symbol('Import timesheets');
+
+export const BULK_DELETE_UNUSED_ACCOUNTS = Symbol('Bulk delete unused accounts');
 
 export const UPDATE_EXPORT_CHART_OF_ACCOUNTS_DETAIL = Symbol('Update export chart of accounts detail');
 export const EXPORT_CHART_OF_ACCOUNTS = Symbol('Export chart of accounts');

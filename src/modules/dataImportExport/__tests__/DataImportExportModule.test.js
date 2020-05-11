@@ -1,4 +1,5 @@
 import {
+  BULK_DELETE_UNUSED_ACCOUNTS,
   IMPORT_CHART_OF_ACCOUNTS,
   IMPORT_CONTACTS,
   IMPORT_EMPLOYEES,
@@ -110,46 +111,58 @@ describe('DataImportExportModule', () => {
     [
       {
         dataType: ImportExportDataType.CHART_OF_ACCOUNTS,
-        intent: IMPORT_CHART_OF_ACCOUNTS,
+        intent: [IMPORT_CHART_OF_ACCOUNTS],
+      },
+      {
+        dataType: ImportExportDataType.CHART_OF_ACCOUNTS,
+        intent: [BULK_DELETE_UNUSED_ACCOUNTS, IMPORT_CHART_OF_ACCOUNTS],
+        options: {
+          deleteBeforeImport: true,
+        },
       },
       {
         dataType: ImportExportDataType.CONTACTS,
-        intent: IMPORT_CONTACTS,
+        intent: [IMPORT_CONTACTS],
       },
       {
         dataType: ImportExportDataType.EMPLOYEES,
-        intent: IMPORT_EMPLOYEES,
+        intent: [IMPORT_EMPLOYEES],
       },
       {
         dataType: ImportExportDataType.ITEMS,
-        intent: IMPORT_ITEMS,
+        intent: [IMPORT_ITEMS],
       },
       {
         dataType: ImportExportDataType.GENERAL_JOURNALS,
-        intent: IMPORT_GENERAL_JOURNALS,
+        intent: [IMPORT_GENERAL_JOURNALS],
       },
       {
         dataType: ImportExportDataType.TRANSACTION_JOURNALS,
-        intent: IMPORT_TRANSACTION_JOURNALS,
+        intent: [IMPORT_TRANSACTION_JOURNALS],
       },
       {
         dataType: ImportExportDataType.TIMESHEETS,
-        intent: IMPORT_TIMESHEETS,
+        intent: [IMPORT_TIMESHEETS],
       },
     ].forEach((test) => {
-      const setupWithDataType = () => {
+      const setupWithDataType = (options) => {
         const toolbox = setupWithRun();
         const { store, module } = toolbox;
 
         module.dispatcher.setSelectedTab(TabItem.IMPORT);
         module.updateImportDataType({ value: test.dataType });
+
+        if (options && options.deleteBeforeImport) {
+          module.dispatcher.updateDeleteUnusedAccounts({ value: true });
+        }
+
         store.resetActions();
 
         return toolbox;
       };
 
       it(`successfully imports ${test.dataType}`, () => {
-        const { store, integration, module } = setupWithDataType();
+        const { store, integration, module } = setupWithDataType(test.options);
 
         module.importData();
 
@@ -178,16 +191,16 @@ describe('DataImportExportModule', () => {
             },
           },
         ]);
-        expect(integration.getRequests()).toEqual([
-          expect.objectContaining({
-            intent: test.intent,
-          }),
-        ]);
+        expect(integration.getRequests()).toEqual(
+          test.intent.map(intent => expect.objectContaining({
+            intent,
+          })),
+        );
       });
 
       it(`fails to imports ${test.dataType}`, () => {
-        const { store, integration, module } = setupWithDataType();
-        integration.mapFailure(test.intent);
+        const { store, integration, module } = setupWithDataType(test.options);
+        test.intent.forEach(intent => integration.mapFailure(intent));
 
         module.importData();
 
@@ -214,7 +227,7 @@ describe('DataImportExportModule', () => {
         ]);
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({
-            intent: test.intent,
+            intent: test.intent[0],
           }),
         ]);
       });

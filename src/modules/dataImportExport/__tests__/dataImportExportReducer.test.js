@@ -118,6 +118,7 @@ describe('dataImportExportReducer', () => {
         importFile: undefined,
         isFileValid: false,
         fileValidationError: 'File is required.',
+        deleteUnusedAccounts: false,
         duplicateRecordsOption: DuplicateRecordOption.UPDATE_EXISTING,
         contacts: {
           identifyBy: ContactIdentifyBy.NAME,

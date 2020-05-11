@@ -7,6 +7,7 @@ import {
   SET_SELECTED_TAB,
   UPDATE_CONTACTS_IDENTIFY_BY,
   UPDATE_CONTACTS_TYPE,
+  UPDATE_DELETE_UNUSED_ACCOUNTS_VALUE,
   UPDATE_DUPLICATE_RECORDS_OPTION,
   UPDATE_EXPORT_CHART_OF_ACCOUNTS_DETAIL,
   UPDATE_EXPORT_COMPANY_FILE_DETAIL,
@@ -38,6 +39,7 @@ const getDefaultState = () => ({
     isFileValid: false,
     fileValidationError: 'File is required.',
     duplicateRecordsOption: DuplicateRecordOption.UPDATE_EXISTING,
+    deleteUnusedAccounts: false,
     contacts: {
       identifyBy: ContactIdentifyBy.NAME,
       type: ContactType.CUSTOMER,
@@ -150,6 +152,14 @@ const updateDuplicateRecordsOption = (state, action) => ({
   },
 });
 
+const updateDeleteUnusedAccounts = (state, action) => ({
+  ...state,
+  import: {
+    ...state.import,
+    deleteUnusedAccounts: action.value,
+  },
+});
+
 const updateExportChartOfAccountsDetail = (state, action) => ({
   ...state,
   export: {
@@ -223,6 +233,7 @@ const handlers = {
   [UPDATE_IMPORT_DATA_TYPE]: updateImportDataType,
   [ADD_IMPORT_FILE]: addImportFile,
   [UPDATE_DUPLICATE_RECORDS_OPTION]: updateDuplicateRecordsOption,
+  [UPDATE_DELETE_UNUSED_ACCOUNTS_VALUE]: updateDeleteUnusedAccounts,
   [UPDATE_EXPORT_CHART_OF_ACCOUNTS_DETAIL]: updateExportChartOfAccountsDetail,
   [UPDATE_CONTACTS_IDENTIFY_BY]: updateContactsIdentifyBy,
   [UPDATE_CONTACTS_TYPE]: updateContactsType,
