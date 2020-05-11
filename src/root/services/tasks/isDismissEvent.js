@@ -1,3 +1,3 @@
-const isDismissEvent = event => event && !!event.match(/Dismiss$/);
+const isDismissEvent = event => /Dismiss$/.test(event);
 
 export default isDismissEvent;

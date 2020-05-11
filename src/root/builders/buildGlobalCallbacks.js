@@ -16,4 +16,7 @@ export default ({ closeTasks }) => ({
   payrollGeneralSettingsSaved: () => closeTasks({ closeEvent: 'payrollGeneralSettingsSaved' }),
   employeeDetailsSaved: () => closeTasks({ closeEvent: 'employeeDetailsSaved' }),
   invoiceSaved: () => closeTasks({ closeEvent: 'invoiceSaved' }),
+  // Though the 'bankFeedsUpdated' event itself is not listened to by any tasks, it does trigger the
+  // bank feed data to be fed back into app-state so the tasks can react to changes.
+  bankFeedsUpdated: () => closeTasks({ closeEvent: 'bankFeedsUpdated', force: true }),
 });

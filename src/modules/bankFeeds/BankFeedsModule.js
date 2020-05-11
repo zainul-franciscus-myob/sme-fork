@@ -14,19 +14,21 @@ import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 class BankFeedsModule {
   constructor({
-    integration, setRootView,
+    integration, setRootView, globalCallbacks,
   }) {
     this.setRootView = setRootView;
     this.integration = integration;
     this.store = new Store(bankFeedsReducer);
     this.integrator = createBankFeedsIntegrator(this.store, this.integration);
     this.dispatcher = createBankFeedsDispatcher(this.store);
+    this.globalCallbacks = globalCallbacks;
   }
 
   loadBankFeeds = () => {
     const onSuccess = (response) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadBankFeeds(response);
+      this.globalCallbacks.bankFeedsUpdated();
     };
     const onFailure = () => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
@@ -42,6 +44,7 @@ class BankFeedsModule {
     const onSuccess = (response) => {
       this.dispatcher.setIsSubmitting(false);
       this.displaySuccessMessage(response.message);
+      this.globalCallbacks.bankFeedsUpdated();
     };
 
     const onFailure = (response) => {
@@ -66,6 +69,7 @@ class BankFeedsModule {
       this.dispatcher.deleteBankFeed();
       this.dispatcher.resetBankFeedAccountToBeDeleted();
       this.displaySuccessMessage(response.message);
+      this.globalCallbacks.bankFeedsUpdated();
     };
 
     const onFailure = (response) => {
@@ -100,6 +104,7 @@ class BankFeedsModule {
     const onSuccess = (response) => {
       this.dispatcher.setIsTableLoading(false);
       this.dispatcher.loadBankFeeds(response);
+      this.globalCallbacks.bankFeedsUpdated();
     };
     const onFailure = ({ message }) => {
       this.dispatcher.setIsTableLoading(false);

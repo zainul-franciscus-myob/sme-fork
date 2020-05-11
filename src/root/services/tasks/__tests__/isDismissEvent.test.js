@@ -20,11 +20,11 @@ describe('isDismissEvent', () => {
   });
 
   describe('with a NO event', () => {
-    it('returns undefined', () => {
+    it('returns false', () => {
       const event = undefined;
       const result = isDismissEvent(event);
 
-      expect(result).toBeUndefined();
+      expect(result).toEqual(false);
     });
   });
 });
