@@ -29,7 +29,7 @@ const DeleteUnusedAccounts = ({ onDeleteUnusedAccountsChange, deleteUnusedAccoun
         <div className={styles.deleteAccountsDangerAlert}>
           <Alert type="danger">
             {alertMessage}
-            <br /><a href={learnMoreUrl}>Learn More</a>
+            <br /><a href={learnMoreUrl} target="_blank" rel="noopener noreferrer">Learn More</a>
           </Alert>
         </div>
       )}
