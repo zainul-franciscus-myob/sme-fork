@@ -218,7 +218,7 @@ export default class NavigationModule {
           onChangePlanClick={changePlan}
           onCreateBusinessClick={createBusiness}
           onHelpLinkClick={toggleHelp}
-          onLogoutLinkClick={logout}
+          onLogoutLinkClick={() => logout(true)}
           onMenuLinkClick={onPageTransition}
           onMenuSelect={redirectToPage}
           onSubscribeNowClick={subscribeNow}
