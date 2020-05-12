@@ -17,7 +17,7 @@ const getBaseUrl = (state) => {
 export const getBankReconciliationUrl = (state) => {
   const baseUrl = getBaseUrl(state);
   const balances = getBalances(state);
-  const { bankBalanceDate, bankBalance } = balances;
+  const { bankBalanceDate = '', bankBalance = '' } = balances;
 
   const params = {
     bankAccount: getBankAccount(state),

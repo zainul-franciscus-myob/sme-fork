@@ -71,6 +71,27 @@ describe('bankingSelector', () => {
 
       expect(result).toEqual(expected);
     });
+
+    it('should keep the original date from state', () => {
+      const expected = {
+        bankBalance: 1000,
+        myobBalance: 900,
+        unallocated: 1100,
+        bankBalanceDate: '21/11/2020',
+      };
+      const state = {
+        entries: [{ deposit: undefined, withdrawal: 100 }],
+        balances: {
+          bankBalance: 1000,
+          myobBalance: 1000,
+          unallocated: 1000,
+          bankBalanceDate: '21/11/2020',
+        },
+      };
+      const result = getCalculatedAllocatedBalances(state, 0);
+
+      expect(result).toEqual(expected);
+    });
   });
 
   describe('getBalancesForBulkResult', () => {

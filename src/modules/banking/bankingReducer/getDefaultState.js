@@ -21,6 +21,7 @@ const getDefaultState = () => ({
     bankBalance: '',
     myobBalance: '',
     unallocated: '',
+    bankBalanceDate: '',
     balanceTooltip: '',
   },
   bankAccounts: [],

@@ -241,6 +241,7 @@ const getCalculatedBalances = (state, amount) => {
   } = balances;
 
   return {
+    ...balances,
     bankBalance,
     myobBalance: myobBalance - amount,
     unallocated: unallocated + amount,
@@ -251,6 +252,14 @@ export const getCalculatedAllocatedBalances = (state, index) => {
   const line = getBankTransactionLineByIndex(state, index);
   const { withdrawal, deposit } = line;
   const amount = (withdrawal || -deposit);
+
+  return getCalculatedBalances(state, amount);
+};
+
+export const getCalculatedUnallocatedBalances = (state, index) => {
+  const line = getBankTransactionLineByIndex(state, index);
+  const { withdrawal, deposit } = line;
+  const amount = (-withdrawal || deposit);
 
   return getCalculatedBalances(state, amount);
 };
@@ -285,14 +294,6 @@ export const getBalancesForApplyRule = (state, applyResults) => {
       const entryAmount = -withdrawal || deposit;
       return total + entryAmount;
     }, 0);
-  return getCalculatedBalances(state, amount);
-};
-
-export const getCalculatedUnallocatedBalances = (state, index) => {
-  const line = getBankTransactionLineByIndex(state, index);
-  const { withdrawal, deposit } = line;
-  const amount = (-withdrawal || deposit);
-
   return getCalculatedBalances(state, amount);
 };
 
