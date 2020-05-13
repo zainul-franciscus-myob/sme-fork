@@ -8,7 +8,7 @@ class JobKeeperReporting extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedMonth: 0,
+      selectedMonth: 4,
     };
   }
 
