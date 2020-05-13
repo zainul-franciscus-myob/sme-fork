@@ -74,6 +74,7 @@ export default class ReportingCentreModule {
         context,
         setAlert: this.dispatcher.setAlert,
         pushMessage: this.pushMessage,
+        featureToggles: this.featureToggles,
       }),
     };
   };

@@ -1,0 +1,34 @@
+.flex {
+  display: flex;
+}
+
+.divider {
+  border-right: 1px solid #ccc;
+  margin: 0 20px;
+}
+
+.jobkeeper-reporting {
+  display: block;
+}
+
+.jobkeeper-reporting-btn div {
+  margin-top: 0;
+}
+
+.jobkeeper-reporting-btn {
+  margin-left: 0;
+}
+
+@media (min-width: 768px) {
+  .jobkeeper-reporting {
+    display: flex;
+  }
+
+  .jobkeeper-reporting-btn div {
+    margin-top: 8px;
+  }
+
+  .jobkeeper-reporting-btn {
+    margin-left: 10px;
+  }
+}

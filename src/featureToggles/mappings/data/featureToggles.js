@@ -9,4 +9,5 @@
 export default {
   isSpendMoneyBankPaymentEnabled: true,
   isJobKeeperTabEnabled: true,
+  isJobKeeperReportingEnabled: true,
 };

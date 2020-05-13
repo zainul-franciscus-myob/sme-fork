@@ -15,6 +15,7 @@ import StpDeclarationModalModule from '../../stpDeclarationModal/StpDeclarationM
 import createJobKeeperDispatcher from './createJobKeeperDispatcher';
 import createJobKeeperIntegrator from './createJobKeeperIntegrator';
 import jobKeeperReducer from './JobKeeperReducer';
+import openBlob from '../../../../common/blobOpener/openBlob';
 
 export default class JobKeeperModule {
   constructor({
@@ -22,6 +23,7 @@ export default class JobKeeperModule {
     context,
     setAlert,
     pushMessage,
+    featureToggles,
   }) {
     this.store = new Store(jobKeeperReducer);
     this.integration = integration;
@@ -30,7 +32,7 @@ export default class JobKeeperModule {
     this.stpDeclarationModule = new StpDeclarationModalModule({ integration });
     this.setAlert = setAlert;
     this.pushMessage = pushMessage;
-
+    this.featureToggles = featureToggles;
     this.dispatcher.setInitialState(context);
   }
 
@@ -163,6 +165,20 @@ export default class JobKeeperModule {
     this.tryToNavigate(() => this.filterEmployeesByYear(payrollYear));
   }
 
+  onOpenJobKeeperReport = (month) => {
+    const onSuccess = (response) => {
+      openBlob({ blob: response });
+    };
+
+    const onError = (message) => this.dispatcher.setAlert({ type: 'danger', message });
+
+    this.integrator.onOpenJobKeeperReport({
+      onSuccess,
+      onError,
+      month,
+    });
+  }
+
   run = () => {
     this.loadInitialEmployeesAndHeaderDetails();
   };
@@ -178,10 +194,12 @@ export default class JobKeeperModule {
           onPayrollYearChange={this.onPayrollYearChange}
           onSort={this.sortEmployees}
           onEmployeeChange={this.updateEmployeeRow}
+          onOpenJobKeeperReport={this.onOpenJobKeeperReport}
           unsavedChangesModalListeners={{
             onCancel: this.onUnsavedChangesCancel,
             onConfirm: this.onUnsavedChangesConfirm,
           }}
+          featureToggles={this.featureToggles}
         />
       </Provider>);
   }

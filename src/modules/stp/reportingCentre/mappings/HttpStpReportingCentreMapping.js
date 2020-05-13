@@ -2,7 +2,12 @@ import {
   DELETE_EMPLOYEE_ETP,
   LOAD_EMPLOYEE_ETP,
 } from '../etps/EtpIntents';
-import { FILTER_JOB_KEEPER_EMPLOYEES, LOAD_INITIAL_JOB_KEEPER_EMPLOYEES, UPDATE_JOB_KEEPER_PAYMENTS } from '../jobKeeper/JobKeeperIntents';
+import {
+  FILTER_JOB_KEEPER_EMPLOYEES,
+  LOAD_INITIAL_JOB_KEEPER_EMPLOYEES,
+  LOAD_JOB_KEEPER_REPORT,
+  UPDATE_JOB_KEEPER_PAYMENTS,
+} from '../jobKeeper/JobKeeperIntents';
 import {
   FILTER_PAY_EVENTS,
   LOAD_EMPLOYEE_YTD_REPORT,
@@ -134,6 +139,10 @@ const HttpStpReportingCentreMapping = {
   [UPDATE_JOB_KEEPER_PAYMENTS]: {
     method: 'PUT',
     getPath: ({ businessId }) => `/${businessId}/stp/update_job_keeper_payments`,
+  },
+  [LOAD_JOB_KEEPER_REPORT]: {
+    method: 'GET',
+    getPath: ({ businessId, month }) => `/${businessId}/stp/get_job_keeper_report/${month}`,
   },
 };
 

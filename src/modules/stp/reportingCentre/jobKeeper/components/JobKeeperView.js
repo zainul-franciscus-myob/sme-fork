@@ -34,8 +34,10 @@ const JobKeeperView = ({
   isTableLoading,
   onNotifyAtoClick,
   onEmployeeChange,
+  onOpenJobKeeperReport,
   unsavedChangesModalIsOpen,
   unsavedChangesModalListeners,
+  featureToggles,
 }) => {
   const jobKeeperTable = (<JobKeeperTable
     employees={employees}
@@ -45,6 +47,7 @@ const JobKeeperView = ({
     isTableLoading={isTableLoading}
     activeSort={activeSort}
     onEmployeeChange={onEmployeeChange}
+    onOpenJobKeeperReport={onOpenJobKeeperReport}
   />);
 
   const actions = (
@@ -65,6 +68,8 @@ const JobKeeperView = ({
       payrollYears={payrollYears}
       payrollYear={payrollYear}
       onPayrollYearChange={onPayrollYearChange}
+      onOpenJobKeeperReport={onOpenJobKeeperReport}
+      featureToggles={featureToggles}
     />
     {jobKeeperTable}
     {actions}

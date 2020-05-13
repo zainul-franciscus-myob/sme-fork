@@ -4,15 +4,18 @@ import JobKeeperModule from '../JobKeeperModule';
 import loadJobKeeperInitialEmployees from '../../mappings/data/loadJobKeeperInitialEmployees';
 
 describe('jobKeeperModule', () => {
-  const constructModule = () => {
-    const setAlertMock = jest.fn();
-    const module = new JobKeeperModule({
+  const constructModule = (module = new JobKeeperModule(
+    {
       integration: {
         read: ({ onSuccess }) => onSuccess(loadJobKeeperInitialEmployees),
       },
       pushMessage: () => {},
-    });
-
+      featureToggles: {
+        isJobKeeperReportingEnabled: true,
+      },
+    },
+  )) => {
+    const setAlertMock = jest.fn();
     const wrapper = mount(module.getView());
     module.run();
     wrapper.update();
@@ -30,6 +33,56 @@ describe('jobKeeperModule', () => {
     const header = wrapper.find({ testid: 'jobKeeperPaymentHeader' });
 
     expect(header).toHaveLength(1);
+  });
+
+  it('renders reporting button when feature toggle on', () => {
+    const { wrapper } = constructModule();
+
+    const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
+
+    expect(panel.find('.btn')).toHaveLength(1);
+  });
+
+  it('hides reporting button when feature toggle off', () => {
+    const read = jest.fn();
+    const module = new JobKeeperModule(
+      {
+        integration: {
+          read,
+        },
+        pushMessage: () => {},
+        featureToggles: {
+          isJobKeeperReportingEnabled: false,
+        },
+      },
+    );
+    const { wrapper } = constructModule(module);
+
+    const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
+
+    expect(panel).toHaveLength(0);
+  });
+
+  it('reporting calls API with correct month value', () => {
+    const read = jest.fn();
+    const module = new JobKeeperModule(
+      {
+        integration: {
+          read,
+        },
+        pushMessage: () => {},
+        featureToggles: {
+          isJobKeeperReportingEnabled: true,
+        },
+      },
+    );
+    const { wrapper } = constructModule(module);
+
+    const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
+    panel.find('select').simulate('change', { target: { value: 3 } });
+    const button = panel.find('.btn');
+    button.simulate('click');
+    expect(read.mock.calls[1][0].urlParams.month).toBe(3);
   });
 
   describe('tryToNavigate', () => {

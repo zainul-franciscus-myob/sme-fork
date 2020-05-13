@@ -5,6 +5,7 @@ import {
 import {
   FILTER_JOB_KEEPER_EMPLOYEES,
   LOAD_INITIAL_JOB_KEEPER_EMPLOYEES,
+  LOAD_JOB_KEEPER_REPORT,
   SORT_JOB_KEEPER_EMPLOYEES,
   UPDATE_JOB_KEEPER_PAYMENTS,
 } from '../jobKeeper/JobKeeperIntents';
@@ -92,6 +93,7 @@ const MemoryStpReportingCentreMapping = {
   [FILTER_JOB_KEEPER_EMPLOYEES]: ({ onSuccess }) => onSuccess({ employees: [] }),
   [SORT_JOB_KEEPER_EMPLOYEES]: ({ onSuccess }) => onSuccess(sortJobKeeperEmployees),
   [UPDATE_JOB_KEEPER_PAYMENTS]: () => {},
+  [LOAD_JOB_KEEPER_REPORT]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
 };
 
 export default MemoryStpReportingCentreMapping;

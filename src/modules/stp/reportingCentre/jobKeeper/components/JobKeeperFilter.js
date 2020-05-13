@@ -1,12 +1,16 @@
 import { Card, Select } from '@myob/myob-widgets';
 import React from 'react';
 
+import JobKeeperReporting from './JobKeeperReporting';
 import handleSelectChange from '../../../../../components/handlers/handleSelectChange';
+import styles from './JobKeeperFilter.module.css';
 
 const JobKeeperFilter = ({
   payrollYears,
   payrollYear,
   onPayrollYearChange,
+  onOpenJobKeeperReport,
+  featureToggles,
 }) => {
   const payrollYearChangeHandler = ({ value }) => {
     onPayrollYearChange(value);
@@ -25,10 +29,17 @@ const JobKeeperFilter = ({
           <Select.Option value={year} label={label} key={year} />
         ))}
       </Select>
+      {
+        featureToggles && featureToggles.isJobKeeperReportingEnabled
+          ? <>
+            <span className={styles.divider} />
+            <JobKeeperReporting onOpenJobKeeperReport={onOpenJobKeeperReport} />
+          </> : null
+      }
     </>
   );
 
-  return <Card body={<Card.Body child={cardBody} />} />;
+  return <Card body={<Card.Body child={cardBody} classes={[styles.flex]} />} />;
 };
 
 export default JobKeeperFilter;

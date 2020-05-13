@@ -1,6 +1,7 @@
 import {
   FILTER_JOB_KEEPER_EMPLOYEES,
   LOAD_INITIAL_JOB_KEEPER_EMPLOYEES,
+  LOAD_JOB_KEEPER_REPORT,
   SORT_JOB_KEEPER_EMPLOYEES,
   UPDATE_JOB_KEEPER_PAYMENTS,
 } from './JobKeeperIntents';
@@ -76,6 +77,21 @@ const createJobKeeperIntegrator = (store, integration) => ({
       intent: SORT_JOB_KEEPER_EMPLOYEES,
       urlParams,
       params,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  onOpenJobKeeperReport: ({ onSuccess, onFailure, month }) => {
+    const state = store.getState();
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+      month,
+    };
+    integration.read({
+      intent: LOAD_JOB_KEEPER_REPORT,
+      urlParams,
       onSuccess,
       onFailure,
     });
