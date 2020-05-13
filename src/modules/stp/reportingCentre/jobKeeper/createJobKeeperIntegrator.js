@@ -89,7 +89,7 @@ const createJobKeeperIntegrator = (store, integration) => ({
       businessId: getBusinessId(state),
       month,
     };
-    integration.read({
+    integration.readFile({
       intent: LOAD_JOB_KEEPER_REPORT,
       urlParams,
       onSuccess,

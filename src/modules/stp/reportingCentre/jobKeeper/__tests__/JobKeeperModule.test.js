@@ -69,6 +69,7 @@ describe('jobKeeperModule', () => {
       {
         integration: {
           read,
+          readFile: read,
         },
         pushMessage: () => {},
         featureToggles: {
