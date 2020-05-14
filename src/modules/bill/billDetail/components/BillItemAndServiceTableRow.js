@@ -87,7 +87,6 @@ const BillItemAndServiceTableRow = ({
         <BillTableReadOnlyRowItem />
         <BillTableReadOnlyRowItem />
         <BillTableReadOnlyRowItem />
-        <BillTableReadOnlyRowItem />
         <BillTableReadOnlyRowItem value={amount} />
         {isBillJobColumnEnabled && <BillTableReadOnlyRowItem />}
         <BillTableReadOnlyRowItem />
