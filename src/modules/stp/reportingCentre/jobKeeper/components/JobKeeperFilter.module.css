@@ -17,6 +17,7 @@
 
 .jobkeeper-reporting-btn {
   margin-left: 0;
+  white-space: break-spaces;
 }
 
 @media (min-width: 768px) {
@@ -30,5 +31,6 @@
 
   .jobkeeper-reporting-btn {
     margin-left: 10px;
+    white-space: normal;
   }
 }
