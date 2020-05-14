@@ -170,7 +170,10 @@ export const loadSplitAllocation = (state, action) => {
     newLine,
   };
 
-  return loadOpenEntry(state, action.index, tabIds.allocate, allocate, false);
+  return {
+    ...loadOpenEntry(state, action.index, tabIds.allocate, allocate, false),
+    contacts: action.allocate.contacts,
+  };
 };
 
 export const loadNewSplitAllocation = (state, action) => {
