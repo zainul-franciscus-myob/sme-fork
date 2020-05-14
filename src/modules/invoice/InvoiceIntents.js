@@ -74,3 +74,9 @@ export const LOAD_ITEM_OPTIONS = Symbol('Load item options');
 export const LOAD_CONTACT_OPTIONS = Symbol('Load contact options');
 
 export const LOAD_ITEM_SELLING_DETAILS = Symbol('Load item selling details');
+
+export const CREATE_PRE_CONVERSION_INVOICE_DETAIL = Symbol('Create a new pre conversion invoice');
+export const UPDATE_PRE_CONVERSION_INVOICE_DETAIL = Symbol('Update a pre conversion invoice');
+export const DELETE_PRE_CONVERSION_INVOIVE_DETAIL = Symbol('Delete a pre conversion invoice');
+export const CONVERT_TO_PRE_CONVERSION_INVOICE = Symbol('Convert to pre conversion invoice');
+export const SET_SHOW_PRE_CONVERSION_ALERT = Symbol('Set show pre conversion alert');

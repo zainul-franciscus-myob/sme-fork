@@ -8,6 +8,7 @@ import EmailInvoiceModal from './email/EmailInvoiceModal';
 import EmailSettingsModal from './email/EmailSettingsModal';
 import ExportPdfModal from './ExportPdfModal';
 import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
+import InvoiceDetailPreConversionModal from './InvoiceDetailPreConversionModal';
 import InvoiceDetailSaveAndConfirmModal from './InvoiceDetailSaveAndConfirmModal';
 import SaveAmountDueWarningModal from './SaveAmountDueWarningModal';
 import UnsavedModal from '../../../../components/modal/UnsavedModal';
@@ -27,6 +28,7 @@ const InvoiceDetailModal = ({
   applyPaymentUnsavedChangesListeners,
   redirectToUrlListeners,
   exportPdfModalListeners,
+  preConversionModalListeners,
 }) => {
   if (modalType === InvoiceDetailModalType.EMAIL_INVOICE) {
     return (
@@ -124,6 +126,15 @@ const InvoiceDetailModal = ({
         onCancel={confirmModalListeners.onCloseConfirmModal}
         onConfirm={confirmModalListeners.onDeleteModalConfirm}
         title="Delete this invoice?"
+      />
+    );
+  }
+
+  if (modalType === InvoiceDetailModalType.CREATE_PRE_CONVERSION_INVOICE) {
+    return (
+      <InvoiceDetailPreConversionModal
+        onCancel={preConversionModalListeners.onCancel}
+        onConfirm={preConversionModalListeners.onConfirm}
       />
     );
   }

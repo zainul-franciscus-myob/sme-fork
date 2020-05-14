@@ -5,6 +5,7 @@ import React from 'react';
 import {
   getAccountOptions,
   getInvoiceLine,
+  getIsPreConversion,
   getIsReadOnlyLayout,
   getIsSubmitting,
   getJobOptions,
@@ -47,6 +48,7 @@ const InvoiceServiceTableRow = ({
   index,
   isSubmitting,
   isReadOnlyLayout,
+  isPreConversion,
   accountOptions,
   jobOptions,
   onChange,
@@ -99,7 +101,7 @@ const InvoiceServiceTableRow = ({
         items={accountOptions}
         selectedId={accountId}
         addNewAccount={() => onAddAccount(onChangeAccountId)}
-        disabled={isSubmitting || isReadOnlyLayout}
+        disabled={isSubmitting || isReadOnlyLayout || isPreConversion}
       />
       <Calculator
         label="Amount"
@@ -139,6 +141,7 @@ const mapStateToProps = (state, props) => ({
   taxCodeOptions: getTaxCodeOptions(state),
   isSubmitting: getIsSubmitting(state),
   isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isPreConversion: getIsPreConversion(state),
   accountOptions: getAccountOptions(state),
   jobOptions: getJobOptions(state),
 });

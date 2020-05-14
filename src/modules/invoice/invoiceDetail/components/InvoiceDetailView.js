@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import {
   getAlert,
   getIsCreating,
+  getIsPreConversion,
   getIsReadOnlyLayout,
   getIsSubmitting,
   getLayout,
@@ -43,6 +44,7 @@ const InvoiceDetailView = ({
   templateOptions,
   isActionsDisabled,
   isReadOnlyLayout,
+  isPreConversion,
   modalAlert,
   onDismissAlert,
   onChangeAmountToPay,
@@ -53,11 +55,14 @@ const InvoiceDetailView = ({
   saveAndConfirmModalListeners,
   emailSettingsModalListeners,
   emailInvoiceDetailModalListeners,
+  preConversionModalListeners,
   applyPaymentUnsavedChangesListeners,
   redirectToUrlListeners,
   exportPdfModalListeners,
   contactModal,
+  onDismissPreConversionAlert,
   onUpdateHeaderOptions,
+  onIssueDateBlur,
   onAddContactButtonClick,
   onUpdateInvoiceLayout,
   onUpgradeModalDismiss,
@@ -72,9 +77,10 @@ const InvoiceDetailView = ({
   const options = (
     <InvoiceDetailOptions
       onUpdateHeaderOptions={onUpdateHeaderOptions}
+      onIssueDateBlur={onIssueDateBlur}
       onAddContactButtonClick={onAddContactButtonClick}
-      onUpdateInvoiceLayout={onUpdateInvoiceLayout}
       onLoadContacts={onLoadContacts}
+      onDismissPreConversionAlert={onDismissPreConversionAlert}
     />
   );
 
@@ -102,6 +108,7 @@ const InvoiceDetailView = ({
       applyPaymentUnsavedChangesListeners={applyPaymentUnsavedChangesListeners}
       exportPdfModalListeners={exportPdfModalListeners}
       redirectToUrlListeners={redirectToUrlListeners}
+      preConversionModalListeners={preConversionModalListeners}
     />
   );
 
@@ -141,7 +148,7 @@ const InvoiceDetailView = ({
     [InvoiceLayout.MISCELLANEOUS]: itemAndServiceTable,
   }[layout]);
 
-  const layoutPopver = (
+  const layoutPopver = isPreConversion || (
     <InvoiceDetailLayoutPopover onUpdateInvoiceLayout={onUpdateInvoiceLayout} />
   );
 
@@ -169,13 +176,13 @@ const InvoiceDetailView = ({
         </div>
       </LineItemTemplate>
       {!isCreating
-      && (
-      <MoreInformation
-        onAccordionClose={onAccordionClose}
-        onAccordionOpen={onAccordionOpen}
-        onClickOnRefNo={onClickOnRefNo}
-      />
-      )}
+        && (
+          <MoreInformation
+            onAccordionClose={onAccordionClose}
+            onAccordionOpen={onAccordionOpen}
+            onClickOnRefNo={onClickOnRefNo}
+          />
+        )}
     </React.Fragment>
   );
 
@@ -193,6 +200,7 @@ const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   layout: getLayout(state),
   isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isPreConversion: getIsPreConversion(state),
 });
 
 export default connect(mapStateToProps)(InvoiceDetailView);

@@ -218,5 +218,7 @@
   },
   "subscription": {
     "isTrial": false
-  }
+  },
+  "conversionDate": "2014-07-23T00:00",
+  "linkedAccountId": "123"
 }

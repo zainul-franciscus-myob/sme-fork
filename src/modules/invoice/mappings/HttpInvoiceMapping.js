@@ -1,6 +1,8 @@
 import {
   CREATE_INVOICE_DETAIL,
+  CREATE_PRE_CONVERSION_INVOICE_DETAIL,
   DELETE_INVOICE_DETAIL,
+  DELETE_PRE_CONVERSION_INVOIVE_DETAIL,
   EXPORT_INVOICE_PDF,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ACCOUNT_OPTIONS,
@@ -22,6 +24,7 @@ import {
   SEND_EMAIL,
   SORT_AND_FILTER_INVOICE_LIST,
   UPDATE_INVOICE_DETAIL,
+  UPDATE_PRE_CONVERSION_INVOICE_DETAIL,
   UPLOAD_EMAIL_ATTACHMENT,
 } from '../InvoiceIntents';
 
@@ -121,6 +124,18 @@ const HttpInvoiceMapping = {
   [LOAD_ITEM_SELLING_DETAILS]: {
     method: 'GET',
     getPath: ({ businessId, itemId }) => `/${businessId}/invoice/load_item_selling_details/${itemId}`,
+  },
+  [CREATE_PRE_CONVERSION_INVOICE_DETAIL]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/invoice/create_pre_conversion_invoice`,
+  },
+  [UPDATE_PRE_CONVERSION_INVOICE_DETAIL]: {
+    method: 'PUT',
+    getPath: ({ businessId, invoiceId }) => `/${businessId}/invoice/update_pre_conversion_invoice/${invoiceId}`,
+  },
+  [DELETE_PRE_CONVERSION_INVOIVE_DETAIL]: {
+    method: 'DELETE',
+    getPath: ({ businessId, invoiceId }) => `/${businessId}/invoice/delete_pre_conversion_invoice/${invoiceId}`,
   },
 };
 

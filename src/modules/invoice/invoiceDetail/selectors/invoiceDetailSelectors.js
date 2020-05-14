@@ -1,4 +1,5 @@
 import { createSelector, createStructuredSelector } from 'reselect';
+import { format, isBefore } from 'date-fns';
 import Decimal from 'decimal.js';
 
 import { TaxCalculatorTypes, createTaxCalculator } from '../../../../common/taxCalculator';
@@ -115,7 +116,14 @@ export const getIsCustomerDisabled = createSelector(
   ),
 );
 
-export const getShowOnlinePayment = createSelector(getRegion, region => region === 'au');
+export const getIsPreConversion = (state) => state.isPreConversion;
+export const getShowPreConversionAlert = (state) => state.showPreConversionAlert;
+
+export const getShowOnlinePayment = createSelector(
+  getRegion,
+  getIsPreConversion,
+  (region, isPreConversion) => region === 'au' && !isPreConversion,
+);
 
 const createRegionDialectSelector = text => createSelector(
   getRegion,
@@ -166,13 +174,15 @@ export const getInvoiceDetailTotals = createSelector(
   getAmountPaid,
   getIsCreating,
   getTaxLabel,
-  (totals, amountPaid, isCreating, taxLabel) => ({
+  getIsPreConversion,
+  (totals, amountPaid, isCreating, taxLabel, isPreConversion) => ({
     subTotal: totals.subTotal,
     totalTax: totals.totalTax,
     totalAmount: totals.totalAmount,
     amountPaid: amountPaid === '' ? '0.00' : amountPaid,
     amountDue: calculateAmountDue(totals.totalAmount, amountPaid),
     isCreating,
+    isPreConversion,
     taxLabel,
   }),
 );
@@ -272,4 +282,15 @@ export const getShouldSaveAndReload = (state) => {
   const isPageEdited = getIsPageEdited(state);
 
   return isCreating || isPageEdited;
+};
+
+export const getIsBeforeConversionDate = (state) => {
+  const { conversionDate, invoice } = state;
+  const { issueDate } = invoice;
+  return issueDate && conversionDate && isBefore(new Date(issueDate), new Date(conversionDate));
+};
+
+export const getConversionMonthYear = (state) => {
+  const { conversionDate } = state;
+  return format(new Date(conversionDate), 'MMMM yyyy');
 };

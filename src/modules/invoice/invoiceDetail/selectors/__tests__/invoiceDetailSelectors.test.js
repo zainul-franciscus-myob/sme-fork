@@ -1,9 +1,11 @@
 import {
   calculateAmountDue,
   getAccountModalContext,
+  getConversionMonthYear,
   getInvoiceDetailOptions,
   getInvoiceDetailTotals,
   getInvoiceLine,
+  getIsBeforeConversionDate,
   getIsLinesSupported,
   getIsReadOnlyLayout,
   getTemplateOptions,
@@ -130,6 +132,7 @@ describe('invoiceDetailSelectors', () => {
     region: 'au',
     businessId: 'abc',
     invoiceId: '1',
+    conversionDate: '2015-01-01',
   };
 
   describe('getInvoiceDetailOptions', () => {
@@ -439,6 +442,68 @@ describe('invoiceDetailSelectors', () => {
       });
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getIsBeforeConversionDate', () => {
+    it('should return true if selectedDate is before conversion date', () => {
+      const modifiedState = {
+        ...state,
+        invoice: {
+          ...state.invoice,
+          issueDate: '2013-03-05',
+        },
+        conversionDate: '2014-07-01',
+      };
+
+      const actual = getIsBeforeConversionDate(modifiedState);
+
+      expect(actual).toBeTruthy();
+    });
+
+    it('should return false if selectedDate is after conversion date', () => {
+      const modifiedState = {
+        ...state,
+        invoice: {
+          ...state.invoice,
+          issueDate: '2018-03-05',
+        },
+        conversionDate: '2014-07-01',
+      };
+
+      const actual = getIsBeforeConversionDate(modifiedState, '2014-08-01');
+
+      expect(actual).toBeFalsy();
+    });
+
+    it('should return false if selectedDate is the same as conversion date', () => {
+      const modifiedState = {
+        ...state,
+        conversionDate: '2014-07-01',
+      };
+
+      const actual = getIsBeforeConversionDate(modifiedState, '2014-07-01');
+
+      expect(actual).toBeFalsy();
+    });
+  });
+
+  describe('getConversionMonthYear', () => {
+    [
+      { value: '2013-08-01', expected: 'August 2013' },
+      { value: '2013-01-01', expected: 'January 2013' },
+      { value: '2013-07-01', expected: 'July 2013' },
+      { value: '2013-12-01', expected: 'December 2013' },
+    ].forEach(test => {
+      it('should format correctly', () => {
+        const modifiedState = {
+          ...state,
+          conversionDate: test.value,
+        };
+        const actual = getConversionMonthYear(modifiedState);
+
+        expect(actual).toEqual(test.expected);
+      });
     });
   });
 });

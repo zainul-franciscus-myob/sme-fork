@@ -1,5 +1,6 @@
 import {
   CREATE_INVOICE_DETAIL,
+  CREATE_PRE_CONVERSION_INVOICE_DETAIL,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
   RELOAD_INVOICE_DETAIL,
@@ -12,6 +13,7 @@ import {
   SET_UPGRADE_MODAL_SHOWING,
   UPDATE_INVOICE_DETAIL,
   UPDATE_INVOICE_ID_AFTER_CREATE,
+  UPDATE_PRE_CONVERSION_INVOICE_DETAIL,
 } from '../../InvoiceIntents';
 import { DUPLICATE_INVOICE, SUCCESSFULLY_SAVED_INVOICE } from '../types/invoiceMessageTypes';
 import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
@@ -58,18 +60,43 @@ export const setupWithRun = ({ isCreating = false, isPageEdited = false } = {}) 
   return { store, integration, module };
 };
 
+const setupWithPreConversion = (isCreating = false, isPageEdited = false) => {
+  const { module, integration, store } = setupWithRun(isCreating, isPageEdited);
+  module.updateHeaderOptions({ key: 'issueDate', value: '2020-01-01' });
+  module.validateIssueDate();
+  module.convertToPreConversionInvoice();
+  store.resetActions();
+  integration.resetRequests();
+
+  return { module, integration, store };
+};
+
 describe('InvoiceDetailModule', () => {
   describe('createOrUpdateInvoice', () => {
     describe.each([
-      ['create', true],
-      ['update', false],
-    ])('On %s', (type, isCreating) => {
-      const intent = isCreating
-        ? CREATE_INVOICE_DETAIL
-        : UPDATE_INVOICE_DETAIL;
-
+      {
+        isCreating: true,
+        intent: CREATE_INVOICE_DETAIL,
+        setupTest: setupWithRun,
+      },
+      {
+        isCreating: false,
+        intent: UPDATE_INVOICE_DETAIL,
+        setupTest: setupWithRun,
+      },
+      {
+        isCreating: true,
+        intent: CREATE_PRE_CONVERSION_INVOICE_DETAIL,
+        setupTest: setupWithPreConversion,
+      },
+      {
+        isCreating: false,
+        intent: UPDATE_PRE_CONVERSION_INVOICE_DETAIL,
+        setupTest: setupWithPreConversion,
+      },
+    ])('On %s', ({ isCreating, intent, setupTest }) => {
       it('successfully save invoice', () => {
-        const { store, integration, module } = setupWithRun({ isCreating });
+        const { store, integration, module } = setupTest({ isCreating });
 
         module.createOrUpdateInvoice({ onSuccess: () => {} });
 
@@ -85,7 +112,7 @@ describe('InvoiceDetailModule', () => {
       it('show upgrade modal when monthly limit reach', () => {
         const monthlyLimit = { hasHitLimit: true };
 
-        const { store, integration, module } = setupWithRun({ isCreating });
+        const { store, integration, module } = setupTest({ isCreating });
         integration.overrideMapping(intent, ({ onSuccess }) => {
           onSuccess({
             message: 'You’ve reached your monthly limit of invoices.',
@@ -98,7 +125,11 @@ describe('InvoiceDetailModule', () => {
         expect(store.getActions()).toEqual([
           { intent: SET_SUBMITTING_STATE, isSubmitting: true },
           { intent: SET_SUBMITTING_STATE, isSubmitting: false },
-          { intent: SET_UPGRADE_MODAL_SHOWING, isUpgradeModalShowing: true, monthlyLimit },
+          {
+            intent: SET_UPGRADE_MODAL_SHOWING,
+            isUpgradeModalShowing: true,
+            monthlyLimit,
+          },
         ]);
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent }),

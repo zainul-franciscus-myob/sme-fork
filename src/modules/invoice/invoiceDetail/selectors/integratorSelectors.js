@@ -80,7 +80,55 @@ export const getCreateOrUpdateInvoicePayload = (state) => {
   };
 };
 
+export const getCreateOrUpdatePreConversionUrlParams = (state) => {
+  const isCreating = getIsCreating(state);
+
+  const businessId = getBusinessId(state);
+  const invoiceId = isCreating ? undefined : getInvoiceId(state);
+
+  return { businessId, invoiceId };
+};
+
 export const getDeleteInvoiceUrlParams = (state) => {
+  const businessId = getBusinessId(state);
+  const invoiceId = getInvoiceId(state);
+
+  return { businessId, invoiceId };
+};
+
+export const getCreateOrUpdatePreConversionPayload = (state) => {
+  const {
+    contactId,
+    expirationTerm,
+    expirationDays,
+    isTaxInclusive,
+    invoiceNumber,
+    address,
+    issueDate,
+    purchaseOrderNumber,
+    note,
+    amountPaid,
+    isAllowOnlinePayments,
+    lines,
+  } = getInvoice(state);
+
+  return {
+    contactId,
+    expirationTerm,
+    expirationDays,
+    isTaxInclusive,
+    invoiceNumber,
+    address,
+    issueDate,
+    purchaseOrderNumber,
+    note,
+    amountPaid,
+    isAllowOnlinePayments,
+    lines,
+  };
+};
+
+export const getDeletePreConversionInvoiceUrlParams = (state) => {
   const businessId = getBusinessId(state);
   const invoiceId = getInvoiceId(state);
 

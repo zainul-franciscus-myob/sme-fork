@@ -1,3 +1,4 @@
+import { isBefore } from 'date-fns';
 import Decimal from 'decimal.js';
 
 import {
@@ -5,6 +6,7 @@ import {
   ADD_INVOICE_LINE,
   CALCULATE_LINE_AMOUNTS,
   CALCULATE_LINE_TOTALS,
+  CONVERT_TO_PRE_CONVERSION_INVOICE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
@@ -33,6 +35,7 @@ import {
   SET_MODAL_TYPE,
   SET_PAY_DIRECT_LOADING_STATE,
   SET_REDIRECT_STATE,
+  SET_SHOW_PRE_CONVERSION_ALERT,
   SET_SUBMITTING_STATE,
   SET_UPGRADE_MODAL_SHOWING,
   UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
@@ -77,6 +80,7 @@ import {
 } from './InvoiceHistoryReducer';
 import { loadPayDirect, setPayDirectLoadingState } from './PayDirectReducer';
 import { updateExportPdfDetail } from './ExportPdfReducer';
+import InvoiceLayout from '../types/InvoiceLayout';
 import InvoiceLineType from '../types/InvoiceLineType';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import calculateTotals from '../../../../common/taxCalculator/calculateTotals';
@@ -112,6 +116,11 @@ const setTotalsOnLoad = ({ isTaxInclusive, lines, amountPaid }) => {
 
 const loadInvoiceDetail = (state, action) => {
   const defaultState = getDefaultState();
+
+  const isPreConversion = isBefore(
+    new Date(action.invoice.issueDate),
+    new Date(action.conversionDate),
+  );
 
   return {
     ...state,
@@ -177,6 +186,8 @@ const loadInvoiceDetail = (state, action) => {
         ? !!action.subscription.monthlyLimit.hasHitLimit
         : defaultState.subscription.isUpgradeModalShowing,
     },
+    isPreConversion,
+    showPreConversionAlert: isPreConversion,
   };
 };
 
@@ -392,6 +403,35 @@ const loadItemSellingDetails = (state, action) => ({
   },
 });
 
+const convertToPreConversionInvoice = (state) => ({
+  ...state,
+  isPreConversion: true,
+  invoice: {
+    ...state.invoice,
+    isTaxInclusive: true,
+    layout: InvoiceLayout.SERVICE,
+    lines: [
+      {
+        description: 'Historical sale',
+        accountId: state.linkedAccountId,
+        amount: '',
+        jobId: '',
+        taxCodeId: getDefaultTaxCodeId({
+          accountId: state.linkedAccountId,
+          accountOptions: state.accountOptions,
+        }),
+        lineTypeId: 17,
+        type: InvoiceLineType.SERVICE,
+      },
+    ],
+  },
+});
+
+const setShowPreConversionAlert = (state, { showPreConversionAlert }) => ({
+  ...state,
+  showPreConversionAlert,
+});
+
 const setDuplicateId = (state, action) => ({
   ...state,
   duplicateId: action.duplicateId,
@@ -451,6 +491,9 @@ const handlers = {
   [CALCULATE_LINE_TOTALS]: calculateLineTotals,
   [CALCULATE_LINE_AMOUNTS]: calculateLineAmounts,
   [LOAD_ITEM_SELLING_DETAILS]: loadItemSellingDetails,
+
+  [CONVERT_TO_PRE_CONVERSION_INVOICE]: convertToPreConversionInvoice,
+  [SET_SHOW_PRE_CONVERSION_ALERT]: setShowPreConversionAlert,
 };
 
 const invoiceDetailReducer = createReducer(getDefaultState(), handlers);

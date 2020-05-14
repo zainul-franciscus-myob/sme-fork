@@ -3,6 +3,7 @@ import {
   ADD_INVOICE_LINE,
   CALCULATE_LINE_AMOUNTS,
   CALCULATE_LINE_TOTALS,
+  CONVERT_TO_PRE_CONVERSION_INVOICE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
@@ -31,6 +32,7 @@ import {
   SET_MODAL_TYPE,
   SET_PAY_DIRECT_LOADING_STATE,
   SET_REDIRECT_STATE,
+  SET_SHOW_PRE_CONVERSION_ALERT,
   SET_SUBMITTING_STATE,
   SET_UPGRADE_MODAL_SHOWING,
   UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
@@ -241,6 +243,15 @@ const createInvoiceDetailDispatcher = store => ({
     intent: LOAD_ITEM_SELLING_DETAILS,
     index,
     itemSellingDetails,
+  }),
+
+  convertToPreConversionInvoice: () => store.dispatch({
+    intent: CONVERT_TO_PRE_CONVERSION_INVOICE,
+  }),
+
+  setShowPreConversionAlert: (showPreConversionAlert) => store.dispatch({
+    intent: SET_SHOW_PRE_CONVERSION_ALERT,
+    showPreConversionAlert,
   }),
 });
 

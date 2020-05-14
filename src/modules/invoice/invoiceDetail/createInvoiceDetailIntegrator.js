@@ -1,6 +1,8 @@
 import {
   CREATE_INVOICE_DETAIL,
+  CREATE_PRE_CONVERSION_INVOICE_DETAIL,
   DELETE_INVOICE_DETAIL,
+  DELETE_PRE_CONVERSION_INVOIVE_DETAIL,
   EXPORT_INVOICE_PDF,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ACCOUNT_OPTIONS,
@@ -15,13 +17,21 @@ import {
   SAVE_EMAIL_SETTINGS,
   SEND_EMAIL,
   UPDATE_INVOICE_DETAIL,
+  UPDATE_PRE_CONVERSION_INVOICE_DETAIL,
   UPLOAD_EMAIL_ATTACHMENT,
 } from '../InvoiceIntents';
-import { getBusinessId, getIsCreating, getIsTaxInclusive } from './selectors/invoiceDetailSelectors';
+import {
+  getBusinessId,
+  getIsCreating,
+  getIsTaxInclusive,
+} from './selectors/invoiceDetailSelectors';
 import {
   getCreateOrUpdateInvoicePayload,
   getCreateOrUpdateInvoiceUrlParams,
+  getCreateOrUpdatePreConversionPayload,
+  getCreateOrUpdatePreConversionUrlParams,
   getDeleteInvoiceUrlParams,
+  getDeletePreConversionInvoiceUrlParams,
   getInvoiceHistoryUrlParams,
   getLoadAddedAccountUrlParams,
   getLoadAddedContactUrlParams,
@@ -90,6 +100,39 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
 
     const intent = DELETE_INVOICE_DETAIL;
     const urlParams = getDeleteInvoiceUrlParams(state);
+
+    integration.write({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  createOrUpdatePreConversionInvoice: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const isCreating = getIsCreating(state);
+
+    const intent = isCreating
+      ? CREATE_PRE_CONVERSION_INVOICE_DETAIL
+      : UPDATE_PRE_CONVERSION_INVOICE_DETAIL;
+    const urlParams = getCreateOrUpdatePreConversionUrlParams(state);
+    const content = getCreateOrUpdatePreConversionPayload(state);
+
+    integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  deletePreConversionInvoice: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = DELETE_PRE_CONVERSION_INVOIVE_DETAIL;
+    const urlParams = getDeletePreConversionInvoiceUrlParams(state);
 
     integration.write({
       intent,

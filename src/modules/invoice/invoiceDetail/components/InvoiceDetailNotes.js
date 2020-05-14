@@ -2,7 +2,7 @@ import { Combobox, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getInvoiceDetailNotes, getIsReadOnlyLayout } from '../selectors/invoiceDetailSelectors';
+import { getInvoiceDetailNotes, getIsPreConversion, getIsReadOnlyLayout } from '../selectors/invoiceDetailSelectors';
 import handleTextAreaChange from '../../../../components/handlers/handleTextAreaChange';
 import styles from './InvoiceDetailView.module.css';
 
@@ -11,11 +11,12 @@ const onNoteChange = handler => ({ value }) => {
 };
 
 const InvoiceDetailNotes = ({
+  isPreConversion,
   isReadOnlyLayout,
   note,
   commentOptions,
   onUpdateHeaderOptions,
-}) => (
+}) => (isPreConversion ? (
   <div className={styles.notes}>
     <Combobox
       name="note"
@@ -40,11 +41,12 @@ const InvoiceDetailNotes = ({
       maxLength={255}
     />
   </div>
-);
+) : <div />);
 
 const mapStateToProps = state => ({
   ...getInvoiceDetailNotes(state),
   isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isPreConversion: getIsPreConversion(state),
 });
 
 export default connect(mapStateToProps)(InvoiceDetailNotes);

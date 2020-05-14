@@ -2,8 +2,14 @@ import { LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsInvoiceJobColumnEnabled, getTableData, getTaxCodeLabel } from '../../selectors/invoiceDetailSelectors';
+import {
+  getIsInvoiceJobColumnEnabled,
+  getIsPreConversion,
+  getTableData,
+  getTaxCodeLabel,
+} from '../../selectors/invoiceDetailSelectors';
 import InvoiceServiceTableRow from './InvoiceServiceTableRow';
+import styles from './InvoiceServiceTable.module.css';
 
 const InvoiceServiceTable = ({
   tableData,
@@ -19,6 +25,7 @@ const InvoiceServiceTable = ({
     onLoadJobs,
   },
   isInvoiceJobColumnEnabled,
+  isPreConversion,
 }) => {
   const descriptionLabel = 'Description';
   const accountLabel = 'Account';
@@ -88,18 +95,20 @@ const InvoiceServiceTable = ({
   );
 
   return (
-    <LineItemTable
-      labels={labels}
-      columnConfig={columnConfig}
-      headerItems={headerItems}
-      renderRow={renderRow}
-      data={tableData}
-      onAddRow={onAddRow}
-      onRowChange={onUpdateRow}
-      onRemoveRow={onRemoveRow}
-    >
-      {footer}
-    </LineItemTable>
+    <div className={isPreConversion ? styles.table__hideNewRow : ''}>
+      <LineItemTable
+        labels={labels}
+        columnConfig={columnConfig}
+        headerItems={headerItems}
+        renderRow={renderRow}
+        data={tableData}
+        onAddRow={onAddRow}
+        onRowChange={onUpdateRow}
+        onRemoveRow={onRemoveRow}
+      >
+        {footer}
+      </LineItemTable>
+    </div>
   );
 };
 
@@ -107,6 +116,7 @@ const mapStateToProps = state => ({
   tableData: getTableData(state),
   taxCodeLabel: getTaxCodeLabel(state),
   isInvoiceJobColumnEnabled: getIsInvoiceJobColumnEnabled(state),
+  isPreConversion: getIsPreConversion(state),
 });
 
 export default connect(mapStateToProps)(InvoiceServiceTable);

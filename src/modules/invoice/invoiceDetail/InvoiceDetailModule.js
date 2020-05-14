@@ -12,10 +12,12 @@ import {
   getContactModalContext,
   getContextForInventoryModal,
   getInvoiceId,
+  getIsBeforeConversionDate,
   getIsCreating,
   getIsLineAmountDirty,
   getIsModalActionDisabled,
   getIsPageEdited,
+  getIsPreConversion,
   getIsSubmitting,
   getIsTableEmpty,
   getModalType,
@@ -48,6 +50,7 @@ import SaveActionType from './types/SaveActionType';
 import Store from '../../../store/Store';
 import createInvoiceDetailDispatcher from './createInvoiceDetailDispatcher';
 import createInvoiceDetailIntegrator from './createInvoiceDetailIntegrator';
+import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 import invoiceDetailReducer from './reducer/invoiceDetailReducer';
 import keyMap from '../../../hotKeys/keyMap';
 import openBlob from '../../../common/blobOpener/openBlob';
@@ -145,7 +148,8 @@ export default class InvoiceDetailModule {
   }
 
   createOrUpdateInvoice = ({ onSuccess }) => {
-    if (getIsSubmitting(this.store.getState())) return;
+    const state = this.store.getState();
+    if (getIsSubmitting(state)) return;
 
     this.dispatcher.setSubmittingState(true);
 
@@ -163,7 +167,14 @@ export default class InvoiceDetailModule {
       }
     };
 
-    this.integrator.createOrUpdateInvoice({ onSuccess: onSuccessInterceptor, onFailure });
+    if (getIsPreConversion(state)) {
+      this.integrator.createOrUpdatePreConversionInvoice({
+        onSuccess: onSuccessInterceptor,
+        onFailure,
+      });
+    } else {
+      this.integrator.createOrUpdateInvoice({ onSuccess: onSuccessInterceptor, onFailure });
+    }
   }
 
   handleSaveInvoice = () => {
@@ -285,10 +296,17 @@ export default class InvoiceDetailModule {
       this.displayFailureAlert(message);
     };
 
-    this.integrator.deleteInvoice({
-      onSuccess,
-      onFailure,
-    });
+    if (getIsPreConversion(this.store.getState())) {
+      this.integrator.deletePreConversionInvoice({
+        onSuccess,
+        onFailure,
+      });
+    } else {
+      this.integrator.deleteInvoice({
+        onSuccess,
+        onFailure,
+      });
+    }
   }
 
   redirectToInvoiceList = () => {
@@ -947,6 +965,31 @@ export default class InvoiceDetailModule {
     this.integrator.loadContacts({ keywords, onSuccess, onFailure });
   };
 
+  validateIssueDate = () => {
+    if (getIsBeforeConversionDate(this.store.getState())) {
+      this.openPreConversionModal();
+    }
+  }
+
+  openPreConversionModal = () => {
+    this.dispatcher.setModalType(InvoiceDetailModalType.CREATE_PRE_CONVERSION_INVOICE);
+  }
+
+  dismissPreConversionModal = () => {
+    this.dispatcher.updateHeaderOptions('issueDate', formatIsoDate(new Date()));
+    this.closeModal();
+  }
+
+  displayPreConversionAlert = () => this.dispatcher.setShowPreConversionAlert(true);
+
+  dismissPreConversionAlert = () => this.dispatcher.setShowPreConversionAlert(false);
+
+  convertToPreConversionInvoice = () => {
+    this.dispatcher.convertToPreConversionInvoice();
+    this.closeModal();
+    this.displayPreConversionAlert();
+  }
+
   render = () => {
     const accountModal = this.accountModalModule.render();
     const contactModal = this.contactModalModule.render();
@@ -1025,8 +1068,13 @@ export default class InvoiceDetailModule {
           onConfirm: this.exportPdf,
           onChange: this.dispatcher.updateExportPdfDetail,
         }}
+        preConversionModalListeners={{
+          onCancel: this.dismissPreConversionModal,
+          onConfirm: this.convertToPreConversionInvoice,
+        }}
         contactModal={contactModal}
         onUpdateHeaderOptions={this.updateHeaderOptions}
+        onIssueDateBlur={this.validateIssueDate}
         onLoadContacts={this.loadContacts}
         onAddContactButtonClick={this.openContactModal}
         onUpdateInvoiceLayout={this.updateInvoiceLayout}
@@ -1037,6 +1085,7 @@ export default class InvoiceDetailModule {
         onClickOnRefNo={this.redirectToRefPage}
         onFocusActivityHistory={this.focusActivityHistory}
         onRedirectToCreatePayment={this.redirectToInvoicePayment}
+        onDismissPreConversionAlert={this.dismissPreConversionAlert}
       />
     );
 

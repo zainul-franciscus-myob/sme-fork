@@ -4,13 +4,16 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsCreating, getIsReadOnlyLayout, getIsSubmitting } from '../selectors/invoiceDetailSelectors';
+import {
+  getIsCreating, getIsPreConversion, getIsReadOnlyLayout, getIsSubmitting,
+} from '../selectors/invoiceDetailSelectors';
 import SaveActionType from '../types/SaveActionType';
 
 const InvoiceDetailActions = ({
   isCreating,
   isSubmitting,
   isReadOnlyLayout,
+  isPreConversion,
   listeners: {
     onSaveButtonClick,
     onSaveAndButtonClick,
@@ -147,6 +150,25 @@ const InvoiceDetailActions = ({
       />);
   }
 
+  if (isPreConversion) {
+    return (
+      <ButtonRow
+        primary={[
+          cancelButton,
+          // TODO: Show save button when create endpoint it done
+          // isCreating && saveButton,
+          // TODO: Show save button on edit view when edit endpoint it done
+          // saveButton,
+        ]}
+        secondary={[
+          // TODO: Uncomment when delete endpoint is done
+          // !isCreating && deleteButton,
+          // !isCreating && separator,
+          !isCreating && recordPaymentButton,
+        ]}
+      />);
+  }
+
   return (
     <ButtonRow
       primary={[
@@ -169,6 +191,7 @@ const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   isSubmitting: getIsSubmitting(state),
   isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isPreConversion: getIsPreConversion(state),
 });
 
 export default connect(mapStateToProps)(InvoiceDetailActions);

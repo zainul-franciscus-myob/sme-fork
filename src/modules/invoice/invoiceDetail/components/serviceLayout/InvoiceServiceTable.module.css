@@ -1,0 +1,3 @@
+.table__hideNewRow :global(.line-item--body .line-item__row-wrapper:last-child) {
+  display: none;
+}

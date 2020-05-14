@@ -1,6 +1,8 @@
 import {
   CREATE_INVOICE_DETAIL,
+  CREATE_PRE_CONVERSION_INVOICE_DETAIL,
   DELETE_INVOICE_DETAIL,
+  DELETE_PRE_CONVERSION_INVOIVE_DETAIL,
   EXPORT_INVOICE_PDF,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ACCOUNT_OPTIONS,
@@ -22,6 +24,7 @@ import {
   SEND_EMAIL,
   SORT_AND_FILTER_INVOICE_LIST,
   UPDATE_INVOICE_DETAIL,
+  UPDATE_PRE_CONVERSION_INVOICE_DETAIL,
   UPLOAD_EMAIL_ATTACHMENT,
 } from '../InvoiceIntents';
 import contactAddress from './data/contactAddress';
@@ -106,6 +109,9 @@ const MemoryInvoiceMapping = {
   [LOAD_CONTACT_OPTIONS]: ({ onSuccess }) => onSuccess(loadContactOptions),
   [LOAD_ITEM_SELLING_DETAILS]: ({ onSuccess }) => onSuccess(loadItemSellingDetailsResponse),
   [LOAD_NEXT_PAGE]: ({ onSuccess }) => onSuccess(invoiceListFilterResponse),
+  [CREATE_PRE_CONVERSION_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess({ ...successResponse, id: '1' }),
+  [UPDATE_PRE_CONVERSION_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
+  [DELETE_PRE_CONVERSION_INVOIVE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
 };
 
 export default MemoryInvoiceMapping;

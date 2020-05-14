@@ -15,10 +15,11 @@ const InvoiceDetailTotals = ({
   amountPaid,
   amountDue,
   isCreating,
+  isPreConversion,
   onChange,
   taxLabel,
 }) => {
-  const amountPaidInputLine = isCreating ? (
+  const amountPaidInputLine = (isCreating || isPreConversion) ? (
     <LineItemTableTotalsInput
       name="amountPaid"
       label="Amount paid ($)"

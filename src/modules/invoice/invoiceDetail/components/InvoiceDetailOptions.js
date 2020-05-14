@@ -1,6 +1,5 @@
 import {
   Alert,
-  DatePicker,
   DetailHeader,
   Input,
   RadioButtonGroup,
@@ -9,8 +8,15 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getInvoiceDetailOptions, getIsReadOnlyLayout, getReadOnlyMessage } from '../selectors/invoiceDetailSelectors';
+import {
+  getInvoiceDetailOptions,
+  getIsPreConversion,
+  getIsReadOnlyLayout,
+  getReadOnlyMessage,
+  getShowPreConversionAlert,
+} from '../selectors/invoiceDetailSelectors';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
+import DatePicker from '../../../../components/DatePicker/DatePicker';
 import InvoiceDetailOnlinePaymentMethod from './InvoiceDetailOnlinePaymentMethod';
 import PaymentTerms from '../../../../components/PaymentTerms/PaymentTerms';
 import handleDateChange from '../../../../components/handlers/handleDateChange';
@@ -34,9 +40,13 @@ const InvoiceDetailOptions = ({
   taxInclusiveLabel,
   taxExclusiveLabel,
   onUpdateHeaderOptions,
+  onIssueDateBlur,
   onAddContactButtonClick,
   isReadOnlyLayout,
   readOnlyMessage,
+  isPreConversion,
+  showPreConversionAlert,
+  onDismissPreConversionAlert,
 }) => {
   const onComboBoxChange = handler => (option) => {
     const key = 'contactId';
@@ -98,10 +108,11 @@ const InvoiceDetailOptions = ({
       <DatePicker
         label="Issue date"
         requiredLabel={requiredLabel}
-        name="issueDate"
         value={issueDate}
-        disabled={isReadOnlyLayout}
+        disabled={isReadOnlyLayout || isPreConversion}
+        disabledMessage="You can't change the date of a historical invoice."
         onSelect={handleDateChange('issueDate', onUpdateHeaderOptions)}
+        onBlur={onIssueDateBlur}
       />
       <PaymentTerms
         disabled={isReadOnlyLayout}
@@ -123,9 +134,18 @@ const InvoiceDetailOptions = ({
         value={isTaxInclusive ? taxInclusiveLabel : taxExclusiveLabel}
         options={[taxInclusiveLabel, taxExclusiveLabel]}
         onChange={onIsTaxInclusiveChange(onUpdateHeaderOptions)}
-        disabled={isSubmitting || isReadOnlyLayout}
+        disabled={isSubmitting || isReadOnlyLayout || isPreConversion}
       />
     </div>
+  );
+
+  const preConversionAlert = showPreConversionAlert && (
+    <Alert type="info" onDismiss={onDismissPreConversionAlert}>
+      {
+        `Invoices dated before your opening balance month will not automatically update account balances.
+        Remember to include the invoice amounts in the respective account's opening balance`
+      }
+    </Alert>
   );
 
   const readOnlyWarning = (
@@ -136,7 +156,8 @@ const InvoiceDetailOptions = ({
 
   return (
     <div className={styles.options}>
-      { isReadOnlyLayout && readOnlyWarning }
+      {isReadOnlyLayout && readOnlyWarning}
+      {preConversionAlert}
       <DetailHeader primary={primary} secondary={secondary} />
     </div>
   );
@@ -144,8 +165,10 @@ const InvoiceDetailOptions = ({
 
 const mapStateToProps = state => ({
   ...getInvoiceDetailOptions(state),
-  isReadOnlyLayout: getIsReadOnlyLayout(state),
   readOnlyMessage: getReadOnlyMessage(state),
+  isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isPreConversion: getIsPreConversion(state),
+  showPreConversionAlert: getShowPreConversionAlert(state),
 });
 
 export default connect(mapStateToProps)(InvoiceDetailOptions);
