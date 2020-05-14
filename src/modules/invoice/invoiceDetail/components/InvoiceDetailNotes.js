@@ -16,7 +16,7 @@ const InvoiceDetailNotes = ({
   note,
   commentOptions,
   onUpdateHeaderOptions,
-}) => (isPreConversion ? (
+}) => (isPreConversion ? <div /> : (
   <div className={styles.notes}>
     <Combobox
       name="note"
@@ -41,7 +41,7 @@ const InvoiceDetailNotes = ({
       maxLength={255}
     />
   </div>
-) : <div />);
+));
 
 const mapStateToProps = state => ({
   ...getInvoiceDetailNotes(state),
