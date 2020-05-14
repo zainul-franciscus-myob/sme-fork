@@ -21,13 +21,26 @@ We need `node` and `yarn` to install and run our project.
 We need to login to the private registry located at [`https://npm.myob.com/npm/`](https://npm.myob.com/npm/) before installing our dependencies.
 
 1. Ask [`#tr-platform-enable`](https://myob.slack.com/archives/C3F2M5NFP) for access to the private registry
-1. Login to the regsitry
+1. Login to the registry
     ```sh
     npm login --registry=https://npm.myob.com/npm/ --scope=@myob --always-auth
     ```
     * `username` will be your `cloudsmith.io` username
     * `password` will be your [`cloudsmith.io` api key](https://cloudsmith.io/user/settings/api/)
     * `email` should be your `@myob.com` email
+1. After logging in, an `.npmrc` will be generated in your `$HOME` directory
+    ```bash
+    cat ~/.npmrc
+    ```
+    It should have the following two lines:
+
+    ```txt
+    @myob:registry=https://npm.myob.com/npm/
+    //npm.myob.com/npm/:_authToken=YOUR_TOKEN
+    ```
+    * Ensure `@myob` resolves to `https://npm.myob.com/npm/` and there are no conflicting rules
+
+    If it does not have the following - delete the `.npmrc` file and login to the registry again.
 1. Install packages
     ```sh
     yarn install
