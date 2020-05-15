@@ -13,6 +13,8 @@ const EmployeeRecalculatePayTableRows = ({
   onChange,
   onBlur,
   shouldShowTableRows,
+  isPayrollJobColumnEnabled,
+  onAddJob,
 }) => {
   const headerRow = (
     <Table.Row key={name}>
@@ -29,6 +31,8 @@ const EmployeeRecalculatePayTableRows = ({
       entry={entry}
       onChange={onChange}
       onBlur={onBlur}
+      isPayrollJobColumnEnabled={isPayrollJobColumnEnabled}
+      onAddJob={onAddJob}
     />
   ));
 

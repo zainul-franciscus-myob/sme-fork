@@ -1,5 +1,6 @@
 import {
   DELETE_PAY_RUN_DRAFT,
+  GET_DETAIL_JOB_LIST,
   LOAD_EMPLOYEE_PAYS,
   LOAD_STP_REGISTRATION_STATUS,
   LOAD_TIMESHEETS,
@@ -47,6 +48,10 @@ const PayRunMapping = {
   [VALIDATE_PAY_PERIOD_EMPLOYEE_LIMIT]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/payRun/validate_pay_period_employee_limit`,
+  },
+  [GET_DETAIL_JOB_LIST]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/job/load_detail_job_list`,
   },
   [EXPORT_TRANSACTION_PDF]: {
     method: 'GET',

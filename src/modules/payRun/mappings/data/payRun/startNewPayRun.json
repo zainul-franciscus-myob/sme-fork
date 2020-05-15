@@ -48,7 +48,13 @@
             "type": "SalaryWage",
             "stpCategory": "GrossPayments",
             "amount": "100000.00",
-            "hours": "0.00"
+            "hours": "0.00",
+            "jobs": [
+              {
+                "jobId": "1",
+                "amount": "19.00"
+              }
+            ]
           },
           {
             "payItemId": 2,
@@ -56,7 +62,21 @@
             "type": "HourlyWage",
             "stpCategory": "GrossPayments",
             "amount": "20000",
-            "hours": "38.50"
+            "hours": "38.50",
+            "jobs": [
+              {
+                "jobId": "4",
+                "amount": "10.00"
+              },
+              {
+                "jobId": "2",
+                "amount": "12.00"
+              },
+              {
+                "jobId": "6",
+                "amount": "13.00"
+              }
+            ]
           }
         ]
       },
@@ -75,7 +95,8 @@
             "type": "HourlyWage",
             "stpCategory": "GrossPayments",
             "amount": "0.00",
-            "hours": "0.00"
+            "hours": "0.00",
+            "jobs": []
           },
           {
             "payItemId": 4,
@@ -83,7 +104,8 @@
             "type": "HourlyWage",
             "stpCategory": "GrossPayments",
             "amount": "0.00",
-            "hours": "0.00"
+            "hours": "0.00",
+            "jobs": []
           }
         ]
       }

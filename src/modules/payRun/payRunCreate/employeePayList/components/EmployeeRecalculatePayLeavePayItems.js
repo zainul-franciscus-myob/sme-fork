@@ -14,6 +14,8 @@ const EmployeeRecalculatePayLeavePayItems = ({
   onEmployeePayItemChange,
   onEmployeePayItemBlur,
   shouldShowTableRows,
+  isPayrollJobColumnEnabled,
+  onAddJob,
 }) => (
   <EmployeeRecalculatePayTableRows
     name="leave"
@@ -25,6 +27,8 @@ const EmployeeRecalculatePayLeavePayItems = ({
     onChange={onEmployeePayItemChange}
     onBlur={onEmployeePayItemBlur}
     shouldShowTableRows={shouldShowTableRows}
+    isPayrollJobColumnEnabled={isPayrollJobColumnEnabled}
+    onAddJob={onAddJob}
   />
 );
 

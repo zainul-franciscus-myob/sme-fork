@@ -3,9 +3,12 @@ import {
   getDeductionPayItemEntries,
   getEmployerExpensePayItemEntries,
   getIsPartiallySelected,
+  getJobAmount,
+  getJobsSelectStatus,
   getLeavePayItemEntries,
   getLeaveWarning,
   getRecalculatePayPayload,
+  getSelectedPayItemJobs,
   getShouldShowDeductionPayItemTableRows,
   getShouldShowExpensePayItemTableRows,
   getShouldShowLeavePayItemTableRows,
@@ -805,6 +808,179 @@ describe('EmployeePayListSelectors', () => {
           expect(actual).toEqual(null);
         });
       });
+    });
+  });
+
+  describe('Payitem jobs', () => {
+    let state = {
+      recordedPayments: {
+        printPaySlipEmployees: [],
+        emailPaySlipEmployees: [],
+      },
+      employeePayList: {
+        stpRegistrationStatus: 'lostConnection',
+        jobs: [
+          {
+            id: 1,
+            name: 'Test Job 1',
+            number: '00001',
+          },
+          {
+            id: 2,
+            name: 'Test Job 2',
+            number: '00002',
+          },
+          {
+            id: 3,
+            name: 'Test Job 3',
+            number: '00003',
+          },
+        ],
+        selectedPayItem: {
+          payItemId: '38',
+          amount: 100.00,
+          jobs: [
+            {
+              jobId: 1,
+              amount: '10.00',
+            },
+            {
+              jobId: 2,
+              amount: '20.00',
+            },
+          ],
+        },
+        lines: [
+          {
+            employeeId: 21,
+            payItems: [{
+              payItemId: '38',
+              jobs: [
+                {
+                  jobId: 1,
+                  amount: 10,
+                },
+                {
+                  jobId: 2,
+                  amount: 20,
+                },
+              ],
+            }, { payItemId: '39', jobs: [] }],
+            isSelected: false,
+          },
+          {
+            employeeId: 23,
+            payItems: [{ payItemId: '39', jobs: [] }, { payItemId: '40', jobs: [] }],
+            isSelected: true,
+          },
+          {
+            employeeId: 25,
+            payItems: [{ payItemId: '39', jobs: [] }, { payItemId: '40', jobs: [] }],
+            isSelected: true,
+          },
+        ],
+        originalLines: [
+          {
+            employeeId: 21,
+            payItems: [{ payItemId: '38', jobs: [] }, { payItemId: '39', jobs: [] }],
+            isSelected: false,
+          },
+          {
+            employeeId: 23,
+            payItems: [{ payItemId: '39', jobs: [] }, { payItemId: '40', jobs: [] }],
+            isSelected: true,
+          },
+          {
+            employeeId: 25,
+            payItems: [{ payItemId: '39', jobs: [] }, { payItemId: '40', jobs: [] }],
+            isSelected: true,
+          },
+        ],
+      },
+    };
+
+    it('getJobAmount should return expected amount', () => {
+      const amount = getJobAmount(state);
+      const expected = {
+        total: 100,
+        allocated: 30,
+        unallocated: 70,
+        formatedAllocated: '30.00',
+        formatedUnallocated: '70.00',
+        allocatedPercent: '30.00',
+        unallocatedPercent: '70.00',
+      };
+      expect(amount).toEqual(expected);
+    });
+
+    it('getSelectedPayItemJobs should return exptected list of jobs', () => {
+      const selectedJobs = getSelectedPayItemJobs(state);
+
+      const expectedSelectedJobs = [{
+        id: 1,
+        name: 'Test Job 1',
+        number: '00001',
+        isSelected: true,
+        amount: '10.00',
+      },
+      {
+        id: 2,
+        name: 'Test Job 2',
+        number: '00002',
+        isSelected: true,
+        amount: '20.00',
+      },
+      {
+        id: 3,
+        name: 'Test Job 3',
+        number: '00003',
+        isSelected: false,
+        amount: '0.00',
+      },
+      ];
+
+      expect(selectedJobs).toEqual(expectedSelectedJobs);
+    });
+
+    it('getJobsSelectStatus should return indeterminate', () => {
+      const isAllJobsSelected = getJobsSelectStatus(state);
+      expect(isAllJobsSelected).toEqual('indeterminate');
+    });
+
+    it('getJobsSelectStatus should return checked', () => {
+      state = {
+        ...state,
+        employeePayList: {
+          ...state.employeePayList,
+          selectedPayItem: {
+            ...state.employeePayList.selectedPayItem,
+            jobs: [
+              ...state.employeePayList.selectedPayItem.jobs,
+              {
+                jobId: 3,
+                amount: 20,
+              },
+            ],
+          },
+        },
+      };
+      const isAllJobsSelected = getJobsSelectStatus(state);
+      expect(isAllJobsSelected).toEqual('checked');
+    });
+
+    it('getJobsSelectStatus should return empty', () => {
+      state = {
+        ...state,
+        employeePayList: {
+          ...state.employeePayList,
+          selectedPayItem: {
+            ...state.employeePayList.selectedPayItem,
+            jobs: [],
+          },
+        },
+      };
+      const isAllJobsSelected = getJobsSelectStatus(state);
+      expect(isAllJobsSelected).toEqual('');
     });
   });
 });

@@ -2,10 +2,16 @@ import {
   CHANGE_ETP_CODE,
   CHANGE_ETP_CODE_CATEGORY,
   CLOSE_ETP_MODAL,
+  CLOSE_JOB_LIST_MODAL,
+  EDIT_PAY_ITEM_JOBS,
   FORMAT_EMPLOYEE_PAY_ITEM,
+  GET_DETAIL_JOB_LIST,
   OPEN_ETP_MODAL,
+  OPEN_JOB_LIST_MODAL,
   SAVE_ETP,
+  SAVE_PAY_ITEM_JOBS,
   SET_EMPLOYEE_PAY_LIST_UNSAVED_MODAL,
+  SET_JOB_LIST_MODAL_LOADING_STATE,
   SET_PAY_ITEM_LINE_DIRTY,
   SET_TOTAL_NET_PAY,
   SET_UPGRADE_MODAL_SHOWING,
@@ -52,12 +58,25 @@ const createEmployeePayListDispatcher = store => ({
     });
   },
 
-
   setTotalNetPay: (totalNetPay) => {
     const intent = SET_TOTAL_NET_PAY;
     store.dispatch({
       intent,
       totalNetPay,
+    });
+  },
+
+  openJobListModal: ({ payItem, employeeId }) => {
+    store.dispatch({
+      intent: OPEN_JOB_LIST_MODAL,
+      payItem,
+      employeeId,
+    });
+  },
+
+  closeJobListModal: () => {
+    store.dispatch({
+      intent: CLOSE_JOB_LIST_MODAL,
     });
   },
 
@@ -80,6 +99,21 @@ const createEmployeePayListDispatcher = store => ({
     });
   },
 
+  editPayItemJobs: (payItem) => {
+    store.dispatch({
+      intent: EDIT_PAY_ITEM_JOBS,
+      payItem,
+    });
+  },
+
+  savePayItemJobs: (payItem, employeeId) => {
+    store.dispatch({
+      intent: SAVE_PAY_ITEM_JOBS,
+      payItem,
+      employeeId,
+    });
+  },
+
   updatePayPeriodEmployeeLimit: payPeriodEmployeeLimit => (
     store.dispatch({
       intent: UPDATE_PAY_PERIOD_EMPLOYEE_LIMIT,
@@ -91,6 +125,13 @@ const createEmployeePayListDispatcher = store => ({
     store.dispatch({
       intent: SET_PAY_ITEM_LINE_DIRTY,
       isDirty,
+    });
+  },
+
+  setJobListModalLoadingState: (loadingState) => {
+    store.dispatch({
+      intent: SET_JOB_LIST_MODAL_LOADING_STATE,
+      loadingState,
     });
   },
 
@@ -140,6 +181,10 @@ const createEmployeePayListDispatcher = store => ({
       intent: SET_EMPLOYEE_PAY_LIST_UNSAVED_MODAL,
       isOpen,
     });
+  },
+
+  loadDetailJobList: (payload) => {
+    store.dispatch({ intent: GET_DETAIL_JOB_LIST, ...payload });
   },
 });
 

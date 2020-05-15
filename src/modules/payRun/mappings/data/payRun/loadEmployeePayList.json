@@ -18,7 +18,8 @@
           "type": "SalaryWage",
           "stpCategory": "GrossPayments",
           "amount": "100000.00",
-          "hours": "0.00"
+          "hours": "0.00",
+          "jobs": []
         },
         {
           "payItemId": 2,
@@ -26,7 +27,8 @@
           "type": "HourlyWage",
           "stpCategory": "GrossPayments",
           "amount": "20000",
-          "hours": "38.50"
+          "hours": "38.50",
+          "jobs": []
         },
         {
           "payItemId": 3,
@@ -34,7 +36,8 @@
           "type": "HourlyWage",
           "stpCategory": "GrossPayments",
           "amount": "0.00",
-          "hours": "0.00"
+          "hours": "0.00",
+          "jobs": []
         },
         {
           "payItemId": 4,
@@ -42,7 +45,8 @@
           "type": "HourlyWage",
           "stpCategory": "GrossPayments",
           "amount": "0.00",
-          "hours": "0.00"
+          "hours": "0.00",
+          "jobs": []
         },
         {
           "payItemId": 5,
@@ -50,7 +54,8 @@
           "type": "Deduction",
           "stpCategory": "NotReportable",
           "amount": "100.00",
-          "hours": "0.00"
+          "hours": "0.00",
+          "jobs": []
         },
         {
           "payItemId": 6,
@@ -58,7 +63,8 @@
           "type": "SuperannuationDeductionBeforeTax",
           "stpCategory": "NotReportable",
           "amount": "200.00",
-          "hours": "0.00"
+          "hours": "0.00",
+          "jobs": []
         },
         {
           "payItemId": 7,
@@ -66,7 +72,8 @@
           "type": "SuperannuationDeductionAfterTax",
           "stpCategory": "NotReportable",
           "amount": "100.00",
-          "hours": "0.00"
+          "hours": "0.00",
+          "jobs": []
         },
         {
           "payItemId": 8,
@@ -74,7 +81,8 @@
           "type": "Deduction",
           "stpCategory": "NotReportable",
           "amount": "5000.00",
-          "hours": "0.00"
+          "hours": "0.00",
+          "jobs": []
         },
         {
           "payItemId": 9,
@@ -82,7 +90,8 @@
           "type": "Entitlement",
           "stpCategory": "NotReportable",
           "amount": "0.00",
-          "hours": "30.00"
+          "hours": "30.00",
+          "jobs": []
         },
         {
           "payItemId": 10,
@@ -90,7 +99,8 @@
           "type": "Entitlement",
           "stpCategory": "NotReportable",
           "amount": "0.00",
-          "hours": "30.00"
+          "hours": "30.00",
+          "jobs": []
         }
       ]
     },
@@ -109,7 +119,8 @@
           "type": "SalaryWage",
           "stpCategory": "ETPTaxableComponent",
           "amount": "200000.00",
-          "hours": "0.00"
+          "hours": "0.00",
+          "jobs": []
         },
         {
           "payItemId": 22,
@@ -117,7 +128,8 @@
           "type": "HourlyWage",
           "stpCategory": "ETPTaxableComponent",
           "amount": "0.00",
-          "hours": "100.50"
+          "hours": "100.50",
+          "jobs": []
         },
         {
           "payItemId": 33,
@@ -125,7 +137,8 @@
           "type": "Deduction",
           "stpCategory": "ETPTaxableComponent",
           "amount": "200.00",
-          "hours": "0.00"
+          "hours": "0.00",
+          "jobs": []
         },
         {
           "payItemId": 44,
@@ -133,7 +146,8 @@
           "type": "Entitlement",
           "stpCategory": "ETPTaxableComponent",
           "amount": "0.00",
-          "hours": "50.00"
+          "hours": "50.00",
+          "jobs": []
         },
         {
           "payItemId": 55,
@@ -141,7 +155,8 @@
           "type": "Entitlement",
           "stpCategory": "ETPTaxableComponent",
           "amount": "0.00",
-          "hours": "40.00"
+          "hours": "40.00",
+          "jobs": []
         },
         {
           "payItemId": 66,
@@ -149,7 +164,8 @@
           "type": "Expense",
           "stpCategory": "ETPTaxableComponent",
           "amount": "1000000.00",
-          "hours": "0.00"
+          "hours": "0.00",
+          "jobs": []
         },
         {
           "payItemId": 77,
@@ -157,7 +173,8 @@
           "type": "Tax",
           "stpCategory": "ETPTaxableComponent",
           "amount": "222333.00",
-          "hours": "0.00"
+          "hours": "0.00",
+          "jobs": []
         }
       ]
     }

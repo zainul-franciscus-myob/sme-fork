@@ -101,12 +101,21 @@ const getSelectedEmployeeIds = state => (
 );
 
 const getEmployeePays = state => (state.employeePayList.originalLines);
+const getEmployeePayLines = state => (state.employeePayList.lines);
 const getUnprocessedTimesheetLines = state => state.unprocessedTimesheetLines;
 
 export const getSaveDraftContent = state => ({
   ...state.startPayRun.currentEditingPayRun,
   selectedEmployeeIds: getSelectedEmployeeIds(state),
-  employeePays: getEmployeePays(state),
+  employeePays: getEmployeePays(state).map(employeePay => ({
+    ...employeePay,
+    payItems: employeePay.payItems.map(payItem => ({
+      ...payItem,
+      jobs: getEmployeePayLines(state)
+        .find(q => q.employeeId === employeePay.employeeId)?.payItems
+        .find(q => q.payItemId === payItem.payItemId)?.jobs,
+    })),
+  })),
   unprocessedTimesheetSelections: getUnprocessedTimesheetLines(state),
 });
 

@@ -38,6 +38,7 @@ const EmployeePayTable = ({
   onOpenEtpModal,
   onEmployeePayItemChange,
   onEmployeePayItemBlur,
+  onAddJob,
 }) => (
     <Card>
       <div className={styles.employeePayTable}>
@@ -107,6 +108,7 @@ const EmployeePayTable = ({
                   employeeName={line.name}
                   onEmployeePayItemChange={onEmployeePayItemChange}
                   onEmployeePayItemBlur={onEmployeePayItemBlur}
+                  onAddJob={onAddJob}
                 />
               </Table.CollapsibleRow>
             ))}

@@ -1,5 +1,6 @@
 import {
   DELETE_PAY_RUN_DRAFT,
+  GET_DETAIL_JOB_LIST,
   LOAD_EMPLOYEE_PAYS,
   LOAD_STP_REGISTRATION_STATUS,
   LOAD_TIMESHEETS,
@@ -14,6 +15,7 @@ import {
   VALIDATE_STP_REGISTRATION,
 } from '../payRunCreate/PayRunIntents';
 import { EXPORT_TRANSACTION_PDF } from '../payRunIntents';
+import detailJobList from './data/payRun/detailJobList';
 import loadEmployeePayList from './data/payRun/loadEmployeePayList';
 import loadTimesheets from './data/payRun/loadTimesheets';
 import recalculatedEmployeePay from './data/payRun/recalculatedEmployeePay';
@@ -33,6 +35,7 @@ const PayRunMapping = {
   ),
   [RECALCULATE_PAY]: ({ onSuccess }) => onSuccess(recalculatedEmployeePay),
   [RECORD_PAYMENTS]: ({ onSuccess }) => onSuccess(recordPayments),
+  [GET_DETAIL_JOB_LIST]: ({ onSuccess }) => onSuccess(detailJobList),
   [DELETE_PAY_RUN_DRAFT]: ({ onSuccess }) => onSuccess({}),
   [LOAD_STP_REGISTRATION_STATUS]: ({ onSuccess }) => onSuccess(stpRegistrationStatus),
   [EXPORT_TRANSACTION_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),

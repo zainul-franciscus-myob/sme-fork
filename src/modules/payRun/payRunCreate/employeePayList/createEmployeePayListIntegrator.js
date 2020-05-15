@@ -1,4 +1,5 @@
 import {
+  GET_DETAIL_JOB_LIST,
   RECALCULATE_PAY,
   SAVE_DRAFT,
   VALIDATE_ETP,
@@ -26,6 +27,21 @@ const createEmployeePayListIntegrator = (store, integration) => ({
       intent,
       urlParams,
       content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadDetailJobList: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = GET_DETAIL_JOB_LIST;
+
+    const businessId = getBusinessId(state);
+    const urlParams = { businessId };
+
+    integration.read({
+      intent,
+      urlParams,
       onSuccess,
       onFailure,
     });

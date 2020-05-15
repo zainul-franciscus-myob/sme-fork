@@ -11,7 +11,10 @@ describe('StartPayRunModule', () => {
   const constructModule = (integration) => {
     const pushMessage = () => { };
     const setRootView = () => (<div />);
-    const payRunModule = new PayRunModule({ integration, setRootView, pushMessage });
+    const isToggleOn = () => true;
+    const payRunModule = new PayRunModule({
+      integration, setRootView, pushMessage, isToggleOn,
+    });
 
     const startPayRunModule = new StartPayRunModule({
       integration, store: payRunModule.store, pushMessage,

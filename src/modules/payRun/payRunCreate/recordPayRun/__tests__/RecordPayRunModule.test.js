@@ -17,9 +17,10 @@ describe('RecordPayRunModule', () => {
     };
     const pushMessage = () => {};
     const setRootView = () => (<div />);
+    const isToggleOn = () => true;
 
     const payRunModule = new PayRunModule({
-      integration, setRootView, pushMessage,
+      integration, setRootView, pushMessage, isToggleOn,
     });
 
     const recordPayRunModule = new RecordPayRunModule({

@@ -15,6 +15,8 @@ const EmployeeRecalculatePayWagePayItems = ({
   onEmployeePayItemChange,
   onEmployeePayItemBlur,
   shouldShowTableRows,
+  isPayrollJobColumnEnabled,
+  onAddJob,
 }) => (
   <EmployeeRecalculatePayTableRows
     name="wage"
@@ -26,6 +28,8 @@ const EmployeeRecalculatePayWagePayItems = ({
     onChange={onEmployeePayItemChange}
     onBlur={onEmployeePayItemBlur}
     shouldShowTableRows={shouldShowTableRows}
+    isPayrollJobColumnEnabled={isPayrollJobColumnEnabled}
+    onAddJob={onAddJob}
   />
 );
 

@@ -2,11 +2,17 @@ import {
   CHANGE_ETP_CODE,
   CHANGE_ETP_CODE_CATEGORY,
   CLOSE_ETP_MODAL,
+  CLOSE_JOB_LIST_MODAL,
+  EDIT_PAY_ITEM_JOBS,
   FORMAT_EMPLOYEE_PAY_ITEM,
+  GET_DETAIL_JOB_LIST,
   LOAD_EMPLOYEE_PAYS,
   OPEN_ETP_MODAL,
+  OPEN_JOB_LIST_MODAL,
   SAVE_ETP,
+  SAVE_PAY_ITEM_JOBS,
   SET_EMPLOYEE_PAY_LIST_UNSAVED_MODAL,
+  SET_JOB_LIST_MODAL_LOADING_STATE,
   SET_PAY_ITEM_LINE_DIRTY,
   SET_UPGRADE_MODAL_SHOWING,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
@@ -16,6 +22,7 @@ import {
   UPDATE_PAY_PERIOD_EMPLOYEE_LIMIT,
   VALIDATE_ETP,
 } from '../PayRunIntents';
+import LoadingState from '../../../../components/PageView/LoadingState';
 import clearNegatives from '../clearNegativesInPayItems';
 import formatNumberWithDecimalScaleRange from '../../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 import getEmployeePayLines from '../getEmployeePayLines';
@@ -24,6 +31,9 @@ export const getEmployeePayListDefaultState = () => ({
   payPeriodEmployeeLimit: {},
   isUpgradeModalShowing: false,
   isPayItemLineDirty: false,
+  isJobListModalOpen: false,
+  jobListModalLoadingState: LoadingState.LOADING,
+  jobs: [],
   lines: [],
   originalLines: [],
   invalidEtpNames: [],
@@ -33,6 +43,8 @@ export const getEmployeePayListDefaultState = () => ({
     code: undefined,
     isOpen: false,
   },
+  selectedEmployeeId: undefined,
+  selectedPayItem: undefined,
   baseHourlyWagePayItemId: null,
   baseSalaryWagePayItemId: null,
   isPageEdited: false,
@@ -94,11 +106,51 @@ const openEtpModal = (state, { employeeId }) => ({
   },
 });
 
+const openJobListModal = (state, { payItem, employeeId }) => ({
+  ...state,
+  isJobListModalOpen: true,
+  selectedPayItem: payItem,
+  selectedEmployeeId: employeeId,
+});
+
+const closeJobListModal = (state) => ({
+  ...state,
+  isJobListModalOpen: false,
+  selectedPayItem: undefined,
+  selectedEmployeeId: undefined,
+});
+
+const getJobList = (state, action) => ({
+  ...state,
+  jobs: action.entries,
+});
+
 const closeEtpModal = state => ({
   ...state,
   etp: {
     ...getEmployeePayListDefaultState().etp,
   },
+});
+
+const editPayItemJobs = (state, { payItem }) => ({
+  ...state,
+  selectedPayItem: {
+    ...state.selectedPayItem,
+    jobs: payItem.jobs,
+  },
+});
+
+const savePayItemJobs = (state, { payItem, employeeId }) => ({
+  ...state,
+  lines: state.lines.map(line => (line.employeeId === employeeId
+    ? {
+      ...line,
+      payItems: line.payItems.map(pi => (pi.payItemId === payItem.payItemId
+        ? payItem
+        : pi)),
+    }
+    : line)),
+  isPageEdited: true,
 });
 
 const saveEtp = state => ({
@@ -192,7 +244,11 @@ const updateTheEditedEmployeePayItems = (
       ...line,
       ...recalculatedEmployeePay,
       payItems: recalculatedEmployeePay.payItems.map(
-        payItem => ({ ...payItem, isSubmitting: false }),
+        payItem => ({
+          ...payItem,
+          isSubmitting: false,
+          jobs: line.payItems.find(q => q.payItemId === payItem.payItemId)?.jobs,
+        }),
       ),
     }
     : line
@@ -223,7 +279,15 @@ const setEmployeePayListUnsavedModal = (state, { isOpen }) => ({
   unsavedModalIsOpen: isOpen,
 });
 
+const setJobListModalLoadingState = (state, { loadingState }) => ({
+  ...state,
+  jobListModalLoadingState: loadingState,
+});
+
 export const employeePayListHandlers = {
+  [SET_JOB_LIST_MODAL_LOADING_STATE]: setJobListModalLoadingState,
+  [OPEN_JOB_LIST_MODAL]: openJobListModal,
+  [CLOSE_JOB_LIST_MODAL]: closeJobListModal,
   [LOAD_EMPLOYEE_PAYS]: loadEmployeePays,
   [UPDATE_IS_EMPLOYEE_SELECTED]: updateIsEmployeeSelected,
   [UPDATE_ARE_ALL_EMPLOYEES_SELECTED]: updateAreAllEmployeesSelected,
@@ -240,4 +304,7 @@ export const employeePayListHandlers = {
   [UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION]: updateEmployeeLineAfterRecalculation,
   [SET_UPGRADE_MODAL_SHOWING]: setUpgradeModalShowing,
   [SET_EMPLOYEE_PAY_LIST_UNSAVED_MODAL]: setEmployeePayListUnsavedModal,
+  [GET_DETAIL_JOB_LIST]: getJobList,
+  [EDIT_PAY_ITEM_JOBS]: editPayItemJobs,
+  [SAVE_PAY_ITEM_JOBS]: savePayItemJobs,
 };

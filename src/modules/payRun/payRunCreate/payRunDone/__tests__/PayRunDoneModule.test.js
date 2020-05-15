@@ -11,8 +11,9 @@ describe('PayRunDoneModule', () => {
     const integration = { write: ({ onSuccess }) => { onSuccess({ message: 'success' }); } };
     const pushMessage = () => {};
     const setRootView = () => (<div />);
+    const isToggleOn = () => true;
     const payRunModule = new PayRunModule({
-      integration, setRootView, pushMessage,
+      integration, setRootView, pushMessage, isToggleOn,
     });
 
     const payRunDoneModule = new PayRunDoneModule({

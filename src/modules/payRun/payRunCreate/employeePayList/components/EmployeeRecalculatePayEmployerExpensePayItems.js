@@ -12,6 +12,8 @@ const EmployeeRecalculatePayEmployerExpensePayItems = ({
   onEmployeePayItemChange,
   onEmployeePayItemBlur,
   shouldShowTableRows,
+  isPayrollJobColumnEnabled,
+  onAddJob,
 }) => (
   <EmployeeRecalculatePayTableRows
     name="employerExpenses"
@@ -23,6 +25,8 @@ const EmployeeRecalculatePayEmployerExpensePayItems = ({
     onChange={onEmployeePayItemChange}
     onBlur={onEmployeePayItemBlur}
     shouldShowTableRows={shouldShowTableRows}
+    isPayrollJobColumnEnabled={isPayrollJobColumnEnabled}
+    onAddJob={onAddJob}
   />
 );
 

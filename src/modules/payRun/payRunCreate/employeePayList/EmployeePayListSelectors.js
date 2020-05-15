@@ -6,6 +6,16 @@ import formatNumberWithDecimalScaleRange from '../../../../common/valueFormatter
 
 const getEmployeePayLines = state => state.employeePayList.lines;
 
+export const getIsPayrollJobColumnEnabled = state => state.isPayrollJobColumnEnabled;
+
+export const getJobOptions = state => state.employeePayList.jobs;
+
+export const getSelectedEmployeeId = state => state.employeePayList.selectedEmployeeId;
+
+export const getSelectedPayItem = state => state.employeePayList.selectedPayItem;
+
+export const getJobListModalLoadingState = state => state.employeePayList.jobListModalLoadingState;
+
 export const getFormattedEmployeePayLines = createSelector(
   getEmployeePayLines,
   lines => lines.map(line => ({
@@ -71,7 +81,90 @@ export const getTotals = createSelector(
 export const getEtpCodeCategory = state => state.employeePayList.etp.category;
 export const getEtpCode = state => state.employeePayList.etp.code;
 export const getIsEtpOpen = state => state.employeePayList.etp.isOpen;
+export const getIsJobListModalOpen = state => state.employeePayList.isJobListModalOpen;
 export const getEtpEmployeeId = state => state.employeePayList.etp.employeeId;
+
+const getAmount = (array, id) => {
+  const obj = array.find(q => q.jobId === id);
+  if (!obj) {
+    return '0.00';
+  }
+
+  return obj.amount;
+};
+
+export const getSelectedPayItemJobs = createSelector(
+  getJobOptions,
+  getSelectedPayItem,
+  (jobs, payItem) => jobs.map(job => ({
+    ...job,
+    isSelected: payItem.jobs.some(q => q.jobId === job.id),
+    amount: getAmount(payItem.jobs, job.id),
+  })),
+);
+
+const getIsAllJobsSelected = createSelector(
+  getSelectedPayItemJobs,
+  jobs => jobs.every(entry => entry.isSelected),
+);
+
+const getIsSomeJobsSelected = createSelector(
+  getSelectedPayItemJobs,
+  jobs => jobs.some(line => line.isSelected),
+);
+
+export const getJobsSelectStatus = createSelector(
+  getIsAllJobsSelected,
+  getIsSomeJobsSelected,
+  (isAllSelected, isSomeSelected) => {
+    if (isAllSelected) {
+      return 'checked';
+    }
+
+    if (isSomeSelected) {
+      return 'indeterminate';
+    }
+
+    return '';
+  },
+);
+
+export const getJobAmount = createSelector(
+  getSelectedPayItem,
+  item => {
+    const total = Number(item.amount);
+    const allocated = item.jobs ? item.jobs.reduce((t, q) => t + Number(q.amount), 0) : 0;
+    const unallocated = total - allocated;
+    const allocatedPercent = allocated * 100 / total;
+    const unallocatedPercent = unallocated * 100 / total;
+    return {
+      total,
+      allocated,
+      unallocated,
+      formatedAllocated: formatAmount(allocated),
+      formatedUnallocated: formatAmount(unallocated),
+      allocatedPercent: formatNumberWithDecimalScaleRange(allocatedPercent, 2, 2),
+      unallocatedPercent: formatNumberWithDecimalScaleRange(unallocatedPercent, 2, 2),
+    };
+  },
+);
+
+export const getHeaderSelectStatus = createSelector(
+  state => state.entries.filter(entry => entry.isChecked).length,
+  state => state.entries.length,
+  (selectedCount, entryCount) => {
+    if (entryCount > 0 && selectedCount === entryCount) {
+      return 'checked';
+    }
+
+    if (selectedCount > 0) {
+      return 'indeterminate';
+    }
+
+    return '';
+  },
+);
+
 export const getIsEtpCodeCategorySelected = createSelector(
   getEtpCodeCategory,
   Boolean,

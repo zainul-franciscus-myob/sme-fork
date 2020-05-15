@@ -1,0 +1,7 @@
+.jobListTableBody
+{
+  display: block;
+  overflow-y: scroll;
+  max-height: 35.6rem;
+  height: 35.6rem;
+}

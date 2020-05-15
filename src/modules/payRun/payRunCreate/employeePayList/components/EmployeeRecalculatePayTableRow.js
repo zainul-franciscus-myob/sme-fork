@@ -1,4 +1,4 @@
-import { Table } from '@myob/myob-widgets';
+import { Button, Icons, Table } from '@myob/myob-widgets';
 import React from 'react';
 import classnames from 'classnames';
 
@@ -89,54 +89,96 @@ const HoursInputField = ({
   />
 );
 
+const getAddJobLinkText = (jobs) => {
+  if (jobs && jobs.length > 0) {
+    if (jobs.length === 1) {
+      return '1 job selected';
+    }
+    return `${jobs.length} jobs selected`;
+  }
+
+  return 'Add job';
+};
+
+const getAddJobLinkIcon = (jobs) => {
+  if (jobs && jobs.length > 0) {
+    return <Icons.Edit />;
+  }
+  return <Icons.Add />;
+};
+
+const AddJobLink = ({
+  onAddJobClick,
+  icon,
+  text,
+  isSubmitting,
+}) => (
+  <Button
+    key="addJob"
+    type="link"
+    icon={icon}
+    onClick={onAddJobClick}
+    disabled={isSubmitting}
+  >
+    {text}
+  </Button>
+);
+
 
 const EmployeeRecalculatePayTableRow = ({
   tableConfig,
   employeeId,
   employeeName,
-  entry: {
-    payItemId,
-    payItemName,
-    type,
-    hours,
-    amount,
-    shouldShowHours,
-    isSubmitting,
-    leaveWarning,
-  },
+  entry,
   onChange,
   onBlur,
+  isPayrollJobColumnEnabled,
+  onAddJob,
 }) => {
   const hourRowItem = (
     <HoursInputField
-      value={hours}
+      value={entry.hours}
       employeeId={employeeId}
       employeeName={employeeName}
-      payItemId={payItemId}
+      payItemId={entry.payItemId}
       onChange={onChange}
       onBlur={onBlur}
-      leaveWarning={leaveWarning}
-      isSubmitting={isSubmitting}
+      leaveWarning={entry.leaveWarning}
+      isSubmitting={entry.isSubmitting}
     />);
 
   const amountRowItem = (
     <AmountInputField
-      value={amount}
+      value={entry.amount}
       employeeId={employeeId}
-      payItemId={payItemId}
-      type={type}
-      isSubmitting={isSubmitting}
+      payItemId={entry.payItemId}
+      type={entry.type}
+      isSubmitting={entry.isSubmitting}
       onChange={onChange}
       onBlur={onBlur}
     />);
 
+  const onAddJobClicked = () => {
+    onAddJob({ payItem: entry, employeeId });
+  };
+
+  const addJobRowItem = (entry.type !== 'Entitlement' && <AddJobLink
+    onAddJobClick={onAddJobClicked}
+    text={getAddJobLinkText(entry.jobs)}
+    icon={getAddJobLinkIcon(entry.jobs)}
+    isSubmitting={entry.isSubmitting}
+  />);
+
   return (
-    <Table.Row key={payItemId}>
+    <Table.Row key={entry.payItemId}>
       <Table.RowItem {...tableConfig.name} indentLevel={1}>
-        {payItemName}
+        {entry.payItemName}
       </Table.RowItem>
-      {shouldShowHours && (<Table.RowItem {...tableConfig.hours}>{hourRowItem}</Table.RowItem>)}
+      {entry.shouldShowHours
+      && (<Table.RowItem {...tableConfig.hours}>{hourRowItem}</Table.RowItem>)}
       <Table.RowItem {...tableConfig.amount}>{amountRowItem}</Table.RowItem>
+      {isPayrollJobColumnEnabled
+      && (<Table.RowItem {...tableConfig.job}>{addJobRowItem}</Table.RowItem>)}
     </Table.Row>
   );
 };

@@ -2,7 +2,15 @@ import React from 'react';
 
 import { SUCCESSFULLY_SAVED_DRAFT_PAY_RUN } from '../../payRunMessageTypes';
 import {
-  getIsPageEdited, getIsPayItemLineDirty, getTotals, isValidEtp,
+  getIsPageEdited,
+  getIsPayItemLineDirty,
+  getJobAmount,
+  getJobListModalLoadingState,
+  getJobOptions,
+  getSelectedEmployeeId,
+  getSelectedPayItem,
+  getTotals,
+  isValidEtp,
 } from './EmployeePayListSelectors';
 import { getPayRunListUrl } from '../PayRunSelectors';
 import AlertType from '../types/AlertType';
@@ -12,7 +20,9 @@ import createEmployeePayListDispatcher from './createEmployeePayListDispatcher';
 import createEmployeePayListIntegrator from './createEmployeePayListIntegrator';
 
 export default class EmployeePayListModule {
-  constructor({ integration, store, pushMessage }) {
+  constructor({
+    integration, store, pushMessage,
+  }) {
     this.store = store;
     this.pushMessage = pushMessage;
     this.dispatcher = createEmployeePayListDispatcher(store);
@@ -95,6 +105,22 @@ export default class EmployeePayListModule {
     this.integrator.validatePayPeriodEmployeeLimit({ onSuccess, onFailure });
   };
 
+  loadDetailJobList = () => {
+    const state = this.store.getState();
+    if (getJobListModalLoadingState(state) === LoadingState.LOADING) {
+      const onSuccess = (payload) => {
+        this.dispatcher.setJobListModalLoadingState(LoadingState.LOADING_SUCCESS);
+        this.dispatcher.loadDetailJobList(payload);
+      };
+
+      const onFailure = () => {
+        this.dispatcher.setJobListModalLoadingState(LoadingState.LOADING_FAIL);
+      };
+
+      this.integrator.loadDetailJobList({ onSuccess, onFailure });
+    }
+  }
+
   validateEtp = (next) => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
@@ -175,6 +201,11 @@ export default class EmployeePayListModule {
     window.location.href = `/#/${region}/${businessId}/settings/subscription`;
   };
 
+  openJobListModal = ({ payItem, employeeId }) => {
+    this.dispatcher.openJobListModal({ payItem, employeeId });
+    this.loadDetailJobList();
+  };
+
   getView() {
     return (
       <PayRunListEmployees
@@ -195,8 +226,114 @@ export default class EmployeePayListModule {
         onUnsavedModalSave={this.saveDraftAndNavigateAway}
         onUnsavedModalDiscard={this.onUnsavedModalDiscard}
         onUnsavedModalCancel={this.closeUnsavedModal}
+        onAddJob={this.openJobListModal}
+        onAddJobSave={this.jobListEditSave}
+        onAddJobCancel={this.dispatcher.closeJobListModal}
+        onAddJobCheckboxChange={this.onAddJobCheckboxChange}
+        onAddJobAmountChange={this.onAddJobAmountChange}
+        onAddJobAmountBlur={this.onAddJobAmountBlur}
+        onAllJobsCheckboxChange={this.onAllJobsCheckboxChange}
       />
     );
+  }
+
+  jobListEditSave = () => {
+    const state = this.store.getState();
+    const employeeId = getSelectedEmployeeId(state);
+    const payItem = getSelectedPayItem(state);
+    payItem.jobs = payItem.jobs.filter(q => Number(q.amount) !== 0);
+    this.dispatcher.savePayItemJobs(payItem, employeeId);
+    this.dispatcher.closeJobListModal();
+  }
+
+  getAmount = (payItem, id, index) => {
+    if (payItem.jobs.length > 0) {
+      const obj = payItem.jobs.find(q => q.jobId === id);
+      if (!obj) {
+        return '0.00';
+      }
+      return obj.amount;
+    }
+    if (index === 0) {
+      return payItem.amount;
+    }
+    return '0.00';
+  };
+
+  onAllJobsCheckboxChange = (status) => {
+    const state = this.store.getState();
+    const jobOptions = getJobOptions(state);
+    const payItem = getSelectedPayItem(state);
+    if (status && status.value && jobOptions.length > 0) {
+      this.dispatcher.editPayItemJobs({
+        ...payItem,
+        jobs: (jobOptions.map((job, index) => ({
+          jobId: job.id,
+          amount: this.getAmount(payItem, job.id, index),
+        }))),
+      });
+    } else {
+      this.dispatcher.editPayItemJobs({ ...payItem, jobs: [] });
+    }
+  }
+
+  updateJobs = ({ id, amount, isSelected }, jobs) => {
+    if (isSelected) {
+      return ([
+        ...jobs.filter(q => q.jobId !== id),
+        {
+          jobId: id,
+          amount,
+        },
+      ]);
+    }
+    return ([
+      ...jobs.filter(q => q.jobId !== id),
+    ]);
+  }
+
+  addOrEditJobList = (value) => {
+    const state = this.store.getState();
+    const payItem = getSelectedPayItem(state);
+    const jobs = this.updateJobs(value, payItem.jobs);
+    this.dispatcher.editPayItemJobs({ jobs });
+  }
+
+  getIsSelected = (value) => {
+    if (value && value.length > 0 && Number(value) !== 0) {
+      return true;
+    }
+    return false;
+  }
+
+  onAddJobAmountBlur = (value) => {
+    this.addOrEditJobList({
+      ...value,
+      isSelected: this.getIsSelected(value.amount),
+      amount: Number(value.amount).toFixed(2),
+    });
+  }
+
+  onAddJobAmountChange = (value) => {
+    this.addOrEditJobList({
+      ...value,
+      isSelected: this.getIsSelected(value.amount),
+    });
+  }
+
+  getUnallocatedAmount = () => {
+    const state = this.store.getState();
+    const jobAmount = getJobAmount(state);
+    return jobAmount.unallocated;
+  }
+
+  onAddJobCheckboxChange = (value) => {
+    this.addOrEditJobList({
+      ...value,
+      amount: value.isSelected
+        ? Number(this.getUnallocatedAmount()).toFixed(2)
+        : Number(value.amount).toFixed(2),
+    });
   }
 
   saveDraftAndNavigateAway = () => {
