@@ -29,7 +29,7 @@ export default class PayRunModule {
     this.pushMessage = pushMessage;
     this.dispatcher = createPayRunDispatchers(this.store);
     this.integrator = createPayRunIntegrator(this.store, integration);
-    this.isPayrollJobColumnEnabled = isToggleOn(FeatureToggle.EssentialsJobs);
+    this.isToggleOn = isToggleOn;
     this.subModules = {
       startPayRunModule: new StartPayRunModule({
         integration,
@@ -135,7 +135,7 @@ export default class PayRunModule {
   run(context) {
     this.dispatcher.setInitialState({
       ...context,
-      isPayrollJobColumnEnabled: this.isPayrollJobColumnEnabled,
+      isPayrollJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
     });
     this.render();
     this.startNewPayRun();
