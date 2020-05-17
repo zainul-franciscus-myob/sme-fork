@@ -1,8 +1,34 @@
-import { getBalancesForBulkResult } from '../bankingSelectors';
 import {
   getIsMaximumSelected,
   getRemainingAvailable,
 } from '../bankingSelectors/bulkAllocationSelectors';
+import calculateBalance from '../common/calculateBalances';
+
+const getBalancesForBulkResult = (state, resultEntries, isAllocate) => {
+  const {
+    balances,
+    bankAccounts,
+    filterOptions: { bankAccount },
+    entries,
+  } = state;
+
+  const allocatedIds = resultEntries.map(allocatedEntry => allocatedEntry.transactionId);
+  const amount = entries
+    .filter(entry => allocatedIds.includes(entry.transactionId))
+    .reduce((total, entry) => {
+      const { withdrawal, deposit } = entry;
+      const entryAmount = isAllocate ? (withdrawal || -deposit) : (-withdrawal || deposit);
+
+      return total + entryAmount;
+    }, 0);
+
+  return calculateBalance({
+    balances,
+    amount,
+    bankAccounts,
+    selectedBankAccountId: bankAccount,
+  });
+};
 
 export const selectTransaction = (state, action) => {
   if (getIsMaximumSelected(state) && action.value) {
