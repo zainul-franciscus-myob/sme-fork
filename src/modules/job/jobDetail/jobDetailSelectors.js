@@ -20,6 +20,8 @@ export const getCustomerOptions = state => state.customerOptions;
 
 export const getRegion = state => state.region;
 
+export const getIsJobEnabled = state => state.isJobEnabled;
+
 export const getJobDetails = createStructuredSelector({
   name: state => state.job.name,
   number: state => state.job.number,

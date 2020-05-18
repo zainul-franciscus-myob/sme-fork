@@ -24,8 +24,11 @@ describe('JobDetailModule', () => {
     const integration = new TestIntegration();
     const setRootView = () => {};
     const pushMessage = () => {};
+    const isToggleOn = () => true;
 
-    const module = new JobDetailModule({ integration, setRootView, pushMessage });
+    const module = new JobDetailModule({
+      integration, setRootView, pushMessage, isToggleOn,
+    });
     module.store = store;
     module.dispatcher = createJobDetailDispatcher(store);
     module.integrator = createJobDetailIntegrator(store, integration);
@@ -53,7 +56,7 @@ describe('JobDetailModule', () => {
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
-          context: {},
+          context: { isJobEnabled: true },
         },
         {
           intent: SET_LOADING_STATE,
@@ -84,7 +87,7 @@ describe('JobDetailModule', () => {
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
-          context: {},
+          context: { isJobEnabled: true },
         },
         {
           intent: SET_LOADING_STATE,
@@ -163,7 +166,7 @@ describe('JobDetailModule', () => {
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
-          context: {},
+          context: { isJobEnabled: true },
         },
         {
           intent: SET_LOADING_STATE,
@@ -194,7 +197,7 @@ describe('JobDetailModule', () => {
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
-          context: {},
+          context: { isJobEnabled: true },
         },
         {
           intent: SET_LOADING_STATE,

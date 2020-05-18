@@ -15,10 +15,12 @@ import {
 } from './jobDetailSelectors';
 import { getIsSubmitting } from '../jobModal/JobModalSelectors';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
+import FeatureToggles from '../../../FeatureToggles';
 import JobDetailView from './components/JobDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from '../ModalType';
 import Store from '../../../store/Store';
+import WrongPageState from '../../../components/WrongPageState/WrongPageState';
 import createJobDetailDispatcher from './createJobDetailDispatcher';
 import createJobDetailIntegrator from './createJobDetailIntegrator';
 import jobDetailReducer from './jobDetailReducer';
@@ -27,12 +29,13 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class JobDetailModule {
   constructor({
-    integration, setRootView, pushMessage,
+    integration, setRootView, pushMessage, isToggleOn,
   }) {
     this.integration = integration;
     this.store = new Store(jobDetailReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
+    this.isToggleOn = isToggleOn;
     this.dispatcher = createJobDetailDispatcher(this.store);
     this.integrator = createJobDetailIntegrator(this.store, integration);
     this.customerModalModule = new ContactModalModule({ integration });
@@ -56,9 +59,13 @@ export default class JobDetailModule {
       />
     );
 
+    const view = this.isToggleOn(FeatureToggles.EssentialsJobs)
+      ? jobDetailView
+      : <WrongPageState />;
+
     const wrappedView = (
       <Provider store={this.store}>
-        {jobDetailView}
+        {view}
       </Provider>
     );
     this.setRootView(wrappedView);
@@ -209,7 +216,10 @@ export default class JobDetailModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState(context);
+    this.dispatcher.setInitialState({
+      ...context,
+      isJobEnabled: this.isToggleOn(FeatureToggles.EssentialsJobs),
+    });
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.loadJobDetail();

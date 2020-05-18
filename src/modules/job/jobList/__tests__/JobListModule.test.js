@@ -22,6 +22,7 @@ describe('JobListModule', () => {
       integration,
       setRootView: () => {},
       popMessages: () => [],
+      isToggleOn: () => true,
     });
     module.store = store;
     module.dispatcher = createJobListDispatcher(store);
@@ -41,7 +42,7 @@ describe('JobListModule', () => {
   };
 
   describe('run', () => {
-    const context = {};
+    const context = { isJobEnabled: true };
 
     it('successfully load', () => {
       const { store, integration, module } = setup();

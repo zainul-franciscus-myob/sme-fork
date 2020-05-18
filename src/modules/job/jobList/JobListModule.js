@@ -6,9 +6,11 @@ import {
   SUCCESSFULLY_SAVED_JOB,
 } from '../JobMessageTypes';
 import { getJobCreateLink } from './jobListSelector';
+import FeatureToggles from '../../../FeatureToggles';
 import JobListView from './components/JobListView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
+import WrongPageState from '../../../components/WrongPageState/WrongPageState';
 import createJobListDispatcher from './createJobListDispatcher';
 import createJobListIntegrator from './createJobListIntegrator';
 import debounce from '../../../common/debounce/debounce';
@@ -20,13 +22,14 @@ const messageTypes = [
 
 export default class JobListModule {
   constructor({
-    integration, setRootView, popMessages,
+    integration, setRootView, popMessages, isToggleOn,
   }) {
     this.integration = integration;
     this.store = new Store(jobListReducer);
     this.setRootView = setRootView;
     this.popMessages = popMessages;
     this.messageTypes = messageTypes;
+    this.isToggleOn = isToggleOn;
     this.dispatcher = createJobListDispatcher(this.store);
     this.integrator = createJobListIntegrator(this.store, integration);
   }
@@ -44,16 +47,24 @@ export default class JobListModule {
   }
 
   render = () => {
-    const view = (
+    const jobListView = (
+      <JobListView
+        onDismissAlert={this.dispatcher.dismissAlert}
+        onUpdateFilters={this.updateFilterOptions}
+        onAddJobButtonClick={this.redirectToAddJob}
+      />
+    );
+
+    const view = this.isToggleOn(FeatureToggles.EssentialsJobs)
+      ? jobListView
+      : <WrongPageState />;
+
+    const wrappedView = (
       <Provider store={this.store}>
-        <JobListView
-          onDismissAlert={this.dispatcher.dismissAlert}
-          onUpdateFilters={this.updateFilterOptions}
-          onAddJobButtonClick={this.redirectToAddJob}
-        />
+        {view}
       </Provider>
     );
-    this.setRootView(view);
+    this.setRootView(wrappedView);
   };
 
   loadJobList = () => {
@@ -101,7 +112,10 @@ export default class JobListModule {
   }
 
   run(context) {
-    this.dispatcher.setInitialState(context);
+    this.dispatcher.setInitialState({
+      ...context,
+      isJobEnabled: this.isToggleOn(FeatureToggles.EssentialsJobs),
+    });
     this.render();
     this.readMessages();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
