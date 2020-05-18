@@ -2,7 +2,8 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  LOAD_CONFIG, LOAD_NAVIGATION_CONFIG, SET_LOADING_STATE, SET_ROUTE_INFO, SET_URLS,
+  LOAD_CONFIG, LOAD_NAVIGATION_CONFIG, SET_JOB_TOGGLE_STATUS,
+  SET_LOADING_STATE, SET_ROUTE_INFO, SET_URLS,
 } from './NavigationIntents';
 import { RESET_STATE } from '../SystemIntents';
 import { featuresConfig } from './navConfig';
@@ -10,6 +11,7 @@ import {
   getBusinessId, getPaymentDetailUrl, getRegion, getReportsUrl, getShowUrls,
 } from './NavigationSelectors';
 import { logout } from '../Auth';
+import FeatureToggle from '../FeatureToggles.js';
 import NavigationBar from './components/NavigationBar';
 import RouteName from '../router/RouteName';
 import Store from '../store/Store';
@@ -26,6 +28,7 @@ export default class NavigationModule {
     config,
     toggleHelp,
     toggleTasks,
+    isToggleOn,
     sendTelemetryEvent,
   }) {
     this.integration = integration;
@@ -37,6 +40,7 @@ export default class NavigationModule {
     this.config = config;
     this.toggleHelp = toggleHelp;
     this.toggleTasks = toggleTasks;
+    this.isToggleOn = isToggleOn;
     this.sendTelemetryEvent = sendTelemetryEvent;
   }
 
@@ -148,6 +152,13 @@ export default class NavigationModule {
     });
   };
 
+  setJobToggleStatus = () => {
+    this.store.dispatch({
+      intent: SET_JOB_TOGGLE_STATUS,
+      isJobEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
+    });
+  }
+
   redirectToPage = (url) => {
     window.location.href = url;
   };
@@ -235,12 +246,12 @@ export default class NavigationModule {
 
   run = routeProps => {
     const { routeParams, currentRouteName, onPageTransition } = routeProps;
-
     this.routeProps = routeProps;
 
     const previousBusinessId = getBusinessId(this.store.getState());
     const currentBusinessId = routeParams.businessId;
 
+    this.setJobToggleStatus();
     this.loadConfig();
     this.buildAndSetRoutingInfo({ currentRouteName, routeParams });
     this.setOnPageTransition(onPageTransition);

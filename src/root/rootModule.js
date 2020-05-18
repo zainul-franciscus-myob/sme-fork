@@ -50,6 +50,7 @@ export default class RootModule {
       config: Config,
       toggleTasks: this.drawer.toggleTasks,
       toggleHelp: this.drawer.toggleHelp,
+      isToggleOn: this.isToggleOn,
       sendTelemetryEvent,
     });
 

@@ -42,6 +42,7 @@ export const activeMapping = {
   [RouteName.GENERAL_JOURNAL_LIST]: 'accounting',
   [RouteName.ACCOUNT_LIST]: 'accounting',
   [RouteName.LINKED_ACCOUNTS]: 'accounting',
+  [RouteName.JOB_LIST]: 'accounting',
   [RouteName.TAX_LIST]: 'accounting',
   [RouteName.PREPARE_BAS_OR_IAS]: 'accounting',
 
@@ -110,6 +111,7 @@ export const featuresConfig = {
   generalJournalCreate: { routeName: RouteName.GENERAL_JOURNAL_DETAIL, params: { generalJournalId: 'new' } },
   accountList: { routeName: RouteName.ACCOUNT_LIST },
   linkedAccounts: { routeName: RouteName.LINKED_ACCOUNTS },
+  jobList: { routeName: RouteName.JOB_LIST },
   taxList: { routeName: RouteName.TAX_LIST },
   prepareBasOrIas: { routeName: RouteName.PREPARE_BAS_OR_IAS },
 

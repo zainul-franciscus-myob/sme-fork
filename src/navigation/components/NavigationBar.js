@@ -57,6 +57,7 @@ const getPrimary = ({
   shouldDisplayPayrollNzMenu,
   shouldDisplayInTray,
   shouldDisplayReportsMenu,
+  isJobEnabled,
 }) => [
   shouldDisplayHome && <Home key="Home" onMenuLinkClick={onMenuLinkClick} />,
   shouldDisplaySalesMenu && (
@@ -85,6 +86,7 @@ const getPrimary = ({
       key="AccountingMenu"
       onMenuSelect={onMenuSelect}
       onMenuLinkClick={onMenuLinkClick}
+      isJobEnabled={isJobEnabled}
     />
   ),
   shouldDisplayPayrollMenu && (
@@ -206,6 +208,7 @@ const NavigationBar = ({
   email,
   serialNumber,
   shouldDisplayLiveChat,
+  isJobEnabled,
 }) => {
   const primaryMenuItems = getPrimary({
     onMenuSelect,
@@ -220,6 +223,7 @@ const NavigationBar = ({
     shouldDisplayPayrollNzMenu,
     shouldDisplayInTray,
     shouldDisplayReportsMenu,
+    isJobEnabled,
   });
   const secondary = getSecondary({
     onMenuSelect,

@@ -27,6 +27,7 @@ describe('Navigation Module', () => {
       SELF_SERVICE_PORTAL_URL: 'self-service-portal.url',
     },
     setNavigationView: () => {},
+    isToggleOn: () => true,
   });
 
   describe('run', () => {

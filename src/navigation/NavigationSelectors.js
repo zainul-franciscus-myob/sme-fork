@@ -11,6 +11,7 @@ const getEnabledFeatures = state => state.enabledFeatures;
 export const getIsReadOnly = state => state.isReadOnly;
 const getCurrentRouteName = state => state.currentRouteName;
 export const getIsCurrentUserAdvisor = state => state.isCurrentUserAdvisor;
+export const getIsJobEnabled = state => state.isJobEnabled;
 
 const getUrls = state => state.urls;
 export const getTrialEndDate = state => state.trialEndDate;
@@ -180,6 +181,7 @@ export const getAccountingUrls = createSelector(
     linkedAccounts: enabledUrls.linkedAccounts,
     taxList: enabledUrls.taxList,
     prepareBasOrIas: enabledUrls.prepareBasOrIas,
+    jobList: enabledUrls.jobList,
   }),
 );
 
