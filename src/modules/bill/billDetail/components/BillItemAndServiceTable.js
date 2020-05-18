@@ -91,19 +91,19 @@ const BillItemAndServiceTable = ({
         },
         {
           columnName: unitCountLabel,
-          styles: { width: '10rem' },
+          styles: { width: '10rem', align: 'right' },
         },
         {
           columnName: unitPriceLabel,
-          styles: { width: '12.8rem' },
+          styles: { width: '12.8rem', align: 'right' },
         },
         {
           columnName: discountLabel,
-          styles: { width: '10rem' },
+          styles: { width: '10rem', align: 'right' },
         },
         {
           columnName: amountLabel,
-          styles: { width: '12.8rem' },
+          styles: { width: '12.8rem', align: 'right' },
         },
         {
           columnName: jobLabel,

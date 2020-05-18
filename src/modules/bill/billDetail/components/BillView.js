@@ -168,11 +168,12 @@ const BillView = ({
   );
 
   const optionInfo = getOptionInfo({ isReadOnlyLayout, readOnlyMessage, showPrefillInfo });
+  const onDismissOptionInfo = isReadOnlyLayout ? undefined : onClosePrefillInfo;
 
   const view = (
     <MasterDetailLineItemTemplate
       optionInfo={optionInfo}
-      onDismissOptionInfo={onClosePrefillInfo}
+      onDismissOptionInfo={onDismissOptionInfo}
       detailHeaderClassName={styles.secondaryOptions}
       primaryOptions={(
         <BillPrimaryOptions
