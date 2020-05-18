@@ -1,6 +1,6 @@
 import { UPDATE_LEAVE_DETAILS } from './leaveIntents';
 
-const createEmploymentDetailsDispatchers = store => ({
+const leaveDispatcher = store => ({
   updateLeaveDetails: ({ key, value }) => {
     const intent = UPDATE_LEAVE_DETAILS;
     store.dispatch({
@@ -9,4 +9,4 @@ const createEmploymentDetailsDispatchers = store => ({
   },
 });
 
-export default createEmploymentDetailsDispatchers;
+export default leaveDispatcher;

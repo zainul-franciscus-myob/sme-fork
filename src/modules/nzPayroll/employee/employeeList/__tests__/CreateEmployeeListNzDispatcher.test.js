@@ -1,21 +1,21 @@
 import { LOAD_EMPLOYEE_LIST, SET_LOADING_STATE } from '../../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import LoadingState from '../../../../../components/PageView/LoadingState';
-import createEmployeeListNzDispatcher from '../createEmployeeListNzDispatcher';
+import employeeListNzDispatcher from '../employeeListNzDispatcher';
 
-describe('createEmployeeListNzDispatcher', () => {
-  let employeeListNzDispatcher;
+describe('employeeListNzDispatcher', () => {
+  let dispatcher;
   let store;
 
   beforeEach(() => {
     store = { dispatch: jest.fn() };
-    employeeListNzDispatcher = createEmployeeListNzDispatcher({ store });
+    dispatcher = employeeListNzDispatcher({ store });
   });
 
   describe('setInitialState', () => {
     it('should dispatch SET_INITIAL_STATE intent with context', () => {
       const context = {};
-      employeeListNzDispatcher.setInitialState(context);
+      dispatcher.setInitialState(context);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         expect.objectContaining({ intent: SET_INITIAL_STATE, context }),
@@ -25,7 +25,7 @@ describe('createEmployeeListNzDispatcher', () => {
 
   describe('resetState', () => {
     it('should dispatch RESET_STATE intent', () => {
-      employeeListNzDispatcher.resetState();
+      dispatcher.resetState();
 
       expect(store.dispatch).toHaveBeenCalledWith(
         expect.objectContaining({ intent: RESET_STATE }),
@@ -36,7 +36,7 @@ describe('createEmployeeListNzDispatcher', () => {
   describe('loadEmployeeList', () => {
     it('should dispatch LOAD_EMPLOYEE_LIST intent with the response', () => {
       const response = {};
-      employeeListNzDispatcher.loadEmployeeList(response);
+      dispatcher.loadEmployeeList(response);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -50,7 +50,7 @@ describe('createEmployeeListNzDispatcher', () => {
   describe('setLoadingState', () => {
     it('should dispatch SET_LOADING_STATE intent with the loading state', () => {
       const loadingState = LoadingState.LOADING_SUCCESS;
-      employeeListNzDispatcher.setLoadingState(loadingState);
+      dispatcher.setLoadingState(loadingState);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         expect.objectContaining({ intent: SET_LOADING_STATE, loadingState }),

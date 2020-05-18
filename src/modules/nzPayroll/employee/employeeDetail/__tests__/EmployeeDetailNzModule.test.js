@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import * as intents from '../../EmployeeNzIntents';
 import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import { tabIds } from '../tabItems';
-import ContactDetailsNzTabView from '../contactDetails/components/contactDetailsNzTab';
+import ContactDetailsNzTabView from '../contactDetails/components/ContactDetailsNzTabView';
 import EmployeeDetailNzModule from '../EmployeeDetailNzModule';
 import EmployeeDetailsNzView from '../components/EmployeeDetailsNzView';
 import EmploymentDetailsTab from '../employmentDetails/components/EmploymentDetailsTab';
@@ -11,10 +11,11 @@ import LeaveTabView from '../leave/components/LeaveTabView';
 import LoadingFailPageState from '../../../../../components/PageView/LoadingFailPageState';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import SalaryAndWagesTabView from '../salaryAndWages/components/SalaryAndWagesTabView';
+import TaxAndKiwiSaverTab from '../taxAndKiwiSaver/components/TaxAndKiwiSaverTab';
 import TestIntegration from '../../../../../integration/TestIntegration';
 import TestStore from '../../../../../store/TestStore';
-import createEmployeeDetailNzDispatcher from '../createEmployeeDetailNzDispatcher';
-import createEmployeeDetailNzIntegrator from '../createEmployeeDetailNzIntegrator';
+import employeeDetailNzDispatcher from '../employeeDetailNzDispatcher';
+import employeeDetailNzIntegrator from '../employeeDetailNzIntegrator';
 import employeeDetailNzReducer from '../employeeDetailNzReducer';
 import employeeDetailResponse from '../../mappings/data/employeeDetailEntry';
 import updateEmployeeDetailResponse from '../../mappings/data/updateEmployeeDetailResponse';
@@ -38,8 +39,8 @@ describe('EmployeeDetailNzModule', () => {
       integration, setRootView, replaceURLParams, popMessages, pushMessages,
     });
     module.store = store;
-    module.dispatcher = createEmployeeDetailNzDispatcher({ store });
-    module.integrator = createEmployeeDetailNzIntegrator({ store, integration });
+    module.dispatcher = employeeDetailNzDispatcher({ store });
+    module.integrator = employeeDetailNzIntegrator({ store, integration });
 
     module.run({});
     store.resetActions();
@@ -192,6 +193,7 @@ describe('EmployeeDetailNzModule', () => {
       [{ mainTab: tabIds.payrollDetails }, EmploymentDetailsTab],
       [{ mainTab: tabIds.payrollDetails, subTab: tabIds.salaryAndWages }, SalaryAndWagesTabView],
       [{ mainTab: tabIds.payrollDetails, subTab: tabIds.leave }, LeaveTabView],
+      [{ mainTab: tabIds.payrollDetails, subTab: tabIds.taxAndKiwiSaver }, TaxAndKiwiSaverTab],
     ])('When tab %p is selected', ({ mainTab, subTab }, TabView) => {
       it(`should display ${TabView.displayName}`, () => {
         const {

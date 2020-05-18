@@ -1,11 +1,11 @@
 import React from 'react';
 
 import SalaryAndWagesTabView from './components/SalaryAndWagesTabView';
-import createSalaryAndWageDispatcher from './createSalaryAndWageDispatcher';
+import salaryAndWageDispatcher from './salaryAndWageDispatcher';
 
 export default class SalaryAndWagesModule {
   constructor({ store } = {}) {
-    this.dispatcher = createSalaryAndWageDispatcher(store);
+    this.dispatcher = salaryAndWageDispatcher(store);
 
     this.view = <SalaryAndWagesTabView onWageDetailsChange={this.dispatcher.updateWageDetail} />;
   }

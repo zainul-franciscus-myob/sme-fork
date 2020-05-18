@@ -10,7 +10,7 @@ import { mount } from 'enzyme';
 import React from 'react';
 
 import { LOAD_EMPLOYEE_DETAIL } from '../../../../EmployeeNzIntents';
-import ContactDetailsNzTabView from '../contactDetailsNzTab';
+import ContactDetailsNzTabView from '../ContactDetailsNzTabView';
 import CountryCombobox from '../../../../../../../components/combobox/CountryCombobox';
 import TestStore from '../../../../../../../store/TestStore';
 import employeeDetailNzReducer from '../../../employeeDetailNzReducer';

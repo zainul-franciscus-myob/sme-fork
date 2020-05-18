@@ -5,6 +5,7 @@ export const tabIds = {
   employmentDetails: 'employmentDetails',
   salaryAndWages: 'salaryAndWages',
   leave: 'leave',
+  taxAndKiwiSaver: 'taxAndKiwiSaver',
 };
 
 export const tabItems = [
@@ -16,6 +17,7 @@ export const tabItems = [
       { id: tabIds.employmentDetails, label: 'Employment details' },
       { id: tabIds.salaryAndWages, label: 'Salary and wages' },
       { id: tabIds.leave, label: 'Leave' },
+      { id: tabIds.taxAndKiwiSaver, label: 'Tax and KiwiSaver' },
     ],
   },
 ];

@@ -1,7 +1,5 @@
 
-import {
-  DISMISS_ALERT, LOAD_EMPLOYEE_LIST, SET_ALERT, SET_LOADING_STATE,
-} from '../EmployeeNzIntents';
+import * as intents from '../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
@@ -42,10 +40,10 @@ const dismissAlert = (state) => ({
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
-  [LOAD_EMPLOYEE_LIST]: loadEmployeeList,
-  [SET_LOADING_STATE]: setLoadingState,
-  [SET_ALERT]: setAlert,
-  [DISMISS_ALERT]: dismissAlert,
+  [intents.LOAD_EMPLOYEE_LIST]: loadEmployeeList,
+  [intents.SET_LOADING_STATE]: setLoadingState,
+  [intents.SET_ALERT]: setAlert,
+  [intents.DISMISS_ALERT]: dismissAlert,
 };
 
 const employeeListNzReducer = createReducer(getDefaultState(), handlers);

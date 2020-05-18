@@ -35,6 +35,10 @@
       "sickLeaveOpeningBalance": "10.00",
       "alternativeCurrentBalance": "10.00",
       "alternativeOpeningBalance": "10.00"
+    },
+    "taxAndKiwiSaver": {
+      "irdNumber": "999-888-77",
+      "taxCode": "ND"
     }
   },
   "genderOptions": [
@@ -48,5 +52,15 @@
     { "id": "Fortnightly", "displayName": "Fortnightly" },
     { "id": "FourWeekly", "displayName": "Four weekly" },
     { "id": "Monthly", "displayName": "Monthly" }
+  ],
+  "taxCodeOptions": [
+    { "key": "M", "value": "M" },
+    { "key": "ME", "value": "ME" },
+    { "key": "SB", "value": "SB" },
+    { "key": "S", "value": "S" },
+    { "key": "SH", "value": "SH" },
+    { "key": "ST", "value": "ST" },
+    { "key": "EDW", "value": "EDW" },
+    { "key": "CAE", "value": "CAE" }
   ]
 }

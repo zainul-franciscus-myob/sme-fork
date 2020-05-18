@@ -1,19 +1,16 @@
-import {
-  LOAD_EMPLOYEE_DETAIL, SET_LOADING_STATE, SET_MAIN_TAB, SET_SUB_TAB,
-  UPDATE_EMPLOYEE, UPDATE_EMPLOYEE_FAILED,
-} from '../../EmployeeNzIntents';
+import * as intents from '../../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import { tabIds } from '../tabItems';
 import LoadingState from '../../../../../components/PageView/LoadingState';
-import createEmployeeDetailNzDispatcher from '../createEmployeeDetailNzDispatcher';
+import employeeDetailNzDispatcher from '../employeeDetailNzDispatcher';
 
-describe('createEmployeeDetailNzDispatcher', () => {
+describe('employeeDetailNzDispatcher', () => {
   let store;
-  let employeeDetailNzDispatcher;
+  let dispatcher;
 
   beforeEach(() => {
     store = { dispatch: jest.fn() };
-    employeeDetailNzDispatcher = createEmployeeDetailNzDispatcher({ store });
+    dispatcher = employeeDetailNzDispatcher({ store });
   });
 
   describe('setInitialState', () => {
@@ -23,7 +20,7 @@ describe('createEmployeeDetailNzDispatcher', () => {
         subTab: 'subTab',
         businessId: 1,
       };
-      employeeDetailNzDispatcher.setInitialState(context);
+      dispatcher.setInitialState(context);
 
       expect(store.dispatch).toHaveBeenCalledWith(expect.objectContaining({
         intent: SET_INITIAL_STATE,
@@ -34,7 +31,7 @@ describe('createEmployeeDetailNzDispatcher', () => {
 
   describe('resetState', () => {
     it('should dispatch RESET_STATE intent', () => {
-      employeeDetailNzDispatcher.resetState();
+      dispatcher.resetState();
 
       expect(store.dispatch).toHaveBeenCalledWith({ intent: RESET_STATE });
     });
@@ -43,10 +40,10 @@ describe('createEmployeeDetailNzDispatcher', () => {
   describe('loadEmployeeDetails', () => {
     it('should dispatch LOAD_EMPLOYEE_DETAIL intent', () => {
       const response = {};
-      employeeDetailNzDispatcher.loadEmployeeDetails(response);
+      dispatcher.loadEmployeeDetails(response);
 
       expect(store.dispatch).toHaveBeenCalledWith(expect.objectContaining({
-        intent: LOAD_EMPLOYEE_DETAIL,
+        intent: intents.LOAD_EMPLOYEE_DETAIL,
         ...response,
       }));
     });
@@ -55,10 +52,10 @@ describe('createEmployeeDetailNzDispatcher', () => {
   describe('updateEmployeeDetails', () => {
     it('should dispatch UPDATE_EMPLOYEE intent', () => {
       const response = {};
-      employeeDetailNzDispatcher.updateEmployeeDetails(response);
+      dispatcher.updateEmployeeDetails(response);
 
       expect(store.dispatch).toHaveBeenCalledWith(expect.objectContaining({
-        intent: UPDATE_EMPLOYEE,
+        intent: intents.UPDATE_EMPLOYEE,
         ...response,
       }));
     });
@@ -67,10 +64,10 @@ describe('createEmployeeDetailNzDispatcher', () => {
   describe('updateEmployeeFailed', () => {
     it('should dispatch UPDATE_EMPLOYEE intent', () => {
       const response = {};
-      employeeDetailNzDispatcher.updateEmployeeFailed(response);
+      dispatcher.updateEmployeeFailed(response);
 
       expect(store.dispatch).toHaveBeenCalledWith(expect.objectContaining({
-        intent: UPDATE_EMPLOYEE_FAILED,
+        intent: intents.UPDATE_EMPLOYEE_FAILED,
         ...response,
       }));
     });
@@ -79,10 +76,10 @@ describe('createEmployeeDetailNzDispatcher', () => {
   describe('setLoadingState', () => {
     it('should dispatch SET_LOADING_STATE intent', () => {
       const loadingState = LoadingState.LOADING_SUCCESS;
-      employeeDetailNzDispatcher.setLoadingState(loadingState);
+      dispatcher.setLoadingState(loadingState);
 
       expect(store.dispatch).toHaveBeenCalledWith(expect.objectContaining({
-        intent: SET_LOADING_STATE,
+        intent: intents.SET_LOADING_STATE,
         loadingState,
       }));
     });
@@ -90,9 +87,9 @@ describe('createEmployeeDetailNzDispatcher', () => {
 
   describe('setMainTab', () => {
     it('should dispatch a SET_MAIN_TAB intent', () => {
-      employeeDetailNzDispatcher.setMainTab(tabIds.contactDetails);
+      dispatcher.setMainTab(tabIds.contactDetails);
       expect(store.dispatch).toHaveBeenCalledWith({
-        intent: SET_MAIN_TAB,
+        intent: intents.SET_MAIN_TAB,
         mainTab: tabIds.contactDetails,
       });
     });
@@ -100,9 +97,9 @@ describe('createEmployeeDetailNzDispatcher', () => {
 
   describe('setSubTab', () => {
     it('should dispatch a SET_SUB_TAB intent', () => {
-      employeeDetailNzDispatcher.setSubTab(tabIds.payrollDetails, tabIds.employmentDetails);
+      dispatcher.setSubTab(tabIds.payrollDetails, tabIds.employmentDetails);
       expect(store.dispatch).toHaveBeenCalledWith({
-        intent: SET_SUB_TAB,
+        intent: intents.SET_SUB_TAB,
         mainTab: tabIds.payrollDetails,
         subTab: tabIds.employmentDetails,
       });

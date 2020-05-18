@@ -1,9 +1,5 @@
 
-import {
-  CLOSE_MODAL, DISMISS_ALERT, LOAD_EMPLOYEE_DETAIL, OPEN_MODAL, SET_ALERT,
-  SET_LOADING_STATE, SET_MAIN_TAB, SET_SAVING_STATE, SET_SUBMITTING_STATE,
-  SET_SUB_TAB, UPDATE_EMPLOYEE, UPDATE_EMPLOYEE_FAILED,
-} from '../EmployeeNzIntents';
+import * as intents from '../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import { tabIds } from './tabItems';
 import LoadingState from '../../../../components/PageView/LoadingState';
@@ -12,6 +8,7 @@ import createReducer from '../../../../store/createReducer';
 import employementDetailsReducer from './employmentDetails/employementDetailsReducer';
 import leaveReducer from './leave/leaveReducer';
 import salaryAndWageReducer from './salaryAndWages/salaryAndWageReducer';
+import taxAndKiwiSaverReducer from './taxAndKiwiSaver/taxAndKiwiSaverReducer';
 
 const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
@@ -147,22 +144,23 @@ const setInitialState = (
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
-  [LOAD_EMPLOYEE_DETAIL]: loadEmployeeDetail,
-  [SET_LOADING_STATE]: setLoadingState,
-  [UPDATE_EMPLOYEE]: updateEmployeeDetail,
-  [UPDATE_EMPLOYEE_FAILED]: updateEmployeeFailed,
-  [SET_ALERT]: setAlert,
-  [DISMISS_ALERT]: dismissAlert,
-  [OPEN_MODAL]: openModal,
-  [CLOSE_MODAL]: closeModal,
-  [SET_SUBMITTING_STATE]: setIsSubmitting,
-  [SET_SAVING_STATE]: setSavingState,
-  [SET_MAIN_TAB]: setMainTab,
-  [SET_SUB_TAB]: setSubTab,
+  [intents.LOAD_EMPLOYEE_DETAIL]: loadEmployeeDetail,
+  [intents.SET_LOADING_STATE]: setLoadingState,
+  [intents.UPDATE_EMPLOYEE]: updateEmployeeDetail,
+  [intents.UPDATE_EMPLOYEE_FAILED]: updateEmployeeFailed,
+  [intents.SET_ALERT]: setAlert,
+  [intents.DISMISS_ALERT]: dismissAlert,
+  [intents.OPEN_MODAL]: openModal,
+  [intents.CLOSE_MODAL]: closeModal,
+  [intents.SET_SUBMITTING_STATE]: setIsSubmitting,
+  [intents.SET_SAVING_STATE]: setSavingState,
+  [intents.SET_MAIN_TAB]: setMainTab,
+  [intents.SET_SUB_TAB]: setSubTab,
   ...contactDetailsNzTabReducer,
   ...employementDetailsReducer,
   ...salaryAndWageReducer,
   ...leaveReducer,
+  ...taxAndKiwiSaverReducer,
 };
 
 const employeeDetailNzReducer = createReducer(getDefaultState(), handlers);

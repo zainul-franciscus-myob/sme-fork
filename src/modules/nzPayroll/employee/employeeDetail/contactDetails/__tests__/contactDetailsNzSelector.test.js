@@ -1,4 +1,4 @@
-import { getAddPhoneButton, getContactDetail } from '../contactDetailsNzSelector';
+import { getAddPhoneButton, getContactDetail } from '../ContactDetailsNzSelector';
 
 describe('EmployeeDetailNzSelectors', () => {
   const state = {

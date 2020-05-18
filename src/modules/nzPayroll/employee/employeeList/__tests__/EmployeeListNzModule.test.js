@@ -8,8 +8,8 @@ import LoadingFailPageState from '../../../../../components/PageView/LoadingFail
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import TestIntegration from '../../../../../integration/TestIntegration';
 import TestStore from '../../../../../store/TestStore';
-import createEmployeeListNzDispatcher from '../createEmployeeListNzDispatcher';
-import createEmployeeListNzIntegrator from '../createEmployeeListNzIntegrator';
+import employeeListNzDispatcher from '../employeeListNzDispatcher';
+import employeeListNzIntegrator from '../employeeListNzIntegrator';
 import employeeListNzReducer from '../employeeListNzReducer';
 
 describe('EmployeeListNzModule', () => {
@@ -24,8 +24,8 @@ describe('EmployeeListNzModule', () => {
 
     const module = new EmployeeListNzModule({ integration, setRootView, popMessages });
     module.store = store;
-    module.dispatcher = createEmployeeListNzDispatcher({ store });
-    module.integrator = createEmployeeListNzIntegrator({ store, integration });
+    module.dispatcher = employeeListNzDispatcher({ store });
+    module.integrator = employeeListNzIntegrator({ store, integration });
 
     module.run({});
     store.resetActions();

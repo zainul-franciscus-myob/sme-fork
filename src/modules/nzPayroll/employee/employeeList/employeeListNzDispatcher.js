@@ -1,9 +1,7 @@
-import {
-  DISMISS_ALERT, LOAD_EMPLOYEE_LIST, SET_ALERT, SET_LOADING_STATE,
-} from '../EmployeeNzIntents';
+import * as intents from '../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 
-const createEmployeeListNzDispatcher = ({ store }) => ({
+const employeeListNzDispatcher = ({ store }) => ({
 
   setInitialState: (context) => {
     const intent = SET_INITIAL_STATE;
@@ -16,25 +14,25 @@ const createEmployeeListNzDispatcher = ({ store }) => ({
   },
 
   loadEmployeeList: (response) => {
-    const intent = LOAD_EMPLOYEE_LIST;
+    const intent = intents.LOAD_EMPLOYEE_LIST;
     store.dispatch({ intent, ...response });
   },
 
   setLoadingState: (loadingState) => {
-    const intent = SET_LOADING_STATE;
+    const intent = intents.SET_LOADING_STATE;
     store.dispatch({ intent, loadingState });
   },
 
   setAlert: ({ type, message }) => {
-    const intent = SET_ALERT;
+    const intent = intents.SET_ALERT;
     store.dispatch({ intent, alert: { type, message } });
   },
 
   dismissAlert: () => {
-    const intent = DISMISS_ALERT;
+    const intent = intents.DISMISS_ALERT;
     store.dispatch({ intent });
   },
 
 });
 
-export default createEmployeeListNzDispatcher;
+export default employeeListNzDispatcher;

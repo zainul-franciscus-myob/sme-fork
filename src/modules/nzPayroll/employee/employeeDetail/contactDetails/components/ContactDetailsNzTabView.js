@@ -9,7 +9,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAddPhoneButton, getContactDetail } from '../contactDetailsNzSelector';
+import { getAddPhoneButton, getContactDetail } from '../ContactDetailsNzSelector';
 import CountryCombobox from '../../../../../../components/combobox/CountryCombobox';
 import PhoneNumberList from '../../../../../../components/phoneNumberList/PhoneNumberList';
 

@@ -1,7 +1,7 @@
 import { LOAD_EMPLOYEE_LIST } from '../../EmployeeNzIntents';
-import createEmployeeListNzIntegrator from '../createEmployeeListNzIntegrator';
+import employeeListNzIntegrator from '../employeeListNzIntegrator';
 
-describe('createEmployeeListNzIntegrator', () => {
+describe('employeeListNzIntegrator', () => {
   it('should load employee list', () => {
     const businessId = 1234;
     const state = { businessId };
@@ -10,8 +10,8 @@ describe('createEmployeeListNzIntegrator', () => {
     const onSuccess = () => {};
     const onFailure = () => {};
 
-    const employeeListNzIntegrator = createEmployeeListNzIntegrator({ store, integration });
-    employeeListNzIntegrator.loadEmployeeList({ onSuccess, onFailure });
+    const integrator = employeeListNzIntegrator({ store, integration });
+    integrator.loadEmployeeList({ onSuccess, onFailure });
 
     expect(integration.read).toHaveBeenCalledWith(expect.objectContaining({
       intent: LOAD_EMPLOYEE_LIST,

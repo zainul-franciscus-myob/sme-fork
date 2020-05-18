@@ -5,8 +5,8 @@ import { SUCCESSFULLY_DELETED_EMPLOYEE, SUCCESSFULLY_SAVED_EMPLOYEE } from '../E
 import EmployeeListNzView from './components/EmployeeListNzView';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import Store from '../../../../store/Store';
-import createEmployeeListNzDispatcher from './createEmployeeListNzDispatcher';
-import createEmployeeListNzIntegrator from './createEmployeeListNzIntegrator';
+import employeeListNzDispatcher from './employeeListNzDispatcher';
+import employeeListNzIntegrator from './employeeListNzIntegrator';
 import employeeListNzReducer from './employeeListNzReducer';
 
 export default class EmployeeListNzModule {
@@ -16,8 +16,8 @@ export default class EmployeeListNzModule {
     this.popMessages = popMessages;
 
     this.store = new Store(employeeListNzReducer);
-    this.dispatcher = createEmployeeListNzDispatcher({ store: this.store });
-    this.integrator = createEmployeeListNzIntegrator({ store: this.store, integration });
+    this.dispatcher = employeeListNzDispatcher({ store: this.store });
+    this.integrator = employeeListNzIntegrator({ store: this.store, integration });
   }
 
   unsubscribeFromStore = () => {

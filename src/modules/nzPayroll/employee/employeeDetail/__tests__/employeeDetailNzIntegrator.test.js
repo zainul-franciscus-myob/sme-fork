@@ -1,7 +1,7 @@
 import { LOAD_EMPLOYEE_DETAIL, UPDATE_EMPLOYEE } from '../../EmployeeNzIntents';
-import createEmployeeDetailNzIntegrator from '../createEmployeeDetailNzIntegrator';
+import employeeDetailNzIntegrator from '../employeeDetailNzIntegrator';
 
-describe('createEmployeeDetailNzIntegrator', () => {
+describe('employeeDetailNzIntegrator', () => {
   describe('loadEmployeeDetails', () => {
     it('should call integrator read with LOAD_EMPLOYEE_DETAIL intent', () => {
       const businessId = 1234;
@@ -16,11 +16,11 @@ describe('createEmployeeDetailNzIntegrator', () => {
       const onFailure = () => {};
 
       const integration = { read: jest.fn() };
-      const employeeDetailNzIntegrator = createEmployeeDetailNzIntegrator(
+      const integrator = employeeDetailNzIntegrator(
         { store, integration },
       );
 
-      employeeDetailNzIntegrator.loadEmployeeDetails(
+      integrator.loadEmployeeDetails(
         { onSuccess, onFailure },
       );
 
@@ -55,11 +55,11 @@ describe('createEmployeeDetailNzIntegrator', () => {
       const content = { contactDetail, payrollDetails };
 
       const integration = { write: jest.fn(), read: jest.fn() };
-      const employeeDetailNzIntegrator = createEmployeeDetailNzIntegrator(
+      const integrator = employeeDetailNzIntegrator(
         { store, integration },
       );
 
-      employeeDetailNzIntegrator.createOrSaveEmployeeDetails(
+      integrator.createOrSaveEmployeeDetails(
         { onSuccess, onFailure },
       );
 

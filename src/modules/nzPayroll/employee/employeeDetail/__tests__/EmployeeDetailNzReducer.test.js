@@ -1,8 +1,4 @@
-import {
-  CLOSE_MODAL, DISMISS_ALERT, LOAD_EMPLOYEE_DETAIL, OPEN_MODAL,
-  SET_ALERT, SET_LOADING_STATE, SET_MAIN_TAB, SET_SAVING_STATE, SET_SUBMITTING_STATE, SET_SUB_TAB,
-  UPDATE_CONTACT_DETAIL, UPDATE_EMPLOYEE, UPDATE_EMPLOYEE_FAILED,
-} from '../../EmployeeNzIntents';
+import * as intents from '../../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import { tabIds } from '../tabItems';
 import LoadingState from '../../../../../components/PageView/LoadingState';
@@ -94,7 +90,7 @@ describe('EmployeeDetailNzReducer', () => {
       };
       const loadingState = LoadingState.LOADING_SUCCESS;
       const action = {
-        intent: SET_LOADING_STATE,
+        intent: intents.SET_LOADING_STATE,
         loadingState,
       };
 
@@ -125,7 +121,7 @@ describe('EmployeeDetailNzReducer', () => {
         notes: '',
       };
       const action = {
-        intent: LOAD_EMPLOYEE_DETAIL,
+        intent: intents.LOAD_EMPLOYEE_DETAIL,
         payload: { contactDetail },
       };
 
@@ -138,7 +134,7 @@ describe('EmployeeDetailNzReducer', () => {
   describe('SET_MAIN_TAB', () => {
     it('should change the main tab to the specified tab', () => {
       const action = {
-        intent: SET_MAIN_TAB,
+        intent: intents.SET_MAIN_TAB,
         mainTab: 'tab 1',
       };
       const result = employeeDetailNzReducer(defaultState, action);
@@ -149,7 +145,7 @@ describe('EmployeeDetailNzReducer', () => {
   describe('SET_SUB_TAB', () => {
     it('should change the sub tab to the specified tab', () => {
       const action = {
-        intent: SET_SUB_TAB,
+        intent: intents.SET_SUB_TAB,
         mainTab: 'tab 1',
         subTab: 'tab 1 a',
       };
@@ -160,7 +156,7 @@ describe('EmployeeDetailNzReducer', () => {
 
     it('should not update state if mainTab is undefiend', () => {
       const action = {
-        intent: SET_SUB_TAB,
+        intent: intents.SET_SUB_TAB,
         subTab: 'tab 1 a',
       };
 
@@ -170,7 +166,7 @@ describe('EmployeeDetailNzReducer', () => {
 
     it('should not update state if subTab is undefiend', () => {
       const action = {
-        intent: SET_SUB_TAB,
+        intent: intents.SET_SUB_TAB,
         mainTab: 'tab 1',
       };
 
@@ -187,7 +183,7 @@ describe('EmployeeDetailNzReducer', () => {
         },
       };
       const action = {
-        intent: UPDATE_CONTACT_DETAIL,
+        intent: intents.UPDATE_CONTACT_DETAIL,
         key: 'firstName',
         value: 'name',
       };
@@ -210,7 +206,7 @@ describe('EmployeeDetailNzReducer', () => {
         },
       };
       const action = {
-        intent: UPDATE_CONTACT_DETAIL,
+        intent: intents.UPDATE_CONTACT_DETAIL,
         key: 'country',
         value: 'New Zealand',
       };
@@ -230,7 +226,7 @@ describe('EmployeeDetailNzReducer', () => {
   describe('openModal', () => {
     it('should set modal in store', () => {
       const modal = { type: 'DELETE', url: 'url' };
-      const action = { intent: OPEN_MODAL, modal };
+      const action = { intent: intents.OPEN_MODAL, modal };
       const expectedState = { modal };
 
       const actual = employeeDetailNzReducer({}, action);
@@ -242,7 +238,7 @@ describe('EmployeeDetailNzReducer', () => {
   describe('closeModal', () => {
     it('should set modal to undefined in store', () => {
       const state = { modal: { type: 'DELETE' } };
-      const action = { intent: CLOSE_MODAL };
+      const action = { intent: intents.CLOSE_MODAL };
       const expected = { modal: undefined };
 
       const actual = employeeDetailNzReducer(state, action);
@@ -255,7 +251,7 @@ describe('EmployeeDetailNzReducer', () => {
     it('should set the alert in store', () => {
       const state = { alert: undefined };
       const alert = { type: 'success', message: 'alert set' };
-      const action = { intent: SET_ALERT, alert };
+      const action = { intent: intents.SET_ALERT, alert };
 
       const actual = employeeDetailNzReducer(state, action);
 
@@ -267,7 +263,7 @@ describe('EmployeeDetailNzReducer', () => {
     it('should reset the alert in store', () => {
       const alert = { type: 'success', message: 'alert set' };
       const state = { alert };
-      const action = { intent: DISMISS_ALERT };
+      const action = { intent: intents.DISMISS_ALERT };
 
       const actual = employeeDetailNzReducer(state, action);
 
@@ -330,7 +326,7 @@ describe('EmployeeDetailNzReducer', () => {
         },
       };
       const action = {
-        intent: UPDATE_EMPLOYEE,
+        intent: intents.UPDATE_EMPLOYEE,
         message: 'Nice work',
         contactDetail,
         payrollDetails,
@@ -356,7 +352,7 @@ describe('EmployeeDetailNzReducer', () => {
 
   describe('setIsSubmitting', () => {
     it('should set isSubmitting in state', () => {
-      const action = { intent: SET_SUBMITTING_STATE, isSubmitting: true };
+      const action = { intent: intents.SET_SUBMITTING_STATE, isSubmitting: true };
 
       const actual = employeeDetailNzReducer({}, action);
 
@@ -371,7 +367,7 @@ describe('EmployeeDetailNzReducer', () => {
         isSubmitting: false,
         modal: { type: 'DELETE' },
       };
-      const action = { intent: SET_SAVING_STATE };
+      const action = { intent: intents.SET_SAVING_STATE };
       const expectedState = {
         loadingState: LoadingState.LOADING,
         isSubmitting: true,
@@ -390,7 +386,7 @@ describe('EmployeeDetailNzReducer', () => {
         loadingState: LoadingState.LOADING,
         isSubmitting: true,
       };
-      const action = { intent: UPDATE_EMPLOYEE_FAILED, message: 'Failed' };
+      const action = { intent: intents.UPDATE_EMPLOYEE_FAILED, message: 'Failed' };
       const expectedState = {
         loadingState: LoadingState.LOADING_SUCCESS,
         isSubmitting: false,

@@ -1,14 +1,14 @@
 import { UPDATE_WAGE_DETAIL } from '../salaryAndWagesIntents';
-import createSalaryAndWageDispatcher from '../createSalaryAndWageDispatcher';
+import salaryAndWageDispatcher from '../salaryAndWageDispatcher';
 
 
-describe('createEmployeeDetailNzDispatcher', () => {
+describe('employeeDetailNzDispatcher', () => {
   let store;
-  let salaryAndWageDispatcher;
+  let dispatcher;
 
   beforeEach(() => {
     store = { dispatch: jest.fn() };
-    salaryAndWageDispatcher = createSalaryAndWageDispatcher(store);
+    dispatcher = salaryAndWageDispatcher(store);
   });
 
   describe('updateWageDetails', () => {
@@ -16,7 +16,7 @@ describe('createEmployeeDetailNzDispatcher', () => {
       const key = 'key';
       const value = 'value';
 
-      salaryAndWageDispatcher.updateWageDetail({ key, value });
+      dispatcher.updateWageDetail({ key, value });
 
       expect(store.dispatch).toHaveBeenCalledWith({
         intent: UPDATE_WAGE_DETAIL,
