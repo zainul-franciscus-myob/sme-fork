@@ -1,5 +1,5 @@
 import BankFeedsModule from './BankFeedsModule';
-import RouteName from '../../router/RouteName';
+import RouteName from '../../../router/RouteName';
 
 const getBankFeedsRoutes = ({
   integration, setRootView, globalCallbacks,

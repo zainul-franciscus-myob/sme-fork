@@ -1,0 +1,114 @@
+{
+  "bankAccounts": [
+    {
+      "id": "1-VE7STK",
+      "legalEntity": "MYOB Australia Pty Ltd",
+      "type": "Banks",
+      "name": "Westpac Banking Corporation",
+      "description": "Westpac",
+      "code": "WBC",
+      "accountType": "Trading Account",
+      "accountNameRequired": true,
+      "accountNumberRequired": true,
+      "accountNumberLabel": "Account Number",
+      "BSBRequired": true,
+      "BSBBankRequired": false,
+      "BSBBranchRequired": false,
+      "accountSuffixRequired": false,
+      "branchNameRequired": false,
+      "accountTypeRequired": false,
+      "notes": "This information is available on the first page of your statement at the top right.\r\nNote: We are unable to provide bank feeds for accounts with a BSB of 037-1xx, 737-1xx, 032-957 or 033-808. These account types are not supported by bank feeds.",
+      "downloadFrequency": "Daily",
+      "onlineApplicationSupported": true,
+      "paperApplicationSupported": true,
+      "trustedApplicationSupported": true,
+      "allowAlphanumeric": false,
+      "_links": {
+        "onlineApplication": {
+          "href": "https://www.westpac.com.au/personal-banking/online-banking/"
+        }
+      }
+    },
+    {
+      "id": "1-VDKFZ0",
+      "legalEntity": "MYOB Australia Pty Ltd",
+      "type": "Banks",
+      "name": "Commonwealth Bank of Australia",
+      "description": "Commonwealth Bank of Australia (CBA)",
+      "code": "CBA",
+      "accountType": "Trading Account",
+      "accountNameRequired": true,
+      "accountNumberRequired": true,
+      "accountNumberLabel": "Account Number",
+      "BSBRequired": true,
+      "BSBBankRequired": false,
+      "BSBBranchRequired": false,
+      "accountSuffixRequired": false,
+      "branchNameRequired": false,
+      "accountTypeRequired": false,
+      "downloadFrequency": "Daily",
+      "onlineApplicationSupported": true,
+      "paperApplicationSupported": true,
+      "trustedApplicationSupported": false,
+      "allowAlphanumeric": false,
+      "_links": {
+        "onlineApplication": {
+          "href": "https://www.my.commbank.com.au/netbank/Container/ESD/ASI.BankFeed/Dashboard/1?provider=MYOB&providerid=MYOB_ID_GOES_HERE"
+        }
+      }
+    }
+  ],
+  "creditCards": [
+    {
+      "id": "1-4UTE8M9",
+      "legalEntity": "MYOB Australia Pty Ltd",
+      "type": "Credit Cards",
+      "name": "FOCU",
+      "description": "First Option Credit Union",
+      "code": "FOCU",
+      "accountType": "Trading Account",
+      "accountNameRequired": true,
+      "accountNumberRequired": true,
+      "accountNumberLabel": "Account Number",
+      "BSBRequired": false,
+      "BSBBankRequired": false,
+      "BSBBranchRequired": false,
+      "accountSuffixRequired": false,
+      "branchNameRequired": false,
+      "accountTypeRequired": false,
+      "notes": "Please refer to your bank statement for this information",
+      "downloadFrequency": "Monthly",
+      "onlineApplicationSupported": false,
+      "paperApplicationSupported": true,
+      "trustedApplicationSupported": false,
+      "allowAlphanumeric": false,
+      "_links": {}
+    },
+    {
+      "id": "1-VDKFZM",
+      "legalEntity": "MYOB Australia Pty Ltd",
+      "type": "Building Societies",
+      "name": "Hume Building Society",
+      "description": "Hume Bank Credit Cards",
+      "code": "HUM",
+      "accountType": "BankFeed Credit Card Account",
+      "accountNameRequired": false,
+      "accountNumberRequired": false,
+      "BSBRequired": false,
+      "BSBBankRequired": false,
+      "BSBBranchRequired": false,
+      "accountSuffixRequired": false,
+      "branchNameRequired": false,
+      "accountTypeRequired": false,
+      "nameOnCardRequired": true,
+      "lastFourDigitsRequired": true,
+      "notes": "Where to find it: Top right hand side of the Statement Page 1 beside heading AccountWhat we need: Member Number and Account Type",
+      "downloadFrequency": "Monthly",
+      "onlineApplicationSupported": false,
+      "paperApplicationSupported": true,
+      "trustedApplicationSupported": false,
+      "allowAlphanumeric": false,
+      "_links": {}
+    }
+  ]
+}

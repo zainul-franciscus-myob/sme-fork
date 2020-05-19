@@ -9,9 +9,9 @@ import {
 } from '../BankFeedsSelectors';
 import CreditCardsTableBody from './CreditCardsTableBody';
 import CreditCardsTableHeader from './CreditCardsTableHeader';
-import LinkButton from '../../../components/Button/LinkButton';
-import NoResultPageState from '../../../components/NoResultPageState/NoResultPageState';
-import TableView from '../../../components/TableView/TableView';
+import LinkButton from '../../../../components/Button/LinkButton';
+import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
+import TableView from '../../../../components/TableView/TableView';
 import getCreditCardsTableResponsiveConfig from './getCreditCardsTableResponsiveConfig';
 import styles from './CreditCardsTable.module.css';
 

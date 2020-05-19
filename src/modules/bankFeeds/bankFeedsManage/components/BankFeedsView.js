@@ -18,11 +18,11 @@ import BankFeedsActions from './BankFeedsActions';
 import BankFeedsEmptyView from './BankFeedsEmptyView';
 import BankFeedsLoginModal from './BankFeedsLoginModal';
 import CreditCards from './CreditCards';
-import DeleteModal from '../../../components/modal/DeleteModal';
-import LinkButton from '../../../components/Button/LinkButton';
+import DeleteModal from '../../../../components/modal/DeleteModal';
+import LinkButton from '../../../../components/Button/LinkButton';
 import ModalTypes from '../ModalTypes';
-import PageView from '../../../components/PageView/PageView';
-import StickyHeader from '../../../components/Feelix/StickyHeader/StickyHeader';
+import PageView from '../../../../components/PageView/PageView';
+import StickyHeader from '../../../../components/Feelix/StickyHeader/StickyHeader';
 
 const BankFeedsView = ({
   alert,

@@ -12,7 +12,7 @@ import {
   UPDATE_BANK_FEEDS_LOGIN,
   UPDATE_CREDIT_CARD_LINKED_ACCOUNT,
 } from './BankFeedsIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import ModalTypes from './ModalTypes';
 
 const createBankFeedsDispatcher = store => ({

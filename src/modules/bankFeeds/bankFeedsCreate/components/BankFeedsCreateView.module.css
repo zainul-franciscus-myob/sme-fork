@@ -1,0 +1,42 @@
+.termsCheckbox legend { display: none; }
+
+.termsList {
+  margin-bottom: var(--flx-spacing-clear);
+  padding-left: var(--flx-spacing-small);
+}
+
+.termsList li:first-child { margin-bottom: var(--flx-spacing-small); }
+
+.termsList button { vertical-align: inherit; }
+
+.flx { display: flex; }
+
+.flx svg {
+  align-self: flex-start;
+  margin-right: var(--flx-spacing-x-small);
+}
+
+.flx span { flex: 1 1 auto; }
+
+.createForm :global(.form-group) {
+  max-width: 100%;
+  width: 100%;
+}
+
+.createForm :global(.form-group) > :global(.form-group__legend),
+.createForm :global(.form-group) > :global(.form-group__label-group) { width: 33%;}
+
+.createForm .subText {
+  color: var(--flx-palette-storm-72);
+  display: block;
+  margin-bottom: var(--flx-spacing-small);
+}
+
+.createForm .subText:last-child {
+  margin-bottom: var(--flx-spacing-clear);
+}
+
+@media screen and (max-width: 767px) {
+  .createForm :global(.form-group) > :global(.form-group__legend),
+  .createForm :global(.form-group) > :global(.form-group__label-group) { width: 100%;}
+}

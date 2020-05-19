@@ -3,14 +3,14 @@ import React from 'react';
 
 import { getIsSubmitting, getModalType } from './BankFeedsSelectors';
 import BankFeedsView from './components/BankFeedsView';
-import LoadingState from '../../components/PageView/LoadingState';
+import LoadingState from '../../../components/PageView/LoadingState';
 import ModalTypes from './ModalTypes';
-import Store from '../../store/Store';
+import Store from '../../../store/Store';
 import bankFeedsReducer from './bankFeedsReducer';
 import createBankFeedsDispatcher from './createBankFeedsDispatcher';
 import createBankFeedsIntegrator from './createBankFeedsIntegrator';
-import keyMap from '../../hotKeys/keyMap';
-import setupHotKeys from '../../hotKeys/setupHotKeys';
+import keyMap from '../../../hotKeys/keyMap';
+import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 class BankFeedsModule {
   constructor({

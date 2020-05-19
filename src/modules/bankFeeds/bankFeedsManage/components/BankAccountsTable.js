@@ -5,9 +5,9 @@ import React from 'react';
 import { getCreateBankFeedsUrl, getIsBankAccountsEmpty, getIsTableLoading } from '../BankFeedsSelectors';
 import BankAccountsTableBody from './BankAccountsTableBody';
 import BankAccountsTableHeader from './BankAccountsTableHeader';
-import LinkButton from '../../../components/Button/LinkButton';
-import NoResultPageState from '../../../components/NoResultPageState/NoResultPageState';
-import TableView from '../../../components/TableView/TableView';
+import LinkButton from '../../../../components/Button/LinkButton';
+import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
+import TableView from '../../../../components/TableView/TableView';
 import getBankAccountsTableResponsiveConfig from './getBankAccountsTableResponsiveConfig';
 import styles from './BankAccountsTable.module.css';
 

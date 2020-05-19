@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getBankFeedsCreditCards, getIsActionDisabled } from '../BankFeedsSelectors';
-import AccountCombobox from '../../../components/combobox/AccountCombobox';
+import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import BankFeedTypes from '../BankFeedTypes';
-import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
+import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 
 const CreditCardsTableBody = ({
   isActionDisabled,

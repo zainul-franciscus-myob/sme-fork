@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
-import Config from '../../Config';
-import getQueryFromParams from '../../common/getQueryFromParams/getQueryFromParams';
+import Config from '../../../Config';
+import getQueryFromParams from '../../../common/getQueryFromParams/getQueryFromParams';
 
 export const getAlert = state => state.alert;
 export const getModalType = state => state.modalType;

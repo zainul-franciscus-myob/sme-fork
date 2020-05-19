@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getBankFeedsLoginDetails } from '../BankFeedsSelectors';
-import handleInputChange from '../../../components/handlers/handleInputChange';
+import handleInputChange from '../../../../components/handlers/handleInputChange';
 
 const BankFeedsLoginModal = ({
   onCancelBankFeedsLogin,

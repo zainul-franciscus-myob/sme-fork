@@ -12,10 +12,10 @@ import {
   UPDATE_BANK_FEEDS_LOGIN,
   UPDATE_CREDIT_CARD_LINKED_ACCOUNT,
 } from './BankFeedsIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import BankFeedTypes from './BankFeedTypes';
-import LoadingState from '../../components/PageView/LoadingState';
-import createReducer from '../../store/createReducer';
+import LoadingState from '../../../components/PageView/LoadingState';
+import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
   alert: undefined,
@@ -36,7 +36,6 @@ const getDefaultState = () => ({
     password: '',
   },
 });
-
 
 const resetState = () => getDefaultState();
 
