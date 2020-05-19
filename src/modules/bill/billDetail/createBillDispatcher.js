@@ -7,6 +7,7 @@ import {
   FAIL_LOADING,
   GET_TAX_CALCULATIONS,
   HIDE_PREFILL_INFO,
+  LOAD_ABN_FROM_SUPPLIER,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_ITEM_DETAIL_FOR_LINE,
@@ -18,7 +19,9 @@ import {
   PREFILL_BILL_FROM_IN_TRAY,
   RELOAD_BILL,
   REMOVE_BILL_LINE,
+  RESET_ABN,
   RESET_TOTALS,
+  SET_ABN_LOADING_STATE,
   SET_ATTACHMENT_ID,
   SET_CALCULATED_BILL_LINES_AND_TOTALS,
   SET_DOCUMENT_LOADING_STATE,
@@ -351,6 +354,24 @@ const createBillDispatcher = store => ({
       intent: SET_REDIRECT_URL,
       redirectUrl,
     });
+  },
+
+  setAbnLoadingState: isAbnLoading => {
+    store.dispatch({
+      intent: SET_ABN_LOADING_STATE,
+      isAbnLoading,
+    });
+  },
+
+  loadAbn: abn => {
+    store.dispatch({
+      intent: LOAD_ABN_FROM_SUPPLIER,
+      abn,
+    });
+  },
+
+  resetAbn: () => {
+    store.dispatch({ intent: RESET_ABN });
   },
 });
 

@@ -9,6 +9,7 @@ import {
   FAIL_LOADING,
   GET_TAX_CALCULATIONS,
   HIDE_PREFILL_INFO,
+  LOAD_ABN_FROM_SUPPLIER,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_ITEM_DETAIL_FOR_LINE,
@@ -20,7 +21,9 @@ import {
   PREFILL_BILL_FROM_IN_TRAY,
   RELOAD_BILL,
   REMOVE_BILL_LINE,
+  RESET_ABN,
   RESET_TOTALS,
+  SET_ABN_LOADING_STATE,
   SET_ATTACHMENT_ID,
   SET_CALCULATED_BILL_LINES_AND_TOTALS,
   SET_DOCUMENT_LOADING_STATE,
@@ -349,10 +352,11 @@ const loadSupplierDetail = (state, action) => ({
       )
       : state.bill.lines,
   },
+  abn: action.response.abn,
 });
 
 const loadSupplierAfterCreate = (state, {
-  supplierId, supplierAddress, option, expenseAccountId,
+  supplierId, supplierAddress, option, expenseAccountId, abn,
 }) => ({
   ...state,
   bill: {
@@ -375,6 +379,7 @@ const loadSupplierAfterCreate = (state, {
     ...state.prefillStatus,
     supplierId: false,
   },
+  abn,
 });
 
 const startSupplierBlocking = state => ({ ...state, isSupplierBlocking: true });
@@ -431,7 +436,7 @@ const getPrefilledLines = (state, lines, expenseAccountId) => lines.map(
 
 const prefillBillFromInTray = (state, action) => {
   const {
-    layout, bill, lines, document, supplierOptions,
+    layout, bill, lines, document, supplierOptions, abn,
   } = action.response;
 
   const shouldPrefillLines = state.bill.lines.length === 0
@@ -467,6 +472,7 @@ const prefillBillFromInTray = (state, action) => {
     },
     inTrayDocument: document,
     showPrefillInfo: true,
+    abn,
   };
 };
 
@@ -593,6 +599,21 @@ const setRedirectUrl = (state, { redirectUrl }) => ({
   redirectUrl,
 });
 
+const setAbnLoadingState = (state, action) => ({
+  ...state,
+  isAbnLoading: action.isAbnLoading,
+});
+
+const loadAbnFromSupplier = (state, action) => ({
+  ...state,
+  abn: action.abn,
+});
+
+const resetAbn = (state) => ({
+  ...state,
+  abn: undefined,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -639,6 +660,9 @@ const handlers = {
   [SET_DUPLICATE_ID]: setDuplicateId,
   [SET_SOURCE]: setSource,
   [SET_REDIRECT_URL]: setRedirectUrl,
+  [SET_ABN_LOADING_STATE]: setAbnLoadingState,
+  [LOAD_ABN_FROM_SUPPLIER]: loadAbnFromSupplier,
+  [RESET_ABN]: resetAbn,
 };
 
 const billReducer = createReducer(getDefaultState(), handlers);

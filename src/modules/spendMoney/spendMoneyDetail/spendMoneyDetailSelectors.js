@@ -6,6 +6,7 @@ import {
   LOAD_SPEND_MONEY_DETAIL,
 } from '../SpendMoneyIntents';
 import ModalType from './components/ModalType';
+import buildAbnLink from '../../../common/links/buildAbnLink';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
 const getReferenceId = state => state.spendMoney.referenceId;
@@ -425,9 +426,9 @@ export const getLoadSpendMoneyIntent = createSelector(
   },
 );
 
-export const getAbnLink = state => (state.abn
-  ? `https://abr.business.gov.au/ABN/View?id=${state.abn.abn}`
-  : 'https://abr.business.gov.au/');
+export const getAbnLink = createSelector(
+  getAbn, abn => (abn ? buildAbnLink(abn.abn) : ''),
+);
 
 export const getEditContactUrl = createSelector(
   getBusinessId,

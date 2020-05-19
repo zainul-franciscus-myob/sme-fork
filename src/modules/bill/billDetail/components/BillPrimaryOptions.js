@@ -11,6 +11,7 @@ import {
   getIsReportable,
   getIsSupplierDisabled,
   getRegion,
+  getShouldShowAbn,
   getShouldShowAccountCode,
   getSupplierAddress,
   getSupplierId,
@@ -18,6 +19,7 @@ import {
 } from '../selectors/billSelectors';
 import { getPrefillStatus } from '../selectors/BillInTrayDocumentSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
+import BillAbnPopover from './BillAbnPopover';
 import ReportableCheckbox from '../../../../components/ReportableCheckbox/ReportableCheckbox';
 import SupplierCombobox from '../../../../components/combobox/SupplierCombobox';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
@@ -37,55 +39,67 @@ const BillPrimaryOptions = ({
   isBlocking,
   isReadOnlyLayout,
   prefillStatus,
+  shouldShowAbn,
   onUpdateBillOption,
   onAddSupplierButtonClick,
 }) => (
-  <React.Fragment>
-    <div className={
-      classnames(styles.formControlWrapper, { [styles.prefilled]: prefillStatus.supplierId })}
-    >
-      <SupplierCombobox
-        items={supplierOptions}
-        selectedId={supplierId}
-        onChange={handleComboboxChange('supplierId', onUpdateBillOption)}
-        label="Supplier"
-        name="supplierId"
-        requiredLabel="This is required"
-        hideLabel={false}
+    <React.Fragment>
+      <div className={classnames(
+        styles.formControlWrapper,
+        styles.contactComboBox,
+        {
+          [styles.prefilled]: prefillStatus.supplierId,
+          [styles.maximiseContactCombobox]: !shouldShowAbn,
+        },
+      )}
+      >
+        <SupplierCombobox
+          items={supplierOptions}
+          selectedId={supplierId}
+          onChange={handleComboboxChange('supplierId', onUpdateBillOption)}
+          label="Supplier"
+          name="supplierId"
+          requiredLabel="This is required"
+          hideLabel={false}
+          disabled={isSupplierDisabled || isBlocking || isReadOnlyLayout}
+          addNewItem={{
+            label: 'Create supplier',
+            onAddNew: onAddSupplierButtonClick,
+          }}
+          allowClear
+          width="xl"
+        />
+        {shouldShowAbn && <BillAbnPopover />}
+      </div>
+      {supplierAddress && <ReadOnly label="Billing address" className={styles.address}>{supplierAddress}</ReadOnly>}
+      <ReportableCheckbox
+        label="Report to ATO via TPAR"
+        checked={isReportable}
+        region={region}
+        name="isReportable"
+        onChange={handleCheckboxChange(onUpdateBillOption)}
         disabled={isSupplierDisabled || isBlocking || isReadOnlyLayout}
-        addNewItem={{
-          label: 'Create supplier',
-          onAddNew: onAddSupplierButtonClick,
-        }}
+        width="xl"
       />
-    </div>
-    {supplierAddress && <ReadOnly label="Billing address" className={styles.address}>{supplierAddress}</ReadOnly>}
-    <ReportableCheckbox
-      label="Report to ATO via TPAR"
-      checked={isReportable}
-      region={region}
-      name="isReportable"
-      onChange={handleCheckboxChange(onUpdateBillOption)}
-      disabled={isSupplierDisabled || isBlocking || isReadOnlyLayout}
-    />
-    {shouldShowAccountCode && (
-    <AccountCombobox
-      allowClear
-      items={accountOptions}
-      selectedId={expenseAccountId}
-      onChange={handleComboboxChange('expenseAccountId', onUpdateBillOption)}
-      label="Account code"
-      labelAccessory={(
-        <Tooltip>
+      {shouldShowAccountCode && (
+        <AccountCombobox
+          allowClear
+          items={accountOptions}
+          selectedId={expenseAccountId}
+          onChange={handleComboboxChange('expenseAccountId', onUpdateBillOption)}
+          label="Account code"
+          labelAccessory={(
+            <Tooltip>
               The account code will be assigned to all lines on the bill.
-        </Tooltip>
+            </Tooltip>
           )}
-      name="expenseAccountId"
-      hideLabel={false}
-      disabled={isSupplierDisabled || isBlocking || isReadOnlyLayout}
-    />
-    )}
-  </React.Fragment>
+          name="expenseAccountId"
+          hideLabel={false}
+          disabled={isSupplierDisabled || isBlocking || isReadOnlyLayout}
+          width="xl"
+        />
+      )}
+    </React.Fragment>
 );
 
 const mapStateToProps = state => ({
@@ -101,6 +115,7 @@ const mapStateToProps = state => ({
   isBlocking: getIsBlocking(state),
   prefillStatus: getPrefillStatus(state),
   isReadOnlyLayout: getIsReadOnlyLayout(state),
+  shouldShowAbn: getShouldShowAbn(state),
 });
 
 export default connect(mapStateToProps)(BillPrimaryOptions);

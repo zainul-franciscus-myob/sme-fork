@@ -174,7 +174,7 @@ const BillView = ({
     <MasterDetailLineItemTemplate
       optionInfo={optionInfo}
       onDismissOptionInfo={onDismissOptionInfo}
-      detailHeaderClassName={styles.secondaryOptions}
+      detailHeaderClassName={classNames(styles.secondaryOptions, styles.detail)}
       primaryOptions={(
         <BillPrimaryOptions
           onUpdateBillOption={onUpdateBillOption}

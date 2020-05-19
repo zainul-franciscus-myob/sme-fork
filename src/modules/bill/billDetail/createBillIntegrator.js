@@ -3,6 +3,7 @@ import {
   DOWNLOAD_IN_TRAY_DOCUMENT,
   EXPORT_BILL_PDF,
   LINK_IN_TRAY_DOCUMENT,
+  LOAD_ABN_FROM_SUPPLIER,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_ITEM_OPTION,
@@ -18,6 +19,7 @@ import {
   getDeleteBillUrlParams,
   getInTrayDocumentParams,
   getInTrayDocumentUrlParams,
+  getLoadAbnFromSupplierUrlParams,
   getLoadAddedAccountUrlParams,
   getLoadBillIntent,
   getLoadBillUrlParams,
@@ -93,6 +95,20 @@ const createBillIntegrator = (store, integration) => ({
 
     integration.read({
       intent, urlParams, onSuccess, onFailure,
+    });
+  },
+
+  loadAbnFromSupplier: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = LOAD_ABN_FROM_SUPPLIER;
+    const urlParams = getLoadAbnFromSupplierUrlParams(state);
+
+    integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 

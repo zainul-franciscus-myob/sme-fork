@@ -89,6 +89,7 @@ export const getDefaultState = () => ({
   modalType: undefined,
   isModalBlocking: false,
   alert: undefined,
+  isAbnLoading: false,
   isDocumentLoading: false,
   /*
    * attachmentId vs. inTrayDocumentId
@@ -118,5 +119,6 @@ export const getDefaultState = () => ({
   exportPdf: {
     template: '',
   },
+  abn: undefined,
   showSplitView: false,
 });

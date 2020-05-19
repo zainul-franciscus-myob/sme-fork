@@ -28,6 +28,7 @@ import {
   getModalType,
   getNewLineIndex,
   getRedirectUrl,
+  getShouldShowAbn,
   getTaxCodeOptions,
 } from './selectors/billSelectors';
 import {
@@ -148,12 +149,18 @@ class BillModule {
       this.dispatcher.stopLoading();
       this.dispatcher.loadBill(response);
 
-      if (getHasInTrayDocumentId(this.store.getState())) {
+      const state = this.store.getState();
+      if (getHasInTrayDocumentId(state)) {
         this.downloadDocument();
       }
 
-      if (getIsCreatingFromInTray(this.store.getState())) {
+      if (getIsCreatingFromInTray(state)) {
         this.prefillBillFromInTray();
+      } else {
+        const shouldShowAbn = getShouldShowAbn(state);
+        if (shouldShowAbn) {
+          this.loadAbnFromSupplier();
+        }
       }
     };
 
@@ -416,6 +423,7 @@ class BillModule {
     this.dispatcher.updateBillOption({ key, value });
 
     if (isSupplierIdKey) {
+      this.dispatcher.resetAbn();
       this.loadSupplierDetail();
     }
 
@@ -553,6 +561,21 @@ class BillModule {
     };
 
     this.integrator.loadSupplierDetail({ onSuccess, onFailure });
+  }
+
+  loadAbnFromSupplier = () => {
+    this.dispatcher.setAbnLoadingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setAbnLoadingState(false);
+      this.dispatcher.loadAbn(response);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setAbnLoadingState(false);
+    };
+
+    this.integrator.loadAbnFromSupplier({ onSuccess, onFailure });
   }
 
   exportPdf = () => {

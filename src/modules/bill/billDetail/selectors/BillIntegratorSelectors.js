@@ -1,11 +1,7 @@
 import { createSelector } from 'reselect';
 
 import {
-  CREATE_BILL,
-  LOAD_BILL,
-  LOAD_NEW_BILL,
-  LOAD_NEW_DUPLICATE_BILL,
-  UPDATE_BILL,
+  CREATE_BILL, LOAD_BILL, LOAD_NEW_BILL, LOAD_NEW_DUPLICATE_BILL, UPDATE_BILL,
 } from '../BillIntents';
 import {
   getAmountPaid,
@@ -140,6 +136,13 @@ export const getSaveBillContent = createSelector(
 
 export const getLoadSupplierUrlParams = (state, supplierId) => {
   const businessId = getBusinessId(state);
+
+  return { businessId, supplierId };
+};
+
+export const getLoadAbnFromSupplierUrlParams = (state) => {
+  const businessId = getBusinessId(state);
+  const supplierId = getSupplierId(state);
 
   return { businessId, supplierId };
 };

@@ -4,6 +4,7 @@ import {
   DOWNLOAD_IN_TRAY_DOCUMENT,
   EXPORT_BILL_PDF,
   LINK_IN_TRAY_DOCUMENT,
+  LOAD_ABN_FROM_SUPPLIER,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_ITEM_DETAIL_FOR_LINE,
@@ -17,6 +18,7 @@ import {
   UPDATE_BILL,
 } from '../BillIntents';
 import createBillResponse from './data/createBillResponse';
+import loadAbnDetail from './data/loadAbnDetail';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadItemAndServiceBill from './data/loadItemAndServiceBill';
 import loadItemOption from './data/loadItemOption';
@@ -26,7 +28,7 @@ import loadReadOnlyItemAndServiceBill from './data/loadReadOnlyItemAndServiceBil
 import loadReadOnlyServiceBill from './data/loadReadOnlyServiceBill';
 import loadServiceBill from './data/loadServiceBill';
 import loadSupplierDetail from './data/loadSupplierDetail';
-import loadSupplierResponse from './data/loadSupplierResponse';
+import loadSupplierResponse from './data/loadSupplierAfterCreate.json';
 import prefillBillFromInTray from './data/prefillBillFromSupplierFeed';
 import successResponse from './data/success';
 import updatedLineForItemDetail from './data/updatedLineForItemDetail';
@@ -64,6 +66,7 @@ const MemoryBillDetailMapping = {
   [DOWNLOAD_IN_TRAY_DOCUMENT]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
   [UNLINK_IN_TRAY_DOCUMENT]: ({ onSuccess }) => onSuccess(successResponse),
   [LINK_IN_TRAY_DOCUMENT]: ({ onSuccess }) => onSuccess(successResponse),
+  [LOAD_ABN_FROM_SUPPLIER]: ({ onSuccess }) => onSuccess(loadAbnDetail),
 };
 
 export default MemoryBillDetailMapping;

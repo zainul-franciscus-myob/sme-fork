@@ -3,6 +3,7 @@ import {
   DOWNLOAD_IN_TRAY_DOCUMENT,
   FAIL_LOADING,
   GET_TAX_CALCULATIONS,
+  LOAD_ABN_FROM_SUPPLIER,
   LOAD_BILL,
   LOAD_NEW_BILL,
   LOAD_NEW_DUPLICATE_BILL,
@@ -11,6 +12,8 @@ import {
   OPEN_MODAL,
   PREFILL_BILL_FROM_IN_TRAY,
   RELOAD_BILL,
+  RESET_ABN,
+  SET_ABN_LOADING_STATE,
   SET_DOCUMENT_LOADING_STATE,
   SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_ID,
@@ -180,6 +183,58 @@ describe('BillModule', () => {
   mockCreateObjectUrl();
 
   describe('run', () => {
+    it('should successfully load new', () => {
+      const billId = 'new';
+
+      const { module, integration, store } = setUp();
+
+      const context = {
+        billId,
+        businessId: '🐷',
+        region: 'au',
+        isBillJobColumnEnabled: true,
+      };
+      module.run(context);
+
+      expect(store.getActions()).toEqual([
+        { intent: SET_INITIAL_STATE, context },
+        { intent: START_LOADING },
+        { intent: STOP_LOADING },
+        expect.objectContaining({ intent: LOAD_BILL }),
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: LOAD_NEW_BILL }),
+      ]);
+    });
+
+    it('should successfully load existing', () => {
+      const billId = '🔑';
+
+      const { module, integration, store } = setUp();
+
+      const context = {
+        billId,
+        businessId: '🐷',
+        region: 'au',
+        isBillJobColumnEnabled: true,
+      };
+      module.run(context);
+
+      expect(store.getActions()).toEqual([
+        { intent: SET_INITIAL_STATE, context },
+        { intent: START_LOADING },
+        { intent: STOP_LOADING },
+        expect.objectContaining({ intent: LOAD_BILL }),
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: LOAD_BILL }),
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+      ]);
+    });
+
     [
       {
         name: 'load new',
@@ -192,37 +247,6 @@ describe('BillModule', () => {
         requestIntent: LOAD_BILL,
       },
     ].forEach((test) => {
-      it(`should successfully ${test.name}`, () => {
-        const { module, integration, store } = setUp();
-
-        const context = {
-          billId: test.billId,
-          businessId: '🐷',
-          region: 'au',
-          isBillJobColumnEnabled: true,
-        };
-        module.run(context);
-
-        expect(store.getActions()).toEqual([
-          {
-            intent: SET_INITIAL_STATE,
-            context,
-          },
-          {
-            intent: START_LOADING,
-          },
-          {
-            intent: STOP_LOADING,
-          },
-          expect.objectContaining({
-            intent: LOAD_BILL,
-          }),
-        ]);
-        expect(integration.getRequests()).toEqual([
-          expect.objectContaining({ intent: test.requestIntent }),
-        ]);
-      });
-
       it(`should fail to ${test.name}`, () => {
         const { module, integration, store } = setUp();
         integration.mapFailure(test.requestIntent);
@@ -286,6 +310,9 @@ describe('BillModule', () => {
         expect.objectContaining({
           intent: LOAD_BILL,
         }),
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
       ]);
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
@@ -295,6 +322,7 @@ describe('BillModule', () => {
             duplicateId: '🐶',
           },
         }),
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
       ]);
     });
 
@@ -433,6 +461,9 @@ describe('BillModule', () => {
             intent: DOWNLOAD_IN_TRAY_DOCUMENT,
             inTrayDocumentUrl: 'http://www.🐀.com',
           },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: LOAD_BILL }),
@@ -440,6 +471,7 @@ describe('BillModule', () => {
             intent: DOWNLOAD_IN_TRAY_DOCUMENT,
             params: { isAttachment: true },
           }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
       });
 
@@ -482,10 +514,14 @@ describe('BillModule', () => {
             message: 'fails',
             type: 'danger',
           },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: LOAD_BILL }),
           expect.objectContaining({ intent: DOWNLOAD_IN_TRAY_DOCUMENT }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
       });
     });
@@ -705,6 +741,7 @@ describe('BillModule', () => {
             key: 'supplierId',
             value: '2',
           },
+          { intent: RESET_ABN },
           {
             intent: START_BLOCKING,
           },
@@ -735,6 +772,7 @@ describe('BillModule', () => {
             key: 'supplierId',
             value: '2',
           },
+          { intent: RESET_ABN },
           {
             intent: START_BLOCKING,
           },
@@ -764,6 +802,7 @@ describe('BillModule', () => {
             key: 'supplierId',
             value: '2',
           },
+          { intent: RESET_ABN },
           {
             intent: START_BLOCKING,
           },
@@ -796,6 +835,7 @@ describe('BillModule', () => {
             key: 'supplierId',
             value: '2',
           },
+          { intent: RESET_ABN },
           {
             intent: START_BLOCKING,
           },

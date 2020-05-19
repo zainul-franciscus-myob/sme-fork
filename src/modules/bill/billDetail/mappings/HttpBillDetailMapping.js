@@ -4,6 +4,7 @@ import {
   DOWNLOAD_IN_TRAY_DOCUMENT,
   EXPORT_BILL_PDF,
   LINK_IN_TRAY_DOCUMENT,
+  LOAD_ABN_FROM_SUPPLIER,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_ITEM_DETAIL_FOR_LINE,
@@ -81,6 +82,10 @@ const HttpBillDetailMapping = {
   [LINK_IN_TRAY_DOCUMENT]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/bill/link_in_tray_document`,
+  },
+  [LOAD_ABN_FROM_SUPPLIER]: {
+    method: 'GET',
+    getPath: ({ businessId, supplierId }) => `/${businessId}/bill/load_abn_from_supplier/${supplierId}`,
   },
 };
 

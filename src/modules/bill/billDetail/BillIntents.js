@@ -55,3 +55,7 @@ export const SET_ATTACHMENT_ID = Symbol('Set attachment id');
 export const SET_DUPLICATE_ID = Symbol('Set duplicate id');
 export const SET_SOURCE = Symbol('Set source');
 export const SET_REDIRECT_URL = Symbol('Set redirect url');
+
+export const LOAD_ABN_FROM_SUPPLIER = Symbol('Load abn given a supplier id');
+export const SET_ABN_LOADING_STATE = Symbol('Set abn loading state');
+export const RESET_ABN = Symbol('Reset the abn');

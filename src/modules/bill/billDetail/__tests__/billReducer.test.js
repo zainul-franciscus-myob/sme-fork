@@ -597,6 +597,9 @@ describe('billReducer', () => {
         id: '2',
         displayName: '🏖',
       },
+      abn: {
+        status: 'None',
+      },
     };
 
     it('updates expenseAccountId and all lines with the accountId if is creating new bill', () => {
@@ -626,6 +629,7 @@ describe('billReducer', () => {
 
       expect(actual.bill.lines).toEqual(expectedLines);
       expect(actual.bill.expenseAccountId).toEqual('2');
+      expect(actual.abn).toEqual(action.abn);
     });
 
     it('does not update expenseAccountId or lines with the accountId if is not creating new bill', () => {
@@ -642,6 +646,7 @@ describe('billReducer', () => {
 
       expect(actual.bill.lines).toEqual(expectedLines);
       expect(actual.bill.expenseAccountId).toEqual('1');
+      expect(actual.abn).toEqual(action.abn);
     });
 
     it('adds to supplier options with newly created supplier', () => {
