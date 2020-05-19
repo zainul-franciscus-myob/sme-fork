@@ -15,4 +15,5 @@ REACT_APP_MY_MYOB_AU_URL=https://my.myob.com.au \
 REACT_APP_MY_MYOB_NZ_URL=https://my.myob.co.nz \
 REACT_APP_SELF_SERVICE_PORTAL_URL=https://myaccount.myob.com \
 REACT_APP_CREATE_BUSINESS_URL=http://squishy-redirector.svc.platform.myobdev.com/new-ea-create-new-business \
+NODE_OPTIONS=--max_old_space_size=4096 \
 $@
