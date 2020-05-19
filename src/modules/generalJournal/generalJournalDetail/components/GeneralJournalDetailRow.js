@@ -5,12 +5,14 @@ import React from 'react';
 import {
   getAccountOptions,
   getIsTableDisabled,
+  getJobOptions,
   getLineDataByIndexSelector,
   getNewLineData,
   getTaxCodeOptions,
 } from '../generalJournalDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
+import JobCombobox from '../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 
 const onAmountInputChange = (name, onChange) => (e) => {
@@ -37,11 +39,13 @@ const GeneralJournalDetailRow = ({
   isTableDisabled,
   lineData,
   newLineData,
+  jobOptions,
   taxCodeOptions,
   accountOptions,
   onRowInputBlur,
   onChange,
   onCreateAccountButtonClick,
+  isGeneralJournalJobColumnEnabled,
   ...feelixInjectedProps
 }) => {
   const data = isNewLineRow ? newLineData : lineData;
@@ -54,6 +58,7 @@ const GeneralJournalDetailRow = ({
     isCreditDisabled = false,
     isDebitDisabled = false,
     accountId,
+    jobId,
     taxCodeId,
   } = data;
 
@@ -108,6 +113,15 @@ const GeneralJournalDetailRow = ({
         onChange={onChange}
         disabled={isTableDisabled}
       />
+      {isGeneralJournalJobColumnEnabled && <JobCombobox
+        label="Job"
+        onChange={onComboboxChange('jobId', onChange)}
+        items={jobOptions}
+        selectedId={jobId}
+        disabled={isTableDisabled}
+        allowClear
+        left
+      />}
       <TaxCodeCombobox
         label="Tax codes"
         items={taxCodeOptions}
@@ -123,6 +137,7 @@ const makeMapRowStateToProps = () => {
   return (state, ownProps) => ({
     lineData: lineDataByIndex(state, ownProps),
     newLineData: getNewLineData(state),
+    jobOptions: getJobOptions(state),
     taxCodeOptions: getTaxCodeOptions(state),
     accountOptions: getAccountOptions(state),
     isTableDisabled: getIsTableDisabled(state),

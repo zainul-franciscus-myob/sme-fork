@@ -18,6 +18,8 @@ const getIsEndOfYearAdjustment = state => state.generalJournal.isEndOfYearAdjust
 export const getIsCreating = state => state.generalJournalId === 'new';
 export const getIsTaxInclusive = state => state.generalJournal.isTaxInclusive;
 
+export const getIsGeneralJournalJobColumnEnabled = state => state.isGeneralJournalJobColumnEnabled;
+
 export const getHeaderOptions = createStructuredSelector({
   referenceId: getReferenceId,
   date: getDate,
@@ -58,6 +60,8 @@ export const getLineDataByIndexSelector = () => createSelector(
     if (line) {
       const {
         accountId,
+        jobId,
+        jobs,
         taxCodeId,
         taxCodes,
         accounts,
@@ -81,6 +85,8 @@ export const getLineDataByIndexSelector = () => createSelector(
         taxAmount,
         description,
         accountId,
+        jobId,
+        jobs,
         taxCodeId,
         taxCodes,
         accounts,
@@ -165,6 +171,8 @@ export const getOpenedModalType = (state) => {
 
   return modal.type;
 };
+
+export const getJobOptions = state => state.jobOptions;
 
 export const getTaxCodeOptions = state => state.taxCodeOptions;
 

@@ -33,7 +33,7 @@ export const setup = () => {
   const integration = new TestIntegration();
 
   const module = new GeneralJournalDetailModule({
-    integration, setRootView, pushMessage, popMessages,
+    integration, setRootView, pushMessage, popMessages, isToggleOn: () => true,
   });
   const store = new TestStore(generalJournalDetailReducer);
   module.store = store;
@@ -119,6 +119,7 @@ describe('GeneralJournalDetailModule', () => {
         {
           context: {
             generalJournalId: 'new',
+            isGeneralJournalJobColumnEnabled: true,
           },
           intent: SET_INITIAL_STATE,
         },
@@ -146,6 +147,7 @@ describe('GeneralJournalDetailModule', () => {
         {
           context: {
             generalJournalId: 'new',
+            isGeneralJournalJobColumnEnabled: true,
           },
           intent: SET_INITIAL_STATE,
         },
@@ -171,6 +173,7 @@ describe('GeneralJournalDetailModule', () => {
         {
           context: {
             generalJournalId: '1',
+            isGeneralJournalJobColumnEnabled: true,
           },
           intent: SET_INITIAL_STATE,
         },
@@ -198,6 +201,7 @@ describe('GeneralJournalDetailModule', () => {
         {
           context: {
             generalJournalId: '1',
+            isGeneralJournalJobColumnEnabled: true,
           },
           intent: SET_INITIAL_STATE,
         },
@@ -227,6 +231,7 @@ describe('GeneralJournalDetailModule', () => {
           context: {
             businessId: 'bizId',
             generalJournalId: 'new',
+            isGeneralJournalJobColumnEnabled: true,
           },
         },
         {

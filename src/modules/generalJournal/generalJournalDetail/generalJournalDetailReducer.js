@@ -43,6 +43,7 @@ const getDefaultState = () => ({
     creditAmount: '',
     quantity: '',
     description: '',
+    jobId: '',
     taxCodeId: '',
     taxAmount: '',
     lineTypeId: '',
@@ -65,6 +66,7 @@ const getDefaultState = () => ({
   businessId: '',
   region: '',
   accountOptions: [],
+  jobOptions: [],
   taxCodeOptions: [],
 });
 
@@ -113,6 +115,7 @@ const loadGeneralJournalDetail = (state, action) => ({
   newLine: { ...state.newLine, ...action.newLine },
   totals: action.totals,
   pageTitle: action.pageTitle,
+  jobOptions: action.jobOptions,
   taxCodeOptions: action.taxCodeOptions,
   accountOptions: action.accountOptions,
 });
@@ -202,6 +205,7 @@ const loadNewGeneralJournal = (state, action) => ({
   },
   newLine: { ...state.newLine, ...action.newLine },
   pageTitle: action.pageTitle,
+  jobOptions: action.jobOptions,
   taxCodeOptions: action.taxCodeOptions,
   accountOptions: action.accountOptions,
 });

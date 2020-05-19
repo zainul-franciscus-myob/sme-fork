@@ -3,7 +3,13 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIndexOfLastLine, getIsOutOfBalanced, getTableData, getTaxCodeLabel, getTaxLabel, getTotals,
+  getIndexOfLastLine,
+  getIsGeneralJournalJobColumnEnabled,
+  getIsOutOfBalanced,
+  getTableData,
+  getTaxCodeLabel,
+  getTaxLabel,
+  getTotals,
 } from '../generalJournalDetailSelectors';
 import GeneralJournalDetailRow from './GeneralJournalDetailRow';
 
@@ -24,6 +30,7 @@ const GeneralJournalDetailTable = ({
   onRowInputBlur,
   onRemoveRow,
   onCreateAccountButtonClick,
+  isGeneralJournalJobColumnEnabled,
 }) => {
   const renderRow = (index, _, onChange, labels) => {
     const isNewLineRow = indexOfLastLine < index;
@@ -37,6 +44,7 @@ const GeneralJournalDetailTable = ({
         onChange={onChange}
         onRowInputBlur={onRowInputBlur}
         onCreateAccountButtonClick={onCreateAccountButtonClick}
+        isGeneralJournalJobColumnEnabled={isGeneralJournalJobColumnEnabled}
       />
     );
   };
@@ -63,6 +71,7 @@ const GeneralJournalDetailTable = ({
       label: 'Description',
       styles: {},
     },
+    ...(isGeneralJournalJobColumnEnabled ? [{ label: 'Job', styles: { width: '8.4rem', align: 'left' } }] : []),
     {
       label: taxCodeLabel,
       requiredLabel: 'Required',
@@ -119,6 +128,7 @@ const mapStateToProps = state => ({
   isOutOfBalance: getIsOutOfBalanced(state),
   taxLabel: getTaxLabel(state),
   taxCodeLabel: getTaxCodeLabel(state),
+  isGeneralJournalJobColumnEnabled: getIsGeneralJournalJobColumnEnabled(state),
 });
 
 export default connect(mapStateToProps)(GeneralJournalDetailTable);

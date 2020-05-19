@@ -21,6 +21,7 @@ import {
   isPageEdited,
 } from './generalJournalDetailSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
+import FeatureToggle from '../../../FeatureToggles';
 import GeneralJournalDetailView from './components/GeneralJournalDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
@@ -34,7 +35,7 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class GeneralJournalDetailModule {
   constructor({
-    integration, setRootView, popMessages, pushMessage, navigateTo,
+    integration, setRootView, popMessages, pushMessage, navigateTo, isToggleOn,
   }) {
     this.store = new Store(generalJournalDetailReducer);
     this.setRootView = setRootView;
@@ -45,6 +46,7 @@ export default class GeneralJournalDetailModule {
     this.salesTaxCalculate = createTaxCalculator(TaxCalculatorTypes.generalJournalSales);
     this.dispatcher = createGeneralJournalDispatcher(this.store);
     this.integrator = createGeneralJournalIntegrator(this.store, integration);
+    this.isToggleOn = isToggleOn;
     this.accountModalModule = new AccountModalModule({
       integration,
     });
@@ -56,6 +58,7 @@ export default class GeneralJournalDetailModule {
       newLine,
       totals,
       pageTitle,
+      jobs: jobOptions,
       taxCodes: taxCodeOptions,
       accounts: accountOptions,
     }) => {
@@ -65,6 +68,7 @@ export default class GeneralJournalDetailModule {
         totals,
         newLine,
         pageTitle,
+        jobOptions,
         taxCodeOptions,
         accountOptions,
       });
@@ -423,7 +427,10 @@ export default class GeneralJournalDetailModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState(context);
+    this.dispatcher.setInitialState({
+      ...context,
+      isGeneralJournalJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
+    });
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.readMessages();

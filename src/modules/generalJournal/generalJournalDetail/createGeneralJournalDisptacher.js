@@ -106,7 +106,7 @@ const createGeneralJournalDispatcher = store => ({
     });
   },
   loadGeneralJournalDetail: ({
-    generalJournal, totals, newLine, pageTitle, taxCodeOptions, accountOptions,
+    generalJournal, totals, newLine, pageTitle, jobOptions, taxCodeOptions, accountOptions,
   }) => {
     const state = store.getState();
     const intent = getLoadGeneralJournalIntent(state);
@@ -117,6 +117,7 @@ const createGeneralJournalDispatcher = store => ({
       totals,
       newLine,
       pageTitle,
+      jobOptions,
       taxCodeOptions,
       accountOptions,
     });
