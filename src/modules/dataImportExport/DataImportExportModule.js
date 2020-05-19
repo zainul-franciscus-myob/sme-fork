@@ -7,7 +7,6 @@ import {
   getFileValidationError,
   getIsFileValid,
   getTab,
-  getUrlDataTypeParams,
 } from './selectors/DataImportExportSelectors';
 import DataImportExportView from './components/DataImportExportView';
 import ExportStatus from './ExportStatus';
@@ -234,10 +233,12 @@ export default class DataImportExportModule {
 
   updateImportDataType = ({ value }) => {
     this.dispatcher.updateImportDataType(value);
+    this.replaceURLParams({ importType: value });
   }
 
   updateExportDataType = ({ value }) => {
     this.dispatcher.updateExportDataType(value);
+    this.replaceURLParams({ exportType: value });
   }
 
   render = () => {
@@ -272,15 +273,12 @@ export default class DataImportExportModule {
     this.setRootView(wrappedView);
   };
 
-  updateURLFromState = state => this.replaceURLParams(getUrlDataTypeParams(state))
-
   handlers = {
     SAVE_ACTION: this.importOrExportData,
   };
 
   run(context) {
     this.dispatcher.setInitialState(context);
-    this.store.subscribe(this.updateURLFromState);
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.loadDataImportExport();
