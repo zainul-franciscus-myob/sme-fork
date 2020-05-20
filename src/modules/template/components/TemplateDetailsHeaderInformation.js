@@ -37,6 +37,7 @@ const uploadLogoPrompt = (
     {' '}
     <strong>TIFF</strong>
     ,
+    {' '}
     <strong>JPEG</strong>
     {' '}
     or
