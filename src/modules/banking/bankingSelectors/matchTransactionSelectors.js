@@ -296,7 +296,7 @@ export const getShowIncludeClosedCheckbox = createSelector(
 );
 
 const DayOffsetMap = {
-  closeMatches: { from: 90, to: 90 },
+  closeMatches: { from: 180, to: 180 },
   all: { from: 365, to: 365 },
   selected: { from: 5, to: 5 },
 };

@@ -381,8 +381,8 @@ describe('matchTransactionSelectors', () => {
         contactId: '1',
         includeClosed: true,
         accountId: '123',
-        dateFrom: '2018-02-05',
-        dateTo: '2018-08-04',
+        dateFrom: '2017-11-07',
+        dateTo: '2018-11-02',
         amountFrom: 99.9,
         amountTo: 100.1,
       };
