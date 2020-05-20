@@ -24,7 +24,8 @@ const EmailSettingsModal = ({
     <Modal
       title="Email settings"
       size="small"
-      canClose={false}
+      onCancel={onCancel}
+      canClose={!isSubmitting}
     >
       <Modal.Body>
         {alert && (

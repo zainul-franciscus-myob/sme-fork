@@ -99,7 +99,7 @@ const EmailInvoiceModal = ({
     <Modal
       title="Email invoice"
       onCancel={onCancel}
-      canClose={false}
+      canClose={!isActionsDisabled}
     >
       <Modal.Body>
         {alert && (
