@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+repository="docker.myob.com/sme-web"
+image_name="sme-web-buildnode"
+image_tag="latest"
+
+DOCKER_BUILDKIT=1 docker build -t $repository/$image_name:$image_tag --secret id=npmrc,src=${HOME}/.npmrc -f ./ops/buildnode/Dockerfile .
+
+docker push $repository/$image_name:$image_tag

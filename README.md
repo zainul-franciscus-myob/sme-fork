@@ -9,9 +9,12 @@ It is designed to work hand-in-hand with [sme-web-bff](https://github.com/MYOB-T
 
 # Documentation
 
+[Frequently asked questions](docs/faq.md)
+
 ## Development
 
 1. [Architecture](docs/development/architecture.md)
+1. [Development Environment](docs/development/development-environment.md)
 1. [Getting Started](docs/development/getting-started.md)
 1. [Getting Help](docs/development/getting-help.md)
 1. [Building Pages](docs/development/building-pages.md)
@@ -46,5 +49,5 @@ It is designed to work hand-in-hand with [sme-web-bff](https://github.com/MYOB-T
 1. [Telemetry](docs/specifics/telemetry.md)
 1. [Inbox](docs/specifics/inbox.md)
 1. [Feelix Upgrade](docs/specifics/feelix-upgrade.md)
-1. [New Relic Instrumentation](docs/specifics/new-relix-instrumentation.md)
+1. [New Relic Instrumentation](docs/specifics/new-relic-instrumentation.md)
 1. [Wrapped Feelix Components](docs/specifics/wrapped-feelix-components.md)

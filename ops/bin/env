@@ -2,18 +2,12 @@
 set -euo pipefail
 
 hash docker 2>/dev/null || die "missing dep: docker"
-NPM_TOKEN=$(sed -ne 's/\/\/npm\.cloudsmith\.io\/myob\/npm\/:_authToken=//p' ${HOME}/.npmrc | head -1)
-docker build \
-  -t sme-web \
-  --build-arg NPM_TOKEN=${NPM_TOKEN} \
-  . || die "cant build"
 
 docker run --rm \
-  -v $(pwd):/app \
+  -v "$(pwd)":/app \
   -v /app/node_modules \
   -w /app \
   -e "REACT_APP_BUILD_NUMBER=${REACT_APP_BUILD_NUMBER:-dev}" \
   -e "CI=true" \
-  -it sme-web \
+  -it docker.myob.com/sme-web/sme-web-buildnode:latest \
   /bin/sh -c "$@"
-

@@ -1,59 +1,12 @@
 # Getting Started
 
-## Environment
-
-We need `node` and `yarn` to install and run our project.
-
-1. Install [Node Version Manager](https://github.com/nvm-sh/nvm) 
-1. Install correct version `node`
-
-  ```sh
-  nvm use
-  ```
-1. Install [`yarn`](https://yarnpkg.com/)
-
-  ```sh
-  npm install -g yarn
-  ```
-
-## Dependencies
-
-We need to login to the private registry located at [`https://npm.myob.com/npm/`](https://npm.myob.com/npm/) before installing our dependencies.
-
-1. Ask [`#tr-platform-enable`](https://myob.slack.com/archives/C3F2M5NFP) for access to the private registry
-1. Login to the registry
-    ```sh
-    npm login --registry=https://npm.myob.com/npm/ --scope=@myob --always-auth
-    ```
-    * `username` will be your `cloudsmith.io` username
-    * `password` will be your [`cloudsmith.io` api key](https://cloudsmith.io/user/settings/api/)
-    * `email` should be your `@myob.com` email
-1. After logging in, an `.npmrc` will be generated in your `$HOME` directory
-    ```bash
-    cat ~/.npmrc
-    ```
-    It should have the following two lines:
-
-    ```txt
-    @myob:registry=https://npm.myob.com/npm/
-    //npm.myob.com/npm/:_authToken=YOUR_TOKEN
-    ```
-    * Ensure `@myob` resolves to `https://npm.myob.com/npm/` and there are no conflicting rules
-
-    If it does not have the following - delete the `.npmrc` file and login to the registry again.
-1. Install packages
-    ```sh
-    yarn install
-    ```
-
-For a more detailed `cloudsmith.io` setup, refer to [NPM setup](https://cloudsmith.io/~myob/repos/npm/setup/#formats-npm)
+Please make sure you have set up your [development environment](development-environment.md) first.
 
 ## Commands
 
 This project can be run and test just like any other [`create-react-app`](https://github.com/facebook/create-react-app) project.
 
 ### Run
-
 ```sh
 yarn start
 ```
@@ -64,7 +17,6 @@ yarn test
 ```
 
 ### Lint
-
 ```sh
 yarn lint:js:fix
 ```

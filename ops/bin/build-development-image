@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+repository="docker.myob.com/sme-web"
+image_name="sme-web-development"
+image_tag="latest"
+
+docker build -t $repository/$image_name:$image_tag -f ./ops/development/Dockerfile .
+
+docker push $repository/$image_name:$image_tag
