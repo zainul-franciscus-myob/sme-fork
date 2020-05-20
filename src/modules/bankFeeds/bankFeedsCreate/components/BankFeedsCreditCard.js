@@ -22,7 +22,6 @@ const BankFeedsCreditCard = ({
     width="xs"
   />;
 
-
   return lastFourDigitsRequired && (
     <div className={styles.creditCard}>
       <Field

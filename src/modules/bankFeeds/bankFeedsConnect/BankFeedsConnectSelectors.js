@@ -1,0 +1,9 @@
+export const getApplicationPreference = state => state.applicationPreference;
+export const getBankFeedLoadEmail = state => state.bankFeedLoadEmail;
+export const getBusinessId = state => state.businessId;
+export const getCopyAlertState = state => state.copyAlertState;
+export const getCopyAlertText = state => state.copyAlertText;
+export const getLoadingState = state => state.loadingState;
+export const getReferenceNumber = state => state.referenceNumber;
+export const getRegion = state => state.region;
+export const getUserEmail = state => state.userEmail;

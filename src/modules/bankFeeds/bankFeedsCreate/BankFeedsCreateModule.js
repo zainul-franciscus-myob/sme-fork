@@ -10,12 +10,17 @@ import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 
 class BankFeedsCreateModule {
-  constructor({ integration, setRootView }) {
+  constructor({
+    integration,
+    setRootView,
+    navigateTo,
+  }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.store = new Store(BankFeedsCreateReducer);
     this.dispatcher = BankFeedsCreateDispatcher(this.store);
     this.integrator = BankFeedsCreateIntegrator(this.store, integration);
+    this.navigateTo = navigateTo;
   }
 
   loadBankFeedApplicationData = () => {
@@ -44,12 +49,12 @@ class BankFeedsCreateModule {
     this.integrator.submitBankFeedApplication({ onSuccess, onFailure });
   }
 
-  redirectToImportStatements = () => {
+  redirectToUrl = (url) => {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
     const region = getRegion(state);
 
-    window.location.href = `/#/${region}/${businessId}/bankStatementImport`;
+    this.navigateTo(`/#/${region}/${businessId}/${url}`);
   }
 
   render = () => {
@@ -57,7 +62,8 @@ class BankFeedsCreateModule {
       <Provider store={this.store}>
         <BankFeedsCreateView
           onUpdateForm={({ key, value }) => this.dispatcher.updateForm({ key, value })}
-          redirectToImportStatements={() => this.redirectToImportStatements()}
+          redirectToConnectBankFeed={() => this.redirectToUrl('bankFeeds/connect')}
+          redirectToImportStatements={() => this.redirectToUrl('bankStatementImport')}
           setAccountType={(param) => this.dispatcher.setAccountType(param)}
           setApplicationPreference={(param) => this.dispatcher.setApplicationPreference(param)}
           setModalState={() => this.dispatcher.setModalState()}

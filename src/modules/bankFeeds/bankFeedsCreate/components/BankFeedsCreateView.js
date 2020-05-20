@@ -65,10 +65,11 @@ const BankFeedsCreateView = ({
   loadingState,
   nameOnCardRequired,
   onUpdateForm,
+  redirectToConnectBankFeed,
   redirectToImportStatements,
-  setFinancialInstitution,
   setAccountType,
   setApplicationPreference,
+  setFinancialInstitution,
   setModalState,
 }) => {
   const [displayAlert, setAlert] = useState(false);
@@ -96,6 +97,7 @@ const BankFeedsCreateView = ({
 
                 default:
                   setAlert(false);
+                  redirectToConnectBankFeed();
               }
             }}
             >Next</Button>

@@ -1,5 +1,6 @@
 import AccountMapping from '../../modules/account/mappings/MemoryAccountMapping';
 import ApplyToSaleMapping from '../../modules/applyToSale/mappings/MemoryApplyToSaleMapping';
+import BankFeedsConnectMapping from '../../modules/bankFeeds/bankFeedsConnect/mappings/MemoryBankFeedsConnectMapping';
 import BankFeedsCreateMapping from '../../modules/bankFeeds/bankFeedsCreate/mappings/MemoryBankFeedsCreateMapping';
 import BankFeedsMapping from '../../modules/bankFeeds/bankFeedsManage/mappings/MemoryBankFeedsMapping';
 import BankLearnMapping from '../../modules/learning/bankingLearn/mappings/MemoryMappingBankLearn';
@@ -165,6 +166,7 @@ const RootMapping = Object.freeze({
   ...JobMapping,
   ...EmployeeListNzMapping,
   ...TransactionListMapping,
+  ...BankFeedsConnectMapping,
 });
 
 export default RootMapping;
