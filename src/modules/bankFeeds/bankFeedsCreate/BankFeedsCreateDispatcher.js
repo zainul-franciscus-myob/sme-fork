@@ -4,6 +4,7 @@ import {
   SET_ACCOUNT_NAME_REQUIRED,
   SET_ACCOUNT_NUMBER_REQUIRED,
   SET_ACCOUNT_SUFFIX_REQUIRED,
+  SET_ACCOUNT_TYPE,
   SET_ACCOUNT_TYPE_REQUIRED,
   SET_ALERT,
   SET_APPLICATION_PREFERENCE,
@@ -61,6 +62,11 @@ const BankFeedsCreateDispatcher = store => ({
   setAccountSuffixRequiredState: accountSuffixRequired => store.dispatch({
     intent: SET_ACCOUNT_SUFFIX_REQUIRED,
     accountSuffixRequired,
+  }),
+
+  setAccountType: accountType => store.dispatch({
+    intent: SET_ACCOUNT_TYPE,
+    accountType,
   }),
 
   setAccountTypeRequiredState: accountTypeRequired => store.dispatch({

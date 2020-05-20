@@ -1,13 +1,16 @@
 import {
-  Button, Combobox, Modal, ReadOnly,
+  Button,
+  Combobox,
+  Modal,
+  ReadOnly,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
   getAccountType,
-  getBankFeedsBankAccounts,
-  getBankFeedsCreditCardAccounts,
+  getBankAccounts,
+  getCreditCardAccounts,
   getIsModalOpen,
 } from '../BankFeedsCreateSelectors';
 
@@ -146,8 +149,8 @@ const BankFeedsFinancialInstitutions = ({
 
 const mapStateToProps = state => ({
   accountType: getAccountType(state),
-  bankAccounts: getBankFeedsBankAccounts(state),
-  creditCardAccounts: getBankFeedsCreditCardAccounts(state),
+  bankAccounts: getBankAccounts(state),
+  creditCardAccounts: getCreditCardAccounts(state),
   isModalOpen: getIsModalOpen(state),
 });
 

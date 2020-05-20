@@ -62,6 +62,7 @@ class BankFeedsCreateModule {
           setAccountNameRequired={() => this.dispatcher.setAccountNameRequiredState(true)}
           setAccountNumberRequired={() => this.dispatcher.setAccountNumberRequiredState(true)}
           setAccountSuffixRequired={() => this.dispatcher.setAccountSuffixRequiredState(true)}
+          setAccountType={(param) => this.dispatcher.setAccountType(param)}
           setAccountTypeRequired={() => this.dispatcher.setAccountTypeRequiredState(true)}
           setApplicationPreference={(param) => this.dispatcher.setApplicationPreference(param)}
           setBranchNameRequired={() => this.dispatcher.setBranchNameRequiredState(true)}

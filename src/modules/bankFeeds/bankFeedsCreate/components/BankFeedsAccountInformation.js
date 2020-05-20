@@ -29,6 +29,7 @@ import {
   getNameOnCardRequired,
   getNotes,
 } from '../BankFeedsCreateSelectors';
+import BankFeedsCreditCard from './BankFeedsCreditCard';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
 const BankFeedsAccountInformation = ({
@@ -167,18 +168,11 @@ const BankFeedsAccountInformation = ({
           />
       }
 
-      {
-        lastFourDigitsRequired
-        && <Input
-          label="Last four digits"
-          name="lastFourDigits"
-          onChange={handleInputChange(onUpdateForm)}
-          requiredLabel="This field is required"
-          type="text"
-          value={lastFourDigits}
-          width="xs"
-        />
-      }
+      <BankFeedsCreditCard
+        lastFourDigits={lastFourDigits}
+        lastFourDigitsRequired={lastFourDigitsRequired}
+        onUpdateForm={onUpdateForm}
+      />
   </>
 );
 

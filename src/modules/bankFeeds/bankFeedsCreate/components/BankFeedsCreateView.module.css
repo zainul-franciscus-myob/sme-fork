@@ -1,30 +1,16 @@
-.termsCheckbox legend { display: none; }
-
-.termsList {
-  margin-bottom: var(--flx-spacing-clear);
-  padding-left: var(--flx-spacing-small);
+.createForm {
+  margin: 0 auto;
+  max-width: 768px;
 }
 
-.termsList li:first-child { margin-bottom: var(--flx-spacing-small); }
-
-.termsList button { vertical-align: inherit; }
-
-.flx { display: flex; }
-
-.flx svg {
-  align-self: flex-start;
-  margin-right: var(--flx-spacing-x-small);
-}
-
-.flx span { flex: 1 1 auto; }
-
-.createForm :global(.form-group) {
+.createForm :global(.form-group),
+.creditCard :global(.form-group__input-group) {
   max-width: 100%;
   width: 100%;
 }
 
 .createForm :global(.form-group) > :global(.form-group__legend),
-.createForm :global(.form-group) > :global(.form-group__label-group) { width: 33%;}
+.createForm :global(.form-group) > :global(.form-group__label-group) { width: 33%; }
 
 .createForm .subText {
   color: var(--flx-palette-storm-72);
@@ -32,11 +18,64 @@
   margin-bottom: var(--flx-spacing-small);
 }
 
-.createForm .subText:last-child {
+.createForm .subText:last-child { margin-bottom: var(--flx-spacing-clear); }
+
+.creditCard :global(.form-group__label-group),
+.termsCheckbox legend { display: none; }
+
+.termsList {
   margin-bottom: var(--flx-spacing-clear);
+  padding-left: var(--flx-spacing-small);
+}
+
+.termsList button { vertical-align: inherit; }
+
+.termsList li:first-child { margin-bottom: var(--flx-spacing-small); }
+
+.securitySection { display: flex; }
+
+.securitySection svg {
+  align-self: flex-start;
+  margin-right: var(--flx-spacing-x-small);
+}
+
+.securitySection span { flex: 1 1 auto; }
+
+.creditCard {
+  display: flex;
+  max-width: 50rem;
+}
+
+.creditCard :global(.form-group) {
+  flex: 1;
+  margin-right: var(--flx-spacing-x-tiny);
+}
+
+.creditCard :global(.form-group):last-of-type { margin-right: 0; }
+
+.creditCard :global(.form-group):first-of-type {
+  flex: 23.2rem 0;
+  margin-right: 0;
+}
+
+.creditCard :global(.form-group):first-of-type :global(.sr-only) { display: none; }
+
+.creditCard :global(.form-group):first-of-type :global(.form-group__label-group) {
+  display: block;
+  width: 100%;
 }
 
 @media screen and (max-width: 767px) {
   .createForm :global(.form-group) > :global(.form-group__legend),
-  .createForm :global(.form-group) > :global(.form-group__label-group) { width: 100%;}
+  .createForm :global(.form-group) > :global(.form-group__label-group) { width: 100%; }
+
+  .creditCard {
+    flex-flow: row wrap;
+    max-width: 100%;
+  }
+
+  .creditCard :global(.form-group):first-of-type {
+    flex-basis: 100%;
+    margin: 0;
+  }
 }

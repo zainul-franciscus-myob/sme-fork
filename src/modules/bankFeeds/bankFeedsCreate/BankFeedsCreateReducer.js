@@ -4,6 +4,7 @@ import {
   SET_ACCOUNT_NAME_REQUIRED,
   SET_ACCOUNT_NUMBER_REQUIRED,
   SET_ACCOUNT_SUFFIX_REQUIRED,
+  SET_ACCOUNT_TYPE,
   SET_ACCOUNT_TYPE_REQUIRED,
   SET_ALERT,
   SET_APPLICATION_PREFERENCE,
@@ -119,6 +120,11 @@ const setAccountSuffixRequiredState = (state, { accountSuffixRequired }) => ({
   accountSuffixRequired,
 });
 
+const setAccountTypeState = (state, { accountType }) => ({
+  ...state,
+  accountType,
+});
+
 const setAccountTypeRequiredState = (state, { accountTypeRequired }) => ({
   ...state,
   accountTypeRequired,
@@ -208,6 +214,7 @@ const handlers = {
   [SET_ACCOUNT_NAME_REQUIRED]: setAccountNameRequiredState,
   [SET_ACCOUNT_NUMBER_REQUIRED]: setAccountNumberRequiredState,
   [SET_ACCOUNT_SUFFIX_REQUIRED]: setAccountSuffixRequiredState,
+  [SET_ACCOUNT_TYPE]: setAccountTypeState,
   [SET_ACCOUNT_TYPE_REQUIRED]: setAccountTypeRequiredState,
   [SET_APPLICATION_PREFERENCE]: setApplicationPreferenceState,
   [SET_BRANCH_NAME_REQUIRED]: setBranchNameRequiredState,
@@ -224,7 +231,6 @@ const handlers = {
   [SET_NOTES_STATE]: setNotesState,
   [SET_PAPER_APPLICATION_SUPPORTED_STATE]: setPaperApplicationSupportedState,
   [UPDATE_FORM]: updateForm,
-
 };
 
 const BankFeedsCreateReducer = createReducer(getDefaultState(), handlers);

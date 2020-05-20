@@ -13,7 +13,7 @@ const BankFeedsSecurity = ({
     <>
       <hr />
 
-      <div className={styles.flx}>
+      <div className={styles.securitySection}>
         <Icons.Lock set="lg" />
 
         <span>

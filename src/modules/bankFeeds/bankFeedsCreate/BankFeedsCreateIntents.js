@@ -5,6 +5,7 @@ export const RESET_ACCOUNT_INFORMATION_STATE = Symbol('Reset the account informa
 export const SET_ACCOUNT_NAME_REQUIRED = Symbol('Set the account name required state');
 export const SET_ACCOUNT_NUMBER_REQUIRED = Symbol('Set the account number required state');
 export const SET_ACCOUNT_SUFFIX_REQUIRED = Symbol('Set the account suffix required state');
+export const SET_ACCOUNT_TYPE = Symbol('Set the account type');
 export const SET_ACCOUNT_TYPE_REQUIRED = Symbol('Set the account type required state');
 export const SET_ALERT = Symbol('Set the alert for the page');
 export const SET_APPLICATION_PREFERENCE = Symbol('Set the application preference');
