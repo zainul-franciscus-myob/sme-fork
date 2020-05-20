@@ -58,27 +58,10 @@ class BankFeedsCreateModule {
         <BankFeedsCreateView
           onUpdateForm={({ key, value }) => this.dispatcher.updateForm({ key, value })}
           redirectToImportStatements={() => this.redirectToImportStatements()}
-          resetAccountInformation={() => this.dispatcher.resetAccountInformationState()}
-          setAccountNameRequired={() => this.dispatcher.setAccountNameRequiredState(true)}
-          setAccountNumberRequired={() => this.dispatcher.setAccountNumberRequiredState(true)}
-          setAccountSuffixRequired={() => this.dispatcher.setAccountSuffixRequiredState(true)}
           setAccountType={(param) => this.dispatcher.setAccountType(param)}
-          setAccountTypeRequired={() => this.dispatcher.setAccountTypeRequiredState(true)}
           setApplicationPreference={(param) => this.dispatcher.setApplicationPreference(param)}
-          setBranchNameRequired={() => this.dispatcher.setBranchNameRequiredState(true)}
-          setBSBBankRequired={() => this.dispatcher.setBsbBankRequiredState(true)}
-          setBSBBranchRequired={() => this.dispatcher.setBsbBranchRequiredState(true)}
-          setBSBRequired={() => this.dispatcher.setBsbRequiredState(true)}
-          setLastFourDigitsRequired={() => this.dispatcher.setLastFourDigitsRequiredState(true)}
           setModalState={() => this.dispatcher.setModalState()}
-          setNameOnCardRequired={() => this.dispatcher.setNameOnCardRequiredState(true)}
-          setNotes={(notes) => this.dispatcher.setNotesState(notes)}
-          setOnlineApplicationSupported={
-            (param) => this.dispatcher.setOnlineApplicationSupportedState(param)
-          }
-          setPaperApplicationSupported={
-            (param) => this.dispatcher.setPaperApplicationSupportedState(param)
-          }
+          setFinancialInstitution={(value) => this.dispatcher.setFinancialInstitution(value)}
         />
       </Provider>,
     );

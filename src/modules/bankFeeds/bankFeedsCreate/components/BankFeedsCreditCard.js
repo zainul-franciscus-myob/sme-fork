@@ -15,6 +15,7 @@ const BankFeedsCreditCard = ({
   const DisabledFourDigits = () => <Input
     disabled
     hideLabel
+    label=""
     name=""
     placeholder="XXXX"
     textAlign="center"

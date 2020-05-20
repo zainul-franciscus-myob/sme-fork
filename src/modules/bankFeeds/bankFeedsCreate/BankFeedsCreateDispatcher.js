@@ -1,25 +1,12 @@
 import {
   LOAD_BANK_FEED_APPLICATION_DATA,
-  RESET_ACCOUNT_INFORMATION_STATE,
-  SET_ACCOUNT_NAME_REQUIRED,
-  SET_ACCOUNT_NUMBER_REQUIRED,
-  SET_ACCOUNT_SUFFIX_REQUIRED,
   SET_ACCOUNT_TYPE,
-  SET_ACCOUNT_TYPE_REQUIRED,
   SET_ALERT,
   SET_APPLICATION_PREFERENCE,
-  SET_BRANCH_NAME_REQUIRED,
-  SET_BSB_BANK_REQUIRED,
-  SET_BSB_BRANCH_REQUIRED,
-  SET_BSB_REQUIRED,
+  SET_FINANCIAL_INSTITUTION,
   SET_IS_SUBMITTING,
-  SET_LAST_FOUR_DIGITS_REQUIRED,
   SET_LOADING_STATE,
   SET_MODAL_STATE,
-  SET_NAME_ON_CARD_REQUIRED,
-  SET_NOTES_STATE,
-  SET_ONLINE_APPLICATION_SUPPORTED_STATE,
-  SET_PAPER_APPLICATION_SUPPORTED_STATE,
   SUBMIT_BANK_FEED_APPLICATION,
   UPDATE_FORM,
 } from './BankFeedsCreateIntents';
@@ -38,10 +25,6 @@ const BankFeedsCreateDispatcher = store => ({
 
   dismissAlert: () => store.dispatch({ intent: SET_ALERT }),
 
-  resetAccountInformationState: () => store.dispatch({
-    intent: RESET_ACCOUNT_INFORMATION_STATE,
-  }),
-
   resetState: () => store.dispatch({ intent: RESET_STATE }),
 
   setAlert: alert => store.dispatch({
@@ -49,29 +32,9 @@ const BankFeedsCreateDispatcher = store => ({
     alert,
   }),
 
-  setAccountNameRequiredState: accountNameRequired => store.dispatch({
-    intent: SET_ACCOUNT_NAME_REQUIRED,
-    accountNameRequired,
-  }),
-
-  setAccountNumberRequiredState: accountNumberRequired => store.dispatch({
-    intent: SET_ACCOUNT_NUMBER_REQUIRED,
-    accountNumberRequired,
-  }),
-
-  setAccountSuffixRequiredState: accountSuffixRequired => store.dispatch({
-    intent: SET_ACCOUNT_SUFFIX_REQUIRED,
-    accountSuffixRequired,
-  }),
-
   setAccountType: accountType => store.dispatch({
     intent: SET_ACCOUNT_TYPE,
     accountType,
-  }),
-
-  setAccountTypeRequiredState: accountTypeRequired => store.dispatch({
-    intent: SET_ACCOUNT_TYPE_REQUIRED,
-    accountTypeRequired,
   }),
 
   setApplicationPreference: applicationPreference => store.dispatch({
@@ -79,24 +42,9 @@ const BankFeedsCreateDispatcher = store => ({
     applicationPreference,
   }),
 
-  setBranchNameRequiredState: branchNameRequired => store.dispatch({
-    intent: SET_BRANCH_NAME_REQUIRED,
-    branchNameRequired,
-  }),
-
-  setBsbBankRequiredState: bsbBankRequired => store.dispatch({
-    intent: SET_BSB_BANK_REQUIRED,
-    bsbBankRequired,
-  }),
-
-  setBsbBranchRequiredState: bsbBranchRequired => store.dispatch({
-    intent: SET_BSB_BRANCH_REQUIRED,
-    bsbBranchRequired,
-  }),
-
-  setBsbRequiredState: bsbRequired => store.dispatch({
-    intent: SET_BSB_REQUIRED,
-    bsbRequired,
+  setFinancialInstitution: financialInstitution => store.dispatch({
+    intent: SET_FINANCIAL_INSTITUTION,
+    financialInstitution,
   }),
 
   setInitialState: context => store.dispatch({
@@ -109,11 +57,6 @@ const BankFeedsCreateDispatcher = store => ({
     isSubmitting,
   }),
 
-  setLastFourDigitsRequiredState: lastFourDigitsRequired => store.dispatch({
-    intent: SET_LAST_FOUR_DIGITS_REQUIRED,
-    lastFourDigitsRequired,
-  }),
-
   setLoadingState: (loadingState) => {
     store.dispatch({
       intent: SET_LOADING_STATE,
@@ -124,26 +67,6 @@ const BankFeedsCreateDispatcher = store => ({
   setModalState: isModalOpen => store.dispatch({
     intent: SET_MODAL_STATE,
     isModalOpen,
-  }),
-
-  setNameOnCardRequiredState: nameOnCardRequired => store.dispatch({
-    intent: SET_NAME_ON_CARD_REQUIRED,
-    nameOnCardRequired,
-  }),
-
-  setNotesState: notes => store.dispatch({
-    intent: SET_NOTES_STATE,
-    notes,
-  }),
-
-  setOnlineApplicationSupportedState: param => store.dispatch({
-    intent: SET_ONLINE_APPLICATION_SUPPORTED_STATE,
-    param,
-  }),
-
-  setPaperApplicationSupportedState: param => store.dispatch({
-    intent: SET_PAPER_APPLICATION_SUPPORTED_STATE,
-    param,
   }),
 
   updateForm: ({ key, value }) => {

@@ -26,6 +26,7 @@ import {
   getBsbBranch,
   getBsbBranchRequired,
   getBsbRequired,
+  getFinancialInstitution,
   getLastFourDigits,
   getLastFourDigitsRequired,
   getLoadingState,
@@ -58,29 +59,17 @@ const BankFeedsCreateView = ({
   bsbBranch,
   bsbBranchRequired,
   bsbRequired,
+  financialInstitution,
   lastFourDigits,
   lastFourDigitsRequired,
   loadingState,
   nameOnCardRequired,
   onUpdateForm,
   redirectToImportStatements,
-  resetAccountInformation,
-  setAccountNameRequired,
-  setAccountNumberRequired,
-  setAccountSuffixRequired,
+  setFinancialInstitution,
   setAccountType,
-  setAccountTypeRequired,
   setApplicationPreference,
-  setBranchNameRequired,
-  setBSBBankRequired,
-  setBSBBranchRequired,
-  setBSBRequired,
-  setLastFourDigitsRequired,
   setModalState,
-  setNameOnCardRequired,
-  setNotes,
-  setOnlineApplicationSupported,
-  setPaperApplicationSupported,
 }) => {
   const [displayAlert, setAlert] = useState(false);
 
@@ -121,31 +110,13 @@ const BankFeedsCreateView = ({
             body={
               <Card.Body child={
                 <>
-                  <BankFeedsAccountType
-                    onUpdateForm={onUpdateForm}
-                    setAccountType={setAccountType}
-                    setApplicationPreference={setApplicationPreference}
-                  />
+                  <BankFeedsAccountType value={accountType} setAccountType={setAccountType} />
 
                   <BankFeedsFinancialInstitutions
-                    onUpdateForm={onUpdateForm}
-                    resetAccountInformation={resetAccountInformation}
+                    financialInstitution={financialInstitution}
+                    setFinancialInstitution={setFinancialInstitution}
                     redirectToImportStatements={redirectToImportStatements}
-                    setAccountNameRequired={setAccountNameRequired}
-                    setAccountNumberRequired={setAccountNumberRequired}
-                    setAccountSuffixRequired={setAccountSuffixRequired}
-                    setAccountTypeRequired={setAccountTypeRequired}
-                    setApplicationPreference={setApplicationPreference}
-                    setBranchNameRequired={setBranchNameRequired}
-                    setBSBBankRequired={setBSBBankRequired}
-                    setBSBBranchRequired={setBSBBranchRequired}
-                    setBSBRequired={setBSBRequired}
-                    setLastFourDigitsRequired={setLastFourDigitsRequired}
                     setModalState={setModalState}
-                    setNameOnCardRequired={setNameOnCardRequired}
-                    setNotes={setNotes}
-                    setOnlineApplicationSupported={setOnlineApplicationSupported}
-                    setPaperApplicationSupported={setPaperApplicationSupported}
                   />
 
                   <BankFeedsApplicationMethod setApplicationPreference={setApplicationPreference} />
@@ -185,6 +156,7 @@ const mapStateToProps = state => ({
   bsbBranch: getBsbBranch(state),
   bsbBranchRequired: getBsbBranchRequired(state),
   bsbRequired: getBsbRequired(state),
+  financialInstitution: getFinancialInstitution(state),
   lastFourDigits: getLastFourDigits(state),
   lastFourDigitsRequired: getLastFourDigitsRequired(state),
   loadingState: getLoadingState(state),

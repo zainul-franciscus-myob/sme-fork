@@ -18,45 +18,18 @@ const FinancialInstitutions = ({
   accountType,
   bankAccounts,
   creditCardAccounts,
-  resetAccountInformation,
-  setAccountNameRequired,
-  setAccountNumberRequired,
-  setAccountSuffixRequired,
-  setAccountTypeRequired,
-  setBranchNameRequired,
-  setBSBBankRequired,
-  setBSBBranchRequired,
-  setBSBRequired,
-  setLastFourDigitsRequired,
-  setNameOnCardRequired,
-  setNotes,
-  setOnlineApplicationSupported,
-  setPaperApplicationSupported,
+  financialInstitution,
+  setFinancialInstitution,
 }) => (
   <fieldset>
     <Combobox
+      selected={financialInstitution}
       items={accountType === 'Trading Account' ? bankAccounts : creditCardAccounts}
       label="Financial institution"
       metaData={[{ columnName: 'description', showData: true }]}
       name="financialInstitution"
       noMatchFoundMessage="No match found"
-      onChange={(value) => {
-        resetAccountInformation();
-
-        if (value.accountNameRequired) setAccountNameRequired();
-        if (value.accountNumberRequired) setAccountNumberRequired();
-        if (value.accountSuffixRequired) setAccountSuffixRequired();
-        if (value.accountTypeRequired) setAccountTypeRequired();
-        if (value.branchNameRequired) setBranchNameRequired();
-        if (value.BSBBankRequired) setBSBBankRequired();
-        if (value.BSBBranchRequired) setBSBBranchRequired();
-        if (value.BSBRequired) setBSBRequired();
-        if (value.nameOnCardRequired) setNameOnCardRequired();
-        if (value.lastFourDigitsRequired) setLastFourDigitsRequired();
-        if (value.notes) setNotes(value.notes);
-        if (value.onlineApplicationSupported) setOnlineApplicationSupported(true);
-        if (value.paperApplicationSupported) setPaperApplicationSupported(true);
-      }}
+      onChange={(value) => setFinancialInstitution(value)}
       requiredLabel="This field is required"
     />
   </fieldset>
@@ -100,43 +73,19 @@ const BankFeedsFinancialInstitutions = ({
   accountType,
   bankAccounts,
   creditCardAccounts,
+  financialInstitution,
   isModalOpen,
   redirectToImportStatements,
-  resetAccountInformation,
-  setAccountNameRequired,
-  setAccountNumberRequired,
-  setAccountSuffixRequired,
-  setAccountTypeRequired,
-  setBranchNameRequired,
-  setBSBBankRequired,
-  setBSBBranchRequired,
-  setBSBRequired,
-  setLastFourDigitsRequired,
+  setFinancialInstitution,
   setModalState,
-  setNameOnCardRequired,
-  setNotes,
-  setOnlineApplicationSupported,
-  setPaperApplicationSupported,
 }) => (
   <>
     <FinancialInstitutions
+      financialInstitution={financialInstitution}
       accountType={accountType}
       bankAccounts={bankAccounts}
       creditCardAccounts={creditCardAccounts}
-      resetAccountInformation={resetAccountInformation}
-      setAccountNameRequired={setAccountNameRequired}
-      setAccountNumberRequired={setAccountNumberRequired}
-      setAccountSuffixRequired={setAccountSuffixRequired}
-      setAccountTypeRequired={setAccountTypeRequired}
-      setBranchNameRequired={setBranchNameRequired}
-      setBSBBankRequired={setBSBBankRequired}
-      setBSBBranchRequired={setBSBBranchRequired}
-      setBSBRequired={setBSBRequired}
-      setLastFourDigitsRequired={setLastFourDigitsRequired}
-      setNameOnCardRequired={setNameOnCardRequired}
-      setNotes={setNotes}
-      setOnlineApplicationSupported={setOnlineApplicationSupported}
-      setPaperApplicationSupported={setPaperApplicationSupported}
+      setFinancialInstitution={setFinancialInstitution}
     />
 
     <NoFinancialInstitution

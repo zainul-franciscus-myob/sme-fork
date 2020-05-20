@@ -1,24 +1,12 @@
 import {
   LOAD_BANK_FEED_APPLICATION_DATA,
-  RESET_ACCOUNT_INFORMATION_STATE,
-  SET_ACCOUNT_NAME_REQUIRED,
-  SET_ACCOUNT_NUMBER_REQUIRED,
-  SET_ACCOUNT_SUFFIX_REQUIRED,
   SET_ACCOUNT_TYPE,
-  SET_ACCOUNT_TYPE_REQUIRED,
   SET_ALERT,
   SET_APPLICATION_PREFERENCE,
-  SET_BRANCH_NAME_REQUIRED,
-  SET_BSB_BANK_REQUIRED,
-  SET_BSB_BRANCH_REQUIRED,
-  SET_BSB_REQUIRED,
-  SET_IS_SUBMITTING, SET_LAST_FOUR_DIGITS_REQUIRED,
+  SET_FINANCIAL_INSTITUTION, SET_IS_SUBMITTING,
   SET_LOADING_STATE,
   SET_MODAL_STATE,
-  SET_NAME_ON_CARD_REQUIRED,
   SET_NOTES_STATE,
-  SET_ONLINE_APPLICATION_SUPPORTED_STATE,
-  SET_PAPER_APPLICATION_SUPPORTED_STATE,
   SUBMIT_BANK_FEED_APPLICATION,
   UPDATE_FORM,
 } from './BankFeedsCreateIntents';
@@ -26,7 +14,7 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
-const getDefaultState = () => ({
+const initialFinancialInstitutionData = {
   accountName: '',
   accountNameRequired: false,
   accountNumber: '',
@@ -35,7 +23,6 @@ const getDefaultState = () => ({
   accountSuffixRequired: false,
   accountType: 'Trading Account',
   accountTypeRequired: false,
-  alert: '',
   applicationPreference: '',
   branchName: '',
   branchNameRequired: false,
@@ -45,23 +32,28 @@ const getDefaultState = () => ({
   bsbBranch: '',
   bsbBranchRequired: false,
   bsbRequired: false,
-  businessId: '',
   confirmedApplication: false,
-  financialInstitution: '',
+  financialInstitution: null,
+  hasOnlineApplication: false,
+  hasPaperApplication: false,
+  lastFourDigits: '',
+  lastFourDigitsRequired: false,
+  nameOnCard: '',
+  nameOnCardRequired: false,
+  notes: '',
+};
+
+const getDefaultState = () => ({
+  ...initialFinancialInstitutionData,
+  alert: '',
+  businessId: '',
   financialInstitutions: {
     bankAccounts: [],
     creditCards: [],
   },
-  hasOnlineApplication: false,
-  hasPaperApplication: false,
   isModalOpen: false,
   isSubmitting: false,
-  lastFourDigits: '',
-  lastFourDigitsRequired: false,
   loadingState: LoadingState.LOADING,
-  nameOnCard: '',
-  nameOnCardRequired: false,
-  notes: '',
   region: '',
   serialNumber: '',
   cdfGuid: '',
@@ -80,24 +72,6 @@ const submitBankFeedApplication = (state, { financialInstitutions }) => ({
   financialInstitutions,
 });
 
-const resetAccountInformationState = (state) => ({
-  ...state,
-  accountNameRequired: false,
-  accountNumberRequired: false,
-  accountSuffixRequired: false,
-  accountTypeRequired: false,
-  applicationPreference: '',
-  branchNameRequired: false,
-  bsbBankRequired: false,
-  bsbBranchRequired: false,
-  bsbRequired: false,
-  hasOnlineApplication: false,
-  hasPaperApplication: false,
-  lastFourDigitsRequired: false,
-  nameOnCardRequired: false,
-  notes: '',
-});
-
 const resetState = () => getDefaultState();
 
 const setAlert = (state, action) => ({
@@ -105,29 +79,10 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
-const setAccountNameRequiredState = (state, { accountNameRequired }) => ({
-  ...state,
-  accountNameRequired,
-});
-
-const setAccountNumberRequiredState = (state, { accountNumberRequired }) => ({
-  ...state,
-  accountNumberRequired,
-});
-
-const setAccountSuffixRequiredState = (state, { accountSuffixRequired }) => ({
-  ...state,
-  accountSuffixRequired,
-});
-
 const setAccountTypeState = (state, { accountType }) => ({
   ...state,
+  ...initialFinancialInstitutionData,
   accountType,
-});
-
-const setAccountTypeRequiredState = (state, { accountTypeRequired }) => ({
-  ...state,
-  accountTypeRequired,
 });
 
 const setApplicationPreferenceState = (state, { applicationPreference }) => ({
@@ -135,29 +90,29 @@ const setApplicationPreferenceState = (state, { applicationPreference }) => ({
   applicationPreference,
 });
 
-const setBranchNameRequiredState = (state, { branchNameRequired }) => ({
-  ...state,
-  branchNameRequired,
-});
+const getDefaultApplicationPreference = (financialInstitution) => {
+  if (financialInstitution?.onlineApplicationSupported) return 'online';
+  if (financialInstitution?.paperApplicationSupported) return 'form';
+  return '';
+};
 
-const setBsbBankRequiredState = (state, { bsbBankRequired }) => ({
+const setFinancialInstitution = (state, { financialInstitution }) => ({
   ...state,
-  bsbBankRequired,
-});
-
-const setBsbBranchRequiredState = (state, { bsbBranchRequired }) => ({
-  ...state,
-  bsbBranchRequired,
-});
-
-const setBsbRequiredState = (state, { bsbRequired }) => ({
-  ...state,
-  bsbRequired,
-});
-
-const setNameOnCardRequiredState = (state, { nameOnCardRequired }) => ({
-  ...state,
-  nameOnCardRequired,
+  accountNameRequired: !!financialInstitution?.accountNameRequired,
+  accountNumberRequired: !!financialInstitution?.accountNumberRequired,
+  accountSuffixRequired: !!financialInstitution?.accountSuffixRequired,
+  accountTypeRequired: !!financialInstitution?.accountTypeRequired,
+  branchNameRequired: !!financialInstitution?.branchNameRequired,
+  bsbBankRequired: !!financialInstitution?.BSBBankRequired,
+  bsbBranchRequired: !!financialInstitution?.BSBBranchRequired,
+  bsbRequired: !!financialInstitution?.BSBRequired,
+  nameOnCardRequired: !!financialInstitution?.nameOnCardRequired,
+  lastFourDigitsRequired: !!financialInstitution?.lastFourDigitsRequired,
+  notes: financialInstitution?.notes,
+  hasOnlineApplication: !!financialInstitution?.onlineApplicationSupported,
+  hasPaperApplication: !!financialInstitution?.paperApplicationSupported,
+  applicationPreference: getDefaultApplicationPreference(financialInstitution),
+  financialInstitution,
 });
 
 const setInitialState = (state, action) => ({
@@ -168,11 +123,6 @@ const setInitialState = (state, action) => ({
 const setIsSubmitting = (state, action) => ({
   ...state,
   isSubmitting: action.isSubmitting,
-});
-
-const setLastFourDigitsRequiredState = (state, { lastFourDigitsRequired }) => ({
-  ...state,
-  lastFourDigitsRequired,
 });
 
 const setLoadingState = (state, { loadingState }) => ({
@@ -190,16 +140,6 @@ const setNotesState = (state, { notes }) => ({
   notes,
 });
 
-const setOnlineApplicationSupportedState = (state, { param }) => ({
-  ...state,
-  hasOnlineApplication: param,
-});
-
-const setPaperApplicationSupportedState = (state, { param }) => ({
-  ...state,
-  hasPaperApplication: param,
-});
-
 const updateForm = (state, { key, value }) => ({
   ...state,
   [key]: value,
@@ -208,28 +148,16 @@ const updateForm = (state, { key, value }) => ({
 const handlers = {
   [LOAD_BANK_FEED_APPLICATION_DATA]: loadBankFeedApplicationData,
   [SUBMIT_BANK_FEED_APPLICATION]: submitBankFeedApplication,
-  [RESET_ACCOUNT_INFORMATION_STATE]: resetAccountInformationState,
   [RESET_STATE]: resetState,
   [SET_ALERT]: setAlert,
-  [SET_ACCOUNT_NAME_REQUIRED]: setAccountNameRequiredState,
-  [SET_ACCOUNT_NUMBER_REQUIRED]: setAccountNumberRequiredState,
-  [SET_ACCOUNT_SUFFIX_REQUIRED]: setAccountSuffixRequiredState,
   [SET_ACCOUNT_TYPE]: setAccountTypeState,
-  [SET_ACCOUNT_TYPE_REQUIRED]: setAccountTypeRequiredState,
   [SET_APPLICATION_PREFERENCE]: setApplicationPreferenceState,
-  [SET_BRANCH_NAME_REQUIRED]: setBranchNameRequiredState,
-  [SET_BSB_BANK_REQUIRED]: setBsbBankRequiredState,
-  [SET_BSB_BRANCH_REQUIRED]: setBsbBranchRequiredState,
-  [SET_BSB_REQUIRED]: setBsbRequiredState,
-  [SET_LAST_FOUR_DIGITS_REQUIRED]: setLastFourDigitsRequiredState,
-  [SET_NAME_ON_CARD_REQUIRED]: setNameOnCardRequiredState,
+  [SET_FINANCIAL_INSTITUTION]: setFinancialInstitution,
   [SET_INITIAL_STATE]: setInitialState,
   [SET_IS_SUBMITTING]: setIsSubmitting,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_MODAL_STATE]: setModalState,
-  [SET_ONLINE_APPLICATION_SUPPORTED_STATE]: setOnlineApplicationSupportedState,
   [SET_NOTES_STATE]: setNotesState,
-  [SET_PAPER_APPLICATION_SUPPORTED_STATE]: setPaperApplicationSupportedState,
   [UPDATE_FORM]: updateForm,
 };
 

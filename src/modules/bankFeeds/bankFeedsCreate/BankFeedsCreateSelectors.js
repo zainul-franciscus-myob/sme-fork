@@ -21,6 +21,7 @@ export const getBsbRequired = state => state.bsbRequired;
 export const getBusinessId = state => state.businessId;
 export const getConfirmedApplication = state => state.confirmedApplication;
 export const getCreditCardAccounts = state => state.financialInstitutions.creditCards;
+export const getFinancialInstitution = state => state.financialInstitution;
 export const getHasOnlineApplication = state => state.hasOnlineApplication;
 export const getHasPaperApplication = state => state.hasPaperApplication;
 export const getIsModalOpen = state => state.isModalOpen;

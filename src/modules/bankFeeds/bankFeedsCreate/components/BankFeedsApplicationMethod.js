@@ -12,6 +12,7 @@ import {
 import styles from './BankFeedsCreateView.module.css';
 
 const BankFeedsApplicationMethod = ({
+  applicationPreference,
   hasOnlineApplication,
   hasPaperApplication,
   setApplicationPreference,
@@ -43,25 +44,20 @@ const BankFeedsApplicationMethod = ({
       <RadioButtonGroup
         label="Application method"
         name="applicationMethod"
-        onChange={({ value }) => (
-          value === ApplicationMethods.ONLINE
-            ? setApplicationPreference('online')
-            : setApplicationPreference('form')
-        )}
+        value={applicationPreference}
+        onChange={({ value }) => setApplicationPreference(value)}
         renderRadios={({ id, value, ...props }) => [
           <OnlineApplicationMethod
             {...props}
-            checked={value === ApplicationMethods.ONLINE}
-            key={ApplicationMethods.ONLINE}
+            checked={value === 'online'}
             label={ApplicationMethods.ONLINE}
-            value={ApplicationMethods.ONLINE}
+            value="online"
           />,
           <PaperApplicationMethod
             {...props}
-            checked={value === ApplicationMethods.FORM}
-            key={ApplicationMethods.FORM}
+            checked={value === 'form'}
             label={ApplicationMethods.FORM}
-            value={ApplicationMethods.FORM}
+            value="form"
           />,
         ]}
       />
@@ -73,7 +69,6 @@ const BankFeedsApplicationMethod = ({
       <ReadOnly label="Application method" name="applicationMethod">
         <span>{ApplicationMethods.ONLINE}</span>
         <span className={styles.subText}>Takes a few days</span>
-        { setApplicationPreference('online') }
       </ReadOnly>
     );
   }
@@ -83,7 +78,6 @@ const BankFeedsApplicationMethod = ({
       <ReadOnly label="Application method" name="applicationMethod">
         <span>{ApplicationMethods.FORM}</span>
         <span className={styles.subText}>Takes 1 to 2 weeks</span>
-        { setApplicationPreference('form') }
       </ReadOnly>
     );
   }
