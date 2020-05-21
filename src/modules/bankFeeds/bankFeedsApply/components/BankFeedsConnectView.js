@@ -13,9 +13,9 @@ import {
   getApplicationPreference,
   getCopyAlertState,
   getCopyAlertText,
-} from '../BankFeedsConnectSelectors';
-import BankFeedsConnectForm from './BankFeedsConnectForm';
-import BankFeedsConnectOnline from './BankFeedsConnectOnline';
+} from '../BankFeedsApplySelectors';
+import BankFeedsConnectForm from './BankFeedsForm';
+import BankFeedsConnectOnline from './BankFeedsOnline';
 import PageView from '../../../../components/PageView/PageView';
 import styles from './BankFeedsConnectView.module.css';
 
@@ -24,6 +24,7 @@ const BankFeedsConnectView = ({
   copyAlertState,
   copyAlertText,
   onCopy,
+  redirectToBank,
   redirectToBankFeeds,
   setCopyAlertText,
 }) => {
@@ -54,12 +55,19 @@ const BankFeedsConnectView = ({
             <Card.Body
               child={
                 applicationPreferenceOnline
-                  ? <BankFeedsConnectOnline onCopy={onCopy} setCopyAlertText={setCopyAlertText} />
-                  : <BankFeedsConnectForm onCopy={onCopy} setCopyAlertText={setCopyAlertText} />
+                  ? <BankFeedsConnectOnline
+                    onCopy={onCopy}
+                    redirectToBank={redirectToBank}
+                    setCopyAlertText={setCopyAlertText}
+                  />
+                  : <BankFeedsConnectForm
+                    onCopy={onCopy}
+                    setCopyAlertText={setCopyAlertText}
+                  />
               }
             />
           }
-          classes="bankFeedsConnect"
+          classes={['bankFeedsConnect']}
         />
       </FormTemplate>
     </div>

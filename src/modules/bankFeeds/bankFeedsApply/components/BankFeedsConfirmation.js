@@ -1,8 +1,15 @@
-import { Checkbox, CheckboxGroup } from '@myob/myob-widgets';
+import {
+  Checkbox,
+  CheckboxGroup,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getApplicationPreference, getConfirmedApplication, getTermsOfUseLink } from '../BankFeedsCreateSelectors';
+import {
+  getApplicationPreference,
+  getConfirmedApplication,
+  getTermsOfUseLink,
+} from '../BankFeedsApplySelectors';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import styles from './BankFeedsCreateView.module.css';
 

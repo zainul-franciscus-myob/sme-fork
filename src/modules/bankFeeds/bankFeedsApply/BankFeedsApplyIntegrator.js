@@ -1,7 +1,10 @@
-import { LOAD_BANK_FEED_APPLICATION_DATA, SUBMIT_BANK_FEED_APPLICATION } from './BankFeedsCreateIntents';
-import { getBusinessId, getRegion } from './BankFeedsCreateSelectors';
+import {
+  LOAD_BANK_FEED_APPLICATION_DATA,
+  SUBMIT_BANK_FEED_APPLICATION,
+} from './BankFeedsApplyIntents';
+import { getBusinessId, getRegion } from './BankFeedsApplySelectors';
 
-const BankFeedsCreateIntegrator = (store, integration) => ({
+const BankFeedsApplyIntegrator = (store, integration) => ({
   loadBankFeedApplicationData: ({ onSuccess, onFailure }) => {
     const state = store.getState();
     const urlParams = { businessId: getBusinessId(state) };
@@ -31,4 +34,4 @@ const BankFeedsCreateIntegrator = (store, integration) => ({
   },
 });
 
-export default BankFeedsCreateIntegrator;
+export default BankFeedsApplyIntegrator;

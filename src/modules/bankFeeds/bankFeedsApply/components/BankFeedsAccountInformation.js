@@ -28,7 +28,7 @@ import {
   getNameOnCard,
   getNameOnCardRequired,
   getNotes,
-} from '../BankFeedsCreateSelectors';
+} from '../BankFeedsApplySelectors';
 import BankFeedsCreditCard from './BankFeedsCreditCard';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
@@ -56,7 +56,7 @@ const BankFeedsAccountInformation = ({
   notes,
   onUpdateForm,
 }) => (
-  applicationPreference
+  applicationPreference && applicationPreference !== 'online'
     && <>
       <hr />
 
@@ -91,7 +91,7 @@ const BankFeedsAccountInformation = ({
             requiredLabel="This field is required"
             type="number"
             value={bsb}
-            width="sm"
+            width="xs"
           />
       }
 

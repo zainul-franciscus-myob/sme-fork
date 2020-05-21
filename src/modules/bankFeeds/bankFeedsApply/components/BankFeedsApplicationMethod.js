@@ -1,5 +1,8 @@
 import {
-  Label, RadioButton, RadioButtonGroup, ReadOnly,
+  Label,
+  RadioButton,
+  RadioButtonGroup,
+  ReadOnly,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -8,7 +11,7 @@ import {
   getApplicationPreference,
   getHasOnlineApplication,
   getHasPaperApplication,
-} from '../BankFeedsCreateSelectors';
+} from '../BankFeedsApplySelectors';
 import styles from './BankFeedsCreateView.module.css';
 
 const BankFeedsApplicationMethod = ({

@@ -3,16 +3,20 @@ import {
   SET_ACCOUNT_TYPE,
   SET_ALERT,
   SET_APPLICATION_PREFERENCE,
+  SET_COPY_ALERT_STATE,
+  SET_COPY_ALERT_TEXT,
+  SET_DISPLAY_CONNECT_FORM_STATE,
   SET_FINANCIAL_INSTITUTION,
+  SET_FORM_ALERT_STATE,
   SET_IS_SUBMITTING,
   SET_LOADING_STATE,
   SET_MODAL_STATE,
   SUBMIT_BANK_FEED_APPLICATION,
   UPDATE_FORM,
-} from './BankFeedsCreateIntents';
+} from './BankFeedsApplyIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const BankFeedsCreateDispatcher = store => ({
+const BankFeedsApplyDispatcher = store => ({
   loadBankFeedApplicationData: response => store.dispatch({
     intent: LOAD_BANK_FEED_APPLICATION_DATA,
     ...response,
@@ -42,9 +46,29 @@ const BankFeedsCreateDispatcher = store => ({
     applicationPreference,
   }),
 
+  setCopyAlertState: copyAlertState => store.dispatch({
+    intent: SET_COPY_ALERT_STATE,
+    copyAlertState,
+  }),
+
+  setCopyAlertText: copyAlertText => store.dispatch({
+    intent: SET_COPY_ALERT_TEXT,
+    copyAlertText,
+  }),
+
+  setDisplayConnectFormState: shouldDisplayConnectForm => store.dispatch({
+    intent: SET_DISPLAY_CONNECT_FORM_STATE,
+    shouldDisplayConnectForm,
+  }),
+
   setFinancialInstitution: financialInstitution => store.dispatch({
     intent: SET_FINANCIAL_INSTITUTION,
     financialInstitution,
+  }),
+
+  setFormAlertState: formAlertState => store.dispatch({
+    intent: SET_FORM_ALERT_STATE,
+    formAlertState,
   }),
 
   setInitialState: context => store.dispatch({
@@ -78,4 +102,4 @@ const BankFeedsCreateDispatcher = store => ({
   },
 });
 
-export default BankFeedsCreateDispatcher;
+export default BankFeedsApplyDispatcher;

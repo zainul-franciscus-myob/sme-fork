@@ -2,11 +2,15 @@ import { Alert, Button, Input } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getReferenceNumber } from '../BankFeedsConnectSelectors';
+import {
+  getOnlineBankLink,
+  getReferenceNumber,
+} from '../BankFeedsApplySelectors';
 import styles from './BankFeedsConnectView.module.css';
 
-const BankFeedsConnectOnline = ({
+const BankFeedsOnline = ({
   onCopy,
+  redirectToBank,
   referenceNumber,
   setCopyAlertText,
 }) => {
@@ -40,7 +44,7 @@ const BankFeedsConnectOnline = ({
         <Button type="secondary" onClick={() => copy(referenceNumber)}>Copy</Button>
       </div>
 
-      <Button type="primary" onClick={() => ('online button clicked')}>Go to online banking</Button>
+      <Button type="primary" onClick={() => redirectToBank()}>Go to online banking</Button>
 
       <hr />
 
@@ -55,7 +59,8 @@ const BankFeedsConnectOnline = ({
 };
 
 const mapStateToProps = state => ({
+  onlineBankLink: getOnlineBankLink(state),
   referenceNumber: getReferenceNumber(state),
 });
 
-export default connect(mapStateToProps)(BankFeedsConnectOnline);
+export default connect(mapStateToProps)(BankFeedsOnline);

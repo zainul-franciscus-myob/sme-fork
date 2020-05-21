@@ -1,4 +1,4 @@
-import { LOAD_BANK_FEED_APPLICATION_DATA, SUBMIT_BANK_FEED_APPLICATION } from '../BankFeedsCreateIntents';
+import { LOAD_BANK_FEED_APPLICATION_DATA, SUBMIT_BANK_FEED_APPLICATION } from '../BankFeedsApplyIntents';
 
 const HttpBankFeedsCreateMapping = {
   [LOAD_BANK_FEED_APPLICATION_DATA]: {

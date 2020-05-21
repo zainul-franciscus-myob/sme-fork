@@ -1,15 +1,20 @@
 import { Provider } from 'react-redux';
 import React from 'react';
+import copy from 'copy-to-clipboard';
 
-import { getBusinessId, getRegion } from './BankFeedsCreateSelectors';
-import BankFeedsCreateDispatcher from './BankFeedsCreateDispatcher';
-import BankFeedsCreateIntegrator from './BankFeedsCreateIntegrator';
-import BankFeedsCreateReducer from './BankFeedsCreateReducer';
-import BankFeedsCreateView from './components/BankFeedsCreateView';
+import {
+  getBusinessId,
+  getOnlineBankLink,
+  getRegion,
+} from './BankFeedsApplySelectors';
+import BankFeedsApplyDispatcher from './BankFeedsApplyDispatcher';
+import BankFeedsApplyIntegrator from './BankFeedsApplyIntegrator';
+import BankFeedsApplyReducer from './BankFeedsApplyReducer';
+import BankFeedsApplyView from './components/BankFeedsApplyView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 
-class BankFeedsCreateModule {
+export default class BankFeedsApplyModule {
   constructor({
     integration,
     setRootView,
@@ -17,9 +22,9 @@ class BankFeedsCreateModule {
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
-    this.store = new Store(BankFeedsCreateReducer);
-    this.dispatcher = BankFeedsCreateDispatcher(this.store);
-    this.integrator = BankFeedsCreateIntegrator(this.store, integration);
+    this.store = new Store(BankFeedsApplyReducer);
+    this.dispatcher = BankFeedsApplyDispatcher(this.store);
+    this.integrator = BankFeedsApplyIntegrator(this.store, integration);
     this.navigateTo = navigateTo;
   }
 
@@ -36,6 +41,13 @@ class BankFeedsCreateModule {
     this.integrator.loadBankFeedApplicationData({ onSuccess, onFailure });
   }
 
+  onCopy = (item) => {
+    copy(item);
+    this.setCopyAlertState();
+  }
+
+  setCopyAlertState = () => this.dispatcher.setCopyAlertState();
+
   submitBankFeedApplication = () => {
     const onSuccess = (response) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
@@ -49,7 +61,7 @@ class BankFeedsCreateModule {
     this.integrator.submitBankFeedApplication({ onSuccess, onFailure });
   }
 
-  redirectToUrl = (url) => {
+  redirectToPath = (url) => {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
     const region = getRegion(state);
@@ -60,14 +72,22 @@ class BankFeedsCreateModule {
   render = () => {
     this.setRootView(
       <Provider store={this.store}>
-        <BankFeedsCreateView
+        <BankFeedsApplyView
+          onCopy={this.onCopy}
           onUpdateForm={({ key, value }) => this.dispatcher.updateForm({ key, value })}
-          redirectToConnectBankFeed={() => this.redirectToUrl('bankFeeds/connect')}
-          redirectToImportStatements={() => this.redirectToUrl('bankStatementImport')}
-          setAccountType={(param) => this.dispatcher.setAccountType(param)}
-          setApplicationPreference={(param) => this.dispatcher.setApplicationPreference(param)}
-          setModalState={() => this.dispatcher.setModalState()}
+          redirectToBank={() => this.navigateTo(getOnlineBankLink(this.store.getState()), true)}
+          redirectToBankFeeds={() => this.redirectToPath('bankFeeds')}
+          redirectToImportStatements={() => this.redirectToPath('bankStatementImport')}
+          setAccountType={(type) => this.dispatcher.setAccountType(type)}
+          setApplicationPreference={
+            (preference) => this.dispatcher.setApplicationPreference(preference)
+          }
+          setCopyAlertState={this.setCopyAlertState}
+          setCopyAlertText={(text) => this.dispatcher.setCopyAlertText(text)}
+          setDisplayConnectForm={() => this.dispatcher.setDisplayConnectFormState()}
           setFinancialInstitution={(value) => this.dispatcher.setFinancialInstitution(value)}
+          setFormAlertState={(state) => this.dispatcher.setFormAlertState(state)}
+          setModalState={() => this.dispatcher.setModalState()}
         />
       </Provider>,
     );
@@ -84,5 +104,3 @@ class BankFeedsCreateModule {
 
   unsubscribeFromStore = () => this.store.unsubscribeAll();
 }
-
-export default BankFeedsCreateModule;

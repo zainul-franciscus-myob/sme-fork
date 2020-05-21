@@ -12,7 +12,7 @@ import {
   getBankAccounts,
   getCreditCardAccounts,
   getIsModalOpen,
-} from '../BankFeedsCreateSelectors';
+} from '../BankFeedsApplySelectors';
 
 const FinancialInstitutions = ({
   accountType,
@@ -81,10 +81,10 @@ const BankFeedsFinancialInstitutions = ({
 }) => (
   <>
     <FinancialInstitutions
-      financialInstitution={financialInstitution}
       accountType={accountType}
       bankAccounts={bankAccounts}
       creditCardAccounts={creditCardAccounts}
+      financialInstitution={financialInstitution}
       setFinancialInstitution={setFinancialInstitution}
     />
 

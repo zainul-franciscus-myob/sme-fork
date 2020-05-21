@@ -7,7 +7,7 @@ import {
   PageHead,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   getAccountName,
@@ -18,6 +18,7 @@ import {
   getAccountSuffixRequired,
   getAccountType,
   getAccountTypeRequired,
+  getApplicationPreference,
   getBranchName,
   getBranchNameRequired,
   getBsb,
@@ -26,13 +27,16 @@ import {
   getBsbBranch,
   getBsbBranchRequired,
   getBsbRequired,
+  getConfirmedApplication,
   getFinancialInstitution,
+  getFormAlertState,
   getLastFourDigits,
   getLastFourDigitsRequired,
   getLoadingState,
   getNameOnCard,
   getNameOnCardRequired,
-} from '../BankFeedsCreateSelectors';
+  getOnlineBankLink,
+} from '../BankFeedsApplySelectors';
 import BankFeedsAccountInformation from './BankFeedsAccountInformation';
 import BankFeedsAccountType from './BankFeedsAccountType';
 import BankFeedsApplicationMethod from './BankFeedsApplicationMethod';
@@ -51,6 +55,8 @@ const BankFeedsCreateView = ({
   accountSuffixRequired,
   accountType,
   accountTypeRequired,
+  alert,
+  applicationPreference,
   branchName,
   branchNameRequired,
   bsb,
@@ -59,65 +65,74 @@ const BankFeedsCreateView = ({
   bsbBranch,
   bsbBranchRequired,
   bsbRequired,
+  confirmedApplication,
   financialInstitution,
   lastFourDigits,
   lastFourDigitsRequired,
   loadingState,
   nameOnCardRequired,
   onUpdateForm,
-  redirectToConnectBankFeed,
   redirectToImportStatements,
   setAccountType,
   setApplicationPreference,
+  setDisplayConnectForm,
   setFinancialInstitution,
+  setFormAlertState,
   setModalState,
 }) => {
-  const [displayAlert, setAlert] = useState(false);
-
   const view = (
     <div className={styles.createForm}>
       <FormTemplate
         actions={(
           <ButtonRow>
             <Button type="secondary" onClick={() => window.history.back()}>Cancel</Button>
-            <Button onClick={() => {
-              switch (true) {
-                case accountNameRequired && !accountName:
-                case accountNumberRequired && !accountNumber:
-                case accountSuffixRequired && !accountSuffix:
-                case accountTypeRequired && !accountType:
-                case branchNameRequired && !branchName:
-                case bsbBankRequired && !bsbBank:
-                case bsbBranchRequired && !bsbBranch:
-                case bsbRequired && !bsb:
-                case lastFourDigitsRequired && !lastFourDigits:
-                case nameOnCardRequired && !nameOnCardRequired:
-                  setAlert(true);
-                  break;
+            <Button
+              onClick={() => {
+                const applicationPreferenceForm = applicationPreference === 'form';
 
-                default:
-                  setAlert(false);
-                  redirectToConnectBankFeed();
-              }
-            }}
-            >Next</Button>
+                switch (true) {
+                  case applicationPreferenceForm && accountNameRequired && !accountName:
+                  case applicationPreferenceForm && accountNumberRequired && !accountNumber:
+                  case applicationPreferenceForm && accountSuffixRequired && !accountSuffix:
+                  case applicationPreferenceForm && accountTypeRequired && !accountType:
+                  case applicationPreferenceForm && branchNameRequired && !branchName:
+                  case applicationPreferenceForm && bsbBankRequired && !bsbBank:
+                  case applicationPreferenceForm && bsbBranchRequired && !bsbBranch:
+                  case applicationPreferenceForm && bsbRequired && !bsb:
+                  case applicationPreferenceForm && lastFourDigitsRequired && !lastFourDigits:
+                  case applicationPreferenceForm && nameOnCardRequired && !nameOnCardRequired:
+                  case !financialInstitution || !confirmedApplication:
+                    setFormAlertState(true);
+                    break;
+
+                  default:
+                    setFormAlertState(false);
+                    setDisplayConnectForm();
+                }
+              }}
+            >
+              Next
+            </Button>
           </ButtonRow>
         )}
         pageHead={<PageHead title="Create a bank feed" />}
       >
         <>
-          {displayAlert && <Alert type="danger">Please fill in all the required fields.</Alert> }
+          {alert && <Alert type="danger">Please fill in all the required fields.</Alert> }
 
           <Card
             body={
               <Card.Body child={
                 <>
-                  <BankFeedsAccountType value={accountType} setAccountType={setAccountType} />
+                  <BankFeedsAccountType
+                    setAccountType={setAccountType}
+                    value={accountType}
+                  />
 
                   <BankFeedsFinancialInstitutions
                     financialInstitution={financialInstitution}
-                    setFinancialInstitution={setFinancialInstitution}
                     redirectToImportStatements={redirectToImportStatements}
+                    setFinancialInstitution={setFinancialInstitution}
                     setModalState={setModalState}
                   />
 
@@ -150,6 +165,8 @@ const mapStateToProps = state => ({
   accountSuffixRequired: getAccountSuffixRequired(state),
   accountType: getAccountType(state),
   accountTypeRequired: getAccountTypeRequired(state),
+  alert: getFormAlertState(state),
+  applicationPreference: getApplicationPreference(state),
   branchName: getBranchName(state),
   branchNameRequired: getBranchNameRequired(state),
   bsb: getBsb(state),
@@ -158,9 +175,11 @@ const mapStateToProps = state => ({
   bsbBranch: getBsbBranch(state),
   bsbBranchRequired: getBsbBranchRequired(state),
   bsbRequired: getBsbRequired(state),
+  confirmedApplication: getConfirmedApplication(state),
   financialInstitution: getFinancialInstitution(state),
   lastFourDigits: getLastFourDigits(state),
   lastFourDigitsRequired: getLastFourDigitsRequired(state),
+  links: getOnlineBankLink(state),
   loadingState: getLoadingState(state),
   nameOnCard: getNameOnCard(state),
   nameOnCardRequired: getNameOnCardRequired(state),

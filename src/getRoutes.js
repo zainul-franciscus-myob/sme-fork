@@ -1,7 +1,6 @@
 import getAccountRoutes from './modules/account/getAccountRoutes';
 import getApplyToSaleRoutes from './modules/applyToSale/getApplyToSaleRoutes';
-import getBankFeedsConnectRoutes from './modules/bankFeeds/bankFeedsConnect/getBankFeedsConnectRoutes';
-import getBankFeedsCreateRoutes from './modules/bankFeeds/bankFeedsCreate/getBankFeedsRoutes';
+import getBankFeedsApplyRoutes from './modules/bankFeeds/bankFeedsApply/getBankFeedsApplyRoutes';
 import getBankFeedsRoutes from './modules/bankFeeds/bankFeedsManage/getBankFeedsRoutes';
 import getBankReconciliationRoutes from './modules/bankReconciliation/getBankReconciliationRoutes';
 import getBankStatementImportRoutes from './modules/bankStatementImport/GetBankStatementImportRoutes';
@@ -112,8 +111,7 @@ const getRoutes = moduleParams => [
   ...getJobRoutes(moduleParams),
   ...getEmployeeNzRoutes(moduleParams),
   ...getLogoutRoutes(moduleParams),
-  ...getBankFeedsConnectRoutes(moduleParams),
-  ...getBankFeedsCreateRoutes(moduleParams),
+  ...getBankFeedsApplyRoutes(moduleParams),
 ];
 
 export default getRoutes;

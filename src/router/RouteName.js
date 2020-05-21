@@ -72,7 +72,6 @@ const RouteName = {
   PERMISSION_DENIED: 'permissionDenied/permissionDenied',
   DASHBOARD: 'dashboard/dashboard',
   BANK_FEEDS: 'bankFeeds/bankFeeds',
-  BANK_FEEDS_CONNECT: 'bankFeeds/connect',
   BANK_FEEDS_CREATE: 'bankFeeds/create',
   DATA_IMPORT_EXPORT: 'dataImportExport/dataImportExport',
   ELECTRONIC_PAYMENTS_CREATE: 'electronicPayments/electronicPaymentsCreate',

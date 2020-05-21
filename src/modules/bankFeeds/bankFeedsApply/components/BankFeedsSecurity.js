@@ -2,7 +2,7 @@ import { Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getApplicationPreference, getPCIDSSLink } from '../BankFeedsCreateSelectors';
+import { getApplicationPreference, getPCIDSSLink } from '../BankFeedsApplySelectors';
 import styles from './BankFeedsCreateView.module.css';
 
 const BankFeedsSecurity = ({

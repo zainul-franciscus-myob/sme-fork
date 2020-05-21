@@ -3,13 +3,18 @@ import {
   SET_ACCOUNT_TYPE,
   SET_ALERT,
   SET_APPLICATION_PREFERENCE,
-  SET_FINANCIAL_INSTITUTION, SET_IS_SUBMITTING,
+  SET_COPY_ALERT_STATE,
+  SET_COPY_ALERT_TEXT,
+  SET_DISPLAY_CONNECT_FORM_STATE,
+  SET_FINANCIAL_INSTITUTION,
+  SET_FORM_ALERT_STATE,
+  SET_IS_SUBMITTING,
   SET_LOADING_STATE,
   SET_MODAL_STATE,
   SET_NOTES_STATE,
   SUBMIT_BANK_FEED_APPLICATION,
   UPDATE_FORM,
-} from './BankFeedsCreateIntents';
+} from './BankFeedsApplyIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
@@ -41,22 +46,29 @@ const initialFinancialInstitutionData = {
   nameOnCard: '',
   nameOnCardRequired: false,
   notes: '',
+  links: '',
 };
 
 const getDefaultState = () => ({
   ...initialFinancialInstitutionData,
   alert: '',
   businessId: '',
+  bankFeedLoadEmail: 'bankfeedloads@myob.com',
+  copyAlertState: false,
+  copyAlertText: '',
   financialInstitutions: {
     bankAccounts: [],
     creditCards: [],
   },
+  formAlertState: false,
   isModalOpen: false,
   isSubmitting: false,
   loadingState: LoadingState.LOADING,
+  referenceNumber: '12345678',
   region: '',
   serialNumber: '',
-  cdfGuid: '',
+  shouldDisplayConnectForm: false,
+  userEmail: 'company@email.com',
 });
 
 const loadBankFeedApplicationData = (state, financialInstitutions) => ({
@@ -67,17 +79,7 @@ const loadBankFeedApplicationData = (state, financialInstitutions) => ({
   },
 });
 
-const submitBankFeedApplication = (state, { financialInstitutions }) => ({
-  ...state,
-  financialInstitutions,
-});
-
 const resetState = () => getDefaultState();
-
-const setAlert = (state, action) => ({
-  ...state,
-  alert: action.alert,
-});
 
 const setAccountTypeState = (state, { accountType }) => ({
   ...state,
@@ -85,9 +87,34 @@ const setAccountTypeState = (state, { accountType }) => ({
   accountType,
 });
 
+const setAlert = (state, action) => ({
+  ...state,
+  alert: action.alert,
+});
+
 const setApplicationPreferenceState = (state, { applicationPreference }) => ({
   ...state,
   applicationPreference,
+});
+
+const setCopyAlertState = (state) => ({
+  ...state,
+  copyAlertState: !state.copyAlertState,
+});
+
+const setCopyAlertText = (state, { copyAlertText }) => ({
+  ...state,
+  copyAlertText,
+});
+
+const setDisplayConnectFormState = (state) => ({
+  ...state,
+  shouldDisplayConnectForm: !state.shouldDisplayConnectForm,
+});
+
+const setFormAlertState = (state, { formAlertState }) => ({
+  ...state,
+  formAlertState,
 });
 
 const getDefaultApplicationPreference = (financialInstitution) => {
@@ -102,16 +129,18 @@ const setFinancialInstitution = (state, { financialInstitution }) => ({
   accountNumberRequired: !!financialInstitution?.accountNumberRequired,
   accountSuffixRequired: !!financialInstitution?.accountSuffixRequired,
   accountTypeRequired: !!financialInstitution?.accountTypeRequired,
+  applicationPreference: getDefaultApplicationPreference(financialInstitution),
   branchNameRequired: !!financialInstitution?.branchNameRequired,
   bsbBankRequired: !!financialInstitution?.BSBBankRequired,
   bsbBranchRequired: !!financialInstitution?.BSBBranchRequired,
   bsbRequired: !!financialInstitution?.BSBRequired,
-  nameOnCardRequired: !!financialInstitution?.nameOnCardRequired,
-  lastFourDigitsRequired: !!financialInstitution?.lastFourDigitsRequired,
-  notes: financialInstitution?.notes,
   hasOnlineApplication: !!financialInstitution?.onlineApplicationSupported,
   hasPaperApplication: !!financialInstitution?.paperApplicationSupported,
-  applicationPreference: getDefaultApplicationPreference(financialInstitution),
+  lastFourDigitsRequired: !!financialInstitution?.lastFourDigitsRequired,
+  links: financialInstitution?._links?.onlineApplication?.href,
+  nameOnCardRequired: !!financialInstitution?.nameOnCardRequired,
+  notes: financialInstitution?.notes,
+  formAlertState: false,
   financialInstitution,
 });
 
@@ -140,6 +169,11 @@ const setNotesState = (state, { notes }) => ({
   notes,
 });
 
+const submitBankFeedApplication = (state, { financialInstitutions }) => ({
+  ...state,
+  financialInstitutions,
+});
+
 const updateForm = (state, { key, value }) => ({
   ...state,
   [key]: value,
@@ -152,7 +186,11 @@ const handlers = {
   [SET_ALERT]: setAlert,
   [SET_ACCOUNT_TYPE]: setAccountTypeState,
   [SET_APPLICATION_PREFERENCE]: setApplicationPreferenceState,
+  [SET_COPY_ALERT_STATE]: setCopyAlertState,
+  [SET_COPY_ALERT_TEXT]: setCopyAlertText,
+  [SET_DISPLAY_CONNECT_FORM_STATE]: setDisplayConnectFormState,
   [SET_FINANCIAL_INSTITUTION]: setFinancialInstitution,
+  [SET_FORM_ALERT_STATE]: setFormAlertState,
   [SET_INITIAL_STATE]: setInitialState,
   [SET_IS_SUBMITTING]: setIsSubmitting,
   [SET_LOADING_STATE]: setLoadingState,
@@ -161,6 +199,6 @@ const handlers = {
   [UPDATE_FORM]: updateForm,
 };
 
-const BankFeedsCreateReducer = createReducer(getDefaultState(), handlers);
+const BankFeedsApplyReducer = createReducer(getDefaultState(), handlers);
 
-export default BankFeedsCreateReducer;
+export default BankFeedsApplyReducer;

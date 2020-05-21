@@ -6,10 +6,10 @@ import {
   getBankFeedLoadEmail,
   getReferenceNumber,
   getUserEmail,
-} from '../BankFeedsConnectSelectors';
+} from '../BankFeedsApplySelectors';
 import styles from './BankFeedsConnectView.module.css';
 
-const BankFeedsConnectForm = ({
+const BankFeedsForm = ({
   bankFeedLoadEmail,
   onCopy,
   setCopyAlertText,
@@ -71,4 +71,4 @@ const mapStateToProps = state => ({
   userEmail: getUserEmail(state),
 });
 
-export default connect(mapStateToProps)(BankFeedsConnectForm);
+export default connect(mapStateToProps)(BankFeedsForm);
