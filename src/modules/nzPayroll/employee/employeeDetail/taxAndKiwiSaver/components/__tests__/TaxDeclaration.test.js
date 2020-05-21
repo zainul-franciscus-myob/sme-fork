@@ -7,7 +7,7 @@ describe('TaxDeclaration', () => {
   const props = {
     onInputChange: jest.fn(),
 
-    taxAndKiwiSaver: { irdNumber: '999-888-77', taxCode: 'ND' },
+    tax: { irdNumber: '999-888-77', taxCode: 'ND' },
 
     taxCodeOptions: [
       { key: 'M', value: 'M' },
@@ -23,7 +23,7 @@ describe('TaxDeclaration', () => {
 
     it('should render input field with given props', () => {
       expect(field.props()).toMatchObject({
-        value: props.taxAndKiwiSaver.irdNumber,
+        value: props.tax.irdNumber,
         label: 'IRD number',
       });
     });
@@ -43,7 +43,7 @@ describe('TaxDeclaration', () => {
 
     it('should render Select field with given props', () => {
       expect(field.props()).toMatchObject({
-        value: props.taxAndKiwiSaver.taxCode,
+        value: props.tax.taxCode,
         label: 'Tax code',
       });
     });

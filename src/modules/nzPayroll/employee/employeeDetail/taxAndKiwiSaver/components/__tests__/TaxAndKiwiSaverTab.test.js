@@ -25,11 +25,11 @@ describe('TaxAndKiwiSaverTab', () => {
 
   const setup = () => {
     store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, payload: employeeDetail });
-    const onTaxAndKiwiSaverChange = jest.fn();
+    const onTaxChange = jest.fn();
     const wrapper = mountWithProvider(
-    <TaxAndKiwiSaverTab onTaxAndKiwiSaverChange={onTaxAndKiwiSaverChange} />,
+    <TaxAndKiwiSaverTab onTaxChange={onTaxChange} />,
     );
-    return { wrapper, onTaxAndKiwiSaverChange };
+    return { wrapper, onTaxChange };
   };
 
   it('should render TaxAndKiwiSaverTab', () => {
@@ -40,14 +40,14 @@ describe('TaxAndKiwiSaverTab', () => {
     expect(view).toHaveLength(1);
   });
 
-  it('should have taxAndKiwiSaver props', () => {
+  it('should have tax props', () => {
     const { wrapper } = setup();
-    const { taxAndKiwiSaver } = employeeDetail.payrollDetails;
+    const { tax } = employeeDetail.payrollDetails;
     const { taxCodeOptions } = employeeDetail;
 
     const view = wrapper.find('TaxAndKiwiSaverTab');
 
-    expect(view.props()).toMatchObject({ taxAndKiwiSaver, taxCodeOptions });
+    expect(view.props()).toMatchObject({ taxCodeOptions, tax });
   });
 
   it('should render child views', () => {

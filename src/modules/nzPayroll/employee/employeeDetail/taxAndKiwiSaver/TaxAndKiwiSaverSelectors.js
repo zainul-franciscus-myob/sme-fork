@@ -1,2 +1,2 @@
 export const getTaxCodeOptions = state => state.taxCodeOptions;
-export const getTaxAndKiwiSaver = state => state.payrollDetails?.taxAndKiwiSaver;
+export const getTaxDetails = state => state.payrollDetails?.tax;

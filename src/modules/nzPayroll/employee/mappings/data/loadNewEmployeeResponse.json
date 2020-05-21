@@ -17,6 +17,10 @@
     },
     "leave": {
       "nextAnniversaryDate":""
+    },
+    "tax":{
+      "irdNumber": "",
+      "taxCode": "ND"
     }
   },
   "genderOptions": [

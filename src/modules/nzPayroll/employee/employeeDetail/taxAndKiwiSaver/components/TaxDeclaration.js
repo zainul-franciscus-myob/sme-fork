@@ -3,7 +3,7 @@ import React from 'react';
 
 
 const TaxDeclaration = ({
-  taxCodeOptions = [], taxAndKiwiSaver = {}, onInputChange,
+  taxCodeOptions = [], tax = {}, onInputChange,
 }) => (
   <FieldGroup label="Tax declaration">
     <Input
@@ -12,7 +12,7 @@ const TaxDeclaration = ({
       requiredLabel="IRD number is required"
       width="sm"
       onChange={onInputChange}
-      value={taxAndKiwiSaver.irdNumber}
+      value={tax.irdNumber}
     />
 
     <Select
@@ -20,7 +20,7 @@ const TaxDeclaration = ({
       label="Tax code"
       requiredLabel="Tax code is required"
       width="sm"
-      value={taxAndKiwiSaver.taxCode}
+      value={tax.taxCode}
       onChange={onInputChange}
     >
       {

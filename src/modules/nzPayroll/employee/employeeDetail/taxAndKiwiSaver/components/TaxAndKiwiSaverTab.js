@@ -2,13 +2,13 @@ import { FormHorizontal } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getTaxAndKiwiSaver, getTaxCodeOptions } from '../TaxAndKiwiSaverSelectors';
+import { getTaxCodeOptions, getTaxDetails } from '../TaxAndKiwiSaverSelectors';
 import EmployerSCTR from './EmployerSCTR';
 import KiwiSaver from './KiwiSaver';
 import TaxDeclaration from './TaxDeclaration';
 
-const TaxAndKiwiSaverTab = ({ taxCodeOptions, taxAndKiwiSaver, onTaxAndKiwiSaverChange }) => {
-  const onInputChange = event => onTaxAndKiwiSaverChange({
+const TaxAndKiwiSaverTab = ({ taxCodeOptions, tax, onTaxChange }) => {
+  const onInputChange = event => onTaxChange({
     key: event.target.name,
     value: event.target.value,
   });
@@ -17,7 +17,7 @@ const TaxAndKiwiSaverTab = ({ taxCodeOptions, taxAndKiwiSaver, onTaxAndKiwiSaver
   <FormHorizontal layout="primary">
     <TaxDeclaration
       taxCodeOptions={taxCodeOptions}
-      taxAndKiwiSaver={taxAndKiwiSaver}
+      tax={tax}
       onInputChange={onInputChange}
     />
     <KiwiSaver />
@@ -28,7 +28,7 @@ const TaxAndKiwiSaverTab = ({ taxCodeOptions, taxAndKiwiSaver, onTaxAndKiwiSaver
 
 const mapStateToProps = (state) => ({
   taxCodeOptions: getTaxCodeOptions(state),
-  taxAndKiwiSaver: getTaxAndKiwiSaver(state),
+  tax: getTaxDetails(state),
 });
 
 export default connect(mapStateToProps)(TaxAndKiwiSaverTab);

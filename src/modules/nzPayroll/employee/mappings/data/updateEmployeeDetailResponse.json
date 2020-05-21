@@ -8,10 +8,7 @@
     "state": "Auckland",
     "postcode": "3456",
     "country": "New Zealand",
-    "phoneNumbers": [
-      "03 93883848",
-      "03 94839483"
-    ],
+    "phoneNumbers": ["03 93883848", "03 94839483"],
     "email": "bob@thebuilder.com",
     "notes": "nz payroll employee",
     "isInactive": false,
@@ -39,6 +36,10 @@
       "sickLeaveOpeningBalance": "10.00",
       "alternativeCurrentBalance": "10.00",
       "alternativeOpeningBalance": "10.00"
+    },
+    "tax": {
+      "irdNumber": "777-222-34",
+      "taxCode": "ND"
     }
   }
 }

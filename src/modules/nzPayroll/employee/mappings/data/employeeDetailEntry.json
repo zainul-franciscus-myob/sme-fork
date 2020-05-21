@@ -36,7 +36,7 @@
       "alternativeCurrentBalance": "10.00",
       "alternativeOpeningBalance": "10.00"
     },
-    "taxAndKiwiSaver": {
+    "tax": {
       "irdNumber": "999-888-77",
       "taxCode": "ND"
     }

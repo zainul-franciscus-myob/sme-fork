@@ -1,14 +1,14 @@
 
-import { getTaxAndKiwiSaver, getTaxCodeOptions } from '../TaxAndKiwiSaverSelectors';
+import { getTaxCodeOptions, getTaxDetails } from '../TaxAndKiwiSaverSelectors';
 
 describe('TaxAndKiwiSaverSelectors', () => {
   it('should get Tax And KiwiSaver details', () => {
-    const taxAndKiwiSaver = { some: 'value' };
-    const state = { payrollDetails: { taxAndKiwiSaver } };
+    const tax = { some: 'value' };
+    const state = { payrollDetails: { tax } };
 
-    const actual = getTaxAndKiwiSaver(state);
+    const actual = getTaxDetails(state);
 
-    expect(actual).toMatchObject(taxAndKiwiSaver);
+    expect(actual).toMatchObject(tax);
   });
 
   it('should get TaxCode Options details', () => {
