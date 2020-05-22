@@ -1,4 +1,4 @@
-import { UPDATE_LEAVE_DETAILS } from './leaveIntents';
+import { UPDATE_LEAVE_DETAILS } from '../EmployeeDetailIntents';
 
 const leaveDispatcher = store => ({
   updateLeaveDetails: ({ key, value }) => {

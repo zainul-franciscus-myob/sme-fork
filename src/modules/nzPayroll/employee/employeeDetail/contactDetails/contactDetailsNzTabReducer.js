@@ -1,8 +1,13 @@
-import { UPDATE_CONTACT_DETAIL } from '../../EmployeeNzIntents';
+import { UPDATE_CONTACT_DETAIL } from '../EmployeeDetailIntents';
 
 const updateContactDetails = (state, action) => ({
   ...state,
-  isPageEdited: true,
+
+  userInterface: {
+    ...state.userInterface,
+    isPageEdited: true,
+  },
+
   contactDetail: {
     ...state.contactDetail,
     [action.key]: action.value,

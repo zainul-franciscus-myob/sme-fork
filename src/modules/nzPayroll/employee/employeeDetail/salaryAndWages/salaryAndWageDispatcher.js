@@ -1,4 +1,4 @@
-import { UPDATE_WAGE_DETAIL } from './salaryAndWagesIntents';
+import { UPDATE_WAGE_DETAIL } from '../EmployeeDetailIntents';
 
 const salaryAndWageDispatcher = store => ({
   updateWageDetail: ({ key, value }) => {

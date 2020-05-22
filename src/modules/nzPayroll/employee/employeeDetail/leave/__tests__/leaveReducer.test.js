@@ -1,4 +1,4 @@
-import { UPDATE_LEAVE_DETAILS } from '../leaveIntents';
+import { UPDATE_LEAVE_DETAILS } from '../../EmployeeDetailIntents';
 import leaveReducer from '../leaveReducer';
 
 describe('leaveReducer', () => {
@@ -13,7 +13,7 @@ describe('leaveReducer', () => {
       payrollDetails: { leave: { holidayPay: 'new value' } },
     });
     expect(reducer(state, action)).toMatchObject({
-      isPageEdited: true,
+      userInterface: { isPageEdited: true },
     });
   });
 });

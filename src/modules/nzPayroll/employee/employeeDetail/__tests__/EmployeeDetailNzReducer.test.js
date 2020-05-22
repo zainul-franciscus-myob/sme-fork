@@ -5,12 +5,12 @@ import LoadingState from '../../../../../components/PageView/LoadingState';
 import employeeDetailNzReducer from '../employeeDetailNzReducer';
 
 const defaultState = {
-  loadingState: LoadingState.LOADING,
-  isPageEdited: false,
-  alert: undefined,
-  isSubmitting: false,
-  tabs: {
-    main: tabIds.contactDetails,
+  userInterface: {
+    loadingState: LoadingState.LOADING,
+    alert: undefined,
+    isPageEdited: false,
+    isSubmitting: false,
+    mainTab: tabIds.contactDetails,
     subTabs: {
       [tabIds.payrollDetails]: tabIds.employmentDetails,
     },
@@ -34,14 +34,8 @@ const defaultState = {
 describe('EmployeeDetailNzReducer', () => {
   describe('setInitialState', () => {
     it('should set initial state with context', () => {
-      const context = {
-        businessId: 'id',
-        region: 'nz',
-      };
-      const action = {
-        intent: SET_INITIAL_STATE,
-        context,
-      };
+      const context = { businessId: 'id', region: 'nz' };
+      const action = { intent: SET_INITIAL_STATE, context };
 
       const result = employeeDetailNzReducer(undefined, action);
 
@@ -55,79 +49,50 @@ describe('EmployeeDetailNzReducer', () => {
         mainTab: 'mainTab',
         subTab: 'subTab',
       };
-      const action = {
-        intent: SET_INITIAL_STATE,
-        context,
-      };
+      const action = { intent: SET_INITIAL_STATE, context };
 
       const result = employeeDetailNzReducer(undefined, action);
 
-      expect(result).toHaveProperty('tabs.main', context.mainTab);
-      expect(result).toHaveProperty(`tabs.subTabs.${context.mainTab}`, context.subTab);
+      expect(result).toHaveProperty('userInterface.mainTab', context.mainTab);
+      expect(result).toHaveProperty(`userInterface.subTabs.${context.mainTab}`, context.subTab);
     });
   });
 
   describe('resetState', () => {
     it('resets state to the default state', () => {
-      const state = {
-        firstName: 'Bob',
-        businessId: 'id',
-      };
-      const action = {
-        intent: RESET_STATE,
-      };
+      const state = { firstName: 'Bob', businessId: 'id' };
+      const action = { intent: RESET_STATE };
 
       const result = employeeDetailNzReducer(state, action);
 
-      expect(result).toEqual(defaultState);
+      expect(result).toMatchObject(defaultState);
     });
   });
 
   describe('setLoadingState', () => {
     it('should set the loading state', () => {
-      const state = {
-        loadingState: LoadingState.LOADING,
-      };
+      const state = { userInterface: { loadingState: LoadingState.LOADING } };
       const loadingState = LoadingState.LOADING_SUCCESS;
-      const action = {
-        intent: intents.SET_LOADING_STATE,
-        loadingState,
-      };
+      const action = { intent: intents.SET_LOADING_STATE, loadingState };
 
       const result = employeeDetailNzReducer(state, action);
 
-      expect(result).toEqual({ loadingState });
+      expect(result).toEqual({ userInterface: { loadingState } });
     });
   });
 
   describe('loadEmployeeDetail', () => {
     it('should load the Employee Details', () => {
-      const contactDetail = {
-        firstName: 'Bob',
-        lastName: 'The Builder',
-        isInactive: true,
-        employeeNumber: '00012',
-        country: 'New Zealand',
-        address: '2/34 Park Avenue',
-        suburb: 'Auckland',
-        state: '',
-        postcode: '7400',
-        email: 'e@email.com',
-        phoneNumbers: [
-          '03 93883848',
-          '03 94839483',
-          '03 94839482',
-        ],
-        notes: '',
-      };
+      const contactDetail = { firstName: 'Bob', lastName: 'The Builder' };
       const action = {
         intent: intents.LOAD_EMPLOYEE_DETAIL,
         payload: { contactDetail },
       };
+      const userInterface = { loadingState: LoadingState.LOADING_SUCCESS };
 
       const result = employeeDetailNzReducer({}, action);
 
-      expect(result).toEqual({ contactDetail, loadingState: LoadingState.LOADING_SUCCESS });
+      expect(result).toEqual({ contactDetail, userInterface });
     });
   });
 
@@ -138,7 +103,7 @@ describe('EmployeeDetailNzReducer', () => {
         mainTab: 'tab 1',
       };
       const result = employeeDetailNzReducer(defaultState, action);
-      expect(result).toHaveProperty('tabs.main', action.mainTab);
+      expect(result).toHaveProperty('userInterface.mainTab', action.mainTab);
     });
   });
 
@@ -151,7 +116,7 @@ describe('EmployeeDetailNzReducer', () => {
       };
 
       const result = employeeDetailNzReducer(defaultState, action);
-      expect(result).toHaveProperty(`tabs.subTabs.${action.mainTab}`, action.subTab);
+      expect(result).toHaveProperty(`userInterface.subTabs.${action.mainTab}`, action.subTab);
     });
 
     it('should not update state if mainTab is undefiend', () => {
@@ -175,59 +140,11 @@ describe('EmployeeDetailNzReducer', () => {
     });
   });
 
-  describe('updateContactDetails', () => {
-    it('should update firstName field detail and set isPageEdited to true', () => {
-      const state = {
-        contactDetail: {
-          firstName: 'test',
-        },
-      };
-      const action = {
-        intent: intents.UPDATE_CONTACT_DETAIL,
-        key: 'firstName',
-        value: 'name',
-      };
-      const expected = {
-        isPageEdited: true,
-        contactDetail: {
-          firstName: 'name',
-        },
-      };
-
-      const actual = employeeDetailNzReducer(state, action);
-
-      expect(actual).toEqual(expected);
-    });
-
-    it('should update country and set isPageEdited to true', () => {
-      const state = {
-        contactDetail: {
-          country: 'Australia',
-        },
-      };
-      const action = {
-        intent: intents.UPDATE_CONTACT_DETAIL,
-        key: 'country',
-        value: 'New Zealand',
-      };
-      const expected = {
-        isPageEdited: true,
-        contactDetail: {
-          country: 'New Zealand',
-        },
-      };
-
-      const actual = employeeDetailNzReducer(state, action);
-
-      expect(actual).toEqual(expected);
-    });
-  });
-
   describe('openModal', () => {
     it('should set modal in store', () => {
       const modal = { type: 'DELETE', url: 'url' };
       const action = { intent: intents.OPEN_MODAL, modal };
-      const expectedState = { modal };
+      const expectedState = { userInterface: { modal } };
 
       const actual = employeeDetailNzReducer({}, action);
 
@@ -237,9 +154,9 @@ describe('EmployeeDetailNzReducer', () => {
 
   describe('closeModal', () => {
     it('should set modal to undefined in store', () => {
-      const state = { modal: { type: 'DELETE' } };
+      const state = { userInterface: { modal: { type: 'DELETE' } } };
       const action = { intent: intents.CLOSE_MODAL };
-      const expected = { modal: undefined };
+      const expected = { userInterface: { modal: undefined } };
 
       const actual = employeeDetailNzReducer(state, action);
 
@@ -255,93 +172,50 @@ describe('EmployeeDetailNzReducer', () => {
 
       const actual = employeeDetailNzReducer(state, action);
 
-      expect(actual).toEqual({ alert });
+      expect(actual).toEqual({ userInterface: { alert } });
     });
   });
 
   describe('dismissAlert', () => {
     it('should reset the alert in store', () => {
       const alert = { type: 'success', message: 'alert set' };
-      const state = { alert };
+      const state = { userInterface: alert };
       const action = { intent: intents.DISMISS_ALERT };
 
       const actual = employeeDetailNzReducer(state, action);
 
-      expect(actual).toEqual({ alert: undefined });
+      expect(actual).toMatchObject({ userInterface: { alert: undefined } });
     });
   });
 
   describe('updateEmployeeDetail', () => {
     it('should update the employee detail, set alert and loading state to success', () => {
       const state = {
-        loadingState: LoadingState.LOADING,
-        alert: undefined,
-        contactDetail: {
-          firstName: 'Old',
-          lastName: 'Old',
-          isInactive: true,
-          employeeNumber: '1',
-          country: 'New Zealand',
-          address: '2/34 Park Avenue',
-          suburb: 'Auckland',
-          state: '',
-          postcode: '7400',
-          email: 'e@email.com',
-          phoneNumbers: [
-            '03 93883848',
-            '03 94839483',
-            '03 94839482',
-          ],
-          notes: '',
+        userInterface: {
+          loadingState: LoadingState.LOADING,
+          alert: undefined,
         },
-        payrollDetails: {
-          wage: {
-            hourlyRate: '123.45',
-          },
+        contactDetail: { firstName: 'Old', lastName: 'state' },
+        payrollDetails: { wage: { hourlyRate: '123.45' } },
+      };
+      const contactDetail = { firstName: 'new', lastName: 'state' };
+      const payrollDetails = { wage: { hourlyRate: '543.21' } };
+      const expectedState = {
+        userInterface: {
+          loadingState: LoadingState.LOADING_SUCCESS,
+          alert: { type: 'success', message: 'Nice work' },
+          isPageEdited: false,
+          isSubmitting: false,
         },
+        contactDetail,
+        payrollDetails,
       };
 
-      const contactDetail = {
-        firstName: 'Bob',
-        lastName: 'The Builder',
-        isInactive: true,
-        employeeNumber: '00012',
-        country: 'New Zealand',
-        address: '2/34 Park Avenue',
-        suburb: 'Auckland',
-        state: 'new',
-        postcode: '7400',
-        email: 'e@email.com',
-        phoneNumbers: [
-          '03 93883848',
-          '03 94839483',
-          '03 94839482',
-        ],
-        notes: '',
-      };
-
-      const payrollDetails = {
-        wage: {
-          hourlyRate: '543.21',
-        },
-      };
       const action = {
         intent: intents.UPDATE_EMPLOYEE,
         message: 'Nice work',
         contactDetail,
         payrollDetails,
-      };
-
-      const expectedState = {
-        alert: {
-          type: 'success',
-          message: 'Nice work',
-        },
-        contactDetail,
-        payrollDetails,
-        loadingState: LoadingState.LOADING_SUCCESS,
-        isPageEdited: false,
-        isSubmitting: false,
       };
 
       const actual = employeeDetailNzReducer(state, action);
@@ -356,23 +230,27 @@ describe('EmployeeDetailNzReducer', () => {
 
       const actual = employeeDetailNzReducer({}, action);
 
-      expect(actual).toEqual({ isSubmitting: true });
+      expect(actual).toEqual({ userInterface: { isSubmitting: true } });
     });
   });
 
   describe('setSavingState', () => {
     it('should set submitting state, loading state and modal', () => {
       const state = {
-        loadingState: LoadingState.LOADING_SUCCESS,
-        isSubmitting: false,
-        modal: { type: 'DELETE' },
+        userInterface: {
+          loadingState: LoadingState.LOADING_SUCCESS,
+          isSubmitting: false,
+          modal: { type: 'DELETE' },
+        },
+      };
+      const expectedState = {
+        userInterface: {
+          loadingState: LoadingState.LOADING,
+          isSubmitting: true,
+          modal: undefined,
+        },
       };
       const action = { intent: intents.SET_SAVING_STATE };
-      const expectedState = {
-        loadingState: LoadingState.LOADING,
-        isSubmitting: true,
-        modal: undefined,
-      };
 
       const actual = employeeDetailNzReducer(state, action);
 
@@ -383,18 +261,20 @@ describe('EmployeeDetailNzReducer', () => {
   describe('updateEmployeeFailed', () => {
     it('should set alert message, submitting state to false and loading state Success', () => {
       const state = {
-        loadingState: LoadingState.LOADING,
-        isSubmitting: true,
-      };
-      const action = { intent: intents.UPDATE_EMPLOYEE_FAILED, message: 'Failed' };
-      const expectedState = {
-        loadingState: LoadingState.LOADING_SUCCESS,
-        isSubmitting: false,
-        alert: {
-          type: 'danger',
-          message: 'Failed',
+        userInterface: {
+          loadingState: LoadingState.LOADING,
+          isSubmitting: true,
         },
       };
+      const expectedState = {
+        userInterface: {
+          loadingState: LoadingState.LOADING_SUCCESS,
+          alert: { type: 'danger', message: 'Failed' },
+          isSubmitting: false,
+        },
+
+      };
+      const action = { intent: intents.UPDATE_EMPLOYEE_FAILED, message: 'Failed' };
 
       const actual = employeeDetailNzReducer(state, action);
 

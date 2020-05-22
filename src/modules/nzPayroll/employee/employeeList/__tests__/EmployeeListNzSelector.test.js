@@ -6,22 +6,20 @@ describe('EmployeeListNzSelector', () => {
   describe('getBusinessId', () => {
     it('should return businnes id', () => {
       const businessId = 'id';
-      const state = {
-        businessId,
-      };
+      const state = { businessId };
 
       const actual = getBusinessId(state);
+
       expect(actual).toEqual(businessId);
     });
   });
 
   describe('getLoadingState', () => {
     it('should return LoadingState value', () => {
-      const state = {
-        loadingState: LoadingState.LOADING_FAIL,
-      };
+      const state = { loadingState: LoadingState.LOADING_FAIL };
 
       const actual = getLoadingState(state);
+
       expect(actual).toEqual(LoadingState.LOADING_FAIL);
     });
   });
@@ -49,17 +47,15 @@ describe('EmployeeListNzSelector', () => {
       };
 
       const actual = getEmployeeList(state);
+
       expect(actual).toEqual(employees);
     });
   });
 
   describe('getAlert', () => {
     it('should return the alert from store', () => {
-      const alert = {
-        type: 'some-type',
-        message: 'message',
-      };
-      const state = { alert };
+      const alert = { type: 'some-type', message: 'message' };
+      const state = { userInterface: { alert } };
 
       const actual = getAlert(state);
 
@@ -67,7 +63,7 @@ describe('EmployeeListNzSelector', () => {
     });
 
     it('should return undefined', () => {
-      const state = { some: 'props' };
+      const state = { userInterface: { some: 'props' } };
 
       const actual = getAlert(state);
 

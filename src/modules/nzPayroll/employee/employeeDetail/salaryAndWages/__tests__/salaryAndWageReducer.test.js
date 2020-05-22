@@ -1,4 +1,4 @@
-import { UPDATE_WAGE_DETAIL } from '../salaryAndWagesIntents';
+import { UPDATE_WAGE_DETAIL } from '../../EmployeeDetailIntents';
 import salaryAndWageReducers from '../salaryAndWageReducer';
 
 

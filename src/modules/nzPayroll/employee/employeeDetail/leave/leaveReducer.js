@@ -1,9 +1,14 @@
 
-import { UPDATE_LEAVE_DETAILS } from './leaveIntents';
+import { UPDATE_LEAVE_DETAILS } from '../EmployeeDetailIntents';
 
 const updateLeaveDetails = (state, action) => ({
   ...state,
-  isPageEdited: true,
+
+  userInterface: {
+    ...state.userInterface,
+    isPageEdited: true,
+  },
+
   payrollDetails: {
     ...state.payrollDetails,
     leave: {

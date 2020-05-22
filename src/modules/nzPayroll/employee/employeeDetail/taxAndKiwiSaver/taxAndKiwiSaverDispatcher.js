@@ -1,5 +1,5 @@
 
-import { UPDATE_TAX_DETAIL } from './TaxAndKiwiSaverIntents';
+import { UPDATE_TAX_DETAIL } from '../EmployeeDetailIntents';
 
 const taxAndKiwiSaverDispatcher = store => ({
   updateTaxDetails: ({ key, value }) => {
