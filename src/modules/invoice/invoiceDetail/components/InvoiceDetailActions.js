@@ -155,15 +155,11 @@ const InvoiceDetailActions = ({
       <ButtonRow
         primary={[
           cancelButton,
-          // TODO: Show save button when create endpoint it done
-          // isCreating && saveButton,
-          // TODO: Show save button on edit view when edit endpoint it done
-          // saveButton,
+          saveButton,
         ]}
         secondary={[
-          // TODO: Uncomment when delete endpoint is done
-          // !isCreating && deleteButton,
-          // !isCreating && separator,
+          !isCreating && deleteButton,
+          !isCreating && separator,
           !isCreating && recordPaymentButton,
         ]}
       />);
