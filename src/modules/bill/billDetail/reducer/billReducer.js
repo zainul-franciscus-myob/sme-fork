@@ -14,6 +14,7 @@ import {
   LOAD_BILL,
   LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_ITEM_OPTION,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_SUPPLIER_AFTER_CREATE,
   LOAD_SUPPLIER_DETAIL,
   OPEN_ALERT,
@@ -534,6 +535,15 @@ export const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   isPageEdited: true,
 });
 
+export const loadJobAfterCreate = (state, { intent, ...job }) => ({
+  ...state,
+  jobOptions: [
+    job,
+    ...state.jobOptions,
+  ],
+  isPageEdited: true,
+});
+
 export const setShowSplitView = (state, { showSplitView }) => ({
   ...state,
   showSplitView,
@@ -650,6 +660,7 @@ const handlers = {
   [SET_UPGRADE_MODAL_SHOWING]: setUpgradeModalShowing,
   [UPDATE_EXPORT_PDF_DETAIL]: updateExportPdfDetail,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
+  [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
   [SET_SHOW_SPLIT_VIEW]: setShowSplitView,
   [SET_IN_TRAY_DOCUMENT_ID]: setInTrayDocumentId,
   [DOWNLOAD_IN_TRAY_DOCUMENT]: loadInTrayDocumentUrl,

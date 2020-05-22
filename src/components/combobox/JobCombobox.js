@@ -8,6 +8,7 @@ const JobCombobox = (props) => {
   const {
     items = [],
     left,
+    addNewJob,
     ...otherProps
   } = props;
 
@@ -30,6 +31,7 @@ const JobCombobox = (props) => {
       <Combobox
         metaData={metaData}
         items={formattedItems}
+        addNewItem={addNewJob && { onAddNew: addNewJob, label: 'Create job' }}
         noMatchFoundMessage="No job found"
         {...otherProps}
       />

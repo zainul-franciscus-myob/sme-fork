@@ -17,7 +17,6 @@ export const OPEN_MODAL = Symbol('Open a modal');
 export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
 export const UPDATE_JOB_DETAILS = Symbol('Update job details');
 export const LOAD_JOB_MODAL = Symbol('Load job modal');
-export const SET_JOB_MODAL_DETAILS = Symbol('Update job modal details');
 
 export const SET_CUSTOMER_LOADING_STATE = Symbol('Set contact loading state');
 export const LOAD_CUSTOMER_AFTER_CREATE = Symbol('Load contact after create');

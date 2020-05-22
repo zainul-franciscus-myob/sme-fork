@@ -118,6 +118,11 @@ export const getLoadAddedAccountUrlParams = (state, accountId) => {
   return { businessId, accountId };
 };
 
+export const getLoadAddedJobUrlParams = (state, jobId) => {
+  const businessId = getBusinessId(state);
+  return { businessId, jobId };
+};
+
 export const getSaveBillContent = createSelector(
   state => state.bill,
   getSupplierOptions,

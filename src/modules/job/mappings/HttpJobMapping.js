@@ -1,5 +1,6 @@
 import {
   CREATE_JOB,
+  CREATE_JOB_MODAL,
   DELETE_JOB,
   FILTER_JOB_LIST,
   LOAD_CUSTOMER_AFTER_CREATE,
@@ -30,6 +31,10 @@ const JobListMapping = {
   [CREATE_JOB]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/job/create_job`,
+  },
+  [CREATE_JOB_MODAL]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/job/create_job_modal`,
   },
   [UPDATE_JOB]: {
     method: 'PUT',

@@ -54,6 +54,7 @@ const BillServiceTableRow = ({
   onChange,
   onRowInputBlur,
   onAddAccount,
+  onAddJob,
   isBillJobColumnEnabled,
   ...feelixInjectedProps
 }) => {
@@ -107,6 +108,9 @@ const BillServiceTableRow = ({
       {isBillJobColumnEnabled && <JobCombobox
         items={jobOptions}
         selectedId={jobId}
+        addNewJob={() => onAddJob(
+          handleComboboxChange(onChange, 'jobId'),
+        )}
         onChange={handleComboboxChange(onChange, 'jobId')}
         disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
         allowClear

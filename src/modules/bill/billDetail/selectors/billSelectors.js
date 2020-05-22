@@ -141,7 +141,7 @@ export const getContextForInventoryModal = (state) => {
   });
 };
 
-export const getAccountModalContext = (state) => {
+export const getModalContext = (state) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);
 

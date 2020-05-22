@@ -1,32 +1,69 @@
 import {
   LOAD_JOB_MODAL,
   SET_ALERT,
-  SET_JOB_MODAL_DETAILS,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
+  UPDATE_JOB_DETAILS,
 } from '../JobIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
 const createJobModalDispatcher = store => ({
-  setInitialState: context => store.dispatch({ intent: SET_INITIAL_STATE, context }),
+  loadNewJob: (payload) => {
+    store.dispatch({
+      intent: LOAD_JOB_MODAL,
+      ...payload,
+    });
+  },
 
-  resetState: () => store.dispatch({ intent: RESET_STATE }),
+  updateJobDetails: ({ key, value }) => {
+    store.dispatch({
+      intent: UPDATE_JOB_DETAILS,
+      key,
+      value,
+    });
+  },
 
-  setLoadingState: isLoading => store.dispatch({ intent: SET_LOADING_STATE, isLoading }),
+  setLoadingState: (isLoading) => {
+    store.dispatch({
+      intent: SET_LOADING_STATE,
+      isLoading,
+    });
+  },
 
-  setSubmittingState: isSubmitting => store.dispatch({
-    intent: SET_SUBMITTING_STATE, isSubmitting,
-  }),
+  displayAlert: (errorMessage) => {
+    store.dispatch({
+      intent: SET_ALERT,
+      alertMessage: errorMessage,
+    });
+  },
 
-  setAlert: ({ type, message }) => store.dispatch({ intent: SET_ALERT, alert: { type, message } }),
+  dismissAlert: () => {
+    store.dispatch({
+      intent: SET_ALERT,
+      alertMessage: '',
+    });
+  },
 
-  dismissAlert: () => store.dispatch({ intent: SET_ALERT }),
+  setSubmittingState: (isSubmitting) => {
+    store.dispatch({
+      intent: SET_SUBMITTING_STATE,
+      isSubmitting,
+    });
+  },
 
-  loadJobModal: response => store.dispatch({ intent: LOAD_JOB_MODAL, ...response }),
+  setInitialState: (context) => {
+    store.dispatch({
+      intent: SET_INITIAL_STATE,
+      context,
+    });
+  },
 
-  setJobModalDetails: ({ key, value }) => store.dispatch({
-    intent: SET_JOB_MODAL_DETAILS, key, value,
-  }),
+  resetState() {
+    const intent = RESET_STATE;
+    store.dispatch({
+      intent,
+    });
+  },
 });
 
 export default createJobModalDispatcher;

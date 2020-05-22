@@ -31,7 +31,6 @@ export default class AccountModalModule {
 
   save = () => {
     if (this.isSubmitting()) return;
-
     const onSuccess = (message) => {
       this.onSaveSuccess(message);
       this.dispatcher.setSubmittingState(false);

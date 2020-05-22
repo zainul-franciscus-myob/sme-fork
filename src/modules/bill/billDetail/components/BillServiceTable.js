@@ -9,6 +9,7 @@ import BillServiceTableRow from './BillServiceTableRow';
 const renderRow = (
   onRowInputBlur,
   onAddAccount,
+  onAddJob,
   isBillJobColumnEnabled,
 ) => (index, _, onChange, labels) => (
   <BillServiceTableRow
@@ -17,6 +18,7 @@ const renderRow = (
     onChange={onChange}
     onRowInputBlur={onRowInputBlur}
     onAddAccount={onAddAccount}
+    onAddJob={onAddJob}
     labels={labels}
     isBillJobColumnEnabled={isBillJobColumnEnabled}
   />
@@ -29,6 +31,7 @@ const BillServiceTable = ({
     onRowInputBlur,
     onRemoveRow,
     onAddAccount,
+    onAddJob,
     onUpdateBillOption,
     onAmountPaidBlur,
   },
@@ -91,7 +94,7 @@ const BillServiceTable = ({
   return (
     <BillLineItemTable
       labels={labels}
-      renderRow={renderRow(onRowInputBlur, onAddAccount, isBillJobColumnEnabled)}
+      renderRow={renderRow(onRowInputBlur, onAddAccount, onAddJob, isBillJobColumnEnabled)}
       columnConfig={columnConfig}
       onAddRow={onAddRow}
       onRowChange={onRowChange}

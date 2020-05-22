@@ -1,5 +1,6 @@
 import {
   CREATE_JOB,
+  CREATE_JOB_MODAL,
   DELETE_JOB,
   FILTER_JOB_LIST,
   LOAD_CUSTOMER_AFTER_CREATE,
@@ -24,6 +25,7 @@ const loadNewJob = ({ onSuccess }) => onSuccess(newJobDetailResponse);
 const deleteJob = ({ onSuccess }) => onSuccess(success);
 const updateJob = ({ onSuccess }) => onSuccess(success);
 const createJob = ({ onSuccess }) => onSuccess(success);
+const createJobModal = ({ onSuccess }) => onSuccess(success);
 const loadJobModal = ({ onSuccess }) => onSuccess(loadNewJobModalResponse);
 const loadContactAfterCreate = ({ onSuccess }) => onSuccess(loadAddedContactResponse);
 
@@ -34,6 +36,7 @@ const JobListMapping = {
   [DELETE_JOB]: deleteJob,
   [UPDATE_JOB]: updateJob,
   [CREATE_JOB]: createJob,
+  [CREATE_JOB_MODAL]: createJobModal,
   [LOAD_JOB_DETAIL]: loadJobDetail,
   [LOAD_JOB_MODAL]: loadJobModal,
   [LOAD_CUSTOMER_AFTER_CREATE]: loadContactAfterCreate,

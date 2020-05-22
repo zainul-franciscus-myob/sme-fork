@@ -10,6 +10,7 @@ const renderRow = ({
   onRowInputBlur,
   onAddItemButtonClick,
   onAddAccount,
+  onAddJob,
   isBillJobColumnEnabled,
 }) => (index, _, onChange, labels) => (
   <BillItemAndServiceTableRow
@@ -20,6 +21,7 @@ const renderRow = ({
     labels={labels}
     onAddItemButtonClick={onAddItemButtonClick}
     onAddAccount={onAddAccount}
+    onAddJob={onAddJob}
     isBillJobColumnEnabled={isBillJobColumnEnabled}
   />
 );
@@ -31,6 +33,7 @@ const BillItemAndServiceTable = ({
     onRowInputBlur,
     onRemoveRow,
     onAddAccount,
+    onAddJob,
     onAddItemButtonClick,
     onUpdateBillOption,
     onAmountPaidBlur,
@@ -123,7 +126,7 @@ const BillItemAndServiceTable = ({
       columnConfig={columnConfig}
       headerItems={headerItems}
       renderRow={renderRow({
-        onRowInputBlur, onAddItemButtonClick, onAddAccount, isBillJobColumnEnabled,
+        onRowInputBlur, onAddItemButtonClick, onAddAccount, onAddJob, isBillJobColumnEnabled,
       })}
       onAddRow={onAddRow}
       onRowChange={onRowChange}

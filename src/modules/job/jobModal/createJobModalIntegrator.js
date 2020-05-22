@@ -1,33 +1,39 @@
-import { CREATE_JOB_MODAL, LOAD_JOB_MODAL } from '../JobIntents';
 import {
-  getCreateJobModalUrlParams,
+  CREATE_JOB_MODAL,
+  LOAD_JOB_MODAL,
+} from '../JobIntents';
+import {
+  getBusinessId,
   getJob,
-  getLoadNewJobModalQueryParams,
-  getLoadNewJobModalUrlParams,
 } from './JobModalSelectors';
 
 const createJobModalIntegrator = (store, integration) => ({
-  loadJobModal: ({ onSuccess, onFailure }) => {
-    const state = store.getState();
-
+  loadNewJob: (onSuccess, onFailure) => {
     const intent = LOAD_JOB_MODAL;
-    const urlParams = getLoadNewJobModalUrlParams(state);
-    const params = getLoadNewJobModalQueryParams(state);
-
+    const urlParams = {
+      businessId: getBusinessId(store.getState()),
+    };
     integration.read({
-      intent, urlParams, params, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 
-  createJobModal: ({ onSuccess, onFailure }) => {
-    const state = store.getState();
-
+  createJob: (onSuccess, onFailure) => {
     const intent = CREATE_JOB_MODAL;
-    const urlParams = getCreateJobModalUrlParams(state);
+    const state = store.getState();
     const content = getJob(state);
-
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
     integration.write({
-      intent, urlParams, content, onSuccess, onFailure,
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
     });
   },
 });

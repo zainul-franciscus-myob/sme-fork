@@ -3,68 +3,73 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsActionDisabled, getIsOpen, getRegion, getTitle,
+  getAlertMessage,
+  getIsActionDisabled,
+  getIsLoading,
+  getIsOpen,
 } from '../JobModalSelectors';
-import AuJobModalDetails from './au/JobModalDetails';
-import NzJobModalDetails from './nz/JobModalDetails';
+import DetailView from './DetailView';
 import PageView from '../../../../components/PageView/PageView';
 
 const JobModalView = ({
-  region,
-  alert,
   isOpen,
-  title,
+  isLoading,
   isActionDisabled,
-  onClose,
-  onDismissAlert,
-  onDetailChange,
-  onCancelButtonClick,
+  alertMessage,
   onSaveButtonClick,
+  onCloseModal,
+  onJobChange,
+  onDismissAlert,
 }) => {
-  const alertComponent = alert && (
+  const alertComponent = alertMessage && (
     <Alert type="danger" onDismiss={onDismissAlert}>
-      {alert.message}
+      {alertMessage}
     </Alert>
   );
 
-  const JobModalDetails = {
-    au: AuJobModalDetails,
-    nz: NzJobModalDetails,
-  }[region];
-
   const view = (
     <>
-      <JobModalDetails onChange={onDetailChange} />
+      {alertComponent}
+      <DetailView onJobChange={onJobChange} />
     </>
   );
-
   const modal = (
     <Modal
-      title={title}
-      onCancel={onClose}
+      title="Create job"
+      onCancel={onCloseModal}
       canClose={!isActionDisabled}
       size="small"
     >
       <Modal.Body>
-        {alertComponent}
-        <PageView isLoading={isActionDisabled} view={view} />
+        <PageView isLoading={isLoading} view={view} />
       </Modal.Body>
       <Modal.Footer>
-        <Button type="secondary" onClick={onCancelButtonClick} disabled={isActionDisabled}>Cancel</Button>
-        <Button type="primary" onClick={onSaveButtonClick} disabled={isActionDisabled}>Save</Button>
+        <Button
+          type="secondary"
+          onClick={onCloseModal}
+          disabled={isActionDisabled}
+        >
+          Cancel
+        </Button>
+        <Button
+          type="primary"
+          onClick={onSaveButtonClick}
+          disabled={isActionDisabled}
+        >
+          Save
+        </Button>
       </Modal.Footer>
     </Modal>
   );
 
-  return isOpen ? modal : null;
+  return isOpen && modal;
 };
 
 const mapStateToProps = state => ({
-  region: getRegion(state),
-  alert: getAlert(state),
   isOpen: getIsOpen(state),
-  title: getTitle(state),
+  isLoading: getIsLoading(state),
   isActionDisabled: getIsActionDisabled(state),
+  alertMessage: getAlertMessage(state),
 });
 
 export default connect(mapStateToProps)(JobModalView);

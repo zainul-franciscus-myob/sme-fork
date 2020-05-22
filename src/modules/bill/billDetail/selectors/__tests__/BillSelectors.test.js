@@ -1,11 +1,11 @@
 import {
-  getAccountModalContext,
   getBillLine,
   getHasLineBeenPrefilled,
   getHasNoteBeenPrefilled,
   getIsLinesSupported,
   getIsNewLine,
   getIsReadOnlyLayout,
+  getModalContext,
   getNewLineIndex,
   getPageTitle,
   getPrefillButtonText,
@@ -321,7 +321,7 @@ describe('BillSelectors', () => {
         region: 'Spain', businessId: 'manzana',
       };
 
-      const actual = getAccountModalContext(state);
+      const actual = getModalContext(state);
 
       expect(actual).toEqual({ region: 'Spain', businessId: 'manzana' });
     });

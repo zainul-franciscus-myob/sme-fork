@@ -42,6 +42,8 @@ export const UPDATE_EXPORT_PDF_DETAIL = Symbol('Update pdf detail');
 
 export const LOAD_ACCOUNT_AFTER_CREATE = Symbol('Load account after create');
 
+export const LOAD_JOB_AFTER_CREATE = Symbol('Load job after create');
+
 export const SET_UPGRADE_MODAL_SHOWING = Symbol('Set upgrade modal showing');
 
 export const SET_SHOW_SPLIT_VIEW = Symbol('Set show split view');

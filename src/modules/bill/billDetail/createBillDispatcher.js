@@ -12,6 +12,7 @@ import {
   LOAD_BILL,
   LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_ITEM_OPTION,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_SUPPLIER_AFTER_CREATE,
   LOAD_SUPPLIER_DETAIL,
   OPEN_ALERT,
@@ -57,6 +58,11 @@ const createBillDispatcher = store => ({
   },
   loadAccountAfterCreate: payload => store.dispatch({
     intent: LOAD_ACCOUNT_AFTER_CREATE,
+    ...payload,
+  }),
+
+  loadJobAfterCreate: payload => store.dispatch({
+    intent: LOAD_JOB_AFTER_CREATE,
     ...payload,
   }),
 

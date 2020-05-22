@@ -59,6 +59,7 @@ const BillItemAndServiceTableRow = ({
   isReadOnlyLayout,
   onChange,
   onAddAccount,
+  onAddJob,
   onRowInputBlur,
   onAddItemButtonClick,
   isBillJobColumnEnabled,
@@ -172,6 +173,9 @@ const BillItemAndServiceTableRow = ({
       {isBillJobColumnEnabled && <JobCombobox
         items={jobOptions}
         selectedId={jobId}
+        addNewJob={() => onAddJob(
+          handleComboboxChange(onChange, 'jobId'),
+        )}
         onChange={handleComboboxChange(onChange, 'jobId')}
         disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
         allowClear

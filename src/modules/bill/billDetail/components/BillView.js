@@ -46,6 +46,7 @@ const BillView = ({
   serviceLayoutListeners,
   itemAndServiceLayoutListeners,
   accountModal,
+  jobModal,
   isAlertShown,
   isModalShown,
   isSplitViewShown,
@@ -136,6 +137,7 @@ const BillView = ({
     <div>
       {inventoryModal}
       {accountModal}
+      {jobModal}
       {contactModal}
       {inTrayModal}
       {upgradeModal}

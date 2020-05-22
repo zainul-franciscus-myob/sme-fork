@@ -10,7 +10,6 @@ import {
 } from './types/BillMessageTypes';
 import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalculator';
 import {
-  getAccountModalContext,
   getBillId,
   getBillUid,
   getContextForInventoryModal,
@@ -25,6 +24,7 @@ import {
   getIsPageEdited,
   getIsTaxInclusive,
   getLinesForTaxCalculation,
+  getModalContext,
   getModalType,
   getNewLineIndex,
   getRedirectUrl,
@@ -61,6 +61,7 @@ import ContactModalModule from '../../contact/contactModal/ContactModalModule';
 import FeatureToggle from '../../../FeatureToggles';
 import InTrayModalModule from '../../inTray/inTrayModal/InTrayModalModule';
 import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
+import JobModalModule from '../../job/jobModal/JobModalModule';
 import ModalType from './types/ModalType';
 import SaveActionType from './types/SaveActionType';
 import Store from '../../../store/Store';
@@ -93,6 +94,9 @@ class BillModule {
     this.accountModalModule = new AccountModalModule({
       integration,
     });
+    this.jobModalModule = new JobModalModule({
+      integration,
+    });
     this.contactModalModule = new ContactModalModule({ integration });
     this.inventoryModalModule = new InventoryModalModule({ integration });
     this.inTrayModalModule = new InTrayModalModule({ integration });
@@ -103,7 +107,7 @@ class BillModule {
 
   openAccountModal = (onChange) => {
     const state = this.store.getState();
-    const accountModalContext = getAccountModalContext(state);
+    const accountModalContext = getModalContext(state);
     this.accountModalModule.run({
       context: accountModalContext,
       onSaveSuccess: payload => this.loadAccountAfterCreate(payload, onChange),
@@ -126,6 +130,41 @@ class BillModule {
       this.dispatcher.stopBlocking();
     };
     this.integrator.loadAccountAfterCreate({ id, onSuccess, onFailure });
+  };
+
+  openJobModal = (onChange) => {
+    const state = this.store.getState();
+    const jobModalContext = getModalContext(state);
+    this.jobModalModule.run({
+      context: jobModalContext,
+      onSaveSuccess: payload => this.loadJobAfterCreate(payload, onChange),
+      onLoadFailure: message => this.dispatcher.openDangerAlert({ message }),
+    });
+  };
+
+  loadJobAfterCreate = ({ message, id }, onChange) => {
+    this.dispatcher.openSuccessAlert({ message });
+    this.dispatcher.startBlocking();
+    this.jobModalModule.close();
+
+    const onSuccess = (payload) => {
+      this.dispatcher.stopBlocking();
+      this.dispatcher.loadJobAfterCreate({
+        ...payload,
+        id,
+      });
+      onChange(
+        {
+          ...payload,
+          id,
+        },
+      );
+    };
+
+    const onFailure = () => {
+      this.dispatcher.stopBlocking();
+    };
+    this.integrator.loadJobAfterCreate({ id, onSuccess, onFailure });
   };
 
   prefillBillFromInTray() {
@@ -847,6 +886,7 @@ class BillModule {
 
   render = () => {
     const accountModal = this.accountModalModule.render();
+    const jobModal = this.jobModalModule.render();
     const contactModal = this.contactModalModule.render();
     const inventoryModal = this.inventoryModalModule.render();
     const inTrayModal = this.inTrayModalModule.render();
@@ -857,6 +897,7 @@ class BillModule {
           inventoryModal={inventoryModal}
           inTrayModal={inTrayModal}
           accountModal={accountModal}
+          jobModal={jobModal}
           onSaveButtonClick={this.handleSaveBill}
           onSaveAndButtonClick={this.openSaveAndModal}
           onConfirmSaveAndRedirect={this.saveAndRedirect}
@@ -879,6 +920,7 @@ class BillModule {
             onRowInputBlur: this.calculateBillLines,
             onRemoveRow: this.removeBillLine,
             onAddAccount: this.openAccountModal,
+            onAddJob: this.openJobModal,
             onUpdateBillOption: this.updateBillOption,
             onAmountPaidBlur: this.calculateAmountPaid,
           }}
@@ -888,6 +930,7 @@ class BillModule {
             onRowChange: this.updateBillLine,
             onRemoveRow: this.removeBillLine,
             onAddAccount: this.openAccountModal,
+            onAddJob: this.openJobModal,
             onAddItemButtonClick: this.openInventoryModal,
             onUpdateBillOption: this.updateBillOption,
             onAmountPaidBlur: this.calculateAmountPaid,

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-this-in-sfc */
 import { Provider } from 'react-redux';
 import React from 'react';
 
@@ -11,11 +12,12 @@ import jobModalReducer from './jobModalReducer';
 export default class JobModalModule {
   constructor({ integration }) {
     this.integration = integration;
-    this.onSaveSuccess = () => {};
-    this.onLoadFailure = () => {};
 
     this.store = new Store(jobModalReducer);
-    this.integrator = createJobModalIntegrator(this.store, this.integration);
+    this.integrator = createJobModalIntegrator(
+      this.store,
+      this.integration,
+    );
     this.dispatcher = createJobModalDispatcher(this.store);
   }
 
@@ -23,63 +25,59 @@ export default class JobModalModule {
 
   isSubmitting = () => getIsSubmitting(this.store.getState());
 
-  loadJobModal = () => {
-    this.dispatcher.setLoadingState(true);
-
-    const onSuccess = (response) => {
-      this.dispatcher.setLoadingState(false);
-      this.dispatcher.loadJobModal(response);
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.resetState();
-      this.onLoadFailure(message);
-    };
-
-    this.integrator.loadJobModal({ onSuccess, onFailure });
-  };
+  close = () => {
+    this.dispatcher.resetState();
+  }
 
   save = () => {
     if (this.isSubmitting()) return;
 
-    this.dispatcher.setSubmittingState(true);
-
-    const onSuccess = (response) => {
-      this.onSaveSuccess(response);
+    const onSuccess = (message) => {
+      this.onSaveSuccess(message);
+      this.dispatcher.setSubmittingState(false);
     };
 
     const onFailure = ({ message }) => {
       this.dispatcher.setSubmittingState(false);
-      this.dispatcher.setAlert({ type: 'danger', message });
+      this.dispatcher.displayAlert(message);
     };
 
-    this.integrator.createJobModal({ onSuccess, onFailure });
+    this.dispatcher.setSubmittingState(true);
+    this.integrator.createJob(onSuccess, onFailure);
+  };
+
+  loadNewJob = () => {
+    const onSuccess = (payload) => {
+      this.dispatcher.setLoadingState(false);
+      this.dispatcher.loadNewJob(payload);
+    };
+
+    const onFailure = ({ message }) => {
+      this.close();
+      this.onLoadFailure(message);
+    };
+
+    this.dispatcher.setLoadingState(true);
+    this.integrator.loadNewJob(onSuccess, onFailure);
+  };
+
+  render = () => (
+    <Provider store={this.store}>
+      <JobModalView
+        onSaveButtonClick={this.save}
+        onJobChange={this.dispatcher.updateJobDetails}
+        onDismissAlert={this.dispatcher.dismissAlert}
+        onCloseModal={this.close}
+      />
+    </Provider>
+  );
+
+  run = ({ context, onSaveSuccess, onLoadFailure }) => {
+    this.onSaveSuccess = onSaveSuccess;
+    this.onLoadFailure = onLoadFailure;
+    this.dispatcher.setInitialState(context);
+    this.loadNewJob();
   };
 
   resetState = () => this.dispatcher.resetState();
-
-  run = ({
-    context,
-    onLoadFailure = () => {},
-    onSaveSuccess = () => {},
-  }) => {
-    this.dispatcher.setInitialState(context);
-    this.onLoadFailure = onLoadFailure;
-    this.onSaveSuccess = onSaveSuccess;
-    this.loadJobModal();
-  }
-
-  render() {
-    return (
-      <Provider store={this.store}>
-        <JobModalView
-          onClose={this.resetState}
-          onDismissAlert={this.dispatcher.dismissAlert}
-          onDetailChange={this.dispatcher.setJobModalDetails}
-          onSaveButtonClick={this.save}
-          onCancelButtonClick={this.dispatcher.resetState}
-        />
-      </Provider>
-    );
-  }
 }
