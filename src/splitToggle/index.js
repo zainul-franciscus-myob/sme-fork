@@ -8,13 +8,12 @@ export default class SplitToggle {
   TOGGLE_ON = 'on'
 
   init = ({
-    region,
     businessId,
   }) => {
     const client = SplitFactory({
       core: {
         authorizationKey: Config.SPLIT_IO_API_KEY,
-        key: `${region}-${businessId}`,
+        key: businessId,
       },
       startup: {
         requestTimeoutBeforeReady: 1,

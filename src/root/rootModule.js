@@ -133,8 +133,8 @@ export default class RootModule {
 
     if (businessId) {
       if (businessId !== this.last_business_id) {
+        await this.featureToggles.init({ businessId });
         await this.loadSubscription();
-        await this.featureToggles.init({ region, businessId });
         this.loadSharedInfo();
         this.tasksService.load();
         this.settingsService.load();
