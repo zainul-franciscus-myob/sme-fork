@@ -19,7 +19,7 @@ const PayrollStandardPayDetailsBasePay = ({
       <FieldGroup label="Base pay details">
         <ReadOnly name="payCycle" label="Pay cycle">{payCycle}</ReadOnly>
         <ReadOnly name="hourPerPayCycle" label="Hours per pay cycle">{payPeriodHours}</ReadOnly>
-        <Input name="description" label="Description for pay slip" value={description} onChange={handleInputChange(onChange)} />
+        <Input name="description" label="Pay slip message" value={description} onChange={handleInputChange(onChange)} />
       </FieldGroup>
     </FormHorizontal>
   </div>

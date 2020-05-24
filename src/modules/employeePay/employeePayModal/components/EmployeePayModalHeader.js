@@ -29,7 +29,7 @@ const EmployeePayModalHeader = ({
         </h4>
       </FormHorizontal>
       <Input label="Description on employee's bank statement" name="employeeBankStatementDesc" value={employeeBankStatementDesc} disabled />
-      <Input label="Description of transaction" name="transactionDesc" value={transactionDesc} disabled />
+      <Input label="Pay slip message" name="transactionDesc" value={transactionDesc} disabled />
     </>
   );
 
