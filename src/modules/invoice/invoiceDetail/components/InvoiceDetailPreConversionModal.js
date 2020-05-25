@@ -27,7 +27,7 @@ const InvoiceDetailPreConversionModal = ({
         Cancel
       </Button>
       <Button type="primary" onClick={onConfirm}>
-        Create
+        Convert
       </Button>
     </Modal.Footer>
   </Modal>
