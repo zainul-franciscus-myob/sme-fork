@@ -6,6 +6,7 @@ import {
   LOAD_SUPPLIER_AFTER_CREATE,
   LOAD_SUPPLIER_DETAIL,
   PREFILL_BILL_FROM_IN_TRAY,
+  RELOAD_BILL,
   REMOVE_BILL_LINE,
   SET_CALCULATED_BILL_LINES_AND_TOTALS,
   SET_UPGRADE_MODAL_SHOWING,
@@ -16,6 +17,7 @@ import {
 import BillLayout from '../types/BillLayout';
 import BillLineType from '../types/BillLineType';
 import LineTaxTypes from '../types/LineTaxTypes';
+import LoadingState from '../../../../components/PageView/LoadingState';
 import billReducer from '../reducer/billReducer';
 
 describe('billReducer', () => {
@@ -59,6 +61,31 @@ describe('billReducer', () => {
   });
 
   describe('LOAD_BILL', () => {
+    it('sets feature toggle when bill is being reloaded', () => {
+      const state = {
+        today: new Date(2020, 0, 1),
+        billId: 'new',
+        isBillJobColumnEnabled: true,
+      };
+
+      const action = {
+        intent: RELOAD_BILL,
+        response: {
+          bill: {
+            lines: [],
+          },
+          totals: {
+            amountDue: '0',
+          },
+        },
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual.isBillJobColumnEnabled).toEqual(true);
+      expect(actual.loadingState).toEqual(LoadingState.LOADING_SUCCESS);
+    });
+
     it('sets issueDate to today when is creating', () => {
       const state = {
         today: new Date(2020, 0, 1),

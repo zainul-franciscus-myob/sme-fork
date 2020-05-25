@@ -138,6 +138,7 @@ const reloadQuoteDetail = (state, action) => {
   const initialState = {
     ...defaultState,
     ...context,
+    isQuoteJobColumnEnabled: state.isQuoteJobColumnEnabled,
     loadingState: LoadingState.LOADING_SUCCESS,
   };
 

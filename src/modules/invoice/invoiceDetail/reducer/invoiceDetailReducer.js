@@ -206,6 +206,7 @@ const reloadInvoiceDetail = (state, action) => {
   const initialState = {
     ...defaultState,
     ...context,
+    isInvoiceJobColumnEnabled: state.isInvoiceJobColumnEnabled,
   };
 
   const loadState = loadInvoiceDetail(initialState, action);
