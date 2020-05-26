@@ -7,6 +7,7 @@ import {
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_ITEM_AFTER_CREATE,
   LOAD_ITEM_SELLING_DETAILS,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_DUPLICATE_QUOTE_DETAIL,
   LOAD_NEW_QUOTE_DETAIL,
   LOAD_QUOTE_DETAIL,
@@ -71,6 +72,10 @@ const HttpQuoteMapping = {
   [LOAD_ITEM_AFTER_CREATE]: {
     method: 'GET',
     getPath: ({ businessId, itemId }) => `/${businessId}/quote/load_item_option/${itemId}`,
+  },
+  [LOAD_JOB_AFTER_CREATE]: {
+    method: 'GET',
+    getPath: ({ businessId, jobId }) => `/${businessId}/bill/load_job/${jobId}`,
   },
   [EXPORT_QUOTE_PDF]: {
     method: 'GET',

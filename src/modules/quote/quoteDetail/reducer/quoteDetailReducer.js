@@ -10,6 +10,7 @@ import {
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_ITEM_AFTER_CREATE,
   LOAD_ITEM_SELLING_DETAILS,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_QUOTE_DETAIL,
   OPEN_MODAL,
   RELOAD_QUOTE_DETAIL,
@@ -22,6 +23,7 @@ import {
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
   SET_DUPLICATE_ID,
+  SET_JOB_LOADING_STATE,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
   SET_MODAL_SUBMITTING_STATE,
@@ -317,8 +319,21 @@ const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   isPageEdited: true,
 });
 
+const loadJobAfterCreate = (state, { intent, ...job }) => ({
+  ...state,
+  jobOptions: [
+    job,
+    ...state.jobOptions,
+  ],
+  isPageEdited: true,
+});
+
 const setAccountLoadingState = (state, { isAccountLoading }) => (
   { ...state, isAccountLoading }
+);
+
+const setJobLoadingState = (state, { isJobLoading }) => (
+  { ...state, isJobLoading }
 );
 
 const loadItemOption = (state, action) => ({
@@ -430,6 +445,9 @@ const handlers = {
 
   [LOAD_CONTACT_ADDRESS]: loadCustomerAddress,
   [LOAD_CONTACT_AFTER_CREATE]: loadCustomerAfterCreate,
+
+  [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
+  [SET_JOB_LOADING_STATE]: setJobLoadingState,
   [SET_CONTACT_LOADING_STATE]: setCustomerLoadingState,
 
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,

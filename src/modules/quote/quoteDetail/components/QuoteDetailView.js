@@ -27,6 +27,7 @@ import styles from './QuoteDetailView.module.css';
 const QuoteDetailView = ({
   contactModal,
   accountModal,
+  jobModal,
   inventoryModal,
   loadingState,
   alert,
@@ -111,6 +112,7 @@ const QuoteDetailView = ({
       { modalComponent }
       { contactModal }
       { accountModal }
+      { jobModal }
       { inventoryModal }
       { layoutPopover }
       <div className={classNames(isReadOnlyLayout && styles.disabledTable)}>

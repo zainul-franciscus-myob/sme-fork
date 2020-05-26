@@ -6,6 +6,7 @@ import {
   getAccountOptions,
   getIsAccountComboboxDisabled,
   getIsCalculating,
+  getIsJobComboboxDisabled,
   getIsReadOnlyLayout,
   getJobOptions,
   getQuoteLine,
@@ -49,7 +50,9 @@ const QuoteServiceTableRow = ({
   onChange,
   onRowInputBlur,
   onAddAccount,
+  onAddJob,
   isAccountComboboxDisabled,
+  isJobComboboxDisabled,
   isCalculating,
   isQuoteJobColumnEnabled,
   isReadOnlyLayout,
@@ -115,8 +118,9 @@ const QuoteServiceTableRow = ({
       {isQuoteJobColumnEnabled && <JobCombobox
         items={jobOptions}
         selectedId={jobId}
+        addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
         onChange={onComboboxChange('jobId', onChange)}
-        disabled={isCalculating || isReadOnlyLayout}
+        disabled={isJobComboboxDisabled || isCalculating || isReadOnlyLayout}
         allowClear
         left
       />}
@@ -137,6 +141,7 @@ const mapStateToProps = (state, props) => ({
   taxCodeOptions: getTaxCodeOptions(state),
   accountOptions: getAccountOptions(state),
   isAccountComboboxDisabled: getIsAccountComboboxDisabled(state),
+  isJobComboboxDisabled: getIsJobComboboxDisabled(state),
   isCalculating: getIsCalculating(state),
   isReadOnlyLayout: getIsReadOnlyLayout(state),
 });

@@ -10,6 +10,7 @@ import {
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_ITEM_AFTER_CREATE,
   LOAD_ITEM_SELLING_DETAILS,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_QUOTE_DETAIL,
   OPEN_MODAL,
   RELOAD_QUOTE_DETAIL,
@@ -22,6 +23,7 @@ import {
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
   SET_DUPLICATE_ID,
+  SET_JOB_LOADING_STATE,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
   SET_MODAL_SUBMITTING_STATE,
@@ -123,6 +125,10 @@ const createQuoteDetailDispatcher = store => ({
     intent: LOAD_CONTACT_AFTER_CREATE, contactId, ...payload,
   }),
 
+  loadJobAfterCreate: (jobId, payload) => store.dispatch({
+    intent: LOAD_JOB_AFTER_CREATE, jobId, ...payload,
+  }),
+
   setContactLoadingState: isContactLoading => store.dispatch({
     intent: SET_CONTACT_LOADING_STATE, isContactLoading,
   }),
@@ -133,6 +139,10 @@ const createQuoteDetailDispatcher = store => ({
 
   setAccountLoadingState: isAccountLoading => store.dispatch({
     intent: SET_ACCOUNT_LOADING_STATE, isAccountLoading,
+  }),
+
+  setJobLoadingState: isJobLoading => store.dispatch({
+    intent: SET_JOB_LOADING_STATE, isJobLoading,
   }),
 
   loadItemAfterCreate: response => store.dispatch({

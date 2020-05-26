@@ -24,6 +24,7 @@ export const getModalAlert = state => state.modalAlert;
 export const getIsModalActionDisabled = state => state.isModalSubmitting;
 const getIsContactLoading = state => state.isContactLoading;
 export const getIsAccountComboboxDisabled = state => state.isAccountLoading;
+export const getIsJobComboboxDisabled = state => state.isJobLoading;
 export const getIsCalculating = state => state.isCalculating;
 export const getIsLineAmountInputDirty = state => state.isLineAmountInputDirty;
 export const getPageTitle = state => state.pageTitle;
@@ -165,6 +166,13 @@ export const getUpdatedContactOptions = (state, updatedOption) => {
 };
 
 export const getAccountModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region };
+};
+
+export const getJobModalContext = (state) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);
 

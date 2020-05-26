@@ -5,6 +5,7 @@ import React from 'react';
 import {
   getAccountOptions,
   getIsCalculating,
+  getIsJobComboboxDisabled,
   getIsReadOnlyLayout,
   getItemOptions,
   getJobOptions,
@@ -68,7 +69,9 @@ const QuoteItemAndServiceTableRow = ({
   onTableRowAmountInputBlur,
   onAddItemButtonClick,
   onAddAccountButtonClick,
+  onAddJob,
   isQuoteJobColumnEnabled,
+  isJobComboboxDisabled,
   ...feelixInjectedProps
 }) => {
   if ([QuoteLineType.HEADER, QuoteLineType.SUB_TOTAL].includes(type)) {
@@ -178,7 +181,8 @@ const QuoteItemAndServiceTableRow = ({
       items={jobOptions}
       selectedId={jobId}
       onChange={onComboboxChange('jobId', onChange)}
-      disabled={isCalculating || isReadOnlyLayout}
+      addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
+      disabled={isJobComboboxDisabled || isCalculating || isReadOnlyLayout}
       allowClear
       left
     />}
@@ -200,6 +204,7 @@ const mapStateToProps = (state, props) => ({
   accountOptions: getAccountOptions(state),
   isCalculating: getIsCalculating(state),
   isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isJobComboboxDisabled: getIsJobComboboxDisabled(state),
 });
 
 export default connect(mapStateToProps)(QuoteItemAndServiceTableRow);

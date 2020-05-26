@@ -26,6 +26,7 @@ import {
   getIsTableEmpty,
   getIsTaxCalculationRequired,
   getItemSellingDetailsFromCache,
+  getJobModalContext,
   getLength,
   getLineByIndex,
   getModalUrl,
@@ -46,6 +47,7 @@ import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
 import FeatureToggle from '../../../FeatureToggles';
 import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
+import JobModalModule from '../../job/jobModal/JobModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
 import QuoteDetailView from './components/QuoteDetailView';
@@ -84,6 +86,7 @@ export default class QuoteDetailModule {
 
     this.contactModalModule = new ContactModalModule({ integration });
     this.accountModalModule = new AccountModalModule({ integration });
+    this.jobModalModule = new JobModalModule({ integration });
     this.inventoryModalModule = new InventoryModalModule({ integration });
   }
 
@@ -524,6 +527,36 @@ export default class QuoteDetailModule {
     }
   };
 
+  openJobModal = (onChange) => {
+    const state = this.store.getState();
+    const context = getJobModalContext(state);
+
+    this.jobModalModule.run({
+      context,
+      onLoadFailure: message => this.displayFailureAlert(message),
+      onSaveSuccess: payload => this.loadJobAfterCreate(payload, onChange),
+    });
+  };
+
+  loadJobAfterCreate = ({ message, id }, onChange) => {
+    this.jobModalModule.resetState();
+    this.displaySuccessAlert(message);
+    this.dispatcher.setJobLoadingState(true);
+
+    const onSuccess = (payload) => {
+      const job = { ...payload, id };
+      this.dispatcher.setJobLoadingState(false);
+      this.dispatcher.loadJobAfterCreate(id, job);
+      onChange(job);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setJobLoadingState(false);
+    };
+
+    this.integrator.loadJobAfterCreate({ id, onSuccess, onFailure });
+  };
+
   openDeleteModal = () => this.dispatcher.openModal({ type: ModalType.DELETE });
 
   openUnsavedModal = (url) => {
@@ -701,6 +734,7 @@ export default class QuoteDetailModule {
     const contactModal = this.contactModalModule.render();
     const accountModal = this.accountModalModule.render();
     const inventoryModal = this.inventoryModalModule.render();
+    const jobModal = this.jobModalModule.render();
 
     const tableListeners = {
       onAddRow: this.addQuoteLine,
@@ -708,6 +742,7 @@ export default class QuoteDetailModule {
       onUpdateRow: this.updateQuoteLine,
       onRowInputBlur: this.formatQuoteLine,
       onAddAccountButtonClick: this.openAccountModal,
+      onAddJob: this.openJobModal,
     };
 
     const view = (
@@ -716,6 +751,7 @@ export default class QuoteDetailModule {
           contactModal={contactModal}
           accountModal={accountModal}
           inventoryModal={inventoryModal}
+          jobModal={jobModal}
           onDismissAlert={this.dispatcher.dismissAlert}
           onUpdateHeaderOptions={this.updateQuoteDetailHeaderOptions}
           onUpdateLayout={this.updateLayout}

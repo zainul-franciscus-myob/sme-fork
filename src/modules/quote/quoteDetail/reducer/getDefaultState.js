@@ -22,6 +22,7 @@ const getDefaultState = () => ({
   isCalculating: false,
   isAccountLoading: false,
   isContactLoading: false,
+  isJobLoading: false,
   pageTitle: '',
   quote: {
     id: '',

@@ -24,6 +24,7 @@ const QuoteServiceTable = ({
     onRemoveRow,
     onRowInputBlur,
     onAddAccountButtonClick,
+    onAddJob,
   },
   taxCodeLabel,
   isQuoteJobColumnEnabled,
@@ -81,6 +82,7 @@ const QuoteServiceTable = ({
       key={index}
       onChange={onChange}
       onAddAccount={onAddAccountButtonClick}
+      onAddJob={onAddJob}
       onRowInputBlur={onRowInputBlur}
       labels={labels}
       isQuoteJobColumnEnabled={isQuoteJobColumnEnabled}

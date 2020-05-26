@@ -49,6 +49,9 @@ export const SET_ACCOUNT_LOADING_STATE = Symbol('Set account loading state');
 
 export const LOAD_ITEM_AFTER_CREATE = Symbol('Load item after create');
 
+export const LOAD_JOB_AFTER_CREATE = Symbol('Load job after create');
+export const SET_JOB_LOADING_STATE = Symbol('Set job loading state');
+
 export const UPDATE_EMAIL_QUOTE_DETAIL = Symbol('Update email quote detail');
 export const SEND_EMAIL = Symbol('Send email');
 export const RESET_EMAIL_QUOTE_DETAIL = Symbol('Reset email quote detail');

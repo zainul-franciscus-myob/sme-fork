@@ -26,6 +26,7 @@ const QuoteItemAndServiceTable = ({
     onRowInputBlur,
     onAddItemButtonClick,
     onAddAccountButtonClick,
+    onAddJob,
   },
   taxCodeLabel,
   isQuoteJobColumnEnabled,
@@ -129,6 +130,7 @@ const QuoteItemAndServiceTable = ({
       onTableRowAmountInputBlur={onRowInputBlur}
       onAddItemButtonClick={onAddItemButtonClick}
       onAddAccountButtonClick={onAddAccountButtonClick}
+      onAddJob={onAddJob}
       labels={labels}
       isQuoteJobColumnEnabled={isQuoteJobColumnEnabled}
     />
