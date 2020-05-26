@@ -76,6 +76,7 @@ const QuoteDetailOptions = (props) => {
         onChange={handleInputChange(onUpdateHeaderOptions)}
         requiredLabel={requiredLabel}
         disabled={isReadOnlyLayout}
+        maxLength={13}
       />
       <Input
         name="purchaseOrderNumber"

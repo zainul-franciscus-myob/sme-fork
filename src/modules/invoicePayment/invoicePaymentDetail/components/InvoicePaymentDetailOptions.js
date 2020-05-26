@@ -69,7 +69,7 @@ const InvoicePaymentDetailOptions = ({
         label="Reference number"
         requiredLabel={requiredLabel}
         name="referenceId"
-        maxLength={8}
+        maxLength={13}
         value={referenceId}
         onChange={handleInputChange(onUpdateInvoicePaymentDetails)}
       />

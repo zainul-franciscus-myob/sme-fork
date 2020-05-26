@@ -71,6 +71,7 @@ const SupplierReturnPurchaseOptions = ({
         value={referenceId}
         onChange={onTextFieldChange(onUpdatePurchaseOptions)}
         disabled={!isCreating}
+        maxLength={13}
       />
       <DatePicker
         name="date"

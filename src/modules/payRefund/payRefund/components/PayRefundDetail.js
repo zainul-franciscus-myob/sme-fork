@@ -98,7 +98,7 @@ const PayRefundDetail = (props) => {
         label="Reference number"
         value={referenceId}
         onChange={onInputChange(onRefundDetailsChange)}
-        maxLength={8}
+        maxLength={13}
         requiredLabel={requiredLabel}
         disabled={!isCreating}
       />
