@@ -68,6 +68,7 @@ const InvoiceItemTableRow = ({
   onUpdateAmount,
   onAddItemButtonClick,
   onAddAccount,
+  onAddJob,
   isInvoiceJobColumnEnabled,
   ...feelixInjectedProps
 }) => {
@@ -178,6 +179,7 @@ const InvoiceItemTableRow = ({
         items={jobOptions}
         selectedId={jobId}
         onChange={onChangeJobId}
+        addNewJob={() => onAddJob(onChangeJobId)}
         disabled={isSubmitting || isReadOnlyLayout}
         allowClear
         left

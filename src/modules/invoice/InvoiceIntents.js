@@ -26,6 +26,7 @@ export const UPDATE_INVOICE_DETAIL = Symbol('Update a new invoice');
 export const DELETE_INVOICE_DETAIL = Symbol('Delete invoice detail');
 export const LOAD_CONTACT_ADDRESS = Symbol('Load contact address');
 export const LOAD_CONTACT_AFTER_CREATE = Symbol('Load contact after create');
+export const LOAD_JOB_AFTER_CREATE = Symbol('Load job after create');
 export const SET_CONTACT_LOADING_STATE = Symbol('Set contact loading state');
 export const LOAD_PAY_DIRECT = Symbol('Load pay direct');
 export const SET_PAY_DIRECT_LOADING_STATE = Symbol('Set pay direct loading state');

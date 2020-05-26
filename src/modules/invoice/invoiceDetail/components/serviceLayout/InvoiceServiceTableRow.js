@@ -54,6 +54,7 @@ const InvoiceServiceTableRow = ({
   onChange,
   onUpdateAmount,
   onAddAccount,
+  onAddJob,
   isInvoiceJobColumnEnabled,
   ...feelixInjectedProps
 }) => {
@@ -118,6 +119,7 @@ const InvoiceServiceTableRow = ({
       {isInvoiceJobColumnEnabled && <JobCombobox
         label="Job"
         onChange={onChangeJobId}
+        addNewJob={() => onAddJob(onChangeJobId)}
         items={jobOptions}
         selectedId={jobId}
         disabled={isSubmitting || isReadOnlyLayout}

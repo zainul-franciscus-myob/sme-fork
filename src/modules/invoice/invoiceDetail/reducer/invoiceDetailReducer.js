@@ -14,6 +14,7 @@ import {
   LOAD_INVOICE_HISTORY,
   LOAD_ITEM_OPTION,
   LOAD_ITEM_SELLING_DETAILS,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_PAY_DIRECT,
   RELOAD_INVOICE_DETAIL,
   REMOVE_EMAIL_ATTACHMENT,
@@ -241,6 +242,15 @@ const loadContactAfterCreate = (state, { contactId, address, option }) => ({
   contactOptions: getUpdatedContactOptions(state, option),
 });
 
+export const loadJobAfterCreate = (state, { intent, ...job }) => ({
+  ...state,
+  jobOptions: [
+    job,
+    ...state.jobOptions,
+  ],
+  isPageEdited: true,
+});
+
 const setContactLoadingState = (state, { isContactLoading }) => ({ ...state, isContactLoading });
 
 const updateInvoiceIdAfterCreate = (state, { invoiceId }) => ({ ...state, invoiceId });
@@ -452,6 +462,7 @@ const handlers = {
   [RELOAD_INVOICE_DETAIL]: reloadInvoiceDetail,
   [LOAD_CONTACT_ADDRESS]: loadContactAddress,
   [LOAD_CONTACT_AFTER_CREATE]: loadContactAfterCreate,
+  [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
   [LOAD_ITEM_OPTION]: loadItemOption,
   [SET_CONTACT_LOADING_STATE]: setContactLoadingState,
   [UPDATE_INVOICE_ID_AFTER_CREATE]: updateInvoiceIdAfterCreate,

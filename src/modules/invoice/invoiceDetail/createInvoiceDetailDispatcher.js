@@ -11,6 +11,7 @@ import {
   LOAD_INVOICE_HISTORY,
   LOAD_ITEM_OPTION,
   LOAD_ITEM_SELLING_DETAILS,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_PAY_DIRECT,
   RELOAD_INVOICE_DETAIL,
   REMOVE_EMAIL_ATTACHMENT,
@@ -61,6 +62,11 @@ const createInvoiceDetailDispatcher = store => ({
 
   loadAccountAfterCreate: payload => store.dispatch({
     intent: LOAD_ACCOUNT_AFTER_CREATE, ...payload,
+  }),
+
+  loadJobAfterCreate: payload => store.dispatch({
+    intent: LOAD_JOB_AFTER_CREATE,
+    ...payload,
   }),
 
   setAlert: ({ type, message }) => store.dispatch({ intent: SET_ALERT, alert: { type, message } }),

@@ -13,6 +13,7 @@ import {
   LOAD_ITEM_OPTION,
   LOAD_ITEM_OPTIONS,
   LOAD_ITEM_SELLING_DETAILS,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_PAY_DIRECT,
   SAVE_EMAIL_SETTINGS,
   SEND_EMAIL,
@@ -35,6 +36,7 @@ import {
   getInvoiceHistoryUrlParams,
   getLoadAddedAccountUrlParams,
   getLoadAddedContactUrlParams,
+  getLoadAddedJobUrlParams,
   getLoadContactAddressUrlParams,
   getLoadInvoiceIntent,
   getLoadInvoiceUrlParams,
@@ -75,6 +77,16 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
       urlParams,
       onSuccess,
       onFailure,
+    });
+  },
+
+  loadJobAfterCreate: ({ id, onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = LOAD_JOB_AFTER_CREATE;
+    const urlParams = getLoadAddedJobUrlParams(state, id);
+
+    integration.read({
+      intent, urlParams, onSuccess, onFailure,
     });
   },
 

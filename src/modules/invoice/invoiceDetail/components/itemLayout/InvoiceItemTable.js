@@ -15,6 +15,7 @@ const InvoiceItemTable = ({
     onUpdateAmount,
     onAddItemButtonClick,
     onAddAccount,
+    onAddJob,
     onLoadAccounts,
     onLoadJobs,
     onLoadItems,
@@ -119,6 +120,7 @@ const InvoiceItemTable = ({
       onUpdateAmount={onUpdateAmount}
       onAddItemButtonClick={onAddItemButtonClick}
       onAddAccount={onAddAccount}
+      onAddJob={onAddJob}
       onLoadAccounts={onLoadAccounts}
       onLoadJobs={onLoadJobs}
       onLoadItems={onLoadItems}

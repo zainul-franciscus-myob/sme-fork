@@ -21,6 +21,7 @@ const InvoiceServiceTable = ({
     onUpdateAmount,
     onRemoveRow,
     onAddAccount,
+    onAddJob,
     onLoadAccounts,
     onLoadJobs,
   },
@@ -88,6 +89,7 @@ const InvoiceServiceTable = ({
       onChange={onChange}
       onUpdateAmount={onUpdateAmount}
       onAddAccount={onAddAccount}
+      onAddJob={onAddJob}
       onLoadAccounts={onLoadAccounts}
       onLoadJobs={onLoadJobs}
       isInvoiceJobColumnEnabled={isInvoiceJobColumnEnabled}

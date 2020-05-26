@@ -15,6 +15,7 @@ import {
   LOAD_ITEM_OPTION,
   LOAD_ITEM_OPTIONS,
   LOAD_ITEM_SELLING_DETAILS,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_DUPLICATE_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
@@ -43,6 +44,7 @@ import invoiceServiceReadOnlyDetail from './data/serviceLayout/invoiceServiceRea
 import loadAccountOptions from './data/loadAccountOptions';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadAddedContactResponse from './data/loadAddedContactResponse';
+import loadAddedJobResponse from './data/loadAddedJobResponse';
 import loadContactOptions from './data/loadContactOptions';
 import loadInvoiceHistory from './data/invoiceHistory.json';
 import loadItemOption from './data/loadItemOption';
@@ -109,6 +111,7 @@ const MemoryInvoiceMapping = {
   [LOAD_CONTACT_OPTIONS]: ({ onSuccess }) => onSuccess(loadContactOptions),
   [LOAD_ITEM_SELLING_DETAILS]: ({ onSuccess }) => onSuccess(loadItemSellingDetailsResponse),
   [LOAD_NEXT_PAGE]: ({ onSuccess }) => onSuccess(invoiceListFilterResponse),
+  [LOAD_JOB_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedJobResponse),
   [CREATE_PRE_CONVERSION_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess({ ...successResponse, id: '1' }),
   [UPDATE_PRE_CONVERSION_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [DELETE_PRE_CONVERSION_INVOIVE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),

@@ -248,6 +248,13 @@ export const getAccountModalContext = (state) => {
   return { businessId, region };
 };
 
+export const getJobModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region };
+};
+
 export const getContactModalContext = (state) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);

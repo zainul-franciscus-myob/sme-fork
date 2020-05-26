@@ -34,6 +34,7 @@ import styles from './InvoiceDetailView.module.css';
 
 const InvoiceDetailView = ({
   accountModal,
+  jobModal,
   layout,
   inventoryModal,
   loadingState,
@@ -166,6 +167,7 @@ const InvoiceDetailView = ({
         actions={actions}
       >
         {accountModal}
+        {jobModal}
         {upgradeModal}
         {contactModal}
         {inventoryModal}

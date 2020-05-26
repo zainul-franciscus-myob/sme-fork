@@ -15,6 +15,7 @@ import {
   LOAD_ITEM_OPTION,
   LOAD_ITEM_OPTIONS,
   LOAD_ITEM_SELLING_DETAILS,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_DUPLICATE_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
@@ -52,6 +53,10 @@ const HttpInvoiceMapping = {
   [LOAD_NEW_DUPLICATE_INVOICE_DETAIL]: {
     method: 'GET',
     getPath: ({ businessId, duplicateId }) => `/${businessId}/invoice/load_new_duplicate_invoice_detail/${duplicateId}`,
+  },
+  [LOAD_JOB_AFTER_CREATE]: {
+    method: 'GET',
+    getPath: ({ businessId, jobId }) => `/${businessId}/bill/load_job/${jobId}`,
   },
   [CREATE_INVOICE_DETAIL]: {
     method: 'POST',

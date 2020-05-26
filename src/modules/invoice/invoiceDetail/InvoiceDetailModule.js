@@ -20,6 +20,7 @@ import {
   getIsPreConversion,
   getIsSubmitting,
   getIsTableEmpty,
+  getJobModalContext,
   getModalType,
   getNewLineIndex,
   getShouldSaveAndReload,
@@ -45,6 +46,7 @@ import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalM
 import InvoiceDetailElementId from './types/InvoiceDetailElementId';
 import InvoiceDetailModalType from './types/InvoiceDetailModalType';
 import InvoiceDetailView from './components/InvoiceDetailView';
+import JobModalModule from '../../job/jobModal/JobModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import SaveActionType from './types/SaveActionType';
 import Store from '../../../store/Store';
@@ -82,6 +84,9 @@ export default class InvoiceDetailModule {
     this.accountModalModule = new AccountModalModule({
       integration,
     });
+    this.jobModalModule = new JobModalModule({
+      integration,
+    });
     this.contactModalModule = new ContactModalModule({ integration });
     this.inventoryModalModule = new InventoryModalModule({ integration });
     this.navigateTo = navigateTo;
@@ -113,6 +118,41 @@ export default class InvoiceDetailModule {
     };
 
     this.integrator.loadAccountAfterCreate({ id, onSuccess, onFailure });
+  };
+
+  openJobModal = (onChange) => {
+    const state = this.store.getState();
+    const jobModalContext = getJobModalContext(state);
+    this.jobModalModule.run({
+      context: jobModalContext,
+      onSaveSuccess: payload => this.loadJobAfterCreate(payload, onChange),
+      onLoadFailure: message => this.dispatcher.setAlert({ type: 'danger', message }),
+    });
+  };
+
+  loadJobAfterCreate = ({ message, id }, onChange) => {
+    this.dispatcher.setAlert({ type: 'success', message });
+    this.dispatcher.setSubmittingState(true);
+    this.jobModalModule.close();
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.loadJobAfterCreate({
+        ...payload,
+        id,
+      });
+      onChange(
+        {
+          ...payload,
+          id,
+        },
+      );
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setSubmittingState(false);
+    };
+    this.integrator.loadJobAfterCreate({ id, onSuccess, onFailure });
   };
 
   loadInvoice = () => {
@@ -993,17 +1033,20 @@ export default class InvoiceDetailModule {
   render = () => {
     const accountModal = this.accountModalModule.render();
     const contactModal = this.contactModalModule.render();
+    const jobModal = this.jobModalModule.render();
     const inventoryModal = this.inventoryModalModule.render();
 
     const invoiceDetailView = (
       <InvoiceDetailView
         accountModal={accountModal}
+        jobModal={jobModal}
         inventoryModal={inventoryModal}
         onDismissAlert={this.dispatcher.dismissAlert}
         onChangeAmountToPay={this.dispatcher.updateInvoicePaymentAmount}
         serviceLayoutListeners={{
           onAddRow: this.addInvoiceLine,
           onRemoveRow: this.removeInvoiceLine,
+          onAddJob: this.openJobModal,
           onUpdateRow: this.updateInvoiceLine,
           onUpdateAmount: this.calculateLineTotalsOnAmountChange,
           onAddAccount: this.openAccountModal,
@@ -1016,6 +1059,7 @@ export default class InvoiceDetailModule {
           onUpdateAmount: this.calculateLineTotalsOnAmountChange,
           onAddItemButtonClick: this.openInventoryModalModule,
           onAddAccount: this.openAccountModal,
+          onAddJob: this.openJobModal,
           onLoadAccounts: this.loadAccounts,
           onLoadItems: this.loadItems,
         }}
