@@ -68,7 +68,7 @@ const getDefaultState = () => ({
   region: '',
   serialNumber: '',
   shouldDisplayConnectForm: false,
-  userEmail: 'company@email.com',
+  userEmail: '',
 });
 
 const loadBankFeedApplicationData = (state, financialInstitutions) => ({
@@ -181,7 +181,6 @@ const updateForm = (state, { key, value }) => ({
 
 const handlers = {
   [LOAD_BANK_FEED_APPLICATION_DATA]: loadBankFeedApplicationData,
-  [SUBMIT_BANK_FEED_APPLICATION]: submitBankFeedApplication,
   [RESET_STATE]: resetState,
   [SET_ALERT]: setAlert,
   [SET_ACCOUNT_TYPE]: setAccountTypeState,
@@ -196,6 +195,7 @@ const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_MODAL_STATE]: setModalState,
   [SET_NOTES_STATE]: setNotesState,
+  [SUBMIT_BANK_FEED_APPLICATION]: submitBankFeedApplication,
   [UPDATE_FORM]: updateForm,
 };
 

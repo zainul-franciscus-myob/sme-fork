@@ -34,9 +34,7 @@ export default class BankFeedsApplyModule {
       this.dispatcher.loadBankFeedApplicationData(response);
     };
 
-    const onFailure = () => {
-      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
-    };
+    const onFailure = () => this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
 
     this.integrator.loadBankFeedApplicationData({ onSuccess, onFailure });
   }
@@ -51,12 +49,12 @@ export default class BankFeedsApplyModule {
   submitBankFeedApplication = () => {
     const onSuccess = (response) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setFormAlertState('');
       this.dispatcher.submitBankFeedApplication(response);
+      this.dispatcher.setDisplayConnectFormState();
     };
 
-    const onFailure = () => {
-      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
-    };
+    const onFailure = () => this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
 
     this.integrator.submitBankFeedApplication({ onSuccess, onFailure });
   }
@@ -84,10 +82,10 @@ export default class BankFeedsApplyModule {
           }
           setCopyAlertState={this.setCopyAlertState}
           setCopyAlertText={(text) => this.dispatcher.setCopyAlertText(text)}
-          setDisplayConnectForm={() => this.dispatcher.setDisplayConnectFormState()}
           setFinancialInstitution={(value) => this.dispatcher.setFinancialInstitution(value)}
           setFormAlertState={(state) => this.dispatcher.setFormAlertState(state)}
           setModalState={() => this.dispatcher.setModalState()}
+          onNext={() => this.submitBankFeedApplication()}
         />
       </Provider>,
     );
@@ -97,7 +95,6 @@ export default class BankFeedsApplyModule {
     this.dispatcher.setInitialState(context);
     this.render();
     this.loadBankFeedApplicationData();
-    // this.submitBankFeedApplication();
   }
 
   resetState = () => this.dispatcher.resetState();

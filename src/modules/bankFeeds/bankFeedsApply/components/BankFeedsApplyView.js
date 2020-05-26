@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getApplicationPreference,
   getCopyAlertState,
   getCopyAlertText,
   getLoadingState,
@@ -13,11 +12,11 @@ import BankFeedsCreateView from './BankFeedsCreateView';
 import PageView from '../../../../components/PageView/PageView';
 
 const BankFeedsApplyView = ({
-  applicationPreference,
   copyAlertState,
   copyAlertText,
   loadingState,
   onCopy,
+  onNext,
   onUpdateForm,
   redirectToBank,
   redirectToBankFeeds,
@@ -25,7 +24,6 @@ const BankFeedsApplyView = ({
   setAccountType,
   setApplicationPreference,
   setCopyAlertText,
-  setDisplayConnectForm,
   setFinancialInstitution,
   setFormAlertState,
   setModalState,
@@ -34,7 +32,6 @@ const BankFeedsApplyView = ({
   const view = shouldDisplayConnectForm
     ? (
       <BankFeedsConnectView
-        applicationPreference={applicationPreference}
         copyAlertState={copyAlertState}
         copyAlertText={copyAlertText}
         onCopy={onCopy}
@@ -48,10 +45,10 @@ const BankFeedsApplyView = ({
         redirectToImportStatements={redirectToImportStatements}
         setAccountType={setAccountType}
         setApplicationPreference={setApplicationPreference}
-        setDisplayConnectForm={setDisplayConnectForm}
         setFinancialInstitution={setFinancialInstitution}
         setFormAlertState={setFormAlertState}
         setModalState={setModalState}
+        onNext={onNext}
       />
     );
 
@@ -59,7 +56,6 @@ const BankFeedsApplyView = ({
 };
 
 const mapStateToProps = state => ({
-  applicationPreference: getApplicationPreference(state),
   copyAlertState: getCopyAlertState(state),
   copyAlertText: getCopyAlertText(state),
   loadingState: getLoadingState(state),

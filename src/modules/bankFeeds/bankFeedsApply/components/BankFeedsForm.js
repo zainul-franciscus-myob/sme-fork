@@ -31,8 +31,8 @@ const BankFeedsForm = ({
 
       <h3>1. Print the form and sign it</h3>
 
-      Check your email <b>{userEmail}</b> or click the button below to download and print your form.
-      Sign the printed authority form and scan a copy to your computer.
+      Check your email {userEmail && <b>{userEmail}</b>} or click the button below to download
+      and print your form. Sign the printed authority form and scan a copy to your computer.
 
       <Button className={styles.printForm} type="primary">Print authority form</Button>
 

@@ -71,11 +71,11 @@ const BankFeedsCreateView = ({
   lastFourDigitsRequired,
   loadingState,
   nameOnCardRequired,
+  onNext,
   onUpdateForm,
   redirectToImportStatements,
   setAccountType,
   setApplicationPreference,
-  setDisplayConnectForm,
   setFinancialInstitution,
   setFormAlertState,
   setModalState,
@@ -88,38 +88,42 @@ const BankFeedsCreateView = ({
             <Button type="secondary" onClick={() => window.history.back()}>Cancel</Button>
             <Button
               onClick={() => {
-                const applicationPreferenceForm = applicationPreference === 'form';
+                const errorMessages = [];
 
-                switch (true) {
-                  case applicationPreferenceForm && accountNameRequired && !accountName:
-                  case applicationPreferenceForm && accountNumberRequired && !accountNumber:
-                  case applicationPreferenceForm && accountSuffixRequired && !accountSuffix:
-                  case applicationPreferenceForm && accountTypeRequired && !accountType:
-                  case applicationPreferenceForm && branchNameRequired && !branchName:
-                  case applicationPreferenceForm && bsbBankRequired && !bsbBank:
-                  case applicationPreferenceForm && bsbBranchRequired && !bsbBranch:
-                  case applicationPreferenceForm && bsbRequired && !bsb:
-                  case applicationPreferenceForm && lastFourDigitsRequired && !lastFourDigits:
-                  case applicationPreferenceForm && nameOnCardRequired && !nameOnCardRequired:
-                  case !financialInstitution || !confirmedApplication:
-                    setFormAlertState(true);
-                    break;
+                const error = (field) => {
+                  if (field) {
+                    errorMessages.push(`${field} is required.`);
+                    setFormAlertState(errorMessages.join(' ').toString());
+                  }
+                };
 
-                  default:
-                    setFormAlertState(false);
-                    setDisplayConnectForm();
-                }
+                if (!financialInstitution) error('Financial institution');
+                if (accountNameRequired && !accountName) error('Account name');
+                if (accountTypeRequired && !accountType) error('Account type');
+                if (bsbRequired && !bsb) error('BSB');
+                if (bsbBankRequired && !bsbBank) error('BSB bank');
+                if (bsbBranchRequired && !bsbBranch) error('BSB branch');
+                if (accountNumberRequired && !accountNumber) error('Account number');
+                if (accountSuffixRequired && !accountSuffix) error('Account suffix');
+                if (branchNameRequired && !branchName) error('Branch name');
+                if (nameOnCardRequired && !nameOnCardRequired) error('Name on card');
+                if (lastFourDigitsRequired && !lastFourDigits) error('Last four digits');
+                if (applicationPreference && !confirmedApplication) error('Confirmation');
+                if (errorMessages.length === 0) onNext();
               }}
             >
               Next
             </Button>
           </ButtonRow>
         )}
-        pageHead={<PageHead title="Create a bank feed" />}
+        pageHead={
+          <>
+            {alert && <Alert type="danger">{alert}</Alert> }
+            <PageHead title="Create a bank feed" />
+          </>
+        }
       >
         <>
-          {alert && <Alert type="danger">Please fill in all the required fields.</Alert> }
-
           <Card
             body={
               <Card.Body child={

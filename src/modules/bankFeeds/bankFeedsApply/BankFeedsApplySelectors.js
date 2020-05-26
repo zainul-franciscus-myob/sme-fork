@@ -40,6 +40,8 @@ export const getReferenceNumber = state => state.referenceNumber;
 export const getRegion = state => state.region;
 export const getShouldDisplayConnectForm = state => state.shouldDisplayConnectForm;
 export const getUserEmail = state => state.userEmail;
+export const getIsCreditCard = state => getAccountType(state) === 'Credit card account';
+export const getIsBankAccount = state => getAccountType(state) === 'Trading Account';
 const websiteLink = createSelector(
   getRegion,
   region => `https://www.myob.com/${region}`,
@@ -52,3 +54,35 @@ export const getPCIDSSLink = createSelector(
   websiteLink,
   basePath => `${basePath}/blog/hell-pci-dss-compliance-important/`,
 );
+
+export const getSubmitApplicationBody = (state) => {
+  const finIns = getFinancialInstitution(state);
+  const applicationPreference = getApplicationPreference(state);
+
+  const getOptional = (getRequired, getValue) => (getRequired(state) ? getValue(state) : undefined);
+
+  const bankAccount = getOptional(getIsBankAccount, () => ({
+    branchName: getOptional(getBranchNameRequired, getBranchName),
+    accountName: getOptional(getAccountNameRequired, getAccountName),
+    BSB: getOptional(getBsbRequired, getBsb),
+    BSBBank: getOptional(getBsbBankRequired, getBsbBank),
+    BSBBranch: getOptional(getBsbBranchRequired, getBsbBranch),
+    accountNumber: getOptional(getAccountNumberRequired, getAccountNumber),
+    accountType: getOptional(getAccountTypeRequired, getAccountType),
+    accountSuffix: getOptional(getAccountSuffixRequired, getAccountSuffix),
+  }));
+
+  const creditCard = getOptional(getIsCreditCard, () => ({
+    branchName: getOptional(getBranchNameRequired, getBranchName),
+    nameOnCard: getOptional(getNameOnCardRequired, getNameOnCard),
+    lastFourDigits: getOptional(getLastFourDigitsRequired, getLastFourDigits),
+  }));
+
+  return {
+    financialInstitutionId: finIns.id,
+    completeOnline: applicationPreference === 'online',
+    completeTrusted: false,
+    bankAccount,
+    creditCard,
+  };
+};

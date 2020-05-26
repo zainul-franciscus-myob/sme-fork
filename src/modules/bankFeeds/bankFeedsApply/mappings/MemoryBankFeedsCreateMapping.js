@@ -1,4 +1,7 @@
-import { LOAD_BANK_FEED_APPLICATION_DATA, SUBMIT_BANK_FEED_APPLICATION } from '../BankFeedsApplyIntents';
+import {
+  LOAD_BANK_FEED_APPLICATION_DATA,
+  SUBMIT_BANK_FEED_APPLICATION,
+} from '../BankFeedsApplyIntents';
 import bankFeeds from './data/bankFeeds.json';
 
 const MemoryBankFeedsCreateMapping = {

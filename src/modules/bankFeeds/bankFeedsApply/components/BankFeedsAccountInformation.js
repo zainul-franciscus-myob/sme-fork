@@ -29,6 +29,8 @@ import {
   getNameOnCardRequired,
   getNotes,
 } from '../BankFeedsApplySelectors';
+import AccountNumberInput from '../../../../components/autoFormatter/BankDetailsInput/AccountNumberInput';
+import BSBInput from '../../../../components/autoFormatter/BankDetailsInput/BSBInput';
 import BankFeedsCreditCard from './BankFeedsCreditCard';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
@@ -56,7 +58,7 @@ const BankFeedsAccountInformation = ({
   notes,
   onUpdateForm,
 }) => (
-  applicationPreference && applicationPreference !== 'online'
+  applicationPreference
     && <>
       <hr />
 
@@ -84,12 +86,11 @@ const BankFeedsAccountInformation = ({
 
       {
         bsbRequired
-          && <Input
+          && <BSBInput
             label="BSB"
             name="bsb"
             onChange={handleInputChange(onUpdateForm)}
             requiredLabel="This field is required"
-            type="number"
             value={bsb}
             width="xs"
           />
@@ -121,12 +122,11 @@ const BankFeedsAccountInformation = ({
 
       {
         accountNumberRequired
-          && <Input
+          && <AccountNumberInput
             label="Account number"
             name="accountNumber"
             onChange={handleInputChange(onUpdateForm)}
             requiredLabel="This field is required"
-            type="number"
             value={accountNumber}
           />
       }

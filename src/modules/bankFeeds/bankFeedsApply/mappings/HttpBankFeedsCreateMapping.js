@@ -1,4 +1,7 @@
-import { LOAD_BANK_FEED_APPLICATION_DATA, SUBMIT_BANK_FEED_APPLICATION } from '../BankFeedsApplyIntents';
+import {
+  LOAD_BANK_FEED_APPLICATION_DATA,
+  SUBMIT_BANK_FEED_APPLICATION,
+} from '../BankFeedsApplyIntents';
 
 const HttpBankFeedsCreateMapping = {
   [LOAD_BANK_FEED_APPLICATION_DATA]: {
@@ -7,7 +10,7 @@ const HttpBankFeedsCreateMapping = {
   },
   [SUBMIT_BANK_FEED_APPLICATION]: {
     method: 'POST',
-    getPath: ({ businessId }) => `$/${businessId}/bankFeeds/create/submit_bank_feed_application`,
+    getPath: ({ businessId }) => `/${businessId}/bankFeeds/create/submit_bank_feed_application`,
   },
 };
 
