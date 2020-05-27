@@ -45,6 +45,7 @@ const PayRunListEmployees = ({
   onAddJobAmountChange,
   onAddJobAmountBlur,
   onAllJobsCheckboxChange,
+  onEmployeeNoteBlur,
 }) => (
   <React.Fragment>
     <UpgradeModal
@@ -87,6 +88,7 @@ const PayRunListEmployees = ({
       onEmployeePayItemChange={onEmployeePayItemChange}
       onEmployeePayItemBlur={onEmployeePayItemBlur}
       onAddJob={onAddJob}
+      onEmployeeNoteBlur={onEmployeeNoteBlur}
     />
     <EmployeePayActions
       onNextButtonClick={onNextButtonClick}

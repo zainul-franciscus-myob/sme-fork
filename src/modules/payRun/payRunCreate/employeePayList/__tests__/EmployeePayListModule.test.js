@@ -5,6 +5,7 @@ import React from 'react';
 import {
   CLOSE_JOB_LIST_MODAL,
   GET_DETAIL_JOB_LIST,
+  LOAD_EMPLOYEE_PAYS,
   OPEN_JOB_LIST_MODAL,
   SET_JOB_LIST_MODAL_LOADING_STATE,
 } from '../../PayRunIntents';
@@ -18,6 +19,7 @@ import TestStore from '../../../../../store/TestStore';
 import UnsavedModal from '../../../../../components/modal/UnsavedModal';
 import createEmployeePayListDispatcher from '../createEmployeePayListDispatcher';
 import createEmployeePayListIntegrator from '../createEmployeePayListIntegrator';
+import employeePays from '../../../mappings/data/payRun/loadEmployeePayList.json';
 import payRunReducer from '../../payRunReducer';
 
 describe('EmployeePayListModule', () => {
@@ -430,6 +432,34 @@ describe('EmployeePayListModule', () => {
       }, jobs);
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('setEmployeeNote', () => {
+    const {
+      payRunModule,
+      module,
+      store,
+    } = constructEmployeePayListModule();
+
+    it('should set default note', () => {
+      payRunModule.resetState();
+
+      store.dispatch({ intent: LOAD_EMPLOYEE_PAYS, employeePays });
+
+      const employee = module.store.state.employeePayList.lines.find(x => x.employeeId === 21);
+      expect(employee.note).toEqual('pay for Mary Jones');
+    });
+
+    it('should update employee note when set', () => {
+      payRunModule.resetState();
+
+      const note = 'foo';
+      store.dispatch({ intent: LOAD_EMPLOYEE_PAYS, employeePays });
+      module.setEmployeeNote({ employeeId: 21, note });
+
+      const updated = module.store.state.employeePayList.lines.find(x => x.employeeId === 21);
+      expect(updated.note).toEqual(note);
     });
   });
 });

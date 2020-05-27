@@ -17,6 +17,7 @@ import {
   SET_UPGRADE_MODAL_SHOWING,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
   UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
+  UPDATE_EMPLOYEE_NOTE,
   UPDATE_EMPLOYEE_PAY_ITEM,
   UPDATE_IS_EMPLOYEE_SELECTED,
   UPDATE_PAY_PERIOD_EMPLOYEE_LIMIT,
@@ -236,6 +237,20 @@ const formatEmployeePayItem = (state, {
   )),
 });
 
+const updateEmployeeNote = (state, {
+  employeeId, note,
+}) => ({
+  ...state,
+  lines: state.lines.map(line => (
+    line.employeeId === employeeId
+      ? {
+        ...line,
+        note,
+      }
+      : line
+  )),
+});
+
 const updateTheEditedEmployeePayItems = (
   state, employeeId, recalculatedEmployeePay,
 ) => (state.lines.map(line => (
@@ -307,4 +322,5 @@ export const employeePayListHandlers = {
   [GET_DETAIL_JOB_LIST]: getJobList,
   [EDIT_PAY_ITEM_JOBS]: editPayItemJobs,
   [SAVE_PAY_ITEM_JOBS]: savePayItemJobs,
+  [UPDATE_EMPLOYEE_NOTE]: updateEmployeeNote,
 };

@@ -17,6 +17,7 @@ import {
   SET_UPGRADE_MODAL_SHOWING,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
   UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
+  UPDATE_EMPLOYEE_NOTE,
   UPDATE_EMPLOYEE_PAY_ITEM,
   UPDATE_IS_EMPLOYEE_SELECTED,
   UPDATE_PAY_PERIOD_EMPLOYEE_LIMIT,
@@ -185,6 +186,14 @@ const createEmployeePayListDispatcher = store => ({
 
   loadDetailJobList: (payload) => {
     store.dispatch({ intent: GET_DETAIL_JOB_LIST, ...payload });
+  },
+
+  updateEmployeeNote: ({ employeeId, note }) => {
+    store.dispatch({
+      intent: UPDATE_EMPLOYEE_NOTE,
+      employeeId,
+      note,
+    });
   },
 });
 

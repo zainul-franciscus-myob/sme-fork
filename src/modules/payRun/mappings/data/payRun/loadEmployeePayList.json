@@ -11,6 +11,7 @@
       "deduction": 300,
       "netPay": 700,
       "super": 150,
+      "note": "pay for Mary Jones",
       "payItems": [
         {
           "payItemId": 1,
@@ -112,6 +113,7 @@
       "deduction": 315,
       "netPay": 1005.15,
       "super": 200,
+      "note": "pay for John Smith",
       "payItems": [
         {
           "payItemId": 21,

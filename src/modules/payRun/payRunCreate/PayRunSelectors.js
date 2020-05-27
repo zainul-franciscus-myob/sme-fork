@@ -107,8 +107,9 @@ const getUnprocessedTimesheetLines = state => state.unprocessedTimesheetLines;
 export const getSaveDraftContent = state => ({
   ...state.startPayRun.currentEditingPayRun,
   selectedEmployeeIds: getSelectedEmployeeIds(state),
-  employeePays: getEmployeePays(state).map(employeePay => ({
+  employeePays: getEmployeePays(state).map((employeePay, i) => ({
     ...employeePay,
+    note: getEmployeePayLines(state)[i].note,
     payItems: employeePay.payItems.map(payItem => ({
       ...payItem,
       jobs: getEmployeePayLines(state)

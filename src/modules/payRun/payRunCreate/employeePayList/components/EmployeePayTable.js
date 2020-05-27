@@ -1,5 +1,5 @@
 import {
-  AccordionTable, Card, Checkbox, FieldGroup, Table, Tooltip,
+  AccordionTable, Card, Checkbox, FieldGroup, Input, Table, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -27,6 +27,12 @@ const tableConfig = {
 
 const handleEmployeeCheckboxChange = (handler, id) => () => handler(id);
 
+const handleInputChange = (handler, employeeId) => (e) => {
+  handler({
+    employeeId, note: e.target.value,
+  });
+};
+
 const EmployeePayTable = ({
   lines,
   isAllSelected,
@@ -39,6 +45,7 @@ const EmployeePayTable = ({
   onEmployeePayItemChange,
   onEmployeePayItemBlur,
   onAddJob,
+  onEmployeeNoteBlur,
 }) => (
     <Card>
       <div className={styles.employeePayTable}>
@@ -103,6 +110,7 @@ const EmployeePayTable = ({
                 )}
               >
                 <EtpModalOpenButton line={line} onOpenEtpModal={onOpenEtpModal} />
+                <Input name="note" className={styles['employee-pay-table__note']} maxLength="255" label="Pay slip message" onBlur={handleInputChange(onEmployeeNoteBlur, line.employeeId)} defaultValue={line.note} />
                 <EmployeeRecalculatePayTable
                   employeeId={line.employeeId}
                   employeeName={line.name}

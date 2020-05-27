@@ -206,6 +206,12 @@ export default class EmployeePayListModule {
     this.loadDetailJobList();
   };
 
+  setEmployeeNote = ({ employeeId, note }) => {
+    this.dispatcher.updateEmployeeNote({
+      employeeId, note,
+    });
+  };
+
   getView() {
     return (
       <PayRunListEmployees
@@ -233,6 +239,7 @@ export default class EmployeePayListModule {
         onAddJobAmountChange={this.onAddJobAmountChange}
         onAddJobAmountBlur={this.onAddJobAmountBlur}
         onAllJobsCheckboxChange={this.onAllJobsCheckboxChange}
+        onEmployeeNoteBlur={this.setEmployeeNote}
       />
     );
   }
