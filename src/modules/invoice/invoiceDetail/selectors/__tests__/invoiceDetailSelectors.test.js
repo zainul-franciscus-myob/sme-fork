@@ -9,7 +9,7 @@ import {
   getIsLinesSupported,
   getIsReadOnlyLayout,
   getTemplateOptions,
-  getUpdatedContactOptions,
+  getUpdatedCustomerOptions,
 } from '../invoiceDetailSelectors';
 import InvoiceLayout from '../../types/InvoiceLayout';
 import InvoiceLineType from '../../types/InvoiceLineType';
@@ -19,7 +19,7 @@ describe('invoiceDetailSelectors', () => {
     isSubmitting: false,
     invoice: {
       id: '1',
-      contactId: '3',
+      customerId: '3',
       expirationTerm: 'Prepaid',
       expirationDays: 0,
       chargeForLatePayment: 123.12,
@@ -81,7 +81,7 @@ describe('invoiceDetailSelectors', () => {
       ],
     },
     comments: [],
-    contactOptions: [
+    customerOptions: [
       {
         name: 'Cow Feed 1',
         id: '1',
@@ -140,7 +140,7 @@ describe('invoiceDetailSelectors', () => {
       const expected = {
         invoiceNumber: '0000012334563456',
         purchaseOrderNumber: '123',
-        contactId: '3',
+        customerId: '3',
         isTaxInclusive: true,
         address: 'Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia',
         issueDate: '2018-11-02',
@@ -172,7 +172,7 @@ describe('invoiceDetailSelectors', () => {
             name: 'C.O.D.',
           },
         ],
-        contactOptions: [
+        customerOptions: [
           { name: 'Cow Feed 1', id: '1' },
           { name: 'Cow Feed 2', id: '2' },
           { name: 'Cow Feed 3', id: '3' },
@@ -259,23 +259,23 @@ describe('invoiceDetailSelectors', () => {
     });
   });
 
-  describe('getUpdatedContactOptions', () => {
-    it('should contain newly added contact option', () => {
+  describe('getUpdatedCustomerOptions', () => {
+    it('should contain newly added customer option', () => {
       const option1 = { id: '1', name: 'Option 1' };
       const option2 = { id: '2', name: 'Option 2' };
       const expected = [option2, option1];
 
-      const actual = getUpdatedContactOptions({ contactOptions: [option1] }, option2);
+      const actual = getUpdatedCustomerOptions({ customerOptions: [option1] }, option2);
 
       expect(actual).toEqual(expected);
     });
 
-    it('should contain updated contact option', () => {
+    it('should contain updated customer option', () => {
       const option1 = { id: '1', name: 'Option 1' };
       const option2 = { id: '1', name: 'Updated option 1' };
       const expected = [option2];
 
-      const actual = getUpdatedContactOptions({ contactOptions: [option1] }, option2);
+      const actual = getUpdatedCustomerOptions({ customerOptions: [option1] }, option2);
 
       expect(actual).toEqual(expected);
     });

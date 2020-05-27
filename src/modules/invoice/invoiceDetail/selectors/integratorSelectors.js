@@ -6,8 +6,8 @@ import {
 } from '../../InvoiceIntents';
 import {
   getBusinessId,
-  getContactId,
-  getContactOptions,
+  getCustomerId,
+  getCustomerOptions,
   getDuplicateId,
   getInvoice,
   getInvoiceId,
@@ -72,15 +72,15 @@ export const getCreateOrUpdateInvoiceUrlParams = (state) => {
 export const getCreateOrUpdateInvoicePayload = (state) => {
   const invoice = getInvoice(state);
 
-  const contacts = getContactOptions(state);
-  const contactId = getContactId(state);
-  const { name: contactName } = contacts.find(({ id }) => contactId === id) || {};
+  const customers = getCustomerOptions(state);
+  const customerId = getCustomerId(state);
+  const { name: customerName } = customers.find(({ id }) => customerId === id) || {};
 
   const lines = getLines(state);
 
   return {
     ...invoice,
-    contactName,
+    customerName,
     lines,
   };
 };
@@ -103,7 +103,7 @@ export const getDeleteInvoiceUrlParams = (state) => {
 
 export const getCreateOrUpdatePreConversionPayload = (state) => {
   const {
-    contactId,
+    customerId,
     expirationTerm,
     expirationDays,
     isTaxInclusive,
@@ -118,7 +118,7 @@ export const getCreateOrUpdatePreConversionPayload = (state) => {
   } = getInvoice(state);
 
   return {
-    contactId,
+    customerId,
     expirationTerm,
     expirationDays,
     isTaxInclusive,
@@ -140,17 +140,24 @@ export const getDeletePreConversionInvoiceUrlParams = (state) => {
   return { businessId, invoiceId };
 };
 
-export const getLoadContactAddressUrlParams = (state) => {
+export const getLoadCustomerUrlParams = (state) => {
   const businessId = getBusinessId(state);
-  const contactId = getContactId(state);
+  const customerId = getCustomerId(state);
 
-  return { businessId, contactId };
+  return { businessId, customerId };
 };
 
-export const getLoadAddedContactUrlParams = (state, contactId) => {
+export const getLoadAddedCustomerUrlParams = (state, customerId) => {
   const businessId = getBusinessId(state);
 
-  return { businessId, contactId };
+  return { businessId, customerId };
+};
+
+export const getLoadAbnFromCustomerUrlParams = (state) => {
+  const businessId = getBusinessId(state);
+  const customerId = getCustomerId(state);
+
+  return { businessId, customerId };
 };
 
 export const getLoadPayDirectUrlParams = (state) => {

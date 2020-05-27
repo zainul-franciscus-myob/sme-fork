@@ -2,7 +2,7 @@ import { businessEventToFeatureMap } from '../../../../common/types/BusinessEven
 import {
   getAmountDue,
   getBusinessId,
-  getContactId,
+  getCustomerId,
   getInvoiceId,
   getIsServiceLayout,
   getRegion,
@@ -18,7 +18,7 @@ const getBaseUrl = (state) => {
 
 export const getInvoicePaymentUrl = (state) => {
   const redirectParams = {
-    customerId: getContactId(state),
+    customerId: getCustomerId(state),
     paymentAmount: getAmountDue(state),
     applyPaymentToInvoiceId: getInvoiceId(state),
   };

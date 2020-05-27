@@ -64,7 +64,7 @@ const InvoiceDetailView = ({
   onDismissPreConversionAlert,
   onUpdateHeaderOptions,
   onIssueDateBlur,
-  onAddContactButtonClick,
+  onAddCustomerButtonClick,
   onUpdateInvoiceLayout,
   onUpgradeModalDismiss,
   onUpgradeModalUpgradeButtonClick,
@@ -73,14 +73,14 @@ const InvoiceDetailView = ({
   onClickOnRefNo,
   onFocusActivityHistory,
   onRedirectToCreatePayment,
-  onLoadContacts,
+  onLoadCustomers,
 }) => {
   const options = (
     <InvoiceDetailOptions
       onUpdateHeaderOptions={onUpdateHeaderOptions}
       onIssueDateBlur={onIssueDateBlur}
-      onAddContactButtonClick={onAddContactButtonClick}
-      onLoadContacts={onLoadContacts}
+      onAddCustomerButtonClick={onAddCustomerButtonClick}
+      onLoadCustomers={onLoadCustomers}
       onDismissPreConversionAlert={onDismissPreConversionAlert}
     />
   );

@@ -69,7 +69,7 @@ describe('integratorSelectors', () => {
         invoice: {
           id: '123',
           layout: 'service',
-          contactId: '2',
+          customerId: '2',
           address: 'Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia',
           note: 'Thank you!',
           invoiceNumber: '00000123',
@@ -93,7 +93,7 @@ describe('integratorSelectors', () => {
             },
           ],
         },
-        contactOptions: [
+        customerOptions: [
           {
             name: 'Cow Feed',
             id: '2',
@@ -141,7 +141,7 @@ describe('integratorSelectors', () => {
       const expected = {
         id: '123',
         layout: 'service',
-        contactId: '2',
+        customerId: '2',
         address: 'Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia',
         note: 'Thank you!',
         invoiceNumber: '00000123',
@@ -155,7 +155,7 @@ describe('integratorSelectors', () => {
         discountForEarlyPayment: 3546.34,
         numberOfDaysForDiscount: 10,
         amountPaid: '10.00',
-        contactName: 'Cow Feed',
+        customerName: 'Cow Feed',
         lines: [
           {
             id: '345',
@@ -176,7 +176,7 @@ describe('integratorSelectors', () => {
       const invoice = {
         id: '123',
         layout: 'item',
-        contactId: '1',
+        customerId: '1',
         address: 'Footloose Dance Studio\r\n45 Huntly Road\r\nNorth Ryde  NSW  2113\r\nAustralia\r\n',
         invoiceNumber: 'IN00000123',
         note: 'Thank you! Footloose',
@@ -206,7 +206,7 @@ describe('integratorSelectors', () => {
       };
       const state = {
         invoice,
-        contactOptions: [
+        customerOptions: [
           {
             name: 'Cameron, James',
             id: '1',
@@ -220,7 +220,7 @@ describe('integratorSelectors', () => {
 
       const expected = {
         ...invoice,
-        contactName: 'Cameron, James',
+        customerName: 'Cameron, James',
       };
 
       const actual = getCreateOrUpdateInvoicePayload(state);

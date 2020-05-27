@@ -9,7 +9,7 @@
     "isAllowOnlinePayments": false,
     "lines": []
   },
-  "contactOptions": [
+  "customerOptions": [
     {
       "name": "A-Z Stationery Supplies",
       "id": "1"

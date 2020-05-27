@@ -4,11 +4,12 @@ import {
   DELETE_INVOICE_DETAIL,
   DELETE_PRE_CONVERSION_INVOIVE_DETAIL,
   EXPORT_INVOICE_PDF,
+  LOAD_ABN_FROM_CUSTOMER,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ACCOUNT_OPTIONS,
-  LOAD_CONTACT_ADDRESS,
-  LOAD_CONTACT_AFTER_CREATE,
-  LOAD_CONTACT_OPTIONS,
+  LOAD_CUSTOMER,
+  LOAD_CUSTOMER_AFTER_CREATE,
+  LOAD_CUSTOMER_OPTIONS,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
   LOAD_INVOICE_LIST,
@@ -74,13 +75,13 @@ const HttpInvoiceMapping = {
     method: 'DELETE',
     getPath: ({ businessId, invoiceId }) => `/${businessId}/invoice/delete_invoice_detail/${invoiceId}`,
   },
-  [LOAD_CONTACT_ADDRESS]: {
+  [LOAD_CUSTOMER]: {
     method: 'GET',
-    getPath: ({ businessId, contactId }) => `/${businessId}/invoice/load_contact_address/${contactId}`,
+    getPath: ({ businessId, customerId }) => `/${businessId}/invoice/load_customer/${customerId}`,
   },
-  [LOAD_CONTACT_AFTER_CREATE]: {
+  [LOAD_CUSTOMER_AFTER_CREATE]: {
     method: 'GET',
-    getPath: ({ businessId, contactId }) => `/${businessId}/invoice/load_contact/${contactId}`,
+    getPath: ({ businessId, customerId }) => `/${businessId}/invoice/load_customer_after_create/${customerId}`,
   },
   [LOAD_PAY_DIRECT]: {
     method: 'GET',
@@ -122,9 +123,9 @@ const HttpInvoiceMapping = {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/invoice/load_item_options`,
   },
-  [LOAD_CONTACT_OPTIONS]: {
+  [LOAD_CUSTOMER_OPTIONS]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/invoice/load_contact_options`,
+    getPath: ({ businessId }) => `/${businessId}/invoice/load_customer_options`,
   },
   [LOAD_ITEM_SELLING_DETAILS]: {
     method: 'GET',
@@ -141,6 +142,10 @@ const HttpInvoiceMapping = {
   [DELETE_PRE_CONVERSION_INVOIVE_DETAIL]: {
     method: 'DELETE',
     getPath: ({ businessId, invoiceId }) => `/${businessId}/invoice/delete_pre_conversion_invoice/${invoiceId}`,
+  },
+  [LOAD_ABN_FROM_CUSTOMER]: {
+    method: 'GET',
+    getPath: ({ businessId, customerId }) => `/${businessId}/invoice/load_abn_from_customer/${customerId}`,
   },
 };
 

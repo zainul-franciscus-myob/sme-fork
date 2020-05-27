@@ -1,13 +1,21 @@
 import {
   CREATE_INVOICE_DETAIL,
   CREATE_PRE_CONVERSION_INVOICE_DETAIL,
+  LOAD_ABN_FROM_CUSTOMER,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
+  LOAD_NEW_DUPLICATE_INVOICE_DETAIL,
+  LOAD_NEW_INVOICE_DETAIL,
+  LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
+  LOAD_PAY_DIRECT,
   RELOAD_INVOICE_DETAIL,
+  SET_ABN_LOADING_STATE,
   SET_ALERT,
   SET_INVOICE_HISTORY_LOADING,
+  SET_LOADING_STATE,
   SET_MODAL_ALERT,
   SET_MODAL_TYPE,
+  SET_PAY_DIRECT_LOADING_STATE,
   SET_REDIRECT_STATE,
   SET_SUBMITTING_STATE,
   SET_UPGRADE_MODAL_SHOWING,
@@ -16,8 +24,10 @@ import {
   UPDATE_PRE_CONVERSION_INVOICE_DETAIL,
 } from '../../InvoiceIntents';
 import { DUPLICATE_INVOICE, SUCCESSFULLY_SAVED_INVOICE } from '../types/invoiceMessageTypes';
+import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
 import InvoiceDetailModule from '../InvoiceDetailModule';
+import LoadingState from '../../../../components/PageView/LoadingState';
 import Region from '../../../../common/types/Region';
 import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
@@ -72,6 +82,191 @@ const setupWithPreConversion = (isCreating = false, isPageEdited = false) => {
 };
 
 describe('InvoiceDetailModule', () => {
+  describe('run', () => {
+    describe('existing invoice', () => {
+      const { store, integration, module } = setup();
+
+      module.run({ businessId: 'businessId', region: Region.au, invoiceId: 'invoiceId' });
+
+      expect(store.getActions()).toEqual([
+        expect.objectContaining({ intent: SET_INITIAL_STATE }),
+        { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING },
+        { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING_SUCCESS },
+        { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+        expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+        expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
+        { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: true },
+        { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: false },
+        expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
+        { intent: SET_INVOICE_HISTORY_LOADING },
+        expect.objectContaining({ intent: LOAD_INVOICE_HISTORY }),
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
+        expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
+        expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
+        expect.objectContaining({ intent: LOAD_INVOICE_HISTORY }),
+      ]);
+    });
+
+    describe('new invoice', () => {
+      const { store, integration, module } = setup();
+
+      module.run({ businessId: 'businessId', region: Region.au, invoiceId: 'new' });
+
+      expect(store.getActions()).toEqual([
+        expect.objectContaining({ intent: SET_INITIAL_STATE }),
+        { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING },
+        { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING_SUCCESS },
+        { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+        expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
+        { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: true },
+        { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: false },
+        expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: LOAD_NEW_INVOICE_DETAIL }),
+        expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
+      ]);
+    });
+
+    describe('new duplicate invoice', () => {
+      const { store, integration, module } = setup();
+
+      module.run({
+        businessId: 'businessId', region: Region.au, invoiceId: 'new', duplicateId: 'duplicateId',
+      });
+
+      expect(store.getActions()).toEqual([
+        expect.objectContaining({ intent: SET_INITIAL_STATE }),
+        { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING },
+        { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING_SUCCESS },
+        { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+        expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+        expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
+        { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: true },
+        { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: false },
+        expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: LOAD_NEW_DUPLICATE_INVOICE_DETAIL }),
+        expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
+        expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
+      ]);
+    });
+
+    describe('new invoice from quote', () => {
+      const { store, integration, module } = setup();
+
+      module.run({
+        businessId: 'businessId', region: Region.au, invoiceId: 'new', quoteId: 'quoteId',
+      });
+
+      expect(store.getActions()).toEqual([
+        expect.objectContaining({ intent: SET_INITIAL_STATE }),
+        { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING },
+        { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING_SUCCESS },
+        { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+        expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+        expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
+        { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: true },
+        { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: false },
+        expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE }),
+        expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
+        expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
+      ]);
+    });
+
+    describe('abn', () => {
+      it('load abn for au business', () => {
+        const { store, integration, module } = setup();
+        module.run({ businessId: 'businessId', region: Region.au, invoiceId: 'invoiceId' });
+
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+            { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+            expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
+          ]),
+        );
+
+        expect(integration.getRequests()).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
+          ]),
+        );
+      });
+
+      it('does not load abn for nz business', () => {
+        const { store, integration, module } = setup();
+        module.run({ businessId: 'businessId', region: Region.nz, invoiceId: 'invoiceId' });
+
+        expect(store.getActions()).toEqual(
+          expect.not.arrayContaining([
+            { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+            { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+            expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
+          ]),
+        );
+
+        expect(integration.getRequests()).toEqual(
+          expect.not.arrayContaining([
+            expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
+          ]),
+        );
+      });
+    });
+
+    describe('pay direct', () => {
+      it('load pay direct for au business', () => {
+        const { store, integration, module } = setup();
+        module.run({ businessId: 'businessId', region: Region.au, invoiceId: 'invoiceId' });
+
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: true },
+            { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: false },
+            expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
+          ]),
+        );
+
+        expect(integration.getRequests()).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
+          ]),
+        );
+      });
+
+      it('does not load pay direct for nz business', () => {
+        const { store, integration, module } = setup();
+        module.run({ businessId: 'businessId', region: Region.nz, invoiceId: 'invoiceId' });
+
+        expect(store.getActions()).toEqual(
+          expect.not.arrayContaining([
+            { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: true },
+            { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: false },
+            expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
+          ]),
+        );
+
+        expect(integration.getRequests()).toEqual(
+          expect.not.arrayContaining([
+            expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
+          ]),
+        );
+      });
+    });
+  });
+
   describe('createOrUpdateInvoice', () => {
     describe.each([
       {

@@ -24,7 +24,10 @@ export const RELOAD_INVOICE_DETAIL = Symbol('Reload an invoice');
 export const CREATE_INVOICE_DETAIL = Symbol('Create a new invoice');
 export const UPDATE_INVOICE_DETAIL = Symbol('Update a new invoice');
 export const DELETE_INVOICE_DETAIL = Symbol('Delete invoice detail');
-export const LOAD_CONTACT_ADDRESS = Symbol('Load contact address');
+export const LOAD_CUSTOMER = Symbol('Load customer');
+export const LOAD_CUSTOMER_AFTER_CREATE = Symbol('Load customer after create');
+export const SET_CUSTOMER_LOADING_STATE = Symbol('Set customer loading state');
+export const LOAD_CONTACT = Symbol('Load contact');
 export const LOAD_CONTACT_AFTER_CREATE = Symbol('Load contact after create');
 export const LOAD_JOB_AFTER_CREATE = Symbol('Load job after create');
 export const SET_CONTACT_LOADING_STATE = Symbol('Set contact loading state');
@@ -72,7 +75,7 @@ export const SET_REDIRECT_STATE = Symbol('Set redirect url');
 
 export const LOAD_ACCOUNT_OPTIONS = Symbol('Load account options');
 export const LOAD_ITEM_OPTIONS = Symbol('Load item options');
-export const LOAD_CONTACT_OPTIONS = Symbol('Load contact options');
+export const LOAD_CUSTOMER_OPTIONS = Symbol('Load customer options');
 
 export const LOAD_ITEM_SELLING_DETAILS = Symbol('Load item selling details');
 
@@ -81,3 +84,7 @@ export const UPDATE_PRE_CONVERSION_INVOICE_DETAIL = Symbol('Update a pre convers
 export const DELETE_PRE_CONVERSION_INVOIVE_DETAIL = Symbol('Delete a pre conversion invoice');
 export const CONVERT_TO_PRE_CONVERSION_INVOICE = Symbol('Convert to pre conversion invoice');
 export const SET_SHOW_PRE_CONVERSION_ALERT = Symbol('Set show pre conversion alert');
+
+export const LOAD_ABN_FROM_CUSTOMER = Symbol('Load abn given a customer id');
+export const SET_ABN_LOADING_STATE = Symbol('Set abn loading state');
+export const RESET_CUSTOMER = Symbol('Reset the abn');

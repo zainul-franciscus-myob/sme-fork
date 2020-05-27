@@ -1,7 +1,7 @@
 {
   "invoice": {
     "layout": "service",
-    "contactId": "2",
+    "customerId": "2",
     "expirationTerm": "OnADayOfTheMonth",
     "expirationDays": "4",
     "isTaxInclusive": true,
@@ -57,7 +57,7 @@
     "toName": "Geoff Speirs",
     "attachments": []
   },
-  "contactOptions": [
+  "customerOptions": [
     {
       "name": "A-Z Stationery Supplies",
       "id": "1"

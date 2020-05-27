@@ -7,9 +7,10 @@ import {
   CALCULATE_LINE_AMOUNTS,
   CALCULATE_LINE_TOTALS,
   CONVERT_TO_PRE_CONVERSION_INVOICE,
+  LOAD_ABN_FROM_CUSTOMER,
   LOAD_ACCOUNT_AFTER_CREATE,
-  LOAD_CONTACT_ADDRESS,
-  LOAD_CONTACT_AFTER_CREATE,
+  LOAD_CUSTOMER,
+  LOAD_CUSTOMER_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
   LOAD_ITEM_OPTION,
@@ -19,11 +20,13 @@ import {
   RELOAD_INVOICE_DETAIL,
   REMOVE_EMAIL_ATTACHMENT,
   REMOVE_INVOICE_LINE,
+  RESET_CUSTOMER,
   RESET_EMAIL_INVOICE_DETAIL,
   RESET_TOTALS,
   SAVE_EMAIL_SETTINGS,
+  SET_ABN_LOADING_STATE,
   SET_ALERT,
-  SET_CONTACT_LOADING_STATE,
+  SET_CUSTOMER_LOADING_STATE,
   SET_DUPLICATE_ID,
   SET_INVOICE_HISTORY_CLOSED,
   SET_INVOICE_HISTORY_LOADING,
@@ -66,11 +69,18 @@ import {
   getBusinessId,
   getInvoiceId,
   getRegion,
-  getUpdatedContactOptions,
+  getUpdatedCustomerOptions,
 } from '../selectors/invoiceDetailSelectors';
-import { calculateLineAmounts, calculateLineTotals, getIsCalculableLine } from './calculationReducer';
+import {
+  calculateLineAmounts,
+  calculateLineTotals,
+  getIsCalculableLine,
+} from './calculationReducer';
 import { getEmailDetailFromLoadInvoiceDetail } from '../selectors/emailSelectors';
-import { getInvoiceHistory, getInvoiceHistoryAccordionStatus } from '../selectors/invoiceHistorySelectors';
+import {
+  getInvoiceHistory,
+  getInvoiceHistoryAccordionStatus,
+} from '../selectors/invoiceHistorySelectors';
 import { getPayDirect } from '../selectors/payDirectSelectors';
 import {
   loadInvoiceHistory,
@@ -157,7 +167,7 @@ const loadInvoiceDetail = (state, action) => {
     },
     comments: action.comments || state.comments,
     serialNumber: action.serialNumber,
-    contactOptions: action.contactOptions || state.contactOptions,
+    customerOptions: action.customerOptions || state.customerOptions,
     expirationTermOptions: action.expirationTermOptions || state.expirationTermOptions,
     itemOptions: action.itemOptions || state.itemOptions,
     taxCodeOptions: action.taxCodeOptions || state.taxCodeOptions,
@@ -230,16 +240,37 @@ const updateInvoiceState = (state, partialInvoice) => ({
   },
 });
 
-const loadContactAddress = (state, { address }) => updateInvoiceState(state, { address });
-
-const loadContactAfterCreate = (state, { contactId, address, option }) => ({
+const loadCustomer = (state, { address, abn }) => ({
   ...state,
   invoice: {
     ...state.invoice,
-    contactId,
     address,
   },
-  contactOptions: getUpdatedContactOptions(state, option),
+  abn,
+});
+
+const loadCustomerAfterCreate = (state, {
+  customerId, address, option, abn,
+}) => ({
+  ...state,
+  invoice: {
+    ...state.invoice,
+    customerId,
+    address,
+  },
+  customerOptions: getUpdatedCustomerOptions(state, option),
+  abn,
+});
+
+const setCustomerLoadingState = (state, { isCustomerLoading }) => ({ ...state, isCustomerLoading });
+
+const resetCustomer = (state) => ({
+  ...state,
+  invoice: {
+    ...state.invoice,
+    address: '',
+  },
+  abn: undefined,
 });
 
 export const loadJobAfterCreate = (state, { intent, ...job }) => ({
@@ -251,7 +282,6 @@ export const loadJobAfterCreate = (state, { intent, ...job }) => ({
   isPageEdited: true,
 });
 
-const setContactLoadingState = (state, { isContactLoading }) => ({ ...state, isContactLoading });
 
 const updateInvoiceIdAfterCreate = (state, { invoiceId }) => ({ ...state, invoiceId });
 
@@ -448,6 +478,16 @@ const setDuplicateId = (state, action) => ({
   duplicateId: action.duplicateId,
 });
 
+const setAbnLoadingState = (state, action) => ({
+  ...state,
+  isAbnLoading: action.isAbnLoading,
+});
+
+const loadAbnFromCustomer = (state, action) => ({
+  ...state,
+  abn: action.abn,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -460,11 +500,15 @@ const handlers = {
   [SET_UPGRADE_MODAL_SHOWING]: setUpgradeModalShowing,
   [LOAD_INVOICE_DETAIL]: loadInvoiceDetail,
   [RELOAD_INVOICE_DETAIL]: reloadInvoiceDetail,
-  [LOAD_CONTACT_ADDRESS]: loadContactAddress,
-  [LOAD_CONTACT_AFTER_CREATE]: loadContactAfterCreate,
+
+  [LOAD_CUSTOMER]: loadCustomer,
+  [LOAD_CUSTOMER_AFTER_CREATE]: loadCustomerAfterCreate,
+  [SET_CUSTOMER_LOADING_STATE]: setCustomerLoadingState,
+  [RESET_CUSTOMER]: resetCustomer,
+
   [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
+
   [LOAD_ITEM_OPTION]: loadItemOption,
-  [SET_CONTACT_LOADING_STATE]: setContactLoadingState,
   [UPDATE_INVOICE_ID_AFTER_CREATE]: updateInvoiceIdAfterCreate,
   [SET_DUPLICATE_ID]: setDuplicateId,
   [UPDATE_INVOICE_DETAIL_HEADER_OPTIONS]: setInvoiceDetailHeaderOptions,
@@ -506,6 +550,9 @@ const handlers = {
 
   [CONVERT_TO_PRE_CONVERSION_INVOICE]: convertToPreConversionInvoice,
   [SET_SHOW_PRE_CONVERSION_ALERT]: setShowPreConversionAlert,
+
+  [LOAD_ABN_FROM_CUSTOMER]: loadAbnFromCustomer,
+  [SET_ABN_LOADING_STATE]: setAbnLoadingState,
 };
 
 const invoiceDetailReducer = createReducer(getDefaultState(), handlers);

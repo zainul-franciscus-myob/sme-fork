@@ -1,7 +1,7 @@
 {
   "invoice": {
     "layout": "itemAndService",
-    "contactId": "1",
+    "customerId": "1",
     "expirationTerm": "OnADayOfTheMonth",
     "expirationDays": 10,
     "chargeForLatePayment": "123.12",

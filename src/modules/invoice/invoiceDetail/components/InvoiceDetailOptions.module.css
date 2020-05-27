@@ -2,6 +2,31 @@
   white-space: pre-line;
 }
 
+.contactComboBox {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: var(--flx-spacing-tiny);
+}
+
+.maximiseContactCombobox :global(.form-group) {
+  width: 100%;
+}
+
+.contactComboBox :global(.flx-popover) {
+  display: flex;
+  margin-left: var(--flx-spacing-x-tiny);
+  margin-top: var(--flx-spacing-x-tiny);
+}
+
+/**
+  @FEELIX:
+  To have the abn popover next to the contact combobox, we need to extend
+  the width of the primary header option.
+**/
+.detail :global(.flx-detail-header__primary) {
+  max-width: 42.2rem;
+}
+
 /*
   Long labels cause undesirable wrapping with the Feelix DetailHeader on desktop.
   To thix this, we just increase the width.
@@ -9,5 +34,9 @@
 @media (min-width: 768px) {
   .options :global .flx-detail-header__secondary > * {
     width: 50rem;
+  }
+
+  .contactComboBox :global(.form-group) {
+    min-width: var(--flx-width-field-l);
   }
 }

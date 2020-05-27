@@ -1,7 +1,7 @@
 {
   "invoice": {
     "layout": "itemAndService",
-    "contactId": "",
+    "customerId": "",
     "expirationTerm": "DayOfMonthAfterEOM",
     "expirationDays": 4,
     "isTaxInclusive": true,
@@ -13,7 +13,7 @@
     "lines": [],
     "amountPaid": "0.00"
   },
-  "contactOptions": [
+  "customerOptions": [
     {
       "name": "A-Z Stationery Supplies",
       "id": "1"

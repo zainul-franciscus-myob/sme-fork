@@ -4,11 +4,12 @@ import {
   DELETE_INVOICE_DETAIL,
   DELETE_PRE_CONVERSION_INVOIVE_DETAIL,
   EXPORT_INVOICE_PDF,
+  LOAD_ABN_FROM_CUSTOMER,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ACCOUNT_OPTIONS,
-  LOAD_CONTACT_ADDRESS,
-  LOAD_CONTACT_AFTER_CREATE,
-  LOAD_CONTACT_OPTIONS,
+  LOAD_CUSTOMER,
+  LOAD_CUSTOMER_AFTER_CREATE,
+  LOAD_CUSTOMER_OPTIONS,
   LOAD_INVOICE_HISTORY,
   LOAD_ITEM_OPTION,
   LOAD_ITEM_OPTIONS,
@@ -34,10 +35,11 @@ import {
   getDeleteInvoiceUrlParams,
   getDeletePreConversionInvoiceUrlParams,
   getInvoiceHistoryUrlParams,
+  getLoadAbnFromCustomerUrlParams,
   getLoadAddedAccountUrlParams,
-  getLoadAddedContactUrlParams,
+  getLoadAddedCustomerUrlParams,
   getLoadAddedJobUrlParams,
-  getLoadContactAddressUrlParams,
+  getLoadCustomerUrlParams,
   getLoadInvoiceIntent,
   getLoadInvoiceUrlParams,
   getLoadItemOptionUrlParams,
@@ -154,11 +156,11 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
     });
   },
 
-  loadContactAddress: ({ onSuccess, onFailure }) => {
+  loadCustomer: ({ onSuccess, onFailure }) => {
     const state = store.getState();
 
-    const intent = LOAD_CONTACT_ADDRESS;
-    const urlParams = getLoadContactAddressUrlParams(state);
+    const intent = LOAD_CUSTOMER;
+    const urlParams = getLoadCustomerUrlParams(state);
 
     integration.read({
       intent,
@@ -168,11 +170,25 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
     });
   },
 
-  loadContactAfterCreate: ({ id, onSuccess, onFailure }) => {
+  loadCustomerAfterCreate: ({ id, onSuccess, onFailure }) => {
     const state = store.getState();
 
-    const intent = LOAD_CONTACT_AFTER_CREATE;
-    const urlParams = getLoadAddedContactUrlParams(state, id);
+    const intent = LOAD_CUSTOMER_AFTER_CREATE;
+    const urlParams = getLoadAddedCustomerUrlParams(state, id);
+
+    integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadAbnFromCustomer: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = LOAD_ABN_FROM_CUSTOMER;
+    const urlParams = getLoadAbnFromCustomerUrlParams(state);
 
     integration.read({
       intent,
@@ -323,9 +339,9 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
     });
   },
 
-  loadContacts: ({ onSuccess, onFailure, keywords }) => {
+  loadCustomers: ({ onSuccess, onFailure, keywords }) => {
     const state = store.getState();
-    const intent = LOAD_CONTACT_OPTIONS;
+    const intent = LOAD_CUSTOMER_OPTIONS;
 
     integration.read({
       intent,

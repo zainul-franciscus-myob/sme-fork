@@ -1,22 +1,21 @@
 import {
-  Alert,
-  DetailHeader,
-  Input,
-  RadioButtonGroup,
-  ReadOnly,
+  Alert, DetailHeader, Input, RadioButtonGroup, ReadOnly,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
+import classnames from 'classnames';
 
 import {
   getInvoiceDetailOptions,
   getIsPreConversion,
   getIsReadOnlyLayout,
   getReadOnlyMessage,
+  getShouldShowAbn,
   getShowPreConversionAlert,
 } from '../selectors/invoiceDetailSelectors';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
 import DatePicker from '../../../../components/DatePicker/DatePicker';
+import InvoiceAbnPopover from './InvoiceAbnPopover';
 import InvoiceDetailOnlinePaymentMethod from './InvoiceDetailOnlinePaymentMethod';
 import PaymentTerms from '../../../../components/PaymentTerms/PaymentTerms';
 import handleDateChange from '../../../../components/handlers/handleDateChange';
@@ -24,7 +23,7 @@ import handleInputChange from '../../../../components/handlers/handleInputChange
 import styles from './InvoiceDetailOptions.module.css';
 
 const InvoiceDetailOptions = ({
-  contactId,
+  customerId,
   invoiceNumber,
   address,
   purchaseOrderNumber,
@@ -33,7 +32,7 @@ const InvoiceDetailOptions = ({
   expirationDays,
   expirationTermOptions,
   isTaxInclusive,
-  contactOptions,
+  customerOptions,
   isCustomerDisabled,
   isSubmitting,
   showOnlinePayment,
@@ -41,15 +40,16 @@ const InvoiceDetailOptions = ({
   taxExclusiveLabel,
   onUpdateHeaderOptions,
   onIssueDateBlur,
-  onAddContactButtonClick,
+  onAddCustomerButtonClick,
   isReadOnlyLayout,
   readOnlyMessage,
   isPreConversion,
   showPreConversionAlert,
+  shouldShowAbn,
   onDismissPreConversionAlert,
 }) => {
   const onComboBoxChange = handler => (option) => {
-    const key = 'contactId';
+    const key = 'customerId';
     const { id: value } = option;
 
     handler({ key, value });
@@ -68,23 +68,32 @@ const InvoiceDetailOptions = ({
   );
 
   const primary = (
-    <div>
-      <CustomerCombobox
-        items={contactOptions}
-        selectedId={contactId}
-        onChange={onComboBoxChange(onUpdateHeaderOptions)}
-        addNewItem={{
-          label: 'Create customer',
-          onAddNew: onAddContactButtonClick,
-        }}
-        label="Customer"
-        name="contactId"
-        hideLabel={false}
-        disabled={isCustomerDisabled || isReadOnlyLayout}
-        requiredLabel={requiredLabel}
-      />
+    <>
+      <div className={classnames(
+        styles.contactComboBox,
+        { [styles.maximiseContactCombobox]: !shouldShowAbn },
+      )}
+      >
+        <CustomerCombobox
+          items={customerOptions}
+          selectedId={customerId}
+          onChange={onComboBoxChange(onUpdateHeaderOptions)}
+          addNewItem={{
+            label: 'Create customer',
+            onAddNew: onAddCustomerButtonClick,
+          }}
+          label="Customer"
+          name="customerId"
+          hideLabel={false}
+          disabled={isCustomerDisabled || isReadOnlyLayout}
+          requiredLabel={requiredLabel}
+          allowClear
+          width="xl"
+        />
+        {shouldShowAbn && <InvoiceAbnPopover />}
+      </div>
       {billingAddress}
-    </div>
+    </>
   );
 
   const secondary = (
@@ -159,7 +168,7 @@ const InvoiceDetailOptions = ({
     <div className={styles.options}>
       {isReadOnlyLayout && readOnlyWarning}
       {preConversionAlert}
-      <DetailHeader primary={primary} secondary={secondary} />
+      <DetailHeader primary={primary} secondary={secondary} className={styles.detail} />
     </div>
   );
 };
@@ -170,6 +179,7 @@ const mapStateToProps = state => ({
   isReadOnlyLayout: getIsReadOnlyLayout(state),
   isPreConversion: getIsPreConversion(state),
   showPreConversionAlert: getShowPreConversionAlert(state),
+  shouldShowAbn: getShouldShowAbn(state),
 });
 
 export default connect(mapStateToProps)(InvoiceDetailOptions);

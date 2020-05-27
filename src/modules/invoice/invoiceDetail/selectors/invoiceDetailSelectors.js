@@ -5,6 +5,8 @@ import Decimal from 'decimal.js';
 import { TaxCalculatorTypes, createTaxCalculator } from '../../../../common/taxCalculator';
 import InvoiceLayout from '../types/InvoiceLayout';
 import InvoiceLineType from '../types/InvoiceLineType';
+import Region from '../../../../common/types/Region';
+import buildAbnLink from '../../../../common/links/buildAbnLink';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 
 const calculate = createTaxCalculator(TaxCalculatorTypes.invoice);
@@ -18,7 +20,8 @@ export const getDuplicateId = state => state.duplicateId;
 export const getLoadingState = state => state.loadingState;
 export const getIsSubmitting = state => state.isSubmitting;
 export const getIsPageEdited = state => state.isPageEdited;
-export const getIsContactLoading = state => state.isContactLoading;
+export const getIsCustomerLoading = state => state.isCustomerLoading;
+export const getIsAbnLoading = (state) => state.isAbnLoading;
 export const getAlert = state => state.alert;
 export const getModalType = state => state.modalType;
 export const getModalAlert = state => state.modalAlert;
@@ -26,7 +29,7 @@ export const getIsModalActionDisabled = state => state.isModalSubmitting;
 
 export const getInvoice = state => state.invoice;
 export const getLayout = state => state.invoice.layout;
-export const getContactId = state => state.invoice.contactId;
+export const getCustomerId = state => state.invoice.customerId;
 const getAddress = state => state.invoice.address;
 const getNote = state => state.invoice.note;
 export const getInvoiceNumber = state => state.invoice.invoiceNumber;
@@ -44,7 +47,7 @@ export const getIsInvoiceJobColumnEnabled = state => state.isInvoiceJobColumnEna
 export const getNewLine = state => state.newLine;
 export const getTotals = state => state.totals;
 
-export const getContactOptions = state => state.contactOptions;
+export const getCustomerOptions = state => state.customerOptions;
 export const getExpirationTermOptions = state => state.expirationTermOptions;
 export const getTaxCodeOptions = state => state.taxCodeOptions;
 export const getItemOptions = state => state.itemOptions;
@@ -53,10 +56,10 @@ export const getJobOptions = state => state.jobOptions;
 export const getSerialNumber = state => state.serialNumber;
 
 export const getIsTrial = state => state.subscription.isTrial;
-
 export const getIsUpgradeModalShowing = state => state.subscription.isUpgradeModalShowing;
-
 export const getMonthlyLimit = state => state.subscription.monthlyLimit;
+
+export const getAbn = state => state.abn;
 
 export const getIsLineAmountDirty = state => state.isLineAmountDirty;
 
@@ -109,10 +112,10 @@ const getCommentOptions = state => state.comments.map(comment => ({ value: comme
 
 export const getIsCustomerDisabled = createSelector(
   getIsCreating,
-  getIsContactLoading,
+  getIsCustomerLoading,
   getQuoteIdQueryParam,
-  (isCreating, isContactLoading, quoteId) => (
-    !isCreating || isContactLoading || (isCreating && Boolean(quoteId))
+  (isCreating, isCustomerLoading, quoteId) => (
+    !isCreating || isCustomerLoading || (isCreating && Boolean(quoteId))
   ),
 );
 
@@ -137,7 +140,7 @@ export const getTaxInclusiveLabel = createRegionDialectSelector('Tax inclusive')
 export const getTaxExclusiveLabel = createRegionDialectSelector('Tax exclusive');
 
 export const getInvoiceDetailOptions = createStructuredSelector({
-  contactId: getContactId,
+  customerId: getCustomerId,
   invoiceNumber: getInvoiceNumber,
   address: getAddress,
   purchaseOrderNumber: getPurchaseOrderNumber,
@@ -146,7 +149,7 @@ export const getInvoiceDetailOptions = createStructuredSelector({
   expirationTerm: getExpirationTerm,
   expirationTermOptions: getExpirationTermOptions,
   isTaxInclusive: getIsTaxInclusive,
-  contactOptions: getContactOptions,
+  customerOptions: getCustomerOptions,
   isCustomerDisabled: getIsCustomerDisabled,
   isSubmitting: getIsSubmitting,
   showOnlinePayment: getShowOnlinePayment,
@@ -211,12 +214,12 @@ export const getAmountDue = state => (
   calculateAmountDue(getTotals(state).totalAmount, getAmountPaid(state))
 );
 
-export const getUpdatedContactOptions = (state, updatedOption) => {
-  const contactOptions = getContactOptions(state);
+export const getUpdatedCustomerOptions = (state, updatedOption) => {
+  const customerOptions = getCustomerOptions(state);
 
-  return contactOptions.some(option => option.id === updatedOption.id)
-    ? contactOptions.map(option => (option.id === updatedOption.id ? updatedOption : option))
-    : [updatedOption, ...contactOptions];
+  return customerOptions.some(option => option.id === updatedOption.id)
+    ? customerOptions.map(option => (option.id === updatedOption.id ? updatedOption : option))
+    : [updatedOption, ...customerOptions];
 };
 
 export const getTableData = createSelector(getLength, len => Array(len).fill({}));
@@ -255,7 +258,7 @@ export const getJobModalContext = (state) => {
   return { businessId, region };
 };
 
-export const getContactModalContext = (state) => {
+export const getCustomerModalContext = (state) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);
 
@@ -301,3 +304,20 @@ export const getConversionMonthYear = (state) => {
   const { conversionDate } = state;
   return format(new Date(conversionDate), 'MMMM yyyy');
 };
+
+export const getShouldShowAbn = createSelector(
+  getRegion,
+  getCustomerId,
+  (region, customerId) => region === Region.au && customerId,
+);
+
+export const getAbnLink = createSelector(
+  getAbn, abn => (abn ? buildAbnLink(abn.abn) : ''),
+);
+
+export const getCustomerLink = createSelector(
+  getBusinessId,
+  getRegion,
+  getCustomerId,
+  (businessId, region, customerId) => `/#/${region}/${businessId}/contact/${customerId}`,
+);

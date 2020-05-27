@@ -4,9 +4,10 @@ import {
   CALCULATE_LINE_AMOUNTS,
   CALCULATE_LINE_TOTALS,
   CONVERT_TO_PRE_CONVERSION_INVOICE,
+  LOAD_ABN_FROM_CUSTOMER,
   LOAD_ACCOUNT_AFTER_CREATE,
-  LOAD_CONTACT_ADDRESS,
-  LOAD_CONTACT_AFTER_CREATE,
+  LOAD_CUSTOMER,
+  LOAD_CUSTOMER_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
   LOAD_ITEM_OPTION,
@@ -16,11 +17,13 @@ import {
   RELOAD_INVOICE_DETAIL,
   REMOVE_EMAIL_ATTACHMENT,
   REMOVE_INVOICE_LINE,
+  RESET_CUSTOMER,
   RESET_EMAIL_INVOICE_DETAIL,
   RESET_TOTALS,
   SAVE_EMAIL_SETTINGS,
+  SET_ABN_LOADING_STATE,
   SET_ALERT,
-  SET_CONTACT_LOADING_STATE,
+  SET_CUSTOMER_LOADING_STATE,
   SET_DUPLICATE_ID,
   SET_INVOICE_HISTORY_CLOSED,
   SET_INVOICE_HISTORY_LOADING,
@@ -105,14 +108,14 @@ const createInvoiceDetailDispatcher = store => ({
 
   reloadInvoice: (payload) => store.dispatch({ intent: RELOAD_INVOICE_DETAIL, ...payload }),
 
-  loadContactAddress: address => store.dispatch({ intent: LOAD_CONTACT_ADDRESS, address }),
+  loadCustomer: payload => store.dispatch({ intent: LOAD_CUSTOMER, ...payload }),
 
-  loadContactAfterCreate: (contactId, payload) => store.dispatch({
-    intent: LOAD_CONTACT_AFTER_CREATE, contactId, ...payload,
+  loadCustomerAfterCreate: (customerId, payload) => store.dispatch({
+    intent: LOAD_CUSTOMER_AFTER_CREATE, customerId, ...payload,
   }),
 
-  setContactLoadingState: isContactLoading => store.dispatch({
-    intent: SET_CONTACT_LOADING_STATE, isContactLoading,
+  setCustomerLoadingState: isCustomerLoading => store.dispatch({
+    intent: SET_CUSTOMER_LOADING_STATE, isCustomerLoading,
   }),
 
   loadPayDirect: payDirect => store.dispatch({ intent: LOAD_PAY_DIRECT, payDirect }),
@@ -259,6 +262,24 @@ const createInvoiceDetailDispatcher = store => ({
     intent: SET_SHOW_PRE_CONVERSION_ALERT,
     showPreConversionAlert,
   }),
+
+  setAbnLoadingState: isAbnLoading => {
+    store.dispatch({
+      intent: SET_ABN_LOADING_STATE,
+      isAbnLoading,
+    });
+  },
+
+  loadAbn: abn => {
+    store.dispatch({
+      intent: LOAD_ABN_FROM_CUSTOMER,
+      abn,
+    });
+  },
+
+  resetCustomer: () => {
+    store.dispatch({ intent: RESET_CUSTOMER });
+  },
 });
 
 export default createInvoiceDetailDispatcher;

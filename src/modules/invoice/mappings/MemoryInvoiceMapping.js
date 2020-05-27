@@ -4,11 +4,12 @@ import {
   DELETE_INVOICE_DETAIL,
   DELETE_PRE_CONVERSION_INVOIVE_DETAIL,
   EXPORT_INVOICE_PDF,
+  LOAD_ABN_FROM_CUSTOMER,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ACCOUNT_OPTIONS,
-  LOAD_CONTACT_ADDRESS,
-  LOAD_CONTACT_AFTER_CREATE,
-  LOAD_CONTACT_OPTIONS,
+  LOAD_CUSTOMER,
+  LOAD_CUSTOMER_AFTER_CREATE,
+  LOAD_CUSTOMER_OPTIONS,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
   LOAD_INVOICE_LIST,
@@ -28,7 +29,7 @@ import {
   UPDATE_PRE_CONVERSION_INVOICE_DETAIL,
   UPLOAD_EMAIL_ATTACHMENT,
 } from '../InvoiceIntents';
-import contactAddress from './data/contactAddress';
+import customerAddress from './data/loadCustomer';
 import duplicateInvoiceItemDetail from './data/itemLayout/duplicateInvoiceItemDetail';
 import duplicateInvoiceServiceDetail from './data/serviceLayout/duplicateInvoiceServiceDetail';
 import invoiceItemDetail from './data/itemLayout/invoiceItemDetail';
@@ -39,13 +40,15 @@ import invoiceListFilterResponse from './data/filterInvoiceList';
 import invoiceListLoadResponse from './data/loadInvoiceList';
 import invoiceServiceDetail from './data/serviceLayout/invoiceServiceDetail';
 import invoiceServiceNewDetail from './data/serviceLayout/invoiceServiceNewDetail';
-import invoiceServiceNewDetailFromQuote from './data/serviceLayout/invoiceServiceNewDetailFromQuote';
+import invoiceServiceNewDetailFromQuote
+  from './data/serviceLayout/invoiceServiceNewDetailFromQuote';
 import invoiceServiceReadOnlyDetail from './data/serviceLayout/invoiceServiceReadOnlyDetail';
+import loadAbnDetail from './data/loadAbn.json';
 import loadAccountOptions from './data/loadAccountOptions';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
-import loadAddedContactResponse from './data/loadAddedContactResponse';
+import loadAddedCustomerResponse from './data/loadAddedCustomerResponse';
 import loadAddedJobResponse from './data/loadAddedJobResponse';
-import loadContactOptions from './data/loadContactOptions';
+import loadCustomerOptions from './data/loadCustomerOptions';
 import loadInvoiceHistory from './data/invoiceHistory.json';
 import loadItemOption from './data/loadItemOption';
 import loadItemOptions from './data/loadItemOptions';
@@ -96,8 +99,8 @@ const MemoryInvoiceMapping = {
   },
   [UPDATE_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [DELETE_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
-  [LOAD_CONTACT_ADDRESS]: ({ onSuccess }) => onSuccess(contactAddress),
-  [LOAD_CONTACT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedContactResponse),
+  [LOAD_CUSTOMER]: ({ onSuccess }) => onSuccess(customerAddress),
+  [LOAD_CUSTOMER_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedCustomerResponse),
   [LOAD_PAY_DIRECT]: ({ onSuccess }) => onSuccess(payDirect),
   [UPLOAD_EMAIL_ATTACHMENT]: ({ onSuccess }) => onSuccess(uploadEmailAttachmentResponse),
   [SEND_EMAIL]: ({ onSuccess }) => onSuccess(successResponse),
@@ -108,13 +111,14 @@ const MemoryInvoiceMapping = {
   [LOAD_INVOICE_HISTORY]: ({ onSuccess }) => onSuccess(loadInvoiceHistory),
   [LOAD_ACCOUNT_OPTIONS]: ({ onSuccess }) => onSuccess(loadAccountOptions),
   [LOAD_ITEM_OPTIONS]: ({ onSuccess }) => onSuccess(loadItemOptions),
-  [LOAD_CONTACT_OPTIONS]: ({ onSuccess }) => onSuccess(loadContactOptions),
+  [LOAD_CUSTOMER_OPTIONS]: ({ onSuccess }) => onSuccess(loadCustomerOptions),
   [LOAD_ITEM_SELLING_DETAILS]: ({ onSuccess }) => onSuccess(loadItemSellingDetailsResponse),
   [LOAD_NEXT_PAGE]: ({ onSuccess }) => onSuccess(invoiceListFilterResponse),
   [LOAD_JOB_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedJobResponse),
   [CREATE_PRE_CONVERSION_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess({ ...successResponse, id: '1' }),
   [UPDATE_PRE_CONVERSION_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [DELETE_PRE_CONVERSION_INVOIVE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
+  [LOAD_ABN_FROM_CUSTOMER]: ({ onSuccess }) => onSuccess(loadAbnDetail),
 };
 
 export default MemoryInvoiceMapping;

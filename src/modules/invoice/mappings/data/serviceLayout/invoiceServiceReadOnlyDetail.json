@@ -2,7 +2,7 @@
   "invoice": {
     "id": "123",
     "layout": "service",
-    "contactId": "2",
+    "customerId": "2",
     "address": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
     "note": "Thank you!",
     "invoiceNumber": "00000123",
@@ -117,7 +117,7 @@
     "Great doing business",
     "don't call us we'll call you"
   ],
-  "contactOptions": [
+  "customerOptions": [
     {
       "name": "Cow Feed",
       "id": "2"

@@ -9,8 +9,8 @@ import {
 } from './types/invoiceMessageTypes';
 import {
   getAccountModalContext,
-  getContactModalContext,
   getContextForInventoryModal,
+  getCustomerModalContext,
   getInvoiceId,
   getIsBeforeConversionDate,
   getIsCreating,
@@ -24,10 +24,15 @@ import {
   getModalType,
   getNewLineIndex,
   getShouldSaveAndReload,
+  getShouldShowAbn,
   getShowOnlinePayment,
   getTaxCalculations,
 } from './selectors/invoiceDetailSelectors';
-import { getCanSaveEmailSettings, getEmailModalType, getFilesForUpload } from './selectors/emailSelectors';
+import {
+  getCanSaveEmailSettings,
+  getEmailModalType,
+  getFilesForUpload,
+} from './selectors/emailSelectors';
 import {
   getCreateNewInvoiceUrl,
   getInvoiceAndQuoteSettingsUrl,
@@ -162,6 +167,10 @@ export default class InvoiceDetailModule {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setSubmittingState(false);
       this.dispatcher.loadInvoice(payload);
+
+      if (getShouldShowAbn(this.store.getState())) {
+        this.loadAbnFromCustomer();
+      }
     };
 
     const onFailure = () => {
@@ -384,15 +393,15 @@ export default class InvoiceDetailModule {
     this.navigateTo(url);
   }
 
-  loadContactAddress = () => {
-    const onSuccess = ({ address }) => this.dispatcher.loadContactAddress(address);
+  loadCustomer = () => {
+    const onSuccess = (payload) => this.dispatcher.loadCustomer(payload);
 
     const onFailure = ({ message }) => {
       this.displayFailureAlert(message);
-      this.dispatcher.loadContactAddress('');
+      this.dispatcher.loadCustomer('');
     };
 
-    this.integrator.loadContactAddress({
+    this.integrator.loadCustomer({
       onSuccess,
       onFailure,
     });
@@ -430,8 +439,12 @@ export default class InvoiceDetailModule {
     } else {
       this.dispatcher.updateHeaderOptions(key, value);
 
-      if (key === 'contactId') {
-        this.loadContactAddress();
+      if (key === 'customerId') {
+        this.dispatcher.resetCustomer();
+
+        if (value) {
+          this.loadCustomer();
+        }
       }
     }
   }
@@ -756,32 +769,47 @@ export default class InvoiceDetailModule {
     }
   }
 
-  openContactModal = () => {
+  openCustomerModal = () => {
     const state = this.store.getState();
-    const context = getContactModalContext(state);
+    const context = getCustomerModalContext(state);
 
     this.contactModalModule.run({
       context,
       onLoadFailure: message => this.displayFailureAlert(message),
-      onSaveSuccess: this.loadContactAfterCreate,
+      onSaveSuccess: this.loadCustomerAfterCreate,
     });
   }
 
-  loadContactAfterCreate = ({ message, id }) => {
+  loadCustomerAfterCreate = ({ message, id }) => {
     this.contactModalModule.resetState();
     this.displaySuccessAlert(message);
-    this.dispatcher.setContactLoadingState(true);
+    this.dispatcher.setCustomerLoadingState(true);
 
     const onSuccess = (payload) => {
-      this.dispatcher.setContactLoadingState(false);
-      this.dispatcher.loadContactAfterCreate(id, payload);
+      this.dispatcher.setCustomerLoadingState(false);
+      this.dispatcher.loadCustomerAfterCreate(id, payload);
     };
 
     const onFailure = () => {
-      this.dispatcher.setContactLoadingState(false);
+      this.dispatcher.setCustomerLoadingState(false);
     };
 
-    this.integrator.loadContactAfterCreate({ id, onSuccess, onFailure });
+    this.integrator.loadCustomerAfterCreate({ id, onSuccess, onFailure });
+  }
+
+  loadAbnFromCustomer = () => {
+    this.dispatcher.setAbnLoadingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setAbnLoadingState(false);
+      this.dispatcher.loadAbn(response);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setAbnLoadingState(false);
+    };
+
+    this.integrator.loadAbnFromCustomer({ onSuccess, onFailure });
   }
 
   pushSuccessfulSaveMessage = (message) => {
@@ -997,12 +1025,12 @@ export default class InvoiceDetailModule {
     this.integrator.loadItems({ keywords, onSuccess, onFailure });
   };
 
-  loadContacts = ({ keywords, onSuccess }) => {
+  loadCustomers = ({ keywords, onSuccess }) => {
     const onFailure = ({ message }) => {
       this.dispatcher.setAlert({ type: 'danger', message });
     };
 
-    this.integrator.loadContacts({ keywords, onSuccess, onFailure });
+    this.integrator.loadCustomers({ keywords, onSuccess, onFailure });
   };
 
   validateIssueDate = () => {
@@ -1119,8 +1147,8 @@ export default class InvoiceDetailModule {
         contactModal={contactModal}
         onUpdateHeaderOptions={this.updateHeaderOptions}
         onIssueDateBlur={this.validateIssueDate}
-        onLoadContacts={this.loadContacts}
-        onAddContactButtonClick={this.openContactModal}
+        onLoadCustomers={this.loadCustomers}
+        onAddCustomerButtonClick={this.openCustomerModal}
         onUpdateInvoiceLayout={this.updateInvoiceLayout}
         onUpgradeModalDismiss={this.dispatcher.hideUpgradeModal}
         onUpgradeModalUpgradeButtonClick={this.redirectToSubscriptionSettings}
