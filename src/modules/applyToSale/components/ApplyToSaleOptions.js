@@ -71,7 +71,7 @@ const ApplyToSaleOptions = ({
         label="Reference number"
         value={reference}
         onChange={onTextFieldChange(onUpdateApplyToSaleOption)}
-        maxLength={8}
+        maxLength={13}
         requiredLabel={requiredLabel}
         disabled={!isCreating}
       />
