@@ -2,6 +2,7 @@ import {
   LOAD_ACCOUNT_BANKING,
   LOAD_DASHBOARD,
   LOAD_DEFAULT_BANKING,
+  LOAD_PAYROLL,
   LOAD_PURCHASE,
   LOAD_SALES,
   LOAD_TRACKING,
@@ -113,6 +114,22 @@ const createDashboardIntegrator = (store, integration) => ({
       intent,
       urlParams,
       params,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadPayroll: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const businessId = getBusinessId(state);
+
+    const urlParams = { businessId };
+
+    const intent = LOAD_PAYROLL;
+
+    integration.read({
+      intent,
+      urlParams,
       onSuccess,
       onFailure,
     });

@@ -2,10 +2,10 @@ import { LOAD_DASHBOARD, SET_ALERT, SET_LOADING_STATE } from '../DashboardIntent
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import createReducer from '../../../store/createReducer';
 import dashboardBankingReducerHandlers from './dashboardBankingReducer';
+import dashboardPayrollReducerHandlers from './dashboardPayrollReducer';
 import dashboardPurchaseReducerHandlers from './dashboardPurchaseReducer';
 import dashboardSalesReducerHandlers from './dashboardSalesReducer';
 import dashboardTrackingReducerHandlers from './dashboardTrackingReducer';
-
 
 const getDefaultState = () => ({
   businessId: '',
@@ -70,6 +70,13 @@ const getDefaultState = () => ({
     currentBalance: '',
     lastReconcileDate: '',
   },
+
+  payroll: {
+    isLoading: true,
+    hasError: false,
+    isPayrollSetup: false,
+    entries: [],
+  },
 });
 
 const setInitialState = (state, { context }) => ({
@@ -110,6 +117,7 @@ const handlers = {
   ...dashboardPurchaseReducerHandlers,
   ...dashboardTrackingReducerHandlers,
   ...dashboardBankingReducerHandlers,
+  ...dashboardPayrollReducerHandlers,
 };
 
 const dashboardReducer = createReducer(getDefaultState(), handlers);

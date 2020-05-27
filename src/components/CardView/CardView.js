@@ -13,11 +13,16 @@ const spinnerView = (
 );
 
 const CardView = ({
-  isLoading, view,
+  isLoading,
+  view,
+  cardBodyClassname = '',
 }) => (
-  <Card>
-    {isLoading ? spinnerView : view}
-  </Card>
+  <Card
+    body={<Card.Body
+      child={isLoading ? spinnerView : view}
+      classes={[cardBodyClassname]}
+    />}
+  />
 );
 
 export default CardView;

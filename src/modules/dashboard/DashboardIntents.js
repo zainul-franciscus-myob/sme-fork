@@ -23,3 +23,7 @@ export const LOAD_ACCOUNT_BANKING = Symbol('Load banking by account id');
 export const SET_BANKING_LOADING_STATE = Symbol('Set banking loading state');
 export const SET_BANKING_ERROR_STATE = Symbol('Set banking error state');
 export const SET_BANK_FEED_ACCOUNT_ID = Symbol('Set bank feed account id');
+
+export const LOAD_PAYROLL = Symbol('Load payroll');
+export const SET_PAYROLL_LOADING_STATE = Symbol('Set payroll loading state');
+export const SET_PAYROLL_ERROR_STATE = Symbol('Set payroll error state');

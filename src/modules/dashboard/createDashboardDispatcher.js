@@ -1,6 +1,7 @@
 import {
   LOAD_DASHBOARD,
   LOAD_DEFAULT_BANKING,
+  LOAD_PAYROLL,
   LOAD_PURCHASE,
   LOAD_SALES,
   LOAD_TRACKING,
@@ -10,6 +11,8 @@ import {
   SET_BANKING_LOADING_STATE,
   SET_BANK_FEED_ACCOUNT_ID,
   SET_LOADING_STATE,
+  SET_PAYROLL_ERROR_STATE,
+  SET_PAYROLL_LOADING_STATE,
   SET_PURCHASE_ERROR_STATE,
   SET_PURCHASE_LOADING_STATE,
   SET_SALES_ERROR_STATE,
@@ -135,6 +138,21 @@ const createDashboardDispatcher = store => ({
   setBankFeedAccount: (bankFeedAccountId) => {
     const intent = SET_BANK_FEED_ACCOUNT_ID;
     store.dispatch({ intent, bankFeedAccountId });
+  },
+
+  loadPayroll: (payload) => {
+    const intent = LOAD_PAYROLL;
+    store.dispatch({ intent, ...payload });
+  },
+
+  setPayrollLoadingState: (isLoading) => {
+    const intent = SET_PAYROLL_LOADING_STATE;
+    store.dispatch({ intent, isLoading });
+  },
+
+  setPayrollErrorState: (hasError) => {
+    const intent = SET_PAYROLL_ERROR_STATE;
+    store.dispatch({ intent, hasError });
   },
 });
 

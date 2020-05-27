@@ -1,0 +1,31 @@
+{
+  "payroll": {
+    "isPayrollSetup": true,
+    "entries": [
+      {
+        "id": "1",
+        "dateFrom": "2020-05-19",
+        "dateTo": "2020-05-25",
+        "isDraft": true,
+        "dateOfPayment": "",
+        "amount": ""
+      },
+      {
+        "id": "2",
+        "dateFrom": "2020-05-26",
+        "dateTo": "2020-06-01",
+        "isDraft": false,
+        "dateOfPayment": "2020-05-27",
+        "amount": "$16,134.77"
+      },
+      {
+        "id": "3",
+        "dateFrom": "2020-07-22",
+        "dateTo": "2020-07-29",
+        "isDraft": false,
+        "dateOfPayment": "2020-07-27",
+        "amount": "$2,134.77"
+      }
+    ]
+  }
+}

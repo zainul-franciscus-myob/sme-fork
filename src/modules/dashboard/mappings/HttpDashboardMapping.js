@@ -2,6 +2,7 @@ import {
   LOAD_ACCOUNT_BANKING,
   LOAD_DASHBOARD,
   LOAD_DEFAULT_BANKING,
+  LOAD_PAYROLL,
   LOAD_PURCHASE,
   LOAD_SALES,
   LOAD_TRACKING,
@@ -36,6 +37,10 @@ const HttpDashboardMapping = {
   [LOAD_ACCOUNT_BANKING]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/dashboard/load_account_banking`,
+  },
+  [LOAD_PAYROLL]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/dashboard/load_payroll`,
   },
 };
 

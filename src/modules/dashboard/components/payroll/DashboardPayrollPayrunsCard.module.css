@@ -1,0 +1,84 @@
+.body {
+  display: grid;
+  grid-template-rows: 0.8fr 0.8fr 0.8fr 0.3fr;
+}
+
+.container {
+  border: 0.1rem solid var(--flx-palette-storm-11);
+  border-radius: 0.5rem;
+  margin-bottom: 0.8rem;
+  padding: 1.6rem;
+}
+
+.container:hover {
+  box-shadow: var(--flx-shadow-popover);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.firstRow {
+  margin-bottom: 0.8rem;
+}
+
+.payRunCompleted :global(svg) {
+  fill: #077b4d;
+  border: 0.1rem solid #cceee0;
+  border-radius: 100%;
+  height: 100%;
+  width: 100%;
+}
+
+.row :global(h3) {
+  margin: 0rem;
+}
+
+.tag {
+  border: 0.1rem solid #faf3d9;
+  background-color: #faf3d9;
+  padding: 0rem 0.8rem;
+  border-radius: 4rem;
+}
+
+.tick {
+  height: 2.2rem;
+  width: 2.2rem;
+  background-color: #cceee0;
+  border: 0.1rem solid #cceee0;
+  border-radius: 100%;
+}
+
+.viewAll {
+  justify-self: end;
+}
+
+.lightText {
+  color: #6d7783;
+}
+
+/*
+  @FEELIX:
+  Feelix has set "display": "flex" to only occur on a minimum width of 768px, I'm overriding this
+  so that the "actions" are always aligned to the right of the header
+*/
+.summary :global(.page-head) {
+  display: flex;
+}
+
+
+/* Large devices (desktop) */
+@media screen and (min-width: 1200px) {
+  .cardbody {
+    display: flex;
+    flex-direction: column;
+    
+    /* Set standard height for these widgets on desktop*/
+    height: 38rem;
+  }
+
+  .body {
+    flex: 1 1 auto
+  }
+}

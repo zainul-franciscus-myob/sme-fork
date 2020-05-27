@@ -1,19 +1,25 @@
-import { Alert, BaseTemplate } from '@myob/myob-widgets';
+import { Alert, BaseTemplate, LeanEngageSurvey } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
+
 
 import {
   getAlert,
   getIsLoading,
+  getPayrollWidgetFeatureToggle,
   getShouldShowBanking,
   getShouldShowLeanEngage,
+  getShouldShowPayroll,
   getShouldShowPurchases,
   getShouldShowSales,
   getShouldShowTracking,
+  getShouldUsePayrollLayout,
 } from '../selectors/DashboardSelectors';
+import DashBoardPayrollView from './payroll/DashboardPayrollView';
 import DashboardBankingCard from './banking/DashboardBankingCard';
 import DashboardHeader from './DashboardHeader';
 import DashboardLeanEngageCard from './DashboardLeanEngageCard';
+import DashboardPayrollPayrunsCard from './payroll/DashboardPayrollPayrunsCard';
 import DashboardPurchaseCard from './purchase/DashboardPurchaseCard';
 import DashboardSalesCard from './sales/DashboardSalesCard';
 import DashboardTrackingCard from './tracking/DashboardTrackingCard';
@@ -31,12 +37,16 @@ const DashboardView = ({
   onTrackingReload,
   onTrackingChange,
   onBankingReload,
+  onPayrollReload,
   onBankFeedAccountChange,
   shouldShowBanking,
   shouldShowSales,
   shouldShowPurchases,
   shouldShowLeanEngage,
   shouldShowTracking,
+  shouldUsePayrollLayout,
+  shouldShowPayroll,
+  isPayrollWidgetToggleOn,
 }) => {
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -45,6 +55,11 @@ const DashboardView = ({
   );
 
   const header = <DashboardHeader />;
+
+  const leanEngageSurvey = shouldShowPayroll && isPayrollWidgetToggleOn ? <LeanEngageSurvey
+    surveyName="dashboard-survey"
+    productName="dashboard"
+  /> : <DashboardLeanEngageCard />;
 
   const body = (
     <div className={styles.body}>
@@ -78,10 +93,18 @@ const DashboardView = ({
             />
           )}
 
-          {shouldShowLeanEngage && <DashboardLeanEngageCard />}
+          {shouldShowPayroll && isPayrollWidgetToggleOn && (
+            <DashboardPayrollPayrunsCard
+              onLinkClick={onLinkClick}
+              onReload={onPayrollReload}
+            />
+          )}
+
+
+          {shouldShowLeanEngage && leanEngageSurvey}
         </div>
 
-        <img src={footerImage} alt="" />
+        {!(shouldShowPayroll && isPayrollWidgetToggleOn) && <img src={footerImage} alt="" />}
       </div>
     </div>
   );
@@ -94,7 +117,17 @@ const DashboardView = ({
     </BaseTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={dashboardView} />;
+  const payrollView = (
+    <DashBoardPayrollView
+      onDismissAlert={onDismissAlert}
+      onLinkClick={onLinkClick}
+      onReload={onPayrollReload}
+    />
+  );
+
+  const view = shouldUsePayrollLayout ? payrollView : dashboardView;
+
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 const mapStateToProps = state => ({
@@ -103,8 +136,13 @@ const mapStateToProps = state => ({
   shouldShowPurchases: getShouldShowPurchases(state),
   shouldShowLeanEngage: getShouldShowLeanEngage(state),
   shouldShowTracking: getShouldShowTracking(state),
+  shouldUsePayrollLayout: getShouldUsePayrollLayout(state),
+  shouldShowPayroll: getShouldShowPayroll(state),
   isLoading: getIsLoading(state),
   alert: getAlert(state),
+
+  // @FEATURE_TOGGLE: essentials-dashboard-payroll-payrun-widget
+  isPayrollWidgetToggleOn: getPayrollWidgetFeatureToggle(state),
 });
 
 export default connect(mapStateToProps)(DashboardView);

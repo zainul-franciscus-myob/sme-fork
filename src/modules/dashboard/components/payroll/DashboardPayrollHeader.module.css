@@ -1,0 +1,27 @@
+.header {
+  max-width: 768px;
+  margin: auto;
+}
+
+.header h1 {
+  margin-bottom: 0;
+  font-weight: var(--flx-font-weight-bold);
+}
+
+.text {
+  padding-bottom: var(--flx-spacing-small);
+}
+
+/* Large devices (desktop) */
+@media screen and (min-width: 1200px) {
+  .header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 1.6rem;
+    max-width: 100%;
+  }
+
+  .greetings {
+    align-self: flex-end;
+  }
+}

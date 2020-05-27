@@ -7,6 +7,8 @@ export const getShouldShowSales = state => state.enabled.includes('sales');
 export const getShouldShowPurchases = state => state.enabled.includes('purchases');
 export const getShouldShowLeanEngage = state => state.enabled.includes('leanEngage');
 export const getShouldShowTracking = state => state.enabled.includes('tracking');
+export const getShouldShowPayroll = state => state.enabled.includes('payroll');
+
 
 export const getBusinessId = state => state.businessId;
 
@@ -36,3 +38,11 @@ export const getDashboardHeader = createStructuredSelector({
   inspirationalQuote: state => state.inspirationalQuote,
   showBankFeedBalance: getShouldShowBankFeedBalance,
 });
+
+export const getShouldUsePayrollLayout = (state) => getShouldShowPayroll(state)
+&& getShouldShowLeanEngage(state) && !getShouldShowTracking(state)
+  && !getShouldShowPurchases(state) && !getShouldShowSales(state)
+  && !getShouldShowBankFeedBalance(state) && !getShouldShowBanking(state);
+
+// @FEATURE_TOGGLE: essentials-dashboard-payroll-payrun-widget
+export const getPayrollWidgetFeatureToggle = (state) => state.isPayrollEnabled;

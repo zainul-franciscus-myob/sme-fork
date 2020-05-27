@@ -3,23 +3,29 @@ import React from 'react';
 
 import {
   getShouldShowBanking,
+  getShouldShowPayroll,
   getShouldShowPurchases,
   getShouldShowSales,
   getShouldShowTracking,
 } from './selectors/DashboardSelectors';
 import DashboardView from './components/DashboardView';
+import FeatureToggle from '../../FeatureToggles';
 import Store from '../../store/Store';
 import createDashboardDispatcher from './createDashboardDispatcher';
 import createDashboardIntegrator from './createDashboardIntegrator';
 import dashboardReducer from './reducers/dashboardReducer';
 
 export default class DashboardModule {
-  constructor({ integration, setRootView }) {
+  constructor({
+    integration, setRootView, navigateTo, isToggleOn,
+  }) {
     this.integration = integration;
     this.store = new Store(dashboardReducer);
     this.setRootView = setRootView;
     this.dispatcher = createDashboardDispatcher(this.store);
     this.integrator = createDashboardIntegrator(this.store, integration);
+    this.navigateTo = navigateTo;
+    this.isToggleOn = isToggleOn;
   }
 
   loadDashboard = () => {
@@ -32,6 +38,7 @@ export default class DashboardModule {
       this.loadPurchase();
       this.loadTracking();
       this.loadBanking();
+      this.loadPayroll();
     };
 
     const onFailure = () => {
@@ -147,6 +154,27 @@ export default class DashboardModule {
     this.integrator.loadBanking({ onSuccess, onFailure });
   }
 
+  loadPayroll = () => {
+    if (!getShouldShowPayroll(this.store.getState())) {
+      return;
+    }
+
+    this.dispatcher.setPayrollErrorState(false);
+    this.dispatcher.setPayrollLoadingState(true);
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setPayrollLoadingState(false);
+      this.dispatcher.loadPayroll(payload);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setPayrollLoadingState(false);
+      this.dispatcher.setPayrollErrorState(true);
+    };
+
+    this.integrator.loadPayroll({ onSuccess, onFailure });
+  }
+
   updateBankFeedAccount = (bankFeedAccount) => {
     const { id } = bankFeedAccount;
     this.dispatcher.setBankFeedAccount(id);
@@ -154,7 +182,7 @@ export default class DashboardModule {
   }
 
   redirectToUrl = (url) => {
-    window.location.href = url;
+    this.navigateTo(url);
   }
 
   render = () => {
@@ -167,6 +195,7 @@ export default class DashboardModule {
         onTrackingReload={this.loadTracking}
         onTrackingChange={this.setTrackingOptions}
         onBankingReload={this.loadBanking}
+        onPayrollReload={this.loadPayroll}
         onBankFeedAccountChange={this.updateBankFeedAccount}
       />
     );
@@ -188,8 +217,12 @@ export default class DashboardModule {
     this.store.unsubscribeAll();
   }
 
+  // @FEATURE_TOGGLE: essentials-dashboard-payroll-payrun-widget
   run = (context) => {
-    this.setInitialState(context);
+    this.setInitialState({
+      ...context,
+      isPayrollEnabled: this.isToggleOn(FeatureToggle.DashboardPayrollWidget),
+    });
     this.render();
 
     this.loadDashboard();
