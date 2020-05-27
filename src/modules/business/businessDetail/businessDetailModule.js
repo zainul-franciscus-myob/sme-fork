@@ -5,6 +5,7 @@ import {
   getIsPageEdited, getIsSubmitting, getModalUrl,
 } from './businessDetailSelectors';
 import BusinessDetailsView from './components/BusinessDetailView';
+import FeatureToggles from '../../../FeatureToggles';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import businessDetailReducer from './businessDetailReducer';
@@ -15,7 +16,7 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class BusinessDetailModule {
   constructor({
-    integration, setRootView, businessDetailsConfirmed,
+    integration, setRootView, businessDetailsConfirmed, isToggleOn,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -23,6 +24,7 @@ export default class BusinessDetailModule {
     this.businessDetailsConfirmed = businessDetailsConfirmed;
     this.dispatcher = createBusinessDetailDispatcher(this.store);
     this.integrator = createBusinessDetailIntegrator(this.store, integration);
+    this.isToggleOn = isToggleOn;
   }
 
   loadBusinessDetail = () => {
@@ -87,16 +89,45 @@ export default class BusinessDetailModule {
     this.dispatcher.resetState();
   };
 
+  startNewFinancialYear = () => {
+    const onFailure = ({ message }) => {
+      this.dispatcher.stopLoadingFinancialYearModal();
+      this.dispatcher.closeFinancialYearModal();
+      this.dispatcher.setAlertMessage({
+        message,
+        type: 'danger',
+      });
+    };
+    const onSuccess = (response) => {
+      this.dispatcher.stopLoadingFinancialYearModal();
+      this.dispatcher.closeFinancialYearModal();
+      this.dispatcher.loadBusinessDetail(response);
+      this.dispatcher.setAlertMessage({
+        message: "Success! You've started a new financial year.",
+        type: 'success',
+      });
+    };
+
+    this.dispatcher.startLoadingFinancialYearModal();
+    this.integrator.startNewFinancialYear({
+      onSuccess: () => this.integrator.loadBusinessDetail({ onSuccess, onFailure }),
+      onFailure,
+    });
+  };
+
   render = () => {
     const businessDetailsView = (
       <BusinessDetailsView
         onChange={this.updateBusinessDetailField}
+        onStartNewFinancialYear={this.startNewFinancialYear}
         onLockDateDetailChange={this.updateLockDateDetail}
         onSaveButtonClick={this.updateBusinessDetail}
         onDismissAlert={this.dismissAlert}
         onConfirmSave={this.updateAndRedirectToUrl}
         onConfirmCancel={this.redirectToModalUrl}
         onConfirmClose={this.dispatcher.closeModal}
+        onOpenFinancialYearModal={this.dispatcher.openFinancialYearModal}
+        onCloseFinancialYearModal={this.dispatcher.closeFinancialYearModal}
       />
     );
 
@@ -141,8 +172,12 @@ export default class BusinessDetailModule {
     }
   }
 
+  // @FEATURE_TOGGLE: start-new-financial-year
   run(context) {
-    this.dispatcher.setInitialState(context);
+    this.dispatcher.setInitialState({
+      ...context,
+      isStartNewFinancialYearEnabled: this.isToggleOn(FeatureToggles.StartNewFinancialYear),
+    });
     this.render();
     setupHotKeys(keyMap, this.handlers);
     this.loadBusinessDetail();

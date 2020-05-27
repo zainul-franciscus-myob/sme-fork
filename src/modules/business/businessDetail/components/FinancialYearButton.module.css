@@ -1,0 +1,6 @@
+.floatingLady {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: var(--flx-spacing-large);
+    width: 250px;
+}

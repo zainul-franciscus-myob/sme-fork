@@ -1,4 +1,5 @@
 import {
+  CLOSE_FINANCIAL_YEAR_MODAL,
   CLOSE_MODAL,
   LOAD_BUSINESS_DETAIL,
   OPEN_MODAL,
@@ -7,6 +8,9 @@ import {
   SET_LOCK_DATE_AUTO_POPULATED_STATE,
   SET_PAGE_EDITED_STATE,
   SET_SUBMITTING_STATE,
+  START_LOADING_FINANCIAL_YEAR_MODAL,
+  START_NEW_FINANCIAL_YEAR,
+  STOP_LOADING_FINANCIAL_YEAR_MODAL,
   UPDATE_BUSINESS_DETAIL,
 } from '../../BusinessIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
@@ -23,8 +27,9 @@ describe('BusinessDetailModule', () => {
     const store = new TestStore(businessDetailsReducer);
     const integration = new TestIntegration();
     const setRootView = () => {};
+    const isToggleOn = () => true;
 
-    const module = new BusinessDetailModule({ integration, setRootView });
+    const module = new BusinessDetailModule({ integration, setRootView, isToggleOn });
     module.store = store;
     module.dispatcher = createBusinessDetailDispatcher(store);
     module.integrator = createBusinessDetailIntegrator(store, integration);
@@ -76,7 +81,10 @@ describe('BusinessDetailModule', () => {
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
-          context: { businessId: '🦒' },
+          context: {
+            businessId: '🦒',
+            isStartNewFinancialYearEnabled: true,
+          },
         },
         {
           intent: SET_LOADING_STATE,
@@ -106,7 +114,10 @@ describe('BusinessDetailModule', () => {
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
-          context: { businessId: '🦒' },
+          context: {
+            businessId: '🦒',
+            isStartNewFinancialYearEnabled: true,
+          },
         },
         {
           intent: SET_LOADING_STATE,
@@ -351,6 +362,97 @@ describe('BusinessDetailModule', () => {
           intent: SET_ALERT_MESSAGE,
           alert: undefined,
         },
+      ]);
+    });
+  });
+
+  describe('startNewFinancialYear', () => {
+    it('successfully update financial year', () => {
+      const { module, store, integration } = setupWithRun();
+      module.startNewFinancialYear();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: START_LOADING_FINANCIAL_YEAR_MODAL,
+        },
+        {
+          intent: STOP_LOADING_FINANCIAL_YEAR_MODAL,
+        },
+        {
+          intent: CLOSE_FINANCIAL_YEAR_MODAL,
+        },
+        expect.objectContaining({
+          intent: LOAD_BUSINESS_DETAIL,
+        }),
+        {
+          intent: SET_ALERT_MESSAGE,
+          alert: {
+            message: expect.any(String),
+            type: 'success',
+          },
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: START_NEW_FINANCIAL_YEAR,
+        }),
+        expect.objectContaining({
+          intent: LOAD_BUSINESS_DETAIL,
+        }),
+      ]);
+    });
+
+    it('fails to update financial year', () => {
+      const { module, store, integration } = setupWithRun();
+      integration.mapFailure(START_NEW_FINANCIAL_YEAR);
+      module.startNewFinancialYear();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: START_LOADING_FINANCIAL_YEAR_MODAL,
+        },
+        {
+          intent: STOP_LOADING_FINANCIAL_YEAR_MODAL,
+        },
+        {
+          intent: CLOSE_FINANCIAL_YEAR_MODAL,
+        },
+        {
+          intent: SET_ALERT_MESSAGE,
+          alert: {
+            message: 'fails',
+            type: 'danger',
+          },
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: START_NEW_FINANCIAL_YEAR,
+        }),
+      ]);
+    });
+
+    it('fails to load business details', () => {
+      const { module, store, integration } = setupWithRun();
+      integration.mapFailure(LOAD_BUSINESS_DETAIL);
+      module.startNewFinancialYear();
+
+      expect(store.getActions()).toContainEqual(
+        {
+          intent: SET_ALERT_MESSAGE,
+          alert: {
+            message: 'fails',
+            type: 'danger',
+          },
+        },
+      );
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: START_NEW_FINANCIAL_YEAR,
+        }),
+        expect.objectContaining({
+          intent: LOAD_BUSINESS_DETAIL,
+        }),
       ]);
     });
   });

@@ -1,5 +1,5 @@
 import {
-  LOAD_BUSINESS_DETAIL, LOAD_BUSINESS_LIST, UPDATE_BUSINESS_DETAIL,
+  LOAD_BUSINESS_DETAIL, LOAD_BUSINESS_LIST, START_NEW_FINANCIAL_YEAR, UPDATE_BUSINESS_DETAIL,
 } from '../BusinessIntents';
 
 
@@ -16,7 +16,10 @@ const HttpBusinessMapping = {
     method: 'PUT',
     getPath: ({ businessId }) => `/${businessId}/business/update_business_details`,
   },
+  [START_NEW_FINANCIAL_YEAR]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/business/start_new_financial_year`,
+  },
 };
-
 
 export default HttpBusinessMapping;

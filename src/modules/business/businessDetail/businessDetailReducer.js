@@ -1,12 +1,16 @@
 import {
+  CLOSE_FINANCIAL_YEAR_MODAL,
   CLOSE_MODAL,
   LOAD_BUSINESS_DETAIL,
+  OPEN_FINANCIAL_YEAR_MODAL,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_LOCK_DATE_AUTO_POPULATED_STATE,
   SET_PAGE_EDITED_STATE,
   SET_SUBMITTING_STATE,
+  START_LOADING_FINANCIAL_YEAR_MODAL,
+  STOP_LOADING_FINANCIAL_YEAR_MODAL,
   UPDATE_BUSINESS_DETAIL,
   UPDATE_LOCK_DATE_DETAIL,
 } from '../BusinessIntents';
@@ -38,6 +42,7 @@ const getDefaultState = () => ({
     lockDate: '',
     tradingName: '',
     website: '',
+    isFinancialYearClosed: false,
   },
   isLockDateAutoPopulated: false,
   loadingState: LoadingState.LOADING,
@@ -45,12 +50,15 @@ const getDefaultState = () => ({
   modal: undefined,
   isSubmitting: false,
   pageTitle: '',
+  financialYearModal: { isOpen: false, isLoading: false },
+  isStartNewFinancialYearEnabled: false,
 });
 
 const setInitialState = (state, { context }) => ({
   ...state,
   businessId: context.businessId,
   region: context.region,
+  isStartNewFinancialYearEnabled: context.isStartNewFinancialYearEnabled,
 });
 
 const setLoadingState = (state, { loadingState }) => ({
@@ -140,6 +148,26 @@ const setIsLockDateAutoPopulated = (state, action) => ({
   isLockDateAutoPopulated: action.isLockDateAutoPopulated,
 });
 
+const openFinancialYearModal = (state) => ({
+  ...state,
+  financialYearModal: { ...state.financialYearModal, isOpen: true },
+});
+
+const closeFinancialYearModal = (state) => ({
+  ...state,
+  financialYearModal: { ...state.financialYearModal, isOpen: false },
+});
+
+const startLoadingFinancialYearModal = (state) => ({
+  ...state,
+  financialYearModal: { ...state.financialYearModal, isLoading: true },
+});
+
+const stopLoadingFinancialYearModal = (state) => ({
+  ...state,
+  financialYearModal: { ...state.financialYearModal, isLoading: false },
+});
+
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [LOAD_BUSINESS_DETAIL]: loadBusinessDetail,
@@ -153,6 +181,10 @@ const handlers = {
   [SET_PAGE_EDITED_STATE]: setPageEditedState,
   [SET_LOCK_DATE_AUTO_POPULATED_STATE]: setIsLockDateAutoPopulated,
   [SET_INITIAL_STATE]: setInitialState,
+  [OPEN_FINANCIAL_YEAR_MODAL]: openFinancialYearModal,
+  [CLOSE_FINANCIAL_YEAR_MODAL]: closeFinancialYearModal,
+  [START_LOADING_FINANCIAL_YEAR_MODAL]: startLoadingFinancialYearModal,
+  [STOP_LOADING_FINANCIAL_YEAR_MODAL]: stopLoadingFinancialYearModal,
 };
 
 const businessDetailsReducer = createReducer(getDefaultState(), handlers);

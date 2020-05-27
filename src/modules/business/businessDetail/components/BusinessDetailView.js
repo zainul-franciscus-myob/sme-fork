@@ -18,11 +18,14 @@ import UnsavedModal from '../../../../components/modal/UnsavedModal';
 const BusinessDetailView = ({
   loadingState,
   onChange,
+  onStartNewFinancialYear,
   onLockDateDetailChange,
   onSaveButtonClick,
   onConfirmSave,
   onConfirmCancel,
   onConfirmClose,
+  onOpenFinancialYearModal,
+  onCloseFinancialYearModal,
   alert,
   onDismissAlert,
   isSubmitting,
@@ -55,7 +58,12 @@ const BusinessDetailView = ({
       <FormCard>
         <BusinessDetailsSection onChange={onChange} />
         <ContactDetailsSection onChange={onChange} />
-        <FinancialYearSection onChange={onChange} />
+        <FinancialYearSection
+          onChange={onChange}
+          onStartNewFinancialYear={onStartNewFinancialYear}
+          onCloseFinancialYearModal={onCloseFinancialYearModal}
+          onOpenFinancialYearModal={onOpenFinancialYearModal}
+        />
         <LockDateSection onChange={onLockDateDetailChange} />
       </FormCard>
     </FormTemplate>

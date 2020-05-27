@@ -1,12 +1,16 @@
 import {
+  CLOSE_FINANCIAL_YEAR_MODAL,
   CLOSE_MODAL,
   LOAD_BUSINESS_DETAIL,
+  OPEN_FINANCIAL_YEAR_MODAL,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_LOCK_DATE_AUTO_POPULATED_STATE,
   SET_PAGE_EDITED_STATE,
   SET_SUBMITTING_STATE,
+  START_LOADING_FINANCIAL_YEAR_MODAL,
+  STOP_LOADING_FINANCIAL_YEAR_MODAL,
   UPDATE_BUSINESS_DETAIL,
   UPDATE_LOCK_DATE_DETAIL,
 } from '../BusinessIntents';
@@ -86,6 +90,26 @@ const createBusinessDetailDispatcher = store => ({
       intent: LOAD_BUSINESS_DETAIL,
       businessDetails,
       pageTitle,
+    });
+  },
+  openFinancialYearModal: () => {
+    store.dispatch({
+      intent: OPEN_FINANCIAL_YEAR_MODAL,
+    });
+  },
+  closeFinancialYearModal: () => {
+    store.dispatch({
+      intent: CLOSE_FINANCIAL_YEAR_MODAL,
+    });
+  },
+  startLoadingFinancialYearModal: () => {
+    store.dispatch({
+      intent: START_LOADING_FINANCIAL_YEAR_MODAL,
+    });
+  },
+  stopLoadingFinancialYearModal: () => {
+    store.dispatch({
+      intent: STOP_LOADING_FINANCIAL_YEAR_MODAL,
     });
   },
 });

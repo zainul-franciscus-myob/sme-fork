@@ -2,7 +2,7 @@ import BusinessDetailModule from './businessDetail/businessDetailModule';
 import RouteName from '../../router/RouteName';
 
 const getBusinessRoutes = ({
-  setRootView, integration, globalCallbacks: { businessDetailsConfirmed },
+  setRootView, integration, globalCallbacks: { businessDetailsConfirmed }, isToggleOn,
 }) => [
   {
     name: RouteName.BUSINESS_DETAIL,
@@ -11,6 +11,7 @@ const getBusinessRoutes = ({
       setRootView,
       integration,
       businessDetailsConfirmed,
+      isToggleOn,
     }),
     documentTitle: 'Business details',
   },

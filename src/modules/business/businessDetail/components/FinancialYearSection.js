@@ -1,10 +1,14 @@
 import {
-  FieldGroup, Icons, MonthPicker, Tooltip,
+  FieldGroup,
+  Icons,
+  MonthPicker,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getFinancialYearDetails } from '../businessDetailSelectors';
+import FinancialYearButton from './FinancialYearButton';
 import MonthSelect from './MonthSelect';
 import YearSelect from './YearSelect';
 import handleMonthPickerChange from '../../../../components/handlers/handleMonthPickerChange';
@@ -14,7 +18,12 @@ const FinancialYearSection = ({
   financialYear,
   lastMonthInFinancialYear,
   openingBalanceDate,
+  isFinancialYearClosed,
+  isStartNewFinancialYearEnabled,
   onChange,
+  onStartNewFinancialYear,
+  onOpenFinancialYearModal,
+  onCloseFinancialYearModal,
 }) => (
   <FieldGroup label="Financial year">
     <YearSelect
@@ -23,11 +32,20 @@ const FinancialYearSection = ({
       value={financialYear}
       onChange={handleSelectChange(onChange)}
       width="xs"
+      disabled={isFinancialYearClosed}
     />
+    {isStartNewFinancialYearEnabled && (
+      <FinancialYearButton
+        onStartNewFinancialYear={onStartNewFinancialYear}
+        onOpenFinancialYearModal={onOpenFinancialYearModal}
+        onCloseFinancialYearModal={onCloseFinancialYearModal}
+      />
+    )}
     <MonthSelect
       name="lastMonthInFinancialYear"
       label="Last month in financial year"
       value={lastMonthInFinancialYear}
+      disabled={isFinancialYearClosed}
       labelAccessory={(
         <Tooltip triggerContent={<Icons.Info />}>
           Make sure to discuss this with your advisor before changing the
@@ -41,6 +59,7 @@ const FinancialYearSection = ({
       name="openingBalanceDate"
       label="Opening balance month"
       value={openingBalanceDate}
+      disabled={isFinancialYearClosed}
       labelAccessory={(
         <Tooltip triggerContent={<Icons.Info />}>
           The date you either started using MYOB or the start of a period,

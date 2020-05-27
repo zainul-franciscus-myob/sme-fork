@@ -13,6 +13,7 @@ export const getIsPageEdited = state => state.isPageEdited;
 export const getPageTitle = state => state.pageTitle;
 export const getRegion = state => state.region;
 export const getBusinessId = state => state.businessId;
+export const getFinancialYearModal = state => state.financialYearModal;
 
 export const getBusinessForUpdate = createStructuredSelector({
   organisationName: state => state.businessDetails.organisationName,
@@ -64,6 +65,8 @@ export const getFinancialYearDetails = createStructuredSelector({
   financialYear: state => state.businessDetails.financialYear,
   lastMonthInFinancialYear: state => state.businessDetails.lastMonthInFinancialYear,
   openingBalanceDate: state => state.businessDetails.openingBalanceDate,
+  isFinancialYearClosed: state => state.businessDetails.isFinancialYearClosed,
+  isStartNewFinancialYearEnabled: state => state.isStartNewFinancialYearEnabled,
 });
 
 export const getLockDateDetails = createStructuredSelector({

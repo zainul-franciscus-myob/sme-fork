@@ -20,5 +20,6 @@ export default {
     lockDate: '2019-11-11',
     tradeName: 'Clearwater',
     website: 'https://www.myob.com',
+    isFinancialYearClosed: true,
   },
 };

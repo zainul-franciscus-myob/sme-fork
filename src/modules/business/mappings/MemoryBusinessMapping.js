@@ -1,10 +1,9 @@
 import {
-  LOAD_BUSINESS_DETAIL, LOAD_BUSINESS_LIST, UPDATE_BUSINESS_DETAIL,
+  LOAD_BUSINESS_DETAIL, LOAD_BUSINESS_LIST, START_NEW_FINANCIAL_YEAR, UPDATE_BUSINESS_DETAIL,
 } from '../BusinessIntents';
 import business from './data/businessDetails';
 import businesses from './data/businessList';
 import success from './data/success.json';
-
 
 const updateBusinessDetails = ({ onSuccess }) => onSuccess(success);
 const loadBusinessList = ({ onSuccess }) => {
@@ -13,11 +12,13 @@ const loadBusinessList = ({ onSuccess }) => {
 const loadBusinessDetail = ({ onSuccess }) => {
   onSuccess(business);
 };
+const startNewFinancialYear = ({ onSuccess }) => onSuccess(success);
 
 const MemoryBusinessMapping = {
   [LOAD_BUSINESS_LIST]: loadBusinessList,
   [LOAD_BUSINESS_DETAIL]: loadBusinessDetail,
   [UPDATE_BUSINESS_DETAIL]: updateBusinessDetails,
+  [START_NEW_FINANCIAL_YEAR]: startNewFinancialYear,
 };
 
 export default MemoryBusinessMapping;
