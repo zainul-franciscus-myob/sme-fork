@@ -14,6 +14,7 @@ import {
   getIsAbnLoading,
   getIsSupplierBlocking,
   getPrefillStatus,
+  getShouldShowAbn,
 } from '../spendMoneyDetailSelectors';
 import AbnPopover from '../../../../components/autoFormatter/AbnInput/AbnPopover';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
@@ -48,6 +49,7 @@ const SpendMoneyDetailPrimaryOptions = ({
   onBlurBankStatementText,
   prefillStatus,
   onAddContact,
+  shouldShowAbn,
 }) => {
   const handleCheckboxChange = (e) => {
     const { checked, name } = e.target;
@@ -73,8 +75,8 @@ const SpendMoneyDetailPrimaryOptions = ({
     />
   );
 
-  const abnInfo = isAbnLoading ? abnSpinner : (abn && abnDetail);
-  const abnShown = abn ? '' : styles.maximiseContactCombobox;
+  const abnInfo = isAbnLoading ? abnSpinner : (shouldShowAbn && abnDetail);
+  const abnShown = shouldShowAbn ? '' : styles.maximiseContactCombobox;
 
   return (
     <React.Fragment>
@@ -179,6 +181,7 @@ const mapStateToProps = state => ({
   isAbnLoading: getIsAbnLoading(state),
   abnLink: getAbnLink(state),
   editContactUrl: getEditContactUrl(state),
+  shouldShowAbn: getShouldShowAbn(state),
 });
 
 export default connect(mapStateToProps)(SpendMoneyDetailPrimaryOptions);

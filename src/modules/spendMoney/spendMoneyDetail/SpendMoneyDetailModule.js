@@ -34,6 +34,7 @@ import {
   getSaveUrl,
   getSelectedPayFromId,
   getSelectedPayToContactId,
+  getShouldLoadAbn,
   getShouldShowAccountCode,
   getSpendMoneyId,
   getTaxCodeOptions,
@@ -176,7 +177,7 @@ export default class SpendMoneyDetailModule {
 
       const state = this.store.getState();
       const contactId = getSelectedPayToContactId(state);
-      if (contactId) {
+      if (contactId && getShouldLoadAbn(state)) {
         this.loadAbnFromContact(contactId);
       }
     };
@@ -294,7 +295,7 @@ export default class SpendMoneyDetailModule {
       if (getShouldShowAccountCode(stateAfterUpdate)) {
         this.loadSupplierExpenseAccount();
       }
-      if (value) {
+      if (value && getShouldLoadAbn(stateAfterUpdate)) {
         this.loadAbnFromContact(value);
       } else if (!value) {
         this.dispatcher.clearAbn();

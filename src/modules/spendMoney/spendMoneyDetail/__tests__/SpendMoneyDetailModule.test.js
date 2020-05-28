@@ -649,6 +649,18 @@ describe('SpendMoneyDetailModule', () => {
         }),
       ]);
     });
+
+    it('should not send request to load abn if it is NZ business', () => {
+      const { integration, module } = setup();
+
+      module.run({ businessId: '👺', region: 'nz', spendMoneyId: '1' });
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_SPEND_MONEY_DETAIL,
+        }),
+      ]);
+    });
   });
 
   describe('updateHeaderOptions', () => {
@@ -766,6 +778,27 @@ describe('SpendMoneyDetailModule', () => {
             }),
           }),
         ]);
+      });
+
+      it('should not load the abn from the selected contact if it is NZ business', () => {
+        const toolbox = setup();
+        const { store, integration, module } = toolbox;
+
+        module.run({ spendMoneyId: '1', businessId: 'bizId', region: 'nz' });
+        store.resetActions();
+        integration.resetRequests();
+
+        module.updateHeaderOptions({ key: 'selectedPayToContactId', value: '2' });
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_SPEND_MONEY_HEADER,
+            key: 'selectedPayToContactId',
+            value: '2',
+          },
+        ]);
+
+        expect(integration.getRequests()).toEqual([]);
       });
 
       it('should clear the abn given the contact has been cleared', () => {

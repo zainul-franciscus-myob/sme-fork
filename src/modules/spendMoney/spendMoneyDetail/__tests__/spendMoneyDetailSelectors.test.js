@@ -7,7 +7,7 @@ import {
   getIsReportableDisabled,
   getLineDataByIndexSelector,
   getLinesForTaxCalculation,
-  getSaveUrl,
+  getSaveUrl, getShouldShowAbn,
   getShouldShowAccountCode,
   getShowBankStatementText,
   getSpendMoneyForCreatePayload,
@@ -414,6 +414,28 @@ describe('spendMoneySelectors', () => {
       const showBankStatementText = getShowBankStatementText(state);
 
       expect(showBankStatementText).toEqual(false);
+    });
+  });
+
+  describe('getShouldShowAbn', () => {
+    it('should show ABN for 🦘 business', () => {
+      const state = {
+        abn: '1234',
+        region: 'au',
+      };
+      const shouldShowAbn = getShouldShowAbn(state);
+
+      expect(shouldShowAbn).toEqual(true);
+    });
+
+    it('should show ABN for 🇳🇿 business', () => {
+      const state = {
+        abn: '1234',
+        region: 'nz',
+      };
+      const shouldShowAbn = getShouldShowAbn(state);
+
+      expect(shouldShowAbn).toEqual(false);
     });
   });
 });

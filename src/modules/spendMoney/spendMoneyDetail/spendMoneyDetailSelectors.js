@@ -6,6 +6,7 @@ import {
   LOAD_SPEND_MONEY_DETAIL,
 } from '../SpendMoneyIntents';
 import ModalType from './components/ModalType';
+import Region from '../../../common/types/Region';
 import buildAbnLink from '../../../common/links/buildAbnLink';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
@@ -14,13 +15,6 @@ export const getSelectedPayFromId = state => state.spendMoney.selectedPayFromAcc
 const getSelectedBankAccountId = state => state.selectedBankAccountId;
 const getSelectedDate = state => state.selectedDate;
 export const getSelectedPayToContactId = state => state.spendMoney.selectedPayToContactId;
-export const getSeletedPayToContactType = createSelector(
-  getSelectedPayToContactId,
-  state => state,
-  (id, state) => state.spendMoney.payToContacts.find(
-    contact => contact.id === id,
-  ).contactType,
-);
 const getPayFromAccounts = state => state.spendMoney.payFromAccounts;
 const getPayToContacts = state => state.spendMoney.payToContacts;
 export const getDate = state => state.spendMoney.date;
@@ -435,4 +429,15 @@ export const getEditContactUrl = createSelector(
   getRegion,
   getSelectedPayToContactId,
   (businessId, region, contactId) => `/#/${region}/${businessId}/contact/${contactId}`,
+);
+
+export const getShouldShowAbn = createSelector(
+  getRegion,
+  getAbn,
+  (region, abn) => region === Region.au && Boolean(abn),
+);
+
+export const getShouldLoadAbn = createSelector(
+  getRegion,
+  (region) => region === Region.au,
 );
