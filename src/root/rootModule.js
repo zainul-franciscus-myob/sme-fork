@@ -14,9 +14,9 @@ import OnboardingModule from '../onboarding/OnboardingModule';
 import RootReducer from './rootReducer';
 import RootView from './components/RootView';
 import SettingsService from './services/settings';
-import SplitToggle from '../splitToggle/index.js';
 import Store from '../store/Store';
 import buildGlobalCallbacks from './builders/buildGlobalCallbacks';
+import getSplitToggle from '../splitToggle/index.js';
 import isNotSupportedAndShowAlert from '../common/browser/isNotSupportedAndShowAlert';
 import tasksService from './services/tasks';
 
@@ -36,7 +36,7 @@ export default class RootModule {
     this.businessDetailsService = BusinessDetailsService(this.dispatcher, integration, this.store);
     this.last_business_id = null;
     this.startLeanEngage = startLeanEngage;
-    this.featureToggles = new SplitToggle();
+    this.featureToggles = getSplitToggle();
 
     this.drawer = new DrawerModule({
       integration,
