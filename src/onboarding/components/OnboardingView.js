@@ -12,15 +12,24 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 
 import BusinessRoles from '../fixtures/businessRoles';
-import Industries from '../fixtures/Industries';
 import LoadingPageState from '../../components/LoadingPageState/LoadingPageState';
 import handleComboboxChange from '../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../components/handlers/handleInputChange';
 import handleSelectChange from '../../components/handlers/handleSelectChange';
+import industries from '../fixtures/Industries';
 import styles from './OnboardingView.module.css';
 import welcomeImage from '../assets/welcome.svg';
 
-const industryData = [{ columnName: 'id', showData: true }];
+const industryData = [
+  { columnName: 'title', showData: true },
+  { columnName: 'secondary' },
+];
+
+const industryItems = industries.map(industry => ({
+  id: industry.id,
+  title: industry.title,
+  secondary: industry.examples && `Eg. ${industry.examples.join(', ')}`,
+}));
 
 class OnboardingView extends Component {
   constructor(props) {
@@ -48,22 +57,20 @@ class OnboardingView extends Component {
     onLoad();
   }
 
-  industryItems = () => Industries.map(industry => ({ id: industry }));
-
   save = (event) => {
     event.preventDefault();
-    const { props: { businessName, businessRole, industry } } = this;
+    const { props: { businessName, businessRole, industryId } } = this;
 
     let businessNameError = null;
     let industryError = null;
 
     if (businessName === '') businessNameError = 'You need to enter a business name';
-    if (industry === '') industryError = 'You need to select an industry';
+    if (industryId === '') industryError = 'You need to select an industry';
 
     this.setState({ businessNameError, industryError });
 
     if (!businessNameError && !industryError) {
-      this.onSave(event, { businessName, businessRole, industry });
+      this.onSave(event, { businessName, businessRole, industryId });
     }
   };
 
@@ -72,7 +79,7 @@ class OnboardingView extends Component {
   };
 
   onChangeIndustry = (industry) => {
-    this.dispatcher.setViewData({ industry: industry.value });
+    this.dispatcher.setViewData({ industryId: industry.value });
   };
 
   onChangeBusinessRole = (businessRole) => {
@@ -81,7 +88,6 @@ class OnboardingView extends Component {
 
   render() {
     const {
-      industryItems,
       onChangeBusinessName,
       onChangeBusinessRole,
       onChangeIndustry,
@@ -89,7 +95,7 @@ class OnboardingView extends Component {
         businessId,
         businessName,
         businessRole,
-        industry,
+        industryId,
       },
     } = this;
 
@@ -131,9 +137,9 @@ class OnboardingView extends Component {
 
             <div>
               <Combobox
-                defaultItem={{ id: industry }}
+                defaultItem={industryItems.find(ind => ind.id === industryId)}
                 errorMessage={industryError}
-                items={industryItems()}
+                items={industryItems}
                 label="What industry is your business in?"
                 metaData={industryData}
                 name="industry"
@@ -174,10 +180,10 @@ class OnboardingView extends Component {
   }
 }
 
-const mapStateToProps = ({ businessRole, industry, proposedBusinessName }) => ({
+const mapStateToProps = ({ businessRole, industryId, proposedBusinessName }) => ({
   businessName: proposedBusinessName,
   businessRole: businessRole || 'Bookkeeper',
-  industry: industry || '',
+  industryId: industryId || '',
 });
 
 export { OnboardingView as View };

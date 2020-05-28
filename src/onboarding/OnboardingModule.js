@@ -19,13 +19,13 @@ class OnboardingModule {
     this.sendTelemetryEvent = sendTelemetryEvent;
   }
 
-  save = async (event, { businessName, businessRole, industry }) => {
+  save = async (event, { businessName, businessRole, industryId }) => {
     event.preventDefault();
 
     const onboardingData = {
       businessName,
       businessRole,
-      industry,
+      industry: industryId,
       businessId: this.businessId,
       region: this.region,
       onboardingComplete: true,
