@@ -12,7 +12,7 @@ import {
   OPEN_MODAL,
   PREFILL_BILL_FROM_IN_TRAY,
   RELOAD_BILL,
-  RESET_ABN,
+  RESET_SUPPLIER,
   SET_ABN_LOADING_STATE,
   SET_DOCUMENT_LOADING_STATE,
   SET_DUPLICATE_ID,
@@ -741,7 +741,7 @@ describe('BillModule', () => {
             key: 'supplierId',
             value: '2',
           },
-          { intent: RESET_ABN },
+          { intent: RESET_SUPPLIER },
           {
             intent: START_BLOCKING,
           },
@@ -772,7 +772,7 @@ describe('BillModule', () => {
             key: 'supplierId',
             value: '2',
           },
-          { intent: RESET_ABN },
+          { intent: RESET_SUPPLIER },
           {
             intent: START_BLOCKING,
           },
@@ -802,7 +802,7 @@ describe('BillModule', () => {
             key: 'supplierId',
             value: '2',
           },
-          { intent: RESET_ABN },
+          { intent: RESET_SUPPLIER },
           {
             intent: START_BLOCKING,
           },
@@ -835,7 +835,7 @@ describe('BillModule', () => {
             key: 'supplierId',
             value: '2',
           },
-          { intent: RESET_ABN },
+          { intent: RESET_SUPPLIER },
           {
             intent: START_BLOCKING,
           },
@@ -857,6 +857,23 @@ describe('BillModule', () => {
             intent: LOAD_SUPPLIER_DETAIL,
           }),
         ]);
+      });
+
+      it('do not loads supplier detail if user clears supplier', () => {
+        const { module, integration, store } = setUpWithRun();
+
+        module.updateBillOption({ key: 'supplierId', value: '' });
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_BILL_OPTION,
+            key: 'supplierId',
+            value: '',
+          },
+          { intent: RESET_SUPPLIER },
+        ]);
+
+        expect(integration.getRequests().length).toEqual(0);
       });
     });
 

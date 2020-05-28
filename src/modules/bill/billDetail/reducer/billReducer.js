@@ -22,7 +22,7 @@ import {
   PREFILL_BILL_FROM_IN_TRAY,
   RELOAD_BILL,
   REMOVE_BILL_LINE,
-  RESET_ABN,
+  RESET_SUPPLIER,
   RESET_TOTALS,
   SET_ABN_LOADING_STATE,
   SET_ATTACHMENT_ID,
@@ -51,7 +51,10 @@ import {
 } from '../BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import {
-  calculateAmountDue, calculateLineAmounts, getIsCalculableLine, getTaxCalculations,
+  calculateAmountDue,
+  calculateLineAmounts,
+  getIsCalculableLine,
+  getTaxCalculations,
 } from './calculationReducer';
 import { defaultLinePrefillStatus, defaultPrefillStatus, getDefaultState } from './getDefaultState';
 import {
@@ -620,8 +623,12 @@ const loadAbnFromSupplier = (state, action) => ({
   abn: action.abn,
 });
 
-const resetAbn = (state) => ({
+const resetSupplier = (state) => ({
   ...state,
+  bill: {
+    ...state.bill,
+    supplierAddress: '',
+  },
   abn: undefined,
 });
 
@@ -655,6 +662,7 @@ const handlers = {
   [LOAD_SUPPLIER_AFTER_CREATE]: loadSupplierAfterCreate,
   [START_SUPPLIER_BLOCKING]: startSupplierBlocking,
   [STOP_SUPPLIER_BLOCKING]: stopSupplierBlocking,
+  [RESET_SUPPLIER]: resetSupplier,
   [PREFILL_BILL_FROM_IN_TRAY]: prefillBillFromInTray,
   [RESET_TOTALS]: resetTotals,
   [UPDATE_BILL_ID]: updateBillId,
@@ -674,7 +682,6 @@ const handlers = {
   [SET_REDIRECT_URL]: setRedirectUrl,
   [SET_ABN_LOADING_STATE]: setAbnLoadingState,
   [LOAD_ABN_FROM_SUPPLIER]: loadAbnFromSupplier,
-  [RESET_ABN]: resetAbn,
 };
 
 const billReducer = createReducer(getDefaultState(), handlers);

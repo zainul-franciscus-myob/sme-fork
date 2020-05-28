@@ -20,7 +20,7 @@ import {
   PREFILL_BILL_FROM_IN_TRAY,
   RELOAD_BILL,
   REMOVE_BILL_LINE,
-  RESET_ABN,
+  RESET_SUPPLIER,
   RESET_TOTALS,
   SET_ABN_LOADING_STATE,
   SET_ATTACHMENT_ID,
@@ -254,6 +254,10 @@ const createBillDispatcher = store => ({
 
   stopSupplierBlocking: () => store.dispatch({ intent: STOP_SUPPLIER_BLOCKING }),
 
+  resetSupplier: () => {
+    store.dispatch({ intent: RESET_SUPPLIER });
+  },
+
   setCalculatedBillLinesAndTotals: (response) => {
     store.dispatch({
       intent: SET_CALCULATED_BILL_LINES_AND_TOTALS,
@@ -374,10 +378,6 @@ const createBillDispatcher = store => ({
       intent: LOAD_ABN_FROM_SUPPLIER,
       abn,
     });
-  },
-
-  resetAbn: () => {
-    store.dispatch({ intent: RESET_ABN });
   },
 });
 

@@ -7,6 +7,7 @@ export const LOAD_ITEM_OPTION = Symbol('Load item option');
 export const LOAD_SUPPLIER_AFTER_CREATE = Symbol('Load supplier after create');
 export const START_SUPPLIER_BLOCKING = Symbol('Start supplier blocking');
 export const STOP_SUPPLIER_BLOCKING = Symbol('Stop supplier blocking');
+export const RESET_SUPPLIER = Symbol('Reset the supplier');
 export const UPDATE_BILL_OPTION = Symbol('Update bill option');
 export const UPDATE_LAYOUT = Symbol('Update layout');
 export const OPEN_MODAL = Symbol('Open modal');
@@ -60,4 +61,3 @@ export const SET_REDIRECT_URL = Symbol('Set redirect url');
 
 export const LOAD_ABN_FROM_SUPPLIER = Symbol('Load abn given a supplier id');
 export const SET_ABN_LOADING_STATE = Symbol('Set abn loading state');
-export const RESET_ABN = Symbol('Reset the abn');

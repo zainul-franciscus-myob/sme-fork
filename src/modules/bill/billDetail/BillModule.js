@@ -462,8 +462,11 @@ class BillModule {
     this.dispatcher.updateBillOption({ key, value });
 
     if (isSupplierIdKey) {
-      this.dispatcher.resetAbn();
-      this.loadSupplierDetail();
+      this.dispatcher.resetSupplier();
+
+      if (value) {
+        this.loadSupplierDetail();
+      }
     }
 
     if (isTaxInclusiveKey) {
