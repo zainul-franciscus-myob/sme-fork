@@ -135,7 +135,7 @@ export default class PayRunModule {
   run(context) {
     this.dispatcher.setInitialState({
       ...context,
-      isPayrollJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
+      isPayrollJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobsPayrun),
     });
     this.render();
     this.startNewPayRun();
