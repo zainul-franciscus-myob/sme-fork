@@ -7,8 +7,7 @@ Vagrant.configure('2') do |config|
       d.image = 'docker.myob.com/sme-web/sme-web-development:latest'
       d.pull = true
       d.create_args = [
-        '-v', '/home/vagrant/app/node_modules',
-        '-v', "#{ENV['HOME']}/.npmrc:/home/vagrant/.npmrc"
+        '-v', '/home/vagrant/app/node_modules'
       ]
       d.ports = ['3000:3000']
       d.has_ssh = true
