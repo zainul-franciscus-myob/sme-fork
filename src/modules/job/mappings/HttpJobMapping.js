@@ -50,7 +50,7 @@ const JobListMapping = {
   },
   [LOAD_CUSTOMER_AFTER_CREATE]: {
     method: 'GET',
-    getPath: ({ businessId, customerId }) => `/${businessId}/invoice/load_contact/${customerId}`,
+    getPath: ({ businessId, customerId }) => `/${businessId}/job/load_contact/${customerId}`,
   },
 };
 
