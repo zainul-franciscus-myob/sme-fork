@@ -1,7 +1,7 @@
 FROM docker.myob.com/sme-web/sme-web-buildnode:latest
 
 RUN apk add --update \
-    docker openrc openssh sudo bash \
+    docker openrc openssh sudo bash git \
     && rm -rf /var/cache/apk/*
 
 # Enable sshd service
