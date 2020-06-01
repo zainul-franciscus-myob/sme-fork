@@ -16,7 +16,7 @@ We can connect the local `sme-web` and `sme-web-bff` stack directly to the `inte
     ```js
     bash -c 'while [ 0 ]; do kubectl port-forward svc/integration-private-api-gateway 5500:80 -n sme; done;'
     ```
-1. Run [create-local.sh](./create-local.sh) in the `sme-web-bff`
+1. Run [create-local.sh](https://github.com/MYOB-Technology/sme-web-bff/blob/master/ops/bin/create-local.sh) in the `sme-web-bff`
     - Generate `.env.local`
     - Duplicate [`allowed-origins.dev.js`](https://github.com/MYOB-Technology/sme-web-bff/blob/master/src/extractor/cors/allowed-origins.dev.js) as `allowed-origins.local.js`
     - Duplicate [`config.dev.js`](https://github.com/MYOB-Technology/sme-web-bff/blob/master/src/featureTogglesConfig/config.dev.js) as `config.local.js`
