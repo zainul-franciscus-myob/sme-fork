@@ -25,7 +25,7 @@
         "accountId": "123",
         "taxAmount": "0.5",
         "taxExclusiveAmount": "48",
-        "taxCodeId": "124",
+        "taxCodeId": "2",
         "lineTypeId": 17
       },
       {
@@ -35,14 +35,14 @@
         "accountId": "456",
         "taxAmount": "1",
         "taxExclusiveAmount": "49",
-        "taxCodeId": "123",
+        "taxCodeId": "4",
         "lineTypeId": 17
       },
       {
         "id": "347",
         "type": "service",
         "description": "Yak blow dry - 1/2 an hour",
-        "accountId": "123",
+        "accountId": "4",
         "taxAmount": "0.5",
         "taxExclusiveAmount": "12",
         "taxCodeId": "124",

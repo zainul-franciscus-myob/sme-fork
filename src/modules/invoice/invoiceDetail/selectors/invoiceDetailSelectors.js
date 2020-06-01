@@ -177,15 +177,13 @@ export const getInvoiceDetailTotals = createSelector(
   getAmountPaid,
   getIsCreating,
   getTaxLabel,
-  getIsPreConversion,
-  (totals, amountPaid, isCreating, taxLabel, isPreConversion) => ({
+  (totals, amountPaid, isCreating, taxLabel) => ({
     subTotal: totals.subTotal,
     totalTax: totals.totalTax,
     totalAmount: totals.totalAmount,
     amountPaid: amountPaid === '' ? '0.00' : amountPaid,
     amountDue: calculateAmountDue(totals.totalAmount, amountPaid),
     isCreating,
-    isPreConversion,
     taxLabel,
   }),
 );

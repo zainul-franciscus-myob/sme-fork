@@ -91,6 +91,17 @@ const MemoryInvoiceMapping = {
       case 'item-id':
         onSuccess(invoiceItemDetail);
         break;
+      case 'pre-conversion-id':
+        onSuccess({
+          ...invoiceServiceDetail,
+          invoice: {
+            ...invoiceServiceDetail.invoice,
+            issueDate: '2013-03-05',
+            lines: [invoiceServiceDetail.invoice.lines[0]],
+          },
+          conversionDate: '2014-07-01',
+        });
+        break;
       case 'service-id':
       default:
         onSuccess(invoiceServiceDetail);
