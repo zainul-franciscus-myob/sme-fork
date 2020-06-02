@@ -2,6 +2,7 @@ import {
   FieldGroup,
   Icons,
   MonthPicker,
+  ReadOnly,
   Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
@@ -11,8 +12,16 @@ import { getFinancialYearDetails } from '../businessDetailSelectors';
 import FinancialYearButton from './FinancialYearButton';
 import MonthSelect from './MonthSelect';
 import YearSelect from './YearSelect';
+import formatDate from '../../../../common/valueFormatters/formatDate/formatDate';
 import handleMonthPickerChange from '../../../../components/handlers/handleMonthPickerChange';
 import handleSelectChange from '../../../../components/handlers/handleSelectChange';
+import styles from './FinancialYearSection.module.css';
+
+const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
+];
+
+const dateFormat = 'MMMM yyyy';
 
 const FinancialYearSection = ({
   financialYear,
@@ -20,56 +29,90 @@ const FinancialYearSection = ({
   openingBalanceDate,
   isFinancialYearClosed,
   isStartNewFinancialYearEnabled,
+  isFinancialYearDisabled,
   onChange,
   onStartNewFinancialYear,
   onOpenFinancialYearModal,
   onCloseFinancialYearModal,
-}) => (
-  <FieldGroup label="Financial year">
-    <YearSelect
-      name="financialYear"
-      label="Current financial year"
-      value={financialYear}
-      onChange={handleSelectChange(onChange)}
-      width="xs"
-      disabled={isFinancialYearClosed}
-    />
-    {isStartNewFinancialYearEnabled && (
-      <FinancialYearButton
-        onStartNewFinancialYear={onStartNewFinancialYear}
-        onOpenFinancialYearModal={onOpenFinancialYearModal}
-        onCloseFinancialYearModal={onCloseFinancialYearModal}
+  financialYearOptions,
+}) => {
+  const financialYearComboBox = isFinancialYearClosed
+    ? <ReadOnly label="Current financial year" name="financialYear">
+        {financialYear}
+      </ReadOnly>
+    : (
+      <YearSelect
+        financialYearOptions={financialYearOptions}
+        name="financialYear"
+        value={financialYear}
+        onChange={handleSelectChange(onChange)}
+        disabled={isFinancialYearDisabled}
+        width="xs"
       />
-    )}
-    <MonthSelect
-      name="lastMonthInFinancialYear"
-      label="Last month in financial year"
-      value={lastMonthInFinancialYear}
-      disabled={isFinancialYearClosed}
-      labelAccessory={(
-        <Tooltip triggerContent={<Icons.Info />}>
-          Make sure to discuss this with your advisor before changing the
-          financial year period.
-        </Tooltip>
-      )}
-      onChange={handleSelectChange(onChange)}
-      width="sm"
+    );
+
+  const startNewFYButton = isStartNewFinancialYearEnabled && (
+    <FinancialYearButton
+      onStartNewFinancialYear={onStartNewFinancialYear}
+      onOpenFinancialYearModal={onOpenFinancialYearModal}
+      onCloseFinancialYearModal={onCloseFinancialYearModal}
     />
+  );
+
+  const lastMonthFYToolTip = (
+    <Tooltip triggerContent={<Icons.Info />}>
+      Make sure to discuss this with your advisor before changing the
+      financial year period.
+    </Tooltip>
+  );
+
+  const lastMonthInFYComboBox = isFinancialYearClosed
+    ? <ReadOnly label="Last month in financial year" name="lastMonthInFinancialYear" labelAccessory={lastMonthFYToolTip}>
+        {monthNames[lastMonthInFinancialYear - 1]}
+      </ReadOnly>
+    : (
+      <MonthSelect
+        name="lastMonthInFinancialYear"
+        label="Last month in financial year"
+        className={styles.monthSelect}
+        value={lastMonthInFinancialYear}
+        labelAccessory={lastMonthFYToolTip}
+        onChange={handleSelectChange(onChange)}
+        width="sm"
+      />
+    );
+
+  const openingBalanceDateTooltip = (
+    <Tooltip triggerContent={<Icons.Info />}>
+      The date you either started using MYOB or the start of a period,
+      like a new financial year.
+    </Tooltip>
+  );
+
+  const openingBalanceDateComboBox = isFinancialYearClosed
+    ? <ReadOnly label="Opening balance month" name="openingBalanceDate" labelAccessory={openingBalanceDateTooltip}>
+        {formatDate(openingBalanceDate, dateFormat)}
+      </ReadOnly>
+    : (
     <MonthPicker
       name="openingBalanceDate"
       label="Opening balance month"
       value={openingBalanceDate}
-      disabled={isFinancialYearClosed}
-      labelAccessory={(
-        <Tooltip triggerContent={<Icons.Info />}>
-          The date you either started using MYOB or the start of a period,
-          like a new financial year.
-        </Tooltip>
-      )}
+      labelAccessory={openingBalanceDateTooltip}
+      className={styles.monthSelectPicker}
       onSelect={handleMonthPickerChange(onChange, 'openingBalanceDate')}
     />
+    );
+
+  return (
+  <FieldGroup label="Financial year">
+    {financialYearComboBox}
+    {startNewFYButton}
+    {lastMonthInFYComboBox}
+    {openingBalanceDateComboBox}
   </FieldGroup>
-);
+  );
+};
 
 const mapStateToProps = state => getFinancialYearDetails(state);
 

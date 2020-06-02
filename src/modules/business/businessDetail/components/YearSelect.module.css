@@ -1,0 +1,10 @@
+@media (min-width: 500px) {
+  .yearInput {
+    width: 106px;
+  }
+  
+  .tooltipTrigger {
+    width: 106px;
+    display: inline-block;
+  }
+}

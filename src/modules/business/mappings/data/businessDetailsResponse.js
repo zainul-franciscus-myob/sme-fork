@@ -20,6 +20,8 @@ export default {
     lockDate: '2019-11-11',
     tradeName: 'Clearwater',
     website: 'https://www.myob.com',
-    isFinancialYearClosed: true,
+    isFinancialYearClosed: false,
+    hasTransactions: true,
   },
+  financialYearOptions: ['2014', '2015', '2016', '2017', '2018', '2019', '2020'],
 };

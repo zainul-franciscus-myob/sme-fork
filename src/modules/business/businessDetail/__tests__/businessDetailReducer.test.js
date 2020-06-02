@@ -1,4 +1,4 @@
-import { UPDATE_LOCK_DATE_DETAIL } from '../../BusinessIntents';
+import { LOAD_BUSINESS_DETAIL, UPDATE_LOCK_DATE_DETAIL } from '../../BusinessIntents';
 import businessDetailsReducer from '../businessDetailReducer';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
 
@@ -132,6 +132,101 @@ describe('businessDetailReducer', () => {
       });
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('loadBusinessDetail', () => {
+    it('should disable financial year combobox when current financial year is not closed and company file has at least one transaction', () => {
+      const state = {
+        businessDetails: {
+          isFinancialYearDisabled: false,
+          isFinancialYearClosed: false,
+          hasTransactions: false,
+        },
+      };
+
+      const action = {
+        businessDetails: {
+          isFinancialYearClosed: false,
+          hasTransactions: true,
+        },
+      };
+
+      const expected = {
+        businessDetails: {
+          isFinancialYearDisabled: true,
+          isFinancialYearClosed: false,
+          hasTransactions: true,
+        },
+      };
+
+      const actual = businessDetailsReducer(state, {
+        intent: LOAD_BUSINESS_DETAIL,
+        businessDetails: action.businessDetails,
+      });
+
+      expect(actual.businessDetails).toEqual(expected.businessDetails);
+    });
+
+    it('should make all fields in FinancialYearSection readonly when current financial year is closed', () => {
+      const state = {
+        businessDetails: {
+          isFinancialYearDisabled: false,
+          isFinancialYearClosed: false,
+        },
+      };
+
+      const action = {
+        businessDetails: {
+          isFinancialYearClosed: true,
+        },
+      };
+
+      const expected = {
+        businessDetails: {
+          isFinancialYearDisabled: false,
+          isFinancialYearClosed: true,
+        },
+      };
+
+      const actual = businessDetailsReducer(state, {
+        intent: LOAD_BUSINESS_DETAIL,
+        businessDetails: action.businessDetails,
+      });
+
+      expect(actual.businessDetails).toEqual(expected.businessDetails);
+    });
+
+    it('should make all fields in FinancialYearSection edittable when current financial year is not closed and no transactions exist', () => {
+      const state = {
+        businessDetails: {
+          isFinancialYearDisabled: true,
+          isFinancialYearClosed: false,
+          hasTransactions: true,
+        },
+      };
+
+      const action = {
+        businessDetails: {
+          isFinancialYearClosed: false,
+          hasTransactions: false,
+        },
+      };
+
+      const expected = {
+        businessDetails: {
+          isFinancialYearDisabled: false,
+          isFinancialYearClosed: false,
+          hasTransactions: false,
+        },
+      };
+
+      const actual = businessDetailsReducer(state, {
+        intent: LOAD_BUSINESS_DETAIL,
+        businessDetails: action.businessDetails,
+      });
+
+      expect(actual.businessDetails).toEqual(expected.businessDetails);
     });
   });
 });

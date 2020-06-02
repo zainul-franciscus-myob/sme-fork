@@ -1,7 +1,7 @@
 import {
   LOAD_BUSINESS_DETAIL, LOAD_BUSINESS_LIST, START_NEW_FINANCIAL_YEAR, UPDATE_BUSINESS_DETAIL,
 } from '../BusinessIntents';
-import business from './data/businessDetails';
+import business from './data/businessDetailsResponse';
 import businesses from './data/businessList';
 import success from './data/success.json';
 

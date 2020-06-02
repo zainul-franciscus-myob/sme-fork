@@ -43,6 +43,7 @@ const getDefaultState = () => ({
     tradingName: '',
     website: '',
     isFinancialYearClosed: false,
+    isFinancialYearDisabled: false,
   },
   isLockDateAutoPopulated: false,
   loadingState: LoadingState.LOADING,
@@ -52,6 +53,7 @@ const getDefaultState = () => ({
   pageTitle: '',
   financialYearModal: { isOpen: false, isLoading: false },
   isStartNewFinancialYearEnabled: false,
+  financialYearOptions: [],
 });
 
 const setInitialState = (state, { context }) => ({
@@ -71,14 +73,21 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
-const loadBusinessDetail = (state, action) => ({
-  ...state,
-  businessDetails: {
-    ...state.businessDetails,
-    ...action.businessDetails,
-  },
-  pageTitle: action.pageTitle,
-});
+const loadBusinessDetail = (state, action) => {
+  const isFinancialYearDisabled = !action.businessDetails.isFinancialYearClosed
+    && action.businessDetails.hasTransactions;
+
+  return {
+    ...state,
+    businessDetails: {
+      ...state.businessDetails,
+      ...action.businessDetails,
+      isFinancialYearDisabled,
+    },
+    pageTitle: action.pageTitle,
+    financialYearOptions: action.financialYearOptions,
+  };
+};
 
 const setSubmittingState = (state, action) => ({
   ...state,

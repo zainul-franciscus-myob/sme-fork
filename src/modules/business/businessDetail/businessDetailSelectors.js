@@ -67,6 +67,8 @@ export const getFinancialYearDetails = createStructuredSelector({
   openingBalanceDate: state => state.businessDetails.openingBalanceDate,
   isFinancialYearClosed: state => state.businessDetails.isFinancialYearClosed,
   isStartNewFinancialYearEnabled: state => state.isStartNewFinancialYearEnabled,
+  isFinancialYearDisabled: state => state.businessDetails.isFinancialYearDisabled,
+  financialYearOptions: state => state.financialYearOptions,
 });
 
 export const getLockDateDetails = createStructuredSelector({
