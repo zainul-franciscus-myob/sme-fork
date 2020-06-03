@@ -22,20 +22,20 @@ describe('Bank transactions index selectors', () => {
     });
 
     describe('getLoadBankTransactionsParams', () => {
-      const state = {
-        filterOptions: {
-          transactionType: TransactionTypes.ALLOCATED,
-          dateTo: 'dateTo',
-          dateFrom: 'dateFrom',
-          otherFilters: 'otherFilters',
-        },
-        sortOrder: 'sortOrder',
-        orderBy: 'orderBy',
-      };
+      it('returns all filters', () => {
+        const state = {
+          filterOptions: {
+            transactionType: TransactionTypes.UNALLOCATED,
+            dateTo: 'dateTo',
+            dateFrom: 'dateFrom',
+            otherFilters: 'otherFilters',
+          },
+          sortOrder: 'sortOrder',
+          orderBy: 'orderBy',
+        };
 
-      it('returns date and no date filters for approved transaction types', () => {
         const expected = {
-          transactionType: TransactionTypes.ALLOCATED,
+          transactionType: TransactionTypes.UNALLOCATED,
           dateTo: 'dateTo',
           dateFrom: 'dateFrom',
           otherFilters: 'otherFilters',
@@ -44,25 +44,6 @@ describe('Bank transactions index selectors', () => {
         };
 
         const actual = getLoadBankTransactionsParams(state);
-
-        expect(actual).toEqual(expected);
-      });
-
-      it('returns date filters for non approved transaction types', () => {
-        const expected = {
-          transactionType: TransactionTypes.UNALLOCATED,
-          otherFilters: 'otherFilters',
-          sortOrder: 'sortOrder',
-          orderBy: 'orderBy',
-        };
-
-        const actual = getLoadBankTransactionsParams({
-          ...state,
-          filterOptions: {
-            ...state.filterOptions,
-            transactionType: TransactionTypes.UNALLOCATED,
-          },
-        });
 
         expect(actual).toEqual(expected);
       });
@@ -80,23 +61,23 @@ describe('Bank transactions index selectors', () => {
     });
 
     describe('getLoadBankTransactionsNextPageParams', () => {
-      const state = {
-        filterOptions: {
-          transactionType: TransactionTypes.ALLOCATED,
-          dateTo: 'dateTo',
-          dateFrom: 'dateFrom',
-          otherFilters: 'otherFilters',
-        },
-        pagination: {
-          offset: 20,
-        },
-        sortOrder: 'sortOrder',
-        orderBy: 'orderBy',
-      };
+      it('returns all filters with offset', () => {
+        const state = {
+          filterOptions: {
+            transactionType: TransactionTypes.UNALLOCATED,
+            dateTo: 'dateTo',
+            dateFrom: 'dateFrom',
+            otherFilters: 'otherFilters',
+          },
+          pagination: {
+            offset: 20,
+          },
+          sortOrder: 'sortOrder',
+          orderBy: 'orderBy',
+        };
 
-      it('returns date and no date filters and offset for approved transaction types', () => {
         const expected = {
-          transactionType: TransactionTypes.ALLOCATED,
+          transactionType: TransactionTypes.UNALLOCATED,
           dateTo: 'dateTo',
           dateFrom: 'dateFrom',
           otherFilters: 'otherFilters',
@@ -106,26 +87,6 @@ describe('Bank transactions index selectors', () => {
         };
 
         const actual = getLoadBankTransactionsNextPageParams(state);
-
-        expect(actual).toEqual(expected);
-      });
-
-      it('returns date filters for non approved transaction types', () => {
-        const expected = {
-          transactionType: TransactionTypes.UNALLOCATED,
-          otherFilters: 'otherFilters',
-          sortOrder: 'sortOrder',
-          orderBy: 'orderBy',
-          offset: 20,
-        };
-
-        const actual = getLoadBankTransactionsNextPageParams({
-          ...state,
-          filterOptions: {
-            ...state.filterOptions,
-            transactionType: TransactionTypes.UNALLOCATED,
-          },
-        });
 
         expect(actual).toEqual(expected);
       });
@@ -143,23 +104,23 @@ describe('Bank transactions index selectors', () => {
     });
 
     describe('getFilterBankTransactionsParams', () => {
-      const state = {
-        filterOptions: {
-          transactionType: TransactionTypes.ALLOCATED,
-          dateTo: 'dateTo',
-          dateFrom: 'dateFrom',
-          otherFilters: 'otherFilters',
-        },
-        pagination: {
-          offset: 20,
-        },
-        sortOrder: 'sortOrder',
-        orderBy: 'orderBy',
-      };
+      it('returns all filters with offset', () => {
+        const state = {
+          filterOptions: {
+            transactionType: TransactionTypes.UNALLOCATED,
+            dateTo: 'dateTo',
+            dateFrom: 'dateFrom',
+            otherFilters: 'otherFilters',
+          },
+          pagination: {
+            offset: 20,
+          },
+          sortOrder: 'sortOrder',
+          orderBy: 'orderBy',
+        };
 
-      it('returns date and no date filters and offset for approved transaction types', () => {
         const expected = {
-          transactionType: TransactionTypes.ALLOCATED,
+          transactionType: TransactionTypes.UNALLOCATED,
           dateTo: 'dateTo',
           dateFrom: 'dateFrom',
           otherFilters: 'otherFilters',
@@ -169,26 +130,6 @@ describe('Bank transactions index selectors', () => {
         };
 
         const actual = getFilterBankTransactionsParams(state);
-
-        expect(actual).toEqual(expected);
-      });
-
-      it('returns date filters for non approved transaction types', () => {
-        const expected = {
-          transactionType: TransactionTypes.UNALLOCATED,
-          otherFilters: 'otherFilters',
-          sortOrder: 'sortOrder',
-          orderBy: 'orderBy',
-          offset: 0,
-        };
-
-        const actual = getFilterBankTransactionsParams({
-          ...state,
-          filterOptions: {
-            ...state.filterOptions,
-            transactionType: TransactionTypes.UNALLOCATED,
-          },
-        });
 
         expect(actual).toEqual(expected);
       });

@@ -6,7 +6,6 @@ import Config from '../../../Config';
 import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import Region from '../Region';
 import StatusTypes from '../BankTransactionStatusTypes';
-import TransactionTypes from '../TransactionTypes';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
 import formatSlashDate from '../../../common/valueFormatters/formatDate/formatSlashDate';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
@@ -70,22 +69,9 @@ export const getBankEntryByIndexSelector = () => createSelector(
   },
 );
 
-const getIsTransactionTypeApproved = state => (
-  state.filterOptions.transactionType === TransactionTypes.ALLOCATED
-);
-
-export const getShouldDisplayDateRange = state => getIsTransactionTypeApproved(state);
-
 export const getBankAccount = state => state.filterOptions.bankAccount;
 
-export const getFilterOptions = createSelector(
-  state => state.filterOptions,
-  getIsTransactionTypeApproved,
-  (filterOptions, isTransactionTypeApproved) => {
-    const { dateTo, dateFrom, ...noDateFilterOptions } = filterOptions;
-    return isTransactionTypeApproved ? filterOptions : noDateFilterOptions;
-  },
-);
+export const getFilterOptions = state => state.filterOptions;
 
 export const getIsTableEmpty = ({ entries }) => entries.length === 0;
 

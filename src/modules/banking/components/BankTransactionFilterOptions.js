@@ -2,7 +2,7 @@ import { Card, DatePicker, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getFilterOptions, getShouldDisplayDateRange, getTransactionTypes } from '../bankingSelectors';
+import { getFilterOptions, getTransactionTypes } from '../bankingSelectors';
 import FilterBar from '../../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../../components/FilterBarSearch/FilterBarSearch';
 
@@ -36,10 +36,9 @@ class BankTransactionFilterOptions extends React.Component {
         keywords,
       },
       transactionTypes,
-      shouldDisplayDateRange,
     } = this.props;
 
-    const dateRangeFilter = shouldDisplayDateRange && (
+    const dateRangeFilter = (
       <React.Fragment>
         <DatePicker label="Date from" name="dateFrom" value={dateFrom} onSelect={this.onDateChange('dateFrom')} />
         <DatePicker label="Date to" name="dateTo" value={dateTo} onSelect={this.onDateChange('dateTo')} />
@@ -67,7 +66,6 @@ class BankTransactionFilterOptions extends React.Component {
 const mapStateToProps = state => ({
   filterOptions: getFilterOptions(state),
   transactionTypes: getTransactionTypes(state),
-  shouldDisplayDateRange: getShouldDisplayDateRange(state),
 });
 
 export default connect(mapStateToProps)(BankTransactionFilterOptions);
