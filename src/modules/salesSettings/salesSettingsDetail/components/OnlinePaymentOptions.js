@@ -7,7 +7,8 @@ import React from 'react';
 import { getOnlinePaymentOptions } from '../SalesSettingsDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import LinkButton from '../../../../components/Button/LinkButton';
-import ServiceUnavailableImage from '../../../../components/ServiceUnavailableImage/ServiceUnavailableImage';
+import ServiceUnavailableImage
+  from '../../../../components/ServiceUnavailableImage/ServiceUnavailableImage';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import onlinePaymentMethodsImage from '../../../../common/images/OnlinePaymentMethods.png';
 import styles from './OnlinePaymentOptions.module.css';
@@ -21,6 +22,7 @@ const OnlinePaymentOptions = ({
   isTrial,
   onUpdateSalesSettingsItem,
   payDirectLink,
+  registrationLink,
   onSubscribeNowClick,
 }) => {
   const label = 'Online';
@@ -116,7 +118,7 @@ const OnlinePaymentOptions = ({
 
       <LinkButton
         className={styles.spacingBottomSmall}
-        href={payDirectLink}
+        href={registrationLink}
         icon={<Icons.OpenExternalLink />}
         iconRight
         isOpenInNewTab

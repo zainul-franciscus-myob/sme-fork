@@ -4,9 +4,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getAccountOptions, getIsRegistered, getPayDirectLink, getTabData,
-} from '../SalesSettingsDetailSelectors';
+import { getAccountOptions, getIsRegistered, getTabData } from '../SalesSettingsDetailSelectors';
 import AuDirectDeposit from './AuDirectDeposit';
 import OnlinePaymentOptions from './OnlinePaymentOptions';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
@@ -80,7 +78,6 @@ const AuPaymentOptions = ({ onUpdateSalesSettingsItem, salesSettings, onSubscrib
 const mapStateToProps = state => ({
   accountOptions: getAccountOptions(state),
   isRegistered: getIsRegistered(state),
-  payDirectLink: getPayDirectLink(state),
   salesSettings: getTabData(state),
 });
 

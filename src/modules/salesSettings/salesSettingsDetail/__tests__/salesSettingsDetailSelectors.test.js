@@ -1,5 +1,4 @@
 import {
-  getPayDirectLink,
   getReminderLink,
   getShowDateField,
   getShowDateInput,
@@ -108,21 +107,6 @@ describe('salesSettingsSelectors', () => {
       };
 
       expect(getShowDateInput(state)).toBe(true);
-    });
-  });
-
-  describe('getPayDirectLink', () => {
-    it('builds pay direct link', () => {
-      const state = {
-        businessId: '123',
-        payDirect: {
-          url: 'https://foo.bar',
-        },
-        serialNumber: '000',
-      };
-      const expected = 'https://foo.bar?cdf=123&sn=000';
-
-      expect(getPayDirectLink(state)).toEqual(expected);
     });
   });
 

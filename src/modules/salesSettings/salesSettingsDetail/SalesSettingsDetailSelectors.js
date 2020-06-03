@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 
 import { mainTabItems } from './tabItems';
 import Region from '../../../common/types/Region';
+import buildOnlinePaymentLink from '../../../common/links/buildOnlinePaymentLink';
 
 export const getLoadingState = state => state.loadingState;
 export const getRegion = state => state.region;
@@ -18,10 +19,13 @@ export const getModalType = state => state.modalType;
 const getIsPayDirectSettingsLoading = state => state.payDirect.isLoading;
 const getIsPayDirectSettingsServiceAvailable = state => state.payDirect.isServiceAvailable;
 export const getIsRegistered = state => state.payDirect.isRegistered;
+const getPayDirectUrl = state => state.payDirect.url;
+const getPayDirectRegistrationUrl = state => state.payDirect.registrationUrl;
 export const getIsTrial = state => state.subscription.isTrial;
 export const getShowActions = state => mainTabItems
   .find(tab => tab.id === state.selectedTab).hasActions;
 export const getAccountOptions = state => state.accountOptions;
+const getSerialNumber = state => state.serialNumber;
 
 export const getShowDateField = state => [
   'OnADayOfTheMonth',
@@ -41,7 +45,19 @@ export const getDateInputPostfix = state => ({
   NumberOfDaysAfterEOM: 'days after the end of the month',
 }[state.tabData.paymentType] || '');
 
-export const getPayDirectLink = state => `${state.payDirect.url}?cdf=${state.businessId}&sn=${state.serialNumber}`;
+export const getPayDirectLink = createSelector(
+  getPayDirectUrl, getBusinessId, getSerialNumber, getIsTrial, getIsRegistered,
+  (url, businessId, serialNumber, isTrial, isRegistered) => buildOnlinePaymentLink({
+    url, businessId, serialNumber, isTrial, isRegistered, location: 'settings',
+  }),
+);
+
+export const getPayDirectRegistrationLink = createSelector(
+  getPayDirectRegistrationUrl, getBusinessId, getSerialNumber, getIsTrial, getIsRegistered,
+  (url, businessId, serialNumber, isTrial, isRegistered) => buildOnlinePaymentLink({
+    url, businessId, serialNumber, isTrial, isRegistered, location: 'settings',
+  }),
+);
 
 export const getReminderLink = state => `${state.reminders.url}?consumer=ARL&origin=global&cfid=${state.businessId}`;
 
@@ -117,6 +133,7 @@ export const getOnlinePaymentOptions = createSelector(
   getIsPayDirectSettingsServiceAvailable,
   getIsRegistered,
   getPayDirectLink,
+  getPayDirectRegistrationLink,
   getTabData,
   getAccountOptions,
   getIsTrial,
@@ -125,6 +142,7 @@ export const getOnlinePaymentOptions = createSelector(
     isServiceAvailable,
     isRegistered,
     payDirectLink,
+    registrationLink,
     salesSettings,
     accountOptions,
     isTrial,
@@ -137,6 +155,7 @@ export const getOnlinePaymentOptions = createSelector(
       isServiceAvailable,
       isRegistered,
       payDirectLink,
+      registrationLink,
       accountId,
       accountOptions,
     };

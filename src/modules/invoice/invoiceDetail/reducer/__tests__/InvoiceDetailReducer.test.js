@@ -562,7 +562,7 @@ describe('InvoiceDetailReducer', () => {
         isLoading: false,
         isServiceAvailable: true,
         isRegistered: false,
-        baseUrl: 'baseUrl',
+        registrationUrl: 'registrationUrl',
       };
 
       const actual = invoiceDetailReducer({ ...state, payDirect }, action);

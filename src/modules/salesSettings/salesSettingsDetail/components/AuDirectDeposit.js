@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getAccountOptions, getIsRegistered, getPayDirectLink, getTabData,
-} from '../SalesSettingsDetailSelectors';
-import AccountNumberInput from '../../../../components/autoFormatter/BankDetailsInput/AccountNumberInput';
+import { getAccountOptions, getIsRegistered, getTabData } from '../SalesSettingsDetailSelectors';
+import AccountNumberInput
+  from '../../../../components/autoFormatter/BankDetailsInput/AccountNumberInput';
 import BSBInput from '../../../../components/autoFormatter/BankDetailsInput/BSBInput';
-import UpperCaseInputFormatter from '../../../../components/autoFormatter/UpperCaseInput/UpperCaseInputFormatter';
+import UpperCaseInputFormatter
+  from '../../../../components/autoFormatter/UpperCaseInput/UpperCaseInputFormatter';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
 const AuPaymentOptions = ({
@@ -62,7 +62,6 @@ const AuPaymentOptions = ({
 const mapStateToProps = state => ({
   salesSettings: getTabData(state),
   isRegistered: getIsRegistered(state),
-  payDirectLink: getPayDirectLink(state),
   accountOptions: getAccountOptions(state),
 });
 

@@ -1,20 +1,24 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 import {
-  getBusinessId, getIsAllowOnlinePayments, getIsTrial, getSerialNumber,
+  getBusinessId,
+  getIsAllowOnlinePayments,
+  getIsTrial,
+  getSerialNumber,
 } from './invoiceDetailSelectors';
+import buildOnlinePaymentLink from '../../../../common/links/buildOnlinePaymentLink';
 
 export const getPayDirect = state => state.payDirect;
 const getIsLoading = state => state.payDirect.isLoading;
 const getIsServiceAvailable = state => state.payDirect.isServiceAvailable;
-const getHasSetUpOnlinePayments = state => state.payDirect.isRegistered;
-const getSetUpOnlinePaymentsBaseUrl = state => state.payDirect.baseUrl;
+const getIsRegistered = state => state.payDirect.isRegistered;
+const getRegistrationUrl = state => state.payDirect.registrationUrl;
 
 const getSetUpOnlinePaymentsLink = createSelector(
-  getBusinessId,
-  getSerialNumber,
-  getSetUpOnlinePaymentsBaseUrl,
-  (businessId, serialNumber, baseUrl) => `${baseUrl}?cdf=${businessId}&sn=${serialNumber}`,
+  getRegistrationUrl, getBusinessId, getSerialNumber, getIsTrial, getIsRegistered,
+  (url, businessId, serialNumber, isTrial, isRegistered) => buildOnlinePaymentLink({
+    url, businessId, serialNumber, isTrial, isRegistered, location: 'invoice',
+  }),
 );
 
 // eslint-disable-next-line import/prefer-default-export
@@ -24,5 +28,5 @@ export const getPayDirectOptions = createStructuredSelector({
   isServiceAvailable: getIsServiceAvailable,
   isAllowOnlinePayments: getIsAllowOnlinePayments,
   setUpOnlinePaymentsLink: getSetUpOnlinePaymentsLink,
-  hasSetUpOnlinePayments: getHasSetUpOnlinePayments,
+  hasSetUpOnlinePayments: getIsRegistered,
 });
