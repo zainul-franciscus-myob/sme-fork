@@ -57,7 +57,8 @@ const DashboardView = ({
   const header = <DashboardHeader />;
 
   const leanEngageSurvey = shouldShowPayroll && isPayrollWidgetToggleOn ? <LeanEngageSurvey
-    surveyName="dashboard-survey"
+    surveyType="survey"
+    surveyName="micro-payroll-dashboard"
     productName="dashboard"
   /> : <DashboardLeanEngageCard />;
 

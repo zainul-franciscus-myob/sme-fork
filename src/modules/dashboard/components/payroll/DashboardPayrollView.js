@@ -25,7 +25,8 @@ const DashboardView = ({
   const header = <DashboardPayrollHeader />;
 
   const leanEngageSurvey = <LeanEngageSurvey
-    surveyName="dashboard-survey"
+    surveyType="survey"
+    surveyName="micro-payroll-dashboard"
     productName="dashboard"
   />;
 
