@@ -75,6 +75,16 @@ export default class BankingModule {
     }
   }
 
+  updateMatchTransactionOptions = ({ key, value }) => {
+    this.dispatcher.updateMatchTransactionOptions({ key, value });
+
+    if (key === 'keywords') {
+      debounce(this.sortOrFilterMatchTransaction)();
+    } else {
+      this.sortOrFilterMatchTransaction();
+    }
+  }
+
   render = () => {
     const {
       dismissAlert,
@@ -86,7 +96,6 @@ export default class BankingModule {
       updateSplitAllocationHeader,
       updateSplitAllocationLine,
       deleteSplitAllocationLine,
-      updateMatchTransactionOptions,
       updateMatchTransactionSelection,
       addMatchTransactionAdjustment,
       updateMatchTransactionAdjustment,
@@ -134,8 +143,7 @@ export default class BankingModule {
         onAddSplitAllocationLine={this.addSplitAllocationLine}
         onUpdateSplitAllocationLine={updateSplitAllocationLine}
         onDeleteSplitAllocationLine={deleteSplitAllocationLine}
-        onApplyMatchTransactionOptions={this.sortOrFilterMatchTransaction}
-        onUpdateMatchTransactionOptions={updateMatchTransactionOptions}
+        onUpdateMatchTransactionOptions={this.updateMatchTransactionOptions}
         onSortMatchTransactions={this.sortMatchTransaction}
         onUpdateMatchTransactionSelection={updateMatchTransactionSelection}
         onAddAdjustment={addMatchTransactionAdjustment}
@@ -440,6 +448,13 @@ export default class BankingModule {
     const line = getBankTransactionLineByIndex(state, index);
     const tabId = getOpenEntryDefaultTabId(line);
 
+    // @TODO this could crash because load attachments has a dependency on the line to be open
+    // But if load match transactions fails - it will close the line
+    // Specifically, `this.loadAttachments` has a dependency on
+    // `this.loadOpenEntryTab` because
+    // the `integrator.loadAttachments` tries to `getOpenPosition`, which
+    // will be set by `loadOpenEntryTab`.
+    // A solution is to pass the index to `loadAttachments`.
     this.loadOpenEntryTab(index, tabId);
     this.loadAttachments();
   }

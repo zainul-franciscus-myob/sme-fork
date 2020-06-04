@@ -15,7 +15,6 @@ import styles from './MatchTransactionBody.module.css';
 
 const MatchTransactionBody = ({
   onAddAccount,
-  onApplyMatchTransactionOptions,
   onUpdateMatchTransactionOptions,
   onSortMatchTransactions,
   onUpdateMatchTransactionSelection,
@@ -50,7 +49,6 @@ const MatchTransactionBody = ({
     <div className={styles.matchTransactionBody}>
       <FieldGroup label="Find and select existing matching transactions">
         <MatchTransactionOptions
-          onApplyMatchTransactionOptions={onApplyMatchTransactionOptions}
           onUpdateMatchTransactionOptions={onUpdateMatchTransactionOptions}
         />
         <MatchTransactionTable

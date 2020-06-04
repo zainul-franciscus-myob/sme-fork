@@ -1,14 +1,23 @@
 import {
   COLLAPSE_TRANSACTION_LINE,
+  LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
+  LOAD_MATCH_TRANSACTIONS,
+  LOAD_NEW_SPLIT_ALLOCATION,
   SET_ALERT,
+  SET_ATTACHMENTS_LOADING_STATE,
   SET_ERROR_STATE,
   SET_LOADING_STATE,
+  SET_MATCH_TRANSACTION_LOADING_STATE,
+  SET_OPEN_ENTRY_LOADING_STATE,
+  SET_OPEN_ENTRY_POSITION,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
+  SORT_AND_FILTER_MATCH_TRANSACTIONS,
   START_LOADING_MORE,
   STOP_LOADING_MORE,
+  UPDATE_MATCH_TRANSACTION_OPTIONS,
 } from '../BankingIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
 import BankingModule from '../BankingModule';
@@ -51,6 +60,18 @@ describe('BankingModule', () => {
     const { module, store, integration } = toolbox;
 
     module.run({});
+    store.resetActions();
+    integration.resetRequests();
+
+    return toolbox;
+  };
+
+  const setUpWithOpenTransactionOnAllocateTab = () => {
+    const toolbox = setUpWithRun();
+    const { module, store, integration } = toolbox;
+
+    module.toggleLine(0);
+
     store.resetActions();
     integration.resetRequests();
 
@@ -336,6 +357,262 @@ describe('BankingModule', () => {
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: SORT_AND_FILTER_BANK_TRANSACTIONS,
+        }),
+      ]);
+    });
+  });
+
+  describe('toggleLine', () => {
+    it('close expanded line', () => {
+      const { module, integration, store } = setUpWithOpenTransactionOnAllocateTab();
+      module.toggleLine(0);
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: COLLAPSE_TRANSACTION_LINE,
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([]);
+    });
+
+    describe('when open with allocation tab', () => {
+      it('it success', () => {
+        const { module, integration, store } = setUpWithRun();
+        module.toggleLine(0);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: LOAD_NEW_SPLIT_ALLOCATION,
+            index: 0,
+          },
+          {
+            intent: SET_ATTACHMENTS_LOADING_STATE,
+            isAttachmentsLoading: true,
+          },
+          {
+            intent: SET_ATTACHMENTS_LOADING_STATE,
+            isAttachmentsLoading: false,
+          },
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+          }),
+        ]);
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+          }),
+        ]);
+      });
+
+      it('it fails', () => {
+        const { module, integration, store } = setUpWithRun();
+        integration.mapFailure(LOAD_ATTACHMENTS);
+        module.toggleLine(0);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: LOAD_NEW_SPLIT_ALLOCATION,
+            index: 0,
+          },
+          {
+            intent: SET_ATTACHMENTS_LOADING_STATE,
+            isAttachmentsLoading: true,
+          },
+          {
+            intent: SET_ATTACHMENTS_LOADING_STATE,
+            isAttachmentsLoading: false,
+          },
+          {
+            intent: SET_ALERT,
+            alert: {
+              message: 'fails',
+              type: 'danger',
+            },
+          },
+        ]);
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+          }),
+        ]);
+      });
+    });
+
+    describe('when open with match tab', () => {
+      it('succeeds', () => {
+        const { module, integration, store } = setUpWithRun();
+
+        module.toggleLine(2);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_OPEN_ENTRY_LOADING_STATE,
+            isLoading: true,
+          },
+          {
+            intent: SET_OPEN_ENTRY_POSITION,
+            index: 2,
+          },
+          {
+            intent: SET_OPEN_ENTRY_LOADING_STATE,
+            isLoading: false,
+          },
+          expect.objectContaining({
+            intent: LOAD_MATCH_TRANSACTIONS,
+          }),
+          {
+            intent: SET_ATTACHMENTS_LOADING_STATE,
+            isAttachmentsLoading: true,
+          },
+          {
+            intent: SET_ATTACHMENTS_LOADING_STATE,
+            isAttachmentsLoading: false,
+          },
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+          }),
+        ]);
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_MATCH_TRANSACTIONS,
+          }),
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+          }),
+        ]);
+      });
+
+      it('fails to load attachments', () => {
+        const { module, integration, store } = setUpWithRun();
+        integration.mapFailure(LOAD_ATTACHMENTS);
+
+        module.toggleLine(2);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_OPEN_ENTRY_LOADING_STATE,
+            isLoading: true,
+          },
+          {
+            intent: SET_OPEN_ENTRY_POSITION,
+            index: 2,
+          },
+          {
+            intent: SET_OPEN_ENTRY_LOADING_STATE,
+            isLoading: false,
+          },
+          expect.objectContaining({
+            intent: LOAD_MATCH_TRANSACTIONS,
+          }),
+          {
+            intent: SET_ATTACHMENTS_LOADING_STATE,
+            isAttachmentsLoading: true,
+          },
+          {
+            intent: SET_ATTACHMENTS_LOADING_STATE,
+            isAttachmentsLoading: false,
+          },
+          {
+            intent: SET_ALERT,
+            alert: {
+              message: 'fails',
+              type: 'danger',
+            },
+          },
+        ]);
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_MATCH_TRANSACTIONS,
+          }),
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+          }),
+        ]);
+      });
+
+      it('fails to load match transactions', () => {
+        // @TODO untestable because `module.loadOpenEntryTab`
+        // and `module.loadAttachments` occur in parallel
+        // since tests run in sync, failing to `loadOpenEntryTab`
+        // closes the line before `loadAttachment` can execut
+      });
+    });
+  });
+
+  describe('updateMatchTransactionOptions', () => {
+    it('successfully sorts and filters', () => {
+      const { module, integration, store } = setUpWithOpenTransactionOnAllocateTab();
+
+      module.updateMatchTransactionOptions({ key: 'contactId', value: '🙅‍♀️' });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: UPDATE_MATCH_TRANSACTION_OPTIONS,
+          key: 'contactId',
+          value: '🙅‍♀️',
+        },
+        {
+          intent: SET_MATCH_TRANSACTION_LOADING_STATE,
+          isLoading: true,
+        },
+        {
+          intent: SET_MATCH_TRANSACTION_LOADING_STATE,
+          isLoading: false,
+        },
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_MATCH_TRANSACTIONS,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_MATCH_TRANSACTIONS,
+          params: expect.objectContaining({
+            contactId: '🙅‍♀️',
+          }),
+        }),
+      ]);
+    });
+
+    it('fails to sorts and filters', () => {
+      const { module, integration, store } = setUpWithOpenTransactionOnAllocateTab();
+      integration.mapFailure(SORT_AND_FILTER_MATCH_TRANSACTIONS);
+
+      module.updateMatchTransactionOptions({ key: 'contactId', value: '🙅‍♀️' });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: UPDATE_MATCH_TRANSACTION_OPTIONS,
+          key: 'contactId',
+          value: '🙅‍♀️',
+        },
+        {
+          intent: SET_MATCH_TRANSACTION_LOADING_STATE,
+          isLoading: true,
+        },
+        {
+          intent: SET_MATCH_TRANSACTION_LOADING_STATE,
+          isLoading: false,
+        },
+        {
+          intent: SET_ALERT,
+          alert: {
+            message: 'fails',
+            type: 'danger',
+          },
+        },
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_MATCH_TRANSACTIONS,
+          params: expect.objectContaining({
+            contactId: '🙅‍♀️',
+          }),
         }),
       ]);
     });

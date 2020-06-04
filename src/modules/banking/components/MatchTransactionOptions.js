@@ -1,6 +1,8 @@
 import {
   Checkbox,
   CheckboxGroup,
+  Icons,
+  Popover,
   Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
@@ -21,13 +23,7 @@ import handleCheckboxChange from '../../../components/handlers/handleCheckboxCha
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import handleSelectChange from '../../../components/handlers/handleSelectChange';
-import styles from './BankingView.module.css';
-
-const showTypes = [
-  { label: 'Close matches', value: 'closeMatches' },
-  { label: 'All transactions', value: 'all' },
-  { label: 'Selected transactions', value: 'selected' },
-];
+import styles from './MatchTransactionOptions.module.css';
 
 const MatchTransactionOptions = (props) => {
   const {
@@ -38,27 +34,45 @@ const MatchTransactionOptions = (props) => {
       keywords,
       includeClosed,
     },
-    onApplyMatchTransactionOptions,
     onUpdateMatchTransactionOptions,
     showAllFilters,
     includedClosedTransactionLabel,
     showIncludeClosedCheckbox,
   } = props;
 
+  const Body = () => (
+    <div className={styles.typeInfoPopover}>
+      <p><strong>
+       Close matches
+      </strong> +/- 180 days from the bank transaction date and +/- $0.10.</p>
+      <p><strong>
+       All transactions
+      </strong> +/- 365 days from the bank transaction date.</p>
+      <p><strong>
+       Selected Transactions
+      </strong> Review selected MYOB transactions.</p>
+    </div>
+  );
+
+  const typeInfoPopOver = (<Popover
+    body={<Popover.Body child={<Body />} />}
+    closeOnOuterAction
+  ><Icons.Info /></Popover>);
+
   return (
     <div className={styles.filterOptions}>
-      <FilterBar onApply={onApplyMatchTransactionOptions}>
+      <FilterBar>
         <Select
           label="Show"
           name="showType"
           value={showType}
+          labelAccessory={typeInfoPopOver}
           onChange={handleSelectChange(onUpdateMatchTransactionOptions)}
         >
-          {
-            showTypes.map(({ label, value }) => (
-              <Select.Option key={value} value={value} label={label} />
-            ))
-          }
+          <Select.Option value="closeMatches" label="Close matches" />
+          <Select.Option value="all" label="All transactions" />
+          <Select.Option value="seperator" label="───────────" disabled />
+          <Select.Option value="selected" label="Selected transactions" />
         </Select>
         {
           showAllFilters && (

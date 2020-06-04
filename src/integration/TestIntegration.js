@@ -10,28 +10,36 @@ class TestIntegration {
     intent, urlParams, params, onSuccess, onFailure,
   }) => {
     this.requests.push({ intent, urlParams, params });
-    this.mapping[intent]({ intent, onSuccess, onFailure });
+    this.mapping[intent]({
+      intent, urlParams, params, onSuccess, onFailure,
+    });
   }
 
   readFile = ({
     intent, urlParams, params, onSuccess, onFailure,
   }) => {
     this.requests.push({ intent, urlParams, params });
-    this.mapping[intent]({ intent, onSuccess, onFailure });
+    this.mapping[intent]({
+      intent, urlParams, params, onSuccess, onFailure,
+    });
   }
 
   write = ({
     intent, urlParams, params, onSuccess, onFailure,
   }) => {
     this.requests.push({ intent, urlParams, params });
-    this.mapping[intent]({ intent, onSuccess, onFailure });
+    this.mapping[intent]({
+      intent, urlParams, params, onSuccess, onFailure,
+    });
   }
 
   writeFormData = ({
     intent, urlParams, params, onSuccess, onFailure,
   }) => {
     this.requests.push({ intent, urlParams, params });
-    this.mapping[intent]({ intent, onSuccess, onFailure });
+    this.mapping[intent]({
+      intent, urlParams, params, onSuccess, onFailure,
+    });
   }
 
   resetRequests = () => { this.requests = []; }
