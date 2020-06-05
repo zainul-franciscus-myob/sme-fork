@@ -1,8 +1,8 @@
 import { Decimal } from 'decimal.js';
 
-import calculateTotals from '../calculateTotals';
+import calculateLineTotals from '../calculateLineTotals';
 
-describe('calculateTotals', () => {
+describe('calculateLineTotals', () => {
   it('should calculate right totals when tax inclusive', () => {
     const lines = [
       {
@@ -17,7 +17,7 @@ describe('calculateTotals', () => {
       },
     ];
 
-    expect(calculateTotals({ isTaxInclusive: true, lines })).toEqual({
+    expect(calculateLineTotals({ isTaxInclusive: true, lines })).toEqual({
       totalTax: Decimal(15),
       totalAmount: Decimal(165),
       subTotal: Decimal(165),
@@ -38,7 +38,7 @@ describe('calculateTotals', () => {
       },
     ];
 
-    expect(calculateTotals({ isTaxInclusive: false, lines })).toEqual({
+    expect(calculateLineTotals({ isTaxInclusive: false, lines })).toEqual({
       totalTax: Decimal(15),
       totalAmount: Decimal(165),
       subTotal: Decimal(150),

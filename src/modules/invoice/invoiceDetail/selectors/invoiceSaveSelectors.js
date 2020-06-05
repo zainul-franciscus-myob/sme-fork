@@ -16,7 +16,7 @@ const getIsCreatingNegativeAmountDue = createSelector(
   (isCreating, amountDue) => isCreating && Number(amountDue) < 0,
 );
 
-const getOriginalAmountDue = state => state.totals.originalAmountDue;
+const getOriginalAmountDue = state => state.originalAmountDue;
 const getIsOpenInvoice = state => state.invoice.status === InvoiceStatus.OPEN;
 const getIsEditingOpenInvoiceToNegativeAmountDue = createSelector(
   getIsOpenInvoice,

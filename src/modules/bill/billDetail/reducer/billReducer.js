@@ -69,13 +69,13 @@ import BillLineType from '../types/BillLineType';
 import BillStatus from '../types/BillStatus';
 import LineTaxTypes from '../types/LineTaxTypes';
 import LoadingState from '../../../../components/PageView/LoadingState';
-import calculateTotals from '../../../../common/taxCalculator/calculateTotals';
+import calculateLineTotals from '../../../../common/taxCalculator/calculateLineTotals';
 import createReducer from '../../../../store/createReducer';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const setTotalsOnLoad = ({ isTaxInclusive, lines, amountPaid }) => {
   const calculableLines = lines.filter(line => getIsCalculableLine(line));
-  const totals = calculateTotals({ isTaxInclusive, lines: calculableLines });
+  const totals = calculateLineTotals({ isTaxInclusive, lines: calculableLines });
   const amountDue = calculateAmountDue(totals.totalAmount, amountPaid);
 
   return {

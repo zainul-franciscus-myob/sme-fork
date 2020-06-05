@@ -1,8 +1,8 @@
 import {
   ADD_EMAIL_ATTACHMENTS,
   ADD_INVOICE_LINE,
+  CALCULATE_LINES,
   CALCULATE_LINE_AMOUNTS,
-  CALCULATE_LINE_TOTALS,
   CONVERT_TO_PRE_CONVERSION_INVOICE,
   LOAD_ABN_FROM_CUSTOMER,
   LOAD_ACCOUNT_AFTER_CREATE,
@@ -19,7 +19,6 @@ import {
   REMOVE_INVOICE_LINE,
   RESET_CUSTOMER,
   RESET_EMAIL_INVOICE_DETAIL,
-  RESET_TOTALS,
   SAVE_EMAIL_SETTINGS,
   SET_ABN_LOADING_STATE,
   SET_ALERT,
@@ -164,12 +163,9 @@ const createInvoiceDetailDispatcher = store => ({
     });
   },
 
-  calculateLineTotals: (taxCalculations, isSwitchingTaxInclusive = false) => store.dispatch({
-    intent: CALCULATE_LINE_TOTALS, taxCalculations, isSwitchingTaxInclusive,
+  calculateLines: (taxCalculations, isSwitchingTaxInclusive = false) => store.dispatch({
+    intent: CALCULATE_LINES, taxCalculations, isSwitchingTaxInclusive,
   }),
-
-  resetInvoiceItemTotals: () => store.dispatch({ intent: RESET_TOTALS }),
-
 
   saveEmailSettings: () => store.dispatch({
     intent: SAVE_EMAIL_SETTINGS,

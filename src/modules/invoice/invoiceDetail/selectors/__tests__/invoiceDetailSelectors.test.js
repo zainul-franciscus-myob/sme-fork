@@ -10,6 +10,7 @@ import {
   getIsReadOnly,
   getReadOnlyMessage,
   getTemplateOptions,
+  getTotals,
   getUpdatedCustomerOptions,
 } from '../invoiceDetailSelectors';
 import InvoiceLayout from '../../types/InvoiceLayout';
@@ -34,6 +35,8 @@ describe('invoiceDetailSelectors', () => {
       issueDate: '2018-11-02',
       purchaseOrderNumber: '123',
       note: 'Thank you!',
+      taxExclusiveFreightAmount: '9.09',
+      freightTaxAmount: '0.91',
       lines: [
         {
           id: '345',
@@ -187,6 +190,43 @@ describe('invoiceDetailSelectors', () => {
       const actual = getInvoiceDetailOptions(state);
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getTotals', () => {
+    it('calculate totals with just freight amount when no lines', () => {
+      const actual = getTotals({
+        ...state,
+        invoice: {
+          ...state.invoice,
+          lines: [],
+        },
+      });
+
+      expect(actual).toEqual({
+        subTotal: '0',
+        totalTax: '0.91',
+        totalAmount: '10',
+      });
+    });
+
+    it('calculate totals with both freight amount and lines amount', () => {
+      const actual = getTotals({
+        ...state,
+        invoice: {
+          ...state.invoice,
+          lines: [
+            { type: InvoiceLineType.SERVICE, taxExclusiveAmount: '9.99', taxAmount: '0.01' },
+            { type: InvoiceLineType.SUB_TOTAL, taxExclusiveAmount: '99', taxAmount: '1' },
+          ],
+        },
+      });
+
+      expect(actual).toEqual({
+        subTotal: '10',
+        totalTax: '0.92',
+        totalAmount: '20',
+      });
     });
   });
 

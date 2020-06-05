@@ -9,7 +9,7 @@ const calculateTotalAmount = lines => lines.reduce(
   Decimal(0),
 );
 
-const calculateTotals = ({ isTaxInclusive, lines }) => {
+const calculateLineTotals = ({ isTaxInclusive, lines }) => {
   const totalTax = calculateTotalTax(lines);
   const totalAmount = calculateTotalAmount(lines);
   const subTotal = isTaxInclusive ? totalAmount : totalAmount.minus(totalTax);
@@ -20,4 +20,4 @@ const calculateTotals = ({ isTaxInclusive, lines }) => {
   };
 };
 
-export default calculateTotals;
+export default calculateLineTotals;

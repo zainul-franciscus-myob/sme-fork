@@ -7,16 +7,16 @@ import {
 } from '@myob/tax-calculator';
 
 import calculateCreditDebitTotals from './calculateCreditDebitTotals';
-import calculateTotals from './calculateTotals';
+import calculateLineTotals from './calculateLineTotals';
 
 const TaxCalculatorHandlers = {
-  invoice: { flow: new InvoiceFlow(), buildTotals: calculateTotals },
-  order: { flow: new OrderFlow(), buildTotals: calculateTotals },
+  invoice: { flow: new InvoiceFlow(), buildTotals: calculateLineTotals },
+  order: { flow: new OrderFlow(), buildTotals: calculateLineTotals },
   receiveMoney: {
     flow: new SalesFlow(),
-    buildTotals: calculateTotals,
+    buildTotals: calculateLineTotals,
   },
-  spendMoney: { flow: new PurchasesFlow(), buildTotals: calculateTotals },
+  spendMoney: { flow: new PurchasesFlow(), buildTotals: calculateLineTotals },
   generalJournalPurchases: {
     flow: new PurchasesFlow(),
     buildTotals: calculateCreditDebitTotals,
@@ -25,8 +25,8 @@ const TaxCalculatorHandlers = {
     flow: new SalesFlow(),
     buildTotals: calculateCreditDebitTotals,
   },
-  bill: { flow: new PurchasesFlow(), buildTotals: calculateTotals },
-  quote: { flow: new QuoteFlow(), buildTotals: calculateTotals },
+  bill: { flow: new PurchasesFlow(), buildTotals: calculateLineTotals },
+  quote: { flow: new QuoteFlow(), buildTotals: calculateLineTotals },
 };
 
 export default TaxCalculatorHandlers;

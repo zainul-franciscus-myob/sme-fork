@@ -1,7 +1,7 @@
 import Decimal from 'decimal.js';
 
-import { CALCULATE_LINE_AMOUNTS, CALCULATE_LINE_TOTALS } from '../../../InvoiceIntents';
-import { calculateLineAmounts, calculateLineTotals } from '../calculationReducer';
+import { CALCULATE_LINES, CALCULATE_LINE_AMOUNTS } from '../../../InvoiceIntents';
+import { calculateLineAmounts, calculateLines } from '../calculationReducer';
 import InvoiceLineType from '../../types/InvoiceLineType';
 
 describe('calculationReducer', () => {
@@ -12,8 +12,10 @@ describe('calculationReducer', () => {
       unitPrice: '45.455',
       discount: '',
       displayDiscount: '',
-      amount: '0',
+      amount: '100',
       displayAmount: '0.00',
+      taxExclusiveAmount: '90.91',
+      taxAmount: '9.09',
     };
 
     const buildState = partialLine => ({
@@ -24,26 +26,16 @@ describe('calculationReducer', () => {
           { type: InvoiceLineType.SUB_TOTAL, lineTypeId: -1, amount: '100.00' },
         ],
       },
-      totals: {
-        subTotal: '0',
-        totalTax: '0',
-        totalAmount: '0',
-      },
     });
 
     const action = {
-      intent: CALCULATE_LINE_TOTALS,
+      intent: CALCULATE_LINES,
       taxCalculations: {
         lines: [
           { taxExclusiveAmount: 0, taxAmount: 0, amount: 0 },
           { taxExclusiveAmount: Decimal(90.91), taxAmount: Decimal(9.09), amount: Decimal(100) },
           { taxExclusiveAmount: 100, taxAmount: 0, amount: 100 },
         ],
-        totals: {
-          subTotal: Decimal(100),
-          totalTax: Decimal(9.09),
-          totalAmount: Decimal(100),
-        },
       },
       isSwitchingTaxInclusive: true,
     };
@@ -57,17 +49,12 @@ describe('calculationReducer', () => {
         ],
       },
       isPageEdited: true,
-      totals: {
-        subTotal: '100',
-        totalTax: '9.09',
-        totalAmount: '100',
-      },
     });
 
-    it('should calculate unitPrice and update amount and totals', () => {
+    it('should calculate unitPrice and update amount', () => {
       const state = buildState();
 
-      const actual = calculateLineTotals(state, action);
+      const actual = calculateLines(state, action);
 
       const expected = buildExpect({
         amount: '100',
@@ -80,7 +67,7 @@ describe('calculationReducer', () => {
     it('should not update unitPrice or amount when not switching tax inclusive toggle', () => {
       const state = buildState();
 
-      const actual = calculateLineTotals(state, {
+      const actual = calculateLines(state, {
         ...action,
         isSwitchingTaxInclusive: false,
       });
@@ -99,7 +86,7 @@ describe('calculationReducer', () => {
         const partialLine = { [key]: value };
         const state = buildState(partialLine);
 
-        const actual = calculateLineTotals(state, action);
+        const actual = calculateLines(state, action);
 
         const expected = buildExpect({
           ...partialLine,

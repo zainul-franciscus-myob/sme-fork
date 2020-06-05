@@ -1,4 +1,5 @@
 import { getSaveAmountDueWarningModalBody, shouldShowSaveAmountDueWarningModal } from '../invoiceSaveSelectors';
+import InvoiceLineType from '../../types/InvoiceLineType';
 
 describe('InvoiceSaveSelectors', () => {
   describe('shouldShowSaveAmountDueWarningModal', () => {
@@ -7,11 +8,13 @@ describe('InvoiceSaveSelectors', () => {
         invoice: {
           status: 'Closed',
           amountPaid: '10',
+          lines: [
+            { type: InvoiceLineType.SERVICE, taxExclusiveAmount: '9', taxAmount: '1' },
+          ],
+          taxExclusiveFreightAmount: '0',
+          freightTaxAmount: '0',
         },
-        totals: {
-          totalAmount: '20',
-          originalAmountDue: '10',
-        },
+        originalAmountDue: '10',
         isPageEdited: true,
       };
 
@@ -24,11 +27,13 @@ describe('InvoiceSaveSelectors', () => {
         invoice: {
           status: 'Open',
           amountPaid: '10',
+          lines: [
+            { type: InvoiceLineType.SERVICE, taxExclusiveAmount: '4', taxAmount: '1' },
+          ],
+          taxExclusiveFreightAmount: '0',
+          freightTaxAmount: '0',
         },
-        totals: {
-          totalAmount: '5',
-          originalAmountDue: '10',
-        },
+        originalAmountDue: '10',
         isPageEdited: true,
       };
 
@@ -42,11 +47,13 @@ describe('InvoiceSaveSelectors', () => {
         invoice: {
           status: 'Open',
           amountPaid: '10',
+          lines: [
+            { type: InvoiceLineType.SERVICE, taxExclusiveAmount: '4', taxAmount: '1' },
+          ],
+          taxExclusiveFreightAmount: '0',
+          freightTaxAmount: '0',
         },
-        totals: {
-          totalAmount: '5',
-          originalAmountDue: '0',
-        },
+        originalAmountDue: '0',
         isPageEdited: true,
       };
 
@@ -62,11 +69,13 @@ describe('InvoiceSaveSelectors', () => {
           invoice: {
             status: 'Closed',
             amountPaid: '10',
+            lines: [
+              { type: InvoiceLineType.SERVICE, taxExclusiveAmount: '9', taxAmount: '1' },
+            ],
+            taxExclusiveFreightAmount: '0',
+            freightTaxAmount: '0',
           },
-          totals: {
-            totalAmount: '10',
-            originalAmountDue: '0',
-          },
+          originalAmountDue: '0',
           isPageEdited: true,
         };
 
@@ -81,11 +90,13 @@ describe('InvoiceSaveSelectors', () => {
           invoice: {
             status: 'Closed',
             amountPaid: '10',
+            lines: [
+              { type: InvoiceLineType.SERVICE, taxExclusiveAmount: '14', taxAmount: '1' },
+            ],
+            taxExclusiveFreightAmount: '0',
+            freightTaxAmount: '0',
           },
-          totals: {
-            totalAmount: '15',
-            originalAmountDue: '0',
-          },
+          originalAmountDue: '0',
           isPageEdited: true,
         };
 
@@ -100,11 +111,13 @@ describe('InvoiceSaveSelectors', () => {
           invoice: {
             status: 'Closed',
             amountPaid: '10',
+            lines: [
+              { type: InvoiceLineType.SERVICE, taxExclusiveAmount: '4', taxAmount: '1' },
+            ],
+            taxExclusiveFreightAmount: '0',
+            freightTaxAmount: '0',
           },
-          totals: {
-            totalAmount: '5',
-            originalAmountDue: '0',
-          },
+          originalAmountDue: '0',
           isPageEdited: true,
         };
 
@@ -122,11 +135,13 @@ describe('InvoiceSaveSelectors', () => {
           invoice: {
             status: 'Open',
             amountPaid: '10',
+            lines: [
+              { type: InvoiceLineType.SERVICE, taxExclusiveAmount: '4', taxAmount: '1' },
+            ],
+            taxExclusiveFreightAmount: '0',
+            freightTaxAmount: '0',
           },
-          totals: {
-            totalAmount: '5',
-            originalAmountDue: '10',
-          },
+          originalAmountDue: '10',
           isPageEdited: true,
         };
 
@@ -144,11 +159,13 @@ describe('InvoiceSaveSelectors', () => {
           invoice: {
             status: 'Open',
             amountPaid: '10',
+            lines: [
+              { type: InvoiceLineType.SERVICE, taxExclusiveAmount: '4', taxAmount: '1' },
+            ],
+            taxExclusiveFreightAmount: '0',
+            freightTaxAmount: '0',
           },
-          totals: {
-            totalAmount: '5',
-            originalAmountDue: '0',
-          },
+          originalAmountDue: '0',
           isPageEdited: true,
         };
 

@@ -434,7 +434,7 @@ export default class InvoiceDetailModule {
       if (!isLineAmountDirty) {
         this.dispatcher.updateHeaderOptions(key, value);
 
-        this.calculateLineTotalsOnTaxInclusiveChange();
+        this.calculateLinesOnTaxInclusiveChange();
       }
     } else {
       this.dispatcher.updateHeaderOptions(key, value);
@@ -455,7 +455,7 @@ export default class InvoiceDetailModule {
 
     if (!isLineAmountDirty) {
       this.dispatcher.updateInvoiceLayout(layout);
-      this.calculateLineTotals();
+      this.calculateLines();
     }
   }
 
@@ -464,7 +464,7 @@ export default class InvoiceDetailModule {
 
     if (!getIsSubmitting(state)) {
       this.dispatcher.removeInvoiceLine(index);
-      this.calculateLineTotals();
+      this.calculateLines();
     }
   };
 
@@ -476,34 +476,32 @@ export default class InvoiceDetailModule {
     }
 
     if (key === 'itemId') {
-      this.calculateLineTotalsOnItemChange({
+      this.calculateLinesOnItemChange({
         index,
         itemId: value,
       });
     }
 
     if (['accountId', 'taxCodeId'].includes(key)) {
-      this.calculateLineTotals();
+      this.calculateLines();
     }
   }
 
-  calculateLineTotals = () => {
+  calculateLines = () => {
     const state = this.store.getState();
 
     const isTableEmpty = getIsTableEmpty(state);
 
-    if (isTableEmpty) {
-      this.dispatcher.resetInvoiceItemTotals();
-    } else {
+    if (!isTableEmpty) {
       const taxCalculations = getTaxCalculations(state, false);
-      this.dispatcher.calculateLineTotals(taxCalculations);
+      this.dispatcher.calculateLines(taxCalculations);
     }
   }
 
-  calculateLineTotalsOnTaxInclusiveChange = () => {
+  calculateLinesOnTaxInclusiveChange = () => {
     const state = this.store.getState();
     const taxCalculations = getTaxCalculations(state, true);
-    this.dispatcher.calculateLineTotals(taxCalculations, true);
+    this.dispatcher.calculateLines(taxCalculations, true);
   }
 
   /*
@@ -511,18 +509,18 @@ export default class InvoiceDetailModule {
    *  1. price calculation - update at most one extra field when formula prerequisite met
    *  2. tax calculation - update total
    */
-  calculateLineTotalsOnAmountChange = ({ index, key }) => {
+  calculateLinesOnAmountChange = ({ index, key }) => {
     const isLineAmountDirty = getIsLineAmountDirty(this.store.getState());
     if (isLineAmountDirty) {
       this.dispatcher.calculateLineAmounts({ index, key });
 
       const taxCalculations = getTaxCalculations(this.store.getState(), false);
-      this.dispatcher.calculateLineTotals(taxCalculations);
+      this.dispatcher.calculateLines(taxCalculations);
       this.dispatcher.setInvoiceItemLineDirty(false);
     }
   }
 
-  calculateLineTotalsOnItemChange = ({ index, itemId }) => {
+  calculateLinesOnItemChange = ({ index, itemId }) => {
     this.dispatcher.setSubmittingState(true);
 
     const onSuccess = (response) => {
@@ -532,7 +530,7 @@ export default class InvoiceDetailModule {
       });
       const state = this.store.getState();
       const taxCalculations = getTaxCalculations(state, false);
-      this.dispatcher.calculateLineTotals(taxCalculations);
+      this.dispatcher.calculateLines(taxCalculations);
       this.dispatcher.setSubmittingState(false);
     };
 
@@ -1076,7 +1074,7 @@ export default class InvoiceDetailModule {
           onRemoveRow: this.removeInvoiceLine,
           onAddJob: this.openJobModal,
           onUpdateRow: this.updateInvoiceLine,
-          onUpdateAmount: this.calculateLineTotalsOnAmountChange,
+          onUpdateAmount: this.calculateLinesOnAmountChange,
           onAddAccount: this.openAccountModal,
           onLoadAccounts: this.loadAccounts,
         }}
@@ -1084,7 +1082,7 @@ export default class InvoiceDetailModule {
           onAddRow: this.addInvoiceLine,
           onRemoveRow: this.removeInvoiceLine,
           onUpdateRow: this.updateInvoiceLine,
-          onUpdateAmount: this.calculateLineTotalsOnAmountChange,
+          onUpdateAmount: this.calculateLinesOnAmountChange,
           onAddItemButtonClick: this.openInventoryModalModule,
           onAddAccount: this.openAccountModal,
           onAddJob: this.openJobModal,

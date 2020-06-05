@@ -45,8 +45,7 @@ export const UPDATE_INVOICE_LINE = Symbol('Update invoice line');
 export const LOAD_ACCOUNT_AFTER_CREATE = Symbol('Load account after create');
 
 export const SET_INVOICE_ITEM_LINE_DIRTY = Symbol('Set invoice item line amount dirty');
-export const RESET_TOTALS = Symbol('Reset totals');
-export const CALCULATE_LINE_TOTALS = Symbol('Calculate line totals');
+export const CALCULATE_LINES = Symbol('Calculate lines');
 export const CALCULATE_LINE_AMOUNTS = Symbol('Calculate line amounts');
 
 export const SEND_EMAIL = Symbol('Send email');

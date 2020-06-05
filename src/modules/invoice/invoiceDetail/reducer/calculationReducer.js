@@ -1,12 +1,7 @@
-import { getLayout, getLines } from '../selectors/invoiceDetailSelectors';
+import { getIsCalculableLine, getLayout, getLines } from '../selectors/invoiceDetailSelectors';
 import InvoiceLayout from '../types/InvoiceLayout';
-import InvoiceLineType from '../types/InvoiceLineType';
 import buildLineWithCalculatedAmounts from '../../../../common/itemAndServiceLayout/buildLineWithCalculatedAmounts';
 import calculateUnitPrice from '../../../../common/itemAndServiceLayout/calculateUnitPrice';
-
-export const getIsCalculableLine = line => [
-  InvoiceLineType.SERVICE, InvoiceLineType.ITEM,
-].includes(line.type);
 
 export const calculateLineAmounts = (state, { key, index }) => {
   const lines = getLines(state);
@@ -35,10 +30,10 @@ const shouldCalculateUnitPriceWithTaxInclusiveSwitch = (line, isSwitchingTaxIncl
   && Number(line.discount) !== 100
 );
 
-export const calculateLineTotals = (
+export const calculateLines = (
   state,
   {
-    taxCalculations: { lines: calculatedLines, totals: calculatedTotals },
+    taxCalculations: { lines: calculatedLines },
     isSwitchingTaxInclusive,
   },
 ) => ({
@@ -51,7 +46,14 @@ export const calculateLineTotals = (
         return line;
       }
 
-      const { amount } = calculatedLines[index];
+      const { amount, taxExclusiveAmount, taxAmount } = calculatedLines[index];
+
+      const updatedLine = {
+        ...line,
+        amount: amount.valueOf(),
+        taxExclusiveAmount: taxExclusiveAmount.valueOf(),
+        taxAmount: taxAmount.valueOf(),
+      };
 
       if (shouldCalculateUnitPriceWithTaxInclusiveSwitch(line, isSwitchingTaxInclusive)) {
         const units = Number(line.units);
@@ -59,26 +61,12 @@ export const calculateLineTotals = (
         const calculatedUnitPrice = calculateUnitPrice(units, amount, discount);
 
         return {
-          ...line,
-          amount: amount.valueOf(),
+          ...updatedLine,
           unitPrice: calculatedUnitPrice,
         };
       }
 
-      if (isSwitchingTaxInclusive) {
-        return {
-          ...line,
-          amount: amount.valueOf(),
-        };
-      }
-
-      return line;
+      return updatedLine;
     }),
-  },
-  totals: {
-    ...state.totals,
-    subTotal: calculatedTotals.subTotal.valueOf(),
-    totalTax: calculatedTotals.totalTax.valueOf(),
-    totalAmount: calculatedTotals.totalAmount.valueOf(),
   },
 });

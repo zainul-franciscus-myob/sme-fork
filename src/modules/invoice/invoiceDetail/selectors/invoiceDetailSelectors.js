@@ -7,6 +7,7 @@ import InvoiceLayout from '../types/InvoiceLayout';
 import InvoiceLineType from '../types/InvoiceLineType';
 import Region from '../../../../common/types/Region';
 import buildAbnLink from '../../../../common/links/buildAbnLink';
+import calculateLineTotals from '../../../../common/taxCalculator/calculateLineTotals';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 
 const calculate = createTaxCalculator(TaxCalculatorTypes.invoice);
@@ -43,9 +44,7 @@ export const getAmountPaid = state => state.invoice.amountPaid;
 export const getLines = state => state.invoice.lines;
 export const getLength = state => state.invoice.lines.length;
 export const getIsInvoiceJobColumnEnabled = state => state.isInvoiceJobColumnEnabled;
-
 export const getNewLine = state => state.newLine;
-export const getTotals = state => state.totals;
 
 export const getCustomerOptions = state => state.customerOptions;
 export const getExpirationTermOptions = state => state.expirationTermOptions;
@@ -74,6 +73,35 @@ export const getFreightInfo = ({
   freightTaxCodeId,
   isTaxInclusive,
 });
+
+export const getIsCalculableLine = line => [
+  InvoiceLineType.SERVICE, InvoiceLineType.ITEM,
+].includes(line.type);
+
+export const calculateTotals = ({
+  lines, isTaxInclusive, taxExclusiveFreightAmount, freightTaxAmount,
+}) => {
+  const calculableLines = lines.filter(line => getIsCalculableLine(line));
+  const lineTotals = calculateLineTotals({ isTaxInclusive, lines: calculableLines });
+
+  return {
+    totalTax: lineTotals.totalTax.plus(freightTaxAmount).valueOf(),
+    totalAmount:
+      lineTotals.totalAmount.plus(taxExclusiveFreightAmount).plus(freightTaxAmount).valueOf(),
+    subTotal: lineTotals.subTotal.valueOf(),
+  };
+};
+
+export const getTotals = createSelector(
+  getLines,
+  getIsTaxInclusive,
+  getFreightInfo,
+  (lines, isTaxInclusive, { taxExclusiveFreightAmount, freightTaxAmount }) => (
+    calculateTotals({
+      lines, isTaxInclusive, taxExclusiveFreightAmount, freightTaxAmount,
+    })
+  ),
+);
 
 export const getTemplateOptions = (state) => {
   if (state.invoice.layout === InvoiceLayout.ITEM_AND_SERVICE) {

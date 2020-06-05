@@ -59,12 +59,7 @@ const getDefaultState = () => ({
     discount: '',
     amount: '',
   },
-  totals: {
-    subTotal: '0',
-    totalTax: '0',
-    totalAmount: '0',
-    originalAmountDue: '0',
-  },
+  originalAmountDue: '0',
   itemTemplate: {
     defaultTemplate: '',
     templateOptions: [],

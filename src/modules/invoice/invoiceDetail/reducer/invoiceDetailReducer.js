@@ -4,8 +4,8 @@ import Decimal from 'decimal.js';
 import {
   ADD_EMAIL_ATTACHMENTS,
   ADD_INVOICE_LINE,
+  CALCULATE_LINES,
   CALCULATE_LINE_AMOUNTS,
-  CALCULATE_LINE_TOTALS,
   CONVERT_TO_PRE_CONVERSION_INVOICE,
   LOAD_ABN_FROM_CUSTOMER,
   LOAD_ACCOUNT_AFTER_CREATE,
@@ -22,7 +22,6 @@ import {
   REMOVE_INVOICE_LINE,
   RESET_CUSTOMER,
   RESET_EMAIL_INVOICE_DETAIL,
-  RESET_TOTALS,
   SAVE_EMAIL_SETTINGS,
   SET_ABN_LOADING_STATE,
   SET_ALERT,
@@ -66,16 +65,13 @@ import {
 } from './EmailReducer';
 import {
   calculateAmountDue,
+  calculateTotals,
   getBusinessId,
   getInvoiceId,
   getRegion,
   getUpdatedCustomerOptions,
 } from '../selectors/invoiceDetailSelectors';
-import {
-  calculateLineAmounts,
-  calculateLineTotals,
-  getIsCalculableLine,
-} from './calculationReducer';
+import { calculateLineAmounts, calculateLines } from './calculationReducer';
 import { getEmailDetailFromLoadInvoiceDetail } from '../selectors/emailSelectors';
 import {
   getInvoiceHistory,
@@ -94,7 +90,6 @@ import { updateExportPdfDetail } from './ExportPdfReducer';
 import InvoiceLayout from '../types/InvoiceLayout';
 import InvoiceLineType from '../types/InvoiceLineType';
 import LoadingState from '../../../../components/PageView/LoadingState';
-import calculateTotals from '../../../../common/taxCalculator/calculateTotals';
 import createReducer from '../../../../store/createReducer';
 import getDefaultState, { DEFAULT_DISCOUNT, DEFAULT_UNITS } from './getDefaultState';
 
@@ -114,23 +109,14 @@ const setModalAlert = (state, { modalAlert }) => ({ ...state, modalAlert });
 
 const setModalSubmittingState = (state, { isModalSubmitting }) => ({ ...state, isModalSubmitting });
 
-const setTotalsOnLoad = ({
+const setOriginalAmountDue = ({
   isTaxInclusive, lines, amountPaid, taxExclusiveFreightAmount = '0', freightTaxAmount = '0',
 }) => {
-  const calculableLines = lines.filter(line => getIsCalculableLine(line));
-  const lineTotals = calculateTotals({ isTaxInclusive, lines: calculableLines });
-  const totals = {
-    totalTax: lineTotals.totalTax.plus(freightTaxAmount).valueOf(),
-    totalAmount:
-      lineTotals.totalAmount.plus(taxExclusiveFreightAmount).plus(freightTaxAmount).valueOf(),
-    subTotal: lineTotals.subTotal.valueOf(),
-  };
-  const originalAmountDue = calculateAmountDue(totals.totalAmount, amountPaid);
+  const totals = calculateTotals({
+    isTaxInclusive, lines, taxExclusiveFreightAmount, freightTaxAmount,
+  });
 
-  return {
-    ...totals,
-    originalAmountDue,
-  };
+  return calculateAmountDue(totals.totalAmount, amountPaid);
 };
 
 const loadInvoiceDetail = (state, action) => {
@@ -164,7 +150,7 @@ const loadInvoiceDetail = (state, action) => {
         return line;
       }),
     },
-    totals: setTotalsOnLoad(action.invoice),
+    originalAmountDue: setOriginalAmountDue(action.invoice),
     newLine: {
       ...state.newLine,
       ...action.newLine,
@@ -385,13 +371,6 @@ const removeInvoiceLine = (state, action) => ({
   },
 });
 
-const resetTotals = state => ({
-  ...state,
-  totals: {
-    ...getDefaultState().totals,
-  },
-});
-
 const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   ...state,
   accountOptions: [account, ...state.accountOptions],
@@ -525,7 +504,6 @@ const handlers = {
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
 
   [SET_INVOICE_ITEM_LINE_DIRTY]: setInvoiceItemLineDirty,
-  [RESET_TOTALS]: resetTotals,
 
   [LOAD_PAY_DIRECT]: loadPayDirect,
   [SET_PAY_DIRECT_LOADING_STATE]: setPayDirectLoadingState,
@@ -548,7 +526,7 @@ const handlers = {
   [SET_REDIRECT_STATE]: setRedirectState,
   [LOAD_INVOICE_HISTORY]: loadInvoiceHistory,
 
-  [CALCULATE_LINE_TOTALS]: calculateLineTotals,
+  [CALCULATE_LINES]: calculateLines,
   [CALCULATE_LINE_AMOUNTS]: calculateLineAmounts,
   [LOAD_ITEM_SELLING_DETAILS]: loadItemSellingDetails,
 

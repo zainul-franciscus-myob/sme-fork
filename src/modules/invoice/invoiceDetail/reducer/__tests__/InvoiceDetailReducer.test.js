@@ -529,35 +529,8 @@ describe('InvoiceDetailReducer', () => {
       });
     });
 
-    describe('totals', () => {
-      it('sets totals to freight amount when no lines', () => {
-        const state = {};
-        const action = {
-          intent: LOAD_INVOICE_DETAIL,
-          invoice: {
-            isTaxInclusive: true,
-            lines: [],
-            taxExclusiveFreightAmount: '9.09',
-            freightTaxAmount: '0.91',
-            amountPaid: '5',
-          },
-          subscription: {
-            isTrial: false,
-            monthlyLimit: { hasHitLimit: false },
-          },
-        };
-
-        const actual = invoiceDetailReducer(state, action);
-
-        expect(actual.totals).toEqual({
-          subTotal: '0',
-          totalTax: '0.91',
-          totalAmount: '10',
-          originalAmountDue: '5',
-        });
-      });
-
-      it('sets totals to freight amount plus lines amount', () => {
+    describe('originalAmountDue', () => {
+      it('calculates originalAmountDue with freight amount and lines amount', () => {
         const state = {};
         const action = {
           intent: LOAD_INVOICE_DETAIL,
@@ -576,12 +549,7 @@ describe('InvoiceDetailReducer', () => {
 
         const actual = invoiceDetailReducer(state, action);
 
-        expect(actual.totals).toEqual({
-          subTotal: '10',
-          totalTax: '0.92',
-          totalAmount: '20',
-          originalAmountDue: '15',
-        });
+        expect(actual.originalAmountDue).toBe('15');
       });
     });
   });
