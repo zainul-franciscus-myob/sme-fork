@@ -4,6 +4,7 @@ import isExemptionEnabled from '../../isExemptionEnabled';
 
 export const getLeavePayItemModal = state => state.leavePayItemModal;
 
+export const getIsCreating = state => state.leavePayItemModal.leavePayItemId === 'new';
 export const getAlert = state => state.leavePayItemModal.alert;
 export const getIsLoading = state => state.leavePayItemModal.isLoading;
 export const getIsSubmitting = state => state.leavePayItemModal.isSubmitting;

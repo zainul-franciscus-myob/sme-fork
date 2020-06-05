@@ -38,6 +38,7 @@
     "start:with-bff:int": "REACT_APP_INTEGRATION_TYPE=AuthHttp react-scripts start",
     "start:with-bff:local": "REACT_APP_INTEGRATION_TYPE=Http react-scripts start",
     "test": "TZ=UTC react-scripts test --env=jsdom",
+    "test:debug": "TZ=UTC react-scripts --inspect-brk test --runInBand --no-cache --env=jsdom",
     "eject": "react-scripts eject",
     "lint:js": "eslint ./src",
     "lint:js:fix": "eslint ./src --fix",

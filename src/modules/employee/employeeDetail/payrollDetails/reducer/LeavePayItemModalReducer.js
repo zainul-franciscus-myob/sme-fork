@@ -18,7 +18,7 @@ import {
 } from '../../../EmployeeIntents';
 import { getAllocatedLeavePayItems } from '../selectors/PayrollLeaveDetailSelectors';
 
-const getLeavePayItemModalDefaultState = () => ({
+export const getLeavePayItemModalDefaultState = () => ({
   leavePayItem: {
     title: '',
     name: '',

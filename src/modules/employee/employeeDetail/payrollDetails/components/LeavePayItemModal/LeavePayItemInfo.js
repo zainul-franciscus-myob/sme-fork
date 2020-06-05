@@ -2,7 +2,7 @@ import { Checkbox, CheckboxGroup, FieldGroup } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getCarryRemainingLeave, getPrintOnPaySlip } from '../../selectors/LeavePayItemModalSelectors';
+import { getCarryRemainingLeave, getIsCreating, getPrintOnPaySlip } from '../../selectors/LeavePayItemModalSelectors';
 import LeavePayItemCalculationBasis from './LeavePayItemCalculationBasis';
 
 const handleCheckBoxChange = handler => (e) => {
@@ -13,6 +13,7 @@ const handleCheckBoxChange = handler => (e) => {
 const LeavePayItemInfo = ({
   printOnPaySlip,
   carryRemainingLeave,
+  isCreating,
   onCalculationBasisChange,
 }) => (
   <FieldGroup label="Leave information">
@@ -34,6 +35,7 @@ const LeavePayItemInfo = ({
             name="carryRemainingLeave"
             label="Carry remaining leave over to next year"
             checked={carryRemainingLeave}
+            disabled={!isCreating}
             onChange={handleCheckBoxChange(onCalculationBasisChange)}
           />
         </div>
@@ -44,6 +46,7 @@ const LeavePayItemInfo = ({
 
 const mapStateToProps = state => ({
   printOnPaySlip: getPrintOnPaySlip(state),
+  isCreating: getIsCreating(state),
   carryRemainingLeave: getCarryRemainingLeave(state),
 });
 
