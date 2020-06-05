@@ -1,8 +1,10 @@
 import { Button, Table } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import React from 'react';
 
-import { fieldTypes } from '../../selectors/PayrollStandardPaySelectors';
+import { fieldTypes, getIsPayrollJobColumnEnabled, getJobs } from '../../selectors/PayrollStandardPaySelectors';
 import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
+import JobCombobox from '../../../../../../components/combobox/JobCombobox';
 
 const handleInputChange = (handler, payItemId, payItemType) => (e) => {
   const { name, rawValue } = e.target;
@@ -15,7 +17,16 @@ const handleOnClick = (handler, payItemId, payItemType) => () => {
   handler({ payItemId, payItemType });
 };
 
+const handleComboboxChange = (payItemId, key, handler) => (item) => {
+  handler({
+    payItemId,
+    key,
+    value: item.id,
+  });
+};
+
 const renderAmountInputField = ({
+
   name, label, value, numeralDecimalScaleMin, numeralDecimalScaleMax,
   fieldType, payItemId, payItemType, isLoading, onChange, onBlur,
 }) => {
@@ -50,6 +61,7 @@ const PayrollStandardPayDetailsTableRow = ({
     payItemType,
     hours,
     amount,
+    jobId,
     name,
     hourFieldType,
     amountFieldType,
@@ -58,6 +70,9 @@ const PayrollStandardPayDetailsTableRow = ({
   onChange,
   onBlur,
   onClick,
+  jobs,
+  excludeJobs,
+  isPayrollJobColumnEnabled,
 }) => {
   const hourRowItem = renderAmountInputField({
     name: 'hours',
@@ -85,6 +100,13 @@ const PayrollStandardPayDetailsTableRow = ({
     onChange,
     onBlur,
   });
+  const jobRowItem = !excludeJobs && <JobCombobox
+    onChange={handleComboboxChange(payItemId, 'jobId', onChange)}
+    items={jobs}
+    selectedId={jobId}
+    disabled={isLoading}
+    allowClear
+  />;
 
   const tableConfigWithConditionalHeaders = {
     ...tableConfig,
@@ -96,6 +118,10 @@ const PayrollStandardPayDetailsTableRow = ({
       ...tableConfig.amount,
       columnName: amountRowItem ? tableConfig.amount.columnName : '',
     },
+    job: {
+      ...tableConfig.job,
+      columnName: jobRowItem ? tableConfig.job.columnName : '',
+    },
   };
 
   return (
@@ -105,8 +131,14 @@ const PayrollStandardPayDetailsTableRow = ({
       </Table.RowItem>
       <Table.RowItem {...tableConfigWithConditionalHeaders.hours}>{hourRowItem}</Table.RowItem>
       <Table.RowItem {...tableConfigWithConditionalHeaders.amount}>{amountRowItem}</Table.RowItem>
+      {isPayrollJobColumnEnabled
+      && <Table.RowItem textWrap="wrap" {...tableConfigWithConditionalHeaders.job}>{jobRowItem}</Table.RowItem>}
     </Table.Row>
   );
 };
+const mapStateToProps = state => ({
+  jobs: getJobs(state),
+  isPayrollJobColumnEnabled: getIsPayrollJobColumnEnabled(state),
+});
 
-export default PayrollStandardPayDetailsTableRow;
+export default connect(mapStateToProps)(PayrollStandardPayDetailsTableRow);

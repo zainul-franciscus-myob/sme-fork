@@ -5,7 +5,7 @@ import { getLeaveTableRows } from '../../selectors/PayrollStandardPaySelectors';
 import PayrollStandardPayDetailsTableRows from './PayrollStandardPayDetailsTableRows';
 
 const PayrollStandardPayDetailsLeaveTableRows = props => (
-  <PayrollStandardPayDetailsTableRows name="leave" title="Leave" {...props} />
+  <PayrollStandardPayDetailsTableRows name="leave" title="Leave" excludeJobs="true" {...props} />
 );
 
 const mapStateToProps = state => getLeaveTableRows(state);

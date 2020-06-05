@@ -154,28 +154,49 @@
           "payItemId": "11",
           "hours": "152.0",
           "appliedHours": "152.0",
-          "amount": "90"
+          "amount": "90",
+          "jobId": "2"
         },
         {
           "id": "1",
           "payItemId": "12",
           "hours": "5.00",
           "appliedHours": "5.00",
-          "amount": "10.00"
+          "amount": "10.00",
+          "jobId": "3"
         },
         {
           "id": "2",
           "payItemId": "13",
           "hours": "10.00",
           "appliedHours": "10.00",
-          "amount": "20.00"
+          "amount": "20.00",
+          "jobId": "2"
         },
         {
           "id": "4",
           "payItemId": "61",
           "hours": "30.123",
           "appliedHours": "30.123",
-          "amount": "4.00"
+          "amount": "4.00",
+          "jobId": "3"
+        }
+      ],
+      "jobs": [
+        {
+          "id": "1",
+          "jobNumber": "100",
+          "jobName": "Job 1"
+        },
+        {
+          "id": "2",
+          "jobNumber": "200",
+          "jobName": "Job 2 with a long name"
+        },
+        {
+          "id": "3",
+          "jobNumber": "12345678901234",
+          "jobName": "Job 3 with an even longer name"
         }
       ]
     },

@@ -4,7 +4,7 @@ import React from 'react';
 import PayrollStandardPayDetailsTableRow from './PayrollStandardPayDetailsTableRow';
 
 const PayrollStandardPayDetailsTableRows = ({
-  name, title, tableConfig, entries, showTableRows, onChange, onBlur, onClick,
+  name, title, tableConfig, entries, showTableRows, onChange, onBlur, onClick, excludeJobs,
 }) => {
   const headerRow = (
     <Table.Row key={name}>
@@ -20,6 +20,7 @@ const PayrollStandardPayDetailsTableRows = ({
       onChange={onChange}
       onBlur={onBlur}
       onClick={onClick}
+      excludeJobs={excludeJobs}
     />
   ));
 

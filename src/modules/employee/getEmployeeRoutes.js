@@ -11,6 +11,7 @@ const getEmployeeRoutes = ({
   replaceURLParams,
   globalCallbacks,
   featureToggles,
+  isToggleOn,
 }) => {
   const routes = [
     {
@@ -35,6 +36,7 @@ const getEmployeeRoutes = ({
         replaceURLParams,
         globalCallbacks,
         featureToggles,
+        isToggleOn,
       }),
       documentTitle: 'Employee',
     },

@@ -27,6 +27,7 @@ describe('EmployeeDetailModule', () => {
       popMessages: () => [],
       pushMessage: [],
       replaceURLParams: () => {},
+      isToggleOn: () => true,
     });
     employeeDetailModule.run({
       isPayrollSetup: true,

@@ -14,6 +14,7 @@ import {
 const getStandardPayItemDefaultState = () => ({
   id: '',
   payItemId: '',
+  jobId: '',
   hours: getStandardPayFormattedHours(0),
   appliedHours: getStandardPayFormattedHours(0),
   amount: getStandardPayFormattedAmount(0),

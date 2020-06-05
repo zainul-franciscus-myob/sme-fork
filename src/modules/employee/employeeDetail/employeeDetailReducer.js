@@ -128,6 +128,7 @@ export const getDefaultState = () => ({
     bankAccounts: [],
   },
   genderOptions: [],
+  jobs: [],
   employmentBasisOptions: [],
   employmentCategoryOptions: [],
   employmentStatusOptions: [],
@@ -275,6 +276,7 @@ const loadEmployeeDetail = (state, action) => (action.isPayrollSetup ? {
   leavePayItemOptions: action.leavePayItemOptions,
   expensePayItemOptions: action.expensePayItemOptions,
   payHistoryPeriodOptions: action.payHistoryPeriodOptions,
+  jobs: action.jobs,
 } : {
   ...state,
   isPayrollSetup: false,

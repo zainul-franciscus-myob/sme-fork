@@ -53,6 +53,10 @@ export const getBasePay = createStructuredSelector({
   description: getDescription,
 });
 
+export const getJobs = state => state.jobs;
+
+export const getIsPayrollJobColumnEnabled = state => state.isPayrollJobColumnEnabled;
+
 export const getHoursFieldType = (payItemType, calculationBasis, payBasis) => {
   switch (payItemType) {
     case payItemTypes.entitlement:
@@ -327,9 +331,9 @@ export const getStandardPayDetailsPayload = createSelector(
       ...wagePayItems, ...deductionPayItems, ...superPayItems, ...taxPayItems,
       ...leavePayItems, ...employerExpensePayItems,
     ].map(({
-      id, payItemId, payItemType, hours, amount,
+      id, payItemId, payItemType, hours, amount, jobId,
     }) => ({
-      id, payItemId, payItemType, hours, amount,
+      id, payItemId, payItemType, hours, amount, jobId,
     }));
 
     return {

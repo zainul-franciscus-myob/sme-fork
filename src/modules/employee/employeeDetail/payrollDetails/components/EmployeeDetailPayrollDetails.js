@@ -203,7 +203,9 @@ const EmployeeDetailPayrollDetails = ({
   );
 
   const StandardPay = () => (
-    <PayrollStandardPayDetails listeners={onPayrollStandardPayListeners} />
+    <PayrollStandardPayDetails
+      listeners={onPayrollStandardPayListeners}
+    />
   );
 
   const PayHistory = () => (
