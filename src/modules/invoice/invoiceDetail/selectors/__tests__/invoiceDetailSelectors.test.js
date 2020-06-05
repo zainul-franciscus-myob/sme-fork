@@ -7,7 +7,8 @@ import {
   getInvoiceLine,
   getIsBeforeConversionDate,
   getIsLinesSupported,
-  getIsReadOnlyLayout,
+  getIsReadOnly,
+  getReadOnlyMessage,
   getTemplateOptions,
   getUpdatedCustomerOptions,
 } from '../invoiceDetailSelectors';
@@ -190,48 +191,116 @@ describe('invoiceDetailSelectors', () => {
   });
 
   describe('getInvoiceDetailTotals', () => {
+    const taxCodeOptions = [
+      {
+        id: '2',
+        displayName: 'GST',
+      },
+    ];
+    const totals = {
+      subTotal: '123.55',
+      totalTax: '-4.45',
+      totalAmount: '128',
+    };
+    const isCreating = false;
+    const noAmountPaid = '';
+    const noFreightInfo = {
+      taxExclusiveFreightAmount: '0',
+      freightTaxAmount: '0',
+      freightTaxCodeId: '0',
+      isTaxInclusive: true,
+    };
+
     it('should calculate amount due correctly', () => {
-      const totals = {
-        subTotal: '123.55',
-        totalTax: '-4.45',
-        totalAmount: '128',
-      };
       const amountPaid = '10';
-      const isCreating = false;
 
       const expected = {
         subTotal: '123.55',
+        freightAmount: '0',
         totalTax: '-4.45',
         totalAmount: '128',
         amountPaid: '10',
         amountDue: '118',
+        showFreight: false,
         isCreating,
       };
 
-      const actual = getInvoiceDetailTotals.resultFunc(totals, amountPaid, isCreating);
+      const actual = getInvoiceDetailTotals.resultFunc(
+        totals, amountPaid, isCreating, noFreightInfo, taxCodeOptions, false,
+      );
 
       expect(actual).toEqual(expected);
     });
 
-    it('should set amound paid to 0 if it is empty', () => {
-      const totals = {
-        subTotal: '123.55',
-        totalTax: '-4.45',
-        totalAmount: '128',
-      };
-      const amountPaid = '';
-      const isCreating = false;
-
+    it('should set amount paid to 0 if it is empty', () => {
       const expected = {
         subTotal: '123.55',
+        freightAmount: '0',
         totalTax: '-4.45',
         totalAmount: '128',
         amountPaid: '0.00',
         amountDue: '128',
+        showFreight: false,
         isCreating,
       };
 
-      const actual = getInvoiceDetailTotals.resultFunc(totals, amountPaid, isCreating);
+      const actual = getInvoiceDetailTotals.resultFunc(
+        totals, noAmountPaid, isCreating, noFreightInfo, taxCodeOptions, false,
+      );
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should set freight amount when tax inclusive', () => {
+      const freightInfo = {
+        taxExclusiveFreightAmount: '9.09',
+        freightTaxAmount: '0.91',
+        freightTaxCodeId: '2',
+        isTaxInclusive: true,
+      };
+
+      const expected = {
+        subTotal: '123.55',
+        totalTax: '-4.45',
+        freightAmount: '10',
+        totalAmount: '128',
+        amountPaid: '0.00',
+        amountDue: '128',
+        showFreight: true,
+        freightTaxCode: 'GST',
+        isCreating,
+      };
+
+      const actual = getInvoiceDetailTotals.resultFunc(
+        totals, noAmountPaid, isCreating, freightInfo, taxCodeOptions, true,
+      );
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should set freight amount when tax exclusive', () => {
+      const freightInfo = {
+        taxExclusiveFreightAmount: '9.09',
+        freightTaxAmount: '0.91',
+        freightTaxCodeId: '2',
+        isTaxInclusive: false,
+      };
+
+      const expected = {
+        subTotal: '123.55',
+        totalTax: '-4.45',
+        freightAmount: '9.09',
+        totalAmount: '128',
+        amountPaid: '0.00',
+        amountDue: '128',
+        showFreight: true,
+        freightTaxCode: 'GST',
+        isCreating,
+      };
+
+      const actual = getInvoiceDetailTotals.resultFunc(
+        totals, noAmountPaid, isCreating, freightInfo, taxCodeOptions, true,
+      );
 
       expect(actual).toEqual(expected);
     });
@@ -409,7 +478,7 @@ describe('invoiceDetailSelectors', () => {
     });
   });
 
-  describe('getIsReadOnlyLayout', () => {
+  describe('getIsReadOnly', () => {
     it.each([
       [InvoiceLayout.SERVICE, false],
       [InvoiceLayout.ITEM_AND_SERVICE, false],
@@ -418,7 +487,7 @@ describe('invoiceDetailSelectors', () => {
       [InvoiceLayout.MISCELLANEOUS, true],
       ['N/A', true],
     ])('%s layout', (layout, expected) => {
-      const actual = getIsReadOnlyLayout({ invoice: { layout, lines: [] } });
+      const actual = getIsReadOnly({ invoice: { layout, lines: [] } });
 
       expect(actual).toEqual(expected);
     });
@@ -430,7 +499,7 @@ describe('invoiceDetailSelectors', () => {
       [InvoiceLineType.SUB_TOTAL, true],
       ['N/A', true],
     ])('have %s line type', (type, expected) => {
-      const actual = getIsReadOnlyLayout({
+      const actual = getIsReadOnly({
         invoice: {
           layout: InvoiceLayout.ITEM_AND_SERVICE,
           lines: [
@@ -442,6 +511,31 @@ describe('invoiceDetailSelectors', () => {
       });
 
       expect(actual).toEqual(expected);
+    });
+
+    it('should be readonly when invoice has freight amount', () => {
+      const actual = getIsReadOnly({
+        invoice: {
+          layout: InvoiceLayout.ITEM_AND_SERVICE,
+          lines: [],
+          taxExclusiveFreightAmount: '10',
+        },
+      });
+
+      expect(actual).toBe(true);
+    });
+  });
+
+  describe('getReadOnlyMessage', () => {
+    it.each([
+      [false, 'Blah', false, 'This invoice is read only because the Blah layout isn\'t supported in the browser. Switch to AccountRight desktop to edit this invoice.'],
+      [true, '', false, 'This invoice is read only because it contains unsupported features. Switch to AccountRight desktop to edit this invoice.'],
+      [true, '', true, 'This invoice is read only because freight isn\'t supported in the browser. Switch to AccountRight desktop to edit this invoice'],
+    ])('isLayoutSupported %s, layout %s, hasFreightAmount %s', (isLayoutSupported, layout, hasFreightAmount, message) => {
+      const actual = getReadOnlyMessage.resultFunc(isLayoutSupported, layout, hasFreightAmount);
+
+      expect(actual)
+        .toEqual(message);
     });
   });
 

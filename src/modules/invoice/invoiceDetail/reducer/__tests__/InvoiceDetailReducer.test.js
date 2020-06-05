@@ -528,6 +528,62 @@ describe('InvoiceDetailReducer', () => {
         expect(actual.invoice.lines[0].amount).toEqual(expected);
       });
     });
+
+    describe('totals', () => {
+      it('sets totals to freight amount when no lines', () => {
+        const state = {};
+        const action = {
+          intent: LOAD_INVOICE_DETAIL,
+          invoice: {
+            isTaxInclusive: true,
+            lines: [],
+            taxExclusiveFreightAmount: '9.09',
+            freightTaxAmount: '0.91',
+            amountPaid: '5',
+          },
+          subscription: {
+            isTrial: false,
+            monthlyLimit: { hasHitLimit: false },
+          },
+        };
+
+        const actual = invoiceDetailReducer(state, action);
+
+        expect(actual.totals).toEqual({
+          subTotal: '0',
+          totalTax: '0.91',
+          totalAmount: '10',
+          originalAmountDue: '5',
+        });
+      });
+
+      it('sets totals to freight amount plus lines amount', () => {
+        const state = {};
+        const action = {
+          intent: LOAD_INVOICE_DETAIL,
+          invoice: {
+            isTaxInclusive: true,
+            lines: [{ type: InvoiceLineType.SERVICE, taxExclusiveAmount: '9.99', taxAmount: '0.01' }],
+            taxExclusiveFreightAmount: '9.09',
+            freightTaxAmount: '0.91',
+            amountPaid: '5',
+          },
+          subscription: {
+            isTrial: false,
+            monthlyLimit: { hasHitLimit: false },
+          },
+        };
+
+        const actual = invoiceDetailReducer(state, action);
+
+        expect(actual.totals).toEqual({
+          subTotal: '10',
+          totalTax: '0.92',
+          totalAmount: '20',
+          originalAmountDue: '15',
+        });
+      });
+    });
   });
 
   describe('RELOAD_INVOICE_DETAIL', () => {

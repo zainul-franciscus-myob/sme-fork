@@ -10,10 +10,13 @@ const onAmountInputChange = handler => e => handler(e.target.rawValue);
 
 const InvoiceDetailTotals = ({
   subTotal,
+  freightAmount,
   totalTax,
   totalAmount,
   amountPaid,
   amountDue,
+  freightTaxCode,
+  showFreight,
   isCreating,
   onChange,
   taxLabel,
@@ -32,6 +35,7 @@ const InvoiceDetailTotals = ({
   return (
     <LineItemTable.Total>
       <LineItemTableTotalsFormattedCurrency title="Subtotal" amount={subTotal} />
+      { showFreight && <LineItemTableTotalsFormattedCurrency title="Freight" amount={freightAmount} note={freightTaxCode} /> }
       <LineItemTableTotalsFormattedCurrency title={taxLabel} amount={totalTax} />
       <LineItemTableTotalsFormattedCurrency title="Total" totalAmount amount={totalAmount} />
       {amountPaidInputLine}

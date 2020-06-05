@@ -114,9 +114,17 @@ const setModalAlert = (state, { modalAlert }) => ({ ...state, modalAlert });
 
 const setModalSubmittingState = (state, { isModalSubmitting }) => ({ ...state, isModalSubmitting });
 
-const setTotalsOnLoad = ({ isTaxInclusive, lines, amountPaid }) => {
+const setTotalsOnLoad = ({
+  isTaxInclusive, lines, amountPaid, taxExclusiveFreightAmount = '0', freightTaxAmount = '0',
+}) => {
   const calculableLines = lines.filter(line => getIsCalculableLine(line));
-  const totals = calculateTotals({ isTaxInclusive, lines: calculableLines });
+  const lineTotals = calculateTotals({ isTaxInclusive, lines: calculableLines });
+  const totals = {
+    totalTax: lineTotals.totalTax.plus(freightTaxAmount).valueOf(),
+    totalAmount:
+      lineTotals.totalAmount.plus(taxExclusiveFreightAmount).plus(freightTaxAmount).valueOf(),
+    subTotal: lineTotals.subTotal.valueOf(),
+  };
   const originalAmountDue = calculateAmountDue(totals.totalAmount, amountPaid);
 
   return {
@@ -156,11 +164,7 @@ const loadInvoiceDetail = (state, action) => {
         return line;
       }),
     },
-    totals: action.invoice.lines.length === 0
-      ? defaultState.totals
-      : {
-        ...setTotalsOnLoad(action.invoice),
-      },
+    totals: setTotalsOnLoad(action.invoice),
     newLine: {
       ...state.newLine,
       ...action.newLine,

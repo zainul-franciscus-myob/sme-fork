@@ -2,7 +2,7 @@ import { Combobox, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getInvoiceDetailNotes, getIsPreConversion, getIsReadOnlyLayout } from '../selectors/invoiceDetailSelectors';
+import { getInvoiceDetailNotes, getIsPreConversion, getIsReadOnly } from '../selectors/invoiceDetailSelectors';
 import handleTextAreaChange from '../../../../components/handlers/handleTextAreaChange';
 import styles from './InvoiceDetailView.module.css';
 
@@ -12,7 +12,7 @@ const onNoteChange = handler => ({ value }) => {
 
 const InvoiceDetailNotes = ({
   isPreConversion,
-  isReadOnlyLayout,
+  isReadOnly,
   note,
   commentOptions,
   onUpdateHeaderOptions,
@@ -22,7 +22,7 @@ const InvoiceDetailNotes = ({
       name="note"
       label="Notes to customer"
       hideLabel={false}
-      disabled={isReadOnlyLayout}
+      disabled={isReadOnly}
       metaData={[
         { columnName: 'value', showData: true },
       ]}
@@ -31,7 +31,7 @@ const InvoiceDetailNotes = ({
     />
     <TextArea
       value={note}
-      disabled={isReadOnlyLayout}
+      disabled={isReadOnly}
       resize="vertical"
       name="note"
       label="Notes to customer"
@@ -45,7 +45,7 @@ const InvoiceDetailNotes = ({
 
 const mapStateToProps = state => ({
   ...getInvoiceDetailNotes(state),
-  isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isReadOnly: getIsReadOnly(state),
   isPreConversion: getIsPreConversion(state),
 });
 

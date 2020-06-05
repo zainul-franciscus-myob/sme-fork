@@ -4,7 +4,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsReadOnlyLayout, getIsSubmitting, getLayout } from '../selectors/invoiceDetailSelectors';
+import { getIsReadOnly, getIsSubmitting, getLayout } from '../selectors/invoiceDetailSelectors';
 import InvoiceLayout from '../types/InvoiceLayout';
 import Popover from '../../../../components/Feelix/Popover/Popover';
 import styles from './InvoiceDetailLayoutPopover.module.css';
@@ -12,7 +12,7 @@ import styles from './InvoiceDetailLayoutPopover.module.css';
 const InvoiceDetailLayoutPopover = ({
   isSubmitting,
   layout,
-  isReadonlyLayout,
+  isReadOnly,
   onUpdateInvoiceLayout,
 }) => {
   const layoutBody = (
@@ -40,10 +40,10 @@ const InvoiceDetailLayoutPopover = ({
   );
 
   const triggerButton = (
-    <Button disabled={isReadonlyLayout} type="link" icon={<Icons.Settings />} iconRight>Field layout</Button>
+    <Button disabled={isReadOnly} type="link" icon={<Icons.Settings />} iconRight>Field layout</Button>
   );
 
-  const view = isReadonlyLayout ? triggerButton : (
+  const view = isReadOnly ? triggerButton : (
     <Popover body={layoutBody} preferPlace="below" closeOnOuterAction>
       {triggerButton}
     </Popover>
@@ -59,7 +59,7 @@ const InvoiceDetailLayoutPopover = ({
 const mapStateToProps = state => ({
   isSubmitting: getIsSubmitting(state),
   layout: getLayout(state),
-  isReadonlyLayout: getIsReadOnlyLayout(state),
+  isReadOnly: getIsReadOnly(state),
 });
 
 export default connect(mapStateToProps)(InvoiceDetailLayoutPopover);

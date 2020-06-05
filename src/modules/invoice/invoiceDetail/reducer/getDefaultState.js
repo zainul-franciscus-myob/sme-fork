@@ -42,6 +42,9 @@ const getDefaultState = () => ({
     numberOfDaysForDiscount: 0,
     amountPaid: '0',
     status: InvoiceStatus.NONE,
+    taxExclusiveFreightAmount: '0',
+    freightTaxAmount: '0',
+    freightTaxCodeId: '0',
     lines: [],
   },
   newLine: {

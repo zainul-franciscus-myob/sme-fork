@@ -8,7 +8,7 @@ import classnames from 'classnames';
 import {
   getInvoiceDetailOptions,
   getIsPreConversion,
-  getIsReadOnlyLayout,
+  getIsReadOnly,
   getReadOnlyMessage,
   getShouldShowAbn,
   getShowPreConversionAlert,
@@ -41,7 +41,7 @@ const InvoiceDetailOptions = ({
   onUpdateHeaderOptions,
   onIssueDateBlur,
   onAddCustomerButtonClick,
-  isReadOnlyLayout,
+  isReadOnly,
   readOnlyMessage,
   isPreConversion,
   showPreConversionAlert,
@@ -85,7 +85,7 @@ const InvoiceDetailOptions = ({
           label="Customer"
           name="customerId"
           hideLabel={false}
-          disabled={isCustomerDisabled || isReadOnlyLayout}
+          disabled={isCustomerDisabled || isReadOnly}
           requiredLabel={requiredLabel}
           allowClear
           width="xl"
@@ -104,7 +104,7 @@ const InvoiceDetailOptions = ({
         value={invoiceNumber}
         onChange={handleInputChange(onUpdateHeaderOptions)}
         requiredLabel={requiredLabel}
-        disabled={isReadOnlyLayout}
+        disabled={isReadOnly}
         maxLength={13}
       />
       <Input
@@ -113,19 +113,19 @@ const InvoiceDetailOptions = ({
         value={purchaseOrderNumber}
         onChange={handleInputChange(onUpdateHeaderOptions)}
         maxLength={20}
-        disabled={isReadOnlyLayout}
+        disabled={isReadOnly}
       />
       <DatePicker
         label="Issue date"
         requiredLabel={requiredLabel}
         value={issueDate}
-        disabled={isReadOnlyLayout || isPreConversion}
+        disabled={isReadOnly || isPreConversion}
         disabledMessage="You can't change the date of a historical invoice."
         onSelect={handleDateChange('issueDate', onUpdateHeaderOptions)}
         onBlur={onIssueDateBlur}
       />
       <PaymentTerms
-        disabled={isReadOnlyLayout}
+        disabled={isReadOnly}
         onChange={onUpdateHeaderOptions}
         issueDate={issueDate}
         expirationTermOptions={expirationTermOptions}
@@ -134,7 +134,7 @@ const InvoiceDetailOptions = ({
       />
       {showOnlinePayment && (
         <InvoiceDetailOnlinePaymentMethod
-          disabled={isReadOnlyLayout}
+          disabled={isReadOnly}
           onUpdateAllowOnlinePayments={onUpdateHeaderOptions}
         />
       )}
@@ -144,7 +144,7 @@ const InvoiceDetailOptions = ({
         value={isTaxInclusive ? taxInclusiveLabel : taxExclusiveLabel}
         options={[taxInclusiveLabel, taxExclusiveLabel]}
         onChange={onIsTaxInclusiveChange(onUpdateHeaderOptions)}
-        disabled={isSubmitting || isReadOnlyLayout || isPreConversion}
+        disabled={isSubmitting || isReadOnly || isPreConversion}
       />
     </div>
   );
@@ -166,7 +166,7 @@ const InvoiceDetailOptions = ({
 
   return (
     <div className={styles.options}>
-      {isReadOnlyLayout && readOnlyWarning}
+      {isReadOnly && readOnlyWarning}
       {preConversionAlert}
       <DetailHeader primary={primary} secondary={secondary} className={styles.detail} />
     </div>
@@ -176,7 +176,7 @@ const InvoiceDetailOptions = ({
 const mapStateToProps = state => ({
   ...getInvoiceDetailOptions(state),
   readOnlyMessage: getReadOnlyMessage(state),
-  isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isReadOnly: getIsReadOnly(state),
   isPreConversion: getIsPreConversion(state),
   showPreConversionAlert: getShowPreConversionAlert(state),
   shouldShowAbn: getShouldShowAbn(state),

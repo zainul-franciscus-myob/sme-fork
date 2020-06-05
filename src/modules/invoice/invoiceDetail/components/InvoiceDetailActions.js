@@ -5,14 +5,14 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsCreating, getIsPreConversion, getIsReadOnlyLayout, getIsSubmitting,
+  getIsCreating, getIsPreConversion, getIsReadOnly, getIsSubmitting,
 } from '../selectors/invoiceDetailSelectors';
 import SaveActionType from '../types/SaveActionType';
 
 const InvoiceDetailActions = ({
   isCreating,
   isSubmitting,
-  isReadOnlyLayout,
+  isReadOnly,
   isPreConversion,
   listeners: {
     onSaveButtonClick,
@@ -138,7 +138,7 @@ const InvoiceDetailActions = ({
 
   const separator = <Separator direction="vertical" />;
 
-  if (isReadOnlyLayout) {
+  if (isReadOnly) {
     return (
       <ButtonRow
         primary={[
@@ -186,7 +186,7 @@ const InvoiceDetailActions = ({
 const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   isSubmitting: getIsSubmitting(state),
-  isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isReadOnly: getIsReadOnly(state),
   isPreConversion: getIsPreConversion(state),
 });
 

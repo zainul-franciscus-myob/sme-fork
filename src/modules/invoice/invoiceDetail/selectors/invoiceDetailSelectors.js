@@ -63,6 +63,18 @@ export const getAbn = state => state.abn;
 
 export const getIsLineAmountDirty = state => state.isLineAmountDirty;
 
+export const getHasFreightAmount = state => !!Number(state.invoice.taxExclusiveFreightAmount);
+export const getFreightInfo = ({
+  invoice: {
+    taxExclusiveFreightAmount, freightTaxAmount, freightTaxCodeId, isTaxInclusive,
+  },
+}) => ({
+  taxExclusiveFreightAmount,
+  freightTaxAmount,
+  freightTaxCodeId,
+  isTaxInclusive,
+});
+
 export const getTemplateOptions = (state) => {
   if (state.invoice.layout === InvoiceLayout.ITEM_AND_SERVICE) {
     return state.itemTemplate.templateOptions;
@@ -92,20 +104,30 @@ export const getIsLinesSupported = createSelector(
   lines => lines.every(line => getIsLineTypeSupported(line)),
 );
 
-export const getIsReadOnlyLayout = createSelector(
+export const getIsReadOnly = createSelector(
   getIsLayoutSupported,
   getIsLinesSupported,
-  (isLayoutSupported, isLinesSupported) => !isLayoutSupported || !isLinesSupported,
+  getHasFreightAmount,
+  (isLayoutSupported, isLinesSupported, hasFreightAmount) => (
+    !isLayoutSupported || !isLinesSupported || hasFreightAmount
+  ),
 );
 
 export const getReadOnlyMessage = createSelector(
   getIsLayoutSupported,
   getLayout,
-  (isLayoutSupported, layout) => (
-    !isLayoutSupported
-      ? `This invoice is missing information because the ${layout} invoice layout isn't supported in the browser. Switch to AccountRight desktop to use this feature.`
-      : 'This invoice is read only because it contains unsupported features. Switch to AccountRight desktop to edit this invoice.'
-  ),
+  getHasFreightAmount,
+  (isLayoutSupported, layout, hasFreightAmount) => {
+    if (!isLayoutSupported) {
+      return `This invoice is read only because the ${layout} layout isn't supported in the browser. Switch to AccountRight desktop to edit this invoice.`;
+    }
+
+    if (hasFreightAmount) {
+      return 'This invoice is read only because freight isn\'t supported in the browser. Switch to AccountRight desktop to edit this invoice';
+    }
+
+    return 'This invoice is read only because it contains unsupported features. Switch to AccountRight desktop to edit this invoice.';
+  },
 );
 
 const getCommentOptions = state => state.comments.map(comment => ({ value: comment }));
@@ -170,19 +192,36 @@ export const calculateAmountDue = (totalAmount, amountPaid) => {
   );
 };
 
+export const calculateFreightAmount = ({
+  taxExclusiveFreightAmount,
+  freightTaxAmount,
+  isTaxInclusive,
+}) => (
+  isTaxInclusive
+    ? Decimal(taxExclusiveFreightAmount).add(Decimal(freightTaxAmount)).valueOf()
+    : taxExclusiveFreightAmount
+);
+
 export const getTaxLabel = createRegionDialectSelector('Tax');
 
 export const getInvoiceDetailTotals = createSelector(
   getTotals,
   getAmountPaid,
   getIsCreating,
+  getFreightInfo,
+  getTaxCodeOptions,
+  getHasFreightAmount,
   getTaxLabel,
-  (totals, amountPaid, isCreating, taxLabel) => ({
+  (totals, amountPaid, isCreating, freightInfo, taxCodeOptions, hasFreightAmount, taxLabel) => ({
     subTotal: totals.subTotal,
+    freightAmount: calculateFreightAmount(freightInfo),
     totalTax: totals.totalTax,
     totalAmount: totals.totalAmount,
     amountPaid: amountPaid === '' ? '0.00' : amountPaid,
     amountDue: calculateAmountDue(totals.totalAmount, amountPaid),
+    showFreight: hasFreightAmount,
+    freightTaxCode:
+      taxCodeOptions.find(taxCode => taxCode.id === freightInfo.freightTaxCodeId)?.displayName,
     isCreating,
     taxLabel,
   }),

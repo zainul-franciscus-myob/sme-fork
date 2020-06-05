@@ -7,7 +7,7 @@ import {
   getAlert,
   getIsCreating,
   getIsPreConversion,
-  getIsReadOnlyLayout,
+  getIsReadOnly,
   getIsSubmitting,
   getLayout,
   getLoadingState,
@@ -44,7 +44,7 @@ const InvoiceDetailView = ({
   emailInvoiceDetail,
   templateOptions,
   isActionsDisabled,
-  isReadOnlyLayout,
+  isReadOnly,
   isPreConversion,
   modalAlert,
   onDismissAlert,
@@ -173,7 +173,7 @@ const InvoiceDetailView = ({
         {inventoryModal}
         {modal}
         {layoutPopver}
-        <div className={classNames(isReadOnlyLayout && styles.disabledTable)}>
+        <div className={classNames(isReadOnly && styles.disabledTable)}>
           {table}
         </div>
       </LineItemTemplate>
@@ -201,7 +201,7 @@ const mapStateToProps = state => ({
   templateOptions: getTemplateOptions(state),
   isCreating: getIsCreating(state),
   layout: getLayout(state),
-  isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isReadOnly: getIsReadOnly(state),
   isPreConversion: getIsPreConversion(state),
 });
 

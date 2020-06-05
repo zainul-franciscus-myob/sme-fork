@@ -6,7 +6,7 @@ import {
   getAccountOptions,
   getInvoiceLine,
   getIsPreConversion,
-  getIsReadOnlyLayout,
+  getIsReadOnly,
   getIsSubmitting,
   getJobOptions,
   getTaxCodeOptions,
@@ -47,7 +47,7 @@ const InvoiceServiceTableRow = ({
   taxCodeOptions,
   index,
   isSubmitting,
-  isReadOnlyLayout,
+  isReadOnly,
   isPreConversion,
   accountOptions,
   jobOptions,
@@ -93,7 +93,7 @@ const InvoiceServiceTableRow = ({
         autoSize
         value={description}
         onChange={onChange}
-        disabled={isSubmitting || isReadOnlyLayout}
+        disabled={isSubmitting || isReadOnly}
       />
       <AccountCombobox
         label="Account"
@@ -102,7 +102,7 @@ const InvoiceServiceTableRow = ({
         items={accountOptions}
         selectedId={accountId}
         addNewAccount={() => onAddAccount(onChangeAccountId)}
-        disabled={isSubmitting || isReadOnlyLayout || isPreConversion}
+        disabled={isSubmitting || isReadOnly || isPreConversion}
       />
       <Calculator
         label="Amount"
@@ -112,7 +112,7 @@ const InvoiceServiceTableRow = ({
         textAlign="right"
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onUpdateAmount, index)}
-        disabled={isSubmitting || isReadOnlyLayout}
+        disabled={isSubmitting || isReadOnly}
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
@@ -122,7 +122,7 @@ const InvoiceServiceTableRow = ({
         addNewJob={() => onAddJob(onChangeJobId)}
         items={jobOptions}
         selectedId={jobId}
-        disabled={isSubmitting || isReadOnlyLayout}
+        disabled={isSubmitting || isReadOnly}
         allowClear
         left
       />}
@@ -132,7 +132,7 @@ const InvoiceServiceTableRow = ({
         onChange={onComboboxChange('taxCodeId', onChange)}
         items={taxCodeOptions}
         selectedId={taxCodeId}
-        disabled={isSubmitting || isReadOnlyLayout}
+        disabled={isSubmitting || isReadOnly}
       />
     </LineItemTable.Row>
   );
@@ -142,7 +142,7 @@ const mapStateToProps = (state, props) => ({
   invoiceLine: getInvoiceLine(state, props),
   taxCodeOptions: getTaxCodeOptions(state),
   isSubmitting: getIsSubmitting(state),
-  isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isReadOnly: getIsReadOnly(state),
   isPreConversion: getIsPreConversion(state),
   accountOptions: getAccountOptions(state),
   jobOptions: getJobOptions(state),

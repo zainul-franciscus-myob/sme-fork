@@ -6,10 +6,11 @@ import formatCurrency from '../../common/valueFormatters/formatCurrency';
 const LineItemTableTotalsFormattedCurrency = ({
   title,
   amount,
+  note,
 }) => (
   <LineItemTable.Totals
     title={title}
-    amount={formatCurrency(amount)}
+    amount={note ? `${formatCurrency(amount)} (${note})` : formatCurrency(amount)}
   />
 );
 
