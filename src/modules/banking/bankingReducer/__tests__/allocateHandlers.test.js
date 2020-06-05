@@ -1,4 +1,5 @@
 import { allocateTransaction } from '../allocateHandlers';
+import BankTransactionStatusTypes from '../../BankTransactionStatusTypes';
 
 describe('allocateHandlers', () => {
   describe('allocateTransaction', () => {
@@ -15,6 +16,7 @@ describe('allocateHandlers', () => {
         {
           withdrawal: 10,
           deposit: 0,
+          type: BankTransactionStatusTypes.unmatched,
         },
       ],
     };
@@ -60,7 +62,7 @@ describe('allocateHandlers', () => {
                 sourceJournal: 'CashReceipt',
               },
             ],
-            type: 'singleAllocation',
+            type: BankTransactionStatusTypes.singleAllocation,
             taxCode: 'GST',
             isReportable: false,
           },
@@ -86,7 +88,11 @@ describe('allocateHandlers', () => {
     it('should reduce amount from unallocated when account is under deposit', () => {
       const modifiedState = {
         ...state,
-        entries: [{ deposit: 100, withdrawal: undefined }],
+        entries: [{
+          deposit: 100,
+          withdrawal: undefined,
+          type: BankTransactionStatusTypes.unmatched,
+        }],
         balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 1000 },
       };
 
@@ -100,7 +106,11 @@ describe('allocateHandlers', () => {
     it('should add amount to unallocated when account is under withdrawal', () => {
       const modifiedState = {
         ...state,
-        entries: [{ deposit: undefined, withdrawal: 100 }],
+        entries: [{
+          deposit: undefined,
+          withdrawal: 100,
+          type: BankTransactionStatusTypes.unmatched,
+        }],
         balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 1000 },
       };
 
@@ -109,6 +119,23 @@ describe('allocateHandlers', () => {
       const actual = allocateTransaction(modifiedState, action);
 
       expect(actual.balances).toEqual(expected);
+    });
+
+    it('should update the calculated balances only if entry is unmatched', () => {
+      const modifiedState = {
+        ...state,
+        entries: [
+          {
+            withdrawal: 10,
+            deposit: 0,
+            type: BankTransactionStatusTypes.singleAllocation,
+          },
+        ],
+      };
+
+      const actual = allocateTransaction(modifiedState, action);
+
+      expect(actual.balances).toEqual(state.balances);
     });
   });
 });

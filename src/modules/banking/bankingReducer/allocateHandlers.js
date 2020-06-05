@@ -1,3 +1,4 @@
+import BankTransactionStatusTypes from '../BankTransactionStatusTypes';
 import calculateBalance from '../common/calculateBalances';
 
 const getCalculatedAllocatedBalances = (state, index) => {
@@ -21,22 +22,30 @@ const getCalculatedAllocatedBalances = (state, index) => {
 };
 
 // eslint-disable-next-line import/prefer-default-export
-export const allocateTransaction = (state, action) => ({
-  ...state,
-  balances: getCalculatedAllocatedBalances(state, action.index),
-  entries: state.entries.map(
-    (entry, index) => (
-      index === action.index
-        ? {
-          ...entry,
-          isReportable: action.isReportable,
-          allocateOrMatch: action.allocateOrMatch,
-          journals: action.journals,
-          type: action.type,
-          taxCode: action.taxCode,
-          selectedAccountId: action.selectedAccount ? action.selectedAccount.id : undefined,
-        }
-        : entry
+export const allocateTransaction = (state, action) => {
+  const entryIsUnmatched = (
+    state.entries[action.index].type === BankTransactionStatusTypes.unmatched
+  );
+
+  return {
+    ...state,
+    balances: entryIsUnmatched
+      ? getCalculatedAllocatedBalances(state, action.index)
+      : state.balances,
+    entries: state.entries.map(
+      (entry, index) => (
+        index === action.index
+          ? {
+            ...entry,
+            isReportable: action.isReportable,
+            allocateOrMatch: action.allocateOrMatch,
+            journals: action.journals,
+            type: action.type,
+            taxCode: action.taxCode,
+            selectedAccountId: action.selectedAccount ? action.selectedAccount.id : undefined,
+          }
+          : entry
+      ),
     ),
-  ),
-});
+  };
+};

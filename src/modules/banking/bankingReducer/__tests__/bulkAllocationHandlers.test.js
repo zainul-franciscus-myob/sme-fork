@@ -6,6 +6,7 @@ import {
   unallocateTransactions,
   updateBulkAllocationOptions,
 } from '../bulkAllocationHandlers';
+import BankTransactionStatusTypes from '../../BankTransactionStatusTypes';
 
 describe('bulkAllocationHandlers', () => {
   describe('selectTransction', () => {
@@ -193,7 +194,7 @@ describe('bulkAllocationHandlers', () => {
             isReportable: false,
             allocateOrMatch: '',
             journals: [],
-            type: '',
+            type: BankTransactionStatusTypes.unmatched,
             taxCode: '',
             withdrawal: 100,
           },
@@ -202,7 +203,7 @@ describe('bulkAllocationHandlers', () => {
             isReportable: false,
             allocateOrMatch: '',
             journals: [],
-            type: '',
+            type: BankTransactionStatusTypes.unmatched,
             taxCode: '',
           },
         ],
@@ -224,7 +225,7 @@ describe('bulkAllocationHandlers', () => {
                 sourceJournal: 'CashReceipt',
               },
             ],
-            type: 'singleAllocation',
+            type: BankTransactionStatusTypes.singleAllocation,
             taxCode: 'GST',
             withdrawal: 100,
           },
@@ -233,7 +234,7 @@ describe('bulkAllocationHandlers', () => {
             isReportable: false,
             allocateOrMatch: '',
             journals: [],
-            type: '',
+            type: BankTransactionStatusTypes.unmatched,
             taxCode: '',
           },
         ],
@@ -251,14 +252,72 @@ describe('bulkAllocationHandlers', () => {
                 sourceJournal: 'CashReceipt',
               },
             ],
-            type: 'singleAllocation',
             taxCode: 'GST',
+            type: BankTransactionStatusTypes.singleAllocation,
             isReportable: true,
           },
         ],
       });
 
       expect(actual).toEqual(expected);
+    });
+
+    it('should only update balances for unmatched entries', () => {
+      const state = {
+        bankAccounts: [],
+        filterOptions: {},
+        balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 1000 },
+        entries: [
+          {
+            transactionId: '1',
+            allocateOrMatch: '',
+            type: BankTransactionStatusTypes.unmatched,
+            withdrawal: 100,
+          },
+        ],
+      };
+
+      const expected = { bankBalance: 1000, myobBalance: 900, unallocated: 1100 };
+
+      const actual = bulkAllocateTransactions(state, {
+        entries: [
+          {
+            transactionId: '1',
+            allocateOrMatch: 'Income',
+            type: BankTransactionStatusTypes.singleAllocation,
+          },
+        ],
+      });
+
+      expect(actual.balances).toEqual(expected);
+    });
+
+    it('should not update balances for other transaction types', () => {
+      const state = {
+        bankAccounts: [],
+        filterOptions: {},
+        balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 1000 },
+        entries: [
+          {
+            transactionId: '2',
+            allocateOrMatch: '',
+            type: BankTransactionStatusTypes.singleAllocation,
+            withdrawal: 100,
+          },
+        ],
+      };
+
+      const actual = bulkAllocateTransactions(state, {
+        entries: [
+          {
+            transactionId: '2',
+            allocateOrMatch: 'Income',
+            type: BankTransactionStatusTypes.singleAllocation,
+          },
+        ],
+      });
+
+      expect(actual.balances).toEqual(state.balances);
     });
   });
 
@@ -280,21 +339,8 @@ describe('bulkAllocationHandlers', () => {
               },
             ],
             taxCode: 'GST',
-            type: '',
+            type: BankTransactionStatusTypes.unmatched,
             withdrawal: 100,
-          },
-          {
-            transactionId: '2',
-            allocateOrMatch: '',
-            journals: [
-              {
-                journalId: '333',
-                journalLineId: '444',
-                sourceJournal: 'CashPayment',
-              },
-            ],
-            taxCode: 'GST',
-            type: '',
           },
         ],
       };
@@ -309,21 +355,8 @@ describe('bulkAllocationHandlers', () => {
             allocateOrMatch: 'Possible match found',
             journals: [],
             taxCode: '',
-            type: 'matched',
+            type: BankTransactionStatusTypes.matched,
             withdrawal: 100,
-          },
-          {
-            transactionId: '2',
-            allocateOrMatch: '',
-            journals: [
-              {
-                journalId: '333',
-                journalLineId: '444',
-                sourceJournal: 'CashPayment',
-              },
-            ],
-            taxCode: 'GST',
-            type: '',
           },
         ],
       };
@@ -333,7 +366,7 @@ describe('bulkAllocationHandlers', () => {
           {
             transactionId: '1',
             allocateOrMatch: 'Possible match found',
-            type: 'matched',
+            type: BankTransactionStatusTypes.matched,
           },
         ],
       });

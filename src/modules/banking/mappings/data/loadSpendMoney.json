@@ -5,6 +5,22 @@
     "contactId": "2",
     "isReportable": false,
     "isSpendMoney": true,
+    "contacts": [
+      {
+        "contactType": "Supplier",
+        "displayContactType": "Supplier",
+        "displayName": "A-Z Stationery Supplies",
+        "id": "1",
+        "displayId": "SUP000001"
+      },
+      {
+        "contactType": "Customer",
+        "displayContactType": "Customer",
+        "displayName": "Clemons, Iga",
+        "id": "3",
+        "displayId": "CUS000001"
+      }
+    ],
     "lines": [
       {
         "id": "1",
