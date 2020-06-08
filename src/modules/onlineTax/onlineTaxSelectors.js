@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 
+import Config from '../../Config';
+
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 
@@ -11,5 +13,5 @@ const pathMapping = {
 export const getLodgeStatementLink = createSelector(
   getBusinessId,
   getRegion,
-  (businessId, region) => `https://lodge.myob.com/#/dashboard/arl/${region}/${pathMapping[region.toLowerCase()]}/${businessId}?client=sme-web`,
+  (businessId, region) => `${Config.ONLINE_TAX_BASE_URL}/#/dashboard/arl/${region}/${pathMapping[region.toLowerCase()]}/${businessId}`,
 );

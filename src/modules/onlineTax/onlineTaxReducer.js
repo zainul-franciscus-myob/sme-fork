@@ -22,6 +22,6 @@ const handlers = {
   [RESET_STATE]: resetState,
 };
 
-const prepareBasOrIasReducer = createReducer(getDefaultState(), handlers);
+const onlineTaxReducer = createReducer(getDefaultState(), handlers);
 
-export default prepareBasOrIasReducer;
+export default onlineTaxReducer;

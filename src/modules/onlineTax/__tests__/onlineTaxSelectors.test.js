@@ -1,6 +1,6 @@
-import { getLodgeStatementLink } from '../prepareBasSelectors';
+import { getLodgeStatementLink } from '../onlineTaxSelectors';
 
-describe('prepareBasSelectors', () => {
+describe('onlineTaxSelectors', () => {
   describe('getLodgeStatementLink', () => {
     it('nz region', () => {
       const state = {
@@ -10,7 +10,7 @@ describe('prepareBasSelectors', () => {
 
       const actual = getLodgeStatementLink(state);
 
-      expect(actual).toEqual('https://lodge.myob.com/#/dashboard/arl/NZ/egst/123?client=sme-web');
+      expect(actual).toMatch('/#/dashboard/arl/NZ/egst/123');
     });
 
     it('au region', () => {
@@ -21,7 +21,7 @@ describe('prepareBasSelectors', () => {
 
       const actual = getLodgeStatementLink(state);
 
-      expect(actual).toEqual('https://lodge.myob.com/#/dashboard/arl/AU/bas/123?client=sme-web');
+      expect(actual).toMatch('/#/dashboard/arl/AU/bas/123');
     });
   });
 });

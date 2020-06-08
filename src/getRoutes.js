@@ -31,13 +31,13 @@ import getLinkBillRoutes from './modules/linkBill/getLinkBillRoutes';
 import getLinkUserRoutes from './modules/linkUser/getLinkUserRoutes';
 import getLinkedAccountsRoutes from './modules/linkedAccounts/getLinkedAccountsRoutes';
 import getLogoutRoutes from './modules/logout/getLogoutRoutes';
+import getOnlineTaxRoutes from './modules/onlineTax/getOnlineTaxRoutes';
 import getPayItemRoutes from './modules/payItem/getPayItemRoutes';
 import getPayRefundRoutes from './modules/payRefund/getPayRefundRoutes';
 import getPayRunRoutes from './modules/payRun/getPayRunRoutes';
 import getPaySuperRoutes from './modules/paySuper/getPaySuperRoutes';
 import getPayrollSettingsRoutes from './modules/payrollSettings/getPayrollSettingsRoutes';
 import getPermissionDeniedRoutes from './modules/permissionDenied/getPermissionDeniedRoutes';
-import getPrepareBasOrIasRoutes from './modules/prepareBasOrIas/getPrepareBasOrIasRoutes';
 import getQuoteRoutes from './modules/quote/getQuoteRoutes';
 import getReceiveMoneyRoutes from './modules/receiveMoney/getReceiveMoneyRoutes';
 import getReceiveRefundRoutes from './modules/receiveRefund/getReceiveRefundRoutes';
@@ -83,7 +83,7 @@ const getRoutes = moduleParams => [
   ...getPayRefundRoutes(moduleParams),
   ...getApplyToSaleRoutes(moduleParams),
   ...getPayItemRoutes(moduleParams),
-  ...getPrepareBasOrIasRoutes(moduleParams),
+  ...getOnlineTaxRoutes(moduleParams),
   ...getInTrayRoutes(moduleParams),
   ...getLinkedAccountsRoutes(moduleParams),
   ...getBankingRuleRoutes(moduleParams),

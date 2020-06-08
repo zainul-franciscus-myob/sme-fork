@@ -9,6 +9,7 @@ REACT_APP_AUTHENTICATION_BFF_CLIENT_ID=sme-web-bff \
 REACT_APP_BFF_BASE_URL=https://preview-sme-web-bff.svc.platform.myob.com \
 REACT_APP_MY_REPORTS_URL=https://preview.reports.myob.com \
 REACT_APP_MANAGE_BANK_FEEDS_BASE_URL=https://my.myob.com/pages/bankfeedsAdministrationRedirector.aspx \
+REACT_APP_ONLINE_TAX_BASE_URL=https://lodge.myob.com \
 REACT_APP_LEAN_ENGAGE_APP_ID=514c0ce1-4aee-4839-bc2e-7b64eac9c51b \
 REACT_APP_SPLIT_IO_API_KEY=u5ama2eh82f7ght37n8lt48kku4qk2m227rr \
 REACT_APP_MY_MYOB_AU_URL=https://my.myob.com.au \

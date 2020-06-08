@@ -180,7 +180,7 @@ export const getAccountingUrls = createSelector(
     accountList: enabledUrls.accountList,
     linkedAccounts: enabledUrls.linkedAccounts,
     taxList: enabledUrls.taxList,
-    prepareBasOrIas: enabledUrls.prepareBasOrIas,
+    onlineTax: enabledUrls.onlineTax,
     jobList: enabledUrls.jobList,
   }),
 );
@@ -252,7 +252,7 @@ export const getTaxCodesLabel = createSelector(
   region => getRegionToDialectText(region)('Tax codes'),
 );
 
-export const getPrepareBasOrIasLabel = createSelector(
+export const getOnlineTaxLabel = createSelector(
   getRegion,
   region => getRegionToDialectText(region)('Prepare BAS or IAS'),
 );

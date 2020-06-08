@@ -48,7 +48,7 @@ const RouteName = {
   PAY_ITEM_EXPENSE: 'payItem/expensePayItem',
   PAY_ITEM_WAGE: 'payItem/wagePayItem',
   PAY_ITEM_LEAVE: 'payItem/leavePayItem',
-  PREPARE_BAS_OR_IAS: 'prepareBasOrIas/prepareBasOrIas',
+  ONLINE_TAX: 'onlineTax/onlineTax',
   IN_TRAY: 'inTray/inTray',
   ONBOARDING_LEARN_IN_TRAY: 'inTray/learn',
   ONBOARDING_LEARN_PAYROLL: 'payroll/learn',

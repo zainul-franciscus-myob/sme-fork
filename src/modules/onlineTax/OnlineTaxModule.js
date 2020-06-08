@@ -5,29 +5,29 @@ import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../SystemIntents';
-import { getRegion } from './prepareBasSelectors';
-import RegionToTaxActivityViewMapping from './RegionToTaxActivityViewMapping';
+import { getRegion } from './onlineTaxSelectors';
+import RegionToOnlineTaxViewMapping from './RegionToOnlineTaxViewMapping';
 import Store from '../../store/Store';
-import prepareBasOrIasReducer from './prepareBasOrIasReducer';
+import onlineTaxReducer from './onlineTaxReducer';
 
-export default class PrepareBasOrIasModule {
+export default class OnlineTaxModule {
   constructor({
     integration, setRootView,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
-    this.store = new Store(prepareBasOrIasReducer);
+    this.store = new Store(onlineTaxReducer);
   }
 
   render = () => {
     const state = this.store.getState();
     const region = getRegion(state);
 
-    const TaxActivityView = RegionToTaxActivityViewMapping[region];
+    const OnlineTaxView = RegionToOnlineTaxViewMapping[region];
 
     const wrappedView = (
       <Provider store={this.store}>
-        <TaxActivityView />
+        <OnlineTaxView />
       </Provider>
     );
 
