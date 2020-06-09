@@ -50,6 +50,16 @@ const MemoryQuoteMapping = {
       case 'item-readonly-id':
         onSuccess(loadReadOnlyItemQuoteDetail);
         break;
+      case 'professional-id':
+        onSuccess({ ...loadQuoteDetail, quote: { ...loadQuoteDetail.quote, layout: 'professional' } });
+        break;
+      case 'time-billing-id':
+        onSuccess({ ...loadQuoteDetail, quote: { ...loadQuoteDetail.quote, layout: 'timeBilling' } });
+        break;
+      case 'miscellaneous-id':
+        onSuccess({ ...loadQuoteDetail, quote: { ...loadQuoteDetail.quote, layout: 'miscellaneous' } });
+        break;
+      case 'service-id':
       default:
         onSuccess(loadQuoteDetail);
         break;

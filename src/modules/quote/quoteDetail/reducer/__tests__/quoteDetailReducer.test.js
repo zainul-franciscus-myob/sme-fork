@@ -207,62 +207,6 @@ describe('quoteDetailReducer', () => {
       expect(actual.newLine.type).toEqual('item');
     });
 
-    it('changes the default template options in email quote and export pdf for service', () => {
-      const state = {
-        quote: {
-          layout: 'service',
-          lines: [],
-        },
-        itemTemplateOptions: {
-          defaultTemplate: 'a',
-        },
-        serviceTemplateOptions: {
-          defaultTemplate: 'b',
-        },
-        emailQuote: {
-          templateName: 'b',
-        },
-        exportPdf: {
-          template: 'b',
-        },
-      };
-
-      const action = { intent: UPDATE_LAYOUT, key: 'layout', value: 'itemAndService' };
-
-      const actual = quoteDetailReducer(state, action);
-
-      expect(actual.emailQuote.templateName).toEqual('a');
-      expect(actual.exportPdf.template).toEqual('a');
-    });
-
-    it('changes the default template options in email quote and export pdf for itemAndService', () => {
-      const state = {
-        quote: {
-          layout: 'itemAndService',
-          lines: [],
-        },
-        itemTemplateOptions: {
-          defaultTemplate: 'a',
-        },
-        serviceTemplateOptions: {
-          defaultTemplate: 'b',
-        },
-        emailQuote: {
-          templateName: 'a',
-        },
-        exportPdf: {
-          template: 'a',
-        },
-      };
-
-      const action = { intent: UPDATE_LAYOUT, key: 'layout', value: 'service' };
-
-      const actual = quoteDetailReducer(state, action);
-
-      expect(actual.emailQuote.templateName).toEqual('b');
-      expect(actual.exportPdf.template).toEqual('b');
-    });
-
     it('changes remove all item lines and clears line ids if transitioning to a service layout', () => {
       const state = {
         quote: {

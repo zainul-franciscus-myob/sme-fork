@@ -223,7 +223,7 @@
     "attachments": [],
     "templateName": "a"
   },
-  "itemTemplateOptions": {
+  "template": {
     "defaultTemplate": "a",
     "templateOptions": [
       {
@@ -234,19 +234,6 @@
         "name": "b",
         "label": "banana"
       }
-    ]
-  },
-  "serviceTemplateOptions": {
-    "defaultTemplate": "a",
-    "templateOptions": [
-        {
-          "name": "a",
-          "label": "apple"
-        },
-        {
-          "name": "b",
-          "label": "banana"
-        }
     ]
   },
   "exportPdf": {

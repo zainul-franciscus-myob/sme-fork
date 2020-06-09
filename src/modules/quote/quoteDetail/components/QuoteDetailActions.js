@@ -4,13 +4,21 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsActionsDisabled, getIsCreating, getIsReadOnlyLayout } from '../selectors/QuoteDetailSelectors';
+import {
+  getIsActionsDisabled,
+  getIsCreating,
+  getIsReadOnlyLayout,
+  getShowExportPdfButton,
+} from '../selectors/QuoteDetailSelectors';
+import { getShowEmailButton } from '../selectors/EmailSelectors';
 import SaveActionType from '../SaveActionType';
 
 const QuoteDetailActions = ({
   isCreating,
   isReadOnlyLayout,
   isActionsDisabled,
+  showExportPdfButton,
+  showEmailButton,
   listeners: {
     onSaveButtonClick,
     onSaveAndButtonClick,
@@ -34,6 +42,44 @@ const QuoteDetailActions = ({
     />,
   ];
 
+  const saveAndButton = (
+    <Dropdown
+      key="saveAnd"
+      onSelect={onSaveAndButtonClick}
+      toggle={(
+        <Dropdown.Toggle disabled={isActionsDisabled}>
+          Save and...
+          <Icons.Caret />
+        </Dropdown.Toggle>
+      )}
+      items={dropdownActionItems}
+    />
+  );
+
+  const saveButton = (
+    <Button
+      key="save"
+      name="save"
+      type="primary"
+      onClick={onSaveButtonClick}
+      disabled={isActionsDisabled}
+    >
+      Save
+    </Button>
+  );
+
+  const cancelButton = (
+    <Button
+      key="cancel"
+      name="cancel"
+      type="secondary"
+      onClick={onCancelButtonClick}
+      disabled={isActionsDisabled}
+    >
+    Cancel
+  </Button>
+  );
+
   const backButton = (
     <Button
       key="back"
@@ -45,11 +91,62 @@ const QuoteDetailActions = ({
     </Button>
   );
 
+  const deleteButton = (
+    <Button
+      key="delete"
+      name="delete"
+      type="secondary"
+      onClick={onDeleteButtonClick}
+      disabled={isActionsDisabled}
+    >
+      Delete
+    </Button>
+  );
+
+  const convertToInvoiceButton = (
+    <Button
+      key="convertToInvoice"
+      name="convertToInvoice"
+      type="secondary"
+      onClick={onConvertToInvoiceButtonClick}
+      disabled={isActionsDisabled}
+    >
+      Convert to invoice
+    </Button>
+  );
+
+  const exportPdfButton = (
+    <Button
+      key="exportPdf"
+      name="exportPdf"
+      type="secondary"
+      onClick={onExportPdfButtonClick}
+      disabled={isActionsDisabled}
+    >
+    View PDF
+  </Button>);
+
+  const emailButton = (
+    <Button
+      key="saveAndEmail"
+      name="saveAndEmail"
+      type="secondary"
+      onClick={onSaveAndEmailButtonClick}
+      disabled={isActionsDisabled}
+    >
+      Email quote
+    </Button>
+  );
+
   if (isReadOnlyLayout) {
     return (
       <ButtonRow
         primary={[
           backButton,
+        ]}
+        secondary={[
+          showExportPdfButton && exportPdfButton,
+          showEmailButton && emailButton,
         ]}
       />);
   }
@@ -57,80 +154,18 @@ const QuoteDetailActions = ({
   return (
     <ButtonRow
       primary={[
-        <Button
-          key="cancel"
-          name="cancel"
-          type="secondary"
-          onClick={onCancelButtonClick}
-          disabled={isActionsDisabled}
-        >
-        Cancel
-        </Button>,
-        <Dropdown
-          key="saveAnd"
-          onSelect={onSaveAndButtonClick}
-          toggle={(
-            <Dropdown.Toggle disabled={isActionsDisabled}>
-              Save and...
-              <Icons.Caret />
-            </Dropdown.Toggle>
-        )}
-          items={dropdownActionItems}
-        />,
-        <Button
-          key="save"
-          name="save"
-          type="primary"
-          onClick={onSaveButtonClick}
-          disabled={isActionsDisabled}
-        >
-        Save
-        </Button>,
+        cancelButton,
+        saveAndButton,
+        saveButton,
       ]}
       secondary={[
-        !isCreating && (
-          <Button
-            key="delete"
-            name="delete"
-            type="secondary"
-            onClick={onDeleteButtonClick}
-            disabled={isActionsDisabled}
-          >
-            Delete
-          </Button>
-        ),
+        !isCreating && deleteButton,
         !isCreating && (
           <Separator key="separator" direction="vertical" />
         ),
-        !isCreating && (
-          <Button
-            key="convertToInvoice"
-            name="convertToInvoice"
-            type="secondary"
-            onClick={onConvertToInvoiceButtonClick}
-            disabled={isActionsDisabled}
-          >
-            Convert to invoice
-          </Button>
-        ),
-        <Button
-          key="exportPdf"
-          name="exportPdf"
-          type="secondary"
-          onClick={onExportPdfButtonClick}
-          disabled={isActionsDisabled}
-        >
-          View PDF
-        </Button>,
-        <Button
-          key="saveAndEmail"
-          name="saveAndEmail"
-          type="secondary"
-          onClick={onSaveAndEmailButtonClick}
-          disabled={isActionsDisabled}
-        >
-          Email quote
-        </Button>,
+        !isCreating && convertToInvoiceButton,
+        showExportPdfButton && exportPdfButton,
+        showEmailButton && emailButton,
       ]}
     />
   );
@@ -140,6 +175,8 @@ const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   isActionsDisabled: getIsActionsDisabled(state),
   isReadOnlyLayout: getIsReadOnlyLayout(state),
+  showExportPdfButton: getShowExportPdfButton(state),
+  showEmailButton: getShowEmailButton(state),
 });
 
 export default connect(mapStateToProps)(QuoteDetailActions);

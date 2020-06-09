@@ -26,6 +26,7 @@ const getDefaultState = () => ({
   pageTitle: '',
   quote: {
     id: '',
+    layout: '',
     contactId: '',
     contactName: '',
     expirationTerm: '',
@@ -67,11 +68,7 @@ const getDefaultState = () => ({
   accountOptions: [],
   jobOptions: [],
   taxCodeOptions: [],
-  itemTemplateOptions: {
-    templateOptions: [],
-    defaultTemplate: '',
-  },
-  serviceTemplateOptions: {
+  template: {
     templateOptions: [],
     defaultTemplate: '',
   },

@@ -57,17 +57,7 @@ export const getJobOptions = state => state.jobOptions;
 export const getTaxCodeOptions = state => state.taxCodeOptions;
 export const getAccountOptions = state => state.accountOptions;
 
-const getServiceTemplateOptions = state => state.serviceTemplateOptions.templateOptions;
-const getItemTemplateOptions = state => state.itemTemplateOptions.templateOptions;
-
-export const getTemplateOptions = createSelector(
-  getLayout,
-  getServiceTemplateOptions,
-  getItemTemplateOptions,
-  (layout, serviceTemplateOptions, itemTemplateOptions) => (layout === QuoteLayout.SERVICE
-    ? serviceTemplateOptions
-    : itemTemplateOptions),
-);
+export const getTemplateOptions = state => state.template.templateOptions;
 
 export const getExportPdfTemplate = state => state.exportPdf.template;
 
@@ -219,6 +209,16 @@ export const getIsExportingPDF = createSelector(
   (modal, isModalActionDisabled) => (
     modal && modal.type === ModalType.EXPORT_PDF && isModalActionDisabled
   ),
+);
+
+export const getShowExportPdfButton = createSelector(
+  getLayout,
+  (layout) => ([
+    QuoteLayout.SERVICE,
+    QuoteLayout.ITEM_AND_SERVICE,
+    QuoteLayout.PROFESSIONAL,
+    QuoteLayout.TIME_BILLING,
+  ].includes(layout)),
 );
 
 const getIsLineTypeSupported = line => [

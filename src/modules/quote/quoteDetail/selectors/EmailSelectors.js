@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect';
 
+import { getLayout } from './QuoteDetailSelectors';
 import ModalType from '../ModalType';
+import QuoteLayout from '../QuoteLayout';
 
 const getEmailToAddresses = state => state.emailQuote.toEmail;
 const getCcEmailToAddresses = state => state.emailQuote.ccToEmail;
@@ -60,4 +62,14 @@ export const getEmailModalType = (state) => (
   getHasEmailReplyDetails(state)
     ? ModalType.EMAIL_QUOTE
     : ModalType.EMAIL_SETTINGS
+);
+
+export const getShowEmailButton = createSelector(
+  getLayout,
+  (layout) => ([
+    QuoteLayout.SERVICE,
+    QuoteLayout.ITEM_AND_SERVICE,
+    QuoteLayout.PROFESSIONAL,
+    QuoteLayout.TIME_BILLING,
+  ].includes(layout)),
 );

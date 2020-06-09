@@ -108,8 +108,7 @@ const loadQuoteDetail = (state, action) => ({
   contactOptions: action.contactOptions,
   expirationTermOptions: action.expirationTermOptions,
   commentOptions: action.commentOptions,
-  itemTemplateOptions: action.itemTemplateOptions || state.itemTemplateOptions,
-  serviceTemplateOptions: action.serviceTemplateOptions || state.serviceTemplateOptions,
+  template: action.template || state.template,
   itemOptions: action.itemOptions,
   accountOptions: action.accountOptions,
   jobOptions: action.jobOptions,
@@ -157,13 +156,6 @@ const setDuplicateId = (state, action) => ({
   duplicateId: action.duplicateId,
 });
 
-const getDefaultTemplate = (value, itemTemplateOptions, serviceTemplateOptions) => {
-  if (value === QuoteLayout.ITEM_AND_SERVICE) {
-    return itemTemplateOptions ? itemTemplateOptions.defaultTemplate : '';
-  }
-  return serviceTemplateOptions ? serviceTemplateOptions.defaultTemplate : '';
-};
-
 const updateLayout = (state, { value }) => ({
   ...state,
   isPageEdited: true,
@@ -180,18 +172,6 @@ const updateLayout = (state, { value }) => ({
   newLine: {
     ...state.newLine,
     type: value === QuoteLayout.ITEM_AND_SERVICE ? QuoteLineType.ITEM : QuoteLineType.SERVICE,
-  },
-  emailQuote: {
-    ...state.emailQuote,
-    templateName: getDefaultTemplate(
-      value,
-      state.itemTemplateOptions,
-      state.serviceTemplateOptions,
-    ),
-  },
-  exportPdf: {
-    ...state.exportPdf,
-    template: getDefaultTemplate(value, state.itemTemplateOptions, state.serviceTemplateOptions),
   },
 });
 

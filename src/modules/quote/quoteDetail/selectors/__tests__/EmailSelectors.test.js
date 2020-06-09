@@ -1,4 +1,5 @@
-import { getEmailAttachments, getFilesForUpload } from '../EmailSelectors';
+import { getEmailAttachments, getFilesForUpload, getShowEmailButton } from '../EmailSelectors';
+import QuoteLayout from '../../QuoteLayout';
 
 describe('EmailSelectors', () => {
   describe('getEmailAttachments', () => {
@@ -114,6 +115,21 @@ describe('EmailSelectors', () => {
       const expected = [files[1]];
 
       const actual = getFilesForUpload(filesForUploadState, files);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getShowEmailButton', () => {
+    it.each([
+      [QuoteLayout.SERVICE, true],
+      [QuoteLayout.ITEM_AND_SERVICE, true],
+      [QuoteLayout.PROFESSIONAL, true],
+      [QuoteLayout.TIME_BILLING, true],
+      [QuoteLayout.MISCELLANEOUS, false],
+      ['BOGUS_LAYOUT', false],
+    ])('when quote has %s layout, return %s', (layout, expected) => {
+      const actual = getShowEmailButton.resultFunc(layout);
 
       expect(actual).toEqual(expected);
     });

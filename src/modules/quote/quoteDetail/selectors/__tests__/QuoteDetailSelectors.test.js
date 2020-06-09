@@ -7,7 +7,7 @@ import {
   getIsTaxCalculationRequired,
   getQuoteDetailOptions,
   getQuoteLine,
-  getTemplateOptions,
+  getShowExportPdfButton,
   getUpdatedContactOptions,
 } from '../QuoteDetailSelectors';
 import ModalType from '../../ModalType';
@@ -196,72 +196,6 @@ describe('QuoteDetailSelectors', () => {
     });
   });
 
-  describe('getTemplateOptions', () => {
-    it('should return item template options if the layout is item and service', () => {
-      const itemTemplateOptions = {
-        defaultTemplate: '',
-        templateOptions: [
-          {
-            name: 'item-related',
-            label: 'apple',
-          },
-        ],
-      };
-
-      const state = {
-        quote: {
-          layout: QuoteLayout.ITEM_AND_SERVICE,
-        },
-        itemTemplateOptions,
-        serviceTemplateOptions: {
-          defaultTemplate: '',
-          templateOptions: [
-            {
-              name: 'service-related',
-              label: 'apple',
-            },
-          ],
-        },
-      };
-
-      const actual = getTemplateOptions(state);
-
-      expect(actual).toEqual(itemTemplateOptions.templateOptions);
-    });
-
-    it('should return service template options if the layout is service', () => {
-      const serviceTemplateOptions = {
-        defaultTemplate: '',
-        templateOptions: [
-          {
-            name: 'service-related',
-            label: 'apple',
-          },
-        ],
-      };
-
-      const state = {
-        quote: {
-          layout: QuoteLayout.SERVICE,
-        },
-        itemTemplateOptions: {
-          defaultTemplate: '',
-          templateOptions: [
-            {
-              name: 'item-related',
-              label: 'apple',
-            },
-          ],
-        },
-        serviceTemplateOptions,
-      };
-
-      const actual = getTemplateOptions(state);
-
-      expect(actual).toEqual(serviceTemplateOptions.templateOptions);
-    });
-  });
-
   describe('getIsTaxCalculationRequired', () => {
     it('should calculate tax when at least one line has tax code', () => {
       const state = {
@@ -418,6 +352,21 @@ describe('QuoteDetailSelectors', () => {
           ],
         },
       });
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getShowExportPdfButton', () => {
+    it.each([
+      [QuoteLayout.SERVICE, true],
+      [QuoteLayout.ITEM_AND_SERVICE, true],
+      [QuoteLayout.PROFESSIONAL, true],
+      [QuoteLayout.TIME_BILLING, true],
+      [QuoteLayout.MISCELLANEOUS, false],
+      ['BOGUS_LAYOUT', false],
+    ])('when quote has %s layout, return %s', (layout, expected) => {
+      const actual = getShowExportPdfButton.resultFunc(layout);
 
       expect(actual).toEqual(expected);
     });
