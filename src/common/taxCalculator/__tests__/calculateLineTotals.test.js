@@ -44,4 +44,23 @@ describe('calculateLineTotals', () => {
       subTotal: Decimal(150),
     });
   });
+
+  it('should calculate totals when tax amount and tax exclusive amount is unavailable', () => {
+    const lines = [
+      {
+        taxExclusiveAmount: Decimal(100),
+        taxAmount: Decimal(10),
+        amount: Decimal(100),
+      },
+      {
+        description: 'new line',
+      },
+    ];
+
+    expect(calculateLineTotals({ isTaxInclusive: false, lines })).toEqual({
+      totalTax: Decimal(10),
+      totalAmount: Decimal(110),
+      subTotal: Decimal(100),
+    });
+  });
 });
