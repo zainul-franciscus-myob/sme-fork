@@ -1,9 +1,8 @@
 import { createSelector } from 'reselect';
 
-import {
-  getBusinessId, getInvoiceId,
-} from './invoiceDetailSelectors';
+import { getBusinessId, getInvoiceId, getLayout } from './invoiceDetailSelectors';
 import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
+import InvoiceLayout from '../types/InvoiceLayout';
 
 const getEmailToAddresses = state => state.emailInvoice.toEmail;
 const getCcEmailToAddresses = state => state.emailInvoice.ccToEmail;
@@ -110,4 +109,14 @@ export const getEmailModalType = (state) => (
   getHasEmailReplyDetails(state)
     ? InvoiceDetailModalType.EMAIL_INVOICE
     : InvoiceDetailModalType.EMAIL_SETTINGS
+);
+
+export const getShowEmailButton = createSelector(
+  getLayout,
+  (layout) => ([
+    InvoiceLayout.SERVICE,
+    InvoiceLayout.ITEM_AND_SERVICE,
+    InvoiceLayout.PROFESSIONAL,
+    InvoiceLayout.TIME_BILLING,
+  ].includes(layout)),
 );

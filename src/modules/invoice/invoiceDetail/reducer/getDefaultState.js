@@ -60,11 +60,7 @@ const getDefaultState = () => ({
     amount: '',
   },
   originalAmountDue: '0',
-  itemTemplate: {
-    defaultTemplate: '',
-    templateOptions: [],
-  },
-  serviceTemplate: {
+  template: {
     defaultTemplate: '',
     templateOptions: [],
   },

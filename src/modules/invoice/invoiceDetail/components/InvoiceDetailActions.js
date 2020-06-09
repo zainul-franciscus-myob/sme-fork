@@ -5,8 +5,13 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsCreating, getIsPreConversion, getIsReadOnly, getIsSubmitting,
+  getIsCreating,
+  getIsPreConversion,
+  getIsReadOnly,
+  getIsSubmitting,
 } from '../selectors/invoiceDetailSelectors';
+import { getShowEmailButton } from '../selectors/emailSelectors';
+import { getShowExportPdfButton } from '../selectors/exportPdfSelectors';
 import SaveActionType from '../types/SaveActionType';
 
 const InvoiceDetailActions = ({
@@ -14,6 +19,8 @@ const InvoiceDetailActions = ({
   isSubmitting,
   isReadOnly,
   isPreConversion,
+  showEmailButton,
+  showExportPdfButton,
   listeners: {
     onSaveButtonClick,
     onSaveAndButtonClick,
@@ -146,6 +153,8 @@ const InvoiceDetailActions = ({
         ]}
         secondary={[
           recordPaymentButton,
+          showExportPdfButton && exportPdfButton,
+          showEmailButton && saveAndEmailButton,
         ]}
       />);
   }
@@ -188,6 +197,8 @@ const mapStateToProps = state => ({
   isSubmitting: getIsSubmitting(state),
   isReadOnly: getIsReadOnly(state),
   isPreConversion: getIsPreConversion(state),
+  showEmailButton: getShowEmailButton(state),
+  showExportPdfButton: getShowExportPdfButton(state),
 });
 
 export default connect(mapStateToProps)(InvoiceDetailActions);

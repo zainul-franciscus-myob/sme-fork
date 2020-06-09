@@ -62,6 +62,8 @@ export const getAbn = state => state.abn;
 
 export const getIsLineAmountDirty = state => state.isLineAmountDirty;
 
+export const getTemplateOptions = (state) => state.template.templateOptions;
+
 export const getHasFreightAmount = state => !!Number(state.invoice.taxExclusiveFreightAmount);
 export const getFreightInfo = ({
   invoice: {
@@ -102,13 +104,6 @@ export const getTotals = createSelector(
     })
   ),
 );
-
-export const getTemplateOptions = (state) => {
-  if (state.invoice.layout === InvoiceLayout.ITEM_AND_SERVICE) {
-    return state.itemTemplate.templateOptions;
-  }
-  return state.serviceTemplate.templateOptions;
-};
 
 export const getIsCreating = createSelector(getInvoiceId, invoiceId => invoiceId === 'new');
 

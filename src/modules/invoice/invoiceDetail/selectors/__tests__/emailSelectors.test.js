@@ -4,7 +4,9 @@ import {
   getEmailDetailFromLoadInvoiceDetail,
   getFilesForUpload,
   getSendEmailPayload,
+  getShowEmailButton,
 } from '../emailSelectors';
+import InvoiceLayout from '../../types/InvoiceLayout';
 
 describe('emailSelectors', () => {
   describe('getEmailDetailFromLoadInvoiceDetail', () => {
@@ -263,6 +265,21 @@ describe('emailSelectors', () => {
       const expected = [files[1]];
 
       const actual = getFilesForUpload(state, files);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getShowEmailButton', () => {
+    it.each([
+      [InvoiceLayout.SERVICE, true],
+      [InvoiceLayout.ITEM_AND_SERVICE, true],
+      [InvoiceLayout.PROFESSIONAL, true],
+      [InvoiceLayout.TIME_BILLING, true],
+      [InvoiceLayout.MISCELLANEOUS, false],
+      ['BOGUS_LAYOUT', false],
+    ])('when invoice has %s layout, return %s', (layout, expected) => {
+      const actual = getShowEmailButton.resultFunc(layout);
 
       expect(actual).toEqual(expected);
     });

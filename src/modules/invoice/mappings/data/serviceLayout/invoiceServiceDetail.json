@@ -68,16 +68,20 @@
     "attachments": [],
     "templateName": "a"
   },
-  "templateOptions": [
-    {
-      "name": "a",
-      "label": "apple"
-    },
-    {
-      "name": "b",
-      "label": "banana"
-    }
-  ],
+  "template":
+    { 
+      "defaultTemplate": "c",
+      "templateOptions":[
+      {
+        "name": "a",
+        "label": "apple"
+      },
+      {
+        "name": "b",
+        "label": "banana"
+      }
+    ]
+  },
   "comments": [
     "Happy Holiday!",
     "Great doing business",

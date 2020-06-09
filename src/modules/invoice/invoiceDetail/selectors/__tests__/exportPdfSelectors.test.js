@@ -1,5 +1,6 @@
-import { getIsExportingPDF } from '../exportPdfSelectors';
+import { getIsExportingPDF, getShowExportPdfButton } from '../exportPdfSelectors';
 import InvoiceDetailModalType from '../../types/InvoiceDetailModalType';
+import InvoiceLayout from '../../types/InvoiceLayout';
 
 describe('exportPdfSelectors', () => {
   describe('getIsExportingPDF', () => {
@@ -41,6 +42,21 @@ describe('exportPdfSelectors', () => {
       const actual = getIsExportingPDF(state);
 
       expect(actual).toBeFalsy();
+    });
+  });
+
+  describe('getShowExportPdfButton', () => {
+    it.each([
+      [InvoiceLayout.SERVICE, true],
+      [InvoiceLayout.ITEM_AND_SERVICE, true],
+      [InvoiceLayout.PROFESSIONAL, true],
+      [InvoiceLayout.TIME_BILLING, true],
+      [InvoiceLayout.MISCELLANEOUS, false],
+      ['BOGUS_LAYOUT', false],
+    ])('when invoice has %s layout, return %s', (layout, expected) => {
+      const actual = getShowExportPdfButton.resultFunc(layout);
+
+      expect(actual).toEqual(expected);
     });
   });
 });

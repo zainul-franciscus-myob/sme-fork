@@ -125,13 +125,9 @@ describe('invoiceDetailSelectors', () => {
         name: 'C.O.D.',
       },
     ],
-    serviceTemplate: {
+    template: {
       defaultTemplate: 'a',
       templateOptions: [{ name: 'a', label: 'a' }],
-    },
-    itemTemplate: {
-      defaultTemplate: 'b',
-      templateOptions: [{ name: 'b', label: 'b' }],
     },
     region: 'au',
     businessId: 'abc',
@@ -391,7 +387,7 @@ describe('invoiceDetailSelectors', () => {
   });
 
   describe('getTemplateOptions', () => {
-    it('uses service template options when layout is service', () => {
+    it('uses template options when layout is service', () => {
       const modifiedState = {
         ...state,
         invoice: {
@@ -404,22 +400,6 @@ describe('invoiceDetailSelectors', () => {
 
       expect(actual).toEqual([
         { name: 'a', label: 'a' },
-      ]);
-    });
-
-    it('uses item template options when layout is itemAndService', () => {
-      const modifiedState = {
-        ...state,
-        invoice: {
-          ...state.invoice,
-          layout: InvoiceLayout.ITEM_AND_SERVICE,
-        },
-      };
-
-      const actual = getTemplateOptions(modifiedState);
-
-      expect(actual).toEqual([
-        { name: 'b', label: 'b' },
       ]);
     });
 

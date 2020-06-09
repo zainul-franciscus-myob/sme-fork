@@ -5,9 +5,11 @@ import {
   getInvoiceId,
   getInvoiceNumber,
   getIsModalActionDisabled,
+  getLayout,
   getModalType,
 } from './invoiceDetailSelectors';
 import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
+import InvoiceLayout from '../types/InvoiceLayout';
 
 export const getExportPdfTemplate = state => state.exportPdf.template;
 
@@ -34,4 +36,14 @@ export const getIsExportingPDF = createSelector(
   (modalType, isModalActionDisabled) => (
     modalType === InvoiceDetailModalType.EXPORT_PDF && isModalActionDisabled
   ),
+);
+
+export const getShowExportPdfButton = createSelector(
+  getLayout,
+  (layout) => ([
+    InvoiceLayout.SERVICE,
+    InvoiceLayout.ITEM_AND_SERVICE,
+    InvoiceLayout.PROFESSIONAL,
+    InvoiceLayout.TIME_BILLING,
+  ].includes(layout)),
 );
