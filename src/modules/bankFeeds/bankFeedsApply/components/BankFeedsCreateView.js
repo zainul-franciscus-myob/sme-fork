@@ -70,6 +70,7 @@ const BankFeedsCreateView = ({
   lastFourDigits,
   lastFourDigitsRequired,
   loadingState,
+  nameOnCard,
   nameOnCardRequired,
   onNext,
   onUpdateForm,
@@ -106,7 +107,7 @@ const BankFeedsCreateView = ({
                 if (accountNumberRequired && !accountNumber) error('Account number');
                 if (accountSuffixRequired && !accountSuffix) error('Account suffix');
                 if (branchNameRequired && !branchName) error('Branch name');
-                if (nameOnCardRequired && !nameOnCardRequired) error('Name on card');
+                if (nameOnCardRequired && !nameOnCard) error('Name on card');
                 if (lastFourDigitsRequired && !lastFourDigits) error('Last four digits');
                 if (applicationPreference && !confirmedApplication) error('Confirmation');
                 if (errorMessages.length === 0) onNext();
