@@ -5,6 +5,7 @@ import {
   getIsLinesSupported,
   getIsReadOnlyLayout,
   getIsTaxCalculationRequired,
+  getLayoutDisplayName,
   getQuoteDetailOptions,
   getQuoteLine,
   getShowExportPdfButton,
@@ -367,6 +368,21 @@ describe('QuoteDetailSelectors', () => {
       ['BOGUS_LAYOUT', false],
     ])('when quote has %s layout, return %s', (layout, expected) => {
       const actual = getShowExportPdfButton.resultFunc(layout);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getLayoutDisplayName', () => {
+    it.each([
+      [QuoteLayout.SERVICE, 'Services'],
+      [QuoteLayout.ITEM_AND_SERVICE, 'Services and items'],
+      [QuoteLayout.PROFESSIONAL, 'Professional'],
+      [QuoteLayout.TIME_BILLING, 'Time billing'],
+      [QuoteLayout.MISCELLANEOUS, 'Miscellaneous'],
+      ['Unknown layout', 'Unknown layout'],
+    ])('on %s layout, returns %s', (layout, expected) => {
+      const actual = getLayoutDisplayName(layout);
 
       expect(actual).toEqual(expected);
     });

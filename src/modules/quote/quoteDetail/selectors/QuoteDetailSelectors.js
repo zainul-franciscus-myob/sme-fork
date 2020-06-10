@@ -242,12 +242,20 @@ export const getIsReadOnlyLayout = createSelector(
   (isLayoutSupported, isLinesSupported) => !isLayoutSupported || !isLinesSupported,
 );
 
+export const getLayoutDisplayName = layout => ({
+  [QuoteLayout.SERVICE]: 'Services',
+  [QuoteLayout.ITEM_AND_SERVICE]: 'Services and items',
+  [QuoteLayout.PROFESSIONAL]: 'Professional',
+  [QuoteLayout.TIME_BILLING]: 'Time billing',
+  [QuoteLayout.MISCELLANEOUS]: 'Miscellaneous',
+})[layout] || layout;
+
 export const getReadOnlyMessage = createSelector(
   getIsLayoutSupported,
   getLayout,
   (isLayoutSupported, layout) => (
     !isLayoutSupported
-      ? `This quote is missing information because the ${layout} quote layout isn't supported in the browser. Switch to AccountRight desktop to use this feature.`
+      ? `This quote is missing information because the ${getLayoutDisplayName(layout)} quote layout isn't supported in the browser. Switch to AccountRight desktop to use this feature.`
       : 'This quote is read only because it contains unsupported features. Switch to AccountRight desktop to edit this quote.'
   ),
 );

@@ -90,7 +90,7 @@ const QuoteDetailView = ({
     [QuoteLayout.ITEM_AND_SERVICE]: itemAndServiceTable,
     [QuoteLayout.PROFESSIONAL]: serviceTable,
     [QuoteLayout.TIME_BILLING]: itemAndServiceTable,
-    [QuoteLayout.MISCELLANEOUS]: itemAndServiceTable,
+    [QuoteLayout.MISCELLANEOUS]: serviceTable,
   }[layout]);
 
   const layoutPopover = (
