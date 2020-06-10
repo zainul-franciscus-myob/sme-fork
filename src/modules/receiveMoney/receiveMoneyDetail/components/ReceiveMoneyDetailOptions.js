@@ -95,7 +95,7 @@ class ReceiveMoneyDetailOptions extends Component {
       <React.Fragment>
         <Input
           name="referenceId"
-          maxLength={8}
+          maxLength={13}
           label="Reference number"
           requiredLabel="This is required"
           value={referenceId}
