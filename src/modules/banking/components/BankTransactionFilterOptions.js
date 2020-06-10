@@ -1,13 +1,17 @@
-import { Card, Select } from '@myob/myob-widgets';
+import { Card, DatePicker, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getFilterOptions, getRegion, getTransactionTypes } from '../bankingSelectors';
+import { getFilterOptions, getTransactionTypes } from '../bankingSelectors';
 import FilterBar from '../../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../../components/FilterBarSearch/FilterBarSearch';
-import PeriodPicker from '../../../components/PeriodPicker/PeriodPicker';
 
 class BankTransactionFilterOptions extends React.Component {
+  onDateChange = filterName => ({ value }) => {
+    const { onUpdateFilters } = this.props;
+    onUpdateFilters({ filterName, value });
+  }
+
   onSearchBoxChange = (e) => {
     const filterName = 'keywords';
     const { value } = e.target;
@@ -25,35 +29,32 @@ class BankTransactionFilterOptions extends React.Component {
 
   render = () => {
     const {
-      region,
       filterOptions: {
         transactionType,
-        period,
         dateFrom,
         dateTo,
         keywords,
       },
       transactionTypes,
-      onPeriodChange,
-      onResetFilters,
     } = this.props;
+
+    const dateRangeFilter = (
+      <React.Fragment>
+        <DatePicker label="Date from" name="dateFrom" value={dateFrom} onSelect={this.onDateChange('dateFrom')} />
+        <DatePicker label="Date to" name="dateTo" value={dateTo} onSelect={this.onDateChange('dateTo')} />
+      </React.Fragment>
+    );
 
     return (
       <Card>
-        <FilterBar onReset={onResetFilters}>
+        <FilterBar>
           <FilterBar.Group>
             <Select name="transactionType" label="Status" value={transactionType} onChange={this.onSelectChange} width="sm">
               {transactionTypes.map(({ label, value }) => (
                 <Select.Option value={value} label={label} key={value} />
               ))}
             </Select>
-            <PeriodPicker
-              region={region}
-              period={period}
-              dateFrom={dateFrom}
-              dateTo={dateTo}
-              onChange={onPeriodChange}
-            />
+            {dateRangeFilter}
           </FilterBar.Group>
           <FilterBarSearch id="Search_Box" name="Search" value={keywords} onChange={this.onSearchBoxChange} />
         </FilterBar>
@@ -63,7 +64,6 @@ class BankTransactionFilterOptions extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  region: getRegion(state),
   filterOptions: getFilterOptions(state),
   transactionTypes: getTransactionTypes(state),
 });

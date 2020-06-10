@@ -25,7 +25,6 @@ import {
   REMOVE_ATTACHMENT_BY_INDEX,
   REMOVE_MATCH_TRANSACTION_ADJUSTMENT,
   RESET_BULK_ALLOCATION,
-  RESET_FILTERS,
   SAVE_MATCH_TRANSACTION,
   SAVE_PENDING_NOTE,
   SAVE_SPLIT_ALLOCATION,
@@ -71,7 +70,6 @@ import {
   UPDATE_MATCH_TRANSACTION_ADJUSTMENT,
   UPDATE_MATCH_TRANSACTION_OPTIONS,
   UPDATE_MATCH_TRANSACTION_SELECTION,
-  UPDATE_PERIOD_DATE_RANGE,
   UPDATE_SELECTED_TRANSACTION_DETAILS,
   UPDATE_SPLIT_ALLOCATION_HEADER,
   UPDATE_SPLIT_ALLOCATION_LINE,
@@ -143,12 +141,10 @@ import {
   sortMatchTransferMoney,
   updateTransferMoney,
 } from './transferMoneyHandlers';
-import Periods from '../../../components/PeriodPicker/Periods';
 import TransactionTypes from '../TransactionTypes';
 import bankingRuleHandlers from '../bankingRule/bankingRuleReducers';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
-import getDateRangeByPeriodAndRegion from '../../../components/PeriodPicker/getDateRangeByPeriodAndRegion';
 import getDefaultState from './getDefaultState';
 import wrapHandlers from '../../../store/wrapHandlers';
 
@@ -174,16 +170,11 @@ const loadBankTransactions = (state, action) => ({
     isHovered: false,
   })),
   filterOptions: {
-    ...state.defaultFilterOptions,
+    ...state.filterOptions,
     bankAccount: action.bankAccount,
   },
   pagination: action.pagination,
-  defaultFilterOptions: {
-    ...state.defaultFilterOptions,
-    bankAccount: action.bankAccount,
-  },
-}
-);
+});
 
 const loadBankTransactionsNextPage = (state, action) => {
   const allTransactionIds = state.entries.map(transaction => transaction.transactionId);
@@ -223,23 +214,6 @@ const updateFilterOptions = (state, action) => ({
   },
 });
 
-const updatePeriodDateRange = (state, { period, dateFrom, dateTo }) => ({
-  ...state,
-  filterOptions: {
-    ...state.filterOptions,
-    period,
-    dateFrom,
-    dateTo,
-  },
-});
-
-const resetFilters = state => ({
-  ...state,
-  filterOptions: {
-    ...state.defaultFilterOptions,
-  },
-});
-
 const setTableLoadingState = (state, action) => ({
   ...state,
   isTableLoading: action.isTableLoading,
@@ -274,33 +248,24 @@ const getTransactionType = transactionType => (transactionType === 'Linked'
   ? TransactionTypes.ALLOCATED
   : TransactionTypes.UNALLOCATED);
 
+const setDate = (date, dateInState) => {
+  const dateObject = new Date(date);
+  return Number.isNaN(dateObject.getDate()) ? dateInState : formatIsoDate(dateObject);
+};
+
 const setInitialState = (state, action) => {
   const transactionType = getTransactionType(action.context.transactionType);
 
   const { bankAccount } = action.context;
 
-  const { period } = state.filterOptions;
-  const datesWithDefaultPeriod = getDateRangeByPeriodAndRegion(
-    action.context.region, new Date(), period,
-  );
-
-  const setDate = (date, dateInState) => {
-    const dateObject = new Date(date);
-    return Number.isNaN(dateObject.getDate()) ? dateInState : formatIsoDate(dateObject);
-  };
-
-  const datesFromContext = transactionType === TransactionTypes.ALLOCATED ? {
-    dateFrom: setDate(action.context.dateFrom, datesWithDefaultPeriod.dateFrom),
-    dateTo: setDate(action.context.dateTo, datesWithDefaultPeriod.dateTo),
-    period: Periods.custom,
-  } : {
-    ...datesWithDefaultPeriod,
-  };
-
+  const dates = transactionType === TransactionTypes.ALLOCATED ? {
+    dateFrom: setDate(action.context.dateFrom, state.filterOptions.dateFrom),
+    dateTo: setDate(action.context.dateTo, state.filterOptions.dateTo),
+  } : {};
 
   const filterOptions = {
     ...state.filterOptions,
-    ...datesFromContext,
+    ...dates,
     transactionType,
     bankAccount,
   };
@@ -429,8 +394,6 @@ const handlers = {
   [LOAD_BANK_TRANSACTIONS_NEXT_PAGE]: loadBankTransactionsNextPage,
   [SORT_AND_FILTER_BANK_TRANSACTIONS]: sortAndFilterBankTransactions,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
-  [UPDATE_PERIOD_DATE_RANGE]: updatePeriodDateRange,
-  [RESET_FILTERS]: resetFilters,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [SET_LOADING_STATE]: setLoadingState,
   [START_LOADING_MORE]: startLoadingMore,

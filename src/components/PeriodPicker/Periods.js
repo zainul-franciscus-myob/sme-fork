@@ -6,7 +6,6 @@ const Periods = {
   lastFinancialQuarter: 'Last financial quarter',
   lastFinancialYear: 'Last financial year',
   lastMonth: 'Last month',
-  lastThreeMonths: 'Last 3 months',
   custom: 'Custom',
 };
 

@@ -18,7 +18,6 @@ import {
   START_LOADING_MORE,
   STOP_LOADING_MORE,
   UPDATE_MATCH_TRANSACTION_OPTIONS,
-  UPDATE_PERIOD_DATE_RANGE,
 } from '../BankingIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
 import BankingModule from '../BankingModule';
@@ -614,29 +613,6 @@ describe('BankingModule', () => {
           params: expect.objectContaining({
             contactId: '🙅‍♀️',
           }),
-        }),
-      ]);
-    });
-  });
-
-  describe('updatePeriodDateRange', () => {
-    it('should update the period date range and filter bank transactions list', () => {
-      const { module, integration, store } = setUpWithRun();
-
-      store.resetActions();
-      integration.resetRequests();
-
-      module.updatePeriodDateRange({ period: 'monthly', dateFrom: '20/02/2020', dateTo: '20/02/2020' });
-
-      expect(store.getActions()[0]).toEqual({
-        intent: UPDATE_PERIOD_DATE_RANGE,
-        period: 'monthly',
-        dateFrom: '20/02/2020',
-        dateTo: '20/02/2020',
-      });
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: SORT_AND_FILTER_BANK_TRANSACTIONS,
         }),
       ]);
     });

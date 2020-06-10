@@ -85,21 +85,6 @@ export default class BankingModule {
     }
   }
 
-  updatePeriodDateRange = ({ period, dateFrom, dateTo }) => {
-    this.dispatcher.updatePeriodDateRange({
-      period,
-      dateFrom,
-      dateTo,
-    });
-
-    this.filterBankTransactions();
-  }
-
-  resetFilters = () => {
-    this.dispatcher.resetFilters();
-    this.filterBankTransactions();
-  }
-
   render = () => {
     const {
       dismissAlert,
@@ -135,8 +120,6 @@ export default class BankingModule {
         inTrayModal={inTrayModal}
         accountModal={accountModal}
         onUpdateFilters={this.confirmBefore(this.updateFilterOptions)}
-        onPeriodChange={this.confirmBefore(this.updatePeriodDateRange)}
-        onResetFilters={this.confirmBefore(this.resetFilters)}
         onBankAccountChange={this.bankAccountChange}
         onSort={this.confirmBefore(this.sortBankTransactions)}
         onDismissAlert={dismissAlert}
