@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import { getBusinessId, getRegion } from './index';
+import { getBusinessId, getOpenTransactionLine, getRegion } from './index';
 
 export const getIsAttachmentsLoading = state => state.openEntry.isAttachmentsLoading;
 
@@ -23,6 +23,11 @@ export const getFilesForUpload = (state, files) => (
   files.filter(file => state.openEntry.attachments.find(
     attachment => attachment.file === file,
   ).state === 'queued')
+);
+
+export const getRemoveDocumentParams = createSelector(
+  getOpenTransactionLine,
+  openTransaction => ({ uid: openTransaction.transactionUid }),
 );
 
 export const getInTrayModalContext = createSelector(

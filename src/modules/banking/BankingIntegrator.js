@@ -57,6 +57,7 @@ import {
   getMatchTransactionSortOrder,
   getUnmatchTransactionPayload,
 } from './bankingSelectors/matchTransactionSelectors';
+import { getRemoveDocumentParams } from './bankingSelectors/attachmentsSelectors';
 import { getSplitAllocationPayload } from './bankingSelectors/splitAllocationSelectors';
 
 const createBankingIntegrator = (store, integration) => ({
@@ -485,6 +486,7 @@ const createBankingIntegrator = (store, integration) => ({
         businessId: getBusinessId(state),
         documentId: id,
       },
+      params: getRemoveDocumentParams(state),
       onSuccess,
       onFailure,
     });
