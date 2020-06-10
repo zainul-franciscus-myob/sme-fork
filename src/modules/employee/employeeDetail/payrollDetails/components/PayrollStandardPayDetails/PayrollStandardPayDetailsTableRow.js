@@ -5,6 +5,7 @@ import React from 'react';
 import { fieldTypes, getIsPayrollJobColumnEnabled, getJobs } from '../../selectors/PayrollStandardPaySelectors';
 import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
 import JobCombobox from '../../../../../../components/combobox/JobCombobox';
+import styles from './PayrollStandardPayDetailsTableRow.module.css';
 
 const handleInputChange = (handler, payItemId, payItemType) => (e) => {
   const { name, rawValue } = e.target;
@@ -106,6 +107,7 @@ const PayrollStandardPayDetailsTableRow = ({
     selectedId={jobId}
     disabled={isLoading}
     allowClear
+    className={styles.jobComboPosition}
   />;
 
   const tableConfigWithConditionalHeaders = {

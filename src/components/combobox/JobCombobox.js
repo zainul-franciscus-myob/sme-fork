@@ -26,6 +26,7 @@ const JobCombobox = (props) => {
   return (
     <div className={classNames({
       [styles.left]: left,
+      [otherProps.className]: otherProps.className,
     })}
     >
       <Combobox
