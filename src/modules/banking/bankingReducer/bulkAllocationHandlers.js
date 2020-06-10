@@ -2,7 +2,7 @@ import {
   getIsMaximumSelected,
   getRemainingAvailable,
 } from '../bankingSelectors/bulkAllocationSelectors';
-import BankTransactionStatusTypes from '../BankTransactionStatusTypes';
+import { isStatusUnapproved } from '../BankTransactionStatusTypes';
 import calculateBalance from '../common/calculateBalances';
 
 const getBalancesForBulkResult = (state, allocatedEntries, isAllocate) => {
@@ -14,9 +14,11 @@ const getBalancesForBulkResult = (state, allocatedEntries, isAllocate) => {
   } = state;
 
   const allocatedIds = allocatedEntries.map(allocatedEntry => allocatedEntry.transactionId);
+
   const amount = entries
     .filter(entry => {
-      if (entry.type !== BankTransactionStatusTypes.unmatched) {
+      // Remove the entries (for only bulk allocation) that are approved transaction types
+      if (isAllocate && !isStatusUnapproved(entry.type)) {
         return false;
       }
       return allocatedIds.includes(entry.transactionId);

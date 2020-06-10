@@ -85,57 +85,91 @@ describe('allocateHandlers', () => {
       expect(actual.entries[0].selectedAccountId).toEqual(undefined);
     });
 
-    it('should reduce amount from unallocated when account is under deposit', () => {
-      const modifiedState = {
-        ...state,
-        entries: [{
-          deposit: 100,
-          withdrawal: undefined,
-          type: BankTransactionStatusTypes.unmatched,
-        }],
-        balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 1000 },
-      };
+    describe('updating the calculated balances', () => {
+      it('should reduce amount from unallocated when account is under deposit', () => {
+        const modifiedState = {
+          ...state,
+          entries: [{
+            deposit: 100,
+            withdrawal: undefined,
+            type: BankTransactionStatusTypes.unmatched,
+          }],
+          balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 1000 },
+        };
 
-      const expected = { bankBalance: 1000, myobBalance: 1100, unallocated: 900 };
+        const expected = { bankBalance: 1000, myobBalance: 1100, unallocated: 900 };
 
-      const actual = allocateTransaction(modifiedState, action);
+        const actual = allocateTransaction(modifiedState, action);
 
-      expect(actual.balances).toEqual(expected);
-    });
+        expect(actual.balances).toEqual(expected);
+      });
 
-    it('should add amount to unallocated when account is under withdrawal', () => {
-      const modifiedState = {
-        ...state,
-        entries: [{
-          deposit: undefined,
-          withdrawal: 100,
-          type: BankTransactionStatusTypes.unmatched,
-        }],
-        balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 1000 },
-      };
+      it('should add amount to unallocated when account is under withdrawal', () => {
+        const modifiedState = {
+          ...state,
+          entries: [{
+            deposit: undefined,
+            withdrawal: 100,
+            type: BankTransactionStatusTypes.unmatched,
+          }],
+          balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 1000 },
+        };
 
-      const expected = { bankBalance: 1000, myobBalance: 900, unallocated: 1100 };
+        const expected = { bankBalance: 1000, myobBalance: 900, unallocated: 1100 };
 
-      const actual = allocateTransaction(modifiedState, action);
+        const actual = allocateTransaction(modifiedState, action);
 
-      expect(actual.balances).toEqual(expected);
-    });
+        expect(actual.balances).toEqual(expected);
+      });
 
-    it('should update the calculated balances only if entry is unmatched', () => {
-      const modifiedState = {
-        ...state,
-        entries: [
-          {
-            withdrawal: 10,
-            deposit: 0,
-            type: BankTransactionStatusTypes.singleAllocation,
-          },
-        ],
-      };
+      it.each([
+        [BankTransactionStatusTypes.singleAllocation],
+        [BankTransactionStatusTypes.splitAllocation],
+        [BankTransactionStatusTypes.splitMatched],
+        [BankTransactionStatusTypes.transfer],
+      ])('should not update the calculated balances for a %s bank transaction', (status) => {
+        const modifiedState = {
+          ...state,
+          entries: [
+            {
+              withdrawal: 10,
+              deposit: 0,
+              type: status,
+            },
+          ],
+        };
 
-      const actual = allocateTransaction(modifiedState, action);
+        const actual = allocateTransaction(modifiedState, action);
 
-      expect(actual.balances).toEqual(state.balances);
+        expect(actual.balances).toEqual(state.balances);
+      });
+
+      it.each([
+        [BankTransactionStatusTypes.unmatched],
+        [BankTransactionStatusTypes.matched],
+        [BankTransactionStatusTypes.paymentRuleMatched],
+      ])('should update the calculated balances for a %s bank transaction', (status) => {
+        const modifiedState = {
+          ...state,
+          entries: [
+            {
+              withdrawal: 10,
+              deposit: 0,
+              type: status,
+            },
+          ],
+        };
+
+        const expectedBalances = {
+          ...state.balances,
+          myobBalance: -10,
+          unallocated: 10,
+        };
+
+        const actual = allocateTransaction(modifiedState, action);
+
+        expect(actual.balances).toEqual(expectedBalances);
+      });
     });
   });
 });

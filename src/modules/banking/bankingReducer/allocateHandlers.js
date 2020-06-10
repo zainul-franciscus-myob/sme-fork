@@ -1,4 +1,4 @@
-import BankTransactionStatusTypes from '../BankTransactionStatusTypes';
+import { isStatusUnapproved } from '../BankTransactionStatusTypes';
 import calculateBalance from '../common/calculateBalances';
 
 const getCalculatedAllocatedBalances = (state, index) => {
@@ -23,13 +23,11 @@ const getCalculatedAllocatedBalances = (state, index) => {
 
 // eslint-disable-next-line import/prefer-default-export
 export const allocateTransaction = (state, action) => {
-  const entryIsUnmatched = (
-    state.entries[action.index].type === BankTransactionStatusTypes.unmatched
-  );
+  const entryIsUnapproved = isStatusUnapproved(state.entries[action.index].type);
 
   return {
     ...state,
-    balances: entryIsUnmatched
+    balances: entryIsUnapproved
       ? getCalculatedAllocatedBalances(state, action.index)
       : state.balances,
     entries: state.entries.map(

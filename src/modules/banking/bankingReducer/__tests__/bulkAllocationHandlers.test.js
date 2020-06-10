@@ -262,62 +262,150 @@ describe('bulkAllocationHandlers', () => {
       expect(actual).toEqual(expected);
     });
 
-    it('should only update balances for unmatched entries', () => {
+    describe('updating the calculated balances', () => {
       const state = {
         bankAccounts: [],
         filterOptions: {},
         balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 1000 },
-        entries: [
-          {
-            transactionId: '1',
-            allocateOrMatch: '',
-            type: BankTransactionStatusTypes.unmatched,
-            withdrawal: 100,
-          },
-        ],
       };
 
-      const expected = { bankBalance: 1000, myobBalance: 900, unallocated: 1100 };
+      it.each([
+        [BankTransactionStatusTypes.singleAllocation],
+        [BankTransactionStatusTypes.splitAllocation],
+        [BankTransactionStatusTypes.splitMatched],
+        [BankTransactionStatusTypes.transfer],
+      ])('should not update the calculated balances for a %s bank transaction', (status) => {
+        const modifiedState = {
+          ...state,
+          entries: [
+            {
+              transactionId: '1',
+              allocateOrMatch: '',
+              withdrawal: 100,
+              type: status,
+            },
+          ],
+        };
 
-      const actual = bulkAllocateTransactions(state, {
-        entries: [
-          {
-            transactionId: '1',
-            allocateOrMatch: 'Income',
-            type: BankTransactionStatusTypes.singleAllocation,
-          },
-        ],
+        const action = {
+          entries: [
+            {
+              transactionId: '1',
+              allocateOrMatch: 'Income',
+              type: BankTransactionStatusTypes.singleAllocation,
+            },
+          ],
+        };
+
+        const actual = bulkAllocateTransactions(modifiedState, action);
+
+        expect(actual.balances).toEqual(state.balances);
       });
 
-      expect(actual.balances).toEqual(expected);
-    });
+      it.each([
+        [BankTransactionStatusTypes.unmatched],
+        [BankTransactionStatusTypes.matched],
+        [BankTransactionStatusTypes.paymentRuleMatched],
+      ])('should update the calculated balances for a %s bank transaction', (status) => {
+        const modifiedState = {
+          ...state,
+          entries: [
+            {
+              transactionId: '2',
+              allocateOrMatch: '',
+              withdrawal: 100,
+              type: status,
+            },
+          ],
+        };
 
-    it('should not update balances for other transaction types', () => {
-      const state = {
-        bankAccounts: [],
-        filterOptions: {},
-        balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 1000 },
-        entries: [
-          {
-            transactionId: '2',
-            allocateOrMatch: '',
-            type: BankTransactionStatusTypes.singleAllocation,
-            withdrawal: 100,
-          },
-        ],
-      };
+        const action = {
+          entries: [
+            {
+              transactionId: '2',
+              allocateOrMatch: 'Income',
+              type: BankTransactionStatusTypes.singleAllocation,
+            },
+          ],
+        };
 
-      const actual = bulkAllocateTransactions(state, {
-        entries: [
-          {
-            transactionId: '2',
-            allocateOrMatch: 'Income',
-            type: BankTransactionStatusTypes.singleAllocation,
-          },
-        ],
+        const expectedBalances = {
+          ...state.balances,
+          myobBalance: 900,
+          unallocated: 1100,
+        };
+
+        const actual = bulkAllocateTransactions(modifiedState, action);
+
+        expect(actual.balances).toEqual(expectedBalances);
       });
 
-      expect(actual.balances).toEqual(state.balances);
+      it('should handle a bulk allocating a variety of different transaction types', () => {
+        const modifiedState = {
+          ...state,
+          entries: [
+            {
+              transactionId: '1',
+              allocateOrMatch: '',
+              withdrawal: 100,
+              type: BankTransactionStatusTypes.singleAllocation,
+            },
+            {
+              transactionId: '2',
+              allocateOrMatch: '',
+              withdrawal: 100,
+              type: BankTransactionStatusTypes.paymentRuleMatched,
+            },
+            {
+              transactionId: '3',
+              allocateOrMatch: '',
+              withdrawal: 100,
+              type: BankTransactionStatusTypes.splitMatched,
+            },
+            {
+              transactionId: '4',
+              allocateOrMatch: '',
+              withdrawal: 100,
+              type: BankTransactionStatusTypes.unmatched,
+            },
+          ],
+        };
+
+        const action = {
+          entries: [
+            {
+              transactionId: '1',
+              allocateOrMatch: 'Income',
+              type: BankTransactionStatusTypes.singleAllocation,
+            },
+            {
+              transactionId: '2',
+              allocateOrMatch: 'Income',
+              type: BankTransactionStatusTypes.singleAllocation,
+            },
+            {
+              transactionId: '3',
+              allocateOrMatch: 'Income',
+              type: BankTransactionStatusTypes.singleAllocation,
+            },
+            {
+              transactionId: '4',
+              allocateOrMatch: 'Income',
+              type: BankTransactionStatusTypes.singleAllocation,
+            },
+          ],
+        };
+
+        const expectedBalances = {
+          ...state.balances,
+          myobBalance: 800,
+          unallocated: 1200,
+        };
+
+        const actual = bulkAllocateTransactions(modifiedState, action);
+
+        expect(actual.balances).toEqual(expectedBalances);
+      });
     });
   });
 
