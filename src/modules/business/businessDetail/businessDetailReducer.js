@@ -43,7 +43,7 @@ const getDefaultState = () => ({
     tradingName: '',
     website: '',
     isFinancialYearClosed: false,
-    isFinancialYearDisabled: false,
+    hasTransactions: false,
   },
   isLockDateAutoPopulated: false,
   loadingState: LoadingState.LOADING,
@@ -54,6 +54,7 @@ const getDefaultState = () => ({
   financialYearModal: { isOpen: false, isLoading: false },
   isStartNewFinancialYearEnabled: false,
   financialYearOptions: [],
+  isFinancialYearSectionReadOnly: false,
 });
 
 const setInitialState = (state, { context }) => ({
@@ -74,18 +75,18 @@ const setAlert = (state, action) => ({
 });
 
 const loadBusinessDetail = (state, action) => {
-  const isFinancialYearDisabled = !action.businessDetails.isFinancialYearClosed
-    && action.businessDetails.hasTransactions;
+  const isFinancialYearSectionReadOnly = action.businessDetails.isFinancialYearClosed
+    || action.businessDetails.hasTransactions;
 
   return {
     ...state,
     businessDetails: {
       ...state.businessDetails,
       ...action.businessDetails,
-      isFinancialYearDisabled,
     },
     pageTitle: action.pageTitle,
     financialYearOptions: action.financialYearOptions,
+    isFinancialYearSectionReadOnly,
   };
 };
 

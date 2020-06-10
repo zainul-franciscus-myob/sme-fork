@@ -27,16 +27,15 @@ const FinancialYearSection = ({
   financialYear,
   lastMonthInFinancialYear,
   openingBalanceDate,
-  isFinancialYearClosed,
   isStartNewFinancialYearEnabled,
-  isFinancialYearDisabled,
+  isFinancialYearSectionReadOnly,
   onChange,
   onStartNewFinancialYear,
   onOpenFinancialYearModal,
   onCloseFinancialYearModal,
   financialYearOptions,
 }) => {
-  const financialYearComboBox = isFinancialYearClosed
+  const financialYearComboBox = isFinancialYearSectionReadOnly
     ? <ReadOnly label="Current financial year" name="financialYear">
         {financialYear}
       </ReadOnly>
@@ -44,9 +43,9 @@ const FinancialYearSection = ({
       <YearSelect
         financialYearOptions={financialYearOptions}
         name="financialYear"
+        label="Current financial year"
         value={financialYear}
         onChange={handleSelectChange(onChange)}
-        disabled={isFinancialYearDisabled}
         width="xs"
       />
     );
@@ -66,7 +65,7 @@ const FinancialYearSection = ({
     </Tooltip>
   );
 
-  const lastMonthInFYComboBox = isFinancialYearClosed
+  const lastMonthInFYComboBox = isFinancialYearSectionReadOnly
     ? <ReadOnly label="Last month in financial year" name="lastMonthInFinancialYear" labelAccessory={lastMonthFYToolTip}>
         {monthNames[lastMonthInFinancialYear - 1]}
       </ReadOnly>
@@ -89,19 +88,19 @@ const FinancialYearSection = ({
     </Tooltip>
   );
 
-  const openingBalanceDateComboBox = isFinancialYearClosed
+  const openingBalanceDateComboBox = isFinancialYearSectionReadOnly
     ? <ReadOnly label="Opening balance month" name="openingBalanceDate" labelAccessory={openingBalanceDateTooltip}>
         {formatDate(openingBalanceDate, dateFormat)}
       </ReadOnly>
     : (
-    <MonthPicker
-      name="openingBalanceDate"
-      label="Opening balance month"
-      value={openingBalanceDate}
-      labelAccessory={openingBalanceDateTooltip}
-      className={styles.monthSelectPicker}
-      onSelect={handleMonthPickerChange(onChange, 'openingBalanceDate')}
-    />
+      <MonthPicker
+        name="openingBalanceDate"
+        label="Opening balance month"
+        value={openingBalanceDate}
+        labelAccessory={openingBalanceDateTooltip}
+        className={styles.monthSelectPicker}
+        onSelect={handleMonthPickerChange(onChange, 'openingBalanceDate')}
+      />
     );
 
   return (

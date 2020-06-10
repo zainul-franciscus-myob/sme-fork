@@ -136,44 +136,12 @@ describe('businessDetailReducer', () => {
   });
 
   describe('loadBusinessDetail', () => {
-    it('should disable financial year combobox when current financial year is not closed and company file has at least one transaction', () => {
-      const state = {
-        businessDetails: {
-          isFinancialYearDisabled: false,
-          isFinancialYearClosed: false,
-          hasTransactions: false,
-        },
-      };
-
-      const action = {
-        businessDetails: {
-          isFinancialYearClosed: false,
-          hasTransactions: true,
-        },
-      };
-
-      const expected = {
-        businessDetails: {
-          isFinancialYearDisabled: true,
-          isFinancialYearClosed: false,
-          hasTransactions: true,
-        },
-      };
-
-      const actual = businessDetailsReducer(state, {
-        intent: LOAD_BUSINESS_DETAIL,
-        businessDetails: action.businessDetails,
-      });
-
-      expect(actual.businessDetails).toEqual(expected.businessDetails);
-    });
-
     it('should make all fields in FinancialYearSection readonly when current financial year is closed', () => {
       const state = {
         businessDetails: {
-          isFinancialYearDisabled: false,
           isFinancialYearClosed: false,
         },
+        isFinancialYearSectionReadOnly: false,
       };
 
       const action = {
@@ -184,9 +152,9 @@ describe('businessDetailReducer', () => {
 
       const expected = {
         businessDetails: {
-          isFinancialYearDisabled: false,
           isFinancialYearClosed: true,
         },
+        isFinancialYearSectionReadOnly: true,
       };
 
       const actual = businessDetailsReducer(state, {
@@ -194,16 +162,45 @@ describe('businessDetailReducer', () => {
         businessDetails: action.businessDetails,
       });
 
-      expect(actual.businessDetails).toEqual(expected.businessDetails);
+      expect(actual).toEqual(expected);
+    });
+
+    it('should make all fields in FinancialYearSection readonly when companyfile has any transactions', () => {
+      const state = {
+        businessDetails: {
+          hasTransactions: false,
+        },
+        isFinancialYearSectionReadOnly: false,
+      };
+
+      const action = {
+        businessDetails: {
+          hasTransactions: true,
+        },
+      };
+
+      const expected = {
+        businessDetails: {
+          hasTransactions: true,
+        },
+        isFinancialYearSectionReadOnly: true,
+      };
+
+      const actual = businessDetailsReducer(state, {
+        intent: LOAD_BUSINESS_DETAIL,
+        businessDetails: action.businessDetails,
+      });
+
+      expect(actual).toEqual(expected);
     });
 
     it('should make all fields in FinancialYearSection edittable when current financial year is not closed and no transactions exist', () => {
       const state = {
         businessDetails: {
-          isFinancialYearDisabled: true,
           isFinancialYearClosed: false,
           hasTransactions: true,
         },
+        isFinancialYearSectionReadOnly: true,
       };
 
       const action = {
@@ -215,10 +212,10 @@ describe('businessDetailReducer', () => {
 
       const expected = {
         businessDetails: {
-          isFinancialYearDisabled: false,
           isFinancialYearClosed: false,
           hasTransactions: false,
         },
+        isFinancialYearSectionReadOnly: false,
       };
 
       const actual = businessDetailsReducer(state, {
@@ -226,7 +223,7 @@ describe('businessDetailReducer', () => {
         businessDetails: action.businessDetails,
       });
 
-      expect(actual.businessDetails).toEqual(expected.businessDetails);
+      expect(actual).toEqual(expected);
     });
   });
 });
