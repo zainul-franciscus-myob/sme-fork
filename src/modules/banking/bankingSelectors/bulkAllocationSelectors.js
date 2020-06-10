@@ -53,6 +53,7 @@ export const getBulkAllocationPayload = ({ entries, filterOptions, bulkAllocatio
       deposit: entry.deposit,
       withdrawal: entry.withdrawal,
       date: entry.date,
+      description: entry.description,
     })),
   };
 };

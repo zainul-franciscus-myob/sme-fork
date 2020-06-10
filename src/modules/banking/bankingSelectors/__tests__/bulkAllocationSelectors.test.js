@@ -65,6 +65,7 @@ describe('bulkAllocationSelector', () => {
             allocateOrMatch: 'Allocate me',
             selected: true,
             type: 'unmatched',
+            description: 'spend money',
           },
           {
             transactionId: '2',
@@ -72,6 +73,7 @@ describe('bulkAllocationSelector', () => {
             deposit: 33.00,
             allocateOrMatch: 'Possible match found',
             type: 'matched',
+            description: 'receive money',
           },
         ],
       };
@@ -87,6 +89,7 @@ describe('bulkAllocationSelector', () => {
             transactionId: '1',
             date: '2019-02-11',
             withdrawal: 32.00,
+            description: 'spend money',
           },
         ],
       };
@@ -112,6 +115,7 @@ describe('bulkAllocationSelector', () => {
             allocateOrMatch: 'Allocate me',
             type: 'unmatched',
             selected: true,
+            description: 'spend money',
           },
           {
             transactionId: '2',
@@ -159,6 +163,7 @@ describe('bulkAllocationSelector', () => {
             transactionId: '1',
             date: '2019-02-11',
             withdrawal: 32.00,
+            description: 'spend money',
           },
           {
             transactionId: '2',
