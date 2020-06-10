@@ -2,6 +2,49 @@ import Periods from '../Periods';
 import getDateRangeByPeriodAndRegion from '../getDateRangeByPeriodAndRegion';
 
 describe('getDateRangeByPeriodAndRegion', () => {
+  describe('non region specific', () => {
+    describe('Last month', () => {
+      describe('dateFrom', () => {
+        it('should be Jan 1 if in Feb', () => {
+          const date = new Date('2019-02-28');
+          const period = Periods.lastMonth;
+          const expected = '2019-01-01';
+          const lastMonth = getDateRangeByPeriodAndRegion('', date, period);
+          expect(lastMonth.dateFrom).toBe(expected);
+        });
+      });
+      describe('dateTo', () => {
+        it('should be Jan 31 if in Feb', () => {
+          const date = new Date('2019-02-28');
+          const period = Periods.lastMonth;
+          const expected = '2019-01-31';
+          const lastMonth = getDateRangeByPeriodAndRegion('', date, period);
+          expect(lastMonth.dateTo).toBe(expected);
+        });
+      });
+    });
+    describe('Last three months', () => {
+      describe('dateFrom', () => {
+        it('should be Jan 28 if current date is April 28', () => {
+          const date = new Date('2020-04-28');
+          const period = Periods.lastThreeMonths;
+          const expected = '2020-01-28';
+          const lastThreeMonths = getDateRangeByPeriodAndRegion('', date, period);
+          expect(lastThreeMonths.dateFrom).toBe(expected);
+        });
+      });
+      describe('dateTo', () => {
+        it('should be the current date', () => {
+          const date = new Date('2020-04-28');
+          const period = Periods.lastThreeMonths;
+          const expected = '2020-04-28';
+          const lastThreeMonths = getDateRangeByPeriodAndRegion('', date, period);
+          expect(lastThreeMonths.dateTo).toBe(expected);
+        });
+      });
+    });
+  });
+
   describe('au', () => {
     const getPeriodOptionByIdAu = date => period => getDateRangeByPeriodAndRegion('au', date, period);
     describe('This financial quarter period', () => {
@@ -169,24 +212,6 @@ describe('getDateRangeByPeriodAndRegion', () => {
 
           const lastFinancialYear = getPeriodOptionsById(Periods.lastFinancialYear);
           expect(lastFinancialYear.dateTo).toBe('2019-06-30');
-        });
-      });
-    });
-    describe('Last month', () => {
-      describe('dateFrom', () => {
-        it('should be Jan 1 if in Feb', () => {
-          const getPeriodOptionsById = getPeriodOptionByIdAu(new Date('2019-02-28'));
-
-          const lastMonth = getPeriodOptionsById(Periods.lastMonth);
-          expect(lastMonth.dateFrom).toBe('2019-01-01');
-        });
-      });
-      describe('dateTo', () => {
-        it('should be Jan 31 if in Feb', () => {
-          const getPeriodOptionsById = getPeriodOptionByIdAu(new Date('2019-02-28'));
-
-          const lastMonth = getPeriodOptionsById(Periods.lastMonth);
-          expect(lastMonth.dateTo).toBe('2019-01-31');
         });
       });
     });

@@ -25,6 +25,7 @@ import {
   REMOVE_ATTACHMENT_BY_INDEX,
   REMOVE_MATCH_TRANSACTION_ADJUSTMENT,
   RESET_BULK_ALLOCATION,
+  RESET_FILTERS,
   SAVE_MATCH_TRANSACTION,
   SAVE_PENDING_NOTE,
   SAVE_SPLIT_ALLOCATION,
@@ -70,6 +71,7 @@ import {
   UPDATE_MATCH_TRANSACTION_ADJUSTMENT,
   UPDATE_MATCH_TRANSACTION_OPTIONS,
   UPDATE_MATCH_TRANSACTION_SELECTION,
+  UPDATE_PERIOD_DATE_RANGE,
   UPDATE_SELECTED_TRANSACTION_DETAILS,
   UPDATE_SPLIT_ALLOCATION_HEADER,
   UPDATE_SPLIT_ALLOCATION_LINE,
@@ -230,6 +232,20 @@ const createBankingDispatcher = store => ({
       filterName,
       value,
     });
+  },
+
+  updatePeriodDateRange: ({ period, dateFrom, dateTo }) => {
+    const intent = UPDATE_PERIOD_DATE_RANGE;
+    store.dispatch({
+      intent,
+      period,
+      dateFrom,
+      dateTo,
+    });
+  },
+
+  resetFilters: () => {
+    store.dispatch({ intent: RESET_FILTERS });
   },
 
   dismissAlert: () => {

@@ -109,6 +109,13 @@ const getLastMonth = date => (
   }
 );
 
+const getLastThreeMonths = date => (
+  {
+    dateFrom: subMonths(date, 3),
+    dateTo: date,
+  }
+);
+
 const handlers = {
   [Periods.thisDay]: getCurrentDateRange,
   [Periods.thisMonth]: getCurrentMonthDateRange,
@@ -117,6 +124,7 @@ const handlers = {
   [Periods.lastFinancialQuarter]: getLastFinancialQuarter,
   [Periods.lastFinancialYear]: getLastFinancialYear,
   [Periods.lastMonth]: getLastMonth,
+  [Periods.lastThreeMonths]: getLastThreeMonths,
 };
 
 const getDateRangeByPeriodAndRegion = (region, date, period) => {

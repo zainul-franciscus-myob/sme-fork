@@ -9,8 +9,8 @@ import {
   getHasError,
   getIsEntryLoading,
   getIsLoading,
-  getLoadMoreButtonStatus,
   getModalType,
+  // getLoadMoreButtonStatus, See comment below on <LoadMoreButton>
 } from '../bankingSelectors';
 import {
   getBulkMessage,
@@ -21,7 +21,6 @@ import BankTransactionPageHead from './BankTransactionPageHead';
 import BankTransactionTable from './BankTransactionTable';
 import BankingModal from './BankingModal';
 import BulkAllocationPopover from './BulkAllocationPopover';
-import LoadMoreButton from '../../../components/PaginatedListTemplate/LoadMoreButton';
 import NoContentView from './NoContentView';
 import PageView from '../../../components/PageView/PageView';
 import styles from './BankingView.module.css';
@@ -38,6 +37,8 @@ const BankingView = (props) => {
     showBulkActions,
     getBankingRuleModal,
     onUpdateFilters,
+    onPeriodChange,
+    onResetFilters,
     onAddAccount,
     onBankAccountChange,
     onSort,
@@ -98,8 +99,8 @@ const BankingView = (props) => {
     onNoteBlur,
     onImportStatementButtonClick,
     onLinkFromInTrayButtonClick,
-    onLoadMoreButtonClick,
-    loadMoreButtonStatus,
+    // onLoadMoreButtonClick, See comment below on <LoadMoreButton>
+    // loadMoreButtonStatus,
   } = props;
 
   const bulkActions = (
@@ -122,6 +123,8 @@ const BankingView = (props) => {
       />
       <BankTransactionFilterOptions
         onUpdateFilters={onUpdateFilters}
+        onPeriodChange={onPeriodChange}
+        onResetFilters={onResetFilters}
       />
       {showBulkActions && bulkActions}
     </>
@@ -204,10 +207,12 @@ const BankingView = (props) => {
           onLinkFromInTrayButtonClick={onLinkFromInTrayButtonClick}
         />
       </StandardTemplate>
-      <LoadMoreButton
+      {/* Commented out because business highly likely to re-introduce pagination.
+          To re-introduce pagination, simply uncomment this. All other wiring is intact.
+       <LoadMoreButton
         onLoadMoreButtonClick={onLoadMoreButtonClick}
         loadMoreButtonStatus={loadMoreButtonStatus}
-      />
+      /> */}
     </div>
   );
 
@@ -226,7 +231,7 @@ const mapStateToProps = state => ({
   modalType: getModalType(state),
   bulkMessage: getBulkMessage(state),
   showBulkActions: showBulkActionsSelector(state),
-  loadMoreButtonStatus: getLoadMoreButtonStatus(state),
+  // loadMoreButtonStatus: getLoadMoreButtonStatus(state),  See comment above on <LoadMoreButton>
 });
 
 export default connect(mapStateToProps)(BankingView);
