@@ -8,6 +8,7 @@ import {
   getIsBeforeConversionDate,
   getIsLinesSupported,
   getIsReadOnly,
+  getLayoutDisplayName,
   getReadOnlyMessage,
   getTemplateOptions,
   getTotals,
@@ -618,6 +619,21 @@ describe('invoiceDetailSelectors', () => {
 
         expect(actual).toEqual(test.expected);
       });
+    });
+  });
+
+  describe('getLayoutDisplayName', () => {
+    it.each([
+      [InvoiceLayout.SERVICE, 'Services'],
+      [InvoiceLayout.ITEM_AND_SERVICE, 'Services and items'],
+      [InvoiceLayout.PROFESSIONAL, 'Professional'],
+      [InvoiceLayout.TIME_BILLING, 'Time billing'],
+      [InvoiceLayout.MISCELLANEOUS, 'Miscellaneous'],
+      ['Unknown layout', 'Unknown layout'],
+    ])('on %s layout, returns %s', (layout, expected) => {
+      const actual = getLayoutDisplayName(layout);
+
+      expect(actual).toEqual(expected);
     });
   });
 });

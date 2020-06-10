@@ -136,13 +136,21 @@ export const getIsReadOnly = createSelector(
   ),
 );
 
+export const getLayoutDisplayName = layout => ({
+  [InvoiceLayout.SERVICE]: 'Services',
+  [InvoiceLayout.ITEM_AND_SERVICE]: 'Services and items',
+  [InvoiceLayout.PROFESSIONAL]: 'Professional',
+  [InvoiceLayout.TIME_BILLING]: 'Time billing',
+  [InvoiceLayout.MISCELLANEOUS]: 'Miscellaneous',
+})[layout] || layout;
+
 export const getReadOnlyMessage = createSelector(
   getIsLayoutSupported,
   getLayout,
   getHasFreightAmount,
   (isLayoutSupported, layout, hasFreightAmount) => {
     if (!isLayoutSupported) {
-      return `This invoice is read only because the ${layout} layout isn't supported in the browser. Switch to AccountRight desktop to edit this invoice.`;
+      return `This invoice is read only because the ${getLayoutDisplayName(layout)} layout isn't supported in the browser. Switch to AccountRight desktop to edit this invoice.`;
     }
 
     if (hasFreightAmount) {

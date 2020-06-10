@@ -146,7 +146,7 @@ const InvoiceDetailView = ({
     [InvoiceLayout.ITEM_AND_SERVICE]: itemAndServiceTable,
     [InvoiceLayout.PROFESSIONAL]: serviceTable,
     [InvoiceLayout.TIME_BILLING]: itemAndServiceTable,
-    [InvoiceLayout.MISCELLANEOUS]: itemAndServiceTable,
+    [InvoiceLayout.MISCELLANEOUS]: serviceTable,
   }[layout]);
 
   const layoutPopver = isPreConversion || (
