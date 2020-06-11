@@ -41,11 +41,11 @@ export const setup = () => {
   const integration = new TestIntegration();
   const module = new InvoiceDetailModule({
     integration,
-    setRootView: () => {},
-    pushMessage: () => {},
+    setRootView: () => { },
+    pushMessage: () => { },
     popMessages: () => [],
-    replaceURLParams: () => {},
-    reload: () => {},
+    replaceURLParams: () => { },
+    reload: () => { },
     isToggleOn: () => true,
   });
   module.store = store;
@@ -293,7 +293,7 @@ describe('InvoiceDetailModule', () => {
       it('successfully save invoice', () => {
         const { store, integration, module } = setupTest({ isCreating });
 
-        module.createOrUpdateInvoice({ onSuccess: () => {} });
+        module.createOrUpdateInvoice({ onSuccess: () => { } });
 
         expect(store.getActions()).toEqual([
           { intent: SET_SUBMITTING_STATE, isSubmitting: true },
@@ -315,7 +315,7 @@ describe('InvoiceDetailModule', () => {
           });
         });
 
-        module.createOrUpdateInvoice({ onSuccess: () => {} });
+        module.createOrUpdateInvoice({ onSuccess: () => { } });
 
         expect(store.getActions()).toEqual([
           { intent: SET_SUBMITTING_STATE, isSubmitting: true },

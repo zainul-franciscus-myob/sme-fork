@@ -6,6 +6,7 @@ import {
   getInvoiceDetailTotals,
   getInvoiceLine,
   getIsBeforeConversionDate,
+  getIsBeforeFYAndAfterConversionDate,
   getIsLinesSupported,
   getIsReadOnly,
   getLayoutDisplayName,
@@ -601,6 +602,39 @@ describe('invoiceDetailSelectors', () => {
 
       expect(actual).toBeFalsy();
     });
+  });
+
+  describe('getIsBeforeFYAndAfterConversionDate', () => {
+    it.each([
+      ['2014-07-01', '2011-01-01', '2010-01-01', false],
+      ['2014-07-01', '2011-01-01', '2011-01-01', true],
+      ['2014-07-01', '2011-01-01', '2013-01-01', true],
+      ['2014-07-01', '2011-01-01', '2014-06-30', true],
+      ['2014-07-01', '2011-01-01', '2014-07-01', false],
+      ['2014-07-01', '2011-01-01', '2014-07-02', false],
+      ['2014-07-01', '2011-01-01', '2015-01-01', false],
+      ['2014-07-01', '2014-07-01', '2013-01-01', false],
+      ['2014-07-01', '2014-07-01', '2014-07-01', false],
+      ['2014-07-01', '2014-07-01', '2015-01-01', false],
+      ['2014-07-01', '2015-01-01', '2014-07-02', false],
+    ])(
+      'when start of financial year date is %s and conversion date is %s and issue date is %s, should return %s',
+      (startOfFinancialYearDate, conversionDate, issueDate, expected) => {
+        const modifiedState = {
+          ...state,
+          invoice: {
+            ...state.invoice,
+            issueDate,
+          },
+          startOfFinancialYearDate,
+          conversionDate,
+        };
+
+        const actual = getIsBeforeFYAndAfterConversionDate(modifiedState);
+
+        expect(actual).toEqual(expected);
+      },
+    );
   });
 
   describe('getConversionMonthYear', () => {

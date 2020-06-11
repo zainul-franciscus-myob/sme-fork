@@ -1,0 +1,17 @@
+.datePickerContainer {
+    display: flex;
+    align-content: center;
+}
+
+.datePicker {
+    flex-grow: 1;
+}
+
+.warningIcon {
+    display: flex;
+    margin-left: 1.2rem;
+}
+
+.warningTooltip {
+    display: flex; 
+}

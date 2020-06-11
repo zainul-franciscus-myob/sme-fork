@@ -373,6 +373,21 @@ export const getConversionMonthYear = (state) => {
   return format(new Date(conversionDate), 'MMMM yyyy');
 };
 
+const getIsBeforeStartOfFinancialYear = (state) => {
+  const { startOfFinancialYearDate, invoice } = state;
+  const { issueDate } = invoice;
+  return issueDate && startOfFinancialYearDate
+    && isBefore(new Date(issueDate), new Date(startOfFinancialYearDate));
+};
+
+export const getIsBeforeFYAndAfterConversionDate = createSelector(
+  getIsBeforeConversionDate,
+  getIsBeforeStartOfFinancialYear,
+  (isBeforeConversionDate, isBeforeStartOfFinancialYear) => (
+    !isBeforeConversionDate && isBeforeStartOfFinancialYear
+  ),
+);
+
 export const getShouldShowAbn = createSelector(
   getRegion,
   getCustomerId,

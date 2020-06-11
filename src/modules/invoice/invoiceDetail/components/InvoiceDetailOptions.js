@@ -7,6 +7,7 @@ import classnames from 'classnames';
 
 import {
   getInvoiceDetailOptions,
+  getIsBeforeFYAndAfterConversionDate,
   getIsPreConversion,
   getIsReadOnly,
   getReadOnlyMessage,
@@ -44,6 +45,7 @@ const InvoiceDetailOptions = ({
   isReadOnly,
   readOnlyMessage,
   isPreConversion,
+  isBeforeFYAndAfterConversionDate,
   showPreConversionAlert,
   shouldShowAbn,
   onDismissPreConversionAlert,
@@ -123,6 +125,8 @@ const InvoiceDetailOptions = ({
         disabledMessage="You can't change the date of a historical invoice."
         onSelect={handleDateChange('issueDate', onUpdateHeaderOptions)}
         onBlur={onIssueDateBlur}
+        displayWarning={isBeforeFYAndAfterConversionDate}
+        warningMessage={'The issue date is set to a previous financial year'}
       />
       <PaymentTerms
         disabled={isReadOnly}
@@ -180,6 +184,7 @@ const mapStateToProps = state => ({
   isPreConversion: getIsPreConversion(state),
   showPreConversionAlert: getShowPreConversionAlert(state),
   shouldShowAbn: getShouldShowAbn(state),
+  isBeforeFYAndAfterConversionDate: getIsBeforeFYAndAfterConversionDate(state),
 });
 
 export default connect(mapStateToProps)(InvoiceDetailOptions);

@@ -48,12 +48,18 @@
     "hasEmailReplyDetails": true,
     "isEmailMeACopy": false,
     "businessName": "Blue Bowl Homewares",
-    "ccToEmail": ["geoff.spires@myob.com", "tom.xu@myob.com"],
+    "ccToEmail": [
+      "geoff.spires@myob.com",
+      "tom.xu@myob.com"
+    ],
     "fromEmail": "tom.xu@myob.com",
     "fromName": "Tom Xu",
     "messageBody": "Thank you for your patronage!",
     "subject": "Thank you!",
-    "toEmail": ["geoff.spires@myob.com", "tom.xu@myob.com"],
+    "toEmail": [
+      "geoff.spires@myob.com",
+      "tom.xu@myob.com"
+    ],
     "toName": "Geoff Speirs",
     "attachments": []
   },
@@ -208,5 +214,6 @@
     }
   },
   "conversionDate": "2014-07-23T00:00",
+  "startOfFinancialYearDate": "2019-07-01T00:00",
   "linkedAccountId": "123"
 }

@@ -174,7 +174,11 @@
     "taxCodeId": "",
     "lineTypeId": 17
   },
-  "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"],
+  "comments": [
+    "Happy Holiday!",
+    "Great doing business",
+    "don't call us we'll call you"
+  ],
   "serialNumber": "000000000000",
   "subscription": {
     "isTrial": false,
@@ -185,5 +189,6 @@
     }
   },
   "conversionDate": "2014-07-23T00:00",
+  "startOfFinancialYearDate": "2019-07-01T00:00",
   "linkedAccountId": "123"
 }
