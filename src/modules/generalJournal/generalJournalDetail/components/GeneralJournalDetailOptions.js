@@ -99,7 +99,7 @@ class GeneralJournalDetailOptions extends Component {
     const secondary = (
       <React.Fragment>
         <Input
-          maxLength={8}
+          maxLength={13}
           name="referenceId"
           label="Reference number"
           requiredLabel="This is required"
