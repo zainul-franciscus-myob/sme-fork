@@ -26,14 +26,12 @@ export const START_MODAL_BLOCKING = Symbol('Start modal blocking');
 export const STOP_MODAL_BLOCKING = Symbol('Stop modal blocking');
 export const REMOVE_BILL_LINE = Symbol('Remove bill line');
 export const PREFILL_BILL_FROM_IN_TRAY = Symbol('Prefill bill from in tray');
-export const RESET_TOTALS = Symbol('Reset totals');
 export const UPDATE_BILL_ID = Symbol('Update bill id');
 export const START_LOADING_MORE = Symbol('Start loading more');
 export const STOP_LOADING_MORE = Symbol('Stop loading more');
 
 export const ADD_BILL_LINE = Symbol('Add bill line');
 export const UPDATE_BILL_LINE = Symbol('Update bill line');
-export const SET_CALCULATED_BILL_LINES_AND_TOTALS = Symbol('Set calculated bill lines and totals');
 export const LOAD_ITEM_DETAIL_FOR_LINE = Symbol('Load item detail for line');
 export const GET_TAX_CALCULATIONS = Symbol('Get tax calculations');
 export const CALCULATE_LINE_AMOUNTS = Symbol('Calculate line amounts');

@@ -1,9 +1,11 @@
+import { Decimal } from 'decimal.js';
 import { createSelector } from 'reselect';
 
 import BillLayout from '../types/BillLayout';
 import BillLineType from '../types/BillLineType';
 import Region from '../../../../common/types/Region';
 import buildAbnLink from '../../../../common/links/buildAbnLink';
+import calculateLineTotals from '../../../../common/taxCalculator/calculateLineTotals';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 
 export const getBusinessId = state => state.businessId;
@@ -28,11 +30,10 @@ export const getIsReportable = state => state.bill.isReportable;
 export const getAmountPaid = state => state.bill.amountPaid;
 export const getLines = state => state.bill.lines;
 const getBillLinesLength = state => state.bill.lines.length;
-
-export const getAmountDue = state => state.totals.amountDue;
-export const getSubTotal = state => state.totals.subTotal;
-export const getTotalTax = state => state.totals.totalTax;
-export const getTotalAmount = state => state.totals.totalAmount;
+const getTaxExclusiveFreightAmount = state => state.bill.taxExclusiveFreightAmount;
+const getFreightTaxAmount = state => state.bill.freightTaxAmount;
+const getFreightTaxCodeId = state => state.bill.freightTaxCodeId;
+export const getHasFreightAmount = state => !!Number(state.bill.taxExclusiveFreightAmount);
 
 export const getAbn = (state) => state.abn;
 export const getAccountOptions = state => state.accountOptions;
@@ -198,20 +199,30 @@ export const getIsLinesSupported = createSelector(
   lines => lines.every(line => getIsLineTypeSupported(line)),
 );
 
-export const getIsReadOnlyLayout = createSelector(
+export const getIsReadOnly = createSelector(
   getIsLayoutSupported,
   getIsLinesSupported,
-  (isLayoutSupported, isLinesSupported) => !isLayoutSupported || !isLinesSupported,
+  getHasFreightAmount,
+  (isLayoutSupported, isLinesSupported, hasFreightAmount) => (
+    !isLayoutSupported || !isLinesSupported || hasFreightAmount
+  ),
 );
 
 export const getReadOnlyMessage = createSelector(
   getIsLayoutSupported,
   getBillLayout,
-  (isLayoutSupported, layout) => (
-    !isLayoutSupported
-      ? `This bill is missing information because the ${layout} bill layout isn't supported in the browser. Switch to AccountRight desktop to use this feature.`
-      : 'This bill is read only because it contains unsupported features. Switch to AccountRight desktop to edit this bill.'
-  ),
+  getHasFreightAmount,
+  (isLayoutSupported, layout, hasFreightAmount) => {
+    if (!isLayoutSupported) {
+      return `This bill is read only because the ${layout} layout isn't supported in the browser. Switch to AccountRight desktop to edit this bill.`;
+    }
+
+    if (hasFreightAmount) {
+      return 'This bill is read only because freight isn\'t supported in the browser. Switch to AccountRight desktop to edit this bill';
+    }
+
+    return 'This bill is read only because it contains unsupported features. Switch to AccountRight desktop to edit this bill.';
+  },
 );
 
 export const getShouldShowAbn = createSelector(
@@ -229,4 +240,67 @@ export const getSupplierLink = createSelector(
   getRegion,
   getSupplierId,
   (businessId, region, supplierId) => `/#/${region}/${businessId}/contact/${supplierId}`,
+);
+
+export const getIsCalculableLine = line => [
+  BillLineType.SERVICE, BillLineType.ITEM,
+].includes(line.type);
+
+export const calculateTotals = ({
+  lines, isTaxInclusive, taxExclusiveFreightAmount, freightTaxAmount,
+}) => {
+  const calculableLines = lines.filter(line => getIsCalculableLine(line));
+  const lineTotals = calculateLineTotals({ isTaxInclusive, lines: calculableLines });
+
+  return {
+    totalTax: lineTotals.totalTax.plus(freightTaxAmount).valueOf(),
+    totalAmount:
+      lineTotals.totalAmount.plus(taxExclusiveFreightAmount).plus(freightTaxAmount).valueOf(),
+    subTotal: lineTotals.subTotal.valueOf(),
+  };
+};
+
+export const getTotals = createSelector(
+  getLines,
+  getIsTaxInclusive,
+  getTaxExclusiveFreightAmount,
+  getFreightTaxAmount,
+  (lines, isTaxInclusive, taxExclusiveFreightAmount, freightTaxAmount) => (
+    calculateTotals({
+      lines, isTaxInclusive, taxExclusiveFreightAmount, freightTaxAmount,
+    })
+  ),
+);
+
+export const calculateAmountDue = (totalAmount, amountPaid) => {
+  const total = Decimal(totalAmount);
+  const paid = Decimal(amountPaid || '0');
+  return (
+    total.minus(paid).valueOf()
+  );
+};
+
+export const getAmountDue = createSelector(
+  getTotals,
+  getAmountPaid,
+  ({ totalAmount }, amountPaid) => calculateAmountDue(totalAmount, amountPaid),
+);
+
+export const getFreightAmount = createSelector(
+  getTaxExclusiveFreightAmount,
+  getFreightTaxAmount,
+  getIsTaxInclusive,
+  (taxExclusiveFreightAmount, freightTaxAmount, isTaxInclusive) => (
+    isTaxInclusive
+      ? Decimal(taxExclusiveFreightAmount).add(Decimal(freightTaxAmount)).valueOf()
+      : taxExclusiveFreightAmount
+  ),
+);
+
+export const getFreightTaxCode = createSelector(
+  getFreightTaxCodeId,
+  getTaxCodeOptions,
+  (freightTaxCodeId, taxCodeOptions) => (
+    taxCodeOptions.find(taxCode => taxCode.id === freightTaxCodeId)?.displayName
+  ),
 );

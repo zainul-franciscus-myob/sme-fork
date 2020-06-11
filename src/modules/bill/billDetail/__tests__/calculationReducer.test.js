@@ -23,12 +23,6 @@ describe('calculationReducer', () => {
         }],
         amountPaid: '',
       },
-      totals: {
-        subTotal: '0',
-        totalTax: '0',
-        totalAmount: '0',
-        amountDue: '0',
-      },
     });
 
     const action = {
@@ -37,11 +31,6 @@ describe('calculationReducer', () => {
         lines: [
           { taxExclusiveAmount: Decimal(90.91), taxAmount: Decimal(9.09), amount: Decimal(100) },
         ],
-        totals: {
-          subTotal: Decimal(100),
-          totalTax: Decimal(9.09),
-          totalAmount: Decimal(100),
-        },
       },
       isSwitchingTaxInclusive: true,
     };
@@ -51,26 +40,22 @@ describe('calculationReducer', () => {
         lines: [{
           ...baseline,
           ...partialLine,
+          taxExclusiveAmount: '90.91',
+          taxAmount: '9.09',
+          amount: '100',
         }],
         amountPaid: '',
       },
       isPageEdited: true,
       isLineEdited: false,
-      totals: {
-        subTotal: '100',
-        totalTax: '9.09',
-        totalAmount: '100',
-        amountDue: '100',
-      },
     });
 
-    it('should calculate unitPrice and update amount and totals', () => {
+    it('should calculate unitPrice and update amount', () => {
       const state = buildState();
 
       const actual = getTaxCalculations(state, action);
 
       const expected = buildExpect({
-        amount: '100',
         unitPrice: '50',
       });
 
@@ -103,7 +88,6 @@ describe('calculationReducer', () => {
 
         const expected = buildExpect({
           ...partialLine,
-          amount: '100',
         });
 
         expect(actual).toEqual(expected);

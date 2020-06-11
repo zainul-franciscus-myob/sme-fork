@@ -17,8 +17,8 @@
     "numberOfDaysForDiscount": 10,
     "amountPaid": "10.00",
     "status": "Open",
-    "taxExclusiveFreightAmount": "0",
-    "freightTaxAmount": "0",
+    "taxExclusiveFreightAmount": "9.09",
+    "freightTaxAmount": "0.91",
     "freightTaxCodeId": "2",
     "lines": [
       {
@@ -42,25 +42,19 @@
     "hasEmailReplyDetails": true,
     "isEmailMeACopy": false,
     "businessName": "Hot Choccers",
-    "ccToEmail": [
-      "t-pain@myob.com",
-      "hamzzz@myob.com"
-    ],
+    "ccToEmail": [ "t-pain@myob.com","hamzzz@myob.com" ],
     "fromEmail": "tpain@myob.com",
     "fromName": "Romeo Romeo",
     "messageBody": "Let's make some hot chocolate!!",
     "subject": "Hot Chocolate is life",
-    "toEmail": [
-      "geoff.spires@myob.com",
-      "tom.xu@myob.com"
-    ],
+    "toEmail": [ "geoff.spires@myob.com","tom.xu@myob.com" ],
     "toName": "Geoff Speirs",
     "includeInvoiceNumberInEmail": true,
     "attachments": [],
     "templateName": "a"
   },
   "template":
-  {
+  { 
     "defaultTemplate": "c",
     "templateOptions": [
       {
@@ -218,6 +212,5 @@
     "isTrial": false
   },
   "conversionDate": "2014-07-23T00:00",
-  "startOfFinancialYearDate": "2019-07-01T00:00",
   "linkedAccountId": "123"
 }

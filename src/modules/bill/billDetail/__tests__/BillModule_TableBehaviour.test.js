@@ -5,7 +5,6 @@ import {
   LOAD_BILL,
   LOAD_ITEM_DETAIL_FOR_LINE,
   REMOVE_BILL_LINE,
-  RESET_TOTALS,
   START_BLOCKING,
   STOP_BLOCKING,
   UPDATE_BILL_LINE,
@@ -183,9 +182,6 @@ describe('BillModule_TableBehaviour', () => {
           intent: REMOVE_BILL_LINE,
           index: 0,
         },
-        {
-          intent: RESET_TOTALS,
-        },
       ]);
     });
   });
@@ -213,28 +209,6 @@ describe('BillModule_TableBehaviour', () => {
           key: 'amount',
           index: 0,
         },
-        {
-          intent: GET_TAX_CALCULATIONS,
-          isSwitchingTaxInclusive: false,
-          taxCalculations: expect.any(Object),
-        },
-      ]);
-    });
-  });
-
-  describe('calculateAmountPaid', () => {
-    it('does not call tax calc. if table is empty', () => {
-      const { module, store } = setUpWithRun({ isCreating: true });
-      module.calculateAmountPaid();
-
-      expect(store.getActions()).toEqual([]);
-    });
-
-    it('calls the tax calc. if table is not empty', () => {
-      const { module, store } = setUpWithRun();
-      module.calculateAmountPaid();
-
-      expect(store.getActions()).toEqual([
         {
           intent: GET_TAX_CALCULATIONS,
           isSwitchingTaxInclusive: false,

@@ -21,10 +21,8 @@ import {
   RELOAD_BILL,
   REMOVE_BILL_LINE,
   RESET_SUPPLIER,
-  RESET_TOTALS,
   SET_ABN_LOADING_STATE,
   SET_ATTACHMENT_ID,
-  SET_CALCULATED_BILL_LINES_AND_TOTALS,
   SET_DOCUMENT_LOADING_STATE,
   SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_ID,
@@ -258,23 +256,10 @@ const createBillDispatcher = store => ({
     store.dispatch({ intent: RESET_SUPPLIER });
   },
 
-  setCalculatedBillLinesAndTotals: (response) => {
-    store.dispatch({
-      intent: SET_CALCULATED_BILL_LINES_AND_TOTALS,
-      response,
-    });
-  },
-
   prefillDataFromInTray: (response) => {
     store.dispatch({
       intent: PREFILL_BILL_FROM_IN_TRAY,
       response,
-    });
-  },
-
-  resetTotals: () => {
-    store.dispatch({
-      intent: RESET_TOTALS,
     });
   },
 

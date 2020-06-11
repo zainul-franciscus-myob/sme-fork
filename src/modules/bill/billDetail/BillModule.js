@@ -515,9 +515,7 @@ class BillModule {
     const state = this.store.getState();
     const isLinesEmpty = getIsLinesEmpty(state);
 
-    if (isLinesEmpty) {
-      this.dispatcher.resetTotals();
-    } else {
+    if (!isLinesEmpty) {
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
     }
   }
@@ -574,15 +572,6 @@ class BillModule {
     this.integrator.loadItemDetailForLine({
       index, itemId, onSuccess, onFailure,
     });
-  }
-
-  calculateAmountPaid = () => {
-    const state = this.store.getState();
-    const isLinesEmpty = getIsLinesEmpty(state);
-
-    if (!isLinesEmpty) {
-      this.getTaxCalculations({ isSwitchingTaxInclusive: false });
-    }
   }
 
   loadSupplierDetail = () => {
@@ -925,7 +914,6 @@ class BillModule {
             onAddAccount: this.openAccountModal,
             onAddJob: this.openJobModal,
             onUpdateBillOption: this.updateBillOption,
-            onAmountPaidBlur: this.calculateAmountPaid,
           }}
           itemAndServiceLayoutListeners={{
             onRowInputBlur: this.calculateBillLines,
@@ -936,7 +924,6 @@ class BillModule {
             onAddJob: this.openJobModal,
             onAddItemButtonClick: this.openInventoryModal,
             onUpdateBillOption: this.updateBillOption,
-            onAmountPaidBlur: this.calculateAmountPaid,
           }}
           onPrefillButtonClick={this.openInTrayModal}
           exportPdfModalListeners={{

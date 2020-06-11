@@ -23,10 +23,8 @@ import {
   RELOAD_BILL,
   REMOVE_BILL_LINE,
   RESET_SUPPLIER,
-  RESET_TOTALS,
   SET_ABN_LOADING_STATE,
   SET_ATTACHMENT_ID,
-  SET_CALCULATED_BILL_LINES_AND_TOTALS,
   SET_DOCUMENT_LOADING_STATE,
   SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_ID,
@@ -52,37 +50,33 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import {
   calculateAmountDue,
-  calculateLineAmounts,
-  getIsCalculableLine,
-  getTaxCalculations,
-} from './calculationReducer';
-import { defaultLinePrefillStatus, defaultPrefillStatus, getDefaultState } from './getDefaultState';
-import {
+  calculateTotals,
   getBillId,
   getBusinessId,
   getIsCreating,
   getRegion,
   getUpdatedSupplierOptions,
 } from '../selectors/billSelectors';
+import {
+  calculateLineAmounts,
+  getTaxCalculations,
+} from './calculationReducer';
+import { defaultLinePrefillStatus, defaultPrefillStatus, getDefaultState } from './getDefaultState';
 import BillLayout from '../types/BillLayout';
 import BillLineType from '../types/BillLineType';
 import BillStatus from '../types/BillStatus';
 import LineTaxTypes from '../types/LineTaxTypes';
 import LoadingState from '../../../../components/PageView/LoadingState';
-import calculateLineTotals from '../../../../common/taxCalculator/calculateLineTotals';
 import createReducer from '../../../../store/createReducer';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
 
-const setTotalsOnLoad = ({ isTaxInclusive, lines, amountPaid }) => {
-  const calculableLines = lines.filter(line => getIsCalculableLine(line));
-  const totals = calculateLineTotals({ isTaxInclusive, lines: calculableLines });
-  const amountDue = calculateAmountDue(totals.totalAmount, amountPaid);
-
-  return {
-    ...totals,
-    amountDue,
-    originalAmountDue: amountDue,
-  };
+const setOriginalAmountDue = ({
+  isTaxInclusive, lines, amountPaid, taxExclusiveFreightAmount = '0', freightTaxAmount = '0',
+}) => {
+  const { totalAmount } = calculateTotals({
+    isTaxInclusive, lines, taxExclusiveFreightAmount, freightTaxAmount,
+  });
+  return calculateAmountDue(totalAmount, amountPaid);
 };
 
 const loadBill = (state, action) => {
@@ -94,6 +88,7 @@ const loadBill = (state, action) => {
     ...state,
     ...action.response,
     bill: {
+      ...state.bill,
       ...action.response.bill,
       status: action.response.bill.status || BillStatus.NONE,
       issueDate: isCreating
@@ -111,11 +106,7 @@ const loadBill = (state, action) => {
         return line;
       }),
     },
-    totals: action.response.bill.lines.length === 0
-      ? defaultState.totals
-      : {
-        ...setTotalsOnLoad(action.response.bill),
-      },
+    originalAmountDue: setOriginalAmountDue(action.response.bill),
     newLine: {
       ...state.newLine,
       ...action.response.newLine,
@@ -411,16 +402,6 @@ const stopModalBlocking = state => ({
   isModalBlocking: false,
 });
 
-const setCalculatedBillLinesAndTotals = (state, action) => ({
-  ...state,
-  bill: {
-    ...state.bill,
-    isTaxInclusive: action.response.bill.isTaxInclusive,
-    lines: action.response.bill.lines,
-  },
-  totals: action.response.totals,
-});
-
 const getPrefilledLines = (state, lines, expenseAccountId) => lines.map(
   line => ({
     ...state.newLine,
@@ -480,16 +461,6 @@ const prefillBillFromInTray = (state, action) => {
     abn,
   };
 };
-
-const resetTotals = state => ({
-  ...state,
-  totals: {
-    subTotal: '0',
-    totalTax: '0',
-    totalAmount: '0',
-    amountDue: '0',
-  },
-});
 
 const updateBillId = (state, action) => ({
   ...state,
@@ -654,7 +625,6 @@ const handlers = {
   [UPDATE_BILL_LINE]: updateBillLine,
   [CALCULATE_LINE_AMOUNTS]: calculateLineAmounts,
   [REMOVE_BILL_LINE]: removeBillLine,
-  [SET_CALCULATED_BILL_LINES_AND_TOTALS]: setCalculatedBillLinesAndTotals,
   [GET_TAX_CALCULATIONS]: getTaxCalculations,
   [LOAD_ITEM_OPTION]: loadItemOption,
   [LOAD_ITEM_DETAIL_FOR_LINE]: loadItemDetailForLine,
@@ -664,7 +634,6 @@ const handlers = {
   [STOP_SUPPLIER_BLOCKING]: stopSupplierBlocking,
   [RESET_SUPPLIER]: resetSupplier,
   [PREFILL_BILL_FROM_IN_TRAY]: prefillBillFromInTray,
-  [RESET_TOTALS]: resetTotals,
   [UPDATE_BILL_ID]: updateBillId,
   [SET_UPGRADE_MODAL_SHOWING]: setUpgradeModalShowing,
   [UPDATE_EXPORT_PDF_DETAIL]: updateExportPdfDetail,

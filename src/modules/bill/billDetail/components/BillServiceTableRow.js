@@ -8,7 +8,7 @@ import {
   getBillLine,
   getIsBlocking,
   getIsNewLine,
-  getIsReadOnlyLayout,
+  getIsReadOnly,
   getIsSupplierBlocking,
   getJobOptions,
   getTaxCodeOptions,
@@ -50,7 +50,7 @@ const BillServiceTableRow = ({
   isNewLine,
   isBlocking,
   isSupplierDisabled,
-  isReadOnlyLayout,
+  isReadOnly,
   onChange,
   onRowInputBlur,
   onAddAccount,
@@ -83,7 +83,7 @@ const BillServiceTableRow = ({
         onChange={onChange}
         maxLength={255}
         autoSize
-        disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
+        disabled={isBlocking || isSupplierDisabled || isReadOnly}
       />
       <AccountCombobox
         onChange={handleComboboxChange(onChange, 'accountId')}
@@ -92,7 +92,7 @@ const BillServiceTableRow = ({
         )}
         items={accountOptions}
         selectedId={accountId}
-        disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
+        disabled={isBlocking || isSupplierDisabled || isReadOnly}
       />
       <Calculator
         name="amount"
@@ -101,7 +101,7 @@ const BillServiceTableRow = ({
         onBlur={handleAmountInputBlur(onRowInputBlur, index)}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.amount) })}
         textAlign="right"
-        disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
+        disabled={isBlocking || isSupplierDisabled || isReadOnly}
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
@@ -112,7 +112,7 @@ const BillServiceTableRow = ({
           handleComboboxChange(onChange, 'jobId'),
         )}
         onChange={handleComboboxChange(onChange, 'jobId')}
-        disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
+        disabled={isBlocking || isSupplierDisabled || isReadOnly}
         allowClear
         left
       />}
@@ -120,7 +120,7 @@ const BillServiceTableRow = ({
         onChange={handleComboboxChange(onChange, 'taxCodeId')}
         items={taxCodeOptions}
         selectedId={taxCodeId}
-        disabled={isBlocking || isSupplierDisabled || isReadOnlyLayout}
+        disabled={isBlocking || isSupplierDisabled || isReadOnly}
       />
     </LineItemTable.Row>
   );
@@ -134,7 +134,7 @@ const mapStateToProps = (state, props) => ({
   isNewLine: getIsNewLine(state, props),
   isBlocking: getIsBlocking(state, props),
   isSupplierDisabled: getIsSupplierBlocking(state),
-  isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isReadOnly: getIsReadOnly(state),
 });
 
 export default connect(mapStateToProps)(BillServiceTableRow);

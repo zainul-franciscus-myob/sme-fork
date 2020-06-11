@@ -8,7 +8,6 @@ import {
   PREFILL_BILL_FROM_IN_TRAY,
   RELOAD_BILL,
   REMOVE_BILL_LINE,
-  SET_CALCULATED_BILL_LINES_AND_TOTALS,
   SET_UPGRADE_MODAL_SHOWING,
   UPDATE_BILL_LINE,
   UPDATE_BILL_OPTION,
@@ -74,9 +73,6 @@ describe('billReducer', () => {
           bill: {
             lines: [],
           },
-          totals: {
-            amountDue: '0',
-          },
         },
       };
 
@@ -97,9 +93,6 @@ describe('billReducer', () => {
         response: {
           bill: {
             lines: [],
-          },
-          totals: {
-            amountDue: '0',
           },
         },
       };
@@ -122,9 +115,6 @@ describe('billReducer', () => {
             issueDate: '2019-02-03',
             lines: [],
           },
-          totals: {
-            amountDue: '0',
-          },
         },
       };
 
@@ -142,9 +132,6 @@ describe('billReducer', () => {
           bill: {
             issueDate: '2019-02-03',
             lines: [],
-          },
-          totals: {
-            amountDue: '0',
           },
           subscription: {
             monthlyLimit: {
@@ -196,62 +183,12 @@ describe('billReducer', () => {
               isTaxInclusive: true,
               lines: [{ type, taxExclusiveAmount: '9.99', taxAmount: '0.01' }],
             },
-            totals: {
-              amountDue: '0',
-            },
           },
         };
 
         const actual = billReducer(state, action);
 
         expect(actual.bill.lines[0].amount).toEqual(expected);
-      });
-    });
-  });
-
-  describe('SET_CALCULATED_BILL_LINES_AND_TOTALS', () => {
-    it('merges calculated line totals response into the state', () => {
-      const state = {
-        bill: {
-          lines: [],
-          isTaxInclusive: false,
-        },
-        totals: {},
-      };
-
-      const action = {
-        intent: SET_CALCULATED_BILL_LINES_AND_TOTALS,
-        response: {
-          bill: {
-            lines: [
-              'a',
-            ],
-            isTaxInclusive: true,
-          },
-          totals: {
-            subTotal: '1',
-            totalTax: '2',
-            totalAmount: '3',
-            amountDue: '4',
-          },
-        },
-      };
-
-      const actual = billReducer(state, action);
-
-      expect(actual).toEqual({
-        bill: {
-          lines: [
-            'a',
-          ],
-          isTaxInclusive: true,
-        },
-        totals: {
-          subTotal: '1',
-          totalTax: '2',
-          totalAmount: '3',
-          amountDue: '4',
-        },
       });
     });
   });

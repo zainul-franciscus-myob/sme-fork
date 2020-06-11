@@ -7,7 +7,7 @@ import {
   getAccountOptions,
   getExpenseAccountId,
   getIsBlocking,
-  getIsReadOnlyLayout,
+  getIsReadOnly,
   getIsReportable,
   getIsSupplierDisabled,
   getRegion,
@@ -37,7 +37,7 @@ const BillPrimaryOptions = ({
   region,
   isSupplierDisabled,
   isBlocking,
-  isReadOnlyLayout,
+  isReadOnly,
   prefillStatus,
   shouldShowAbn,
   onUpdateBillOption,
@@ -61,7 +61,7 @@ const BillPrimaryOptions = ({
           name="supplierId"
           requiredLabel="This is required"
           hideLabel={false}
-          disabled={isSupplierDisabled || isBlocking || isReadOnlyLayout}
+          disabled={isSupplierDisabled || isBlocking || isReadOnly}
           addNewItem={{
             label: 'Create supplier',
             onAddNew: onAddSupplierButtonClick,
@@ -78,7 +78,7 @@ const BillPrimaryOptions = ({
         region={region}
         name="isReportable"
         onChange={handleCheckboxChange(onUpdateBillOption)}
-        disabled={isSupplierDisabled || isBlocking || isReadOnlyLayout}
+        disabled={isSupplierDisabled || isBlocking || isReadOnly}
         width="xl"
       />
       {shouldShowAccountCode && (
@@ -95,7 +95,7 @@ const BillPrimaryOptions = ({
           )}
           name="expenseAccountId"
           hideLabel={false}
-          disabled={isSupplierDisabled || isBlocking || isReadOnlyLayout}
+          disabled={isSupplierDisabled || isBlocking || isReadOnly}
           width="xl"
         />
       )}
@@ -114,7 +114,7 @@ const mapStateToProps = state => ({
   isSupplierDisabled: getIsSupplierDisabled(state),
   isBlocking: getIsBlocking(state),
   prefillStatus: getPrefillStatus(state),
-  isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isReadOnly: getIsReadOnly(state),
   shouldShowAbn: getShouldShowAbn(state),
 });
 

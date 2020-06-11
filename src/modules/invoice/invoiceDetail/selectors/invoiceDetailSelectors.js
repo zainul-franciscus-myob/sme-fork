@@ -65,7 +65,7 @@ export const getIsLineAmountDirty = state => state.isLineAmountDirty;
 export const getTemplateOptions = (state) => state.template.templateOptions;
 
 export const getHasFreightAmount = state => !!Number(state.invoice.taxExclusiveFreightAmount);
-export const getFreightInfo = ({
+const getFreightInfo = ({
   invoice: {
     taxExclusiveFreightAmount, freightTaxAmount, freightTaxCodeId, isTaxInclusive,
   },
@@ -278,8 +278,10 @@ export const getInvoiceDetailTotalHeader = createSelector(
   }),
 );
 
-export const getAmountDue = state => (
-  calculateAmountDue(getTotals(state).totalAmount, getAmountPaid(state))
+export const getAmountDue = createSelector(
+  getTotals,
+  getAmountPaid,
+  ({ totalAmount }, amountPaid) => calculateAmountDue(totalAmount, amountPaid),
 );
 
 export const getUpdatedCustomerOptions = (state, updatedOption) => {

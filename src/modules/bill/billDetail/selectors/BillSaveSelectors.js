@@ -16,7 +16,7 @@ const getIsCreatingNegativeAmountDue = createSelector(
   (isCreating, amountDue) => isCreating && Number(amountDue) < 0,
 );
 
-const getOriginalAmountDue = state => state.totals.originalAmountDue;
+const getOriginalAmountDue = state => state.originalAmountDue;
 const getIsOpenBill = state => state.bill.status === BillStatus.OPEN;
 const getIsEditingOpenBillToNegativeAmountDue = createSelector(
   getIsOpenBill,

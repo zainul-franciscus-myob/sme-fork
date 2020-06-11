@@ -16,6 +16,9 @@
     "issueDate": "2018-11-02",
     "amountPaid": "77.77",
     "status": "Open",
+    "taxExclusiveFreightAmount": "0",
+    "freightTaxAmount": "0",
+    "freightTaxCodeId": "2",
     "lines": [
       {
         "type": "item",

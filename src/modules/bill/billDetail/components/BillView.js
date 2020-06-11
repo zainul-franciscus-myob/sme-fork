@@ -7,7 +7,7 @@ import {
   getIsAlertShown,
   getIsBlocking,
   getIsModalShown,
-  getIsReadOnlyLayout,
+  getIsReadOnly,
   getLoadingState,
   getReadOnlyMessage,
 } from '../selectors/billSelectors';
@@ -30,8 +30,8 @@ import PageView from '../../../../components/PageView/PageView';
 import UpgradeModal from './UpgradeModal';
 import styles from './BillView.module.css';
 
-const getOptionInfo = ({ isReadOnlyLayout, readOnlyMessage, showPrefillInfo }) => {
-  if (isReadOnlyLayout) {
+const getOptionInfo = ({ isReadOnly, readOnlyMessage, showPrefillInfo }) => {
+  if (isReadOnly) {
     return readOnlyMessage;
   }
 
@@ -54,7 +54,7 @@ const BillView = ({
   isDocumentLoading,
   loadingState,
   showPrefillInfo,
-  isReadOnlyLayout,
+  isReadOnly,
   readOnlyMessage,
   layout,
   inventoryModal,
@@ -169,8 +169,8 @@ const BillView = ({
     </div>
   );
 
-  const optionInfo = getOptionInfo({ isReadOnlyLayout, readOnlyMessage, showPrefillInfo });
-  const onDismissOptionInfo = isReadOnlyLayout ? undefined : onClosePrefillInfo;
+  const optionInfo = getOptionInfo({ isReadOnly, readOnlyMessage, showPrefillInfo });
+  const onDismissOptionInfo = isReadOnly ? undefined : onClosePrefillInfo;
 
   const view = (
     <MasterDetailLineItemTemplate
@@ -188,7 +188,7 @@ const BillView = ({
       }
       tableLayoutOption={tableLayoutOption}
       table={(
-        <div className={classNames(isReadOnlyLayout && styles.disabledTable)}>
+        <div className={classNames(isReadOnly && styles.disabledTable)}>
           {table}
         </div>
       )}
@@ -228,7 +228,7 @@ const mapStateToProps = state => ({
   isDocumentLoading: getIsDocumentLoading(state),
   isSplitViewShown: getShowSplitView(state),
   showPrefillInfo: getShowPrefillInfo(state),
-  isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isReadOnly: getIsReadOnly(state),
   readOnlyMessage: getReadOnlyMessage(state),
 });
 

@@ -1,27 +1,18 @@
 import { getBillPaymentUrl } from '../BillRedirectSelectors';
+import BillLineType from '../../types/BillLineType';
 
 describe('BillRedirectSelectors', () => {
   describe('getBillPaymentUrl', () => {
     [
       {
-        name: 'empty',
-        value: '',
-        expected: '',
+        name: '',
+        value: '2',
+        expected: '2',
       },
       {
         name: '',
-        value: '$2.00',
-        expected: '2.00',
-      },
-      {
-        name: '',
-        value: '-$2.00',
-        expected: '2.00',
-      },
-      {
-        name: '',
-        value: '2.00',
-        expected: '2.00',
+        value: '-2',
+        expected: '2',
       },
     ].forEach((test) => {
       it(`should do things for ${test.name}`, () => {
@@ -30,10 +21,13 @@ describe('BillRedirectSelectors', () => {
           businessId: 'some-business',
           billId: '1',
           bill: {
+            isTaxInclusive: true,
+            lines: [
+              { type: BillLineType.SERVICE, taxExclusiveAmount: test.value, taxAmount: '0' },
+            ],
+            taxExclusiveFreightAmount: '0',
+            freightTaxAmount: '0',
             supplierId: '1',
-          },
-          totals: {
-            amountDue: test.value,
           },
         };
 

@@ -1,11 +1,7 @@
 import { createSelector } from 'reselect';
 
 import {
-  getAmountDue,
-  getBillId,
-  getBusinessId,
-  getRegion,
-  getSupplierId,
+  getAmountDue, getBillId, getBusinessId, getRegion, getSupplierId,
 } from './billSelectors';
 import getQueryFromParams from '../../../../common/getQueryFromParams/getQueryFromParams';
 
@@ -40,28 +36,14 @@ export const getSubscriptionSettingsUrl = (state) => {
   return `${baseUrl}/settings/subscription`;
 };
 
-const isNegativeAmount = amount => amount[0] === '-' && amount[1] === '$';
-
-const removeDollarSign = (amount) => {
-  if (amount.length > 0) {
-    if (isNegativeAmount(amount)) {
-      return amount.slice(2);
-    }
-    if (amount[0] === '$') {
-      return amount.slice(1);
-    }
-  }
-  return amount;
-};
+const isNegativeAmount = amount => amount[0] === '-';
 
 export const getBillPaymentUrl = (state) => {
   const baseUrl = getBaseUrl(state);
   const amountDue = getAmountDue(state);
-  const formattedAmountDue = removeDollarSign(amountDue);
-
   const redirectParams = {
     supplierId: getSupplierId(state),
-    paymentAmount: formattedAmountDue,
+    paymentAmount: isNegativeAmount(amountDue) ? amountDue.slice(1) : amountDue,
     applyPaymentToBillId: getBillId(state),
   };
 

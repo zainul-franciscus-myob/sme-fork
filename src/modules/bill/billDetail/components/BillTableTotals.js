@@ -5,12 +5,13 @@ import React from 'react';
 import {
   getAmountDue,
   getAmountPaid,
+  getFreightAmount,
+  getFreightTaxCode,
+  getHasFreightAmount,
   getIsBlocking,
   getIsCreating,
-  getSubTotal,
-  getTotalAmount,
-  getTotalTax,
   getTotalTaxLabel,
+  getTotals,
 } from '../selectors/billSelectors';
 import LineItemTableTotalsFormattedCurrency from '../../../../components/LineItemTable/LineItemTableTotalsFormattedCurrency';
 import LineItemTableTotalsInput from '../../../../components/LineItemTable/LineItemTableTotalsInput';
@@ -20,13 +21,17 @@ const BillTableTotals = ({
   isCreating,
   isBlocking,
   amountPaid,
-  totalAmount,
   amountDue,
-  subTotal,
-  totalTax,
+  totals: {
+    totalAmount,
+    totalTax,
+    subTotal,
+  },
   totalTaxLabel,
   onUpdateBillOption,
-  onAmountPaidBlur,
+  freightAmount,
+  showFreight,
+  freightTaxCode,
 }) => {
   const amountPaidInputLine = (isCreating ? (
     <LineItemTableTotalsInput
@@ -34,7 +39,6 @@ const BillTableTotals = ({
       name="amountPaid"
       value={amountPaid}
       onChange={handleAmountInputChange(onUpdateBillOption)}
-      onBlur={onAmountPaidBlur}
       disabled={isBlocking}
     />
   ) : (
@@ -44,6 +48,7 @@ const BillTableTotals = ({
   return (
     <LineItemTable.Total>
       <LineItemTableTotalsFormattedCurrency title="Subtotal" amount={subTotal} />
+      { showFreight && <LineItemTableTotalsFormattedCurrency title="Freight" amount={freightAmount} note={freightTaxCode} /> }
       <LineItemTableTotalsFormattedCurrency title={totalTaxLabel} amount={totalTax} />
       <LineItemTableTotalsFormattedCurrency totalAmount title="Total" amount={totalAmount} />
       {amountPaidInputLine}
@@ -56,11 +61,12 @@ const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   isBlocking: getIsBlocking(state),
   amountPaid: getAmountPaid(state),
-  totalAmount: getTotalAmount(state),
   amountDue: getAmountDue(state),
-  subTotal: getSubTotal(state),
-  totalTax: getTotalTax(state),
+  totals: getTotals(state),
   totalTaxLabel: getTotalTaxLabel(state),
+  freightAmount: getFreightAmount(state),
+  showFreight: getHasFreightAmount(state),
+  freightTaxCode: getFreightTaxCode(state),
 });
 
 

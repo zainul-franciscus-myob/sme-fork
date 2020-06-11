@@ -9,7 +9,7 @@ import {
   getAmountPaid,
   getIsCreating,
   getPageTitle,
-  getTotalAmount,
+  getTotals,
 } from '../selectors/billSelectors';
 import TotalsHeaderItemFormattedCurrency from '../../../../components/TotalsHeader/TotalsHeaderItemFormattedCurrency';
 
@@ -17,7 +17,9 @@ const BillHeader = ({
   isCreating,
   pageTitle,
   amountPaid,
-  totalAmount,
+  totals: {
+    totalAmount,
+  },
   amountDue,
   onCreatePaymentClick,
 }) => {
@@ -66,7 +68,7 @@ const mapStateToProps = state => ({
   pageTitle: getPageTitle(state),
   amountDue: getAmountDue(state),
   amountPaid: getAmountPaid(state),
-  totalAmount: getTotalAmount(state),
+  totals: getTotals(state),
 });
 
 

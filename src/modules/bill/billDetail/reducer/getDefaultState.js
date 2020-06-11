@@ -43,7 +43,9 @@ export const getDefaultState = () => ({
     lines: [],
     status: BillStatus.NONE,
     amountPaid: '',
-
+    taxExclusiveFreightAmount: '0',
+    freightTaxAmount: '0',
+    freightTaxCodeId: '0',
     // arl compatibility fields
     // used for update, but not visible
     note: '',
@@ -77,13 +79,7 @@ export const getDefaultState = () => ({
     unitPrice: '',
     itemId: '',
   },
-  totals: {
-    subTotal: '0',
-    totalTax: '0',
-    totalAmount: '0',
-    amountDue: '0',
-    originalAmountDue: '0',
-  },
+  originalAmountDue: '0',
   loadingState: LoadingState.LOADING,
   isPageEdited: false,
   isLineEdited: false,

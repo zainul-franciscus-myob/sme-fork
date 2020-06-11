@@ -36,7 +36,6 @@ const BillItemAndServiceTable = ({
     onAddJob,
     onAddItemButtonClick,
     onUpdateBillOption,
-    onAmountPaidBlur,
   },
   taxCodeLabel,
   isBillJobColumnEnabled,
@@ -132,7 +131,6 @@ const BillItemAndServiceTable = ({
       onRowChange={onRowChange}
       onRemoveRow={onRemoveRow}
       onUpdateBillOption={onUpdateBillOption}
-      onAmountPaidBlur={onAmountPaidBlur}
     />
   );
 };

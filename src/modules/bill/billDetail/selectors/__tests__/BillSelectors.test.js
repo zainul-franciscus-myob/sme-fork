@@ -1,16 +1,20 @@
 import {
   getBillLine,
+  getFreightAmount,
+  getFreightTaxCode,
   getHasLineBeenPrefilled,
   getHasNoteBeenPrefilled,
   getIsLinesSupported,
   getIsNewLine,
-  getIsReadOnlyLayout,
+  getIsReadOnly,
   getModalContext,
   getNewLineIndex,
   getPageTitle,
   getPrefillButtonText,
+  getReadOnlyMessage,
   getShouldShowAccountCode,
   getTableData,
+  getTotals,
   getUpdatedSupplierOptions,
 } from '../billSelectors';
 import BillLayout from '../../types/BillLayout';
@@ -269,7 +273,7 @@ describe('BillSelectors', () => {
       [BillLineType.ITEM, true],
       [BillLineType.HEADER, false],
       [BillLineType.SUB_TOTAL, false],
-    ])('validate whether invoice with %s line type are supported', (type, expected) => {
+    ])('validate whether bill with %s line type are supported', (type, expected) => {
       const lines = [
         { type: BillLineType.SERVICE },
         { type: BillLineType.ITEM },
@@ -282,13 +286,13 @@ describe('BillSelectors', () => {
     });
   });
 
-  describe('getIsReadOnlyLayout', () => {
+  describe('getIsReadOnly', () => {
     it.each([
       [BillLayout.SERVICE, false],
       [BillLayout.ITEM_AND_SERVICE, false],
       ['N/A', true],
     ])('%s layout', (layout, expected) => {
-      const actual = getIsReadOnlyLayout({ layout, bill: { lines: [] } });
+      const actual = getIsReadOnly({ layout, bill: { lines: [] } });
 
       expect(actual).toEqual(expected);
     });
@@ -300,7 +304,7 @@ describe('BillSelectors', () => {
       [BillLineType.SUB_TOTAL, true],
       ['N/A', true],
     ])('have %s line type', (type, expected) => {
-      const actual = getIsReadOnlyLayout({
+      const actual = getIsReadOnly({
         layout: BillLayout.ITEM_AND_SERVICE,
         bill: {
           lines: [
@@ -312,6 +316,18 @@ describe('BillSelectors', () => {
       });
 
       expect(actual).toEqual(expected);
+    });
+
+    it('should be read only when has freight amount', () => {
+      const actual = getIsReadOnly({
+        layout: BillLayout.ITEM_AND_SERVICE,
+        bill: {
+          lines: [],
+          taxExclusiveFreightAmount: '1',
+        },
+      });
+
+      expect(actual).toBe(true);
     });
   });
 
@@ -368,6 +384,124 @@ describe('BillSelectors', () => {
       const actual = getPrefillButtonText(state);
 
       expect(actual).toEqual('Link a source document');
+    });
+  });
+
+  describe('getTotals', () => {
+    it('calculate totals with calculable lines', () => {
+      const actual = getTotals({
+        bill: {
+          isTaxInclusive: true,
+          lines: [
+            { type: BillLineType.SERVICE, taxExclusiveAmount: '9.99', taxAmount: '0.01' },
+            { type: BillLineType.SUB_TOTAL, taxExclusiveAmount: '99', taxAmount: '1' },
+          ],
+          taxExclusiveFreightAmount: '0',
+          freightTaxAmount: '0',
+        },
+      });
+
+      expect(actual).toEqual({
+        subTotal: '10',
+        totalTax: '0.01',
+        totalAmount: '10',
+      });
+    });
+
+    it('calculate totals with lines and freight', () => {
+      const actual = getTotals({
+        bill: {
+          isTaxInclusive: true,
+          lines: [
+            { type: BillLineType.SERVICE, taxExclusiveAmount: '9.99', taxAmount: '0.01' },
+            { type: BillLineType.SUB_TOTAL, taxExclusiveAmount: '99', taxAmount: '1' },
+          ],
+          taxExclusiveFreightAmount: '9.09',
+          freightTaxAmount: '0.91',
+        },
+      });
+
+      expect(actual).toEqual({
+        subTotal: '10',
+        totalTax: '0.92',
+        totalAmount: '20',
+      });
+    });
+
+    it('calculate totals with only freight', () => {
+      const actual = getTotals({
+        bill: {
+          isTaxInclusive: true,
+          lines: [],
+          taxExclusiveFreightAmount: '9.09',
+          freightTaxAmount: '0.91',
+        },
+      });
+
+      expect(actual).toEqual({
+        subTotal: '0',
+        totalTax: '0.91',
+        totalAmount: '10',
+      });
+    });
+  });
+
+  describe('getFreightAmount', () => {
+    it('calculate tax inclusive amount when isTaxInclusive is true', () => {
+      const actual = getFreightAmount({
+        bill: {
+          isTaxInclusive: true,
+          taxExclusiveFreightAmount: '9.09',
+          freightTaxAmount: '0.91',
+        },
+      });
+
+      expect(actual).toBe('10');
+    });
+
+    it('calculate tax inclusive amount when isTaxInclusive is false', () => {
+      const actual = getFreightAmount({
+        bill: {
+          isTaxInclusive: false,
+          taxExclusiveFreightAmount: '9.09',
+          freightTaxAmount: '0.91',
+        },
+      });
+
+      expect(actual).toBe('9.09');
+    });
+  });
+
+  describe('getFreightTaxCode', () => {
+    it('should lookup freight taxCode display name', () => {
+      const state = {
+        taxCodeOptions: [
+          {
+            id: '2',
+            displayName: 'GST',
+          },
+        ],
+        bill: {
+          freightTaxCodeId: '2',
+        },
+      };
+
+      const actual = getFreightTaxCode(state);
+
+      expect(actual).toBe('GST');
+    });
+  });
+
+  describe('getReadOnlyMessage', () => {
+    it.each([
+      [false, 'Blah', false, 'This bill is read only because the Blah layout isn\'t supported in the browser. Switch to AccountRight desktop to edit this bill.'],
+      [true, '', false, 'This bill is read only because it contains unsupported features. Switch to AccountRight desktop to edit this bill.'],
+      [true, '', true, 'This bill is read only because freight isn\'t supported in the browser. Switch to AccountRight desktop to edit this bill'],
+    ])('isLayoutSupported %s, layout %s, hasFreightAmount %s', (isLayoutSupported, layout, hasFreightAmount, message) => {
+      const actual = getReadOnlyMessage.resultFunc(isLayoutSupported, layout, hasFreightAmount);
+
+      expect(actual)
+        .toEqual(message);
     });
   });
 });

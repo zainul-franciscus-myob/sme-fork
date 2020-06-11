@@ -23,12 +23,14 @@ import loadAbnDetail from './data/loadAbnDetail';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadAddedJobResponse from './data/loadAddedJobResponse';
 import loadItemAndServiceBill from './data/loadItemAndServiceBill';
+import loadItemAndServiceBillWithFreight from './data/loadItemAndServiceBillWithFreight';
 import loadItemOption from './data/loadItemOption';
 import loadNewBill from './data/loadNewBill';
 import loadNewDuplicateItemAndServiceBill from './data/loadNewDuplicateItemAndServiceBill';
 import loadReadOnlyItemAndServiceBill from './data/loadReadOnlyItemAndServiceBill';
 import loadReadOnlyServiceBill from './data/loadReadOnlyServiceBill';
 import loadServiceBill from './data/loadServiceBill';
+import loadServiceBillWithFreight from './data/loadServiceBillWithFreight';
 import loadSupplierDetail from './data/loadSupplierDetail';
 import loadSupplierResponse from './data/loadSupplierAfterCreate.json';
 import prefillBillFromInTray from './data/prefillBillFromSupplierFeed';
@@ -41,8 +43,14 @@ const MemoryBillDetailMapping = {
       case 'service-readonly-id':
         onSuccess(loadReadOnlyServiceBill);
         break;
+      case 'service-freight-id':
+        onSuccess(loadServiceBillWithFreight);
+        break;
       case 'item-readonly-id':
         onSuccess(loadReadOnlyItemAndServiceBill);
+        break;
+      case 'item-freight-id':
+        onSuccess(loadItemAndServiceBillWithFreight);
         break;
       case 'service-id':
         onSuccess(loadServiceBill);

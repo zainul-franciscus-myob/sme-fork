@@ -4,13 +4,13 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsBlocking, getIsCreating, getIsReadOnlyLayout } from '../selectors/billSelectors';
+import { getIsBlocking, getIsCreating, getIsReadOnly } from '../selectors/billSelectors';
 import SaveActionType from '../types/SaveActionType';
 
 const BillActions = ({
   isCreating,
   isBlocking,
-  isReadOnlyLayout,
+  isReadOnly,
   onSaveButtonClick,
   onSaveAndButtonClick,
   onCancelButtonClick,
@@ -119,7 +119,7 @@ const BillActions = ({
     </Button>
   );
 
-  if (isReadOnlyLayout) {
+  if (isReadOnly) {
     return (
       <ButtonRow
         primary={[
@@ -151,7 +151,7 @@ const BillActions = ({
 const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   isBlocking: getIsBlocking(state),
-  isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isReadOnly: getIsReadOnly(state),
 });
 
 export default connect(mapStateToProps)(BillActions);

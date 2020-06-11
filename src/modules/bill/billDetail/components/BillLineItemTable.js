@@ -28,7 +28,6 @@ const BillItemTable = ({
   onRowChange,
   onRemoveRow,
   onUpdateBillOption,
-  onAmountPaidBlur,
 }) => (
   <LineItemTable
     labels={labels}
@@ -52,7 +51,6 @@ const BillItemTable = ({
       </div>
       <BillTableTotals
         onUpdateBillOption={onUpdateBillOption}
-        onAmountPaidBlur={onAmountPaidBlur}
       />
     </div>
   </LineItemTable>

@@ -33,12 +33,14 @@ import customerAddress from './data/loadCustomer';
 import duplicateInvoiceItemDetail from './data/itemLayout/duplicateInvoiceItemDetail';
 import duplicateInvoiceServiceDetail from './data/serviceLayout/duplicateInvoiceServiceDetail';
 import invoiceItemDetail from './data/itemLayout/invoiceItemDetail';
+import invoiceItemDetailWithFreight from './data/itemLayout/invoiceItemDetailWithFreight';
 import invoiceItemNewDetail from './data/itemLayout/invoiceItemNewDetail';
 import invoiceItemNewDetailFromQuote from './data/itemLayout/invoiceItemNewDetailFromQuote';
 import invoiceItemReadOnlyDetail from './data/itemLayout/invoiceItemReadOnlyDetail';
 import invoiceListFilterResponse from './data/filterInvoiceList';
 import invoiceListLoadResponse from './data/loadInvoiceList';
 import invoiceServiceDetail from './data/serviceLayout/invoiceServiceDetail';
+import invoiceServiceDetailWithFreight from './data/serviceLayout/invoiceServiceDetailWithFreight';
 import invoiceServiceNewDetail from './data/serviceLayout/invoiceServiceNewDetail';
 import invoiceServiceNewDetailFromQuote
   from './data/serviceLayout/invoiceServiceNewDetailFromQuote';
@@ -85,8 +87,14 @@ const MemoryInvoiceMapping = {
       case 'service-readonly-id':
         onSuccess(invoiceServiceReadOnlyDetail);
         break;
+      case 'service-freight-id':
+        onSuccess(invoiceServiceDetailWithFreight);
+        break;
       case 'item-readonly-id':
         onSuccess(invoiceItemReadOnlyDetail);
+        break;
+      case 'item-freight-id':
+        onSuccess(invoiceItemDetailWithFreight);
         break;
       case 'item-id':
         onSuccess(invoiceItemDetail);

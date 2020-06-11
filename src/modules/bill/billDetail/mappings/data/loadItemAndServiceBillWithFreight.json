@@ -1,7 +1,7 @@
 {
-  "layout": "service",
+  "layout": "itemAndService",
   "bill": {
-    "id": "2",
+    "id": "1",
     "uid": "123e4567-e89b-12d3-a456-426655440000",
     "supplierId": "2",
     "supplierAddress": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
@@ -10,46 +10,43 @@
     "expirationDays": "4",
     "isTaxInclusive": true,
     "isReportable": true,
+    "note": "Some note/description",
+    "memo": "Not displayed on UI",
     "billNumber": "00000123",
-    "displayBillNumber": "00000123",
     "issueDate": "2018-11-02",
     "amountPaid": "77.77",
-    "status": "Closed",
-    "taxExclusiveFreightAmount": "0",
-    "freightTaxAmount": "0",
+    "status": "Open",
+    "taxExclusiveFreightAmount": "9.09",
+    "freightTaxAmount": "0.91",
     "freightTaxCodeId": "2",
     "lines": [
       {
-        "id": "345",
-        "type": "service",
-        "description": "Yak shaving - 1/2 an hour",
+        "type": "item",
+        "id": "1",
+        "units": "2",
+        "itemId": "3",
         "accountId": "123",
-        "taxAmount": "0.5",
-        "taxExclusiveAmount": "48",
+        "description": "Cooler Large",
+        "unitPrice": "520",
+        "discount": "10",
         "jobId": "2",
-        "taxCodeId": "124",
-        "lineSubTypeId": "11"
-      },
-      {
-        "id": "346",
-        "type": "service",
-        "description": "Yak shower - 1/2 an hour",
-        "accountId": "456",
-        "taxAmount": "1",
-        "taxExclusiveAmount": "49",
-        "jobId": "3",
         "taxCodeId": "123",
-        "lineSubTypeId": "11"
+        "taxAmount": "0.9101",
+        "taxExclusiveAmount": "850",
+        "lineSubTypeId": "13"
       },
       {
-        "id": "347",
         "type": "service",
-        "description": "Yak blow dry - 1/2 an hour",
+        "id": "2",
+        "description": "Cooler Extra Large",
         "accountId": "123",
-        "taxAmount": "0.5",
-        "taxExclusiveAmount": "12",
-        "jobId": "1",
+        "jobId": "3",
         "taxCodeId": "124",
+        "taxAmount": "0.9101",
+        "taxExclusiveAmount": "850",
+        "unitPrice": "",
+        "discount": "",
+        "units": "",
         "lineSubTypeId": "11"
       }
     ]
@@ -75,6 +72,18 @@
       "accountType": "Assets",
       "taxCodeId": "124",
       "displayId": "6-789"
+    }
+  ],
+  "itemOptions": [
+    {
+      "id": "3",
+      "itemId": "100",
+      "description": "Cooler Large"
+    },
+    {
+      "id": "4",
+      "itemId": "101",
+      "description": "Cooler Medium"
     }
   ],
   "jobOptions": [
@@ -163,9 +172,13 @@
     }
   ],
   "newLine": {
-    "id": "",
+    "type": "",
+    "itemId": "",
     "description": "",
     "accountId": "",
+    "units": "",
+    "unitPrice": "",
+    "discount": "",
     "jobId": "",
     "taxCodeId": "",
     "lineSubTypeId": ""
@@ -198,10 +211,5 @@
   },
   "exportPdf": {
     "template": "a"
-  },
-  "attachmentId": "19eb4da0-8c52-4307-9ca7-74bd481f5b99",
-  "inTrayDocument": {
-    "thumbnailUrl": "https://assets.digital.myob.com/images/favicons/apple-touch-icon.png",
-    "uploadedDate": "04/04/2019"
   }
 }
