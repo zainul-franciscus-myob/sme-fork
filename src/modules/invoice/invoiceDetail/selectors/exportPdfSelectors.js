@@ -43,7 +43,5 @@ export const getShowExportPdfButton = createSelector(
   (layout) => ([
     InvoiceLayout.SERVICE,
     InvoiceLayout.ITEM_AND_SERVICE,
-    InvoiceLayout.PROFESSIONAL,
-    InvoiceLayout.TIME_BILLING,
   ].includes(layout)),
 );

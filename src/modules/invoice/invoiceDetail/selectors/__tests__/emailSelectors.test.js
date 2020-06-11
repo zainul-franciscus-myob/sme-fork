@@ -274,8 +274,8 @@ describe('emailSelectors', () => {
     it.each([
       [InvoiceLayout.SERVICE, true],
       [InvoiceLayout.ITEM_AND_SERVICE, true],
-      [InvoiceLayout.PROFESSIONAL, true],
-      [InvoiceLayout.TIME_BILLING, true],
+      [InvoiceLayout.PROFESSIONAL, false],
+      [InvoiceLayout.TIME_BILLING, false],
       [InvoiceLayout.MISCELLANEOUS, false],
       ['BOGUS_LAYOUT', false],
     ])('when invoice has %s layout, return %s', (layout, expected) => {
