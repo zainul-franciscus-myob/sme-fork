@@ -39,7 +39,7 @@ const SpendMoneyDetailSecondaryOptions = ({
         name="referenceId"
         label="Reference number"
         requiredLabel="This is required"
-        maxLength={8}
+        maxLength={13}
         value={referenceId}
         onChange={handleInputChange}
       />
