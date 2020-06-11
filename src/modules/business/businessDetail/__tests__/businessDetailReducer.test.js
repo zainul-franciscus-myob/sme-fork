@@ -150,19 +150,12 @@ describe('businessDetailReducer', () => {
         },
       };
 
-      const expected = {
-        businessDetails: {
-          isFinancialYearClosed: true,
-        },
-        isFinancialYearSectionReadOnly: true,
-      };
-
       const actual = businessDetailsReducer(state, {
         intent: LOAD_BUSINESS_DETAIL,
         businessDetails: action.businessDetails,
       });
 
-      expect(actual).toEqual(expected);
+      expect(actual.isFinancialYearSectionReadOnly).toBeTruthy();
     });
 
     it('should make all fields in FinancialYearSection readonly when companyfile has any transactions', () => {
@@ -179,19 +172,12 @@ describe('businessDetailReducer', () => {
         },
       };
 
-      const expected = {
-        businessDetails: {
-          hasTransactions: true,
-        },
-        isFinancialYearSectionReadOnly: true,
-      };
-
       const actual = businessDetailsReducer(state, {
         intent: LOAD_BUSINESS_DETAIL,
         businessDetails: action.businessDetails,
       });
 
-      expect(actual).toEqual(expected);
+      expect(actual.isFinancialYearSectionReadOnly).toBeTruthy();
     });
 
     it('should make all fields in FinancialYearSection edittable when current financial year is not closed and no transactions exist', () => {
@@ -210,12 +196,33 @@ describe('businessDetailReducer', () => {
         },
       };
 
+      const actual = businessDetailsReducer(state, {
+        intent: LOAD_BUSINESS_DETAIL,
+        businessDetails: action.businessDetails,
+      });
+
+      expect(actual.businessDetails.isFinancialYearSectionReadOnly).toBeFalsy();
+    });
+
+    it('should have OpeningBalanceYear and OpeningBalanceMonth', () => {
+      const state = {
+        businessDetails: {
+          openingBalanceDate: '',
+        },
+      };
+
+      const action = {
+        businessDetails: {
+          openingBalanceDate: '2020-06-01T00:00:00',
+        },
+      };
+
       const expected = {
         businessDetails: {
-          isFinancialYearClosed: false,
-          hasTransactions: false,
+          openingBalanceDate: '2020-06-01T00:00:00',
+          openingBalanceYear: 2020,
+          openingBalanceMonth: 6,
         },
-        isFinancialYearSectionReadOnly: false,
       };
 
       const actual = businessDetailsReducer(state, {

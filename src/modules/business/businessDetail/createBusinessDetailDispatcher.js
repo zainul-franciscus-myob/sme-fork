@@ -85,12 +85,15 @@ const createBusinessDetailDispatcher = store => ({
       value,
     });
   },
-  loadBusinessDetail: ({ businessDetails, pageTitle, financialYearOptions }) => {
+  loadBusinessDetail: ({
+    businessDetails, pageTitle, financialYearOptions, openingBalanceYearOptions,
+  }) => {
     store.dispatch({
       intent: LOAD_BUSINESS_DETAIL,
       businessDetails,
       pageTitle,
       financialYearOptions,
+      openingBalanceYearOptions,
     });
   },
   openFinancialYearModal: () => {

@@ -1,7 +1,6 @@
 import {
   FieldGroup,
   Icons,
-  MonthPicker,
   ReadOnly,
   Tooltip,
 } from '@myob/myob-widgets';
@@ -11,15 +10,11 @@ import React from 'react';
 import { getFinancialYearDetails } from '../businessDetailSelectors';
 import FinancialYearButton from './FinancialYearButton';
 import MonthSelect from './MonthSelect';
+import MonthYearSelect from './MonthYearSelect';
 import YearSelect from './YearSelect';
 import formatDate from '../../../../common/valueFormatters/formatDate/formatDate';
-import handleMonthPickerChange from '../../../../components/handlers/handleMonthPickerChange';
 import handleSelectChange from '../../../../components/handlers/handleSelectChange';
 import styles from './FinancialYearSection.module.css';
-
-const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
-];
 
 const dateFormat = 'MMMM yyyy';
 
@@ -27,6 +22,8 @@ const FinancialYearSection = ({
   financialYear,
   lastMonthInFinancialYear,
   openingBalanceDate,
+  openingBalanceYear,
+  openingBalanceMonth,
   isStartNewFinancialYearEnabled,
   isFinancialYearSectionReadOnly,
   onChange,
@@ -34,6 +31,9 @@ const FinancialYearSection = ({
   onOpenFinancialYearModal,
   onCloseFinancialYearModal,
   financialYearOptions,
+  openingBalanceYearOptions,
+  lastMonthInFY,
+  monthOptions,
 }) => {
   const financialYearComboBox = isFinancialYearSectionReadOnly
     ? <ReadOnly label="Current financial year" name="financialYear">
@@ -67,7 +67,7 @@ const FinancialYearSection = ({
 
   const lastMonthInFYComboBox = isFinancialYearSectionReadOnly
     ? <ReadOnly label="Last month in financial year" name="lastMonthInFinancialYear" labelAccessory={lastMonthFYToolTip}>
-        {monthNames[lastMonthInFinancialYear - 1]}
+        {lastMonthInFY}
       </ReadOnly>
     : (
       <MonthSelect
@@ -78,6 +78,7 @@ const FinancialYearSection = ({
         labelAccessory={lastMonthFYToolTip}
         onChange={handleSelectChange(onChange)}
         width="sm"
+        monthOptions={monthOptions}
       />
     );
 
@@ -93,13 +94,14 @@ const FinancialYearSection = ({
         {formatDate(openingBalanceDate, dateFormat)}
       </ReadOnly>
     : (
-      <MonthPicker
-        name="openingBalanceDate"
-        label="Opening balance month"
-        value={openingBalanceDate}
+      <MonthYearSelect
         labelAccessory={openingBalanceDateTooltip}
-        className={styles.monthSelectPicker}
-        onSelect={handleMonthPickerChange(onChange, 'openingBalanceDate')}
+        year={openingBalanceYear}
+        month={openingBalanceMonth}
+        yearOptions={openingBalanceYearOptions}
+        monthOptions={monthOptions}
+        onYearChange={handleSelectChange(onChange)}
+        onMonthChange={handleSelectChange(onChange)}
       />
     );
 

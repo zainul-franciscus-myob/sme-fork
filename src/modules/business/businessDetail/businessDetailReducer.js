@@ -15,6 +15,7 @@ import {
   UPDATE_LOCK_DATE_DETAIL,
 } from '../BusinessIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import { getOpeningBalanceMonth, getOpeningBalanceYear } from './businessDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
@@ -37,6 +38,8 @@ const getDefaultState = () => ({
     financialYear: '',
     lastMonthInFinancialYear: '',
     openingBalanceDate: '',
+    openingBalanceYear: '',
+    openingBalanceMonth: '',
     serialNumber: '',
     hasLockPeriod: false,
     lockDate: '',
@@ -55,6 +58,10 @@ const getDefaultState = () => ({
   isStartNewFinancialYearEnabled: false,
   financialYearOptions: [],
   isFinancialYearSectionReadOnly: false,
+  openingBalanceYearOptions: [],
+  monthOptions: ['January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December',
+  ],
 });
 
 const setInitialState = (state, { context }) => ({
@@ -83,10 +90,13 @@ const loadBusinessDetail = (state, action) => {
     businessDetails: {
       ...state.businessDetails,
       ...action.businessDetails,
+      openingBalanceMonth: getOpeningBalanceMonth(action),
+      openingBalanceYear: getOpeningBalanceYear(action),
     },
     pageTitle: action.pageTitle,
     financialYearOptions: action.financialYearOptions,
     isFinancialYearSectionReadOnly,
+    openingBalanceYearOptions: action.openingBalanceYearOptions,
   };
 };
 
