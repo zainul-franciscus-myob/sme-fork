@@ -107,7 +107,8 @@ const JobKeeperTable = ({
       <p testid="jobKeeperPaymentHeader">
         Only select the first JobKeeper fortnight for eligible employees and we&apos;ll
         send this information to the ATO. When you want to stop claiming JobKeeper for an employee,
-        enter a final JobKeeper fortnight, and notify the ATO.
+        enter a final JobKeeper fortnight, and notify the ATO. The final fortnight should be
+        selected as the fortnight after the last payment fortnight.
       </p>
       <p>
         For more information about JobKeeper payments,&nbsp;
