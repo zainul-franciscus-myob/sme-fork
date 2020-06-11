@@ -47,7 +47,7 @@ const BillSecondaryOptions = ({
       value={billNumber}
       requiredLabel="This is required"
       onChange={handleInputChange(onUpdateBillOption)}
-      maxLength={8}
+      maxLength={13}
       disabled={isReadOnlyLayout}
     />
     <Input
