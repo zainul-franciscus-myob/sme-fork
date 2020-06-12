@@ -13,8 +13,8 @@ const getPayrollFavourites = createSelector(
   state => state.payrollReports.favourites,
   (all, favourites) => {
     const favouritePayrollReports = favourites
-      .reduce((acc, id) => {
-        const foundItem = all.find(allItem => id === allItem.id);
+      .reduce((acc, name) => {
+        const foundItem = all.find(allItem => name === allItem.name);
 
         if (!foundItem) {
           return acc;
@@ -34,20 +34,20 @@ export const getViewAllUrl = createSelector(
   (businessId, region, myReportsUrl) => `${myReportsUrl}/#/${region}/${businessId}/reports/standardReports`,
 );
 
-export const getIsFavouritesShowing = createSelector(
-  getPayrollFavourites,
-  (filteredFavourites) => filteredFavourites.length !== 0,
-);
-
 export const getFavouriteReports = createSelector(
   getBusinessId,
   getRegion,
   getMyReportsUrl,
   getPayrollFavourites,
-  (businessId, region, myReportsUrl, favourites) => favourites.map(({ name, id }) => ({
-    name,
-    url: `${myReportsUrl}/#/${region}/${businessId}/${id}`,
+  (businessId, region, myReportsUrl, favourites) => favourites.map(({ displayName, path }) => ({
+    displayName,
+    url: `${myReportsUrl}/#/${region}/${businessId}/${path}`,
   })),
+);
+
+export const getIsFavouritesShowing = createSelector(
+  getFavouriteReports,
+  (reports) => reports.length !== 0,
 );
 
 export const getPopularReports = createSelector(
@@ -59,17 +59,23 @@ export const getPopularReports = createSelector(
   (businessId, region, myReportsUrl, favourites, all) => {
     const remainingReports = all
       .reduce((acc, allItem) => {
-        const alreadyFavourite = favourites.find(favouriteItem => favouriteItem.id === allItem.id);
+        const alreadyFavourite = favourites
+          .find(favouriteItem => favouriteItem.name === allItem.name);
         if (alreadyFavourite) return acc;
         return [...acc, allItem];
       }, []);
 
     const popularReportsLimit = FAVOURITE_REPORTS_LIMIT - favourites.length;
     return remainingReports
-      .map((item) => ({
-        name: item.name,
-        url: `${myReportsUrl}/#/${region}/${businessId}/${item.id}`,
+      .map(({ displayName, path }) => ({
+        displayName,
+        url: `${myReportsUrl}/#/${region}/${businessId}/${path}`,
       }))
       .slice(0, popularReportsLimit);
   },
+);
+
+export const getIsPopularShowing = createSelector(
+  getPopularReports,
+  (reports) => reports.length !== 0,
 );

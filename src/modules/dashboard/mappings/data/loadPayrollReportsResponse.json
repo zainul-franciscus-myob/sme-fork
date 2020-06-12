@@ -1,3 +1,12 @@
 {
-  "favourites": ["payrollCategoryTransactions", "payrollSummary"]
+  "favourites": [
+    "Payroll category transactions",
+    "Payroll summary",
+    "Payroll register",
+    "Payroll activity",
+    "Payroll advice",
+    "Timesheets",
+    "Accrual by fund summary",
+    "Accrual by fund detail"
+  ]
 }

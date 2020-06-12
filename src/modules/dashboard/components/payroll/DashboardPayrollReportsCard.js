@@ -6,6 +6,7 @@ import {
   getHasError,
   getIsFavouritesShowing,
   getIsLoading,
+  getIsPopularShowing,
   getPopularReports,
   getViewAllUrl,
 } from '../../selectors/DashboardPayrollReportsSelectors';
@@ -17,6 +18,7 @@ import styles from './DashboardPayrollReportsCard.module.css';
 const DashboardPayrollReportsCard = ({
   isLoading,
   isFavouritesShowing,
+  isPopularShowing,
   hasError,
   favouriteReports,
   popularReports,
@@ -26,23 +28,28 @@ const DashboardPayrollReportsCard = ({
   const body = (
     <div className={styles.body}>
       <div className={styles.reportsSection}>
-      {isFavouritesShowing && (
-        <div>
-          <h3>Favourites</h3>
-          {
-            favouriteReports.map(({ name, url }) => (
-                <ReportLine isFavourite url={url}>{name}</ReportLine>
-            ))
-          }
-        </div>)}
-        <div>
-          <h3>Popular</h3>
-          {
-            popularReports.map(({ name, url }) => (
-                <ReportLine url={url}>{name}</ReportLine>
-            ))
-          }
-        </div>
+        {isFavouritesShowing && (
+          <div>
+            <h3>Favourites</h3>
+            {
+              favouriteReports.map(({ displayName, url }) => (
+                  <ReportLine isFavourite url={url}>{displayName}</ReportLine>
+              ))
+            }
+          </div>
+        )}
+        {
+          isPopularShowing && (
+            <div>
+              <h3>Popular</h3>
+              {
+                popularReports.map(({ displayName, url }) => (
+                    <ReportLine url={url}>{displayName}</ReportLine>
+                ))
+              }
+            </div>
+          )
+        }
       </div>
       <div className={styles.viewAllSection}>
         <a href={viewAllUrl}>View all</a>
@@ -76,6 +83,7 @@ const mapStateToProps = (state) => ({
   hasError: getHasError(state),
   isLoading: getIsLoading(state),
   isFavouritesShowing: getIsFavouritesShowing(state),
+  isPopularShowing: getIsPopularShowing(state),
   favouriteReports: getFavouriteReports(state),
   popularReports: getPopularReports(state),
   viewAllUrl: getViewAllUrl(state),

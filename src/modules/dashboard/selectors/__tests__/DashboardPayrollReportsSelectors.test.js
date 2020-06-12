@@ -12,16 +12,16 @@ describe('DashboardPayrollReportsSelectors', () => {
         favourites: [
         ],
         all: [
-          { id: 'payrollCategoryTransactions', name: 'Pay item transactions' },
-          { id: 'payrollSummary', name: 'Payroll summary' },
-          { id: 'payrollRegister', name: 'Payroll register' },
-          { id: 'payrollActivity', name: 'Payroll activity' },
-          { id: 'payrollAdvice', name: 'Payroll advice' },
-          { id: 'timesheets', name: 'Timesheets' },
-          { id: 'accrualByFundSummary', name: 'Accrual by fund' },
-          { id: 'accrualByFundDetail', name: 'Accrual by fund (detail)' },
-          { id: 'leaveBalanceSummary', name: 'Leave balance' },
-          { id: 'leaveBalanceDetail', name: 'Leave balance (detail)' },
+          { name: 'Payroll category transactions', path: 'payrollCategoryTransactions', displayName: 'Pay item transactions' },
+          { name: 'Payroll summary', path: 'payrollSummary', displayName: 'Payroll summary' },
+          { name: 'Payroll register', path: 'payrollRegister', displayName: 'Payroll register' },
+          { name: 'Payroll activity', path: 'payrollActivity', displayName: 'Payroll activity' },
+          { name: 'Payroll advice', path: 'payrollAdvice', displayName: 'Payroll advice' },
+          { name: 'Timesheets', path: 'timesheets', displayName: 'Timesheets' },
+          { name: 'Accrual by fund summary', path: 'accrualByFundSummary', displayName: 'Accrual by fund' },
+          { name: 'Accrual by fund detail', path: 'accrualByFundDetail', displayName: 'Accrual by fund (detail)' },
+          { name: 'Leave balance summary', path: 'leaveBalanceSummary', displayName: 'Leave balance' },
+          { name: 'Leave balance detail', path: 'leaveBalanceDetail', displayName: 'Leave balance (detail)' },
         ],
       },
     };
@@ -31,27 +31,27 @@ describe('DashboardPayrollReportsSelectors', () => {
         payrollReports: {
           ...state.payrollReports,
           favourites: [
-            'payrollCategoryTransactions',
-            'payrollSummary',
-            'payrollRegister',
-            'payrollActivity',
-            'payrollAdvice',
-            'timesheets',
-            'accrualByFundSummary',
-            'accrualByFundDetail',
-            'leaveBalanceSummary',
-            'leaveBalanceDetail',
+            'Payroll category transactions',
+            'Payroll summary',
+            'Payroll register',
+            'Payroll activity',
+            'Payroll advice',
+            'Timesheets',
+            'Accrual by fund summary',
+            'Accrual by fund detail',
+            'Leave balance summary',
+            'Leave balance summary',
           ],
         },
       };
       const actual = getFavouriteReports(modifiedState);
       expect(actual).toEqual([
-        { url: 'https://🦕.org/#/au/🥬/payrollCategoryTransactions', name: 'Pay item transactions' },
-        { url: 'https://🦕.org/#/au/🥬/payrollSummary', name: 'Payroll summary' },
-        { url: 'https://🦕.org/#/au/🥬/payrollRegister', name: 'Payroll register' },
-        { url: 'https://🦕.org/#/au/🥬/payrollActivity', name: 'Payroll activity' },
-        { url: 'https://🦕.org/#/au/🥬/payrollAdvice', name: 'Payroll advice' },
-        { url: 'https://🦕.org/#/au/🥬/timesheets', name: 'Timesheets' },
+        { url: 'https://🦕.org/#/au/🥬/payrollCategoryTransactions', displayName: 'Pay item transactions' },
+        { url: 'https://🦕.org/#/au/🥬/payrollSummary', displayName: 'Payroll summary' },
+        { url: 'https://🦕.org/#/au/🥬/payrollRegister', displayName: 'Payroll register' },
+        { url: 'https://🦕.org/#/au/🥬/payrollActivity', displayName: 'Payroll activity' },
+        { url: 'https://🦕.org/#/au/🥬/payrollAdvice', displayName: 'Payroll advice' },
+        { url: 'https://🦕.org/#/au/🥬/timesheets', displayName: 'Timesheets' },
       ]);
     });
     it('returns less than 6 favourites', () => {
@@ -60,17 +60,17 @@ describe('DashboardPayrollReportsSelectors', () => {
         payrollReports: {
           ...state.payrollReports,
           favourites: [
-            'payrollCategoryTransactions',
-            'payrollSummary',
-            'payrollRegister',
+            'Payroll category transactions',
+            'Payroll summary',
+            'Payroll register',
           ],
         },
       };
       const actual = getFavouriteReports(modifiedState);
       expect(actual).toEqual([
-        { url: 'https://🦕.org/#/au/🥬/payrollCategoryTransactions', name: 'Pay item transactions' },
-        { url: 'https://🦕.org/#/au/🥬/payrollSummary', name: 'Payroll summary' },
-        { url: 'https://🦕.org/#/au/🥬/payrollRegister', name: 'Payroll register' },
+        { url: 'https://🦕.org/#/au/🥬/payrollCategoryTransactions', displayName: 'Pay item transactions' },
+        { url: 'https://🦕.org/#/au/🥬/payrollSummary', displayName: 'Payroll summary' },
+        { url: 'https://🦕.org/#/au/🥬/payrollRegister', displayName: 'Payroll register' },
       ]);
     });
     it('ignores reports not in all', () => {
@@ -79,7 +79,7 @@ describe('DashboardPayrollReportsSelectors', () => {
         payrollReports: {
           ...state.payrollReports,
           favourites: [
-            'bankTransactions',
+            'Jobs profit and loss',
           ],
         },
       };
@@ -98,16 +98,16 @@ describe('DashboardPayrollReportsSelectors', () => {
       payrollReports: {
         favourites: [],
         all: [
-          { id: 'payrollCategoryTransactions', name: 'Pay item transactions' },
-          { id: 'payrollSummary', name: 'Payroll summary' },
-          { id: 'payrollRegister', name: 'Payroll register' },
-          { id: 'payrollActivity', name: 'Payroll activity' },
-          { id: 'payrollAdvice', name: 'Payroll advice' },
-          { id: 'timesheets', name: 'Timesheets' },
-          { id: 'accrualByFundSummary', name: 'Accrual by fund' },
-          { id: 'accrualByFundDetail', name: 'Accrual by fund (detail)' },
-          { id: 'leaveBalanceSummary', name: 'Leave balance' },
-          { id: 'leaveBalanceDetail', name: 'Leave balance (detail)' },
+          { name: 'Payroll category transactions', path: 'payrollCategoryTransactions', displayName: 'Pay item transactions' },
+          { name: 'Payroll summary', path: 'payrollSummary', displayName: 'Payroll summary' },
+          { name: 'Payroll register', path: 'payrollRegister', displayName: 'Payroll register' },
+          { name: 'Payroll activity', path: 'payrollActivity', displayName: 'Payroll activity' },
+          { name: 'Payroll advice', path: 'payrollAdvice', displayName: 'Payroll advice' },
+          { name: 'Timesheets', path: 'timesheets', displayName: 'Timesheets' },
+          { name: 'Accrual by fund summary', path: 'accrualByFundSummary', displayName: 'Accrual by fund' },
+          { name: 'Accrual by fund detail', path: 'accrualByFundDetail', displayName: 'Accrual by fund (detail)' },
+          { name: 'Leave balance summary', path: 'leaveBalanceSummary', displayName: 'Leave balance' },
+          { name: 'Leave balance detail', path: 'leaveBalanceDetail', displayName: 'Leave balance (detail)' },
         ],
       },
     };
@@ -117,12 +117,12 @@ describe('DashboardPayrollReportsSelectors', () => {
         payrollReports: {
           ...state.payrollReports,
           favourites: [
-            'payrollAdvice',
-            'timesheets',
-            'accrualByFundSummary',
-            'accrualByFundDetail',
-            'leaveBalanceSummary',
-            'leaveBalanceDetail',
+            'Payroll advice',
+            'Timesheets',
+            'Accrual by fund summary',
+            'Accrual by fund detail',
+            'Leave balance summary',
+            'Leave balance summary',
           ],
         },
       };
@@ -139,12 +139,12 @@ describe('DashboardPayrollReportsSelectors', () => {
       };
       const actual = getPopularReports(modifiedState);
       expect(actual).toEqual([
-        { url: 'https://🦕.org/#/au/🥬/payrollCategoryTransactions', name: 'Pay item transactions' },
-        { url: 'https://🦕.org/#/au/🥬/payrollSummary', name: 'Payroll summary' },
-        { url: 'https://🦕.org/#/au/🥬/payrollRegister', name: 'Payroll register' },
-        { url: 'https://🦕.org/#/au/🥬/payrollActivity', name: 'Payroll activity' },
-        { url: 'https://🦕.org/#/au/🥬/payrollAdvice', name: 'Payroll advice' },
-        { url: 'https://🦕.org/#/au/🥬/timesheets', name: 'Timesheets' },
+        { url: 'https://🦕.org/#/au/🥬/payrollCategoryTransactions', displayName: 'Pay item transactions' },
+        { url: 'https://🦕.org/#/au/🥬/payrollSummary', displayName: 'Payroll summary' },
+        { url: 'https://🦕.org/#/au/🥬/payrollRegister', displayName: 'Payroll register' },
+        { url: 'https://🦕.org/#/au/🥬/payrollActivity', displayName: 'Payroll activity' },
+        { url: 'https://🦕.org/#/au/🥬/payrollAdvice', displayName: 'Payroll advice' },
+        { url: 'https://🦕.org/#/au/🥬/timesheets', displayName: 'Timesheets' },
       ]);
     });
     it('returns first 5 when there is 1 favourite', () => {
@@ -153,17 +153,17 @@ describe('DashboardPayrollReportsSelectors', () => {
         payrollReports: {
           ...state.payrollReports,
           favourites: [
-            'timesheets',
+            'Timesheets',
           ],
         },
       };
       const actual = getPopularReports(modifiedState);
       expect(actual).toEqual([
-        { url: 'https://🦕.org/#/au/🥬/payrollCategoryTransactions', name: 'Pay item transactions' },
-        { url: 'https://🦕.org/#/au/🥬/payrollSummary', name: 'Payroll summary' },
-        { url: 'https://🦕.org/#/au/🥬/payrollRegister', name: 'Payroll register' },
-        { url: 'https://🦕.org/#/au/🥬/payrollActivity', name: 'Payroll activity' },
-        { url: 'https://🦕.org/#/au/🥬/payrollAdvice', name: 'Payroll advice' },
+        { url: 'https://🦕.org/#/au/🥬/payrollCategoryTransactions', displayName: 'Pay item transactions' },
+        { url: 'https://🦕.org/#/au/🥬/payrollSummary', displayName: 'Payroll summary' },
+        { url: 'https://🦕.org/#/au/🥬/payrollRegister', displayName: 'Payroll register' },
+        { url: 'https://🦕.org/#/au/🥬/payrollActivity', displayName: 'Payroll activity' },
+        { url: 'https://🦕.org/#/au/🥬/payrollAdvice', displayName: 'Payroll advice' },
       ]);
     });
     it('should not return report that is already part of favourites', () => {
@@ -172,13 +172,13 @@ describe('DashboardPayrollReportsSelectors', () => {
         payrollReports: {
           ...state.payrollReports,
           favourites: [
-            'payrollCategoryTransactions',
+            'Payroll category transactions',
           ],
         },
       };
       const actual = getPopularReports(modifiedState);
       expect(actual).not.toContainEqual(
-        { url: 'https://🦕.org/#/au/🥬/payrollCategoryTransactions', name: 'Pay item transactions' },
+        { url: 'https://🦕.org/#/au/🥬/payrollCategoryTransactions', displayName: 'Pay item transactions' },
       );
     });
   });
