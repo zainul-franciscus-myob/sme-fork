@@ -65,7 +65,7 @@ const TransferMoneyDetailForm = ({
         value={referenceId}
         onChange={handleInputChange(onUpdateForm)}
         disabled={!isCreating}
-        maxLength={8}
+        maxLength={13}
       />
       <DatePicker
         label="Date"
