@@ -3,6 +3,7 @@ import {
   LOAD_DASHBOARD,
   LOAD_DEFAULT_BANKING,
   LOAD_PAYROLL,
+  LOAD_PAYROLL_REPORTS,
   LOAD_PURCHASE,
   LOAD_SALES,
   LOAD_TRACKING,
@@ -41,6 +42,10 @@ const HttpDashboardMapping = {
   [LOAD_PAYROLL]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/dashboard/load_payroll`,
+  },
+  [LOAD_PAYROLL_REPORTS]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/dashboard/load_payroll_reports`,
   },
 };
 

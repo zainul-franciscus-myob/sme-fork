@@ -21,12 +21,10 @@ const DashboardPayrollHeader = ({
   businessName,
 }) => (
   <div className={styles.header}>
-    <div />
     <Greeting
       greeting={greeting}
       businessName={businessName}
     />
-    <div />
   </div>
 );
 

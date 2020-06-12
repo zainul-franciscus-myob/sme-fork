@@ -1,3 +1,27 @@
 .header :global(.page-head__title) > :global(h1) {
   font-size: var(--flx-font-size-heading-large);
 }
+
+/*
+  @FEELIX:
+  Feelix has set "display": "flex" to only occur on a minimum width of 768px, I'm overriding this
+  so that the "actions" are always aligned to the right of the header
+*/
+.header :global(.page-head){
+  display: flex;
+}
+
+.header.isActionStacked :global(.page-head) {
+  display: block;
+}
+
+@media screen and (min-width: 1200px) {
+  /* Force adjacent cards to have the same header height */
+  .header :global(.page-head) {
+    height: 3rem;
+  }
+
+  .header.isActionStacked :global(.page-head) {
+    display: flex;
+  }
+}

@@ -1,0 +1,18 @@
+.reportLine{
+    display: flex;
+    align-items: center;
+    margin: var(--flx-spacing-tiny) 0;
+}
+
+.reportLine > a ,
+.reportLine > svg {
+    display: inline-block;
+}
+
+.reportLine > svg {
+    margin-right: var(--flx-spacing-tiny) ;
+}
+
+.favouriteLine > svg {
+    fill: var(--flx-palette-dusk-100);
+}

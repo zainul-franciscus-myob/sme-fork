@@ -10,15 +10,6 @@
   background-color: #f3f4f5;
 }
 
-/*
-  @FEELIX:
-  Feelix has set "display": "flex" to only occur on a minimum width of 768px, I'm overriding this
-  so that the "actions" are always aligned to the right of the header
-*/
-.summary :global(.page-head) {
-  display: flex;
-}
-
 .summary > hr {
   margin-top: var(--flx-spacing-tiny);
 }

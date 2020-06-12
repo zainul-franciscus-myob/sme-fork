@@ -16,11 +16,10 @@ import {
 import {
   getShouldUsePayrollLayout,
 } from '../../selectors/DashboardSelectors';
-import CardView from '../../../../components/CardView/CardView';
 import CreatePayrun from './create_pay_run.svg';
 import DashboardCardHeader from '../DashboardCardHeader';
+import DashboardPayrollCard from './DashboardPayrollCard';
 import EmptyStatePayroll from './dashboard-empty-state-payroll.svg';
-import ErrorCard from '../ErrorCard';
 import styles from './DashboardPayrollPayrunsCard.module.css';
 
 const DashboardPayrollPayrunsCard = ({
@@ -36,20 +35,7 @@ const DashboardPayrollPayrunsCard = ({
   payrollSettingsLink,
   shouldUsePayrollLayout,
 }) => {
-  const entries = payrollEntries.map(entry => {
-    const isEntryEmpty = Object.keys(entry).length === 0;
-    if (isEntryEmpty) {
-      /*
-        We set an empty div as there is an expectation that the widget will have 3 entries
-        as per the grid layout. Therefore we use an empty <div /> to allow the grid to create
-        empty rows.
-      */
-      return (
-        <div />
-      );
-    }
-
-    return (
+  const entries = payrollEntries.map(entry => (
       <div className={styles.container}>
         <div>
           <div className={classNames(styles.row, styles.firstRow, styles.payRunCompleted)}>
@@ -74,10 +60,7 @@ const DashboardPayrollPayrunsCard = ({
           </div>
         </div>
       </div>
-    );
-  });
-
-  if (hasError) return <ErrorCard onTry={onReload} />;
+  ));
 
   const createPayrunButton = shouldUsePayrollLayout ? (
     <Button
@@ -116,15 +99,18 @@ const DashboardPayrollPayrunsCard = ({
 
   const payrollPayrunView = (
     <div className={styles.body}>
-      {entries}
-      <Button
-        type="link"
-        className={styles.viewAll}
-        onClick={() => { onLinkClick(payrunListLink); }}
-      >
-        View all
-      </Button>
-  </div>
+      <div>
+        {entries}
+      </div>
+      <div className={styles.viewAllSection}>
+        <Button
+          type="link"
+          onClick={() => { onLinkClick(payrunListLink); }}
+        >
+          View all
+        </Button>
+      </div>
+    </div>
   );
 
   let bodyView;
@@ -139,11 +125,9 @@ const DashboardPayrollPayrunsCard = ({
   const isPayrunEntriesVisible = isPayrollSetup && !isEmpty;
   const header = (
     <div>
-      <div className={styles.summary}>
-        <DashboardCardHeader title="Pay runs">
-          {createPayrunButton}
-        </DashboardCardHeader>
-      </div>
+      <DashboardCardHeader title="Pay runs">
+        {createPayrunButton}
+      </DashboardCardHeader>
       <hr />
     </div>
   );
@@ -155,10 +139,11 @@ const DashboardPayrollPayrunsCard = ({
     </>
   );
 
-  return <CardView
+  return <DashboardPayrollCard
+    hasError={hasError}
+    onReload={onReload}
     isLoading={isLoading}
     view={view}
-    cardBodyClassname={styles.cardbody}
   />;
 };
 

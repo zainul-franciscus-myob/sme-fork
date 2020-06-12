@@ -63,54 +63,5 @@ describe('DashboardPayrollSelectors', () => {
 
       expect(actual).toEqual(expected);
     });
-
-    it('should add empty objects if number of payroll entries is less than 3', () => {
-      const state = {
-        payroll: {
-          isPayrollSetup: true,
-          entries: [
-            {
-              id: '1',
-              dateFrom: '2020-05-19',
-              dateTo: '2020-05-25',
-              isDraft: true,
-              dateOfPayment: '',
-              amount: '',
-            },
-          ],
-        },
-      };
-
-      const expected = [
-        {
-          id: '1',
-          date: 'Tue 19 - Mon 25 May',
-          isDraft: true,
-          formatedPaymentDate: '',
-          amount: '',
-        },
-        {},
-        {},
-      ];
-
-      const actual = getPayrollEntries(state);
-
-      expect(actual).toEqual(expected);
-    });
-  });
-
-  it('should not add empty objects if number of payroll entries is 0', () => {
-    const state = {
-      payroll: {
-        isPayrollSetup: true,
-        entries: [],
-      },
-    };
-
-    const expected = [];
-
-    const actual = getPayrollEntries(state);
-
-    expect(actual).toEqual(expected);
   });
 });

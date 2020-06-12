@@ -53,14 +53,5 @@ const getEntries = state => state.payroll.entries;
 
 export const getPayrollEntries = createSelector(
   getEntries,
-  entries => {
-    const MAX_PAYROLL_ENTRIES = 3;
-    const payrollEntries = entries.map(mappedEntry);
-
-    const additionalEmptyObjects = payrollEntries.length !== 0
-      ? Array(MAX_PAYROLL_ENTRIES - payrollEntries.length).fill({})
-      : [];
-
-    return [...payrollEntries, ...additionalEmptyObjects];
-  },
+  entries => entries.map(mappedEntry),
 );

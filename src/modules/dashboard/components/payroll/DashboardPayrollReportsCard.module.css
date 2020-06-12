@@ -1,0 +1,14 @@
+.body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.body .viewAllSection {
+  margin: 0 0 0 auto;
+}
+
+.body .reportsSection > div:first-child {
+  margin-bottom: var(--flx-spacing-x-small);
+}

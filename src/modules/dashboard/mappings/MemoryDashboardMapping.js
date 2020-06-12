@@ -3,6 +3,7 @@ import {
   LOAD_DASHBOARD,
   LOAD_DEFAULT_BANKING,
   LOAD_PAYROLL,
+  LOAD_PAYROLL_REPORTS,
   LOAD_PURCHASE,
   LOAD_SALES,
   LOAD_TRACKING,
@@ -11,6 +12,7 @@ import {
 import loadAccountBankingResponse from './data/loadAccountBankingResponse';
 import loadDashboardResponse from './data/loadDashboardResponse';
 import loadDefaultBankingResponse from './data/loadDefaultBankingResponse';
+import loadPayrollReportsResponse from './data/loadPayrollReportsResponse';
 import loadPayrollResponse from './data/loadPayrollResponse';
 import loadPurchaseResponse from './data/loadPurchaseResponse';
 import loadSalesResponse from './data/loadSalesResponse';
@@ -26,6 +28,7 @@ const MemoryDashboardMapping = {
   [LOAD_DEFAULT_BANKING]: ({ onSuccess }) => onSuccess(loadDefaultBankingResponse),
   [LOAD_ACCOUNT_BANKING]: ({ onSuccess }) => onSuccess(loadAccountBankingResponse),
   [LOAD_PAYROLL]: ({ onSuccess }) => onSuccess(loadPayrollResponse),
+  [LOAD_PAYROLL_REPORTS]: ({ onSuccess }) => onSuccess(loadPayrollReportsResponse),
 };
 
 export default MemoryDashboardMapping;

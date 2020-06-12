@@ -8,13 +8,15 @@ import {
 } from '../../selectors/DashboardSelectors';
 import DashboardPayrollHeader from './DashboardPayrollHeader';
 import DashboardPayrollPayrunsCard from './DashboardPayrollPayrunsCard';
+import DashboardPayrollReportsCard from './DashboardPayrollReportsCard';
 import styles from './DashboardPayrollView.module.css';
 
 const DashboardView = ({
   alert,
   onDismissAlert,
   onLinkClick,
-  onReload,
+  onPayrollReload,
+  onPayrollReportsReload,
 }) => {
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -32,11 +34,16 @@ const DashboardView = ({
 
   const body = (
     <div className={styles.body}>
-      <div />
       <div>
         <DashboardPayrollPayrunsCard
           onLinkClick={onLinkClick}
-          onReload={onReload}
+          onReload={onPayrollReload}
+        />
+      </div>
+      <div>
+        <DashboardPayrollReportsCard
+          onLinkClick={onLinkClick}
+          onReload={onPayrollReportsReload}
         />
         {leanEngageSurvey}
       </div>

@@ -2,6 +2,7 @@ export const SET_LOADING_STATE = Symbol('Set loading state');
 export const SET_ALERT = Symbol('Set alert');
 
 export const LOAD_DASHBOARD = Symbol('Load dashboard');
+export const LOAD_CONFIG = Symbol('Load config');
 
 export const LOAD_SALES = Symbol('Load sales');
 export const SET_SALES_LOADING_STATE = Symbol('Set sales loading state');
@@ -27,3 +28,7 @@ export const SET_BANK_FEED_ACCOUNT_ID = Symbol('Set bank feed account id');
 export const LOAD_PAYROLL = Symbol('Load payroll');
 export const SET_PAYROLL_LOADING_STATE = Symbol('Set payroll loading state');
 export const SET_PAYROLL_ERROR_STATE = Symbol('Set payroll error state');
+
+export const LOAD_PAYROLL_REPORTS = Symbol('Load payroll reports');
+export const SET_PAYROLL_REPORTS_LOADING_STATE = Symbol('Set payroll reports loading state');
+export const SET_PAYROLL_REPORTS_ERROR_STATE = Symbol('Set payroll reports error state');

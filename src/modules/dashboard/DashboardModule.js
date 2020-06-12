@@ -8,6 +8,7 @@ import {
   getShouldShowSales,
   getShouldShowTracking,
 } from './selectors/DashboardSelectors';
+import Config from '../../Config';
 import DashboardView from './components/DashboardView';
 import FeatureToggle from '../../FeatureToggles';
 import Store from '../../store/Store';
@@ -39,6 +40,7 @@ export default class DashboardModule {
       this.loadTracking();
       this.loadBanking();
       this.loadPayroll();
+      this.loadPayrollReports();
     };
 
     const onFailure = () => {
@@ -46,6 +48,12 @@ export default class DashboardModule {
     };
 
     this.integrator.loadDashboard({ onSuccess, onFailure });
+  }
+
+  loadConfig = () => {
+    this.dispatcher.loadConfig({
+      myReportsUrl: Config.MY_REPORTS_URL,
+    });
   }
 
   loadSales = () => {
@@ -175,6 +183,27 @@ export default class DashboardModule {
     this.integrator.loadPayroll({ onSuccess, onFailure });
   }
 
+  loadPayrollReports = () => {
+    if (!getShouldShowPayroll(this.store.getState())) {
+      return;
+    }
+
+    this.dispatcher.setPayrollReportsErrorState(false);
+    this.dispatcher.setPayrollReportsLoadingState(true);
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setPayrollReportsLoadingState(false);
+      this.dispatcher.loadPayrollReports(payload);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setPayrollReportsLoadingState(false);
+      this.dispatcher.setPayrollReportsErrorState(true);
+    };
+
+    this.integrator.loadPayrollReports({ onSuccess, onFailure });
+  }
+
   updateBankFeedAccount = (bankFeedAccount) => {
     const { id } = bankFeedAccount;
     this.dispatcher.setBankFeedAccount(id);
@@ -196,6 +225,7 @@ export default class DashboardModule {
         onTrackingChange={this.setTrackingOptions}
         onBankingReload={this.loadBanking}
         onPayrollReload={this.loadPayroll}
+        onPayrollReportsReload={this.loadPayrollReports}
         onBankFeedAccountChange={this.updateBankFeedAccount}
       />
     );
@@ -225,6 +255,7 @@ export default class DashboardModule {
     });
     this.render();
 
+    this.loadConfig();
     this.loadDashboard();
   }
 }

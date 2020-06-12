@@ -1,0 +1,9 @@
+/* Large devices (desktop) */
+@media screen and (min-width: 1200px) {
+  .cardbody {
+    display: flex;
+    flex-direction: column;
+
+    height: 38rem;
+  }
+}

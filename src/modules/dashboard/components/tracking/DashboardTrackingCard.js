@@ -27,7 +27,7 @@ const DashboardTrackingCard = ({
 }) => {
   const headerView = (
     <>
-      <DashboardCardHeader title="How your business is tracking">
+      <DashboardCardHeader title="How your business is tracking" isActionStacked>
         <Select
           name="financialYear"
           label="Financial year"

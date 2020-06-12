@@ -38,6 +38,7 @@ const DashboardView = ({
   onTrackingChange,
   onBankingReload,
   onPayrollReload,
+  onPayrollReportsReload,
   onBankFeedAccountChange,
   shouldShowBanking,
   shouldShowSales,
@@ -58,7 +59,7 @@ const DashboardView = ({
 
   const leanEngageSurvey = shouldShowPayroll && isPayrollWidgetToggleOn ? <LeanEngageSurvey
     surveyType="survey"
-    surveyName="micro-payroll-dashboard"
+    surveyName="dashboard-csat"
     productName="dashboard"
   /> : <DashboardLeanEngageCard />;
 
@@ -122,7 +123,8 @@ const DashboardView = ({
     <DashBoardPayrollView
       onDismissAlert={onDismissAlert}
       onLinkClick={onLinkClick}
-      onReload={onPayrollReload}
+      onPayrollReload={onPayrollReload}
+      onPayrollReportsReload={onPayrollReportsReload}
     />
   );
 

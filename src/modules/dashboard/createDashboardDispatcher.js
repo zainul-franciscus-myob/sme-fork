@@ -1,7 +1,9 @@
 import {
+  LOAD_CONFIG,
   LOAD_DASHBOARD,
   LOAD_DEFAULT_BANKING,
   LOAD_PAYROLL,
+  LOAD_PAYROLL_REPORTS,
   LOAD_PURCHASE,
   LOAD_SALES,
   LOAD_TRACKING,
@@ -13,6 +15,8 @@ import {
   SET_LOADING_STATE,
   SET_PAYROLL_ERROR_STATE,
   SET_PAYROLL_LOADING_STATE,
+  SET_PAYROLL_REPORTS_ERROR_STATE,
+  SET_PAYROLL_REPORTS_LOADING_STATE,
   SET_PURCHASE_ERROR_STATE,
   SET_PURCHASE_LOADING_STATE,
   SET_SALES_ERROR_STATE,
@@ -58,6 +62,11 @@ const createDashboardDispatcher = store => ({
   loadDashboard: (payload) => {
     const intent = LOAD_DASHBOARD;
     store.dispatch({ intent, ...payload });
+  },
+
+  loadConfig: (config) => {
+    const intent = LOAD_CONFIG;
+    store.dispatch({ intent, config });
   },
 
   loadSales: (payload) => {
@@ -152,6 +161,21 @@ const createDashboardDispatcher = store => ({
 
   setPayrollErrorState: (hasError) => {
     const intent = SET_PAYROLL_ERROR_STATE;
+    store.dispatch({ intent, hasError });
+  },
+
+  loadPayrollReports: (payload) => {
+    const intent = LOAD_PAYROLL_REPORTS;
+    store.dispatch({ intent, ...payload });
+  },
+
+  setPayrollReportsLoadingState: (isLoading) => {
+    const intent = SET_PAYROLL_REPORTS_LOADING_STATE;
+    store.dispatch({ intent, isLoading });
+  },
+
+  setPayrollReportsErrorState: (hasError) => {
+    const intent = SET_PAYROLL_REPORTS_ERROR_STATE;
     store.dispatch({ intent, hasError });
   },
 });

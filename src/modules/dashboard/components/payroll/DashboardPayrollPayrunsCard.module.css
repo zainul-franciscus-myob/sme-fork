@@ -1,6 +1,11 @@
 .body {
-  display: grid;
-  grid-template-rows: 0.8fr 0.8fr 0.8fr 0.3fr;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.viewAllSection {
+  margin: 0 0 0 auto;
 }
 
 .container {
@@ -58,22 +63,12 @@
   color: #6d7783;
 }
 
-/*
-  @FEELIX:
-  Feelix has set "display": "flex" to only occur on a minimum width of 768px, I'm overriding this
-  so that the "actions" are always aligned to the right of the header
-*/
-.summary :global(.page-head) {
-  display: flex;
-}
-
-
 /* Large devices (desktop) */
 @media screen and (min-width: 1200px) {
   .cardbody {
     display: flex;
     flex-direction: column;
-    
+
     /* Set standard height for these widgets on desktop*/
     height: 38rem;
   }
