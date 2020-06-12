@@ -35,7 +35,6 @@ export const CHANGE_GENERAL_PAYROLL_INFORMATION = Symbol('Change general payroll
 export const SET_IS_USE_TIMESHEETS_CHANGED = Symbol('Toggle the flag of isUseTimesheetsChanged setting');
 export const SET_GENERAL_PAYROLL_INFORMATION_LOADING_STATE = Symbol('Set general payroll information loading state');
 export const SET_IS_PAGE_EDITED = Symbol('Set is page edited');
-export const SET_IS_CURRENT_YEAR_PROVIDED = Symbol('Set whether the current year is provided');
 
 export const LOAD_PAY_SLIP_EMAIL_DEFAULTS = Symbol('Load the pay slip email defaults');
 export const SET_PAY_SLIP_EMAIL_DEFAULTS_LOADING_STATE = Symbol('Set the loading state for the pay slip email defaults tab');

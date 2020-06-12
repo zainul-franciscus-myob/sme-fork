@@ -1,4 +1,4 @@
-import { Alert, ReadOnly } from '@myob/myob-widgets';
+import { Alert } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 
 import {
@@ -17,7 +17,6 @@ import LoadingState from '../../../components/PageView/LoadingState';
 import PayrollSettingsModule from '../PayrollSettingsModule';
 import TestIntegration from '../../../integration/TestIntegration';
 import TestStore from '../../../store/TestStore';
-import YearInput from '../../../components/autoFormatter/YearInput/YearInput';
 import createPayrollSettingsDispatcher from '../createPayrollSettingsDispatcher';
 import createPayrollSettingsIntegrator from '../createPayrollSettingsIntegrator';
 import loadGeneralPayrollInformationResponse from '../mappings/data/loadGeneralPayrollInformationResponse';
@@ -88,44 +87,6 @@ describe('PayrollSettingsModule', () => {
 
     return { store, integration, module };
   };
-
-  describe('Current Year field', () => {
-    it('sets the current year to ReadOnly when current year is provided', () => {
-      const integration = {
-        read: ({ onSuccess }) => {
-          onSuccess(
-            loadGeneralPayrollInformationResponse,
-          );
-        },
-      };
-      const wrapper = constructPayrollSettingsModule(integration);
-
-      const currentYearField = wrapper.find({ testid: 'currentYearField' }).find(ReadOnly);
-      expect(currentYearField).toHaveLength(1);
-
-      expect(currentYearField.contains('2019')).toEqual(true);
-    });
-
-    it('sets the current year to YearInput when current year is not provided', () => {
-      const generalPayrollInformationResponse = {
-        ...loadGeneralPayrollInformationResponse,
-        currentYear: null,
-      };
-      const integration = {
-        read: ({ onSuccess }) => {
-          onSuccess(
-            generalPayrollInformationResponse,
-          );
-        },
-      };
-
-      const wrapper = constructPayrollSettingsModule(integration);
-
-      const currentYearField = wrapper.find({ testid: 'currentYearField' }).find(YearInput);
-
-      expect(currentYearField).toHaveLength(1);
-    });
-  });
 
   describe('pay slip email defaults tab', () => {
     it('should include the paySlipEmailDefaultsTab', () => {

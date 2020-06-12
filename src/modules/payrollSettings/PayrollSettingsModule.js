@@ -4,8 +4,6 @@ import React from 'react';
 import { SUCCESSFULLY_DELETED_SUPER_FUND, SUCCESSFULLY_SAVED_SUPER_FUND } from './PayrollSettingsMessageTypes';
 import {
   getCreateSuperUrl,
-  getCurrentYear,
-  getIsCurrentYearProvided,
   getIsPageEdited,
   getModalUrl,
   getTab,
@@ -339,7 +337,6 @@ export default class PayrollSettingsModule {
         });
       }
 
-      this.dispatcher.setIsCurrentYearProvided(true);
       this.dispatcher.setIsPageEdited(false);
     };
     const onFailure = ({ message }) => {
@@ -355,18 +352,7 @@ export default class PayrollSettingsModule {
   }
 
   saveGeneralPayrollInformation = () => {
-    const state = this.store.getState();
-    if (getIsCurrentYearProvided(state)) {
-      this.submitGeneralPayrollInformation();
-    } else {
-      const url = getModalUrl(state);
-      this.dispatcher.closeModal();
-      this.dispatcher.openModal({
-        type: ModalType.PAYROLL_YEAR_WARNING,
-        year: getCurrentYear(state),
-        url,
-      });
-    }
+    this.submitGeneralPayrollInformation();
   }
 
   submitPaySlipEmailDefaults = () => {

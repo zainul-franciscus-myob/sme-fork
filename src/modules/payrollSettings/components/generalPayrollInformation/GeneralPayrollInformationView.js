@@ -24,25 +24,15 @@ import GeneralPayrollInformationModal from './GeneralPayrollInformationModal';
 import PageView from '../../../../components/PageView/PageView';
 import SuperFundCombobox from '../../../../components/combobox/SuperFundCombobox';
 import TimesheetsSettingsView from './TimesheetsSettingsView';
-import YearInput from '../../../../components/autoFormatter/YearInput/YearInput';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 import style from './GeneralPayrollInformationView.module.css';
 
-const isCurrentYearEditable = (currentYearIsProvided) => {
-  if (currentYearIsProvided == null) {
-    return true;
-  }
-  return false;
-};
-
 const GeneralPayrollInformationView = (props) => {
   const {
-    currentYear,
     hoursInWorkWeek,
     withholdingPayerNumber,
     roundNetPay,
     taxTableRevisionDate,
-    isCurrentYearProvided,
     defaultSuperFund,
     defaultSuperFundOptions,
     useTimesheets,
@@ -63,29 +53,6 @@ const GeneralPayrollInformationView = (props) => {
     modal,
   } = props;
 
-  let currentYearField;
-  if (isCurrentYearEditable(isCurrentYearProvided)) {
-    currentYearField = (
-      <YearInput
-        label="Payroll year ends 30 June"
-        name="currentYear"
-        value={currentYear}
-        onChange={handleInputChange(onGeneralPayrollInformationChange)}
-        testid="currentYearField"
-      />
-    );
-  } else {
-    currentYearField = (
-      <ReadOnly
-        label="Payroll year ends 30 June"
-        name="taxTableRevisionDate"
-        testid="currentYearField"
-      >
-        {currentYear}
-      </ReadOnly>
-    );
-  }
-
   const defaultSuperFundMetaData = [
     {
       columnName: 'name', showData: true,
@@ -99,7 +66,6 @@ const GeneralPayrollInformationView = (props) => {
         <div className={style.formWidth}>
           <FormHorizontal>
             <FieldGroup label="Details">
-              {currentYearField}
               <AmountInput
                 label="Full-time employee weekly hours"
                 name="hoursInWorkWeek"

@@ -36,9 +36,6 @@ export const getModalType = state => state.modalType;
 export const getModal = state => state.modal;
 export const getModalUrl = state => ((state.modal || {}).url);
 
-export const getIsCurrentYearProvided = state => (
-  state.generalPayrollInformation.isCurrentYearProvided
-);
 export const getCurrentYear = state => state.generalPayrollInformation.currentYear;
 export const getLoadingState = state => state.generalPayrollInformation.loadingState;
 
@@ -52,11 +49,9 @@ export const getGeneralPayrollInformation = createStructuredSelector({
   defaultSuperFundOptions: state => state.generalPayrollInformation.defaultSuperFundOptions,
   useTimesheets: state => state.generalPayrollInformation.useTimesheets,
   useTimesheetsWeekStarts: state => state.generalPayrollInformation.useTimesheetsWeekStarts,
-  isCurrentYearProvided: getIsCurrentYearProvided,
 });
 
 export const getUpdateGeneralPayrollInformationContent = createStructuredSelector({
-  currentYear: getCurrentYear,
   hoursInWorkWeek: state => state.generalPayrollInformation.hoursInWorkWeek,
   withholdingPayerNumber: state => state.generalPayrollInformation.withholdingPayerNumber,
   roundNetPay: state => state.generalPayrollInformation.roundNetPay,

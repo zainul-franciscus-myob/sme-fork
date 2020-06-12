@@ -19,7 +19,6 @@ import {
   SET_EMPLOYMENT_CLASSIFICATION_LIST_SORT_ORDER,
   SET_EMPLOYMENT_CLASSIFICATION_LIST_TABLE_LOADING_STATE,
   SET_GENERAL_PAYROLL_INFORMATION_LOADING_STATE,
-  SET_IS_CURRENT_YEAR_PROVIDED,
   SET_IS_PAGE_EDITED,
   SET_IS_USE_TIMESHEETS_CHANGED,
   SET_MODAL_TYPE,
@@ -120,35 +119,11 @@ const setIsUseTimesheetsChanged = (state, action) => ({
   },
 });
 
-const getDefaultCurrentYear = () => {
-  let defaultCurrentYear;
-  const today = new Date();
-  const presentMonth = today.getMonth();
-  const presentYear = today.getFullYear();
-  if (presentMonth >= 0 && presentMonth <= 5) {
-    defaultCurrentYear = presentYear;
-  } else {
-    defaultCurrentYear = presentYear + 1;
-  }
-  return defaultCurrentYear;
-};
-
-export const setIsCurrentYearProvided = (state, action) => ({
-  ...state,
-  generalPayrollInformation: {
-    ...state.generalPayrollInformation,
-    isCurrentYearProvided: action.isCurrentYearProvided,
-  },
-});
-
 export const loadGeneralPayrollInformation = (state, action) => ({
   ...state,
   generalPayrollInformation: {
     ...state.generalPayrollInformation,
     ...action.generalPayrollInformation,
-    isCurrentYearProvided: action.generalPayrollInformation.currentYear,
-    currentYear: action.generalPayrollInformation.currentYear === null
-      ? getDefaultCurrentYear() : action.generalPayrollInformation.currentYear,
   },
 });
 
@@ -194,7 +169,6 @@ const handlers = {
   [OPEN_MODAL]: openModal,
   [SET_IS_PAGE_EDITED]: setIsPageEdited,
   [SET_GENERAL_PAYROLL_INFORMATION_LOADING_STATE]: setGeneralPayrollInformationIsLoading,
-  [SET_IS_CURRENT_YEAR_PROVIDED]: setIsCurrentYearProvided,
   [SET_PAY_SLIP_EMAIL_DEFAULTS_LOADING_STATE]: setPaySlipEmailDefaultsLoadingState,
   [LOAD_PAY_SLIP_EMAIL_DEFAULTS]: loadPaySlipEmailDefaults,
   [CHANGE_PAY_SLIP_EMAIL_DEFAULTS_FIELD]: changePaySlipEmailDefaultsField,
