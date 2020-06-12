@@ -1,6 +1,7 @@
 import {
   LOAD_ABN_DETAIL,
   SELECT_APRA_FUND,
+  SET_ACCESS_TOKEN,
   UPDATE_SELF_MANAGED_FUND_ABN,
   UPDATE_SUPER_FUND_DETAIL,
 } from '../../SuperFundIntents';
@@ -155,6 +156,23 @@ describe('superFundReducer', () => {
         },
         isPageEdited: true,
         isAbnDirty: true,
+      };
+
+      const actual = reducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('sets access token', () => {
+      const state = {
+
+      };
+      const action = {
+        intent: SET_ACCESS_TOKEN,
+        accessToken: 'foobarbaz',
+      };
+      const expected = {
+        accessToken: 'foobarbaz',
       };
 
       const actual = reducer(state, action);

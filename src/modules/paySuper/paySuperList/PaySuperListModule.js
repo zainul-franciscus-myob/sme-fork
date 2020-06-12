@@ -15,7 +15,7 @@ import {
 import LoadingState from '../../../components/PageView/LoadingState';
 import PaySuperListView from './components/PaySuperListView';
 import Store from '../../../store/Store';
-import StsLoginModule from '../stsLoginModal/StsLoginModule';
+import StsLoginModule from '../../stsLogin/StsLoginModule';
 import createPaySuperListDispatcher from './createPaySuperListDispatcher';
 import createPaySuperListIntegrator from './createPaySuperListIntegrator';
 import paySuperListReducer from './paySuperListReducer';

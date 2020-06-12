@@ -16,7 +16,7 @@ import PaySuperAuthorisationModalModule
   from '../paySuperAuthorisationModal/PaySuperAuthorisationModalModule';
 import PaySuperCreateView from './components/PaySuperCreateView';
 import Store from '../../../store/Store';
-import StsLoginModule from '../stsLoginModal/StsLoginModule';
+import StsLoginModule from '../../stsLogin/StsLoginModule';
 import createPaySuperCreateDispatcher from './createPaySuperCreateDispatcher';
 import createPaySuperCreateIntegrator from './createPaySuperCreateIntegrator';
 import paySuperCreateReducer from './paySuperCreateReducer';

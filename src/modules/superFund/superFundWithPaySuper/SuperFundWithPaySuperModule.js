@@ -10,6 +10,7 @@ import {
   SELECT_APRA_FUND,
   SET_ABN_LOADING_STATE,
   SET_ABN_STATUS,
+  SET_ACCESS_TOKEN,
   SET_ALERT_MESSAGE,
   SET_SUBMITTING_STATE,
   SHOW_CONTACT_DETAILS,
@@ -27,6 +28,7 @@ import {
 } from '../../payrollSettings/PayrollSettingsMessageTypes';
 import {
   getBusinessId,
+  getFundType,
   getIsCreating,
   getIsPageEdited,
   getIsSuperFundEditable,
@@ -36,6 +38,7 @@ import {
   getSuperProductAbn,
 } from './SuperFundWithPaySuperSelectors';
 import Store from '../../../store/Store';
+import StsLoginModule from '../../stsLogin/StsLoginModule';
 import SuperFundWithPaySuperView from './components/SuperFundWithPaySuperView';
 import keyMap from '../../../hotKeys/keyMap';
 import modalTypes from '../modalTypes';
@@ -50,6 +53,11 @@ export default class SuperFundWithPaySuperModule {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.store = new Store(superFundWithPaySuperReducer);
+    this.stsLoginModal = new StsLoginModule({
+      integration,
+      onLoggedIn: this.onLoggedIn,
+      onCancel: this.closeModal,
+    });
   }
 
   displayAlert = errorMessage => this.store.dispatch({
@@ -133,6 +141,24 @@ export default class SuperFundWithPaySuperModule {
       onFailure,
     });
   };
+
+  onLoggedIn = (accessToken) => {
+    this.store.dispatch({
+      intent: SET_ACCESS_TOKEN,
+      accessToken,
+    });
+
+    this.saveSuperFund();
+  }
+
+  validateAcessTokenAndSave = () => {
+    const state = this.store.getState();
+    if (getFundType(state) === 'SelfManagedSuperFund') {
+      this.stsLoginModal.run({ businessId: state.businessId });
+    } else {
+      this.saveSuperFund();
+    }
+  }
 
   saveSuperFund = () => {
     const state = this.store.getState();
@@ -231,6 +257,7 @@ export default class SuperFundWithPaySuperModule {
   };
 
   render = () => {
+    const stsLoginModal = this.stsLoginModal.getView();
     const superFundWithPaySuperView = (
       <SuperFundWithPaySuperView
         listeners={{
@@ -241,7 +268,7 @@ export default class SuperFundWithPaySuperModule {
           onUpdateSelfManagedFundAbn: this.updateSelfManagedFundAbn,
           onCancelButtonClick: this.openCancelModal,
           onDeleteButtonClick: this.openDeleteModal,
-          onSaveButtonClick: this.saveSuperFund,
+          onSaveButtonClick: this.validateAcessTokenAndSave,
           onModalClose: this.closeModal,
           onCancelModalConfirm: this.redirectToSuperFundList,
           onDeleteModalConfirm: this.deleteSuperFund,
@@ -252,6 +279,7 @@ export default class SuperFundWithPaySuperModule {
 
     const wrappedView = (
       <Provider store={this.store}>
+        {stsLoginModal}
         {superFundWithPaySuperView}
       </Provider>
     );

@@ -16,7 +16,7 @@ import {
   getIsOpen,
   getPassword,
 } from '../stsLoginSelectors';
-import handleInputChange from '../../../../components/handlers/handleInputChange';
+import handleInputChange from '../../../components/handlers/handleInputChange';
 
 const StsLoginModal = ({
   isOpen,

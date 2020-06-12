@@ -1,4 +1,4 @@
-import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import {
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,

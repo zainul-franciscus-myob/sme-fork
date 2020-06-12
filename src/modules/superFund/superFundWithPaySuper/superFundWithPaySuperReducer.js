@@ -5,6 +5,7 @@ import {
   SELECT_APRA_FUND,
   SET_ABN_LOADING_STATE,
   SET_ABN_STATUS,
+  SET_ACCESS_TOKEN,
   SET_ALERT_MESSAGE,
   SET_SUBMITTING_STATE,
   SHOW_CONTACT_DETAILS,
@@ -46,6 +47,7 @@ const getDefaultState = () => ({
   isAbnDirty: false,
   showContactDetails: false,
   superFundId: '',
+  accessToken: '',
 });
 
 const shouldShowContactDetails = ({ phoneNumber, webSite }) => phoneNumber || webSite;
@@ -170,6 +172,11 @@ const setAbnStatus = (state, action) => ({
   isAbnDirty: action.isAbnDirty,
 });
 
+const setAccessToken = (state, { accessToken }) => ({
+  ...state,
+  accessToken,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -184,6 +191,7 @@ const handlers = {
   [SELECT_APRA_FUND]: selectAPRAFund,
   [LOAD_ABN_DETAIL]: loadAbnDetail,
   [SET_ABN_STATUS]: setAbnStatus,
+  [SET_ACCESS_TOKEN]: setAccessToken,
 };
 
 const superFundWithPaySuperReducer = createReducer(getDefaultState(), handlers);

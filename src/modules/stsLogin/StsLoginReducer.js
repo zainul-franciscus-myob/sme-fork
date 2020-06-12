@@ -1,11 +1,11 @@
-import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import {
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_MODAL_OPEN_STATE,
   UPDATE_LOGIN_INFO,
 } from './StsLoginIntents';
-import createReducer from '../../../store/createReducer';
+import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
   isOpen: false,

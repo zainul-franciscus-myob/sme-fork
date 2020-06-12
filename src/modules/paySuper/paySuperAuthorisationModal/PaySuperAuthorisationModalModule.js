@@ -4,7 +4,7 @@ import React from 'react';
 import { SET_IS_LOADING } from './paySuperAuthorisationModalIntents';
 import PaySuperAuthorisationModal from './components/PaySuperAuthorisationModal';
 import Store from '../../../store/Store';
-import StsLoginModule from '../stsLoginModal/StsLoginModule';
+import StsLoginModule from '../../stsLogin/StsLoginModule';
 import createPaySuperAuthorisationModalDispatcher from './createPaySuperAuthorisationModalDispatcher';
 import createPaySuperAuthorisationModalIntegrator from './createPaySuperAuthorisationModalIntegrator';
 import paySuperAuthorisationModalReducer from './paySuperAuthorisationModalReducer';

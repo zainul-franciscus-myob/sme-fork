@@ -50,7 +50,7 @@ import PaySuperAuthorisationModalMapping from '../../modules/paySuper/paySuperAu
 import PaySuperCreateMapping from '../../modules/paySuper/paySuperCreate/mappings/MemoryPaySuperCreateMapping';
 import PaySuperListMapping from '../../modules/paySuper/paySuperList/mappings/MemoryPaySuperListMapping';
 import PaySuperReadMapping from '../../modules/paySuper/paySuperRead/mappings/MemoryPaySuperReadMapping';
-import PaySuperStsLoginMapping from '../../modules/paySuper/stsLoginModal/mappings/MemoryPaySuperStsLoginMapping';
+import PaySuperStsLoginMapping from '../../modules/stsLogin/mappings/MemoryPaySuperStsLoginMapping';
 import PayrollSettingsMapping from '../../modules/payrollSettings/mappings/MemoryPayrollSettingsMapping';
 import QuoteMapping from '../../modules/quote/mappings/MemoryQuoteMapping';
 import ReceiveMoneyMapping from '../../modules/receiveMoney/mappings/MemoryReceiveMoneyMapping';

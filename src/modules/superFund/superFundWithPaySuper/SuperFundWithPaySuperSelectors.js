@@ -40,6 +40,7 @@ export const getFundType = state => state.superFund.fundType;
 const getBankNumber = state => state.superFund.bankNumber;
 const getAccountNumber = state => state.superFund.accountNumber;
 const getElectronicServiceAddress = state => state.superFund.electronicServiceAddress;
+const getAuthorisationToken = state => state.accessToken;
 export const getSaveSuperFundPayload = createStructuredSelector({
   accountNumber: getAccountNumber,
   bankNumber: getBankNumber,
@@ -54,6 +55,7 @@ export const getSaveSuperFundPayload = createStructuredSelector({
   superProductName: getSuperProductName,
   webSite: getWebSite,
   isPaySuperFund: getIsPaySuperFund,
+  authorisationToken: getAuthorisationToken,
 });
 
 

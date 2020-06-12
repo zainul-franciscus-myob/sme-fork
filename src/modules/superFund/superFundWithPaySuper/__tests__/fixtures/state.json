@@ -14,5 +14,6 @@
     "superProductId": "73161924466001",
     "superProductName": "The Trustee for ADRIAN SPRING PRIVATE SUPER FUND",
     "webSite": "www.apollosuper.com"
-  }
+  },
+  "accessToken": "foobarbaz"
 }
