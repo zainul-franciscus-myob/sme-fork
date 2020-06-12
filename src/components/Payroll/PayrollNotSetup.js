@@ -10,7 +10,7 @@ const PayrollNotSetup = ({
 }) => {
   const actions = (
     <LinkButton href={payrollSettingsLink} icon={<Icons.Settings />}>
-      Go to Payroll settings to set up your payroll year
+      Check and save your payroll settings
     </LinkButton>
   );
 

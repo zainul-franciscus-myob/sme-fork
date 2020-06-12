@@ -79,7 +79,7 @@ const EmployeeDetailView = ({
     </BaseTemplate>
   ) : (
     <PayrollNotSetup
-      description="Before you can create an employee, you'll need to enter a payroll year."
+      description="Before you can create an employee, you’ll need to setup your general payroll information."
       payrollSettingsLink={payrollSettingsLink}
     />
   );

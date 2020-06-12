@@ -46,7 +46,7 @@ const PayRunView = ({
     </BaseTemplate>
   ) : (
     <PayrollNotSetup
-      description="Before you can create a pay run, you'll need to enter a payroll year."
+      description="Before you can create a pay run, you’ll need to setup your general payroll information."
       payrollSettingsLink={payrollSettingsLink}
     />
   );
