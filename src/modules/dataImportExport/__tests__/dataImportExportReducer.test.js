@@ -1,4 +1,6 @@
-import { ADD_IMPORT_FILE, UPDATE_CONTACTS_IDENTIFY_BY, UPDATE_IMPORT_DATA_TYPE } from '../DataImportExportIntents';
+import {
+  ADD_IMPORT_FILE, LOAD_DATA_IMPORT_EXPORT, UPDATE_CONTACTS_IDENTIFY_BY, UPDATE_IMPORT_DATA_TYPE,
+} from '../DataImportExportIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
 import ContactIdentifyBy from '../types/ContactIdentifyBy';
 import ContactType from '../types/ContactType';
@@ -33,6 +35,41 @@ describe('dataImportExportReducer', () => {
 
     expect(actual.import.selectedDataType).toEqual(selectedDataTypeForImport);
     expect(actual.export.selectedDataType).toEqual(selectedDataTypeForExport);
+  });
+
+  describe('LOAD_DATA_IMPORT_EXPORT', () => {
+    it('Updates account export state properly', () => {
+      const state = {
+        export: {
+          chartOfAccounts: {
+            otherProps: '...',
+            fileType: 'fileType1',
+            fileTypeOptions: [
+              { name: 'fileType1Name', value: 'fileType1' },
+              { name: 'fileType2Name', value: 'fileType2' },
+            ],
+          },
+        },
+      };
+
+      const action = {
+        intent: LOAD_DATA_IMPORT_EXPORT,
+        export: {
+          chartOfAccounts: {
+            fileType: 'fileType2',
+          },
+        },
+      };
+
+      const expectedExportChartOfAccounts = {
+        ...state.export.chartOfAccounts,
+        fileType: 'fileType2',
+      };
+
+      const actual = dataImportExportReducer(state, action);
+
+      expect(actual.export.chartOfAccounts).toEqual(expectedExportChartOfAccounts);
+    });
   });
 
   describe('UPDATE_CONTACTS_IDENTIFY_BY', () => {

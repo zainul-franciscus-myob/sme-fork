@@ -19,6 +19,7 @@ describe('DataImportExportIntegratorSelectors', () => {
           chartOfAccounts: {
             financialYear: '2000',
             accountBalanceTransaction: 'someTransaction',
+            fileType: 'Csv',
           },
         },
       };
@@ -27,6 +28,7 @@ describe('DataImportExportIntegratorSelectors', () => {
       const expected = {
         financialYear: '2000',
         accountBalanceTransaction: 'someTransaction',
+        fileType: 'Csv',
       };
 
       expect(actual).toEqual(expected);

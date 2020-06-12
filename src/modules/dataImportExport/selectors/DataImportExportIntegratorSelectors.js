@@ -136,9 +136,11 @@ const getFinancialYear = state => state.export.chartOfAccounts.financialYear;
 const getAccountBalanceTransaction = state => (
   state.export.chartOfAccounts.accountBalanceTransaction
 );
+const getFileType = state => state.export.chartOfAccounts.fileType;
 export const getExportChartOfAccountsQueryParams = createStructuredSelector({
   financialYear: getFinancialYear,
   accountBalanceTransaction: getAccountBalanceTransaction,
+  fileType: getFileType,
 });
 
 export const getExportCompanyFileQueryParams = (state) => {

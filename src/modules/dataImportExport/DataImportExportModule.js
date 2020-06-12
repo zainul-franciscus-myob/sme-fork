@@ -2,6 +2,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  getChartOfAccountExportDetail,
   getCurrentDataTypeInCurrentTab,
   getDeleteUnusedAccounts,
   getFileValidationError,
@@ -11,6 +12,7 @@ import {
 import DataImportExportView from './components/DataImportExportView';
 import ExportStatus from './ExportStatus';
 import ImportExportDataType from './types/ImportExportDataType';
+import ImportExportFileType from './types/ImportExportFileType';
 import LoadingState from '../../components/PageView/LoadingState';
 import Store from '../../store/Store';
 import TabItem from './types/TabItem';
@@ -140,11 +142,16 @@ export default class DataImportExportModule {
     const onSuccess = (data) => {
       this.dispatcher.updateExportDataType(ImportExportDataType.NONE);
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.displaySuccessMessage('Export successful! A tab-delimited TXT file has been downloaded.');
+
+      const { fileType } = getChartOfAccountExportDetail(this.store.getState());
+      const message = fileType === ImportExportFileType.TXT
+        ? 'Export successful! A tab-delimited TXT file has been downloaded.'
+        : 'Export successful! A CSV file has been downloaded.';
+      this.displaySuccessMessage(message);
 
       openBlob({
         blob: data,
-        filename: 'exportedChartOfAccounts.txt',
+        filename: `exportedChartOfAccounts.${fileType.toLowerCase()}`,
         shouldDownload: true,
       });
     };

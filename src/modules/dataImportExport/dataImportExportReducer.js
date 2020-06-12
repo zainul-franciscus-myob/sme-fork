@@ -20,6 +20,7 @@ import ContactType from './types/ContactType';
 import DuplicateRecordOption from './types/DuplicateRecordOption';
 import ExportCompanyFileType from './types/ExportCompanyFileType';
 import ImportExportDataType from './types/ImportExportDataType';
+import ImportExportFileType from './types/ImportExportFileType';
 import LoadingState from '../../components/PageView/LoadingState';
 import TabItem from './types/TabItem';
 import createReducer from '../../store/createReducer';
@@ -52,6 +53,11 @@ const getDefaultState = () => ({
       financialYear: '',
       accountBalanceTransactionOptions: [],
       accountBalanceTransaction: '',
+      fileTypeOptions: [
+        { name: '.txt', value: ImportExportFileType.TXT },
+        { name: '.csv', value: ImportExportFileType.CSV },
+      ],
+      fileType: ImportExportFileType.TXT,
     },
     companyFile: {
       dateFrom: '',
@@ -111,7 +117,10 @@ const loadDataImportExport = (state, action) => ({
   email: action.email,
   export: {
     ...state.export,
-    chartOfAccounts: action.export.chartOfAccounts,
+    chartOfAccounts: {
+      ...state.export.chartOfAccounts,
+      ...action.export.chartOfAccounts,
+    },
   },
 });
 
