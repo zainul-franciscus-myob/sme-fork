@@ -38,7 +38,7 @@ const InvoiceDetailNotes = ({
       hideLabel
       rows={3}
       onChange={handleTextAreaChange(onUpdateHeaderOptions)}
-      maxLength={255}
+      maxLength={2000}
     />
   </div>
 ));
