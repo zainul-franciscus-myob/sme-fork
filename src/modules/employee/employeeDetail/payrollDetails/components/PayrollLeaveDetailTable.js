@@ -98,7 +98,10 @@ const PayrollLeaveDetailTable = ({
       <Table hasActions>
         <Table.Header>
           <Table.HeaderItem {...tableConfig.name}>Name</Table.HeaderItem>
-          <Table.HeaderItem {...tableConfig.carryOver}>Carry over</Table.HeaderItem>
+          <Table.HeaderItem {...tableConfig.carryOver}>
+            Carry over
+            <Tooltip>View the number of hours carried over from previous years</Tooltip>
+          </Table.HeaderItem>
           <Table.HeaderItem {...tableConfig.yearToDate}>Year-to-date</Table.HeaderItem>
           <Table.HeaderItem {...tableConfig.total}>Total</Table.HeaderItem>
           <Table.HeaderItem {...tableConfig.actions} />
