@@ -28,7 +28,7 @@ const UploadFile = ({
           buttonType="secondary"
           buttonLabel="Browse"
           requiredLabel="This is required"
-          accept=".txt"
+          accept=".txt,.csv"
         />)}
     />
     { importFile && (
@@ -44,8 +44,8 @@ const UploadFile = ({
     ) }
     <div className={styles.importInfoAlert}>
       <Alert type="info">
-        You can only import TXT files that have a tab-separated format,
-        a header row, and all mandatory fields. Files must be under 25MB.
+        You can import files in CSV or TXT tab-separated format. They
+        must have a header row, all mandatory fields, and be under 25MB.
       </Alert>
     </div>
   </React.Fragment>
