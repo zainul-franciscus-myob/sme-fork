@@ -82,8 +82,7 @@ steps:
     agents:
       queue: cacc-prod-dflt
 
-  - block:
-    if: build.message != 'Scheduled build for sme-web for 7AM AEST'
+  - wait
 
   - name: ':rocket: :eagle: Deploy PDV App'
     commands:
