@@ -1,4 +1,5 @@
 import { createSelector, createStructuredSelector } from 'reselect';
+import { isBefore } from 'date-fns';
 
 import { TaxCalculatorTypes, createTaxCalculator } from '../../../../common/taxCalculator';
 import ModalType from '../ModalType';
@@ -259,3 +260,10 @@ export const getReadOnlyMessage = createSelector(
       : 'This quote is read only because it contains unsupported features. Switch to AccountRight desktop to edit this quote.'
   ),
 );
+
+export const getIsBeforeStartOfFinancialYear = (state) => {
+  const { startOfFinancialYearDate, quote } = state;
+  const { issueDate } = quote;
+  return issueDate && startOfFinancialYearDate
+    && isBefore(new Date(issueDate), new Date(startOfFinancialYearDate));
+};

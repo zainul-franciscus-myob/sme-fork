@@ -188,7 +188,7 @@
       "hasHitLimit": false
     }
   },
-  "conversionDate": "2014-07-23T00:00",
-  "startOfFinancialYearDate": "2019-07-01T00:00",
+  "conversionDate": "2014-07-23T00:00:00",
+  "startOfFinancialYearDate": "2019-07-01T00:00:00",
   "linkedAccountId": "123"
 }

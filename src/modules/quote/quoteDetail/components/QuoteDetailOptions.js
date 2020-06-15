@@ -1,6 +1,5 @@
 import {
   Alert,
-  DatePicker,
   DetailHeader,
   Input,
   ReadOnly,
@@ -8,9 +7,12 @@ import {
 import { connect } from 'react-redux';
 import React, { Fragment } from 'react';
 
-import { getIsReadOnlyLayout, getQuoteDetailOptions, getReadOnlyMessage } from '../selectors/QuoteDetailSelectors';
+import {
+  getIsBeforeStartOfFinancialYear, getIsReadOnlyLayout, getQuoteDetailOptions, getReadOnlyMessage,
+} from '../selectors/QuoteDetailSelectors';
 import BooleanRadioButtonGroup from '../../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
+import DatePicker from '../../../../components/DatePicker/DatePicker';
 import PaymentTerms from '../../../../components/PaymentTerms/PaymentTerms';
 import handleDateChange from '../../../../components/handlers/handleDateChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
@@ -37,6 +39,7 @@ const QuoteDetailOptions = (props) => {
     expirationTermOptions,
     isTaxInclusive,
     contactOptions,
+    isBeforeStartOfFinancialYear,
     isCalculating,
     isCustomerDisabled,
     isReadOnlyLayout,
@@ -92,6 +95,8 @@ const QuoteDetailOptions = (props) => {
         onSelect={handleDateChange('issueDate', onUpdateHeaderOptions)}
         requiredLabel={requiredLabel}
         disabled={isReadOnlyLayout}
+        displayWarning={isBeforeStartOfFinancialYear}
+        warningMessage={'The issue date is set to a previous financial year'}
       />
       <PaymentTerms
         onChange={onUpdateHeaderOptions}
@@ -134,6 +139,7 @@ const mapStateToProps = state => ({
   ...getQuoteDetailOptions(state),
   isReadOnlyLayout: getIsReadOnlyLayout(state),
   readOnlyMessage: getReadOnlyMessage(state),
+  isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
 });
 
 export default connect(mapStateToProps)(QuoteDetailOptions);

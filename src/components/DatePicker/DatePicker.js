@@ -8,14 +8,14 @@ import useOnBlur from './useOnBlur';
 const containerId = 'issueDateContainer';
 
 const DatePicker = ({
-  name,
+  name = 'issueDate',
   value,
   disabled,
   disabledMessage,
   label,
   hideLabel,
   onSelect,
-  onBlur,
+  onBlur = () => { },
   requiredLabel,
   displayWarning,
   warningMessage,
@@ -30,7 +30,7 @@ const DatePicker = ({
     >
       <FeelixDatePicker
         value={value}
-        name={name || 'issueDate'}
+        name={name}
         onSelect={newOnSelect}
         hideLabel
         disabled={disabled}
