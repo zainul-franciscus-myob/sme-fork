@@ -21,6 +21,8 @@ export const getSuperFundPageTitle = createSelector(
 
 export const getIsSuperFundEditable = state => state.isSuperFundEditable;
 
+export const getIsSMSFSuperFund = state => state.superFund.fundType === 'SelfManagedSuperFund';
+
 export const getIsPaySuperFund = state => state.superFund.isPaySuperFund;
 
 const getPhoneNumber = state => state.superFund.phoneNumber;

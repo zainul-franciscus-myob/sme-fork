@@ -17,7 +17,6 @@
   "selfManagedSuperFundEnabled": true,
   "showSelfManagedSuperFundWarning": false,
   "isPaySuperEnabled": true,
-  "isSuperFundEditable": true,
   "superProducts": [
     {
       "name": "W & M MCCOLL SUPER FUND",
