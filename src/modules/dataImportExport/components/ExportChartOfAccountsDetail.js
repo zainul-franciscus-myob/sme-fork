@@ -13,13 +13,15 @@ const ExportChartOfAccountsDetail = ({
     financialYear,
     accountBalanceTransactionOptions,
     accountBalanceTransaction,
-    fileTypeOptions,
+    // fileTypeOptions,
     fileType,
   },
   onChange,
 }) => (
     <>
-      <Select
+      {/* Export COA as CSV is disabled for now due to the
+       Account Number formatting issue in Excel */}
+      {/* <Select
         key="fileType"
         name="fileType"
         label="File type"
@@ -34,7 +36,7 @@ const ExportChartOfAccountsDetail = ({
             label={option.name}
           />
         ))}
-      </Select>
+      </Select> */}
       <Select
         key="financialYear"
         name="financialYear"
