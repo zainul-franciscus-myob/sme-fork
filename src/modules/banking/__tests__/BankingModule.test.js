@@ -535,10 +535,55 @@ describe('BankingModule', () => {
       });
 
       it('fails to load match transactions', () => {
-        // @TODO untestable because `module.loadOpenEntryTab`
-        // and `module.loadAttachments` occur in parallel
-        // since tests run in sync, failing to `loadOpenEntryTab`
-        // closes the line before `loadAttachment` can execut
+        const { module, integration, store } = setUpWithRun();
+        integration.mapFailure(LOAD_MATCH_TRANSACTIONS);
+
+        module.toggleLine(2);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_OPEN_ENTRY_LOADING_STATE,
+            isLoading: true,
+          },
+          {
+            intent: SET_OPEN_ENTRY_POSITION,
+            index: 2,
+          },
+          {
+            intent: SET_OPEN_ENTRY_LOADING_STATE,
+            isLoading: false,
+          },
+          {
+            intent: COLLAPSE_TRANSACTION_LINE,
+          },
+          {
+            intent: SET_ALERT,
+            alert: {
+              message: 'fails',
+              type: 'danger',
+            },
+          },
+          {
+            intent: SET_ATTACHMENTS_LOADING_STATE,
+            isAttachmentsLoading: true,
+          },
+          {
+            intent: SET_ATTACHMENTS_LOADING_STATE,
+            isAttachmentsLoading: false,
+          },
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+          }),
+        ]);
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_MATCH_TRANSACTIONS,
+          }),
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+          }),
+        ]);
       });
     });
   });

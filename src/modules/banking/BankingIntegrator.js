@@ -411,10 +411,11 @@ const createBankingIntegrator = (store, integration) => ({
   },
 
   loadAttachments: ({
-    onSuccess, onFailure,
+    index,
+    onSuccess,
+    onFailure,
   }) => {
     const state = store.getState();
-    const index = getOpenPosition(state);
     const intent = LOAD_ATTACHMENTS;
 
     const { transactionUid } = getBankTransactionLineByIndex(state, index);

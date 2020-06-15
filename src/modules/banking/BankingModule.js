@@ -448,15 +448,8 @@ export default class BankingModule {
     const line = getBankTransactionLineByIndex(state, index);
     const tabId = getOpenEntryDefaultTabId(line);
 
-    // @TODO this could crash because load attachments has a dependency on the line to be open
-    // But if load match transactions fails - it will close the line
-    // Specifically, `this.loadAttachments` has a dependency on
-    // `this.loadOpenEntryTab` because
-    // the `integrator.loadAttachments` tries to `getOpenPosition`, which
-    // will be set by `loadOpenEntryTab`.
-    // A solution is to pass the index to `loadAttachments`.
     this.loadOpenEntryTab(index, tabId);
-    this.loadAttachments();
+    this.loadAttachments(index);
   }
 
   changeOpenEntryTab = (tabId) => {
@@ -933,7 +926,7 @@ export default class BankingModule {
     });
   };
 
-  loadAttachments = () => {
+  loadAttachments = (index) => {
     const onSuccess = (payload) => {
       this.dispatcher.setAttachemntsLoadingState(false);
       this.dispatcher.loadAttachments(payload);
@@ -950,6 +943,7 @@ export default class BankingModule {
     this.dispatcher.setAttachemntsLoadingState(true);
 
     this.integrator.loadAttachments({
+      index,
       onSuccess,
       onFailure,
     });
