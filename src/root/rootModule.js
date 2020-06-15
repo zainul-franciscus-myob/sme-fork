@@ -3,7 +3,12 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { getHasCheckedBrowserAlert, getLeanEngageInfo } from './rootSelectors';
+import {
+  getBusinessId,
+  getHasCheckedBrowserAlert,
+  getIsPaidSubscription,
+  getLeanEngageInfo,
+} from './rootSelectors';
 import BusinessDetailsService from './services/businessDetails';
 import Config from '../Config';
 import CreateRootDispatcher from './createRootDispatcher';
@@ -18,15 +23,19 @@ import Store from '../store/Store';
 import buildGlobalCallbacks from './builders/buildGlobalCallbacks';
 import getSplitToggle from '../splitToggle/index.js';
 import isNotSupportedAndShowAlert from '../common/browser/isNotSupportedAndShowAlert';
+import loadChangePlanUrl from '../modules/settings/subscription/loadChangePlanUrl';
+import loadSubscriptionUrl from '../modules/settings/subscription/loadSubscriptionUrl';
 import tasksService from './services/tasks';
 
 export default class RootModule {
   init = ({
     integration, router, sendTelemetryEvent, startLeanEngage,
   }) => {
-    const { constructPath, replaceURLParamsAndReload } = router;
+    const { constructPath, replaceURLParamsAndReload, navigateTo } = router;
 
     this.store = new Store(RootReducer);
+    this.integration = integration;
+    this.navigateTo = navigateTo;
 
     this.dispatcher = CreateRootDispatcher(this.store);
     this.integrator = CreateRootIntegrator(this.store, integration);
@@ -93,6 +102,28 @@ export default class RootModule {
     const state = this.store.getState();
 
     this.startLeanEngage(getLeanEngageInfo(state));
+  };
+
+  subscribeOrUpgrade = async () => {
+    const state = this.store.getState();
+
+    const isPaid = getIsPaidSubscription(state);
+    const businessId = getBusinessId(state);
+    const urlLoader = isPaid ? loadChangePlanUrl : loadSubscriptionUrl;
+
+    const url = await urlLoader(
+      this.integration,
+      businessId,
+      window.location.href,
+    );
+
+    if (!url) {
+      // eslint-disable-next-line no-console
+      console.warn('"Subscription details" url has no value');
+      return;
+    }
+
+    this.navigateTo(url);
   };
 
   render = (component) => {

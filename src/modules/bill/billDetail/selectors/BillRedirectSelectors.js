@@ -30,12 +30,6 @@ const getBaseUrl = (state) => {
   return `/#/${region}/${businessId}`;
 };
 
-export const getSubscriptionSettingsUrl = (state) => {
-  const baseUrl = getBaseUrl(state);
-
-  return `${baseUrl}/settings/subscription`;
-};
-
 const isNegativeAmount = amount => amount[0] === '-';
 
 export const getBillPaymentUrl = (state) => {

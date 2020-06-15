@@ -40,7 +40,6 @@ import {
   getInvoicePaymentUrl,
   getRedirectRefUrl,
   getRedirectState,
-  getSubscriptionSettingsUrl,
 } from './selectors/redirectSelectors';
 import { getExportPdfFilename } from './selectors/exportPdfSelectors';
 import { shouldShowSaveAmountDueWarningModal } from './selectors/invoiceSaveSelectors';
@@ -73,6 +72,7 @@ export default class InvoiceDetailModule {
     globalCallbacks,
     isToggleOn,
     navigateTo,
+    subscribeOrUpgrade,
   }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -85,6 +85,7 @@ export default class InvoiceDetailModule {
     this.integrator = createInvoiceDetailIntegrator(this.store, integration);
 
     this.isToggleOn = isToggleOn;
+    this.subscribeOrUpgrade = subscribeOrUpgrade;
 
     this.accountModalModule = new AccountModalModule({
       integration,
@@ -361,13 +362,6 @@ export default class InvoiceDetailModule {
   redirectToInvoiceList = () => {
     const state = this.store.getState();
     const url = getInvoiceListUrl(state);
-
-    this.navigateTo(url);
-  }
-
-  redirectToSubscriptionSettings = () => {
-    const state = this.store.getState();
-    const url = getSubscriptionSettingsUrl(state);
 
     this.navigateTo(url);
   }
@@ -1149,7 +1143,7 @@ export default class InvoiceDetailModule {
         onAddCustomerButtonClick={this.openCustomerModal}
         onUpdateInvoiceLayout={this.updateInvoiceLayout}
         onUpgradeModalDismiss={this.dispatcher.hideUpgradeModal}
-        onUpgradeModalUpgradeButtonClick={this.redirectToSubscriptionSettings}
+        onUpgradeModalUpgradeButtonClick={this.subscribeOrUpgrade}
         onAccordionClose={this.accordionClosed}
         onAccordionOpen={this.accordionOpened}
         onClickOnRefNo={this.redirectToRefPage}

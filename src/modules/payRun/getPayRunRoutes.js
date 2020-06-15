@@ -10,13 +10,14 @@ const getPayRunRoutes = ({
   popMessages,
   replaceURLParams,
   isToggleOn,
+  subscribeOrUpgrade,
 }) => {
   const routes = [
     {
       name: RouteName.PAY_RUN_CREATE,
       path: '/:region/:businessId/payRun/new',
       module: new PayRunModule({
-        integration, setRootView, pushMessage, isToggleOn,
+        integration, setRootView, pushMessage, isToggleOn, subscribeOrUpgrade,
       }),
       documentTitle: 'Pay run',
     },

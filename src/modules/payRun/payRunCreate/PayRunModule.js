@@ -22,6 +22,7 @@ export default class PayRunModule {
     setRootView,
     pushMessage,
     isToggleOn,
+    subscribeOrUpgrade,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -40,6 +41,7 @@ export default class PayRunModule {
         integration,
         store: this.store,
         pushMessage,
+        subscribeOrUpgrade,
       }),
       recordPayRunModule: new RecordPayRunModule({
         integration,

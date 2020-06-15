@@ -11,6 +11,7 @@ const getBillRoutes = ({
   globalCallbacks,
   navigateTo,
   isToggleOn,
+  subscribeOrUpgrade,
 }) => {
   const routes = [
     {
@@ -34,6 +35,7 @@ const getBillRoutes = ({
         globalCallbacks,
         navigateTo,
         isToggleOn,
+        subscribeOrUpgrade,
       }),
       documentTitle: 'Bill',
     },

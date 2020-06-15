@@ -36,7 +36,6 @@ import {
   getBillPaymentUrl,
   getCreateNewBillUrl,
   getInTrayUrl,
-  getSubscriptionSettingsUrl,
 } from './selectors/BillRedirectSelectors';
 import { getExportPdfFilename, getShouldSaveAndReload } from './selectors/exportPdfSelectors';
 import {
@@ -82,6 +81,7 @@ class BillModule {
     globalCallbacks,
     navigateTo,
     isToggleOn,
+    subscribeOrUpgrade,
   }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -103,6 +103,7 @@ class BillModule {
     this.taxCalculate = createTaxCalculator(TaxCalculatorTypes.bill);
     this.globalCallbacks = globalCallbacks;
     this.navigateTo = navigateTo;
+    this.subscribeOrUpgrade = subscribeOrUpgrade;
   }
 
   openAccountModal = (onChange) => {
@@ -846,13 +847,6 @@ class BillModule {
     this.navigateTo(url);
   };
 
-  redirectToSubscriptionSettings = () => {
-    const state = this.store.getState();
-    const url = getSubscriptionSettingsUrl(state);
-
-    this.navigateTo(url);
-  }
-
   redirectToBillList = () => {
     const state = this.store.getState();
     const url = getBillListUrl(state);
@@ -873,8 +867,6 @@ class BillModule {
 
     this.navigateTo(url);
   }
-
-  onUpgradeModalUpgradeButtonClick = this.redirectToSubscriptionSettings;
 
   render = () => {
     const accountModal = this.accountModalModule.render();
@@ -939,7 +931,7 @@ class BillModule {
           onUnlinkDocumentConfirm={this.unlinkInTrayDocument}
           onClosePrefillInfo={this.dispatcher.hidePrefillInfo}
           onUpgradeModalDismiss={this.dispatcher.hideUpgradeModal}
-          onUpgradeModalUpgradeButtonClick={this.onUpgradeModalUpgradeButtonClick}
+          onUpgradeModalUpgradeButtonClick={this.subscribeOrUpgrade}
           onCreatePaymentClick={this.redirectToBillPayment}
         />
       </Provider>

@@ -11,6 +11,7 @@ const getInvoiceRoutes = ({
   globalCallbacks,
   isToggleOn,
   navigateTo,
+  subscribeOrUpgrade,
 }) => {
   const routes = [
     {
@@ -35,6 +36,7 @@ const getInvoiceRoutes = ({
         globalCallbacks,
         isToggleOn,
         navigateTo,
+        subscribeOrUpgrade,
       }),
       documentTitle: 'Invoice',
     },

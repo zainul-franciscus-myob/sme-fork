@@ -57,12 +57,6 @@ export const getCreateNewInvoiceUrl = (state) => {
   return `${createNewUrl}?layout=${layout}`;
 };
 
-export const getSubscriptionSettingsUrl = (state) => {
-  const baseUrl = getBaseUrl(state);
-
-  return `${baseUrl}/settings/subscription`;
-};
-
 export const getRedirectRefUrl = (state, { redirectRefJournalType, redirectRefJournalId }) => {
   const baseUrl = getBaseUrl(state);
   const feature = businessEventToFeatureMap[redirectRefJournalType];

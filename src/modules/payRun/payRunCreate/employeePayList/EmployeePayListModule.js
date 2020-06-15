@@ -21,13 +21,14 @@ import createEmployeePayListIntegrator from './createEmployeePayListIntegrator';
 
 export default class EmployeePayListModule {
   constructor({
-    integration, store, pushMessage,
+    integration, store, pushMessage, subscribeOrUpgrade,
   }) {
     this.store = store;
     this.pushMessage = pushMessage;
     this.dispatcher = createEmployeePayListDispatcher(store);
     this.integrator = createEmployeePayListIntegrator(store, integration);
     this.pendingNavigateFunction = null;
+    this.subscribeOrUpgrade = subscribeOrUpgrade;
   }
 
   changeEtpCodeCategory = ({ value }) => this.dispatcher.changeEtpCodeCategory({
@@ -193,14 +194,6 @@ export default class EmployeePayListModule {
     });
   };
 
-  redirectToSubscriptionSettings = () => {
-    const state = this.store.getState();
-    const { businessId } = state;
-    const { region } = state;
-
-    window.location.href = `/#/${region}/${businessId}/settings/subscription`;
-  };
-
   openJobListModal = ({ payItem, employeeId }) => {
     this.dispatcher.openJobListModal({ payItem, employeeId });
     this.loadDetailJobList();
@@ -226,7 +219,7 @@ export default class EmployeePayListModule {
         onOpenEtpModal={this.dispatcher.openEtpModal}
         onSaveEtp={this.saveEtp}
         onNextButtonClick={this.nextStep}
-        onUpgradeModalUpgradeButtonClick={this.redirectToSubscriptionSettings}
+        onUpgradeModalUpgradeButtonClick={this.subscribeOrUpgrade}
         onUpgradeModalDismiss={this.dispatcher.hideUpgradeModal}
         onSaveAndCloseButtonClick={this.saveDraftAndRedirect}
         onUnsavedModalSave={this.saveDraftAndNavigateAway}
