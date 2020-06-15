@@ -53,6 +53,7 @@ const QuoteDetailFooter = ({
         rows={3}
         onChange={handleInputChange(onUpdateNote)}
         disabled={isReadOnlyLayout}
+        maxLength={2000}
       />
     </div>
     <LineItemTable.Total>
