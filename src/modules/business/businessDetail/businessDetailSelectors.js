@@ -15,8 +15,8 @@ export const getRegion = state => state.region;
 export const getBusinessId = state => state.businessId;
 export const getFinancialYearModal = state => state.financialYearModal;
 
-const lastMonthIndex = state => state.businessDetails.lastMonthInFinancialYear - 1;
-export const getLastMonthInFY = state => state.monthOptions[lastMonthIndex];
+const getLastMonthIndex = state => state.businessDetails.lastMonthInFinancialYear - 1;
+export const getLastMonthInFY = state => state.monthOptions[getLastMonthIndex(state)];
 
 const getOpeningBalanceDate = state => {
   const { openingBalanceMonth, openingBalanceYear } = state.businessDetails;
