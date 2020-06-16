@@ -7,7 +7,7 @@ import React from 'react';
 import {
   getIsActionsDisabled,
   getIsCreating,
-  getIsReadOnlyLayout,
+  getIsReadOnly,
   getShowExportPdfButton,
 } from '../selectors/QuoteDetailSelectors';
 import { getShowEmailButton } from '../selectors/EmailSelectors';
@@ -15,7 +15,7 @@ import SaveActionType from '../SaveActionType';
 
 const QuoteDetailActions = ({
   isCreating,
-  isReadOnlyLayout,
+  isReadOnly,
   isActionsDisabled,
   showExportPdfButton,
   showEmailButton,
@@ -138,7 +138,7 @@ const QuoteDetailActions = ({
     </Button>
   );
 
-  if (isReadOnlyLayout) {
+  if (isReadOnly) {
     return (
       <ButtonRow
         primary={[
@@ -174,7 +174,7 @@ const QuoteDetailActions = ({
 const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   isActionsDisabled: getIsActionsDisabled(state),
-  isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isReadOnly: getIsReadOnly(state),
   showExportPdfButton: getShowExportPdfButton(state),
   showEmailButton: getShowEmailButton(state),
 });

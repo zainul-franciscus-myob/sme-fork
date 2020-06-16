@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import React, { Fragment } from 'react';
 
 import {
-  getIsBeforeStartOfFinancialYear, getIsReadOnlyLayout, getQuoteDetailOptions, getReadOnlyMessage,
+  getIsBeforeStartOfFinancialYear, getIsReadOnly, getQuoteDetailOptions, getReadOnlyMessage,
 } from '../selectors/QuoteDetailSelectors';
 import BooleanRadioButtonGroup from '../../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
@@ -137,7 +137,7 @@ const QuoteDetailOptions = (props) => {
 
 const mapStateToProps = state => ({
   ...getQuoteDetailOptions(state),
-  isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isReadOnlyLayout: getIsReadOnly(state),
   readOnlyMessage: getReadOnlyMessage(state),
   isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
 });

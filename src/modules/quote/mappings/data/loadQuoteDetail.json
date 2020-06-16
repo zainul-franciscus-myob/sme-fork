@@ -16,6 +16,9 @@
     "purchaseOrderNumber": "IN00000123",
     "issueDate": "2018-11-02",
     "note": "hello",
+    "taxExclusiveFreightAmount": "9.09",
+    "freightTaxAmount": "0.91",
+    "freightTaxCodeId": "2",
     "lines": [
       {
         "type": "item",

@@ -7,7 +7,7 @@ import {
   getIsAccountComboboxDisabled,
   getIsCalculating,
   getIsJobComboboxDisabled,
-  getIsReadOnlyLayout,
+  getIsReadOnly,
   getJobOptions,
   getQuoteLine,
   getTaxCodeOptions,
@@ -55,7 +55,7 @@ const QuoteServiceTableRow = ({
   isJobComboboxDisabled,
   isCalculating,
   isQuoteJobColumnEnabled,
-  isReadOnlyLayout,
+  isReadOnly,
   ...feelixInjectedProps
 }) => {
   const {
@@ -93,7 +93,7 @@ const QuoteServiceTableRow = ({
         value={description}
         onChange={onChange}
         autoSize
-        disabled={isReadOnlyLayout}
+        disabled={isReadOnly}
       />
       <AccountCombobox
         label="Allocate to"
@@ -101,7 +101,7 @@ const QuoteServiceTableRow = ({
         items={accountOptions}
         selectedId={allocatedAccountId}
         addNewAccount={() => onAddAccount(onComboboxChange('allocatedAccountId', onChange))}
-        disabled={isAccountComboboxDisabled || isCalculating || isReadOnlyLayout}
+        disabled={isAccountComboboxDisabled || isCalculating || isReadOnly}
       />
       <Calculator
         label="Amount ($)"
@@ -111,7 +111,7 @@ const QuoteServiceTableRow = ({
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index)}
         textAlign="right"
-        disabled={isCalculating || isReadOnlyLayout}
+        disabled={isCalculating || isReadOnly}
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
@@ -120,7 +120,7 @@ const QuoteServiceTableRow = ({
         selectedId={jobId}
         addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
         onChange={onComboboxChange('jobId', onChange)}
-        disabled={isJobComboboxDisabled || isCalculating || isReadOnlyLayout}
+        disabled={isJobComboboxDisabled || isCalculating || isReadOnly}
         allowClear
         left
       />}
@@ -129,7 +129,7 @@ const QuoteServiceTableRow = ({
         onChange={onComboboxChange('taxCodeId', onChange)}
         items={taxCodeOptions}
         selectedId={taxCodeId}
-        disabled={isCalculating || isReadOnlyLayout}
+        disabled={isCalculating || isReadOnly}
       />
     </LineItemTable.Row>
   );
@@ -143,7 +143,7 @@ const mapStateToProps = (state, props) => ({
   isAccountComboboxDisabled: getIsAccountComboboxDisabled(state),
   isJobComboboxDisabled: getIsJobComboboxDisabled(state),
   isCalculating: getIsCalculating(state),
-  isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isReadOnly: getIsReadOnly(state),
 });
 
 export default connect(mapStateToProps)(QuoteServiceTableRow);

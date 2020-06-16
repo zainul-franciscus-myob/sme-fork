@@ -6,7 +6,7 @@ import {
   getAccountOptions,
   getIsCalculating,
   getIsJobComboboxDisabled,
-  getIsReadOnlyLayout,
+  getIsReadOnly,
   getItemOptions,
   getJobOptions,
   getQuoteLine,
@@ -65,7 +65,7 @@ const QuoteItemAndServiceTableRow = ({
   accountOptions,
   onChange,
   isCalculating,
-  isReadOnlyLayout,
+  isReadOnly,
   onTableRowAmountInputBlur,
   onAddItemButtonClick,
   onAddAccountButtonClick,
@@ -105,14 +105,14 @@ const QuoteItemAndServiceTableRow = ({
       onChange={onComboboxChange('itemId', onChange)}
       label="Item number"
       name="itemId"
-      disabled={isCalculating || isReadOnlyLayout}
+      disabled={isCalculating || isReadOnly}
     />
     <TextArea
       name="description"
       label="Item name"
       value={description}
       onChange={onChange}
-      disabled={isCalculating || isReadOnlyLayout}
+      disabled={isCalculating || isReadOnly}
       autoSize
     />
     <AccountCombobox
@@ -121,14 +121,14 @@ const QuoteItemAndServiceTableRow = ({
       items={accountOptions}
       selectedId={allocatedAccountId}
       addNewAccount={() => onAddAccountButtonClick(onComboboxChange('allocatedAccountId', onChange))}
-      disabled={isCalculating || isReadOnlyLayout}
+      disabled={isCalculating || isReadOnly}
     />
     <Input
       name="unitOfMeasure"
       label="Unit"
       value={unitOfMeasure}
       onChange={onChange}
-      disabled={isCalculating || isReadOnlyLayout}
+      disabled={isCalculating || isReadOnly}
       maxLength={5}
     />
     <Calculator
@@ -138,7 +138,7 @@ const QuoteItemAndServiceTableRow = ({
       onChange={handleAmountInputChange(onChange)}
       onBlur={handleAmountInputBlur(onTableRowAmountInputBlur, index)}
       textAlign="right"
-      disabled={isCalculating || isReadOnlyLayout}
+      disabled={isCalculating || isReadOnly}
       numeralDecimalScaleMax={6}
     />
     <Calculator
@@ -149,7 +149,7 @@ const QuoteItemAndServiceTableRow = ({
       onChange={handleAmountInputChange(onChange)}
       onBlur={handleAmountInputBlur(onTableRowAmountInputBlur, index)}
       textAlign="right"
-      disabled={isCalculating || isReadOnlyLayout}
+      disabled={isCalculating || isReadOnly}
       numeralDecimalScaleMin={2}
       numeralDecimalScaleMax={6}
     />
@@ -161,7 +161,7 @@ const QuoteItemAndServiceTableRow = ({
       onChange={handleAmountInputChange(onChange)}
       onBlur={handleAmountInputBlur(onTableRowAmountInputBlur, index)}
       textAlign="right"
-      disabled={isCalculating || isReadOnlyLayout}
+      disabled={isCalculating || isReadOnly}
       numeralDecimalScaleMin={2}
       numeralDecimalScaleMax={2}
     />
@@ -173,7 +173,7 @@ const QuoteItemAndServiceTableRow = ({
       onChange={handleAmountInputChange(onChange)}
       onBlur={handleAmountInputBlur(onTableRowAmountInputBlur, index)}
       textAlign="right"
-      disabled={isCalculating || isReadOnlyLayout}
+      disabled={isCalculating || isReadOnly}
       numeralDecimalScaleMin={2}
       numeralDecimalScaleMax={2}
     />
@@ -182,7 +182,7 @@ const QuoteItemAndServiceTableRow = ({
       selectedId={jobId}
       onChange={onComboboxChange('jobId', onChange)}
       addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
-      disabled={isJobComboboxDisabled || isCalculating || isReadOnlyLayout}
+      disabled={isJobComboboxDisabled || isCalculating || isReadOnly}
       allowClear
       left
     />}
@@ -190,7 +190,7 @@ const QuoteItemAndServiceTableRow = ({
       items={taxCodeOptions}
       selectedId={taxCodeId}
       onChange={onComboboxChange('taxCodeId', onChange)}
-      disabled={isCalculating || isReadOnlyLayout}
+      disabled={isCalculating || isReadOnly}
     />
   </LineItemTable.Row>
   );
@@ -203,7 +203,7 @@ const mapStateToProps = (state, props) => ({
   taxCodeOptions: getTaxCodeOptions(state),
   accountOptions: getAccountOptions(state),
   isCalculating: getIsCalculating(state),
-  isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isReadOnly: getIsReadOnly(state),
   isJobComboboxDisabled: getIsJobComboboxDisabled(state),
 });
 

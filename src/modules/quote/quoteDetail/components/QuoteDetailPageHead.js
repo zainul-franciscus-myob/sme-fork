@@ -5,7 +5,7 @@ import React from 'react';
 import {
   getIsActionsDisabled,
   getIsCreating,
-  getIsReadOnlyLayout,
+  getIsReadOnly,
   getPageTitle,
   getTotalAmount,
 } from '../selectors/QuoteDetailSelectors';
@@ -13,7 +13,7 @@ import {
 const QuoteDetailPageHead = ({
   isCreating,
   isActionsDisabled,
-  isReadOnlyLayout,
+  isReadOnly,
   totalAmount,
   pageTitle,
   onConvertToInvoiceButtonClick,
@@ -31,7 +31,7 @@ const QuoteDetailPageHead = ({
       key="convertToInvoice"
       type="link"
       icon={<Icons.ReopenedDocument />}
-      disabled={isActionsDisabled || isReadOnlyLayout}
+      disabled={isActionsDisabled || isReadOnly}
       onClick={onConvertToInvoiceButtonClick}
     >
       Convert to invoice
@@ -46,7 +46,7 @@ const mapStateToProps = state => ({
   isActionsDisabled: getIsActionsDisabled(state),
   totalAmount: getTotalAmount(state),
   pageTitle: getPageTitle(state),
-  isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isReadOnly: getIsReadOnly(state),
 });
 
 export default connect(mapStateToProps)(QuoteDetailPageHead);

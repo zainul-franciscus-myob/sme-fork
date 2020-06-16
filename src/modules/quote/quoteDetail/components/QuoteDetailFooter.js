@@ -4,11 +4,13 @@ import React from 'react';
 
 import {
   getCommentOptions,
-  getIsReadOnlyLayout,
+  getFreightInfo,
+  getIsReadOnly,
   getNote,
   getTaxLabel,
   getTotals,
 } from '../selectors/QuoteDetailSelectors';
+import LineItemTableTotalsFormattedCurrency from '../../../../components/LineItemTable/LineItemTableTotalsFormattedCurrency';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 import styles from './QuoteDetailFooter.module.css';
 
@@ -29,7 +31,12 @@ const QuoteDetailFooter = ({
   note,
   commentOptions,
   onUpdateNote,
-  isReadOnlyLayout,
+  isReadOnly,
+  freightInfo: {
+    showFreight,
+    freightAmount,
+    freightTaxCode,
+  },
 }) => (
   <div className={styles.footer}>
     <div className={styles.note}>
@@ -42,7 +49,7 @@ const QuoteDetailFooter = ({
         ]}
         items={commentOptions}
         onChange={handleNoteChange(onUpdateNote)}
-        disabled={isReadOnlyLayout}
+        disabled={isReadOnly}
       />
       <TextArea
         value={note}
@@ -52,12 +59,13 @@ const QuoteDetailFooter = ({
         hideLabel
         rows={3}
         onChange={handleInputChange(onUpdateNote)}
-        disabled={isReadOnlyLayout}
+        disabled={isReadOnly}
         maxLength={2000}
       />
     </div>
     <LineItemTable.Total>
       <LineItemTable.Totals title="Subtotal" amount={subTotal} />
+      { showFreight && <LineItemTableTotalsFormattedCurrency title="Freight" amount={freightAmount} note={freightTaxCode} /> }
       <LineItemTable.Totals title={taxLabel} amount={totalTax} />
       <LineItemTable.Totals totalAmount title="Total" amount={totalAmount} />
     </LineItemTable.Total>
@@ -69,7 +77,8 @@ const mapStateToProps = state => ({
   taxLabel: getTaxLabel(state),
   note: getNote(state),
   commentOptions: getCommentOptions(state),
-  isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isReadOnly: getIsReadOnly(state),
+  freightInfo: getFreightInfo(state),
 });
 
 export default connect(mapStateToProps)(QuoteDetailFooter);

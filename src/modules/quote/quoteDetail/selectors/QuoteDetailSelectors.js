@@ -1,5 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 import { isBefore } from 'date-fns';
+import Decimal from 'decimal.js';
 
 import { TaxCalculatorTypes, createTaxCalculator } from '../../../../common/taxCalculator';
 import ModalType from '../ModalType';
@@ -44,10 +45,14 @@ export const getIsTaxInclusive = state => state.quote.isTaxInclusive;
 export const getLines = state => state.quote.lines;
 export const getLength = state => state.quote.lines.length;
 export const getIsQuoteJobColumnEnabled = state => state.isQuoteJobColumnEnabled;
+export const getTaxExclusiveFreightAmount = state => state.quote.taxExclusiveFreightAmount;
+export const getFreightTaxAmount = state => state.quote.freightTaxAmount;
+export const getFreightTaxCodeId = state => state.quote.freightTaxCodeId;
+export const canShowFreight = state => !!Number(state.quote.taxExclusiveFreightAmount);
 
 const getNewLine = state => state.newLine;
 
-export const getTotals = state => state.totals;
+export const getLineTotals = state => state.totals;
 export const getTotalAmount = state => state.totals.totalAmount;
 
 const getContactOptions = state => state.contactOptions;
@@ -237,10 +242,12 @@ export const getIsLinesSupported = createSelector(
   lines => lines.every(line => getIsLineTypeSupported(line)),
 );
 
-export const getIsReadOnlyLayout = createSelector(
+export const getIsReadOnly = createSelector(
   getIsLayoutSupported,
   getIsLinesSupported,
-  (isLayoutSupported, isLinesSupported) => !isLayoutSupported || !isLinesSupported,
+  canShowFreight,
+  (isLayoutSupported, isLinesSupported, hasFreight) => (
+    !isLayoutSupported || !isLinesSupported || hasFreight),
 );
 
 export const getLayoutDisplayName = layout => ({
@@ -254,11 +261,74 @@ export const getLayoutDisplayName = layout => ({
 export const getReadOnlyMessage = createSelector(
   getIsLayoutSupported,
   getLayout,
-  (isLayoutSupported, layout) => (
-    !isLayoutSupported
-      ? `This quote is missing information because the ${getLayoutDisplayName(layout)} quote layout isn't supported in the browser. Switch to AccountRight desktop to use this feature.`
-      : 'This quote is read only because it contains unsupported features. Switch to AccountRight desktop to edit this quote.'
-  ),
+  canShowFreight,
+  (isLayoutSupported, layout, hasFreight) => {
+    if (!isLayoutSupported) {
+      return `This quote is missing information because the ${getLayoutDisplayName(layout)} quote layout isn't supported in the browser. Switch to AccountRight desktop to use this feature.`;
+    }
+
+    if (hasFreight) {
+      return 'This quote is read only because freight isn\'t supported in the browser. Switch to AccountRight desktop to edit this quote';
+    }
+
+    return 'This quote is read only because it contains unsupported features. Switch to AccountRight desktop to edit this quote.';
+  },
+);
+
+const parseDecimal = (formattedCurrency) => Decimal(formattedCurrency.replace('$', '').replace(',', ''));
+
+export const getTotals = createSelector(
+  getLineTotals,
+  getTaxExclusiveFreightAmount,
+  getFreightTaxAmount,
+  (lineTotals, taxExclusiveFreightAmount, freightTaxAmount) => {
+    const subTotal = parseDecimal(lineTotals.subTotal).valueOf();
+    const totalTax = parseDecimal(lineTotals.totalTax).plus(freightTaxAmount).valueOf();
+    const totalAmount = parseDecimal(lineTotals.totalAmount)
+      .plus(taxExclusiveFreightAmount)
+      .plus(freightTaxAmount).valueOf();
+    return {
+      subTotal,
+      totalTax,
+      totalAmount,
+    };
+  },
+);
+
+export const calculateFreightAmount = (
+  taxExclusiveFreightAmount,
+  freightTaxAmount,
+  isTaxInclusive,
+) => (
+  isTaxInclusive
+    ? Decimal(taxExclusiveFreightAmount).add(Decimal(freightTaxAmount)).valueOf()
+    : taxExclusiveFreightAmount
+);
+
+export const getFreightInfo = createSelector(
+  canShowFreight,
+  getTaxExclusiveFreightAmount,
+  getFreightTaxAmount,
+  getIsTaxInclusive,
+  getFreightTaxCodeId,
+  getTaxCodeOptions,
+  (showFreight,
+    taxExclusiveFreightAmount,
+    freightTaxAmount, isTaxInclusive,
+    freightTaxCodeId, taxCodeOptions) => {
+    const freightAmount = calculateFreightAmount(
+      taxExclusiveFreightAmount,
+      freightTaxAmount,
+      isTaxInclusive,
+    );
+    const freightTaxCode = taxCodeOptions
+      .find(taxCode => taxCode.id === freightTaxCodeId)?.displayName;
+    return {
+      showFreight,
+      freightAmount,
+      freightTaxCode,
+    };
+  },
 );
 
 export const getIsBeforeStartOfFinancialYear = (state) => {

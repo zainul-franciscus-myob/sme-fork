@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import {
   getAlert,
   getIsCalculating,
-  getIsReadOnlyLayout,
+  getIsReadOnly,
   getLayout,
   getLoadingState,
   getModal,
@@ -42,7 +42,7 @@ const QuoteDetailView = ({
   itemAndServiceLayoutListeners,
   quoteActionListeners,
   modalListeners,
-  isReadOnlyLayout,
+  isReadOnly,
 }) => {
   const actions = <QuoteDetailActions listeners={quoteActionListeners} />;
 
@@ -97,7 +97,7 @@ const QuoteDetailView = ({
     <QuoteDetailLayoutPopover
       layout={layout}
       isCalculating={isCalculating}
-      isReadOnlyLayout={isReadOnlyLayout}
+      isReadOnly={isReadOnly}
       onUpdateLayout={onUpdateLayout}
     />
   );
@@ -115,7 +115,7 @@ const QuoteDetailView = ({
       { jobModal }
       { inventoryModal }
       { layoutPopover }
-      <div className={classNames(isReadOnlyLayout && styles.disabledTable)}>
+      <div className={classNames(isReadOnly && styles.disabledTable)}>
         { table }
       </div>
     </LineItemTemplate>
@@ -130,7 +130,7 @@ const mapStateToProps = state => ({
   alert: getAlert(state),
   layout: getLayout(state),
   isCalculating: getIsCalculating(state),
-  isReadOnlyLayout: getIsReadOnlyLayout(state),
+  isReadOnly: getIsReadOnly(state),
 });
 
 export default connect(mapStateToProps)(QuoteDetailView);

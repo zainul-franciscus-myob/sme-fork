@@ -40,6 +40,9 @@ const getDefaultState = () => ({
     issueDate: formatIsoDate(new Date()),
     purchaseOrderNumber: '',
     note: '',
+    taxExclusiveFreightAmount: '0',
+    freightTaxAmount: '0',
+    freightTaxCodeId: '0',
     lines: [],
   },
   newLine: {

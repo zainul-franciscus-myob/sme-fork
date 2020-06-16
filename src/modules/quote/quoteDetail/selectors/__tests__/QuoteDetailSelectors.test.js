@@ -1,15 +1,18 @@
 import {
   getAccountModalContext,
+  getFreightInfo,
   getIsAccountComboboxDisabled,
   getIsBeforeStartOfFinancialYear,
   getIsExportingPDF,
   getIsLinesSupported,
-  getIsReadOnlyLayout,
+  getIsReadOnly,
   getIsTaxCalculationRequired,
   getLayoutDisplayName,
   getQuoteDetailOptions,
   getQuoteLine,
+  getReadOnlyMessage,
   getShowExportPdfButton,
+  getTotals,
   getUpdatedContactOptions,
 } from '../QuoteDetailSelectors';
 import ModalType from '../../ModalType';
@@ -323,7 +326,7 @@ describe('QuoteDetailSelectors', () => {
     });
   });
 
-  describe('getIsReadOnlyLayout', () => {
+  describe('getIsReadOnly', () => {
     it.each([
       [QuoteLayout.SERVICE, false],
       [QuoteLayout.ITEM_AND_SERVICE, false],
@@ -332,7 +335,7 @@ describe('QuoteDetailSelectors', () => {
       [QuoteLayout.MISCELLANEOUS, true],
       ['N/A', true],
     ])('%s layout', (layout, expected) => {
-      const actual = getIsReadOnlyLayout({ quote: { layout, lines: [] } });
+      const actual = getIsReadOnly({ quote: { layout, lines: [] } });
 
       expect(actual).toEqual(expected);
     });
@@ -344,7 +347,7 @@ describe('QuoteDetailSelectors', () => {
       [QuoteLineType.SUB_TOTAL, true],
       ['N/A', true],
     ])('have %s line type', (type, expected) => {
-      const actual = getIsReadOnlyLayout({
+      const actual = getIsReadOnly({
         quote: {
           layout: QuoteLayout.ITEM_AND_SERVICE,
           lines: [
@@ -356,6 +359,31 @@ describe('QuoteDetailSelectors', () => {
       });
 
       expect(actual).toEqual(expected);
+    });
+
+    it('should be readonly when quote has freight amount', () => {
+      const actual = getIsReadOnly({
+        quote: {
+          layout: QuoteLayout.ITEM_AND_SERVICE,
+          lines: [],
+          taxExclusiveFreightAmount: '10',
+        },
+      });
+
+      expect(actual).toBe(true);
+    });
+  });
+
+  describe('getReadOnlyMessage', () => {
+    it.each([
+      [false, 'Blah', false, 'This quote is missing information because the Blah quote layout isn\'t supported in the browser. Switch to AccountRight desktop to use this feature.'],
+      [true, '', false, 'This quote is read only because it contains unsupported features. Switch to AccountRight desktop to edit this quote.'],
+      [true, '', true, 'This quote is read only because freight isn\'t supported in the browser. Switch to AccountRight desktop to edit this quote'],
+    ])('isLayoutSupported %s, layout %s, hasFreight %s', (isLayoutSupported, layout, hasFreight, message) => {
+      const actual = getReadOnlyMessage.resultFunc(isLayoutSupported, layout, hasFreight);
+
+      expect(actual)
+        .toEqual(message);
     });
   });
 
@@ -389,6 +417,32 @@ describe('QuoteDetailSelectors', () => {
     });
   });
 
+  describe('getTotals', () => {
+    it('When quote has freight amount', () => {
+      const state = {
+        quote: {
+          taxExclusiveFreightAmount: '10',
+          freightTaxAmount: '1',
+        },
+        totals: {
+          subTotal: '$100.00',
+          totalTax: '$11.00',
+          totalAmount: '$111.00',
+        },
+      };
+
+      const expected = {
+        subTotal: '100',
+        totalTax: '12',
+        totalAmount: '122',
+      };
+
+      const actual = getTotals(state);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
   describe('getIsBeforeStartOfFinancialYear', () => {
     it.each([
       ['2014-07-01', '2010-01-01', true],
@@ -396,8 +450,7 @@ describe('QuoteDetailSelectors', () => {
       ['2014-07-01', '2014-07-01', false],
       ['2014-07-01', '2014-07-02', false],
       ['2014-07-01', '2015-01-01', false],
-    ])(
-      'when start of financial year date is %s and issue date is %s, should return %s',
+    ])('when start of financial year date is %s and issue date is %s, should return %s',
       (startOfFinancialYearDate, issueDate, expected) => {
         const state = {
           quote: {
@@ -409,7 +462,62 @@ describe('QuoteDetailSelectors', () => {
         const actual = getIsBeforeStartOfFinancialYear(state);
 
         expect(actual).toEqual(expected);
-      },
-    );
+      });
+  });
+
+  describe('getFreightInfo', () => {
+    it('When quote(tax-inclusive) has freight line return freight info', () => {
+      const state = {
+        quote: {
+          taxExclusiveFreightAmount: '10',
+          freightTaxAmount: '1',
+          freightTaxCodeId: '2',
+          isTaxInclusive: true,
+        },
+        taxCodeOptions: [
+          {
+            id: '2',
+            displayName: 'GST',
+          },
+        ],
+      };
+
+      const expected = {
+        showFreight: true,
+        freightAmount: '11',
+        freightTaxCode: 'GST',
+      };
+
+      const actual = getFreightInfo(state);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('When quote(tax-exclusive) has freight line return freight info', () => {
+      const state = {
+        quote: {
+          taxExclusiveFreightAmount: '10',
+          freightTaxAmount: '1',
+          freightTaxCodeId: '2',
+          isTaxInclusive: false,
+        },
+        taxCodeOptions: [
+          {
+            id: '2',
+            displayName: 'GST',
+          },
+        ],
+      };
+
+      const expected = {
+        showFreight: true,
+        freightAmount: '10',
+        freightTaxCode: 'GST',
+      };
+
+      const actual = getFreightInfo(state);
+
+      expect(actual).toEqual(expected);
+    });
   });
 });
