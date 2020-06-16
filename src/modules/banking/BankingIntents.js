@@ -16,6 +16,8 @@ export const LOAD_BANK_TRANSACTIONS_NEXT_PAGE = Symbol('Load list of bank transa
 export const SORT_AND_FILTER_BANK_TRANSACTIONS = Symbol('Sort and filter list of bank transactions');
 export const SET_TABLE_LOADING_STATE = Symbol('Set Table loading state');
 export const UPDATE_FILTER_OPTIONS = Symbol('Update filter Options');
+export const UPDATE_PERIOD_DATE_RANGE = Symbol('Update period date range');
+export const RESET_FILTERS = Symbol('Reset filters');
 
 export const SET_ENTRY_FOCUS = Symbol('Set the focus state of an entry');
 export const SET_ENTRY_LOADING_STATE = Symbol('Set the loading state of an entry');

@@ -1,12 +1,15 @@
-import { addMonths } from 'date-fns';
-
 import { getDefaultOpenPosition } from '../bankingSelectors';
 import { tabIds } from '../tabItems';
+import Periods from '../../../components/PeriodPicker/Periods';
 import TransactionTypes from '../TransactionTypes';
-import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 import getBankingRuleDefaultState from '../bankingRule/bankingRuleReducers/getDefaultState';
 
-const getDefaultDateRange = () => addMonths(new Date(), -3);
+const defaultFilterOptions = {
+  transactionType: TransactionTypes.ALL,
+  bankAccount: '',
+  period: Periods.thisMonth,
+  keywords: '',
+};
 
 const getDefaultState = () => ({
   entries: [],
@@ -27,6 +30,10 @@ const getDefaultState = () => ({
   bankAccounts: [],
   transactionTypes: [
     {
+      name: 'All transactions',
+      value: TransactionTypes.ALL,
+    },
+    {
       name: 'Unallocated',
       value: TransactionTypes.UNALLOCATED,
     },
@@ -40,13 +47,8 @@ const getDefaultState = () => ({
   customers: [],
   taxCodes: [],
   jobs: [],
-  filterOptions: {
-    transactionType: TransactionTypes.UNALLOCATED,
-    bankAccount: '',
-    dateFrom: formatIsoDate(getDefaultDateRange()),
-    dateTo: formatIsoDate(new Date()),
-    keywords: '',
-  },
+  filterOptions: defaultFilterOptions,
+  defaultFilterOptions,
   pagination: {
     hasNextPage: false,
     offset: 0,

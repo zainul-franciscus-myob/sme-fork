@@ -17,15 +17,18 @@ import {
 } from '../bankingSelectors/bulkAllocationSelectors';
 import BankTransactionTableBody from './BankTransactionTableBody';
 import BankTransactionTableHeader from './BankTransactionTableHeader';
+import ErrorViewImage from './no-results-found.svg';
 
 const emptyView = header => (
   <React.Fragment>
     {header}
     <Card>
       <PageState
-        title="There are no transactions for the selected filter options."
+        title="No transactions found."
+        description="Perhaps checks the date or remove the filters and try again"
+        image={<img src={ErrorViewImage} alt="Please change your filters" />}
       />
-    </Card>
+  </Card>
   </React.Fragment>
 );
 
