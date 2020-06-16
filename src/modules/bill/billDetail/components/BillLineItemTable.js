@@ -47,6 +47,7 @@ const BillItemTable = ({
           resize="vertical"
           value={note}
           onChange={handleInputChange(onUpdateBillOption)}
+          maxLength={2000}
         />
       </div>
       <BillTableTotals
