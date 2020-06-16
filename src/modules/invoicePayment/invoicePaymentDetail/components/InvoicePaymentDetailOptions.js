@@ -1,16 +1,18 @@
 import {
-  DatePicker, DetailHeader, Input, TextArea,
+  DetailHeader, Input, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getIsBeforeStartOfFinancialYear,
   getIsCreating,
   getOptions,
   getWasRedirectedFromInvoiceDetail,
 } from '../invoicePaymentDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import ContactCombobox from '../../../../components/combobox/ContactCombobox';
+import DatePicker from '../../../../components/DatePicker/DatePicker';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import handleDatePickerChange from '../../../../components/handlers/handleDatePickerChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
@@ -27,6 +29,7 @@ const InvoicePaymentDetailOptions = ({
   referenceId,
   description,
   date,
+  isBeforeStartOfFinancialYear,
   isCreating,
   onUpdateInvoicePaymentDetails,
   onUpdateCustomer,
@@ -79,6 +82,8 @@ const InvoicePaymentDetailOptions = ({
         name="date"
         value={date}
         onSelect={handleDatePickerChange(onUpdateInvoicePaymentDetails, 'date')}
+        displayWarning={isBeforeStartOfFinancialYear}
+        warningMessage={'The issue date is set to a previous financial year'}
       />
     </div>
   );
@@ -90,6 +95,7 @@ const mapStateToProps = state => ({
   ...getOptions(state),
   isCreating: getIsCreating(state),
   wasRedirectedFromInvoiceDetail: getWasRedirectedFromInvoiceDetail(state),
+  isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
 });
 
 export default connect(mapStateToProps)(InvoicePaymentDetailOptions);

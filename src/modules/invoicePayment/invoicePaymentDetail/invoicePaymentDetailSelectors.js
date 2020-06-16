@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { isBefore } from 'date-fns';
 
 import InvoicePaymentModalTypes from '../InvoicePaymentModalTypes';
 import formatCurrency from '../../../common/valueFormatters/formatCurrency';
@@ -142,3 +143,10 @@ export const getUrlParams = createSelector(
     isCreating ? { businessId } : { businessId, invoicePaymentId }
   ),
 );
+
+export const getIsBeforeStartOfFinancialYear = (state) => {
+  const { startOfFinancialYearDate, date } = state;
+  const issueDate = new Date(date);
+  return issueDate && startOfFinancialYearDate
+    && isBefore(issueDate, new Date(startOfFinancialYearDate));
+};

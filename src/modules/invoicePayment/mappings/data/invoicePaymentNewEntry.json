@@ -33,5 +33,6 @@
   ],
   "accountId": "123",
   "referenceId": "CR000002",
-  "showPaidInvoices": false
+  "showPaidInvoices": false,
+  "startOfFinancialYearDate": "2019-07-01T00:00:00"
 }
