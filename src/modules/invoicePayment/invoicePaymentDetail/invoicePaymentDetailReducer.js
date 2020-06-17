@@ -35,6 +35,7 @@ const getDefaultState = () => ({
   modal: undefined,
   paymentAmount: '',
   applyPaymentToInvoiceId: '',
+  startOfFinancialYearDate: '',
 });
 
 const resetState = () => (getDefaultState());
