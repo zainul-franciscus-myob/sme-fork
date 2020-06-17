@@ -31,6 +31,7 @@ const getDefaultState = () => ({
   isPageEdited: false,
   isSubmitting: false,
   isLoading: false,
+  startOfFinancialYearDate: '',
 });
 
 const safeParseNumber = string => (Number(string) ? Number(string) : 0);
