@@ -9,6 +9,9 @@ import styles from './PayrollLeaveDetailTable.module.css';
 
 const tableConfig = {
   name: { columnName: 'Name', width: 'flex-1', valign: 'middle' },
+  balanceAdjustment: {
+    columnName: 'Balance Adjustment', width: 'flex-1', valign: 'middle', align: 'right',
+  },
   carryOver: {
     columnName: 'Carry over', width: 'flex-1', valign: 'middle', align: 'right',
   },
@@ -47,7 +50,7 @@ const PayrollLeaveDetailTable = ({
   items = [],
   onAddAllocatedLeaveItem,
   onRemoveAllocatedLeaveItem,
-  onUpdateCarryOver,
+  onUpdateBalanceAdjustment,
   onOpenLeavePayItemModal,
   showAddPayItemButton,
   onAddPayItemComboBlur,
@@ -55,25 +58,28 @@ const PayrollLeaveDetailTable = ({
 }) => {
   const tableBodyView = selected.map((payItem) => {
     const {
-      payItemId, name, carryOver, yearToDate, total,
+      payItemId, name, balanceAdjustment, carryOver, yearToDate, total,
     } = payItem;
+
 
     return (
       <Table.Row key={payItemId}>
         <Table.RowItem {...tableConfig.name}>
           <Button type="link" onClick={onPayItemSelect(onOpenLeavePayItemModal, payItemId)}>{name}</Button>
         </Table.RowItem>
-        <Table.RowItem {...tableConfig.carryOver}>
+        <Table.RowItem {...tableConfig.balanceAdjustment}>
           <AmountInput
-            name="carryOver"
-            label="Carry Over"
+            name="balanceAdjustment"
+            label="Balance Adjustment"
             hideLabel
             textAlign="right"
-            value={carryOver}
-            onChange={handleInputChange(onUpdateCarryOver, payItemId)}
+            value={balanceAdjustment}
+            onChange={handleInputChange(onUpdateBalanceAdjustment, payItemId)}
             numeralIntegerScale={29}
             numeralDecimalScaleMax={30}
           />
+        </Table.RowItem>
+        <Table.RowItem {...tableConfig.carryOver}>{carryOver}
         </Table.RowItem>
         <Table.RowItem {...tableConfig.yearToDate}>{yearToDate}</Table.RowItem>
         <Table.RowItem {...tableConfig.total}>{total}</Table.RowItem>
@@ -98,6 +104,13 @@ const PayrollLeaveDetailTable = ({
       <Table hasActions>
         <Table.Header>
           <Table.HeaderItem {...tableConfig.name}>Name</Table.HeaderItem>
+          <Table.HeaderItem {...tableConfig.balanceAdjustment}>
+            Balance adjustment
+            <Tooltip triggerContent={<Icons.Info />} placement="right">
+            Type the number of hours you want to adjust the total by for
+            each leave accrual. Opening balance can be entered here
+            </Tooltip>
+          </Table.HeaderItem>
           <Table.HeaderItem {...tableConfig.carryOver}>
             Carry over
             <Tooltip>View the number of hours carried over from previous years</Tooltip>

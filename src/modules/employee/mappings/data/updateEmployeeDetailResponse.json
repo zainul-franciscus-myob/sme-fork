@@ -35,6 +35,7 @@
           "id": "511",
           "payItemId": "51",
           "name": "Leave percent",
+          "balanceAdjustment": "140.1",
           "carryOver": "43.434",
           "yearToDate": "10.5",
           "total": "53.5"
@@ -43,6 +44,7 @@
           "id": "521",
           "payItemId": "53",
           "name": "Leave user entered",
+          "balanceAdjustment": "140.2",
           "carryOver": "0.50",
           "yearToDate": "0.50",
           "total": "10.90"

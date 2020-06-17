@@ -100,7 +100,7 @@ import {
   SET_WAGE_PAY_ITEM_MODAL_SUBMITTING_STATE,
   SHOW_CONTACT_DETAILS,
   TOGGLE_JOB_KEEPER,
-  UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER,
+  UPDATE_ALLOCATE_LEAVE_ITEM_BALANCE_ADJUSTMENT,
   UPDATE_DEDUCTION_PAY_ITEM_MODAL,
   UPDATE_EXPENSE_PAY_ITEM_MODAL,
   UPDATE_LEAVE_PAY_ITEM,
@@ -212,8 +212,8 @@ const createPayrollDetailsTabDispatchers = store => ({
     store.dispatch({ intent, payItemId });
   },
 
-  updateAllocatedLeaveItemCarryOver: ({ payItemId, value }) => {
-    const intent = UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER;
+  updateBalanceItemAdjustment: ({ payItemId, value }) => {
+    const intent = UPDATE_ALLOCATE_LEAVE_ITEM_BALANCE_ADJUSTMENT;
     store.dispatch({ intent, payItemId, value });
   },
 

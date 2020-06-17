@@ -23,20 +23,21 @@ describe('PayrollLeaveDetailSelectors', () => {
         payrollDetails: {
           leaveDetails: {
             allocatedLeavePayItems: [
-              { carryOver: '12.3', yearToDate: '21.21' },
+              { balanceAdjustment: '5.5', carryOver: '12.3', yearToDate: '21.21' },
             ],
           },
         },
       };
       const actual = getLeavePayItems(state);
-      expect(actual[0].total).toEqual('33.51');
+      expect(actual[0].total).toEqual('39.01');
     });
-    it('returns 0 when the carry over amount is not a decimal', () => {
+
+    it('returns 0 when the carry over and balance adjustment amount is not a number', () => {
       const state = {
         payrollDetails: {
           leaveDetails: {
             allocatedLeavePayItems: [
-              { carryOver: 'foo', yearToDate: '21.21' },
+              { ballanceAdjustment: 'test', carryOver: 'foo', yearToDate: '21.21' },
             ],
           },
         },
@@ -44,6 +45,21 @@ describe('PayrollLeaveDetailSelectors', () => {
       const actual = getLeavePayItems(state);
       expect(actual[0].total).toEqual('21.21');
     });
+
+    it('returns 0 when the balance adjustment amount is not defined', () => {
+      const state = {
+        payrollDetails: {
+          leaveDetails: {
+            allocatedLeavePayItems: [
+              { balanceadjustment: 'test' },
+            ],
+          },
+        },
+      };
+      const actual = getLeavePayItems(state);
+      expect(actual[0].total).toEqual('0.00');
+    });
+
     it('returns 0 when the carry over amount is not defined', () => {
       const state = {
         payrollDetails: {

@@ -688,7 +688,7 @@ export default class PayrollDetailsTabModule {
             onRemoveAllocatedLeaveItem: this.dispatcher.openAllocatedLeaveItemModal,
             onConfirmRemoveAllocatedLeaveItem: this.removeAllocatedLeaveItem,
             onConfirmCancelAllocatedLeaveItem: this.dispatcher.closeAllocatedLeaveItemModal,
-            onUpdateAllocatedLeaveItemCarryOver: this.dispatcher.updateAllocatedLeaveItemCarryOver,
+            onUpdateBalanceItemAdjustment: this.dispatcher.updateBalanceItemAdjustment,
             onOpenLeavePayItemModal: this.openLeavePayItemModal,
           }}
           onPayrollStandardPayListeners={{

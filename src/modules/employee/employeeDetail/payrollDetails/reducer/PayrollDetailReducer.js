@@ -5,7 +5,7 @@ import {
   REMOVE_PAYROLL_DEDUCTION_PAY_ITEM,
   SET_ALLOCATED_LEAVE_ITEM_MODAL,
   SET_SHOW_ADD_PAY_ITEM_BUTTON,
-  UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER,
+  UPDATE_ALLOCATE_LEAVE_ITEM_BALANCE_ADJUSTMENT,
   UPDATE_PAYROLL_EMPLOYMENT_DETAIL,
 } from '../../../EmployeeIntents';
 
@@ -97,13 +97,12 @@ const removeAllocatedLeaveItem = (state, action) => {
   return setPayrollAllocatedLeaveState(state, partialAllocatedLeave);
 };
 
-const updateAllocatedLeaveItemCarryOver = (state, action) => {
+const updateAllocatedLeaveItemBalanceAdjustment = (state, action) => {
   const { payItemId, value } = action;
   const updatedLeaveItems = state.payrollDetails.leaveDetails.allocatedLeavePayItems.map(
-    item => (item.payItemId === payItemId ? { ...item, carryOver: value } : item),
+    item => (item.payItemId === payItemId ? { ...item, balanceAdjustment: value } : item),
   );
   const partialAllocatedLeave = { allocatedLeavePayItems: updatedLeaveItems };
-
   return setPayrollAllocatedLeaveState(state, partialAllocatedLeave);
 };
 
@@ -122,7 +121,7 @@ export default {
   [REMOVE_PAYROLL_DEDUCTION_PAY_ITEM]: removePayrollDeductionPayItem,
   [ADD_ALLOCATED_LEAVE_ITEM]: addAllocatedLeaveItem,
   [REMOVE_ALLOCATED_LEAVE_ITEM]: removeAllocatedLeaveItem,
-  [UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER]: updateAllocatedLeaveItemCarryOver,
+  [UPDATE_ALLOCATE_LEAVE_ITEM_BALANCE_ADJUSTMENT]: updateAllocatedLeaveItemBalanceAdjustment,
   [SET_ALLOCATED_LEAVE_ITEM_MODAL]: setAllocatedLeaveItemModal,
   [SET_SHOW_ADD_PAY_ITEM_BUTTON]: setShowAddPayItemButton,
 };

@@ -13,10 +13,12 @@ const getAllocatedLeaveItemModal = state => state.payrollDetails.leaveDetails.mo
 
 const getNumberOrZero = value => (Number.isNaN(Number(value)) ? 0 : Number(value));
 
-const calculateAllocatedLeavePayItemTotal = ({ carryOver, yearToDate }) => {
+const calculateAllocatedLeavePayItemTotal = ({ balanceAdjustment, carryOver, yearToDate }) => {
+  const checkedBalanceAdjustment = getNumberOrZero(balanceAdjustment);
   const checkedCarryOver = getNumberOrZero(carryOver);
   const checkedYearToDate = getNumberOrZero(yearToDate);
-  const sum = Number(checkedCarryOver) + Number(checkedYearToDate);
+  const sum = Number(checkedCarryOver) + Number(checkedYearToDate)
+              + Number(checkedBalanceAdjustment);
   return String(sum.toFixed(2));
 };
 

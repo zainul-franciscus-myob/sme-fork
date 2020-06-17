@@ -25,7 +25,7 @@ const PayrollLeaveDetail = ({
     onRemoveAllocatedLeaveItem,
     onConfirmRemoveAllocatedLeaveItem,
     onConfirmCancelAllocatedLeaveItem,
-    onUpdateAllocatedLeaveItemCarryOver,
+    onUpdateBalanceItemAdjustment,
   },
   onAddPayItemComboBlur,
   onAddPayItemComboClick,
@@ -62,7 +62,7 @@ const PayrollLeaveDetail = ({
         items={allocatedLeavePayItemOptions}
         onAddAllocatedLeaveItem={onAddAllocatedLeaveItem}
         onRemoveAllocatedLeaveItem={onRemoveAllocatedLeaveItem}
-        onUpdateCarryOver={onUpdateAllocatedLeaveItemCarryOver}
+        onUpdateBalanceAdjustment={onUpdateBalanceItemAdjustment}
         onOpenLeavePayItemModal={onOpenLeavePayItemModal}
         showAddPayItemButton={showAddPayItemButton}
         onAddPayItemComboBlur={onAddPayItemComboBlur}

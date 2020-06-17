@@ -189,7 +189,7 @@ const createLeavePayItem = (state, { leavePayItem, leavePayItemOptions }) => ({
       ...state.payrollDetails.leaveDetails,
       allocatedLeavePayItems: [
         ...getAllocatedLeavePayItems(state),
-        { ...leavePayItem, carryOver: '0' },
+        { ...leavePayItem, balanceAdjustment: '0', carryOver: '0' },
       ],
     },
   },
