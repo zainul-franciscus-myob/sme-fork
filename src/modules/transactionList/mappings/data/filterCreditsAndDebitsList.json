@@ -9,7 +9,8 @@
       "displayCredit": "1000.00",
       "displayAccountName": "1-2000 Water Expense",
       "businessEventType": "CashPayment",
-      "sourceJournal": "Cash Payments"
+      "sourceJournal": "Cash Payments",
+      "isSystem": true
     },
     {
       "id": "402",
@@ -20,7 +21,8 @@
       "displayCredit": "",
       "displayAccountName": "1-2000 Water Expense",
       "businessEventType": "CashPayment",
-      "sourceJournal": "Cash Payments"
+      "sourceJournal": "Cash Payments",
+      "isSystem": false
     },
     {
       "id": "401",
@@ -31,7 +33,8 @@
       "displayCredit": "1000.00",
       "displayAccountName": "1-2000 Water Expense",
       "businessEventType": "CashPayment",
-      "sourceJournal": "Cash Payments"
+      "sourceJournal": "Cash Payments",
+      "isSystem": false
     }
   ],
   "sortOrder": "desc",

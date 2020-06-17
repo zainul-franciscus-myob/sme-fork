@@ -6,7 +6,8 @@
       "description": "doing general business",
       "sourceJournal": "General",
       "displayAmount": "2.00",
-      "businessEventType": "GeneralAccounting"
+      "businessEventType": "GeneralAccounting",
+      "isSystem": true
     },
     {
       "id": "997",
@@ -15,7 +16,8 @@
       "description": "Spending money",
       "sourceJournal": "Cash Payments",
       "displayAmount": "4.00",
-      "businessEventType": "CashPayment"
+      "businessEventType": "CashPayment",
+      "isSystem": false
     },
     {
       "id": "998",
@@ -24,7 +26,8 @@
       "description": "cash something?",
       "sourceJournal": "Cash Receipts",
       "displayAmount": "5.00",
-      "businessEventType": "CashReceipt"
+      "businessEventType": "CashReceipt",
+      "isSystem": false
     }
   ],
   "pagination": {

@@ -1,8 +1,9 @@
-import { Table, Tooltip } from '@myob/myob-widgets';
+import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getTableEntries } from '../selectors/journalTransactionSelectors';
+import ReferenceNumber from './ReferenceNumber';
 
 /* eslint-disable react/no-array-index-key */
 
@@ -12,20 +13,15 @@ const JournalTransactionListTableBody = (props) => {
     entries,
   } = props;
 
-  const getRefEntryLink = entry => (entry.link ? (
-    <a href={entry.link}>{entry.referenceId}</a>
-  ) : (
-    <Tooltip placement="bottom" triggerContent={entry.referenceId}>
-      This transaction type can only be viewed and edited from your desktop
-      AccountRight software
-    </Tooltip>
-  ));
-
   const rows = entries.map((entry, index) => (
     <Table.Row key={index}>
       <Table.RowItem {...tableConfig.date}>{entry.displayDate}</Table.RowItem>
       <Table.RowItem {...tableConfig.referenceId}>
-        {getRefEntryLink(entry)}
+        <ReferenceNumber
+          isSystem={entry.isSystem}
+          link={entry.link}
+          referenceId={entry.referenceId}
+        />
       </Table.RowItem>
       <Table.RowItem {...tableConfig.description}>{entry.description}</Table.RowItem>
       <Table.RowItem {...tableConfig.sourceJournal}>{entry.sourceJournal}</Table.RowItem>
