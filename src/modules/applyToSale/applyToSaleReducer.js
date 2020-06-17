@@ -84,6 +84,7 @@ const loadNewApplyToSale = (state, action) => ({
   originalReferenceId: action.applyToSale.reference,
   date: formatIsoDate(new Date()),
   invoices: action.applyToSale.invoices,
+  startOfFinancialYearDate: action.applyToSale.startOfFinancialYearDate,
 });
 
 const loadApplyToSale = (state, action) => ({

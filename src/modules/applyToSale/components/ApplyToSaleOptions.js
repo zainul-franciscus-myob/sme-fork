@@ -1,5 +1,5 @@
 import {
-  Combobox, DatePicker, DetailHeader, Input, TextArea,
+  Combobox, DetailHeader, Input, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -9,10 +9,12 @@ import {
   getCustomerName,
   getDate,
   getDescription,
+  getIsBeforeStartOfFinancialYear,
   getIsCreating,
   getReference,
 } from '../applyToSaleSelectors';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
+import DatePicker from '../../../components/DatePicker/DatePicker';
 
 const onTextFieldChange = handler => ({ target }) => {
   const { name, value } = target;
@@ -29,6 +31,7 @@ const ApplyToSaleOptions = ({
   date,
   isCreating,
   onUpdateApplyToSaleOption,
+  isBeforeStartOfFinancialYear,
 }) => {
   const requiredLabel = isCreating ? 'This is required' : undefined;
 
@@ -79,6 +82,8 @@ const ApplyToSaleOptions = ({
         label="Date"
         name="date"
         value={date}
+        displayWarning={isBeforeStartOfFinancialYear}
+        warningMessage={'The issue date is set to a previous financial year'}
         onSelect={onDateChange(onUpdateApplyToSaleOption, 'date')}
         disabled={!isCreating}
       />
@@ -95,6 +100,7 @@ const mapStateToProps = state => ({
   description: getDescription(state),
   date: getDate(state),
   isCreating: getIsCreating(state),
+  isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
 });
 
 export default connect(mapStateToProps)(ApplyToSaleOptions);

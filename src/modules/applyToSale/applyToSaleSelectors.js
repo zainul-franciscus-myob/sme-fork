@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { isBefore } from 'date-fns';
 
 import formatAmount from './formatAmount';
 
@@ -17,6 +18,7 @@ export const getAmount = state => state.amount;
 export const getReference = state => state.reference;
 export const getDescription = state => state.description;
 export const getDate = state => state.date;
+export const getStartOfFinancialYearDate = (state) => state.startOfFinancialYearDate;
 
 const getInvoiceLink = invoiceId => createSelector(
   getRegion,
@@ -74,4 +76,11 @@ export const getTitle = createSelector(
       ? 'Apply customer credit to sale'
       : `Customer credit applied to sale ${reference}`
   ),
+);
+
+export const getIsBeforeStartOfFinancialYear = createSelector(
+  getDate,
+  getStartOfFinancialYearDate,
+  (date, startOfFinancialYearDate) => date && startOfFinancialYearDate
+  && isBefore(new Date(date), new Date(startOfFinancialYearDate)),
 );
