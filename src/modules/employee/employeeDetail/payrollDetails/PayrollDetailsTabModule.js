@@ -19,6 +19,7 @@ import {
   getStandardPayWageAmountRuleById,
   getStandardPayWageAmountRuleFromModal,
 } from './selectors/PayrollStandardPaySelectors';
+import { getFundType, getIsActionDisabled as getIsSuperFundModalActionDisabled } from './selectors/SuperFundModalSelectors';
 import { getHasTfn, getTaxPayItemModalSubmitting, getTaxTableCalculations } from './selectors/PayrollTaxSelectors';
 import {
   getIsActionDisabled as getIsDeductionPayItemModalActionDisabled,
@@ -32,7 +33,6 @@ import {
   getIsActionDisabled as getIsLeavePayItemModalActionDisabled,
   getIsLeavePayItemModalCreating,
 } from './selectors/LeavePayItemModalSelectors';
-import { getIsSelfManagedFund, getIsActionDisabled as getIsSuperFundModalActionDisabled } from './selectors/SuperFundModalSelectors';
 import {
   getIsActionDisabled as getIsSuperPayItemModalActionDisabled,
   getIsSuperPayItemModalCreating,
@@ -554,7 +554,8 @@ export default class PayrollDetailsTabModule {
 
   validateAcessTokenAndSave = () => {
     const state = this.store.getState();
-    if (getIsSelfManagedFund) {
+
+    if (getFundType(state) === 'SelfManagedSuperFund') {
       this.stsLoginModal.run({ businessId: state.businessId });
     } else {
       this.saveSuperFundModal();
