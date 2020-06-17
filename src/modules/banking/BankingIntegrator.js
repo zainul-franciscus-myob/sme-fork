@@ -7,6 +7,7 @@ import {
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_MATCH_TRANSFER_MONEY,
   LOAD_SPLIT_ALLOCATION,
@@ -541,6 +542,19 @@ const createBankingIntegrator = (store, integration) => ({
     const intent = LOAD_ACCOUNT_AFTER_CREATE;
     const urlParams = {
       accountId,
+      businessId: getBusinessId(state),
+    };
+
+    integration.read({
+      intent, urlParams, onSuccess, onFailure,
+    });
+  },
+
+  loadJobAfterCreate: ({ id, onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = LOAD_JOB_AFTER_CREATE;
+    const urlParams = {
+      jobId: id,
       businessId: getBusinessId(state),
     };
 

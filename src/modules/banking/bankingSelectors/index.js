@@ -364,6 +364,15 @@ export const getAccountModalContext = (state) => {
   return { businessId, region };
 };
 
+export const getJobModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region };
+};
+
+export const getIsJobComboboxDisabled = state => state.isJobLoading;
+
 export const getOffset = state => state.pagination.offset;
 
 export const getLoadMoreButtonStatus = (state) => {

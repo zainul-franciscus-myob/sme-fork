@@ -10,6 +10,7 @@ import {
   getIsAllocated,
   getIsEntryLoading,
   getIsOpenEntryEdited,
+  getJobModalContext,
   getOpenEntryActiveTabId,
   getOpenEntryDefaultTabId,
   getOpenPosition,
@@ -36,6 +37,7 @@ import BankingRuleModule from './bankingRule/BankingRuleModule';
 import BankingView from './components/BankingView';
 import FeatureToggle from '../../FeatureToggles';
 import InTrayModalModule from '../inTray/inTrayModal/InTrayModalModule';
+import JobModalModule from '../job/jobModal/JobModalModule';
 import Store from '../../store/Store';
 import bankingReducer from './bankingReducer';
 import createBankingDispatcher from './BankingDispatcher';
@@ -64,6 +66,7 @@ export default class BankingModule {
     this.accountModalModule = new AccountModalModule({
       integration,
     });
+    this.jobModalModule = new JobModalModule({ integration });
   }
 
   updateFilterOptions = ({ filterName, value }) => {
@@ -129,11 +132,13 @@ export default class BankingModule {
 
     const inTrayModal = this.inTrayModalModule.render();
     const accountModal = this.accountModalModule.render();
+    const jobModal = this.jobModalModule.render();
 
     const transactionListView = (
       <BankingView
         inTrayModal={inTrayModal}
         accountModal={accountModal}
+        jobModal={jobModal}
         onUpdateFilters={this.confirmBefore(this.updateFilterOptions)}
         onPeriodChange={this.confirmBefore(this.updatePeriodDateRange)}
         onResetFilters={this.confirmBefore(this.resetFilters)}
@@ -199,6 +204,7 @@ export default class BankingModule {
         onImportStatementButtonClick={this.redirectToBankStatementImport}
         onLinkFromInTrayButtonClick={this.openInTrayModal}
         onAddAccount={this.openAccountModal}
+        onAddJob={this.openJobModal}
         onLoadMoreButtonClick={this.loadBankTransactionsNextPage}
       />
     );
@@ -1144,6 +1150,36 @@ export default class BankingModule {
     this.dispatcher.resetState();
     this.inTrayModalModule.resetState();
     this.accountModalModule.resetState();
+  };
+
+  openJobModal = (onChange) => {
+    const state = this.store.getState();
+    const context = getJobModalContext(state);
+
+    this.jobModalModule.run({
+      context,
+      onLoadFailure: message => this.setAlert({ type: 'danger', message }),
+      onSaveSuccess: payload => this.loadJobAfterCreate(payload, onChange),
+    });
+  };
+
+  loadJobAfterCreate = ({ id }, onChange) => {
+    this.jobModalModule.resetState();
+    this.dispatcher.setJobLoadingState(true);
+
+    const onSuccess = (payload) => {
+      const job = { ...payload, id };
+      this.dispatcher.setJobLoadingState(false);
+      this.dispatcher.loadJobAfterCreate(id, job);
+      onChange(job);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setJobLoadingState(false);
+      this.dispatcher.setAlert({ type: 'danger', message });
+    };
+
+    this.integrator.loadJobAfterCreate({ id, onSuccess, onFailure });
   };
 
   run(context) {

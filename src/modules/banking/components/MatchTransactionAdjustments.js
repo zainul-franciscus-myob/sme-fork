@@ -7,8 +7,8 @@ import React from 'react';
 
 import { getAccounts, getAdjustments } from '../bankingSelectors/matchTransactionSelectors';
 import {
-  getIsBankingJobColumnEnabled, getIsLoadingAccount, getJobs, getTaxCodes,
-} from '../bankingSelectors/index';
+  getIsBankingJobColumnEnabled, getIsJobComboboxDisabled, getIsLoadingAccount, getJobs, getTaxCodes,
+} from '../bankingSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
 import JobCombobox from '../../../components/combobox/JobCombobox';
@@ -47,9 +47,10 @@ const getResponsiveWidths = (taxCodeLabel, isBankingJobColumnEnabled) => [
   },
 ];
 
-const renderRow = (accounts, taxCodes, jobs, [
-  accountColumn, amountColumn, quantityColumn, descColumn, jobColumn, taxColumn,
-], onAddAccount, isLoadingAccount, isBankingJobColumnEnabled) => (index, adjustment, onChange) => {
+const renderRow = (accounts, taxCodes, jobs, [accountColumn, amountColumn,
+  quantityColumn, descColumn, jobColumn, taxColumn],
+onAddAccount, onAddJob, isLoadingAccount,
+isBankingJobColumnEnabled, isJobComboboxDisabled) => (index, adjustment, onChange) => {
   const {
     id, accountId, amount = '', quantity = '', description, taxCodeId, jobId,
   } = adjustment;
@@ -105,7 +106,8 @@ const renderRow = (accounts, taxCodes, jobs, [
           onChange={handleComboboxChange('jobId', onChange)}
           items={jobs}
           selectedId={jobId}
-          disabled={isLoadingAccount}
+          disabled={isJobComboboxDisabled}
+          addNewJob={() => onAddJob(handleComboboxChange('jobId', onChange))}
           allowClear
         />
       </BulkAdd.RowItem> }
@@ -126,6 +128,7 @@ const renderRow = (accounts, taxCodes, jobs, [
 
 const MatchTransactionAdjustments = ({
   onAddAccount,
+  onAddJob,
   onUpdateAdjustment,
   onRemoveAdjustment,
   onAddAdjustment,
@@ -135,6 +138,7 @@ const MatchTransactionAdjustments = ({
   jobs,
   taxCodeLabel,
   isLoadingAccount,
+  isJobComboboxDisabled,
   isBankingJobColumnEnabled,
 }) => {
   const tableColumns = getTableColumns({
@@ -160,8 +164,8 @@ const MatchTransactionAdjustments = ({
       <BulkAdd.Rows
         data={adjustments}
         renderRow={renderRow(
-          accounts, taxCodes, jobs,
-          tableColumns, onAddAccount, isLoadingAccount, isBankingJobColumnEnabled,
+          accounts, taxCodes, jobs, tableColumns, onAddAccount,
+          onAddJob, isLoadingAccount, isBankingJobColumnEnabled, isJobComboboxDisabled,
         )}
         onRowChange={onUpdateAdjustment}
         onRemoveRow={onRemoveAdjustment}
@@ -178,6 +182,7 @@ const mapStateToProps = state => ({
   jobs: getJobs(state),
   taxCodeLabel: getRegionToDialectText(state.region)('Tax code'),
   isLoadingAccount: getIsLoadingAccount(state),
+  isJobComboboxDisabled: getIsJobComboboxDisabled(state),
   isBankingJobColumnEnabled: getIsBankingJobColumnEnabled(state),
 });
 

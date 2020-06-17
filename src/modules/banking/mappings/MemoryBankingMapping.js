@@ -7,6 +7,7 @@ import {
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_MATCH_TRANSFER_MONEY,
   LOAD_SPLIT_ALLOCATION,
@@ -40,6 +41,7 @@ import filteredBankTransactions from './data/sortAndFilterBankTransactions';
 import filteredMatchTransactions from './data/sortAndFilterMatchTransactions';
 import linkInTrayDocumentResponse from './data/linkInTrayDocumentResponse';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
+import loadAddedJobResponse from './data/loadAddedJobResponse';
 import loadReceiveMoney from './data/loadReceiveMoney';
 import loadSpendMoney from './data/loadSpendMoney';
 import matchAllocatedTransactions from './data/loadMatchAllocatedTransactions';
@@ -82,6 +84,7 @@ const removeAttachment = ({ onSuccess }) => onSuccess(successResponse);
 const updateNote = ({ onSuccess }) => onSuccess(updateNoteResponse);
 const linkInTrayDocument = ({ onSuccess }) => onSuccess(linkInTrayDocumentResponse);
 const loadAddedAccount = ({ onSuccess }) => onSuccess(loadAddedAccountResponse);
+const loadAddedJob = ({ onSuccess }) => onSuccess(loadAddedJobResponse);
 
 const MemoryBankingMapping = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,
@@ -110,6 +113,7 @@ const MemoryBankingMapping = {
   [SAVE_PENDING_NOTE]: updateNote,
   [LINK_IN_TRAY_DOCUMENT]: linkInTrayDocument,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAddedAccount,
+  [LOAD_JOB_AFTER_CREATE]: loadAddedJob,
 };
 
 export default MemoryBankingMapping;

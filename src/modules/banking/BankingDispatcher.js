@@ -14,6 +14,7 @@ import {
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_MATCH_TRANSFER_MONEY,
   LOAD_NEW_SPLIT_ALLOCATION,
@@ -40,6 +41,7 @@ import {
   SET_ENTRY_HOVERED,
   SET_ENTRY_LOADING_STATE,
   SET_ERROR_STATE,
+  SET_JOB_LOADING_STATE,
   SET_LOADING_SINGLE_ACCOUNT_STATE,
   SET_LOADING_STATE,
   SET_MATCH_TRANSACTION_LOADING_STATE,
@@ -684,6 +686,14 @@ const createBankingDispatcher = store => ({
       isLoadingAccount,
     });
   },
+
+  loadJobAfterCreate: (jobId, payload) => store.dispatch({
+    intent: LOAD_JOB_AFTER_CREATE, jobId, ...payload,
+  }),
+
+  setJobLoadingState: isJobLoading => store.dispatch({
+    intent: SET_JOB_LOADING_STATE, isJobLoading,
+  }),
 });
 
 export default createBankingDispatcher;

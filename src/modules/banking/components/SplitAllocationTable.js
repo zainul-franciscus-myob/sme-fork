@@ -23,7 +23,8 @@ const onRowChange = handler => (index, key, value) => handler(index, key, value)
 
 const onAddRow = handler => ({ id, ...partialLine }) => handler(partialLine);
 
-const renderRow = (indexOfLastLine, onAddAccount, disabled) => (index, data, onChange, labels) => {
+const renderRow = (indexOfLastLine, onAddAccount,
+  onAddJob, disabled) => (index, data, onChange, labels) => {
   const isNewLineRow = indexOfLastLine < index;
 
   return (
@@ -34,6 +35,7 @@ const renderRow = (indexOfLastLine, onAddAccount, disabled) => (index, data, onC
       disabled={disabled}
       onChange={onChange}
       onAddAccount={onAddAccount}
+      onAddJob={onAddJob}
       isNewLineRow={isNewLineRow}
     />
   );
@@ -52,6 +54,7 @@ const SplitAllocationTable = (props) => {
     onUpdateSplitAllocationLine,
     onDeleteSplitAllocationLine,
     onAddAccount,
+    onAddJob,
     isLoadingAccount,
     isBankingJobColumnEnabled,
   } = props;
@@ -121,7 +124,7 @@ const SplitAllocationTable = (props) => {
     <LineItemTable
       labels={labels}
       data={tableData}
-      renderRow={renderRow(indexOfLastLine, onAddAccount, isLoadingAccount)}
+      renderRow={renderRow(indexOfLastLine, onAddAccount, onAddJob, isLoadingAccount)}
       onAddRow={onAddRow(onAddSplitAllocationLine)}
       onRowChange={onRowChange(onUpdateSplitAllocationLine)}
       onRemoveRow={onDeleteSplitAllocationLine}

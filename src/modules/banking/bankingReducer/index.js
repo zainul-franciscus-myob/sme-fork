@@ -14,6 +14,7 @@ import {
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_MATCH_TRANSFER_MONEY,
   LOAD_NEW_SPLIT_ALLOCATION,
@@ -40,6 +41,7 @@ import {
   SET_ENTRY_HOVERED,
   SET_ENTRY_LOADING_STATE,
   SET_ERROR_STATE,
+  SET_JOB_LOADING_STATE,
   SET_LOADING_SINGLE_ACCOUNT_STATE,
   SET_LOADING_STATE,
   SET_MATCH_TRANSACTION_LOADING_STATE,
@@ -419,6 +421,19 @@ export const loadAccountAfterCreate = (state, { account }) => ({
   ],
 });
 
+const loadJobAfterCreate = (state, { intent, ...job }) => ({
+  ...state,
+  jobs: [
+    job,
+    ...state.jobs,
+  ],
+  isPageEdited: true,
+});
+
+const setJobLoadingState = (state, { isJobLoading }) => (
+  { ...state, isJobLoading }
+);
+
 export const setLoadingSingleAccountState = (state, action) => ({
   ...state,
   isLoadingAccount: action.isLoadingAccount,
@@ -506,6 +521,8 @@ const handlers = {
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [APPEND_NEW_ACCOUNT_TO_ALLOCATE_TABLE]: appendAccountToAllocateTable,
   [SET_LOADING_SINGLE_ACCOUNT_STATE]: setLoadingSingleAccountState,
+  [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
+  [SET_JOB_LOADING_STATE]: setJobLoadingState,
   ...wrapHandlers('bankingRuleModal', bankingRuleHandlers),
 };
 

@@ -94,3 +94,6 @@ export const SAVE_PENDING_NOTE = Symbol('Save pending note');
 export const LOAD_ACCOUNT_AFTER_CREATE = Symbol('Load account detail after create');
 export const APPEND_NEW_ACCOUNT_TO_ALLOCATE_TABLE = Symbol('Append new account to allocate table');
 export const SET_LOADING_SINGLE_ACCOUNT_STATE = Symbol('Set loading single account state');
+
+export const LOAD_JOB_AFTER_CREATE = Symbol('Load job after create');
+export const SET_JOB_LOADING_STATE = Symbol('Set job loading state');

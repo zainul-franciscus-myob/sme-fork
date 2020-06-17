@@ -29,6 +29,7 @@ const BankingView = (props) => {
   const {
     inTrayModal,
     accountModal,
+    jobModal,
     hasError,
     isLoading,
     isEntryLoading,
@@ -40,6 +41,7 @@ const BankingView = (props) => {
     onPeriodChange,
     onResetFilters,
     onAddAccount,
+    onAddJob,
     onBankAccountChange,
     onSort,
     onAllocate,
@@ -157,9 +159,11 @@ const BankingView = (props) => {
         {modal}
         {accountModal}
         {inTrayModal}
+        { jobModal }
         <BankTransactionTable
           onSort={onSort}
           onAddAccount={onAddAccount}
+          onAddJob={onAddJob}
           onAllocate={onAllocate}
           onMatchedToBlur={onMatchedToBlur}
           onMatchedToFocus={onMatchedToFocus}
