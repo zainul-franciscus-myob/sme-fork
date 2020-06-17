@@ -1,4 +1,6 @@
-import { Checkbox, CheckboxGroup, FieldGroup } from '@myob/myob-widgets';
+import {
+  Checkbox, CheckboxGroup, FieldGroup, Icons, Tooltip,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -9,6 +11,15 @@ const handleCheckBoxChange = handler => (e) => {
   const { name, checked } = e.target;
   handler({ key: name, value: checked });
 };
+
+const fieldGroupLabel = (
+  <div>
+    <span>Carry remaining leave over to next year&nbsp;</span>
+    <Tooltip triggerContent={<Icons.Info />} placement="right">
+      This setting cannot be changed after the leave accrual is created.
+    </Tooltip>
+  </div>
+);
 
 const LeavePayItemInfo = ({
   printOnPaySlip,
@@ -33,7 +44,7 @@ const LeavePayItemInfo = ({
           <Checkbox
             id="carryRemainingLeave"
             name="carryRemainingLeave"
-            label="Carry remaining leave over to next year"
+            label={fieldGroupLabel}
             checked={carryRemainingLeave}
             disabled={!isCreating}
             onChange={handleCheckBoxChange(onCalculationBasisChange)}
