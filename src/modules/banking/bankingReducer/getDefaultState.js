@@ -7,7 +7,7 @@ import getBankingRuleDefaultState from '../bankingRule/bankingRuleReducers/getDe
 const defaultFilterOptions = {
   transactionType: TransactionTypes.ALL,
   bankAccount: '',
-  period: Periods.thisMonth,
+  period: Periods.lastThreeMonths,
   keywords: '',
 };
 
