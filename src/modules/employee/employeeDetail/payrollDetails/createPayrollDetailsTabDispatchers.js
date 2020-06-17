@@ -64,6 +64,7 @@ import {
   SELECT_APRA_FUND,
   SET_ABN_LOADING_STATE,
   SET_ABN_STATUS,
+  SET_ACCESS_TOKEN,
   SET_ALLOCATED_LEAVE_ITEM_MODAL,
   SET_DEDUCTION_PAY_ITEM_MODAL_ALERT,
   SET_DEDUCTION_PAY_ITEM_MODAL_INPUT,
@@ -662,6 +663,11 @@ const createPayrollDetailsTabDispatchers = store => ({
   saveSuperFundModal: ({ selectedSuperFundId, superFundOptions }) => {
     const intent = CREATE_SUPER_FUND;
     store.dispatch({ intent, selectedSuperFundId, superFundOptions });
+  },
+
+  setAccessToken: (accessToken) => {
+    const intent = SET_ACCESS_TOKEN;
+    store.dispatch({ intent, accessToken });
   },
 
   openSuperFundModal: () => {

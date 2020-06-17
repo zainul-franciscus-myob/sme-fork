@@ -137,6 +137,7 @@ export const UPDATE_SELF_MANAGED_FUND_ABN = Symbol('Update self managed fund abn
 export const SET_SUPER_FUND_MODAL_ALERT_MESSAGE = Symbol('Set super fund modal alert message');
 export const SELECT_APRA_FUND = Symbol('Select a APRA fund');
 export const SHOW_CONTACT_DETAILS = Symbol('Show contact detail fields');
+export const SET_ACCESS_TOKEN = Symbol('Set the access token for pay super');
 
 export const LOAD_NEW_SUPER_PAY_ITEM_MODAL = Symbol('Load a new super pay item');
 export const LOAD_SUPER_PAY_ITEM_MODAL = Symbol('Load a super pay item');

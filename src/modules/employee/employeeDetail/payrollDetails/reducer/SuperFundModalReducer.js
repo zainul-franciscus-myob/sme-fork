@@ -7,6 +7,7 @@ import {
   SELECT_APRA_FUND,
   SET_ABN_LOADING_STATE,
   SET_ABN_STATUS,
+  SET_ACCESS_TOKEN,
   SET_SUPER_FUND_MODAL_ALERT_MESSAGE,
   SET_SUPER_FUND_MODAL_LOADING_STATE,
   SET_SUPER_FUND_MODAL_SUBMITTING_STATE,
@@ -44,6 +45,7 @@ const getDefaultSuperFundState = () => ({
   showContactDetails: false,
   superFundId: '',
   registerPaySuperUrl: '',
+  accessToken: '',
 });
 
 const openSuperFundModal = state => ({
@@ -183,6 +185,11 @@ const saveSuperFundModal = (state, { selectedSuperFundId, superFundOptions }) =>
   superFundOptions,
 });
 
+const setAccessToken = (state, { accessToken }) => ({
+  ...state,
+  accessToken,
+});
+
 export default {
   [OPEN_SUPER_FUND_MODAL]: openSuperFundModal,
   [CLOSE_SUPER_FUND_MODAL]: closeSuperFundModal,
@@ -198,4 +205,5 @@ export default {
   [SELECT_APRA_FUND]: selectAPRAFund,
   [SHOW_CONTACT_DETAILS]: showContactDetails,
   [CREATE_SUPER_FUND]: saveSuperFundModal,
+  [SET_ACCESS_TOKEN]: setAccessToken,
 };

@@ -40,6 +40,7 @@ const SuperFundSelfManagedDetail = ({
         value={superFund.superProductAbn}
         onBlur={onAbnLookUp}
         onChange={handleAmountInputChange(onUpdateSelfManagedFundAbn)}
+        requiredLabel="Fund ABN is required"
       />
       <div className={styles.abnLoader}>
         { isAbnLoading && <Spinner size="small" />}
@@ -61,9 +62,10 @@ const SuperFundSelfManagedDetail = ({
       items={electronicServiceAddresses}
       selectedId={superFund.electronicServiceAddress}
       onChange={onSEAComboboxChange(onUpdateSuperFundDetail)}
+      requiredLabel="ESA is required"
     />
-    <BSBInput name="bankNumber" label="BSB" value={superFund.bankNumber} onChange={handleAmountInputChange(onUpdateSuperFundDetail)} />
-    <AccountNumberInput name="accountNumber" label="Account number" value={superFund.accountNumber} onChange={handleAmountInputChange(onUpdateSuperFundDetail)} />
+    <BSBInput name="bankNumber" label="BSB" value={superFund.bankNumber} requiredLabel="BSB is required" onChange={handleAmountInputChange(onUpdateSuperFundDetail)} />
+    <AccountNumberInput name="accountNumber" label="Account number" value={superFund.accountNumber} requiredLabel="Account number is required" onChange={handleAmountInputChange(onUpdateSuperFundDetail)} />
   </>
 );
 

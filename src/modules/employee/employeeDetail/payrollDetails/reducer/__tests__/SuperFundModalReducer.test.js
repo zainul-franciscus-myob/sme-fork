@@ -2,6 +2,7 @@ import {
   CREATE_SUPER_FUND,
   LOAD_ABN_DETAIL,
   SELECT_APRA_FUND,
+  SET_ACCESS_TOKEN,
   UPDATE_SELF_MANAGED_FUND_ABN,
   UPDATE_SUPER_FUND_DETAIL,
 } from '../../../../EmployeeIntents';
@@ -271,6 +272,23 @@ describe('superFundModalReducer', () => {
       };
 
       const actual = reducers[CREATE_SUPER_FUND](state, action);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('store access token', () => {
+      const state = {
+      };
+
+      const action = {
+        intent: SET_ACCESS_TOKEN,
+        accessToken: 'sometoken',
+      };
+      const expected = {
+        accessToken: 'sometoken',
+      };
+
+      const actual = reducers[SET_ACCESS_TOKEN](state, action);
 
       expect(actual).toEqual(expected);
     });

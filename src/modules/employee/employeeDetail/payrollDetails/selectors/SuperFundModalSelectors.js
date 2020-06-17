@@ -15,6 +15,8 @@ export const getIsPaySuperEnabled = state => state.superFundModal.isPaySuperEnab
 export const getSignUpForPaySuperUrl = state => state.superFundModal.registerPaySuperUrl;
 
 export const getSuperFund = state => state.superFundModal.superFund;
+const getAuthorisationToken = state => state.accessToken;
+
 export const getFundType = state => state.superFundModal.superFund.fundType;
 export const getIsSelfManagedFund = createSelector(
   getFundType,
@@ -47,3 +49,20 @@ export const getSelfManagedSuperFundEnabled = state => (
 export const getShowSelfManagedSuperFundWarning = state => (
   state.superFundModal.showSelfManagedSuperFundWarning
 );
+
+export const getSaveSuperFundPayload = createStructuredSelector({
+  accountNumber: state => state.superFundModal.superFund.accountNumber,
+  bankNumber: state => state.superFundModal.superFund.bankNumber,
+  phoneNumber: getPhoneNumber,
+  name: state => state.superFundModal.superFund.name,
+  electronicServiceAddress: state => state.superFundModal.superFund.electronicServiceAddress,
+  employerMembershipNumber: state => state.superFundModal.superFund.employerMembershipNumber,
+  fundType: getFundType,
+  superProductAbn: state => state.superFundModal.superFund.superProductAbn,
+  superFundIdentifier: state => state.superFundModal.superFund.superFundIdentifier,
+  superProductId: state => state.superFundModal.superFund.superProductId,
+  superProductName: state => state.superFundModal.superFund.superProductName,
+  webSite: getWebSite,
+  isPaySuperFund: getIsPaySuperFund,
+  authorisationToken: getAuthorisationToken,
+});

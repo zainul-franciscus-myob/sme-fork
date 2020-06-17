@@ -54,7 +54,7 @@ import {
   getSaveWagePayItemModalPayload,
   getWagePayItemModalId,
 } from './selectors/WagePayItemModalSelectors';
-import { getSuperFund, getSuperFundAbn } from './selectors/SuperFundModalSelectors';
+import { getSaveSuperFundPayload, getSuperFundAbn } from './selectors/SuperFundModalSelectors';
 import { getTaxPayItemPayload } from './selectors/PayrollTaxSelectors';
 
 const createPayrollDetailsTabIntegrator = (store, integration) => ({
@@ -280,7 +280,7 @@ const createPayrollDetailsTabIntegrator = (store, integration) => ({
     const urlParams = {
       businessId: getBusinessId(state),
     };
-    const content = getSuperFund(state);
+    const content = getSaveSuperFundPayload(state);
 
     integration.write({
       intent,

@@ -32,7 +32,7 @@ import {
   getIsActionDisabled as getIsLeavePayItemModalActionDisabled,
   getIsLeavePayItemModalCreating,
 } from './selectors/LeavePayItemModalSelectors';
-import { getIsActionDisabled as getIsSuperFundModalActionDisabled } from './selectors/SuperFundModalSelectors';
+import { getIsSelfManagedFund, getIsActionDisabled as getIsSuperFundModalActionDisabled } from './selectors/SuperFundModalSelectors';
 import {
   getIsActionDisabled as getIsSuperPayItemModalActionDisabled,
   getIsSuperPayItemModalCreating,
@@ -44,6 +44,7 @@ import {
   getIsWagePayItemModalCreating,
 } from './selectors/WagePayItemModalSelectors';
 import EmployeeDetailPayrollDetails from './components/EmployeeDetailPayrollDetails';
+import StsLoginModule from '../../../stsLogin/StsLoginModule';
 import TaxTableCalculationModalModule from './taxTableCalculationModalModule/TaxTableCalculationModalModule';
 import createPayrollDetailsTabDispatchers from './createPayrollDetailsTabDispatchers';
 import createPayrollDetailsTabIntegrator from './createPayrollDetailsTabIntegrator';
@@ -67,6 +68,11 @@ export default class PayrollDetailsTabModule {
     };
     this.saveEmployee = saveEmployee;
     this.featureToggles = featureToggles;
+    this.stsLoginModal = new StsLoginModule({
+      integration,
+      onLoggedIn: this.onLoggedIn,
+      onCancel: this.closeModal,
+    });
   }
 
   updatePayrollWagePayBasisAndStandardPayItems = ({ value }) => {
@@ -541,6 +547,20 @@ export default class PayrollDetailsTabModule {
     this.integrator.loadAbnDetail({ onSuccess, onFailure });
   };
 
+  onLoggedIn = (accessToken) => {
+    this.dispatcher.setAccessToken(accessToken);
+    this.saveSuperFundModal();
+  };
+
+  validateAcessTokenAndSave = () => {
+    const state = this.store.getState();
+    if (getIsSelfManagedFund) {
+      this.stsLoginModal.run({ businessId: state.businessId });
+    } else {
+      this.saveSuperFundModal();
+    }
+  }
+
   saveSuperFundModal = () => {
     if (getIsSuperFundModalActionDisabled(this.store.getState())) return;
 
@@ -645,9 +665,11 @@ export default class PayrollDetailsTabModule {
   }
 
   getView() {
+    const stsLoginModal = this.stsLoginModal.getView();
     const taxTableCalculationModal = this.subModules.taxTableCalculationModal.render();
     return (
       <>
+        {stsLoginModal}
         {taxTableCalculationModal}
         <EmployeeDetailPayrollDetails
           onSubTabSelected={this.dispatcher.setSubTab}
@@ -725,7 +747,7 @@ export default class PayrollDetailsTabModule {
             onSelectSuperFund: this.dispatcher.selectSuperFund,
             onShowContactDetails: this.dispatcher.showContactDetails,
             onDismissAlert: this.dispatcher.dismissSuperFundModalAlertMessage,
-            onSave: this.saveSuperFundModal,
+            onSave: this.validateAcessTokenAndSave,
             onCancel: this.dispatcher.closeSuperFundModal,
           }}
           onOpenSuperPayItemModal={this.openSuperPayItemModal}
