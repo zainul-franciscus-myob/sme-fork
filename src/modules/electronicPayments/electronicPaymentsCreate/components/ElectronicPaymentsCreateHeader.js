@@ -61,6 +61,7 @@ const ElectronicPaymentsCreateHeader = ({
         requiredLabel="This field is required"
         value={referenceNumber}
         onChange={handleInputChange(onInputChange)}
+        maxLength={13}
       />
       <DatePicker
         name="dateOfPayment"
