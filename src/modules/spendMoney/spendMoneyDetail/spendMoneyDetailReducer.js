@@ -121,6 +121,7 @@ const getDefaultState = () => ({
   showSplitView: false,
   prefillStatus: defaultPrefillStatus,
   showPrefillInfo: false,
+  startOfFinancialYearDate: '',
 });
 
 const pageEdited = { isPageEdited: true };
@@ -252,6 +253,7 @@ const loadNewSpendMoney = (state, action) => {
     isLoading: false,
     pageTitle: action.pageTitle,
     inTrayDocument: { ...state.inTrayDocument, ...action.document },
+    startOfFinancialYearDate: action.startOfFinancialYearDate,
   };
 
   const bankStatementText = getBankStatementText(newState, action.spendMoney.referenceId);
@@ -284,6 +286,7 @@ const loadSpendMoneyDetail = (state, action) => ({
   isLoading: false,
   pageTitle: action.pageTitle,
   attachments: action.attachments,
+  startOfFinancialYearDate: action.startOfFinancialYearDate,
 });
 
 const loadReferenceId = (state, action) => {

@@ -1,4 +1,5 @@
 import { createSelector, createStructuredSelector } from 'reselect';
+import { isBefore } from 'date-fns';
 
 import {
   LOAD_NEW_DUPLICATE_SPEND_MONEY,
@@ -35,6 +36,7 @@ const getBankStatementText = state => state.spendMoney.bankStatementText;
 export const getDuplicateId = (state) => state.duplicateId;
 export const getAbn = (state) => state.abn;
 export const getIsAbnLoading = (state) => state.isAbnLoading;
+export const getStartOfFinancialYearDate = (state) => state.startOfFinancialYearDate;
 
 const getHeadersProperties = createStructuredSelector({
   referenceId: getReferenceId,
@@ -440,4 +442,11 @@ export const getShouldShowAbn = createSelector(
 export const getShouldLoadAbn = createSelector(
   getRegion,
   (region) => region === Region.au,
+);
+
+export const getIsBeforeStartOfFinancialYear = createSelector(
+  getDate,
+  getStartOfFinancialYearDate,
+  (date, startOfFinancialYearDate) => date && startOfFinancialYearDate
+  && isBefore(new Date(date), new Date(startOfFinancialYearDate)),
 );

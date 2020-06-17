@@ -182,5 +182,6 @@
       "name": "Another invoice.pdf",
       "size": 2000000
     }
-  ]
+  ],
+  "startOfFinancialYearDate": "2019-07-01T00:00:00"
 }

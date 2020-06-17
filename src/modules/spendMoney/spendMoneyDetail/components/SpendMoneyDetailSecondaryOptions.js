@@ -1,12 +1,16 @@
-import {
-  DatePicker, Input,
-} from '@myob/myob-widgets';
+import { Input } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classnames from 'classnames';
 
-import { getHeaderOptions, getIsSupplierBlocking, getPrefillStatus } from '../spendMoneyDetailSelectors';
+import {
+  getHeaderOptions,
+  getIsBeforeStartOfFinancialYear,
+  getIsSupplierBlocking,
+  getPrefillStatus,
+} from '../spendMoneyDetailSelectors';
 import BooleanRadioButtonGroup from '../../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
+import DatePicker from '../../../../components/DatePicker/DatePicker';
 import styles from './SpendMoneyDetailSecondaryOptions.module.css';
 
 const SpendMoneyDetailSecondaryOptions = ({
@@ -20,6 +24,7 @@ const SpendMoneyDetailSecondaryOptions = ({
   },
   onUpdateHeaderOptions,
   prefillStatus,
+  isBeforeStartOfFinancialYear,
 }) => {
   const handleInputChange = (e) => {
     const { value, name } = e.target;
@@ -54,6 +59,8 @@ const SpendMoneyDetailSecondaryOptions = ({
           name="Date"
           value={date}
           onSelect={handleDateChange}
+          displayWarning={isBeforeStartOfFinancialYear}
+          warningMessage={'The issue date is set to a previous financial year'}
         />
       </div>
       <BooleanRadioButtonGroup
@@ -73,6 +80,7 @@ const mapStateToProps = state => ({
   isSupplierBlocking: getIsSupplierBlocking(state),
   headerOptions: getHeaderOptions(state),
   prefillStatus: getPrefillStatus(state),
+  isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
 });
 
 export default connect(mapStateToProps)(SpendMoneyDetailSecondaryOptions);

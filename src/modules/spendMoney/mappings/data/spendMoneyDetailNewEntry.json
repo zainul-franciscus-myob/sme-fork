@@ -134,5 +134,6 @@
       "jobName": "Job 3 with an even longer name"
     }
   ],
-  "pageTitle": "Create spend money transaction"
+  "pageTitle": "Create spend money transaction",
+  "startOfFinancialYearDate": "2019-07-01T00:00:00"
 }
