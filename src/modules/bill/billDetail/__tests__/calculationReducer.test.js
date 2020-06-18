@@ -98,8 +98,8 @@ describe('calculationReducer', () => {
   describe('CALCULATE_LINE_AMOUNTS', () => {
     describe('itemAndService layout', () => {
       const buildState = line => ({
-        layout: BillLayout.ITEM_AND_SERVICE,
         bill: {
+          layout: BillLayout.ITEM_AND_SERVICE,
           lines: [line],
         },
       });

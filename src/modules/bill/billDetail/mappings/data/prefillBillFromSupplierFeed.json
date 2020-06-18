@@ -1,12 +1,12 @@
 {
   "bill": {
+    "layout": "itemAndService",
     "supplierId": "3",
     "supplierInvoiceNumber": "1234",
     "issueDate": "2018-11-02",
     "isTaxInclusive": true,
     "expenseAccountId": "123"
   },
-  "layout": "itemAndService",
   "lines": [
     {
       "type": "item",

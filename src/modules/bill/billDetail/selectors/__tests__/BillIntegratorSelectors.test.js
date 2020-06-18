@@ -145,8 +145,8 @@ describe('IntegratorSelectors', () => {
 
   describe('getSaveBillContent', () => {
     const state = {
-      layout: 'item',
       bill: {
+        layout: 'item',
         stuff: 'stuff',
         supplierId: '1',
       },
@@ -214,8 +214,8 @@ describe('IntegratorSelectors', () => {
     ];
 
     const state = {
-      layout: 'someLayout',
       bill: {
+        layout: 'someLayout',
         isTaxInclusive: true,
         amountPaid: '10.00',
         lines,

@@ -293,7 +293,12 @@ describe('BillSelectors', () => {
       [BillLayout.ITEM_AND_SERVICE, false],
       ['N/A', true],
     ])('%s layout', (layout, expected) => {
-      const actual = getIsReadOnly({ layout, bill: { lines: [] } });
+      const actual = getIsReadOnly({
+        bill: {
+          layout,
+          lines: [],
+        },
+      });
 
       expect(actual).toEqual(expected);
     });
@@ -306,8 +311,8 @@ describe('BillSelectors', () => {
       ['N/A', true],
     ])('have %s line type', (type, expected) => {
       const actual = getIsReadOnly({
-        layout: BillLayout.ITEM_AND_SERVICE,
         bill: {
+          layout: BillLayout.ITEM_AND_SERVICE,
           lines: [
             { type: BillLineType.SERVICE },
             { type: BillLineType.ITEM },
@@ -321,8 +326,8 @@ describe('BillSelectors', () => {
 
     it('should be read only when has freight amount', () => {
       const actual = getIsReadOnly({
-        layout: BillLayout.ITEM_AND_SERVICE,
         bill: {
+          layout: BillLayout.ITEM_AND_SERVICE,
           lines: [],
           taxExclusiveFreightAmount: '1',
         },

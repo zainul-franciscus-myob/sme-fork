@@ -1,8 +1,8 @@
 {
-  "layout": "service",
   "bill": {
     "id": "2",
     "uid": "123e4567-e89b-12d3-a456-426655440000",
+    "layout": "service",
     "supplierId": "2",
     "supplierAddress": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
     "supplierInvoiceNumber": "inv012",
@@ -170,7 +170,7 @@
     "taxCodeId": "",
     "lineSubTypeId": ""
   },
-  "itemTemplateOptions": {
+  "template": {
     "defaultTemplate": "b",
     "templateOptions": [
       {
@@ -181,19 +181,6 @@
         "name": "b",
         "label": "banana"
       }
-    ]
-  },
-  "serviceTemplateOptions": {
-    "defaultTemplate": "a",
-    "templateOptions": [
-        {
-          "name": "a",
-          "label": "apple"
-        },
-        {
-          "name": "b",
-          "label": "banana"
-        }
     ]
   },
   "exportPdf": {

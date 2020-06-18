@@ -28,6 +28,8 @@ import loadItemOption from './data/loadItemOption';
 import loadNewBill from './data/loadNewBill';
 import loadNewDuplicateItemAndServiceBill from './data/loadNewDuplicateItemAndServiceBill';
 import loadReadOnlyItemAndServiceBill from './data/loadReadOnlyItemAndServiceBill';
+import loadReadOnlyMiscellaneousBill from './data/loadReadOnlyMiscellaneousBill';
+import loadReadOnlyProfessionalBill from './data/loadReadOnlyProfessionalBill';
 import loadReadOnlyServiceBill from './data/loadReadOnlyServiceBill';
 import loadServiceBill from './data/loadServiceBill';
 import loadServiceBillWithFreight from './data/loadServiceBillWithFreight';
@@ -40,6 +42,12 @@ import updatedLineForItemDetail from './data/updatedLineForItemDetail';
 const MemoryBillDetailMapping = {
   [LOAD_BILL]: ({ urlParams = {}, onSuccess }) => {
     switch (urlParams.billId) {
+      case 'miscellaneous-readonly-id':
+        onSuccess(loadReadOnlyMiscellaneousBill);
+        break;
+      case 'professional-readonly-id':
+        onSuccess(loadReadOnlyProfessionalBill);
+        break;
       case 'service-readonly-id':
         onSuccess(loadReadOnlyServiceBill);
         break;

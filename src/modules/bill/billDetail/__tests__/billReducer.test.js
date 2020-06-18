@@ -196,8 +196,8 @@ describe('billReducer', () => {
   describe('UPDATE_LAYOUT', () => {
     it('updates the bill table layout with the given value', () => {
       const state = {
-        layout: 'something',
         bill: {
+          layout: 'something',
           lines: [],
         },
       };
@@ -209,13 +209,13 @@ describe('billReducer', () => {
 
       const actual = billReducer(state, action);
 
-      expect(actual.layout).toEqual('something else');
+      expect(actual.bill.layout).toEqual('something else');
     });
 
     it('removes all item lines if transitioning to a service layout and clears line id', () => {
       const state = {
-        layout: BillLayout.ITEM_AND_SERVICE,
         bill: {
+          layout: BillLayout.ITEM_AND_SERVICE,
           lines: [
             { type: BillLineType.SERVICE, id: 'something' },
             { type: BillLineType.ITEM_AND_SERVICE, id: 'somethingElse' },
@@ -234,8 +234,8 @@ describe('billReducer', () => {
 
     it('keeps service lines when switching from service to itemAndService layout and clears line id', () => {
       const state = {
-        layout: BillLayout.SERVICE,
         bill: {
+          layout: BillLayout.SERVICE,
           lines: [
             { type: BillLineType.SERVICE, id: 'a' },
           ],
@@ -249,54 +249,6 @@ describe('billReducer', () => {
       const expected = [{ type: BillLineType.SERVICE, id: '' }];
 
       expect(actual.bill.lines).toEqual(expected);
-    });
-
-    it('changes the default template options in export pdf for service', () => {
-      const state = {
-        layout: BillLayout.SERVICE,
-        bill: {
-          lines: [],
-        },
-        itemTemplateOptions: {
-          defaultTemplate: 'a',
-        },
-        serviceTemplateOptions: {
-          defaultTemplate: 'b',
-        },
-        exportPdf: {
-          template: 'b',
-        },
-      };
-
-      const action = { intent: UPDATE_LAYOUT, key: 'layout', value: BillLayout.ITEM_AND_SERVICE };
-
-      const actual = billReducer(state, action);
-
-      expect(actual.exportPdf.template).toEqual('a');
-    });
-
-    it('changes the default template options in export pdf for itemAndService', () => {
-      const state = {
-        layout: BillLayout.ITEM_AND_SERVICE,
-        bill: {
-          lines: [],
-        },
-        itemTemplateOptions: {
-          defaultTemplate: 'a',
-        },
-        serviceTemplateOptions: {
-          defaultTemplate: 'b',
-        },
-        exportPdf: {
-          template: 'a',
-        },
-      };
-
-      const action = { intent: UPDATE_LAYOUT, key: 'layout', value: BillLayout.SERVICE };
-
-      const actual = billReducer(state, action);
-
-      expect(actual.exportPdf.template).toEqual('b');
     });
   });
 
@@ -1073,10 +1025,10 @@ describe('billReducer', () => {
     };
 
     const response = {
-      layout: 'service',
       bill: {
         supplierId: '2',
         supplierInvoiceNumber: '1234',
+        layout: 'service',
         issueDate: '2018-11-02',
         isTaxInclusive: true,
         note: 'Some notes',
@@ -1089,8 +1041,7 @@ describe('billReducer', () => {
       document,
     };
 
-    const buildExpected = ({ layout, bill, prefillStatus }) => ({
-      layout,
+    const buildExpected = ({ bill, prefillStatus }) => ({
       bill,
       inTrayDocument: document,
       newLine: {
@@ -1112,8 +1063,10 @@ describe('billReducer', () => {
 
     it('prefills bill from an OCR document', () => {
       const state = {
-        layout: 'itemAndService',
-        bill: { lines: [] },
+        bill: {
+          layout: 'itemAndService',
+          lines: [],
+        },
         newLine: {
           id: '',
         },
@@ -1130,10 +1083,10 @@ describe('billReducer', () => {
       const actual = billReducer(state, action);
 
       expect(actual).toEqual(buildExpected({
-        layout: 'service',
         bill: {
           supplierId: '2',
           supplierInvoiceNumber: '1234',
+          layout: 'service',
           issueDate: '2018-11-02',
           isTaxInclusive: true,
           note: 'Some notes',
@@ -1157,8 +1110,10 @@ describe('billReducer', () => {
 
     it('prefills bill from a supplier feed', () => {
       const state = {
-        layout: 'service',
-        bill: { lines: [] },
+        bill: {
+          layout: 'service',
+          lines: [],
+        },
         newLine: {
           id: '',
         },
@@ -1171,8 +1126,11 @@ describe('billReducer', () => {
         intent: PREFILL_BILL_FROM_IN_TRAY,
         response: {
           ...response,
-          layout: 'itemAndService',
-          note: 'Some notes',
+          bill: {
+            ...response.bill,
+            layout: 'itemAndService',
+            note: 'Some notes',
+          },
           lines: [
             {
               id: '',
@@ -1188,10 +1146,10 @@ describe('billReducer', () => {
       const actual = billReducer(state, action);
 
       expect(actual).toEqual(buildExpected({
-        layout: 'itemAndService',
         bill: {
           supplierId: '2',
           supplierInvoiceNumber: '1234',
+          layout: 'itemAndService',
           issueDate: '2018-11-02',
           isTaxInclusive: true,
           note: 'Some notes',
@@ -1221,10 +1179,10 @@ describe('billReducer', () => {
 
     it('does not prefill bill when there is user input data, except for issue date', () => {
       const state = {
-        layout: 'itemAndService',
         bill: {
           supplierId: '1',
           supplierInvoiceNumber: '123',
+          layout: 'itemAndService',
           issueDate: '2018-10-02',
           isTaxInclusive: false,
           note: 'Some note typed by the user',
@@ -1248,10 +1206,10 @@ describe('billReducer', () => {
       const actual = billReducer(state, action);
 
       expect(actual).toEqual(buildExpected({
-        layout: 'itemAndService',
         bill: {
           supplierId: '1',
           supplierInvoiceNumber: '123',
+          layout: 'itemAndService',
           issueDate: '2018-11-02',
           isTaxInclusive: false,
           note: 'Some note typed by the user',
@@ -1270,8 +1228,8 @@ describe('billReducer', () => {
 
     it('does not prefill bill lines when there is no in tray data returned', () => {
       const state = {
-        layout: 'service',
         bill: {
+          layout: 'service',
           supplierId: '2',
           supplierInvoiceNumber: '123',
           issueDate: '2018-10-02',
@@ -1289,10 +1247,10 @@ describe('billReducer', () => {
       const action = {
         intent: PREFILL_BILL_FROM_IN_TRAY,
         response: {
-          layout: 'itemAndService',
           bill: {
             supplierId: '',
             supplierInvoiceNumber: '',
+            layout: 'itemAndService',
             issueDate: '',
           },
           lines: [],
@@ -1304,10 +1262,10 @@ describe('billReducer', () => {
       const actual = billReducer(state, action);
 
       expect(actual).toEqual(buildExpected({
-        layout: 'service',
         bill: {
           supplierId: '2',
           supplierInvoiceNumber: '123',
+          layout: 'service',
           issueDate: '2018-10-02',
           isTaxInclusive: true,
           lines: [],
@@ -1325,8 +1283,10 @@ describe('billReducer', () => {
       const supplierOptionA = { id: '1', displayName: 'A' };
       const supplierOptionB = { id: '2', displayName: 'B' };
       const state = {
-        layout: 'itemAndService',
-        bill: { lines: [] },
+        bill: {
+          layout: 'itemAndService',
+          lines: [],
+        },
         newLine: { id: '' },
         isPageEdited: false,
         inTrayDocument: undefined,

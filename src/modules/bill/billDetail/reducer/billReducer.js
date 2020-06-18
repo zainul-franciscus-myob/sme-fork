@@ -62,7 +62,6 @@ import {
   getTaxCalculations,
 } from './calculationReducer';
 import { defaultLinePrefillStatus, defaultPrefillStatus, getDefaultState } from './getDefaultState';
-import BillLayout from '../types/BillLayout';
 import BillLineType from '../types/BillLineType';
 import BillStatus from '../types/BillStatus';
 import LineTaxTypes from '../types/LineTaxTypes';
@@ -111,8 +110,7 @@ const loadBill = (state, action) => {
       ...state.newLine,
       ...action.response.newLine,
     },
-    itemTemplateOptions: action.response.itemTemplateOptions || state.itemTemplateOptions,
-    serviceTemplateOptions: action.response.serviceTemplateOptions || state.serviceTemplateOptions,
+    template: action.response.template || state.template,
     subscription: action.response.subscription
       ? {
         monthlyLimit: action.response.subscription.monthlyLimit,
@@ -191,29 +189,18 @@ const updateBillOption = (state, action) => {
   });
 };
 
-const getDefaultTemplate = (value, itemTemplateOptions, serviceTemplateOptions) => {
-  if (value === BillLayout.ITEM_AND_SERVICE) {
-    return itemTemplateOptions ? itemTemplateOptions.defaultTemplate : '';
-  }
-  return serviceTemplateOptions ? serviceTemplateOptions.defaultTemplate : '';
-};
-
 const updateLayout = (state, { value }) => ({
   ...state,
   isPageEdited: true,
-  layout: value,
   bill: {
     ...state.bill,
+    layout: value,
     lines: state.bill.lines
       .filter(line => line.type === BillLineType.SERVICE)
       .map(line => ({
         ...line,
         id: '',
       })),
-  },
-  exportPdf: {
-    ...state.exportPdf,
-    template: getDefaultTemplate(value, state.itemTemplateOptions, state.serviceTemplateOptions),
   },
 });
 
@@ -422,7 +409,7 @@ const getPrefilledLines = (state, lines, expenseAccountId) => lines.map(
 
 const prefillBillFromInTray = (state, action) => {
   const {
-    layout, bill, lines, document, supplierOptions, abn,
+    bill, lines, document, supplierOptions, abn,
   } = action.response;
 
   const shouldPrefillLines = state.bill.lines.length === 0
@@ -431,11 +418,11 @@ const prefillBillFromInTray = (state, action) => {
   return {
     ...state,
     isPageEdited: true,
-    layout: shouldPrefillLines ? layout : state.layout,
     bill: {
       ...state.bill,
       supplierId: state.bill.supplierId || bill.supplierId,
       supplierInvoiceNumber: state.bill.supplierInvoiceNumber || bill.supplierInvoiceNumber,
+      layout: shouldPrefillLines ? bill.layout : state.bill.layout,
       issueDate: bill.issueDate ? bill.issueDate : state.bill.issueDate,
       isTaxInclusive: shouldPrefillLines ? bill.isTaxInclusive : state.bill.isTaxInclusive,
       originalExpenseAccountId: bill.expenseAccountId || state.bill.originalExpenseAccountId,

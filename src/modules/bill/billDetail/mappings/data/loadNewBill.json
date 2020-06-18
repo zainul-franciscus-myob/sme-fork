@@ -1,6 +1,6 @@
 {
-  "layout": "itemAndService",
   "bill": {
+    "layout": "itemAndService",
     "supplierId": "",
     "supplierAddress": "",
     "supplierInvoiceNumber": "",

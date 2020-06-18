@@ -53,6 +53,30 @@
       "hasAttachment": false
     },
     {
+      "id": "miscellaneous-readonly-id",
+      "number": "00000088",
+      "invoiceNumber": "MISC-READONLY",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "31/01/2020",
+      "billAmount": "-533.42",
+      "balanceDue": 0,
+      "status": "Closed",
+      "dateDue": "2020-01-31T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "professional-readonly-id",
+      "number": "00000089",
+      "invoiceNumber": "PROF-READONLY",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "31/01/2020",
+      "billAmount": "-533.42",
+      "balanceDue": 0,
+      "status": "Closed",
+      "dateDue": "2020-01-31T00:00:00",
+      "hasAttachment": false
+    },
+    {
       "id": "1259",
       "number": "00000087",
       "invoiceNumber": "7903/09402775",

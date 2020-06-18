@@ -12,7 +12,7 @@ import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 export const getBillId = state => state.billId;
-export const getBillLayout = state => state.layout;
+export const getBillLayout = state => state.bill.layout;
 export const getBillUid = state => state.bill.uid;
 export const getDuplicateId = state => state.duplicateId;
 export const getRedirectUrl = state => state.redirectUrl;
@@ -195,6 +195,12 @@ const getIsLineTypeSupported = line => [
 const getIsLayoutSupported = createSelector(
   getBillLayout, layout => [
     BillLayout.SERVICE, BillLayout.ITEM_AND_SERVICE,
+  ].includes(layout),
+);
+
+export const getShowExportPdfButton = createSelector(
+  getBillLayout, layout => [
+    BillLayout.SERVICE, BillLayout.ITEM_AND_SERVICE, BillLayout.PROFESSIONAL,
   ].includes(layout),
 );
 

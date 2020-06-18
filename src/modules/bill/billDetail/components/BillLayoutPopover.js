@@ -12,6 +12,7 @@ const BillLayoutPopover = ({
   layout,
   isCalculating,
   onUpdateLayout,
+  isReadOnly,
 }) => {
   const popoverBody = (
     <RadioButtonGroup
@@ -38,13 +39,21 @@ const BillLayoutPopover = ({
     />
   );
 
+  const triggerButton = (
+    <Button disabled={isReadOnly} type="link" icon={<Icons.Settings />} iconRight>
+      Field layout
+    </Button>
+  );
+
+  const view = isReadOnly ? triggerButton : (
+    <Popover body={popoverBody} preferPlace="below" closeOnOuterAction>
+      {triggerButton}
+    </Popover>
+  );
+
   return (
     <div className={styles.popover}>
-      <Popover body={popoverBody} preferPlace="below" closeOnOuterAction>
-        <Button type="link" icon={<Icons.Settings />} iconRight>
-          Field layout
-        </Button>
-      </Popover>
+      {view}
     </div>
   );
 };

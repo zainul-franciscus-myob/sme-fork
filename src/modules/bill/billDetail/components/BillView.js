@@ -91,17 +91,25 @@ const BillView = ({
   const tableLayoutOption = (
     <BillLayoutPopover
       layout={layout}
+      isReadOnly={isReadOnly}
       isCalculating={isBlocking}
       onUpdateLayout={onUpdateLayout}
     />
   );
+
+  const itemAndServiceTable = (
+    <BillItemAndServiceTable listeners={itemAndServiceLayoutListeners} />
+  );
+
+  const serviceTable = (
+    <BillServiceTable listeners={serviceLayoutListeners} />
+  );
+
   const table = {
-    [BillLayout.ITEM_AND_SERVICE]: (
-      <BillItemAndServiceTable listeners={itemAndServiceLayoutListeners} />
-    ),
-    [BillLayout.SERVICE]: (
-      <BillServiceTable listeners={serviceLayoutListeners} />
-    ),
+    [BillLayout.ITEM_AND_SERVICE]: itemAndServiceTable,
+    [BillLayout.SERVICE]: serviceTable,
+    [BillLayout.PROFESSIONAL]: serviceTable,
+    [BillLayout.MISCELLANEOUS]: serviceTable,
   }[layout];
 
   const stickyHeader = (

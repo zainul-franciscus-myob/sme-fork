@@ -1,6 +1,6 @@
 {
-  "layout": "itemAndService",
   "bill": {
+    "layout": "itemAndService",
     "supplierId": "2",
     "supplierAddress": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
     "supplierInvoiceNumber": "inv012",

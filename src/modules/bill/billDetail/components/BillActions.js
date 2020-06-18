@@ -4,13 +4,19 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsBlocking, getIsCreating, getIsReadOnly } from '../selectors/billSelectors';
+import {
+  getIsBlocking,
+  getIsCreating,
+  getIsReadOnly,
+  getShowExportPdfButton,
+} from '../selectors/billSelectors';
 import SaveActionType from '../types/SaveActionType';
 
 const BillActions = ({
   isCreating,
   isBlocking,
   isReadOnly,
+  showExportPdfButton,
   onSaveButtonClick,
   onSaveAndButtonClick,
   onCancelButtonClick,
@@ -127,6 +133,7 @@ const BillActions = ({
         ]}
         secondary={[
           !isCreating && createPaymentButton,
+          showExportPdfButton && exportPdfButton,
         ]}
       />);
   }
@@ -152,6 +159,7 @@ const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   isBlocking: getIsBlocking(state),
   isReadOnly: getIsReadOnly(state),
+  showExportPdfButton: getShowExportPdfButton(state),
 });
 
 export default connect(mapStateToProps)(BillActions);

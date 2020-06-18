@@ -156,9 +156,11 @@ export const getInTrayDocumentUrlParams = createSelector(
   getBusinessId,
   getInTrayDocumentId,
   getAttachmentId,
-  (businessId, inTrayDocumentId, attachmentId) => ({
+  getBillLayout,
+  (businessId, inTrayDocumentId, attachmentId, billLayout) => ({
     businessId,
     inTrayDocumentId: inTrayDocumentId || attachmentId,
+    billLayout,
   }),
 );
 

@@ -26,9 +26,9 @@ export const getDefaultState = () => ({
   duplicateId: '',
   openExportPdf: undefined,
   region: '',
-  layout: '',
   bill: {
     uid: '',
+    layout: '',
     supplierId: '',
     supplierAddress: '',
     supplierInvoiceNumber: '',
@@ -106,11 +106,7 @@ export const getDefaultState = () => ({
   inTrayDocumentUrl: undefined,
   showPrefillInfo: false,
   prefillStatus: defaultPrefillStatus,
-  itemTemplateOptions: {
-    templateOptions: [],
-    defaultTemplate: '',
-  },
-  serviceTemplateOptions: {
+  template: {
     templateOptions: [],
     defaultTemplate: '',
   },
