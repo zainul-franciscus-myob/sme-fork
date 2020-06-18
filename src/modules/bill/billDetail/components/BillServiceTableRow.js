@@ -81,7 +81,7 @@ const BillServiceTableRow = ({
         name="description"
         value={description}
         onChange={onChange}
-        maxLength={255}
+        maxLength={1000}
         autoSize
         disabled={isBlocking || isSupplierDisabled || isReadOnly}
       />

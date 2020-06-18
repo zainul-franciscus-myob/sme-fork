@@ -115,7 +115,7 @@ const BillItemAndServiceTableRow = ({
           value={description}
           onChange={onChange}
           disabled={isBlocking || isSupplierDisabled || isReadOnly}
-          maxLength={255}
+          maxLength={1000}
         />
       </div>
       <AccountCombobox

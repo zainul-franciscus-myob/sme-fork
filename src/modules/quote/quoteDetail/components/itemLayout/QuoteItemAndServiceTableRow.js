@@ -114,6 +114,7 @@ const QuoteItemAndServiceTableRow = ({
       onChange={onChange}
       disabled={isCalculating || isReadOnly}
       autoSize
+      maxLength={1000}
     />
     <AccountCombobox
       label="Allocate to"

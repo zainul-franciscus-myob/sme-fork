@@ -94,6 +94,7 @@ const QuoteServiceTableRow = ({
         onChange={onChange}
         autoSize
         disabled={isReadOnly}
+        maxLength={1000}
       />
       <AccountCombobox
         label="Allocate to"

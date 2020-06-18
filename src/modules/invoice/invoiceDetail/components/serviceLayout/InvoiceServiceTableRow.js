@@ -94,6 +94,7 @@ const InvoiceServiceTableRow = ({
         value={description}
         onChange={onChange}
         disabled={isSubmitting || isReadOnly}
+        maxLength={1000}
       />
       <AccountCombobox
         label="Account"
