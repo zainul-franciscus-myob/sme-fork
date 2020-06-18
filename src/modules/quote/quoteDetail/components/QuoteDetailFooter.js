@@ -64,10 +64,10 @@ const QuoteDetailFooter = ({
       />
     </div>
     <LineItemTable.Total>
-      <LineItemTable.Totals title="Subtotal" amount={subTotal} />
+      <LineItemTableTotalsFormattedCurrency title="Subtotal" amount={subTotal} />
       { showFreight && <LineItemTableTotalsFormattedCurrency title="Freight" amount={freightAmount} note={freightTaxCode} /> }
-      <LineItemTable.Totals title={taxLabel} amount={totalTax} />
-      <LineItemTable.Totals totalAmount title="Total" amount={totalAmount} />
+      <LineItemTableTotalsFormattedCurrency title={taxLabel} amount={totalTax} />
+      <LineItemTableTotalsFormattedCurrency title="Total" amount={totalAmount} />
     </LineItemTable.Total>
   </div>
 );

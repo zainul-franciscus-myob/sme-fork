@@ -53,7 +53,6 @@ export const canShowFreight = state => !!Number(state.quote.taxExclusiveFreightA
 const getNewLine = state => state.newLine;
 
 export const getLineTotals = state => state.totals;
-export const getTotalAmount = state => state.totals.totalAmount;
 
 const getContactOptions = state => state.contactOptions;
 export const getExpirationTermOptions = state => state.expirationTermOptions;

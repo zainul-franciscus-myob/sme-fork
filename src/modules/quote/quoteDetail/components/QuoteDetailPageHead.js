@@ -7,19 +7,23 @@ import {
   getIsCreating,
   getIsReadOnly,
   getPageTitle,
-  getTotalAmount,
+  getTotals,
 } from '../selectors/QuoteDetailSelectors';
+import TotalsHeaderItemFormattedCurrency
+  from '../../../../components/TotalsHeader/TotalsHeaderItemFormattedCurrency';
 
 const QuoteDetailPageHead = ({
   isCreating,
   isActionsDisabled,
   isReadOnly,
-  totalAmount,
+  totals: {
+    totalAmount,
+  },
   pageTitle,
   onConvertToInvoiceButtonClick,
 }) => {
   const totalItems = !isCreating && [
-    <TotalsHeader.TotalItem
+    <TotalsHeaderItemFormattedCurrency
       key="totalAmount"
       label="Total amount"
       count={totalAmount}
@@ -44,7 +48,7 @@ const QuoteDetailPageHead = ({
 const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   isActionsDisabled: getIsActionsDisabled(state),
-  totalAmount: getTotalAmount(state),
+  totals: getTotals(state),
   pageTitle: getPageTitle(state),
   isReadOnly: getIsReadOnly(state),
 });
