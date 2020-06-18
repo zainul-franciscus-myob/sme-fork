@@ -42,7 +42,7 @@ const QuoteDetailFooter = ({
     <div className={styles.note}>
       <Combobox
         name="note"
-        label="Message to customer"
+        label="Notes to customer"
         hideLabel={false}
         metaData={[
           { columnName: 'value', showData: true },
@@ -55,7 +55,7 @@ const QuoteDetailFooter = ({
         value={note}
         resize="vertical"
         name="note"
-        label="Message to customer"
+        label="Notes to customer"
         hideLabel
         rows={3}
         onChange={handleInputChange(onUpdateNote)}
