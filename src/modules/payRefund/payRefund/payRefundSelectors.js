@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { isBefore } from 'date-fns';
 
 export const getBusinessId = state => state.businessId;
 
@@ -26,6 +27,10 @@ export const getAccountOptions = state => state.accountOptions;
 
 export const getRefund = state => state.refund;
 
+export const getRefundDate = state => state.refund.date;
+
+export const getStartOfFinancialYearDate = state => state.startOfFinancialYearDate;
+
 const getReferenceId = state => state.refund.referenceId;
 
 export const getTitle = createSelector(
@@ -41,3 +46,11 @@ export const isReferenceIdDirty = (state) => {
   const { referenceId, originalReferenceId } = getRefund(state);
   return referenceId !== originalReferenceId;
 };
+
+export const getIsBeforeStartOfFinancialYear = createSelector(
+  getStartOfFinancialYearDate, getRefundDate,
+  (startOfFinancialYearDate, date) => (
+    date && startOfFinancialYearDate
+      && isBefore(new Date(date), new Date(startOfFinancialYearDate))
+  ),
+);

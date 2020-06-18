@@ -1,15 +1,16 @@
 import {
-  DatePicker, DetailHeader, Input, TextArea,
+  DetailHeader, Input, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAccountOptions, getContactOptions, getIsCreating, getRefund,
+  getAccountOptions, getContactOptions, getIsBeforeStartOfFinancialYear, getIsCreating, getRefund,
 } from '../payRefundSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
+import DatePicker from '../../../../components/DatePicker/DatePicker';
 
 const onInputChange = handler => (e) => {
   const { value, name } = e.target;
@@ -36,6 +37,7 @@ const PayRefundDetail = (props) => {
     contactOptions,
     accountOptions,
     onRefundDetailsChange,
+    isBeforeStartOfFinancialYear,
   } = props;
 
   const {
@@ -106,6 +108,8 @@ const PayRefundDetail = (props) => {
         name="date"
         label="Date"
         value={date}
+        displayWarning={isBeforeStartOfFinancialYear}
+        warningMessage={'The issue date is set to a previous financial year'}
         onSelect={handleDateChange(onRefundDetailsChange, 'date')}
         requiredLabel={requiredLabel}
         disabled={!isCreating}
@@ -121,6 +125,7 @@ const mapStateToProps = state => ({
   refund: getRefund(state),
   contactOptions: getContactOptions(state),
   accountOptions: getAccountOptions(state),
+  isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
 });
 
 export default connect(mapStateToProps)(PayRefundDetail);

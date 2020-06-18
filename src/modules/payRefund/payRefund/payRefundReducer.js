@@ -35,6 +35,7 @@ const getDefaultState = () => ({
   isSubmitting: false,
   modalType: '',
   alert: undefined,
+  startOfFinancialYearDate: '',
 });
 
 const setInitialState = (state, action) => ({
@@ -78,6 +79,7 @@ const loadRefund = (state, action) => ({
   },
   contactOptions: action.contactOptions,
   accountOptions: action.accountOptions,
+  startOfFinancialYearDate: action.startOfFinancialYearDate,
 });
 
 const loadReferenceId = (state, action) => ({
