@@ -1,4 +1,4 @@
-import { DatePicker, Input } from '@myob/myob-widgets';
+import { Input } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classnames from 'classnames';
@@ -8,6 +8,7 @@ import {
   getExpirationDays,
   getExpirationTerm,
   getExpirationTermOptions,
+  getIsBeforeFYAndAfterConversionDate,
   getIsBlocking,
   getIsReadOnly,
   getIsSupplierBlocking,
@@ -19,6 +20,7 @@ import {
 } from '../selectors/billSelectors';
 import { getPrefillStatus } from '../selectors/BillInTrayDocumentSelectors';
 import BooleanRadioButtonGroup from '../../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
+import DatePicker from '../../../../components/DatePicker/DatePicker';
 import PaymentTerms from '../../../../components/PaymentTerms/PaymentTerms';
 import handleDateChange from '../../../../components/handlers/handleDateChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
@@ -39,6 +41,7 @@ const BillSecondaryOptions = ({
   isReadOnly,
   prefillStatus,
   onUpdateBillOption,
+  isBeforeFYAndAfterConversionDate,
 }) => (
   <React.Fragment>
     <Input
@@ -69,6 +72,8 @@ const BillSecondaryOptions = ({
         requiredLabel="This is required"
         onSelect={handleDateChange('issueDate', onUpdateBillOption)}
         disabled={isReadOnly}
+        displayWarning={isBeforeFYAndAfterConversionDate}
+        warningMessage={'The issue date is set to a previous financial year'}
       />
     </div>
     <PaymentTerms
@@ -106,6 +111,7 @@ const mapStateToProps = state => ({
   isSupplierDisabled: getIsSupplierBlocking(state),
   prefillStatus: getPrefillStatus(state),
   isReadOnly: getIsReadOnly(state),
+  isBeforeFYAndAfterConversionDate: getIsBeforeFYAndAfterConversionDate(state),
 });
 
 export default connect(mapStateToProps)(BillSecondaryOptions);

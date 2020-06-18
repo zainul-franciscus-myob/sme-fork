@@ -1,5 +1,6 @@
 import { Decimal } from 'decimal.js';
 import { createSelector } from 'reselect';
+import { isBefore } from 'date-fns';
 
 import BillLayout from '../types/BillLayout';
 import BillLineType from '../types/BillLineType';
@@ -61,6 +62,9 @@ export const getTaxExclusiveLabel = state => getRegionToDialectText(state.region
 
 export const getIsModalShown = state => Boolean(state.modalType);
 export const getIsAlertShown = state => Boolean(state.alert);
+
+const getConversionDate = state => state.conversionDate;
+const getStartOfFinancialYearDate = state => state.startOfFinancialYearDate;
 
 export const getIsCreating = createSelector(
   getBillId,
@@ -302,5 +306,31 @@ export const getFreightTaxCode = createSelector(
   getTaxCodeOptions,
   (freightTaxCodeId, taxCodeOptions) => (
     taxCodeOptions.find(taxCode => taxCode.id === freightTaxCodeId)?.displayName
+  ),
+);
+
+const getIsBeforeConversionDate = createSelector(
+  getIssueDate,
+  getConversionDate,
+  (issueDate, conversionDate) => (
+    issueDate && conversionDate
+    && isBefore(new Date(issueDate), new Date(conversionDate))
+  ),
+);
+
+const getIsBeforeStartOfFinancialYear = createSelector(
+  getIssueDate,
+  getStartOfFinancialYearDate,
+  (issueDate, startOfFinancialYearDate) => (
+    issueDate && startOfFinancialYearDate
+    && isBefore(new Date(issueDate), new Date(startOfFinancialYearDate))
+  ),
+);
+
+export const getIsBeforeFYAndAfterConversionDate = createSelector(
+  getIsBeforeConversionDate,
+  getIsBeforeStartOfFinancialYear,
+  (isBeforeConversionDate, isBeforeStartOfFinancialYear) => (
+    !isBeforeConversionDate && isBeforeStartOfFinancialYear
   ),
 );

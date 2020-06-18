@@ -203,5 +203,7 @@
   "inTrayDocument": {
     "thumbnailUrl": "https://assets.digital.myob.com/images/favicons/apple-touch-icon.png",
     "uploadedDate": "04/04/2019"
-  }
+  },
+  "conversionDate": "2014-07-23T00:00:00",
+  "startOfFinancialYearDate": "2019-07-01T00:00:00"
 }

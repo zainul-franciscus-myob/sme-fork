@@ -119,4 +119,6 @@ export const getDefaultState = () => ({
   },
   abn: undefined,
   showSplitView: false,
+  conversionDate: '',
+  startOfFinancialYearDate: '',
 });
