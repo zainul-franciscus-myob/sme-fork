@@ -105,7 +105,7 @@ const SpendMoneyDetailRow = (props) => {
       <div className={classnames({ [styles.prefilled]: Boolean(prefillStatus.description) })}>
         <TextArea
           label="Description"
-          maxLength={255}
+          maxLength={1000}
           hideLabel
           rows={1}
           autoSize

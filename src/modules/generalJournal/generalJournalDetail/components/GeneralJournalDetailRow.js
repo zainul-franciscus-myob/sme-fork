@@ -107,6 +107,7 @@ const GeneralJournalDetailRow = ({
         rows={1}
         autoSize
         label="Description"
+        maxLength={1000}
         hideLabel
         name="description"
         value={description}

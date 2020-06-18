@@ -101,6 +101,7 @@ const ReceiveMoneyDetailRow = ({
         disabled={isSubmitting}
       />
       <TextArea
+        maxLength={1000}
         label="Description"
         hideLabel
         rows={1}
