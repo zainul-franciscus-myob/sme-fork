@@ -62,8 +62,9 @@ export const getSubmitApplicationBody = (state) => {
   const getOptional = (getRequired, getValue) => (getRequired(state) ? getValue(state) : undefined);
 
   const bankAccount = getOptional(getIsBankAccount, () => ({
-    branchName: getOptional(getBranchNameRequired, getBranchName),
     accountName: getOptional(getAccountNameRequired, getAccountName),
+    bankName: finIns.code,
+    branchName: getOptional(getBranchNameRequired, getBranchName),
     BSB: getOptional(getBsbRequired, getBsb),
     BSBBank: getOptional(getBsbBankRequired, getBsbBank),
     BSBBranch: getOptional(getBsbBranchRequired, getBsbBranch),
