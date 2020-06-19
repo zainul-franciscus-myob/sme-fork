@@ -31,6 +31,7 @@ import styles from './SpendMoneyDetailView.module.css';
 const SpendMoneyDetailView = ({
   accountModal,
   contactModal,
+  jobModal,
   onUpdateHeaderOptions,
   onSaveButtonClick,
   onSaveAndButtonClick,
@@ -51,6 +52,7 @@ const SpendMoneyDetailView = ({
   modal,
   onAddAccount,
   onAddContact,
+  onAddJob,
   onUpdateRow,
   onAddRow,
   onRemoveRow,
@@ -114,6 +116,7 @@ const SpendMoneyDetailView = ({
       onRemoveRow={onRemoveRow}
       onRowInputBlur={onRowInputBlur}
       onAddAccount={onAddAccount}
+      onAddJob={onAddJob}
     />
   );
 
@@ -126,6 +129,7 @@ const SpendMoneyDetailView = ({
       {inTrayDocumentView}
       {accountModal}
       {contactModal}
+      {jobModal}
       {modal && (
         <SpendMoneyModal
           modal={modal}

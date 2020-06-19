@@ -3,6 +3,7 @@ import {
   DELETE_RECEIVE_MONEY,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
+  LOAD_JOB_AFTER_CREATE,
   UPDATE_RECEIVE_MONEY,
 } from '../ReceiveMoneyIntents';
 import {
@@ -11,6 +12,7 @@ import {
 import {
   getLoadAddedAccountUrlParams,
   getLoadAddedContactUrlParams,
+  getLoadAddedJobUrlParams,
   getLoadReceiveMoneyIntent,
   getReceiveMoneyForCreatePayload,
   getReceiveMoneyForUpdatePayload,
@@ -83,6 +85,15 @@ const createReceiveMoneyDetailIntegrator = ({ store, integration }) => ({
       urlParams,
       onSuccess,
       onFailure,
+    });
+  },
+  loadJobAfterCreate: ({ id, onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = LOAD_JOB_AFTER_CREATE;
+    const urlParams = getLoadAddedJobUrlParams(state, id);
+
+    integration.read({
+      intent, urlParams, onSuccess, onFailure,
     });
   },
 });

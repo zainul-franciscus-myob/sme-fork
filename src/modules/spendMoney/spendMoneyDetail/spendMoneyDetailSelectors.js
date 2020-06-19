@@ -37,6 +37,7 @@ export const getDuplicateId = (state) => state.duplicateId;
 export const getAbn = (state) => state.abn;
 export const getIsAbnLoading = (state) => state.isAbnLoading;
 export const getStartOfFinancialYearDate = (state) => state.startOfFinancialYearDate;
+export const getIsJobComboboxDisabled = state => state.isJobLoading;
 
 const getHeadersProperties = createStructuredSelector({
   referenceId: getReferenceId,
@@ -387,6 +388,13 @@ export const getAccountModalContext = (state) => {
   return { businessId, region };
 };
 
+export const getJobModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region };
+};
+
 export const getContactModalContext = (state) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);
@@ -450,3 +458,8 @@ export const getIsBeforeStartOfFinancialYear = createSelector(
   (date, startOfFinancialYearDate) => date && startOfFinancialYearDate
   && isBefore(new Date(date), new Date(startOfFinancialYearDate)),
 );
+
+export const getLoadAddedJobUrlParams = (state, jobId) => {
+  const businessId = getBusinessId(state);
+  return { businessId, jobId };
+};

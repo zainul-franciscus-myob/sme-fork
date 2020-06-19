@@ -17,6 +17,7 @@ import ReceiveMoneyDetailTable from './ReceiveMoneyDetailTable';
 const ReceiveMoneyDetailView = ({
   accountModal,
   contactModal,
+  jobModal,
   onUpdateHeaderOptions,
   onSaveButtonClick,
   onSaveAndButtonClick,
@@ -36,6 +37,7 @@ const ReceiveMoneyDetailView = ({
   onRowInputBlur,
   onAddAccount,
   onAddContact,
+  onAddJob,
 }) => {
   const templateOptions = (
     <ReceiveMoneyDetailOptions
@@ -80,12 +82,14 @@ const ReceiveMoneyDetailView = ({
         }
         {accountModal}
         {contactModal}
+        { jobModal }
         <ReceiveMoneyDetailTable
           onUpdateRow={onUpdateRow}
           onAddRow={onAddRow}
           onRemoveRow={onRemoveRow}
           onRowInputBlur={onRowInputBlur}
           onAddAccount={onAddAccount}
+          onAddJob={onAddJob}
         />
       </LineItemTemplate>
     </React.Fragment>

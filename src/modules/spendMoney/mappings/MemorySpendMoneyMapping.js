@@ -6,6 +6,7 @@ import {
   LOAD_ABN_FROM_CONTACT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_DUPLICATE_SPEND_MONEY,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
@@ -22,6 +23,7 @@ import attachmentDetailResponse from './data/attachmentDetail';
 import createSpendMoneyResponse from './data/createSpendMoney';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadAddedContactResponse from './data/loadAddedContactResponse';
+import loadAddedJobResponse from './data/loadAddedJobResponse';
 import newDuplicateSpendMoneyDetailEntry from './data/loadNewDuplicateSpendMoneyDetailEntry';
 import spendMoneyDetailEntry from './data/spendMoneyDetailEntry';
 import spendMoneyDetailPrefillResponse from './data/spendMoneyDetailPrefill';
@@ -70,6 +72,7 @@ const MemorySpendMoneyMapping = {
   [REMOVE_ATTACHMENT]: removeAttachment,
   [OPEN_ATTACHMENT]: openAttachment,
   [DOWNLOAD_IN_TRAY_DOCUMENT]: downloadInTrayDocument,
+  [LOAD_JOB_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedJobResponse),
   [PREFILL_DATA_FROM_IN_TRAY]: prefillDataFromInTray,
   [LINK_IN_TRAY_DOCUMENT]: linkInTrayDocument,
   [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedAccountResponse),

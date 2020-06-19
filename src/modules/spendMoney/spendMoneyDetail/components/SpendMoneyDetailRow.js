@@ -5,6 +5,7 @@ import classnames from 'classnames';
 
 import {
   getAccountOptions,
+  getIsJobComboboxDisabled,
   getIsSpendMoneyJobColumnEnabled,
   getIsSubmitting,
   getIsSupplierBlocking,
@@ -48,9 +49,11 @@ const SpendMoneyDetailRow = (props) => {
     accountOptions,
     taxCodeOptions,
     jobOptions,
+    isJobComboboxDisabled,
     isSupplierBlocking,
     isSubmitting,
     onAddAccount,
+    onAddJob,
     isSpendMoneyJobColumnEnabled,
     ...feelixInjectedProps
   } = props;
@@ -120,7 +123,8 @@ const SpendMoneyDetailRow = (props) => {
         onChange={onChangeJobId}
         items={jobOptions}
         selectedId={jobId}
-        disabled={isSubmitting}
+        disabled={isSubmitting || isJobComboboxDisabled}
+        addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
         allowClear
         left
       />}
@@ -145,6 +149,7 @@ const makeMapRowStateToProps = () => {
     taxCodeOptions: getTaxCodeOptions(state),
     jobOptions: getJobOptions(state),
     isSpendMoneyJobColumnEnabled: getIsSpendMoneyJobColumnEnabled(state),
+    isJobComboboxDisabled: getIsJobComboboxDisabled(state),
     isSupplierBlocking: getIsSupplierBlocking(state),
     isSubmitting: getIsSubmitting(state),
   });

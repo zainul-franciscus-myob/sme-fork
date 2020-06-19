@@ -11,6 +11,7 @@ import {
   LOAD_ABN_FROM_CONTACT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_DUPLICATE_SPEND_MONEY,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
@@ -27,6 +28,7 @@ import {
   SET_ALERT,
   SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_URL,
+  SET_JOB_LOADING_STATE,
   SET_LOADING_STATE,
   SET_OPERATION_IN_PROGRESS_STATE,
   SET_PREFILL_INTRAY_DOCUMENT_ID,
@@ -122,6 +124,7 @@ const getDefaultState = () => ({
   prefillStatus: defaultPrefillStatus,
   showPrefillInfo: false,
   startOfFinancialYearDate: '',
+  isJobLoading: false,
 });
 
 const pageEdited = { isPageEdited: true };
@@ -639,6 +642,19 @@ const clearAbn = (state) => ({
   abn: undefined,
 });
 
+const loadJobAfterCreate = (state, { intent, ...job }) => ({
+  ...state,
+  jobs: [
+    job,
+    ...state.jobs,
+  ],
+  isPageEdited: true,
+});
+
+const setJobLoadingState = (state, { isJobLoading }) => (
+  { ...state, isJobLoading }
+);
+
 const handlers = {
   [UPDATE_SPEND_MONEY_HEADER]: updateHeader,
   [LOAD_NEW_SPEND_MONEY]: loadNewSpendMoney,
@@ -675,6 +691,8 @@ const handlers = {
   [HIDE_PREFILL_INFO]: hidePrefillInfo,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [LOAD_CONTACT_AFTER_CREATE]: loadContactAfterCreate,
+  [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
+  [SET_JOB_LOADING_STATE]: setJobLoadingState,
   [RESET_BANK_STATEMENT_TEXT]: resetBankStatementText,
   [UPDATE_BANK_STATEMENT_TEXT]: updateBankStatementText,
   [SET_DUPLICATE_ID]: setDuplicateId,

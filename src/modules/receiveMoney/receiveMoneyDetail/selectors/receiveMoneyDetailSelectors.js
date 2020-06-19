@@ -47,6 +47,7 @@ export const getHeaderOptions = createStructuredSelector({
 export const getAlertMessage = state => state.alertMessage;
 export const getAlert = state => state.alert;
 export const getLoadingState = state => state.loadingState;
+export const getIsJobComboboxDisabled = state => state.isJobLoading;
 
 export const getDefaultTaxCodeId = ({ accountId, accountOptions }) => {
   const account = accountOptions.find(({ id }) => id === accountId);
@@ -139,6 +140,13 @@ export const getAccountModalContext = createSelector(
 );
 
 export const getContactModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region };
+};
+
+export const getJobModalContext = (state) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);
 

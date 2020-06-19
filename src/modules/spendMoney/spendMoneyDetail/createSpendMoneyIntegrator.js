@@ -6,6 +6,7 @@ import {
   LOAD_ABN_FROM_CONTACT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_REFERENCE_ID,
   LOAD_SUPPLIER_EXPENSE_ACCOUNT,
   OPEN_ATTACHMENT,
@@ -18,6 +19,7 @@ import {
   getBusinessId,
   getLoadAddedAccountUrlParams,
   getLoadAddedContactUrlParams,
+  getLoadAddedJobUrlParams,
   getLoadContactDetailUrlParams,
   getLoadSpendMoneyIntent,
   getLoadSpendMoneyRequestParams,
@@ -248,6 +250,16 @@ const createSpendMoneyIntegrator = (store, integration) => ({
       urlParams,
       onSuccess,
       onFailure,
+    });
+  },
+
+  loadJobAfterCreate: ({ id, onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = LOAD_JOB_AFTER_CREATE;
+    const urlParams = getLoadAddedJobUrlParams(state, id);
+
+    integration.read({
+      intent, urlParams, onSuccess, onFailure,
     });
   },
 

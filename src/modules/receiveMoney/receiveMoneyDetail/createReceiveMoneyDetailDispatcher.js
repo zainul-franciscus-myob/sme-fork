@@ -5,11 +5,13 @@ import {
   GET_TAX_CALCULATIONS,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
+  LOAD_JOB_AFTER_CREATE,
   OPEN_MODAL,
   RESET_TOTALS,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
   SET_DUPLICATE_ID,
+  SET_JOB_LOADING_STATE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_RECEIVE_MONEY_HEADER,
@@ -144,6 +146,12 @@ const createReceiveMoneyDetailDispatcher = ({ store }) => ({
   loadContactAfterCreate: payload => store.dispatch({
     intent: LOAD_CONTACT_AFTER_CREATE,
     ...payload,
+  }),
+  loadJobAfterCreate: (jobId, payload) => store.dispatch({
+    intent: LOAD_JOB_AFTER_CREATE, jobId, ...payload,
+  }),
+  setJobLoadingState: isJobLoading => store.dispatch({
+    intent: SET_JOB_LOADING_STATE, isJobLoading,
   }),
   setDuplicateId: duplicateId => store.dispatch({
     intent: SET_DUPLICATE_ID,

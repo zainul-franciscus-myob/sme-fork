@@ -4,6 +4,7 @@ import {
   GET_TAX_CALCULATIONS,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
+  LOAD_JOB_AFTER_CREATE,
   UPDATE_RECEIVE_MONEY_HEADER,
   UPDATE_RECEIVE_MONEY_LINE,
 } from '../../ReceiveMoneyIntents';
@@ -302,6 +303,43 @@ describe('receiveMoneyDetailReducer', () => {
       const action = {
         intent: LOAD_ACCOUNT_AFTER_CREATE,
         thisIsAnAccount: false,
+      };
+
+      const actual = receiveMoneyReducer(state, action);
+
+      expect(actual.isPageEdited).toEqual(true);
+    });
+  });
+
+  describe('LOAD_JOB_AFTER_CREATE', () => {
+    it('merges new job payload into job options', () => {
+      const state = {
+        jobOptions: [{ jobName: 'job name', jobNumber: 'job number' }],
+      };
+
+      const action = {
+        intent: LOAD_JOB_AFTER_CREATE,
+        jobName: 'new added job',
+        jobNumber: 'job number 2',
+      };
+
+      const actual = receiveMoneyReducer(state, action);
+
+      expect(actual.jobOptions).toEqual([
+        { jobName: 'new added job', jobNumber: 'job number 2' },
+        { jobName: 'job name', jobNumber: 'job number' },
+      ]);
+    });
+
+    it('sets page state to edited', () => {
+      const state = {
+        jobOptions: [{ jobName: 'job name', jobNumber: 'job number' }],
+      };
+
+      const action = {
+        intent: LOAD_JOB_AFTER_CREATE,
+        jobName: 'new added job',
+        jobNumber: 'job number 2',
       };
 
       const actual = receiveMoneyReducer(state, action);

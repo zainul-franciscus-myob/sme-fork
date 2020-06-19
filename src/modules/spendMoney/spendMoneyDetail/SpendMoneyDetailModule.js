@@ -26,6 +26,7 @@ import {
   getIsSubmitting,
   getIsTableEmpty,
   getIsTaxInclusive,
+  getJobModalContext,
   getLinesForTaxCalculation,
   getLinkInTrayContentWithoutSpendMoneyId,
   getModal,
@@ -45,6 +46,7 @@ import {
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
 import FeatureToggle from '../../../FeatureToggles';
+import JobModalModule from '../../job/jobModal/JobModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './components/ModalType';
 import SaveActionType from './components/SaveActionType';
@@ -74,6 +76,7 @@ export default class SpendMoneyDetailModule {
 
     this.accountModalModule = new AccountModalModule({ integration });
     this.contactModalModule = new ContactModalModule({ integration });
+    this.jobModalModule = new JobModalModule({ integration });
   }
 
   openAccountModal = (onChange) => {
@@ -102,6 +105,36 @@ export default class SpendMoneyDetailModule {
     };
 
     this.integrator.loadAccountAfterCreate({ id, onSuccess, onFailure });
+  };
+
+  openJobModal = (onChange) => {
+    const state = this.store.getState();
+    const context = getJobModalContext(state);
+
+    this.jobModalModule.run({
+      context,
+      onLoadFailure: message => this.displayFailureAlert(message),
+      onSaveSuccess: payload => this.loadJobAfterCreate(payload, onChange),
+    });
+  };
+
+  loadJobAfterCreate = ({ message, id }, onChange) => {
+    this.jobModalModule.resetState();
+    this.dispatcher.setAlert({ type: 'success', message });
+    this.dispatcher.setJobLoadingState(true);
+
+    const onSuccess = (payload) => {
+      const job = { ...payload, id };
+      this.dispatcher.setJobLoadingState(false);
+      this.dispatcher.loadJobAfterCreate(id, job);
+      onChange(job);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setJobLoadingState(false);
+    };
+
+    this.integrator.loadJobAfterCreate({ id, onSuccess, onFailure });
   };
 
   openContactModal = () => {
@@ -625,11 +658,13 @@ export default class SpendMoneyDetailModule {
     const isCreating = getIsCreating(this.store.getState());
     const accountModal = this.accountModalModule.render();
     const contactModal = this.contactModalModule.render();
+    const jobModal = this.jobModalModule.render();
 
     const spendMoneyView = (
       <SpendMoneyDetailView
         accountModal={accountModal}
         contactModal={contactModal}
+        jobModal={jobModal}
         onUpdateHeaderOptions={this.updateHeaderOptions}
         onSaveButtonClick={this.saveSpendMoney}
         onSaveAndButtonClick={this.handleSaveAndAction}
@@ -645,6 +680,7 @@ export default class SpendMoneyDetailModule {
         onRemoveRow={this.deleteSpendMoneyLine}
         onAddAccount={this.openAccountModal}
         onAddContact={this.openContactModal}
+        onAddJob={this.openJobModal}
         onRowInputBlur={this.formatAndCalculateTotals}
         onAddAttachments={this.addAttachments}
         onRemoveAttachment={this.openDeleteAttachmentModal}

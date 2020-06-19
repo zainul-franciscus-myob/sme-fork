@@ -5,6 +5,7 @@ import React from 'react';
 import {
   getAccountOptions,
   getIsActionsDisabled,
+  getIsJobComboboxDisabled,
   getJobOptions,
   getLineDataByIndexSelector,
   getNewLineData,
@@ -48,8 +49,10 @@ const ReceiveMoneyDetailRow = ({
   taxCodeOptions,
   accountOptions,
   onAddAccount,
+  onAddJob,
   isSubmitting,
   isReceiveMoneyJobColumnEnabled,
+  isJobComboboxDisabled,
   ...feelixInjectedProps
 }) => {
   const data = isNewLineRow ? newLineData : lineData;
@@ -115,7 +118,8 @@ const ReceiveMoneyDetailRow = ({
         items={jobOptions}
         selectedId={jobId}
         onChange={onComboboxChange('jobId', onChange)}
-        disabled={isSubmitting}
+        disabled={isSubmitting || isJobComboboxDisabled}
+        addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
         allowClear
         left
       />}
@@ -139,6 +143,7 @@ const makeMapRowStateToProps = () => {
     taxCodeOptions: getTaxCodeOptions(state),
     accountOptions: getAccountOptions(state),
     isSubmitting: getIsActionsDisabled(state),
+    isJobComboboxDisabled: getIsJobComboboxDisabled(state),
   });
 };
 

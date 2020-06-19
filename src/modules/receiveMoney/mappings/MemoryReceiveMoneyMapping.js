@@ -4,6 +4,7 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_DUPLICATE_RECEIVE_MONEY,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
   UPDATE_RECEIVE_MONEY,
@@ -12,6 +13,7 @@ import createReceiveMoneyResponse from './data/createReceiveMoney';
 import duplicateReceiveMoneyEntry from './data/duplicateReceiveMoneyEntry';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadAddedContactResponse from './data/loadAddedContactResponse';
+import loadAddedJobResponse from './data/loadAddedJobResponse';
 import receiveMoneyDetailEntry from './data/receiveMoneyDetailEntry';
 import receiveMoneyDetailNewEntry from './data/receiveMoneyDetailNewEntry';
 import successResponse from './data/success';
@@ -22,6 +24,7 @@ const deleteReceiveMoney = ({ onSuccess }) => onSuccess(successResponse);
 const createReceiveMoney = ({ onSuccess }) => onSuccess(createReceiveMoneyResponse);
 const updateReceiveMoney = ({ onSuccess }) => onSuccess(successResponse);
 const loadAccountAfterCreate = ({ onSuccess }) => onSuccess(loadAddedAccountResponse);
+const loadJobAfterCreate = ({ onSuccess }) => onSuccess(loadAddedJobResponse);
 const loadContactAfterCreate = ({ onSuccess }) => onSuccess(loadAddedContactResponse);
 const loadDuplicateReceiveMoney = ({ onSuccess }) => onSuccess(duplicateReceiveMoneyEntry);
 
@@ -33,6 +36,7 @@ const MemoryReceiveMoneyMapping = {
   [UPDATE_RECEIVE_MONEY]: updateReceiveMoney,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [LOAD_CONTACT_AFTER_CREATE]: loadContactAfterCreate,
+  [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
   [LOAD_DUPLICATE_RECEIVE_MONEY]: loadDuplicateReceiveMoney,
 };
 

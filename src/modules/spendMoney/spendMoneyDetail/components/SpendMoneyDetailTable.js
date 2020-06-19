@@ -27,6 +27,7 @@ const SpendMoneyDetailTable = ({
   onRowInputBlur,
   onUpdateRow,
   onAddAccount,
+  onAddJob,
   isSpendMoneyJobColumnEnabled,
 }) => {
   const renderRow = (index, data, onChange, labels) => {
@@ -41,6 +42,7 @@ const SpendMoneyDetailTable = ({
         isNewLineRow={isNewLineRow}
         onRowInputBlur={onRowInputBlur}
         onAddAccount={onAddAccount}
+        onAddJob={onAddJob}
       />
     );
   };

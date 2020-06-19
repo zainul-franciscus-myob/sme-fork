@@ -27,6 +27,7 @@ const ReceiveMoneyDetailTable = ({
   onRemoveRow,
   onRowInputBlur,
   onAddAccount,
+  onAddJob,
   isReceiveMoneyJobColumnEnabled,
 }) => {
   const renderRow = (index, data, onChange, labels) => {
@@ -41,6 +42,7 @@ const ReceiveMoneyDetailTable = ({
         isNewLineRow={isNewLineRow}
         onRowInputBlur={onRowInputBlur}
         onAddAccount={onAddAccount}
+        onAddJob={onAddJob}
         isReceiveMoneyJobColumnEnabled={isReceiveMoneyJobColumnEnabled}
       />
     );

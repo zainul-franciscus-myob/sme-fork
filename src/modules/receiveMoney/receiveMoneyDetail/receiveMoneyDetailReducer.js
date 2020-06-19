@@ -6,6 +6,7 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_DUPLICATE_RECEIVE_MONEY,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
   OPEN_MODAL,
@@ -13,6 +14,7 @@ import {
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
   SET_DUPLICATE_ID,
+  SET_JOB_LOADING_STATE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_RECEIVE_MONEY_HEADER,
@@ -67,6 +69,7 @@ const getDefaultState = () => ({
   isPageEdited: false,
   businessId: '',
   region: '',
+  isJobLoading: false,
 });
 
 const pageEdited = { isPageEdited: true };
@@ -214,6 +217,20 @@ const loadContactAfterCreate = (state, { intent, ...contact }) => ({
   isPageEdited: true,
 });
 
+const loadJobAfterCreate = (state, { intent, ...job }) => ({
+  ...state,
+  jobOptions: [
+    job,
+    ...state.jobOptions,
+  ],
+  isPageEdited: true,
+});
+
+const setJobLoadingState = (state, { isJobLoading }) => (
+  { ...state, isJobLoading }
+);
+
+
 const resetTotals = state => ({
   ...state,
   totals: getDefaultState().totals,
@@ -249,6 +266,8 @@ const handlers = {
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [SET_CONTACT_LOADING_STATE]: setContactLoadingState,
   [LOAD_CONTACT_AFTER_CREATE]: loadContactAfterCreate,
+  [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
+  [SET_JOB_LOADING_STATE]: setJobLoadingState,
   [SET_DUPLICATE_ID]: setDuplicateId,
 };
 const receiveMoneyReducer = createReducer(getDefaultState(), handlers);
