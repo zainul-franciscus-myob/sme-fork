@@ -119,6 +119,9 @@ const setOriginalAmountDue = ({
   return calculateAmountDue(totals.totalAmount, amountPaid);
 };
 
+const buildLineJobOptions = ({ action, jobId }) => (action.jobOptions
+  ? action.jobOptions.filter(job => job.isActive || job.id === jobId) : []);
+
 const loadInvoiceDetail = (state, action) => {
   const defaultState = getDefaultState();
 
@@ -135,6 +138,7 @@ const loadInvoiceDetail = (state, action) => {
       ...action.invoice,
       status: action.invoice.status || defaultState.invoice.status,
       lines: action.invoice.lines.map(line => {
+        const lineJobOptions = buildLineJobOptions({ action, jobId: line.jobId });
         if ([
           InvoiceLineType.SERVICE,
           InvoiceLineType.ITEM,
@@ -144,16 +148,17 @@ const loadInvoiceDetail = (state, action) => {
             ? (new Decimal(line.taxExclusiveAmount).add(line.taxAmount)).valueOf()
             : (new Decimal(line.taxExclusiveAmount)).valueOf();
 
-          return { ...line, amount };
+          return { ...line, amount, lineJobOptions };
         }
 
-        return line;
+        return { ...line, lineJobOptions };
       }),
     },
     originalAmountDue: setOriginalAmountDue(action.invoice),
     newLine: {
       ...state.newLine,
       ...action.newLine,
+      lineJobOptions: buildLineJobOptions({ action }),
     },
     comments: action.comments || state.comments,
     serialNumber: action.serialNumber,

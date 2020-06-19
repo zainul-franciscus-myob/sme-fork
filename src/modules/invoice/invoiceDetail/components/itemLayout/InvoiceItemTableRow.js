@@ -8,7 +8,6 @@ import {
   getIsReadOnly,
   getIsSubmitting,
   getItemOptions,
-  getJobOptions,
   getTaxCodeOptions,
 } from '../../selectors/invoiceDetailSelectors';
 import AccountCombobox from '../../../../../components/combobox/AccountCombobox';
@@ -58,10 +57,10 @@ const InvoiceItemTableRow = ({
     amount,
     jobId,
     taxCodeId,
+    lineJobOptions,
   },
   taxCodeOptions,
   accountOptions,
-  jobOptions,
   itemOptions,
   isSubmitting,
   isReadOnly,
@@ -177,7 +176,7 @@ const InvoiceItemTableRow = ({
       />
 
       {isInvoiceJobColumnEnabled && <JobCombobox
-        items={jobOptions}
+        items={lineJobOptions}
         selectedId={jobId}
         onChange={onChangeJobId}
         addNewJob={() => onAddJob(onChangeJobId)}
@@ -202,7 +201,6 @@ const mapStateToProps = (state, props) => ({
   taxCodeOptions: getTaxCodeOptions(state),
   itemOptions: getItemOptions(state),
   accountOptions: getAccountOptions(state),
-  jobOptions: getJobOptions(state),
   isReadOnly: getIsReadOnly(state),
 });
 

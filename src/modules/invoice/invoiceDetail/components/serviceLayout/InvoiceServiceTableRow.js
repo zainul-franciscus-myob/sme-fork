@@ -8,7 +8,6 @@ import {
   getIsPreConversion,
   getIsReadOnly,
   getIsSubmitting,
-  getJobOptions,
   getTaxCodeOptions,
 } from '../../selectors/invoiceDetailSelectors';
 import AccountCombobox from '../../../../../components/combobox/AccountCombobox';
@@ -50,7 +49,6 @@ const InvoiceServiceTableRow = ({
   isReadOnly,
   isPreConversion,
   accountOptions,
-  jobOptions,
   onChange,
   onUpdateAmount,
   onAddAccount,
@@ -65,6 +63,7 @@ const InvoiceServiceTableRow = ({
     jobId,
     taxCodeId,
     amount,
+    lineJobOptions,
   } = invoiceLine;
 
   const onChangeAccountId = onComboboxChange('accountId', onChange);
@@ -121,7 +120,7 @@ const InvoiceServiceTableRow = ({
         label="Job"
         onChange={onChangeJobId}
         addNewJob={() => onAddJob(onChangeJobId)}
-        items={jobOptions}
+        items={lineJobOptions}
         selectedId={jobId}
         disabled={isSubmitting || isReadOnly}
         allowClear
@@ -146,7 +145,6 @@ const mapStateToProps = (state, props) => ({
   isReadOnly: getIsReadOnly(state),
   isPreConversion: getIsPreConversion(state),
   accountOptions: getAccountOptions(state),
-  jobOptions: getJobOptions(state),
 });
 
 export default connect(mapStateToProps)(InvoiceServiceTableRow);
