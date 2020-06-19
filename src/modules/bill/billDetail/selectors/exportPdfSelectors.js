@@ -2,7 +2,6 @@ import { createSelector } from 'reselect';
 
 import {
   getBillId,
-  getBillLayout,
   getBillNumber,
   getBusinessId,
   getIsCreating,
@@ -10,22 +9,11 @@ import {
   getIsPageEdited,
   getModalType,
 } from './billSelectors';
-import BillLayout from '../types/BillLayout';
 import ModalType from '../types/ModalType';
 
 
 export const getExportPdfTemplate = state => state.exportPdf.template;
-
-const getServiceTemplateOptions = state => state.serviceTemplateOptions.templateOptions;
-const getItemTemplateOptions = state => state.itemTemplateOptions.templateOptions;
-export const getExportPdfTemplateOptions = createSelector(
-  getBillLayout,
-  getServiceTemplateOptions,
-  getItemTemplateOptions,
-  (layout, serviceTemplateOptions, itemTemplateOptions) => (layout === BillLayout.SERVICE
-    ? serviceTemplateOptions
-    : itemTemplateOptions),
-);
+export const getExportPdfTemplateOptions = state => state.template.templateOptions;
 
 export const getExportPdfUrlParams = (state) => {
   const businessId = getBusinessId(state);

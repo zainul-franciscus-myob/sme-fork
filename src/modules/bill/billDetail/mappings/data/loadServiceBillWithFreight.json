@@ -170,7 +170,7 @@
     "taxCodeId": "",
     "lineSubTypeId": ""
   },
-  "itemTemplateOptions": {
+  "template": {
     "defaultTemplate": "b",
     "templateOptions": [
       {
@@ -181,19 +181,6 @@
         "name": "b",
         "label": "banana"
       }
-    ]
-  },
-  "serviceTemplateOptions": {
-    "defaultTemplate": "a",
-    "templateOptions": [
-        {
-          "name": "a",
-          "label": "apple"
-        },
-        {
-          "name": "b",
-          "label": "banana"
-        }
     ]
   },
   "exportPdf": {

@@ -183,7 +183,7 @@
     "taxCodeId": "",
     "lineSubTypeId": ""
   },
-  "itemTemplateOptions": {
+  "template": {
     "defaultTemplate": "b",
     "templateOptions": [
       {
@@ -196,22 +196,9 @@
       }
     ]
   },
-  "serviceTemplateOptions": {
-    "defaultTemplate": "a",
-    "templateOptions": [
-        {
-          "name": "a",
-          "label": "apple"
-        },
-        {
-          "name": "b",
-          "label": "banana"
-        }
-    ]
-  },
   "exportPdf": {
     "template": "a"
   },
   "conversionDate": "2014-07-23T00:00:00",
-  "startOfFinancialYearDate": "2019-07-01T00:00:00"  
+  "startOfFinancialYearDate": "2019-07-01T00:00:00"
 }
