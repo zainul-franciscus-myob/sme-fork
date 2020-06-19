@@ -2,6 +2,5 @@ steps:
 
   - name: ':memo: Convention testing'
     command: ./ops/bin/test-conventions
-    branches: master
     agents:
       queue: cacc-prod-dflt

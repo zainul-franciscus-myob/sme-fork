@@ -1,18 +1,15 @@
 import { assertSourceFile } from '@myob/entente';
+import { basename } from 'path';
 import { commonPath } from '@myob/entente/lib/util';
-import { join } from 'path';
 
 import { project } from './shared.convention';
 
 describe('importing conventions', () => {
-  // pulls in only source files from `src/modules` for analysis
+  // Pulls in only source files from `src/modules` for analysis
   const sourceFiles = project.getSourceFiles('./src/modules/**/*.js');
 
-  // find the common path for the files, in order to make the display easier
-  const root = commonPath(sourceFiles.map(sf => sf.getFilePath())).replace(
-    `${join('src', 'modules')}/`,
-    '',
-  );
+  // Find the common path for the files, in order to make the display easier
+  const root = commonPath(sourceFiles.map(sf => sf.getFilePath()));
 
   // Extends Jest with a specific expectation around cross module importing
   expect.extend({
@@ -31,19 +28,41 @@ describe('importing conventions', () => {
     },
   });
 
-  // eslint-disable-next-line no-restricted-syntax
-  for (const sourceFile of sourceFiles) {
-    const sourceFilePath = sourceFile.getFilePath();
-    it(`imports from "${sourceFilePath.replace(root, '/')}"`, () => {
-      // eslint-disable-next-line no-restricted-syntax
-      for (const maybeNode of Object.values(
-        assertSourceFile(sourceFile).imports.sourceFileNodes,
-      )) {
-        const importFilePath = maybeNode && maybeNode.getFilePath();
-        if (importFilePath) {
-          expect(importFilePath).not.toBeImportedCrossModuleFrom(sourceFilePath);
+  const getImports = sourceFile => Object
+    .values(assertSourceFile(sourceFile).imports.sourceFileNodes)
+    .reduce((acc, maybeNode) => {
+      if (maybeNode) {
+        const importFilePath = maybeNode.getFilePath();
+        const importFileName = basename(importFilePath, '.js');
+
+        // Exclude *ModalModule from cross-module test (exemptions)
+        if (!importFileName.endsWith('ModalModule')) {
+          const importFileShortPath = importFilePath.replace(root, '');
+          return [...acc, [importFileShortPath, importFilePath]];
         }
       }
+
+      return acc;
+    }, []);
+
+  // Build test data with source file paths and their import file paths
+  const sourceFilesWithImports = sourceFiles
+    .reduce((acc, sourceFile) => {
+      const imports = getImports(sourceFile);
+
+      if (imports.length) {
+        const sourceFilePath = sourceFile.getFilePath();
+        const sourceFileShortPath = sourceFilePath.replace(root, '');
+
+        return [...acc, [sourceFileShortPath, sourceFilePath, imports]];
+      }
+
+      return acc;
+    }, []);
+
+  describe.each(sourceFilesWithImports)('imports from %s', (sourceFileShortPath, sourceFilePath, imports) => {
+    it.each(imports)('%s is not a cross module import', (importFileShortPath, importFilePath) => {
+      expect(importFilePath).not.toBeImportedCrossModuleFrom(sourceFilePath);
     });
-  }
+  });
 });
