@@ -1,4 +1,5 @@
 import {
+  Alert,
   Checkbox,
   CheckboxGroup,
   DatePicker,
@@ -12,7 +13,9 @@ import {
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
-import { getHeaderOptions, getTaxExclusiveLabel, getTaxInclusiveLabel } from '../generalJournalDetailSelectors';
+import {
+  getHeaderOptions, getIsSystem, getTaxExclusiveLabel, getTaxInclusiveLabel,
+} from '../generalJournalDetailSelectors';
 
 class GeneralJournalDetailOptions extends Component {
   handleInputChange = (e) => {
@@ -58,10 +61,17 @@ class GeneralJournalDetailOptions extends Component {
       },
       taxInclusiveLabel,
       taxExclusiveLabel,
+      isSystem,
     } = this.props;
 
     const isPurchase = gstReportingMethod === 'purchase';
     const isSale = gstReportingMethod === 'sale';
+
+    const eofyAdjustmentAlert = isSystem && (
+      <Alert type="info">
+        This general journal is read only because it is an end of financial year adjustment.
+      </Alert>
+    );
 
     const primary = (
       <React.Fragment>
@@ -70,12 +80,14 @@ class GeneralJournalDetailOptions extends Component {
           requiredLabel="This is required"
           name="Date"
           value={date}
+          disabled={isSystem}
           onSelect={this.handleDateChange}
         />
         <RadioButtonGroup
           label="Display in GST report as:"
           requiredLabel="This is required"
           name="gstReportingMethod"
+          disabled={isSystem}
           renderRadios={({ value, ...props }) => (
             <React.Fragment>
               <RadioButton {...props} label="Purchase" value="purchase" checked={isPurchase} onChange={this.handleInputChange} />
@@ -91,6 +103,7 @@ class GeneralJournalDetailOptions extends Component {
           maxLength={255}
           resize="vertical"
           value={description}
+          disabled={isSystem}
           onChange={this.handleInputChange}
         />
       </React.Fragment>
@@ -104,6 +117,7 @@ class GeneralJournalDetailOptions extends Component {
           label="Reference number"
           requiredLabel="This is required"
           value={referenceId}
+          disabled={isSystem}
           onChange={this.handleInputChange}
         />
         <CheckboxGroup
@@ -120,6 +134,7 @@ class GeneralJournalDetailOptions extends Component {
                 </Tooltip>
               )}
               checked={isEndOfYearAdjustment}
+              disabled={isSystem}
               onChange={this.handleCheckboxChange}
             />
           )}
@@ -127,6 +142,7 @@ class GeneralJournalDetailOptions extends Component {
         <RadioButtonGroup
           label="Amounts are"
           name="isTaxInclusive"
+          disabled={isSystem}
           renderRadios={({ value, ...props }) => (
             <React.Fragment>
               <RadioButton {...props} checked={isTaxInclusive} onChange={this.handleRadioChange} value="true" label={taxInclusiveLabel} />
@@ -138,15 +154,20 @@ class GeneralJournalDetailOptions extends Component {
     );
 
     return (
-      <DetailHeader primary={primary} secondary={secondary} />
+      <>
+        {eofyAdjustmentAlert}
+        <DetailHeader primary={primary} secondary={secondary} />
+      </>
     );
   }
 }
+// TODO: refactor to be component function
 
 const mapStateToProps = state => ({
   headerOptions: getHeaderOptions(state),
   taxInclusiveLabel: getTaxInclusiveLabel(state),
   taxExclusiveLabel: getTaxExclusiveLabel(state),
+  isSystem: getIsSystem(state),
 });
 
 export default connect(mapStateToProps)(GeneralJournalDetailOptions);

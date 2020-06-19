@@ -31,6 +31,7 @@ export const getHeaderOptions = createStructuredSelector({
 
 export const getAlert = state => state.alert;
 export const getLoadingState = state => state.loadingState;
+export const getIsSystem = state => state.generalJournal.isSystem;
 
 const formatNumber = num => num.toFixed(2);
 

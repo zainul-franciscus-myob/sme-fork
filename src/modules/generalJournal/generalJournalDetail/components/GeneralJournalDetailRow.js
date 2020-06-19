@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getAccountOptions,
+  getIsSystem,
   getIsTableDisabled,
   getJobOptions,
   getLineDataByIndexSelector,
@@ -46,6 +47,7 @@ const GeneralJournalDetailRow = ({
   onChange,
   onCreateAccountButtonClick,
   isGeneralJournalJobColumnEnabled,
+  isSystem,
   ...feelixInjectedProps
 }) => {
   const data = isNewLineRow ? newLineData : lineData;
@@ -74,13 +76,13 @@ const GeneralJournalDetailRow = ({
         selectedId={accountId}
         addNewAccount={() => onCreateAccountButtonClick(onComboboxChange('accountId', onChange))}
         onChange={onComboboxChange('accountId', onChange)}
-        disabled={isTableDisabled}
+        disabled={isTableDisabled || isSystem}
       />
       <AmountInput
         label="Debit amount"
         name="debitAmount"
         value={displayDebitAmount}
-        disabled={isDebitDisabled || isTableDisabled}
+        disabled={isDebitDisabled || isTableDisabled || isSystem}
         onChange={onAmountInputChange('debitAmount', onChange)}
         onBlur={onRowInputBlur}
       />
@@ -88,7 +90,7 @@ const GeneralJournalDetailRow = ({
         label="Credit amount"
         name="creditAmount"
         value={displayCreditAmount}
-        disabled={isCreditDisabled || isTableDisabled}
+        disabled={isCreditDisabled || isTableDisabled || isSystem}
         onChange={onAmountInputChange('creditAmount', onChange)}
         onBlur={onRowInputBlur}
       />
@@ -101,7 +103,7 @@ const GeneralJournalDetailRow = ({
         numeralDecimalScaleMin={0}
         numeralDecimalScaleMax={6}
         numeralIntegerScale={13}
-        disabled={isTableDisabled}
+        disabled={isTableDisabled || isSystem}
       />
       <TextArea
         rows={1}
@@ -112,14 +114,14 @@ const GeneralJournalDetailRow = ({
         name="description"
         value={description}
         onChange={onChange}
-        disabled={isTableDisabled}
+        disabled={isTableDisabled || isSystem}
       />
       {isGeneralJournalJobColumnEnabled && <JobCombobox
         label="Job"
         onChange={onComboboxChange('jobId', onChange)}
         items={jobOptions}
         selectedId={jobId}
-        disabled={isTableDisabled}
+        disabled={isTableDisabled || isSystem}
         allowClear
         left
       />}
@@ -128,7 +130,7 @@ const GeneralJournalDetailRow = ({
         items={taxCodeOptions}
         selectedId={taxCodeId}
         onChange={onComboboxChange('taxCodeId', onChange)}
-        disabled={isTableDisabled}
+        disabled={isTableDisabled || isSystem}
       />
     </LineItemTable.Row>);
 };
@@ -142,6 +144,7 @@ const makeMapRowStateToProps = () => {
     taxCodeOptions: getTaxCodeOptions(state),
     accountOptions: getAccountOptions(state),
     isTableDisabled: getIsTableDisabled(state),
+    isSystem: getIsSystem(state),
   });
 };
 

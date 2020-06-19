@@ -6,6 +6,7 @@ import {
   getIndexOfLastLine,
   getIsGeneralJournalJobColumnEnabled,
   getIsOutOfBalanced,
+  getIsSystem,
   getTableData,
   getTaxCodeLabel,
   getTaxLabel,
@@ -31,6 +32,7 @@ const GeneralJournalDetailTable = ({
   onRemoveRow,
   onCreateAccountButtonClick,
   isGeneralJournalJobColumnEnabled,
+  isSystem,
 }) => {
   const renderRow = (index, _, onChange, labels) => {
     const isNewLineRow = indexOfLastLine < index;
@@ -109,7 +111,7 @@ const GeneralJournalDetailTable = ({
       renderRow={renderRow}
       onRowChange={onUpdateRow}
       onAddRow={onAddRow}
-      onRemoveRow={onRemoveRow}
+      onRemoveRow={isSystem ? () => {} : onRemoveRow}
     >
       <LineItemTable.Total>
         <LineItemTable.Totals title="Total debit" amount={totalDebit} />
@@ -129,6 +131,7 @@ const mapStateToProps = state => ({
   taxLabel: getTaxLabel(state),
   taxCodeLabel: getTaxCodeLabel(state),
   isGeneralJournalJobColumnEnabled: getIsGeneralJournalJobColumnEnabled(state),
+  isSystem: getIsSystem(state),
 });
 
 export default connect(mapStateToProps)(GeneralJournalDetailTable);

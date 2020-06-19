@@ -7,12 +7,14 @@ import React from 'react';
 import {
   getIsActionsDisabled,
   getIsCreating,
+  getIsSystem,
 } from '../generalJournalDetailSelectors';
 import SaveActionType from '../SaveActionType';
 
 const GeneralJournalDetailActions = ({
   isCreating,
   isActionsDisabled,
+  isSystem,
   onSaveButtonClick,
   onSaveAndButtonClick,
   onCancelButtonClick,
@@ -31,8 +33,20 @@ const GeneralJournalDetailActions = ({
     />,
   ];
 
-  return (
-    <ButtonRow
+  return (isSystem
+    ? <ButtonRow
+      primary={[
+          <Button
+            key="goBack"
+            name="goBack"
+            type="primary"
+            onClick={onCancelButtonClick}
+          >
+            Go back
+          </Button>,
+      ]}
+    />
+    : <ButtonRow
       primary={[
         <Button
           key="cancel"
@@ -84,6 +98,7 @@ const GeneralJournalDetailActions = ({
 const mapStateToProps = (state) => ({
   isCreating: getIsCreating(state),
   isActionsDisabled: getIsActionsDisabled(state),
+  isSystem: getIsSystem(state),
 });
 
 export default connect(mapStateToProps)(GeneralJournalDetailActions);
