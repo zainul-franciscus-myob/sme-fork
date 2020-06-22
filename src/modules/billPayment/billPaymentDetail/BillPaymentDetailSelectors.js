@@ -1,4 +1,5 @@
 import { createSelector, createStructuredSelector } from 'reselect';
+import { isBefore } from 'date-fns';
 
 import {
   CREATE_BILL_PAYMENT,
@@ -232,3 +233,10 @@ export const getUpdateReferenceIdParams = createSelector(
     accountId,
   }),
 );
+
+export const getIsBeforeStartOfFinancialYear = (state) => {
+  const { startOfFinancialYearDate, date } = state;
+  const issueDate = new Date(date);
+  return issueDate && startOfFinancialYearDate
+    && isBefore(issueDate, new Date(startOfFinancialYearDate));
+};

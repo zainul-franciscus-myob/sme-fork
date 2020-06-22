@@ -41,5 +41,6 @@
   "accountId": "123",
   "referenceId": "BP0000002",
   "showPaidBills": false,
-  "electronicClearingAccountId": "789"
+  "electronicClearingAccountId": "789",
+  "startOfFinancialYearDate": "2019-07-01T00:00:00"
 }

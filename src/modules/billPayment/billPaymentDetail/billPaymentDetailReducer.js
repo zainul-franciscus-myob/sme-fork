@@ -46,6 +46,7 @@ const getDefaultState = () => ({
   alertMessage: '',
   paymentAmount: '',
   applyPaymentToBillId: '',
+  startOfFinancialYearDate: '',
 });
 
 const pageEdited = { isPageEdited: true };
@@ -87,6 +88,7 @@ const loadNewBillPayment = (state, action) => {
     referenceId: action.referenceId,
     originalReferenceId: action.referenceId,
     electronicClearingAccountId: action.electronicClearingAccountId,
+    startOfFinancialYearDate: action.startOfFinancialYearDate,
   };
 
   const bankStatementText = getBankStatementText(newState, action.referenceId);
@@ -112,6 +114,7 @@ const loadBillPayment = (state, action) => ({
   bankStatementText: action.bankStatementText,
   originalBankStatementText: action.bankStatementText,
   electronicClearingAccountId: action.electronicClearingAccountId,
+  startOfFinancialYearDate: action.startOfFinancialYearDate,
 });
 
 const loadBillList = (state, action) => ({

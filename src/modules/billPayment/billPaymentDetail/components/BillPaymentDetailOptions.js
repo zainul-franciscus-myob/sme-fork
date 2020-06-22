@@ -1,12 +1,13 @@
 import {
-  DatePicker, DetailHeader, Input, TextArea,
+  DetailHeader, Input, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getBillPaymentOptions } from '../BillPaymentDetailSelectors';
+import { getBillPaymentOptions, getIsBeforeStartOfFinancialYear } from '../BillPaymentDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import ContactCombobox from '../../../../components/combobox/ContactCombobox';
+import DatePicker from '../../../../components/DatePicker/DatePicker';
 
 const onTextFieldChange = handler => ({ target: { name: key, value } }) => handler({ key, value });
 
@@ -28,6 +29,7 @@ const BillPaymentOptions = ({
   date,
   shouldDisableFields,
   isCreating,
+  isBeforeStartOfFinancialYear,
 }) => {
   const requiredLabel = 'This is required';
 
@@ -90,6 +92,8 @@ const BillPaymentOptions = ({
         label="Date"
         name="Date"
         value={date}
+        displayWarning={isBeforeStartOfFinancialYear}
+        warningMessage={'The issue date is set to a previous financial year'}
         onSelect={onDateChange(onUpdateHeaderOption)('date')}
         requiredLabel={requiredLabel}
       />
@@ -99,6 +103,9 @@ const BillPaymentOptions = ({
   return <DetailHeader primary={primary} secondary={secondary} />;
 };
 
-const mapStateToProps = state => getBillPaymentOptions(state);
+const mapStateToProps = state => ({
+  ...getBillPaymentOptions(state),
+  isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
+});
 
 export default connect(mapStateToProps)(BillPaymentOptions);
