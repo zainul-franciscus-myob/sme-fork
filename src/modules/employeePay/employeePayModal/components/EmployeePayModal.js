@@ -19,6 +19,7 @@ import {
 import EmployeePayModalButtons from './EmployeePayModalButtons';
 import EmployeePayModalHeader from './EmployeePayModalHeader';
 import EmployeePayModalTable from './EmployeePayModalTable';
+import LoadingState from '../../../../components/PageView/LoadingState';
 import PageView from '../../../../components/PageView/PageView';
 import styles from './EmployeePayModal.module.css';
 
@@ -117,6 +118,7 @@ const EmployeePayModal = ({
           onDeleteButtonClick={onDeleteButtonClick}
           onBackButtonClick={onBackButtonClick}
           showReverse={featureToggles && featureToggles.isPayrollReversibleEnabled && isReversible}
+          loadingSuccess={loadingState === LoadingState.LOADING_SUCCESS}
         />
       </div>
     </Modal>

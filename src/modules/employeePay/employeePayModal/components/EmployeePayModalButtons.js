@@ -10,17 +10,18 @@ const EmployeePayModalButtons = ({
   onDeleteButtonClick,
   onBackButtonClick,
   showReverse,
+  loadingSuccess,
 }) => (
   <ButtonRow
     secondary={[
-      showReverse && <Button
+      loadingSuccess && showReverse && <Button
         key="modal-reverse-btn"
         id="modal-reverse-btn"
         type="secondary"
       >
         Reverse Pay
       </Button>,
-      !showReverse && <DeleteButtonWithPopover
+      loadingSuccess && !showReverse && <DeleteButtonWithPopover
         key="delete"
         title="Delete employee's pay transaction"
         bodyText="This can't be undone, or recovered later."
