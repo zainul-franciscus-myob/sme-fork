@@ -48,6 +48,7 @@ const getDefaultState = () => ({
     jobId: '',
     description: '',
     taxCodeId: '',
+    lineJobOptions: [],
   },
   totals: {
     subTotal: '$0.00',
@@ -76,14 +77,25 @@ const pageEdited = { isPageEdited: true };
 
 const resetState = () => (getDefaultState());
 
+const buildLineJobOptions = ({ action, jobId }) => (action.jobOptions
+  ? action.jobOptions.filter(job => job.isActive || job.id === jobId) : []);
+
 const loadReceiveMoneyDetail = (state, action) => ({
   ...state,
   receiveMoney: {
     ...state.receiveMoney,
     ...action.receiveMoney,
     originalReferenceId: action.receiveMoney.referenceId,
+    lines: action.receiveMoney.lines.map(line => ({
+      ...line,
+      lineJobOptions: buildLineJobOptions({ action, jobId: line.jobId }),
+    })),
   },
-  newLine: { ...state.newLine, ...action.newLine },
+  newLine: {
+    ...state.newLine,
+    ...action.newLine,
+    lineJobOptions: buildLineJobOptions({ action }),
+  },
   totals: action.totals,
   pageTitle: action.pageTitle,
   depositIntoAccountOptions: action.depositIntoAccountOptions,
@@ -155,7 +167,11 @@ const loadNewReceiveMoney = (state, action) => ({
     date: formatIsoDate(new Date()),
     originalReferenceId: action.receiveMoney.referenceId,
   },
-  newLine: { ...state.newLine, ...action.newLine },
+  newLine: {
+    ...state.newLine,
+    ...action.newLine,
+    lineJobOptions: buildLineJobOptions({ action }),
+  },
   pageTitle: action.pageTitle,
   depositIntoAccountOptions: action.depositIntoAccountOptions,
   payFromContactOptions: action.payFromContactOptions,
@@ -219,10 +235,23 @@ const loadContactAfterCreate = (state, { intent, ...contact }) => ({
 
 const loadJobAfterCreate = (state, { intent, ...job }) => ({
   ...state,
-  jobOptions: [
-    job,
-    ...state.jobOptions,
-  ],
+  receiveMoney: {
+    ...state.receiveMoney,
+    lines: state.receiveMoney.lines.map(line => ({
+      ...line,
+      lineJobOptions: [
+        job,
+        ...line.lineJobOptions,
+      ],
+    })),
+  },
+  newLine: {
+    ...state.newLine,
+    lineJobOptions: [
+      job,
+      ...state.newLine.lineJobOptions,
+    ],
+  },
   isPageEdited: true,
 });
 

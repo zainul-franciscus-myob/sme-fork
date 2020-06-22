@@ -59,8 +59,8 @@ const createSpendMoneyDispatcher = store => ({
     store.dispatch({ intent, isLoading });
   },
 
-  loadJobAfterCreate: (jobId, payload) => store.dispatch({
-    intent: LOAD_JOB_AFTER_CREATE, jobId, ...payload,
+  loadJobAfterCreate: (payload) => store.dispatch({
+    intent: LOAD_JOB_AFTER_CREATE, ...payload,
   }),
 
   setJobLoadingState: isJobLoading => store.dispatch({

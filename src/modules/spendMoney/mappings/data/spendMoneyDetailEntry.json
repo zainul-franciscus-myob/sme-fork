@@ -12,7 +12,7 @@
     "electronicClearingAccountId": "789",
     "lines": [
       {
-        "jobId": 1,
+        "jobId": "1",
         "id": "1",
         "accountId": "789",
         "amount": "1000.00",
@@ -23,7 +23,7 @@
         "lineSubTypeId": 8
       },
       {
-        "jobId": 1,
+        "jobId": "2",
         "id": "2",
         "accountId": "456",
         "amount": "2352.00",
@@ -157,17 +157,20 @@
     {
       "id": "1",
       "jobNumber": "100",
-      "jobName": "Job 1"
+      "jobName": "Job 1",
+      "isActive": false
     },
     {
       "id": "2",
       "jobNumber": "200",
-      "jobName": "Job 2 with a long name"
+      "jobName": "Job 2 with a long name",
+      "isActive": true
     },
     {
       "id": "3",
       "jobNumber": "12345678901234",
-      "jobName": "Job 3 with an even longer name"
+      "jobName": "Job 3 with an even longer name",
+      "isActive": true
     }
   ],
   "pageTitle": "Spend money transaction SM1234567",

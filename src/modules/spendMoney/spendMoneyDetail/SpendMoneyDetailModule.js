@@ -126,7 +126,7 @@ export default class SpendMoneyDetailModule {
     const onSuccess = (payload) => {
       const job = { ...payload, id };
       this.dispatcher.setJobLoadingState(false);
-      this.dispatcher.loadJobAfterCreate(id, job);
+      this.dispatcher.loadJobAfterCreate(job);
       onChange(job);
     };
 

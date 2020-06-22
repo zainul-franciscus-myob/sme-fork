@@ -26,7 +26,6 @@ export const getIsReceiveMoneyJobColumnEnabled = state => state.isReceiveMoneyJo
 const getDepositIntoAccountOptions = state => state.depositIntoAccountOptions;
 const getPayFromContactOptions = state => state.payFromContactOptions;
 export const getAccountOptions = state => state.accountOptions;
-export const getJobOptions = state => state.jobOptions;
 export const getTaxCodeOptions = state => state.taxCodeOptions;
 
 export const getIsContactLoading = state => state.isContactLoading;

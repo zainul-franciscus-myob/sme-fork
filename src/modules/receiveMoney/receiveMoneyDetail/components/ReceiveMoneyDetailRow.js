@@ -6,7 +6,6 @@ import {
   getAccountOptions,
   getIsActionsDisabled,
   getIsJobComboboxDisabled,
-  getJobOptions,
   getLineDataByIndexSelector,
   getNewLineData,
   getTaxCodeOptions,
@@ -45,7 +44,6 @@ const ReceiveMoneyDetailRow = ({
   isNewLineRow,
   lineData,
   newLineData,
-  jobOptions,
   taxCodeOptions,
   accountOptions,
   onAddAccount,
@@ -64,6 +62,7 @@ const ReceiveMoneyDetailRow = ({
     description,
     accountId,
     taxCodeId,
+    lineJobOptions,
   } = data;
 
   return (
@@ -115,7 +114,7 @@ const ReceiveMoneyDetailRow = ({
         disabled={isSubmitting}
       />
       {isReceiveMoneyJobColumnEnabled && <JobCombobox
-        items={jobOptions}
+        items={lineJobOptions}
         selectedId={jobId}
         onChange={onComboboxChange('jobId', onChange)}
         disabled={isSubmitting || isJobComboboxDisabled}
@@ -139,7 +138,6 @@ const makeMapRowStateToProps = () => {
   return (state, ownProps) => ({
     lineData: lineDataByIndex(state, ownProps),
     newLineData: getNewLineData(state),
-    jobOptions: getJobOptions(state),
     taxCodeOptions: getTaxCodeOptions(state),
     accountOptions: getAccountOptions(state),
     isSubmitting: getIsActionsDisabled(state),

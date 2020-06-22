@@ -147,8 +147,8 @@ const createReceiveMoneyDetailDispatcher = ({ store }) => ({
     intent: LOAD_CONTACT_AFTER_CREATE,
     ...payload,
   }),
-  loadJobAfterCreate: (jobId, payload) => store.dispatch({
-    intent: LOAD_JOB_AFTER_CREATE, jobId, ...payload,
+  loadJobAfterCreate: (payload) => store.dispatch({
+    intent: LOAD_JOB_AFTER_CREATE, ...payload,
   }),
   setJobLoadingState: isJobLoading => store.dispatch({
     intent: SET_JOB_LOADING_STATE, isJobLoading,

@@ -98,6 +98,7 @@ const getDefaultState = () => ({
     taxCodeId: '',
     taxAmount: '',
     jobId: '',
+    lineJobOptions: [],
   },
   accounts: [],
   taxCodes: [],
@@ -237,6 +238,9 @@ const getBankStatementText = (state, referenceId) => {
   return shouldSetBankstatementText ? `Payment ${referenceId}` : '';
 };
 
+const buildLineJobOptions = ({ action, jobId }) => (action.jobs
+  ? action.jobs.filter(job => job.isActive || job.id === jobId) : []);
+
 const loadNewSpendMoney = (state, action) => {
   const newState = {
     ...state,
@@ -252,6 +256,7 @@ const loadNewSpendMoney = (state, action) => {
     newLine: {
       ...state.newLine,
       ...action.newLine,
+      lineJobOptions: buildLineJobOptions({ action }),
     },
     isLoading: false,
     pageTitle: action.pageTitle,
@@ -278,6 +283,10 @@ const loadSpendMoneyDetail = (state, action) => ({
     ...action.spendMoney,
     originalReferenceId: action.spendMoney.referenceId,
     originalBankStatementText: action.spendMoney.bankStatementText,
+    lines: action.spendMoney.lines.map(line => ({
+      ...line,
+      lineJobOptions: buildLineJobOptions({ action, jobId: line.jobId }),
+    })),
   },
   accounts: action.accounts,
   taxCodes: action.taxCodes,
@@ -285,6 +294,7 @@ const loadSpendMoneyDetail = (state, action) => ({
   newLine: {
     ...state.newLine,
     ...action.newLine,
+    lineJobOptions: buildLineJobOptions({ action }),
   },
   isLoading: false,
   pageTitle: action.pageTitle,
@@ -644,10 +654,23 @@ const clearAbn = (state) => ({
 
 const loadJobAfterCreate = (state, { intent, ...job }) => ({
   ...state,
-  jobs: [
-    job,
-    ...state.jobs,
-  ],
+  spendMoney: {
+    ...state.spendMoney,
+    lines: state.spendMoney.lines.map(line => ({
+      ...line,
+      lineJobOptions: [
+        job,
+        ...line.lineJobOptions,
+      ],
+    })),
+  },
+  newLine: {
+    ...state.newLine,
+    lineJobOptions: [
+      job,
+      ...state.newLine.lineJobOptions,
+    ],
+  },
   isPageEdited: true,
 });
 
