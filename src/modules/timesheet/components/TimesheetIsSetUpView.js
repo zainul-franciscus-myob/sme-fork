@@ -19,6 +19,7 @@ import {
   getDisplayStartStopTimes,
   getEmployeeList,
   getFormattedHours,
+  getIsTimesheetJobColumnEnabled,
   getPayItems,
   getRowHours,
   getSelectedDate,
@@ -31,9 +32,17 @@ import {
 } from '../timesheetSelectors';
 import EmployeeCombobox from './EmployeeCombobox';
 import HoursInput from '../../../components/autoFormatter/HoursInput/HoursInput';
+import JobCombobox from '../../../components/combobox/JobCombobox';
 import NoMoveWrapper from '../../../components/LineItemTable/NoMoveWrapper';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import styles from './Timesheet.module.css';
+
+const handleComboBoxChange = (name, onChange) => item => onChange({
+  target: {
+    name,
+    value: item.id,
+  },
+});
 
 const handleHoursInputChange = handler => (e) => {
   const { name, rawValue } = e.target;
@@ -65,9 +74,11 @@ const TimesheetIsSetUpView = ({
   onAddRow,
   onDisplayStartStopTimesChange,
   onHoursBlur,
+  isTimesheetJobColumnEnabled,
 }) => {
   const baseTableLabels = [
     'Pay item',
+    'Jobs',
     'Notes',
     ...weekDayLabels,
     'Total',
@@ -80,6 +91,12 @@ const TimesheetIsSetUpView = ({
 
   const columnConfig = [{
     config: [
+      {
+        columnName: 'Jobs',
+        styles: {
+          width: '80px',
+        },
+      },
       {
         columnName: 'Total',
         styles: {
@@ -151,6 +168,14 @@ const TimesheetIsSetUpView = ({
             <Select.Option value={payItem.id} key={payItem.id} label={payItem.name} />
           ))}
         </Select>
+        {isTimesheetJobColumnEnabled && <JobCombobox
+          label="job"
+          onChange={handleComboBoxChange('jobId', onChange)}
+          items={data.jobOptions}
+          selectedId={data.jobId}
+          disabled={!isEmployeeSelected}
+          allowClear
+        />}
         <TextArea
           name="notes"
           label="Notes"
@@ -285,6 +310,7 @@ const mapStateToProps = state => ({
   displayStartStopTimes: getDisplayStartStopTimes(state),
   totalHoursSum: getTimesheetTotalHours(state),
   weekDayTotals: getWeekDayTotals(state),
+  isTimesheetJobColumnEnabled: getIsTimesheetJobColumnEnabled(state),
 });
 
 export default connect(mapStateToProps)(TimesheetIsSetUpView);

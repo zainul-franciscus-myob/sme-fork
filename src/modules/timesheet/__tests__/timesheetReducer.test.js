@@ -13,10 +13,31 @@ import timesheetReducer from '../timesheetReducer';
 
 describe('timesheetReducer', () => {
   describe('LOAD_EMPLOYEE_TIMESHEET', () => {
+    const jobOptions = [
+      {
+        id: '1',
+        jobNumber: '100',
+        jobName: 'Job 1',
+        isActive: false,
+      },
+      {
+        id: '2',
+        jobNumber: '200',
+        jobName: 'Job 2 with a long name',
+        isActive: false,
+      },
+      {
+        id: '3',
+        jobNumber: '12345678901234',
+        jobName: 'Job 3 with an even longer name',
+        isActive: true,
+      },
+    ];
     it('loads the request payload into the state', () => {
       const state = {
         timesheetRows: [],
         employeeAllowedPayItems: [],
+        jobOptions,
       };
       const { timesheetRows, allowedPayItems } = loadEmployeeTimesheet;
       const action = {
@@ -29,10 +50,26 @@ describe('timesheetReducer', () => {
 
       expect(result).toEqual({
         employeeAllowedPayItems: ['39'],
+        jobOptions,
         timesheetIsDirty: false,
         timesheetRows: [
           {
             payItemId: '11',
+            jobId: '1',
+            jobOptions: [
+              {
+                id: '1',
+                jobNumber: '100',
+                jobName: 'Job 1',
+                isActive: false,
+              },
+              {
+                id: '3',
+                jobNumber: '12345678901234',
+                jobName: 'Job 3 with an even longer name',
+                isActive: true,
+              },
+            ],
             notes: 'some notes',
             startStopDescription: 'some description',
             day1: { hours: '1.00', readonly: true },
@@ -69,6 +106,8 @@ describe('timesheetReducer', () => {
         timesheetRows: [
           {
             payItemId: '11',
+            jobId: '',
+            jobOptions: [],
             notes: '',
             startStopDescription: '',
             day1: { hours: '', readonly: false },
@@ -103,6 +142,8 @@ describe('timesheetReducer', () => {
         timesheetRows: [
           {
             payItemId: '',
+            jobId: '',
+            jobOptions: [],
             notes: 'some new notes',
             startStopDescription: '',
             day1: { hours: '', readonly: false },
@@ -137,6 +178,8 @@ describe('timesheetReducer', () => {
         timesheetRows: [
           {
             payItemId: '',
+            jobId: '',
+            jobOptions: [],
             notes: '',
             startStopDescription: 'some new start stop description',
             day1: { hours: '', readonly: false },
@@ -171,6 +214,8 @@ describe('timesheetReducer', () => {
         timesheetRows: [
           {
             payItemId: '',
+            jobId: '',
+            jobOptions: [],
             notes: '',
             startStopDescription: '',
             day1: { hours: '', readonly: false },
@@ -193,6 +238,7 @@ describe('timesheetReducer', () => {
         timesheetRows: [
           {
             payItemId: '11',
+            jobId: '1',
             notes: 'some notes',
             startStopDescription: 'some description',
             day1: { hours: '1', readonly: false },
@@ -225,6 +271,7 @@ describe('timesheetReducer', () => {
         timesheetRows: [
           {
             payItemId: '10',
+            jobId: '1',
             notes: 'some notes',
             startStopDescription: 'some description',
             day1: { hours: '1', readonly: false },
@@ -237,6 +284,7 @@ describe('timesheetReducer', () => {
           },
           {
             payItemId: '11',
+            jobId: '1',
             notes: 'some notes',
             startStopDescription: 'some description',
             day1: { hours: '1', readonly: false },
@@ -249,6 +297,7 @@ describe('timesheetReducer', () => {
           },
           {
             payItemId: '12',
+            jobId: '1',
             notes: 'some notes',
             startStopDescription: 'some description',
             day1: { hours: '1', readonly: false },
@@ -274,6 +323,7 @@ describe('timesheetReducer', () => {
         timesheetRows: [
           {
             payItemId: '10',
+            jobId: '1',
             notes: 'some notes',
             startStopDescription: 'some description',
             day1: { hours: '1', readonly: false },
@@ -286,6 +336,7 @@ describe('timesheetReducer', () => {
           },
           {
             payItemId: '12',
+            jobId: '1',
             notes: 'some notes',
             startStopDescription: 'some description',
             day1: { hours: '1', readonly: false },
@@ -306,6 +357,7 @@ describe('timesheetReducer', () => {
         timesheetRows: [
           {
             payItemId: '11',
+            jobId: '1',
             notes: 'some notes',
             startStopDescription: 'some description',
             day1: { hours: '1', readonly: true },
@@ -337,6 +389,7 @@ describe('timesheetReducer', () => {
         timesheetRows: [
           {
             payItemId: '11',
+            jobId: '1',
             notes: 'some notes',
             startStopDescription: 'some description',
             day1: { hours: '1', readonly: false },
@@ -364,6 +417,7 @@ describe('timesheetReducer', () => {
         timesheetRows: [
           {
             payItemId: '11',
+            jobId: '1',
             notes: 'new note value',
             startStopDescription: 'some description',
             day1: { hours: '1', readonly: false },
@@ -384,6 +438,7 @@ describe('timesheetReducer', () => {
         timesheetRows: [
           {
             payItemId: '11',
+            jobId: '1',
             notes: 'some notes',
             startStopDescription: 'some description',
             day1: { hours: '1', readonly: false },
@@ -411,6 +466,7 @@ describe('timesheetReducer', () => {
         timesheetRows: [
           {
             payItemId: '11',
+            jobId: '1',
             notes: 'some notes',
             startStopDescription: 'some description',
             day1: { hours: '1', readonly: false },
@@ -431,6 +487,7 @@ describe('timesheetReducer', () => {
         timesheetRows: [
           {
             payItemId: '11',
+            jobId: '1',
             notes: 'some notes',
             startStopDescription: 'some description',
             day1: { hours: '1', readonly: false },
@@ -458,6 +515,7 @@ describe('timesheetReducer', () => {
         timesheetRows: [
           {
             payItemId: '12',
+            jobId: '1',
             notes: 'some notes',
             startStopDescription: 'some description',
             day1: { hours: '1', readonly: false },
@@ -478,6 +536,7 @@ describe('timesheetReducer', () => {
         timesheetRows: [
           {
             payItemId: '11',
+            jobId: '1',
             notes: 'some notes',
             startStopDescription: 'some description',
             day1: { hours: '1', readonly: false },
@@ -505,6 +564,7 @@ describe('timesheetReducer', () => {
         timesheetRows: [
           {
             payItemId: '11',
+            jobId: '1',
             notes: 'some notes',
             startStopDescription: 'some new start stop description',
             day1: { hours: '1', readonly: false },

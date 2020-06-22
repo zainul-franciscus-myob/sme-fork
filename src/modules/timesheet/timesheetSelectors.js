@@ -16,6 +16,7 @@ export const getEmployeeList = state => state.employeeList;
 export const getPayItems = state => state.payItems.filter(
   payItem => state.employeeAllowedPayItems.includes(payItem.id),
 );
+export const getIsTimesheetJobColumnEnabled = state => state.isTimesheetJobColumnEnabled;
 export const getSelectedEmployeeId = state => state.selectedEmployeeId;
 export const getLoadingState = state => state.loadingState;
 export const getWeekStartDate = state => state.weekStartDate;

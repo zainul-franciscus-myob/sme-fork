@@ -32,6 +32,7 @@ import {
   getUnsavedChangesModalAction,
   getWeekStartDate,
 } from './timesheetSelectors';
+import FeatureToggle from '../../FeatureToggles';
 import LoadingState from '../../components/PageView/LoadingState';
 import ModalType from './ModalType';
 import Store from '../../store/Store';
@@ -43,10 +44,12 @@ export default class TimesheetModule {
   constructor({
     setRootView,
     integration,
+    isToggleOn,
   }) {
     this.integration = integration;
     this.store = new Store(reducer);
     this.setRootView = setRootView;
+    this.isToggleOn = isToggleOn;
   }
 
   loadInitialTimesheet = () => {
@@ -460,7 +463,10 @@ export default class TimesheetModule {
   run = (context) => {
     this.store.dispatch({
       intent: LOAD_CONTEXT,
-      context,
+      context: {
+        ...context,
+        isTimesheetJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobsPayrun),
+      },
     });
     this.render();
     this.loadInitialTimesheet();

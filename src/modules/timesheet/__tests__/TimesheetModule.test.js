@@ -47,6 +47,7 @@ describe('TimesheetModule', () => {
     const module = new TimesheetModule({
       integration: moduleIntegration,
       setRootView,
+      isToggleOn: () => true,
     });
     module.run();
     wrapper.update();

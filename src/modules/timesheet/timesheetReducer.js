@@ -32,6 +32,7 @@ const getDefaultState = () => ({
   weekDayLabels: [],
   employeeList: [],
   payItems: [],
+  jobOptions: [],
   displayStartStopTimes: false,
   selectedEmployeeId: '',
   timesheetRows: [],
@@ -39,6 +40,7 @@ const getDefaultState = () => ({
   modal: null,
   modalAction: null,
   employeeAllowedPayItems: [],
+  isTimesheetJobColumnEnabled: false,
 });
 
 const loadInitialTimesheet = (state, { response }) => ({
@@ -71,11 +73,17 @@ const setLoadingState = (state, { loadingState }) => ({
   loadingState,
 });
 
+const buildJobOptions = (state, jobId) => {
+  const { jobOptions } = state;
+  return jobOptions.filter(job => job.isActive || job.id === jobId);
+};
+
 const loadEmployeeTimesheet = (state, { timesheetRows, allowedPayItems }) => ({
   ...state,
   timesheetIsDirty: false,
   timesheetRows: timesheetRows.map(row => ({
     ...row,
+    jobOptions: buildJobOptions(state, row.jobId),
     day1: {
       hours: getFormattedHours(row.day1.hours),
       hoursPaid: row.day1.hoursPaid,
@@ -190,6 +198,8 @@ const addRow = (state, { rowData }) => ({
     {
       id: rowData.id,
       payItemId: rowData.payItemId ? rowData.payItemId : '',
+      jobId: rowData.jobId ? rowData.jobId : '',
+      jobOptions: state.jobOptions ? buildJobOptions(state, rowData.jobId) : [],
       notes: rowData.notes ? rowData.notes : '',
       startStopDescription: rowData.startStopDescription ? rowData.startStopDescription : '',
       day1: { hours: rowData.day1 ? rowData.day1 : '', readonly: false },

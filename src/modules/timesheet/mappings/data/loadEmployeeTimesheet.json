@@ -2,6 +2,7 @@
   "timesheetRows": [
     {
       "payItemId": "11",
+      "jobId": "1",
       "notes": "some notes",
       "startStopDescription": "some description",
       "day1": {
