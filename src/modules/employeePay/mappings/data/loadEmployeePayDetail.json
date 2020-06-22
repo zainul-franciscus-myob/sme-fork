@@ -3,6 +3,7 @@
   "dateOfPayment": "05/07/2018",
   "referenceNumber": "EP000687",
   "isDeletable": true,
+  "isReversible": true,
   "isEditable": true,
   "transactionDesc": "Paycheque",
   "id": 243,

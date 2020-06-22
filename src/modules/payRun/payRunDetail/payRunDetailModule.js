@@ -32,15 +32,17 @@ import openBlob from '../../../common/blobOpener/openBlob';
 import payRunDetailReducer from './payRunDetailReducer';
 
 export default class PayRunDetailModule {
-  constructor({ integration, setRootView }) {
+  constructor({ integration, setRootView, featureToggles }) {
     this.integration = integration;
     this.store = new Store(payRunDetailReducer);
     this.setRootView = setRootView;
     this.emailPaySlipModal = new EmailPaySlipModalModule({ integration });
+    this.featureToggles = featureToggles;
 
     this.employeePayModal = new EmployeePayModalModule({
       integration,
       onDelete: this.onEmployeePayDeleteSuccess,
+      featureToggles,
     });
   }
 

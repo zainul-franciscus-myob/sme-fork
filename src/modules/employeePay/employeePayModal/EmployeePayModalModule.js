@@ -9,11 +9,12 @@ import createEmployeePayModalIntegrator from './createEmployeePayModalIntegrator
 import employeePayModalReducer from './employeePayModalReducer';
 
 export default class EmployeePayModalModule {
-  constructor({ integration, onDelete }) {
+  constructor({ integration, onDelete, featureToggles }) {
     this.store = new Store(employeePayModalReducer);
     this.onDelete = onDelete;
     this.dispatcher = createEmployeePayModalDispatchers(this.store);
     this.integrator = createEmployeePayModalIntegrator(this.store, integration);
+    this.featureToggles = featureToggles;
   }
 
   loadEmployeePayDetail = () => {
@@ -75,6 +76,7 @@ export default class EmployeePayModalModule {
           onDeletePopoverCancel={this.dispatcher.closeDeletePopover}
           onDeletePopoverDelete={this.deleteEmployeePayDetail}
           onDismissAlert={this.dispatcher.dismissAlert}
+          featureToggles={this.featureToggles}
         />
       </Provider>
     );

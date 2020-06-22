@@ -4,10 +4,18 @@ import React from 'react';
 const EmployeePayDetailButtons = ({
   onGoBackClick,
   onDeleteButtonClick,
+  showReverse,
 }) => (
   <ButtonRow
     secondary={[
-      <Button type="secondary" onClick={onDeleteButtonClick}>
+      showReverse && <Button
+        key="modal-reverse-btn"
+        id="modal-reverse-btn"
+        type="secondary"
+      >
+        Reverse Pay
+      </Button>,
+      !showReverse && <Button type="secondary" onClick={onDeleteButtonClick}>
           Delete
       </Button>,
     ]}

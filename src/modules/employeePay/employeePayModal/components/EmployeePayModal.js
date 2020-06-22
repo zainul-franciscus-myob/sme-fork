@@ -35,6 +35,7 @@ const EmployeePayModal = ({
   electronicPaymentLink,
   alertMessage,
   onDismissAlert,
+  featureToggles,
 }) => {
   const {
     paymentMethod,
@@ -50,6 +51,7 @@ const EmployeePayModal = ({
     totalNetPayment,
     parentBusinessEventId,
     parentBusinessEventDisplayId,
+    isReversible,
   } = employeePay;
 
   if (!isOpen) {
@@ -114,6 +116,7 @@ const EmployeePayModal = ({
           onDeletePopoverCancel={onDeletePopoverCancel}
           onDeleteButtonClick={onDeleteButtonClick}
           onBackButtonClick={onBackButtonClick}
+          showReverse={featureToggles && featureToggles.isPayrollReversibleEnabled && isReversible}
         />
       </div>
     </Modal>

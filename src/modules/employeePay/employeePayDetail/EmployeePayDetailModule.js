@@ -11,12 +11,15 @@ import createEmployeePayDetailIntegrator from './createEmployeePayDetailIntegrat
 import employeePayDetailReducer from './employeePayDetailReducer';
 
 export default class EmployeePayDetailModule {
-  constructor({ integration, setRootView, pushMessage }) {
+  constructor({
+    integration, setRootView, pushMessage, featureToggles,
+  }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.store = new Store(employeePayDetailReducer);
     this.integrator = createEmployeePayDetailIntegrator(this.store, integration);
     this.dispatcher = createEmployeePayDetailDispatchers(this.store);
+    this.featureToggles = featureToggles;
   }
 
   loadEmployeePayDetail = () => {
@@ -86,6 +89,7 @@ export default class EmployeePayDetailModule {
           onDeleteConfirmButtonClick={this.deleteEmployeePayDetail}
           onDeleteCancelButtonClick={this.dispatcher.closeDeleteModal}
           onDismissAlert={this.dispatcher.dismissAlert}
+          featureToggles={this.featureToggles}
         />
       </Provider>
     );

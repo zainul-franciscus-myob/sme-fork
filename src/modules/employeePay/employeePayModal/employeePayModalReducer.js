@@ -27,6 +27,8 @@ const getDefaultState = () => ({
     employeeBankStatementDesc: '',
     transactionDesc: '',
     lines: [],
+    isDeletable: false,
+    isReversible: false,
   },
   alert: '',
   loadingState: LoadingState.LOADING,

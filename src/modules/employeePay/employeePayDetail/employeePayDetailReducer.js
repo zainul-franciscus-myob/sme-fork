@@ -33,6 +33,7 @@ const getDefaultState = () => ({
     referenceNumber: '',
     totalNetPayment: '',
     transactionDesc: '',
+    isReversible: false,
   },
   alert: '',
   isDeleteModalOpen: false,

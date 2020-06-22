@@ -36,6 +36,7 @@ const EmployeePayDetailView = ({
   onDeleteButtonClick,
   onDeleteConfirmButtonClick,
   onDeleteCancelButtonClick,
+  featureToggles,
 }) => {
   const alert = alertMessage && (
     <Alert type="danger" onDismiss={onDismissAlert}>
@@ -66,6 +67,7 @@ const EmployeePayDetailView = ({
     totalNetPayment,
     parentBusinessEventId,
     parentBusinessEventDisplayId,
+    isReversible,
   } = employeePay;
 
   const electronicPaymentFooter = (
@@ -114,6 +116,7 @@ const EmployeePayDetailView = ({
       <EmployeePayDetailButtons
         onDeleteButtonClick={onDeleteButtonClick}
         onGoBackClick={onGoBackClick}
+        showReverse={featureToggles && featureToggles.isPayrollReversibleEnabled && isReversible}
       />
     </BaseTemplate>
   );

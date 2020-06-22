@@ -11,6 +11,7 @@ const getPayRunRoutes = ({
   replaceURLParams,
   isToggleOn,
   subscribeOrUpgrade,
+  featureToggles,
 }) => {
   const routes = [
     {
@@ -33,7 +34,7 @@ const getPayRunRoutes = ({
       name: RouteName.PAY_RUN_DETAIL,
       path: '/:region/:businessId/payRun/:payRunId',
       module: new PayRunDetailModule({
-        integration, setRootView,
+        integration, setRootView, featureToggles,
       }),
       documentTitle: 'Pay run',
     },
