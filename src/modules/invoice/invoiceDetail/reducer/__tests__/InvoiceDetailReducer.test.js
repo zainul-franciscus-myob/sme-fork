@@ -6,6 +6,7 @@ import {
   LOAD_CUSTOMER_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
   LOAD_ITEM_OPTION,
+  LOAD_JOB_AFTER_CREATE,
   RELOAD_INVOICE_DETAIL,
   REMOVE_INVOICE_LINE,
   SET_UPGRADE_MODAL_SHOWING,
@@ -745,6 +746,50 @@ describe('InvoiceDetailReducer', () => {
       const actual = invoiceDetailReducer(state, action);
 
       expect(actual.abn).not.toBeUndefined();
+    });
+  });
+
+  describe('LOAD_JOB_AFTER_CREATE', () => {
+    const lineJobOptions = [
+      {
+        id: '1',
+        jobNumber: '100',
+      },
+      {
+        id: '2',
+        jobNumber: '200',
+      },
+    ];
+    const state = {
+      invoice: { lines: [{ lineJobOptions }, { lineJobOptions }, { lineJobOptions }] },
+      newLine: {
+        lineJobOptions,
+      },
+    };
+
+    const action = {
+      intent: LOAD_JOB_AFTER_CREATE,
+      id: '3',
+      jobNumber: '300',
+    };
+
+    it('adds newly created job into the front of jobOptions on each line', () => {
+      const actual = invoiceDetailReducer(state, action);
+
+      expect(actual.invoice.lines.map(line => line.lineJobOptions[0])).toEqual([
+        { id: '3', jobNumber: '300' },
+        { id: '3', jobNumber: '300' },
+        { id: '3', jobNumber: '300' },
+      ]);
+    });
+
+    it('adds newly created job onto the front of jobOptions on new line', () => {
+      const actual = invoiceDetailReducer(state, action);
+
+      expect(actual.newLine.lineJobOptions[0]).toEqual({
+        id: '3',
+        jobNumber: '300',
+      });
     });
   });
 });

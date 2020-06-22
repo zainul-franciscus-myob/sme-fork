@@ -270,10 +270,23 @@ const resetCustomer = (state) => ({
 
 export const loadJobAfterCreate = (state, { intent, ...job }) => ({
   ...state,
-  jobOptions: [
-    job,
-    ...state.jobOptions,
-  ],
+  invoice: {
+    ...state.invoice,
+    lines: state.invoice.lines.map(line => ({
+      ...line,
+      lineJobOptions: [
+        job,
+        ...line.lineJobOptions,
+      ],
+    })),
+  },
+  newLine: {
+    ...state.newLine,
+    lineJobOptions: [
+      job,
+      ...state.newLine.lineJobOptions,
+    ],
+  },
   isPageEdited: true,
 });
 
