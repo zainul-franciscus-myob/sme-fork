@@ -25,6 +25,7 @@ const GeneralJournalDetailView = ({
   onSaveButtonClick,
   onSaveAndButtonClick,
   onCancelButtonClick,
+  onGoBack,
   onDeleteButtonClick,
   confirmModalListeners,
   onUpdateRow,
@@ -43,6 +44,7 @@ const GeneralJournalDetailView = ({
       onSaveAndButtonClick={onSaveAndButtonClick}
       onCancelButtonClick={onCancelButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}
+      onGoBack={onGoBack}
     />
   );
 

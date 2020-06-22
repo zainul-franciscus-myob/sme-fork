@@ -19,6 +19,7 @@ const GeneralJournalDetailActions = ({
   onSaveAndButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
+  onGoBack,
 }) => {
   const dropdownActionItems = [
     <Dropdown.Item
@@ -40,7 +41,7 @@ const GeneralJournalDetailActions = ({
             key="goBack"
             name="goBack"
             type="primary"
-            onClick={onCancelButtonClick}
+            onClick={onGoBack}
           >
             Go back
           </Button>,

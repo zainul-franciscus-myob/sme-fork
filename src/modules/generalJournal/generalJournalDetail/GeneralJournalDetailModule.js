@@ -313,7 +313,6 @@ export default class GeneralJournalDetailModule {
     this.dispatcher.setCreatedAccountLoadingState(true);
     this.accountModalModule.close();
 
-
     const onSuccess = (payload) => {
       this.dispatcher.setCreatedAccountLoadingState(false);
       this.dispatcher.loadAccountAfterCreate(payload);
@@ -355,6 +354,7 @@ export default class GeneralJournalDetailModule {
         onSaveAndButtonClick={this.saveAnd}
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
+        onGoBack={this.redirectToTransactionList}
         confirmModalListeners={{
           onDismissModal: this.dispatcher.closeModal,
           deleteModal: {
