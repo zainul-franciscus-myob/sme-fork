@@ -108,7 +108,7 @@ const PayrollLeaveDetailTable = ({
             Balance adjustment
             <Tooltip triggerContent={<Icons.Info />} placement="right">
             Type the number of hours you want to adjust the total by for
-            each leave accrual. Opening balance can be entered here
+            each leave accrual. Opening leave balances can be entered here
             </Tooltip>
           </Table.HeaderItem>
           <Table.HeaderItem {...tableConfig.carryOver}>
