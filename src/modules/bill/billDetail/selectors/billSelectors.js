@@ -199,7 +199,7 @@ const getIsLayoutSupported = createSelector(
 
 export const getShowExportPdfButton = createSelector(
   getBillLayout, layout => [
-    BillLayout.SERVICE, BillLayout.ITEM_AND_SERVICE, BillLayout.PROFESSIONAL,
+    BillLayout.SERVICE, BillLayout.ITEM_AND_SERVICE,
   ].includes(layout),
 );
 
