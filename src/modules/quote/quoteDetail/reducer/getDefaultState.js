@@ -58,6 +58,7 @@ const getDefaultState = () => ({
     itemId: '',
     unitPrice: '',
     discount: '',
+    lineJobOptions: [],
   },
   totals: {
     subTotal: '$0.00',
@@ -69,7 +70,6 @@ const getDefaultState = () => ({
   commentOptions: [],
   itemOptions: [],
   accountOptions: [],
-  jobOptions: [],
   taxCodeOptions: [],
   template: {
     templateOptions: [],

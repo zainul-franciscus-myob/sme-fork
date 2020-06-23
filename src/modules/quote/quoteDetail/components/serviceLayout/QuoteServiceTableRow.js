@@ -8,7 +8,6 @@ import {
   getIsCalculating,
   getIsJobComboboxDisabled,
   getIsReadOnly,
-  getJobOptions,
   getQuoteLine,
   getTaxCodeOptions,
 } from '../../selectors/QuoteDetailSelectors';
@@ -65,6 +64,7 @@ const QuoteServiceTableRow = ({
     jobId,
     taxCodeId,
     amount,
+    lineJobOptions,
   } = quoteLine;
 
   if ([QuoteLineType.HEADER, QuoteLineType.SUB_TOTAL].includes(type)) {
@@ -117,7 +117,7 @@ const QuoteServiceTableRow = ({
         numeralDecimalScaleMax={2}
       />
       {isQuoteJobColumnEnabled && <JobCombobox
-        items={jobOptions}
+        items={lineJobOptions}
         selectedId={jobId}
         addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
         onChange={onComboboxChange('jobId', onChange)}
@@ -138,7 +138,6 @@ const QuoteServiceTableRow = ({
 
 const mapStateToProps = (state, props) => ({
   quoteLine: getQuoteLine(state, props),
-  jobOptions: getJobOptions(state),
   taxCodeOptions: getTaxCodeOptions(state),
   accountOptions: getAccountOptions(state),
   isAccountComboboxDisabled: getIsAccountComboboxDisabled(state),

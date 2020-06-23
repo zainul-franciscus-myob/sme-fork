@@ -3,6 +3,7 @@ import {
   CHANGE_EXPORT_PDF_TEMPLATE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ITEM_SELLING_DETAILS,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_QUOTE_DETAIL,
   REMOVE_QUOTE_LINE,
   SET_ACCOUNT_LOADING_STATE,
@@ -96,6 +97,143 @@ describe('quoteDetailReducer', () => {
         const actual = quoteDetailReducer(state, updatedAction);
 
         expect(actual.emailQuote).toEqual(expected);
+      });
+    });
+  });
+
+  describe('job options on lines', () => {
+    it('adds newly created job to job list for the new line', () => {
+      const state = {
+        quote: {
+          lines: [
+            {
+              lineJobOptions: [
+                {
+                  id: '1',
+                  isActive: true,
+                },
+              ],
+            },
+          ],
+        },
+        newLine: {
+          lineJobOptions: [
+            {
+              id: '1',
+              isActive: true,
+            },
+          ],
+        },
+      };
+      const action = {
+        intent: LOAD_JOB_AFTER_CREATE,
+        id: '3',
+        jobName: 'qajob',
+        jobNumber: '123',
+      };
+      const actual = quoteDetailReducer(state, action);
+
+      expect(actual.newLine.lineJobOptions).toEqual([
+        {
+          id: '3',
+          jobName: 'qajob',
+          jobNumber: '123',
+        },
+        {
+          id: '1',
+          isActive: true,
+        },
+      ]);
+    });
+
+    it('shows newly created job through quick add after creation', () => {
+      const state = {
+        quote: {
+          lines: [
+            {
+              lineJobOptions: [
+                {
+                  id: '1',
+                  isActive: true,
+                },
+                {
+                  id: '2',
+                  isActive: false,
+                },
+              ],
+            },
+          ],
+        },
+        newLine: {
+          lineJobOptions: [],
+        },
+      };
+      const action = {
+        intent: LOAD_JOB_AFTER_CREATE,
+        id: '3',
+        jobName: 'qajob',
+        jobNumber: '123',
+      };
+
+      const actual = quoteDetailReducer(state, action);
+      actual.quote.lines.forEach(line => {
+        expect(line.lineJobOptions).toEqual([
+          {
+            id: '3',
+            jobName: 'qajob',
+            jobNumber: '123',
+          },
+          {
+            id: '1',
+            isActive: true,
+          },
+          {
+            id: '2',
+            isActive: false,
+          },
+        ]);
+      });
+    });
+
+    it('shows both active and assigned inactive job options against each line', () => {
+      const state = {};
+      const action = {
+        intent: LOAD_QUOTE_DETAIL,
+        quote: {
+          lines: [
+            {
+              jobId: '2',
+            },
+          ],
+        },
+        jobOptions: [
+          {
+            id: '1',
+            isActive: true,
+          },
+          {
+            id: '2',
+            isActive: false,
+          },
+          {
+            id: '3',
+            isActive: false,
+          },
+        ],
+      };
+      const actual = quoteDetailReducer(state, action);
+
+      actual.quote.lines.forEach(line => {
+        expect(line.lineJobOptions).toEqual([
+          {
+            id: '1',
+            isActive: true,
+          },
+          {
+            id: '2',
+            isActive: false,
+          },
+        ]);
       });
     });
   });

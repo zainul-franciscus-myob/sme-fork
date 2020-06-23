@@ -125,8 +125,8 @@ const createQuoteDetailDispatcher = store => ({
     intent: LOAD_CONTACT_AFTER_CREATE, contactId, ...payload,
   }),
 
-  loadJobAfterCreate: (jobId, payload) => store.dispatch({
-    intent: LOAD_JOB_AFTER_CREATE, jobId, ...payload,
+  loadJobAfterCreate: (payload) => store.dispatch({
+    intent: LOAD_JOB_AFTER_CREATE, ...payload,
   }),
 
   setContactLoadingState: isContactLoading => store.dispatch({

@@ -58,7 +58,6 @@ const getContactOptions = state => state.contactOptions;
 export const getExpirationTermOptions = state => state.expirationTermOptions;
 export const getCommentOptions = state => state.commentOptions;
 export const getItemOptions = state => state.itemOptions;
-export const getJobOptions = state => state.jobOptions;
 export const getTaxCodeOptions = state => state.taxCodeOptions;
 export const getAccountOptions = state => state.accountOptions;
 

@@ -93,16 +93,26 @@ const getLoadQuoteDetailEmailQuote = (emailQuote, quoteNumber) => (
     : {}
 );
 
+const buildJobOptions = ({ action, jobId }) => {
+  const { jobOptions = [] } = action;
+  return jobOptions.filter(({ isActive, id }) => isActive || id === jobId);
+};
+
 const loadQuoteDetail = (state, action) => ({
   ...state,
   pageTitle: action.pageTitle,
   quote: {
     ...state.quote,
     ...action.quote,
+    lines: action.quote.lines.map(line => ({
+      ...line,
+      lineJobOptions: buildJobOptions({ action, jobId: line.jobId }),
+    })),
   },
   newLine: {
     ...state.newLine,
     ...action.newLine,
+    lineJobOptions: buildJobOptions({ action }),
   },
   totals: action.totals,
   contactOptions: action.contactOptions,
@@ -111,7 +121,6 @@ const loadQuoteDetail = (state, action) => ({
   template: action.template || state.template,
   itemOptions: action.itemOptions,
   accountOptions: action.accountOptions,
-  jobOptions: action.jobOptions,
   taxCodeOptions: action.taxCodeOptions,
   emailQuote: {
     ...state.emailQuote,
@@ -302,10 +311,23 @@ const loadAccountAfterCreate = (state, { intent, ...account }) => ({
 
 const loadJobAfterCreate = (state, { intent, ...job }) => ({
   ...state,
-  jobOptions: [
-    job,
-    ...state.jobOptions,
-  ],
+  quote: {
+    ...state.quote,
+    lines: state.quote.lines.map(line => ({
+      ...line,
+      lineJobOptions: [
+        job,
+        ...line.lineJobOptions,
+      ],
+    })),
+  },
+  newLine: {
+    ...state.newLine,
+    lineJobOptions: [
+      job,
+      ...state.newLine.lineJobOptions,
+    ],
+  },
   isPageEdited: true,
 });
 
