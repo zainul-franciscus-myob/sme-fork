@@ -1,4 +1,5 @@
 {
   "jobName": "qajob",
-  "jobNumber": "123"
+  "jobNumber": "123",
+  "isActive": true
 }

@@ -34,6 +34,7 @@
             "displayName": "My Sales Account 1",
             "accountType": "Sales",
             "taxCodeId": "123",
+            "jobId": "1",
             "displayId": "1-123"
           },
           {
@@ -41,6 +42,7 @@
             "displayName": "My Assets Account 1",
             "accountType": "Assets",
             "taxCodeId": "124",
+            "jobId": "1",
             "displayId": "2-123"
           },
           {
@@ -48,6 +50,7 @@
             "displayName": "My (Inactive) Assets Account 2",
             "accountType": "Assets",
             "taxCodeId": "124",
+            "jobId": "1",
             "displayId": "2-124"
           }
         ],

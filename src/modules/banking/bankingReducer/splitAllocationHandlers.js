@@ -1,5 +1,6 @@
 import { allocateTransaction } from './allocateHandlers';
 import {
+  getActiveJobs,
   getContacts,
   getDepositAccounts,
   getWithdrawalAccounts,
@@ -143,6 +144,9 @@ export const deleteSplitAllocationLine = (state, action) => {
   return updateState;
 };
 
+const buildLineJobOptions = ({ state, jobId }) => (state.jobs
+  ? state.jobs.filter(job => job.isActive || job.id === jobId) : []);
+
 export const loadSplitAllocation = (state, action) => {
   const openedEntry = state.entries[action.index];
 
@@ -156,12 +160,18 @@ export const loadSplitAllocation = (state, action) => {
     ...getDefaultState().openEntry.allocate.newLine,
     accounts,
     taxCodes: state.taxCodes,
+    lineJobOptions: getActiveJobs(state),
   };
 
-  const updatedLines = lines.map(line => ({
-    ...line,
-    amountPercent: calculateLineAmountPercent(totalAmount, line.amount),
-  }));
+  const updatedLines = lines.map(line => {
+    const lineJobOptions = buildLineJobOptions({ state, jobId: line.jobId });
+
+    return {
+      ...line,
+      amountPercent: calculateLineAmountPercent(totalAmount, line.amount),
+      lineJobOptions,
+    };
+  });
 
   const allocate = {
     ...action.allocate,
@@ -193,6 +203,7 @@ export const loadNewSplitAllocation = (state, action) => {
     ...defaultState.openEntry.allocate.newLine,
     accounts,
     taxCodes: state.taxCodes,
+    lineJobOptions: getActiveJobs(state),
   };
 
   const allocate = {

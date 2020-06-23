@@ -427,6 +427,26 @@ const loadJobAfterCreate = (state, { intent, ...job }) => ({
     job,
     ...state.jobs,
   ],
+  openEntry: {
+    ...state.openEntry,
+    allocate: {
+      ...state.allocate,
+      lines: state.openEntry.allocate.lines.map(line => ({
+        ...line,
+        lineJobOptions: [
+          job,
+          ...line.lineJobOptions,
+        ],
+      })),
+      newLine: {
+        ...state.openEntry.allocate.newLine,
+        lineJobOptions: [
+          job,
+          ...state.openEntry.allocate.newLine.lineJobOptions,
+        ],
+      },
+    },
+  },
   isPageEdited: true,
 });
 

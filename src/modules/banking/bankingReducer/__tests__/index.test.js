@@ -1,3 +1,4 @@
+import { LOAD_JOB_AFTER_CREATE } from '../../BankingIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import Periods from '../../../../components/PeriodPicker/Periods';
 import TransactionTypes from '../../TransactionTypes';
@@ -146,6 +147,58 @@ describe('bankingReducer', () => {
 
       expect(actual.filterOptions.dateFrom).toEqual(dateFrom);
       expect(actual.filterOptions.dateTo).toEqual(dateTo);
+    });
+  });
+
+  describe('LOAD_JOB_AFTER_CREATE', () => {
+    const lineJobOptions = [
+      {
+        id: '1',
+        jobNumber: '100',
+      },
+      {
+        id: '2',
+        jobNumber: '200',
+      },
+    ];
+    const state = {
+      jobs: lineJobOptions,
+      openEntry: {
+        allocate: {
+          lines: [{ lineJobOptions }, { lineJobOptions }, { lineJobOptions }],
+          newLine: { lineJobOptions },
+        },
+      },
+    };
+
+    const action = {
+      intent: LOAD_JOB_AFTER_CREATE,
+      id: '3',
+      jobNumber: '300',
+    };
+
+    const actual = bankingReducer(state, action);
+
+    it('adds newly created job into the front of jobOptions on each line', () => {
+      expect(actual.openEntry.allocate.lines.map(line => line.lineJobOptions[0])).toEqual([
+        { id: '3', jobNumber: '300' },
+        { id: '3', jobNumber: '300' },
+        { id: '3', jobNumber: '300' },
+      ]);
+    });
+
+    it('adds newly created job into the front of jobOptions on new line', () => {
+      expect(actual.openEntry.allocate.newLine.lineJobOptions[0]).toEqual({
+        id: '3',
+        jobNumber: '300',
+      });
+    });
+
+    it('adds newly created job into jobs', () => {
+      expect(actual.jobs[0]).toEqual({
+        id: '3',
+        jobNumber: '300',
+      });
     });
   });
 });

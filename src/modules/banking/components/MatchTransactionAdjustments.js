@@ -7,7 +7,8 @@ import React from 'react';
 
 import { getAccounts, getAdjustments } from '../bankingSelectors/matchTransactionSelectors';
 import {
-  getIsBankingJobColumnEnabled, getIsJobComboboxDisabled, getIsLoadingAccount, getJobs, getTaxCodes,
+  getActiveJobs, getIsBankingJobColumnEnabled,
+  getIsJobComboboxDisabled, getIsLoadingAccount, getTaxCodes,
 } from '../bankingSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
@@ -179,7 +180,7 @@ const mapStateToProps = state => ({
   adjustments: getAdjustments(state),
   taxCodes: getTaxCodes(state),
   accounts: getAccounts(state),
-  jobs: getJobs(state),
+  jobs: getActiveJobs(state),
   taxCodeLabel: getRegionToDialectText(state.region)('Tax code'),
   isLoadingAccount: getIsLoadingAccount(state),
   isJobComboboxDisabled: getIsJobComboboxDisabled(state),

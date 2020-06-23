@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsBankingJobColumnEnabled, getIsJobComboboxDisabled, getJobs,
+  getIsBankingJobColumnEnabled, getIsJobComboboxDisabled,
 } from '../bankingSelectors';
 import {
   getLineDataByIndexSelector, getNewLineData,
@@ -40,7 +40,6 @@ const SplitAllocationRow = (props) => {
     labels,
     disabled,
     newLineData,
-    jobOptions,
     isBankingJobColumnEnabled,
     isJobComboboxDisabled,
     ...feelixInjectedProps
@@ -57,6 +56,7 @@ const SplitAllocationRow = (props) => {
     jobId,
     taxCodeId,
     quantity = '',
+    lineJobOptions = [],
   } = data;
 
   return (
@@ -117,7 +117,7 @@ const SplitAllocationRow = (props) => {
       {isBankingJobColumnEnabled && <JobCombobox
         label="Job"
         onChange={handleComboBoxChange('jobId', onChange)}
-        items={jobOptions}
+        items={lineJobOptions}
         selectedId={jobId}
         disabled={isJobComboboxDisabled}
         addNewJob={() => onAddJob(handleComboBoxChange('jobId', onChange))}
@@ -138,7 +138,6 @@ const makeMapRowStateToProps = () => {
   return (state, ownProps) => ({
     lineData: lineDataByIndex(state, ownProps),
     newLineData: getNewLineData(state),
-    jobOptions: getJobs(state),
     isBankingJobColumnEnabled: getIsBankingJobColumnEnabled(state),
     isJobComboboxDisabled: getIsJobComboboxDisabled(state),
   });

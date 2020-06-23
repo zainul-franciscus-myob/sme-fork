@@ -13,7 +13,11 @@ describe('splitAllocationHandlers', () => {
       isReportable: false,
       isSpendMoney: true,
       contacts: [],
-      lines: [],
+      lines: [
+        { jobId: '1' },
+        { jobId: '2' },
+        { jobId: '3' },
+      ],
     };
 
     const state = {
@@ -26,6 +30,12 @@ describe('splitAllocationHandlers', () => {
         attachments: [],
       },
       contacts: [],
+      jobs: [
+        { id: '1', isActive: false },
+        { id: '2', isActive: false },
+        { id: '3', isActive: true },
+        { id: '4', isActive: true },
+      ],
     };
 
     it('replaces contacts', () => {
@@ -45,6 +55,34 @@ describe('splitAllocationHandlers', () => {
       expect(actual.contacts).toEqual([{
         id: '🦖',
       }]);
+    });
+
+    describe('lineJobOptions', () => {
+      const action = {
+        intent: LOAD_SPLIT_ALLOCATION,
+        index: 0,
+        allocate: {
+          ...response,
+        },
+      };
+
+      const actual = bankingReducer(state, action);
+
+      it('updates lines with lineJobOptions', () => {
+        const lineOneExpectedOptions = state.jobs.filter(job => job.id !== '2');
+        const lineTwoExpectedOptions = state.jobs.filter(job => job.id !== '1');
+        const lineThreeExpectedOptions = state.jobs.filter(job => job.id !== '1' && job.id !== '2');
+
+        expect(actual.openEntry.allocate.lines[0].lineJobOptions).toEqual(lineOneExpectedOptions);
+        expect(actual.openEntry.allocate.lines[1].lineJobOptions).toEqual(lineTwoExpectedOptions);
+        expect(actual.openEntry.allocate.lines[2].lineJobOptions).toEqual(lineThreeExpectedOptions);
+      });
+
+      it('shows active selected jobs against new line', () => {
+        const expectedJobOptions = state.jobs.filter(job => job.isActive);
+
+        expect(actual.openEntry.allocate.newLine.lineJobOptions).toEqual(expectedJobOptions);
+      });
     });
   });
 

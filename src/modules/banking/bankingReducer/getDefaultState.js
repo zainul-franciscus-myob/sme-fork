@@ -94,6 +94,7 @@ const getDefaultState = () => ({
         description: '',
         amount: '',
         quantity: '',
+        lineJobOptions: [],
       },
     },
     match: {
