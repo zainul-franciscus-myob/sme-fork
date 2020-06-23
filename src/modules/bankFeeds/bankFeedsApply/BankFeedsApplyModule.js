@@ -47,6 +47,8 @@ export default class BankFeedsApplyModule {
   setCopyAlertState = () => this.dispatcher.setCopyAlertState();
 
   submitBankFeedApplication = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
     const onSuccess = () => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setFormAlertState('');
