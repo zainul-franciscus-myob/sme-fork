@@ -58,7 +58,7 @@ const BankFeedsAccountInformation = ({
   notes,
   onUpdateForm,
 }) => (
-  applicationPreference
+  applicationPreference && applicationPreference !== 'online'
     && <>
       <hr />
 
