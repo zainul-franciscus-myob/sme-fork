@@ -90,17 +90,20 @@
     {
       "id": "1",
       "jobNumber": "100",
-      "jobName": "Job 1"
+      "jobName": "Job 1",
+      "isActive": true
     },
     {
       "id": "2",
       "jobNumber": "200",
-      "jobName": "Job 2 with a long name"
+      "jobName": "Job 2 with a long name",
+      "isActive": true
     },
     {
       "id": "3",
       "jobNumber": "12345678901234",
-      "jobName": "Job 3 with an even longer name"
+      "jobName": "Job 3 with an even longer name",
+      "isActive": false
     }
   ],
   "taxCodeOptions": [

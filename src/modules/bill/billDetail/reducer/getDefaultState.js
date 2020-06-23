@@ -64,7 +64,6 @@ export const getDefaultState = () => ({
   expirationTermOptions: [],
   itemOptions: [],
   accountOptions: [],
-  jobOptions: [],
   taxCodeOptions: [],
   newLine: {
     id: '',
@@ -78,6 +77,7 @@ export const getDefaultState = () => ({
     discount: '',
     unitPrice: '',
     itemId: '',
+    lineJobOptions: [],
   },
   originalAmountDue: '0',
   loadingState: LoadingState.LOADING,

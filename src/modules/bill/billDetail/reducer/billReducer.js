@@ -78,6 +78,11 @@ const setOriginalAmountDue = ({
   return calculateAmountDue(totalAmount, amountPaid);
 };
 
+const buildJobOptions = ({ action, jobId }) => {
+  const { jobOptions = [] } = action.response;
+  return jobOptions.filter(({ isActive, id }) => isActive || id === jobId);
+};
+
 const loadBill = (state, action) => {
   const defaultState = getDefaultState();
 
@@ -94,21 +99,24 @@ const loadBill = (state, action) => {
         ? formatIsoDate(state.today)
         : action.response.bill.issueDate,
       lines: action.response.bill.lines.map(line => {
+        const lineJobOptions = buildJobOptions({ action, jobId: line.jobId });
+
         if ([BillLineType.SERVICE, BillLineType.ITEM, BillLineType.SUB_TOTAL].includes(line.type)) {
           const amount = action.response.bill.isTaxInclusive
             ? (new Decimal(line.taxExclusiveAmount).add(line.taxAmount)).valueOf()
             : (new Decimal(line.taxExclusiveAmount)).valueOf();
 
-          return { ...line, amount };
+          return { ...line, amount, lineJobOptions };
         }
 
-        return line;
+        return { ...line, lineJobOptions };
       }),
     },
     originalAmountDue: setOriginalAmountDue(action.response.bill),
     newLine: {
       ...state.newLine,
       ...action.response.newLine,
+      lineJobOptions: buildJobOptions({ action }),
     },
     template: action.response.template || state.template,
     subscription: action.response.subscription
@@ -170,7 +178,7 @@ const updateBillOption = (state, action) => {
   const isUpdatingExpirationTermToDayOfMonth = action.key === 'expirationTerm' && ['DayOfMonthAfterEOM', 'OnADayOfTheMonth'].includes(action.value);
   const isExpirationDays0 = state.bill.expirationDays === '0';
   const shouldSetExpirationDaysTo1 = isUpdatingExpirationTermToDayOfMonth
-  && isExpirationDays0;
+    && isExpirationDays0;
   const isPrefillFields = Object.keys(defaultPrefillStatus).includes(action.key);
 
   return ({
@@ -499,10 +507,23 @@ export const loadAccountAfterCreate = (state, { intent, ...account }) => ({
 
 export const loadJobAfterCreate = (state, { intent, ...job }) => ({
   ...state,
-  jobOptions: [
-    job,
-    ...state.jobOptions,
-  ],
+  bill: {
+    ...state.bill,
+    lines: state.bill.lines.map(line => ({
+      ...line,
+      lineJobOptions: [
+        job,
+        ...line.lineJobOptions,
+      ],
+    })),
+  },
+  newLine: {
+    ...state.newLine,
+    lineJobOptions: [
+      job,
+      ...state.newLine.lineJobOptions,
+    ],
+  },
   isPageEdited: true,
 });
 

@@ -40,7 +40,6 @@ export const getAbn = (state) => state.abn;
 export const getAccountOptions = state => state.accountOptions;
 export const getExpirationTermOptions = state => state.expirationTermOptions;
 export const getItemOptions = state => state.itemOptions;
-export const getJobOptions = state => state.jobOptions;
 export const getSupplierOptions = state => state.supplierOptions;
 export const getTaxCodeOptions = state => state.taxCodeOptions;
 
