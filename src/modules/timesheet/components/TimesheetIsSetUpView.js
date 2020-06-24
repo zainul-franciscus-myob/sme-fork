@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getActiveJobOptions,
   getDisplayStartStopTimes,
   getEmployeeList,
   getFormattedHours,
@@ -75,6 +76,7 @@ const TimesheetIsSetUpView = ({
   onDisplayStartStopTimesChange,
   onHoursBlur,
   isTimesheetJobColumnEnabled,
+  activeJobOptions,
 }) => {
   const baseTableLabels = [
     'Pay item',
@@ -171,7 +173,7 @@ const TimesheetIsSetUpView = ({
         {isTimesheetJobColumnEnabled && <JobCombobox
           label="job"
           onChange={handleComboBoxChange('jobId', onChange)}
-          items={data.jobOptions}
+          items={data.jobOptions ? data.jobOptions : activeJobOptions}
           selectedId={data.jobId}
           disabled={!isEmployeeSelected}
           allowClear
@@ -311,6 +313,7 @@ const mapStateToProps = state => ({
   totalHoursSum: getTimesheetTotalHours(state),
   weekDayTotals: getWeekDayTotals(state),
   isTimesheetJobColumnEnabled: getIsTimesheetJobColumnEnabled(state),
+  activeJobOptions: getActiveJobOptions(state),
 });
 
 export default connect(mapStateToProps)(TimesheetIsSetUpView);

@@ -16,7 +16,7 @@ import {
   TOGGLE_DISPLAY_START_STOP_TIMES,
 } from './timesheetIntents';
 import { RESET_STATE } from '../../SystemIntents';
-import { getFormattedHours } from './timesheetSelectors';
+import { getActiveJobOptions, getFormattedHours } from './timesheetSelectors';
 import LoadingState from '../../components/PageView/LoadingState';
 import ModalType from './ModalType';
 import createReducer from '../../store/createReducer';
@@ -199,7 +199,7 @@ const addRow = (state, { rowData }) => ({
       id: rowData.id,
       payItemId: rowData.payItemId ? rowData.payItemId : '',
       jobId: rowData.jobId ? rowData.jobId : '',
-      jobOptions: state.jobOptions ? buildJobOptions(state, rowData.jobId) : [],
+      jobOptions: state.jobOptions ? getActiveJobOptions(state) : [],
       notes: rowData.notes ? rowData.notes : '',
       startStopDescription: rowData.startStopDescription ? rowData.startStopDescription : '',
       day1: { hours: rowData.day1 ? rowData.day1 : '', readonly: false },

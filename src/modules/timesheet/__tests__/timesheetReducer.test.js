@@ -12,27 +12,28 @@ import loadEmployeeTimesheet from '../mappings/data/loadEmployeeTimesheet';
 import timesheetReducer from '../timesheetReducer';
 
 describe('timesheetReducer', () => {
+  const jobOptions = [
+    {
+      id: '1',
+      jobNumber: '100',
+      jobName: 'Job 1',
+      isActive: false,
+    },
+    {
+      id: '2',
+      jobNumber: '200',
+      jobName: 'Job 2 with a long name',
+      isActive: false,
+    },
+    {
+      id: '3',
+      jobNumber: '12345678901234',
+      jobName: 'Job 3 with an even longer name',
+      isActive: true,
+    },
+  ];
+
   describe('LOAD_EMPLOYEE_TIMESHEET', () => {
-    const jobOptions = [
-      {
-        id: '1',
-        jobNumber: '100',
-        jobName: 'Job 1',
-        isActive: false,
-      },
-      {
-        id: '2',
-        jobNumber: '200',
-        jobName: 'Job 2 with a long name',
-        isActive: false,
-      },
-      {
-        id: '3',
-        jobNumber: '12345678901234',
-        jobName: 'Job 3 with an even longer name',
-        isActive: true,
-      },
-    ];
     it('loads the request payload into the state', () => {
       const state = {
         timesheetRows: [],
@@ -220,6 +221,49 @@ describe('timesheetReducer', () => {
             startStopDescription: '',
             day1: { hours: '', readonly: false },
             day2: { hours: '5', readonly: false },
+            day3: { hours: '', readonly: false },
+            day4: { hours: '', readonly: false },
+            day5: { hours: '', readonly: false },
+            day6: { hours: '', readonly: false },
+            day7: { hours: '', readonly: false },
+          },
+        ],
+      });
+    });
+
+    it('adds a row with active jobs options', () => {
+      const state = {
+        timesheetIsDirty: false,
+        timesheetRows: [],
+        jobOptions,
+      };
+
+      const action = {
+        intent: ADD_ROW,
+        rowData: {},
+      };
+
+      const result = timesheetReducer(state, action);
+
+      expect(result).toEqual({
+        timesheetIsDirty: true,
+        jobOptions,
+        timesheetRows: [
+          {
+            payItemId: '',
+            jobId: '',
+            jobOptions: [
+              {
+                id: '3',
+                jobNumber: '12345678901234',
+                jobName: 'Job 3 with an even longer name',
+                isActive: true,
+              },
+            ],
+            notes: '',
+            startStopDescription: '',
+            day1: { hours: '', readonly: false },
+            day2: { hours: '', readonly: false },
             day3: { hours: '', readonly: false },
             day4: { hours: '', readonly: false },
             day5: { hours: '', readonly: false },
