@@ -2,6 +2,7 @@ import {
   LOAD_BANK_FEED_APPLICATION_DATA,
   SET_ACCOUNT_TYPE,
   SET_ALERT,
+  SET_APPLICATION_ID,
   SET_APPLICATION_PREFERENCE,
   SET_COPY_ALERT_STATE,
   SET_COPY_ALERT_TEXT,
@@ -39,6 +40,11 @@ const BankFeedsApplyDispatcher = store => ({
   setAccountType: accountType => store.dispatch({
     intent: SET_ACCOUNT_TYPE,
     accountType,
+  }),
+
+  setApplicationId: applicationId => store.dispatch({
+    intent: SET_APPLICATION_ID,
+    applicationId,
   }),
 
   setApplicationPreference: applicationPreference => store.dispatch({

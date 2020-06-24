@@ -14,6 +14,7 @@ import PageView from '../../../../components/PageView/PageView';
 const BankFeedsApplyView = ({
   copyAlertState,
   copyAlertText,
+  getAuthorityForm,
   loadingState,
   onCopy,
   onNext,
@@ -34,6 +35,7 @@ const BankFeedsApplyView = ({
       <BankFeedsConnectView
         copyAlertState={copyAlertState}
         copyAlertText={copyAlertText}
+        getAuthorityForm={getAuthorityForm}
         onCopy={onCopy}
         redirectToBank={redirectToBank}
         redirectToBankFeeds={redirectToBankFeeds}

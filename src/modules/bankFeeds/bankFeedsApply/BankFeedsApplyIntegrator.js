@@ -1,10 +1,32 @@
 import {
+  GET_AUTHORITY_FORM,
   LOAD_BANK_FEED_APPLICATION_DATA,
   SUBMIT_BANK_FEED_APPLICATION,
 } from './BankFeedsApplyIntents';
-import { getBusinessId, getRegion, getSubmitApplicationBody } from './BankFeedsApplySelectors';
+import {
+  getApplicationId,
+  getBusinessId,
+  getRegion,
+  getSubmitApplicationBody,
+} from './BankFeedsApplySelectors';
 
 const BankFeedsApplyIntegrator = (store, integration) => ({
+  getAuthorityForm: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = GET_AUTHORITY_FORM;
+    const urlParams = { businessId: getBusinessId(state) };
+
+    integration.readFile({
+      intent,
+      urlParams,
+      params: {
+        applicationId: getApplicationId(state),
+      },
+      onSuccess,
+      onFailure,
+    });
+  },
+
   loadBankFeedApplicationData: ({ onSuccess, onFailure }) => {
     const state = store.getState();
     const urlParams = { businessId: getBusinessId(state) };

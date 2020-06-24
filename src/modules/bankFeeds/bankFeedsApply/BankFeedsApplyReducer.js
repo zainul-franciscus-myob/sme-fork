@@ -2,6 +2,7 @@ import {
   LOAD_BANK_FEED_APPLICATION_DATA,
   SET_ACCOUNT_TYPE,
   SET_ALERT,
+  SET_APPLICATION_ID,
   SET_APPLICATION_PREFERENCE,
   SET_COPY_ALERT_STATE,
   SET_COPY_ALERT_TEXT,
@@ -52,6 +53,7 @@ const initialFinancialInstitutionData = {
 const getDefaultState = () => ({
   ...initialFinancialInstitutionData,
   alert: '',
+  applicationId: '',
   businessId: '',
   bankFeedLoadEmail: 'bankfeedloads@myob.com',
   copyAlertState: false,
@@ -90,6 +92,11 @@ const setAccountTypeState = (state, { accountType }) => ({
 const setAlert = (state, action) => ({
   ...state,
   alert: action.alert,
+});
+
+const setApplicationIdState = (state, { applicationId }) => ({
+  ...state,
+  applicationId,
 });
 
 const setApplicationPreferenceState = (state, { applicationPreference }) => ({
@@ -184,6 +191,7 @@ const handlers = {
   [RESET_STATE]: resetState,
   [SET_ALERT]: setAlert,
   [SET_ACCOUNT_TYPE]: setAccountTypeState,
+  [SET_APPLICATION_ID]: setApplicationIdState,
   [SET_APPLICATION_PREFERENCE]: setApplicationPreferenceState,
   [SET_COPY_ALERT_STATE]: setCopyAlertState,
   [SET_COPY_ALERT_TEXT]: setCopyAlertText,

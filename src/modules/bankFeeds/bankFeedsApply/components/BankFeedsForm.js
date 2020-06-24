@@ -11,6 +11,7 @@ import styles from './BankFeedsConnectView.module.css';
 
 const BankFeedsForm = ({
   bankFeedLoadEmail,
+  getAuthorityForm,
   onCopy,
   setCopyAlertText,
   userEmail,
@@ -34,7 +35,7 @@ const BankFeedsForm = ({
       Check your email {userEmail && <b>{userEmail}</b>} or click the button below to download
       and print your form. Sign the printed authority form and scan a copy to your computer.
 
-      <Button className={styles.printForm} type="primary">Print authority form</Button>
+      <Button className={styles.printForm} type="primary" onClick={() => getAuthorityForm()}>Print authority form</Button>
 
       <h3>2. Email the signed form</h3>
 

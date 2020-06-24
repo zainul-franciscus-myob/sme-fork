@@ -23,6 +23,7 @@ const BankFeedsConnectView = ({
   applicationPreference,
   copyAlertState,
   copyAlertText,
+  getAuthorityForm,
   onCopy,
   redirectToBank,
   redirectToBankFeeds,
@@ -63,6 +64,7 @@ const BankFeedsConnectView = ({
                   : <BankFeedsConnectForm
                     onCopy={onCopy}
                     setCopyAlertText={setCopyAlertText}
+                    getAuthorityForm={getAuthorityForm}
                   />
               }
             />

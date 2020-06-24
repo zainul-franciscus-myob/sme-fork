@@ -2,6 +2,7 @@ export const LOAD_BANK_FEED_APPLICATION_DATA = Symbol('Load bank feed applicatio
 
 export const SET_ACCOUNT_TYPE = Symbol('Set the account type');
 export const SET_ALERT = Symbol('Set the alert for the page');
+export const SET_APPLICATION_ID = Symbol('Set the application id');
 export const SET_APPLICATION_PREFERENCE = Symbol('Set the application preference');
 export const SET_COPY_ALERT_STATE = Symbol('Set the copy alert state');
 export const SET_COPY_ALERT_TEXT = Symbol('Set the copy alert text');
@@ -16,3 +17,4 @@ export const SET_NOTES_STATE = Symbol('Set the notes state');
 export const SUBMIT_BANK_FEED_APPLICATION = Symbol('Submit bank feeds application');
 
 export const UPDATE_FORM = Symbol('Update form');
+export const GET_AUTHORITY_FORM = Symbol('Get authority form');

@@ -8,6 +8,7 @@ export const getAccountSuffix = state => state.accountSuffix;
 export const getAccountSuffixRequired = state => state.accountSuffixRequired;
 export const getAccountType = state => state.accountType;
 export const getAccountTypeRequired = state => state.accountTypeRequired;
+export const getApplicationId = state => state.applicationId;
 export const getApplicationPreference = state => state.applicationPreference;
 export const getBankAccounts = state => state.financialInstitutions.bankAccounts;
 export const getBankFeedLoadEmail = state => state.bankFeedLoadEmail;

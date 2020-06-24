@@ -13,6 +13,7 @@ import BankFeedsApplyReducer from './BankFeedsApplyReducer';
 import BankFeedsApplyView from './components/BankFeedsApplyView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
+import openBlob from '../../../common/blobOpener/openBlob';
 
 export default class BankFeedsApplyModule {
   constructor({
@@ -27,6 +28,20 @@ export default class BankFeedsApplyModule {
     this.integrator = BankFeedsApplyIntegrator(this.store, integration);
     this.navigateTo = navigateTo;
   }
+
+  getAuthorityForm = () => {
+    const onSuccess = (data) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      openBlob({ blob: data });
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    };
+
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+    this.integrator.getAuthorityForm({ onSuccess, onFailure });
+  };
 
   loadBankFeedApplicationData = () => {
     const onSuccess = (response) => {
@@ -49,9 +64,10 @@ export default class BankFeedsApplyModule {
   submitBankFeedApplication = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
-    const onSuccess = () => {
+    const onSuccess = (response) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setFormAlertState('');
+      this.dispatcher.setApplicationId(response.applicationId);
       this.dispatcher.setDisplayConnectFormState();
     };
 
@@ -74,6 +90,7 @@ export default class BankFeedsApplyModule {
         <BankFeedsApplyView
           onCopy={this.onCopy}
           onUpdateForm={({ key, value }) => this.dispatcher.updateForm({ key, value })}
+          getAuthorityForm={() => this.getAuthorityForm()}
           redirectToBank={() => this.navigateTo(getOnlineBankLink(this.store.getState()), true)}
           redirectToBankFeeds={() => this.redirectToPath('bankFeeds')}
           redirectToImportStatements={() => this.redirectToPath('bankStatementImport')}
