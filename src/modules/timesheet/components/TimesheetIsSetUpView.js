@@ -96,14 +96,14 @@ const TimesheetIsSetUpView = ({
       {
         columnName: 'Jobs',
         styles: {
-          width: '80px',
+          width: '90px',
         },
       },
       {
         columnName: 'Total',
         styles: {
           align: 'right',
-          width: '100px',
+          width: '75px',
         },
       },
       {
@@ -115,7 +115,7 @@ const TimesheetIsSetUpView = ({
       ...weekDayLabels.map(label => ({
         columnName: label,
         styles: {
-          width: '75px',
+          width: '70px',
           align: 'right',
         },
       })),
