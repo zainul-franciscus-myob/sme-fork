@@ -16,7 +16,8 @@ const getPayRunRoutes = ({
   const routes = [
     {
       name: RouteName.PAY_RUN_CREATE,
-      path: '/:region/:businessId/payRun/new',
+      path: '/au/:businessId/payRun/new',
+      defaultParams: { region: 'au' },
       module: new PayRunModule({
         integration, setRootView, pushMessage, isToggleOn, subscribeOrUpgrade,
       }),
@@ -24,7 +25,8 @@ const getPayRunRoutes = ({
     },
     {
       name: RouteName.PAY_RUN_LIST,
-      path: '/:region/:businessId/payRun/',
+      path: '/au/:businessId/payRun/',
+      defaultParams: { region: 'au' },
       module: new PayRunListModule({
         integration, setRootView, popMessages, replaceURLParams,
       }),
@@ -32,7 +34,8 @@ const getPayRunRoutes = ({
     },
     {
       name: RouteName.PAY_RUN_DETAIL,
-      path: '/:region/:businessId/payRun/:payRunId',
+      path: '/au/:businessId/payRun/:payRunId',
+      defaultParams: { region: 'au' },
       module: new PayRunDetailModule({
         integration, setRootView, featureToggles,
       }),
