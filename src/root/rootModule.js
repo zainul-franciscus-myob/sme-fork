@@ -14,6 +14,7 @@ import Config from '../Config';
 import CreateRootDispatcher from './createRootDispatcher';
 import CreateRootIntegrator from './createRootIntegrator';
 import DrawerModule from '../drawer/DrawerModule';
+import FeatureToggle from '../FeatureToggles';
 import NavigationModule from '../navigation/NavigationModule';
 import OnboardingModule from '../onboarding/OnboardingModule';
 import RootReducer from './rootReducer';
@@ -96,7 +97,15 @@ export default class RootModule {
     await this.integrator.loadSubscription({ onSuccess });
   };
 
-  isToggleOn = (toggleName) => this.featureToggles.isToggleOn(toggleName);
+  isToggleOn = (toggleName) => {
+    if (
+      toggleName === FeatureToggle.EssentialsJobs
+      || toggleName === FeatureToggle.EssentialsJobsPayrun) {
+      return true;
+    }
+
+    return this.featureToggles.isToggleOn(toggleName);
+  }
 
   runLeanEngage = () => {
     const state = this.store.getState();
