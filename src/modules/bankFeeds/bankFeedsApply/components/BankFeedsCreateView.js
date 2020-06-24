@@ -99,16 +99,20 @@ const BankFeedsCreateView = ({
                 };
 
                 if (!financialInstitution) error('Financial institution');
-                if (accountNameRequired && !accountName) error('Account name');
-                if (accountTypeRequired && !accountType) error('Account type');
-                if (bsbRequired && !bsb) error('BSB');
-                if (bsbBankRequired && !bsbBank) error('BSB bank');
-                if (bsbBranchRequired && !bsbBranch) error('BSB branch');
-                if (accountNumberRequired && !accountNumber) error('Account number');
-                if (accountSuffixRequired && !accountSuffix) error('Account suffix');
-                if (branchNameRequired && !branchName) error('Branch name');
-                if (nameOnCardRequired && !nameOnCard) error('Name on card');
-                if (lastFourDigitsRequired && !lastFourDigits) error('Last four digits');
+
+                if (applicationPreference === 'form') {
+                  if (accountNameRequired && !accountName) error('Account name');
+                  if (accountTypeRequired && !accountType) error('Account type');
+                  if (bsbRequired && !bsb) error('BSB');
+                  if (bsbBankRequired && !bsbBank) error('BSB bank');
+                  if (bsbBranchRequired && !bsbBranch) error('BSB branch');
+                  if (accountNumberRequired && !accountNumber) error('Account number');
+                  if (accountSuffixRequired && !accountSuffix) error('Account suffix');
+                  if (branchNameRequired && !branchName) error('Branch name');
+                  if (nameOnCardRequired && !nameOnCard) error('Name on card');
+                  if (lastFourDigitsRequired && !lastFourDigits) error('Last four digits');
+                }
+
                 if (applicationPreference && !confirmedApplication) error('Confirmation');
                 if (errorMessages.length === 0) onNext();
               }}
