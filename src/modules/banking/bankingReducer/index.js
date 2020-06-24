@@ -430,7 +430,7 @@ const loadJobAfterCreate = (state, { intent, ...job }) => ({
   openEntry: {
     ...state.openEntry,
     allocate: {
-      ...state.allocate,
+      ...state.openEntry.allocate,
       lines: state.openEntry.allocate.lines.map(line => ({
         ...line,
         lineJobOptions: [

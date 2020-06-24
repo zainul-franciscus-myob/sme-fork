@@ -165,6 +165,8 @@ describe('bankingReducer', () => {
       jobs: lineJobOptions,
       openEntry: {
         allocate: {
+          id: '1',
+          description: 'just a description',
           lines: [{ lineJobOptions }, { lineJobOptions }, { lineJobOptions }],
           newLine: { lineJobOptions },
         },
@@ -199,6 +201,11 @@ describe('bankingReducer', () => {
         id: '3',
         jobNumber: '300',
       });
+    });
+
+    it('does not update other attributes in allocate', () => {
+      expect(actual.openEntry.allocate.id).toBe('1');
+      expect(actual.openEntry.allocate.description).toBe('just a description');
     });
   });
 });
