@@ -1,5 +1,5 @@
 import {
-  Combobox, DatePicker, DetailHeader, Input, TextArea,
+  Combobox, DetailHeader, Input, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -8,11 +8,13 @@ import {
   getDate,
   getDebitAmount,
   getDescription,
+  getIsBeforeStartOfFinancialYear,
   getIsCreating,
   getReferenceId,
   getSupplierName,
 } from '../SupplierReturnPurchaseSelector';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
+import DatePicker from '../../../components/DatePicker/DatePicker';
 import styles from './SupplierReturnPurchaseOptions.module.css';
 
 const onTextFieldChange = handler => ({ target }) => {
@@ -20,7 +22,9 @@ const onTextFieldChange = handler => ({ target }) => {
   handler({ key: name, value });
 };
 
-const onDateChange = handler => ({ value }) => handler({ key: 'date', value });
+const handleDateChange = (handler, key) => ({ value }) => {
+  handler({ key, value });
+};
 
 const SupplierReturnPurchaseOptions = ({
   supplierName,
@@ -30,7 +34,10 @@ const SupplierReturnPurchaseOptions = ({
   date,
   isCreating,
   onUpdatePurchaseOptions,
+  isBeforeStartOfFinancialYear,
 }) => {
+  const requiredLabel = isCreating ? 'This is required' : undefined;
+
   const primary = (
     <div>
       <Combobox
@@ -67,7 +74,7 @@ const SupplierReturnPurchaseOptions = ({
       <Input
         name="referenceId"
         label="Reference number"
-        requiredLabel={isCreating ? 'This is required' : undefined}
+        requiredLabel={requiredLabel}
         value={referenceId}
         onChange={onTextFieldChange(onUpdatePurchaseOptions)}
         disabled={!isCreating}
@@ -76,9 +83,11 @@ const SupplierReturnPurchaseOptions = ({
       <DatePicker
         name="date"
         label="Date"
-        requiredLabel={isCreating ? 'This is required' : undefined}
         value={date}
-        onSelect={onDateChange(onUpdatePurchaseOptions)}
+        displayWarning={isBeforeStartOfFinancialYear}
+        warningMessage={'The date is set to a previous financial year'}
+        onSelect={handleDateChange(onUpdatePurchaseOptions, 'date')}
+        requiredLabel={requiredLabel}
         disabled={!isCreating}
       />
 
@@ -95,6 +104,7 @@ const mapStateToProps = state => ({
   description: getDescription(state),
   date: getDate(state),
   isCreating: getIsCreating(state),
+  isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
 });
 
 export default connect(mapStateToProps)(SupplierReturnPurchaseOptions);

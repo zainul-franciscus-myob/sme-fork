@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { isBefore } from 'date-fns';
 
 export const getRegion = state => state.region;
 export const getIsLoading = state => state.isLoading;
@@ -16,6 +17,8 @@ export const getIsCreating = state => getSupplierReturnId(state) !== undefined;
 export const getIsSubmitting = state => state.isSubmitting;
 export const getModalType = state => state.modalType;
 export const getIsPageEdited = state => state.isPageEdited;
+
+const getStartOfFinancialYearDate = state => state.startOfFinancialYearDate;
 
 export const getPageTitle = createSelector(
   getIsCreating,
@@ -94,3 +97,11 @@ export const getSupplierReturnPurchasePayload = state => ({
       discount: purchase.discount,
     })),
 });
+
+export const getIsBeforeStartOfFinancialYear = createSelector(
+  getStartOfFinancialYearDate, getDate,
+  (startOfFinancialYearDate, date) => (
+    date && startOfFinancialYearDate
+      && isBefore(new Date(date), new Date(startOfFinancialYearDate))
+  ),
+);

@@ -29,6 +29,7 @@ const getDefaultState = () => ({
   isPagedEdited: false,
   modalType: '',
   alertMessage: '',
+  startOfFinancialYearDate: '',
 });
 
 const pageEdited = { isPageEdited: true };
@@ -41,6 +42,7 @@ const loadPurchaseReturn = (state, action) => ({
     ...action.purchaseReturn,
     originalReferenceId: action.purchaseReturn.referenceId,
   },
+  startOfFinancialYearDate: action.purchaseReturn.startOfFinancialYearDate,
 });
 
 const loadNewPurchaseReturn = loadPurchaseReturn;
