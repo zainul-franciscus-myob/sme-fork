@@ -2,6 +2,7 @@ import {
   LOAD_EMPLOYEE_PAY_MODAL,
   SET_ALERT,
   SET_DELETE_POPOVER_IS_OPEN,
+  SET_EMPLOYEE_PAY_REVERSAL_PREVIEW_MODAL,
   SET_INITIAL_MODAL_STATE,
   SET_IS_MODAL_LOADING,
   SET_MODAL_IS_OPEN,
@@ -29,6 +30,7 @@ const getDefaultState = () => ({
     lines: [],
     isDeletable: false,
     isReversible: false,
+    isReversalPreview: false,
   },
   alert: '',
   loadingState: LoadingState.LOADING,
@@ -45,6 +47,14 @@ const loadEmployeePayDetails = (state, { response }) => ({
   employeePay: {
     ...state.employeePay,
     ...response,
+  },
+});
+
+const setEmployeePayReversalPreviewDetails = (state, { response }) => ({
+  ...state,
+  employeePay: {
+    ...response,
+    isReversalPreview: true,
   },
 });
 
@@ -82,6 +92,7 @@ const handlers = {
   [SET_INITIAL_MODAL_STATE]: setInitialState,
   [SET_MODAL_IS_OPEN]: setModalIsOpen,
   [SET_ALERT]: setAlertMessage,
+  [SET_EMPLOYEE_PAY_REVERSAL_PREVIEW_MODAL]: setEmployeePayReversalPreviewDetails,
 };
 
 const employeePayModalReducer = createReducer(getDefaultState(), handlers);

@@ -49,6 +49,21 @@ export default class EmployeePayModalModule {
     this.integrator.deleteEmployeePayModal({ onSuccess, onFailure });
   };
 
+  loadEmployeePayReversalPreviewDetail = () => {
+    this.dispatcher.setIsModalLoading(LoadingState.LOADING);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setEmployeePayReversalDetails(response);
+      this.dispatcher.setIsModalLoading(LoadingState.LOADING_SUCCESS);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setIsModalLoading(LoadingState.LOADING_FAIL);
+    };
+
+    this.integrator.loadReversalEmployeePayModal({ onSuccess, onFailure });
+  };
+
   openModal = ({
     transactionId, businessId, employeeName, region,
   }) => {
@@ -75,6 +90,7 @@ export default class EmployeePayModalModule {
           onDeleteButtonClick={this.dispatcher.openDeletePopover}
           onDeletePopoverCancel={this.dispatcher.closeDeletePopover}
           onDeletePopoverDelete={this.deleteEmployeePayDetail}
+          onReverseButtonClick={this.loadEmployeePayReversalPreviewDetail}
           onDismissAlert={this.dispatcher.dismissAlert}
           featureToggles={this.featureToggles}
         />

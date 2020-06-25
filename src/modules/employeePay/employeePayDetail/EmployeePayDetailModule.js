@@ -58,6 +58,21 @@ export default class EmployeePayDetailModule {
     this.integrator.deleteEmployeePayDetail({ onSuccess, onFailure });
   };
 
+  loadEmployeePayReversalPreviewDetail = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setEmployeePayReversalPreviewDetails(response);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    };
+
+    this.integrator.loadEmployeePayReversalPreviewDetail({ onSuccess, onFailure });
+  };
+
   goBack = () => {
     window.history.back();
   };
@@ -89,6 +104,7 @@ export default class EmployeePayDetailModule {
           onDeleteConfirmButtonClick={this.deleteEmployeePayDetail}
           onDeleteCancelButtonClick={this.dispatcher.closeDeleteModal}
           onDismissAlert={this.dispatcher.dismissAlert}
+          onReverseButtonClick={this.loadEmployeePayReversalPreviewDetail}
           featureToggles={this.featureToggles}
         />
       </Provider>

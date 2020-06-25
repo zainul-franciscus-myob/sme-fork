@@ -2,6 +2,7 @@ import {
   LOAD_EMPLOYEE_PAY_MODAL,
   SET_ALERT,
   SET_DELETE_POPOVER_IS_OPEN,
+  SET_EMPLOYEE_PAY_REVERSAL_PREVIEW_MODAL,
   SET_INITIAL_MODAL_STATE,
   SET_IS_MODAL_LOADING,
   SET_MODAL_IS_OPEN,
@@ -39,6 +40,13 @@ const createEmployeePayModalDispatchers = store => ({
   setEmployeePayDetails: (response) => {
     store.dispatch({
       intent: LOAD_EMPLOYEE_PAY_MODAL,
+      response,
+    });
+  },
+
+  setEmployeePayReversalDetails: (response) => {
+    store.dispatch({
+      intent: SET_EMPLOYEE_PAY_REVERSAL_PREVIEW_MODAL,
       response,
     });
   },

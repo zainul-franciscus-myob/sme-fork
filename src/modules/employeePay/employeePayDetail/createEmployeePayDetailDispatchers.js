@@ -3,6 +3,7 @@ import {
   SET_ALERT,
   SET_DELETE_MODAL_OPEN_STATE,
   SET_EMPLOYEE_PAY_DETAIL,
+  SET_EMPLOYEE_PAY_REVERSAL_PREVIEW_DETAIL,
   SET_LOADING_STATE,
 } from './EmployeePayDetailIntents';
 
@@ -30,6 +31,13 @@ const createEmployeePayDetailDispatchers = store => ({
   setEmployeePayDetails: (response) => {
     store.dispatch({
       intent: SET_EMPLOYEE_PAY_DETAIL,
+      response,
+    });
+  },
+
+  setEmployeePayReversalPreviewDetails: (response) => {
+    store.dispatch({
+      intent: SET_EMPLOYEE_PAY_REVERSAL_PREVIEW_DETAIL,
       response,
     });
   },

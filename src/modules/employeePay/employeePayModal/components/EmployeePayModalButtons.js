@@ -9,6 +9,7 @@ const EmployeePayModalButtons = ({
   onDeletePopoverCancel,
   onDeleteButtonClick,
   onBackButtonClick,
+  onReverseButtonClick,
   showReverse,
   loadingSuccess,
 }) => (
@@ -18,6 +19,7 @@ const EmployeePayModalButtons = ({
         key="modal-reverse-btn"
         id="modal-reverse-btn"
         type="secondary"
+        onClick={onReverseButtonClick}
       >
         Reverse Pay
       </Button>,

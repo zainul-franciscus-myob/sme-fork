@@ -4,6 +4,7 @@ import React from 'react';
 const EmployeePayDetailButtons = ({
   onGoBackClick,
   onDeleteButtonClick,
+  onReverseButtonClick,
   showReverse,
 }) => (
   <ButtonRow
@@ -12,6 +13,7 @@ const EmployeePayDetailButtons = ({
         key="modal-reverse-btn"
         id="modal-reverse-btn"
         type="secondary"
+        onClick={onReverseButtonClick}
       >
         Reverse Pay
       </Button>,

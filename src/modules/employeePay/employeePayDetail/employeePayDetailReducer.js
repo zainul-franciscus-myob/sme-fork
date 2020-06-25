@@ -6,6 +6,7 @@ import {
   SET_ALERT,
   SET_DELETE_MODAL_OPEN_STATE,
   SET_EMPLOYEE_PAY_DETAIL,
+  SET_EMPLOYEE_PAY_REVERSAL_PREVIEW_DETAIL,
   SET_LOADING_STATE,
 } from './EmployeePayDetailIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -34,6 +35,7 @@ const getDefaultState = () => ({
     totalNetPayment: '',
     transactionDesc: '',
     isReversible: false,
+    isReversalPreview: false,
   },
   alert: '',
   isDeleteModalOpen: false,
@@ -64,6 +66,14 @@ const setEmployeePayDetails = (state, { response }) => ({
   },
 });
 
+const setEmployeePayReversalPreviewDetails = (state, { response }) => ({
+  ...state,
+  employeePay: {
+    ...response,
+    isReversalPreview: true,
+  },
+});
+
 const setDeleteModalOpenState = (store, { isOpen }) => ({
   ...store,
   isDeleteModalOpen: isOpen,
@@ -77,6 +87,7 @@ const handlers = {
   [SET_DELETE_MODAL_OPEN_STATE]: setDeleteModalOpenState,
   [SET_ALERT]: setAlertMessage,
   [SET_EMPLOYEE_PAY_DETAIL]: setEmployeePayDetails,
+  [SET_EMPLOYEE_PAY_REVERSAL_PREVIEW_DETAIL]: setEmployeePayReversalPreviewDetails,
 };
 
 const employeePayDetailReducer = createReducer(getDefaultState(), handlers);

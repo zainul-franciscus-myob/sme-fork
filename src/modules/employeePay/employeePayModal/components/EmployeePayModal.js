@@ -1,5 +1,7 @@
 import {
   Alert,
+  Button,
+  ButtonRow,
   Icons,
   Modal,
   Separator,
@@ -26,6 +28,7 @@ import styles from './EmployeePayModal.module.css';
 const EmployeePayModal = ({
   onBackButtonClick,
   onDeleteButtonClick,
+  onReverseButtonClick,
   employeePay,
   loadingState,
   onDeletePopoverDelete,
@@ -53,6 +56,7 @@ const EmployeePayModal = ({
     parentBusinessEventId,
     parentBusinessEventDisplayId,
     isReversible,
+    isReversalPreview,
   } = employeePay;
 
   if (!isOpen) {
@@ -62,6 +66,13 @@ const EmployeePayModal = ({
   const alert = alertMessage && (
     <Alert type="danger" onDismiss={onDismissAlert}>
       {alertMessage}
+    </Alert>
+  );
+
+  const infoReversal = isReversalPreview && (
+    <Alert type="info" testid="reversalInfoMsg">
+      This pay has been reported to the ATO for Single Touch Payroll.
+      When you record the reversal, you will have to report it to STP for reporting purposes.
     </Alert>
   );
 
@@ -78,9 +89,27 @@ const EmployeePayModal = ({
     </p>
   );
 
+  const modalButtons = isReversalPreview
+    ? <ButtonRow primary={[
+      <Button type="secondary" onClick={() => console.log('Record reversal cancel')}>Cancel</Button>,
+      <Button onClick={() => console.log('Record reversal')}>Record reversal</Button>,
+    ]}
+    />
+    : <EmployeePayModalButtons
+      deletePopoverIsOpen={deletePopoverIsOpen}
+      onDeletePopoverDelete={onDeletePopoverDelete}
+      onDeletePopoverCancel={onDeletePopoverCancel}
+      onDeleteButtonClick={onDeleteButtonClick}
+      onReverseButtonClick={onReverseButtonClick}
+      onBackButtonClick={onBackButtonClick}
+      showReverse={featureToggles && featureToggles.isPayrollReversibleEnabled && isReversible}
+      loadingSuccess={loadingState === LoadingState.LOADING_SUCCESS}
+    />;
+
   const modalDetail = (
     <>
       {alert}
+      {infoReversal}
       <EmployeePayModalHeader
         paymentMethod={paymentMethod}
         accountName={accountName}
@@ -111,15 +140,7 @@ const EmployeePayModal = ({
         <PageView loadingState={loadingState} view={modalDetail} />
       </Modal.Body>
       <div className={styles.modalButtons}>
-        <EmployeePayModalButtons
-          deletePopoverIsOpen={deletePopoverIsOpen}
-          onDeletePopoverDelete={onDeletePopoverDelete}
-          onDeletePopoverCancel={onDeletePopoverCancel}
-          onDeleteButtonClick={onDeleteButtonClick}
-          onBackButtonClick={onBackButtonClick}
-          showReverse={featureToggles && featureToggles.isPayrollReversibleEnabled && isReversible}
-          loadingSuccess={loadingState === LoadingState.LOADING_SUCCESS}
-        />
+        { modalButtons }
       </div>
     </Modal>
   );

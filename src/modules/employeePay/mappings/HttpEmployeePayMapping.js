@@ -1,5 +1,5 @@
-import { DELETE_EMPLOYEE_PAY_DETAIL, LOAD_EMPLOYEE_PAY_DETAIL } from '../employeePayDetail/EmployeePayDetailIntents';
-import { DELETE_EMPLOYEE_PAY_MODAL, LOAD_EMPLOYEE_PAY_MODAL } from '../employeePayModal/EmployeePayModalIntents';
+import { DELETE_EMPLOYEE_PAY_DETAIL, LOAD_EMPLOYEE_PAY_DETAIL, LOAD_EMPLOYEE_PAY_REVERSAL_PREVIEW_DETAIL } from '../employeePayDetail/EmployeePayDetailIntents';
+import { DELETE_EMPLOYEE_PAY_MODAL, LOAD_EMPLOYEE_PAY_MODAL, LOAD_EMPLOYEE_PAY_REVERSAL_PREVIEW_MODAL } from '../employeePayModal/EmployeePayModalIntents';
 import { SEND_PAY_SLIP_EMAIL } from '../emailPaySlipModal/EmailPaySlipModalIntents';
 
 const HttpEmployeePayMapping = {
@@ -14,6 +14,14 @@ const HttpEmployeePayMapping = {
   [DELETE_EMPLOYEE_PAY_DETAIL]: {
     method: 'DELETE',
     getPath: ({ businessId, transactionId }) => `/${businessId}/employeePay/delete_employee_transaction_detail/${transactionId}`,
+  },
+  [LOAD_EMPLOYEE_PAY_REVERSAL_PREVIEW_MODAL]: {
+    method: 'GET',
+    getPath: ({ businessId, transactionId }) => `/${businessId}/employeePay/get_employee_pay_reversal_preview/${transactionId}`,
+  },
+  [LOAD_EMPLOYEE_PAY_REVERSAL_PREVIEW_DETAIL]: {
+    method: 'GET',
+    getPath: ({ businessId, transactionId }) => `/${businessId}/employeePay/get_employee_pay_reversal_preview/${transactionId}`,
   },
   [DELETE_EMPLOYEE_PAY_MODAL]: {
     method: 'DELETE',

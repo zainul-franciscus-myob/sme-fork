@@ -1,6 +1,8 @@
 import {
   Alert,
   BaseTemplate,
+  Button,
+  ButtonRow,
   Card,
   Icons,
   PageHead,
@@ -36,6 +38,7 @@ const EmployeePayDetailView = ({
   onDeleteButtonClick,
   onDeleteConfirmButtonClick,
   onDeleteCancelButtonClick,
+  onReverseButtonClick,
   featureToggles,
 }) => {
   const alert = alertMessage && (
@@ -68,7 +71,15 @@ const EmployeePayDetailView = ({
     parentBusinessEventId,
     parentBusinessEventDisplayId,
     isReversible,
+    isReversalPreview,
   } = employeePay;
+
+  const infoReversal = isReversalPreview && (
+    <Alert type="info" testid="reversalInfoMsg">
+      This pay has been reported to the ATO for Single Touch Payroll.
+      When you record the reversal, you will have to report it to STP for reporting purposes.
+    </Alert>
+  );
 
   const electronicPaymentFooter = (
     <p className={styles.electronicPaymentFooter}>
@@ -93,9 +104,23 @@ const EmployeePayDetailView = ({
     </div>
   );
 
+  const modalButtons = isReversalPreview
+    ? <ButtonRow primary={[
+      <Button type="secondary" onClick={() => console.log('Record reversal cancel')}>Cancel</Button>,
+      <Button onClick={() => console.log('Record reversal')}>Record reversal</Button>,
+    ]}
+    />
+    : <EmployeePayDetailButtons
+      onDeleteButtonClick={onDeleteButtonClick}
+      onGoBackClick={onGoBackClick}
+      onReverseButtonClick={onReverseButtonClick}
+      showReverse={featureToggles && featureToggles.isPayrollReversibleEnabled && isReversible}
+    />;
+
   const view = (
     <BaseTemplate>
       {alert}
+      {infoReversal}
       {deleteModal}
       <PageHead title={pageTitle} />
       <Card footer={totalsFooter}>
@@ -113,11 +138,7 @@ const EmployeePayDetailView = ({
         <Separator />
         <EmployeePayDetailTable payItemGroups={lines} />
       </Card>
-      <EmployeePayDetailButtons
-        onDeleteButtonClick={onDeleteButtonClick}
-        onGoBackClick={onGoBackClick}
-        showReverse={featureToggles && featureToggles.isPayrollReversibleEnabled && isReversible}
-      />
+      {modalButtons}
     </BaseTemplate>
   );
 
