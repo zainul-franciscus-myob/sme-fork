@@ -1,5 +1,10 @@
 import { LOAD_NEW_TRANSFER_MONEY, LOAD_TRANSFER_MONEY_DETAIL } from '../../TransferMoneyIntents';
-import { getBalance, getLoadTransferMoneyIntent, getLoadTransferMoneyUrlParams } from '../transferMoneyDetailSelectors';
+import {
+  getBalance,
+  getIsBeforeStartOfFinancialYear,
+  getLoadTransferMoneyIntent,
+  getLoadTransferMoneyUrlParams,
+} from '../transferMoneyDetailSelectors';
 
 const accounts = [
   {
@@ -174,5 +179,27 @@ describe('transferMoneyDetailSelectors', () => {
         businessId: '👩‍🚀',
       });
     });
+  });
+
+  describe('getIsBeforeStartOfFinancialYear', () => {
+    it.each([
+      ['2014-07-01', '2010-01-01', true],
+      ['2014-07-01', '2014-06-30', true],
+      ['2014-07-01', '2014-07-01', false],
+      ['2014-07-01', '2014-07-02', false],
+      ['2014-07-01', '2015-01-01', false],
+    ])(
+      'when start of financial year date is %s and date is %s, should return %s',
+      (startOfFinancialYearDate, date, expected) => {
+        const state = {
+          transferMoney: { date },
+          startOfFinancialYearDate,
+        };
+
+        const actual = getIsBeforeStartOfFinancialYear(state);
+
+        expect(actual).toEqual(expected);
+      },
+    );
   });
 });

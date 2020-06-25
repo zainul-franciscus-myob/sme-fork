@@ -34,6 +34,7 @@ const getDefaultState = () => ({
   alert: undefined,
   businessId: '',
   region: '',
+  startOfFinancialYearDate: '',
 });
 
 const pageEdited = { isPageEdited: true };
@@ -45,6 +46,7 @@ const loadTransferMoneyDetail = (state, { transferMoney }) => ({
     ...transferMoney,
     originalReferenceId: transferMoney.referenceId,
   },
+  startOfFinancialYearDate: transferMoney.startOfFinancialYearDate,
 });
 
 const loadNewTransferMoney = (state, { transferMoney }) => ({
@@ -55,6 +57,7 @@ const loadNewTransferMoney = (state, { transferMoney }) => ({
     date: formatIsoDate(new Date()),
     originalReferenceId: transferMoney.referenceId,
   },
+  startOfFinancialYearDate: transferMoney.startOfFinancialYearDate,
 });
 
 const updateForm = (state, action) => ({

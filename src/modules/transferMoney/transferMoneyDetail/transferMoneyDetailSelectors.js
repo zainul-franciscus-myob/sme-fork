@@ -1,4 +1,5 @@
 import { createSelector, createStructuredSelector } from 'reselect';
+import { isBefore } from 'date-fns';
 
 import {
   LOAD_NEW_DUPLICATE_TRANSFER_MONEY,
@@ -16,6 +17,7 @@ const getAccounts = state => state.transferMoney.accounts;
 const getSelectedTransferFromAccountId = state => state.transferMoney.selectedTransferFromAccountId;
 const getSelectedTransferToAccountId = state => state.transferMoney.selectedTransferToAccountId;
 const getDescription = state => state.transferMoney.description;
+const getStartOfFinancialYearDate = (state) => state.startOfFinancialYearDate;
 
 export const getTransferMoneyProperties = createStructuredSelector({
   referenceId: getReferenceId,
@@ -187,4 +189,11 @@ export const getCreateNewUrl = createSelector(
   getRegion,
   getBusinessId,
   (region, businessId) => `/#/${region}/${businessId}/transferMoney/new`,
+);
+
+export const getIsBeforeStartOfFinancialYear = createSelector(
+  getDate,
+  getStartOfFinancialYearDate,
+  (date, startOfFinancialYearDate) => date && startOfFinancialYearDate
+  && isBefore(new Date(date), new Date(startOfFinancialYearDate)),
 );

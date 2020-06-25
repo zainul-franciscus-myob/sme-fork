@@ -21,5 +21,6 @@
   "selectedTransferFromAccountId": "123",
   "selectedTransferToAccountId": "456",
   "description": "Money transfer",
-  "pageTitle": "Transfer money transaction TM00023"
+  "pageTitle": "Transfer money transaction TM00023",
+  "startOfFinancialYearDate": "2019-07-01T00:00:00"
 }

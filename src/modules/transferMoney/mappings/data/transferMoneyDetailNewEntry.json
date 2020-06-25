@@ -16,5 +16,6 @@
       "currentBalance": "10000.00"
     }
   ],
-  "pageTitle": "Create transfer money transaction"
+  "pageTitle": "Create transfer money transaction",
+  "startOfFinancialYearDate": "2019-07-01T00:00:00"
 }

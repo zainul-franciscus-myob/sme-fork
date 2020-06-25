@@ -1,13 +1,14 @@
 import {
-  Columns, DatePicker, DetailHeader, Input, Separator, TextArea,
+  Columns, DetailHeader, Input, Separator, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getBalance, getTransferMoneyProperties } from '../transferMoneyDetailSelectors';
+import { getBalance, getIsBeforeStartOfFinancialYear, getTransferMoneyProperties } from '../transferMoneyDetailSelectors';
 import AccountBalances from './TransferMoneyAccountBalance';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import Calculator from '../../../../components/Calculator/Calculator';
+import DatePicker from '../../../../components/DatePicker/DatePicker';
 import handleAmountInputChange from '../../../../components/handlers/handleAmountInputChange';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import handleDateChange from '../../../../components/handlers/handleDateChange';
@@ -25,6 +26,7 @@ const TransferMoneyDetailForm = ({
   },
   onUpdateForm,
   isCreating,
+  isBeforeStartOfFinancialYear,
 }) => {
   const primary = (
     <React.Fragment>
@@ -74,6 +76,8 @@ const TransferMoneyDetailForm = ({
         disabled={!isCreating}
         value={date}
         onSelect={handleDateChange('date', onUpdateForm)}
+        displayWarning={isCreating && isBeforeStartOfFinancialYear}
+        warningMessage={'The date is set to a previous financial year'}
       />
     </React.Fragment>
   );
@@ -123,6 +127,7 @@ const TransferMoneyDetailForm = ({
 const mapStateToProps = state => ({
   transferMoney: getTransferMoneyProperties(state),
   balance: getBalance(state),
+  isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
 });
 
 export default connect(mapStateToProps)(TransferMoneyDetailForm);
