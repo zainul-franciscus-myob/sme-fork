@@ -6,10 +6,12 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_DUPLICATE_GENERAL_JOURNAL,
   LOAD_GENERAL_JOURNAL_DETAIL,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_GENERAL_JOURNAL,
   OPEN_MODAL,
   SET_ALERT,
   SET_CREATED_ACCOUNT_LOADING_STATE,
+  SET_CREATED_JOB_LOADING_STATE,
   SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
@@ -62,6 +64,7 @@ const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
   isSubmitting: false,
   isCreatedAccountLoading: false,
+  isCreatedJobLoading: false,
   isPageEdited: false,
   businessId: '',
   region: '',
@@ -225,6 +228,11 @@ const setCreatedAccountLoadingState = (state, action) => ({
   isCreatedAccountLoading: action.isCreatedAccountLoading,
 });
 
+const setCreatedJobLoadingState = (state, action) => ({
+  ...state,
+  isCreatedJobLoading: action.isCreatedJobLoading,
+});
+
 const setAlert = (state, action) => ({
   ...state,
   alert: action.alert,
@@ -293,6 +301,15 @@ const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   isPageEdited: true,
 });
 
+const loadJobAfterCreate = (state, { ...job }) => ({
+  ...state,
+  jobOptions: [
+    job,
+    ...state.jobOptions,
+  ],
+  isPageEdited: true,
+});
+
 const setDuplicateId = (state, action) => ({
   ...state,
   duplicateId: action.duplicateId,
@@ -310,12 +327,14 @@ const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_CREATED_ACCOUNT_LOADING_STATE]: setCreatedAccountLoadingState,
+  [SET_CREATED_JOB_LOADING_STATE]: setCreatedJobLoadingState,
   [SET_ALERT]: setAlert,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
+  [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
   [SET_DUPLICATE_ID]: setDuplicateId,
 };
 const generalJournalReducer = createReducer(getDefaultState(), handlers);

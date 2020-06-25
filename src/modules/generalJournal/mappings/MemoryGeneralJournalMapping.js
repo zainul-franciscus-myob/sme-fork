@@ -4,11 +4,13 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_DUPLICATE_GENERAL_JOURNAL,
   LOAD_GENERAL_JOURNAL_DETAIL,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_GENERAL_JOURNAL,
   UPDATE_GENERAL_JOURNAL,
 } from '../GeneralJournalIntents';
 import createGeneralJournalResponse from './data/createGeneralJournal';
 import createdAccountResponse from './data/createdAccount';
+import createdJobResponse from './data/createdJob';
 import duplicateGeneralJournalEntry from './data/duplicateGeneralJournalEntry';
 import generalJournalDetail from './data/generalJournalDetailEntry';
 import generalJournalDetailNew from './data/generalJournalDetailNewEntry';
@@ -26,6 +28,8 @@ const updateGeneralJournal = ({ onSuccess }) => onSuccess(successResponse);
 
 const loadCreatedAccount = ({ onSuccess }) => onSuccess(createdAccountResponse);
 
+const loadCreatedJob = ({ onSuccess }) => onSuccess(createdJobResponse);
+
 const loadDuplicateGeneralJournal = ({ onSuccess }) => onSuccess(duplicateGeneralJournalEntry);
 
 const MemoryGeneralJournalMapping = {
@@ -35,6 +39,7 @@ const MemoryGeneralJournalMapping = {
   [CREATE_GENERAL_JOURNAL]: createGeneralJournal,
   [UPDATE_GENERAL_JOURNAL]: updateGeneralJournal,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadCreatedAccount,
+  [LOAD_JOB_AFTER_CREATE]: loadCreatedJob,
   [LOAD_DUPLICATE_GENERAL_JOURNAL]: loadDuplicateGeneralJournal,
 };
 

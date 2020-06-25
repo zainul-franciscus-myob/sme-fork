@@ -31,6 +31,7 @@ const GeneralJournalDetailTable = ({
   onRowInputBlur,
   onRemoveRow,
   onCreateAccountButtonClick,
+  onCreateJobButtonClick,
   isGeneralJournalJobColumnEnabled,
   isSystem,
 }) => {
@@ -47,6 +48,7 @@ const GeneralJournalDetailTable = ({
         onRowInputBlur={onRowInputBlur}
         onCreateAccountButtonClick={onCreateAccountButtonClick}
         isGeneralJournalJobColumnEnabled={isGeneralJournalJobColumnEnabled}
+        onCreateJobButtonClick={onCreateJobButtonClick}
       />
     );
   };

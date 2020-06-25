@@ -12,6 +12,7 @@ import {
   getIsLineAmountsTaxInclusive,
   getIsSale,
   getIsTaxInclusive,
+  getJobModalContext,
   getLinesForTaxCalculation,
   getModalUrl,
   getOpenedModalType,
@@ -23,6 +24,7 @@ import {
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import FeatureToggle from '../../../FeatureToggles';
 import GeneralJournalDetailView from './components/GeneralJournalDetailView';
+import JobModalModule from '../../job/jobModal/JobModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
 import SaveActionType from './SaveActionType';
@@ -50,6 +52,7 @@ export default class GeneralJournalDetailModule {
     this.accountModalModule = new AccountModalModule({
       integration,
     });
+    this.jobModalModule = new JobModalModule({ integration });
   }
 
   loadGeneralJournal = () => {
@@ -308,6 +311,36 @@ export default class GeneralJournalDetailModule {
     });
   };
 
+  openJobModal = (onChange) => {
+    const state = this.store.getState();
+    const context = getJobModalContext(state);
+
+    this.jobModalModule.run({
+      context,
+      onLoadFailure: message => this.dispatcher.setAlert({ message, type: 'danger' }),
+      onSaveSuccess: payload => this.loadJobAfterCreate(payload, onChange),
+    });
+  };
+
+  loadJobAfterCreate = ({ message, id }, onChange) => {
+    this.jobModalModule.resetState();
+    this.dispatcher.setAlert({ message, type: 'success' });
+    this.dispatcher.setCreatedJobLoadingState(true);
+
+    const onSuccess = (payload) => {
+      const job = { ...payload, id };
+      this.dispatcher.setCreatedJobLoadingState(false);
+      this.dispatcher.loadJobAfterCreate(id, job);
+      onChange(job);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setCreatedJobLoadingState(false);
+    };
+
+    this.integrator.loadJobAfterCreate({ id, onSuccess, onFailure });
+  }
+
   loadAccountAfterCreate = ({ message, id }, onChange) => {
     this.dispatcher.setAlert({ message, type: 'success' });
     this.dispatcher.setCreatedAccountLoadingState(true);
@@ -345,10 +378,12 @@ export default class GeneralJournalDetailModule {
 
   render = () => {
     const accountModal = this.accountModalModule.render();
+    const jobModal = this.jobModalModule.render();
 
     const generalJournalView = (
       <GeneralJournalDetailView
         accountModal={accountModal}
+        jobModal={jobModal}
         onUpdateHeaderOptions={this.updateHeaderOptions}
         onSaveButtonClick={this.saveGeneralJournal}
         onSaveAndButtonClick={this.saveAnd}
@@ -374,6 +409,7 @@ export default class GeneralJournalDetailModule {
         onRemoveRow={this.deleteGeneralJournalLine}
         onRowInputBlur={this.formatAndCalculateTotals}
         onCreateAccountButtonClick={this.openAccountModal}
+        onCreateJobButtonClick={this.openJobModal}
       />
     );
 

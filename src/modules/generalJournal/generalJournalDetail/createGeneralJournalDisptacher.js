@@ -4,9 +4,11 @@ import {
   DELETE_GENERAL_JOURNAL_LINE,
   GET_TAX_CALCULATIONS,
   LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_JOB_AFTER_CREATE,
   OPEN_MODAL,
   SET_ALERT,
   SET_CREATED_ACCOUNT_LOADING_STATE,
+  SET_CREATED_JOB_LOADING_STATE,
   SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
@@ -44,6 +46,12 @@ const createGeneralJournalDispatcher = store => ({
     store.dispatch({
       intent: SET_CREATED_ACCOUNT_LOADING_STATE,
       isCreatedAccountLoading,
+    });
+  },
+  setCreatedJobLoadingState: (isCreatedJobLoading) => {
+    store.dispatch({
+      intent: SET_CREATED_JOB_LOADING_STATE,
+      isCreatedJobLoading,
     });
   },
   setAlert: (alert) => {
@@ -126,6 +134,13 @@ const createGeneralJournalDispatcher = store => ({
     store.dispatch({
       intent: LOAD_ACCOUNT_AFTER_CREATE,
       ...payload,
+    });
+  },
+  loadJobAfterCreate: (jobId, payload) => {
+    store.dispatch({
+      intent: LOAD_JOB_AFTER_CREATE,
+      ...payload,
+      jobId,
     });
   },
   setDuplicateId: duplicateId => store.dispatch({

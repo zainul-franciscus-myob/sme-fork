@@ -20,6 +20,7 @@ const GeneralJournalDetailView = ({
   pageTitle,
   modal,
   accountModal,
+  jobModal,
   onDismissAlert,
   onUpdateHeaderOptions,
   onSaveButtonClick,
@@ -33,6 +34,7 @@ const GeneralJournalDetailView = ({
   onRemoveRow,
   onRowInputBlur,
   onCreateAccountButtonClick,
+  onCreateJobButtonClick,
 }) => {
   const templateOptions = (
     <GeneralJournalDetailOptions onUpdateHeaderOptions={onUpdateHeaderOptions} />
@@ -62,6 +64,7 @@ const GeneralJournalDetailView = ({
       alert={alertComponent}
     >
       {accountModal}
+      {jobModal}
       {
         modal && (
           <GeneralJournalDetailModal
@@ -76,6 +79,7 @@ const GeneralJournalDetailView = ({
         onRemoveRow={onRemoveRow}
         onRowInputBlur={onRowInputBlur}
         onCreateAccountButtonClick={onCreateAccountButtonClick}
+        onCreateJobButtonClick={onCreateJobButtonClick}
       />
     </LineItemTemplate>
   );

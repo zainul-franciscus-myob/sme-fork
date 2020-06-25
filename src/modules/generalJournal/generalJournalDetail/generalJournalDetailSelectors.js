@@ -143,7 +143,9 @@ const getGeneralJournalForCreatePayload = (state) => {
 };
 
 export const getIsActionsDisabled = state => state.isSubmitting || state.isCreatedAccountLoading;
-export const getIsTableDisabled = state => state.isCreatedAccountLoading;
+export const getIsTableDisabled = state => (
+  state.isCreatedAccountLoading || state.isCreatedJobLoading
+);
 export const isPageEdited = state => state.isPageEdited;
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
@@ -224,6 +226,13 @@ export const getAccountModalContext = (state) => {
   return { businessId, region };
 };
 
+export const getJobModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region };
+};
+
 export const getDuplicateId = (state) => state.duplicateId;
 
 export const getSaveGeneralJournalRequest = createSelector(
@@ -283,6 +292,11 @@ export const getLoadGeneralJournalRequest = createSelector(
 export const getLoadAccountAfterCreateUrlParams = (state, accountId) => {
   const businessId = getBusinessId(state);
   return { businessId, accountId };
+};
+
+export const getLoadJobAfterCreateUrlParams = (state, jobId) => {
+  const businessId = getBusinessId(state);
+  return { businessId, jobId };
 };
 
 export const getCreateGeneralJournalUrl = (state) => {

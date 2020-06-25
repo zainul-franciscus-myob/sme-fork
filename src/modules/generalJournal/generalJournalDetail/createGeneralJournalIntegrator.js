@@ -1,12 +1,14 @@
 import {
   DELETE_GENERAL_JOURNAL,
   LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_JOB_AFTER_CREATE,
 } from '../GeneralJournalIntents';
 import {
   getBusinessId,
   getGeneralJournalId,
   getLoadAccountAfterCreateUrlParams,
   getLoadGeneralJournalRequest,
+  getLoadJobAfterCreateUrlParams,
   getSaveGeneralJournalRequest,
 } from './generalJournalDetailSelectors';
 
@@ -48,6 +50,15 @@ const createGeneralJournalIntegrator = (store, integration) => ({
     const state = store.getState();
     const intent = LOAD_ACCOUNT_AFTER_CREATE;
     const urlParams = getLoadAccountAfterCreateUrlParams(state, id);
+
+    integration.read({
+      intent, urlParams, onSuccess, onFailure,
+    });
+  },
+  loadJobAfterCreate: ({ id, onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = LOAD_JOB_AFTER_CREATE;
+    const urlParams = getLoadJobAfterCreateUrlParams(state, id);
 
     integration.read({
       intent, urlParams, onSuccess, onFailure,

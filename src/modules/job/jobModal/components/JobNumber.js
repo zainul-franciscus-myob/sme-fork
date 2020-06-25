@@ -16,6 +16,7 @@ const JobNumber = ({
     value={number}
     onChange={handleInputChange(onChange)}
     width="md"
+    maxLength={15}
   />
 );
 
