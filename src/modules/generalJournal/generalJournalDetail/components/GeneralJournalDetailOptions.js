@@ -2,7 +2,6 @@ import {
   Alert,
   Checkbox,
   CheckboxGroup,
-  DatePicker,
   DetailHeader,
   Input,
   RadioButton,
@@ -14,8 +13,13 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
 import {
-  getHeaderOptions, getIsSystem, getTaxExclusiveLabel, getTaxInclusiveLabel,
+  getHeaderOptions,
+  getIsBeforeStartOfFinancialYear,
+  getIsSystem,
+  getTaxExclusiveLabel,
+  getTaxInclusiveLabel,
 } from '../generalJournalDetailSelectors';
+import DatePicker from '../../../../components/DatePicker/DatePicker';
 
 class GeneralJournalDetailOptions extends Component {
   handleInputChange = (e) => {
@@ -62,6 +66,7 @@ class GeneralJournalDetailOptions extends Component {
       taxInclusiveLabel,
       taxExclusiveLabel,
       isSystem,
+      isBeforeStartOfFinancialYear,
     } = this.props;
 
     const isPurchase = gstReportingMethod === 'purchase';
@@ -82,6 +87,8 @@ class GeneralJournalDetailOptions extends Component {
           value={date}
           disabled={isSystem}
           onSelect={this.handleDateChange}
+          displayWarning={!isSystem && isBeforeStartOfFinancialYear}
+          warningMessage={'The date is set to a previous financial year'}
         />
         <RadioButtonGroup
           label="Display in GST report as:"
@@ -168,6 +175,7 @@ const mapStateToProps = state => ({
   taxInclusiveLabel: getTaxInclusiveLabel(state),
   taxExclusiveLabel: getTaxExclusiveLabel(state),
   isSystem: getIsSystem(state),
+  isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
 });
 
 export default connect(mapStateToProps)(GeneralJournalDetailOptions);

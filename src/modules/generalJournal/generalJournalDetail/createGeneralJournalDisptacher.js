@@ -114,7 +114,14 @@ const createGeneralJournalDispatcher = store => ({
     });
   },
   loadGeneralJournalDetail: ({
-    generalJournal, totals, newLine, pageTitle, jobOptions, taxCodeOptions, accountOptions,
+    generalJournal,
+    totals,
+    newLine,
+    pageTitle,
+    jobOptions,
+    taxCodeOptions,
+    accountOptions,
+    startOfFinancialYearDate,
   }) => {
     const state = store.getState();
     const intent = getLoadGeneralJournalIntent(state);
@@ -128,6 +135,7 @@ const createGeneralJournalDispatcher = store => ({
       jobOptions,
       taxCodeOptions,
       accountOptions,
+      startOfFinancialYearDate,
     });
   },
   loadAccountAfterCreate: (payload) => {

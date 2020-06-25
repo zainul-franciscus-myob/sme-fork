@@ -71,6 +71,7 @@ const getDefaultState = () => ({
   accountOptions: [],
   jobOptions: [],
   taxCodeOptions: [],
+  startOfFinancialYearDate: '',
 });
 
 const pageEdited = { isPageEdited: true };
@@ -121,6 +122,7 @@ const loadGeneralJournalDetail = (state, action) => ({
   jobOptions: action.jobOptions,
   taxCodeOptions: action.taxCodeOptions,
   accountOptions: action.accountOptions,
+  startOfFinancialYearDate: action.startOfFinancialYearDate,
 });
 
 const updateGeneralJournalLine = (line, { lineKey, lineValue }, accounts) => {
@@ -211,6 +213,7 @@ const loadNewGeneralJournal = (state, action) => ({
   jobOptions: action.jobOptions,
   taxCodeOptions: action.taxCodeOptions,
   accountOptions: action.accountOptions,
+  startOfFinancialYearDate: action.startOfFinancialYearDate,
 });
 
 const setLoadingState = (state, { loadingState }) => ({

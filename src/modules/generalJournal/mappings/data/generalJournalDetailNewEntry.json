@@ -1,5 +1,5 @@
 {
-  "generalJournal": { "referenceId": "TM000009", "isTaxInclusive": true },
+  "generalJournal": { "referenceId": "TM000009", "isTaxInclusive": true},
   "accounts": [
     {
       "id": "4",
@@ -92,5 +92,6 @@
     "taxAmount": "",
     "lineTypeId": "37"
   },
-  "pageTitle": "Create general journal transaction"
+  "pageTitle": "Create general journal transaction",
+  "startOfFinancialYearDate": "2019-07-01T00:00:00"
 }

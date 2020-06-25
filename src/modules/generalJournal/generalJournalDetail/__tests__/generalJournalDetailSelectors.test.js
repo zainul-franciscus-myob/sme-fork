@@ -6,6 +6,7 @@ import {
 } from '../../GeneralJournalIntents';
 import {
   getIsActionsDisabled,
+  getIsBeforeStartOfFinancialYear,
   getIsOutOfBalanced,
   getLoadGeneralJournalRequest,
   getSaveGeneralJournalRequest,
@@ -160,5 +161,27 @@ describe('generalJournalSelectors', () => {
       const actual = getIsActionsDisabled(state);
       expect(actual).toBe(false);
     });
+  });
+
+  describe('getIsBeforeStartOfFinancialYear', () => {
+    it.each([
+      ['2014-07-01', '2010-01-01', true],
+      ['2014-07-01', '2014-06-30', true],
+      ['2014-07-01', '2014-07-01', false],
+      ['2014-07-01', '2014-07-02', false],
+      ['2014-07-01', '2015-01-01', false],
+    ])(
+      'when start of financial year date is %s and issue date is %s, should return %s',
+      (startOfFinancialYearDate, date, expected) => {
+        const state = {
+          generalJournal: { date },
+          startOfFinancialYearDate,
+        };
+
+        const actual = getIsBeforeStartOfFinancialYear(state);
+
+        expect(actual).toEqual(expected);
+      },
+    );
   });
 });

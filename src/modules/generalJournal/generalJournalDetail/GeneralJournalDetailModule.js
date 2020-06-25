@@ -64,6 +64,7 @@ export default class GeneralJournalDetailModule {
       jobs: jobOptions,
       taxCodes: taxCodeOptions,
       accounts: accountOptions,
+      startOfFinancialYearDate,
     }) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadGeneralJournalDetail({
@@ -74,6 +75,7 @@ export default class GeneralJournalDetailModule {
         jobOptions,
         taxCodeOptions,
         accountOptions,
+        startOfFinancialYearDate,
       });
     };
 

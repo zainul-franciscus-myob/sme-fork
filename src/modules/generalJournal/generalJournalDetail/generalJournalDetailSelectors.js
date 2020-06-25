@@ -1,4 +1,5 @@
 import { createSelector, createStructuredSelector } from 'reselect';
+import { isBefore } from 'date-fns';
 
 import {
   CREATE_GENERAL_JOURNAL,
@@ -15,6 +16,7 @@ const getDate = state => state.generalJournal.date;
 const getDescription = state => state.generalJournal.description;
 const getGSTReportingMethod = state => state.generalJournal.gstReportingMethod;
 const getIsEndOfYearAdjustment = state => state.generalJournal.isEndOfYearAdjustment;
+const getStartOfFinancialYearDate = state => state.startOfFinancialYearDate;
 export const getIsCreating = state => state.generalJournalId === 'new';
 export const getIsTaxInclusive = state => state.generalJournal.isTaxInclusive;
 
@@ -305,3 +307,10 @@ export const getCreateGeneralJournalUrl = (state) => {
 
   return `/#/${region}/${businessId}/generalJournal/new`;
 };
+
+export const getIsBeforeStartOfFinancialYear = createSelector(
+  getDate,
+  getStartOfFinancialYearDate,
+  (date, startOfFinancialYearDate) => date && startOfFinancialYearDate
+  && isBefore(new Date(date), new Date(startOfFinancialYearDate)),
+);
