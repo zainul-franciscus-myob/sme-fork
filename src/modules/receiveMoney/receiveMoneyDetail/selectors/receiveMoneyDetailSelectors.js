@@ -1,4 +1,5 @@
 import { createSelector, createStructuredSelector } from 'reselect';
+import { isBefore } from 'date-fns';
 
 import { TaxCalculatorTypes, createTaxCalculator } from '../../../../common/taxCalculator';
 import ModalType from '../../ModalType';
@@ -20,6 +21,7 @@ const getDescription = state => state.receiveMoney.description;
 const getIsReportable = state => state.receiveMoney.isReportable;
 const getIsTaxInclusive = state => state.receiveMoney.isTaxInclusive;
 const getLines = state => state.receiveMoney.lines;
+const getStartOfFinancialYearDate = (state) => state.startOfFinancialYearDate;
 
 export const getIsReceiveMoneyJobColumnEnabled = state => state.isReceiveMoneyJobColumnEnabled;
 
@@ -159,3 +161,10 @@ export const getUpdatedContactOptions = (state, updatedOption) => {
     ? contactOptions.map(option => (option.id === updatedOption.id ? updatedOption : option))
     : [updatedOption, ...contactOptions];
 };
+
+export const getIsBeforeStartOfFinancialYear = createSelector(
+  getDate,
+  getStartOfFinancialYearDate,
+  (date, startOfFinancialYearDate) => date && startOfFinancialYearDate
+  && isBefore(new Date(date), new Date(startOfFinancialYearDate)),
+);

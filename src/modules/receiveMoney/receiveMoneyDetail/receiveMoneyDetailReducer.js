@@ -71,6 +71,7 @@ const getDefaultState = () => ({
   businessId: '',
   region: '',
   isJobLoading: false,
+  startOfFinancialYearDate: '',
 });
 
 const pageEdited = { isPageEdited: true };
@@ -103,6 +104,7 @@ const loadReceiveMoneyDetail = (state, action) => ({
   accountOptions: action.accountOptions,
   jobOptions: action.jobOptions,
   taxCodeOptions: action.taxCodeOptions,
+  startOfFinancialYearDate: action.startOfFinancialYearDate,
 });
 
 const updateLine = (state, action) => ({
@@ -178,6 +180,7 @@ const loadNewReceiveMoney = (state, action) => ({
   accountOptions: action.accountOptions,
   jobOptions: action.jobOptions,
   taxCodeOptions: action.taxCodeOptions,
+  startOfFinancialYearDate: action.startOfFinancialYearDate,
 });
 
 const setLoadingState = (state, { loadingState }) => ({

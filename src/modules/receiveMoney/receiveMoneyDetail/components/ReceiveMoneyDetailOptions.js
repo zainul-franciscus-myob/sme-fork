@@ -1,12 +1,13 @@
 import {
-  DatePicker, DetailHeader, Input, RadioButton, RadioButtonGroup, TextArea,
+  DetailHeader, Input, RadioButton, RadioButtonGroup, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
-import { getHeaderOptions } from '../selectors/receiveMoneyDetailSelectors';
+import { getHeaderOptions, getIsBeforeStartOfFinancialYear } from '../selectors/receiveMoneyDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import ContactCombobox from '../../../../components/combobox/ContactCombobox';
+import DatePicker from '../../../../components/DatePicker/DatePicker';
 
 class ReceiveMoneyDetailOptions extends Component {
   handleInputChange = (e) => {
@@ -52,6 +53,7 @@ class ReceiveMoneyDetailOptions extends Component {
         isContactDisabled,
       },
       onAddContact,
+      isBeforeStartOfFinancialYear,
     } = this.props;
 
     const primary = (
@@ -107,6 +109,8 @@ class ReceiveMoneyDetailOptions extends Component {
           name="Date"
           value={date}
           onSelect={this.handleDateChange}
+          displayWarning={isBeforeStartOfFinancialYear}
+          warningMessage={'The date is set to a previous financial year'}
         />
         <RadioButtonGroup
           label="Amounts are"
@@ -129,6 +133,7 @@ class ReceiveMoneyDetailOptions extends Component {
 
 const mapStateToProps = state => ({
   headerOptions: getHeaderOptions(state),
+  isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
 });
 
 export default connect(mapStateToProps)(ReceiveMoneyDetailOptions);

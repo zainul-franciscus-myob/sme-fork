@@ -1,13 +1,14 @@
 import { LOAD_DUPLICATE_RECEIVE_MONEY, LOAD_NEW_RECEIVE_MONEY, LOAD_RECEIVE_MONEY_DETAIL } from '../../../ReceiveMoneyIntents';
 import {
+  getIsBeforeStartOfFinancialYear,
+  getTaxCalculations,
+} from '../receiveMoneyDetailSelectors';
+import {
   getLoadReceiveMoneyIntent,
   getReceiveMoneyForCreatePayload,
   getReceiveMoneyForUpdatePayload,
   getUrlParams,
 } from '../integrationSelectors';
-import {
-  getTaxCalculations,
-} from '../receiveMoneyDetailSelectors';
 
 describe('receiveMoneySelectors', () => {
   const input = {
@@ -163,5 +164,27 @@ describe('receiveMoneySelectors', () => {
 
       expect(intent).toEqual(LOAD_RECEIVE_MONEY_DETAIL);
     });
+  });
+
+  describe('getIsBeforeStartOfFinancialYear', () => {
+    it.each([
+      ['2014-07-01', '2010-01-01', true],
+      ['2014-07-01', '2014-06-30', true],
+      ['2014-07-01', '2014-07-01', false],
+      ['2014-07-01', '2014-07-02', false],
+      ['2014-07-01', '2015-01-01', false],
+    ])(
+      'when start of financial year date is %s and date is %s, should return %s',
+      (startOfFinancialYearDate, date, expected) => {
+        const state = {
+          receiveMoney: { date },
+          startOfFinancialYearDate,
+        };
+
+        const actual = getIsBeforeStartOfFinancialYear(state);
+
+        expect(actual).toEqual(expected);
+      },
+    );
   });
 });
