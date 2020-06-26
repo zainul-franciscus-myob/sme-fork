@@ -3,6 +3,7 @@ import React from 'react';
 import copy from 'copy-to-clipboard';
 
 import {
+  getApplicationPreference,
   getBusinessId,
   getOnlineBankLink,
   getRegion,
@@ -35,9 +36,7 @@ export default class BankFeedsApplyModule {
       openBlob({ blob: data });
     };
 
-    const onFailure = () => {
-      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
-    };
+    const onFailure = () => this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
 
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.integrator.getAuthorityForm({ onSuccess, onFailure });
@@ -61,7 +60,21 @@ export default class BankFeedsApplyModule {
 
   setCopyAlertState = () => this.dispatcher.setCopyAlertState();
 
-  submitBankFeedApplication = () => {
+  onlineApplication = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setReferenceNumber(response.referenceNumber);
+      this.dispatcher.setDisplayConnectFormState();
+    };
+
+    const onFailure = () => this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+
+    this.integrator.getReferenceNumber({ onSuccess, onFailure });
+  }
+
+  formApplication = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
@@ -76,6 +89,14 @@ export default class BankFeedsApplyModule {
     this.integrator.submitBankFeedApplication({ onSuccess, onFailure });
   }
 
+  submitBankFeedApplication = () => {
+    if (getApplicationPreference(this.store.getState()) === 'online') {
+      this.onlineApplication();
+    } else {
+      this.formApplication();
+    }
+  }
+
   redirectToPath = (url) => {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
@@ -88,9 +109,9 @@ export default class BankFeedsApplyModule {
     this.setRootView(
       <Provider store={this.store}>
         <BankFeedsApplyView
+          getAuthorityForm={() => this.getAuthorityForm()}
           onCopy={this.onCopy}
           onUpdateForm={({ key, value }) => this.dispatcher.updateForm({ key, value })}
-          getAuthorityForm={() => this.getAuthorityForm()}
           redirectToBank={() => this.navigateTo(getOnlineBankLink(this.store.getState()), true)}
           redirectToBankFeeds={() => this.redirectToPath('bankFeeds')}
           redirectToImportStatements={() => this.redirectToPath('bankStatementImport')}

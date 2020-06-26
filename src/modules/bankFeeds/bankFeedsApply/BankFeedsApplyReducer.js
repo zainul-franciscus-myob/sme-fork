@@ -13,6 +13,7 @@ import {
   SET_LOADING_STATE,
   SET_MODAL_STATE,
   SET_NOTES_STATE,
+  SET_REFERENCE_NUMBER_STATE,
   SUBMIT_BANK_FEED_APPLICATION,
   UPDATE_FORM,
 } from './BankFeedsApplyIntents';
@@ -66,7 +67,7 @@ const getDefaultState = () => ({
   isModalOpen: false,
   isSubmitting: false,
   loadingState: LoadingState.LOADING,
-  referenceNumber: '12345678',
+  referenceNumber: '',
   region: '',
   serialNumber: '',
   shouldDisplayConnectForm: false,
@@ -176,6 +177,11 @@ const setNotesState = (state, { notes }) => ({
   notes,
 });
 
+const setReferenceNumberState = (state, { referenceNumber }) => ({
+  ...state,
+  referenceNumber,
+});
+
 const submitBankFeedApplication = (state, { financialInstitutions }) => ({
   ...state,
   financialInstitutions,
@@ -203,6 +209,7 @@ const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_MODAL_STATE]: setModalState,
   [SET_NOTES_STATE]: setNotesState,
+  [SET_REFERENCE_NUMBER_STATE]: setReferenceNumberState,
   [SUBMIT_BANK_FEED_APPLICATION]: submitBankFeedApplication,
   [UPDATE_FORM]: updateForm,
 };

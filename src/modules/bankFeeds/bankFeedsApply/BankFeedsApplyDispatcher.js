@@ -1,4 +1,5 @@
 import {
+  GET_REFERENCE_NUMBER,
   LOAD_BANK_FEED_APPLICATION_DATA,
   SET_ACCOUNT_TYPE,
   SET_ALERT,
@@ -12,19 +13,20 @@ import {
   SET_IS_SUBMITTING,
   SET_LOADING_STATE,
   SET_MODAL_STATE,
+  SET_REFERENCE_NUMBER_STATE,
   SUBMIT_BANK_FEED_APPLICATION,
   UPDATE_FORM,
 } from './BankFeedsApplyIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
 const BankFeedsApplyDispatcher = store => ({
-  loadBankFeedApplicationData: response => store.dispatch({
-    intent: LOAD_BANK_FEED_APPLICATION_DATA,
+  getReferenceNumber: response => store.dispatch({
+    intent: GET_REFERENCE_NUMBER,
     ...response,
   }),
 
-  submitBankFeedApplication: response => store.dispatch({
-    intent: SUBMIT_BANK_FEED_APPLICATION,
+  loadBankFeedApplicationData: response => store.dispatch({
+    intent: LOAD_BANK_FEED_APPLICATION_DATA,
     ...response,
   }),
 
@@ -97,6 +99,16 @@ const BankFeedsApplyDispatcher = store => ({
   setModalState: isModalOpen => store.dispatch({
     intent: SET_MODAL_STATE,
     isModalOpen,
+  }),
+
+  setReferenceNumber: referenceNumber => store.dispatch({
+    intent: SET_REFERENCE_NUMBER_STATE,
+    referenceNumber,
+  }),
+
+  submitBankFeedApplication: response => store.dispatch({
+    intent: SUBMIT_BANK_FEED_APPLICATION,
+    ...response,
   }),
 
   updateForm: ({ key, value }) => {

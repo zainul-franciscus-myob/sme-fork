@@ -56,15 +56,17 @@ const BankFeedsConnectView = ({
             <Card.Body
               child={
                 applicationPreferenceOnline
-                  ? <BankFeedsConnectOnline
-                    onCopy={onCopy}
-                    redirectToBank={redirectToBank}
-                    setCopyAlertText={setCopyAlertText}
-                  />
+                  ? <>
+                    <BankFeedsConnectOnline
+                      onCopy={onCopy}
+                      redirectToBank={redirectToBank}
+                      setCopyAlertText={setCopyAlertText}
+                    />
+                  </>
                   : <BankFeedsConnectForm
+                    getAuthorityForm={getAuthorityForm}
                     onCopy={onCopy}
                     setCopyAlertText={setCopyAlertText}
-                    getAuthorityForm={getAuthorityForm}
                   />
               }
             />

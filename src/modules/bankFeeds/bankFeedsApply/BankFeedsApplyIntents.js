@@ -1,3 +1,6 @@
+export const GET_AUTHORITY_FORM = Symbol('Get authority form');
+export const GET_REFERENCE_NUMBER = Symbol('Get reference number');
+
 export const LOAD_BANK_FEED_APPLICATION_DATA = Symbol('Load bank feed application data');
 
 export const SET_ACCOUNT_TYPE = Symbol('Set the account type');
@@ -13,8 +16,8 @@ export const SET_IS_SUBMITTING = Symbol('Set is submitting');
 export const SET_LOADING_STATE = Symbol('Set loading state');
 export const SET_MODAL_STATE = Symbol('Set the modal state');
 export const SET_NOTES_STATE = Symbol('Set the notes state');
+export const SET_REFERENCE_NUMBER_STATE = Symbol('Set reference number state');
 
 export const SUBMIT_BANK_FEED_APPLICATION = Symbol('Submit bank feeds application');
 
 export const UPDATE_FORM = Symbol('Update form');
-export const GET_AUTHORITY_FORM = Symbol('Get authority form');

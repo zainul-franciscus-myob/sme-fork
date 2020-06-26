@@ -1,11 +1,13 @@
 import {
   GET_AUTHORITY_FORM,
+  GET_REFERENCE_NUMBER,
   LOAD_BANK_FEED_APPLICATION_DATA,
   SUBMIT_BANK_FEED_APPLICATION,
 } from './BankFeedsApplyIntents';
 import {
   getApplicationId,
   getBusinessId,
+  getFinancialInstitutionCode,
   getRegion,
   getSubmitApplicationBody,
 } from './BankFeedsApplySelectors';
@@ -21,6 +23,21 @@ const BankFeedsApplyIntegrator = (store, integration) => ({
       urlParams,
       params: {
         applicationId: getApplicationId(state),
+      },
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  getReferenceNumber: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const urlParams = { businessId: getBusinessId(state) };
+
+    integration.write({
+      intent: GET_REFERENCE_NUMBER,
+      urlParams,
+      content: {
+        BankCode: getFinancialInstitutionCode(state),
       },
       onSuccess,
       onFailure,
