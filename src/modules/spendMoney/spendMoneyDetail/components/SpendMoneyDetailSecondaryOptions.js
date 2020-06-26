@@ -60,7 +60,7 @@ const SpendMoneyDetailSecondaryOptions = ({
           value={date}
           onSelect={handleDateChange}
           displayWarning={isBeforeStartOfFinancialYear}
-          warningMessage={'The issue date is set to a previous financial year'}
+          warningMessage={'The date is set to a previous financial year'}
         />
       </div>
       <BooleanRadioButtonGroup
