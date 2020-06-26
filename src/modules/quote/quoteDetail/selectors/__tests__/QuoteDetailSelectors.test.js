@@ -378,7 +378,7 @@ describe('QuoteDetailSelectors', () => {
     it.each([
       [false, 'Blah', false, 'This quote is missing information because the Blah quote layout isn\'t supported in the browser. Switch to AccountRight desktop to use this feature.'],
       [true, '', false, 'This quote is read only because it contains unsupported features. Switch to AccountRight desktop to edit this quote.'],
-      [true, '', true, 'This quote is read only because freight isn\'t supported in the browser. Switch to AccountRight desktop to edit this quote'],
+      [true, '', true, 'This quote is read only because freight isn\'t supported in the browser. Switch to AccountRight desktop to edit this quote.'],
     ])('isLayoutSupported %s, layout %s, hasFreight %s', (isLayoutSupported, layout, hasFreight, message) => {
       const actual = getReadOnlyMessage.resultFunc(isLayoutSupported, layout, hasFreight);
 

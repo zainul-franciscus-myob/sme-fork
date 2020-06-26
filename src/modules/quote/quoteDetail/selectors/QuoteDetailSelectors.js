@@ -266,7 +266,7 @@ export const getReadOnlyMessage = createSelector(
     }
 
     if (hasFreight) {
-      return 'This quote is read only because freight isn\'t supported in the browser. Switch to AccountRight desktop to edit this quote';
+      return 'This quote is read only because freight isn\'t supported in the browser. Switch to AccountRight desktop to edit this quote.';
     }
 
     return 'This quote is read only because it contains unsupported features. Switch to AccountRight desktop to edit this quote.';

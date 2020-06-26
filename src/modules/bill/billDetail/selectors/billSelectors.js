@@ -217,17 +217,19 @@ export const getIsReadOnly = createSelector(
   ),
 );
 
+const capitalise = (word) => word[0].toUpperCase() + word.slice(1);
+
 export const getReadOnlyMessage = createSelector(
   getIsLayoutSupported,
   getBillLayout,
   getHasFreightAmount,
   (isLayoutSupported, layout, hasFreightAmount) => {
     if (!isLayoutSupported) {
-      return `This bill is read only because the ${layout} layout isn't supported in the browser. Switch to AccountRight desktop to edit this bill.`;
+      return `This bill is read only because the ${capitalise(layout)} layout isn't supported in the browser. Switch to AccountRight desktop to edit this bill.`;
     }
 
     if (hasFreightAmount) {
-      return 'This bill is read only because freight isn\'t supported in the browser. Switch to AccountRight desktop to edit this bill';
+      return 'This bill is read only because freight isn\'t supported in the browser. Switch to AccountRight desktop to edit this bill.';
     }
 
     return 'This bill is read only because it contains unsupported features. Switch to AccountRight desktop to edit this bill.';

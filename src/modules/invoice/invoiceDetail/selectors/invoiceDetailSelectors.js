@@ -154,7 +154,7 @@ export const getReadOnlyMessage = createSelector(
     }
 
     if (hasFreightAmount) {
-      return 'This invoice is read only because freight isn\'t supported in the browser. Switch to AccountRight desktop to edit this invoice';
+      return 'This invoice is read only because freight isn\'t supported in the browser. Switch to AccountRight desktop to edit this invoice.';
     }
 
     return 'This invoice is read only because it contains unsupported features. Switch to AccountRight desktop to edit this invoice.';

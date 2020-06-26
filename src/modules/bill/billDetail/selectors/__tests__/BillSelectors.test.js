@@ -500,9 +500,9 @@ describe('BillSelectors', () => {
 
   describe('getReadOnlyMessage', () => {
     it.each([
-      [false, 'Blah', false, 'This bill is read only because the Blah layout isn\'t supported in the browser. Switch to AccountRight desktop to edit this bill.'],
+      [false, 'blah', false, 'This bill is read only because the Blah layout isn\'t supported in the browser. Switch to AccountRight desktop to edit this bill.'],
       [true, '', false, 'This bill is read only because it contains unsupported features. Switch to AccountRight desktop to edit this bill.'],
-      [true, '', true, 'This bill is read only because freight isn\'t supported in the browser. Switch to AccountRight desktop to edit this bill'],
+      [true, '', true, 'This bill is read only because freight isn\'t supported in the browser. Switch to AccountRight desktop to edit this bill.'],
     ])('isLayoutSupported %s, layout %s, hasFreightAmount %s', (isLayoutSupported, layout, hasFreightAmount, message) => {
       const actual = getReadOnlyMessage.resultFunc(isLayoutSupported, layout, hasFreightAmount);
 

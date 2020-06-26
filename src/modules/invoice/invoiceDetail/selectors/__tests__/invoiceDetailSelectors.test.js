@@ -552,7 +552,7 @@ describe('invoiceDetailSelectors', () => {
     it.each([
       [false, 'Blah', false, 'This invoice is read only because the Blah layout isn\'t supported in the browser. Switch to AccountRight desktop to edit this invoice.'],
       [true, '', false, 'This invoice is read only because it contains unsupported features. Switch to AccountRight desktop to edit this invoice.'],
-      [true, '', true, 'This invoice is read only because freight isn\'t supported in the browser. Switch to AccountRight desktop to edit this invoice'],
+      [true, '', true, 'This invoice is read only because freight isn\'t supported in the browser. Switch to AccountRight desktop to edit this invoice.'],
     ])('isLayoutSupported %s, layout %s, hasFreightAmount %s', (isLayoutSupported, layout, hasFreightAmount, message) => {
       const actual = getReadOnlyMessage.resultFunc(isLayoutSupported, layout, hasFreightAmount);
 
