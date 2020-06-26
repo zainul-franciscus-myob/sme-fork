@@ -53,7 +53,7 @@ export const getBasePay = createStructuredSelector({
   description: getDescription,
 });
 
-export const getJobs = state => state.jobs;
+export const getJobOptions = state => state.jobs;
 
 export const getIsPayrollJobColumnEnabled = state => state.isPayrollJobColumnEnabled;
 
@@ -87,8 +87,15 @@ export const getAmountFieldType = (payItemType, calculationBasis) => {
   }
 };
 
-export const buildPayItemEntry = (standardPayItems, payItemOptions, allocatedPayItemId) => {
-  const { hours, amount, ...rest } = standardPayItems
+export const buildPayItemEntry = (
+  standardPayItems,
+  payItemOptions,
+  allocatedPayItemId,
+  jobOptions,
+) => {
+  const {
+    hours, amount, jobId, ...rest
+  } = standardPayItems
     .find(({ payItemId: standardPayItemId }) => standardPayItemId === allocatedPayItemId) || {};
 
   const {
@@ -106,6 +113,8 @@ export const buildPayItemEntry = (standardPayItems, payItemOptions, allocatedPay
     hourFieldType: getHoursFieldType(type, calculationBasis, payBasis),
     amountFieldType: getAmountFieldType(type, calculationBasis),
     payBasis,
+    jobId,
+    jobOptions: jobOptions.filter(job => job.isActive || job.id === jobId),
   };
 };
 
@@ -113,9 +122,10 @@ const getWagePayItemEntries = createSelector(
   getStandardPayItems,
   getWagePayItems,
   getWagePayItemOptions,
-  (standardPayItems, allocatedPayItems, payItemOptions) => allocatedPayItems
+  getJobOptions,
+  (standardPayItems, allocatedPayItems, payItemOptions, jobOptions) => allocatedPayItems
     .map(({ id: allocatedPayItemId }) => buildPayItemEntry(
-      standardPayItems, payItemOptions, allocatedPayItemId,
+      standardPayItems, payItemOptions, allocatedPayItemId, jobOptions,
     )),
 );
 
@@ -123,9 +133,10 @@ const getTaxPayItemEntries = createSelector(
   getStandardPayItems,
   getAllocatedTaxPayItems,
   getTaxPayItemOptions,
-  (standardPayItems, allocatedPayItems, payItemOptions) => allocatedPayItems
+  getJobOptions,
+  (standardPayItems, allocatedPayItems, payItemOptions, jobOptions) => allocatedPayItems
     .map(({ id: allocatedPayItemId }) => buildPayItemEntry(
-      standardPayItems, payItemOptions, allocatedPayItemId,
+      standardPayItems, payItemOptions, allocatedPayItemId, jobOptions,
     )),
 );
 
@@ -133,9 +144,10 @@ const getDeductionPayItemEntries = createSelector(
   getStandardPayItems,
   getAllocatedDeductionPayItems,
   getDeductionPayItemOptions,
-  (standardPayItems, allocatedPayItems, payItemOptions) => allocatedPayItems
+  getJobOptions,
+  (standardPayItems, allocatedPayItems, payItemOptions, jobOptions) => allocatedPayItems
     .map(({ id: allocatedPayItemId }) => buildPayItemEntry(
-      standardPayItems, payItemOptions, allocatedPayItemId,
+      standardPayItems, payItemOptions, allocatedPayItemId, jobOptions,
     )),
 );
 
@@ -143,9 +155,10 @@ const getSuperPayItemEntries = createSelector(
   getStandardPayItems,
   getAllocatedSuperPayItems,
   getSuperPayItemOptions,
-  (standardPayItems, allocatedPayItems, payItemOptions) => allocatedPayItems
+  getJobOptions,
+  (standardPayItems, allocatedPayItems, payItemOptions, jobOptions) => allocatedPayItems
     .map(({ id: allocatedPayItemId }) => buildPayItemEntry(
-      standardPayItems, payItemOptions, allocatedPayItemId,
+      standardPayItems, payItemOptions, allocatedPayItemId, jobOptions,
     )),
 );
 
@@ -153,9 +166,10 @@ const getLeavePayItemEntries = createSelector(
   getStandardPayItems,
   getAllocatedLeavePayItems,
   getLeavePayItemOptions,
-  (standardPayItems, allocatedPayItems, payItemOptions) => allocatedPayItems
+  getJobOptions,
+  (standardPayItems, allocatedPayItems, payItemOptions, jobOptions) => allocatedPayItems
     .map(({ payItemId: allocatedPayItemId }) => buildPayItemEntry(
-      standardPayItems, payItemOptions, allocatedPayItemId,
+      standardPayItems, payItemOptions, allocatedPayItemId, jobOptions,
     )),
 );
 
@@ -163,9 +177,10 @@ const getEmployerExpensePayItemEntries = createSelector(
   getStandardPayItems,
   getAllocatedExpensePayItems,
   getExpensePayItemOptions,
-  (standardPayItems, allocatedPayItems, payItemOptions) => allocatedPayItems
+  getJobOptions,
+  (standardPayItems, allocatedPayItems, payItemOptions, jobOptions) => allocatedPayItems
     .map(({ id: allocatedPayItemId }) => buildPayItemEntry(
-      standardPayItems, payItemOptions, allocatedPayItemId,
+      standardPayItems, payItemOptions, allocatedPayItemId, jobOptions,
     )),
 );
 

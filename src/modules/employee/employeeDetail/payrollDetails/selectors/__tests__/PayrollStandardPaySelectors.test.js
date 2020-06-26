@@ -15,6 +15,27 @@ import {
 import payItemTypes from '../../../payItemTypes';
 
 describe('PayrollStandardPaySelectors', () => {
+  const jobOptions = [
+    {
+      id: '1',
+      jobNumber: '100',
+      jobName: 'Job 1',
+      isActive: true,
+    },
+    {
+      id: '2',
+      jobNumber: '200',
+      jobName: 'Job 2 with a long name',
+      isActive: true,
+    },
+    {
+      id: '3',
+      jobNumber: '12345678901234',
+      jobName: 'Job 3 with an even longer name',
+      isActive: true,
+    },
+  ];
+
   describe('getHoursFieldType', () => {
     it.each([
       [payItemTypes.tax, undefined, undefined, fieldTypes.blank],
@@ -74,7 +95,34 @@ describe('PayrollStandardPaySelectors', () => {
   });
 
   describe('buildPayItemEntry', () => {
-    it('should return standard pay item entry', () => {
+    const jobOptionsWithInactiveJobs = [
+      {
+        id: '1',
+        jobNumber: '100',
+        jobName: 'Job 1',
+        isActive: false,
+      },
+      {
+        id: '2',
+        jobNumber: '200',
+        jobName: 'Job 2 with a long name',
+        isActive: true,
+      },
+      {
+        id: '3',
+        jobNumber: '12345678901234',
+        jobName: 'Job 3 with an even longer name',
+        isActive: true,
+      },
+      {
+        id: '4',
+        jobNumber: '44444',
+        jobName: 'An inactive job which is not selected, should be filtered out',
+        isActive: false,
+      },
+    ];
+
+    it('should return standard pay item entry with only active job in jobOptions when no current job is selected', () => {
       const standardPayItems = [
         { payItemId: '1', hours: '2.00', amount: '3.00' },
       ];
@@ -92,9 +140,110 @@ describe('PayrollStandardPaySelectors', () => {
         amount: '3.00',
         hourFieldType: fieldTypes.blank,
         amountFieldType: fieldTypes.calculated,
+        jobOptions,
       };
 
-      const actual = buildPayItemEntry(standardPayItems, payItemOptions, allocatedPayItemId);
+      const actual = buildPayItemEntry(
+        standardPayItems, payItemOptions, allocatedPayItemId, jobOptions,
+      );
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should return standard pay item entry with current selected inactive job but not other inactive jobs in jobOptions', () => {
+      const currentInactiveJobId = '1';
+      const standardPayItems = [
+        {
+          payItemId: '1', hours: '2.00', amount: '3.00', jobId: currentInactiveJobId,
+        },
+      ];
+      const payItemOptions = [
+        {
+          id: '1', name: 'Pay item 1', type: payItemTypes.deduction, calculationBasis: 'Percent',
+        },
+      ];
+      const allocatedPayItemId = '1';
+      const expectedJobOptions = [
+        {
+          id: '1',
+          jobNumber: '100',
+          jobName: 'Job 1',
+          isActive: false,
+        },
+        {
+          id: '2',
+          jobNumber: '200',
+          jobName: 'Job 2 with a long name',
+          isActive: true,
+        },
+        {
+          id: '3',
+          jobNumber: '12345678901234',
+          jobName: 'Job 3 with an even longer name',
+          isActive: true,
+        },
+      ];
+      const expected = {
+        payItemId: '1',
+        payItemType: payItemTypes.deduction,
+        name: 'Pay item 1',
+        hours: '2.00',
+        amount: '3.00',
+        hourFieldType: fieldTypes.blank,
+        amountFieldType: fieldTypes.calculated,
+        jobId: currentInactiveJobId,
+        jobOptions: expectedJobOptions,
+      };
+
+      const actual = buildPayItemEntry(
+        standardPayItems, payItemOptions, allocatedPayItemId, jobOptionsWithInactiveJobs,
+      );
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should return standard pay item entry with only active job in jobOptions when current job is active', () => {
+      const currentActiveJobId = '2';
+      const standardPayItems = [
+        {
+          payItemId: '1', hours: '2.00', amount: '3.00', jobId: currentActiveJobId,
+        },
+      ];
+      const payItemOptions = [
+        {
+          id: '1', name: 'Pay item 1', type: payItemTypes.deduction, calculationBasis: 'Percent',
+        },
+      ];
+      const expectedJobOptions = [
+        {
+          id: '2',
+          jobNumber: '200',
+          jobName: 'Job 2 with a long name',
+          isActive: true,
+        },
+        {
+          id: '3',
+          jobNumber: '12345678901234',
+          jobName: 'Job 3 with an even longer name',
+          isActive: true,
+        },
+      ];
+      const allocatedPayItemId = '1';
+      const expected = {
+        payItemId: '1',
+        payItemType: payItemTypes.deduction,
+        name: 'Pay item 1',
+        hours: '2.00',
+        amount: '3.00',
+        hourFieldType: fieldTypes.blank,
+        amountFieldType: fieldTypes.calculated,
+        jobId: currentActiveJobId,
+        jobOptions: expectedJobOptions,
+      };
+
+      const actual = buildPayItemEntry(
+        standardPayItems, payItemOptions, allocatedPayItemId, jobOptionsWithInactiveJobs,
+      );
 
       expect(actual).toEqual(expected);
     });
@@ -115,9 +264,12 @@ describe('PayrollStandardPaySelectors', () => {
         amount: '0.00',
         hourFieldType: fieldTypes.blank,
         amountFieldType: fieldTypes.calculated,
+        jobOptions,
       };
 
-      const actual = buildPayItemEntry(standardPayItems, payItemOptions, allocatedPayItemId);
+      const actual = buildPayItemEntry(
+        standardPayItems, payItemOptions, allocatedPayItemId, jobOptions,
+      );
 
       expect(actual).toEqual(expected);
     });
@@ -274,6 +426,7 @@ describe('PayrollStandardPaySelectors', () => {
         ],
         baseSalaryWagePayItemId: '11',
         baseHourlyWagePayItemId: '22',
+        jobs: jobOptions,
       };
 
       const expected = {
@@ -288,6 +441,7 @@ describe('PayrollStandardPaySelectors', () => {
             amountFieldType: fieldTypes.input,
             hourFieldType: fieldTypes.blank,
             payBasis: 'Salary',
+            jobOptions,
           },
           {
             id: '13',
@@ -299,6 +453,7 @@ describe('PayrollStandardPaySelectors', () => {
             amountFieldType: fieldTypes.input,
             hourFieldType: fieldTypes.input,
             payBasis: 'Hourly',
+            jobOptions,
           },
           {
             id: '14',
@@ -310,6 +465,7 @@ describe('PayrollStandardPaySelectors', () => {
             amountFieldType: fieldTypes.input,
             hourFieldType: fieldTypes.input,
             payBasis: 'Hourly',
+            jobOptions,
           },
           {
             id: '15',
@@ -321,6 +477,7 @@ describe('PayrollStandardPaySelectors', () => {
             amountFieldType: fieldTypes.input,
             hourFieldType: fieldTypes.blank,
             payBasis: 'Salary',
+            jobOptions,
           },
           {
             id: '16',
@@ -332,6 +489,7 @@ describe('PayrollStandardPaySelectors', () => {
             amountFieldType: fieldTypes.input,
             hourFieldType: fieldTypes.blank,
             payBasis: 'Salary',
+            jobOptions,
           },
         ],
         showTableRows: true,
@@ -419,6 +577,7 @@ describe('PayrollStandardPaySelectors', () => {
             type: 'SuperannuationExpensePayrollCategory',
           },
         ],
+        jobs: jobOptions,
       };
 
       const expected = {
@@ -431,6 +590,7 @@ describe('PayrollStandardPaySelectors', () => {
             amount: '0.00',
             amountFieldType: fieldTypes.calculated,
             hourFieldType: fieldTypes.blank,
+            jobOptions,
           },
           {
             payItemId: '31',
@@ -440,6 +600,7 @@ describe('PayrollStandardPaySelectors', () => {
             amount: '0.00',
             amountFieldType: fieldTypes.calculated,
             hourFieldType: fieldTypes.blank,
+            jobOptions,
           },
         ],
         showTableRows: true,
@@ -527,6 +688,7 @@ describe('PayrollStandardPaySelectors', () => {
             type: 'SuperannuationExpensePayrollCategory',
           },
         ],
+        jobs: jobOptions,
       };
 
       const expected = {
@@ -540,6 +702,7 @@ describe('PayrollStandardPaySelectors', () => {
             amountFieldType: fieldTypes.calculated,
             hourFieldType: fieldTypes.blank,
             payBasis: undefined,
+            jobOptions,
           },
         ],
         showTableRows: true,
@@ -595,6 +758,7 @@ describe('PayrollStandardPaySelectors', () => {
             type: 'ExpensePayrollCategory',
           },
         ],
+        jobs: jobOptions,
       };
 
       const expected = {
@@ -607,6 +771,7 @@ describe('PayrollStandardPaySelectors', () => {
             amount: '0.00',
             amountFieldType: fieldTypes.calculated,
             hourFieldType: fieldTypes.blank,
+            jobOptions,
           },
           {
             payItemId: '33',
@@ -616,6 +781,7 @@ describe('PayrollStandardPaySelectors', () => {
             amount: '0.00',
             amountFieldType: fieldTypes.calculated,
             hourFieldType: fieldTypes.blank,
+            jobOptions,
           },
         ],
         showTableRows: true,
@@ -658,6 +824,7 @@ describe('PayrollStandardPaySelectors', () => {
             type: 'EntitlementPayrollCategory',
           },
         ],
+        jobs: jobOptions,
       };
 
       const expected = {
@@ -670,6 +837,7 @@ describe('PayrollStandardPaySelectors', () => {
             amount: '0.00',
             amountFieldType: fieldTypes.blank,
             hourFieldType: fieldTypes.calculated,
+            jobOptions,
           },
         ],
         showTableRows: true,
@@ -703,6 +871,7 @@ describe('PayrollStandardPaySelectors', () => {
           { id: '11', type: 'WagesPayrollCategory', payBasis: 'Salary' },
           { id: '12', type: 'WagesPayrollCategory', payBasis: 'Hourly' },
         ],
+        jobs: jobOptions,
       };
 
       const actual = getStandardPayItemsToApplyAmountRule(state);

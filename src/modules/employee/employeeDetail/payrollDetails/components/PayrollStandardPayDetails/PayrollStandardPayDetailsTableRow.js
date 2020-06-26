@@ -2,7 +2,7 @@ import { Button, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { fieldTypes, getIsPayrollJobColumnEnabled, getJobs } from '../../selectors/PayrollStandardPaySelectors';
+import { fieldTypes, getIsPayrollJobColumnEnabled } from '../../selectors/PayrollStandardPaySelectors';
 import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
 import JobCombobox from '../../../../../../components/combobox/JobCombobox';
 import styles from './PayrollStandardPayDetailsTableRow.module.css';
@@ -67,11 +67,11 @@ const PayrollStandardPayDetailsTableRow = ({
     hourFieldType,
     amountFieldType,
     isLoading,
+    jobOptions,
   },
   onChange,
   onBlur,
   onClick,
-  jobs,
   excludeJobs,
   isPayrollJobColumnEnabled,
 }) => {
@@ -103,7 +103,7 @@ const PayrollStandardPayDetailsTableRow = ({
   });
   const jobRowItem = !excludeJobs && <JobCombobox
     onChange={handleComboboxChange(payItemId, 'jobId', onChange)}
-    items={jobs}
+    items={jobOptions}
     selectedId={jobId}
     disabled={isLoading}
     allowClear
@@ -139,7 +139,6 @@ const PayrollStandardPayDetailsTableRow = ({
   );
 };
 const mapStateToProps = state => ({
-  jobs: getJobs(state),
   isPayrollJobColumnEnabled: getIsPayrollJobColumnEnabled(state),
 });
 
