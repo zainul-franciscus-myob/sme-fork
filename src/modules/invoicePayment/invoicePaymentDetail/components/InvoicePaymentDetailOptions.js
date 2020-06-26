@@ -83,7 +83,7 @@ const InvoicePaymentDetailOptions = ({
         value={date}
         onSelect={handleDatePickerChange(onUpdateInvoicePaymentDetails, 'date')}
         displayWarning={isBeforeStartOfFinancialYear}
-        warningMessage={'The issue date is set to a previous financial year'}
+        warningMessage={'The date is set to a previous financial year'}
       />
     </div>
   );

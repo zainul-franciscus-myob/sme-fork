@@ -93,7 +93,7 @@ const BillPaymentOptions = ({
         name="Date"
         value={date}
         displayWarning={isBeforeStartOfFinancialYear}
-        warningMessage={'The issue date is set to a previous financial year'}
+        warningMessage={'The date is set to a previous financial year'}
         onSelect={onDateChange(onUpdateHeaderOption)('date')}
         requiredLabel={requiredLabel}
       />

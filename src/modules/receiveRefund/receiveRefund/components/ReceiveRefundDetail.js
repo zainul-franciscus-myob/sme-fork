@@ -113,7 +113,7 @@ const ReceiveRefundDetail = (props) => {
         onSelect={handleDateChange(onRefundDetailsChange, 'date')}
         requiredLabel={requiredLabel}
         displayWarning={isBeforeStartOfFinancialYear}
-        warningMessage={'The issue date is set to a previous financial year'}
+        warningMessage={'The date is set to a previous financial year'}
       />
 
     </>
