@@ -1,0 +1,23 @@
+{
+  "newPayRunDetails": {
+    "paymentFrequency": "Weekly",
+    "regularPayCycleOptions": [
+      {
+        "value": "Weekly",
+        "name": "Weekly"
+      },
+      {
+        "value": "Fortnightly",
+        "name": "Fortnightly"
+      },
+      {
+        "value": "FourWeekly",
+        "name": "Four weekly"
+      },
+      {
+        "value": "Monthly",
+        "name": "Monthly"
+      }
+    ]
+  }
+}

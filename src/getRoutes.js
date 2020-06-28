@@ -34,6 +34,7 @@ import getLogoutRoutes from './modules/logout/getLogoutRoutes';
 import getOnlineTaxRoutes from './modules/onlineTax/getOnlineTaxRoutes';
 import getPayItemRoutes from './modules/payItem/getPayItemRoutes';
 import getPayRefundRoutes from './modules/payRefund/getPayRefundRoutes';
+import getPayRunNzRoutes from './modules/nzPayroll/payRun/getPayRunNzRoutes';
 import getPayRunRoutes from './modules/payRun/getPayRunRoutes';
 import getPaySuperRoutes from './modules/paySuper/getPaySuperRoutes';
 import getPayrollSettingsRoutes from './modules/payrollSettings/getPayrollSettingsRoutes';
@@ -112,6 +113,7 @@ const getRoutes = moduleParams => [
   ...getEmployeeNzRoutes(moduleParams),
   ...getLogoutRoutes(moduleParams),
   ...getBankFeedsApplyRoutes(moduleParams),
+  ...getPayRunNzRoutes(moduleParams),
 ];
 
 export default getRoutes;

@@ -122,6 +122,7 @@ export const getPayrollNzUrls = createSelector(
   getEnabledUrls,
   (enabledUrls) => ({
     employeeListNz: enabledUrls.employeeListNz,
+    payRunCreateNz: enabledUrls.payRunCreateNz,
   }),
 );
 

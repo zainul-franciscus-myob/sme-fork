@@ -58,6 +58,7 @@ const RouteName = {
   BANKING_RULE_LIST: 'bankingRule/bankingRuleList',
   BANKING_RULE_DETAIL: 'bankingRule/bankingRuleDetail',
   BANK_RECONCILIATION: 'bankReconciliation/bankReconciliation',
+  PAY_RUN_CREATE_NZ: 'payRun/payRunCreateNz',
   PAY_RUN_CREATE: 'payRun/payRunCreate',
   PAY_RUN_LIST: 'payRun/payRunList',
   PAY_RUN_DETAIL: 'payRun/payRunDetail',

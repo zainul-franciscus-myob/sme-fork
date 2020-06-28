@@ -48,6 +48,7 @@ export const activeMapping = {
 
   [RouteName.EMPLOYEE_LIST_NZ]: 'payroll',
   [RouteName.EMPLOYEE_DETAIL_NZ]: 'payroll',
+  [RouteName.PAY_RUN_CREATE_NZ]: 'payroll',
 
   [RouteName.EMPLOYEE_LIST]: 'payroll',
   [RouteName.EMPLOYEE_DETAIL]: 'payroll',
@@ -126,6 +127,7 @@ export const featuresConfig = {
   stpReporting: { routeName: RouteName.STP_REPORTING_CENTRE },
 
   employeeListNz: { routeName: RouteName.EMPLOYEE_LIST_NZ },
+  payRunCreateNz: { routeName: RouteName.PAY_RUN_CREATE_NZ },
 
   contactList: { routeName: RouteName.CONTACT_LIST },
   contactCreate: { routeName: RouteName.CONTACT_DETAIL, params: { contactId: 'new' } },
