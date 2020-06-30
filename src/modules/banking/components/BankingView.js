@@ -113,7 +113,6 @@ const BankingView = (props) => {
         onCloseBulkAllocation={onCloseBulkAllocation}
       />
       { bulkMessage }
-      <div className={styles.popover} />
     </BulkActions>
   );
 

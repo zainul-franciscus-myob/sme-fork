@@ -63,7 +63,6 @@ const BulkAllocationPopover = ({
       footer={<Popover.Footer child={footer} />}
       closeOnOuterAction
       preferPlace="below"
-      appendTarget={`.${styles.popover}`}
       onOuterAction={onCloseBulkAllocation}
     >
       <Button type="secondary" className={styles.allocateButton}>Allocate</Button>
