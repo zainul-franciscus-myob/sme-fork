@@ -51,7 +51,7 @@ const PayRunMapping = {
   },
   [GET_DETAIL_JOB_LIST]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/job/load_detail_job_list`,
+    getPath: ({ businessId }) => `/${businessId}/payRun/load_jobs`,
   },
   [EXPORT_TRANSACTION_PDF]: {
     method: 'GET',

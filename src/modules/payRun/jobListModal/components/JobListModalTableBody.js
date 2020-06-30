@@ -48,10 +48,10 @@ const JobListModalTableBody = ({
           {checkbox}
         </Table.RowItem>
         <Table.RowItem {...tableConfig.id}>
-          {job.number}
+          {job.jobNumber}
         </Table.RowItem>
         <Table.RowItem {...tableConfig.name}>
-          {job.name}
+          {job.jobName}
         </Table.RowItem>
         <Table.RowItem {...tableConfig.amount}>
         <AmountInput

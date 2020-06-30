@@ -824,16 +824,25 @@ describe('EmployeePayListSelectors', () => {
             id: 1,
             name: 'Test Job 1',
             number: '00001',
+            isActive: true,
           },
           {
             id: 2,
             name: 'Test Job 2',
             number: '00002',
+            isActive: false,
           },
           {
             id: 3,
             name: 'Test Job 3',
             number: '00003',
+            isActive: true,
+          },
+          {
+            id: 4,
+            name: 'Test Job 4 inactive',
+            number: '00003',
+            isActive: false,
           },
         ],
         selectedPayItem: {
@@ -843,10 +852,12 @@ describe('EmployeePayListSelectors', () => {
             {
               jobId: 1,
               amount: '10.00',
+              isActive: true,
             },
             {
               jobId: 2,
               amount: '20.00',
+              isActive: false,
             },
           ],
         },
@@ -916,27 +927,31 @@ describe('EmployeePayListSelectors', () => {
     it('getSelectedPayItemJobs should return exptected list of jobs', () => {
       const selectedJobs = getSelectedPayItemJobs(state);
 
-      const expectedSelectedJobs = [{
-        id: 1,
-        name: 'Test Job 1',
-        number: '00001',
-        isSelected: true,
-        amount: '10.00',
-      },
-      {
-        id: 2,
-        name: 'Test Job 2',
-        number: '00002',
-        isSelected: true,
-        amount: '20.00',
-      },
-      {
-        id: 3,
-        name: 'Test Job 3',
-        number: '00003',
-        isSelected: false,
-        amount: '0.00',
-      },
+      const expectedSelectedJobs = [
+        {
+          id: 1,
+          name: 'Test Job 1',
+          number: '00001',
+          isSelected: true,
+          amount: '10.00',
+          isActive: true,
+        },
+        {
+          id: 2,
+          name: 'Test Job 2',
+          number: '00002',
+          isSelected: true,
+          amount: '20.00',
+          isActive: false,
+        },
+        {
+          id: 3,
+          name: 'Test Job 3',
+          number: '00003',
+          isSelected: false,
+          amount: '0.00',
+          isActive: true,
+        },
       ];
 
       expect(selectedJobs).toEqual(expectedSelectedJobs);

@@ -93,7 +93,7 @@ const getAmount = (array, id) => {
   return obj.amount;
 };
 
-export const getSelectedPayItemJobs = createSelector(
+const buildSelectedPayItemJobs = createSelector(
   getJobOptions,
   getSelectedPayItem,
   (jobs, payItem) => jobs.map(job => ({
@@ -101,6 +101,11 @@ export const getSelectedPayItemJobs = createSelector(
     isSelected: payItem.jobs.some(q => q.jobId === job.id),
     amount: getAmount(payItem.jobs, job.id),
   })),
+);
+
+export const getSelectedPayItemJobs = createSelector(
+  buildSelectedPayItemJobs,
+  (jobs) => jobs.filter(job => job.isActive || job.isSelected),
 );
 
 const getIsAllJobsSelected = createSelector(
