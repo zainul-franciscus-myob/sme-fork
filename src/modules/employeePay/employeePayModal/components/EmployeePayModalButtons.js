@@ -12,38 +12,50 @@ const EmployeePayModalButtons = ({
   onReverseButtonClick,
   showReverse,
   loadingSuccess,
-}) => (
-  <ButtonRow
-    secondary={[
-      loadingSuccess && showReverse && <Button
-        key="modal-reverse-btn"
-        id="modal-reverse-btn"
-        type="secondary"
-        onClick={onReverseButtonClick}
-      >
-        Reverse Pay
-      </Button>,
-      loadingSuccess && !showReverse && <DeleteButtonWithPopover
-        key="delete"
-        title="Delete employee's pay transaction"
-        bodyText="This can't be undone, or recovered later."
-        onDelete={onDeletePopoverDelete}
-        onCancel={onDeletePopoverCancel}
-        isOpen={deletePopoverIsOpen}
-        openHandler={onDeleteButtonClick}
-      />,
-    ]}
-    primary={[
-      <Button
-        key="modal-go-back-btn"
-        id="modal-go-back-btn"
-        type="secondary"
-        onClick={onBackButtonClick}
-      >
-        Go back
-      </Button>,
-    ]}
-  />
-);
+  isReversalPreview,
+  isReadonly,
+}) => {
+  const reversalPreviewButtons = <ButtonRow primary={[
+      <Button type="secondary" onClick={() => console.log('Record reversal cancel')}>Cancel</Button>,
+      <Button onClick={() => console.log('Record reversal')}>Record reversal</Button>,
+  ]}
+  />;
+
+  return (isReversalPreview ? reversalPreviewButtons
+    : <ButtonRow
+      secondary={[
+        !isReadonly && loadingSuccess && showReverse && <Button
+          key="modal-reverse-btn"
+          testid="employee-pay-modal-reverse-pay-btn"
+          id="modal-reverse-btn"
+          type="secondary"
+          onClick={onReverseButtonClick}
+        >
+          Reverse Pay
+        </Button>,
+        !isReadonly && loadingSuccess && !showReverse && <DeleteButtonWithPopover
+          key="delete"
+          testid="employee-pay-modal-delete-btn"
+          title="Delete employee's pay transaction"
+          bodyText="This can't be undone, or recovered later."
+          onDelete={onDeletePopoverDelete}
+          onCancel={onDeletePopoverCancel}
+          isOpen={deletePopoverIsOpen}
+          openHandler={onDeleteButtonClick}
+        />,
+      ]}
+      primary={[
+        <Button
+          key="modal-go-back-btn"
+          id="modal-go-back-btn"
+          type="secondary"
+          onClick={onBackButtonClick}
+        >
+          Go back
+        </Button>,
+      ]}
+    />
+  );
+};
 
 export default EmployeePayModalButtons;

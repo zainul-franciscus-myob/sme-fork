@@ -30,15 +30,17 @@ import paySuperReadReducer from './paySuperReadReducer';
 
 export default class PaySuperReadModule {
   constructor({
-    integration, setRootView, pushMessage,
+    integration, setRootView, pushMessage, featureToggles,
   }) {
     this.integration = integration;
     this.store = new Store(paySuperReadReducer);
     this.setRootView = setRootView;
+    this.featureToggles = featureToggles;
     this.subModules = {
       employeePayModal: new EmployeePayModalModule({
         integration,
         onDelete: this.onEmployeePayDeleteSuccess,
+        featureToggles: this.featureToggles,
       }),
       authorisationModal: new PaySuperAuthorisationModalModule({
         integration,
@@ -204,6 +206,7 @@ export default class PaySuperReadModule {
       employeeName,
       businessId: getBusinessId(state),
       region: getRegion(state),
+      readonly: true,
     });
   };
 

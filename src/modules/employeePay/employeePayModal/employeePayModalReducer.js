@@ -36,6 +36,7 @@ const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
   isOpen: false,
   deletePopoverIsOpen: false,
+  readonly: true,
 });
 
 const resetState = () => ({

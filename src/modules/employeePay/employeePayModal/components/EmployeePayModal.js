@@ -1,10 +1,5 @@
 import {
-  Alert,
-  Button,
-  ButtonRow,
-  Icons,
-  Modal,
-  Separator,
+  Alert, Icons, Modal, Separator,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -17,6 +12,7 @@ import {
   getEmployeePay,
   getIsModalOpen,
   getLoadingState,
+  getReadonly,
 } from '../EmployeePayModalSelectors';
 import EmployeePayModalButtons from './EmployeePayModalButtons';
 import EmployeePayModalHeader from './EmployeePayModalHeader';
@@ -40,6 +36,7 @@ const EmployeePayModal = ({
   alertMessage,
   onDismissAlert,
   featureToggles,
+  isReadonly,
 }) => {
   const {
     paymentMethod,
@@ -89,23 +86,6 @@ const EmployeePayModal = ({
     </p>
   );
 
-  const modalButtons = isReversalPreview
-    ? <ButtonRow primary={[
-      <Button type="secondary" onClick={() => console.log('Record reversal cancel')}>Cancel</Button>,
-      <Button onClick={() => console.log('Record reversal')}>Record reversal</Button>,
-    ]}
-    />
-    : <EmployeePayModalButtons
-      deletePopoverIsOpen={deletePopoverIsOpen}
-      onDeletePopoverDelete={onDeletePopoverDelete}
-      onDeletePopoverCancel={onDeletePopoverCancel}
-      onDeleteButtonClick={onDeleteButtonClick}
-      onReverseButtonClick={onReverseButtonClick}
-      onBackButtonClick={onBackButtonClick}
-      showReverse={featureToggles && featureToggles.isPayrollReversibleEnabled && isReversible}
-      loadingSuccess={loadingState === LoadingState.LOADING_SUCCESS}
-    />;
-
   const modalDetail = (
     <>
       {alert}
@@ -140,7 +120,18 @@ const EmployeePayModal = ({
         <PageView loadingState={loadingState} view={modalDetail} />
       </Modal.Body>
       <div className={styles.modalButtons}>
-        { modalButtons }
+        <EmployeePayModalButtons
+          deletePopoverIsOpen={deletePopoverIsOpen}
+          onDeletePopoverDelete={onDeletePopoverDelete}
+          onDeletePopoverCancel={onDeletePopoverCancel}
+          onDeleteButtonClick={onDeleteButtonClick}
+          onReverseButtonClick={onReverseButtonClick}
+          onBackButtonClick={onBackButtonClick}
+          showReverse={featureToggles && featureToggles.isPayrollReversibleEnabled && isReversible}
+          loadingSuccess={loadingState === LoadingState.LOADING_SUCCESS}
+          isReversalPreview={isReversalPreview}
+          isReadonly={isReadonly}
+        />
       </div>
     </Modal>
   );
@@ -154,6 +145,7 @@ const mapStateToProps = state => ({
   isOpen: getIsModalOpen(state),
   electronicPaymentLink: getElectronicPaymentLink(state),
   alertMessage: getAlert(state),
+  isReadonly: getReadonly(state),
 });
 
 export default connect(mapStateToProps)(EmployeePayModal);

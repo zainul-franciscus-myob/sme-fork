@@ -19,6 +19,7 @@ export const getEmployeePayModalContext = ({ transactionId, employeeName, state 
   employeeName,
   businessId: getBusinessId(state),
   region: state.region,
+  readonly: false,
 });
 export const getSelectedEmployeesToEmail = state => state.emailPaySlipEmployees
   .filter(e => e.isSelected)
