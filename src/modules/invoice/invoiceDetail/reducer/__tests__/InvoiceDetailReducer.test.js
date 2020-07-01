@@ -689,12 +689,6 @@ describe('InvoiceDetailReducer', () => {
 
       expect(actual.invoice.address).toEqual('addr');
     });
-
-    it('set customer abn', () => {
-      const actual = invoiceDetailReducer(state, action);
-
-      expect(actual.abn).not.toBeUndefined();
-    });
   });
 
   describe('LOAD_CUSTOMER_AFTER_CREATE', () => {
@@ -723,12 +717,6 @@ describe('InvoiceDetailReducer', () => {
       const actual = invoiceDetailReducer(state, action);
 
       expect(actual.invoice.address).toEqual('addr');
-    });
-
-    it('set customer abn', () => {
-      const actual = invoiceDetailReducer(state, action);
-
-      expect(actual.abn).not.toBeUndefined();
     });
   });
 

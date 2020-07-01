@@ -235,17 +235,16 @@ const updateInvoiceState = (state, partialInvoice) => ({
   },
 });
 
-const loadCustomer = (state, { address, abn }) => ({
+const loadCustomer = (state, { address }) => ({
   ...state,
   invoice: {
     ...state.invoice,
     address,
   },
-  abn,
 });
 
 const loadCustomerAfterCreate = (state, {
-  customerId, address, option, abn,
+  customerId, address, option,
 }) => ({
   ...state,
   invoice: {
@@ -254,7 +253,6 @@ const loadCustomerAfterCreate = (state, {
     address,
   },
   customerOptions: getUpdatedCustomerOptions(state, option),
-  abn,
 });
 
 const setCustomerLoadingState = (state, { isCustomerLoading }) => ({ ...state, isCustomerLoading });

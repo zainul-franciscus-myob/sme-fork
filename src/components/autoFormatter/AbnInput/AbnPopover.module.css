@@ -35,6 +35,10 @@
   color: var(--flx-background-color-alert-error-icon);
 }
 
+.unavailable {
+  padding: 1rem;
+}
+
 .icon {
   display: flex;
 }

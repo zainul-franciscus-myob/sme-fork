@@ -43,6 +43,7 @@ import {
 } from './selectors/redirectSelectors';
 import { getExportPdfFilename } from './selectors/exportPdfSelectors';
 import { shouldShowSaveAmountDueWarningModal } from './selectors/invoiceSaveSelectors';
+import AbnStatus from '../../../components/autoFormatter/AbnInput/AbnStatus';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
 import FeatureToggle from '../../../FeatureToggles';
@@ -388,7 +389,11 @@ export default class InvoiceDetailModule {
   }
 
   loadCustomer = () => {
-    const onSuccess = (payload) => this.dispatcher.loadCustomer(payload);
+    const onSuccess = (payload) => {
+      this.dispatcher.loadCustomer(payload);
+
+      this.loadAbnFromCustomer();
+    };
 
     const onFailure = ({ message }) => {
       this.displayFailureAlert(message);
@@ -780,6 +785,8 @@ export default class InvoiceDetailModule {
     const onSuccess = (payload) => {
       this.dispatcher.setCustomerLoadingState(false);
       this.dispatcher.loadCustomerAfterCreate(id, payload);
+
+      this.loadAbnFromCustomer();
     };
 
     const onFailure = () => {
@@ -799,6 +806,7 @@ export default class InvoiceDetailModule {
 
     const onFailure = () => {
       this.dispatcher.setAbnLoadingState(false);
+      this.dispatcher.loadAbn({ status: AbnStatus.UNAVAILABLE });
     };
 
     this.integrator.loadAbnFromCustomer({ onSuccess, onFailure });

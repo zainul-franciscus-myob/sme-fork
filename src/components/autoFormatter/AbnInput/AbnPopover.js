@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import AbnStatus from './AbnStatus';
 import LinkButton from '../../Button/LinkButton';
+import ServiceUnavailableImage from '../../ServiceUnavailableImage/ServiceUnavailableImage';
 import styles from './AbnPopover.module.css';
 
 const getDisplayTextByStatus = status => ({
@@ -26,6 +27,14 @@ const AbnPopover = ({
   abnLink,
   editContactUrl,
 }) => {
+  if (status === AbnStatus.UNAVAILABLE) {
+    return (
+      <div className={classNames(styles.validationResult, styles.unavailable)}>
+        <ServiceUnavailableImage tooltipMessage="The ABN Lookup service is currently unavailable." />
+      </div>
+    );
+  }
+
   const abnNumber = (
     <div>
       <span className={styles.label}>ABN</span>
