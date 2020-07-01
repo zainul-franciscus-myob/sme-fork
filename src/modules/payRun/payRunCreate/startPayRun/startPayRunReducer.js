@@ -22,6 +22,7 @@ export const getStartPayRunDefaultState = () => ({
     payPeriodEnd: '',
     regularPayCycleOptions: [],
   },
+  startOfFinancialYearDate: '',
 });
 
 const calculateWeeklyEndDate = startDate => addDays(startDate, 6);
@@ -70,7 +71,7 @@ export const calculateEndDate = (payCycle, startDateString) => {
 };
 
 const startNewPayRun = (state, {
-  isPayrollSetup, newPayRunDetails, draftPayRun, isTimesheetUsed,
+  isPayrollSetup, newPayRunDetails, draftPayRun, isTimesheetUsed, startOfFinancialYearDate,
 }) => {
   if (!isPayrollSetup) return { ...state, isPayrollSetup };
 
@@ -85,6 +86,7 @@ const startNewPayRun = (state, {
     },
     regularPayCycleOptions,
     draftPayRun,
+    startOfFinancialYearDate,
   };
 };
 

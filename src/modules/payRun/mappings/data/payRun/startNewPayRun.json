@@ -119,5 +119,6 @@
         "timesheetId": "1"
       }
     ]
-  }
+  },
+  "startOfFinancialYearDate": "2019-07-01T00:00:00"
 }

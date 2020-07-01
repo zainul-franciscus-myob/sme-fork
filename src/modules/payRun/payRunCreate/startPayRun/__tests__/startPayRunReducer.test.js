@@ -34,6 +34,7 @@ describe('startPayRunReducer', () => {
           regularPayCycleOptions: startNewPayRun.newPayRunDetails.regularPayCycleOptions,
           draftPayRun: startNewPayRun.draftPayRun,
           isTimesheetUsed: true,
+          startOfFinancialYearDate: '2019-07-01T00:00:00',
         },
       };
 

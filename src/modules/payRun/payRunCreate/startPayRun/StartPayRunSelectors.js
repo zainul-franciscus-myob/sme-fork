@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { isBefore } from 'date-fns';
 
 export const getStartPayRun = state => state.startPayRun;
 
@@ -55,3 +56,12 @@ export const getTimesheetRequiredFieldsFilled = (state) => {
     && params.payPeriodEnd,
   );
 };
+
+const getCurrentEditingDateOfPayment = state => state.startPayRun.currentEditingPayRun.paymentDate;
+const getStartOfFinancialYearDate = state => state.startPayRun.startOfFinancialYearDate;
+export const getIsBeforeStartOfFinancialYear = createSelector(
+  getCurrentEditingDateOfPayment,
+  getStartOfFinancialYearDate,
+  (date, startOfFinancialYearDate) => date && startOfFinancialYearDate
+  && isBefore(new Date(date), new Date(startOfFinancialYearDate)),
+);

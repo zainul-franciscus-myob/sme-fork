@@ -1,6 +1,7 @@
 import {
   getDateOfPayment,
   getDraftPayRun,
+  getIsBeforeStartOfFinancialYear,
   getLoadEmployeePaysRequestContent,
   getPayPeriodEnd,
   getPayPeriodStart,
@@ -141,5 +142,31 @@ describe('StartPayRunSelectors', () => {
 
       expect(actual).toBeFalsy();
     });
+  });
+
+  describe('getIsBeforeStartOfFinancialYear', () => {
+    it.each([
+      ['2014-07-01', '2010-01-01', true],
+      ['2014-07-01', '2014-06-30', true],
+      ['2014-07-01', '2014-07-01', false],
+      ['2014-07-01', '2014-07-02', false],
+      ['2014-07-01', '2015-01-01', false],
+    ])(
+      'when start of financial year date is %s and date of payment is %s, should return %s',
+      (startOfFinancialYearDate, date, expected) => {
+        const state = {
+          startPayRun: {
+            currentEditingPayRun: {
+              paymentDate: date,
+            },
+            startOfFinancialYearDate,
+          },
+        };
+
+        const actual = getIsBeforeStartOfFinancialYear(state);
+
+        expect(actual).toEqual(expected);
+      },
+    );
   });
 });

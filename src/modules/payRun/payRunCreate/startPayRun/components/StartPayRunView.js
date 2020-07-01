@@ -1,6 +1,5 @@
 import {
   Card,
-  DatePicker,
   FieldGroup,
   FormHorizontal,
   PageHead,
@@ -11,6 +10,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getIsBeforeStartOfFinancialYear,
   getIsTableLoading,
   getIsTimesheetUsed,
   getRegularPayCycleOptions,
@@ -23,6 +23,7 @@ import {
   getStepNumber,
   getStepperSteps,
 } from '../../PayRunSelectors';
+import DatePicker from '../../../../../components/DatePicker/DatePicker';
 import ExistingPayRunModal from './ExistingPayRunModal';
 import StartPayRunActions from './StartPayRunActions';
 import StpValidationErrorModal from './StpValidationErrorModal';
@@ -30,7 +31,6 @@ import TimesheetsTable from './TimesheetsTable';
 import handleDatePickerChange from '../../../../../components/handlers/handleDatePickerChange';
 import handleSelectChange from '../../../../../components/handlers/handleSelectChange';
 import styles from './StartPayRunView.module.css';
-
 
 const StartPayRunView = ({
   startPayRun: {
@@ -59,6 +59,7 @@ const StartPayRunView = ({
   onStpValidationErrorModalCancel,
   onStpValidationErrorModalContinue,
   onStpValidationErrorModalUpdateDetails,
+  isBeforeStartOfFinancialYear,
 }) => (
   <div className={styles.startPayRun}>
     <PageHead title="Create pay run" testid="startPayRunViewPageHead" />
@@ -82,7 +83,14 @@ const StartPayRunView = ({
           </Select>
           <DatePicker label="Pay period start" name="payPeriodStart" value={payPeriodStart} onSelect={handleDatePickerChange(onPayPeriodChange, 'payPeriodStart')} />
           <DatePicker label="Pay period end" name="payPeriodEnd" value={payPeriodEnd} onSelect={handleDatePickerChange(onPayPeriodChange, 'payPeriodEnd')} />
-          <DatePicker label="Date of payment" name="paymentDate" value={paymentDate} onSelect={handleDatePickerChange(onPayPeriodChange, 'paymentDate')} />
+          <DatePicker
+            label="Date of payment"
+            name="paymentDate"
+            value={paymentDate}
+            onSelect={handleDatePickerChange(onPayPeriodChange, 'paymentDate')}
+            displayWarning={isBeforeStartOfFinancialYear}
+            warningMessage={'The date is set to a previous financial year'}
+          />
         </FieldGroup>
         {isTimesheetUsed && (
         <TimesheetsTable
@@ -124,6 +132,7 @@ const mapStateToProps = state => ({
   isTableLoading: getIsTableLoading(state),
   isTimesheetUsed: getIsTimesheetUsed(state),
   showStpValidationErrorModal: getShowStpValidationErrorModal(state),
+  isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
 });
 
 export default connect(mapStateToProps)(StartPayRunView);
