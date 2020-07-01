@@ -388,12 +388,16 @@ describe('InvoiceDetailModule', () => {
           expect.objectContaining({ intent: RELOAD_INVOICE_DETAIL }),
           { intent: SET_INVOICE_HISTORY_LOADING },
           expect.objectContaining({ intent: LOAD_INVOICE_HISTORY }),
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
           { intent: SET_ALERT, alert: { type: 'success', message: "Great Work! You've done it well!" } },
         ]);
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: CREATE_INVOICE_DETAIL }),
           expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
           expect.objectContaining({ intent: LOAD_INVOICE_HISTORY }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
         ]);
         expect(module.replaceURLParams).toHaveBeenCalled();
       });
@@ -452,11 +456,15 @@ describe('InvoiceDetailModule', () => {
           { intent: SET_SUBMITTING_STATE, isSubmitting: false },
           { intent: SET_SUBMITTING_STATE, isSubmitting: true },
           expect.objectContaining({ intent: RELOAD_INVOICE_DETAIL }),
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
           { intent: SET_ALERT, alert: { type: 'success', message: "Great Work! You've done it well!" } },
         ]);
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: UPDATE_INVOICE_DETAIL }),
           expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
         ]);
         expect(module.replaceURLParams).not.toHaveBeenCalled();
       });
@@ -517,6 +525,9 @@ describe('InvoiceDetailModule', () => {
           expect.objectContaining({ intent: RELOAD_INVOICE_DETAIL }),
           { intent: SET_INVOICE_HISTORY_LOADING },
           expect.objectContaining({ intent: LOAD_INVOICE_HISTORY }),
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
           { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.EMAIL_INVOICE },
           { intent: SET_MODAL_ALERT, modalAlert: { type: 'success', message: "Great Work! You've done it well!" } },
         ]);
@@ -524,6 +535,7 @@ describe('InvoiceDetailModule', () => {
           expect.objectContaining({ intent: CREATE_INVOICE_DETAIL }),
           expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
           expect.objectContaining({ intent: LOAD_INVOICE_HISTORY }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
         ]);
         expect(module.replaceURLParams).toHaveBeenCalled();
       });
@@ -583,6 +595,9 @@ describe('InvoiceDetailModule', () => {
           { intent: SET_SUBMITTING_STATE, isSubmitting: false },
           { intent: SET_SUBMITTING_STATE, isSubmitting: true },
           expect.objectContaining({ intent: RELOAD_INVOICE_DETAIL }),
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
           { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.EMAIL_INVOICE },
           { intent: SET_MODAL_ALERT, modalAlert: { type: 'success', message: "Great Work! You've done it well!" } },
         ]);
@@ -590,6 +605,7 @@ describe('InvoiceDetailModule', () => {
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: UPDATE_INVOICE_DETAIL }),
           expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
         ]);
 
         expect(module.replaceURLParams).not.toHaveBeenCalled();
@@ -656,6 +672,9 @@ describe('InvoiceDetailModule', () => {
           { intent: SET_SUBMITTING_STATE, isSubmitting: false },
           { intent: SET_SUBMITTING_STATE, isSubmitting: true },
           expect.objectContaining({ intent: RELOAD_INVOICE_DETAIL }),
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
           { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.EMAIL_INVOICE },
           { intent: SET_MODAL_ALERT, modalAlert: { type: 'success', message: "Great Work! You've done it well!" } },
         ]);
@@ -663,6 +682,7 @@ describe('InvoiceDetailModule', () => {
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: UPDATE_INVOICE_DETAIL }),
           expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
         ]);
 
         expect(module.replaceURLParams).not.toHaveBeenCalled();
@@ -750,12 +770,16 @@ describe('InvoiceDetailModule', () => {
           expect.objectContaining({ intent: RELOAD_INVOICE_DETAIL }),
           { intent: SET_INVOICE_HISTORY_LOADING },
           expect.objectContaining({ intent: LOAD_INVOICE_HISTORY }),
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
           { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.EXPORT_PDF },
         ]);
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: CREATE_INVOICE_DETAIL }),
           expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
           expect.objectContaining({ intent: LOAD_INVOICE_HISTORY }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
         ]);
         expect(module.replaceURLParams).toHaveBeenCalled();
       });
@@ -812,11 +836,15 @@ describe('InvoiceDetailModule', () => {
           { intent: SET_SUBMITTING_STATE, isSubmitting: false },
           { intent: SET_SUBMITTING_STATE, isSubmitting: true },
           expect.objectContaining({ intent: RELOAD_INVOICE_DETAIL }),
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
           { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.EXPORT_PDF },
         ]);
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: UPDATE_INVOICE_DETAIL }),
           expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
         ]);
         expect(module.replaceURLParams).not.toHaveBeenCalled();
       });

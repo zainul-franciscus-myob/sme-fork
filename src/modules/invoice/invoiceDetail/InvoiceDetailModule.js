@@ -288,6 +288,11 @@ export default class InvoiceDetailModule {
       if (isCreating) {
         this.loadInvoiceHistory();
       }
+
+      if (getShouldShowAbn(this.store.getState())) {
+        this.loadAbnFromCustomer();
+      }
+
       next({ message });
     };
 
