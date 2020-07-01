@@ -1,8 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_SAVED_APPLY_TO_SALE } from '../../applyToSale/ApplyToSaleMessageType';
-import { SUCCESSFULLY_SAVED_PAY_REFUND } from '../../payRefund/PayRefundMessageTypes';
+import {
+  SUCCESSFULLY_SAVED_APPLY_TO_SALE,
+  SUCCESSFULLY_SAVED_PAY_REFUND,
+} from '../../../common/types/MessageTypes';
 import {
   getBusinessId,
   getNewSortOrder,

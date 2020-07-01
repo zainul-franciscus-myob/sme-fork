@@ -14,7 +14,11 @@ import {
   UPDATE_GENERAL_JOURNAL_HEADER,
   UPDATE_GENERAL_JOURNAL_LINE,
 } from '../../GeneralJournalIntents';
-import { DUPLICATE_GENERAL_JOURNAL, SUCCESSFULLY_DELETED_GENERAL_JOURNAL, SUCCESSFULLY_SAVED_GENERAL_JOURNAL } from '../../GeneralJournalMessageTypes';
+import {
+  DUPLICATE_GENERAL_JOURNAL,
+  SUCCESSFULLY_DELETED_GENERAL_JOURNAL,
+  SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
+} from '../../../../common/types/MessageTypes';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import GeneralJournalDetailModule from '../GeneralJournalDetailModule';
 import LoadingState from '../../../../components/PageView/LoadingState';

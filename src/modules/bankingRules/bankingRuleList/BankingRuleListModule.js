@@ -4,10 +4,8 @@ import React from 'react';
 import {
   SUCCESSFULLY_DELETED_BANKING_RULE,
   SUCCESSFULLY_SAVED_BANKING_RULE,
-} from '../bankingRuleDetail/BankingRuleDetailMessageTypes';
-import {
-  getSelectedBankingRuleUrl,
-} from './BankingRuleListSelectors';
+} from '../../../common/types/MessageTypes';
+import { getSelectedBankingRuleUrl } from './BankingRuleListSelectors';
 import BankingRuleListView from './components/BankingRuleListView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';

@@ -1,7 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_USER, SUCCESSFULLY_SAVED_USER } from '../UserMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_USER,
+  SUCCESSFULLY_SAVED_USER,
+} from '../../../common/types/MessageTypes';
 import {
   getIsActionsDisabled,
   getIsCreating,

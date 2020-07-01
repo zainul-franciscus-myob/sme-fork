@@ -13,8 +13,11 @@ import {
 } from '../BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { START_LOADING_MORE, STOP_LOADING_MORE } from '../billDetail/BillIntents';
-import { SUCCESSFULLY_DELETED_BILL, SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK } from '../billDetail/types/BillMessageTypes';
-import { SUCCESSFULLY_SAVED_BILL_PAYMENT } from '../../billPayment/BillPaymentMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_BILL,
+  SUCCESSFULLY_SAVED_BILL_PAYMENT,
+  SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
+} from '../../../common/types/MessageTypes';
 import {
   flipSortOrder,
   getBusinessId,

@@ -17,7 +17,10 @@ import {
   UPDATE_REFERENCE_ID,
 } from '../../BillPaymentIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
-import { SUCCESSFULLY_DELETED_BILL_PAYMENT, SUCCESSFULLY_SAVED_BILL_PAYMENT } from '../../BillPaymentMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_BILL_PAYMENT,
+  SUCCESSFULLY_SAVED_BILL_PAYMENT,
+} from '../../../../common/types/MessageTypes';
 import BillPaymentModule from '../BillPaymentDetailModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import TestIntegration from '../../../../integration/TestIntegration';

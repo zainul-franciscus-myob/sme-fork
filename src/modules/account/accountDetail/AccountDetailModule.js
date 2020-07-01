@@ -1,9 +1,17 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_ACCOUNT, SUCCESSFULLY_SAVED_ACCOUNT } from '../AccountMessageTypes';
 import {
-  getBusinessId, getIsActionsDisabled, getIsCreating, getModalType, getRegion, isPageEdited,
+  SUCCESSFULLY_DELETED_ACCOUNT,
+  SUCCESSFULLY_SAVED_ACCOUNT,
+} from '../../../common/types/MessageTypes';
+import {
+  getBusinessId,
+  getIsActionsDisabled,
+  getIsCreating,
+  getModalType,
+  getRegion,
+  isPageEdited,
 } from './accountDetailSelectors';
 import AccountDetailView from './components/AccountDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';

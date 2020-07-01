@@ -31,11 +31,11 @@ import {
 } from '../../SpendMoneyIntents';
 import {
   DUPLICATE_SPEND_MONEY,
-  PREFILL_INTRAY_DOCUMENT,
-  PREFILL_NEW,
+  PREFILL_INTRAY_DOCUMENT_FOR_SPEND_MONEY,
+  PREFILL_NEW_SPEND_MONEY,
   SUCCESSFULLY_SAVED_SPEND_MONEY,
   SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
-} from '../../spendMoneyMessageTypes';
+} from '../../../../common/types/MessageTypes';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import ModalType from '../components/ModalType';
@@ -97,7 +97,7 @@ export const setUpWithNewFromInTray = () => {
   const toolbox = setup();
   const { store, integration, module } = toolbox;
   module.popMessages = () => [{
-    type: PREFILL_INTRAY_DOCUMENT,
+    type: PREFILL_INTRAY_DOCUMENT_FOR_SPEND_MONEY,
     inTrayDocumentId: 'docId',
   }];
 
@@ -194,7 +194,7 @@ describe('SpendMoneyDetailModule', () => {
       it('successfully load', () => {
         const { store, integration, module } = setup();
         module.popMessages = () => [{
-          type: PREFILL_INTRAY_DOCUMENT,
+          type: PREFILL_INTRAY_DOCUMENT_FOR_SPEND_MONEY,
           inTrayDocumentId: '🍌',
         }];
 
@@ -238,7 +238,7 @@ describe('SpendMoneyDetailModule', () => {
         const { store, integration, module } = setup();
         integration.mapFailure(DOWNLOAD_IN_TRAY_DOCUMENT);
         module.popMessages = () => [{
-          type: PREFILL_INTRAY_DOCUMENT,
+          type: PREFILL_INTRAY_DOCUMENT_FOR_SPEND_MONEY,
           inTrayDocumentId: '🍌',
         }];
 
@@ -289,7 +289,7 @@ describe('SpendMoneyDetailModule', () => {
         const { store, integration, module } = setup();
         integration.mapFailure(PREFILL_DATA_FROM_IN_TRAY);
         module.popMessages = () => [{
-          type: PREFILL_INTRAY_DOCUMENT,
+          type: PREFILL_INTRAY_DOCUMENT_FOR_SPEND_MONEY,
           inTrayDocumentId: '🍌',
         }];
 
@@ -406,7 +406,7 @@ describe('SpendMoneyDetailModule', () => {
       const { store, integration, module } = setup();
       module.popMessages = () => [
         {
-          type: PREFILL_NEW,
+          type: PREFILL_NEW_SPEND_MONEY,
           selectedBankAccountId: '123',
           selectedDate: '2020-04-23',
         },
@@ -459,7 +459,7 @@ describe('SpendMoneyDetailModule', () => {
       integration.mapFailure(LOAD_NEW_SPEND_MONEY);
       module.popMessages = () => [
         {
-          type: PREFILL_NEW,
+          type: PREFILL_NEW_SPEND_MONEY,
           selectedBankAccountId: '123',
           selectedDate: '2020-04-23',
         },
@@ -1216,7 +1216,7 @@ describe('SpendMoneyDetailModule', () => {
           content: '👽',
         });
         expect(module.pushMessage).toHaveBeenCalledWith({
-          type: PREFILL_NEW,
+          type: PREFILL_NEW_SPEND_MONEY,
           selectedBankAccountId: '123',
           selectedDate: '2020-04-19',
         });
@@ -1256,7 +1256,7 @@ describe('SpendMoneyDetailModule', () => {
           content: '👽',
         });
         expect(module.pushMessage).toHaveBeenCalledWith({
-          type: PREFILL_NEW,
+          type: PREFILL_NEW_SPEND_MONEY,
           selectedBankAccountId: '456',
           selectedDate: '2020-04-19',
         });

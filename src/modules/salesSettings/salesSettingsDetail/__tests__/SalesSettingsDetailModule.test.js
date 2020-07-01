@@ -10,7 +10,7 @@ import {
   SET_TAB,
 } from '../../SalesSettingsIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
-import { TEMPLATE_UPDATED } from '../../../template/MessageTypes';
+import { TEMPLATE_UPDATED } from '../../../../common/types/MessageTypes';
 import { mainTabIds } from '../tabItems';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import SalesSettingsDetailModule from '../SalesSettingsDetailModule';

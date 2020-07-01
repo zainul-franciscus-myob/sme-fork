@@ -1,8 +1,11 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_INVOICE, SUCCESSFULLY_EMAILED_INVOICE } from '../invoiceDetail/types/invoiceMessageTypes';
-import { SUCCESSFULLY_SAVED_INVOICE_PAYMENT } from '../../invoicePayment/InvoicePaymentMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_INVOICE,
+  SUCCESSFULLY_EMAILED_INVOICE,
+  SUCCESSFULLY_SAVED_INVOICE_PAYMENT,
+} from '../../../common/types/MessageTypes';
 import {
   getBusinessId,
   getFlipSortOrder,

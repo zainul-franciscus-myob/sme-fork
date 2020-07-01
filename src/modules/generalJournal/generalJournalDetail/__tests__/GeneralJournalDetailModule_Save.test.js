@@ -1,7 +1,11 @@
 import {
-  CLOSE_MODAL, CREATE_GENERAL_JOURNAL, SET_ALERT, SET_SUBMITTING_STATE, UPDATE_GENERAL_JOURNAL,
+  CLOSE_MODAL,
+  CREATE_GENERAL_JOURNAL,
+  SET_ALERT,
+  SET_SUBMITTING_STATE,
+  UPDATE_GENERAL_JOURNAL,
 } from '../../GeneralJournalIntents';
-import { SUCCESSFULLY_SAVED_GENERAL_JOURNAL } from '../../GeneralJournalMessageTypes';
+import { SUCCESSFULLY_SAVED_GENERAL_JOURNAL } from '../../../../common/types/MessageTypes';
 import { setupWithExisting, setupWithNew } from './GeneralJournalDetailModule.test';
 
 describe('GeneralJournalDetailModule', () => {

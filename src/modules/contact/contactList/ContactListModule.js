@@ -1,7 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_CONTACT, SUCCESSFULLY_SAVED_CONTACT } from '../ContactMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_CONTACT,
+  SUCCESSFULLY_SAVED_CONTACT,
+} from '../../../common/types/MessageTypes';
 import { getContactCreateLink, getFlipSortOrder, getOrderBy } from './contactListSelector';
 import ContactListView from './components/ContactListView';
 import LoadingState from '../../../components/PageView/LoadingState';

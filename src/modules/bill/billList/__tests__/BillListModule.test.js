@@ -11,7 +11,7 @@ import {
 } from '../../BillIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import { START_LOADING_MORE, STOP_LOADING_MORE } from '../../billDetail/BillIntents';
-import { SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK } from '../../billDetail/types/BillMessageTypes';
+import { SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK } from '../../../../common/types/MessageTypes';
 import BillListModule from '../BillListModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import TestIntegration from '../../../../integration/TestIntegration';

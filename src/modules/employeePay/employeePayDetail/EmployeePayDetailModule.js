@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_EMPLOYEE_PAY_TRANSACTION } from '../EmployeePayMessageTypes';
+import { SUCCESSFULLY_DELETED_EMPLOYEE_PAY_TRANSACTION } from '../../../common/types/MessageTypes';
 import { getTransactionListUrl } from './EmployeePayDetailSelectors';
 import EmployeePayDetailView from './components/EmployeePayDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';

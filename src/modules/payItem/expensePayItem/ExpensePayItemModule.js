@@ -22,7 +22,7 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
   SUCCESSFULLY_DELETED_EXPENSE_PAY_ITEM,
   SUCCESSFULLY_SAVED_EXPENSE_PAY_ITEM,
-} from './ExpensePayItemMessageTypes';
+} from '../../../common/types/MessageTypes';
 import {
   getBusinessId,
   getCreateExpensePayItemUrlParams,

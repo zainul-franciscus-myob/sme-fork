@@ -10,15 +10,13 @@ import {
   SORT_AND_FILTER_IN_TRAY_LIST,
 } from '../../InTrayIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
-import { SUCCESSFULLY_LINKED_DOCUMENT_TO_BILL } from '../../inTrayMessageTypes';
 import {
+  SUCCESSFULLY_LINKED_DOCUMENT_TO_BILL,
   SUCCESSFULLY_SAVED_BILL,
   SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
-} from '../../../bill/billDetail/types/BillMessageTypes';
-import {
   SUCCESSFULLY_SAVED_SPEND_MONEY,
   SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
-} from '../../../spendMoney/spendMoneyMessageTypes';
+} from '../../../../common/types/MessageTypes';
 import InTrayModule from '../InTrayModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import TestIntegration from '../../../../integration/TestIntegration';

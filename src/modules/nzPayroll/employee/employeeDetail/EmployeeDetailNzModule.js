@@ -1,9 +1,16 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_EMPLOYEE, SUCCESSFULLY_SAVED_EMPLOYEE } from '../EmployeeMessageTypes';
 import {
-  getEmployeeListUrl, getIsCreating, getModalUrl, getURLParams, isPageEdited,
+  SUCCESSFULLY_DELETED_NZ_EMPLOYEE,
+  SUCCESSFULLY_SAVED_NZ_EMPLOYEE,
+} from '../../../../common/types/MessageTypes';
+import {
+  getEmployeeListUrl,
+  getIsCreating,
+  getModalUrl,
+  getURLParams,
+  isPageEdited,
 } from './EmployeeDetailNzSelectors';
 import { tabItems } from './tabItems';
 import ContactDetailsNzTabModule from './contactDetails/ContactDetailsNzTabModule';
@@ -115,7 +122,7 @@ export default class EmployeeDetailNzModule {
       const isCreating = getIsCreating(this.store.getState());
       if (isCreating) {
         this.pushMessage({
-          type: SUCCESSFULLY_SAVED_EMPLOYEE,
+          type: SUCCESSFULLY_SAVED_NZ_EMPLOYEE,
           content: response.message,
         });
         this.redirectWithEmployeeId(response.employeeId);
@@ -131,7 +138,7 @@ export default class EmployeeDetailNzModule {
     const onSuccess = (response) => {
       this.dispatcher.updateEmployeeDetails(response);
       this.pushMessage({
-        type: SUCCESSFULLY_SAVED_EMPLOYEE,
+        type: SUCCESSFULLY_SAVED_NZ_EMPLOYEE,
         content: response.message,
       });
       this.redirectToEmployeeList();
@@ -165,7 +172,7 @@ export default class EmployeeDetailNzModule {
 
     const onSuccess = (response) => {
       this.pushMessage({
-        type: SUCCESSFULLY_DELETED_EMPLOYEE,
+        type: SUCCESSFULLY_DELETED_NZ_EMPLOYEE,
         content: response.message,
       });
       this.redirectToEmployeeList();
@@ -202,8 +209,8 @@ export default class EmployeeDetailNzModule {
   readMessages = () => {
     const [inboxMessage] = this.popMessages(
       [
-        SUCCESSFULLY_DELETED_EMPLOYEE,
-        SUCCESSFULLY_SAVED_EMPLOYEE,
+        SUCCESSFULLY_DELETED_NZ_EMPLOYEE,
+        SUCCESSFULLY_SAVED_NZ_EMPLOYEE,
       ],
     );
 

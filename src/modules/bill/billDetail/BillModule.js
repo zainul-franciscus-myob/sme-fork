@@ -3,11 +3,11 @@ import React from 'react';
 
 import {
   DUPLICATE_BILL,
-  PREFILL_INTRAY_DOCUMENT,
+  PREFILL_INTRAY_DOCUMENT_FOR_BILL,
   SUCCESSFULLY_DELETED_BILL,
   SUCCESSFULLY_SAVED_BILL,
   SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
-} from './types/BillMessageTypes';
+} from '../../../common/types/MessageTypes';
 import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalculator';
 import {
   getBillId,
@@ -682,7 +682,7 @@ class BillModule {
       SUCCESSFULLY_SAVED_BILL,
       SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
       DUPLICATE_BILL,
-      PREFILL_INTRAY_DOCUMENT,
+      PREFILL_INTRAY_DOCUMENT_FOR_BILL,
     ]).forEach(message => {
       switch (message.type) {
         case SUCCESSFULLY_SAVED_BILL:
@@ -694,7 +694,7 @@ class BillModule {
         case DUPLICATE_BILL:
           this.dispatcher.setDuplicateId(message.duplicateId);
           break;
-        case PREFILL_INTRAY_DOCUMENT:
+        case PREFILL_INTRAY_DOCUMENT_FOR_BILL:
           this.dispatcher.setInTrayDocumentId(message.inTrayDocumentId);
           this.dispatcher.setSource('inTray');
           break;

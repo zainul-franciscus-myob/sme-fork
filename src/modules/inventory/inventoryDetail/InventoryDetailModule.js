@@ -1,7 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_ITEM, SUCCESSFULLY_SAVED_ITEM } from '../InventoryMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_ITEM,
+  SUCCESSFULLY_SAVED_ITEM,
+} from '../../../common/types/MessageTypes';
 import {
   getBusinessId,
   getIsActionsDisabled,

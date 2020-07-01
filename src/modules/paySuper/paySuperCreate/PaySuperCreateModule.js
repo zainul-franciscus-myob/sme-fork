@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_CREATED_SUPER_PAYMENT } from '../paySuperMessageTypes';
+import { SUCCESSFULLY_CREATED_SUPER_PAYMENT } from '../../../common/types/MessageTypes';
 import {
   getBatchPaymentId,
   getBusinessId,

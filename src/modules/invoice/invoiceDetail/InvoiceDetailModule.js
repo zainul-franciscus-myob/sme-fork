@@ -6,7 +6,7 @@ import {
   SUCCESSFULLY_DELETED_INVOICE,
   SUCCESSFULLY_EMAILED_INVOICE,
   SUCCESSFULLY_SAVED_INVOICE,
-} from './types/invoiceMessageTypes';
+} from '../../../common/types/MessageTypes';
 import {
   getAccountModalContext,
   getContextForInventoryModal,

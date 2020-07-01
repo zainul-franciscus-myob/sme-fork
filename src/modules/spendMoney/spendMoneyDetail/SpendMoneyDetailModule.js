@@ -3,12 +3,12 @@ import React from 'react';
 
 import {
   DUPLICATE_SPEND_MONEY,
-  PREFILL_INTRAY_DOCUMENT,
-  PREFILL_NEW,
+  PREFILL_INTRAY_DOCUMENT_FOR_SPEND_MONEY,
+  PREFILL_NEW_SPEND_MONEY,
   SUCCESSFULLY_DELETED_SPEND_MONEY,
   SUCCESSFULLY_SAVED_SPEND_MONEY,
   SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
-} from '../spendMoneyMessageTypes';
+} from '../../../common/types/MessageTypes';
 import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalculator';
 import {
   getAccountModalContext,
@@ -713,7 +713,7 @@ export default class SpendMoneyDetailModule {
       });
 
       this.pushMessage({
-        type: PREFILL_NEW,
+        type: PREFILL_NEW_SPEND_MONEY,
         selectedBankAccountId: getSelectedPayFromId(state),
         selectedDate: getDate(state),
       });
@@ -840,8 +840,8 @@ export default class SpendMoneyDetailModule {
       SUCCESSFULLY_SAVED_SPEND_MONEY,
       SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
       DUPLICATE_SPEND_MONEY,
-      PREFILL_NEW,
-      PREFILL_INTRAY_DOCUMENT,
+      PREFILL_NEW_SPEND_MONEY,
+      PREFILL_INTRAY_DOCUMENT_FOR_SPEND_MONEY,
     ]).forEach(message => {
       switch (message.type) {
         case SUCCESSFULLY_SAVED_SPEND_MONEY:
@@ -851,13 +851,13 @@ export default class SpendMoneyDetailModule {
         case DUPLICATE_SPEND_MONEY:
           this.dispatcher.setDuplicateId(message.duplicateId);
           break;
-        case PREFILL_NEW:
+        case PREFILL_NEW_SPEND_MONEY:
           this.dispatcher.setPrefillNew({
             selectedBankAccountId: message.selectedBankAccountId,
             selectedDate: message.selectedDate,
           });
           break;
-        case PREFILL_INTRAY_DOCUMENT:
+        case PREFILL_INTRAY_DOCUMENT_FOR_SPEND_MONEY:
           this.dispatcher.setPrefillInTrayDocumentId(message.inTrayDocumentId);
           break;
         default:

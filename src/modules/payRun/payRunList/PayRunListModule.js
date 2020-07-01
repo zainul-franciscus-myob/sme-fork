@@ -1,10 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
   SET_ALERT,
   SET_LOADING_STATE,
@@ -13,7 +10,7 @@ import {
   SORT_AND_FILTER_PAY_RUN_LIST,
   UPDATE_FILTER_OPTIONS,
 } from './PayRunListIntents';
-import { SUCCESSFULLY_SAVED_DRAFT_PAY_RUN } from '../payRunMessageTypes';
+import { SUCCESSFULLY_SAVED_DRAFT_PAY_RUN } from '../../../common/types/MessageTypes';
 import {
   getBusinessId,
   getCreatePayRunUrl,

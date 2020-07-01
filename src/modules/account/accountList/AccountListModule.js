@@ -5,9 +5,12 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
   SUCCESSFULLY_DELETED_ACCOUNT,
   SUCCESSFULLY_SAVED_ACCOUNT,
-} from '../AccountMessageTypes';
+} from '../../../common/types/MessageTypes';
 import {
-  getFilterOptions, getImportChartOfAccountsUrl, getLinkedAccountUrl, getNewAccountUrl,
+  getFilterOptions,
+  getImportChartOfAccountsUrl,
+  getLinkedAccountUrl,
+  getNewAccountUrl,
 } from './AccountListSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
 import AccountListView from './components/AccountListView';

@@ -1,7 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_BANKING_RULE, SUCCESSFULLY_SAVED_BANKING_RULE } from './BankingRuleDetailMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_BANKING_RULE,
+  SUCCESSFULLY_SAVED_BANKING_RULE,
+} from '../../../common/types/MessageTypes';
 import {
   getBankingRuleListUrl,
   getIsPagedEdited,

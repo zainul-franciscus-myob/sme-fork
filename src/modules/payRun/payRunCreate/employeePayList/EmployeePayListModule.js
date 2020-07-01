@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SUCCESSFULLY_SAVED_DRAFT_PAY_RUN } from '../../payRunMessageTypes';
+import { SUCCESSFULLY_SAVED_DRAFT_PAY_RUN } from '../../../../common/types/MessageTypes';
 import {
   getIsPageEdited,
   getIsPayItemLineDirty,

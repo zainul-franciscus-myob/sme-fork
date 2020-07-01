@@ -19,7 +19,7 @@ import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import {
   SUCCESSFULLY_DELETED_INVOICE_PAYMENT,
   SUCCESSFULLY_SAVED_INVOICE_PAYMENT,
-} from '../../InvoicePaymentMessageTypes';
+} from '../../../../common/types/MessageTypes';
 import InvoicePaymentDetailModule from '../InvoicePaymentDetailModule';
 import InvoicePaymentModalTypes from '../../InvoicePaymentModalTypes';
 import LoadingState from '../../../../components/PageView/LoadingState';

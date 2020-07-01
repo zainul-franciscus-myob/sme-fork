@@ -20,7 +20,10 @@ import {
   UPDATE_PAY_ITEM,
 } from '../DeductionPayItemIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
-import { SUCCESSFULLY_DELETED_PAY_ITEM, SUCCESSFULLY_SAVED_PAY_ITEM } from '../DeductionPayItemMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_PAY_ITEM,
+  SUCCESSFULLY_SAVED_PAY_ITEM,
+} from '../../../../common/types/MessageTypes';
 import {
   getBusinessId,
   getIsCreating,

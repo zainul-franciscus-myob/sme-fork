@@ -3,17 +3,15 @@ import React from 'react';
 import copy from 'copy-to-clipboard';
 
 import {
-  PREFILL_INTRAY_DOCUMENT as PREFILL_INTRAY_DOCUMENT_FOR_BILL,
+  PREFILL_INTRAY_DOCUMENT_FOR_BILL,
+  PREFILL_INTRAY_DOCUMENT_FOR_SPEND_MONEY,
+  SUCCESSFULLY_LINKED_DOCUMENT_TO_BILL,
   SUCCESSFULLY_SAVED_BILL,
   SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
-} from '../../bill/billDetail/types/BillMessageTypes';
-import {
-  PREFILL_INTRAY_DOCUMENT as PREFILL_INTRAY_DOCUMENT_FOR_SPEND_MONEY,
   SUCCESSFULLY_SAVED_SPEND_MONEY,
   SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
-} from '../../spendMoney/spendMoneyMessageTypes';
+} from '../../../common/types/MessageTypes';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { SUCCESSFULLY_LINKED_DOCUMENT_TO_BILL } from '../inTrayMessageTypes';
 import { getBusinessId, getRegion } from './selectors/InTraySelectors';
 import { getEmail, getIsUploadOptionsLoading } from './selectors/UploadOptionsSelectors';
 import {

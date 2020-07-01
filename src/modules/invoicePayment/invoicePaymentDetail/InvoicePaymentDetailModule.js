@@ -4,7 +4,7 @@ import React from 'react';
 import {
   SUCCESSFULLY_DELETED_INVOICE_PAYMENT,
   SUCCESSFULLY_SAVED_INVOICE_PAYMENT,
-} from '../InvoicePaymentMessageTypes';
+} from '../../../common/types/MessageTypes';
 import {
   getApplyPaymentToInvoiceId,
   getBusinessId,

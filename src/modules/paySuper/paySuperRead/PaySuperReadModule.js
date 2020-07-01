@@ -11,7 +11,7 @@ import {
   SET_STATUS,
 } from './paySuperReadIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { SUCCESSFULLY_REVERSED_TRANSACTION } from '../paySuperMessageTypes';
+import { SUCCESSFULLY_REVERSED_TRANSACTION } from '../../../common/types/MessageTypes';
 import {
   getBatchPaymentId,
   getBusinessEventId,

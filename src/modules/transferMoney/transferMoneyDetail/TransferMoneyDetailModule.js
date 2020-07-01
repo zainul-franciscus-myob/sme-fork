@@ -1,7 +1,11 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { DUPLICATE_TRANSFER_MONEY, SUCCESSFULLY_DELETED_TRANSFER_MONEY, SUCCESSFULLY_SAVED_TRANSFER_MONEY } from '../transferMoneyMessageTypes';
+import {
+  DUPLICATE_TRANSFER_MONEY,
+  SUCCESSFULLY_DELETED_TRANSFER_MONEY,
+  SUCCESSFULLY_SAVED_TRANSFER_MONEY,
+} from '../../../common/types/MessageTypes';
 import {
   getCreateNewUrl,
   getIsActionsDisabled,

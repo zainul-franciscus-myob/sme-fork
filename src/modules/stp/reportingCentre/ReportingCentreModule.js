@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_UPDATED_JOB_KEEPER_PAYMENTS } from './MessageTypes';
+import { SUCCESSFULLY_UPDATED_JOB_KEEPER_PAYMENTS } from '../../../common/types/MessageTypes';
 import {
   getAgentDetails,
   getRegistrationUrl,

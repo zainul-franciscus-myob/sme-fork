@@ -12,7 +12,11 @@ import {
   SET_SUBMITTING_STATE,
   UPDATE_FORM,
 } from '../../TransferMoneyIntents';
-import { DUPLICATE_TRANSFER_MONEY, SUCCESSFULLY_DELETED_TRANSFER_MONEY, SUCCESSFULLY_SAVED_TRANSFER_MONEY } from '../../transferMoneyMessageTypes';
+import {
+  DUPLICATE_TRANSFER_MONEY,
+  SUCCESSFULLY_DELETED_TRANSFER_MONEY,
+  SUCCESSFULLY_SAVED_TRANSFER_MONEY,
+} from '../../../../common/types/MessageTypes';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import ModalType from '../../ModalType';

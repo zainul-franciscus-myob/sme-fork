@@ -1,7 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_SUPER_FUND, SUCCESSFULLY_SAVED_SUPER_FUND } from './PayrollSettingsMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_SUPER_FUND,
+  SUCCESSFULLY_SAVED_SUPER_FUND,
+} from '../../common/types/MessageTypes';
 import {
   getCreateSuperUrl,
   getIsPageEdited,

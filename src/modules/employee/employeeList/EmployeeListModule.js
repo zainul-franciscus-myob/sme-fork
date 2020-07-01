@@ -13,11 +13,11 @@ import {
   STOP_LOADING_MORE,
   UPDATE_FILTER_BAR_OPTIONS,
 } from '../EmployeeIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
-import { SUCCESSFULLY_DELETED_EMPLOYEE, SUCCESSFULLY_SAVED_EMPLOYEE } from '../EmployeeMessageTypes';
+  SUCCESSFULLY_DELETED_EMPLOYEE,
+  SUCCESSFULLY_SAVED_EMPLOYEE,
+} from '../../../common/types/MessageTypes';
 import {
   getBusinessId,
   getFilterEmployeeListNextPageParams,

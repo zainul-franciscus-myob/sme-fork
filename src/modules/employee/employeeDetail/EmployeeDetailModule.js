@@ -1,7 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_EMPLOYEE, SUCCESSFULLY_SAVED_EMPLOYEE } from '../EmployeeMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_EMPLOYEE,
+  SUCCESSFULLY_SAVED_EMPLOYEE,
+} from '../../../common/types/MessageTypes';
 import { getDeductionPayItemModal } from './payrollDetails/selectors/DeductionPayItemModalSelectors';
 import {
   getEmployeeDetailUrl,

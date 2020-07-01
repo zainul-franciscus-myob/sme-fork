@@ -23,7 +23,10 @@ import {
   UPDATE_INVOICE_ID_AFTER_CREATE,
   UPDATE_PRE_CONVERSION_INVOICE_DETAIL,
 } from '../../InvoiceIntents';
-import { DUPLICATE_INVOICE, SUCCESSFULLY_SAVED_INVOICE } from '../types/invoiceMessageTypes';
+import {
+  DUPLICATE_INVOICE,
+  SUCCESSFULLY_SAVED_INVOICE,
+} from '../../../../common/types/MessageTypes';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
 import InvoiceDetailModule from '../InvoiceDetailModule';

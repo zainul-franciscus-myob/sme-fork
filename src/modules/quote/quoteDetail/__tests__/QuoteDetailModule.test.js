@@ -14,7 +14,7 @@ import {
   UPDATE_QUOTE_DETAIL,
   UPDATE_QUOTE_ID_AFTER_CREATE,
 } from '../../QuoteIntents';
-import { DUPLICATE_QUOTE, SUCCESSFULLY_SAVED_QUOTE } from '../QuoteMessageTypes';
+import { DUPLICATE_QUOTE, SUCCESSFULLY_SAVED_QUOTE } from '../../../../common/types/MessageTypes';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import ModalType from '../ModalType';

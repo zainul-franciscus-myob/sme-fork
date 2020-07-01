@@ -15,16 +15,18 @@ import {
   UPDATE_SUPER_FUND_DETAIL,
   UPDATE_SUPER_PRODUCT,
 } from '../SuperFundIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
   SUCCESSFULLY_DELETED_SUPER_FUND,
   SUCCESSFULLY_SAVED_SUPER_FUND,
-} from '../../payrollSettings/PayrollSettingsMessageTypes';
+} from '../../../common/types/MessageTypes';
 import {
-  getBusinessId, getIsCreating, getIsPageEdited, getRegion, getSaveSuperFundPayload, getSuperFundId,
+  getBusinessId,
+  getIsCreating,
+  getIsPageEdited,
+  getRegion,
+  getSaveSuperFundPayload,
+  getSuperFundId,
 } from './SuperFundNoPaySuperSelectors';
 import Store from '../../../store/Store';
 import SuperFundNoPaySuperView from './components/SuperFundNoPaySuperView';

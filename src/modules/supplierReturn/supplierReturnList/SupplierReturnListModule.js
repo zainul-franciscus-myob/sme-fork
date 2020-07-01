@@ -1,9 +1,15 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_SAVED_PURCHASE_RETURN } from '../../supplierReturnPurchase/SupplierReturnPurchaseMessageTypes';
-import { SUCCESSFULLY_SAVED_RECEIVE_REFUND } from '../../receiveRefund/ReceiveRefundMessageTypes';
-import { getCreatePurchaseUrl, getCreateRefundUrl, getNewSortOrder } from './selectors/SupplierReturnListSelectors';
+import {
+  SUCCESSFULLY_SAVED_PURCHASE_RETURN,
+  SUCCESSFULLY_SAVED_RECEIVE_REFUND,
+} from '../../../common/types/MessageTypes';
+import {
+  getCreatePurchaseUrl,
+  getCreateRefundUrl,
+  getNewSortOrder,
+} from './selectors/SupplierReturnListSelectors';
 import { getSettings } from './selectors/SupplierReturnListIntegrationSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
 import LoadingState from '../../../components/PageView/LoadingState';

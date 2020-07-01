@@ -12,7 +12,7 @@ import {
   SUCCESSFULLY_DELETED_QUOTE,
   SUCCESSFULLY_EMAILED_QUOTE,
   SUCCESSFULLY_SAVED_QUOTE,
-} from './QuoteMessageTypes';
+} from '../../../common/types/MessageTypes';
 import {
   getAccountModalContext,
   getContactModalContext,

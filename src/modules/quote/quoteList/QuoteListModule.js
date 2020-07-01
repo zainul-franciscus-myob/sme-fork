@@ -1,9 +1,15 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_QUOTE, SUCCESSFULLY_EMAILED_QUOTE } from '../quoteDetail/QuoteMessageTypes';
 import {
-  getFlipSortOrder, getOrderBy, getQuoteCreateUrl, getSettings,
+  SUCCESSFULLY_DELETED_QUOTE,
+  SUCCESSFULLY_EMAILED_QUOTE,
+} from '../../../common/types/MessageTypes';
+import {
+  getFlipSortOrder,
+  getOrderBy,
+  getQuoteCreateUrl,
+  getSettings,
 } from './quoteListSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
 import LoadingState from '../../../components/PageView/LoadingState';

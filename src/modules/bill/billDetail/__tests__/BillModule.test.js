@@ -30,10 +30,10 @@ import {
 } from '../BillIntents';
 import {
   DUPLICATE_BILL,
-  PREFILL_INTRAY_DOCUMENT,
+  PREFILL_INTRAY_DOCUMENT_FOR_BILL,
   SUCCESSFULLY_SAVED_BILL,
   SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
-} from '../types/BillMessageTypes';
+} from '../../../../common/types/MessageTypes';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import BillModule from '../BillModule';
 import InTrayModalModule from '../../../inTray/inTrayModal/InTrayModalModule';
@@ -158,7 +158,7 @@ export const setUpNewBillWithPrefilled = () => {
     pushMessage,
   } = setUp();
   module.popMessages = () => [{
-    type: PREFILL_INTRAY_DOCUMENT,
+    type: PREFILL_INTRAY_DOCUMENT_FOR_BILL,
     inTrayDocumentId: '🍟',
   }];
 
@@ -583,7 +583,7 @@ describe('BillModule', () => {
       it('should successfully prefill bill from intray and calls tax calculator', () => {
         const { module, integration, store } = setUp();
         module.popMessages = () => [{
-          type: PREFILL_INTRAY_DOCUMENT,
+          type: PREFILL_INTRAY_DOCUMENT_FOR_BILL,
           inTrayDocumentId: '🍟',
         }];
 
@@ -607,7 +607,7 @@ describe('BillModule', () => {
       it('should successfully prefill bill from intray and not call tax calculator', () => {
         const { module, integration, store } = setUp();
         module.popMessages = () => [{
-          type: PREFILL_INTRAY_DOCUMENT,
+          type: PREFILL_INTRAY_DOCUMENT_FOR_BILL,
           inTrayDocumentId: '🍟',
         }];
         integration.overrideMapping(PREFILL_BILL_FROM_IN_TRAY, ({ onSuccess }) => onSuccess({
@@ -629,7 +629,7 @@ describe('BillModule', () => {
       it('should fail to prefill bill from intray', () => {
         const { module, integration, store } = setUp();
         module.popMessages = () => [{
-          type: PREFILL_INTRAY_DOCUMENT,
+          type: PREFILL_INTRAY_DOCUMENT_FOR_BILL,
           inTrayDocumentId: '🍟',
         }];
         integration.mapFailure(PREFILL_BILL_FROM_IN_TRAY);
@@ -650,7 +650,7 @@ describe('BillModule', () => {
       it('should fail to download document', () => {
         const { module, integration, store } = setUp();
         module.popMessages = () => [{
-          type: PREFILL_INTRAY_DOCUMENT,
+          type: PREFILL_INTRAY_DOCUMENT_FOR_BILL,
           inTrayDocumentId: '🍟',
         }];
         integration.mapFailure(DOWNLOAD_IN_TRAY_DOCUMENT);

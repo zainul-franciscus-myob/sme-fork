@@ -4,11 +4,8 @@ import React from 'react';
 import {
   SUCCESSFULLY_DELETED_ITEM,
   SUCCESSFULLY_SAVED_ITEM,
-} from '../InventoryMessageTypes';
-import {
-  getBusinessId,
-  getRegion,
-} from './itemListSelectors';
+} from '../../../common/types/MessageTypes';
+import { getBusinessId, getRegion } from './itemListSelectors';
 import CreateItemListDispatcher from './CreateItemListDispatcher';
 import CreateItemListIntegrator from './CreateItemListIntegrator';
 import ItemListView from './components/ItemListView';

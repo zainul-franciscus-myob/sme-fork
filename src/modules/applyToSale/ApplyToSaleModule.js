@@ -1,7 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_APPLY_TO_SALE, SUCCESSFULLY_SAVED_APPLY_TO_SALE } from './ApplyToSaleMessageType';
+import {
+  SUCCESSFULLY_DELETED_APPLY_TO_SALE,
+  SUCCESSFULLY_SAVED_APPLY_TO_SALE,
+} from '../../common/types/MessageTypes';
 import {
   getBusinessId,
   getIsCreating,

@@ -2,7 +2,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import { TEMPLATE_UPDATED } from './MessageTypes';
+import { TEMPLATE_UPDATED } from '../../common/types/MessageTypes';
 import {
   getBusinessId,
   getHasChange,

@@ -1,7 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_PAY_REFUND, SUCCESSFULLY_SAVED_PAY_REFUND } from '../PayRefundMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_PAY_REFUND,
+  SUCCESSFULLY_SAVED_PAY_REFUND,
+} from '../../../common/types/MessageTypes';
 import {
   getBusinessId,
   getIsCreating,

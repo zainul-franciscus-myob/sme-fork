@@ -15,7 +15,7 @@ import {
 } from '../TemplateIntents';
 import { HeaderBusinessDetailStyle } from '../templateOptions';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
-import { TEMPLATE_UPDATED } from '../MessageTypes';
+import { TEMPLATE_UPDATED } from '../../../common/types/MessageTypes';
 import ModalTypes from '../ModalTypes';
 import TemplateModule from '../TemplateModule';
 import TestIntegration from '../../../integration/TestIntegration';

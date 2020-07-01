@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { TEMPLATE_UPDATED } from '../../template/MessageTypes';
+import { TEMPLATE_UPDATED } from '../../../common/types/MessageTypes';
 import {
   encodeTemplateName,
   getBusinessId,

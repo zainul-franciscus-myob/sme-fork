@@ -9,10 +9,11 @@ import {
   SET_TABLE_LOADING_STATE,
   SORT_USER_LIST,
 } from '../UserIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
-  RESET_STATE, SET_INITIAL_STATE,
-} from '../../../SystemIntents';
-import { SUCCESSFULLY_DELETED_USER, SUCCESSFULLY_SAVED_USER } from '../UserMessageTypes';
+  SUCCESSFULLY_DELETED_USER,
+  SUCCESSFULLY_SAVED_USER,
+} from '../../../common/types/MessageTypes';
 import {
   getBusinessId, getFlipSortOrder, getOrderBy, getRegion,
 } from './userListSelectors';

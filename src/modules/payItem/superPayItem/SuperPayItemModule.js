@@ -1,7 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_SUPER_PAY_ITEM, SUCCESSFULLY_SAVED_SUPER_PAY_ITEM } from './SuperPayItemMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_SUPER_PAY_ITEM,
+  SUCCESSFULLY_SAVED_SUPER_PAY_ITEM,
+} from '../../../common/types/MessageTypes';
 import {
   getBusinessId,
   getIsPageEdited,

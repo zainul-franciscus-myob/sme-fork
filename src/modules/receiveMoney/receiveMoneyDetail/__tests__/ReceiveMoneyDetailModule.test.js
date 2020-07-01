@@ -15,7 +15,10 @@ import {
   UPDATE_RECEIVE_MONEY_HEADER,
   UPDATE_RECEIVE_MONEY_LINE,
 } from '../../ReceiveMoneyIntents';
-import { DUPLICATE_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY } from '../../receiveMoneyMessageTypes';
+import {
+  DUPLICATE_RECEIVE_MONEY,
+  SUCCESSFULLY_SAVED_RECEIVE_MONEY,
+} from '../../../../common/types/MessageTypes';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import ModalType from '../../ModalType';

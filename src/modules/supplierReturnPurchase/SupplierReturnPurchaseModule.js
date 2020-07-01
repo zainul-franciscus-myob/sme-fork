@@ -18,7 +18,7 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import {
   SUCCESSFULLY_DELETED_PURCHASE_RETURN,
   SUCCESSFULLY_SAVED_PURCHASE_RETURN,
-} from './SupplierReturnPurchaseMessageTypes';
+} from '../../common/types/MessageTypes';
 import {
   getBusinessId,
   getIsCreating,

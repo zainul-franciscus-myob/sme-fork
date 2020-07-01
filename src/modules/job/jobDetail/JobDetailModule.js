@@ -4,7 +4,7 @@ import React from 'react';
 import {
   SUCCESSFULLY_DELETED_JOB,
   SUCCESSFULLY_SAVED_JOB,
-} from '../JobMessageTypes';
+} from '../../../common/types/MessageTypes';
 import {
   getBusinessId,
   getCustomerModalContext,

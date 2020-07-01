@@ -1,9 +1,16 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_LEAVE_PAY_ITEM, SUCCESSFULLY_SAVED_LEAVE_PAY_ITEM } from './LeavePayItemMessageTypes';
 import {
-  getBusinessId, getIsPageEdited, getIsSubmitting, getModalType, getRegion,
+  SUCCESSFULLY_DELETED_LEAVE_PAY_ITEM,
+  SUCCESSFULLY_SAVED_LEAVE_PAY_ITEM,
+} from '../../../common/types/MessageTypes';
+import {
+  getBusinessId,
+  getIsPageEdited,
+  getIsSubmitting,
+  getModalType,
+  getRegion,
 } from './leavePayItemSelectors';
 import LeavePayItemView from './component/LeavePayItemView';
 import LoadingState from '../../../components/PageView/LoadingState';

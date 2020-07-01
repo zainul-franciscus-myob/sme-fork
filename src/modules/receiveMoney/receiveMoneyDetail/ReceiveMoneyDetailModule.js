@@ -1,7 +1,11 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { DUPLICATE_RECEIVE_MONEY, SUCCESSFULLY_DELETED_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY } from '../receiveMoneyMessageTypes';
+import {
+  DUPLICATE_RECEIVE_MONEY,
+  SUCCESSFULLY_DELETED_RECEIVE_MONEY,
+  SUCCESSFULLY_SAVED_RECEIVE_MONEY,
+} from '../../../common/types/MessageTypes';
 import {
   getAccountModalContext,
   getContactModalContext,

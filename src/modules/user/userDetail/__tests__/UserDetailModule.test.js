@@ -12,7 +12,7 @@ import {
   UPDATE_USER,
 } from '../../UserIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
-import { SUCCESSFULLY_SAVED_USER } from '../../UserMessageTypes';
+import { SUCCESSFULLY_SAVED_USER } from '../../../../common/types/MessageTypes';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import ModalType from '../../ModalType';
 import TestIntegration from '../../../../integration/TestIntegration';

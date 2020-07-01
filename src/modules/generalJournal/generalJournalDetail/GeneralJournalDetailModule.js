@@ -1,7 +1,11 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { DUPLICATE_GENERAL_JOURNAL, SUCCESSFULLY_DELETED_GENERAL_JOURNAL, SUCCESSFULLY_SAVED_GENERAL_JOURNAL } from '../GeneralJournalMessageTypes';
+import {
+  DUPLICATE_GENERAL_JOURNAL,
+  SUCCESSFULLY_DELETED_GENERAL_JOURNAL,
+  SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
+} from '../../../common/types/MessageTypes';
 import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalculator';
 import {
   getAccountModalContext,

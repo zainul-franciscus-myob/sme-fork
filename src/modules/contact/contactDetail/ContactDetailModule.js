@@ -4,7 +4,7 @@ import React from 'react';
 import {
   SUCCESSFULLY_DELETED_CONTACT,
   SUCCESSFULLY_SAVED_CONTACT,
-} from '../ContactMessageTypes';
+} from '../../../common/types/MessageTypes';
 import {
   getAbn,
   getAccountModalContext,

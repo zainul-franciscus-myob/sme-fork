@@ -1,7 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_BILL_PAYMENT, SUCCESSFULLY_SAVED_BILL_PAYMENT } from '../BillPaymentMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_BILL_PAYMENT,
+  SUCCESSFULLY_SAVED_BILL_PAYMENT,
+} from '../../../common/types/MessageTypes';
 import {
   getApplyPaymentToBillId,
   getBusinessId,

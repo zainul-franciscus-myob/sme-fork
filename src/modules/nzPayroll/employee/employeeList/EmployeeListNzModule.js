@@ -1,7 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_EMPLOYEE, SUCCESSFULLY_SAVED_EMPLOYEE } from '../EmployeeMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_NZ_EMPLOYEE,
+  SUCCESSFULLY_SAVED_NZ_EMPLOYEE,
+} from '../../../../common/types/MessageTypes';
 import EmployeeListNzView from './components/EmployeeListNzView';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import Store from '../../../../store/Store';
@@ -65,8 +68,8 @@ export default class EmployeeListNzModule {
   readMessages = () => {
     const [inboxMessage] = this.popMessages(
       [
-        SUCCESSFULLY_DELETED_EMPLOYEE,
-        SUCCESSFULLY_SAVED_EMPLOYEE,
+        SUCCESSFULLY_DELETED_NZ_EMPLOYEE,
+        SUCCESSFULLY_SAVED_NZ_EMPLOYEE,
       ],
     );
     if (inboxMessage) {

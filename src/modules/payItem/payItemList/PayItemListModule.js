@@ -17,21 +17,16 @@ import {
 } from '../PayItemIntents';
 import {
   SUCCESSFULLY_DELETED_EXPENSE_PAY_ITEM,
-  SUCCESSFULLY_SAVED_EXPENSE_PAY_ITEM,
-} from '../expensePayItem/ExpensePayItemMessageTypes';
-import {
   SUCCESSFULLY_DELETED_LEAVE_PAY_ITEM,
-  SUCCESSFULLY_SAVED_LEAVE_PAY_ITEM,
-} from '../leavePayItem/LeavePayItemMessageTypes';
-import {
   SUCCESSFULLY_DELETED_PAY_ITEM,
-  SUCCESSFULLY_SAVED_PAY_ITEM,
-} from '../deductionPayItem/DeductionPayItemMessageTypes';
-import { SUCCESSFULLY_DELETED_SUPER_PAY_ITEM, SUCCESSFULLY_SAVED_SUPER_PAY_ITEM } from '../superPayItem/SuperPayItemMessageTypes';
-import {
+  SUCCESSFULLY_DELETED_SUPER_PAY_ITEM,
   SUCCESSFULLY_DELETED_WAGE_PAY_ITEM,
+  SUCCESSFULLY_SAVED_EXPENSE_PAY_ITEM,
+  SUCCESSFULLY_SAVED_LEAVE_PAY_ITEM,
+  SUCCESSFULLY_SAVED_PAY_ITEM,
+  SUCCESSFULLY_SAVED_SUPER_PAY_ITEM,
   SUCCESSFULLY_SAVED_WAGE_PAY_ITEM,
-} from '../wagePayItem/WagePayItemMessageTypes';
+} from '../../../common/types/MessageTypes';
 import {
   getBusinessId,
   getIsPageEdited,

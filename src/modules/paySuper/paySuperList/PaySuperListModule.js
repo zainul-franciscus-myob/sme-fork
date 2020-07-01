@@ -4,7 +4,7 @@ import React from 'react';
 import {
   SUCCESSFULLY_CREATED_SUPER_PAYMENT,
   SUCCESSFULLY_REVERSED_TRANSACTION,
-} from '../paySuperMessageTypes';
+} from '../../../common/types/MessageTypes';
 import {
   getBusinessId,
   getIsRegistered,

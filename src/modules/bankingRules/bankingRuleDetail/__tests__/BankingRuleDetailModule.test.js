@@ -12,7 +12,10 @@ import {
   UPDATE_FORM,
 } from '../BankingRuleDetailIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
-import { SUCCESSFULLY_DELETED_BANKING_RULE, SUCCESSFULLY_SAVED_BANKING_RULE } from '../BankingRuleDetailMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_BANKING_RULE,
+  SUCCESSFULLY_SAVED_BANKING_RULE,
+} from '../../../../common/types/MessageTypes';
 import BankingRuleDetailModule from '../BankingRuleDetailModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import ModalType from '../ModalType';

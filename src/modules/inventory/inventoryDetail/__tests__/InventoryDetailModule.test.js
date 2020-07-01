@@ -12,7 +12,10 @@ import {
   UPDATE_ITEM_DETAILS,
 } from '../../InventoryIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
-import { SUCCESSFULLY_DELETED_ITEM, SUCCESSFULLY_SAVED_ITEM } from '../../InventoryMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_ITEM,
+  SUCCESSFULLY_SAVED_ITEM,
+} from '../../../../common/types/MessageTypes';
 import InventoryDetailModule from '../InventoryDetailModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import TestIntegration from '../../../../integration/TestIntegration';

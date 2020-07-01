@@ -18,9 +18,12 @@ import {
   SUCCESSFULLY_DELETED_BILL,
   SUCCESSFULLY_SAVED_BILL,
   SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
-} from '../types/BillMessageTypes';
+} from '../../../../common/types/MessageTypes';
 import {
-  mockCreateObjectUrl, setUp, setUpNewBillWithPrefilled, setUpWithRun,
+  mockCreateObjectUrl,
+  setUp,
+  setUpNewBillWithPrefilled,
+  setUpWithRun,
 } from './BillModule.test';
 import ModalType from '../types/ModalType';
 import loadItemAndServiceBill from '../mappings/data/loadItemAndServiceBill.json';
