@@ -1,5 +1,4 @@
 import {
-  DatePicker,
   DetailHeader,
   FormHorizontal,
   Input,
@@ -8,6 +7,7 @@ import {
 import React from 'react';
 
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
+import DatePicker from '../../../../components/DatePicker/DatePicker';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import handleDateChange from '../../../../components/handlers/handleDateChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
@@ -23,6 +23,7 @@ const ElectronicPaymentsCreateHeader = ({
   referenceNumber,
   dateOfPayment,
   bankStatementDescription,
+  isBeforeStartOfFinancialYear,
 }) => {
   const primary = (
     <div>
@@ -69,6 +70,8 @@ const ElectronicPaymentsCreateHeader = ({
         requiredLabel="This field is required"
         value={dateOfPayment}
         onSelect={handleDateChange('dateOfPayment', onInputChange)}
+        displayWarning={isBeforeStartOfFinancialYear}
+        warningMessage={'The date is set to a previous financial year'}
       />
       <Input
         name="bankStatementDescription"

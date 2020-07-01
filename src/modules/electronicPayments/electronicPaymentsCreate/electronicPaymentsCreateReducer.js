@@ -41,6 +41,7 @@ const getDefaultState = () => ({
   },
   sortOrder: 'desc',
   alert: undefined,
+  startOfFinancialYearDate: '',
 });
 
 const setInitialState = (state, { context }) => {
@@ -68,6 +69,7 @@ const loadAccountsAndTransactions = (state, { response }) => ({
     isSelected: false,
   })),
   selectedAccountId: response.accounts && response.accounts[0] && response.accounts[0].id,
+  startOfFinancialYearDate: response.startOfFinancialYearDate,
 });
 
 const updateFilterOptions = (state, { key, value }) => ({

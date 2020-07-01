@@ -13,6 +13,7 @@ import {
   getBankStatementDescription,
   getDateOfPayment,
   getFilterOptions,
+  getIsBeforeStartOfFinancialYear,
   getIsTableLoading,
   getLoadingState,
   getModal,
@@ -66,6 +67,7 @@ const ElectronicPaymentsCreateView = ({
   onRecordButtonClick,
   onContinueButtonClick,
   isSpendMoneyEnabled,
+  isBeforeStartOfFinancialYear,
 }) => {
   const totalPaymentFooter = (
     <div className={styles.totalPaymentsFooter}>
@@ -111,6 +113,7 @@ const ElectronicPaymentsCreateView = ({
           referenceNumber={referenceNumber}
           dateOfPayment={dateOfPayment}
           bankStatementDescription={bankStatementDescription}
+          isBeforeStartOfFinancialYear={isBeforeStartOfFinancialYear}
         />
         <ElectronicPaymentsCreateTable
           transactions={transactions}
@@ -146,6 +149,7 @@ const mapStateToProps = state => ({
   dateOfPayment: getDateOfPayment(state),
   bankStatementDescription: getBankStatementDescription(state),
   modal: getModal(state),
+  isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
 });
 
 export default connect(mapStateToProps)(ElectronicPaymentsCreateView);

@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect/lib/index';
+import { isBefore } from 'date-fns';
 
 import PaymentTypeMap from '../PaymentTypeMap';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
@@ -23,6 +24,7 @@ export const getSortOrder = state => state.sortOrder;
 export const getOrderBy = state => state.orderBy;
 export const flipSortOrder = state => (state.sortOrder === 'desc' ? 'asc' : 'desc');
 
+const getStartOfFinancialYearDate = state => state.startOfFinancialYearDate;
 const getTransactions = state => state.transactions;
 const getEntryLink = (entry, businessId, region) => {
   const { businessEventId, paymentType } = entry;
@@ -89,4 +91,11 @@ export const getUrlParams = createSelector(
   filterOptions => ({
     paymentType: filterOptions.paymentType,
   }),
+);
+
+export const getIsBeforeStartOfFinancialYear = createSelector(
+  getDateOfPayment,
+  getStartOfFinancialYearDate,
+  (date, startOfFinancialYearDate) => date && startOfFinancialYearDate
+  && isBefore(new Date(date), new Date(startOfFinancialYearDate)),
 );
