@@ -98,6 +98,12 @@
   box-shadow: none;
 }
 
+/* prevent combobox covering sticky header */
+/* https://arlive.atlassian.net/browse/SMEP-1625 */
+.bankTransactionView :global(.flx-template__body .combobox-menu) {
+  z-index: 99; /* less than .sticky-header--on */
+}
+
 @media (min-width: 768px) {
   .paymentAllocationFilterOptions {
     display: grid;
