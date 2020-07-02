@@ -3,10 +3,12 @@ import {
   CREATE_BILL,
   DELETE_BILL,
   LINK_IN_TRAY_DOCUMENT,
+  LOAD_ABN_FROM_SUPPLIER,
   LOAD_BILL,
   OPEN_ALERT,
   OPEN_MODAL,
   RELOAD_BILL,
+  SET_ABN_LOADING_STATE,
   SET_UPGRADE_MODAL_SHOWING,
   START_BLOCKING,
   STOP_BLOCKING,
@@ -81,12 +83,16 @@ describe('BillModule_Save', () => {
         { intent: UPDATE_BILL_ID, id: '1' },
         { intent: START_BLOCKING },
         expect.objectContaining({ intent: RELOAD_BILL }),
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         { intent: OPEN_ALERT, type: 'success', message: "Success! You've successfully created a new bill." },
       ]);
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({ intent: CREATE_BILL }),
         { intent: LOAD_BILL, urlParams: { businessId: 'bizId', billId: '1' } },
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
       ]);
 
       expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
@@ -122,12 +128,16 @@ describe('BillModule_Save', () => {
         { intent: STOP_BLOCKING },
         { intent: START_BLOCKING },
         expect.objectContaining({ intent: RELOAD_BILL }),
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         { intent: OPEN_ALERT, type: 'success', message: "Great Work! You've done it well!" },
       ]);
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({ intent: UPDATE_BILL }),
         { intent: LOAD_BILL, urlParams: { businessId: 'bizId', billId: 'billId' } },
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
       ]);
 
       expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();

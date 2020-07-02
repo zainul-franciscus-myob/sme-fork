@@ -578,6 +578,7 @@ describe('BillModule', () => {
         expect.objectContaining({ intent: LOAD_NEW_BILL }),
         expect.objectContaining({ intent: DOWNLOAD_IN_TRAY_DOCUMENT }),
         expect.objectContaining({ intent: PREFILL_BILL_FROM_IN_TRAY }),
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
       ];
 
       it('should successfully prefill bill from intray and calls tax calculator', () => {
@@ -599,6 +600,9 @@ describe('BillModule', () => {
             isSwitchingTaxInclusive: false,
             taxCalculations: expect.any(Object),
           },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
 
         expect(integration.getRequests()).toEqual(expectedIntegrationRequests);
@@ -622,6 +626,9 @@ describe('BillModule', () => {
           expect.objectContaining({
             intent: PREFILL_BILL_FROM_IN_TRAY,
           }),
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
         expect(integration.getRequests()).toEqual(expectedIntegrationRequests);
       });
@@ -644,7 +651,11 @@ describe('BillModule', () => {
             type: 'danger',
           }),
         ]);
-        expect(integration.getRequests()).toEqual(expectedIntegrationRequests);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: LOAD_NEW_BILL }),
+          expect.objectContaining({ intent: DOWNLOAD_IN_TRAY_DOCUMENT }),
+          expect.objectContaining({ intent: PREFILL_BILL_FROM_IN_TRAY }),
+        ]);
       });
 
       it('should fail to download document', () => {
@@ -708,6 +719,9 @@ describe('BillModule', () => {
             isSwitchingTaxInclusive: false,
             taxCalculations: expect.any(Object),
           },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
         expect(integration.getRequests()).toEqual(expectedIntegrationRequests);
       });
@@ -751,12 +765,16 @@ describe('BillModule', () => {
           expect.objectContaining({
             intent: LOAD_SUPPLIER_DETAIL,
           }),
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
 
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({
             intent: LOAD_SUPPLIER_DETAIL,
           }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
       });
 
@@ -782,12 +800,16 @@ describe('BillModule', () => {
           expect.objectContaining({
             intent: LOAD_SUPPLIER_DETAIL,
           }),
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
 
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({
             intent: LOAD_SUPPLIER_DETAIL,
           }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
       });
 
@@ -812,12 +834,16 @@ describe('BillModule', () => {
           expect.objectContaining({
             intent: LOAD_SUPPLIER_DETAIL,
           }),
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
 
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({
             intent: LOAD_SUPPLIER_DETAIL,
           }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
       });
 
@@ -850,12 +876,16 @@ describe('BillModule', () => {
             isSwitchingTaxInclusive: false,
             taxCalculations: expect.any(Object),
           },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
 
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({
             intent: LOAD_SUPPLIER_DETAIL,
           }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
       });
 
@@ -1079,11 +1109,15 @@ describe('BillModule', () => {
           { intent: UPDATE_BILL_ID, id: '1' },
           { intent: START_BLOCKING },
           expect.objectContaining({ intent: RELOAD_BILL }),
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
           { intent: OPEN_MODAL, modalType: ModalType.ExportPdf },
         ]);
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: CREATE_BILL }),
           { intent: LOAD_BILL, urlParams: { businessId: 'bizId', billId: '1' } },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
         expect(module.replaceURLParams).toHaveBeenCalled();
         expect(module.pushMessage).not.toHaveBeenCalled();
@@ -1143,11 +1177,15 @@ describe('BillModule', () => {
           { intent: STOP_BLOCKING },
           { intent: START_BLOCKING },
           expect.objectContaining({ intent: RELOAD_BILL }),
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
           { intent: OPEN_MODAL, modalType: ModalType.ExportPdf },
         ]);
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: UPDATE_BILL }),
           { intent: LOAD_BILL, urlParams: { businessId: 'bizId', billId: 'billId' } },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
         expect(module.replaceURLParams).not.toHaveBeenCalled();
       });

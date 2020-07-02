@@ -57,10 +57,7 @@ import {
   getRegion,
   getUpdatedSupplierOptions,
 } from '../selectors/billSelectors';
-import {
-  calculateLineAmounts,
-  getTaxCalculations,
-} from './calculationReducer';
+import { calculateLineAmounts, getTaxCalculations } from './calculationReducer';
 import { defaultLinePrefillStatus, defaultPrefillStatus, getDefaultState } from './getDefaultState';
 import BillLineType from '../types/BillLineType';
 import BillStatus from '../types/BillStatus';
@@ -343,11 +340,10 @@ const loadSupplierDetail = (state, action) => ({
       )
       : state.bill.lines,
   },
-  abn: action.response.abn,
 });
 
 const loadSupplierAfterCreate = (state, {
-  supplierId, supplierAddress, option, expenseAccountId, abn,
+  supplierId, supplierAddress, option, expenseAccountId,
 }) => ({
   ...state,
   bill: {
@@ -370,7 +366,6 @@ const loadSupplierAfterCreate = (state, {
     ...state.prefillStatus,
     supplierId: false,
   },
-  abn,
 });
 
 const startSupplierBlocking = state => ({ ...state, isSupplierBlocking: true });
@@ -417,7 +412,7 @@ const getPrefilledLines = (state, lines, expenseAccountId) => lines.map(
 
 const prefillBillFromInTray = (state, action) => {
   const {
-    bill, lines, document, supplierOptions, abn,
+    bill, lines, document, supplierOptions,
   } = action.response;
 
   const shouldPrefillLines = state.bill.lines.length === 0
@@ -453,7 +448,6 @@ const prefillBillFromInTray = (state, action) => {
     },
     inTrayDocument: document,
     showPrefillInfo: true,
-    abn,
   };
 };
 

@@ -4,12 +4,14 @@ import {
   DOWNLOAD_IN_TRAY_DOCUMENT,
   GET_TAX_CALCULATIONS,
   LINK_IN_TRAY_DOCUMENT,
+  LOAD_ABN_FROM_SUPPLIER,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ITEM_OPTION,
   LOAD_SUPPLIER_AFTER_CREATE,
   OPEN_ALERT,
   OPEN_MODAL,
   PREFILL_BILL_FROM_IN_TRAY,
+  SET_ABN_LOADING_STATE,
   SET_ATTACHMENT_ID,
   SET_DOCUMENT_LOADING_STATE,
   SET_IN_TRAY_DOCUMENT_ID,
@@ -178,10 +180,15 @@ describe('BillModule_Modal', () => {
         { intent: START_SUPPLIER_BLOCKING },
         { intent: STOP_SUPPLIER_BLOCKING },
         expect.objectContaining({ intent: LOAD_SUPPLIER_AFTER_CREATE, supplierId: 'supplierId' }),
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
       ]);
 
       expect(integration.getRequests()).toContainEqual(
         { intent: LOAD_SUPPLIER_AFTER_CREATE, urlParams: { businessId: 'bizId', supplierId: 'supplierId' } },
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
       );
 
       expect(module.contactModalModule.resetState).toHaveBeenCalled();
@@ -207,10 +214,14 @@ describe('BillModule_Modal', () => {
           isSwitchingTaxInclusive: false,
           taxCalculations: expect.any(Object),
         },
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
       ]);
 
       expect(integration.getRequests()).toContainEqual(
         expect.objectContaining({ intent: LOAD_SUPPLIER_AFTER_CREATE, urlParams: { businessId: 'bizId', supplierId: 'supplierId' } }),
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
       );
 
       expect(module.contactModalModule.resetState).toHaveBeenCalled();
@@ -262,6 +273,9 @@ describe('BillModule_Modal', () => {
           isSwitchingTaxInclusive: false,
           taxCalculations: expect.any(Object),
         },
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         { intent: SET_SHOW_SPLIT_VIEW, showSplitView: true },
         {
           inTrayDocumentUrl: 'http://www.🐀.com',
@@ -271,6 +285,7 @@ describe('BillModule_Modal', () => {
 
       expect(integration.getRequests()).toContainEqual(
         expect.objectContaining({ intent: PREFILL_BILL_FROM_IN_TRAY }),
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
       );
     });
 
@@ -297,6 +312,9 @@ describe('BillModule_Modal', () => {
           isSwitchingTaxInclusive: false,
           taxCalculations: expect.any(Object),
         },
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         { intent: SET_SHOW_SPLIT_VIEW, showSplitView: true },
         {
           inTrayDocumentUrl: 'http://www.🐀.com',
@@ -307,6 +325,7 @@ describe('BillModule_Modal', () => {
       expect(integration.getRequests()).toContainEqual(
         expect.objectContaining({ intent: LINK_IN_TRAY_DOCUMENT }),
         expect.objectContaining({ intent: PREFILL_BILL_FROM_IN_TRAY }),
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
       );
     });
 

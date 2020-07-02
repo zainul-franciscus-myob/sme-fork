@@ -54,6 +54,7 @@ import {
 } from './selectors/BillModuleSelectors';
 import { getLinkInTrayContentWithoutIds } from './selectors/BillIntegratorSelectors';
 import { shouldShowSaveAmountDueWarningModal } from './selectors/BillSaveSelectors';
+import AbnStatus from '../../../components/autoFormatter/AbnInput/AbnStatus';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import BillView from './components/BillView';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
@@ -173,6 +174,11 @@ class BillModule {
       this.dispatcher.setDocumentLoadingState(false);
       this.dispatcher.prefillDataFromInTray(response);
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
+
+      const shouldShowAbn = getShouldShowAbn(this.store.getState());
+      if (shouldShowAbn) {
+        this.loadAbnFromSupplier();
+      }
     };
 
     const onFailure = ({ message }) => {
@@ -217,6 +223,12 @@ class BillModule {
 
     const onSuccess = (response) => {
       this.dispatcher.reloadBill(response);
+
+      const shouldShowAbn = getShouldShowAbn(this.store.getState());
+      if (shouldShowAbn) {
+        this.loadAbnFromSupplier();
+      }
+
       next();
     };
 
@@ -586,6 +598,11 @@ class BillModule {
       if (getIsCreating(state) && getExpenseAccountId(state)) {
         this.getTaxCalculations({ isSwitchingTaxInclusive: false });
       }
+
+      const shouldShowAbn = getShouldShowAbn(state);
+      if (shouldShowAbn) {
+        this.loadAbnFromSupplier();
+      }
     };
     const onFailure = ({ message }) => {
       this.dispatcher.openDangerAlert({ message });
@@ -605,6 +622,7 @@ class BillModule {
 
     const onFailure = () => {
       this.dispatcher.setAbnLoadingState(false);
+      this.dispatcher.loadAbn({ status: AbnStatus.UNAVAILABLE });
     };
 
     this.integrator.loadAbnFromSupplier({ onSuccess, onFailure });
@@ -667,6 +685,11 @@ class BillModule {
       const state = this.store.getState();
       if (getIsCreating(state) && getExpenseAccountId(state)) {
         this.getTaxCalculations({ isSwitchingTaxInclusive: false });
+      }
+
+      const shouldShowAbn = getShouldShowAbn(state);
+      if (shouldShowAbn) {
+        this.loadAbnFromSupplier();
       }
     };
 
