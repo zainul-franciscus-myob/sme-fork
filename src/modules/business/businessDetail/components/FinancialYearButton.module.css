@@ -4,3 +4,6 @@
     margin-bottom: var(--flx-spacing-large);
     width: 250px;
 }
+.mainText {
+    margin-bottom: 1em;
+}

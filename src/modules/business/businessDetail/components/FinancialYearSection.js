@@ -55,6 +55,7 @@ const FinancialYearSection = ({
       onStartNewFinancialYear={onStartNewFinancialYear}
       onOpenFinancialYearModal={onOpenFinancialYearModal}
       onCloseFinancialYearModal={onCloseFinancialYearModal}
+      onMonthSelect={onChange}
     />
   );
 

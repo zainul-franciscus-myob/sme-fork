@@ -1,4 +1,7 @@
-import { createStructuredSelector } from 'reselect';
+import {
+  addMonths, addYears, endOfMonth, format,
+} from 'date-fns';
+import { createSelector, createStructuredSelector } from 'reselect';
 
 export const getLoadingState = state => state.loadingState;
 export const getAlertMessage = state => state.alertMessage;
@@ -14,6 +17,7 @@ export const getPageTitle = state => state.pageTitle;
 export const getRegion = state => state.region;
 export const getBusinessId = state => state.businessId;
 export const getFinancialYearModal = state => state.financialYearModal;
+export const getFinancialYear = state => state.businessDetails.financialYear;
 
 const getLastMonthIndex = state => state.businessDetails.lastMonthInFinancialYear - 1;
 export const getLastMonthInFY = state => state.monthOptions[getLastMonthIndex(state)];
@@ -101,3 +105,25 @@ export const getLockDateDetails = createStructuredSelector({
   hasLockPeriod: state => state.businessDetails.hasLockPeriod,
   lockDate: state => state.businessDetails.lockDate,
 });
+
+export const getMonthOptions = state => state.monthOptions;
+
+export const getLastMonthInNewFinancialYear = state => (
+  state.businessDetails.lastMonthInNewFinancialYear
+);
+
+export const getNewFinancialYearDetails = createSelector(
+  getLastMonthInNewFinancialYear,
+  getFinancialYear,
+  (lastMonthInNewFinancialYear, financialYear) => {
+    const lastMonthOfFY = Number(lastMonthInNewFinancialYear) - 1;
+    const startOfFY = addMonths(new Date(financialYear, lastMonthOfFY, 1), 1);
+    const endOfFY = addYears(endOfMonth(new Date(financialYear, lastMonthOfFY, 1)), 1);
+
+    return {
+      startOfNewFinancialYear: format(startOfFY, 'dd/MM/yyyy'),
+      endOfNewFinancialYear: format(endOfFY, 'dd/MM/yyyy'),
+      lastMonthInNewFinancialYear,
+    };
+  },
+);

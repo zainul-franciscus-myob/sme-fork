@@ -1,5 +1,7 @@
 import { LOAD_BUSINESS_DETAIL, START_NEW_FINANCIAL_YEAR, UPDATE_BUSINESS_DETAIL } from '../BusinessIntents';
-import { getBusinessForUpdate, getBusinessId } from './businessDetailSelectors';
+import {
+  getBusinessForUpdate, getBusinessId, getLastMonthInNewFinancialYear,
+} from './businessDetailSelectors';
 
 const createBusinessDetailIntegrator = (store, integration) => ({
   saveBusinessDetails: ({ onSuccess, onFailure }) => {
@@ -34,6 +36,9 @@ const createBusinessDetailIntegrator = (store, integration) => ({
       intent: START_NEW_FINANCIAL_YEAR,
       urlParams: {
         businessId: getBusinessId(state),
+      },
+      content: {
+        lastMonthInFinancialYear: getLastMonthInNewFinancialYear(state),
       },
       onSuccess,
       onFailure,
