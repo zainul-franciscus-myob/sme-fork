@@ -445,7 +445,7 @@ describe('BankingModule', () => {
       it('succeeds', () => {
         const { module, integration, store } = setUpWithRun();
 
-        module.toggleLine(2);
+        module.toggleLine(3);
 
         expect(store.getActions()).toEqual([
           {
@@ -454,7 +454,7 @@ describe('BankingModule', () => {
           },
           {
             intent: SET_OPEN_ENTRY_POSITION,
-            index: 2,
+            index: 3,
           },
           {
             intent: SET_OPEN_ENTRY_LOADING_STATE,
@@ -490,7 +490,7 @@ describe('BankingModule', () => {
         const { module, integration, store } = setUpWithRun();
         integration.mapFailure(LOAD_ATTACHMENTS);
 
-        module.toggleLine(2);
+        module.toggleLine(3);
 
         expect(store.getActions()).toEqual([
           {
@@ -499,7 +499,7 @@ describe('BankingModule', () => {
           },
           {
             intent: SET_OPEN_ENTRY_POSITION,
-            index: 2,
+            index: 3,
           },
           {
             intent: SET_OPEN_ENTRY_LOADING_STATE,
@@ -539,7 +539,7 @@ describe('BankingModule', () => {
         const { module, integration, store } = setUpWithRun();
         integration.mapFailure(LOAD_MATCH_TRANSACTIONS);
 
-        module.toggleLine(2);
+        module.toggleLine(3);
 
         expect(store.getActions()).toEqual([
           {
@@ -548,7 +548,7 @@ describe('BankingModule', () => {
           },
           {
             intent: SET_OPEN_ENTRY_POSITION,
-            index: 2,
+            index: 3,
           },
           {
             intent: SET_OPEN_ENTRY_LOADING_STATE,

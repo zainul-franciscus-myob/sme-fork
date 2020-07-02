@@ -237,15 +237,9 @@
       "transactionId": "1",
       "transactionUid": "123e4567-e89b-12d3-a456-789123456789",
       "date": "2018-10-21",
-      "description": "Bob the builder",
+      "description": "This is an unmatched withdrawal",
       "withdrawal": 3300.00,
-      "journals": [
-        {
-          "journalId": "",
-          "journalLineId": "",
-          "sourceJournal": ""
-        }
-      ],
+      "journals": [],
       "taxCode": "",
       "note": "",
       "isReportable": false,
@@ -256,15 +250,9 @@
       "transactionId": "2",
       "transactionUid": "123e4567-e89b-12d3-a456-789123456790",
       "date": "2018-10-21",
-      "description": "Bob the builder",
+      "description": "This is an unmatched deposit",
       "deposit": 3300.00,
-      "journals": [
-        {
-          "journalId": "",
-          "journalLineId": "",
-          "sourceJournal": ""
-        }
-      ],
+      "journals": [],
       "taxCode": "",
       "note": "",
       "isReportable": false,
@@ -273,17 +261,31 @@
     },
     {
       "transactionId": "3",
+      "transactionUid": "123e4567-e89b-12d3-a456-789123456790",
+      "date": "2018-10-01",
+      "description": "Bob the builder",
+      "withdrawal": 2950.00,
+      "allocateOrMatch": "Internet",
+      "journals": [
+        {
+          "journalId": "456",
+          "journalLineId": "123",
+          "sourceJournal": "CashPayment"
+        }
+      ],
+      "taxCode": "GST",
+      "note": "",
+      "isReportable": true,
+      "selectedAccountId": "128",
+      "type": "singleAllocation"
+    },
+    {
+      "transactionId": "4",
       "transactionUid": "123e4567-e89b-12d3-a456-789123456791",
       "date": "2018-10-20",
       "description": "Scoop muck and dizzy",
       "withdrawal": 295.00,
-      "journals": [
-        {
-          "journalId": "",
-          "journalLineId": "",
-          "sourceJournal": ""
-        }
-      ],
+      "journals": [],
       "taxCode": "",
       "note": "",
       "isReportable": false,
@@ -296,18 +298,124 @@
       "date": "2018-10-11",
       "description": "Rolly too, lofty and wendy",
       "deposit": 1300.00,
+      "journals": [],
+      "taxCode": "",
+      "note": "",
+      "isReportable": false,
+      "allocateOrMatch": "2 matches available",
+      "type": "matched"
+    },
+    {
+      "transactionId": "5",
+      "transactionUid": "123e4567-e89b-12d3-a456-789123456792",
+      "date": "2018-10-11",
+      "description": "Coffee",
+      "deposit": 100.00,
+      "journals": [],
+      "taxCode": "",
+      "note": "",
+      "isReportable": false,
+      "allocateOrMatch": "Possible invoice match found",
+      "type": "paymentRuleMatched"
+    },
+    {
+      "transactionId": "6",
+      "transactionUid": "123e4567-e89b-12d3-a456-789123456792",
+      "date": "2018-10-11",
+      "description": "Tea",
+      "deposit": 755.00,
+      "journals": [],
+      "taxCode": "",
+      "note": "",
+      "isReportable": false,
+      "allocateOrMatch": "Possible bill match found",
+      "type": "paymentRuleMatched"
+    },
+    
+    {
+      "transactionId": "6",
+      "transactionUid": "123e4567-e89b-12d3-a456-789123456791",
+      "date": "2018-09-21",
+      "description": "Join the crew",
+      "withdrawal": 295.00,
+      "allocateOrMatch": "Transfered from Rental income",
       "journals": [
         {
-          "journalId": "",
-          "journalLineId": "",
-          "sourceJournal": ""
+          "journalId": "789",
+          "journalLineId": "124",
+          "sourceJournal": "TransferMoney"
+        }
+      ],
+      "taxCode": "FRE",
+      "note": "Lofty and wendy",
+      "isReportable": true,
+      "type": "transfer"
+    },
+    {
+      "transactionId": "7",
+      "transactionUid": "123e4567-e89b-12d3-a456-789123456793",
+      "date": "2018-10-01",
+      "description": "Bob rules",
+      "deposit": 1300.00,
+      "allocateOrMatch": "Spit across account",
+      "journals": [
+        {
+          "journalId": "101",
+          "journalLineId": "126",
+          "sourceJournal": "CashReceipt"
+        }
+      ],
+      "taxCode": "FRE",
+      "note": "",
+      "isReportable": false,
+      "type": "splitAllocation"
+    },
+    {
+      "transactionId": "12",
+      "transactionUid": "123e4567-e89b-12d3-a456-789123456793",
+      "date": "2018-10-01",
+      "description": "Who dunnit",
+      "deposit": 395.00,
+      "allocateOrMatch": "Split across account",
+      "appliedRule": {
+        "ruleType": "Bill",
+        "ruleName": "Water Rule"
+      },
+      "journals": [
+        {
+          "journalId": "101",
+          "journalLineId": "126",
+          "sourceJournal": "CashReceipt"
+        }
+      ],
+      "taxCode": "FRE",
+      "note": "",
+      "isReportable": false,
+      "type": "splitAllocation"
+    },
+    {
+      "transactionId": "12",
+      "transactionUid": "123e4567-e89b-12d3-a456-789123456793",
+      "date": "2018-10-01",
+      "description": "Matched to 2x spend monies",
+      "deposit": 200.00,
+      "allocateOrMatch": "Split across transactions",
+      "journals": [
+        {
+          "journalId": "101",
+          "journalLineId": "126",
+          "sourceJournal": "CashReceipt"
+        },
+        {
+          "journalId": "200",
+          "journalLineId": "112",
+          "sourceJournal": "CashReceipt"
         }
       ],
       "taxCode": "",
       "note": "",
       "isReportable": false,
-      "allocateOrMatch": "2 matches available",
-      "type": "transfer"
+      "type": "splitMatched"
     }
   ],
   "pagination": {

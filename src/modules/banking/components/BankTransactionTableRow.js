@@ -8,6 +8,8 @@ import classNames from 'classnames';
 import {
   getBankEntryByIndexSelector,
   getIsEditingNote,
+  getIsFocused,
+  getIsHovering,
   getIsSubmittingNote,
   getPendingNote,
   getShouldShowNote,
@@ -147,6 +149,8 @@ const BankTransactionTableRow = ({
   onUnmatchedBlur,
   isExpanded,
   isSelected,
+  isHovering,
+  isFocused,
   isCheckboxDisabled,
   onSelectTransaction,
   children,
@@ -154,6 +158,10 @@ const BankTransactionTableRow = ({
   const matchedOrAllocatedRowItem = (
     <MatchedOrAllocated
       entry={entry}
+      index={index}
+      isExpanded={isExpanded}
+      isHovering={isHovering}
+      isFocused={isFocused}
       onAddAccount={onAddAccount}
       onSplitRowItemClick={onSplitRowItemClick}
       onMatchRowItemClick={onMatchRowItemClick}
@@ -163,8 +171,6 @@ const BankTransactionTableRow = ({
       onUnmatchedFocus={onUnmatchedFocus}
       onEntryHover={onEntryHover}
       onUnmatchedBlur={onUnmatchedBlur}
-      index={index}
-      isExpanded={isExpanded}
     />
   );
 
@@ -290,9 +296,14 @@ const makeMapRowStateToProps = () => {
     const shouldShowNote = getShouldShowNote(state, ownProps.index);
     const entry = getBankEntryByIndex(state, ownProps);
     const isCheckboxDisabled = getIsCheckboxDisabled(state, ownProps.index);
+    const isHovering = getIsHovering(state, ownProps.index);
+    const isFocused = getIsFocused(state, ownProps.index);
+
     return {
-      isCheckboxDisabled,
       entry,
+      isHovering,
+      isFocused,
+      isCheckboxDisabled,
       isEditingNote,
       isSubmittingNote,
       pendingNote,

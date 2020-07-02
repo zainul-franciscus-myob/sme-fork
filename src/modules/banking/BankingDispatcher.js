@@ -93,11 +93,11 @@ const createBankingDispatcher = store => ({
     });
   },
 
-  hoverEntry: (index, isHovered) => {
+  hoverEntry: (index, isHovering) => {
     store.dispatch({
       intent: SET_ENTRY_HOVERED,
       index,
-      isHovered,
+      isHovering,
     });
   },
 

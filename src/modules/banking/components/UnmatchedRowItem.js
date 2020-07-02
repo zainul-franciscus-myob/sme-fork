@@ -7,22 +7,25 @@ import styles from './UnmatchedRowItem.module.css';
 
 const UnmatchedRowItem = ({
   entry,
+  isHovering,
+  isFocused,
   onFocus,
   onBlur,
   onAllocate,
   onAddAccount,
 }) => {
   const {
-    isFocused,
-    isHovered,
     accountList,
     allocateOrMatch,
   } = entry;
 
-  const additionalStyling = isHovered && !isFocused ? styles.hovering : '';
   const hintText = isFocused ? '' : allocateOrMatch;
+  const focusedViewStyling = classNames(styles.allocating, {
+    [styles.hovering]: isHovering && !isFocused,
+  });
+
   const focusedView = (
-    <div className={classNames(styles.allocating, additionalStyling)}>
+    <div className={focusedViewStyling}>
       <AccountCombobox
         items={accountList}
         onChange={onAllocate}
@@ -51,7 +54,7 @@ const UnmatchedRowItem = ({
     </div>
   );
 
-  return isFocused || isHovered ? focusedView : defaultView;
+  return isFocused || isHovering ? focusedView : defaultView;
 };
 
 export default UnmatchedRowItem;

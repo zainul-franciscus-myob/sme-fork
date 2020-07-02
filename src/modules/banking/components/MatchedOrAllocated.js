@@ -10,6 +10,10 @@ import UnmatchedRowItem from './UnmatchedRowItem';
 
 export default ({
   entry,
+  index,
+  isExpanded,
+  isHovering,
+  isFocused,
   onAddAccount,
   onSplitRowItemClick,
   onMatchRowItemClick,
@@ -18,8 +22,6 @@ export default ({
   onUnmatchedBlur,
   onUnmatchedFocus,
   onAllocate,
-  index,
-  isExpanded,
 }) => {
   const {
     type,
@@ -70,6 +72,8 @@ export default ({
     return (
       <AllocatedRowItem
         entry={entry}
+        isHovering={isHovering}
+        isFocused={isFocused}
         onAddAccount={onAddAccount}
         onAllocate={item => onAllocate(index, item)}
         onFocus={() => onMatchedToFocus(index)}
@@ -80,8 +84,10 @@ export default ({
 
   return (
     <UnmatchedRowItem
-      onAddAccount={onAddAccount}
       entry={entry}
+      isHovering={isHovering}
+      isFocused={isFocused}
+      onAddAccount={onAddAccount}
       onAllocate={item => onAllocate(index, item)}
       onFocus={() => onUnmatchedFocus(index)}
       onBlur={() => onUnmatchedBlur(index)}

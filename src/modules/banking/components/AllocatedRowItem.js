@@ -20,6 +20,8 @@ const ReportableLabel = () => (
 
 const AllocatedRowItem = ({
   entry,
+  isHovering,
+  isFocused,
   onAddAccount,
   onFocus,
   onBlur,
@@ -27,16 +29,17 @@ const AllocatedRowItem = ({
 }) => {
   const {
     allocateOrMatch,
-    isFocused,
-    isHovered,
     accountList,
     isReportable,
     appliedRule,
   } = entry;
 
-  const additionalStyling = isHovered && !isFocused ? styles.hovering : '';
+  const comboboxStyling = classNames(styles.allocating, {
+    [styles.hovering]: isHovering && !isFocused,
+  });
+
   const combobox = (
-    <div className={classNames(styles.allocating, additionalStyling)}>
+    <div className={comboboxStyling}>
       <AccountCombobox
         items={accountList}
         label="Allocate to"
@@ -73,7 +76,7 @@ const AllocatedRowItem = ({
     </div>
   );
 
-  return isFocused || isHovered ? focusedView : defaultView;
+  return isFocused || isHovering ? focusedView : defaultView;
 };
 
 export default AllocatedRowItem;

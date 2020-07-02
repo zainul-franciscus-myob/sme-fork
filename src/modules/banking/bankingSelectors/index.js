@@ -449,3 +449,6 @@ export const getSortBankTransactionsParams = (state, orderBy) => ({
   orderBy,
   offset: 0,
 });
+
+export const getIsHovering = (state, index) => state.hoverIndex === index;
+export const getIsFocused = (state, index) => state.focusIndex === index;

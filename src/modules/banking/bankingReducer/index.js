@@ -171,12 +171,10 @@ const loadBankTransactions = (state, action) => ({
   jobs: action.jobs,
   entries: action.entries.map(entry => ({
     ...entry,
-    isFocused: false,
     isLoading: false,
-    isHovered: false,
   })),
   filterOptions: {
-    ...state.defaultFilterOptions,
+    ...state.filterOptions,
     bankAccount: action.bankAccount,
   },
   pagination: action.pagination,
@@ -272,18 +270,28 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
-const getTransactionType = transactionType => (transactionType === 'Linked'
-  ? TransactionTypes.ALLOCATED
-  : TransactionTypes.UNALLOCATED);
+const getTransactionType = transactionType => {
+  switch (transactionType) {
+    case 'Linked':
+      return TransactionTypes.ALLOCATED;
+    case 'Unlinked':
+      return TransactionTypes.UNALLOCATED;
+    case 'All':
+      return TransactionTypes.ALL;
+    default:
+      return TransactionTypes.ALL;
+  }
+};
 
 const setInitialState = (state, action) => {
   const transactionType = getTransactionType(action.context.transactionType);
-
   const { bankAccount } = action.context;
-
   const { period } = state.filterOptions;
+
   const datesWithDefaultPeriod = getDateRangeByPeriodAndRegion(
-    action.context.region, new Date(), period,
+    action.context.region,
+    new Date(),
+    period,
   );
 
   const setDate = (date, dateInState) => {
@@ -340,29 +348,22 @@ export const setModalAlert = (state, action) => ({
   modalAlert: action.modalAlert,
 });
 
-export const setEntryFocus = (state, action) => ({
-  ...state,
-  entries: state.entries.map(
-    (entry, index) => (
-      index === action.index ? {
-        ...entry,
-        isFocused: action.isFocused,
-        isHovered: action.isFocused,
-      } : entry
-    ),
-  ),
-});
+export const setEntryFocus = (state, action) => {
+  const currentFocusIndex = state.focusIndex;
+  if (!action.isFocused && currentFocusIndex !== action.index) {
+    return state;
+  }
+
+  return {
+    ...state,
+    focusIndex: action.isFocused ? action.index : -1,
+    hoverIndex: action.isFocused ? action.index : -1,
+  };
+};
 
 export const setEntryHovered = (state, action) => ({
   ...state,
-  entries: state.entries.map(
-    (entry, index) => (
-      index === action.index ? {
-        ...entry,
-        isHovered: action.isHovered,
-      } : entry
-    ),
-  ),
+  hoverIndex: action.isHovering ? action.index : -1,
 });
 
 export const setEntryLoading = (state, action) => ({

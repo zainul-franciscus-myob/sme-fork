@@ -263,7 +263,6 @@ export default class BankingModule {
 
   allocateTransaction = (index, selectedAccount) => {
     this.dispatcher.focusEntry(index + 1);
-    this.dispatcher.blurEntry(index);
     this.dispatcher.setEntryLoadingState(index, true);
 
     const onSuccess = (payload) => {

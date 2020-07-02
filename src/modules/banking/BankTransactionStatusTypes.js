@@ -1,3 +1,4 @@
+// Copied in sme-web-bff (if this is changed please update the one in sme-web-bff)
 const ApprovedStatusTypes = {
   // For transactions that have been allocated/matched to a single account
   singleAllocation: 'singleAllocation',

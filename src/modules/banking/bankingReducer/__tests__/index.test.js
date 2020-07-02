@@ -1,4 +1,4 @@
-import { LOAD_JOB_AFTER_CREATE } from '../../BankingIntents';
+import { LOAD_JOB_AFTER_CREATE, SET_ENTRY_FOCUS } from '../../BankingIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import Periods from '../../../../components/PeriodPicker/Periods';
 import TransactionTypes from '../../TransactionTypes';
@@ -17,7 +17,12 @@ const { dateFrom, dateTo } = getDateRangeByPeriodAndRegion('au', new Date(), Per
 
 describe('bankingReducer', () => {
   describe('setInitialState', () => {
-    it('should default transaction type to unallocated', () => {
+    it.each([
+      ['Linked', TransactionTypes.ALLOCATED],
+      ['Unlinked', TransactionTypes.UNALLOCATED],
+      ['All', TransactionTypes.ALL],
+      ['random-value', TransactionTypes.ALL],
+    ])('given %s it should set the transaction type to %s', (type, expectedTransactionType) => {
       const state = {
         filterOptions: {
           period: Periods.thisMonth,
@@ -26,29 +31,12 @@ describe('bankingReducer', () => {
 
       const action = {
         intent: SET_INITIAL_STATE,
-        context: { transactionType: 'some-value' },
+        context: { transactionType: type },
       };
 
       const actual = bankingReducer(state, action);
 
-      expect(actual.filterOptions.transactionType).toEqual(TransactionTypes.UNALLOCATED);
-    });
-
-    it('should set transaction type to allocated given a value of Linked', () => {
-      const state = {
-        filterOptions: {
-          period: Periods.thisMonth,
-        },
-      };
-
-      const action = {
-        intent: SET_INITIAL_STATE,
-        context: { transactionType: 'Linked' },
-      };
-
-      const actual = bankingReducer(state, action);
-
-      expect(actual.filterOptions.transactionType).toEqual(TransactionTypes.ALLOCATED);
+      expect(actual.filterOptions.transactionType).toEqual(expectedTransactionType);
     });
 
     it('should use custom period if transaction type in context is Linked', () => {
@@ -206,6 +194,59 @@ describe('bankingReducer', () => {
     it('does not update other attributes in allocate', () => {
       expect(actual.openEntry.allocate.id).toBe('1');
       expect(actual.openEntry.allocate.description).toBe('just a description');
+    });
+  });
+
+  describe('setEntryFocus', () => {
+    const state = {
+      focusIndex: -1,
+      hoverIndex: -1,
+    };
+
+    it('should set the focusIndex', () => {
+      const action = {
+        intent: SET_ENTRY_FOCUS,
+        index: 0,
+        isFocused: true,
+      };
+
+      const actual = bankingReducer(state, action);
+
+      expect(actual.focusIndex).toEqual(0);
+    });
+
+    it('should unset the focusIndex if focus is taken away', () => {
+      const updatedState = {
+        ...state,
+        focusIndex: 2,
+      };
+
+      const action = {
+        intent: SET_ENTRY_FOCUS,
+        index: 2,
+        isFocused: false,
+      };
+
+      const actual = bankingReducer(updatedState, action);
+
+      expect(actual.focusIndex).toEqual(-1);
+    });
+
+    it('should ignore the action if the action is to remove the focusIndex for a different index', () => {
+      const updatedState = {
+        ...state,
+        focusIndex: 2,
+      };
+
+      const action = {
+        intent: SET_ENTRY_FOCUS,
+        index: 3,
+        isFocused: false,
+      };
+
+      const actual = bankingReducer(updatedState, action);
+
+      expect(actual.focusIndex).toEqual(2);
     });
   });
 });

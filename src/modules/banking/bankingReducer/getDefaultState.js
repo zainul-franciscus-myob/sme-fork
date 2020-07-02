@@ -125,11 +125,9 @@ const getDefaultState = () => ({
       date: '',
       description: '',
     },
+    hoverIndex: -1,
+    focusIndex: -1,
     attachments: [],
-  },
-  loginDetails: {
-    username: '',
-    password: '',
   },
   bankingRuleModal: getBankingRuleDefaultState(),
 });

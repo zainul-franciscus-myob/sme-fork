@@ -20,10 +20,11 @@ export const UPDATE_PERIOD_DATE_RANGE = Symbol('Update period date range');
 export const RESET_FILTERS = Symbol('Reset filters');
 
 export const SET_ENTRY_FOCUS = Symbol('Set the focus state of an entry');
+export const SET_ENTRY_HOVERED = Symbol('Set the hover state of an entry');
 export const SET_ENTRY_LOADING_STATE = Symbol('Set the loading state of an entry');
+
 export const ALLOCATE_TRANSACTION = Symbol('Allocate a bank transaction');
 export const UNALLOCATE_TRANSACTION = Symbol('Unallocate an allocated bank transaction');
-export const SET_ENTRY_HOVERED = Symbol('Set the hover state of an entry');
 
 export const SET_OPEN_ENTRY_LOADING_STATE = Symbol('Set bank transaction open entry loading state');
 export const SET_OPEN_ENTRY_POSITION = Symbol('Set bank transaction open entry position');
