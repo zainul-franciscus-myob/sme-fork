@@ -13,6 +13,7 @@ import {
   getRegion,
   getWithdrawalAccounts,
 } from './index';
+import BankTransactionStatusTypes from '../BankTransactionStatusTypes';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
@@ -337,12 +338,25 @@ const getRequestParams = (accountId, bankTransaction, filterOptions) => {
   };
 };
 
+const getShowTypeFromBankTransaction = (bankTransaction) => {
+  switch (bankTransaction.type) {
+    case BankTransactionStatusTypes.matched:
+    case BankTransactionStatusTypes.unmatched:
+      return 'closeMatches';
+    case BankTransactionStatusTypes.paymentRuleMatched:
+      return 'all';
+    default:
+      return 'selected';
+  }
+};
+
 export const getDefaultMatchTransactionFilterRequestParams = (bankAccount, bankTransaction) => {
-  const isMatched = bankTransaction.journals.length > 0;
+  const showType = getShowTypeFromBankTransaction(bankTransaction);
+
   const contactId = getAppliedPaymentRuleContactId(bankTransaction);
   const filterOptions = {
     contactId,
-    showType: isMatched ? 'selected' : 'closeMatches',
+    showType,
     includeClosed: false,
     keywords: '',
   };

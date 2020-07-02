@@ -21,6 +21,7 @@ import {
   UPDATE_PERIOD_DATE_RANGE,
 } from '../BankingIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
+import BankTransactionStatusTypes from '../BankTransactionStatusTypes';
 import BankingModule from '../BankingModule';
 import TestIntegration from '../../../integration/TestIntegration';
 import TestStore from '../../../store/TestStore';
@@ -376,7 +377,7 @@ describe('BankingModule', () => {
       expect(integration.getRequests()).toEqual([]);
     });
 
-    describe('when open with allocation tab', () => {
+    describe(`when open "${BankTransactionStatusTypes.unmatched}"`, () => {
       it('it success', () => {
         const { module, integration, store } = setUpWithRun();
         module.toggleLine(0);
@@ -441,7 +442,7 @@ describe('BankingModule', () => {
       });
     });
 
-    describe('when open with match tab', () => {
+    describe(`when open "${BankTransactionStatusTypes.matched}"`, () => {
       it('succeeds', () => {
         const { module, integration, store } = setUpWithRun();
 
@@ -479,6 +480,9 @@ describe('BankingModule', () => {
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({
             intent: LOAD_MATCH_TRANSACTIONS,
+            params: expect.objectContaining({
+              showType: 'closeMatches',
+            }),
           }),
           expect.objectContaining({
             intent: LOAD_ATTACHMENTS,
@@ -580,6 +584,55 @@ describe('BankingModule', () => {
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({
             intent: LOAD_MATCH_TRANSACTIONS,
+          }),
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+          }),
+        ]);
+      });
+    });
+
+    describe(`when open "${BankTransactionStatusTypes.paymentRuleMatched}"`, () => {
+      it('succeeds', () => {
+        const { module, integration, store } = setUpWithRun();
+
+        module.toggleLine(4);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_OPEN_ENTRY_LOADING_STATE,
+            isLoading: true,
+          },
+          {
+            intent: SET_OPEN_ENTRY_POSITION,
+            index: 4,
+          },
+          {
+            intent: SET_OPEN_ENTRY_LOADING_STATE,
+            isLoading: false,
+          },
+          expect.objectContaining({
+            intent: LOAD_MATCH_TRANSACTIONS,
+          }),
+          {
+            intent: SET_ATTACHMENTS_LOADING_STATE,
+            isAttachmentsLoading: true,
+          },
+          {
+            intent: SET_ATTACHMENTS_LOADING_STATE,
+            isAttachmentsLoading: false,
+          },
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+          }),
+        ]);
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_MATCH_TRANSACTIONS,
+            params: expect.objectContaining({
+              showType: 'all',
+            }),
           }),
           expect.objectContaining({
             intent: LOAD_ATTACHMENTS,

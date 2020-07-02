@@ -293,6 +293,23 @@
       "type": "matched"
     },
     {
+      "transactionId": "245",
+      "transactionUid": "f98e0cc9-368c-4417-b4f0-8046870d65a2",
+      "date": "2020-04-24T00:00:00",
+      "description": "DEPOSIT PVT PVT- RED",
+      "deposit": 611.8,
+      "journals": [],
+      "taxCode": "",
+      "isReportable": false,
+      "allocateOrMatch": "Possible invoice match found",
+      "type": "paymentRuleMatched",
+      "appliedRule": {
+        "ruleType": "Invoice",
+        "contactId": "123",
+        "ruleName": "DEPOSIT PVT PVT- REDinv"
+      }
+    },
+    {
       "transactionId": "4",
       "transactionUid": "123e4567-e89b-12d3-a456-789123456792",
       "date": "2018-10-11",

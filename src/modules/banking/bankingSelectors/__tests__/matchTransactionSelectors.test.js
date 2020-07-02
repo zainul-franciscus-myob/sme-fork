@@ -8,6 +8,7 @@ import {
   getTotals,
   getUnmatchTransactionPayload,
 } from '../matchTransactionSelectors';
+import BankTransactionStatusTypes from '../../BankTransactionStatusTypes';
 
 describe('matchTransactionSelectors', () => {
   describe('getMatchTransactionPayload', () => {
@@ -481,6 +482,7 @@ describe('matchTransactionSelectors', () => {
   describe('getDefaultMatchTransactionFilterRequestParams', () => {
     it('should return correct request params', () => {
       const bankTransaction = {
+        type: BankTransactionStatusTypes.splitAllocation,
         transactionId: '1',
         deposit: '100',
         date: '2018-05-06',
@@ -507,6 +509,34 @@ describe('matchTransactionSelectors', () => {
 
       const actual = getDefaultMatchTransactionFilterRequestParams('123', bankTransaction);
       expect(actual).toEqual(expected);
+    });
+
+    [
+      {
+        statusType: BankTransactionStatusTypes.matched,
+        showType: 'closeMatches',
+      },
+      {
+        statusType: BankTransactionStatusTypes.unmatched,
+        showType: 'closeMatches',
+      },
+      {
+        statusType: BankTransactionStatusTypes.paymentRuleMatched,
+        showType: 'all',
+      },
+    ].forEach(({ statusType, showType }) => {
+      it(`should show "${showType}" when type is ${statusType}`, () => {
+        const bankTransaction = {
+          type: statusType,
+          transactionId: '1',
+          deposit: '100',
+          date: '2018-05-06',
+        };
+
+        const actual = getDefaultMatchTransactionFilterRequestParams('123', bankTransaction);
+
+        expect(actual.showType).toEqual(showType);
+      });
     });
   });
 
