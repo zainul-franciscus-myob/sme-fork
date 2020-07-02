@@ -7,3 +7,4 @@ export const SET_MODAL_IS_OPEN = Symbol('Set whether the modal is open or closed
 export const SET_INITIAL_MODAL_STATE = Symbol('Set the initial state for the modal');
 export const SET_ALERT = Symbol('Set alert');
 export const SET_EMPLOYEE_PAY_REVERSAL_PREVIEW_MODAL = Symbol('Set the reversal employee pay transaction details');
+export const SEND_EMPLOYEE_PAY_REVERSAL_MODAL = Symbol('Send the reversal employee pay transaction');

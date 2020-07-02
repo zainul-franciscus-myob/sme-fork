@@ -1,5 +1,10 @@
 import { DELETE_EMPLOYEE_PAY_DETAIL, LOAD_EMPLOYEE_PAY_DETAIL, LOAD_EMPLOYEE_PAY_REVERSAL_PREVIEW_DETAIL } from '../employeePayDetail/EmployeePayDetailIntents';
-import { DELETE_EMPLOYEE_PAY_MODAL, LOAD_EMPLOYEE_PAY_MODAL, LOAD_EMPLOYEE_PAY_REVERSAL_PREVIEW_MODAL } from '../employeePayModal/EmployeePayModalIntents';
+import {
+  DELETE_EMPLOYEE_PAY_MODAL,
+  LOAD_EMPLOYEE_PAY_MODAL,
+  LOAD_EMPLOYEE_PAY_REVERSAL_PREVIEW_MODAL,
+  SEND_EMPLOYEE_PAY_REVERSAL_MODAL,
+} from '../employeePayModal/EmployeePayModalIntents';
 import { SEND_PAY_SLIP_EMAIL } from '../emailPaySlipModal/EmailPaySlipModalIntents';
 
 const HttpEmployeePayMapping = {
@@ -26,6 +31,10 @@ const HttpEmployeePayMapping = {
   [DELETE_EMPLOYEE_PAY_MODAL]: {
     method: 'DELETE',
     getPath: ({ businessId, transactionId }) => `/${businessId}/employeePay/delete_employee_transaction_detail/${transactionId}`,
+  },
+  [SEND_EMPLOYEE_PAY_REVERSAL_MODAL]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/employeePay/send_employee_pay_reversal`,
   },
   [SEND_PAY_SLIP_EMAIL]: {
     method: 'POST',

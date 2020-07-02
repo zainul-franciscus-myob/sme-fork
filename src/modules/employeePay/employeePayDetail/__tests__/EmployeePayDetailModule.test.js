@@ -15,11 +15,12 @@ describe('employeePayModalModule', () => {
           read: ({ onSuccess }) => {
             onSuccess(loadEmployeePayReversalPreviewDetail);
           },
+          write: ({ onSuccess }) => onSuccess(),
         },
         setRootView,
       },
     );
-    module.run({});
+    module.run({ businessId: '1', region: 'au' });
 
     return {
       wrapper,
@@ -35,5 +36,15 @@ describe('employeePayModalModule', () => {
     const header = wrapper.find({ testid: 'reversalInfoMsg' });
 
     expect(header).toHaveLength(1);
+  });
+
+  it('clear modal after sending the reversal of employee pay transaction successfully', () => {
+    const { wrapper, module } = constructModule();
+
+    module.sendReversalEmployeePay();
+    wrapper.update();
+
+    expect(wrapper).toEqual({});
+    expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/payRun'));
   });
 });

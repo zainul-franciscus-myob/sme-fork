@@ -6,3 +6,4 @@ export const SET_EMPLOYEE_PAY_DETAIL = Symbol('Set the employee pay transaction 
 export const SET_DELETE_MODAL_OPEN_STATE = Symbol('Set the open state of the delete modal');
 export const SET_ALERT = Symbol('Set alert');
 export const SET_EMPLOYEE_PAY_REVERSAL_PREVIEW_DETAIL = Symbol('Set the reversal employee pay transaction details');
+export const SEND_EMPLOYEE_PAY_REVERSAL_DETAIL = Symbol('Send the reversal employee pay transaction details');

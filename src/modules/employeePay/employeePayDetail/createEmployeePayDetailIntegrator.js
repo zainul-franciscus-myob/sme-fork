@@ -1,5 +1,10 @@
-import { DELETE_EMPLOYEE_PAY_DETAIL, LOAD_EMPLOYEE_PAY_DETAIL, LOAD_EMPLOYEE_PAY_REVERSAL_PREVIEW_DETAIL } from './EmployeePayDetailIntents';
-import { getUrlParams } from './EmployeePayDetailSelectors';
+import {
+  DELETE_EMPLOYEE_PAY_DETAIL,
+  LOAD_EMPLOYEE_PAY_DETAIL,
+  LOAD_EMPLOYEE_PAY_REVERSAL_PREVIEW_DETAIL,
+  SEND_EMPLOYEE_PAY_REVERSAL_DETAIL,
+} from './EmployeePayDetailIntents';
+import { getReversalEmployeePayContent, getUrlParams } from './EmployeePayDetailSelectors';
 
 const createEmployeePayDetailIntegrator = (store, integration) => ({
   loadEmployeePayDetail: ({ onSuccess, onFailure }) => {
@@ -36,6 +41,21 @@ const createEmployeePayDetailIntegrator = (store, integration) => ({
     integration.read({
       intent: LOAD_EMPLOYEE_PAY_REVERSAL_PREVIEW_DETAIL,
       urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  sendReversalEmployeePay: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const urlParams = { businessId: state.businessId };
+    const content = getReversalEmployeePayContent(state);
+
+    integration.write({
+      intent: SEND_EMPLOYEE_PAY_REVERSAL_DETAIL,
+      urlParams,
+      content,
       onSuccess,
       onFailure,
     });

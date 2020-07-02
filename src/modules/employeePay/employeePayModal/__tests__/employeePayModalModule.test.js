@@ -18,11 +18,12 @@ describe('employeePayModalModule', () => {
               onSuccess(loadEmployeePayReversalPreviewDetail);
             }
           },
+          write: ({ onSuccess }) => onSuccess(),
         },
       },
     )) => {
       const wrapper = mount(module.getView());
-      module.openModal({});
+      module.openModal({ businessId: '1', region: 'au' });
       wrapper.update();
 
       return {
@@ -82,6 +83,16 @@ describe('employeePayModalModule', () => {
 
       expect(wrapper.find({ testid: 'employee-pay-modal-delete-btn' })).toHaveLength(1);
       expect(findButtonWithTestId(wrapper, 'employee-pay-modal-reverse-btn')).toHaveLength(0);
+    });
+
+    it('clear modal after sending the reversal of employee pay transaction successfully', () => {
+      const { wrapper, module } = constructModule();
+
+      module.sendReversalEmployeePay();
+      wrapper.update();
+
+      expect(wrapper).toEqual({});
+      expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/payRun'));
     });
   });
 

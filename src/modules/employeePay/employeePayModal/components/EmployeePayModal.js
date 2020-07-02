@@ -25,6 +25,8 @@ const EmployeePayModal = ({
   onBackButtonClick,
   onDeleteButtonClick,
   onReverseButtonClick,
+  onRecordReversalButtonClick,
+  onCancelReversalButtonClick,
   employeePay,
   loadingState,
   onDeletePopoverDelete,
@@ -130,6 +132,8 @@ const EmployeePayModal = ({
           showReverse={featureToggles && featureToggles.isPayrollReversibleEnabled && isReversible}
           loadingSuccess={loadingState === LoadingState.LOADING_SUCCESS}
           isReversalPreview={isReversalPreview}
+          onRecordReversalButtonClick={onRecordReversalButtonClick}
+          onCancelReversalButtonClick={onCancelReversalButtonClick}
           isReadonly={isReadonly}
         />
       </div>

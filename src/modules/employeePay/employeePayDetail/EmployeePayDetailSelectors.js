@@ -1,3 +1,5 @@
+import uuid from '../../../common/uuid/uuid';
+
 export const getUrlParams = state => ({
   businessId: state.businessId,
   transactionId: state.transactionId,
@@ -25,4 +27,16 @@ export const getTransactionListUrl = (state) => {
   const region = getRegion(state);
 
   return `/#/${region}/${businessId}/transactionList`;
+};
+
+export const getPayRunId = uuid(); // TODO: fix to state.payRunId set by stp declaration later
+export const getReversalEmployeePayContent = state => ({
+  transactionId: state.transactionId,
+  payRunId: getPayRunId,
+});
+export const getPayRunListUrl = state => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return `/#/${region}/${businessId}/payRun`;
 };

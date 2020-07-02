@@ -10,14 +10,16 @@ const EmployeePayModalButtons = ({
   onDeleteButtonClick,
   onBackButtonClick,
   onReverseButtonClick,
+  onRecordReversalButtonClick,
+  onCancelReversalButtonClick,
   showReverse,
   loadingSuccess,
   isReversalPreview,
   isReadonly,
 }) => {
   const reversalPreviewButtons = <ButtonRow primary={[
-      <Button type="secondary" onClick={() => console.log('Record reversal cancel')}>Cancel</Button>,
-      <Button onClick={() => console.log('Record reversal')}>Record reversal</Button>,
+      <Button type="secondary" onClick={onCancelReversalButtonClick}>Cancel</Button>,
+      <Button onClick={onRecordReversalButtonClick}>Record reversal</Button>,
   ]}
   />;
 

@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { getPayRunListUrl } from './EmployeePayModalSelectors';
 import EmployeePayDetailModal from './components/EmployeePayModal';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
@@ -64,6 +65,22 @@ export default class EmployeePayModalModule {
     this.integrator.loadReversalEmployeePayModal({ onSuccess, onFailure });
   };
 
+  sendReversalEmployeePay = () => {
+    this.dispatcher.setIsModalLoading(LoadingState.LOADING);
+
+    const onSuccess = () => {
+      this.dispatcher.setIsModalLoading(LoadingState.LOADING_SUCCESS);
+      window.location.href = getPayRunListUrl(this.store.getState());
+    };
+
+    const onFailure = (message) => {
+      this.dispatcher.setAlertMessage(message);
+      this.dispatcher.setIsModalLoading(LoadingState.LOADING_FAIL);
+    };
+
+    this.integrator.sendReversalEmployeePay({ onSuccess, onFailure });
+  };
+
   openModal = ({
     transactionId, businessId, employeeName, region, readonly,
   }) => {
@@ -91,6 +108,8 @@ export default class EmployeePayModalModule {
           onDeletePopoverCancel={this.dispatcher.closeDeletePopover}
           onDeletePopoverDelete={this.deleteEmployeePayDetail}
           onReverseButtonClick={this.loadEmployeePayReversalPreviewDetail}
+          onRecordReversalButtonClick={this.sendReversalEmployeePay}
+          onCancelReversalButtonClick={this.closeModal}
           onDismissAlert={this.dispatcher.dismissAlert}
           featureToggles={this.featureToggles}
         />
