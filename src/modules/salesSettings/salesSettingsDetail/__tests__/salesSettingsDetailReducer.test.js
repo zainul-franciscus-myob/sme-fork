@@ -195,13 +195,18 @@ describe('salesSettingsReducer', () => {
   });
 
   describe('loadSalesSettings', () => {
-    it('defaults tabData to salesSettings', () => {
+    it.each([
+      ['salesSettings', 'layoutAndTheme'],
+      ['salesSettings', 'payments'],
+      ['emailSettings', 'emailDefaults'],
+    ])('set tabData to %s when selectedTab is %s', (dataKey, tabId) => {
       const state = {
+        selectedTab: tabId,
         tabData: {},
       };
       const action = {
         intent: LOAD_SALES_SETTINGS,
-        salesSettings: {
+        [dataKey]: {
           some: 'settings',
         },
       };
@@ -209,9 +214,10 @@ describe('salesSettingsReducer', () => {
       const actual = reducer(state, action);
 
       expect(actual).toEqual({
-        salesSettings: {
+        [dataKey]: {
           some: 'settings',
         },
+        selectedTab: tabId,
         tabData: {
           some: 'settings',
         },

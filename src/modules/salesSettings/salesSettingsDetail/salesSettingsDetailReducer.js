@@ -111,10 +111,16 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
+const getTabData = (selectedTab, state) => ({
+  layoutAndTheme: state.salesSettings,
+  payments: state.salesSettings,
+  emailDefaults: state.emailSettings,
+}[selectedTab]);
+
 const loadSalesSettings = (state, { intent, templateSettings, ...rest }) => ({
   ...state,
   ...rest,
-  tabData: { ...rest.salesSettings }, // default to layout tab
+  tabData: { ...getTabData(state.selectedTab, rest) },
   templateSettings: {
     ...state.templateSettings,
     ...templateSettings,
@@ -153,12 +159,6 @@ const updateSalesSettingsItem = (state, action) => {
     },
   };
 };
-
-const getTabData = (selectedTab, state) => ({
-  layoutAndTheme: state.salesSettings,
-  payments: state.salesSettings,
-  emailDefaults: state.emailSettings,
-}[selectedTab]);
 
 const setTab = (state, action) => ({
   ...state,
