@@ -64,7 +64,7 @@ export const getLineDataByIndexSelector = () => createSelector(
       const {
         accountId,
         jobId,
-        jobs,
+        lineJobOptions,
         taxCodeId,
         taxCodes,
         accounts,
@@ -89,7 +89,7 @@ export const getLineDataByIndexSelector = () => createSelector(
         description,
         accountId,
         jobId,
-        jobs,
+        lineJobOptions,
         taxCodeId,
         taxCodes,
         accounts,

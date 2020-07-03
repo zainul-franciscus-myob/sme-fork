@@ -6,7 +6,6 @@ import {
   getAccountOptions,
   getIsSystem,
   getIsTableDisabled,
-  getJobOptions,
   getLineDataByIndexSelector,
   getNewLineData,
   getTaxCodeOptions,
@@ -40,7 +39,6 @@ const GeneralJournalDetailRow = ({
   isTableDisabled,
   lineData,
   newLineData,
-  jobOptions,
   taxCodeOptions,
   accountOptions,
   onRowInputBlur,
@@ -63,6 +61,7 @@ const GeneralJournalDetailRow = ({
     accountId,
     jobId,
     taxCodeId,
+    lineJobOptions,
   } = data;
 
   return (
@@ -121,7 +120,7 @@ const GeneralJournalDetailRow = ({
         label="Job"
         onChange={onComboboxChange('jobId', onChange)}
         addNewJob={() => onCreateJobButtonClick(onComboboxChange('jobId', onChange))}
-        items={jobOptions}
+        items={lineJobOptions}
         selectedId={jobId}
         disabled={isTableDisabled || isSystem}
         allowClear
@@ -142,7 +141,6 @@ const makeMapRowStateToProps = () => {
   return (state, ownProps) => ({
     lineData: lineDataByIndex(state, ownProps),
     newLineData: getNewLineData(state),
-    jobOptions: getJobOptions(state),
     taxCodeOptions: getTaxCodeOptions(state),
     accountOptions: getAccountOptions(state),
     isTableDisabled: getIsTableDisabled(state),

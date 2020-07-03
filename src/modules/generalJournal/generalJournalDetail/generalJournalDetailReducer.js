@@ -46,6 +46,7 @@ const getDefaultState = () => ({
     quantity: '',
     description: '',
     jobId: '',
+    lineJobOptions: [],
     taxCodeId: '',
     taxAmount: '',
     lineTypeId: '',
@@ -108,6 +109,9 @@ const getReportingMethodForCreate = (action, accounts, { lines, gstReportingMeth
   return reportingMethod;
 };
 
+const buildLineJobOptions = ({ action, jobId }) => (action.jobs
+  ? action.jobs.filter(job => job.isActive || job.id === jobId)
+  : []);
 
 const loadGeneralJournalDetail = (state, action) => ({
   ...state,
@@ -115,8 +119,12 @@ const loadGeneralJournalDetail = (state, action) => ({
     ...state.generalJournal,
     ...action.generalJournal,
     originalReferenceId: action.generalJournal.referenceId,
+    lines: action.generalJournal.lines.map(line => ({
+      ...line,
+      lineJobOptions: buildLineJobOptions({ action, jobId: line.jobId }),
+    })),
   },
-  newLine: { ...state.newLine, ...action.newLine },
+  newLine: { ...state.newLine, ...action.newLine, lineJobOptions: buildLineJobOptions({ action }) },
   totals: action.totals,
   pageTitle: action.pageTitle,
   jobOptions: action.jobOptions,
@@ -208,7 +216,7 @@ const loadNewGeneralJournal = (state, action) => ({
     date: formatIsoDate(new Date()),
     originalReferenceId: action.generalJournal.referenceId,
   },
-  newLine: { ...state.newLine, ...action.newLine },
+  newLine: { ...state.newLine, ...action.newLine, lineJobOptions: buildLineJobOptions({ action }) },
   pageTitle: action.pageTitle,
   jobOptions: action.jobOptions,
   taxCodeOptions: action.taxCodeOptions,
@@ -304,12 +312,25 @@ const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   isPageEdited: true,
 });
 
-const loadJobAfterCreate = (state, { ...job }) => ({
+const loadJobAfterCreate = (state, { intent, ...job }) => ({
   ...state,
-  jobOptions: [
-    job,
-    ...state.jobOptions,
-  ],
+  generalJournal: {
+    ...state.generalJournal,
+    lines: state.generalJournal.lines.map(line => ({
+      ...line,
+      lineJobOptions: [
+        job,
+        ...line.lineJobOptions,
+      ],
+    })),
+  },
+  newLine: {
+    ...state.newLine,
+    lineJobOptions: [
+      job,
+      ...state.newLine.lineJobOptions,
+    ],
+  },
   isPageEdited: true,
 });
 

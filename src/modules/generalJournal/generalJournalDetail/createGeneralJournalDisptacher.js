@@ -118,7 +118,7 @@ const createGeneralJournalDispatcher = store => ({
     totals,
     newLine,
     pageTitle,
-    jobOptions,
+    jobs,
     taxCodeOptions,
     accountOptions,
     startOfFinancialYearDate,
@@ -132,7 +132,7 @@ const createGeneralJournalDispatcher = store => ({
       totals,
       newLine,
       pageTitle,
-      jobOptions,
+      jobs,
       taxCodeOptions,
       accountOptions,
       startOfFinancialYearDate,
@@ -144,11 +144,10 @@ const createGeneralJournalDispatcher = store => ({
       ...payload,
     });
   },
-  loadJobAfterCreate: (jobId, payload) => {
+  loadJobAfterCreate: (payload) => {
     store.dispatch({
       intent: LOAD_JOB_AFTER_CREATE,
       ...payload,
-      jobId,
     });
   },
   setDuplicateId: duplicateId => store.dispatch({

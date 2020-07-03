@@ -65,7 +65,7 @@ export default class GeneralJournalDetailModule {
       newLine,
       totals,
       pageTitle,
-      jobs: jobOptions,
+      jobs,
       taxCodes: taxCodeOptions,
       accounts: accountOptions,
       startOfFinancialYearDate,
@@ -76,7 +76,7 @@ export default class GeneralJournalDetailModule {
         totals,
         newLine,
         pageTitle,
-        jobOptions,
+        jobs,
         taxCodeOptions,
         accountOptions,
         startOfFinancialYearDate,
@@ -336,7 +336,7 @@ export default class GeneralJournalDetailModule {
     const onSuccess = (payload) => {
       const job = { ...payload, id };
       this.dispatcher.setCreatedJobLoadingState(false);
-      this.dispatcher.loadJobAfterCreate(id, job);
+      this.dispatcher.loadJobAfterCreate(job);
       onChange(job);
     };
 
