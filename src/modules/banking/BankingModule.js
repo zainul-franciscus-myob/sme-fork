@@ -38,6 +38,7 @@ import BankingView from './components/BankingView';
 import FeatureToggle from '../../FeatureToggles';
 import InTrayModalModule from '../inTray/inTrayModal/InTrayModalModule';
 import JobModalModule from '../job/jobModal/JobModalModule';
+import MatchTransactionShowType from './MatchTransactionShowType';
 import Store from '../../store/Store';
 import bankingReducer from './bankingReducer';
 import createBankingDispatcher from './BankingDispatcher';
@@ -757,7 +758,7 @@ export default class BankingModule {
     const state = this.store.getState();
 
     const showType = getShowType(state);
-    if (showType === 'selected') {
+    if (showType === MatchTransactionShowType.SELECTED) {
       this.dispatcher.showSelectedMatchTransactions();
     } else {
       const index = getOpenPosition(state);

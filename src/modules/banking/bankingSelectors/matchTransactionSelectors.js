@@ -14,6 +14,7 @@ import {
   getWithdrawalAccounts,
 } from './index';
 import BankTransactionStatusTypes from '../BankTransactionStatusTypes';
+import MatchTransactionShowType from '../MatchTransactionShowType';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
@@ -281,7 +282,7 @@ export const getContacts = state => state.contacts;
 
 export const getShowAllFilters = createSelector(
   getMatchTransactionFilterOptions,
-  filterOptions => filterOptions.showType !== 'selected',
+  filterOptions => filterOptions.showType !== MatchTransactionShowType.SELECTED,
 );
 
 export const getIncludeClosedTransactionLabel = createSelector(
@@ -297,15 +298,15 @@ export const getShowIncludeClosedCheckbox = createSelector(
 );
 
 const DayOffsetMap = {
-  closeMatches: { from: 180, to: 180 },
-  all: { from: 365, to: 365 },
-  selected: { from: 5, to: 5 },
+  [MatchTransactionShowType.CLOSE_MATCHES]: { from: 180, to: 180 },
+  [MatchTransactionShowType.ALL]: { from: 365, to: 365 },
+  [MatchTransactionShowType.SELECTED]: { from: 5, to: 5 },
 };
 
 const AmountOffsetMap = {
-  closeMatches: { from: 0.1, to: 0.1 },
-  all: { from: 0, to: 9999999999 },
-  selected: { from: 0.1, to: 0.1 },
+  [MatchTransactionShowType.CLOSE_MATCHES]: { from: 0.1, to: 0.1 },
+  [MatchTransactionShowType.ALL]: { from: 0, to: 9999999999 },
+  [MatchTransactionShowType.SELECTED]: { from: 0.1, to: 0.1 },
 };
 
 const getRequestParams = (accountId, bankTransaction, filterOptions) => {
@@ -316,10 +317,16 @@ const getRequestParams = (accountId, bankTransaction, filterOptions) => {
   const amount = Number(bankTransaction.withdrawal || bankTransaction.deposit);
   const offset = DayOffsetMap[showType];
   const isCredit = Boolean(bankTransaction.deposit);
-  const amountFrom = ['closeMatches', 'selected'].includes(showType)
+  const amountFrom = [
+    MatchTransactionShowType.CLOSE_MATCHES,
+    MatchTransactionShowType.SELECTED,
+  ].includes(showType)
     ? amount - AmountOffsetMap[showType].from
     : AmountOffsetMap[showType].from;
-  const amountTo = ['closeMatches', 'selected'].includes(showType)
+  const amountTo = [
+    MatchTransactionShowType.CLOSE_MATCHES,
+    MatchTransactionShowType.SELECTED,
+  ].includes(showType)
     ? amount + AmountOffsetMap[showType].to
     : AmountOffsetMap[showType].to;
   const transactionDate = new Date(date);
@@ -342,11 +349,11 @@ const getShowTypeFromBankTransaction = (bankTransaction) => {
   switch (bankTransaction.type) {
     case BankTransactionStatusTypes.matched:
     case BankTransactionStatusTypes.unmatched:
-      return 'closeMatches';
+      return MatchTransactionShowType.CLOSE_MATCHES;
     case BankTransactionStatusTypes.paymentRuleMatched:
-      return 'all';
+      return MatchTransactionShowType.ALL;
     default:
-      return 'selected';
+      return MatchTransactionShowType.SELECTED;
   }
 };
 
@@ -380,5 +387,5 @@ export const getHasAdjustment = createSelector(
 
 export const getSortingDisabled = createSelector(
   getShowType,
-  showType => showType === 'selected',
+  showType => showType === MatchTransactionShowType.SELECTED,
 );

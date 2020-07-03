@@ -19,6 +19,7 @@ import ContactCombobox from '../../../components/combobox/ContactCombobox';
 import FilterBar from '../../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../../components/FilterBarSearch/FilterBarSearch';
 import FilterGroup from '../../../components/Feelix/FilterBar/FilterGroup';
+import MatchTransactionShowType from '../MatchTransactionShowType';
 import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
@@ -69,10 +70,10 @@ const MatchTransactionOptions = (props) => {
           labelAccessory={typeInfoPopOver}
           onChange={handleSelectChange(onUpdateMatchTransactionOptions)}
         >
-          <Select.Option value="closeMatches" label="Close matches" />
-          <Select.Option value="all" label="All transactions" />
+          <Select.Option value={MatchTransactionShowType.CLOSE_MATCHES} label="Close matches" />
+          <Select.Option value={MatchTransactionShowType.ALL} label="All transactions" />
           <Select.Option value="seperator" label="───────────" disabled />
-          <Select.Option value="selected" label="Selected transactions" />
+          <Select.Option value={MatchTransactionShowType.SELECTED} label="Selected transactions" />
         </Select>
         {
           showAllFilters && (

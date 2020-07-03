@@ -23,6 +23,7 @@ import {
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
 import BankTransactionStatusTypes from '../BankTransactionStatusTypes';
 import BankingModule from '../BankingModule';
+import MatchTransactionShowType from '../MatchTransactionShowType';
 import TestIntegration from '../../../integration/TestIntegration';
 import TestStore from '../../../store/TestStore';
 import bankingReducer from '../bankingReducer';
@@ -481,7 +482,7 @@ describe('BankingModule', () => {
           expect.objectContaining({
             intent: LOAD_MATCH_TRANSACTIONS,
             params: expect.objectContaining({
-              showType: 'closeMatches',
+              showType: MatchTransactionShowType.CLOSE_MATCHES,
             }),
           }),
           expect.objectContaining({
@@ -631,7 +632,7 @@ describe('BankingModule', () => {
           expect.objectContaining({
             intent: LOAD_MATCH_TRANSACTIONS,
             params: expect.objectContaining({
-              showType: 'all',
+              showType: MatchTransactionShowType.ALL,
             }),
           }),
           expect.objectContaining({

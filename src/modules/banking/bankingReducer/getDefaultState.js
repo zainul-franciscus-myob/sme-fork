@@ -1,5 +1,6 @@
 import { getDefaultOpenPosition } from '../bankingSelectors';
 import { tabIds } from '../tabItems';
+import MatchTransactionShowType from '../MatchTransactionShowType';
 import Periods from '../../../components/PeriodPicker/Periods';
 import TransactionTypes from '../TransactionTypes';
 import getBankingRuleDefaultState from '../bankingRule/bankingRuleReducers/getDefaultState';
@@ -101,7 +102,7 @@ const getDefaultState = () => ({
       isTableLoading: false,
       totalAmount: 0,
       filterOptions: {
-        showType: 'closeMatches',
+        showType: MatchTransactionShowType.CLOSE_MATCHES,
         contactId: undefined,
         keywords: '',
         includeClosed: false,

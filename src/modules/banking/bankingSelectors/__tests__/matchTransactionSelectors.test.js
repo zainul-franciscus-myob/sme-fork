@@ -9,6 +9,7 @@ import {
   getUnmatchTransactionPayload,
 } from '../matchTransactionSelectors';
 import BankTransactionStatusTypes from '../../BankTransactionStatusTypes';
+import MatchTransactionShowType from '../../MatchTransactionShowType';
 
 describe('matchTransactionSelectors', () => {
   describe('getMatchTransactionPayload', () => {
@@ -349,7 +350,7 @@ describe('matchTransactionSelectors', () => {
   });
 
   describe('getMatchTransactionFilterRequestParams', () => {
-    it('should return correct request params when showType is closeMatches', () => {
+    it(`should return correct request params when showType is ${MatchTransactionShowType.CLOSE_MATCHES}`, () => {
       const state = {
         filterOptions: {
           bankAccount: '123',
@@ -365,7 +366,7 @@ describe('matchTransactionSelectors', () => {
         openEntry: {
           match: {
             filterOptions: {
-              showType: 'closeMatches',
+              showType: MatchTransactionShowType.CLOSE_MATCHES,
               contactId: '1',
               includeClosed: true,
               keywords: '123',
@@ -376,7 +377,7 @@ describe('matchTransactionSelectors', () => {
 
       const expected = {
         isCredit: true,
-        showType: 'closeMatches',
+        showType: MatchTransactionShowType.CLOSE_MATCHES,
         bankFeedTransactionId: '1',
         keywords: '123',
         contactId: '1',
@@ -408,7 +409,7 @@ describe('matchTransactionSelectors', () => {
         openEntry: {
           match: {
             filterOptions: {
-              showType: 'all',
+              showType: MatchTransactionShowType.ALL,
               contactId: '1',
               includeClosed: true,
               keywords: '123',
@@ -419,7 +420,7 @@ describe('matchTransactionSelectors', () => {
 
       const expected = {
         isCredit: true,
-        showType: 'all',
+        showType: MatchTransactionShowType.ALL,
         bankFeedTransactionId: '1',
         keywords: '123',
         contactId: '1',
@@ -451,7 +452,7 @@ describe('matchTransactionSelectors', () => {
         openEntry: {
           match: {
             filterOptions: {
-              showType: 'selected',
+              showType: MatchTransactionShowType.SELECTED,
               contactId: '1',
               includeClosed: true,
               keywords: '123',
@@ -464,7 +465,7 @@ describe('matchTransactionSelectors', () => {
         isCredit: true,
         bankFeedTransactionId: '1',
         keywords: '123',
-        showType: 'selected',
+        showType: MatchTransactionShowType.SELECTED,
         contactId: '1',
         includeClosed: true,
         accountId: '123',
@@ -497,7 +498,7 @@ describe('matchTransactionSelectors', () => {
         isCredit: true,
         bankFeedTransactionId: '1',
         keywords: '',
-        showType: 'selected',
+        showType: MatchTransactionShowType.SELECTED,
         contactId: undefined,
         includeClosed: false,
         accountId: '123',
@@ -514,15 +515,15 @@ describe('matchTransactionSelectors', () => {
     [
       {
         statusType: BankTransactionStatusTypes.matched,
-        showType: 'closeMatches',
+        showType: MatchTransactionShowType.CLOSE_MATCHES,
       },
       {
         statusType: BankTransactionStatusTypes.unmatched,
-        showType: 'closeMatches',
+        showType: MatchTransactionShowType.CLOSE_MATCHES,
       },
       {
         statusType: BankTransactionStatusTypes.paymentRuleMatched,
-        showType: 'all',
+        showType: MatchTransactionShowType.ALL,
       },
     ].forEach(({ statusType, showType }) => {
       it(`should show "${showType}" when type is ${statusType}`, () => {
