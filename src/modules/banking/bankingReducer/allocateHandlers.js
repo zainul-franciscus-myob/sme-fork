@@ -35,6 +35,7 @@ export const allocateTransaction = (state, action) => {
         index === action.index
           ? {
             ...entry,
+            appliedRule: action.appliedRule,
             isReportable: action.isReportable,
             allocateOrMatch: action.allocateOrMatch,
             journals: action.journals,

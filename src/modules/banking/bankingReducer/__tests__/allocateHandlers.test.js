@@ -85,6 +85,28 @@ describe('allocateHandlers', () => {
       expect(actual.entries[0].selectedAccountId).toEqual(undefined);
     });
 
+    it('should set the appliedRule to undefined if not given', () => {
+      const modifiedState = {
+        ...state,
+        entries: [
+          {
+            withdrawal: 10,
+            deposit: 0,
+            type: BankTransactionStatusTypes.unmatched,
+            appliedRule: {
+              ruleType: 'SpendMoney',
+              contactId: '123',
+              ruleName: 'For Coffees',
+            },
+          },
+        ],
+      };
+
+      const actual = allocateTransaction(modifiedState, action);
+
+      expect(actual.entries[0].appliedRule).toEqual(undefined);
+    });
+
     describe('updating the calculated balances', () => {
       it('should reduce amount from unallocated when account is under deposit', () => {
         const modifiedState = {

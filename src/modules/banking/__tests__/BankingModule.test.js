@@ -69,6 +69,23 @@ describe('BankingModule', () => {
     return toolbox;
   };
 
+  const setUpWithBankTransactionEntry = (entry) => {
+    const toolbox = setUpWithRun();
+    const { store } = toolbox;
+
+    const index = store.getState().entries.length;
+
+    store.setState({
+      ...store.getState(),
+      entries: [
+        ...store.getState().entries,
+        entry,
+      ],
+    });
+
+    return { ...toolbox, index };
+  };
+
   const setUpWithOpenTransactionOnAllocateTab = () => {
     const toolbox = setUpWithRun();
     const { module, store, integration } = toolbox;
@@ -444,10 +461,29 @@ describe('BankingModule', () => {
     });
 
     describe(`when open "${BankTransactionStatusTypes.matched}"`, () => {
-      it('succeeds', () => {
-        const { module, integration, store } = setUpWithRun();
+      const entry = {
+        transactionId: '1',
+        transactionUid: '123e4567-e89b-12d3-a456-789123456789',
+        date: '2018-10-21',
+        description: '',
+        withdrawal: 3300.00,
+        journals: [],
+        taxCode: '',
+        note: '',
+        isReportable: false,
+        allocateOrMatch: 'Allocate me',
+        type: BankTransactionStatusTypes.matched,
+      };
 
-        module.toggleLine(3);
+      it('succeeds', () => {
+        const {
+          module,
+          integration,
+          store,
+          index,
+        } = setUpWithBankTransactionEntry(entry);
+
+        module.toggleLine(index);
 
         expect(store.getActions()).toEqual([
           {
@@ -456,7 +492,7 @@ describe('BankingModule', () => {
           },
           {
             intent: SET_OPEN_ENTRY_POSITION,
-            index: 3,
+            index,
           },
           {
             intent: SET_OPEN_ENTRY_LOADING_STATE,
@@ -492,10 +528,15 @@ describe('BankingModule', () => {
       });
 
       it('fails to load attachments', () => {
-        const { module, integration, store } = setUpWithRun();
+        const {
+          module,
+          integration,
+          store,
+          index,
+        } = setUpWithBankTransactionEntry(entry);
         integration.mapFailure(LOAD_ATTACHMENTS);
 
-        module.toggleLine(3);
+        module.toggleLine(index);
 
         expect(store.getActions()).toEqual([
           {
@@ -504,7 +545,7 @@ describe('BankingModule', () => {
           },
           {
             intent: SET_OPEN_ENTRY_POSITION,
-            index: 3,
+            index,
           },
           {
             intent: SET_OPEN_ENTRY_LOADING_STATE,
@@ -541,10 +582,15 @@ describe('BankingModule', () => {
       });
 
       it('fails to load match transactions', () => {
-        const { module, integration, store } = setUpWithRun();
+        const {
+          module,
+          integration,
+          store,
+          index,
+        } = setUpWithBankTransactionEntry(entry);
         integration.mapFailure(LOAD_MATCH_TRANSACTIONS);
 
-        module.toggleLine(3);
+        module.toggleLine(index);
 
         expect(store.getActions()).toEqual([
           {
@@ -553,7 +599,7 @@ describe('BankingModule', () => {
           },
           {
             intent: SET_OPEN_ENTRY_POSITION,
-            index: 3,
+            index,
           },
           {
             intent: SET_OPEN_ENTRY_LOADING_STATE,
@@ -594,10 +640,29 @@ describe('BankingModule', () => {
     });
 
     describe(`when open "${BankTransactionStatusTypes.paymentRuleMatched}"`, () => {
-      it('succeeds', () => {
-        const { module, integration, store } = setUpWithRun();
+      const entry = {
+        transactionId: '1',
+        transactionUid: '123e4567-e89b-12d3-a456-789123456789',
+        date: '2018-10-21',
+        description: '',
+        withdrawal: 3300.00,
+        journals: [],
+        taxCode: '',
+        note: '',
+        isReportable: false,
+        allocateOrMatch: 'Allocate me',
+        type: BankTransactionStatusTypes.paymentRuleMatched,
+      };
 
-        module.toggleLine(4);
+      it('succeeds', () => {
+        const {
+          module,
+          integration,
+          store,
+          index,
+        } = setUpWithBankTransactionEntry(entry);
+
+        module.toggleLine(index);
 
         expect(store.getActions()).toEqual([
           {
@@ -606,7 +671,7 @@ describe('BankingModule', () => {
           },
           {
             intent: SET_OPEN_ENTRY_POSITION,
-            index: 4,
+            index,
           },
           {
             intent: SET_OPEN_ENTRY_LOADING_STATE,

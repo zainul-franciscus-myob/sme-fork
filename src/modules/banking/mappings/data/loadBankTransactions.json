@@ -411,7 +411,7 @@
       "type": "splitAllocation"
     },
     {
-      "transactionId": "12",
+      "transactionId": "14",
       "transactionUid": "123e4567-e89b-12d3-a456-789123456793",
       "date": "2018-10-01",
       "description": "Matched to 2x spend monies",
@@ -433,6 +433,31 @@
       "note": "",
       "isReportable": false,
       "type": "splitMatched"
+    },
+    {
+      "transactionId": "13",
+      "transactionUid": "123e4567-e89b-12d3-a456-789123456790",
+      "date": "2018-10-01",
+      "description": "Burger",
+      "withdrawal": 12.50,
+      "allocateOrMatch": "Internet",
+      "journals": [
+        {
+          "journalId": "456",
+          "journalLineId": "123",
+          "sourceJournal": "CashPayment"
+        }
+      ],
+      "taxCode": "GST",
+      "note": "",
+      "isReportable": true,
+      "selectedAccountId": "128",
+      "type": "singleAllocation",
+      "appliedRule": {
+        "ruleType": "SpendMoney",
+        "contactId": "123",
+        "ruleName": "For Coffees"
+      }
     }
   ],
   "pagination": {
