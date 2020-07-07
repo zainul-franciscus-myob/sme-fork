@@ -66,6 +66,7 @@ describe('integratorSelectors', () => {
   describe('getCreateOrUpdateInvoicePayload', () => {
     it('should return invoice for service layout', () => {
       const state = {
+        quoteId: '4354',
         invoice: {
           id: '123',
           layout: 'service',
@@ -165,6 +166,7 @@ describe('integratorSelectors', () => {
             taxCodeId: '124',
           },
         ],
+        quoteId: '4354',
       };
 
       const actual = getCreateOrUpdateInvoicePayload(state);

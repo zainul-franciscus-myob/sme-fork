@@ -78,10 +78,13 @@ export const getCreateOrUpdateInvoicePayload = (state) => {
 
   const lines = getLines(state);
 
+  const quoteId = getQuoteIdQueryParam(state);
+
   return {
     ...invoice,
     customerName,
     lines,
+    quoteId,
   };
 };
 
