@@ -5,6 +5,7 @@ hash docker 2>/dev/null || die "missing dep: docker"
 
 docker run --rm \
   -v "$(pwd)":/app \
+  -v "${HOME}"/.npmrc:/app/.npmrc \
   -v /app/node_modules \
   -w /app \
   -e "REACT_APP_BUILD_NUMBER=${REACT_APP_BUILD_NUMBER:-dev}" \
