@@ -33,7 +33,7 @@ export const getPayRunId = state => state.payrunId;
 
 export const getReversalEmployeePayContent = state => ({
   transactionId: state.transactionId,
-  payRunId: getPayRunId,
+  payRunId: state.payrunId,
 });
 export const getPayRunListUrl = state => {
   const businessId = getBusinessId(state);
