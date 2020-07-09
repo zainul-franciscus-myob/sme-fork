@@ -1,7 +1,4 @@
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
   SET_ALERT,
   SET_DELETE_MODAL_OPEN_STATE,
@@ -11,8 +8,10 @@ import {
 } from './EmployeePayDetailIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
+import uuid from '../../../common/uuid/uuid';
 
 const getDefaultState = () => ({
+  payrunId: uuid(),
   loadingState: LoadingState.LOADING,
   businessId: '',
   region: '',

@@ -1,4 +1,4 @@
-import uuid from '../../../common/uuid/uuid';
+import { createSelector } from 'reselect';
 
 export const getUrlParams = state => ({
   businessId: state.businessId,
@@ -16,7 +16,8 @@ export const getRegion = state => state.region;
 
 export const getElectronicPaymentLink = state => `/#/${state.region}/${state.businessId}/electronicPayments/${state.employeePay.parentBusinessEventId}`;
 
-export const getPayRunId = uuid(); // TODO: fix to state.payRunId set by stp declaration later
+export const getPayRunId = state => state.payrunId;
+
 export const getReversalEmployeePayContent = state => ({
   transactionId: state.transactionId,
   payRunId: getPayRunId,
@@ -27,3 +28,12 @@ export const getPayRunListUrl = state => {
 
   return `/#/${region}/${businessId}/payRun`;
 };
+
+export const getStpDeclarationContext = createSelector(
+  getBusinessId,
+  getPayRunId,
+  (businessId, payRunId) => ({
+    businessId,
+    eventId: payRunId,
+  }),
+);

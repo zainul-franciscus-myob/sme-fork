@@ -10,8 +10,10 @@ import {
 import { RESET_STATE } from '../../../SystemIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
+import uuid from '../../../common/uuid/uuid';
 
 const getDefaultState = () => ({
+  payrunId: uuid(),
   employeeName: '',
   transactionId: '',
   businessId: '',

@@ -1,8 +1,10 @@
+import { Modal } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 
 import { SET_MODAL_IS_OPEN } from '../EmployeePayModalIntents';
 import { findButtonWithTestId } from '../../../../common/tests/selectors';
 import EmployeePayModalModule from '../EmployeePayModalModule';
+import StpDeclarationModal from '../../../stp/stpDeclarationModal/components/StpDeclarationModal';
 import loadEmployeePayReversalPreviewDetail
   from '../../mappings/data/loadEmployeePayReversalPreviewDetail';
 
@@ -82,7 +84,7 @@ describe('employeePayModalModule', () => {
       wrapper.update();
 
       expect(wrapper.find({ testid: 'employee-pay-modal-delete-btn' })).toHaveLength(1);
-      expect(findButtonWithTestId(wrapper, 'employee-pay-modal-reverse-btn')).toHaveLength(0);
+      expect(findButtonWithTestId(wrapper, 'modal-preview-reverse-btn')).toHaveLength(0);
     });
 
     it('clear modal after sending the reversal of employee pay transaction successfully', () => {
@@ -133,7 +135,55 @@ describe('employeePayModalModule', () => {
       });
       wrapper.update();
 
-      expect((findButtonWithTestId(wrapper, 'employee-pay-modal-reverse-pay-btn'))).toHaveLength(1);
+      expect((findButtonWithTestId(wrapper, 'modal-preview-reverse-btn'))).toHaveLength(1);
+    });
+  });
+
+  describe('Stp Declaration Modal', () => {
+    const constructModuleWithModal = (module = new EmployeePayModalModule(
+      {
+        integration: {
+          read: ({ intent, onSuccess }) => {
+            if (intent === SET_MODAL_IS_OPEN) {
+              onSuccess(true);
+            } else {
+              onSuccess(loadEmployeePayReversalPreviewDetail);
+            }
+          },
+        },
+        onDelete: {},
+        featureToggles: { isPayrollReversibleEnabled: true },
+      },
+    )) => {
+      const wrapper = mount(module.getView());
+      module.openModal({});
+      wrapper.update();
+
+      return {
+        wrapper,
+        module,
+      };
+    };
+
+    it('should open stp declaration modal', () => {
+      const { wrapper, module } = constructModuleWithModal();
+      module.openModal({
+        transactionId: '01',
+        businessId: '0000-1111-2222-3333',
+        employeeName: 'Batman',
+        region: 'au',
+        readonly: false,
+      });
+      wrapper.update();
+
+      findButtonWithTestId(wrapper, 'modal-preview-reverse-btn').simulate('click');
+      findButtonWithTestId(wrapper, 'modal-record-reverse-btn').simulate('click');
+
+      const declarationModal = wrapper.find(StpDeclarationModal);
+      expect(declarationModal.find(Modal)).toHaveLength(1);
+      expect(module.stpDeclarationModule.onDeclared).toBe(
+        module.sendReversalEmployeePay,
+      );
     });
   });
 });

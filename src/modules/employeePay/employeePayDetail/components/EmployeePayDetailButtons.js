@@ -10,8 +10,8 @@ const EmployeePayDetailButtons = ({
   <ButtonRow
     secondary={[
       showReverse && <Button
-        key="modal-reverse-btn"
-        id="modal-reverse-btn"
+        key="pay-detail-reverse-btn"
+        id="pay-detail-reverse-btn"
         type="secondary"
         onClick={onReverseButtonClick}
       >

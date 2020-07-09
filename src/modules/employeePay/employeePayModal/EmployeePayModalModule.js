@@ -1,10 +1,11 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getPayRunListUrl } from './EmployeePayModalSelectors';
+import { getPayRunListUrl, getStpDeclarationContext } from './EmployeePayModalSelectors';
 import EmployeePayDetailModal from './components/EmployeePayModal';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
+import StpDeclarationModalModule from '../../stp/stpDeclarationModal/StpDeclarationModalModule';
 import createEmployeePayModalDispatchers from './createEmployeePayModalDispatchers';
 import createEmployeePayModalIntegrator from './createEmployeePayModalIntegrator';
 import employeePayModalReducer from './employeePayModalReducer';
@@ -16,6 +17,10 @@ export default class EmployeePayModalModule {
     this.dispatcher = createEmployeePayModalDispatchers(this.store);
     this.integrator = createEmployeePayModalIntegrator(this.store, integration);
     this.featureToggles = featureToggles;
+    this.stpDeclarationModule = new StpDeclarationModalModule({
+      integration,
+      onDeclared: this.sendReversalEmployeePay,
+    });
   }
 
   loadEmployeePayDetail = () => {
@@ -99,16 +104,22 @@ export default class EmployeePayModalModule {
     this.dispatcher.resetState();
   };
 
+  openDeclarationModal = () => {
+    this.stpDeclarationModule.run(getStpDeclarationContext(this.store.getState()));
+  };
+
   getView() {
+    const declarationModal = this.stpDeclarationModule.getView();
     return (
       <Provider store={this.store}>
+        {declarationModal}
         <EmployeePayDetailModal
           onBackButtonClick={this.closeModal}
           onDeleteButtonClick={this.dispatcher.openDeletePopover}
           onDeletePopoverCancel={this.dispatcher.closeDeletePopover}
           onDeletePopoverDelete={this.deleteEmployeePayDetail}
           onReverseButtonClick={this.loadEmployeePayReversalPreviewDetail}
-          onRecordReversalButtonClick={this.sendReversalEmployeePay}
+          onRecordReversalButtonClick={this.openDeclarationModal}
           onCancelReversalButtonClick={this.closeModal}
           onDismissAlert={this.dispatcher.dismissAlert}
           featureToggles={this.featureToggles}

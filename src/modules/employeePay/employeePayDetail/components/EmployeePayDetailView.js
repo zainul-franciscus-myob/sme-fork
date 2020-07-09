@@ -107,8 +107,8 @@ const EmployeePayDetailView = ({
 
   const modalButtons = isReversalPreview
     ? <ButtonRow primary={[
-      <Button type="secondary" onClick={onGoBackClick}>Cancel</Button>,
-      <Button onClick={onRecordReversalButtonClick}>Record reversal</Button>,
+      <Button testid="view-record-reverse-back-btn" type="secondary" onClick={onGoBackClick}>Cancel</Button>,
+      <Button testid="view-record-reverse-btn" onClick={onRecordReversalButtonClick}>Record reversal</Button>,
     ]}
     />
     : <EmployeePayDetailButtons
