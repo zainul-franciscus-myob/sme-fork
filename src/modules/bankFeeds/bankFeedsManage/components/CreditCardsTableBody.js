@@ -1,18 +1,15 @@
-import { Button, Icons, Table } from '@myob/myob-widgets';
+import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getBankFeedsCreditCards, getIsActionDisabled } from '../BankFeedsSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
-import BankFeedTypes from '../BankFeedTypes';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 
 const CreditCardsTableBody = ({
-  isActionDisabled,
   tableConfig,
   entries,
   onCreditCardLinkedAccountChange,
-  onDeleteBankFeedAccountClick,
 }) => {
   const rows = entries.map(entry => (
     <Table.Row key={entry.id}>
@@ -59,14 +56,6 @@ const CreditCardsTableBody = ({
         cellRole="actions"
         {...tableConfig.removeButton.styles}
       >
-        <Button
-          type="clear"
-          icon={<Icons.Remove />}
-          aria-label="Remove credit card account"
-          size="xs"
-          onClick={() => onDeleteBankFeedAccountClick(BankFeedTypes.CREDIT_CARD, entry.id)}
-          disabled={isActionDisabled}
-        />
       </Table.RowItem>
     </Table.Row>
   ));

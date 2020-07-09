@@ -1,18 +1,15 @@
-import { Button, Icons, Table } from '@myob/myob-widgets';
+import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getBankFeedsBankAccounts, getIsActionDisabled } from '../BankFeedsSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
-import BankFeedTypes from '../BankFeedTypes';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 
 const BankAccountsTableBody = ({
-  isActionDisabled,
   tableConfig,
   entries,
   onBankAccountLinkedAccountChange,
-  onDeleteBankFeedAccountClick,
 }) => {
   const rows = entries.map(entry => (
     <Table.Row key={entry.id}>
@@ -65,14 +62,6 @@ const BankAccountsTableBody = ({
         cellRole="actions"
         {...tableConfig.removeButton.styles}
       >
-        <Button
-          type="clear"
-          icon={<Icons.Remove />}
-          aria-label="Remove bank account"
-          size="xs"
-          onClick={() => onDeleteBankFeedAccountClick(BankFeedTypes.BANK_ACCOUNT, entry.id)}
-          disabled={isActionDisabled}
-        />
       </Table.RowItem>
     </Table.Row>
   ));
