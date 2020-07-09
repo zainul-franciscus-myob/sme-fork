@@ -22,6 +22,18 @@ const getMenuLink = (url, label, onMenuLinkClick) => (
   />
 );
 
+const getMenuLinkWithIcon = (url, label, icon, onMenuLinkClick, target) => (
+  <Navigation.MenuLink
+    key={label}
+    url={url}
+    label={label}
+    onClick={handleMenuLinkClick(onMenuLinkClick, url, target)}
+    icon={icon}
+    iconRight
+    target={target}
+  />
+);
+
 const getItems = (urls, onMenuLinkClick) => [
   urls.employeeList && getMenuLink(urls.employeeList, 'Employees', onMenuLinkClick),
   urls.employeeCreate && getMenuLink(urls.employeeCreate, 'Create employee', onMenuLinkClick),
@@ -31,6 +43,7 @@ const getItems = (urls, onMenuLinkClick) => [
   isPayRunSeparatorRequired(urls) && <Navigation.Separator key="separator-pay-run" />,
   urls.payItemList && getMenuLink(urls.payItemList, 'Pay items', onMenuLinkClick),
   urls.timesheets && getMenuLink(urls.timesheets, 'Timesheets', onMenuLinkClick),
+  getMenuLinkWithIcon('https://team.myob.com', 'MYOB Team', <Icons.OpenExternalLink />, onMenuLinkClick, '_blank'),
   <Navigation.Separator key="separator-pay-item-timesheets" />,
   urls.electronicPaymentCreate && getMenuLink(urls.electronicPaymentCreate, 'Bank file payments', onMenuLinkClick),
   urls.superPaymentList && getMenuLink(urls.superPaymentList, 'Super payments', onMenuLinkClick),
