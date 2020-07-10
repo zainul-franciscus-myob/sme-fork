@@ -1,0 +1,307 @@
+{
+  "startPayRun": {
+    "currentEditingPayRun": {
+      "paymentFrequency": "Weekly",
+      "paymentDate": "2019-09-11",
+      "payPeriodStart": "2019-09-05",
+      "payPeriodEnd": "2019-09-11"
+    }
+  },
+  "employeePayList": {
+    "lines": [
+      {
+        "employeeId": "21",
+        "name": "Mary Jones",
+        "gross": 1500,
+        "payg": 100,
+        "deduction": 300,
+        "netPay": 700,
+        "super": 150,
+        "payItems": [
+          {
+            "payItemId": "1",
+            "payItemName": "Salary Wage",
+            "type": "SalaryWage",
+            "amount": "100000.00",
+            "quantity": "0.00"
+          },
+          {
+            "payItemId": "2",
+            "payItemName": "Hourly Wage",
+            "type": "HourlyWage",
+            "amount": "0.00",
+            "quantity": "38.50"
+          },
+          {
+            "payItemId": "3",
+            "payItemName": "Child support deduction",
+            "type": "Deduction",
+            "amount": "100.00",
+            "quantity": "0.00"
+          },
+          {
+            "payItemId": "4",
+            "payItemName": "Superannuation deduction before tax",
+            "type": "SuperannuationDeductionBeforeTax",
+            "amount": "200.00",
+            "quantity": "0.00"
+          },
+          {
+            "payItemId": "5",
+            "payItemName": "Superannuation deduction after tax",
+            "type": "SuperannuationDeductionAfterTax",
+            "amount": "100.00",
+            "quantity": "0.00"
+          },
+          {
+            "payItemId": "6",
+            "payItemName": "Child support deduction",
+            "type": "Deduction",
+            "amount": "5000.00",
+            "quantity": "0.00"
+          },
+          {
+            "payItemId": "7",
+            "payItemName": "Annual Leave",
+            "type": "Entitlement",
+            "amount": "0.00",
+            "quantity": "30.00"
+          },
+          {
+            "payItemId": "8",
+            "payItemName": "Sick Leave",
+            "type": "Entitlement",
+            "amount": "0.00",
+            "quantity": "10.00"
+          },
+          {
+            "payItemId": "9",
+            "payItemName": "Employer contribution",
+            "type": "KiwiSaver",
+            "amount": "10.00",
+            "quantity": "0.00"
+          },
+          {
+            "payItemId": "11",
+            "payItemName": "PayGWithholding",
+            "type": "Tax",
+            "amount": "222.00",
+            "quantity": "0.00"
+          }
+        ]
+      },
+      {
+        "employeeId": "22",
+        "name": "John Smith",
+        "gross": 2250.55,
+        "payg": 125,
+        "deduction": 315,
+        "netPay": 1005.15,
+        "super": 200,
+        "payItems": [
+          {
+            "payItemId": "21",
+            "payItemName": "Salary Wage",
+            "type": "SalaryWage",
+            "amount": "200000.00",
+            "quantity": "0.00"
+          },
+          {
+            "payItemId": "22",
+            "payItemName": "Hourly Wage",
+            "type": "HourlyWage",
+            "amount": "0.00",
+            "quantity": "100.50"
+          },
+          {
+            "payItemId": "33",
+            "payItemName": "Child support deduction",
+            "type": "Deduction",
+            "amount": "200.00",
+            "quantity": "0.00"
+          },
+          {
+            "payItemId": "44",
+            "payItemName": "Annual Leave",
+            "type": "Entitlement",
+            "amount": "0.00",
+            "quantity": "50.00"
+          },
+          {
+            "payItemId": "55",
+            "payItemName": "Sick Leave",
+            "type": "Entitlement",
+            "amount": "0.00",
+            "quantity": "40.00"
+          },
+          {
+            "payItemId": "66",
+            "payItemName": "Hot Chocolate Reimbursement",
+            "type": "Expense",
+            "amount": "1000000.00",
+            "quantity": "0.00"
+          },
+          {
+            "payItemId": "77",
+            "payItemName": "PayGWithholding",
+            "type": "Tax",
+            "amount": "222333.00",
+            "quantity": "0.00"
+          }
+        ]
+      }
+    ],
+    "originalLines": [
+      {
+        "employeeId": "21",
+        "name": "Mary Jones",
+        "gross": 1500,
+        "payg": 100,
+        "deduction": 300,
+        "netPay": 700,
+        "super": 150,
+        "payItems": [
+          {
+            "payItemId": "1",
+            "payItemName": "Salary Wage",
+            "type": "SalaryWage",
+            "amount": "100000.00",
+            "quantity": "0.00"
+          },
+          {
+            "payItemId": "2",
+            "payItemName": "Hourly Wage",
+            "type": "HourlyWage",
+            "amount": "1.00",
+            "quantity": "38.50"
+          },
+          {
+            "payItemId": "3",
+            "payItemName": "Child support deduction",
+            "type": "Deduction",
+            "amount": "100.00",
+            "quantity": "0.00"
+          },
+          {
+            "payItemId": "4",
+            "payItemName": "Superannuation deduction before tax",
+            "type": "SuperannuationDeductionBeforeTax",
+            "amount": "200.00",
+            "quantity": "0.00"
+          },
+          {
+            "payItemId": "5",
+            "payItemName": "Superannuation deduction after tax",
+            "type": "SuperannuationDeductionAfterTax",
+            "amount": "100.00",
+            "quantity": "0.00"
+          },
+          {
+            "payItemId": "6",
+            "payItemName": "Child support deduction",
+            "type": "Deduction",
+            "amount": "5000.00",
+            "quantity": "0.00"
+          },
+          {
+            "payItemId": "7",
+            "payItemName": "Annual Leave",
+            "type": "Entitlement",
+            "amount": "0.00",
+            "quantity": "30.00"
+          },
+          {
+            "payItemId": "8",
+            "payItemName": "Sick Leave",
+            "type": "Entitlement",
+            "amount": "0.00",
+            "quantity": "10.00"
+          },
+          {
+            "payItemId": "9",
+            "payItemName": "Coffee Reimbursement",
+            "type": "Expense",
+            "amount": "10000.00",
+            "quantity": "0.00"
+          },
+          {
+            "payItemId": "10",
+            "payItemName": "Mortgage repayment",
+            "type": "SuperannuationExpense",
+            "amount": "10000.00",
+            "quantity": "0.00"
+          },
+          {
+            "payItemId": "11",
+            "payItemName": "PayGWithholding",
+            "type": "Tax",
+            "amount": "222.00",
+            "quantity": "0.00"
+          }
+        ]
+      },
+      {
+        "employeeId": "22",
+        "name": "John Smith",
+        "gross": 2250.55,
+        "payg": 125,
+        "deduction": 315,
+        "netPay": 1005.15,
+        "super": 200,
+        "payItems": [
+          {
+            "payItemId": "21",
+            "payItemName": "Salary Wage",
+            "type": "SalaryWage",
+            "amount": "200000.00",
+            "quantity": "0.00"
+          },
+          {
+            "payItemId": "22",
+            "payItemName": "Hourly Wage",
+            "type": "HourlyWage",
+            "amount": "0.00",
+            "quantity": "100.50"
+          },
+          {
+            "payItemId": "33",
+            "payItemName": "Child support deduction",
+            "type": "Deduction",
+            "amount": "200.00",
+            "quantity": "0.00"
+          },
+          {
+            "payItemId": "44",
+            "payItemName": "Annual Leave",
+            "type": "Entitlement",
+            "amount": "0.00",
+            "quantity": "50.00"
+          },
+          {
+            "payItemId": "55",
+            "payItemName": "Sick Leave",
+            "type": "Entitlement",
+            "amount": "0.00",
+            "quantity": "40.00"
+          },
+          {
+            "payItemId": "66",
+            "payItemName": "Hot Chocolate Reimbursement",
+            "type": "Expense",
+            "amount": "1000000.00",
+            "quantity": "0.00"
+          },
+          {
+            "payItemId": "77",
+            "payItemName": "PayGWithholding",
+            "type": "Tax",
+            "amount": "222333.00",
+            "quantity": "0.00"
+          }
+        ]
+      }
+    ],
+    "baseHourlyWagePayItemId": "2",
+    "baseSalaryWagePayItemId": "100"
+  }
+}

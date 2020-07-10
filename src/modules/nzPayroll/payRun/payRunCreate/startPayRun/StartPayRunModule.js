@@ -16,20 +16,31 @@ export default class StartPayRunModule {
     this.integrator = createStartPayRunIntegrator(store, integration);
   }
 
-  emptyButtonClickFunction = () => {
-    // TODO: Deliberatly do nothing on click. Edit this when adding next step to NZ payrun.
-    this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+  loadEmployeePaysAndMoveToNextStep = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const onSuccess = (employeePays) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.loadEmployeePays(employeePays);
+      this.dispatcher.nextStep();
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    };
+
+    this.integrator.loadEmployeePays({ onSuccess, onFailure });
   };
 
   changePayPeriod = ({ key, value }) => {
     this.dispatcher.setPayPeriodDetails({ key, value });
   }
 
-  getView() {
+  render() {
     return (
       <StartPayRunView
         onPayPeriodChange={this.changePayPeriod}
-        onNextButtonClick={this.emptyButtonClickFunction}
+        onNextButtonClick={this.loadEmployeePaysAndMoveToNextStep}
       />
     );
   }

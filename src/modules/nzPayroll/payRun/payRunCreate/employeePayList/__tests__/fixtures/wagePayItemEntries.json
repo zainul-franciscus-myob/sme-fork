@@ -1,0 +1,18 @@
+[
+  {
+    "payItemId": "2",
+    "payItemName": "Hourly Wage",
+    "type": "HourlyWage",
+    "amount": "0.00",
+    "quantity": "38.50",
+    "shouldShowQuantity": true
+  },
+  {
+    "payItemId": "1",
+    "payItemName": "Salary Wage",
+    "type": "SalaryWage",
+    "amount": "100000.00",
+    "quantity": "0.00",
+    "shouldShowQuantity": false
+  }
+]

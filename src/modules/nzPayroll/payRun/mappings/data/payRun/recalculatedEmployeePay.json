@@ -1,0 +1,59 @@
+{
+  "employeeId": "21",
+  "name": "Mary Jones",
+  "gross": 2500,
+  "paye": 200,
+  "daysPaid": 300,
+  "takeHomePay": 1000,
+  "kiwiSaver": 350,
+  "payItems": [{
+      "payItemId": 1,
+      "payItemName": "Salary Wage",
+      "type": "SalaryWage",
+      "amount": "100000.00",
+      "quantity": "0.00"
+    },
+    {
+      "payItemId": 2,
+      "payItemName": "Hourly Wage",
+      "type": "HourlyWage",
+      "amount": "220000",
+      "quantity": "38.50"
+    },
+    {
+      "payItemId": 3,
+      "payItemName": "Annual leave",
+      "type": "HourlyWage",
+      "amount": "0.00",
+      "quantity": "0.00"
+    },
+    {
+      "payItemId": 4,
+      "payItemName": "Sick leave",
+      "type": "HourlyWage",
+      "amount": "0.00",
+      "quantity": "0.00"
+    },
+    {
+      "payItemId": 5,
+      "payItemName": "Child support deduction",
+      "type": "Deduction",
+      "amount": "100.00",
+      "quantity": "0.00"
+    },
+    {
+      "payItemId": 6,
+      "payItemName": "Superannuation deduction before tax",
+      "type": "SuperannuationDeductionBeforeTax",
+      "amount": "200.00",
+      "quantity": "0.00"
+    },
+    {
+      "payItemId": 7,
+      "payItemName": "Superannuation deduction after tax",
+      "type": "SuperannuationDeductionAfterTax",
+      "amount": "100.00",
+      "quantity": "0.00"
+    }
+  ]
+}

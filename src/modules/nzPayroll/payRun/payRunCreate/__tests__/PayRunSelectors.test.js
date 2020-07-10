@@ -1,7 +1,12 @@
 import {
   getBusinessId,
-  getEmployeeHeader, getLoadingState,
-  getPayOnDate, getRegion, getStepIndex, getStepKey,
+  getEmployeeHeader,
+  getIsSubmitting,
+  getLoadingState,
+  getPayOnDate,
+  getRegion,
+  getStepIndex,
+  getStepKey,
   getStepNumber,
   getStepperSteps,
 } from '../PayRunSelectors';
@@ -155,8 +160,31 @@ describe('PayRunSelectors', () => {
 
       expect(getEmployeeHeader(state)).toEqual(expected);
     });
-  });
 
+    it('should get and format the Pay Run dates and include total take home pay', () => {
+      const state = {
+        totalTakeHomePay: '10000',
+        startPayRun: {
+          currentEditingPayRun: {
+            paymentFrequency: 'weekly',
+            paymentDate: '2019-10-28',
+            payPeriodStart: '2019-10-21',
+            payPeriodEnd: '2019-10-27',
+          },
+        },
+      };
+
+      const expected = {
+        paymentFrequency: 'weekly',
+        paymentDate: 'Mon 28/10/2019',
+        payPeriodStart: 'Mon 21/10/2019',
+        payPeriodEnd: 'Sun 27/10/2019',
+        totalTakeHomePay: '10000',
+      };
+
+      expect(getEmployeeHeader(state)).toEqual(expected);
+    });
+  });
 
   describe('getLoadingState', () => {
     it('should get loading state', () => {
@@ -234,6 +262,18 @@ describe('PayRunSelectors', () => {
       };
 
       expect(getRegion(state)).toEqual(expected);
+    });
+  });
+
+  describe('getIsSubmitting', () => {
+    it('should get isSubmitting', () => {
+      const expected = false;
+
+      const state = {
+        isSubmitting: false,
+      };
+
+      expect(getIsSubmitting(state)).toEqual(expected);
     });
   });
 });

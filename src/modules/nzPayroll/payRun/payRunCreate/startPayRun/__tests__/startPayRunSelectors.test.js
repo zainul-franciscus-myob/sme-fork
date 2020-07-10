@@ -1,4 +1,4 @@
-import { getRegularPayCycleOptions, getStartPayRun } from '../StartPayRunSelectors';
+import { getLoadEmployeePaysRequestContent, getRegularPayCycleOptions, getStartPayRun } from '../StartPayRunSelectors';
 
 describe('StartPayRunSelectors', () => {
   describe('getStartPayRun', () => {
@@ -28,6 +28,17 @@ describe('StartPayRunSelectors', () => {
       const actual = getRegularPayCycleOptions(state);
 
       expect(actual).toEqual([]);
+    });
+  });
+
+  describe('getLoadEmployeePaysRequestContent', () => {
+    it('should return current editing payrun', () => {
+      const expected = { payRun: 'test' };
+      const state = { startPayRun: { currentEditingPayRun: expected } };
+
+      const actual = getLoadEmployeePaysRequestContent(state);
+
+      expect(actual).toEqual(expected);
     });
   });
 });

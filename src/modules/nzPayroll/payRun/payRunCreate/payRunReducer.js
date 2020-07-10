@@ -1,8 +1,15 @@
+import { EMPLOYEE_PAY_LIST, START_PAY_RUN } from './payRunSteps';
+import {
+  NEXT_STEP,
+  SET_LOADING_STATE,
+  SET_SUBMITTING_STATE,
+  SET_TOTAL_TAKE_HOME_PAY,
+} from './PayRunIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import {
-  SET_LOADING_STATE,
-} from './PayRunIntents';
-import { START_PAY_RUN } from './payRunSteps';
+  employeePayListHandlers,
+  getEmployeePayListDefaultState,
+} from './employeePayList/employeePayListReducer';
 import { getStartPayRunDefaultState, startPayRunHandlers } from './startPayRun/startPayRunReducer';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
@@ -13,7 +20,9 @@ const getDefaultState = () => ({
   payRunId: uuid(),
   loadingState: LoadingState.LOADING,
   step: START_PAY_RUN,
+  isSubmitting: false,
   [START_PAY_RUN.key]: getStartPayRunDefaultState(),
+  [EMPLOYEE_PAY_LIST.key]: getEmployeePayListDefaultState(),
 });
 
 const resetState = () => ({ ...getDefaultState() });
@@ -28,11 +37,30 @@ const setInitialState = (state, { context }) => ({
   ...context,
 });
 
+const nextStep = state => ({
+  ...state,
+  step: state.step.nextStep,
+});
+
+const setTotalTakeHomePay = (state, { totalTakeHomePay }) => ({
+  ...state,
+  totalTakeHomePay,
+});
+
+const setSubmittingState = (state, { isSubmitting }) => ({
+  ...state,
+  isSubmitting,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
   [SET_LOADING_STATE]: setLoadingState,
+  [SET_TOTAL_TAKE_HOME_PAY]: setTotalTakeHomePay,
+  [NEXT_STEP]: nextStep,
+  [SET_SUBMITTING_STATE]: setSubmittingState,
   ...wrapHandlers(START_PAY_RUN.key, startPayRunHandlers),
+  ...wrapHandlers(EMPLOYEE_PAY_LIST.key, employeePayListHandlers),
 };
 
 const payRunReducer = createReducer(getDefaultState(), handlers);

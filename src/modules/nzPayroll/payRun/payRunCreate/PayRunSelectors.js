@@ -24,17 +24,20 @@ const getPayPeriodStart = createSelector(getCurrentEditingPayRun,
   currentEditingPayRun => formatDate(new Date(currentEditingPayRun.payPeriodStart), 'iii dd/MM/yyyy'));
 const getPayPeriodEnd = createSelector(getCurrentEditingPayRun,
   currentEditingPayRun => formatDate(new Date(currentEditingPayRun.payPeriodEnd), 'iii dd/MM/yyyy'));
+const getTotalTakeHomePay = state => state.totalTakeHomePay;
 
 export const getEmployeeHeader = createSelector(
   getPaymentFrequency,
   getPaymentDate,
   getPayPeriodStart,
   getPayPeriodEnd,
-  (paymentFrequency, paymentDate, payPeriodStart, payPeriodEnd) => ({
+  getTotalTakeHomePay,
+  (paymentFrequency, paymentDate, payPeriodStart, payPeriodEnd, totalTakeHomePay) => ({
     paymentFrequency,
     paymentDate,
     payPeriodStart,
     payPeriodEnd,
+    totalTakeHomePay,
   }),
 );
 
@@ -82,8 +85,9 @@ export const getStepperSteps = (state) => {
   );
 };
 
-// export const getStepNumber = state => (String(state.step.index + 1));
 export const getStepNumber = createSelector(getStepIndex,
   index => String(index + 1));
 
 export const getRegion = state => state.region;
+
+export const getIsSubmitting = state => state.isSubmitting;

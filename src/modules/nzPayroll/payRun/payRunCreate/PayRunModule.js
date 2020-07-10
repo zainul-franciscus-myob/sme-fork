@@ -1,8 +1,9 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { START_PAY_RUN } from './payRunSteps';
+import { EMPLOYEE_PAY_LIST, START_PAY_RUN } from './payRunSteps';
 import { getStepKey } from './PayRunSelectors';
+import EmployeePayListModule from './employeePayList/EmployeePayListModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import PayRunView from './components/PayRunView';
 import StartPayRunModule from './startPayRun/StartPayRunModule';
@@ -15,6 +16,8 @@ export default class PayRunModule {
   constructor({
     integration,
     setRootView,
+    pushMessage,
+    subscribeOrUpgrade,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -25,6 +28,12 @@ export default class PayRunModule {
       [START_PAY_RUN.key]: new StartPayRunModule({
         integration,
         store: this.store,
+      }),
+      [EMPLOYEE_PAY_LIST.key]: new EmployeePayListModule({
+        integration,
+        store: this.store,
+        pushMessage,
+        subscribeOrUpgrade,
       }),
     };
   }
@@ -48,7 +57,7 @@ export default class PayRunModule {
     const stepViews = {};
     Object.keys(this.subModules)
       .map(subModuleKey => {
-        stepViews[subModuleKey] = this.subModules[subModuleKey].getView();
+        stepViews[subModuleKey] = this.subModules[subModuleKey].render();
         return null;
       });
 

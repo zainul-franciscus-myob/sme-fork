@@ -1,0 +1,10 @@
+[
+  {
+    "payItemId": "9",
+    "payItemName": "Employer contribution",
+    "type": "KiwiSaver",
+    "amount": "10.00",
+    "quantity": "0.00",
+    "shouldShowQuantity": false
+  }
+]

@@ -1,8 +1,11 @@
-import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import {
+  NEXT_STEP,
   SET_LOADING_STATE,
+  SET_SUBMITTING_STATE,
+  SET_TOTAL_TAKE_HOME_PAY,
   START_NEW_PAY_RUN,
 } from './PayRunIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 
 const createPayRunDispatchers = store => ({
   setInitialState: (context) => {
@@ -23,6 +26,24 @@ const createPayRunDispatchers = store => ({
   startNewPayRun: (response) => {
     const intent = START_NEW_PAY_RUN;
     store.dispatch({ intent, ...response });
+  },
+
+  nextStep: () => {
+    const intent = NEXT_STEP;
+    store.dispatch({ intent });
+  },
+
+  setTotalTakeHomePay: (totalTakeHomePay) => {
+    const intent = SET_TOTAL_TAKE_HOME_PAY;
+    store.dispatch({
+      intent,
+      totalTakeHomePay,
+    });
+  },
+
+  setSubmittingState: (isSubmitting) => {
+    const intent = SET_SUBMITTING_STATE;
+    store.dispatch({ intent, isSubmitting });
   },
 });
 

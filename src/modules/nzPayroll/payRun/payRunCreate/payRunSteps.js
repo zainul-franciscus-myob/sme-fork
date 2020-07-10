@@ -1,10 +1,5 @@
-export const START_PAY_RUN = {
-  key: 'startPayRun',
-  index: 0,
-};
-
-export const CALCULATE_PAYS = {
-  key: 'calculatePays',
+export const EMPLOYEE_PAY_LIST = {
+  key: 'employeePayList',
   index: 1,
 };
 
@@ -21,4 +16,10 @@ export const PREPARE_PAYSLIPS = {
 export const DONE = {
   key: 'done',
   index: 4,
+};
+
+export const START_PAY_RUN = {
+  key: 'startPayRun',
+  index: 0,
+  nextStep: EMPLOYEE_PAY_LIST,
 };

@@ -1,6 +1,8 @@
+import { EMPLOYEE_PAY_LIST, START_PAY_RUN } from '../payRunSteps';
+import {
+  NEXT_STEP, SET_LOADING_STATE, SET_SUBMITTING_STATE, SET_TOTAL_TAKE_HOME_PAY,
+} from '../PayRunIntents';
 import { RESET_STATE } from '../../../../../SystemIntents';
-import { SET_LOADING_STATE } from '../PayRunIntents';
-import { START_PAY_RUN } from '../payRunSteps';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import payRunReducer from '../payRunReducer';
 
@@ -30,6 +32,81 @@ describe('NZ Payrun reducer', () => {
 
       const actual = payRunReducer(state, action);
       expect(actual.loadingState).toBe(LoadingState.LOADING_SUCCESS);
+    });
+  });
+
+  describe('Set total take home pay', () => {
+    it('should change loading state to complete', () => {
+      const state = {
+        totalTakeHomePay: '10000',
+        startPayRun: {
+          currentEditingPayRun: {
+            paymentFrequency: 'weekly',
+            paymentDate: '2019-10-28',
+            payPeriodStart: '2019-10-21',
+            payPeriodEnd: '2019-10-27',
+          },
+        },
+      };
+
+      const action = {
+        intent: SET_TOTAL_TAKE_HOME_PAY,
+        totalTakeHomePay: '10000',
+      };
+
+      const expected = {
+        paymentFrequency: 'weekly',
+        paymentDate: 'Mon 28/10/2019',
+        payPeriodStart: 'Mon 21/10/2019',
+        payPeriodEnd: 'Sun 27/10/2019',
+        totalTakeHomePay: '10000',
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual.totalTakeHomePay).toBe(expected.totalTakeHomePay);
+    });
+  });
+
+  describe('Next step', () => {
+    it('should return the next expected step', () => {
+      const state = {
+        step: START_PAY_RUN,
+      };
+
+      const action = {
+        intent: NEXT_STEP,
+      };
+
+      const expected = {
+        step: EMPLOYEE_PAY_LIST,
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('Set is submitting', () => {
+    it('should set isSubmitting to input value', () => {
+      const state = {
+        isSubmitting: false,
+      };
+
+      const action = {
+        intent: SET_SUBMITTING_STATE,
+        isSubmitting: true,
+      };
+
+      const expected = {
+        isSubmitting: true,
+
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual).toEqual(expected);
     });
   });
 });
