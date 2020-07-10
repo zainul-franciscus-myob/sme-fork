@@ -1,8 +1,7 @@
+import {
+  BaseTemplate, Card, Icons, PageState,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import BaseTemplate from '@myob/myob-widgets/lib/components/BaseTemplate/BaseTemplate';
-import Card from '@myob/myob-widgets/lib/components/Card/Card';
-import Icons from '@myob/myob-widgets/lib/components/Icons';
-import PageState from '@myob/myob-widgets/lib/components/PageState/PageState';
 import React from 'react';
 
 import LinkButton from '../../../components/Button/LinkButton';

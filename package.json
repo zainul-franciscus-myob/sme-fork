@@ -43,7 +43,8 @@
     "lint:js": "eslint ./src",
     "lint:js:fix": "eslint ./src --fix",
     "lint:css": "stylelint ./src/**/*.css",
-    "lint:css:fix": "stylelint ./src/**/*.css --fix"
+    "lint:css:fix": "stylelint ./src/**/*.css --fix",
+    "analyse": "react-scripts build && source-map-explorer ./build/static/js/*.js ./build/static/css/*.css"
   },
   "devDependencies": {
     "@myob/entente": "0.4.0",
@@ -55,6 +56,7 @@
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-react": "7.19.0",
     "eslint-plugin-sort-imports-es6-autofix": "0.5.0",
+    "source-map-explorer": "^2.4.2",
     "stylelint": "13.3.3",
     "stylelint-config-standard": "20.0.0"
   },

@@ -1,6 +1,5 @@
-import { PageState, Tooltip } from '@myob/myob-widgets';
+import { Icons, PageState, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import Icons from '@myob/myob-widgets/lib/components/Icons';
 import React from 'react';
 
 import {

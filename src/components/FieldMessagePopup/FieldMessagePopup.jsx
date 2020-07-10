@@ -1,6 +1,6 @@
-import { Icons, Tooltip } from '@myob/myob-widgets';
-import InputError from '@myob/myob-widgets/lib/components/Input/InputError';
-import InputLabel from '@myob/myob-widgets/lib/components/Input/InputLabel';
+import {
+  Icons, InputError, InputLabel, Tooltip,
+} from '@myob/myob-widgets';
 import PropTypes from 'prop-types';
 import React from 'react';
 import classnames from 'classnames';

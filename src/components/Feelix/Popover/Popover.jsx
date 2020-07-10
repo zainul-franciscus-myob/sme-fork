@@ -21,12 +21,12 @@ Future iterations of Popover will come under careful consideration by the feelix
 
 */
 
+import { Popover as FeelixPopover } from '@myob/myob-widgets';
 import PopWrapper from '@myob/myob-widgets/lib/components/Popover/PopWrapper';
-import PopoverBody from '@myob/myob-widgets/lib/components/Popover/PopoverBody';
-import PopoverFooter from '@myob/myob-widgets/lib/components/Popover/PopoverFooter';
-import PopoverHeader from '@myob/myob-widgets/lib/components/Popover/PopoverHeader';
 import React from 'react';
 import classnames from 'classnames';
+
+const { Body: PopoverBody, Header: PopoverHeader, Footer: PopoverFooter } = FeelixPopover;
 
 /**
  * Popover

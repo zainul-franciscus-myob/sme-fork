@@ -1,7 +1,6 @@
-import { Label, PageState } from '@myob/myob-widgets';
+import { Label, PageState, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
-import Table from '@myob/myob-widgets/lib/components/Table/Table';
 
 import {
   getBillEntries,

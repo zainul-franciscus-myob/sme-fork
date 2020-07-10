@@ -1,8 +1,15 @@
 import {
-  BaseTemplate, ButtonRow, Card, FieldGroup, FormHorizontal, Input, PageHead, TextArea,
+  BaseTemplate,
+  Button,
+  ButtonRow,
+  Card,
+  FieldGroup,
+  FormHorizontal,
+  Input,
+  PageHead,
+  TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import Button from '@myob/myob-widgets/lib/components/Button/Button';
 import React from 'react';
 
 import {

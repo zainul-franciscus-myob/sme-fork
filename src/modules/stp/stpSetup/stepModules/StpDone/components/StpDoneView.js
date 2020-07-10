@@ -1,5 +1,4 @@
-import { Button, Card } from '@myob/myob-widgets';
-import ButtonRow from '@myob/myob-widgets/lib/components/ButtonRow/ButtonRow';
+import { Button, ButtonRow, Card } from '@myob/myob-widgets';
 import React from 'react';
 
 const StpDoneView = ({

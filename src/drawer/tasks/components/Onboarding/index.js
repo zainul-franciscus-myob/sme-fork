@@ -1,4 +1,4 @@
-import Icons from '@myob/myob-widgets/lib/components/Icons';
+import { Icons } from '@myob/myob-widgets';
 import React from 'react';
 import classNames from 'classnames';
 

@@ -1,4 +1,4 @@
-import { Button } from '@myob/myob-widgets/lib/components/Button/Button';
+import { Button } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 import React from 'react';
 

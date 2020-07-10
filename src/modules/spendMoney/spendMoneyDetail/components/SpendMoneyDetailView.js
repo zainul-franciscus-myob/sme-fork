@@ -1,7 +1,6 @@
 import {
-  Alert, Icons, TotalsHeader,
+  Alert, Button, Icons, TotalsHeader,
 } from '@myob/myob-widgets';
-import { Button } from '@myob/myob-widgets/lib/components/Button/Button';
 import { connect } from 'react-redux';
 import React from 'react';
 

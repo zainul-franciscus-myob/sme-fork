@@ -30,6 +30,14 @@ module.exports = {
         'newlines-between': 'always',
       }
     ],
+    "no-restricted-imports": ['error', {
+      'paths': [{
+        'name': '@myob/myob-widgets',
+        'importNames': ['default'],
+        'message': 'Use named imports instead to enable tree-shaking.'
+      }],
+      'patterns': ['@myob/myob-widgets/*'],
+    }],
 
     // @TODO
     // eslint-plugin-react@7.19.0

@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
+import { TextArea } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 import React from 'react';
-import TextArea from '@myob/myob-widgets/lib/components/TextArea/TextArea';
 
 import QuoteDetailFooter from '../components/QuoteDetailFooter';
 import Store from '../../../../store/Store';
