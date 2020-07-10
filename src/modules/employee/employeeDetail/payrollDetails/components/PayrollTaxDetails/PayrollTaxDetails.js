@@ -35,8 +35,8 @@ const PayrollTaxDetails = ({
     <div>
       <span>Allocated tax pay items&nbsp;</span>
       <Tooltip triggerContent={<Icons.Info />} placement="right">
-        PAYG Withholding will always be automatically allocated to
-        your employees to help ensure correct tax is calculated for their pay
+        PAYG Withholding will always be automatically allocated to your
+        employees to help ensure correct tax is calculated for their pay
       </Tooltip>
     </div>
   );
@@ -69,7 +69,7 @@ const PayrollTaxDetails = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   taxPayItems: getSelectedTaxPayItems(state),
   taxPayItemOptions: getFilteredTaxPayItemOptions(state),
   taxTablesOptions: getTaxTableOptions(state),

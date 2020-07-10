@@ -213,7 +213,7 @@ export default class SalesSettingsModule {
     this.closeModal();
   };
 
-  handleActionSelect = name => (action) => {
+  handleActionSelect = (name) => (action) => {
     switch (action) {
       case actionTypes.delete:
         this.dispatcher.setPendingDeleteTemplate(name);
@@ -228,7 +228,11 @@ export default class SalesSettingsModule {
 
   subscribeNow = async () => {
     const businessId = getBusinessId(this.store.getState());
-    const url = await loadSubscriptionUrl(this.integration, businessId, window.location.href);
+    const url = await loadSubscriptionUrl(
+      this.integration,
+      businessId,
+      window.location.href
+    );
 
     if (!url) return;
 
@@ -257,7 +261,7 @@ export default class SalesSettingsModule {
     );
 
     this.setRootView(
-      <Provider store={this.store}>{salesSettingsView}</Provider>,
+      <Provider store={this.store}>{salesSettingsView}</Provider>
     );
   };
 
@@ -275,7 +279,9 @@ export default class SalesSettingsModule {
       [mainTabIds.emailDefaults]: this.saveEmailSettings,
     }[selectTab];
 
-    if (handler) { handler(); }
+    if (handler) {
+      handler();
+    }
   };
 
   handlers = { SAVE_ACTION: this.saveHandler };
@@ -305,7 +311,7 @@ export default class SalesSettingsModule {
     this.loadSalesSettings();
 
     const showOnlinePaymentOptions = getShowOnlinePaymentOptions(
-      this.store.getState(),
+      this.store.getState()
     );
 
     if (showOnlinePaymentOptions) this.loadPayDirectSettings();
@@ -324,6 +330,8 @@ export default class SalesSettingsModule {
     const businessId = getBusinessId(state);
     const region = getRegion(state);
 
-    window.location.href = `/#/${region}/${businessId}/template/${encodeTemplateName(name)}`;
+    window.location.href = `/#/${region}/${businessId}/template/${encodeTemplateName(
+      name
+    )}`;
   };
 }

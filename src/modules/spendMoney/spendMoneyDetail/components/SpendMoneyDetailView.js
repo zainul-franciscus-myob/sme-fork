@@ -1,6 +1,4 @@
-import {
-  Alert, Button, Icons, TotalsHeader,
-} from '@myob/myob-widgets';
+import { Alert, Button, Icons, TotalsHeader } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -95,11 +93,13 @@ const SpendMoneyDetailView = ({
     </Alert>
   );
 
-  const pageHeadActions = !isCreating ? [
-    <Button type="link" onClick={onFocusAttachments} icon={<Icons.File />}>
-      {`Attachments (${attachmentCount})`}
-    </Button>,
-  ] : [];
+  const pageHeadActions = !isCreating
+    ? [
+        <Button type="link" onClick={onFocusAttachments} icon={<Icons.File />}>
+          {`Attachments (${attachmentCount})`}
+        </Button>,
+      ]
+    : [];
 
   const pageHead = (
     <>
@@ -150,9 +150,12 @@ const SpendMoneyDetailView = ({
     />
   );
 
-  const detail = <SpendMoneyDocumentViewer onCloseSplitView={onCloseSplitView} />;
+  const detail = (
+    <SpendMoneyDocumentViewer onCloseSplitView={onCloseSplitView} />
+  );
 
-  const prefillInfo = 'We\'ve used your document to fill in some details. Check the fields highlighted in blue.';
+  const prefillInfo =
+    "We've used your document to fill in some details. Check the fields highlighted in blue.";
 
   const view = (
     <MasterDetailLineItemTemplate
@@ -172,12 +175,10 @@ const SpendMoneyDetailView = ({
     />
   );
 
-  return (
-    <PageView loadingState={isLoading} view={view} />
-  );
+  return <PageView loadingState={isLoading} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   modal: getModal(state),
   isLoading: getIsLoading(state),

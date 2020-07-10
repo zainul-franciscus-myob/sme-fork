@@ -1,6 +1,4 @@
-import {
-  FieldGroup, Icons, Table, Tooltip,
-} from '@myob/myob-widgets';
+import { FieldGroup, Icons, Table, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -11,17 +9,25 @@ import PayrollStandardPayDetailsLeaveTableRows from './PayrollStandardPayDetails
 import PayrollStandardPayDetailsTaxTableRows from './PayrollStandardPayDetailsTaxTableRows';
 import PayrollStandardPayDetailsWageTableRows from './PayrollStandardPayDetailsWageTableRows';
 
-
 const tableConfig = {
   name: { columnName: 'Name', width: 'flex-1', valign: 'middle' },
   hours: {
-    columnName: 'Hours (hrs)', width: '20rem', valign: 'middle', align: 'right',
+    columnName: 'Hours (hrs)',
+    width: '20rem',
+    valign: 'middle',
+    align: 'right',
   },
   amount: {
-    columnName: 'Amount ($)', width: '20rem', valign: 'middle', align: 'right',
+    columnName: 'Amount ($)',
+    width: '20rem',
+    valign: 'middle',
+    align: 'right',
   },
   job: {
-    columnName: 'Job', width: '20rem', valign: 'middle', align: 'right',
+    columnName: 'Job',
+    width: '20rem',
+    valign: 'middle',
+    align: 'right',
   },
 };
 
@@ -37,51 +43,74 @@ const fieldGroupLabel = (
 const getHeaderItemWithTooltip = (title, tooltip) => (
   <div>
     <span>{title}</span>
-    <Tooltip triggerContent={<Icons.Info />} placement="left">{tooltip}</Tooltip>
+    <Tooltip triggerContent={<Icons.Info />} placement="left">
+      {tooltip}
+    </Tooltip>
   </div>
 );
 
 const hoursHeaderItem = getHeaderItemWithTooltip(
   'Hours (hrs) ',
-  'For pay items that are not automatically calculated, type the number of hours that employee usually works in a pay cycle. You can change the hours when processing the pays.',
+  'For pay items that are not automatically calculated, type the number of hours that employee usually works in a pay cycle. You can change the hours when processing the pays.'
 );
 
 const amountHeaderItem = getHeaderItemWithTooltip(
   'Amount($) ',
-  'For pay items that are not automatically calculated, type the amounts that are usually paid or deducted each pay. You can change the amount when processing the pays.',
+  'For pay items that are not automatically calculated, type the amounts that are usually paid or deducted each pay. You can change the amount when processing the pays.'
 );
 
 const jobsHeaderItem = getHeaderItemWithTooltip(
   'Job ',
-  'Add a job for pay items you want to track.',
+  'Add a job for pay items you want to track.'
 );
 
-const PayrollStandardPayDetailsTable = props => {
+const PayrollStandardPayDetailsTable = (props) => {
   const { isPayrollJobColumnEnabled } = props;
   return (
-  <FieldGroup label={fieldGroupLabel}>
-    <Table>
-      <Table.Header>
-        <Table.HeaderItem {...tableConfig.name}>Name</Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.hours}>{hoursHeaderItem}</Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.amount}>{amountHeaderItem}</Table.HeaderItem>
-        {isPayrollJobColumnEnabled
-          && <Table.HeaderItem {...tableConfig.job}>{jobsHeaderItem}</Table.HeaderItem>
-          }
-      </Table.Header>
-      <Table.Body>
-        <PayrollStandardPayDetailsWageTableRows tableConfig={tableConfig} {...props} />
-        <PayrollStandardPayDetailsDeductionTableRows tableConfig={tableConfig} {...props} />
-        <PayrollStandardPayDetailsTaxTableRows tableConfig={tableConfig} {...props} />
-        <PayrollStandardPayDetailsLeaveTableRows tableConfig={tableConfig} {...props} />
-        <PayrollStandardPayDetailsExpenseTableRows tableConfig={tableConfig} {...props} />
-      </Table.Body>
-    </Table>
-  </FieldGroup>
+    <FieldGroup label={fieldGroupLabel}>
+      <Table>
+        <Table.Header>
+          <Table.HeaderItem {...tableConfig.name}>Name</Table.HeaderItem>
+          <Table.HeaderItem {...tableConfig.hours}>
+            {hoursHeaderItem}
+          </Table.HeaderItem>
+          <Table.HeaderItem {...tableConfig.amount}>
+            {amountHeaderItem}
+          </Table.HeaderItem>
+          {isPayrollJobColumnEnabled && (
+            <Table.HeaderItem {...tableConfig.job}>
+              {jobsHeaderItem}
+            </Table.HeaderItem>
+          )}
+        </Table.Header>
+        <Table.Body>
+          <PayrollStandardPayDetailsWageTableRows
+            tableConfig={tableConfig}
+            {...props}
+          />
+          <PayrollStandardPayDetailsDeductionTableRows
+            tableConfig={tableConfig}
+            {...props}
+          />
+          <PayrollStandardPayDetailsTaxTableRows
+            tableConfig={tableConfig}
+            {...props}
+          />
+          <PayrollStandardPayDetailsLeaveTableRows
+            tableConfig={tableConfig}
+            {...props}
+          />
+          <PayrollStandardPayDetailsExpenseTableRows
+            tableConfig={tableConfig}
+            {...props}
+          />
+        </Table.Body>
+      </Table>
+    </FieldGroup>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isPayrollJobColumnEnabled: getIsPayrollJobColumnEnabled(state),
 });
 

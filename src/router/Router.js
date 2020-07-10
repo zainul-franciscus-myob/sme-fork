@@ -19,8 +19,10 @@ export default class Router {
   // @DEPRECATED
   reload = () => {
     const currentRoute = this.router.getState();
-    this.router.navigate(currentRoute.name, currentRoute.params, { reload: true });
-  }
+    this.router.navigate(currentRoute.name, currentRoute.params, {
+      reload: true,
+    });
+  };
 
   replaceURLParams = (params) => {
     const currentRoute = this.router.getState();
@@ -36,13 +38,17 @@ export default class Router {
     });
 
     this.router.replaceHistoryState(currentRoute.name, newParams);
-  }
+  };
 
   // @DEPRECATED
   replaceURLParamsAndReload = (params) => {
     const currentRoute = this.router.getState();
 
-    if (Object.entries(params).every(([key, value]) => currentRoute.params[key] === value)) {
+    if (
+      Object.entries(params).every(
+        ([key, value]) => currentRoute.params[key] === value
+      )
+    ) {
       return;
     }
 
@@ -59,7 +65,7 @@ export default class Router {
     this.router.replaceHistoryState(currentRoute.name, newParams);
 
     window.location.reload();
-  }
+  };
 
   navigateTo = (newPath, openInNewTab) => {
     if (!openInNewTab) {
@@ -73,17 +79,12 @@ export default class Router {
     } else {
       window.open(newPath, '_blank');
     }
-  }
+  };
 
-  buildDocumentTitle = title => (title ? `MYOB - ${title}` : 'MYOB')
+  buildDocumentTitle = (title) => (title ? `MYOB - ${title}` : 'MYOB');
 
   start = (options) => {
-    const {
-      rootModule,
-      routes,
-      beforeAll,
-      afterAll,
-    } = options;
+    const { rootModule, routes, beforeAll, afterAll } = options;
     const routerConfig = convertRoutesToRouterConfig(routes);
     const moduleMapping = getRouteNameToModuleMapping(routes);
 
@@ -105,9 +106,9 @@ export default class Router {
     });
 
     this.router.start();
-  }
+  };
 
   routeParams = () => this.router.getState() && this.router.getState().params;
 
-  constructPath = (name, params) => this.router.buildPath(name, params)
+  constructPath = (name, params) => this.router.buildPath(name, params);
 }

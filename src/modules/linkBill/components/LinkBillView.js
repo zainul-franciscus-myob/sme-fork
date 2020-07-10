@@ -1,6 +1,4 @@
-import {
-  Alert, BaseTemplate, PageHead,
-} from '@myob/myob-widgets';
+import { Alert, BaseTemplate, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -53,7 +51,7 @@ const LinkBillView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   loadingState: getLoadingState(state),
 });

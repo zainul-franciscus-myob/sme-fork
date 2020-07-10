@@ -1,9 +1,7 @@
 import IncomeAllocationModule from './IncomeAllocationModule';
 import RouteName from '../../router/RouteName';
 
-const getIncomeAllocationRoutes = ({
-  integration, setRootView,
-}) => {
+const getIncomeAllocationRoutes = ({ integration, setRootView }) => {
   const routes = [
     {
       name: RouteName.INCOME_ALLOCATION,

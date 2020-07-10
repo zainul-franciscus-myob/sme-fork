@@ -1,4 +1,8 @@
-import { ADD_TABLE_ROW, REMOVE_TABLE_ROW, UPDATE_FORM } from '../../BankingRuleDetailIntents';
+import {
+  ADD_TABLE_ROW,
+  REMOVE_TABLE_ROW,
+  UPDATE_FORM,
+} from '../../BankingRuleDetailIntents';
 import bankingRuleDetailReducer from '..';
 
 describe('allocationHandlers', () => {
@@ -39,9 +43,7 @@ describe('allocationHandlers', () => {
       const modifiedState = {
         ...state,
         allocationType: 'Percent',
-        allocations: [
-          {},
-        ],
+        allocations: [{}],
       };
 
       const actual = bankingRuleDetailReducer(modifiedState, action);
@@ -108,10 +110,7 @@ describe('allocationHandlers', () => {
   describe('removeTableRow', () => {
     const state = {
       allocationType: 'Percent',
-      allocations: [
-        {},
-        {},
-      ],
+      allocations: [{}, {}],
     };
 
     it('remove a line and there’s only one line left in the allocation table the percetange should become 100.00', () => {
@@ -155,11 +154,7 @@ describe('allocationHandlers', () => {
       const modifiedState = {
         ...state,
         allocationType: 'Amount',
-        allocations: [
-          {},
-          {},
-          {},
-        ],
+        allocations: [{}, {}, {}],
       };
 
       const actual = bankingRuleDetailReducer(modifiedState, action);
@@ -176,9 +171,7 @@ describe('allocationHandlers', () => {
     it('empties allocations when change allocation type', () => {
       const modifiedState = {
         ...state,
-        allocations: [
-          {},
-        ],
+        allocations: [{}],
       };
 
       const action = {
@@ -208,10 +201,12 @@ describe('allocationHandlers', () => {
     it('updates isPaymentReportable flag with selected contact default when contactId is changed', () => {
       const isPaymentReportableState = {
         isPaymentReportable: true,
-        contacts: [{
-          id: '1',
-          isPaymentReportable: false,
-        }],
+        contacts: [
+          {
+            id: '1',
+            isPaymentReportable: false,
+          },
+        ],
       };
       const action = {
         intent: UPDATE_FORM,

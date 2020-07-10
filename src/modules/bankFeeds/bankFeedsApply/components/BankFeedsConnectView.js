@@ -34,11 +34,13 @@ const BankFeedsConnectView = ({
   const view = (
     <div className={styles.connectForm}>
       <FormTemplate
-        actions={(
+        actions={
           <ButtonRow>
-            <Button type="secondary" onClick={redirectToBankFeeds}>Done</Button>
+            <Button type="secondary" onClick={redirectToBankFeeds}>
+              Done
+            </Button>
           </ButtonRow>
-        )}
+        }
         pageHead={
           <PageHead
             title={
@@ -49,25 +51,27 @@ const BankFeedsConnectView = ({
           />
         }
       >
-        { copyAlertState && <Alert type="success">{copyAlertText}</Alert> }
+        {copyAlertState && <Alert type="success">{copyAlertText}</Alert>}
 
         <Card
           body={
             <Card.Body
               child={
-                applicationPreferenceOnline
-                  ? <>
+                applicationPreferenceOnline ? (
+                  <>
                     <BankFeedsConnectOnline
                       onCopy={onCopy}
                       redirectToBank={redirectToBank}
                       setCopyAlertText={setCopyAlertText}
                     />
                   </>
-                  : <BankFeedsConnectForm
+                ) : (
+                  <BankFeedsConnectForm
                     getAuthorityForm={getAuthorityForm}
                     onCopy={onCopy}
                     setCopyAlertText={setCopyAlertText}
                   />
+                )
               }
             />
           }
@@ -80,7 +84,7 @@ const BankFeedsConnectView = ({
   return <PageView view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   applicationPreference: getApplicationPreference(state),
   copyAlertState: getCopyAlertState(state),
   copyAlertText: getCopyAlertText(state),

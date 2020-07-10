@@ -13,7 +13,7 @@ import {
   UPDATE_EMPLOYEE_ROW,
 } from './JobKeeperIntents';
 
-const createJobKeeperDispatcher = store => ({
+const createJobKeeperDispatcher = (store) => ({
   setInitialState: (context) => {
     store.dispatch({
       intent: SET_INITIAL_STATE,

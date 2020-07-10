@@ -1,4 +1,7 @@
-import { LOAD_CUSTOMER_RETURN_LIST, SORT_AND_FILTER_CUSTOMER_RETURN_LIST } from '../CustomerReturnIntents';
+import {
+  LOAD_CUSTOMER_RETURN_LIST,
+  SORT_AND_FILTER_CUSTOMER_RETURN_LIST,
+} from '../CustomerReturnIntents';
 import {
   getBusinessId,
   getFilterOptions,

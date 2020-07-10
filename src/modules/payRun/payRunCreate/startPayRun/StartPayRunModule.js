@@ -4,23 +4,15 @@ import {
   getIsTimesheetUsed,
   getTimesheetRequiredFieldsFilled,
 } from './StartPayRunSelectors';
-import {
-  getPayRunListUrl,
-  getStpErrorUrl,
-} from '../PayRunSelectors';
+import { getPayRunListUrl, getStpErrorUrl } from '../PayRunSelectors';
 import AlertType from '../types/AlertType';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import StartPayRunView from './components/StartPayRunView';
 import createStartPayRunDispatchers from './createStartPayRunDispatchers';
 import createStartPayRunIntegrator from './createStartPayRunIntegrator';
 
-
 export default class StartPayRunModule {
-  constructor({
-    integration,
-    store,
-    pushMessage,
-  }) {
+  constructor({ integration, store, pushMessage }) {
     this.integration = integration;
     this.pushMessage = pushMessage;
     this.store = store;
@@ -47,7 +39,7 @@ export default class StartPayRunModule {
     };
 
     this.integrator.deleteDraft({ onSuccess, onFailure });
-  }
+  };
 
   attemptLoadTimesheets = () => {
     const state = this.store.getState();
@@ -56,7 +48,7 @@ export default class StartPayRunModule {
     if (!getTimesheetRequiredFieldsFilled(state)) return;
 
     this.loadTimesheets();
-  }
+  };
 
   loadTimesheets = () => {
     this.dispatcher.setIsTableLoading(true);
@@ -75,7 +67,7 @@ export default class StartPayRunModule {
     };
 
     this.integrator.loadTimesheets({ onSuccess, onFailure });
-  }
+  };
 
   editExistingPayRun = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
@@ -133,7 +125,9 @@ export default class StartPayRunModule {
     const onSuccess = (employeePays) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadEmployeePays(employeePays);
-      this.dispatcher.setStpRegistrationStatus(employeePays.stpRegistrationStatus);
+      this.dispatcher.setStpRegistrationStatus(
+        employeePays.stpRegistrationStatus
+      );
       this.dispatcher.dismissAlert();
       this.dispatcher.nextStep();
     };
@@ -148,21 +142,21 @@ export default class StartPayRunModule {
 
   selectAllTimesheets = (isSelected) => {
     this.dispatcher.selectAllTimesheets(isSelected);
-  }
+  };
 
   selectTimesheetsItem = (item, isSelected) => {
     this.dispatcher.selectTimesheetsItem(item, isSelected);
-  }
+  };
 
   changePayPeriod = ({ key, value }) => {
     this.dispatcher.setPayPeriodDetails({ key, value });
 
     this.attemptLoadTimesheets();
-  }
+  };
 
   closeStopValidationErrorModal = () => {
     this.dispatcher.setShowStpValidationErrorModal(false);
-  }
+  };
 
   openStpValidationPage = () => {
     const state = this.store.getState();
@@ -171,12 +165,12 @@ export default class StartPayRunModule {
     const stpErrorUrl = getStpErrorUrl(state);
 
     window.open(stpErrorUrl, '_blank');
-  }
+  };
 
   closeValidationModalAndLoadEmployeePays = () => {
     this.dispatcher.setShowStpValidationErrorModal(false);
     this.loadEmployeePays();
-  }
+  };
 
   getView() {
     return (
@@ -189,7 +183,9 @@ export default class StartPayRunModule {
         selectAll={this.selectAllTimesheets}
         selectItem={this.selectTimesheetsItem}
         onStpValidationErrorModalCancel={this.closeStopValidationErrorModal}
-        onStpValidationErrorModalContinue={this.closeValidationModalAndLoadEmployeePays}
+        onStpValidationErrorModalContinue={
+          this.closeValidationModalAndLoadEmployeePays
+        }
         onStpValidationErrorModalUpdateDetails={this.openStpValidationPage}
       />
     );

@@ -89,7 +89,9 @@ const SpendMoneyDetailRow = (props) => {
         value={amount}
         onChange={onAmountInputChange('amount', onChange)}
         onBlur={onRowInputBlur}
-        className={classnames({ [styles.prefilled]: Boolean(prefillStatus.amount) })}
+        className={classnames({
+          [styles.prefilled]: Boolean(prefillStatus.amount),
+        })}
         numeralDecimalScaleMin={2}
         disabled={isSupplierBlocking || isSubmitting}
       />
@@ -104,7 +106,11 @@ const SpendMoneyDetailRow = (props) => {
         numeralIntegerScale={13}
         disabled={isSupplierBlocking || isSubmitting}
       />
-      <div className={classnames({ [styles.prefilled]: Boolean(prefillStatus.description) })}>
+      <div
+        className={classnames({
+          [styles.prefilled]: Boolean(prefillStatus.description),
+        })}
+      >
         <TextArea
           label="Description"
           maxLength={1000}
@@ -117,16 +123,18 @@ const SpendMoneyDetailRow = (props) => {
           disabled={isSubmitting}
         />
       </div>
-      {isSpendMoneyJobColumnEnabled && <JobCombobox
-        label="Job"
-        onChange={onChangeJobId}
-        items={lineJobOptions}
-        selectedId={jobId}
-        disabled={isSubmitting || isJobComboboxDisabled}
-        addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
-        allowClear
-        left
-      />}
+      {isSpendMoneyJobColumnEnabled && (
+        <JobCombobox
+          label="Job"
+          onChange={onChangeJobId}
+          items={lineJobOptions}
+          selectedId={jobId}
+          disabled={isSubmitting || isJobComboboxDisabled}
+          addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
+          allowClear
+          left
+        />
+      )}
       <TaxCodeCombobox
         label="Tax code"
         hideLabel={false}

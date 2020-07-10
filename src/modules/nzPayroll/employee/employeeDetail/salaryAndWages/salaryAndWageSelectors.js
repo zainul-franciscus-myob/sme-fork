@@ -4,15 +4,15 @@ const getWage = ({ payrollDetails }) => payrollDetails?.wage || {};
 
 export const getSelectedPayBasis = createSelector(
   getWage,
-  ({ selectedPayBasis }) => selectedPayBasis,
+  ({ selectedPayBasis }) => selectedPayBasis
 );
 export const getHourlyRate = createSelector(
   getWage,
-  ({ hourlyRate }) => hourlyRate,
+  ({ hourlyRate }) => hourlyRate
 );
 export const getSelectedPayCycle = createSelector(
   getWage,
-  ({ selectedPayCycle }) => selectedPayCycle,
+  ({ selectedPayCycle }) => selectedPayCycle
 );
 
-export const getPayCycleOptions = state => state.payCycleOptions;
+export const getPayCycleOptions = (state) => state.payCycleOptions;

@@ -24,13 +24,19 @@ describe('BankingRuleListModule', () => {
     const store = new TestStore(bankingRuleListReducer);
     const integration = new TestIntegration();
 
-    const module = new BankingRuleListModule({ integration, setRootView, popMessages });
+    const module = new BankingRuleListModule({
+      integration,
+      setRootView,
+      popMessages,
+    });
     module.store = store;
     module.dispatcher = createBankingRuleListDispatcher(store);
     module.integrator = createBankingRuleListIntegrator(store, integration);
 
     return {
-      store, module, integration,
+      store,
+      module,
+      integration,
     };
   };
 
@@ -101,12 +107,12 @@ describe('BankingRuleListModule', () => {
     });
 
     it('displays alert from inbox', () => {
-      const {
-        store, integration, module,
-      } = setup();
-      module.popMessages = jest.fn().mockReturnValue([{
-        content: '😭',
-      }]);
+      const { store, integration, module } = setup();
+      module.popMessages = jest.fn().mockReturnValue([
+        {
+          content: '😭',
+        },
+      ]);
 
       integration.mapFailure(LOAD_BANKING_RULE_LIST);
 
@@ -284,7 +290,7 @@ describe('BankingRuleListModule', () => {
 
     it('debounces keyword filter', () => {
       const { module } = setupWithRun();
-      debounce.default = jest.fn().mockImplementation(fn => fn);
+      debounce.default = jest.fn().mockImplementation((fn) => fn);
 
       module.updateFilterOptions({ key: 'keywords', value: '🐛' });
 

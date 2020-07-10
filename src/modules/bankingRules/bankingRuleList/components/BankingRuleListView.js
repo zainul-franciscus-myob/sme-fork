@@ -1,14 +1,8 @@
-import {
-  Alert,
-  StandardTemplate,
-} from '@myob/myob-widgets';
+import { Alert, StandardTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getAlert,
-  getLoadingState,
-} from '../BankingRuleListSelectors';
+import { getAlert, getLoadingState } from '../BankingRuleListSelectors';
 import BankingRuleListFilterOptions from './BankingRuleListFilterOptions';
 import BankingRuleListPageHead from './BankingRuleListPageHead';
 import BankingRuleListTable from './BankingRuleListTable';
@@ -29,28 +23,26 @@ const BankingRuleListView = ({
   );
 
   const filterBar = (
-    <BankingRuleListFilterOptions
-      onUpdateFilters={onUpdateFilters}
-    />
+    <BankingRuleListFilterOptions onUpdateFilters={onUpdateFilters} />
   );
 
   const view = (
     <StandardTemplate
-      pageHead={<BankingRuleListPageHead onSelectBankingRule={onSelectBankingRule} />}
+      pageHead={
+        <BankingRuleListPageHead onSelectBankingRule={onSelectBankingRule} />
+      }
       filterBar={filterBar}
       sticky="none"
       alert={alertComponent}
     >
-      <BankingRuleListTable
-        onSort={onSort}
-      />
+      <BankingRuleListTable onSort={onSort} />
     </StandardTemplate>
   );
 
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   loadingState: getLoadingState(state),
 });

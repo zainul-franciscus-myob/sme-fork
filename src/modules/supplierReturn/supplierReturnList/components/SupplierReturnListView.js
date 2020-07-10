@@ -1,11 +1,11 @@
-import {
-  Alert,
-  PageHead,
-} from '@myob/myob-widgets';
+import { Alert, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getLoadingState } from '../selectors/SupplierReturnListSelectors';
+import {
+  getAlert,
+  getLoadingState,
+} from '../selectors/SupplierReturnListSelectors';
 import { responsiveWidths, tableConfig } from './TableConfig';
 import PageView from '../../../../components/PageView/PageView';
 import StandardTemplate from '../../../../components/Feelix/StandardTemplate/StandardTemplate';
@@ -22,9 +22,7 @@ const SupplierReturnListView = ({
   onCreateRefundClick,
   onCreatePurchaseClick,
 }) => {
-  const pageHead = (
-    <PageHead title="Purchase returns and debits" />
-  );
+  const pageHead = <PageHead title="Purchase returns and debits" />;
 
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -69,7 +67,7 @@ const SupplierReturnListView = ({
   return <PageView loadingState={loadingState} view={supplierReturnListView} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   alert: getAlert(state),
 });

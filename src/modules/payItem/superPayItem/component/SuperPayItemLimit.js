@@ -7,7 +7,7 @@ import DollarInput from '../../components/DollarInput';
 import PayItemCombobox from './PayItemCombobox';
 import PercentInput from '../../components/PercentInput';
 
-const handleInputChange = handler => (e) => {
+const handleInputChange = (handler) => (e) => {
   const { value, name } = e.target;
   handler({ key: name, value });
 };
@@ -44,7 +44,7 @@ const SuperPayItemLimit = (props) => {
         ))}
       </Select>
 
-      { showPercent && (
+      {showPercent && (
         <React.Fragment>
           <PercentInput
             label="Percentage %"
@@ -57,12 +57,15 @@ const SuperPayItemLimit = (props) => {
             hideLabel={false}
             items={limitPayItems}
             selectedId={limitPayItemId}
-            onChange={handlePayItemComboboxChange(onSuperPayItemDetailsChange, 'limitPayItemId')}
+            onChange={handlePayItemComboboxChange(
+              onSuperPayItemDetailsChange,
+              'limitPayItemId'
+            )}
           />
         </React.Fragment>
       )}
 
-      { showAmount && (
+      {showAmount && (
         <React.Fragment>
           <DollarInput
             label="Dollar $"
@@ -86,6 +89,6 @@ const SuperPayItemLimit = (props) => {
   );
 };
 
-const mapStateToProps = state => getLimit(state);
+const mapStateToProps = (state) => getLimit(state);
 
 export default connect(mapStateToProps)(SuperPayItemLimit);

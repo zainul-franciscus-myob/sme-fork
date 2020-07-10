@@ -69,7 +69,10 @@ const setBusinessDetails = (state, { key, value }) => ({
   businessDetails: {
     ...state.businessDetails,
     // If the user selects OTH state, the postcode should default to 9999.
-    postcode: key === 'state' && value === States.OTH ? '9999' : state.businessDetails.postcode,
+    postcode:
+      key === 'state' && value === States.OTH
+        ? '9999'
+        : state.businessDetails.postcode,
     [key]: value,
   },
 });
@@ -100,7 +103,7 @@ const setAgentDetails = (state, { agentDetails }) => ({
   ...agentDetails,
 });
 
-const handlers = ({
+const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
   [SET_LOADING_STATE]: setLoadingState,
@@ -110,7 +113,7 @@ const handlers = ({
   [SET_AGENT_CONTACT]: setAgentContact,
   [SET_ATO_SETTINGS]: setAtoSettings,
   [SET_AGENT_DETAILS]: setAgentDetails,
-});
+};
 
 const atoSettingsReducer = createReducer(getDefaultState(), handlers);
 

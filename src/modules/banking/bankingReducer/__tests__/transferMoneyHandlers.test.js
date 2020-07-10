@@ -1,5 +1,8 @@
 import { SET_MATCH_TRANSFER_MONEY_SELECTION } from '../../BankingIntents';
-import { loadMatchTransferMoney, setMatchTransferMoneySelection } from '../transferMoneyHandlers';
+import {
+  loadMatchTransferMoney,
+  setMatchTransferMoneySelection,
+} from '../transferMoneyHandlers';
 import { tabIds } from '../../tabItems';
 
 describe('transferMoneyHandlers', () => {

@@ -16,7 +16,10 @@ import {
   UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS,
   UPDATE_LEAVE_PAY_ITEM_MODAL_NAME,
 } from '../../../EmployeeIntents';
-import { getAllLeavePayItems, getAllocatedLeavePayItems } from '../selectors/PayrollLeaveDetailSelectors';
+import {
+  getAllLeavePayItems,
+  getAllocatedLeavePayItems,
+} from '../selectors/PayrollLeaveDetailSelectors';
 import { getCarryRemainingLeave } from '../selectors/LeavePayItemModalSelectors';
 
 export const getLeavePayItemModalDefaultState = () => ({
@@ -54,7 +57,7 @@ const openLeavePayItemModal = (state, { leavePayItemId }) => ({
   },
 });
 
-const closeLeavePayItemModal = state => ({
+const closeLeavePayItemModal = (state) => ({
   ...state,
   leavePayItemModal: undefined,
 });
@@ -67,17 +70,14 @@ const setLeavePayItemModalState = (state, modal) => ({
   },
 });
 
-const setLeavePayItemModalAlert = (state, { alert }) => (
-  setLeavePayItemModalState(state, { alert })
-);
+const setLeavePayItemModalAlert = (state, { alert }) =>
+  setLeavePayItemModalState(state, { alert });
 
-const setLeavePayItemModalLoadingState = (state, { isLoading }) => (
-  setLeavePayItemModalState(state, { isLoading })
-);
+const setLeavePayItemModalLoadingState = (state, { isLoading }) =>
+  setLeavePayItemModalState(state, { isLoading });
 
-const setLeavePayItemModalSubmittingState = (state, { isSubmitting }) => (
-  setLeavePayItemModalState(state, { isSubmitting })
-);
+const setLeavePayItemModalSubmittingState = (state, { isSubmitting }) =>
+  setLeavePayItemModalState(state, { isSubmitting });
 
 const loadLeavePayItem = (state, { response }) => {
   const { leavePayItem, ...rest } = response;
@@ -106,7 +106,7 @@ const setLeavePayItemState = (state, partialLeavePayItem) => ({
   },
 });
 
-const addLeavePayItemModalEmployee = (state, action) => (
+const addLeavePayItemModalEmployee = (state, action) =>
   setLeavePayItemState(state, {
     selectedEmployees: [
       ...state.leavePayItemModal.leavePayItem.selectedEmployees,
@@ -115,58 +115,54 @@ const addLeavePayItemModalEmployee = (state, action) => (
         id: action.id,
       },
     ],
-  })
-);
+  });
 
-const removeLeavePayItemModalEmployee = (state, action) => (
+const removeLeavePayItemModalEmployee = (state, action) =>
   setLeavePayItemState(state, {
     selectedEmployees: state.leavePayItemModal.leavePayItem.selectedEmployees.filter(
-      selectedEmployee => selectedEmployee.id !== action.id,
+      (selectedEmployee) => selectedEmployee.id !== action.id
     ),
-  })
-);
+  });
 
-const addLeavePayItemModalExemption = (state, action) => (
+const addLeavePayItemModalExemption = (state, action) =>
   setLeavePayItemState(state, {
     selectedExemptions: [
       ...state.leavePayItemModal.leavePayItem.selectedExemptions,
-      state.leavePayItemModal.exemptionOptions.find(({ id }) => id === action.id),
+      state.leavePayItemModal.exemptionOptions.find(
+        ({ id }) => id === action.id
+      ),
     ],
-  })
-);
+  });
 
-const removeLeavePayItemModalExemption = (state, action) => (
+const removeLeavePayItemModalExemption = (state, action) =>
   setLeavePayItemState(state, {
     selectedExemptions: state.leavePayItemModal.leavePayItem.selectedExemptions.filter(
-      selectedExemption => selectedExemption.id !== action.id,
+      (selectedExemption) => selectedExemption.id !== action.id
     ),
-  })
-);
+  });
 
-const addLeavePayItemModalLinkedWage = (state, action) => (
+const addLeavePayItemModalLinkedWage = (state, action) =>
   setLeavePayItemState(state, {
     selectedLinkedWages: [
       ...state.leavePayItemModal.leavePayItem.selectedLinkedWages,
-      state.leavePayItemModal.linkedWagesOptions.find(({ id }) => id === action.id),
+      state.leavePayItemModal.linkedWagesOptions.find(
+        ({ id }) => id === action.id
+      ),
     ],
-  })
-);
+  });
 
-const removeLeavePayItemModalLinkedWage = (state, action) => (
+const removeLeavePayItemModalLinkedWage = (state, action) =>
   setLeavePayItemState(state, {
     selectedLinkedWages: state.leavePayItemModal.leavePayItem.selectedLinkedWages.filter(
-      selectedLinkedWage => selectedLinkedWage.id !== action.id,
+      (selectedLinkedWage) => selectedLinkedWage.id !== action.id
     ),
-  })
-);
+  });
 
-const updateLeavePayItemModalName = (state, action) => (
-  setLeavePayItemState(state, { name: action.value })
-);
+const updateLeavePayItemModalName = (state, action) =>
+  setLeavePayItemState(state, { name: action.value });
 
-const updateLeavePayItemModalCalculationBasis = (state, action) => (
-  setLeavePayItemState(state, { [action.key]: action.value })
-);
+const updateLeavePayItemModalCalculationBasis = (state, action) =>
+  setLeavePayItemState(state, { [action.key]: action.value });
 
 const updateLeavePayItem = (state, { leavePayItem, leavePayItemOptions }) => ({
   ...state,
@@ -174,9 +170,11 @@ const updateLeavePayItem = (state, { leavePayItem, leavePayItemOptions }) => ({
     ...state.payrollDetails,
     leaveDetails: {
       ...state.payrollDetails.leaveDetails,
-      allocatedLeavePayItems: getAllocatedLeavePayItems(state).map(item => (
-        item.payItemId === leavePayItem.payItemId ? { ...item, ...leavePayItem } : item
-      )),
+      allocatedLeavePayItems: getAllocatedLeavePayItems(state).map((item) =>
+        item.payItemId === leavePayItem.payItemId
+          ? { ...item, ...leavePayItem }
+          : item
+      ),
     },
   },
   leavePayItemOptions,
@@ -191,8 +189,8 @@ const createLeavePayItem = (state, payload) => {
     yearToDate: '0',
   };
 
-  newLeavePayItem.carryLeaveOverToNextYear = newLeavePayItem.carryLeaveOverToNextYear
-  ?? getCarryRemainingLeave(state);
+  newLeavePayItem.carryLeaveOverToNextYear =
+    newLeavePayItem.carryLeaveOverToNextYear ?? getCarryRemainingLeave(state);
 
   return {
     ...state,
@@ -214,7 +212,6 @@ const createLeavePayItem = (state, payload) => {
     leavePayItemOptions,
   };
 };
-
 
 export default {
   [SET_LEAVE_PAY_ITEM_MODAL_ALERT]: setLeavePayItemModalAlert,

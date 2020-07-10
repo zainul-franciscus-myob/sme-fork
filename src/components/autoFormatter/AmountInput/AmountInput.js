@@ -13,12 +13,16 @@ const handleOnChange = (handle, currentValue) => (event) => {
 };
 
 const handleOnBlur = (
-  handle, numeralDecimalScaleMin, numeralDecimalScaleMax,
+  handle,
+  numeralDecimalScaleMin,
+  numeralDecimalScaleMax
 ) => (event) => {
   if (!handle) return;
 
   const maybeEvent = buildAmountInputBlurEvent(
-    event, numeralDecimalScaleMin, numeralDecimalScaleMax,
+    event,
+    numeralDecimalScaleMin,
+    numeralDecimalScaleMax
   );
 
   if (maybeEvent) {
@@ -41,7 +45,11 @@ const AmountInput = ({
   <AutoFormatter
     {...props}
     onChange={handleOnChange(onChange, value)}
-    onBlur={handleOnBlur(onBlur, numeralDecimalScaleMin, numeralDecimalScaleMax)}
+    onBlur={handleOnBlur(
+      onBlur,
+      numeralDecimalScaleMin,
+      numeralDecimalScaleMax
+    )}
     value={value}
     requiredLabel={requiredLabel}
     options={{

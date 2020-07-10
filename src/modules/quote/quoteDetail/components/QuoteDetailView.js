@@ -58,7 +58,9 @@ const QuoteDetailView = ({
 
   const pageHead = (
     <QuoteDetailPageHead
-      onConvertToInvoiceButtonClick={quoteActionListeners.onConvertToInvoiceButtonClick}
+      onConvertToInvoiceButtonClick={
+        quoteActionListeners.onConvertToInvoiceButtonClick
+      }
     />
   );
 
@@ -72,10 +74,7 @@ const QuoteDetailView = ({
   const footer = <QuoteDetailFooter onUpdateNote={onUpdateHeaderOptions} />;
 
   const serviceTable = (
-    <QuoteServiceTable
-      listeners={serviceLayoutListeners}
-      footer={footer}
-    />
+    <QuoteServiceTable listeners={serviceLayoutListeners} footer={footer} />
   );
 
   const itemAndServiceTable = (
@@ -85,13 +84,13 @@ const QuoteDetailView = ({
     />
   );
 
-  const table = ({
+  const table = {
     [QuoteLayout.SERVICE]: serviceTable,
     [QuoteLayout.ITEM_AND_SERVICE]: itemAndServiceTable,
     [QuoteLayout.PROFESSIONAL]: serviceTable,
     [QuoteLayout.TIME_BILLING]: itemAndServiceTable,
     [QuoteLayout.MISCELLANEOUS]: serviceTable,
-  }[layout]);
+  }[layout];
 
   const layoutPopover = (
     <QuoteDetailLayoutPopover
@@ -109,14 +108,14 @@ const QuoteDetailView = ({
       options={options}
       actions={actions}
     >
-      { modalComponent }
-      { contactModal }
-      { accountModal }
-      { jobModal }
-      { inventoryModal }
-      { layoutPopover }
+      {modalComponent}
+      {contactModal}
+      {accountModal}
+      {jobModal}
+      {inventoryModal}
+      {layoutPopover}
       <div className={classNames(isReadOnly && styles.disabledTable)}>
-        { table }
+        {table}
       </div>
     </LineItemTemplate>
   );
@@ -124,7 +123,7 @@ const QuoteDetailView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   modal: getModal(state),
   alert: getAlert(state),

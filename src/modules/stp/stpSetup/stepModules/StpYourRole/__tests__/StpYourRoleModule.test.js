@@ -1,7 +1,10 @@
 import { Alert } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 
-import { LOAD_AGENT_CONTACT_INFO, SUBMIT_AGENT_CONTACT_INFO } from '../stpYourRoleIntents';
+import {
+  LOAD_AGENT_CONTACT_INFO,
+  SUBMIT_AGENT_CONTACT_INFO,
+} from '../stpYourRoleIntents';
 import { findButtonWithTestId } from '../../../../../../common/tests/selectors';
 import ContactDetails from '../components/ContactDetails';
 import Role from '../../../Role';
@@ -58,9 +61,11 @@ describe('StpYourRoleModule', () => {
 
       searchButton.simulate('click');
 
-      expect(integration.read).toHaveBeenCalledWith(expect.objectContaining({
-        intent: LOAD_AGENT_CONTACT_INFO,
-      }));
+      expect(integration.read).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: LOAD_AGENT_CONTACT_INFO,
+        })
+      );
     });
   });
 
@@ -74,7 +79,9 @@ describe('StpYourRoleModule', () => {
     });
 
     it('shows the contact details section when the search button is clicked', () => {
-      const integration = { read: ({ onSuccess }) => onSuccess(loadAgentContact) };
+      const integration = {
+        read: ({ onSuccess }) => onSuccess(loadAgentContact),
+      };
       const { wrapper, module } = constructModule({ integration });
       setRole(module, wrapper, Role.TAX_AGENT);
       const searchButton = findButtonWithTestId(wrapper, 'agentSearchButton');
@@ -88,9 +95,10 @@ describe('StpYourRoleModule', () => {
 
     it('renders an alert if contact details were be found', () => {
       const integration = {
-        read: ({ onSuccess }) => onSuccess({
-          contactFound: true,
-        }),
+        read: ({ onSuccess }) =>
+          onSuccess({
+            contactFound: true,
+          }),
       };
       const { wrapper, module } = constructModule({ integration });
       setRole(module, wrapper, Role.TAX_AGENT);
@@ -106,9 +114,10 @@ describe('StpYourRoleModule', () => {
 
     it('does not render the alert if no contact could be found', () => {
       const integration = {
-        read: ({ onSuccess }) => onSuccess({
-          contactFound: false,
-        }),
+        read: ({ onSuccess }) =>
+          onSuccess({
+            contactFound: false,
+          }),
       };
       const { wrapper, module } = constructModule({ integration });
       setRole(module, wrapper, Role.TAX_AGENT);
@@ -154,9 +163,11 @@ describe('StpYourRoleModule', () => {
         setRole(module, wrapper, Role.TAX_AGENT);
 
         findButtonWithTestId(wrapper, 'nextButton').simulate('click');
-        expect(integration.write).toHaveBeenCalledWith(expect.objectContaining({
-          intent: SUBMIT_AGENT_CONTACT_INFO,
-        }));
+        expect(integration.write).toHaveBeenCalledWith(
+          expect.objectContaining({
+            intent: SUBMIT_AGENT_CONTACT_INFO,
+          })
+        );
       });
 
       it('calls the onFinish function if the request is successful', () => {
@@ -182,7 +193,7 @@ describe('StpYourRoleModule', () => {
         wrapper.update();
 
         const alert = wrapper.findWhere(
-          c => c.name() === 'Alert' && c.prop('type') === 'danger',
+          (c) => c.name() === 'Alert' && c.prop('type') === 'danger'
         );
         expect(alert).toHaveLength(1);
         expect(alert.contains(message)).toBeTruthy();

@@ -3,11 +3,7 @@ import React from 'react';
 
 import formatCurrency from '../../common/valueFormatters/formatCurrency';
 
-const TotalsHeaderItemFormattedCurrency = ({
-  key,
-  label,
-  count,
-}) => (
+const TotalsHeaderItemFormattedCurrency = ({ key, label, count }) => (
   <TotalsHeader.TotalItem
     key={key}
     label={label}

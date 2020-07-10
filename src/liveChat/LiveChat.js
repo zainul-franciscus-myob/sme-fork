@@ -16,12 +16,14 @@ const LiveChat = ({
     {
       type: 'link',
       id: 'genesysStyles',
-      path: 'https://assets.digital.myob.com/css/genesys/widgets-9.0.016.07.min.css',
+      path:
+        'https://assets.digital.myob.com/css/genesys/widgets-9.0.016.07.min.css',
     },
     {
       type: 'script',
       id: 'genesysScripts',
-      path: 'https://assets.digital.myob.com/js/genesys/widgets-9.0.016.07.min.js',
+      path:
+        'https://assets.digital.myob.com/js/genesys/widgets-9.0.016.07.min.js',
     },
   ];
 
@@ -32,7 +34,7 @@ const LiveChat = ({
       businessRole,
       email,
       region,
-      serialNumber,
+      serialNumber
     );
 
     aTags.forEach((element) => {

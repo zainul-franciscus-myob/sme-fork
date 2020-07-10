@@ -23,14 +23,10 @@ const MatchTransactionTableBody = (props) => {
     />
   ));
 
-  return (
-    <Table.Body>
-      {rows}
-    </Table.Body>
-  );
+  return <Table.Body>{rows}</Table.Body>;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   entries: getTableEntries(state),
 });
 

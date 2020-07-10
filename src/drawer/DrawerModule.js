@@ -10,16 +10,18 @@ import createDrawerDispatcher from './createDrawerDispatcher';
 import drawerReducer from './drawerReducer';
 
 export default class DrawerModule {
-  constructor({
-    integration,
-    tasksService,
-  }) {
+  constructor({ integration, tasksService }) {
     this.store = new Store(drawerReducer);
     this.dispatcher = createDrawerDispatcher(this.store);
     this.subModules = {
-      [views.HELP]: new HelpModule({ integration, closeDrawer: this.closeDrawer }),
+      [views.HELP]: new HelpModule({
+        integration,
+        closeDrawer: this.closeDrawer,
+      }),
       [views.TASKS]: new TasksModule({
-        integration, closeDrawer: this.closeDrawer, tasksService,
+        integration,
+        closeDrawer: this.closeDrawer,
+        tasksService,
       }),
     };
 
@@ -34,11 +36,10 @@ export default class DrawerModule {
     });
 
     this.store.subscribe(({ drawerView, isOpen }) => {
-      Object.keys(this.subModules)
-        .forEach((mod) => {
-          const isActive = drawerView === mod;
-          this.subModules[mod].setActive(isActive, isOpen);
-        });
+      Object.keys(this.subModules).forEach((mod) => {
+        const isActive = drawerView === mod;
+        this.subModules[mod].setActive(isActive, isOpen);
+      });
     });
   }
 
@@ -54,20 +55,22 @@ export default class DrawerModule {
     return (
       <Provider store={store}>
         <Drawer>
-          {
-            Object.values(subModules).map((sm) => {
-              if (sm === subModules[views.TASKS]) return sm.getView(tasks);
-              return sm.getView();
-            })
-          }
+          {Object.values(subModules).map((sm) => {
+            if (sm === subModules[views.TASKS]) return sm.getView(tasks);
+            return sm.getView();
+          })}
         </Drawer>
       </Provider>
     );
   };
 
   run = (routeProps) => {
-    Object.values(this.subModules).forEach(subModule => subModule.run(routeProps));
-    const { routeParams: { businessId } } = routeProps;
+    Object.values(this.subModules).forEach((subModule) =>
+      subModule.run(routeProps)
+    );
+    const {
+      routeParams: { businessId },
+    } = routeProps;
     if (!businessId) {
       this.closeDrawer();
     }

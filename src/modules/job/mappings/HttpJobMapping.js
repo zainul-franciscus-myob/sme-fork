@@ -26,7 +26,8 @@ const JobListMapping = {
   },
   [LOAD_JOB_DETAIL]: {
     method: 'GET',
-    getPath: ({ businessId, jobId }) => `/${businessId}/job/load_job_detail/${jobId}`,
+    getPath: ({ businessId, jobId }) =>
+      `/${businessId}/job/load_job_detail/${jobId}`,
   },
   [CREATE_JOB]: {
     method: 'POST',
@@ -38,11 +39,13 @@ const JobListMapping = {
   },
   [UPDATE_JOB]: {
     method: 'PUT',
-    getPath: ({ businessId, jobId }) => `/${businessId}/job/update_job_detail/${jobId}`,
+    getPath: ({ businessId, jobId }) =>
+      `/${businessId}/job/update_job_detail/${jobId}`,
   },
   [DELETE_JOB]: {
     method: 'DELETE',
-    getPath: ({ businessId, jobId }) => `/${businessId}/job/delete_job/${jobId}`,
+    getPath: ({ businessId, jobId }) =>
+      `/${businessId}/job/delete_job/${jobId}`,
   },
   [LOAD_JOB_MODAL]: {
     method: 'GET',
@@ -50,7 +53,8 @@ const JobListMapping = {
   },
   [LOAD_CUSTOMER_AFTER_CREATE]: {
     method: 'GET',
-    getPath: ({ businessId, customerId }) => `/${businessId}/job/load_contact/${customerId}`,
+    getPath: ({ businessId, customerId }) =>
+      `/${businessId}/job/load_contact/${customerId}`,
   },
 };
 

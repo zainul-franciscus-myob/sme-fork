@@ -9,9 +9,18 @@ import {
   getExpensePayItems as getAllocatedExpensePayItems,
   getExpensePayItemOptions,
 } from './PayrollExpenseDetailSelectors';
-import { getAllocatedLeavePayItems, getLeavePayItemOptions } from './PayrollLeaveDetailSelectors';
-import { getAllocatedPayItems as getAllocatedSuperPayItems, getSuperPayItemOptions } from './PayrollSuperSelectors';
-import { getTaxPayItems as getAllocatedTaxPayItems, getTaxPayItemOptions } from './PayrollTaxSelectors';
+import {
+  getAllocatedLeavePayItems,
+  getLeavePayItemOptions,
+} from './PayrollLeaveDetailSelectors';
+import {
+  getAllocatedPayItems as getAllocatedSuperPayItems,
+  getSuperPayItemOptions,
+} from './PayrollSuperSelectors';
+import {
+  getTaxPayItems as getAllocatedTaxPayItems,
+  getTaxPayItemOptions,
+} from './PayrollTaxSelectors';
 import {
   getBaseHourlyWagePayItemId,
   getBaseSalaryWagePayItemId,
@@ -39,28 +48,31 @@ const financialYear = {
   June: 12,
 };
 
-const getPayHistoryFormattedHours = amount => (
-  formatNumberWithDecimalScaleRange(amount, 2, 3)
-);
+const getPayHistoryFormattedHours = (amount) =>
+  formatNumberWithDecimalScaleRange(amount, 2, 3);
 
-const getPayHistoryFormattedAmount = amount => (
-  formatNumberWithDecimalScaleRange(amount, 2, 2)
-);
+const getPayHistoryFormattedAmount = (amount) =>
+  formatNumberWithDecimalScaleRange(amount, 2, 2);
 
-const getPeriod = state => state.payrollDetails.payHistoryDetails.filterOptions.period;
+const getPeriod = (state) =>
+  state.payrollDetails.payHistoryDetails.filterOptions.period;
 
-const getPayHistoryItems = state => state.payrollDetails.payHistoryDetails.payHistoryItems;
+const getPayHistoryItems = (state) =>
+  state.payrollDetails.payHistoryDetails.payHistoryItems;
 
-const getPayHistoryPeriodOptions = state => state.payHistoryPeriodOptions;
+const getPayHistoryPeriodOptions = (state) => state.payHistoryPeriodOptions;
 
 export const getFilterOptions = createStructuredSelector({
   period: getPeriod,
   payHistoryPeriodOptions: getPayHistoryPeriodOptions,
 });
 
-const getIsGrouping = period => ['Quarter1', 'Quarter2', 'Quarter3', 'Quarter4', 'YearToDate'].includes(period);
+const getIsGrouping = (period) =>
+  ['Quarter1', 'Quarter2', 'Quarter3', 'Quarter4', 'YearToDate'].includes(
+    period
+  );
 
-const getMonth = period => (getIsGrouping(period) ? groupedMonth : period);
+const getMonth = (period) => (getIsGrouping(period) ? groupedMonth : period);
 
 export const getMonthsInPeriod = (period) => {
   switch (period) {
@@ -74,10 +86,18 @@ export const getMonthsInPeriod = (period) => {
       return ['April', 'May', 'June'];
     case 'YearToDate':
       return [
-        'July', 'August', 'September',
-        'October', 'November', 'December',
-        'January', 'February', 'March',
-        'April', 'May', 'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
       ];
     default:
       return [period];
@@ -107,15 +127,19 @@ const getFilteredPayHistoryItems = createSelector(
     const month = getMonth(period);
 
     return payHistoryItems.map(({ id, payItemId, lines = [] }) => {
-      const line = lines
-        .find(({ month: payHistoryMonth }) => payHistoryMonth === month) || {};
+      const line =
+        lines.find(({ month: payHistoryMonth }) => payHistoryMonth === month) ||
+        {};
       const { activity, total } = line;
 
       return {
-        id, payItemId, activity, total,
+        id,
+        payItemId,
+        activity,
+        total,
       };
     });
-  },
+  }
 );
 
 export const getCurrentMonth = () => format(new Date(), 'MMMM');
@@ -127,36 +151,41 @@ export const getIsFutureMonth = (currentMonth, selectedMonth) => {
   return selected > current;
 };
 
-const getIsPayHistoryItemsDisabled = createSelector(
-  getPeriod,
-  (period) => {
-    const currentMonth = getCurrentMonth();
-    const selectedMonth = getAssignedMonthForPeriod(period);
+const getIsPayHistoryItemsDisabled = createSelector(getPeriod, (period) => {
+  const currentMonth = getCurrentMonth();
+  const selectedMonth = getAssignedMonthForPeriod(period);
 
-    return getIsFutureMonth(currentMonth, selectedMonth);
-  },
-);
+  return getIsFutureMonth(currentMonth, selectedMonth);
+});
 
-const getFormatTotalByPayItemType = (payItemType, amount) => (
+const getFormatTotalByPayItemType = (payItemType, amount) =>
   payItemType === payItemTypes.entitlement
     ? getPayHistoryFormattedHours(amount)
-    : getPayHistoryFormattedAmount(amount)
-);
+    : getPayHistoryFormattedAmount(amount);
 
-const canBuildPayHistoryEntry = (payHistoryItem, allocatedPayItem, payItemOption) => {
+const canBuildPayHistoryEntry = (
+  payHistoryItem,
+  allocatedPayItem,
+  payItemOption
+) => {
   const { type } = payItemOption;
-  const hasPayHistoryItem = payHistoryItem && (
-    payHistoryItem.activity || payHistoryItem.total !== getFormatTotalByPayItemType(type, 0)
-  );
+  const hasPayHistoryItem =
+    payHistoryItem &&
+    (payHistoryItem.activity ||
+      payHistoryItem.total !== getFormatTotalByPayItemType(type, 0));
 
   return allocatedPayItem || hasPayHistoryItem;
 };
 
-export const buildPayHistoryEntry = (payHistoryItem, allocatedPayItem, payItemOption) => {
-  if (canBuildPayHistoryEntry(payHistoryItem, allocatedPayItem, payItemOption)) {
-    const {
-      id: payItemId, type: payItemType, name, payBasis,
-    } = payItemOption;
+export const buildPayHistoryEntry = (
+  payHistoryItem,
+  allocatedPayItem,
+  payItemOption
+) => {
+  if (
+    canBuildPayHistoryEntry(payHistoryItem, allocatedPayItem, payItemOption)
+  ) {
+    const { id: payItemId, type: payItemType, name, payBasis } = payItemOption;
     const { id, total } = payHistoryItem || {};
 
     return {
@@ -175,53 +204,59 @@ export const buildPayHistoryEntry = (payHistoryItem, allocatedPayItem, payItemOp
   return undefined;
 };
 
-export const buildPayHistoryEntries = (payHistoryItems, allocatedPayItems, payItemOptions) => (
+export const buildPayHistoryEntries = (
+  payHistoryItems,
+  allocatedPayItems,
   payItemOptions
-    .reduce((accumulator, payItemOption) => {
-      const { id } = payItemOption;
-      const payHistoryItem = payHistoryItems.find(({ payItemId }) => payItemId === id);
-      const allocatedPayItem = allocatedPayItems.find(({ id: payItemId }) => payItemId === id);
+) =>
+  payItemOptions.reduce((accumulator, payItemOption) => {
+    const { id } = payItemOption;
+    const payHistoryItem = payHistoryItems.find(
+      ({ payItemId }) => payItemId === id
+    );
+    const allocatedPayItem = allocatedPayItems.find(
+      ({ id: payItemId }) => payItemId === id
+    );
 
-      const entry = buildPayHistoryEntry(payHistoryItem, allocatedPayItem, payItemOption);
+    const entry = buildPayHistoryEntry(
+      payHistoryItem,
+      allocatedPayItem,
+      payItemOption
+    );
 
-      return entry ? [...accumulator, entry] : accumulator;
-    }, [])
-);
+    return entry ? [...accumulator, entry] : accumulator;
+  }, []);
 
 const getWagePayItemEntries = createSelector(
   getFilteredPayHistoryItems,
   getWagePayItems,
   getWagePayItemOptions,
-  (payHistoryItems, allocatedPayItems, payItemOptions) => (
+  (payHistoryItems, allocatedPayItems, payItemOptions) =>
     buildPayHistoryEntries(payHistoryItems, allocatedPayItems, payItemOptions)
-  ),
 );
 
 const getTaxPayItemEntries = createSelector(
   getFilteredPayHistoryItems,
   getAllocatedTaxPayItems,
   getTaxPayItemOptions,
-  (payHistoryItems, allocatedPayItems, payItemOptions) => (
+  (payHistoryItems, allocatedPayItems, payItemOptions) =>
     buildPayHistoryEntries(payHistoryItems, allocatedPayItems, payItemOptions)
-  ),
 );
 
 const getDeductionPayItemEntries = createSelector(
   getFilteredPayHistoryItems,
   getAllocatedDeductionPayItems,
   getDeductionPayItemOptions,
-  (payHistoryItems, allocatedPayItems, payItemOptions) => (
+  (payHistoryItems, allocatedPayItems, payItemOptions) =>
     buildPayHistoryEntries(payHistoryItems, allocatedPayItems, payItemOptions)
-  ),
 );
 
 const getSuperPayItemEntries = createSelector(
   getFilteredPayHistoryItems,
   getAllocatedSuperPayItems,
   getSuperPayItemOptions,
-  (payHistoryItems, allocatedPayItems, payItemOptions) => (
+  (payHistoryItems, allocatedPayItems, payItemOptions) =>
     buildPayHistoryEntries(payHistoryItems, allocatedPayItems, payItemOptions)
-  ),
 );
 
 const getLeavePayItemEntries = createSelector(
@@ -229,34 +264,42 @@ const getLeavePayItemEntries = createSelector(
   getAllocatedLeavePayItems,
   getLeavePayItemOptions,
   (payHistoryItems, allocatedLeavePayItems, payItemOptions) => {
-    const allocatedPayItems = allocatedLeavePayItems.map(({ payItemId: id }) => ({ id }));
+    const allocatedPayItems = allocatedLeavePayItems.map(
+      ({ payItemId: id }) => ({ id })
+    );
 
-    return buildPayHistoryEntries(payHistoryItems, allocatedPayItems, payItemOptions);
-  },
+    return buildPayHistoryEntries(
+      payHistoryItems,
+      allocatedPayItems,
+      payItemOptions
+    );
+  }
 );
 
 const getEmployerExpensePayItemEntries = createSelector(
   getFilteredPayHistoryItems,
   getAllocatedExpensePayItems,
   getExpensePayItemOptions,
-  (payHistoryItems, allocatedPayItems, payItemOptions) => (
+  (payHistoryItems, allocatedPayItems, payItemOptions) =>
     buildPayHistoryEntries(payHistoryItems, allocatedPayItems, payItemOptions)
-  ),
 );
 
 const getSuperDeductionPayItemEntries = createSelector(
   getSuperPayItemEntries,
-  entries => entries
-    .filter(({ payItemType }) => (
-      payItemType === payItemTypes.superDeductionBeforeTax
-      || payItemType === payItemTypes.superDeductionAfterTax
-    )),
+  (entries) =>
+    entries.filter(
+      ({ payItemType }) =>
+        payItemType === payItemTypes.superDeductionBeforeTax ||
+        payItemType === payItemTypes.superDeductionAfterTax
+    )
 );
 
 const getSuperExpensePayItemEntries = createSelector(
   getSuperPayItemEntries,
-  entries => entries
-    .filter(({ payItemType }) => payItemType === payItemTypes.superExpense),
+  (entries) =>
+    entries.filter(
+      ({ payItemType }) => payItemType === payItemTypes.superExpense
+    )
 );
 
 const getExpensePayItemEntries = createSelector(
@@ -265,7 +308,7 @@ const getExpensePayItemEntries = createSelector(
   (employerExpensePayItems, superPayItems) => [
     ...employerExpensePayItems,
     ...superPayItems,
-  ],
+  ]
 );
 
 export const getWageTableRows = createSelector(
@@ -274,10 +317,14 @@ export const getWageTableRows = createSelector(
   getBaseSalaryWagePayItemId,
   getIsPayHistoryItemsDisabled,
   (entries, baseHourlyWagePayItemId, baseSalaryWagePayItemId, disabled) => ({
-    entries: sortPayItems({ payItems: entries, baseSalaryWagePayItemId, baseHourlyWagePayItemId }),
+    entries: sortPayItems({
+      payItems: entries,
+      baseSalaryWagePayItemId,
+      baseHourlyWagePayItemId,
+    }),
     showTableRows: entries.length > 0,
     disabled,
-  }),
+  })
 );
 
 export const getDeductionTableRows = createSelector(
@@ -288,7 +335,7 @@ export const getDeductionTableRows = createSelector(
     entries: deductionEntries.concat(superEntries),
     showTableRows: deductionEntries.concat(superEntries).length > 0,
     disabled,
-  }),
+  })
 );
 
 export const getTaxTableRows = createSelector(
@@ -298,7 +345,7 @@ export const getTaxTableRows = createSelector(
     entries,
     showTableRows: entries.length > 0,
     disabled,
-  }),
+  })
 );
 
 export const getExpenseTableRows = createSelector(
@@ -308,7 +355,7 @@ export const getExpenseTableRows = createSelector(
     entries,
     showTableRows: entries.length > 0,
     disabled,
-  }),
+  })
 );
 
 export const getLeaveTableRows = createSelector(
@@ -318,14 +365,16 @@ export const getLeaveTableRows = createSelector(
     entries,
     showTableRows: entries.length > 0,
     disabled,
-  }),
+  })
 );
 
-const getNewPayHistoryItemLine = (month, total) => ({ month, total, activity: 0 });
+const getNewPayHistoryItemLine = (month, total) => ({
+  month,
+  total,
+  activity: 0,
+});
 
-const getNewPayHistoryItem = ({
-  payItemId, payItemType, month, total,
-}) => ({
+const getNewPayHistoryItem = ({ payItemId, payItemType, month, total }) => ({
   payItemId,
   payItemType,
   lines: [getNewPayHistoryItemLine(month, total)],
@@ -334,16 +383,19 @@ const getNewPayHistoryItem = ({
 const getUpdatedPayHistoryItem = (state, { payItemId, month, total }) => {
   const payHistoryItems = getPayHistoryItems(state);
 
-  const foundPayHistoryItem = payHistoryItems
-    .find(({ payItemId: payHistoryItemId }) => payHistoryItemId === payItemId);
+  const foundPayHistoryItem = payHistoryItems.find(
+    ({ payItemId: payHistoryItemId }) => payHistoryItemId === payItemId
+  );
 
   if (foundPayHistoryItem) {
-    const foundLine = foundPayHistoryItem.lines
-      .find(({ month: payHistoryMonth }) => payHistoryMonth === month);
+    const foundLine = foundPayHistoryItem.lines.find(
+      ({ month: payHistoryMonth }) => payHistoryMonth === month
+    );
 
     const lines = foundLine
-      ? foundPayHistoryItem.lines.map(line => (
-        line.month === month ? { ...line, total } : line))
+      ? foundPayHistoryItem.lines.map((line) =>
+          line.month === month ? { ...line, total } : line
+        )
       : [...foundPayHistoryItem.lines, getNewPayHistoryItemLine(month, total)];
 
     return {
@@ -355,25 +407,33 @@ const getUpdatedPayHistoryItem = (state, { payItemId, month, total }) => {
   return undefined;
 };
 
-export const getUpdatedPayHistoryItems = (state, { payItemId, payItemType, total }) => {
+export const getUpdatedPayHistoryItems = (
+  state,
+  { payItemId, payItemType, total }
+) => {
   const payHistoryItems = getPayHistoryItems(state);
   const period = getPeriod(state);
   const month = getMonth(period);
 
   const details = {
-    payItemId, payItemType, month, total,
+    payItemId,
+    payItemType,
+    month,
+    total,
   };
   const updatedPayHistoryItem = getUpdatedPayHistoryItem(state, details);
 
   return updatedPayHistoryItem
-    ? payHistoryItems.map(payHistoryItem => (payHistoryItem.payItemId === payItemId
-      ? updatedPayHistoryItem : payHistoryItem))
+    ? payHistoryItems.map((payHistoryItem) =>
+        payHistoryItem.payItemId === payItemId
+          ? updatedPayHistoryItem
+          : payHistoryItem
+      )
     : [...payHistoryItems, getNewPayHistoryItem(details)];
 };
 
-const getPayHistoryItemLineByMonth = ({ lines }, month) => (
-  lines.find(({ month: payHistoryItemMonth }) => payHistoryItemMonth === month)
-);
+const getPayHistoryItemLineByMonth = ({ lines }, month) =>
+  lines.find(({ month: payHistoryItemMonth }) => payHistoryItemMonth === month);
 
 const getGroupedPayHistoryItems = (period, payHistoryItems) => {
   const monthsInPeriod = getMonthsInPeriod(period);
@@ -381,13 +441,18 @@ const getGroupedPayHistoryItems = (period, payHistoryItems) => {
   return payHistoryItems.map((payHistoryItem) => {
     const { payItemType, lines = [] } = payHistoryItem;
 
-    const filteredLines = lines
-      .filter(({ month: standardPayMonth }) => monthsInPeriod.includes(standardPayMonth)) || {};
+    const filteredLines =
+      lines.filter(({ month: standardPayMonth }) =>
+        monthsInPeriod.includes(standardPayMonth)
+      ) || {};
 
-    const sum = filteredLines.reduce((acc, { activity, total }) => ({
-      activity: acc.activity + activity,
-      total: acc.total + Number(total || 0),
-    }), { activity: 0, total: 0 });
+    const sum = filteredLines.reduce(
+      (acc, { activity, total }) => ({
+        activity: acc.activity + activity,
+        total: acc.total + Number(total || 0),
+      }),
+      { activity: 0, total: 0 }
+    );
 
     const { activity, total } = sum;
 
@@ -395,7 +460,11 @@ const getGroupedPayHistoryItems = (period, payHistoryItems) => {
       ...payHistoryItem,
       lines: [
         ...lines,
-        { month: groupedMonth, activity, total: getFormatTotalByPayItemType(payItemType, total) },
+        {
+          month: groupedMonth,
+          activity,
+          total: getFormatTotalByPayItemType(payItemType, total),
+        },
       ],
     };
   });
@@ -440,37 +509,57 @@ const getUngroupedPayHistoryItems = (period, payHistoryItems) => {
   return payHistoryItems.map((payHistoryItem) => {
     const { payItemType, lines = [] } = payHistoryItem;
 
-    const { total: groupTotal } = getPayHistoryItemLineByMonth(payHistoryItem, groupedMonth) || {};
+    const { total: groupTotal } =
+      getPayHistoryItemLineByMonth(payHistoryItem, groupedMonth) || {};
 
     const sumTotalOfOtherMonthsInGroup = lines
-      .filter(({ month }) => monthsInPeriod.includes(month) && month !== assignedMonth)
+      .filter(
+        ({ month }) => monthsInPeriod.includes(month) && month !== assignedMonth
+      )
       .reduce((sum, { total }) => sum + Number(total || 0), 0);
 
     const lineTotal = Number(groupTotal || 0) - sumTotalOfOtherMonthsInGroup;
-    const formattedLineTotal = getFormatTotalByPayItemType(payItemType, lineTotal);
+    const formattedLineTotal = getFormatTotalByPayItemType(
+      payItemType,
+      lineTotal
+    );
 
     const unGroupedLines = lines.filter(({ month }) => month !== groupedMonth);
-    const assignedLine = getPayHistoryItemLineByMonth(payHistoryItem, assignedMonth);
+    const assignedLine = getPayHistoryItemLineByMonth(
+      payHistoryItem,
+      assignedMonth
+    );
 
     return {
       ...payHistoryItem,
       lines: assignedLine
-        ? unGroupedLines.map(line => (
-          line.month === assignedLine.month ? { ...assignedLine, total: formattedLineTotal } : line
-        ))
-        : [...unGroupedLines, getNewPayHistoryItemLine(assignedMonth, formattedLineTotal)],
+        ? unGroupedLines.map((line) =>
+            line.month === assignedLine.month
+              ? { ...assignedLine, total: formattedLineTotal }
+              : line
+          )
+        : [
+            ...unGroupedLines,
+            getNewPayHistoryItemLine(assignedMonth, formattedLineTotal),
+          ],
     };
   });
 };
 
-export const getUpdatedPayHistoryItemsFromFilterOptions = (state, nextPeriod) => {
+export const getUpdatedPayHistoryItemsFromFilterOptions = (
+  state,
+  nextPeriod
+) => {
   const currentPeriod = getPeriod(state);
   const isPreviousGrouping = getIsGrouping(currentPeriod);
   const isNextGrouping = getIsGrouping(nextPeriod);
 
   const payHistoryItems = getPayHistoryItems(state);
   if (isPreviousGrouping && isNextGrouping) {
-    const ungroupedPayHistoryItems = getUngroupedPayHistoryItems(currentPeriod, payHistoryItems);
+    const ungroupedPayHistoryItems = getUngroupedPayHistoryItems(
+      currentPeriod,
+      payHistoryItems
+    );
     return getGroupedPayHistoryItems(nextPeriod, ungroupedPayHistoryItems);
   }
 
@@ -485,33 +574,35 @@ export const getUpdatedPayHistoryItemsFromFilterOptions = (state, nextPeriod) =>
   return payHistoryItems;
 };
 
-const getPayHistoryItemLinesPayload = lines => lines.reduce((accumulator, line) => {
-  const {
-    month, activity, total: strTotal, hasPayHistory,
-  } = line;
-  const total = Number(strTotal);
-  const adjustment = total - activity;
+const getPayHistoryItemLinesPayload = (lines) =>
+  lines.reduce((accumulator, line) => {
+    const { month, activity, total: strTotal, hasPayHistory } = line;
+    const total = Number(strTotal);
+    const adjustment = total - activity;
 
-  return hasPayHistory || adjustment
-    ? [...accumulator, { month, adjustment }]
-    : accumulator;
-}, []);
+    return hasPayHistory || adjustment
+      ? [...accumulator, { month, adjustment }]
+      : accumulator;
+  }, []);
 
-const getUpdatedPayHistoryItemPayload = payHistoryItems => (
+const getUpdatedPayHistoryItemPayload = (payHistoryItems) =>
   payHistoryItems.reduce((accumulator, historyItem) => {
-    const {
-      id, payItemId, payItemType, lines,
-    } = historyItem;
+    const { id, payItemId, payItemType, lines } = historyItem;
 
     const updatedLines = getPayHistoryItemLinesPayload(lines);
 
     return id || updatedLines.length
-      ? [...accumulator, {
-        id, payItemId, payItemType, lines: updatedLines,
-      }]
+      ? [
+          ...accumulator,
+          {
+            id,
+            payItemId,
+            payItemType,
+            lines: updatedLines,
+          },
+        ]
       : accumulator;
-  }, [])
-);
+  }, []);
 
 export const getPayHistoryDetailsPayload = (state) => {
   const payHistoryItems = getPayHistoryItems(state);
@@ -521,7 +612,9 @@ export const getPayHistoryDetailsPayload = (state) => {
     ? getUngroupedPayHistoryItems(period, payHistoryItems)
     : payHistoryItems;
 
-  const updatedPayHistoryItemPayLoad = getUpdatedPayHistoryItemPayload(updatedPayHistoryItems);
+  const updatedPayHistoryItemPayLoad = getUpdatedPayHistoryItemPayload(
+    updatedPayHistoryItems
+  );
 
   return { payHistoryItems: updatedPayHistoryItemPayLoad };
 };

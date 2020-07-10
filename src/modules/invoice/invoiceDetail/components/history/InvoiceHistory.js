@@ -1,11 +1,11 @@
-import {
-  Label, Spinner, Table,
-} from '@myob/myob-widgets';
+import { Label, Spinner, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getInvoiceHistoryAccordionStatus, getMostRecentStatus, getMostRecentStatusColor,
+  getInvoiceHistoryAccordionStatus,
+  getMostRecentStatus,
+  getMostRecentStatusColor,
 } from '../../selectors/invoiceHistorySelectors';
 import AccordionRowTypes from '../../../../../components/Accordion/AccordionRowTypes';
 import AccordionTable from '../../../../../components/Accordion/AccordionTable';
@@ -18,7 +18,7 @@ import styles from './InvoiceHistory.module.css';
 
 const InvoiceHistoryTableRowHeader = ({ children }) => (
   <Table.RowItem>
-      Activity history
+    Activity history
     {children}
   </Table.RowItem>
 );
@@ -31,7 +31,8 @@ const InvoiceHistory = ({
   onAccordionOpen,
   onClickOnRefNo,
 }) => {
-  const unavailableTooltipMessage = 'The activity history is currently unavailable. Please try again later.';
+  const unavailableTooltipMessage =
+    'The activity history is currently unavailable. Please try again later.';
 
   const headerStatusLabel = (
     <div className={styles.headerLabel}>
@@ -58,7 +59,8 @@ const InvoiceHistory = ({
             <Spinner size="small" />
           </CollapsibleTableRow>
         )}
-      />),
+      />
+    ),
     [InvoiceHistoryAccordianStatus.OPEN]: (
       <AccordionTable
         data={[{}]}
@@ -71,7 +73,7 @@ const InvoiceHistory = ({
               isRowOpen: true,
               header: (
                 <InvoiceHistoryTableRowHeader>
-                  { headerStatusLabel }
+                  {headerStatusLabel}
                 </InvoiceHistoryTableRowHeader>
               ),
               index,
@@ -80,7 +82,8 @@ const InvoiceHistory = ({
             <InvoiceHistoryTable onClickOnRefNo={onClickOnRefNo} />
           </CollapsibleTableRow>
         )}
-      />),
+      />
+    ),
     [InvoiceHistoryAccordianStatus.CLOSED]: (
       <AccordionTable
         data={[{}]}
@@ -93,7 +96,7 @@ const InvoiceHistory = ({
               isRowOpen: false,
               header: (
                 <InvoiceHistoryTableRowHeader>
-                  { headerStatusLabel }
+                  {headerStatusLabel}
                 </InvoiceHistoryTableRowHeader>
               ),
               index,
@@ -102,7 +105,8 @@ const InvoiceHistory = ({
             <InvoiceHistoryTable onClickOnRefNo={onClickOnRefNo} />
           </CollapsibleTableRow>
         )}
-      />),
+      />
+    ),
     [InvoiceHistoryAccordianStatus.UNAVAILABLE]: (
       <AccordionTable
         data={[{}]}
@@ -114,18 +118,21 @@ const InvoiceHistory = ({
               isRowOpen: false,
               header: (
                 <InvoiceHistoryTableRowHeader>
-                  <ServiceUnavailableImage tooltipMessage={unavailableTooltipMessage} />
+                  <ServiceUnavailableImage
+                    tooltipMessage={unavailableTooltipMessage}
+                  />
                 </InvoiceHistoryTableRowHeader>
               ),
               index,
             })}
           />
         )}
-      />),
+      />
+    ),
   }[invoiceHistoryAccordianStatus];
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   mostRecentStatus: getMostRecentStatus(state),
   mostRecentStatusColor: getMostRecentStatusColor(state),
   invoiceHistoryAccordianStatus: getInvoiceHistoryAccordionStatus(state),

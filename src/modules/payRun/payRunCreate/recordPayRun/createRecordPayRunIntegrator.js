@@ -1,5 +1,8 @@
 import {
-  PREVIEW_PAY_DETAILS, PREVIEW_PAY_RUN_ACTIVITY, RECORD_PAYMENTS, SAVE_DRAFT,
+  PREVIEW_PAY_DETAILS,
+  PREVIEW_PAY_RUN_ACTIVITY,
+  RECORD_PAYMENTS,
+  SAVE_DRAFT,
 } from '../PayRunIntents';
 import { getBusinessId, getSaveDraftContent } from '../PayRunSelectors';
 import { getRecordPayContents } from './RecordPayRunSelectors';

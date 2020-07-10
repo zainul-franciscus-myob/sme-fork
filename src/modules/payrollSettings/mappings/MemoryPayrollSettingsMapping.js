@@ -23,31 +23,27 @@ import loadPaySlipEmailDefaultsResponse from './data/loadPaySlipEmailDefaultsRes
 import loadSuperFundListResponse from './data/superannuationList';
 import successResponse from '../../../integration/data/success.json';
 
-const loadSuperFundList = ({ onSuccess }) => onSuccess(loadSuperFundListResponse);
-const filteredSuperFundList = ({ onSuccess }) => onSuccess(filteredSuperFundListResponse);
-const loadEmployeeClassificationList = ({ onSuccess }) => onSuccess(
-  loadEmployeeClassificationListResponse,
-);
+const loadSuperFundList = ({ onSuccess }) =>
+  onSuccess(loadSuperFundListResponse);
+const filteredSuperFundList = ({ onSuccess }) =>
+  onSuccess(filteredSuperFundListResponse);
+const loadEmployeeClassificationList = ({ onSuccess }) =>
+  onSuccess(loadEmployeeClassificationListResponse);
 
-const filteredEmployeeClassificationList = ({ onSuccess }) => onSuccess(
-  filteredEmployeeClassificationListResponse,
-);
+const filteredEmployeeClassificationList = ({ onSuccess }) =>
+  onSuccess(filteredEmployeeClassificationListResponse);
 
-const loadNewEmploymentClassificatonDetail = ({ onSuccess }) => onSuccess(
-  loadNewEmploymentClassificationDetailResponse,
-);
+const loadNewEmploymentClassificatonDetail = ({ onSuccess }) =>
+  onSuccess(loadNewEmploymentClassificationDetailResponse);
 
-const loadEmploymentClassificationDetail = ({ onSuccess }) => onSuccess(
-  loadEmploymentClassificationDetailResponse,
-);
+const loadEmploymentClassificationDetail = ({ onSuccess }) =>
+  onSuccess(loadEmploymentClassificationDetailResponse);
 
-const loadGeneralPayrollInformationDetail = ({ onSuccess }) => onSuccess(
-  loadGeneralPayrollInformationResponse,
-);
+const loadGeneralPayrollInformationDetail = ({ onSuccess }) =>
+  onSuccess(loadGeneralPayrollInformationResponse);
 
-const loadPaySlipEmailDefaults = ({ onSuccess }) => onSuccess(
-  loadPaySlipEmailDefaultsResponse,
-);
+const loadPaySlipEmailDefaults = ({ onSuccess }) =>
+  onSuccess(loadPaySlipEmailDefaultsResponse);
 
 const successfulRequest = ({ onSuccess }) => onSuccess(successResponse);
 

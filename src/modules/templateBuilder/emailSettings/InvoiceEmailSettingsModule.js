@@ -2,7 +2,11 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  getBusinessId, getLoadingState, getRegion, getSalesSettingsPayload, getTabData,
+  getBusinessId,
+  getLoadingState,
+  getRegion,
+  getSalesSettingsPayload,
+  getTabData,
 } from '../../salesSettings/salesSettingsDetail/SalesSettingsDetailSelectors';
 import { mainTabIds } from '../../salesSettings/salesSettingsDetail/tabItems';
 import InvoiceEmailSettingsView from './InvoiceEmailSettingsView';
@@ -29,7 +33,8 @@ export default class InvoiceEmailSettingsModule {
       this.dispatcher.setTab(mainTabIds.emailDefaults);
     };
 
-    const onFailure = () => this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    const onFailure = () =>
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
 
     this.integrator.loadSalesSettings({ onSuccess, onFailure });
   };
@@ -63,7 +68,8 @@ export default class InvoiceEmailSettingsModule {
     window.location.href = `/#/${region}/${businessId}${path}`;
   };
 
-  redirectToTemplates = () => this.redirectToPath('/salesSettings?selectedTab=templates');
+  redirectToTemplates = () =>
+    this.redirectToPath('/salesSettings?selectedTab=templates');
 
   saveEmailSettings = () => {
     const state = this.store.getState();
@@ -98,7 +104,9 @@ export default class InvoiceEmailSettingsModule {
       />
     );
 
-    const wrappedView = <Provider store={this.store}>{salesSettingsView}</Provider>;
+    const wrappedView = (
+      <Provider store={this.store}>{salesSettingsView}</Provider>
+    );
 
     this.setRootView(wrappedView);
   };

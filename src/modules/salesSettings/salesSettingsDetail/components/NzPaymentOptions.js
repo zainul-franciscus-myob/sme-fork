@@ -1,5 +1,9 @@
 import {
-  Checkbox, CheckboxGroup, Field, Icons, Tooltip,
+  Checkbox,
+  CheckboxGroup,
+  Field,
+  Icons,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -8,15 +12,14 @@ import { getAccountOptions, getTabData } from '../SalesSettingsDetailSelectors';
 import NzDirectDeposit from './NzDirectDeposit';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 
-const NzPaymentOptions = ({
-  salesSettings,
-  onUpdateSalesSettingsItem,
-}) => (
+const NzPaymentOptions = ({ salesSettings, onUpdateSalesSettingsItem }) => (
   <>
     <Field
       label="Mail"
       hideLabel
-      renderField={() => <legend className="margin-bottom-00">Direct deposit</legend>}
+      renderField={() => (
+        <legend className="margin-bottom-00">Direct deposit</legend>
+      )}
     />
 
     <CheckboxGroup
@@ -26,21 +29,20 @@ const NzPaymentOptions = ({
         <Checkbox
           name="isAllowPaymentsByDirectDeposit"
           label="Allow payments by direct deposit"
-          labelAccessory={(
+          labelAccessory={
             <Tooltip triggerContent={<Icons.Info />}>
               Show direct deposit details at the bottom of your invoices
             </Tooltip>
-          )}
+          }
           checked={salesSettings.isAllowPaymentsByDirectDeposit}
           onChange={handleCheckboxChange(onUpdateSalesSettingsItem)}
         />
       )}
     />
 
-    {
-      salesSettings.isAllowPaymentsByDirectDeposit
-        && <NzDirectDeposit onUpdateSalesSettingsItem={onUpdateSalesSettingsItem} />
-    }
+    {salesSettings.isAllowPaymentsByDirectDeposit && (
+      <NzDirectDeposit onUpdateSalesSettingsItem={onUpdateSalesSettingsItem} />
+    )}
 
     <hr />
 
@@ -57,11 +59,11 @@ const NzPaymentOptions = ({
         <Checkbox
           name="isAllowPaymentsByMail"
           label="Allow payments by mail"
-          labelAccessory={(
+          labelAccessory={
             <Tooltip triggerContent={<Icons.Info />}>
               Show your business address on your invoices
             </Tooltip>
-          )}
+          }
           checked={salesSettings.isAllowPaymentsByMail}
           onChange={handleCheckboxChange(onUpdateSalesSettingsItem)}
         />
@@ -70,7 +72,7 @@ const NzPaymentOptions = ({
   </>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   salesSettings: getTabData(state),
   accountOptions: getAccountOptions(state),
 });

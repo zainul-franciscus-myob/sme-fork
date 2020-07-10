@@ -15,7 +15,7 @@ const CompanyName = ({ companyName, onChange }) => (
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   companyName: getCompanyName(state),
 });
 

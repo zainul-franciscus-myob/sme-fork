@@ -20,19 +20,25 @@ import itemListReducer from '../itemListReducer';
 
 describe('ItemListModule', () => {
   const setup = () => {
-    const setRootView = () => { };
+    const setRootView = () => {};
     const popMessages = () => [];
     const store = new TestStore(itemListReducer);
     const integration = new TestIntegration();
 
-    const module = new ItemListModule({ integration, setRootView, popMessages });
+    const module = new ItemListModule({
+      integration,
+      setRootView,
+      popMessages,
+    });
     module.store = store;
 
     module.dispatcher = CreateItemListDispatcher(module.store);
     module.integrator = CreateItemListIntegrator(module.store, integration);
 
     return {
-      store, module, integration,
+      store,
+      module,
+      integration,
     };
   };
 
@@ -114,12 +120,12 @@ describe('ItemListModule', () => {
     });
 
     it('displays alert from inbox', () => {
-      const {
-        store, module,
-      } = setup();
-      module.popMessages = jest.fn().mockReturnValue([{
-        content: '🍄',
-      }]);
+      const { store, module } = setup();
+      module.popMessages = jest.fn().mockReturnValue([
+        {
+          content: '🍄',
+        },
+      ]);
 
       module.run({});
 
@@ -213,13 +219,11 @@ describe('ItemListModule', () => {
 
       module.updateSort('DisplayId');
 
-      expect(store.getActions()).toContainEqual(
-        {
-          intent: SET_SORT_ORDER,
-          sortOrder: 'asc',
-          orderBy: 'DisplayId',
-        },
-      );
+      expect(store.getActions()).toContainEqual({
+        intent: SET_SORT_ORDER,
+        sortOrder: 'asc',
+        orderBy: 'DisplayId',
+      });
     });
   });
 
@@ -352,7 +356,7 @@ describe('ItemListModule', () => {
 
     it('debounces when updating `keywords` filter', () => {
       const { module } = setupWithRun();
-      debounce.default = jest.fn().mockImplementation(fn => fn);
+      debounce.default = jest.fn().mockImplementation((fn) => fn);
 
       module.updateFilterOptions({ key: 'keywords', value: '🐛' });
 

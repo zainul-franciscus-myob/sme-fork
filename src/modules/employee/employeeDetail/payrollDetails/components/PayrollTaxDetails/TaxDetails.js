@@ -1,5 +1,11 @@
 import {
-  Button, Combobox, Field, FieldGroup, FormHorizontal, Icons, Select,
+  Button,
+  Combobox,
+  Field,
+  FieldGroup,
+  FormHorizontal,
+  Icons,
+  Select,
 } from '@myob/myob-widgets';
 import React from 'react';
 
@@ -11,9 +17,7 @@ import handleInputChange from '../../../../../../components/handlers/handleInput
 import handleSelectChange from '../../../../../../components/handlers/handleSelectChange';
 import styles from './TaxDetails.module.css';
 
-const comboboxMetaData = [
-  { columnName: 'description', showData: true },
-];
+const comboboxMetaData = [{ columnName: 'description', showData: true }];
 
 const TaxDetails = ({
   taxTablesOptions,
@@ -40,9 +44,10 @@ const TaxDetails = ({
           value={taxFileNumberStatus}
           onChange={handleSelectChange(onTaxFileNumberStatusChange)}
         >
-          {taxFileNumberStatusOptions && taxFileNumberStatusOptions.map(({ name, value }) => (
-            <Select.Option key={name} value={value} label={name} />
-          ))}
+          {taxFileNumberStatusOptions &&
+            taxFileNumberStatusOptions.map(({ name, value }) => (
+              <Select.Option key={name} value={value} label={name} />
+            ))}
         </Select>
         <TfnInput
           name="taxFileNumber"
@@ -57,14 +62,14 @@ const TaxDetails = ({
           testid="taxTableCalculationLinkField"
           renderField={() => (
             <>
-                Select a tax table using the TFN declaration questions.
+              Select a tax table using the TFN declaration questions.
               <br />
               <Button
                 type="link"
                 icon={<Icons.Edit />}
                 onClick={onTfnModalLinkClick}
               >
-                    Fill out TFN declaration questions
+                Fill out TFN declaration questions
               </Button>
             </>
           )}
@@ -75,7 +80,10 @@ const TaxDetails = ({
           metaData={comboboxMetaData}
           selected={selectedTaxTable}
           items={taxTablesOptions}
-          onChange={handleComboboxChange('taxTableId', onPayrollTaxDetailsChange)}
+          onChange={handleComboboxChange(
+            'taxTableId',
+            onPayrollTaxDetailsChange
+          )}
         />
         <AmountInput
           key="withholdingVariationRate"

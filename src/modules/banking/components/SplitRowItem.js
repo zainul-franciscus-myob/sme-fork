@@ -7,7 +7,7 @@ import styles from './SplitRowItem.module.css';
 const SplitRowItem = ({ entry, onClick }) => (
   <div className={styles.splitAllocation}>
     <div className={styles.splitInfo}>
-      { entry.appliedRule && <AutoAllocated /> }
+      {entry.appliedRule && <AutoAllocated />}
       <AllocatedButton onClick={onClick}>
         {entry.allocateOrMatch}
       </AllocatedButton>

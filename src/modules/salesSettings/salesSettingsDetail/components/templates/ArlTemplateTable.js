@@ -22,10 +22,7 @@ const ArlTemplateTreeTable = ({ arlTemplates }) => {
     </TreeTable.Header>
   );
 
-  const TreeTableRow = ({
-    template,
-    level = 0,
-  }) => (
+  const TreeTableRow = ({ template, level = 0 }) => (
     <TreeTable.Row
       key={template.name}
       labelContent={template.name}
@@ -45,21 +42,25 @@ const ArlTemplateTreeTable = ({ arlTemplates }) => {
         indentLevel={level}
         rowData={{ id: template.name }}
       >
-        {template.children.map(nestedTemplate => (nestedTemplate.collapsible ? (
-          <TreeTableRowGroup template={nestedTemplate} level={level + 1} />
-        ) : (
-          <TreeTableRow template={nestedTemplate} level={level + 1} />
-        )))}
+        {template.children.map((nestedTemplate) =>
+          nestedTemplate.collapsible ? (
+            <TreeTableRowGroup template={nestedTemplate} level={level + 1} />
+          ) : (
+            <TreeTableRow template={nestedTemplate} level={level + 1} />
+          )
+        )}
       </TreeTable.HeaderRow>
     </TreeTable.RowGroup>
   );
   const tableBody = (
     <TreeTable.Body>
-      {arlTemplates.map(template => (template.collapsible ? (
-        <TreeTableRowGroup template={template} />
-      ) : (
-        <TreeTableRow template={template} />
-      )))}
+      {arlTemplates.map((template) =>
+        template.collapsible ? (
+          <TreeTableRowGroup template={template} />
+        ) : (
+          <TreeTableRow template={template} />
+        )
+      )}
     </TreeTable.Body>
   );
 
@@ -78,7 +79,7 @@ const ArlTemplateTreeTable = ({ arlTemplates }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   arlTemplates: getArlTemplates(state),
 });
 export default connect(mapStateToProps)(ArlTemplateTreeTable);

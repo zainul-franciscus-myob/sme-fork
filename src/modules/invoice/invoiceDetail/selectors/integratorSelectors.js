@@ -56,7 +56,10 @@ export const getLoadInvoiceUrlParams = (state) => {
   const duplicateId = isCreating ? getDuplicateId(state) : undefined;
 
   return {
-    businessId, invoiceId, quoteId, duplicateId,
+    businessId,
+    invoiceId,
+    quoteId,
+    duplicateId,
   };
 };
 
@@ -74,7 +77,8 @@ export const getCreateOrUpdateInvoicePayload = (state) => {
 
   const customers = getCustomerOptions(state);
   const customerId = getCustomerId(state);
-  const { name: customerName } = customers.find(({ id }) => customerId === id) || {};
+  const { name: customerName } =
+    customers.find(({ id }) => customerId === id) || {};
 
   const lines = getLines(state);
 
@@ -181,6 +185,7 @@ export const getInvoiceHistoryUrlParams = (state) => {
   const invoiceId = isCreating ? undefined : getInvoiceId(state);
 
   return {
-    businessId, invoiceId,
+    businessId,
+    invoiceId,
   };
 };

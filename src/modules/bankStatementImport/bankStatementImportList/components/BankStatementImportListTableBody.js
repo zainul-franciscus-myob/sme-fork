@@ -2,7 +2,10 @@ import { Button, Icons, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getEntries, getIsSubmitting } from '../BankStatementImportListSelectors';
+import {
+  getEntries,
+  getIsSubmitting,
+} from '../BankStatementImportListSelectors';
 
 const BankStatementImportListTableBody = ({
   entries,
@@ -10,14 +13,12 @@ const BankStatementImportListTableBody = ({
   tableConfig,
   onDeleteButtonClick,
 }) => {
-  const rows = entries.map(entry => (
+  const rows = entries.map((entry) => (
     <Table.Row key={entry.id}>
       <Table.RowItem {...tableConfig.importedDate}>
         {entry.importedDate}
       </Table.RowItem>
-      <Table.RowItem {...tableConfig.fileName}>
-        {entry.fileName}
-      </Table.RowItem>
+      <Table.RowItem {...tableConfig.fileName}>{entry.fileName}</Table.RowItem>
       <Table.RowItem {...tableConfig.firstTransactionDate}>
         {entry.firstTransactionDate}
       </Table.RowItem>
@@ -40,14 +41,10 @@ const BankStatementImportListTableBody = ({
     </Table.Row>
   ));
 
-  return (
-    <Table.Body>
-      {rows}
-    </Table.Body>
-  );
+  return <Table.Body>{rows}</Table.Body>;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   entries: getEntries(state),
   isSubmitting: getIsSubmitting(state),
 });

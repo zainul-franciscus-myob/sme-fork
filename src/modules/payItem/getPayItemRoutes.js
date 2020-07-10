@@ -7,7 +7,12 @@ import SuperPayItemModule from './superPayItem/SuperPayItemModule';
 import WagePayItemModule from './wagePayItem/WagePayItemModule';
 
 const getPayItemRoutes = ({
-  integration, setRootView, popMessages, pushMessage, replaceURLParams, featureToggles,
+  integration,
+  setRootView,
+  popMessages,
+  pushMessage,
+  replaceURLParams,
+  featureToggles,
 }) => {
   const routes = [
     {
@@ -15,7 +20,10 @@ const getPayItemRoutes = ({
       path: '/:region/:businessId/payItem/',
       allowedParams: ['tab'],
       module: new PayItemListModule({
-        integration, setRootView, popMessages, replaceURLParams,
+        integration,
+        setRootView,
+        popMessages,
+        replaceURLParams,
       }),
       documentTitle: 'Pay items',
     },
@@ -23,27 +31,40 @@ const getPayItemRoutes = ({
       name: RouteName.PAY_ITEM_SUPER,
       path: '/:region/:businessId/payItem/superannuation/:superPayItemId',
       module: new SuperPayItemModule({
-        integration, setRootView, pushMessage,
+        integration,
+        setRootView,
+        pushMessage,
       }),
       documentTitle: 'Superannuation pay item',
     },
     {
       name: RouteName.PAY_ITEM_DEDUCTION,
       path: '/:region/:businessId/payItem/deduction/:payItemId',
-      module: new DeductionPayItemDetailModule({ integration, setRootView, pushMessage }),
+      module: new DeductionPayItemDetailModule({
+        integration,
+        setRootView,
+        pushMessage,
+      }),
       documentTitle: 'Deduction pay item',
     },
     {
       name: RouteName.PAY_ITEM_EXPENSE,
       path: '/:region/:businessId/payItem/expense/:expensePayItemId',
-      module: new ExpensePayItemModule({ integration, setRootView, pushMessage }),
+      module: new ExpensePayItemModule({
+        integration,
+        setRootView,
+        pushMessage,
+      }),
       documentTitle: 'Expense pay item',
     },
     {
       name: RouteName.PAY_ITEM_WAGE,
       path: '/:region/:businessId/payItem/wage/:payItemId',
       module: new WagePayItemModule({
-        integration, setRootView, pushMessage, featureToggles,
+        integration,
+        setRootView,
+        pushMessage,
+        featureToggles,
       }),
       documentTitle: 'Wage pay item',
     },
@@ -51,7 +72,9 @@ const getPayItemRoutes = ({
       name: RouteName.PAY_ITEM_LEAVE,
       path: '/:region/:businessId/payItem/leave/:leavePayItemId',
       module: new LeavePayItemModule({
-        integration, setRootView, pushMessage,
+        integration,
+        setRootView,
+        pushMessage,
       }),
       documentTitle: 'Leave pay item',
     },

@@ -7,7 +7,7 @@ import {
   SORT_AND_FILTER_ACCOUNT_LIST,
 } from '../AccountIntents';
 
-const createAccountListDispatcher = store => ({
+const createAccountListDispatcher = (store) => ({
   setLoadingState: (loadingState) => {
     const intent = SET_LOADING_STATE;
     store.dispatch({ intent, loadingState });

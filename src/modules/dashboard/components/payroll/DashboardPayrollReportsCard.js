@@ -31,25 +31,21 @@ const DashboardPayrollReportsCard = ({
         {isFavouritesShowing && (
           <div>
             <h3>Favourites</h3>
-            {
-              favouriteReports.map(({ displayName, url }) => (
-                  <ReportLine isFavourite url={url}>{displayName}</ReportLine>
-              ))
-            }
+            {favouriteReports.map(({ displayName, url }) => (
+              <ReportLine isFavourite url={url}>
+                {displayName}
+              </ReportLine>
+            ))}
           </div>
         )}
-        {
-          isPopularShowing && (
-            <div>
-              <h3>Popular</h3>
-              {
-                popularReports.map(({ displayName, url }) => (
-                    <ReportLine url={url}>{displayName}</ReportLine>
-                ))
-              }
-            </div>
-          )
-        }
+        {isPopularShowing && (
+          <div>
+            <h3>Popular</h3>
+            {popularReports.map(({ displayName, url }) => (
+              <ReportLine url={url}>{displayName}</ReportLine>
+            ))}
+          </div>
+        )}
       </div>
       <div className={styles.viewAllSection}>
         <a href={viewAllUrl}>View all</a>
@@ -71,12 +67,14 @@ const DashboardPayrollReportsCard = ({
     </>
   );
 
-  return <DashboardPayrollCard
-    hasError={hasError}
-    onReload={onReload}
-    isLoading={isLoading}
-    view={view}
-  />;
+  return (
+    <DashboardPayrollCard
+      hasError={hasError}
+      onReload={onReload}
+      isLoading={isLoading}
+      view={view}
+    />
+  );
 };
 
 const mapStateToProps = (state) => ({

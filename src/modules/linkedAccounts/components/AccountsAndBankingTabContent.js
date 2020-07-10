@@ -32,32 +32,40 @@ const AccountsAndBankingTabContent = ({
       hideLabel={false}
       items={equityHistoricalBalancing.accounts}
       selectedId={equityHistoricalBalancing.accountId}
-      onChange={handleComboboxChange('equityHistoricalBalancing', onAccountChange)}
+      onChange={handleComboboxChange(
+        'equityHistoricalBalancing',
+        onAccountChange
+      )}
     />
     <AccountCombobox
       label="Bank account for electronic payments"
       hideLabel={false}
       items={bankAccountElectronicPayments.accounts}
       selectedId={bankAccountElectronicPayments.accountId}
-      onChange={handleComboboxChange('bankAccountElectronicPayments', onAccountChange)}
+      onChange={handleComboboxChange(
+        'bankAccountElectronicPayments',
+        onAccountChange
+      )}
     />
     <AccountCombobox
       label="Bank account for undeposited funds"
       hideLabel={false}
       items={bankAccountUndepositedFunds.accounts}
       selectedId={bankAccountUndepositedFunds.accountId}
-      onChange={handleComboboxChange('bankAccountUndepositedFunds', onAccountChange)}
+      onChange={handleComboboxChange(
+        'bankAccountUndepositedFunds',
+        onAccountChange
+      )}
     />
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   equityAccountCurrentEarnings: getEquityAccountCurrentEarnings(state),
   equityAccountRetainedEarnings: getEquityAccountRetainedEarnings(state),
   equityHistoricalBalancing: getEquityHistoricalBalancing(state),
   bankAccountElectronicPayments: getBankAccountElectronicPayments(state),
   bankAccountUndepositedFunds: getBankAccountUndepositedFunds(state),
-
 });
 
 export default connect(mapStateToProps)(AccountsAndBankingTabContent);

@@ -44,7 +44,7 @@ const loadLinkBill = (state, action) => ({
   },
   sortOrder: action.sortOrder,
   orderBy: action.orderBy,
-  bills: action.bills.map(bill => ({
+  bills: action.bills.map((bill) => ({
     ...bill,
     isSelected: false,
   })),
@@ -60,7 +60,7 @@ const updateFilterOptions = (state, action) => ({
 
 const updateBillSelection = (state, action) => ({
   ...state,
-  bills: state.bills.map(bill => ({
+  bills: state.bills.map((bill) => ({
     ...bill,
     isSelected: bill.id === action.id ? action.value : false,
   })),

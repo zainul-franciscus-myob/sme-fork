@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsActionDisabled, getIsOpen, getRegion, getTitle,
+  getAlert,
+  getIsActionDisabled,
+  getIsOpen,
+  getRegion,
+  getTitle,
 } from '../ContactModalSelectors';
 import AuContactModalDetails from './au/ContactModalDetails';
 import BillingAddress from './inputs/BillingAddress';
@@ -66,8 +70,20 @@ const ContactModalView = ({
         <PageView isLoading={isActionDisabled} view={view} />
       </Modal.Body>
       <Modal.Footer>
-        <Button type="secondary" onClick={onCancelButtonClick} disabled={isActionDisabled}>Cancel</Button>
-        <Button type="primary" onClick={onSaveButtonClick} disabled={isActionDisabled}>Save</Button>
+        <Button
+          type="secondary"
+          onClick={onCancelButtonClick}
+          disabled={isActionDisabled}
+        >
+          Cancel
+        </Button>
+        <Button
+          type="primary"
+          onClick={onSaveButtonClick}
+          disabled={isActionDisabled}
+        >
+          Save
+        </Button>
       </Modal.Footer>
     </Modal>
   );
@@ -75,7 +91,7 @@ const ContactModalView = ({
   return isOpen ? modal : null;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   region: getRegion(state),
   alert: getAlert(state),
   isOpen: getIsOpen(state),

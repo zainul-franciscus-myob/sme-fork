@@ -3,7 +3,11 @@ import React from 'react';
 import InvoiceBusinessDetails from './InvoiceBusinessDetails';
 import InvoiceLogoDetailsHeaderInformation from './InvoiceLogoDetailsHeaderInformation';
 
-const InvoiceLogoDetails = ({ onFileRemoved, onFileSelected, onUpdateTemplateOptions }) => (
+const InvoiceLogoDetails = ({
+  onFileRemoved,
+  onFileSelected,
+  onUpdateTemplateOptions,
+}) => (
   <>
     <InvoiceBusinessDetails onUpdateTemplateOptions={onUpdateTemplateOptions} />
     <InvoiceLogoDetailsHeaderInformation

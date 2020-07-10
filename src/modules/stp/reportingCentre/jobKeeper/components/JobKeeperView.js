@@ -1,8 +1,4 @@
-import {
-  BaseTemplate,
-  Button,
-  ButtonRow,
-} from '@myob/myob-widgets';
+import { BaseTemplate, Button, ButtonRow } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -39,48 +35,51 @@ const JobKeeperView = ({
   unsavedChangesModalListeners,
   featureToggles,
 }) => {
-  const jobKeeperTable = (<JobKeeperTable
-    employees={employees}
-    firstFortnightOptions={firstFortnightOptions}
-    finalFortnightOptions={finalFortnightOptions}
-    onSort={onSort}
-    isTableLoading={isTableLoading}
-    activeSort={activeSort}
-    onEmployeeChange={onEmployeeChange}
-    onOpenJobKeeperReport={onOpenJobKeeperReport}
-  />);
+  const jobKeeperTable = (
+    <JobKeeperTable
+      employees={employees}
+      firstFortnightOptions={firstFortnightOptions}
+      finalFortnightOptions={finalFortnightOptions}
+      onSort={onSort}
+      isTableLoading={isTableLoading}
+      activeSort={activeSort}
+      onEmployeeChange={onEmployeeChange}
+      onOpenJobKeeperReport={onOpenJobKeeperReport}
+    />
+  );
 
   const actions = (
     <ButtonRow>
-      <Button type="primary" onClick={onNotifyAtoClick}>Notify the ATO</Button>
+      <Button type="primary" onClick={onNotifyAtoClick}>
+        Notify the ATO
+      </Button>
     </ButtonRow>
   );
 
-
-  const page = (<BaseTemplate>
-    {unsavedChangesModalIsOpen && (
-      <CancelModal
-        onConfirm={unsavedChangesModalListeners.onConfirm}
-        onCancel={unsavedChangesModalListeners.onCancel}
+  const page = (
+    <BaseTemplate>
+      {unsavedChangesModalIsOpen && (
+        <CancelModal
+          onConfirm={unsavedChangesModalListeners.onConfirm}
+          onCancel={unsavedChangesModalListeners.onCancel}
+        />
+      )}
+      <JobKeeperFilter
+        payrollYears={payrollYears}
+        payrollYear={payrollYear}
+        onPayrollYearChange={onPayrollYearChange}
+        onOpenJobKeeperReport={onOpenJobKeeperReport}
+        featureToggles={featureToggles}
       />
-    )}
-    <JobKeeperFilter
-      payrollYears={payrollYears}
-      payrollYear={payrollYear}
-      onPayrollYearChange={onPayrollYearChange}
-      onOpenJobKeeperReport={onOpenJobKeeperReport}
-      featureToggles={featureToggles}
-    />
-    {jobKeeperTable}
-    {actions}
-  </BaseTemplate>);
-
-  return (
-    <PageView view={page} />
+      {jobKeeperTable}
+      {actions}
+    </BaseTemplate>
   );
+
+  return <PageView view={page} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   isTableLoading: getIsTableLoading(state),
   payrollYears: getPayrollYears(state),

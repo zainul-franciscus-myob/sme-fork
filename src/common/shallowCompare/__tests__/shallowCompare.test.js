@@ -27,7 +27,7 @@ describe('shallowCompare', () => {
     expect(actual).toEqual(true);
   });
 
-  it('should return false if both objects don\'t have the same key value pairs', () => {
+  it("should return false if both objects don't have the same key value pairs", () => {
     const obj1 = {
       key1: 'All',
       key2: true,

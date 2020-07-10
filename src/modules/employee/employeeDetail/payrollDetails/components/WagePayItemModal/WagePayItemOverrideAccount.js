@@ -1,6 +1,4 @@
-import {
-  Checkbox, CheckboxGroup,
-} from '@myob/myob-widgets';
+import { Checkbox, CheckboxGroup } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -36,7 +34,7 @@ const WagePayItemOverrideAccount = ({
         />
       )}
     />
-    { overrideAccount && (
+    {overrideAccount && (
       <AccountCombobox
         label="accounts"
         items={accounts}
@@ -48,7 +46,7 @@ const WagePayItemOverrideAccount = ({
   </React.Fragment>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   wage: getWage(state),
   accounts: getAccounts(state),
   defaultAccountId: getDefaultAccountId(state),

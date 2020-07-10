@@ -1,5 +1,8 @@
 import { SEND_PAY_SLIP_EMAIL } from './EmailPaySlipModalIntents';
-import { getEmailContentForCurrentEmployee, getEmailUrlParams } from './EmailPaySlipModalSelectors';
+import {
+  getEmailContentForCurrentEmployee,
+  getEmailUrlParams,
+} from './EmailPaySlipModalSelectors';
 
 const createEmailPaySlipModalIntegrator = (store, integration) => ({
   sendPaySlipEmail: ({ onSuccess, onFailure }) => {

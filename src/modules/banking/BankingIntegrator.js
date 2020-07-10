@@ -41,9 +41,7 @@ import {
   getSortBankTransactionsUrlParams,
   getUnallocationPayload,
 } from './bankingSelectors';
-import {
-  getBulkAllocationPayload,
-} from './bankingSelectors/bulkAllocationSelectors';
+import { getBulkAllocationPayload } from './bankingSelectors/bulkAllocationSelectors';
 import {
   getCreateTransferMoneyPayload,
   getMatchTransferMoneyPayload,
@@ -62,9 +60,7 @@ import { getRemoveDocumentParams } from './bankingSelectors/attachmentsSelectors
 import { getSplitAllocationPayload } from './bankingSelectors/splitAllocationSelectors';
 
 const createBankingIntegrator = (store, integration) => ({
-  loadBankTransactions: ({
-    onSuccess, onFailure,
-  }) => {
+  loadBankTransactions: ({ onSuccess, onFailure }) => {
     const state = store.getState();
 
     const intent = LOAD_BANK_TRANSACTIONS;
@@ -80,9 +76,7 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  loadBankTransactionsNextPage: ({
-    onSuccess, onFailure,
-  }) => {
+  loadBankTransactionsNextPage: ({ onSuccess, onFailure }) => {
     const state = store.getState();
 
     const intent = LOAD_BANK_TRANSACTIONS_NEXT_PAGE;
@@ -130,9 +124,7 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  allocateTransaction: ({
-    index, selectedAccount, onSuccess, onFailure,
-  }) => {
+  allocateTransaction: ({ index, selectedAccount, onSuccess, onFailure }) => {
     const state = store.getState();
 
     const intent = ALLOCATE_TRANSACTION;
@@ -150,9 +142,7 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  bulkAllocateTransactions: ({
-    onSuccess, onFailure,
-  }) => {
+  bulkAllocateTransactions: ({ onSuccess, onFailure }) => {
     const state = store.getState();
 
     const intent = BULK_ALLOCATE_TRANSACTIONS;
@@ -169,9 +159,7 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  unmatchTransaction: ({
-    onSuccess, onFailure,
-  }) => {
+  unmatchTransaction: ({ onSuccess, onFailure }) => {
     const state = store.getState();
 
     const intent = UNALLOCATE_TRANSACTION;
@@ -188,9 +176,7 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  loadExistingTransferMoney: ({
-    index, onSuccess, onFailure,
-  }) => {
+  loadExistingTransferMoney: ({ index, onSuccess, onFailure }) => {
     const state = store.getState();
     const intent = LOAD_TRANSFER_MONEY;
 
@@ -209,22 +195,22 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  loadMatchTransferMoney: ({
-    index, onSuccess, onFailure,
-  }) => {
+  loadMatchTransferMoney: ({ index, onSuccess, onFailure }) => {
     const state = store.getState();
     const intent = LOAD_MATCH_TRANSFER_MONEY;
     const urlParams = getMatchTransferMoneyUrlParams(state);
     const params = getMatchTransferMoneyQueryParams(state, index);
 
     integration.read({
-      intent, urlParams, params, onSuccess, onFailure,
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
     });
   },
 
-  saveMatchTransferMoney: ({
-    index, onSuccess, onFailure,
-  }) => {
+  saveMatchTransferMoney: ({ index, onSuccess, onFailure }) => {
     const intent = SAVE_TRANSFER_MONEY;
     const state = store.getState();
 
@@ -241,9 +227,7 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  saveTransferMoney: ({
-    index, onSuccess, onFailure,
-  }) => {
+  saveTransferMoney: ({ index, onSuccess, onFailure }) => {
     const intent = SAVE_TRANSFER_MONEY;
     const state = store.getState();
 
@@ -260,12 +244,13 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  loadSplitAllocation: ({
-    index, onSuccess, onFailure,
-  }) => {
+  loadSplitAllocation: ({ index, onSuccess, onFailure }) => {
     const state = store.getState();
 
-    const { withdrawal, journals } = getBankTransactionLineByIndex(state, index);
+    const { withdrawal, journals } = getBankTransactionLineByIndex(
+      state,
+      index
+    );
     const intent = LOAD_SPLIT_ALLOCATION;
 
     const urlParams = {
@@ -282,9 +267,7 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  saveSplitAllocation: ({
-    index, onSuccess, onFailure,
-  }) => {
+  saveSplitAllocation: ({ index, onSuccess, onFailure }) => {
     const intent = SAVE_SPLIT_ALLOCATION;
     const state = store.getState();
 
@@ -301,9 +284,7 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  unallocateOpenEntryTransaction: ({
-    onSuccess, onFailure,
-  }) => {
+  unallocateOpenEntryTransaction: ({ onSuccess, onFailure }) => {
     const intent = UNALLOCATE_TRANSACTION;
     const state = store.getState();
 
@@ -321,9 +302,7 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  loadMatchTranscation: ({
-    index, onSuccess, onFailure,
-  }) => {
+  loadMatchTranscation: ({ index, onSuccess, onFailure }) => {
     const state = store.getState();
 
     const intent = LOAD_MATCH_TRANSACTIONS;
@@ -335,7 +314,10 @@ const createBankingIntegrator = (store, integration) => ({
 
     const line = getBankTransactionLineByIndex(state, index);
 
-    const filterOptions = getDefaultMatchTransactionFilterRequestParams(accountId, line);
+    const filterOptions = getDefaultMatchTransactionFilterRequestParams(
+      accountId,
+      line
+    );
 
     integration.read({
       intent,
@@ -348,9 +330,7 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  sortOrFilterMatchTransaction: ({
-    onSuccess, onFailure,
-  }) => {
+  sortOrFilterMatchTransaction: ({ onSuccess, onFailure }) => {
     const state = store.getState();
 
     const intent = SORT_AND_FILTER_MATCH_TRANSACTIONS;
@@ -376,9 +356,7 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  saveMatchTransaction: ({
-    index, onSuccess, onFailure,
-  }) => {
+  saveMatchTransaction: ({ index, onSuccess, onFailure }) => {
     const intent = SAVE_MATCH_TRANSACTION;
     const state = store.getState();
 
@@ -395,9 +373,7 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  applyRuleToTransactions: ({
-    bankingRuleId, onSuccess, onFailure,
-  }) => {
+  applyRuleToTransactions: ({ bankingRuleId, onSuccess, onFailure }) => {
     const intent = APPLY_RULE_TO_TRANSACTIONS;
     const state = store.getState();
 
@@ -411,11 +387,7 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  loadAttachments: ({
-    index,
-    onSuccess,
-    onFailure,
-  }) => {
+  loadAttachments: ({ index, onSuccess, onFailure }) => {
     const state = store.getState();
     const intent = LOAD_ATTACHMENTS;
 
@@ -438,9 +410,7 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  uploadAttachment: ({
-    onSuccess, onFailure, onProgress, file,
-  }) => {
+  uploadAttachment: ({ onSuccess, onFailure, onProgress, file }) => {
     const state = store.getState();
     const index = getOpenPosition(state);
 
@@ -513,13 +483,14 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  linkInTrayDocument: ({
-    onSuccess, onFailure, inTrayDocumentId,
-  }) => {
+  linkInTrayDocument: ({ onSuccess, onFailure, inTrayDocumentId }) => {
     const state = store.getState();
     const index = getOpenPosition(state);
 
-    const { transactionUid, transactionId } = getBankTransactionLineByIndex(state, index);
+    const { transactionUid, transactionId } = getBankTransactionLineByIndex(
+      state,
+      index
+    );
 
     integration.write({
       intent: LINK_IN_TRAY_DOCUMENT,
@@ -546,7 +517,10 @@ const createBankingIntegrator = (store, integration) => ({
     };
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -559,7 +533,10 @@ const createBankingIntegrator = (store, integration) => ({
     };
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 });

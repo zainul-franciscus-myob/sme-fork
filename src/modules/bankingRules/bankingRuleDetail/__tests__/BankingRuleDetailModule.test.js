@@ -172,7 +172,7 @@ describe('BankingRuleDetailModule', () => {
         setup: setupWithExisting,
         intent: UPDATE_BANKING_RULE,
       },
-    ].forEach(test => {
+    ].forEach((test) => {
       describe(`when ${test.name}`, () => {
         const setupWithOpenCancelModal = () => {
           const toolbox = test.setup();
@@ -305,7 +305,6 @@ describe('BankingRuleDetailModule', () => {
         {
           intent: SET_LOADING_STATE,
           loadingState: LoadingState.LOADING_SUCCESS,
-
         },
       ]);
       expect(integration.getRequests()).toEqual([

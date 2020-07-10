@@ -52,7 +52,10 @@ describe('JobListModule', () => {
       expect(store.getActions()).toEqual([
         { intent: SET_INITIAL_STATE, context },
         { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING },
-        { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING_SUCCESS },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
         expect.objectContaining({ intent: LOAD_JOB_LIST }),
       ]);
       expect(integration.getRequests()).toEqual([
@@ -83,9 +86,10 @@ describe('JobListModule', () => {
 
       module.run(context);
 
-      expect(store.getActions()).toContainEqual(
-        { intent: SET_ALERT, alert: { type: 'success', message } },
-      );
+      expect(store.getActions()).toContainEqual({
+        intent: SET_ALERT,
+        alert: { type: 'success', message },
+      });
     });
   });
 

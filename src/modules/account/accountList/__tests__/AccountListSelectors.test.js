@@ -1,4 +1,7 @@
-import { getImportChartOfAccountsUrl, getTableEntries } from '../AccountListSelectors';
+import {
+  getImportChartOfAccountsUrl,
+  getTableEntries,
+} from '../AccountListSelectors';
 
 describe('AccountListSelectors', () => {
   describe('getTableEntries', () => {
@@ -82,7 +85,8 @@ describe('AccountListSelectors', () => {
         region: 'au',
       };
       const actual = getImportChartOfAccountsUrl(state);
-      const expected = '/#/au/abc/dataImportExport?importType=chartOfAccounts&exportType=chartOfAccounts';
+      const expected =
+        '/#/au/abc/dataImportExport?importType=chartOfAccounts&exportType=chartOfAccounts';
 
       expect(actual).toEqual(expected);
     });

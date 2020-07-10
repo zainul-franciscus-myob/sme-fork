@@ -5,9 +5,7 @@ import HeaderItem from './DashboardHeaderItem';
 import styles from './DashboardTotalSummary.module.css';
 
 const DashboardTotalSummary = ({ items = [], className = '' }) => {
-  const body = items.map(({
-    title, content, link, labelAccessory,
-  }) => {
+  const body = items.map(({ title, content, link, labelAccessory }) => {
     const headerItem = (
       <HeaderItem
         key={title}
@@ -18,15 +16,17 @@ const DashboardTotalSummary = ({ items = [], className = '' }) => {
       />
     );
 
-    return link
-      ? <a key={title} href={link}>{headerItem}</a>
-      : headerItem;
+    return link ? (
+      <a key={title} href={link}>
+        {headerItem}
+      </a>
+    ) : (
+      headerItem
+    );
   });
 
   return (
-    <div className={classNames(styles.totalHeader, className)}>
-      { body }
-    </div>
+    <div className={classNames(styles.totalHeader, className)}>{body}</div>
   );
 };
 

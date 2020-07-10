@@ -11,7 +11,7 @@ import {
   SORT_TERMINATION_EMPLOYEES,
 } from './TerminationIntents';
 
-const createTerminationDispatcher = store => ({
+const createTerminationDispatcher = (store) => ({
   setInitialState: (context) => {
     store.dispatch({
       intent: SET_INITIAL_STATE,

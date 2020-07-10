@@ -1,6 +1,11 @@
 import {
   Alert,
-  Button, Combobox, FieldGroup, Icons, Table, Tooltip,
+  Button,
+  Combobox,
+  FieldGroup,
+  Icons,
+  Table,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -14,8 +19,8 @@ const filteredListExemptionsMetadata = [{ columnName: 'name', showData: true }];
 const title = (
   <React.Fragment>
     Exemptions&nbsp;
-    <Tooltip triggerContent={(<Icons.Info />)}>
-      Select if this deduction  pay item will be exempt from taxes.
+    <Tooltip triggerContent={<Icons.Info />}>
+      Select if this deduction pay item will be exempt from taxes.
     </Tooltip>
   </React.Fragment>
 );
@@ -36,8 +41,12 @@ const ExemptionsView = ({
   <FieldGroup label={title} className={styles.editableTable}>
     <Table>
       <Table.Header>
-        <Table.HeaderItem key="name" {...tableConfig.name}>Name</Table.HeaderItem>
-        <Table.HeaderItem key="type" {...tableConfig.type}>Type</Table.HeaderItem>
+        <Table.HeaderItem key="name" {...tableConfig.name}>
+          Name
+        </Table.HeaderItem>
+        <Table.HeaderItem key="type" {...tableConfig.type}>
+          Type
+        </Table.HeaderItem>
         <Table.HeaderItem {...tableConfig.actions} />
       </Table.Header>
       <Table.Body>
@@ -48,11 +57,16 @@ const ExemptionsView = ({
             <Table.RowItem {...tableConfig.actions}>
               <Tooltip
                 placement="left"
-                triggerContent={(
-                <Button className={styles.removeRow} type="secondary" size="xs" onClick={() => onRemoveExemption(id)}>
-                  <Icons.Remove />
-                </Button>
-              )}
+                triggerContent={
+                  <Button
+                    className={styles.removeRow}
+                    type="secondary"
+                    size="xs"
+                    onClick={() => onRemoveExemption(id)}
+                  >
+                    <Icons.Remove />
+                  </Button>
+                }
               >
                 Remove pay item
               </Tooltip>
@@ -71,8 +85,14 @@ const ExemptionsView = ({
       onChange={handleComboboxChange('exemptions', onExemptionSelected)}
       width="lg"
     />
-    {isSelectedExemptionPayGWithholding && <Alert type="info">Deductions exempt from tax automatically reduce the employee&apos;s gross pay.</Alert>}
-  </FieldGroup>);
+    {isSelectedExemptionPayGWithholding && (
+      <Alert type="info">
+        Deductions exempt from tax automatically reduce the employee&apos;s
+        gross pay.
+      </Alert>
+    )}
+  </FieldGroup>
+);
 
 const mapToStateProps = getExemptionAllocations;
 

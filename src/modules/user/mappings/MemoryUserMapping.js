@@ -17,8 +17,10 @@ import userDetailResponse from './data/userDetailEntry';
 
 const loadUserList = ({ onSuccess }) => onSuccess(loadUserListResponse);
 const sortUserList = ({ onSuccess }) => onSuccess(sortUserListResponse);
-const loadEmptyUserDetail = ({ onSuccess }) => onSuccess(loadEmptyUserDetailResponse);
-const loadEmptyAdvisorDetail = ({ onSuccess }) => onSuccess(loadEmptyAdvisorDetailResponse);
+const loadEmptyUserDetail = ({ onSuccess }) =>
+  onSuccess(loadEmptyUserDetailResponse);
+const loadEmptyAdvisorDetail = ({ onSuccess }) =>
+  onSuccess(loadEmptyAdvisorDetailResponse);
 const createUser = ({ onSuccess }) => onSuccess(success);
 const updateUser = ({ onSuccess }) => onSuccess(success);
 const deleteUser = ({ onSuccess }) => onSuccess(success);

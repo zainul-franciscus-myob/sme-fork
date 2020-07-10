@@ -1,13 +1,21 @@
 import {
-  Checkbox, CheckboxGroup, FieldGroup, Icons, Tooltip,
+  Checkbox,
+  CheckboxGroup,
+  FieldGroup,
+  Icons,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getCarryRemainingLeave, getIsCreating, getPrintOnPaySlip } from '../leavePayItemSelectors';
+import {
+  getCarryRemainingLeave,
+  getIsCreating,
+  getPrintOnPaySlip,
+} from '../leavePayItemSelectors';
 import LeavePayItemCalculationBasis from './LeavePayItemCalculationBasis';
 
-const handleCheckBoxChange = handler => (e) => {
+const handleCheckBoxChange = (handler) => (e) => {
   const { name, checked } = e.target;
   handler({ key: name, value: checked });
 };
@@ -28,7 +36,9 @@ const LeavePayItemInfo = ({
   onCalculationBasisChange,
 }) => (
   <FieldGroup label="Leave information">
-    <LeavePayItemCalculationBasis onCalculationBasisChange={onCalculationBasisChange} />
+    <LeavePayItemCalculationBasis
+      onCalculationBasisChange={onCalculationBasisChange}
+    />
     <CheckboxGroup
       label="Print on pay slip"
       hideLabel
@@ -55,7 +65,7 @@ const LeavePayItemInfo = ({
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   printOnPaySlip: getPrintOnPaySlip(state),
   isCreating: getIsCreating(state),
   carryRemainingLeave: getCarryRemainingLeave(state),

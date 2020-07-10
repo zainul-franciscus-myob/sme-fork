@@ -1,5 +1,8 @@
 import {
-  getHourlyRate, getPayCycleOptions, getSelectedPayBasis, getSelectedPayCycle,
+  getHourlyRate,
+  getPayCycleOptions,
+  getSelectedPayBasis,
+  getSelectedPayCycle,
 } from '../salaryAndWageSelectors';
 
 describe('salaryAndWageSelectors', () => {
@@ -11,23 +14,28 @@ describe('salaryAndWageSelectors', () => {
         selectedPayCycle: 'Weekly',
       },
     },
-    payCycleOptions: [
-      { id: 'weekly', describe: 'Weekly' },
-    ],
+    payCycleOptions: [{ id: 'weekly', describe: 'Weekly' }],
   };
 
   describe('Data', () => {
     describe.each([
       ['getHourlyRate', getHourlyRate, state.payrollDetails.wage.hourlyRate],
-      ['getSelectedPayBasis', getSelectedPayBasis, state.payrollDetails.wage.selectedPayBasis],
-      ['getSelectedPayCycle', getSelectedPayCycle, state.payrollDetails.wage.selectedPayCycle],
+      [
+        'getSelectedPayBasis',
+        getSelectedPayBasis,
+        state.payrollDetails.wage.selectedPayBasis,
+      ],
+      [
+        'getSelectedPayCycle',
+        getSelectedPayCycle,
+        state.payrollDetails.wage.selectedPayCycle,
+      ],
     ])('%s', (label, selector, expectedValue) => {
       it(`should select "${expectedValue}"`, () => {
         expect(selector(state)).toEqual(expectedValue);
       });
     });
   });
-
 
   describe('Options', () => {
     describe('getPayCycleOptions', () => {

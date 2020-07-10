@@ -5,13 +5,12 @@ import { SET_MODAL_IS_OPEN } from '../EmployeePayModalIntents';
 import { findButtonWithTestId } from '../../../../common/tests/selectors';
 import EmployeePayModalModule from '../EmployeePayModalModule';
 import StpDeclarationModal from '../../../stp/stpDeclarationModal/components/StpDeclarationModal';
-import loadEmployeePayReversalPreviewDetail
-  from '../../mappings/data/loadEmployeePayReversalPreviewDetail';
+import loadEmployeePayReversalPreviewDetail from '../../mappings/data/loadEmployeePayReversalPreviewDetail';
 
 describe('employeePayModalModule', () => {
   describe('employeePayModalModule without feature toggles', () => {
-    const constructModule = (module = new EmployeePayModalModule(
-      {
+    const constructModule = (
+      module = new EmployeePayModalModule({
         integration: {
           read: ({ intent, onSuccess }) => {
             if (intent === SET_MODAL_IS_OPEN) {
@@ -22,8 +21,8 @@ describe('employeePayModalModule', () => {
           },
           write: ({ onSuccess }) => onSuccess(),
         },
-      },
-    )) => {
+      })
+    ) => {
       const wrapper = mount(module.getView());
       module.openModal({ businessId: '1', region: 'au' });
       wrapper.update();
@@ -55,7 +54,9 @@ describe('employeePayModalModule', () => {
       });
       wrapper.update();
 
-      expect(wrapper.find({ testid: 'employee-pay-modal-delete-btn' })).toHaveLength(1);
+      expect(
+        wrapper.find({ testid: 'employee-pay-modal-delete-btn' })
+      ).toHaveLength(1);
     });
 
     it('should not render delete buttons if readonly state is true', () => {
@@ -69,7 +70,9 @@ describe('employeePayModalModule', () => {
       });
       wrapper.update();
 
-      expect((findButtonWithTestId(wrapper, 'employee-pay-modal-delete-btn'))).toHaveLength(0);
+      expect(
+        findButtonWithTestId(wrapper, 'employee-pay-modal-delete-btn')
+      ).toHaveLength(0);
     });
 
     it('should not render reverse buttons if feature toggle isPayrollReversibleEnabled is not enabled', () => {
@@ -83,8 +86,12 @@ describe('employeePayModalModule', () => {
       });
       wrapper.update();
 
-      expect(wrapper.find({ testid: 'employee-pay-modal-delete-btn' })).toHaveLength(1);
-      expect(findButtonWithTestId(wrapper, 'modal-preview-reverse-btn')).toHaveLength(0);
+      expect(
+        wrapper.find({ testid: 'employee-pay-modal-delete-btn' })
+      ).toHaveLength(1);
+      expect(
+        findButtonWithTestId(wrapper, 'modal-preview-reverse-btn')
+      ).toHaveLength(0);
     });
 
     it('clear modal after sending the reversal of employee pay transaction successfully', () => {
@@ -94,13 +101,15 @@ describe('employeePayModalModule', () => {
       wrapper.update();
 
       expect(wrapper).toEqual({});
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/payRun'));
+      expect(window.location.href).toEqual(
+        expect.stringContaining('/#/au/1/payRun')
+      );
     });
   });
 
   describe('construct module with Feature toggles', () => {
-    const constructModuleWithFT = (module = new EmployeePayModalModule(
-      {
+    const constructModuleWithFT = (
+      module = new EmployeePayModalModule({
         integration: {
           read: ({ intent, onSuccess }) => {
             if (intent === SET_MODAL_IS_OPEN) {
@@ -112,8 +121,8 @@ describe('employeePayModalModule', () => {
         },
         onDelete: {},
         featureToggles: { isPayrollReversibleEnabled: true },
-      },
-    )) => {
+      })
+    ) => {
       const wrapper = mount(module.getView());
       module.openModal({});
       wrapper.update();
@@ -135,13 +144,15 @@ describe('employeePayModalModule', () => {
       });
       wrapper.update();
 
-      expect((findButtonWithTestId(wrapper, 'modal-preview-reverse-btn'))).toHaveLength(1);
+      expect(
+        findButtonWithTestId(wrapper, 'modal-preview-reverse-btn')
+      ).toHaveLength(1);
     });
   });
 
   describe('Stp Declaration Modal', () => {
-    const constructModuleWithModal = (module = new EmployeePayModalModule(
-      {
+    const constructModuleWithModal = (
+      module = new EmployeePayModalModule({
         integration: {
           read: ({ intent, onSuccess }) => {
             if (intent === SET_MODAL_IS_OPEN) {
@@ -153,8 +164,8 @@ describe('employeePayModalModule', () => {
         },
         onDelete: {},
         featureToggles: { isPayrollReversibleEnabled: true },
-      },
-    )) => {
+      })
+    ) => {
       const wrapper = mount(module.getView());
       module.openModal({});
       wrapper.update();
@@ -176,13 +187,17 @@ describe('employeePayModalModule', () => {
       });
       wrapper.update();
 
-      findButtonWithTestId(wrapper, 'modal-preview-reverse-btn').simulate('click');
-      findButtonWithTestId(wrapper, 'modal-record-reverse-btn').simulate('click');
+      findButtonWithTestId(wrapper, 'modal-preview-reverse-btn').simulate(
+        'click'
+      );
+      findButtonWithTestId(wrapper, 'modal-record-reverse-btn').simulate(
+        'click'
+      );
 
       const declarationModal = wrapper.find(StpDeclarationModal);
       expect(declarationModal.find(Modal)).toHaveLength(1);
       expect(module.stpDeclarationModule.onDeclared).toBe(
-        module.sendReversalEmployeePay,
+        module.sendReversalEmployeePay
       );
     });
   });

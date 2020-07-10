@@ -22,9 +22,9 @@ import invoiceListReducer from '../invoiceListReducer';
 describe('InvoiceListModule', () => {
   const setup = () => {
     // Mock loadSettings from localstorage to prevent side effects
-    localStorageDriver.loadSettings = () => { };
+    localStorageDriver.loadSettings = () => {};
 
-    const setRootView = () => { };
+    const setRootView = () => {};
     const popMessages = () => [];
     const store = new TestStore(invoiceListReducer);
     const integration = new TestIntegration();
@@ -114,12 +114,12 @@ describe('InvoiceListModule', () => {
     });
 
     it('displays alert from inbox', () => {
-      const {
-        store, module,
-      } = setup();
-      module.popMessages = jest.fn().mockReturnValue([{
-        content: '🍄',
-      }]);
+      const { store, module } = setup();
+      module.popMessages = jest.fn().mockReturnValue([
+        {
+          content: '🍄',
+        },
+      ]);
 
       module.run({});
 
@@ -145,7 +145,7 @@ describe('InvoiceListModule', () => {
         sortOrder: 'asc',
         orderBy: '🤡',
       };
-      localStorageDriver.loadSettings = () => (localSettings);
+      localStorageDriver.loadSettings = () => localSettings;
       module.run({});
 
       expect(store.getActions()).toContainEqual({
@@ -234,25 +234,21 @@ describe('InvoiceListModule', () => {
       const { store, integration, module } = setupWithRun();
 
       module.sortInvoiceList('DisplayId');
-      expect(store.getActions()).toContainEqual(
-        {
-          intent: SET_SORT_ORDER,
-          sortOrder: 'asc',
-          orderBy: 'DisplayId',
-        },
-      );
+      expect(store.getActions()).toContainEqual({
+        intent: SET_SORT_ORDER,
+        sortOrder: 'asc',
+        orderBy: 'DisplayId',
+      });
 
       store.resetActions();
       integration.resetRequests();
 
       module.sortInvoiceList('DisplayId');
-      expect(store.getActions()).toContainEqual(
-        {
-          intent: SET_SORT_ORDER,
-          sortOrder: 'desc',
-          orderBy: 'DisplayId',
-        },
-      );
+      expect(store.getActions()).toContainEqual({
+        intent: SET_SORT_ORDER,
+        sortOrder: 'desc',
+        orderBy: 'DisplayId',
+      });
     });
   });
 

@@ -43,7 +43,10 @@ const LimitSection = ({
         hideLabel={false}
         items={limitPayItemOptions}
         selectedId={limitPayItemId}
-        onChange={handleComboboxChange('limitPayItemId', onChangeExpensePayItemInput)}
+        onChange={handleComboboxChange(
+          'limitPayItemId',
+          onChangeExpensePayItemInput
+        )}
       />
     </React.Fragment>
   );
@@ -64,8 +67,12 @@ const LimitSection = ({
         value={limitPeriod}
         onChange={handleSelectChange(onChangeExpensePayItemInput)}
       >
-        {periodOptions.map(period => (
-          <Select.Option key={period.value} value={period.value} label={period.label} />
+        {periodOptions.map((period) => (
+          <Select.Option
+            key={period.value}
+            value={period.value}
+            label={period.label}
+          />
         ))}
       </Select>
     </React.Fragment>
@@ -86,15 +93,21 @@ const LimitSection = ({
         onChange={handleSelectChange(onChangeExpensePayItemInput)}
       >
         <Select.Option value={Limit.NO_LIMIT} label="No limit" />
-        <Select.Option value={Limit.PERCENT} label="Equals a percentage of wage" />
-        <Select.Option value={Limit.FIXED_DOLLAR} label="Equals dollars per pay period" />
+        <Select.Option
+          value={Limit.PERCENT}
+          label="Equals a percentage of wage"
+        />
+        <Select.Option
+          value={Limit.FIXED_DOLLAR}
+          label="Equals dollars per pay period"
+        />
       </Select>
       {form}
     </React.Fragment>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   limit: getLimit(state),
   limitPercentage: getLimitPercentage(state),
   limitPayItemId: getLimitPayItemId(state),

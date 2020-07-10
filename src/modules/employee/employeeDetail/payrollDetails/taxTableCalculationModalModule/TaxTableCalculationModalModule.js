@@ -1,7 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getOnSaveContent, getTaxTableId } from './taxTableCalculationModalSelectors';
+import {
+  getOnSaveContent,
+  getTaxTableId,
+} from './taxTableCalculationModalSelectors';
 import Store from '../../../../../store/Store';
 import TaxTableCalculationModal from './components/TaxTableCalculationModal';
 import createTaxTableCalculationModalDispatcher from './createTaxTableCalculationModalDispatcher';
@@ -12,18 +15,21 @@ export default class TaxTableCalculationModalModule {
   constructor({ integration }) {
     this.store = new Store(taxTableCalculationModalReducer);
     this.dispatcher = createTaxTableCalculationModalDispatcher(this.store);
-    this.integrator = createTaxTableCalculationModalIntegrator(this.store, integration);
+    this.integrator = createTaxTableCalculationModalIntegrator(
+      this.store,
+      integration
+    );
     this.onSave = () => {};
   }
 
   onFieldChange = ({ key, value }) => {
     this.dispatcher.updateFormField({ key, value });
     this.fetchTaxTable();
-  }
+  };
 
   onWithholdingVariationBlur = ({ value }) => {
     this.dispatcher.formatWithholdingVariationField(value);
-  }
+  };
 
   fetchTaxTable = () => {
     this.dispatcher.setIsLoading(true);
@@ -41,7 +47,7 @@ export default class TaxTableCalculationModalModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   render() {
     return (
@@ -61,12 +67,12 @@ export default class TaxTableCalculationModalModule {
     this.fetchTaxTable();
     this.dispatcher.setIsOpen(true);
     this.onSave = onSave;
-  }
+  };
 
   close = () => {
     this.dispatcher.setIsOpen(false);
     this.onSave = null;
-  }
+  };
 
   save = () => {
     const state = this.store.getState();
@@ -74,5 +80,5 @@ export default class TaxTableCalculationModalModule {
       this.onSave(getOnSaveContent(state));
       this.close();
     }
-  }
+  };
 }

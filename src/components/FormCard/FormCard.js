@@ -3,14 +3,9 @@ import React from 'react';
 
 import style from './FormCard.module.css';
 
-const FormCard = ({
-  children,
-  ...otherProps
-}) => (
+const FormCard = ({ children, ...otherProps }) => (
   <div className={style.card}>
-    <Card {...otherProps}>
-      {children}
-    </Card>
+    <Card {...otherProps}>{children}</Card>
   </div>
 );
 

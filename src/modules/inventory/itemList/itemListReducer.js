@@ -9,10 +9,7 @@ import {
   SORT_AND_FILTER_ITEM_LIST,
   UPDATE_FILTER_OPTIONS,
 } from '../InventoryIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -96,7 +93,7 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setNextPageLoadingState = (state, action) => ({
   ...state,
@@ -104,20 +101,17 @@ const setNextPageLoadingState = (state, action) => ({
 });
 
 const loadNextPage = (state, action) => {
-  const filterUniqueEntries = action.entries.filter(
-    ({ id }) => state.entries.every(entry => entry.id !== id),
+  const filterUniqueEntries = action.entries.filter(({ id }) =>
+    state.entries.every((entry) => entry.id !== id)
   );
-  return ({
+  return {
     ...state,
-    entries: [
-      ...state.entries,
-      ...filterUniqueEntries,
-    ],
+    entries: [...state.entries, ...filterUniqueEntries],
     pagination: {
       hasNextPage: action.pagination.hasNextPage,
       offset: action.pagination.offset,
     },
-  });
+  };
 };
 
 const handlers = {

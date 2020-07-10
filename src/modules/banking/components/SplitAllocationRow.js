@@ -3,24 +3,27 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsBankingJobColumnEnabled, getIsJobComboboxDisabled,
+  getIsBankingJobColumnEnabled,
+  getIsJobComboboxDisabled,
 } from '../bankingSelectors';
 import {
-  getLineDataByIndexSelector, getNewLineData,
+  getLineDataByIndexSelector,
+  getNewLineData,
 } from '../bankingSelectors/splitAllocationSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import Calculator from '../../../components/Calculator/Calculator';
 import JobCombobox from '../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
 
-const handleComboBoxChange = (name, onChange) => item => onChange({
-  target: {
-    name,
-    value: item.id,
-  },
-});
+const handleComboBoxChange = (name, onChange) => (item) =>
+  onChange({
+    target: {
+      name,
+      value: item.id,
+    },
+  });
 
-const handleAmountChange = onChange => (e) => {
+const handleAmountChange = (onChange) => (e) => {
   onChange({
     target: {
       name: e.target.name,
@@ -71,7 +74,9 @@ const SplitAllocationRow = (props) => {
         items={accounts}
         selectedId={accountId}
         onChange={handleComboBoxChange('accountId', onChange)}
-        addNewAccount={() => onAddAccount(handleComboBoxChange('accountId', onChange))}
+        addNewAccount={() =>
+          onAddAccount(handleComboBoxChange('accountId', onChange))
+        }
       />
       <Calculator
         disabled={disabled}
@@ -114,23 +119,26 @@ const SplitAllocationRow = (props) => {
         onChange={onChange}
         autoSize
       />
-      {isBankingJobColumnEnabled && <JobCombobox
-        label="Job"
-        onChange={handleComboBoxChange('jobId', onChange)}
-        items={lineJobOptions}
-        selectedId={jobId}
-        disabled={isJobComboboxDisabled}
-        addNewJob={() => onAddJob(handleComboBoxChange('jobId', onChange))}
-        allowClear
-        left
-      />}
+      {isBankingJobColumnEnabled && (
+        <JobCombobox
+          label="Job"
+          onChange={handleComboBoxChange('jobId', onChange)}
+          items={lineJobOptions}
+          selectedId={jobId}
+          disabled={isJobComboboxDisabled}
+          addNewJob={() => onAddJob(handleComboBoxChange('jobId', onChange))}
+          allowClear
+          left
+        />
+      )}
       <TaxCodeCombobox
         disabled={disabled}
         items={taxCodes}
         selectedId={taxCodeId}
         onChange={handleComboBoxChange('taxCodeId', onChange)}
       />
-    </LineItemTable.Row>);
+    </LineItemTable.Row>
+  );
 };
 
 const makeMapRowStateToProps = () => {

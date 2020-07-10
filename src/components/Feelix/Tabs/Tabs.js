@@ -2,10 +2,8 @@ import React from 'react';
 
 import TabItem from './TabItem';
 
-export const Tabs = ({
-  items, onSelected, selected, children,
-}) => {
-  const nodes = items.map(item => (
+export const Tabs = ({ items, onSelected, selected, children }) => {
+  const nodes = items.map((item) => (
     <TabItem
       key={item.id}
       isActive={item.id === selected}

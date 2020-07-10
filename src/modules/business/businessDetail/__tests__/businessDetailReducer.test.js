@@ -1,4 +1,7 @@
-import { LOAD_BUSINESS_DETAIL, UPDATE_LOCK_DATE_DETAIL } from '../../BusinessIntents';
+import {
+  LOAD_BUSINESS_DETAIL,
+  UPDATE_LOCK_DATE_DETAIL,
+} from '../../BusinessIntents';
 import businessDetailsReducer from '../businessDetailReducer';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
 

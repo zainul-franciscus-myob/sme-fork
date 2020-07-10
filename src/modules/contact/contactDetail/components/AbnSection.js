@@ -3,12 +3,16 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAbn, getAbnLink, getAbnValidationResult, getIsValidatingAbn, getRegion,
+  getAbn,
+  getAbnLink,
+  getAbnValidationResult,
+  getIsValidatingAbn,
+  getRegion,
 } from '../contactDetailSelectors';
 import AbnInput from '../../../../components/autoFormatter/AbnInput/AbnInput';
 import LinkButton from '../../../../components/Button/LinkButton';
 
-const onAbnInputChange = handler => (e) => {
+const onAbnInputChange = (handler) => (e) => {
   const { name, rawValue } = e.target;
   handler({ key: name, value: rawValue });
 };
@@ -57,7 +61,7 @@ const AbnSection = ({
   }[region];
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   abn: getAbn(state),
   abnLink: getAbnLink(state),
   region: getRegion(state),

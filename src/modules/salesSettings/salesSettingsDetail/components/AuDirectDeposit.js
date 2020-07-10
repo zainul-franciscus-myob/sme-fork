@@ -1,18 +1,17 @@
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAccountOptions, getIsRegistered, getTabData } from '../SalesSettingsDetailSelectors';
-import AccountNumberInput
-  from '../../../../components/autoFormatter/BankDetailsInput/AccountNumberInput';
+import {
+  getAccountOptions,
+  getIsRegistered,
+  getTabData,
+} from '../SalesSettingsDetailSelectors';
+import AccountNumberInput from '../../../../components/autoFormatter/BankDetailsInput/AccountNumberInput';
 import BSBInput from '../../../../components/autoFormatter/BankDetailsInput/BSBInput';
-import UpperCaseInputFormatter
-  from '../../../../components/autoFormatter/UpperCaseInput/UpperCaseInputFormatter';
+import UpperCaseInputFormatter from '../../../../components/autoFormatter/UpperCaseInput/UpperCaseInputFormatter';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
-const AuPaymentOptions = ({
-  salesSettings,
-  onUpdateSalesSettingsItem,
-}) => {
+const AuPaymentOptions = ({ salesSettings, onUpdateSalesSettingsItem }) => {
   const directDepositPayment = (
     <>
       <UpperCaseInputFormatter
@@ -53,13 +52,11 @@ const AuPaymentOptions = ({
   );
 
   return (
-    <>
-      {salesSettings.isAllowPaymentsByDirectDeposit && directDepositPayment}
-    </>
+    <>{salesSettings.isAllowPaymentsByDirectDeposit && directDepositPayment}</>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   salesSettings: getTabData(state),
   isRegistered: getIsRegistered(state),
   accountOptions: getAccountOptions(state),

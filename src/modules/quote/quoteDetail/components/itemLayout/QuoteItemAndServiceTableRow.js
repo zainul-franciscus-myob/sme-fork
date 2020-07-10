@@ -28,14 +28,13 @@ const onComboboxChange = (name, onChange) => (item) => {
   });
 };
 
-const handleAmountInputChange = handler => e => (
+const handleAmountInputChange = (handler) => (e) =>
   handler({
     target: {
       name: e.target.name,
       value: e.target.rawValue,
     },
-  })
-);
+  });
 
 const handleAmountInputBlur = (handler, index) => (e) => {
   const { name: key, rawValue: value } = e.target;
@@ -91,108 +90,116 @@ const QuoteItemAndServiceTableRow = ({
   }
 
   return (
-  <LineItemTable.Row
-    {...feelixInjectedProps}
-    id={index}
-    index={index}
-    onRemove={isCalculating ? undefined : feelixInjectedProps.onRemove}
-  >
-    <ItemCombobox
-      addNewItem={() => onAddItemButtonClick(onComboboxChange('itemId', onChange))}
-      items={itemOptions}
-      selectedId={itemId}
-      onChange={onComboboxChange('itemId', onChange)}
-      label="Item number"
-      name="itemId"
-      disabled={isCalculating || isReadOnly}
-    />
-    <TextArea
-      name="description"
-      label="Item name"
-      value={description}
-      onChange={onChange}
-      disabled={isCalculating || isReadOnly}
-      autoSize
-      maxLength={1000}
-    />
-    <AccountCombobox
-      label="Allocate to"
-      onChange={onComboboxChange('allocatedAccountId', onChange)}
-      items={accountOptions}
-      selectedId={allocatedAccountId}
-      addNewAccount={() => onAddAccountButtonClick(onComboboxChange('allocatedAccountId', onChange))}
-      disabled={isCalculating || isReadOnly}
-    />
-    <Input
-      name="unitOfMeasure"
-      label="Unit"
-      value={unitOfMeasure}
-      onChange={onChange}
-      disabled={isCalculating || isReadOnly}
-      maxLength={5}
-    />
-    <Calculator
-      name="units"
-      label="No of units"
-      value={units}
-      onChange={handleAmountInputChange(onChange)}
-      onBlur={handleAmountInputBlur(onTableRowAmountInputBlur, index)}
-      textAlign="right"
-      disabled={isCalculating || isReadOnly}
-      numeralDecimalScaleMax={6}
-    />
-    <Calculator
-      label="Unit price"
-      hideLabel
-      name="unitPrice"
-      value={unitPrice}
-      onChange={handleAmountInputChange(onChange)}
-      onBlur={handleAmountInputBlur(onTableRowAmountInputBlur, index)}
-      textAlign="right"
-      disabled={isCalculating || isReadOnly}
-      numeralDecimalScaleMin={2}
-      numeralDecimalScaleMax={6}
-    />
-    <Calculator
-      label="Discount"
-      hideLabel
-      name="discount"
-      value={discount}
-      onChange={handleAmountInputChange(onChange)}
-      onBlur={handleAmountInputBlur(onTableRowAmountInputBlur, index)}
-      textAlign="right"
-      disabled={isCalculating || isReadOnly}
-      numeralDecimalScaleMin={2}
-      numeralDecimalScaleMax={2}
-    />
-    <Calculator
-      label="Amount"
-      hideLabel
-      name="amount"
-      value={amount}
-      onChange={handleAmountInputChange(onChange)}
-      onBlur={handleAmountInputBlur(onTableRowAmountInputBlur, index)}
-      textAlign="right"
-      disabled={isCalculating || isReadOnly}
-      numeralDecimalScaleMin={2}
-      numeralDecimalScaleMax={2}
-    />
-    {isQuoteJobColumnEnabled && <JobCombobox
-      items={lineJobOptions}
-      selectedId={jobId}
-      onChange={onComboboxChange('jobId', onChange)}
-      addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
-      disabled={isJobComboboxDisabled || isCalculating || isReadOnly}
-      allowClear
-      left
-    />}
-    <TaxCodeCombobox
-      items={taxCodeOptions}
-      selectedId={taxCodeId}
-      onChange={onComboboxChange('taxCodeId', onChange)}
-      disabled={isCalculating || isReadOnly}
-    />
-  </LineItemTable.Row>
+    <LineItemTable.Row
+      {...feelixInjectedProps}
+      id={index}
+      index={index}
+      onRemove={isCalculating ? undefined : feelixInjectedProps.onRemove}
+    >
+      <ItemCombobox
+        addNewItem={() =>
+          onAddItemButtonClick(onComboboxChange('itemId', onChange))
+        }
+        items={itemOptions}
+        selectedId={itemId}
+        onChange={onComboboxChange('itemId', onChange)}
+        label="Item number"
+        name="itemId"
+        disabled={isCalculating || isReadOnly}
+      />
+      <TextArea
+        name="description"
+        label="Item name"
+        value={description}
+        onChange={onChange}
+        disabled={isCalculating || isReadOnly}
+        autoSize
+        maxLength={1000}
+      />
+      <AccountCombobox
+        label="Allocate to"
+        onChange={onComboboxChange('allocatedAccountId', onChange)}
+        items={accountOptions}
+        selectedId={allocatedAccountId}
+        addNewAccount={() =>
+          onAddAccountButtonClick(
+            onComboboxChange('allocatedAccountId', onChange)
+          )
+        }
+        disabled={isCalculating || isReadOnly}
+      />
+      <Input
+        name="unitOfMeasure"
+        label="Unit"
+        value={unitOfMeasure}
+        onChange={onChange}
+        disabled={isCalculating || isReadOnly}
+        maxLength={5}
+      />
+      <Calculator
+        name="units"
+        label="No of units"
+        value={units}
+        onChange={handleAmountInputChange(onChange)}
+        onBlur={handleAmountInputBlur(onTableRowAmountInputBlur, index)}
+        textAlign="right"
+        disabled={isCalculating || isReadOnly}
+        numeralDecimalScaleMax={6}
+      />
+      <Calculator
+        label="Unit price"
+        hideLabel
+        name="unitPrice"
+        value={unitPrice}
+        onChange={handleAmountInputChange(onChange)}
+        onBlur={handleAmountInputBlur(onTableRowAmountInputBlur, index)}
+        textAlign="right"
+        disabled={isCalculating || isReadOnly}
+        numeralDecimalScaleMin={2}
+        numeralDecimalScaleMax={6}
+      />
+      <Calculator
+        label="Discount"
+        hideLabel
+        name="discount"
+        value={discount}
+        onChange={handleAmountInputChange(onChange)}
+        onBlur={handleAmountInputBlur(onTableRowAmountInputBlur, index)}
+        textAlign="right"
+        disabled={isCalculating || isReadOnly}
+        numeralDecimalScaleMin={2}
+        numeralDecimalScaleMax={2}
+      />
+      <Calculator
+        label="Amount"
+        hideLabel
+        name="amount"
+        value={amount}
+        onChange={handleAmountInputChange(onChange)}
+        onBlur={handleAmountInputBlur(onTableRowAmountInputBlur, index)}
+        textAlign="right"
+        disabled={isCalculating || isReadOnly}
+        numeralDecimalScaleMin={2}
+        numeralDecimalScaleMax={2}
+      />
+      {isQuoteJobColumnEnabled && (
+        <JobCombobox
+          items={lineJobOptions}
+          selectedId={jobId}
+          onChange={onComboboxChange('jobId', onChange)}
+          addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
+          disabled={isJobComboboxDisabled || isCalculating || isReadOnly}
+          allowClear
+          left
+        />
+      )}
+      <TaxCodeCombobox
+        items={taxCodeOptions}
+        selectedId={taxCodeId}
+        onChange={onComboboxChange('taxCodeId', onChange)}
+        disabled={isCalculating || isReadOnly}
+      />
+    </LineItemTable.Row>
   );
 };
 

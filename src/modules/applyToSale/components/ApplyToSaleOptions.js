@@ -1,6 +1,4 @@
-import {
-  Combobox, DetailHeader, Input, TextArea,
-} from '@myob/myob-widgets';
+import { Combobox, DetailHeader, Input, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -16,7 +14,7 @@ import {
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
 import DatePicker from '../../../components/DatePicker/DatePicker';
 
-const onTextFieldChange = handler => ({ target }) => {
+const onTextFieldChange = (handler) => ({ target }) => {
   const { name, value } = target;
   handler({ key: name, value });
 };
@@ -93,7 +91,7 @@ const ApplyToSaleOptions = ({
   return <DetailHeader primary={primary} secondary={secondary} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   customerName: getCustomerName(state),
   amount: getAmount(state),
   reference: getReference(state),

@@ -1,8 +1,9 @@
-const getShowExpiryDaysOptions = expirationTerm => [
-  'OnADayOfTheMonth',
-  'InAGivenNumberOfDays',
-  'DayOfMonthAfterEOM',
-  'NumberOfDaysAfterEOM',
-].includes(expirationTerm);
+const getShowExpiryDaysOptions = (expirationTerm) =>
+  [
+    'OnADayOfTheMonth',
+    'InAGivenNumberOfDays',
+    'DayOfMonthAfterEOM',
+    'NumberOfDaysAfterEOM',
+  ].includes(expirationTerm);
 
 export default getShowExpiryDaysOptions;

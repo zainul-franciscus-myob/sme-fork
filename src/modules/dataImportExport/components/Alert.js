@@ -5,15 +5,12 @@ import React from 'react';
 import { getAlert } from '../selectors/DataImportExportSelectors';
 
 const Alert = ({ alert, onDismissAlert }) => (
-  <FeelixAlert
-    type={alert.type}
-    onDismiss={onDismissAlert}
-  >
+  <FeelixAlert type={alert.type} onDismiss={onDismissAlert}>
     {alert.message}
   </FeelixAlert>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
 });
 

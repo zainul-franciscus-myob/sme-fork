@@ -6,7 +6,7 @@ import { getAbn, getAbnLink } from '../../ContactModalSelectors';
 import AbnInput from '../../../../../components/autoFormatter/AbnInput/AbnInput';
 import handleAbnInputChange from '../../../../../components/handlers/handleAbnInputChange';
 
-const openNewTab = url => () => window.open(url);
+const openNewTab = (url) => () => window.open(url);
 
 const Abn = ({ abn, abnLink, onChange }) => (
   <>
@@ -20,18 +20,21 @@ const Abn = ({ abn, abnLink, onChange }) => (
     <Field
       label="ABN lookup"
       hideLabel
-      renderField={
-        () => (
-          <Button type="link" icon={<Icons.OpenExternalLink />} iconRight onClick={openNewTab(abnLink)}>
-            Open ABN lookup website
-          </Button>
-        )
-      }
+      renderField={() => (
+        <Button
+          type="link"
+          icon={<Icons.OpenExternalLink />}
+          iconRight
+          onClick={openNewTab(abnLink)}
+        >
+          Open ABN lookup website
+        </Button>
+      )}
     />
   </>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   abn: getAbn(state),
   abnLink: getAbnLink(state),
 });

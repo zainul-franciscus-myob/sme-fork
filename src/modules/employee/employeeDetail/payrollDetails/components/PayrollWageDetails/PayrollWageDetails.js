@@ -34,7 +34,9 @@ const PayrollWageDetails = ({
         onPayrollWageAnnualSalaryBlur={onPayrollWageAnnualSalaryBlur}
         onPayrollWageHourlyRateBlur={onPayrollWageHourlyRateBlur}
         onPayrollWageHoursInPayCycleBlur={onPayrollWageHoursInPayCycleBlur}
-        onPayrollWageSelectedPayCycleChange={onPayrollWageSelectedPayCycleChange}
+        onPayrollWageSelectedPayCycleChange={
+          onPayrollWageSelectedPayCycleChange
+        }
       />
       <hr />
       <FieldGroup label={fieldGroupLabel}>

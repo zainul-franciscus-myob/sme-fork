@@ -33,7 +33,7 @@ const addPayrollSuperPayItem = (state, action) => {
 
 const removePayrollSuperPayItem = (state, action) => {
   const updatedPayItems = state.payrollDetails.superannuationDetails.allocatedPayItems.filter(
-    payItem => payItem.id !== action.id,
+    (payItem) => payItem.id !== action.id
   );
   const partialSuperDetails = { allocatedPayItems: updatedPayItems };
 

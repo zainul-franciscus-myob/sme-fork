@@ -34,7 +34,6 @@ const getDefaultState = () => ({
 
 const pageEdited = { isPageEdited: true };
 
-
 const loadPurchaseReturn = (state, action) => ({
   ...state,
   supplierReturnPurchase: {
@@ -61,25 +60,25 @@ const updateTableAmountFields = (state, action) => ({
   ...pageEdited,
   supplierReturnPurchase: {
     ...state.supplierReturnPurchase,
-    purchases: state.supplierReturnPurchase.purchases.map((purchase, index) => (
+    purchases: state.supplierReturnPurchase.purchases.map((purchase, index) =>
       index === action.index
         ? {
-          ...purchase,
-          [action.key]: action.value,
-        }
+            ...purchase,
+            [action.key]: action.value,
+          }
         : purchase
-    )),
+    ),
   },
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const openModal = (state, action) => ({
   ...state,
   modalType: action.modalType,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modalType: '',
 });
@@ -118,6 +117,9 @@ const handlers = {
   [CLOSE_MODAL]: closeModal,
 };
 
-const supplierReturnPurchaseReducer = createReducer(getDefaultState(), handlers);
+const supplierReturnPurchaseReducer = createReducer(
+  getDefaultState(),
+  handlers
+);
 
 export default supplierReturnPurchaseReducer;

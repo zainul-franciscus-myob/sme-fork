@@ -23,7 +23,7 @@ const IndividualName = ({ firstName, lastName, onChange }) => (
   </>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   firstName: getFirstName(state),
   lastName: getLastName(state),
 });

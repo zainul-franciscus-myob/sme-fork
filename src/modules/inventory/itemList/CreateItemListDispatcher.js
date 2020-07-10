@@ -10,11 +10,9 @@ import {
   UPDATE_FILTER_OPTIONS,
 } from '../InventoryIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import {
-  getFlipSortOrder, getOrderBy,
-} from './itemListSelectors';
+import { getFlipSortOrder, getOrderBy } from './itemListSelectors';
 
-const CreateItemListDispatcher = store => ({
+const CreateItemListDispatcher = (store) => ({
   resetState: () => {
     store.dispatch({
       intent: RESET_STATE,
@@ -83,7 +81,8 @@ const CreateItemListDispatcher = store => ({
   },
   setSortOrder: (orderBy) => {
     const state = store.getState();
-    const newSortOrder = orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
+    const newSortOrder =
+      orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
     store.dispatch({
       intent: SET_SORT_ORDER,
       sortOrder: newSortOrder,
@@ -97,6 +96,5 @@ const CreateItemListDispatcher = store => ({
     });
   },
 });
-
 
 export default CreateItemListDispatcher;

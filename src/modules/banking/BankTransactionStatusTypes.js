@@ -19,9 +19,10 @@ const UnapprovedStatusTypes = {
   paymentRuleMatched: 'paymentRuleMatched',
 };
 
-export const isStatusUnapproved = (status) => status === UnapprovedStatusTypes.matched
-|| status === UnapprovedStatusTypes.unmatched
-|| status === UnapprovedStatusTypes.paymentRuleMatched;
+export const isStatusUnapproved = (status) =>
+  status === UnapprovedStatusTypes.matched ||
+  status === UnapprovedStatusTypes.unmatched ||
+  status === UnapprovedStatusTypes.paymentRuleMatched;
 
 const BankTransactionStatusTypes = {
   ...UnapprovedStatusTypes,

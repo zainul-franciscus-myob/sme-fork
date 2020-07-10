@@ -13,8 +13,8 @@ import FieldMessagePopup from '../../FieldMessagePopup/FieldMessagePopup';
  * however it will trigger onChange event which only return value and rawValue
  * we don't need setRawValue to trigger onChange event
  * as setRawValue is trigger by onChange event
-*/
-const isActuallyAnEvent = e => Boolean(e.target.name);
+ */
+const isActuallyAnEvent = (e) => Boolean(e.target.name);
 
 const Input = ({
   label,

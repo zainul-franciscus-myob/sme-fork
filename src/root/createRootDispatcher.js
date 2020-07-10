@@ -1,12 +1,21 @@
 import {
-  DISMISS_TASK, GET_TASKS_LIST,
-  LOAD_SETTINGS, LOAD_SHARED_INFO, LOAD_SUBSCRIPTION, SAVE_SETTINGS, SET_BROWSER_ALERT,
-  SET_BUSINESS_ID, SET_HAS_CHECKED_BROWSER_ALERT, SET_LOADING_STATE, SET_REGION,
-  SET_VIEW_DATA, UPDATE_TASKS,
+  DISMISS_TASK,
+  GET_TASKS_LIST,
+  LOAD_SETTINGS,
+  LOAD_SHARED_INFO,
+  LOAD_SUBSCRIPTION,
+  SAVE_SETTINGS,
+  SET_BROWSER_ALERT,
+  SET_BUSINESS_ID,
+  SET_HAS_CHECKED_BROWSER_ALERT,
+  SET_LOADING_STATE,
+  SET_REGION,
+  SET_VIEW_DATA,
+  UPDATE_TASKS,
 } from './rootIntents';
 import { LOAD_GLOBAL_BUSINESS_DETAILS } from './services/businessDetails/BusinessDetailsIntents';
 
-const createRootDispatcher = store => ({
+const createRootDispatcher = (store) => ({
   loadSettings: (settings) => {
     const intent = LOAD_SETTINGS;
     store.dispatch({ intent, settings });

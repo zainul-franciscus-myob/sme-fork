@@ -1,15 +1,8 @@
-import {
-  Alert,
-  Button,
-  PageHead,
-  StandardTemplate,
-} from '@myob/myob-widgets';
+import { Alert, Button, PageHead, StandardTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getAlert, getIsLoading,
-} from '../payRunListSelectors';
+import { getAlert, getIsLoading } from '../payRunListSelectors';
 import PageView from '../../../../components/PageView/PageView';
 import PayRunListFilterOptions from './PayRunListFilterOptions';
 import PayRunListTable from './PayRunListTable';
@@ -39,7 +32,9 @@ const PayRunListView = (props) => {
 
   const pageHead = (
     <PageHead title="Pay runs">
-      <Button type="primary" onClick={onCreatePayRun}>Create pay run</Button>
+      <Button type="primary" onClick={onCreatePayRun}>
+        Create pay run
+      </Button>
     </PageHead>
   );
 
@@ -57,7 +52,7 @@ const PayRunListView = (props) => {
   return <PageView isLoading={isLoading} view={payRunListView} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   isLoading: getIsLoading(state),
 });

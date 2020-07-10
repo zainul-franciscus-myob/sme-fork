@@ -49,7 +49,11 @@ const setIsDetailsLoading = (state, { detailsLoadingState }) => ({
 const setPayEvents = (state, { response }) => ({
   ...state,
   ...response,
-  selectedPayrollYear: (response.payrollYears && response.payrollYears[0] && response.payrollYears[0].year) || '',
+  selectedPayrollYear:
+    (response.payrollYears &&
+      response.payrollYears[0] &&
+      response.payrollYears[0].year) ||
+    '',
 });
 
 const setFilteredPayEvents = (state, { response }) => ({
@@ -64,7 +68,7 @@ const setSelectedPayrollYear = (state, { selectedPayrollYear }) => ({
 
 const setSelectedPayEvent = (state, { selectedPayEventId }) => ({
   ...state,
-  selectedPayEvent: state.payEvents.find(p => p.id === selectedPayEventId),
+  selectedPayEvent: state.payEvents.find((p) => p.id === selectedPayEventId),
 });
 
 const setPayEventDetails = (state, { response }) => ({
@@ -73,10 +77,14 @@ const setPayEventDetails = (state, { response }) => ({
     ...state.selectedPayEvent,
     ...response,
   },
-  payEvents: state.payEvents.map(payEvent => ((payEvent.id === response.id) ? {
-    ...payEvent,
-    status: response.status,
-  } : payEvent)),
+  payEvents: state.payEvents.map((payEvent) =>
+    payEvent.id === response.id
+      ? {
+          ...payEvent,
+          status: response.status,
+        }
+      : payEvent
+  ),
 });
 
 const handlers = {

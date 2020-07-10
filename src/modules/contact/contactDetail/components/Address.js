@@ -1,13 +1,11 @@
-import {
-  FieldGroup, Input, Select, TextArea,
-} from '@myob/myob-widgets';
+import { FieldGroup, Input, Select, TextArea } from '@myob/myob-widgets';
 import React from 'react';
 
 import CountryCombobox from '../../../../components/combobox/CountryCombobox';
 import PhoneNumberList from '../../../../components/phoneNumberList/PhoneNumberList';
 import style from './Address.module.css';
 
-const onInputChange = handler => (e) => {
+const onInputChange = (handler) => (e) => {
   const { value, name } = e.target;
   handler({ key: name, value });
 };
@@ -17,7 +15,7 @@ const onComboBoxChange = (handler, key) => (option) => {
   handler({ key, value });
 };
 
-const onPhoneNumberChange = handler => (phoneNumbers) => {
+const onPhoneNumberChange = (handler) => (phoneNumbers) => {
   handler({ key: 'phoneNumbers', value: phoneNumbers });
 };
 
@@ -48,7 +46,7 @@ const Address = ({
       {[<Select.Option value="placeholder" label="" hidden />].concat(
         stateOptions.map(({ name, id }) => (
           <Select.Option key={id} value={id} label={name} />
-        )),
+        ))
       )}
     </Select>
   ) : (

@@ -17,9 +17,7 @@ import createDashboardIntegrator from './createDashboardIntegrator';
 import dashboardReducer from './reducers/dashboardReducer';
 
 export default class DashboardModule {
-  constructor({
-    integration, setRootView, navigateTo, isToggleOn,
-  }) {
+  constructor({ integration, setRootView, navigateTo, isToggleOn }) {
     this.integration = integration;
     this.store = new Store(dashboardReducer);
     this.setRootView = setRootView;
@@ -48,13 +46,13 @@ export default class DashboardModule {
     };
 
     this.integrator.loadDashboard({ onSuccess, onFailure });
-  }
+  };
 
   loadConfig = () => {
     this.dispatcher.loadConfig({
       myReportsUrl: Config.MY_REPORTS_URL,
     });
-  }
+  };
 
   loadSales = () => {
     if (!getShouldShowSales(this.store.getState())) {
@@ -75,7 +73,7 @@ export default class DashboardModule {
     };
 
     this.integrator.loadSales({ onSuccess, onFailure });
-  }
+  };
 
   loadPurchase = () => {
     if (!getShouldShowPurchases(this.store.getState())) {
@@ -96,7 +94,7 @@ export default class DashboardModule {
     };
 
     this.integrator.loadPurchase({ onSuccess, onFailure });
-  }
+  };
 
   loadTracking = () => {
     if (!getShouldShowTracking(this.store.getState())) {
@@ -117,7 +115,7 @@ export default class DashboardModule {
     };
 
     this.integrator.loadTracking({ onSuccess, onFailure });
-  }
+  };
 
   loadTrackingDetail = () => {
     this.dispatcher.setTrackingErrorState(false);
@@ -134,12 +132,12 @@ export default class DashboardModule {
     };
 
     this.integrator.loadTrackingDetail({ onSuccess, onFailure });
-  }
+  };
 
   setTrackingOptions = ({ key, value }) => {
     this.dispatcher.setTrackingOptions({ key, value });
     this.loadTrackingDetail();
-  }
+  };
 
   loadBanking = () => {
     if (!getShouldShowBanking(this.store.getState())) {
@@ -160,7 +158,7 @@ export default class DashboardModule {
     };
 
     this.integrator.loadBanking({ onSuccess, onFailure });
-  }
+  };
 
   loadPayroll = () => {
     if (!getShouldShowPayroll(this.store.getState())) {
@@ -181,7 +179,7 @@ export default class DashboardModule {
     };
 
     this.integrator.loadPayroll({ onSuccess, onFailure });
-  }
+  };
 
   loadPayrollReports = () => {
     if (!getShouldShowPayroll(this.store.getState())) {
@@ -202,17 +200,17 @@ export default class DashboardModule {
     };
 
     this.integrator.loadPayrollReports({ onSuccess, onFailure });
-  }
+  };
 
   updateBankFeedAccount = (bankFeedAccount) => {
     const { id } = bankFeedAccount;
     this.dispatcher.setBankFeedAccount(id);
     this.loadBanking();
-  }
+  };
 
   redirectToUrl = (url) => {
     this.navigateTo(url);
-  }
+  };
 
   render = () => {
     const dashboardView = (
@@ -230,22 +228,18 @@ export default class DashboardModule {
       />
     );
 
-    const wrappedView = (
-      <Provider store={this.store}>
-        {dashboardView}
-      </Provider>
-    );
+    const wrappedView = <Provider store={this.store}>{dashboardView}</Provider>;
 
     this.setRootView(wrappedView);
-  }
+  };
 
-  setInitialState = context => this.dispatcher.setInitialState(context);
+  setInitialState = (context) => this.dispatcher.setInitialState(context);
 
   resetState = () => this.dispatcher.resetState();
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   // @FEATURE_TOGGLE: essentials-dashboard-payroll-payrun-widget
   run = (context) => {
@@ -257,5 +251,5 @@ export default class DashboardModule {
 
     this.loadConfig();
     this.loadDashboard();
-  }
+  };
 }

@@ -8,10 +8,7 @@ const metaData = [
 ];
 
 const ItemCombobox = (props) => {
-  const {
-    addNewItem,
-    ...otherProps
-  } = props;
+  const { addNewItem, ...otherProps } = props;
 
   return (
     <Combobox

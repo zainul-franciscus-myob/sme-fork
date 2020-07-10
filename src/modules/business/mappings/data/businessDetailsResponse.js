@@ -23,6 +23,14 @@ export default {
     isFinancialYearClosed: false,
     hasTransactions: false,
   },
-  financialYearOptions: ['2014', '2015', '2016', '2017', '2018', '2019', '2020'],
+  financialYearOptions: [
+    '2014',
+    '2015',
+    '2016',
+    '2017',
+    '2018',
+    '2019',
+    '2020',
+  ],
   openingBalanceYearOptions: ['2015', '2016', '2017', '2018', '2019'],
 };

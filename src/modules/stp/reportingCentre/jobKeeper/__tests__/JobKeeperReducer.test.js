@@ -14,7 +14,8 @@ describe('JobKeeperReducer', () => {
             lastName: 'Galang',
             firstFortnight: '02',
             finalFortnight: '04',
-          }],
+          },
+        ],
       },
     };
 
@@ -36,7 +37,8 @@ describe('JobKeeperReducer', () => {
             lastName: 'Galang',
             firstFortnight: null,
             finalFortnight: null,
-          }],
+          },
+        ],
       },
     };
 

@@ -43,7 +43,10 @@ const CalculationBasisSection = ({
         hideLabel={false}
         items={calculationBasisPayItemOptions}
         selectedId={calculationBasisPayItemId}
-        onChange={handleComboboxChange('calculationBasisPayItemId', onChangeExpensePayItemInput)}
+        onChange={handleComboboxChange(
+          'calculationBasisPayItemId',
+          onChangeExpensePayItemInput
+        )}
       />
     </React.Fragment>
   );
@@ -64,8 +67,12 @@ const CalculationBasisSection = ({
         value={calculationBasisPeriod}
         onChange={handleSelectChange(onChangeExpensePayItemInput)}
       >
-        {periodOptions.map(period => (
-          <Select.Option key={period.value} value={period.value} label={period.label} />
+        {periodOptions.map((period) => (
+          <Select.Option
+            key={period.value}
+            value={period.value}
+            label={period.label}
+          />
         ))}
       </Select>
     </React.Fragment>
@@ -84,15 +91,21 @@ const CalculationBasisSection = ({
         value={calculationBasis}
         onChange={handleSelectChange(onChangeExpensePayItemInput)}
       >
-        <Select.Option value={CalculationBasis.PERCENT} label="Equals a percentage of wages" />
-        <Select.Option value={CalculationBasis.FIXED_DOLLAR} label="Equals dollars per pay period" />
+        <Select.Option
+          value={CalculationBasis.PERCENT}
+          label="Equals a percentage of wages"
+        />
+        <Select.Option
+          value={CalculationBasis.FIXED_DOLLAR}
+          label="Equals dollars per pay period"
+        />
       </Select>
       {form}
     </React.Fragment>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   calculationBasis: getCalculationBasis(state),
   calculationBasisPercentage: getCalculationBasisPercentage(state),
   calculationBasisPayItemId: getCalculationBasisPayItemId(state),

@@ -26,7 +26,7 @@ describe('tasksService', () => {
       expect(integration.read).toBeCalledWith(
         expect.objectContaining({
           intent: GET_TASKS_LIST,
-        }),
+        })
       );
     });
 
@@ -37,7 +37,7 @@ describe('tasksService', () => {
         expect.objectContaining({
           urlParams: { businessId },
           params: { region },
-        }),
+        })
       );
     });
 

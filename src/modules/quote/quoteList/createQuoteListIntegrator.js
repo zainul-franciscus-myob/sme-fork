@@ -1,4 +1,8 @@
-import { LOAD_QUOTE_LIST, LOAD_QUOTE_LIST_NEXT_PAGE, SORT_AND_FILTER_QUOTE_LIST } from '../QuoteIntents';
+import {
+  LOAD_QUOTE_LIST,
+  LOAD_QUOTE_LIST_NEXT_PAGE,
+  SORT_AND_FILTER_QUOTE_LIST,
+} from '../QuoteIntents';
 import {
   getFilterQuoteListParams,
   getLoadNextPageParams,
@@ -15,7 +19,11 @@ const createQuoteListIntegrator = (store, integration) => ({
     const params = getLoadQuoteListParams(state);
 
     integration.read({
-      intent, urlParams, params, onSuccess, onFailure,
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
     });
   },
   sortAndFilterQuoteList: ({ onSuccess, onFailure }) => {
@@ -26,7 +34,11 @@ const createQuoteListIntegrator = (store, integration) => ({
     const params = getFilterQuoteListParams(state);
 
     integration.read({
-      intent, urlParams, params, onSuccess, onFailure,
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
     });
   },
   loadQuoteListNextPage: ({ onSuccess, onFailure }) => {
@@ -37,7 +49,11 @@ const createQuoteListIntegrator = (store, integration) => ({
     const params = getLoadNextPageParams(state);
 
     integration.read({
-      intent, urlParams, params, onSuccess, onFailure,
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
     });
   },
 });

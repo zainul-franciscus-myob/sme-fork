@@ -25,7 +25,7 @@ import {
   UNSET_DOCUMENT_VIEWER_URL,
 } from '../InTrayIntents';
 
-const createInTrayDispatcher = store => ({
+const createInTrayDispatcher = (store) => ({
   setLoadingState: (loadingState) => {
     const intent = SET_LOADING_STATE;
     store.dispatch({ intent, loadingState });

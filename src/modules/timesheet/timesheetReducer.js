@@ -75,13 +75,13 @@ const setLoadingState = (state, { loadingState }) => ({
 
 const buildJobOptions = (state, jobId) => {
   const { jobOptions } = state;
-  return jobOptions.filter(job => job.isActive || job.id === jobId);
+  return jobOptions.filter((job) => job.isActive || job.id === jobId);
 };
 
 const loadEmployeeTimesheet = (state, { timesheetRows, allowedPayItems }) => ({
   ...state,
   timesheetIsDirty: false,
-  timesheetRows: timesheetRows.map(row => ({
+  timesheetRows: timesheetRows.map((row) => ({
     ...row,
     jobOptions: buildJobOptions(state, row.jobId),
     day1: {
@@ -120,20 +120,18 @@ const loadEmployeeTimesheet = (state, { timesheetRows, allowedPayItems }) => ({
       readonly: row.day7.readonly,
     },
   })),
-  employeeAllowedPayItems: allowedPayItems.map(payItem => String(payItem)),
+  employeeAllowedPayItems: allowedPayItems.map((payItem) => String(payItem)),
 });
 
-const clearTimesheetRows = state => ({
+const clearTimesheetRows = (state) => ({
   ...state,
   timesheetIsDirty: false,
   timesheetRows: [],
 });
 
-const isWeekDayField = name => name.startsWith('day');
+const isWeekDayField = (name) => name.startsWith('day');
 
-const isUpdatingRow = (targetIndex, index) => (
-  targetIndex === index
-);
+const isUpdatingRow = (targetIndex, index) => targetIndex === index;
 
 const isCellChanged = (row, { name, value }) => {
   if (!row) return false;
@@ -146,10 +144,13 @@ const isCellChanged = (row, { name, value }) => {
 
 const setTimesheetCell = (state, { index, name, value }) => ({
   ...state,
-  timesheetIsDirty: state.timesheetIsDirty
-    || isCellChanged(state.timesheetRows[index], { name, value }),
+  timesheetIsDirty:
+    state.timesheetIsDirty ||
+    isCellChanged(state.timesheetRows[index], { name, value }),
   timesheetRows: state.timesheetRows.map((row, i) => {
-    if (!isUpdatingRow(index, i)) { return row; }
+    if (!isUpdatingRow(index, i)) {
+      return row;
+    }
 
     if (isWeekDayField(name)) {
       return {
@@ -168,25 +169,29 @@ const setTimesheetCell = (state, { index, name, value }) => ({
   }),
 });
 
-const rowHasReadonlyCell = timesheetRow => (
-  timesheetRow.day1.readonly
-  || timesheetRow.day2.readonly
-  || timesheetRow.day3.readonly
-  || timesheetRow.day4.readonly
-  || timesheetRow.day5.readonly
-  || timesheetRow.day6.readonly
-  || timesheetRow.day7.readonly
-);
+const rowHasReadonlyCell = (timesheetRow) =>
+  timesheetRow.day1.readonly ||
+  timesheetRow.day2.readonly ||
+  timesheetRow.day3.readonly ||
+  timesheetRow.day4.readonly ||
+  timesheetRow.day5.readonly ||
+  timesheetRow.day6.readonly ||
+  timesheetRow.day7.readonly;
 
 const removeRow = (state, { rowIndex }) => {
-  if (state.timesheetRows[rowIndex] && rowHasReadonlyCell(state.timesheetRows[rowIndex])) {
+  if (
+    state.timesheetRows[rowIndex] &&
+    rowHasReadonlyCell(state.timesheetRows[rowIndex])
+  ) {
     return state;
   }
 
   return {
     ...state,
     timesheetIsDirty: true,
-    timesheetRows: state.timesheetRows.filter((row, index) => index !== rowIndex),
+    timesheetRows: state.timesheetRows.filter(
+      (row, index) => index !== rowIndex
+    ),
   };
 };
 
@@ -201,7 +206,9 @@ const addRow = (state, { rowData }) => ({
       jobId: rowData.jobId ? rowData.jobId : '',
       jobOptions: state.jobOptions ? getActiveJobOptions(state) : [],
       notes: rowData.notes ? rowData.notes : '',
-      startStopDescription: rowData.startStopDescription ? rowData.startStopDescription : '',
+      startStopDescription: rowData.startStopDescription
+        ? rowData.startStopDescription
+        : '',
       day1: { hours: rowData.day1 ? rowData.day1 : '', readonly: false },
       day2: { hours: rowData.day2 ? rowData.day2 : '', readonly: false },
       day3: { hours: rowData.day3 ? rowData.day3 : '', readonly: false },
@@ -213,7 +220,7 @@ const addRow = (state, { rowData }) => ({
   ],
 });
 
-const toggleDisplayStartStopTimes = state => ({
+const toggleDisplayStartStopTimes = (state) => ({
   ...state,
   displayStartStopTimes: !state.displayStartStopTimes,
 });
@@ -254,7 +261,7 @@ const setModal = (state, action) => {
   };
 };
 
-const closeUnsavedChangesModal = state => ({
+const closeUnsavedChangesModal = (state) => ({
   ...state,
   modal: null,
   modalAction: null,

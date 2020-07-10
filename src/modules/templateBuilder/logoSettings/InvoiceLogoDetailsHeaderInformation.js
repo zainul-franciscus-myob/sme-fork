@@ -1,9 +1,4 @@
-import {
-  Button,
-  Card,
-  FileBrowser,
-  Icons,
-} from '@myob/myob-widgets';
+import { Button, Card, FileBrowser, Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -12,7 +7,8 @@ import {
   getHeaderTextColour,
   getImage,
   getImageButtonLabel,
-  getImageLabel, getIsDefault,
+  getImageLabel,
+  getIsDefault,
   getLogoSize,
   getShowBusinessDetails,
   getTemplateName,
@@ -39,17 +35,13 @@ const InvoiceLogoDetailsHeaderInformation = ({
   const logo = (
     <>
       <p>
-        Give your invoices a splash of colour and personality.
-        These settings will also apply to quotes and statements.
+        Give your invoices a splash of colour and personality. These settings
+        will also apply to quotes and statements.
       </p>
 
       {image && (
         <div className={styles.imageContainer}>
-          <img
-            alt={imageLabel}
-            className={styles.imageThumbnail}
-            src={image}
-          />
+          <img alt={imageLabel} className={styles.imageThumbnail} src={image} />
 
           <Button
             className={styles.removeImageButton}
@@ -71,22 +63,8 @@ const InvoiceLogoDetailsHeaderInformation = ({
 
       <div className={styles.logoPrompt}>
         <p>
-          Only
-          {' '}
-          <strong>BMP</strong>
-          ,
-          {' '}
-          <strong>TIFF</strong>
-          ,
-          {' '}
-          <strong>JPEG</strong>
-          {' '}
-          or
-          {' '}
-          <strong>PNG</strong>
-          {' '}
-          files
-          {' '}
+          Only <strong>BMP</strong>, <strong>TIFF</strong>,{' '}
+          <strong>JPEG</strong> or <strong>PNG</strong> files{' '}
           <strong>under 2MB</strong>
         </p>
       </div>
@@ -98,10 +76,7 @@ const InvoiceLogoDetailsHeaderInformation = ({
               label="Logo size"
               min={1}
               name="logoSize"
-              onChange={handleSliderChange(
-                'logoSize',
-                onUpdateTemplateOptions,
-              )}
+              onChange={handleSliderChange('logoSize', onUpdateTemplateOptions)}
               value={logoSize}
             />
           )}
@@ -118,7 +93,7 @@ const InvoiceLogoDetailsHeaderInformation = ({
         name="featureColour"
         onChange={handleColorPickerChange(
           'featureColour',
-          onUpdateTemplateOptions,
+          onUpdateTemplateOptions
         )}
         value={featureColour}
       />
@@ -130,7 +105,7 @@ const InvoiceLogoDetailsHeaderInformation = ({
           name="headerTextColour"
           onChange={handleColorPickerChange(
             'headerTextColour',
-            onUpdateTemplateOptions,
+            onUpdateTemplateOptions
           )}
           value={headerTextColour}
         />
@@ -152,7 +127,7 @@ const InvoiceLogoDetailsHeaderInformation = ({
   );
 };
 
-const mapsStateToProps = state => ({
+const mapsStateToProps = (state) => ({
   featureColour: getFeatureColour(state),
   headerTextColour: getHeaderTextColour(state),
   image: getImage(state),

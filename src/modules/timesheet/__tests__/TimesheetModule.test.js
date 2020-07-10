@@ -6,7 +6,10 @@ import {
   LOAD_INITIAL_TIMESHEET,
   LOAD_TIMESHEET,
 } from '../timesheetIntents';
-import { findButtonWithTestId, findComponentWithTestId } from '../../../common/tests/selectors';
+import {
+  findButtonWithTestId,
+  findComponentWithTestId,
+} from '../../../common/tests/selectors';
 import { getSelectedDate, getSelectedEmployeeId } from '../timesheetSelectors';
 import HoursInput from '../../../components/autoFormatter/HoursInput/HoursInput';
 import LoadingFailPageState from '../../../components/PageView/LoadingFailPageState';
@@ -27,14 +30,14 @@ describe('TimesheetModule', () => {
     read: ({ onSuccess, intent }) => {
       if (intent === LOAD_INITIAL_TIMESHEET) {
         onSuccess(loadTimesheetInitial);
-      } else { onSuccess(loadEmployeeTimesheet); }
+      } else {
+        onSuccess(loadEmployeeTimesheet);
+      }
     },
     write: jest.fn(),
   };
 
-  const constructTimesheetModule = ({
-    integration,
-  }) => {
+  const constructTimesheetModule = ({ integration }) => {
     const moduleIntegration = {
       ...defaultIntegration,
       ...integration,
@@ -65,9 +68,11 @@ describe('TimesheetModule', () => {
 
       constructTimesheetModule({ integration });
 
-      expect(integration.read).toHaveBeenCalledWith(expect.objectContaining({
-        intent: LOAD_INITIAL_TIMESHEET,
-      }));
+      expect(integration.read).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: LOAD_INITIAL_TIMESHEET,
+        })
+      );
     });
 
     describe('timesheets not set up', () => {
@@ -78,7 +83,10 @@ describe('TimesheetModule', () => {
 
         const { wrapper } = constructTimesheetModule({ integration });
 
-        const payrollSettingsLink = findButtonWithTestId(wrapper, 'payrollSettingsLink');
+        const payrollSettingsLink = findButtonWithTestId(
+          wrapper,
+          'payrollSettingsLink'
+        );
 
         expect(payrollSettingsLink).toHaveLength(1);
       });
@@ -90,7 +98,10 @@ describe('TimesheetModule', () => {
 
         const { wrapper } = constructTimesheetModule({ integration });
 
-        const payrollSettingsLink = findButtonWithTestId(wrapper, 'payrollSettingsLink');
+        const payrollSettingsLink = findButtonWithTestId(
+          wrapper,
+          'payrollSettingsLink'
+        );
         payrollSettingsLink.simulate('click');
 
         expect(window.location.href.endsWith('payrollSettings')).toEqual(true);
@@ -104,7 +115,11 @@ describe('TimesheetModule', () => {
         };
 
         const { wrapper } = constructTimesheetModule({ integration });
-        const timesheetTable = findComponentWithTestId(wrapper, 'timesheetTable', 'LineItemTable');
+        const timesheetTable = findComponentWithTestId(
+          wrapper,
+          'timesheetTable',
+          'LineItemTable'
+        );
 
         expect(timesheetTable).toHaveLength(1);
       });
@@ -223,7 +238,9 @@ describe('TimesheetModule', () => {
               onSuccess(loadEmployeeTimesheet);
             }
           },
-          write: ({ onFailure }) => { onFailure({ message: failureMessage }); },
+          write: ({ onFailure }) => {
+            onFailure({ message: failureMessage });
+          },
         };
         const { wrapper } = constructTimesheetModule({ integration });
 
@@ -241,7 +258,9 @@ describe('TimesheetModule', () => {
       it('shows success alert when save succeeds', () => {
         const successMessage = 'Save timesheet succeeded.';
         const integration = {
-          write: ({ onSuccess }) => { onSuccess({ message: successMessage }); },
+          write: ({ onSuccess }) => {
+            onSuccess({ message: successMessage });
+          },
         };
         const { wrapper } = constructTimesheetModule({ integration });
 
@@ -288,7 +307,9 @@ describe('TimesheetModule', () => {
               onSuccess(loadEmployeeTimesheet);
             }
           },
-          write: ({ onFailure }) => { onFailure({ message: failureMessage }); },
+          write: ({ onFailure }) => {
+            onFailure({ message: failureMessage });
+          },
         };
         const { wrapper, module } = constructTimesheetModule({ integration });
 
@@ -305,7 +326,9 @@ describe('TimesheetModule', () => {
       it('shows success alert when delete succeeds', () => {
         const successMessage = 'Delete timesheet succeeded.';
         const integration = {
-          write: ({ onSuccess }) => { onSuccess({ message: successMessage }); },
+          write: ({ onSuccess }) => {
+            onSuccess({ message: successMessage });
+          },
         };
         const { wrapper, module } = constructTimesheetModule({ integration });
 
@@ -333,9 +356,10 @@ describe('TimesheetModule', () => {
     });
   });
 
-  const simulateHoursInputChange = (component, value) => (
-    component.prop('onChange')({ target: { rawValue: value, name: component.prop('name') } })
-  );
+  const simulateHoursInputChange = (component, value) =>
+    component.prop('onChange')({
+      target: { rawValue: value, name: component.prop('name') },
+    });
 
   describe('Unsaved modal', () => {
     let originalUrl;
@@ -349,7 +373,9 @@ describe('TimesheetModule', () => {
     });
 
     const createMockIntegration = () => ({
-      write: jest.fn(({ onSuccess }) => { onSuccess({ message: 'successMessage' }); }),
+      write: jest.fn(({ onSuccess }) => {
+        onSuccess({ message: 'successMessage' });
+      }),
       read: ({ intent, onSuccess }) => {
         switch (intent) {
           case LOAD_TIMESHEET:
@@ -367,9 +393,11 @@ describe('TimesheetModule', () => {
       },
     });
 
-    const getSelectedEmployee = module => getSelectedEmployeeId(module.store.getState());
+    const getSelectedEmployee = (module) =>
+      getSelectedEmployeeId(module.store.getState());
 
-    const getSelectedDateFromState = module => getSelectedDate(module.store.getState());
+    const getSelectedDateFromState = (module) =>
+      getSelectedDate(module.store.getState());
 
     const makeTimesheetDirty = (wrapper) => {
       const hoursInput = wrapper.find(HoursInput).first();
@@ -378,7 +406,10 @@ describe('TimesheetModule', () => {
 
     const attemptToChangeSelectedEmployee = (wrapper, newEmployeeId) => {
       const employeeSelect = wrapper.find({ testid: 'employeeSelect' });
-      employeeSelect.prop('onChange')({ id: newEmployeeId, employeeId: 'EMP001' });
+      employeeSelect.prop('onChange')({
+        id: newEmployeeId,
+        employeeId: 'EMP001',
+      });
       wrapper.update();
     };
 

@@ -9,10 +9,7 @@ import {
   SET_PDF_LOADING_STATE,
   SET_TAB,
 } from './payRunDetailIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
@@ -29,7 +26,7 @@ const getDefaultState = () => ({
   emailSettings: undefined,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setLoadingState = (state, { loadingState }) => ({
   ...state,
@@ -53,7 +50,7 @@ const setSelectedTab = (state, action) => ({
 
 const emailTabSelectAll = (state, action) => ({
   ...state,
-  emailPaySlipEmployees: state.emailPaySlipEmployees.map(e => ({
+  emailPaySlipEmployees: state.emailPaySlipEmployees.map((e) => ({
     ...e,
     isSelected: action.isSelected,
   })),
@@ -61,13 +58,14 @@ const emailTabSelectAll = (state, action) => ({
 
 const emailTabSelectItem = (state, action) => ({
   ...state,
-  emailPaySlipEmployees: state.emailPaySlipEmployees.map(e => (
-    e === action.item ? { ...action.item, isSelected: action.isSelected } : e)),
+  emailPaySlipEmployees: state.emailPaySlipEmployees.map((e) =>
+    e === action.item ? { ...action.item, isSelected: action.isSelected } : e
+  ),
 });
 
 const printTabSelectAll = (state, action) => ({
   ...state,
-  printPaySlipEmployees: state.printPaySlipEmployees.map(e => ({
+  printPaySlipEmployees: state.printPaySlipEmployees.map((e) => ({
     ...e,
     isSelected: action.isSelected,
   })),
@@ -75,8 +73,9 @@ const printTabSelectAll = (state, action) => ({
 
 const printTabSelectItem = (state, action) => ({
   ...state,
-  printPaySlipEmployees: state.printPaySlipEmployees.map(e => (
-    e === action.item ? { ...action.item, isSelected: action.isSelected } : e)),
+  printPaySlipEmployees: state.printPaySlipEmployees.map((e) =>
+    e === action.item ? { ...action.item, isSelected: action.isSelected } : e
+  ),
 });
 
 const loadPayRunDetails = (state, action) => ({
@@ -85,21 +84,25 @@ const loadPayRunDetails = (state, action) => ({
   paymentPeriodStart: action.response.paymentPeriodStart,
   paymentPeriodEnd: action.response.paymentPeriodEnd,
   paymentDate: action.response.paymentDate,
-  emailPaySlipEmployees: action.response.emailPaySlipEmployees.map(e => (
-    { ...e, isSelected: true }
-  )),
-  printPaySlipEmployees: action.response.printPaySlipEmployees.map(e => (
-    { ...e, isSelected: true }
-  )),
+  emailPaySlipEmployees: action.response.emailPaySlipEmployees.map((e) => ({
+    ...e,
+    isSelected: true,
+  })),
+  printPaySlipEmployees: action.response.printPaySlipEmployees.map((e) => ({
+    ...e,
+    isSelected: true,
+  })),
   emailSettings: action.response.emailSettings,
 });
 
 const setPdfIsLoading = (state, { transactionId, isLoading }) => ({
   ...state,
-  emailPaySlipEmployees: state.emailPaySlipEmployees.map(e => (
-    e.transactionId === transactionId ? { ...e, isLoading } : e)),
-  printPaySlipEmployees: state.printPaySlipEmployees.map(e => (
-    e.transactionId === transactionId ? { ...e, isLoading } : e)),
+  emailPaySlipEmployees: state.emailPaySlipEmployees.map((e) =>
+    e.transactionId === transactionId ? { ...e, isLoading } : e
+  ),
+  printPaySlipEmployees: state.printPaySlipEmployees.map((e) =>
+    e.transactionId === transactionId ? { ...e, isLoading } : e
+  ),
 });
 
 const handlers = {

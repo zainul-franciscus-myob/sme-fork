@@ -1,5 +1,8 @@
 import {
-  getFilterOptions, getIsDefaultFilters, getLoadMoreButtonStatus, getTableEntries,
+  getFilterOptions,
+  getIsDefaultFilters,
+  getLoadMoreButtonStatus,
+  getTableEntries,
 } from '../invoiceListSelectors';
 import LoadMoreButtonStatuses from '../../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 
@@ -7,9 +10,11 @@ describe('invoiceListReducer', () => {
   describe('getTableEntries', () => {
     it('returns green status colour when the status is closed', () => {
       const closedState = {
-        entries: [{
-          status: 'Closed',
-        }],
+        entries: [
+          {
+            status: 'Closed',
+          },
+        ],
       };
       const expectedStatusColour = 'green';
       const actual = getTableEntries(closedState);
@@ -19,9 +24,11 @@ describe('invoiceListReducer', () => {
 
     it('returns grey status colour when the status is open', () => {
       const openState = {
-        entries: [{
-          status: 'Open',
-        }],
+        entries: [
+          {
+            status: 'Open',
+          },
+        ],
       };
       const expectedStatusColour = 'light-grey';
       const actual = getTableEntries(openState);
@@ -31,11 +38,13 @@ describe('invoiceListReducer', () => {
 
     it('returns red status colour when the status is open and has overdue', () => {
       const overdueState = {
-        entries: [{
-          status: 'Open',
-          dateDue: '06/06/1999',
-          dateDueDisplay: '06/06/1999',
-        }],
+        entries: [
+          {
+            status: 'Open',
+            dateDue: '06/06/1999',
+            dateDueDisplay: '06/06/1999',
+          },
+        ],
       };
       const expectedStatusColour = 'red';
       const actual = getTableEntries(overdueState);
@@ -45,11 +54,13 @@ describe('invoiceListReducer', () => {
 
     it('returns red due date colour when the status is open and has overdue', () => {
       const overdueState = {
-        entries: [{
-          status: 'Open',
-          dateDue: '06/06/1999',
-          dateDueDisplay: '06/06/1999',
-        }],
+        entries: [
+          {
+            status: 'Open',
+            dateDue: '06/06/1999',
+            dateDueDisplay: '06/06/1999',
+          },
+        ],
       };
       const expectedDueDateColour = 'red';
       const actual = getTableEntries(overdueState);
@@ -59,11 +70,13 @@ describe('invoiceListReducer', () => {
 
     it('returns black due date colour when displayDateDue is COD', () => {
       const overdueState = {
-        entries: [{
-          status: 'Open',
-          dateDue: '06/06/1999',
-          dateDueDisplay: 'COD',
-        }],
+        entries: [
+          {
+            status: 'Open',
+            dateDue: '06/06/1999',
+            dateDueDisplay: 'COD',
+          },
+        ],
       };
       const expectedDueDateColour = 'black';
       const actual = getTableEntries(overdueState);
@@ -78,9 +91,7 @@ describe('invoiceListReducer', () => {
         defaultFilterOptions: { keywords: 'not', type: 'abc' },
         filterOptions: { keywords: 'the same', type: 'abc' },
         customerFilterOptions: [],
-        statusFilterOptions: [
-          { value: 'All' },
-        ],
+        statusFilterOptions: [{ value: 'All' }],
       };
       const expected = false;
       const actual = getIsDefaultFilters(state);
@@ -89,12 +100,14 @@ describe('invoiceListReducer', () => {
     });
     it('should return true when default filters are applied', () => {
       const state = {
-        defaultFilterOptions: { keywords: 'the same', type: 'abc', status: 'All' },
+        defaultFilterOptions: {
+          keywords: 'the same',
+          type: 'abc',
+          status: 'All',
+        },
         filterOptions: { keywords: 'the same', type: 'abc', status: 'All' },
         customerFilterOptions: [],
-        statusFilterOptions: [
-          { value: 'All' },
-        ],
+        statusFilterOptions: [{ value: 'All' }],
       };
       const expected = true;
       const actual = getIsDefaultFilters(state);
@@ -111,7 +124,9 @@ describe('invoiceListReducer', () => {
           hasNextPage: true,
         },
       };
-      expect(getLoadMoreButtonStatus(state)).toEqual(LoadMoreButtonStatuses.HIDDEN);
+      expect(getLoadMoreButtonStatus(state)).toEqual(
+        LoadMoreButtonStatuses.HIDDEN
+      );
     });
     it('should return HIDDEN when reach last page', () => {
       const state = {
@@ -120,7 +135,9 @@ describe('invoiceListReducer', () => {
           hasNextPage: false,
         },
       };
-      expect(getLoadMoreButtonStatus(state)).toEqual(LoadMoreButtonStatuses.HIDDEN);
+      expect(getLoadMoreButtonStatus(state)).toEqual(
+        LoadMoreButtonStatuses.HIDDEN
+      );
     });
     it('should return LOADING when loading next page', () => {
       const state = {
@@ -130,7 +147,9 @@ describe('invoiceListReducer', () => {
           hasNextPage: true,
         },
       };
-      expect(getLoadMoreButtonStatus(state)).toEqual(LoadMoreButtonStatuses.LOADING);
+      expect(getLoadMoreButtonStatus(state)).toEqual(
+        LoadMoreButtonStatuses.LOADING
+      );
     });
     it('should return SHOWN when page loaded and not last page', () => {
       const state = {
@@ -140,7 +159,9 @@ describe('invoiceListReducer', () => {
           hasNextPage: true,
         },
       };
-      expect(getLoadMoreButtonStatus(state)).toEqual(LoadMoreButtonStatuses.SHOWN);
+      expect(getLoadMoreButtonStatus(state)).toEqual(
+        LoadMoreButtonStatuses.SHOWN
+      );
     });
   });
 
@@ -151,12 +172,8 @@ describe('invoiceListReducer', () => {
           customerId: '1',
           status: 'foo',
         },
-        customerFilterOptions: [
-          { id: '1' },
-        ],
-        statusFilterOptions: [
-          { value: 'foo' },
-        ],
+        customerFilterOptions: [{ id: '1' }],
+        statusFilterOptions: [{ value: 'foo' }],
       };
 
       const expected = {
@@ -173,12 +190,8 @@ describe('invoiceListReducer', () => {
           customerId: 'All',
           status: 'bar',
         },
-        customerFilterOptions: [
-          { id: '1' },
-        ],
-        statusFilterOptions: [
-          { value: 'All' },
-        ],
+        customerFilterOptions: [{ id: '1' }],
+        statusFilterOptions: [{ value: 'All' }],
       };
 
       const expected = {

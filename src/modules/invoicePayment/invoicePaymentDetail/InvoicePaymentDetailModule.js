@@ -33,14 +33,21 @@ export default class InvoicePaymentDetailModule {
     this.pushMessage = pushMessage;
 
     this.dispatcher = createInvoicePaymentDetailDispatcher(this.store);
-    this.integrator = createInvoicePaymentDetailIntegrator(this.store, integration);
+    this.integrator = createInvoicePaymentDetailIntegrator(
+      this.store,
+      integration
+    );
   }
 
   render = () => {
     const invoicePaymentView = (
       <InvoicePaymentDetailView
-        onUpdateInvoicePaymentDetails={this.dispatcher.updateInvoicePaymentDetails}
-        onUpdateInvoicePaymentEntries={this.dispatcher.updateInvoicePaymentEntries}
+        onUpdateInvoicePaymentDetails={
+          this.dispatcher.updateInvoicePaymentDetails
+        }
+        onUpdateInvoicePaymentEntries={
+          this.dispatcher.updateInvoicePaymentEntries
+        }
         onUpdateShowPaidInvoices={this.updateShowPaidInvoices}
         onUpdateCustomer={this.updateCustomer}
         onSaveButtonClick={this.saveInvoicePayment}
@@ -56,9 +63,7 @@ export default class InvoicePaymentDetailModule {
     );
 
     const wrappedView = (
-      <Provider store={this.store}>
-        {invoicePaymentView}
-      </Provider>
+      <Provider store={this.store}>{invoicePaymentView}</Provider>
     );
 
     this.setRootView(wrappedView);
@@ -102,7 +107,7 @@ export default class InvoicePaymentDetailModule {
     window.location.href = url;
   };
 
-  redirectToTransactionList= () => {
+  redirectToTransactionList = () => {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
     const region = getRegion(state);
@@ -110,7 +115,7 @@ export default class InvoicePaymentDetailModule {
     this.redirectToUrl(`/#/${region}/${businessId}/transactionList`);
   };
 
-  redirectToInvoiceList= () => {
+  redirectToInvoiceList = () => {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
     const region = getRegion(state);
@@ -118,7 +123,7 @@ export default class InvoicePaymentDetailModule {
     this.redirectToUrl(`/#/${region}/${businessId}/invoice`);
   };
 
-  redirectToInvoiceDetail= (invoiceId) => {
+  redirectToInvoiceDetail = (invoiceId) => {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
     const region = getRegion(state);
@@ -229,9 +234,10 @@ export default class InvoicePaymentDetailModule {
     } else {
       this.redirectToTransactionList();
     }
-  }
+  };
 
-  openDeleteModal = () => this.dispatcher.openModal({ type: InvoicePaymentModalTypes.DELETE });
+  openDeleteModal = () =>
+    this.dispatcher.openModal({ type: InvoicePaymentModalTypes.DELETE });
 
   openCancelModal = () => {
     const state = this.store.getState();

@@ -45,7 +45,10 @@ import {
   getLoadItemOptionUrlParams,
   getLoadPayDirectUrlParams,
 } from './selectors/integratorSelectors';
-import { getExportPdfQueryParams, getExportPdfUrlParams } from './selectors/exportPdfSelectors';
+import {
+  getExportPdfQueryParams,
+  getExportPdfUrlParams,
+} from './selectors/exportPdfSelectors';
 import {
   getSaveEmailSettingsContent,
   getSaveEmailSettingsUrlParams,
@@ -88,7 +91,10 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
     const urlParams = getLoadAddedJobUrlParams(state, id);
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -244,9 +250,7 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
     });
   },
 
-  uploadEmailAttachment: ({
-    onSuccess, onFailure, onProgress, file,
-  }) => {
+  uploadEmailAttachment: ({ onSuccess, onFailure, onProgress, file }) => {
     const state = store.getState();
     integration.writeFormData({
       intent: UPLOAD_EMAIL_ATTACHMENT,

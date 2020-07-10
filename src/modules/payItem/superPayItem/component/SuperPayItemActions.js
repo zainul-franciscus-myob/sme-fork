@@ -12,19 +12,37 @@ const SuperPayItemActions = ({
   onDeleteButtonClick,
 }) => {
   const cancelButton = (
-    <Button key="cancel" name="cancel" type="secondary" onClick={onCancelButtonClick} disabled={isSubmitting}>
+    <Button
+      key="cancel"
+      name="cancel"
+      type="secondary"
+      onClick={onCancelButtonClick}
+      disabled={isSubmitting}
+    >
       Cancel
     </Button>
   );
 
   const saveButton = (
-    <Button key="save" name="save" type="primary" onClick={onSaveButtonClick} disabled={isSubmitting}>
-    Save
+    <Button
+      key="save"
+      name="save"
+      type="primary"
+      onClick={onSaveButtonClick}
+      disabled={isSubmitting}
+    >
+      Save
     </Button>
   );
 
   const deleteButton = (
-    <Button key="delete" name="delete" type="secondary" onClick={onDeleteButtonClick} disabled={isSubmitting}>
+    <Button
+      key="delete"
+      name="delete"
+      type="secondary"
+      onClick={onDeleteButtonClick}
+      disabled={isSubmitting}
+    >
       Delete
     </Button>
   );
@@ -32,14 +50,12 @@ const SuperPayItemActions = ({
   return (
     <ButtonRow
       primary={[cancelButton, saveButton]}
-      secondary={[
-        isCreating ? undefined : deleteButton,
-      ]}
+      secondary={[isCreating ? undefined : deleteButton]}
     />
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isCreating: getIsCreating(state),
   isSubmitting: getIsSubmitting(state),
 });

@@ -2,38 +2,29 @@ import React, { Fragment } from 'react';
 
 class ItemList extends React.Component {
   onAddItem = () => {
-    const {
-      items,
-      onItemChange,
-    } = this.props;
+    const { items, onItemChange } = this.props;
 
     onItemChange([...items, '']);
-  }
+  };
 
-  onRemoveItem = i => () => {
-    const {
-      items,
-      onItemChange,
-    } = this.props;
+  onRemoveItem = (i) => () => {
+    const { items, onItemChange } = this.props;
 
     const updatedItemList = items.filter((item, index) => index !== i);
     onItemChange(updatedItemList);
-  }
+  };
 
-  onItemValueChange = i => (e) => {
-    const {
-      items,
-      onItemChange,
-    } = this.props;
+  onItemValueChange = (i) => (e) => {
+    const { items, onItemChange } = this.props;
 
     const { value } = e.target;
 
-    const updatedItemList = items.map(
-      (item, index) => (index === i ? value : item),
+    const updatedItemList = items.map((item, index) =>
+      index === i ? value : item
     );
 
     onItemChange(updatedItemList);
-  }
+  };
 
   render = () => {
     const { renderItems } = this.props;
@@ -46,7 +37,7 @@ class ItemList extends React.Component {
         })}
       </Fragment>
     );
-  }
+  };
 }
 
 export default ItemList;

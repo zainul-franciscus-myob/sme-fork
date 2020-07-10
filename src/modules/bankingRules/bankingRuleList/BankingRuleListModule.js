@@ -20,9 +20,7 @@ const messageTypes = [
 ];
 
 export default class BankingRuleListModule {
-  constructor({
-    integration, setRootView, popMessages,
-  }) {
+  constructor({ integration, setRootView, popMessages }) {
     this.setRootView = setRootView;
     this.store = new Store(bankingRuleListReducer);
     this.popMessages = popMessages;
@@ -42,7 +40,7 @@ export default class BankingRuleListModule {
 
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.integrator.loadBankingRuleList({ onSuccess, onFailure });
-  }
+  };
 
   sortBankingRuleList = (orderBy) => {
     this.dispatcher.setTableLoadingState(true);
@@ -54,10 +52,11 @@ export default class BankingRuleListModule {
       this.dispatcher.sortBankingRuleList(response);
     };
 
-    const onFailure = ({ message }) => this.dispatcher.setAlert({ message, type: 'danger' });
+    const onFailure = ({ message }) =>
+      this.dispatcher.setAlert({ message, type: 'danger' });
 
     this.integrator.sortAndFilterBankingRuleList({ onSuccess, onFailure });
-  }
+  };
 
   filterBankingRuleList = () => {
     this.dispatcher.setTableLoadingState(true);
@@ -67,10 +66,11 @@ export default class BankingRuleListModule {
       this.dispatcher.filterBankingRuleList(response);
     };
 
-    const onFailure = ({ message }) => this.dispatcher.setAlert({ message, type: 'danger' });
+    const onFailure = ({ message }) =>
+      this.dispatcher.setAlert({ message, type: 'danger' });
 
     this.integrator.sortAndFilterBankingRuleList({ onSuccess, onFailure });
-  }
+  };
 
   selectBankingRule = (value) => {
     const state = this.store.getState();
@@ -85,7 +85,7 @@ export default class BankingRuleListModule {
     } else {
       this.filterBankingRuleList();
     }
-  }
+  };
 
   render = () => {
     const bankingRuleListView = (
@@ -98,20 +98,18 @@ export default class BankingRuleListModule {
     );
 
     const wrappedView = (
-      <Provider store={this.store}>
-        {bankingRuleListView}
-      </Provider>
+      <Provider store={this.store}>{bankingRuleListView}</Provider>
     );
     this.setRootView(wrappedView);
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   dismissAlert = () => {
     this.dispatcher.setAlert(undefined);
-  }
+  };
 
   readMessages = () => {
     const [successMessage] = this.popMessages(messageTypes);

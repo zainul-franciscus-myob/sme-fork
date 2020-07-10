@@ -40,45 +40,52 @@ const loadPayrollStandardPayWageAmountRule = (state, { payItemId, rule }) => {
     [payItemId]: rule,
   };
 
-  return setPayrollStandardPayState(state, { wageAmountRules: updatedWageAmountRule });
+  return setPayrollStandardPayState(state, {
+    wageAmountRules: updatedWageAmountRule,
+  });
 };
 
-const setPayrollStandardPayDetailsItemInput = (state, { key, value }) => (
-  setPayrollStandardPayState(state, { [key]: value })
-);
+const setPayrollStandardPayDetailsItemInput = (state, { key, value }) =>
+  setPayrollStandardPayState(state, { [key]: value });
 
 const setPayrollStandardPayItemInput = (state, { payItemId, key, value }) => {
   const standardPayItems = getStandardPayItems(state);
   const standardPayItemDefaultState = getStandardPayItemDefaultState();
 
-  const standardPayItem = standardPayItems
-    .find(({ payItemId: standardPayItemId }) => standardPayItemId === payItemId);
+  const standardPayItem = standardPayItems.find(
+    ({ payItemId: standardPayItemId }) => standardPayItemId === payItemId
+  );
 
   const updatedStandardPayItems = standardPayItem
     ? standardPayItems.map((payItem) => {
-      const { payItemId: standardPayItemId } = payItem;
-      return standardPayItemId === payItemId
-        ? { ...payItem, [key]: value }
-        : payItem;
-    })
+        const { payItemId: standardPayItemId } = payItem;
+        return standardPayItemId === payItemId
+          ? { ...payItem, [key]: value }
+          : payItem;
+      })
     : [
-      ...standardPayItems,
-      {
-        ...standardPayItemDefaultState,
-        payItemId,
-        [key]: value,
-      },
-    ];
+        ...standardPayItems,
+        {
+          ...standardPayItemDefaultState,
+          payItemId,
+          [key]: value,
+        },
+      ];
 
-  return setPayrollStandardPayState(state, { standardPayItems: updatedStandardPayItems });
+  return setPayrollStandardPayState(state, {
+    standardPayItems: updatedStandardPayItems,
+  });
 };
 
 const removePayrollStandardPayItem = (state, { payItemId }) => {
   const standardPayItems = getStandardPayItems(state);
-  const updatedStandardPayItems = standardPayItems
-    .filter(({ payItemId: standardPayItemId }) => standardPayItemId !== payItemId);
+  const updatedStandardPayItems = standardPayItems.filter(
+    ({ payItemId: standardPayItemId }) => standardPayItemId !== payItemId
+  );
 
-  return setPayrollStandardPayState(state, { standardPayItems: updatedStandardPayItems });
+  return setPayrollStandardPayState(state, {
+    standardPayItems: updatedStandardPayItems,
+  });
 };
 
 export default {

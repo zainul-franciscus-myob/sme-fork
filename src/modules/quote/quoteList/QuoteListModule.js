@@ -21,15 +21,10 @@ import createQuoteListIntegrator from './createQuoteListIntegrator';
 import debounce from '../../../common/debounce/debounce';
 import quoteListReducer from './quoteListReducer';
 
-const messageTypes = [
-  SUCCESSFULLY_DELETED_QUOTE,
-  SUCCESSFULLY_EMAILED_QUOTE,
-];
+const messageTypes = [SUCCESSFULLY_DELETED_QUOTE, SUCCESSFULLY_EMAILED_QUOTE];
 
 export default class QuoteListModule {
-  constructor({
-    integration, setRootView, popMessages,
-  }) {
+  constructor({ integration, setRootView, popMessages }) {
     this.store = new Store(quoteListReducer);
     this.setRootView = setRootView;
     this.messageTypes = messageTypes;
@@ -80,7 +75,7 @@ export default class QuoteListModule {
     };
 
     this.integrator.loadQuoteListNextPage({ onSuccess, onFailure });
-  }
+  };
 
   sortAndFilterQuoteList = () => {
     this.dispatcher.setTableLoadingState(true);
@@ -100,7 +95,7 @@ export default class QuoteListModule {
     };
 
     this.integrator.sortAndFilterQuoteList({ onSuccess, onFailure });
-  }
+  };
 
   updateFilterOptions = ({ filterName, value }) => {
     this.dispatcher.updateFilterOptions({ filterName, value });
@@ -110,7 +105,7 @@ export default class QuoteListModule {
     } else {
       this.sortAndFilterQuoteList();
     }
-  }
+  };
 
   filterQuoteList = () => {
     this.sortAndFilterQuoteList();
@@ -118,7 +113,8 @@ export default class QuoteListModule {
 
   sortQuoteList = (orderBy) => {
     const state = this.store.getState();
-    const newSortOrder = orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
+    const newSortOrder =
+      orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
     this.dispatcher.setSortOrder(orderBy, newSortOrder);
 
     this.sortAndFilterQuoteList();
@@ -130,14 +126,14 @@ export default class QuoteListModule {
       const { content: message } = successMessage;
       this.dispatcher.setAlert({ type: 'success', message });
     }
-  }
+  };
 
   redirectToAddQuote = () => {
     const state = this.store.getState();
     const url = getQuoteCreateUrl(state);
 
     window.location.href = url;
-  }
+  };
 
   run(context) {
     const settings = loadSettings(context.businessId, RouteName.QUOTE_LIST);
@@ -145,9 +141,9 @@ export default class QuoteListModule {
     this.render();
     this.readMessages();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
-    this.store.subscribe(state => (
+    this.store.subscribe((state) =>
       saveSettings(context.businessId, RouteName.QUOTE_LIST, getSettings(state))
-    ));
+    );
     this.loadQuoteList();
   }
 

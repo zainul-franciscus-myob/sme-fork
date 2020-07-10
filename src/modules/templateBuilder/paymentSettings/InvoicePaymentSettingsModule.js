@@ -2,7 +2,10 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import { getBusinessId, getRegion } from '../../template/templateSelectors';
-import { getLoadingState, getSalesSettingsPayload } from '../../salesSettings/salesSettingsDetail/SalesSettingsDetailSelectors';
+import {
+  getLoadingState,
+  getSalesSettingsPayload,
+} from '../../salesSettings/salesSettingsDetail/SalesSettingsDetailSelectors';
 import { mainTabIds } from '../../salesSettings/salesSettingsDetail/tabItems';
 import InvoicePaymentSettingsView from './InvoicePaymentSettingsView';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -28,7 +31,8 @@ export default class InvoicePaymentSettingsModule {
       this.dispatcher.setTab(mainTabIds.payments);
     };
 
-    const onFailure = () => this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    const onFailure = () =>
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
 
     this.integrator.loadSalesSettings({ onSuccess, onFailure });
   };
@@ -64,7 +68,7 @@ export default class InvoicePaymentSettingsModule {
           onSalesSettingsSave={this.updateSalesSettings}
           onUpdateSalesSettingsItem={this.dispatcher.updateSalesSettingsItem}
         />
-      </Provider>,
+      </Provider>
     );
   };
 

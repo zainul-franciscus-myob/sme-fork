@@ -22,9 +22,7 @@ import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class InventoryDetailModule {
-  constructor({
-    integration, setRootView, pushMessage,
-  }) {
+  constructor({ integration, setRootView, pushMessage }) {
     this.store = new Store(inventoryDetailReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -52,9 +50,7 @@ export default class InventoryDetailModule {
     );
 
     const wrappedView = (
-      <Provider store={this.store}>
-        {inventoryDetailView}
-      </Provider>
+      <Provider store={this.store}>{inventoryDetailView}</Provider>
     );
     this.setRootView(wrappedView);
   };

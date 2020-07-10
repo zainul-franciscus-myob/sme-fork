@@ -3,9 +3,7 @@ import classnames from 'classnames';
 
 import styles from './SummaryHeader.module.css';
 
-const SummaryHeaderItem = ({
-  label, value, right, className,
-}) => (
+const SummaryHeaderItem = ({ label, value, right, className }) => (
   <div
     className={classnames(styles.item, className, {
       [styles.itemRight]: right,

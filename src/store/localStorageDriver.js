@@ -19,10 +19,8 @@ const load = (key) => {
   }
 };
 
-export const saveSettings = (businessId, routeName, settings) => (
-  save(`${businessId}.${routeName}.settings`, settings)
-);
+export const saveSettings = (businessId, routeName, settings) =>
+  save(`${businessId}.${routeName}.settings`, settings);
 
-export const loadSettings = (businessId, routeName) => (
-  load(`${businessId}.${routeName}.settings`)
-);
+export const loadSettings = (businessId, routeName) =>
+  load(`${businessId}.${routeName}.settings`);

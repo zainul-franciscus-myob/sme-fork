@@ -10,7 +10,8 @@ import loadBillListNextPage from './data/loadBillListNextPage.json';
 const MemoryBillMapping = {
   [LOAD_BILL_LIST]: ({ onSuccess }) => onSuccess(loadBillList),
   [SORT_AND_FILTER_BILL_LIST]: ({ onSuccess }) => onSuccess(filterBillList),
-  [LOAD_BILL_LIST_NEXT_PAGE]: ({ onSuccess }) => onSuccess(loadBillListNextPage),
+  [LOAD_BILL_LIST_NEXT_PAGE]: ({ onSuccess }) =>
+    onSuccess(loadBillListNextPage),
 };
 
 export default MemoryBillMapping;

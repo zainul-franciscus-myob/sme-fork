@@ -1,4 +1,7 @@
-import { UPDATE_ACCOUNT, UPDATE_HAS_ACCOUNT_OPTION } from '../LinkedAccountsIntents';
+import {
+  UPDATE_ACCOUNT,
+  UPDATE_HAS_ACCOUNT_OPTION,
+} from '../LinkedAccountsIntents';
 import linkedAccountsReducer from '../linkedAccountsReducer';
 
 describe('linkedAccountsReducer', () => {

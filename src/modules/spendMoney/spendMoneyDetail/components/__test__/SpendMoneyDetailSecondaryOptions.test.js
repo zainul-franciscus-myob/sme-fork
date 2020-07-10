@@ -12,7 +12,7 @@ describe('spendMoneyDetailSecondaryOptions', () => {
     const wrapper = mount(
       <Provider store={store}>
         <SpendMoneyDetailSecondaryOptions />
-      </Provider>,
+      </Provider>
     );
     const referenceIdInput = wrapper.find({ name: 'referenceId' }).first();
     expect(referenceIdInput.prop('maxLength')).toBe(13);

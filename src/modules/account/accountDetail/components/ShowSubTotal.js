@@ -20,7 +20,7 @@ const ShowSubTotal = ({ isSubtotalReportable, onChange }) => (
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isSubtotalReportable: getIsSubtotalReportable(state),
 });
 

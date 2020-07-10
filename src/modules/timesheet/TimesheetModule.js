@@ -41,11 +41,7 @@ import UnsavedChangesModalActions from './UnsavedChangesModalActions';
 import reducer from './timesheetReducer';
 
 export default class TimesheetModule {
-  constructor({
-    setRootView,
-    integration,
-    isToggleOn,
-  }) {
+  constructor({ setRootView, integration, isToggleOn }) {
     this.integration = integration;
     this.store = new Store(reducer);
     this.setRootView = setRootView;
@@ -79,26 +75,26 @@ export default class TimesheetModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   setSelectedEmployee = ({ value }) => {
     this.store.dispatch({
       intent: SET_SELECTED_EMPLOYEE,
       selectedEmployeeId: value,
     });
-  }
+  };
 
   setLoadingState = (loadingState) => {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
       loadingState,
     });
-  }
+  };
 
   redirectToPayrollSettings = () => {
     const state = this.store.getState();
     window.location.href = getPayrollSettingsUrl(state);
-  }
+  };
 
   setAlert = ({ type, message }) => {
     this.store.dispatch({
@@ -106,7 +102,7 @@ export default class TimesheetModule {
       type,
       message,
     });
-  }
+  };
 
   clearAlert = () => {
     this.store.dispatch({
@@ -114,7 +110,7 @@ export default class TimesheetModule {
       type: null,
       message: null,
     });
-  }
+  };
 
   onSelectedEmployeeChange = ({ value }) => {
     const state = this.store.getState();
@@ -126,7 +122,7 @@ export default class TimesheetModule {
     } else {
       this.loadSelectedEmployeeTimesheet({ value });
     }
-  }
+  };
 
   loadSelectedEmployeeTimesheet = ({ value }) => {
     this.clearAlert();
@@ -168,7 +164,7 @@ export default class TimesheetModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   onSelectedDateChange = ({ value }) => {
     const state = this.store.getState();
@@ -180,7 +176,7 @@ export default class TimesheetModule {
     } else {
       this.changeSelectedDate({ value });
     }
-  }
+  };
 
   changeSelectedDate = ({ value }) => {
     this.clearAlert();
@@ -210,7 +206,10 @@ export default class TimesheetModule {
       });
 
       const selectedEmployeeId = getSelectedEmployeeId(state);
-      if (selectedEmployeeId && response.employeeList.filter(e => e.id === selectedEmployeeId)) {
+      if (
+        selectedEmployeeId &&
+        response.employeeList.filter((e) => e.id === selectedEmployeeId)
+      ) {
         this.loadSelectedEmployeeTimesheet({ value: selectedEmployeeId });
       } else {
         this.store.dispatch({
@@ -234,7 +233,7 @@ export default class TimesheetModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   onRowChange = (index, name, value) => {
     this.store.dispatch({
@@ -243,32 +242,29 @@ export default class TimesheetModule {
       name,
       value,
     });
-  }
+  };
 
   removeRow = (rowIndex) => {
     this.store.dispatch({
       intent: REMOVE_ROW,
       rowIndex,
     });
-  }
+  };
 
   addRow = (rowData) => {
     this.store.dispatch({
       intent: ADD_ROW,
       rowData,
     });
-  }
+  };
 
   toggleDisplayStartStopTimes = () => {
     this.store.dispatch({
       intent: TOGGLE_DISPLAY_START_STOP_TIMES,
     });
-  }
+  };
 
-  saveTimesheet = ({
-    onSuccess = () => {},
-    onFailure = () => {},
-  }) => {
+  saveTimesheet = ({ onSuccess = () => {}, onFailure = () => {} }) => {
     this.setLoadingState(LoadingState.LOADING);
     const state = this.store.getState();
     const intent = SAVE_TIMESHEET;
@@ -311,14 +307,14 @@ export default class TimesheetModule {
       onSuccess: onSuccessFunc,
       onFailure: onFailureFunc,
     });
-  }
+  };
 
   closeModal = () => {
     this.store.dispatch({
       intent: SET_MODAL,
       modal: null,
     });
-  }
+  };
 
   deleteTimesheet = () => {
     this.setLoadingState(LoadingState.LOADING);
@@ -363,7 +359,7 @@ export default class TimesheetModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   onHoursBlur = (index, name, value) => {
     this.store.dispatch({
@@ -372,14 +368,14 @@ export default class TimesheetModule {
       name,
       value: getFormattedHours(value),
     });
-  }
+  };
 
   openDeleteModal = () => {
     this.store.dispatch({
       intent: SET_MODAL,
       modal: ModalType.DELETE,
     });
-  }
+  };
 
   openUnsavedChangesModal = (action) => {
     this.store.dispatch({
@@ -387,13 +383,13 @@ export default class TimesheetModule {
       modal: ModalType.UNSAVED,
       action,
     });
-  }
+  };
 
   closeUnsavedChangesModal = () => {
     this.store.dispatch({
       intent: CLOSE_UNSAVED_CHANGES_MODAL,
     });
-  }
+  };
 
   unsavedChangesModalSave = () => {
     const state = this.store.getState();
@@ -404,18 +400,18 @@ export default class TimesheetModule {
         this.handleUnsavedChangeModalAction(modalAction);
       },
     });
-  }
+  };
 
   unsavedChangesModalDiscard = () => {
     const state = this.store.getState();
     const modalAction = getUnsavedChangesModalAction(state);
     this.closeUnsavedChangesModal();
     this.handleUnsavedChangeModalAction(modalAction);
-  }
+  };
 
   unsavedChangesModalCancel = () => {
     this.closeUnsavedChangesModal();
-  }
+  };
 
   handleUnsavedChangeModalAction = (modalAction) => {
     switch (modalAction.action) {
@@ -431,7 +427,7 @@ export default class TimesheetModule {
       default:
         throw Error(`Invalid modal action '${modalAction.action}'`);
     }
-  }
+  };
 
   render = () => {
     const view = (
@@ -458,33 +454,35 @@ export default class TimesheetModule {
       </Provider>
     );
     return this.setRootView(view);
-  }
+  };
 
   run = (context) => {
     this.store.dispatch({
       intent: LOAD_CONTEXT,
       context: {
         ...context,
-        isTimesheetJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobsPayrun),
+        isTimesheetJobColumnEnabled: this.isToggleOn(
+          FeatureToggle.EssentialsJobsPayrun
+        ),
       },
     });
     this.render();
     this.loadInitialTimesheet();
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   resetState = () => {
     this.store.dispatch({
       intent: RESET_STATE,
     });
-  }
+  };
 
   redirectToUrl = (url) => {
     window.location.href = url;
-  }
+  };
 
   handlePageTransition = (url) => {
     const state = this.store.getState();
@@ -496,5 +494,5 @@ export default class TimesheetModule {
     } else {
       this.redirectToUrl(url);
     }
-  }
+  };
 }

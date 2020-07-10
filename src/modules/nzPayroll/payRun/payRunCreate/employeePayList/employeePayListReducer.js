@@ -27,98 +27,105 @@ const loadEmployeePays = (state, { employeePays }) => ({
   baseHourlyWagePayItemId: employeePays.baseHourlyWagePayItemId,
   baseSalaryWagePayItemId: employeePays.baseSalaryWagePayItemId,
   lines: clearNegatives(
-    getEmployeePayLines(employeePays.employeePays, () => (true)),
-    [employeePays.baseSalaryWagePayItemId, employeePays.baseHourlyWagePayItemId],
+    getEmployeePayLines(employeePays.employeePays, () => true),
+    [employeePays.baseSalaryWagePayItemId, employeePays.baseHourlyWagePayItemId]
   ),
-  originalLines: getEmployeePayLines(employeePays.employeePays, () => (true)),
+  originalLines: getEmployeePayLines(employeePays.employeePays, () => true),
 });
 
-const formatPayItemHours = hours => formatNumberWithDecimalScaleRange(hours, 2, 3);
-const formatPayItemAmount = amount => formatNumberWithDecimalScaleRange(amount, 2, 2);
-const getFormattedPayItems = (payItems, payItemId, key, value) => payItems.map(payItem => (
-  payItem.payItemId === payItemId
-    ? {
-      ...payItem,
-      [key]: key === 'hours' ? formatPayItemHours(value) : formatPayItemAmount(value),
-      isSubmitting: true,
-    }
-    : {
-      ...payItem,
-      isSubmitting: true,
-    }
+const formatPayItemHours = (hours) =>
+  formatNumberWithDecimalScaleRange(hours, 2, 3);
+const formatPayItemAmount = (amount) =>
+  formatNumberWithDecimalScaleRange(amount, 2, 2);
+const getFormattedPayItems = (payItems, payItemId, key, value) =>
+  payItems.map((payItem) =>
+    payItem.payItemId === payItemId
+      ? {
+          ...payItem,
+          [key]:
+            key === 'hours'
+              ? formatPayItemHours(value)
+              : formatPayItemAmount(value),
+          isSubmitting: true,
+        }
+      : {
+          ...payItem,
+          isSubmitting: true,
+        }
+  );
 
-));
-
-const formatEmployeePayItem = (state, {
-  employeeId, payItemId, key, value,
-}) => ({
+const formatEmployeePayItem = (
+  state,
+  { employeeId, payItemId, key, value }
+) => ({
   ...state,
-  lines: state.lines.map(line => (
+  lines: state.lines.map((line) =>
     line.employeeId === employeeId
       ? {
-        ...line,
-        payItems: getFormattedPayItems(line.payItems, payItemId, key, value),
-      }
+          ...line,
+          payItems: getFormattedPayItems(line.payItems, payItemId, key, value),
+        }
       : line
-  )),
+  ),
 });
 
 const updateIsEmployeeSelected = (state, { id }) => ({
   ...state,
-  lines: state.lines.map(line => (
-    line.employeeId === id
-      ? { ...line, isSelected: !line.isSelected }
-      : line
-  )),
+  lines: state.lines.map((line) =>
+    line.employeeId === id ? { ...line, isSelected: !line.isSelected } : line
+  ),
 });
 
 const updateAreAllEmployeesSelected = (state, { value }) => ({
   ...state,
-  lines: state.lines.map(line => ({
+  lines: state.lines.map((line) => ({
     ...line,
     isSelected: value,
   })),
 });
 
 const updateTheEditedEmployeePayItems = (
-  state, employeeId, recalculatedEmployeePay,
-) => (state.lines.map(line => (
-  line.employeeId === employeeId
-    ? {
-      ...line,
-      ...recalculatedEmployeePay,
-      payItems: recalculatedEmployeePay.payItems.map(
-        payItem => ({
-          ...payItem,
-          isSubmitting: false,
-        }),
-      ),
-    }
-    : line
-)));
+  state,
+  employeeId,
+  recalculatedEmployeePay
+) =>
+  state.lines.map((line) =>
+    line.employeeId === employeeId
+      ? {
+          ...line,
+          ...recalculatedEmployeePay,
+          payItems: recalculatedEmployeePay.payItems.map((payItem) => ({
+            ...payItem,
+            isSubmitting: false,
+          })),
+        }
+      : line
+  );
 
-const updateEmployeeLineAfterRecalculation = (state, { employeeId, recalculatedEmployeePay }) => ({
+const updateEmployeeLineAfterRecalculation = (
+  state,
+  { employeeId, recalculatedEmployeePay }
+) => ({
   ...state,
   lines: clearNegatives(
     updateTheEditedEmployeePayItems(state, employeeId, recalculatedEmployeePay),
-    [state.baseHourlyWagePayItemId, state.baseSalaryWagePayItemId],
+    [state.baseHourlyWagePayItemId, state.baseSalaryWagePayItemId]
   ),
-  originalLines: state.originalLines.map(originalLine => (
-    originalLine.employeeId === employeeId ? {
-      ...originalLine,
-      ...recalculatedEmployeePay,
-    }
+  originalLines: state.originalLines.map((originalLine) =>
+    originalLine.employeeId === employeeId
+      ? {
+          ...originalLine,
+          ...recalculatedEmployeePay,
+        }
       : originalLine
-  )),
+  ),
 });
 
 const updateEmployeeDaysPaid = (state, { employeeId, daysPaid }) => ({
   ...state,
-  lines: state.lines.map(line => (
-    line.employeeId === employeeId
-      ? { ...line, daysPaid }
-      : line
-  )),
+  lines: state.lines.map((line) =>
+    line.employeeId === employeeId ? { ...line, daysPaid } : line
+  ),
 });
 
 const setPayItemLineDirty = (state, action) => ({

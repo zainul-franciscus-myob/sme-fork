@@ -14,7 +14,10 @@ const tableConfig = {
   date: { columnName: 'Date', sortName: 'DateOccurred' },
   payItemName: { columnName: 'Pay item', sortName: 'PayItemName' },
   employee: { columnName: 'Employee', sortName: 'EmployeeName' },
-  superannuationFund: { columnName: 'Superannuation fund', sortName: 'SuperannuationFundName' },
+  superannuationFund: {
+    columnName: 'Superannuation fund',
+    sortName: 'SuperannuationFundName',
+  },
   amount: { columnName: 'Amount ($)', sortName: 'Amount', align: 'right' },
 };
 
@@ -28,7 +31,8 @@ const SuperPaymentsTable = ({
   onDateLinkClick,
   renderCheckbox,
 }) => {
-  const selectedCount = renderCheckbox && superPayments.filter(e => e.isSelected).length;
+  const selectedCount =
+    renderCheckbox && superPayments.filter((e) => e.isSelected).length;
 
   const bulkActions = (
     <>
@@ -48,9 +52,10 @@ const SuperPaymentsTable = ({
             name="bulk-select"
             label="Bulk select"
             hideLabel
-            onChange={e => selectAll(e.target.checked)}
+            onChange={(e) => selectAll(e.target.checked)}
             checked={
-              superPayments.length !== 0 && selectedCount === superPayments.length
+              superPayments.length !== 0 &&
+              selectedCount === superPayments.length
             }
             indeterminate={
               selectedCount > 0 && selectedCount !== superPayments.length
@@ -59,24 +64,69 @@ const SuperPaymentsTable = ({
         </Table.HeaderItem>
       )}
       <Table.HeaderItem {...tableConfig.date}>
-        {order ? (<HeaderSort title={tableConfig.date.columnName} sortName={tableConfig.date.sortName} activeSort={order} onSort={onSort} />) : 'Date'}
+        {order ? (
+          <HeaderSort
+            title={tableConfig.date.columnName}
+            sortName={tableConfig.date.sortName}
+            activeSort={order}
+            onSort={onSort}
+          />
+        ) : (
+          'Date'
+        )}
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.payItemName}>
-        {order ? (<HeaderSort title={tableConfig.payItemName.columnName} sortName={tableConfig.payItemName.sortName} activeSort={order} onSort={onSort} />) : 'Pay item'}
+        {order ? (
+          <HeaderSort
+            title={tableConfig.payItemName.columnName}
+            sortName={tableConfig.payItemName.sortName}
+            activeSort={order}
+            onSort={onSort}
+          />
+        ) : (
+          'Pay item'
+        )}
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.employee}>
-        {order ? (<HeaderSort title={tableConfig.employee.columnName} sortName={tableConfig.employee.sortName} activeSort={order} onSort={onSort} />) : 'Employee'}
+        {order ? (
+          <HeaderSort
+            title={tableConfig.employee.columnName}
+            sortName={tableConfig.employee.sortName}
+            activeSort={order}
+            onSort={onSort}
+          />
+        ) : (
+          'Employee'
+        )}
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.superannuationFund}>
-        {order ? (<HeaderSort title={tableConfig.superannuationFund.columnName} sortName={tableConfig.superannuationFund.sortName} activeSort={order} onSort={onSort} />) : 'Superannuation fund'}
+        {order ? (
+          <HeaderSort
+            title={tableConfig.superannuationFund.columnName}
+            sortName={tableConfig.superannuationFund.sortName}
+            activeSort={order}
+            onSort={onSort}
+          />
+        ) : (
+          'Superannuation fund'
+        )}
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.amount}>
-        {order ? (<HeaderSort title={tableConfig.amount.columnName} sortName={tableConfig.amount.sortName} activeSort={order} onSort={onSort} />) : 'Amount ($)'}
+        {order ? (
+          <HeaderSort
+            title={tableConfig.amount.columnName}
+            sortName={tableConfig.amount.sortName}
+            activeSort={order}
+            onSort={onSort}
+          />
+        ) : (
+          'Amount ($)'
+        )}
       </Table.HeaderItem>
     </Table.Header>
   );
 
-  const rows = superPayments.map(row => (
+  const rows = superPayments.map((row) => (
     <Table.Row key={row.employeePaymentEventId} testid="paySuperRow">
       {renderCheckbox && (
         <Table.RowItem {...tableConfig.checkbox}>
@@ -84,7 +134,7 @@ const SuperPaymentsTable = ({
             name={`${row.employeePaymentEventId}-select`}
             label={`Select row ${row.employeePaymentEventId}`}
             hideLabel
-            onChange={e => selectItem(row, e.target.checked)}
+            onChange={(e) => selectItem(row, e.target.checked)}
             checked={row.isSelected}
           />
         </Table.RowItem>
@@ -92,7 +142,9 @@ const SuperPaymentsTable = ({
       <Table.RowItem columnName={tableConfig.date.columnName}>
         <Button
           type="link"
-          onClick={() => { onDateLinkClick(row.employeePaymentEventId, row.employeeName); }}
+          onClick={() => {
+            onDateLinkClick(row.employeePaymentEventId, row.employeeName);
+          }}
         >
           {row.date}
         </Button>
@@ -100,29 +152,29 @@ const SuperPaymentsTable = ({
       <Table.RowItem columnName={tableConfig.payItemName.columnName}>
         {row.payItemName}
       </Table.RowItem>
-      <Table.RowItem columnName={tableConfig.employee.columnName}>{row.employeeName}</Table.RowItem>
-      <Table.RowItem
-        columnName={tableConfig.superannuationFund.columnName}
-      >
+      <Table.RowItem columnName={tableConfig.employee.columnName}>
+        {row.employeeName}
+      </Table.RowItem>
+      <Table.RowItem columnName={tableConfig.superannuationFund.columnName}>
         {row.superannuationFundName}
       </Table.RowItem>
-      <Table.RowItem align="right" columnName={tableConfig.amount.columnName}>{row.amount}</Table.RowItem>
+      <Table.RowItem align="right" columnName={tableConfig.amount.columnName}>
+        {row.amount}
+      </Table.RowItem>
     </Table.Row>
   ));
 
   return (
     <>
       <Separator />
-      {renderCheckbox && (selectedCount !== 0) && bulkActions}
+      {renderCheckbox && selectedCount !== 0 && bulkActions}
       <TableView
         header={header}
         isEmpty={superPayments.length === 0}
         emptyMessage="No transactions found."
         isLoading={isTableLoading}
       >
-        <Table.Body>
-          {rows}
-        </Table.Body>
+        <Table.Body>{rows}</Table.Body>
       </TableView>
     </>
   );

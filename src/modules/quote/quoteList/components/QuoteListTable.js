@@ -1,11 +1,18 @@
 import {
-  Button, HeaderSort, Icons, PageState, Table,
+  Button,
+  HeaderSort,
+  Icons,
+  PageState,
+  Table,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsDefaultFilter, getIsTableEmpty, getIsTableLoading, getOrder,
+  getIsDefaultFilter,
+  getIsTableEmpty,
+  getIsTableLoading,
+  getOrder,
 } from '../quoteListSelectors';
 import Icon from '../../../../components/Icon/Icon';
 import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
@@ -34,12 +41,7 @@ const QuoteListTable = ({
       title="Provide your customers with a quote"
       description="If they accept, you can turn this quote into an invoice in one click."
       actions={[
-        <Button
-          key={1}
-          onClick={onAddQuote}
-          type="link"
-          icon={<Icons.Add />}
-        >
+        <Button key={1} onClick={onAddQuote} type="link" icon={<Icons.Add />}>
           Create quote
         </Button>,
       ]}
@@ -48,29 +50,59 @@ const QuoteListTable = ({
     <PageState
       title="No quotes found"
       description="Perhaps check the dates or remove the filters and try again."
-      image={(<Icon.NoResultState alt="No quotes found" />)}
+      image={<Icon.NoResultState alt="No quotes found" />}
     />
   );
 
   const header = (
     <Table.Header>
       <Table.HeaderItem {...tableConfig.displayDate}>
-        <HeaderSort title="Date" sortName="DateOccurred" activeSort={order} onSort={onSort} />
+        <HeaderSort
+          title="Date"
+          sortName="DateOccurred"
+          activeSort={order}
+          onSort={onSort}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.referenceId}>
-        <HeaderSort title="Quote number" sortName="DisplayId" activeSort={order} onSort={onSort} />
+        <HeaderSort
+          title="Quote number"
+          sortName="DisplayId"
+          activeSort={order}
+          onSort={onSort}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.customer}>
-        <HeaderSort title="Customer" sortName="CustomerName" activeSort={order} onSort={onSort} />
+        <HeaderSort
+          title="Customer"
+          sortName="CustomerName"
+          activeSort={order}
+          onSort={onSort}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.purchaseOrder}>
-        <HeaderSort title="Customer PO number" sortName="CustomerPurchaseOrderIdentifier" activeSort={order} onSort={onSort} />
+        <HeaderSort
+          title="Customer PO number"
+          sortName="CustomerPurchaseOrderIdentifier"
+          activeSort={order}
+          onSort={onSort}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.displayAmount}>
-        <HeaderSort title="Amount ($)" sortName="Amount" activeSort={order} onSort={onSort} />
+        <HeaderSort
+          title="Amount ($)"
+          sortName="Amount"
+          activeSort={order}
+          onSort={onSort}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.displayExpiryDate}>
-        <HeaderSort title="Expiry date" sortName="ExpiryDate" activeSort={order} onSort={onSort} />
+        <HeaderSort
+          title="Expiry date"
+          sortName="ExpiryDate"
+          activeSort={order}
+          onSort={onSort}
+        />
       </Table.HeaderItem>
     </Table.Header>
   );
@@ -87,7 +119,7 @@ const QuoteListTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isTableEmpty: getIsTableEmpty(state),
   isTableLoading: getIsTableLoading(state),
   isDefaultFilter: getIsDefaultFilter(state),

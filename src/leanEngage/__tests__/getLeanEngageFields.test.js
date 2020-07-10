@@ -72,7 +72,7 @@ describe('getLeanEngageFields', () => {
     expect(actual).toEqual(expected);
   });
 
-  it('should not set the user\'s id if they have not logged in', () => {
+  it("should not set the user's id if they have not logged in", () => {
     const actual = getLeanEngageFields({ ...input, userAuth: undefined });
 
     expect(actual.user_id).toBeUndefined();

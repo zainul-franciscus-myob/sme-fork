@@ -1,5 +1,6 @@
 import {
-  CREATE_TRANSFER_MONEY, DELETE_TRANSFER_MONEY,
+  CREATE_TRANSFER_MONEY,
+  DELETE_TRANSFER_MONEY,
 } from '../TransferMoneyIntents';
 import {
   getCreateTransferMoneyPayload,

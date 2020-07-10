@@ -4,7 +4,7 @@ import React from 'react';
 
 import { getNzTaxDetails } from '../businessDetailSelectors';
 
-const onInputChange = handler => (e) => {
+const onInputChange = (handler) => (e) => {
   const { value, name } = e.target;
   handler({ key: name, value });
 };
@@ -29,6 +29,6 @@ const NzTaxDetails = ({ irdNumber, nzbn, onChange }) => (
   </React.Fragment>
 );
 
-const mapStateToProps = state => getNzTaxDetails(state);
+const mapStateToProps = (state) => getNzTaxDetails(state);
 
 export default connect(mapStateToProps)(NzTaxDetails);

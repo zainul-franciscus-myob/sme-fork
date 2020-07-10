@@ -1,5 +1,6 @@
 import {
-  getCurrentDataTypeInCurrentTab, getIsDuplicateRecordsAddShown,
+  getCurrentDataTypeInCurrentTab,
+  getIsDuplicateRecordsAddShown,
 } from '../selectors/DataImportExportSelectors';
 import ContactIdentifyBy from '../types/ContactIdentifyBy';
 import ImportExportDataType from '../types/ImportExportDataType';
@@ -13,18 +14,17 @@ describe('DataImportExportSelectors', () => {
       ['export', 'chartOfAccounts', 'chartOfAccounts'],
       ['export', 'invalidDataType', ''],
       ['export', '', ''],
-    ])('returns the data type for a particular state data type in the currently selected tab', (
-      currentTab,
-      stateDataType,
-      returnedSelectedDataType,
-    ) => {
-      const state = {
-        selectedTab: currentTab,
-        [currentTab]: { selectedDataType: stateDataType },
-      };
-      const actual = getCurrentDataTypeInCurrentTab(state);
-      expect(actual).toEqual(returnedSelectedDataType);
-    });
+    ])(
+      'returns the data type for a particular state data type in the currently selected tab',
+      (currentTab, stateDataType, returnedSelectedDataType) => {
+        const state = {
+          selectedTab: currentTab,
+          [currentTab]: { selectedDataType: stateDataType },
+        };
+        const actual = getCurrentDataTypeInCurrentTab(state);
+        expect(actual).toEqual(returnedSelectedDataType);
+      }
+    );
   });
   describe('getIsDuplicateRecordsAddShown', () => {
     describe(`When selectedDataType is ${ImportExportDataType.CONTACTS}`, () => {

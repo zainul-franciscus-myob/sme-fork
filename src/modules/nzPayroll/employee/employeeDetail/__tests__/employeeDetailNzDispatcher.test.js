@@ -22,10 +22,12 @@ describe('employeeDetailNzDispatcher', () => {
       };
       dispatcher.setInitialState(context);
 
-      expect(store.dispatch).toHaveBeenCalledWith(expect.objectContaining({
-        intent: SET_INITIAL_STATE,
-        context,
-      }));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: SET_INITIAL_STATE,
+          context,
+        })
+      );
     });
   });
 
@@ -42,10 +44,12 @@ describe('employeeDetailNzDispatcher', () => {
       const response = {};
       dispatcher.loadEmployeeDetails(response);
 
-      expect(store.dispatch).toHaveBeenCalledWith(expect.objectContaining({
-        intent: intents.LOAD_EMPLOYEE_DETAIL,
-        ...response,
-      }));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: intents.LOAD_EMPLOYEE_DETAIL,
+          ...response,
+        })
+      );
     });
   });
 
@@ -54,10 +58,12 @@ describe('employeeDetailNzDispatcher', () => {
       const response = {};
       dispatcher.updateEmployeeDetails(response);
 
-      expect(store.dispatch).toHaveBeenCalledWith(expect.objectContaining({
-        intent: intents.UPDATE_EMPLOYEE,
-        ...response,
-      }));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: intents.UPDATE_EMPLOYEE,
+          ...response,
+        })
+      );
     });
   });
 
@@ -66,10 +72,12 @@ describe('employeeDetailNzDispatcher', () => {
       const response = {};
       dispatcher.updateEmployeeFailed(response);
 
-      expect(store.dispatch).toHaveBeenCalledWith(expect.objectContaining({
-        intent: intents.UPDATE_EMPLOYEE_FAILED,
-        ...response,
-      }));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: intents.UPDATE_EMPLOYEE_FAILED,
+          ...response,
+        })
+      );
     });
   });
 
@@ -78,10 +86,12 @@ describe('employeeDetailNzDispatcher', () => {
       const loadingState = LoadingState.LOADING_SUCCESS;
       dispatcher.setLoadingState(loadingState);
 
-      expect(store.dispatch).toHaveBeenCalledWith(expect.objectContaining({
-        intent: intents.SET_LOADING_STATE,
-        loadingState,
-      }));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: intents.SET_LOADING_STATE,
+          loadingState,
+        })
+      );
     });
   });
 

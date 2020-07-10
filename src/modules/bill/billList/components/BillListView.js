@@ -1,11 +1,12 @@
-import {
-  Alert, Button, HeaderSort, PageHead, Table,
-} from '@myob/myob-widgets';
+import { Alert, Button, HeaderSort, PageHead, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getLoadMoreButtonStatus, getLoadingState, getOrder,
+  getAlert,
+  getLoadMoreButtonStatus,
+  getLoadingState,
+  getOrder,
 } from '../billListSelectors';
 import BillListFilterOptions from './BillListFilterOptions';
 import BillListTable from './BillListTable';
@@ -26,9 +27,7 @@ const tableConfig = {
   status: { columnName: 'Status', valign: 'top' },
 };
 
-const HeaderItem = ({
-  config, sortName, activeSort, onSort,
-}) => (
+const HeaderItem = ({ config, sortName, activeSort, onSort }) => (
   <Table.HeaderItem {...config}>
     <HeaderSort
       title={config.columnName}
@@ -58,11 +57,7 @@ const BillListView = (props) => {
     </Alert>
   );
 
-  const filterBar = (
-    <BillListFilterOptions
-      onUpdateFilters={onUpdateFilters}
-    />
-  );
+  const filterBar = <BillListFilterOptions onUpdateFilters={onUpdateFilters} />;
 
   const pageHead = (
     <PageHead title="Bills">
@@ -75,17 +70,57 @@ const BillListView = (props) => {
   const tableHeader = (
     <Table responsiveWidths={responsiveWidths}>
       <Table.Header>
-        <HeaderItem config={tableConfig.dateIssued} sortName="DateOccurred" activeSort={order} onSort={onSort} />
-        <HeaderItem config={tableConfig.number} sortName="DisplayId" activeSort={order} onSort={onSort} />
-        <HeaderItem config={tableConfig.supplier} sortName="SupplierName" activeSort={order} onSort={onSort} />
-        <HeaderItem config={tableConfig.invoiceNumber} sortName="CustomerPurchaseOrderIdentifier" activeSort={order} onSort={onSort} />
-        <HeaderItem config={tableConfig.billAmount} sortName="Amount" activeSort={order} onSort={onSort} />
-        <HeaderItem config={tableConfig.balanceDue} sortName="BalanceDue" activeSort={order} onSort={onSort} />
-        <HeaderItem config={tableConfig.dateDue} sortName="DateDue" activeSort={order} onSort={onSort} />
+        <HeaderItem
+          config={tableConfig.dateIssued}
+          sortName="DateOccurred"
+          activeSort={order}
+          onSort={onSort}
+        />
+        <HeaderItem
+          config={tableConfig.number}
+          sortName="DisplayId"
+          activeSort={order}
+          onSort={onSort}
+        />
+        <HeaderItem
+          config={tableConfig.supplier}
+          sortName="SupplierName"
+          activeSort={order}
+          onSort={onSort}
+        />
+        <HeaderItem
+          config={tableConfig.invoiceNumber}
+          sortName="CustomerPurchaseOrderIdentifier"
+          activeSort={order}
+          onSort={onSort}
+        />
+        <HeaderItem
+          config={tableConfig.billAmount}
+          sortName="Amount"
+          activeSort={order}
+          onSort={onSort}
+        />
+        <HeaderItem
+          config={tableConfig.balanceDue}
+          sortName="BalanceDue"
+          activeSort={order}
+          onSort={onSort}
+        />
+        <HeaderItem
+          config={tableConfig.dateDue}
+          sortName="DateDue"
+          activeSort={order}
+          onSort={onSort}
+        />
         <Table.HeaderItem {...tableConfig.attachment}>
-          { tableConfig.attachment.columnName }
+          {tableConfig.attachment.columnName}
         </Table.HeaderItem>
-        <HeaderItem config={tableConfig.status} sortName="Status" activeSort={order} onSort={onSort} />
+        <HeaderItem
+          config={tableConfig.status}
+          sortName="Status"
+          activeSort={order}
+          onSort={onSort}
+        />
       </Table.Header>
     </Table>
   );
@@ -113,7 +148,7 @@ const BillListView = (props) => {
   return <PageView loadingState={loadingState} view={billListView} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   loadingState: getLoadingState(state),
   order: getOrder(state),

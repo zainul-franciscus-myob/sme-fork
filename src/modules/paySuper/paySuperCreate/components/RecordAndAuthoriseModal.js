@@ -2,7 +2,6 @@ import React from 'react';
 
 import AuthoriseModal from './AuthoriseModal';
 
-
 const RecordAndAuthoriseModal = ({
   onCloseModal,
   onDoNotAuthoriseButtonClick,

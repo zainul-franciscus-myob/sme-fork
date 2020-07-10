@@ -2,75 +2,79 @@ import { createSelector, createStructuredSelector } from 'reselect';
 
 import countryList from '../../../sharedData/countryList';
 
-export const getContactId = state => state.contactId;
+export const getContactId = (state) => state.contactId;
 
-export const getIsCreating = state => state.contactId === 'new';
+export const getIsCreating = (state) => state.contactId === 'new';
 
-export const getAlertMessage = state => state.alertMessage;
+export const getAlertMessage = (state) => state.alertMessage;
 
-export const getModalType = state => state.modalType;
+export const getModalType = (state) => state.modalType;
 
-export const getLoadingState = state => state.loadingState;
+export const getLoadingState = (state) => state.loadingState;
 
-export const getIsLoadingAccount = state => state.isLoadingAccount;
+export const getIsLoadingAccount = (state) => state.isLoadingAccount;
 
-const getIsCompany = state => state.contact.designation === 'Company';
+const getIsCompany = (state) => state.contact.designation === 'Company';
 
-export const getIsSupplier = state => state.contact.selectedContactType === 'Supplier';
+export const getIsSupplier = (state) =>
+  state.contact.selectedContactType === 'Supplier';
 
-export const getAbn = state => state.contact.abn;
+export const getAbn = (state) => state.contact.abn;
 
-export const getIsReportable = state => state.contact.isReportable;
+export const getIsReportable = (state) => state.contact.isReportable;
 
-export const getAbnLink = state => (state.contact.abn
-  ? `https://abr.business.gov.au/ABN/View?id=${state.contact.abn}`
-  : 'https://abr.business.gov.au/');
+export const getAbnLink = (state) =>
+  state.contact.abn
+    ? `https://abr.business.gov.au/ABN/View?id=${state.contact.abn}`
+    : 'https://abr.business.gov.au/';
 
-export const getRegion = state => state.region;
-export const getAbnValidationResult = state => state.abnValidationResult;
-export const getIsValidatingAbn = state => state.isValidatingAbn;
+export const getRegion = (state) => state.region;
+export const getAbnValidationResult = (state) => state.abnValidationResult;
+export const getIsValidatingAbn = (state) => state.isValidatingAbn;
 
 export const getContactDetails = createStructuredSelector({
-  selectedContactType: state => state.contact.selectedContactType,
-  designation: state => state.contact.designation,
-  referenceId: state => state.contact.referenceId,
-  expenseAccountId: state => state.contact.expenseAccountId,
-  isInactive: state => state.contact.isInactive,
-  isReportable: state => state.contact.isReportable,
-  companyName: state => state.contact.companyName,
-  firstName: state => state.contact.firstName,
-  lastName: state => state.contact.lastName,
+  selectedContactType: (state) => state.contact.selectedContactType,
+  designation: (state) => state.contact.designation,
+  referenceId: (state) => state.contact.referenceId,
+  expenseAccountId: (state) => state.contact.expenseAccountId,
+  isInactive: (state) => state.contact.isInactive,
+  isReportable: (state) => state.contact.isReportable,
+  companyName: (state) => state.contact.companyName,
+  firstName: (state) => state.contact.firstName,
+  lastName: (state) => state.contact.lastName,
   isCompany: getIsCompany,
   isSupplier: getIsSupplier,
-  contactTypes: state => state.contactTypes,
-  accountOptions: state => state.accountOptions,
+  contactTypes: (state) => state.contactTypes,
+  accountOptions: (state) => state.accountOptions,
   region: getRegion,
 });
 
 export const getMoreDetails = createStructuredSelector({
-  notes: state => state.contact.notes,
+  notes: (state) => state.contact.notes,
 });
 
 export const getContactHeaderDetails = createStructuredSelector({
-  contactType: state => state.readonly.contactType,
-  averageDaysToPay: state => state.readonly.averageDaysToPay,
-  balanceDue: state => state.readonly.balanceDue,
-  overDue: state => state.readonly.overDue,
-  showReminders: state => state.readonly.contactType === 'Customer',
-  showPaymentSummary: state => state.readonly.contactType === 'Customer'
-    || state.readonly.contactType === 'Supplier',
+  contactType: (state) => state.readonly.contactType,
+  averageDaysToPay: (state) => state.readonly.averageDaysToPay,
+  balanceDue: (state) => state.readonly.balanceDue,
+  overDue: (state) => state.readonly.overDue,
+  showReminders: (state) => state.readonly.contactType === 'Customer',
+  showPaymentSummary: (state) =>
+    state.readonly.contactType === 'Customer' ||
+    state.readonly.contactType === 'Supplier',
   isCreating: getIsCreating,
-  title: state => state.readonly.title,
-  status: state => state.readonly.status,
+  title: (state) => state.readonly.title,
+  status: (state) => state.readonly.status,
 });
 
 const MAX_PHONE_NUMBERS = 3;
 
-const compareStateByValue = ({ id: stateA }, { id: stateB }) => stateA.localeCompare(stateB);
+const compareStateByValue = ({ id: stateA }, { id: stateB }) =>
+  stateA.localeCompare(stateB);
 
 const findStatesInCountry = (selectedCountry) => {
   const matchingCountry = countryList.find(
-    country => country.id === selectedCountry,
+    (country) => country.id === selectedCountry
   );
 
   if (!matchingCountry) {
@@ -88,10 +92,11 @@ const findStatesInCountry = (selectedCountry) => {
 
 const formatAddress = (address) => {
   const numberOfAddedPhoneNumbers = address.phoneNumbers.length;
-  const phoneNumbers = numberOfAddedPhoneNumbers === 0 ? [''] : address.phoneNumbers;
+  const phoneNumbers =
+    numberOfAddedPhoneNumbers === 0 ? [''] : address.phoneNumbers;
   const hasAddPhoneButton = numberOfAddedPhoneNumbers < MAX_PHONE_NUMBERS;
   const stateOptions = findStatesInCountry(address.country).sort(
-    compareStateByValue,
+    compareStateByValue
   );
   const isStateDropdown = stateOptions.length > 0;
 
@@ -104,33 +109,33 @@ const formatAddress = (address) => {
   };
 };
 
-const getShippingAddress = state => state.contact.shippingAddress;
+const getShippingAddress = (state) => state.contact.shippingAddress;
 
 export const getFormattedShippingAddress = createSelector(
   getShippingAddress,
-  formatAddress,
+  formatAddress
 );
 
-const getBillingAddress = state => state.contact.billingAddress;
+const getBillingAddress = (state) => state.contact.billingAddress;
 
 export const getFormattedBillingAddress = createSelector(
   getBillingAddress,
-  formatAddress,
+  formatAddress
 );
 
 export const getContact = ({ contact }) => ({
   ...contact,
-  expenseAccountId: (
+  expenseAccountId:
     contact.selectedContactType === 'Supplier'
-      ? contact.expenseAccountId : undefined
-  ),
+      ? contact.expenseAccountId
+      : undefined,
 });
 
-export const getIsActionsDisabled = state => state.isSubmitting;
+export const getIsActionsDisabled = (state) => state.isSubmitting;
 
-export const isPageEdited = state => state.isPageEdited;
+export const isPageEdited = (state) => state.isPageEdited;
 
-export const getBusinessId = state => state.businessId;
+export const getBusinessId = (state) => state.businessId;
 
 export const getAccountModalContext = (state) => {
   const businessId = getBusinessId(state);
@@ -144,4 +149,5 @@ export const getLoadAddedAccountUrlParams = (state, accountId) => {
   return { businessId, accountId };
 };
 
-export const getReminderLink = state => `${state.reminders.url}?consumer=ARL&origin=Customer&cfid=${state.businessId}&id=${state.contact.uid}`;
+export const getReminderLink = (state) =>
+  `${state.reminders.url}?consumer=ARL&origin=Customer&cfid=${state.businessId}&id=${state.contact.uid}`;

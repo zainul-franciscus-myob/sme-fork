@@ -10,7 +10,8 @@ import loadNewBankingRuleDetail from './data/loadNewBankingRuleDetail.json';
 import successMessage from './data/success.json';
 
 const MemoryBankingRuleDetailMapping = {
-  [LOAD_NEW_BANKING_RULE]: ({ onSuccess }) => onSuccess(loadNewBankingRuleDetail),
+  [LOAD_NEW_BANKING_RULE]: ({ onSuccess }) =>
+    onSuccess(loadNewBankingRuleDetail),
   [LOAD_BANKING_RULE]: ({ onSuccess }) => onSuccess(loadBankingRuleDetail),
   [CREATE_BANKING_RULE]: ({ onSuccess }) => onSuccess(successMessage),
   [UPDATE_BANKING_RULE]: ({ onSuccess }) => onSuccess(successMessage),

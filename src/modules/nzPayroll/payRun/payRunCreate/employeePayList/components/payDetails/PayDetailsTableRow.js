@@ -7,7 +7,10 @@ import HoursInput from '../../../../../../../components/autoFormatter/HoursInput
 const handleInputChange = (handler, employeeId, payItemId) => (e) => {
   const { name, rawValue } = e.target;
   handler({
-    employeeId, payItemId, key: name, value: rawValue,
+    employeeId,
+    payItemId,
+    key: name,
+    value: rawValue,
   });
 };
 
@@ -27,7 +30,7 @@ const AmountInputField = ({
       hideLabel
       textAlign="right"
       value={value}
-      disabled={isSubmitting || (type === 'HourlyWage' || type === 'KiwiSaver')}
+      disabled={isSubmitting || type === 'HourlyWage' || type === 'KiwiSaver'}
       onChange={handleInputChange(onChange, employeeId, payItemId)}
       onBlur={handleInputChange(onBlur, employeeId, payItemId)}
     />
@@ -74,7 +77,8 @@ const PayDetailsTableRow = ({
       onBlur={onBlur}
       leaveWarning={entry.leaveWarning}
       isSubmitting={entry.isSubmitting}
-    />);
+    />
+  );
 
   const amountRowItem = (
     <AmountInputField
@@ -85,7 +89,8 @@ const PayDetailsTableRow = ({
       isSubmitting={entry.isSubmitting}
       onChange={onChange}
       onBlur={onBlur}
-    />);
+    />
+  );
 
   return (
     <Table.Row key={entry.payItemId}>

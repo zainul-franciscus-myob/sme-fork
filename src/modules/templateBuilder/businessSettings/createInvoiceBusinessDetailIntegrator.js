@@ -1,5 +1,11 @@
-import { LOAD_BUSINESS_DETAIL, UPDATE_BUSINESS_DETAIL } from './invoiceBusinessIntents';
-import { getBusinessForUpdate, getBusinessId } from './invoiceBusinessSettingsDetailSelectors';
+import {
+  LOAD_BUSINESS_DETAIL,
+  UPDATE_BUSINESS_DETAIL,
+} from './invoiceBusinessIntents';
+import {
+  getBusinessForUpdate,
+  getBusinessId,
+} from './invoiceBusinessSettingsDetailSelectors';
 
 const createInvoiceBusinessDetailIntegrator = (store, integration) => ({
   saveBusinessDetails: ({ onSuccess, onFailure }) => {

@@ -277,8 +277,7 @@ describe('superFundModalReducer', () => {
     });
 
     it('store access token', () => {
-      const state = {
-      };
+      const state = {};
 
       const action = {
         intent: SET_ACCESS_TOKEN,

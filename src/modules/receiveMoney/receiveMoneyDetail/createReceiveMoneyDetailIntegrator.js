@@ -6,9 +6,7 @@ import {
   LOAD_JOB_AFTER_CREATE,
   UPDATE_RECEIVE_MONEY,
 } from '../ReceiveMoneyIntents';
-import {
-  getIsCreating,
-} from './selectors/receiveMoneyDetailSelectors';
+import { getIsCreating } from './selectors/receiveMoneyDetailSelectors';
 import {
   getLoadAddedAccountUrlParams,
   getLoadAddedContactUrlParams,
@@ -93,7 +91,10 @@ const createReceiveMoneyDetailIntegrator = ({ store, integration }) => ({
     const urlParams = getLoadAddedJobUrlParams(state, id);
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 });

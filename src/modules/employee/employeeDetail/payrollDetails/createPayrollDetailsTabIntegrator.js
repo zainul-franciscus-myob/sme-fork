@@ -26,9 +26,7 @@ import {
   UPDATE_TAX_PAY_ITEM_MODAL,
   UPDATE_WAGE_PAY_ITEM_MODAL,
 } from '../../EmployeeIntents';
-import {
-  getBusinessId,
-} from '../EmployeeDetailSelectors';
+import { getBusinessId } from '../EmployeeDetailSelectors';
 import {
   getDeductionPayItemModalId,
   getDeductionPayItemModalPayload,
@@ -54,11 +52,18 @@ import {
   getSaveWagePayItemModalPayload,
   getWagePayItemModalId,
 } from './selectors/WagePayItemModalSelectors';
-import { getSaveSuperFundPayload, getSuperFundAbn } from './selectors/SuperFundModalSelectors';
+import {
+  getSaveSuperFundPayload,
+  getSuperFundAbn,
+} from './selectors/SuperFundModalSelectors';
 import { getTaxPayItemPayload } from './selectors/PayrollTaxSelectors';
 
 const createPayrollDetailsTabIntegrator = (store, integration) => ({
-  loadPayrollStandardPayWageAmountRule: ({ payItemId, onSuccess, onFailure }) => {
+  loadPayrollStandardPayWageAmountRule: ({
+    payItemId,
+    onSuccess,
+    onFailure,
+  }) => {
     const intent = LOAD_PAYROLL_STANDARD_PAY_WAGE_AMOUNT_RULE;
 
     const state = store.getState();
@@ -151,7 +156,6 @@ const createPayrollDetailsTabIntegrator = (store, integration) => ({
     });
   },
 
-
   loadWagePayItemModal: ({ onSuccess, onFailure }) => {
     const state = store.getState();
     const isCreating = getIsWagePayItemModalCreating(state);
@@ -205,7 +209,9 @@ const createPayrollDetailsTabIntegrator = (store, integration) => ({
       : LOAD_DEDUCTION_PAY_ITEM_MODAL;
 
     const businessId = getBusinessId(state);
-    const payItemId = isCreating ? undefined : getDeductionPayItemModalId(state);
+    const payItemId = isCreating
+      ? undefined
+      : getDeductionPayItemModalId(state);
 
     const urlParams = { businessId, payItemId };
 
@@ -226,7 +232,9 @@ const createPayrollDetailsTabIntegrator = (store, integration) => ({
       : UPDATE_DEDUCTION_PAY_ITEM_MODAL;
 
     const businessId = getBusinessId(state);
-    const payItemId = isCreating ? undefined : getDeductionPayItemModalId(state);
+    const payItemId = isCreating
+      ? undefined
+      : getDeductionPayItemModalId(state);
     const urlParams = { businessId, payItemId };
 
     const content = getDeductionPayItemModalPayload(state);
@@ -305,7 +313,10 @@ const createPayrollDetailsTabIntegrator = (store, integration) => ({
     };
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -337,9 +348,7 @@ const createPayrollDetailsTabIntegrator = (store, integration) => ({
     const state = store.getState();
     const isCreating = getIsLeavePayItemModalCreating(state);
 
-    const intent = isCreating
-      ? LOAD_NEW_LEAVE_PAY_ITEM
-      : LOAD_LEAVE_PAY_ITEM;
+    const intent = isCreating ? LOAD_NEW_LEAVE_PAY_ITEM : LOAD_LEAVE_PAY_ITEM;
 
     const urlParams = {
       businessId: getBusinessId(state),
@@ -347,7 +356,10 @@ const createPayrollDetailsTabIntegrator = (store, integration) => ({
     };
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -355,9 +367,7 @@ const createPayrollDetailsTabIntegrator = (store, integration) => ({
     const state = store.getState();
     const isCreating = getIsLeavePayItemModalCreating(state);
 
-    const intent = isCreating
-      ? CREATE_LEAVE_PAY_ITEM
-      : UPDATE_LEAVE_PAY_ITEM;
+    const intent = isCreating ? CREATE_LEAVE_PAY_ITEM : UPDATE_LEAVE_PAY_ITEM;
 
     const urlParams = {
       businessId: getBusinessId(state),
@@ -367,7 +377,11 @@ const createPayrollDetailsTabIntegrator = (store, integration) => ({
     const content = getLeavePayItemPayload(state);
 
     integration.write({
-      intent, urlParams, content, onSuccess, onFailure,
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
     });
   },
 });

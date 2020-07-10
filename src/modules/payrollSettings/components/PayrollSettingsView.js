@@ -1,10 +1,12 @@
-import {
-  Alert,
-} from '@myob/myob-widgets';
+import { Alert } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getModalType, getTab } from '../selectors/payrollSettingsSelectors';
+import {
+  getAlert,
+  getModalType,
+  getTab,
+} from '../selectors/payrollSettingsSelectors';
 import { tabIds, tabItems } from '../tabItems';
 // Temporarily hide the Classification tab
 // import EmployeeClassificationListView from
@@ -41,9 +43,13 @@ const PayrollSettingsView = (props) => {
   );
 
   const modal = {
-    [ModalType.EMPLOYMENT_CLASSIFICATION_DETAIL]: <EmploymentClassificationDetailModal
-      employmentClassificationDetailListeners={employmentClassificationDetailListeners}
-    />,
+    [ModalType.EMPLOYMENT_CLASSIFICATION_DETAIL]: (
+      <EmploymentClassificationDetailModal
+        employmentClassificationDetailListeners={
+          employmentClassificationDetailListeners
+        }
+      />
+    ),
   }[modalType];
 
   const View = {
@@ -64,13 +70,18 @@ const PayrollSettingsView = (props) => {
 
   return (
     <React.Fragment>
-      { modal }
-      <View pageHead="Payroll settings" alert={alertComponent} tabs={tabsComponent} listeners={listeners} />
+      {modal}
+      <View
+        pageHead="Payroll settings"
+        alert={alertComponent}
+        tabs={tabsComponent}
+        listeners={listeners}
+      />
     </React.Fragment>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedTab: getTab(state),
   alert: getAlert(state),
   modalType: getModalType(state),

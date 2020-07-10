@@ -2,10 +2,7 @@ import {
   CREATE_ACCOUNT_MODAL,
   LOAD_NEW_ACCOUNT_MODAL,
 } from '../AccountIntents';
-import {
-  getAccountForRequest,
-  getBusinessId,
-} from './accountModalSelectors';
+import { getAccountForRequest, getBusinessId } from './accountModalSelectors';
 
 const createAccountModalIntegrator = (store, integration) => ({
   loadNewAccount: (onSuccess, onFailure) => {

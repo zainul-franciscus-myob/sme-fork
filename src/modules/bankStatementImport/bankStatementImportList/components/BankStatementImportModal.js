@@ -1,5 +1,9 @@
 import {
-  Button, Field, FileBrowser, FileChip, Modal,
+  Button,
+  Field,
+  FileBrowser,
+  FileChip,
+  Modal,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -13,15 +17,13 @@ import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import styles from './BankStatementImportModal.module.css';
 
-const handleFileSelect = handler => file => handler({ key: 'file', value: file });
-const handleFileRemove = handler => () => handler({ key: 'file' });
+const handleFileSelect = (handler) => (file) =>
+  handler({ key: 'file', value: file });
+const handleFileRemove = (handler) => () => handler({ key: 'file' });
 
 const BankStatementImportModal = ({
   accountOptions,
-  importModal: {
-    accountId,
-    file,
-  },
+  importModal: { accountId, file },
   isSubmitting,
   onCancel,
   onConfirm,
@@ -64,7 +66,7 @@ const BankStatementImportModal = ({
           )}
         />
       </div>
-      { file && (
+      {file && (
         <FileChip
           name={file.name}
           size={file.size}
@@ -73,13 +75,17 @@ const BankStatementImportModal = ({
       )}
     </Modal.Body>
     <Modal.Footer>
-      <Button type="secondary" onClick={onCancel} disabled={isSubmitting}>Cancel</Button>
-      <Button type="primary" onClick={onConfirm} disabled={isSubmitting}>Import</Button>
+      <Button type="secondary" onClick={onCancel} disabled={isSubmitting}>
+        Cancel
+      </Button>
+      <Button type="primary" onClick={onConfirm} disabled={isSubmitting}>
+        Import
+      </Button>
     </Modal.Footer>
   </Modal>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accountOptions: getAccountOptions(state),
   importModal: getImportModal(state),
   isSubmitting: getIsSubmitting(state),

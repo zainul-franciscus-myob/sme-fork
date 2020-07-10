@@ -4,13 +4,11 @@ import React from 'react';
 import Calculator from '../Calculator';
 
 const mockConsoleMethod = (realConsoleMethod) => {
-  const ignoredMessages = [
-    'test was not wrapped in act(...)',
-  ];
+  const ignoredMessages = ['test was not wrapped in act(...)'];
 
   return (message, ...args) => {
-    const containsIgnoredMessage = ignoredMessages.some(
-      ignoredMessage => message.includes(ignoredMessage),
+    const containsIgnoredMessage = ignoredMessages.some((ignoredMessage) =>
+      message.includes(ignoredMessage)
     );
 
     if (!containsIgnoredMessage) {
@@ -34,7 +32,7 @@ describe('Calculator', () => {
         onBlur={onBlur}
         value={value}
         className={testClassname}
-      />,
+      />
     );
 
     return wrapper;
@@ -70,7 +68,9 @@ describe('Calculator', () => {
     it('should trigger if a value is given', () => {
       // Set up
       let actualValue = '';
-      const onChange = (e) => { actualValue = e.target.value; };
+      const onChange = (e) => {
+        actualValue = e.target.value;
+      };
       const wrapper = setUp({ onChange });
 
       // Execute
@@ -95,7 +95,9 @@ describe('Calculator', () => {
     it('should not trigger if given an invalid value', () => {
       // Set up
       let actualValue = '';
-      const onChange = (e) => { actualValue = e.target.value; };
+      const onChange = (e) => {
+        actualValue = e.target.value;
+      };
       const wrapper = setUp({ onChange });
 
       // Execute
@@ -112,7 +114,9 @@ describe('Calculator', () => {
       // Set up
       let onBlurValue = '';
 
-      const onBlur = (e) => { onBlurValue = e.target.value; };
+      const onBlur = (e) => {
+        onBlurValue = e.target.value;
+      };
       const wrapper = setUp({ onBlur });
 
       // Execute
@@ -139,7 +143,7 @@ describe('Calculator', () => {
   describe('CalculatorTooltip', () => {
     describe('when onChange is triggered', () => {
       it('should not be render when input is empty', () => {
-        const wrapper = setUp({ onChange: () => { } });
+        const wrapper = setUp({ onChange: () => {} });
 
         triggerOnChangeForInput({ wrapper, name: 'amount', value: '' });
 
@@ -147,7 +151,7 @@ describe('Calculator', () => {
       });
 
       it('should not render when input is a number', () => {
-        const wrapper = setUp({ onChange: () => { } });
+        const wrapper = setUp({ onChange: () => {} });
 
         triggerOnChangeForInput({ wrapper, name: 'amount', value: '123' });
 
@@ -164,10 +168,10 @@ describe('Calculator', () => {
     });
 
     describe('when onBlur is triggered', () => {
-      it('should disappear if it\'s currently rendered', () => {
+      it("should disappear if it's currently rendered", () => {
         const wrapper = setUp({
-          onChange: () => { },
-          onBlur: () => { },
+          onChange: () => {},
+          onBlur: () => {},
         });
 
         triggerOnChangeForInput({ wrapper, name: 'amount', value: '2 + 2' });

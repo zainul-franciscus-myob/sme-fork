@@ -1,10 +1,17 @@
 import {
-  Checkbox, CheckboxGroup, FieldGroup, Icons, Tooltip,
+  Checkbox,
+  CheckboxGroup,
+  FieldGroup,
+  Icons,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsPrintOnPaySlip, getThreshold } from '../../selectors/ExpensePayItemModalSelectors';
+import {
+  getIsPrintOnPaySlip,
+  getThreshold,
+} from '../../selectors/ExpensePayItemModalSelectors';
 import CalculationBasisSection from './CalculationBasisSection';
 import DollarInput from '../DollarInput';
 import LimitSection from './LimitSection';
@@ -28,7 +35,9 @@ const EmployerExpenseInformationSection = ({
         />
       )}
     />
-    <CalculationBasisSection onChangeExpensePayItemInput={onChangeExpensePayItemInput} />
+    <CalculationBasisSection
+      onChangeExpensePayItemInput={onChangeExpensePayItemInput}
+    />
     <LimitSection onChangeExpensePayItemInput={onChangeExpensePayItemInput} />
     <DollarInput
       label="Threshold $"
@@ -36,16 +45,16 @@ const EmployerExpenseInformationSection = ({
       value={threshold}
       onChange={onChangeExpensePayItemInput}
       numeralPositiveOnly
-      labelAccessory={(
+      labelAccessory={
         <Tooltip triggerContent={<Icons.Info />} placement="right">
-            Calculate once eligible wages of this amount have been paid per month
+          Calculate once eligible wages of this amount have been paid per month
         </Tooltip>
-        )}
+      }
     />
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isPrintOnPaySlip: getIsPrintOnPaySlip(state),
   threshold: getThreshold(state),
 });

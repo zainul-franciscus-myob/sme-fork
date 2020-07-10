@@ -16,11 +16,13 @@ const HttpAccountMapping = {
   },
   [LOAD_NEW_ACCOUNT]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/account/load_new_account_detail`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/account/load_new_account_detail`,
   },
   [LOAD_ACCOUNT_DETAIL]: {
     method: 'GET',
-    getPath: ({ businessId, accountId }) => `/${businessId}/account/load_account_detail/${accountId}`,
+    getPath: ({ businessId, accountId }) =>
+      `/${businessId}/account/load_account_detail/${accountId}`,
   },
   [CREATE_ACCOUNT]: {
     method: 'POST',
@@ -28,15 +30,18 @@ const HttpAccountMapping = {
   },
   [UPDATE_ACCOUNT]: {
     method: 'PUT',
-    getPath: ({ businessId, accountId }) => `/${businessId}/account/update_account_detail/${accountId}`,
+    getPath: ({ businessId, accountId }) =>
+      `/${businessId}/account/update_account_detail/${accountId}`,
   },
   [DELETE_ACCOUNT]: {
     method: 'DELETE',
-    getPath: ({ businessId, accountId }) => `/${businessId}/account/delete_account/${accountId}`,
+    getPath: ({ businessId, accountId }) =>
+      `/${businessId}/account/delete_account/${accountId}`,
   },
   [LOAD_NEW_ACCOUNT_MODAL]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/account/load_quick_account_modal`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/account/load_quick_account_modal`,
   },
   [CREATE_ACCOUNT_MODAL]: {
     method: 'POST',

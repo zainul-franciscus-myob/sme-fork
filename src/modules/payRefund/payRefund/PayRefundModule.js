@@ -24,9 +24,7 @@ import payRefundReducer from './payRefundReducer';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class PayRefundModule {
-  constructor({
-    integration, setRootView, pushMessage,
-  }) {
+  constructor({ integration, setRootView, pushMessage }) {
     this.setRootView = setRootView;
     this.store = new Store(payRefundReducer);
     this.pushMessage = pushMessage;
@@ -47,7 +45,7 @@ export default class PayRefundModule {
     };
 
     this.integrator.loadRefund({ onSuccess, onFailure });
-  }
+  };
 
   createRefund = () => {
     if (getIsSubmitting(this.store.getState())) return;
@@ -69,7 +67,7 @@ export default class PayRefundModule {
     };
 
     this.integrator.createRefund({ onSuccess, onFailure });
-  }
+  };
 
   deleteRefund = () => {
     this.dispatcher.setSubmittingState(true);
@@ -89,17 +87,17 @@ export default class PayRefundModule {
     };
 
     this.integrator.deleteRefund({ onSuccess, onFailure });
-  }
+  };
 
   confirmBeforeDelete = () => {
     this.dispatcher.openModal('delete');
-  }
+  };
 
   confirmDelete = () => {
     this.dispatcher.closeModal();
 
     this.deleteRefund();
-  }
+  };
 
   confirmBeforeCancel = () => {
     const state = this.store.getState();
@@ -110,12 +108,12 @@ export default class PayRefundModule {
     } else {
       this.redirectToCustomerReturnList();
     }
-  }
+  };
 
   confirmCancel = () => {
     this.dispatcher.closeModal();
     this.redirectToCustomerReturnList();
-  }
+  };
 
   redirectToCustomerReturnList = () => {
     const state = this.store.getState();
@@ -123,7 +121,7 @@ export default class PayRefundModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/customerReturn`;
-  }
+  };
 
   redirectToTransactionList = () => {
     const state = this.store.getState();
@@ -131,7 +129,7 @@ export default class PayRefundModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/transactionList`;
-  }
+  };
 
   setRefundDetails = ({ key, value }) => {
     const state = this.store.getState();
@@ -158,18 +156,20 @@ export default class PayRefundModule {
       };
 
       this.integrator.loadReferenceId({
-        accountId, onSuccess, onFailure,
+        accountId,
+        onSuccess,
+        onFailure,
       });
     }
-  }
+  };
 
   resetState = () => {
     this.dispatcher.resetState();
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   saveHandler = () => {
     const state = this.store.getState();
@@ -178,7 +178,7 @@ export default class PayRefundModule {
     if (!isCreating || modalType) return;
 
     this.createRefund();
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,
@@ -206,11 +206,7 @@ export default class PayRefundModule {
       />
     );
 
-    const wrappedView = (
-      <Provider store={this.store}>
-        {view}
-      </Provider>
-    );
+    const wrappedView = <Provider store={this.store}>{view}</Provider>;
     this.setRootView(wrappedView);
-  }
+  };
 }

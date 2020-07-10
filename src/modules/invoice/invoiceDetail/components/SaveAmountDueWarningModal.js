@@ -11,22 +11,20 @@ const SaveAmountDueWarningModal = ({
   modalBody,
   isActionDisabled,
 }) => (
-  <Modal
-    title="Save invoice?"
-    size="small"
-    onCancel={onCancel}
-  >
-    <Modal.Body>
-      {modalBody}
-    </Modal.Body>
+  <Modal title="Save invoice?" size="small" onCancel={onCancel}>
+    <Modal.Body>{modalBody}</Modal.Body>
     <Modal.Footer>
-      <Button type="secondary" onClick={onCancel} disabled={isActionDisabled}>Go back</Button>
-      <Button type="primary" onClick={onConfirm} disabled={isActionDisabled}>Save</Button>
+      <Button type="secondary" onClick={onCancel} disabled={isActionDisabled}>
+        Go back
+      </Button>
+      <Button type="primary" onClick={onConfirm} disabled={isActionDisabled}>
+        Save
+      </Button>
     </Modal.Footer>
   </Modal>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   modalBody: getSaveAmountDueWarningModalBody(state),
   isActionDisabled: getIsSubmitting(state),
 });

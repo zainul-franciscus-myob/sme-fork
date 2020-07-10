@@ -9,14 +9,18 @@ import {
   UPDATE_PAYROLL_WAGE_PAY_BASIS,
   UPDATE_PAYROLL_WAGE_PAY_CYCLE,
 } from '../../../EmployeeIntents';
-import { getAnnualSalary, getHourlyRate, getPayPeriodHours } from '../selectors/PayrollWageSelectors';
+import {
+  getAnnualSalary,
+  getHourlyRate,
+  getPayPeriodHours,
+} from '../selectors/PayrollWageSelectors';
 import formatNumberWithDecimalScaleRange from '../../../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 
-const formatAnnualSalary = annualSalary => Number(annualSalary).toFixed(2);
-const formatHourlyRate = hourlyRate => formatNumberWithDecimalScaleRange(hourlyRate, 2, 4);
-const formatPayPeriodHours = payPeriodHours => formatNumberWithDecimalScaleRange(
-  payPeriodHours, 2, 3,
-);
+const formatAnnualSalary = (annualSalary) => Number(annualSalary).toFixed(2);
+const formatHourlyRate = (hourlyRate) =>
+  formatNumberWithDecimalScaleRange(hourlyRate, 2, 4);
+const formatPayPeriodHours = (payPeriodHours) =>
+  formatNumberWithDecimalScaleRange(payPeriodHours, 2, 3);
 
 export const loadWagePayrollDetails = (stateWage, actionWage) => ({
   ...stateWage,
@@ -49,8 +53,9 @@ const addPayrollWagePayItem = (state, action) => {
 };
 
 const removePayrollWagePayItem = (state, action) => {
-  const updatedPayItems = state.payrollDetails.wage.allocatedWagePayItems
-    .filter(payItem => payItem.id !== action.id);
+  const updatedPayItems = state.payrollDetails.wage.allocatedWagePayItems.filter(
+    (payItem) => payItem.id !== action.id
+  );
   const partialWage = { allocatedWagePayItems: updatedPayItems };
 
   return setPayrollWageState(state, partialWage);
@@ -65,13 +70,19 @@ const updatePayrollWageDetail = (state, action) => {
 
 const updatePayrollWagePayBasis = (state, { value }) => {
   const { wage } = state.payrollDetails;
-  const { baseHourlyWagePayItemId, baseSalaryWagePayItemId, wagePayItems } = state;
-  const idToAdd = value === 'Salary' ? baseSalaryWagePayItemId : baseHourlyWagePayItemId;
+  const {
+    baseHourlyWagePayItemId,
+    baseSalaryWagePayItemId,
+    wagePayItems,
+  } = state;
+  const idToAdd =
+    value === 'Salary' ? baseSalaryWagePayItemId : baseHourlyWagePayItemId;
 
   const payItemToAdd = wagePayItems.find(({ id }) => id === idToAdd);
   const allocatedWagePayItems = [
     ...wage.allocatedWagePayItems.filter(
-      ({ id }) => id !== baseHourlyWagePayItemId && id !== baseSalaryWagePayItemId,
+      ({ id }) =>
+        id !== baseHourlyWagePayItemId && id !== baseSalaryWagePayItemId
     ),
     {
       id: payItemToAdd.id,
@@ -95,18 +106,23 @@ const payCycleMultiplier = {
   Quarterly: 4,
 };
 
-const calculateAnnualSalary = (hourlyRate, payPeriodHours, payCycle) => hourlyRate
-  * payPeriodHours * payCycleMultiplier[payCycle];
+const calculateAnnualSalary = (hourlyRate, payPeriodHours, payCycle) =>
+  hourlyRate * payPeriodHours * payCycleMultiplier[payCycle];
 
-const calculateHourlyRate = (annualSalary, payPeriodHours, payCycle) => (payPeriodHours > 0
-  ? annualSalary / (payPeriodHours * payCycleMultiplier[payCycle])
-  : 0);
+const calculateHourlyRate = (annualSalary, payPeriodHours, payCycle) =>
+  payPeriodHours > 0
+    ? annualSalary / (payPeriodHours * payCycleMultiplier[payCycle])
+    : 0;
 
 const updatePayrollWageHourlyRate = (state, { value }) => {
   const { payPeriodHours, selectedPayCycle } = state.payrollDetails.wage;
   const hourlyRate = Number(value);
   const numPayPeriodHours = Number(payPeriodHours);
-  const annualSalary = calculateAnnualSalary(hourlyRate, numPayPeriodHours, selectedPayCycle);
+  const annualSalary = calculateAnnualSalary(
+    hourlyRate,
+    numPayPeriodHours,
+    selectedPayCycle
+  );
 
   const partialWage = {
     annualSalary: formatAnnualSalary(annualSalary),
@@ -119,7 +135,11 @@ const updatePayrollWageAnnualSalary = (state, { value }) => {
   const { payPeriodHours, selectedPayCycle } = state.payrollDetails.wage;
   const annualSalary = Number(value);
   const numPayPeriodHours = Number(payPeriodHours);
-  const hourlyRate = calculateHourlyRate(annualSalary, numPayPeriodHours, selectedPayCycle);
+  const hourlyRate = calculateHourlyRate(
+    annualSalary,
+    numPayPeriodHours,
+    selectedPayCycle
+  );
 
   const partialWage = {
     annualSalary: formatAnnualSalary(value),
@@ -130,21 +150,32 @@ const updatePayrollWageAnnualSalary = (state, { value }) => {
 
 const updateHoursAndPayAmounts = (state, selectedPayCycle, payPeriodHours) => {
   const {
-    hourlyRate, annualSalary, selectedPayBasis,
+    hourlyRate,
+    annualSalary,
+    selectedPayBasis,
   } = state.payrollDetails.wage;
 
-  const updatedAnnualSalary = selectedPayBasis === 'Hourly'
-    ? formatAnnualSalary(
-      calculateAnnualSalary(Number(hourlyRate), payPeriodHours, selectedPayCycle),
-    )
-    : annualSalary;
+  const updatedAnnualSalary =
+    selectedPayBasis === 'Hourly'
+      ? formatAnnualSalary(
+          calculateAnnualSalary(
+            Number(hourlyRate),
+            payPeriodHours,
+            selectedPayCycle
+          )
+        )
+      : annualSalary;
 
-  const updatedHourlyRate = selectedPayBasis === 'Salary'
-    ? formatHourlyRate(
-      calculateHourlyRate(Number(annualSalary), payPeriodHours, selectedPayCycle),
-    )
-    : hourlyRate;
-
+  const updatedHourlyRate =
+    selectedPayBasis === 'Salary'
+      ? formatHourlyRate(
+          calculateHourlyRate(
+            Number(annualSalary),
+            payPeriodHours,
+            selectedPayCycle
+          )
+        )
+      : hourlyRate;
 
   const partialWage = {
     selectedPayCycle,
@@ -155,14 +186,18 @@ const updateHoursAndPayAmounts = (state, selectedPayCycle, payPeriodHours) => {
   return setPayrollWageState(state, partialWage);
 };
 
-const updatePayrollWageHoursInPayCycle = (state, { value }) => updateHoursAndPayAmounts(
-  state, state.payrollDetails.wage.selectedPayCycle, Number(value),
-);
+const updatePayrollWageHoursInPayCycle = (state, { value }) =>
+  updateHoursAndPayAmounts(
+    state,
+    state.payrollDetails.wage.selectedPayCycle,
+    Number(value)
+  );
 
 const updatePayrollWagePayCycle = (state, { value }) => {
   const { payPeriodHours, selectedPayCycle } = state.payrollDetails.wage;
-  const updatedPayPeriodHours = Number(payPeriodHours)
-    * payCycleMultiplier[selectedPayCycle] / payCycleMultiplier[value];
+  const updatedPayPeriodHours =
+    (Number(payPeriodHours) * payCycleMultiplier[selectedPayCycle]) /
+    payCycleMultiplier[value];
 
   return updateHoursAndPayAmounts(state, value, updatedPayPeriodHours);
 };
@@ -173,7 +208,9 @@ const updatePayrollWageAppliedDetails = (state) => {
   const appliedPayPeriodHours = getPayPeriodHours(state);
 
   return setPayrollWageState(state, {
-    appliedAnnualSalary, appliedHourlyRate, appliedPayPeriodHours,
+    appliedAnnualSalary,
+    appliedHourlyRate,
+    appliedPayPeriodHours,
   });
 };
 

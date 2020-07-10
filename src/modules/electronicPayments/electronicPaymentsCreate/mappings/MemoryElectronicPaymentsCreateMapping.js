@@ -8,12 +8,12 @@ import loadAccountsAndElectronicPayments from './data/loadAccountsAndElectronicP
 import recordElectronicPaymentsAndDownloadBankFile from './data/recordElectronicPaymentsAndDownloadBankFile';
 
 const MemoryElectronicPaymentsCreateMapping = {
-  [LOAD_ACCOUNTS_AND_TRANSACTIONS]:
-    ({ onSuccess }) => onSuccess(loadAccountsAndElectronicPayments),
-  [SORT_AND_FILTER_TRANSACTIONS]:
-    ({ onSuccess }) => onSuccess(filterElectronicPaySummaryList),
-  [RECORD_AND_DOWNLOAD_BANK_FILE]:
-    ({ onSuccess }) => onSuccess(recordElectronicPaymentsAndDownloadBankFile),
+  [LOAD_ACCOUNTS_AND_TRANSACTIONS]: ({ onSuccess }) =>
+    onSuccess(loadAccountsAndElectronicPayments),
+  [SORT_AND_FILTER_TRANSACTIONS]: ({ onSuccess }) =>
+    onSuccess(filterElectronicPaySummaryList),
+  [RECORD_AND_DOWNLOAD_BANK_FILE]: ({ onSuccess }) =>
+    onSuccess(recordElectronicPaymentsAndDownloadBankFile),
 };
 
 export default MemoryElectronicPaymentsCreateMapping;

@@ -1,18 +1,24 @@
 import {
-  Button, Icons, PageHead, Tooltip, TotalsHeader,
+  Button,
+  Icons,
+  PageHead,
+  Tooltip,
+  TotalsHeader,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getBankAccount, getBankAccounts, getDisplayBalances,
+  getBankAccount,
+  getBankAccounts,
+  getDisplayBalances,
 } from '../bankingSelectors';
 import { getBankReconciliationUrl } from '../bankingSelectors/redirectSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import LinkButton from '../../../components/Button/LinkButton';
 import styles from './BankTransactionPageHead.module.css';
 
-const onComboBoxChange = onBankAccountChange => (item) => {
+const onComboBoxChange = (onBankAccountChange) => (item) => {
   const { id } = item;
   onBankAccountChange({ value: id });
 };
@@ -21,12 +27,7 @@ const BankTransactionPageHead = ({
   bankReconciliationUrl,
   bankAccount,
   bankAccounts,
-  balances: {
-    bankBalance,
-    myobBalance,
-    unallocated,
-    balanceTooltip,
-  },
+  balances: { bankBalance, myobBalance, unallocated, balanceTooltip },
   onBankAccountChange,
   onImportStatementButtonClick,
 }) => {
@@ -69,17 +70,16 @@ const BankTransactionPageHead = ({
   return (
     <div className={styles.pageHead}>
       <PageHead title="Bank transactions">
-        <Button type="secondary" onClick={onImportStatementButtonClick}>Import statement</Button>
+        <Button type="secondary" onClick={onImportStatementButtonClick}>
+          Import statement
+        </Button>
       </PageHead>
-      <TotalsHeader
-        actions={actions}
-        totalItems={totalItems}
-      />
+      <TotalsHeader actions={actions} totalItems={totalItems} />
     </div>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   bankAccount: getBankAccount(state),
   bankAccounts: getBankAccounts(state),
   balances: getDisplayBalances(state),

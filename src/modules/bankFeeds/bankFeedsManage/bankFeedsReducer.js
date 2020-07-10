@@ -82,12 +82,13 @@ const updateBankAccountLinkedAccount = (state, action) => ({
   ...state,
   bankFeeds: {
     ...state.bankFeeds,
-    bankAccounts: state.bankFeeds.bankAccounts.map(
-      bankAccount => (bankAccount.id === action.key
+    bankAccounts: state.bankFeeds.bankAccounts.map((bankAccount) =>
+      bankAccount.id === action.key
         ? {
-          ...bankAccount,
-          linkedAccountId: action.value,
-        } : bankAccount),
+            ...bankAccount,
+            linkedAccountId: action.value,
+          }
+        : bankAccount
     ),
   },
 });
@@ -96,12 +97,13 @@ const updateCreditCardLinkedAccount = (state, action) => ({
   ...state,
   bankFeeds: {
     ...state.bankFeeds,
-    creditCards: state.bankFeeds.creditCards.map(
-      creditCardAccount => (creditCardAccount.id === action.key
+    creditCards: state.bankFeeds.creditCards.map((creditCardAccount) =>
+      creditCardAccount.id === action.key
         ? {
-          ...creditCardAccount,
-          linkedAccountId: action.value,
-        } : creditCardAccount),
+            ...creditCardAccount,
+            linkedAccountId: action.value,
+          }
+        : creditCardAccount
     ),
   },
 });
@@ -114,7 +116,8 @@ const setAccountToBeDeleted = (state, action) => ({
   },
 });
 
-const removeAccount = (accounts, id) => accounts.filter(account => account.id !== id);
+const removeAccount = (accounts, id) =>
+  accounts.filter((account) => account.id !== id);
 const deleteBankFeed = (state) => {
   const accountTypeToBeDeleted = state.accountToBeDeleted.accountType;
   const accountIdToBeDeleted = state.accountToBeDeleted.id;
@@ -126,12 +129,14 @@ const deleteBankFeed = (state) => {
     ...state,
     bankFeeds: {
       ...state.bankFeeds,
-      bankAccounts: accountTypeToBeDeleted === BankFeedTypes.BANK_ACCOUNT
-        ? removeAccount(currentBankAccounts, accountIdToBeDeleted)
-        : currentBankAccounts,
-      creditCards: accountTypeToBeDeleted === BankFeedTypes.CREDIT_CARD
-        ? removeAccount(currentCreditCards, accountIdToBeDeleted)
-        : currentCreditCards,
+      bankAccounts:
+        accountTypeToBeDeleted === BankFeedTypes.BANK_ACCOUNT
+          ? removeAccount(currentBankAccounts, accountIdToBeDeleted)
+          : currentBankAccounts,
+      creditCards:
+        accountTypeToBeDeleted === BankFeedTypes.CREDIT_CARD
+          ? removeAccount(currentCreditCards, accountIdToBeDeleted)
+          : currentCreditCards,
     },
   };
 };
@@ -144,7 +149,7 @@ const updateBankFeedsLoginDetails = (state, action) => ({
   },
 });
 
-const clearBankFeedsLoginDetails = state => ({
+const clearBankFeedsLoginDetails = (state) => ({
   ...state,
   loginDetails: {
     username: '',

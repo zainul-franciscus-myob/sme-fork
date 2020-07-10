@@ -52,7 +52,6 @@ describe('InvoiceDetailReducer', () => {
           itemId: 'a',
           description: 'A',
         },
-
       ]);
     });
   });
@@ -140,10 +139,7 @@ describe('InvoiceDetailReducer', () => {
   describe('UPDATE_INVOICE_LINE', () => {
     const state = {
       invoice: {
-        lines: [
-          {},
-          {},
-        ],
+        lines: [{}, {}],
       },
     };
 
@@ -171,7 +167,7 @@ describe('InvoiceDetailReducer', () => {
         ...state,
         invoice: {
           ...state.invoice,
-          lines: state.invoice.lines.map(line => ({
+          lines: state.invoice.lines.map((line) => ({
             ...line,
             type: InvoiceLineType.SERVICE,
           })),
@@ -200,7 +196,7 @@ describe('InvoiceDetailReducer', () => {
         ...state,
         invoice: {
           ...state.invoice,
-          lines: state.invoice.lines.map(line => ({
+          lines: state.invoice.lines.map((line) => ({
             ...line,
             type: InvoiceLineType.ITEM,
           })),
@@ -217,7 +213,7 @@ describe('InvoiceDetailReducer', () => {
         ...state,
         invoice: {
           ...state.invoice,
-          lines: state.invoice.lines.map(line => ({
+          lines: state.invoice.lines.map((line) => ({
             ...line,
             id: '1',
             type: InvoiceLineType.SERVICE,
@@ -259,7 +255,6 @@ describe('InvoiceDetailReducer', () => {
       expect(actual.invoice.lines[1].taxCodeId).toEqual('2');
     });
 
-
     it('sets taxCodeId to empty when changing accountId and that account does not exist', () => {
       const modifiedState = {
         ...state,
@@ -281,10 +276,7 @@ describe('InvoiceDetailReducer', () => {
     it('does no change unit when updating account and unit was not empty', () => {
       const modifiedState = {
         invoice: {
-          lines: [
-            {},
-            { units: '2' },
-          ],
+          lines: [{}, { units: '2' }],
         },
         accountOptions: [
           {
@@ -308,10 +300,7 @@ describe('InvoiceDetailReducer', () => {
   describe('ADD_INVOICE_LINE', () => {
     const state = {
       invoice: {
-        lines: [
-          {},
-          {},
-        ],
+        lines: [{}, {}],
       },
       newLine: {},
       accountOptions: [],
@@ -340,10 +329,7 @@ describe('InvoiceDetailReducer', () => {
   describe('REMOVE_INVOICE_LINE', () => {
     const state = {
       invoice: {
-        lines: [
-          'a',
-          'b',
-        ],
+        lines: ['a', 'b'],
       },
     };
 
@@ -355,9 +341,7 @@ describe('InvoiceDetailReducer', () => {
     it('removes line at given index', () => {
       const actual = invoiceDetailReducer(state, action);
 
-      expect(actual.invoice.lines).toEqual([
-        'a',
-      ]);
+      expect(actual.invoice.lines).toEqual(['a']);
     });
 
     it('sets isPageEdited to true', () => {
@@ -537,7 +521,13 @@ describe('InvoiceDetailReducer', () => {
           intent: LOAD_INVOICE_DETAIL,
           invoice: {
             isTaxInclusive: true,
-            lines: [{ type: InvoiceLineType.SERVICE, taxExclusiveAmount: '9.99', taxAmount: '0.01' }],
+            lines: [
+              {
+                type: InvoiceLineType.SERVICE,
+                taxExclusiveAmount: '9.99',
+                taxAmount: '0.01',
+              },
+            ],
             taxExclusiveFreightAmount: '9.09',
             freightTaxAmount: '0.91',
             amountPaid: '5',
@@ -600,19 +590,33 @@ describe('InvoiceDetailReducer', () => {
         },
       };
       it('shows inactive selected jobs against each line', () => {
-        const lineOneExpectedOptions = action.jobOptions.filter(job => job.id !== '2');
-        const lineTwoExpectedOptions = action.jobOptions.filter(job => job.id !== '1');
-        const lineThreeExpectedOptions = action.jobOptions.filter(job => job.id !== '1' && job.id !== '2');
+        const lineOneExpectedOptions = action.jobOptions.filter(
+          (job) => job.id !== '2'
+        );
+        const lineTwoExpectedOptions = action.jobOptions.filter(
+          (job) => job.id !== '1'
+        );
+        const lineThreeExpectedOptions = action.jobOptions.filter(
+          (job) => job.id !== '1' && job.id !== '2'
+        );
 
         const actual = invoiceDetailReducer(state, action);
 
-        expect(actual.invoice.lines[0].lineJobOptions).toEqual(lineOneExpectedOptions);
-        expect(actual.invoice.lines[1].lineJobOptions).toEqual(lineTwoExpectedOptions);
-        expect(actual.invoice.lines[2].lineJobOptions).toEqual(lineThreeExpectedOptions);
+        expect(actual.invoice.lines[0].lineJobOptions).toEqual(
+          lineOneExpectedOptions
+        );
+        expect(actual.invoice.lines[1].lineJobOptions).toEqual(
+          lineTwoExpectedOptions
+        );
+        expect(actual.invoice.lines[2].lineJobOptions).toEqual(
+          lineThreeExpectedOptions
+        );
       });
 
       it('shows active selected jobs against new line', () => {
-        const expectedJobOptions = action.jobOptions.filter(job => job.isActive);
+        const expectedJobOptions = action.jobOptions.filter(
+          (job) => job.isActive
+        );
         const actual = invoiceDetailReducer(state, action);
 
         expect(actual.newLine.lineJobOptions).toEqual(expectedJobOptions);
@@ -628,13 +632,17 @@ describe('InvoiceDetailReducer', () => {
     const quoteId = 'quoteId';
 
     const state = {
-      businessId, region, invoiceId, duplicateId, quoteId,
+      businessId,
+      region,
+      invoiceId,
+      duplicateId,
+      quoteId,
     };
 
     const action = {
       intent: RELOAD_INVOICE_DETAIL,
       invoice: { invoiceId, lines: [] },
-      subscription: { },
+      subscription: {},
     };
 
     it('maintains business id, region, and invoice id', () => {
@@ -665,11 +673,14 @@ describe('InvoiceDetailReducer', () => {
       const invoiceHistoryAccordionStatus = InvoiceHistoryAccordianStatus.OPEN;
 
       const actual = invoiceDetailReducer(
-        { ...state, invoiceHistory, invoiceHistoryAccordionStatus }, action,
+        { ...state, invoiceHistory, invoiceHistoryAccordionStatus },
+        action
       );
 
       expect(actual.invoiceHistory).toEqual(invoiceHistory);
-      expect(actual.invoiceHistoryAccordionStatus).toEqual(invoiceHistoryAccordionStatus);
+      expect(actual.invoiceHistoryAccordionStatus).toEqual(
+        invoiceHistoryAccordionStatus
+      );
     });
   });
 
@@ -749,7 +760,9 @@ describe('InvoiceDetailReducer', () => {
       },
     ];
     const state = {
-      invoice: { lines: [{ lineJobOptions }, { lineJobOptions }, { lineJobOptions }] },
+      invoice: {
+        lines: [{ lineJobOptions }, { lineJobOptions }, { lineJobOptions }],
+      },
       newLine: {
         lineJobOptions,
       },
@@ -764,7 +777,9 @@ describe('InvoiceDetailReducer', () => {
     it('adds newly created job into the front of jobOptions on each line', () => {
       const actual = invoiceDetailReducer(state, action);
 
-      expect(actual.invoice.lines.map(line => line.lineJobOptions[0])).toEqual([
+      expect(
+        actual.invoice.lines.map((line) => line.lineJobOptions[0])
+      ).toEqual([
         { id: '3', jobNumber: '300' },
         { id: '3', jobNumber: '300' },
         { id: '3', jobNumber: '300' },

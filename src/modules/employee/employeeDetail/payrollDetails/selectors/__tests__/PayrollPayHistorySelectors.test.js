@@ -21,7 +21,23 @@ describe('PayrollPayHistorySelectors', () => {
       ['Quarter2', ['October', 'November', 'December']],
       ['Quarter3', ['January', 'February', 'March']],
       ['Quarter4', ['April', 'May', 'June']],
-      ['YearToDate', ['July', 'August', 'September', 'October', 'November', 'December', 'January', 'February', 'March', 'April', 'May', 'June']],
+      [
+        'YearToDate',
+        [
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December',
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+        ],
+      ],
       ['July', ['July']],
     ])('should get months in period', (period, expected) => {
       const actual = getMonthsInPeriod(period);
@@ -49,13 +65,14 @@ describe('PayrollPayHistorySelectors', () => {
       ['Quarter3', 'January'],
       ['Quarter4', 'April'],
       ['YearToDate', 'July'],
-    ])('should get assigned month from pay history period filter', (
-      period, expected,
-    ) => {
-      const actual = getAssignedMonthForPeriod(period);
+    ])(
+      'should get assigned month from pay history period filter',
+      (period, expected) => {
+        const actual = getAssignedMonthForPeriod(period);
 
-      expect(actual).toEqual(expected);
-    });
+        expect(actual).toEqual(expected);
+      }
+    );
   });
 
   describe('getIsFutureMonth', () => {
@@ -65,22 +82,31 @@ describe('PayrollPayHistorySelectors', () => {
       ['January', 'April', true],
       ['July', 'June', true],
       ['June', 'July', false],
-    ])('should return whether the selected month is future month in financial year', (
-      currentMonth, selectedMonth, expected,
-    ) => {
-      const actual = getIsFutureMonth(currentMonth, selectedMonth);
+    ])(
+      'should return whether the selected month is future month in financial year',
+      (currentMonth, selectedMonth, expected) => {
+        const actual = getIsFutureMonth(currentMonth, selectedMonth);
 
-      expect(actual).toEqual(expected);
-    });
+        expect(actual).toEqual(expected);
+      }
+    );
   });
 
   describe('buildPayHistoryEntry', () => {
     it('should return pay history entry', () => {
       const payHistoryItem = {
-        id: 'id', payItemId: 'payItemId', month: 'July', activity: 100, total: '100.00',
+        id: 'id',
+        payItemId: 'payItemId',
+        month: 'July',
+        activity: 100,
+        total: '100.00',
       };
       const allocatedPayItem = { id: 'payItemId' };
-      const payItemOption = { id: 'payItemId', type: 'payItemType', name: 'name' };
+      const payItemOption = {
+        id: 'payItemId',
+        type: 'payItemType',
+        name: 'name',
+      };
 
       const expected = {
         id: 'id',
@@ -93,14 +119,22 @@ describe('PayrollPayHistorySelectors', () => {
         isAmount: true,
       };
 
-      const actual = buildPayHistoryEntry(payHistoryItem, allocatedPayItem, payItemOption);
+      const actual = buildPayHistoryEntry(
+        payHistoryItem,
+        allocatedPayItem,
+        payItemOption
+      );
 
       expect(actual).toEqual(expected);
     });
 
     it('should return pay history entry when the pay item is allocated', () => {
       const allocatedPayItem = { id: 'payItemId' };
-      const payItemOption = { id: 'payItemId', type: 'payItemType', name: 'name' };
+      const payItemOption = {
+        id: 'payItemId',
+        type: 'payItemType',
+        name: 'name',
+      };
 
       const expected = {
         payItemId: 'payItemId',
@@ -112,16 +146,28 @@ describe('PayrollPayHistorySelectors', () => {
         isAmount: true,
       };
 
-      const actual = buildPayHistoryEntry(undefined, allocatedPayItem, payItemOption);
+      const actual = buildPayHistoryEntry(
+        undefined,
+        allocatedPayItem,
+        payItemOption
+      );
 
       expect(actual).toEqual(expected);
     });
 
     it('should return pay history entry when there is pay history item with activity value', () => {
       const payHistoryItem = {
-        id: 'id', payItemId: 'payItemId', month: 'July', activity: 100, total: '0.00',
+        id: 'id',
+        payItemId: 'payItemId',
+        month: 'July',
+        activity: 100,
+        total: '0.00',
       };
-      const payItemOption = { id: 'payItemId', type: 'payItemType', name: 'name' };
+      const payItemOption = {
+        id: 'payItemId',
+        type: 'payItemType',
+        name: 'name',
+      };
 
       const expected = {
         id: 'id',
@@ -134,16 +180,28 @@ describe('PayrollPayHistorySelectors', () => {
         isAmount: true,
       };
 
-      const actual = buildPayHistoryEntry(payHistoryItem, undefined, payItemOption);
+      const actual = buildPayHistoryEntry(
+        payHistoryItem,
+        undefined,
+        payItemOption
+      );
 
       expect(actual).toEqual(expected);
     });
 
     it('should return pay history entry when there is pay history item with total value', () => {
       const payHistoryItem = {
-        id: 'id', payItemId: 'payItemId', month: 'July', activity: 0, total: '100.00',
+        id: 'id',
+        payItemId: 'payItemId',
+        month: 'July',
+        activity: 0,
+        total: '100.00',
       };
-      const payItemOption = { id: 'payItemId', type: 'payItemType', name: 'name' };
+      const payItemOption = {
+        id: 'payItemId',
+        type: 'payItemType',
+        name: 'name',
+      };
 
       const expected = {
         id: 'id',
@@ -156,28 +214,52 @@ describe('PayrollPayHistorySelectors', () => {
         isAmount: true,
       };
 
-      const actual = buildPayHistoryEntry(payHistoryItem, undefined, payItemOption);
+      const actual = buildPayHistoryEntry(
+        payHistoryItem,
+        undefined,
+        payItemOption
+      );
 
       expect(actual).toEqual(expected);
     });
 
     it('should not return pay history entry when pay history does not have activity nor total value', () => {
       const payHistoryItem = {
-        id: 'id', payItemId: 'payItemId', month: 'July', activity: 0, total: '0.00',
+        id: 'id',
+        payItemId: 'payItemId',
+        month: 'July',
+        activity: 0,
+        total: '0.00',
       };
-      const payItemOption = { id: 'payItemId', type: 'payItemType', name: 'name' };
+      const payItemOption = {
+        id: 'payItemId',
+        type: 'payItemType',
+        name: 'name',
+      };
 
-      const actual = buildPayHistoryEntry(payHistoryItem, undefined, payItemOption);
+      const actual = buildPayHistoryEntry(
+        payHistoryItem,
+        undefined,
+        payItemOption
+      );
 
       expect(actual).toBeUndefined();
     });
 
     it('should shows Activity (hrs) input when pay item type is entitlement', () => {
       const payHistoryItem = {
-        id: 'id', payItemId: 'payItemId', month: 'July', activity: 100, total: '100.00',
+        id: 'id',
+        payItemId: 'payItemId',
+        month: 'July',
+        activity: 100,
+        total: '100.00',
       };
       const allocatedPayItem = { id: 'payItemId' };
-      const payItemOption = { id: 'payItemId', type: 'EntitlementPayrollCategory', name: 'name' };
+      const payItemOption = {
+        id: 'payItemId',
+        type: 'EntitlementPayrollCategory',
+        name: 'name',
+      };
 
       const expected = {
         id: 'id',
@@ -190,13 +272,21 @@ describe('PayrollPayHistorySelectors', () => {
         isAmount: false,
       };
 
-      const actual = buildPayHistoryEntry(payHistoryItem, allocatedPayItem, payItemOption);
+      const actual = buildPayHistoryEntry(
+        payHistoryItem,
+        allocatedPayItem,
+        payItemOption
+      );
 
       expect(actual).toEqual(expected);
     });
 
     it('should not return pay history entry when pay item is not allocated nor pay history exists', () => {
-      const payItemOption = { id: 'payItemId', type: 'payItemType', name: 'name' };
+      const payItemOption = {
+        id: 'payItemId',
+        type: 'payItemType',
+        name: 'name',
+      };
 
       const actual = buildPayHistoryEntry(undefined, undefined, payItemOption);
 
@@ -211,10 +301,7 @@ describe('PayrollPayHistorySelectors', () => {
         { id: '2', payItemId: 'payItemId-2', activity: 100 },
       ];
 
-      const allocatedPayItems = [
-        { id: 'payItemId-1' },
-        { id: 'payItemId-3' },
-      ];
+      const allocatedPayItems = [{ id: 'payItemId-1' }, { id: 'payItemId-3' }];
 
       const payItemOptions = [
         { id: 'payItemId-1', type: 'payItemType', name: 'name' },
@@ -223,7 +310,11 @@ describe('PayrollPayHistorySelectors', () => {
         { id: 'payItemId-4', type: 'payItemType', name: 'name' },
       ];
 
-      const actual = buildPayHistoryEntries(payHistoryItems, allocatedPayItems, payItemOptions);
+      const actual = buildPayHistoryEntries(
+        payHistoryItems,
+        allocatedPayItems,
+        payItemOptions
+      );
 
       expect(actual.length).toEqual(3);
     });
@@ -234,20 +325,13 @@ describe('PayrollPayHistorySelectors', () => {
       const state = {
         payrollDetails: {
           deductionDetails: {
-            deductionPayItems: [
-              { id: '41' },
-            ],
+            deductionPayItems: [{ id: '41' }],
           },
           superannuationDetails: {
-            allocatedPayItems: [
-              { id: '31' },
-              { id: '33' },
-            ],
+            allocatedPayItems: [{ id: '31' }, { id: '33' }],
           },
           tax: {
-            taxPayItems: [
-              { id: '21' },
-            ],
+            taxPayItems: [{ id: '21' }],
           },
           wage: {
             allocatedWagePayItems: [
@@ -417,25 +501,16 @@ describe('PayrollPayHistorySelectors', () => {
       const state = {
         payrollDetails: {
           deductionDetails: {
-            deductionPayItems: [
-              { id: '41' },
-            ],
+            deductionPayItems: [{ id: '41' }],
           },
           superannuationDetails: {
-            allocatedPayItems: [
-              { id: '31' },
-              { id: '33' },
-            ],
+            allocatedPayItems: [{ id: '31' }, { id: '33' }],
           },
           tax: {
-            taxPayItems: [
-              { id: '21' },
-            ],
+            taxPayItems: [{ id: '21' }],
           },
           wage: {
-            allocatedWagePayItems: [
-              { id: '11' },
-            ],
+            allocatedWagePayItems: [{ id: '11' }],
           },
           payHistoryDetails: {
             filterOptions: {
@@ -526,25 +601,16 @@ describe('PayrollPayHistorySelectors', () => {
       const state = {
         payrollDetails: {
           deductionDetails: {
-            deductionPayItems: [
-              { id: '41' },
-            ],
+            deductionPayItems: [{ id: '41' }],
           },
           superannuationDetails: {
-            allocatedPayItems: [
-              { id: '31' },
-              { id: '33' },
-            ],
+            allocatedPayItems: [{ id: '31' }, { id: '33' }],
           },
           tax: {
-            taxPayItems: [
-              { id: '21' },
-            ],
+            taxPayItems: [{ id: '21' }],
           },
           wage: {
-            allocatedWagePayItems: [
-              { id: '11' },
-            ],
+            allocatedWagePayItems: [{ id: '11' }],
           },
           payHistoryDetails: {
             filterOptions: {
@@ -626,15 +692,10 @@ describe('PayrollPayHistorySelectors', () => {
       const state = {
         payrollDetails: {
           superannuationDetails: {
-            allocatedPayItems: [
-              { id: '31' },
-              { id: '33' },
-            ],
+            allocatedPayItems: [{ id: '31' }, { id: '33' }],
           },
           employerExpenseDetails: {
-            expensePayItems: [
-              { id: '61' },
-            ],
+            expensePayItems: [{ id: '61' }],
           },
           payHistoryDetails: {
             filterOptions: {
@@ -705,9 +766,7 @@ describe('PayrollPayHistorySelectors', () => {
       const state = {
         payrollDetails: {
           leaveDetails: {
-            allocatedLeavePayItems: [
-              { payItemId: '51' },
-            ],
+            allocatedLeavePayItems: [{ payItemId: '51' }],
           },
           payHistoryDetails: {
             filterOptions: {
@@ -775,7 +834,7 @@ describe('PayrollPayHistorySelectors', () => {
                 lines: [
                   {
                     total: '3000.00',
-                    activity: 2500.50,
+                    activity: 2500.5,
                     month: 'July',
                   },
                 ],
@@ -793,14 +852,18 @@ describe('PayrollPayHistorySelectors', () => {
           lines: [
             {
               total: '1000.00',
-              activity: 2500.50,
+              activity: 2500.5,
               month: 'July',
             },
           ],
         },
       ];
 
-      const actual = getUpdatedPayHistoryItems(state, { payItemId, payItemType, total: '1000.00' });
+      const actual = getUpdatedPayHistoryItems(state, {
+        payItemId,
+        payItemType,
+        total: '1000.00',
+      });
 
       expect(actual).toEqual(expected);
     });
@@ -822,7 +885,7 @@ describe('PayrollPayHistorySelectors', () => {
                 lines: [
                   {
                     total: '3000.00',
-                    activity: 2500.50,
+                    activity: 2500.5,
                     month: 'August',
                   },
                 ],
@@ -840,7 +903,7 @@ describe('PayrollPayHistorySelectors', () => {
           lines: [
             {
               total: '3000.00',
-              activity: 2500.50,
+              activity: 2500.5,
               month: 'August',
             },
             {
@@ -852,7 +915,11 @@ describe('PayrollPayHistorySelectors', () => {
         },
       ];
 
-      const actual = getUpdatedPayHistoryItems(state, { payItemId, payItemType, total: '2000.00' });
+      const actual = getUpdatedPayHistoryItems(state, {
+        payItemId,
+        payItemType,
+        total: '2000.00',
+      });
 
       expect(actual).toEqual(expected);
     });
@@ -885,7 +952,11 @@ describe('PayrollPayHistorySelectors', () => {
         },
       ];
 
-      const actual = getUpdatedPayHistoryItems(state, { payItemId, payItemType, total: '1000.00' });
+      const actual = getUpdatedPayHistoryItems(state, {
+        payItemId,
+        payItemType,
+        total: '1000.00',
+      });
 
       expect(actual).toEqual(expected);
     });
@@ -900,9 +971,9 @@ describe('PayrollPayHistorySelectors', () => {
         const payItemType = 'WagesPayrollCategory';
         const groupLine = { total: '6000.00', activity: 5001, month: 'group' };
         const lines = [
-          { total: '3000.00', activity: 2500.50, month: 'July' },
-          { total: '3000.00', activity: 2500.50, month: 'August' },
-          { total: '3000.00', activity: 2500.50, month: 'April' },
+          { total: '3000.00', activity: 2500.5, month: 'July' },
+          { total: '3000.00', activity: 2500.5, month: 'August' },
+          { total: '3000.00', activity: 2500.5, month: 'April' },
         ];
         const state = {
           payrollDetails: {
@@ -910,7 +981,10 @@ describe('PayrollPayHistorySelectors', () => {
               filterOptions: { period: currentPeriod },
               payHistoryItems: [
                 {
-                  id: '1', payItemId, payItemType, lines,
+                  id: '1',
+                  payItemId,
+                  payItemType,
+                  lines,
                 },
               ],
             },
@@ -926,7 +1000,10 @@ describe('PayrollPayHistorySelectors', () => {
           },
         ];
 
-        const actual = getUpdatedPayHistoryItemsFromFilterOptions(state, nextPeriod);
+        const actual = getUpdatedPayHistoryItemsFromFilterOptions(
+          state,
+          nextPeriod
+        );
 
         expect(actual).toEqual(expected);
       });
@@ -942,7 +1019,10 @@ describe('PayrollPayHistorySelectors', () => {
               filterOptions: { period: currentPeriod },
               payHistoryItems: [
                 {
-                  id: '1', payItemId, payItemType, lines: [],
+                  id: '1',
+                  payItemId,
+                  payItemType,
+                  lines: [],
                 },
               ],
             },
@@ -958,7 +1038,10 @@ describe('PayrollPayHistorySelectors', () => {
           },
         ];
 
-        const actual = getUpdatedPayHistoryItemsFromFilterOptions(state, nextPeriod);
+        const actual = getUpdatedPayHistoryItemsFromFilterOptions(
+          state,
+          nextPeriod
+        );
 
         expect(actual).toEqual(expected);
       });
@@ -980,9 +1063,9 @@ describe('PayrollPayHistorySelectors', () => {
                   payItemId,
                   payItemType,
                   lines: [
-                    { total: '3000.00', activity: 2500.50, month: 'July' },
-                    { total: '3000.00', activity: 2500.50, month: 'August' },
-                    { total: '3000.00', activity: 2500.50, month: 'November' },
+                    { total: '3000.00', activity: 2500.5, month: 'July' },
+                    { total: '3000.00', activity: 2500.5, month: 'August' },
+                    { total: '3000.00', activity: 2500.5, month: 'November' },
                     { total: '9000.00', activity: 5001, month: 'group' },
                   ],
                 },
@@ -997,14 +1080,17 @@ describe('PayrollPayHistorySelectors', () => {
             payItemId,
             payItemType,
             lines: [
-              { total: '6000.00', activity: 2500.50, month: 'July' },
-              { total: '3000.00', activity: 2500.50, month: 'August' },
-              { total: '3000.00', activity: 2500.50, month: 'November' },
+              { total: '6000.00', activity: 2500.5, month: 'July' },
+              { total: '3000.00', activity: 2500.5, month: 'August' },
+              { total: '3000.00', activity: 2500.5, month: 'November' },
             ],
           },
         ];
 
-        const actual = getUpdatedPayHistoryItemsFromFilterOptions(state, nextPeriod);
+        const actual = getUpdatedPayHistoryItemsFromFilterOptions(
+          state,
+          nextPeriod
+        );
 
         expect(actual).toEqual(expected);
       });
@@ -1024,7 +1110,7 @@ describe('PayrollPayHistorySelectors', () => {
                   payItemId,
                   payItemType,
                   lines: [
-                    { total: '3000.00', activity: 2500.50, month: 'August' },
+                    { total: '3000.00', activity: 2500.5, month: 'August' },
                     { total: '9000.00', activity: 5001, month: 'group' },
                   ],
                 },
@@ -1039,13 +1125,16 @@ describe('PayrollPayHistorySelectors', () => {
             payItemId,
             payItemType,
             lines: [
-              { total: '3000.00', activity: 2500.50, month: 'August' },
+              { total: '3000.00', activity: 2500.5, month: 'August' },
               { total: '6000.00', activity: 0, month: 'July' },
             ],
           },
         ];
 
-        const actual = getUpdatedPayHistoryItemsFromFilterOptions(state, nextPeriod);
+        const actual = getUpdatedPayHistoryItemsFromFilterOptions(
+          state,
+          nextPeriod
+        );
 
         expect(actual).toEqual(expected);
       });
@@ -1067,9 +1156,9 @@ describe('PayrollPayHistorySelectors', () => {
                   payItemId,
                   payItemType,
                   lines: [
-                    { total: '3000.00', activity: 2500.50, month: 'July' },
-                    { total: '3000.00', activity: 2500.50, month: 'August' },
-                    { total: '3000.00', activity: 2500.50, month: 'November' },
+                    { total: '3000.00', activity: 2500.5, month: 'July' },
+                    { total: '3000.00', activity: 2500.5, month: 'August' },
+                    { total: '3000.00', activity: 2500.5, month: 'November' },
                     { total: '9000.00', activity: 5001, month: 'group' },
                   ],
                 },
@@ -1084,15 +1173,18 @@ describe('PayrollPayHistorySelectors', () => {
             payItemId,
             payItemType,
             lines: [
-              { total: '6000.00', activity: 2500.50, month: 'July' },
-              { total: '3000.00', activity: 2500.50, month: 'August' },
-              { total: '3000.00', activity: 2500.50, month: 'November' },
+              { total: '6000.00', activity: 2500.5, month: 'July' },
+              { total: '3000.00', activity: 2500.5, month: 'August' },
+              { total: '3000.00', activity: 2500.5, month: 'November' },
               { total: '12000.00', activity: 7501.5, month: 'group' },
             ],
           },
         ];
 
-        const actual = getUpdatedPayHistoryItemsFromFilterOptions(state, nextPeriod);
+        const actual = getUpdatedPayHistoryItemsFromFilterOptions(
+          state,
+          nextPeriod
+        );
 
         expect(actual).toEqual(expected);
       });
@@ -1115,7 +1207,7 @@ describe('PayrollPayHistorySelectors', () => {
                 lines: [
                   {
                     total: '3000.00',
-                    activity: 2500.50,
+                    activity: 2500.5,
                     month: 'July',
                   },
                 ],
@@ -1134,7 +1226,7 @@ describe('PayrollPayHistorySelectors', () => {
             lines: [
               {
                 month: 'July',
-                adjustment: 499.50,
+                adjustment: 499.5,
               },
             ],
           },

@@ -1,6 +1,4 @@
-import {
-  BaseTemplate, PageHead, Stepper,
-} from '@myob/myob-widgets';
+import { BaseTemplate, PageHead, Stepper } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -9,7 +7,7 @@ import stpSetupStyles from './stpSetup.module.css';
 
 const getType = (step, index, currentStepIndex) => {
   if (step.getType === undefined) {
-    return index < (currentStepIndex) ? 'complete' : 'incomplete';
+    return index < currentStepIndex ? 'complete' : 'incomplete';
   }
   return step.getType(index, currentStepIndex);
 };
@@ -33,12 +31,11 @@ const StpSetupView = ({ steps, currentStepIndex }) => {
         />
         {currentStep.module.getView()}
       </div>
-
     </BaseTemplate>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentStepIndex: getCurrentStepIndex(state),
 });
 

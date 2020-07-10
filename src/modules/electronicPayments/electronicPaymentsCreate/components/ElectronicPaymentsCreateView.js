@@ -1,8 +1,4 @@
-import {
-  BaseTemplate,
-  Card,
-  PageHead,
-} from '@myob/myob-widgets';
+import { BaseTemplate, Card, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -57,11 +53,7 @@ const ElectronicPaymentsCreateView = ({
   onSort,
   totalPayment,
   isTableLoading,
-  filterOptions: {
-    paymentType,
-    dateFrom,
-    dateTo,
-  },
+  filterOptions: { paymentType, dateFrom, dateTo },
   modal,
   onCancelButtonClick,
   onRecordButtonClick,
@@ -90,7 +82,10 @@ const ElectronicPaymentsCreateView = ({
   const view = (
     <BaseTemplate>
       {modalComponent}
-      <ElectronicPaymentsCreateAlert alert={alert} onDismissAlert={onDismissAlert} />
+      <ElectronicPaymentsCreateAlert
+        alert={alert}
+        onDismissAlert={onDismissAlert}
+      />
       <PageHead title="Record payment and download bank file" />
       <Card>
         <ElectronicPaymentsCreateFilter
@@ -124,15 +119,15 @@ const ElectronicPaymentsCreateView = ({
           order={order}
         />
       </Card>
-      <ElectronicPaymentsCreateButtons onRecordAndDownloadBankFile={onRecordAndDownloadBankFile} />
+      <ElectronicPaymentsCreateButtons
+        onRecordAndDownloadBankFile={onRecordAndDownloadBankFile}
+      />
     </BaseTemplate>
   );
-  return (
-    <PageView loadingState={loadingState} view={view} />
-  );
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   transactions: getTableEntries(state),
   paymentTypes: getPaymentTypes(state),

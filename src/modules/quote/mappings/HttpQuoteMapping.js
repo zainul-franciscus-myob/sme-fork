@@ -39,11 +39,13 @@ const HttpQuoteMapping = {
   },
   [LOAD_NEW_DUPLICATE_QUOTE_DETAIL]: {
     method: 'GET',
-    getPath: ({ businessId, duplicateId }) => `/${businessId}/quote/load_duplicate_quote_detail/${duplicateId}`,
+    getPath: ({ businessId, duplicateId }) =>
+      `/${businessId}/quote/load_duplicate_quote_detail/${duplicateId}`,
   },
   [LOAD_QUOTE_DETAIL]: {
     method: 'GET',
-    getPath: ({ businessId, quoteId }) => `/${businessId}/quote/load_quote_detail/${quoteId}`,
+    getPath: ({ businessId, quoteId }) =>
+      `/${businessId}/quote/load_quote_detail/${quoteId}`,
   },
   [CREATE_QUOTE_DETAIL]: {
     method: 'POST',
@@ -51,27 +53,33 @@ const HttpQuoteMapping = {
   },
   [UPDATE_QUOTE_DETAIL]: {
     method: 'PUT',
-    getPath: ({ businessId, quoteId }) => `/${businessId}/quote/update_quote_detail/${quoteId}`,
+    getPath: ({ businessId, quoteId }) =>
+      `/${businessId}/quote/update_quote_detail/${quoteId}`,
   },
   [DELETE_QUOTE_DETAIL]: {
     method: 'DELETE',
-    getPath: ({ businessId, quoteId }) => `/${businessId}/quote/delete_quote_detail/${quoteId}`,
+    getPath: ({ businessId, quoteId }) =>
+      `/${businessId}/quote/delete_quote_detail/${quoteId}`,
   },
   [LOAD_CONTACT_ADDRESS]: {
     method: 'GET',
-    getPath: ({ businessId, contactId }) => `/${businessId}/quote/load_contact_address/${contactId}`,
+    getPath: ({ businessId, contactId }) =>
+      `/${businessId}/quote/load_contact_address/${contactId}`,
   },
   [LOAD_CONTACT_AFTER_CREATE]: {
     method: 'GET',
-    getPath: ({ businessId, contactId }) => `/${businessId}/quote/load_contact/${contactId}`,
+    getPath: ({ businessId, contactId }) =>
+      `/${businessId}/quote/load_contact/${contactId}`,
   },
   [LOAD_ACCOUNT_AFTER_CREATE]: {
     method: 'GET',
-    getPath: ({ businessId, accountId }) => `/${businessId}/quote/load_account/${accountId}`,
+    getPath: ({ businessId, accountId }) =>
+      `/${businessId}/quote/load_account/${accountId}`,
   },
   [LOAD_ITEM_AFTER_CREATE]: {
     method: 'GET',
-    getPath: ({ businessId, itemId }) => `/${businessId}/quote/load_item_option/${itemId}`,
+    getPath: ({ businessId, itemId }) =>
+      `/${businessId}/quote/load_item_option/${itemId}`,
   },
   [LOAD_JOB_AFTER_CREATE]: {
     method: 'GET',
@@ -79,7 +87,8 @@ const HttpQuoteMapping = {
   },
   [EXPORT_QUOTE_PDF]: {
     method: 'GET',
-    getPath: ({ businessId, quoteId }) => `/${businessId}/quote/export_quote_pdf/${quoteId}`,
+    getPath: ({ businessId, quoteId }) =>
+      `/${businessId}/quote/export_quote_pdf/${quoteId}`,
   },
   [UPLOAD_EMAIL_ATTACHMENT]: {
     method: 'POST',
@@ -87,11 +96,13 @@ const HttpQuoteMapping = {
   },
   [SEND_EMAIL]: {
     method: 'POST',
-    getPath: ({ businessId, quoteId }) => `/${businessId}/quote/send_quote_email/${quoteId}`,
+    getPath: ({ businessId, quoteId }) =>
+      `/${businessId}/quote/send_quote_email/${quoteId}`,
   },
   [LOAD_ITEM_SELLING_DETAILS]: {
     method: 'GET',
-    getPath: ({ businessId, itemId }) => `/${businessId}/quote/load_item_selling_details/${itemId}`,
+    getPath: ({ businessId, itemId }) =>
+      `/${businessId}/quote/load_item_selling_details/${itemId}`,
   },
 };
 

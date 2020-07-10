@@ -5,7 +5,11 @@ import {
   SUCCESSFULLY_DELETED_CONTACT,
   SUCCESSFULLY_SAVED_CONTACT,
 } from '../../../common/types/MessageTypes';
-import { getContactCreateLink, getFlipSortOrder, getOrderBy } from './contactListSelector';
+import {
+  getContactCreateLink,
+  getFlipSortOrder,
+  getOrderBy,
+} from './contactListSelector';
 import ContactListView from './components/ContactListView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
@@ -14,14 +18,10 @@ import createContactListDispatcher from './createContactListDispatcher';
 import createContactListIntegrator from './createContactListIntegrator';
 import debounce from '../../../common/debounce/debounce';
 
-const messageTypes = [
-  SUCCESSFULLY_DELETED_CONTACT, SUCCESSFULLY_SAVED_CONTACT,
-];
+const messageTypes = [SUCCESSFULLY_DELETED_CONTACT, SUCCESSFULLY_SAVED_CONTACT];
 
 export default class ContactListModule {
-  constructor({
-    integration, setRootView, popMessages,
-  }) {
+  constructor({ integration, setRootView, popMessages }) {
     this.integration = integration;
     this.store = new Store(contactListReducer);
     this.setRootView = setRootView;
@@ -69,7 +69,7 @@ export default class ContactListModule {
     };
 
     this.integrator.loadContactList({ onSuccess, onFailure });
-  }
+  };
 
   loadContactListNextPage = () => {
     this.dispatcher.setNextPageLoadingState(true);
@@ -107,7 +107,8 @@ export default class ContactListModule {
 
   updateSortOrder = (orderBy) => {
     const state = this.store.getState();
-    const newSortOrder = orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
+    const newSortOrder =
+      orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
     this.dispatcher.setSortOrder(orderBy, newSortOrder);
 
     this.sortAndFilterContactList();
@@ -116,7 +117,7 @@ export default class ContactListModule {
   resetFilters = () => {
     this.dispatcher.resetFilters();
     this.sortAndFilterContactList();
-  }
+  };
 
   readMessages = () => {
     const [successMessage] = this.popMessages(this.messageTypes);
@@ -124,14 +125,14 @@ export default class ContactListModule {
       const { content: message } = successMessage;
       this.dispatcher.setAlert({ type: 'success', message });
     }
-  }
+  };
 
   redirectToAddContact = () => {
     const state = this.store.getState();
     const url = getContactCreateLink(state);
 
     window.location.href = url;
-  }
+  };
 
   run(context) {
     this.dispatcher.setInitialState(context);

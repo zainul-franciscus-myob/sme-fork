@@ -12,7 +12,7 @@ const accountCategoryValues = {
   header: 'Header account',
 };
 
-const onCategoryChange = handler => (e) => {
+const onCategoryChange = (handler) => (e) => {
   const value = e.value === accountCategoryValues.header.toString();
 
   handler({
@@ -32,7 +32,7 @@ const AccountCategory = ({ accountCategory, onChange, disabled }) => (
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accountCategory: getIsHeader(state) ? 'Header account' : 'Detail account',
   disabled: getIsAccountCategoryDisabled(state),
 });

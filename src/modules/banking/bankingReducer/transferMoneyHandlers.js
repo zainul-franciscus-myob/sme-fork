@@ -13,7 +13,13 @@ export const loadTransferMoney = (state, action) => {
     ...action.transfer,
   };
   const isCreating = false;
-  return loadOpenEntry(state, action.index, tabIds.transfer, transfer, isCreating);
+  return loadOpenEntry(
+    state,
+    action.index,
+    tabIds.transfer,
+    transfer,
+    isCreating
+  );
 };
 
 export const loadMatchTransferMoney = (state, action) => {
@@ -25,7 +31,9 @@ export const loadMatchTransferMoney = (state, action) => {
 
   const { bankAccount } = getFilterOptions(state);
 
-  const amount = formatAmount(Number(openedEntry.withdrawal || openedEntry.deposit));
+  const amount = formatAmount(
+    Number(openedEntry.withdrawal || openedEntry.deposit)
+  );
 
   const transfer = {
     ...defaultState.openEntry.transfer,
@@ -40,7 +48,13 @@ export const loadMatchTransferMoney = (state, action) => {
 
   const isCreating = true;
 
-  return loadOpenEntry(state, action.index, tabIds.transfer, transfer, isCreating);
+  return loadOpenEntry(
+    state,
+    action.index,
+    tabIds.transfer,
+    transfer,
+    isCreating
+  );
 };
 
 const updateTransferMoneyState = (state, partialTransferMoney) => ({
@@ -54,29 +68,28 @@ const updateTransferMoneyState = (state, partialTransferMoney) => ({
   },
 });
 
-export const sortMatchTransferMoney = (state, action) => updateTransferMoneyState(
-  state, { entries: action.entries },
-);
+export const sortMatchTransferMoney = (state, action) =>
+  updateTransferMoneyState(state, { entries: action.entries });
 
-export const setMatchTransferMoneySortOrder = (state, action) => updateTransferMoneyState(
-  state, { orderBy: action.orderBy, sortOrder: action.sortOrder },
-);
+export const setMatchTransferMoneySortOrder = (state, action) =>
+  updateTransferMoneyState(state, {
+    orderBy: action.orderBy,
+    sortOrder: action.sortOrder,
+  });
 
-export const setMatchTransferMoneySelection = (state, action) => updateTransferMoneyState(
-  state,
-  {
-    entries: state.openEntry.transfer.entries
-      .map((entry, index) => ({ ...entry, selected: index === Number(action.index) })),
-  },
-);
+export const setMatchTransferMoneySelection = (state, action) =>
+  updateTransferMoneyState(state, {
+    entries: state.openEntry.transfer.entries.map((entry, index) => ({
+      ...entry,
+      selected: index === Number(action.index),
+    })),
+  });
 
-export const setMatchTransferMoneyLoadingState = (state, action) => updateTransferMoneyState(
-  state, { isTableLoading: action.isTableLoading },
-);
+export const setMatchTransferMoneyLoadingState = (state, action) =>
+  updateTransferMoneyState(state, { isTableLoading: action.isTableLoading });
 
-export const updateTransferMoney = (state, action) => updateTransferMoneyState(
-  state, { [action.key]: action.value },
-);
+export const updateTransferMoney = (state, action) =>
+  updateTransferMoneyState(state, { [action.key]: action.value });
 
 export const saveTransferMoney = (state, action) => ({
   ...allocateTransaction(state, action),

@@ -9,22 +9,25 @@ const EmployeePayDetailButtons = ({
 }) => (
   <ButtonRow
     secondary={[
-      showReverse && <Button
-        key="pay-detail-reverse-btn"
-        id="pay-detail-reverse-btn"
-        type="secondary"
-        onClick={onReverseButtonClick}
-      >
-        Reverse Pay
-      </Button>,
-      !showReverse && <Button type="secondary" onClick={onDeleteButtonClick}>
+      showReverse && (
+        <Button
+          key="pay-detail-reverse-btn"
+          id="pay-detail-reverse-btn"
+          type="secondary"
+          onClick={onReverseButtonClick}
+        >
+          Reverse Pay
+        </Button>
+      ),
+      !showReverse && (
+        <Button type="secondary" onClick={onDeleteButtonClick}>
           Delete
-      </Button>,
+        </Button>
+      ),
     ]}
-
     primary={[
       <Button type="secondary" onClick={onGoBackClick}>
-          Go back
+        Go back
       </Button>,
     ]}
   />

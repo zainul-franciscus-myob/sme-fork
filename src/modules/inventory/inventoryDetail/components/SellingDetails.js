@@ -1,10 +1,17 @@
 import {
-  Checkbox, CheckboxGroup, FieldGroup, Input, Tooltip,
+  Checkbox,
+  CheckboxGroup,
+  FieldGroup,
+  Input,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsEnableForSelling, getSellingDetails } from '../inventoryDetailSelectors';
+import {
+  getIsEnableForSelling,
+  getSellingDetails,
+} from '../inventoryDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import BooleanRadioButtonGroup from '../../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
@@ -33,7 +40,7 @@ const SellingDetails = ({
     <CheckboxGroup
       hideLabel
       label="isSellItem"
-      renderCheckbox={props => (
+      renderCheckbox={(props) => (
         <Checkbox
           {...props}
           onChange={handleCheckboxChange(onEnableStateChange)}
@@ -71,12 +78,9 @@ const SellingDetails = ({
       label="Unit of measure"
       value={unitOfMeasure}
       disabled={!enabled}
-      labelAccessory={(
-        <Tooltip>
-          Eg. boxes, cans, hours, kg
-          (max 5 characters)
-        </Tooltip>
-      )}
+      labelAccessory={
+        <Tooltip>Eg. boxes, cans, hours, kg (max 5 characters)</Tooltip>
+      }
       onChange={handleInputChange(onSellingDetailsChange)}
       maxLength={5}
       width="xs"
@@ -88,7 +92,10 @@ const SellingDetails = ({
       selectedId={allocateToAccountId}
       allowClear
       disabled={!enabled}
-      onChange={handleComboboxChange('allocateToAccountId', onSellingDetailsChange)}
+      onChange={handleComboboxChange(
+        'allocateToAccountId',
+        onSellingDetailsChange
+      )}
     />
     <TaxCodeCombobox
       items={taxCodes}
@@ -103,7 +110,7 @@ const SellingDetails = ({
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...getSellingDetails(state),
   enabled: getIsEnableForSelling(state),
 });

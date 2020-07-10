@@ -55,14 +55,18 @@ describe('stpErrorsModule', () => {
 
       constructModule({ integration });
 
-      expect(integration.read).toHaveBeenCalledWith(expect.objectContaining({
-        intent: LOAD_STP_ERRORS,
-      }));
+      expect(integration.read).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: LOAD_STP_ERRORS,
+        })
+      );
     });
 
     it('shows an alert if the load errors call fails', () => {
       const errorMessage = 'this is the error message';
-      const integration = { read: ({ onFailure }) => onFailure({ message: errorMessage }) };
+      const integration = {
+        read: ({ onFailure }) => onFailure({ message: errorMessage }),
+      };
 
       const { wrapper } = constructModule({ integration });
 
@@ -110,21 +114,24 @@ describe('stpErrorsModule', () => {
 
         // First call from module.run call.
         expect(integration.read).toHaveBeenCalledTimes(2);
-        expect(integration.read).toHaveBeenLastCalledWith(expect.objectContaining({
-          intent: LOAD_STP_ERRORS,
-        }));
+        expect(integration.read).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            intent: LOAD_STP_ERRORS,
+          })
+        );
       });
     });
   });
 
   describe('no errors present', () => {
     const integration = {
-      read: ({ onSuccess }) => onSuccess({
-        hasRegistrationErrors: false,
-        businessDetail: [],
-        employees: [],
-        payItems: [],
-      }),
+      read: ({ onSuccess }) =>
+        onSuccess({
+          hasRegistrationErrors: false,
+          businessDetail: [],
+          employees: [],
+          payItems: [],
+        }),
     };
 
     it('should render the no errors splash screen', () => {
@@ -139,7 +146,7 @@ describe('stpErrorsModule', () => {
         const splashScreen = wrapper.find(NoErrorsSplash);
 
         expect(splashScreen.text()).toContain(
-          'Now you can start to set up Single Touch Payroll reporting',
+          'Now you can start to set up Single Touch Payroll reporting'
         );
       });
 
@@ -163,7 +170,7 @@ describe('stpErrorsModule', () => {
         const splashScreen = wrapper.find(NoErrorsSplash);
 
         expect(splashScreen.text()).toContain(
-          'All of your payroll information meets ATO requirements for Single Touch Payroll reporting.',
+          'All of your payroll information meets ATO requirements for Single Touch Payroll reporting.'
         );
       });
 

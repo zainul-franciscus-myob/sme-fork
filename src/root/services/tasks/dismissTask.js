@@ -1,6 +1,4 @@
-const dismissTask = async ({
-  taskKey, closeTasks,
-}) => {
+const dismissTask = async ({ taskKey, closeTasks }) => {
   if (!taskKey) return;
   await closeTasks({ closeEvent: `${taskKey}Dismiss` });
 };

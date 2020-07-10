@@ -27,7 +27,7 @@ const ComboboxCore = ({
     errorMessage={errorMessage}
     errorMessageInline={errorMessageInline}
     width={width}
-    renderField={props => <ComboboxBox {...props} {...comboboxCoreProps} />}
+    renderField={(props) => <ComboboxBox {...props} {...comboboxCoreProps} />}
   />
 );
 

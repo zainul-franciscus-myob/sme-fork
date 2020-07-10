@@ -18,7 +18,9 @@ const createBankingRuleDetailIntegrator = (store, integration) => ({
     const isCreating = getIsCreating(state);
 
     const intent = isCreating ? LOAD_NEW_BANKING_RULE : LOAD_BANKING_RULE;
-    const urlParams = isCreating ? getNewBankingRuleParams(state) : getBankingRuleParams(state);
+    const urlParams = isCreating
+      ? getNewBankingRuleParams(state)
+      : getBankingRuleParams(state);
 
     integration.read({
       intent,
@@ -33,7 +35,9 @@ const createBankingRuleDetailIntegrator = (store, integration) => ({
     const isCreating = getIsCreating(state);
 
     const content = getSaveBankingRuleContent(state);
-    const urlParams = isCreating ? getNewBankingRuleParams(state) : getBankingRuleParams(state);
+    const urlParams = isCreating
+      ? getNewBankingRuleParams(state)
+      : getBankingRuleParams(state);
     const intent = isCreating ? CREATE_BANKING_RULE : UPDATE_BANKING_RULE;
 
     integration.write({

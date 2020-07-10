@@ -55,10 +55,10 @@ const GeneralPayrollInformationView = (props) => {
 
   const defaultSuperFundMetaData = [
     {
-      columnName: 'name', showData: true,
+      columnName: 'name',
+      showData: true,
     },
   ];
-
 
   const view = (
     <>
@@ -86,14 +86,21 @@ const GeneralPayrollInformationView = (props) => {
                 onChange={handleInputChange(onGeneralPayrollInformationChange)}
                 numeralIntegerScale={3}
                 numeralDecimalScaleMax={0}
-                labelAccessory={(
+                labelAccessory={
                   <Tooltip>
-                    {"We'll round the pay down to the nearest cent value you enter. "}
-                    {'Any difference will be added to the PAYG (tax contribution).'}
+                    {
+                      "We'll round the pay down to the nearest cent value you enter. "
+                    }
+                    {
+                      'Any difference will be added to the PAYG (tax contribution).'
+                    }
                   </Tooltip>
-                )}
+                }
               />
-              <ReadOnly label="Tax table revision date" name="taxTableRevisionDate">
+              <ReadOnly
+                label="Tax table revision date"
+                name="taxTableRevisionDate"
+              >
                 {taxTableRevisionDate}
               </ReadOnly>
               <SuperFundCombobox
@@ -101,10 +108,12 @@ const GeneralPayrollInformationView = (props) => {
                 metaData={defaultSuperFundMetaData}
                 name="defaultSuperFund"
                 label="Default Superannuation fund"
-                onChange={({ id }) => onGeneralPayrollInformationChange({
-                  key: 'defaultSuperFund',
-                  value: id,
-                })}
+                onChange={({ id }) =>
+                  onGeneralPayrollInformationChange({
+                    key: 'defaultSuperFund',
+                    value: id,
+                  })
+                }
                 allowClear
                 selectedId={defaultSuperFund}
                 width="xl"
@@ -112,25 +121,25 @@ const GeneralPayrollInformationView = (props) => {
               <Field
                 label="Sign up for Pay super"
                 hideLabel
-                renderField={
-                  () => (
-                    <Button
-                      type="link"
-                      align="center"
-                      iconRight
-                      onClick={onCreateSuperFundClick}
-                    >
-                      Create superannuation fund
-                    </Button>
-                  )
-                }
+                renderField={() => (
+                  <Button
+                    type="link"
+                    align="center"
+                    iconRight
+                    onClick={onCreateSuperFundClick}
+                  >
+                    Create superannuation fund
+                  </Button>
+                )}
               />
             </FieldGroup>
             {
               <TimesheetsSettingsView
                 useTimesheets={useTimesheets}
                 useTimesheetsWeekStarts={useTimesheetsWeekStarts}
-                onGeneralPayrollInformationChange={onGeneralPayrollInformationChange}
+                onGeneralPayrollInformationChange={
+                  onGeneralPayrollInformationChange
+                }
                 onUseTimesheetsChange={onUseTimesheetsChange}
               />
             }
@@ -139,7 +148,9 @@ const GeneralPayrollInformationView = (props) => {
       </Card>
       <ButtonRow
         primary={[
-          <Button key="SaveButton" onClick={onGeneralPayrollInformationSave}>Save</Button>,
+          <Button key="SaveButton" onClick={onGeneralPayrollInformationSave}>
+            Save
+          </Button>,
         ]}
       />
     </>
@@ -164,7 +175,7 @@ const GeneralPayrollInformationView = (props) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...getGeneralPayrollInformation(state),
   modal: getModal(state),
   loadingState: getLoadingState(state),

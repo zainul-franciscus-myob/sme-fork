@@ -3,28 +3,43 @@ import { createSelector } from 'reselect';
 import formatDate from '../../../../common/valueFormatters/formatDate/formatDate';
 import formatSlashDate from '../../../../common/valueFormatters/formatDate/formatSlashDate';
 
-export const getLoadingState = state => state.loadingState;
-export const getBusinessId = state => state.businessId;
-const getStep = state => state.step;
-export const getStepKey = createSelector(getStep, step => step.key);
-export const getStepIndex = createSelector(getStep, step => step.index);
+export const getLoadingState = (state) => state.loadingState;
+export const getBusinessId = (state) => state.businessId;
+const getStep = (state) => state.step;
+export const getStepKey = createSelector(getStep, (step) => step.key);
+export const getStepIndex = createSelector(getStep, (step) => step.index);
 
-const getStartPayRun = state => state.startPayRun;
-const getCurrentEditingPayRun = createSelector(getStartPayRun,
-  startPayRun => startPayRun.currentEditingPayRun);
+const getStartPayRun = (state) => state.startPayRun;
+const getCurrentEditingPayRun = createSelector(
+  getStartPayRun,
+  (startPayRun) => startPayRun.currentEditingPayRun
+);
 
-const getUnformattedPaymentDate = createSelector(getCurrentEditingPayRun,
-  currentEditingPayRun => currentEditingPayRun.paymentDate);
+const getUnformattedPaymentDate = createSelector(
+  getCurrentEditingPayRun,
+  (currentEditingPayRun) => currentEditingPayRun.paymentDate
+);
 
-const getPaymentFrequency = createSelector(getCurrentEditingPayRun,
-  currentEditingPayRun => currentEditingPayRun.paymentFrequency);
-const getPaymentDate = createSelector(getUnformattedPaymentDate,
-  unformattedPaymentDate => formatDate(new Date(unformattedPaymentDate), 'iii dd/MM/yyyy'));
-const getPayPeriodStart = createSelector(getCurrentEditingPayRun,
-  currentEditingPayRun => formatDate(new Date(currentEditingPayRun.payPeriodStart), 'iii dd/MM/yyyy'));
-const getPayPeriodEnd = createSelector(getCurrentEditingPayRun,
-  currentEditingPayRun => formatDate(new Date(currentEditingPayRun.payPeriodEnd), 'iii dd/MM/yyyy'));
-const getTotalTakeHomePay = state => state.totalTakeHomePay;
+const getPaymentFrequency = createSelector(
+  getCurrentEditingPayRun,
+  (currentEditingPayRun) => currentEditingPayRun.paymentFrequency
+);
+const getPaymentDate = createSelector(
+  getUnformattedPaymentDate,
+  (unformattedPaymentDate) =>
+    formatDate(new Date(unformattedPaymentDate), 'iii dd/MM/yyyy')
+);
+const getPayPeriodStart = createSelector(
+  getCurrentEditingPayRun,
+  (currentEditingPayRun) =>
+    formatDate(new Date(currentEditingPayRun.payPeriodStart), 'iii dd/MM/yyyy')
+);
+const getPayPeriodEnd = createSelector(
+  getCurrentEditingPayRun,
+  (currentEditingPayRun) =>
+    formatDate(new Date(currentEditingPayRun.payPeriodEnd), 'iii dd/MM/yyyy')
+);
+const getTotalTakeHomePay = (state) => state.totalTakeHomePay;
 
 export const getEmployeeHeader = createSelector(
   getPaymentFrequency,
@@ -32,17 +47,25 @@ export const getEmployeeHeader = createSelector(
   getPayPeriodStart,
   getPayPeriodEnd,
   getTotalTakeHomePay,
-  (paymentFrequency, paymentDate, payPeriodStart, payPeriodEnd, totalTakeHomePay) => ({
+  (
+    paymentFrequency,
+    paymentDate,
+    payPeriodStart,
+    payPeriodEnd,
+    totalTakeHomePay
+  ) => ({
     paymentFrequency,
     paymentDate,
     payPeriodStart,
     payPeriodEnd,
     totalTakeHomePay,
-  }),
+  })
 );
 
-export const getPayOnDate = createSelector(getUnformattedPaymentDate,
-  unformattedPaymentDate => formatSlashDate(new Date(unformattedPaymentDate)));
+export const getPayOnDate = createSelector(
+  getUnformattedPaymentDate,
+  (unformattedPaymentDate) => formatSlashDate(new Date(unformattedPaymentDate))
+);
 
 const initialStepperSteps = [
   {
@@ -72,22 +95,22 @@ const initialStepperSteps = [
   },
 ];
 
-const isStepCompleted = (stepIndex, activeStepIndex) => (stepIndex < activeStepIndex);
-const completeTheStep = step => ({ ...step, type: 'complete' });
+const isStepCompleted = (stepIndex, activeStepIndex) =>
+  stepIndex < activeStepIndex;
+const completeTheStep = (step) => ({ ...step, type: 'complete' });
 
 export const getStepperSteps = (state) => {
   const activeStepIndex = getStepIndex(state);
 
-  return initialStepperSteps.map(
-    (step, index) => (isStepCompleted(index, activeStepIndex)
-      ? completeTheStep(step)
-      : step),
+  return initialStepperSteps.map((step, index) =>
+    isStepCompleted(index, activeStepIndex) ? completeTheStep(step) : step
   );
 };
 
-export const getStepNumber = createSelector(getStepIndex,
-  index => String(index + 1));
+export const getStepNumber = createSelector(getStepIndex, (index) =>
+  String(index + 1)
+);
 
-export const getRegion = state => state.region;
+export const getRegion = (state) => state.region;
 
-export const getIsSubmitting = state => state.isSubmitting;
+export const getIsSubmitting = (state) => state.isSubmitting;

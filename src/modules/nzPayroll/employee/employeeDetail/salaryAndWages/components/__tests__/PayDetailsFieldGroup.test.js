@@ -1,4 +1,3 @@
-
 import { ReadOnly, Select } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 import React from 'react';
@@ -26,9 +25,7 @@ describe('<PayDetailsFieldGroup />', () => {
     const name = 'hourlyRate';
     it('should display the hourlyRate provided', () => {
       const wrapper = mount(<PayDetailsFieldGroup {...props} />);
-      const field = wrapper
-        .find({ name })
-        .find(AmountInput);
+      const field = wrapper.find({ name }).find(AmountInput);
 
       expect(field.props()).toMatchObject({
         value: props.hourlyRate,
@@ -44,16 +41,17 @@ describe('<PayDetailsFieldGroup />', () => {
         .find('input')
         .simulate('change', { target: { name, value: '3.14' } });
 
-      expect(props.onWageDetailsChange).toHaveBeenCalledWith({ key: name, value: '3.14' });
+      expect(props.onWageDetailsChange).toHaveBeenCalledWith({
+        key: name,
+        value: '3.14',
+      });
     });
   });
 
   describe('payBasis field', () => {
     it('should display the hourlyRate provided', () => {
       const wrapper = mount(<PayDetailsFieldGroup {...props} />);
-      const field = wrapper
-        .find({ name: 'selectedPayBasis' })
-        .find(ReadOnly);
+      const field = wrapper.find({ name: 'selectedPayBasis' }).find(ReadOnly);
 
       expect(field.props()).toMatchObject({
         label: 'Pay basis',
@@ -67,9 +65,7 @@ describe('<PayDetailsFieldGroup />', () => {
     const name = 'selectedPayCycle';
     it('should display the payCycle provided', () => {
       const wrapper = mount(<PayDetailsFieldGroup {...props} />);
-      const field = wrapper
-        .find({ name })
-        .find(Select);
+      const field = wrapper.find({ name }).find(Select);
 
       expect(field.props()).toMatchObject({
         label: 'Pay cycle',
@@ -79,16 +75,16 @@ describe('<PayDetailsFieldGroup />', () => {
 
     it('should contain the options provided', () => {
       const wrapper = mount(<PayDetailsFieldGroup {...props} />);
-      const field = wrapper
-        .find({ name })
-        .find(Select);
+      const field = wrapper.find({ name }).find(Select);
 
       const optionComponents = field.find(Select.Option);
-      const optionProps = optionComponents.map(c => ({ displayName: c.prop('label'), id: c.prop('value') }));
+      const optionProps = optionComponents.map((c) => ({
+        displayName: c.prop('label'),
+        id: c.prop('value'),
+      }));
 
       expect(optionProps).toEqual(props.payCycleOptions);
     });
-
 
     it('should execute the onWageDetailsChange callback', () => {
       const wrapper = mount(<PayDetailsFieldGroup {...props} />);
@@ -98,8 +94,10 @@ describe('<PayDetailsFieldGroup />', () => {
         .find('select')
         .simulate('change', { target: { name, value: 'monthly' } });
 
-
-      expect(props.onWageDetailsChange).toHaveBeenCalledWith({ key: name, value: 'monthly' });
+      expect(props.onWageDetailsChange).toHaveBeenCalledWith({
+        key: name,
+        value: 'monthly',
+      });
     });
   });
 });

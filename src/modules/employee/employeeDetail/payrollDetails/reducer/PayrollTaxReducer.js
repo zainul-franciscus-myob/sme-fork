@@ -48,8 +48,9 @@ const addPayrollTaxPayItem = (state, action) => {
 };
 
 const removePayrollTaxPayItem = (state, action) => {
-  const updatedPayItems = state.payrollDetails.tax.taxPayItems
-    .filter(payItem => payItem.id !== action.id);
+  const updatedPayItems = state.payrollDetails.tax.taxPayItems.filter(
+    (payItem) => payItem.id !== action.id
+  );
   const partialTax = { taxPayItems: updatedPayItems };
 
   return setPayrollTaxState(state, partialTax);
@@ -71,11 +72,10 @@ const openTaxPayItemModal = (state) => {
   };
 };
 
-const closeTaxPayItemModal = state => ({
+const closeTaxPayItemModal = (state) => ({
   ...state,
   taxPayItemModal: undefined,
 });
-
 
 const setTaxPayItemModalLoading = (state, { isLoading }) => ({
   ...state,
@@ -85,7 +85,10 @@ const setTaxPayItemModalLoading = (state, { isLoading }) => ({
   },
 });
 
-const loadTaxPayItemModal = (state, { tax, atoReportingCategoryList, accounts }) => ({
+const loadTaxPayItemModal = (
+  state,
+  { tax, atoReportingCategoryList, accounts }
+) => ({
   ...state,
   taxPayItemModal: {
     ...state.taxPayItemModal,

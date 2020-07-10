@@ -45,13 +45,16 @@ describe('applyToSaleReducer', () => {
       index: 1,
     };
 
-    [{
-      key: 'discount',
-      displayKey: 'displayDiscount',
-    }, {
-      key: 'amountApplied',
-      displayKey: 'displayAmountApplied',
-    }].forEach((test) => {
+    [
+      {
+        key: 'discount',
+        displayKey: 'displayDiscount',
+      },
+      {
+        key: 'amountApplied',
+        displayKey: 'displayAmountApplied',
+      },
+    ].forEach((test) => {
       it(`casts ${test.key} from string to number`, () => {
         const testAction = {
           ...action,

@@ -1,6 +1,10 @@
-
 import {
-  FieldGroup, FormHorizontal, Icons, ReadOnly, Select, Tooltip,
+  FieldGroup,
+  FormHorizontal,
+  Icons,
+  ReadOnly,
+  Select,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -34,29 +38,32 @@ const TaxPayItemView = ({
             items={accounts}
             selectedId={taxPayItemDetail.accountId}
             onChange={handleComboboxChange('accountId', onTaxDetailChange)}
-            labelAccessory={(
+            labelAccessory={
               <Tooltip triggerContent={<Icons.Info />}>
-              This account will track the amount of PAYG that is withheld from employees.
-              We recommend using the default one we suggested for you.
+                This account will track the amount of PAYG that is withheld from
+                employees. We recommend using the default one we suggested for
+                you.
               </Tooltip>
-          )}
+            }
           />
           <Select
             name="atoReportingCategory"
             label="ATO reporting category"
             value={taxPayItemDetail.atoReportingCategory}
             onChange={handleSelectChange(onTaxDetailChange)}
-            labelAccessory={(
+            labelAccessory={
               <Tooltip triggerContent={<Icons.Info />}>
-              Select the ATO reporting category for Single Touch Payroll.
+                Select the ATO reporting category for Single Touch Payroll.
               </Tooltip>
-          )}
+            }
           >
-            {
-        atoReportCategoryList.map(category => (
-          <Select.Option key={category.value} value={category.value} label={category.name} />
-        ))
-      }
+            {atoReportCategoryList.map((category) => (
+              <Select.Option
+                key={category.value}
+                value={category.value}
+                label={category.name}
+              />
+            ))}
           </Select>
         </FieldGroup>
 
@@ -64,11 +71,12 @@ const TaxPayItemView = ({
           <ReadOnly
             name="revisionDate"
             label="Tax table revision date"
-            labelAccessory={(
+            labelAccessory={
               <Tooltip triggerContent={<Icons.Info />}>
-              The date that the tax tables were last loaded into your software.
+                The date that the tax tables were last loaded into your
+                software.
               </Tooltip>
-          )}
+            }
           >
             {taxPayItemDetail.revisionDate}
           </ReadOnly>
@@ -80,7 +88,7 @@ const TaxPayItemView = ({
   return <PageView isLoading={isLoading} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoading: getIsTableLoading(state),
   taxPayItemDetail: getTaxPayItemDetail(state),
   accounts: getTaxPayItemAccounts(state),

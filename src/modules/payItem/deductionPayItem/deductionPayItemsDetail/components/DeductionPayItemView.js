@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getLoadingState, getModalType, getTitle,
+  getAlert,
+  getLoadingState,
+  getModalType,
+  getTitle,
 } from '../DeductionPayItemSelectors';
 import DeductionPayItemActions from './DeductionPayItemActions';
 import DeductionPayItemModal from './DeductionPayItemModal';
@@ -34,25 +37,21 @@ const DeductionPayItemView = ({
   alert,
 }) => {
   const alertComponent = alert && (
-  <Alert type={alert.type} onDismiss={onDismissAlert}>
-    {alert.message}
-  </Alert>);
+    <Alert type={alert.type} onDismiss={onDismissAlert}>
+      {alert.message}
+    </Alert>
+  );
 
   const view = (
-    <StandardTemplate
-      pageHead={title}
-      alert={alertComponent}
-      sticky="none"
-    >
-      {
-        modalType && (
+    <StandardTemplate pageHead={title} alert={alertComponent} sticky="none">
+      {modalType && (
         <DeductionPayItemModal
           modalType={modalType}
           onConfirmCancel={onConfirmCancel}
           onConfirmDelete={onConfirmDelete}
           onCloseModal={onCloseModal}
-        />)
-      }
+        />
+      )}
       <div className={styles.payItemView}>
         <FormHorizontal>
           <DetailsView onDetailsChange={onDetailsChange} />
@@ -78,7 +77,7 @@ const DeductionPayItemView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   title: getTitle(state),
   loadingState: getLoadingState(state),
   modalType: getModalType(state),

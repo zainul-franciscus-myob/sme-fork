@@ -3,11 +3,7 @@ import React from 'react';
 
 import handleSelectChange from '../../../../../components/handlers/handleSelectChange';
 
-const ReportsFilter = ({
-  payrollYears,
-  payrollYear,
-  onPayrollYearChange,
-}) => {
+const ReportsFilter = ({ payrollYears, payrollYear, onPayrollYearChange }) => {
   const payrollYearChangeHandler = ({ value }) => {
     onPayrollYearChange(value);
   };

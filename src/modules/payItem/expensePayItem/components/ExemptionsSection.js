@@ -18,14 +18,14 @@ const ExemptionsSection = ({
   isExemptionDisabled,
 }) => (
   <FieldGroup
-    label={(
+    label={
       <React.Fragment>
         <span>Exemptions</span>
         <Tooltip triggerContent={<Icons.Info />} placement="right">
-            Select any wage pay items that will be excluded from this pay item
+          Select any wage pay items that will be excluded from this pay item
         </Tooltip>
       </React.Fragment>
-      )}
+    }
     className={styles.editableTable}
   >
     <ExemptionsTable onRemoveExemptionPayItem={onRemoveExemptionPayItem} />
@@ -41,7 +41,7 @@ const ExemptionsSection = ({
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   exemptionPayItemOptions: getExemptionPayItemOptions(state),
   isExemptionDisabled: getIsExemptionDisabled(state),
 });

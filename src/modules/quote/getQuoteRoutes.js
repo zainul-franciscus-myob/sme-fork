@@ -3,14 +3,22 @@ import QuoteListModule from './quoteList/QuoteListModule';
 import RouteName from '../../router/RouteName';
 
 const getQuoteRoutes = ({
-  integration, setRootView, pushMessage, popMessages, navigateTo, replaceURLParams, isToggleOn,
+  integration,
+  setRootView,
+  pushMessage,
+  popMessages,
+  navigateTo,
+  replaceURLParams,
+  isToggleOn,
 }) => {
   const routes = [
     {
       name: RouteName.QUOTE_LIST,
       path: '/:region/:businessId/quote/',
       module: new QuoteListModule({
-        integration, setRootView, popMessages,
+        integration,
+        setRootView,
+        popMessages,
       }),
       documentTitle: 'Quotes',
     },

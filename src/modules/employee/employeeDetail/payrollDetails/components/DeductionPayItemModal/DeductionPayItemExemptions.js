@@ -1,6 +1,11 @@
 import {
   Alert,
-  Button, Combobox, FieldGroup, Icons, Table, Tooltip,
+  Button,
+  Combobox,
+  FieldGroup,
+  Icons,
+  Table,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -19,8 +24,8 @@ const metaData = [{ columnName: 'name', showData: true }];
 const title = (
   <React.Fragment>
     Exemptions&nbsp;
-    <Tooltip triggerContent={(<Icons.Info />)}>
-      Select if this deduction  pay item will be exempt from taxes.
+    <Tooltip triggerContent={<Icons.Info />}>
+      Select if this deduction pay item will be exempt from taxes.
     </Tooltip>
   </React.Fragment>
 );
@@ -54,11 +59,16 @@ const DeductionPayItemExemptions = ({
               <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
               <Table.RowItem {...tableConfig.type}>{itemType}</Table.RowItem>
               <Table.RowItem cellRole="actions" {...tableConfig.actions}>
-                <Tooltip triggerContent={(
-                  <Button type="secondary" size="xs" onClick={onButtonClick(onRemoveItem, 'exemptions', id)}>
-                    <Icons.Remove />
-                  </Button>
-                )}
+                <Tooltip
+                  triggerContent={
+                    <Button
+                      type="secondary"
+                      size="xs"
+                      onClick={onButtonClick(onRemoveItem, 'exemptions', id)}
+                    >
+                      <Icons.Remove />
+                    </Button>
+                  }
                 >
                   Remove pay item
                 </Tooltip>
@@ -78,8 +88,14 @@ const DeductionPayItemExemptions = ({
       onChange={handleComboboxChange(onAddItem, 'exemptions')}
       width="lg"
     />
-    {isSelectedExemptionPayGWithholding && <Alert type="info">Deductions exempt from tax automatically reduce the employee&apos;s gross pay.</Alert>}
-  </FieldGroup>);
+    {isSelectedExemptionPayGWithholding && (
+      <Alert type="info">
+        Deductions exempt from tax automatically reduce the employee&apos;s
+        gross pay.
+      </Alert>
+    )}
+  </FieldGroup>
+);
 
 const mapToStateProps = getExemptionAllocations;
 

@@ -19,7 +19,7 @@ const Home = ({ url, isActive, onMenuLinkClick }) => (
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isActive: getIsHomeActive(state),
   url: getHomeUrl(state),
 });

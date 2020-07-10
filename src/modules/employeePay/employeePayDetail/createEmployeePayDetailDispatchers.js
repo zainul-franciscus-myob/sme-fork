@@ -7,7 +7,7 @@ import {
   SET_LOADING_STATE,
 } from './EmployeePayDetailIntents';
 
-const createEmployeePayDetailDispatchers = store => ({
+const createEmployeePayDetailDispatchers = (store) => ({
   setInitialState: (context) => {
     store.dispatch({
       intent: SET_INITIAL_STATE,

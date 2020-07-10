@@ -38,7 +38,7 @@ const SuperPayItemCalculationBasis = (props) => {
         ))}
       </Select>
 
-      { showPercent && (
+      {showPercent && (
         <React.Fragment>
           <PercentInput
             label="Percentage %"
@@ -51,23 +51,26 @@ const SuperPayItemCalculationBasis = (props) => {
             hideLabel={false}
             items={calculationBasisPayItemOptions}
             selectedId={calculationBasisPayItemId}
-            onChange={handleComboboxChange('calculationBasisPayItemId', onSuperPayItemDetailsChange)}
+            onChange={handleComboboxChange(
+              'calculationBasisPayItemId',
+              onSuperPayItemDetailsChange
+            )}
           />
           <DollarInput
             label="Exclusions $"
             name="exclusion"
             value={exclusion}
             onChange={onSuperPayItemDetailsChange}
-            labelAccessory={(
+            labelAccessory={
               <Tooltip triggerContent={<Icons.Info />} placement="right">
                 Exclude this first amount of eligible wages from calculations
               </Tooltip>
-            )}
+            }
           />
         </React.Fragment>
       )}
 
-      { showAmount && (
+      {showAmount && (
         <React.Fragment>
           <DollarInput
             label="Dollar $"
@@ -91,6 +94,6 @@ const SuperPayItemCalculationBasis = (props) => {
   );
 };
 
-const mapStateToProps = state => getCalculationBasis(state);
+const mapStateToProps = (state) => getCalculationBasis(state);
 
 export default connect(mapStateToProps)(SuperPayItemCalculationBasis);

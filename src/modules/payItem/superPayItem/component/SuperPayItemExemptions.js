@@ -2,12 +2,15 @@ import { FieldGroup, Icons, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getFilteredExemptions, getIsExemptionDisabled } from '../superPayItemSelectors';
+import {
+  getFilteredExemptions,
+  getIsExemptionDisabled,
+} from '../superPayItemSelectors';
 import PayItemCombobox from './PayItemCombobox';
 import SuperPayItemExemptionsTable from './SuperPayItemExemptionsTable';
 import styles from './SuperPayItemView.module.css';
 
-const handleExemptionComboboxChange = handler => (item) => {
+const handleExemptionComboboxChange = (handler) => (item) => {
   handler(item);
 };
 
@@ -23,14 +26,17 @@ const SuperPayItemExemptions = (props) => {
     <div>
       <span>Exemptions&nbsp;</span>
       <Tooltip triggerContent={<Icons.Info />} placement="right">
-        Select wage pay items to be excluded before calculating this per pay item
+        Select wage pay items to be excluded before calculating this per pay
+        item
       </Tooltip>
     </div>
   );
 
   return (
     <FieldGroup label={fieldGroupLabel} className={styles.editableTable}>
-      <SuperPayItemExemptionsTable onRemoveSuperPayItemExemption={onRemoveSuperPayItemExemption} />
+      <SuperPayItemExemptionsTable
+        onRemoveSuperPayItemExemption={onRemoveSuperPayItemExemption}
+      />
       <PayItemCombobox
         label="Exemptions"
         hideLabel
@@ -44,7 +50,7 @@ const SuperPayItemExemptions = (props) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   exemptions: getFilteredExemptions(state),
   isExemptionDisabled: getIsExemptionDisabled(state),
 });

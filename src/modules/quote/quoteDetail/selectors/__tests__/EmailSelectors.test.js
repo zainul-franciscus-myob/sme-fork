@@ -1,4 +1,8 @@
-import { getEmailAttachments, getFilesForUpload, getShowEmailButton } from '../EmailSelectors';
+import {
+  getEmailAttachments,
+  getFilesForUpload,
+  getShowEmailButton,
+} from '../EmailSelectors';
 import QuoteLayout from '../../QuoteLayout';
 
 describe('EmailSelectors', () => {
@@ -6,26 +10,30 @@ describe('EmailSelectors', () => {
     it('returns attachments with name and size', () => {
       const attachmentState = {
         emailQuote: {
-          attachments: [{
-            keyName: 'some/key',
-            file: { name: 'emailAttachment', size: 1000 },
-            state: 'queued',
-          }],
+          attachments: [
+            {
+              keyName: 'some/key',
+              file: { name: 'emailAttachment', size: 1000 },
+              state: 'queued',
+            },
+          ],
         },
       };
 
       const actual = getEmailAttachments(attachmentState);
 
-      const expected = [{
-        keyName: 'some/key',
-        name: 'emailAttachment',
-        size: 1000,
-        loaded: 0,
-        state: 'queued',
-        error: undefined,
-        canRemove: false,
-        file: { name: 'emailAttachment', size: 1000 },
-      }];
+      const expected = [
+        {
+          keyName: 'some/key',
+          name: 'emailAttachment',
+          size: 1000,
+          loaded: 0,
+          state: 'queued',
+          error: undefined,
+          canRemove: false,
+          file: { name: 'emailAttachment', size: 1000 },
+        },
+      ];
 
       expect(actual).toEqual(expected);
     });
@@ -33,27 +41,31 @@ describe('EmailSelectors', () => {
     it('calculates loaded size', () => {
       const attachmentState = {
         emailQuote: {
-          attachments: [{
-            keyName: 'some/key',
-            file: { name: 'emailAttachment', size: 1000 },
-            uploadProgress: 0.5,
-            state: 'loading',
-          }],
+          attachments: [
+            {
+              keyName: 'some/key',
+              file: { name: 'emailAttachment', size: 1000 },
+              uploadProgress: 0.5,
+              state: 'loading',
+            },
+          ],
         },
       };
 
       const actual = getEmailAttachments(attachmentState);
 
-      const expected = [{
-        keyName: 'some/key',
-        name: 'emailAttachment',
-        size: 1000,
-        loaded: 500,
-        state: 'loading',
-        error: undefined,
-        canRemove: false,
-        file: { name: 'emailAttachment', size: 1000 },
-      }];
+      const expected = [
+        {
+          keyName: 'some/key',
+          name: 'emailAttachment',
+          size: 1000,
+          loaded: 500,
+          state: 'loading',
+          error: undefined,
+          canRemove: false,
+          file: { name: 'emailAttachment', size: 1000 },
+        },
+      ];
 
       expect(actual).toEqual(expected);
     });
@@ -61,26 +73,30 @@ describe('EmailSelectors', () => {
     it('sets canRemove to true if the state is not loading or queued', () => {
       const attachmentState = {
         emailQuote: {
-          attachments: [{
-            keyName: 'some/key',
-            file: { name: 'emailAttachment', size: 1000 },
-            state: 'finished',
-          }],
+          attachments: [
+            {
+              keyName: 'some/key',
+              file: { name: 'emailAttachment', size: 1000 },
+              state: 'finished',
+            },
+          ],
         },
       };
 
       const actual = getEmailAttachments(attachmentState);
 
-      const expected = [{
-        keyName: 'some/key',
-        name: 'emailAttachment',
-        size: 1000,
-        loaded: 0,
-        state: 'finished',
-        error: undefined,
-        canRemove: true,
-        file: { name: 'emailAttachment', size: 1000 },
-      }];
+      const expected = [
+        {
+          keyName: 'some/key',
+          name: 'emailAttachment',
+          size: 1000,
+          loaded: 0,
+          state: 'finished',
+          error: undefined,
+          canRemove: true,
+          file: { name: 'emailAttachment', size: 1000 },
+        },
+      ];
 
       expect(actual).toEqual(expected);
     });
@@ -88,10 +104,7 @@ describe('EmailSelectors', () => {
 
   describe('getFilesForUpload', () => {
     it('get files for upload', () => {
-      const files = [
-        { file: 'invalid' },
-        { file: 'valid' },
-      ];
+      const files = [{ file: 'invalid' }, { file: 'valid' }];
 
       const filesForUploadState = {
         emailQuote: {

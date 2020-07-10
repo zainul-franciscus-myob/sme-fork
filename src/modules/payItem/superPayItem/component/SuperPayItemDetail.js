@@ -1,13 +1,11 @@
-import {
-  FieldGroup, Icons, Input, Select, Tooltip,
-} from '@myob/myob-widgets';
+import { FieldGroup, Icons, Input, Select, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getSuperPayItemDetail } from '../superPayItemSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 
-const handleInputChange = handler => (e) => {
+const handleInputChange = (handler) => (e) => {
   const { value, name } = e.target;
   handler({ key: name, value });
 };
@@ -47,23 +45,27 @@ const SuperPayItemDetail = (props) => {
         value={contributionType}
         onChange={handleInputChange(onSuperPayItemDetailsChange)}
         disabled={!isCreating}
-        labelAccessory={(
+        labelAccessory={
           <Tooltip triggerContent={<Icons.Info />} placement="right">
-            The contribution type cannot be changed once the superannuation pay item has been saved
+            The contribution type cannot be changed once the superannuation pay
+            item has been saved
           </Tooltip>
-        )}
+        }
       >
         {contributionTypes.map(({ name: label, value }) => (
           <Select.Option key={value} value={value} label={label} />
         ))}
       </Select>
-      { showExpenseAccounts && (
+      {showExpenseAccounts && (
         <AccountCombobox
           label="Linked expense account"
           hideLabel={false}
           items={expenseAccounts}
           selectedId={expenseAccountId}
-          onChange={handleAccountComboboxChange(onSuperPayItemDetailsChange, 'expenseAccountId')}
+          onChange={handleAccountComboboxChange(
+            onSuperPayItemDetailsChange,
+            'expenseAccountId'
+          )}
         />
       )}
       <AccountCombobox
@@ -71,18 +73,22 @@ const SuperPayItemDetail = (props) => {
         hideLabel={false}
         items={payableAccounts}
         selectedId={payableAccountId}
-        onChange={handleAccountComboboxChange(onSuperPayItemDetailsChange, 'payableAccountId')}
+        onChange={handleAccountComboboxChange(
+          onSuperPayItemDetailsChange,
+          'payableAccountId'
+        )}
       />
       <Select
         name="atoReportingCategory"
         label="ATO reporting category"
         value={atoReportingCategory}
         onChange={handleInputChange(onSuperPayItemDetailsChange)}
-        labelAccessory={(
+        labelAccessory={
           <Tooltip triggerContent={<Icons.Info />} placement="right">
-            Select the ATO reporting category if you&#39;re using Single Touch Payroll.
+            Select the ATO reporting category if you&#39;re using Single Touch
+            Payroll.
           </Tooltip>
-        )}
+        }
       >
         {atoReportingCategories.map(({ name: label, value }) => (
           <Select.Option key={value} value={value} label={label} />
@@ -92,6 +98,6 @@ const SuperPayItemDetail = (props) => {
   );
 };
 
-const mapStateToProps = state => getSuperPayItemDetail(state);
+const mapStateToProps = (state) => getSuperPayItemDetail(state);
 
 export default connect(mapStateToProps)(SuperPayItemDetail);

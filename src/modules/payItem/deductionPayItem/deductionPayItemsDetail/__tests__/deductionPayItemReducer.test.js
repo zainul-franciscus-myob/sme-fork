@@ -25,7 +25,11 @@ describe('deductionPayItemReducer', () => {
 
     it('should merge in the correct root level data', () => {
       const {
-        details, information, employeeAllocations, exemptionAllocations, ...rootData
+        details,
+        information,
+        employeeAllocations,
+        exemptionAllocations,
+        ...rootData
       } = actual;
       const expected = {
         businessId: '1',
@@ -337,8 +341,7 @@ describe('deductionPayItemReducer', () => {
             itemType: 'Wages',
           },
         ],
-        selectedExemptions: [
-        ],
+        selectedExemptions: [],
       };
 
       expect(exemptionAllocations).toEqual(expected);

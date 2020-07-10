@@ -18,10 +18,7 @@ import {
   UPDATE_TEMPLATE_OPTION,
 } from './TemplateIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import {
-  getImageKey,
-  getTempFile,
-} from './templateSelectors';
+import { getImageKey, getTempFile } from './templateSelectors';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -140,7 +137,7 @@ const updateTemplateOption = (state, action) => ({
   },
 });
 
-const updateTemplateImage = state => ({
+const updateTemplateImage = (state) => ({
   ...state,
   hasChange: true,
   template: {
@@ -149,7 +146,7 @@ const updateTemplateImage = state => ({
   },
 });
 
-const removeTemplateImage = state => ({
+const removeTemplateImage = (state) => ({
   ...state,
   hasChange: true,
   template: {

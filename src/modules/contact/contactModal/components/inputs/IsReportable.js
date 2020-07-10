@@ -14,12 +14,12 @@ const IsReportable = ({ isReportable, onChange }) => (
         id="isReportable"
         name="isReportable"
         label="Report payments to ATO via TPAR"
-        labelAccessory={(
+        labelAccessory={
           <Tooltip>
-            These are payments made to reportable contractors.
-            They will be reported to the ATO in TPAR reports.
+            These are payments made to reportable contractors. They will be
+            reported to the ATO in TPAR reports.
           </Tooltip>
-        )}
+        }
         checked={isReportable}
         onChange={handleCheckboxChange(onChange)}
       />
@@ -27,7 +27,7 @@ const IsReportable = ({ isReportable, onChange }) => (
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isReportable: getIsReportable(state),
 });
 

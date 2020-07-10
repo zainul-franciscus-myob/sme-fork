@@ -9,12 +9,9 @@ import {
   SET_TABLE_LOADING_STATE,
   UPDATE_TAX_PAY_ITEM_DETAIL,
 } from '../PayItemIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createPayItemListDispatcher = store => ({
+const createPayItemListDispatcher = (store) => ({
   openModal: ({ type, url }) => {
     store.dispatch({
       intent: OPEN_MODAL,

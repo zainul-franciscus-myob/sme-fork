@@ -1,6 +1,12 @@
-import { LOAD_BUSINESS_DETAIL, START_NEW_FINANCIAL_YEAR, UPDATE_BUSINESS_DETAIL } from '../BusinessIntents';
 import {
-  getBusinessForUpdate, getBusinessId, getLastMonthInNewFinancialYear,
+  LOAD_BUSINESS_DETAIL,
+  START_NEW_FINANCIAL_YEAR,
+  UPDATE_BUSINESS_DETAIL,
+} from '../BusinessIntents';
+import {
+  getBusinessForUpdate,
+  getBusinessId,
+  getLastMonthInNewFinancialYear,
 } from './businessDetailSelectors';
 
 const createBusinessDetailIntegrator = (store, integration) => ({

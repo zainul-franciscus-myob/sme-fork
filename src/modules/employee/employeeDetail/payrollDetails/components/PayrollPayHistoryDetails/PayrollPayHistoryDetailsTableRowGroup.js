@@ -4,7 +4,14 @@ import React from 'react';
 import PayrollPayHistoryDetailsTableRow from './PayrollPayHistoryDetailsTableRow';
 
 const PayrollPayHistoryDetailsTableRowGroup = ({
-  name, title, tableConfig, entries, showTableRows, disabled, onChange, onClick,
+  name,
+  title,
+  tableConfig,
+  entries,
+  showTableRows,
+  disabled,
+  onChange,
+  onClick,
 }) => {
   const headerRow = (
     <Table.Row key={name}>
@@ -12,7 +19,7 @@ const PayrollPayHistoryDetailsTableRowGroup = ({
     </Table.Row>
   );
 
-  const rows = entries.map(entry => (
+  const rows = entries.map((entry) => (
     <PayrollPayHistoryDetailsTableRow
       key={`${name}-${entry.payItemId}`}
       tableConfig={tableConfig}

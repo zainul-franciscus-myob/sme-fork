@@ -71,7 +71,8 @@ describe('integratorSelectors', () => {
           id: '123',
           layout: 'service',
           customerId: '2',
-          address: 'Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia',
+          address:
+            'Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia',
           note: 'Thank you!',
           invoiceNumber: '00000123',
           purchaseOrderNumber: '123',
@@ -143,7 +144,8 @@ describe('integratorSelectors', () => {
         id: '123',
         layout: 'service',
         customerId: '2',
-        address: 'Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia',
+        address:
+          'Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia',
         note: 'Thank you!',
         invoiceNumber: '00000123',
         purchaseOrderNumber: '123',
@@ -179,7 +181,8 @@ describe('integratorSelectors', () => {
         id: '123',
         layout: 'item',
         customerId: '1',
-        address: 'Footloose Dance Studio\r\n45 Huntly Road\r\nNorth Ryde  NSW  2113\r\nAustralia\r\n',
+        address:
+          'Footloose Dance Studio\r\n45 Huntly Road\r\nNorth Ryde  NSW  2113\r\nAustralia\r\n',
         invoiceNumber: 'IN00000123',
         note: 'Thank you! Footloose',
         purchaseOrderNumber: 'PO123',
@@ -239,7 +242,8 @@ describe('integratorSelectors', () => {
       const actual = getLoadAddedAccountUrlParams(state, 'accountId');
 
       expect(actual).toEqual({
-        accountId: 'accountId', businessId: 'batman',
+        accountId: 'accountId',
+        businessId: 'batman',
       });
     });
   });

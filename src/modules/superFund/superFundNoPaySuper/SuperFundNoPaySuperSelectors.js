@@ -1,14 +1,15 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
-const getName = state => state.superFund.name;
-const getEmployerMembershipNumber = state => state.superFund.employerMembershipNumber;
-const getSuperProductAbn = state => state.superFund.superProductAbn;
-const getSuperProductId = state => state.superFund.superProductId;
-const getSuperProducts = state => state.superProducts;
-export const getShowContactDetails = state => state.showContactDetails;
-const getPhoneNumber = state => state.superFund.phoneNumber;
-const getWebSite = state => state.superFund.webSite;
-const getIsPaySuperFund = state => state.superFund.isPaySuperFund;
+const getName = (state) => state.superFund.name;
+const getEmployerMembershipNumber = (state) =>
+  state.superFund.employerMembershipNumber;
+const getSuperProductAbn = (state) => state.superFund.superProductAbn;
+const getSuperProductId = (state) => state.superFund.superProductId;
+const getSuperProducts = (state) => state.superProducts;
+export const getShowContactDetails = (state) => state.showContactDetails;
+const getPhoneNumber = (state) => state.superFund.phoneNumber;
+const getWebSite = (state) => state.superFund.webSite;
+const getIsPaySuperFund = (state) => state.superFund.isPaySuperFund;
 
 export const getSuperFundDetailSectionProps = createStructuredSelector({
   name: getName,
@@ -20,24 +21,24 @@ export const getSuperFundDetailSectionProps = createStructuredSelector({
   webSite: getWebSite,
 });
 
-export const getIsActionsDisabled = state => state.isSubmitting;
+export const getIsActionsDisabled = (state) => state.isSubmitting;
 
-export const getIsCreating = state => state.superFundId === 'new';
+export const getIsCreating = (state) => state.superFundId === 'new';
 
-export const getBusinessId = state => state.businessId;
+export const getBusinessId = (state) => state.businessId;
 
-export const getRegion = state => state.region;
+export const getRegion = (state) => state.region;
 
-export const getModalType = state => state.modalType;
+export const getModalType = (state) => state.modalType;
 
-export const getIsPageEdited = state => state.isPageEdited;
+export const getIsPageEdited = (state) => state.isPageEdited;
 
-export const getSuperFundId = state => state.superFundId;
+export const getSuperFundId = (state) => state.superFundId;
 
-export const getAlertMessage = state => state.alertMessage;
+export const getAlertMessage = (state) => state.alertMessage;
 
-const getSuperProductName = state => state.superFund.superProductName;
-const getSuperFundIdentifier = state => state.superFund.superFundIdentifier;
+const getSuperProductName = (state) => state.superFund.superProductName;
+const getSuperFundIdentifier = (state) => state.superFund.superFundIdentifier;
 const getFundType = () => 'APRASuperFund';
 export const getSaveSuperFundPayload = createStructuredSelector({
   phoneNumber: getPhoneNumber,
@@ -54,7 +55,8 @@ export const getSaveSuperFundPayload = createStructuredSelector({
 
 export const getSuperFundPageTitle = createSelector(
   getIsCreating,
-  isCreating => (isCreating ? 'Create superannuation fund' : 'Edit superannuation fund'),
+  (isCreating) =>
+    isCreating ? 'Create superannuation fund' : 'Edit superannuation fund'
 );
 
 export const getSuperFundContactDetails = createStructuredSelector({
@@ -62,4 +64,4 @@ export const getSuperFundContactDetails = createStructuredSelector({
   webSite: getWebSite,
 });
 
-export const getSignUpForPaySuperUrl = state => state.paySuperUrl;
+export const getSignUpForPaySuperUrl = (state) => state.paySuperUrl;

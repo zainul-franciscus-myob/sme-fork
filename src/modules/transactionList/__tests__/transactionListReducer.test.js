@@ -1,4 +1,8 @@
-import { DEBITS_AND_CREDITS, JOURNAL_TRANSACTIONS, getDefaultState } from '../getDefaultState';
+import {
+  DEBITS_AND_CREDITS,
+  JOURNAL_TRANSACTIONS,
+  getDefaultState,
+} from '../getDefaultState';
 import {
   SET_ALERT,
   SET_LAST_LOADING_TAB,
@@ -21,7 +25,11 @@ describe('transactionListReducer', () => {
       dateTo: '2019-11-30',
     });
 
-    const { dateFrom, dateTo } = getDateRangeByPeriodAndRegion('au', new Date(), Periods.thisMonth);
+    const { dateFrom, dateTo } = getDateRangeByPeriodAndRegion(
+      'au',
+      new Date(),
+      Periods.thisMonth
+    );
 
     it('should use deep link param for sourceJournal if applicable', () => {
       const state = getDefaultState();

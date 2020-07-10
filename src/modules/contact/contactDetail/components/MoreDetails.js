@@ -4,16 +4,13 @@ import React from 'react';
 
 import { getMoreDetails } from '../contactDetailSelectors';
 
-const onInputChange = handler => (e) => {
+const onInputChange = (handler) => (e) => {
   const { value, name } = e.target;
   handler({ key: name, value });
 };
 
 const MoreDetails = (props) => {
-  const {
-    notes,
-    onContactDetailsChange,
-  } = props;
+  const { notes, onContactDetailsChange } = props;
 
   return (
     <FieldGroup label="More information">
@@ -32,6 +29,6 @@ const MoreDetails = (props) => {
   );
 };
 
-const mapStateToProps = state => getMoreDetails(state);
+const mapStateToProps = (state) => getMoreDetails(state);
 
 export default connect(mapStateToProps)(MoreDetails);

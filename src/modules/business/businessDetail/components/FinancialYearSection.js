@@ -1,9 +1,4 @@
-import {
-  FieldGroup,
-  Icons,
-  ReadOnly,
-  Tooltip,
-} from '@myob/myob-widgets';
+import { FieldGroup, Icons, ReadOnly, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -35,20 +30,20 @@ const FinancialYearSection = ({
   lastMonthInFY,
   monthOptions,
 }) => {
-  const financialYearComboBox = isFinancialYearSectionReadOnly
-    ? <ReadOnly label="Current financial year" name="financialYear">
-        {financialYear}
-      </ReadOnly>
-    : (
-      <YearSelect
-        financialYearOptions={financialYearOptions}
-        name="financialYear"
-        label="Current financial year"
-        value={financialYear}
-        onChange={handleSelectChange(onChange)}
-        width="xs"
-      />
-    );
+  const financialYearComboBox = isFinancialYearSectionReadOnly ? (
+    <ReadOnly label="Current financial year" name="financialYear">
+      {financialYear}
+    </ReadOnly>
+  ) : (
+    <YearSelect
+      financialYearOptions={financialYearOptions}
+      name="financialYear"
+      label="Current financial year"
+      value={financialYear}
+      onChange={handleSelectChange(onChange)}
+      width="xs"
+    />
+  );
 
   const startNewFYButton = isStartNewFinancialYearEnabled && (
     <FinancialYearButton
@@ -61,61 +56,69 @@ const FinancialYearSection = ({
 
   const lastMonthFYToolTip = (
     <Tooltip triggerContent={<Icons.Info />}>
-      Make sure to discuss this with your advisor before changing the
-      financial year period.
+      Make sure to discuss this with your advisor before changing the financial
+      year period.
     </Tooltip>
   );
 
-  const lastMonthInFYComboBox = isFinancialYearSectionReadOnly
-    ? <ReadOnly label="Last month in financial year" name="lastMonthInFinancialYear" labelAccessory={lastMonthFYToolTip}>
-        {lastMonthInFY}
-      </ReadOnly>
-    : (
-      <MonthSelect
-        name="lastMonthInFinancialYear"
-        label="Last month in financial year"
-        className={styles.monthSelect}
-        value={lastMonthInFinancialYear}
-        labelAccessory={lastMonthFYToolTip}
-        onChange={handleSelectChange(onChange)}
-        width="sm"
-        monthOptions={monthOptions}
-      />
-    );
+  const lastMonthInFYComboBox = isFinancialYearSectionReadOnly ? (
+    <ReadOnly
+      label="Last month in financial year"
+      name="lastMonthInFinancialYear"
+      labelAccessory={lastMonthFYToolTip}
+    >
+      {lastMonthInFY}
+    </ReadOnly>
+  ) : (
+    <MonthSelect
+      name="lastMonthInFinancialYear"
+      label="Last month in financial year"
+      className={styles.monthSelect}
+      value={lastMonthInFinancialYear}
+      labelAccessory={lastMonthFYToolTip}
+      onChange={handleSelectChange(onChange)}
+      width="sm"
+      monthOptions={monthOptions}
+    />
+  );
 
   const openingBalanceDateTooltip = (
     <Tooltip triggerContent={<Icons.Info />}>
-      The date you either started using MYOB or the start of a period,
-      like a new financial year.
+      The date you either started using MYOB or the start of a period, like a
+      new financial year.
     </Tooltip>
   );
 
-  const openingBalanceDateComboBox = isFinancialYearSectionReadOnly
-    ? <ReadOnly label="Opening balance month" name="openingBalanceDate" labelAccessory={openingBalanceDateTooltip}>
-        {formatDate(openingBalanceDate, dateFormat)}
-      </ReadOnly>
-    : (
-      <MonthYearSelect
-        labelAccessory={openingBalanceDateTooltip}
-        year={openingBalanceYear}
-        month={openingBalanceMonth}
-        yearOptions={openingBalanceYearOptions}
-        monthOptions={monthOptions}
-        onYearChange={handleSelectChange(onChange)}
-        onMonthChange={handleSelectChange(onChange)}
-      />
-    );
+  const openingBalanceDateComboBox = isFinancialYearSectionReadOnly ? (
+    <ReadOnly
+      label="Opening balance month"
+      name="openingBalanceDate"
+      labelAccessory={openingBalanceDateTooltip}
+    >
+      {formatDate(openingBalanceDate, dateFormat)}
+    </ReadOnly>
+  ) : (
+    <MonthYearSelect
+      labelAccessory={openingBalanceDateTooltip}
+      year={openingBalanceYear}
+      month={openingBalanceMonth}
+      yearOptions={openingBalanceYearOptions}
+      monthOptions={monthOptions}
+      onYearChange={handleSelectChange(onChange)}
+      onMonthChange={handleSelectChange(onChange)}
+    />
+  );
 
   return (
-  <FieldGroup label="Financial year">
-    {financialYearComboBox}
-    {startNewFYButton}
-    {lastMonthInFYComboBox}
-    {openingBalanceDateComboBox}
-  </FieldGroup>
+    <FieldGroup label="Financial year">
+      {financialYearComboBox}
+      {startNewFYButton}
+      {lastMonthInFYComboBox}
+      {openingBalanceDateComboBox}
+    </FieldGroup>
   );
 };
 
-const mapStateToProps = state => getFinancialYearDetails(state);
+const mapStateToProps = (state) => getFinancialYearDetails(state);
 
 export default connect(mapStateToProps)(FinancialYearSection);

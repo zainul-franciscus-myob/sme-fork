@@ -30,7 +30,7 @@ const AccordionTable = ({
     }
   };
 
-  const buildRowProps = props => ({
+  const buildRowProps = (props) => ({
     ...props,
     onExpand: setCurrAndPrevOpenRow,
     isRowOpen: props.isRowOpen !== undefined ? props.isRowOpen : false,
@@ -46,14 +46,14 @@ const AccordionTable = ({
     let rowPropsBuilder = memoizedBuildRowProps;
 
     if (index === currOpenRow) {
-      rowPropsBuilder = props => ({
+      rowPropsBuilder = (props) => ({
         ...buildRowProps(props),
         isRowOpen: props.isRowOpen !== undefined ? props.isRowOpen : true,
       });
     }
 
     if (index === prevOpenRow) {
-      rowPropsBuilder = props => ({
+      rowPropsBuilder = (props) => ({
         ...buildRowProps(props),
         isRowOpen: props.isRowOpen !== undefined ? props.isRowOpen : false,
       });
@@ -63,7 +63,10 @@ const AccordionTable = ({
   };
 
   return (
-    <Table className={classnames(className, styles.header)} onRowSelect={onRowSelect}>
+    <Table
+      className={classnames(className, styles.header)}
+      onRowSelect={onRowSelect}
+    >
       {header}
       <Table.Body>
         {data.map((item, index) => getRenderRow(index, item))}

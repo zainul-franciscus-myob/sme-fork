@@ -1,7 +1,10 @@
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getLoadMoreButtonStatus, getLoadingState } from '../selectors/creditsAndDebitsSelectors';
+import {
+  getLoadMoreButtonStatus,
+  getLoadingState,
+} from '../selectors/creditsAndDebitsSelectors';
 import JournalTransactionListTable from './CreditsAndDebitsListTable';
 import JournalTransactionListTableHeader from './CreditsAndDebitsListTableHeader';
 import PageView from '../../../components/PageView/PageView';
@@ -42,15 +45,13 @@ const CreditsAndDebitsListView = ({
       pageHead={pageHead}
       filterBar={filterBar}
       subHeadChildren={subHead}
-      tableHeader={(
+      tableHeader={
         <JournalTransactionListTableHeader
           onSort={onSort}
           tableConfig={tableConfig}
         />
-      )}
-      listTable={(
-        <JournalTransactionListTable tableConfig={tableConfig} />
-      )}
+      }
+      listTable={<JournalTransactionListTable tableConfig={tableConfig} />}
       onLoadMoreButtonClick={onLoadMoreButtonClick}
       loadMoreButtonStatus={loadMoreButtonStatus}
     />
@@ -59,7 +60,7 @@ const CreditsAndDebitsListView = ({
   return <PageView loadingState={loadingState} view={transactionListView} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   loadMoreButtonStatus: getLoadMoreButtonStatus(state),
 });

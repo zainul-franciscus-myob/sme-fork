@@ -1,6 +1,4 @@
-import {
-  Icons, InputError, InputLabel, Tooltip,
-} from '@myob/myob-widgets';
+import { Icons, InputError, InputLabel, Tooltip } from '@myob/myob-widgets';
 import PropTypes from 'prop-types';
 import React from 'react';
 import classnames from 'classnames';
@@ -111,20 +109,18 @@ class FieldMessagePopup extends React.Component {
   }
 
   renderLabel = () => {
-    const {
-      hideLabel, label, labelAccessory, requiredLabel,
-    } = this.props;
+    const { hideLabel, label, labelAccessory, requiredLabel } = this.props;
     const labelContent = requiredLabel ? (
       <Tooltip
         trigger={['click', 'hover']}
-        triggerContent={(
+        triggerContent={
           <span>
             <InputLabel id={this.inputId} label={label} />
             <span className="form-group__required-icon" aria-hidden="true">
               *
             </span>
           </span>
-)}
+        }
       >
         {requiredLabel}
       </Tooltip>
@@ -135,21 +131,23 @@ class FieldMessagePopup extends React.Component {
       <div
         className={classnames(
           { 'sr-only': hideLabel },
-          'form-group__label-group',
+          'form-group__label-group'
         )}
       >
         {labelContent}
         {labelAccessory && (
           <span className="form-group__label-accessory">{labelAccessory}</span>
         )}
-        {/* For Accessibility Purpose.
+        {
+          /* For Accessibility Purpose.
         When requiredLabel is set, tooltip is only appended to the DOM when we click on the label
         to let people using screen reader technology know the field is required */
           requiredLabel && (
             <span className="sr-only" id={this.requiredId}>
               {requiredLabel}
             </span>
-          )}
+          )
+        }
       </div>
     );
   };
@@ -183,9 +181,10 @@ class FieldMessagePopup extends React.Component {
         })}
       >
         {this.renderLabel()}
-        <div className={classnames('form-group__input-group', {
-          [`form-group__input-group--${width}`]: width,
-        })}
+        <div
+          className={classnames('form-group__input-group', {
+            [`form-group__input-group--${width}`]: width,
+          })}
         >
           {renderField({
             ...otherProps,

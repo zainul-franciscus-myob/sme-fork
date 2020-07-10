@@ -17,13 +17,16 @@ describe('incomeAllocationSelectors', () => {
     accounts: [
       {
         id: '1',
-        detailAccounts: [{
-          id: '2',
-          isActive: false,
-        }, {
-          id: '3',
-          isActive: true,
-        }],
+        detailAccounts: [
+          {
+            id: '2',
+            isActive: false,
+          },
+          {
+            id: '3',
+            isActive: true,
+          },
+        ],
       },
     ],
   };
@@ -42,7 +45,10 @@ describe('incomeAllocationSelectors', () => {
         currentEarningsAccountId: '3',
         equity: '100',
         headerAccounts: [{ id: '1' }],
-        retainedEarningsAccounts: [{ id: '2', isActive: false }, { id: '3', isActive: true }],
+        retainedEarningsAccounts: [
+          { id: '2', isActive: false },
+          { id: '3', isActive: true },
+        ],
         currentEarningsAccounts: [{ id: '3', isActive: true }],
       };
 

@@ -3,7 +3,11 @@ import ElectronicPaymentsReadModule from './electronicPaymentsRead/ElectronicPay
 import RouteName from '../../router/RouteName';
 
 const getElectronicPaymentsRoutes = ({
-  integration, setRootView, pushMessage, replaceURLParams, featureToggles,
+  integration,
+  setRootView,
+  pushMessage,
+  replaceURLParams,
+  featureToggles,
 }) => {
   const routes = [
     {

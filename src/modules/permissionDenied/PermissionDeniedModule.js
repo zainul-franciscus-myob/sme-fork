@@ -3,25 +3,21 @@ import React from 'react';
 import PermissionDeniedView from './components/PermissionDeniedView';
 
 class PermissionDeniedModule {
-  constructor({
-    setRootView,
-  }) {
+  constructor({ setRootView }) {
     this.setRootView = setRootView;
   }
 
   render = () => {
-    const view = (
-      <PermissionDeniedView />
-    );
+    const view = <PermissionDeniedView />;
 
     this.setRootView(view);
   };
 
   run = () => this.render();
 
-  unsubscribeFromStore = () => {}
+  unsubscribeFromStore = () => {};
 
-  resetState = () => {}
+  resetState = () => {};
 }
 
 export default PermissionDeniedModule;

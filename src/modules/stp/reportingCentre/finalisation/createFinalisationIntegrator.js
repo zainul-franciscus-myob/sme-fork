@@ -121,10 +121,7 @@ const createFinalisationIntegrator = (store, integration) => ({
     });
   },
 
-
-  sortEmployees: ({
-    onSuccess, onFailure, orderBy, sortOrder,
-  }) => {
+  sortEmployees: ({ onSuccess, onFailure, orderBy, sortOrder }) => {
     const state = store.getState();
 
     const urlParams = {

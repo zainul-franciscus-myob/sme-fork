@@ -1,5 +1,10 @@
 import {
-  Button, Combobox, FieldGroup, Icons, Table, Tooltip,
+  Button,
+  Combobox,
+  FieldGroup,
+  Icons,
+  Table,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -10,11 +15,7 @@ import styles from './WagePayItemView.module.css';
 
 const filteredListEmployeesMetadata = [{ columnName: 'name', showData: true }];
 
-const title = (
-  <React.Fragment>
-    Employees using this pay item
-  </React.Fragment>
-);
+const title = <React.Fragment>Employees using this pay item</React.Fragment>;
 
 const tableConfig = {
   name: { width: 'flex-1', valign: 'middle' },
@@ -22,7 +23,10 @@ const tableConfig = {
 };
 
 const EmployeeAllocationView = ({
-  selectedEmployees, filteredListOfEmployees, onEmployeeSelected, onRemoveEmployee,
+  selectedEmployees,
+  filteredListOfEmployees,
+  onEmployeeSelected,
+  onRemoveEmployee,
 }) => (
   <FieldGroup className={styles.editableTable} label={title}>
     <Table hasActions>
@@ -37,13 +41,17 @@ const EmployeeAllocationView = ({
             <Table.RowItem {...tableConfig.actions} cellRole="actions">
               <Tooltip
                 placement="left"
-                triggerContent={(
-                <Button type="secondary" size="xs" onClick={() => onRemoveEmployee(id)}>
-                  <Icons.Remove />
-                </Button>
-              )}
+                triggerContent={
+                  <Button
+                    type="secondary"
+                    size="xs"
+                    onClick={() => onRemoveEmployee(id)}
+                  >
+                    <Icons.Remove />
+                  </Button>
+                }
               >
-              Remove employee
+                Remove employee
               </Tooltip>
             </Table.RowItem>
           </Table.Row>
@@ -60,8 +68,8 @@ const EmployeeAllocationView = ({
       onChange={handleComboboxChange('employeeAllocation', onEmployeeSelected)}
       width="lg"
     />
-  </FieldGroup>);
-
+  </FieldGroup>
+);
 
 const mapToStateProps = getEmployeeAllocations;
 

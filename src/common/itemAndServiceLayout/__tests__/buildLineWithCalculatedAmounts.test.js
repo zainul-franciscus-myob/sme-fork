@@ -69,7 +69,9 @@ describe('buildLineWithCalculatedAmounts', () => {
       { key: 'units', value: '0' },
       { key: 'amount', value: '' },
     ].forEach(({ key, value }) => {
-      it(`should not calculate discount when ${key} is ${value || 'empty'}`, () => {
+      it(`should not calculate discount when ${key} is ${
+        value || 'empty'
+      }`, () => {
         const customLine = { ...line, [key]: value };
 
         const actual = buildLineWithCalculatedAmounts(customLine, 'amount');
@@ -110,7 +112,9 @@ describe('buildLineWithCalculatedAmounts', () => {
       { key: 'discount', value: '100' },
       { key: 'amount', value: '' },
     ].forEach(({ key, value }) => {
-      it(`should not calculate unitPrice when ${key} is ${value || 'empty'}`, () => {
+      it(`should not calculate unitPrice when ${key} is ${
+        value || 'empty'
+      }`, () => {
         const customLine = { ...line, [key]: value };
 
         const actual = buildLineWithCalculatedAmounts(customLine, 'amount');

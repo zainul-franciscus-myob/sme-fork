@@ -7,29 +7,31 @@ import formatAmount from '../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../common/valueFormatters/formatCurrency';
 import formatSlashDate from '../../common/valueFormatters/formatDate/formatSlashDate';
 
-export const getLoadingState = state => state.loadingState;
-export const getIsTableLoading = state => state.isTableLoading;
-export const getIsSubmitting = state => state.isSubmitting;
-export const getIsActionDisabled = state => state.isSubmitting || state.isTableLoading;
-export const getBusinessId = state => state.businessId;
-export const getRegion = state => state.region;
-export const getAlert = state => state.alert;
-export const getModal = state => state.modal;
+export const getLoadingState = (state) => state.loadingState;
+export const getIsTableLoading = (state) => state.isTableLoading;
+export const getIsSubmitting = (state) => state.isSubmitting;
+export const getIsActionDisabled = (state) =>
+  state.isSubmitting || state.isTableLoading;
+export const getBusinessId = (state) => state.businessId;
+export const getRegion = (state) => state.region;
+export const getAlert = (state) => state.alert;
+export const getModal = (state) => state.modal;
 
-const getClosingBankStatementBalance = state => state.closingBankStatementBalance;
-const getCalculatedClosingBalance = state => state.calculatedClosingBalance;
-export const getEntries = state => state.entries;
+const getClosingBankStatementBalance = (state) =>
+  state.closingBankStatementBalance;
+const getCalculatedClosingBalance = (state) => state.calculatedClosingBalance;
+export const getEntries = (state) => state.entries;
 
-export const getAccountId = state => state.selectedAccountId;
-export const getAccounts = state => state.accounts;
-export const getUrlParams = state => ({
+export const getAccountId = (state) => state.selectedAccountId;
+export const getAccounts = (state) => state.accounts;
+export const getUrlParams = (state) => ({
   businessId: getBusinessId(state),
   accountId: getAccountId(state),
 });
 
-export const getStatementDate = state => state.statementDate;
+export const getStatementDate = (state) => state.statementDate;
 
-export const getSortAndFilterParams = state => ({
+export const getSortAndFilterParams = (state) => ({
   statementDate: state.statementDate,
   sortOrder: state.sortOrder,
   orderBy: state.orderBy,
@@ -39,27 +41,31 @@ export const getOutOfBalance = ({
   calculatedClosingBalance,
   closingBankStatementBalance,
 }) => {
-  const outOfBalance = calculatedClosingBalance - (Number(closingBankStatementBalance) || 0);
+  const outOfBalance =
+    calculatedClosingBalance - (Number(closingBankStatementBalance) || 0);
   if (Math.abs(outOfBalance) < 0.01) {
     return 0;
   }
   return outOfBalance;
 };
-export const getIsOutOfBalance = state => getOutOfBalance(state) !== 0;
-export const getFormattedOutOfBalance = state => formatCurrency(getOutOfBalance(state));
+export const getIsOutOfBalance = (state) => getOutOfBalance(state) !== 0;
+export const getFormattedOutOfBalance = (state) =>
+  formatCurrency(getOutOfBalance(state));
 export const getOptions = createStructuredSelector({
   statementDate: getStatementDate,
   selectedAccountId: getAccountId,
-  closingBankStatementBalance: state => state.closingBankStatementBalance,
-  calculatedClosingBalance: state => formatCurrency(state.calculatedClosingBalance),
-  outOfBalance: state => getFormattedOutOfBalance(state),
-  lastReconcileDate: state => state.lastReconcileDate
-    && formatSlashDate(new Date(state.lastReconcileDate)),
+  closingBankStatementBalance: (state) => state.closingBankStatementBalance,
+  calculatedClosingBalance: (state) =>
+    formatCurrency(state.calculatedClosingBalance),
+  outOfBalance: (state) => getFormattedOutOfBalance(state),
+  lastReconcileDate: (state) =>
+    state.lastReconcileDate &&
+    formatSlashDate(new Date(state.lastReconcileDate)),
   accounts: getAccounts,
-  hasReconciled: state => Boolean(state.lastReconcileDate),
+  hasReconciled: (state) => Boolean(state.lastReconcileDate),
 });
 
-export const getOrder = state => ({
+export const getOrder = (state) => ({
   column: state.orderBy,
   descending: state.sortOrder === 'desc',
 });
@@ -70,22 +76,24 @@ const getEntryLink = (entry, businessId, region) => {
   const { journalId, sourceJournal } = entry;
   const feature = businessEventToFeatureMap[sourceJournal];
 
-  return feature ? `/#/${region}/${businessId}/${feature}/${journalId}` : undefined;
+  return feature
+    ? `/#/${region}/${businessId}/${feature}/${journalId}`
+    : undefined;
 };
 
 const buildTableEntry = (entry, businessId, region) => {
   const { hasMatchedTransactions } = entry;
   const matchedTransactions = hasMatchedTransactions
-    ? entry.matchedTransactions.map(transaction => ({
-      journalLineId: transaction.journalLineId,
-      link: getEntryLink(transaction, businessId, region),
-      date: formatSlashDate(new Date(transaction.date)),
-      referenceId: transaction.referenceId,
-      description: transaction.description,
-      deposit: transaction.deposit && formatAmount(transaction.deposit),
-      withdrawal:
-        transaction.withdrawal && formatAmount(transaction.withdrawal),
-    }))
+    ? entry.matchedTransactions.map((transaction) => ({
+        journalLineId: transaction.journalLineId,
+        link: getEntryLink(transaction, businessId, region),
+        date: formatSlashDate(new Date(transaction.date)),
+        referenceId: transaction.referenceId,
+        description: transaction.description,
+        deposit: transaction.deposit && formatAmount(transaction.deposit),
+        withdrawal:
+          transaction.withdrawal && formatAmount(transaction.withdrawal),
+      }))
     : [];
 
   const link = hasMatchedTransactions
@@ -107,24 +115,28 @@ const buildTableEntry = (entry, businessId, region) => {
   };
 };
 
-export const getTableRowByIndexSelector = () => createSelector(
-  (state, props) => state.entries[props.index],
-  getBusinessId,
-  getRegion,
-  (entry, businessId, region) => buildTableEntry(entry, businessId, region),
-);
+export const getTableRowByIndexSelector = () =>
+  createSelector(
+    (state, props) => state.entries[props.index],
+    getBusinessId,
+    getRegion,
+    (entry, businessId, region) => buildTableEntry(entry, businessId, region)
+  );
 
-export const getJournalLineIdByIndexSelector = () => createSelector(
-  (state, props) => state.entries[props.index],
-  entry => (entry.hasMatchedTransactions
-    ? entry.matchedTransactions[0].journalLineId
-    : entry.journalLineId),
-);
+export const getJournalLineIdByIndexSelector = () =>
+  createSelector(
+    (state, props) => state.entries[props.index],
+    (entry) =>
+      entry.hasMatchedTransactions
+        ? entry.matchedTransactions[0].journalLineId
+        : entry.journalLineId
+  );
 
-export const getIsAllSelected = state => state.entries.every(entry => entry.isChecked);
+export const getIsAllSelected = (state) =>
+  state.entries.every((entry) => entry.isChecked);
 export const getHeaderSelectStatus = createSelector(
-  state => state.entries.filter(entry => entry.isChecked).length,
-  state => state.entries.length,
+  (state) => state.entries.filter((entry) => entry.isChecked).length,
+  (state) => state.entries.length,
   (selectedCount, entryCount) => {
     if (entryCount > 0 && selectedCount === entryCount) {
       return 'checked';
@@ -135,7 +147,7 @@ export const getHeaderSelectStatus = createSelector(
     }
 
     return '';
-  },
+  }
 );
 
 const buildEntry = ({ journalLineId, journalTransactionId }) => ({
@@ -145,10 +157,12 @@ const buildEntry = ({ journalLineId, journalTransactionId }) => ({
 
 export const getCreateBankReconciliationPayload = (state) => {
   const entries = state.entries
-    .filter(entry => entry.isChecked)
-    .map(entry => (entry.hasMatchedTransactions
-      ? entry.matchedTransactions.map(buildEntry)
-      : buildEntry(entry)));
+    .filter((entry) => entry.isChecked)
+    .map((entry) =>
+      entry.hasMatchedTransactions
+        ? entry.matchedTransactions.map(buildEntry)
+        : buildEntry(entry)
+    );
 
   const flattenedEntries = flat(entries, 1);
 
@@ -161,7 +175,8 @@ export const getCreateBankReconciliationPayload = (state) => {
 export const getSelectedAccount = createSelector(
   getAccountId,
   getAccounts,
-  (selectedAccountId, accounts) => accounts.find(account => account.id === selectedAccountId),
+  (selectedAccountId, accounts) =>
+    accounts.find((account) => account.id === selectedAccountId)
 );
 
 export const getBankReconciliationCancelModal = createSelector(
@@ -170,16 +185,21 @@ export const getBankReconciliationCancelModal = createSelector(
   getEntries,
   (closingBankStatementBalance, calculatedClosingBalance, entries) => {
     const outOfBalance = getOutOfBalance({
-      closingBankStatementBalance, calculatedClosingBalance,
+      closingBankStatementBalance,
+      calculatedClosingBalance,
     });
 
-    const totalDeposit = entries
-      .reduce((total, { isChecked, deposit = 0 }) => (isChecked ? total + deposit : total), 0);
+    const totalDeposit = entries.reduce(
+      (total, { isChecked, deposit = 0 }) =>
+        isChecked ? total + deposit : total,
+      0
+    );
 
-    const totalWithdrawal = entries
-      .reduce((total, { isChecked, withdrawal = 0 }) => (
-        isChecked ? total + withdrawal : total
-      ), 0);
+    const totalWithdrawal = entries.reduce(
+      (total, { isChecked, withdrawal = 0 }) =>
+        isChecked ? total + withdrawal : total,
+      0
+    );
 
     return {
       outOfBalance: formatCurrency(outOfBalance),
@@ -187,7 +207,8 @@ export const getBankReconciliationCancelModal = createSelector(
       totalDeposit: formatCurrency(totalDeposit),
       totalWithdrawal: formatCurrency(totalWithdrawal),
     };
-  },
+  }
 );
 
-export const getIsModalActive = state => state.modal && state.modal.type !== ModalType.NONE;
+export const getIsModalActive = (state) =>
+  state.modal && state.modal.type !== ModalType.NONE;

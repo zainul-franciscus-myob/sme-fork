@@ -5,10 +5,7 @@ const buildAmountInputChangeEvent = (e, currentValue) => {
   const number = Number(rawValue);
   const currentNumber = Number(currentValue);
 
-  if (rawValue === '-'
-    && !Number.isNaN(currentNumber)
-    && currentNumber !== 0
-  ) {
+  if (rawValue === '-' && !Number.isNaN(currentNumber) && currentNumber !== 0) {
     return copyEventWithValue(e, String(-currentNumber));
   }
 

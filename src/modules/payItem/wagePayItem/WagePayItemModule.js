@@ -42,9 +42,7 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 import wagePayItemReducer from './wagePayItemReducer';
 
 export default class WagePayItemModule {
-  constructor({
-    integration, setRootView, pushMessage, featureToggles,
-  }) {
+  constructor({ integration, setRootView, pushMessage, featureToggles }) {
     this.integration = integration;
     this.store = new Store(wagePayItemReducer);
     this.setRootView = setRootView;
@@ -57,18 +55,20 @@ export default class WagePayItemModule {
       intent: SET_INITIAL_STATE,
       context,
     });
-  }
+  };
 
   setLoadingState = (isLoading) => {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
       isLoading,
     });
-  }
+  };
 
   loadPayItem = () => {
     const state = this.store.getState();
-    const intent = getIsCreating(state) ? LOAD_NEW_PAY_ITEM : LOAD_EXISTING_PAY_ITEM;
+    const intent = getIsCreating(state)
+      ? LOAD_NEW_PAY_ITEM
+      : LOAD_EXISTING_PAY_ITEM;
 
     const onSuccess = (payload) => {
       this.setLoadingState(false);
@@ -100,49 +100,56 @@ export default class WagePayItemModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
-  updatePayItemDetails = ({ key, value }) => this.store.dispatch({
-    intent: UPDATE_DETAILS,
-    key,
-    value,
-  })
+  updatePayItemDetails = ({ key, value }) =>
+    this.store.dispatch({
+      intent: UPDATE_DETAILS,
+      key,
+      value,
+    });
 
-  addEmployeeToSelectedList = ({ key, value }) => this.store.dispatch({
-    intent: ADD_EMPLOYEE,
-    key,
-    value,
-  })
+  addEmployeeToSelectedList = ({ key, value }) =>
+    this.store.dispatch({
+      intent: ADD_EMPLOYEE,
+      key,
+      value,
+    });
 
-  removeEmployeeFromSelectedList = id => this.store.dispatch({
-    intent: REMOVE_EMPLOYEE,
-    id,
-  })
+  removeEmployeeFromSelectedList = (id) =>
+    this.store.dispatch({
+      intent: REMOVE_EMPLOYEE,
+      id,
+    });
 
-  addExemptionToSelectedList = ({ key, value }) => this.store.dispatch({
-    intent: ADD_EXEMPTION,
-    key,
-    value,
-  })
+  addExemptionToSelectedList = ({ key, value }) =>
+    this.store.dispatch({
+      intent: ADD_EXEMPTION,
+      key,
+      value,
+    });
 
-  removeExemptionFromSelectedList = id => this.store.dispatch({
-    intent: REMOVE_EXEMPTION,
-    id,
-  })
+  removeExemptionFromSelectedList = (id) =>
+    this.store.dispatch({
+      intent: REMOVE_EXEMPTION,
+      id,
+    });
 
-  updateOverrideAccount = ({ key, value }) => this.store.dispatch({
-    intent: UPDATE_OVERRIDE_ACCOUNT,
-    key,
-    value,
-  })
+  updateOverrideAccount = ({ key, value }) =>
+    this.store.dispatch({
+      intent: UPDATE_OVERRIDE_ACCOUNT,
+      key,
+      value,
+    });
 
-  openModal = modalType => this.store.dispatch({ intent: OPEN_MODAL, modalType });
+  openModal = (modalType) =>
+    this.store.dispatch({ intent: OPEN_MODAL, modalType });
 
   closeModal = () => this.store.dispatch({ intent: CLOSE_MODAL });
 
   confirmBeforeDelete = () => {
     this.openModal('delete');
-  }
+  };
 
   confirmBeforeCancel = () => {
     if (getIsPageEdited(this.store.getState())) {
@@ -150,12 +157,12 @@ export default class WagePayItemModule {
     } else {
       this.redirectToWageList();
     }
-  }
+  };
 
   confirmCancel = () => {
     this.closeModal();
     this.redirectToWageList();
-  }
+  };
 
   deleteWagePayItem = () => {
     this.setIsSubmitting(true);
@@ -176,16 +183,19 @@ export default class WagePayItemModule {
     const state = this.store.getState();
     this.integration.write({
       intent: DELETE_PAY_ITEM,
-      urlParams: { businessId: getBusinessId(state), payItemId: getPayItemId(state) },
+      urlParams: {
+        businessId: getBusinessId(state),
+        payItemId: getPayItemId(state),
+      },
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   confirmDelete = () => {
     this.closeModal();
     this.deleteWagePayItem();
-  }
+  };
 
   redirectToWageList = () => {
     const state = this.store.getState();
@@ -193,12 +203,13 @@ export default class WagePayItemModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/payItem?tab=wages`;
-  }
+  };
 
-  setIsSubmitting = isSubmitting => this.store.dispatch({
-    intent: SET_IS_SUBMITTING,
-    isSubmitting,
-  })
+  setIsSubmitting = (isSubmitting) =>
+    this.store.dispatch({
+      intent: SET_IS_SUBMITTING,
+      isSubmitting,
+    });
 
   saveWagePayItem = () => {
     this.setIsSubmitting(true);
@@ -223,32 +234,37 @@ export default class WagePayItemModule {
     const intent = getIsCreating(state) ? CREATE_PAY_ITEM : UPDATE_PAY_ITEM;
     this.integration.write({
       intent,
-      urlParams: { businessId: getBusinessId(state), payItemId: getPayItemId(state) },
+      urlParams: {
+        businessId: getBusinessId(state),
+        payItemId: getPayItemId(state),
+      },
       content: payItemPayload,
       onSuccess,
       onFailure,
     });
-  }
+  };
 
-  dismissAlert = () => this.store.dispatch({
-    intent: SET_ALERT,
-    alert: undefined,
-  })
+  dismissAlert = () =>
+    this.store.dispatch({
+      intent: SET_ALERT,
+      alert: undefined,
+    });
 
-  setAlert = message => this.store.dispatch({
-    intent: SET_ALERT,
-    alert: {
-      type: 'danger',
-      message,
-    },
-  })
+  setAlert = (message) =>
+    this.store.dispatch({
+      intent: SET_ALERT,
+      alert: {
+        type: 'danger',
+        message,
+      },
+    });
 
   onJobKeeperChange = ({ value }) => {
     this.store.dispatch({
       intent: TOGGLE_JOB_KEEPER,
       isJobKeeper: value,
     });
-  }
+  };
 
   saveHandler = () => {
     const state = this.store.getState();
@@ -256,7 +272,7 @@ export default class WagePayItemModule {
     if (modalType) return;
 
     this.saveWagePayItem();
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,
@@ -270,7 +286,7 @@ export default class WagePayItemModule {
   }
 
   render = () => {
-    this.setRootView((
+    this.setRootView(
       <Provider store={this.store}>
         <WagePayItemView
           onDetailsChange={this.updatePayItemDetails}
@@ -290,8 +306,8 @@ export default class WagePayItemModule {
           onJobKeeperChange={this.onJobKeeperChange}
         />
       </Provider>
-    ));
-  }
+    );
+  };
 
   resetState() {
     const intent = RESET_STATE;
@@ -300,7 +316,7 @@ export default class WagePayItemModule {
     });
   }
 
-  unsubscribeFromStore= () => {
+  unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 }

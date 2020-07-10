@@ -2,10 +2,9 @@ import errorCode from '../errorCode';
 import getQueryFromParams from '../../../common/getQueryFromParams/getQueryFromParams';
 import isLinkUserPage from '../isLinkUserPage';
 
-
 const unlinkedUserHandler = {
-  canHandle: (response, responseBody) => response.status === 403
-        && responseBody.code === errorCode.UNLINKED_USER,
+  canHandle: (response, responseBody) =>
+    response.status === 403 && responseBody.code === errorCode.UNLINKED_USER,
   handle: ({ businessId }) => {
     const currentUrl = window.location.href;
 

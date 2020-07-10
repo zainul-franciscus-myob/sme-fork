@@ -43,7 +43,7 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import ModalType from './components/ModalType';
 
-const createSpendMoneyDispatcher = store => ({
+const createSpendMoneyDispatcher = (store) => ({
   setInitialState: (context) => {
     const intent = SET_INITIAL_STATE;
     store.dispatch({ intent, context });
@@ -59,13 +59,17 @@ const createSpendMoneyDispatcher = store => ({
     store.dispatch({ intent, isLoading });
   },
 
-  loadJobAfterCreate: (payload) => store.dispatch({
-    intent: LOAD_JOB_AFTER_CREATE, ...payload,
-  }),
+  loadJobAfterCreate: (payload) =>
+    store.dispatch({
+      intent: LOAD_JOB_AFTER_CREATE,
+      ...payload,
+    }),
 
-  setJobLoadingState: isJobLoading => store.dispatch({
-    intent: SET_JOB_LOADING_STATE, isJobLoading,
-  }),
+  setJobLoadingState: (isJobLoading) =>
+    store.dispatch({
+      intent: SET_JOB_LOADING_STATE,
+      isJobLoading,
+    }),
 
   loadSpendMoney: (intent, response) => {
     store.dispatch({
@@ -123,7 +127,10 @@ const createSpendMoneyDispatcher = store => ({
   updateSpendMoneyLine: (lineIndex, lineKey, lineValue) => {
     const intent = UPDATE_SPEND_MONEY_LINE;
     store.dispatch({
-      intent, lineIndex, lineKey, lineValue,
+      intent,
+      lineIndex,
+      lineKey,
+      lineValue,
     });
   },
 
@@ -226,16 +233,18 @@ const createSpendMoneyDispatcher = store => ({
     store.dispatch({ intent });
   },
 
-  loadAccountAfterCreate: payload => store.dispatch({
-    intent: LOAD_ACCOUNT_AFTER_CREATE,
-    ...payload,
-  }),
+  loadAccountAfterCreate: (payload) =>
+    store.dispatch({
+      intent: LOAD_ACCOUNT_AFTER_CREATE,
+      ...payload,
+    }),
 
-  loadContactAfterCreate: (contactId, payload) => store.dispatch({
-    intent: LOAD_CONTACT_AFTER_CREATE,
-    contactId,
-    ...payload,
-  }),
+  loadContactAfterCreate: (contactId, payload) =>
+    store.dispatch({
+      intent: LOAD_CONTACT_AFTER_CREATE,
+      contactId,
+      ...payload,
+    }),
 
   resetBankStatementText: ({ key, value }) => {
     store.dispatch({
@@ -245,39 +254,46 @@ const createSpendMoneyDispatcher = store => ({
     });
   },
 
-  updateBankStatementText: () => store.dispatch({
-    intent: UPDATE_BANK_STATEMENT_TEXT,
-  }),
+  updateBankStatementText: () =>
+    store.dispatch({
+      intent: UPDATE_BANK_STATEMENT_TEXT,
+    }),
 
-  setDuplicateId: duplicateId => store.dispatch({
-    intent: SET_DUPLICATE_ID,
-    duplicateId,
-  }),
+  setDuplicateId: (duplicateId) =>
+    store.dispatch({
+      intent: SET_DUPLICATE_ID,
+      duplicateId,
+    }),
 
-  setPrefillNew: ({ selectedBankAccountId, selectedDate }) => store.dispatch({
-    intent: SET_PREFILL_NEW,
-    selectedBankAccountId,
-    selectedDate,
-  }),
+  setPrefillNew: ({ selectedBankAccountId, selectedDate }) =>
+    store.dispatch({
+      intent: SET_PREFILL_NEW,
+      selectedBankAccountId,
+      selectedDate,
+    }),
 
-  setPrefillInTrayDocumentId: inTrayDocumentId => store.dispatch({
-    intent: SET_PREFILL_INTRAY_DOCUMENT_ID,
-    inTrayDocumentId,
-  }),
+  setPrefillInTrayDocumentId: (inTrayDocumentId) =>
+    store.dispatch({
+      intent: SET_PREFILL_INTRAY_DOCUMENT_ID,
+      inTrayDocumentId,
+    }),
 
-  setLoadingAbnState: isAbnLoading => store.dispatch({
-    intent: SET_ABN_LOADING_STATE,
-    isAbnLoading,
-  }),
+  setLoadingAbnState: (isAbnLoading) =>
+    store.dispatch({
+      intent: SET_ABN_LOADING_STATE,
+      isAbnLoading,
+    }),
 
-  loadAbn: abn => store.dispatch({
-    intent: LOAD_ABN_FROM_CONTACT,
-    abn,
-  }),
+  loadAbn: (abn) =>
+    store.dispatch({
+      intent: LOAD_ABN_FROM_CONTACT,
+      abn,
+    }),
 
-  clearAbn: () => store.dispatch({
-    intent: CLEAR_ABN,
-  }),
+  clearAbn: () =>
+    store.dispatch({
+      intent: CLEAR_ABN,
+    }),
 });
 
 export default createSpendMoneyDispatcher;

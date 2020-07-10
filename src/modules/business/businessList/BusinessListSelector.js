@@ -1,43 +1,42 @@
 import { createSelector } from 'reselect';
 
-export const getLoadingState = state => state.loadingState;
+export const getLoadingState = (state) => state.loadingState;
 
-export const getKeyword = state => state.keyword;
+export const getKeyword = (state) => state.keyword;
 
-const getBusinessList = state => state.businesses;
+const getBusinessList = (state) => state.businesses;
 
-const getIsDescending = state => state.sortOrder === 'desc';
+const getIsDescending = (state) => state.sortOrder === 'desc';
 
 export const getOrderBy = () => 'businessName';
 
-export const getOrder = createSelector(getIsDescending, getOrderBy, (descending, orderBy) => ({
-  column: orderBy,
-  descending,
-}));
-
-const filterBusinessesByName = keyword => ({ businessName }) => (
-  businessName.toLowerCase().includes(keyword.toLowerCase())
+export const getOrder = createSelector(
+  getIsDescending,
+  getOrderBy,
+  (descending, orderBy) => ({
+    column: orderBy,
+    descending,
+  })
 );
+
+const filterBusinessesByName = (keyword) => ({ businessName }) =>
+  businessName.toLowerCase().includes(keyword.toLowerCase());
 
 export const getBusinesses = createSelector(
   getKeyword,
-  state => state.businesses,
+  (state) => state.businesses,
   getIsDescending,
-  (keyword, businesses, isDescending) => businesses
-    .filter(filterBusinessesByName(keyword))
-    .sort(
-      (
-        { businessName: a },
-        { businessName: b },
-      ) => (isDescending
-        ? b.localeCompare(a)
-        : a.localeCompare(b)),
-    ),
+  (keyword, businesses, isDescending) =>
+    businesses
+      .filter(filterBusinessesByName(keyword))
+      .sort(({ businessName: a }, { businessName: b }) =>
+        isDescending ? b.localeCompare(a) : a.localeCompare(b)
+      )
 );
 
 export const getIsEmpty = createSelector(
   getBusinesses,
-  businesses => businesses.length === 0,
+  (businesses) => businesses.length === 0
 );
 
 export const getBusinessUrl = (state) => {

@@ -1,5 +1,10 @@
 import {
-  Alert, Button, Modal, Select, Separator, Spinner,
+  Alert,
+  Button,
+  Modal,
+  Select,
+  Separator,
+  Spinner,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -21,32 +26,46 @@ const CustomerStatementPDFModal = ({
   onDownloadPDF,
   isDownloadingPDF,
 }) => (
-  <Modal
-    title="Download PDF"
-    size="small"
-    onCancel={onDismissModal}
-  >
+  <Modal title="Download PDF" size="small" onCancel={onDismissModal}>
     <Modal.Body>
       {alertMessage && (
-        <Alert type="danger" onDismiss={onDismissModalAlert}>{alertMessage}</Alert>
+        <Alert type="danger" onDismiss={onDismissModalAlert}>
+          {alertMessage}
+        </Alert>
       )}
       {`You have selected ${customersSelected} customer statements.`}
       <Separator />
-      <Select name="selectedTemplateOption" label="Template" onChange={handleSelectChange(onUpdateTemplateOption)}>
+      <Select
+        name="selectedTemplateOption"
+        label="Template"
+        onChange={handleSelectChange(onUpdateTemplateOption)}
+      >
         {templateOptions.map(({ name }) => (
           <Select.Option value={name} label={name} />
         ))}
       </Select>
     </Modal.Body>
     <Modal.Footer>
-      <Button type="secondary" onClick={onDismissModal} disabled={isModalSubmitting}>Cancel</Button>
-      <Button type="primary" onClick={onDownloadPDF} disabled={isModalSubmitting}>Download PDF</Button>
-      { isDownloadingPDF && <Spinner size="small" /> }
+      <Button
+        type="secondary"
+        onClick={onDismissModal}
+        disabled={isModalSubmitting}
+      >
+        Cancel
+      </Button>
+      <Button
+        type="primary"
+        onClick={onDownloadPDF}
+        disabled={isModalSubmitting}
+      >
+        Download PDF
+      </Button>
+      {isDownloadingPDF && <Spinner size="small" />}
     </Modal.Footer>
   </Modal>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   templateOptions: getTemplateOptions(state),
   customersSelected: getCustomersSelected(state),
   isDownloadingPDF: getIsDownloadingPDF(state),

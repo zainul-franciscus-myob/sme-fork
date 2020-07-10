@@ -19,7 +19,10 @@ export default class BankReconciliationModule {
   constructor({ integration, setRootView }) {
     this.store = new Store(bankReconciliationReducer);
     this.dispatcher = createBankReconciliationDispatcher(this.store);
-    this.integrator = createBankReconciliationIntegrator(this.store, integration);
+    this.integrator = createBankReconciliationIntegrator(
+      this.store,
+      integration
+    );
     this.setRootView = setRootView;
   }
 
@@ -62,11 +65,10 @@ export default class BankReconciliationModule {
 
   setSubmittingState = (isSubmitting) => {
     this.dispatcher.setSubmittingState(isSubmitting);
-  }
+  };
 
-  shouldLoad = (key, value) => [
-    'selectedAccountId', 'statementDate',
-  ].includes(key) && value.length > 0;
+  shouldLoad = (key, value) =>
+    ['selectedAccountId', 'statementDate'].includes(key) && value.length > 0;
 
   updateHeaderOption = ({ key, value }) => {
     this.dispatcher.updateHeaderOption({
@@ -143,7 +145,7 @@ export default class BankReconciliationModule {
     };
 
     this.integrator.undoReconciliation({ onSuccess, onFailure });
-  }
+  };
 
   render = () => {
     const bankReconciliationView = (
@@ -161,9 +163,7 @@ export default class BankReconciliationModule {
     );
 
     const wrappedView = (
-      <Provider store={this.store}>
-        {bankReconciliationView}
-      </Provider>
+      <Provider store={this.store}>{bankReconciliationView}</Provider>
     );
 
     this.setRootView(wrappedView);
@@ -175,7 +175,7 @@ export default class BankReconciliationModule {
     if (isModalActive) return;
 
     this.saveBankReconciliation();
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,

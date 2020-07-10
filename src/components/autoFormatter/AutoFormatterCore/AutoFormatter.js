@@ -42,7 +42,9 @@ const Input = ({
             [styles.xl]: width === 'xl',
           })}
         />
-        {inputAccessory && <div className={styles.accessory}>{inputAccessory}</div>}
+        {inputAccessory && (
+          <div className={styles.accessory}>{inputAccessory}</div>
+        )}
       </div>
     )}
   />

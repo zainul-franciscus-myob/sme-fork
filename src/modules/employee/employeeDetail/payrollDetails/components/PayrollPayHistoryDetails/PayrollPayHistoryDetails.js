@@ -4,11 +4,7 @@ import PayrollPayHistoryDetailsAllocatedPayItems from './PayrollPayHistoryDetail
 import PayrollPayHistoryDetailsFilterOptions from './PayrollPayHistoryDetailsFilterOptions';
 
 const PayrollPayHistoryDetails = ({
-  listeners: {
-    onFilterChange,
-    onPayItemChange,
-    onPayItemClick,
-  },
+  listeners: { onFilterChange, onPayItemChange, onPayItemClick },
 }) => (
   <>
     <PayrollPayHistoryDetailsFilterOptions onChange={onFilterChange} />

@@ -11,10 +11,7 @@ const ImportChartOfAccountsDetail = ({
   onDeleteUnusedAccountsChange,
 }) => (
   <>
-    <UploadFile
-      onFileSelected={onFileSelected}
-      onFileRemove={onFileRemove}
-    />
+    <UploadFile onFileSelected={onFileSelected} onFileRemove={onFileRemove} />
     <DuplicateRecords
       onDuplicateRecordsOptionChange={onDuplicateRecordsOptionChange}
     />

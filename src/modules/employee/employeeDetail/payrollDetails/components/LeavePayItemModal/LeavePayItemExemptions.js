@@ -7,7 +7,7 @@ import LeavePayItemExemptionsTable from './LeavePayItemExemptionsTable';
 import PayItemCombobox from './PayItemCombobox';
 import styles from './LeavePayItemExemptions.module.css';
 
-const handleExemptionComboboxChange = handler => (item) => {
+const handleExemptionComboboxChange = (handler) => (item) => {
   handler(item);
 };
 
@@ -21,7 +21,8 @@ const LeavePayItemExemptions = ({
     <div>
       <span>Exemptions&nbsp;</span>
       <Tooltip triggerContent={<Icons.Info />} placement="right">
-        Select wage pay items to be excluded before calculating this per pay item
+        Select wage pay items to be excluded before calculating this per pay
+        item
       </Tooltip>
     </div>
   );
@@ -42,7 +43,7 @@ const LeavePayItemExemptions = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   exemptionOptions: getFilteredExemptions(state),
 });
 

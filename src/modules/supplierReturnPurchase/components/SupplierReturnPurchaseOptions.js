@@ -1,6 +1,4 @@
-import {
-  Combobox, DetailHeader, Input, TextArea,
-} from '@myob/myob-widgets';
+import { Combobox, DetailHeader, Input, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -17,7 +15,7 @@ import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInp
 import DatePicker from '../../../components/DatePicker/DatePicker';
 import styles from './SupplierReturnPurchaseOptions.module.css';
 
-const onTextFieldChange = handler => ({ target }) => {
+const onTextFieldChange = (handler) => ({ target }) => {
   const { name, value } = target;
   handler({ key: name, value });
 };
@@ -90,14 +88,13 @@ const SupplierReturnPurchaseOptions = ({
         requiredLabel={requiredLabel}
         disabled={!isCreating}
       />
-
     </div>
   );
 
   return <DetailHeader primary={primary} secondary={secondary} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   supplierName: getSupplierName(state),
   debitAmount: getDebitAmount(state),
   referenceId: getReferenceId(state),

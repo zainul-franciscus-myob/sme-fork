@@ -21,16 +21,20 @@ import createCustomerReturnListIntegrator from './createCustomerReturnListIntegr
 import customerReturnListReducer from './customerReturnListReducer';
 import debounce from '../../../common/debounce/debounce';
 
-const messageTypes = [SUCCESSFULLY_SAVED_PAY_REFUND, SUCCESSFULLY_SAVED_APPLY_TO_SALE];
+const messageTypes = [
+  SUCCESSFULLY_SAVED_PAY_REFUND,
+  SUCCESSFULLY_SAVED_APPLY_TO_SALE,
+];
 
 export default class CustomerReturnListModule {
-  constructor({
-    integration, setRootView, popMessages,
-  }) {
+  constructor({ integration, setRootView, popMessages }) {
     this.setRootView = setRootView;
     this.store = new Store(customerReturnListReducer);
     this.dispatcher = createCustomerReturnListDispatcher(this.store);
-    this.integrator = createCustomerReturnListIntegrator(this.store, integration);
+    this.integrator = createCustomerReturnListIntegrator(
+      this.store,
+      integration
+    );
     this.popMessages = popMessages;
     this.messageTypes = messageTypes;
   }
@@ -39,16 +43,14 @@ export default class CustomerReturnListModule {
     const [successMessage] = this.popMessages(this.messageTypes);
 
     if (successMessage) {
-      const {
-        content: message,
-      } = successMessage;
+      const { content: message } = successMessage;
 
       this.dispatcher.setAlert({
         type: 'success',
         message,
       });
     }
-  }
+  };
 
   redirectToCreateRefund = (id) => {
     const state = this.store.getState();
@@ -56,7 +58,7 @@ export default class CustomerReturnListModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/customerReturn/${id}/payRefund/new`;
-  }
+  };
 
   redirectToCreateApplyToSale = (id) => {
     const state = this.store.getState();
@@ -64,7 +66,7 @@ export default class CustomerReturnListModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/customerReturn/${id}/applyToSale/new`;
-  }
+  };
 
   loadCustomerReturnList = () => {
     const onSuccess = (response) => {
@@ -93,14 +95,17 @@ export default class CustomerReturnListModule {
     const onFailure = (response) => {
       this.dispatcher.setTableLoadingState(false);
       this.dispatcher.setAlert({
-        message: response.message, type: 'danger',
+        message: response.message,
+        type: 'danger',
       });
     };
 
     this.integrator.sortAndFilterCustomerReturnList({ onSuccess, onFailure });
   };
 
-  debouncedSortAndFilterCustomerReturnList = debounce(this.sortAndFilterCustomerReturnList);
+  debouncedSortAndFilterCustomerReturnList = debounce(
+    this.sortAndFilterCustomerReturnList
+  );
 
   updateSortOrder = (orderBy) => {
     const state = this.store.getState();
@@ -131,25 +136,28 @@ export default class CustomerReturnListModule {
       />
     );
 
-    const wrappedView = (
-      <Provider store={this.store}>
-        {View}
-      </Provider>
-    );
+    const wrappedView = <Provider store={this.store}>{View}</Provider>;
     this.setRootView(wrappedView);
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   run(context) {
-    const settings = loadSettings(context.businessId, RouteName.CUSTOMER_RETURN_LIST);
+    const settings = loadSettings(
+      context.businessId,
+      RouteName.CUSTOMER_RETURN_LIST
+    );
     this.dispatcher.setInitialState(context, settings);
     this.render();
-    this.store.subscribe(state => (
-      saveSettings(context.businessId, RouteName.CUSTOMER_RETURN_LIST, getSettings(state))
-    ));
+    this.store.subscribe((state) =>
+      saveSettings(
+        context.businessId,
+        RouteName.CUSTOMER_RETURN_LIST,
+        getSettings(state)
+      )
+    );
 
     this.readMessages();
     this.loadCustomerReturnList();

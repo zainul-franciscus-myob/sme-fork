@@ -1,4 +1,3 @@
-
 import AuBankDetailsSection from './components/AuBankDetailsSection';
 import NzBankDetailsSection from './components/NzBankDetailsSection';
 

@@ -33,15 +33,16 @@ const getDefaultState = () => ({
   businessId: '',
 });
 
-const getIncomeAllocationLines = (lines = []) => lines.map(({
-  retainedEarningsAccountId, currentEarningsAccountId, ...line
-}) => ({
-  retainedEarningsAccountId,
-  originalRetainedEarningsAccountId: retainedEarningsAccountId,
-  currentEarningsAccountId,
-  originalCurrentEarningsAccountId: currentEarningsAccountId,
-  ...line,
-}));
+const getIncomeAllocationLines = (lines = []) =>
+  lines.map(
+    ({ retainedEarningsAccountId, currentEarningsAccountId, ...line }) => ({
+      retainedEarningsAccountId,
+      originalRetainedEarningsAccountId: retainedEarningsAccountId,
+      currentEarningsAccountId,
+      originalCurrentEarningsAccountId: currentEarningsAccountId,
+      ...line,
+    })
+  );
 
 const loadIncomeAllocation = (state, action) => ({
   ...state,
@@ -56,20 +57,16 @@ const loadIncomeAllocation = (state, action) => ({
 
 const resetState = () => ({ ...getDefaultState() });
 
-const formatStringNumber = num => parseFloat(num).toFixed(2).toString();
+const formatStringNumber = (num) => parseFloat(num).toFixed(2).toString();
 const formatLine = (state, action) => ({
   ...state,
   incomeAllocation: {
     ...state.incomeAllocation,
-    lines: state.incomeAllocation.lines.map(
-      ({ equity, ...line }, index) => (
-        {
-          equity: index === action.index && equity
-            ? formatStringNumber(equity) : equity,
-          ...line,
-        }
-      ),
-    ),
+    lines: state.incomeAllocation.lines.map(({ equity, ...line }, index) => ({
+      equity:
+        index === action.index && equity ? formatStringNumber(equity) : equity,
+      ...line,
+    })),
   },
 });
 
@@ -81,7 +78,7 @@ const updateEntityType = (state, action) => ({
   },
 });
 
-const isHeaderAccountLineItem = lineKey => lineKey === 'headerAccountId';
+const isHeaderAccountLineItem = (lineKey) => lineKey === 'headerAccountId';
 
 const updateIncomeAllocationLine = (line, { lineKey, lineValue }) => {
   const updatedLine = {
@@ -91,16 +88,17 @@ const updateIncomeAllocationLine = (line, { lineKey, lineValue }) => {
 
   return isHeaderAccountLineItem(lineKey)
     ? {
-      ...updatedLine,
-      retainedEarningsAccountId: '',
-      currentEarningsAccountId: '',
-    }
+        ...updatedLine,
+        retainedEarningsAccountId: '',
+        currentEarningsAccountId: '',
+      }
     : updatedLine;
 };
 
-const getLinesForUpdate = (action, lines) => lines.map((line, index) => (
-  index === action.lineIndex ? updateIncomeAllocationLine(line, action) : line
-));
+const getLinesForUpdate = (action, lines) =>
+  lines.map((line, index) =>
+    index === action.lineIndex ? updateIncomeAllocationLine(line, action) : line
+  );
 
 const updateLine = (state, action) => ({
   ...state,
@@ -128,7 +126,9 @@ const deleteLine = (state, action) => ({
   ...state,
   incomeAllocation: {
     ...state.incomeAllocation,
-    lines: state.incomeAllocation.lines.filter((item, index) => index !== action.index),
+    lines: state.incomeAllocation.lines.filter(
+      (item, index) => index !== action.index
+    ),
   },
 });
 

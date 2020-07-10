@@ -1,6 +1,4 @@
-import {
-  Aside, Button, ButtonRow, Icons,
-} from '@myob/myob-widgets';
+import { Aside, Button, ButtonRow, Icons } from '@myob/myob-widgets';
 import React from 'react';
 
 import AbnMismatch from './AbnMismatch';
@@ -38,7 +36,14 @@ const ReportDetailView = ({
 }) => {
   const actions = (
     <Aside.Actions>
-      <Button testid="viewEmployeeReportLink" onClick={onViewEmployeeReportClick} icon={<Icons.GenericDocument />} type="link">View Employee YTD report (PDF)</Button>
+      <Button
+        testid="viewEmployeeReportLink"
+        onClick={onViewEmployeeReportClick}
+        icon={<Icons.GenericDocument />}
+        type="link"
+      >
+        View Employee YTD report (PDF)
+      </Button>
     </Aside.Actions>
   );
 
@@ -82,7 +87,9 @@ const ReportDetailView = ({
 
   const declarationAction = showDeclareAction && (
     <ButtonRow>
-      <Button type="primary" onClick={onDeclare}>Send to ATO</Button>
+      <Button type="primary" onClick={onDeclare}>
+        Send to ATO
+      </Button>
     </ButtonRow>
   );
 

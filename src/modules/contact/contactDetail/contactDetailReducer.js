@@ -87,7 +87,7 @@ const getDefaultState = () => ({
   isValidatingAbn: false,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 const pageEdited = { isPageEdited: true };
 
 const loadContactDetail = (state, action) => ({
@@ -165,13 +165,12 @@ const setAlertMessage = (state, action) => ({
   alertMessage: action.alertMessage,
 });
 
-
 const openModal = (state, action) => ({
   ...state,
   modalType: action.modalType,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modalType: '',
 });
@@ -183,10 +182,7 @@ const setInitialState = (state, action) => ({
 
 export const loadAccountAfterCreate = (state, { account }) => ({
   ...state,
-  accountOptions: [
-    account,
-    ...state.accountOptions,
-  ],
+  accountOptions: [account, ...state.accountOptions],
   isPageEdited: true,
 });
 

@@ -22,24 +22,31 @@ import successResponse from './data/success.json';
 
 const MemoryInTrayMapping = {
   [LOAD_IN_TRAY]: ({ onSuccess }) => onSuccess(loadInTrayResponse),
-  [GENERATE_IN_TRAY_EMAIL]: ({ onSuccess }) => onSuccess(generateInTrayEmailResponse),
-  [SORT_AND_FILTER_IN_TRAY_LIST]: ({ onSuccess }) => onSuccess(filteredInTrayList),
+  [GENERATE_IN_TRAY_EMAIL]: ({ onSuccess }) =>
+    onSuccess(generateInTrayEmailResponse),
+  [SORT_AND_FILTER_IN_TRAY_LIST]: ({ onSuccess }) =>
+    onSuccess(filteredInTrayList),
   [CREATE_IN_TRAY_DOCUMENT]: ({ onSuccess }) => {
-    const { entry: { id, ...res } } = createInTrayFileResponse;
+    const {
+      entry: { id, ...res },
+    } = createInTrayFileResponse;
     const entry = { ...res, id: `${id}-${Math.random()}` };
     onSuccess({ ...createInTrayFileResponse, entry });
   },
   [DELETE_IN_TRAY_DOCUMENT]: ({ onSuccess }) => onSuccess(successResponse),
-  [DOWNLOAD_IN_TRAY_DOCUMENT]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
+  [DOWNLOAD_IN_TRAY_DOCUMENT]: ({ onSuccess }) =>
+    onSuccess(new Blob([], { type: 'application/pdf' })),
   [LOAD_IN_TRAY_MODAL]: ({ onSuccess }) => onSuccess(loadInTrayModalResponse),
   [CREATE_IN_TRAY_MODAL_DOCUMENT]: ({ onSuccess }) => {
-    const { entry: { id, ...res } } = createInTrayModalFileResponse;
+    const {
+      entry: { id, ...res },
+    } = createInTrayModalFileResponse;
     const entry = { ...res, id: `${id}-${Math.random()}` };
     onSuccess({ ...createInTrayModalFileResponse, entry });
   },
-  [VIEW_IN_TRAY_MODAL_DOCUMENT]: ({ onSuccess }) => onSuccess(downloadInTrayModalFileResponse),
+  [VIEW_IN_TRAY_MODAL_DOCUMENT]: ({ onSuccess }) =>
+    onSuccess(downloadInTrayModalFileResponse),
   [POLL_INTRAY_LIST]: ({ onSuccess }) => onSuccess(pollInTrayResponse),
-
 };
 
 export default MemoryInTrayMapping;

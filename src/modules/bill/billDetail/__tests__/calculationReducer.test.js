@@ -1,7 +1,10 @@
 import Decimal from 'decimal.js';
 
 import { CALCULATE_LINE_AMOUNTS, GET_TAX_CALCULATIONS } from '../BillIntents';
-import { calculateLineAmounts, getTaxCalculations } from '../reducer/calculationReducer';
+import {
+  calculateLineAmounts,
+  getTaxCalculations,
+} from '../reducer/calculationReducer';
 import BillLayout from '../types/BillLayout';
 import BillLineType from '../types/BillLineType';
 
@@ -15,12 +18,14 @@ describe('calculationReducer', () => {
       amount: '0',
     };
 
-    const buildState = partialLine => ({
+    const buildState = (partialLine) => ({
       bill: {
-        lines: [{
-          ...baseline,
-          ...partialLine,
-        }],
+        lines: [
+          {
+            ...baseline,
+            ...partialLine,
+          },
+        ],
         amountPaid: '',
       },
     });
@@ -29,21 +34,27 @@ describe('calculationReducer', () => {
       intent: GET_TAX_CALCULATIONS,
       taxCalculations: {
         lines: [
-          { taxExclusiveAmount: Decimal(90.91), taxAmount: Decimal(9.09), amount: Decimal(100) },
+          {
+            taxExclusiveAmount: Decimal(90.91),
+            taxAmount: Decimal(9.09),
+            amount: Decimal(100),
+          },
         ],
       },
       isSwitchingTaxInclusive: true,
     };
 
-    const buildExpect = partialLine => ({
+    const buildExpect = (partialLine) => ({
       bill: {
-        lines: [{
-          ...baseline,
-          ...partialLine,
-          taxExclusiveAmount: '90.91',
-          taxAmount: '9.09',
-          amount: '100',
-        }],
+        lines: [
+          {
+            ...baseline,
+            ...partialLine,
+            taxExclusiveAmount: '90.91',
+            taxAmount: '9.09',
+            amount: '100',
+          },
+        ],
         amountPaid: '',
       },
       isPageEdited: true,
@@ -80,7 +91,9 @@ describe('calculationReducer', () => {
       { key: 'units', value: '0' },
       { key: 'discount', value: '100' },
     ].forEach(({ key, value }) => {
-      it(`should only update amount when switching tax inclusive toggle and ${key} is ${value || 'empty'}`, () => {
+      it(`should only update amount when switching tax inclusive toggle and ${key} is ${
+        value || 'empty'
+      }`, () => {
         const partialLine = { [key]: value };
         const state = buildState(partialLine);
 
@@ -97,14 +110,14 @@ describe('calculationReducer', () => {
 
   describe('CALCULATE_LINE_AMOUNTS', () => {
     describe('itemAndService layout', () => {
-      const buildState = line => ({
+      const buildState = (line) => ({
         bill: {
           layout: BillLayout.ITEM_AND_SERVICE,
           lines: [line],
         },
       });
 
-      const buildAction = key => ({
+      const buildAction = (key) => ({
         intent: CALCULATE_LINE_AMOUNTS,
         key,
         index: 0,
@@ -203,7 +216,9 @@ describe('calculationReducer', () => {
           { key: 'units', value: '0' },
           { key: 'amount', value: '' },
         ].forEach(({ key, value }) => {
-          it(`should not calculate discount when ${key} is ${value || 'empty'}`, () => {
+          it(`should not calculate discount when ${key} is ${
+            value || 'empty'
+          }`, () => {
             const state = buildState({
               ...baseline,
               [key]: value,
@@ -259,7 +274,9 @@ describe('calculationReducer', () => {
           { key: 'discount', value: '100' },
           { key: 'amount', value: '' },
         ].forEach(({ key, value }) => {
-          it(`should not calculate unitPrice when ${key} is ${value || 'empty'}`, () => {
+          it(`should not calculate unitPrice when ${key} is ${
+            value || 'empty'
+          }`, () => {
             const state = buildState({
               ...baseline,
               [key]: value,
@@ -311,7 +328,11 @@ describe('calculationReducer', () => {
             lines: [{ type, amount }],
           },
         };
-        const action = { intent: CALCULATE_LINE_AMOUNTS, key: 'amount', index: 0 };
+        const action = {
+          intent: CALCULATE_LINE_AMOUNTS,
+          key: 'amount',
+          index: 0,
+        };
 
         const actual = calculateLineAmounts(state, action);
 

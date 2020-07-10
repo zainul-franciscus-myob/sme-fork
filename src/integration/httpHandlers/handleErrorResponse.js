@@ -16,7 +16,7 @@ const handlers = [
   defaultHandler,
 ];
 const handleErrorResponse = ({ response, responseBody, urlParams }) => {
-  const handler = handlers.find(h => h.canHandle(response, responseBody));
+  const handler = handlers.find((h) => h.canHandle(response, responseBody));
   handler.handle(urlParams);
 };
 

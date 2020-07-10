@@ -8,11 +8,18 @@ import updatedEmployeeDetailResponse from './data/updateEmployeeDetailResponse';
 
 const loadEmployeeList = ({ onSuccess }) => onSuccess(employeeListResponse);
 const loadEmployeeDetail = ({ onSuccess }) => onSuccess(employeeDetailResponse);
-const updateEmployee = ({ onSuccess }) => { onSuccess(updatedEmployeeDetailResponse); };
-const deleteEmployee = ({ onSuccess }) => { onSuccess(success); };
-const loadNewEmployee = ({ onSuccess }) => { onSuccess(loadNewEmployeeResponse); };
-const createEmployee = ({ onSuccess }) => { onSuccess(createEmployeeResponse); };
-
+const updateEmployee = ({ onSuccess }) => {
+  onSuccess(updatedEmployeeDetailResponse);
+};
+const deleteEmployee = ({ onSuccess }) => {
+  onSuccess(success);
+};
+const loadNewEmployee = ({ onSuccess }) => {
+  onSuccess(loadNewEmployeeResponse);
+};
+const createEmployee = ({ onSuccess }) => {
+  onSuccess(createEmployeeResponse);
+};
 
 const EmployeeListNzMapping = {
   [intents.LOAD_EMPLOYEE_LIST]: loadEmployeeList,

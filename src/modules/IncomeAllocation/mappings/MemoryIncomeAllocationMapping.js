@@ -1,10 +1,12 @@
 import {
-  LOAD_INCOME_ALLOCATION, SAVE_INCOME_ALLOCATION,
+  LOAD_INCOME_ALLOCATION,
+  SAVE_INCOME_ALLOCATION,
 } from '../IncomeAllocationIntents';
 import incomeAllocationReadResponse from './data/loadIncomeAllocation';
 import successResponse from './data/success.json';
 
-const readIncomeAllocation = ({ onSuccess }) => onSuccess(incomeAllocationReadResponse);
+const readIncomeAllocation = ({ onSuccess }) =>
+  onSuccess(incomeAllocationReadResponse);
 
 const saveIncomeAllocation = ({ onSuccess }) => onSuccess(successResponse);
 

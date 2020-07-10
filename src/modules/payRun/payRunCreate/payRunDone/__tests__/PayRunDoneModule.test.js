@@ -8,24 +8,29 @@ import PayRunModule from '../../PayRunModule';
 
 describe('PayRunDoneModule', () => {
   const constructPayRunDoneModule = () => {
-    const integration = { write: ({ onSuccess }) => { onSuccess({ message: 'success' }); } };
+    const integration = {
+      write: ({ onSuccess }) => {
+        onSuccess({ message: 'success' });
+      },
+    };
     const pushMessage = () => {};
-    const setRootView = () => (<div />);
+    const setRootView = () => <div />;
     const isToggleOn = () => true;
     const payRunModule = new PayRunModule({
-      integration, setRootView, pushMessage, isToggleOn,
+      integration,
+      setRootView,
+      pushMessage,
+      isToggleOn,
     });
 
     const payRunDoneModule = new PayRunDoneModule({
-      integration, store: payRunModule.store, pushMessage,
+      integration,
+      store: payRunModule.store,
+      pushMessage,
     });
     const view = payRunDoneModule.getView();
 
-    const wrappedView = (
-      <Provider store={payRunModule.store}>
-        {view}
-      </Provider>
-    );
+    const wrappedView = <Provider store={payRunModule.store}>{view}</Provider>;
 
     const wrapper = mount(wrappedView);
 

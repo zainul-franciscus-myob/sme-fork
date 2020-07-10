@@ -1,4 +1,3 @@
-
 import {
   CLOSE_MODAL,
   LOAD_BANK_RECONCILIATION,
@@ -20,7 +19,7 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import { getAccountId } from './BankReconciliationSelectors';
 import ModalType from './ModalType';
 
-const createBankReconciliationDispatcher = store => ({
+const createBankReconciliationDispatcher = (store) => ({
   resetState: () => {
     store.dispatch({
       intent: RESET_STATE,
@@ -79,14 +78,16 @@ const createBankReconciliationDispatcher = store => ({
       value,
     });
   },
-  selectRow: ({ index, value }) => store.dispatch({
-    intent: SELECT_ROW,
-    index,
-    value,
-  }),
-  selectAll: () => store.dispatch({
-    intent: SELECT_ALL,
-  }),
+  selectRow: ({ index, value }) =>
+    store.dispatch({
+      intent: SELECT_ROW,
+      index,
+      value,
+    }),
+  selectAll: () =>
+    store.dispatch({
+      intent: SELECT_ALL,
+    }),
   openUndoReconciliationModal: () => {
     store.dispatch({
       intent: OPEN_MODAL,

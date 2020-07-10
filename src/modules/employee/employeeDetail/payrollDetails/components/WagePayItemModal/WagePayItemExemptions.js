@@ -1,5 +1,10 @@
 import {
-  Button, Combobox, FieldGroup, Icons, Table, Tooltip,
+  Button,
+  Combobox,
+  FieldGroup,
+  Icons,
+  Table,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -13,7 +18,7 @@ const filteredListExemptionsMetadata = [{ columnName: 'name', showData: true }];
 const title = (
   <React.Fragment>
     Exemptions&nbsp;
-    <Tooltip triggerContent={(<Icons.Info />)}>
+    <Tooltip triggerContent={<Icons.Info />}>
       Select any deductions or taxes that will be excluded from this pay item
     </Tooltip>
   </React.Fragment>
@@ -44,13 +49,18 @@ const WagePayItemExemptions = ({
             <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
             <Table.RowItem {...tableConfig.type}>{itemType}</Table.RowItem>
             <Table.RowItem {...tableConfig.actions} cellRole="actions">
-              <Tooltip triggerContent={(
-                <Button type="secondary" size="xs" onClick={() => onRemoveExemption(id)}>
-                  <Icons.Remove />
-                </Button>
-              )}
+              <Tooltip
+                triggerContent={
+                  <Button
+                    type="secondary"
+                    size="xs"
+                    onClick={() => onRemoveExemption(id)}
+                  >
+                    <Icons.Remove />
+                  </Button>
+                }
               >
-              Remove exemption
+                Remove exemption
               </Tooltip>
             </Table.RowItem>
           </Table.Row>
@@ -67,7 +77,8 @@ const WagePayItemExemptions = ({
       onChange={handleComboboxChange('exemptions', onExemptionSelected)}
       width="lg"
     />
-  </FieldGroup>);
+  </FieldGroup>
+);
 
 const mapToStateProps = getExemptionAllocations;
 

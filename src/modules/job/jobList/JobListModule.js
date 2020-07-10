@@ -16,14 +16,10 @@ import createJobListIntegrator from './createJobListIntegrator';
 import debounce from '../../../common/debounce/debounce';
 import jobListReducer from './jobListReducer';
 
-const messageTypes = [
-  SUCCESSFULLY_DELETED_JOB, SUCCESSFULLY_SAVED_JOB,
-];
+const messageTypes = [SUCCESSFULLY_DELETED_JOB, SUCCESSFULLY_SAVED_JOB];
 
 export default class JobListModule {
-  constructor({
-    integration, setRootView, popMessages, isToggleOn,
-  }) {
+  constructor({ integration, setRootView, popMessages, isToggleOn }) {
     this.integration = integration;
     this.store = new Store(jobListReducer);
     this.setRootView = setRootView;
@@ -44,7 +40,7 @@ export default class JobListModule {
     } else {
       this.filterJobList();
     }
-  }
+  };
 
   render = () => {
     const jobListView = (
@@ -55,15 +51,13 @@ export default class JobListModule {
       />
     );
 
-    const view = this.isToggleOn(FeatureToggles.EssentialsJobs)
-      ? jobListView
-      : <WrongPageState />;
-
-    const wrappedView = (
-      <Provider store={this.store}>
-        {view}
-      </Provider>
+    const view = this.isToggleOn(FeatureToggles.EssentialsJobs) ? (
+      jobListView
+    ) : (
+      <WrongPageState />
     );
+
+    const wrappedView = <Provider store={this.store}>{view}</Provider>;
     this.setRootView(wrappedView);
   };
 
@@ -78,14 +72,14 @@ export default class JobListModule {
     };
 
     this.integrator.loadJobList({ onSuccess, onFailure });
-  }
+  };
 
   redirectToAddJob = () => {
     const state = this.store.getState();
     const url = getJobCreateLink(state);
 
     window.location.href = url;
-  }
+  };
 
   filterJobList = () => {
     this.dispatcher.setTableLoadingState(true);
@@ -109,7 +103,7 @@ export default class JobListModule {
       const { content: message } = successMessage;
       this.dispatcher.setAlert({ type: 'success', message });
     }
-  }
+  };
 
   run(context) {
     this.dispatcher.setInitialState({

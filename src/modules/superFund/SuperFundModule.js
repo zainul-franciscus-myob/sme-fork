@@ -6,9 +6,7 @@ import SuperFundNoPaySuperModule from './superFundNoPaySuper/SuperFundNoPaySuper
 import SuperFundWithPaySuperModule from './superFundWithPaySuper/SuperFundWithPaySuperModule';
 
 export default class SuperFundModule {
-  constructor({
-    integration, setRootView, pushMessage,
-  }) {
+  constructor({ integration, setRootView, pushMessage }) {
     this.module = undefined;
     this.integration = integration;
     this.setRootView = setRootView;
@@ -43,9 +41,10 @@ export default class SuperFundModule {
       superFundId,
     };
 
-    const intent = superFundId === 'new' ? LOAD_NEW_SUPER_FUND : LOAD_SUPER_FUND;
+    const intent =
+      superFundId === 'new' ? LOAD_NEW_SUPER_FUND : LOAD_SUPER_FUND;
 
-    const onSuccess = payload => this.loadSuperFundModule(context, payload);
+    const onSuccess = (payload) => this.loadSuperFundModule(context, payload);
     // eslint-disable-next-line no-console
     const onFailure = () => console.log('Failed to get initial load');
 

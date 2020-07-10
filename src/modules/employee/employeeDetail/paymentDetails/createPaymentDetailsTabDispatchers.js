@@ -1,7 +1,10 @@
-import { UPDATE_BANK_ACCOUNT_DETAILS, UPDATE_PAYMENT_DETAILS } from '../../EmployeeIntents';
+import {
+  UPDATE_BANK_ACCOUNT_DETAILS,
+  UPDATE_PAYMENT_DETAILS,
+} from '../../EmployeeIntents';
 import createEmployeeDetailDispatcher from '../createEmployeeDetailDispatcher';
 
-const createPaymentDetailsTabDispatchers = store => ({
+const createPaymentDetailsTabDispatchers = (store) => ({
   ...createEmployeeDetailDispatcher(store),
 
   updatePaymentDetails: ({ key, value }) => {

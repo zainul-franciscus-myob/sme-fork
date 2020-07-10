@@ -1,6 +1,4 @@
-import {
-  SET_EMPLOYEE_PAY_REVERSAL_PREVIEW_MODAL,
-} from '../EmployeePayModalIntents';
+import { SET_EMPLOYEE_PAY_REVERSAL_PREVIEW_MODAL } from '../EmployeePayModalIntents';
 import employeePayModalReducer from '../employeePayModalReducer';
 
 describe('employeePayModalReducer', () => {
@@ -11,7 +9,7 @@ describe('employeePayModalReducer', () => {
       const state = { employeePay: { isReversalPreview: false } };
       const action = {
         intent: SET_EMPLOYEE_PAY_REVERSAL_PREVIEW_MODAL,
-        response: { },
+        response: {},
       };
 
       const actual = reducer(state, action);

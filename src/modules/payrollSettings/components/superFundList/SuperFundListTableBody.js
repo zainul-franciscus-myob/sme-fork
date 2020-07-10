@@ -7,7 +7,7 @@ import { getTableEntries } from '../../selectors/superFundListSelectors';
 const SuperFundListTableBody = (props) => {
   const { tableConfig, entries } = props;
 
-  const rows = entries.map(entry => (
+  const rows = entries.map((entry) => (
     <Table.Row key={entry.id}>
       <Table.RowItem {...tableConfig.name}>
         <a href={entry.link}>{entry.name}</a>
@@ -17,14 +17,10 @@ const SuperFundListTableBody = (props) => {
     </Table.Row>
   ));
 
-  return (
-    <Table.Body>
-      {rows}
-    </Table.Body>
-  );
+  return <Table.Body>{rows}</Table.Body>;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   entries: getTableEntries(state),
 });
 

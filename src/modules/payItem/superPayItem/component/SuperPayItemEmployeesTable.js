@@ -1,6 +1,4 @@
-import {
-  Button, Icons, Table, Tooltip,
-} from '@myob/myob-widgets';
+import { Button, Icons, Table, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -11,10 +9,7 @@ const onButtonClick = (handler, id) => () => {
 };
 
 const SuperPayItemEmployeesTable = (props) => {
-  const {
-    employees,
-    onRemoveSuperPayItemEmployee,
-  } = props;
+  const { employees, onRemoveSuperPayItemEmployee } = props;
 
   const tableConfig = {
     name: { width: 'flex-1', valign: 'middle' },
@@ -27,11 +22,15 @@ const SuperPayItemEmployeesTable = (props) => {
       <Table.RowItem cellRole="actions" {...tableConfig.actions}>
         <Tooltip
           placement="left"
-          triggerContent={(
-          <Button type="secondary" size="xs" onClick={onButtonClick(onRemoveSuperPayItemEmployee, id)}>
-            <Icons.Remove />
-          </Button>
-        )}
+          triggerContent={
+            <Button
+              type="secondary"
+              size="xs"
+              onClick={onButtonClick(onRemoveSuperPayItemEmployee, id)}
+            >
+              <Icons.Remove />
+            </Button>
+          }
         >
           Remove employee
         </Tooltip>
@@ -45,14 +44,12 @@ const SuperPayItemEmployeesTable = (props) => {
         <Table.HeaderItem {...tableConfig.name}>Name</Table.HeaderItem>
         <Table.HeaderItem {...tableConfig.actions} />
       </Table.Header>
-      <Table.Body>
-        {rows}
-      </Table.Body>
+      <Table.Body>{rows}</Table.Body>
     </Table>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   employees: getSuperPayItemEmployees(state),
 });
 

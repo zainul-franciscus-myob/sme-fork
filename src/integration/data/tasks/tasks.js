@@ -49,7 +49,8 @@ export default (region, cdfguid) => [
   },
   {
     action: `/#/${region}/${cdfguid}/invoiceBusinessSettings`,
-    description: 'First impressions matter and we’ll make sure yours is a beauty',
+    description:
+      'First impressions matter and we’ll make sure yours is a beauty',
     key: 'personaliseInvoice',
     title: 'Build your invoice template',
     closeEvent: 'personalisedInvoices',

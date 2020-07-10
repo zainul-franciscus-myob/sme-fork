@@ -32,8 +32,10 @@ const validationRules = {
 };
 
 const validate = (rules = { numeralIntegerScale: undefined }) => (value) => {
-  const rulesToValidateBy = Object.keys(rules).filter(rule => Boolean(rules[rule]));
-  const validatedRules = rulesToValidateBy.map(rule => {
+  const rulesToValidateBy = Object.keys(rules).filter((rule) =>
+    Boolean(rules[rule])
+  );
+  const validatedRules = rulesToValidateBy.map((rule) => {
     const propValue = rules[rule];
     return validationRules[rule](value, propValue);
   });

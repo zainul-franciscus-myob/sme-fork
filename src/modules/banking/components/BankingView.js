@@ -1,6 +1,4 @@
-import {
-  Alert, BulkActions, StandardTemplate,
-} from '@myob/myob-widgets';
+import { Alert, BulkActions, StandardTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -112,7 +110,7 @@ const BankingView = (props) => {
         onSaveBulkAllocation={onSaveBulkAllocation}
         onCloseBulkAllocation={onCloseBulkAllocation}
       />
-      { bulkMessage }
+      {bulkMessage}
     </BulkActions>
   );
 
@@ -137,8 +135,8 @@ const BankingView = (props) => {
     </Alert>
   );
 
-  const modal = (modalType
-    && (<BankingModal
+  const modal = modalType && (
+    <BankingModal
       onDismissModalAlert={onDismissModalAlert}
       modalType={modalType}
       getBankingRuleModal={getBankingRuleModal}
@@ -150,15 +148,19 @@ const BankingView = (props) => {
       onSaveTransferMoney={onSaveTransferMoney}
       onUpdateTransfer={onUpdateTransfer}
     />
-    ));
+  );
 
   const transactionListView = (
-    <div className={`${isEntryLoading ? styles.entryLoading : ''} ${styles.bankTransactionView}`}>
+    <div
+      className={`${isEntryLoading ? styles.entryLoading : ''} ${
+        styles.bankTransactionView
+      }`}
+    >
       <StandardTemplate sticky="all" alert={alertComponent} pageHead={pageHead}>
         {modal}
         {accountModal}
         {inTrayModal}
-        { jobModal }
+        {jobModal}
         <BankTransactionTable
           onSort={onSort}
           onAddAccount={onAddAccount}
@@ -183,7 +185,9 @@ const BankingView = (props) => {
           onUpdateMatchTransactionOptions={onUpdateMatchTransactionOptions}
           onSortMatchTransactions={onSortMatchTransactions}
           onUpdateMatchTransactionSelection={onUpdateMatchTransactionSelection}
-          onUpdateSelectedTransactionDetails={onUpdateSelectedTransactionDetails}
+          onUpdateSelectedTransactionDetails={
+            onUpdateSelectedTransactionDetails
+          }
           onAddAdjustment={onAddAdjustment}
           onUpdateAdjustment={onUpdateAdjustment}
           onRemoveAdjustment={onRemoveAdjustment}
@@ -226,7 +230,7 @@ const BankingView = (props) => {
   return <PageView isLoading={isLoading} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   hasError: getHasError(state),
   isLoading: getIsLoading(state),

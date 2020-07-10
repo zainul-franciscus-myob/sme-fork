@@ -13,10 +13,10 @@ const setInitialState = (state, action) => ({
 
 const load = (state, { context }) => {
   const { isOnlineOnly } = context;
-  return ({
+  return {
     ...state,
     isOnlineOnly,
-  });
+  };
 };
 
 const handlers = {

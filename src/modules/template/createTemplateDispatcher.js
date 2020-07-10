@@ -98,9 +98,11 @@ const createTemplateDispatcher = (store) => ({
     });
   },
 
-  setPayDirectLoadingState: (isLoading) => store.dispatch({
-    intent: SET_PAY_DIRECT_LOADING_STATE, isLoading,
-  }),
+  setPayDirectLoadingState: (isLoading) =>
+    store.dispatch({
+      intent: SET_PAY_DIRECT_LOADING_STATE,
+      isLoading,
+    }),
 
   setLoadingState: (isLoading) => {
     store.dispatch({

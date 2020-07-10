@@ -25,9 +25,7 @@ describe('EmploymentDetailsSelectors', () => {
 
   describe('getCalculatedAge', () => {
     afterEach(jest.resetAllMocks);
-    beforeEach(() => {
-
-    });
+    beforeEach(() => {});
     const dateOfBirth = '2000-01-01T00:00:00';
     const state = {
       payrollDetails: {
@@ -36,10 +34,8 @@ describe('EmploymentDetailsSelectors', () => {
         },
       },
     };
-    const mockCurrentTime = date => {
-      jest
-        .spyOn(global.Date, 'now')
-        .mockReturnValue(date.getTime());
+    const mockCurrentTime = (date) => {
+      jest.spyOn(global.Date, 'now').mockReturnValue(date.getTime());
     };
 
     it('should caculate the age', () => {
@@ -54,8 +50,7 @@ describe('EmploymentDetailsSelectors', () => {
       mockCurrentTime(currentDate);
       const stateWithoutDoB = {
         payrollDetails: {
-          employmentDetails: {
-          },
+          employmentDetails: {},
         },
       };
 

@@ -1,17 +1,16 @@
 import {
-  Button, ButtonRow, Card, FormHorizontal, Input,
+  Button,
+  ButtonRow,
+  Card,
+  FormHorizontal,
+  Input,
 } from '@myob/myob-widgets';
 import React from 'react';
 
 import handleInputChange from '../../../../../components/handlers/handleInputChange';
 
 const AgentContact = ({
-  agentContact: {
-    firstName,
-    lastName,
-    email,
-    phone,
-  },
+  agentContact: { firstName, lastName, email, phone },
   onBusinessContactChange,
   onEditBusinessContactClick,
 }) => {

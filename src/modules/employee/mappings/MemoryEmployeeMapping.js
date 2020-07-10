@@ -1,6 +1,7 @@
 import {
   CREATE_DEDUCTION_PAY_ITEM_MODAL,
-  CREATE_EMPLOYEE, CREATE_EXPENSE_PAY_ITEM_MODAL,
+  CREATE_EMPLOYEE,
+  CREATE_EXPENSE_PAY_ITEM_MODAL,
   CREATE_LEAVE_PAY_ITEM,
   CREATE_SUPER_FUND,
   CREATE_SUPER_PAY_ITEM_MODAL,
@@ -25,7 +26,8 @@ import {
   LOAD_TAX_PAY_ITEM_MODAL,
   LOAD_WAGE_PAY_ITEM_MODAL,
   SORT_AND_FILTER_EMPLOYEE_LIST,
-  UPDATE_DEDUCTION_PAY_ITEM_MODAL, UPDATE_EMPLOYEE,
+  UPDATE_DEDUCTION_PAY_ITEM_MODAL,
+  UPDATE_EMPLOYEE,
   UPDATE_EXPENSE_PAY_ITEM_MODAL,
   UPDATE_LEAVE_PAY_ITEM,
   UPDATE_SUPER_PAY_ITEM_MODAL,
@@ -66,92 +68,108 @@ import updatedEmployeeDetailResponse from './data/updateEmployeeDetailResponse';
 import updatedLeavePayItemModalResponse from './data/updatedLeavePayItemModalResponse';
 import updatedWagePayItemModalResponse from './data/updatedWagePayItemModalResponse';
 
-const loadEmployeeList = ({ onSuccess }) => { onSuccess(employeeListResponse); };
+const loadEmployeeList = ({ onSuccess }) => {
+  onSuccess(employeeListResponse);
+};
 
-const sortAndFilterEmployeeList = ({ onSuccess }) => { onSuccess(employeeListFilterResponse); };
+const sortAndFilterEmployeeList = ({ onSuccess }) => {
+  onSuccess(employeeListFilterResponse);
+};
 
-const loadEmployeeDetail = ({ onSuccess }) => { onSuccess(employeeDetailLoadResponse); };
+const loadEmployeeDetail = ({ onSuccess }) => {
+  onSuccess(employeeDetailLoadResponse);
+};
 
-const loadNewEmployeeDetail = ({ onSuccess }) => { onSuccess(newEmployeeDetailResponse); };
+const loadNewEmployeeDetail = ({ onSuccess }) => {
+  onSuccess(newEmployeeDetailResponse);
+};
 
-const updateEmployee = ({ onSuccess }) => { onSuccess(updatedEmployeeDetailResponse); };
+const updateEmployee = ({ onSuccess }) => {
+  onSuccess(updatedEmployeeDetailResponse);
+};
 
-const deleteEmployee = ({ onSuccess }) => { onSuccess(successResponse); };
+const deleteEmployee = ({ onSuccess }) => {
+  onSuccess(successResponse);
+};
 
-const createEmployee = ({ onSuccess }) => { onSuccess(successEmployeeCreateResponse); };
+const createEmployee = ({ onSuccess }) => {
+  onSuccess(successEmployeeCreateResponse);
+};
 
-const loadEmployeeListNextPage = ({ onSuccess }) => { onSuccess(employeeListNextPageResponse); };
+const loadEmployeeListNextPage = ({ onSuccess }) => {
+  onSuccess(employeeListNextPageResponse);
+};
 
-const loadStandardPayWageAmountRule = ({ onSuccess }) => (
-  onSuccess(loadStandardPayWageAmountRuleResponse)
-);
+const loadStandardPayWageAmountRule = ({ onSuccess }) =>
+  onSuccess(loadStandardPayWageAmountRuleResponse);
 
-const loadTaxPayItemModalDetails = ({ onSuccess }) => onSuccess(taxPayItemResponse);
+const loadTaxPayItemModalDetails = ({ onSuccess }) =>
+  onSuccess(taxPayItemResponse);
 
-const updateTaxPayItemModalDetails = ({ onSuccess }) => onSuccess(successResponse);
+const updateTaxPayItemModalDetails = ({ onSuccess }) =>
+  onSuccess(successResponse);
 
-const loadNewExpensePayItemModal = ({ onSuccess }) => (
-  onSuccess(loadNewExpensePayItemModalResponse)
-);
+const loadNewExpensePayItemModal = ({ onSuccess }) =>
+  onSuccess(loadNewExpensePayItemModalResponse);
 
-const loadExpensePayItemModal = ({ onSuccess }) => (
-  onSuccess(loadExpensePayItemModalResponse)
-);
+const loadExpensePayItemModal = ({ onSuccess }) =>
+  onSuccess(loadExpensePayItemModalResponse);
 
-const createExpensePayItemModal = ({ onSuccess }) => (
-  onSuccess(createExpensePayItemModalResponse)
-);
+const createExpensePayItemModal = ({ onSuccess }) =>
+  onSuccess(createExpensePayItemModalResponse);
 
-const updateExpensePayItemModal = ({ onSuccess }) => (
-  onSuccess(updateExpensePayItemModalResponse)
-);
+const updateExpensePayItemModal = ({ onSuccess }) =>
+  onSuccess(updateExpensePayItemModalResponse);
 
-const loadNewWagePayItemModal = ({ onSuccess }) => (
-  onSuccess(loadNewWagePayItemModalResponse)
-);
+const loadNewWagePayItemModal = ({ onSuccess }) =>
+  onSuccess(loadNewWagePayItemModalResponse);
 
-const loadWagePayItemModal = ({ onSuccess }) => (
-  onSuccess(loadWagePayItemModalResponse)
-);
+const loadWagePayItemModal = ({ onSuccess }) =>
+  onSuccess(loadWagePayItemModalResponse);
 
-const createWagePayItemModal = ({ onSuccess }) => (
-  onSuccess(createWagePayItemModalResponse)
-);
+const createWagePayItemModal = ({ onSuccess }) =>
+  onSuccess(createWagePayItemModalResponse);
 
-const updateWagePayItemModal = ({ onSuccess }) => (
-  onSuccess(updatedWagePayItemModalResponse)
-);
+const updateWagePayItemModal = ({ onSuccess }) =>
+  onSuccess(updatedWagePayItemModalResponse);
 
-const loadDeductionPayItemModal = ({ onSuccess }) => onSuccess(loadDeductionPayItemModalResponse);
+const loadDeductionPayItemModal = ({ onSuccess }) =>
+  onSuccess(loadDeductionPayItemModalResponse);
 
-const loadNewDeductionPayItemModal = ({ onSuccess }) => (
-  onSuccess(loadNewDeductionPayItemModalResponse)
-);
+const loadNewDeductionPayItemModal = ({ onSuccess }) =>
+  onSuccess(loadNewDeductionPayItemModalResponse);
 
-const createDeductionPayItemModal = ({ onSuccess }) => (
-  onSuccess(createDeductionPayItemModalResponse)
-);
+const createDeductionPayItemModal = ({ onSuccess }) =>
+  onSuccess(createDeductionPayItemModalResponse);
 
-const updateDeductionPayItemModal = ({ onSuccess }) => (
-  onSuccess(updateDeductionPayItemModalResponse)
-);
+const updateDeductionPayItemModal = ({ onSuccess }) =>
+  onSuccess(updateDeductionPayItemModalResponse);
 
 const loadNewSuperFund = ({ onSuccess }) => onSuccess(superFundNewDetail);
 const loadAbnDetail = ({ onSuccess }) => onSuccess(abnDetail);
-const createSuperFund = ({ onSuccess }) => onSuccess(createSuperFundModalResponse);
+const createSuperFund = ({ onSuccess }) =>
+  onSuccess(createSuperFundModalResponse);
 
-const loadNewSuperPayItemModal = ({ onSuccess }) => onSuccess(loadNewSuperPayItemModalResponse);
+const loadNewSuperPayItemModal = ({ onSuccess }) =>
+  onSuccess(loadNewSuperPayItemModalResponse);
 
-const loadSuperPayItemModal = ({ onSuccess }) => onSuccess(loadSuperPayItemModalResponse);
+const loadSuperPayItemModal = ({ onSuccess }) =>
+  onSuccess(loadSuperPayItemModalResponse);
 
-const createSuperPayItemModal = ({ onSuccess }) => onSuccess(createSuperPayItemModalResponse);
+const createSuperPayItemModal = ({ onSuccess }) =>
+  onSuccess(createSuperPayItemModalResponse);
 
-const updateSuperPayItemModal = ({ onSuccess }) => onSuccess(updateSuperPayItemModalResponse);
+const updateSuperPayItemModal = ({ onSuccess }) =>
+  onSuccess(updateSuperPayItemModalResponse);
 
-const loadLeavePayItemModal = ({ onSuccess }) => onSuccess(loadLeavePayItemModalResponse);
-const loadNewLeavePayItemModal = ({ onSuccess }) => onSuccess(loadNewLeavePayItemModalResponse);
-const createLeavePayItemModal = ({ onSuccess }) => onSuccess(createLeavePayItemModalResponse);
-const updatedLeavePayItemModal = ({ onSuccess }) => onSuccess(updatedLeavePayItemModalResponse);
+const loadLeavePayItemModal = ({ onSuccess }) =>
+  onSuccess(loadLeavePayItemModalResponse);
+const loadNewLeavePayItemModal = ({ onSuccess }) =>
+  onSuccess(loadNewLeavePayItemModalResponse);
+const createLeavePayItemModal = ({ onSuccess }) =>
+  onSuccess(createLeavePayItemModalResponse);
+const updatedLeavePayItemModal = ({ onSuccess }) =>
+  onSuccess(updatedLeavePayItemModalResponse);
 
 const EmployeeListMapping = {
   [LOAD_EMPLOYEE_LIST]: loadEmployeeList,

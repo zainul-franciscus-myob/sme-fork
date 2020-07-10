@@ -1,7 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getPayRunListUrl, getStpDeclarationContext } from './EmployeePayModalSelectors';
+import {
+  getPayRunListUrl,
+  getStpDeclarationContext,
+} from './EmployeePayModalSelectors';
 import EmployeePayDetailModal from './components/EmployeePayModal';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
@@ -87,10 +90,18 @@ export default class EmployeePayModalModule {
   };
 
   openModal = ({
-    transactionId, businessId, employeeName, region, readonly,
+    transactionId,
+    businessId,
+    employeeName,
+    region,
+    readonly,
   }) => {
     this.dispatcher.setInitialState({
-      transactionId, businessId, employeeName, region, readonly,
+      transactionId,
+      businessId,
+      employeeName,
+      region,
+      readonly,
     });
     this.loadEmployeePayDetail();
     this.dispatcher.setIsOpen(true);
@@ -105,7 +116,9 @@ export default class EmployeePayModalModule {
   };
 
   openDeclarationModal = () => {
-    this.stpDeclarationModule.run(getStpDeclarationContext(this.store.getState()));
+    this.stpDeclarationModule.run(
+      getStpDeclarationContext(this.store.getState())
+    );
   };
 
   getView() {

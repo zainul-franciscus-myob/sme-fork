@@ -1,5 +1,8 @@
 import {
-  ADD_IMPORT_FILE, LOAD_DATA_IMPORT_EXPORT, UPDATE_CONTACTS_IDENTIFY_BY, UPDATE_IMPORT_DATA_TYPE,
+  ADD_IMPORT_FILE,
+  LOAD_DATA_IMPORT_EXPORT,
+  UPDATE_CONTACTS_IDENTIFY_BY,
+  UPDATE_IMPORT_DATA_TYPE,
 } from '../DataImportExportIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
 import ContactIdentifyBy from '../types/ContactIdentifyBy';
@@ -14,28 +17,31 @@ describe('dataImportExportReducer', () => {
     ['someImportType', undefined, 'someImportType', ''],
     [undefined, 'someExportType', '', 'someExportType'],
     [undefined, undefined, '', ''],
-  ])('set the initial state correctly with the query params provided', (
-    importTypeQueryParam,
-    exportTypeQueryParam,
-    selectedDataTypeForImport,
-    selectedDataTypeForExport,
-  ) => {
-    const state = {
-      import: { selectedDataType: '' },
-      export: { selectedDataType: '' },
-    };
+  ])(
+    'set the initial state correctly with the query params provided',
+    (
+      importTypeQueryParam,
+      exportTypeQueryParam,
+      selectedDataTypeForImport,
+      selectedDataTypeForExport
+    ) => {
+      const state = {
+        import: { selectedDataType: '' },
+        export: { selectedDataType: '' },
+      };
 
-    const action = {
-      intent: SET_INITIAL_STATE,
-      importType: importTypeQueryParam,
-      exportType: exportTypeQueryParam,
-    };
+      const action = {
+        intent: SET_INITIAL_STATE,
+        importType: importTypeQueryParam,
+        exportType: exportTypeQueryParam,
+      };
 
-    const actual = dataImportExportReducer(state, action);
+      const actual = dataImportExportReducer(state, action);
 
-    expect(actual.import.selectedDataType).toEqual(selectedDataTypeForImport);
-    expect(actual.export.selectedDataType).toEqual(selectedDataTypeForExport);
-  });
+      expect(actual.import.selectedDataType).toEqual(selectedDataTypeForImport);
+      expect(actual.export.selectedDataType).toEqual(selectedDataTypeForExport);
+    }
+  );
 
   describe('LOAD_DATA_IMPORT_EXPORT', () => {
     it('Updates account export state properly', () => {
@@ -68,7 +74,9 @@ describe('dataImportExportReducer', () => {
 
       const actual = dataImportExportReducer(state, action);
 
-      expect(actual.export.chartOfAccounts).toEqual(expectedExportChartOfAccounts);
+      expect(actual.export.chartOfAccounts).toEqual(
+        expectedExportChartOfAccounts
+      );
     });
   });
 
@@ -93,28 +101,31 @@ describe('dataImportExportReducer', () => {
     });
 
     describe(`when duplicateRecordsOption is ${DuplicateRecordOption.ADD}`, () => {
-      [ContactIdentifyBy.DISPLAY_ID, ContactIdentifyBy.ID].forEach((identifyBy) => {
-        it(`Sets duplicateRecordsOption to default and when identifyBy is ${identifyBy}`, () => {
-          const state = {
-            import: {
-              duplicateRecordsOption: DuplicateRecordOption.ADD,
-              contacts: {
-                identifyBy: ContactIdentifyBy.NAME,
+      [ContactIdentifyBy.DISPLAY_ID, ContactIdentifyBy.ID].forEach(
+        (identifyBy) => {
+          it(`Sets duplicateRecordsOption to default and when identifyBy is ${identifyBy}`, () => {
+            const state = {
+              import: {
+                duplicateRecordsOption: DuplicateRecordOption.ADD,
+                contacts: {
+                  identifyBy: ContactIdentifyBy.NAME,
+                },
               },
-            },
-          };
+            };
 
-          const action = {
-            intent: UPDATE_CONTACTS_IDENTIFY_BY,
-            identifyBy,
-          };
+            const action = {
+              intent: UPDATE_CONTACTS_IDENTIFY_BY,
+              identifyBy,
+            };
 
-          const actual = dataImportExportReducer(state, action);
+            const actual = dataImportExportReducer(state, action);
 
-          expect(actual.import.duplicateRecordsOption)
-            .toEqual(DuplicateRecordOption.UPDATE_EXISTING);
-        });
-      });
+            expect(actual.import.duplicateRecordsOption).toEqual(
+              DuplicateRecordOption.UPDATE_EXISTING
+            );
+          });
+        }
+      );
     });
   });
   describe('UPDATE_IMPORT_DATA_TYPE', () => {
@@ -132,7 +143,9 @@ describe('dataImportExportReducer', () => {
 
       const actual = dataImportExportReducer(state, action);
 
-      expect(actual.import.selectedDataType).toEqual(ImportExportDataType.CHART_OF_ACCOUNTS);
+      expect(actual.import.selectedDataType).toEqual(
+        ImportExportDataType.CHART_OF_ACCOUNTS
+      );
     });
 
     it('Always resets import', () => {

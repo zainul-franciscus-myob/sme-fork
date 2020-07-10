@@ -5,7 +5,9 @@ import TasksIcon from '../images/TasksIcon.svg';
 import TasksIconNotification from '../images/TasksIconNotification.svg';
 
 const Tasks = ({ onMenuLinkClick, className, showNotificationIcon }) => {
-  const moreProps = showNotificationIcon ? { notificationIcon: TasksIconNotification } : {};
+  const moreProps = showNotificationIcon
+    ? { notificationIcon: TasksIconNotification }
+    : {};
   return (
     <div style={{ display: 'flex' }}>
       <ImageIconMenu

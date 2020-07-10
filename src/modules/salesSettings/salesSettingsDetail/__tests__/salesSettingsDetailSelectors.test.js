@@ -126,8 +126,14 @@ describe('salesSettingsSelectors', () => {
 
   describe('getTemplates', () => {
     it.each([
-      ['IckyLeaks - Service & Items2', '/#/au/bizId/template/IckyLeaks%20-%20Service%20%26%20Items2'],
-      ['Special template for special people', '/#/au/bizId/template/Special%20template%20for%20special%20people'],
+      [
+        'IckyLeaks - Service & Items2',
+        '/#/au/bizId/template/IckyLeaks%20-%20Service%20%26%20Items2',
+      ],
+      [
+        'Special template for special people',
+        '/#/au/bizId/template/Special%20template%20for%20special%20people',
+      ],
     ])('returns link with encoded template name', (name, expected) => {
       const templateSettings = {
         templates: [{ name }],

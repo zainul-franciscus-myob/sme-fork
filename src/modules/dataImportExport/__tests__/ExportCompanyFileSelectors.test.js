@@ -1,4 +1,7 @@
-import { getExportCompanyFileFileExtension, getHasClientCode } from '../selectors/ExportCompanyFileSelectors';
+import {
+  getExportCompanyFileFileExtension,
+  getHasClientCode,
+} from '../selectors/ExportCompanyFileSelectors';
 import ExportCompanyFileType from '../types/ExportCompanyFileType';
 
 describe('ExportCompanyFileSelectors', () => {

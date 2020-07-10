@@ -1,6 +1,4 @@
-import {
-  Button, Field, Icons, Input,
-} from '@myob/myob-widgets';
+import { Button, Field, Icons, Input } from '@myob/myob-widgets';
 import React, { Fragment } from 'react';
 
 import ItemList from './ItemList';
@@ -18,42 +16,35 @@ const renderItems = (label, items, requiredLabel, onKeyDown) => ({
   onItemValueChange,
 }) => (
   <Fragment>
-    {items.map(
-      (item, i) => (
-        <Field
-          label={label}
-          hideLabel={i !== 0}
-          requiredLabel={requiredLabel}
-          renderField={() => (
-            <div className={styles.item}>
-              <Input
-                label=""
-                name="emailItem"
-                value={item}
-                onChange={onItemValueChange(i)}
-                onKeyDown={onKeyDown}
-                maxLength={255}
-              />
-              {
-            i !== 0
-            && (<RemoveEmailButton onClick={onRemoveItem(i)} />)
-          }
-            </div>
-          )}
-        />
-      ),
-    )}
+    {items.map((item, i) => (
+      <Field
+        label={label}
+        hideLabel={i !== 0}
+        requiredLabel={requiredLabel}
+        renderField={() => (
+          <div className={styles.item}>
+            <Input
+              label=""
+              name="emailItem"
+              value={item}
+              onChange={onItemValueChange(i)}
+              onKeyDown={onKeyDown}
+              maxLength={255}
+            />
+            {i !== 0 && <RemoveEmailButton onClick={onRemoveItem(i)} />}
+          </div>
+        )}
+      />
+    ))}
     <Field
       key="addButton"
       label="Add button"
       hideLabel
-      renderField={
-        () => (
-          <Button type="link" icon={<Icons.Add />} onClick={onAddItem}>
-            Add another email
-          </Button>
-        )
-      }
+      renderField={() => (
+        <Button type="link" icon={<Icons.Add />} onClick={onAddItem}>
+          Add another email
+        </Button>
+      )}
     />
   </Fragment>
 );

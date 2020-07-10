@@ -4,11 +4,7 @@ import React from 'react';
 import AbnPopover from './AbnPopover';
 import AutoFormatter from '../AutoFormatterCore/AutoFormatter';
 
-const AbnInput = ({
-  validationResult,
-  isLoading,
-  ...otherProps
-}) => {
+const AbnInput = ({ validationResult, isLoading, ...otherProps }) => {
   const spinner = <Spinner size="small" />;
   const accessory = validationResult && <AbnPopover {...validationResult} />;
 

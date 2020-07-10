@@ -1,11 +1,12 @@
-import {
-  Checkbox, HeaderSort, Table,
-} from '@myob/myob-widgets';
+import { Checkbox, HeaderSort, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-
-import { getIsAllSelected, getIsSomeSelected, getOrder } from '../selectors/customerStatementListSelectors';
+import {
+  getIsAllSelected,
+  getIsSomeSelected,
+  getOrder,
+} from '../selectors/customerStatementListSelectors';
 
 const CustomerStatementListTableHeader = ({
   order,
@@ -27,8 +28,16 @@ const CustomerStatementListTableHeader = ({
           indeterminate={!isAllSelected && isSomeSelected}
         />
       </Table.HeaderItem>
-      <Table.HeaderItem columnName={tableConfig.name.columnName} {...tableConfig.name.styles}>
-        <HeaderSort title={tableConfig.name.columnName} sortName="name" activeSort={order} onSort={onSort} />
+      <Table.HeaderItem
+        columnName={tableConfig.name.columnName}
+        {...tableConfig.name.styles}
+      >
+        <HeaderSort
+          title={tableConfig.name.columnName}
+          sortName="name"
+          activeSort={order}
+          onSort={onSort}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem
         columnName={tableConfig.contactPerson.columnName}
@@ -47,11 +56,22 @@ const CustomerStatementListTableHeader = ({
       >
         {tableConfig.phoneNumber.columnName}
       </Table.HeaderItem>
-      <Table.HeaderItem columnName={tableConfig.email.columnName} {...tableConfig.email.styles}>
+      <Table.HeaderItem
+        columnName={tableConfig.email.columnName}
+        {...tableConfig.email.styles}
+      >
         {tableConfig.email.columnName}
       </Table.HeaderItem>
-      <Table.HeaderItem columnName={tableConfig.balance.columnName} {...tableConfig.balance.styles}>
-        <HeaderSort title={tableConfig.balance.columnName} sortName="balance" activeSort={order} onSort={onSort} />
+      <Table.HeaderItem
+        columnName={tableConfig.balance.columnName}
+        {...tableConfig.balance.styles}
+      >
+        <HeaderSort
+          title={tableConfig.balance.columnName}
+          sortName="balance"
+          activeSort={order}
+          onSort={onSort}
+        />
       </Table.HeaderItem>
     </Table.Header>
   );
@@ -59,7 +79,7 @@ const CustomerStatementListTableHeader = ({
   return header;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   order: getOrder(state),
   isAllSelected: getIsAllSelected(state),
   isSomeSelected: getIsSomeSelected(state),

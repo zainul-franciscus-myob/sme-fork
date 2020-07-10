@@ -1,7 +1,10 @@
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getEmployerExpensePayItemEntries, getShouldShowExpensePayItemTableRows } from '../EmployeePayListSelectors';
+import {
+  getEmployerExpensePayItemEntries,
+  getShouldShowExpensePayItemTableRows,
+} from '../EmployeePayListSelectors';
 import EmployeeRecalculatePayTableRows from './EmployeeRecalculatePayTableRows';
 
 const EmployeeRecalculatePayEmployerExpensePayItems = ({
@@ -35,4 +38,6 @@ const mapStateToProps = (state, props) => ({
   shouldShowTableRows: getShouldShowExpensePayItemTableRows(state, props),
 });
 
-export default connect(mapStateToProps)(EmployeeRecalculatePayEmployerExpensePayItems);
+export default connect(mapStateToProps)(
+  EmployeeRecalculatePayEmployerExpensePayItems
+);

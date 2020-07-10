@@ -32,7 +32,9 @@ const PaymentTerms = ({
   const showExpiryDaysOptions = getShowExpiryDaysOptions(expirationTerm);
   const expirationTermsLabel = getExpirationTermsLabel(expirationTerm);
   const displayDaysForMonth = getDisplayDaysForMonth(expirationTerm);
-  const showExpirationDaysAmountInput = getShowExpirationDaysAmountInput(expirationTerm);
+  const showExpirationDaysAmountInput = getShowExpirationDaysAmountInput(
+    expirationTerm
+  );
 
   const popoverBody = (
     <React.Fragment>
@@ -50,8 +52,7 @@ const PaymentTerms = ({
       {showExpiryDaysOptions && (
         <div className={styles.details}>
           <div className={styles.input}>
-            {showExpirationDaysAmountInput
-            && (
+            {showExpirationDaysAmountInput && (
               <AmountInput
                 label="Expiration days"
                 hideLabel
@@ -61,8 +62,7 @@ const PaymentTerms = ({
                 textAlign="right"
               />
             )}
-            {!showExpirationDaysAmountInput
-            && (
+            {!showExpirationDaysAmountInput && (
               <Select
                 label="Expiration days"
                 hideLabel
@@ -82,9 +82,15 @@ const PaymentTerms = ({
     </React.Fragment>
   );
 
-  const triggerButton = <Button disabled={disabled} type="secondary">{paymentTermsPopoverLabel}</Button>;
+  const triggerButton = (
+    <Button disabled={disabled} type="secondary">
+      {paymentTermsPopoverLabel}
+    </Button>
+  );
 
-  const view = disabled ? triggerButton : (
+  const view = disabled ? (
+    triggerButton
+  ) : (
     <Popover body={popoverBody} preferPlace="below" closeOnOuterAction>
       {triggerButton}
     </Popover>
@@ -94,11 +100,7 @@ const PaymentTerms = ({
     <Field
       label={label}
       requiredLabel={requiredLabel}
-      renderField={() => (
-        <div className={styles.popover}>
-          {view}
-        </div>
-      )}
+      renderField={() => <div className={styles.popover}>{view}</div>}
     />
   );
 };

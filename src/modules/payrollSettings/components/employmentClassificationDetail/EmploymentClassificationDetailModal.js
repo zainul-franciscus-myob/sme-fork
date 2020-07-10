@@ -1,6 +1,4 @@
-import {
-  Button, Input, Modal,
-} from '@myob/myob-widgets';
+import { Button, Input, Modal } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -33,7 +31,9 @@ const EmploymentClassificationDetailModal = ({
 
   const alertView = alert && (
     <EmploymentClassificationDetailAlert
-      onDismissEmploymentClassificationDetailAlert={onDismissEmploymentClassificationDetailAlert}
+      onDismissEmploymentClassificationDetailAlert={
+        onDismissEmploymentClassificationDetailAlert
+      }
     />
   );
 
@@ -49,21 +49,23 @@ const EmploymentClassificationDetailModal = ({
         />
       </Modal.Body>
       <Modal.Footer>
-        { !isCreating && (
-        <Button
-          type="secondary"
-          onClick={onDeleteEmploymentClassificationDetail}
-        >
-          Delete
-        </Button>
-        ) }
+        {!isCreating && (
+          <Button
+            type="secondary"
+            onClick={onDeleteEmploymentClassificationDetail}
+          >
+            Delete
+          </Button>
+        )}
         <Button
           type="secondary"
           onClick={onCancelEmploymentClassificationDetailModal}
         >
           Cancel
         </Button>
-        <Button type="primary" onClick={onSaveEmploymentClassificationDetail}>Save</Button>
+        <Button type="primary" onClick={onSaveEmploymentClassificationDetail}>
+          Save
+        </Button>
       </Modal.Footer>
     </>
   );
@@ -79,7 +81,7 @@ const EmploymentClassificationDetailModal = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   title: getTitle(state),
   description: getDescription(state),
   alert: getAlert(state),

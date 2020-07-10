@@ -14,9 +14,11 @@ const setSalesState = (state, partialSalesState) => ({
 
 const loadSales = (state, action) => setSalesState(state, action.sales);
 
-const setSalesLoadingState = (state, { isLoading }) => setSalesState(state, { isLoading });
+const setSalesLoadingState = (state, { isLoading }) =>
+  setSalesState(state, { isLoading });
 
-const setSalesErrorState = (state, { hasError }) => setSalesState(state, { hasError });
+const setSalesErrorState = (state, { hasError }) =>
+  setSalesState(state, { hasError });
 
 export default {
   [LOAD_SALES]: loadSales,

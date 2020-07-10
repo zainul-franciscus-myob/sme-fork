@@ -8,7 +8,7 @@ import {
 } from '../JobIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createJobListDispatcher = store => ({
+const createJobListDispatcher = (store) => ({
   setInitialState: (context) => {
     store.dispatch({ intent: SET_INITIAL_STATE, context });
   },
@@ -35,7 +35,8 @@ const createJobListDispatcher = store => ({
   },
   filterJobList: ({ entries }) => {
     store.dispatch({
-      intent: FILTER_JOB_LIST, entries,
+      intent: FILTER_JOB_LIST,
+      entries,
     });
   },
 });

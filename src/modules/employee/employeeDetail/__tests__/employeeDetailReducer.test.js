@@ -17,10 +17,7 @@ describe('employeeDetailReducer', () => {
           state: 'VIC',
           postcode: '3456',
           country: 'Australia',
-          phoneNumbers: [
-            '03 93883848',
-            '03 94839483',
-          ],
+          phoneNumbers: ['03 93883848', '03 94839483'],
           email: 'bob@thebuilder.com',
           notes: "don't trust spuck",
           isInactive: false,
@@ -109,10 +106,7 @@ describe('employeeDetailReducer', () => {
           state: 'VIC',
           postcode: '3456',
           country: 'Updated Australia',
-          phoneNumbers: [
-            '03 93883848',
-            '03 94839483',
-          ],
+          phoneNumbers: ['03 93883848', '03 94839483'],
           email: 'bob@thebuilder.com',
           notes: "don't trust spuck",
           isInactive: false,
@@ -140,7 +134,8 @@ describe('employeeDetailReducer', () => {
                 carryOver: '143.434',
                 yearToDate: '10.5',
                 total: '53.5',
-              }],
+              },
+            ],
           },
           deductionDetails: {
             deductionPayItems: [
@@ -149,7 +144,8 @@ describe('employeeDetailReducer', () => {
                 name: 'Deduction percent',
                 type: 'DeductionPayrollCategory',
                 displayType: 'Percent',
-              }],
+              },
+            ],
           },
           superannuationDetails: {
             selectedSuperFundId: '1',
@@ -160,7 +156,8 @@ describe('employeeDetailReducer', () => {
                 name: 'Super deduction before tax',
                 type: 'SuperannuationDeductionBeforeTaxPayrollCategory',
                 displayType: 'Deduct before tax',
-              }],
+              },
+            ],
           },
           tax: {
             extraTax: '10.20',
@@ -220,7 +217,7 @@ describe('employeeDetailReducer', () => {
                 lines: [
                   {
                     total: '3000.00',
-                    activity: 2500.50,
+                    activity: 2500.5,
                     month: 'July',
                     hasPayHistory: true,
                   },
@@ -246,7 +243,8 @@ describe('employeeDetailReducer', () => {
               accountName: 'Bob The builder',
               value: 'Dollars',
               amount: '1000000.00',
-            }],
+            },
+          ],
         },
       };
 
@@ -259,10 +257,7 @@ describe('employeeDetailReducer', () => {
           state: 'VIC',
           postcode: '3456',
           country: 'Updated Australia',
-          phoneNumbers: [
-            '03 93883848',
-            '03 94839483',
-          ],
+          phoneNumbers: ['03 93883848', '03 94839483'],
           email: 'bob@thebuilder.com',
           notes: "don't trust spuck",
           isInactive: false,
@@ -290,7 +285,8 @@ describe('employeeDetailReducer', () => {
                 carryOver: '143.434',
                 yearToDate: '10.5',
                 total: '53.5',
-              }],
+              },
+            ],
           },
           deductionDetails: {
             deductionPayItems: [
@@ -299,7 +295,8 @@ describe('employeeDetailReducer', () => {
                 name: 'Deduction percent',
                 type: 'DeductionPayrollCategory',
                 displayType: 'Percent',
-              }],
+              },
+            ],
           },
           superannuationDetails: {
             selectedSuperFundId: '1',
@@ -310,7 +307,8 @@ describe('employeeDetailReducer', () => {
                 name: 'Super deduction before tax',
                 type: 'SuperannuationDeductionBeforeTaxPayrollCategory',
                 displayType: 'Deduct before tax',
-              }],
+              },
+            ],
           },
           tax: {
             extraTax: '10.20',
@@ -370,7 +368,7 @@ describe('employeeDetailReducer', () => {
                 lines: [
                   {
                     total: '3000.00',
-                    activity: 2500.50,
+                    activity: 2500.5,
                     month: 'July',
                     hasPayHistory: true,
                   },
@@ -396,7 +394,8 @@ describe('employeeDetailReducer', () => {
               accountName: 'Bob The builder',
               value: 'Dollars',
               amount: '1000000.00',
-            }],
+            },
+          ],
         },
         genderOptions: [],
       };

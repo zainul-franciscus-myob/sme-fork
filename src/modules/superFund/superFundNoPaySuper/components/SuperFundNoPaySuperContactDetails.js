@@ -1,7 +1,10 @@
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getShowContactDetails, getSuperFundContactDetails } from '../SuperFundNoPaySuperSelectors';
+import {
+  getShowContactDetails,
+  getSuperFundContactDetails,
+} from '../SuperFundNoPaySuperSelectors';
 import SuperFundContactDetails from '../../components/SuperFundContactDetails';
 
 const SuperFundNoPaySuperContactDetails = ({
@@ -16,8 +19,7 @@ const SuperFundNoPaySuperContactDetails = ({
   />
 );
 
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   superFundContactDetails: getSuperFundContactDetails(state),
   showContactDetails: getShowContactDetails(state),
 });

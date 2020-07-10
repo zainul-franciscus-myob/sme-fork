@@ -1,6 +1,4 @@
-import {
-  Alert, Button, PageHead, StandardTemplate,
-} from '@myob/myob-widgets';
+import { Alert, Button, PageHead, StandardTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -37,7 +35,7 @@ const EmployeeListNzView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   alert: getAlert(state),
 });

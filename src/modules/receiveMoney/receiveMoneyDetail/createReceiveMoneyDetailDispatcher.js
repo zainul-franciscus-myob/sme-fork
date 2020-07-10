@@ -45,7 +45,8 @@ const createReceiveMoneyDetailDispatcher = ({ store }) => ({
       intent: SET_ALERT,
     });
   },
-  setAlert: ({ type, message }) => store.dispatch({ intent: SET_ALERT, alert: { type, message } }),
+  setAlert: ({ type, message }) =>
+    store.dispatch({ intent: SET_ALERT, alert: { type, message } }),
   closeModal: () => {
     store.dispatch({
       intent: CLOSE_MODAL,
@@ -135,28 +136,36 @@ const createReceiveMoneyDetailDispatcher = ({ store }) => ({
       ...response,
     });
   },
-  loadAccountAfterCreate: payload => store.dispatch({
-    intent: LOAD_ACCOUNT_AFTER_CREATE,
-    ...payload,
-  }),
-  setContactLoadingState: isContactLoading => store.dispatch({
-    intent: SET_CONTACT_LOADING_STATE,
-    isContactLoading,
-  }),
-  loadContactAfterCreate: payload => store.dispatch({
-    intent: LOAD_CONTACT_AFTER_CREATE,
-    ...payload,
-  }),
-  loadJobAfterCreate: (payload) => store.dispatch({
-    intent: LOAD_JOB_AFTER_CREATE, ...payload,
-  }),
-  setJobLoadingState: isJobLoading => store.dispatch({
-    intent: SET_JOB_LOADING_STATE, isJobLoading,
-  }),
-  setDuplicateId: duplicateId => store.dispatch({
-    intent: SET_DUPLICATE_ID,
-    duplicateId,
-  }),
+  loadAccountAfterCreate: (payload) =>
+    store.dispatch({
+      intent: LOAD_ACCOUNT_AFTER_CREATE,
+      ...payload,
+    }),
+  setContactLoadingState: (isContactLoading) =>
+    store.dispatch({
+      intent: SET_CONTACT_LOADING_STATE,
+      isContactLoading,
+    }),
+  loadContactAfterCreate: (payload) =>
+    store.dispatch({
+      intent: LOAD_CONTACT_AFTER_CREATE,
+      ...payload,
+    }),
+  loadJobAfterCreate: (payload) =>
+    store.dispatch({
+      intent: LOAD_JOB_AFTER_CREATE,
+      ...payload,
+    }),
+  setJobLoadingState: (isJobLoading) =>
+    store.dispatch({
+      intent: SET_JOB_LOADING_STATE,
+      isJobLoading,
+    }),
+  setDuplicateId: (duplicateId) =>
+    store.dispatch({
+      intent: SET_DUPLICATE_ID,
+      duplicateId,
+    }),
 });
 
 export default createReceiveMoneyDetailDispatcher;

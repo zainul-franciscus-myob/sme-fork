@@ -12,9 +12,11 @@ describe('electronicPaymentsCreateHeader', () => {
     const wrapper = mount(
       <Provider store={store}>
         <ElectronicPaymentsCreateHeader />
-      </Provider>,
+      </Provider>
     );
-    const filePaymentReferenceNumberInput = wrapper.find({ name: 'referenceNumber' }).first();
+    const filePaymentReferenceNumberInput = wrapper
+      .find({ name: 'referenceNumber' })
+      .first();
     expect(filePaymentReferenceNumberInput.prop('maxLength')).toBe(13);
   });
 });

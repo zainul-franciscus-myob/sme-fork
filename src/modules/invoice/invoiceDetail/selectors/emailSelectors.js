@@ -1,37 +1,50 @@
 import { createSelector } from 'reselect';
 
-import { getBusinessId, getInvoiceId, getLayout } from './invoiceDetailSelectors';
+import {
+  getBusinessId,
+  getInvoiceId,
+  getLayout,
+} from './invoiceDetailSelectors';
 import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
 import InvoiceLayout from '../types/InvoiceLayout';
 
-const getEmailToAddresses = state => state.emailInvoice.toEmail;
-const getCcEmailToAddresses = state => state.emailInvoice.ccToEmail;
-const getIsEmailMeACopy = state => state.emailInvoice.isEmailMeACopy;
-const getEmailSubject = state => state.emailInvoice.subject;
-const getEmailMessageBody = state => state.emailInvoice.messageBody;
-const getEmailTemplateName = state => state.emailInvoice.templateName;
-const getHasEmailReplyDetails = state => state.emailInvoice.hasEmailReplyDetails;
-export const getFromName = state => state.emailInvoice.fromName;
-export const getFromEmail = state => state.emailInvoice.fromEmail;
+const getEmailToAddresses = (state) => state.emailInvoice.toEmail;
+const getCcEmailToAddresses = (state) => state.emailInvoice.ccToEmail;
+const getIsEmailMeACopy = (state) => state.emailInvoice.isEmailMeACopy;
+const getEmailSubject = (state) => state.emailInvoice.subject;
+const getEmailMessageBody = (state) => state.emailInvoice.messageBody;
+const getEmailTemplateName = (state) => state.emailInvoice.templateName;
+const getHasEmailReplyDetails = (state) =>
+  state.emailInvoice.hasEmailReplyDetails;
+export const getFromName = (state) => state.emailInvoice.fromName;
+export const getFromEmail = (state) => state.emailInvoice.fromEmail;
 
 export const getCanSaveEmailSettings = createSelector(
   getFromEmail,
   getFromName,
-  (fromEmail, fromName) => fromEmail && fromName,
+  (fromEmail, fromName) => fromEmail && fromName
 );
 
-export const getSaveEmailSettingsUrlParams = state => ({ businessId: getBusinessId(state) });
-export const getSaveEmailSettingsContent = state => state.emailInvoice;
+export const getSaveEmailSettingsUrlParams = (state) => ({
+  businessId: getBusinessId(state),
+});
+export const getSaveEmailSettingsContent = (state) => state.emailInvoice;
 
-export const getEmailDetailFromLoadInvoiceDetail = ({ emailInvoice, invoiceNumber }) => (
+export const getEmailDetailFromLoadInvoiceDetail = ({
+  emailInvoice,
+  invoiceNumber,
+}) =>
   emailInvoice
     ? {
-      ...emailInvoice,
-      toEmail: emailInvoice.toEmail.length > 0 ? emailInvoice.toEmail : [''],
-      ccToEmail: emailInvoice.ccToEmail.length > 0 ? emailInvoice.ccToEmail : [''],
-      subject: emailInvoice.includeInvoiceNumberInEmail ? `Invoice ${invoiceNumber}; ${emailInvoice.subject}` : emailInvoice.subject,
-    }
-    : {});
+        ...emailInvoice,
+        toEmail: emailInvoice.toEmail.length > 0 ? emailInvoice.toEmail : [''],
+        ccToEmail:
+          emailInvoice.ccToEmail.length > 0 ? emailInvoice.ccToEmail : [''],
+        subject: emailInvoice.includeInvoiceNumberInEmail
+          ? `Invoice ${invoiceNumber}; ${emailInvoice.subject}`
+          : emailInvoice.subject,
+      }
+    : {};
 
 export const getEmailInvoiceDetail = createSelector(
   getEmailToAddresses,
@@ -40,19 +53,21 @@ export const getEmailInvoiceDetail = createSelector(
   getEmailSubject,
   getEmailMessageBody,
   getEmailTemplateName,
-  (emailToAddresses,
+  (
+    emailToAddresses,
     ccEmailToAddresses,
     isEmailMeACopy,
     subject,
     messageBody,
-    emailTemplateName) => ({
+    emailTemplateName
+  ) => ({
     emailToAddresses,
     ccEmailToAddresses,
     isEmailMeACopy,
     subject,
     messageBody,
     emailTemplateName,
-  }),
+  })
 );
 
 export const getSendEmailUrlParams = (state) => {
@@ -73,7 +88,7 @@ export const getSendEmailPayload = (state) => {
   return {
     ...restOfEmailInvoice,
     attachments: attachments
-      .filter(attachment => attachment.state === 'finished')
+      .filter((attachment) => attachment.state === 'finished')
       .map(({ file, keyName, uploadPassword }) => ({
         filename: file.name,
         mimeType: file.type,
@@ -84,37 +99,35 @@ export const getSendEmailPayload = (state) => {
 };
 
 export const getEmailAttachments = createSelector(
-  state => state.emailInvoice.attachments,
-  attachments => attachments.map(attachment => ({
-    keyName: attachment.keyName,
-    name: attachment.file.name,
-    size: attachment.file.size,
-    loaded: attachment.uploadProgress
-      ? Math.round(attachment.file.size * attachment.uploadProgress)
-      : 0,
-    state: attachment.state,
-    error: attachment.error,
-    canRemove: !['queued', 'loading'].includes(attachment.state),
-    file: attachment.file,
-  })),
+  (state) => state.emailInvoice.attachments,
+  (attachments) =>
+    attachments.map((attachment) => ({
+      keyName: attachment.keyName,
+      name: attachment.file.name,
+      size: attachment.file.size,
+      loaded: attachment.uploadProgress
+        ? Math.round(attachment.file.size * attachment.uploadProgress)
+        : 0,
+      state: attachment.state,
+      error: attachment.error,
+      canRemove: !['queued', 'loading'].includes(attachment.state),
+      file: attachment.file,
+    }))
 );
 
-export const getFilesForUpload = (state, files) => (
-  files.filter(file => state.emailInvoice.attachments.find(
-    attachment => attachment.file === file,
-  ).state === 'queued')
-);
+export const getFilesForUpload = (state, files) =>
+  files.filter(
+    (file) =>
+      state.emailInvoice.attachments.find(
+        (attachment) => attachment.file === file
+      ).state === 'queued'
+  );
 
-export const getEmailModalType = (state) => (
+export const getEmailModalType = (state) =>
   getHasEmailReplyDetails(state)
     ? InvoiceDetailModalType.EMAIL_INVOICE
-    : InvoiceDetailModalType.EMAIL_SETTINGS
-);
+    : InvoiceDetailModalType.EMAIL_SETTINGS;
 
-export const getShowEmailButton = createSelector(
-  getLayout,
-  (layout) => ([
-    InvoiceLayout.SERVICE,
-    InvoiceLayout.ITEM_AND_SERVICE,
-  ].includes(layout)),
+export const getShowEmailButton = createSelector(getLayout, (layout) =>
+  [InvoiceLayout.SERVICE, InvoiceLayout.ITEM_AND_SERVICE].includes(layout)
 );

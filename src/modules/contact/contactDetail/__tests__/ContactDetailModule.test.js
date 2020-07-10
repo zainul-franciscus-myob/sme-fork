@@ -28,7 +28,11 @@ describe('ContactDetailModule', () => {
     const setRootView = () => {};
     const pushMessage = () => {};
 
-    const module = new ContactDetailModule({ integration, setRootView, pushMessage });
+    const module = new ContactDetailModule({
+      integration,
+      setRootView,
+      pushMessage,
+    });
     module.store = store;
     module.dispatcher = createContactDetailDispatcher(store);
     module.integrator = createContactDetailIntegrator(store, integration);

@@ -1,5 +1,9 @@
 import { allocateTransaction } from './allocateHandlers';
-import { getAccounts, getIsAllowCustomAmount, getPrefilledEntries } from '../bankingSelectors/matchTransactionSelectors';
+import {
+  getAccounts,
+  getIsAllowCustomAmount,
+  getPrefilledEntries,
+} from '../bankingSelectors/matchTransactionSelectors';
 import { loadOpenEntry } from './openEntryHandlers';
 import { tabIds } from '../tabItems';
 import getDefaultState from './getDefaultState';
@@ -39,12 +43,18 @@ export const sortAndFilterMatchTransactions = (state, action) => {
 };
 
 export const showSelectedMatchTransactions = (state) => {
-  const selectedEntries = state.openEntry.match.entries.filter(({ selected }) => selected);
-  const entries = selectedEntries.reduce((acc, entry) => (
-    { ...acc, [`${entry.journalId}-${entry.journalLineId}`]: entry }
-  ), state.openEntry.match.selectedEntries);
+  const selectedEntries = state.openEntry.match.entries.filter(
+    ({ selected }) => selected
+  );
+  const entries = selectedEntries.reduce(
+    (acc, entry) => ({
+      ...acc,
+      [`${entry.journalId}-${entry.journalLineId}`]: entry,
+    }),
+    state.openEntry.match.selectedEntries
+  );
 
-  return ({
+  return {
     ...state,
     openEntry: {
       ...state.openEntry,
@@ -53,7 +63,7 @@ export const showSelectedMatchTransactions = (state) => {
         entries: Object.values(entries),
       },
     },
-  });
+  };
 };
 
 export const saveMatchTransaction = (state, action) => ({
@@ -89,12 +99,15 @@ export const setMatchTransactionSortOrder = (state, action) => ({
 const updateMatchEntries = (state, entries) => {
   const selectedEntries = entries.reduce((acc, entry) => {
     if (!entry.selected) {
-      const { [`${entry.journalId}-${entry.journalLineId}`]: unselectedEntry, ...otherEntries } = acc;
+      const {
+        [`${entry.journalId}-${entry.journalLineId}`]: unselectedEntry,
+        ...otherEntries
+      } = acc;
       return otherEntries;
     }
     return { ...acc, [`${entry.journalId}-${entry.journalLineId}`]: entry };
   }, state.openEntry.match.selectedEntries);
-  return ({
+  return {
     ...state,
     openEntry: {
       ...state.openEntry,
@@ -104,7 +117,7 @@ const updateMatchEntries = (state, entries) => {
         selectedEntries,
       },
     },
-  });
+  };
 };
 
 export const updateSelectedTransactionDetails = (state, action) => {
@@ -131,8 +144,12 @@ const getMatchAmount = (totalAmount, availableAmount, entry) => {
 
   // Case: Enough available amount to fulfil transaction (and more).
   // Return full transaction due amount.
-  const { totalAmount: entryTotalAmount, discountAmount: entryDiscountAmount } = entry;
-  const entryDueAmount = Number(entryTotalAmount) - Number(entryDiscountAmount || 0);
+  const {
+    totalAmount: entryTotalAmount,
+    discountAmount: entryDiscountAmount,
+  } = entry;
+  const entryDueAmount =
+    Number(entryTotalAmount) - Number(entryDiscountAmount || 0);
   if (availableAmount >= entryDueAmount) return entryDueAmount;
 
   // Case: Not enough available amount to fulfil transaction.
@@ -146,28 +163,37 @@ export const updateMatchTransactionSelection = (state, action) => {
 
   // Case: Unselected. Clear out matchAmount
   if (!selected) {
-    const updatedEntries = entries.map((entry, currentIndex) => (currentIndex === index
-      ? { ...entry, selected, matchAmount: '' }
-      : entry));
+    const updatedEntries = entries.map((entry, currentIndex) =>
+      currentIndex === index ? { ...entry, selected, matchAmount: '' } : entry
+    );
 
     return updateMatchEntries(state, updatedEntries);
   }
 
   // Case: Selected. Calculate suitable matchAmount
-  const sum = entries
-    .reduce((accumulator, { matchAmount }) => accumulator + Number(matchAmount || 0), 0);
+  const sum = entries.reduce(
+    (accumulator, { matchAmount }) => accumulator + Number(matchAmount || 0),
+    0
+  );
   const availableAmount = totalAmount - sum;
-  const updatedEntries = entries.map((entry, currentIndex) => (index === currentIndex
-    ? { ...entry, selected, matchAmount: getMatchAmount(totalAmount, availableAmount, entry) }
-    : entry));
+  const updatedEntries = entries.map((entry, currentIndex) =>
+    index === currentIndex
+      ? {
+          ...entry,
+          selected,
+          matchAmount: getMatchAmount(totalAmount, availableAmount, entry),
+        }
+      : entry
+  );
 
   return updateMatchEntries(state, updatedEntries);
 };
 
 export const toggleMatchTransactionSelectAllState = (state, action) => {
-  const entries = state.openEntry.match.entries.map(entry => (
-    { ...entry, selected: action.selected }
-  ));
+  const entries = state.openEntry.match.entries.map((entry) => ({
+    ...entry,
+    selected: action.selected,
+  }));
   return updateMatchEntries(state, entries);
 };
 
@@ -191,9 +217,8 @@ const getTaxCodeId = (state, accountId) => {
 export const addAdjustment = (state, action) => {
   const { key, value } = action;
 
-  const taxCodeId = (
-    key === 'accountId' ? getTaxCodeId(state, value) : undefined
-  );
+  const taxCodeId =
+    key === 'accountId' ? getTaxCodeId(state, value) : undefined;
 
   const adjustment = {
     id: action.id,
@@ -201,37 +226,39 @@ export const addAdjustment = (state, action) => {
     [key]: value,
   };
 
-  return ({
+  return {
     ...state,
     openEntry: {
       ...state.openEntry,
       isEdited: true,
       match: {
         ...state.openEntry.match,
-        adjustments: [
-          ...state.openEntry.match.adjustments,
-          adjustment,
-        ],
+        adjustments: [...state.openEntry.match.adjustments, adjustment],
       },
     },
-  });
+  };
 };
 
 export const updateAdjustment = (state, action) => {
   const { key, value } = action;
 
-  const adjustments = state.openEntry.match.adjustments.map((adjustment, index) => {
-    if (index === action.index) {
-      const taxCodeId = (
-        key === 'accountId' ? getTaxCodeId(state, value) : adjustment.taxCodeId
-      );
+  const adjustments = state.openEntry.match.adjustments.map(
+    (adjustment, index) => {
+      if (index === action.index) {
+        const taxCodeId =
+          key === 'accountId'
+            ? getTaxCodeId(state, value)
+            : adjustment.taxCodeId;
 
-      return {
-        ...adjustment, taxCodeId, [key]: value,
-      };
+        return {
+          ...adjustment,
+          taxCodeId,
+          [key]: value,
+        };
+      }
+      return adjustment;
     }
-    return adjustment;
-  });
+  );
 
   return {
     ...state,
@@ -254,21 +281,19 @@ export const removeAdjustment = (state, action) => ({
     match: {
       ...state.openEntry.match,
       adjustments: state.openEntry.match.adjustments.filter(
-        (adjustment, index) => index !== action.index,
+        (adjustment, index) => index !== action.index
       ),
     },
   },
 });
 
-export const expandAdjustmentSection = state => (
-  {
-    ...state,
-    openEntry: {
-      ...state.openEntry,
-      match: {
-        ...state.openEntry.match,
-        showAdjustmentTable: true,
-      },
+export const expandAdjustmentSection = (state) => ({
+  ...state,
+  openEntry: {
+    ...state.openEntry,
+    match: {
+      ...state.openEntry.match,
+      showAdjustmentTable: true,
     },
-  }
-);
+  },
+});

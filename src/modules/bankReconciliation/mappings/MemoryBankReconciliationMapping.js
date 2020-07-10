@@ -10,7 +10,8 @@ import sortAndFilterResult from './data/sortAndFilterBankReconsiliation';
 import successMessage from './data/success.json';
 
 const loadBankReconciliation = ({ onSuccess }) => onSuccess(bankReconciliation);
-const sortAndFilterBankReconciliation = ({ onSuccess }) => onSuccess(sortAndFilterResult);
+const sortAndFilterBankReconciliation = ({ onSuccess }) =>
+  onSuccess(sortAndFilterResult);
 const createBankReconciliation = ({ onSuccess }) => onSuccess(successMessage);
 const undoBankReconciliation = ({ onSuccess }) => onSuccess(successMessage);
 

@@ -63,26 +63,27 @@ class FilterBar extends React.Component {
     this.moreFilterRef = element;
   };
 
-  setComponentWidths = (notFirstRender = true) => this.contentRef.forEach((refItem, index) => {
-    const { width } = getReactElementPosition(refItem);
-    if (width !== 0) {
-      if (notFirstRender) {
-        if (index < this.state.barContent.length) {
+  setComponentWidths = (notFirstRender = true) =>
+    this.contentRef.forEach((refItem, index) => {
+      const { width } = getReactElementPosition(refItem);
+      if (width !== 0) {
+        if (notFirstRender) {
+          if (index < this.state.barContent.length) {
+            this.componentWidths[index] = width;
+          }
+        } else {
           this.componentWidths[index] = width;
         }
-      } else {
-        this.componentWidths[index] = width;
       }
-    }
-  });
+    });
 
   getFilterBarWidth = () => getReactElementPosition(this.containerRef).width;
 
   // Extra width is the "More Filters" button + the Reset Button
   // "More Filters" button is visible if sideContent prop or moreContent state is more than 0
   getExtraWidth = () => {
-    const filterBarMoreWidths = this.moreButtonWidth > 0
-      ? this.moreButtonWidth : this.resetButtonWidth;
+    const filterBarMoreWidths =
+      this.moreButtonWidth > 0 ? this.moreButtonWidth : this.resetButtonWidth;
     return filterBarMoreWidths + this.applyButtonWidth;
   };
 
@@ -91,9 +92,10 @@ class FilterBar extends React.Component {
     let childCounter = this.props.children.length;
     let stopWidth = 0;
 
-    const innerContentTotalWidth = this.componentWidths.reduce((total, width) => (
-      total + width + this.insurancePadding
-    ), this.applyButtonWidth + this.resetButtonWidth);
+    const innerContentTotalWidth = this.componentWidths.reduce(
+      (total, width) => total + width + this.insurancePadding,
+      this.applyButtonWidth + this.resetButtonWidth
+    );
 
     if (innerContentTotalWidth > this.filterBarWidth) {
       this.componentWidths.forEach((groupWidth) => {
@@ -109,8 +111,8 @@ class FilterBar extends React.Component {
 
   checkingChildrenProps = (prevProps, prevstate) => {
     if (
-      this.props.children !== prevProps.children
-      || this.state.barContent.length !== prevstate.barContent.length
+      this.props.children !== prevProps.children ||
+      this.state.barContent.length !== prevstate.barContent.length
     ) {
       this.setComponentWidths(true);
       this.updateContent();
@@ -121,7 +123,7 @@ class FilterBar extends React.Component {
     if (this.state.moreContent.length > 0 || this.props.sideContent) {
       if (this.moreButtonWidth === 0) {
         this.moreButtonWidth = getReactElementPosition(
-          this.moreFilterRef,
+          this.moreFilterRef
         ).width;
 
         this.updateContent();
@@ -134,16 +136,16 @@ class FilterBar extends React.Component {
   sortContent = () => {
     const barRange = Array.from(
       { length: this.componentsToPlaceInBar },
-      (x, i) => i,
+      (x, i) => i
     );
     const moreRange = Array.from(
       { length: this.props.children.length - this.componentsToPlaceInBar },
-      (x, i) => i + this.componentsToPlaceInBar,
+      (x, i) => i + this.componentsToPlaceInBar
     );
-    const barContent = barRange.map(index => (
+    const barContent = barRange.map((index) => (
       <Reparentable key={index} el={this.contentRef[index]} />
     ));
-    const moreContent = moreRange.map(index => (
+    const moreContent = moreRange.map((index) => (
       <Reparentable key={index} el={this.contentRef[index]} />
     ));
 
@@ -155,7 +157,7 @@ class FilterBar extends React.Component {
     this.setState({ barContent, moreContent });
   };
 
-  updateButtonName = filterButtonName => this.setState({ filterButtonName });
+  updateButtonName = (filterButtonName) => this.setState({ filterButtonName });
 
   updateContent = () => {
     this.componentsToPlaceInBar = 0;
@@ -174,21 +176,21 @@ class FilterBar extends React.Component {
   };
 
   /* SME-WEB: Handle onSubmit to prevent entire page reload */
-  handleSubmit = handler => (event) => {
+  handleSubmit = (handler) => (event) => {
     event.preventDefault();
 
     if (handler) {
       handler(event);
     }
-  }
+  };
 
-  addRef = index => (ref) => {
+  addRef = (index) => (ref) => {
     if (ref !== null) {
       this.contentRef[index] = ref;
     }
   };
 
-  refButtonCallback = buttonNameWidth => (element) => {
+  refButtonCallback = (buttonNameWidth) => (element) => {
     if (element) {
       if (this[buttonNameWidth] === 0) {
         this[buttonNameWidth] = getReactElementPosition(element).width;
@@ -204,9 +206,7 @@ class FilterBar extends React.Component {
   };
 
   render() {
-    const {
-      children, sideContent, onReset, onApply,
-    } = this.props;
+    const { children, sideContent, onReset, onApply } = this.props;
     const showbuttons = this.state.filterButtonName === 'More filters';
     const applyButton = (
       <div
@@ -241,7 +241,10 @@ class FilterBar extends React.Component {
     return (
       <div className="filter-bar" ref={this.setContainerRef}>
         {/* SME-WEB: Add form to enable submit on hitting Enter key */}
-        <form onSubmit={this.handleSubmit(onApply)} className="filter-bar__inner">
+        <form
+          onSubmit={this.handleSubmit(onApply)}
+          className="filter-bar__inner"
+        >
           {React.Children.map(children, (child, index) => (
             <div ref={this.addRef(index)}>{child}</div>
           ))}
@@ -250,14 +253,14 @@ class FilterBar extends React.Component {
         </form>
         <div className="filter-bar__more" ref={this.setMoreFilterRef}>
           {(this.state.moreContent.length > 0 || sideContent) && (
-          <FilterMore
-            onApply={onApply}
-            onReset={onReset}
-            filterButtonName={this.state.filterButtonName}
-            sideContent={sideContent}
-          >
-            {this.state.moreContent}
-          </FilterMore>
+            <FilterMore
+              onApply={onApply}
+              onReset={onReset}
+              filterButtonName={this.state.filterButtonName}
+              sideContent={sideContent}
+            >
+              {this.state.moreContent}
+            </FilterMore>
           )}
           {onReset && showbuttons && resetButton}
         </div>

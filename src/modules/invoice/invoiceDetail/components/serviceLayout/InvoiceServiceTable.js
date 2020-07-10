@@ -34,24 +34,20 @@ const InvoiceServiceTable = ({
   const jobLabel = 'Job';
   const requiredLabel = 'This is required';
 
-  const jobColumn = <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>;
+  const jobColumn = (
+    <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>
+  );
 
   const headerItems = [
     <LineItemTable.HeaderItem>{descriptionLabel}</LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem
-      requiredLabel={requiredLabel}
-    >
+    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {accountLabel}
     </LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem
-      requiredLabel={requiredLabel}
-    >
+    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {amountLabel}
     </LineItemTable.HeaderItem>,
-    (isInvoiceJobColumnEnabled ? jobColumn : undefined),
-    <LineItemTable.HeaderItem
-      requiredLabel={requiredLabel}
-    >
+    isInvoiceJobColumnEnabled ? jobColumn : undefined,
+    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {taxCodeLabel}
     </LineItemTable.HeaderItem>,
   ];
@@ -79,7 +75,13 @@ const InvoiceServiceTable = ({
     },
   ];
 
-  const labels = [descriptionLabel, accountLabel, amountLabel, jobLabel, taxCodeLabel];
+  const labels = [
+    descriptionLabel,
+    accountLabel,
+    amountLabel,
+    jobLabel,
+    taxCodeLabel,
+  ];
 
   const renderRow = (index, _, onChange) => (
     <InvoiceServiceTableRow
@@ -114,7 +116,7 @@ const InvoiceServiceTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   tableData: getTableData(state),
   taxCodeLabel: getTaxCodeLabel(state),
   isInvoiceJobColumnEnabled: getIsInvoiceJobColumnEnabled(state),

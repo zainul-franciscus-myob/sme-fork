@@ -3,12 +3,7 @@ import React from 'react';
 
 import styles from './AbnMismatch.module.css';
 
-const AbnMismatch = ({
-  mismatchedAbns: {
-    abnWithStp,
-    abnWithPayEvent,
-  },
-}) => (
+const AbnMismatch = ({ mismatchedAbns: { abnWithStp, abnWithPayEvent } }) => (
   <>
     <h3>Employer information errors</h3>
     <ul>

@@ -64,9 +64,7 @@ describe('BusinessListSelector', () => {
       describe('and it is a New Essentials business', () => {
         it('returns true', () => {
           const state = {
-            businesses: [
-              { businessName: 'a' },
-            ],
+            businesses: [{ businessName: 'a' }],
           };
           const actual = getShouldRedirect(state);
 
@@ -77,9 +75,7 @@ describe('BusinessListSelector', () => {
       describe('and it is an Old Essentials business', () => {
         it('returns false', () => {
           const state = {
-            businesses: [
-              { uri: 'https://some-old-essentials-uri' },
-            ],
+            businesses: [{ uri: 'https://some-old-essentials-uri' }],
           };
 
           const actual = getShouldRedirect(state);
@@ -119,15 +115,23 @@ describe('BusinessListSelector', () => {
   describe('getBusinessUrl', () => {
     describe('when the business is a New Essentials business', () => {
       it('returns the dashboard URL for the business', () => {
-        const state = { businesses: [{ id: 'some-business-id', region: 'au' }] };
-        expect(getBusinessUrl(state)).toEqual('/#/au/some-business-id/dashboard');
+        const state = {
+          businesses: [{ id: 'some-business-id', region: 'au' }],
+        };
+        expect(getBusinessUrl(state)).toEqual(
+          '/#/au/some-business-id/dashboard'
+        );
       });
     });
 
     describe('when the business is an Old Essentials business', () => {
       it('returns the absolute URL for the business in Old Essentials', () => {
-        const state = { businesses: [{ uri: 'https://some-old-essentials-uri' }] };
-        expect(getBusinessUrl(state)).toEqual('https://some-old-essentials-uri');
+        const state = {
+          businesses: [{ uri: 'https://some-old-essentials-uri' }],
+        };
+        expect(getBusinessUrl(state)).toEqual(
+          'https://some-old-essentials-uri'
+        );
       });
     });
   });

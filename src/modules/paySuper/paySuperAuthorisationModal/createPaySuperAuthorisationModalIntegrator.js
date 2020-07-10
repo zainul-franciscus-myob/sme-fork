@@ -1,4 +1,7 @@
-import { AUTHORISE_WITH_CODE, GET_CODE_TO_AUTHORISE } from './paySuperAuthorisationModalIntents';
+import {
+  AUTHORISE_WITH_CODE,
+  GET_CODE_TO_AUTHORISE,
+} from './paySuperAuthorisationModalIntents';
 import {
   getAuthoriseWithCodeContent,
   getBusinessId,

@@ -1,11 +1,12 @@
-import {
-  Alert, Button, Modal,
-} from '@myob/myob-widgets';
+import { Alert, Button, Modal } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsActionDisabled, getIsLoading, getModalTitle,
+  getAlert,
+  getIsActionDisabled,
+  getIsLoading,
+  getModalTitle,
 } from '../../selectors/SuperPayItemModalSelectors';
 import PageView from '../../../../../../components/PageView/PageView';
 import SuperPayItemDetail from './SuperPayItemDetail';
@@ -34,32 +35,38 @@ const SuperPayItemModal = ({
 
   const view = (
     <>
-      { alertComponent }
+      {alertComponent}
       <SuperPayItemDetail onChange={onChange} />
       <SuperPayItemInfo onChange={onChange} onBlur={onBlur} />
-      <SuperPayItemEmployees onAddItem={onAddItem} onRemoveItem={onRemoveItem} />
-      <SuperPayItemExemptions onAddItem={onAddItem} onRemoveItem={onRemoveItem} />
+      <SuperPayItemEmployees
+        onAddItem={onAddItem}
+        onRemoveItem={onRemoveItem}
+      />
+      <SuperPayItemExemptions
+        onAddItem={onAddItem}
+        onRemoveItem={onRemoveItem}
+      />
     </>
   );
 
   return (
-    <Modal
-      title={title}
-      onCancel={onCancel}
-      canClose={!isActionDisabled}
-    >
+    <Modal title={title} onCancel={onCancel} canClose={!isActionDisabled}>
       <Modal.Body>
         <PageView isLoading={isLoading} view={view} />
       </Modal.Body>
       <Modal.Footer>
-        <Button type="secondary" onClick={onCancel} disabled={isActionDisabled}>Cancel</Button>
-        <Button type="primary" onClick={onSave} disabled={isActionDisabled}>Save</Button>
+        <Button type="secondary" onClick={onCancel} disabled={isActionDisabled}>
+          Cancel
+        </Button>
+        <Button type="primary" onClick={onSave} disabled={isActionDisabled}>
+          Save
+        </Button>
       </Modal.Footer>
     </Modal>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   title: getModalTitle(state),
   alert: getAlert(state),
   isLoading: getIsLoading(state),

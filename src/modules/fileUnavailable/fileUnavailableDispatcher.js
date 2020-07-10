@@ -1,8 +1,7 @@
 import { LOAD_FILE_UNAVAILABLE } from './FileUnavailableIntents';
 import { SET_INITIAL_STATE } from '../../SystemIntents';
 
-const createFileUnavailableDispatcher = store => ({
-
+const createFileUnavailableDispatcher = (store) => ({
   resetState: () => {},
 
   setInitialState: (context) => {

@@ -9,11 +9,7 @@ const EmailSettingsModal = ({
   onConfirm,
   onDismissAlert,
 }) => (
-  <Modal
-    title={title}
-    size="small"
-    onCancel={onCancel}
-  >
+  <Modal title={title} size="small" onCancel={onCancel}>
     <Modal.Body>
       {alert && (
         <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -23,8 +19,12 @@ const EmailSettingsModal = ({
       {description}
     </Modal.Body>
     <Modal.Footer>
-      <Button type="secondary" onClick={onCancel}>Go back</Button>
-      <Button type="primary" onClick={onConfirm}>Go to Invoice and quote settings</Button>
+      <Button type="secondary" onClick={onCancel}>
+        Go back
+      </Button>
+      <Button type="primary" onClick={onConfirm}>
+        Go to Invoice and quote settings
+      </Button>
     </Modal.Footer>
   </Modal>
 );

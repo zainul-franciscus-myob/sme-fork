@@ -3,12 +3,9 @@ import React from 'react';
 
 import styles from './HelpSearch.module.css';
 
-const handleSearchBoxChange = handler => e => handler(e.target.value);
+const handleSearchBoxChange = (handler) => (e) => handler(e.target.value);
 
-const HelpSearch = ({
-  onSearchChange,
-  onSearchClick,
-}) => (
+const HelpSearch = ({ onSearchChange, onSearchClick }) => (
   <>
     <div className={styles.helpSearch}>
       <Search
@@ -19,10 +16,7 @@ const HelpSearch = ({
         className="searchBox"
       />
       <div className="searchButton">
-        <Button
-          type="secondary"
-          onClick={onSearchClick}
-        >
+        <Button type="secondary" onClick={onSearchClick}>
           Search
         </Button>
       </div>

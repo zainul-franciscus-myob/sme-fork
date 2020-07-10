@@ -1,10 +1,11 @@
-import {
-  Button, ButtonRow, StandardTemplate,
-} from '@myob/myob-widgets';
+import { Button, ButtonRow, StandardTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsLoading, getLoadingState } from '../../selectors/superFundListSelectors';
+import {
+  getIsLoading,
+  getLoadingState,
+} from '../../selectors/superFundListSelectors';
 import PageView from '../../../../components/PageView/PageView';
 import SuperFundListFilterOptions from './SuperFundListFilterOptions';
 import SuperFundListTable from './SuperFundListTable';
@@ -32,8 +33,8 @@ const SuperFundListView = (props) => {
 
   const subHeadChildren = (
     <React.Fragment>
-      { tabs }
-      { actions }
+      {tabs}
+      {actions}
     </React.Fragment>
   );
 
@@ -44,9 +45,7 @@ const SuperFundListView = (props) => {
     />
   );
 
-  const view = (
-    <SuperFundListTable onSort={onSort} />
-  );
+  const view = <SuperFundListTable onSort={onSort} />;
 
   return (
     <StandardTemplate
@@ -65,7 +64,7 @@ SuperFundListView.defaultProps = {
   alert: undefined,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoading: getIsLoading(state),
   loadingState: getLoadingState(state),
 });

@@ -21,17 +21,21 @@ import createSupplierReturnListIntegrator from './createSupplierReturnListIntegr
 import debounce from '../../../common/debounce/debounce';
 import supplierReturnListReducer from './supplierReturnListReducer';
 
-const messageTypes = [SUCCESSFULLY_SAVED_RECEIVE_REFUND, SUCCESSFULLY_SAVED_PURCHASE_RETURN];
+const messageTypes = [
+  SUCCESSFULLY_SAVED_RECEIVE_REFUND,
+  SUCCESSFULLY_SAVED_PURCHASE_RETURN,
+];
 
 export default class SupplierReturnListModule {
-  constructor({
-    integration, setRootView, popMessages,
-  }) {
+  constructor({ integration, setRootView, popMessages }) {
     this.setRootView = setRootView;
     this.store = new Store(supplierReturnListReducer);
     this.popMessages = popMessages;
     this.messageTypes = messageTypes;
-    this.integrator = createSupplierReturnListIntegrator(this.store, integration);
+    this.integrator = createSupplierReturnListIntegrator(
+      this.store,
+      integration
+    );
     this.dispatcher = createSupplierReturnListDispatcher(this.store);
   }
 
@@ -48,7 +52,7 @@ export default class SupplierReturnListModule {
       </Provider>
     );
     this.setRootView(view);
-  }
+  };
 
   loadSupplierReturnList = () => {
     const onSuccess = (payload) => {
@@ -77,7 +81,7 @@ export default class SupplierReturnListModule {
     };
 
     this.integrator.sortAndFilterSupplierReturnList({ onSuccess, onFailure });
-  }
+  };
 
   updateFilterBarOptions = ({ key, value }) => {
     this.dispatcher.updateFilterBarOptions({ key, value });
@@ -87,7 +91,7 @@ export default class SupplierReturnListModule {
     } else {
       this.sortAndFilterSupplierReturnList();
     }
-  }
+  };
 
   sortSupplierReturnList = (orderBy) => {
     const state = this.store.getState();
@@ -102,14 +106,14 @@ export default class SupplierReturnListModule {
     const url = getCreateRefundUrl(state, id);
 
     window.location.href = url;
-  }
+  };
 
   redirectToCreatePurchase = (id) => {
     const state = this.store.getState();
     const url = getCreatePurchaseUrl(state, id);
 
     window.location.href = url;
-  }
+  };
 
   readMessages = () => {
     const [successMessage] = this.popMessages(this.messageTypes);
@@ -117,16 +121,23 @@ export default class SupplierReturnListModule {
       const { content: message } = successMessage;
       this.dispatcher.setAlert({ type: 'success', message });
     }
-  }
+  };
 
   run(context) {
-    const settings = loadSettings(context.businessId, RouteName.SUPPLIER_RETURN_LIST);
+    const settings = loadSettings(
+      context.businessId,
+      RouteName.SUPPLIER_RETURN_LIST
+    );
     this.dispatcher.setInitialState(context, settings);
     this.render();
     this.readMessages();
-    this.store.subscribe(states => (
-      saveSettings(context.businessId, RouteName.SUPPLIER_RETURN_LIST, getSettings(states))
-    ));
+    this.store.subscribe((states) =>
+      saveSettings(
+        context.businessId,
+        RouteName.SUPPLIER_RETURN_LIST,
+        getSettings(states)
+      )
+    );
     this.loadSupplierReturnList();
   }
 
@@ -136,5 +147,5 @@ export default class SupplierReturnListModule {
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 }

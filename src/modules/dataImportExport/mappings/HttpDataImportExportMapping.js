@@ -16,35 +16,43 @@ import {
 const HttpDataImportExportMapping = {
   [LOAD_DATA_IMPORT_EXPORT]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/dataImportExport/load_data_import_export`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/dataImportExport/load_data_import_export`,
   },
   [BULK_DELETE_UNUSED_ACCOUNTS]: {
     method: 'DELETE',
-    getPath: ({ businessId }) => `/${businessId}/dataImportExport/bulk_delete_accounts`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/dataImportExport/bulk_delete_accounts`,
   },
   [IMPORT_CHART_OF_ACCOUNTS]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/dataImportExport/import_chart_of_accounts`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/dataImportExport/import_chart_of_accounts`,
   },
   [EXPORT_CHART_OF_ACCOUNTS]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/dataImportExport/export_chart_of_accounts`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/dataImportExport/export_chart_of_accounts`,
   },
   [EXPORT_COMPANY_FILE]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/dataImportExport/export_company_file`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/dataImportExport/export_company_file`,
   },
   [EXPORT_COMPANY_FILE_RESULT]: {
     method: 'GET',
-    getPath: ({ businessId, jobId }) => `/${businessId}/dataImportExport/export_company_file/${jobId}`,
+    getPath: ({ businessId, jobId }) =>
+      `/${businessId}/dataImportExport/export_company_file/${jobId}`,
   },
   [IMPORT_CONTACTS]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/dataImportExport/import_contacts`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/dataImportExport/import_contacts`,
   },
   [IMPORT_EMPLOYEES]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/dataImportExport/import_employees`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/dataImportExport/import_employees`,
   },
   [IMPORT_ITEMS]: {
     method: 'POST',
@@ -52,15 +60,18 @@ const HttpDataImportExportMapping = {
   },
   [IMPORT_GENERAL_JOURNALS]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/dataImportExport/import_general_journals`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/dataImportExport/import_general_journals`,
   },
   [IMPORT_TRANSACTION_JOURNALS]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/dataImportExport/import_transaction_journals`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/dataImportExport/import_transaction_journals`,
   },
   [IMPORT_TIMESHEETS]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/dataImportExport/import_timesheets`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/dataImportExport/import_timesheets`,
   },
 };
 

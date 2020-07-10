@@ -5,9 +5,8 @@ import React from 'react';
 import { getActiveNav, getPurchasesUrls } from '../NavigationSelectors';
 import handleMenuLinkClick from './handlers/handleMenuLinkClick';
 
-const isSeparatorRequired = urls => (
-  urls.billList || urls.billCreate || urls.billPaymentCreate
-);
+const isSeparatorRequired = (urls) =>
+  urls.billList || urls.billCreate || urls.billPaymentCreate;
 
 const getMenuLink = (url, label, onMenuLinkClick) => (
   <Navigation.MenuLink
@@ -18,18 +17,24 @@ const getMenuLink = (url, label, onMenuLinkClick) => (
   />
 );
 
-const getItems = (urls, onMenuLinkClick) => [
-  urls.billList && getMenuLink(urls.billList, 'Bills', onMenuLinkClick),
-  urls.billCreate && getMenuLink(urls.billCreate, 'Create bill', onMenuLinkClick),
-  urls.billPaymentCreate && getMenuLink(urls.billPaymentCreate, 'Create bill payment', onMenuLinkClick),
-  isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
-  urls.supplierReturnList && getMenuLink(urls.supplierReturnList, 'Supplier returns', onMenuLinkClick),
-  urls.itemList && getMenuLink(urls.itemList, 'Items', onMenuLinkClick),
-].filter(Boolean);
+const getItems = (urls, onMenuLinkClick) =>
+  [
+    urls.billList && getMenuLink(urls.billList, 'Bills', onMenuLinkClick),
+    urls.billCreate &&
+      getMenuLink(urls.billCreate, 'Create bill', onMenuLinkClick),
+    urls.billPaymentCreate &&
+      getMenuLink(
+        urls.billPaymentCreate,
+        'Create bill payment',
+        onMenuLinkClick
+      ),
+    isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
+    urls.supplierReturnList &&
+      getMenuLink(urls.supplierReturnList, 'Supplier returns', onMenuLinkClick),
+    urls.itemList && getMenuLink(urls.itemList, 'Items', onMenuLinkClick),
+  ].filter(Boolean);
 
-const PurchasesMenu = ({
-  urls, activeNav, onMenuSelect, onMenuLinkClick,
-}) => (
+const PurchasesMenu = ({ urls, activeNav, onMenuSelect, onMenuLinkClick }) => (
   <Navigation.Menu
     label="Purchases"
     icon={<Icons.Caret />}

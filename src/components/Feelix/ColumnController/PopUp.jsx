@@ -5,10 +5,10 @@ import React from 'react';
 import classnames from 'classnames';
 
 // eslint-disable-next-line no-mixed-operators
-const mod = (dividend, divisor) => (dividend % divisor + divisor) % divisor;
+const mod = (dividend, divisor) => ((dividend % divisor) + divisor) % divisor;
 
 // _.cloneDeep is safer but bigger
-const clone = obj => JSON.parse(JSON.stringify(obj));
+const clone = (obj) => JSON.parse(JSON.stringify(obj));
 
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 export default class PopUp extends React.Component {
@@ -18,14 +18,14 @@ export default class PopUp extends React.Component {
       PropTypes.shape({
         title: PropTypes.string,
         onClick: PropTypes.func,
-      }),
+      })
     ),
     columns: PropTypes.arrayOf(
       PropTypes.shape({
         key: PropTypes.string,
         description: PropTypes.string,
         visible: PropTypes.bool,
-      }),
+      })
     ).isRequired,
     close: PropTypes.func.isRequired,
     position: PropTypes.shape({

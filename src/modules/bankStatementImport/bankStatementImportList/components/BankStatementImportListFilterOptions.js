@@ -2,16 +2,17 @@ import { FilterBar } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAccountOptions, getFilterOptions } from '../BankStatementImportListSelectors';
+import {
+  getAccountOptions,
+  getFilterOptions,
+} from '../BankStatementImportListSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import styles from './BankStatementImportListFilterOptions.module.css';
 
 const BankStatementImportListFilterOptions = ({
   accountOptions,
-  filterOptions: {
-    accountId,
-  },
+  filterOptions: { accountId },
   onUpdateFilterBarOptions,
 }) => (
   <FilterBar>
@@ -29,7 +30,7 @@ const BankStatementImportListFilterOptions = ({
   </FilterBar>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accountOptions: getAccountOptions(state),
   filterOptions: getFilterOptions(state),
 });

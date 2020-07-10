@@ -12,7 +12,7 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { getIsCreating } from './transferMoneyDetailSelectors';
 
-const createTransferMoneyDetailDispatcher = store => ({
+const createTransferMoneyDetailDispatcher = (store) => ({
   setLoadingState: (loadingState) => {
     store.dispatch({
       intent: SET_LOADING_STATE,

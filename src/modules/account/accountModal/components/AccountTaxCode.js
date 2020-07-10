@@ -1,13 +1,15 @@
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getTaxCodeId, getTaxCodeLabel, getTaxCodes } from '../accountModalSelectors';
+import {
+  getTaxCodeId,
+  getTaxCodeLabel,
+  getTaxCodes,
+} from '../accountModalSelectors';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 
-const AccountTaxCode = ({
-  taxCodeId, taxCodes, onChange, fieldlabel,
-}) => (
+const AccountTaxCode = ({ taxCodeId, taxCodes, onChange, fieldlabel }) => (
   <TaxCodeCombobox
     label={fieldlabel}
     requiredLabel="This is required"
@@ -20,7 +22,7 @@ const AccountTaxCode = ({
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   taxCodeId: getTaxCodeId(state),
   taxCodes: getTaxCodes(state),
   fieldlabel: getTaxCodeLabel(state),

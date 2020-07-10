@@ -70,19 +70,26 @@ const MemoryBillDetailMapping = {
     }
   },
   [LOAD_NEW_BILL]: ({ onSuccess }) => onSuccess(loadNewBill),
-  [LOAD_NEW_DUPLICATE_BILL]: ({ onSuccess }) => onSuccess(loadNewDuplicateItemAndServiceBill),
+  [LOAD_NEW_DUPLICATE_BILL]: ({ onSuccess }) =>
+    onSuccess(loadNewDuplicateItemAndServiceBill),
   [DELETE_BILL]: ({ onSuccess }) => onSuccess(successResponse),
   [CREATE_BILL]: ({ onSuccess }) => onSuccess(createBillResponse),
   [UPDATE_BILL]: ({ onSuccess }) => onSuccess(successResponse),
   [LOAD_SUPPLIER_DETAIL]: ({ onSuccess }) => onSuccess(loadSupplierDetail),
-  [LOAD_SUPPLIER_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadSupplierResponse),
-  [LOAD_ITEM_DETAIL_FOR_LINE]: ({ onSuccess }) => onSuccess(updatedLineForItemDetail),
-  [EXPORT_BILL_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
+  [LOAD_SUPPLIER_AFTER_CREATE]: ({ onSuccess }) =>
+    onSuccess(loadSupplierResponse),
+  [LOAD_ITEM_DETAIL_FOR_LINE]: ({ onSuccess }) =>
+    onSuccess(updatedLineForItemDetail),
+  [EXPORT_BILL_PDF]: ({ onSuccess }) =>
+    onSuccess(new Blob([], { type: 'application/pdf' })),
   [LOAD_ITEM_OPTION]: ({ onSuccess }) => onSuccess(loadItemOption),
-  [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedAccountResponse),
+  [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) =>
+    onSuccess(loadAddedAccountResponse),
   [LOAD_JOB_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedJobResponse),
-  [PREFILL_BILL_FROM_IN_TRAY]: ({ onSuccess }) => onSuccess(prefillBillFromInTray),
-  [DOWNLOAD_IN_TRAY_DOCUMENT]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
+  [PREFILL_BILL_FROM_IN_TRAY]: ({ onSuccess }) =>
+    onSuccess(prefillBillFromInTray),
+  [DOWNLOAD_IN_TRAY_DOCUMENT]: ({ onSuccess }) =>
+    onSuccess(new Blob([], { type: 'application/pdf' })),
   [UNLINK_IN_TRAY_DOCUMENT]: ({ onSuccess }) => onSuccess(successResponse),
   [LINK_IN_TRAY_DOCUMENT]: ({ onSuccess }) => onSuccess(successResponse),
   [LOAD_ABN_FROM_SUPPLIER]: ({ onSuccess }) => onSuccess(loadAbnDetail),

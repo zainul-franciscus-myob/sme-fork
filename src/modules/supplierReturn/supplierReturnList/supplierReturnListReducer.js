@@ -1,15 +1,13 @@
 import {
   LOAD_SUPPLIER_RETURN_LIST,
-  SET_ALERT, SET_LOADING_STATE,
+  SET_ALERT,
+  SET_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_SUPPLIER_RETURN_LIST,
   UPDATE_FILTER_BAR_OPTIONS,
 } from '../SupplierReturnIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
@@ -39,14 +37,17 @@ const getDefaultState = () => ({
   ...defaultSortingOption,
 });
 
-const setInitialState = (state, {
-  context,
-  settings = {
-    filterOptions: defaultFilterOptions,
-    sortOrder: defaultSortingOption.sortOrder,
-    orderBy: defaultSortingOption.orderBy,
-  },
-}) => ({
+const setInitialState = (
+  state,
+  {
+    context,
+    settings = {
+      filterOptions: defaultFilterOptions,
+      sortOrder: defaultSortingOption.sortOrder,
+      orderBy: defaultSortingOption.orderBy,
+    },
+  }
+) => ({
   ...state,
   ...context,
   filterOptions: {
@@ -57,19 +58,20 @@ const setInitialState = (state, {
   orderBy: settings.orderBy,
 });
 
-const loadSupplierReturnList = (state, {
-  intent, supplierFilters, ...rest
-}) => {
-  const supplierFilterOptions = supplierFilters.map(filter => ({
+const loadSupplierReturnList = (
+  state,
+  { intent, supplierFilters, ...rest }
+) => {
+  const supplierFilterOptions = supplierFilters.map((filter) => ({
     displayName: filter.name,
     id: filter.value,
   }));
 
-  return ({
+  return {
     ...state,
     ...rest,
     supplierFilterOptions,
-  });
+  };
 };
 
 const updateFilterBarOptions = (state, action) => ({
@@ -80,10 +82,10 @@ const updateFilterBarOptions = (state, action) => ({
   },
 });
 
-const sortAndFilterSupplierReturnList = (state,
-  {
-    intent, isSort, ...rest
-  }) => ({
+const sortAndFilterSupplierReturnList = (
+  state,
+  { intent, isSort, ...rest }
+) => ({
   ...state,
   ...rest,
 });
@@ -109,7 +111,7 @@ const setLoadingState = (state, { loadingState }) => ({
   loadingState,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,

@@ -9,7 +9,8 @@ import {
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
-  SET_SUPER_PAY_ITEM, SET_SUPER_PAY_ITEM_DETAIL,
+  SET_SUPER_PAY_ITEM,
+  SET_SUPER_PAY_ITEM_DETAIL,
 } from './SuperPayItemIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -78,7 +79,7 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setAlert = (state, action) => ({
   ...state,
@@ -90,7 +91,7 @@ const openModal = (state, action) => ({
   modalType: action.modalType,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modalType: '',
 });
@@ -123,7 +124,8 @@ const setSuperPayItemState = (state, partialSuperPayItem) => ({
   isPageEdited: true,
 });
 
-const setSuperPayItem = (state, action) => setSuperPayItemState(state, action.superPayItem);
+const setSuperPayItem = (state, action) =>
+  setSuperPayItemState(state, action.superPayItem);
 
 const setSuperPayItemDetail = (state, action) => {
   const partialSuperPayItem = { [action.key]: action.value };
@@ -142,8 +144,9 @@ const addSuperPayItemEmployee = (state, action) => {
 };
 
 const removeSuperPayItemEmployee = (state, action) => {
-  const updatedEmployees = state.superPayItem.employees
-    .filter(employee => employee.id !== action.id);
+  const updatedEmployees = state.superPayItem.employees.filter(
+    (employee) => employee.id !== action.id
+  );
   const partialSuperPayItem = { employees: updatedEmployees };
 
   return setSuperPayItemState(state, partialSuperPayItem);
@@ -160,8 +163,9 @@ const addSuperPayItemExemption = (state, action) => {
 };
 
 const removeSuperPayItemExemption = (state, action) => {
-  const updatedExemptions = state.superPayItem.exemptions
-    .filter(exemption => exemption.id !== action.id);
+  const updatedExemptions = state.superPayItem.exemptions.filter(
+    (exemption) => exemption.id !== action.id
+  );
   const partialSuperPayItem = { exemptions: updatedExemptions };
 
   return setSuperPayItemState(state, partialSuperPayItem);

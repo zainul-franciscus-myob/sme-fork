@@ -1,9 +1,9 @@
 module.exports = {
-  extends: ['react-app', 'airbnb'],
+  extends: ['react-app', 'airbnb', 'plugin:prettier/recommended'],
   parser: 'babel-eslint',
   plugins: [
     'jest',
-    'sort-imports-es6-autofix',
+    'sort-imports-es6-autofix'
   ],
   env: {
     'browser': true,
@@ -43,7 +43,6 @@ module.exports = {
     // eslint-plugin-react@7.19.0
     // eslint-config-airbnb@18.0.1
     // enable these as needed
-    'arrow-parens': 'off',
     'no-mixed-operators': 'off',
     'react/jsx-wrap-multilines': 'off',
     'react/jsx-indent': 'off',

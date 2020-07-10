@@ -12,11 +12,13 @@ describe('PayrollTaxSelectors', () => {
       const payItemOptions = [{ id: '1' }, { id: '2' }];
       const payItems = [{ id: '1' }];
 
-      const actual = getFilteredTaxPayItemOptions
-        .resultFunc(payItemOptions, payItems);
+      const actual = getFilteredTaxPayItemOptions.resultFunc(
+        payItemOptions,
+        payItems
+      );
 
-      expect(actual.find(item => item.id === '1')).toBeFalsy();
-      expect(actual.find(item => item.id === '2')).toBeTruthy();
+      expect(actual.find((item) => item.id === '1')).toBeFalsy();
+      expect(actual.find((item) => item.id === '2')).toBeTruthy();
     });
   });
 
@@ -30,8 +32,10 @@ describe('PayrollTaxSelectors', () => {
 
       const expected = [{ id: '1', name: 'name1', type: 'TaxPayrollCategory' }];
 
-      const actual = getSelectedTaxPayItems
-        .resultFunc(payItemOptions, payItems);
+      const actual = getSelectedTaxPayItems.resultFunc(
+        payItemOptions,
+        payItems
+      );
 
       expect(actual).toEqual(expected);
     });

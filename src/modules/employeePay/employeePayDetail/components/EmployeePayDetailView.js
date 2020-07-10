@@ -77,8 +77,9 @@ const EmployeePayDetailView = ({
 
   const infoReversal = isReversalPreview && (
     <Alert type="info" testid="reversalInfoMsg">
-      This pay has been reported to the ATO for Single Touch Payroll.
-      When you record the reversal, you will have to report it to STP for reporting purposes.
+      This pay has been reported to the ATO for Single Touch Payroll. When you
+      record the reversal, you will have to report it to STP for reporting
+      purposes.
     </Alert>
   );
 
@@ -105,19 +106,37 @@ const EmployeePayDetailView = ({
     </div>
   );
 
-  const modalButtons = isReversalPreview
-    ? <ButtonRow primary={[
-      <Button testid="view-record-reverse-back-btn" type="secondary" onClick={onGoBackClick}>Cancel</Button>,
-      <Button testid="view-record-reverse-btn" onClick={onRecordReversalButtonClick}>Record reversal</Button>,
-    ]}
+  const modalButtons = isReversalPreview ? (
+    <ButtonRow
+      primary={[
+        <Button
+          testid="view-record-reverse-back-btn"
+          type="secondary"
+          onClick={onGoBackClick}
+        >
+          Cancel
+        </Button>,
+        <Button
+          testid="view-record-reverse-btn"
+          onClick={onRecordReversalButtonClick}
+        >
+          Record reversal
+        </Button>,
+      ]}
     />
-    : <EmployeePayDetailButtons
+  ) : (
+    <EmployeePayDetailButtons
       onDeleteButtonClick={onDeleteButtonClick}
       onGoBackClick={onGoBackClick}
       onReverseButtonClick={onReverseButtonClick}
       onRecordReversalButtonClick={onRecordReversalButtonClick}
-      showReverse={featureToggles && featureToggles.isPayrollReversibleEnabled && isReversible}
-    />;
+      showReverse={
+        featureToggles &&
+        featureToggles.isPayrollReversibleEnabled &&
+        isReversible
+      }
+    />
+  );
 
   const view = (
     <BaseTemplate>
@@ -147,7 +166,7 @@ const EmployeePayDetailView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   employeePay: getEmployeePay(state),
   pageTitle: getPageTitle(state),

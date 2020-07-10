@@ -1,11 +1,12 @@
-import {
-  Button, HeaderSort, Icons, Table,
-} from '@myob/myob-widgets';
+import { Button, HeaderSort, Icons, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsTableEmpty, getIsTableLoading, getSortOrder, getSuperPayments,
+  getIsTableEmpty,
+  getIsTableLoading,
+  getSortOrder,
+  getSuperPayments,
 } from '../paySuperListSelector';
 import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
 import PaymentStatus from '../../components/PaymentStatus';
@@ -13,9 +14,17 @@ import TableView from '../../../../components/TableView/TableView';
 
 const tableConfig = {
   date: { columnName: 'Date', sortName: 'date' },
-  referenceNumber: { columnName: 'Reference number', width: 'flex-2', sortName: 'referenceNumber' },
+  referenceNumber: {
+    columnName: 'Reference number',
+    width: 'flex-2',
+    sortName: 'referenceNumber',
+  },
   employees: { columnName: 'Employees', align: 'right', sortName: 'employees' },
-  description: { columnName: 'Description', width: 'flex-3', sortName: 'description' },
+  description: {
+    columnName: 'Description',
+    width: 'flex-3',
+    sortName: 'description',
+  },
   amount: { columnName: 'Amount ($)', align: 'right', sortName: 'amount' },
   status: { columnName: 'Status', width: 'flex-2', sortName: 'status' },
 };
@@ -81,13 +90,18 @@ const PaySuperListTable = ({
       </Table.HeaderItem>
     </Table.Header>
   );
-  const rows = superPayments.map(payment => (
+  const rows = superPayments.map((payment) => (
     <Table.Row key={payment.batchPaymentId}>
       <Table.RowItem {...tableConfig.date}>
         {payment.dateOccurred}
       </Table.RowItem>
       <Table.RowItem {...tableConfig.referenceNumber}>
-        <Button type="link" onClick={() => { onReferenceNumberClick(payment.businessEventId); }}>
+        <Button
+          type="link"
+          onClick={() => {
+            onReferenceNumberClick(payment.businessEventId);
+          }}
+        >
           {payment.displayId}
         </Button>
       </Table.RowItem>
@@ -97,9 +111,7 @@ const PaySuperListTable = ({
       <Table.RowItem {...tableConfig.description}>
         {payment.description}
       </Table.RowItem>
-      <Table.RowItem {...tableConfig.amount}>
-        {payment.amount}
-      </Table.RowItem>
+      <Table.RowItem {...tableConfig.amount}>{payment.amount}</Table.RowItem>
       <Table.RowItem {...tableConfig.status}>
         <PaymentStatus paymentStatus={payment.status} />
       </Table.RowItem>
@@ -107,24 +119,35 @@ const PaySuperListTable = ({
   ));
 
   const emptyViewActions = [
-    <Button key={1} type="link" onClick={onCreateButtonClick} icon={<Icons.Add />}>
+    <Button
+      key={1}
+      type="link"
+      onClick={onCreateButtonClick}
+      icon={<Icons.Add />}
+    >
       Create super payment
     </Button>,
   ];
   const emptyView = (
-    <NoResultPageState title="No super payments found" actions={emptyViewActions} />
+    <NoResultPageState
+      title="No super payments found"
+      actions={emptyViewActions}
+    />
   );
 
   return (
-    <TableView header={header} isEmpty={isTableEmpty} isLoading={isLoading} emptyView={emptyView}>
-      <Table.Body>
-        {rows}
-      </Table.Body>
+    <TableView
+      header={header}
+      isEmpty={isTableEmpty}
+      isLoading={isLoading}
+      emptyView={emptyView}
+    >
+      <Table.Body>{rows}</Table.Body>
     </TableView>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isTableEmpty: getIsTableEmpty(state),
   isLoading: getIsTableLoading(state),
   superPayments: getSuperPayments(state),

@@ -20,6 +20,6 @@ const BankFeedBalanceAndImage = ({ bankFeedBalance, isLoading }) => {
   );
 };
 
-const mapStateToProps = state => getBankfeedAmount(state);
+const mapStateToProps = (state) => getBankfeedAmount(state);
 
 export default connect(mapStateToProps)(BankFeedBalanceAndImage);

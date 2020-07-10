@@ -7,27 +7,35 @@ import {
   getTableTaxCodeHeader,
 } from '../AccountListSelectors';
 
-const HeaderItem = ({ config }) => !config.isHidden && (
-  <Table.HeaderItem columnName={config.columnName} {...config.styles}>
-    {config.columnName}
-  </Table.HeaderItem>
-);
+const HeaderItem = ({ config }) =>
+  !config.isHidden && (
+    <Table.HeaderItem columnName={config.columnName} {...config.styles}>
+      {config.columnName}
+    </Table.HeaderItem>
+  );
 
 const AccountListTableHeader = (props) => {
-  const {
-    showInactive,
-    taxCodeHeader,
-  } = props;
+  const { showInactive, taxCodeHeader } = props;
 
   const tableConfig = {
-    accountNumber: { columnName: 'Account number', styles: { valign: 'middle' } },
+    accountNumber: {
+      columnName: 'Account number',
+      styles: { valign: 'middle' },
+    },
     accountName: { columnName: 'Account name', styles: { valign: 'middle' } },
-    status: { columnName: 'Status', styles: { valign: 'middle' }, isHidden: !showInactive },
+    status: {
+      columnName: 'Status',
+      styles: { valign: 'middle' },
+      isHidden: !showInactive,
+    },
     type: { columnName: 'Account type', styles: { valign: 'middle' } },
     taxCode: { columnName: taxCodeHeader, styles: { valign: 'middle' } },
     linked: { columnName: 'Linked', styles: { valign: 'middle' } },
     level: { columnName: 'Level', styles: { valign: 'middle' } },
-    balance: { columnName: 'Current balance ($)', styles: { valign: 'middle', align: 'right' } },
+    balance: {
+      columnName: 'Current balance ($)',
+      styles: { valign: 'middle', align: 'right' },
+    },
   };
 
   return (
@@ -46,7 +54,7 @@ const AccountListTableHeader = (props) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   showInactive: getShowInactive(state),
   taxCodeHeader: getTableTaxCodeHeader(state),
 });

@@ -1,7 +1,5 @@
 import { Provider } from 'react-redux';
-import {
-  Table,
-} from '@myob/myob-widgets';
+import { Table } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 import React from 'react';
 
@@ -29,19 +27,18 @@ describe('Employee pay details table', () => {
 
   afterEach(jest.clearAllMocks);
 
-  const mountWithProvider = component => mount(component,
-    { wrappingComponent: Provider, wrappingComponentProps: { store } });
+  const mountWithProvider = (component) =>
+    mount(component, {
+      wrappingComponent: Provider,
+      wrappingComponentProps: { store },
+    });
 
   it('Should have the expected values in table header', () => {
     const wrapper = mountWithProvider(<PayDetailsTable {...props} />);
     const headerTextValues = wrapper
       .find(Table.HeaderItem)
-      .map(header => header.text());
-    const expected = [
-      '',
-      'Quantity',
-      'Amount ($)',
-    ];
+      .map((header) => header.text());
+    const expected = ['', 'Quantity', 'Amount ($)'];
     expect(headerTextValues).toEqual(expected);
   });
 });

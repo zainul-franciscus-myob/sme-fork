@@ -8,10 +8,7 @@ import handleInputChange from '../../../../components/handlers/handleInputChange
 import styles from './InTrayListFilterOptions.module.css';
 
 const InTrayListFilterOptions = (props) => {
-  const {
-    keywords,
-    onUpdateFilterOptions,
-  } = props;
+  const { keywords, onUpdateFilterOptions } = props;
 
   return (
     <Card classes={[styles.filterBar]}>
@@ -25,6 +22,6 @@ const InTrayListFilterOptions = (props) => {
   );
 };
 
-const mapStateToProps = state => getFilterOptions(state);
+const mapStateToProps = (state) => getFilterOptions(state);
 
 export default connect(mapStateToProps)(InTrayListFilterOptions);

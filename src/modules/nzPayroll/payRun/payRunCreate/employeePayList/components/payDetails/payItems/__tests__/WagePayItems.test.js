@@ -1,7 +1,5 @@
 import { Provider } from 'react-redux';
-import {
-  Table,
-} from '@myob/myob-widgets';
+import { Table } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 import React from 'react';
 
@@ -33,8 +31,11 @@ describe('WagePayItems', () => {
 
   afterEach(jest.clearAllMocks);
 
-  const mountWithProvider = component => mount(component,
-    { wrappingComponent: Provider, wrappingComponentProps: { store } });
+  const mountWithProvider = (component) =>
+    mount(component, {
+      wrappingComponent: Provider,
+      wrappingComponentProps: { store },
+    });
 
   it('Should have the expected values in row header', () => {
     const wrapper = mountWithProvider(<WagePayItems {...props} />);

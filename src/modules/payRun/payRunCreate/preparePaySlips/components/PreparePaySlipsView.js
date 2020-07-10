@@ -1,6 +1,4 @@
-import {
-  Button, ButtonRow, Card, PageHead, Stepper,
-} from '@myob/myob-widgets';
+import { Button, ButtonRow, Card, PageHead, Stepper } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -38,16 +36,24 @@ const PreparePaySlipsView = ({
         <Stepper activeStepNumber={stepNumber} steps={payRunSteps} />
       </div>
       <EmployeePayHeader />
-      { employeeCard }
+      {employeeCard}
       <ButtonRow
-        primary={[<Button key="next" onClick={onNextClick}>Next</Button>]}
-        secondary={[<Button key="cancel" type="secondary" onClick={onCancelClick}>Cancel</Button>]}
+        primary={[
+          <Button key="next" onClick={onNextClick}>
+            Next
+          </Button>,
+        ]}
+        secondary={[
+          <Button key="cancel" type="secondary" onClick={onCancelClick}>
+            Cancel
+          </Button>,
+        ]}
       />
     </>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   stepNumber: getStepNumber(state),
   payRunSteps: getStepperSteps(state),
 });

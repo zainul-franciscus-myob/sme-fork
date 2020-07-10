@@ -18,9 +18,7 @@ const Collapsible = ({ title, content, visible }) => (
       </button>
     )}
   >
-    <div className={styles.collapsibleContent}>
-      {content}
-    </div>
+    <div className={styles.collapsibleContent}>{content}</div>
   </ToggleContent>
 );
 

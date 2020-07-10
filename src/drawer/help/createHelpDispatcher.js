@@ -9,7 +9,7 @@ import {
 } from './HelpIntents';
 import { SET_INITIAL_STATE } from '../../SystemIntents';
 
-const createHelpDispatcher = store => ({
+const createHelpDispatcher = (store) => ({
   setInitialState: ({ routeParams, currentRouteName }) => {
     store.dispatch({
       intent: SET_INITIAL_STATE,

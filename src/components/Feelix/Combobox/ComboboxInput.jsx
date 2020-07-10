@@ -13,7 +13,7 @@ class ComboboxInput extends React.Component {
     this.isComboboxFocused = false;
   }
 
-  setInputRef = ref => {
+  setInputRef = (ref) => {
     const { inputRef } = this.props;
     if (inputRef) {
       inputRef(ref);
@@ -21,12 +21,12 @@ class ComboboxInput extends React.Component {
     this.inputRef = ref;
   };
 
-  onInputBlur = e => {
+  onInputBlur = (e) => {
     this.isInputFocused = false;
     setTimeout(() => this.blurComboboxInput(e), 0);
   };
 
-  onButtonBlur = e => {
+  onButtonBlur = (e) => {
     this.isButtonFocused = false;
     setTimeout(() => this.blurComboboxInput(e), 0);
   };
@@ -41,7 +41,7 @@ class ComboboxInput extends React.Component {
     }
   };
 
-  blurComboboxInput = e => {
+  blurComboboxInput = (e) => {
     if (this.isInputFocused || this.isButtonFocused) {
       return;
     }
@@ -55,19 +55,19 @@ class ComboboxInput extends React.Component {
     }
   };
 
-  onInputFocus = e => {
+  onInputFocus = (e) => {
     this.focusComboboxInput(e);
     this.isInputFocused = true;
     this.isComboboxFocused = true;
   };
 
-  onButtonFocus = e => {
+  onButtonFocus = (e) => {
     this.focusComboboxInput(e);
     this.isButtonFocused = true;
     this.isComboboxFocused = true;
   };
 
-  focusComboboxInput = e => {
+  focusComboboxInput = (e) => {
     if (this.isComboboxFocused) {
       return;
     }
@@ -124,10 +124,8 @@ class ComboboxInput extends React.Component {
       <div className="input-group">
         <input {...inputProps} />
         <div className="input-group-btn">
-          {
-            /* this needs to be an a tag in order to enable onBlur/onFocus functionality. Buttons
-            supporting onFocus/onBlur is OS specific. */
-          }
+          {/* this needs to be an a tag in order to enable onBlur/onFocus functionality. Buttons
+            supporting onFocus/onBlur is OS specific. */}
           <a
             {...getButtonProps({
               className: 'btn btn-default btn-xs dropdown-toggle clickable',

@@ -1,4 +1,8 @@
-import { getEmptyState, getFlipSortOrder, shouldShowEmptyState } from '../payRunListSelectors';
+import {
+  getEmptyState,
+  getFlipSortOrder,
+  shouldShowEmptyState,
+} from '../payRunListSelectors';
 import emptyViewTypes from '../emptyViewTypes';
 
 describe('payRunListSelectors', () => {

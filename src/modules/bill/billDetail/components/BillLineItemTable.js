@@ -3,18 +3,21 @@ import { connect } from 'react-redux';
 import React from 'react';
 import classnames from 'classnames';
 
-import { getHasNoteBeenPrefilled, getNote, getTableData } from '../selectors/billSelectors';
+import {
+  getHasNoteBeenPrefilled,
+  getNote,
+  getTableData,
+} from '../selectors/billSelectors';
 import BillTableTotals from './BillTableTotals';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 import styles from './BillLineItemTable.module.css';
 
-const handleAddRow = handler => e => handler(e);
+const handleAddRow = (handler) => (e) => handler(e);
 
-const handleRowChange = handler => (index, key, value) => (
-  handler({ index, key, value })
-);
+const handleRowChange = (handler) => (index, key, value) =>
+  handler({ index, key, value });
 
-const handleRemoveRow = handler => index => handler({ index });
+const handleRemoveRow = (handler) => (index) => handler({ index });
 
 const BillItemTable = ({
   tableData,
@@ -40,7 +43,12 @@ const BillItemTable = ({
     headerItems={headerItems}
   >
     <div className={styles.notesAndTotals}>
-      <div className={classnames({ [styles.notes]: true, [styles.prefill]: notePrefilled })}>
+      <div
+        className={classnames({
+          [styles.notes]: true,
+          [styles.prefill]: notePrefilled,
+        })}
+      >
         <TextArea
           name="note"
           label="Notes"
@@ -50,14 +58,12 @@ const BillItemTable = ({
           maxLength={2000}
         />
       </div>
-      <BillTableTotals
-        onUpdateBillOption={onUpdateBillOption}
-      />
+      <BillTableTotals onUpdateBillOption={onUpdateBillOption} />
     </div>
   </LineItemTable>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   tableData: getTableData(state),
   note: getNote(state),
   notePrefilled: getHasNoteBeenPrefilled(state),

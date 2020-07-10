@@ -1,7 +1,7 @@
-export const getRegion = state => state.region;
-export const getBusinessId = state => state.businessId;
-export const getLoadingState = state => state.loadingState;
-export const getIsModalOpen = state => state.isModalOpen;
+export const getRegion = (state) => state.region;
+export const getBusinessId = (state) => state.businessId;
+export const getLoadingState = (state) => state.loadingState;
+export const getIsModalOpen = (state) => state.isModalOpen;
 export const getBaseUrl = (state) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);

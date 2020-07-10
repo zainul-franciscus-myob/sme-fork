@@ -1,5 +1,9 @@
 import {
-  Checkbox, CheckboxGroup, Icons, Input, Tooltip,
+  Checkbox,
+  CheckboxGroup,
+  Icons,
+  Input,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -20,7 +24,7 @@ import UpperCaseInputFormatter from '../../../../components/autoFormatter/UpperC
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
-const handleFormattedInputChange = handler => (e) => {
+const handleFormattedInputChange = (handler) => (e) => {
   const { name, rawValue } = e.target;
   handler({ key: name, value: rawValue });
 };
@@ -74,12 +78,12 @@ const AuBankDetailsSection = ({
         <Checkbox
           name="createABABank"
           label="I create ABA bank files for this account"
-          labelAccessory={(
+          labelAccessory={
             <Tooltip triggerContent={<Icons.Info />}>
               ABA files contain payment details, which you can upload to your
               bank to make batch payments
             </Tooltip>
-)}
+          }
           checked={createABABank}
           onChange={handleCheckboxChange(onChange)}
         />
@@ -120,7 +124,7 @@ const AuBankDetailsSection = ({
   </React.Fragment>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   bsb: getBankAccountBsb(state),
   accountNumber: getBankAccountNumberAu(state),
   accountName: getBankAccountName(state),

@@ -8,10 +8,7 @@ const Footer = ({ items }) => (
     <div className={styles.footerItems}>
       {items.map(({ title, content }) => (
         <span>
-          {title}
-          :
-          {' '}
-          {content}
+          {title}: {content}
         </span>
       ))}
     </div>

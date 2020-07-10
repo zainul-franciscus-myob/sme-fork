@@ -36,16 +36,17 @@ export const logout = (logoutReports = true) => {
 
 export const isLoggedIn = () => !!authenticationContext.getUser();
 
-export const acquireToken = () => new Promise((resolve, reject) => {
-  authenticationContext.acquireToken(
-    Config.AUTHENTICATION_BFF_CLIENT_ID,
-    (token, error) => {
-      if (error) {
-        authenticationContext.logIn(window.location.href);
-        reject(Error('login didn\'t work'));
-      } else {
-        resolve(token);
+export const acquireToken = () =>
+  new Promise((resolve, reject) => {
+    authenticationContext.acquireToken(
+      Config.AUTHENTICATION_BFF_CLIENT_ID,
+      (token, error) => {
+        if (error) {
+          authenticationContext.logIn(window.location.href);
+          reject(Error("login didn't work"));
+        } else {
+          resolve(token);
+        }
       }
-    },
-  );
-});
+    );
+  });

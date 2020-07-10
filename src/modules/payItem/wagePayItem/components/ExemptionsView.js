@@ -1,5 +1,10 @@
 import {
-  Button, Combobox, FieldGroup, Icons, Table, Tooltip,
+  Button,
+  Combobox,
+  FieldGroup,
+  Icons,
+  Table,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -13,7 +18,7 @@ const filteredListExemptionsMetadata = [{ columnName: 'name', showData: true }];
 const title = (
   <React.Fragment>
     Exemptions&nbsp;
-    <Tooltip triggerContent={(<Icons.Info />)}>
+    <Tooltip triggerContent={<Icons.Info />}>
       Select any deductions or taxes that will be excluded from this pay item
     </Tooltip>
   </React.Fragment>
@@ -26,7 +31,10 @@ const tableConfig = {
 };
 
 const ExemptionsView = ({
-  selectedExemptions, filteredListOfExemptions, onExemptionSelected, onRemoveExemption,
+  selectedExemptions,
+  filteredListOfExemptions,
+  onExemptionSelected,
+  onRemoveExemption,
 }) => (
   <FieldGroup className={styles.editableTable} label={title}>
     <Table hasActions>
@@ -43,13 +51,17 @@ const ExemptionsView = ({
             <Table.RowItem {...tableConfig.actions} cellRole="actions">
               <Tooltip
                 placement="left"
-                triggerContent={(
-                <Button type="secondary" size="xs" onClick={() => onRemoveExemption(id)}>
-                  <Icons.Remove />
-                </Button>
-              )}
+                triggerContent={
+                  <Button
+                    type="secondary"
+                    size="xs"
+                    onClick={() => onRemoveExemption(id)}
+                  >
+                    <Icons.Remove />
+                  </Button>
+                }
               >
-              Remove exemption
+                Remove exemption
               </Tooltip>
             </Table.RowItem>
           </Table.Row>
@@ -66,7 +78,8 @@ const ExemptionsView = ({
       onChange={handleComboboxChange('exemptions', onExemptionSelected)}
       width="lg"
     />
-  </FieldGroup>);
+  </FieldGroup>
+);
 
 const mapToStateProps = getExemptionAllocations;
 

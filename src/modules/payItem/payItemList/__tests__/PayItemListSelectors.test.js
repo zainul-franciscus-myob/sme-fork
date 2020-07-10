@@ -1,4 +1,8 @@
-import { getExpensesTableEntries, getSaveTaxPayItemPayload, getTab } from '../PayItemListSelectors';
+import {
+  getExpensesTableEntries,
+  getSaveTaxPayItemPayload,
+  getTab,
+} from '../PayItemListSelectors';
 import { tabIds } from '../tabItems';
 
 describe('PayItemListSelectors', () => {

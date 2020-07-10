@@ -1,10 +1,19 @@
 import {
-  Card, Checkbox, CheckboxGroup, DatePicker, FilterBar, Select,
+  Card,
+  Checkbox,
+  CheckboxGroup,
+  DatePicker,
+  FilterBar,
+  Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getCustomerOptions, getFilterOptions, getTemplateAdditionalOptions } from '../selectors/customerStatementListSelectors';
+import {
+  getCustomerOptions,
+  getFilterOptions,
+  getTemplateAdditionalOptions,
+} from '../selectors/customerStatementListSelectors';
 import CustomerCombobox from '../../../components/combobox/CustomerCombobox';
 import StatementType from '../StatementType';
 import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
@@ -27,10 +36,7 @@ const CustomerStatementFilterOptions = ({
     toDate,
     includeInvoices,
   },
-  filterOptions: {
-    selectedCustomerId,
-    showZeroAmount,
-  },
+  filterOptions: { selectedCustomerId, showZeroAmount },
   customerOptions,
   onUpdateFilters,
   onUpdateTemplateAdditionalOptions,
@@ -67,7 +73,7 @@ const CustomerStatementFilterOptions = ({
   const balanceCheckbox = (
     <CheckboxGroup
       label="Balance"
-      renderCheckbox={props => (
+      renderCheckbox={(props) => (
         <div>
           <Checkbox
             name="showZeroAmount"
@@ -89,18 +95,23 @@ const CustomerStatementFilterOptions = ({
           name="statementDate"
           label="Statement date"
           value={statementDate}
-          onSelect={handleDateChange('statementDate', onUpdateTemplateAdditionalOptions)}
+          onSelect={handleDateChange(
+            'statementDate',
+            onUpdateTemplateAdditionalOptions
+          )}
         />
         <CheckboxGroup
           label="Include invoices"
           hideLabel
-          renderCheckbox={props => (
+          renderCheckbox={(props) => (
             <div>
               <Checkbox
                 name="includeInvoices"
                 label="Only include invoices up to statement date"
                 checked={includeInvoices}
-                onChange={handleCheckboxChange(onUpdateTemplateAdditionalOptions)}
+                onChange={handleCheckboxChange(
+                  onUpdateTemplateAdditionalOptions
+                )}
                 {...props}
               />
             </div>
@@ -120,13 +131,19 @@ const CustomerStatementFilterOptions = ({
           name="fromDate"
           label="From date"
           value={fromDate}
-          onSelect={handleDateChange('fromDate', onUpdateTemplateAdditionalOptions)}
+          onSelect={handleDateChange(
+            'fromDate',
+            onUpdateTemplateAdditionalOptions
+          )}
         />
         <DatePicker
           name="toDate"
           label="To date"
           value={toDate}
-          onSelect={handleDateChange('toDate', onUpdateTemplateAdditionalOptions)}
+          onSelect={handleDateChange(
+            'toDate',
+            onUpdateTemplateAdditionalOptions
+          )}
         />
         {customerCombobox}
         {balanceCheckbox}
@@ -136,12 +153,14 @@ const CustomerStatementFilterOptions = ({
 
   return (
     <Card>
-      {statementType === StatementType.INVOICE ? invoiceFilterOptions : activityFilterOptions}
+      {statementType === StatementType.INVOICE
+        ? invoiceFilterOptions
+        : activityFilterOptions}
     </Card>
   );
 };
 
-const mapStatetoProps = state => ({
+const mapStatetoProps = (state) => ({
   templateAdditionalOptions: getTemplateAdditionalOptions(state),
   filterOptions: getFilterOptions(state),
   customerOptions: getCustomerOptions(state),

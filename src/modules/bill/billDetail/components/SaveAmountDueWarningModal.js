@@ -11,22 +11,20 @@ const SaveAmountDueWarningModal = ({
   onCancel,
   modalBody,
 }) => (
-  <Modal
-    title="Save bill?"
-    size="small"
-    onCancel={onCancel}
-  >
-    <Modal.Body>
-      {modalBody}
-    </Modal.Body>
+  <Modal title="Save bill?" size="small" onCancel={onCancel}>
+    <Modal.Body>{modalBody}</Modal.Body>
     <Modal.Footer>
-      <Button type="secondary" onClick={onCancel} disabled={isBlocking}>Go back</Button>
-      <Button type="primary" onClick={onConfirm} disabled={isBlocking}>Save</Button>
+      <Button type="secondary" onClick={onCancel} disabled={isBlocking}>
+        Go back
+      </Button>
+      <Button type="primary" onClick={onConfirm} disabled={isBlocking}>
+        Save
+      </Button>
     </Modal.Footer>
   </Modal>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   modalBody: getSaveAmountDueWarningModalBody(state),
   isBlocking: getIsBlocking(state),
 });

@@ -10,13 +10,11 @@ import RuleTypes from '../../RuleTypes';
 
 describe('allocationSelectors', () => {
   describe('getIsInputField', () => {
-    it('is false when it\'s percent allocation type', () => {
+    it("is false when it's percent allocation type", () => {
       const state = {
         bankingRuleModal: {
           bankingRule: {
-            allocations: [
-              {},
-            ],
+            allocations: [{}],
             allocationType: 'Percent',
           },
         },
@@ -31,9 +29,7 @@ describe('allocationSelectors', () => {
       const state = {
         bankingRuleModal: {
           bankingRule: {
-            allocations: [
-              {},
-            ],
+            allocations: [{}],
             allocationType: 'Amount',
           },
         },
@@ -48,10 +44,7 @@ describe('allocationSelectors', () => {
       const state = {
         bankingRuleModal: {
           bankingRule: {
-            allocations: [
-              {},
-              {},
-            ],
+            allocations: [{}, {}],
             allocationType: 'Amount',
           },
         },
@@ -62,14 +55,11 @@ describe('allocationSelectors', () => {
       expect(actual).toEqual(true);
     });
 
-    it('is false when it\'s not the last element given that the list has more than one element when allocation type is amount', () => {
+    it("is false when it's not the last element given that the list has more than one element when allocation type is amount", () => {
       const state = {
         bankingRuleModal: {
           bankingRule: {
-            allocations: [
-              {},
-              {},
-            ],
+            allocations: [{}, {}],
             allocationType: 'Amount',
           },
         },
@@ -114,7 +104,7 @@ describe('allocationSelectors', () => {
       expect(actual).toEqual('90.00%');
     });
 
-    it('should handle the scenario if the value isn\'t a number', () => {
+    it("should handle the scenario if the value isn't a number", () => {
       const state = {
         bankingRuleModal: {
           bankingRule: {
@@ -144,9 +134,7 @@ describe('allocationSelectors', () => {
           bankingRule: {
             contactId: '1',
           },
-          contacts: [
-            { id: '1', contactType: 'Supplier' },
-          ],
+          contacts: [{ id: '1', contactType: 'Supplier' }],
         },
       };
 
@@ -162,9 +150,7 @@ describe('allocationSelectors', () => {
           bankingRule: {
             contactId: '1',
           },
-          contacts: [
-            { id: '1', contactType: 'Supplier' },
-          ],
+          contacts: [{ id: '1', contactType: 'Supplier' }],
         },
       };
 
@@ -180,9 +166,7 @@ describe('allocationSelectors', () => {
           bankingRule: {
             contactId: '1',
           },
-          contacts: [
-            { id: '1', contactType: 'Customer' },
-          ],
+          contacts: [{ id: '1', contactType: 'Customer' }],
         },
       };
 

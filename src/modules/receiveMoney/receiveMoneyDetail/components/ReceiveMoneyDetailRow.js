@@ -33,7 +33,7 @@ const onAmountInputChange = (name, handler) => (e) => {
   });
 };
 
-const onInputChange = handler => (index, name, value) => {
+const onInputChange = (handler) => (index, name, value) => {
   handler(index, name, value);
 };
 
@@ -66,20 +66,16 @@ const ReceiveMoneyDetailRow = ({
   } = data;
 
   return (
-    <LineItemTable.Row
-      id={index}
-      index={index}
-      {...feelixInjectedProps}
-    >
+    <LineItemTable.Row id={index} index={index} {...feelixInjectedProps}>
       <AccountCombobox
         label="Account"
         hideLabel
         items={accountOptions}
         selectedId={accountId}
         onChange={onComboboxChange('accountId', onChange)}
-        addNewAccount={() => onAddAccount(
-          onComboboxChange('accountId', onChange),
-        )}
+        addNewAccount={() =>
+          onAddAccount(onComboboxChange('accountId', onChange))
+        }
         disabled={isSubmitting}
       />
       <Calculator
@@ -113,15 +109,17 @@ const ReceiveMoneyDetailRow = ({
         onChange={onInputChange(onChange)}
         disabled={isSubmitting}
       />
-      {isReceiveMoneyJobColumnEnabled && <JobCombobox
-        items={lineJobOptions}
-        selectedId={jobId}
-        onChange={onComboboxChange('jobId', onChange)}
-        disabled={isSubmitting || isJobComboboxDisabled}
-        addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
-        allowClear
-        left
-      />}
+      {isReceiveMoneyJobColumnEnabled && (
+        <JobCombobox
+          items={lineJobOptions}
+          selectedId={jobId}
+          onChange={onComboboxChange('jobId', onChange)}
+          disabled={isSubmitting || isJobComboboxDisabled}
+          addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
+          allowClear
+          left
+        />
+      )}
       <TaxCodeCombobox
         label="Tax code"
         hideLabel
@@ -130,7 +128,8 @@ const ReceiveMoneyDetailRow = ({
         onChange={onComboboxChange('taxCodeId', onChange)}
         disabled={isSubmitting}
       />
-    </LineItemTable.Row>);
+    </LineItemTable.Row>
+  );
 };
 
 const makeMapRowStateToProps = () => {

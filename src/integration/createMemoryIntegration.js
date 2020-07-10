@@ -1,6 +1,7 @@
 import RootMapping from './memoryMapping/RootMapping';
 
-const sleep = duration => new Promise(resolve => setTimeout(resolve, duration));
+const sleep = (duration) =>
+  new Promise((resolve) => setTimeout(resolve, duration));
 
 const retrieveIntegrationFunction = (mapping, intent) => {
   const integrationFunction = mapping[intent];
@@ -18,73 +19,102 @@ const retrieveIntegrationFunction = (mapping, intent) => {
 };
 
 const writeFormData = ({
-  intent, urlParams, content, onSuccess, onFailure,
+  intent,
+  urlParams,
+  content,
+  onSuccess,
+  onFailure,
 }) => {
   const integrationFunction = retrieveIntegrationFunction(RootMapping, intent);
-  sleep(200)
-    .then(() => {
-      integrationFunction({
-        urlParams, content, onSuccess, onFailure,
-      });
+  sleep(200).then(() => {
+    integrationFunction({
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
     });
+  });
 };
 
 const createMemoryIntegration = () => ({
-  read: ({
-    intent, params, onSuccess, onFailure, urlParams,
-  }) => {
-    const integrationFunction = retrieveIntegrationFunction(RootMapping, intent);
+  read: ({ intent, params, onSuccess, onFailure, urlParams }) => {
+    const integrationFunction = retrieveIntegrationFunction(
+      RootMapping,
+      intent
+    );
 
-    sleep(200)
-      .then(() => {
-        integrationFunction({
-          urlParams, params, onSuccess, onFailure,
-        });
+    sleep(200).then(() => {
+      integrationFunction({
+        urlParams,
+        params,
+        onSuccess,
+        onFailure,
       });
+    });
   },
-  readFile: ({
-    intent, params, onSuccess, onFailure, urlParams,
-  }) => {
-    const integrationFunction = retrieveIntegrationFunction(RootMapping, intent);
-    sleep(200)
-      .then(() => {
-        integrationFunction({
-          urlParams, params, onSuccess, onFailure,
-        });
+  readFile: ({ intent, params, onSuccess, onFailure, urlParams }) => {
+    const integrationFunction = retrieveIntegrationFunction(
+      RootMapping,
+      intent
+    );
+    sleep(200).then(() => {
+      integrationFunction({
+        urlParams,
+        params,
+        onSuccess,
+        onFailure,
       });
+    });
   },
-  write: ({
-    intent, urlParams, params, content, onSuccess, onFailure,
-  }) => {
-    const integrationFunction = retrieveIntegrationFunction(RootMapping, intent);
-    sleep(200)
-      .then(() => {
-        integrationFunction({
-          urlParams, params, content, onSuccess, onFailure,
-        });
+  write: ({ intent, urlParams, params, content, onSuccess, onFailure }) => {
+    const integrationFunction = retrieveIntegrationFunction(
+      RootMapping,
+      intent
+    );
+    sleep(200).then(() => {
+      integrationFunction({
+        urlParams,
+        params,
+        content,
+        onSuccess,
+        onFailure,
       });
+    });
   },
-  writeFormData: ({
-    intent, urlParams, content, onSuccess, onFailure,
-  }) => writeFormData({
-    intent, urlParams, content, onSuccess, onFailure,
-  }),
-  writeManyFormData: ({
-    intent, urlParams, contents, onSuccess, onFailure, onComplete,
-  }) => {
-    const requests = contents.map((content, index) => new Promise(resolve => writeFormData({
+  writeFormData: ({ intent, urlParams, content, onSuccess, onFailure }) =>
+    writeFormData({
       intent,
       urlParams,
       content,
-      onSuccess: (response) => {
-        onSuccess(response, index);
-        resolve({ success: true, response });
-      },
-      onFailure: (response) => {
-        onFailure(response, index);
-        resolve({ success: false, response });
-      },
-    })));
+      onSuccess,
+      onFailure,
+    }),
+  writeManyFormData: ({
+    intent,
+    urlParams,
+    contents,
+    onSuccess,
+    onFailure,
+    onComplete,
+  }) => {
+    const requests = contents.map(
+      (content, index) =>
+        new Promise((resolve) =>
+          writeFormData({
+            intent,
+            urlParams,
+            content,
+            onSuccess: (response) => {
+              onSuccess(response, index);
+              resolve({ success: true, response });
+            },
+            onFailure: (response) => {
+              onFailure(response, index);
+              resolve({ success: false, response });
+            },
+          })
+        )
+    );
 
     Promise.all(requests).then(onComplete);
   },

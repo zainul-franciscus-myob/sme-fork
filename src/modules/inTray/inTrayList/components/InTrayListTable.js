@@ -1,11 +1,12 @@
-import {
-  Card, HeaderSort, Table,
-} from '@myob/myob-widgets';
+import { Card, HeaderSort, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsDetailShown, getIsTableEmpty, getIsTableLoading, getOrder,
+  getIsDetailShown,
+  getIsTableEmpty,
+  getIsTableLoading,
+  getOrder,
 } from '../selectors/InTrayListSelectors';
 import InTrayListTableBody from './InTrayListTableBody';
 import LoadingPageState from '../../../../components/LoadingPageState/LoadingPageState';
@@ -55,17 +56,19 @@ const InTrayListTable = ({
 
   let tableBodyView;
   if (isTableLoading) {
-    tableBodyView = (<LoadingPageState size="medium" />);
+    tableBodyView = <LoadingPageState size="medium" />;
   } else if (isTableEmpty) {
-    tableBodyView = <>
-      <InTrayListTableBody
-        tableConfig={tableConfig}
-        onRowSelect={onRowSelect}
-        onAddAttachments={onAddAttachments}
-        handleActionSelect={handleActionSelect}
-      />
-      {emptyView}
-    </>;
+    tableBodyView = (
+      <>
+        <InTrayListTableBody
+          tableConfig={tableConfig}
+          onRowSelect={onRowSelect}
+          onAddAttachments={onAddAttachments}
+          handleActionSelect={handleActionSelect}
+        />
+        {emptyView}
+      </>
+    );
   } else {
     tableBodyView = (
       <InTrayListTableBody
@@ -77,26 +80,50 @@ const InTrayListTable = ({
     );
   }
 
-  const getColumnName = rowConfig => (showSplitView && rowConfig.splitViewColumnName
-    ? rowConfig.splitViewColumnName
-    : rowConfig.columnName);
+  const getColumnName = (rowConfig) =>
+    showSplitView && rowConfig.splitViewColumnName
+      ? rowConfig.splitViewColumnName
+      : rowConfig.columnName;
 
   return (
     <Card classes={[styles.cardWrapper]}>
       <Table hasActions>
         <Table.Header>
-          <Table.HeaderItem {...tableConfig.thumbnail} columnName="thumbnail"></Table.HeaderItem>
+          <Table.HeaderItem
+            {...tableConfig.thumbnail}
+            columnName="thumbnail"
+          ></Table.HeaderItem>
           <Table.HeaderItem {...tableConfig.uploadedDate}>
-            <HeaderSort title={getColumnName(tableConfig.uploadedDate)} sortName="ReceivedOn" activeSort={order} onSort={onSort} />
+            <HeaderSort
+              title={getColumnName(tableConfig.uploadedDate)}
+              sortName="ReceivedOn"
+              activeSort={order}
+              onSort={onSort}
+            />
           </Table.HeaderItem>
           <Table.HeaderItem {...tableConfig.invoiceNumber}>
-            <HeaderSort title={getColumnName(tableConfig.invoiceNumber)} sortName="InvoiceNumber" activeSort={order} onSort={onSort} />
+            <HeaderSort
+              title={getColumnName(tableConfig.invoiceNumber)}
+              sortName="InvoiceNumber"
+              activeSort={order}
+              onSort={onSort}
+            />
           </Table.HeaderItem>
           <Table.HeaderItem {...tableConfig.issuedDate}>
-            <HeaderSort title={getColumnName(tableConfig.issuedDate)} sortName="InvoiceDate" activeSort={order} onSort={onSort} />
+            <HeaderSort
+              title={getColumnName(tableConfig.issuedDate)}
+              sortName="InvoiceDate"
+              activeSort={order}
+              onSort={onSort}
+            />
           </Table.HeaderItem>
           <Table.HeaderItem {...tableConfig.totalAmount}>
-            <HeaderSort title={getColumnName(tableConfig.totalAmount)} sortName="InvoiceAmount" activeSort={order} onSort={onSort} />
+            <HeaderSort
+              title={getColumnName(tableConfig.totalAmount)}
+              sortName="InvoiceAmount"
+              activeSort={order}
+              onSort={onSort}
+            />
           </Table.HeaderItem>
           <Table.HeaderItem {...tableConfig.action} />
         </Table.Header>
@@ -106,7 +133,7 @@ const InTrayListTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
   order: getOrder(state),

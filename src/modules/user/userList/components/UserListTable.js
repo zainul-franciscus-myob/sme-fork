@@ -5,11 +5,7 @@ import { getIsTableEmpty, getIsTableLoading } from '../userListSelectors';
 import StickyTableBody from '../../../../components/StickyTable/StickyTableBody';
 import UserListTableBody from './UserListTableBody';
 
-const UserListTable = ({
-  isTableEmpty,
-  isTableLoading,
-  tableConfig,
-}) => (
+const UserListTable = ({ isTableEmpty, isTableLoading, tableConfig }) => (
   <StickyTableBody
     isLoading={isTableLoading}
     isEmpty={isTableEmpty}
@@ -19,7 +15,7 @@ const UserListTable = ({
   </StickyTableBody>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isTableEmpty: getIsTableEmpty(state),
   isTableLoading: getIsTableLoading(state),
 });

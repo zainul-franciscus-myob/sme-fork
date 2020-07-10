@@ -4,7 +4,11 @@ import {
   CREATE_BANKING_RULE_RECEIVE_MONEY,
   CREATE_BANKING_RULE_SPEND_MONEY,
 } from './BankingRuleIntents';
-import { getBankingRule, getBusinessId, getRuleType } from './bankingRuleSelectors';
+import {
+  getBankingRule,
+  getBusinessId,
+  getRuleType,
+} from './bankingRuleSelectors';
 import RuleTypes from './RuleTypes';
 
 const ruleIntentMap = {
@@ -15,7 +19,6 @@ const ruleIntentMap = {
 };
 
 const createBankingRuleIntegrator = (store, integration) => ({
-
   createBankingRule: ({ onSuccess, onFailure }) => {
     const state = store.getState();
 

@@ -1,7 +1,6 @@
 import { SET_SORT_ORDER, UPDATE_FILTER_OPTIONS } from '../PayRunListIntents';
 import payRunListReducer from '../payRunListReducer';
 
-
 describe('payRunListReducer', () => {
   describe('filterOptions', () => {
     it('can update state with DateFrom strings', () => {

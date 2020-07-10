@@ -1,6 +1,4 @@
-import {
-  Card, FieldGroup, PageHead, Stepper,
-} from '@myob/myob-widgets';
+import { Card, FieldGroup, PageHead, Stepper } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -28,9 +26,9 @@ const RecordPayRunView = ({
     <EmployeePayHeader />
     <Card>
       <FieldGroup label={`Record pay for ${numberOfSelected} employees?`}>
-        View the preview reports to check everything is correct.
-        Once you’ve recorded these payments, you&apos;ll need to authorise MYOB to
-        send this information to the ATO as part of Single Touch Payroll.
+        View the preview reports to check everything is correct. Once you’ve
+        recorded these payments, you&apos;ll need to authorise MYOB to send this
+        information to the ATO as part of Single Touch Payroll.
       </FieldGroup>
     </Card>
     <RecordPayRunActions
@@ -43,7 +41,7 @@ const RecordPayRunView = ({
   </>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   numberOfSelected: getNumberOfSelected(state),
   stepNumber: getStepNumber(state),
   payRunSteps: getStepperSteps(state),

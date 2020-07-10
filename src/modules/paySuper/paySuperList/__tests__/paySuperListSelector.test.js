@@ -1,5 +1,9 @@
 import {
-  getBusinessId, getIsTableEmpty, getLoadingState, getPaySuperUrl, getSuperPayments,
+  getBusinessId,
+  getIsTableEmpty,
+  getLoadingState,
+  getPaySuperUrl,
+  getSuperPayments,
 } from '../paySuperListSelector';
 import LoadingState from '../../../../components/PageView/LoadingState';
 
@@ -63,21 +67,21 @@ describe('paySuperListSelector', () => {
   });
 
   describe('getSuperPayments', () => {
-    it('maps string payment status\' to paymentStatus objects', () => {
+    it("maps string payment status' to paymentStatus objects", () => {
       const state = {
-        superPayments: [
-          { status: 'Created' },
-        ],
+        superPayments: [{ status: 'Created' }],
       };
 
       const superPayments = getSuperPayments(state);
 
-      expect(superPayments).toEqual([{
-        status: {
-          display: 'Pending authorisation',
-          color: 'orange',
+      expect(superPayments).toEqual([
+        {
+          status: {
+            display: 'Pending authorisation',
+            color: 'orange',
+          },
         },
-      }]);
+      ]);
     });
   });
 

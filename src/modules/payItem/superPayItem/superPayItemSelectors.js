@@ -44,56 +44,59 @@ const limitTypes = {
   amount: 'FixedDollar',
 };
 
-export const getBusinessId = state => state.businessId;
+export const getBusinessId = (state) => state.businessId;
 
-export const getRegion = state => state.region;
+export const getRegion = (state) => state.region;
 
-export const getAlert = state => state.alert;
+export const getAlert = (state) => state.alert;
 
-export const getLoadingState = state => state.loadingState;
+export const getLoadingState = (state) => state.loadingState;
 
-export const getIsSubmitting = state => state.isSubmitting;
+export const getIsSubmitting = (state) => state.isSubmitting;
 
-export const getIsPageEdited = state => state.isPageEdited;
+export const getIsPageEdited = (state) => state.isPageEdited;
 
-export const getModalType = state => state.modalType;
+export const getModalType = (state) => state.modalType;
 
-export const getIsCreating = state => state.superPayItemId === 'new';
+export const getIsCreating = (state) => state.superPayItemId === 'new';
 
-export const getSuperPayItemId = state => state.superPayItemId;
+export const getSuperPayItemId = (state) => state.superPayItemId;
 
-export const getSuperPayItemOriginalName = state => state.originalSuperPayItem.name;
+export const getSuperPayItemOriginalName = (state) =>
+  state.originalSuperPayItem.name;
 
-const getGrossWagesId = state => state.settings.grossWagesId;
+const getGrossWagesId = (state) => state.settings.grossWagesId;
 
-export const getSuperPayItem = state => state.superPayItem;
+export const getSuperPayItem = (state) => state.superPayItem;
 
-const getContributionType = state => state.superPayItem.contributionType;
+const getContributionType = (state) => state.superPayItem.contributionType;
 
-const getAtoReportingCategory = state => state.superPayItem.atoReportingCategory;
+const getAtoReportingCategory = (state) =>
+  state.superPayItem.atoReportingCategory;
 
-const getCalculationBasisType = state => state.superPayItem.calculationBasisType;
+const getCalculationBasisType = (state) =>
+  state.superPayItem.calculationBasisType;
 
-const getCalculationBasisPayItemId = state => state.superPayItem.calculationBasisPayItemId;
+const getCalculationBasisPayItemId = (state) =>
+  state.superPayItem.calculationBasisPayItemId;
 
-const getLimitPayItemId = state => state.superPayItem.limitPayItemId;
+const getLimitPayItemId = (state) => state.superPayItem.limitPayItemId;
 
-export const getSuperPayItemEmployees = state => state.superPayItem.employees;
+export const getSuperPayItemEmployees = (state) => state.superPayItem.employees;
 
-export const getSuperPayItemExemptions = state => state.superPayItem.exemptions;
+export const getSuperPayItemExemptions = (state) =>
+  state.superPayItem.exemptions;
 
-const getAtoReportingCategories = state => state.atoReportingCategories;
+const getAtoReportingCategories = (state) => state.atoReportingCategories;
 
-const getPeriods = state => state.periods;
+const getPeriods = (state) => state.periods;
 
-const getIsDeduction = createSelector(
-  getContributionType,
-  contributionType => contributionDeductionTypes.includes(contributionType),
+const getIsDeduction = createSelector(getContributionType, (contributionType) =>
+  contributionDeductionTypes.includes(contributionType)
 );
 
-const getIsExpense = createSelector(
-  getContributionType,
-  contributionType => contributionExpenseTypes.includes(contributionType),
+const getIsExpense = createSelector(getContributionType, (contributionType) =>
+  contributionExpenseTypes.includes(contributionType)
 );
 
 export const getFilteredAtoReportingCategories = createSelector(
@@ -104,124 +107,141 @@ export const getFilteredAtoReportingCategories = createSelector(
       case contributionTypes.employeeAdditional:
       case contributionTypes.redundancy:
       case contributionTypes.spouse:
-        return atoReportingCategories.filter(({ value }) => (
+        return atoReportingCategories.filter(({ value }) =>
           [atoCategories.notSet, atoCategories.notReportable].includes(value)
-        ));
+        );
       case contributionTypes.superGuarantee:
-        return atoReportingCategories.filter(({ value }) => (
-          [atoCategories.notSet, atoCategories.superGuarantee]
-            .includes(value)
-        ));
+        return atoReportingCategories.filter(({ value }) =>
+          [atoCategories.notSet, atoCategories.superGuarantee].includes(value)
+        );
       case contributionTypes.productivity:
-        return atoReportingCategories.filter(({ value }) => (
-          [atoCategories.notSet, atoCategories.notReportable, atoCategories.superGuarantee]
-            .includes(value)
-        ));
+        return atoReportingCategories.filter(({ value }) =>
+          [
+            atoCategories.notSet,
+            atoCategories.notReportable,
+            atoCategories.superGuarantee,
+          ].includes(value)
+        );
       case contributionTypes.salarySacrifice:
-        return atoReportingCategories.filter(({ value }) => (
-          [atoCategories.notSet, atoCategories.notReportable, atoCategories.superContributions]
-            .includes(value)
-        ));
+        return atoReportingCategories.filter(({ value }) =>
+          [
+            atoCategories.notSet,
+            atoCategories.notReportable,
+            atoCategories.superContributions,
+          ].includes(value)
+        );
       default:
         return atoReportingCategories;
     }
-  },
+  }
 );
 
 export const getSuperPayItemDetail = createStructuredSelector({
-  name: state => state.superPayItem.name,
-  payableAccountId: state => state.superPayItem.payableAccountId,
-  expenseAccountId: state => state.superPayItem.expenseAccountId,
-  atoReportingCategory: state => state.superPayItem.atoReportingCategory,
-  contributionType: state => state.superPayItem.contributionType,
-  contributionTypes: state => state.contributionTypes,
-  expenseAccounts: state => state.expenseAccounts,
-  payableAccounts: state => state.payableAccounts,
+  name: (state) => state.superPayItem.name,
+  payableAccountId: (state) => state.superPayItem.payableAccountId,
+  expenseAccountId: (state) => state.superPayItem.expenseAccountId,
+  atoReportingCategory: (state) => state.superPayItem.atoReportingCategory,
+  contributionType: (state) => state.superPayItem.contributionType,
+  contributionTypes: (state) => state.contributionTypes,
+  expenseAccounts: (state) => state.expenseAccounts,
+  payableAccounts: (state) => state.payableAccounts,
   atoReportingCategories: getFilteredAtoReportingCategories,
   showExpenseAccounts: getIsExpense,
   isCreating: getIsCreating,
 });
 
 export const getSuperPayItemInfo = createStructuredSelector({
-  printOnPayAdvice: state => state.superPayItem.printOnPayAdvice,
-  threshold: state => state.superPayItem.threshold,
+  printOnPayAdvice: (state) => state.superPayItem.printOnPayAdvice,
+  threshold: (state) => state.superPayItem.threshold,
 });
 
 const getCalculationBasisPayItems = createSelector(
   getIsDeduction,
-  state => state.calculationBasisDeductionPayItems,
-  state => state.calculationBasisExpensePayItems,
-  (isDeduction, deductionPayItems, expensePayItems) => (
+  (state) => state.calculationBasisDeductionPayItems,
+  (state) => state.calculationBasisExpensePayItems,
+  (isDeduction, deductionPayItems, expensePayItems) =>
     isDeduction ? deductionPayItems : expensePayItems
-  ),
 );
 
 export const getCalculationBasis = createStructuredSelector({
   calculationBasisType: getCalculationBasisType,
-  calculationBasisPercentage: state => state.superPayItem.calculationBasisPercentage,
+  calculationBasisPercentage: (state) =>
+    state.superPayItem.calculationBasisPercentage,
   calculationBasisPayItemId: getCalculationBasisPayItemId,
-  calculationBasisAmount: state => state.superPayItem.calculationBasisAmount,
-  calculationBasisPeriod: state => state.superPayItem.calculationBasisPeriod,
-  exclusion: state => state.superPayItem.exclusion,
-  calculationBasisTypes: state => state.calculationBasisTypes,
+  calculationBasisAmount: (state) => state.superPayItem.calculationBasisAmount,
+  calculationBasisPeriod: (state) => state.superPayItem.calculationBasisPeriod,
+  exclusion: (state) => state.superPayItem.exclusion,
+  calculationBasisTypes: (state) => state.calculationBasisTypes,
   calculationBasisPayItems: getCalculationBasisPayItems,
   periods: getPeriods,
-  showPercent: state => state.superPayItem.calculationBasisType === calculationBasisTypes.percent,
-  showAmount: state => state.superPayItem.calculationBasisType === calculationBasisTypes.amount,
+  showPercent: (state) =>
+    state.superPayItem.calculationBasisType === calculationBasisTypes.percent,
+  showAmount: (state) =>
+    state.superPayItem.calculationBasisType === calculationBasisTypes.amount,
 });
 
 const getLimitPayItems = createSelector(
   getIsDeduction,
-  state => state.limitDeductionPayItems,
-  state => state.limitExpensePayItems,
-  (isDeduction, deductionPayItems, expensePayItems) => (
-    isDeduction ? deductionPayItems : expensePayItems),
+  (state) => state.limitDeductionPayItems,
+  (state) => state.limitExpensePayItems,
+  (isDeduction, deductionPayItems, expensePayItems) =>
+    isDeduction ? deductionPayItems : expensePayItems
 );
 
 export const getLimit = createStructuredSelector({
-  limitType: state => state.superPayItem.limitType,
-  limitPercentage: state => state.superPayItem.limitPercentage,
-  limitPayItemId: state => state.superPayItem.limitPayItemId,
-  limitAmount: state => state.superPayItem.limitAmount,
-  limitPeriod: state => state.superPayItem.limitPeriod,
-  limitTypes: state => state.limitTypes,
+  limitType: (state) => state.superPayItem.limitType,
+  limitPercentage: (state) => state.superPayItem.limitPercentage,
+  limitPayItemId: (state) => state.superPayItem.limitPayItemId,
+  limitAmount: (state) => state.superPayItem.limitAmount,
+  limitPeriod: (state) => state.superPayItem.limitPeriod,
+  limitTypes: (state) => state.limitTypes,
   limitPayItems: getLimitPayItems,
   periods: getPeriods,
-  showPercent: state => state.superPayItem.limitType === limitTypes.percent,
-  showAmount: state => state.superPayItem.limitType === limitTypes.amount,
+  showPercent: (state) => state.superPayItem.limitType === limitTypes.percent,
+  showAmount: (state) => state.superPayItem.limitType === limitTypes.amount,
 });
 
 export const getFilteredEmployees = createSelector(
-  state => state.employees,
-  state => state.superPayItem.employees,
-  (employees, superPayItemEmployees) => employees.filter((employee) => {
-    const listedItem = superPayItemEmployees
-      .find(superPayItemEmployee => superPayItemEmployee.id === employee.value);
-    return !listedItem;
-  }),
+  (state) => state.employees,
+  (state) => state.superPayItem.employees,
+  (employees, superPayItemEmployees) =>
+    employees.filter((employee) => {
+      const listedItem = superPayItemEmployees.find(
+        (superPayItemEmployee) => superPayItemEmployee.id === employee.value
+      );
+      return !listedItem;
+    })
 );
 
 export const getFilteredExemptions = createSelector(
-  state => state.exemptionPayItems,
-  state => state.superPayItem.exemptions,
-  (exemptions, superPayItemExemptions) => exemptions.filter((exemption) => {
-    const listedItem = superPayItemExemptions
-      .find(superPayItemExemption => superPayItemExemption.id === exemption.id);
-    return !listedItem;
-  }),
+  (state) => state.exemptionPayItems,
+  (state) => state.superPayItem.exemptions,
+  (exemptions, superPayItemExemptions) =>
+    exemptions.filter((exemption) => {
+      const listedItem = superPayItemExemptions.find(
+        (superPayItemExemption) => superPayItemExemption.id === exemption.id
+      );
+      return !listedItem;
+    })
 );
 
-const getEnabledExemptionConfiguration = state => state.enabledExemptionFieldConfiguration;
+const getEnabledExemptionConfiguration = (state) =>
+  state.enabledExemptionFieldConfiguration;
 
 export const getIsExemptionDisabled = createSelector(
   getCalculationBasisType,
   getCalculationBasisPayItemId,
   getEnabledExemptionConfiguration,
-  (calculationBasisType, calculationBasisPayItemId, configuration) => (
-    !getIsExemptionEnabled(calculationBasisType, calculationBasisPayItemId, configuration)),
+  (calculationBasisType, calculationBasisPayItemId, configuration) =>
+    !getIsExemptionEnabled(
+      calculationBasisType,
+      calculationBasisPayItemId,
+      configuration
+    )
 );
 
-export const getFormattedAmount = value => String((Number(value) || 0).toFixed(2));
+export const getFormattedAmount = (value) =>
+  String((Number(value) || 0).toFixed(2));
 
 export const getFormattedPercentage = (value) => {
   const number = Number(value) || 0;
@@ -229,23 +249,26 @@ export const getFormattedPercentage = (value) => {
     ? value.split('.')[1].length
     : 0;
 
-  const formattedNumber = decimalPlaceCount <= 2
-    ? number.toFixed(2)
-    : number;
+  const formattedNumber = decimalPlaceCount <= 2 ? number.toFixed(2) : number;
 
   return String(formattedNumber);
 };
 
 const getUpdatedAtoReportingCategory = (state) => {
   const atoReportingCategory = getAtoReportingCategory(state);
-  const filteredAtoReportingCategories = getFilteredAtoReportingCategories(state);
+  const filteredAtoReportingCategories = getFilteredAtoReportingCategories(
+    state
+  );
 
-  return filteredAtoReportingCategories.find(category => category.value === atoReportingCategory)
+  return filteredAtoReportingCategories.find(
+    (category) => category.value === atoReportingCategory
+  )
     ? atoReportingCategory
     : atoCategories.notSet;
 };
 
-const getUpdatedBasisPayItemId = (payItems, payItemId) => (payItems.find(payItem => payItem.id === payItemId) ? payItemId : '');
+const getUpdatedBasisPayItemId = (payItems, payItemId) =>
+  payItems.find((payItem) => payItem.id === payItemId) ? payItemId : '';
 
 const getUpdatedCalculationBasisPayItemId = (state) => {
   const payItems = getCalculationBasisPayItems(state);
@@ -261,25 +284,35 @@ const getUpdatedLimitPayItemId = (state) => {
   return getUpdatedBasisPayItemId(payItems, payItemId);
 };
 
-export const getUpdatedSuperPayItem = state => ({
+export const getUpdatedSuperPayItem = (state) => ({
   atoReportingCategory: getUpdatedAtoReportingCategory(state),
   calculationBasisPayItemId: getUpdatedCalculationBasisPayItemId(state),
   limitPayItemId: getUpdatedLimitPayItemId(state),
 });
 
 const getUpdatedBasisForSave = ({
-  isPercent, isAmount, percentage, payItemId, amount, period, grossWagesId, payItems,
+  isPercent,
+  isAmount,
+  percentage,
+  payItemId,
+  amount,
+  period,
+  grossWagesId,
+  payItems,
 }) => {
-  const selectedPayItem = payItems.find(item => item.id === payItemId) || {};
-  const grossWagesItem = payItems.find(item => item.id === grossWagesId) || {};
+  const selectedPayItem = payItems.find((item) => item.id === payItemId) || {};
+  const grossWagesItem =
+    payItems.find((item) => item.id === grossWagesId) || {};
 
-  return ({
+  return {
     percentage: isPercent ? percentage : '0.00',
     payItemId: (isPercent ? selectedPayItem.id : grossWagesItem.id) || '',
-    payItemType: (isPercent ? selectedPayItem.mappedType : grossWagesItem.mappedType) || '',
+    payItemType:
+      (isPercent ? selectedPayItem.mappedType : grossWagesItem.mappedType) ||
+      '',
     amount: isAmount ? amount : '0.00',
     period: isAmount ? period : 'PayPeriod',
-  });
+  };
 };
 
 const getUpdatedCalculationBasisForSave = (state) => {
@@ -298,7 +331,14 @@ const getUpdatedCalculationBasisForSave = (state) => {
   const isAmount = calculationBasisType === calculationBasisTypes.amount;
 
   return getUpdatedBasisForSave({
-    isPercent, isAmount, percentage, payItemId, amount, period, grossWagesId, payItems,
+    isPercent,
+    isAmount,
+    percentage,
+    payItemId,
+    amount,
+    period,
+    grossWagesId,
+    payItems,
   });
 };
 
@@ -318,7 +358,14 @@ const getUpdatedLimitForSave = (state) => {
   const isAmount = limitType === limitTypes.amount;
 
   return getUpdatedBasisForSave({
-    isPercent, isAmount, percentage, payItemId, amount, period, grossWagesId, payItems,
+    isPercent,
+    isAmount,
+    percentage,
+    payItemId,
+    amount,
+    period,
+    grossWagesId,
+    payItems,
   });
 };
 

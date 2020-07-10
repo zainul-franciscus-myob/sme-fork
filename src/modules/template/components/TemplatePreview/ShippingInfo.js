@@ -38,9 +38,7 @@ const ShippingInfo = ({ previewType, useAddressEnvelopePosition }) => (
     <div>
       {useAddressEnvelopePosition ? addressWithWindow : addressWithoutWindow}
     </div>
-    <div>
-      {previewType !== PreviewType.Statement && shipToAddress}
-    </div>
+    <div>{previewType !== PreviewType.Statement && shipToAddress}</div>
   </div>
 );
 

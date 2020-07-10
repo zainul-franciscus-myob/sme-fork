@@ -21,112 +21,133 @@ import {
 } from './CustomerStatementIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 
-const createCustomerStatementListDispatcher = store => ({
-  setLoadingState: loadingState => store.dispatch({
-    intent: SET_LOADING_STATE,
-    loadingState,
-  }),
+const createCustomerStatementListDispatcher = (store) => ({
+  setLoadingState: (loadingState) =>
+    store.dispatch({
+      intent: SET_LOADING_STATE,
+      loadingState,
+    }),
 
-  setTableLoadingState: isTableLoading => store.dispatch({
-    intent: SET_TABLE_LOADING_STATE,
-    isTableLoading,
-  }),
+  setTableLoadingState: (isTableLoading) =>
+    store.dispatch({
+      intent: SET_TABLE_LOADING_STATE,
+      isTableLoading,
+    }),
 
-  setAreActionsDisabled: areActionsDisabled => store.dispatch({
-    intent: SET_ARE_ACTIONS_DISABLED,
-    areActionsDisabled,
-  }),
+  setAreActionsDisabled: (areActionsDisabled) =>
+    store.dispatch({
+      intent: SET_ARE_ACTIONS_DISABLED,
+      areActionsDisabled,
+    }),
 
-  loadCustomerStatementList: payload => store.dispatch({
-    intent: LOAD_CUSTOMER_STATEMENTS,
-    payload,
-  }),
+  loadCustomerStatementList: (payload) =>
+    store.dispatch({
+      intent: LOAD_CUSTOMER_STATEMENTS,
+      payload,
+    }),
 
-  sortAndFilterCustomerStatementList: (payload) => store.dispatch({
-    intent: SORT_AND_FILTER_CUSTOMER_STATEMENTS,
-    payload,
-  }),
+  sortAndFilterCustomerStatementList: (payload) =>
+    store.dispatch({
+      intent: SORT_AND_FILTER_CUSTOMER_STATEMENTS,
+      payload,
+    }),
 
-  updateFilterOptions: ({ key, value }) => store.dispatch({
-    intent: UPDATE_FILTER_OPTIONS,
-    key,
-    value,
-  }),
+  updateFilterOptions: ({ key, value }) =>
+    store.dispatch({
+      intent: UPDATE_FILTER_OPTIONS,
+      key,
+      value,
+    }),
 
-  updateTemplateAdditionalOptions: ({ key, value }) => store.dispatch({
-    intent: UPDATE_TEMPLATE_ADDITIONAL_OPTIONS,
-    key,
-    value,
-  }),
+  updateTemplateAdditionalOptions: ({ key, value }) =>
+    store.dispatch({
+      intent: UPDATE_TEMPLATE_ADDITIONAL_OPTIONS,
+      key,
+      value,
+    }),
 
-  toggleAllCustomerStatements: () => store.dispatch({
-    intent: TOGGLE_ALL_CUSTOMER_STATEMENTS,
-  }),
+  toggleAllCustomerStatements: () =>
+    store.dispatch({
+      intent: TOGGLE_ALL_CUSTOMER_STATEMENTS,
+    }),
 
-  unselectAllCustomerStatements: () => store.dispatch({
-    intent: UNSELECT_ALL_CUSTOMER_STATEMENTS,
-  }),
+  unselectAllCustomerStatements: () =>
+    store.dispatch({
+      intent: UNSELECT_ALL_CUSTOMER_STATEMENTS,
+    }),
 
-  selectCustomerStatement: index => store.dispatch({
-    intent: SELECT_CUSTOMER_STATEMENT,
-    index,
-  }),
+  selectCustomerStatement: (index) =>
+    store.dispatch({
+      intent: SELECT_CUSTOMER_STATEMENT,
+      index,
+    }),
 
-  setSortOrder: (orderBy, newSortOrder) => store.dispatch({
-    intent: SET_SORT_ORDER,
-    sortOrder: newSortOrder,
-    orderBy,
-  }),
+  setSortOrder: (orderBy, newSortOrder) =>
+    store.dispatch({
+      intent: SET_SORT_ORDER,
+      sortOrder: newSortOrder,
+      orderBy,
+    }),
 
-  updateTemplateOption: ({ value }) => store.dispatch({
-    intent: UPDATE_TEMPLATE_OPTION,
-    value,
-  }),
+  updateTemplateOption: ({ value }) =>
+    store.dispatch({
+      intent: UPDATE_TEMPLATE_OPTION,
+      value,
+    }),
 
-  updateEmailOption: ({ key, value }) => store.dispatch({
-    intent: UPDATE_EMAIL_OPTIONS,
-    key,
-    value,
-  }),
+  updateEmailOption: ({ key, value }) =>
+    store.dispatch({
+      intent: UPDATE_EMAIL_OPTIONS,
+      key,
+      value,
+    }),
 
-  openModal: type => store.dispatch({
-    intent: OPEN_MODAL,
-    type,
-  }),
+  openModal: (type) =>
+    store.dispatch({
+      intent: OPEN_MODAL,
+      type,
+    }),
 
-  closeModal: () => store.dispatch({
-    intent: CLOSE_MODAL,
-  }),
+  closeModal: () =>
+    store.dispatch({
+      intent: CLOSE_MODAL,
+    }),
 
-  setModalSubmittingState: isModalSubmitting => store.dispatch({
-    intent: SET_MODAL_SUBMITTING_STATE,
-    isModalSubmitting,
-  }),
+  setModalSubmittingState: (isModalSubmitting) =>
+    store.dispatch({
+      intent: SET_MODAL_SUBMITTING_STATE,
+      isModalSubmitting,
+    }),
 
-  setModalAlertMessage: alertMessage => store.dispatch({
-    intent: SET_MODAL_ALERT_MESSAGE,
-    alertMessage,
-  }),
+  setModalAlertMessage: (alertMessage) =>
+    store.dispatch({
+      intent: SET_MODAL_ALERT_MESSAGE,
+      alertMessage,
+    }),
 
-  setAlert: alert => store.dispatch({
-    intent: SET_ALERT,
-    alert,
-  }),
+  setAlert: (alert) =>
+    store.dispatch({
+      intent: SET_ALERT,
+      alert,
+    }),
 
-  setIsDownloadingDefaultPDF: isDownloadingDefaultPDF => store.dispatch({
-    intent: SET_IS_DOWNLOADING_DEFAULT_PDF,
-    isDownloadingDefaultPDF,
-  }),
+  setIsDownloadingDefaultPDF: (isDownloadingDefaultPDF) =>
+    store.dispatch({
+      intent: SET_IS_DOWNLOADING_DEFAULT_PDF,
+      isDownloadingDefaultPDF,
+    }),
 
-  setInitialState: (context, settings) => store.dispatch({
-    intent: SET_INITIAL_STATE,
-    context,
-    settings,
-  }),
+  setInitialState: (context, settings) =>
+    store.dispatch({
+      intent: SET_INITIAL_STATE,
+      context,
+      settings,
+    }),
 
-  resetState: () => store.dispatch({
-    intent: RESET_STATE,
-  }),
+  resetState: () =>
+    store.dispatch({
+      intent: RESET_STATE,
+    }),
 });
 
 export default createCustomerStatementListDispatcher;

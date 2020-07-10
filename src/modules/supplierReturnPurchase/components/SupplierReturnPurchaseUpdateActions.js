@@ -11,19 +11,31 @@ const SupplierReturnPurchaseUpdateActions = ({
 }) => (
   <ButtonRow
     primary={[
-      <Button key="goBack" name="goBack" type="primary" onClick={onCancelButtonClick} disabled={isSubmitting}>
+      <Button
+        key="goBack"
+        name="goBack"
+        type="primary"
+        onClick={onCancelButtonClick}
+        disabled={isSubmitting}
+      >
         Go back
       </Button>,
     ]}
     secondary={[
-      <Button key="delete" name="delete" type="secondary" onClick={onDeleteButtonClick} disabled={isSubmitting}>
+      <Button
+        key="delete"
+        name="delete"
+        type="secondary"
+        onClick={onDeleteButtonClick}
+        disabled={isSubmitting}
+      >
         Delete
       </Button>,
     ]}
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isSubmitting: getIsSubmitting(state),
 });
 

@@ -1,4 +1,7 @@
-import { LOAD_AGENT_CONTACT_INFO, SUBMIT_AGENT_CONTACT_INFO } from '../stpYourRoleIntents';
+import {
+  LOAD_AGENT_CONTACT_INFO,
+  SUBMIT_AGENT_CONTACT_INFO,
+} from '../stpYourRoleIntents';
 
 const StpYourRoleMapping = {
   [LOAD_AGENT_CONTACT_INFO]: {

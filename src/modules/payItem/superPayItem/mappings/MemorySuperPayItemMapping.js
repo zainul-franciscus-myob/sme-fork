@@ -9,7 +9,8 @@ import loadNewSuperPayItemResponse from './data/loadNewSuperPayItem';
 import loadSuperPayItemResponse from './data/loadSuperPayItem';
 import successResponse from './data/success.json';
 
-const loadNewSuperPayItem = ({ onSuccess }) => onSuccess(loadNewSuperPayItemResponse);
+const loadNewSuperPayItem = ({ onSuccess }) =>
+  onSuccess(loadNewSuperPayItemResponse);
 const loadSuperPayItem = ({ onSuccess }) => onSuccess(loadSuperPayItemResponse);
 const createSuperPayItem = ({ onSuccess }) => onSuccess(successResponse);
 const updateSuperPayItem = ({ onSuccess }) => onSuccess(successResponse);

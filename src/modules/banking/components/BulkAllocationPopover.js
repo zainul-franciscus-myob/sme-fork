@@ -65,12 +65,14 @@ const BulkAllocationPopover = ({
       preferPlace="below"
       onOuterAction={onCloseBulkAllocation}
     >
-      <Button type="secondary" className={styles.allocateButton}>Allocate</Button>
+      <Button type="secondary" className={styles.allocateButton}>
+        Allocate
+      </Button>
     </Popover>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   taxCodes: getTaxCodes(state),
   bulkAllocationAccounts: getBulkAllocationAccounts(state),
   bulkAllocationOptions: getBulkAllocationOptions(state),

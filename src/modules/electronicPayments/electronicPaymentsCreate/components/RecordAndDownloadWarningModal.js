@@ -1,7 +1,4 @@
-import {
-  Button,
-  Modal,
-} from '@myob/myob-widgets';
+import { Button, Modal } from '@myob/myob-widgets';
 import React from 'react';
 
 const RecordAndDownloadWarningModal = ({

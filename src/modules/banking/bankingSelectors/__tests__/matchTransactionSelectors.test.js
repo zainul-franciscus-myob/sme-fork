@@ -53,7 +53,12 @@ describe('matchTransactionSelectors', () => {
           ],
           adjustments: [
             {
-              amount: '10', description: 'desc', accountId: '123', taxCodeId: '12', quantity: '1', jobId: '1',
+              amount: '10',
+              description: 'desc',
+              accountId: '123',
+              taxCodeId: '12',
+              quantity: '1',
+              jobId: '1',
             },
           ],
         },
@@ -232,7 +237,11 @@ describe('matchTransactionSelectors', () => {
             ],
             adjustments: [
               {
-                amount: '10', description: 'desc', accountId: '123', taxCodeId: '12', jobId: '1',
+                amount: '10',
+                description: 'desc',
+                accountId: '123',
+                taxCodeId: '12',
+                jobId: '1',
               },
             ],
           },
@@ -266,10 +275,7 @@ describe('matchTransactionSelectors', () => {
         openEntry: {
           match: {
             filterOptions: {},
-            entries: [
-              { selected: true },
-              { selected: false },
-            ],
+            entries: [{ selected: true }, { selected: false }],
           },
         },
       };
@@ -293,9 +299,7 @@ describe('matchTransactionSelectors', () => {
         openEntry: {
           match: {
             filterOptions: {},
-            entries: [
-              { selected: false },
-            ],
+            entries: [{ selected: false }],
           },
         },
       };
@@ -508,7 +512,10 @@ describe('matchTransactionSelectors', () => {
         amountTo: 100.1,
       };
 
-      const actual = getDefaultMatchTransactionFilterRequestParams('123', bankTransaction);
+      const actual = getDefaultMatchTransactionFilterRequestParams(
+        '123',
+        bankTransaction
+      );
       expect(actual).toEqual(expected);
     });
 
@@ -534,7 +541,10 @@ describe('matchTransactionSelectors', () => {
           date: '2018-05-06',
         };
 
-        const actual = getDefaultMatchTransactionFilterRequestParams('123', bankTransaction);
+        const actual = getDefaultMatchTransactionFilterRequestParams(
+          '123',
+          bankTransaction
+        );
 
         expect(actual.showType).toEqual(showType);
       });

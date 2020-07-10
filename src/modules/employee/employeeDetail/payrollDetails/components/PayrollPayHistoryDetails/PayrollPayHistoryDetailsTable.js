@@ -1,6 +1,4 @@
-import {
-  FieldGroup, Icons, Table, Tooltip,
-} from '@myob/myob-widgets';
+import { FieldGroup, Icons, Table, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
 
 import PayrollPayHistoryDetailsDeductionTableRows from './PayrollPayHistoryDetailsDeductionTableRowGroup';
@@ -12,10 +10,16 @@ import PayrollPayHistoryDetailsWageTableRows from './PayrollPayHistoryDetailsWag
 const tableConfig = {
   name: { columnName: 'Name', width: 'flex-1', valign: 'middle' },
   hours: {
-    columnName: 'Activity (hrs)', width: '20rem', valign: 'middle', align: 'right',
+    columnName: 'Activity (hrs)',
+    width: '20rem',
+    valign: 'middle',
+    align: 'right',
   },
   amount: {
-    columnName: 'Activity ($)', width: '20rem', valign: 'middle', align: 'right',
+    columnName: 'Activity ($)',
+    width: '20rem',
+    valign: 'middle',
+    align: 'right',
   },
 };
 
@@ -28,20 +32,39 @@ const fieldGroupLabel = (
   </div>
 );
 
-const PayrollPayHistoryDetailsTable = props => (
+const PayrollPayHistoryDetailsTable = (props) => (
   <FieldGroup label={fieldGroupLabel}>
     <Table>
       <Table.Header>
         <Table.HeaderItem {...tableConfig.name}>Name</Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.hours}>Activity (hrs)</Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.amount}>Activity ($)</Table.HeaderItem>
+        <Table.HeaderItem {...tableConfig.hours}>
+          Activity (hrs)
+        </Table.HeaderItem>
+        <Table.HeaderItem {...tableConfig.amount}>
+          Activity ($)
+        </Table.HeaderItem>
       </Table.Header>
       <Table.Body>
-        <PayrollPayHistoryDetailsWageTableRows tableConfig={tableConfig} {...props} />
-        <PayrollPayHistoryDetailsDeductionTableRows tableConfig={tableConfig} {...props} />
-        <PayrollPayHistoryDetailsTaxTableRows tableConfig={tableConfig} {...props} />
-        <PayrollPayHistoryDetailsLeaveTableRows tableConfig={tableConfig} {...props} />
-        <PayrollPayHistoryDetailsExpenseTableRows tableConfig={tableConfig} {...props} />
+        <PayrollPayHistoryDetailsWageTableRows
+          tableConfig={tableConfig}
+          {...props}
+        />
+        <PayrollPayHistoryDetailsDeductionTableRows
+          tableConfig={tableConfig}
+          {...props}
+        />
+        <PayrollPayHistoryDetailsTaxTableRows
+          tableConfig={tableConfig}
+          {...props}
+        />
+        <PayrollPayHistoryDetailsLeaveTableRows
+          tableConfig={tableConfig}
+          {...props}
+        />
+        <PayrollPayHistoryDetailsExpenseTableRows
+          tableConfig={tableConfig}
+          {...props}
+        />
       </Table.Body>
     </Table>
   </FieldGroup>

@@ -18,7 +18,12 @@ export default class HoverPopover extends React.Component {
     const { id, children, icon } = this.props;
 
     return (
-      <span id={id} className="popover-icon" onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
+      <span
+        id={id}
+        className="popover-icon"
+        onMouseEnter={this.onMouseEnter}
+        onMouseLeave={this.onMouseLeave}
+      >
         <Popover
           isOpen={isOpen}
           body={<Popover.Body child={children} />}

@@ -7,12 +7,7 @@ import UnsavedModal from '../../../../components/modal/UnsavedModal';
 
 const GeneralJournalDetailModal = ({
   modal: { type = '' },
-  listeners: {
-    onDismissModal,
-    deleteModal,
-    cancelModal,
-    unsavedModal,
-  },
+  listeners: { onDismissModal, deleteModal, cancelModal, unsavedModal },
 }) => {
   if (type === ModalType.DELETE) {
     return (

@@ -36,7 +36,11 @@ describe('EmployeeDetailNzModule', () => {
     };
 
     const module = new EmployeeDetailNzModule({
-      integration, setRootView, replaceURLParams, popMessages, pushMessages,
+      integration,
+      setRootView,
+      replaceURLParams,
+      popMessages,
+      pushMessages,
     });
     module.store = store;
     module.dispatcher = employeeDetailNzDispatcher({ store });
@@ -47,7 +51,10 @@ describe('EmployeeDetailNzModule', () => {
     integration.resetRequests();
 
     return {
-      store, integration, module, wrapper,
+      store,
+      integration,
+      module,
+      wrapper,
     };
   };
 
@@ -55,10 +62,11 @@ describe('EmployeeDetailNzModule', () => {
 
   describe('run', () => {
     it('should load employee detail successfully', () => {
-      const {
-        store, integration, module, wrapper,
-      } = setup();
-      integration.mapSuccess(intents.LOAD_EMPLOYEE_DETAIL, employeeDetailResponse);
+      const { store, integration, module, wrapper } = setup();
+      integration.mapSuccess(
+        intents.LOAD_EMPLOYEE_DETAIL,
+        employeeDetailResponse
+      );
 
       module.run(context);
 
@@ -86,9 +94,7 @@ describe('EmployeeDetailNzModule', () => {
     });
 
     it('should display LoadingFailPageState when integration fails', () => {
-      const {
-        store, integration, module, wrapper,
-      } = setup();
+      const { store, integration, module, wrapper } = setup();
 
       integration.mapFailure(intents.LOAD_EMPLOYEE_DETAIL);
 
@@ -119,9 +125,7 @@ describe('EmployeeDetailNzModule', () => {
   });
 
   it('should load new employee detail', () => {
-    const {
-      store, integration, module, wrapper,
-    } = setup();
+    const { store, integration, module, wrapper } = setup();
     const newContext = { businessId: 'id', employeeId: 'new' };
     module.run(newContext);
 
@@ -148,16 +152,18 @@ describe('EmployeeDetailNzModule', () => {
   describe('Sub tabs', () => {
     describe('When clicking tab payroll details tab', () => {
       it('should move to payroll details page', () => {
-        const {
-          integration, module, wrapper,
-        } = setup();
-        integration.mapSuccess(intents.LOAD_EMPLOYEE_DETAIL, employeeDetailResponse);
+        const { integration, module, wrapper } = setup();
+        integration.mapSuccess(
+          intents.LOAD_EMPLOYEE_DETAIL,
+          employeeDetailResponse
+        );
 
         module.run(context);
         wrapper.update();
 
-        wrapper.find('TabItem')
-          .findWhere(c => c.prop('item')?.id === 'payrollDetails')
+        wrapper
+          .find('TabItem')
+          .findWhere((c) => c.prop('item')?.id === 'payrollDetails')
           .find('a')
           .simulate('click');
         wrapper.update();
@@ -166,16 +172,18 @@ describe('EmployeeDetailNzModule', () => {
       });
 
       it('should update the url', () => {
-        const {
-          integration, module, wrapper,
-        } = setup();
-        integration.mapSuccess(intents.LOAD_EMPLOYEE_DETAIL, employeeDetailResponse);
+        const { integration, module, wrapper } = setup();
+        integration.mapSuccess(
+          intents.LOAD_EMPLOYEE_DETAIL,
+          employeeDetailResponse
+        );
 
         module.run(context);
         wrapper.update();
 
-        wrapper.find('TabItem')
-          .findWhere(c => c.prop('item')?.id === 'payrollDetails')
+        wrapper
+          .find('TabItem')
+          .findWhere((c) => c.prop('item')?.id === 'payrollDetails')
           .find('a')
           .simulate('click');
         wrapper.update();
@@ -191,15 +199,22 @@ describe('EmployeeDetailNzModule', () => {
       [{ mainTab: tabIds.contactDetails }, ContactDetailsNzTabView],
       [{ mainTab: tabIds.payrollDetails }, EmploymentDetailsTab],
       [{ mainTab: tabIds.payrollDetails }, EmploymentDetailsTab],
-      [{ mainTab: tabIds.payrollDetails, subTab: tabIds.salaryAndWages }, SalaryAndWagesTabView],
+      [
+        { mainTab: tabIds.payrollDetails, subTab: tabIds.salaryAndWages },
+        SalaryAndWagesTabView,
+      ],
       [{ mainTab: tabIds.payrollDetails, subTab: tabIds.leave }, LeaveTabView],
-      [{ mainTab: tabIds.payrollDetails, subTab: tabIds.taxAndKiwiSaver }, TaxAndKiwiSaverTab],
+      [
+        { mainTab: tabIds.payrollDetails, subTab: tabIds.taxAndKiwiSaver },
+        TaxAndKiwiSaverTab,
+      ],
     ])('When tab %p is selected', ({ mainTab, subTab }, TabView) => {
       it(`should display ${TabView.displayName}`, () => {
-        const {
-          integration, module, wrapper,
-        } = setup();
-        integration.mapSuccess(intents.LOAD_EMPLOYEE_DETAIL, employeeDetailResponse);
+        const { integration, module, wrapper } = setup();
+        integration.mapSuccess(
+          intents.LOAD_EMPLOYEE_DETAIL,
+          employeeDetailResponse
+        );
 
         module.run(context);
         module.setMainTab(mainTab);
@@ -215,11 +230,12 @@ describe('EmployeeDetailNzModule', () => {
 
   describe('Save button', () => {
     it('should save successfully', () => {
-      const {
-        store, integration, module, wrapper,
-      } = setup();
+      const { store, integration, module, wrapper } = setup();
 
-      integration.mapSuccess(intents.UPDATE_EMPLOYEE, updateEmployeeDetailResponse);
+      integration.mapSuccess(
+        intents.UPDATE_EMPLOYEE,
+        updateEmployeeDetailResponse
+      );
 
       module.run(context);
       wrapper.update();
@@ -227,10 +243,7 @@ describe('EmployeeDetailNzModule', () => {
       store.resetActions();
       integration.resetRequests();
 
-      wrapper
-        .find({ name: 'save' })
-        .find('Button')
-        .simulate('click');
+      wrapper.find({ name: 'save' }).find('Button').simulate('click');
 
       wrapper.update();
 
@@ -253,9 +266,7 @@ describe('EmployeeDetailNzModule', () => {
     });
 
     it('should handle save failure', () => {
-      const {
-        store, integration, module, wrapper,
-      } = setup();
+      const { store, integration, module, wrapper } = setup();
 
       integration.mapFailure(intents.UPDATE_EMPLOYEE, { message: 'Failed' });
 
@@ -265,10 +276,7 @@ describe('EmployeeDetailNzModule', () => {
       store.resetActions();
       integration.resetRequests();
 
-      wrapper
-        .find({ name: 'save' })
-        .find('Button')
-        .simulate('click');
+      wrapper.find({ name: 'save' }).find('Button').simulate('click');
 
       expect(store.getActions()).toEqual([
         {
@@ -309,10 +317,7 @@ describe('EmployeeDetailNzModule', () => {
       integration.mapFailure(intents.DELETE_EMPLOYEE, { message: 'Failed' });
       wrapper.update();
 
-      wrapper
-        .find({ name: 'cancel' })
-        .find('Button')
-        .simulate('click');
+      wrapper.find({ name: 'cancel' }).find('Button').simulate('click');
 
       expect(window.location.href.endsWith('/employee')).toBe(true);
     });
@@ -335,10 +340,7 @@ describe('EmployeeDetailNzModule', () => {
     it('opens confirmation modal upon click', () => {
       const { wrapper, store } = setup();
       wrapper.update();
-      wrapper
-        .find({ name: 'delete' })
-        .find('Button')
-        .simulate('click');
+      wrapper.find({ name: 'delete' }).find('Button').simulate('click');
 
       expect(store.getActions()).toMatchObject([
         {
@@ -360,12 +362,12 @@ describe('EmployeeDetailNzModule', () => {
 
       module.deleteEmployee();
 
-      expect(store.getActions()).toEqual(expect.arrayContaining(
-        [
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
           { intent: intents.CLOSE_MODAL },
           { intent: intents.SET_SUBMITTING_STATE, isSubmitting: true },
-        ],
-      ));
+        ])
+      );
       expect(integration.getRequests()).toEqual([
         { intent: intents.DELETE_EMPLOYEE, urlParams: { ...context } },
       ]);

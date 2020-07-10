@@ -1,5 +1,9 @@
 import {
-  Button, ButtonRow, Dropdown, Icons, Separator,
+  Button,
+  ButtonRow,
+  Dropdown,
+  Icons,
+  Separator,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -36,7 +40,7 @@ const BillActions = ({
     </Button>
   );
 
-  const separator = (<Separator key="separator" direction="vertical" />);
+  const separator = <Separator key="separator" direction="vertical" />;
 
   const dropdownActionItems = [
     <Dropdown.Item
@@ -55,12 +59,12 @@ const BillActions = ({
     <Dropdown
       key="saveAnd"
       onSelect={onSaveAndButtonClick}
-      toggle={(
+      toggle={
         <Dropdown.Toggle disabled={isBlocking}>
-              Save and new
+          Save and new
           <Icons.Caret />
         </Dropdown.Toggle>
-          )}
+      }
       items={dropdownActionItems}
     />
   );
@@ -97,7 +101,7 @@ const BillActions = ({
       onClick={onDeleteButtonClick}
       disabled={isBlocking}
     >
-        Delete
+      Delete
     </Button>
   );
 
@@ -128,23 +132,18 @@ const BillActions = ({
   if (isReadOnly) {
     return (
       <ButtonRow
-        primary={[
-          backButton,
-        ]}
+        primary={[backButton]}
         secondary={[
           !isCreating && createPaymentButton,
           showExportPdfButton && exportPdfButton,
         ]}
-      />);
+      />
+    );
   }
 
   return (
     <ButtonRow
-      primary={[
-        cancelButton,
-        saveAndButton,
-        saveButton,
-      ]}
+      primary={[cancelButton, saveAndButton, saveButton]}
       secondary={[
         !isCreating && deleteButton,
         !isCreating && separator,
@@ -155,7 +154,7 @@ const BillActions = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isCreating: getIsCreating(state),
   isBlocking: getIsBlocking(state),
   isReadOnly: getIsReadOnly(state),

@@ -14,12 +14,8 @@ class JobKeeperReporting extends React.Component {
 
   render() {
     const {
-      props: {
-        onOpenJobKeeperReport,
-      },
-      state: {
-        selectedMonth,
-      },
+      props: { onOpenJobKeeperReport },
+      state: { selectedMonth },
     } = this;
 
     const items = [
@@ -32,25 +28,34 @@ class JobKeeperReporting extends React.Component {
     ];
 
     return (
-      <div className={styles['jobkeeper-reporting']} testid="jobKeeperReportsPanel">
-          <Select
-            label="Month"
-            name="reportingMonth"
-            onChange={handleSelectChange(e => { this.setState({ selectedMonth: e.value }); })}
-          >
-            { items.map(item => <Select.Option
+      <div
+        className={styles['jobkeeper-reporting']}
+        testid="jobKeeperReportsPanel"
+      >
+        <Select
+          label="Month"
+          name="reportingMonth"
+          onChange={handleSelectChange((e) => {
+            this.setState({ selectedMonth: e.value });
+          })}
+        >
+          {items.map((item) => (
+            <Select.Option
               label={item.label}
               value={item.month}
               key={item.month}
-            />) }
-          </Select>
-          <Button
-            id="job-keeper-reports-btn"
-            onClick={() => onOpenJobKeeperReport(selectedMonth)}
-            type="link"
-            icon={<Icons.GenericDocument />}
-            className={styles['jobkeeper-reporting-btn']}
-          >View JobKeeper summary (PDF)</Button>
+            />
+          ))}
+        </Select>
+        <Button
+          id="job-keeper-reports-btn"
+          onClick={() => onOpenJobKeeperReport(selectedMonth)}
+          type="link"
+          icon={<Icons.GenericDocument />}
+          className={styles['jobkeeper-reporting-btn']}
+        >
+          View JobKeeper summary (PDF)
+        </Button>
       </div>
     );
   }

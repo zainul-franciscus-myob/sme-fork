@@ -41,7 +41,7 @@ const PayRunDetailHeader = ({
   return <PayHeader items={items} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   paymentPeriodStart: getPaymentPeriodStart(state),
   paymentPeriodEnd: getPaymentPeriodEnd(state),
   paymentDate: getPaymentDate(state),

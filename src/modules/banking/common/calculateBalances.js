@@ -1,9 +1,8 @@
 import { getIsBalancesInvalid } from '../bankingSelectors';
 import BankTransactionAccountTypes from '../BankTransactionAccountTypes';
 
-const getSelectedBankAccount = (bankAccounts, selectedBankAccountId) => (
-  bankAccounts.find(b => b.id === selectedBankAccountId) || {}
-);
+const getSelectedBankAccount = (bankAccounts, selectedBankAccountId) =>
+  bankAccounts.find((b) => b.id === selectedBankAccountId) || {};
 
 const calculateBalance = ({
   balances,
@@ -15,10 +14,15 @@ const calculateBalance = ({
     return balances;
   }
 
-  const selectedBankAccount = getSelectedBankAccount(bankAccounts, selectedBankAccountId);
+  const selectedBankAccount = getSelectedBankAccount(
+    bankAccounts,
+    selectedBankAccountId
+  );
   const { bankBalance, myobBalance, unallocated } = balances;
 
-  if (selectedBankAccount.accountType === BankTransactionAccountTypes.LIABILITY) {
+  if (
+    selectedBankAccount.accountType === BankTransactionAccountTypes.LIABILITY
+  ) {
     return {
       ...balances,
       bankBalance,

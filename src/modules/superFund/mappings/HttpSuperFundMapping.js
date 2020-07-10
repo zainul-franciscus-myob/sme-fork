@@ -15,11 +15,13 @@ const HttpSuperFundMapping = {
   },
   [LOAD_SUPER_FUND]: {
     method: 'GET',
-    getPath: ({ businessId, superFundId }) => `/${businessId}/superFund/load_super_fund/${superFundId}`,
+    getPath: ({ businessId, superFundId }) =>
+      `/${businessId}/superFund/load_super_fund/${superFundId}`,
   },
   [LOAD_ABN_DETAIL]: {
     method: 'GET',
-    getPath: ({ businessId, abn }) => `/${businessId}/superFund/load_abn/${abn}`,
+    getPath: ({ businessId, abn }) =>
+      `/${businessId}/superFund/load_abn/${abn}`,
   },
   [CREATE_SUPER_FUND]: {
     method: 'POST',
@@ -27,11 +29,13 @@ const HttpSuperFundMapping = {
   },
   [UPDATE_SUPER_FUND]: {
     method: 'PUT',
-    getPath: ({ businessId, superFundId }) => `/${businessId}/superFund/update_super_fund/${superFundId}`,
+    getPath: ({ businessId, superFundId }) =>
+      `/${businessId}/superFund/update_super_fund/${superFundId}`,
   },
   [DELETE_SUPER_FUND]: {
     method: 'DELETE',
-    getPath: ({ businessId, superFundId }) => `/${businessId}/superFund/delete_super_fund/${superFundId}`,
+    getPath: ({ businessId, superFundId }) =>
+      `/${businessId}/superFund/delete_super_fund/${superFundId}`,
   },
   [GET_PAY_SUPER_URL]: {
     method: 'GET',

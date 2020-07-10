@@ -6,22 +6,24 @@ import styles from './PaysTable.module.css';
 
 const tableConfig = {
   isSelected: {
-    columnName: '', width: 'auto', cellRole: 'checkbox', valign: 'middle',
+    columnName: '',
+    width: 'auto',
+    cellRole: 'checkbox',
+    valign: 'middle',
   },
   payPeriod: {
-    columnName: 'Pay period', width: 'flex-2', valign: 'middle',
+    columnName: 'Pay period',
+    width: 'flex-2',
+    valign: 'middle',
   },
   paymentDate: {
-    columnName: 'Date of payment', width: 'flex-2', valign: 'middle',
+    columnName: 'Date of payment',
+    width: 'flex-2',
+    valign: 'middle',
   },
 };
 
-const PaysTable = ({
-  pays,
-  selectedStatus,
-  onSelectAll,
-  onRowSelect,
-}) => {
+const PaysTable = ({ pays, selectedStatus, onSelectAll, onRowSelect }) => {
   const header = (
     <Table.Header>
       <Table.HeaderItem {...tableConfig.isSelected} className={styles.checkbox}>
@@ -29,7 +31,7 @@ const PaysTable = ({
           name="selectAll"
           label="selectAll"
           hideLabel
-          onChange={e => onSelectAll(e.target.checked)}
+          onChange={(e) => onSelectAll(e.target.checked)}
           checked={selectedStatus === 'checked'}
           indeterminate={selectedStatus === 'indeterminate'}
         />
@@ -45,17 +47,17 @@ const PaysTable = ({
 
   const body = (
     <Table.Body>
-      {pays.map(row => (
+      {pays.map((row) => (
         <Table.CollapsibleRow
           key={`row-${row.id}`}
-          header={(
+          header={
             <Table.Row key={row.id}>
               <Table.RowItem {...tableConfig.isSelected}>
                 <Checkbox
                   name={`${row.id}-select`}
                   label={`Select row ${row.id}`}
                   hideLabel
-                  onChange={e => onRowSelect(row, e.target.checked)}
+                  onChange={(e) => onRowSelect(row, e.target.checked)}
                   checked={row.isSelected}
                 />
               </Table.RowItem>
@@ -66,14 +68,13 @@ const PaysTable = ({
                 {row.paymentDate}
               </Table.RowItem>
             </Table.Row>
-          )}
+          }
         >
           <PayItemsTable payItems={row.payItems} />
         </Table.CollapsibleRow>
       ))}
     </Table.Body>
   );
-
 
   return <AccordionTable header={header} body={body} expansionToggle />;
 };

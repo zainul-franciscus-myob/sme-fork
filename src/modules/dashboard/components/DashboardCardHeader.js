@@ -5,13 +5,12 @@ import classNames from 'classnames';
 import styles from './DashboardCardHeader.module.css';
 
 const DashboardCardHeader = ({ title, children, isActionStacked = false }) => (
-  <div className={classNames(styles.header, {
-    [styles.isActionStacked]: isActionStacked,
-  })}
+  <div
+    className={classNames(styles.header, {
+      [styles.isActionStacked]: isActionStacked,
+    })}
   >
-    <PageHead title={title}>
-      {children}
-    </PageHead>
+    <PageHead title={title}>{children}</PageHead>
   </div>
 );
 

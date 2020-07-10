@@ -11,16 +11,19 @@ import {
 import ModalType from './ModalType';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
-const getReferenceId = state => state.generalJournal.referenceId;
-const getDate = state => state.generalJournal.date;
-const getDescription = state => state.generalJournal.description;
-const getGSTReportingMethod = state => state.generalJournal.gstReportingMethod;
-const getIsEndOfYearAdjustment = state => state.generalJournal.isEndOfYearAdjustment;
-const getStartOfFinancialYearDate = state => state.startOfFinancialYearDate;
-export const getIsCreating = state => state.generalJournalId === 'new';
-export const getIsTaxInclusive = state => state.generalJournal.isTaxInclusive;
+const getReferenceId = (state) => state.generalJournal.referenceId;
+const getDate = (state) => state.generalJournal.date;
+const getDescription = (state) => state.generalJournal.description;
+const getGSTReportingMethod = (state) =>
+  state.generalJournal.gstReportingMethod;
+const getIsEndOfYearAdjustment = (state) =>
+  state.generalJournal.isEndOfYearAdjustment;
+const getStartOfFinancialYearDate = (state) => state.startOfFinancialYearDate;
+export const getIsCreating = (state) => state.generalJournalId === 'new';
+export const getIsTaxInclusive = (state) => state.generalJournal.isTaxInclusive;
 
-export const getIsGeneralJournalJobColumnEnabled = state => state.isGeneralJournalJobColumnEnabled;
+export const getIsGeneralJournalJobColumnEnabled = (state) =>
+  state.isGeneralJournalJobColumnEnabled;
 
 export const getHeaderOptions = createStructuredSelector({
   referenceId: getReferenceId,
@@ -31,18 +34,18 @@ export const getHeaderOptions = createStructuredSelector({
   gstReportingMethod: getGSTReportingMethod,
 });
 
-export const getAlert = state => state.alert;
-export const getLoadingState = state => state.loadingState;
-export const getIsSystem = state => state.generalJournal.isSystem;
+export const getAlert = (state) => state.alert;
+export const getLoadingState = (state) => state.loadingState;
+export const getIsSystem = (state) => state.generalJournal.isSystem;
 
-const formatNumber = num => num.toFixed(2);
+const formatNumber = (num) => num.toFixed(2);
 
 export const getDefaultTaxCodeId = ({ accountId, accounts }) => {
   const account = accounts.find(({ id }) => id === accountId);
   return account === undefined ? '' : account.taxCodeId;
 };
 
-const isZero = amount => formatNumber(Number(amount)) === '0.00';
+const isZero = (amount) => formatNumber(Number(amount)) === '0.00';
 
 const getDisabledField = ({ debitAmount, creditAmount }) => {
   if (debitAmount && !isZero(debitAmount)) {
@@ -56,72 +59,74 @@ const getDisabledField = ({ debitAmount, creditAmount }) => {
   return '';
 };
 
-export const getLineDataByIndexSelector = () => createSelector(
-  (state, props) => state.generalJournal.lines[props.index],
-  ((line) => {
-    let formatedLine = {};
-    if (line) {
-      const {
-        accountId,
-        jobId,
-        lineJobOptions,
-        taxCodeId,
-        taxCodes,
-        accounts,
-        debitAmount,
-        displayDebitAmount,
-        creditAmount,
-        displayCreditAmount,
-        quantity,
-        description,
-        taxAmount,
-      } = line;
+export const getLineDataByIndexSelector = () =>
+  createSelector(
+    (state, props) => state.generalJournal.lines[props.index],
+    (line) => {
+      let formatedLine = {};
+      if (line) {
+        const {
+          accountId,
+          jobId,
+          lineJobOptions,
+          taxCodeId,
+          taxCodes,
+          accounts,
+          debitAmount,
+          displayDebitAmount,
+          creditAmount,
+          displayCreditAmount,
+          quantity,
+          description,
+          taxAmount,
+        } = line;
 
-      const disabledField = getDisabledField(line);
+        const disabledField = getDisabledField(line);
 
-      formatedLine = ({
-        debitAmount,
-        displayDebitAmount,
-        creditAmount,
-        displayCreditAmount,
-        quantity,
-        taxAmount,
-        description,
-        accountId,
-        jobId,
-        lineJobOptions,
-        taxCodeId,
-        taxCodes,
-        accounts,
-        isCreditDisabled: disabledField === 'credit',
-        isDebitDisabled: disabledField === 'debit',
-      });
+        formatedLine = {
+          debitAmount,
+          displayDebitAmount,
+          creditAmount,
+          displayCreditAmount,
+          quantity,
+          taxAmount,
+          description,
+          accountId,
+          jobId,
+          lineJobOptions,
+          taxCodeId,
+          taxCodes,
+          accounts,
+          isCreditDisabled: disabledField === 'credit',
+          isDebitDisabled: disabledField === 'debit',
+        };
+      }
+      return formatedLine;
     }
-    return formatedLine;
-  }),
+  );
+
+const getLength = (state) => state.generalJournal.lines.length;
+
+export const getTableData = createSelector(getLength, (len) =>
+  Array(len).fill({})
 );
 
-const getLength = state => state.generalJournal.lines.length;
+export const getNewLineData = (state) => state.newLine;
 
-export const getTableData = createSelector(
-  getLength,
-  len => Array(len).fill({}),
-);
+export const getIndexOfLastLine = (state) =>
+  state.generalJournal.lines.length - 1;
 
-export const getNewLineData = state => state.newLine;
+const getGeneralJournal = (state) => state.generalJournal;
 
-export const getIndexOfLastLine = state => state.generalJournal.lines.length - 1;
+export const getGeneralJournalId = (state) => state.generalJournalId;
 
-const getGeneralJournal = state => state.generalJournal;
-
-export const getGeneralJournalId = state => state.generalJournalId;
-
-export const getTotals = state => state.totals;
-export const getIsOutOfBalanced = state => state.totals.totalOutOfBalance !== '$0.00';
+export const getTotals = (state) => state.totals;
+export const getIsOutOfBalanced = (state) =>
+  state.totals.totalOutOfBalance !== '$0.00';
 
 const getGeneralJournalLines = createSelector(
   getGeneralJournal,
-  generalJournal => generalJournal.lines,
+  (generalJournal) => generalJournal.lines
 );
 
 const getGeneralJournalForCreatePayload = (state) => {
@@ -135,7 +140,8 @@ const getGeneralJournalForCreatePayload = (state) => {
   } = getGeneralJournal(state);
 
   const linesForPayload = getGeneralJournalLines(state);
-  const referenceIdForPayload = referenceId === originalReferenceId ? undefined : referenceId;
+  const referenceIdForPayload =
+    referenceId === originalReferenceId ? undefined : referenceId;
 
   return {
     ...rest,
@@ -144,25 +150,29 @@ const getGeneralJournalForCreatePayload = (state) => {
   };
 };
 
-export const getIsActionsDisabled = state => state.isSubmitting || state.isCreatedAccountLoading;
-export const getIsTableDisabled = state => (
-  state.isCreatedAccountLoading || state.isCreatedJobLoading
-);
-export const isPageEdited = state => state.isPageEdited;
-export const getBusinessId = state => state.businessId;
-export const getRegion = state => state.region;
-export const getPageTitle = state => state.pageTitle;
-export const getTaxCodeLabel = state => getRegionToDialectText(state.region)('Tax code');
-export const getTaxLabel = state => getRegionToDialectText(state.region)('Tax');
-export const getTaxInclusiveLabel = state => `${getTaxLabel(state)} inclusive`;
-export const getTaxExclusiveLabel = state => `${getTaxLabel(state)} exclusive`;
-export const getModal = state => state.modal;
-export const getModalUrl = state => ((state.modal || {}).url);
+export const getIsActionsDisabled = (state) =>
+  state.isSubmitting || state.isCreatedAccountLoading;
+export const getIsTableDisabled = (state) =>
+  state.isCreatedAccountLoading || state.isCreatedJobLoading;
+export const isPageEdited = (state) => state.isPageEdited;
+export const getBusinessId = (state) => state.businessId;
+export const getRegion = (state) => state.region;
+export const getPageTitle = (state) => state.pageTitle;
+export const getTaxCodeLabel = (state) =>
+  getRegionToDialectText(state.region)('Tax code');
+export const getTaxLabel = (state) =>
+  getRegionToDialectText(state.region)('Tax');
+export const getTaxInclusiveLabel = (state) =>
+  `${getTaxLabel(state)} inclusive`;
+export const getTaxExclusiveLabel = (state) =>
+  `${getTaxLabel(state)} exclusive`;
+export const getModal = (state) => state.modal;
+export const getModalUrl = (state) => (state.modal || {}).url;
 
 export const getTransactionListUrl = createSelector(
   getBusinessId,
   getRegion,
-  (businessId, region) => `/#/${region}/${businessId}/transactionList`,
+  (businessId, region) => `/#/${region}/${businessId}/transactionList`
 );
 
 export const getSaveUrl = (state) => {
@@ -177,22 +187,21 @@ export const getOpenedModalType = (state) => {
   return modal.type;
 };
 
-export const getJobOptions = state => state.jobOptions;
+export const getJobOptions = (state) => state.jobOptions;
 
-export const getTaxCodeOptions = state => state.taxCodeOptions;
+export const getTaxCodeOptions = (state) => state.taxCodeOptions;
 
-export const getAccountOptions = state => state.accountOptions;
+export const getAccountOptions = (state) => state.accountOptions;
 
 export const getIsSale = createSelector(
   getGeneralJournal,
-  generalJournal => generalJournal.gstReportingMethod === 'sale',
+  (generalJournal) => generalJournal.gstReportingMethod === 'sale'
 );
 
-export const isLineTaxCalculatable = line => (
-  line.taxCodeId && (line.creditAmount || line.creditAmount)
-);
+export const isLineTaxCalculatable = (line) =>
+  line.taxCodeId && (line.creditAmount || line.creditAmount);
 
-const isNumeric = val => !Number.isNaN(parseFloat(val));
+const isNumeric = (val) => !Number.isNaN(parseFloat(val));
 
 const isCreditLine = (line) => {
   if (isNumeric(line.creditAmount)) {
@@ -206,19 +215,21 @@ const isCreditLine = (line) => {
 
 export const getLinesForTaxCalculation = createSelector(
   getGeneralJournalLines,
-  lines => lines.map(line => ({
-    ...line,
-    amount: line.creditAmount || line.debitAmount,
-    lineTypeId: line.lineTypeId,
-    isCredit: isCreditLine(line),
-  })),
+  (lines) =>
+    lines.map((line) => ({
+      ...line,
+      amount: line.creditAmount || line.debitAmount,
+      lineTypeId: line.lineTypeId,
+      isCredit: isCreditLine(line),
+    }))
 );
 
-export const getIsLineAmountsTaxInclusive = (state, isSwitchingTaxInclusive) => {
+export const getIsLineAmountsTaxInclusive = (
+  state,
+  isSwitchingTaxInclusive
+) => {
   const isTaxInclusive = getIsTaxInclusive(state);
-  return (
-    isSwitchingTaxInclusive ? !isTaxInclusive : isTaxInclusive
-  );
+  return isSwitchingTaxInclusive ? !isTaxInclusive : isTaxInclusive;
 };
 
 export const getAccountModalContext = (state) => {
@@ -245,19 +256,21 @@ export const getSaveGeneralJournalRequest = createSelector(
   getGeneralJournal,
   (businessId, generalJournalId, isCreating, createPayload, updatePayload) => {
     const content = isCreating ? createPayload : updatePayload;
-    const urlParams = isCreating ? {
-      businessId,
-    } : {
-      businessId,
-      generalJournalId,
-    };
+    const urlParams = isCreating
+      ? {
+          businessId,
+        }
+      : {
+          businessId,
+          generalJournalId,
+        };
     const intent = isCreating ? CREATE_GENERAL_JOURNAL : UPDATE_GENERAL_JOURNAL;
     return {
       intent,
       content,
       urlParams,
     };
-  },
+  }
 );
 
 export const getLoadGeneralJournalIntent = createSelector(
@@ -265,10 +278,12 @@ export const getLoadGeneralJournalIntent = createSelector(
   getDuplicateId,
   (isCreating, duplicateId) => {
     if (isCreating) {
-      return duplicateId ? LOAD_DUPLICATE_GENERAL_JOURNAL : LOAD_NEW_GENERAL_JOURNAL;
+      return duplicateId
+        ? LOAD_DUPLICATE_GENERAL_JOURNAL
+        : LOAD_NEW_GENERAL_JOURNAL;
     }
     return LOAD_GENERAL_JOURNAL_DETAIL;
-  },
+  }
 );
 
 export const getLoadGeneralJournalRequest = createSelector(
@@ -288,7 +303,7 @@ export const getLoadGeneralJournalRequest = createSelector(
       intent,
       urlParams,
     };
-  },
+  }
 );
 
 export const getLoadAccountAfterCreateUrlParams = (state, accountId) => {
@@ -311,6 +326,8 @@ export const getCreateGeneralJournalUrl = (state) => {
 export const getIsBeforeStartOfFinancialYear = createSelector(
   getDate,
   getStartOfFinancialYearDate,
-  (date, startOfFinancialYearDate) => date && startOfFinancialYearDate
-  && isBefore(new Date(date), new Date(startOfFinancialYearDate)),
+  (date, startOfFinancialYearDate) =>
+    date &&
+    startOfFinancialYearDate &&
+    isBefore(new Date(date), new Date(startOfFinancialYearDate))
 );

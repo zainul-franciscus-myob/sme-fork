@@ -8,13 +8,15 @@ import TableView from '../../../../components/TableView/TableView';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import styles from './JobListModalTable.module.css';
 
-
 const tableConfig = {
   checkbox: { width: '3.7rem', cellRole: 'checkbox', valign: 'middle' },
   id: { columnName: 'Job', width: '20rem', valign: 'middle' },
   name: { columnName: '', width: 'flex-1', valign: 'middle' },
   amount: {
-    columnName: 'Amount ($)', width: '20rem', valign: 'middle', align: 'left',
+    columnName: 'Amount ($)',
+    width: '20rem',
+    valign: 'middle',
+    align: 'left',
   },
 };
 
@@ -34,9 +36,13 @@ const JobListModalTable = ({
           indeterminate={jobsSelectStatus === 'indeterminate'}
         />
       </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.id}>{tableConfig.id.columnName}</Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.id}>
+        {tableConfig.id.columnName}
+      </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.name}></Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.amount}>{tableConfig.amount.columnName}</Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.amount}>
+        {tableConfig.amount.columnName}
+      </Table.HeaderItem>
     </Table.Header>
   );
 
@@ -58,7 +64,7 @@ const JobListModalTable = ({
       // for when the table has a checkbox/radio button, or any actionable item for each row.
       onRowSelect={() => {}}
     >
-      { tableBody }
+      {tableBody}
     </TableView>
   );
 };

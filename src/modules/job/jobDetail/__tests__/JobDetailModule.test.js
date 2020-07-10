@@ -27,7 +27,10 @@ describe('JobDetailModule', () => {
     const isToggleOn = () => true;
 
     const module = new JobDetailModule({
-      integration, setRootView, pushMessage, isToggleOn,
+      integration,
+      setRootView,
+      pushMessage,
+      isToggleOn,
     });
     module.store = store;
     module.dispatcher = createJobDetailDispatcher(store);

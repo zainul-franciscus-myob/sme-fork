@@ -8,7 +8,7 @@ import {
 } from './taxTableCalculationModalIntents';
 import createReducer from '../../../../../store/createReducer';
 
-const removeTrailingZeroes = number => String(Number(number));
+const removeTrailingZeroes = (number) => String(Number(number));
 
 const countDecimalPlaces = (num) => {
   if (Math.floor(num) === num) return 0;
@@ -69,17 +69,18 @@ const setIsLoading = (state, { isLoading }) => ({
   isLoading,
 });
 
-const setTaxTableResult = (state, { taxTableResult }) => (
-  taxTableResult.singleTaxTableFound ? {
-    ...state,
-    taxTableId: taxTableResult.id,
-    taxTableDescription: taxTableResult.description,
-  } : {
-    ...state,
-    taxTableId: null,
-    taxTableDescription: null,
-  }
-);
+const setTaxTableResult = (state, { taxTableResult }) =>
+  taxTableResult.singleTaxTableFound
+    ? {
+        ...state,
+        taxTableId: taxTableResult.id,
+        taxTableDescription: taxTableResult.description,
+      }
+    : {
+        ...state,
+        taxTableId: null,
+        taxTableDescription: null,
+      };
 
 const taxTableCalculationModalReducer = createReducer(getDefaultState(), {
   [SET_IS_OPEN]: setIsOpen,

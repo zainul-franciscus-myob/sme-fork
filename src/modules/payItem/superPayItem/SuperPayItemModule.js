@@ -24,9 +24,7 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 import superPayItemReducer from './superPayItemReducer';
 
 export default class SuperPayItemModule {
-  constructor({
-    integration, setRootView, pushMessage,
-  }) {
+  constructor({ integration, setRootView, pushMessage }) {
     this.setRootView = setRootView;
     this.store = new Store(superPayItemReducer);
     this.dispatcher = createSuperPayItemDispatcher(this.store);
@@ -47,7 +45,7 @@ export default class SuperPayItemModule {
     };
 
     this.integrator.loadSuperPayItem({ onSuccess, onFailure });
-  }
+  };
 
   createOrUpdateSuperPayItem = () => {
     if (getIsSubmitting(this.store.getState())) return;
@@ -73,7 +71,7 @@ export default class SuperPayItemModule {
     };
 
     this.integrator.createOrUpdateSuperPayItem({ onSuccess, onFailure });
-  }
+  };
 
   deleteSuperPayItem = () => {
     this.dispatcher.setSubmittingState(true);
@@ -93,17 +91,17 @@ export default class SuperPayItemModule {
     };
 
     this.integrator.deleteSuperPayItem({ onSuccess, onFailure });
-  }
+  };
 
   confirmBeforeDelete = () => {
     this.dispatcher.openModal('delete');
-  }
+  };
 
   confirmDelete = () => {
     this.dispatcher.closeModal();
 
     this.deleteSuperPayItem();
-  }
+  };
 
   confirmBeforeCancel = () => {
     const state = this.store.getState();
@@ -114,12 +112,12 @@ export default class SuperPayItemModule {
     } else {
       this.redirectToSuperPayItemList();
     }
-  }
+  };
 
   confirmCancel = () => {
     this.dispatcher.closeModal();
     this.redirectToSuperPayItemList();
-  }
+  };
 
   redirectToSuperPayItemList = () => {
     const state = this.store.getState();
@@ -127,7 +125,7 @@ export default class SuperPayItemModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/payItem?tab=superannuation`;
-  }
+  };
 
   setSuperPayItemDetail = ({ key, value }) => {
     this.dispatcher.setSuperPayItemDetail({ key, value });
@@ -138,15 +136,15 @@ export default class SuperPayItemModule {
       const updatedSuperPayItem = getUpdatedSuperPayItem(state);
       this.dispatcher.setSuperPayItem(updatedSuperPayItem);
     }
-  }
+  };
 
   resetState = () => {
     this.dispatcher.resetState();
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   saveHandler = () => {
     const state = this.store.getState();
@@ -154,7 +152,7 @@ export default class SuperPayItemModule {
     if (modalType) return;
 
     this.createOrUpdateSuperPayItem();
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,
@@ -180,18 +178,18 @@ export default class SuperPayItemModule {
         onDeleteButtonClick={this.confirmBeforeDelete}
         onSuperPayItemDetailsChange={this.setSuperPayItemDetail}
         onAddSuperPayItemEmployee={this.dispatcher.addSuperPayItemEmployee}
-        onRemoveSuperPayItemEmployee={this.dispatcher.removeSuperPayItemEmployee}
+        onRemoveSuperPayItemEmployee={
+          this.dispatcher.removeSuperPayItemEmployee
+        }
         onAddSuperPayItemExemption={this.dispatcher.addSuperPayItemExemption}
-        onRemoveSuperPayItemExemption={this.dispatcher.removeSuperPayItemExemption}
+        onRemoveSuperPayItemExemption={
+          this.dispatcher.removeSuperPayItemExemption
+        }
       />
     );
 
-    const wrappedView = (
-      <Provider store={this.store}>
-        {view}
-      </Provider>
-    );
+    const wrappedView = <Provider store={this.store}>{view}</Provider>;
 
     this.setRootView(wrappedView);
-  }
+  };
 }

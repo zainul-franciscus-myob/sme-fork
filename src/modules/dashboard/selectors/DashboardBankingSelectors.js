@@ -5,62 +5,64 @@ import Config from '../../../Config';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 import getQueryFromParams from '../../../common/getQueryFromParams/getQueryFromParams';
 
-export const getHasError = state => state.banking.hasError;
+export const getHasError = (state) => state.banking.hasError;
 
-export const getIsLoading = state => state.banking.isLoading;
+export const getIsLoading = (state) => state.banking.isLoading;
 
-export const getBankFeedAccounts = state => state.banking.bankFeedAccounts;
+export const getBankFeedAccounts = (state) => state.banking.bankFeedAccounts;
 
-export const getSelectedBankFeedAccount = state => state.banking.bankFeedAccountId;
+export const getSelectedBankFeedAccount = (state) =>
+  state.banking.bankFeedAccountId;
 
-export const getLastReconcileDate = state => state.banking.lastReconcileDate || 'Never reconciled';
+export const getLastReconcileDate = (state) =>
+  state.banking.lastReconcileDate || 'Never reconciled';
 
-export const getBankBalanceDate = state => state.banking.bankBalanceDate;
+export const getBankBalanceDate = (state) => state.banking.bankBalanceDate;
 
-export const getCurrentBalance = state => state.banking.currentBalance;
+export const getCurrentBalance = (state) => state.banking.currentBalance;
 
-export const getBankFeedBalance = state => state.banking.bankFeedBalance;
+export const getBankFeedBalance = (state) => state.banking.bankFeedBalance;
 
-export const getBankLatestClosingBalance = state => state.banking.bankLatestClosingBalance;
+export const getBankLatestClosingBalance = (state) =>
+  state.banking.bankLatestClosingBalance;
 
-export const getIsBankFeedAvailable = state => !!state.banking.bankFeedAccounts.length;
+export const getIsBankFeedAvailable = (state) =>
+  !!state.banking.bankFeedAccounts.length;
 
-export const getUnallocatedTransactionsTotal = state => state.banking.unallocatedTransactionsTotal;
+export const getUnallocatedTransactionsTotal = (state) =>
+  state.banking.unallocatedTransactionsTotal;
 
 export const getBalanceDateText = createSelector(
   getBankBalanceDate,
-  (balanceDate) => (
+  (balanceDate) =>
     balanceDate.length > 0
       ? `Closing account balance as of ${balanceDate}`
-      : 'Your bank hasn\'t provided a statement date.'
-  ),
+      : "Your bank hasn't provided a statement date."
 );
 
-export const getLoadBankingParams = state => (
-  {
-    bankFeedAccountId: state.banking.bankFeedAccountId,
-    statementDate: formatIsoDate(new Date()),
-  }
-);
+export const getLoadBankingParams = (state) => ({
+  bankFeedAccountId: state.banking.bankFeedAccountId,
+  statementDate: formatIsoDate(new Date()),
+});
 
 export const getBankingLink = createSelector(
   getBusinessId,
   getRegion,
   getSelectedBankFeedAccount,
-  (businessId, region, bankAccount) => `/#/${region}/${businessId}/banking?bankAccount=${bankAccount}`,
+  (businessId, region, bankAccount) =>
+    `/#/${region}/${businessId}/banking?bankAccount=${bankAccount}`
 );
-
 
 export const getBankfeedAmount = createStructuredSelector({
   bankFeedBalance: getBankFeedBalance,
   isLoading: getIsLoading,
 });
 
-
-const getSerialNumber = state => state.serialNumber;
+const getSerialNumber = (state) => state.serialNumber;
 
 export const getAddBankFeedUrl = createSelector(
-  getBusinessId, getSerialNumber,
+  getBusinessId,
+  getSerialNumber,
   (businessId, serialNumber) => {
     const baseUrl = Config.MANAGE_BANK_FEEDS_BASE_URL;
     const queryParams = getQueryFromParams({
@@ -69,6 +71,5 @@ export const getAddBankFeedUrl = createSelector(
       Action: 'app',
     });
     return `${baseUrl}${queryParams}`;
-  },
-
+  }
 );

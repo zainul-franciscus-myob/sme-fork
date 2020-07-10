@@ -1,7 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getIsSelectedPayEvent, getStpDeclarationContext } from './ReportsSelector';
+import {
+  getIsSelectedPayEvent,
+  getStpDeclarationContext,
+} from './ReportsSelector';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import ReportsView from './components/ReportsView';
 import Store from '../../../../store/Store';
@@ -12,11 +15,7 @@ import openBlob from '../../../../common/blobOpener/openBlob';
 import reportsReducer from './ReportsReducer';
 
 export default class ReportsModule {
-  constructor({
-    integration,
-    context,
-    setAlert,
-  }) {
+  constructor({ integration, context, setAlert }) {
     this.store = new Store(reportsReducer);
     this.dispatcher = createReportsDispatcher(this.store);
     this.integrator = createReportsIntegrator(this.store, integration);
@@ -86,7 +85,9 @@ export default class ReportsModule {
   };
 
   onDeclare = () => {
-    this.stpDeclarationModule.run(getStpDeclarationContext(this.store.getState()));
+    this.stpDeclarationModule.run(
+      getStpDeclarationContext(this.store.getState())
+    );
   };
 
   onGetYdtEmployeeReport = () => {

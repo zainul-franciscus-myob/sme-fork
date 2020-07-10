@@ -30,7 +30,6 @@ describe('GeneralJournalView', () => {
       </Provider>
     );
 
-
     ReactDOM.render(view, div);
     ReactDOM.unmountComponentAtNode(div);
   });

@@ -11,51 +11,59 @@ import {
 } from './ApplyToSaleIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 
-const createApplyToSaleDispatcher = store => ({
+const createApplyToSaleDispatcher = (store) => ({
   resetState: () => store.dispatch({ intent: RESET_STATE }),
 
-  setInitialState: context => store.dispatch({
-    intent: SET_INITIAL_STATE,
-    context,
-  }),
+  setInitialState: (context) =>
+    store.dispatch({
+      intent: SET_INITIAL_STATE,
+      context,
+    }),
 
-  updateApplyToSaleOption: ({ key, value }) => store.dispatch({
-    intent: UPDATE_APPLY_TO_SALE_OPTION,
-    key,
-    value,
-  }),
+  updateApplyToSaleOption: ({ key, value }) =>
+    store.dispatch({
+      intent: UPDATE_APPLY_TO_SALE_OPTION,
+      key,
+      value,
+    }),
 
-  updateTableAmountInput: ({ key, value, index }) => store.dispatch({
-    intent: UPDATE_TABLE_AMOUNT_INPUT,
-    key,
-    value,
-    index,
-  }),
+  updateTableAmountInput: ({ key, value, index }) =>
+    store.dispatch({
+      intent: UPDATE_TABLE_AMOUNT_INPUT,
+      key,
+      value,
+      index,
+    }),
 
-  setModalType: modalType => store.dispatch({
-    intent: SET_MODAL_TYPE,
-    modalType,
-  }),
+  setModalType: (modalType) =>
+    store.dispatch({
+      intent: SET_MODAL_TYPE,
+      modalType,
+    }),
 
-  setAlertMessage: alertMessage => store.dispatch({
-    intent: SET_ALERT_MESSAGE,
-    alertMessage,
-  }),
+  setAlertMessage: (alertMessage) =>
+    store.dispatch({
+      intent: SET_ALERT_MESSAGE,
+      alertMessage,
+    }),
 
-  setIsLoading: isLoading => store.dispatch({
-    intent: SET_IS_LOADING,
-    isLoading,
-  }),
+  setIsLoading: (isLoading) =>
+    store.dispatch({
+      intent: SET_IS_LOADING,
+      isLoading,
+    }),
 
-  setIsPageEdited: isPageEdited => store.dispatch({
-    intent: SET_IS_PAGE_EDITED,
-    isPageEdited,
-  }),
+  setIsPageEdited: (isPageEdited) =>
+    store.dispatch({
+      intent: SET_IS_PAGE_EDITED,
+      isPageEdited,
+    }),
 
-  setIsSubmitting: isSubmitting => store.dispatch({
-    intent: SET_IS_SUBMITTING,
-    isSubmitting,
-  }),
+  setIsSubmitting: (isSubmitting) =>
+    store.dispatch({
+      intent: SET_IS_SUBMITTING,
+      isSubmitting,
+    }),
 
   loadApplyToSale: ({ applyToSale, isCreating }) => {
     const intent = isCreating ? LOAD_NEW_APPLY_TO_SALE : LOAD_APPLY_TO_SALE;

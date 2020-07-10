@@ -11,7 +11,7 @@ import {
 } from './LinkBillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 
-const createLinkBillDispatcher = store => ({
+const createLinkBillDispatcher = (store) => ({
   loadLinkBill: (response) => {
     store.dispatch({
       intent: LOAD_LINK_BILL,

@@ -1,6 +1,4 @@
-import {
-  BaseTemplate, Card, Icons, PageState,
-} from '@myob/myob-widgets';
+import { BaseTemplate, Card, Icons, PageState } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -13,8 +11,20 @@ const FileUnavailable = ({ isOnlineOnly }) => {
       <Card>
         <PageState
           actions={[
-            <LinkButton href="/#/businesses" type="link" icon={<Icons.Switch />}>My businesses</LinkButton>,
-            <LinkButton href="https://help.myob.com/wiki/x/M4FW" icon={<Icons.OpenExternalLink />}> Show me how</LinkButton>,
+            <LinkButton
+              href="/#/businesses"
+              type="link"
+              icon={<Icons.Switch />}
+            >
+              My businesses
+            </LinkButton>,
+            <LinkButton
+              href="https://help.myob.com/wiki/x/M4FW"
+              icon={<Icons.OpenExternalLink />}
+            >
+              {' '}
+              Show me how
+            </LinkButton>,
           ]}
           title="Business needs to be upgraded"
           description="A new version is available. Upgrade your business in  AccountRight desktop to continue using the browser. "
@@ -29,12 +39,21 @@ const FileUnavailable = ({ isOnlineOnly }) => {
       <Card>
         <PageState
           actions={[
-            <LinkButton href="/#/businesses" type="link" icon={<Icons.Switch />}>My businesses</LinkButton>,
+            <LinkButton
+              href="/#/businesses"
+              type="link"
+              icon={<Icons.Switch />}
+            >
+              My businesses
+            </LinkButton>,
           ]}
           title="Business upgrading"
           description={
             <React.Fragment>
-              <p>Your business is being updated and could take up to 2 hours to complete.</p>
+              <p>
+                Your business is being updated and could take up to 2 hours to
+                complete.
+              </p>
               <p>We apologise for any inconvenience.</p>
               <p>Check back later to see if your business has updated.</p>
             </React.Fragment>
@@ -47,7 +66,7 @@ const FileUnavailable = ({ isOnlineOnly }) => {
   return isOnlineOnly ? onlineUserCard : arlUserCard;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state,
   isOnlineUser: state.isOnlineUser,
 });

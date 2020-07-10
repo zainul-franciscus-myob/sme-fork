@@ -20,8 +20,11 @@ describe('EmployeePayListView', () => {
 
   afterEach(jest.clearAllMocks);
 
-  const mountWithProvider = component => mount(component,
-    { wrappingComponent: Provider, wrappingComponentProps: { store } });
+  const mountWithProvider = (component) =>
+    mount(component, {
+      wrappingComponent: Provider,
+      wrappingComponentProps: { store },
+    });
 
   describe('On load', () => {
     it('should have all expected components', () => {

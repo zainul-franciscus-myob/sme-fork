@@ -1,5 +1,9 @@
 import {
-  Button, Card, FormHorizontal, Input, Tooltip,
+  Button,
+  Card,
+  FormHorizontal,
+  Input,
+  Tooltip,
 } from '@myob/myob-widgets';
 import React from 'react';
 
@@ -7,14 +11,8 @@ import AbnInput from '../../../../../components/autoFormatter/AbnInput/AbnInput'
 import styles from './BusinessConnection.module.css';
 
 const BusinessConnection = ({
-  businessConnection: {
-    abn,
-    softwareId,
-  },
-  agentDetails: {
-    agentAbn,
-    agentNumber,
-  },
+  businessConnection: { abn, softwareId },
+  agentDetails: { agentAbn, agentNumber },
   onEditBusinessConnectionClick,
 }) => {
   const softwareIdTooltip = (
@@ -55,8 +53,8 @@ const BusinessConnection = ({
     <>
       <h3>Business ABN connected to the ATO</h3>
       <p>
-        Below is the ABN connected to the ATO. If you&apos;ve had issues sending data to the ATO,
-        the ABN might be wrong.
+        Below is the ABN connected to the ATO. If you&apos;ve had issues sending
+        data to the ATO, the ABN might be wrong.
         <div className={styles.linkButton}>
           <Button type="link" onClick={onEditBusinessConnectionClick}>
             Edit STP business details
@@ -64,13 +62,7 @@ const BusinessConnection = ({
         </div>
       </p>
       <FormHorizontal layout="primary">
-        <AbnInput
-          name="abn"
-          label="ABN"
-          value={abn}
-          width="sm"
-          disabled
-        />
+        <AbnInput name="abn" label="ABN" value={abn} width="sm" disabled />
         <Input
           name="softwareId"
           label="Software ID"

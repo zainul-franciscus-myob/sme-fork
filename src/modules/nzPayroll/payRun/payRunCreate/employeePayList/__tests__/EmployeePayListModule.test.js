@@ -2,9 +2,7 @@ import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import React from 'react';
 
-import {
-  LOAD_EMPLOYEE_PAYS,
-} from '../../PayRunIntents';
+import { LOAD_EMPLOYEE_PAYS } from '../../PayRunIntents';
 import EmployeePayListModule from '../EmployeePayListModule';
 import PayRunModule from '../../PayRunModule';
 import TestIntegration from '../../../../../../integration/TestIntegration';
@@ -18,28 +16,32 @@ describe('EmployeePayListModule', () => {
   const constructEmployeePayListModule = () => {
     const integration = new TestIntegration();
     const pushMessage = () => {};
-    const setRootView = () => (<div />);
+    const setRootView = () => <div />;
     const isToggleOn = () => true;
     const payRunModule = new PayRunModule({
-      integration, setRootView, pushMessage, isToggleOn,
+      integration,
+      setRootView,
+      pushMessage,
+      isToggleOn,
     });
 
     const store = new TestStore(payRunReducer);
     payRunModule.store = store;
 
     const employeePayListModule = new EmployeePayListModule({
-      integration, store: payRunModule.store, pushMessage,
+      integration,
+      store: payRunModule.store,
+      pushMessage,
     });
     employeePayListModule.dispatcher = createEmployeePayListDispatcher(store);
-    employeePayListModule.integrator = createEmployeePayListIntegrator(store, integration);
+    employeePayListModule.integrator = createEmployeePayListIntegrator(
+      store,
+      integration
+    );
 
     const view = employeePayListModule.render();
 
-    const wrappedView = (
-      <Provider store={payRunModule.store}>
-        {view}
-      </Provider>
-    );
+    const wrappedView = <Provider store={payRunModule.store}>{view}</Provider>;
 
     const wrapper = mount(wrappedView);
 
@@ -52,18 +54,16 @@ describe('EmployeePayListModule', () => {
     };
   };
   describe('Check dispatcher and reducer are linked', () => {
-    const {
-      payRunModule,
-      module,
-      store,
-    } = constructEmployeePayListModule();
+    const { payRunModule, module, store } = constructEmployeePayListModule();
 
     it('should hold id', () => {
       payRunModule.resetState();
 
       store.dispatch({ intent: LOAD_EMPLOYEE_PAYS, employeePays });
 
-      const employee = module.store.state.employeePayList.lines.find(x => x.employeeId === 21);
+      const employee = module.store.state.employeePayList.lines.find(
+        (x) => x.employeeId === 21
+      );
       expect(employee.employeeId).toEqual(21);
     });
   });

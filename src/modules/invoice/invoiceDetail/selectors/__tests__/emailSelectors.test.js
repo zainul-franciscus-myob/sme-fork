@@ -22,7 +22,10 @@ describe('emailSelectors', () => {
         otherStuff: 'otherStuff',
       };
 
-      const actual = getEmailDetailFromLoadInvoiceDetail({ emailInvoice, invoiceNumber });
+      const actual = getEmailDetailFromLoadInvoiceDetail({
+        emailInvoice,
+        invoiceNumber,
+      });
 
       expect(actual.subject).toEqual('Invoice 1; Hot Chocolate is life');
     });
@@ -37,7 +40,10 @@ describe('emailSelectors', () => {
         otherStuff: 'otherStuff',
       };
 
-      const actual = getEmailDetailFromLoadInvoiceDetail({ emailInvoice, invoiceNumber });
+      const actual = getEmailDetailFromLoadInvoiceDetail({
+        emailInvoice,
+        invoiceNumber,
+      });
 
       expect(actual.toEmail).toEqual(['']);
     });
@@ -52,7 +58,10 @@ describe('emailSelectors', () => {
         otherStuff: 'otherStuff',
       };
 
-      const actual = getEmailDetailFromLoadInvoiceDetail({ emailInvoice, invoiceNumber });
+      const actual = getEmailDetailFromLoadInvoiceDetail({
+        emailInvoice,
+        invoiceNumber,
+      });
 
       expect(actual.ccToEmail).toEqual(['']);
     });
@@ -117,11 +126,19 @@ describe('emailSelectors', () => {
             {
               keyName: 'some/key',
               uploadPassword: 'some/password',
-              file: { name: 'emailAttachment', size: 1000, type: 'image/svg+xml' },
+              file: {
+                name: 'emailAttachment',
+                size: 1000,
+                type: 'image/svg+xml',
+              },
               state: 'finished',
             },
             {
-              file: { name: 'failedEmailAttachment', size: 2000, type: 'image/svg+xml' },
+              file: {
+                name: 'failedEmailAttachment',
+                size: 2000,
+                type: 'image/svg+xml',
+              },
               state: 'failed',
             },
           ],
@@ -138,12 +155,14 @@ describe('emailSelectors', () => {
         toEmail: ['geoff.spires@myob.com', 'tom.xu@myob.com'],
         toName: 'Geoff Speirs',
         templateName: 'INV Item print',
-        attachments: [{
-          filename: 'emailAttachment',
-          mimeType: 'image/svg+xml',
-          keyName: 'some/key',
-          uploadPassword: 'some/password',
-        }],
+        attachments: [
+          {
+            filename: 'emailAttachment',
+            mimeType: 'image/svg+xml',
+            keyName: 'some/key',
+            uploadPassword: 'some/password',
+          },
+        ],
       };
 
       const actual = getSendEmailPayload(state);
@@ -156,26 +175,30 @@ describe('emailSelectors', () => {
     it('returns attachments with name and size', () => {
       const state = {
         emailInvoice: {
-          attachments: [{
-            keyName: 'some/key',
-            file: { name: 'emailAttachment', size: 1000 },
-            state: 'queued',
-          }],
+          attachments: [
+            {
+              keyName: 'some/key',
+              file: { name: 'emailAttachment', size: 1000 },
+              state: 'queued',
+            },
+          ],
         },
       };
 
       const actual = getEmailAttachments(state);
 
-      const expected = [{
-        keyName: 'some/key',
-        name: 'emailAttachment',
-        size: 1000,
-        loaded: 0,
-        state: 'queued',
-        error: undefined,
-        canRemove: false,
-        file: { name: 'emailAttachment', size: 1000 },
-      }];
+      const expected = [
+        {
+          keyName: 'some/key',
+          name: 'emailAttachment',
+          size: 1000,
+          loaded: 0,
+          state: 'queued',
+          error: undefined,
+          canRemove: false,
+          file: { name: 'emailAttachment', size: 1000 },
+        },
+      ];
 
       expect(actual).toEqual(expected);
     });
@@ -183,27 +206,31 @@ describe('emailSelectors', () => {
     it('calculates loaded size', () => {
       const state = {
         emailInvoice: {
-          attachments: [{
-            keyName: 'some/key',
-            file: { name: 'emailAttachment', size: 1000 },
-            uploadProgress: 0.5,
-            state: 'loading',
-          }],
+          attachments: [
+            {
+              keyName: 'some/key',
+              file: { name: 'emailAttachment', size: 1000 },
+              uploadProgress: 0.5,
+              state: 'loading',
+            },
+          ],
         },
       };
 
       const actual = getEmailAttachments(state);
 
-      const expected = [{
-        keyName: 'some/key',
-        name: 'emailAttachment',
-        size: 1000,
-        loaded: 500,
-        state: 'loading',
-        error: undefined,
-        canRemove: false,
-        file: { name: 'emailAttachment', size: 1000 },
-      }];
+      const expected = [
+        {
+          keyName: 'some/key',
+          name: 'emailAttachment',
+          size: 1000,
+          loaded: 500,
+          state: 'loading',
+          error: undefined,
+          canRemove: false,
+          file: { name: 'emailAttachment', size: 1000 },
+        },
+      ];
 
       expect(actual).toEqual(expected);
     });
@@ -211,26 +238,30 @@ describe('emailSelectors', () => {
     it('sets canRemove to true if the state is not loading or queued', () => {
       const state = {
         emailInvoice: {
-          attachments: [{
-            keyName: 'some/key',
-            file: { name: 'emailAttachment', size: 1000 },
-            state: 'finished',
-          }],
+          attachments: [
+            {
+              keyName: 'some/key',
+              file: { name: 'emailAttachment', size: 1000 },
+              state: 'finished',
+            },
+          ],
         },
       };
 
       const actual = getEmailAttachments(state);
 
-      const expected = [{
-        keyName: 'some/key',
-        name: 'emailAttachment',
-        size: 1000,
-        loaded: 0,
-        state: 'finished',
-        error: undefined,
-        canRemove: true,
-        file: { name: 'emailAttachment', size: 1000 },
-      }];
+      const expected = [
+        {
+          keyName: 'some/key',
+          name: 'emailAttachment',
+          size: 1000,
+          loaded: 0,
+          state: 'finished',
+          error: undefined,
+          canRemove: true,
+          file: { name: 'emailAttachment', size: 1000 },
+        },
+      ];
 
       expect(actual).toEqual(expected);
     });
@@ -238,10 +269,7 @@ describe('emailSelectors', () => {
 
   describe('getFilesForUpload', () => {
     it('get files for upload', () => {
-      const files = [
-        { file: 'invalid' },
-        { file: 'valid' },
-      ];
+      const files = [{ file: 'invalid' }, { file: 'valid' }];
 
       const state = {
         emailInvoice: {

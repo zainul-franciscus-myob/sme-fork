@@ -104,8 +104,10 @@ export default class InvoiceDetailModule {
     const accountModalContext = getAccountModalContext(state);
     this.accountModalModule.run({
       context: accountModalContext,
-      onSaveSuccess: payload => this.loadAccountAfterCreate(payload, onChange),
-      onLoadFailure: message => this.dispatcher.setAlert({ type: 'danger', message }),
+      onSaveSuccess: (payload) =>
+        this.loadAccountAfterCreate(payload, onChange),
+      onLoadFailure: (message) =>
+        this.dispatcher.setAlert({ type: 'danger', message }),
     });
   };
 
@@ -132,8 +134,9 @@ export default class InvoiceDetailModule {
     const jobModalContext = getJobModalContext(state);
     this.jobModalModule.run({
       context: jobModalContext,
-      onSaveSuccess: payload => this.loadJobAfterCreate(payload, onChange),
-      onLoadFailure: message => this.dispatcher.setAlert({ type: 'danger', message }),
+      onSaveSuccess: (payload) => this.loadJobAfterCreate(payload, onChange),
+      onLoadFailure: (message) =>
+        this.dispatcher.setAlert({ type: 'danger', message }),
     });
   };
 
@@ -148,12 +151,10 @@ export default class InvoiceDetailModule {
         ...payload,
         id,
       });
-      onChange(
-        {
-          ...payload,
-          id,
-        },
-      );
+      onChange({
+        ...payload,
+        id,
+      });
     };
 
     const onFailure = () => {
@@ -180,9 +181,9 @@ export default class InvoiceDetailModule {
     };
 
     this.integrator.loadInvoice({ onSuccess, onFailure });
-  }
+  };
 
-  reloadInvoice = ({ onSuccess: next = () => { } }) => {
+  reloadInvoice = ({ onSuccess: next = () => {} }) => {
     this.dispatcher.setSubmittingState(true);
 
     const onSuccess = (payload) => {
@@ -196,7 +197,7 @@ export default class InvoiceDetailModule {
     };
 
     this.integrator.loadInvoice({ onSuccess, onFailure });
-  }
+  };
 
   createOrUpdateInvoice = ({ onSuccess }) => {
     const state = this.store.getState();
@@ -224,9 +225,12 @@ export default class InvoiceDetailModule {
         onFailure,
       });
     } else {
-      this.integrator.createOrUpdateInvoice({ onSuccess: onSuccessInterceptor, onFailure });
+      this.integrator.createOrUpdateInvoice({
+        onSuccess: onSuccessInterceptor,
+        onFailure,
+      });
     }
-  }
+  };
 
   handleSaveInvoice = () => {
     const state = this.store.getState();
@@ -236,7 +240,7 @@ export default class InvoiceDetailModule {
     } else {
       this.saveInvoice();
     }
-  }
+  };
 
   saveInvoice = () => {
     const onSuccess = ({ message }) => {
@@ -247,7 +251,7 @@ export default class InvoiceDetailModule {
     };
 
     this.saveAndReload({ onSuccess });
-  }
+  };
 
   saveAndCreateNewInvoice = () => {
     this.closeModal();
@@ -259,7 +263,7 @@ export default class InvoiceDetailModule {
     };
 
     this.createOrUpdateInvoice({ onSuccess });
-  }
+  };
 
   saveAndDuplicateInvoice = () => {
     this.closeModal();
@@ -278,9 +282,9 @@ export default class InvoiceDetailModule {
     };
 
     this.createOrUpdateInvoice({ onSuccess });
-  }
+  };
 
-  saveAndReload = ({ onSuccess: next = () => { } }) => {
+  saveAndReload = ({ onSuccess: next = () => {} }) => {
     const state = this.store.getState();
     const isCreating = getIsCreating(state);
 
@@ -306,7 +310,7 @@ export default class InvoiceDetailModule {
     };
 
     this.createOrUpdateInvoice({ onSuccess: onCreateOrUpdateInvoiceSuccess });
-  }
+  };
 
   saveAndEmailInvoice = () => {
     this.closeModal();
@@ -322,7 +326,7 @@ export default class InvoiceDetailModule {
     } else {
       this.openEmailModal();
     }
-  }
+  };
 
   saveAndRedirectToInvoicePayment = () => {
     this.closeModal();
@@ -332,7 +336,7 @@ export default class InvoiceDetailModule {
     };
 
     this.createOrUpdateInvoice({ onSuccess });
-  }
+  };
 
   deleteInvoice = () => {
     this.dispatcher.setSubmittingState(true);
@@ -363,35 +367,35 @@ export default class InvoiceDetailModule {
         onFailure,
       });
     }
-  }
+  };
 
   redirectToInvoiceList = () => {
     const state = this.store.getState();
     const url = getInvoiceListUrl(state);
 
     this.navigateTo(url);
-  }
+  };
 
   redirectToInvoicePayment = () => {
     const state = this.store.getState();
     const url = getInvoicePaymentUrl(state);
 
     this.navigateTo(url);
-  }
+  };
 
   redirectToInvoiceAndQuoteSettings = () => {
     const state = this.store.getState();
     const url = getInvoiceAndQuoteSettingsUrl(state);
 
     this.navigateTo(url);
-  }
+  };
 
   redirectToCreateInvoice = () => {
     const state = this.store.getState();
     const url = getCreateNewInvoiceUrl(state);
 
     this.navigateTo(url);
-  }
+  };
 
   loadCustomer = () => {
     const onSuccess = (payload) => {
@@ -409,7 +413,7 @@ export default class InvoiceDetailModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   loadPayDirect = () => {
     this.dispatcher.setPayDirectLoadingState(true);
@@ -427,7 +431,7 @@ export default class InvoiceDetailModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   updateHeaderOptions = ({ key, value }) => {
     if (key === 'isTaxInclusive') {
@@ -451,7 +455,7 @@ export default class InvoiceDetailModule {
         }
       }
     }
-  }
+  };
 
   updateInvoiceLayout = ({ value: layout }) => {
     const state = this.store.getState();
@@ -461,7 +465,7 @@ export default class InvoiceDetailModule {
       this.dispatcher.updateInvoiceLayout(layout);
       this.calculateLines();
     }
-  }
+  };
 
   removeInvoiceLine = (index) => {
     const state = this.store.getState();
@@ -489,7 +493,7 @@ export default class InvoiceDetailModule {
     if (['accountId', 'taxCodeId'].includes(key)) {
       this.calculateLines();
     }
-  }
+  };
 
   calculateLines = () => {
     const state = this.store.getState();
@@ -500,13 +504,13 @@ export default class InvoiceDetailModule {
       const taxCalculations = getTaxCalculations(state, false);
       this.dispatcher.calculateLines(taxCalculations);
     }
-  }
+  };
 
   calculateLinesOnTaxInclusiveChange = () => {
     const state = this.store.getState();
     const taxCalculations = getTaxCalculations(state, true);
     this.dispatcher.calculateLines(taxCalculations, true);
-  }
+  };
 
   /*
    * Workflow:
@@ -522,7 +526,7 @@ export default class InvoiceDetailModule {
       this.dispatcher.calculateLines(taxCalculations);
       this.dispatcher.setInvoiceItemLineDirty(false);
     }
-  }
+  };
 
   calculateLinesOnItemChange = ({ index, itemId }) => {
     this.dispatcher.setSubmittingState(true);
@@ -544,7 +548,10 @@ export default class InvoiceDetailModule {
     };
 
     this.integrator.loadItemSellingDetails({
-      onSuccess, onFailure, index, itemId,
+      onSuccess,
+      onFailure,
+      index,
+      itemId,
     });
   };
 
@@ -569,7 +576,9 @@ export default class InvoiceDetailModule {
   };
 
   redirectToRefUrl = () => {
-    const { redirectUrl, isOpenInNewTab } = getRedirectState(this.store.getState());
+    const { redirectUrl, isOpenInNewTab } = getRedirectState(
+      this.store.getState()
+    );
     this.navigateTo(redirectUrl, isOpenInNewTab);
   };
 
@@ -599,35 +608,37 @@ export default class InvoiceDetailModule {
     this.createOrUpdateInvoice({ onSuccess });
   };
 
-  openDeleteModal = () => this.dispatcher.setModalType(InvoiceDetailModalType.DELETE);
+  openDeleteModal = () =>
+    this.dispatcher.setModalType(InvoiceDetailModalType.DELETE);
 
   openSaveAndCreateNewModal = () => {
     this.dispatcher.setModalType(InvoiceDetailModalType.SAVE_AND_CREATE_NEW);
-  }
+  };
 
   openSaveAndDuplicateModal = () => {
     this.dispatcher.setModalType(InvoiceDetailModalType.SAVE_AND_DUPLICATE);
-  }
+  };
 
   openExportPdfModal = () => {
     this.dispatcher.setModalType(InvoiceDetailModalType.EXPORT_PDF);
-  }
+  };
 
   openEmailModal = () => {
     const state = this.store.getState();
     const type = getEmailModalType(state);
     this.dispatcher.setModalType(type);
-  }
+  };
 
-  executeSaveAndAction = saveAction => (
+  executeSaveAndAction = (saveAction) =>
     saveAction === SaveActionType.SAVE_AND_CREATE_NEW
       ? this.openSaveAndCreateNewModal()
-      : this.openSaveAndDuplicateModal()
-  )
+      : this.openSaveAndDuplicateModal();
 
   payInvoice = () => {
     if (getIsPageEdited(this.store.getState())) {
-      this.dispatcher.setModalType(InvoiceDetailModalType.APPLY_PAYMENT_UNSAVED_CHANGES);
+      this.dispatcher.setModalType(
+        InvoiceDetailModalType.APPLY_PAYMENT_UNSAVED_CHANGES
+      );
     } else {
       this.redirectToInvoicePayment();
     }
@@ -659,11 +670,11 @@ export default class InvoiceDetailModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   updateEmailInvoiceDetail = ({ key, value }) => {
     this.dispatcher.updateEmailInvoiceDetail(key, value);
-  }
+  };
 
   addEmailAttachments = (files) => {
     this.dispatcher.addEmailAttachments(files);
@@ -674,7 +685,9 @@ export default class InvoiceDetailModule {
   uploadEmailAttachments = (files) => {
     const state = this.store.getState();
 
-    getFilesForUpload(state, files).forEach(file => this.uploadEmailAttachment(file));
+    getFilesForUpload(state, files).forEach((file) =>
+      this.uploadEmailAttachment(file)
+    );
   };
 
   uploadEmailAttachment = (file) => {
@@ -687,7 +700,10 @@ export default class InvoiceDetailModule {
     };
 
     const onProgress = (uploadProgress) => {
-      this.dispatcher.updateEmailAttachmentUploadProgress({ uploadProgress, file });
+      this.dispatcher.updateEmailAttachmentUploadProgress({
+        uploadProgress,
+        file,
+      });
     };
 
     this.integrator.uploadEmailAttachment({
@@ -730,12 +746,12 @@ export default class InvoiceDetailModule {
     };
 
     this.integrator.saveEmailSettings({ onSuccess, onFailure });
-  }
+  };
 
   closeEmailModal = () => {
     this.closeModal();
     this.dispatcher.resetEmailInvoiceDetail();
-  }
+  };
 
   exportPdf = () => {
     if (getIsModalActionDisabled(this.store.getState())) return;
@@ -759,7 +775,7 @@ export default class InvoiceDetailModule {
     };
 
     this.integrator.exportPdf({ onSuccess, onFailure });
-  }
+  };
 
   openExportPdfModalOrSaveAndExportPdf = () => {
     const state = this.store.getState();
@@ -769,7 +785,7 @@ export default class InvoiceDetailModule {
     } else {
       this.openExportPdfModal();
     }
-  }
+  };
 
   openCustomerModal = () => {
     const state = this.store.getState();
@@ -777,10 +793,10 @@ export default class InvoiceDetailModule {
 
     this.contactModalModule.run({
       context,
-      onLoadFailure: message => this.displayFailureAlert(message),
+      onLoadFailure: (message) => this.displayFailureAlert(message),
       onSaveSuccess: this.loadCustomerAfterCreate,
     });
-  }
+  };
 
   loadCustomerAfterCreate = ({ message, id }) => {
     this.contactModalModule.resetState();
@@ -799,7 +815,7 @@ export default class InvoiceDetailModule {
     };
 
     this.integrator.loadCustomerAfterCreate({ id, onSuccess, onFailure });
-  }
+  };
 
   loadAbnFromCustomer = () => {
     this.dispatcher.setAbnLoadingState(true);
@@ -815,7 +831,7 @@ export default class InvoiceDetailModule {
     };
 
     this.integrator.loadAbnFromCustomer({ onSuccess, onFailure });
-  }
+  };
 
   pushSuccessfulSaveMessage = (message) => {
     this.globalCallbacks.invoiceSaved();
@@ -823,18 +839,20 @@ export default class InvoiceDetailModule {
       type: SUCCESSFULLY_SAVED_INVOICE,
       content: message,
     });
-  }
+  };
 
-  displayFailureAlert = message => this.dispatcher.setAlert({ type: 'danger', message });
+  displayFailureAlert = (message) =>
+    this.dispatcher.setAlert({ type: 'danger', message });
 
-  displaySuccessAlert = message => this.dispatcher.setAlert({ type: 'success', message })
+  displaySuccessAlert = (message) =>
+    this.dispatcher.setAlert({ type: 'success', message });
 
   readMessages = () => {
     this.popMessages([
       SUCCESSFULLY_SAVED_INVOICE,
       SUCCESSFULLY_EMAILED_INVOICE,
       DUPLICATE_INVOICE,
-    ]).forEach(message => {
+    ]).forEach((message) => {
       switch (message.type) {
         case SUCCESSFULLY_SAVED_INVOICE:
         case SUCCESSFULLY_EMAILED_INVOICE:
@@ -849,7 +867,7 @@ export default class InvoiceDetailModule {
         default:
       }
     });
-  }
+  };
 
   resetState = () => {
     this.contactModalModule.resetState();
@@ -860,7 +878,7 @@ export default class InvoiceDetailModule {
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   saveHandler = () => {
     // Quick add modals
@@ -964,12 +982,12 @@ export default class InvoiceDetailModule {
     this.displaySuccessAlert(message);
     this.loadItemOption({ itemId }, onChangeItemTableRow);
     this.inventoryModalModule.resetState();
-  }
+  };
 
   failLoadItem = ({ message }) => {
     this.displayFailureAlert(message);
     this.inventoryModalModule.resetState();
-  }
+  };
 
   openInventoryModalModule = (onChangeItemTableRow) => {
     const state = this.store.getState();
@@ -982,7 +1000,7 @@ export default class InvoiceDetailModule {
       },
       onLoadFailure: this.failLoadItem,
     });
-  }
+  };
 
   loadInvoiceHistory = () => {
     this.dispatcher.setInvoiceHistoryLoading();
@@ -999,20 +1017,22 @@ export default class InvoiceDetailModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   accordionClosed = () => {
     this.dispatcher.setInvoiceHistoryClosed();
-  }
+  };
 
   accordionOpened = () => {
     this.dispatcher.setInvoiceHistoryOpen();
-  }
+  };
 
   focusActivityHistory = () => {
-    const element = document.getElementById(InvoiceDetailElementId.ACTIVITY_HISTORY_ELEMENT_ID);
+    const element = document.getElementById(
+      InvoiceDetailElementId.ACTIVITY_HISTORY_ELEMENT_ID
+    );
     element.scrollIntoView();
-  }
+  };
 
   loadAccounts = ({ keywords, onSuccess }) => {
     const onFailure = ({ message }) => {
@@ -1042,26 +1062,30 @@ export default class InvoiceDetailModule {
     if (getIsBeforeConversionDate(this.store.getState())) {
       this.openPreConversionModal();
     }
-  }
+  };
 
   openPreConversionModal = () => {
-    this.dispatcher.setModalType(InvoiceDetailModalType.CREATE_PRE_CONVERSION_INVOICE);
-  }
+    this.dispatcher.setModalType(
+      InvoiceDetailModalType.CREATE_PRE_CONVERSION_INVOICE
+    );
+  };
 
   dismissPreConversionModal = () => {
     this.dispatcher.updateHeaderOptions('issueDate', formatIsoDate(new Date()));
     this.closeModal();
-  }
+  };
 
-  displayPreConversionAlert = () => this.dispatcher.setShowPreConversionAlert(true);
+  displayPreConversionAlert = () =>
+    this.dispatcher.setShowPreConversionAlert(true);
 
-  dismissPreConversionAlert = () => this.dispatcher.setShowPreConversionAlert(false);
+  dismissPreConversionAlert = () =>
+    this.dispatcher.setShowPreConversionAlert(false);
 
   convertToPreConversionInvoice = () => {
     this.dispatcher.convertToPreConversionInvoice();
     this.closeModal();
     this.displayPreConversionAlert();
-  }
+  };
 
   render = () => {
     const accountModal = this.accountModalModule.render();
@@ -1167,12 +1191,10 @@ export default class InvoiceDetailModule {
     );
 
     const wrappedView = (
-      <Provider store={this.store}>
-        {invoiceDetailView}
-      </Provider>
+      <Provider store={this.store}>{invoiceDetailView}</Provider>
     );
     this.setRootView(wrappedView);
-  }
+  };
 
   handlePageTransition = (url) => {
     const state = this.store.getState();
@@ -1185,5 +1207,5 @@ export default class InvoiceDetailModule {
     } else {
       this.navigateTo(url);
     }
-  }
+  };
 }

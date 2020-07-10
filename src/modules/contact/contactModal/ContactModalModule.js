@@ -15,7 +15,10 @@ export default class ContactModalModule {
     this.onLoadFailure = () => {};
 
     this.store = new Store(contactModalReducer);
-    this.integrator = createContactModalIntegrator(this.store, this.integration);
+    this.integrator = createContactModalIntegrator(
+      this.store,
+      this.integration
+    );
     this.dispatcher = createContactModalDispatcher(this.store);
   }
 
@@ -58,16 +61,12 @@ export default class ContactModalModule {
 
   resetState = () => this.dispatcher.resetState();
 
-  run = ({
-    context,
-    onLoadFailure = () => {},
-    onSaveSuccess = () => {},
-  }) => {
+  run = ({ context, onLoadFailure = () => {}, onSaveSuccess = () => {} }) => {
     this.dispatcher.setInitialState(context);
     this.onLoadFailure = onLoadFailure;
     this.onSaveSuccess = onSaveSuccess;
     this.loadContactModal();
-  }
+  };
 
   render() {
     return (
@@ -76,10 +75,16 @@ export default class ContactModalModule {
           onClose={this.resetState}
           onDismissAlert={this.dispatcher.dismissAlert}
           onDetailChange={this.dispatcher.setContactModalDetails}
-          onBillingAddressButtonClick={this.dispatcher.setShowContactModalBillingAddress}
+          onBillingAddressButtonClick={
+            this.dispatcher.setShowContactModalBillingAddress
+          }
           onBillingAddressChange={this.dispatcher.setContactModalBillingAddress}
-          onShippingAddressButtonClick={this.dispatcher.setShowContactModalShippingAddress}
-          onShippingAddressChange={this.dispatcher.setContactModalShippingAddress}
+          onShippingAddressButtonClick={
+            this.dispatcher.setShowContactModalShippingAddress
+          }
+          onShippingAddressChange={
+            this.dispatcher.setContactModalShippingAddress
+          }
           onSaveButtonClick={this.save}
           onCancelButtonClick={this.dispatcher.resetState}
         />

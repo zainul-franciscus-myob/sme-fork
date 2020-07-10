@@ -14,10 +14,12 @@ const SupplierReturnListTableBody = ({
   onCreateRefundClick,
   onCreatePurchaseClick,
 }) => {
-  const rows = entries.map(entry => (
+  const rows = entries.map((entry) => (
     <Table.Row key={entry.id}>
-
-      <Table.RowItem columnName={tableConfig.date.columnName} {...tableConfig.date.styles}>
+      <Table.RowItem
+        columnName={tableConfig.date.columnName}
+        {...tableConfig.date.styles}
+      >
         {entry.date}
       </Table.RowItem>
 
@@ -28,7 +30,10 @@ const SupplierReturnListTableBody = ({
         <a href={entry.link}>{entry.purchaseOrderNumber}</a>
       </Table.RowItem>
 
-      <Table.RowItem columnName={tableConfig.supplier.columnName} {...tableConfig.supplier.styles}>
+      <Table.RowItem
+        columnName={tableConfig.supplier.columnName}
+        {...tableConfig.supplier.styles}
+      >
         {entry.supplier}
       </Table.RowItem>
 
@@ -39,7 +44,10 @@ const SupplierReturnListTableBody = ({
         {entry.supplierInvoiceNumber}
       </Table.RowItem>
 
-      <Table.RowItem columnName={tableConfig.amount.columnName} {...tableConfig.amount.styles}>
+      <Table.RowItem
+        columnName={tableConfig.amount.columnName}
+        {...tableConfig.amount.styles}
+      >
         {entry.amount}
       </Table.RowItem>
 
@@ -54,7 +62,12 @@ const SupplierReturnListTableBody = ({
         columnName={tableConfig.receiveRefund.columnName}
         {...tableConfig.receiveRefund.styles}
       >
-        <Button type="link" icon={<Icons.Dollar />} iconLeft onClick={onLinkButtonClick(onCreateRefundClick, entry.id)}>
+        <Button
+          type="link"
+          icon={<Icons.Dollar />}
+          iconLeft
+          onClick={onLinkButtonClick(onCreateRefundClick, entry.id)}
+        >
           Refund
         </Button>
       </Table.RowItem>
@@ -63,22 +76,22 @@ const SupplierReturnListTableBody = ({
         columnName={tableConfig.applyToPurchase.columnName}
         {...tableConfig.applyToPurchase.styles}
       >
-        <Button type="link" icon={<Icons.ReopenedDocument />} iconLeft onClick={onLinkButtonClick(onCreatePurchaseClick, entry.id)}>
+        <Button
+          type="link"
+          icon={<Icons.ReopenedDocument />}
+          iconLeft
+          onClick={onLinkButtonClick(onCreatePurchaseClick, entry.id)}
+        >
           Apply
         </Button>
       </Table.RowItem>
-
     </Table.Row>
   ));
 
-  return (
-    <Table.Body>
-      {rows}
-    </Table.Body>
-  );
+  return <Table.Body>{rows}</Table.Body>;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   entries: getTableEntries(state),
 });
 

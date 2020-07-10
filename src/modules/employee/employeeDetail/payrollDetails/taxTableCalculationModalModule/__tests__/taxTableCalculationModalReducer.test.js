@@ -1,4 +1,7 @@
-import { SET_IS_OPEN, SET_TAX_TABLE_RESULT } from '../taxTableCalculationModalIntents';
+import {
+  SET_IS_OPEN,
+  SET_TAX_TABLE_RESULT,
+} from '../taxTableCalculationModalIntents';
 import taxTableCalculationModalReducer from '../taxTableCalculationModalReducer';
 
 describe('taxTableCalculationModalReducer', () => {

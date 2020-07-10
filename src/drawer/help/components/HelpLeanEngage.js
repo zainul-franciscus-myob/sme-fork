@@ -10,7 +10,9 @@ const openLeanEngageSurvey = () => {
 const HelpLeanEngage = () => (
   <div className={styles.helpLeanEngage}>
     <h4>Was this helpful?</h4>
-    <Button type="secondary" onClick={openLeanEngageSurvey}>Let us know</Button>
+    <Button type="secondary" onClick={openLeanEngageSurvey}>
+      Let us know
+    </Button>
   </div>
 );
 

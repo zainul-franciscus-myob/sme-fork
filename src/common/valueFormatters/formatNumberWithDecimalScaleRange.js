@@ -1,4 +1,4 @@
-const removeTrailingZeroes = number => String(Number(number));
+const removeTrailingZeroes = (number) => String(Number(number));
 
 const countDecimalPlaces = (num) => {
   if (Math.floor(num) === num) return 0;

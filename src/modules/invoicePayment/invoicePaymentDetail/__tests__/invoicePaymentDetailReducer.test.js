@@ -1,4 +1,7 @@
-import { LOAD_INVOICE_LIST, UPDATE_INVOICE_PAYMENT_ENTRIES } from '../../InvoicePaymentIntent';
+import {
+  LOAD_INVOICE_LIST,
+  UPDATE_INVOICE_PAYMENT_ENTRIES,
+} from '../../InvoicePaymentIntent';
 import invoicePaymentDetailReducer from '../invoicePaymentDetailReducer';
 
 describe('invoicePaymentDetailReducer', () => {
@@ -32,8 +35,7 @@ describe('invoicePaymentDetailReducer', () => {
         ],
       };
 
-      expect(invoicePaymentDetailReducer(state, action))
-        .toEqual(expected);
+      expect(invoicePaymentDetailReducer(state, action)).toEqual(expected);
     });
   });
 
@@ -45,10 +47,7 @@ describe('invoicePaymentDetailReducer', () => {
       };
       const action = {
         intent: LOAD_INVOICE_LIST,
-        entries: [
-          { id: '1234' },
-          { id: '3214' },
-        ],
+        entries: [{ id: '1234' }, { id: '3214' }],
       };
 
       const expected = {
@@ -67,10 +66,7 @@ describe('invoicePaymentDetailReducer', () => {
       const state = {};
       const action = {
         intent: LOAD_INVOICE_LIST,
-        entries: [
-          { id: '1234' },
-          { id: '3214' },
-        ],
+        entries: [{ id: '1234' }, { id: '3214' }],
       };
 
       const expected = {
@@ -91,10 +87,7 @@ describe('invoicePaymentDetailReducer', () => {
     };
     const action = {
       intent: LOAD_INVOICE_LIST,
-      entries: [
-        { id: '1234' },
-        { id: '3214' },
-      ],
+      entries: [{ id: '1234' }, { id: '3214' }],
     };
 
     const expected = {

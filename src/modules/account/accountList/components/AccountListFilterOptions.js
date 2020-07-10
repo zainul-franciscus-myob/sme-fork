@@ -8,11 +8,7 @@ import handleCheckboxChange from '../../../../components/handlers/handleCheckbox
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
 const AccountListFilterOptions = (props) => {
-  const {
-    keywords,
-    showInactive,
-    onUpdateFilterOptions,
-  } = props;
+  const { keywords, showInactive, onUpdateFilterOptions } = props;
 
   return (
     <FilterBar>
@@ -35,6 +31,6 @@ const AccountListFilterOptions = (props) => {
   );
 };
 
-const mapStateToProps = state => getFilterOptions(state);
+const mapStateToProps = (state) => getFilterOptions(state);
 
 export default connect(mapStateToProps)(AccountListFilterOptions);

@@ -57,13 +57,17 @@ const BillSecondaryOptions = ({
       name="supplierInvoiceNumber"
       maxLength={19}
       label="Supplier invoice number"
-      className={classnames({ [styles.prefilled]: prefillStatus.supplierInvoiceNumber })}
+      className={classnames({
+        [styles.prefilled]: prefillStatus.supplierInvoiceNumber,
+      })}
       value={supplierInvoiceNumber}
       onChange={handleInputChange(onUpdateBillOption)}
       disabled={isReadOnly}
     />
-    <div className={
-      classnames(styles.formControlWrapper, { [styles.prefilled]: prefillStatus.issueDate })}
+    <div
+      className={classnames(styles.formControlWrapper, {
+        [styles.prefilled]: prefillStatus.issueDate,
+      })}
     >
       <DatePicker
         label="Issue date"
@@ -96,8 +100,7 @@ const BillSecondaryOptions = ({
   </React.Fragment>
 );
 
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   billNumber: getBillNumber(state),
   supplierInvoiceNumber: getSupplierInvoiceNumber(state),
   issueDate: getIssueDate(state),

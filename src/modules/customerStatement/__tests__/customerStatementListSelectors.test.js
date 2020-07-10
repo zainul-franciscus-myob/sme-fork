@@ -9,7 +9,7 @@ import StatementType from '../StatementType';
 
 describe('customerStatementListSelectors', () => {
   describe('getCustomersSelected', () => {
-    it('should filter out customers that haven\'t been selected and get length', () => {
+    it("should filter out customers that haven't been selected and get length", () => {
       const state = {
         customerStatements: [
           {

@@ -6,7 +6,9 @@ describe('buildAbnLink', () => {
 
     const actual = buildAbnLink(abn);
 
-    expect(actual).toEqual('https://abr.business.gov.au/ABN/View?id=13086760198');
+    expect(actual).toEqual(
+      'https://abr.business.gov.au/ABN/View?id=13086760198'
+    );
   });
 
   it('return abn home page when abn is not provided', () => {

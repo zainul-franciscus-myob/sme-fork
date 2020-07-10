@@ -6,8 +6,8 @@ const createWrapper = (namespace, func) => (state, action) => {
   };
 };
 
-const wrapHandlers = (namespace, handlers) => Object.getOwnPropertySymbols(handlers)
-  .reduce((acc, intent) => {
+const wrapHandlers = (namespace, handlers) =>
+  Object.getOwnPropertySymbols(handlers).reduce((acc, intent) => {
     const handler = handlers[intent];
     const wrappedHandler = createWrapper(namespace, handler);
     return {

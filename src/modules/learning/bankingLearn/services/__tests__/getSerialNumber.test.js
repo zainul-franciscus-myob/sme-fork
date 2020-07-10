@@ -33,17 +33,27 @@ describe('getSerialNumber', () => {
 
   it('is called with GET_SERIAL_NUMBER', () => {
     getSerialNumber({
-      integration, onSuccess, onFailure, context,
+      integration,
+      onSuccess,
+      onFailure,
+      context,
     });
 
-    expect(integration.read).toBeCalledWith(expect.objectContaining({ intent: GET_SERIAL_NUMBER }));
+    expect(integration.read).toBeCalledWith(
+      expect.objectContaining({ intent: GET_SERIAL_NUMBER })
+    );
   });
 
   it('is called with context', () => {
     getSerialNumber({
-      integration, onSuccess, onFailure, context,
+      integration,
+      onSuccess,
+      onFailure,
+      context,
     });
 
-    expect(integration.read).toBeCalledWith(expect.objectContaining({ urlParams: context }));
+    expect(integration.read).toBeCalledWith(
+      expect.objectContaining({ urlParams: context })
+    );
   });
 });

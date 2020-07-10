@@ -10,14 +10,20 @@ const BankReconciliationActions = ({
 }) => (
   <ButtonRow
     primary={[
-      <Button key="reconcile" name="reconcile" type="primary" onClick={onReconcileButtonClick} disabled={isActionsDisabled}>
+      <Button
+        key="reconcile"
+        name="reconcile"
+        type="primary"
+        onClick={onReconcileButtonClick}
+        disabled={isActionsDisabled}
+      >
         Reconcile
       </Button>,
     ]}
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isActionsDisabled: getIsActionDisabled(state),
 });
 

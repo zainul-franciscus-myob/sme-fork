@@ -46,11 +46,9 @@ const RuleDetailsSection = ({
       requiredLabel="This is required"
       className={styles.ruleType}
     >
-      {
-        ruleTypes.map(({ name, value }) => (
-          <Select.Option key={value} value={value} label={name} />
-        ))
-      }
+      {ruleTypes.map(({ name, value }) => (
+        <Select.Option key={value} value={value} label={name} />
+      ))}
     </Select>
     <Input
       label="Rule name"
@@ -76,28 +74,23 @@ const RuleDetailsSection = ({
       name="applyToAllAccounts"
       label="This rule applies to"
       value={applyToAllAccounts}
-      options={[
-        ApplyTypes.allBankAccounts,
-        ApplyTypes.oneBankAccount,
-      ]}
+      options={[ApplyTypes.allBankAccounts, ApplyTypes.oneBankAccount]}
       onChange={handleRadioButtonChange('applyToAllAccounts', onDetailsChange)}
     />
-    {
-      showShowBankAccountList && (
-        <div className={styles.bankFeedAccount}>
-          <AccountCombobox
-            name="bankFeedAccountId"
-            items={bankAccounts}
-            selectedId=""
-            onChange={handleComboboxChange('accountId', onDetailsChange)}
-          />
-        </div>
-      )
-    }
+    {showShowBankAccountList && (
+      <div className={styles.bankFeedAccount}>
+        <AccountCombobox
+          name="bankFeedAccountId"
+          items={bankAccounts}
+          selectedId=""
+          onChange={handleComboboxChange('accountId', onDetailsChange)}
+        />
+      </div>
+    )}
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ruleName: getRuleName(state),
   ruleTypes: getRuleTypeOptions(state),
   selectedRuleType: getRuleType(state),

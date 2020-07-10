@@ -23,10 +23,13 @@ import newContactDetailResponse from './data/contactDetailNewEntry';
 import success from './data/success.json';
 import validateAbnResponse from './data/validateAbnResult';
 
-const sortAndFilterContactList = ({ onSuccess }) => onSuccess(contactListFilterResponse);
+const sortAndFilterContactList = ({ onSuccess }) =>
+  onSuccess(contactListFilterResponse);
 const loadContactList = ({ onSuccess }) => onSuccess(contactListLoadResponse);
-const contactListNextPage = ({ onSuccess }) => onSuccess(contactListNextPageResponse);
-const loadContactDetail = ({ onSuccess }) => onSuccess(contactDetailLoadResponse);
+const contactListNextPage = ({ onSuccess }) =>
+  onSuccess(contactListNextPageResponse);
+const loadContactDetail = ({ onSuccess }) =>
+  onSuccess(contactDetailLoadResponse);
 const loadNewContact = ({ onSuccess }) => onSuccess(newContactDetailResponse);
 const deleteContact = ({ onSuccess }) => onSuccess(success);
 const updateContact = ({ onSuccess }) => onSuccess(success);
@@ -42,8 +45,10 @@ const ContactListMapping = {
   [DELETE_CONTACT]: deleteContact,
   [UPDATE_CONTACT]: updateContact,
   [CREATE_CONTACT]: createContact,
-  [LOAD_CONTACT_MODAL]: ({ onSuccess }) => onSuccess(loadNewContactModalResponse),
-  [CREATE_CONTACT_MODAL]: ({ onSuccess }) => onSuccess(createContactModalResponse),
+  [LOAD_CONTACT_MODAL]: ({ onSuccess }) =>
+    onSuccess(loadNewContactModalResponse),
+  [CREATE_CONTACT_MODAL]: ({ onSuccess }) =>
+    onSuccess(createContactModalResponse),
   [LOAD_CONTACT_LIST_NEXT_PAGE]: contactListNextPage,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadNewAccount,
   [LOAD_ABN_VALIDATION_RESULT]: validateAbn,

@@ -20,7 +20,7 @@ const inActiveRow = ({ tableConfig, entry }) => (
 const ContactListTableBody = (props) => {
   const { tableConfig, entries, showHiddenColumns } = props;
 
-  const rows = entries.map(entry => (
+  const rows = entries.map((entry) => (
     <Table.Row key={entry.id}>
       <Table.RowItem
         columnName={tableConfig.name.columnName}
@@ -71,7 +71,7 @@ const ContactListTableBody = (props) => {
   return <React.Fragment>{rows}</React.Fragment>;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   entries: getTableEntries(state),
   showHiddenColumns: getShowHiddenColumns(state),
 });

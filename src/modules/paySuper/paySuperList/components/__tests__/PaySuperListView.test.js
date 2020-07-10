@@ -1,6 +1,4 @@
-import {
-  Alert, Button, PageHead, Table,
-} from '@myob/myob-widgets';
+import { Alert, Button, PageHead, Table } from '@myob/myob-widgets';
 import { Provider } from 'react-redux';
 import { mount } from 'enzyme/build';
 import React from 'react';
@@ -25,7 +23,7 @@ describe('PaySuperListView', () => {
     const store = new Store(() => ({ ...DEFAULT_STATE, ...state }));
     const wrappedComponent = (
       <Provider store={store}>
-        <PaySuperListView onSort={() => { }} />
+        <PaySuperListView onSort={() => {}} />
       </Provider>
     );
 
@@ -77,7 +75,10 @@ describe('PaySuperListView', () => {
     it('renders create button when pay super is registered', () => {
       const wrapper = constructPaySuperListView();
 
-      const createButton = findButtonWithTestId(wrapper, 'createSuperPaymentButton');
+      const createButton = findButtonWithTestId(
+        wrapper,
+        'createSuperPaymentButton'
+      );
 
       expect(createButton).not.toHaveLength(0);
     });
@@ -85,7 +86,10 @@ describe('PaySuperListView', () => {
     it('renders settings button when pay super is registered', () => {
       const wrapper = constructPaySuperListView();
 
-      const settingsButton = findButtonWithTestId(wrapper, 'superPaymentSettingsButton');
+      const settingsButton = findButtonWithTestId(
+        wrapper,
+        'superPaymentSettingsButton'
+      );
 
       expect(settingsButton).not.toHaveLength(0);
     });
@@ -115,7 +119,7 @@ describe('PaySuperListView', () => {
   });
 
   describe('Alerts', () => {
-    it('renders alerts when they\'re set', () => {
+    it("renders alerts when they're set", () => {
       const wrapper = constructPaySuperListView({
         alert: {
           type: 'danger',

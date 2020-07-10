@@ -1,6 +1,7 @@
 import {
   LOAD_ELECTRONIC_PAYMENT_DETAILS,
-  SET_ALERT, SET_DELETE_MODAL_OPEN_STATE,
+  SET_ALERT,
+  SET_DELETE_MODAL_OPEN_STATE,
   SET_LOADING_STATE,
 } from './ElectronicPaymentsReadIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -64,6 +65,9 @@ const handlers = {
   [LOAD_ELECTRONIC_PAYMENT_DETAILS]: loadElectronicPaymentDetails,
 };
 
-const electronicPaymentsReadReducer = createReducer(getDefaultState(), handlers);
+const electronicPaymentsReadReducer = createReducer(
+  getDefaultState(),
+  handlers
+);
 
 export default electronicPaymentsReadReducer;

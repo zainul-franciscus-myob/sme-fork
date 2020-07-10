@@ -6,45 +6,57 @@ class TestIntegration {
     this.resetMapping();
   }
 
-  read = ({
-    intent, urlParams, params, onSuccess, onFailure,
-  }) => {
+  read = ({ intent, urlParams, params, onSuccess, onFailure }) => {
     this.requests.push({ intent, urlParams, params });
     this.mapping[intent]({
-      intent, urlParams, params, onSuccess, onFailure,
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
     });
-  }
+  };
 
-  readFile = ({
-    intent, urlParams, params, onSuccess, onFailure,
-  }) => {
+  readFile = ({ intent, urlParams, params, onSuccess, onFailure }) => {
     this.requests.push({ intent, urlParams, params });
     this.mapping[intent]({
-      intent, urlParams, params, onSuccess, onFailure,
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
     });
-  }
+  };
 
-  write = ({
-    intent, urlParams, params, onSuccess, onFailure,
-  }) => {
+  write = ({ intent, urlParams, params, onSuccess, onFailure }) => {
     this.requests.push({ intent, urlParams, params });
     this.mapping[intent]({
-      intent, urlParams, params, onSuccess, onFailure,
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
     });
-  }
+  };
 
-  writeFormData = ({
-    intent, urlParams, params, onSuccess, onFailure,
-  }) => {
+  writeFormData = ({ intent, urlParams, params, onSuccess, onFailure }) => {
     this.requests.push({ intent, urlParams, params });
     this.mapping[intent]({
-      intent, urlParams, params, onSuccess, onFailure,
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
     });
-  }
+  };
 
-  resetRequests = () => { this.requests = []; }
+  resetRequests = () => {
+    this.requests = [];
+  };
 
-  resetMapping = () => { this.mapping = { ...RootMapping }; }
+  resetMapping = () => {
+    this.mapping = { ...RootMapping };
+  };
 
   getRequests = () => this.requests;
 

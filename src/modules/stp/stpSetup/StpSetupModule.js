@@ -27,9 +27,7 @@ import StpYourRoleModule from './stepModules/StpYourRole/StpYourRoleModule';
 import stpSetupReducer from './stpSetupReducer';
 
 export default class StpSetupModule {
-  constructor({
-    integration, setRootView,
-  }) {
+  constructor({ integration, setRootView }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.store = new Store(stpSetupReducer);
@@ -197,12 +195,12 @@ export default class StpSetupModule {
   };
 
   getStep = (stepId) => {
-    const stepIndex = this.steps.findIndex(step => step.id === stepId);
+    const stepIndex = this.steps.findIndex((step) => step.id === stepId);
     return this.steps[stepIndex];
   };
 
   setStep = (stepId) => {
-    const stepIndex = this.steps.findIndex(step => step.id === stepId);
+    const stepIndex = this.steps.findIndex((step) => step.id === stepId);
 
     this.store.dispatch({
       intent: SET_CURRENT_STEP_INDEX,
@@ -213,9 +211,7 @@ export default class StpSetupModule {
   render = () => {
     const wrappedView = (
       <Provider store={this.store}>
-        <StpSetupView
-          steps={this.steps}
-        />
+        <StpSetupView steps={this.steps} />
       </Provider>
     );
 

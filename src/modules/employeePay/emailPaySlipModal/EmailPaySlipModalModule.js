@@ -14,7 +14,10 @@ export default class EmailPaySlipModalModule {
     this.integration = integration;
 
     this.store = new Store(contactModalReducer);
-    this.integrator = createEmailPaySlipModalIntegrator(this.store, this.integration);
+    this.integrator = createEmailPaySlipModalIntegrator(
+      this.store,
+      this.integration
+    );
     this.dispatcher = createEmailPaySlipDispatcher(this.store);
   }
 
@@ -48,10 +51,7 @@ export default class EmailPaySlipModalModule {
     this.resetState();
   };
 
-  run = ({
-    context,
-    onClose = () => {},
-  }) => {
+  run = ({ context, onClose = () => {} }) => {
     this.onCloseCallBack = onClose;
     this.dispatcher.setInitialState(context);
     this.sendEmails();

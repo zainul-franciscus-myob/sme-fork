@@ -11,7 +11,7 @@ import {
 import AbnInput from '../../../../components/autoFormatter/AbnInput/AbnInput';
 import SuperFundProductCombobox from '../../components/SuperFundProductCombobox';
 
-const onInputChange = handler => (e) => {
+const onInputChange = (handler) => (e) => {
   const { value, name } = e.target;
   handler({ key: name, value });
 };
@@ -47,7 +47,12 @@ const SuperFundAPRADetail = ({
       value={superFund.superProductId}
       disabled
     />
-    <AbnInput name="superProductAbn" label="Fund ABN" disabled={abnIsDisabled} value={superFund.superProductAbn} />
+    <AbnInput
+      name="superProductAbn"
+      label="Fund ABN"
+      disabled={abnIsDisabled}
+      value={superFund.superProductAbn}
+    />
     <Input
       name="employerMembershipNumber"
       label="Employer membership no."
@@ -58,7 +63,7 @@ const SuperFundAPRADetail = ({
   </React.Fragment>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   superFund: getSuperFund(state),
   superProducts: getSuperProducts(state),
   isAbnLoading: getIsAbnLoading(state),

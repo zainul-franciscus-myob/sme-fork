@@ -11,38 +11,59 @@ describe('buildOnlinePaymentLink', () => {
   };
 
   it('return online payment link with a correct business id', () => {
-    const actual = buildOnlinePaymentLink({ ...params, businessId: '99999999' });
+    const actual = buildOnlinePaymentLink({
+      ...params,
+      businessId: '99999999',
+    });
 
-    expect(actual).toEqual('https://e3e8.com?cdf=99999999&sn=89274892&source=ARL&isTrial=true&medium=settings&isMerchant=false');
+    expect(actual).toEqual(
+      'https://e3e8.com?cdf=99999999&sn=89274892&source=ARL&isTrial=true&medium=settings&isMerchant=false'
+    );
   });
 
   it('return online payment link with a correct serial number', () => {
-    const actual = buildOnlinePaymentLink({ ...params, serialNumber: '99999999' });
+    const actual = buildOnlinePaymentLink({
+      ...params,
+      serialNumber: '99999999',
+    });
 
-    expect(actual).toEqual('https://e3e8.com?cdf=2b4f04&sn=99999999&source=ARL&isTrial=true&medium=settings&isMerchant=false');
+    expect(actual).toEqual(
+      'https://e3e8.com?cdf=2b4f04&sn=99999999&source=ARL&isTrial=true&medium=settings&isMerchant=false'
+    );
   });
 
   it('return online payment link with a correct source', () => {
     const actual = buildOnlinePaymentLink(params);
 
-    expect(actual).toEqual('https://e3e8.com?cdf=2b4f04&sn=89274892&source=ARL&isTrial=true&medium=settings&isMerchant=false');
+    expect(actual).toEqual(
+      'https://e3e8.com?cdf=2b4f04&sn=89274892&source=ARL&isTrial=true&medium=settings&isMerchant=false'
+    );
   });
 
   it('return online payment link with a correct on trial status', () => {
     const actual = buildOnlinePaymentLink({ ...params, isTrial: false });
 
-    expect(actual).toEqual('https://e3e8.com?cdf=2b4f04&sn=89274892&source=ARL&isTrial=false&medium=settings&isMerchant=false');
+    expect(actual).toEqual(
+      'https://e3e8.com?cdf=2b4f04&sn=89274892&source=ARL&isTrial=false&medium=settings&isMerchant=false'
+    );
   });
 
   it('return online payment link with a correct medium', () => {
-    const actual = buildOnlinePaymentLink({ ...params, location: 'sales settings' });
+    const actual = buildOnlinePaymentLink({
+      ...params,
+      location: 'sales settings',
+    });
 
-    expect(actual).toEqual('https://e3e8.com?cdf=2b4f04&sn=89274892&source=ARL&isTrial=true&medium=sales%20settings&isMerchant=false');
+    expect(actual).toEqual(
+      'https://e3e8.com?cdf=2b4f04&sn=89274892&source=ARL&isTrial=true&medium=sales%20settings&isMerchant=false'
+    );
   });
 
   it('return online payment link with a correct merchant status', () => {
     const actual = buildOnlinePaymentLink({ ...params, isRegistered: true });
 
-    expect(actual).toEqual('https://e3e8.com?cdf=2b4f04&sn=89274892&source=ARL&isTrial=true&medium=settings&isMerchant=true');
+    expect(actual).toEqual(
+      'https://e3e8.com?cdf=2b4f04&sn=89274892&source=ARL&isTrial=true&medium=settings&isMerchant=true'
+    );
   });
 });

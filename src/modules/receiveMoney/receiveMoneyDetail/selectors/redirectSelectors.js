@@ -9,7 +9,7 @@ import {
 export const getTransactionListUrl = createSelector(
   getBusinessId,
   getRegion,
-  (businessId, region) => `/#/${region}/${businessId}/transactionList`,
+  (businessId, region) => `/#/${region}/${businessId}/transactionList`
 );
 
 export const getCreateReceiveMoneyUrl = (state) => {

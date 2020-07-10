@@ -1,4 +1,7 @@
-import { LOAD_BUSINESS_CONTACT_INFORMATION, SUBMIT_BUSINESS_CONTACT_INFORMATION } from '../StpDeclarationInformationIntents';
+import {
+  LOAD_BUSINESS_CONTACT_INFORMATION,
+  SUBMIT_BUSINESS_CONTACT_INFORMATION,
+} from '../StpDeclarationInformationIntents';
 
 const StpDeclarationInformationMapping = {
   [LOAD_BUSINESS_CONTACT_INFORMATION]: {

@@ -31,7 +31,9 @@ describe('DataImportExportModule', () => {
     const setRootView = () => {};
     const replaceURLParams = () => {};
     const module = new DataImportExportModule({
-      integration, setRootView, replaceURLParams,
+      integration,
+      setRootView,
+      replaceURLParams,
     });
     module.store = store;
     module.dispatcher = createDataImportExportDispatcher(store);
@@ -192,15 +194,17 @@ describe('DataImportExportModule', () => {
           },
         ]);
         expect(integration.getRequests()).toEqual(
-          test.intent.map(intent => expect.objectContaining({
-            intent,
-          })),
+          test.intent.map((intent) =>
+            expect.objectContaining({
+              intent,
+            })
+          )
         );
       });
 
       it(`fails to imports ${test.dataType}`, () => {
         const { store, integration, module } = setupWithDataType(test.options);
-        test.intent.forEach(intent => integration.mapFailure(intent));
+        test.intent.forEach((intent) => integration.mapFailure(intent));
 
         module.importData();
 

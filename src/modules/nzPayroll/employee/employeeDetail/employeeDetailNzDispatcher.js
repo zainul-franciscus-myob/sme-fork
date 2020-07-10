@@ -67,11 +67,12 @@ const employeeDetailNzDispatcher = ({ store }) => ({
     store.dispatch({ intent, mainTab });
   },
 
-  setSubTab: (mainTab, subTab) => store.dispatch({
-    intent: intents.SET_SUB_TAB,
-    mainTab,
-    subTab,
-  }),
+  setSubTab: (mainTab, subTab) =>
+    store.dispatch({
+      intent: intents.SET_SUB_TAB,
+      mainTab,
+      subTab,
+    }),
 });
 
 export default employeeDetailNzDispatcher;

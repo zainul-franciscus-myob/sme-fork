@@ -19,7 +19,10 @@ describe('bankingSelector', () => {
       const [type, expected] = args;
 
       it(`should return ${expected} when type is ${type}`, () => {
-        const isAllocated = getIsAllocated({ type, journals: [{ journalId: '123' }] });
+        const isAllocated = getIsAllocated({
+          type,
+          journals: [{ journalId: '123' }],
+        });
 
         expect(isAllocated).toEqual(expected);
       });
@@ -28,8 +31,16 @@ describe('bankingSelector', () => {
 
   describe('getBankTransactionLineDefaultTabId', () => {
     [
-      ['singleAllocation', [{ sourceJournal: businessEventTypes.spendMoney }], tabIds.allocate],
-      ['splitAllocation', [{ sourceJournal: businessEventTypes.spendMoney }], tabIds.allocate],
+      [
+        'singleAllocation',
+        [{ sourceJournal: businessEventTypes.spendMoney }],
+        tabIds.allocate,
+      ],
+      [
+        'splitAllocation',
+        [{ sourceJournal: businessEventTypes.spendMoney }],
+        tabIds.allocate,
+      ],
       ['matched', [], tabIds.match],
       ['unmatched', [], tabIds.allocate],
       ['splitMatched', [], tabIds.match],
@@ -50,16 +61,28 @@ describe('bankingSelector', () => {
       [
         'should return valid balances',
         { bankBalance: 1200, myobBalance: 200, unallocated: 1000 },
-        { bankBalance: '$1,200.00', myobBalance: '$200.00', unallocated: '$1,000.00' },
+        {
+          bankBalance: '$1,200.00',
+          myobBalance: '$200.00',
+          unallocated: '$1,000.00',
+        },
       ],
       [
         'should return negative balances',
         { bankBalance: 1200, myobBalance: 2400, unallocated: -2200 },
-        { bankBalance: '$1,200.00', myobBalance: '$2,400.00', unallocated: '-$2,200.00' },
+        {
+          bankBalance: '$1,200.00',
+          myobBalance: '$2,400.00',
+          unallocated: '-$2,200.00',
+        },
       ],
       [
         'should return empty balances when all balance are undefined',
-        { bankBalance: undefined, myobBalance: undefined, unallocated: undefined },
+        {
+          bankBalance: undefined,
+          myobBalance: undefined,
+          unallocated: undefined,
+        },
         { bankBalance: '$--', myobBalance: '$--', unallocated: '$--' },
       ],
       [
@@ -90,10 +113,15 @@ describe('bankingSelector', () => {
     });
 
     [
-      ['should return balance date', '01/01/2019', 'Closing account balance as at 01/01/2019'],
       [
-        'should return unavailable balance message', '',
-        'Your bank hasn\'t provided the account\'s balance, so we can\'t show these amounts.',
+        'should return balance date',
+        '01/01/2019',
+        'Closing account balance as at 01/01/2019',
+      ],
+      [
+        'should return unavailable balance message',
+        '',
+        "Your bank hasn't provided the account's balance, so we can't show these amounts.",
       ],
     ].forEach((args) => {
       const [name, bankBalanceDate, expectedBalanceTooltip] = args;
@@ -118,16 +146,19 @@ describe('bankingSelector', () => {
       ['allocate', true],
       ['match', true],
       ['transfer', false],
-    ])('should decide whether to show create banking rule button', (tabId, expected) => {
-      const state = {
-        openEntry: {
-          activeTabId: tabId,
-        },
-      };
+    ])(
+      'should decide whether to show create banking rule button',
+      (tabId, expected) => {
+        const state = {
+          openEntry: {
+            activeTabId: tabId,
+          },
+        };
 
-      const actual = getShowCreateBankingRuleButton(state);
+        const actual = getShowCreateBankingRuleButton(state);
 
-      expect(actual).toEqual(expected);
-    });
+        expect(actual).toEqual(expected);
+      }
+    );
   });
 });

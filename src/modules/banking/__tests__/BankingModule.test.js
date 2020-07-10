@@ -81,10 +81,7 @@ describe('BankingModule', () => {
 
     store.setState({
       ...store.getState(),
-      entries: [
-        ...store.getState().entries,
-        entry,
-      ],
+      entries: [...store.getState().entries, entry],
     });
 
     return { ...toolbox, index };
@@ -192,7 +189,9 @@ describe('BankingModule', () => {
 
     it('fails to load next', () => {
       const { store, integration, module } = setUpWithRun();
-      integration.mapFailure(LOAD_BANK_TRANSACTIONS_NEXT_PAGE, { message: 'Load next failure' });
+      integration.mapFailure(LOAD_BANK_TRANSACTIONS_NEXT_PAGE, {
+        message: 'Load next failure',
+      });
 
       module.loadBankTransactionsNextPage();
 
@@ -270,7 +269,9 @@ describe('BankingModule', () => {
 
     it('fails to sort', () => {
       const { store, integration, module } = setUpWithRun();
-      integration.mapFailure(SORT_AND_FILTER_BANK_TRANSACTIONS, { message: 'Sort failure' });
+      integration.mapFailure(SORT_AND_FILTER_BANK_TRANSACTIONS, {
+        message: 'Sort failure',
+      });
 
       module.sortBankTransactions('Date');
 
@@ -353,7 +354,9 @@ describe('BankingModule', () => {
 
     it('fails to filter', () => {
       const { store, integration, module } = setUpWithRun();
-      integration.mapFailure(SORT_AND_FILTER_BANK_TRANSACTIONS, { message: 'Filter failure' });
+      integration.mapFailure(SORT_AND_FILTER_BANK_TRANSACTIONS, {
+        message: 'Filter failure',
+      });
 
       module.filterBankTransactions();
 
@@ -388,7 +391,11 @@ describe('BankingModule', () => {
 
   describe('toggleLine', () => {
     it('close expanded line', () => {
-      const { module, integration, store } = setUpWithOpenTransactionOnAllocateTab();
+      const {
+        module,
+        integration,
+        store,
+      } = setUpWithOpenTransactionOnAllocateTab();
       module.toggleLine(0);
 
       expect(store.getActions()).toEqual([
@@ -470,7 +477,7 @@ describe('BankingModule', () => {
         transactionUid: '123e4567-e89b-12d3-a456-789123456789',
         date: '2018-10-21',
         description: '',
-        withdrawal: 3300.00,
+        withdrawal: 3300.0,
         journals: [],
         taxCode: '',
         note: '',
@@ -649,7 +656,7 @@ describe('BankingModule', () => {
         transactionUid: '123e4567-e89b-12d3-a456-789123456789',
         date: '2018-10-21',
         description: '',
-        withdrawal: 3300.00,
+        withdrawal: 3300.0,
         journals: [],
         taxCode: '',
         note: '',
@@ -714,7 +721,11 @@ describe('BankingModule', () => {
 
   describe('updateMatchTransactionOptions', () => {
     it('successfully sorts and filters', () => {
-      const { module, integration, store } = setUpWithOpenTransactionOnAllocateTab();
+      const {
+        module,
+        integration,
+        store,
+      } = setUpWithOpenTransactionOnAllocateTab();
 
       module.updateMatchTransactionOptions({ key: 'contactId', value: '🙅‍♀️' });
 
@@ -748,7 +759,11 @@ describe('BankingModule', () => {
     });
 
     it('fails to sorts and filters', () => {
-      const { module, integration, store } = setUpWithOpenTransactionOnAllocateTab();
+      const {
+        module,
+        integration,
+        store,
+      } = setUpWithOpenTransactionOnAllocateTab();
       integration.mapFailure(SORT_AND_FILTER_MATCH_TRANSACTIONS);
 
       module.updateMatchTransactionOptions({ key: 'contactId', value: '🙅‍♀️' });
@@ -794,7 +809,11 @@ describe('BankingModule', () => {
       store.resetActions();
       integration.resetRequests();
 
-      module.updatePeriodDateRange({ period: 'monthly', dateFrom: '20/02/2020', dateTo: '20/02/2020' });
+      module.updatePeriodDateRange({
+        period: 'monthly',
+        dateFrom: '20/02/2020',
+        dateTo: '20/02/2020',
+      });
 
       expect(store.getActions()[0]).toEqual({
         intent: UPDATE_PERIOD_DATE_RANGE,

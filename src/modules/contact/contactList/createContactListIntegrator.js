@@ -1,4 +1,8 @@
-import { LOAD_CONTACT_LIST, LOAD_CONTACT_LIST_NEXT_PAGE, SORT_AND_FILTER_CONTACT_LIST } from '../ContactIntents';
+import {
+  LOAD_CONTACT_LIST,
+  LOAD_CONTACT_LIST_NEXT_PAGE,
+  SORT_AND_FILTER_CONTACT_LIST,
+} from '../ContactIntents';
 import {
   getContactListUrlParams,
   getFilterContactListParams,
@@ -14,7 +18,11 @@ const createContactListIntegrator = (store, integration) => ({
     const params = { offset: 0 };
 
     integration.read({
-      intent, urlParams, params, onSuccess, onFailure,
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
     });
   },
   sortAndFilterContactList: ({ onSuccess, onFailure }) => {
@@ -25,7 +33,11 @@ const createContactListIntegrator = (store, integration) => ({
     const params = getFilterContactListParams(state);
 
     integration.read({
-      intent, urlParams, params, onSuccess, onFailure,
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
     });
   },
   loadContactListNextPage: ({ onSuccess, onFailure }) => {
@@ -36,7 +48,11 @@ const createContactListIntegrator = (store, integration) => ({
     const params = getLoadContactListNextPageParams(state);
 
     integration.read({
-      intent, urlParams, params, onSuccess, onFailure,
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
     });
   },
 });

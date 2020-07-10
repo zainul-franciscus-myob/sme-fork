@@ -3,7 +3,6 @@ import { Table } from '@myob/myob-widgets';
 import { mount } from 'enzyme/build';
 import React from 'react';
 
-
 import { findButtonWithTestId } from '../../../../../common/tests/selectors';
 import { getDefaultState } from '../FinalisationReducer';
 import CancelModal from '../../../../../components/modal/CancelModal';
@@ -19,7 +18,7 @@ describe('FinalisationView', () => {
     const wrappedComponent = (
       <Provider store={store}>
         <FinalisationView
-          onSort={() => { }}
+          onSort={() => {}}
           unsavedChangesModalListeners={{
             onCancel: () => {},
             onConfirm: () => {},
@@ -32,9 +31,9 @@ describe('FinalisationView', () => {
   };
 
   it('shows the header', () => {
-    const finalisationView = constructFinalisationView(
-      { loadingState: LoadingState.LOADING_SUCCESS },
-    );
+    const finalisationView = constructFinalisationView({
+      loadingState: LoadingState.LOADING_SUCCESS,
+    });
 
     const header = finalisationView.find(FinalisationHeader);
 
@@ -43,9 +42,9 @@ describe('FinalisationView', () => {
 
   describe('FinalisationEmployeeTable', () => {
     it('shows the employees table', () => {
-      const finalisationView = constructFinalisationView(
-        { loadingState: LoadingState.LOADING_SUCCESS },
-      );
+      const finalisationView = constructFinalisationView({
+        loadingState: LoadingState.LOADING_SUCCESS,
+      });
 
       const table = finalisationView.find(FinalisationEmployeesTable);
 
@@ -55,10 +54,7 @@ describe('FinalisationView', () => {
     it('shows the same number of rows as the employee list', () => {
       const state = {
         loadingState: LoadingState.LOADING_SUCCESS,
-        employees: [
-          { id: 1 },
-          { id: 2 },
-        ],
+        employees: [{ id: 1 }, { id: 2 }],
       };
       const finalisationView = constructFinalisationView(state);
 
@@ -81,7 +77,10 @@ describe('FinalisationView', () => {
       };
 
       const finalisationView = constructFinalisationView(state);
-      const finaliseButton = findButtonWithTestId(finalisationView, 'finaliseButton');
+      const finaliseButton = findButtonWithTestId(
+        finalisationView,
+        'finaliseButton'
+      );
 
       expect(finaliseButton).toHaveLength(1);
     });
@@ -98,7 +97,10 @@ describe('FinalisationView', () => {
       };
 
       const finalisationView = constructFinalisationView(state);
-      const finaliseButton = findButtonWithTestId(finalisationView, 'finaliseButton');
+      const finaliseButton = findButtonWithTestId(
+        finalisationView,
+        'finaliseButton'
+      );
 
       expect(finaliseButton).toHaveLength(0);
     });
@@ -117,7 +119,10 @@ describe('FinalisationView', () => {
       };
 
       const finalisationView = constructFinalisationView(state);
-      const removefinalisationButton = findButtonWithTestId(finalisationView, 'removeFinalisationButton');
+      const removefinalisationButton = findButtonWithTestId(
+        finalisationView,
+        'removeFinalisationButton'
+      );
 
       expect(removefinalisationButton).toHaveLength(1);
     });
@@ -138,7 +143,10 @@ describe('FinalisationView', () => {
       };
 
       const finalisationView = constructFinalisationView(state);
-      const removefinalisationButton = findButtonWithTestId(finalisationView, 'removeFinalisationButton');
+      const removefinalisationButton = findButtonWithTestId(
+        finalisationView,
+        'removeFinalisationButton'
+      );
 
       expect(removefinalisationButton).toHaveLength(0);
     });

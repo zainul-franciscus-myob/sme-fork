@@ -1,10 +1,11 @@
-import {
-  Checkbox, Table, Tooltip,
-} from '@myob/myob-widgets';
+import { Checkbox, Table, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getJournalLineIdByIndexSelector, getTableRowByIndexSelector } from '../BankReconciliationSelectors';
+import {
+  getJournalLineIdByIndexSelector,
+  getTableRowByIndexSelector,
+} from '../BankReconciliationSelectors';
 import AccordionRowTypes from '../../../components/Accordion/AccordionRowTypes';
 import CollapsibleTableRow from '../../../components/Accordion/CollapsibleTableRow';
 import styles from './BankReconciliationTable.module.css';
@@ -23,21 +24,25 @@ const BankReconciliationTableRow = ({
     ? AccordionRowTypes.COLLAPSIBLE
     : AccordionRowTypes.NORMAL;
 
-  const getRefEntryLink = (entry.link ? (
-    <a href={entry.link} target="_blank" rel="noopener noreferrer">{entry.referenceId}</a>
+  const getRefEntryLink = entry.link ? (
+    <a href={entry.link} target="_blank" rel="noopener noreferrer">
+      {entry.referenceId}
+    </a>
   ) : (
     <Tooltip placement="bottom" triggerContent={entry.referenceId}>
-        This transaction type can only be viewed and edited from your desktop AccountRight software
+      This transaction type can only be viewed and edited from your desktop
+      AccountRight software
     </Tooltip>
-  ));
-
-  const headerReference = rowType === AccordionRowTypes.COLLAPSIBLE ? (
-    <Table.RowItem {...tableConfig.reference} />
-  ) : (
-    <Table.RowItem {...tableConfig.reference}>
-      {getRefEntryLink}
-    </Table.RowItem>
   );
+
+  const headerReference =
+    rowType === AccordionRowTypes.COLLAPSIBLE ? (
+      <Table.RowItem {...tableConfig.reference} />
+    ) : (
+      <Table.RowItem {...tableConfig.reference}>
+        {getRefEntryLink}
+      </Table.RowItem>
+    );
 
   const header = (
     <>
@@ -51,9 +56,7 @@ const BankReconciliationTableRow = ({
           disabled={isActionDisabled}
         />
       </Table.RowItem>
-      <Table.RowItem {...tableConfig.date}>
-        {entry.date}
-      </Table.RowItem>
+      <Table.RowItem {...tableConfig.date}>{entry.date}</Table.RowItem>
       {headerReference}
       <Table.RowItem {...tableConfig.description}>
         {entry.description}
@@ -61,9 +64,7 @@ const BankReconciliationTableRow = ({
       <Table.RowItem {...tableConfig.withdrawal}>
         {entry.withdrawal}
       </Table.RowItem>
-      <Table.RowItem {...tableConfig.deposit}>
-        {entry.deposit}
-      </Table.RowItem>
+      <Table.RowItem {...tableConfig.deposit}>{entry.deposit}</Table.RowItem>
     </>
   );
 
@@ -77,43 +78,46 @@ const BankReconciliationTableRow = ({
 
   return (
     <CollapsibleTableRow {...rowProps}>
-      {
-        entry.matchedTransactions.map((matchedTransactionEntry) => {
-          const getRefMatchedTransactionLink = (matchedTransactionEntry.link ? (
-            <a href={matchedTransactionEntry.link}>{matchedTransactionEntry.referenceId}</a>
-          ) : (
-            <Tooltip placement="bottom" triggerContent={matchedTransactionEntry.referenceId}>
-                This transaction type can only be viewed and edited from your desktop AccountRight
-                software
-            </Tooltip>
-          ));
+      {entry.matchedTransactions.map((matchedTransactionEntry) => {
+        const getRefMatchedTransactionLink = matchedTransactionEntry.link ? (
+          <a href={matchedTransactionEntry.link}>
+            {matchedTransactionEntry.referenceId}
+          </a>
+        ) : (
+          <Tooltip
+            placement="bottom"
+            triggerContent={matchedTransactionEntry.referenceId}
+          >
+            This transaction type can only be viewed and edited from your
+            desktop AccountRight software
+          </Tooltip>
+        );
 
-          return (
-            <Table.Row
-              key={matchedTransactionEntry.journalLineId}
-              isSelected={matchedTransactionEntry.isChecked}
-              className={styles.collapsibleTableRowContent}
-            >
-              <Table.RowItem width="auto" cellRole="checkbox" valign="middle" />
-              <Table.RowItem {...tableConfig.date}>
-                {matchedTransactionEntry.date}
-              </Table.RowItem>
-              <Table.RowItem {...tableConfig.reference}>
-                {getRefMatchedTransactionLink}
-              </Table.RowItem>
-              <Table.RowItem {...tableConfig.description}>
-                {matchedTransactionEntry.description}
-              </Table.RowItem>
-              <Table.RowItem {...tableConfig.withdrawal}>
-                {matchedTransactionEntry.withdrawal}
-              </Table.RowItem>
-              <Table.RowItem {...tableConfig.deposit}>
-                {matchedTransactionEntry.deposit}
-              </Table.RowItem>
-            </Table.Row>
-          );
-        })
-      }
+        return (
+          <Table.Row
+            key={matchedTransactionEntry.journalLineId}
+            isSelected={matchedTransactionEntry.isChecked}
+            className={styles.collapsibleTableRowContent}
+          >
+            <Table.RowItem width="auto" cellRole="checkbox" valign="middle" />
+            <Table.RowItem {...tableConfig.date}>
+              {matchedTransactionEntry.date}
+            </Table.RowItem>
+            <Table.RowItem {...tableConfig.reference}>
+              {getRefMatchedTransactionLink}
+            </Table.RowItem>
+            <Table.RowItem {...tableConfig.description}>
+              {matchedTransactionEntry.description}
+            </Table.RowItem>
+            <Table.RowItem {...tableConfig.withdrawal}>
+              {matchedTransactionEntry.withdrawal}
+            </Table.RowItem>
+            <Table.RowItem {...tableConfig.deposit}>
+              {matchedTransactionEntry.deposit}
+            </Table.RowItem>
+          </Table.Row>
+        );
+      })}
     </CollapsibleTableRow>
   );
 };

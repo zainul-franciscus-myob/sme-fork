@@ -2,15 +2,16 @@ import { createSelector, createStructuredSelector } from 'reselect';
 
 import ExportCompanyFileType from '../types/ExportCompanyFileType';
 
-export const getExportCompanyFile = state => state.export.companyFile;
-const getDateFrom = state => state.export.companyFile.dateFrom;
-const getDateTo = state => state.export.companyFile.dateTo;
-const getFileType = state => state.export.companyFile.fileType;
-const getClientCode = state => state.export.companyFile.clientCode;
-const getFileTypeOptions = state => state.export.companyFile.fileTypeOptions;
+export const getExportCompanyFile = (state) => state.export.companyFile;
+const getDateFrom = (state) => state.export.companyFile.dateFrom;
+const getDateTo = (state) => state.export.companyFile.dateTo;
+const getFileType = (state) => state.export.companyFile.fileType;
+const getClientCode = (state) => state.export.companyFile.clientCode;
+const getFileTypeOptions = (state) => state.export.companyFile.fileTypeOptions;
 
 export const getHasClientCode = createSelector(
-  getFileType, fileType => fileType === ExportCompanyFileType.MYOB_AE_MAS,
+  getFileType,
+  (fileType) => fileType === ExportCompanyFileType.MYOB_AE_MAS
 );
 
 export const getExportCompanyFileDetail = createStructuredSelector({

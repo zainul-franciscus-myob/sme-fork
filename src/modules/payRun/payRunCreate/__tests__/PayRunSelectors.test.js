@@ -219,17 +219,21 @@ describe('PayRunSelectors', () => {
     const saveDraftContent = getSaveDraftContent(state);
 
     it('sets the payment frequency and date from current pay run', () => {
-      expect(saveDraftContent.paymentFrequency)
-        .toEqual(state.startPayRun.currentEditingPayRun.paymentFrequency);
-      expect(saveDraftContent.paymentDate)
-        .toEqual(state.startPayRun.currentEditingPayRun.paymentDate);
+      expect(saveDraftContent.paymentFrequency).toEqual(
+        state.startPayRun.currentEditingPayRun.paymentFrequency
+      );
+      expect(saveDraftContent.paymentDate).toEqual(
+        state.startPayRun.currentEditingPayRun.paymentDate
+      );
     });
 
     it('sets the payPeriod start and end from current pay run', () => {
-      expect(saveDraftContent.payPeriodStart)
-        .toEqual(state.startPayRun.currentEditingPayRun.payPeriodStart);
-      expect(saveDraftContent.payPeriodEnd)
-        .toEqual(state.startPayRun.currentEditingPayRun.payPeriodEnd);
+      expect(saveDraftContent.payPeriodStart).toEqual(
+        state.startPayRun.currentEditingPayRun.payPeriodStart
+      );
+      expect(saveDraftContent.payPeriodEnd).toEqual(
+        state.startPayRun.currentEditingPayRun.payPeriodEnd
+      );
     });
 
     it('adds the selected employees to the selectedEmployeeIds', () => {
@@ -237,7 +241,9 @@ describe('PayRunSelectors', () => {
     });
 
     it('includes all the employeePays lines', () => {
-      expect(saveDraftContent.employeePays).toEqual(state.employeePayList.originalLines);
+      expect(saveDraftContent.employeePays).toEqual(
+        state.employeePayList.originalLines
+      );
     });
   });
 });

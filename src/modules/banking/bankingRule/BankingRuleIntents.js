@@ -12,6 +12,12 @@ export const FORMAT_AMOUNT = Symbol('Format amount');
 export const SET_ALERT = Symbol('Set alert message');
 export const SET_SAVING_STATE = Symbol('Set saving state');
 export const CREATE_BANKING_RULE_BILL = Symbol('Create banking rule bill');
-export const CREATE_BANKING_RULE_INVOICE = Symbol('Create banking rule invoice');
-export const CREATE_BANKING_RULE_SPEND_MONEY = Symbol('Create banking rule spend money');
-export const CREATE_BANKING_RULE_RECEIVE_MONEY = Symbol('Create banking rule receive money');
+export const CREATE_BANKING_RULE_INVOICE = Symbol(
+  'Create banking rule invoice'
+);
+export const CREATE_BANKING_RULE_SPEND_MONEY = Symbol(
+  'Create banking rule spend money'
+);
+export const CREATE_BANKING_RULE_RECEIVE_MONEY = Symbol(
+  'Create banking rule receive money'
+);

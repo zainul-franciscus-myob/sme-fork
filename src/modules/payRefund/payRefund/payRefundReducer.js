@@ -43,7 +43,7 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setAlert = (state, action) => ({
   ...state,
@@ -55,7 +55,7 @@ const openModal = (state, action) => ({
   modalType: action.modalType,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modalType: '',
 });

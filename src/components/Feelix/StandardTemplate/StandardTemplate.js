@@ -1,7 +1,4 @@
-import {
-  Card,
-  PageHead,
-} from '@myob/myob-widgets';
+import { Card, PageHead } from '@myob/myob-widgets';
 import React from 'react';
 import classnames from 'classnames';
 
@@ -16,7 +13,7 @@ const renderSwitch = (
   pageHead,
   subHeadChildren,
   filterBar,
-  tableHeader,
+  tableHeader
 ) => {
   switch (param) {
     case STICKY_NONE:
@@ -64,7 +61,8 @@ const StandardTemplate = ({
       {alert}
     </div>
   );
-  const safePageHead = typeof pageHead === 'string' ? <PageHead title={pageHead} /> : pageHead;
+  const safePageHead =
+    typeof pageHead === 'string' ? <PageHead title={pageHead} /> : pageHead;
   const safeSubHead = subHeadChildren && (
     <div className="flx-template__sub-head">{subHeadChildren}</div>
   );
@@ -98,7 +96,7 @@ const StandardTemplate = ({
           safePageHead,
           safeSubHead,
           safeFilterBar,
-          stickyTableHeader,
+          stickyTableHeader
         )}
         <div className="flx-template__body">
           <Card

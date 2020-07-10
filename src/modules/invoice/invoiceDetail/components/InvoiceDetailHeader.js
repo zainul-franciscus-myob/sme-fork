@@ -15,10 +15,20 @@ const InvoiceDetailHeader = ({
   onRedirectToCreatePayment,
 }) => {
   const actions = [
-    <Button key="activityHistory" type="link" icon={<Icons.History />} onClick={onFocusActivityHistory}>
+    <Button
+      key="activityHistory"
+      type="link"
+      icon={<Icons.History />}
+      onClick={onFocusActivityHistory}
+    >
       Activity history
     </Button>,
-    <Button key="createPayment" type="link" icon={<Icons.Dollar />} onClick={onRedirectToCreatePayment}>
+    <Button
+      key="createPayment"
+      type="link"
+      icon={<Icons.Dollar />}
+      onClick={onRedirectToCreatePayment}
+    >
       Create payment
     </Button>,
   ];
@@ -50,6 +60,6 @@ const InvoiceDetailHeader = ({
   );
 };
 
-const mapStateToProps = state => getInvoiceDetailTotalHeader(state);
+const mapStateToProps = (state) => getInvoiceDetailTotalHeader(state);
 
 export default connect(mapStateToProps)(InvoiceDetailHeader);

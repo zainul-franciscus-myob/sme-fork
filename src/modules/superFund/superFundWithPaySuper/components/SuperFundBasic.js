@@ -18,7 +18,7 @@ import {
 import { selfManagedSuperFund, standardSuperFund } from '../../FundTypes';
 import styles from './SuperFundAPRADetail.module.css';
 
-const onInputChange = handler => (e) => {
+const onInputChange = (handler) => (e) => {
   const { value, name } = e.target;
   handler({ key: name, value });
 };
@@ -53,31 +53,30 @@ const SuperFundBasic = ({
             checked={selfManagedSuperFund.value === superFund.fundType}
             onChange={onInputChange(onUpdateSuperFundDetail)}
             disabled={!selfManagedSuperFundEnabled}
-            labelAccessory={(
+            labelAccessory={
               <Tooltip>
-                  You can only select an SMSF if you sign up to Pay super
+                You can only select an SMSF if you sign up to Pay super
               </Tooltip>
-              )}
+            }
           />,
         ]}
       />
       {showSelfManagedSuperFundWarning && (
-      <Field
-        renderField={() => (
-          <Alert type="warning">
-                It looks like you&apos;re not authorised
-                 to do this. Only a person from the business with the role of administrator
-                 can create or edit a self managed
-                super fund in Pay super.
-          </Alert>
-        )}
-      />
+        <Field
+          renderField={() => (
+            <Alert type="warning">
+              It looks like you&apos;re not authorised to do this. Only a person
+              from the business with the role of administrator can create or
+              edit a self managed super fund in Pay super.
+            </Alert>
+          )}
+        />
       )}
     </FormHorizontal>
   </React.Fragment>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   superFund: getSuperFund(state),
   isCreating: getIsCreating(state),
   selfManagedSuperFundEnabled: getSelfManagedSuperFundEnabled(state),

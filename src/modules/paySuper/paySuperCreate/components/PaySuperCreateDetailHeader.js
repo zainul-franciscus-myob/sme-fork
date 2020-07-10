@@ -33,12 +33,8 @@ const PaySuperCreateDetailHeader = ({
       />
       <FormHorizontal>
         <h5>
-          <span>
-            Balance
-          </span>
-          <span style={{ float: 'right' }}>
-            {balanceValue}
-          </span>
+          <span>Balance</span>
+          <span style={{ float: 'right' }}>{balanceValue}</span>
         </h5>
       </FormHorizontal>
       <Input
@@ -69,7 +65,7 @@ const PaySuperCreateDetailHeader = ({
     </div>
   );
 
-  return (<DetailHeader primary={primary} secondary={secondary} />);
+  return <DetailHeader primary={primary} secondary={secondary} />;
 };
 
 export default PaySuperCreateDetailHeader;

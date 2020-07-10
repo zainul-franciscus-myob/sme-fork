@@ -3,14 +3,19 @@ import BankingRuleListModule from './bankingRuleList/BankingRuleListModule';
 import RouteName from '../../router/RouteName';
 
 const getBankingRuleRoutes = ({
-  integration, setRootView, popMessages, pushMessage,
+  integration,
+  setRootView,
+  popMessages,
+  pushMessage,
 }) => {
   const routes = [
     {
       name: RouteName.BANKING_RULE_LIST,
       path: '/:region/:businessId/bankingRule/',
       module: new BankingRuleListModule({
-        integration, setRootView, popMessages,
+        integration,
+        setRootView,
+        popMessages,
       }),
       documentTitle: 'Bank feed rules',
     },
@@ -18,7 +23,9 @@ const getBankingRuleRoutes = ({
       name: RouteName.BANKING_RULE_DETAIL,
       path: '/:region/:businessId/bankingRule/:bankingRuleId',
       module: new BankingRuleDetailModule({
-        integration, setRootView, pushMessage,
+        integration,
+        setRootView,
+        pushMessage,
       }),
       documentTitle: 'Banking rule',
     },

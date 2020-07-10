@@ -16,7 +16,7 @@ const AccountName = ({ accountName, onChange }) => (
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accountName: getAccountName(state),
 });
 

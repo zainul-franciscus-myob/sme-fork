@@ -10,7 +10,10 @@ import {
   UPDATE_FILTER_OPTIONS,
 } from '../../BillIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
-import { START_LOADING_MORE, STOP_LOADING_MORE } from '../../billDetail/BillIntents';
+import {
+  START_LOADING_MORE,
+  STOP_LOADING_MORE,
+} from '../../billDetail/BillIntents';
 import { SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK } from '../../../../common/types/MessageTypes';
 import BillListModule from '../BillListModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
@@ -21,18 +24,24 @@ import billListReducer from '../billListReducer';
 describe('BillListModule', () => {
   const setup = () => {
     // Mock loadSettings from localStorage to prevent side effects
-    localStorageDriver.loadSettings = () => { };
+    localStorageDriver.loadSettings = () => {};
 
-    const setRootView = () => { };
+    const setRootView = () => {};
     const popMessages = () => [];
     const store = new TestStore(billListReducer);
     const integration = new TestIntegration();
 
-    const module = new BillListModule({ integration, setRootView, popMessages });
+    const module = new BillListModule({
+      integration,
+      setRootView,
+      popMessages,
+    });
     module.store = store;
 
     return {
-      store, module, integration,
+      store,
+      module,
+      integration,
     };
   };
   const setupWithRun = () => {
@@ -106,12 +115,12 @@ describe('BillListModule', () => {
     });
 
     it('displays alert from inbox', () => {
-      const {
-        store, module,
-      } = setup();
-      module.popMessages = jest.fn().mockReturnValue([{
-        content: '🦕',
-      }]);
+      const { store, module } = setup();
+      module.popMessages = jest.fn().mockReturnValue([
+        {
+          content: '🦕',
+        },
+      ]);
 
       module.run({});
 
@@ -125,13 +134,13 @@ describe('BillListModule', () => {
     });
 
     it('displays info alert from inbox when bill saved without link', () => {
-      const {
-        store, module,
-      } = setup();
-      module.popMessages = jest.fn().mockReturnValue([{
-        content: '🦕',
-        type: SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
-      }]);
+      const { store, module } = setup();
+      module.popMessages = jest.fn().mockReturnValue([
+        {
+          content: '🦕',
+          type: SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
+        },
+      ]);
 
       module.run({});
 
@@ -183,7 +192,6 @@ describe('BillListModule', () => {
 
       module.updateSortOrder('DisplayId');
 
-
       expect(store.getActions()).toEqual([
         {
           intent: SET_SORT_ORDER,
@@ -229,7 +237,7 @@ describe('BillListModule', () => {
           intent: SET_SORT_ORDER,
           sortOrder: 'desc',
           orderBy: 'DisplayId',
-        },
+        }
       );
     });
   });
@@ -259,7 +267,6 @@ describe('BillListModule', () => {
         }),
       ]);
     });
-
 
     it('fails to apply filter', () => {
       const { store, integration, module } = setupWithRun();

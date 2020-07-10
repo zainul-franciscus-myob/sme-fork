@@ -51,7 +51,7 @@ const getDefaultState = () => ({
 
 const pageEdited = { isPageEdited: true };
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setLoadingState = (state, { loadingState }) => ({
   ...state,
@@ -119,8 +119,8 @@ const loadBillPayment = (state, action) => ({
 
 const loadBillList = (state, action) => ({
   ...state,
-  entries: action.entries.map(entry => {
-    const prevEntry = state.entries.find(prev => prev.id === entry.id);
+  entries: action.entries.map((entry) => {
+    const prevEntry = state.entries.find((prev) => prev.id === entry.id);
     const shouldApplyPaymentTo = state.applyPaymentToBillId === entry.id;
 
     if (shouldApplyPaymentTo) {
@@ -161,21 +161,22 @@ const updateBankStatementText = (state) => {
     ...state,
     ...pageEdited,
     bankStatementText,
-    originalBankStatementText: bankStatementText || state.originalBankStatementText,
+    originalBankStatementText:
+      bankStatementText || state.originalBankStatementText,
   };
 };
 
 const updateTableInputField = (state, action) => ({
   ...state,
   ...pageEdited,
-  entries: state.entries.map((entry, index) => (
+  entries: state.entries.map((entry, index) =>
     index === action.index
       ? {
-        ...entry,
-        [action.key]: action.value,
-      }
+          ...entry,
+          [action.key]: action.value,
+        }
       : entry
-  )),
+  ),
 });
 
 const updateReferenceId = (state, action) => {
@@ -187,7 +188,8 @@ const updateReferenceId = (state, action) => {
     referenceId: action.referenceId,
     originalReferenceId: action.referenceId,
     bankStatementText,
-    originalBankStatementText: bankStatementText || state.originalBankStatementText,
+    originalBankStatementText:
+      bankStatementText || state.originalBankStatementText,
   };
 };
 
@@ -196,7 +198,7 @@ const openModal = (state, action) => ({
   modalType: action.modalType,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modalType: '',
 });

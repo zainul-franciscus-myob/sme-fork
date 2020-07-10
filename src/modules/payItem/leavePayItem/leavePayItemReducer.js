@@ -55,7 +55,7 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setAlert = (state, action) => ({
   ...state,
@@ -67,7 +67,7 @@ const openModal = (state, action) => ({
   modalType: action.modalType,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modalType: '',
 });
@@ -111,7 +111,7 @@ const removeEmployee = (state, action) => ({
   leavePayItem: {
     ...state.leavePayItem,
     selectedEmployees: state.leavePayItem.selectedEmployees.filter(
-      selectedEmployee => selectedEmployee.id !== action.id,
+      (selectedEmployee) => selectedEmployee.id !== action.id
     ),
   },
   isPageEdited: true,
@@ -134,7 +134,7 @@ const removeExemption = (state, action) => ({
   leavePayItem: {
     ...state.leavePayItem,
     selectedExemptions: state.leavePayItem.selectedExemptions.filter(
-      selectedExemption => selectedExemption.id !== action.id,
+      (selectedExemption) => selectedExemption.id !== action.id
     ),
   },
   isPageEdited: true,
@@ -157,7 +157,7 @@ const removeLinkedWage = (state, action) => ({
   leavePayItem: {
     ...state.leavePayItem,
     selectedLinkedWages: state.leavePayItem.selectedLinkedWages.filter(
-      selectedLinkedWage => selectedLinkedWage.id !== action.id,
+      (selectedLinkedWage) => selectedLinkedWage.id !== action.id
     ),
   },
   isPageEdited: true,

@@ -2,7 +2,11 @@ import { DatePicker } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getCustomerFilterOptions, getFilterOptions, getTotal } from '../quoteListSelectors';
+import {
+  getCustomerFilterOptions,
+  getFilterOptions,
+  getTotal,
+} from '../quoteListSelectors';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
 import FilterBar from '../../../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
@@ -15,12 +19,12 @@ class QuoteListFilterOptions extends React.Component {
     const { onUpdateFilters } = this.props;
 
     onUpdateFilters({ filterName, value });
-  }
+  };
 
-  onFilterChange = filterName => ({ value }) => {
+  onFilterChange = (filterName) => ({ value }) => {
     const { onUpdateFilters } = this.props;
     onUpdateFilters({ filterName, value });
-  }
+  };
 
   onSearchBoxChange = (e) => {
     const filterName = 'keywords';
@@ -28,16 +32,11 @@ class QuoteListFilterOptions extends React.Component {
     const { onUpdateFilters } = this.props;
 
     onUpdateFilters({ filterName, value });
-  }
+  };
 
   render = () => {
     const {
-      filterOptions: {
-        customerId,
-        dateFrom,
-        dateTo,
-        keywords,
-      },
+      filterOptions: { customerId, dateFrom, dateTo, keywords },
       customerFilterOptions,
       total,
     } = this.props;
@@ -57,21 +56,33 @@ class QuoteListFilterOptions extends React.Component {
             hasAllItem
           />
           <FilterBar.Group>
-            <DatePicker name="issuedFrom" label="Issued from" value={dateFrom} onSelect={this.onFilterChange('dateFrom')} />
-            <DatePicker name="issuedTo" label="Issued to" value={dateTo} onSelect={this.onFilterChange('dateTo')} />
+            <DatePicker
+              name="issuedFrom"
+              label="Issued from"
+              value={dateFrom}
+              onSelect={this.onFilterChange('dateFrom')}
+            />
+            <DatePicker
+              name="issuedTo"
+              label="Issued to"
+              value={dateTo}
+              onSelect={this.onFilterChange('dateTo')}
+            />
           </FilterBar.Group>
-          <FilterBarSearch name="search" value={keywords} onChange={this.onSearchBoxChange} />
+          <FilterBarSearch
+            name="search"
+            value={keywords}
+            onChange={this.onSearchBoxChange}
+          />
         </FilterBar>
         <hr />
-        <div className={styles.total}>
-          {`Total amount ${total}`}
-        </div>
+        <div className={styles.total}>{`Total amount ${total}`}</div>
       </div>
     );
-  }
+  };
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   customerFilterOptions: getCustomerFilterOptions(state),
   filterOptions: getFilterOptions(state),
   total: getTotal(state),

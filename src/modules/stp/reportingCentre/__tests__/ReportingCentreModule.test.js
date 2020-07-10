@@ -7,7 +7,12 @@ import ReportingCentreModule from '../ReportingCentreModule';
 import ReportingCentreView from '../components/ReportingCentreView';
 
 describe('ReportingCentreModule', () => {
-  const setupModule = (registrationStatus, tab, payrollIsSetUp, featureToggles = {}) => {
+  const setupModule = (
+    registrationStatus,
+    tab,
+    payrollIsSetUp,
+    featureToggles = {}
+  ) => {
     const context = {
       region: 'au',
       businessId: '123',
@@ -15,10 +20,11 @@ describe('ReportingCentreModule', () => {
     };
 
     const integration = {
-      read: ({ onSuccess }) => onSuccess({
-        status: registrationStatus,
-        payrollIsSetUp,
-      }),
+      read: ({ onSuccess }) =>
+        onSuccess({
+          status: registrationStatus,
+          payrollIsSetUp,
+        }),
     };
 
     let wrapper;
@@ -32,7 +38,7 @@ describe('ReportingCentreModule', () => {
     const module = new ReportingCentreModule({
       integration,
       setRootView,
-      replaceURLParams: url => (url),
+      replaceURLParams: (url) => url,
       featureToggles,
       pushMessage,
       popMessages,
@@ -63,7 +69,9 @@ describe('ReportingCentreModule', () => {
     const wrapper = setupModule('registered', tabIds.reports, true);
 
     const tabs = wrapper.find(Tabs);
-    expect(tabs.prop('items').find(item => item.id === tabIds.finalisation)).toBeTruthy();
+    expect(
+      tabs.prop('items').find((item) => item.id === tabIds.finalisation)
+    ).toBeTruthy();
   });
 
   it('shows payroll not set up view when currentYear is null', () => {
@@ -76,17 +84,23 @@ describe('ReportingCentreModule', () => {
 
   describe('Job keeper tab', () => {
     it('shows if the feature toggle is on', () => {
-      const wrapper = setupModule('registered', tabIds.reports, true, { isJobKeeperTabEnabled: true });
+      const wrapper = setupModule('registered', tabIds.reports, true, {
+        isJobKeeperTabEnabled: true,
+      });
 
       const tabs = wrapper.find(Tabs);
-      expect(tabs.prop('items').find(item => item.id === tabIds.jobKeeper)).toBeTruthy();
+      expect(
+        tabs.prop('items').find((item) => item.id === tabIds.jobKeeper)
+      ).toBeTruthy();
     });
 
     it('does not show if the feature toggle is on', () => {
       const wrapper = setupModule('registered', tabIds.reports, true);
 
       const tabs = wrapper.find(Tabs);
-      expect(tabs.prop('items').find(item => item.id === tabIds.jobKeeper)).toBeFalsy();
+      expect(
+        tabs.prop('items').find((item) => item.id === tabIds.jobKeeper)
+      ).toBeFalsy();
     });
   });
 });

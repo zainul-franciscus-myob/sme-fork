@@ -7,10 +7,7 @@ import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSea
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
 const EmploymentClassificationListFilterOptions = (props) => {
-  const {
-    keywords,
-    onUpdateFilterOptions,
-  } = props;
+  const { keywords, onUpdateFilterOptions } = props;
 
   return (
     <FilterBar>
@@ -24,6 +21,9 @@ const EmploymentClassificationListFilterOptions = (props) => {
   );
 };
 
-const mapStateToProps = state => getEmploymentClassificationFilterOptions(state);
+const mapStateToProps = (state) =>
+  getEmploymentClassificationFilterOptions(state);
 
-export default connect(mapStateToProps)(EmploymentClassificationListFilterOptions);
+export default connect(mapStateToProps)(
+  EmploymentClassificationListFilterOptions
+);

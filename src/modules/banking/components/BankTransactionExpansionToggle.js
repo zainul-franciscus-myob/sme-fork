@@ -9,9 +9,10 @@ const BankTransactionExpansionToggle = ({
   disabled,
   getButtonProps,
 }) => (
-  <Button {...getButtonProps({
-    disabled,
-  })}
+  <Button
+    {...getButtonProps({
+      disabled,
+    })}
   >
     {isOpen ? <Icons.UpChevron /> : <Icons.DownChevron />}
   </Button>

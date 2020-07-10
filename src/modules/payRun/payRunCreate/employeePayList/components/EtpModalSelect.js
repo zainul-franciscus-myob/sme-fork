@@ -12,21 +12,24 @@ const EtpModalSelect = ({ etpCodeCategory, onChangeEtpCodeCategory }) => (
     name="etpCodeCategory"
     onChange={handleSelectChange(onChangeEtpCodeCategory)}
     selected={etpCodeCategory}
-    toggle={(
+    toggle={
       <Dropdown.Toggle>
-            Select an option
+        Select an option
         <Icons.Caret />
       </Dropdown.Toggle>
-)}
+    }
   >
     <Select.Option value={undefined} label="Select an option" />
     <Select.Option value={EtpCodeCategory.LIFE} label="Life benefit ETP" />
-    <Select.Option value={EtpCodeCategory.MULTIPLE} label="Multiple payments for same termination" />
+    <Select.Option
+      value={EtpCodeCategory.MULTIPLE}
+      label="Multiple payments for same termination"
+    />
     <Select.Option value={EtpCodeCategory.DEATH} label="Death benefit ETP" />
   </Select>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   etpCodeCategory: getEtpCodeCategory(state),
 });
 

@@ -64,20 +64,25 @@ const SupplierReturnPurchaseView = ({
   const view = (
     <LineItemTemplate
       pageHead={pageTitle}
-      options={(
-        <SupplierReturnPurchaseOptions onUpdatePurchaseOptions={onUpdatePurchaseOptions} />)}
+      options={
+        <SupplierReturnPurchaseOptions
+          onUpdatePurchaseOptions={onUpdatePurchaseOptions}
+        />
+      }
       actions={actions}
       alert={alertComponent}
     >
       {modal}
-      <SupplierReturnPurchaseTable onUpdateTableAmountFields={onUpdateTableAmountFields} />
+      <SupplierReturnPurchaseTable
+        onUpdateTableAmountFields={onUpdateTableAmountFields}
+      />
     </LineItemTemplate>
   );
 
   return <PageView isLoading={isLoading} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   pageTitle: getPageTitle(state),
   isLoading: getIsLoading(state),
   isCreating: getIsCreating(state),

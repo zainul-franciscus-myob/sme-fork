@@ -9,9 +9,7 @@ import createTaxListIntegrator from './createTaxListIntegrator';
 import taxListReducer from './taxListReducer';
 
 class TaxListModule {
-  constructor({
-    integration, setRootView,
-  }) {
+  constructor({ integration, setRootView }) {
     this.store = new Store(taxListReducer);
     this.setRootView = setRootView;
     this.dispatcher = createTaxListDispatcher(this.store);
@@ -29,23 +27,24 @@ class TaxListModule {
 
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.integrator.loadTaxList({ onSuccess, onFailure });
-  }
+  };
 
   unsubscribeFromStore = () => this.store.unsubscribeAll();
 
   resetState = () => this.dispatcher.resetState();
 
-  render = () => this.setRootView(
-    <Provider store={this.store}>
-      <TaxListView />
-    </Provider>,
-  );
+  render = () =>
+    this.setRootView(
+      <Provider store={this.store}>
+        <TaxListView />
+      </Provider>
+    );
 
   run = (context) => {
     this.dispatcher.setInitialState(context);
     this.render();
     this.loadTaxList();
-  }
+  };
 }
 
 export default TaxListModule;

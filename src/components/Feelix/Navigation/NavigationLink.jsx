@@ -6,9 +6,7 @@ import classNames from 'classnames';
  *
  * @visibleName
  */
-const NavigationLink = ({
-  label, icon, url, disabled, active, onClick,
-}) => {
+const NavigationLink = ({ label, icon, url, disabled, active, onClick }) => {
   const wrapperClasses = classNames('flx-navbar__menu-item', {
     active,
     disabled,

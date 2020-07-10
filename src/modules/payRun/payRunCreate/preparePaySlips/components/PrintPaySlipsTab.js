@@ -1,10 +1,4 @@
-import {
-  Button,
-  Icons,
-  Spinner,
-  Table,
-  Tooltip,
-} from '@myob/myob-widgets';
+import { Button, Icons, Spinner, Table, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
 
 import TableView from '../../../../../components/TableView/TableView';
@@ -16,10 +10,7 @@ const tableConfig = {
   viewPaySlip: { columnName: 'View pay slip', align: 'center' },
 };
 
-const PrintPaySlipsTab = ({
-  employees,
-  exportPdf,
-}) => {
+const PrintPaySlipsTab = ({ employees, exportPdf }) => {
   const tableHeader = (
     <Table.Header>
       <Table.HeaderItem {...tableConfig.employee}>
@@ -28,50 +19,43 @@ const PrintPaySlipsTab = ({
       <Table.HeaderItem {...tableConfig.netPay}>
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           {tableConfig.netPay.columnName}
-          <Tooltip>
-            {"This is your employee's take home pay"}
-          </Tooltip>
+          <Tooltip>{"This is your employee's take home pay"}</Tooltip>
         </div>
       </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.padding}>
-      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.padding}></Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.viewPaySlip}>
         {tableConfig.viewPaySlip.columnName}
       </Table.HeaderItem>
     </Table.Header>
   );
 
-  const rows = employees.map(employee => (
+  const rows = employees.map((employee) => (
     <Table.Row key={employee.id}>
-      <Table.RowItem {...tableConfig.employee}>
-        {employee.name}
-      </Table.RowItem>
-      <Table.RowItem {...tableConfig.netPay}>
-        {employee.netPay}
-      </Table.RowItem>
-      <Table.RowItem {...tableConfig.padding}>
-      </Table.RowItem>
+      <Table.RowItem {...tableConfig.employee}>{employee.name}</Table.RowItem>
+      <Table.RowItem {...tableConfig.netPay}>{employee.netPay}</Table.RowItem>
+      <Table.RowItem {...tableConfig.padding}></Table.RowItem>
       <Table.RowItem {...tableConfig.viewPaySlip}>
-        {employee.isLoading ? <Spinner size="small" />
-          : (
-            <Button type="link" icon={<Icons.GenericDocument />} onClick={() => { exportPdf(employee.transactionId); }}>
+        {employee.isLoading ? (
+          <Spinner size="small" />
+        ) : (
+          <Button
+            type="link"
+            icon={<Icons.GenericDocument />}
+            onClick={() => {
+              exportPdf(employee.transactionId);
+            }}
+          >
             View PDF
-            </Button>
-          )
-        }
+          </Button>
+        )}
       </Table.RowItem>
     </Table.Row>
   ));
 
   return (
     <>
-      <TableView
-        header={tableHeader}
-        isEmpty={employees.length === 0}
-      >
-        <Table.Body>
-          {rows}
-        </Table.Body>
+      <TableView header={tableHeader} isEmpty={employees.length === 0}>
+        <Table.Body>{rows}</Table.Body>
       </TableView>
     </>
   );

@@ -11,45 +11,41 @@ const PayDetailsFieldGroup = ({
   onWageDetailsChange,
 }) => {
   const onInputChange = useCallback(
-    event => onWageDetailsChange({
-      key: event.target.name,
-      value: event.target.value,
-    }),
-    [onWageDetailsChange],
+    (event) =>
+      onWageDetailsChange({
+        key: event.target.name,
+        value: event.target.value,
+      }),
+    [onWageDetailsChange]
   );
 
   return (
-  <FieldGroup label="Pay details">
-    <ReadOnly
-      name="selectedPayBasis"
-      label="Pay basis"
-    >
-      {selectedPayBasis}
+    <FieldGroup label="Pay details">
+      <ReadOnly name="selectedPayBasis" label="Pay basis">
+        {selectedPayBasis}
       </ReadOnly>
-    <AmountInput
-      label="Hourly rate ($)"
-      name="hourlyRate"
-      value={hourlyRate}
-      numeralDecimalScaleMax={4}
-      numeralIntegerScale={12}
-      textAlign="right"
-      width="sm"
-      onChange={onInputChange}
-    />
-    <Select
-      label="Pay cycle"
-      name="selectedPayCycle"
-      value={selectedPayCycle}
-      width="sm"
-      onChange={onInputChange}
-    >
-      {
-        payCycleOptions.map(({ id, displayName }) => (
+      <AmountInput
+        label="Hourly rate ($)"
+        name="hourlyRate"
+        value={hourlyRate}
+        numeralDecimalScaleMax={4}
+        numeralIntegerScale={12}
+        textAlign="right"
+        width="sm"
+        onChange={onInputChange}
+      />
+      <Select
+        label="Pay cycle"
+        name="selectedPayCycle"
+        value={selectedPayCycle}
+        width="sm"
+        onChange={onInputChange}
+      >
+        {payCycleOptions.map(({ id, displayName }) => (
           <Select.Option label={displayName} value={id} key={id} />
-        ))
-      }
-    </Select>
-  </FieldGroup>
+        ))}
+      </Select>
+    </FieldGroup>
   );
 };
 

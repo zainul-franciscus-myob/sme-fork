@@ -1,7 +1,9 @@
 import {
-  CREATE_USER, DELETE_USER,
+  CREATE_USER,
+  DELETE_USER,
   LOAD_NEW_ADVISOR_DETAIL,
-  LOAD_NEW_USER_DETAIL, LOAD_USER_DETAIL,
+  LOAD_NEW_USER_DETAIL,
+  LOAD_USER_DETAIL,
   LOAD_USER_LIST,
   SORT_USER_LIST,
   UPDATE_USER,
@@ -30,15 +32,18 @@ const HttpUserMapping = {
   },
   [UPDATE_USER]: {
     method: 'PUT',
-    getPath: ({ businessId, userId }) => `/${businessId}/user/update_user/${userId}`,
+    getPath: ({ businessId, userId }) =>
+      `/${businessId}/user/update_user/${userId}`,
   },
   [DELETE_USER]: {
     method: 'DELETE',
-    getPath: ({ businessId, userId }) => `/${businessId}/user/delete_user/${userId}`,
+    getPath: ({ businessId, userId }) =>
+      `/${businessId}/user/delete_user/${userId}`,
   },
   [LOAD_USER_DETAIL]: {
     method: 'GET',
-    getPath: ({ businessId, userId }) => `/${businessId}/user/load_user/${userId}`,
+    getPath: ({ businessId, userId }) =>
+      `/${businessId}/user/load_user/${userId}`,
   },
 };
 

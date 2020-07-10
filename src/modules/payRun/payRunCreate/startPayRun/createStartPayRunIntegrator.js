@@ -1,5 +1,8 @@
 import {
-  DELETE_PAY_RUN_DRAFT, LOAD_EMPLOYEE_PAYS, LOAD_STP_REGISTRATION_STATUS, VALIDATE_STP_REGISTRATION,
+  DELETE_PAY_RUN_DRAFT,
+  LOAD_EMPLOYEE_PAYS,
+  LOAD_STP_REGISTRATION_STATUS,
+  VALIDATE_STP_REGISTRATION,
 } from '../PayRunIntents';
 import { getBusinessId } from '../PayRunSelectors';
 import { getLoadEmployeePaysRequestContent } from './StartPayRunSelectors';

@@ -29,7 +29,10 @@ describe('SalesSettingsDetailModule', () => {
     const popMessages = () => [];
 
     const module = new SalesSettingsDetailModule({
-      store, integration, setRootView, popMessages,
+      store,
+      integration,
+      setRootView,
+      popMessages,
     });
     module.store = store;
     module.dispatcher = createSalesSettingsDispatcher(store);
@@ -215,10 +218,12 @@ describe('SalesSettingsDetailModule', () => {
 
     it('shows alert when receive template updated message', () => {
       const { module, store } = setup();
-      module.popMessages = () => [{
-        type: TEMPLATE_UPDATED,
-        content: '🚀',
-      }];
+      module.popMessages = () => [
+        {
+          type: TEMPLATE_UPDATED,
+          content: '🚀',
+        },
+      ];
 
       module.run({
         businessId: '🦖',
@@ -255,7 +260,10 @@ describe('SalesSettingsDetailModule', () => {
 
     it('opens switch tab modal when page edited', () => {
       const { module, store } = setupWithRun();
-      module.dispatcher.updateEmailSettings({ key: 'replyToEmail', value: '🦄' });
+      module.dispatcher.updateEmailSettings({
+        key: 'replyToEmail',
+        value: '🦄',
+      });
       store.resetActions();
 
       module.switchTab(mainTabIds.layoutAndTheme);
@@ -278,7 +286,10 @@ describe('SalesSettingsDetailModule', () => {
       const toolbox = setupWithRun();
       const { module, store } = toolbox;
 
-      module.dispatcher.updateEmailSettings({ key: 'replyToEmail', value: '🦄' });
+      module.dispatcher.updateEmailSettings({
+        key: 'replyToEmail',
+        value: '🦄',
+      });
       module.switchTab(mainTabIds.layoutAndTheme);
 
       store.resetActions();

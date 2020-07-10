@@ -2,10 +2,7 @@ import { Separator } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getShowBankDetails,
-  getShowCashFlow,
-} from '../accountDetailSelectors';
+import { getShowBankDetails, getShowCashFlow } from '../accountDetailSelectors';
 import AccountCashFlowClassification from './AccountCashFlowClassification';
 import AccountName from './AccountName';
 import AccountNotes from './AccountNotes';
@@ -42,15 +39,15 @@ const DetailView = ({
     )}
     <IsInactive onChange={onAccountChange} />
     {showBankDetails && (
-    <React.Fragment>
-      <Separator />
-      <BankSectionComponent onChange={onBankDetailsChange} />
-    </React.Fragment>
+      <React.Fragment>
+        <Separator />
+        <BankSectionComponent onChange={onBankDetailsChange} />
+      </React.Fragment>
     )}
   </React.Fragment>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   showCashFlow: getShowCashFlow(state),
   showBankDetails: getShowBankDetails(state),
 });

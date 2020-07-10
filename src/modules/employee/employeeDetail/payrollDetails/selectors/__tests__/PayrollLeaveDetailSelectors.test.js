@@ -9,11 +9,13 @@ describe('PayrollLeaveDetailSelectors', () => {
       const payItemOptions = [{ id: '1' }, { id: '2' }];
       const payItems = [{ payItemId: '1' }];
 
-      const actual = getFilteredLeavePayItemOptions
-        .resultFunc(payItemOptions, payItems);
+      const actual = getFilteredLeavePayItemOptions.resultFunc(
+        payItemOptions,
+        payItems
+      );
 
-      expect(actual.find(item => item.id === '1')).toBeFalsy();
-      expect(actual.find(item => item.id === '2')).toBeTruthy();
+      expect(actual.find((item) => item.id === '1')).toBeFalsy();
+      expect(actual.find((item) => item.id === '2')).toBeTruthy();
     });
   });
 
@@ -23,7 +25,11 @@ describe('PayrollLeaveDetailSelectors', () => {
         payrollDetails: {
           leaveDetails: {
             allocatedLeavePayItems: [
-              { balanceAdjustment: '5.5', carryOver: '12.3', yearToDate: '21.21' },
+              {
+                balanceAdjustment: '5.5',
+                carryOver: '12.3',
+                yearToDate: '21.21',
+              },
             ],
           },
         },
@@ -37,7 +43,11 @@ describe('PayrollLeaveDetailSelectors', () => {
         payrollDetails: {
           leaveDetails: {
             allocatedLeavePayItems: [
-              { ballanceAdjustment: 'test', carryOver: 'foo', yearToDate: '21.21' },
+              {
+                ballanceAdjustment: 'test',
+                carryOver: 'foo',
+                yearToDate: '21.21',
+              },
             ],
           },
         },
@@ -50,9 +60,7 @@ describe('PayrollLeaveDetailSelectors', () => {
       const state = {
         payrollDetails: {
           leaveDetails: {
-            allocatedLeavePayItems: [
-              { balanceadjustment: 'test' },
-            ],
+            allocatedLeavePayItems: [{ balanceadjustment: 'test' }],
           },
         },
       };
@@ -64,9 +72,7 @@ describe('PayrollLeaveDetailSelectors', () => {
       const state = {
         payrollDetails: {
           leaveDetails: {
-            allocatedLeavePayItems: [
-              { carryOver: 'foo' },
-            ],
+            allocatedLeavePayItems: [{ carryOver: 'foo' }],
           },
         },
       };

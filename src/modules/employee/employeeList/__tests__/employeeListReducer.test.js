@@ -38,22 +38,20 @@ describe('employeeListReducer', () => {
 
       const actual = employeeListReducer(state, action);
 
-      expect(actual.entries).toEqual(
-        [
-          {
-            id: '1',
-            name: 'Mayank',
-          },
-          {
-            id: '2',
-            name: 'Ryan',
-          },
-          {
-            id: '3',
-            name: 'Thi',
-          },
-        ],
-      );
+      expect(actual.entries).toEqual([
+        {
+          id: '1',
+          name: 'Mayank',
+        },
+        {
+          id: '2',
+          name: 'Ryan',
+        },
+        {
+          id: '3',
+          name: 'Thi',
+        },
+      ]);
     });
 
     it('sets hasNextPage to false when action.hasNextPage is false', () => {

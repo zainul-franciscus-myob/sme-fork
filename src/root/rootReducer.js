@@ -1,7 +1,17 @@
 import {
-  DISMISS_TASK, GET_TASKS_LIST, LOAD_SETTINGS, LOAD_SHARED_INFO, LOAD_SUBSCRIPTION,
-  SAVE_SETTINGS, SET_BROWSER_ALERT, SET_BUSINESS_ID, SET_HAS_CHECKED_BROWSER_ALERT,
-  SET_LOADING_STATE, SET_REGION, SET_VIEW_DATA, UPDATE_TASKS,
+  DISMISS_TASK,
+  GET_TASKS_LIST,
+  LOAD_SETTINGS,
+  LOAD_SHARED_INFO,
+  LOAD_SUBSCRIPTION,
+  SAVE_SETTINGS,
+  SET_BROWSER_ALERT,
+  SET_BUSINESS_ID,
+  SET_HAS_CHECKED_BROWSER_ALERT,
+  SET_LOADING_STATE,
+  SET_REGION,
+  SET_VIEW_DATA,
+  UPDATE_TASKS,
 } from './rootIntents';
 import { LOAD_GLOBAL_BUSINESS_DETAILS } from './services/businessDetails/BusinessDetailsIntents';
 import createReducer from '../store/createReducer';
@@ -52,12 +62,11 @@ const loadTasks = (state, action) => ({
   tasks: action.payload,
 });
 
-
 const updateTasks = (state, { tasks: newTasks }) => {
   const oldTasks = state.tasks;
 
   const mergedTasks = oldTasks.map((oldTask) => {
-    const newTaskIndex = newTasks.findIndex(t => t.key === oldTask.key);
+    const newTaskIndex = newTasks.findIndex((t) => t.key === oldTask.key);
 
     if (newTaskIndex < 0) return oldTask;
 
@@ -74,7 +83,7 @@ const updateTasks = (state, { tasks: newTasks }) => {
 };
 
 const dismissTask = (state, { taskKey }) => {
-  const tasks = state.tasks.filter(task => task.key !== taskKey);
+  const tasks = state.tasks.filter((task) => task.key !== taskKey);
 
   return {
     ...state,

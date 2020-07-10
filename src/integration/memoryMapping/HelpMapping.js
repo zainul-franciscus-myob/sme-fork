@@ -1,4 +1,7 @@
-import { LOAD_HELP_CONTENT, LOAD_HELP_USER_SETTINGS } from '../../drawer/help/HelpIntents';
+import {
+  LOAD_HELP_CONTENT,
+  LOAD_HELP_USER_SETTINGS,
+} from '../../drawer/help/HelpIntents';
 import helpData from '../data/help/helpContent.json';
 import helpUserSettings from '../data/help/helpUserSettings.json';
 

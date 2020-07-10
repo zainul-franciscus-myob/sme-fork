@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getHelpOnThisPageLinks, getHelpTitle, getIsHelpFailedOrEmpty, getIsLoading, getRichTextContent,
+  getHelpOnThisPageLinks,
+  getHelpTitle,
+  getIsHelpFailedOrEmpty,
+  getIsLoading,
+  getRichTextContent,
 } from '../HelpSelectors';
 import HelpFailureView from './HelpFailureView';
 import HelpLeanEngage from './HelpLeanEngage';
@@ -29,7 +33,7 @@ const HelpView = ({
 }) => {
   if (!isActive) return <></>;
 
-  const failureOrEmptyView = (<HelpFailureView />);
+  const failureOrEmptyView = <HelpFailureView />;
 
   const helpView = (
     <div className={styles.container}>
@@ -37,13 +41,17 @@ const HelpView = ({
         onSearchChange={onSearchChange}
         onSearchClick={onSearchClick}
       />
-      <div className={styles.topHrBreak}><hr /></div>
+      <div className={styles.topHrBreak}>
+        <hr />
+      </div>
 
       {helpTitle && <h3>{helpTitle}</h3>}
       {richTextHelpContent && <RichText document={richTextHelpContent} />}
       <QuickAnswers />
       <HelpLeanEngage />
-      <div className={styles.bottomHrBreak}><hr /></div>
+      <div className={styles.bottomHrBreak}>
+        <hr />
+      </div>
 
       {helpOnThisPageLinks && <HelpOnThisPage document={helpOnThisPageLinks} />}
 
@@ -54,13 +62,21 @@ const HelpView = ({
   const drawerContentView = isHelpFailedOrEmpty ? failureOrEmptyView : helpView;
 
   return (
-    <Aside header={<Aside.Header title="MYOB Help" onClose={closeHelp} className={asideHeaderStyles.asideHeader} />}>
+    <Aside
+      header={
+        <Aside.Header
+          title="MYOB Help"
+          onClose={closeHelp}
+          className={asideHeaderStyles.asideHeader}
+        />
+      }
+    >
       <PageView isLoading={isLoading} view={drawerContentView} />
     </Aside>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   helpTitle: getHelpTitle(state),
   richTextHelpContent: getRichTextContent(state),
   helpOnThisPageLinks: getHelpOnThisPageLinks(state),

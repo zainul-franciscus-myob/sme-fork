@@ -1,5 +1,9 @@
 import {
-  Alert, BaseTemplate, Button, Card, PageHead,
+  Alert,
+  BaseTemplate,
+  Button,
+  Card,
+  PageHead,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -50,18 +54,16 @@ const StpErrorsView = ({
     );
   }
 
-  const pageHead = (
-    <PageHead title="Single Touch Payroll errors" />
-  );
-  const alert = (
-    errorMessage && <Alert type="danger">{errorMessage}</Alert>
-  );
+  const pageHead = <PageHead title="Single Touch Payroll errors" />;
+  const alert = errorMessage && <Alert type="danger">{errorMessage}</Alert>;
 
   const headerCard = (
     <Card>
       <h3>{`There are ${errorCount} items to fix`}</h3>
       <p>Once you&apos;ve fixed everything, you can refresh this list</p>
-      <Button type="secondary" testid="refreshButton" onClick={onRefreshClick}>Refresh</Button>
+      <Button type="secondary" testid="refreshButton" onClick={onRefreshClick}>
+        Refresh
+      </Button>
     </Card>
   );
 
@@ -92,15 +94,10 @@ const StpErrorsView = ({
     </BaseTemplate>
   );
 
-  return (
-    <PageView
-      isLoading={isLoading}
-      view={view}
-    />
-  );
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   errorMessage: getErrorMessage(state),
   errorCount: getErrorCount(state),
   isLoading: getIsLoading(state),

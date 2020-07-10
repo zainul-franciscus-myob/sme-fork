@@ -1,4 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
-ops/bin/env "echo '--- Running linters' && yarn lint:js && yarn lint:css"
+if [[ $(git diff-tree --no-commit-id --name-only -r "$BUILDKITE_COMMIT" origin/master | grep -e 'package.json' -e 'yarn.lock') ]]; then
+  echo '--- Install packages and run linters'
+  ops/bin/env 'yarn install && yarn lint:js && yarn lint:css'
+else
+  echo '--- Running linters'
+  ops/bin/env 'yarn lint:js && yarn lint:css'
+fi

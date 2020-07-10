@@ -33,9 +33,7 @@ describe('finalisationSelectors', () => {
 
     it('returns false when no unfinalised employees are selected', () => {
       const state = {
-        employees: [
-          { isFinalised: true, isSelected: true },
-        ],
+        employees: [{ isFinalised: true, isSelected: true }],
       };
 
       expect(getShouldShowFinaliseButton(state)).toBeFalsy();
@@ -43,9 +41,7 @@ describe('finalisationSelectors', () => {
 
     it('returns false when there are unfinalised employees but they are not selected', () => {
       const state = {
-        employees: [
-          { isFinalised: false, isSelected: false },
-        ],
+        employees: [{ isFinalised: false, isSelected: false }],
       };
 
       expect(getShouldShowFinaliseButton(state)).toBeFalsy();
@@ -55,9 +51,7 @@ describe('finalisationSelectors', () => {
   describe('getShouldShowRemoveFinalisationButton', () => {
     it('returns true when finalised employees are selected', () => {
       const state = {
-        employees: [
-          { isFinalised: true, isSelected: true },
-        ],
+        employees: [{ isFinalised: true, isSelected: true }],
       };
 
       expect(getShouldShowRemoveFinalisationButton(state)).toBeTruthy();
@@ -65,9 +59,7 @@ describe('finalisationSelectors', () => {
 
     it('returns false when no finalised employees are selected', () => {
       const state = {
-        employees: [
-          { isFinalised: false, isSelected: true },
-        ],
+        employees: [{ isFinalised: false, isSelected: true }],
       };
 
       expect(getShouldShowRemoveFinalisationButton(state)).toBeFalsy();
@@ -75,9 +67,7 @@ describe('finalisationSelectors', () => {
 
     it('returns false when there are finalised employees but they are not selected', () => {
       const state = {
-        employees: [
-          { isFinalised: true, isSelected: false },
-        ],
+        employees: [{ isFinalised: true, isSelected: false }],
       };
 
       expect(getShouldShowRemoveFinalisationButton(state)).toBeFalsy();

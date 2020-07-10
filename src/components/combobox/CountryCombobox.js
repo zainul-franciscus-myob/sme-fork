@@ -4,9 +4,7 @@ import Combobox from './Combobox';
 import countryList from '../../sharedData/countryList';
 
 const CountryCombobox = (props) => {
-  const metaData = [
-    { columnName: 'name', showData: true },
-  ];
+  const metaData = [{ columnName: 'name', showData: true }];
 
   return (
     <Combobox

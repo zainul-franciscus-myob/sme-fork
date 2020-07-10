@@ -8,17 +8,27 @@ import {
 } from './invoiceDetailSelectors';
 import buildOnlinePaymentLink from '../../../../common/links/buildOnlinePaymentLink';
 
-export const getPayDirect = state => state.payDirect;
-const getIsLoading = state => state.payDirect.isLoading;
-const getIsServiceAvailable = state => state.payDirect.isServiceAvailable;
-const getIsRegistered = state => state.payDirect.isRegistered;
-const getRegistrationUrl = state => state.payDirect.registrationUrl;
+export const getPayDirect = (state) => state.payDirect;
+const getIsLoading = (state) => state.payDirect.isLoading;
+const getIsServiceAvailable = (state) => state.payDirect.isServiceAvailable;
+const getIsRegistered = (state) => state.payDirect.isRegistered;
+const getRegistrationUrl = (state) => state.payDirect.registrationUrl;
 
 const getSetUpOnlinePaymentsLink = createSelector(
-  getRegistrationUrl, getBusinessId, getSerialNumber, getIsTrial, getIsRegistered,
-  (url, businessId, serialNumber, isTrial, isRegistered) => buildOnlinePaymentLink({
-    url, businessId, serialNumber, isTrial, isRegistered, location: 'invoice',
-  }),
+  getRegistrationUrl,
+  getBusinessId,
+  getSerialNumber,
+  getIsTrial,
+  getIsRegistered,
+  (url, businessId, serialNumber, isTrial, isRegistered) =>
+    buildOnlinePaymentLink({
+      url,
+      businessId,
+      serialNumber,
+      isTrial,
+      isRegistered,
+      location: 'invoice',
+    })
 );
 
 // eslint-disable-next-line import/prefer-default-export

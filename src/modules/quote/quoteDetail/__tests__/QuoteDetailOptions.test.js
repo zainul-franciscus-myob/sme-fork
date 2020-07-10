@@ -12,7 +12,7 @@ describe('quoteDetailsOptions', () => {
     const wrapper = mount(
       <Provider store={store}>
         <QuoteDetailOptions />
-      </Provider>,
+      </Provider>
     );
     const quoteNumberInput = wrapper.find({ name: 'quoteNumber' }).first();
     expect(quoteNumberInput.prop('maxLength')).toBe(13);

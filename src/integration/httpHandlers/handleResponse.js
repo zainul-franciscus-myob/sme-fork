@@ -1,6 +1,7 @@
 import handleErrorResponse from './handleErrorResponse';
 
-const handleError = (error, onFailure) => error.name !== 'AbortError' && onFailure(error);
+const handleError = (error, onFailure) =>
+  error.name !== 'AbortError' && onFailure(error);
 
 const handleResponse = async ({
   fetchedPromise,

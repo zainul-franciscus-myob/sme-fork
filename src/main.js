@@ -57,7 +57,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
     featureToggles,
   });
 
-  const moduleList = routes.map(route => route.module);
+  const moduleList = routes.map((route) => route.module);
 
   const unsubscribeAllModulesFromStore = () => {
     moduleList.forEach((module) => {
@@ -85,8 +85,4 @@ async function main(integrationType, telemetryType, leanEngageType) {
   });
 }
 
-main(
-  Config.INTEGRATION_TYPE,
-  Config.TELEMETRY_TYPE,
-  Config.LEAN_ENGAGE_TYPE,
-);
+main(Config.INTEGRATION_TYPE, Config.TELEMETRY_TYPE, Config.LEAN_ENGAGE_TYPE);

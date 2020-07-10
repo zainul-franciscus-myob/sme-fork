@@ -26,11 +26,14 @@ describe('invoiceListReducer', () => {
       },
     ].forEach((test) => {
       it(`uses default settings when settings is ${test.name}`, () => {
-        const actual = invoiceListReducer({}, {
-          intent: SET_INITIAL_STATE,
-          context: {},
-          settings: test.settings,
-        });
+        const actual = invoiceListReducer(
+          {},
+          {
+            intent: SET_INITIAL_STATE,
+            context: {},
+            settings: test.settings,
+          }
+        );
 
         expect(actual.filterOptions).toEqual({
           dateFrom: expect.any(String),
@@ -45,22 +48,25 @@ describe('invoiceListReducer', () => {
     });
 
     it('uses given settings when settingsVersion are the same', () => {
-      const actual = invoiceListReducer({}, {
-        intent: SET_INITIAL_STATE,
-        context: {},
-        settings: {
-          settingsVersion: '24264afc-07b6-4993-8aa6-693dd1378d57',
-          filterOptions: {
-            dateFrom: '2020-01-01',
-            dateTo: '2021-01-01',
-            keywords: '🦒',
-            customerId: '1',
-            status: 'Open',
+      const actual = invoiceListReducer(
+        {},
+        {
+          intent: SET_INITIAL_STATE,
+          context: {},
+          settings: {
+            settingsVersion: '24264afc-07b6-4993-8aa6-693dd1378d57',
+            filterOptions: {
+              dateFrom: '2020-01-01',
+              dateTo: '2021-01-01',
+              keywords: '🦒',
+              customerId: '1',
+              status: 'Open',
+            },
+            sortOrder: 'asc',
+            orderBy: 'DisplayId',
           },
-          sortOrder: 'asc',
-          orderBy: 'DisplayId',
-        },
-      });
+        }
+      );
 
       expect(actual.filterOptions).toEqual({
         dateFrom: '2020-01-01',
@@ -75,19 +81,22 @@ describe('invoiceListReducer', () => {
 
     describe('setInitialStateWithQueryParams', () => {
       it('use given query parameters to prefill filter options and sorting', () => {
-        const actual = invoiceListReducer({}, {
-          intent: SET_INITIAL_STATE,
-          context: {
-            dateFrom: '2020-01-01',
-            dateTo: '2020-01-31',
-            keywords: 'Yak',
-            customerId: '1',
-            status: 'Closed',
-            orderBy: 'BalanceDue',
-            sortOrder: 'asc',
-          },
-          settings: undefined,
-        });
+        const actual = invoiceListReducer(
+          {},
+          {
+            intent: SET_INITIAL_STATE,
+            context: {
+              dateFrom: '2020-01-01',
+              dateTo: '2020-01-31',
+              keywords: 'Yak',
+              customerId: '1',
+              status: 'Closed',
+              orderBy: 'BalanceDue',
+              sortOrder: 'asc',
+            },
+            settings: undefined,
+          }
+        );
 
         expect(actual.filterOptions).toEqual({
           dateFrom: '2020-01-01',
@@ -101,14 +110,17 @@ describe('invoiceListReducer', () => {
       });
 
       it('should use default filter options if not provided', () => {
-        const actual = invoiceListReducer({}, {
-          intent: SET_INITIAL_STATE,
-          context: {
-            dateFrom: '2020-01-01',
-            dateTo: '2020-01-31',
-          },
-          settings: undefined,
-        });
+        const actual = invoiceListReducer(
+          {},
+          {
+            intent: SET_INITIAL_STATE,
+            context: {
+              dateFrom: '2020-01-01',
+              dateTo: '2020-01-31',
+            },
+            settings: undefined,
+          }
+        );
 
         expect(actual.filterOptions).toEqual({
           dateFrom: '2020-01-01',

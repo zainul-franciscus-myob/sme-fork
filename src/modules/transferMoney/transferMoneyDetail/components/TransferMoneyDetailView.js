@@ -49,18 +49,16 @@ const TransferMoneyDetailView = ({
 
   const view = (
     <SmallScreenTemplate>
-      { alertComponent }
-      {
-        modal && (
-          <TransferMoneyDetailModal
-            modal={modal}
-            onDismissModal={onDismissModal}
-            onConfirmSave={onSave}
-            onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
-            onConfirmCancelButtonClick={onConfirmCancelButtonClick}
-          />
-        )
-      }
+      {alertComponent}
+      {modal && (
+        <TransferMoneyDetailModal
+          modal={modal}
+          onDismissModal={onDismissModal}
+          onConfirmSave={onSave}
+          onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
+          onConfirmCancelButtonClick={onConfirmCancelButtonClick}
+        />
+      )}
       <PageHead title={pageTitle} />
       <Card>
         <TransferMoneyDetailForm
@@ -68,14 +66,14 @@ const TransferMoneyDetailView = ({
           onUpdateForm={onUpdateForm}
         />
       </Card>
-      { actions }
+      {actions}
     </SmallScreenTemplate>
   );
 
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   modal: getModal(state),
   loadingState: getLoadingState(state),

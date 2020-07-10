@@ -19,10 +19,7 @@ import {
   getTimesheets,
   isThereExistingPayRun,
 } from '../StartPayRunSelectors';
-import {
-  getStepNumber,
-  getStepperSteps,
-} from '../../PayRunSelectors';
+import { getStepNumber, getStepperSteps } from '../../PayRunSelectors';
 import DatePicker from '../../../../../components/DatePicker/DatePicker';
 import ExistingPayRunModal from './ExistingPayRunModal';
 import StartPayRunActions from './StartPayRunActions';
@@ -81,8 +78,21 @@ const StartPayRunView = ({
               ))}
             </Select.OptionGroup>
           </Select>
-          <DatePicker label="Pay period start" name="payPeriodStart" value={payPeriodStart} onSelect={handleDatePickerChange(onPayPeriodChange, 'payPeriodStart')} />
-          <DatePicker label="Pay period end" name="payPeriodEnd" value={payPeriodEnd} onSelect={handleDatePickerChange(onPayPeriodChange, 'payPeriodEnd')} />
+          <DatePicker
+            label="Pay period start"
+            name="payPeriodStart"
+            value={payPeriodStart}
+            onSelect={handleDatePickerChange(
+              onPayPeriodChange,
+              'payPeriodStart'
+            )}
+          />
+          <DatePicker
+            label="Pay period end"
+            name="payPeriodEnd"
+            value={payPeriodEnd}
+            onSelect={handleDatePickerChange(onPayPeriodChange, 'payPeriodEnd')}
+          />
           <DatePicker
             label="Date of payment"
             name="paymentDate"
@@ -93,36 +103,35 @@ const StartPayRunView = ({
           />
         </FieldGroup>
         {isTimesheetUsed && (
-        <TimesheetsTable
-          isTableLoading={isTableLoading}
-          testid="timesheetsTable"
-          timesheets={timesheets}
-          selectAll={selectAll}
-          selectItem={selectItem}
-        />
+          <TimesheetsTable
+            isTableLoading={isTableLoading}
+            testid="timesheetsTable"
+            timesheets={timesheets}
+            selectAll={selectAll}
+            selectItem={selectItem}
+          />
         )}
       </FormHorizontal>
     </Card>
-    { existingPayRun && (
+    {existingPayRun && (
       <ExistingPayRunModal
         onGoBackButtonClick={onExistingPayRunModalGoBackClick}
         onEditExistingPayRunClick={onExistingPayRunModalEditClick}
         onCreatePayRunClick={onExistingPayRunModalCreateClick}
       />
     )}
-    { showStpValidationErrorModal && (
-    <StpValidationErrorModal
-      onCancel={onStpValidationErrorModalCancel}
-      onContinue={onStpValidationErrorModalContinue}
-      onUpdateDetails={onStpValidationErrorModalUpdateDetails}
-    />)}
-    <StartPayRunActions
-      onNextButtonClick={onNextButtonClick}
-    />
+    {showStpValidationErrorModal && (
+      <StpValidationErrorModal
+        onCancel={onStpValidationErrorModalCancel}
+        onContinue={onStpValidationErrorModalContinue}
+        onUpdateDetails={onStpValidationErrorModalUpdateDetails}
+      />
+    )}
+    <StartPayRunActions onNextButtonClick={onNextButtonClick} />
   </div>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   startPayRun: getStartPayRun(state),
   regularPayCycleOptions: getRegularPayCycleOptions(state),
   stepNumber: getStepNumber(state),

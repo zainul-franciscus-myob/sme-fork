@@ -5,13 +5,11 @@ import AccordionRowTypes from '../AccordionRowTypes';
 import AccordionTable from '../AccordionTable';
 
 const mockConsoleMethod = (realConsoleMethod) => {
-  const ignoredMessages = [
-    'test was not wrapped in act(...)',
-  ];
+  const ignoredMessages = ['test was not wrapped in act(...)'];
 
   return (message, ...args) => {
-    const containsIgnoredMessage = ignoredMessages.some(
-      ignoredMessage => message.includes(ignoredMessage),
+    const containsIgnoredMessage = ignoredMessages.some((ignoredMessage) =>
+      message.includes(ignoredMessage)
     );
 
     if (!containsIgnoredMessage) {
@@ -22,7 +20,13 @@ const mockConsoleMethod = (realConsoleMethod) => {
 
 const TestComponent = ({ index, handleHeaderClick }) => (
   <div>
-    <button onClick={() => handleHeaderClick(index)} type="button" className="testButton">{index}</button>
+    <button
+      onClick={() => handleHeaderClick(index)}
+      type="button"
+      className="testButton"
+    >
+      {index}
+    </button>
   </div>
 );
 
@@ -37,14 +41,14 @@ const setupAccordionControled = (openPosition = -1) => {
           {...buildCollapsibleRowProps({
             id: '1',
             index,
-            header: (<div />),
+            header: <div />,
             rowType: AccordionRowTypes.COLLAPSIBLE,
           })}
           key={index}
         />
       )}
       data={testData}
-    />,
+    />
   );
 
   return wrapper;
@@ -52,9 +56,12 @@ const setupAccordionControled = (openPosition = -1) => {
 
 const ManuallyControlAccordion = ({ openRowIndex = -1, data }) => {
   const [rowOpenIndex, setRowOpenIndex] = useState(openRowIndex);
-  const toggleRow = useCallback((index) => {
-    setRowOpenIndex(index === rowOpenIndex ? -1 : index);
-  }, [rowOpenIndex]);
+  const toggleRow = useCallback(
+    (index) => {
+      setRowOpenIndex(index === rowOpenIndex ? -1 : index);
+    },
+    [rowOpenIndex]
+  );
   return (
     <AccordionTable
       renderRow={(index, _, buildCollapsibleRowProps) => (
@@ -63,7 +70,7 @@ const ManuallyControlAccordion = ({ openRowIndex = -1, data }) => {
             id: '1',
             index,
             handleHeaderClick: toggleRow,
-            header: (<div />),
+            header: <div />,
             rowType: AccordionRowTypes.COLLAPSIBLE,
           })}
           isRowOpen={index === rowOpenIndex}
@@ -79,10 +86,7 @@ const setupMannuallyControled = (openRowIndex) => {
   const testData = [{}, {}, {}, {}];
 
   const wrapper = mount(
-    <ManuallyControlAccordion
-      openRowIndex={openRowIndex}
-      data={testData}
-    />,
+    <ManuallyControlAccordion openRowIndex={openRowIndex} data={testData} />
   );
 
   return wrapper;
@@ -90,7 +94,8 @@ const setupMannuallyControled = (openRowIndex) => {
 
 const getRow = (wrapper, index) => wrapper.find(TestComponent).get(index);
 
-const getRowButtonWrapper = (wrapper, index) => wrapper.find('button.testButton').at(index);
+const getRowButtonWrapper = (wrapper, index) =>
+  wrapper.find('button.testButton').at(index);
 
 describe('AccordionTable', () => {
   /* We're hiding a specific set of console errors so as to not pollute the console. */
@@ -104,7 +109,7 @@ describe('AccordionTable', () => {
         renderCollapsibleRow={() => {}}
         determineRowType={() => {}}
         data={[]}
-      />,
+      />
     );
   });
 

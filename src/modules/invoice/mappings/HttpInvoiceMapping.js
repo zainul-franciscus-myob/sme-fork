@@ -45,15 +45,18 @@ const HttpInvoiceMapping = {
   },
   [LOAD_NEW_INVOICE_DETAIL]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/invoice/load_new_invoice_detail`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/invoice/load_new_invoice_detail`,
   },
   [LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE]: {
     method: 'GET',
-    getPath: ({ businessId, quoteId }) => `/${businessId}/invoice/load_new_invoice_detail_from_quote/${quoteId}`,
+    getPath: ({ businessId, quoteId }) =>
+      `/${businessId}/invoice/load_new_invoice_detail_from_quote/${quoteId}`,
   },
   [LOAD_NEW_DUPLICATE_INVOICE_DETAIL]: {
     method: 'GET',
-    getPath: ({ businessId, duplicateId }) => `/${businessId}/invoice/load_new_duplicate_invoice_detail/${duplicateId}`,
+    getPath: ({ businessId, duplicateId }) =>
+      `/${businessId}/invoice/load_new_duplicate_invoice_detail/${duplicateId}`,
   },
   [LOAD_JOB_AFTER_CREATE]: {
     method: 'GET',
@@ -65,23 +68,28 @@ const HttpInvoiceMapping = {
   },
   [UPDATE_INVOICE_DETAIL]: {
     method: 'PUT',
-    getPath: ({ businessId, invoiceId }) => `/${businessId}/invoice/update_invoice_detail/${invoiceId}`,
+    getPath: ({ businessId, invoiceId }) =>
+      `/${businessId}/invoice/update_invoice_detail/${invoiceId}`,
   },
   [LOAD_INVOICE_DETAIL]: {
     method: 'GET',
-    getPath: ({ businessId, invoiceId }) => `/${businessId}/invoice/load_invoice_detail/${invoiceId}`,
+    getPath: ({ businessId, invoiceId }) =>
+      `/${businessId}/invoice/load_invoice_detail/${invoiceId}`,
   },
   [DELETE_INVOICE_DETAIL]: {
     method: 'DELETE',
-    getPath: ({ businessId, invoiceId }) => `/${businessId}/invoice/delete_invoice_detail/${invoiceId}`,
+    getPath: ({ businessId, invoiceId }) =>
+      `/${businessId}/invoice/delete_invoice_detail/${invoiceId}`,
   },
   [LOAD_CUSTOMER]: {
     method: 'GET',
-    getPath: ({ businessId, customerId }) => `/${businessId}/invoice/load_customer/${customerId}`,
+    getPath: ({ businessId, customerId }) =>
+      `/${businessId}/invoice/load_customer/${customerId}`,
   },
   [LOAD_CUSTOMER_AFTER_CREATE]: {
     method: 'GET',
-    getPath: ({ businessId, customerId }) => `/${businessId}/invoice/load_customer_after_create/${customerId}`,
+    getPath: ({ businessId, customerId }) =>
+      `/${businessId}/invoice/load_customer_after_create/${customerId}`,
   },
   [LOAD_PAY_DIRECT]: {
     method: 'GET',
@@ -89,11 +97,13 @@ const HttpInvoiceMapping = {
   },
   [UPLOAD_EMAIL_ATTACHMENT]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/invoice/upload_email_attachment`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/invoice/upload_email_attachment`,
   },
   [SEND_EMAIL]: {
     method: 'POST',
-    getPath: ({ businessId, invoiceId }) => `/${businessId}/invoice/send_invoice_email/${invoiceId}`,
+    getPath: ({ businessId, invoiceId }) =>
+      `/${businessId}/invoice/send_invoice_email/${invoiceId}`,
   },
   [SAVE_EMAIL_SETTINGS]: {
     method: 'PUT',
@@ -101,19 +111,23 @@ const HttpInvoiceMapping = {
   },
   [EXPORT_INVOICE_PDF]: {
     method: 'GET',
-    getPath: ({ businessId, invoiceId }) => `/${businessId}/invoice/export_invoice_pdf/${invoiceId}`,
+    getPath: ({ businessId, invoiceId }) =>
+      `/${businessId}/invoice/export_invoice_pdf/${invoiceId}`,
   },
   [LOAD_ITEM_OPTION]: {
     method: 'GET',
-    getPath: ({ businessId, itemId }) => `/${businessId}/invoice/load_item_option/${itemId}`,
+    getPath: ({ businessId, itemId }) =>
+      `/${businessId}/invoice/load_item_option/${itemId}`,
   },
   [LOAD_ACCOUNT_AFTER_CREATE]: {
     method: 'GET',
-    getPath: ({ businessId, accountId }) => `/${businessId}/invoice/load_account/${accountId}`,
+    getPath: ({ businessId, accountId }) =>
+      `/${businessId}/invoice/load_account/${accountId}`,
   },
   [LOAD_INVOICE_HISTORY]: {
     method: 'GET',
-    getPath: ({ businessId, invoiceId }) => `/${businessId}/invoice/load_invoice_history/${invoiceId}`,
+    getPath: ({ businessId, invoiceId }) =>
+      `/${businessId}/invoice/load_invoice_history/${invoiceId}`,
   },
   [LOAD_ACCOUNT_OPTIONS]: {
     method: 'GET',
@@ -129,23 +143,28 @@ const HttpInvoiceMapping = {
   },
   [LOAD_ITEM_SELLING_DETAILS]: {
     method: 'GET',
-    getPath: ({ businessId, itemId }) => `/${businessId}/invoice/load_item_selling_details/${itemId}`,
+    getPath: ({ businessId, itemId }) =>
+      `/${businessId}/invoice/load_item_selling_details/${itemId}`,
   },
   [CREATE_PRE_CONVERSION_INVOICE_DETAIL]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/invoice/create_pre_conversion_invoice`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/invoice/create_pre_conversion_invoice`,
   },
   [UPDATE_PRE_CONVERSION_INVOICE_DETAIL]: {
     method: 'PUT',
-    getPath: ({ businessId, invoiceId }) => `/${businessId}/invoice/update_pre_conversion_invoice/${invoiceId}`,
+    getPath: ({ businessId, invoiceId }) =>
+      `/${businessId}/invoice/update_pre_conversion_invoice/${invoiceId}`,
   },
   [DELETE_PRE_CONVERSION_INVOIVE_DETAIL]: {
     method: 'DELETE',
-    getPath: ({ businessId, invoiceId }) => `/${businessId}/invoice/delete_pre_conversion_invoice/${invoiceId}`,
+    getPath: ({ businessId, invoiceId }) =>
+      `/${businessId}/invoice/delete_pre_conversion_invoice/${invoiceId}`,
   },
   [LOAD_ABN_FROM_CUSTOMER]: {
     method: 'GET',
-    getPath: ({ businessId, customerId }) => `/${businessId}/invoice/load_abn_from_customer/${customerId}`,
+    getPath: ({ businessId, customerId }) =>
+      `/${businessId}/invoice/load_abn_from_customer/${customerId}`,
   },
 };
 

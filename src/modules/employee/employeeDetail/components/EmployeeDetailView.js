@@ -1,10 +1,4 @@
-import {
-  Alert,
-  BaseTemplate,
-  Card,
-  PageHead,
-  Tabs,
-} from '@myob/myob-widgets';
+import { Alert, BaseTemplate, Card, PageHead, Tabs } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -62,20 +56,17 @@ const EmployeeDetailView = ({
   );
 
   const modalComponent = modal && (
-    <ConfirmModal
-      modal={modal}
-      confirmModalListeners={confirmModalListeners}
-    />
+    <ConfirmModal modal={modal} confirmModalListeners={confirmModalListeners} />
   );
 
   const view = isPayrollSetup ? (
     <BaseTemplate>
-      { alertComponent }
+      {alertComponent}
       <PageHead title={pageHeadTitle} />
-      { subHeadTabs }
-      { modalComponent }
+      {subHeadTabs}
+      {modalComponent}
       <Card body={tabViews[selectedTab].getView()} />
-      { actions }
+      {actions}
     </BaseTemplate>
   ) : (
     <PayrollNotSetup
@@ -87,7 +78,7 @@ const EmployeeDetailView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   selectedTab: getMainTab(state),
   alert: getAlert(state),

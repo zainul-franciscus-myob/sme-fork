@@ -1,5 +1,8 @@
 import {
-  LOAD_BANK_RECONCILIATION, SELECT_ALL, SELECT_ROW, SET_SORT_ORDER,
+  LOAD_BANK_RECONCILIATION,
+  SELECT_ALL,
+  SELECT_ROW,
+  SET_SORT_ORDER,
 } from '../BankReconciliationIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
 import bankReconciliationDetailReducer from '../bankReconciliationReducer';
@@ -16,7 +19,10 @@ describe('bankReconciliationReducer', () => {
         },
       };
 
-      const { selectedAccountId } = bankReconciliationDetailReducer(state, action);
+      const { selectedAccountId } = bankReconciliationDetailReducer(
+        state,
+        action
+      );
 
       expect(selectedAccountId).toEqual('123');
     });
@@ -31,9 +37,7 @@ describe('bankReconciliationReducer', () => {
         },
       };
 
-      const {
-        statementDate,
-      } = bankReconciliationDetailReducer(state, action);
+      const { statementDate } = bankReconciliationDetailReducer(state, action);
 
       expect(statementDate).toEqual('2020-02-22');
     });
@@ -65,7 +69,10 @@ describe('bankReconciliationReducer', () => {
         context: {},
       };
 
-      const { selectedAccountId } = bankReconciliationDetailReducer(state, action);
+      const { selectedAccountId } = bankReconciliationDetailReducer(
+        state,
+        action
+      );
 
       expect(selectedAccountId).toEqual('');
     });

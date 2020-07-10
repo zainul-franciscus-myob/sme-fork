@@ -38,7 +38,7 @@ const getDefaultState = () => ({
   startOfFinancialYearDate: '',
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const pageEdited = { isPageEdited: true };
 
@@ -104,7 +104,7 @@ const openModal = (state, { modal }) => ({
   modal,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modal: undefined,
 });
@@ -116,9 +116,10 @@ const setTableLoadingState = (state, action) => ({
 
 const loadInvoiceList = (state, { entries }) => ({
   ...state,
-  entries: entries.map(entry => ({
+  entries: entries.map((entry) => ({
     ...entry,
-    paidAmount: state.applyPaymentToInvoiceId === entry.id ? state.paymentAmount : '',
+    paidAmount:
+      state.applyPaymentToInvoiceId === entry.id ? state.paymentAmount : '',
   })),
 });
 

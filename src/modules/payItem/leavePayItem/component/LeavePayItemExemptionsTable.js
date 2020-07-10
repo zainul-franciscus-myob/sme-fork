@@ -1,6 +1,4 @@
-import {
-  Button, Icons, Table, Tooltip,
-} from '@myob/myob-widgets';
+import { Button, Icons, Table, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -27,11 +25,15 @@ const LeavePayItemExemptionsTable = ({
       <Table.RowItem cellRole="actions" {...tableConfig.actions}>
         <Tooltip
           placement="left"
-          triggerContent={(
-          <Button type="secondary" size="xs" onClick={onButtonClick(onRemoveExemption, id)}>
-            <Icons.Remove />
-          </Button>
-        )}
+          triggerContent={
+            <Button
+              type="secondary"
+              size="xs"
+              onClick={onButtonClick(onRemoveExemption, id)}
+            >
+              <Icons.Remove />
+            </Button>
+          }
         >
           Remove exemption
         </Tooltip>
@@ -46,14 +48,12 @@ const LeavePayItemExemptionsTable = ({
         <Table.HeaderItem {...tableConfig.type}>Type</Table.HeaderItem>
         <Table.HeaderItem {...tableConfig.actions} />
       </Table.Header>
-      <Table.Body>
-        {rows}
-      </Table.Body>
+      <Table.Body>{rows}</Table.Body>
     </Table>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedExemptions: getSelectedExemptions(state),
 });
 

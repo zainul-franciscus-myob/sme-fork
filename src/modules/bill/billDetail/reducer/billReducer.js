@@ -58,7 +58,11 @@ import {
   getUpdatedSupplierOptions,
 } from '../selectors/billSelectors';
 import { calculateLineAmounts, getTaxCalculations } from './calculationReducer';
-import { defaultLinePrefillStatus, defaultPrefillStatus, getDefaultState } from './getDefaultState';
+import {
+  defaultLinePrefillStatus,
+  defaultPrefillStatus,
+  getDefaultState,
+} from './getDefaultState';
 import BillLineType from '../types/BillLineType';
 import BillStatus from '../types/BillStatus';
 import LineTaxTypes from '../types/LineTaxTypes';
@@ -67,10 +71,17 @@ import createReducer from '../../../../store/createReducer';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const setOriginalAmountDue = ({
-  isTaxInclusive, lines, amountPaid, taxExclusiveFreightAmount = '0', freightTaxAmount = '0',
+  isTaxInclusive,
+  lines,
+  amountPaid,
+  taxExclusiveFreightAmount = '0',
+  freightTaxAmount = '0',
 }) => {
   const { totalAmount } = calculateTotals({
-    isTaxInclusive, lines, taxExclusiveFreightAmount, freightTaxAmount,
+    isTaxInclusive,
+    lines,
+    taxExclusiveFreightAmount,
+    freightTaxAmount,
   });
   return calculateAmountDue(totalAmount, amountPaid);
 };
@@ -85,7 +96,7 @@ const loadBill = (state, action) => {
 
   const isCreating = state.billId === 'new';
 
-  return ({
+  return {
     ...state,
     ...action.response,
     bill: {
@@ -95,13 +106,19 @@ const loadBill = (state, action) => {
       issueDate: isCreating
         ? formatIsoDate(state.today)
         : action.response.bill.issueDate,
-      lines: action.response.bill.lines.map(line => {
+      lines: action.response.bill.lines.map((line) => {
         const lineJobOptions = buildJobOptions({ action, jobId: line.jobId });
 
-        if ([BillLineType.SERVICE, BillLineType.ITEM, BillLineType.SUB_TOTAL].includes(line.type)) {
+        if (
+          [
+            BillLineType.SERVICE,
+            BillLineType.ITEM,
+            BillLineType.SUB_TOTAL,
+          ].includes(line.type)
+        ) {
           const amount = action.response.bill.isTaxInclusive
-            ? (new Decimal(line.taxExclusiveAmount).add(line.taxAmount)).valueOf()
-            : (new Decimal(line.taxExclusiveAmount)).valueOf();
+            ? new Decimal(line.taxExclusiveAmount).add(line.taxAmount).valueOf()
+            : new Decimal(line.taxExclusiveAmount).valueOf();
 
           return { ...line, amount, lineJobOptions };
         }
@@ -118,9 +135,10 @@ const loadBill = (state, action) => {
     template: action.response.template || state.template,
     subscription: action.response.subscription
       ? {
-        monthlyLimit: action.response.subscription.monthlyLimit,
-        isUpgradeModalShowing: !!action.response.subscription.monthlyLimit.hasHitLimit,
-      }
+          monthlyLimit: action.response.subscription.monthlyLimit,
+          isUpgradeModalShowing: !!action.response.subscription.monthlyLimit
+            .hasHitLimit,
+        }
       : defaultState.subscription,
     exportPdf: {
       ...state.exportPdf,
@@ -131,7 +149,7 @@ const loadBill = (state, action) => {
       ...action.response.inTrayDocument,
       uploadedDate: '', // PAPI can not provide correct uploadedDate as part of bill loading, ignore it before the fix is in place
     },
-  });
+  };
 };
 
 const reloadBill = (state, action) => {
@@ -162,9 +180,16 @@ const getDefaultTaxCodeId = ({ accountId, accountOptions }) => {
   return account === undefined ? '' : account.taxCodeId;
 };
 
-const updateAllLinesWithExpenseAccount = (lines, accountOptions, expenseAccountId) => {
-  const taxCodeId = getDefaultTaxCodeId({ accountId: expenseAccountId, accountOptions });
-  return lines.map(line => ({
+const updateAllLinesWithExpenseAccount = (
+  lines,
+  accountOptions,
+  expenseAccountId
+) => {
+  const taxCodeId = getDefaultTaxCodeId({
+    accountId: expenseAccountId,
+    accountOptions,
+  });
+  return lines.map((line) => ({
     ...line,
     accountId: expenseAccountId,
     taxCodeId,
@@ -172,26 +197,38 @@ const updateAllLinesWithExpenseAccount = (lines, accountOptions, expenseAccountI
 };
 
 const updateBillOption = (state, action) => {
-  const isUpdatingExpirationTermToDayOfMonth = action.key === 'expirationTerm' && ['DayOfMonthAfterEOM', 'OnADayOfTheMonth'].includes(action.value);
+  const isUpdatingExpirationTermToDayOfMonth =
+    action.key === 'expirationTerm' &&
+    ['DayOfMonthAfterEOM', 'OnADayOfTheMonth'].includes(action.value);
   const isExpirationDays0 = state.bill.expirationDays === '0';
-  const shouldSetExpirationDaysTo1 = isUpdatingExpirationTermToDayOfMonth
-    && isExpirationDays0;
-  const isPrefillFields = Object.keys(defaultPrefillStatus).includes(action.key);
+  const shouldSetExpirationDaysTo1 =
+    isUpdatingExpirationTermToDayOfMonth && isExpirationDays0;
+  const isPrefillFields = Object.keys(defaultPrefillStatus).includes(
+    action.key
+  );
 
-  return ({
+  return {
     ...state,
     bill: {
       ...state.bill,
-      expirationDays: shouldSetExpirationDaysTo1 ? '1' : state.bill.expirationDays,
-      lines: state.bill.lines.length > 0 && action.key === 'expenseAccountId'
-        ? updateAllLinesWithExpenseAccount(state.bill.lines, state.accountOptions, action.value)
-        : state.bill.lines,
+      expirationDays: shouldSetExpirationDaysTo1
+        ? '1'
+        : state.bill.expirationDays,
+      lines:
+        state.bill.lines.length > 0 && action.key === 'expenseAccountId'
+          ? updateAllLinesWithExpenseAccount(
+              state.bill.lines,
+              state.accountOptions,
+              action.value
+            )
+          : state.bill.lines,
       [action.key]: action.value,
     },
     isPageEdited: true,
     prefillStatus: isPrefillFields
-      ? { ...state.prefillStatus, [action.key]: false } : state.prefillStatus,
-  });
+      ? { ...state.prefillStatus, [action.key]: false }
+      : state.prefillStatus,
+  };
 };
 
 const updateLayout = (state, { value }) => ({
@@ -201,15 +238,15 @@ const updateLayout = (state, { value }) => ({
     ...state.bill,
     layout: value,
     lines: state.bill.lines
-      .filter(line => line.type === BillLineType.SERVICE)
-      .map(line => ({
+      .filter((line) => line.type === BillLineType.SERVICE)
+      .map((line) => ({
         ...line,
         id: '',
       })),
   },
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modalType: undefined,
 });
@@ -219,7 +256,7 @@ const openModal = (state, action) => ({
   modalType: action.modalType,
 });
 
-const closeAlert = state => ({
+const closeAlert = (state) => ({
   ...state,
   alert: undefined,
 });
@@ -232,32 +269,28 @@ const openAlert = (state, action) => ({
   },
 });
 
-const startLoading = state => ({
+const startLoading = (state) => ({
   ...state,
   loadingState: LoadingState.LOADING,
 });
 
-const stopLoading = state => ({
+const stopLoading = (state) => ({
   ...state,
   loadingState: LoadingState.LOADING_SUCCESS,
 });
 
-const failLoading = state => ({
+const failLoading = (state) => ({
   ...state,
   loadingState: LoadingState.LOADING_FAIL,
 });
 
-const addBillLine = state => ({
+const addBillLine = (state) => ({
   ...state,
   isPageEdited: true,
   bill: {
     ...state.bill,
-    lines: [
-      ...state.bill.lines,
-      state.newLine,
-    ],
+    lines: [...state.bill.lines, state.newLine],
   },
-
 });
 
 const calculateLineLayout = (lineLayout, updateKey) => {
@@ -270,19 +303,23 @@ const calculateLineLayout = (lineLayout, updateKey) => {
   return isUpdateItemId ? BillLineType.ITEM : BillLineType.SERVICE;
 };
 
-const getLineSubTypeId = type => (type === BillLineType.ITEM
-  ? LineTaxTypes.DEFAULT_ITEM_LINE_SUB_TYPE_ID
-  : LineTaxTypes.DEFAULT_SERVICE_LINE_SUB_TYPE_ID);
+const getLineSubTypeId = (type) =>
+  type === BillLineType.ITEM
+    ? LineTaxTypes.DEFAULT_ITEM_LINE_SUB_TYPE_ID
+    : LineTaxTypes.DEFAULT_SERVICE_LINE_SUB_TYPE_ID;
 
 const getLinePrefillStatus = (key, currentStateLinePrefillStatus) => {
   const isPrefillField = Object.keys(defaultLinePrefillStatus).includes(key);
-  return isPrefillField ? {
-    ...currentStateLinePrefillStatus,
-    [key]: false,
-  } : currentStateLinePrefillStatus;
+  return isPrefillField
+    ? {
+        ...currentStateLinePrefillStatus,
+        [key]: false,
+      }
+    : currentStateLinePrefillStatus;
 };
 
-const setIsLineEdited = key => ['discount', 'amount', 'units', 'unitPrice'].includes(key);
+const setIsLineEdited = (key) =>
+  ['discount', 'amount', 'units', 'unitPrice'].includes(key);
 
 const updateBillLine = (state, action) => ({
   ...state,
@@ -296,9 +333,13 @@ const updateBillLine = (state, action) => ({
         return {
           ...line,
           id: type === line.type ? line.id : '',
-          taxCodeId: action.key === 'accountId'
-            ? getDefaultTaxCodeId({ accountId: action.value, accountOptions: state.accountOptions })
-            : line.taxCodeId,
+          taxCodeId:
+            action.key === 'accountId'
+              ? getDefaultTaxCodeId({
+                  accountId: action.value,
+                  accountOptions: state.accountOptions,
+                })
+              : line.taxCodeId,
           type,
           lineSubTypeId: getLineSubTypeId(type),
           prefillStatus: line.prefillStatus
@@ -332,19 +373,21 @@ const loadSupplierDetail = (state, action) => ({
     expenseAccountId: getIsCreating(state)
       ? action.response.expenseAccountId
       : state.bill.expenseAccountId,
-    lines: state.bill.lines.length > 0 && getIsCreating(state)
-      ? updateAllLinesWithExpenseAccount(
-        state.bill.lines,
-        state.accountOptions,
-        action.response.expenseAccountId,
-      )
-      : state.bill.lines,
+    lines:
+      state.bill.lines.length > 0 && getIsCreating(state)
+        ? updateAllLinesWithExpenseAccount(
+            state.bill.lines,
+            state.accountOptions,
+            action.response.expenseAccountId
+          )
+        : state.bill.lines,
   },
 });
 
-const loadSupplierAfterCreate = (state, {
-  supplierId, supplierAddress, option, expenseAccountId,
-}) => ({
+const loadSupplierAfterCreate = (
+  state,
+  { supplierId, supplierAddress, option, expenseAccountId }
+) => ({
   ...state,
   bill: {
     ...state.bill,
@@ -353,13 +396,14 @@ const loadSupplierAfterCreate = (state, {
     expenseAccountId: getIsCreating(state)
       ? expenseAccountId
       : state.bill.expenseAccountId,
-    lines: state.bill.lines.length > 0 && getIsCreating(state)
-      ? updateAllLinesWithExpenseAccount(
-        state.bill.lines,
-        state.accountOptions,
-        expenseAccountId,
-      )
-      : state.bill.lines,
+    lines:
+      state.bill.lines.length > 0 && getIsCreating(state)
+        ? updateAllLinesWithExpenseAccount(
+            state.bill.lines,
+            state.accountOptions,
+            expenseAccountId
+          )
+        : state.bill.lines,
   },
   supplierOptions: getUpdatedSupplierOptions(state, option),
   prefillStatus: {
@@ -368,37 +412,46 @@ const loadSupplierAfterCreate = (state, {
   },
 });
 
-const startSupplierBlocking = state => ({ ...state, isSupplierBlocking: true });
+const startSupplierBlocking = (state) => ({
+  ...state,
+  isSupplierBlocking: true,
+});
 
-const stopSupplierBlocking = state => ({ ...state, isSupplierBlocking: false });
+const stopSupplierBlocking = (state) => ({
+  ...state,
+  isSupplierBlocking: false,
+});
 
-const startBlocking = state => ({
+const startBlocking = (state) => ({
   ...state,
   isBlocking: true,
 });
 
-const stopBlocking = state => ({
+const stopBlocking = (state) => ({
   ...state,
   isBlocking: false,
 });
 
-const startModalBlocking = state => ({
+const startModalBlocking = (state) => ({
   ...state,
   isModalBlocking: true,
 });
 
-const stopModalBlocking = state => ({
+const stopModalBlocking = (state) => ({
   ...state,
   isModalBlocking: false,
 });
 
-const getPrefilledLines = (state, lines, expenseAccountId) => lines.map(
-  line => ({
+const getPrefilledLines = (state, lines, expenseAccountId) =>
+  lines.map((line) => ({
     ...state.newLine,
     ...line,
     accountId: expenseAccountId || state.newLine.accountId,
     taxCodeId: expenseAccountId
-      ? getDefaultTaxCodeId({ accountId: expenseAccountId, accountOptions: state.accountOptions })
+      ? getDefaultTaxCodeId({
+          accountId: expenseAccountId,
+          accountOptions: state.accountOptions,
+        })
       : state.newLine.taxCodeId,
     prefillStatus: {
       description: Boolean(line.description),
@@ -407,16 +460,12 @@ const getPrefilledLines = (state, lines, expenseAccountId) => lines.map(
       units: Boolean(line.units),
       unitPrice: Boolean(line.unitPrice),
     },
-  }),
-);
+  }));
 
 const prefillBillFromInTray = (state, action) => {
-  const {
-    bill, lines, document, supplierOptions,
-  } = action.response;
+  const { bill, lines, document, supplierOptions } = action.response;
 
-  const shouldPrefillLines = state.bill.lines.length === 0
-    && lines.length > 0;
+  const shouldPrefillLines = state.bill.lines.length === 0 && lines.length > 0;
 
   return {
     ...state,
@@ -424,25 +473,33 @@ const prefillBillFromInTray = (state, action) => {
     bill: {
       ...state.bill,
       supplierId: state.bill.supplierId || bill.supplierId,
-      supplierInvoiceNumber: state.bill.supplierInvoiceNumber || bill.supplierInvoiceNumber,
+      supplierInvoiceNumber:
+        state.bill.supplierInvoiceNumber || bill.supplierInvoiceNumber,
       layout: shouldPrefillLines ? bill.layout : state.bill.layout,
       issueDate: bill.issueDate ? bill.issueDate : state.bill.issueDate,
-      isTaxInclusive: shouldPrefillLines ? bill.isTaxInclusive : state.bill.isTaxInclusive,
-      originalExpenseAccountId: bill.expenseAccountId || state.bill.originalExpenseAccountId,
+      isTaxInclusive: shouldPrefillLines
+        ? bill.isTaxInclusive
+        : state.bill.isTaxInclusive,
+      originalExpenseAccountId:
+        bill.expenseAccountId || state.bill.originalExpenseAccountId,
       expenseAccountId: bill.expenseAccountId || state.bill.expenseAccountId,
       note: state.bill.note || bill.note,
       lines: shouldPrefillLines
         ? getPrefilledLines(state, lines, bill.expenseAccountId)
         : state.bill.lines,
     },
-    supplierOptions: supplierOptions.length && !supplierOptions
-      .some(so => state.supplierOptions.some(({ id }) => id === so.id))
-      ? [...supplierOptions, ...state.supplierOptions]
-      : state.supplierOptions,
+    supplierOptions:
+      supplierOptions.length &&
+      !supplierOptions.some((so) =>
+        state.supplierOptions.some(({ id }) => id === so.id)
+      )
+        ? [...supplierOptions, ...state.supplierOptions]
+        : state.supplierOptions,
     prefillStatus: {
       supplierId: !state.bill.supplierId && Boolean(bill.supplierId),
-      supplierInvoiceNumber: !state.bill.supplierInvoiceNumber
-        && Boolean(bill.supplierInvoiceNumber),
+      supplierInvoiceNumber:
+        !state.bill.supplierInvoiceNumber &&
+        Boolean(bill.supplierInvoiceNumber),
       issueDate: Boolean(bill.issueDate),
       note: !state.bill.note && Boolean(bill.note),
     },
@@ -484,18 +541,12 @@ const loadItemDetailForLine = (state, action) => ({
 
 const loadItemOption = (state, action) => ({
   ...state,
-  itemOptions: [
-    action.response,
-    ...state.itemOptions,
-  ],
+  itemOptions: [action.response, ...state.itemOptions],
 });
 
 export const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   ...state,
-  accountOptions: [
-    account,
-    ...state.accountOptions,
-  ],
+  accountOptions: [account, ...state.accountOptions],
   isPageEdited: true,
 });
 
@@ -503,20 +554,14 @@ export const loadJobAfterCreate = (state, { intent, ...job }) => ({
   ...state,
   bill: {
     ...state.bill,
-    lines: state.bill.lines.map(line => ({
+    lines: state.bill.lines.map((line) => ({
       ...line,
-      lineJobOptions: [
-        job,
-        ...line.lineJobOptions,
-      ],
+      lineJobOptions: [job, ...line.lineJobOptions],
     })),
   },
   newLine: {
     ...state.newLine,
-    lineJobOptions: [
-      job,
-      ...state.newLine.lineJobOptions,
-    ],
+    lineJobOptions: [job, ...state.newLine.lineJobOptions],
   },
   isPageEdited: true,
 });
@@ -536,7 +581,7 @@ export const loadInTrayDocumentUrl = (state, { inTrayDocumentUrl }) => ({
   inTrayDocumentUrl,
 });
 
-export const unlinkInTrayDocument = state => ({
+export const unlinkInTrayDocument = (state) => ({
   ...state,
   isDocumentLoading: false,
   inTrayDocumentId: '',
@@ -553,7 +598,7 @@ export const setDocumentLoadingState = (state, { isDocumentLoading }) => ({
   isDocumentLoading,
 });
 
-export const hidePrefillInfo = state => ({
+export const hidePrefillInfo = (state) => ({
   ...state,
   showPrefillInfo: false,
 });
@@ -563,7 +608,10 @@ export const setAttachmentId = (state, { attachmentId }) => ({
   attachmentId,
 });
 
-const setUpgradeModalShowing = (state, { isUpgradeModalShowing, monthlyLimit }) => ({
+const setUpgradeModalShowing = (
+  state,
+  { isUpgradeModalShowing, monthlyLimit }
+) => ({
   ...state,
   subscription: {
     isUpgradeModalShowing,

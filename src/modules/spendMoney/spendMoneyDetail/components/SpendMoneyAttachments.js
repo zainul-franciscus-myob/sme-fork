@@ -1,10 +1,11 @@
-import {
-  Badge, Card, FieldGroup, Table,
-} from '@myob/myob-widgets';
+import { Badge, Card, FieldGroup, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAttachmentCount, getHasAttachment } from '../spendMoneyDetailSelectors';
+import {
+  getAttachmentCount,
+  getHasAttachment,
+} from '../spendMoneyDetailSelectors';
 import AccordionRowTypes from '../../../../components/Accordion/AccordionRowTypes';
 import AccordionTable from '../../../../components/Accordion/AccordionTable';
 import CollapsibleTableRow from '../../../../components/Accordion/CollapsibleTableRow';
@@ -21,7 +22,11 @@ const SpendMoneyAttachments = ({
 }) => (
   <Card classes={[styles.attachments]}>
     <FieldGroup
-      label={<span id={SpendMoneyElementId.ATTACHMENTS_ELEMENT_ID}>More information</span>}
+      label={
+        <span id={SpendMoneyElementId.ATTACHMENTS_ELEMENT_ID}>
+          More information
+        </span>
+      }
     >
       <AccordionTable
         openPosition={0}
@@ -34,10 +39,10 @@ const SpendMoneyAttachments = ({
               header: (
                 <Table.RowItem>
                   Attachments
-                  { hasAttachment && (
-                  <span className={styles.badge}>
-                    <Badge color="light-grey">{attachmentCount}</Badge>
-                  </span>
+                  {hasAttachment && (
+                    <span className={styles.badge}>
+                      <Badge color="light-grey">{attachmentCount}</Badge>
+                    </span>
                   )}
                 </Table.RowItem>
               ),
@@ -56,7 +61,7 @@ const SpendMoneyAttachments = ({
   </Card>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   attachmentCount: getAttachmentCount(state),
   hasAttachment: getHasAttachment(state),
 });

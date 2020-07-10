@@ -27,7 +27,10 @@ const DashboardTrackingCard = ({
 }) => {
   const headerView = (
     <>
-      <DashboardCardHeader title="How your business is tracking" isActionStacked>
+      <DashboardCardHeader
+        title="How your business is tracking"
+        isActionStacked
+      >
         <Select
           name="financialYear"
           label="Financial year"
@@ -56,12 +59,10 @@ const DashboardTrackingCard = ({
 
   if (hasError) return <ErrorCard onTry={onReload} />;
 
-  return (
-    <CardView isLoading={isLoading} view={view} />
-  );
+  return <CardView isLoading={isLoading} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   hasError: getHasError(state),
   isLoading: getIsLoading(state),
   isDisabled: getIsDisabled(state),

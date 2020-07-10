@@ -2,7 +2,10 @@ import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getBankFeedsCreditCards, getIsActionDisabled } from '../BankFeedsSelectors';
+import {
+  getBankFeedsCreditCards,
+  getIsActionDisabled,
+} from '../BankFeedsSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 
@@ -11,7 +14,7 @@ const CreditCardsTableBody = ({
   entries,
   onCreditCardLinkedAccountChange,
 }) => {
-  const rows = entries.map(entry => (
+  const rows = entries.map((entry) => (
     <Table.Row key={entry.id}>
       <Table.RowItem
         textWrap="wrap"
@@ -42,7 +45,10 @@ const CreditCardsTableBody = ({
           hideLabel
           items={entry.accountOptions}
           selectedId={entry.linkedAccountId}
-          onChange={handleComboboxChange(entry.id, onCreditCardLinkedAccountChange)}
+          onChange={handleComboboxChange(
+            entry.id,
+            onCreditCardLinkedAccountChange
+          )}
         />
       </Table.RowItem>
       <Table.RowItem
@@ -55,19 +61,14 @@ const CreditCardsTableBody = ({
       <Table.RowItem
         cellRole="actions"
         {...tableConfig.removeButton.styles}
-      >
-      </Table.RowItem>
+      ></Table.RowItem>
     </Table.Row>
   ));
 
-  return (
-    <Table.Body>
-      {rows}
-    </Table.Body>
-  );
+  return <Table.Body>{rows}</Table.Body>;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   entries: getBankFeedsCreditCards(state),
   isActionDisabled: getIsActionDisabled(state),
 });

@@ -13,15 +13,18 @@ describe('index', () => {
       [tabIds.allocate, false, RuleTypes.receiveMoney],
       [tabIds.transfer, true, RuleTypes.bill],
       [tabIds.transfer, false, RuleTypes.invoice],
-    ])('if activeTabId is %s and isWithdrawal is %s, ruleType is %s', (tabId, isWithdrawal, expected) => {
-      const state = getDefaultState();
-      const actual = setInitialState(state, {
-        intent: SET_INITIAL_STATE,
-        description: 'hello',
-        activeTabId: tabId,
-        isWithdrawal,
-      });
-      expect(actual.bankingRule.ruleType).toEqual(expected);
-    });
+    ])(
+      'if activeTabId is %s and isWithdrawal is %s, ruleType is %s',
+      (tabId, isWithdrawal, expected) => {
+        const state = getDefaultState();
+        const actual = setInitialState(state, {
+          intent: SET_INITIAL_STATE,
+          description: 'hello',
+          activeTabId: tabId,
+          isWithdrawal,
+        });
+        expect(actual.bankingRule.ruleType).toEqual(expected);
+      }
+    );
   });
 });

@@ -10,7 +10,7 @@ const ApplyToSaleTotals = ({ totalAmountApplied }) => (
   </div>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   totalAmountApplied: getTotalAmountApplied(state),
 });
 

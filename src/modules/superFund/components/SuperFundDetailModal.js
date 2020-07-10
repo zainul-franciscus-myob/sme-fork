@@ -6,18 +6,11 @@ import modalTypes from '../modalTypes';
 
 const SuperFundDetailModal = ({
   modalType,
-  listeners: {
-    onModalClose,
-    onCancelModalConfirm,
-    onDeleteModalConfirm,
-  },
+  listeners: { onModalClose, onCancelModalConfirm, onDeleteModalConfirm },
 }) => {
   if (modalType === modalTypes.cancel) {
     return (
-      <CancelModal
-        onConfirm={onCancelModalConfirm}
-        onCancel={onModalClose}
-      />
+      <CancelModal onConfirm={onCancelModalConfirm} onCancel={onModalClose} />
     );
   }
 

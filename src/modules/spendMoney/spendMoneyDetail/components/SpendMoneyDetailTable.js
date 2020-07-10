@@ -14,11 +14,7 @@ import SpendMoneyDetailRow from './SpendMoneyDetailRow';
 
 const SpendMoneyDetailTable = ({
   tableData,
-  amountTotals: {
-    subTotal,
-    totalTax,
-    totalAmount,
-  },
+  amountTotals: { subTotal, totalTax, totalAmount },
   onRemoveRow,
   taxLabel,
   taxCodeLabel,
@@ -66,7 +62,9 @@ const SpendMoneyDetailTable = ({
       label: 'Description',
       styles: {},
     },
-    ...isSpendMoneyJobColumnEnabled ? [{ label: 'Job', styles: { width: '10rem' } }] : [],
+    ...(isSpendMoneyJobColumnEnabled
+      ? [{ label: 'Job', styles: { width: '10rem' } }]
+      : []),
     {
       label: taxCodeLabel,
       requiredLabel: 'Required',
@@ -115,7 +113,7 @@ const SpendMoneyDetailTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   amountTotals: getTotals(state),
   indexOfLastLine: getIndexOfLastLine(state),
   tableData: getTableData(state),

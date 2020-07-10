@@ -38,4 +38,6 @@ const mapStateToProps = (state, props) => ({
   shouldShowTableRows: getShouldShowDeductionPayItemTableRows(state, props),
 });
 
-export default connect(mapStateToProps)(EmployeeRecalculatePayDeductionPayItems);
+export default connect(mapStateToProps)(
+  EmployeeRecalculatePayDeductionPayItems
+);

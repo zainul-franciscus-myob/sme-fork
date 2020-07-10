@@ -7,7 +7,7 @@ import {
   SET_TAX_TABLE_RESULT,
 } from './taxTableCalculationModalIntents';
 
-const createTaxTableCalculationModalDispatcher = store => ({
+const createTaxTableCalculationModalDispatcher = (store) => ({
   setIsOpen: (isOpen) => {
     store.dispatch({
       intent: SET_IS_OPEN,

@@ -32,10 +32,7 @@ import {
   SORT_AND_FILTER_EMPLOYMENT_CLASSIFICATION_LIST,
   SORT_AND_FILTER_SUPER_FUND_LIST,
 } from '../PayrollSettingsIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
   changeEmploymentClassificationDetail,
   loadEmploymentClassificationDetail,
@@ -45,7 +42,11 @@ import {
   setEmploymentClassificationInitialState,
   setNewEmploymentClassificationInitialState,
 } from './employmentClassificationDetailReducer';
-import { changePaySlipEmailDefaultsField, loadPaySlipEmailDefaults, setPaySlipEmailDefaultsLoadingState } from './paySlipEmailDefaultsReducer';
+import {
+  changePaySlipEmailDefaultsField,
+  loadPaySlipEmailDefaults,
+  setPaySlipEmailDefaultsLoadingState,
+} from './paySlipEmailDefaultsReducer';
 import {
   loadEmploymentClassificationList,
   setEmploymentClassificationListFilterOption,
@@ -70,7 +71,7 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setAlert = (state, action) => ({
   ...state,
@@ -92,7 +93,7 @@ const openModal = (state, action) => ({
   modal: action.modal,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modal: undefined,
 });
@@ -127,7 +128,10 @@ export const loadGeneralPayrollInformation = (state, action) => ({
   },
 });
 
-export const setGeneralPayrollInformationIsLoading = (state, { loadingState }) => ({
+export const setGeneralPayrollInformationIsLoading = (
+  state,
+  { loadingState }
+) => ({
   ...state,
   generalPayrollInformation: {
     ...state.generalPayrollInformation,
@@ -152,10 +156,8 @@ const handlers = {
   [SET_EMPLOYMENT_CLASSIFICATION_LIST_FILTER_OPTIONS]: setEmploymentClassificationListFilterOption,
   [SORT_AND_FILTER_EMPLOYMENT_CLASSIFICATION_LIST]: sortAndFilterEmploymentClassificationList,
   [SET_EMPLOYMENT_CLASSIFICATION_DETAIL_INITIAL_STATE]: setEmploymentClassificationInitialState,
-  [SET_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL_INITIAL_STATE]:
-    setNewEmploymentClassificationInitialState,
-  [SET_EMPLOYMENT_CLASSIFICATION_LIST_TABLE_LOADING_STATE]:
-    setEmploymentClassificationListTableLoadingState,
+  [SET_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL_INITIAL_STATE]: setNewEmploymentClassificationInitialState,
+  [SET_EMPLOYMENT_CLASSIFICATION_LIST_TABLE_LOADING_STATE]: setEmploymentClassificationListTableLoadingState,
   [SET_EMPLOYMENT_CLASSIFICATION_LIST_SORT_ORDER]: setEmploymentClassificationListSortOrder,
   [SET_EMPLOYMENT_CLASSIFICATION_DETAIL_IS_LOADING]: setEmploymentClassificationDetailIsLoading,
   [SET_EMPLOYMENT_CLASSIFICATION_DETAIL_ALERT]: setEmploymentClassificationDetailAlert,

@@ -1,6 +1,4 @@
-import {
-  Label, Tooltip,
-} from '@myob/myob-widgets';
+import { Label, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -12,7 +10,11 @@ import styles from './AllocatedRowItem.module.css';
 const ReportableLabel = () => (
   <Tooltip
     className={styles.reportable}
-    triggerContent={<Label type="boxed" color="blue" size="small">R</Label>}
+    triggerContent={
+      <Label type="boxed" color="blue" size="small">
+        R
+      </Label>
+    }
   >
     Reportable payment
   </Tooltip>
@@ -27,12 +29,7 @@ const AllocatedRowItem = ({
   onBlur,
   onAllocate,
 }) => {
-  const {
-    allocateOrMatch,
-    accountList,
-    isReportable,
-    appliedRule,
-  } = entry;
+  const { allocateOrMatch, accountList, isReportable, appliedRule } = entry;
 
   const comboboxStyling = classNames(styles.allocating, {
     [styles.hovering]: isHovering && !isFocused,
@@ -66,7 +63,9 @@ const AllocatedRowItem = ({
   const reportableHiddenStyling = appliedRule ? '' : styles.reportableHidden;
   const defaultView = (
     <div className={styles.allocated}>
-      <div className={classNames(styles.allocationInfo, reportableHiddenStyling)}>
+      <div
+        className={classNames(styles.allocationInfo, reportableHiddenStyling)}
+      >
         {appliedRule && <AutoAllocated className={styles.allocatedWand} />}
         <AllocatedButton onClick={onFocus} onFocus={onFocus}>
           {allocateOrMatch}

@@ -1,5 +1,9 @@
 import { LOAD_NEW_ITEM, SAVE_ITEM } from './InventoryModalIntents';
-import { getLoadItemUrlParams, getSaveItemContent, getSaveItemUrlParams } from './selectors/InventoryModalIntegratorSelectors';
+import {
+  getLoadItemUrlParams,
+  getSaveItemContent,
+  getSaveItemUrlParams,
+} from './selectors/InventoryModalIntegratorSelectors';
 
 const createInventoryModalIntegrator = (store, integration) => ({
   loadItem: ({ onSuccess, onFailure }) => {
@@ -29,7 +33,6 @@ const createInventoryModalIntegrator = (store, integration) => ({
       onFailure,
     });
   },
-
 });
 
 export default createInventoryModalIntegrator;

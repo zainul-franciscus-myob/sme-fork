@@ -45,7 +45,9 @@ describe('wagePayItemReducer', () => {
 
         expect(actual.wagePayItemModal.isJobKeeper).toEqual(true);
         expect(actual.wagePayItemModal.wage.name).toEqual('JOBKEEPER-TOPUP');
-        expect(actual.wagePayItemModal.wage.atoReportingCategory).toEqual('AllowanceOther');
+        expect(actual.wagePayItemModal.wage.atoReportingCategory).toEqual(
+          'AllowanceOther'
+        );
         expect(actual.wagePayItemModal.wage.payBasis).toEqual('Salary');
       });
 
@@ -70,7 +72,9 @@ describe('wagePayItemReducer', () => {
         const actual = employeeDetailsReducer(modifiedState, action);
 
         expect(actual.wagePayItemModal.isJobKeeper).toEqual(false);
-        expect(actual.wagePayItemModal.wage).toEqual(state.wagePayItemModal.wage);
+        expect(actual.wagePayItemModal.wage).toEqual(
+          state.wagePayItemModal.wage
+        );
       });
     });
 

@@ -1,4 +1,8 @@
-import { LOAD_EMPLOYEE_LIST, SET_ALERT, SET_LOADING_STATE } from '../../EmployeeNzIntents';
+import {
+  LOAD_EMPLOYEE_LIST,
+  SET_ALERT,
+  SET_LOADING_STATE,
+} from '../../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import employeeListNzReducer from '../employeeListNzReducer';
@@ -24,10 +28,12 @@ describe('employeeListNzReducer', () => {
   describe('loadEmployeeList', () => {
     it('should add the employee list response to state', () => {
       const employeeListResponse = {
-        entries: [{
-          id: '123',
-          name: 'Employee, One',
-        }],
+        entries: [
+          {
+            id: '123',
+            name: 'Employee, One',
+          },
+        ],
       };
 
       const state = { isTableLoading: false };

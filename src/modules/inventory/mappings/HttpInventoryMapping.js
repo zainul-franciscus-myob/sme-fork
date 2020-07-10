@@ -16,11 +16,13 @@ const HttpInventoryMapping = {
   },
   [DELETE_INVENTORY_DETAIL]: {
     method: 'DELETE',
-    getPath: ({ businessId, itemId }) => `/${businessId}/inventory/delete_item/${itemId}`,
+    getPath: ({ businessId, itemId }) =>
+      `/${businessId}/inventory/delete_item/${itemId}`,
   },
   [LOAD_INVENTORY_DETAIL]: {
     method: 'GET',
-    getPath: ({ businessId, itemId }) => `/${businessId}/inventory/load_item/${itemId}`,
+    getPath: ({ businessId, itemId }) =>
+      `/${businessId}/inventory/load_item/${itemId}`,
   },
   [LOAD_NEW_INVENTORY_DETAIL]: {
     method: 'GET',
@@ -28,7 +30,8 @@ const HttpInventoryMapping = {
   },
   [UPDATE_INVENTORY_DETAIL]: {
     method: 'PUT',
-    getPath: ({ businessId, itemId }) => `/${businessId}/inventory/update_item/${itemId}`,
+    getPath: ({ businessId, itemId }) =>
+      `/${businessId}/inventory/update_item/${itemId}`,
   },
   [LOAD_ITEM_LIST]: {
     method: 'GET',

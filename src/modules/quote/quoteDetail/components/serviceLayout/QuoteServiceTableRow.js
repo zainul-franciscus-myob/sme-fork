@@ -18,21 +18,21 @@ import QuoteLineType from '../../QuoteLineType';
 import QuoteTableReadOnlyRowItem from '../QuoteTableReadOnlyRowItem';
 import TaxCodeCombobox from '../../../../../components/combobox/TaxCodeCombobox';
 
-const onComboboxChange = (name, onChange) => item => onChange({
-  target: {
-    name,
-    value: item.id,
-  },
-});
+const onComboboxChange = (name, onChange) => (item) =>
+  onChange({
+    target: {
+      name,
+      value: item.id,
+    },
+  });
 
-const handleAmountInputChange = handler => e => (
+const handleAmountInputChange = (handler) => (e) =>
   handler({
     target: {
       name: e.target.name,
       value: e.target.rawValue,
     },
-  })
-);
+  });
 
 const handleAmountInputBlur = (handler, index) => (e) => {
   const { name: key, rawValue: value } = e.target;
@@ -101,7 +101,9 @@ const QuoteServiceTableRow = ({
         onChange={onComboboxChange('allocatedAccountId', onChange)}
         items={accountOptions}
         selectedId={allocatedAccountId}
-        addNewAccount={() => onAddAccount(onComboboxChange('allocatedAccountId', onChange))}
+        addNewAccount={() =>
+          onAddAccount(onComboboxChange('allocatedAccountId', onChange))
+        }
         disabled={isAccountComboboxDisabled || isCalculating || isReadOnly}
       />
       <Calculator
@@ -116,15 +118,17 @@ const QuoteServiceTableRow = ({
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
-      {isQuoteJobColumnEnabled && <JobCombobox
-        items={lineJobOptions}
-        selectedId={jobId}
-        addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
-        onChange={onComboboxChange('jobId', onChange)}
-        disabled={isJobComboboxDisabled || isCalculating || isReadOnly}
-        allowClear
-        left
-      />}
+      {isQuoteJobColumnEnabled && (
+        <JobCombobox
+          items={lineJobOptions}
+          selectedId={jobId}
+          addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
+          onChange={onComboboxChange('jobId', onChange)}
+          disabled={isJobComboboxDisabled || isCalculating || isReadOnly}
+          allowClear
+          left
+        />
+      )}
       <TaxCodeCombobox
         label="Tax code"
         onChange={onComboboxChange('taxCodeId', onChange)}

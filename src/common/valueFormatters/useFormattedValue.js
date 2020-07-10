@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 
 const useFormattedValue = ({
-  value = '', onBlur, onChange, onFormat = val => val,
+  value = '',
+  onBlur,
+  onChange,
+  onFormat = (val) => val,
 }) => {
   const [formattedValue, setFormattedValue] = useState('');
   const [isDirty, setIsDirty] = useState(false);
@@ -13,7 +16,7 @@ const useFormattedValue = ({
     setIsDirty(false);
   }, [onFormat, value]);
 
-  const newOnBlur = e => {
+  const newOnBlur = (e) => {
     const newValue = e.target.value;
     if (value === '' && newValue === '') return;
 
@@ -24,7 +27,7 @@ const useFormattedValue = ({
     onBlur(e);
   };
 
-  const newOnChange = e => {
+  const newOnChange = (e) => {
     // Ensure underlying component updates correctly
     // To reproduce it, type the same number twice, the second time, it doesn't format on the view
     setFormattedValue(e.target.value);

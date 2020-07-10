@@ -23,7 +23,7 @@ const BankReconciliationModal = ({
   return <OutOfBalanceModal onCancel={onCancel} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   modal: getModal(state),
 });
 

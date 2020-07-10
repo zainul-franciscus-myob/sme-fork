@@ -16,9 +16,7 @@ import StpNotifyView from './components/StpNotifyView';
 import stpNotifyAtoModuleReducer from './stpNotifyAtoModuleReducer';
 
 export default class StpNotifyAtoModule {
-  constructor({
-    onPrevious, onFinish, integration, context,
-  }) {
+  constructor({ onPrevious, onFinish, integration, context }) {
     this.onPrevious = onPrevious;
     this.onFinish = onFinish;
     this.integration = integration;

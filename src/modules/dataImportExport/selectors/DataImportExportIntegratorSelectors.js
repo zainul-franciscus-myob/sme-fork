@@ -8,14 +8,16 @@ import {
   getImportFile,
   getRegion,
 } from './DataImportExportSelectors';
-import { getExportCompanyFile, getHasClientCode } from './ExportCompanyFileSelectors';
+import {
+  getExportCompanyFile,
+  getHasClientCode,
+} from './ExportCompanyFileSelectors';
 
-const getImportRegion = createSelector(
-  getRegion,
-  region => region.toUpperCase(),
+const getImportRegion = createSelector(getRegion, (region) =>
+  region.toUpperCase()
 );
 
-const getEmail = state => state.email;
+const getEmail = (state) => state.email;
 
 export const getImportChartOfAccountsPayload = createSelector(
   getImportFile,
@@ -29,7 +31,7 @@ export const getImportChartOfAccountsPayload = createSelector(
     Region: region,
     Email: email,
     BusinessId: businessId,
-  }),
+  })
 );
 
 export const getImportContactsPayload = createSelector(
@@ -47,7 +49,7 @@ export const getImportContactsPayload = createSelector(
     identifyBy,
     region,
     email,
-    businessId,
+    businessId
   ) => ({
     File: file,
     DuplicateCheckMode: duplicateRecordsOptionValue,
@@ -56,7 +58,7 @@ export const getImportContactsPayload = createSelector(
     Region: region,
     Email: email,
     BusinessId: businessId,
-  }),
+  })
 );
 
 export const getImportEmployeesPayload = createSelector(
@@ -66,14 +68,21 @@ export const getImportEmployeesPayload = createSelector(
   getImportRegion,
   getEmail,
   getBusinessId,
-  (file, duplicateRecordsOptionValue, identifyBy, region, email, businessId) => ({
+  (
+    file,
+    duplicateRecordsOptionValue,
+    identifyBy,
+    region,
+    email,
+    businessId
+  ) => ({
     File: file,
     DuplicateCheckMode: duplicateRecordsOptionValue,
     IdentifyBy: identifyBy,
     Region: region,
     Email: email,
     BusinessId: businessId,
-  }),
+  })
 );
 
 export const getImportItemsPayload = createSelector(
@@ -88,7 +97,7 @@ export const getImportItemsPayload = createSelector(
     Region: region,
     Email: email,
     BusinessId: businessId,
-  }),
+  })
 );
 
 export const getImportGeneralJournalsPayload = createSelector(
@@ -101,7 +110,7 @@ export const getImportGeneralJournalsPayload = createSelector(
     Region: region,
     Email: email,
     BusinessId: businessId,
-  }),
+  })
 );
 
 export const getImportTransactionJournalsPayload = createSelector(
@@ -114,7 +123,7 @@ export const getImportTransactionJournalsPayload = createSelector(
     Region: region,
     Email: email,
     BusinessId: businessId,
-  }),
+  })
 );
 
 export const getImportTimesheetsPayload = createSelector(
@@ -129,14 +138,13 @@ export const getImportTimesheetsPayload = createSelector(
     Region: region,
     Email: email,
     BusinessId: businessId,
-  }),
+  })
 );
 
-const getFinancialYear = state => state.export.chartOfAccounts.financialYear;
-const getAccountBalanceTransaction = state => (
-  state.export.chartOfAccounts.accountBalanceTransaction
-);
-const getFileType = state => state.export.chartOfAccounts.fileType;
+const getFinancialYear = (state) => state.export.chartOfAccounts.financialYear;
+const getAccountBalanceTransaction = (state) =>
+  state.export.chartOfAccounts.accountBalanceTransaction;
+const getFileType = (state) => state.export.chartOfAccounts.fileType;
 export const getExportChartOfAccountsQueryParams = createStructuredSelector({
   financialYear: getFinancialYear,
   accountBalanceTransaction: getAccountBalanceTransaction,
@@ -144,9 +152,9 @@ export const getExportChartOfAccountsQueryParams = createStructuredSelector({
 });
 
 export const getExportCompanyFileQueryParams = (state) => {
-  const {
-    dateFrom, dateTo, fileType, clientCode,
-  } = getExportCompanyFile(state);
+  const { dateFrom, dateTo, fileType, clientCode } = getExportCompanyFile(
+    state
+  );
   const hasMyobAeMas = getHasClientCode(state);
 
   return {

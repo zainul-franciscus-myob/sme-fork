@@ -1,5 +1,11 @@
-import { LOAD_LINKED_ACCOUNTS, SAVE_LINKED_ACCOUNTS } from './LinkedAccountsIntents';
-import { getBusinessId, getSaveLinkedAccountsPayload } from './LinkedAccountsSelectors';
+import {
+  LOAD_LINKED_ACCOUNTS,
+  SAVE_LINKED_ACCOUNTS,
+} from './LinkedAccountsIntents';
+import {
+  getBusinessId,
+  getSaveLinkedAccountsPayload,
+} from './LinkedAccountsSelectors';
 
 const createLinkedAccountsIntegrator = ({ store, integration }) => ({
   loadLinkedAccounts: ({ onSuccess, onFailure }) => {

@@ -5,10 +5,7 @@ import React from 'react';
 import { getSelectedTab } from '../LinkedAccountsSelectors';
 import TabItem from '../TabItem';
 
-const LinkedAccountsTabs = ({
-  selectedTab,
-  onSelectTab,
-}) => (
+const LinkedAccountsTabs = ({ selectedTab, onSelectTab }) => (
   <Tabs
     items={[
       {
@@ -33,7 +30,7 @@ const LinkedAccountsTabs = ({
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedTab: getSelectedTab(state),
 });
 

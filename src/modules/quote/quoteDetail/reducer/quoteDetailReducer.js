@@ -51,7 +51,10 @@ import {
   uploadEmailAttachmentFailed,
   uploadEmailAttachmentUploadProgress,
 } from './EmailReducer';
-import { calculatePartialQuoteLineAmounts, setQuoteCalculatedLines } from './calculationReducer';
+import {
+  calculatePartialQuoteLineAmounts,
+  setQuoteCalculatedLines,
+} from './calculationReducer';
 import {
   getBusinessId,
   getQuoteId,
@@ -62,36 +65,50 @@ import LoadingState from '../../../../components/PageView/LoadingState';
 import QuoteLayout from '../QuoteLayout';
 import QuoteLineType from '../QuoteLineType';
 import createReducer from '../../../../store/createReducer';
-import getDefaultState, { DEFAULT_DISCOUNT, DEFAULT_UNITS } from './getDefaultState';
+import getDefaultState, {
+  DEFAULT_DISCOUNT,
+  DEFAULT_UNITS,
+} from './getDefaultState';
 
 const setInitialState = (state, { context }) => ({ ...state, ...context });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
-const setLoadingState = (state, { loadingState }) => ({ ...state, loadingState });
+const setLoadingState = (state, { loadingState }) => ({
+  ...state,
+  loadingState,
+});
 
-const setSubmittingState = (state, { isSubmitting }) => ({ ...state, isSubmitting });
+const setSubmittingState = (state, { isSubmitting }) => ({
+  ...state,
+  isSubmitting,
+});
 
 const setAlert = (state, { alert }) => ({ ...state, alert });
 
 const openModal = (state, { modal }) => ({ ...state, modal });
 
-const closeModal = state => ({ ...state, modal: undefined });
+const closeModal = (state) => ({ ...state, modal: undefined });
 
-const setModalSubmittingState = (state, { isModalSubmitting }) => ({ ...state, isModalSubmitting });
+const setModalSubmittingState = (state, { isModalSubmitting }) => ({
+  ...state,
+  isModalSubmitting,
+});
 
 const setModalAlert = (state, { modalAlert }) => ({ ...state, modalAlert });
 
-const getLoadQuoteDetailEmailQuote = (emailQuote, quoteNumber) => (
+const getLoadQuoteDetailEmailQuote = (emailQuote, quoteNumber) =>
   emailQuote
     ? {
-      ...emailQuote,
-      toEmail: emailQuote.toEmail.length > 0 ? emailQuote.toEmail : [''],
-      ccToEmail: emailQuote.ccToEmail.length > 0 ? emailQuote.ccToEmail : [''],
-      subject: emailQuote.includeQuoteNumberInEmail ? `Quote ${quoteNumber}; ${emailQuote.subject}` : emailQuote.subject,
-    }
-    : {}
-);
+        ...emailQuote,
+        toEmail: emailQuote.toEmail.length > 0 ? emailQuote.toEmail : [''],
+        ccToEmail:
+          emailQuote.ccToEmail.length > 0 ? emailQuote.ccToEmail : [''],
+        subject: emailQuote.includeQuoteNumberInEmail
+          ? `Quote ${quoteNumber}; ${emailQuote.subject}`
+          : emailQuote.subject,
+      }
+    : {};
 
 const buildJobOptions = ({ action, jobId }) => {
   const { jobOptions = [] } = action;
@@ -104,7 +121,7 @@ const loadQuoteDetail = (state, action) => ({
   quote: {
     ...state.quote,
     ...action.quote,
-    lines: action.quote.lines.map(line => ({
+    lines: action.quote.lines.map((line) => ({
       ...line,
       lineJobOptions: buildJobOptions({ action, jobId: line.jobId }),
     })),
@@ -124,11 +141,17 @@ const loadQuoteDetail = (state, action) => ({
   taxCodeOptions: action.taxCodeOptions,
   emailQuote: {
     ...state.emailQuote,
-    ...getLoadQuoteDetailEmailQuote(action.emailQuote, action.quote.quoteNumber),
+    ...getLoadQuoteDetailEmailQuote(
+      action.emailQuote,
+      action.quote.quoteNumber
+    ),
   },
   emailQuoteDefaultState: {
     ...state.emailQuoteDefaultState,
-    ...getLoadQuoteDetailEmailQuote(action.emailQuote, action.quote.quoteNumber),
+    ...getLoadQuoteDetailEmailQuote(
+      action.emailQuote,
+      action.quote.quoteNumber
+    ),
   },
   exportPdf: {
     ...state.exportPdf,
@@ -173,15 +196,18 @@ const updateLayout = (state, { value }) => ({
     ...state.quote,
     layout: value,
     lines: state.quote.lines
-      .filter(line => line.type === QuoteLineType.SERVICE)
-      .map(line => ({
+      .filter((line) => line.type === QuoteLineType.SERVICE)
+      .map((line) => ({
         ...line,
         id: '',
       })),
   },
   newLine: {
     ...state.newLine,
-    type: value === QuoteLayout.ITEM_AND_SERVICE ? QuoteLineType.ITEM : QuoteLineType.SERVICE,
+    type:
+      value === QuoteLayout.ITEM_AND_SERVICE
+        ? QuoteLineType.ITEM
+        : QuoteLineType.SERVICE,
   },
 });
 
@@ -201,14 +227,14 @@ const getDefaultTaxCodeId = ({ accountId, accountOptions }) => {
 
 const addQuoteLine = (state, action) => {
   const { id, ...partialLine } = action.line;
-  const type = partialLine.itemId
-    ? QuoteLineType.ITEM
-    : QuoteLineType.SERVICE;
+  const type = partialLine.itemId ? QuoteLineType.ITEM : QuoteLineType.SERVICE;
 
-  const taxCodeId = partialLine.allocatedAccountId ? getDefaultTaxCodeId({
-    accountOptions: state.accountOptions,
-    accountId: partialLine.allocatedAccountId,
-  }) : '';
+  const taxCodeId = partialLine.allocatedAccountId
+    ? getDefaultTaxCodeId({
+        accountOptions: state.accountOptions,
+        accountId: partialLine.allocatedAccountId,
+      })
+    : '';
 
   return {
     ...state,
@@ -236,17 +262,23 @@ const updateQuoteLine = (state, action) => ({
     ...state.quote,
     lines: state.quote.lines.map((line, index) => {
       if (index === action.index) {
-        const lineLayout = action.key === 'itemId' ? QuoteLineType.ITEM : line.type;
+        const lineLayout =
+          action.key === 'itemId' ? QuoteLineType.ITEM : line.type;
 
         return {
           ...line,
           id: line.type === lineLayout ? line.id : '',
           jobId: action.key === 'jobId' ? action.value : line.jobId,
-          taxCodeId: action.key === 'allocatedAccountId'
-            ? getDefaultTaxCodeId({ accountId: action.value, accountOptions: state.accountOptions })
-            : line.taxCodeId,
+          taxCodeId:
+            action.key === 'allocatedAccountId'
+              ? getDefaultTaxCodeId({
+                  accountId: action.value,
+                  accountOptions: state.accountOptions,
+                })
+              : line.taxCodeId,
           type: lineLayout,
-          descriptionDirty: action.key === 'description' || line.descriptionDirty,
+          descriptionDirty:
+            action.key === 'description' || line.descriptionDirty,
           [action.key]: action.value,
         };
       }
@@ -265,7 +297,7 @@ const removeQuoteLine = (state, action) => ({
   },
 });
 
-const resetQuoteTotals = state => ({
+const resetQuoteTotals = (state) => ({
   ...state,
   totals: getDefaultState().totals,
 });
@@ -298,14 +330,14 @@ const loadCustomerAfterCreate = (state, { contactId, address, option }) => ({
   contactOptions: getUpdatedContactOptions(state, option),
 });
 
-const setCustomerLoadingState = (state, { isContactLoading }) => ({ ...state, isContactLoading });
+const setCustomerLoadingState = (state, { isContactLoading }) => ({
+  ...state,
+  isContactLoading,
+});
 
 const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   ...state,
-  accountOptions: [
-    account,
-    ...state.accountOptions,
-  ],
+  accountOptions: [account, ...state.accountOptions],
   isPageEdited: true,
 });
 
@@ -313,38 +345,31 @@ const loadJobAfterCreate = (state, { intent, ...job }) => ({
   ...state,
   quote: {
     ...state.quote,
-    lines: state.quote.lines.map(line => ({
+    lines: state.quote.lines.map((line) => ({
       ...line,
-      lineJobOptions: [
-        job,
-        ...line.lineJobOptions,
-      ],
+      lineJobOptions: [job, ...line.lineJobOptions],
     })),
   },
   newLine: {
     ...state.newLine,
-    lineJobOptions: [
-      job,
-      ...state.newLine.lineJobOptions,
-    ],
+    lineJobOptions: [job, ...state.newLine.lineJobOptions],
   },
   isPageEdited: true,
 });
 
-const setAccountLoadingState = (state, { isAccountLoading }) => (
-  { ...state, isAccountLoading }
-);
+const setAccountLoadingState = (state, { isAccountLoading }) => ({
+  ...state,
+  isAccountLoading,
+});
 
-const setJobLoadingState = (state, { isJobLoading }) => (
-  { ...state, isJobLoading }
-);
+const setJobLoadingState = (state, { isJobLoading }) => ({
+  ...state,
+  isJobLoading,
+});
 
 const loadItemOption = (state, action) => ({
   ...state,
-  itemOptions: [
-    action.response,
-    ...state.itemOptions,
-  ],
+  itemOptions: [action.response, ...state.itemOptions],
 });
 
 const changeExportPdfForm = (state, action) => ({
@@ -359,7 +384,7 @@ const calculateUnitPrice = (
   sellingPrice,
   taxAmount,
   itemIsTaxInclusive,
-  invoiceIsTaxInclusive,
+  invoiceIsTaxInclusive
 ) => {
   const itemTaxExclusivePrice = itemIsTaxInclusive
     ? sellingPrice - taxAmount
@@ -392,7 +417,7 @@ const loadItemSellingDetails = (state, action) => ({
         Number(sellingPrice),
         Number(taxAmount),
         isTaxInclusive,
-        state.quote.isTaxInclusive,
+        state.quote.isTaxInclusive
       );
 
       return {

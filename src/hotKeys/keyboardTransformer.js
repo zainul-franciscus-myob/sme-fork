@@ -1,8 +1,8 @@
-
-const mergeKeyboardHandlers = (keymap, handlers) => Object.entries(keymap)
-  .map(([key, value]) => (handlers[key] && { [value]: handlers[key] }))
-  .filter(Boolean)
-  .reduce((acc, obj) => ({ ...acc, ...obj }), {});
+const mergeKeyboardHandlers = (keymap, handlers) =>
+  Object.entries(keymap)
+    .map(([key, value]) => handlers[key] && { [value]: handlers[key] })
+    .filter(Boolean)
+    .reduce((acc, obj) => ({ ...acc, ...obj }), {});
 
 const keyboardTransformer = (keymap, handlers) => {
   const transformedKeyboard = mergeKeyboardHandlers(keymap, handlers);

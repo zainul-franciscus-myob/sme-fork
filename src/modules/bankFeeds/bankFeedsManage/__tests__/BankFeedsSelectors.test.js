@@ -1,4 +1,7 @@
-import { getDeleteBankFeedUrlParams, getSaveBankFeedsPayload } from '../BankFeedsSelectors';
+import {
+  getDeleteBankFeedUrlParams,
+  getSaveBankFeedsPayload,
+} from '../BankFeedsSelectors';
 
 describe('BankFeedsSelectors', () => {
   describe('getDeleteBankFeedUrlParams', () => {

@@ -10,37 +10,44 @@ import styles from './EmployeeRecalculatePayTableRow.module.css';
 const handleInputChange = (handler, employeeId, payItemId) => (e) => {
   const { name, rawValue } = e.target;
   handler({
-    employeeId, payItemId, key: name, value: rawValue,
+    employeeId,
+    payItemId,
+    key: name,
+    value: rawValue,
   });
 };
 
-const LeaveWarningLine = ({
-  label,
-  value,
-}) => (
+const LeaveWarningLine = ({ label, value }) => (
   <>
     <br />
     {`${label}: `}
-    <strong>
-      {`${value} hrs`}
-    </strong>
+    <strong>{`${value} hrs`}</strong>
   </>
 );
 
-const getWarningMessage = (leaveWarning, name) => (
-  leaveWarning
-    ? (
-      <p>
-        {`Paying this leave will result in a negative leave balance for ${name}.`}
-        <br />
-        <LeaveWarningLine label="Current balance" value={leaveWarning.currentLeaveBalance} />
-        <LeaveWarningLine label="Accrued this pay" value={leaveWarning.leaveAccruedThisPay} />
-        <LeaveWarningLine label="Leave being paid" value={leaveWarning.leaveBeingPaid} />
-        <LeaveWarningLine label="Projected balance" value={leaveWarning.projectedLeaveBalance} />
-      </p>
-    )
-    : null
-);
+const getWarningMessage = (leaveWarning, name) =>
+  leaveWarning ? (
+    <p>
+      {`Paying this leave will result in a negative leave balance for ${name}.`}
+      <br />
+      <LeaveWarningLine
+        label="Current balance"
+        value={leaveWarning.currentLeaveBalance}
+      />
+      <LeaveWarningLine
+        label="Accrued this pay"
+        value={leaveWarning.leaveAccruedThisPay}
+      />
+      <LeaveWarningLine
+        label="Leave being paid"
+        value={leaveWarning.leaveBeingPaid}
+      />
+      <LeaveWarningLine
+        label="Projected balance"
+        value={leaveWarning.projectedLeaveBalance}
+      />
+    </p>
+  ) : null;
 
 const AmountInputField = ({
   value,
@@ -58,7 +65,7 @@ const AmountInputField = ({
       hideLabel
       textAlign="right"
       value={value}
-      disabled={isSubmitting || (type === 'Entitlement' || type === 'HourlyWage')}
+      disabled={isSubmitting || type === 'Entitlement' || type === 'HourlyWage'}
       onChange={handleInputChange(onChange, employeeId, payItemId)}
       onBlur={handleInputChange(onBlur, employeeId, payItemId)}
     />
@@ -84,7 +91,10 @@ const HoursInputField = ({
     value={value}
     onChange={handleInputChange(onChange, employeeId, payItemId)}
     onBlur={handleInputChange(onBlur, employeeId, payItemId)}
-    warningBody={getWarningMessage(getLeaveWarning(value, leaveWarning), employeeName)}
+    warningBody={getWarningMessage(
+      getLeaveWarning(value, leaveWarning),
+      employeeName
+    )}
     disabled={isSubmitting}
   />
 );
@@ -107,12 +117,7 @@ const getAddJobLinkIcon = (jobs) => {
   return <Icons.Add />;
 };
 
-const AddJobLink = ({
-  onAddJobClick,
-  icon,
-  text,
-  isSubmitting,
-}) => (
+const AddJobLink = ({ onAddJobClick, icon, text, isSubmitting }) => (
   <Button
     key="addJob"
     type="link"
@@ -123,7 +128,6 @@ const AddJobLink = ({
     {text}
   </Button>
 );
-
 
 const EmployeeRecalculatePayTableRow = ({
   tableConfig,
@@ -145,7 +149,8 @@ const EmployeeRecalculatePayTableRow = ({
       onBlur={onBlur}
       leaveWarning={entry.leaveWarning}
       isSubmitting={entry.isSubmitting}
-    />);
+    />
+  );
 
   const amountRowItem = (
     <AmountInputField
@@ -156,29 +161,34 @@ const EmployeeRecalculatePayTableRow = ({
       isSubmitting={entry.isSubmitting}
       onChange={onChange}
       onBlur={onBlur}
-    />);
+    />
+  );
 
   const onAddJobClicked = () => {
     onAddJob({ payItem: entry, employeeId });
   };
 
-  const addJobRowItem = (entry.type !== 'Entitlement' && <AddJobLink
-    onAddJobClick={onAddJobClicked}
-    text={getAddJobLinkText(entry.jobs)}
-    icon={getAddJobLinkIcon(entry.jobs)}
-    isSubmitting={entry.isSubmitting}
-  />);
+  const addJobRowItem = entry.type !== 'Entitlement' && (
+    <AddJobLink
+      onAddJobClick={onAddJobClicked}
+      text={getAddJobLinkText(entry.jobs)}
+      icon={getAddJobLinkIcon(entry.jobs)}
+      isSubmitting={entry.isSubmitting}
+    />
+  );
 
   return (
     <Table.Row key={entry.payItemId}>
       <Table.RowItem {...tableConfig.name} indentLevel={1}>
         {entry.payItemName}
       </Table.RowItem>
-      {entry.shouldShowHours
-      && (<Table.RowItem {...tableConfig.hours}>{hourRowItem}</Table.RowItem>)}
+      {entry.shouldShowHours && (
+        <Table.RowItem {...tableConfig.hours}>{hourRowItem}</Table.RowItem>
+      )}
       <Table.RowItem {...tableConfig.amount}>{amountRowItem}</Table.RowItem>
-      {isPayrollJobColumnEnabled
-      && (<Table.RowItem {...tableConfig.job}>{addJobRowItem}</Table.RowItem>)}
+      {isPayrollJobColumnEnabled && (
+        <Table.RowItem {...tableConfig.job}>{addJobRowItem}</Table.RowItem>
+      )}
     </Table.Row>
   );
 };

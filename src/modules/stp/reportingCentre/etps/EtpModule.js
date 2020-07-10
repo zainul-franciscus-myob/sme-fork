@@ -1,7 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getStpDeclarationContext, getStpTerminationsLink } from './EtpSelector';
+import {
+  getStpDeclarationContext,
+  getStpTerminationsLink,
+} from './EtpSelector';
 import EtpView from './components/EtpView';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import Store from '../../../../store/Store';
@@ -96,5 +99,5 @@ export default class EtpModule {
     );
 
     this.setRootView(wrappedView);
-  }
+  };
 }

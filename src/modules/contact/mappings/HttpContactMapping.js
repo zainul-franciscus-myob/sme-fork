@@ -28,11 +28,13 @@ const ContactListMapping = {
   },
   [LOAD_NEW_CONTACT]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/contact/load_new_contact_detail`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/contact/load_new_contact_detail`,
   },
   [LOAD_CONTACT_DETAIL]: {
     method: 'GET',
-    getPath: ({ businessId, contactId }) => `/${businessId}/contact/load_contact_detail/${contactId}`,
+    getPath: ({ businessId, contactId }) =>
+      `/${businessId}/contact/load_contact_detail/${contactId}`,
   },
   [CREATE_CONTACT]: {
     method: 'POST',
@@ -40,15 +42,18 @@ const ContactListMapping = {
   },
   [UPDATE_CONTACT]: {
     method: 'PUT',
-    getPath: ({ businessId, contactId }) => `/${businessId}/contact/update_contact_detail/${contactId}`,
+    getPath: ({ businessId, contactId }) =>
+      `/${businessId}/contact/update_contact_detail/${contactId}`,
   },
   [DELETE_CONTACT]: {
     method: 'DELETE',
-    getPath: ({ businessId, contactId }) => `/${businessId}/contact/delete_contact/${contactId}`,
+    getPath: ({ businessId, contactId }) =>
+      `/${businessId}/contact/delete_contact/${contactId}`,
   },
   [LOAD_CONTACT_MODAL]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/contact/load_new_contact_modal`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/contact/load_new_contact_modal`,
   },
   [CREATE_CONTACT_MODAL]: {
     method: 'POST',
@@ -56,11 +61,13 @@ const ContactListMapping = {
   },
   [LOAD_ACCOUNT_AFTER_CREATE]: {
     method: 'GET',
-    getPath: ({ businessId, accountId }) => `/${businessId}/contact/load_account/${accountId}`,
+    getPath: ({ businessId, accountId }) =>
+      `/${businessId}/contact/load_account/${accountId}`,
   },
   [LOAD_ABN_VALIDATION_RESULT]: {
     method: 'GET',
-    getPath: ({ businessId, abn }) => `/${businessId}/contact/validate_abn/${abn}`,
+    getPath: ({ businessId, abn }) =>
+      `/${businessId}/contact/validate_abn/${abn}`,
   },
 };
 

@@ -6,7 +6,10 @@ import AmountInput from '../../../../../../components/autoFormatter/AmountInput/
 const handleInputChange = (handler, payItemId, payItemType) => (e) => {
   const { name, rawValue } = e.target;
   handler({
-    payItemId, payItemType, key: name, value: rawValue,
+    payItemId,
+    payItemType,
+    key: name,
+    value: rawValue,
   });
 };
 
@@ -15,8 +18,15 @@ const handleOnClick = (handler, payItemId, payItemType) => () => {
 };
 
 const renderAmountInputField = ({
-  name, label, value, numeralDecimalScaleMin, numeralDecimalScaleMax,
-  disabled, payItemId, payItemType, onChange,
+  name,
+  label,
+  value,
+  numeralDecimalScaleMin,
+  numeralDecimalScaleMax,
+  disabled,
+  payItemId,
+  payItemType,
+  onChange,
 }) => (
   <AmountInput
     name={name}
@@ -35,44 +45,40 @@ const renderAmountInputField = ({
 
 const PayrollPayHistoryDetailsTableRow = ({
   tableConfig,
-  entry: {
-    payItemId,
-    payItemType,
-    hours,
-    amount,
-    name,
-    isHours,
-    isAmount,
-  },
+  entry: { payItemId, payItemType, hours, amount, name, isHours, isAmount },
   disabled,
   onChange,
   onClick,
 }) => {
-  const hourRowItem = isHours && renderAmountInputField({
-    name: 'hours',
-    label: 'Activity (hrs)',
-    value: hours,
-    numeralIntegerScale: 13,
-    numeralDecimalScaleMin: 2,
-    numeralDecimalScaleMax: 3,
-    disabled,
-    payItemId,
-    payItemType,
-    onChange,
-  });
+  const hourRowItem =
+    isHours &&
+    renderAmountInputField({
+      name: 'hours',
+      label: 'Activity (hrs)',
+      value: hours,
+      numeralIntegerScale: 13,
+      numeralDecimalScaleMin: 2,
+      numeralDecimalScaleMax: 3,
+      disabled,
+      payItemId,
+      payItemType,
+      onChange,
+    });
 
-  const amountRowItem = isAmount && renderAmountInputField({
-    name: 'amount',
-    label: 'Activity ($)',
-    value: amount,
-    numeralIntegerScale: 26,
-    numeralDecimalScaleMin: 2,
-    numeralDecimalScaleMax: 2,
-    disabled,
-    payItemId,
-    payItemType,
-    onChange,
-  });
+  const amountRowItem =
+    isAmount &&
+    renderAmountInputField({
+      name: 'amount',
+      label: 'Activity ($)',
+      value: amount,
+      numeralIntegerScale: 26,
+      numeralDecimalScaleMin: 2,
+      numeralDecimalScaleMax: 2,
+      disabled,
+      payItemId,
+      payItemType,
+      onChange,
+    });
 
   const tableConfigWithConditionalHeaders = {
     ...tableConfig,
@@ -89,10 +95,19 @@ const PayrollPayHistoryDetailsTableRow = ({
   return (
     <Table.Row key={payItemId}>
       <Table.RowItem {...tableConfig.name} indentLevel={1}>
-        <Button type="link" onClick={handleOnClick(onClick, payItemId, payItemType)}>{name}</Button>
+        <Button
+          type="link"
+          onClick={handleOnClick(onClick, payItemId, payItemType)}
+        >
+          {name}
+        </Button>
       </Table.RowItem>
-      <Table.RowItem {...tableConfigWithConditionalHeaders.hours}>{hourRowItem}</Table.RowItem>
-      <Table.RowItem {...tableConfigWithConditionalHeaders.amount}>{amountRowItem}</Table.RowItem>
+      <Table.RowItem {...tableConfigWithConditionalHeaders.hours}>
+        {hourRowItem}
+      </Table.RowItem>
+      <Table.RowItem {...tableConfigWithConditionalHeaders.amount}>
+        {amountRowItem}
+      </Table.RowItem>
     </Table.Row>
   );
 };

@@ -1,6 +1,4 @@
-import {
-  Alert, Button, PageHead,
-} from '@myob/myob-widgets';
+import { Alert, Button, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -140,14 +138,14 @@ const TemplateView = ({
       <PreviewTemplate
         alert={alertComponent}
         pageHead={pageHead}
-        details={(
+        details={
           <TemplateDetails
             onUpdateTemplateOptions={onUpdateTemplateOptions}
             onFileSelected={onFileSelected}
             onFileRemoved={onFileRemoved}
             onEditBusinessDetails={onEditBusinessDetails}
           />
-        )}
+        }
         preview={preview}
         previewHeader={previewHeader}
         previewOriginalWidth={previewOriginalWidth}
@@ -158,7 +156,7 @@ const TemplateView = ({
   return <PageView view={view} isLoading={isLoading} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   featureColour: getFeatureColour(state),
   headerTextColour: getHeaderTextColour(state),
   useAddressEnvelopePosition: getUseAddressEnvelopePosition(state),

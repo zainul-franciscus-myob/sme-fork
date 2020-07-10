@@ -16,9 +16,7 @@ const NoResultPageState = ({
     image: showNoResultImage ? <Icon.NoResultFolder /> : undefined,
   };
 
-  return (
-    <PageState {...pageStateProps} />
-  );
+  return <PageState {...pageStateProps} />;
 };
 
 export default NoResultPageState;

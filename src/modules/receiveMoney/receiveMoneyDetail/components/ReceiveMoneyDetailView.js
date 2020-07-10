@@ -1,11 +1,12 @@
-import {
-  Alert,
-} from '@myob/myob-widgets';
+import { Alert } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getLoadingState, getModal, getPageTitle,
+  getAlert,
+  getLoadingState,
+  getModal,
+  getPageTitle,
 } from '../selectors/receiveMoneyDetailSelectors';
 import LineItemTemplate from '../../../../components/Feelix/LineItemTemplate/LineItemTemplate';
 import PageView from '../../../../components/PageView/PageView';
@@ -69,20 +70,18 @@ const ReceiveMoneyDetailView = ({
         actions={actions}
         alert={alertComponent}
       >
-        {
-          modal && (
-            <ReceiveMoneyDetailModal
-              modal={modal}
-              onDismissModal={onDismissModal}
-              onConfirmSave={onSaveButtonClick}
-              onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
-              onConfirmCancelButtonClick={onConfirmCancelButtonClick}
-            />
-          )
-        }
+        {modal && (
+          <ReceiveMoneyDetailModal
+            modal={modal}
+            onDismissModal={onDismissModal}
+            onConfirmSave={onSaveButtonClick}
+            onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
+            onConfirmCancelButtonClick={onConfirmCancelButtonClick}
+          />
+        )}
         {accountModal}
         {contactModal}
-        { jobModal }
+        {jobModal}
         <ReceiveMoneyDetailTable
           onUpdateRow={onUpdateRow}
           onAddRow={onAddRow}
@@ -98,7 +97,7 @@ const ReceiveMoneyDetailView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   modal: getModal(state),
   loadingState: getLoadingState(state),

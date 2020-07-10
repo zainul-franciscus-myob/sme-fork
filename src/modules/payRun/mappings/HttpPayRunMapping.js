@@ -31,7 +31,8 @@ const PayRunMapping = {
   },
   [VALIDATE_STP_REGISTRATION]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/stp/registration_items_validation_for_pay_run`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/stp/registration_items_validation_for_pay_run`,
   },
   [RECALCULATE_PAY]: {
     method: 'POST',
@@ -47,7 +48,8 @@ const PayRunMapping = {
   },
   [VALIDATE_PAY_PERIOD_EMPLOYEE_LIMIT]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/payRun/validate_pay_period_employee_limit`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/payRun/validate_pay_period_employee_limit`,
   },
   [GET_DETAIL_JOB_LIST]: {
     method: 'GET',
@@ -55,9 +57,8 @@ const PayRunMapping = {
   },
   [EXPORT_TRANSACTION_PDF]: {
     method: 'GET',
-    getPath: ({ businessId, transactionId }) => (
-      `/${businessId}/employeePay/load_employee_pay_pdf/${transactionId}`
-    ),
+    getPath: ({ businessId, transactionId }) =>
+      `/${businessId}/employeePay/load_employee_pay_pdf/${transactionId}`,
   },
   [SAVE_DRAFT]: {
     method: 'POST',
@@ -65,7 +66,8 @@ const PayRunMapping = {
   },
   [LOAD_STP_REGISTRATION_STATUS]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/payRun/load_stp_registration_status`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/payRun/load_stp_registration_status`,
   },
   [LOAD_TIMESHEETS]: {
     method: 'GET',
@@ -73,7 +75,8 @@ const PayRunMapping = {
   },
   [PREVIEW_PAY_RUN_ACTIVITY]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/payRun/preview_pay_run_activity`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/payRun/preview_pay_run_activity`,
   },
   [PREVIEW_PAY_DETAILS]: {
     method: 'GET',

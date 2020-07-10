@@ -14,14 +14,15 @@ const getMenuLink = (url, label, onMenuLinkClick) => (
   />
 );
 
-const getItems = (urls, onMenuLinkClick) => [
-  urls.contactList && getMenuLink(urls.contactList, 'All contacts', onMenuLinkClick),
-  urls.contactCreate && getMenuLink(urls.contactCreate, 'Create contact', onMenuLinkClick),
-].filter(Boolean);
+const getItems = (urls, onMenuLinkClick) =>
+  [
+    urls.contactList &&
+      getMenuLink(urls.contactList, 'All contacts', onMenuLinkClick),
+    urls.contactCreate &&
+      getMenuLink(urls.contactCreate, 'Create contact', onMenuLinkClick),
+  ].filter(Boolean);
 
-const ContactMenu = ({
-  urls, activeNav, onMenuSelect, onMenuLinkClick,
-}) => (
+const ContactMenu = ({ urls, activeNav, onMenuSelect, onMenuLinkClick }) => (
   <Navigation.Menu
     label="Contacts"
     icon={<Icons.Caret />}

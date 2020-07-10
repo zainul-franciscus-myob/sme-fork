@@ -34,31 +34,40 @@ describe('tasksService', () => {
 
     it('gives get tasks list', async () => {
       await closeTasks({
-        dispatcher, integration, store, context,
+        dispatcher,
+        integration,
+        store,
+        context,
       });
 
       expect(integration.write).toBeCalledWith(
         expect.objectContaining({
           intent: CLOSE_TASKS,
-        }),
+        })
       );
     });
 
     it('gives params', async () => {
       await closeTasks({
-        dispatcher, integration, store, context,
+        dispatcher,
+        integration,
+        store,
+        context,
       });
 
       expect(integration.write).toBeCalledWith(
         expect.objectContaining({
           urlParams: { businessId, closeEvent },
-        }),
+        })
       );
     });
 
     it('gives tasks to the redux store', async () => {
       await closeTasks({
-        dispatcher, integration, store, context,
+        dispatcher,
+        integration,
+        store,
+        context,
       });
 
       expect(dispatcher.updateTasks).toBeCalledWith(data);
@@ -70,7 +79,10 @@ describe('tasksService', () => {
 
       it('executes closes the tasks', async () => {
         await closeTasks({
-          dispatcher, integration, store, context: withDismissableEvent,
+          dispatcher,
+          integration,
+          store,
+          context: withDismissableEvent,
         });
 
         expect(integration.write).toBeCalled();

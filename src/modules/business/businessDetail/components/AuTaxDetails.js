@@ -6,14 +6,12 @@ import { getAuTaxDetails } from '../businessDetailSelectors';
 import AbnInput from '../../../../components/autoFormatter/AbnInput/AbnInput';
 import AcnInput from '../../../../components/autoFormatter/AcnInput/AcnInput';
 
-const onInputChange = handler => (e) => {
+const onInputChange = (handler) => (e) => {
   const { value, name } = e.target;
   handler({ key: name, value });
 };
 
-const AuTaxDetails = ({
-  abn, gstBranchNumber, acn, onChange,
-}) => (
+const AuTaxDetails = ({ abn, gstBranchNumber, acn, onChange }) => (
   <React.Fragment>
     <AbnInput
       name="abn"
@@ -26,12 +24,12 @@ const AuTaxDetails = ({
     <Input
       name="gstBranchNumber"
       label="GST branch number"
-      labelAccessory={(
+      labelAccessory={
         <Tooltip triggerContent={<Icons.Info />}>
           {`If you've registered each branch of your business separately for GST,
           enter the number given by the ATO for this branch`}
         </Tooltip>
-      )}
+      }
       value={gstBranchNumber}
       onChange={onInputChange(onChange)}
       width="sm"
@@ -47,6 +45,6 @@ const AuTaxDetails = ({
   </React.Fragment>
 );
 
-const mapStateToProps = state => getAuTaxDetails(state);
+const mapStateToProps = (state) => getAuTaxDetails(state);
 
 export default connect(mapStateToProps)(AuTaxDetails);

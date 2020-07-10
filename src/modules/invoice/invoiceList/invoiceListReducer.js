@@ -47,19 +47,39 @@ const getInitialState = () => ({
   },
 });
 
-const resetState = () => (getInitialState());
+const resetState = () => getInitialState();
 
 const shouldSetInitialStateWithQueryParams = (context) => {
   const {
-    dateFrom, dateTo, keywords, customerId, status, orderBy, sortOrder,
+    dateFrom,
+    dateTo,
+    keywords,
+    customerId,
+    status,
+    orderBy,
+    sortOrder,
   } = context;
 
-  return dateFrom || dateTo || keywords || customerId || status || orderBy || sortOrder;
+  return (
+    dateFrom ||
+    dateTo ||
+    keywords ||
+    customerId ||
+    status ||
+    orderBy ||
+    sortOrder
+  );
 };
 
 const setInitialStateWithQueryParams = (context, initialState) => {
   const {
-    dateFrom, dateTo, keywords, customerId, status, orderBy, sortOrder,
+    dateFrom,
+    dateTo,
+    keywords,
+    customerId,
+    status,
+    orderBy,
+    sortOrder,
   } = context;
 
   const updatedFilterOptions = {
@@ -70,7 +90,7 @@ const setInitialStateWithQueryParams = (context, initialState) => {
     status: status || initialState.defaultFilterOptions.status,
   };
 
-  return ({
+  return {
     ...initialState,
     ...context,
     filterOptions: {
@@ -79,12 +99,11 @@ const setInitialStateWithQueryParams = (context, initialState) => {
     },
     orderBy: orderBy || initialState.orderBy,
     sortOrder: sortOrder || initialState.sortOrder,
-  });
+  };
 };
 
-const shouldSetInitialStateWithSettings = (settings, initialState) => (
-  settings.settingsVersion === initialState.settingsVersion
-);
+const shouldSetInitialStateWithSettings = (settings, initialState) =>
+  settings.settingsVersion === initialState.settingsVersion;
 
 const setInitialStateWithSettings = (context, settings, initialState) => ({
   ...initialState,
@@ -94,10 +113,7 @@ const setInitialStateWithSettings = (context, settings, initialState) => ({
   orderBy: settings.orderBy,
 });
 
-const setInitialState = (_, {
-  context,
-  settings = {},
-}) => {
+const setInitialState = (_, { context, settings = {} }) => {
   const initialState = getInitialState();
 
   if (shouldSetInitialStateWithQueryParams(context)) {
@@ -169,17 +185,14 @@ const setIsNextPageLoadingState = (state, action) => ({
 });
 
 const loadNextPage = (state, action) => {
-  const filterUniqueEntries = action.entries.filter(
-    ({ id }) => state.entries.every(entry => entry.id !== id),
+  const filterUniqueEntries = action.entries.filter(({ id }) =>
+    state.entries.every((entry) => entry.id !== id)
   );
-  return ({
+  return {
     ...state,
-    entries: [
-      ...state.entries,
-      ...filterUniqueEntries,
-    ],
+    entries: [...state.entries, ...filterUniqueEntries],
     pagination: action.pagination,
-  });
+  };
 };
 
 const handlers = {

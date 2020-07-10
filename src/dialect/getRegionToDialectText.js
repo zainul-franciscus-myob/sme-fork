@@ -6,7 +6,7 @@ const regions = {
   nz,
 };
 
-const getRegionToDialectText = region => (string) => {
+const getRegionToDialectText = (region) => (string) => {
   const selectedTextMapping = regions[region.toLowerCase()];
 
   return selectedTextMapping ? selectedTextMapping[string] : '';

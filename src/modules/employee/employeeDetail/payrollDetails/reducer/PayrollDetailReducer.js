@@ -14,7 +14,10 @@ const isTerminationDateNewlySet = (state, action) => {
     return false;
   }
 
-  if (action.key === 'terminationDate' && !state.payrollDetails.employmentDetails.terminationDate) {
+  if (
+    action.key === 'terminationDate' &&
+    !state.payrollDetails.employmentDetails.terminationDate
+  ) {
     return true;
   }
 
@@ -57,8 +60,9 @@ const addPayrollDeductionPayItem = (state, { payItem }) => {
 };
 
 const removePayrollDeductionPayItem = (state, action) => {
-  const updatedPayItems = state.payrollDetails.deductionDetails.deductionPayItems
-    .filter(payItem => payItem.id !== action.id);
+  const updatedPayItems = state.payrollDetails.deductionDetails.deductionPayItems.filter(
+    (payItem) => payItem.id !== action.id
+  );
   const partialDeductionDetails = { deductionPayItems: updatedPayItems };
 
   return setPayrollDeductionState(state, partialDeductionDetails);
@@ -78,12 +82,13 @@ const setPayrollAllocatedLeaveState = (state, partialAllocatedLeave) => ({
 
 const addAllocatedLeaveItem = (state, action) => {
   const { leaveItem } = action;
-  const allLeavePayItems = state.payrollDetails.leaveDetails.allLeavePayItems ?? [];
+  const allLeavePayItems =
+    state.payrollDetails.leaveDetails.allLeavePayItems ?? [];
 
-  const correspondingLeavePayItem = allLeavePayItems
-    .find(leavePayItem => leavePayItem.payItemId === leaveItem.id)
-  // if can't find them, meaning the item was just added
-  ?? {
+  const correspondingLeavePayItem = allLeavePayItems.find(
+    (leavePayItem) => leavePayItem.payItemId === leaveItem.id
+  ) ?? {
+    // if can't find them, meaning the item was just added
     payItemId: leaveItem.id,
     carryOver: '0',
     balanceAdjustment: '0',
@@ -104,8 +109,9 @@ const addAllocatedLeaveItem = (state, action) => {
 };
 
 const removeAllocatedLeaveItem = (state, action) => {
-  const updatedLeaveItems = state.payrollDetails.leaveDetails.allocatedLeavePayItems
-    .filter(leaveItem => leaveItem.payItemId !== action.payItemId);
+  const updatedLeaveItems = state.payrollDetails.leaveDetails.allocatedLeavePayItems.filter(
+    (leaveItem) => leaveItem.payItemId !== action.payItemId
+  );
   const partialAllocatedLeave = { allocatedLeavePayItems: updatedLeaveItems };
 
   return setPayrollAllocatedLeaveState(state, partialAllocatedLeave);
@@ -114,15 +120,17 @@ const removeAllocatedLeaveItem = (state, action) => {
 const updateAllocatedLeaveItemBalanceAdjustment = (state, action) => {
   const { payItemId, value } = action;
   const updatedLeaveItems = state.payrollDetails.leaveDetails.allocatedLeavePayItems.map(
-    item => (item.payItemId === payItemId ? { ...item, balanceAdjustment: value } : item),
+    (item) =>
+      item.payItemId === payItemId
+        ? { ...item, balanceAdjustment: value }
+        : item
   );
   const partialAllocatedLeave = { allocatedLeavePayItems: updatedLeaveItems };
   return setPayrollAllocatedLeaveState(state, partialAllocatedLeave);
 };
 
-const setAllocatedLeaveItemModal = (state, action) => (
-  setPayrollAllocatedLeaveState(state, { modal: action.modal })
-);
+const setAllocatedLeaveItemModal = (state, action) =>
+  setPayrollAllocatedLeaveState(state, { modal: action.modal });
 
 const setShowAddPayItemButton = (state, action) => ({
   ...state,

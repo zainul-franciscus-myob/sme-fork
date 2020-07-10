@@ -10,13 +10,12 @@ const getBalancesForApplyRule = (state, applyResults) => {
   } = state;
 
   const allocatedIds = applyResults
-    .filter(({ type }) => [
-      StatusTypes.singleAllocation,
-      StatusTypes.splitAllocation,
-    ].includes(type))
-    .map(allocatedEntry => allocatedEntry.transactionId);
+    .filter(({ type }) =>
+      [StatusTypes.singleAllocation, StatusTypes.splitAllocation].includes(type)
+    )
+    .map((allocatedEntry) => allocatedEntry.transactionId);
   const amount = entries
-    .filter(entry => allocatedIds.includes(entry.transactionId))
+    .filter((entry) => allocatedIds.includes(entry.transactionId))
     .reduce((total, entry) => {
       const { withdrawal, deposit } = entry;
       const entryAmount = -withdrawal || deposit;
@@ -31,7 +30,8 @@ const getBalancesForApplyRule = (state, applyResults) => {
   });
 };
 
-const findEntryById = (entries, id) => entries.find(entry => entry.transactionId === id);
+const findEntryById = (entries, id) =>
+  entries.find((entry) => entry.transactionId === id);
 
 // eslint-disable-next-line import/prefer-default-export
 export const appliedTransactions = (state, action) => ({

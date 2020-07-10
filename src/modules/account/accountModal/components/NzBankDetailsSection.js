@@ -12,7 +12,7 @@ import {
 import AutoFormatter from '../../../../components/autoFormatter/AutoFormatterCore/AutoFormatter';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
-const handleFormattedInputChange = handler => (e) => {
+const handleFormattedInputChange = (handler) => (e) => {
   const { name, rawValue } = e.target;
   handler({ key: name, value: rawValue });
 };
@@ -76,7 +76,7 @@ const AuBankDetailsSection = ({
   </React.Fragment>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accountNumber: getBankAccountNumberNz(state),
   accountName: getBankAccountNameNz(state),
   bankCode: getStatementCode(state),

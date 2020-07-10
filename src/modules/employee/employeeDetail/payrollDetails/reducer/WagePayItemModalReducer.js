@@ -65,13 +65,11 @@ const setWagePayItemModalState = (state, modal) => ({
   },
 });
 
-const setWagePayItemModalLoadingState = (state, { isLoading }) => (
-  setWagePayItemModalState(state, { isLoading })
-);
+const setWagePayItemModalLoadingState = (state, { isLoading }) =>
+  setWagePayItemModalState(state, { isLoading });
 
-const setWagePayItemModalSubmittingState = (state, { isSubmitting }) => (
-  setWagePayItemModalState(state, { isSubmitting })
-);
+const setWagePayItemModalSubmittingState = (state, { isSubmitting }) =>
+  setWagePayItemModalState(state, { isSubmitting });
 
 const loadWagePayItemModal = (state, { response }) => ({
   ...state,
@@ -85,9 +83,10 @@ const loadWagePayItemModal = (state, { response }) => ({
   },
 });
 
-const createWagePayItemModal = (state, {
-  response: { wagePayItem, wagePayItems },
-}) => ({
+const createWagePayItemModal = (
+  state,
+  { response: { wagePayItem, wagePayItems } }
+) => ({
   ...state,
   payrollDetails: {
     ...state.payrollDetails,
@@ -103,12 +102,14 @@ const createWagePayItemModal = (state, {
   isPageEdited: true,
 });
 
-const updateWagePayItemModal = (state, {
-  response: { wagePayItem, wagePayItems },
-}) => {
+const updateWagePayItemModal = (
+  state,
+  { response: { wagePayItem, wagePayItems } }
+) => {
   const allocatedWagePayItems = getAllocatedWagePayItems(state);
-  const updatedWagePayItems = allocatedWagePayItems
-    .map(payItem => (payItem.id === wagePayItem.id ? wagePayItem : payItem));
+  const updatedWagePayItems = allocatedWagePayItems.map((payItem) =>
+    payItem.id === wagePayItem.id ? wagePayItem : payItem
+  );
 
   return {
     ...state,
@@ -123,14 +124,13 @@ const updateWagePayItemModal = (state, {
   };
 };
 
-const closeWagePayItemModal = state => ({
+const closeWagePayItemModal = (state) => ({
   ...state,
   wagePayItemModal: undefined,
 });
 
-const setWagePayItemModalAlert = (state, { alert }) => (
-  setWagePayItemModalState(state, { alert })
-);
+const setWagePayItemModalAlert = (state, { alert }) =>
+  setWagePayItemModalState(state, { alert });
 
 const updateWagePayItemModalDetails = (state, { key, value }) => ({
   ...state,
@@ -172,7 +172,7 @@ const removeWagePayItemModalEmployee = (state, { id }) => ({
     wage: {
       ...state.wagePayItemModal.wage,
       selectedEmployees: state.wagePayItemModal.wage.selectedEmployees.filter(
-        employee => employee.id !== id,
+        (employee) => employee.id !== id
       ),
     },
   },
@@ -199,12 +199,11 @@ const removeWagePayItemModalExemption = (state, { id }) => ({
     wage: {
       ...state.wagePayItemModal.wage,
       selectedExemptions: state.wagePayItemModal.wage.selectedExemptions.filter(
-        exemption => exemption.id !== id,
+        (exemption) => exemption.id !== id
       ),
     },
   },
 });
-
 
 const toggleJobKeeper = (state, { isJobKeeper }) => {
   const jobKeeperPayItemValues = {
@@ -241,17 +240,18 @@ const toggleJobKeeper = (state, { isJobKeeper }) => {
   return state;
 };
 
-const markWageAsJobKeeper = state => {
+const markWageAsJobKeeper = (state) => {
   const jobKeeperPayItemValues = {
     name: 'JOBKEEPER-TOPUP',
     atoReportingCategory: 'AllowanceOther',
     payBasis: 'Salary',
   };
 
-  if (state.wagePayItemModal.wage.name === jobKeeperPayItemValues.name
-    && state.wagePayItemModal.wage.atoReportingCategory
-      === jobKeeperPayItemValues.atoReportingCategory
-    && state.wagePayItemModal.wage.payBasis === jobKeeperPayItemValues.payBasis
+  if (
+    state.wagePayItemModal.wage.name === jobKeeperPayItemValues.name &&
+    state.wagePayItemModal.wage.atoReportingCategory ===
+      jobKeeperPayItemValues.atoReportingCategory &&
+    state.wagePayItemModal.wage.payBasis === jobKeeperPayItemValues.payBasis
   ) {
     return {
       ...state,

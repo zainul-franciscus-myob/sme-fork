@@ -2,15 +2,9 @@ import React from 'react';
 
 import UploadFile from './UploadFile';
 
-const ImportGeneralJournalsDetail = ({
-  onFileSelected,
-  onFileRemove,
-}) => (
+const ImportGeneralJournalsDetail = ({ onFileSelected, onFileRemove }) => (
   <>
-    <UploadFile
-      onFileSelected={onFileSelected}
-      onFileRemove={onFileRemove}
-    />
+    <UploadFile onFileSelected={onFileSelected} onFileRemove={onFileRemove} />
   </>
 );
 

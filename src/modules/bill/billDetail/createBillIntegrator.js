@@ -34,7 +34,10 @@ import {
   getUnlinkInTrayDocumentParams,
   getUnlinkInTrayDocumentUrlParams,
 } from './selectors/BillIntegratorSelectors';
-import { getExportPdfQueryParams, getExportPdfUrlParams } from './selectors/exportPdfSelectors';
+import {
+  getExportPdfQueryParams,
+  getExportPdfUrlParams,
+} from './selectors/exportPdfSelectors';
 
 const createBillIntegrator = (store, integration) => ({
   loadBill: ({ onSuccess, onFailure }) => {
@@ -96,7 +99,10 @@ const createBillIntegrator = (store, integration) => ({
     const urlParams = getLoadSupplierUrlParams(state, id);
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -114,9 +120,7 @@ const createBillIntegrator = (store, integration) => ({
     });
   },
 
-  loadItemDetailForLine: ({
-    index, itemId, onSuccess, onFailure,
-  }) => {
+  loadItemDetailForLine: ({ index, itemId, onSuccess, onFailure }) => {
     const state = store.getState();
     const urlParams = getCalculateBillLinesUrlParams(state);
     const content = getCalculateBillItemChangeContent(state, { index, itemId });
@@ -150,7 +154,11 @@ const createBillIntegrator = (store, integration) => ({
     const params = getExportPdfQueryParams(state);
 
     integration.readFile({
-      intent, urlParams, params, onSuccess, onFailure,
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -174,7 +182,10 @@ const createBillIntegrator = (store, integration) => ({
     const urlParams = getLoadAddedAccountUrlParams(state, id);
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -184,7 +195,10 @@ const createBillIntegrator = (store, integration) => ({
     const urlParams = getLoadAddedJobUrlParams(state, id);
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -212,9 +226,7 @@ const createBillIntegrator = (store, integration) => ({
     });
   },
 
-  linkInTrayDocument: ({
-    onSuccess, onFailure, linkContent,
-  }) => {
+  linkInTrayDocument: ({ onSuccess, onFailure, linkContent }) => {
     const state = store.getState();
 
     integration.write({

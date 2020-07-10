@@ -1,7 +1,4 @@
-import {
-  DELETE_EMPLOYEE_ETP,
-  LOAD_EMPLOYEE_ETP,
-} from '../etps/EtpIntents';
+import { DELETE_EMPLOYEE_ETP, LOAD_EMPLOYEE_ETP } from '../etps/EtpIntents';
 import {
   FILTER_JOB_KEEPER_EMPLOYEES,
   LOAD_INITIAL_JOB_KEEPER_EMPLOYEES,
@@ -70,7 +67,8 @@ const HttpStpReportingCentreMapping = {
   },
   [LOAD_PAY_EVENT_DETAILS]: {
     method: 'GET',
-    getPath: ({ businessId, payEventId }) => `/${businessId}/stp/pay_events/${payEventId}`,
+    getPath: ({ businessId, payEventId }) =>
+      `/${businessId}/stp/pay_events/${payEventId}`,
   },
   [LOAD_TERMINATION_EMPLOYEES]: {
     method: 'GET',
@@ -82,11 +80,13 @@ const HttpStpReportingCentreMapping = {
   },
   [LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/stp/eofy_finalisation_for_year`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/stp/eofy_finalisation_for_year`,
   },
   [FILTER_TERMINATION_EMPLOYEES]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/stp/filter_termination_employees`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/stp/filter_termination_employees`,
   },
   [UPDATE_STP_EMPLOYEES]: {
     method: 'PUT',
@@ -94,7 +94,8 @@ const HttpStpReportingCentreMapping = {
   },
   [LOAD_EMPLOYEE_ETP]: {
     method: 'GET',
-    getPath: ({ businessId, employeeId }) => `/${businessId}/stp/employee_etps/${employeeId}`,
+    getPath: ({ businessId, employeeId }) =>
+      `/${businessId}/stp/employee_etps/${employeeId}`,
   },
   [DELETE_EMPLOYEE_ETP]: {
     method: 'DELETE',
@@ -110,7 +111,8 @@ const HttpStpReportingCentreMapping = {
   },
   [LOAD_EMPLOYEE_YTD_REPORT]: {
     method: 'GET',
-    getPath: ({ businessId, payEventId }) => `/${businessId}/stp/pay_event_report/${payEventId}`,
+    getPath: ({ businessId, payEventId }) =>
+      `/${businessId}/stp/pay_event_report/${payEventId}`,
   },
   [OPEN_EOFY_YTD_REPORT]: {
     method: 'GET',
@@ -118,31 +120,38 @@ const HttpStpReportingCentreMapping = {
   },
   [OPEN_EMPLOYEE_SUMMARY_REPORT]: {
     method: 'GET',
-    getPath: ({ businessId, employeeId }) => `/${businessId}/stp/eofy_employee_report/${employeeId}`,
+    getPath: ({ businessId, employeeId }) =>
+      `/${businessId}/stp/eofy_employee_report/${employeeId}`,
   },
   [SORT_EMPLOYEES]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/stp/eofy_finalisation_sort_employees`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/stp/eofy_finalisation_sort_employees`,
   },
   [SORT_TERMINATION_EMPLOYEES]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/stp/termination_employees_sort_employees`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/stp/termination_employees_sort_employees`,
   },
   [LOAD_INITIAL_JOB_KEEPER_EMPLOYEES]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/stp/job_keeper_payments_initial`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/stp/job_keeper_payments_initial`,
   },
   [FILTER_JOB_KEEPER_EMPLOYEES]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/stp/job_keeper_payments_filter`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/stp/job_keeper_payments_filter`,
   },
   [UPDATE_JOB_KEEPER_PAYMENTS]: {
     method: 'PUT',
-    getPath: ({ businessId }) => `/${businessId}/stp/update_job_keeper_payments`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/stp/update_job_keeper_payments`,
   },
   [LOAD_JOB_KEEPER_REPORT]: {
     method: 'GET',
-    getPath: ({ businessId, month }) => `/${businessId}/stp/get_job_keeper_report/${month}`,
+    getPath: ({ businessId, month }) =>
+      `/${businessId}/stp/get_job_keeper_report/${month}`,
   },
 };
 

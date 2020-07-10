@@ -16,18 +16,12 @@ const Greeting = ({ greeting, businessName }) => (
   </div>
 );
 
-const DashboardPayrollHeader = ({
-  greeting,
-  businessName,
-}) => (
+const DashboardPayrollHeader = ({ greeting, businessName }) => (
   <div className={styles.header}>
-    <Greeting
-      greeting={greeting}
-      businessName={businessName}
-    />
+    <Greeting greeting={greeting} businessName={businessName} />
   </div>
 );
 
-const mapStateToProps = state => getDashboardHeader(state);
+const mapStateToProps = (state) => getDashboardHeader(state);
 
 export default connect(mapStateToProps)(DashboardPayrollHeader);

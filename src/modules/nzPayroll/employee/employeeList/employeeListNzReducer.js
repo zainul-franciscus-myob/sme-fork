@@ -1,4 +1,3 @@
-
 import * as intents from '../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import LoadingState from '../../../../components/PageView/LoadingState';

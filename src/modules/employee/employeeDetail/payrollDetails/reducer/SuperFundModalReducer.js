@@ -48,12 +48,12 @@ const getDefaultSuperFundState = () => ({
   accessToken: '',
 });
 
-const openSuperFundModal = state => ({
+const openSuperFundModal = (state) => ({
   ...state,
   superFundModal: getDefaultSuperFundState(),
 });
 
-const closeSuperFundModal = state => ({
+const closeSuperFundModal = (state) => ({
   ...state,
   superFundModal: undefined,
 });
@@ -74,47 +74,43 @@ const setSuperFundModalState = (state, modal) => ({
   },
 });
 
-const setSuperFundModalLoadingState = (state, { isLoading }) => (
-  setSuperFundModalState(state, { isLoading })
-);
+const setSuperFundModalLoadingState = (state, { isLoading }) =>
+  setSuperFundModalState(state, { isLoading });
 
-const setSuperFundModalSubmittingState = (state, { isSubmitting }) => (
-  setSuperFundModalState(state, { isSubmitting })
-);
+const setSuperFundModalSubmittingState = (state, { isSubmitting }) =>
+  setSuperFundModalState(state, { isSubmitting });
 
-const setAbnLoadingState = (state, { isAbnLoading }) => (
-  setSuperFundModalState(state, { isAbnLoading })
-);
+const setAbnLoadingState = (state, { isAbnLoading }) =>
+  setSuperFundModalState(state, { isAbnLoading });
 
-const setAbnStatus = (state, { isAbnDirty }) => (
-  setSuperFundModalState(state, { isAbnDirty })
-);
+const setAbnStatus = (state, { isAbnDirty }) =>
+  setSuperFundModalState(state, { isAbnDirty });
 
-const showContactDetails = state => (
-  setSuperFundModalState(state, { showContactDetails: true })
-);
+const showContactDetails = (state) =>
+  setSuperFundModalState(state, { showContactDetails: true });
 
-const setSuperFundModalAlertMessage = (state, { alertMessage }) => (
-  setSuperFundModalState(state, { alertMessage })
-);
+const setSuperFundModalAlertMessage = (state, { alertMessage }) =>
+  setSuperFundModalState(state, { alertMessage });
 
-const getAppliedFormatRestrictions = (currentText, text, pattern) => (
-  pattern.test(text) ? text : currentText
-);
+const getAppliedFormatRestrictions = (currentText, text, pattern) =>
+  pattern.test(text) ? text : currentText;
 
 const allowedPhoneNumberPattern = /^[0-9 ]*$/;
 
 const getUpdateSuperFundDetailValue = (key, currentValue, newValue) => {
   if (key === 'phoneNumber') {
-    return getAppliedFormatRestrictions(currentValue, newValue, allowedPhoneNumberPattern);
+    return getAppliedFormatRestrictions(
+      currentValue,
+      newValue,
+      allowedPhoneNumberPattern
+    );
   }
 
   return newValue;
 };
 
-const getUpdatedFundType = (state, key, newValue) => ((key === 'isPaySuperFund' && !newValue)
-  ? 'APRASuperFund'
-  : getFundType(state));
+const getUpdatedFundType = (state, key, newValue) =>
+  key === 'isPaySuperFund' && !newValue ? 'APRASuperFund' : getFundType(state);
 
 const setSuperFundDetailState = (state, details) => ({
   ...state,
@@ -134,12 +130,14 @@ const updateSuperFundDetail = (state, action) => {
   return setSuperFundDetailState(state, {
     fundType,
     [key]: getUpdateSuperFundDetailValue(
-      key, state.superFundModal.superFund[key], value,
+      key,
+      state.superFundModal.superFund[key],
+      value
     ),
   });
 };
 
-const loadAbnDetail = (state, { name }) => (
+const loadAbnDetail = (state, { name }) =>
   setSuperFundModalState(state, {
     isAbnDirty: false,
     superFund: {
@@ -147,32 +145,35 @@ const loadAbnDetail = (state, { name }) => (
       name,
       superProductName: name,
     },
-  })
-);
+  });
 
-const updateSelfManagedFundAbn = (state, { value }) => (
+const updateSelfManagedFundAbn = (state, { value }) =>
   setSuperFundModalState(state, {
     isAbnDirty: true,
     superFund: {
       ...state.superFundModal.superFund,
       superProductAbn: value,
     },
-  })
-);
+  });
 
 const selectAPRAFund = (state, { superProduct }) => {
   const defaultState = getDefaultSuperFundState();
 
   return setSuperFundDetailState(state, {
     superProductAbn: superProduct.abn || defaultState.superFund.superProductAbn,
-    superFundIdentifier: superProduct.scfi || defaultState.superFund.superFundIdentifier,
+    superFundIdentifier:
+      superProduct.scfi || defaultState.superFund.superFundIdentifier,
     superProductId: superProduct.usi || defaultState.superFund.superProductId,
-    superProductName: superProduct.name || defaultState.superFund.superProductName,
+    superProductName:
+      superProduct.name || defaultState.superFund.superProductName,
     name: superProduct.name || state.superFund.name,
   });
 };
 
-const saveSuperFundModal = (state, { selectedSuperFundId, superFundOptions }) => ({
+const saveSuperFundModal = (
+  state,
+  { selectedSuperFundId, superFundOptions }
+) => ({
   ...state,
   payrollDetails: {
     ...state.payrollDetails,

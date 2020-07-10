@@ -46,31 +46,43 @@ const CustomerStatementListTableActions = ({
   const PDFDropdown = (
     <Dropdown
       onSelect={onSelectPDFDropdown}
-      toggle={(
+      toggle={
         <Dropdown.Toggle disabled={areActionsDisabled || isDownloadPDFDisabled}>
-          Download PDF
-          {' '}
-          <Icons.Caret />
+          Download PDF <Icons.Caret />
         </Dropdown.Toggle>
-      )}
+      }
       items={items}
     />
   );
 
-  const PDFDisabledText = isDownloadPDFDisabled ? '(PDF\'s cannot be downloaded with 30 or more customers selected)' : '';
+  const PDFDisabledText = isDownloadPDFDisabled
+    ? "(PDF's cannot be downloaded with 30 or more customers selected)"
+    : '';
 
-  return isSomeSelected && (
-    <BulkActions>
-      {PDFDropdown}
-      { isDownloadingPDF && <span className={styles.downloadSpinner}><Spinner size="small" /></span> }
-      <Button type="secondary" onClick={onClickEmailButton} disabled={areActionsDisabled}>Email</Button>
-      <Separator direction="vertical" />
-      {`${customersSelected} customers selected ${PDFDisabledText}`}
-    </BulkActions>
+  return (
+    isSomeSelected && (
+      <BulkActions>
+        {PDFDropdown}
+        {isDownloadingPDF && (
+          <span className={styles.downloadSpinner}>
+            <Spinner size="small" />
+          </span>
+        )}
+        <Button
+          type="secondary"
+          onClick={onClickEmailButton}
+          disabled={areActionsDisabled}
+        >
+          Email
+        </Button>
+        <Separator direction="vertical" />
+        {`${customersSelected} customers selected ${PDFDisabledText}`}
+      </BulkActions>
+    )
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isSomeSelected: getIsSomeSelected(state),
   isDownloadPDFDisabled: getIsDownloadPDFDisabled(state),
   isDownloadingPDF: getIsDownloadingDefaultPDF(state),

@@ -17,13 +17,13 @@ const createApplyToSaleIntegrator = (store, integration) => ({
     const intent = isCreating ? LOAD_NEW_APPLY_TO_SALE : LOAD_APPLY_TO_SALE;
     const urlParams = isCreating
       ? {
-        businessId: getBusinessId(state),
-        customerReturnId: getCustomerReturnId(state),
-      }
+          businessId: getBusinessId(state),
+          customerReturnId: getCustomerReturnId(state),
+        }
       : {
-        businessId: getBusinessId(state),
-        applyToSaleId: getApplyToSaleId(state),
-      };
+          businessId: getBusinessId(state),
+          applyToSaleId: getApplyToSaleId(state),
+        };
 
     integration.read({
       intent,

@@ -1,5 +1,9 @@
 import { getAlert } from '../../employeeDetail/EmployeeDetailNzSelectors';
-import { getBusinessId, getEmployeeList, getLoadingState } from '../EmployeeListNzSelector';
+import {
+  getBusinessId,
+  getEmployeeList,
+  getLoadingState,
+} from '../EmployeeListNzSelector';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 
 describe('EmployeeListNzSelector', () => {
@@ -39,7 +43,8 @@ describe('EmployeeListNzSelector', () => {
           id: '124',
           name: 'Employee, Two',
           link: `/#/${region}/${businessId}/employee/124`,
-        }];
+        },
+      ];
       const state = {
         entries: employees,
         region,

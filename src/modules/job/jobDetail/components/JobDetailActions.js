@@ -13,17 +13,34 @@ const JobDetailActions = ({
 }) => (
   <ButtonRow
     primary={[
-      <Button key="cancel" name="cancel" type="secondary" onClick={onCancelButtonClick} disabled={isActionsDisabled}>
+      <Button
+        key="cancel"
+        name="cancel"
+        type="secondary"
+        onClick={onCancelButtonClick}
+        disabled={isActionsDisabled}
+      >
         Cancel
       </Button>,
-      <Button key="save" name="save" type="primary" onClick={onSaveButtonClick} disabled={isActionsDisabled}>
+      <Button
+        key="save"
+        name="save"
+        type="primary"
+        onClick={onSaveButtonClick}
+        disabled={isActionsDisabled}
+      >
         Save
       </Button>,
     ]}
     secondary={[
-      !isCreating
-      && (
-        <Button key="delete" name="delete" type="secondary" onClick={onDeleteButtonClick} disabled={isActionsDisabled}>
+      !isCreating && (
+        <Button
+          key="delete"
+          name="delete"
+          type="secondary"
+          onClick={onDeleteButtonClick}
+          disabled={isActionsDisabled}
+        >
           Delete
         </Button>
       ),
@@ -31,7 +48,7 @@ const JobDetailActions = ({
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isActionsDisabled: getIsActionsDisabled(state),
 });
 

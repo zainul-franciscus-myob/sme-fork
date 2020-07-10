@@ -19,10 +19,12 @@ const sortPayItems = ({
   payItems,
   baseSalaryWagePayItemId,
   baseHourlyWagePayItemId,
-}) => payItems.sort((a, b) => wagePayItemComparator(
-  a,
-  b,
-  [baseSalaryWagePayItemId, baseHourlyWagePayItemId],
-));
+}) =>
+  payItems.sort((a, b) =>
+    wagePayItemComparator(a, b, [
+      baseSalaryWagePayItemId,
+      baseHourlyWagePayItemId,
+    ])
+  );
 
 export default sortPayItems;

@@ -1,7 +1,4 @@
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -15,7 +12,7 @@ const setInitalState = (state, action) => ({
   ...action.context,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const handlers = {
   [SET_INITIAL_STATE]: setInitalState,

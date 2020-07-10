@@ -27,7 +27,6 @@ describe('SalesSettingsView', () => {
       </Provider>
     );
 
-
     ReactDOM.render(view, div);
     ReactDOM.unmountComponentAtNode(div);
   });

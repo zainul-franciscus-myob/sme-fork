@@ -6,11 +6,7 @@ import NzAccountNumberInputs from './NzAccountNumberInputs';
 import UpperCaseInputFormatter from '../../../../components/autoFormatter/UpperCaseInput/UpperCaseInputFormatter';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
-
-const NzPaymentOptions = ({
-  salesSettings,
-  onUpdateSalesSettingsItem,
-}) => {
+const NzPaymentOptions = ({ salesSettings, onUpdateSalesSettingsItem }) => {
   const directDepositPayment = (
     <>
       <UpperCaseInputFormatter
@@ -34,13 +30,11 @@ const NzPaymentOptions = ({
   );
 
   return (
-    <>
-      {salesSettings.isAllowPaymentsByDirectDeposit && directDepositPayment}
-    </>
+    <>{salesSettings.isAllowPaymentsByDirectDeposit && directDepositPayment}</>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   salesSettings: getTabData(state),
   accountOptions: getAccountOptions(state),
 });

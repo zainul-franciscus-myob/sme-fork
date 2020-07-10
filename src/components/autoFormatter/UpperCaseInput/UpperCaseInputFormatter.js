@@ -2,7 +2,7 @@ import React from 'react';
 
 import AutoFormatter from '../AutoFormatterCore/AutoFormatter';
 
-const UpperCaseInputFormatter = props => (
+const UpperCaseInputFormatter = (props) => (
   <AutoFormatter
     {...props}
     options={{

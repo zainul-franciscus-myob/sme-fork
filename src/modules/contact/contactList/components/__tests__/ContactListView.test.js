@@ -13,10 +13,7 @@ describe('ContactListView', () => {
 
     const view = (
       <Provider store={store}>
-        <ContactListView
-          businessId=""
-          onDismissAlert={() => {}}
-        />
+        <ContactListView businessId="" onDismissAlert={() => {}} />
       </Provider>
     );
     ReactDOM.render(view, div);

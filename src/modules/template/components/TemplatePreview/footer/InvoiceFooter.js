@@ -10,7 +10,10 @@ const InvoiceFooter = ({ saleLayout }) => (
     items={[
       { title: 'Invoice no.', content: 'IV000000001' },
       { title: 'Due date', content: formatSlashDate(addMonths(Date.now(), 1)) },
-      { title: 'Balance due', content: saleLayout === SaleLayout.Service ? '$190.00' : '$98.05' },
+      {
+        title: 'Balance due',
+        content: saleLayout === SaleLayout.Service ? '$190.00' : '$98.05',
+      },
     ]}
   />
 );

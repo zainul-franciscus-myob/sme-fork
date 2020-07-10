@@ -12,7 +12,7 @@ describe('applyToSaleOptions', () => {
     const wrapper = mount(
       <Provider store={store}>
         <ApplyToSaleOptions />
-      </Provider>,
+      </Provider>
     );
     const referenceNumberInput = wrapper.find({ name: 'reference' }).first();
     expect(referenceNumberInput.prop('maxLength')).toBe(13);

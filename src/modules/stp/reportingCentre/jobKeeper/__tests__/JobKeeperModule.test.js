@@ -4,8 +4,8 @@ import JobKeeperModule from '../JobKeeperModule';
 import loadJobKeeperInitialEmployees from '../../mappings/data/loadJobKeeperInitialEmployees';
 
 describe('jobKeeperModule', () => {
-  const constructModule = (module = new JobKeeperModule(
-    {
+  const constructModule = (
+    module = new JobKeeperModule({
       integration: {
         read: ({ onSuccess }) => onSuccess(loadJobKeeperInitialEmployees),
       },
@@ -13,8 +13,8 @@ describe('jobKeeperModule', () => {
       featureToggles: {
         isJobKeeperReportingEnabled: true,
       },
-    },
-  )) => {
+    })
+  ) => {
     const setAlertMock = jest.fn();
     const wrapper = mount(module.getView());
     module.run();
@@ -45,17 +45,15 @@ describe('jobKeeperModule', () => {
 
   it('hides reporting button when feature toggle off', () => {
     const read = jest.fn();
-    const module = new JobKeeperModule(
-      {
-        integration: {
-          read,
-        },
-        pushMessage: () => {},
-        featureToggles: {
-          isJobKeeperReportingEnabled: false,
-        },
+    const module = new JobKeeperModule({
+      integration: {
+        read,
       },
-    );
+      pushMessage: () => {},
+      featureToggles: {
+        isJobKeeperReportingEnabled: false,
+      },
+    });
     const { wrapper } = constructModule(module);
 
     const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
@@ -65,18 +63,16 @@ describe('jobKeeperModule', () => {
 
   it('reporting calls API with correct month value', () => {
     const read = jest.fn();
-    const module = new JobKeeperModule(
-      {
-        integration: {
-          read,
-          readFile: read,
-        },
-        pushMessage: () => {},
-        featureToggles: {
-          isJobKeeperReportingEnabled: true,
-        },
+    const module = new JobKeeperModule({
+      integration: {
+        read,
+        readFile: read,
       },
-    );
+      pushMessage: () => {},
+      featureToggles: {
+        isJobKeeperReportingEnabled: true,
+      },
+    });
     const { wrapper } = constructModule(module);
 
     const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
@@ -111,10 +107,12 @@ describe('jobKeeperModule', () => {
 
       expect(navFunction).not.toHaveBeenCalled();
       expect(module.openUnsavedChangesModal).toHaveBeenCalledWith(navFunction);
-      expect(module.store.getState()).toEqual(expect.objectContaining({
-        unsavedChangesModalIsOpen: true,
-        isDirty: true,
-      }));
+      expect(module.store.getState()).toEqual(
+        expect.objectContaining({
+          unsavedChangesModalIsOpen: true,
+          isDirty: true,
+        })
+      );
     });
   });
 
@@ -122,7 +120,6 @@ describe('jobKeeperModule', () => {
     it('calls filterEmployeeByYear when there is no change', () => {
       const { module } = constructModule();
       module.filterEmployeesByYear = jest.fn(module.filterEmployeesByYear);
-
 
       module.onPayrollYearChange('2020');
 
@@ -144,10 +141,12 @@ describe('jobKeeperModule', () => {
 
       expect(module.filterEmployeesByYear).not.toHaveBeenCalled();
       expect(module.openUnsavedChangesModal).toHaveBeenCalled();
-      expect(module.store.getState()).toEqual(expect.objectContaining({
-        unsavedChangesModalIsOpen: true,
-        isDirty: true,
-      }));
+      expect(module.store.getState()).toEqual(
+        expect.objectContaining({
+          unsavedChangesModalIsOpen: true,
+          isDirty: true,
+        })
+      );
     });
   });
 });

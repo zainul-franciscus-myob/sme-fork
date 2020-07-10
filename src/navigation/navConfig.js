@@ -85,31 +85,61 @@ export const activeMapping = {
 
 export const featuresConfig = {
   quoteList: { routeName: RouteName.QUOTE_LIST },
-  quoteCreate: { routeName: RouteName.QUOTE_DETAIL, params: { quoteId: 'new' } },
+  quoteCreate: {
+    routeName: RouteName.QUOTE_DETAIL,
+    params: { quoteId: 'new' },
+  },
   invoiceList: { routeName: RouteName.INVOICE_LIST },
-  invoiceCreate: { routeName: RouteName.INVOICE_DETAIL, params: { invoiceId: 'new' } },
-  invoicePaymentCreate: { routeName: RouteName.INVOICE_PAYMENT_DETAIL, params: { invoicePaymentId: 'new' } },
+  invoiceCreate: {
+    routeName: RouteName.INVOICE_DETAIL,
+    params: { invoiceId: 'new' },
+  },
+  invoicePaymentCreate: {
+    routeName: RouteName.INVOICE_PAYMENT_DETAIL,
+    params: { invoicePaymentId: 'new' },
+  },
   customerReturnList: { routeName: RouteName.CUSTOMER_RETURN_LIST },
   customerStatementList: { routeName: RouteName.CUSTOMER_STATEMENT_LIST },
   itemList: { routeName: RouteName.INVENTORY_LIST },
 
   billList: { routeName: RouteName.BILL_LIST },
   billCreate: { routeName: RouteName.BILL_DETAIL, params: { billId: 'new' } },
-  billPaymentCreate: { routeName: RouteName.BILL_PAYMENT_DETAIL, params: { billPaymentId: 'new' } },
+  billPaymentCreate: {
+    routeName: RouteName.BILL_PAYMENT_DETAIL,
+    params: { billPaymentId: 'new' },
+  },
   supplierReturnList: { routeName: RouteName.SUPPLIER_RETURN_LIST },
 
   bankTransactionList: { routeName: RouteName.BANKING_TRANSACTION_LIST },
   bankReconciliation: { routeName: RouteName.BANK_RECONCILIATION },
   bankingRuleList: { routeName: RouteName.BANKING_RULE_LIST },
   bankFeeds: { routeName: RouteName.BANK_FEEDS },
-  electronicPaymentBankCreate: { routeName: RouteName.ELECTRONIC_PAYMENTS_CREATE, params: { paymentType: 'SpendMoney' } },
-  spendMoneyCreate: { routeName: RouteName.SPEND_MONEY_DETAIL, params: { spendMoneyId: 'new' } },
-  receiveMoneyCreate: { routeName: RouteName.RECEIVE_MONEY_DETAIL, params: { receiveMoneyId: 'new' } },
-  transferMoneyCreate: { routeName: RouteName.TRANSFER_MONEY_DETAIL, params: { transferMoneyId: 'new' } },
+  electronicPaymentBankCreate: {
+    routeName: RouteName.ELECTRONIC_PAYMENTS_CREATE,
+    params: { paymentType: 'SpendMoney' },
+  },
+  spendMoneyCreate: {
+    routeName: RouteName.SPEND_MONEY_DETAIL,
+    params: { spendMoneyId: 'new' },
+  },
+  receiveMoneyCreate: {
+    routeName: RouteName.RECEIVE_MONEY_DETAIL,
+    params: { receiveMoneyId: 'new' },
+  },
+  transferMoneyCreate: {
+    routeName: RouteName.TRANSFER_MONEY_DETAIL,
+    params: { transferMoneyId: 'new' },
+  },
   transactionList: { routeName: RouteName.TRANSACTION_LIST },
 
-  generalJournalList: { routeName: RouteName.GENERAL_JOURNAL_LIST, params: { sourceJournal: 'General' } },
-  generalJournalCreate: { routeName: RouteName.GENERAL_JOURNAL_DETAIL, params: { generalJournalId: 'new' } },
+  generalJournalList: {
+    routeName: RouteName.GENERAL_JOURNAL_LIST,
+    params: { sourceJournal: 'General' },
+  },
+  generalJournalCreate: {
+    routeName: RouteName.GENERAL_JOURNAL_DETAIL,
+    params: { generalJournalId: 'new' },
+  },
   accountList: { routeName: RouteName.ACCOUNT_LIST },
   linkedAccounts: { routeName: RouteName.LINKED_ACCOUNTS },
   jobList: { routeName: RouteName.JOB_LIST },
@@ -117,12 +147,18 @@ export const featuresConfig = {
   onlineTax: { routeName: RouteName.ONLINE_TAX },
 
   employeeList: { routeName: RouteName.EMPLOYEE_LIST },
-  employeeCreate: { routeName: RouteName.EMPLOYEE_DETAIL, params: { employeeId: 'new' } },
+  employeeCreate: {
+    routeName: RouteName.EMPLOYEE_DETAIL,
+    params: { employeeId: 'new' },
+  },
   payRunList: { routeName: RouteName.PAY_RUN_LIST },
   payRunCreate: { routeName: RouteName.PAY_RUN_CREATE },
   payItemList: { routeName: RouteName.PAY_ITEM_LIST },
   timesheets: { routeName: RouteName.TIMESHEET },
-  electronicPaymentPayrollCreate: { routeName: RouteName.ELECTRONIC_PAYMENTS_CREATE, params: { paymentType: 'PayEmployees' } },
+  electronicPaymentPayrollCreate: {
+    routeName: RouteName.ELECTRONIC_PAYMENTS_CREATE,
+    params: { paymentType: 'PayEmployees' },
+  },
   superPaymentList: { routeName: RouteName.PAY_SUPER_LIST },
   stpReporting: { routeName: RouteName.STP_REPORTING_CENTRE },
 
@@ -130,14 +166,19 @@ export const featuresConfig = {
   payRunCreateNz: { routeName: RouteName.PAY_RUN_CREATE_NZ },
 
   contactList: { routeName: RouteName.CONTACT_LIST },
-  contactCreate: { routeName: RouteName.CONTACT_DETAIL, params: { contactId: 'new' } },
+  contactCreate: {
+    routeName: RouteName.CONTACT_DETAIL,
+    params: { contactId: 'new' },
+  },
 
   reportsStandard: { routeName: RouteName.REPORTS_STANDARD },
   reportsFavourite: { routeName: RouteName.REPORTS_FAVOURITE },
   reportsCustom: { routeName: RouteName.REPORTS_CUSTOM },
   reportsException: { routeName: RouteName.REPORTS_EXCEPTION },
   reportsPackBuilder: { routeName: RouteName.REPORTS_PACK_BUILDER },
-  reportsPdfStyleTemplates: { routeName: RouteName.REPORTS_PDF_STYLE_TEMPLATES },
+  reportsPdfStyleTemplates: {
+    routeName: RouteName.REPORTS_PDF_STYLE_TEMPLATES,
+  },
 
   inTrayList: { routeName: RouteName.IN_TRAY },
 

@@ -23,8 +23,11 @@ const InvoiceEmailSettingsView = ({
   selectedTab,
   showActions,
 }) => {
-  const contentProps = { [mainTabIds.emailDefaults]: { onUpdateEmailSettings } }[selectedTab];
-  const saveHandler = selectedTab === mainTabIds.emailDefaults ? onSaveEmailSettings : undefined;
+  const contentProps = {
+    [mainTabIds.emailDefaults]: { onUpdateEmailSettings },
+  }[selectedTab];
+  const saveHandler =
+    selectedTab === mainTabIds.emailDefaults ? onSaveEmailSettings : undefined;
 
   const alertComponent = alert.type && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -32,7 +35,9 @@ const InvoiceEmailSettingsView = ({
     </Alert>
   );
 
-  const pageFooter = showActions && <SalesSettingsDetailActions onSaveButtonClick={saveHandler} />;
+  const pageFooter = showActions && (
+    <SalesSettingsDetailActions onSaveButtonClick={saveHandler} />
+  );
 
   const view = (
     <FormTemplate
@@ -50,7 +55,7 @@ const InvoiceEmailSettingsView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   loadingState: getLoadingState(state),
   selectedTab: getSelectedTab(state),

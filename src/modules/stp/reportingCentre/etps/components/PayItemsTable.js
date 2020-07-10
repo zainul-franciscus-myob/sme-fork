@@ -3,22 +3,29 @@ import React from 'react';
 
 const tableConfig = {
   name: {
-    columnName: 'Pay item', width: 'flex-2', valign: 'middle',
+    columnName: 'Pay item',
+    width: 'flex-2',
+    valign: 'middle',
   },
   stpCategory: {
-    columnName: 'ATO reporting category', width: 'flex-2', valign: 'middle',
+    columnName: 'ATO reporting category',
+    width: 'flex-2',
+    valign: 'middle',
   },
   payItemType: {
-    columnName: 'Pay item type', width: 'flex-2', valign: 'middle',
+    columnName: 'Pay item type',
+    width: 'flex-2',
+    valign: 'middle',
   },
   amount: {
-    columnName: 'Amount ($)', width: 'flex-2', valign: 'middle', align: 'right',
+    columnName: 'Amount ($)',
+    width: 'flex-2',
+    valign: 'middle',
+    align: 'right',
   },
 };
 
-const PayItemsTable = ({
-  payItems,
-}) => {
+const PayItemsTable = ({ payItems }) => {
   const header = (
     <Table.Header>
       <Table.HeaderItem {...tableConfig.name}>
@@ -36,22 +43,18 @@ const PayItemsTable = ({
     </Table.Header>
   );
 
-  const rows = payItems && payItems.map(row => (
-    <Table.Row key={row.name} rowData={{ id: row.name }}>
-      <Table.RowItem {...tableConfig.name}>
-        {row.name}
-      </Table.RowItem>
-      <Table.RowItem {...tableConfig.stpCategory}>
-        {row.stpCategory}
-      </Table.RowItem>
-      <Table.RowItem {...tableConfig.payItemType}>
-        {row.type}
-      </Table.RowItem>
-      <Table.RowItem {...tableConfig.amount}>
-        {row.amount}
-      </Table.RowItem>
-    </Table.Row>
-  ));
+  const rows =
+    payItems &&
+    payItems.map((row) => (
+      <Table.Row key={row.name} rowData={{ id: row.name }}>
+        <Table.RowItem {...tableConfig.name}>{row.name}</Table.RowItem>
+        <Table.RowItem {...tableConfig.stpCategory}>
+          {row.stpCategory}
+        </Table.RowItem>
+        <Table.RowItem {...tableConfig.payItemType}>{row.type}</Table.RowItem>
+        <Table.RowItem {...tableConfig.amount}>{row.amount}</Table.RowItem>
+      </Table.Row>
+    ));
 
   return (
     <Table>

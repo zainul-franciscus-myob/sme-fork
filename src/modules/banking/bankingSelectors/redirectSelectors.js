@@ -1,9 +1,4 @@
-import {
-  getBalances,
-  getBankAccount,
-  getBusinessId,
-  getRegion,
-} from './index';
+import { getBalances, getBankAccount, getBusinessId, getRegion } from './index';
 import getQueryFromParams from '../../../common/getQueryFromParams/getQueryFromParams';
 
 const getBaseUrl = (state) => {

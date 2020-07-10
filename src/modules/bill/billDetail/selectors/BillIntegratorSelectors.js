@@ -1,7 +1,11 @@
 import { createSelector } from 'reselect';
 
 import {
-  CREATE_BILL, LOAD_BILL, LOAD_NEW_BILL, LOAD_NEW_DUPLICATE_BILL, UPDATE_BILL,
+  CREATE_BILL,
+  LOAD_BILL,
+  LOAD_NEW_BILL,
+  LOAD_NEW_DUPLICATE_BILL,
+  UPDATE_BILL,
 } from '../BillIntents';
 import {
   getAmountPaid,
@@ -18,18 +22,21 @@ import {
   getSupplierId,
   getSupplierOptions,
 } from './billSelectors';
-import { getAttachmentId, getInTrayDocumentId } from './BillInTrayDocumentSelectors';
+import {
+  getAttachmentId,
+  getInTrayDocumentId,
+} from './BillInTrayDocumentSelectors';
 
-export const getSaveBillIntent = createSelector(
-  getIsCreating,
-  isCreating => (isCreating ? CREATE_BILL : UPDATE_BILL),
+export const getSaveBillIntent = createSelector(getIsCreating, (isCreating) =>
+  isCreating ? CREATE_BILL : UPDATE_BILL
 );
 
 export const getSaveBillUrlParams = createSelector(
   getIsCreating,
   getBusinessId,
   getBillId,
-  (isCreating, businessId, billId) => (isCreating ? { businessId } : { businessId, billId }),
+  (isCreating, businessId, billId) =>
+    isCreating ? { businessId } : { businessId, billId }
 );
 
 export const getLoadBillIntent = createSelector(
@@ -45,7 +52,7 @@ export const getLoadBillIntent = createSelector(
     }
 
     return LOAD_BILL;
-  },
+  }
 );
 
 export const getLoadBillUrlParams = createSelector(
@@ -71,24 +78,24 @@ export const getLoadBillUrlParams = createSelector(
       businessId,
       billId,
     };
-  },
+  }
 );
 
 export const getLoadSupplierDetailUrlParams = createSelector(
   getBusinessId,
   getSupplierId,
-  (businessId, supplierId) => ({ businessId, supplierId }),
+  (businessId, supplierId) => ({ businessId, supplierId })
 );
 
 export const getDeleteBillUrlParams = createSelector(
   getBusinessId,
   getBillId,
-  (businessId, billId) => ({ businessId, billId }),
+  (businessId, billId) => ({ businessId, billId })
 );
 
 export const getCalculateBillLinesUrlParams = createSelector(
   getBusinessId,
-  businessId => ({ businessId }),
+  (businessId) => ({ businessId })
 );
 
 export const getLoadItemOptionUrlParams = (state, { itemId }) => ({
@@ -104,10 +111,13 @@ export const getCalculateBillContent = createSelector(
     lines,
     isTaxInclusive,
     amountPaid,
-  }),
+  })
 );
 
-export const getCalculateBillItemChangeContent = (state, { index, itemId }) => ({
+export const getCalculateBillItemChangeContent = (
+  state,
+  { index, itemId }
+) => ({
   ...getCalculateBillContent(state),
   index,
   itemId,
@@ -124,11 +134,13 @@ export const getLoadAddedJobUrlParams = (state, jobId) => {
 };
 
 export const getSaveBillContent = createSelector(
-  state => state.bill,
+  (state) => state.bill,
   getSupplierOptions,
   getBillLayout,
   (bill, supplierOptions, layout) => {
-    const selectedSupplier = supplierOptions.find(supplier => supplier.id === bill.supplierId);
+    const selectedSupplier = supplierOptions.find(
+      (supplier) => supplier.id === bill.supplierId
+    );
     const supplierName = selectedSupplier ? selectedSupplier.displayName : '';
 
     return {
@@ -136,7 +148,7 @@ export const getSaveBillContent = createSelector(
       supplierName,
       layout,
     };
-  },
+  }
 );
 
 export const getLoadSupplierUrlParams = (state, supplierId) => {
@@ -159,14 +171,14 @@ export const getInTrayDocumentUrlParams = createSelector(
   (businessId, inTrayDocumentId, attachmentId) => ({
     businessId,
     inTrayDocumentId: inTrayDocumentId || attachmentId,
-  }),
+  })
 );
 
 export const getInTrayDocumentParams = createSelector(
   getInTrayDocumentId,
-  inTrayDocumentId => ({
+  (inTrayDocumentId) => ({
     isAttachment: !inTrayDocumentId,
-  }),
+  })
 );
 
 export const getUnlinkInTrayDocumentUrlParams = createSelector(
@@ -175,12 +187,12 @@ export const getUnlinkInTrayDocumentUrlParams = createSelector(
   (businessId, attachmentId) => ({
     businessId,
     inTrayDocumentId: attachmentId,
-  }),
+  })
 );
 
 export const getUnlinkInTrayDocumentParams = createSelector(
   getBillUid,
-  uid => ({ uid }),
+  (uid) => ({ uid })
 );
 
 export const getLinkInTrayContentWithoutIds = createSelector(
@@ -192,5 +204,5 @@ export const getLinkInTrayContentWithoutIds = createSelector(
     inTrayDocumentId,
     supplierId,
     expenseAccountId: isCreatingFromInTray ? expenseAccountId : undefined,
-  }),
+  })
 );

@@ -15,7 +15,10 @@ import {
   UPDATE_LOCK_DATE_DETAIL,
 } from '../BusinessIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { getOpeningBalanceMonth, getOpeningBalanceYear } from './businessDetailSelectors';
+import {
+  getOpeningBalanceMonth,
+  getOpeningBalanceYear,
+} from './businessDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
@@ -63,8 +66,19 @@ const getDefaultState = () => ({
   financialYearOptions: [],
   isFinancialYearSectionReadOnly: false,
   openingBalanceYearOptions: [],
-  monthOptions: ['January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December',
+  monthOptions: [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ],
 });
 
@@ -86,8 +100,9 @@ const setAlert = (state, action) => ({
 });
 
 const loadBusinessDetail = (state, action) => {
-  const isFinancialYearSectionReadOnly = action.businessDetails.isFinancialYearClosed
-    || action.businessDetails.hasTransactions;
+  const isFinancialYearSectionReadOnly =
+    action.businessDetails.isFinancialYearClosed ||
+    action.businessDetails.hasTransactions;
 
   return {
     ...state,
@@ -118,7 +133,10 @@ const updateBusinessDetail = (state, action) => ({
 });
 
 const updateLockDateDetail = (state, { key, value }) => {
-  let { isLockDateAutoPopulated, businessDetails: { lockDate, hasLockPeriod } } = state;
+  let {
+    isLockDateAutoPopulated,
+    businessDetails: { lockDate, hasLockPeriod },
+  } = state;
 
   if (key === 'hasLockPeriod') {
     hasLockPeriod = value;
@@ -155,12 +173,12 @@ const openModal = (state, action) => ({
   modal: action.modal,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modal: undefined,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setPageEditedState = (state, action) => ({
   ...state,

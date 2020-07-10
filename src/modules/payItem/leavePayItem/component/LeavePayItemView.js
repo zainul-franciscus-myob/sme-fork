@@ -61,16 +61,14 @@ const LeavePayItemView = (props) => {
   );
 
   const view = (
-    <StandardTemplate
-      pageHead={pageHead}
-      alert={alertComponent}
-      sticky="none"
-    >
+    <StandardTemplate pageHead={pageHead} alert={alertComponent} sticky="none">
       {modal}
       <div className={styles.leavePayItemContainer}>
         <FormHorizontal>
           <LeavePayItemDetail onNameChange={onNameChange} />
-          <LeavePayItemInfo onCalculationBasisChange={onCalculationBasisChange} />
+          <LeavePayItemInfo
+            onCalculationBasisChange={onCalculationBasisChange}
+          />
         </FormHorizontal>
       </div>
       <LeavePayItemLinkedWages
@@ -98,7 +96,7 @@ const LeavePayItemView = (props) => {
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   title: getTitle(state),
   isCreating: getIsCreating(state),

@@ -58,9 +58,9 @@ const setAlert = (state, { alert }) => ({
   alert,
 });
 
-const prepareUiForReverse = state => ({
+const prepareUiForReverse = (state) => ({
   ...state,
-  superPayments: state.superPayments.map(s => ({
+  superPayments: state.superPayments.map((s) => ({
     ...s,
     amount: -s.amount,
   })),

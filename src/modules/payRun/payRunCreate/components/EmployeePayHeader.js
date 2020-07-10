@@ -30,19 +30,19 @@ const EmployeePayHeader = ({ employeeHeader }) => {
 
   const items = employeeHeader.totalNetPay
     ? [
-      ...initItems,
-      {
-        label: 'Total net pay',
-        name: 'totalNetPay',
-        value: `$${employeeHeader.totalNetPay}`,
-      },
-    ]
+        ...initItems,
+        {
+          label: 'Total net pay',
+          name: 'totalNetPay',
+          value: `$${employeeHeader.totalNetPay}`,
+        },
+      ]
     : initItems;
 
   return <PayHeader items={items} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   employeeHeader: getEmployeeHeader(state),
 });
 

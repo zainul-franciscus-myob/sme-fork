@@ -89,12 +89,12 @@ const openModal = (state, action) => ({
   modal: action.modal,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modal: undefined,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setInitialState = (state, action) => ({
   ...state,

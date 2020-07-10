@@ -13,12 +13,7 @@ import createPayRunIntegrator from './createPayRunIntegrator';
 import payRunReducer from './payRunReducer';
 
 export default class PayRunModule {
-  constructor({
-    integration,
-    setRootView,
-    pushMessage,
-    subscribeOrUpgrade,
-  }) {
+  constructor({ integration, setRootView, pushMessage, subscribeOrUpgrade }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.store = new Store(payRunReducer);
@@ -55,23 +50,14 @@ export default class PayRunModule {
 
   render() {
     const stepViews = {};
-    Object.keys(this.subModules)
-      .map(subModuleKey => {
-        stepViews[subModuleKey] = this.subModules[subModuleKey].render();
-        return null;
-      });
+    Object.keys(this.subModules).map((subModuleKey) => {
+      stepViews[subModuleKey] = this.subModules[subModuleKey].render();
+      return null;
+    });
 
-    const payRunView = (
-      <PayRunView
-        stepViews={stepViews}
-      />
-    );
+    const payRunView = <PayRunView stepViews={stepViews} />;
 
-    const wrappedView = (
-      <Provider store={this.store}>
-        {payRunView}
-      </Provider>
-    );
+    const wrappedView = <Provider store={this.store}>{payRunView}</Provider>;
     this.setRootView(wrappedView);
   }
 
@@ -93,13 +79,13 @@ export default class PayRunModule {
 
   redirectToUrl = (url) => {
     window.location.href = url;
-  }
+  };
 
   getCurrentSubModule = () => {
     const state = this.store.getState();
     const currentStepKey = getStepKey(state);
     return this.subModules[currentStepKey];
-  }
+  };
 
   attemptToRoute = (navigationFunction) => {
     const subModule = this.getCurrentSubModule();
@@ -108,11 +94,11 @@ export default class PayRunModule {
     } else {
       navigationFunction();
     }
-  }
+  };
 
   handlePageTransition = (url) => {
     this.attemptToRoute(() => {
       this.redirectToUrl(url);
     });
-  }
+  };
 }

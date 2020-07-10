@@ -37,7 +37,6 @@ describe('applyToSaleSelectors', () => {
       expect(actual[0].link).toEqual('/#/au/bizId/invoice/invId');
     });
 
-
     [
       {
         status: 'Open',
@@ -80,10 +79,12 @@ describe('applyToSaleSelectors', () => {
 
     it('shows display value for discount and amountApplied', () => {
       const state = {
-        invoices: [{
-          displayDiscount: 'a',
-          displayAmountApplied: 'b',
-        }],
+        invoices: [
+          {
+            displayDiscount: 'a',
+            displayAmountApplied: 'b',
+          },
+        ],
       };
 
       const actual = getInvoices(state);
@@ -161,7 +162,7 @@ describe('applyToSaleSelectors', () => {
     it('filters out invoices with 0 amount applied', () => {
       const modifiedState = {
         ...state,
-        invoices: state.invoices.map(invoice => ({
+        invoices: state.invoices.map((invoice) => ({
           ...invoice,
           amountApplied: 0,
         })),
@@ -203,7 +204,7 @@ describe('applyToSaleSelectors', () => {
         const actual = getIsBeforeStartOfFinancialYear(state);
 
         expect(actual).toEqual(expected);
-      },
+      }
     );
   });
 });

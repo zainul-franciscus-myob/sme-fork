@@ -1,4 +1,7 @@
-import { getMostRecentStatus, getMostRecentStatusColor } from '../invoiceHistorySelectors';
+import {
+  getMostRecentStatus,
+  getMostRecentStatusColor,
+} from '../invoiceHistorySelectors';
 import InvoiceHistoryAccordionStatus from '../../types/InvoiceHistoryAccordionStatus';
 import InvoiceHistoryStatus from '../../types/InvoiceHistoryStatus';
 
@@ -25,19 +28,19 @@ describe('invoiceHistorySelectors', () => {
   });
 
   describe('getMostRecentStatusColor', () => {
-    const addMostRecentStatusToState = (state, mostRecentStatus) => (
-      {
-        ...state,
-        invoiceHistory: [
-          { status: mostRecentStatus },
-        ],
-      });
+    const addMostRecentStatusToState = (state, mostRecentStatus) => ({
+      ...state,
+      invoiceHistory: [{ status: mostRecentStatus }],
+    });
 
     it('when accordion open, returns "light-grey" for all statuses, ', () => {
       let state = {
         invoiceHistoryAccordionStatus: InvoiceHistoryAccordionStatus.OPEN,
       };
-      state = addMostRecentStatusToState(state, InvoiceHistoryStatus.PAYMENT_RECEIVED);
+      state = addMostRecentStatusToState(
+        state,
+        InvoiceHistoryStatus.PAYMENT_RECEIVED
+      );
 
       const expected = 'light-grey';
       const actual = getMostRecentStatusColor(state);
@@ -50,7 +53,10 @@ describe('invoiceHistorySelectors', () => {
         invoiceHistoryAccordionStatus: InvoiceHistoryAccordionStatus.CLOSED,
       };
 
-      state = addMostRecentStatusToState(state, InvoiceHistoryStatus.PAYMENT_RECEIVED);
+      state = addMostRecentStatusToState(
+        state,
+        InvoiceHistoryStatus.PAYMENT_RECEIVED
+      );
 
       const expected = 'green';
       const actual = getMostRecentStatusColor(state);
@@ -65,13 +71,22 @@ describe('invoiceHistorySelectors', () => {
 
       const expected = 'red';
 
-      state = addMostRecentStatusToState(state, InvoiceHistoryStatus.PAYMENT_DECLINED);
+      state = addMostRecentStatusToState(
+        state,
+        InvoiceHistoryStatus.PAYMENT_DECLINED
+      );
       expect(getMostRecentStatusColor(state)).toEqual(expected);
 
-      state = addMostRecentStatusToState(state, InvoiceHistoryStatus.BULK_PAYMENT_DECLINED);
+      state = addMostRecentStatusToState(
+        state,
+        InvoiceHistoryStatus.BULK_PAYMENT_DECLINED
+      );
       expect(getMostRecentStatusColor(state)).toEqual(expected);
 
-      state = addMostRecentStatusToState(state, InvoiceHistoryStatus.DELIVERY_FAILED);
+      state = addMostRecentStatusToState(
+        state,
+        InvoiceHistoryStatus.DELIVERY_FAILED
+      );
       expect(getMostRecentStatusColor(state)).toEqual(expected);
     });
 
@@ -85,25 +100,43 @@ describe('invoiceHistorySelectors', () => {
       state = addMostRecentStatusToState(state, InvoiceHistoryStatus.CREATED);
       expect(getMostRecentStatusColor(state)).toEqual(expected);
 
-      state = addMostRecentStatusToState(state, InvoiceHistoryStatus.VIEWED_ONLINE);
+      state = addMostRecentStatusToState(
+        state,
+        InvoiceHistoryStatus.VIEWED_ONLINE
+      );
       expect(getMostRecentStatusColor(state)).toEqual(expected);
 
-      state = addMostRecentStatusToState(state, InvoiceHistoryStatus.DOWNLOADED);
+      state = addMostRecentStatusToState(
+        state,
+        InvoiceHistoryStatus.DOWNLOADED
+      );
       expect(getMostRecentStatusColor(state)).toEqual(expected);
 
       state = addMostRecentStatusToState(state, InvoiceHistoryStatus.PRINTED);
       expect(getMostRecentStatusColor(state)).toEqual(expected);
 
-      state = addMostRecentStatusToState(state, InvoiceHistoryStatus.EXPORTED_TO_PDF);
+      state = addMostRecentStatusToState(
+        state,
+        InvoiceHistoryStatus.EXPORTED_TO_PDF
+      );
       expect(getMostRecentStatusColor(state)).toEqual(expected);
 
-      state = addMostRecentStatusToState(state, InvoiceHistoryStatus.PAID_ONLINE);
+      state = addMostRecentStatusToState(
+        state,
+        InvoiceHistoryStatus.PAID_ONLINE
+      );
       expect(getMostRecentStatusColor(state)).toEqual(expected);
 
-      state = addMostRecentStatusToState(state, InvoiceHistoryStatus.PAID_IN_BULK_ONLINE);
+      state = addMostRecentStatusToState(
+        state,
+        InvoiceHistoryStatus.PAID_IN_BULK_ONLINE
+      );
       expect(getMostRecentStatusColor(state)).toEqual(expected);
 
-      state = addMostRecentStatusToState(state, InvoiceHistoryStatus.INVOICE_REVERSED);
+      state = addMostRecentStatusToState(
+        state,
+        InvoiceHistoryStatus.INVOICE_REVERSED
+      );
       expect(getMostRecentStatusColor(state)).toEqual(expected);
 
       state = addMostRecentStatusToState(state, InvoiceHistoryStatus.EMAILED);

@@ -24,45 +24,61 @@ const BillModal = ({
   onDiscardAndRedirect,
   onUnlinkDocumentConfirm,
   exportPdfModalListeners,
-}) => ({
-  [ModalType.CancelModal]: (<CancelModal
-    onConfirm={onCancelModalConfirm}
-    onCancel={onModalClose}
-  />),
-  [ModalType.DeleteModal]: (<DeleteModal
-    onConfirm={onDeleteModalConfirm}
-    onCancel={onModalClose}
-    title="Delete this bill?"
-  />),
-  [ModalType.SaveAmountDueWarning]: (<SaveAmountDueWarningModal
-    onConfirm={onConfirmSaveAmountDueWarningButtonClick}
-    onCancel={onModalClose}
-  />),
-  [ModalType.SaveAndCreateNew]: (<SaveAndCreateNewModal
-    onConfirmSaveAndCreateNewButtonClick={onConfirmSaveAndCreateNewButtonClick}
-    onCancel={onModalClose}
-  />),
-  [ModalType.SaveAndDuplicate]: (<SaveAndDuplicateModal
-    onConfirmSaveAndDuplicateButtonClick={onConfirmSaveAndDuplicateButtonClick}
-    onCancel={onModalClose}
-  />),
-  [ModalType.Unsaved]: (
-    <UnsavedModal
-      onConfirmSave={onConfirmSaveAndRedirect}
-      onConfirmUnsave={onDiscardAndRedirect}
-      onCancel={onModalClose}
-      title="Record changes?"
-      description="Looks like you've made changes. Do you want to record these changes?"
-    />
-  ),
-  [ModalType.ExportPdf]: (<ExportPdfModal listeners={exportPdfModalListeners} />),
-  [ModalType.UnlinkDocument]: (<UnlinkDocumentModal
-    onConfirm={onUnlinkDocumentConfirm}
-    onCancel={onModalClose}
-  />),
-}[modalType]);
+}) =>
+  ({
+    [ModalType.CancelModal]: (
+      <CancelModal onConfirm={onCancelModalConfirm} onCancel={onModalClose} />
+    ),
+    [ModalType.DeleteModal]: (
+      <DeleteModal
+        onConfirm={onDeleteModalConfirm}
+        onCancel={onModalClose}
+        title="Delete this bill?"
+      />
+    ),
+    [ModalType.SaveAmountDueWarning]: (
+      <SaveAmountDueWarningModal
+        onConfirm={onConfirmSaveAmountDueWarningButtonClick}
+        onCancel={onModalClose}
+      />
+    ),
+    [ModalType.SaveAndCreateNew]: (
+      <SaveAndCreateNewModal
+        onConfirmSaveAndCreateNewButtonClick={
+          onConfirmSaveAndCreateNewButtonClick
+        }
+        onCancel={onModalClose}
+      />
+    ),
+    [ModalType.SaveAndDuplicate]: (
+      <SaveAndDuplicateModal
+        onConfirmSaveAndDuplicateButtonClick={
+          onConfirmSaveAndDuplicateButtonClick
+        }
+        onCancel={onModalClose}
+      />
+    ),
+    [ModalType.Unsaved]: (
+      <UnsavedModal
+        onConfirmSave={onConfirmSaveAndRedirect}
+        onConfirmUnsave={onDiscardAndRedirect}
+        onCancel={onModalClose}
+        title="Record changes?"
+        description="Looks like you've made changes. Do you want to record these changes?"
+      />
+    ),
+    [ModalType.ExportPdf]: (
+      <ExportPdfModal listeners={exportPdfModalListeners} />
+    ),
+    [ModalType.UnlinkDocument]: (
+      <UnlinkDocumentModal
+        onConfirm={onUnlinkDocumentConfirm}
+        onCancel={onModalClose}
+      />
+    ),
+  }[modalType]);
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   modalType: getModalType(state),
 });
 

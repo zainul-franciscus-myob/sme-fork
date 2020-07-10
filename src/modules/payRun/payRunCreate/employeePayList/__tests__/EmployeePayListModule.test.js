@@ -26,28 +26,32 @@ describe('EmployeePayListModule', () => {
   const constructEmployeePayListModule = () => {
     const integration = new TestIntegration();
     const pushMessage = () => {};
-    const setRootView = () => (<div />);
+    const setRootView = () => <div />;
     const isToggleOn = () => true;
     const payRunModule = new PayRunModule({
-      integration, setRootView, pushMessage, isToggleOn,
+      integration,
+      setRootView,
+      pushMessage,
+      isToggleOn,
     });
 
     const store = new TestStore(payRunReducer);
     payRunModule.store = store;
 
     const employeePayListModule = new EmployeePayListModule({
-      integration, store: payRunModule.store, pushMessage,
+      integration,
+      store: payRunModule.store,
+      pushMessage,
     });
     employeePayListModule.dispatcher = createEmployeePayListDispatcher(store);
-    employeePayListModule.integrator = createEmployeePayListIntegrator(store, integration);
+    employeePayListModule.integrator = createEmployeePayListIntegrator(
+      store,
+      integration
+    );
 
     const view = employeePayListModule.getView();
 
-    const wrappedView = (
-      <Provider store={payRunModule.store}>
-        {view}
-      </Provider>
-    );
+    const wrappedView = <Provider store={payRunModule.store}>{view}</Provider>;
 
     const wrapper = mount(wrappedView);
 
@@ -64,7 +68,10 @@ describe('EmployeePayListModule', () => {
     it('renders the Save and close button', () => {
       const { wrapper } = constructEmployeePayListModule();
 
-      const saveAndCloseButton = findButtonWithTestId(wrapper, 'saveAndCloseButton');
+      const saveAndCloseButton = findButtonWithTestId(
+        wrapper,
+        'saveAndCloseButton'
+      );
 
       expect(saveAndCloseButton).toHaveLength(1);
     });
@@ -121,8 +128,7 @@ describe('EmployeePayListModule', () => {
       module.openJobListModal({
         payItem: {
           payItemId: '1',
-          jobs: [{ jobId: 1, amount: 10 },
-          ],
+          jobs: [{ jobId: 1, amount: 10 }],
           amount: 100,
         },
         employeeId: '1',
@@ -265,8 +271,7 @@ describe('EmployeePayListModule', () => {
       module.openJobListModal({
         payItem: {
           payItemId: '1',
-          jobs: [{ jobId: 1, amount: 10 },
-          ],
+          jobs: [{ jobId: 1, amount: 10 }],
           amount: 100,
         },
         employeeId: '1',
@@ -297,91 +302,93 @@ describe('EmployeePayListModule', () => {
   });
 
   describe('getAmount', () => {
-    const {
-      payRunModule,
-      module,
-    } = constructEmployeePayListModule();
+    const { payRunModule, module } = constructEmployeePayListModule();
     payRunModule.resetState();
 
     it('if job exists, should return expected result', () => {
-      const actual = module.getAmount({
-        payItemId: 1,
-        jobs: [
-          {
-            jobId: 1,
-            amount: 10,
-          },
-          {
-            jobId: 2,
-            amount: 5,
-          },
-        ],
-        amount: 100,
-      },
-      1,
-      0);
+      const actual = module.getAmount(
+        {
+          payItemId: 1,
+          jobs: [
+            {
+              jobId: 1,
+              amount: 10,
+            },
+            {
+              jobId: 2,
+              amount: 5,
+            },
+          ],
+          amount: 100,
+        },
+        1,
+        0
+      );
 
       expect(actual).toEqual(10);
 
-      const actual2 = module.getAmount({
-        payItemId: 1,
-        jobs: [
-          {
-            jobId: 1,
-            amount: 10,
-          },
-          {
-            jobId: 2,
-            amount: 5,
-          },
-        ],
-        amount: 100,
-      },
-      2,
-      0);
+      const actual2 = module.getAmount(
+        {
+          payItemId: 1,
+          jobs: [
+            {
+              jobId: 1,
+              amount: 10,
+            },
+            {
+              jobId: 2,
+              amount: 5,
+            },
+          ],
+          amount: 100,
+        },
+        2,
+        0
+      );
 
       expect(actual2).toEqual(5);
     });
 
     it('if job does not exist, should return expected result', () => {
-      const actual = module.getAmount({
-        payItemId: 1,
-        jobs: [
-          {
-            jobId: 1,
-            amount: 10,
-          },
-          {
-            jobId: 2,
-            amount: 5,
-          },
-        ],
-        amount: 100,
-      },
-      3,
-      0);
+      const actual = module.getAmount(
+        {
+          payItemId: 1,
+          jobs: [
+            {
+              jobId: 1,
+              amount: 10,
+            },
+            {
+              jobId: 2,
+              amount: 5,
+            },
+          ],
+          amount: 100,
+        },
+        3,
+        0
+      );
 
       expect(actual).toEqual('0.00');
     });
 
     it('if job does not exist with no jobs was selected, should return expected result', () => {
-      const actual = module.getAmount({
-        payItemId: 1,
-        jobs: [],
-        amount: 100,
-      },
-      3,
-      0);
+      const actual = module.getAmount(
+        {
+          payItemId: 1,
+          jobs: [],
+          amount: 100,
+        },
+        3,
+        0
+      );
 
       expect(actual).toEqual(100);
     });
   });
 
   describe('updateJobs', () => {
-    const {
-      payRunModule,
-      module,
-    } = constructEmployeePayListModule();
+    const { payRunModule, module } = constructEmployeePayListModule();
     payRunModule.resetState();
 
     const jobs = [
@@ -411,11 +418,14 @@ describe('EmployeePayListModule', () => {
         },
       ];
 
-      const actual = module.updateJobs({
-        id: 3,
-        amount: 15,
-        isSelected: true,
-      }, jobs);
+      const actual = module.updateJobs(
+        {
+          id: 3,
+          amount: 15,
+          isSelected: true,
+        },
+        jobs
+      );
 
       expect(actual).toEqual(expected);
     });
@@ -432,11 +442,14 @@ describe('EmployeePayListModule', () => {
         },
       ];
 
-      const actual = module.updateJobs({
-        id: 1,
-        amount: 25,
-        isSelected: true,
-      }, jobs);
+      const actual = module.updateJobs(
+        {
+          id: 1,
+          amount: 25,
+          isSelected: true,
+        },
+        jobs
+      );
 
       expect(actual).toEqual(expected);
     });
@@ -449,29 +462,30 @@ describe('EmployeePayListModule', () => {
         },
       ];
 
-      const actual = module.updateJobs({
-        id: 2,
-        amount: 20,
-        isSelected: false,
-      }, jobs);
+      const actual = module.updateJobs(
+        {
+          id: 2,
+          amount: 20,
+          isSelected: false,
+        },
+        jobs
+      );
 
       expect(actual).toEqual(expected);
     });
   });
 
   describe('setEmployeeNote', () => {
-    const {
-      payRunModule,
-      module,
-      store,
-    } = constructEmployeePayListModule();
+    const { payRunModule, module, store } = constructEmployeePayListModule();
 
     it('should set default note', () => {
       payRunModule.resetState();
 
       store.dispatch({ intent: LOAD_EMPLOYEE_PAYS, employeePays });
 
-      const employee = module.store.state.employeePayList.lines.find(x => x.employeeId === 21);
+      const employee = module.store.state.employeePayList.lines.find(
+        (x) => x.employeeId === 21
+      );
       expect(employee.note).toEqual('pay for Mary Jones');
     });
 
@@ -482,7 +496,9 @@ describe('EmployeePayListModule', () => {
       store.dispatch({ intent: LOAD_EMPLOYEE_PAYS, employeePays });
       module.setEmployeeNote({ employeeId: 21, note });
 
-      const updated = module.store.state.employeePayList.lines.find(x => x.employeeId === 21);
+      const updated = module.store.state.employeePayList.lines.find(
+        (x) => x.employeeId === 21
+      );
       expect(updated.note).toEqual(note);
     });
   });

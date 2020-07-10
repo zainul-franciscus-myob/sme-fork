@@ -12,13 +12,11 @@ const setPayrollState = (state, partialPayrollState) => ({
   },
 });
 
-const setPayrollLoadingState = (state, { isLoading }) => (
-  setPayrollState(state, { isLoading })
-);
+const setPayrollLoadingState = (state, { isLoading }) =>
+  setPayrollState(state, { isLoading });
 
-const setPayrollErrorState = (state, { hasError }) => (
-  setPayrollState(state, { hasError })
-);
+const setPayrollErrorState = (state, { hasError }) =>
+  setPayrollState(state, { hasError });
 
 const loadPayroll = (state, action) => setPayrollState(state, action.payroll);
 

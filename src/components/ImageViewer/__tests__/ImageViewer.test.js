@@ -23,17 +23,27 @@ describe('ImageViewer', () => {
 
     it('renders a clickable image', () => {
       act(() => {
-        ReactDOM.render(<ImageViewer mediaSrc="src" title="title" />, container);
+        ReactDOM.render(
+          <ImageViewer mediaSrc="src" title="title" />,
+          container
+        );
       });
-      const clickableImage = container.getElementsByClassName(clickableImageClass);
+      const clickableImage = container.getElementsByClassName(
+        clickableImageClass
+      );
       expect(clickableImage).toHaveLength(1);
     });
 
     it('opens viewer on image click', () => {
       act(() => {
-        ReactDOM.render(<ImageViewer mediaSrc="src" title="title" />, container);
+        ReactDOM.render(
+          <ImageViewer mediaSrc="src" title="title" />,
+          container
+        );
       });
-      const clickableImage = container.getElementsByClassName(clickableImageClass);
+      const clickableImage = container.getElementsByClassName(
+        clickableImageClass
+      );
       const clickableImageButton = clickableImage[0];
       ReactTestUtils.Simulate.click(clickableImageButton);
 
@@ -41,21 +51,26 @@ describe('ImageViewer', () => {
       expect(imageViewer).toHaveLength(1);
 
       const imageViewerCloseButton = document.getElementsByClassName(
-        imageViewerCloseClass,
+        imageViewerCloseClass
       );
       expect(imageViewerCloseButton).toHaveLength(1);
     });
 
     it('closes viewer on viewer click', () => {
       act(() => {
-        ReactDOM.render(<ImageViewer mediaSrc="src" title="title" />, container);
+        ReactDOM.render(
+          <ImageViewer mediaSrc="src" title="title" />,
+          container
+        );
       });
-      const clickableImage = container.getElementsByClassName(clickableImageClass);
+      const clickableImage = container.getElementsByClassName(
+        clickableImageClass
+      );
       const clickableImageButton = clickableImage[0];
       ReactTestUtils.Simulate.click(clickableImageButton);
 
       const imageViewerCloseButton = document.getElementsByClassName(
-        imageViewerCloseClass,
+        imageViewerCloseClass
       );
       ReactTestUtils.Simulate.click(imageViewerCloseButton[0]);
 
@@ -65,17 +80,18 @@ describe('ImageViewer', () => {
 
     it('should still focus on pressing tab', () => {
       act(() => {
-        ReactDOM.render(<ImageViewer mediaSrc="src" title="title" />, container);
+        ReactDOM.render(
+          <ImageViewer mediaSrc="src" title="title" />,
+          container
+        );
       });
 
       const clickableImageButton = container.getElementsByClassName(
-        clickableImageClass,
+        clickableImageClass
       )[0];
       ReactTestUtils.Simulate.click(clickableImageButton);
 
-      const imageViwer = document.getElementsByClassName(
-        imageViewerClass,
-      )[0];
+      const imageViwer = document.getElementsByClassName(imageViewerClass)[0];
       ReactTestUtils.Simulate.keyDown(imageViwer, {
         key: 'Tab',
       });
@@ -100,7 +116,7 @@ describe('ImageViewer', () => {
           containerWidth,
           naturalWidth,
           naturalHeight,
-        }),
+        })
       ).toBeTruthy();
     });
 
@@ -117,7 +133,7 @@ describe('ImageViewer', () => {
           containerWidth,
           naturalWidth,
           naturalHeight,
-        }),
+        })
       ).toBeFalsy();
     });
   });

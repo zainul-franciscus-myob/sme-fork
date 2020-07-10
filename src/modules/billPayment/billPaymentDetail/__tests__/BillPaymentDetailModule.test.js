@@ -40,14 +40,20 @@ describe('BillPaymentDetailModule', () => {
     });
 
     const module = new BillPaymentModule({
-      integration, setRootView, pushMessage, navigateTo,
+      integration,
+      setRootView,
+      pushMessage,
+      navigateTo,
     });
     module.store = store;
     module.dispatcher = createBillPaymentDetailDispatcher(store);
     module.integrator = createBillPaymentDetailIntegrator(store, integration);
 
     return {
-      store, integration, module, navigateTo,
+      store,
+      integration,
+      module,
+      navigateTo,
     };
   };
 
@@ -236,7 +242,9 @@ describe('BillPaymentDetailModule', () => {
 
       module.cancelBillPayment();
 
-      expect(window.location.href).toEqual(expect.stringContaining('/transactionList'));
+      expect(window.location.href).toEqual(
+        expect.stringContaining('/transactionList')
+      );
     });
 
     it('redirect to bill list on new bill payment', () => {
@@ -252,7 +260,9 @@ describe('BillPaymentDetailModule', () => {
 
       module.cancelBillPayment();
 
-      expect(window.location.href).toEqual(expect.stringContaining('/bill/billId'));
+      expect(window.location.href).toEqual(
+        expect.stringContaining('/bill/billId')
+      );
     });
   });
 
@@ -296,7 +306,9 @@ describe('BillPaymentDetailModule', () => {
           type: SUCCESSFULLY_SAVED_BILL_PAYMENT,
           content: expect.any(String),
         });
-        expect(window.location.href).toEqual(expect.stringContaining(test.redirectUrl));
+        expect(window.location.href).toEqual(
+          expect.stringContaining(test.redirectUrl)
+        );
       });
 
       it(`fails to ${test.name}`, () => {
@@ -402,9 +414,11 @@ describe('BillPaymentDetailModule', () => {
         ]);
         expect(module.pushMessage).toHaveBeenCalledWith({
           type: SUCCESSFULLY_SAVED_BILL_PAYMENT,
-          content: 'Great Work! You\'ve done it well!',
+          content: "Great Work! You've done it well!",
         });
-        expect(window.location.href).toEqual(expect.stringContaining(test.redirectUrl));
+        expect(window.location.href).toEqual(
+          expect.stringContaining(test.redirectUrl)
+        );
       });
 
       it(`fails to ${test.name}`, () => {
@@ -715,7 +729,9 @@ describe('BillPaymentDetailModule', () => {
         module.openCancelModal();
 
         expect(store.getActions()).toEqual([]);
-        expect(window.location.href).toEqual(expect.stringContaining('/transactionList'));
+        expect(window.location.href).toEqual(
+          expect.stringContaining('/transactionList')
+        );
       });
 
       it('redirect to bill list on new bill payment', () => {
@@ -731,7 +747,9 @@ describe('BillPaymentDetailModule', () => {
 
         module.openCancelModal();
 
-        expect(window.location.href).toEqual(expect.stringContaining('/billId'));
+        expect(window.location.href).toEqual(
+          expect.stringContaining('/billId')
+        );
       });
     });
   });

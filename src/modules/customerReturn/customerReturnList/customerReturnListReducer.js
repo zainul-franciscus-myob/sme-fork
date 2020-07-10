@@ -1,15 +1,13 @@
 import {
   LOAD_CUSTOMER_RETURN_LIST,
   SET_ALERT,
-  SET_LOADING_STATE, SET_SORT_ORDER,
+  SET_LOADING_STATE,
+  SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_CUSTOMER_RETURN_LIST,
   UPDATE_FILTER_BAR_OPTIONS,
 } from '../CustomerReturnIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
@@ -39,9 +37,10 @@ const getDefaultState = () => ({
   region: '',
 });
 
-const loadCustomerReturnList = (state, {
-  customerId, customerFilters, ...rest
-}) => ({
+const loadCustomerReturnList = (
+  state,
+  { customerId, customerFilters, ...rest }
+) => ({
   ...state,
   ...rest,
   filterOptions: {
@@ -61,10 +60,10 @@ const updateFilterBarOptions = (state, action) => ({
   },
 });
 
-const sortAndFilterCustomerReturnList = (state,
-  {
-    entries, totalAmount, totalCreditAmount,
-  }) => ({
+const sortAndFilterCustomerReturnList = (
+  state,
+  { entries, totalAmount, totalCreditAmount }
+) => ({
   ...state,
   entries,
   totalAmount,
@@ -92,14 +91,17 @@ const setLoadingState = (state, { loadingState }) => ({
   loadingState,
 });
 
-const setInitalState = (state, {
-  context,
-  settings = {
-    filterOptions: defaultFilterOptions,
-    sortOrder: defaultSortingOption.sortOrder,
-    orderBy: defaultSortingOption.orderBy,
-  },
-}) => ({
+const setInitalState = (
+  state,
+  {
+    context,
+    settings = {
+      filterOptions: defaultFilterOptions,
+      sortOrder: defaultSortingOption.sortOrder,
+      orderBy: defaultSortingOption.orderBy,
+    },
+  }
+) => ({
   ...state,
   ...context,
   filterOptions: {
@@ -110,7 +112,7 @@ const setInitalState = (state, {
   orderBy: settings.orderBy,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,

@@ -39,7 +39,9 @@ const ExpensePayItemView = ({
   onCancelButtonClick,
 }) => {
   const pageHead = isCreating ? 'Create expense pay item' : originalName;
-  const alert = isAlertShown && <ExpensePayItemAlert onDismissAlert={onDismissAlert} />;
+  const alert = isAlertShown && (
+    <ExpensePayItemAlert onDismissAlert={onDismissAlert} />
+  );
   const modal = isModalShown && (
     <ExpensePayItemModal
       onDismissModal={onDismissModal}
@@ -49,11 +51,7 @@ const ExpensePayItemView = ({
   );
 
   const view = (
-    <StandardTemplate
-      pageHead={pageHead}
-      alert={alert}
-      sticky="none"
-    >
+    <StandardTemplate pageHead={pageHead} alert={alert} sticky="none">
       {modal}
       <div className={styles.payItemView}>
         <FormHorizontal>
@@ -85,7 +83,7 @@ const ExpensePayItemView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   originalName: getOriginalName(state),
   isCreating: getIsCreating(state),
   loadingState: getLoadingState(state),

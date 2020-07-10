@@ -11,18 +11,7 @@ const OTH = 'OTH';
 
 const States = {
   OTH,
-  all: [
-    AAT,
-    ACT,
-    NSW,
-    NT,
-    QLD,
-    SA,
-    TAS,
-    VIC,
-    WA,
-    OTH,
-  ],
+  all: [AAT, ACT, NSW, NT, QLD, SA, TAS, VIC, WA, OTH],
 };
 
 export default States;

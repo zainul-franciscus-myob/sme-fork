@@ -60,9 +60,10 @@ const loadDeductionPayItemModal = (state, { response }) => ({
   },
 });
 
-const createDeductionPayItemModal = (state, {
-  response: { deductionPayItem, deductionPayItemOptions },
-}) => ({
+const createDeductionPayItemModal = (
+  state,
+  { response: { deductionPayItem, deductionPayItemOptions } }
+) => ({
   ...state,
   payrollDetails: {
     ...state.payrollDetails,
@@ -78,12 +79,14 @@ const createDeductionPayItemModal = (state, {
   deductionPayItemOptions,
 });
 
-const updateDeductionPayItemModal = (state, {
-  response: { deductionPayItem, deductionPayItemOptions },
-}) => {
+const updateDeductionPayItemModal = (
+  state,
+  { response: { deductionPayItem, deductionPayItemOptions } }
+) => {
   const deductionPayItems = getDeductionPayItems(state);
-  const updatedDeductionPayItems = deductionPayItems
-    .map(payItem => (payItem.id === deductionPayItem.id ? deductionPayItem : payItem));
+  const updatedDeductionPayItems = deductionPayItems.map((payItem) =>
+    payItem.id === deductionPayItem.id ? deductionPayItem : payItem
+  );
 
   return {
     ...state,
@@ -110,7 +113,7 @@ const openDeductionPayItemModal = (state, { id }) => {
   };
 };
 
-const closeDeductionPayItemModal = state => ({
+const closeDeductionPayItemModal = (state) => ({
   ...state,
   deductionPayItemModal: undefined,
 });
@@ -123,17 +126,14 @@ const setDeductionPayItemModalState = (state, modal) => ({
   },
 });
 
-const setDeductionPayItemModalLoadingState = (state, { isLoading }) => (
-  setDeductionPayItemModalState(state, { isLoading })
-);
+const setDeductionPayItemModalLoadingState = (state, { isLoading }) =>
+  setDeductionPayItemModalState(state, { isLoading });
 
-const setDeductionPayItemModalSubmittingState = (state, { isSubmitting }) => (
-  setDeductionPayItemModalState(state, { isSubmitting })
-);
+const setDeductionPayItemModalSubmittingState = (state, { isSubmitting }) =>
+  setDeductionPayItemModalState(state, { isSubmitting });
 
-const setDeductionPayItemModalAlert = (state, { alert }) => (
-  setDeductionPayItemModalState(state, { alert })
-);
+const setDeductionPayItemModalAlert = (state, { alert }) =>
+  setDeductionPayItemModalState(state, { alert });
 
 const setDeductionPayItemState = (state, deductionPayItem) => ({
   ...state,
@@ -146,24 +146,20 @@ const setDeductionPayItemState = (state, deductionPayItem) => ({
   },
 });
 
-const setDeductionPayItemModalInput = (state, { key, value }) => (
-  setDeductionPayItemState(state, { [key]: value })
-);
+const setDeductionPayItemModalInput = (state, { key, value }) =>
+  setDeductionPayItemState(state, { [key]: value });
 
-const addDeductionPayItemModalItem = (state, { key, item }) => (
+const addDeductionPayItemModalItem = (state, { key, item }) =>
   setDeductionPayItemState(state, {
-    [key]: [
-      ...state.deductionPayItemModal.deductionPayItem[key],
-      item,
-    ],
-  })
-);
+    [key]: [...state.deductionPayItemModal.deductionPayItem[key], item],
+  });
 
-const removeDeductionPayItemModalItem = (state, { key, itemId }) => (
+const removeDeductionPayItemModalItem = (state, { key, itemId }) =>
   setDeductionPayItemState(state, {
-    [key]: state.deductionPayItemModal.deductionPayItem[key].filter(({ id }) => id !== itemId),
-  })
-);
+    [key]: state.deductionPayItemModal.deductionPayItem[key].filter(
+      ({ id }) => id !== itemId
+    ),
+  });
 
 export default {
   [ADD_DEDUCTION_PAY_ITEM_MODAL_ITEM]: addDeductionPayItemModalItem,

@@ -8,9 +8,7 @@ import handleInputChange from '../../../../components/handlers/handleInputChange
 
 const InTrayModalFilterOptions = (props) => {
   const {
-    filterOptions: {
-      keywords,
-    },
+    filterOptions: { keywords },
     isEntryLoading,
     onUpdateFilterOptions,
   } = props;
@@ -28,7 +26,7 @@ const InTrayModalFilterOptions = (props) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   filterOptions: getFilterOptions(state),
   isEntryLoading: getIsEntryLoading(state),
 });

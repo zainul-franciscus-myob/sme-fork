@@ -14,7 +14,11 @@ const getPayRunRoutes = ({
       path: '/nz/:businessId/payRun/new',
       defaultParams: { region: 'nz' },
       module: new PayRunModule({
-        integration, setRootView, pushMessage, isToggleOn, subscribeOrUpgrade,
+        integration,
+        setRootView,
+        pushMessage,
+        isToggleOn,
+        subscribeOrUpgrade,
       }),
       documentTitle: 'Pay run',
     },

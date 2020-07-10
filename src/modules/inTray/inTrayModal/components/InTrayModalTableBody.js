@@ -1,5 +1,10 @@
 import {
-  Button, Icons, RadioButton, Spinner, Table, Tooltip,
+  Button,
+  Icons,
+  RadioButton,
+  Spinner,
+  Table,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -22,7 +27,10 @@ const SubmittingComponent = () => (
 );
 
 const UploadDateComponent = ({
-  uploadedDate, isUploading, isOcrInProgress, isSubmitting,
+  uploadedDate,
+  isUploading,
+  isOcrInProgress,
+  isSubmitting,
 }) => {
   if (isUploading || isOcrInProgress) {
     return LoadingComponent();
@@ -41,17 +49,16 @@ const handleViewButtonClick = (handler, id) => (e) => {
   handler(id);
 };
 
-const handleRadioButtonChange = handler => (e) => {
+const handleRadioButtonChange = (handler) => (e) => {
   const { value } = e.target;
 
   handler(value);
 };
 
-const InvoiceComponent = value => value || (
-  <Tooltip triggerContent={<Icons.Info />}>
-    Information not available
-  </Tooltip>
-);
+const InvoiceComponent = (value) =>
+  value || (
+    <Tooltip triggerContent={<Icons.Info />}>Information not available</Tooltip>
+  );
 
 const InTrayModalTableBody = ({
   tableConfig,
@@ -103,8 +110,11 @@ const InTrayModalTableBody = ({
           />
         </Table.RowItem>
         <Table.RowItem {...tableConfig.uploadedDate}>
-          { UploadDateComponent({
-            uploadedDate, isUploading, isOcrInProgress, isSubmitting,
+          {UploadDateComponent({
+            uploadedDate,
+            isUploading,
+            isOcrInProgress,
+            isSubmitting,
           })}
         </Table.RowItem>
         <Table.RowItem {...tableConfig.invoiceNumber}>
@@ -118,7 +128,12 @@ const InTrayModalTableBody = ({
         </Table.RowItem>
         <Table.RowItem {...tableConfig.action} cellRole="actions">
           {showActions && (
-            <Button type="link" onClick={handleViewButtonClick(onView, id)} onKeyUp={() => {}} icon={<Icons.Show />}>
+            <Button
+              type="link"
+              onClick={handleViewButtonClick(onView, id)}
+              onKeyUp={() => {}}
+              icon={<Icons.Show />}
+            >
               View
             </Button>
           )}
@@ -127,14 +142,10 @@ const InTrayModalTableBody = ({
     );
   });
 
-  return (
-    <Table.Body>
-      {rows}
-    </Table.Body>
-  );
+  return <Table.Body>{rows}</Table.Body>;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   entries: getTableEntries(state),
   selectedId: getSelectedId(state),
 });

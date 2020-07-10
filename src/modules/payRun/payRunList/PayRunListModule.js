@@ -23,14 +23,10 @@ import PayRunListView from './components/PayRunListView';
 import Store from '../../../store/Store';
 import payRunListReducer from './payRunListReducer';
 
-const messageTypes = [
-  SUCCESSFULLY_SAVED_DRAFT_PAY_RUN,
-];
+const messageTypes = [SUCCESSFULLY_SAVED_DRAFT_PAY_RUN];
 
 export default class PayrunListModule {
-  constructor({
-    integration, setRootView, popMessages, replaceURLParams,
-  }) {
+  constructor({ integration, setRootView, popMessages, replaceURLParams }) {
     this.integration = integration;
     this.store = new Store(payRunListReducer);
     this.setRootView = setRootView;
@@ -43,16 +39,14 @@ export default class PayrunListModule {
     const [successMessage] = this.popMessages(this.messageTypes);
 
     if (successMessage) {
-      const {
-        content: message,
-      } = successMessage;
+      const { content: message } = successMessage;
 
       this.setAlert({
         type: 'success',
         message,
       });
     }
-  }
+  };
 
   updateFilterBarOptions = ({ filterName, value }) => {
     this.store.dispatch({
@@ -61,11 +55,11 @@ export default class PayrunListModule {
       value,
     });
     this.sortAndFilterPayRunList({ setLoadingFunc: this.setTableLoadingState });
-  }
+  };
 
   loadPayRunList = () => {
     this.sortAndFilterPayRunList({ setLoadingFunc: this.setIsLoading });
-  }
+  };
 
   sortPayRunList = () => {
     const sortOrder = getFlipSortOrder(this.store.getState());
@@ -74,14 +68,14 @@ export default class PayrunListModule {
       sortOrder,
     });
     this.sortAndFilterPayRunList({ setLoadingFunc: this.setTableLoadingState });
-  }
+  };
 
   setAlert = (alert) => {
     this.store.dispatch({
       intent: SET_ALERT,
       alert,
     });
-  }
+  };
 
   sortAndFilterPayRunList = ({ setLoadingFunc }) => {
     const state = this.store.getState();
@@ -102,7 +96,8 @@ export default class PayrunListModule {
       });
     };
 
-    const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
+    const onFailure = ({ message }) =>
+      this.setAlert({ message, type: 'danger' });
 
     this.integration.read({
       intent,
@@ -115,7 +110,7 @@ export default class PayrunListModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   dismissAlert = () => {
     const intent = SET_ALERT;
@@ -137,17 +132,17 @@ export default class PayrunListModule {
     const state = this.store.getState();
     const url = getCreatePayRunUrl(state);
     this.redirectTo(url);
-  }
+  };
 
   redirectTo = (url) => {
     if (url) {
       window.location.href = url;
     }
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   setInitialState = (context) => {
     const intent = SET_INITIAL_STATE;
@@ -155,14 +150,14 @@ export default class PayrunListModule {
       intent,
       context,
     });
-  }
+  };
 
   setIsLoading = (isLoading) => {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
       isLoading,
     });
-  }
+  };
 
   goToStpReporting = () => {
     const state = this.store.getState();
@@ -188,9 +183,7 @@ export default class PayrunListModule {
     );
 
     const wrappedView = (
-      <Provider store={this.store}>
-        {payRunListView}
-      </Provider>
+      <Provider store={this.store}>{payRunListView}</Provider>
     );
     this.setRootView(wrappedView);
   };

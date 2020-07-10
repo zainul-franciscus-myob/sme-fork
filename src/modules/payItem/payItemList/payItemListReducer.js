@@ -25,10 +25,7 @@ import {
   SORT_WAGES_LIST,
   UPDATE_TAX_PAY_ITEM_DETAIL,
 } from '../PayItemIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
@@ -91,7 +88,7 @@ const setSubmittingState = (state, action) => ({
   isSubmitting: action.isSubmitting,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setTab = (state, action) => ({
   ...state,
@@ -265,7 +262,7 @@ const setTableLoadingState = (state, action) => ({
   isTableLoading: action.isTableLoading,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modal: undefined,
 });

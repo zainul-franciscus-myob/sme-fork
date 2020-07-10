@@ -9,23 +9,24 @@ import StartPayRunModule from '../StartPayRunModule';
 
 describe('StartPayRunModule', () => {
   const constructModule = (integration) => {
-    const pushMessage = () => { };
-    const setRootView = () => (<div />);
+    const pushMessage = () => {};
+    const setRootView = () => <div />;
     const isToggleOn = () => true;
     const payRunModule = new PayRunModule({
-      integration, setRootView, pushMessage, isToggleOn,
+      integration,
+      setRootView,
+      pushMessage,
+      isToggleOn,
     });
 
     const startPayRunModule = new StartPayRunModule({
-      integration, store: payRunModule.store, pushMessage,
+      integration,
+      store: payRunModule.store,
+      pushMessage,
     });
     const view = startPayRunModule.getView();
 
-    const wrappedView = (
-      <Provider store={payRunModule.store}>
-        {view}
-      </Provider>
-    );
+    const wrappedView = <Provider store={payRunModule.store}>{view}</Provider>;
 
     const wrapper = mount(wrappedView);
 
@@ -49,7 +50,9 @@ describe('StartPayRunModule', () => {
       nextButton.simulate('click');
       wrapper.update();
 
-      const validationModal = wrapper.find({ testid: 'stpValidationErrorModal' });
+      const validationModal = wrapper.find({
+        testid: 'stpValidationErrorModal',
+      });
 
       expect(validationModal).toHaveLength(0);
     });
@@ -72,7 +75,7 @@ describe('StartPayRunModule', () => {
       wrapper.update();
 
       expect(integrationWrite).toHaveBeenCalledWith(
-        expect.objectContaining({ intent: LOAD_EMPLOYEE_PAYS }),
+        expect.objectContaining({ intent: LOAD_EMPLOYEE_PAYS })
       );
     });
 
@@ -90,7 +93,9 @@ describe('StartPayRunModule', () => {
       nextButton.simulate('click');
       wrapper.update();
 
-      const validationModal = wrapper.find({ testid: 'stpValidationErrorModal' });
+      const validationModal = wrapper.find({
+        testid: 'stpValidationErrorModal',
+      });
 
       expect(validationModal).toHaveLength(1);
     });

@@ -1,11 +1,12 @@
-import {
-  HeaderSort, PageState, Table,
-} from '@myob/myob-widgets';
+import { HeaderSort, PageState, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsTableEmpty, getIsTableLoading, getOrder, getTableBodyState,
+  getIsTableEmpty,
+  getIsTableLoading,
+  getOrder,
+  getTableBodyState,
 } from '../CustomerReturnListSelectors';
 import CustomerReturnListTableBody from './CustomerReturnListTableBody';
 import Icon from '../../../../components/Icon/Icon';
@@ -19,14 +20,16 @@ const tableConfig = {
   customer: { columnName: 'Customer', valign: 'top' },
   customerPurchaseOrderNo: { columnName: 'Customer PO no', valign: 'top' },
   amount: { columnName: 'Amount ($)', valign: 'top', align: 'right' },
-  creditAmount: { columnName: 'Balance due ($)', valign: 'top', align: 'right' },
+  creditAmount: {
+    columnName: 'Balance due ($)',
+    valign: 'top',
+    align: 'right',
+  },
   payRefund: { columnName: 'Record refund', valign: 'top' },
   applyToSale: { columnName: 'Apply to sale', valign: 'top' },
 };
 
-const HeaderItem = ({
-  config, sortName, activeSort, onSort,
-}) => (
+const HeaderItem = ({ config, sortName, activeSort, onSort }) => (
   <Table.HeaderItem {...config}>
     <HeaderSort
       title={config.columnName}
@@ -70,12 +73,42 @@ const CustomerReturnListTable = ({
   const header = (
     <Table responsiveWidths={responsiveWidths}>
       <Table.Header>
-        <HeaderItem config={tableConfig.date} sortName="DateOccurred" activeSort={order} onSort={onSort} />
-        <HeaderItem config={tableConfig.invoiceNumber} sortName="DisplayId" activeSort={order} onSort={onSort} />
-        <HeaderItem config={tableConfig.customer} sortName="CustomerName" activeSort={order} onSort={onSort} />
-        <HeaderItem config={tableConfig.customerPurchaseOrderNo} sortName="PurchaseOrderReference" activeSort={order} onSort={onSort} />
-        <HeaderItem config={tableConfig.amount} sortName="Amount" activeSort={order} onSort={onSort} />
-        <HeaderItem config={tableConfig.creditAmount} sortName="BalanceDue" activeSort={order} onSort={onSort} />
+        <HeaderItem
+          config={tableConfig.date}
+          sortName="DateOccurred"
+          activeSort={order}
+          onSort={onSort}
+        />
+        <HeaderItem
+          config={tableConfig.invoiceNumber}
+          sortName="DisplayId"
+          activeSort={order}
+          onSort={onSort}
+        />
+        <HeaderItem
+          config={tableConfig.customer}
+          sortName="CustomerName"
+          activeSort={order}
+          onSort={onSort}
+        />
+        <HeaderItem
+          config={tableConfig.customerPurchaseOrderNo}
+          sortName="PurchaseOrderReference"
+          activeSort={order}
+          onSort={onSort}
+        />
+        <HeaderItem
+          config={tableConfig.amount}
+          sortName="Amount"
+          activeSort={order}
+          onSort={onSort}
+        />
+        <HeaderItem
+          config={tableConfig.creditAmount}
+          sortName="BalanceDue"
+          activeSort={order}
+          onSort={onSort}
+        />
         <Table.HeaderItem {...tableConfig.payRefund}>
           {tableConfig.payRefund.columnName}
         </Table.HeaderItem>
@@ -102,7 +135,7 @@ const CustomerReturnListTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
   order: getOrder(state),

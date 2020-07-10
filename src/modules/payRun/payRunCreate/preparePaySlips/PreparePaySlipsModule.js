@@ -15,18 +15,13 @@ import {
   getSelectedEmployeesToEmail,
 } from './PreparePaySlipsSelectors';
 import { getPayRunListUrl } from '../PayRunSelectors';
-import EmailPaySlipModalModule
-  from '../../../employeePay/emailPaySlipModal/EmailPaySlipModalModule';
+import EmailPaySlipModalModule from '../../../employeePay/emailPaySlipModal/EmailPaySlipModalModule';
 import PreparePaySlipsView from './components/PreparePaySlipsView';
 import createPayRunDispatchers from '../createPayRunDispatchers';
 import openBlob from '../../../../common/blobOpener/openBlob';
 
 export default class PreparePaySlipsModule {
-  constructor({
-    integration,
-    store,
-    pushMessage,
-  }) {
+  constructor({ integration, store, pushMessage }) {
     this.integration = integration;
     this.pushMessage = pushMessage;
     this.dispatcher = createPayRunDispatchers(store);
@@ -107,8 +102,15 @@ export default class PreparePaySlipsModule {
     const state = this.store.getState();
     const employees = getSelectedEmployeesToEmail(state);
     const emailSettings = getEmailSettings(state);
-    const context = getEmailPaySlipModalContext({ state, employees, emailSettings });
-    this.emailPaySlipModal.run({ context, onClose: this.setEmployeesPaySlipSent });
+    const context = getEmailPaySlipModalContext({
+      state,
+      employees,
+      emailSettings,
+    });
+    this.emailPaySlipModal.run({
+      context,
+      onClose: this.setEmployeesPaySlipSent,
+    });
   };
 
   getView() {

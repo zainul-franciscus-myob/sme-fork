@@ -1,6 +1,4 @@
-import {
-  Alert, Button, Input, Modal,
-} from '@myob/myob-widgets';
+import { Alert, Button, Input, Modal } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -42,8 +40,9 @@ const PaySuperAuthorisationModal = ({
         {alert && <Alert type={alert.type}>{alert.message}</Alert>}
         <h4>Authorise payment</h4>
         <p>
-          We&apos;ve sent you an authorisation code by SMS that you&apos;ll need to enter
-          to begin processing your payment. It may take up to 20 minutes to receive the SMS.
+          We&apos;ve sent you an authorisation code by SMS that you&apos;ll need
+          to enter to begin processing your payment. It may take up to 20
+          minutes to receive the SMS.
         </p>
         <Input
           name="authorisationCode"
@@ -52,9 +51,12 @@ const PaySuperAuthorisationModal = ({
           onChange={handleInputChange(updateAuthorisationCode)}
         />
         <p>
-          Still haven&apos;t received the SMS after 20 minutes? Make sure you&apos;re using the
-          same mobile number you registered with us when signing up for this service.
-          <Button type="link" onClick={onResendAuthorisationCodeClick}>Resend authorisation code</Button>
+          Still haven&apos;t received the SMS after 20 minutes? Make sure
+          you&apos;re using the same mobile number you registered with us when
+          signing up for this service.
+          <Button type="link" onClick={onResendAuthorisationCodeClick}>
+            Resend authorisation code
+          </Button>
         </p>
       </Modal.Body>
       <Modal.Footer>
@@ -79,7 +81,7 @@ const PaySuperAuthorisationModal = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isOpen: getIsOpen(state),
   isLoading: getIsLoading(state),
   authorisationCode: getAuthorisationCode(state),

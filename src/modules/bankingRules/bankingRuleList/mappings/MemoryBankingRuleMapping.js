@@ -5,8 +5,12 @@ import {
 import filterBankingRuleListPayload from './data/filterBankingRuleList.json';
 import loadBankRuleListPayload from './data/loadBankingRuleList.json';
 
-const loadBankRuleList = ({ onSuccess }) => { onSuccess(loadBankRuleListPayload); };
-const filterBankRuleList = ({ onSuccess }) => { onSuccess(filterBankingRuleListPayload); };
+const loadBankRuleList = ({ onSuccess }) => {
+  onSuccess(loadBankRuleListPayload);
+};
+const filterBankRuleList = ({ onSuccess }) => {
+  onSuccess(filterBankingRuleListPayload);
+};
 
 const MemoryBankingRuleMapping = {
   [LOAD_BANKING_RULE_LIST]: loadBankRuleList,

@@ -2,13 +2,21 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  LOAD_CONFIG, LOAD_NAVIGATION_CONFIG, SET_JOB_TOGGLE_STATUS,
-  SET_LOADING_STATE, SET_ROUTE_INFO, SET_URLS,
+  LOAD_CONFIG,
+  LOAD_NAVIGATION_CONFIG,
+  SET_JOB_TOGGLE_STATUS,
+  SET_LOADING_STATE,
+  SET_ROUTE_INFO,
+  SET_URLS,
 } from './NavigationIntents';
 import { RESET_STATE } from '../SystemIntents';
 import { featuresConfig } from './navConfig';
 import {
-  getBusinessId, getPaymentDetailUrl, getRegion, getReportsUrl, getShowUrls,
+  getBusinessId,
+  getPaymentDetailUrl,
+  getRegion,
+  getReportsUrl,
+  getShowUrls,
 } from './NavigationSelectors';
 import { logout } from '../Auth';
 import FeatureToggle from '../FeatureToggles.js';
@@ -61,7 +69,10 @@ export default class NavigationModule {
     const onSuccess = (config) => {
       this.setLoadingState(false);
       this.store.dispatch({ ...config, intent });
-      this.replaceURLParamsAndReload({ businessId, region: config.region.toLowerCase() });
+      this.replaceURLParamsAndReload({
+        businessId,
+        region: config.region.toLowerCase(),
+      });
       // TODO: To be removed in next patch version
       // This is a temporary fix for Feelix bug introduced in version 5.10.0
       window.dispatchEvent(new Event('resize'));
@@ -132,7 +143,11 @@ export default class NavigationModule {
       case RouteName.PAYMENT_DETAIL:
         return paymentDetailUrl;
       default:
-        return `/#${this.constructPath(feature.routeName, { region, businessId, ...feature.params })}`;
+        return `/#${this.constructPath(feature.routeName, {
+          region,
+          businessId,
+          ...feature.params,
+        })}`;
     }
   };
 
@@ -157,7 +172,7 @@ export default class NavigationModule {
       intent: SET_JOB_TOGGLE_STATUS,
       isJobEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
     });
-  }
+  };
 
   redirectToPage = (url) => {
     window.location.href = url;
@@ -165,7 +180,11 @@ export default class NavigationModule {
 
   subscribeNow = async () => {
     const businessId = getBusinessId(this.store.getState());
-    const url = await loadSubscriptionUrl(this.integration, businessId, window.location.href);
+    const url = await loadSubscriptionUrl(
+      this.integration,
+      businessId,
+      window.location.href
+    );
 
     if (!url) {
       // eslint-disable-next-line no-console
@@ -177,7 +196,10 @@ export default class NavigationModule {
   };
 
   createBusiness = async () => {
-    const telemetryProps = { ...this.routeProps, currentRouteName: 'createNewBusiness' };
+    const telemetryProps = {
+      ...this.routeProps,
+      currentRouteName: 'createNewBusiness',
+    };
     this.sendTelemetryEvent(telemetryProps);
     this.redirectToPage(this.config.CREATE_BUSINESS_URL);
   };
@@ -187,7 +209,7 @@ export default class NavigationModule {
     const url = await loadChangePlanUrl(
       this.integration,
       businessId,
-      window.location.href,
+      window.location.href
     );
 
     if (!url) {
@@ -204,7 +226,7 @@ export default class NavigationModule {
     businessId = '',
     businessName = '',
     businessRole = '',
-    serialNumber = '',
+    serialNumber = ''
   ) => {
     const {
       changePlan,
@@ -225,7 +247,7 @@ export default class NavigationModule {
           businessName={businessName}
           businessRole={businessRole}
           constructPath={constructPath}
-          hasTasks={tasks && tasks.some(t => !t.isComplete)}
+          hasTasks={tasks && tasks.some((t) => !t.isComplete)}
           onChangePlanClick={changePlan}
           onCreateBusinessClick={createBusiness}
           onHelpLinkClick={toggleHelp}
@@ -244,7 +266,7 @@ export default class NavigationModule {
     this.onPageTransition = onPageTransition;
   };
 
-  run = routeProps => {
+  run = (routeProps) => {
     const { routeParams, currentRouteName, onPageTransition } = routeProps;
     this.routeProps = routeProps;
 
@@ -260,5 +282,5 @@ export default class NavigationModule {
       this.loadBusinessInfo();
       this.store.dispatch({ intent: RESET_STATE });
     }
-  }
+  };
 }

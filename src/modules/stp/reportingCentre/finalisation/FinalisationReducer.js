@@ -46,10 +46,13 @@ const setInitialState = (state, { context }) => ({
 const setInitialFinalisationInformation = (state, { response }) => ({
   ...state,
   payrollYears: response.payrollYears,
-  selectedPayrollYear: (response.selectedPayrollYear) || '',
-  employees: response.employees ? response.employees.map(e => ({
-    ...e, isSelected: false,
-  })) : [],
+  selectedPayrollYear: response.selectedPayrollYear || '',
+  employees: response.employees
+    ? response.employees.map((e) => ({
+        ...e,
+        isSelected: false,
+      }))
+    : [],
   grossPaymentYtd: response.grossPaymentYtd,
   paygWithholdingYtd: response.paygWithholdingYtd,
   reportedRfba: response.reportedRfba,
@@ -60,9 +63,12 @@ const setInitialFinalisationInformation = (state, { response }) => ({
 const loadEmployeesAndHeadersForYear = (state, { response }) => ({
   ...state,
   isDirty: false,
-  employees: response.employees ? response.employees.map(e => ({
-    ...e, isSelected: false,
-  })) : [],
+  employees: response.employees
+    ? response.employees.map((e) => ({
+        ...e,
+        isSelected: false,
+      }))
+    : [],
   grossPaymentYtd: response.grossPaymentYtd,
   paygWithholdingYtd: response.paygWithholdingYtd,
   reportedRfba: response.reportedRfba,
@@ -85,11 +91,10 @@ const setLoadingState = (state, { loadingState }) => ({
   loadingState,
 });
 
-
 const selectAllEmployees = (state, { isSelected }) => ({
   ...state,
   isDirty: true,
-  employees: state.employees.map(t => ({
+  employees: state.employees.map((t) => ({
     ...t,
     isSelected,
   })),
@@ -98,22 +103,20 @@ const selectAllEmployees = (state, { isSelected }) => ({
 const selectEmployeesItem = (state, action) => ({
   ...state,
   isDirty: true,
-  employees: state.employees.map(e => (
-    e.id === action.item.id
-      ? { ...e, isSelected: action.isSelected } : e
-  )),
+  employees: state.employees.map((e) =>
+    e.id === action.item.id ? { ...e, isSelected: action.isSelected } : e
+  ),
 });
 
 const updateEmployeeRow = (state, { key, value, rowId }) => ({
   ...state,
   isDirty: true,
-  employees: state.employees.map(e => (
-    e.id === rowId
-      ? { ...e, [key]: value }
-      : { ...e })),
+  employees: state.employees.map((e) =>
+    e.id === rowId ? { ...e, [key]: value } : { ...e }
+  ),
 });
 
-const resetEventId = state => ({
+const resetEventId = (state) => ({
   ...state,
   eventId: uuid(),
 });
@@ -123,7 +126,7 @@ const setUnsavedChangesModal = (state, { isOpen }) => ({
   unsavedChangesModalIsOpen: isOpen,
 });
 
-const resetDirtyFlag = state => ({
+const resetDirtyFlag = (state) => ({
   ...state,
   isDirty: false,
 });

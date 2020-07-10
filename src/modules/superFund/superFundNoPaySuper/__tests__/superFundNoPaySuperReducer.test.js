@@ -1,6 +1,4 @@
-import {
-  UPDATE_SUPER_FUND_DETAIL,
-} from '../../SuperFundIntents';
+import { UPDATE_SUPER_FUND_DETAIL } from '../../SuperFundIntents';
 import reducer from '../superFundNoPaySuperReducer';
 
 describe('superFundNoPaySuperReducer', () => {

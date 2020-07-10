@@ -2,7 +2,7 @@ import React from 'react';
 
 import AutoFormatter from '../AutoFormatterCore/AutoFormatter';
 
-const AcnInput = props => (
+const AcnInput = (props) => (
   <AutoFormatter
     {...props}
     options={{

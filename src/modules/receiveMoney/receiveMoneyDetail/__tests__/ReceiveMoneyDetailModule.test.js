@@ -30,13 +30,13 @@ import createReceiveMoneyDetailDispatcher from '../createReceiveMoneyDetailDispa
 import createReceiveMoneyDetailIntegrator from '../createReceiveMoneyDetailIntegrator';
 import receiveMoneyDetailReducer from '../receiveMoneyDetailReducer';
 
-const getIntents = actions => actions.map(({ intent }) => intent);
+const getIntents = (actions) => actions.map(({ intent }) => intent);
 
 const setup = () => {
   const store = new TestStore(receiveMoneyDetailReducer);
   const integration = new TestIntegration();
-  const setRootView = () => { };
-  const pushMessage = () => { };
+  const setRootView = () => {};
+  const pushMessage = () => {};
   const popMessages = () => [];
   const isToggleOn = () => 'on';
 
@@ -49,7 +49,10 @@ const setup = () => {
   });
   module.store = store;
   module.dispatcher = createReceiveMoneyDetailDispatcher({ store });
-  module.integrator = createReceiveMoneyDetailIntegrator({ store, integration });
+  module.integrator = createReceiveMoneyDetailIntegrator({
+    store,
+    integration,
+  });
 
   return { store, integration, module };
 };
@@ -183,10 +186,12 @@ describe('ReceiveMoneyDetailModule', () => {
 
     it('should successfully load with duplicate', () => {
       const { store, integration, module } = setup();
-      module.popMessages = () => [{
-        type: DUPLICATE_RECEIVE_MONEY,
-        duplicateId: '🦖',
-      }];
+      module.popMessages = () => [
+        {
+          type: DUPLICATE_RECEIVE_MONEY,
+          duplicateId: '🦖',
+        },
+      ];
 
       module.run({ businessId: 'bizId', receiveMoneyId: 'new' });
 
@@ -258,10 +263,7 @@ describe('ReceiveMoneyDetailModule', () => {
       module.deleteReceiveMoney();
       const actions = store.getActions();
 
-      expect(getIntents(actions)).toEqual([
-        SET_SUBMITTING_STATE,
-        CLOSE_MODAL,
-      ]);
+      expect(getIntents(actions)).toEqual([SET_SUBMITTING_STATE, CLOSE_MODAL]);
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
@@ -269,7 +271,9 @@ describe('ReceiveMoneyDetailModule', () => {
         }),
       ]);
 
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/transactionList');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/bizId/transactionList'
+      );
     });
 
     it('should fail', () => {
@@ -321,9 +325,11 @@ describe('ReceiveMoneyDetailModule', () => {
       ]);
 
       expect(module.pushMessage).toHaveBeenCalledWith(
-        expect.objectContaining({ type: SUCCESSFULLY_SAVED_RECEIVE_MONEY }),
+        expect.objectContaining({ type: SUCCESSFULLY_SAVED_RECEIVE_MONEY })
       );
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/transactionList');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/bizId/transactionList'
+      );
     });
 
     it('should update', () => {
@@ -351,9 +357,11 @@ describe('ReceiveMoneyDetailModule', () => {
       ]);
 
       expect(module.pushMessage).toHaveBeenCalledWith(
-        expect.objectContaining({ type: SUCCESSFULLY_SAVED_RECEIVE_MONEY }),
+        expect.objectContaining({ type: SUCCESSFULLY_SAVED_RECEIVE_MONEY })
       );
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/transactionList');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/bizId/transactionList'
+      );
     });
 
     it('should fail', () => {
@@ -461,7 +469,9 @@ describe('ReceiveMoneyDetailModule', () => {
         type: DUPLICATE_RECEIVE_MONEY,
         duplicateId: '🦖',
       });
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/receiveMoney/new');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/bizId/receiveMoney/new'
+      );
     });
 
     it('successfully update and redirect', () => {
@@ -491,7 +501,9 @@ describe('ReceiveMoneyDetailModule', () => {
         type: DUPLICATE_RECEIVE_MONEY,
         duplicateId: '1',
       });
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/receiveMoney/new');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/bizId/receiveMoney/new'
+      );
     });
   });
 
@@ -515,7 +527,9 @@ describe('ReceiveMoneyDetailModule', () => {
         }),
       ]);
 
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/receiveMoney/new');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/bizId/receiveMoney/new'
+      );
     });
   });
 
@@ -540,12 +554,14 @@ describe('ReceiveMoneyDetailModule', () => {
 
       module.updateReceiveMoneyLine(lineIndex, lineKey, lineValue);
 
-      expect(store.getActions()).toEqual([{
-        intent: UPDATE_RECEIVE_MONEY_LINE,
-        lineIndex,
-        lineKey,
-        lineValue,
-      }]);
+      expect(store.getActions()).toEqual([
+        {
+          intent: UPDATE_RECEIVE_MONEY_LINE,
+          lineIndex,
+          lineKey,
+          lineValue,
+        },
+      ]);
     });
   });
 
@@ -595,7 +611,9 @@ describe('ReceiveMoneyDetailModule', () => {
 
       module.openCancelModal();
 
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/transactionList');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/bizId/transactionList'
+      );
     });
   });
 
@@ -678,7 +696,9 @@ describe('ReceiveMoneyDetailModule', () => {
           intent: UPDATE_RECEIVE_MONEY,
         }),
       ]);
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/transactionList');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/bizId/transactionList'
+      );
     });
   });
 

@@ -7,7 +7,11 @@ import {
   UPDATE_JOB,
 } from '../JobIntents';
 import {
-  getBusinessId, getJobDetails, getJobId, getLoadAddedCustomerUrlParams, getRegion,
+  getBusinessId,
+  getJobDetails,
+  getJobId,
+  getLoadAddedCustomerUrlParams,
+  getRegion,
 } from './jobDetailSelectors';
 
 const createJobDetailIntegrator = (store, integration) => ({

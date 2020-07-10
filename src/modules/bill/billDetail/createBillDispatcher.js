@@ -47,22 +47,24 @@ import {
 } from './BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createBillDispatcher = store => ({
+const createBillDispatcher = (store) => ({
   setInitialState: (context) => {
     store.dispatch({
       intent: SET_INITIAL_STATE,
       context,
     });
   },
-  loadAccountAfterCreate: payload => store.dispatch({
-    intent: LOAD_ACCOUNT_AFTER_CREATE,
-    ...payload,
-  }),
+  loadAccountAfterCreate: (payload) =>
+    store.dispatch({
+      intent: LOAD_ACCOUNT_AFTER_CREATE,
+      ...payload,
+    }),
 
-  loadJobAfterCreate: payload => store.dispatch({
-    intent: LOAD_JOB_AFTER_CREATE,
-    ...payload,
-  }),
+  loadJobAfterCreate: (payload) =>
+    store.dispatch({
+      intent: LOAD_JOB_AFTER_CREATE,
+      ...payload,
+    }),
 
   resetState: () => {
     store.dispatch({
@@ -210,11 +212,12 @@ const createBillDispatcher = store => ({
     });
   },
 
-  loadItemDetailForLine: ({ index, updatedLine }) => store.dispatch({
-    intent: LOAD_ITEM_DETAIL_FOR_LINE,
-    index,
-    updatedLine,
-  }),
+  loadItemDetailForLine: ({ index, updatedLine }) =>
+    store.dispatch({
+      intent: LOAD_ITEM_DETAIL_FOR_LINE,
+      index,
+      updatedLine,
+    }),
 
   updateBillLine: ({ index, key, value }) => {
     store.dispatch({
@@ -244,13 +247,18 @@ const createBillDispatcher = store => ({
     });
   },
 
-  loadSupplierAfterCreate: (supplierId, payload) => store.dispatch({
-    intent: LOAD_SUPPLIER_AFTER_CREATE, supplierId, ...payload,
-  }),
+  loadSupplierAfterCreate: (supplierId, payload) =>
+    store.dispatch({
+      intent: LOAD_SUPPLIER_AFTER_CREATE,
+      supplierId,
+      ...payload,
+    }),
 
-  startSupplierBlocking: () => store.dispatch({ intent: START_SUPPLIER_BLOCKING }),
+  startSupplierBlocking: () =>
+    store.dispatch({ intent: START_SUPPLIER_BLOCKING }),
 
-  stopSupplierBlocking: () => store.dispatch({ intent: STOP_SUPPLIER_BLOCKING }),
+  stopSupplierBlocking: () =>
+    store.dispatch({ intent: STOP_SUPPLIER_BLOCKING }),
 
   resetSupplier: () => {
     store.dispatch({ intent: RESET_SUPPLIER });
@@ -272,7 +280,9 @@ const createBillDispatcher = store => ({
 
   updateExportPdfDetail: ({ key, value }) => {
     store.dispatch({
-      intent: UPDATE_EXPORT_PDF_DETAIL, key, value,
+      intent: UPDATE_EXPORT_PDF_DETAIL,
+      key,
+      value,
     });
   },
 
@@ -337,7 +347,7 @@ const createBillDispatcher = store => ({
     });
   },
 
-  setSource: source => {
+  setSource: (source) => {
     store.dispatch({
       intent: SET_SOURCE,
       source,
@@ -351,14 +361,14 @@ const createBillDispatcher = store => ({
     });
   },
 
-  setAbnLoadingState: isAbnLoading => {
+  setAbnLoadingState: (isAbnLoading) => {
     store.dispatch({
       intent: SET_ABN_LOADING_STATE,
       isAbnLoading,
     });
   },
 
-  loadAbn: abn => {
+  loadAbn: (abn) => {
     store.dispatch({
       intent: LOAD_ABN_FROM_SUPPLIER,
       abn,

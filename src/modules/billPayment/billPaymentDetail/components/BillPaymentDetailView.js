@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getIsCreating, getLoadingState, getModalType, getTitle,
+  getAlertMessage,
+  getIsCreating,
+  getLoadingState,
+  getModalType,
+  getTitle,
 } from '../BillPaymentDetailSelectors';
 import BillPaymentActions from './BillPaymentDetailActions';
 import BillPaymentDetailTable from './BillPaymentDetailTable';
@@ -37,12 +41,7 @@ const BillPaymentDetailView = ({
 }) => {
   let modal;
   if (modalType === 'cancel') {
-    modal = (
-      <CancelModal
-        onCancel={onCloseModal}
-        onConfirm={onCancelModal}
-      />
-    );
+    modal = <CancelModal onCancel={onCloseModal} onConfirm={onCancelModal} />;
   } else if (modalType === 'delete') {
     modal = (
       <DeleteModal
@@ -80,16 +79,22 @@ const BillPaymentDetailView = ({
   const view = (
     <LineItemTemplate
       pageHead={title}
-      options={<BillPaymentOptions
-        onUpdateHeaderOption={onUpdateHeaderOption}
-        onBlurBankStatementText={onBlurBankStatementText}
-      />}
+      options={
+        <BillPaymentOptions
+          onUpdateHeaderOption={onUpdateHeaderOption}
+          onBlurBankStatementText={onBlurBankStatementText}
+        />
+      }
       actions={actions}
       alert={alertComponent}
       sticky="none"
     >
       {modal}
-      {isCreating && <BillPaymentDetailTableOptions onUpdateHeaderOption={onUpdateHeaderOption} />}
+      {isCreating && (
+        <BillPaymentDetailTableOptions
+          onUpdateHeaderOption={onUpdateHeaderOption}
+        />
+      )}
       <BillPaymentDetailTable
         onUpdateTableInputField={onUpdateTableInputField}
       />
@@ -99,7 +104,7 @@ const BillPaymentDetailView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   modalType: getModalType(state),
   alertMessage: getAlertMessage(state),

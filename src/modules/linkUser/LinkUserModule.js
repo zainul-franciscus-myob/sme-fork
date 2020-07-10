@@ -36,7 +36,7 @@ export default class LinkUserModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   linkUserId = () => {
     if (getLoadingState(this.store.getState()) === LoadingState.LOADING) return;
@@ -57,17 +57,17 @@ export default class LinkUserModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   redirectToBusinessList = () => {
     window.location.href = '/#/businesses';
-  }
+  };
 
   redirectToPreviousPage = () => {
     const state = this.store.getState();
     const redirectURL = getRedirectURL(state);
     window.location.href = redirectURL;
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
@@ -83,15 +83,11 @@ export default class LinkUserModule {
       />
     );
 
-    const wrappedView = (
-      <Provider store={this.store}>
-        {linkUserView}
-      </Provider>
-    );
+    const wrappedView = <Provider store={this.store}>{linkUserView}</Provider>;
     this.setRootView(wrappedView);
   };
 
-  setInitialState = context => this.dispatcher.setInitialState(context);
+  setInitialState = (context) => this.dispatcher.setInitialState(context);
 
   handlers = {
     SAVE_ACTION: this.linkUserId,
@@ -102,7 +98,7 @@ export default class LinkUserModule {
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.loadBusinessInformation();
-  }
+  };
 
   resetState() {
     this.dispatcher.resetState();

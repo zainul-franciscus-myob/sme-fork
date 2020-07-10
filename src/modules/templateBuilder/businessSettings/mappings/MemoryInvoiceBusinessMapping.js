@@ -1,4 +1,7 @@
-import { LOAD_BUSINESS_DETAIL, UPDATE_BUSINESS_DETAIL } from '../invoiceBusinessIntents';
+import {
+  LOAD_BUSINESS_DETAIL,
+  UPDATE_BUSINESS_DETAIL,
+} from '../invoiceBusinessIntents';
 import invoiceBusinessDetails from './data/invoiceBusinessDetails';
 import success from './data/success.json';
 

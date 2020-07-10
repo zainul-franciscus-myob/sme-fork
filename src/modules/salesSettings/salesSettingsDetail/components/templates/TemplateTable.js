@@ -39,11 +39,11 @@ const ActionComponent = ({ name, handleActionSelect }) => (
       />,
     ]}
     onSelect={handleActionSelect(name)}
-    toggle={(
+    toggle={
       <Dropdown.Toggle size="xs">
         <Icons.More />
       </Dropdown.Toggle>
-    )}
+    }
   />
 );
 
@@ -77,12 +77,12 @@ const TemplateTable = ({
           Create template
         </Button>,
       ]}
-      image={(
+      image={
         <img
           src={emptyState}
           alt="Change the way your invoices look with templates"
         />
-      )}
+      }
     />
   );
 
@@ -100,7 +100,7 @@ const TemplateTable = ({
     </Table.Header>
   );
 
-  const renderTableRow = template => (
+  const renderTableRow = (template) => (
     <Table.Row key={template.name}>
       <Table.RowItem {...tableConfig.name}>
         <a href={template.link}>{template.name}</a>
@@ -125,9 +125,7 @@ const TemplateTable = ({
   const tableBody = () => (
     <Table.Body>{templates.map(renderTableRow)}</Table.Body>
   );
-  const renderTable = () => (
-    hasTemplates ? tableBody() : emptyView()
-  );
+  const renderTable = () => (hasTemplates ? tableBody() : emptyView());
   const table = (
     <Table hasActions>
       {renderTableHeader()}
@@ -135,14 +133,10 @@ const TemplateTable = ({
     </Table>
   );
 
-  return (
-    <Card>
-      {table}
-    </Card>
-  );
+  return <Card>{table}</Card>;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   order: getOrder(state),
   hasTemplates: getHasTemplates(state),
   isLoading: getIsTemplatesLoading(state),

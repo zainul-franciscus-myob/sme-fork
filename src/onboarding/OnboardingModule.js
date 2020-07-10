@@ -45,9 +45,7 @@ class OnboardingModule {
   };
 
   render = () => {
-    const {
-      dispatcher, save, onboardingVisited, businessId,
-    } = this;
+    const { dispatcher, save, onboardingVisited, businessId } = this;
 
     return (
       <OnboardingView
@@ -61,8 +59,10 @@ class OnboardingModule {
 
   resetState = () => null;
 
-  run = routeProps => {
-    const { routeParams: { businessId, region } } = routeProps;
+  run = (routeProps) => {
+    const {
+      routeParams: { businessId, region },
+    } = routeProps;
 
     this.businessId = businessId;
     this.region = region;

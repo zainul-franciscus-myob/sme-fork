@@ -13,19 +13,23 @@ const HttpTemplateMapping = {
   },
   [UPDATE_TEMPLATE]: {
     method: 'PUT',
-    getPath: ({ businessId, templateId }) => `/${businessId}/documents/templates/${templateId}`,
+    getPath: ({ businessId, templateId }) =>
+      `/${businessId}/documents/templates/${templateId}`,
   },
   [LOAD_TEMPLATE]: {
     method: 'GET',
-    getPath: ({ businessId, templateName }) => `/${businessId}/documents/templates/load_template/${templateName}`,
+    getPath: ({ businessId, templateName }) =>
+      `/${businessId}/documents/templates/load_template/${templateName}`,
   },
   [LOAD_NEW_TEMPLATE]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/documents/templates/load_new_template`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/documents/templates/load_new_template`,
   },
   [LOAD_PAY_DIRECT]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/documents/templates/load_pay_direct`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/documents/templates/load_pay_direct`,
   },
 };
 

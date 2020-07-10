@@ -11,7 +11,10 @@ import {
   UPDATE_FILTER_OPTIONS,
 } from '../BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { START_LOADING_MORE, STOP_LOADING_MORE } from '../billDetail/BillIntents';
+import {
+  START_LOADING_MORE,
+  STOP_LOADING_MORE,
+} from '../billDetail/BillIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
@@ -48,19 +51,39 @@ const getDefaultState = () => ({
   },
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const shouldSetInitialStateWithQueryParams = (context) => {
   const {
-    dateFrom, dateTo, keywords, supplierId, status, orderBy, sortOrder,
+    dateFrom,
+    dateTo,
+    keywords,
+    supplierId,
+    status,
+    orderBy,
+    sortOrder,
   } = context;
 
-  return status || dateFrom || dateTo || keywords || supplierId || orderBy || sortOrder;
+  return (
+    status ||
+    dateFrom ||
+    dateTo ||
+    keywords ||
+    supplierId ||
+    orderBy ||
+    sortOrder
+  );
 };
 
 const setInitialStateWithQueryParams = (context, initialState) => {
   const {
-    dateFrom, dateTo, keywords, supplierId, status, orderBy, sortOrder,
+    dateFrom,
+    dateTo,
+    keywords,
+    supplierId,
+    status,
+    orderBy,
+    sortOrder,
   } = context;
 
   const updatedFilterOptions = {
@@ -71,7 +94,7 @@ const setInitialStateWithQueryParams = (context, initialState) => {
     status: status || initialState.defaultFilterOptions.status,
   };
 
-  return ({
+  return {
     ...initialState,
     ...context,
     filterOptions: {
@@ -80,12 +103,11 @@ const setInitialStateWithQueryParams = (context, initialState) => {
     },
     orderBy: orderBy || initialState.orderBy,
     sortOrder: sortOrder || initialState.sortOrder,
-  });
+  };
 };
 
-const shouldSetInitialStateWithSettings = (settings, initialState) => (
-  settings.settingsVersion === initialState.settingsVersion
-);
+const shouldSetInitialStateWithSettings = (settings, initialState) =>
+  settings.settingsVersion === initialState.settingsVersion;
 
 const setInitialStateWithSettings = (context, settings, initialState) => ({
   ...initialState,
@@ -95,10 +117,7 @@ const setInitialStateWithSettings = (context, settings, initialState) => ({
   orderBy: settings.orderBy,
 });
 
-const setInitialState = (_, {
-  context,
-  settings = {},
-}) => {
+const setInitialState = (_, { context, settings = {} }) => {
   const initialState = getDefaultState();
 
   if (shouldSetInitialStateWithQueryParams(context)) {
@@ -127,27 +146,26 @@ const loadBillList = (state, action) => ({
 });
 
 const loadBillListNextPage = (state, action) => {
-  const allBillIds = state.entries.map(bill => bill.id);
+  const allBillIds = state.entries.map((bill) => bill.id);
 
-  const entries = action.entries.filter(bill => !allBillIds.includes(bill.id));
-  return ({
+  const entries = action.entries.filter(
+    (bill) => !allBillIds.includes(bill.id)
+  );
+  return {
     ...state,
-    entries: [
-      ...state.entries,
-      ...entries,
-    ],
+    entries: [...state.entries, ...entries],
     pagination: {
       ...action.pagination,
     },
-  });
+  };
 };
 
-const startLoadingMore = state => ({
+const startLoadingMore = (state) => ({
   ...state,
   isLoadingMore: true,
 });
 
-const stopLoadingMore = state => ({
+const stopLoadingMore = (state) => ({
   ...state,
   isLoadingMore: false,
 });

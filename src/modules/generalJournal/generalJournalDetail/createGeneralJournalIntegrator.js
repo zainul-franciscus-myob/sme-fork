@@ -52,7 +52,10 @@ const createGeneralJournalIntegrator = (store, integration) => ({
     const urlParams = getLoadAccountAfterCreateUrlParams(state, id);
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
   loadJobAfterCreate: ({ id, onSuccess, onFailure }) => {
@@ -61,7 +64,10 @@ const createGeneralJournalIntegrator = (store, integration) => ({
     const urlParams = getLoadJobAfterCreateUrlParams(state, id);
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 });

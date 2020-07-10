@@ -1,9 +1,7 @@
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getLoadMoreButtonStatus,
-} from '../selectors/journalTransactionSelectors';
+import { getLoadMoreButtonStatus } from '../selectors/journalTransactionSelectors';
 import JournalTransactionListTable from './JournalTransactionListTable';
 import JournalTransactionListTableHeader from './JournalTransactionListTableHeader';
 import PageView from '../../../components/PageView/PageView';
@@ -14,9 +12,16 @@ export const tableConfig = {
   date: { width: '11rem', valign: 'top', columnName: 'Date' },
   referenceId: { width: '13rem', valign: 'top', columnName: 'Reference no' },
   description: { width: 'flex-1', valign: 'top', columnName: 'Description' },
-  sourceJournal: { width: '15.5rem', valign: 'top', columnName: 'Source journal' },
+  sourceJournal: {
+    width: '15.5rem',
+    valign: 'top',
+    columnName: 'Source journal',
+  },
   displayAmount: {
-    width: '12.4rem', valign: 'top', align: 'right', columnName: 'Amount ($)',
+    width: '12.4rem',
+    valign: 'top',
+    align: 'right',
+    columnName: 'Amount ($)',
   },
 };
 
@@ -49,12 +54,12 @@ const JournalTransactionListView = (props) => {
       pageHead={pageHead}
       filterBar={filterBar}
       subHeadChildren={subHead}
-      tableHeader={(
+      tableHeader={
         <JournalTransactionListTableHeader
           onSort={onSort}
           tableConfig={tableConfig}
         />
-      )}
+      }
       listTable={transactionListTable}
       onLoadMoreButtonClick={onLoadMoreButtonClick}
       loadMoreButtonStatus={loadMoreButtonStatus}
@@ -64,7 +69,7 @@ const JournalTransactionListView = (props) => {
   return <PageView view={transactionListView} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadMoreButtonStatus: getLoadMoreButtonStatus(state),
 });
 

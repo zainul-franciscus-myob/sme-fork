@@ -26,11 +26,18 @@ import createPayrollSettingsIntegrator from './createPayrollSettingsIntegrator';
 import debounce from '../../common/debounce/debounce';
 import payrollSettingsReducer from './reducer/payrollSettingsReducer';
 
-const messageTypes = [SUCCESSFULLY_DELETED_SUPER_FUND, SUCCESSFULLY_SAVED_SUPER_FUND];
+const messageTypes = [
+  SUCCESSFULLY_DELETED_SUPER_FUND,
+  SUCCESSFULLY_SAVED_SUPER_FUND,
+];
 
 export default class PayrollSettingsModule {
   constructor({
-    integration, setRootView, popMessages, replaceURLParams, globalCallbacks,
+    integration,
+    setRootView,
+    popMessages,
+    replaceURLParams,
+    globalCallbacks,
   }) {
     this.setRootView = setRootView;
     this.store = new Store(payrollSettingsReducer);
@@ -48,13 +55,13 @@ export default class PayrollSettingsModule {
       const { content: message } = successMessage;
       this.dispatcher.setAlert({ type: 'success', message });
     }
-  }
+  };
 
   dismissAlert = () => {
     this.dispatcher.dismissAlert();
-  }
+  };
 
-  updateURLFromState = state => this.replaceURLParams(getURLParams(state))
+  updateURLFromState = (state) => this.replaceURLParams(getURLParams(state));
 
   setTab = (selectedTab) => {
     const state = this.store.getState();
@@ -65,42 +72,49 @@ export default class PayrollSettingsModule {
       this.dispatcher.setTab(selectedTab);
       this.loadTabContent(selectedTab);
     }
-  }
+  };
 
   loadTabContent = (selectedTab) => {
-    const loadData = {
-      [tabIds.superFundList]: this.loadSuperFundList,
-      [tabIds.classification]: this.loadEmploymentClassificationList,
-      [tabIds.general]: this.loadGeneralPayrollInformation,
-      [tabIds.paySlipEmailDefaults]: this.loadPaySlipEmailDefaults,
-    }[selectedTab] || (() => {});
+    const loadData =
+      {
+        [tabIds.superFundList]: this.loadSuperFundList,
+        [tabIds.classification]: this.loadEmploymentClassificationList,
+        [tabIds.general]: this.loadGeneralPayrollInformation,
+        [tabIds.paySlipEmailDefaults]: this.loadPaySlipEmailDefaults,
+      }[selectedTab] || (() => {});
 
     loadData();
-  }
+  };
 
   loadPaySlipEmailDefaults = () => {
     this.dispatcher.setPaySlipEmailDefaultsLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
-      this.dispatcher.setPaySlipEmailDefaultsLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setPaySlipEmailDefaultsLoadingState(
+        LoadingState.LOADING_SUCCESS
+      );
       this.dispatcher.loadPaySlipEmailDefaults(response);
     };
 
     const onFailure = () => {
-      this.dispatcher.setPaySlipEmailDefaultsLoadingState(LoadingState.LOADING_FAIL);
+      this.dispatcher.setPaySlipEmailDefaultsLoadingState(
+        LoadingState.LOADING_FAIL
+      );
     };
 
     this.integrator.loadPaySlipEmailDefaults({
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   loadSuperFundList = () => {
     this.dispatcher.setSuperFundListLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
-      this.dispatcher.setSuperFundListLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setSuperFundListLoadingState(
+        LoadingState.LOADING_SUCCESS
+      );
       this.dispatcher.loadSuperFundList(response);
     };
 
@@ -109,7 +123,7 @@ export default class PayrollSettingsModule {
     };
 
     this.integrator.loadSuperFundList({ onSuccess, onFailure });
-  }
+  };
 
   sortAndFilterSuperFundList = () => {
     this.dispatcher.setSuperFundListTableLoadingState(true);
@@ -125,7 +139,7 @@ export default class PayrollSettingsModule {
     };
 
     this.integrator.sortAndFilterSuperFundList({ onSuccess, onFailure });
-  }
+  };
 
   sortSuperFundList = (orderBy) => {
     const state = this.store.getState();
@@ -133,40 +147,46 @@ export default class PayrollSettingsModule {
     this.dispatcher.setSuperFundListSortOrder(orderBy, sortOrder);
 
     this.sortAndFilterSuperFundList();
-  }
+  };
 
   setSuperFundListFilterOptions = ({ key, value }) => {
     this.dispatcher.setSuperFundListFilterOptions({ key, value });
 
     debounce(this.sortAndFilterSuperFundList)();
-  }
+  };
 
-  redirectSuperannuationFundToCreateSuperFund= () => {
+  redirectSuperannuationFundToCreateSuperFund = () => {
     const state = this.store.getState();
 
     window.location.href = getCreateSuperUrl(state);
-  }
+  };
 
   redirectGeneralSettingsToCreateSuperFund = () => {
     const state = this.store.getState();
     const url = getCreateSuperUrl(state);
     this.handlePageTransition(url);
-  }
+  };
 
   loadEmploymentClassificationList = () => {
-    this.dispatcher.setEmploymentClassificationListLoadingState(LoadingState.LOADING);
+    this.dispatcher.setEmploymentClassificationListLoadingState(
+      LoadingState.LOADING
+    );
 
     const onSuccess = (response) => {
-      this.dispatcher.setEmploymentClassificationListLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setEmploymentClassificationListLoadingState(
+        LoadingState.LOADING_SUCCESS
+      );
       this.dispatcher.loadEmploymentClassificationList(response);
     };
 
     const onFailure = () => {
-      this.dispatcher.setEmploymentClassificationListLoadingState(LoadingState.LOADING_FAIL);
+      this.dispatcher.setEmploymentClassificationListLoadingState(
+        LoadingState.LOADING_FAIL
+      );
     };
 
     this.integrator.loadEmploymentClassificationList({ onSuccess, onFailure });
-  }
+  };
 
   sortAndFilterEmploymentClassificationList = () => {
     this.dispatcher.setEmploymentClassificationListTableLoadingState(true);
@@ -181,30 +201,39 @@ export default class PayrollSettingsModule {
       this.dispatcher.setAlert({ message: error.message, type: 'danger' });
     };
 
-    this.integrator.sortAndFilterEmploymentClassificationList({ onSuccess, onFailure });
-  }
+    this.integrator.sortAndFilterEmploymentClassificationList({
+      onSuccess,
+      onFailure,
+    });
+  };
 
   sortEmploymentClassificationList = (orderBy) => {
     const state = this.store.getState();
     const sortOrder = getNewEmploymentClassificationSortOrder(orderBy)(state);
-    this.dispatcher.setEmploymentClassificationListSortOrder(orderBy, sortOrder);
+    this.dispatcher.setEmploymentClassificationListSortOrder(
+      orderBy,
+      sortOrder
+    );
 
     this.sortAndFilterEmploymentClassificationList();
-  }
+  };
 
   setEmploymentClassificationListFilterOptions = ({ key, value }) => {
-    this.dispatcher.setEmploymentClassificationListFilterOptions({ key, value });
+    this.dispatcher.setEmploymentClassificationListFilterOptions({
+      key,
+      value,
+    });
 
     debounce(this.sortAndFilterEmploymentClassificationList)();
-  }
+  };
 
   closeEmploymentClassificationDetailModal = () => {
     this.dispatcher.dismissModal();
-  }
+  };
 
   dismissEmploymentClassificationAlert = () => {
     this.dispatcher.dismissEmploymentClassificationDetailAlert();
-  }
+  };
 
   openNewEmployeeClassificationDetailModal = () => {
     this.dispatcher.setModalType(ModalType.EMPLOYMENT_CLASSIFICATION_DETAIL);
@@ -213,7 +242,9 @@ export default class PayrollSettingsModule {
 
     const onSuccess = (employmentClassification) => {
       this.dispatcher.setEmploymentClassificationDetailIsLoading(false);
-      this.dispatcher.loadNewEmploymentClassificationDetail(employmentClassification);
+      this.dispatcher.loadNewEmploymentClassificationDetail(
+        employmentClassification
+      );
     };
 
     const onFailure = ({ message }) => {
@@ -224,15 +255,22 @@ export default class PayrollSettingsModule {
       });
     };
 
-    this.integrator.loadNewEmploymentClassificationDetail({ onSuccess, onFailure });
-  }
+    this.integrator.loadNewEmploymentClassificationDetail({
+      onSuccess,
+      onFailure,
+    });
+  };
 
   loadGeneralPayrollInformation = () => {
-    this.dispatcher.setGeneralPayrollInformationLoadingState(LoadingState.LOADING);
+    this.dispatcher.setGeneralPayrollInformationLoadingState(
+      LoadingState.LOADING
+    );
 
     const onSuccess = (generalPayrollInformation) => {
       this.dispatcher.loadGeneralPayrollInformation(generalPayrollInformation);
-      this.dispatcher.setGeneralPayrollInformationLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setGeneralPayrollInformationLoadingState(
+        LoadingState.LOADING_SUCCESS
+      );
     };
 
     const onFailure = ({ message }) => {
@@ -242,11 +280,13 @@ export default class PayrollSettingsModule {
         message,
       });
 
-      this.dispatcher.setGeneralPayrollInformationLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setGeneralPayrollInformationLoadingState(
+        LoadingState.LOADING_SUCCESS
+      );
     };
 
     this.integrator.loadGeneralPayrollInformation({ onSuccess, onFailure });
-  }
+  };
 
   openEmployeeClassificationDetailModal = (id) => {
     this.dispatcher.setModalType(ModalType.EMPLOYMENT_CLASSIFICATION_DETAIL);
@@ -255,7 +295,9 @@ export default class PayrollSettingsModule {
 
     const onSuccess = (employmentClassification) => {
       this.dispatcher.setEmploymentClassificationDetailIsLoading(false);
-      this.dispatcher.loadEmploymentClassificationDetail(employmentClassification);
+      this.dispatcher.loadEmploymentClassificationDetail(
+        employmentClassification
+      );
     };
 
     const onFailure = ({ message }) => {
@@ -266,8 +308,11 @@ export default class PayrollSettingsModule {
       });
     };
 
-    this.integrator.loadEmploymentClassificationDetail({ onSuccess, onFailure });
-  }
+    this.integrator.loadEmploymentClassificationDetail({
+      onSuccess,
+      onFailure,
+    });
+  };
 
   saveEmploymentClassification = () => {
     const state = this.store.getState();
@@ -296,7 +341,7 @@ export default class PayrollSettingsModule {
     } else {
       this.integrator.updateEmploymentClassification({ onSuccess, onFailure });
     }
-  }
+  };
 
   deleteEmploymentClassification = () => {
     const onSuccess = ({ message }) => {
@@ -319,13 +364,17 @@ export default class PayrollSettingsModule {
 
     this.dispatcher.setEmploymentClassificationDetailIsLoading(true);
     this.integrator.deleteEmploymentClassification({ onSuccess, onFailure });
-  }
+  };
 
   submitGeneralPayrollInformation = () => {
-    this.dispatcher.setGeneralPayrollInformationLoadingState(LoadingState.LOADING);
+    this.dispatcher.setGeneralPayrollInformationLoadingState(
+      LoadingState.LOADING
+    );
 
     const onSuccess = ({ message }) => {
-      this.dispatcher.setGeneralPayrollInformationLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setGeneralPayrollInformationLoadingState(
+        LoadingState.LOADING_SUCCESS
+      );
       const state = this.store.getState();
       const url = getModalUrl(state);
       this.globalCallbacks.payrollGeneralSettingsSaved();
@@ -343,7 +392,9 @@ export default class PayrollSettingsModule {
       this.dispatcher.setIsPageEdited(false);
     };
     const onFailure = ({ message }) => {
-      this.dispatcher.setGeneralPayrollInformationLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setGeneralPayrollInformationLoadingState(
+        LoadingState.LOADING_SUCCESS
+      );
       this.dispatcher.closeModal();
       this.dispatcher.setAlert({
         type: 'danger',
@@ -352,24 +403,28 @@ export default class PayrollSettingsModule {
     };
 
     this.integrator.submitGeneralPayrollInformation({ onSuccess, onFailure });
-  }
+  };
 
   saveGeneralPayrollInformation = () => {
     this.submitGeneralPayrollInformation();
-  }
+  };
 
   submitPaySlipEmailDefaults = () => {
     this.dispatcher.setPaySlipEmailDefaultsLoadingState(LoadingState.LOADING);
 
     const onSuccess = ({ message }) => {
-      this.dispatcher.setPaySlipEmailDefaultsLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setPaySlipEmailDefaultsLoadingState(
+        LoadingState.LOADING_SUCCESS
+      );
       this.dispatcher.setAlert({
         message,
         type: 'success',
       });
     };
     const onFailure = ({ message }) => {
-      this.dispatcher.setPaySlipEmailDefaultsLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setPaySlipEmailDefaultsLoadingState(
+        LoadingState.LOADING_SUCCESS
+      );
       this.dispatcher.setAlert({
         message,
         type: 'danger',
@@ -380,7 +435,7 @@ export default class PayrollSettingsModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   resetState = () => {
     this.dispatcher.resetState();
@@ -391,17 +446,17 @@ export default class PayrollSettingsModule {
     const url = getModalUrl(state);
     this.redirectToUrl(url);
     this.dispatcher.setIsPageEdited(false);
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   redirectToUrl = (url) => {
     if (url) {
       window.location.href = url;
     }
-  }
+  };
 
   run(context) {
     this.dispatcher.setInitialState(context);
@@ -414,7 +469,7 @@ export default class PayrollSettingsModule {
 
   openUnsavedModal = (url) => {
     this.dispatcher.openModal({ type: ModalType.UNSAVED, url });
-  }
+  };
 
   render = () => {
     const view = (
@@ -427,7 +482,8 @@ export default class PayrollSettingsModule {
           onSort: this.sortSuperFundList,
         }}
         generalPayrollInformationListeners={{
-          onGeneralPayrollInformationChange: this.dispatcher.changeGeneralPayrollInformation,
+          onGeneralPayrollInformationChange: this.dispatcher
+            .changeGeneralPayrollInformation,
           onUseTimesheetsChange: this.dispatcher.changeUseTimesheets,
           onGeneralPayrollInformationSave: this.saveGeneralPayrollInformation,
           onDismissModal: this.dispatcher.closeModal,
@@ -438,33 +494,34 @@ export default class PayrollSettingsModule {
         }}
         employmentClassificationListeners={{
           onCreateButtonClick: this.openNewEmployeeClassificationDetailModal,
-          onUpdateFilterOptions: this.setEmploymentClassificationListFilterOptions,
+          onUpdateFilterOptions: this
+            .setEmploymentClassificationListFilterOptions,
           onSort: this.sortEmploymentClassificationList,
           onClickRowButton: this.openEmployeeClassificationDetailModal,
         }}
         employmentClassificationDetailListeners={{
-          onChangeEmploymentClassificationDetail:
-            this.dispatcher.changeEmploymentClassificationDetail,
-          onCancelEmploymentClassificationDetailModal:
-            this.closeEmploymentClassificationDetailModal,
-          onSaveEmploymentClassificationDetail: this.saveEmploymentClassification,
-          onDeleteEmploymentClassificationDetail: this.deleteEmploymentClassification,
-          onDismissEmploymentClassificationAlert: this.dismissEmploymentClassificationAlert,
+          onChangeEmploymentClassificationDetail: this.dispatcher
+            .changeEmploymentClassificationDetail,
+          onCancelEmploymentClassificationDetailModal: this
+            .closeEmploymentClassificationDetailModal,
+          onSaveEmploymentClassificationDetail: this
+            .saveEmploymentClassification,
+          onDeleteEmploymentClassificationDetail: this
+            .deleteEmploymentClassification,
+          onDismissEmploymentClassificationAlert: this
+            .dismissEmploymentClassificationAlert,
         }}
         paySlipEmailDefaultsListeners={{
-          onPaySlipEmailDefaultsFieldChange: this.dispatcher.changePaySlipEmailDefaultsField,
+          onPaySlipEmailDefaultsFieldChange: this.dispatcher
+            .changePaySlipEmailDefaultsField,
           onPaySlipEmailDefaultsSave: this.submitPaySlipEmailDefaults,
         }}
       />
     );
 
-    const wrappedView = (
-      <Provider store={this.store}>
-        {view}
-      </Provider>
-    );
+    const wrappedView = <Provider store={this.store}>{view}</Provider>;
     this.setRootView(wrappedView);
-  }
+  };
 
   handlePageTransition = (url) => {
     const state = this.store.getState();
@@ -473,5 +530,5 @@ export default class PayrollSettingsModule {
     } else {
       this.redirectToUrl(url);
     }
-  }
+  };
 }

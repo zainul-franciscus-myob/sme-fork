@@ -1,7 +1,4 @@
-import {
-  FieldGroup,
-  Separator,
-} from '@myob/myob-widgets';
+import { FieldGroup, Separator } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -16,13 +13,17 @@ const SuperFundWithPaySuperView = ({
   isSelfManagedFund,
   superFundModalListeners,
 }) => {
-  const FundDetail = isSelfManagedFund ? SuperFundSelfManagedDetail : SuperFundAPRADetail;
+  const FundDetail = isSelfManagedFund
+    ? SuperFundSelfManagedDetail
+    : SuperFundAPRADetail;
 
   const view = (
     <FieldGroup label="Self managed" hideLabel>
       <SuperFundBasic superFundModalListeners={superFundModalListeners} />
       <FundDetail superFundModalListeners={superFundModalListeners} />
-      <SuperFundContactDetails superFundModalListeners={superFundModalListeners} />
+      <SuperFundContactDetails
+        superFundModalListeners={superFundModalListeners}
+      />
       <Separator />
       <PaySuperSection superFundModalListeners={superFundModalListeners} />
     </FieldGroup>
@@ -31,7 +32,7 @@ const SuperFundWithPaySuperView = ({
   return view;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isSelfManagedFund: getIsSelfManagedFund(state),
 });
 

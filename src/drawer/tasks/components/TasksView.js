@@ -10,7 +10,6 @@ import Welcome from './Welcome';
 import asideHeaderStyles from '../../AsideHeader.module.css';
 import emptyStateImage from './assets/icon-tasks-empty-state.svg';
 
-
 const TasksView = ({
   closeTasks,
   dismissTask,
@@ -23,7 +22,8 @@ const TasksView = ({
   welcomeTask,
 }) => {
   if (!isActive) return null;
-  const hasTasks = welcomeTask || (onboardingTasks && onboardingTasks.length > 0);
+  const hasTasks =
+    welcomeTask || (onboardingTasks && onboardingTasks.length > 0);
 
   const tasksView = () => (
     <div>
@@ -33,14 +33,20 @@ const TasksView = ({
         closeIntroModal={closeIntroModal}
         openIntroModal={openIntroModal}
       />
-      <Onboarding tasks={onboardingTasks} closeTasks={closeTasks} dismissTask={dismissTask} />
+      <Onboarding
+        tasks={onboardingTasks}
+        closeTasks={closeTasks}
+        dismissTask={dismissTask}
+      />
     </div>
   );
 
   const emptyStateView = () => (
     <PageState
       description="Check back here later for new tasks and notifications"
-      image={<img src={emptyStateImage} alt="no tasks" style={{ width: '10rem' }} />}
+      image={
+        <img src={emptyStateImage} alt="no tasks" style={{ width: '10rem' }} />
+      }
       title="Nice work, you're all caught up!"
     />
   );
@@ -63,7 +69,7 @@ const TasksView = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isActive: getIsActive(state),
   isLoading: getIsLoading(state),
 });

@@ -6,7 +6,10 @@ const PaymentStatus = ({ paymentStatus, size }) => {
     return null;
   }
 
-  return (<Label type="boxed" size={size} color={paymentStatus.color}>{paymentStatus.display}</Label>
+  return (
+    <Label type="boxed" size={size} color={paymentStatus.color}>
+      {paymentStatus.display}
+    </Label>
   );
 };
 

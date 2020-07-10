@@ -14,14 +14,22 @@ import itemListFilterResponse from './data/filterItemList';
 import itemListLoadResponse from './data/itemList';
 import success from './data/success.json';
 
-const loadInventoryDetail = ({ onSuccess }) => onSuccess(inventoryDetailLoadResponse);
-const loadNewInventoryDetail = ({ onSuccess }) => onSuccess(inventoryDetailLoadNewResponse);
+const loadInventoryDetail = ({ onSuccess }) =>
+  onSuccess(inventoryDetailLoadResponse);
+const loadNewInventoryDetail = ({ onSuccess }) =>
+  onSuccess(inventoryDetailLoadNewResponse);
 const updateInventoryDetail = ({ onSuccess }) => onSuccess(success);
 const createInventoryDetail = ({ onSuccess }) => onSuccess(success);
 const deleteInventoryDetail = ({ onSuccess }) => onSuccess(success);
-const loadItemList = ({ onSuccess }) => { onSuccess(itemListLoadResponse); };
-const filterItemList = ({ onSuccess }) => { onSuccess(itemListFilterResponse); };
-const loadNextPage = ({ onSuccess }) => { onSuccess(itemListFilterResponse); };
+const loadItemList = ({ onSuccess }) => {
+  onSuccess(itemListLoadResponse);
+};
+const filterItemList = ({ onSuccess }) => {
+  onSuccess(itemListFilterResponse);
+};
+const loadNextPage = ({ onSuccess }) => {
+  onSuccess(itemListFilterResponse);
+};
 
 const MemoryInventoryMapping = {
   [LOAD_INVENTORY_DETAIL]: loadInventoryDetail,

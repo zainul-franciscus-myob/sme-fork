@@ -50,7 +50,10 @@ const LeavePayItemCalculationBasis = ({
           hideLabel={false}
           items={calculationBasisPercentOfOptions}
           selectedId={calculationBasisPayItemId}
-          onChange={handlePayItemComboboxChange(onCalculationBasisChange, 'calculationBasisPayItemId')}
+          onChange={handlePayItemComboboxChange(
+            onCalculationBasisChange,
+            'calculationBasisPayItemId'
+          )}
         />
       </React.Fragment>
     )}
@@ -78,6 +81,6 @@ const LeavePayItemCalculationBasis = ({
   </React.Fragment>
 );
 
-const mapStateToProps = state => getCalculationBasis(state);
+const mapStateToProps = (state) => getCalculationBasis(state);
 
 export default connect(mapStateToProps)(LeavePayItemCalculationBasis);

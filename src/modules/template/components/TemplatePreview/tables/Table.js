@@ -5,15 +5,17 @@ import styles from './Table.module.css';
 
 const TableHeader = ({ columns }) => (
   <div className={styles.header}>
-    {columns.map(({
-      name, description, width, rightAlign,
-    }) => (
+    {columns.map(({ name, description, width, rightAlign }) => (
       <div
         style={{ flex: `0 0 ${width}` || '1 1 auto' }}
-        className={classnames(styles.headerItem, { [styles.rightAlign]: rightAlign })}
+        className={classnames(styles.headerItem, {
+          [styles.rightAlign]: rightAlign,
+        })}
       >
         <h5>{name}</h5>
-        {description && <div className={styles.headerItemDescription}>{description}</div>}
+        {description && (
+          <div className={styles.headerItemDescription}>{description}</div>
+        )}
       </div>
     ))}
   </div>
@@ -24,7 +26,9 @@ const TableRow = ({ columns, item }) => (
     {columns.map(({ key, width, rightAlign }) => (
       <div
         style={{ flex: `0 0 ${width}` || '1 1 auto' }}
-        className={classnames(styles.rowItem, { [styles.rightAlign]: rightAlign })}
+        className={classnames(styles.rowItem, {
+          [styles.rightAlign]: rightAlign,
+        })}
       >
         {item[key]}
       </div>
@@ -36,7 +40,7 @@ const Table = ({ columns, items }) => (
   <div>
     <TableHeader columns={columns} />
     <div className={styles.body}>
-      {items.map(item => (
+      {items.map((item) => (
         <TableRow item={item} columns={columns} />
       ))}
     </div>

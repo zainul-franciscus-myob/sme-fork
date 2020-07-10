@@ -112,7 +112,7 @@ export default class SupplerReturnPurchaseModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   deletePurchaseReturn = () => {
     this.setSubmittingState(true);
@@ -140,12 +140,11 @@ export default class SupplerReturnPurchaseModule {
       urlParams: {
         businessId: getBusinessId(state),
         purchaseReturnId: getPurchaseReturnId(state),
-
       },
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   updateTableAmountFields = ({ key, value, index }) => {
     this.store.dispatch({
@@ -154,7 +153,7 @@ export default class SupplerReturnPurchaseModule {
       value,
       index,
     });
-  }
+  };
 
   updatePurchaseOptions = ({ key, value }) => {
     this.store.dispatch({
@@ -162,7 +161,7 @@ export default class SupplerReturnPurchaseModule {
       key,
       value,
     });
-  }
+  };
 
   confirmBeforeCancel = () => {
     const state = this.store.getState();
@@ -176,30 +175,30 @@ export default class SupplerReturnPurchaseModule {
     } else {
       this.redirectToSupplierReturnList();
     }
-  }
+  };
 
   confirmBeforeDelete = () => {
     this.store.dispatch({
       intent: OPEN_MODAL,
       modalType: 'delete',
     });
-  }
+  };
 
   confirmCancel = () => {
     this.closeModal();
     this.redirectToSupplierReturnList();
-  }
+  };
 
   confirmDelete = () => {
     this.closeModal();
     this.deletePurchaseReturn();
-  }
+  };
 
   closeModal = () => {
     this.store.dispatch({
       intent: CLOSE_MODAL,
     });
-  }
+  };
 
   redirectToSupplierReturnList = () => {
     const state = this.store.getState();
@@ -207,7 +206,7 @@ export default class SupplerReturnPurchaseModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/supplierReturn`;
-  }
+  };
 
   redirectToTransactionList = () => {
     const state = this.store.getState();
@@ -215,7 +214,7 @@ export default class SupplerReturnPurchaseModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/transactionList`;
-  }
+  };
 
   render = () => {
     const supplierReturnPurchaseView = (
@@ -234,9 +233,7 @@ export default class SupplerReturnPurchaseModule {
     );
 
     const wrappedView = (
-      <Provider store={this.store}>
-        {supplierReturnPurchaseView}
-      </Provider>
+      <Provider store={this.store}>{supplierReturnPurchaseView}</Provider>
     );
 
     this.setRootView(wrappedView);
@@ -251,14 +248,14 @@ export default class SupplerReturnPurchaseModule {
       intent: SET_LOADING_STATE,
       isLoading,
     });
-  }
+  };
 
   setSubmittingState = (isSubmitting) => {
     this.store.dispatch({
       intent: SET_SUBMITTING_STATE,
       isSubmitting,
     });
-  }
+  };
 
   setInitialState = (context) => {
     const intent = SET_INITIAL_STATE;
@@ -267,17 +264,19 @@ export default class SupplerReturnPurchaseModule {
       intent,
       context,
     });
-  }
+  };
 
-  displayAlert = errorMessage => this.store.dispatch({
-    intent: SET_ALERT,
-    alertMessage: errorMessage,
-  });
+  displayAlert = (errorMessage) =>
+    this.store.dispatch({
+      intent: SET_ALERT,
+      alertMessage: errorMessage,
+    });
 
-  dismissAlert = () => this.store.dispatch({
-    intent: SET_ALERT,
-    alertMessage: '',
-  });
+  dismissAlert = () =>
+    this.store.dispatch({
+      intent: SET_ALERT,
+      alertMessage: '',
+    });
 
   resetState() {
     const intent = RESET_STATE;
@@ -293,7 +292,7 @@ export default class SupplerReturnPurchaseModule {
     if (!isCreating || modalType) return;
 
     this.createPurchaseReturn();
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,
@@ -305,5 +304,5 @@ export default class SupplerReturnPurchaseModule {
     this.render();
     this.setLoadingState(true);
     this.loadPurchaseReturn();
-  }
+  };
 }

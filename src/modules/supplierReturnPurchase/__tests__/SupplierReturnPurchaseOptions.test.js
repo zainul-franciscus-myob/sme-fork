@@ -12,9 +12,11 @@ describe('supplierReturnPurchaseOptions', () => {
     const wrapper = mount(
       <Provider store={store}>
         <SupplierReturnPurchaseOptions />
-      </Provider>,
+      </Provider>
     );
-    const supplierReturnPurchaseInput = wrapper.find({ name: 'referenceId' }).first();
+    const supplierReturnPurchaseInput = wrapper
+      .find({ name: 'referenceId' })
+      .first();
     expect(supplierReturnPurchaseInput.prop('maxLength')).toBe(13);
   });
 });

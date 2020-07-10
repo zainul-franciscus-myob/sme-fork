@@ -1,9 +1,10 @@
 import {
-  CONVERT_TO_PRE_CONVERSION_INVOICE, SET_MODAL_TYPE, SET_SHOW_PRE_CONVERSION_ALERT,
+  CONVERT_TO_PRE_CONVERSION_INVOICE,
+  SET_MODAL_TYPE,
+  SET_SHOW_PRE_CONVERSION_ALERT,
 } from '../../InvoiceIntents';
 import { setupWithRun } from './InvoiceDetailModule.test';
 import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
-
 
 describe('InvoiceDetailModule_PreConversion', () => {
   describe('validate is pre conversion', () => {

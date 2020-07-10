@@ -1,6 +1,4 @@
-import {
-  Alert, Button, Modal, Separator,
-} from '@myob/myob-widgets';
+import { Alert, Button, Modal, Separator } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -24,11 +22,7 @@ const InTrayModalView = ({
   isOpen,
   isActionDisabled,
   isLinkActionDisabled,
-  inTrayModalListeners: {
-    onDismissAlert,
-    onCloseModal,
-    onLinkButtonClick,
-  },
+  inTrayModalListeners: { onDismissAlert, onCloseModal, onLinkButtonClick },
   inTrayListListeners: {
     onUpdateFilterOptions,
     onSort,
@@ -44,15 +38,13 @@ const InTrayModalView = ({
   );
 
   const filterBar = (
-    <InTrayModalFilterOptions
-      onUpdateFilterOptions={onUpdateFilterOptions}
-    />
+    <InTrayModalFilterOptions onUpdateFilterOptions={onUpdateFilterOptions} />
   );
 
   const inTrayView = (
     <div className={isEntryLoading ? styles.submitting : ''}>
-      { alertComponent }
-      { filterBar }
+      {alertComponent}
+      {filterBar}
       <Separator />
       <InTrayModalTable
         onSort={onSort}
@@ -95,7 +87,7 @@ const InTrayModalView = ({
   return isOpen && modal;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoading: getIsLoading(state),
   isEntryLoading: getIsEntryLoading(state),
   alert: getAlert(state),

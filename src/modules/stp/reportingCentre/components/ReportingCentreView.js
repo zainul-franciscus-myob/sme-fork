@@ -1,6 +1,4 @@
-import {
-  Alert, BaseTemplate, PageHead, Tabs,
-} from '@myob/myob-widgets';
+import { Alert, BaseTemplate, PageHead, Tabs } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -26,9 +24,7 @@ const ReportingCentreView = ({
   payrollSettingsLink,
   featureToggles,
 }) => {
-  const actions = (
-    <div />
-  );
+  const actions = <div />;
   const tabs = (
     <Tabs
       items={getTabItems(featureToggles)}
@@ -53,15 +49,22 @@ const ReportingCentreView = ({
     </BaseTemplate>
   );
 
-  const payrollNotSetup = <PayrollNotSetup
-    description="Before you can sign up for Single Touch Payroll, you'll need to enter a payroll year."
-    payrollSettingsLink={payrollSettingsLink}
-  />;
+  const payrollNotSetup = (
+    <PayrollNotSetup
+      description="Before you can sign up for Single Touch Payroll, you'll need to enter a payroll year."
+      payrollSettingsLink={payrollSettingsLink}
+    />
+  );
 
-  return <PageView loadingState={loadingState} view={payrollIsSetUp ? view : payrollNotSetup} />;
+  return (
+    <PageView
+      loadingState={loadingState}
+      view={payrollIsSetUp ? view : payrollNotSetup}
+    />
+  );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   alert: getAlert(state),
   selectedTab: getSelectedTab(state),

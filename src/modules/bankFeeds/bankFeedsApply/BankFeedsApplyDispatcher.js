@@ -19,75 +19,88 @@ import {
 } from './BankFeedsApplyIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const BankFeedsApplyDispatcher = store => ({
-  getReferenceNumber: response => store.dispatch({
-    intent: GET_REFERENCE_NUMBER,
-    ...response,
-  }),
+const BankFeedsApplyDispatcher = (store) => ({
+  getReferenceNumber: (response) =>
+    store.dispatch({
+      intent: GET_REFERENCE_NUMBER,
+      ...response,
+    }),
 
-  loadBankFeedApplicationData: response => store.dispatch({
-    intent: LOAD_BANK_FEED_APPLICATION_DATA,
-    ...response,
-  }),
+  loadBankFeedApplicationData: (response) =>
+    store.dispatch({
+      intent: LOAD_BANK_FEED_APPLICATION_DATA,
+      ...response,
+    }),
 
   dismissAlert: () => store.dispatch({ intent: SET_ALERT }),
 
   resetState: () => store.dispatch({ intent: RESET_STATE }),
 
-  setAlert: alert => store.dispatch({
-    intent: SET_ALERT,
-    alert,
-  }),
+  setAlert: (alert) =>
+    store.dispatch({
+      intent: SET_ALERT,
+      alert,
+    }),
 
-  setAccountType: accountType => store.dispatch({
-    intent: SET_ACCOUNT_TYPE,
-    accountType,
-  }),
+  setAccountType: (accountType) =>
+    store.dispatch({
+      intent: SET_ACCOUNT_TYPE,
+      accountType,
+    }),
 
-  setApplicationId: applicationId => store.dispatch({
-    intent: SET_APPLICATION_ID,
-    applicationId,
-  }),
+  setApplicationId: (applicationId) =>
+    store.dispatch({
+      intent: SET_APPLICATION_ID,
+      applicationId,
+    }),
 
-  setApplicationPreference: applicationPreference => store.dispatch({
-    intent: SET_APPLICATION_PREFERENCE,
-    applicationPreference,
-  }),
+  setApplicationPreference: (applicationPreference) =>
+    store.dispatch({
+      intent: SET_APPLICATION_PREFERENCE,
+      applicationPreference,
+    }),
 
-  setCopyAlertState: copyAlertState => store.dispatch({
-    intent: SET_COPY_ALERT_STATE,
-    copyAlertState,
-  }),
+  setCopyAlertState: (copyAlertState) =>
+    store.dispatch({
+      intent: SET_COPY_ALERT_STATE,
+      copyAlertState,
+    }),
 
-  setCopyAlertText: copyAlertText => store.dispatch({
-    intent: SET_COPY_ALERT_TEXT,
-    copyAlertText,
-  }),
+  setCopyAlertText: (copyAlertText) =>
+    store.dispatch({
+      intent: SET_COPY_ALERT_TEXT,
+      copyAlertText,
+    }),
 
-  setDisplayConnectFormState: shouldDisplayConnectForm => store.dispatch({
-    intent: SET_DISPLAY_CONNECT_FORM_STATE,
-    shouldDisplayConnectForm,
-  }),
+  setDisplayConnectFormState: (shouldDisplayConnectForm) =>
+    store.dispatch({
+      intent: SET_DISPLAY_CONNECT_FORM_STATE,
+      shouldDisplayConnectForm,
+    }),
 
-  setFinancialInstitution: financialInstitution => store.dispatch({
-    intent: SET_FINANCIAL_INSTITUTION,
-    financialInstitution,
-  }),
+  setFinancialInstitution: (financialInstitution) =>
+    store.dispatch({
+      intent: SET_FINANCIAL_INSTITUTION,
+      financialInstitution,
+    }),
 
-  setFormAlertState: formAlertState => store.dispatch({
-    intent: SET_FORM_ALERT_STATE,
-    formAlertState,
-  }),
+  setFormAlertState: (formAlertState) =>
+    store.dispatch({
+      intent: SET_FORM_ALERT_STATE,
+      formAlertState,
+    }),
 
-  setInitialState: context => store.dispatch({
-    intent: SET_INITIAL_STATE,
-    context,
-  }),
+  setInitialState: (context) =>
+    store.dispatch({
+      intent: SET_INITIAL_STATE,
+      context,
+    }),
 
-  setIsSubmitting: isSubmitting => store.dispatch({
-    intent: SET_IS_SUBMITTING,
-    isSubmitting,
-  }),
+  setIsSubmitting: (isSubmitting) =>
+    store.dispatch({
+      intent: SET_IS_SUBMITTING,
+      isSubmitting,
+    }),
 
   setLoadingState: (loadingState) => {
     store.dispatch({
@@ -96,20 +109,23 @@ const BankFeedsApplyDispatcher = store => ({
     });
   },
 
-  setModalState: isModalOpen => store.dispatch({
-    intent: SET_MODAL_STATE,
-    isModalOpen,
-  }),
+  setModalState: (isModalOpen) =>
+    store.dispatch({
+      intent: SET_MODAL_STATE,
+      isModalOpen,
+    }),
 
-  setReferenceNumber: referenceNumber => store.dispatch({
-    intent: SET_REFERENCE_NUMBER_STATE,
-    referenceNumber,
-  }),
+  setReferenceNumber: (referenceNumber) =>
+    store.dispatch({
+      intent: SET_REFERENCE_NUMBER_STATE,
+      referenceNumber,
+    }),
 
-  submitBankFeedApplication: response => store.dispatch({
-    intent: SUBMIT_BANK_FEED_APPLICATION,
-    ...response,
-  }),
+  submitBankFeedApplication: (response) =>
+    store.dispatch({
+      intent: SUBMIT_BANK_FEED_APPLICATION,
+      ...response,
+    }),
 
   updateForm: ({ key, value }) => {
     store.dispatch({

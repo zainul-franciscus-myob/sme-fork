@@ -21,7 +21,10 @@ import {
   UPDATE_RECEIVE_MONEY_LINE,
 } from '../ReceiveMoneyIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { getDefaultTaxCodeId, getUpdatedContactOptions } from './selectors/receiveMoneyDetailSelectors';
+import {
+  getDefaultTaxCodeId,
+  getUpdatedContactOptions,
+} from './selectors/receiveMoneyDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
@@ -76,10 +79,12 @@ const getDefaultState = () => ({
 
 const pageEdited = { isPageEdited: true };
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
-const buildLineJobOptions = ({ action, jobId }) => (action.jobOptions
-  ? action.jobOptions.filter(job => job.isActive || job.id === jobId) : []);
+const buildLineJobOptions = ({ action, jobId }) =>
+  action.jobOptions
+    ? action.jobOptions.filter((job) => job.isActive || job.id === jobId)
+    : [];
 
 const loadReceiveMoneyDetail = (state, action) => ({
   ...state,
@@ -87,7 +92,7 @@ const loadReceiveMoneyDetail = (state, action) => ({
     ...state.receiveMoney,
     ...action.receiveMoney,
     originalReferenceId: action.receiveMoney.referenceId,
-    lines: action.receiveMoney.lines.map(line => ({
+    lines: action.receiveMoney.lines.map((line) => ({
       ...line,
       lineJobOptions: buildLineJobOptions({ action, jobId: line.jobId }),
     })),
@@ -115,31 +120,29 @@ const updateLine = (state, action) => ({
     ...state.receiveMoney,
     lines: state.receiveMoney.lines.map((line, index) => {
       if (index === action.lineIndex) {
-        return ({
+        return {
           ...line,
-          taxCodeId: action.lineKey === 'accountId'
-            ? getDefaultTaxCodeId({
-              accountId: action.lineValue,
-              accountOptions: state.accountOptions,
-            })
-            : line.taxCodeId,
+          taxCodeId:
+            action.lineKey === 'accountId'
+              ? getDefaultTaxCodeId({
+                  accountId: action.lineValue,
+                  accountOptions: state.accountOptions,
+                })
+              : line.taxCodeId,
           [action.lineKey]: action.lineValue,
-        });
+        };
       }
       return line;
     }),
   },
 });
 
-const addLine = state => ({
+const addLine = (state) => ({
   ...state,
   ...pageEdited,
   receiveMoney: {
     ...state.receiveMoney,
-    lines: [
-      ...state.receiveMoney.lines,
-      state.newLine,
-    ],
+    lines: [...state.receiveMoney.lines, state.newLine],
   },
 });
 
@@ -148,7 +151,9 @@ const deleteLine = (state, action) => ({
   ...pageEdited,
   receiveMoney: {
     ...state.receiveMoney,
-    lines: state.receiveMoney.lines.filter((item, index) => index !== action.index),
+    lines: state.receiveMoney.lines.filter(
+      (item, index) => index !== action.index
+    ),
   },
 });
 
@@ -200,7 +205,7 @@ const openModal = (state, action) => ({
   modal: action.modal,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modal: undefined,
 });
@@ -210,7 +215,7 @@ const getTaxCalculations = (state, action) => ({
   isLineEdited: false,
   receiveMoney: {
     ...state.receiveMoney,
-    lines: action.lines.map(line => ({
+    lines: action.lines.map((line) => ({
       ...line,
       amount: line.amount.valueOf(),
     })),
@@ -224,7 +229,10 @@ const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   isPageEdited: true,
 });
 
-const setContactLoadingState = (state, { isContactLoading }) => ({ ...state, isContactLoading });
+const setContactLoadingState = (state, { isContactLoading }) => ({
+  ...state,
+  isContactLoading,
+});
 
 const loadContactAfterCreate = (state, { intent, ...contact }) => ({
   ...state,
@@ -240,30 +248,24 @@ const loadJobAfterCreate = (state, { intent, ...job }) => ({
   ...state,
   receiveMoney: {
     ...state.receiveMoney,
-    lines: state.receiveMoney.lines.map(line => ({
+    lines: state.receiveMoney.lines.map((line) => ({
       ...line,
-      lineJobOptions: [
-        job,
-        ...line.lineJobOptions,
-      ],
+      lineJobOptions: [job, ...line.lineJobOptions],
     })),
   },
   newLine: {
     ...state.newLine,
-    lineJobOptions: [
-      job,
-      ...state.newLine.lineJobOptions,
-    ],
+    lineJobOptions: [job, ...state.newLine.lineJobOptions],
   },
   isPageEdited: true,
 });
 
-const setJobLoadingState = (state, { isJobLoading }) => (
-  { ...state, isJobLoading }
-);
+const setJobLoadingState = (state, { isJobLoading }) => ({
+  ...state,
+  isJobLoading,
+});
 
-
-const resetTotals = state => ({
+const resetTotals = (state) => ({
   ...state,
   totals: getDefaultState().totals,
 });

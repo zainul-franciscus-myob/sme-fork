@@ -1,26 +1,30 @@
 import { createSelector } from 'reselect';
 
 import {
-  getAmountDue, getBillId, getBusinessId, getRegion, getSupplierId,
+  getAmountDue,
+  getBillId,
+  getBusinessId,
+  getRegion,
+  getSupplierId,
 } from './billSelectors';
 import getQueryFromParams from '../../../../common/getQueryFromParams/getQueryFromParams';
 
 export const getBillListUrl = createSelector(
   getRegion,
   getBusinessId,
-  (region, businessId) => `/#/${region}/${businessId}/bill`,
+  (region, businessId) => `/#/${region}/${businessId}/bill`
 );
 
 export const getInTrayUrl = createSelector(
   getRegion,
   getBusinessId,
-  (region, businessId) => `/#/${region}/${businessId}/inTray`,
+  (region, businessId) => `/#/${region}/${businessId}/inTray`
 );
 
 export const getCreateNewBillUrl = createSelector(
   getRegion,
   getBusinessId,
-  (region, businessId) => `/#/${region}/${businessId}/bill/new`,
+  (region, businessId) => `/#/${region}/${businessId}/bill/new`
 );
 
 const getBaseUrl = (state) => {
@@ -30,7 +34,7 @@ const getBaseUrl = (state) => {
   return `/#/${region}/${businessId}`;
 };
 
-const isNegativeAmount = amount => amount[0] === '-';
+const isNegativeAmount = (amount) => amount[0] === '-';
 
 export const getBillPaymentUrl = (state) => {
   const baseUrl = getBaseUrl(state);

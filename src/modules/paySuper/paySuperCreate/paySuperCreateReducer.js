@@ -63,10 +63,11 @@ const loadAccountsAndSuperPayments = (state, action) => ({
   paySuperDescription: action.response.paySuperDescription || '',
   dateOfPayment: action.response.dateOfPayment || '',
   superPayments: action.response.superPayments
-    ? action.response.superPayments.map(e => ({
-      ...e,
-      isSelected: false,
-    })) : [],
+    ? action.response.superPayments.map((e) => ({
+        ...e,
+        isSelected: false,
+      }))
+    : [],
 });
 
 const updateFilterOptions = (state, action) => ({
@@ -105,7 +106,7 @@ const sortAndFilterSuperPayments = (state, action) => ({
 
 const selectAllSuperPayments = (state, action) => ({
   ...state,
-  superPayments: state.superPayments.map(e => ({
+  superPayments: state.superPayments.map((e) => ({
     ...e,
     isSelected: action.isSelected,
   })),
@@ -113,9 +114,9 @@ const selectAllSuperPayments = (state, action) => ({
 
 const selectSuperPaymentItem = (state, action) => ({
   ...state,
-  superPayments: state.superPayments.map(e => (
+  superPayments: state.superPayments.map((e) =>
     e === action.item ? { ...action.item, isSelected: action.isSelected } : e
-  )),
+  ),
 });
 
 const updateDetailHeaderFields = (state, action) => ({
@@ -128,7 +129,7 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const updateBatchPaymentId = (state, { batchPaymentId }) => ({
   ...state,
@@ -149,7 +150,7 @@ const openModal = (state, action) => ({
   modal: action.modal,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modal: undefined,
 });

@@ -128,16 +128,21 @@ import {
 import createEmployeeDetailDispatcher from '../createEmployeeDetailDispatcher';
 
 const showAddPayItemDropdown = (store) => {
-  store.dispatch({ intent: SET_SHOW_ADD_PAY_ITEM_BUTTON, showAddPayItemButton: false });
+  store.dispatch({
+    intent: SET_SHOW_ADD_PAY_ITEM_BUTTON,
+    showAddPayItemButton: false,
+  });
 };
 
 const showAddPayItemButton = (store) => {
-  store.dispatch({ intent: SET_SHOW_ADD_PAY_ITEM_BUTTON, showAddPayItemButton: true });
+  store.dispatch({
+    intent: SET_SHOW_ADD_PAY_ITEM_BUTTON,
+    showAddPayItemButton: true,
+  });
 };
 
-const createPayrollDetailsTabDispatchers = store => ({
+const createPayrollDetailsTabDispatchers = (store) => ({
   ...createEmployeeDetailDispatcher(store),
-
 
   showAddPayItemDropdown: () => {
     showAddPayItemDropdown(store);
@@ -323,7 +328,10 @@ const createPayrollDetailsTabDispatchers = store => ({
   setPayrollStandardPayItemInput: ({ payItemId, key, value }) => {
     const intent = SET_PAYROLL_STANDARD_PAY_ITEM_INPUT;
     store.dispatch({
-      intent, payItemId, key, value,
+      intent,
+      payItemId,
+      key,
+      value,
     });
   },
 
@@ -335,7 +343,10 @@ const createPayrollDetailsTabDispatchers = store => ({
   setPayrollStandardPayItemIsLoadingState: (payItemId, isLoading) => {
     const intent = SET_PAYROLL_STANDARD_PAY_ITEM_INPUT;
     store.dispatch({
-      intent, payItemId, key: 'isLoading', value: isLoading,
+      intent,
+      payItemId,
+      key: 'isLoading',
+      value: isLoading,
     });
   },
 
@@ -344,12 +355,14 @@ const createPayrollDetailsTabDispatchers = store => ({
     store.dispatch({ intent, key, value });
   },
 
-  setPayrollPayHistoryItemInput: ({
-    payItemId, payItemType, key, value,
-  }) => {
+  setPayrollPayHistoryItemInput: ({ payItemId, payItemType, key, value }) => {
     const intent = SET_PAYROLL_PAY_HISTORY_ITEM_INPUT;
     store.dispatch({
-      intent, payItemId, payItemType, key, value,
+      intent,
+      payItemId,
+      payItemType,
+      key,
+      value,
     });
   },
 
@@ -526,7 +539,6 @@ const createPayrollDetailsTabDispatchers = store => ({
     const intent = REMOVE_EXPENSE_PAY_ITEM_MODAL_ALLOCATED_EMPLOYEE;
     store.dispatch({ intent, id });
   },
-
 
   addExpensePayItemModalExemptionPayItem: ({ value }) => {
     const intent = ADD_EXPENSE_PAY_ITEM_MODAL_EXEMPTION_PAY_ITEM;

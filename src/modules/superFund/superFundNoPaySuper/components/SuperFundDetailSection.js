@@ -6,20 +6,23 @@ import { getSuperFundDetailSectionProps } from '../SuperFundNoPaySuperSelectors'
 import AbnInput from '../../../../components/autoFormatter/AbnInput/AbnInput';
 import SuperFundProductCombobox from '../../components/SuperFundProductCombobox';
 
-const onInputChange = handler => (e) => {
+const onInputChange = (handler) => (e) => {
   const { value, name } = e.target;
   handler({ key: name, value });
 };
 
-const onAbnInputChange = handler => (e) => {
+const onAbnInputChange = (handler) => (e) => {
   const { rawValue: value, name: key } = e.target;
   handler({ key, value });
 };
 
-const onComboBoxChange = handler => item => handler(item);
+const onComboBoxChange = (handler) => (item) => handler(item);
 
 const SuperFundDetailSection = ({
-  name, superProducts, superProductId, superProductAbn,
+  name,
+  superProducts,
+  superProductId,
+  superProductAbn,
   employerMembershipNumber,
   listeners,
 }) => (
@@ -63,6 +66,6 @@ const SuperFundDetailSection = ({
   </Fragment>
 );
 
-const mapStateToProps = state => getSuperFundDetailSectionProps(state);
+const mapStateToProps = (state) => getSuperFundDetailSectionProps(state);
 
 export default connect(mapStateToProps)(SuperFundDetailSection);

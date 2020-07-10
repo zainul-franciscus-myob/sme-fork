@@ -14,10 +14,7 @@ const UnmatchedRowItem = ({
   onAllocate,
   onAddAccount,
 }) => {
-  const {
-    accountList,
-    allocateOrMatch,
-  } = entry;
+  const { accountList, allocateOrMatch } = entry;
 
   const hintText = isFocused ? '' : allocateOrMatch;
   const focusedViewStyling = classNames(styles.allocating, {
@@ -44,11 +41,7 @@ const UnmatchedRowItem = ({
 
   const defaultView = (
     <div className={styles.unallocated}>
-      <Button
-        type="link"
-        onClick={onFocus}
-        onFocus={onFocus}
-      >
+      <Button type="link" onClick={onFocus} onFocus={onFocus}>
         {allocateOrMatch}
       </Button>
     </div>

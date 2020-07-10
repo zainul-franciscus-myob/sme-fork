@@ -1,5 +1,11 @@
 import {
-  BulkAdd, Button, Field, FieldGroup, Icons, Input, Select,
+  BulkAdd,
+  Button,
+  Field,
+  FieldGroup,
+  Icons,
+  Input,
+  Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -16,12 +22,8 @@ const fields = [
 ];
 
 const matchers = {
-  [FieldTypes.description]: [
-    { name: 'Contains', value: 'Contains' },
-  ],
-  [FieldTypes.amount]: [
-    { name: 'Equals', value: 'Equal' },
-  ],
+  [FieldTypes.description]: [{ name: 'Contains', value: 'Contains' }],
+  [FieldTypes.amount]: [{ name: 'Equals', value: 'Equal' }],
 };
 
 const onRowChange = (conditionIndex, handler) => (predicateIndex, data) => {
@@ -40,14 +42,14 @@ const onFieldChange = (conditionIndex, handler) => (data) => {
   handler(conditionIndex, data);
 };
 
-const renderPredicate = (
-  conditionIndex,
-  field,
-  onConditionChange,
-) => (predicateIndex, predicate, onPredicateChange) => (
+const renderPredicate = (conditionIndex, field, onConditionChange) => (
+  predicateIndex,
+  predicate,
+  onPredicateChange
+) => (
   <BulkAdd.Row key={predicate.id} index={predicateIndex}>
     <BulkAdd.RowItem textWrap="wrap">
-      { predicateIndex === 0 ? (
+      {predicateIndex === 0 ? (
         <Select
           label="Condition Field"
           hideLabel
@@ -56,12 +58,13 @@ const renderPredicate = (
           onChange={handleSelectChange(onConditionChange)}
           className={styles.field}
         >
-          {
-            fields.map(({ name, value }) => (
-              <Select.Option key={value} value={value} label={name} />))
-          }
-        </Select>) : <div className={styles.operator}>OR</div>
-      }
+          {fields.map(({ name, value }) => (
+            <Select.Option key={value} value={value} label={name} />
+          ))}
+        </Select>
+      ) : (
+        <div className={styles.operator}>OR</div>
+      )}
     </BulkAdd.RowItem>
     <BulkAdd.RowItem textWrap="wrap">
       <Select
@@ -72,11 +75,9 @@ const renderPredicate = (
         onChange={handleSelectChange(onPredicateChange)}
         className={styles.matcher}
       >
-        {
-            matchers[field].map(({ name, value }) => (
-              <Select.Option key={value} value={value} label={name} />
-            ))
-          }
+        {matchers[field].map(({ name, value }) => (
+          <Select.Option key={value} value={value} label={name} />
+        ))}
       </Select>
     </BulkAdd.RowItem>
     <BulkAdd.RowItem textWrap="wrap">
@@ -102,39 +103,37 @@ const ConditionsSection = ({
   onPredicateRemove,
 }) => (
   <FieldGroup label="When money received on the bank statement matches these conditions">
-    {
-      conditions.map(({ predicates, field }, index) => (
-        <div>
-          { index > 0 && (
-            <div className={styles.conditionSeparator}>AND</div>
-          )}
-          <BulkAdd>
-            <BulkAdd.Rows
-              data={predicates}
-              renderRow={renderPredicate(index, field, onFieldChange(index, onConditionChange))}
-              onRowChange={onRowChange(index, onPredicateChange)}
-              onAddRow={onAddRow(index, onPredicateAdd)}
-              onRemoveRow={onRemoveRow(index, onPredicateRemove)}
-            />
-          </BulkAdd>
-        </div>
-      ))
-    }
+    {conditions.map(({ predicates, field }, index) => (
+      <div>
+        {index > 0 && <div className={styles.conditionSeparator}>AND</div>}
+        <BulkAdd>
+          <BulkAdd.Rows
+            data={predicates}
+            renderRow={renderPredicate(
+              index,
+              field,
+              onFieldChange(index, onConditionChange)
+            )}
+            onRowChange={onRowChange(index, onPredicateChange)}
+            onAddRow={onAddRow(index, onPredicateAdd)}
+            onRemoveRow={onRemoveRow(index, onPredicateRemove)}
+          />
+        </BulkAdd>
+      </div>
+    ))}
     <Field
       label="Add button"
       hideLabel
-      renderField={
-        () => (
-          <Button type="link" icon={<Icons.Add />} onClick={onConditionAdd}>
-            Add condition
-          </Button>
-        )
-      }
+      renderField={() => (
+        <Button type="link" icon={<Icons.Add />} onClick={onConditionAdd}>
+          Add condition
+        </Button>
+      )}
     />
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   conditions: getConditions(state),
 });
 

@@ -6,8 +6,7 @@ const getLogoutRoutes = (setRootView, integration) => {
     {
       name: RouteName.LOGOUT,
       path: '/logout',
-      module: new LogoutModule(setRootView,
-        integration),
+      module: new LogoutModule(setRootView, integration),
       documentTitle: 'Logout',
     },
   ];

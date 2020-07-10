@@ -35,7 +35,8 @@ import uploadAttachmentResponse from './data/uploadAttachmentResponse';
 
 const newSpendMoney = ({ onSuccess }) => onSuccess(spendMoneyNewEntry);
 
-const newDuplicatedSpendMoney = ({ onSuccess }) => onSuccess(newDuplicateSpendMoneyDetailEntry);
+const newDuplicatedSpendMoney = ({ onSuccess }) =>
+  onSuccess(newDuplicateSpendMoneyDetailEntry);
 
 const createSpendMoney = ({ onSuccess }) => onSuccess(createSpendMoneyResponse);
 
@@ -43,9 +44,11 @@ const deleteSpendMoney = ({ onSuccess }) => onSuccess(successResponse);
 
 const updateSpendMoney = ({ onSuccess }) => onSuccess(successResponse);
 
-const getSpendMoneyNextReferenceId = ({ onSuccess }) => onSuccess(spendMoneyReferenceId);
+const getSpendMoneyNextReferenceId = ({ onSuccess }) =>
+  onSuccess(spendMoneyReferenceId);
 
-const loadSpendMoneyDetail = ({ onSuccess }) => onSuccess(spendMoneyDetailEntry);
+const loadSpendMoneyDetail = ({ onSuccess }) =>
+  onSuccess(spendMoneyDetailEntry);
 
 const uploadAttachment = ({ onSuccess }) => onSuccess(uploadAttachmentResponse);
 
@@ -53,9 +56,11 @@ const removeAttachment = ({ onSuccess }) => onSuccess(successResponse);
 
 const openAttachment = ({ onSuccess }) => onSuccess(attachmentDetailResponse);
 
-const downloadInTrayDocument = ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' }));
+const downloadInTrayDocument = ({ onSuccess }) =>
+  onSuccess(new Blob([], { type: 'application/pdf' }));
 
-const prefillDataFromInTray = ({ onSuccess }) => onSuccess(spendMoneyDetailPrefillResponse);
+const prefillDataFromInTray = ({ onSuccess }) =>
+  onSuccess(spendMoneyDetailPrefillResponse);
 
 const linkInTrayDocument = ({ onSuccess }) => onSuccess(successResponse);
 
@@ -65,7 +70,8 @@ const MemorySpendMoneyMapping = {
   [DELETE_SPEND_MONEY]: deleteSpendMoney,
   [UPDATE_SPEND_MONEY]: updateSpendMoney,
   [LOAD_REFERENCE_ID]: getSpendMoneyNextReferenceId,
-  [LOAD_SUPPLIER_EXPENSE_ACCOUNT]: ({ onSuccess }) => onSuccess(supplierExpenseAccountId),
+  [LOAD_SUPPLIER_EXPENSE_ACCOUNT]: ({ onSuccess }) =>
+    onSuccess(supplierExpenseAccountId),
   [LOAD_SPEND_MONEY_DETAIL]: loadSpendMoneyDetail,
   [LOAD_NEW_DUPLICATE_SPEND_MONEY]: newDuplicatedSpendMoney,
   [UPLOAD_ATTACHMENT]: uploadAttachment,
@@ -75,8 +81,10 @@ const MemorySpendMoneyMapping = {
   [LOAD_JOB_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedJobResponse),
   [PREFILL_DATA_FROM_IN_TRAY]: prefillDataFromInTray,
   [LINK_IN_TRAY_DOCUMENT]: linkInTrayDocument,
-  [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedAccountResponse),
-  [LOAD_CONTACT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedContactResponse),
+  [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) =>
+    onSuccess(loadAddedAccountResponse),
+  [LOAD_CONTACT_AFTER_CREATE]: ({ onSuccess }) =>
+    onSuccess(loadAddedContactResponse),
   [LOAD_ABN_FROM_CONTACT]: ({ onSuccess }) => onSuccess(abnDetail),
 };
 

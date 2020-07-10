@@ -1,7 +1,6 @@
 import { getIsExportingPDF } from '../exportPdfSelectors';
 import ModalType from '../../types/ModalType';
 
-
 describe('exportPdfSelector', () => {
   describe('getIsExportingPDF', () => {
     it('should return true when modal is submitting and modal type is pdf', () => {

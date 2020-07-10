@@ -3,9 +3,7 @@ import classnames from 'classnames';
 
 import styles from './SummaryHeader.module.css';
 
-const SummaryHeader = ({
-  left, right, children, className,
-}) => {
+const SummaryHeader = ({ left, right, children, className }) => {
   if (children) {
     return (
       <div className={classnames(styles.container, className)}>

@@ -2,7 +2,10 @@ import { Button, Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsTableEmpty, getIsTableLoading } from '../BankStatementImportListSelectors';
+import {
+  getIsTableEmpty,
+  getIsTableLoading,
+} from '../BankStatementImportListSelectors';
 import BankStatementImportListTableBody from './BankStatementImportListTableBody';
 import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
 import StickyTableBody from '../../../../components/StickyTable/StickyTableBody';
@@ -18,7 +21,11 @@ const BankStatementImportListTable = ({
     <NoResultPageState
       title="There are no imported statements for this bank account"
       description="Import bank statement files to make it easier to keep your ledger updated."
-      actions={[<Button type="link" icon={<Icons.Add />} onClick={onImportButtonClick}>Import statement file</Button>]}
+      actions={[
+        <Button type="link" icon={<Icons.Add />} onClick={onImportButtonClick}>
+          Import statement file
+        </Button>,
+      ]}
     />
   );
 
@@ -36,7 +43,7 @@ const BankStatementImportListTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
 });

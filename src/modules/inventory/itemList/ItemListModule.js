@@ -13,14 +13,10 @@ import Store from '../../../store/Store';
 import debounce from '../../../common/debounce/debounce';
 import itemListReducer from './itemListReducer';
 
-const messageTypes = [
-  SUCCESSFULLY_DELETED_ITEM, SUCCESSFULLY_SAVED_ITEM,
-];
+const messageTypes = [SUCCESSFULLY_DELETED_ITEM, SUCCESSFULLY_SAVED_ITEM];
 
 export default class ItemListModule {
-  constructor({
-    integration, setRootView, popMessages,
-  }) {
+  constructor({ integration, setRootView, popMessages }) {
     this.setRootView = setRootView;
     this.store = new Store(itemListReducer);
     this.popMessages = popMessages;
@@ -40,18 +36,12 @@ export default class ItemListModule {
       />
     );
 
-    const wrappedView = (
-      <Provider store={this.store}>
-        {itemListView}
-      </Provider>
-    );
+    const wrappedView = <Provider store={this.store}>{itemListView}</Provider>;
     this.setRootView(wrappedView);
-  }
+  };
 
   loadItemList = () => {
-    const onSuccess = (
-      response,
-    ) => {
+    const onSuccess = (response) => {
       this.dispatcher.setLoadingState(false);
       this.dispatcher.loadItemList(response);
     };
@@ -63,7 +53,7 @@ export default class ItemListModule {
 
     this.dispatcher.setLoadingState(true);
     this.integrator.loadItemList({ onSuccess, onFailure });
-  }
+  };
 
   sortAndFilterItemList = () => {
     const onSuccess = (response) => {
@@ -102,28 +92,26 @@ export default class ItemListModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/inventory/new`;
-  }
+  };
 
   readMessages = () => {
     const [successMessage] = this.popMessages(this.messageTypes);
 
     if (successMessage) {
-      const {
-        content: message,
-      } = successMessage;
+      const { content: message } = successMessage;
 
       this.dispatcher.setAlert({
         type: 'success',
         message,
       });
     }
-  }
+  };
 
   updateSort = (orderBy) => {
     this.dispatcher.setSortOrder(orderBy);
 
     this.sortAndFilterItemList();
-  }
+  };
 
   updateFilterOptions = ({ key, value }) => {
     this.dispatcher.updateFilterOptions({ key, value });
@@ -133,7 +121,7 @@ export default class ItemListModule {
     } else {
       this.sortAndFilterItemList();
     }
-  }
+  };
 
   dismissAlert = () => {
     this.dispatcher.dismissAlert();
@@ -148,7 +136,7 @@ export default class ItemListModule {
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   resetState = () => {
     this.dispatcher.resetState();

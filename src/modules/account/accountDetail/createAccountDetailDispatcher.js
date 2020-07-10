@@ -15,8 +15,7 @@ import {
 } from '../AccountIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-
-const createAccountDetailDispatcher = store => ({
+const createAccountDetailDispatcher = (store) => ({
   updateAccountNumber: ({ key, value }) => {
     const intent = UPDATE_ACCOUNT_NUMBER;
     store.dispatch({
@@ -155,7 +154,6 @@ const createAccountDetailDispatcher = store => ({
       intent,
     });
   },
-
 });
 
 export default createAccountDetailDispatcher;

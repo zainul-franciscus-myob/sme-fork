@@ -2,12 +2,17 @@ import { Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsParentHeaderDisabled, getParentAccount, getParentAccountsForType } from '../accountModalSelectors';
+import {
+  getIsParentHeaderDisabled,
+  getParentAccount,
+  getParentAccountsForType,
+} from '../accountModalSelectors';
 import handleSelectChange from '../../../../components/handlers/handleSelectChange';
 
-const buildParentAccounts = headerAccounts => headerAccounts.map(({ displayName, id }) => (
-  <Select.Option value={id} label={displayName} key={id} />
-));
+const buildParentAccounts = (headerAccounts) =>
+  headerAccounts.map(({ displayName, id }) => (
+    <Select.Option value={id} label={displayName} key={id} />
+  ));
 
 const ParentHeaderSelect = ({
   parentAccounts,
@@ -30,7 +35,7 @@ const ParentHeaderSelect = ({
   </Select>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   parentAccounts: getParentAccountsForType(state),
   parentAccount: getParentAccount(state),
   isSelectDisabled: getIsParentHeaderDisabled(state),

@@ -1,12 +1,11 @@
 import { logout } from '../../Auth';
 
-
 export default class LogoutModule {
-  unsubscribeFromStore = () => { }
+  unsubscribeFromStore = () => {};
 
-  resetState = () => { }
+  resetState = () => {};
 
   run = () => {
     logout(false);
-  }
+  };
 }

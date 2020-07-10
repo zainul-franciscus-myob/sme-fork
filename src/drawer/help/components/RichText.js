@@ -7,11 +7,11 @@ import WistiaVideoPlayer from '../../../components/WistiaVideoPlayer/WistiaVideo
 import styles from './RichText.module.css';
 
 export const getWistiaUriId = (wistiaLink) => {
-  const last = arr => arr[arr.length - 1];
+  const last = (arr) => arr[arr.length - 1];
   return last(wistiaLink.split('/'));
 };
 
-const contentOptions = ({
+const contentOptions = {
   [BLOCKS.EMBEDDED_ASSET]: (node) => {
     const { url, title } = node.data.target.fields.file;
     return (
@@ -24,13 +24,22 @@ const contentOptions = ({
     const { uri } = node.data;
     const isAWistiaLink = uri.includes('wistia');
     if (isAWistiaLink) {
-      return <WistiaVideoPlayer hashedId={getWistiaUriId(uri)} popoverAnimateThumbnail />;
+      return (
+        <WistiaVideoPlayer
+          hashedId={getWistiaUriId(uri)}
+          popoverAnimateThumbnail
+        />
+      );
     }
     const { value } = node.content[0];
     const linkText = value || uri;
-    return <a href={uri} target="_blank" rel="noopener noreferrer">{linkText}</a>;
+    return (
+      <a href={uri} target="_blank" rel="noopener noreferrer">
+        {linkText}
+      </a>
+    );
   },
-});
+};
 
 const RichText = ({ document }) => (
   <div className={styles.richText}>

@@ -9,7 +9,8 @@ import {
 const HttpTimesheetMapping = {
   [LOAD_INITIAL_TIMESHEET]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/timesheet/load_initial_timesheet`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/timesheet/load_initial_timesheet`,
   },
   [LOAD_TIMESHEET]: {
     method: 'GET',
@@ -17,15 +18,18 @@ const HttpTimesheetMapping = {
   },
   [LOAD_EMPLOYEE_TIMESHEET]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/timesheet/load_employee_timesheet`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/timesheet/load_employee_timesheet`,
   },
   [SAVE_TIMESHEET]: {
     method: 'POST',
-    getPath: ({ businessId, employeeId }) => `/${businessId}/timesheet/save_timesheet/${employeeId}`,
+    getPath: ({ businessId, employeeId }) =>
+      `/${businessId}/timesheet/save_timesheet/${employeeId}`,
   },
   [DELETE_TIMESHEET]: {
     method: 'DELETE',
-    getPath: ({ businessId, employeeId }) => `/${businessId}/timesheet/delete_timesheet/${employeeId}`,
+    getPath: ({ businessId, employeeId }) =>
+      `/${businessId}/timesheet/delete_timesheet/${employeeId}`,
   },
 };
 

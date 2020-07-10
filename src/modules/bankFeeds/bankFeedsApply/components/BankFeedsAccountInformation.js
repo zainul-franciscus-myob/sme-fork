@@ -1,7 +1,4 @@
-import {
-  Alert,
-  Input,
-} from '@myob/myob-widgets';
+import { Alert, Input } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -57,126 +54,121 @@ const BankFeedsAccountInformation = ({
   nameOnCardRequired,
   notes,
   onUpdateForm,
-}) => (
-  applicationPreference && applicationPreference !== 'online'
-    && <>
+}) =>
+  applicationPreference &&
+  applicationPreference !== 'online' && (
+    <>
       <hr />
 
-      {
-        accountType === 'Trading Account'
-          ? <legend>Account information</legend>
-          : <legend>Credit card information</legend>
-      }
+      {accountType === 'Trading Account' ? (
+        <legend>Account information</legend>
+      ) : (
+        <legend>Credit card information</legend>
+      )}
 
-      {
-        notes && <Alert type="info" inline>{notes}</Alert>
-      }
+      {notes && (
+        <Alert type="info" inline>
+          {notes}
+        </Alert>
+      )}
 
-      {
-        accountNameRequired
-          && <Input
-            label="Account holder name"
-            name="accountName"
-            onChange={handleInputChange(onUpdateForm)}
-            requiredLabel="This field is required"
-            type="text"
-            value={accountName}
-          />
-      }
+      {accountNameRequired && (
+        <Input
+          label="Account holder name"
+          name="accountName"
+          onChange={handleInputChange(onUpdateForm)}
+          requiredLabel="This field is required"
+          type="text"
+          value={accountName}
+        />
+      )}
 
-      {
-        bsbRequired
-          && <BSBInput
-            label="BSB"
-            name="bsb"
-            onChange={handleInputChange(onUpdateForm)}
-            requiredLabel="This field is required"
-            value={bsb}
-            width="xs"
-          />
-      }
+      {bsbRequired && (
+        <BSBInput
+          label="BSB"
+          name="bsb"
+          onChange={handleInputChange(onUpdateForm)}
+          requiredLabel="This field is required"
+          value={bsb}
+          width="xs"
+        />
+      )}
 
-      {
-        bsbBankRequired
-          && <Input
-            label="BSB bank"
-            name="bsbBank"
-            onChange={handleInputChange(onUpdateForm)}
-            requiredLabel="This field is required"
-            type="text"
-            value={bsbBank}
-          />
-      }
+      {bsbBankRequired && (
+        <Input
+          label="BSB bank"
+          name="bsbBank"
+          onChange={handleInputChange(onUpdateForm)}
+          requiredLabel="This field is required"
+          type="text"
+          value={bsbBank}
+        />
+      )}
 
-      {
-        bsbBranchRequired
-          && <Input
-            label="BSB branch"
-            name="bsbBranch"
-            onChange={handleInputChange(onUpdateForm)}
-            requiredLabel="This field is required"
-            type="text"
-            value={bsbBranch}
-          />
-      }
+      {bsbBranchRequired && (
+        <Input
+          label="BSB branch"
+          name="bsbBranch"
+          onChange={handleInputChange(onUpdateForm)}
+          requiredLabel="This field is required"
+          type="text"
+          value={bsbBranch}
+        />
+      )}
 
-      {
-        accountNumberRequired
-          && <AccountNumberInput
-            label="Account number"
-            name="accountNumber"
-            onChange={handleInputChange(onUpdateForm)}
-            requiredLabel="This field is required"
-            value={accountNumber}
-          />
-      }
+      {accountNumberRequired && (
+        <AccountNumberInput
+          label="Account number"
+          name="accountNumber"
+          onChange={handleInputChange(onUpdateForm)}
+          requiredLabel="This field is required"
+          value={accountNumber}
+        />
+      )}
 
-      {
-        accountSuffixRequired
-          && <Input
-            label="Account suffix"
-            name="accountSuffix"
-            onChange={handleInputChange(onUpdateForm)}
-            requiredLabel="This field is required"
-            type="number"
-            value={accountSuffix}
-            width="sm"
-          />
-      }
+      {accountSuffixRequired && (
+        <Input
+          label="Account suffix"
+          name="accountSuffix"
+          onChange={handleInputChange(onUpdateForm)}
+          requiredLabel="This field is required"
+          type="number"
+          value={accountSuffix}
+          width="sm"
+        />
+      )}
 
-      {
-        branchNameRequired
-          && <Input
-            label="Branch name"
-            name="branchName"
-            onChange={handleInputChange(onUpdateForm)}
-            requiredLabel="This field is required"
-            type="text"
-            value={branchName}
-          />
-      }
+      {branchNameRequired && (
+        <Input
+          label="Branch name"
+          name="branchName"
+          onChange={handleInputChange(onUpdateForm)}
+          requiredLabel="This field is required"
+          type="text"
+          value={branchName}
+        />
+      )}
 
-      {
-        nameOnCardRequired
-          && <Input
-            label="Name on card"
-            name="nameOnCard"
-            onChange={handleInputChange(onUpdateForm)}
-            requiredLabel="This field is required"
-            type="text"
-            value={nameOnCard}
-          />
-      }
+      {nameOnCardRequired && (
+        <Input
+          label="Name on card"
+          name="nameOnCard"
+          onChange={handleInputChange(onUpdateForm)}
+          requiredLabel="This field is required"
+          type="text"
+          value={nameOnCard}
+        />
+      )}
 
       <BankFeedsCreditCard
         lastFourDigits={lastFourDigits}
         lastFourDigitsRequired={lastFourDigitsRequired}
         onUpdateForm={onUpdateForm}
       />
-  </>
-);
+    </>
+  );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accountName: getAccountName(state),
   accountNameRequired: getAccountNameRequired(state),
   accountNumber: getAccountNumber(state),

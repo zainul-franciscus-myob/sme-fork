@@ -1,13 +1,11 @@
-import {
-  Button,
-  Icons,
-  PageState,
-} from '@myob/myob-widgets';
+import { Button, Icons, PageState } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsDefaultFilter, getIsTableEmpty, getIsTableLoading,
+  getIsDefaultFilter,
+  getIsTableEmpty,
+  getIsTableLoading,
 } from '../jobListSelector';
 import JobListTableBody from './JobListTableBody';
 import StickyTableBody from '../../../../components/StickyTable/StickyTableBody';
@@ -15,10 +13,16 @@ import emptyStateImage from './empty-state-jobs.svg';
 import noResultStateImage from './no-results-found.svg';
 import style from './JobListTable.module.css';
 
-const emptyPageState = onAddJobButtonClick => (
+const emptyPageState = (onAddJobButtonClick) => (
   <PageState
     title="You haven't created any Jobs yet..."
-    image={<img className={style.jobsNoResultImg} src={emptyStateImage} alt="No results found" />}
+    image={
+      <img
+        className={style.jobsNoResultImg}
+        src={emptyStateImage}
+        alt="No results found"
+      />
+    }
     actions={[
       <Button
         key={1}
@@ -36,13 +40,18 @@ const noResultsPageState = (
   <PageState
     title="No results found"
     description="Perhaps check spelling or remove the filters and try again"
-    image={<img className={style.jobsNoResultImg} src={noResultStateImage} alt="No results found" />}
+    image={
+      <img
+        className={style.jobsNoResultImg}
+        src={noResultStateImage}
+        alt="No results found"
+      />
+    }
   />
 );
 
-const emptyTableView = (isDefaultFilter, onAddJobButtonClick) => (isDefaultFilter
-  ? emptyPageState(onAddJobButtonClick)
-  : noResultsPageState);
+const emptyTableView = (isDefaultFilter, onAddJobButtonClick) =>
+  isDefaultFilter ? emptyPageState(onAddJobButtonClick) : noResultsPageState;
 
 const JobListTable = ({
   onAddJobButtonClick,
@@ -60,7 +69,7 @@ const JobListTable = ({
   </StickyTableBody>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
   isDefaultFilter: getIsDefaultFilter(state),

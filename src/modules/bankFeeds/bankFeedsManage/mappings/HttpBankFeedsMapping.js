@@ -16,7 +16,8 @@ const HttpBankFeedsMapping = {
   },
   [DELETE_BANK_FEED]: {
     method: 'DELETE',
-    getPath: ({ businessId, id }) => `/${businessId}/bankFeeds/delete_bank_feed/${id}`,
+    getPath: ({ businessId, id }) =>
+      `/${businessId}/bankFeeds/delete_bank_feed/${id}`,
   },
   [REFRESH_BANK_FEEDS]: {
     method: 'POST',

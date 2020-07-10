@@ -6,7 +6,7 @@ import {
 } from './ElectronicPaymentsReadIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createElectronicPaymentsReadDispatcher = store => ({
+const createElectronicPaymentsReadDispatcher = (store) => ({
   setInitialState: (context) => {
     store.dispatch({
       intent: SET_INITIAL_STATE,

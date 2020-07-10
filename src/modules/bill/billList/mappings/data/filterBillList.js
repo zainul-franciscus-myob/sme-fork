@@ -31,5 +31,4 @@ export default {
       hasAttachment: false,
     },
   ],
-
 };

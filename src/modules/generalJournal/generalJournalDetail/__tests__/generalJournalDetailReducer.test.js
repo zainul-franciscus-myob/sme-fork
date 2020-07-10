@@ -1,7 +1,9 @@
 import Decimal from 'decimal.js';
 
 import {
-  GET_TAX_CALCULATIONS, LOAD_ACCOUNT_AFTER_CREATE, LOAD_GENERAL_JOURNAL_DETAIL,
+  GET_TAX_CALCULATIONS,
+  LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_GENERAL_JOURNAL_DETAIL,
   LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_GENERAL_JOURNAL,
 } from '../../GeneralJournalIntents';
@@ -251,13 +253,12 @@ describe('loadNewGeneralJournal', () => {
   };
   describe('sets job options on newLine', () => {
     it('shows active jobs against new line', () => {
-      const expectedJobOptions = action.jobs.filter(job => job.isActive);
+      const expectedJobOptions = action.jobs.filter((job) => job.isActive);
       const actual = generalJournalReducer(state, action);
       expect(actual.newLine.lineJobOptions).toEqual(expectedJobOptions);
     });
   });
 });
-
 
 describe('LOAD_JOB_AFTER_CREATE', () => {
   const lineJobOptions = [
@@ -289,7 +290,9 @@ describe('LOAD_JOB_AFTER_CREATE', () => {
 
   it('adds new job payload to the front of all line job options', () => {
     const actual = generalJournalReducer(state, action);
-    expect(actual.generalJournal.lines.map(line => line.lineJobOptions[0])).toEqual([
+    expect(
+      actual.generalJournal.lines.map((line) => line.lineJobOptions[0])
+    ).toEqual([
       { id: '3', jobName: 'Job 3', jobNumber: '300' },
       { id: '3', jobName: 'Job 3', jobNumber: '300' },
       { id: '3', jobName: 'Job 3', jobNumber: '300' },
@@ -332,22 +335,24 @@ describe('LOAD_GENERAL_JOURNAL_DETAIL', () => {
       ],
     },
     newLine: {
-      lineJobOptions: [{
-        id: '1',
-        isActive: false,
-      },
-      {
-        id: '2',
-        isActive: false,
-      },
-      {
-        id: '3',
-        isActive: true,
-      },
-      {
-        id: '4',
-        isActive: true,
-      }],
+      lineJobOptions: [
+        {
+          id: '1',
+          isActive: false,
+        },
+        {
+          id: '2',
+          isActive: false,
+        },
+        {
+          id: '3',
+          isActive: true,
+        },
+        {
+          id: '4',
+          isActive: true,
+        },
+      ],
     },
     jobs: [
       {
@@ -370,19 +375,31 @@ describe('LOAD_GENERAL_JOURNAL_DETAIL', () => {
   };
   describe('sets job options on each line and newLine', () => {
     it('shows inactive selected jobs against each line', () => {
-      const lineOneExpectedOptions = action.jobs.filter(job => job.id !== '2');
-      const lineTwoExpectedOptions = action.jobs.filter(job => job.id !== '1');
-      const lineThreeExpectedOptions = action.jobs.filter(job => job.id !== '1' && job.id !== '2');
+      const lineOneExpectedOptions = action.jobs.filter(
+        (job) => job.id !== '2'
+      );
+      const lineTwoExpectedOptions = action.jobs.filter(
+        (job) => job.id !== '1'
+      );
+      const lineThreeExpectedOptions = action.jobs.filter(
+        (job) => job.id !== '1' && job.id !== '2'
+      );
 
       const actual = generalJournalReducer(state, action);
 
-      expect(actual.generalJournal.lines[0].lineJobOptions).toEqual(lineOneExpectedOptions);
-      expect(actual.generalJournal.lines[1].lineJobOptions).toEqual(lineTwoExpectedOptions);
-      expect(actual.generalJournal.lines[2].lineJobOptions).toEqual(lineThreeExpectedOptions);
+      expect(actual.generalJournal.lines[0].lineJobOptions).toEqual(
+        lineOneExpectedOptions
+      );
+      expect(actual.generalJournal.lines[1].lineJobOptions).toEqual(
+        lineTwoExpectedOptions
+      );
+      expect(actual.generalJournal.lines[2].lineJobOptions).toEqual(
+        lineThreeExpectedOptions
+      );
     });
 
     it('shows active jobs against new line', () => {
-      const expectedJobOptions = action.jobs.filter(job => job.isActive);
+      const expectedJobOptions = action.jobs.filter((job) => job.isActive);
       const actual = generalJournalReducer(state, action);
       expect(actual.newLine.lineJobOptions).toEqual(expectedJobOptions);
     });

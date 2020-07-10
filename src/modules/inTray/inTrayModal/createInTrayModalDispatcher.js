@@ -14,7 +14,7 @@ import {
 } from '../InTrayIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createInTrayModalDispatcher = store => ({
+const createInTrayModalDispatcher = (store) => ({
   resetState: () => {
     const intent = RESET_STATE;
     store.dispatch({ intent });

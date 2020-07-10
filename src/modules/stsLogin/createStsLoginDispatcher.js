@@ -6,7 +6,7 @@ import {
   UPDATE_LOGIN_INFO,
 } from './StsLoginIntents';
 
-const createStsLoginDispatcher = store => ({
+const createStsLoginDispatcher = (store) => ({
   setInitialState: (context) => {
     store.dispatch({
       intent: SET_INITIAL_STATE,

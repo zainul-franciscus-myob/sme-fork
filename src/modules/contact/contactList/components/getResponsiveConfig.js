@@ -1,38 +1,83 @@
-export const getResponsiveConfig = tableConfig => ([
+export const getResponsiveConfig = (tableConfig) => [
   {
     'min-width': '768px',
     config: [
-      { columnName: tableConfig.isActive.columnName, styles: { width: '8.1rem' } },
-      { columnName: tableConfig.referenceId.columnName, styles: { width: '9rem' } },
+      {
+        columnName: tableConfig.isActive.columnName,
+        styles: { width: '8.1rem' },
+      },
+      {
+        columnName: tableConfig.referenceId.columnName,
+        styles: { width: '9rem' },
+      },
       { columnName: tableConfig.type.columnName, styles: { width: '6.5rem' } },
-      { columnName: tableConfig.phoneNumber.columnName, styles: { width: '8.2rem' } },
+      {
+        columnName: tableConfig.phoneNumber.columnName,
+        styles: { width: '8.2rem' },
+      },
       { columnName: tableConfig.email.columnName, styles: { width: '8rem' } },
-      { columnName: tableConfig.outstandingBalance.columnName, styles: { width: '8.2rem' } },
-      { columnName: tableConfig.overdue.columnName, styles: { width: '8.6rem' } },
+      {
+        columnName: tableConfig.outstandingBalance.columnName,
+        styles: { width: '8.2rem' },
+      },
+      {
+        columnName: tableConfig.overdue.columnName,
+        styles: { width: '8.6rem' },
+      },
     ],
   },
   {
     'min-width': '820px',
     config: [
-      { columnName: tableConfig.isActive.columnName, styles: { width: '8.4rem' } },
-      { columnName: tableConfig.referenceId.columnName, styles: { width: '9rem' } },
+      {
+        columnName: tableConfig.isActive.columnName,
+        styles: { width: '8.4rem' },
+      },
+      {
+        columnName: tableConfig.referenceId.columnName,
+        styles: { width: '9rem' },
+      },
       { columnName: tableConfig.type.columnName, styles: { width: '7.5rem' } },
-      { columnName: tableConfig.phoneNumber.columnName, styles: { width: '8.2rem' } },
+      {
+        columnName: tableConfig.phoneNumber.columnName,
+        styles: { width: '8.2rem' },
+      },
       { columnName: tableConfig.email.columnName, styles: { width: '9rem' } },
-      { columnName: tableConfig.outstandingBalance.columnName, styles: { width: '9rem' } },
-      { columnName: tableConfig.overdue.columnName, styles: { width: '9.2rem', display: 'none' } },
+      {
+        columnName: tableConfig.outstandingBalance.columnName,
+        styles: { width: '9rem' },
+      },
+      {
+        columnName: tableConfig.overdue.columnName,
+        styles: { width: '9.2rem', display: 'none' },
+      },
     ],
   },
   {
     'min-width': '900px',
     config: [
-      { columnName: tableConfig.isActive.columnName, styles: { width: '10rem' } },
-      { columnName: tableConfig.referenceId.columnName, styles: { width: '10rem' } },
+      {
+        columnName: tableConfig.isActive.columnName,
+        styles: { width: '10rem' },
+      },
+      {
+        columnName: tableConfig.referenceId.columnName,
+        styles: { width: '10rem' },
+      },
       { columnName: tableConfig.type.columnName, styles: { width: '7.5rem' } },
-      { columnName: tableConfig.phoneNumber.columnName, styles: { width: '10rem' } },
+      {
+        columnName: tableConfig.phoneNumber.columnName,
+        styles: { width: '10rem' },
+      },
       { columnName: tableConfig.email.columnName, styles: { width: '13rem' } },
-      { columnName: tableConfig.outstandingBalance.columnName, styles: { width: '11rem' } },
-      { columnName: tableConfig.overdue.columnName, styles: { width: '11rem' } },
+      {
+        columnName: tableConfig.outstandingBalance.columnName,
+        styles: { width: '11rem' },
+      },
+      {
+        columnName: tableConfig.overdue.columnName,
+        styles: { width: '11rem' },
+      },
     ],
   },
   {
@@ -79,6 +124,6 @@ export const getResponsiveConfig = tableConfig => ([
       },
     ],
   },
-]);
+];
 
 export default getResponsiveConfig;

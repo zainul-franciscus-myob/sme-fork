@@ -21,13 +21,16 @@ const tableConfig = {
   status: { columnName: 'Status' },
   balanceDue: { columnName: 'Balance due ($)', align: 'right' },
   discountGiven: {
-    columnName: 'Discount ($)', align: 'right',
+    columnName: 'Discount ($)',
+    align: 'right',
   },
   discountedBalance: {
-    columnName: 'Discounted balance ($)', align: 'right',
+    columnName: 'Discounted balance ($)',
+    align: 'right',
   },
   amountReceived: {
-    columnName: 'Amount received ($)', align: 'right',
+    columnName: 'Amount received ($)',
+    align: 'right',
   },
 };
 
@@ -45,7 +48,8 @@ const OverPaidInfoMessage = ({ overAmount }) => (
     </div>
     <br />
     <div>
-      Go to <b>Customer returns</b> to apply the credit to an open invoice or record a refund.
+      Go to <b>Customer returns</b> to apply the credit to an open invoice or
+      record a refund.
     </div>
   </>
 );
@@ -59,23 +63,40 @@ const InvoicePaymentDetailTable = ({
   isTableEmpty,
   isCustomerEmpty,
 }) => {
-  const emptyView = isCustomerEmpty
-    ? <PageState title="Select the customer who paid you" description="You'll see their invoices here" />
-    : <PageState title="There are no invoices" />;
+  const emptyView = isCustomerEmpty ? (
+    <PageState
+      title="Select the customer who paid you"
+      description="You'll see their invoices here"
+    />
+  ) : (
+    <PageState title="There are no invoices" />
+  );
 
   const tableBody = (
     <React.Fragment>
       <Table.Body>
         {entries.map((entry, index) => (
           <Table.Row>
-            <Table.RowItem {...tableConfig.date} valign="middle">{entry.date}</Table.RowItem>
+            <Table.RowItem {...tableConfig.date} valign="middle">
+              {entry.date}
+            </Table.RowItem>
             <Table.RowItem {...tableConfig.invoiceNumber} valign="middle">
-              <a href={entry.link} target="_blank" rel="noopener noreferrer">{entry.invoiceNumber}</a>
+              <a href={entry.link} target="_blank" rel="noopener noreferrer">
+                {entry.invoiceNumber}
+              </a>
             </Table.RowItem>
             <Table.RowItem {...tableConfig.status} valign="middle">
-              <Label type="boxed" color={entry.statusColor}>{entry.status}</Label>
+              <Label type="boxed" color={entry.statusColor}>
+                {entry.status}
+              </Label>
             </Table.RowItem>
-            <Table.RowItem {...tableConfig.balanceDue} valign="middle" align="right">{entry.balanceDue}</Table.RowItem>
+            <Table.RowItem
+              {...tableConfig.balanceDue}
+              valign="middle"
+              align="right"
+            >
+              {entry.balanceDue}
+            </Table.RowItem>
             <Table.RowItem {...tableConfig.discountGiven}>
               <Calculator
                 name="discountAmount"
@@ -88,15 +109,22 @@ const InvoicePaymentDetailTable = ({
                 numeralDecimalScaleMax={2}
               />
             </Table.RowItem>
-            <Table.RowItem {...tableConfig.discountedBalance} valign="middle" align="right">{entry.discountedBalance}</Table.RowItem>
+            <Table.RowItem
+              {...tableConfig.discountedBalance}
+              valign="middle"
+              align="right"
+            >
+              {entry.discountedBalance}
+            </Table.RowItem>
             <Table.RowItem {...tableConfig.amountReceived}>
               <Calculator
                 name="paidAmount"
                 value={entry.paidAmount}
                 infoBody={
-                  isCreating
-                  && entry.overAmount
-                  && <OverPaidInfoMessage overAmount={entry.overAmount} />
+                  isCreating &&
+                  entry.overAmount && (
+                    <OverPaidInfoMessage overAmount={entry.overAmount} />
+                  )
                 }
                 textAlign="right"
                 disabled={!isCreating}
@@ -119,12 +147,22 @@ const InvoicePaymentDetailTable = ({
   const header = (
     <Table.Header>
       <Table.HeaderItem {...tableConfig.date}>Issue date</Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.invoiceNumber}>Invoice number</Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.invoiceNumber}>
+        Invoice number
+      </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.status}>Status</Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.balanceDue}>Balance due ($)</Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.discountGiven}>Discount ($)</Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.discountedBalance}>Discounted balance ($)</Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.amountReceived}>Amount received ($)</Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.balanceDue}>
+        Balance due ($)
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.discountGiven}>
+        Discount ($)
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.discountedBalance}>
+        Discounted balance ($)
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.amountReceived}>
+        Amount received ($)
+      </Table.HeaderItem>
     </Table.Header>
   );
 
@@ -141,7 +179,7 @@ const InvoicePaymentDetailTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   entries: getEntries(state),
   isCreating: getIsCreating(state),
   totalReceived: getTotalReceived(state),

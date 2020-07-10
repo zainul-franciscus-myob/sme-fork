@@ -25,9 +25,7 @@ import StpYourRoleView from './components/StpYourRoleView';
 import stpYourRoleReducer from './stpYourRoleReducer';
 
 export default class StpYourRoleModule {
-  constructor({
-    context, integration, onPrevious, onFinish,
-  }) {
+  constructor({ context, integration, onPrevious, onFinish }) {
     this.store = new Store(stpYourRoleReducer);
     this.store.dispatch({
       intent: SET_INITIAL_STATE,

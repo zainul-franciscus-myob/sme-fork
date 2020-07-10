@@ -1,5 +1,8 @@
 import {
-  Columns, FieldGroup, RadioButtonGroup, TextArea,
+  Columns,
+  FieldGroup,
+  RadioButtonGroup,
+  TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -24,22 +27,20 @@ import handleInputChange from '../../../../components/handlers/handleInputChange
 import handleRadioButtonChange from '../../../../components/handlers/handleRadioButtonChange';
 import styles from './AllocationSection.module.css';
 
-const AllocationSection = (
-  {
-    onDetailsChange,
-    onAddAllocationLine,
-    onUpdateAllocationLine,
-    onRemoveAllocationLine,
-    allocations,
-    contacts,
-    contactId,
-    description,
-    allocationType,
-    region,
-    isPaymentReportable,
-    shouldShowPaymentReportableCheckbox,
-  },
-) => (
+const AllocationSection = ({
+  onDetailsChange,
+  onAddAllocationLine,
+  onUpdateAllocationLine,
+  onRemoveAllocationLine,
+  allocations,
+  contacts,
+  contactId,
+  description,
+  allocationType,
+  region,
+  isPaymentReportable,
+  shouldShowPaymentReportableCheckbox,
+}) => (
   <FieldGroup label="Create transaction with this information">
     <Columns>
       <div className={styles.contact}>
@@ -51,17 +52,15 @@ const AllocationSection = (
           onChange={handleComboboxChange('contactId', onDetailsChange)}
         />
       </div>
-      {shouldShowPaymentReportableCheckbox
-      && (
-      <ReportableCheckbox
-        name="isPaymentReportable"
-        label="Report to ATO via TPAR"
-        checked={isPaymentReportable}
-        onChange={handleCheckboxChange(onDetailsChange)}
-        region={region}
-      />
-      ) }
-
+      {shouldShowPaymentReportableCheckbox && (
+        <ReportableCheckbox
+          name="isPaymentReportable"
+          label="Report to ATO via TPAR"
+          checked={isPaymentReportable}
+          onChange={handleCheckboxChange(onDetailsChange)}
+          region={region}
+        />
+      )}
     </Columns>
     <div className={styles.description}>
       <TextArea
@@ -89,7 +88,7 @@ const AllocationSection = (
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   contacts: getContacts(state),
   contactId: getContactId(state),
   description: getDescription(state),

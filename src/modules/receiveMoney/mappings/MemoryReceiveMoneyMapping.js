@@ -18,15 +18,21 @@ import receiveMoneyDetailEntry from './data/receiveMoneyDetailEntry';
 import receiveMoneyDetailNewEntry from './data/receiveMoneyDetailNewEntry';
 import successResponse from './data/success';
 
-const loadReceiveMoneyDetail = ({ onSuccess }) => onSuccess(receiveMoneyDetailEntry);
-const loadNewReceiveMoney = ({ onSuccess }) => onSuccess(receiveMoneyDetailNewEntry);
+const loadReceiveMoneyDetail = ({ onSuccess }) =>
+  onSuccess(receiveMoneyDetailEntry);
+const loadNewReceiveMoney = ({ onSuccess }) =>
+  onSuccess(receiveMoneyDetailNewEntry);
 const deleteReceiveMoney = ({ onSuccess }) => onSuccess(successResponse);
-const createReceiveMoney = ({ onSuccess }) => onSuccess(createReceiveMoneyResponse);
+const createReceiveMoney = ({ onSuccess }) =>
+  onSuccess(createReceiveMoneyResponse);
 const updateReceiveMoney = ({ onSuccess }) => onSuccess(successResponse);
-const loadAccountAfterCreate = ({ onSuccess }) => onSuccess(loadAddedAccountResponse);
+const loadAccountAfterCreate = ({ onSuccess }) =>
+  onSuccess(loadAddedAccountResponse);
 const loadJobAfterCreate = ({ onSuccess }) => onSuccess(loadAddedJobResponse);
-const loadContactAfterCreate = ({ onSuccess }) => onSuccess(loadAddedContactResponse);
-const loadDuplicateReceiveMoney = ({ onSuccess }) => onSuccess(duplicateReceiveMoneyEntry);
+const loadContactAfterCreate = ({ onSuccess }) =>
+  onSuccess(loadAddedContactResponse);
+const loadDuplicateReceiveMoney = ({ onSuccess }) =>
+  onSuccess(duplicateReceiveMoneyEntry);
 
 const MemoryReceiveMoneyMapping = {
   [LOAD_NEW_RECEIVE_MONEY]: loadNewReceiveMoney,

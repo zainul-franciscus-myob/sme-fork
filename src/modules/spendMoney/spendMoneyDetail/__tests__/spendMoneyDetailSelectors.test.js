@@ -7,7 +7,8 @@ import {
   getIsLineAmountsTaxInclusive,
   getIsReportableDisabled,
   getLineDataByIndexSelector,
-  getLinesForTaxCalculation, getSaveUrl,
+  getLinesForTaxCalculation,
+  getSaveUrl,
   getShouldShowAbn,
   getShouldShowAccountCode,
   getShowBankStatementText,
@@ -220,10 +221,7 @@ describe('spendMoneySelectors', () => {
 
   describe('getFilesForUpload', () => {
     it('get files for upload', () => {
-      const files = [
-        { file: 'invalid' },
-        { file: 'valid' },
-      ];
+      const files = [{ file: 'invalid' }, { file: 'valid' }];
 
       const state = {
         attachments: [
@@ -254,8 +252,16 @@ describe('spendMoneySelectors', () => {
     it.each([
       ['when isReportable is true, it should return true', '1', true],
       ['when isReportable is false, it should return false', '2', false],
-      ['when isReportable is undefined, it should return undefined', '3', undefined],
-      ['when contact does not exists, it should return undefined', '4', undefined],
+      [
+        'when isReportable is undefined, it should return undefined',
+        '3',
+        undefined,
+      ],
+      [
+        'when contact does not exists, it should return undefined',
+        '4',
+        undefined,
+      ],
     ])('%s', (scenario, contactId, expected) => {
       const state = {
         spendMoney: {
@@ -279,14 +285,17 @@ describe('spendMoneySelectors', () => {
       ['Supplier', false],
       ['Employee', true],
       ['Other', true],
-    ])('when contact type is %s, it should return %s', (contactType, expected) => {
-      const id = '1';
-      const contacts = [{ id, contactType }];
+    ])(
+      'when contact type is %s, it should return %s',
+      (contactType, expected) => {
+        const id = '1';
+        const contacts = [{ id, contactType }];
 
-      const actual = getIsReportableDisabled.resultFunc(contacts, id);
+        const actual = getIsReportableDisabled.resultFunc(contacts, id);
 
-      expect(actual).toEqual(expected);
-    });
+        expect(actual).toEqual(expected);
+      }
+    );
 
     it('should be disabled if contact has not been selected', () => {
       const id = '';
@@ -303,7 +312,10 @@ describe('spendMoneySelectors', () => {
       const isTaxInclusive = true;
       const isSwitchingTaxInclusive = true;
 
-      const actual = getIsLineAmountsTaxInclusive(isTaxInclusive, isSwitchingTaxInclusive);
+      const actual = getIsLineAmountsTaxInclusive(
+        isTaxInclusive,
+        isSwitchingTaxInclusive
+      );
 
       expect(actual).toEqual(false);
     });
@@ -312,7 +324,10 @@ describe('spendMoneySelectors', () => {
       const isTaxInclusive = true;
       const isSwitchingTaxInclusive = false;
 
-      const actual = getIsLineAmountsTaxInclusive(isTaxInclusive, isSwitchingTaxInclusive);
+      const actual = getIsLineAmountsTaxInclusive(
+        isTaxInclusive,
+        isSwitchingTaxInclusive
+      );
 
       expect(actual).toEqual(true);
     });
@@ -347,7 +362,6 @@ describe('spendMoneySelectors', () => {
         contactType: 'Supplier',
         id: '2',
       },
-
     ];
 
     it('returns true if is creating and selected contact is a supplier', () => {
@@ -404,7 +418,7 @@ describe('spendMoneySelectors', () => {
       expect(showBankStatementText).toEqual(true);
     });
 
-    it('should not show bank statement text when selected pay to account id doesn\'t match electronic cleared account id', () => {
+    it("should not show bank statement text when selected pay to account id doesn't match electronic cleared account id", () => {
       const state = {
         spendMoney: {
           selectedPayFromAccountId: '2',
@@ -458,7 +472,7 @@ describe('spendMoneySelectors', () => {
         const actual = getIsBeforeStartOfFinancialYear(state);
 
         expect(actual).toEqual(expected);
-      },
+      }
     );
   });
 });

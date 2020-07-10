@@ -18,11 +18,15 @@ import exportCompanyFileResultResponse from './data/exportCompanyFileResult';
 import loadDataImportExportResponse from './data/loadDataImportExport';
 import successMessage from './data/success.json';
 
-const exportCompanyFile = ({ onSuccess }) => onSuccess(exportCompanyFileResponse);
-const exportCompanyFileResult = ({ onSuccess }) => onSuccess(exportCompanyFileResultResponse);
-const loadDataImportExport = ({ onSuccess }) => onSuccess(loadDataImportExportResponse);
+const exportCompanyFile = ({ onSuccess }) =>
+  onSuccess(exportCompanyFileResponse);
+const exportCompanyFileResult = ({ onSuccess }) =>
+  onSuccess(exportCompanyFileResultResponse);
+const loadDataImportExport = ({ onSuccess }) =>
+  onSuccess(loadDataImportExportResponse);
 const importEntity = ({ onSuccess }) => onSuccess(successMessage);
-const exportEntity = ({ onSuccess }) => onSuccess(new Blob([], { type: 'text/plain' }));
+const exportEntity = ({ onSuccess }) =>
+  onSuccess(new Blob([], { type: 'text/plain' }));
 const bulkDeleteResponse = ({ onSuccess }) => onSuccess(bulkDeleteResponseData);
 
 const MemoryDataImportExportMapping = {

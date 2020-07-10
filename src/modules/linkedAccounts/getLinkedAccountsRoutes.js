@@ -1,15 +1,14 @@
 import LinkedAccountsModule from './LinkedAccountsModule';
 import RouteName from '../../router/RouteName';
 
-const getLinkedAccountsRoutes = ({
-  integration, setRootView,
-}) => {
+const getLinkedAccountsRoutes = ({ integration, setRootView }) => {
   const routes = [
     {
       name: RouteName.LINKED_ACCOUNTS,
       path: '/:region/:businessId/linkedAccounts/',
       module: new LinkedAccountsModule({
-        integration, setRootView,
+        integration,
+        setRootView,
       }),
       documentTitle: 'Linked accounts',
     },

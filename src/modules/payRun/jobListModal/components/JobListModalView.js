@@ -1,10 +1,11 @@
-import {
-  Alert, Button, LineItemTable, Modal,
-} from '@myob/myob-widgets';
+import { Alert, Button, LineItemTable, Modal } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getJobAmount, getJobListModalLoadingState } from '../../payRunCreate/employeePayList/EmployeePayListSelectors';
+import {
+  getJobAmount,
+  getJobListModalLoadingState,
+} from '../../payRunCreate/employeePayList/EmployeePayListSelectors';
 import JobListModalTable from './JobListModalTable';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import PageView from '../../../../components/PageView/PageView';
@@ -21,13 +22,15 @@ const JobListModalView = ({
 }) => {
   const alertComponent = amount.unallocated < 0 && (
     <Alert type="danger">
-      {'Unable to add jobs because the total allocated is more than the pay item amount.'}
+      {
+        'Unable to add jobs because the total allocated is more than the pay item amount.'
+      }
     </Alert>
   );
 
   const jobListView = (
     <div className={''}>
-      { alertComponent }
+      {alertComponent}
       <JobListModalTable
         onAddJobCheckboxChange={onAddJobCheckboxChange}
         onAllJobsCheckboxChange={onAllJobsCheckboxChange}
@@ -49,25 +52,21 @@ const JobListModalView = ({
   );
 
   const modal = (
-    <Modal
-      title="Add job"
-      onCancel={onCancel}
-      size="large"
-    >
+    <Modal title="Add job" onCancel={onCancel} size="large">
       <Modal.Body>
         <PageView loadingState={loadingState} view={jobListView} />
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          type="secondary"
-          onClick={onCancel}
-        >
+        <Button type="secondary" onClick={onCancel}>
           Cancel
         </Button>
         <Button
           type="primary"
           onClick={onSave}
-          disabled={loadingState !== LoadingState.LOADING_SUCCESS || amount.unallocated < 0}
+          disabled={
+            loadingState !== LoadingState.LOADING_SUCCESS ||
+            amount.unallocated < 0
+          }
         >
           Add
         </Button>

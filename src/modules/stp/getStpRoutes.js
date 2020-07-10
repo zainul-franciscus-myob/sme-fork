@@ -6,14 +6,20 @@ import StpGetStartedModule from './stpGetStarted/StpGetStartedModule';
 import StpSetupModule from './stpSetup/StpSetupModule';
 
 const getStpRoutes = ({
-  integration, setRootView, replaceURLParams, pushMessage, popMessages, featureToggles,
+  integration,
+  setRootView,
+  replaceURLParams,
+  pushMessage,
+  popMessages,
+  featureToggles,
 }) => {
   const routes = [
     {
       name: RouteName.STP_GET_STARTED,
       path: '/:region/:businessId/stp/getStarted',
       module: new StpGetStartedModule({
-        integration, setRootView,
+        integration,
+        setRootView,
       }),
       documentTitle: 'STP Get Started',
     },
@@ -21,7 +27,8 @@ const getStpRoutes = ({
       name: RouteName.STP_SETUP,
       path: '/:region/:businessId/stp/setup',
       module: new StpSetupModule({
-        integration, setRootView,
+        integration,
+        setRootView,
       }),
       documentTitle: 'Set up STP reporting',
     },
@@ -30,7 +37,9 @@ const getStpRoutes = ({
       path: '/:region/:businessId/stp/errors',
       allowedParams: ['source'],
       module: new StpErrorsModule({
-        integration, setRootView, replaceURLParams,
+        integration,
+        setRootView,
+        replaceURLParams,
       }),
       documentTitle: 'STP Errors',
     },
@@ -39,7 +48,12 @@ const getStpRoutes = ({
       allowedParams: ['tab'],
       path: '/:region/:businessId/stp/reportingCentre',
       module: new ReportingCentreModule({
-        integration, setRootView, replaceURLParams, pushMessage, popMessages, featureToggles,
+        integration,
+        setRootView,
+        replaceURLParams,
+        pushMessage,
+        popMessages,
+        featureToggles,
       }),
       documentTitle: 'Single Touch Payroll reporting',
     },
@@ -48,7 +62,8 @@ const getStpRoutes = ({
       path: '/:region/:businessId/stp/employeeEtp/:employeeId',
       allowedParams: ['year'],
       module: new EtpModule({
-        integration, setRootView,
+        integration,
+        setRootView,
       }),
       documentTitle: 'Single Touch Payroll reporting',
     },

@@ -7,26 +7,25 @@ import { project } from './shared.convention';
 describe('get[Module]Routes.js conventions', () => {
   // get all of the route modules
   const sourceFiles = project.getSourceFiles('./src/modules/**/*Routes.js');
-  const root = commonPath(sourceFiles.map(sf => sf.getFilePath())).replace(
+  const root = commonPath(sourceFiles.map((sf) => sf.getFilePath())).replace(
     `${join('sme-web', 'src')}/`,
-    '',
+    ''
   );
 
   // eslint-disable-next-line no-restricted-syntax
   for (const sourceFile of sourceFiles) {
     it(`for: ${sourceFile.getFilePath().replace(root, '/')}`, () => {
       const fn = assertSourceFile(sourceFile)
-        .exports
-        .default('the module has a default export')
+        .exports.default('the module has a default export')
         .length(1, 'the export should have a single declaration')
-        .declarations[0]
-        .isVariableDeclaration('the export is a variable declaration')
+        .declarations[0].isVariableDeclaration(
+          'the export is a variable declaration'
+        )
         .name(
           /^get[A-Z]\w*Routes$/,
-          'the variable is named like get[Module]Routes',
+          'the variable is named like get[Module]Routes'
         )
-        .initializer
-        .isFunctionLike('the variables value is function like');
+        .initializer.isFunctionLike('the variables value is function like');
 
       fn.parameters
         .length(1, 'the function has a single parameter')
@@ -52,7 +51,7 @@ describe('get[Module]Routes.js conventions', () => {
       returnElementProperties
         .getTypes(
           'documentTitle',
-          'the object has a property named "documentTitle"',
+          'the object has a property named "documentTitle"'
         )
         .atLeast(1, 'which has at least one type')
         .isString('which is a string');

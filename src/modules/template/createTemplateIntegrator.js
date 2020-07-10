@@ -5,7 +5,11 @@ import {
   LOAD_TEMPLATE,
   UPDATE_TEMPLATE,
 } from './TemplateIntents';
-import { getBusinessId, getLoadPayDirectUrlParams, getSavePayload } from './templateSelectors';
+import {
+  getBusinessId,
+  getLoadPayDirectUrlParams,
+  getSavePayload,
+} from './templateSelectors';
 
 const createTemplateIntegrator = (store, integration) => ({
   loadTemplate: ({ onSuccess, onFailure, templateName }) => {
@@ -41,10 +45,7 @@ const createTemplateIntegrator = (store, integration) => ({
     });
   },
 
-  createTemplate: ({
-    onSuccess,
-    onFailure,
-  }) => {
+  createTemplate: ({ onSuccess, onFailure }) => {
     const state = store.getState();
     const content = getSavePayload(state);
 

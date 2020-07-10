@@ -11,23 +11,24 @@ const ExpensePayItemModal = ({
   onDismissModal,
   onConfirmDeleteButtonClick,
   onConfirmCancelButtonClick,
-}) => ({
-  [ModalType.DELETE]: (
-    <DeleteModal
-      onConfirm={onConfirmDeleteButtonClick}
-      onCancel={onDismissModal}
-      title="Delete this pay item?"
-    />
-  ),
-  [ModalType.CANCEL]: (
-    <CancelModal
-      onConfirm={onConfirmCancelButtonClick}
-      onCancel={onDismissModal}
-    />
-  ),
-}[modalType]);
+}) =>
+  ({
+    [ModalType.DELETE]: (
+      <DeleteModal
+        onConfirm={onConfirmDeleteButtonClick}
+        onCancel={onDismissModal}
+        title="Delete this pay item?"
+      />
+    ),
+    [ModalType.CANCEL]: (
+      <CancelModal
+        onConfirm={onConfirmCancelButtonClick}
+        onCancel={onDismissModal}
+      />
+    ),
+  }[modalType]);
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   modalType: getModalType(state),
 });
 

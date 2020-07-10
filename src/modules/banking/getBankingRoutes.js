@@ -3,13 +3,18 @@ import BankingModule from './BankingModule';
 import RouteName from '../../router/RouteName';
 
 const getBankingRoutes = ({
-  integration, setRootView, globalCallbacks: { learnBankingCompleted }, isToggleOn,
+  integration,
+  setRootView,
+  globalCallbacks: { learnBankingCompleted },
+  isToggleOn,
 }) => [
   {
     name: RouteName.BANKING_TRANSACTION_LIST,
     path: '/:region/:businessId/banking/',
     module: new BankingModule({
-      integration, setRootView, isToggleOn,
+      integration,
+      setRootView,
+      isToggleOn,
     }),
     documentTitle: 'Bank feed transactions',
   },
@@ -17,7 +22,9 @@ const getBankingRoutes = ({
     name: RouteName.ONBOARDING_LEARN_BANKING,
     path: '/:region/:businessId/banking/learn',
     module: new BankingLearnModule({
-      integration, setRootView, learnBankingCompleted,
+      integration,
+      setRootView,
+      learnBankingCompleted,
     }),
     documentTitle: 'Learn banking',
   },

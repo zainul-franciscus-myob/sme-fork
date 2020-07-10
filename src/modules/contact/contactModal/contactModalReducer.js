@@ -64,7 +64,7 @@ export const getDefaultState = () => ({
 const setInitialState = (state, { context }) => {
   const defaultState = getDefaultState();
 
-  return ({
+  return {
     ...defaultState,
     businessId: context.businessId,
     region: context.region,
@@ -74,14 +74,17 @@ const setInitialState = (state, { context }) => {
       ...defaultState.contact,
       contactType: context.contactType || defaultState.contact.contactType,
     },
-  });
+  };
 };
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setLoadingState = (state, { isLoading }) => ({ ...state, isLoading });
 
-const setSubmittingState = (state, { isSubmitting }) => ({ ...state, isSubmitting });
+const setSubmittingState = (state, { isSubmitting }) => ({
+  ...state,
+  isSubmitting,
+});
 
 const setAlert = (state, { alert }) => ({ ...state, alert });
 
@@ -111,7 +114,8 @@ const setContactModalDetails = (state, { key, value }) => ({
 });
 
 const setShowContactModalBillingAddress = (state, { showBillingAddress }) => ({
-  ...state, showBillingAddress,
+  ...state,
+  showBillingAddress,
 });
 
 const setContactModalBillingAddress = (state, { key, value }) => ({
@@ -125,8 +129,12 @@ const setContactModalBillingAddress = (state, { key, value }) => ({
   },
 });
 
-const setShowContactModalShippingAddress = (state, { showShippingAddress }) => ({
-  ...state, showShippingAddress,
+const setShowContactModalShippingAddress = (
+  state,
+  { showShippingAddress }
+) => ({
+  ...state,
+  showShippingAddress,
 });
 
 const setContactModalShippingAddress = (state, { key, value }) => ({

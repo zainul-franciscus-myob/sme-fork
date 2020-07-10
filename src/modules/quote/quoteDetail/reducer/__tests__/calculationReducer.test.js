@@ -1,7 +1,13 @@
 import Decimal from 'decimal.js';
 
-import { CALCULATE_LINE_AMOUNTS, SET_QUOTE_CALCULATED_LINES } from '../../../QuoteIntents';
-import { calculatePartialQuoteLineAmounts, setQuoteCalculatedLines } from '../calculationReducer';
+import {
+  CALCULATE_LINE_AMOUNTS,
+  SET_QUOTE_CALCULATED_LINES,
+} from '../../../QuoteIntents';
+import {
+  calculatePartialQuoteLineAmounts,
+  setQuoteCalculatedLines,
+} from '../calculationReducer';
 
 describe('calculationReducer', () => {
   describe('SET_QUOTE_CALCULATED_LINES', () => {
@@ -13,12 +19,14 @@ describe('calculationReducer', () => {
       amount: '0',
     };
 
-    const buildState = partialLine => ({
+    const buildState = (partialLine) => ({
       quote: {
-        lines: [{
-          ...baseline,
-          ...partialLine,
-        }],
+        lines: [
+          {
+            ...baseline,
+            ...partialLine,
+          },
+        ],
       },
       totals: {
         subTotal: '$0.00',
@@ -30,7 +38,11 @@ describe('calculationReducer', () => {
     const action = {
       intent: SET_QUOTE_CALCULATED_LINES,
       lines: [
-        { taxExclusiveAmount: Decimal(90.91), taxAmount: Decimal(9.09), amount: Decimal(100) },
+        {
+          taxExclusiveAmount: Decimal(90.91),
+          taxAmount: Decimal(9.09),
+          amount: Decimal(100),
+        },
       ],
       totals: {
         subTotal: Decimal(100),
@@ -40,12 +52,14 @@ describe('calculationReducer', () => {
       isSwitchingTaxInclusive: true,
     };
 
-    const buildExpect = partialLine => ({
+    const buildExpect = (partialLine) => ({
       quote: {
-        lines: [{
-          ...baseline,
-          ...partialLine,
-        }],
+        lines: [
+          {
+            ...baseline,
+            ...partialLine,
+          },
+        ],
       },
       totals: {
         subTotal: '$100.00',
@@ -85,7 +99,9 @@ describe('calculationReducer', () => {
       { key: 'units', value: '0' },
       { key: 'discount', value: '100' },
     ].forEach(({ key, value }) => {
-      it(`should only update amount when switching tax inclusive toggle and ${key} is ${value || 'empty'}`, () => {
+      it(`should only update amount when switching tax inclusive toggle and ${key} is ${
+        value || 'empty'
+      }`, () => {
         const partialLine = { [key]: value };
         const state = buildState(partialLine);
 
@@ -103,14 +119,14 @@ describe('calculationReducer', () => {
 
   describe('CALCULATE_LINE_AMOUNTS', () => {
     describe('itemAndService layout', () => {
-      const buildState = line => ({
+      const buildState = (line) => ({
         quote: {
           layout: 'itemAndService',
           lines: [line],
         },
       });
 
-      const buildAction = key => ({
+      const buildAction = (key) => ({
         intent: CALCULATE_LINE_AMOUNTS,
         key,
         index: 0,
@@ -209,7 +225,9 @@ describe('calculationReducer', () => {
           { key: 'units', value: '0' },
           { key: 'amount', value: '' },
         ].forEach(({ key, value }) => {
-          it(`should not calculate discount when ${key} is ${value || 'empty'}`, () => {
+          it(`should not calculate discount when ${key} is ${
+            value || 'empty'
+          }`, () => {
             const state = buildState({
               ...baseline,
               [key]: value,
@@ -265,7 +283,9 @@ describe('calculationReducer', () => {
           { key: 'discount', value: '100' },
           { key: 'amount', value: '' },
         ].forEach(({ key, value }) => {
-          it(`should not calculate unitPrice when ${key} is ${value || 'empty'}`, () => {
+          it(`should not calculate unitPrice when ${key} is ${
+            value || 'empty'
+          }`, () => {
             const state = buildState({
               ...baseline,
               [key]: value,

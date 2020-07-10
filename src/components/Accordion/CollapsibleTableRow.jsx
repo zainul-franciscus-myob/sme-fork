@@ -7,7 +7,6 @@ import AccordionRowTypes from './AccordionRowTypes';
 import shouldRenderCollapsibleTableRow from './shouldRenderCollapsibleTableRow';
 import styles from './CollapsibleTableRow.module.css';
 
-
 const CollapsibleTableRow = ({
   id,
   index,
@@ -35,7 +34,11 @@ const CollapsibleTableRow = ({
 
   const additionalRowItem = {
     [AccordionRowTypes.COLLAPSIBLE]: (
-      <Table.RowItem width="auto" cellRole="actions" className={collapsibleExpansionToggleStyling}>
+      <Table.RowItem
+        width="auto"
+        cellRole="actions"
+        className={collapsibleExpansionToggleStyling}
+      >
         <div className={styles.expansionToggle}>
           <Button
             type="clear"
@@ -53,10 +56,12 @@ const CollapsibleTableRow = ({
         </div>
       </Table.RowItem>
     ),
-    [AccordionRowTypes.NORMAL]: (<div />),
+    [AccordionRowTypes.NORMAL]: <div />,
   }[rowType];
 
-  const rowHeaderStyling = isRowOpen ? styles.rowHeaderOpen : styles.rowHeaderClosed;
+  const rowHeaderStyling = isRowOpen
+    ? styles.rowHeaderOpen
+    : styles.rowHeaderClosed;
 
   /*
     Adding table-data--selected stops Feelix from applying styles to the row when the user
@@ -67,7 +72,7 @@ const CollapsibleTableRow = ({
     className,
     styles.rowHeaderToggle,
     rowHeaderStyling,
-    tableDataSelected,
+    tableDataSelected
   );
   const rowHeader = (
     <div>
@@ -89,16 +94,18 @@ const CollapsibleTableRow = ({
     </div>
   );
 
-  const rowContentStyling = isRowOpen ? styles.rowContentOpen : styles.rowContentClosed;
+  const rowContentStyling = isRowOpen
+    ? styles.rowContentOpen
+    : styles.rowContentClosed;
   const rowContent = (
     <div className={rowContentStyling}>
-      <div className={styles.rowContentStylingInner}>
-        {children}
-      </div>
+      <div className={styles.rowContentStylingInner}>{children}</div>
     </div>
   );
 
-  const collapsibleStyling = isRowOpen ? styles.collapsibleOpen : styles.collapsibleClosed;
+  const collapsibleStyling = isRowOpen
+    ? styles.collapsibleOpen
+    : styles.collapsibleClosed;
 
   return (
     <div className={collapsibleStyling}>
@@ -112,7 +119,10 @@ CollapsibleTableRow.propTypes = {
   id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   // eslint-disable-next-line consistent-return
-  rowType: PropTypes.oneOf([AccordionRowTypes.COLLAPSIBLE, AccordionRowTypes.NORMAL]).isRequired,
+  rowType: PropTypes.oneOf([
+    AccordionRowTypes.COLLAPSIBLE,
+    AccordionRowTypes.NORMAL,
+  ]).isRequired,
   header: PropTypes.element.isRequired,
   isRowOpen: PropTypes.bool.isRequired,
   onExpand: PropTypes.func,

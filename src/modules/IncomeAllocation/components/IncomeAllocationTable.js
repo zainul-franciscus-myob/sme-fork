@@ -2,9 +2,7 @@ import { LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getIndexOfLastLine, getTableData,
-} from '../IncomeAllocationSelectors';
+import { getIndexOfLastLine, getTableData } from '../IncomeAllocationSelectors';
 import IncomeAllocationRow from './IncomeAllocationRow';
 import styles from './IncomeAllocationTable.module.css';
 
@@ -12,22 +10,20 @@ class IncomeAllocationTable extends React.Component {
   onChange = (index, name, value) => {
     const { onUpdateRow } = this.props;
     onUpdateRow(index, name, value);
-  }
+  };
 
   onAddRow = ({ id, ...partialLine }) => {
     const { onAddRow } = this.props;
     onAddRow(partialLine);
-  }
+  };
 
-  onRowInputBlur = index => () => {
+  onRowInputBlur = (index) => () => {
     const { onRowInputBlur } = this.props;
     onRowInputBlur(index);
-  }
+  };
 
   renderRow = (index, data, onChange) => {
-    const {
-      indexOfLastLine,
-    } = this.props;
+    const { indexOfLastLine } = this.props;
 
     const isNewLineRow = indexOfLastLine < index;
 
@@ -44,13 +40,13 @@ class IncomeAllocationTable extends React.Component {
 
   render() {
     const labels = [
-      'Header account', 'Retained earnings account', 'Current year earnings account', 'Equity (%)',
+      'Header account',
+      'Retained earnings account',
+      'Current year earnings account',
+      'Equity (%)',
     ];
 
-    const {
-      tableData,
-      onRemoveRow,
-    } = this.props;
+    const { tableData, onRemoveRow } = this.props;
 
     return (
       <LineItemTable
@@ -69,7 +65,7 @@ class IncomeAllocationTable extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   indexOfLastLine: getIndexOfLastLine(state),
   tableData: getTableData(state),
 });

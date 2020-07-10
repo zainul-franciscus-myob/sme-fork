@@ -6,7 +6,8 @@ import {
   getIsExemptionDisabled,
   getLimit,
   getSuperPayItemModalFormattedAmount,
-  getSuperPayItemModalFormattedPercentage, getUpdatedSuperPayItemModalForSave,
+  getSuperPayItemModalFormattedPercentage,
+  getUpdatedSuperPayItemModalForSave,
 } from '../SuperPayItemModalSelectors';
 
 describe('SuperPayItemModalSelectors', () => {
@@ -45,10 +46,12 @@ describe('SuperPayItemModalSelectors', () => {
         it(`should ${expected ? '' : ' not'} contain "${name}"`, () => {
           const actual = getFilteredAtoReportingCategoryOptions.resultFunc(
             contributionType,
-            atoReportingCategoryOptions,
+            atoReportingCategoryOptions
           );
 
-          expect(!!(actual.find(item => item.value === value))).toEqual(expected);
+          expect(!!actual.find((item) => item.value === value)).toEqual(
+            expected
+          );
         });
       });
     });
@@ -75,23 +78,26 @@ describe('SuperPayItemModalSelectors', () => {
         ['SalarySacrifice', 'deduction'],
         ['Spouse', 'deduction'],
         ['SuperannuationGuarantee', 'expense'],
-      ])('when contribution type is %s, should return %s', (
-        contributionType, expectedType,
-      ) => {
-        const customState = {
-          ...state,
-          superPayItemModal: {
-            ...state.superPayItemModal,
-            superPayItem: {
-              ...state.superPayItemModal.superPayItem,
-              contributionType,
+      ])(
+        'when contribution type is %s, should return %s',
+        (contributionType, expectedType) => {
+          const customState = {
+            ...state,
+            superPayItemModal: {
+              ...state.superPayItemModal,
+              superPayItem: {
+                ...state.superPayItemModal.superPayItem,
+                contributionType,
+              },
             },
-          },
-        };
+          };
 
-        const actual = getCalculationBasis(customState);
-        expect(actual.calculationBasisPayItemOptions[0].id).toEqual(expectedType);
-      });
+          const actual = getCalculationBasis(customState);
+          expect(actual.calculationBasisPayItemOptions[0].id).toEqual(
+            expectedType
+          );
+        }
+      );
     });
 
     describe('showPercent', () => {
@@ -99,23 +105,24 @@ describe('SuperPayItemModalSelectors', () => {
         ['UserEntered', false],
         ['PercentOfPayrollCategory', true],
         ['FixedDollar', false],
-      ])('when calculation basis is %s, should return %s', (
-        calculationBasisType, expectedShowPercent,
-      ) => {
-        const customState = {
-          ...state,
-          superPayItemModal: {
-            superPayItem: {
-              ...state.superPayItem,
-              calculationBasisType,
+      ])(
+        'when calculation basis is %s, should return %s',
+        (calculationBasisType, expectedShowPercent) => {
+          const customState = {
+            ...state,
+            superPayItemModal: {
+              superPayItem: {
+                ...state.superPayItem,
+                calculationBasisType,
+              },
             },
-          },
-        };
+          };
 
-        const actual = getCalculationBasis(customState);
+          const actual = getCalculationBasis(customState);
 
-        expect(actual.showPercent).toEqual(expectedShowPercent);
-      });
+          expect(actual.showPercent).toEqual(expectedShowPercent);
+        }
+      );
     });
 
     describe('showAmount', () => {
@@ -123,21 +130,24 @@ describe('SuperPayItemModalSelectors', () => {
         ['UserEntered', false],
         ['Percent', false],
         ['FixedDollar', true],
-      ])('when calculation basis is %s, should return %s', (calculationBasisType, expectedShowAmount) => {
-        const customState = {
-          ...state,
-          superPayItemModal: {
-            superPayItem: {
-              ...state.superPayItem,
-              calculationBasisType,
+      ])(
+        'when calculation basis is %s, should return %s',
+        (calculationBasisType, expectedShowAmount) => {
+          const customState = {
+            ...state,
+            superPayItemModal: {
+              superPayItem: {
+                ...state.superPayItem,
+                calculationBasisType,
+              },
             },
-          },
-        };
+          };
 
-        const actual = getCalculationBasis(customState);
+          const actual = getCalculationBasis(customState);
 
-        expect(actual.showAmount).toEqual(expectedShowAmount);
-      });
+          expect(actual.showAmount).toEqual(expectedShowAmount);
+        }
+      );
     });
   });
 
@@ -162,21 +172,24 @@ describe('SuperPayItemModalSelectors', () => {
         ['SalarySacrifice', 'deduction'],
         ['Spouse', 'deduction'],
         ['SuperannuationGuarantee', 'expense'],
-      ])('when contribution type is %s, should return %s', (contributionType, expectedType) => {
-        const customState = {
-          ...state,
-          superPayItemModal: {
-            ...state.superPayItemModal,
-            superPayItem: {
-              ...state.superPayItemModal.superPayItem,
-              contributionType,
+      ])(
+        'when contribution type is %s, should return %s',
+        (contributionType, expectedType) => {
+          const customState = {
+            ...state,
+            superPayItemModal: {
+              ...state.superPayItemModal,
+              superPayItem: {
+                ...state.superPayItemModal.superPayItem,
+                contributionType,
+              },
             },
-          },
-        };
+          };
 
-        const actual = getLimit(customState);
-        expect(actual.limitPayItemOptions[0].id).toEqual(expectedType);
-      });
+          const actual = getLimit(customState);
+          expect(actual.limitPayItemOptions[0].id).toEqual(expectedType);
+        }
+      );
     });
 
     describe('showPercent', () => {
@@ -184,21 +197,24 @@ describe('SuperPayItemModalSelectors', () => {
         ['UserEntered', false],
         ['Percent', true],
         ['FixedDollar', false],
-      ])('when calculation basis is %s, should return %s', (limitType, expectedShowPercent) => {
-        const customState = {
-          ...state,
-          superPayItemModal: {
-            ...state.superPayItemModal,
-            superPayItem: {
-              ...state.superPayItemModal.superPayItem,
-              limitType,
+      ])(
+        'when calculation basis is %s, should return %s',
+        (limitType, expectedShowPercent) => {
+          const customState = {
+            ...state,
+            superPayItemModal: {
+              ...state.superPayItemModal,
+              superPayItem: {
+                ...state.superPayItemModal.superPayItem,
+                limitType,
+              },
             },
-          },
-        };
+          };
 
-        const actual = getLimit(customState);
-        expect(actual.showPercent).toEqual(expectedShowPercent);
-      });
+          const actual = getLimit(customState);
+          expect(actual.showPercent).toEqual(expectedShowPercent);
+        }
+      );
     });
 
     describe('showAmount', () => {
@@ -206,21 +222,24 @@ describe('SuperPayItemModalSelectors', () => {
         ['UserEntered', false],
         ['Percent', false],
         ['FixedDollar', true],
-      ])('when calculation basis is %s, should return %s', (limitType, expectedShowAmount) => {
-        const customState = {
-          ...state,
-          superPayItemModal: {
-            superPayItem: {
-              ...state.superPayItemModal.superPayItem,
-              limitType,
+      ])(
+        'when calculation basis is %s, should return %s',
+        (limitType, expectedShowAmount) => {
+          const customState = {
+            ...state,
+            superPayItemModal: {
+              superPayItem: {
+                ...state.superPayItemModal.superPayItem,
+                limitType,
+              },
             },
-          },
-        };
+          };
 
-        const actual = getLimit(customState);
+          const actual = getLimit(customState);
 
-        expect(actual.showAmount).toEqual(expectedShowAmount);
-      });
+          expect(actual.showAmount).toEqual(expectedShowAmount);
+        }
+      );
     });
   });
 
@@ -229,10 +248,13 @@ describe('SuperPayItemModalSelectors', () => {
       const employeeOptions = [{ value: '1' }, { value: '2' }];
       const employees = [{ id: '1' }];
 
-      const actual = getFilteredEmployeeOptions.resultFunc(employeeOptions, employees);
+      const actual = getFilteredEmployeeOptions.resultFunc(
+        employeeOptions,
+        employees
+      );
 
-      expect(actual.find(item => item.id === '1')).toBeFalsy();
-      expect(actual.find(item => item.id === '2')).toBeUndefined();
+      expect(actual.find((item) => item.id === '1')).toBeFalsy();
+      expect(actual.find((item) => item.id === '2')).toBeUndefined();
     });
   });
 
@@ -241,10 +263,13 @@ describe('SuperPayItemModalSelectors', () => {
       const exemptionOptions = [{ value: '1' }, { value: '2' }];
       const exemptions = [{ id: '1' }];
 
-      const actual = getFilteredExemptionOptions.resultFunc(exemptionOptions, exemptions);
+      const actual = getFilteredExemptionOptions.resultFunc(
+        exemptionOptions,
+        exemptions
+      );
 
-      expect(actual.find(item => item.id === '1')).toBeFalsy();
-      expect(actual.find(item => item.id === '2')).toBeUndefined();
+      expect(actual.find((item) => item.id === '1')).toBeFalsy();
+      expect(actual.find((item) => item.id === '2')).toBeUndefined();
     });
   });
 
@@ -269,15 +294,20 @@ describe('SuperPayItemModalSelectors', () => {
       ['FixedDollar', 'federalWagesId', true],
       ['FixedDollar', 'someOtherId', true],
     ])(
-      'when calculation basis is %s and percent of is %s , should return %s', (
-        calculationBasisType, calculationBasisPayItemId, expectedIsExemptionDisabled,
+      'when calculation basis is %s and percent of is %s , should return %s',
+      (
+        calculationBasisType,
+        calculationBasisPayItemId,
+        expectedIsExemptionDisabled
       ) => {
         const actual = getIsExemptionDisabled.resultFunc(
-          calculationBasisType, calculationBasisPayItemId, configuration,
+          calculationBasisType,
+          calculationBasisPayItemId,
+          configuration
         );
 
         expect(actual).toEqual(expectedIsExemptionDisabled);
-      },
+      }
     );
   });
 
@@ -302,7 +332,10 @@ describe('SuperPayItemModalSelectors', () => {
         grossWagesId: 'grossWagesId',
         calculationBasisDeductionPayItemOptions: [
           { id: 'grossWagesId', mappedType: 'grossWagesType' },
-          { id: 'calculationDeductionId', mappedType: 'calculationDeductionType' },
+          {
+            id: 'calculationDeductionId',
+            mappedType: 'calculationDeductionType',
+          },
         ],
         calculationBasisExpensePayItemOptions: [
           { id: 'grossWagesId', mappedType: 'grossWagesType' },
@@ -321,60 +354,104 @@ describe('SuperPayItemModalSelectors', () => {
 
     describe('calculationBasis', () => {
       it.each([
-        ['UserEntered', '0.00', 'grossWagesId', 'grossWagesType', '0.00', 'PayPeriod'],
-        ['PercentOfPayrollCategory', '10.00', 'calculationDeductionId', 'calculationDeductionType', '0.00', 'PayPeriod'],
-        ['FixedDollar', '0.00', 'grossWagesId', 'grossWagesType', '20.00', 'Month'],
-      ])('should clear amount when calculation basis is UserEntered', (
-        basisType, percentage, payItemId, payItemType, amount, period,
-      ) => {
-        const customState = {
-          ...state,
-          superPayItemModal: {
-            ...state.superPayItemModal,
-            superPayItem: {
-              ...state.superPayItemModal.superPayItem,
-              calculationBasisType: basisType,
+        [
+          'UserEntered',
+          '0.00',
+          'grossWagesId',
+          'grossWagesType',
+          '0.00',
+          'PayPeriod',
+        ],
+        [
+          'PercentOfPayrollCategory',
+          '10.00',
+          'calculationDeductionId',
+          'calculationDeductionType',
+          '0.00',
+          'PayPeriod',
+        ],
+        [
+          'FixedDollar',
+          '0.00',
+          'grossWagesId',
+          'grossWagesType',
+          '20.00',
+          'Month',
+        ],
+      ])(
+        'should clear amount when calculation basis is UserEntered',
+        (basisType, percentage, payItemId, payItemType, amount, period) => {
+          const customState = {
+            ...state,
+            superPayItemModal: {
+              ...state.superPayItemModal,
+              superPayItem: {
+                ...state.superPayItemModal.superPayItem,
+                calculationBasisType: basisType,
+              },
             },
-          },
-        };
+          };
 
-        const actual = getUpdatedSuperPayItemModalForSave(customState);
+          const actual = getUpdatedSuperPayItemModalForSave(customState);
 
-        expect(actual.calculationBasisPercentage).toEqual(percentage);
-        expect(actual.calculationBasisPayItemId).toEqual(payItemId);
-        expect(actual.calculationBasisPayItemType).toEqual(payItemType);
-        expect(actual.calculationBasisAmount).toEqual(amount);
-        expect(actual.calculationBasisPeriod).toEqual(period);
-      });
+          expect(actual.calculationBasisPercentage).toEqual(percentage);
+          expect(actual.calculationBasisPayItemId).toEqual(payItemId);
+          expect(actual.calculationBasisPayItemType).toEqual(payItemType);
+          expect(actual.calculationBasisAmount).toEqual(amount);
+          expect(actual.calculationBasisPeriod).toEqual(period);
+        }
+      );
     });
 
     describe('limit', () => {
       it.each([
-        ['NoLimit', '0.00', 'grossWagesId', 'grossWagesType', '0.00', 'PayPeriod'],
-        ['Percent', '30.00', 'limitDeductionId', 'limitDeductionType', '0.00', 'PayPeriod'],
-        ['FixedDollar', '0.00', 'grossWagesId', 'grossWagesType', '40.00', 'Quarter'],
-      ])('should clear amount when calculation basis is UserEntered', (
-        basisType, percentage, payItemId, payItemType, amount, period,
-      ) => {
-        const customState = {
-          ...state,
-          superPayItemModal: {
-            ...state.superPayItemModal,
-            superPayItem: {
-              ...state.superPayItemModal.superPayItem,
-              limitType: basisType,
+        [
+          'NoLimit',
+          '0.00',
+          'grossWagesId',
+          'grossWagesType',
+          '0.00',
+          'PayPeriod',
+        ],
+        [
+          'Percent',
+          '30.00',
+          'limitDeductionId',
+          'limitDeductionType',
+          '0.00',
+          'PayPeriod',
+        ],
+        [
+          'FixedDollar',
+          '0.00',
+          'grossWagesId',
+          'grossWagesType',
+          '40.00',
+          'Quarter',
+        ],
+      ])(
+        'should clear amount when calculation basis is UserEntered',
+        (basisType, percentage, payItemId, payItemType, amount, period) => {
+          const customState = {
+            ...state,
+            superPayItemModal: {
+              ...state.superPayItemModal,
+              superPayItem: {
+                ...state.superPayItemModal.superPayItem,
+                limitType: basisType,
+              },
             },
-          },
-        };
+          };
 
-        const actual = getUpdatedSuperPayItemModalForSave(customState);
+          const actual = getUpdatedSuperPayItemModalForSave(customState);
 
-        expect(actual.limitPercentage).toEqual(percentage);
-        expect(actual.limitPayItemId).toEqual(payItemId);
-        expect(actual.limitPayItemType).toEqual(payItemType);
-        expect(actual.limitAmount).toEqual(amount);
-        expect(actual.limitPeriod).toEqual(period);
-      });
+          expect(actual.limitPercentage).toEqual(percentage);
+          expect(actual.limitPayItemId).toEqual(payItemId);
+          expect(actual.limitPayItemType).toEqual(payItemType);
+          expect(actual.limitAmount).toEqual(amount);
+          expect(actual.limitPeriod).toEqual(period);
+        }
+      );
     });
   });
 

@@ -88,7 +88,8 @@ const setAlertMessage = (state, action) => ({
 const loadNewExpensePayItem = (state, action) => ({
   ...state,
   name: action.expensePayItem.name,
-  enabledExemptionFieldConfiguration: action.expensePayItem.enabledExemptionFieldConfiguration,
+  enabledExemptionFieldConfiguration:
+    action.expensePayItem.enabledExemptionFieldConfiguration,
   linkedExpenseAccountId: action.expensePayItem.linkedExpenseAccountId,
   linkedPayablesAccountId: action.expensePayItem.linkedPayablesAccountId,
   isPrintOnPaySlip: action.expensePayItem.isPrintOnPaySlip,
@@ -108,9 +109,12 @@ const loadNewExpensePayItem = (state, action) => ({
   exemptionPayItemOptions: action.expensePayItem.exemptionPayItemOptions,
   limitPayItemOptions: action.expensePayItem.limitPayItemOptions,
   periodOptions: action.expensePayItem.periodOptions,
-  calculationBasisPayItemOptions: action.expensePayItem.calculationBasisPayItemOptions,
-  linkedExpenseAccountOptions: action.expensePayItem.linkedExpenseAccountOptions,
-  linkedPayablesAccountOptions: action.expensePayItem.linkedPayablesAccountOptions,
+  calculationBasisPayItemOptions:
+    action.expensePayItem.calculationBasisPayItemOptions,
+  linkedExpenseAccountOptions:
+    action.expensePayItem.linkedExpenseAccountOptions,
+  linkedPayablesAccountOptions:
+    action.expensePayItem.linkedPayablesAccountOptions,
   employeeOptions: action.expensePayItem.employeeOptions,
 });
 
@@ -118,7 +122,8 @@ const loadExistingExpensePayItem = (state, action) => ({
   ...state,
   name: action.expensePayItem.name,
   originalName: action.expensePayItem.name,
-  enabledExemptionFieldConfiguration: action.expensePayItem.enabledExemptionFieldConfiguration,
+  enabledExemptionFieldConfiguration:
+    action.expensePayItem.enabledExemptionFieldConfiguration,
   linkedExpenseAccountId: action.expensePayItem.linkedExpenseAccountId,
   linkedPayablesAccountId: action.expensePayItem.linkedPayablesAccountId,
   isPrintOnPaySlip: action.expensePayItem.isPrintOnPaySlip,
@@ -138,9 +143,12 @@ const loadExistingExpensePayItem = (state, action) => ({
   exemptionPayItemOptions: action.expensePayItem.exemptionPayItemOptions,
   limitPayItemOptions: action.expensePayItem.limitPayItemOptions,
   periodOptions: action.expensePayItem.periodOptions,
-  calculationBasisPayItemOptions: action.expensePayItem.calculationBasisPayItemOptions,
-  linkedExpenseAccountOptions: action.expensePayItem.linkedExpenseAccountOptions,
-  linkedPayablesAccountOptions: action.expensePayItem.linkedPayablesAccountOptions,
+  calculationBasisPayItemOptions:
+    action.expensePayItem.calculationBasisPayItemOptions,
+  linkedExpenseAccountOptions:
+    action.expensePayItem.linkedExpenseAccountOptions,
+  linkedPayablesAccountOptions:
+    action.expensePayItem.linkedPayablesAccountOptions,
   employeeOptions: action.expensePayItem.employeeOptions,
 });
 
@@ -153,26 +161,32 @@ const addAllocatedEmployee = (state, action) => ({
   ...state,
   allocatedEmployees: [
     ...state.allocatedEmployees,
-    state.employeeOptions.find(employee => employee.id === action.id),
+    state.employeeOptions.find((employee) => employee.id === action.id),
   ],
 });
 
 const removeAllocatedEmployee = (state, action) => ({
   ...state,
-  allocatedEmployees: state.allocatedEmployees.filter(employee => action.id !== employee.id),
+  allocatedEmployees: state.allocatedEmployees.filter(
+    (employee) => action.id !== employee.id
+  ),
 });
 
 const addExemptionPayItem = (state, action) => ({
   ...state,
   exemptionPayItems: [
     ...state.exemptionPayItems,
-    state.exemptionPayItemOptions.find(exemption => exemption.id === action.id),
+    state.exemptionPayItemOptions.find(
+      (exemption) => exemption.id === action.id
+    ),
   ],
 });
 
 const removeExemptionPayItem = (state, action) => ({
   ...state,
-  exemptionPayItems: state.exemptionPayItems.filter(employee => action.id !== employee.id),
+  exemptionPayItems: state.exemptionPayItems.filter(
+    (employee) => action.id !== employee.id
+  ),
 });
 
 const handlers = {

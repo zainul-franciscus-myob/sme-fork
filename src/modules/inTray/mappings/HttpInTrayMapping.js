@@ -26,15 +26,18 @@ const HttpInTrayMapping = {
   },
   [CREATE_IN_TRAY_DOCUMENT]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/inTray/create_in_tray_document`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/inTray/create_in_tray_document`,
   },
   [DELETE_IN_TRAY_DOCUMENT]: {
     method: 'DELETE',
-    getPath: ({ businessId, documentId }) => `/${businessId}/inTray/delete_in_tray_document/${documentId}`,
+    getPath: ({ businessId, documentId }) =>
+      `/${businessId}/inTray/delete_in_tray_document/${documentId}`,
   },
   [DOWNLOAD_IN_TRAY_DOCUMENT]: {
     method: 'GET',
-    getPath: ({ businessId, documentId }) => `/${businessId}/inTray/download_in_tray_document/${documentId}`,
+    getPath: ({ businessId, documentId }) =>
+      `/${businessId}/inTray/download_in_tray_document/${documentId}`,
   },
   [LOAD_IN_TRAY_MODAL]: {
     method: 'GET',
@@ -42,11 +45,13 @@ const HttpInTrayMapping = {
   },
   [CREATE_IN_TRAY_MODAL_DOCUMENT]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/inTray/create_in_tray_modal_document`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/inTray/create_in_tray_modal_document`,
   },
   [VIEW_IN_TRAY_MODAL_DOCUMENT]: {
     method: 'GET',
-    getPath: ({ businessId, documentId }) => `/${businessId}/inTray/view_in_tray_modal_document/${documentId}`,
+    getPath: ({ businessId, documentId }) =>
+      `/${businessId}/inTray/view_in_tray_modal_document/${documentId}`,
   },
   [POLL_INTRAY_LIST]: {
     method: 'GET',

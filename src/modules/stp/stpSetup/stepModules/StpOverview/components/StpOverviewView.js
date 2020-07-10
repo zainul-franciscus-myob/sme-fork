@@ -1,6 +1,4 @@
-import {
-  Button, ButtonRow, Card, PageHead,
-} from '@myob/myob-widgets';
+import { Button, ButtonRow, Card, PageHead } from '@myob/myob-widgets';
 import React from 'react';
 
 import bankImage from './bank.svg';
@@ -12,8 +10,8 @@ const StpOverviewView = ({ onGetStartedClick }) => {
     <>
       <PageHead title="Overview" />
       <div className={styles.pageSubHeader}>
-        These steps must be completed individually by each person processing payroll, from their
-        own account.
+        These steps must be completed individually by each person processing
+        payroll, from their own account.
       </div>
     </>
   );
@@ -25,12 +23,14 @@ const StpOverviewView = ({ onGetStartedClick }) => {
         <div className={styles.imageAndText}>
           <img src={bankImage} className={styles.image} alt="bank" />
           <div>
-            <h1 className={styles.heading}>If you&apos;re part of the business</h1>
+            <h1 className={styles.heading}>
+              If you&apos;re part of the business
+            </h1>
             <ul>
               <li>Grab your ABN</li>
               <li>
-                You&apos;ll be entering your business&apos; ABN and contact details, then
-                contacting the ATO
+                You&apos;ll be entering your business&apos; ABN and contact
+                details, then contacting the ATO
               </li>
             </ul>
           </div>
@@ -38,16 +38,20 @@ const StpOverviewView = ({ onGetStartedClick }) => {
         <div className={styles.imageAndText}>
           <img src={peopleImage} className={styles.image} alt="people" />
           <div>
-            <h1 className={styles.heading}>If you&apos;re a tax or BAS agent</h1>
+            <h1 className={styles.heading}>
+              If you&apos;re a tax or BAS agent
+            </h1>
             <p>
-              These steps must be completed individually by each person processing payroll, from
-              their own account.
+              These steps must be completed individually by each person
+              processing payroll, from their own account.
             </p>
             <ul className={styles.list}>
-              <li>Grab the business&apos; ABN, as well as your own ABN and RAN</li>
               <li>
-                You&apos;ll be connecting to multiple ATO systems, so have all your sign on details
-                handy
+                Grab the business&apos; ABN, as well as your own ABN and RAN
+              </li>
+              <li>
+                You&apos;ll be connecting to multiple ATO systems, so have all
+                your sign on details handy
               </li>
             </ul>
             <div>
@@ -67,7 +71,11 @@ const StpOverviewView = ({ onGetStartedClick }) => {
         </div>
       </Card>
       <ButtonRow
-        primary={[<Button onClick={onGetStartedClick} key="get-started-button">Get Started</Button>]}
+        primary={[
+          <Button onClick={onGetStartedClick} key="get-started-button">
+            Get Started
+          </Button>,
+        ]}
       />
     </div>
   );

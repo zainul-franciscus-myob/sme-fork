@@ -42,9 +42,7 @@ import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 class ExpensePayItemModule {
-  constructor({
-    integration, setRootView, pushMessage,
-  }) {
+  constructor({ integration, setRootView, pushMessage }) {
     this.setRootView = setRootView;
     this.integration = integration;
     this.pushMessage = pushMessage;
@@ -57,7 +55,7 @@ class ExpensePayItemModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/payItem?tab=expenses`;
-  }
+  };
 
   loadNewExpensePayItem = () => {
     const state = this.store.getState();
@@ -81,9 +79,12 @@ class ExpensePayItemModule {
     this.setLoadingState(LoadingState.LOADING);
 
     this.integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
-  }
+  };
 
   loadExistingExpensePayItem = () => {
     const state = this.store.getState();
@@ -107,9 +108,12 @@ class ExpensePayItemModule {
     this.setLoadingState(LoadingState.LOADING);
 
     this.integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
-  }
+  };
 
   loadExpensePayItem = () => {
     const state = this.store.getState();
@@ -121,7 +125,7 @@ class ExpensePayItemModule {
     } else {
       this.loadExistingExpensePayItem();
     }
-  }
+  };
 
   createExpensePayItem = () => {
     const state = this.store.getState();
@@ -153,7 +157,7 @@ class ExpensePayItemModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   updateExpensePayItem = () => {
     const state = this.store.getState();
@@ -185,7 +189,7 @@ class ExpensePayItemModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   saveExpensePayItem = () => {
     const state = this.store.getState();
@@ -197,7 +201,7 @@ class ExpensePayItemModule {
     } else {
       this.updateExpensePayItem();
     }
-  }
+  };
 
   deleteExpensePayItem = () => {
     const state = this.store.getState();
@@ -225,7 +229,7 @@ class ExpensePayItemModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   changeExpensePayItemInput = ({ key, value }) => {
     this.store.dispatch({
@@ -235,7 +239,7 @@ class ExpensePayItemModule {
     });
 
     this.setIsPageEdited(true);
-  }
+  };
 
   addAllocatedEmployee = ({ value }) => {
     this.store.dispatch({
@@ -244,7 +248,7 @@ class ExpensePayItemModule {
     });
 
     this.setIsPageEdited(true);
-  }
+  };
 
   removeAllocatedEmployee = (id) => {
     this.store.dispatch({
@@ -253,7 +257,7 @@ class ExpensePayItemModule {
     });
 
     this.setIsPageEdited(true);
-  }
+  };
 
   addExemptionPayItem = ({ value }) => {
     this.store.dispatch({
@@ -262,7 +266,7 @@ class ExpensePayItemModule {
     });
 
     this.setIsPageEdited(true);
-  }
+  };
 
   removeExemptionPayItem = (id) => {
     this.store.dispatch({
@@ -271,69 +275,69 @@ class ExpensePayItemModule {
     });
 
     this.setIsPageEdited(true);
-  }
+  };
 
   openDeleteModal = () => {
     this.setModalType(ModalType.DELETE);
-  }
+  };
 
   openCancelModal = () => {
     this.setModalType(ModalType.CANCEL);
-  }
+  };
 
   cancelExpensePayItem = () => {
     this.redirectToExpensePayItemsList();
-  }
+  };
 
   dismissAlert = () => {
     this.setAlertMessage('');
-  }
+  };
 
   dismissModal = () => {
     this.setModalType('');
-  }
+  };
 
   setLoadingState = (loadingState) => {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
       loadingState,
     });
-  }
+  };
 
   setIsSubmitting = (isSubmitting) => {
     this.store.dispatch({
       intent: SET_IS_SUBMITTING,
       isSubmitting,
     });
-  }
+  };
 
   setIsPageEdited = (isPageEdited) => {
     this.store.dispatch({
       intent: SET_IS_PAGE_EDITED,
       isPageEdited,
     });
-  }
+  };
 
   setModalType = (modalType) => {
     this.store.dispatch({
       intent: SET_MODAL_TYPE,
       modalType,
     });
-  }
+  };
 
   setAlertMessage = (alertMessage) => {
     this.store.dispatch({
       intent: SET_ALERT_MESSAGE,
       alertMessage,
     });
-  }
+  };
 
   setInitialState = (context) => {
     this.store.dispatch({
       intent: SET_INITIAL_STATE,
       context,
     });
-  }
+  };
 
   resetState = () => {
     this.store.dispatch({
@@ -347,7 +351,7 @@ class ExpensePayItemModule {
     if (modalType) return;
 
     this.saveExpensePayItem();
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,

@@ -7,7 +7,7 @@ import {
 } from '../JobIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createJobModalDispatcher = store => ({
+const createJobModalDispatcher = (store) => ({
   loadNewJob: (payload) => {
     store.dispatch({
       intent: LOAD_JOB_MODAL,

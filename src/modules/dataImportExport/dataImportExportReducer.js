@@ -70,7 +70,10 @@ const getDefaultState = () => ({
         { name: 'MYOB AE MAS', value: ExportCompanyFileType.MYOB_AE_MAS },
         { name: 'MYOB AO', value: ExportCompanyFileType.MYOB_AO },
         { name: 'Reckon APS', value: ExportCompanyFileType.RECKON_APS },
-        { name: 'Sage Handiledger', value: ExportCompanyFileType.SAGE_HANDI_LEDGER },
+        {
+          name: 'Sage Handiledger',
+          value: ExportCompanyFileType.SAGE_HANDI_LEDGER,
+        },
       ],
     },
   },
@@ -84,11 +87,15 @@ const setInitialState = (state, action) => ({
   region: action.region,
   import: {
     ...state.import,
-    selectedDataType: action.importType ? action.importType : state.import.selectedDataType,
+    selectedDataType: action.importType
+      ? action.importType
+      : state.import.selectedDataType,
   },
   export: {
     ...state.export,
-    selectedDataType: action.exportType ? action.exportType : state.export.selectedDataType,
+    selectedDataType: action.exportType
+      ? action.exportType
+      : state.export.selectedDataType,
   },
 });
 
@@ -132,14 +139,17 @@ const updateExportDataType = (state, action) => ({
   },
 });
 
-const exceedsSizeLimit = size => size > 25000000;
+const exceedsSizeLimit = (size) => size > 25000000;
 
 const buildImportFileErrorState = (file) => {
   if (!file) {
     return { isFileValid: false, fileValidationError: 'File is required.' };
   }
   if (exceedsSizeLimit(file.size)) {
-    return { isFileValid: false, fileValidationError: 'File must be under 25MB.' };
+    return {
+      isFileValid: false,
+      fileValidationError: 'File must be under 25MB.',
+    };
   }
   return { isFileValid: true, fileValidationError: '' };
 };
@@ -182,15 +192,17 @@ const updateExportChartOfAccountsDetail = (state, action) => ({
 
 const updateContactsIdentifyBy = (state, action) => {
   const previousDuplicateRecordsOption = state.import.duplicateRecordsOption;
-  const isPreviouslyAdd = previousDuplicateRecordsOption === DuplicateRecordOption.ADD;
+  const isPreviouslyAdd =
+    previousDuplicateRecordsOption === DuplicateRecordOption.ADD;
   const isIdentifyByNotName = action.identifyBy !== ContactIdentifyBy.NAME;
   return {
     ...state,
     import: {
       ...state.import,
-      duplicateRecordsOption: isPreviouslyAdd && isIdentifyByNotName
-        ? getDefaultState().import.duplicateRecordsOption
-        : previousDuplicateRecordsOption,
+      duplicateRecordsOption:
+        isPreviouslyAdd && isIdentifyByNotName
+          ? getDefaultState().import.duplicateRecordsOption
+          : previousDuplicateRecordsOption,
       contacts: {
         ...state.import.contacts,
         identifyBy: action.identifyBy,

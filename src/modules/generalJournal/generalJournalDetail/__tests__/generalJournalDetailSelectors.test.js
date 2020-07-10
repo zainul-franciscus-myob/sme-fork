@@ -181,7 +181,7 @@ describe('generalJournalSelectors', () => {
         const actual = getIsBeforeStartOfFinancialYear(state);
 
         expect(actual).toEqual(expected);
-      },
+      }
     );
   });
 });

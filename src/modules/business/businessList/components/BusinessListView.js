@@ -23,11 +23,20 @@ import footerImg from './footer-right-illustration.svg';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 import styles from './BusinessListView.module.css';
 
-const renderRow = business => (
-  <Table.Row className={styles.businessRow} key={business.id} dataId={business.id}>
+const renderRow = (business) => (
+  <Table.Row
+    className={styles.businessRow}
+    key={business.id}
+    dataId={business.id}
+  >
     <Table.RowItem title={business.businessName}>
-      <a href={business.uri || `/#/${business.region}/${business.id}/dashboard`}>
-        <BusinessAvatar businessName={business.businessName} className={styles.avatar} />
+      <a
+        href={business.uri || `/#/${business.region}/${business.id}/dashboard`}
+      >
+        <BusinessAvatar
+          businessName={business.businessName}
+          className={styles.avatar}
+        />
         {business.businessName}
       </a>
     </Table.RowItem>
@@ -44,7 +53,7 @@ const BusinessListView = ({
   onUpdateKeyword,
   onSort,
 }) => {
-  const businessList = businesses.map(business => renderRow(business));
+  const businessList = businesses.map((business) => renderRow(business));
   const filterBar = (
     <FilterBar>
       <Search
@@ -97,7 +106,7 @@ const BusinessListView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   businesses: getBusinesses(state),
   loadingState: getLoadingState(state),
   keyword: getKeyword(state),

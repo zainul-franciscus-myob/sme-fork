@@ -135,9 +135,7 @@ describe('matchTransactionHandlers', () => {
         ],
         openEntry: {
           match: {
-            adjustments: [
-              { id: '1', accountId: '123' },
-            ],
+            adjustments: [{ id: '1', accountId: '123' }],
           },
         },
       };
@@ -158,9 +156,7 @@ describe('matchTransactionHandlers', () => {
         openEntry: {
           isEdited: true,
           match: {
-            adjustments: [
-              { id: '1', accountId: '321' },
-            ],
+            adjustments: [{ id: '1', accountId: '321' }],
           },
         },
       };
@@ -206,9 +202,7 @@ describe('matchTransactionHandlers', () => {
         openEntry: {
           isEdited: true,
           match: {
-            adjustments: [
-              { id: '1', accountId: '123' },
-            ],
+            adjustments: [{ id: '1', accountId: '123' }],
           },
         },
       };
@@ -223,9 +217,7 @@ describe('matchTransactionHandlers', () => {
       const state = {
         openEntry: {
           match: {
-            adjustments: [
-              { id: '1', accountId: '123' },
-            ],
+            adjustments: [{ id: '1', accountId: '123' }],
           },
         },
       };
@@ -282,7 +274,7 @@ describe('matchTransactionHandlers', () => {
   });
 
   describe('updateMatchTransactionSelection', () => {
-    const getState = entries => ({
+    const getState = (entries) => ({
       openEntry: {
         match: {
           totalAmount: 1000,
@@ -293,23 +285,39 @@ describe('matchTransactionHandlers', () => {
     });
 
     it('should select match transaction', () => {
-      const entries = [{
-        totalAmount: '100', discountAmount: '10', type: 'Purchase', selected: false,
-      }];
+      const entries = [
+        {
+          totalAmount: '100',
+          discountAmount: '10',
+          type: 'Purchase',
+          selected: false,
+        },
+      ];
       const state = getState(entries);
 
-      const actual = updateMatchTransactionSelection(state, { index: 0, selected: true });
+      const actual = updateMatchTransactionSelection(state, {
+        index: 0,
+        selected: true,
+      });
 
       expect(actual.openEntry.match.entries[0].selected).toBeTruthy();
     });
 
     it('should prefill matchAmount with full bank transaction amount', () => {
-      const entries = [{
-        totalAmount: '100', discountAmount: '10', type: 'Transaction', selected: false,
-      }];
+      const entries = [
+        {
+          totalAmount: '100',
+          discountAmount: '10',
+          type: 'Transaction',
+          selected: false,
+        },
+      ];
       const state = getState(entries);
 
-      const actual = updateMatchTransactionSelection(state, { index: 0, selected: true });
+      const actual = updateMatchTransactionSelection(state, {
+        index: 0,
+        selected: true,
+      });
 
       expect(actual.openEntry.match.entries[0].matchAmount).toEqual(1000);
     });
@@ -321,7 +329,10 @@ describe('matchTransactionHandlers', () => {
       ];
       const state = getState(entries);
 
-      const actual = updateMatchTransactionSelection(state, { index: 0, selected: true });
+      const actual = updateMatchTransactionSelection(state, {
+        index: 0,
+        selected: true,
+      });
 
       expect(actual.openEntry.match.entries[0].matchAmount).toEqual(0);
     });
@@ -333,7 +344,10 @@ describe('matchTransactionHandlers', () => {
       ];
       const state = getState(entries);
 
-      const actual = updateMatchTransactionSelection(state, { index: 1, selected: true });
+      const actual = updateMatchTransactionSelection(state, {
+        index: 1,
+        selected: true,
+      });
 
       expect(actual.openEntry.match.entries[1].matchAmount).toEqual(90);
     });
@@ -345,7 +359,10 @@ describe('matchTransactionHandlers', () => {
       ];
       const state = getState(entries);
 
-      const actual = updateMatchTransactionSelection(state, { index: 1, selected: true });
+      const actual = updateMatchTransactionSelection(state, {
+        index: 1,
+        selected: true,
+      });
 
       expect(actual.openEntry.match.entries[1].matchAmount).toEqual(500);
     });
@@ -354,7 +371,10 @@ describe('matchTransactionHandlers', () => {
       const entries = [{ matchAmount: 100, selected: false }];
       const state = getState(entries);
 
-      const actual = updateMatchTransactionSelection(state, { index: 0, selected: false });
+      const actual = updateMatchTransactionSelection(state, {
+        index: 0,
+        selected: false,
+      });
 
       expect(actual.openEntry.match.entries[0].selected).toBeFalsy();
       expect(actual.openEntry.match.entries[0].matchAmount).toEqual('');

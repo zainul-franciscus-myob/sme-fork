@@ -1,5 +1,9 @@
 import {
-  Button, ButtonRow, Dropdown, Icons, Separator,
+  Button,
+  ButtonRow,
+  Dropdown,
+  Icons,
+  Separator,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -85,12 +89,12 @@ const InvoiceDetailActions = ({
     <Dropdown
       key="saveAnd"
       onSelect={onSaveAndButtonClick}
-      toggle={(
+      toggle={
         <Dropdown.Toggle disabled={isSubmitting}>
-            Save and...
+          Save and...
           <Icons.Caret />
         </Dropdown.Toggle>
-        )}
+      }
       items={dropdownActionItems}
     />
   );
@@ -103,7 +107,7 @@ const InvoiceDetailActions = ({
       onClick={onSaveButtonClick}
       disabled={isSubmitting}
     >
-    Save
+      Save
     </Button>
   );
 
@@ -115,7 +119,7 @@ const InvoiceDetailActions = ({
       onClick={onCancelButtonClick}
       disabled={isSubmitting}
     >
-    Cancel
+      Cancel
     </Button>
   );
 
@@ -148,39 +152,32 @@ const InvoiceDetailActions = ({
   if (isReadOnly) {
     return (
       <ButtonRow
-        primary={[
-          backButton,
-        ]}
+        primary={[backButton]}
         secondary={[
           recordPaymentButton,
           showExportPdfButton && exportPdfButton,
           showEmailButton && saveAndEmailButton,
         ]}
-      />);
+      />
+    );
   }
 
   if (isPreConversion) {
     return (
       <ButtonRow
-        primary={[
-          cancelButton,
-          saveButton,
-        ]}
+        primary={[cancelButton, saveButton]}
         secondary={[
           !isCreating && deleteButton,
           !isCreating && separator,
           !isCreating && recordPaymentButton,
         ]}
-      />);
+      />
+    );
   }
 
   return (
     <ButtonRow
-      primary={[
-        cancelButton,
-        saveAndButton,
-        saveButton,
-      ]}
+      primary={[cancelButton, saveAndButton, saveButton]}
       secondary={[
         !isCreating && deleteButton,
         !isCreating && separator,
@@ -192,7 +189,7 @@ const InvoiceDetailActions = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isCreating: getIsCreating(state),
   isSubmitting: getIsSubmitting(state),
   isReadOnly: getIsReadOnly(state),

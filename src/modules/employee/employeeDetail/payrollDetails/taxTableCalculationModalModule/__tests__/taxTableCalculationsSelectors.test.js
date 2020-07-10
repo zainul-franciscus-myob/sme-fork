@@ -1,4 +1,8 @@
-import { getFetchTaxTableResultRequestContext, getIsOpen, getOnSaveContent } from '../taxTableCalculationModalSelectors';
+import {
+  getFetchTaxTableResultRequestContext,
+  getIsOpen,
+  getOnSaveContent,
+} from '../taxTableCalculationModalSelectors';
 
 describe('taxTableCalculationsSelectors', () => {
   describe('getIsOpen', () => {

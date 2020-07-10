@@ -1,11 +1,13 @@
-import {
-  Alert, Button, ButtonRow, FormTemplate,
-} from '@myob/myob-widgets';
+import { Alert, Button, ButtonRow, FormTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsSubmitting, getLoadingState, getModal, getPageTitle,
+  getAlert,
+  getIsSubmitting,
+  getLoadingState,
+  getModal,
+  getPageTitle,
 } from '../businessDetailSelectors';
 import BusinessDetailsSection from './BusinessDetailsSection';
 import ContactDetailsSection from './ContactDetailsSection';
@@ -48,12 +50,23 @@ const BusinessDetailView = ({
 
   const pageFooter = (
     <ButtonRow>
-      <Button name="save" type="primary" onClick={onSaveButtonClick} disabled={isSubmitting}>Save</Button>
+      <Button
+        name="save"
+        type="primary"
+        onClick={onSaveButtonClick}
+        disabled={isSubmitting}
+      >
+        Save
+      </Button>
     </ButtonRow>
   );
 
   const view = (
-    <FormTemplate pageHead={pageTitle} alert={alertComponent} actions={pageFooter}>
+    <FormTemplate
+      pageHead={pageTitle}
+      alert={alertComponent}
+      actions={pageFooter}
+    >
       {unsavedModal}
       <FormCard>
         <BusinessDetailsSection onChange={onChange} />
@@ -75,7 +88,7 @@ BusinessDetailView.defaultProps = {
   alert: undefined,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   alert: getAlert(state),
   isSubmitting: getIsSubmitting(state),

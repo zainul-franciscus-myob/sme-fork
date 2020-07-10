@@ -1,4 +1,8 @@
-import { getAgentDetails, getRegistrationUrl, getUrlParams } from '../ReportingCentreSelectors';
+import {
+  getAgentDetails,
+  getRegistrationUrl,
+  getUrlParams,
+} from '../ReportingCentreSelectors';
 
 describe('ReportingCentreSelectors', () => {
   describe('getURLParams', () => {

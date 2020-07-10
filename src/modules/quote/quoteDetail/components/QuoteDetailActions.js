@@ -1,5 +1,9 @@
 import {
-  Button, ButtonRow, Dropdown, Icons, Separator,
+  Button,
+  ButtonRow,
+  Dropdown,
+  Icons,
+  Separator,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -46,12 +50,12 @@ const QuoteDetailActions = ({
     <Dropdown
       key="saveAnd"
       onSelect={onSaveAndButtonClick}
-      toggle={(
+      toggle={
         <Dropdown.Toggle disabled={isActionsDisabled}>
           Save and...
           <Icons.Caret />
         </Dropdown.Toggle>
-      )}
+      }
       items={dropdownActionItems}
     />
   );
@@ -76,17 +80,12 @@ const QuoteDetailActions = ({
       onClick={onCancelButtonClick}
       disabled={isActionsDisabled}
     >
-    Cancel
-  </Button>
+      Cancel
+    </Button>
   );
 
   const backButton = (
-    <Button
-      key="back"
-      name="back"
-      type="primary"
-      onClick={onCancelButtonClick}
-    >
+    <Button key="back" name="back" type="primary" onClick={onCancelButtonClick}>
       Go back
     </Button>
   );
@@ -123,8 +122,9 @@ const QuoteDetailActions = ({
       onClick={onExportPdfButtonClick}
       disabled={isActionsDisabled}
     >
-    View PDF
-  </Button>);
+      View PDF
+    </Button>
+  );
 
   const emailButton = (
     <Button
@@ -141,28 +141,21 @@ const QuoteDetailActions = ({
   if (isReadOnly) {
     return (
       <ButtonRow
-        primary={[
-          backButton,
-        ]}
+        primary={[backButton]}
         secondary={[
           showExportPdfButton && exportPdfButton,
           showEmailButton && emailButton,
         ]}
-      />);
+      />
+    );
   }
 
   return (
     <ButtonRow
-      primary={[
-        cancelButton,
-        saveAndButton,
-        saveButton,
-      ]}
+      primary={[cancelButton, saveAndButton, saveButton]}
       secondary={[
         !isCreating && deleteButton,
-        !isCreating && (
-          <Separator key="separator" direction="vertical" />
-        ),
+        !isCreating && <Separator key="separator" direction="vertical" />,
         !isCreating && convertToInvoiceButton,
         showExportPdfButton && exportPdfButton,
         showEmailButton && emailButton,
@@ -171,7 +164,7 @@ const QuoteDetailActions = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isCreating: getIsCreating(state),
   isActionsDisabled: getIsActionsDisabled(state),
   isReadOnly: getIsReadOnly(state),

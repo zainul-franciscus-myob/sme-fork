@@ -21,7 +21,7 @@ class InvoiceListFilterOptions extends React.Component {
     const { id: value } = item;
     const { onUpdateFilter } = this.props;
     onUpdateFilter({ filterName: 'customerId', value });
-  }
+  };
 
   onSearchBoxChange = (event) => {
     const { onUpdateFilter } = this.props;
@@ -31,22 +31,16 @@ class InvoiceListFilterOptions extends React.Component {
   onSelectChange = (event) => {
     const { onUpdateFilter } = this.props;
     onUpdateFilter({ filterName: 'status', value: event.target.value });
-  }
+  };
 
-  onDateChange = filterName => ({ value }) => {
+  onDateChange = (filterName) => ({ value }) => {
     const { onUpdateFilter } = this.props;
     onUpdateFilter({ filterName, value });
-  }
+  };
 
   render = () => {
     const {
-      filterOptions: {
-        customerId,
-        status,
-        dateTo,
-        dateFrom,
-        keywords,
-      },
+      filterOptions: { customerId, status, dateTo, dateFrom, keywords },
       customerFilterOptions,
       statusFilterOptions,
       total,
@@ -59,7 +53,12 @@ class InvoiceListFilterOptions extends React.Component {
       <Fragment>
         <FilterBar>
           <div className={styles.status}>
-            <Select name="status" label="Status" value={status} onChange={this.onSelectChange}>
+            <Select
+              name="status"
+              label="Status"
+              value={status}
+              onChange={this.onSelectChange}
+            >
               {statusFilterOptions.map(({ name, value }) => (
                 <Select.Option value={value} label={name} key={value} />
               ))}
@@ -78,22 +77,42 @@ class InvoiceListFilterOptions extends React.Component {
               allowClear
             />
           </div>
-          <DatePicker name="issuedFrom" label="Issued from" value={dateFrom} onSelect={this.onDateChange('dateFrom')} />
-          <DatePicker name="issuedTo" label="Issued to" value={dateTo} onSelect={this.onDateChange('dateTo')} />
-          <FilterBarSearch name="search" label="Search" id="Search_Box" value={keywords} onChange={this.onSearchBoxChange} />
+          <DatePicker
+            name="issuedFrom"
+            label="Issued from"
+            value={dateFrom}
+            onSelect={this.onDateChange('dateFrom')}
+          />
+          <DatePicker
+            name="issuedTo"
+            label="Issued to"
+            value={dateTo}
+            onSelect={this.onDateChange('dateTo')}
+          />
+          <FilterBarSearch
+            name="search"
+            label="Search"
+            id="Search_Box"
+            value={keywords}
+            onChange={this.onSearchBoxChange}
+          />
         </FilterBar>
         <hr />
         <div className={styles.totals}>
           <div className={styles.totalItem}>{`Total amount ${total}`}</div>
           <div className={styles.totalDueItem}>{`Balance due ${totalDue}`}</div>
-          <div className={classnames(styles.totalOverdue, { [styles.hasOverdue]: hasOverdue })}>{`Overdue ${totalOverdue}`}</div>
+          <div
+            className={classnames(styles.totalOverdue, {
+              [styles.hasOverdue]: hasOverdue,
+            })}
+          >{`Overdue ${totalOverdue}`}</div>
         </div>
       </Fragment>
     );
-  }
+  };
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   filterOptions: getFilterOptions(state),
   customerFilterOptions: getCustomerFilterOptions(state),
   statusFilterOptions: getStatusFilterOptions(state),

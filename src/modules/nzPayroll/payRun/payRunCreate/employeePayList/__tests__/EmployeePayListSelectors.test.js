@@ -24,10 +24,7 @@ describe('EmployeePayListSelectors', () => {
     it('returns false when all selected', () => {
       const state = {
         employeePayList: {
-          lines: [
-            { isSelected: true },
-            { isSelected: true },
-          ],
+          lines: [{ isSelected: true }, { isSelected: true }],
         },
       };
 
@@ -37,10 +34,7 @@ describe('EmployeePayListSelectors', () => {
     it('returns false when none selected', () => {
       const state = {
         employeePayList: {
-          lines: [
-            { isSelected: false },
-            { isSelected: false },
-          ],
+          lines: [{ isSelected: false }, { isSelected: false }],
         },
       };
 
@@ -50,10 +44,7 @@ describe('EmployeePayListSelectors', () => {
     it('returns true when some selected', () => {
       const state = {
         employeePayList: {
-          lines: [
-            { isSelected: true },
-            { isSelected: false },
-          ],
+          lines: [{ isSelected: true }, { isSelected: false }],
         },
       };
 
@@ -115,7 +106,9 @@ describe('EmployeePayListSelectors', () => {
 
   describe('getWagePayItemEntries', () => {
     it('returns sorted wage pay item entries', () => {
-      const actualWagePayItemEntries = getWagePayItemEntries(employeePayList, { employeeId: '21' });
+      const actualWagePayItemEntries = getWagePayItemEntries(employeePayList, {
+        employeeId: '21',
+      });
 
       const expectedWagePayItemEntries = wagePayItemEntries;
 
@@ -220,7 +213,9 @@ describe('EmployeePayListSelectors', () => {
           baseSalaryWagePayItemId: '1',
         },
       };
-      const actualWagePayItemEntries = getWagePayItemEntries(state, { employeeId: '21' });
+      const actualWagePayItemEntries = getWagePayItemEntries(state, {
+        employeeId: '21',
+      });
 
       const expectedWagePayItemEntries = [
         {
@@ -247,7 +242,9 @@ describe('EmployeePayListSelectors', () => {
 
   describe('getTaxPayItemEntries', () => {
     it('returns tax pay item entries', () => {
-      const actualTaxPayItemEntries = getTaxPayItemEntries(employeePayList, { employeeId: '21' });
+      const actualTaxPayItemEntries = getTaxPayItemEntries(employeePayList, {
+        employeeId: '21',
+      });
 
       const expectedTaxPayItemEntries = taxPayItemEntries;
 
@@ -257,17 +254,24 @@ describe('EmployeePayListSelectors', () => {
 
   describe('getKiwiSaverPayItemEntries', () => {
     it('returns employer expense pay items without the hours field', () => {
-      const actualEmployerExpensePayItemEntries = getKiwiSaverPayItemEntries(employeePayList, { employeeId: '21' });
+      const actualEmployerExpensePayItemEntries = getKiwiSaverPayItemEntries(
+        employeePayList,
+        { employeeId: '21' }
+      );
 
       const expectedEmployerExpensePayItemEntries = kiwiSaverPayItemEntries;
 
-      expect(actualEmployerExpensePayItemEntries).toEqual(expectedEmployerExpensePayItemEntries);
+      expect(actualEmployerExpensePayItemEntries).toEqual(
+        expectedEmployerExpensePayItemEntries
+      );
     });
   });
 
   describe('getShouldShowWagePayItems', () => {
     it('returns true when employee has at least one wage pay item', () => {
-      const actual = getShouldShowWagePayItems(employeePayList, { employeeId: '21' });
+      const actual = getShouldShowWagePayItems(employeePayList, {
+        employeeId: '21',
+      });
       const expected = true;
 
       expect(actual).toEqual(expected);
@@ -276,12 +280,16 @@ describe('EmployeePayListSelectors', () => {
     it('returns false when employee has no wage pay item', () => {
       const state = {
         employeePayList: {
-          lines: [{
-            employeeId: '21',
-            payItems: [{
-              type: 'Tax',
-            }],
-          }],
+          lines: [
+            {
+              employeeId: '21',
+              payItems: [
+                {
+                  type: 'Tax',
+                },
+              ],
+            },
+          ],
         },
       };
       const actual = getShouldShowWagePayItems(state, { employeeId: '21' });
@@ -293,7 +301,9 @@ describe('EmployeePayListSelectors', () => {
 
   describe('getShouldShowTaxPayItem', () => {
     it('returns true when employee has at least one tax pay item', () => {
-      const actual = getShouldShowTaxPayItems(employeePayList, { employeeId: '21' });
+      const actual = getShouldShowTaxPayItems(employeePayList, {
+        employeeId: '21',
+      });
       const expected = true;
 
       expect(actual).toEqual(expected);
@@ -302,12 +312,16 @@ describe('EmployeePayListSelectors', () => {
     it('returns false when employee has no tax pay item', () => {
       const state = {
         employeePayList: {
-          lines: [{
-            employeeId: '21',
-            payItems: [{
-              type: 'Deduction',
-            }],
-          }],
+          lines: [
+            {
+              employeeId: '21',
+              payItems: [
+                {
+                  type: 'Deduction',
+                },
+              ],
+            },
+          ],
         },
       };
       const actual = getShouldShowTaxPayItems(state, { employeeId: '21' });
@@ -319,7 +333,9 @@ describe('EmployeePayListSelectors', () => {
 
   describe('getShouldShowKiwiSaverPayItems', () => {
     it('returns true when employee has at least one KiwiSaver pay item', () => {
-      const actual = getShouldShowKiwiSaverPayItems(employeePayList, { employeeId: '21' });
+      const actual = getShouldShowKiwiSaverPayItems(employeePayList, {
+        employeeId: '21',
+      });
       const expected = true;
 
       expect(actual).toEqual(expected);
@@ -327,18 +343,24 @@ describe('EmployeePayListSelectors', () => {
     it('returns false when employee has no KiwiSaver pay item', () => {
       const state = {
         employeePayList: {
-          lines: [{
-            employeeId: '21',
-            payItems: [{
-              type: 'Tax',
-            },
+          lines: [
             {
-              type: 'Expense',
-            }],
-          }],
+              employeeId: '21',
+              payItems: [
+                {
+                  type: 'Tax',
+                },
+                {
+                  type: 'Expense',
+                },
+              ],
+            },
+          ],
         },
       };
-      const actual = getShouldShowKiwiSaverPayItems(state, { employeeId: '21' });
+      const actual = getShouldShowKiwiSaverPayItems(state, {
+        employeeId: '21',
+      });
       const expected = false;
 
       expect(actual).toEqual(expected);
@@ -348,7 +370,10 @@ describe('EmployeePayListSelectors', () => {
   describe('getRecalculatedPayPayload', () => {
     it('returns the payload to recalculate the pay for a particular employee', () => {
       const actualPayload = getRecalculatePayPayload({
-        state: employeePayList, employeeId: '21', payItemId: '2', key: 'quantity',
+        state: employeePayList,
+        employeeId: '21',
+        payItemId: '2',
+        key: 'quantity',
       });
       const expectedPayload = expectedRecalculatePayPayload;
 
@@ -360,23 +385,27 @@ describe('EmployeePayListSelectors', () => {
     it('returns all lines correctly formatted to decimal', () => {
       const state = {
         employeePayList: {
-          lines: [{
-            daysPaid: 5,
-            gross: 1500,
-            paye: 100,
-            takeHomePay: 700,
-            kiwiSaver: 150,
-          }],
+          lines: [
+            {
+              daysPaid: 5,
+              gross: 1500,
+              paye: 100,
+              takeHomePay: 700,
+              kiwiSaver: 150,
+            },
+          ],
         },
       };
 
-      const expected = [{
-        daysPaid: '5',
-        gross: '1,500.00',
-        paye: '100.00',
-        takeHomePay: '700.00',
-        kiwiSaver: '150.00',
-      }];
+      const expected = [
+        {
+          daysPaid: '5',
+          gross: '1,500.00',
+          paye: '100.00',
+          takeHomePay: '700.00',
+          kiwiSaver: '150.00',
+        },
+      ];
 
       const actual = getFormattedEmployeePayLines(state);
 
@@ -388,12 +417,14 @@ describe('EmployeePayListSelectors', () => {
     it('should return true when all lines are selected', () => {
       const state = {
         employeePayList: {
-          lines: [{
-            isSelected: true,
-          },
-          {
-            isSelected: true,
-          }],
+          lines: [
+            {
+              isSelected: true,
+            },
+            {
+              isSelected: true,
+            },
+          ],
         },
       };
 
@@ -405,12 +436,14 @@ describe('EmployeePayListSelectors', () => {
     it('should return false when there are unselected lines', () => {
       const state = {
         employeePayList: {
-          lines: [{
-            isSelected: true,
-          },
-          {
-            isSelected: false,
-          }],
+          lines: [
+            {
+              isSelected: true,
+            },
+            {
+              isSelected: false,
+            },
+          ],
         },
       };
 
@@ -436,15 +469,17 @@ describe('EmployeePayListSelectors', () => {
     it('should return the number of lines selected', () => {
       const state = {
         employeePayList: {
-          lines: [{
-            isSelected: true,
-          },
-          {
-            isSelected: true,
-          },
-          {
-            isSelected: false,
-          }],
+          lines: [
+            {
+              isSelected: true,
+            },
+            {
+              isSelected: true,
+            },
+            {
+              isSelected: false,
+            },
+          ],
         },
       };
 
@@ -458,9 +493,11 @@ describe('EmployeePayListSelectors', () => {
     it('should return 0 when no lines are selected', () => {
       const state = {
         employeePayList: {
-          lines: [{
-            isSelected: false,
-          }],
+          lines: [
+            {
+              isSelected: false,
+            },
+          ],
         },
       };
 

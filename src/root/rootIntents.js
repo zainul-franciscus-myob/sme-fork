@@ -11,4 +11,6 @@ export const DISMISS_TASK = Symbol('Dismiss task');
 export const LOAD_SUBSCRIPTION = Symbol('Load subscription');
 export const LOAD_SHARED_INFO = Symbol('Load shared info');
 export const SET_BROWSER_ALERT = Symbol('Set browser alert');
-export const SET_HAS_CHECKED_BROWSER_ALERT = Symbol('Set has checked browser alert');
+export const SET_HAS_CHECKED_BROWSER_ALERT = Symbol(
+  'Set has checked browser alert'
+);

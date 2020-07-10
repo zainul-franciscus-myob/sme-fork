@@ -1,6 +1,4 @@
-import {
-  Button, ButtonRow, Dropdown, Icons,
-} from '@myob/myob-widgets';
+import { Button, ButtonRow, Dropdown, Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -32,12 +30,12 @@ const SpendMoneyDetailActions = ({
     <Dropdown
       key="saveAnd"
       onSelect={onSaveAndButtonClick}
-      toggle={(
+      toggle={
         <Dropdown.Toggle disabled={isActionsDisabled}>
           Record and new
           <Icons.Caret />
         </Dropdown.Toggle>
-      )}
+      }
       items={dropdownActionItems}
     />
   );
@@ -45,17 +43,35 @@ const SpendMoneyDetailActions = ({
   return (
     <ButtonRow
       primary={[
-        <Button key="cancel" name="cancel" type="secondary" onClick={onCancelButtonClick} disabled={isActionsDisabled}>
+        <Button
+          key="cancel"
+          name="cancel"
+          type="secondary"
+          onClick={onCancelButtonClick}
+          disabled={isActionsDisabled}
+        >
           Cancel
         </Button>,
         saveAndButton,
-        <Button key="save" name="save" type="primary" onClick={onSaveButtonClick} disabled={isActionsDisabled}>
+        <Button
+          key="save"
+          name="save"
+          type="primary"
+          onClick={onSaveButtonClick}
+          disabled={isActionsDisabled}
+        >
           Record
         </Button>,
       ]}
       secondary={[
         !isCreating && (
-          <Button key="delete" name="delete" type="secondary" onClick={onDeleteButtonClick} disabled={isActionsDisabled}>
+          <Button
+            key="delete"
+            name="delete"
+            type="secondary"
+            onClick={onDeleteButtonClick}
+            disabled={isActionsDisabled}
+          >
             Delete
           </Button>
         ),
@@ -64,7 +80,7 @@ const SpendMoneyDetailActions = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isActionsDisabled: getIsActionsDisabled(state),
 });
 

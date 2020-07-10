@@ -29,10 +29,7 @@ const StsLoginModal = ({
   onLoginClick,
 }) => {
   const loading = (
-    <PageState
-      title="Loading"
-      image={<Spinner size="large" />}
-    />
+    <PageState title="Loading" image={<Spinner size="large" />} />
   );
 
   const modalBody = (
@@ -54,21 +51,21 @@ const StsLoginModal = ({
     </>
   );
 
-  return isOpen && (
-    <Modal title="Login to pay super" onCancel={onCancelButtonClick}>
-      <Modal.Body>
-        {isLoading ? loading : modalBody}
-      </Modal.Body>
-      <Modal.Footer>
-        <Button testid="loginButton" onClick={onLoginClick}>
-          Login
-        </Button>
-      </Modal.Footer>
-    </Modal>
+  return (
+    isOpen && (
+      <Modal title="Login to pay super" onCancel={onCancelButtonClick}>
+        <Modal.Body>{isLoading ? loading : modalBody}</Modal.Body>
+        <Modal.Footer>
+          <Button testid="loginButton" onClick={onLoginClick}>
+            Login
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    )
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isOpen: getIsOpen(state),
   isLoading: getIsLoading(state),
   alert: getAlert(state),

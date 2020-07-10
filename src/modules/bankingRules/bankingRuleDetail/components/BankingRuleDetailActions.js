@@ -12,27 +12,34 @@ const BankingRuleDetailActions = ({
 }) => (
   <ButtonRow
     primary={[
-      <Button key="cancel" name="cancel" type="secondary" onClick={onCancelButtonClick}>
-          Cancel
+      <Button
+        key="cancel"
+        name="cancel"
+        type="secondary"
+        onClick={onCancelButtonClick}
+      >
+        Cancel
       </Button>,
       <Button key="save" name="save" type="primary" onClick={onSaveButtonClick}>
-              Save
+        Save
       </Button>,
     ]}
     secondary={[
-      (
-        !isCreating
-          && (
-            <Button key="delete" name="delete" type="secondary" onClick={onDeleteButtonClick}>
-              Delete
-            </Button>
-          )
+      !isCreating && (
+        <Button
+          key="delete"
+          name="delete"
+          type="secondary"
+          onClick={onDeleteButtonClick}
+        >
+          Delete
+        </Button>
       ),
     ]}
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isCreating: getIsCreating(state),
 });
 

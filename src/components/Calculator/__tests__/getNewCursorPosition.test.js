@@ -2,7 +2,7 @@ import getNewCursorPosition from '../getNewCursorPosition';
 
 describe('getNewCursorPosition', () => {
   describe('should return the current position of the cursor', () => {
-    describe('when we\'re just adding or removing numbers', () => {
+    describe("when we're just adding or removing numbers", () => {
       [
         {
           oldValue: '123456',
@@ -27,7 +27,7 @@ describe('getNewCursorPosition', () => {
           value: '12,33,345',
           formattedValue: '1,233,345',
         },
-      ].forEach(test => {
+      ].forEach((test) => {
         it(`${test.value} to ${test.formattedValue}`, () => {
           const endPosition = 1;
           const values = {
@@ -54,7 +54,7 @@ describe('getNewCursorPosition', () => {
           value: ',234,567',
           formattedValue: '234,567',
         },
-      ].forEach(test => {
+      ].forEach((test) => {
         it(`${test.value} to ${test.formattedValue}`, () => {
           expect(getNewCursorPosition(test)).toEqual(test.endPosition);
         });
@@ -77,7 +77,7 @@ describe('getNewCursorPosition', () => {
           value: '1234',
           formattedValue: '1,234',
         },
-      ].forEach(test => {
+      ].forEach((test) => {
         it(`${test.value} to ${test.formattedValue}`, () => {
           expect(getNewCursorPosition(test)).toEqual(test.expectedEndPosition);
         });
@@ -103,7 +103,7 @@ describe('getNewCursorPosition', () => {
           value: '11222',
           formattedValue: '11,222',
         },
-      ].forEach(test => {
+      ].forEach((test) => {
         it(`${test.value} to ${test.formattedValue}`, () => {
           expect(getNewCursorPosition(test)).toEqual(test.expectedEndPosition);
         });
@@ -134,7 +134,7 @@ describe('getNewCursorPosition', () => {
         value: '1234567',
         formattedValue: '1,234,567',
       },
-    ].forEach(test => {
+    ].forEach((test) => {
       it(`${test.value} to ${test.formattedValue}`, () => {
         expect(getNewCursorPosition(test)).toEqual(test.expectedEndPosition);
       });
@@ -157,7 +157,7 @@ describe('getNewCursorPosition', () => {
         value: '1,234,67',
         formattedValue: '123,467',
       },
-    ].forEach(test => {
+    ].forEach((test) => {
       it(`${test.value} to ${test.formattedValue}`, () => {
         expect(getNewCursorPosition(test)).toEqual(test.expectedEndPosition);
       });
@@ -181,7 +181,7 @@ describe('getNewCursorPosition', () => {
         value: '1,123*,123',
         formattedValue: '1,123*123',
       },
-    ].forEach(test => {
+    ].forEach((test) => {
       it(`${test.value} to ${test.formattedValue}`, () => {
         expect(getNewCursorPosition(test)).toEqual(test.actualEndPosition);
       });

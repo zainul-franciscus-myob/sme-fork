@@ -17,17 +17,15 @@ import finalisationReducer from './FinalisationReducer';
 import openBlob from '../../../../common/blobOpener/openBlob';
 
 export default class FinalisationModule {
-  constructor({
-    integration,
-    context,
-    setAlert,
-  }) {
+  constructor({ integration, context, setAlert }) {
     this.integration = integration;
     this.store = new Store(finalisationReducer);
     this.dispatcher = createFinalisationDispatcher(this.store);
     this.integrator = createFinalisationIntegrator(this.store, integration);
     this.dispatcher.setInitialState(context);
-    this.stpDeclarationModalModule = new StpDeclarationModalModule({ integration });
+    this.stpDeclarationModalModule = new StpDeclarationModalModule({
+      integration,
+    });
     this.setAlert = setAlert;
   }
 
@@ -48,7 +46,7 @@ export default class FinalisationModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   loadInitialEmployeesAndHeaderDetails = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
@@ -62,7 +60,10 @@ export default class FinalisationModule {
       this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.integrator.loadInitialEmployeesAndHeaderDetails({ onSuccess, onFailure });
+    this.integrator.loadInitialEmployeesAndHeaderDetails({
+      onSuccess,
+      onFailure,
+    });
   };
 
   setIsRFBAEnabled = ({ value }) => {
@@ -72,19 +73,19 @@ export default class FinalisationModule {
   onPayrollYearChange = (payrollYear) => {
     this.dispatcher.setSelectedPayrollYear(payrollYear);
     this.loadEmployeesAndHeaderDetailsForYear(payrollYear);
-  }
+  };
 
   selectAllEmployees = (isSelected) => {
     this.dispatcher.selectAllEmployees(isSelected);
-  }
+  };
 
   selectEmployeesItem = (item, isSelected) => {
     this.dispatcher.selectEmployeesItem(item, isSelected);
-  }
+  };
 
   updateEmployeeRow = ({ key, value, rowId }) => {
     this.dispatcher.updateEmployeeRow({ key, value, rowId });
-  }
+  };
 
   submitEmployeesFinalisation = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
@@ -110,7 +111,7 @@ export default class FinalisationModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   submitEmployeesRemoveFinalisation = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
@@ -137,23 +138,23 @@ export default class FinalisationModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   onFinaliseClick = () => {
     const state = this.store.getState();
     this.stpDeclarationModalModule.run(
       getStpDeclarationContext(state),
-      this.submitEmployeesFinalisation,
+      this.submitEmployeesFinalisation
     );
-  }
+  };
 
   onRemoveFinalisationClick = () => {
     const state = this.store.getState();
     this.stpDeclarationModalModule.run(
       getStpDeclarationContext(state),
-      this.submitEmployeesRemoveFinalisation,
+      this.submitEmployeesRemoveFinalisation
     );
-  }
+  };
 
   run = () => {
     this.loadInitialEmployeesAndHeaderDetails();
@@ -166,29 +167,29 @@ export default class FinalisationModule {
     } else {
       this.openUnsavedChangesModal(navigationFunction);
     }
-  }
+  };
 
   openUnsavedChangesModal = (navigationFunction) => {
     this.pendingNavigationFunction = navigationFunction;
 
     this.dispatcher.setUnsavedChangesModal(true);
-  }
+  };
 
   closeUnsavedChangesModal = () => {
     this.dispatcher.setUnsavedChangesModal(false);
     this.pendingNavigationFunction = null;
-  }
+  };
 
   onUnsavedChangesCancel = () => {
     this.closeUnsavedChangesModal();
-  }
+  };
 
   onUnsavedChangesConfirm = () => {
     this.pendingNavigationFunction();
     this.dispatcher.setUnsavedChangesModal(false);
     this.dispatcher.resetDirtyFlag();
     this.pendingNavigationFunction = null;
-  }
+  };
 
   openYtdVerificationReport = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
@@ -206,7 +207,7 @@ export default class FinalisationModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   openEmployeeSummaryReport = (employeeId) => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
@@ -224,7 +225,7 @@ export default class FinalisationModule {
       onFailure,
       employeeId,
     });
-  }
+  };
 
   sortEmployees = (orderBy) => {
     const state = this.store.getState();
@@ -251,7 +252,7 @@ export default class FinalisationModule {
       orderBy,
       sortOrder: newSortOrder,
     });
-  }
+  };
 
   getView() {
     const stpModal = this.stpDeclarationModalModule.getView();

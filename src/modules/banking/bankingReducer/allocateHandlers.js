@@ -11,7 +11,7 @@ const getCalculatedAllocatedBalances = (state, index) => {
 
   const line = entries[index];
   const { withdrawal, deposit } = line;
-  const amount = (withdrawal || -deposit);
+  const amount = withdrawal || -deposit;
 
   return calculateBalance({
     balances,
@@ -23,17 +23,18 @@ const getCalculatedAllocatedBalances = (state, index) => {
 
 // eslint-disable-next-line import/prefer-default-export
 export const allocateTransaction = (state, action) => {
-  const entryIsUnapproved = isStatusUnapproved(state.entries[action.index].type);
+  const entryIsUnapproved = isStatusUnapproved(
+    state.entries[action.index].type
+  );
 
   return {
     ...state,
     balances: entryIsUnapproved
       ? getCalculatedAllocatedBalances(state, action.index)
       : state.balances,
-    entries: state.entries.map(
-      (entry, index) => (
-        index === action.index
-          ? {
+    entries: state.entries.map((entry, index) =>
+      index === action.index
+        ? {
             ...entry,
             appliedRule: action.appliedRule,
             isReportable: action.isReportable,
@@ -43,8 +44,7 @@ export const allocateTransaction = (state, action) => {
             taxCode: action.taxCode,
             selectedAccountId: action.selectedAccountId,
           }
-          : entry
-      ),
+        : entry
     ),
   };
 };

@@ -8,15 +8,17 @@ import EmployeeListNzTable from '../EmployeeListNzTable';
 import Store from '../../../../../../store/Store';
 import employeeListNzReducer from '../../employeeListNzReducer';
 
-
 describe('<EmployeeListNzTable />', () => {
   let store;
   beforeEach(() => {
     store = new Store(employeeListNzReducer);
   });
 
-  const mountWithProvider = (component) => mount(component,
-    { wrappingComponent: Provider, wrappingComponentProps: { store } });
+  const mountWithProvider = (component) =>
+    mount(component, {
+      wrappingComponent: Provider,
+      wrappingComponentProps: { store },
+    });
 
   it('renders employee list page with "There are no employees." message', () => {
     const wrapper = mountWithProvider(<EmployeeListNzTable />);
@@ -25,12 +27,14 @@ describe('<EmployeeListNzTable />', () => {
 
   it('should render employee list page with table header and data', () => {
     const response = {
-      entries: [{
-        name: 'uncle bob',
-        email: 'j@gmail.com',
-        phone: '0424345464',
-        id: '1',
-      }],
+      entries: [
+        {
+          name: 'uncle bob',
+          email: 'j@gmail.com',
+          phone: '0424345464',
+          id: '1',
+        },
+      ],
     };
     store.dispatch({ intent: LOAD_EMPLOYEE_LIST, ...response });
     const wrapper = mountWithProvider(<EmployeeListNzTable />);

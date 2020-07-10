@@ -10,10 +10,7 @@ const LeavePayItemModal = ({
   onConfirmDelete,
 }) => {
   const cancelModal = (
-    <CancelModal
-      onCancel={onCloseModal}
-      onConfirm={onConfirmCancel}
-    />
+    <CancelModal onCancel={onCloseModal} onConfirm={onConfirmCancel} />
   );
 
   const deleteModal = (

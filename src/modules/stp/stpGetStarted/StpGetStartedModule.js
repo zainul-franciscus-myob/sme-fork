@@ -7,7 +7,11 @@ import {
   SET_MODAL_STATE,
 } from './stpGetStartedIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { getBusinessId, getStpErrorsUrl, getStpSetupUrl } from './stpGetStartedSelectors';
+import {
+  getBusinessId,
+  getStpErrorsUrl,
+  getStpSetupUrl,
+} from './stpGetStartedSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import StpGetStartedView from './components/StpGetStartedView';

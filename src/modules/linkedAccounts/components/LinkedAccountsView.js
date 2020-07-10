@@ -1,6 +1,4 @@
-import {
-  FormTemplate, PageHead,
-} from '@myob/myob-widgets';
+import { FormTemplate, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -29,10 +27,7 @@ const LinkedAccountsView = ({
   );
 
   const alertComponent = alert && (
-    <Alert
-      alert={alert}
-      onDismissAlert={onDismissAlert}
-    />
+    <Alert alert={alert} onDismissAlert={onDismissAlert} />
   );
 
   const view = (
@@ -52,7 +47,7 @@ const LinkedAccountsView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   alert: getAlert(state),
 });

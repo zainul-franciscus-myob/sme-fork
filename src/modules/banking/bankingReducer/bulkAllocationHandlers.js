@@ -13,10 +13,12 @@ const getBalancesForBulkResult = (state, allocatedEntries, isAllocate) => {
     entries,
   } = state;
 
-  const allocatedIds = allocatedEntries.map(allocatedEntry => allocatedEntry.transactionId);
+  const allocatedIds = allocatedEntries.map(
+    (allocatedEntry) => allocatedEntry.transactionId
+  );
 
   const amount = entries
-    .filter(entry => {
+    .filter((entry) => {
       // Remove the entries (for only bulk allocation) that are approved transaction types
       if (isAllocate && !isStatusUnapproved(entry.type)) {
         return false;
@@ -25,7 +27,9 @@ const getBalancesForBulkResult = (state, allocatedEntries, isAllocate) => {
     })
     .reduce((total, entry) => {
       const { withdrawal, deposit } = entry;
-      const entryAmount = isAllocate ? (withdrawal || -deposit) : (-withdrawal || deposit);
+      const entryAmount = isAllocate
+        ? withdrawal || -deposit
+        : -withdrawal || deposit;
 
       return total + entryAmount;
     }, 0);
@@ -45,22 +49,20 @@ export const selectTransaction = (state, action) => {
 
   return {
     ...state,
-    entries: state.entries.map(
-      (entry, index) => (
-        index === action.index
-          ? {
+    entries: state.entries.map((entry, index) =>
+      index === action.index
+        ? {
             ...entry,
             selected: action.value,
           }
-          : entry
-      ),
+        : entry
     ),
   };
 };
 
-export const unselectTransactions = state => ({
+export const unselectTransactions = (state) => ({
   ...state,
-  entries: state.entries.map(entry => ({
+  entries: state.entries.map((entry) => ({
     ...entry,
     selected: false,
   })),
@@ -68,16 +70,18 @@ export const unselectTransactions = state => ({
 
 export const selectAllTransactions = (state) => {
   const entryIdsToSelect = state.entries
-    .filter(entry => !entry.selected)
-    .map(entry => entry.transactionId)
+    .filter((entry) => !entry.selected)
+    .map((entry) => entry.transactionId)
     .slice(0, getRemainingAvailable(state));
 
   if (entryIdsToSelect.length > 0) {
     return {
       ...state,
-      entries: state.entries.map(entry => (
-        entryIdsToSelect.includes(entry.transactionId) ? { ...entry, selected: true } : entry
-      )),
+      entries: state.entries.map((entry) =>
+        entryIdsToSelect.includes(entry.transactionId)
+          ? { ...entry, selected: true }
+          : entry
+      ),
     };
   }
 
@@ -95,7 +99,10 @@ const updatedOptions = (state, action) => {
   };
 
   if (action.key === 'accountId') {
-    options.taxCodeId = getDefaultTaxCodeId(action.value, state.bulkAllocationAccounts);
+    options.taxCodeId = getDefaultTaxCodeId(
+      action.value,
+      state.bulkAllocationAccounts
+    );
   }
 
   return options;
@@ -109,7 +116,8 @@ export const updateBulkAllocationOptions = (state, action) => ({
   },
 });
 
-const findEntryById = (entries, id) => entries.find(entry => entry.transactionId === id);
+const findEntryById = (entries, id) =>
+  entries.find((entry) => entry.transactionId === id);
 
 export const bulkAllocateTransactions = (state, action) => ({
   ...state,
@@ -150,7 +158,6 @@ export const unallocateTransactions = (state, action) => ({
       };
     }
 
-
     return entry;
   }),
 });
@@ -158,13 +165,13 @@ export const unallocateTransactions = (state, action) => ({
 export const setBulkLoading = (state, action) => ({
   ...state,
   isBulkLoading: action.isLoading,
-  entries: state.entries.map(entry => ({
+  entries: state.entries.map((entry) => ({
     ...entry,
     isLoading: entry.selected ? action.isLoading : entry.isLoading,
   })),
 });
 
-export const resetBulkAllocation = state => ({
+export const resetBulkAllocation = (state) => ({
   ...state,
   bulkAllocationOptions: {
     accountId: '',

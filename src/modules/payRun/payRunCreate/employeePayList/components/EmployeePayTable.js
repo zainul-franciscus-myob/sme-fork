@@ -1,5 +1,11 @@
 import {
-  AccordionTable, Card, Checkbox, FieldGroup, Input, Table, Tooltip,
+  AccordionTable,
+  Card,
+  Checkbox,
+  FieldGroup,
+  Input,
+  Table,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -29,7 +35,8 @@ const handleEmployeeCheckboxChange = (handler, id) => () => handler(id);
 
 const handleInputChange = (handler, employeeId) => (e) => {
   handler({
-    employeeId, note: e.target.value,
+    employeeId,
+    note: e.target.value,
   });
 };
 
@@ -47,14 +54,14 @@ const EmployeePayTable = ({
   onAddJob,
   onEmployeeNoteBlur,
 }) => (
-    <Card>
-      <div className={styles.employeePayTable}>
+  <Card>
+    <div className={styles.employeePayTable}>
       <FieldGroup label="Select employees to pay">
         {`${numberOfSelected} employees selected`}
       </FieldGroup>
       <AccordionTable
         expansionToggle
-        header={(
+        header={
           <Table.Header>
             <Table.HeaderItem width="5rem">
               <Checkbox
@@ -67,50 +74,86 @@ const EmployeePayTable = ({
                 indeterminate={isPartiallySelected}
               />
             </Table.HeaderItem>
-            <Table.HeaderItem {...tableConfig.employee}>Employee</Table.HeaderItem>
+            <Table.HeaderItem {...tableConfig.employee}>
+              Employee
+            </Table.HeaderItem>
             <Table.HeaderItem {...tableConfig.gross}>
               Gross ($)
-              <Tooltip>Gross includes all taxable and tax exempt income</Tooltip>
+              <Tooltip>
+                Gross includes all taxable and tax exempt income
+              </Tooltip>
             </Table.HeaderItem>
             <Table.HeaderItem {...tableConfig.payg}>PAYG ($)</Table.HeaderItem>
-            <Table.HeaderItem {...tableConfig.deduction}>Deductions ($)</Table.HeaderItem>
+            <Table.HeaderItem {...tableConfig.deduction}>
+              Deductions ($)
+            </Table.HeaderItem>
             <Table.HeaderItem {...tableConfig.netPay}>
               Net pay ($)
               <Tooltip>This is your employees&apos; take home pay</Tooltip>
             </Table.HeaderItem>
             <Table.HeaderItem {...tableConfig.super}>
               Super ($)
-              <Tooltip>Super includes all super deductions and super expenses</Tooltip>
+              <Tooltip>
+                Super includes all super deductions and super expenses
+              </Tooltip>
             </Table.HeaderItem>
           </Table.Header>
-        )}
-        body={(
+        }
+        body={
           <Table.Body>
-            {lines.map(line => (
+            {lines.map((line) => (
               <Table.CollapsibleRow
                 key={`expansion-toggle-${line.employeeId}`}
-                header={(
+                header={
                   <Table.Row key={line.employeeId}>
                     <Table.RowItem width="5rem">
                       <Checkbox
                         name={`${line.employeeId}-select`}
                         label={`Select row ${line.employeeId}`}
                         hideLabel
-                        onChange={handleEmployeeCheckboxChange(onSelectRow, line.employeeId)}
+                        onChange={handleEmployeeCheckboxChange(
+                          onSelectRow,
+                          line.employeeId
+                        )}
                         checked={line.isSelected}
                       />
                     </Table.RowItem>
-                    <Table.RowItem {...tableConfig.employee}>{line.name}</Table.RowItem>
-                    <Table.RowItem {...tableConfig.gross}>{line.gross}</Table.RowItem>
-                    <Table.RowItem {...tableConfig.payg}>{line.payg}</Table.RowItem>
-                    <Table.RowItem {...tableConfig.deduction}>{line.deduction}</Table.RowItem>
-                    <Table.RowItem {...tableConfig.netPay}>{line.netPay}</Table.RowItem>
-                    <Table.RowItem {...tableConfig.super}>{line.super}</Table.RowItem>
+                    <Table.RowItem {...tableConfig.employee}>
+                      {line.name}
+                    </Table.RowItem>
+                    <Table.RowItem {...tableConfig.gross}>
+                      {line.gross}
+                    </Table.RowItem>
+                    <Table.RowItem {...tableConfig.payg}>
+                      {line.payg}
+                    </Table.RowItem>
+                    <Table.RowItem {...tableConfig.deduction}>
+                      {line.deduction}
+                    </Table.RowItem>
+                    <Table.RowItem {...tableConfig.netPay}>
+                      {line.netPay}
+                    </Table.RowItem>
+                    <Table.RowItem {...tableConfig.super}>
+                      {line.super}
+                    </Table.RowItem>
                   </Table.Row>
-                )}
+                }
               >
-                <EtpModalOpenButton line={line} onOpenEtpModal={onOpenEtpModal} />
-                <Input name="note" className={styles['employee-pay-table__note']} maxLength="255" label="Pay slip message" onBlur={handleInputChange(onEmployeeNoteBlur, line.employeeId)} defaultValue={line.note} />
+                <EtpModalOpenButton
+                  line={line}
+                  onOpenEtpModal={onOpenEtpModal}
+                />
+                <Input
+                  name="note"
+                  className={styles['employee-pay-table__note']}
+                  maxLength="255"
+                  label="Pay slip message"
+                  onBlur={handleInputChange(
+                    onEmployeeNoteBlur,
+                    line.employeeId
+                  )}
+                  defaultValue={line.note}
+                />
                 <EmployeeRecalculatePayTable
                   employeeId={line.employeeId}
                   employeeName={line.name}
@@ -122,26 +165,40 @@ const EmployeePayTable = ({
             ))}
             <Table.CollapsibleRow
               key="expansion-toggle-total"
-              header={(
+              header={
                 <Table.Row key="total" className={styles.totalRow}>
-                  <Table.RowItem width="5rem" cellRole="checkbox" valign="middle" />
+                  <Table.RowItem
+                    width="5rem"
+                    cellRole="checkbox"
+                    valign="middle"
+                  />
                   <Table.RowItem {...tableConfig.employee}></Table.RowItem>
-                  <Table.RowItem {...tableConfig.gross}>{totals.gross}</Table.RowItem>
-                  <Table.RowItem {...tableConfig.payg}>{totals.payg}</Table.RowItem>
-                  <Table.RowItem {...tableConfig.deduction}>{totals.deduction}</Table.RowItem>
-                  <Table.RowItem {...tableConfig.netPay}>{totals.netPay}</Table.RowItem>
-                  <Table.RowItem {...tableConfig.super}>{totals.super}</Table.RowItem>
+                  <Table.RowItem {...tableConfig.gross}>
+                    {totals.gross}
+                  </Table.RowItem>
+                  <Table.RowItem {...tableConfig.payg}>
+                    {totals.payg}
+                  </Table.RowItem>
+                  <Table.RowItem {...tableConfig.deduction}>
+                    {totals.deduction}
+                  </Table.RowItem>
+                  <Table.RowItem {...tableConfig.netPay}>
+                    {totals.netPay}
+                  </Table.RowItem>
+                  <Table.RowItem {...tableConfig.super}>
+                    {totals.super}
+                  </Table.RowItem>
                 </Table.Row>
-              )}
+              }
             />
           </Table.Body>
-        )}
+        }
       />
-      </div>
-    </Card>
+    </div>
+  </Card>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   lines: getFormattedEmployeePayLines(state),
   isAllSelected: getIsAllSelected(state),
   isPartiallySelected: getIsPartiallySelected(state),

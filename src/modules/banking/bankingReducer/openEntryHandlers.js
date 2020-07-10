@@ -4,15 +4,21 @@ import getDefaultState from './getDefaultState';
 export const collapseTransactionLine = (state) => {
   const defaultState = getDefaultState();
 
-  return ({
+  return {
     ...state,
     openPosition: defaultState.openPosition,
     isOpenEntryLoading: defaultState.isOpenEntryLoading,
     openEntry: defaultState.openEntry,
-  });
+  };
 };
 
-export const loadOpenEntry = (state, index, propName, propValue, isCreating) => ({
+export const loadOpenEntry = (
+  state,
+  index,
+  propName,
+  propValue,
+  isCreating
+) => ({
   ...state,
   openPosition: index,
   openEntry: {
@@ -46,61 +52,56 @@ const updateOpenEntry = (state, patch) => ({
   },
 });
 
-export const setAttachemntsLoadingState = (state, { isAttachmentsLoading }) => (
-  updateOpenEntry(state, { isAttachmentsLoading })
-);
+export const setAttachemntsLoadingState = (state, { isAttachmentsLoading }) =>
+  updateOpenEntry(state, { isAttachmentsLoading });
 
-export const loadAttachments = (state, { attachments }) => (
-  updateOpenEntry(state, { attachments })
-);
+export const loadAttachments = (state, { attachments }) =>
+  updateOpenEntry(state, { attachments });
 
-const isMoreThan10MB = size => size > 10000000;
+const isMoreThan10MB = (size) => size > 10000000;
 
-const buildAttachmentState = size => (
-  isMoreThan10MB(size) ? { state: 'failed', error: 'File is more than 10MB' } : { state: 'queued' }
-);
+const buildAttachmentState = (size) =>
+  isMoreThan10MB(size)
+    ? { state: 'failed', error: 'File is more than 10MB' }
+    : { state: 'queued' };
 
-export const addAttachments = (state, { files }) => (
+export const addAttachments = (state, { files }) =>
   updateOpenEntry(state, {
     attachments: [
       ...state.openEntry.attachments,
-      ...files.map(file => ({
+      ...files.map((file) => ({
         name: file.name,
         size: file.size,
         ...buildAttachmentState(file.size),
         file,
       })),
     ],
-  })
-);
+  });
 
-const updateAttachment = (state, file, partialAttachment) => (
+const updateAttachment = (state, file, partialAttachment) =>
   updateOpenEntry(state, {
-    attachments: state.openEntry.attachments.map(attachment => (
-      attachment.file === file ? { ...attachment, ...partialAttachment } : attachment
-    )),
-  })
-);
+    attachments: state.openEntry.attachments.map((attachment) =>
+      attachment.file === file
+        ? { ...attachment, ...partialAttachment }
+        : attachment
+    ),
+  });
 
-export const uploadAttachment = (state, { id, name, file }) => (
-  updateAttachment(state, file, { id, name, state: 'finished' })
-);
+export const uploadAttachment = (state, { id, name, file }) =>
+  updateAttachment(state, file, { id, name, state: 'finished' });
 
-export const uploadAttachmentFailed = (state, { message, file }) => (
-  updateAttachment(state, file, { error: message, state: 'failed' })
-);
+export const uploadAttachmentFailed = (state, { message, file }) =>
+  updateAttachment(state, file, { error: message, state: 'failed' });
 
-export const uploadAttachmentProgress = (state, { file, uploadProgress }) => (
-  updateAttachment(state, file, { state: 'loading', uploadProgress })
-);
+export const uploadAttachmentProgress = (state, { file, uploadProgress }) =>
+  updateAttachment(state, file, { state: 'loading', uploadProgress });
 
-export const setOperationInProgressState = (state, { id, isInProgress }) => (
+export const setOperationInProgressState = (state, { id, isInProgress }) =>
   updateOpenEntry(state, {
-    attachments: state.openEntry.attachments.map(attachment => (
+    attachments: state.openEntry.attachments.map((attachment) =>
       attachment.id === id ? { ...attachment, isInProgress } : attachment
-    )),
-  })
-);
+    ),
+  });
 
 export const openRemoveAttachmentModal = (state, { id }) => ({
   ...state,
@@ -111,14 +112,16 @@ export const openRemoveAttachmentModal = (state, { id }) => ({
   modalType: ModalTypes.DELETE_ATTACHMENT,
 });
 
-export const removeAttachmentByIndex = (state, { index }) => (
+export const removeAttachmentByIndex = (state, { index }) =>
   updateOpenEntry(state, {
-    attachments: state.openEntry.attachments.filter((attachment, i) => index !== i),
-  })
-);
+    attachments: state.openEntry.attachments.filter(
+      (attachment, i) => index !== i
+    ),
+  });
 
-export const removeAttachment = (state, { id }) => (
+export const removeAttachment = (state, { id }) =>
   updateOpenEntry(state, {
-    attachments: state.openEntry.attachments.filter(attachment => attachment.id !== id),
-  })
-);
+    attachments: state.openEntry.attachments.filter(
+      (attachment) => attachment.id !== id
+    ),
+  });

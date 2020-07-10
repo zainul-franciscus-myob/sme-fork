@@ -44,11 +44,11 @@ export const setup = () => {
   const integration = new TestIntegration();
   const module = new InvoiceDetailModule({
     integration,
-    setRootView: () => { },
-    pushMessage: () => { },
+    setRootView: () => {},
+    pushMessage: () => {},
     popMessages: () => [],
-    replaceURLParams: () => { },
-    reload: () => { },
+    replaceURLParams: () => {},
+    reload: () => {},
     isToggleOn: () => true,
   });
   module.store = store;
@@ -58,10 +58,17 @@ export const setup = () => {
   return { store, module, integration };
 };
 
-export const setupWithRun = ({ isCreating = false, isPageEdited = false } = {}) => {
+export const setupWithRun = ({
+  isCreating = false,
+  isPageEdited = false,
+} = {}) => {
   const { store, integration, module } = setup();
 
-  module.run({ businessId: 'businessId', region: Region.au, invoiceId: isCreating ? 'new' : 'invoiceId' });
+  module.run({
+    businessId: 'businessId',
+    region: Region.au,
+    invoiceId: isCreating ? 'new' : 'invoiceId',
+  });
 
   if (isPageEdited) {
     module.updateHeaderOptions({ key: 'note', value: 'random' });
@@ -89,12 +96,19 @@ describe('InvoiceDetailModule', () => {
     describe('existing invoice', () => {
       const { store, integration, module } = setup();
 
-      module.run({ businessId: 'businessId', region: Region.au, invoiceId: 'invoiceId' });
+      module.run({
+        businessId: 'businessId',
+        region: Region.au,
+        invoiceId: 'invoiceId',
+      });
 
       expect(store.getActions()).toEqual([
         expect.objectContaining({ intent: SET_INITIAL_STATE }),
         { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING },
-        { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING_SUCCESS },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
         { intent: SET_SUBMITTING_STATE, isSubmitting: false },
         expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
         { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
@@ -117,12 +131,19 @@ describe('InvoiceDetailModule', () => {
     describe('new invoice', () => {
       const { store, integration, module } = setup();
 
-      module.run({ businessId: 'businessId', region: Region.au, invoiceId: 'new' });
+      module.run({
+        businessId: 'businessId',
+        region: Region.au,
+        invoiceId: 'new',
+      });
 
       expect(store.getActions()).toEqual([
         expect.objectContaining({ intent: SET_INITIAL_STATE }),
         { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING },
-        { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING_SUCCESS },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
         { intent: SET_SUBMITTING_STATE, isSubmitting: false },
         expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
         { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: true },
@@ -139,13 +160,19 @@ describe('InvoiceDetailModule', () => {
       const { store, integration, module } = setup();
 
       module.run({
-        businessId: 'businessId', region: Region.au, invoiceId: 'new', duplicateId: 'duplicateId',
+        businessId: 'businessId',
+        region: Region.au,
+        invoiceId: 'new',
+        duplicateId: 'duplicateId',
       });
 
       expect(store.getActions()).toEqual([
         expect.objectContaining({ intent: SET_INITIAL_STATE }),
         { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING },
-        { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING_SUCCESS },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
         { intent: SET_SUBMITTING_STATE, isSubmitting: false },
         expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
         { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
@@ -166,13 +193,19 @@ describe('InvoiceDetailModule', () => {
       const { store, integration, module } = setup();
 
       module.run({
-        businessId: 'businessId', region: Region.au, invoiceId: 'new', quoteId: 'quoteId',
+        businessId: 'businessId',
+        region: Region.au,
+        invoiceId: 'new',
+        quoteId: 'quoteId',
       });
 
       expect(store.getActions()).toEqual([
         expect.objectContaining({ intent: SET_INITIAL_STATE }),
         { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING },
-        { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING_SUCCESS },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
         { intent: SET_SUBMITTING_STATE, isSubmitting: false },
         expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
         { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
@@ -192,39 +225,47 @@ describe('InvoiceDetailModule', () => {
     describe('abn', () => {
       it('load abn for au business', () => {
         const { store, integration, module } = setup();
-        module.run({ businessId: 'businessId', region: Region.au, invoiceId: 'invoiceId' });
+        module.run({
+          businessId: 'businessId',
+          region: Region.au,
+          invoiceId: 'invoiceId',
+        });
 
         expect(store.getActions()).toEqual(
           expect.arrayContaining([
             { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
             { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
             expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
-          ]),
+          ])
         );
 
         expect(integration.getRequests()).toEqual(
           expect.arrayContaining([
             expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
-          ]),
+          ])
         );
       });
 
       it('does not load abn for nz business', () => {
         const { store, integration, module } = setup();
-        module.run({ businessId: 'businessId', region: Region.nz, invoiceId: 'invoiceId' });
+        module.run({
+          businessId: 'businessId',
+          region: Region.nz,
+          invoiceId: 'invoiceId',
+        });
 
         expect(store.getActions()).toEqual(
           expect.not.arrayContaining([
             { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
             { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
             expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
-          ]),
+          ])
         );
 
         expect(integration.getRequests()).toEqual(
           expect.not.arrayContaining([
             expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
-          ]),
+          ])
         );
       });
     });
@@ -232,39 +273,47 @@ describe('InvoiceDetailModule', () => {
     describe('pay direct', () => {
       it('load pay direct for au business', () => {
         const { store, integration, module } = setup();
-        module.run({ businessId: 'businessId', region: Region.au, invoiceId: 'invoiceId' });
+        module.run({
+          businessId: 'businessId',
+          region: Region.au,
+          invoiceId: 'invoiceId',
+        });
 
         expect(store.getActions()).toEqual(
           expect.arrayContaining([
             { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: true },
             { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: false },
             expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
-          ]),
+          ])
         );
 
         expect(integration.getRequests()).toEqual(
           expect.arrayContaining([
             expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
-          ]),
+          ])
         );
       });
 
       it('does not load pay direct for nz business', () => {
         const { store, integration, module } = setup();
-        module.run({ businessId: 'businessId', region: Region.nz, invoiceId: 'invoiceId' });
+        module.run({
+          businessId: 'businessId',
+          region: Region.nz,
+          invoiceId: 'invoiceId',
+        });
 
         expect(store.getActions()).toEqual(
           expect.not.arrayContaining([
             { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: true },
             { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: false },
             expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
-          ]),
+          ])
         );
 
         expect(integration.getRequests()).toEqual(
           expect.not.arrayContaining([
             expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
-          ]),
+          ])
         );
       });
     });
@@ -296,7 +345,7 @@ describe('InvoiceDetailModule', () => {
       it('successfully save invoice', () => {
         const { store, integration, module } = setupTest({ isCreating });
 
-        module.createOrUpdateInvoice({ onSuccess: () => { } });
+        module.createOrUpdateInvoice({ onSuccess: () => {} });
 
         expect(store.getActions()).toEqual([
           { intent: SET_SUBMITTING_STATE, isSubmitting: true },
@@ -318,7 +367,7 @@ describe('InvoiceDetailModule', () => {
           });
         });
 
-        module.createOrUpdateInvoice({ onSuccess: () => { } });
+        module.createOrUpdateInvoice({ onSuccess: () => {} });
 
         expect(store.getActions()).toEqual([
           { intent: SET_SUBMITTING_STATE, isSubmitting: true },
@@ -375,7 +424,9 @@ describe('InvoiceDetailModule', () => {
   describe('saveInvoice', () => {
     describe('new invoice', () => {
       it('create invoice, update invoice id, update url params, reload invoice, load history, and show success alert inside modal', () => {
-        const { module, store, integration } = setupWithRun({ isCreating: true });
+        const { module, store, integration } = setupWithRun({
+          isCreating: true,
+        });
         module.replaceURLParams = jest.fn();
 
         module.saveInvoice();
@@ -391,7 +442,13 @@ describe('InvoiceDetailModule', () => {
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
           expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
-          { intent: SET_ALERT, alert: { type: 'success', message: "Great Work! You've done it well!" } },
+          {
+            intent: SET_ALERT,
+            alert: {
+              type: 'success',
+              message: "Great Work! You've done it well!",
+            },
+          },
         ]);
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: CREATE_INVOICE_DETAIL }),
@@ -403,7 +460,9 @@ describe('InvoiceDetailModule', () => {
       });
 
       it('show danger alert when create invoice failed', () => {
-        const { module, store, integration } = setupWithRun({ isCreating: true });
+        const { module, store, integration } = setupWithRun({
+          isCreating: true,
+        });
         const message = 'Error';
         integration.mapFailure(CREATE_INVOICE_DETAIL, { message });
         module.replaceURLParams = jest.fn();
@@ -422,7 +481,9 @@ describe('InvoiceDetailModule', () => {
       });
 
       it('show danger alert when reload invoice failed', () => {
-        const { module, store, integration } = setupWithRun({ isCreating: true });
+        const { module, store, integration } = setupWithRun({
+          isCreating: true,
+        });
         const message = 'Error';
         integration.mapFailure(LOAD_INVOICE_DETAIL, { message });
 
@@ -446,7 +507,9 @@ describe('InvoiceDetailModule', () => {
 
     describe('existing invoice', () => {
       it('update invoice, reload invoice and show success alert inside modal', () => {
-        const { module, store, integration } = setupWithRun({ isPageEdited: true });
+        const { module, store, integration } = setupWithRun({
+          isPageEdited: true,
+        });
         module.replaceURLParams = jest.fn();
 
         module.saveInvoice();
@@ -459,7 +522,13 @@ describe('InvoiceDetailModule', () => {
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
           expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
-          { intent: SET_ALERT, alert: { type: 'success', message: "Great Work! You've done it well!" } },
+          {
+            intent: SET_ALERT,
+            alert: {
+              type: 'success',
+              message: "Great Work! You've done it well!",
+            },
+          },
         ]);
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: UPDATE_INVOICE_DETAIL }),
@@ -470,7 +539,9 @@ describe('InvoiceDetailModule', () => {
       });
 
       it('show danger alert when update invoice failed', () => {
-        const { module, store, integration } = setupWithRun({ isPageEdited: true });
+        const { module, store, integration } = setupWithRun({
+          isPageEdited: true,
+        });
         const message = 'Error';
         integration.mapFailure(UPDATE_INVOICE_DETAIL, { message });
 
@@ -487,7 +558,9 @@ describe('InvoiceDetailModule', () => {
       });
 
       it('show danger alert when reload invoice failed', () => {
-        const { module, store, integration } = setupWithRun({ isPageEdited: true });
+        const { module, store, integration } = setupWithRun({
+          isPageEdited: true,
+        });
         const message = 'Error';
         integration.mapFailure(LOAD_INVOICE_DETAIL, { message });
 
@@ -511,7 +584,9 @@ describe('InvoiceDetailModule', () => {
   describe('saveAndEmailInvoice', () => {
     describe('new invoice', () => {
       it('create invoice, update invoice id, update url params, reload invoice, load history, open email modal and show alert inside modal', () => {
-        const { module, store, integration } = setupWithRun({ isCreating: true });
+        const { module, store, integration } = setupWithRun({
+          isCreating: true,
+        });
         module.replaceURLParams = jest.fn();
 
         module.saveAndEmailInvoice();
@@ -528,8 +603,17 @@ describe('InvoiceDetailModule', () => {
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
           expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
-          { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.EMAIL_INVOICE },
-          { intent: SET_MODAL_ALERT, modalAlert: { type: 'success', message: "Great Work! You've done it well!" } },
+          {
+            intent: SET_MODAL_TYPE,
+            modalType: InvoiceDetailModalType.EMAIL_INVOICE,
+          },
+          {
+            intent: SET_MODAL_ALERT,
+            modalAlert: {
+              type: 'success',
+              message: "Great Work! You've done it well!",
+            },
+          },
         ]);
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: CREATE_INVOICE_DETAIL }),
@@ -541,7 +625,9 @@ describe('InvoiceDetailModule', () => {
       });
 
       it('does not open email modal when create invoice failed', () => {
-        const { module, store, integration } = setupWithRun({ isCreating: true });
+        const { module, store, integration } = setupWithRun({
+          isCreating: true,
+        });
         const message = 'Error';
         integration.mapFailure(CREATE_INVOICE_DETAIL, { message });
         module.replaceURLParams = jest.fn();
@@ -560,7 +646,9 @@ describe('InvoiceDetailModule', () => {
       });
 
       it('does not open email modal when reload invoice failed', () => {
-        const { module, store, integration } = setupWithRun({ isCreating: true });
+        const { module, store, integration } = setupWithRun({
+          isCreating: true,
+        });
         const message = 'Error';
         integration.mapFailure(LOAD_INVOICE_DETAIL, { message });
 
@@ -584,7 +672,9 @@ describe('InvoiceDetailModule', () => {
 
     describe('existing invoice that has been edited', () => {
       it('update invoice, reload invoice, open email modal and show alert inside modal', () => {
-        const { module, store, integration } = setupWithRun({ isPageEdited: true });
+        const { module, store, integration } = setupWithRun({
+          isPageEdited: true,
+        });
         module.replaceURLParams = jest.fn();
 
         module.saveAndEmailInvoice();
@@ -598,8 +688,17 @@ describe('InvoiceDetailModule', () => {
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
           expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
-          { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.EMAIL_INVOICE },
-          { intent: SET_MODAL_ALERT, modalAlert: { type: 'success', message: "Great Work! You've done it well!" } },
+          {
+            intent: SET_MODAL_TYPE,
+            modalType: InvoiceDetailModalType.EMAIL_INVOICE,
+          },
+          {
+            intent: SET_MODAL_ALERT,
+            modalAlert: {
+              type: 'success',
+              message: "Great Work! You've done it well!",
+            },
+          },
         ]);
 
         expect(integration.getRequests()).toEqual([
@@ -612,7 +711,9 @@ describe('InvoiceDetailModule', () => {
       });
 
       it('does not open email modal when update invoice failed', () => {
-        const { module, store, integration } = setupWithRun({ isPageEdited: true });
+        const { module, store, integration } = setupWithRun({
+          isPageEdited: true,
+        });
         const message = 'Error';
         integration.mapFailure(UPDATE_INVOICE_DETAIL, { message });
 
@@ -630,7 +731,9 @@ describe('InvoiceDetailModule', () => {
       });
 
       it('does not open email modal when reload invoice failed', () => {
-        const { module, store, integration } = setupWithRun({ isPageEdited: true });
+        const { module, store, integration } = setupWithRun({
+          isPageEdited: true,
+        });
         const message = 'Error';
         integration.mapFailure(LOAD_INVOICE_DETAIL, { message });
 
@@ -675,8 +778,17 @@ describe('InvoiceDetailModule', () => {
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
           expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
-          { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.EMAIL_INVOICE },
-          { intent: SET_MODAL_ALERT, modalAlert: { type: 'success', message: "Great Work! You've done it well!" } },
+          {
+            intent: SET_MODAL_TYPE,
+            modalType: InvoiceDetailModalType.EMAIL_INVOICE,
+          },
+          {
+            intent: SET_MODAL_ALERT,
+            modalAlert: {
+              type: 'success',
+              message: "Great Work! You've done it well!",
+            },
+          },
         ]);
 
         expect(integration.getRequests()).toEqual([
@@ -739,17 +851,24 @@ describe('InvoiceDetailModule', () => {
           },
         });
         module.run({
-          invoiceId: 'invoiceId', businessId: 'businessId', region: 'au',
+          invoiceId: 'invoiceId',
+          businessId: 'businessId',
+          region: 'au',
         });
         store.resetActions();
         integration.resetRequests();
 
         module.saveAndEmailInvoice();
 
-        expect(store.getActions()).toEqual(expect.arrayContaining([
-          { intent: SET_MODAL_TYPE, modalType: '' },
-          { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.EMAIL_SETTINGS },
-        ]));
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            { intent: SET_MODAL_TYPE, modalType: '' },
+            {
+              intent: SET_MODAL_TYPE,
+              modalType: InvoiceDetailModalType.EMAIL_SETTINGS,
+            },
+          ])
+        );
       });
     });
   });
@@ -757,7 +876,9 @@ describe('InvoiceDetailModule', () => {
   describe('openExportPdfModalOrSaveAndExportPdf', () => {
     describe('new invoice', () => {
       it('create invoice, update invoice id, update url params, reload invoice, history, open export pdf modal and show alert inside modal', () => {
-        const { module, store, integration } = setupWithRun({ isCreating: true });
+        const { module, store, integration } = setupWithRun({
+          isCreating: true,
+        });
         module.replaceURLParams = jest.fn();
 
         module.openExportPdfModalOrSaveAndExportPdf();
@@ -773,7 +894,10 @@ describe('InvoiceDetailModule', () => {
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
           expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
-          { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.EXPORT_PDF },
+          {
+            intent: SET_MODAL_TYPE,
+            modalType: InvoiceDetailModalType.EXPORT_PDF,
+          },
         ]);
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: CREATE_INVOICE_DETAIL }),
@@ -785,7 +909,9 @@ describe('InvoiceDetailModule', () => {
       });
 
       it('does not open export pdf modal when create invoice failed', () => {
-        const { module, store, integration } = setupWithRun({ isCreating: true });
+        const { module, store, integration } = setupWithRun({
+          isCreating: true,
+        });
         const message = 'Error';
         integration.mapFailure(CREATE_INVOICE_DETAIL, { message });
         module.replaceURLParams = jest.fn();
@@ -803,7 +929,9 @@ describe('InvoiceDetailModule', () => {
       });
 
       it('does not open export pdf modal when reload invoice failed', () => {
-        const { module, store, integration } = setupWithRun({ isCreating: true });
+        const { module, store, integration } = setupWithRun({
+          isCreating: true,
+        });
         const message = 'Error';
         integration.mapFailure(LOAD_INVOICE_DETAIL, { message });
 
@@ -826,7 +954,9 @@ describe('InvoiceDetailModule', () => {
 
     describe('existing invoice that has been edited', () => {
       it('update invoice, reload invoice, open export pdf modal and show alert inside modal', () => {
-        const { module, store, integration } = setupWithRun({ isPageEdited: true });
+        const { module, store, integration } = setupWithRun({
+          isPageEdited: true,
+        });
         module.replaceURLParams = jest.fn();
 
         module.openExportPdfModalOrSaveAndExportPdf();
@@ -839,7 +969,10 @@ describe('InvoiceDetailModule', () => {
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
           expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
-          { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.EXPORT_PDF },
+          {
+            intent: SET_MODAL_TYPE,
+            modalType: InvoiceDetailModalType.EXPORT_PDF,
+          },
         ]);
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: UPDATE_INVOICE_DETAIL }),
@@ -850,7 +983,9 @@ describe('InvoiceDetailModule', () => {
       });
 
       it('does not open export pdf modal when update invoice failed', () => {
-        const { module, store, integration } = setupWithRun({ isPageEdited: true });
+        const { module, store, integration } = setupWithRun({
+          isPageEdited: true,
+        });
         const message = 'Error';
         integration.mapFailure(UPDATE_INVOICE_DETAIL, { message });
 
@@ -867,7 +1002,9 @@ describe('InvoiceDetailModule', () => {
       });
 
       it('does not open export pdf modal when reload invoice failed', () => {
-        const { module, store, integration } = setupWithRun({ isPageEdited: true });
+        const { module, store, integration } = setupWithRun({
+          isPageEdited: true,
+        });
         const message = 'Error';
         integration.mapFailure(LOAD_INVOICE_DETAIL, { message });
 
@@ -894,7 +1031,10 @@ describe('InvoiceDetailModule', () => {
         module.openExportPdfModalOrSaveAndExportPdf();
 
         expect(store.getActions()).toEqual([
-          { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.EXPORT_PDF },
+          {
+            intent: SET_MODAL_TYPE,
+            modalType: InvoiceDetailModalType.EXPORT_PDF,
+          },
         ]);
         expect(integration.getRequests().length).toBe(0);
       });
@@ -917,8 +1057,15 @@ describe('InvoiceDetailModule', () => {
       module.handlePageTransition('foo');
 
       expect(store.getActions()).toEqual([
-        { intent: SET_REDIRECT_STATE, redirectUrl: 'foo', isOpenInNewTab: false },
-        { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.REDIRECT_TO_URL },
+        {
+          intent: SET_REDIRECT_STATE,
+          redirectUrl: 'foo',
+          isOpenInNewTab: false,
+        },
+        {
+          intent: SET_MODAL_TYPE,
+          modalType: InvoiceDetailModalType.REDIRECT_TO_URL,
+        },
       ]);
     });
   });
@@ -960,11 +1107,15 @@ describe('InvoiceDetailModule', () => {
         type: SUCCESSFULLY_SAVED_INVOICE,
         content: '🦕',
       });
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/businessId/invoice/new?layout=item');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/businessId/invoice/new?layout=item'
+      );
     });
 
     it('successfully updates', () => {
-      const { module, integration, store } = setupWithRun({ isCreating: false });
+      const { module, integration, store } = setupWithRun({
+        isCreating: false,
+      });
       integration.mapSuccess(UPDATE_INVOICE_DETAIL, { message: '🦕' });
       module.navigateTo = jest.fn();
       module.pushMessage = jest.fn();
@@ -1000,7 +1151,9 @@ describe('InvoiceDetailModule', () => {
         type: SUCCESSFULLY_SAVED_INVOICE,
         content: '🦕',
       });
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/businessId/invoice/new?layout=service');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/businessId/invoice/new?layout=service'
+      );
     });
 
     it('fails to create', () => {
@@ -1047,7 +1200,10 @@ describe('InvoiceDetailModule', () => {
   describe('saveAndDuplicateInvoice', () => {
     it('successfully creates', () => {
       const { module, integration, store } = setupWithRun({ isCreating: true });
-      integration.mapSuccess(CREATE_INVOICE_DETAIL, { message: '🦕', id: '🍍' });
+      integration.mapSuccess(CREATE_INVOICE_DETAIL, {
+        message: '🦕',
+        id: '🍍',
+      });
       module.navigateTo = jest.fn();
       module.pushMessage = jest.fn();
       module.globalCallbacks = { invoiceSaved: jest.fn() };
@@ -1085,11 +1241,15 @@ describe('InvoiceDetailModule', () => {
         type: DUPLICATE_INVOICE,
         duplicateId: '🍍',
       });
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/businessId/invoice/new?layout=item');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/businessId/invoice/new?layout=item'
+      );
     });
 
     it('successfully updates', () => {
-      const { module, integration, store } = setupWithRun({ isCreating: false });
+      const { module, integration, store } = setupWithRun({
+        isCreating: false,
+      });
       integration.mapSuccess(UPDATE_INVOICE_DETAIL, { message: '🦕' });
       module.navigateTo = jest.fn();
       module.pushMessage = jest.fn();
@@ -1129,7 +1289,9 @@ describe('InvoiceDetailModule', () => {
         type: DUPLICATE_INVOICE,
         duplicateId: 'invoiceId',
       });
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/businessId/invoice/new?layout=service');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/businessId/invoice/new?layout=service'
+      );
     });
 
     it('fails to create', () => {

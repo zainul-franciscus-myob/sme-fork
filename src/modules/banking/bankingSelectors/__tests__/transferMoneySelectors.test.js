@@ -11,9 +11,14 @@ describe('transferMoneySelectors', () => {
   describe('getCreateTransferMoneyPayload', () => {
     it('should get the transfer money allocation create payload for a deposit transaction', () => {
       const state = {
-        entries: [{
-          transactionId: '2', date: '2019-01-01', deposit: '50.00', withdrawal: '',
-        }],
+        entries: [
+          {
+            transactionId: '2',
+            date: '2019-01-01',
+            deposit: '50.00',
+            withdrawal: '',
+          },
+        ],
         filterOptions: { bankAccount: '1' },
         openPosition: 0,
         openEntry: {
@@ -41,9 +46,14 @@ describe('transferMoneySelectors', () => {
 
     it('should get the transfer money allocation create payload for a withdrawal transaction', () => {
       const state = {
-        entries: [{
-          transactionId: '2', date: '2019-01-01', deposit: '', withdrawal: '20.00',
-        }],
+        entries: [
+          {
+            transactionId: '2',
+            date: '2019-01-01',
+            deposit: '',
+            withdrawal: '20.00',
+          },
+        ],
         filterOptions: { bankAccount: '1' },
         openPosition: 0,
         openEntry: {
@@ -73,9 +83,15 @@ describe('transferMoneySelectors', () => {
   describe('getMatchTransferMoneyPayload', () => {
     it('should get the transfer money allocation create payload for a withdrawal transaction', () => {
       const state = {
-        entries: [{
-          transactionId: '2', date: '2019-01-01', deposit: '', withdrawal: '20.00', description: 'BB',
-        }],
+        entries: [
+          {
+            transactionId: '2',
+            date: '2019-01-01',
+            deposit: '',
+            withdrawal: '20.00',
+            description: 'BB',
+          },
+        ],
         filterOptions: { bankAccount: '1' },
         openPosition: 0,
         openEntry: {
@@ -110,9 +126,14 @@ describe('transferMoneySelectors', () => {
 
     it('should get the transfer money allocation create payload for a deposit transaction', () => {
       const state = {
-        entries: [{
-          transactionId: '2', date: '2019-01-01', deposit: '20.00', withdrawal: '',
-        }],
+        entries: [
+          {
+            transactionId: '2',
+            date: '2019-01-01',
+            deposit: '20.00',
+            withdrawal: '',
+          },
+        ],
         filterOptions: { bankAccount: '1' },
         openPosition: 0,
         openEntry: {
@@ -159,9 +180,14 @@ describe('transferMoneySelectors', () => {
       ];
       state = {
         transferAccounts: accountList,
-        entries: [{
-          transactionId: '2', date: '2019-01-01', deposit: '50.00', withdrawal: '',
-        }],
+        entries: [
+          {
+            transactionId: '2',
+            date: '2019-01-01',
+            deposit: '50.00',
+            withdrawal: '',
+          },
+        ],
         filterOptions: { bankAccount: '1' },
         openPosition: 0,
         openEntry: {
@@ -194,7 +220,7 @@ describe('transferMoneySelectors', () => {
       state = {
         ...state,
         openEntry: {
-          ...(state.openEntry),
+          ...state.openEntry,
           isCreating: true,
           transfer: {
             isWithdrawal: false,
@@ -209,11 +235,16 @@ describe('transferMoneySelectors', () => {
     it('should set the the transfer display type to transferTo when transaction is a withdrawal', () => {
       state = {
         ...state,
-        entries: [{
-          transactionId: '2', date: '2019-01-01', deposit: '', withdrawal: '50.00',
-        }],
+        entries: [
+          {
+            transactionId: '2',
+            date: '2019-01-01',
+            deposit: '',
+            withdrawal: '50.00',
+          },
+        ],
         openEntry: {
-          ...(state.openEntry),
+          ...state.openEntry,
           isCreating: true,
           transfer: {
             isWithdrawal: true,

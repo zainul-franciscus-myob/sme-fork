@@ -42,7 +42,10 @@ import {
   getInvoiceAndQuoteSettingsUrl,
   getQuoteListURL,
 } from './selectors/RedirectSelectors';
-import { getEmailModalType, getFilesForUpload } from './selectors/EmailSelectors';
+import {
+  getEmailModalType,
+  getFilesForUpload,
+} from './selectors/EmailSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
 import FeatureToggle from '../../../FeatureToggles';
@@ -103,7 +106,7 @@ export default class QuoteDetailModule {
     };
 
     this.integrator.loadQuote({ onSuccess, onFailure });
-  }
+  };
 
   reloadQuote = ({ onSuccess: next = () => {} }) => {
     this.dispatcher.setSubmittingState(true);
@@ -119,7 +122,7 @@ export default class QuoteDetailModule {
     };
 
     this.integrator.loadQuote({ onSuccess, onFailure });
-  }
+  };
 
   createOrUpdateQuote = ({ onSuccess }) => {
     if (getIsSubmitting(this.store.getState())) return;
@@ -132,7 +135,7 @@ export default class QuoteDetailModule {
     };
 
     this.integrator.createOrUpdateQuote({ onSuccess, onFailure });
-  }
+  };
 
   deleteQuote = () => {
     this.dispatcher.setSubmittingState(true);
@@ -153,7 +156,7 @@ export default class QuoteDetailModule {
     };
 
     this.integrator.deleteQuote({ onSuccess, onFailure });
-  }
+  };
 
   saveQuote = () => {
     const onSuccess = ({ message }) => {
@@ -161,7 +164,7 @@ export default class QuoteDetailModule {
     };
 
     this.saveAndReload({ onSuccess });
-  }
+  };
 
   saveUnsavedChanges = () => {
     const state = this.store.getState();
@@ -174,7 +177,7 @@ export default class QuoteDetailModule {
     };
 
     this.createOrUpdateQuote({ onSuccess });
-  }
+  };
 
   saveAndCreateNew = () => {
     const onSuccess = ({ message }) => {
@@ -184,7 +187,7 @@ export default class QuoteDetailModule {
     };
 
     this.createOrUpdateQuote({ onSuccess });
-  }
+  };
 
   saveAndDuplicate = () => {
     const onSuccess = ({ message, id }) => {
@@ -201,7 +204,7 @@ export default class QuoteDetailModule {
     };
 
     this.createOrUpdateQuote({ onSuccess });
-  }
+  };
 
   saveAndReload = ({ onSuccess: next = () => {} }) => {
     const onSuccess = ({ message, id }) => {
@@ -216,53 +219,55 @@ export default class QuoteDetailModule {
     };
 
     this.createOrUpdateQuote({ onSuccess });
-  }
+  };
 
-  displaySuccessAlert = message => this.dispatcher.setAlert({ type: 'success', message });
+  displaySuccessAlert = (message) =>
+    this.dispatcher.setAlert({ type: 'success', message });
 
-  displayFailureAlert = message => this.dispatcher.setAlert({ type: 'danger', message });
+  displayFailureAlert = (message) =>
+    this.dispatcher.setAlert({ type: 'danger', message });
 
   pushSuccessfulSaveMessage = (message) => {
     this.pushMessage({
       type: SUCCESSFULLY_SAVED_QUOTE,
       content: message,
     });
-  }
+  };
 
   redirectToQuoteList = () => {
     const state = this.store.getState();
     const url = getQuoteListURL(state);
 
     this.navigateTo(url);
-  }
+  };
 
   redirectToCreateQuote = () => {
     const state = this.store.getState();
     const url = getCreateNewQuoteUrl(state);
 
     this.navigateTo(url);
-  }
+  };
 
   redirectToCreateInvoice = () => {
     const state = this.store.getState();
     const url = getCreateInvoiceFromQuoteUrl(state);
 
     this.navigateTo(url);
-  }
+  };
 
   redirectToInvoiceAndQuoteSettings = () => {
     const state = this.store.getState();
     const url = getInvoiceAndQuoteSettingsUrl(state);
 
     this.navigateTo(url);
-  }
+  };
 
   handleOnDiscardButtonClickFromUnsavedModal = () => {
     const state = this.store.getState();
     const url = getModalUrl(state);
 
     this.navigateTo(url);
-  }
+  };
 
   updateQuoteDetailHeaderOptions = ({ key, value }) => {
     this.dispatcher.updateQuoteDetailHeaderOptions(key, value);
@@ -274,7 +279,7 @@ export default class QuoteDetailModule {
     if (key === 'contactId') {
       this.loadCustomerAddress();
     }
-  }
+  };
 
   addQuoteLine = (line) => {
     this.dispatcher.addQuoteLine(line);
@@ -286,7 +291,7 @@ export default class QuoteDetailModule {
     if (newLine.type === QuoteLineType.ITEM) {
       this.calculateQuoteItemChange(newLineIndex, newLine.itemId);
     }
-  }
+  };
 
   updateQuoteLine = (index, key, value) => {
     this.dispatcher.updateQuoteLine(index, key, value);
@@ -301,7 +306,7 @@ export default class QuoteDetailModule {
     } else if (key === 'itemId') {
       this.calculateQuoteItemChange(index, value);
     }
-  }
+  };
 
   removeQuoteLine = (index) => {
     this.dispatcher.removeQuoteLine(index);
@@ -313,9 +318,11 @@ export default class QuoteDetailModule {
       return;
     }
 
-    const taxCalculations = getTaxCalculations(state, { isSwitchingTaxInclusive: false });
+    const taxCalculations = getTaxCalculations(state, {
+      isSwitchingTaxInclusive: false,
+    });
     this.setQuoteCalculatedLines(taxCalculations, CALCULATE_QUOTE_LINE_TOTALS);
-  }
+  };
 
   /*
    * Workflow:
@@ -331,14 +338,21 @@ export default class QuoteDetailModule {
     if (isLineAmountDirty) {
       this.dispatcher.calculateLineAmounts(index, key);
 
-      const taxCalculations = getTaxCalculations(
-        this.store.getState(), { isSwitchingTaxInclusive: false },
+      const taxCalculations = getTaxCalculations(this.store.getState(), {
+        isSwitchingTaxInclusive: false,
+      });
+      this.setQuoteCalculatedLines(
+        taxCalculations,
+        CALCULATE_QUOTE_AMOUNT_CHANGE
       );
-      this.setQuoteCalculatedLines(taxCalculations, CALCULATE_QUOTE_AMOUNT_CHANGE);
     }
-  }
+  };
 
-  setQuoteCalculatedLines = (taxCalculations, intent, isSwitchingTaxInclusive = false) => {
+  setQuoteCalculatedLines = (
+    taxCalculations,
+    intent,
+    isSwitchingTaxInclusive = false
+  ) => {
     const state = this.store.getState();
 
     if (getIsTableEmpty(state)) {
@@ -346,19 +360,27 @@ export default class QuoteDetailModule {
       return;
     }
 
-    if (intent !== CALCULATE_QUOTE_ITEM_CHANGE && !getIsTaxCalculationRequired(state)) {
+    if (
+      intent !== CALCULATE_QUOTE_ITEM_CHANGE &&
+      !getIsTaxCalculationRequired(state)
+    ) {
       return;
     }
 
-    this.dispatcher.setQuoteCalculatedLines(taxCalculations, isSwitchingTaxInclusive);
+    this.dispatcher.setQuoteCalculatedLines(
+      taxCalculations,
+      isSwitchingTaxInclusive
+    );
   };
 
   calculateQuoteTaxCodeChange = () => {
     const state = this.store.getState();
-    const taxCalculations = getTaxCalculations(state, { isSwitchingTaxInclusive: false });
+    const taxCalculations = getTaxCalculations(state, {
+      isSwitchingTaxInclusive: false,
+    });
 
     this.setQuoteCalculatedLines(taxCalculations, CALCULATE_QUOTE_LINE_TOTALS);
-  }
+  };
 
   loadItemSellingDetails = (index, itemSellingDetails) => {
     this.dispatcher.loadItemSellingDetails({
@@ -366,12 +388,17 @@ export default class QuoteDetailModule {
       itemSellingDetails,
     });
     const state = this.store.getState();
-    const taxCalculations = getTaxCalculations(state, { isSwitchingTaxInclusive: false });
+    const taxCalculations = getTaxCalculations(state, {
+      isSwitchingTaxInclusive: false,
+    });
     this.setQuoteCalculatedLines(taxCalculations, CALCULATE_QUOTE_ITEM_CHANGE);
-  }
+  };
 
   calculateQuoteItemChange = (index, itemId) => {
-    const cachedItemSellingDetails = getItemSellingDetailsFromCache(this.store.getState(), itemId);
+    const cachedItemSellingDetails = getItemSellingDetailsFromCache(
+      this.store.getState(),
+      itemId
+    );
     if (cachedItemSellingDetails) {
       this.loadItemSellingDetails(index, cachedItemSellingDetails);
     } else {
@@ -393,30 +420,35 @@ export default class QuoteDetailModule {
       };
 
       this.integrator.loadItemSellingDetails({
-        itemId, onSuccess, onFailure,
+        itemId,
+        onSuccess,
+        onFailure,
       });
     }
-  }
+  };
 
   calculateQuoteIsTaxInclusiveChange = () => {
     const state = this.store.getState();
     const isSwitchingTaxInclusive = true;
-    const taxCalculations = getTaxCalculations(state, { isSwitchingTaxInclusive });
+    const taxCalculations = getTaxCalculations(state, {
+      isSwitchingTaxInclusive,
+    });
 
     this.setQuoteCalculatedLines(
       taxCalculations,
       CALCULATE_QUOTE_TAX_INCLUSIVE_CHANGE,
-      isSwitchingTaxInclusive,
+      isSwitchingTaxInclusive
     );
-  }
+  };
 
   updateLayout = ({ value }) => {
     this.dispatcher.updateLayout({ value });
     this.calculateQuoteTaxCodeChange();
-  }
+  };
 
   loadCustomerAddress = () => {
-    const onSuccess = ({ address }) => this.dispatcher.loadContactAddress(address);
+    const onSuccess = ({ address }) =>
+      this.dispatcher.loadContactAddress(address);
 
     const onFailure = (error) => {
       this.displayFailureAlert(error.message);
@@ -424,7 +456,7 @@ export default class QuoteDetailModule {
     };
 
     this.integrator.loadContactAddress({ onSuccess, onFailure });
-  }
+  };
 
   loadCustomerAfterCreate = ({ message, id }) => {
     this.contactModalModule.resetState();
@@ -441,7 +473,7 @@ export default class QuoteDetailModule {
     };
 
     this.integrator.loadContactAfterCreate({ id, onSuccess, onFailure });
-  }
+  };
 
   openContactModal = () => {
     const state = this.store.getState();
@@ -449,10 +481,10 @@ export default class QuoteDetailModule {
 
     this.contactModalModule.run({
       context,
-      onLoadFailure: message => this.displayFailureAlert(message),
+      onLoadFailure: (message) => this.displayFailureAlert(message),
       onSaveSuccess: this.loadCustomerAfterCreate,
     });
-  }
+  };
 
   loadAccountAfterCreate = ({ message, id }, onChange) => {
     this.accountModalModule.close();
@@ -477,8 +509,9 @@ export default class QuoteDetailModule {
     const accountModalContext = getAccountModalContext(state);
     this.accountModalModule.run({
       context: accountModalContext,
-      onSaveSuccess: payload => this.loadAccountAfterCreate({ ...payload }, onChange),
-      onLoadFailure: message => this.displayFailureAlert(message),
+      onSaveSuccess: (payload) =>
+        this.loadAccountAfterCreate({ ...payload }, onChange),
+      onLoadFailure: (message) => this.displayFailureAlert(message),
     });
   };
 
@@ -515,9 +548,11 @@ export default class QuoteDetailModule {
     };
 
     this.inventoryModalModule.run({
-      context, onSaveSuccess, onLoadFailure,
+      context,
+      onSaveSuccess,
+      onLoadFailure,
     });
-  }
+  };
 
   openCancelModal = () => {
     if (getIsPageEdited(this.store.getState())) {
@@ -533,8 +568,8 @@ export default class QuoteDetailModule {
 
     this.jobModalModule.run({
       context,
-      onLoadFailure: message => this.displayFailureAlert(message),
-      onSaveSuccess: payload => this.loadJobAfterCreate(payload, onChange),
+      onLoadFailure: (message) => this.displayFailureAlert(message),
+      onSaveSuccess: (payload) => this.loadJobAfterCreate(payload, onChange),
     });
   };
 
@@ -561,18 +596,18 @@ export default class QuoteDetailModule {
 
   openUnsavedModal = (url) => {
     this.dispatcher.openModal({ type: ModalType.UNSAVED, url });
-  }
+  };
 
   openEmailModal = () => {
     const state = this.store.getState();
     const type = getEmailModalType(state);
 
     this.dispatcher.openModal({ type });
-  }
+  };
 
   openExportPdfModal = () => {
     this.dispatcher.openModal({ type: ModalType.EXPORT_PDF });
-  }
+  };
 
   convertToInvoiceOrOpenUnsavedModal = () => {
     const state = this.store.getState();
@@ -582,20 +617,23 @@ export default class QuoteDetailModule {
     } else {
       this.redirectToCreateInvoice();
     }
-  }
+  };
 
   openSaveAndCreateNewConfirmationModal = () => {
     this.dispatcher.openModal({ type: ModalType.SAVE_AND_CREATE_NEW });
-  }
+  };
 
   openSaveAndDuplicateConfirmationModal = () => {
     this.dispatcher.openModal({ type: ModalType.SAVE_AND_DUPLICATE });
-  }
+  };
 
-  executeSaveAndAction = saveAndAction => ({
-    [SaveActionType.SAVE_AND_CREATE_NEW]: this.openSaveAndCreateNewConfirmationModal,
-    [SaveActionType.SAVE_AND_DUPLICATE]: this.openSaveAndDuplicateConfirmationModal,
-  }[saveAndAction]())
+  executeSaveAndAction = (saveAndAction) =>
+    ({
+      [SaveActionType.SAVE_AND_CREATE_NEW]: this
+        .openSaveAndCreateNewConfirmationModal,
+      [SaveActionType.SAVE_AND_DUPLICATE]: this
+        .openSaveAndDuplicateConfirmationModal,
+    }[saveAndAction]());
 
   saveAndEmailQuote = () => {
     const state = this.store.getState();
@@ -610,7 +648,7 @@ export default class QuoteDetailModule {
     } else {
       this.openEmailModal();
     }
-  }
+  };
 
   addEmailAttachments = (files) => {
     this.dispatcher.addEmailAttachments(files);
@@ -620,7 +658,9 @@ export default class QuoteDetailModule {
   uploadEmailAttachments = (files) => {
     const state = this.store.getState();
 
-    getFilesForUpload(state, files).forEach(file => this.uploadEmailAttachment(file));
+    getFilesForUpload(state, files).forEach((file) =>
+      this.uploadEmailAttachment(file)
+    );
   };
 
   uploadEmailAttachment = (file) => {
@@ -637,7 +677,10 @@ export default class QuoteDetailModule {
     };
 
     this.integrator.uploadEmailAttachment({
-      file, onSuccess, onFailure, onProgress,
+      file,
+      onSuccess,
+      onFailure,
+      onProgress,
     });
   };
 
@@ -645,17 +688,17 @@ export default class QuoteDetailModule {
     this.dispatcher.closeModal();
     this.dispatcher.resetOpenSendEmail();
     this.dispatcher.resetEmailQuoteDetail();
-  }
+  };
 
   closeEmailSettingsModal = () => {
     this.dispatcher.closeModal();
     this.dispatcher.resetOpenSendEmail();
-  }
+  };
 
   openSalesSettingsTabAndCloseModal = () => {
     this.closeEmailSettingsModal();
     this.redirectToInvoiceAndQuoteSettings();
-  }
+  };
 
   sendEmail = () => {
     if (getIsModalActionDisabled(this.store.getState())) return;
@@ -677,7 +720,7 @@ export default class QuoteDetailModule {
     };
 
     this.integrator.sentEmail({ onSuccess, onFailure });
-  }
+  };
 
   exportQuotePdf = () => {
     if (getIsModalActionDisabled(this.store.getState())) return;
@@ -701,7 +744,7 @@ export default class QuoteDetailModule {
     };
 
     this.integrator.exportQuotePdf({ onSuccess, onFailure });
-  }
+  };
 
   exportPdfOrSaveAndExportPdf = () => {
     const state = this.store.getState();
@@ -711,24 +754,26 @@ export default class QuoteDetailModule {
     } else {
       this.openExportPdfModal();
     }
-  }
+  };
 
   readMessages = () => {
-    this.popMessages([
-      SUCCESSFULLY_SAVED_QUOTE,
-      DUPLICATE_QUOTE,
-    ]).forEach(message => {
-      switch (message.type) {
-        case SUCCESSFULLY_SAVED_QUOTE:
-          this.dispatcher.setAlert({ message: message.content, type: 'success' });
-          break;
-        case DUPLICATE_QUOTE:
-          this.dispatcher.setDuplicateId(message.duplicateId);
-          break;
-        default:
+    this.popMessages([SUCCESSFULLY_SAVED_QUOTE, DUPLICATE_QUOTE]).forEach(
+      (message) => {
+        switch (message.type) {
+          case SUCCESSFULLY_SAVED_QUOTE:
+            this.dispatcher.setAlert({
+              message: message.content,
+              type: 'success',
+            });
+            break;
+          case DUPLICATE_QUOTE:
+            this.dispatcher.setDuplicateId(message.duplicateId);
+            break;
+          default:
+        }
       }
-    });
-  }
+    );
+  };
 
   render = () => {
     const contactModal = this.contactModalModule.render();
@@ -766,7 +811,8 @@ export default class QuoteDetailModule {
             onSaveAndButtonClick: this.executeSaveAndAction,
             onCancelButtonClick: this.openCancelModal,
             onDeleteButtonClick: this.openDeleteModal,
-            onConvertToInvoiceButtonClick: this.convertToInvoiceOrOpenUnsavedModal,
+            onConvertToInvoiceButtonClick: this
+              .convertToInvoiceOrOpenUnsavedModal,
             onExportPdfButtonClick: this.exportPdfOrSaveAndExportPdf,
             onSaveAndEmailButtonClick: this.saveAndEmailQuote,
           }}
@@ -775,7 +821,8 @@ export default class QuoteDetailModule {
             onConfirmCancelButtonClick: this.redirectToQuoteList,
             onConfirmDeleteButtonClick: this.deleteQuote,
             onConfirmSaveButtonClick: this.saveUnsavedChanges,
-            onConfirmUnsaveButtonClick: this.handleOnDiscardButtonClickFromUnsavedModal,
+            onConfirmUnsaveButtonClick: this
+              .handleOnDiscardButtonClickFromUnsavedModal,
             onConfirmSaveAndCreateNewButtonClick: this.saveAndCreateNew,
             onConfirmSaveAndDuplicateButtonClick: this.saveAndDuplicate,
             onEmailQuoteDetailChange: this.dispatcher.updateEmailQuoteDetail,
@@ -783,7 +830,8 @@ export default class QuoteDetailModule {
             onCancelEmailQuoteButtonClick: this.closeEmailQuoteDetailModal,
             onAddAttachments: this.addEmailAttachments,
             onRemoveAttachment: this.dispatcher.removeEmailAttachment,
-            onConfirmEmailSettingButtonClick: this.openSalesSettingsTabAndCloseModal,
+            onConfirmEmailSettingButtonClick: this
+              .openSalesSettingsTabAndCloseModal,
             onCloseEmailSettingButtonClick: this.closeEmailSettingsModal,
             onConfirmExportPdfButtonClick: this.exportQuotePdf,
             onChangeExportPdfTemplate: this.dispatcher.changeExportPdfTemplate,
@@ -794,16 +842,16 @@ export default class QuoteDetailModule {
     );
 
     this.setRootView(view);
-  }
+  };
 
-  setInitialState = context => this.dispatcher.setInitialState(context);
+  setInitialState = (context) => this.dispatcher.setInitialState(context);
 
   resetState = () => {
     this.contactModalModule.resetState();
     this.inventoryModalModule.resetState();
     this.accountModalModule.resetState();
     this.dispatcher.resetState();
-  }
+  };
 
   unsubscribeFromStore = () => this.store.unsubscribeAll();
 
@@ -854,7 +902,7 @@ export default class QuoteDetailModule {
         this.saveQuote();
         break;
     }
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,
@@ -867,7 +915,7 @@ export default class QuoteDetailModule {
     } else {
       this.navigateTo(url);
     }
-  }
+  };
 
   run(context) {
     this.dispatcher.setInitialState({

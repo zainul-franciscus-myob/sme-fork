@@ -36,9 +36,10 @@ const getDefaultState = () => ({
   pendingDeleteId: '',
 });
 
-const loadBankStatementImportList = (state, {
-  accountOptions, filterOptions, entries,
-}) => ({
+const loadBankStatementImportList = (
+  state,
+  { accountOptions, filterOptions, entries }
+) => ({
   ...state,
   accountOptions,
   filterOptions,
@@ -92,9 +93,12 @@ const setInitalState = (state, { context }) => ({
 const setModalType = (state, { modalType }) => ({
   ...state,
   modalType,
-  importModal: modalType === ModalTypes.IMPORT ? {
-    accountId: state.filterOptions.accountId,
-  } : undefined,
+  importModal:
+    modalType === ModalTypes.IMPORT
+      ? {
+          accountId: state.filterOptions.accountId,
+        }
+      : undefined,
 });
 
 const updateImportModal = (state, { key, value }) => ({
@@ -105,7 +109,7 @@ const updateImportModal = (state, { key, value }) => ({
   },
 });
 
-const importBankStatement = state => ({
+const importBankStatement = (state) => ({
   ...state,
   filterOptions: {
     ...state.filterOptions,
@@ -118,13 +122,13 @@ const setPendingDeleteId = (state, { id }) => ({
   pendingDeleteId: id,
 });
 
-const deleteBankStatement = state => ({
+const deleteBankStatement = (state) => ({
   ...state,
   pendingDeleteId: '',
-  entries: state.entries.filter(entry => entry.id !== state.pendingDeleteId),
+  entries: state.entries.filter((entry) => entry.id !== state.pendingDeleteId),
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
@@ -144,6 +148,9 @@ const handlers = {
   [SET_SUBMITTING_STATE]: setSubmittingState,
 };
 
-const bankStatementImportListReducer = createReducer(getDefaultState(), handlers);
+const bankStatementImportListReducer = createReducer(
+  getDefaultState(),
+  handlers
+);
 
 export default bankStatementImportListReducer;

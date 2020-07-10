@@ -4,10 +4,7 @@ describe('isExemptionEnabled', () => {
   const configuration = [
     {
       calculationBasisType: 'PercentOfPayrollCategory',
-      enabledPayItemIds: [
-        '2',
-        '3',
-      ],
+      enabledPayItemIds: ['2', '3'],
     },
   ];
 
@@ -16,7 +13,9 @@ describe('isExemptionEnabled', () => {
     const calculationBasisPayItemId = '6';
 
     const result = getIsExemptionEnabled(
-      calculationBasisType, calculationBasisPayItemId, configuration,
+      calculationBasisType,
+      calculationBasisPayItemId,
+      configuration
     );
 
     expect(result).toEqual(false);
@@ -27,7 +26,9 @@ describe('isExemptionEnabled', () => {
     const calculationBasisPayItemId = '2';
 
     const result = getIsExemptionEnabled(
-      calculationBasisType, calculationBasisPayItemId, configuration,
+      calculationBasisType,
+      calculationBasisPayItemId,
+      configuration
     );
 
     expect(result).toEqual(true);
@@ -38,7 +39,9 @@ describe('isExemptionEnabled', () => {
     const calculationBasisPayItemId = '10';
 
     const result = getIsExemptionEnabled(
-      calculationBasisType, calculationBasisPayItemId, configuration,
+      calculationBasisType,
+      calculationBasisPayItemId,
+      configuration
     );
 
     expect(result).toEqual(false);

@@ -9,7 +9,10 @@ import {
   SUCCESSFULLY_SAVED_SPEND_MONEY,
   SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
 } from '../../../common/types/MessageTypes';
-import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalculator';
+import {
+  TaxCalculatorTypes,
+  createTaxCalculator,
+} from '../../../common/taxCalculator';
 import {
   getAccountModalContext,
   getContactModalContext,
@@ -61,7 +64,12 @@ import spendMoneyDetailReducer from './spendMoneyDetailReducer';
 
 export default class SpendMoneyDetailModule {
   constructor({
-    integration, setRootView, pushMessage, popMessages, navigateTo, isToggleOn,
+    integration,
+    setRootView,
+    pushMessage,
+    popMessages,
+    navigateTo,
+    isToggleOn,
   }) {
     this.store = new Store(spendMoneyDetailReducer);
     this.setRootView = setRootView;
@@ -84,8 +92,10 @@ export default class SpendMoneyDetailModule {
     const accountModalContext = getAccountModalContext(state);
     this.accountModalModule.run({
       context: accountModalContext,
-      onSaveSuccess: payload => this.loadAccountAfterCreate(payload, onChange),
-      onLoadFailure: message => this.dispatcher.setAlert({ type: 'danger', message }),
+      onSaveSuccess: (payload) =>
+        this.loadAccountAfterCreate(payload, onChange),
+      onLoadFailure: (message) =>
+        this.dispatcher.setAlert({ type: 'danger', message }),
     });
   };
 
@@ -113,8 +123,8 @@ export default class SpendMoneyDetailModule {
 
     this.jobModalModule.run({
       context,
-      onLoadFailure: message => this.displayFailureAlert(message),
-      onSaveSuccess: payload => this.loadJobAfterCreate(payload, onChange),
+      onLoadFailure: (message) => this.displayFailureAlert(message),
+      onSaveSuccess: (payload) => this.loadJobAfterCreate(payload, onChange),
     });
   };
 
@@ -143,10 +153,11 @@ export default class SpendMoneyDetailModule {
 
     this.contactModalModule.run({
       context,
-      onSaveSuccess: payload => this.loadContactAfterCreate(payload),
-      onLoadFailure: message => this.dispatcher.setAlert({ type: 'danger', message }),
+      onSaveSuccess: (payload) => this.loadContactAfterCreate(payload),
+      onLoadFailure: (message) =>
+        this.dispatcher.setAlert({ type: 'danger', message }),
     });
-  }
+  };
 
   loadContactAfterCreate = ({ message, id }) => {
     this.dispatcher.setAlert({ type: 'success', message });
@@ -168,7 +179,7 @@ export default class SpendMoneyDetailModule {
     };
 
     this.integrator.loadContactAfterCreate({ id, onSuccess, onFailure });
-  }
+  };
 
   prefillSpendMoneyFromInTray(inTrayDocumentId) {
     const onSuccess = (response) => {
@@ -190,7 +201,11 @@ export default class SpendMoneyDetailModule {
     };
 
     this.dispatcher.setLoadingState(LoadingState.LOADING);
-    this.integrator.prefillDataFromInTray({ onSuccess, onFailure, inTrayDocumentId });
+    this.integrator.prefillDataFromInTray({
+      onSuccess,
+      onFailure,
+      inTrayDocumentId,
+    });
   }
 
   loadSpendMoney = () => {
@@ -203,7 +218,7 @@ export default class SpendMoneyDetailModule {
   };
 
   loadExistingSpendMoney = () => {
-    const onSuccess = intent => (response) => {
+    const onSuccess = (intent) => (response) => {
       this.dispatcher.loadSpendMoney(intent, response);
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
@@ -223,12 +238,12 @@ export default class SpendMoneyDetailModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   loadNewSpendMoney = () => {
     const state = this.store.getState();
 
-    const onSuccess = intent => (response) => {
+    const onSuccess = (intent) => (response) => {
       this.dispatcher.loadSpendMoney(intent, response);
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
@@ -248,7 +263,7 @@ export default class SpendMoneyDetailModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   loadNextReferenceId = (accountId) => {
     const onSuccess = ({ referenceId }) => {
@@ -302,7 +317,7 @@ export default class SpendMoneyDetailModule {
     };
 
     this.integrator.loadAbnFromContact({ contactId, onSuccess, onFailure });
-  }
+  };
 
   updateHeaderOptions = ({ key, value }) => {
     this.dispatcher.updateHeaderOptions({ key, value });
@@ -408,7 +423,12 @@ export default class SpendMoneyDetailModule {
 
       if (isCreatingFromIntray) {
         this.dispatcher.openModal({ type: ModalType.CANCEL, url: intrayUrl });
-      } else { this.dispatcher.openModal({ type: ModalType.CANCEL, url: transactionListUrl }); }
+      } else {
+        this.dispatcher.openModal({
+          type: ModalType.CANCEL,
+          url: transactionListUrl,
+        });
+      }
     } else if (isCreatingFromIntray) {
       this.redirectToInTrayList();
     } else this.redirectToTransactionList();
@@ -417,19 +437,22 @@ export default class SpendMoneyDetailModule {
   openDeleteModal = () => {
     const state = this.store.getState();
     const transactionListUrl = getTransactionListUrl(state);
-    this.dispatcher.openModal({ type: ModalType.DELETE, url: transactionListUrl });
-  }
+    this.dispatcher.openModal({
+      type: ModalType.DELETE,
+      url: transactionListUrl,
+    });
+  };
 
   openUnsavedModal = (url) => {
     this.dispatcher.openModal({ type: ModalType.UNSAVED, url });
-  }
+  };
 
   handleOnDiscardButtonClickFromUnsavedModal = () => {
     const state = this.store.getState();
     const url = getModalUrl(state);
 
     this.navigateTo(url);
-  }
+  };
 
   redirectAfterLink = () => {
     const state = this.store.getState();
@@ -443,7 +466,7 @@ export default class SpendMoneyDetailModule {
     const inTrayUrl = getInTrayUrl(state);
 
     window.location.href = inTrayUrl;
-  }
+  };
 
   redirectToTransactionList = () => {
     const state = this.store.getState();
@@ -463,25 +486,25 @@ export default class SpendMoneyDetailModule {
     if (taxKeys.includes(lineKey)) {
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
     }
-  }
+  };
 
   addSpendMoneyLine = (line) => {
     const { id, ...partialLine } = line;
     this.dispatcher.addSpendMoneyLine(partialLine);
-  }
+  };
 
   deleteSpendMoneyLine = (index) => {
     this.dispatcher.deleteSpendMoneyLine(index);
 
     this.getTaxCalculations({ isSwitchingTaxInclusive: false });
-  }
+  };
 
   formatAndCalculateTotals = () => {
     const state = this.store.getState();
     if (isPageEdited(state)) {
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
     }
-  }
+  };
 
   getTaxCalculations = ({ isSwitchingTaxInclusive }) => {
     const state = this.store.getState();
@@ -497,7 +520,8 @@ export default class SpendMoneyDetailModule {
       lines: getLinesForTaxCalculation(state),
       taxCodes: getTaxCodeOptions(state),
       isLineAmountsTaxInclusive: getIsLineAmountsTaxInclusive(
-        isTaxInclusive, isSwitchingTaxInclusive,
+        isTaxInclusive,
+        isSwitchingTaxInclusive
       ),
     });
 
@@ -540,7 +564,9 @@ export default class SpendMoneyDetailModule {
   uploadAttachments = (files) => {
     const state = this.store.getState();
 
-    getFilesForUpload(state, files).forEach(file => this.uploadAttachment(file));
+    getFilesForUpload(state, files).forEach((file) =>
+      this.uploadAttachment(file)
+    );
   };
 
   uploadAttachment = (file) => {
@@ -622,9 +648,11 @@ export default class SpendMoneyDetailModule {
   };
 
   focusSpendMoneyAttachments = () => {
-    const element = document.getElementById(SpendMoneyElementId.ATTACHMENTS_ELEMENT_ID);
+    const element = document.getElementById(
+      SpendMoneyElementId.ATTACHMENTS_ELEMENT_ID
+    );
     element.scrollIntoView();
-  }
+  };
 
   closeSplitView = () => {
     this.dispatcher.setShowSplitView(false);
@@ -671,7 +699,9 @@ export default class SpendMoneyDetailModule {
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
         onCloseModal={this.dispatcher.closeModal}
-        onConfirmCancelButtonClick={this.handleOnDiscardButtonClickFromUnsavedModal}
+        onConfirmCancelButtonClick={
+          this.handleOnDiscardButtonClickFromUnsavedModal
+        }
         onConfirmDeleteButtonClick={this.deleteSpendMoneyTransaction}
         onDismissAlert={this.dispatcher.dismissAlert}
         isCreating={isCreating}
@@ -695,9 +725,7 @@ export default class SpendMoneyDetailModule {
     );
 
     const wrappedView = (
-      <Provider store={this.store}>
-        {spendMoneyView}
-      </Provider>
+      <Provider store={this.store}>{spendMoneyView}</Provider>
     );
 
     this.setRootView(wrappedView);
@@ -723,7 +751,7 @@ export default class SpendMoneyDetailModule {
     };
 
     this.saveSpendMoneyAnd({ onSuccess });
-  }
+  };
 
   saveAndDuplicate = () => {
     const onSuccess = ({ message, id }) => {
@@ -746,7 +774,7 @@ export default class SpendMoneyDetailModule {
     };
 
     this.saveSpendMoneyAnd({ onSuccess });
-  }
+  };
 
   handleSaveAndAction = (actionType) => {
     const state = this.store.getState();
@@ -761,7 +789,7 @@ export default class SpendMoneyDetailModule {
     if (actionType === SaveActionType.SAVE_AND_DUPLICATE) {
       this.saveAndDuplicate();
     }
-  }
+  };
 
   saveSpendMoneyAnd = ({ onSuccess }) => {
     this.dispatcher.setSubmittingState(true);
@@ -782,7 +810,7 @@ export default class SpendMoneyDetailModule {
     };
 
     this.saveOrCreateSpendMoney({ onSuccess: handleSaveSuccess, onFailure });
-  }
+  };
 
   saveOrCreateSpendMoney = ({ onSuccess, onFailure }) => {
     if (getIsCreating(this.store.getState())) {
@@ -790,7 +818,7 @@ export default class SpendMoneyDetailModule {
     } else {
       this.integrator.updateSpendMoneyEntry({ onSuccess, onFailure });
     }
-  }
+  };
 
   saveSpendMoney = () => {
     const state = this.store.getState();
@@ -802,7 +830,7 @@ export default class SpendMoneyDetailModule {
 
     const saveHandler = this.getSaveHandlers();
     this.saveOrCreateSpendMoney(saveHandler);
-  }
+  };
 
   saveHandler = () => {
     // Quick add modals
@@ -829,7 +857,7 @@ export default class SpendMoneyDetailModule {
         this.saveSpendMoney();
         break;
     }
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,
@@ -842,11 +870,14 @@ export default class SpendMoneyDetailModule {
       DUPLICATE_SPEND_MONEY,
       PREFILL_NEW_SPEND_MONEY,
       PREFILL_INTRAY_DOCUMENT_FOR_SPEND_MONEY,
-    ]).forEach(message => {
+    ]).forEach((message) => {
       switch (message.type) {
         case SUCCESSFULLY_SAVED_SPEND_MONEY:
         case SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK:
-          this.dispatcher.setAlert({ message: message.content, type: 'success' });
+          this.dispatcher.setAlert({
+            message: message.content,
+            type: 'success',
+          });
           break;
         case DUPLICATE_SPEND_MONEY:
           this.dispatcher.setDuplicateId(message.duplicateId);
@@ -868,7 +899,9 @@ export default class SpendMoneyDetailModule {
   run(context) {
     this.dispatcher.setInitialState({
       ...context,
-      isSpendMoneyJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
+      isSpendMoneyJobColumnEnabled: this.isToggleOn(
+        FeatureToggle.EssentialsJobs
+      ),
     });
     setupHotKeys(keyMap, this.handlers);
     this.render();
@@ -890,5 +923,5 @@ export default class SpendMoneyDetailModule {
     } else {
       this.navigateTo(url);
     }
-  }
+  };
 }

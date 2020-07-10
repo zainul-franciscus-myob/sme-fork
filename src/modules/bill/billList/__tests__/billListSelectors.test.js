@@ -33,28 +33,33 @@ describe('billListSelectors', () => {
       ],
     });
 
-    const buildExpected = ({ dateDue, isOverdue = false, status = 'Open' }) => ([{
-      id: '1',
-      number: '00000034',
-      invoiceNumber: '126',
-      supplier: 'Footloose Dance Studio',
-      dateIssued: '01/03/2019',
-      billAmount: '2,000.00',
-      balanceDue: 1000,
-      balanceDueDisplayValue: '1,000.00',
-      status,
-      dateDue,
-      isOverdue,
-      hasAttachment: true,
-      link: '/#/au/123/bill/1',
-      badgeColor: 'light-grey',
-    }]);
+    const buildExpected = ({ dateDue, isOverdue = false, status = 'Open' }) => [
+      {
+        id: '1',
+        number: '00000034',
+        invoiceNumber: '126',
+        supplier: 'Footloose Dance Studio',
+        dateIssued: '01/03/2019',
+        billAmount: '2,000.00',
+        balanceDue: 1000,
+        balanceDueDisplayValue: '1,000.00',
+        status,
+        dateDue,
+        isOverdue,
+        hasAttachment: true,
+        link: '/#/au/123/bill/1',
+        badgeColor: 'light-grey',
+      },
+    ];
 
     describe('format entry', () => {
       it('formats entry', () => {
         const dateDue = addDays(today, 1);
         const state = buildState({ dateDue: formatIsoDate(dateDue) });
-        const expected = buildExpected({ dateDue: formatSlashDate(dateDue), isOverdue: false });
+        const expected = buildExpected({
+          dateDue: formatSlashDate(dateDue),
+          isOverdue: false,
+        });
 
         const actual = getTableEntries(state);
 
@@ -93,7 +98,10 @@ describe('billListSelectors', () => {
 
       it('not overdue when status is Closed', () => {
         const dateDue = subDays(today, 1);
-        const state = buildState({ dateDue: formatIsoDate(dateDue), status: 'Closed' });
+        const state = buildState({
+          dateDue: formatIsoDate(dateDue),
+          status: 'Closed',
+        });
 
         const actual = getTableEntries(state)[0].isOverdue;
 
@@ -102,7 +110,10 @@ describe('billListSelectors', () => {
 
       it('not overdue when status is Debit', () => {
         const dateDue = subDays(today, 1);
-        const state = buildState({ dateDue: formatIsoDate(dateDue), status: 'Debit' });
+        const state = buildState({
+          dateDue: formatIsoDate(dateDue),
+          status: 'Debit',
+        });
 
         const actual = getTableEntries(state)[0].isOverdue;
 
@@ -140,7 +151,10 @@ describe('billListSelectors', () => {
 
       it('sets blue color when status Debit', () => {
         const dateDue = subDays(today, 1);
-        const state = buildState({ dateDue: formatIsoDate(dateDue), status: 'Debit' });
+        const state = buildState({
+          dateDue: formatIsoDate(dateDue),
+          status: 'Debit',
+        });
 
         const actual = getTableEntries(state)[0].badgeColor;
 
@@ -149,7 +163,10 @@ describe('billListSelectors', () => {
 
       it('sets blue color when status Closed', () => {
         const dateDue = subDays(today, 1);
-        const state = buildState({ dateDue: formatIsoDate(dateDue), status: 'Closed' });
+        const state = buildState({
+          dateDue: formatIsoDate(dateDue),
+          status: 'Closed',
+        });
 
         const actual = getTableEntries(state)[0].badgeColor;
 
@@ -245,7 +262,6 @@ describe('billListSelectors', () => {
     it('sets sets status to LOADING when isLoadingMore is true', () => {
       const state = {
         isLoadingMore: true,
-
       };
       const actual = getLoadMoreButtonStatus(state);
 

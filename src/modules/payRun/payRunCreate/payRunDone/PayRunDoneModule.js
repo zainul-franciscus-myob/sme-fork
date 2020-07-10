@@ -8,10 +8,7 @@ import {
 import PayRunDoneView from './components/PayRunDoneView';
 
 export default class PayRunDoneModule {
-  constructor({
-    integration,
-    store,
-  }) {
+  constructor({ integration, store }) {
     this.integration = integration;
     this.store = store;
   }
@@ -49,5 +46,5 @@ export default class PayRunDoneModule {
   tryToNavigate = (navigateFunction) => {
     this.openLeanEngageSurvey();
     navigateFunction();
-  }
+  };
 }

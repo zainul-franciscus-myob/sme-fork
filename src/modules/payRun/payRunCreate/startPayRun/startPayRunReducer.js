@@ -1,6 +1,4 @@
-import {
-  addDays, addMonths, getDaysInMonth, subDays,
-} from 'date-fns';
+import { addDays, addMonths, getDaysInMonth, subDays } from 'date-fns';
 
 import {
   SET_IS_TABLE_LOADING,
@@ -25,9 +23,9 @@ export const getStartPayRunDefaultState = () => ({
   startOfFinancialYearDate: '',
 });
 
-const calculateWeeklyEndDate = startDate => addDays(startDate, 6);
+const calculateWeeklyEndDate = (startDate) => addDays(startDate, 6);
 
-const calculateFortnightlyEndDate = startDate => addDays(startDate, 13);
+const calculateFortnightlyEndDate = (startDate) => addDays(startDate, 13);
 
 const calculateMonthlyEndDate = (startDate) => {
   const sameDateNextMonth = addMonths(startDate, 1);
@@ -50,29 +48,28 @@ export const calculateEndDate = (payCycle, startDateString) => {
 
   switch (payCycle) {
     case 'Weekly':
-      return formatIsoDate(
-        calculateWeeklyEndDate(startDate),
-      );
+      return formatIsoDate(calculateWeeklyEndDate(startDate));
     case 'Fortnightly':
-      return formatIsoDate(
-        calculateFortnightlyEndDate(startDate),
-      );
+      return formatIsoDate(calculateFortnightlyEndDate(startDate));
     case 'Monthly':
-      return formatIsoDate(
-        calculateMonthlyEndDate(startDate),
-      );
+      return formatIsoDate(calculateMonthlyEndDate(startDate));
     case 'TwiceAMonth':
-      return formatIsoDate(
-        calculateTwiceAMonthEndDate(startDate),
-      );
+      return formatIsoDate(calculateTwiceAMonthEndDate(startDate));
     default:
       throw new Error(`Invalid payCycle '${payCycle}'`);
   }
 };
 
-const startNewPayRun = (state, {
-  isPayrollSetup, newPayRunDetails, draftPayRun, isTimesheetUsed, startOfFinancialYearDate,
-}) => {
+const startNewPayRun = (
+  state,
+  {
+    isPayrollSetup,
+    newPayRunDetails,
+    draftPayRun,
+    isTimesheetUsed,
+    startOfFinancialYearDate,
+  }
+) => {
   if (!isPayrollSetup) return { ...state, isPayrollSetup };
 
   const { paymentFrequency, regularPayCycleOptions } = newPayRunDetails;
@@ -93,7 +90,10 @@ const startNewPayRun = (state, {
 const setPayPeriodDetails = (state, { key, value }) => {
   let startPayRunPartial;
   if (key === 'payPeriodStart') {
-    const payPeriodEnd = calculateEndDate(state.currentEditingPayRun.paymentFrequency, value);
+    const payPeriodEnd = calculateEndDate(
+      state.currentEditingPayRun.paymentFrequency,
+      value
+    );
     startPayRunPartial = {
       [key]: value,
       payPeriodEnd,
@@ -126,7 +126,10 @@ const setIsTableLoading = (state, { isTableLoading }) => ({
   isTableLoading,
 });
 
-const setShowStpValidationErrorModal = (state, { showStpValidationErrorModal }) => ({
+const setShowStpValidationErrorModal = (
+  state,
+  { showStpValidationErrorModal }
+) => ({
   ...state,
   showStpValidationErrorModal,
 });

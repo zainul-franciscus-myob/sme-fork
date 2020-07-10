@@ -15,9 +15,7 @@ import createHelpIntegrator from './createHelpIntegrator';
 import helpReducer from './helpReducer';
 
 export default class HelpModule {
-  constructor({
-    integration, closeDrawer,
-  }) {
+  constructor({ integration, closeDrawer }) {
     this.integration = integration;
     this.store = new Store(helpReducer);
     this.closeDrawer = closeDrawer;
@@ -27,7 +25,10 @@ export default class HelpModule {
 
   getView = () => {
     const {
-      store, closeDrawer, dispatcher: { updateSearchValue }, openSearchPage,
+      store,
+      closeDrawer,
+      dispatcher: { updateSearchValue },
+      openSearchPage,
     } = this;
 
     return (
@@ -39,7 +40,7 @@ export default class HelpModule {
         />
       </Provider>
     );
-  }
+  };
 
   setActive = (isActive, isOpen) => {
     this.dispatcher.setActiveState(!!isActive);
@@ -47,7 +48,7 @@ export default class HelpModule {
     if (isActive && isOpen) {
       this.loadHelpContent();
     }
-  }
+  };
 
   openSearchPage = () => {
     const state = this.store.getState();
@@ -55,7 +56,7 @@ export default class HelpModule {
       const url = getSearchLink(state);
       window.open(url, '_blank');
     }
-  }
+  };
 
   loadHelpUserSettings = (onLoadSettingsSuccess) => {
     const onSuccess = (helpUserSettings) => {
@@ -71,7 +72,7 @@ export default class HelpModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   loadHelpContent = () => {
     if (!shouldLoadHelpContent(this.store.getState())) return;
@@ -88,7 +89,7 @@ export default class HelpModule {
     }
 
     this.getHelpContent();
-  }
+  };
 
   getHelpContent = () => {
     const onSuccess = (helpContent) => {
@@ -103,11 +104,13 @@ export default class HelpModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   run = (context) => {
     this.dispatcher.setInitialState(context);
     const { isActive, isOpen } = this.store.getState();
-    if (isActive && isOpen) { this.loadHelpContent(); }
-  }
+    if (isActive && isOpen) {
+      this.loadHelpContent();
+    }
+  };
 }

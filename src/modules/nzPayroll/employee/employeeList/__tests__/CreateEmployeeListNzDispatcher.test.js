@@ -18,7 +18,7 @@ describe('employeeListNzDispatcher', () => {
       dispatcher.setInitialState(context);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        expect.objectContaining({ intent: SET_INITIAL_STATE, context }),
+        expect.objectContaining({ intent: SET_INITIAL_STATE, context })
       );
     });
   });
@@ -28,7 +28,7 @@ describe('employeeListNzDispatcher', () => {
       dispatcher.resetState();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        expect.objectContaining({ intent: RESET_STATE }),
+        expect.objectContaining({ intent: RESET_STATE })
       );
     });
   });
@@ -42,7 +42,7 @@ describe('employeeListNzDispatcher', () => {
         expect.objectContaining({
           intent: LOAD_EMPLOYEE_LIST,
           ...response,
-        }),
+        })
       );
     });
   });
@@ -53,7 +53,7 @@ describe('employeeListNzDispatcher', () => {
       dispatcher.setLoadingState(loadingState);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        expect.objectContaining({ intent: SET_LOADING_STATE, loadingState }),
+        expect.objectContaining({ intent: SET_LOADING_STATE, loadingState })
       );
     });
   });

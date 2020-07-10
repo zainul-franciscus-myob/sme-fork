@@ -28,13 +28,13 @@ describe('TemplateModule', () => {
   const withMockFileReader = (test) => {
     const original = FileReader;
     window.FileReader = class {
-        readAsDataURL = () => {
-          this.onload({
-            target: {
-              result: '🦵',
-            },
-          });
-        }
+      readAsDataURL = () => {
+        this.onload({
+          target: {
+            result: '🦵',
+          },
+        });
+      };
     };
 
     test();
@@ -88,7 +88,6 @@ describe('TemplateModule', () => {
     return toolbox;
   };
 
-
   const setupWithHeaderBusinessDetailStyle = (headerBusinessDetailStyle) => {
     const toolbox = setupWithNew();
     const { module, store } = toolbox;
@@ -111,7 +110,6 @@ describe('TemplateModule', () => {
 
     return toolbox;
   };
-
 
   describe('run', () => {
     [
@@ -304,11 +302,13 @@ describe('TemplateModule', () => {
   describe('selectFile', () => {
     [
       {
-        headerBusinessDetailStyle: HeaderBusinessDetailStyle.fullWidthHeaderImage,
+        headerBusinessDetailStyle:
+          HeaderBusinessDetailStyle.fullWidthHeaderImage,
         imageKey: 'headerImage',
       },
       {
-        headerBusinessDetailStyle: HeaderBusinessDetailStyle.logoAndBusinessDetails,
+        headerBusinessDetailStyle:
+          HeaderBusinessDetailStyle.logoAndBusinessDetails,
         imageKey: 'logoImage',
       },
     ].forEach((test) => {
@@ -316,7 +316,7 @@ describe('TemplateModule', () => {
         it('selects file when no file', () => {
           withMockFileReader(() => {
             const { module, store } = setupWithHeaderBusinessDetailStyle(
-              test.headerBusinessDetailStyle,
+              test.headerBusinessDetailStyle
             );
 
             module.selectFile(new Blob());
@@ -337,18 +337,22 @@ describe('TemplateModule', () => {
   describe('handleModalUnsave', () => {
     [
       {
-        headerBusinessDetailsStyle: HeaderBusinessDetailStyle.fullWidthHeaderImage,
+        headerBusinessDetailsStyle:
+          HeaderBusinessDetailStyle.fullWidthHeaderImage,
         modalType: ModalTypes.deleteImage,
       },
       {
-        headerBusinessDetailsStyle: HeaderBusinessDetailStyle.logoAndBusinessDetails,
+        headerBusinessDetailsStyle:
+          HeaderBusinessDetailStyle.logoAndBusinessDetails,
         modalType: ModalTypes.deleteLogo,
       },
     ].forEach((test) => {
       describe(`when has ${test.HeaderBusinessDetailStyle} file`, () => {
         it('removes file', () => {
           const setupWithFile = () => {
-            const toolbox = setupWithHeaderBusinessDetailStyle(test.headerBusinessDetailsStyle);
+            const toolbox = setupWithHeaderBusinessDetailStyle(
+              test.headerBusinessDetailsStyle
+            );
             const { module, store } = toolbox;
 
             module.selectFile(new Blob());
@@ -386,17 +390,21 @@ describe('TemplateModule', () => {
   describe('handleModalSave', () => {
     [
       {
-        headerBusinessDetailsStyle: HeaderBusinessDetailStyle.fullWidthHeaderImage,
+        headerBusinessDetailsStyle:
+          HeaderBusinessDetailStyle.fullWidthHeaderImage,
         modalType: ModalTypes.changeImage,
       },
       {
-        headerBusinessDetailsStyle: HeaderBusinessDetailStyle.logoAndBusinessDetails,
+        headerBusinessDetailsStyle:
+          HeaderBusinessDetailStyle.logoAndBusinessDetails,
         modalType: ModalTypes.changeLogo,
       },
     ].forEach((test) => {
       describe(`when has ${test.HeaderBusinessDetailStyle} file`, () => {
         const setupWithFile = () => {
-          const toolbox = setupWithHeaderBusinessDetailStyle(test.headerBusinessDetailsStyle);
+          const toolbox = setupWithHeaderBusinessDetailStyle(
+            test.headerBusinessDetailsStyle
+          );
           const { module, store } = toolbox;
 
           module.selectFile(new Blob());
@@ -471,7 +479,9 @@ describe('TemplateModule', () => {
             type: TEMPLATE_UPDATED,
             content: expect.any(String),
           });
-          expect(window.location.href).toContain('/#/au/g-u-i-d/salesSettings?selectedTab=templates');
+          expect(window.location.href).toContain(
+            '/#/au/g-u-i-d/salesSettings?selectedTab=templates'
+          );
         });
 
         it('fails to save', () => {

@@ -7,17 +7,19 @@ import {
 } from '../../GeneralJournalIntents';
 import { setupWithNew } from './GeneralJournalDetailModule.test';
 
-
 describe('GeneralJournalDetailModule_QuickAddModal', () => {
   describe('loadAccountAfterCreate', () => {
     it('should load the created account from the modal and trigger the given onChange', () => {
       const { module, store, integration } = setupWithNew();
 
       const onChange = jest.fn();
-      module.loadAccountAfterCreate({
-        message: 'well done',
-        id: '123',
-      }, onChange);
+      module.loadAccountAfterCreate(
+        {
+          message: 'well done',
+          id: '123',
+        },
+        onChange
+      );
 
       expect(store.getActions()).toEqual([
         {
@@ -54,10 +56,13 @@ describe('GeneralJournalDetailModule_QuickAddModal', () => {
       const { module, store } = setupWithNew();
 
       const onChange = jest.fn();
-      module.loadAccountAfterCreate({
-        message: 'well done',
-        id: '123',
-      }, onChange);
+      module.loadAccountAfterCreate(
+        {
+          message: 'well done',
+          id: '123',
+        },
+        onChange
+      );
 
       expect(store.getActions()).toEqual([
         {
@@ -87,10 +92,13 @@ describe('GeneralJournalDetailModule_QuickAddModal', () => {
       const { module, store, integration } = setupWithNew();
 
       const onChange = jest.fn();
-      module.loadJobAfterCreate({
-        message: 'well done',
-        id: '123',
-      }, onChange);
+      module.loadJobAfterCreate(
+        {
+          message: 'well done',
+          id: '123',
+        },
+        onChange
+      );
 
       expect(store.getActions()).toEqual([
         {
@@ -125,10 +133,13 @@ describe('GeneralJournalDetailModule_QuickAddModal', () => {
       const { module, store } = setupWithNew();
 
       const onChange = jest.fn();
-      module.loadJobAfterCreate({
-        message: 'well done',
-        id: '123',
-      }, onChange);
+      module.loadJobAfterCreate(
+        {
+          message: 'well done',
+          id: '123',
+        },
+        onChange
+      );
 
       expect(store.getActions()).toEqual([
         {

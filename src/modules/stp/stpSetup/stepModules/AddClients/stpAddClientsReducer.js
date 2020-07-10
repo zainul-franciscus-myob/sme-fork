@@ -10,7 +10,6 @@ const setAgentRole = (state, { agentRole }) => ({
   agentRole,
 });
 
-
 const setErrorMessage = (state, { errorMessage }) => ({
   ...state,
   errorMessage,

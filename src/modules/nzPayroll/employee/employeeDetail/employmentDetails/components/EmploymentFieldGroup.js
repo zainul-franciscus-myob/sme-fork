@@ -1,10 +1,11 @@
-import {
-  DatePicker, FieldGroup, ReadOnly,
-} from '@myob/myob-widgets';
+import { DatePicker, FieldGroup, ReadOnly } from '@myob/myob-widgets';
 import React from 'react';
 
 const EmploymentFieldGroup = ({
-  startDate, terminationDate, employmentStatus, onDateChange,
+  startDate,
+  terminationDate,
+  employmentStatus,
+  onDateChange,
 }) => (
   <FieldGroup label="Employment">
     <DatePicker

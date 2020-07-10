@@ -1,5 +1,6 @@
 import {
-  LOAD_HELP_CONTENT, LOAD_HELP_USER_SETTINGS,
+  LOAD_HELP_CONTENT,
+  LOAD_HELP_USER_SETTINGS,
 } from '../../drawer/help/HelpIntents';
 
 const HelpMapping = {

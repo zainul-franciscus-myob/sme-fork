@@ -2,17 +2,17 @@ import { Checkbox, FilterBar } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getFilterOptions, getSupplierFilterOptions } from '../LinkBillSelectors';
+import {
+  getFilterOptions,
+  getSupplierFilterOptions,
+} from '../LinkBillSelectors';
 import SupplierCombobox from '../../../components/combobox/SupplierCombobox';
 import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 
 const LinkBillListOptions = ({
   supplierFilterOptions,
-  filterOptions: {
-    supplierId,
-    showPaidBills,
-  },
+  filterOptions: { supplierId, showPaidBills },
   onUpdateFilterOptions,
 }) => (
   <FilterBar>
@@ -35,7 +35,7 @@ const LinkBillListOptions = ({
   </FilterBar>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   supplierFilterOptions: getSupplierFilterOptions(state),
   filterOptions: getFilterOptions(state),
 });

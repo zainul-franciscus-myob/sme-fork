@@ -1,6 +1,4 @@
-import {
-  Alert, Checkbox, CheckboxGroup,
-} from '@myob/myob-widgets';
+import { Alert, Checkbox, CheckboxGroup } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -8,8 +6,12 @@ import { getDeleteUnusedAccounts } from '../selectors/DataImportExportSelectors'
 import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import styles from './DeleteUnusedAccounts.module.css';
 
-const DeleteUnusedAccounts = ({ onDeleteUnusedAccountsChange, deleteUnusedAccounts }) => {
-  const alertMessage = "Existing accounts that haven't been used in transactions will be deleted. System and linked accounts won't be deleted.";
+const DeleteUnusedAccounts = ({
+  onDeleteUnusedAccountsChange,
+  deleteUnusedAccounts,
+}) => {
+  const alertMessage =
+    "Existing accounts that haven't been used in transactions will be deleted. System and linked accounts won't be deleted.";
   const learnMoreUrl = 'https://help.myob.com/wiki/x/GLFqAg';
   return (
     <React.Fragment>
@@ -17,19 +19,22 @@ const DeleteUnusedAccounts = ({ onDeleteUnusedAccountsChange, deleteUnusedAccoun
         label="Delete unused accounts"
         hideLabel
         renderCheckbox={() => (
-        <Checkbox
-          name="deleteUnusedAccounts"
-          label="Delete unused accounts"
-          checked={deleteUnusedAccounts}
-          onChange={handleCheckboxChange(onDeleteUnusedAccountsChange)}
-        />
+          <Checkbox
+            name="deleteUnusedAccounts"
+            label="Delete unused accounts"
+            checked={deleteUnusedAccounts}
+            onChange={handleCheckboxChange(onDeleteUnusedAccountsChange)}
+          />
         )}
       />
       {deleteUnusedAccounts && (
         <div className={styles.deleteAccountsDangerAlert}>
           <Alert type="danger">
             {alertMessage}
-            <br /><a href={learnMoreUrl} target="_blank" rel="noopener noreferrer">Learn More</a>
+            <br />
+            <a href={learnMoreUrl} target="_blank" rel="noopener noreferrer">
+              Learn More
+            </a>
           </Alert>
         </div>
       )}
@@ -37,7 +42,7 @@ const DeleteUnusedAccounts = ({ onDeleteUnusedAccountsChange, deleteUnusedAccoun
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   deleteUnusedAccounts: getDeleteUnusedAccounts(state),
 });
 

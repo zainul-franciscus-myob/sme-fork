@@ -51,7 +51,7 @@ const getDefaultState = () => ({
   },
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setInitialState = (state, action) => ({
   ...state,
@@ -110,7 +110,7 @@ const removeEmployeeFromSelectedList = (state, { id }) => ({
   wage: {
     ...state.wage,
     selectedEmployees: state.wage.selectedEmployees.filter(
-      employee => employee.id !== id,
+      (employee) => employee.id !== id
     ),
   },
   isPageEdited: true,
@@ -133,7 +133,7 @@ const removeExemptionFromSelectedList = (state, { id }) => ({
   wage: {
     ...state.wage,
     selectedExemptions: state.wage.selectedExemptions.filter(
-      exemption => exemption.id !== id,
+      (exemption) => exemption.id !== id
     ),
   },
   isPageEdited: true,
@@ -150,7 +150,7 @@ const openModal = (state, action) => ({
   modalType: action.modalType,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modalType: '',
 });
@@ -188,16 +188,18 @@ const toggleJobKeeper = (state, { isJobKeeper }) => {
   return state;
 };
 
-const markWageAsJobKeeper = state => {
+const markWageAsJobKeeper = (state) => {
   const jobKeeperPayItemValues = {
     name: 'JOBKEEPER-TOPUP',
     atoReportingCategory: 'AllowanceOther',
     payBasis: 'Salary',
   };
 
-  if (state.wage.name === jobKeeperPayItemValues.name
-    && state.wage.atoReportingCategory === jobKeeperPayItemValues.atoReportingCategory
-    && state.wage.payBasis === jobKeeperPayItemValues.payBasis
+  if (
+    state.wage.name === jobKeeperPayItemValues.name &&
+    state.wage.atoReportingCategory ===
+      jobKeeperPayItemValues.atoReportingCategory &&
+    state.wage.payBasis === jobKeeperPayItemValues.payBasis
   ) {
     return {
       ...state,

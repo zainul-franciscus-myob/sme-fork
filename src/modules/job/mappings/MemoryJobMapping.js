@@ -27,7 +27,8 @@ const updateJob = ({ onSuccess }) => onSuccess(success);
 const createJob = ({ onSuccess }) => onSuccess(success);
 const createJobModal = ({ onSuccess }) => onSuccess(success);
 const loadJobModal = ({ onSuccess }) => onSuccess(loadNewJobModalResponse);
-const loadContactAfterCreate = ({ onSuccess }) => onSuccess(loadAddedContactResponse);
+const loadContactAfterCreate = ({ onSuccess }) =>
+  onSuccess(loadAddedContactResponse);
 
 const JobListMapping = {
   [LOAD_JOB_LIST]: loadJobList,

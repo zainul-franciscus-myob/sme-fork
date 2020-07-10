@@ -6,10 +6,7 @@ import createStartPayRunDispatchers from './createStartPayRunDispatchers';
 import createStartPayRunIntegrator from './createStartPayRunIntegrator';
 
 export default class StartPayRunModule {
-  constructor({
-    integration,
-    store,
-  }) {
+  constructor({ integration, store }) {
     this.integration = integration;
     this.store = store;
     this.dispatcher = createStartPayRunDispatchers(store);
@@ -34,7 +31,7 @@ export default class StartPayRunModule {
 
   changePayPeriod = ({ key, value }) => {
     this.dispatcher.setPayPeriodDetails({ key, value });
-  }
+  };
 
   render() {
     return (

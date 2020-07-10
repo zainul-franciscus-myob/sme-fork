@@ -1,10 +1,11 @@
-import {
-  Button, Icons, Table, Tooltip,
-} from '@myob/myob-widgets';
+import { Button, Icons, Table, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getFilteredWagePayItemOptions, getSelectedWagePayItems } from '../../selectors/PayrollWageSelectors';
+import {
+  getFilteredWagePayItemOptions,
+  getSelectedWagePayItems,
+} from '../../selectors/PayrollWageSelectors';
 import { getShowAddPayItemButton } from '../../../EmployeeDetailSelectors';
 import Combobox from '../../../../../../components/Feelix/Combobox/Combobox';
 import styles from './AddWagePayItemTable.module.css';
@@ -15,11 +16,9 @@ const tableConfig = {
   actions: { width: '5rem', valign: 'middle', align: 'right' },
 };
 
-const comboboxMetaData = [
-  { columnName: 'name', showData: true },
-];
+const comboboxMetaData = [{ columnName: 'name', showData: true }];
 
-const handleComboboxChange = handler => (item) => {
+const handleComboboxChange = (handler) => (item) => {
   handler(item);
 };
 
@@ -34,31 +33,35 @@ const onPayItemSelect = (handler, id) => () => {
 const addWagePayItemLabel = 'Add wage pay item';
 
 const getActionsColumnContent = ({
-  id, tooltipText, isRemovable, onRemoveWagePayItem,
-}) => (isRemovable
-  ? (
+  id,
+  tooltipText,
+  isRemovable,
+  onRemoveWagePayItem,
+}) =>
+  isRemovable ? (
     <Tooltip
       placement="left"
-      triggerContent={(
-        <Button type="secondary" size="xs" onClick={onRemoveButtonClick(onRemoveWagePayItem, id)}>
+      triggerContent={
+        <Button
+          type="secondary"
+          size="xs"
+          onClick={onRemoveButtonClick(onRemoveWagePayItem, id)}
+        >
           <Icons.Remove />
         </Button>
-        )}
+      }
     >
       Remove from employee
     </Tooltip>
-  )
-  : (
+  ) : (
     <Tooltip
       className={styles.payItemInfoTooltip}
       placement="left"
-      triggerContent={(
-        <Icons.Info />
-        )}
+      triggerContent={<Icons.Info />}
     >
       {tooltipText}
     </Tooltip>
-  ));
+  );
 
 const AddWagePayItemTable = ({
   filteredWagePayItemOptions,
@@ -78,58 +81,63 @@ const AddWagePayItemTable = ({
         <Table.HeaderItem {...tableConfig.actions} />
       </Table.Header>
       <Table.Body>
-        {
-          selectedWagePayItems.map(({
-            id, name, displayType, isRemovable, tooltipText,
-          }) => (
+        {selectedWagePayItems.map(
+          ({ id, name, displayType, isRemovable, tooltipText }) => (
             <Table.Row key={id}>
               <Table.RowItem {...tableConfig.name}>
-                <Button type="link" onClick={onPayItemSelect(onOpenWagePayItemModal, id)}>{name}</Button>
+                <Button
+                  type="link"
+                  onClick={onPayItemSelect(onOpenWagePayItemModal, id)}
+                >
+                  {name}
+                </Button>
               </Table.RowItem>
               <Table.RowItem {...tableConfig.type}>{displayType}</Table.RowItem>
               <Table.RowItem cellRole="actions" {...tableConfig.actions}>
                 {getActionsColumnContent({
-                  isRemovable, tooltipText, id, onRemoveWagePayItem,
-                }) }
+                  isRemovable,
+                  tooltipText,
+                  id,
+                  onRemoveWagePayItem,
+                })}
               </Table.RowItem>
             </Table.Row>
-          ))
-        }
+          )
+        )}
       </Table.Body>
     </Table>
-    { filteredWagePayItemOptions.length > 0
-      && (
-        showAddPayItemButton
-          ? (
-            <Button type="link" icon={<Icons.Add />} onClick={onAddPayItemComboClick}>
+    {filteredWagePayItemOptions.length > 0 &&
+      (showAddPayItemButton ? (
+        <Button
+          type="link"
+          icon={<Icons.Add />}
+          onClick={onAddPayItemComboClick}
+        >
           Add wage pay item
-            </Button>
-          )
-          : (
-            <Combobox
-              label={addWagePayItemLabel}
-              hideLabel
-              hintText={addWagePayItemLabel}
-              metaData={comboboxMetaData}
-              onBlur={onAddPayItemComboBlur}
-              selected={{}}
-              items={filteredWagePayItemOptions}
-              onChange={handleComboboxChange(onAddWagePayItem)}
-              onInputChange={() => {}}
-              initialIsOpen
-              addNewItem={{
-                label: 'Create wage pay item',
-                onAddNew: onPayItemSelect(onOpenWagePayItemModal, 'new'),
-              }}
-              width="lg"
-            />
-          )
-      )
-    }
+        </Button>
+      ) : (
+        <Combobox
+          label={addWagePayItemLabel}
+          hideLabel
+          hintText={addWagePayItemLabel}
+          metaData={comboboxMetaData}
+          onBlur={onAddPayItemComboBlur}
+          selected={{}}
+          items={filteredWagePayItemOptions}
+          onChange={handleComboboxChange(onAddWagePayItem)}
+          onInputChange={() => {}}
+          initialIsOpen
+          addNewItem={{
+            label: 'Create wage pay item',
+            onAddNew: onPayItemSelect(onOpenWagePayItemModal, 'new'),
+          }}
+          width="lg"
+        />
+      ))}
   </div>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   filteredWagePayItemOptions: getFilteredWagePayItemOptions(state),
   selectedWagePayItems: getSelectedWagePayItems(state),
   showAddPayItemButton: getShowAddPayItemButton(state),

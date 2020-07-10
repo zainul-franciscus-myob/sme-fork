@@ -27,7 +27,7 @@ const onComboboxChange = (name, onChange) => (item) => {
   });
 };
 
-const handleAmountInputChange = onChange => (e) => {
+const handleAmountInputChange = (onChange) => (e) => {
   onChange({
     target: {
       name: e.target.name,
@@ -118,9 +118,7 @@ const InvoiceItemTableRow = ({
         onChange={onChangeAccountId}
         items={accountOptions}
         selectedId={accountId}
-        addNewAccount={() => onAddAccount(
-          onChangeAccountId,
-        )}
+        addNewAccount={() => onAddAccount(onChangeAccountId)}
         disabled={isSubmitting || isReadOnly}
       />
 
@@ -175,15 +173,17 @@ const InvoiceItemTableRow = ({
         numeralDecimalScaleMax={2}
       />
 
-      {isInvoiceJobColumnEnabled && <JobCombobox
-        items={lineJobOptions}
-        selectedId={jobId}
-        onChange={onChangeJobId}
-        addNewJob={() => onAddJob(onChangeJobId)}
-        disabled={isSubmitting || isReadOnly}
-        allowClear
-        left
-      />}
+      {isInvoiceJobColumnEnabled && (
+        <JobCombobox
+          items={lineJobOptions}
+          selectedId={jobId}
+          onChange={onChangeJobId}
+          addNewJob={() => onAddJob(onChangeJobId)}
+          disabled={isSubmitting || isReadOnly}
+          allowClear
+          left
+        />
+      )}
 
       <TaxCodeCombobox
         items={taxCodeOptions}

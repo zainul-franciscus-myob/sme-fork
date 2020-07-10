@@ -1,6 +1,4 @@
-import {
-  Input, Spinner, TextArea, Tooltip,
-} from '@myob/myob-widgets';
+import { Input, Spinner, TextArea, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classnames from 'classnames';
@@ -57,7 +55,7 @@ const SpendMoneyDetailPrimaryOptions = ({
     onUpdateHeaderOptions({ key: name, value: checked });
   };
 
-  const handleComboBoxChange = key => (item) => {
+  const handleComboBoxChange = (key) => (item) => {
     onUpdateHeaderOptions({ key, value: item.id });
   };
 
@@ -68,14 +66,10 @@ const SpendMoneyDetailPrimaryOptions = ({
   );
 
   const abnDetail = (
-    <AbnPopover
-      {...abn}
-      abnLink={abnLink}
-      editContactUrl={editContactUrl}
-    />
+    <AbnPopover {...abn} abnLink={abnLink} editContactUrl={editContactUrl} />
   );
 
-  const abnInfo = isAbnLoading ? abnSpinner : (shouldShowAbn && abnDetail);
+  const abnInfo = isAbnLoading ? abnSpinner : shouldShowAbn && abnDetail;
   const abnShown = shouldShowAbn ? '' : styles.maximiseContactCombobox;
 
   return (
@@ -90,11 +84,9 @@ const SpendMoneyDetailPrimaryOptions = ({
         width="xl"
       />
       <div
-        className={classnames(
-          styles.contactComboBox,
-          abnShown,
-          { [styles.prefilled]: prefillStatus.selectedPayToContactId },
-        )}
+        className={classnames(styles.contactComboBox, abnShown, {
+          [styles.prefilled]: prefillStatus.selectedPayToContactId,
+        })}
       >
         <ContactCombobox
           items={payToContacts}
@@ -130,32 +122,34 @@ const SpendMoneyDetailPrimaryOptions = ({
           selectedId={expenseAccountId}
           onChange={handleComboBoxChange('expenseAccountId')}
           label="Account code"
-          labelAccessory={(
+          labelAccessory={
             <Tooltip>
               The account code will be assigned to all lines on the transaction.
             </Tooltip>
-          )}
+          }
           name="expenseAccountId"
           hideLabel={false}
           disabled={isSupplierBlocking}
           width="xl"
         />
       )}
-      {
-        showBankStatementText && (
-          <Input
-            name="bankStatementText"
-            label="Bank statement text"
-            value={bankStatementText}
-            onChange={handleInputChange(onUpdateHeaderOptions)}
-            onBlur={handleInputChange(onBlurBankStatementText)}
-            requiredLabel="This is required"
-            maxLength={18}
-            width="xl"
-          />
-        )
-      }
-      <div className={classnames({ [styles.prefilled]: prefillStatus.description })}>
+      {showBankStatementText && (
+        <Input
+          name="bankStatementText"
+          label="Bank statement text"
+          value={bankStatementText}
+          onChange={handleInputChange(onUpdateHeaderOptions)}
+          onBlur={handleInputChange(onBlurBankStatementText)}
+          requiredLabel="This is required"
+          maxLength={18}
+          width="xl"
+        />
+      )}
+      <div
+        className={classnames({
+          [styles.prefilled]: prefillStatus.description,
+        })}
+      >
         <TextArea
           name="description"
           label="Description of transaction"
@@ -172,7 +166,7 @@ const SpendMoneyDetailPrimaryOptions = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isSupplierBlocking: getIsSupplierBlocking(state),
   headerOptions: getHeaderOptions(state),
   accountOptions: getAccountOptions(state),

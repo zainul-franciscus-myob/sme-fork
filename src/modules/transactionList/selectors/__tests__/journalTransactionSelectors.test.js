@@ -3,11 +3,7 @@ import { getSortingForJournalTransactions } from '../journalTransactionSelectors
 
 describe('getSortingForJournalTransactions', () => {
   describe('use the default sortOrder and orderBy', () => {
-    [
-      'AccountIdentifier',
-      'Credit',
-      'Debit',
-    ].forEach(test => {
+    ['AccountIdentifier', 'Credit', 'Debit'].forEach((test) => {
       it(`given order by is ${test}`, () => {
         const state = {
           orderBy: test,

@@ -3,7 +3,10 @@ import AccountListModule from './accountList/AccountListModule';
 import RouteName from '../../router/RouteName';
 
 const getAccountRoutes = ({
-  integration, setRootView, popMessages, pushMessage,
+  integration,
+  setRootView,
+  popMessages,
+  pushMessage,
 }) => {
   const routes = [
     {
@@ -15,7 +18,11 @@ const getAccountRoutes = ({
     {
       name: RouteName.ACCOUNT_DETAIL,
       path: '/:region/:businessId/account/:accountId',
-      module: new AccountDetailModule({ integration, setRootView, pushMessage }),
+      module: new AccountDetailModule({
+        integration,
+        setRootView,
+        pushMessage,
+      }),
       documentTitle: 'Account',
     },
   ];

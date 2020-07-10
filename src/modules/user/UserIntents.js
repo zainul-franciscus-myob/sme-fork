@@ -9,7 +9,9 @@ export const OPEN_MODAL = Symbol('Open a modal');
 export const CLOSE_MODAL = Symbol('Close a modal');
 export const UPDATE_USER_DETAILS = Symbol('Update user details');
 export const LOAD_NEW_USER_DETAIL = Symbol('Load new empty standard user data');
-export const LOAD_NEW_ADVISOR_DETAIL = Symbol('Load new empty advisor user data');
+export const LOAD_NEW_ADVISOR_DETAIL = Symbol(
+  'Load new empty advisor user data'
+);
 export const UPDATE_USER_ROLES = Symbol('Update the selected user roles');
 export const CREATE_USER = Symbol('Create a new user');
 export const UPDATE_USER = Symbol('Update existing user');

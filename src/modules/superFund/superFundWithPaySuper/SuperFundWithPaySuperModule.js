@@ -43,9 +43,7 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 import superFundWithPaySuperReducer from './superFundWithPaySuperReducer';
 
 export default class SuperFundWithPaySuperModule {
-  constructor({
-    integration, setRootView, pushMessage,
-  }) {
+  constructor({ integration, setRootView, pushMessage }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -57,40 +55,47 @@ export default class SuperFundWithPaySuperModule {
     });
   }
 
-  displayAlert = errorMessage => this.store.dispatch({
-    intent: SET_ALERT_MESSAGE,
-    alertMessage: errorMessage,
-  });
+  displayAlert = (errorMessage) =>
+    this.store.dispatch({
+      intent: SET_ALERT_MESSAGE,
+      alertMessage: errorMessage,
+    });
 
-  dismissAlert = () => this.store.dispatch({
-    intent: SET_ALERT_MESSAGE,
-    alertMessage: '',
-  });
+  dismissAlert = () =>
+    this.store.dispatch({
+      intent: SET_ALERT_MESSAGE,
+      alertMessage: '',
+    });
 
-  setSubmittingState = isSubmitting => this.store.dispatch({
-    intent: SET_SUBMITTING_STATE,
-    isSubmitting,
-  });
+  setSubmittingState = (isSubmitting) =>
+    this.store.dispatch({
+      intent: SET_SUBMITTING_STATE,
+      isSubmitting,
+    });
 
-  showContactDetails = () => this.store.dispatch({
-    intent: SHOW_CONTACT_DETAILS,
-  });
+  showContactDetails = () =>
+    this.store.dispatch({
+      intent: SHOW_CONTACT_DETAILS,
+    });
 
-  updateSuperFundDetail = ({ key, value }) => this.store.dispatch({
-    intent: UPDATE_SUPER_FUND_DETAIL,
-    key,
-    value,
-  });
+  updateSuperFundDetail = ({ key, value }) =>
+    this.store.dispatch({
+      intent: UPDATE_SUPER_FUND_DETAIL,
+      key,
+      value,
+    });
 
-  selectSuperFund = superProduct => this.store.dispatch({
-    intent: SELECT_APRA_FUND,
-    superProduct,
-  });
+  selectSuperFund = (superProduct) =>
+    this.store.dispatch({
+      intent: SELECT_APRA_FUND,
+      superProduct,
+    });
 
-  updateSelfManagedFundAbn = ({ value }) => this.store.dispatch({
-    intent: UPDATE_SELF_MANAGED_FUND_ABN,
-    value,
-  });
+  updateSelfManagedFundAbn = ({ value }) =>
+    this.store.dispatch({
+      intent: UPDATE_SELF_MANAGED_FUND_ABN,
+      value,
+    });
 
   lookUpAbn = () => {
     const state = this.store.getState();
@@ -99,10 +104,11 @@ export default class SuperFundWithPaySuperModule {
     }
   };
 
-  setAbnLoadingState = isAbnLoading => this.store.dispatch({
-    intent: SET_ABN_LOADING_STATE,
-    isAbnLoading,
-  });
+  setAbnLoadingState = (isAbnLoading) =>
+    this.store.dispatch({
+      intent: SET_ABN_LOADING_STATE,
+      isAbnLoading,
+    });
 
   loadAbnDetail = () => {
     this.setAbnLoadingState(true);
@@ -146,7 +152,7 @@ export default class SuperFundWithPaySuperModule {
     });
 
     this.saveSuperFund();
-  }
+  };
 
   validateAcessTokenAndSave = () => {
     const state = this.store.getState();
@@ -155,7 +161,7 @@ export default class SuperFundWithPaySuperModule {
     } else {
       this.saveSuperFund();
     }
-  }
+  };
 
   saveSuperFund = () => {
     const state = this.store.getState();
@@ -306,7 +312,7 @@ export default class SuperFundWithPaySuperModule {
     if (userCanSave) {
       setupHotKeys(keyMap, this.handlers);
     }
-  }
+  };
 
   run({ context, payload }) {
     this.setInitialState(context, payload);

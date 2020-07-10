@@ -1,6 +1,8 @@
 import { LOAD_HELP_CONTENT, LOAD_HELP_USER_SETTINGS } from './HelpIntents';
 import {
-  getLoadHelpContentParams, getLoadHelpContentUrlParams, getLoadHelpUserSettingsUrlParams,
+  getLoadHelpContentParams,
+  getLoadHelpContentUrlParams,
+  getLoadHelpUserSettingsUrlParams,
 } from './HelpSelectors';
 
 const createHelpIntegrator = (store, integration) => ({

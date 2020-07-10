@@ -40,12 +40,16 @@ describe('bankFeedsReducer', () => {
       };
 
       const actual = reducer(state, action);
-      const expectedBankAccountsInState = [{
-        id: '2',
-        linkedAccountId: '',
-      }];
+      const expectedBankAccountsInState = [
+        {
+          id: '2',
+          linkedAccountId: '',
+        },
+      ];
 
-      expect(actual.bankFeeds.bankAccounts).toEqual(expectedBankAccountsInState);
+      expect(actual.bankFeeds.bankAccounts).toEqual(
+        expectedBankAccountsInState
+      );
     });
   });
 

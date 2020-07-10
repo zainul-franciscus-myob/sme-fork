@@ -23,9 +23,7 @@ export default class BankingLearnModule {
   }
 
   getSerialNumber = () => {
-    const onSuccess = (
-      serialNumber,
-    ) => {
+    const onSuccess = (serialNumber) => {
       this.dispatcher.setLoading(false);
       this.dispatcher.setSerialNumber(serialNumber);
     };
@@ -57,7 +55,7 @@ export default class BankingLearnModule {
     this.setRootView(
       <Provider store={this.store}>
         <BankingLearnView onClick={this.onClick} />
-      </Provider>,
+      </Provider>
     );
   };
 

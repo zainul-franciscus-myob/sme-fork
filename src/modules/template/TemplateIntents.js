@@ -9,7 +9,9 @@ export const REMOVE_TEMPLATE_IMAGE = Symbol('Remove template image');
 export const UPDATE_PREVIEW_OPTION = Symbol('Update preview option');
 
 export const SET_LOADING_STATE = Symbol('Set loading state');
-export const SET_PAY_DIRECT_LOADING_STATE = Symbol('Set pay direct loading state');
+export const SET_PAY_DIRECT_LOADING_STATE = Symbol(
+  'Set pay direct loading state'
+);
 
 export const SET_ALERT = Symbol('Set alert');
 export const SET_MODAL_TYPE = Symbol('Set modal type');

@@ -1,81 +1,58 @@
-export const getLoadingState = state => state.loadingState;
-export const getIsActionDisabled = state => state.isSubmitting;
-export const getAlert = state => state.alert;
-export const getSelectedTab = state => state.selectedTab;
+export const getLoadingState = (state) => state.loadingState;
+export const getIsActionDisabled = (state) => state.isSubmitting;
+export const getAlert = (state) => state.alert;
+export const getSelectedTab = (state) => state.selectedTab;
 
-export const getBusinessId = state => state.businessId;
+export const getBusinessId = (state) => state.businessId;
 
-export const getEquityAccountCurrentEarnings = state => (
-  state.linkedAccounts.equityAccountCurrentEarnings
-);
-export const getEquityAccountRetainedEarnings = state => (
-  state.linkedAccounts.equityAccountRetainedEarnings
-);
-export const getEquityHistoricalBalancing = state => (
-  state.linkedAccounts.equityHistoricalBalancing
-);
-export const getBankAccountElectronicPayments = state => (
-  state.linkedAccounts.bankAccountElectronicPayments
-);
-export const getBankAccountUndepositedFunds = state => (
-  state.linkedAccounts.bankAccountUndepositedFunds
-);
-export const getAssetAccountTrackingReceivables = state => (
-  state.linkedAccounts.assetAccountTrackingReceivables
-);
-export const getBankAccountCustomerReceipts = state => (
-  state.linkedAccounts.bankAccountCustomerReceipts
-);
-export const getIncomeAccountFreight = state => (
-  state.linkedAccounts.incomeAccountFreight
-);
-export const getLiabilityAccountCustomerDeposits = state => (
-  state.linkedAccounts.liabilityAccountCustomerDeposits
-);
-export const getExpenseSalesAccountDiscounts = state => (
-  state.linkedAccounts.expenseSalesAccountDiscounts
-);
-export const getIncomeAccountLateCharges = state => (
-  state.linkedAccounts.incomeAccountLateCharges
-);
-export const getLiabilityAccountTrackingPayables = state => (
-  state.linkedAccounts.liabilityAccountTrackingPayables
-);
-export const getBankAccountPayingBills = state => (
-  state.linkedAccounts.bankAccountPayingBills
-);
-export const getLiabilityAccountItemReceipts = state => (
-  state.linkedAccounts.liabilityAccountItemReceipts
-);
-export const getExpenseSalesAccountFreight = state => (
-  state.linkedAccounts.expenseSalesAccountFreight
-);
-export const getAssetAccountSupplierDeposits = state => (
-  state.linkedAccounts.assetAccountSupplierDeposits
-);
-export const getExpenseAccountDiscounts = state => (
-  state.linkedAccounts.expenseAccountDiscounts
-);
-export const getExpenseAccountLaterCharges = state => (
-  state.linkedAccounts.expenseAccountLaterCharges
-);
-export const getBankAccountCashPayments = state => (
-  state.linkedAccounts.bankAccountCashPayments
-);
-export const getBankAccountChequePayments = state => (
-  state.linkedAccounts.bankAccountChequePayments
-);
-export const getEmploymentExpenseAccount = state => (
-  state.linkedAccounts.employmentExpenseAccount
-);
-export const getWagesExpenseAccount = state => (
-  state.linkedAccounts.wagesExpenseAccount
-);
-export const getTaxDeductionsPayableAccount = state => (
-  state.linkedAccounts.taxDeductionsPayableAccount
-);
+export const getEquityAccountCurrentEarnings = (state) =>
+  state.linkedAccounts.equityAccountCurrentEarnings;
+export const getEquityAccountRetainedEarnings = (state) =>
+  state.linkedAccounts.equityAccountRetainedEarnings;
+export const getEquityHistoricalBalancing = (state) =>
+  state.linkedAccounts.equityHistoricalBalancing;
+export const getBankAccountElectronicPayments = (state) =>
+  state.linkedAccounts.bankAccountElectronicPayments;
+export const getBankAccountUndepositedFunds = (state) =>
+  state.linkedAccounts.bankAccountUndepositedFunds;
+export const getAssetAccountTrackingReceivables = (state) =>
+  state.linkedAccounts.assetAccountTrackingReceivables;
+export const getBankAccountCustomerReceipts = (state) =>
+  state.linkedAccounts.bankAccountCustomerReceipts;
+export const getIncomeAccountFreight = (state) =>
+  state.linkedAccounts.incomeAccountFreight;
+export const getLiabilityAccountCustomerDeposits = (state) =>
+  state.linkedAccounts.liabilityAccountCustomerDeposits;
+export const getExpenseSalesAccountDiscounts = (state) =>
+  state.linkedAccounts.expenseSalesAccountDiscounts;
+export const getIncomeAccountLateCharges = (state) =>
+  state.linkedAccounts.incomeAccountLateCharges;
+export const getLiabilityAccountTrackingPayables = (state) =>
+  state.linkedAccounts.liabilityAccountTrackingPayables;
+export const getBankAccountPayingBills = (state) =>
+  state.linkedAccounts.bankAccountPayingBills;
+export const getLiabilityAccountItemReceipts = (state) =>
+  state.linkedAccounts.liabilityAccountItemReceipts;
+export const getExpenseSalesAccountFreight = (state) =>
+  state.linkedAccounts.expenseSalesAccountFreight;
+export const getAssetAccountSupplierDeposits = (state) =>
+  state.linkedAccounts.assetAccountSupplierDeposits;
+export const getExpenseAccountDiscounts = (state) =>
+  state.linkedAccounts.expenseAccountDiscounts;
+export const getExpenseAccountLaterCharges = (state) =>
+  state.linkedAccounts.expenseAccountLaterCharges;
+export const getBankAccountCashPayments = (state) =>
+  state.linkedAccounts.bankAccountCashPayments;
+export const getBankAccountChequePayments = (state) =>
+  state.linkedAccounts.bankAccountChequePayments;
+export const getEmploymentExpenseAccount = (state) =>
+  state.linkedAccounts.employmentExpenseAccount;
+export const getWagesExpenseAccount = (state) =>
+  state.linkedAccounts.wagesExpenseAccount;
+export const getTaxDeductionsPayableAccount = (state) =>
+  state.linkedAccounts.taxDeductionsPayableAccount;
 
-export const getSaveLinkedAccountsPayload = state => ({
+export const getSaveLinkedAccountsPayload = (state) => ({
   equityAccountCurrentEarnings: {
     accountId: state.linkedAccounts.equityAccountCurrentEarnings.accountId,
   },
@@ -103,7 +80,8 @@ export const getSaveLinkedAccountsPayload = state => ({
   },
   liabilityAccountCustomerDeposits: {
     accountId: state.linkedAccounts.liabilityAccountCustomerDeposits.accountId,
-    hasAccount: state.linkedAccounts.liabilityAccountCustomerDeposits.hasAccount,
+    hasAccount:
+      state.linkedAccounts.liabilityAccountCustomerDeposits.hasAccount,
   },
   expenseSalesAccountDiscounts: {
     accountId: state.linkedAccounts.expenseSalesAccountDiscounts.accountId,

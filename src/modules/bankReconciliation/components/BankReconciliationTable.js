@@ -49,20 +49,15 @@ const BankReconciliationTable = ({
     />
   );
 
-  const tableView = isTableLoading || isTableEmpty
-    ? loadingOrEmptyTableView
-    : table;
+  const tableView =
+    isTableLoading || isTableEmpty ? loadingOrEmptyTableView : table;
 
-  const view = (
-    <React.Fragment>
-      {tableView}
-    </React.Fragment>
-  );
+  const view = <React.Fragment>{tableView}</React.Fragment>;
 
   return view;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   entries: getEntries(state),
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),

@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsDefaultFilters, getIsTableEmpty, getIsTableLoading,
+  getIsDefaultFilters,
+  getIsTableEmpty,
+  getIsTableLoading,
 } from '../selectors/SupplierReturnListSelectors';
 import Icon from '../../../../components/Icon/Icon';
 import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
@@ -49,7 +51,7 @@ const SupplierReturnListTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
   isDefaultFilters: getIsDefaultFilters(state),

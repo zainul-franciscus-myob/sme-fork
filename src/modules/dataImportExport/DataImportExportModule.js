@@ -24,9 +24,7 @@ import openBlob from '../../common/blobOpener/openBlob';
 import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 export default class DataImportExportModule {
-  constructor({
-    integration, setRootView, replaceURLParams,
-  }) {
+  constructor({ integration, setRootView, replaceURLParams }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.replaceURLParams = replaceURLParams;
@@ -49,7 +47,7 @@ export default class DataImportExportModule {
     };
 
     this.integrator.loadDataImportExport({ onSuccess, onFailure });
-  }
+  };
 
   importOrExportData = () => {
     const state = this.store.getState();
@@ -81,7 +79,7 @@ export default class DataImportExportModule {
         this.exportCompanyFile();
         break;
     }
-  }
+  };
 
   handleChartOfAccountsImport = (onSuccess, onFailure) => {
     const state = this.store.getState();
@@ -91,7 +89,10 @@ export default class DataImportExportModule {
         this.integrator.importChartOfAccounts({ onSuccess, onFailure });
       };
 
-      return this.integrator.bulkDeleteUnusedAccounts({ onDeleteSuccess, onFailure });
+      return this.integrator.bulkDeleteUnusedAccounts({
+        onDeleteSuccess,
+        onFailure,
+      });
     }
 
     return this.integrator.importChartOfAccounts({ onSuccess, onFailure });
@@ -126,7 +127,10 @@ export default class DataImportExportModule {
       case ImportExportDataType.GENERAL_JOURNALS:
         return this.integrator.importGeneralJournals({ onSuccess, onFailure });
       case ImportExportDataType.TRANSACTION_JOURNALS:
-        return this.integrator.importTransactionJournals({ onSuccess, onFailure });
+        return this.integrator.importTransactionJournals({
+          onSuccess,
+          onFailure,
+        });
       case ImportExportDataType.TIMESHEETS:
         return this.integrator.importTimesheets({ onSuccess, onFailure });
       default:
@@ -134,7 +138,7 @@ export default class DataImportExportModule {
         this.displayFailureAlert('Invalid Data Type selected.');
         return undefined;
     }
-  }
+  };
 
   exportChartOfAccounts = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
@@ -144,9 +148,10 @@ export default class DataImportExportModule {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
 
       const { fileType } = getChartOfAccountExportDetail(this.store.getState());
-      const message = fileType === ImportExportFileType.TXT
-        ? 'Export successful! A tab-delimited TXT file has been downloaded.'
-        : 'Export successful! A CSV file has been downloaded.';
+      const message =
+        fileType === ImportExportFileType.TXT
+          ? 'Export successful! A tab-delimited TXT file has been downloaded.'
+          : 'Export successful! A CSV file has been downloaded.';
       this.displaySuccessMessage(message);
 
       openBlob({
@@ -162,7 +167,7 @@ export default class DataImportExportModule {
     };
 
     this.integrator.exportChartOfAccounts({ onSuccess, onFailure });
-  }
+  };
 
   exportCompanyFile = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
@@ -182,11 +187,16 @@ export default class DataImportExportModule {
         case ExportStatus.SUCCESS:
           this.dispatcher.updateExportDataType(ImportExportDataType.NONE);
           this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-          this.displaySuccessMessage('Export successful! A file has been downloaded.');
+          this.displaySuccessMessage(
+            'Export successful! A file has been downloaded.'
+          );
           window.open(fileUrl, '_blank');
           break;
         case ExportStatus.PENDING:
-          this.pollTimer = setTimeout(() => this.exportCompanyFileResult(jobId), 5000);
+          this.pollTimer = setTimeout(
+            () => this.exportCompanyFileResult(jobId),
+            5000
+          );
           break;
         case ExportStatus.FAIL:
         default:
@@ -202,23 +212,26 @@ export default class DataImportExportModule {
     };
 
     this.integrator.exportCompanyFileResult({ jobId, onSuccess, onFailure });
-  }
+  };
 
-  displaySuccessMessage = successMessage => this.dispatcher.setAlert({
-    message: successMessage,
-    type: 'success',
-  });
+  displaySuccessMessage = (successMessage) =>
+    this.dispatcher.setAlert({
+      message: successMessage,
+      type: 'success',
+    });
 
-  displayFailureAlert = errorMessage => this.dispatcher.setAlert({
-    message: errorMessage,
-    type: 'danger',
-  });
+  displayFailureAlert = (errorMessage) =>
+    this.dispatcher.setAlert({
+      message: errorMessage,
+      type: 'danger',
+    });
 
-  openImportConfirmModal = () => this.dispatcher.setModalType('importConfirmModal');
+  openImportConfirmModal = () =>
+    this.dispatcher.setModalType('importConfirmModal');
 
   closeModal = () => this.dispatcher.setModalType();
 
-  setInitialState = context => this.dispatcher.setInitialState(context);
+  setInitialState = (context) => this.dispatcher.setInitialState(context);
 
   resetState = () => this.dispatcher.resetState();
 
@@ -232,21 +245,21 @@ export default class DataImportExportModule {
 
   updateContactsIdentifyBy = ({ value }) => {
     this.dispatcher.updateContactsIdentifyBy(value);
-  }
+  };
 
   updateContactsType = ({ value }) => {
     this.dispatcher.updateContactsType(value);
-  }
+  };
 
   updateImportDataType = ({ value }) => {
     this.dispatcher.updateImportDataType(value);
     this.replaceURLParams({ importType: value });
-  }
+  };
 
   updateExportDataType = ({ value }) => {
     this.dispatcher.updateExportDataType(value);
     this.replaceURLParams({ exportType: value });
-  }
+  };
 
   render = () => {
     const wrappedView = (
@@ -260,7 +273,8 @@ export default class DataImportExportModule {
           onCancelImportData={this.closeModal}
           onConfirmImportData={this.importData}
           exportChartOfAccountsListeners={{
-            onExportChartOfAccountsDetailChange: this.dispatcher.updateExportChartOfAccountsDetail,
+            onExportChartOfAccountsDetailChange: this.dispatcher
+              .updateExportChartOfAccountsDetail,
           }}
           onUpdateContactsIdentifyBy={this.updateContactsIdentifyBy}
           onUpdateContactsType={this.updateContactsType}
@@ -271,8 +285,12 @@ export default class DataImportExportModule {
           updateContactsType={this.updateContactsType}
           onFileSelected={this.dispatcher.addImportFile}
           onFileRemove={this.dispatcher.removeImportFile}
-          onDuplicateRecordsOptionChange={this.dispatcher.updateDuplicateRecordsOption}
-          onDeleteUnusedAccountsChange={this.dispatcher.updateDeleteUnusedAccounts}
+          onDuplicateRecordsOptionChange={
+            this.dispatcher.updateDuplicateRecordsOption
+          }
+          onDeleteUnusedAccountsChange={
+            this.dispatcher.updateDeleteUnusedAccounts
+          }
         />
       </Provider>
     );

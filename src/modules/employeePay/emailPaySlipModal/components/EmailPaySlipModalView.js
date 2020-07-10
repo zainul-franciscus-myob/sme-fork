@@ -23,7 +23,7 @@ const EmailPaySlipModalView = ({
   isLoading,
   errors,
 }) => {
-  const modalSize = (errors.length > 0 && !isLoading) ? 'default' : 'small';
+  const modalSize = errors.length > 0 && !isLoading ? 'default' : 'small';
   const modal = (
     <Modal title="Emailing pay slips" onCancel={onClose} size={modalSize}>
       <Modal.Body>
@@ -38,7 +38,9 @@ const EmailPaySlipModalView = ({
       </Modal.Body>
       {!isLoading && (
         <Modal.Footer>
-          <Button type="primary" onClick={onClose}>Done</Button>
+          <Button type="primary" onClick={onClose}>
+            Done
+          </Button>
         </Modal.Footer>
       )}
     </Modal>
@@ -47,7 +49,7 @@ const EmailPaySlipModalView = ({
   return isOpen ? modal : null;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isOpen: getIsOpen(state),
   totalEmployees: getTotalEmployees(state),
   currentEmployeeCount: getEmployeeCount(state),

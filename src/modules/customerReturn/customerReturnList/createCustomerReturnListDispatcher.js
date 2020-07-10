@@ -9,7 +9,7 @@ import {
 } from '../CustomerReturnIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createCustomerReturnListDispatcher = store => ({
+const createCustomerReturnListDispatcher = (store) => ({
   setInitialState: (context, settings) => {
     store.dispatch({
       intent: SET_INITIAL_STATE,
@@ -46,11 +46,12 @@ const createCustomerReturnListDispatcher = store => ({
       loadingState,
     });
   },
-  setSortOrder: (orderBy, sortOrder) => store.dispatch({
-    intent: SET_SORT_ORDER,
-    orderBy,
-    sortOrder,
-  }),
+  setSortOrder: (orderBy, sortOrder) =>
+    store.dispatch({
+      intent: SET_SORT_ORDER,
+      orderBy,
+      sortOrder,
+    }),
   setTableLoadingState: (isTableLoading) => {
     const intent = SET_TABLE_LOADING_STATE;
     store.dispatch({
@@ -58,16 +59,22 @@ const createCustomerReturnListDispatcher = store => ({
       isTableLoading,
     });
   },
-  loadCustomerReturnList: response => store.dispatch({
-    intent: LOAD_CUSTOMER_RETURN_LIST,
-    ...response,
-  }),
-  updateFilterBarOptions: ({ key, value }) => store.dispatch({
-    intent: UPDATE_FILTER_BAR_OPTIONS,
-    key,
-    value,
-  }),
-  sortAndFilterCustomerReturnList: ({ entries, totalAmount, totalCreditAmount }) => {
+  loadCustomerReturnList: (response) =>
+    store.dispatch({
+      intent: LOAD_CUSTOMER_RETURN_LIST,
+      ...response,
+    }),
+  updateFilterBarOptions: ({ key, value }) =>
+    store.dispatch({
+      intent: UPDATE_FILTER_BAR_OPTIONS,
+      key,
+      value,
+    }),
+  sortAndFilterCustomerReturnList: ({
+    entries,
+    totalAmount,
+    totalCreditAmount,
+  }) => {
     store.dispatch({
       intent: SORT_AND_FILTER_CUSTOMER_RETURN_LIST,
       entries,

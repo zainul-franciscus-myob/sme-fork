@@ -12,28 +12,16 @@ const DeleteButtonWithPopover = ({
   onCancel,
   openHandler,
 }) => {
-  const Header = () => (
-    <Popover.Header child={<h4>{title}</h4>} />
-  );
+  const Header = () => <Popover.Header child={<h4>{title}</h4>} />;
 
-  const Body = () => (
-    <Popover.Body child={<p>{bodyText}</p>} />
-  );
+  const Body = () => <Popover.Body child={<p>{bodyText}</p>} />;
 
   const footer = (
     <ButtonRow>
-      <Button
-        key="cancel"
-        type="secondary"
-        onClick={onCancel}
-      >
+      <Button key="cancel" type="secondary" onClick={onCancel}>
         Cancel
       </Button>
-      <Button
-        key="delete"
-        type="delete"
-        onClick={onDelete}
-      >
+      <Button key="delete" type="delete" onClick={onDelete}>
         Delete
       </Button>
     </ButtonRow>

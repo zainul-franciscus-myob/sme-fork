@@ -1,6 +1,4 @@
-import {
-  Card, Separator,
-} from '@myob/myob-widgets';
+import { Card, Separator } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -59,10 +57,10 @@ const FinalisationView = ({
   const view = (
     <>
       {unsavedChangesModalIsOpen && (
-      <CancelModal
-        onConfirm={unsavedChangesModalListeners.onConfirm}
-        onCancel={unsavedChangesModalListeners.onCancel}
-      />
+        <CancelModal
+          onConfirm={unsavedChangesModalListeners.onConfirm}
+          onCancel={unsavedChangesModalListeners.onCancel}
+        />
       )}
       <Card>
         <FinalisationHeader
@@ -89,7 +87,9 @@ const FinalisationView = ({
           isRFBAEnabled={isRFBAEnabled}
           onEmployeeChange={onEmployeeChange}
           shouldShowFinaliseButton={shouldShowFinaliseButton}
-          shouldShowRemoveFinalisationButton={shouldShowRemoveFinalisationButton}
+          shouldShowRemoveFinalisationButton={
+            shouldShowRemoveFinalisationButton
+          }
           onFinaliseClick={onFinaliseClick}
           onRemoveFinalisationClick={onRemoveFinalisationClick}
           onEmployeeSummaryReportClick={onEmployeeSummaryReportClick}
@@ -100,12 +100,10 @@ const FinalisationView = ({
     </>
   );
 
-  return (
-    <PageView loadingState={loadingState} view={view} />
-  );
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   isTableLoading: getIsTableLoading(state),
   employeesCount: getEmployeesCount(state),
@@ -119,7 +117,9 @@ const mapStateToProps = state => ({
   isRFBAEnabled: getIsRFBAEnabled(state),
   isRFBALocked: getIsRFBALocked(state),
   shouldShowFinaliseButton: getShouldShowFinaliseButton(state),
-  shouldShowRemoveFinalisationButton: getShouldShowRemoveFinalisationButton(state),
+  shouldShowRemoveFinalisationButton: getShouldShowRemoveFinalisationButton(
+    state
+  ),
   unsavedChangesModalIsOpen: getUnsavedChangesModalIsOpen(state),
   activeSort: getActiveSort(state),
 });

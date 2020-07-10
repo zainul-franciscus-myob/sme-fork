@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getIsCreating, getLoadingState, getModalType,
+  getAlertMessage,
+  getIsCreating,
+  getLoadingState,
+  getModalType,
 } from '../contactDetailSelectors';
 import BillingAddress from './BillingAddress';
 import CancelModal from '../../../../components/modal/CancelModal';
@@ -43,12 +46,7 @@ const ContactDetailView = ({
 
   let modal;
   if (modalType === 'cancel') {
-    modal = (
-      <CancelModal
-        onCancel={onCloseModal}
-        onConfirm={onCancelModal}
-      />
-    );
+    modal = <CancelModal onCancel={onCloseModal} onConfirm={onCancelModal} />;
   } else if (modalType === 'delete') {
     modal = (
       <DeleteModal
@@ -64,14 +62,14 @@ const ContactDetailView = ({
       pageHead={<ContactHeader />}
       alert={alertComponent}
       sticky="none"
-      actions={(
+      actions={
         <ContactDetailActions
           isCreating={isCreating}
           onSaveButtonClick={onSaveButtonClick}
           onCancelButtonClick={onCancelButtonClick}
           onDeleteButtonClick={onDeleteButtonClick}
         />
-      )}
+      }
     >
       {accountModal}
       {modal}
@@ -86,14 +84,13 @@ const ContactDetailView = ({
         <ShippingAddress onAddressChange={onShippingAddressChange} />
         <MoreDetails onContactDetailsChange={onContactDetailsChange} />
       </FormCard>
-
     </FormTemplate>
   );
 
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isCreating: getIsCreating(state),
   loadingState: getLoadingState(state),
   modalType: getModalType(state),

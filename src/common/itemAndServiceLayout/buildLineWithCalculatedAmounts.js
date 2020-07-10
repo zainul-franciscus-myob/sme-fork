@@ -5,20 +5,23 @@ import formatDisplayAmount from '../valueFormatters/formatTaxCalculation/formatD
 import formatDisplayDiscount from '../valueFormatters/formatTaxCalculation/formatDisplayDiscount';
 import formatDisplayUnitPrice from '../valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
 
-const shouldCalculateAmount = (line, key) => ['units', 'unitPrice', 'discount'].includes(key)
-  && line.units !== ''
-  && line.unitPrice !== '';
+const shouldCalculateAmount = (line, key) =>
+  ['units', 'unitPrice', 'discount'].includes(key) &&
+  line.units !== '' &&
+  line.unitPrice !== '';
 
-const shouldCalculateDiscount = (line, key) => key === 'amount'
-  && Number(line.units) !== 0
-  && Number(line.unitPrice) !== 0
-  && line.amount !== '';
+const shouldCalculateDiscount = (line, key) =>
+  key === 'amount' &&
+  Number(line.units) !== 0 &&
+  Number(line.unitPrice) !== 0 &&
+  line.amount !== '';
 
-const shouldCalculateUnitPrice = (line, key) => key === 'amount'
-  && Number(line.units) !== 0
-  && Number(line.unitPrice) === 0
-  && Number(line.discount) !== 100
-  && line.amount !== '';
+const shouldCalculateUnitPrice = (line, key) =>
+  key === 'amount' &&
+  Number(line.units) !== 0 &&
+  Number(line.unitPrice) === 0 &&
+  Number(line.discount) !== 100 &&
+  line.amount !== '';
 
 const buildLineWithCalculatedAmounts = (line, key) => {
   const units = Number(line.units);

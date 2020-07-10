@@ -7,15 +7,15 @@ import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoD
 import formatSlashDate from '../../../common/valueFormatters/formatDate/formatSlashDate';
 import shallowCompare from '../../../common/shallowCompare/shallowCompare';
 
-export const getEntries = state => state.entries;
+export const getEntries = (state) => state.entries;
 
-export const getRegion = state => state.region;
+export const getRegion = (state) => state.region;
 
-export const getBusinessId = state => state.businessId;
+export const getBusinessId = (state) => state.businessId;
 
-export const getIsTableLoading = state => state.isTableLoading;
+export const getIsTableLoading = (state) => state.isTableLoading;
 
-export const getLoadingState = state => state.loadingState;
+export const getLoadingState = (state) => state.loadingState;
 
 export const getIsTableEmpty = ({ entries }) => entries.length === 0;
 
@@ -28,25 +28,27 @@ export const getAlert = ({ alert }) => alert;
 
 export const getFilterOptions = ({ filterOptions }) => filterOptions;
 
-export const getDefaultFilterOptions = ({ defaultFilterOptions }) => defaultFilterOptions;
+export const getDefaultFilterOptions = ({ defaultFilterOptions }) =>
+  defaultFilterOptions;
 
-const getSettingsVersion = state => state.settingsVersion;
+const getSettingsVersion = (state) => state.settingsVersion;
 
-export const getSupplierFilterOptions = state => state.supplierFilters;
+export const getSupplierFilterOptions = (state) => state.supplierFilters;
 
-export const getStatusFilterOptions = state => state.statusFilters;
+export const getStatusFilterOptions = (state) => state.statusFilters;
 
 export const getSortOrder = ({ sortOrder }) => sortOrder;
 
 export const getOrderBy = ({ orderBy }) => orderBy;
 
-export const getTotal = state => state.total;
+export const getTotal = (state) => state.total;
 
-export const getTotalDue = state => state.totalDue;
+export const getTotalDue = (state) => state.totalDue;
 
-export const getTotalOverdue = state => state.totalOverdue;
+export const getTotalOverdue = (state) => state.totalOverdue;
 
-export const flipSortOrder = ({ sortOrder }) => (sortOrder === 'desc' ? 'asc' : 'desc');
+export const flipSortOrder = ({ sortOrder }) =>
+  sortOrder === 'desc' ? 'asc' : 'desc';
 
 const getEntryLink = (entry, businessId, region) => {
   const { id } = entry;
@@ -54,11 +56,12 @@ const getEntryLink = (entry, businessId, region) => {
   return `/#/${region}/${businessId}/bill/${id}`;
 };
 
-const getBadgeColor = (status, isOverdue) => ({
-  Open: isOverdue ? 'red' : 'light-grey',
-  Closed: 'green',
-  Debit: 'blue',
-}[status]);
+const getBadgeColor = (status, isOverdue) =>
+  ({
+    Open: isOverdue ? 'red' : 'light-grey',
+    Closed: 'green',
+    Debit: 'blue',
+  }[status]);
 
 export const getTableEntries = createSelector(
   getEntries,
@@ -67,31 +70,32 @@ export const getTableEntries = createSelector(
   (entries, businessId, region) => {
     const today = new Date(formatIsoDate(new Date())); // Get the start of today ignoring time zone
 
-    return entries.map(
-      (entry) => {
-        const parsedDateDue = new Date(entry.dateDue);
-        const isOverdue = entry.status === 'Open'
-          && !!parsedDateDue.getDate()
-          && parsedDateDue < today
-          && entry.balanceDue > 0;
+    return entries.map((entry) => {
+      const parsedDateDue = new Date(entry.dateDue);
+      const isOverdue =
+        entry.status === 'Open' &&
+        !!parsedDateDue.getDate() &&
+        parsedDateDue < today &&
+        entry.balanceDue > 0;
 
-        return {
-          ...entry,
-          link: getEntryLink(entry, businessId, region),
-          balanceDueDisplayValue: formatAmount(entry.balanceDue),
-          // dateDue could be 'COD' or 'Prepaid'
-          dateDue: parsedDateDue.getDate() ? formatSlashDate(parsedDateDue) : entry.dateDue,
-          isOverdue,
-          badgeColor: getBadgeColor(entry.status, isOverdue),
-        };
-      },
-    );
-  },
+      return {
+        ...entry,
+        link: getEntryLink(entry, businessId, region),
+        balanceDueDisplayValue: formatAmount(entry.balanceDue),
+        // dateDue could be 'COD' or 'Prepaid'
+        dateDue: parsedDateDue.getDate()
+          ? formatSlashDate(parsedDateDue)
+          : entry.dateDue,
+        isOverdue,
+        badgeColor: getBadgeColor(entry.status, isOverdue),
+      };
+    });
+  }
 );
 
 export const getHasOverdue = createSelector(
   getTotalOverdue,
-  totalOverdue => totalOverdue !== '$0.00',
+  (totalOverdue) => totalOverdue !== '$0.00'
 );
 
 export const getSettings = createSelector(
@@ -104,17 +108,14 @@ export const getSettings = createSelector(
     filterOptions,
     sortOrder,
     orderBy,
-  }),
+  })
 );
-
 
 const getIsDefaultFilters = createSelector(
   getFilterOptions,
   getDefaultFilterOptions,
-  (filterOptions, defaultFilterOptions) => shallowCompare(
-    filterOptions,
-    defaultFilterOptions,
-  ),
+  (filterOptions, defaultFilterOptions) =>
+    shallowCompare(filterOptions, defaultFilterOptions)
 );
 
 export const getTableBodyState = createSelector(
@@ -130,10 +131,10 @@ export const getTableBodyState = createSelector(
     }
 
     return TableBodyType.NO_RESULTS;
-  },
+  }
 );
 
-export const getOffset = state => state.pagination.offset;
+export const getOffset = (state) => state.pagination.offset;
 
 export const getLoadMoreButtonStatus = (state) => {
   const isTableLoading = getIsTableLoading(state);

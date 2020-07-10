@@ -2,7 +2,10 @@ import { LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsBillJobColumnEnabled, getTaxCodeLabel } from '../selectors/billSelectors';
+import {
+  getIsBillJobColumnEnabled,
+  getTaxCodeLabel,
+} from '../selectors/billSelectors';
 import BillItemAndServiceTableRow from './BillItemAndServiceTableRow';
 import BillLineItemTable from './BillLineItemTable';
 
@@ -50,7 +53,9 @@ const BillItemAndServiceTable = ({
   const jobLabel = 'Job';
   const requiredLabel = 'This is required';
 
-  const jobColumn = <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>;
+  const jobColumn = (
+    <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>
+  );
 
   const headerItems = [
     <LineItemTable.HeaderItem>{itemIdLabel}</LineItemTable.HeaderItem>,
@@ -64,10 +69,8 @@ const BillItemAndServiceTable = ({
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {amountLabel}
     </LineItemTable.HeaderItem>,
-    (isBillJobColumnEnabled ? jobColumn : undefined),
-    <LineItemTable.HeaderItem
-      requiredLabel={requiredLabel}
-    >
+    isBillJobColumnEnabled ? jobColumn : undefined,
+    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {taxCodeLabel}
     </LineItemTable.HeaderItem>,
   ];
@@ -125,7 +128,11 @@ const BillItemAndServiceTable = ({
       columnConfig={columnConfig}
       headerItems={headerItems}
       renderRow={renderRow({
-        onRowInputBlur, onAddItemButtonClick, onAddAccount, onAddJob, isBillJobColumnEnabled,
+        onRowInputBlur,
+        onAddItemButtonClick,
+        onAddAccount,
+        onAddJob,
+        isBillJobColumnEnabled,
       })}
       onAddRow={onAddRow}
       onRowChange={onRowChange}
@@ -135,7 +142,7 @@ const BillItemAndServiceTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   taxCodeLabel: getTaxCodeLabel(state),
   isBillJobColumnEnabled: getIsBillJobColumnEnabled(state),
 });

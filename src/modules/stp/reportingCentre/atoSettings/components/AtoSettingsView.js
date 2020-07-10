@@ -80,7 +80,7 @@ const AtoSettingsView = ({
   return <PageView loadingState={loadingState} view={page} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   isModalOpen: getIsModalOpen(state),
   isAgent: getIsAgent(state),

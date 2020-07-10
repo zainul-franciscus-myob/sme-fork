@@ -12,11 +12,14 @@ const setPurchaseState = (state, partialPurchaseState) => ({
   },
 });
 
-const loadPurchase = (state, action) => setPurchaseState(state, action.purchase);
+const loadPurchase = (state, action) =>
+  setPurchaseState(state, action.purchase);
 
-const setPurchaseLoadingState = (state, { isLoading }) => setPurchaseState(state, { isLoading });
+const setPurchaseLoadingState = (state, { isLoading }) =>
+  setPurchaseState(state, { isLoading });
 
-const setPurchaseErrorState = (state, { hasError }) => setPurchaseState(state, { hasError });
+const setPurchaseErrorState = (state, { hasError }) =>
+  setPurchaseState(state, { hasError });
 
 export default {
   [LOAD_PURCHASE]: loadPurchase,

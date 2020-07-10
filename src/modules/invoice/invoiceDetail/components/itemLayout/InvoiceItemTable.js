@@ -2,7 +2,11 @@ import { LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsInvoiceJobColumnEnabled, getTableData, getTaxCodeLabel } from '../../selectors/invoiceDetailSelectors';
+import {
+  getIsInvoiceJobColumnEnabled,
+  getTableData,
+  getTaxCodeLabel,
+} from '../../selectors/invoiceDetailSelectors';
 import InvoiceItemTableRow from './InvoiceItemTableRow';
 
 const InvoiceItemTable = ({
@@ -34,7 +38,9 @@ const InvoiceItemTable = ({
   const jobLabel = 'Job';
   const requiredLabel = 'This is required';
 
-  const jobColumn = <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>;
+  const jobColumn = (
+    <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>
+  );
 
   const headerItems = [
     <LineItemTable.HeaderItem>{itemIdLabel}</LineItemTable.HeaderItem>,
@@ -49,7 +55,7 @@ const InvoiceItemTable = ({
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {amountLabel}
     </LineItemTable.HeaderItem>,
-    (isInvoiceJobColumnEnabled ? jobColumn : undefined),
+    isInvoiceJobColumnEnabled ? jobColumn : undefined,
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {taxCodeLabel}
     </LineItemTable.HeaderItem>,
@@ -144,7 +150,7 @@ const InvoiceItemTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   tableData: getTableData(state),
   taxCodeLabel: getTaxCodeLabel(state),
   isInvoiceJobColumnEnabled: getIsInvoiceJobColumnEnabled(state),

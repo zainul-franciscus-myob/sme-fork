@@ -38,11 +38,23 @@ export const responsiveWidths = [
 
 export const tableConfig = {
   date: { columnName: date, styles: { valign: 'middle' } },
-  purchaseOrderNumber: { columnName: purchaseOrderNumber, styles: { valign: 'middle' } },
+  purchaseOrderNumber: {
+    columnName: purchaseOrderNumber,
+    styles: { valign: 'middle' },
+  },
   supplier: { columnName: supplier, styles: { valign: 'middle' } },
-  supplierInvoiceNumber: { columnName: supplierInvoiceNumber, styles: { valign: 'middle' } },
+  supplierInvoiceNumber: {
+    columnName: supplierInvoiceNumber,
+    styles: { valign: 'middle' },
+  },
   amount: { columnName: amount, styles: { valign: 'middle', align: 'right' } },
-  balanceDue: { columnName: balanceDue, styles: { valign: 'middle', align: 'right' } },
+  balanceDue: {
+    columnName: balanceDue,
+    styles: { valign: 'middle', align: 'right' },
+  },
   receiveRefund: { columnName: receiveRefund, styles: { valign: 'middle' } },
-  applyToPurchase: { columnName: applyToPurchase, styles: { valign: 'middle' } },
+  applyToPurchase: {
+    columnName: applyToPurchase,
+    styles: { valign: 'middle' },
+  },
 };

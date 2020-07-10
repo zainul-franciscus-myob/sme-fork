@@ -30,7 +30,8 @@ describe('startPayRunReducer', () => {
             payPeriodStart: '',
             payPeriodEnd: '',
           },
-          regularPayCycleOptions: startNewPayRun.newPayRunDetails.regularPayCycleOptions,
+          regularPayCycleOptions:
+            startNewPayRun.newPayRunDetails.regularPayCycleOptions,
         },
       };
 
@@ -60,7 +61,9 @@ describe('startPayRunReducer', () => {
       const result = payRunReducer(state, action);
 
       expect(result.startPayRun.currentEditingPayRun.paymentDate).toEqual('');
-      expect(result.startPayRun.currentEditingPayRun.payPeriodStart).toEqual('');
+      expect(result.startPayRun.currentEditingPayRun.payPeriodStart).toEqual(
+        ''
+      );
       expect(result.startPayRun.currentEditingPayRun.payPeriodEnd).toEqual('');
     });
 
@@ -83,11 +86,19 @@ describe('startPayRunReducer', () => {
 
       const result = payRunReducer(state, action);
 
-      expect(result.startPayRun.currentEditingPayRun.payPeriodEnd).toEqual('2019-08-02');
+      expect(result.startPayRun.currentEditingPayRun.payPeriodEnd).toEqual(
+        '2019-08-02'
+      );
 
-      expect(result.startPayRun.currentEditingPayRun.payPeriodStart).toEqual('2019-08-01');
-      expect(result.startPayRun.currentEditingPayRun.paymentDate).toEqual('2019-08-01');
-      expect(result.startPayRun.currentEditingPayRun.paymentFrequency).toEqual('weekly');
+      expect(result.startPayRun.currentEditingPayRun.payPeriodStart).toEqual(
+        '2019-08-01'
+      );
+      expect(result.startPayRun.currentEditingPayRun.paymentDate).toEqual(
+        '2019-08-01'
+      );
+      expect(result.startPayRun.currentEditingPayRun.paymentFrequency).toEqual(
+        'weekly'
+      );
     });
 
     describe('payment date', () => {
@@ -110,8 +121,12 @@ describe('startPayRunReducer', () => {
 
         const result = payRunReducer(state, action);
 
-        expect(result.startPayRun.currentEditingPayRun.payPeriodEnd).toEqual('2019-08-28');
-        expect(result.startPayRun.currentEditingPayRun.paymentDate).toEqual('2019-08-29');
+        expect(result.startPayRun.currentEditingPayRun.payPeriodEnd).toEqual(
+          '2019-08-28'
+        );
+        expect(result.startPayRun.currentEditingPayRun.paymentDate).toEqual(
+          '2019-08-29'
+        );
       });
     });
   });

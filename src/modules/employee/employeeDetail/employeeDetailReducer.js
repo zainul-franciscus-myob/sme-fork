@@ -12,7 +12,10 @@ import {
   UPDATE_EMPLOYEE,
   UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY,
 } from '../EmployeeIntents';
-import { PayrollWageReducerHandlers, loadWagePayrollDetails } from './payrollDetails/reducer/PayrollWageReducer';
+import {
+  PayrollWageReducerHandlers,
+  loadWagePayrollDetails,
+} from './payrollDetails/reducer/PayrollWageReducer';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { getCurrentMonth } from './payrollDetails/selectors/PayrollPayHistorySelectors';
 import { getIsCreating } from './EmployeeDetailSelectors';
@@ -171,26 +174,27 @@ const setInitialState = (state, action) => ({
 
 const resetState = () => getDefaultState();
 
-const setMainTab = (state, action) => ((
-  action.selectedTab === mainTabIds.payrollDetails && shouldDefaultPayslipEmail(state))
-  ? {
-    ...state,
-    showAddPayItemButton: true,
-    mainTab: action.selectedTab,
-    payrollDetails: {
-      ...state.payrollDetails,
-      employmentDetails: {
-        ...state.payrollDetails.employmentDetails,
-        paySlipEmail: state.contactDetail.email,
-        [action.key]: action.value,
-      },
-    },
-  }
-  : {
-    ...state,
-    showAddPayItemButton: true,
-    mainTab: action.selectedTab,
-  });
+const setMainTab = (state, action) =>
+  action.selectedTab === mainTabIds.payrollDetails &&
+  shouldDefaultPayslipEmail(state)
+    ? {
+        ...state,
+        showAddPayItemButton: true,
+        mainTab: action.selectedTab,
+        payrollDetails: {
+          ...state.payrollDetails,
+          employmentDetails: {
+            ...state.payrollDetails.employmentDetails,
+            paySlipEmail: state.contactDetail.email,
+            [action.key]: action.value,
+          },
+        },
+      }
+    : {
+        ...state,
+        showAddPayItemButton: true,
+        mainTab: action.selectedTab,
+      };
 
 const setSubTab = (state, action) => ({
   ...state,
@@ -225,7 +229,10 @@ const loadPayrollDetail = (state, action) => ({
     ...state.payrollDetails.tax,
     ...action.payrollDetails.tax,
   },
-  wage: loadWagePayrollDetails(state.payrollDetails.wage, action.payrollDetails.wage),
+  wage: loadWagePayrollDetails(
+    state.payrollDetails.wage,
+    action.payrollDetails.wage
+  ),
   leaveDetails: {
     ...state.payrollDetails.leaveDetails,
     ...action.payrollDetails.leaveDetails,
@@ -249,38 +256,41 @@ const loadPaymentDetail = (state, action) => ({
   ...action.paymentDetails,
 });
 
-const loadEmployeeDetail = (state, action) => (action.isPayrollSetup ? {
-  ...state,
-  contactDetail: loadContactDetail(state, action),
-  payrollDetails: loadPayrollDetail(state, action),
-  paymentDetails: loadPaymentDetail(state, action),
-  genderOptions: action.genderOptions,
-  employmentBasisOptions: action.employmentBasisOptions,
-  employmentCategoryOptions: action.employmentCategoryOptions,
-  employmentStatusOptions: action.employmentStatusOptions,
-  payslipDeliveryOptions: action.payslipDeliveryOptions,
-  paymentMethodOptions: action.paymentMethodOptions,
-  splitNetPayBetweenOptions: action.splitNetPayBetweenOptions,
-  valueOptions: action.valueOptions,
-  deductionPayItemOptions: action.deductionPayItemOptions,
-  superFundOptions: action.superFundOptions,
-  superPayItemOptions: action.superPayItemOptions,
-  taxTableOptions: action.taxTableOptions,
-  taxPayItemOptions: action.taxPayItemOptions,
-  wagePayBasisOptions: action.wagePayBasisOptions,
-  wagePayCycleOptions: action.wagePayCycleOptions,
-  wageExpenseAccounts: action.wageExpenseAccounts,
-  baseSalaryWagePayItemId: action.baseSalaryWagePayItemId,
-  baseHourlyWagePayItemId: action.baseHourlyWagePayItemId,
-  wagePayItems: action.wagePayItems,
-  leavePayItemOptions: action.leavePayItemOptions,
-  expensePayItemOptions: action.expensePayItemOptions,
-  payHistoryPeriodOptions: action.payHistoryPeriodOptions,
-  jobs: action.jobs,
-} : {
-  ...state,
-  isPayrollSetup: false,
-});
+const loadEmployeeDetail = (state, action) =>
+  action.isPayrollSetup
+    ? {
+        ...state,
+        contactDetail: loadContactDetail(state, action),
+        payrollDetails: loadPayrollDetail(state, action),
+        paymentDetails: loadPaymentDetail(state, action),
+        genderOptions: action.genderOptions,
+        employmentBasisOptions: action.employmentBasisOptions,
+        employmentCategoryOptions: action.employmentCategoryOptions,
+        employmentStatusOptions: action.employmentStatusOptions,
+        payslipDeliveryOptions: action.payslipDeliveryOptions,
+        paymentMethodOptions: action.paymentMethodOptions,
+        splitNetPayBetweenOptions: action.splitNetPayBetweenOptions,
+        valueOptions: action.valueOptions,
+        deductionPayItemOptions: action.deductionPayItemOptions,
+        superFundOptions: action.superFundOptions,
+        superPayItemOptions: action.superPayItemOptions,
+        taxTableOptions: action.taxTableOptions,
+        taxPayItemOptions: action.taxPayItemOptions,
+        wagePayBasisOptions: action.wagePayBasisOptions,
+        wagePayCycleOptions: action.wagePayCycleOptions,
+        wageExpenseAccounts: action.wageExpenseAccounts,
+        baseSalaryWagePayItemId: action.baseSalaryWagePayItemId,
+        baseHourlyWagePayItemId: action.baseHourlyWagePayItemId,
+        wagePayItems: action.wagePayItems,
+        leavePayItemOptions: action.leavePayItemOptions,
+        expensePayItemOptions: action.expensePayItemOptions,
+        payHistoryPeriodOptions: action.payHistoryPeriodOptions,
+        jobs: action.jobs,
+      }
+    : {
+        ...state,
+        isPayrollSetup: false,
+      };
 
 const updateEmployeeDetail = (state, action) => ({
   ...state,
@@ -304,7 +314,7 @@ const openModal = (state, action) => ({
   modal: action.modal,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modal: undefined,
 });
@@ -315,32 +325,32 @@ const setPageEditedState = (state, action) => ({
 });
 
 // This is here as it crosses the main tab boundaries.
-const updatePayslipDelivery = (state, action) => ((
-  ['ToBeEmailed', 'ToBePrintedAndEmailed'].includes(action.value)
-  && shouldDefaultPayslipEmail(state))
-  ? {
-    ...state,
-    payrollDetails: {
-      ...state.payrollDetails,
-      employmentDetails: {
-        ...state.payrollDetails.employmentDetails,
-        paySlipEmail: state.contactDetail.email,
-        [action.key]: action.value,
-      },
-    },
-    isPageEdited: true,
-  }
-  : {
-    ...state,
-    payrollDetails: {
-      ...state.payrollDetails,
-      employmentDetails: {
-        ...state.payrollDetails.employmentDetails,
-        [action.key]: action.value,
-      },
-    },
-    isPageEdited: true,
-  });
+const updatePayslipDelivery = (state, action) =>
+  ['ToBeEmailed', 'ToBePrintedAndEmailed'].includes(action.value) &&
+  shouldDefaultPayslipEmail(state)
+    ? {
+        ...state,
+        payrollDetails: {
+          ...state.payrollDetails,
+          employmentDetails: {
+            ...state.payrollDetails.employmentDetails,
+            paySlipEmail: state.contactDetail.email,
+            [action.key]: action.value,
+          },
+        },
+        isPageEdited: true,
+      }
+    : {
+        ...state,
+        payrollDetails: {
+          ...state.payrollDetails,
+          employmentDetails: {
+            ...state.payrollDetails.employmentDetails,
+            [action.key]: action.value,
+          },
+        },
+        isPageEdited: true,
+      };
 
 const setTerminationConfirmModal = (state, { isOpen }) => ({
   ...state,

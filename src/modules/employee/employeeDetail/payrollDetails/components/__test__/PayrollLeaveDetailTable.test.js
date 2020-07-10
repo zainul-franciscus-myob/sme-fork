@@ -24,10 +24,11 @@ describe('PayrollLeaveDetailTable', () => {
     const wrapper = mount(
       <PayrollLeaveDetailTable
         selected={nonCarryOvers}
-      ></PayrollLeaveDetailTable>,
+      ></PayrollLeaveDetailTable>
     );
-    const balanceAdjustmentInput = wrapper
-      .findWhere(n => n.type() === AmountInput && n.prop('name') === 'balanceAdjustment');
+    const balanceAdjustmentInput = wrapper.findWhere(
+      (n) => n.type() === AmountInput && n.prop('name') === 'balanceAdjustment'
+    );
 
     expect(balanceAdjustmentInput.length).toBe(0);
   });
@@ -36,10 +37,11 @@ describe('PayrollLeaveDetailTable', () => {
     const wrapper = mount(
       <PayrollLeaveDetailTable
         selected={[{ payItemId: 1, carryLeaveOverToNextYear: true }]}
-      ></PayrollLeaveDetailTable>,
+      ></PayrollLeaveDetailTable>
     );
-    const balanceAdjustmentInput = wrapper
-      .findWhere(n => n.type() === AmountInput && n.prop('name') === 'balanceAdjustment');
+    const balanceAdjustmentInput = wrapper.findWhere(
+      (n) => n.type() === AmountInput && n.prop('name') === 'balanceAdjustment'
+    );
 
     expect(balanceAdjustmentInput.length).toBe(1);
   });

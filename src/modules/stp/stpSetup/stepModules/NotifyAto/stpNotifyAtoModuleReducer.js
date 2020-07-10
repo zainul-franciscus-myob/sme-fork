@@ -13,7 +13,6 @@ const getDefaultState = () => ({
   sid: '-',
 });
 
-
 const setIsLoading = (state, { isLoading }) => ({
   ...state,
   isLoading,
@@ -34,12 +33,12 @@ const setAlert = (state, { alert }) => ({
   alert,
 });
 
-const setShowConfirmationModalToOpen = state => ({
+const setShowConfirmationModalToOpen = (state) => ({
   ...state,
   showConfirmation: true,
 });
 
-const setShowConfirmationModalToClose = state => ({
+const setShowConfirmationModalToClose = (state) => ({
   ...state,
   showConfirmation: false,
 });

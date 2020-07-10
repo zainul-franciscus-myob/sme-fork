@@ -6,11 +6,19 @@ import useFormattedValue from '../useFormattedValue';
 
 const setup = (args = {}) => {
   const {
-    value = '', onChange = () => {}, onBlur = () => {}, onFormat = formatAmount,
+    value = '',
+    onChange = () => {},
+    onBlur = () => {},
+    onFormat = formatAmount,
   } = args;
-  return testHook(() => useFormattedValue({
-    value, onChange, onBlur, onFormat,
-  }));
+  return testHook(() =>
+    useFormattedValue({
+      value,
+      onChange,
+      onBlur,
+      onFormat,
+    })
+  );
 };
 
 describe('useFormattedValue', () => {

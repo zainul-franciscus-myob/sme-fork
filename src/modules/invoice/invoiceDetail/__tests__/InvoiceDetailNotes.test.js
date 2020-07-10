@@ -12,9 +12,11 @@ describe('invoiceDetailsOptions', () => {
     const wrapper = mount(
       <Provider store={store}>
         <InvoiceDetailNotes />
-      </Provider>,
+      </Provider>
     );
-    const noteInput = wrapper.find('TextArea').filterWhere((t) => t.prop('name') === 'note');
+    const noteInput = wrapper
+      .find('TextArea')
+      .filterWhere((t) => t.prop('name') === 'note');
     expect(noteInput.prop('maxLength')).toBe(2000);
   });
 });

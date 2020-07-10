@@ -1,6 +1,4 @@
-import {
-  SORT_AND_FILTER_PAY_RUN_LIST,
-} from '../payRunList/PayRunListIntents';
+import { SORT_AND_FILTER_PAY_RUN_LIST } from '../payRunList/PayRunListIntents';
 
 const PayRunListMapping = {
   [SORT_AND_FILTER_PAY_RUN_LIST]: {

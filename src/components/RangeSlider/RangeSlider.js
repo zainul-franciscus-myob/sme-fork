@@ -23,7 +23,10 @@ const RangeSlider = ({
       renderField={() => (
         <div className={styles.container}>
           <div className={styles.range}>
-            <span className={styles.rangeValue} style={{ width: widthOfRangeValue }} />
+            <span
+              className={styles.rangeValue}
+              style={{ width: widthOfRangeValue }}
+            />
             <input
               className={styles.rangeSlide}
               type="range"

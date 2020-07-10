@@ -13,8 +13,10 @@ describe('PayrollWageSelectors', () => {
       const availablePayItems = [{ id: '1' }, { id: '2' }];
       const allocatedPayItems = [{ id: '1' }];
 
-      const actual = getFilteredWagePayItemOptions
-        .resultFunc(availablePayItems, allocatedPayItems);
+      const actual = getFilteredWagePayItemOptions.resultFunc(
+        availablePayItems,
+        allocatedPayItems
+      );
 
       const expected = [{ id: '2' }];
 
@@ -40,14 +42,16 @@ describe('PayrollWageSelectors', () => {
           name: 'name1',
           type: 'WagePayrollCategory',
           isRemovable: false,
-          tooltipText: 'All salaried employees must be linked to the Base salary wage pay item',
+          tooltipText:
+            'All salaried employees must be linked to the Base salary wage pay item',
         },
         {
           id: '2',
           name: 'name2',
           type: 'WagePayrollCategory',
           isRemovable: true,
-          tooltipText: 'All Base hourly employees must be linked to the Base hourly wage pay item',
+          tooltipText:
+            'All Base hourly employees must be linked to the Base hourly wage pay item',
         },
       ];
 
@@ -56,7 +60,7 @@ describe('PayrollWageSelectors', () => {
         allocatedPayItems,
         isSelectedPayBasisSalary,
         baseSalaryWagePayItemId,
-        baseHourlyWagePayItemId,
+        baseHourlyWagePayItemId
       );
 
       expect(actual).toEqual(expected);
@@ -79,14 +83,16 @@ describe('PayrollWageSelectors', () => {
           name: 'name1',
           type: 'WagePayrollCategory',
           isRemovable: true,
-          tooltipText: 'All salaried employees must be linked to the Base salary wage pay item',
+          tooltipText:
+            'All salaried employees must be linked to the Base salary wage pay item',
         },
         {
           id: '2',
           name: 'name2',
           type: 'WagePayrollCategory',
           isRemovable: false,
-          tooltipText: 'All Base hourly employees must be linked to the Base hourly wage pay item',
+          tooltipText:
+            'All Base hourly employees must be linked to the Base hourly wage pay item',
         },
       ];
 
@@ -95,7 +101,7 @@ describe('PayrollWageSelectors', () => {
         allocatedPayItems,
         isSelectedPayBasisSalary,
         baseSalaryWagePayItemId,
-        baseHourlyWagePayItemId,
+        baseHourlyWagePayItemId
       );
 
       expect(actual).toEqual(expected);
@@ -138,30 +144,37 @@ describe('PayrollWageSelectors', () => {
       ['payPeriodHours', '1', 'appliedPayPeriodHours', '0', true],
       ['payPeriodHours', '1', 'appliedPayPeriodHours', '1', false],
       ['selectedPayCycle', 'weekly', 'appliedSelectedPayCycle', 'weekly', true],
-      ['selectedPayCycle', 'weekly', 'appliedSelectedPayCycle', 'monthly', true],
+      [
+        'selectedPayCycle',
+        'weekly',
+        'appliedSelectedPayCycle',
+        'monthly',
+        true,
+      ],
       ['random', 'a', 'appliedRandom', 'a', true],
-    ])('should check whether %s is changed on blur', (
-      key, value, appliedKey, appliedValue, expected,
-    ) => {
-      const state = {
-        payrollDetails: {
-          wage: {
-            annualSalary: 'annualSalary',
-            hourlyRate: 'hourlyRate',
-            payPeriodHours: 'payPeriodHours',
-            appliedAnnualSalary: 'appliedAnnualSalary',
-            appliedHourlyRate: 'appliedHourlyRate',
-            appliedPayPeriodHours: 'appliedPayPeriodHours',
-            [key]: value,
-            [appliedKey]: appliedValue,
+    ])(
+      'should check whether %s is changed on blur',
+      (key, value, appliedKey, appliedValue, expected) => {
+        const state = {
+          payrollDetails: {
+            wage: {
+              annualSalary: 'annualSalary',
+              hourlyRate: 'hourlyRate',
+              payPeriodHours: 'payPeriodHours',
+              appliedAnnualSalary: 'appliedAnnualSalary',
+              appliedHourlyRate: 'appliedHourlyRate',
+              appliedPayPeriodHours: 'appliedPayPeriodHours',
+              [key]: value,
+              [appliedKey]: appliedValue,
+            },
           },
-        },
-      };
+        };
 
-      const actual = getIsWageDetailsInputChangedOnBlur(state, key);
+        const actual = getIsWageDetailsInputChangedOnBlur(state, key);
 
-      expect(actual).toEqual(expected);
-    });
+        expect(actual).toEqual(expected);
+      }
+    );
   });
 
   describe('getIsBaseWagePayItemId', () => {
@@ -169,15 +182,18 @@ describe('PayrollWageSelectors', () => {
       ['11', true],
       ['12', true],
       ['13', false],
-    ])('should check if payItemId is base salary or base hourly payItemId', (payItemId, expected) => {
-      const state = {
-        baseSalaryWagePayItemId: '11',
-        baseHourlyWagePayItemId: '12',
-      };
+    ])(
+      'should check if payItemId is base salary or base hourly payItemId',
+      (payItemId, expected) => {
+        const state = {
+          baseSalaryWagePayItemId: '11',
+          baseHourlyWagePayItemId: '12',
+        };
 
-      const actual = getIsBaseWagePayItemId(state, payItemId);
+        const actual = getIsBaseWagePayItemId(state, payItemId);
 
-      expect(actual).toEqual(expected);
-    });
+        expect(actual).toEqual(expected);
+      }
+    );
   });
 });

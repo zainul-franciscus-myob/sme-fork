@@ -31,20 +31,23 @@ const SuperFundWithPaySuperView = ({
   );
 
   const modal = modalType && (
-    <SuperFundDetailModal
-      modalType={modalType}
-      listeners={listeners}
-    />
+    <SuperFundDetailModal modalType={modalType} listeners={listeners} />
   );
 
   const actions = <SuperFundDetailActions listeners={listeners} />;
 
-  const FundDetail = superFund.fundType === 'SelfManagedSuperFund'
-    ? SuperFundSelfManagedDetail
-    : SuperFundAPRADetail;
+  const FundDetail =
+    superFund.fundType === 'SelfManagedSuperFund'
+      ? SuperFundSelfManagedDetail
+      : SuperFundAPRADetail;
 
   return (
-    <FormTemplate actions={actions} alert={alertComponent} sticky="none" pageHead={pageTitle}>
+    <FormTemplate
+      actions={actions}
+      alert={alertComponent}
+      sticky="none"
+      pageHead={pageTitle}
+    >
       {modal}
       <FormCard header="Superannuation fund details">
         <FieldGroup label="Self managed" hideLabel>
@@ -58,7 +61,7 @@ const SuperFundWithPaySuperView = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alertMessage: getAlertMessage(state),
   modalType: getModalType(state),
   superFund: getSuperFund(state),

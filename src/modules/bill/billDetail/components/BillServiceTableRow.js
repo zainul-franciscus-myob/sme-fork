@@ -20,19 +20,21 @@ import JobCombobox from '../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 import styles from './BillTableRow.module.css';
 
-const handleComboboxChange = (handler, name) => item => handler({
-  target: {
-    name,
-    value: item.id,
-  },
-});
+const handleComboboxChange = (handler, name) => (item) =>
+  handler({
+    target: {
+      name,
+      value: item.id,
+    },
+  });
 
-const handleAmountInputChange = handler => e => handler({
-  target: {
-    name: e.target.name,
-    value: e.target.rawValue,
-  },
-});
+const handleAmountInputChange = (handler) => (e) =>
+  handler({
+    target: {
+      name: e.target.name,
+      value: e.target.rawValue,
+    },
+  });
 
 const handleAmountInputBlur = (handler, index) => (e) => {
   const { name: key, rawValue: value } = e.target;
@@ -70,7 +72,12 @@ const BillServiceTableRow = ({
 
   const prefillStatus = billLine.prefillStatus || {};
   const {
-    description, accountId, jobId, taxCodeId, amount, lineJobOptions,
+    description,
+    accountId,
+    jobId,
+    taxCodeId,
+    amount,
+    lineJobOptions,
   } = billLine;
 
   return (
@@ -85,9 +92,9 @@ const BillServiceTableRow = ({
       />
       <AccountCombobox
         onChange={handleComboboxChange(onChange, 'accountId')}
-        addNewAccount={() => onAddAccount(
-          handleComboboxChange(onChange, 'accountId'),
-        )}
+        addNewAccount={() =>
+          onAddAccount(handleComboboxChange(onChange, 'accountId'))
+        }
         items={accountOptions}
         selectedId={accountId}
         disabled={isBlocking || isSupplierDisabled || isReadOnly}
@@ -97,23 +104,25 @@ const BillServiceTableRow = ({
         value={amount}
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index)}
-        className={classnames({ [styles.prefilled]: Boolean(prefillStatus.amount) })}
+        className={classnames({
+          [styles.prefilled]: Boolean(prefillStatus.amount),
+        })}
         textAlign="right"
         disabled={isBlocking || isSupplierDisabled || isReadOnly}
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
-      {isBillJobColumnEnabled && <JobCombobox
-        items={lineJobOptions}
-        selectedId={jobId}
-        addNewJob={() => onAddJob(
-          handleComboboxChange(onChange, 'jobId'),
-        )}
-        onChange={handleComboboxChange(onChange, 'jobId')}
-        disabled={isBlocking || isSupplierDisabled || isReadOnly}
-        allowClear
-        left
-      />}
+      {isBillJobColumnEnabled && (
+        <JobCombobox
+          items={lineJobOptions}
+          selectedId={jobId}
+          addNewJob={() => onAddJob(handleComboboxChange(onChange, 'jobId'))}
+          onChange={handleComboboxChange(onChange, 'jobId')}
+          disabled={isBlocking || isSupplierDisabled || isReadOnly}
+          allowClear
+          left
+        />
+      )}
       <TaxCodeCombobox
         onChange={handleComboboxChange(onChange, 'taxCodeId')}
         items={taxCodeOptions}

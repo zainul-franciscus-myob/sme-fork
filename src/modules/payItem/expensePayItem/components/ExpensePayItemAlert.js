@@ -5,15 +5,12 @@ import React from 'react';
 import { getAlertMessage } from '../ExpensePayItemSelectors';
 
 const ExpensePayItemAlert = ({ alertMessage, onDismissAlert }) => (
-  <Alert
-    type="danger"
-    onDismiss={onDismissAlert}
-  >
+  <Alert type="danger" onDismiss={onDismissAlert}>
     {alertMessage}
   </Alert>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alertMessage: getAlertMessage(state),
 });
 

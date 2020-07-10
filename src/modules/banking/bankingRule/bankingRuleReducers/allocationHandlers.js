@@ -8,10 +8,10 @@ const newAllocationLine = {
   taxCodeId: '',
 };
 
-const findTaxCodeIdByAccountId = (state, accountId) => (
-  getAllocationAccounts({ bankingRuleModal: state })
-    .find(({ id }) => id === accountId).taxCodeId
-);
+const findTaxCodeIdByAccountId = (state, accountId) =>
+  getAllocationAccounts({ bankingRuleModal: state }).find(
+    ({ id }) => id === accountId
+  ).taxCodeId;
 
 const addAllocation = ({ state, allocations, newRow }) => {
   const updatedAllocations = [
@@ -30,15 +30,16 @@ const addAllocation = ({ state, allocations, newRow }) => {
   };
 };
 
-const addRowForPercentage = (state, partialRow) => addAllocation({
-  state,
-  allocations: state.bankingRule.allocations,
-  newRow: {
-    ...newAllocationLine,
-    ...partialRow,
-    value: state.bankingRule.allocations.length !== 0 ? '0.00' : '100.00',
-  },
-});
+const addRowForPercentage = (state, partialRow) =>
+  addAllocation({
+    state,
+    allocations: state.bankingRule.allocations,
+    newRow: {
+      ...newAllocationLine,
+      ...partialRow,
+      value: state.bankingRule.allocations.length !== 0 ? '0.00' : '100.00',
+    },
+  });
 
 const addRowForAmount = (state, partialRow) => {
   if (state.bankingRule.allocations.length === 0) {
@@ -53,10 +54,15 @@ const addRowForAmount = (state, partialRow) => {
     });
   }
 
-  const updatedAllocations = state.bankingRule.allocations.map((allocation, index) => ({
-    ...allocation,
-    value: index === state.bankingRule.allocations.length - 1 ? '0.00' : allocation.value,
-  }));
+  const updatedAllocations = state.bankingRule.allocations.map(
+    (allocation, index) => ({
+      ...allocation,
+      value:
+        index === state.bankingRule.allocations.length - 1
+          ? '0.00'
+          : allocation.value,
+    })
+  );
 
   return addAllocation({
     state,
@@ -71,7 +77,7 @@ const addRowForAmount = (state, partialRow) => {
 
 export const addTableRow = (state, action) => {
   const { id, ...partialRow } = action.row;
-  return (state.bankingRule.allocationType === AllocationTypes.percent)
+  return state.bankingRule.allocationType === AllocationTypes.percent
     ? addRowForPercentage(state, partialRow)
     : addRowForAmount(state, partialRow);
 };
@@ -84,9 +90,10 @@ export const updateTableRow = (state, action) => ({
       if (index === action.index) {
         return {
           ...line,
-          taxCodeId: action.key === 'accountId'
-            ? findTaxCodeIdByAccountId(state, action.value)
-            : line.taxCodeId,
+          taxCodeId:
+            action.key === 'accountId'
+              ? findTaxCodeIdByAccountId(state, action.value)
+              : line.taxCodeId,
           [action.key]: action.value,
         };
       }
@@ -99,13 +106,14 @@ const removeRowForPercentage = (state, allocations) => ({
   ...state,
   bankingRule: {
     ...state.bankingRule,
-    allocations: allocations.map((allocation, index) => (
+    allocations: allocations.map((allocation, index) =>
       index === allocations.length - 1
         ? {
-          ...allocation,
-          value: allocations.length === 1 ? '100.00' : allocation.value,
-        }
-        : allocation)),
+            ...allocation,
+            value: allocations.length === 1 ? '100.00' : allocation.value,
+          }
+        : allocation
+    ),
   },
 });
 
@@ -113,23 +121,27 @@ const removeRowForAmount = (state, allocations) => ({
   ...state,
   bankingRule: {
     ...state.bankingRule,
-    allocations: allocations.map((allocation, index) => (
+    allocations: allocations.map((allocation, index) =>
       index === allocations.length - 1
         ? {
-          ...allocation,
-          value: allocations.length === 1 ? 'Full amount' : 'Remainder',
-        }
-        : allocation)),
+            ...allocation,
+            value: allocations.length === 1 ? 'Full amount' : 'Remainder',
+          }
+        : allocation
+    ),
   },
 });
 
 export const removeTableRow = (state, action) => {
   const { bankingRule } = state;
-  const updatedAllocations = bankingRule.allocations.filter((_, index) => index !== action.index);
+  const updatedAllocations = bankingRule.allocations.filter(
+    (_, index) => index !== action.index
+  );
 
-  const updatedState = (bankingRule.allocationType === AllocationTypes.percent)
-    ? removeRowForPercentage(state, updatedAllocations)
-    : removeRowForAmount(state, updatedAllocations);
+  const updatedState =
+    bankingRule.allocationType === AllocationTypes.percent
+      ? removeRowForPercentage(state, updatedAllocations)
+      : removeRowForAmount(state, updatedAllocations);
 
   return {
     ...updatedState,

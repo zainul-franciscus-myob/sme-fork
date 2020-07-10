@@ -13,11 +13,7 @@ describe('splitAllocationHandlers', () => {
       isReportable: false,
       isSpendMoney: true,
       contacts: [],
-      lines: [
-        { jobId: '1' },
-        { jobId: '2' },
-        { jobId: '3' },
-      ],
+      lines: [{ jobId: '1' }, { jobId: '2' }, { jobId: '3' }],
     };
 
     const state = {
@@ -44,17 +40,21 @@ describe('splitAllocationHandlers', () => {
         index: 0,
         allocate: {
           ...response,
-          contacts: [{
-            id: '🦖',
-          }],
+          contacts: [
+            {
+              id: '🦖',
+            },
+          ],
         },
       };
 
       const actual = bankingReducer(state, action);
 
-      expect(actual.contacts).toEqual([{
-        id: '🦖',
-      }]);
+      expect(actual.contacts).toEqual([
+        {
+          id: '🦖',
+        },
+      ]);
     });
 
     describe('lineJobOptions', () => {
@@ -69,19 +69,33 @@ describe('splitAllocationHandlers', () => {
       const actual = bankingReducer(state, action);
 
       it('updates lines with lineJobOptions', () => {
-        const lineOneExpectedOptions = state.jobs.filter(job => job.id !== '2');
-        const lineTwoExpectedOptions = state.jobs.filter(job => job.id !== '1');
-        const lineThreeExpectedOptions = state.jobs.filter(job => job.id !== '1' && job.id !== '2');
+        const lineOneExpectedOptions = state.jobs.filter(
+          (job) => job.id !== '2'
+        );
+        const lineTwoExpectedOptions = state.jobs.filter(
+          (job) => job.id !== '1'
+        );
+        const lineThreeExpectedOptions = state.jobs.filter(
+          (job) => job.id !== '1' && job.id !== '2'
+        );
 
-        expect(actual.openEntry.allocate.lines[0].lineJobOptions).toEqual(lineOneExpectedOptions);
-        expect(actual.openEntry.allocate.lines[1].lineJobOptions).toEqual(lineTwoExpectedOptions);
-        expect(actual.openEntry.allocate.lines[2].lineJobOptions).toEqual(lineThreeExpectedOptions);
+        expect(actual.openEntry.allocate.lines[0].lineJobOptions).toEqual(
+          lineOneExpectedOptions
+        );
+        expect(actual.openEntry.allocate.lines[1].lineJobOptions).toEqual(
+          lineTwoExpectedOptions
+        );
+        expect(actual.openEntry.allocate.lines[2].lineJobOptions).toEqual(
+          lineThreeExpectedOptions
+        );
       });
 
       it('shows active selected jobs against new line', () => {
-        const expectedJobOptions = state.jobs.filter(job => job.isActive);
+        const expectedJobOptions = state.jobs.filter((job) => job.isActive);
 
-        expect(actual.openEntry.allocate.newLine.lineJobOptions).toEqual(expectedJobOptions);
+        expect(actual.openEntry.allocate.newLine.lineJobOptions).toEqual(
+          expectedJobOptions
+        );
       });
     });
   });

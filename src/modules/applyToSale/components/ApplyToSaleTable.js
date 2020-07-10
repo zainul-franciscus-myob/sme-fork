@@ -2,7 +2,11 @@ import { Label, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getInvoices, getIsCreating, getIsTableEmpty } from '../applyToSaleSelectors';
+import {
+  getInvoices,
+  getIsCreating,
+  getIsTableEmpty,
+} from '../applyToSaleSelectors';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
 import ApplyToSaleTotals from './ApplyToSaleTotals';
 import TableView from '../../../components/TableView/TableView';
@@ -23,62 +27,79 @@ const ApplyToSaleTable = ({
     issueDate: { columnName: 'Issue date', valign: 'middle' },
     invoiceNumber: { columnName: 'Invoice number', valign: 'middle' },
     status: { columnName: 'Status', valign: 'middle' },
-    totalAmount: { columnName: 'Balance due ($)', valign: 'middle', align: 'right' },
+    totalAmount: {
+      columnName: 'Balance due ($)',
+      valign: 'middle',
+      align: 'right',
+    },
     discount: { columnName: 'Discount ($)', valign: 'middle', align: 'right' },
-    discountBalance: { columnName: 'Discounted balance ($)', valign: 'middle', align: 'right' },
-    amountApplied: { columnName: 'Amount applied ($)', valign: 'middle', align: 'right' },
+    discountBalance: {
+      columnName: 'Discounted balance ($)',
+      valign: 'middle',
+      align: 'right',
+    },
+    amountApplied: {
+      columnName: 'Amount applied ($)',
+      valign: 'middle',
+      align: 'right',
+    },
   };
-
 
   const tableBody = (
     <React.Fragment>
       <Table.Body>
-        {
-          invoices.map((invoice, index) => (
-            <Table.Row key={invoice.invoiceId}>
-              <Table.RowItem {...tableConfig.issueDate}>{invoice.issueDate}</Table.RowItem>
-              <Table.RowItem {...tableConfig.invoiceNumber}>
-                <a href={invoice.link} target="_blank" rel="noopener noreferrer">{invoice.invoiceNumber}</a>
-              </Table.RowItem>
-              <Table.RowItem {...tableConfig.status}>
-                <Label color={invoice.labelColour} type="boxed">
-                  {invoice.status}
-                </Label>
-              </Table.RowItem>
-              <Table.RowItem {...tableConfig.totalAmount}>{invoice.totalAmount}</Table.RowItem>
-              <Table.RowItem {...tableConfig.discount}>
-                <AmountInput
-                  textAlign="right"
-                  name="discount"
-                  value={invoice.displayDiscount}
-                  onChange={onAmountChange(onUpdateTableAmountInput, index)}
-                  onBlur={onAmountChange(onUpdateTableAmountInput, index)}
-                  numeralDecimalScaleMin={2}
-                  numeralDecimalScaleMax={2}
-                  label="discount"
-                  disabled={!isCreating}
-                  numeralPositiveOnly
-                  hideLabel
-                />
-              </Table.RowItem>
-              <Table.RowItem {...tableConfig.discountBalance}>{invoice.balanceDue}</Table.RowItem>
-              <Table.RowItem {...tableConfig.amountApplied}>
-                <AmountInput
-                  textAlign="right"
-                  name="amountApplied"
-                  value={invoice.displayAmountApplied}
-                  onChange={onAmountChange(onUpdateTableAmountInput, index)}
-                  onBlur={onAmountChange(onUpdateTableAmountInput, index)}
-                  numeralDecimalScaleMin={2}
-                  numeralDecimalScaleMax={2}
-                  label="amountApplied"
-                  disabled={!isCreating}
-                  hideLabel
-                />
-              </Table.RowItem>
-            </Table.Row>
-          ))
-        }
+        {invoices.map((invoice, index) => (
+          <Table.Row key={invoice.invoiceId}>
+            <Table.RowItem {...tableConfig.issueDate}>
+              {invoice.issueDate}
+            </Table.RowItem>
+            <Table.RowItem {...tableConfig.invoiceNumber}>
+              <a href={invoice.link} target="_blank" rel="noopener noreferrer">
+                {invoice.invoiceNumber}
+              </a>
+            </Table.RowItem>
+            <Table.RowItem {...tableConfig.status}>
+              <Label color={invoice.labelColour} type="boxed">
+                {invoice.status}
+              </Label>
+            </Table.RowItem>
+            <Table.RowItem {...tableConfig.totalAmount}>
+              {invoice.totalAmount}
+            </Table.RowItem>
+            <Table.RowItem {...tableConfig.discount}>
+              <AmountInput
+                textAlign="right"
+                name="discount"
+                value={invoice.displayDiscount}
+                onChange={onAmountChange(onUpdateTableAmountInput, index)}
+                onBlur={onAmountChange(onUpdateTableAmountInput, index)}
+                numeralDecimalScaleMin={2}
+                numeralDecimalScaleMax={2}
+                label="discount"
+                disabled={!isCreating}
+                numeralPositiveOnly
+                hideLabel
+              />
+            </Table.RowItem>
+            <Table.RowItem {...tableConfig.discountBalance}>
+              {invoice.balanceDue}
+            </Table.RowItem>
+            <Table.RowItem {...tableConfig.amountApplied}>
+              <AmountInput
+                textAlign="right"
+                name="amountApplied"
+                value={invoice.displayAmountApplied}
+                onChange={onAmountChange(onUpdateTableAmountInput, index)}
+                onBlur={onAmountChange(onUpdateTableAmountInput, index)}
+                numeralDecimalScaleMin={2}
+                numeralDecimalScaleMax={2}
+                label="amountApplied"
+                disabled={!isCreating}
+                hideLabel
+              />
+            </Table.RowItem>
+          </Table.Row>
+        ))}
       </Table.Body>
       <ApplyToSaleTotals />
     </React.Fragment>
@@ -121,7 +142,7 @@ const ApplyToSaleTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   invoices: getInvoices(state),
   isCreating: getIsCreating(state),
   isTableEmpty: getIsTableEmpty(state),

@@ -4,33 +4,20 @@ import React from 'react';
 import LinkBillListOptions from './LinkBillListOptions';
 import LinkBillListTable from './LinkBillListTable';
 
-const LinkBillListView = ({
-  onUpdateFilterOptions,
-  onSort,
-  onBillSelect,
-}) => {
+const LinkBillListView = ({ onUpdateFilterOptions, onSort, onBillSelect }) => {
   const cardBody = (
     <Card.Body
-      child={(
+      child={
         <>
-          <LinkBillListOptions
-            onUpdateFilterOptions={onUpdateFilterOptions}
-          />
+          <LinkBillListOptions onUpdateFilterOptions={onUpdateFilterOptions} />
           <Separator />
-          <LinkBillListTable
-            onSort={onSort}
-            onBillSelect={onBillSelect}
-          />
+          <LinkBillListTable onSort={onSort} onBillSelect={onBillSelect} />
         </>
-      )}
+      }
     />
   );
 
-  return (
-    <Card
-      body={cardBody}
-    />
-  );
+  return <Card body={cardBody} />;
 };
 
 export default LinkBillListView;

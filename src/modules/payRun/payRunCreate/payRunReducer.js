@@ -16,7 +16,11 @@ import {
   SET_TOTAL_NET_PAY,
   SET_UNPROCESSED_TIMESHEET_LINES,
 } from './PayRunIntents';
-import { EMPLOYEE_PAY_LIST, PREPARE_PAY_SLIPS, START_PAY_RUN } from './payRunSteps';
+import {
+  EMPLOYEE_PAY_LIST,
+  PREPARE_PAY_SLIPS,
+  START_PAY_RUN,
+} from './payRunSteps';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
   employeePayListHandlers,
@@ -26,7 +30,10 @@ import {
   getPreparePaySlipsDefaultState,
   preparePaySlipsHandlers,
 } from './preparePaySlips/preparePaySlipsReducer';
-import { getStartPayRunDefaultState, startPayRunHandlers } from './startPayRun/startPayRunReducer';
+import {
+  getStartPayRunDefaultState,
+  startPayRunHandlers,
+} from './startPayRun/startPayRunReducer';
 import LoadingState from '../../../components/PageView/LoadingState';
 import clearNegatives from './clearNegativesInPayItems';
 import createReducer from '../../../store/createReducer';
@@ -74,22 +81,22 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
-const openPreviousStepModal = state => ({
+const openPreviousStepModal = (state) => ({
   ...state,
   previousStepModalIsOpen: true,
 });
 
-const closePreviousStepModal = state => ({
+const closePreviousStepModal = (state) => ({
   ...state,
   previousStepModalIsOpen: false,
 });
 
-const nextStep = state => ({
+const nextStep = (state) => ({
   ...state,
   step: state.step + 1,
 });
 
-const previousStep = state => ({
+const previousStep = (state) => ({
   ...state,
   step: state.step - 1,
 });
@@ -106,7 +113,7 @@ const setStpRegistrationStatus = (state, { stpRegistrationStatus }) => ({
 
 const loadTimesheets = (state, { response }) => ({
   ...state,
-  timesheets: response.timesheets.map(t => ({
+  timesheets: response.timesheets.map((t) => ({
     ...t,
     isSelected: true,
   })),
@@ -117,9 +124,10 @@ const setEmployeePayments = (state, { response }) => ({
   [PREPARE_PAY_SLIPS]: {
     ...state[PREPARE_PAY_SLIPS],
     printPaySlipEmployees: response.printPaySlipEmployees,
-    emailPaySlipEmployees: response.emailPaySlipEmployees.map(employee => (
-      { ...employee, isSelected: true }
-    )),
+    emailPaySlipEmployees: response.emailPaySlipEmployees.map((employee) => ({
+      ...employee,
+      isSelected: true,
+    })),
     emailSettings: response.emailSettings,
   },
 });
@@ -134,8 +142,8 @@ const deletePayRunDraft = (state) => {
   };
 };
 
-const isEmployeeSelected = (employeeId, selectedEmployeeIds) => (
-  selectedEmployeeIds.includes(employeeId));
+const isEmployeeSelected = (employeeId, selectedEmployeeIds) =>
+  selectedEmployeeIds.includes(employeeId);
 
 const editExistingPayRun = (state, action) => {
   const {
@@ -166,9 +174,12 @@ const editExistingPayRun = (state, action) => {
       ...state[EMPLOYEE_PAY_LIST],
       baseSalaryWagePayItemId,
       baseHourlyWagePayItemId,
-      lines: clearNegatives(getEmployeePayLines(
-        employeePays, ep => (isEmployeeSelected(ep.employeeId, selectedEmployeeIds)),
-      ), [baseSalaryWagePayItemId, baseHourlyWagePayItemId]),
+      lines: clearNegatives(
+        getEmployeePayLines(employeePays, (ep) =>
+          isEmployeeSelected(ep.employeeId, selectedEmployeeIds)
+        ),
+        [baseSalaryWagePayItemId, baseHourlyWagePayItemId]
+      ),
       originalLines: employeePays,
     },
   };
@@ -176,7 +187,7 @@ const editExistingPayRun = (state, action) => {
 
 const selectAllTimesheets = (state, { isSelected }) => ({
   ...state,
-  timesheets: state.timesheets.map(t => ({
+  timesheets: state.timesheets.map((t) => ({
     ...t,
     isSelected,
   })),
@@ -184,19 +195,20 @@ const selectAllTimesheets = (state, { isSelected }) => ({
 
 const selectTimesheetItem = (state, action) => ({
   ...state,
-  timesheets: state.timesheets.map(t => (
-    t.timesheetDate === action.item.timesheetDate
-    && t.employeeId === action.item.employeeId
-      ? { ...t, isSelected: action.isSelected } : t
-  )),
+  timesheets: state.timesheets.map((t) =>
+    t.timesheetDate === action.item.timesheetDate &&
+    t.employeeId === action.item.employeeId
+      ? { ...t, isSelected: action.isSelected }
+      : t
+  ),
 });
 
-const concatArrays = (a, b) => (a.concat(b));
-const setUnprocessedTimesheetLines = state => ({
+const concatArrays = (a, b) => a.concat(b);
+const setUnprocessedTimesheetLines = (state) => ({
   ...state,
   unprocessedTimesheetLines: state.timesheets
-    .filter(t => t.isSelected)
-    .map(t => t.timesheetLines)
+    .filter((t) => t.isSelected)
+    .map((t) => t.timesheetLines)
     .reduce(concatArrays, []),
 });
 

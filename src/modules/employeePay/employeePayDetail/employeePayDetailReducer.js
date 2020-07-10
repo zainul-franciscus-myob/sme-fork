@@ -45,7 +45,7 @@ const setInitialState = (state, { context }) => ({
   ...context,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setLoadingState = (state, { loadingState }) => ({
   ...state,
@@ -77,7 +77,6 @@ const setDeleteModalOpenState = (store, { isOpen }) => ({
   ...store,
   isDeleteModalOpen: isOpen,
 });
-
 
 const handlers = {
   [RESET_STATE]: resetState,

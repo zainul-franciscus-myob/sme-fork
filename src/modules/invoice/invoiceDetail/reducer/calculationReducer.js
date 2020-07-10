@@ -1,4 +1,8 @@
-import { getIsCalculableLine, getLayout, getLines } from '../selectors/invoiceDetailSelectors';
+import {
+  getIsCalculableLine,
+  getLayout,
+  getLines,
+} from '../selectors/invoiceDetailSelectors';
 import InvoiceLayout from '../types/InvoiceLayout';
 import buildLineWithCalculatedAmounts from '../../../../common/itemAndServiceLayout/buildLineWithCalculatedAmounts';
 import calculateUnitPrice from '../../../../common/itemAndServiceLayout/calculateUnitPrice';
@@ -16,7 +20,8 @@ export const calculateLineAmounts = (state, { key, index }) => {
           return line;
         }
 
-        return layout === InvoiceLayout.ITEM_AND_SERVICE && getIsCalculableLine(line)
+        return layout === InvoiceLayout.ITEM_AND_SERVICE &&
+          getIsCalculableLine(line)
           ? buildLineWithCalculatedAmounts(line, key)
           : line;
       }),
@@ -24,18 +29,17 @@ export const calculateLineAmounts = (state, { key, index }) => {
   };
 };
 
-const shouldCalculateUnitPriceWithTaxInclusiveSwitch = (line, isSwitchingTaxInclusive) => (
+const shouldCalculateUnitPriceWithTaxInclusiveSwitch = (
+  line,
   isSwitchingTaxInclusive
-  && Number(line.units) !== 0
-  && Number(line.discount) !== 100
-);
+) =>
+  isSwitchingTaxInclusive &&
+  Number(line.units) !== 0 &&
+  Number(line.discount) !== 100;
 
 export const calculateLines = (
   state,
-  {
-    taxCalculations: { lines: calculatedLines },
-    isSwitchingTaxInclusive,
-  },
+  { taxCalculations: { lines: calculatedLines }, isSwitchingTaxInclusive }
 ) => ({
   ...state,
   isPageEdited: true,
@@ -55,7 +59,12 @@ export const calculateLines = (
         taxAmount: taxAmount.valueOf(),
       };
 
-      if (shouldCalculateUnitPriceWithTaxInclusiveSwitch(line, isSwitchingTaxInclusive)) {
+      if (
+        shouldCalculateUnitPriceWithTaxInclusiveSwitch(
+          line,
+          isSwitchingTaxInclusive
+        )
+      ) {
         const units = Number(line.units);
         const discount = Number(line.discount);
         const calculatedUnitPrice = calculateUnitPrice(units, amount, discount);

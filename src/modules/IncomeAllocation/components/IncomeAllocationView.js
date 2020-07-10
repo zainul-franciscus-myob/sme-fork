@@ -1,18 +1,20 @@
-import {
-  Alert, Columns, Select,
-} from '@myob/myob-widgets';
+import { Alert, Columns, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getEntityTypeOptions, getIsTableHidden, getLoadingState, getSelectedEntityType,
+  getAlert,
+  getEntityTypeOptions,
+  getIsTableHidden,
+  getLoadingState,
+  getSelectedEntityType,
 } from '../IncomeAllocationSelectors';
 import IncomeAllocationActions from './IncomeAllocationActions';
 import IncomeAllocationTable from './IncomeAllocationTable';
 import LineItemTemplate from '../../../components/Feelix/LineItemTemplate/LineItemTemplate';
 import PageView from '../../../components/PageView/PageView';
 
-const onSelectChange = handler => (e) => {
+const onSelectChange = (handler) => (e) => {
   const { value } = e.target;
 
   handler(value);
@@ -38,15 +40,13 @@ const IncomeAllocationView = ({
     </Alert>
   );
 
-  const table = (
-    !isTableHidden && (
-      <IncomeAllocationTable
-        onAddRow={onAddRow}
-        onUpdateRow={onUpdateRow}
-        onRowInputBlur={onRowInputBlur}
-        onRemoveRow={onRemoveRow}
-      />
-    )
+  const table = !isTableHidden && (
+    <IncomeAllocationTable
+      onAddRow={onAddRow}
+      onUpdateRow={onUpdateRow}
+      onRowInputBlur={onRowInputBlur}
+      onRemoveRow={onRemoveRow}
+    />
   );
 
   const actions = (
@@ -55,7 +55,12 @@ const IncomeAllocationView = ({
 
   const options = (
     <Columns type="three">
-      <Select name="EntityType" label="Entity type" value={selectedEntityType} onChange={onSelectChange(onEntityTypeChange)}>
+      <Select
+        name="EntityType"
+        label="Entity type"
+        value={selectedEntityType}
+        onChange={onSelectChange(onEntityTypeChange)}
+      >
         {entityTypeOptions.map(({ label, value }) => (
           <Select.Option value={value} label={label} key={value} />
         ))}
@@ -82,7 +87,7 @@ IncomeAllocationView.defaultProps = {
   alert: undefined,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedEntityType: getSelectedEntityType(state),
   entityTypeOptions: getEntityTypeOptions(state),
   isTableHidden: getIsTableHidden(state),

@@ -11,22 +11,24 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getContactDetail, getIsStateDropdown, getStateOptions,
+  getContactDetail,
+  getIsStateDropdown,
+  getStateOptions,
 } from '../ContactDetailsTabSelectors';
 import CountryCombobox from '../../../../../components/combobox/CountryCombobox';
 import PhoneNumberList from '../../../../../components/phoneNumberList/PhoneNumberList';
 
-const onInputChange = handler => (e) => {
+const onInputChange = (handler) => (e) => {
   const { name, value } = e.target;
   handler({ key: name, value });
 };
 
-const onCheckBoxChange = handler => (e) => {
+const onCheckBoxChange = (handler) => (e) => {
   const { name, checked } = e.target;
   handler({ key: name, value: checked });
 };
 
-const onSelectChange = handler => (e) => {
+const onSelectChange = (handler) => (e) => {
   const { name, value } = e.target;
   handler({ key: name, value });
 };
@@ -36,7 +38,7 @@ const onComboBoxChange = (handler, key) => (option) => {
   handler({ key, value });
 };
 
-const onPhoneNumberChange = handler => (phoneNumbers) => {
+const onPhoneNumberChange = (handler) => (phoneNumbers) => {
   handler({ key: 'phoneNumbers', value: phoneNumbers });
 };
 
@@ -48,22 +50,26 @@ const ContactDetailsTab = (props) => {
     isStateDropdown,
   } = props;
 
-  const stateInput = isStateDropdown
-    ? (
-      <Select
-        label="State/territory"
-        name="state"
-        value={contactDetail.state}
-        onChange={onSelectChange(onContactDetailsChange)
-        }
-        width="xs"
-      >
-        {stateOptions.map(
-          ({ name, id }) => <Select.Option key={id} value={id} label={name} />,
-        )}
-      </Select>
-    )
-    : <Input label="State/territory" name="state" value={contactDetail.state} onChange={onInputChange(onContactDetailsChange)} />;
+  const stateInput = isStateDropdown ? (
+    <Select
+      label="State/territory"
+      name="state"
+      value={contactDetail.state}
+      onChange={onSelectChange(onContactDetailsChange)}
+      width="xs"
+    >
+      {stateOptions.map(({ name, id }) => (
+        <Select.Option key={id} value={id} label={name} />
+      ))}
+    </Select>
+  ) : (
+    <Input
+      label="State/territory"
+      name="state"
+      value={contactDetail.state}
+      onChange={onInputChange(onContactDetailsChange)}
+    />
+  );
 
   const view = (
     <FormHorizontal layout="primary">
@@ -168,7 +174,7 @@ ContactDetailsTab.defaultProps = {
   stateOptions: undefined,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   contactDetail: getContactDetail(state),
   stateOptions: getStateOptions(state),
   isStateDropdown: getIsStateDropdown(state),

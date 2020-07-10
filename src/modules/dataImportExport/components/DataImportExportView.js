@@ -44,16 +44,11 @@ const DataImportExportView = ({
   deleteUnusedAccounts,
 }) => {
   const actions = isDataTypeSelectedForTab && (
-    <DataImportExportActions
-      onSaveButtonClick={onSaveButtonClick}
-    />
+    <DataImportExportActions onSaveButtonClick={onSaveButtonClick} />
   );
 
   const alertComponent = alert && (
-    <Alert
-      alert={alert}
-      onDismissAlert={onDismissAlert}
-    />
+    <Alert alert={alert} onDismissAlert={onDismissAlert} />
   );
   const modalComponent = modalType && (
     <ImportConfirmModal
@@ -65,22 +60,28 @@ const DataImportExportView = ({
 
   const content = (
     <Card>
-      {{
-        [TabItem.IMPORT]: <ImportTabContent
-          onFileSelected={onFileSelected}
-          onFileRemove={onFileRemove}
-          onDuplicateRecordsOptionChange={onDuplicateRecordsOptionChange}
-          onUpdateImportDataType={onUpdateImportDataType}
-          onUpdateContactsIdentifyBy={onUpdateContactsIdentifyBy}
-          onUpdateContactsType={onUpdateContactsType}
-          onDeleteUnusedAccountsChange={onDeleteUnusedAccountsChange}
-        />,
-        [TabItem.EXPORT]: <ExportTabContent
-          onUpdateExportDataType={onUpdateExportDataType}
-          exportChartOfAccountsListeners={exportChartOfAccountsListeners}
-          exportCompanyFileListeners={exportCompanyFileListeners}
-        />,
-      }[selectedTab]}
+      {
+        {
+          [TabItem.IMPORT]: (
+            <ImportTabContent
+              onFileSelected={onFileSelected}
+              onFileRemove={onFileRemove}
+              onDuplicateRecordsOptionChange={onDuplicateRecordsOptionChange}
+              onUpdateImportDataType={onUpdateImportDataType}
+              onUpdateContactsIdentifyBy={onUpdateContactsIdentifyBy}
+              onUpdateContactsType={onUpdateContactsType}
+              onDeleteUnusedAccountsChange={onDeleteUnusedAccountsChange}
+            />
+          ),
+          [TabItem.EXPORT]: (
+            <ExportTabContent
+              onUpdateExportDataType={onUpdateExportDataType}
+              exportChartOfAccountsListeners={exportChartOfAccountsListeners}
+              exportCompanyFileListeners={exportCompanyFileListeners}
+            />
+          ),
+        }[selectedTab]
+      }
     </Card>
   );
 
@@ -98,7 +99,7 @@ const DataImportExportView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   isDataTypeSelectedForTab: getCurrentDataTypeInCurrentTab(state),
   alert: getAlert(state),

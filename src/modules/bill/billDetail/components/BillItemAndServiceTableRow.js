@@ -22,21 +22,21 @@ import JobCombobox from '../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 import styles from './BillTableRow.module.css';
 
-const handleComboboxChange = (handler, name) => e => handler({
-  target: {
-    name,
-    value: e.id,
-  },
-});
+const handleComboboxChange = (handler, name) => (e) =>
+  handler({
+    target: {
+      name,
+      value: e.id,
+    },
+  });
 
-const handleAmountInputChange = handler => e => (
+const handleAmountInputChange = (handler) => (e) =>
   handler({
     target: {
       name: e.target.name,
       value: e.target.rawValue,
     },
-  })
-);
+  });
 
 const handleAmountInputBlur = (handler, index) => (e) => {
   const { name: key, rawValue: value } = e.target;
@@ -95,19 +95,21 @@ const BillItemAndServiceTableRow = ({
   }
 
   return (
-    <LineItemTable.Row
-      id={index}
-      index={index}
-      {...feelixInjectedProps}
-    >
+    <LineItemTable.Row id={index} index={index} {...feelixInjectedProps}>
       <ItemCombobox
-        addNewItem={() => onAddItemButtonClick(handleComboboxChange(onChange, 'itemId'))}
+        addNewItem={() =>
+          onAddItemButtonClick(handleComboboxChange(onChange, 'itemId'))
+        }
         items={itemOptions}
         selectedId={itemId}
         onChange={handleComboboxChange(onChange, 'itemId')}
         disabled={isBlocking || isSupplierDisabled || isReadOnly}
       />
-      <div className={classnames({ [styles.prefilled]: Boolean(prefillStatus.description) })}>
+      <div
+        className={classnames({
+          [styles.prefilled]: Boolean(prefillStatus.description),
+        })}
+      >
         <TextArea
           name="description"
           autoSize
@@ -119,9 +121,9 @@ const BillItemAndServiceTableRow = ({
       </div>
       <AccountCombobox
         onChange={handleComboboxChange(onChange, 'accountId')}
-        addNewAccount={() => onAddAccount(
-          handleComboboxChange(onChange, 'accountId'),
-        )}
+        addNewAccount={() =>
+          onAddAccount(handleComboboxChange(onChange, 'accountId'))
+        }
         items={accountOptions}
         selectedId={accountId}
         disabled={isBlocking || isSupplierDisabled || isReadOnly}
@@ -131,7 +133,9 @@ const BillItemAndServiceTableRow = ({
         value={units}
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index)}
-        className={classnames({ [styles.prefilled]: Boolean(prefillStatus.units) })}
+        className={classnames({
+          [styles.prefilled]: Boolean(prefillStatus.units),
+        })}
         disabled={isBlocking || isSupplierDisabled || isReadOnly}
         numeralIntegerScale={12}
         numeralDecimalScaleMax={6}
@@ -141,7 +145,9 @@ const BillItemAndServiceTableRow = ({
         value={unitPrice}
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index)}
-        className={classnames({ [styles.prefilled]: Boolean(prefillStatus.unitPrice) })}
+        className={classnames({
+          [styles.prefilled]: Boolean(prefillStatus.unitPrice),
+        })}
         textAlign="right"
         disabled={isBlocking || isSupplierDisabled || isReadOnly}
         numeralDecimalScaleMin={2}
@@ -152,7 +158,9 @@ const BillItemAndServiceTableRow = ({
         value={discount}
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index)}
-        className={classnames({ [styles.prefilled]: Boolean(prefillStatus.discount) })}
+        className={classnames({
+          [styles.prefilled]: Boolean(prefillStatus.discount),
+        })}
         textAlign="right"
         disabled={isBlocking || isSupplierDisabled || isReadOnly}
         numeralDecimalScaleMin={2}
@@ -163,23 +171,25 @@ const BillItemAndServiceTableRow = ({
         value={amount}
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index)}
-        className={classnames({ [styles.prefilled]: Boolean(prefillStatus.amount) })}
+        className={classnames({
+          [styles.prefilled]: Boolean(prefillStatus.amount),
+        })}
         textAlign="right"
         disabled={isBlocking || isSupplierDisabled || isReadOnly}
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
-      {isBillJobColumnEnabled && <JobCombobox
-        items={lineJobOptions}
-        selectedId={jobId}
-        addNewJob={() => onAddJob(
-          handleComboboxChange(onChange, 'jobId'),
-        )}
-        onChange={handleComboboxChange(onChange, 'jobId')}
-        disabled={isBlocking || isSupplierDisabled || isReadOnly}
-        allowClear
-        left
-      />}
+      {isBillJobColumnEnabled && (
+        <JobCombobox
+          items={lineJobOptions}
+          selectedId={jobId}
+          addNewJob={() => onAddJob(handleComboboxChange(onChange, 'jobId'))}
+          onChange={handleComboboxChange(onChange, 'jobId')}
+          disabled={isBlocking || isSupplierDisabled || isReadOnly}
+          allowClear
+          left
+        />
+      )}
       <TaxCodeCombobox
         items={taxCodeOptions}
         selectedId={taxCodeId}

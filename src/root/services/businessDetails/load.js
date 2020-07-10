@@ -6,12 +6,14 @@ const load = async (dispatcher, integration, store) => {
   const businessId = getBusinessId(state);
 
   try {
-    const businessDetails = await new Promise((resolve, reject) => integration.read({
-      intent: LOAD_GLOBAL_BUSINESS_DETAILS,
-      urlParams: { businessId },
-      onSuccess: resolve,
-      onFailure: reject,
-    }));
+    const businessDetails = await new Promise((resolve, reject) =>
+      integration.read({
+        intent: LOAD_GLOBAL_BUSINESS_DETAILS,
+        urlParams: { businessId },
+        onSuccess: resolve,
+        onFailure: reject,
+      })
+    );
 
     dispatcher.loadBusinessDetails(businessDetails);
   } catch (error) {

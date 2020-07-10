@@ -28,8 +28,15 @@ import {
   getNewEmploymentClassificationUrlParams,
   getSaveEmploymentClassificationContent,
 } from './selectors/employmentClassificationDetailSelectors';
-import { getFilterOptions, getOrderBy, getSortOrder } from './selectors/superFundListSelectors';
-import { getPaySlipEmailDefaultsContent, getPaySlipEmailDefaultsUrlParams } from './selectors/paySlipEmailDefaultsSelectors';
+import {
+  getFilterOptions,
+  getOrderBy,
+  getSortOrder,
+} from './selectors/superFundListSelectors';
+import {
+  getPaySlipEmailDefaultsContent,
+  getPaySlipEmailDefaultsUrlParams,
+} from './selectors/paySlipEmailDefaultsSelectors';
 
 const createPayrollSettingsIntegrator = (store, integration) => ({
   loadSuperFundList: ({ onSuccess, onFailure }) => {
@@ -40,7 +47,10 @@ const createPayrollSettingsIntegrator = (store, integration) => ({
     };
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -80,7 +90,10 @@ const createPayrollSettingsIntegrator = (store, integration) => ({
     };
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -112,9 +125,7 @@ const createPayrollSettingsIntegrator = (store, integration) => ({
     });
   },
 
-  loadNewEmploymentClassificationDetail: ({
-    onSuccess, onFailure,
-  }) => {
+  loadNewEmploymentClassificationDetail: ({ onSuccess, onFailure }) => {
     const intent = LOAD_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL;
 
     const state = store.getState();
@@ -128,9 +139,7 @@ const createPayrollSettingsIntegrator = (store, integration) => ({
     });
   },
 
-  loadEmploymentClassificationDetail: ({
-    onSuccess, onFailure,
-  }) => {
+  loadEmploymentClassificationDetail: ({ onSuccess, onFailure }) => {
     const intent = LOAD_EMPLOYMENT_CLASSIFICATION_DETAIL;
 
     const state = store.getState();
@@ -144,9 +153,7 @@ const createPayrollSettingsIntegrator = (store, integration) => ({
     });
   },
 
-  loadPaySlipEmailDefaults: ({
-    onSuccess, onFailure,
-  }) => {
+  loadPaySlipEmailDefaults: ({ onSuccess, onFailure }) => {
     const intent = LOAD_PAY_SLIP_EMAIL_DEFAULTS;
 
     const state = store.getState();
@@ -160,9 +167,7 @@ const createPayrollSettingsIntegrator = (store, integration) => ({
     });
   },
 
-  submitPaySlipEmailDefaults: ({
-    onSuccess, onFailure,
-  }) => {
+  submitPaySlipEmailDefaults: ({ onSuccess, onFailure }) => {
     const intent = SUBMIT_PAY_SLIP_EMAIL_DEFAULTS;
     const state = store.getState();
     const urlParams = getPaySlipEmailDefaultsUrlParams(state);
@@ -177,9 +182,7 @@ const createPayrollSettingsIntegrator = (store, integration) => ({
     });
   },
 
-  loadGeneralPayrollInformation: ({
-    onSuccess, onFailure,
-  }) => {
+  loadGeneralPayrollInformation: ({ onSuccess, onFailure }) => {
     const intent = LOAD_GENERAL_PAYROLL_INFORMATION;
 
     const state = store.getState();
@@ -193,9 +196,7 @@ const createPayrollSettingsIntegrator = (store, integration) => ({
     });
   },
 
-  submitGeneralPayrollInformation: ({
-    onSuccess, onFailure,
-  }) => {
+  submitGeneralPayrollInformation: ({ onSuccess, onFailure }) => {
     const intent = UPDATE_GENERAL_PAYROLL_INFORMATION;
 
     const state = store.getState();
@@ -211,9 +212,7 @@ const createPayrollSettingsIntegrator = (store, integration) => ({
     });
   },
 
-  createEmploymentClassification: ({
-    onSuccess, onFailure,
-  }) => {
+  createEmploymentClassification: ({ onSuccess, onFailure }) => {
     const intent = CREATE_EMPLOYMENT_CLASSIFICATION;
 
     const state = store.getState();
@@ -229,9 +228,7 @@ const createPayrollSettingsIntegrator = (store, integration) => ({
     });
   },
 
-  updateEmploymentClassification: ({
-    onSuccess, onFailure,
-  }) => {
+  updateEmploymentClassification: ({ onSuccess, onFailure }) => {
     const intent = UPDATE_EMPLOYMENT_CLASSIFICATION;
 
     const state = store.getState();
@@ -247,9 +244,7 @@ const createPayrollSettingsIntegrator = (store, integration) => ({
     });
   },
 
-  deleteEmploymentClassification: ({
-    onSuccess, onFailure,
-  }) => {
+  deleteEmploymentClassification: ({ onSuccess, onFailure }) => {
     const intent = DELETE_EMPLOYMENT_CLASSIFICATION;
 
     const state = store.getState();

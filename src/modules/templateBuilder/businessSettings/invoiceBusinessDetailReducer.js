@@ -81,12 +81,12 @@ const openModal = (state, action) => ({
   modal: action.modal,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modal: undefined,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setPageEditedState = (state, action) => ({
   ...state,
@@ -106,6 +106,9 @@ const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
 };
 
-const invoiceBusinessDetailsReducer = createReducer(getDefaultState(), handlers);
+const invoiceBusinessDetailsReducer = createReducer(
+  getDefaultState(),
+  handlers
+);
 
 export default invoiceBusinessDetailsReducer;

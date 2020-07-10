@@ -1,5 +1,9 @@
 import {
-  Checkbox, CheckboxGroup, FieldGroup, Input, TextArea,
+  Checkbox,
+  CheckboxGroup,
+  FieldGroup,
+  Input,
+  TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -21,13 +25,23 @@ const InvoiceEmailSettingsDetails = (props) => {
   return (
     <FieldGroup label="Customise email defaults">
       <p>
-        Customise the default text that’s emailed with your invoices.
-        Don’t worry, you can always override these defaults when emailing an invoice.
+        Customise the default text that’s emailed with your invoices. Don’t
+        worry, you can always override these defaults when emailing an invoice.
       </p>
 
-      <Input name="fromName" label="From name" value={fromName} onChange={handleInputChange(onUpdateEmailSettings)} />
+      <Input
+        name="fromName"
+        label="From name"
+        value={fromName}
+        onChange={handleInputChange(onUpdateEmailSettings)}
+      />
 
-      <Input name="replyToEmail" label="Reply-to email address" value={replyToEmail} onChange={handleInputChange(onUpdateEmailSettings)} />
+      <Input
+        name="replyToEmail"
+        label="Reply-to email address"
+        value={replyToEmail}
+        onChange={handleInputChange(onUpdateEmailSettings)}
+      />
 
       <Input
         label="Subject"
@@ -61,6 +75,6 @@ const InvoiceEmailSettingsDetails = (props) => {
   );
 };
 
-const mapStateToProps = state => getTabData(state);
+const mapStateToProps = (state) => getTabData(state);
 
 export default connect(mapStateToProps)(InvoiceEmailSettingsDetails);

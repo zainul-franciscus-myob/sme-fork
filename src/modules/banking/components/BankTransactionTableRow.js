@@ -1,6 +1,4 @@
-import {
-  Button, Checkbox, Icons, Spinner, Tooltip,
-} from '@myob/myob-widgets';
+import { Button, Checkbox, Icons, Spinner, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classNames from 'classnames';
@@ -25,16 +23,14 @@ const onCheckboxChange = (handler, index) => (e) => {
   handler({ index, value: checked });
 };
 
-const handleClearTextArea = handler => () => handler({ value: '' });
+const handleClearTextArea = (handler) => () => handler({ value: '' });
 
 const handleRowEvent = (handler, index) => () => handler(index);
 
 const BankingTableRowField = ({ title, children, className }) => (
   <div className={className}>
     <span className={styles.label}>
-      <strong>
-        {title}
-      </strong>
+      <strong>{title}</strong>
     </span>
     {children}
   </div>
@@ -70,9 +66,7 @@ const BankingTableDescription = ({
   const noteExpandView = (
     <Tooltip
       className={styles.noteLink}
-      triggerContent={(
-        <span className={styles.note}>{note}</span>
-    )}
+      triggerContent={<span className={styles.note}>{note}</span>}
     >
       {description}
     </Tooltip>
@@ -80,10 +74,7 @@ const BankingTableDescription = ({
 
   const noteCollapseView = (
     <button type="button" className={styles.noteLink} onClick={onEditNote}>
-      <Tooltip triggerContent={(
-        <span className={styles.note}>{note}</span>
-      )}
-      >
+      <Tooltip triggerContent={<span className={styles.note}>{note}</span>}>
         {description}
       </Tooltip>
     </button>
@@ -91,36 +82,40 @@ const BankingTableDescription = ({
 
   const noteView = isExpanded ? noteExpandView : noteCollapseView;
 
-  const descriptionView = (
-    shouldShowNote ? noteView : <span className={styles.note}>{description}</span>
+  const descriptionView = shouldShowNote ? (
+    noteView
+  ) : (
+    <span className={styles.note}>{description}</span>
   );
 
   const readOnlyView = (
     <>
       {descriptionView}
-      {
-        !isExpanded && (
-        <Tooltip triggerContent={(
-          <button type="button" className={styles.editIcon} onClick={onEditNote}>
-            <Icons.Edit />
-          </button>
-        )}
+      {!isExpanded && (
+        <Tooltip
+          triggerContent={
+            <button
+              type="button"
+              className={styles.editIcon}
+              onClick={onEditNote}
+            >
+              <Icons.Edit />
+            </button>
+          }
         >
-Edit description
+          Edit description
         </Tooltip>
-        )
-      }
+      )}
     </>
   );
 
   const view = isEditingNote ? editingView : readOnlyView;
 
   return (
-    <div className={classNames(
-      styles.noteContainer,
-      className,
-      { [styles.noteHighlight]: shouldShowNote },
-    )}
+    <div
+      className={classNames(styles.noteContainer, className, {
+        [styles.noteHighlight]: shouldShowNote,
+      })}
     >
       {view}
     </div>
@@ -196,15 +191,24 @@ const BankTransactionTableRow = ({
 
   const desktopInfoColumn = (
     <div className={styles.infoColumn}>
-      <BankingTableRowField title="Date:" className={classNames(styles.column, styles.date)}>
+      <BankingTableRowField
+        title="Date:"
+        className={classNames(styles.column, styles.date)}
+      >
         {entry.displayDate}
       </BankingTableRowField>
       <div className={styles.description}>
-        { isSubmittingNote ? spinnerView : descriptionView}
-        <BankingTableRowField title="Withdrawal" className={styles.withdrawalOrDeposit}>
+        {isSubmittingNote ? spinnerView : descriptionView}
+        <BankingTableRowField
+          title="Withdrawal"
+          className={styles.withdrawalOrDeposit}
+        >
           {entry.withdrawal}
         </BankingTableRowField>
-        <BankingTableRowField title="Deposit" className={styles.withdrawalOrDeposit}>
+        <BankingTableRowField
+          title="Deposit"
+          className={styles.withdrawalOrDeposit}
+        >
           {entry.deposit}
         </BankingTableRowField>
       </div>
@@ -236,20 +240,14 @@ const BankTransactionTableRow = ({
     </div>
   );
 
-  const tableRowClassName = classNames(
-    styles.row,
-    {
-      [styles.expanded]: isExpanded,
-      [styles.selected]: isSelected,
-    },
-  );
+  const tableRowClassName = classNames(styles.row, {
+    [styles.expanded]: isExpanded,
+    [styles.selected]: isSelected,
+  });
 
-  const columnsClassName = classNames(
-    styles.columns,
-    {
-      [styles.expandedHeader]: isExpanded,
-    },
-  );
+  const columnsClassName = classNames(styles.columns, {
+    [styles.expandedHeader]: isExpanded,
+  });
 
   return (
     <div className={tableRowClassName}>
@@ -264,9 +262,14 @@ const BankTransactionTableRow = ({
             disabled={isCheckboxDisabled}
           />
         </div>
-        { mobileInfoColumn }
-        { desktopInfoColumn }
-        <div className={classNames(styles.allocationColumn, styles.allocationColumnTableRow)}>
+        {mobileInfoColumn}
+        {desktopInfoColumn}
+        <div
+          className={classNames(
+            styles.allocationColumn,
+            styles.allocationColumnTableRow
+          )}
+        >
           <div
             className={styles.allocationAndTaxCode}
             onMouseEnter={() => onEntryHover(index, true)}
@@ -276,7 +279,11 @@ const BankTransactionTableRow = ({
             <div className={styles.taxCode}>{entry.taxCode}</div>
           </div>
           <div className={styles.action}>
-            <Button type="secondary" size="xs" onClick={handleRowEvent(onHeaderClick, index)}>
+            <Button
+              type="secondary"
+              size="xs"
+              onClick={handleRowEvent(onHeaderClick, index)}
+            >
               {expandIcon}
             </Button>
           </div>

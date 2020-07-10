@@ -1,5 +1,10 @@
 import {
-  Button, Combobox, FieldGroup, Icons, Table, Tooltip,
+  Button,
+  Combobox,
+  FieldGroup,
+  Icons,
+  Table,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -10,14 +15,13 @@ import styles from './DeductionPayItemView.module.css';
 
 const filteredListEmployeesMetadata = [{ columnName: 'name', showData: true }];
 
-const title = (
-  <React.Fragment>
-    Employees using this pay item
-  </React.Fragment>
-);
+const title = <React.Fragment>Employees using this pay item</React.Fragment>;
 
 const EmployeeAllocationView = ({
-  selectedEmployees, filteredListOfEmployees, onEmployeeSelected, onRemoveEmployee,
+  selectedEmployees,
+  filteredListOfEmployees,
+  onEmployeeSelected,
+  onRemoveEmployee,
 }) => (
   <FieldGroup label={title} className={styles.editableTable}>
     <Table>
@@ -32,13 +36,18 @@ const EmployeeAllocationView = ({
             <Table.RowItem align="right" width="auto">
               <Tooltip
                 placement="left"
-                triggerContent={(
-                <Button className={styles.removeRow} type="secondary" size="xs" onClick={() => onRemoveEmployee(id)}>
-                  <Icons.Remove />
-                </Button>
-              )}
+                triggerContent={
+                  <Button
+                    className={styles.removeRow}
+                    type="secondary"
+                    size="xs"
+                    onClick={() => onRemoveEmployee(id)}
+                  >
+                    <Icons.Remove />
+                  </Button>
+                }
               >
-              Remove employee
+                Remove employee
               </Tooltip>
             </Table.RowItem>
           </Table.Row>
@@ -55,8 +64,8 @@ const EmployeeAllocationView = ({
       onChange={handleComboboxChange('employeeAllocation', onEmployeeSelected)}
       width="lg"
     />
-  </FieldGroup>);
-
+  </FieldGroup>
+);
 
 const mapToStateProps = getEmployeeAllocations;
 

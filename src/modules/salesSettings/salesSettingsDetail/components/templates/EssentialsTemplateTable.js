@@ -1,6 +1,4 @@
-import {
-  Card, FieldGroup, Label, Table,
-} from '@myob/myob-widgets';
+import { Card, FieldGroup, Label, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -19,7 +17,7 @@ const TemplateTable = ({ essentialsTemplates }) => {
       </Table.HeaderItem>
     </Table.Header>
   );
-  const renderTableRow = template => (
+  const renderTableRow = (template) => (
     <Table.Row key={template.name}>
       <Table.RowItem {...tableConfig.name}>
         {template.name}
@@ -56,7 +54,7 @@ const TemplateTable = ({ essentialsTemplates }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   essentialsTemplates: getEssentialsTemplates(state),
 });
 export default connect(mapStateToProps)(TemplateTable);

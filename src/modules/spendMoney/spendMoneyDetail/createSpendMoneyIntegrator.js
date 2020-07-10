@@ -32,9 +32,7 @@ import {
 } from './spendMoneyDetailSelectors';
 
 const createSpendMoneyIntegrator = (store, integration) => ({
-  loadSpendMoney: ({
-    onSuccess, onFailure,
-  }) => {
+  loadSpendMoney: ({ onSuccess, onFailure }) => {
     const state = store.getState();
     const intent = getLoadSpendMoneyIntent(state);
     const urlParams = getLoadSpendMoneyRequestUrlParams(state);
@@ -50,7 +48,10 @@ const createSpendMoneyIntegrator = (store, integration) => ({
   },
 
   loadNextReferenceId: ({
-    onSuccess, onFailure, accountId, updateBankStatementText,
+    onSuccess,
+    onFailure,
+    accountId,
+    updateBankStatementText,
   }) => {
     const state = store.getState();
     if (isReferenceIdDirty(state)) {
@@ -75,9 +76,7 @@ const createSpendMoneyIntegrator = (store, integration) => ({
     });
   },
 
-  loadSupplierExpenseAccount: ({
-    onSuccess, onFailure,
-  }) => {
+  loadSupplierExpenseAccount: ({ onSuccess, onFailure }) => {
     const urlParams = getLoadContactDetailUrlParams(store.getState());
 
     integration.read({
@@ -135,9 +134,7 @@ const createSpendMoneyIntegrator = (store, integration) => ({
     });
   },
 
-  uploadAttachment: ({
-    onSuccess, onFailure, onProgress, file,
-  }) => {
+  uploadAttachment: ({ onSuccess, onFailure, onProgress, file }) => {
     const state = store.getState();
 
     integration.writeFormData({
@@ -187,9 +184,7 @@ const createSpendMoneyIntegrator = (store, integration) => ({
     });
   },
 
-  downloadInTrayDocument: ({
-    onSuccess, onFailure, inTrayDocumentId,
-  }) => {
+  downloadInTrayDocument: ({ onSuccess, onFailure, inTrayDocumentId }) => {
     const intent = DOWNLOAD_IN_TRAY_DOCUMENT;
 
     const urlParams = {
@@ -205,9 +200,7 @@ const createSpendMoneyIntegrator = (store, integration) => ({
     });
   },
 
-  prefillDataFromInTray: ({
-    onSuccess, onFailure, inTrayDocumentId,
-  }) => {
+  prefillDataFromInTray: ({ onSuccess, onFailure, inTrayDocumentId }) => {
     const intent = PREFILL_DATA_FROM_IN_TRAY;
 
     const urlParams = {
@@ -223,9 +216,7 @@ const createSpendMoneyIntegrator = (store, integration) => ({
     });
   },
 
-  linkInTrayDocument: ({
-    onSuccess, onFailure, linkContent,
-  }) => {
+  linkInTrayDocument: ({ onSuccess, onFailure, linkContent }) => {
     const state = store.getState();
 
     integration.write({
@@ -259,7 +250,10 @@ const createSpendMoneyIntegrator = (store, integration) => ({
     const urlParams = getLoadAddedJobUrlParams(state, id);
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 

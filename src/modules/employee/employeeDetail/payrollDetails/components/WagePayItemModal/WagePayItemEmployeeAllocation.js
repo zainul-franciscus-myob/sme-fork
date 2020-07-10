@@ -1,5 +1,10 @@
 import {
-  Button, Combobox, FieldGroup, Icons, Table, Tooltip,
+  Button,
+  Combobox,
+  FieldGroup,
+  Icons,
+  Table,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -10,11 +15,7 @@ import styles from './WagePayItemEmployeeAllocation.module.css';
 
 const filteredListEmployeesMetadata = [{ columnName: 'name', showData: true }];
 
-const title = (
-  <React.Fragment>
-    Employees using this pay item
-  </React.Fragment>
-);
+const title = <React.Fragment>Employees using this pay item</React.Fragment>;
 
 const tableConfig = {
   name: { width: 'flex-1', valign: 'middle' },
@@ -28,9 +29,7 @@ const WagePayItemEmployeeAllocation = ({
   onRemoveEmployee,
 }) => (
   <FieldGroup className={styles.editableTable} label={title}>
-
     <Table hasActions>
-
       <Table.Header>
         <Table.HeaderItem {...tableConfig.name}>Name</Table.HeaderItem>
         <Table.HeaderItem {...tableConfig.actions} />
@@ -41,13 +40,18 @@ const WagePayItemEmployeeAllocation = ({
           <Table.Row key={id}>
             <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
             <Table.RowItem {...tableConfig.actions} cellRole="actions">
-              <Tooltip triggerContent={(
-                <Button type="secondary" size="xs" onClick={() => onRemoveEmployee(id)}>
-                  <Icons.Remove />
-                </Button>
-              )}
+              <Tooltip
+                triggerContent={
+                  <Button
+                    type="secondary"
+                    size="xs"
+                    onClick={() => onRemoveEmployee(id)}
+                  >
+                    <Icons.Remove />
+                  </Button>
+                }
               >
-              Remove employee
+                Remove employee
               </Tooltip>
             </Table.RowItem>
           </Table.Row>
@@ -67,7 +71,6 @@ const WagePayItemEmployeeAllocation = ({
     />
   </FieldGroup>
 );
-
 
 const mapToStateProps = getEmployeeAllocations;
 

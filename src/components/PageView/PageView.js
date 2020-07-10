@@ -4,11 +4,7 @@ import LoadingFailPageState from './LoadingFailPageState';
 import LoadingPageState from '../LoadingPageState/LoadingPageState';
 import LoadingState from './LoadingState';
 
-const PageView = ({
-  isLoading,
-  loadingState,
-  view,
-}) => {
+const PageView = ({ isLoading, loadingState, view }) => {
   if (isLoading) {
     return <LoadingPageState />;
   }

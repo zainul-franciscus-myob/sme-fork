@@ -2,7 +2,6 @@ import * as intents from '../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 
 const employeeListNzDispatcher = ({ store }) => ({
-
   setInitialState: (context) => {
     const intent = SET_INITIAL_STATE;
     store.dispatch({ intent, context });
@@ -32,7 +31,6 @@ const employeeListNzDispatcher = ({ store }) => ({
     const intent = intents.DISMISS_ALERT;
     store.dispatch({ intent });
   },
-
 });
 
 export default employeeListNzDispatcher;

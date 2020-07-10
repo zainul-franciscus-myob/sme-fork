@@ -31,7 +31,8 @@ describe('NavigationSelectors', () => {
 
     it('should return true if the current route is any other page', () => {
       const routes = Object.values(RouteName).filter(
-        route => route !== RouteName.BUSINESS_LIST && route !== RouteName.LINK_USER,
+        (route) =>
+          route !== RouteName.BUSINESS_LIST && route !== RouteName.LINK_USER
       );
       routes.forEach((route) => {
         const state = {
@@ -180,7 +181,7 @@ describe('NavigationSelectors', () => {
           trialEndDate: undefined,
         },
       },
-    ].forEach(test => {
+    ].forEach((test) => {
       it(`false when ${test.name}`, () => {
         const actual = getShouldDisplaySubscriptionNow(test.state);
 

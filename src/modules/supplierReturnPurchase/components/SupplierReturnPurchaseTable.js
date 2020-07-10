@@ -13,8 +13,16 @@ const tableConfig = {
   status: { columnName: 'Status', valign: 'middle' },
   amount: { columnName: 'Balance due ($)', valign: 'middle', align: 'right' },
   discount: { columnName: 'Discount ($)', valign: 'middle', align: 'right' },
-  owed: { columnName: 'Discounted balance ($)', valign: 'middle', align: 'right' },
-  amountApplied: { columnName: 'Amount applied ($)', valign: 'middle', align: 'right' },
+  owed: {
+    columnName: 'Discounted balance ($)',
+    valign: 'middle',
+    align: 'right',
+  },
+  amountApplied: {
+    columnName: 'Amount applied ($)',
+    valign: 'middle',
+    align: 'right',
+  },
 };
 
 const SupplierReturnPurchaseTable = ({
@@ -34,7 +42,9 @@ const SupplierReturnPurchaseTable = ({
 
   return (
     <TableView
-      responsiveWidths={getSupplierReturnPurchaseTableResponsiveConfig(tableConfig)}
+      responsiveWidths={getSupplierReturnPurchaseTableResponsiveConfig(
+        tableConfig
+      )}
       header={header}
       isEmpty={isTableEmpty}
       emptyMessage="There are no purchases."
@@ -44,7 +54,7 @@ const SupplierReturnPurchaseTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isTableEmpty: getIsTableEmpty(state),
 });
 

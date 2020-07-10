@@ -4,7 +4,10 @@ import {
   LOAD_EMPLOYEE_PAY_REVERSAL_PREVIEW_MODAL,
   SEND_EMPLOYEE_PAY_REVERSAL_MODAL,
 } from './EmployeePayModalIntents';
-import { getReversalEmployeePayContent, getUrlParams } from './EmployeePayModalSelectors';
+import {
+  getReversalEmployeePayContent,
+  getUrlParams,
+} from './EmployeePayModalSelectors';
 
 const createEmployeePayModalIntegrator = (store, integration) => ({
   loadEmployeePayModal: ({ onSuccess, onFailure }) => {

@@ -8,7 +8,7 @@ import {
   SET_SELECT_ALL_ETP,
 } from './EtpIntents';
 
-const createEtpDispatcher = store => ({
+const createEtpDispatcher = (store) => ({
   setInitialState: (context) => {
     store.dispatch({
       intent: SET_INITIAL_STATE,

@@ -1,6 +1,4 @@
-import {
-  Button, Modal,
-} from '@myob/myob-widgets';
+import { Button, Modal } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -23,20 +21,22 @@ const EtpModal = ({
     <Modal.Body>
       <p>Select the benefit type that best describes the payment</p>
       <EtpModalSelect onChangeEtpCodeCategory={onChangeEtpCodeCategory} />
-      { isEtpCodeCategorySelected && <EtpModalRadioGroup onChangeEtpCode={onChangeEtpCode} /> }
+      {isEtpCodeCategorySelected && (
+        <EtpModalRadioGroup onChangeEtpCode={onChangeEtpCode} />
+      )}
     </Modal.Body>
     <Modal.Footer>
       <Button type="secondary" onClick={onCloseEtpModal}>
-          Cancel
+        Cancel
       </Button>
       <Button type="primary" onClick={onSaveEtp}>
-          Save
+        Save
       </Button>
     </Modal.Footer>
   </Modal>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isEtpCodeCategorySelected: getIsEtpCodeCategorySelected(state),
 });
 

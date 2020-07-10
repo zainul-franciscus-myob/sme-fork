@@ -40,7 +40,8 @@ export default class ColumnController extends React.Component {
   }
 
   handleRightClick = (event) => {
-    const isInComponent = this.component && this.component.contains(event.target);
+    const isInComponent =
+      this.component && this.component.contains(event.target);
     const isInPopUp = this.popUp && this.popUp.contains(event.target);
     if (isInComponent && !isInPopUp) {
       event.preventDefault();

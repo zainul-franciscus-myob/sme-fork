@@ -32,7 +32,7 @@ class FilterMore extends React.Component {
   }
 
   handleToggle = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       showMoreFilters: !prevState.showMoreFilters,
     }));
   };
@@ -48,7 +48,7 @@ class FilterMore extends React.Component {
   };
 
   /* SME-WEB: Handle onSubmit to prevent entire page reload and close more filters */
-  handleSubmit = handler => (event) => {
+  handleSubmit = (handler) => (event) => {
     event.preventDefault();
 
     if (handler) {
@@ -56,7 +56,7 @@ class FilterMore extends React.Component {
 
       handler(event);
     }
-  }
+  };
 
   render() {
     const safeActions = (this.props.onApply || this.props.onReset) && (
@@ -92,15 +92,18 @@ class FilterMore extends React.Component {
         </FilterItem>
         {this.state.showMoreFilters ? (
           /* SME-WEB: Add form to enable submit on hitting Enter key */
-          <form onSubmit={this.handleSubmit(this.props.onApply)} className={classNames('flx-side-panel', styles.filterMore)}>
+          <form
+            onSubmit={this.handleSubmit(this.props.onApply)}
+            className={classNames('flx-side-panel', styles.filterMore)}
+          >
             <Aside
-              header={(
+              header={
                 <Aside.Header
                   actions={safeActions}
                   title="Filters"
                   onClose={this.handleClose}
                 />
-              )}
+              }
             >
               {this.props.children}
               {this.props.children.length > 0 && this.props.sideContent && (
@@ -118,9 +121,7 @@ class FilterMore extends React.Component {
            * it needing to be mounted into the dom.
            */
           <div style={{ display: 'none' }}>
-            {this.props.children}
-            {' '}
-            {this.props.sideContent}
+            {this.props.children} {this.props.sideContent}
           </div>
         )}
       </div>

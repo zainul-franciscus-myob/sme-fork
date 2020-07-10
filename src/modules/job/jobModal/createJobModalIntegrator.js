@@ -1,11 +1,5 @@
-import {
-  CREATE_JOB_MODAL,
-  LOAD_JOB_MODAL,
-} from '../JobIntents';
-import {
-  getBusinessId,
-  getJob,
-} from './JobModalSelectors';
+import { CREATE_JOB_MODAL, LOAD_JOB_MODAL } from '../JobIntents';
+import { getBusinessId, getJob } from './JobModalSelectors';
 
 const createJobModalIntegrator = (store, integration) => ({
   loadNewJob: (onSuccess, onFailure) => {

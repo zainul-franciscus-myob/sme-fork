@@ -16,7 +16,7 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { getLoadBillPaymentIntent } from './BillPaymentDetailSelectors';
 
-const createBillPaymentDetailDispatcher = store => ({
+const createBillPaymentDetailDispatcher = (store) => ({
   resetState: () => {
     store.dispatch({
       intent: RESET_STATE,
@@ -104,9 +104,10 @@ const createBillPaymentDetailDispatcher = store => ({
       ...response,
     });
   },
-  updateBankStatementText: () => store.dispatch({
-    intent: UPDATE_BANK_STATEMENT_TEXT,
-  }),
+  updateBankStatementText: () =>
+    store.dispatch({
+      intent: UPDATE_BANK_STATEMENT_TEXT,
+    }),
   setRedirectUrl: (redirectUrl) => {
     store.dispatch({
       intent: SET_REDIRECT_URL,

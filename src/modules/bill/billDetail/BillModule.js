@@ -8,7 +8,10 @@ import {
   SUCCESSFULLY_SAVED_BILL,
   SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
 } from '../../../common/types/MessageTypes';
-import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalculator';
+import {
+  TaxCalculatorTypes,
+  createTaxCalculator,
+} from '../../../common/taxCalculator';
 import {
   getBillId,
   getBillUid,
@@ -37,7 +40,10 @@ import {
   getCreateNewBillUrl,
   getInTrayUrl,
 } from './selectors/BillRedirectSelectors';
-import { getExportPdfFilename, getShouldSaveAndReload } from './selectors/exportPdfSelectors';
+import {
+  getExportPdfFilename,
+  getShouldSaveAndReload,
+} from './selectors/exportPdfSelectors';
 import {
   getHasInTrayDocumentId,
   getHasInTrayDocumentUrl,
@@ -112,8 +118,9 @@ class BillModule {
     const accountModalContext = getModalContext(state);
     this.accountModalModule.run({
       context: accountModalContext,
-      onSaveSuccess: payload => this.loadAccountAfterCreate(payload, onChange),
-      onLoadFailure: message => this.dispatcher.openDangerAlert({ message }),
+      onSaveSuccess: (payload) =>
+        this.loadAccountAfterCreate(payload, onChange),
+      onLoadFailure: (message) => this.dispatcher.openDangerAlert({ message }),
     });
   };
 
@@ -139,8 +146,8 @@ class BillModule {
     const jobModalContext = getModalContext(state);
     this.jobModalModule.run({
       context: jobModalContext,
-      onSaveSuccess: payload => this.loadJobAfterCreate(payload, onChange),
-      onLoadFailure: message => this.dispatcher.openDangerAlert({ message }),
+      onSaveSuccess: (payload) => this.loadJobAfterCreate(payload, onChange),
+      onLoadFailure: (message) => this.dispatcher.openDangerAlert({ message }),
     });
   };
 
@@ -155,12 +162,10 @@ class BillModule {
         ...payload,
         id,
       });
-      onChange(
-        {
-          ...payload,
-          id,
-        },
-      );
+      onChange({
+        ...payload,
+        id,
+      });
     };
 
     const onFailure = () => {
@@ -216,7 +221,7 @@ class BillModule {
 
     this.dispatcher.startLoading();
     this.integrator.loadBill({ onSuccess, onFailure });
-  }
+  };
 
   reloadBill = ({ onSuccess: next = () => {} }) => {
     this.dispatcher.startBlocking();
@@ -238,7 +243,7 @@ class BillModule {
     };
 
     this.integrator.loadBill({ onSuccess, onFailure });
-  }
+  };
 
   linkAfterSave = (onSuccess, response) => {
     const state = this.store.getState();
@@ -256,7 +261,8 @@ class BillModule {
       this.dispatcher.stopBlocking();
       this.pushMessage({
         type: SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
-        content: 'Bill created, but the document failed to link. Open the bill to link the document again',
+        content:
+          'Bill created, but the document failed to link. Open the bill to link the document again',
       });
       onSuccess(response);
     };
@@ -310,7 +316,7 @@ class BillModule {
     } else {
       this.saveBill();
     }
-  }
+  };
 
   saveBill = () => {
     const state = this.store.getState();
@@ -339,7 +345,7 @@ class BillModule {
     this.dispatcher.closeModal();
     const url = getRedirectUrl(this.store.getState());
     this.navigateTo(url);
-  }
+  };
 
   saveAndRedirect = () => {
     this.dispatcher.closeModal();
@@ -351,7 +357,7 @@ class BillModule {
     };
 
     this.saveBillAnd({ onSuccess });
-  }
+  };
 
   saveAndCreateNewBill = () => {
     this.dispatcher.closeModal();
@@ -398,7 +404,7 @@ class BillModule {
     };
 
     this.saveBillAnd({ onSuccess });
-  }
+  };
 
   deleteBill = () => {
     this.dispatcher.closeModal();
@@ -438,7 +444,7 @@ class BillModule {
     }[saveActionType];
 
     this.dispatcher.openModal({ modalType });
-  }
+  };
 
   openCancelModal = () => {
     const state = this.store.getState();
@@ -498,17 +504,20 @@ class BillModule {
     if (!getIsLinesEmpty(state)) {
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
     }
-  }
+  };
 
   updateBillLine = ({ index, key, value }) => {
     this.dispatcher.updateBillLine({ index, key, value });
 
     if (getIsLineTaxCodeIdKey(key) || getIsLineAccountIdKey(key)) {
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
-    } else if (getIsLineItemIdKey(key) && !getHasLineBeenPrefilled(this.store.getState(), index)) {
+    } else if (
+      getIsLineItemIdKey(key) &&
+      !getHasLineBeenPrefilled(this.store.getState(), index)
+    ) {
       this.loadItemDetailForLine({ index, itemId: value });
     }
-  }
+  };
 
   addBillLine = (line) => {
     const state = this.store.getState();
@@ -531,7 +540,7 @@ class BillModule {
     if (!isLinesEmpty) {
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
     }
-  }
+  };
 
   /*
    * Workflow:
@@ -545,7 +554,7 @@ class BillModule {
       this.dispatcher.calculateLineAmounts({ index, key });
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
     }
-  }
+  };
 
   getTaxCalculations = ({ isSwitchingTaxInclusive }) => {
     const state = this.store.getState();
@@ -561,12 +570,16 @@ class BillModule {
       lines: getLinesForTaxCalculation(state),
       taxCodes: getTaxCodeOptions(state),
       isLineAmountsTaxInclusive: getIsLineAmountsTaxInclusive(
-        isTaxInclusive, isSwitchingTaxInclusive,
+        isTaxInclusive,
+        isSwitchingTaxInclusive
       ),
     });
 
-    this.dispatcher.getTaxCalculations(taxCalculations, isSwitchingTaxInclusive);
-  }
+    this.dispatcher.getTaxCalculations(
+      taxCalculations,
+      isSwitchingTaxInclusive
+    );
+  };
 
   loadItemDetailForLine = ({ index, itemId }) => {
     this.dispatcher.startBlocking();
@@ -583,9 +596,12 @@ class BillModule {
     };
 
     this.integrator.loadItemDetailForLine({
-      index, itemId, onSuccess, onFailure,
+      index,
+      itemId,
+      onSuccess,
+      onFailure,
     });
-  }
+  };
 
   loadSupplierDetail = () => {
     this.dispatcher.startBlocking();
@@ -610,7 +626,7 @@ class BillModule {
     };
 
     this.integrator.loadSupplierDetail({ onSuccess, onFailure });
-  }
+  };
 
   loadAbnFromSupplier = () => {
     this.dispatcher.setAbnLoadingState(true);
@@ -626,7 +642,7 @@ class BillModule {
     };
 
     this.integrator.loadAbnFromSupplier({ onSuccess, onFailure });
-  }
+  };
 
   exportPdf = () => {
     this.dispatcher.startModalBlocking();
@@ -646,11 +662,11 @@ class BillModule {
     };
 
     this.integrator.exportPdf({ onSuccess, onFailure });
-  }
+  };
 
   openExportPdfModal = () => {
     this.dispatcher.openModal({ modalType: ModalType.ExportPdf });
-  }
+  };
 
   openExportPdfModalOrSaveAndExportPdf = () => {
     const state = this.store.getState();
@@ -660,7 +676,7 @@ class BillModule {
     } else {
       this.openExportPdfModal();
     }
-  }
+  };
 
   openSupplierModal = () => {
     const state = this.store.getState();
@@ -668,7 +684,7 @@ class BillModule {
 
     this.contactModalModule.run({
       context,
-      onLoadFailure: message => this.dispatcher.openDangerAlert({ message }),
+      onLoadFailure: (message) => this.dispatcher.openDangerAlert({ message }),
       onSaveSuccess: this.loadSupplierAfterCreate,
     });
   };
@@ -706,7 +722,7 @@ class BillModule {
       SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
       DUPLICATE_BILL,
       PREFILL_INTRAY_DOCUMENT_FOR_BILL,
-    ]).forEach(message => {
+    ]).forEach((message) => {
       switch (message.type) {
         case SUCCESSFULLY_SAVED_BILL:
           this.dispatcher.openSuccessAlert({ message: message.content });
@@ -747,12 +763,12 @@ class BillModule {
     this.dispatcher.openSuccessAlert({ message });
     this.loadItemOption({ itemId }, onChangeItemTableRow);
     this.inventoryModalModule.resetState();
-  }
+  };
 
   failLoadItem = ({ message }) => {
     this.dispatcher.openDangerAlert({ message });
     this.inventoryModalModule.resetState();
-  }
+  };
 
   openInventoryModal = (onChangeItemTableRow) => {
     const state = this.store.getState();
@@ -765,7 +781,7 @@ class BillModule {
       },
       onLoadFailure: this.failLoadItem,
     });
-  }
+  };
 
   downloadDocument = () => {
     const state = this.store.getState();
@@ -828,9 +844,13 @@ class BillModule {
         };
 
         this.dispatcher.setDocumentLoadingState(true);
-        this.integrator.linkInTrayDocument({ onSuccess, onFailure, linkContent });
+        this.integrator.linkInTrayDocument({
+          onSuccess,
+          onFailure,
+          linkContent,
+        });
       },
-      onLoadFailure: message => this.dispatcher.openDangerAlert({ message }),
+      onLoadFailure: (message) => this.dispatcher.openDangerAlert({ message }),
     });
   };
 
@@ -875,21 +895,21 @@ class BillModule {
     const url = getBillListUrl(state);
 
     this.navigateTo(url);
-  }
+  };
 
   redirectToBillPayment = () => {
     const state = this.store.getState();
     const url = getBillPaymentUrl(state);
 
     this.navigateTo(url);
-  }
+  };
 
   redirectToInTray = () => {
     const state = this.store.getState();
     const url = getInTrayUrl(state);
 
     this.navigateTo(url);
-  }
+  };
 
   render = () => {
     const accountModal = this.accountModalModule.render();
@@ -960,11 +980,11 @@ class BillModule {
       </Provider>
     );
     this.setRootView(view);
-  }
+  };
 
   setInitialState = (context) => {
     this.dispatcher.setInitialState(context);
-  }
+  };
 
   resetState = () => {
     this.contactModalModule.resetState();
@@ -972,11 +992,11 @@ class BillModule {
     this.accountModalModule.resetState();
     this.inTrayModalModule.resetState();
     this.dispatcher.resetState();
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   run(context) {
     this.setInitialState({
@@ -999,7 +1019,7 @@ class BillModule {
     } else {
       this.navigateTo(url);
     }
-  }
+  };
 }
 
 export default BillModule;

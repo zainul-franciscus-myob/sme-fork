@@ -48,14 +48,17 @@ const getDefaultState = () => ({
   },
 });
 
-const setInitialState = (state, {
-  context,
-  settings = {
-    filterOptions: defaultFilterOptions,
-    sortOrder: defaultSortOptions.sortOrder,
-    orderBy: defaultSortOptions.orderBy,
-  },
-}) => {
+const setInitialState = (
+  state,
+  {
+    context,
+    settings = {
+      filterOptions: defaultFilterOptions,
+      sortOrder: defaultSortOptions.sortOrder,
+      orderBy: defaultSortOptions.orderBy,
+    },
+  }
+) => {
   const isExpiredSettings = state.settingsVersion !== settings.settingsVersion;
 
   if (isExpiredSettings) {
@@ -82,7 +85,7 @@ const loadQuoteList = (state, action) => ({
   pagination: action.pagination,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setAlert = (state, action) => ({
   ...state,
@@ -111,16 +114,15 @@ const setNextPageLoadingState = (state, action) => ({
 });
 
 const loadQuoteListNextPage = (state, action) => {
-  const entryIds = state.entries.map(customer => customer.id);
-  const entries = action.entries.filter(customer => !entryIds.includes(customer.id));
-  return ({
+  const entryIds = state.entries.map((customer) => customer.id);
+  const entries = action.entries.filter(
+    (customer) => !entryIds.includes(customer.id)
+  );
+  return {
     ...state,
-    entries: [
-      ...state.entries,
-      ...entries,
-    ],
+    entries: [...state.entries, ...entries],
     pagination: action.pagination,
-  });
+  };
 };
 
 const sortAndFilterQuoteList = (state, action) => ({

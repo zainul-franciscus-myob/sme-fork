@@ -19,12 +19,14 @@ describe('calculateCreditDebitTotals', () => {
       },
     ];
 
-    expect(calculateCreditDebitTotals({ isTaxInclusive: true, lines })).toEqual({
-      totalCredit: Decimal(55),
-      totalDebit: Decimal(110),
-      totalOutOfBalance: Decimal(55),
-      totalTax: Decimal(5),
-    });
+    expect(calculateCreditDebitTotals({ isTaxInclusive: true, lines })).toEqual(
+      {
+        totalCredit: Decimal(55),
+        totalDebit: Decimal(110),
+        totalOutOfBalance: Decimal(55),
+        totalTax: Decimal(5),
+      }
+    );
   });
 
   it('should calculate right totals, when it is tax exclusive', () => {
@@ -43,7 +45,9 @@ describe('calculateCreditDebitTotals', () => {
       },
     ];
 
-    expect(calculateCreditDebitTotals({ isTaxInclusive: false, lines })).toEqual({
+    expect(
+      calculateCreditDebitTotals({ isTaxInclusive: false, lines })
+    ).toEqual({
       totalCredit: Decimal(55),
       totalDebit: Decimal(110),
       totalOutOfBalance: Decimal(60),

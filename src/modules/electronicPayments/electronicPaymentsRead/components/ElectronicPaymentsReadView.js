@@ -1,6 +1,4 @@
-import {
-  Alert, BaseTemplate, Card, PageHead,
-} from '@myob/myob-widgets';
+import { Alert, BaseTemplate, Card, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -51,12 +49,12 @@ const ElectronicPaymentsReadView = ({
   );
 
   const deleteModal = isDeleteModalOpen && (
-  <DeleteModal
-    title="Delete this transaction?"
-    description="This can't be undone, or recovered later."
-    onCancel={onDeleteCancelButtonClick}
-    onConfirm={onDeleteConfirmButtonClick}
-  />
+    <DeleteModal
+      title="Delete this transaction?"
+      description="This can't be undone, or recovered later."
+      onCancel={onDeleteCancelButtonClick}
+      onConfirm={onDeleteConfirmButtonClick}
+    />
   );
 
   const totalPaymentFooter = (
@@ -82,9 +80,7 @@ const ElectronicPaymentsReadView = ({
           dateOfPayment={dateOfPayment}
           bankStatementDescription={bankStatementDescription}
         />
-        <ElectronicPaymentsReadTable
-          electronicPayments={electronicPayments}
-        />
+        <ElectronicPaymentsReadTable electronicPayments={electronicPayments} />
       </Card>
       <ElectronicPaymentsReadButtons
         onGoBackClick={onGoBackClick}
@@ -96,7 +92,7 @@ const ElectronicPaymentsReadView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   pageTitle: getPageTitle(state),
   loadingState: getLoadingState(state),
   electronicPayments: getTableEntries(state),

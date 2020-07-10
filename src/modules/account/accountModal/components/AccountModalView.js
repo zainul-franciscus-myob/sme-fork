@@ -83,7 +83,7 @@ const AccountModalView = ({
   return isOpen && modal;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   bankSectionComponent: RegionToBankComponentMapping[getRegion(state)],
   isOpen: getIsOpen(state),
   isLoading: getIsLoading(state),

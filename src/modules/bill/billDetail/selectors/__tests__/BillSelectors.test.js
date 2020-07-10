@@ -216,10 +216,9 @@ describe('BillSelectors', () => {
   describe('getBillLine', () => {
     it('return new line when no line at index', () => {
       const state = {
-        bill:
-          {
-            lines: [],
-          },
+        bill: {
+          lines: [],
+        },
         newLine: {
           id: '',
         },
@@ -228,43 +227,46 @@ describe('BillSelectors', () => {
 
       const actual = getBillLine(state, props);
 
-      expect(actual).toEqual(
-        {
-          id: '',
-        },
-      );
+      expect(actual).toEqual({
+        id: '',
+      });
     });
 
     it('return line at index', () => {
       const state = {
-        bill:
-          {
-            lines: [
-              { id: '1' },
-            ],
-          },
+        bill: {
+          lines: [{ id: '1' }],
+        },
       };
       const props = { index: 0 };
 
       const actual = getBillLine(state, props);
 
-      expect(actual).toEqual(
-        {
-          id: '1',
-        },
-      );
+      expect(actual).toEqual({
+        id: '1',
+      });
     });
 
     describe('returns subtitle line', () => {
       const state = {
         bill: {
-          lines: [{ type: BillLineType.SUB_TOTAL, description: 'Description', amount: '10' }],
+          lines: [
+            {
+              type: BillLineType.SUB_TOTAL,
+              description: 'Description',
+              amount: '10',
+            },
+          ],
         },
       };
 
       const actual = getBillLine(state, { index: 0 });
 
-      expect(actual).toEqual({ type: BillLineType.SUB_TOTAL, description: 'Subtotal', amount: '10' });
+      expect(actual).toEqual({
+        type: BillLineType.SUB_TOTAL,
+        description: 'Subtotal',
+        amount: '10',
+      });
     });
   });
 
@@ -274,17 +276,20 @@ describe('BillSelectors', () => {
       [BillLineType.ITEM, true],
       [BillLineType.HEADER, false],
       [BillLineType.SUB_TOTAL, false],
-    ])('validate whether bill with %s line type are supported', (type, expected) => {
-      const lines = [
-        { type: BillLineType.SERVICE },
-        { type: BillLineType.ITEM },
-        { type },
-      ];
+    ])(
+      'validate whether bill with %s line type are supported',
+      (type, expected) => {
+        const lines = [
+          { type: BillLineType.SERVICE },
+          { type: BillLineType.ITEM },
+          { type },
+        ];
 
-      const actual = getIsLinesSupported.resultFunc(lines);
+        const actual = getIsLinesSupported.resultFunc(lines);
 
-      expect(actual).toEqual(expected);
-    });
+        expect(actual).toEqual(expected);
+      }
+    );
   });
 
   describe('getIsReadOnly', () => {
@@ -340,7 +345,8 @@ describe('BillSelectors', () => {
   describe('getAccountModalContext', () => {
     it('returns region and businesID from state', () => {
       const state = {
-        region: 'Spain', businessId: 'manzana',
+        region: 'Spain',
+        businessId: 'manzana',
       };
 
       const actual = getModalContext(state);
@@ -355,7 +361,10 @@ describe('BillSelectors', () => {
       const option2 = { id: '2', displayName: 'Option 2' };
       const expected = [option2, option1];
 
-      const actual = getUpdatedSupplierOptions({ supplierOptions: [option1] }, option2);
+      const actual = getUpdatedSupplierOptions(
+        { supplierOptions: [option1] },
+        option2
+      );
 
       expect(actual).toEqual(expected);
     });
@@ -365,7 +374,10 @@ describe('BillSelectors', () => {
       const option2 = { id: '1', displayName: 'Updated option 1' };
       const expected = [option2];
 
-      const actual = getUpdatedSupplierOptions({ supplierOptions: [option1] }, option2);
+      const actual = getUpdatedSupplierOptions(
+        { supplierOptions: [option1] },
+        option2
+      );
 
       expect(actual).toEqual(expected);
     });
@@ -399,8 +411,16 @@ describe('BillSelectors', () => {
         bill: {
           isTaxInclusive: true,
           lines: [
-            { type: BillLineType.SERVICE, taxExclusiveAmount: '9.99', taxAmount: '0.01' },
-            { type: BillLineType.SUB_TOTAL, taxExclusiveAmount: '99', taxAmount: '1' },
+            {
+              type: BillLineType.SERVICE,
+              taxExclusiveAmount: '9.99',
+              taxAmount: '0.01',
+            },
+            {
+              type: BillLineType.SUB_TOTAL,
+              taxExclusiveAmount: '99',
+              taxAmount: '1',
+            },
           ],
           taxExclusiveFreightAmount: '0',
           freightTaxAmount: '0',
@@ -419,8 +439,16 @@ describe('BillSelectors', () => {
         bill: {
           isTaxInclusive: true,
           lines: [
-            { type: BillLineType.SERVICE, taxExclusiveAmount: '9.99', taxAmount: '0.01' },
-            { type: BillLineType.SUB_TOTAL, taxExclusiveAmount: '99', taxAmount: '1' },
+            {
+              type: BillLineType.SERVICE,
+              taxExclusiveAmount: '9.99',
+              taxAmount: '0.01',
+            },
+            {
+              type: BillLineType.SUB_TOTAL,
+              taxExclusiveAmount: '99',
+              taxAmount: '1',
+            },
           ],
           taxExclusiveFreightAmount: '9.09',
           freightTaxAmount: '0.91',
@@ -500,17 +528,48 @@ describe('BillSelectors', () => {
 
   describe('getReadOnlyMessage', () => {
     it.each([
-      [false, 'blah', false, 'This bill is read only because the Blah layout isn\'t supported in the browser. Switch to AccountRight desktop to edit this bill.'],
-      [false, '', false, 'This bill is read only because the bill layout isn\'t supported in the browser. Switch to AccountRight desktop to edit this bill.'],
-      [false, undefined, false, 'This bill is read only because the bill layout isn\'t supported in the browser. Switch to AccountRight desktop to edit this bill.'],
-      [true, '', false, 'This bill is read only because it contains unsupported features. Switch to AccountRight desktop to edit this bill.'],
-      [true, '', true, 'This bill is read only because freight isn\'t supported in the browser. Switch to AccountRight desktop to edit this bill.'],
-    ])('isLayoutSupported %s, layout %s, hasFreightAmount %s', (isLayoutSupported, layout, hasFreightAmount, message) => {
-      const actual = getReadOnlyMessage.resultFunc(isLayoutSupported, layout, hasFreightAmount);
+      [
+        false,
+        'blah',
+        false,
+        "This bill is read only because the Blah layout isn't supported in the browser. Switch to AccountRight desktop to edit this bill.",
+      ],
+      [
+        false,
+        '',
+        false,
+        "This bill is read only because the bill layout isn't supported in the browser. Switch to AccountRight desktop to edit this bill.",
+      ],
+      [
+        false,
+        undefined,
+        false,
+        "This bill is read only because the bill layout isn't supported in the browser. Switch to AccountRight desktop to edit this bill.",
+      ],
+      [
+        true,
+        '',
+        false,
+        'This bill is read only because it contains unsupported features. Switch to AccountRight desktop to edit this bill.',
+      ],
+      [
+        true,
+        '',
+        true,
+        "This bill is read only because freight isn't supported in the browser. Switch to AccountRight desktop to edit this bill.",
+      ],
+    ])(
+      'isLayoutSupported %s, layout %s, hasFreightAmount %s',
+      (isLayoutSupported, layout, hasFreightAmount, message) => {
+        const actual = getReadOnlyMessage.resultFunc(
+          isLayoutSupported,
+          layout,
+          hasFreightAmount
+        );
 
-      expect(actual)
-        .toEqual(message);
-    });
+        expect(actual).toEqual(message);
+      }
+    );
   });
 
   describe('getIsBeforeFYAndAfterConversionDate', () => {
@@ -540,7 +599,7 @@ describe('BillSelectors', () => {
         const actual = getIsBeforeFYAndAfterConversionDate(state);
 
         expect(actual).toEqual(expected);
-      },
+      }
     );
   });
 });

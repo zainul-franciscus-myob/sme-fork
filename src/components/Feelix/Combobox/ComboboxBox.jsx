@@ -96,9 +96,9 @@ class ComboboxBox extends React.Component {
       }
     }
     if (
-      this.props.filterOnType
-      && Object.prototype.hasOwnProperty.call(changes, 'inputValue')
-      && changes.type !== controlledPropUpdatedSelectedItem
+      this.props.filterOnType &&
+      Object.prototype.hasOwnProperty.call(changes, 'inputValue') &&
+      changes.type !== controlledPropUpdatedSelectedItem
     ) {
       this.setState({ isTyping: true });
     }
@@ -131,7 +131,7 @@ class ComboboxBox extends React.Component {
     return items;
   };
 
-  inputRef = input => {
+  inputRef = (input) => {
     this.inputControl = input;
   };
 
@@ -187,16 +187,16 @@ class ComboboxBox extends React.Component {
           highlightedIndex,
           selectHighlightedItem,
         }) => {
-          const onComboboxWrapperKeyDown = event => {
+          const onComboboxWrapperKeyDown = (event) => {
             if (event.key === TAB_KEY) {
               selectHighlightedItem();
             }
             // disableEventEnterKeyOnMenu: when a user presses ENTER
             // key when the menu is open, stop bubbling the event.
             if (
-              disableEventEnterKeyOnMenu
-              && event.key === ENTER_KEY
-              && isOpen
+              disableEventEnterKeyOnMenu &&
+              event.key === ENTER_KEY &&
+              isOpen
             ) {
               selectHighlightedItem();
               event.stopPropagation();

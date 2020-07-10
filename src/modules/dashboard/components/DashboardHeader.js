@@ -44,6 +44,6 @@ const DashboardHeader = ({
   </div>
 );
 
-const mapStateToProps = state => getDashboardHeader(state);
+const mapStateToProps = (state) => getDashboardHeader(state);
 
 export default connect(mapStateToProps)(DashboardHeader);

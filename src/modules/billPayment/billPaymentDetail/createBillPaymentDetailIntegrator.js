@@ -1,4 +1,8 @@
-import { DELETE_BILL_PAYMENT, LOAD_BILL_LIST, UPDATE_REFERENCE_ID } from '../BillPaymentIntents';
+import {
+  DELETE_BILL_PAYMENT,
+  LOAD_BILL_LIST,
+  UPDATE_REFERENCE_ID,
+} from '../BillPaymentIntents';
 import {
   getBillPaymentUrlParams,
   getLoadBillListParams,

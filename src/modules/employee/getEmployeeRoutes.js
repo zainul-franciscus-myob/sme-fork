@@ -19,7 +19,9 @@ const getEmployeeRoutes = ({
       path: '/au/:businessId/employee/',
       defaultParams: { region: 'au' },
       module: new EmployeeListModule({
-        integration, setRootView, popMessages,
+        integration,
+        setRootView,
+        popMessages,
       }),
       documentTitle: 'Employees',
     },

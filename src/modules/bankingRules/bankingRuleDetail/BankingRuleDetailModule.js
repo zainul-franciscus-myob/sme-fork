@@ -24,15 +24,16 @@ import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class BankingRuleDetailModule {
-  constructor({
-    integration, setRootView, pushMessage,
-  }) {
+  constructor({ integration, setRootView, pushMessage }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.store = new Store(bankingRuleDetailReducer);
     this.dispatcher = createBankingRuleDetailDispatcher(this.store);
-    this.integrator = createBankingRuleDetailIntegrator(this.store, this.integration);
+    this.integrator = createBankingRuleDetailIntegrator(
+      this.store,
+      this.integration
+    );
   }
 
   render = () => {
@@ -60,17 +61,15 @@ export default class BankingRuleDetailModule {
     );
 
     const wrappedView = (
-      <Provider store={this.store}>
-        {bankingRuleDetailView}
-      </Provider>
+      <Provider store={this.store}>{bankingRuleDetailView}</Provider>
     );
     this.setRootView(wrappedView);
-  }
+  };
 
   loadBankingRule = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
-    const onSuccess = intent => (bankingRule) => {
+    const onSuccess = (intent) => (bankingRule) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadBankingRule(intent, bankingRule);
     };
@@ -80,7 +79,7 @@ export default class BankingRuleDetailModule {
     };
 
     this.integrator.loadBankingRule(onSuccess, onFailure);
-  }
+  };
 
   saveBankingRule = () => {
     const state = this.store.getState();
@@ -107,7 +106,7 @@ export default class BankingRuleDetailModule {
     };
 
     this.integrator.saveBankingRule(onSuccess, onFailure);
-  }
+  };
 
   deleteBankingRule = () => {
     this.dismissModal();
@@ -129,25 +128,25 @@ export default class BankingRuleDetailModule {
     };
 
     this.integrator.deleteBankingRule(onSuccess, onFailure);
-  }
+  };
 
   redirectToBankingRuleList = () => {
     const state = this.store.getState();
     const url = getBankingRuleListUrl(state);
     this.redirectToUrl(url);
-  }
+  };
 
   redirectToModalUrl = () => {
     const state = this.store.getState();
     const url = getModalUrl(state);
     this.redirectToUrl(url);
-  }
+  };
 
   redirectToUrl = (url) => {
     if (url) {
       window.location.href = url;
     }
-  }
+  };
 
   addTableRow = (row) => {
     this.dispatcher.setIsPageEdited();
@@ -166,23 +165,32 @@ export default class BankingRuleDetailModule {
 
   addRuleCondition = () => {
     this.dispatcher.addRuleCondition();
-  }
+  };
 
   updateRuleCondition = (conditionIndex, { key, value }) => {
     this.dispatcher.updateRuleCondition(conditionIndex, key, value);
-  }
+  };
 
   addConditionPredicate = (conditionIndex, newData) => {
     this.dispatcher.addConditionPredicate(conditionIndex, newData);
-  }
+  };
 
-  updateConditionPredicate = (conditionIndex, predicationIndex, { key, value }) => {
-    this.dispatcher.updateConditionPredicate(conditionIndex, predicationIndex, key, value);
-  }
+  updateConditionPredicate = (
+    conditionIndex,
+    predicationIndex,
+    { key, value }
+  ) => {
+    this.dispatcher.updateConditionPredicate(
+      conditionIndex,
+      predicationIndex,
+      key,
+      value
+    );
+  };
 
   removeConditionPredicate = (conditionIndex, predicationIndex) => {
     this.dispatcher.removeConditionPredicate(conditionIndex, predicationIndex);
-  }
+  };
 
   updateForm = ({ key, value }) => {
     this.dispatcher.setIsPageEdited();
@@ -193,11 +201,11 @@ export default class BankingRuleDetailModule {
     const state = this.store.getState();
     const url = getBankingRuleListUrl(state);
     this.dispatcher.openModal({ type: ModalType.DELETE, url });
-  }
+  };
 
   openUnsavedModal = (url) => {
     this.dispatcher.openModal({ type: ModalType.UNSAVED, url });
-  }
+  };
 
   cancelBankingRule = () => {
     const state = this.store.getState();
@@ -209,11 +217,11 @@ export default class BankingRuleDetailModule {
     } else {
       this.redirectToBankingRuleList();
     }
-  }
+  };
 
   dismissModal = () => {
     this.dispatcher.closeModal();
-  }
+  };
 
   saveHandler = () => {
     const state = this.store.getState();
@@ -227,11 +235,11 @@ export default class BankingRuleDetailModule {
         this.saveBankingRule();
         break;
     }
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   run = (context) => {
     this.dispatcher.setInitialState(context);
@@ -240,7 +248,7 @@ export default class BankingRuleDetailModule {
       SAVE_ACTION: this.saveHandler,
     });
     this.loadBankingRule();
-  }
+  };
 
   resetState = () => {
     this.dispatcher.resetState();
@@ -253,5 +261,5 @@ export default class BankingRuleDetailModule {
     } else {
       this.redirectToUrl(url);
     }
-  }
+  };
 }

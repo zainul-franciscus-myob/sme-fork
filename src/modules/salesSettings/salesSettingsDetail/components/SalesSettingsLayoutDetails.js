@@ -1,18 +1,14 @@
-import {
-  Card, FieldGroup, Select,
-} from '@myob/myob-widgets';
+import { Card, FieldGroup, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getLayout,
-  getTabData,
-} from '../SalesSettingsDetailSelectors';
+import { getLayout, getTabData } from '../SalesSettingsDetailSelectors';
 
-const onInputChange = handler => e => handler({
-  key: e.target.name,
-  value: e.target.value,
-});
+const onInputChange = (handler) => (e) =>
+  handler({
+    key: e.target.name,
+    value: e.target.value,
+  });
 
 const SalesSettingsLayoutDetails = ({
   salesSettings,
@@ -35,7 +31,7 @@ const SalesSettingsLayoutDetails = ({
   </Card>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   salesSettings: getTabData(state),
   layout: getLayout(state),
 });

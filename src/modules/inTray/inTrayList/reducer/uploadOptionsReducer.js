@@ -1,4 +1,7 @@
-export const setConfirmingEmailGeneration = (state, { isConfirmingEmailGeneration }) => ({
+export const setConfirmingEmailGeneration = (
+  state,
+  { isConfirmingEmailGeneration }
+) => ({
   ...state,
   isConfirmingEmailGeneration,
 });
@@ -8,7 +11,10 @@ export const generateInTrayEmail = (state, { email }) => ({
   email,
 });
 
-export const setUploadOptionsLoadingState = (state, { isUploadOptionsLoading }) => ({
+export const setUploadOptionsLoadingState = (
+  state,
+  { isUploadOptionsLoading }
+) => ({
   ...state,
   isUploadOptionsLoading,
 });

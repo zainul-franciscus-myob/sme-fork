@@ -6,7 +6,7 @@ const liveChatConfig = (
   businessRole,
   email,
   region,
-  serialNumber,
+  serialNumber
 ) => {
   // eslint-disable-next-line no-underscore-dangle
   if (!window._genesys) window._genesys = {};
@@ -44,7 +44,8 @@ const liveChatConfig = (
         serialNumber,
       },
       emojis: true,
-      emojiList: '🤩:Star-Struck;🤪:Zany Face;🤭:Face With Hand Over Mouth;🤫:Shushing Face;🤨:Face With Raised Eyebrow;₿:Bitcoin;🤮:Face Vomiting;🤯:Exploding Head;🧐:Face With Monocle;🤬:Face With Symbols on Mouth;🧡:Orange Heart;🤟:Love-You Gesture;🤲:Palms Up Together;🧠:Brain;🧒:Child;🧑:Person;🧔:Man: Beard;🧓:Older Person;🧕:Woman With Headscarf;🤱:Breast-Feeding;🧙:Mage;🧚:Fairy;🧛:Vampire;🧜:Merperson;🧝:Elf;🧞:Genie;🧟:Zombie;🧖:Person in Steamy Room;🧗:Person Climbing;🧘:Person in Lotus Position;🦓:Zebra;🦒:Giraffe;🦔:Hedgehog;🦕:Sauropod;🦖:T-Rex;🦗:Cricket;🥥:Coconut;🥦:Broccoli;🥨:Pretzel;🥩:Cut of Meat;🇦🇺:Australia Day;🇫🇷:Bastille Day;🎂:Birthday;🛍:Black Friday;🇨🇦:Canada Day;🇧🇷:Carnaval;🐉:Chinese New Year;🎅:Christmas;🇲🇽:Cinco de Mayo;🕯:Diwali;🇨🇳:Dragon Boat Festival;🐰:Easter;🎥:Emoji Movie;🍂:Fall / Autumn;👨:Father’s Day;💪:Festivus;🎓:Graduation;🔥:Guy Fawkes;🎃:Halloween;🕎:Hanukkah;💕:Hearts;🕉:Holi;🇺🇸:Independence Day;👩:Mother’s Day;🎊:New Year’s Eve;🏊:Olympics;🏳️‍🌈:Pride;👑:Queen’s Birthday;☪:Ramadan;🌱:Spring;☘:St Patrick’s Day;☀:Summer;🏈:Super Bowl;🦃:Thanksgiving;💘:Valentine’s Day;👰:Wedding / Marriage;⛄:Winter;🎿:Winter Olympics;⚽:World Cup;🌎:World Emoji Day;',
+      emojiList:
+        '🤩:Star-Struck;🤪:Zany Face;🤭:Face With Hand Over Mouth;🤫:Shushing Face;🤨:Face With Raised Eyebrow;₿:Bitcoin;🤮:Face Vomiting;🤯:Exploding Head;🧐:Face With Monocle;🤬:Face With Symbols on Mouth;🧡:Orange Heart;🤟:Love-You Gesture;🤲:Palms Up Together;🧠:Brain;🧒:Child;🧑:Person;🧔:Man: Beard;🧓:Older Person;🧕:Woman With Headscarf;🤱:Breast-Feeding;🧙:Mage;🧚:Fairy;🧛:Vampire;🧜:Merperson;🧝:Elf;🧞:Genie;🧟:Zombie;🧖:Person in Steamy Room;🧗:Person Climbing;🧘:Person in Lotus Position;🦓:Zebra;🦒:Giraffe;🦔:Hedgehog;🦕:Sauropod;🦖:T-Rex;🦗:Cricket;🥥:Coconut;🥦:Broccoli;🥨:Pretzel;🥩:Cut of Meat;🇦🇺:Australia Day;🇫🇷:Bastille Day;🎂:Birthday;🛍:Black Friday;🇨🇦:Canada Day;🇧🇷:Carnaval;🐉:Chinese New Year;🎅:Christmas;🇲🇽:Cinco de Mayo;🕯:Diwali;🇨🇳:Dragon Boat Festival;🐰:Easter;🎥:Emoji Movie;🍂:Fall / Autumn;👨:Father’s Day;💪:Festivus;🎓:Graduation;🔥:Guy Fawkes;🎃:Halloween;🕎:Hanukkah;💕:Hearts;🕉:Holi;🇺🇸:Independence Day;👩:Mother’s Day;🎊:New Year’s Eve;🏊:Olympics;🏳️‍🌈:Pride;👑:Queen’s Birthday;☪:Ramadan;🌱:Spring;☘:St Patrick’s Day;☀:Summer;🏈:Super Bowl;🦃:Thanksgiving;💘:Valentine’s Day;👰:Wedding / Marriage;⛄:Winter;🎿:Winter Olympics;⚽:World Cup;🌎:World Emoji Day;',
       chatButton: {
         enabled: true,
         openDelay: 100,
@@ -59,11 +60,12 @@ const liveChatConfig = (
         wrapper: '<div></div>',
         inputs: [
           {
-            custom: ''
-              + '<p>'
-              + 'We\'re here to help during your free trial of MYOB Essentials. '
-              + 'All we need to get started is your first name.'
-              + '</p>',
+            custom:
+              '' +
+              '<p>' +
+              "We're here to help during your free trial of MYOB Essentials. " +
+              'All we need to get started is your first name.' +
+              '</p>',
           },
           {
             id: 'nickname',

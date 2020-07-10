@@ -1,6 +1,4 @@
-import {
-  Button, Modal, Select, Spinner,
-} from '@myob/myob-widgets';
+import { Button, Modal, Select, Spinner } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -26,15 +24,11 @@ const ExportPdfModal = ({
       >
         {templateOptions.map(({ name }) => (
           <Select.Option key={name} value={name} label={name} />
-        )) }
+        ))}
       </Select>
     </Modal.Body>
     <Modal.Footer>
-      <Button
-        type="secondary"
-        onClick={onCancel}
-        disabled={isActionDisabled}
-      >
+      <Button type="secondary" onClick={onCancel} disabled={isActionDisabled}>
         Cancel
       </Button>
       <Button
@@ -44,12 +38,12 @@ const ExportPdfModal = ({
       >
         View
       </Button>
-      { isExportingPDF && <Spinner size="small" /> }
+      {isExportingPDF && <Spinner size="small" />}
     </Modal.Footer>
   </Modal>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isExportingPDF: getIsExportingPDF(state),
 });
 

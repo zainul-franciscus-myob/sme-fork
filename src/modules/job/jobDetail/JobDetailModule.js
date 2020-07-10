@@ -28,9 +28,7 @@ import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class JobDetailModule {
-  constructor({
-    integration, setRootView, pushMessage, isToggleOn,
-  }) {
+  constructor({ integration, setRootView, pushMessage, isToggleOn }) {
     this.integration = integration;
     this.store = new Store(jobDetailReducer);
     this.setRootView = setRootView;
@@ -59,17 +57,15 @@ export default class JobDetailModule {
       />
     );
 
-    const view = this.isToggleOn(FeatureToggles.EssentialsJobs)
-      ? jobDetailView
-      : <WrongPageState />;
-
-    const wrappedView = (
-      <Provider store={this.store}>
-        {view}
-      </Provider>
+    const view = this.isToggleOn(FeatureToggles.EssentialsJobs) ? (
+      jobDetailView
+    ) : (
+      <WrongPageState />
     );
+
+    const wrappedView = <Provider store={this.store}>{view}</Provider>;
     this.setRootView(wrappedView);
-  }
+  };
 
   updateOrCreateJob = () => {
     const state = this.store.getState();
@@ -97,14 +93,16 @@ export default class JobDetailModule {
 
     if (isCreating) {
       this.integrator.createJob({
-        onSuccess, onFailure,
+        onSuccess,
+        onFailure,
       });
     } else {
       this.integrator.updateJob({
-        onSuccess, onFailure,
+        onSuccess,
+        onFailure,
       });
     }
-  }
+  };
 
   loadJobDetail = () => {
     const state = this.store.getState();
@@ -130,7 +128,7 @@ export default class JobDetailModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
@@ -172,7 +170,7 @@ export default class JobDetailModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   deleteJob = () => {
     this.dispatcher.setSubmittingState(true);
@@ -195,7 +193,7 @@ export default class JobDetailModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   saveHandler = () => {
     // Quick add modals
@@ -209,7 +207,7 @@ export default class JobDetailModule {
     if (modal.type) return;
 
     this.updateOrCreateJob();
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,
@@ -232,18 +230,20 @@ export default class JobDetailModule {
 
   openUnsavedModal = (url) => {
     this.dispatcher.openModal({ type: ModalType.UNSAVED, url });
-  }
+  };
 
   onCancel = () => {
     const state = this.store.getState();
     const modal = getModal(state);
 
     this.redirectToUrl(modal.url);
-  }
+  };
 
-  displayFailureAlert = message => this.dispatcher.setAlert({ type: 'danger', message });
+  displayFailureAlert = (message) =>
+    this.dispatcher.setAlert({ type: 'danger', message });
 
-  displaySuccessAlert = message => this.dispatcher.setAlert({ type: 'success', message })
+  displaySuccessAlert = (message) =>
+    this.dispatcher.setAlert({ type: 'success', message });
 
   openCustomerModal = () => {
     const state = this.store.getState();
@@ -251,10 +251,10 @@ export default class JobDetailModule {
 
     this.customerModalModule.run({
       context,
-      onLoadFailure: message => this.displayFailureAlert(message),
+      onLoadFailure: (message) => this.displayFailureAlert(message),
       onSaveSuccess: this.loadCustomerAfterCreate,
     });
-  }
+  };
 
   loadCustomerAfterCreate = ({ message, id }) => {
     this.customerModalModule.resetState();
@@ -271,7 +271,7 @@ export default class JobDetailModule {
     };
 
     this.integrator.loadCustomerAfterCreate({ id, onSuccess, onFailure });
-  }
+  };
 
   redirectToUrl = (url) => {
     if (url) {
@@ -279,7 +279,7 @@ export default class JobDetailModule {
     } else {
       this.redirectToJobList();
     }
-  }
+  };
 
   handlePageTransition = (url) => {
     const state = this.store.getState();
@@ -288,5 +288,5 @@ export default class JobDetailModule {
     } else {
       this.redirectToUrl(url);
     }
-  }
+  };
 }

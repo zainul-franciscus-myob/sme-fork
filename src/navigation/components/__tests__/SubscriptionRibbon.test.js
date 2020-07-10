@@ -9,17 +9,20 @@ const msPerDay = 24 * 60 * msPerMinute;
 describe('SubscriptionPanel', () => {
   let div;
 
-  beforeEach(() => { div = document.createElement('div'); });
+  beforeEach(() => {
+    div = document.createElement('div');
+  });
   afterEach(() => {
     ReactDOM.unmountComponentAtNode(div);
     div = null;
   });
 
-  const view = endDate => (
+  const view = (endDate) => (
     <SubscriptionRibbon trialEndDate={endDate} onSubscribeNowClick={() => {}} />
   );
 
-  const daysFromNow = days => new Date(Date.now() + (days * msPerDay) + msPerMinute);
+  const daysFromNow = (days) =>
+    new Date(Date.now() + days * msPerDay + msPerMinute);
 
   it('renders 0 days', () => {
     const endDate = daysFromNow(0);

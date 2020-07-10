@@ -7,9 +7,7 @@ import createTasksDispatcher from './createTasksDispatcher';
 import tasksReducer from './tasksReducer';
 
 export default class TasksModule {
-  constructor({
-    integration, closeDrawer, tasksService,
-  }) {
+  constructor({ integration, closeDrawer, tasksService }) {
     this.integration = integration;
     this.store = new Store(tasksReducer);
     this.closeDrawer = closeDrawer;
@@ -20,8 +18,10 @@ export default class TasksModule {
   getView = (tasks) => {
     const { tasksService, closeView, store } = this;
     const { closeTasks, dismissTask } = tasksService;
-    const onboardingTasks = tasks && tasks.filter(task => task.template !== 'welcome');
-    const welcomeTask = tasks && tasks.find(task => task.template === 'welcome');
+    const onboardingTasks =
+      tasks && tasks.filter((task) => task.template !== 'welcome');
+    const welcomeTask =
+      tasks && tasks.find((task) => task.template === 'welcome');
     const { dispatcher } = this;
 
     return (
@@ -48,5 +48,5 @@ export default class TasksModule {
   run = (context) => {
     const { routeParams } = context;
     this.dispatcher.setInitialState(routeParams);
-  }
+  };
 }

@@ -8,8 +8,10 @@ import newSupplierReturnPurchase from './data/loadNewSupplierReturnPurchase.json
 import successResponse from './data/success.json';
 import supplierReturnPurchase from './data/loadSupplierReturnPurchase.json';
 
-const loadNewSupplierReturnPurchase = ({ onSuccess }) => onSuccess(newSupplierReturnPurchase);
-const loadSupplierReturnPurchase = ({ onSuccess }) => onSuccess(supplierReturnPurchase);
+const loadNewSupplierReturnPurchase = ({ onSuccess }) =>
+  onSuccess(newSupplierReturnPurchase);
+const loadSupplierReturnPurchase = ({ onSuccess }) =>
+  onSuccess(supplierReturnPurchase);
 const createPurchaseReturn = ({ onSuccess }) => onSuccess(successResponse);
 const deletePurchaseReturn = ({ onSuccess }) => onSuccess(successResponse);
 

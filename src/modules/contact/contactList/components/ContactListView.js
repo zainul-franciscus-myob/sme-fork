@@ -40,16 +40,36 @@ const inActiveRowHeader = ({ order, onSort, tableConfig }) => (
 );
 
 const tableConfig = {
-  name: { columnName: 'Name', style: { valign: 'top' }, headerStyle: { valign: 'middle' } },
+  name: {
+    columnName: 'Name',
+    style: { valign: 'top' },
+    headerStyle: { valign: 'middle' },
+  },
   isActive: {
     columnName: 'Status',
     style: { valign: 'top', align: 'center' },
     headerStyle: { align: 'center', valign: 'middle' },
   },
-  referenceId: { columnName: 'Contact ID', style: { valign: 'top' }, headerStyle: { valign: 'middle' } },
-  type: { columnName: 'Type', style: { valign: 'top' }, headerStyle: { valign: 'middle' } },
-  phoneNumber: { columnName: 'Phone number', style: { valign: 'top' }, headerStyle: { valign: 'middle' } },
-  email: { columnName: 'Email', style: { valign: 'top' }, headerStyle: { valign: 'middle' } },
+  referenceId: {
+    columnName: 'Contact ID',
+    style: { valign: 'top' },
+    headerStyle: { valign: 'middle' },
+  },
+  type: {
+    columnName: 'Type',
+    style: { valign: 'top' },
+    headerStyle: { valign: 'middle' },
+  },
+  phoneNumber: {
+    columnName: 'Phone number',
+    style: { valign: 'top' },
+    headerStyle: { valign: 'middle' },
+  },
+  email: {
+    columnName: 'Email',
+    style: { valign: 'top' },
+    headerStyle: { valign: 'middle' },
+  },
   outstandingBalance: {
     columnName: 'Balance due ($)',
     style: { valign: 'top', align: 'right' },
@@ -230,7 +250,7 @@ const ContactListView = (props) => {
   return <PageView loadingState={loadingState} view={contactListView} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   loadingState: getLoadingState(state),
   isDefaultFilters: getIsDefaultFilters(state),

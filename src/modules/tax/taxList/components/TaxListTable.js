@@ -17,8 +17,12 @@ const tableConfig = {
 const TaxListTable = ({ tableHeaderTexts }) => (
   <Table>
     <Table.Header>
-      <Table.HeaderItem {...tableConfig.taxCode}>{tableHeaderTexts.taxCode}</Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.description}>Description</Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.taxCode}>
+        {tableHeaderTexts.taxCode}
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.description}>
+        Description
+      </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.type}>Type</Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.collectedAccountName}>
         {tableHeaderTexts.collectedAccountName}
@@ -32,7 +36,7 @@ const TaxListTable = ({ tableHeaderTexts }) => (
   </Table>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   tableHeaderTexts: getTableHeaderTexts(state),
 });
 

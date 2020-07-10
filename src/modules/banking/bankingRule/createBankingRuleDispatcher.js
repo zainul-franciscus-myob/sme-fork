@@ -13,66 +13,54 @@ import {
   UPDATE_TABLE_ROW,
 } from './BankingRuleIntents';
 
-const createBankingRuleDispatcher = store => ({
+const createBankingRuleDispatcher = (store) => ({
   updateRuleDetails: (key, value) => {
-    store.dispatch(
-      {
-        intent: UPDATE_RULE_DETAILS,
-        key,
-        value,
-      },
-    );
+    store.dispatch({
+      intent: UPDATE_RULE_DETAILS,
+      key,
+      value,
+    });
   },
 
   updateRuleCondition: (conditionIndex, key, value) => {
-    store.dispatch(
-      {
-        intent: UPDATE_RULE_CONDITION,
-        conditionIndex,
-        key,
-        value,
-      },
-    );
+    store.dispatch({
+      intent: UPDATE_RULE_CONDITION,
+      conditionIndex,
+      key,
+      value,
+    });
   },
 
   addRuleCondition: () => {
-    store.dispatch(
-      {
-        intent: ADD_RULE_CONDITION,
-      },
-    );
+    store.dispatch({
+      intent: ADD_RULE_CONDITION,
+    });
   },
 
   addConditionPredicate: (conditionIndex, newData) => {
-    store.dispatch(
-      {
-        intent: ADD_CONDITION_PREDICATE,
-        conditionIndex,
-        newData,
-      },
-    );
+    store.dispatch({
+      intent: ADD_CONDITION_PREDICATE,
+      conditionIndex,
+      newData,
+    });
   },
 
   updateConditionPredicate: (conditionIndex, predicateIndex, key, value) => {
-    store.dispatch(
-      {
-        intent: UPDATE_CONDITION_PREDICATE,
-        conditionIndex,
-        predicateIndex,
-        key,
-        value,
-      },
-    );
+    store.dispatch({
+      intent: UPDATE_CONDITION_PREDICATE,
+      conditionIndex,
+      predicateIndex,
+      key,
+      value,
+    });
   },
 
   removeConditionPredicate: (conditionIndex, predicateIndex) => {
-    store.dispatch(
-      {
-        intent: REMOVE_CONDITION_PREDICATE,
-        conditionIndex,
-        predicateIndex,
-      },
-    );
+    store.dispatch({
+      intent: REMOVE_CONDITION_PREDICATE,
+      conditionIndex,
+      predicateIndex,
+    });
   },
 
   addTableRow: (row) => {
@@ -118,7 +106,8 @@ const createBankingRuleDispatcher = store => ({
   setInitialState: (state) => {
     const intent = SET_INITIAL_STATE;
     store.dispatch({
-      intent, ...state,
+      intent,
+      ...state,
     });
   },
 });

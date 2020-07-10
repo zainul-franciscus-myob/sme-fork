@@ -8,7 +8,7 @@ const DashboardPurchaseChart = ({ data }) => (
   <SalesOrPurchaseSummaryChart title="Total purchases" data={data} />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getPurchaseChart(state),
 });
 

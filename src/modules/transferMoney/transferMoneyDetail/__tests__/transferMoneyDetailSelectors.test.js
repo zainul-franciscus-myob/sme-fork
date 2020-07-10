@@ -1,4 +1,7 @@
-import { LOAD_NEW_TRANSFER_MONEY, LOAD_TRANSFER_MONEY_DETAIL } from '../../TransferMoneyIntents';
+import {
+  LOAD_NEW_TRANSFER_MONEY,
+  LOAD_TRANSFER_MONEY_DETAIL,
+} from '../../TransferMoneyIntents';
 import {
   getBalance,
   getIsBeforeStartOfFinancialYear,
@@ -199,7 +202,7 @@ describe('transferMoneyDetailSelectors', () => {
         const actual = getIsBeforeStartOfFinancialYear(state);
 
         expect(actual).toEqual(expected);
-      },
+      }
     );
   });
 });

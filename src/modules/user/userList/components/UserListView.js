@@ -1,10 +1,12 @@
-import {
-  Alert, Button, ButtonRow, Icons, PageHead,
-} from '@myob/myob-widgets';
+import { Alert, Button, ButtonRow, Icons, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getIsCurrentUserOnlineAdmin, getLoadingState } from '../userListSelectors';
+import {
+  getAlert,
+  getIsCurrentUserOnlineAdmin,
+  getLoadingState,
+} from '../userListSelectors';
 import PageView from '../../../../components/PageView/PageView';
 import StandardTemplate from '../../../../components/Feelix/StandardTemplate/StandardTemplate';
 import UserListTable from './UserListTable';
@@ -18,13 +20,7 @@ export const tableConfig = {
 };
 
 const UserListView = (props) => {
-  const {
-    alert,
-    loadingState,
-    onCreateUser,
-    onDismissAlert,
-    onSort,
-  } = props;
+  const { alert, loadingState, onCreateUser, onDismissAlert, onSort } = props;
 
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -38,7 +34,12 @@ const UserListView = (props) => {
 
   const pageHead = (
     <PageHead title="Users">
-      <Button type="link" icon={<Icons.OpenExternalLink />} onClick={openMyMyob} iconRight>
+      <Button
+        type="link"
+        icon={<Icons.OpenExternalLink />}
+        onClick={openMyMyob}
+        iconRight
+      >
         Manage user access via my.MYOB
       </Button>
       <ButtonRow>
@@ -50,10 +51,16 @@ const UserListView = (props) => {
     </PageHead>
   );
 
-  const tableHeader = <UserListTableHeader onSort={onSort} tableConfig={tableConfig} />;
+  const tableHeader = (
+    <UserListTableHeader onSort={onSort} tableConfig={tableConfig} />
+  );
 
   const userListView = (
-    <StandardTemplate pageHead={pageHead} alert={alertComponent} tableHeader={tableHeader}>
+    <StandardTemplate
+      pageHead={pageHead}
+      alert={alertComponent}
+      tableHeader={tableHeader}
+    >
       <UserListTable tableConfig={tableConfig} />
     </StandardTemplate>
   );
@@ -61,7 +68,7 @@ const UserListView = (props) => {
   return <PageView loadingState={loadingState} view={userListView} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   loadingState: getLoadingState(state),
   isCurrentUserOnlineAdmin: getIsCurrentUserOnlineAdmin(state),

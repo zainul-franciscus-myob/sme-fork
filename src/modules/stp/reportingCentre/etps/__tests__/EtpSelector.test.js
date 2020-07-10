@@ -155,9 +155,7 @@ describe('EtpSelector', () => {
 
       const expected = {
         eventId: '123',
-        pays: [
-          'test2',
-        ],
+        pays: ['test2'],
       };
 
       expect(result).toEqual(expected);

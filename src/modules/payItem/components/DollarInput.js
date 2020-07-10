@@ -3,10 +3,7 @@ import React from 'react';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
 import handleAmountInputChange from '../../../components/handlers/handleAmountInputChange';
 
-const DollarInput = ({
-  onChange,
-  ...props
-}) => (
+const DollarInput = ({ onChange, ...props }) => (
   <AmountInput
     numeralIntegerScale={13}
     numeralDecimalScaleMin={2}

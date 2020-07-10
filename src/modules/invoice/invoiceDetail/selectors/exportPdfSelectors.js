@@ -11,7 +11,7 @@ import {
 import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
 import InvoiceLayout from '../types/InvoiceLayout';
 
-export const getExportPdfTemplate = state => state.exportPdf.template;
+export const getExportPdfTemplate = (state) => state.exportPdf.template;
 
 export const getExportPdfUrlParams = (state) => {
   const businessId = getBusinessId(state);
@@ -20,7 +20,7 @@ export const getExportPdfUrlParams = (state) => {
   return { businessId, invoiceId };
 };
 
-export const getExportPdfQueryParams = state => ({
+export const getExportPdfQueryParams = (state) => ({
   formName: getExportPdfTemplate(state),
 });
 
@@ -33,15 +33,10 @@ export const getExportPdfFilename = (state) => {
 export const getIsExportingPDF = createSelector(
   getModalType,
   getIsModalActionDisabled,
-  (modalType, isModalActionDisabled) => (
+  (modalType, isModalActionDisabled) =>
     modalType === InvoiceDetailModalType.EXPORT_PDF && isModalActionDisabled
-  ),
 );
 
-export const getShowExportPdfButton = createSelector(
-  getLayout,
-  (layout) => ([
-    InvoiceLayout.SERVICE,
-    InvoiceLayout.ITEM_AND_SERVICE,
-  ].includes(layout)),
+export const getShowExportPdfButton = createSelector(getLayout, (layout) =>
+  [InvoiceLayout.SERVICE, InvoiceLayout.ITEM_AND_SERVICE].includes(layout)
 );

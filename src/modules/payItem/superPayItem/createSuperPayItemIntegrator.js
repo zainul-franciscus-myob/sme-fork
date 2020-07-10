@@ -6,7 +6,10 @@ import {
   UPDATE_SUPER_PAY_ITEM,
 } from './SuperPayItemIntents';
 import {
-  getBusinessId, getIsCreating, getSuperPayItem, getSuperPayItemId,
+  getBusinessId,
+  getIsCreating,
+  getSuperPayItem,
+  getSuperPayItemId,
 } from './superPayItemSelectors';
 
 const createSuperPayItemIntegrator = (store, integration) => ({
@@ -14,9 +17,7 @@ const createSuperPayItemIntegrator = (store, integration) => ({
     const state = store.getState();
     const isCreating = getIsCreating(state);
 
-    const intent = isCreating
-      ? LOAD_NEW_SUPER_PAY_ITEM
-      : LOAD_SUPER_PAY_ITEM;
+    const intent = isCreating ? LOAD_NEW_SUPER_PAY_ITEM : LOAD_SUPER_PAY_ITEM;
 
     const urlParams = {
       businessId: getBusinessId(state),
@@ -24,7 +25,10 @@ const createSuperPayItemIntegrator = (store, integration) => ({
     };
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -32,9 +36,7 @@ const createSuperPayItemIntegrator = (store, integration) => ({
     const state = store.getState();
     const isCreating = getIsCreating(state);
 
-    const intent = isCreating
-      ? CREATE_SUPER_PAY_ITEM
-      : UPDATE_SUPER_PAY_ITEM;
+    const intent = isCreating ? CREATE_SUPER_PAY_ITEM : UPDATE_SUPER_PAY_ITEM;
 
     const urlParams = {
       businessId: getBusinessId(state),

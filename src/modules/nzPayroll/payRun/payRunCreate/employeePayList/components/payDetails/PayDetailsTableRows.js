@@ -20,7 +20,7 @@ const PayDetailsTableRows = ({
     </Table.Row>
   );
 
-  const rows = entries.map(entry => (
+  const rows = entries.map((entry) => (
     <PayDetailsTableRow
       key={entry.payItemId}
       tableConfig={tableConfig}

@@ -1,6 +1,6 @@
 import { getDefaultTemplateOption } from './customerStatementListSelectors';
 
-export const getBusinessId = state => state.businessId;
+export const getBusinessId = (state) => state.businessId;
 
 export const getQueryParamsForList = (state) => {
   const { sortOrder, orderBy, filterOptions } = state;
@@ -30,13 +30,14 @@ const getSelectedTemplateOptionForEmail = (state) => {
   return selectedTemplateOption || defaultTemplateOption;
 };
 
-export const getSendEmailContent = state => ({
+export const getSendEmailContent = (state) => ({
   ...state.templateAdditionalOptions,
   fromEmail: state.emailModalOptions.fromEmail,
   subject: state.emailModalOptions.subject,
   message: state.emailModalOptions.message,
   templateOption: getSelectedTemplateOptionForEmail(state),
-  toEmail: state.customerStatements.filter(({ isSelected }) => isSelected)
+  toEmail: state.customerStatements
+    .filter(({ isSelected }) => isSelected)
     .map(({ payerUid, email }) => ({
       payerUid,
       email,

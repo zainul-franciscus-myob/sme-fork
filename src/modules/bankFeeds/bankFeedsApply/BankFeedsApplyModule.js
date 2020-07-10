@@ -17,11 +17,7 @@ import Store from '../../../store/Store';
 import openBlob from '../../../common/blobOpener/openBlob';
 
 export default class BankFeedsApplyModule {
-  constructor({
-    integration,
-    setRootView,
-    navigateTo,
-  }) {
+  constructor({ integration, setRootView, navigateTo }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.store = new Store(BankFeedsApplyReducer);
@@ -36,7 +32,8 @@ export default class BankFeedsApplyModule {
       openBlob({ blob: data });
     };
 
-    const onFailure = () => this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    const onFailure = () =>
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
 
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.integrator.getAuthorityForm({ onSuccess, onFailure });
@@ -48,15 +45,16 @@ export default class BankFeedsApplyModule {
       this.dispatcher.loadBankFeedApplicationData(response);
     };
 
-    const onFailure = () => this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    const onFailure = () =>
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
 
     this.integrator.loadBankFeedApplicationData({ onSuccess, onFailure });
-  }
+  };
 
   onCopy = (item) => {
     copy(item);
     this.setCopyAlertState();
-  }
+  };
 
   setCopyAlertState = () => this.dispatcher.setCopyAlertState();
 
@@ -69,10 +67,11 @@ export default class BankFeedsApplyModule {
       this.dispatcher.setDisplayConnectFormState();
     };
 
-    const onFailure = () => this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    const onFailure = () =>
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
 
     this.integrator.getReferenceNumber({ onSuccess, onFailure });
-  }
+  };
 
   formApplication = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
@@ -84,10 +83,11 @@ export default class BankFeedsApplyModule {
       this.dispatcher.setDisplayConnectFormState();
     };
 
-    const onFailure = () => this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    const onFailure = () =>
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
 
     this.integrator.submitBankFeedApplication({ onSuccess, onFailure });
-  }
+  };
 
   submitBankFeedApplication = () => {
     if (getApplicationPreference(this.store.getState()) === 'online') {
@@ -95,7 +95,7 @@ export default class BankFeedsApplyModule {
     } else {
       this.formApplication();
     }
-  }
+  };
 
   redirectToPath = (url) => {
     const state = this.store.getState();
@@ -103,7 +103,7 @@ export default class BankFeedsApplyModule {
     const region = getRegion(state);
 
     this.navigateTo(`/#/${region}/${businessId}/${url}`);
-  }
+  };
 
   render = () => {
     this.setRootView(
@@ -111,22 +111,32 @@ export default class BankFeedsApplyModule {
         <BankFeedsApplyView
           getAuthorityForm={() => this.getAuthorityForm()}
           onCopy={this.onCopy}
-          onUpdateForm={({ key, value }) => this.dispatcher.updateForm({ key, value })}
-          redirectToBank={() => this.navigateTo(getOnlineBankLink(this.store.getState()), true)}
+          onUpdateForm={({ key, value }) =>
+            this.dispatcher.updateForm({ key, value })
+          }
+          redirectToBank={() =>
+            this.navigateTo(getOnlineBankLink(this.store.getState()), true)
+          }
           redirectToBankFeeds={() => this.redirectToPath('bankFeeds')}
-          redirectToImportStatements={() => this.redirectToPath('bankStatementImport')}
+          redirectToImportStatements={() =>
+            this.redirectToPath('bankStatementImport')
+          }
           setAccountType={(type) => this.dispatcher.setAccountType(type)}
-          setApplicationPreference={
-            (preference) => this.dispatcher.setApplicationPreference(preference)
+          setApplicationPreference={(preference) =>
+            this.dispatcher.setApplicationPreference(preference)
           }
           setCopyAlertState={this.setCopyAlertState}
           setCopyAlertText={(text) => this.dispatcher.setCopyAlertText(text)}
-          setFinancialInstitution={(value) => this.dispatcher.setFinancialInstitution(value)}
-          setFormAlertState={(state) => this.dispatcher.setFormAlertState(state)}
+          setFinancialInstitution={(value) =>
+            this.dispatcher.setFinancialInstitution(value)
+          }
+          setFormAlertState={(state) =>
+            this.dispatcher.setFormAlertState(state)
+          }
           setModalState={() => this.dispatcher.setModalState()}
           onNext={() => this.submitBankFeedApplication()}
         />
-      </Provider>,
+      </Provider>
     );
   };
 

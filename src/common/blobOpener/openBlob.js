@@ -1,11 +1,14 @@
 const openBlob = ({
-  blob, filename, targetAttribute = '_blank', shouldDownload,
+  blob,
+  filename,
+  targetAttribute = '_blank',
+  shouldDownload,
 }) => {
   // For Microsoft Edge
   if (window.navigator && window.navigator.msSaveOrOpenBlob) {
     window.navigator.msSaveOrOpenBlob(blob, filename);
 
-  // For other browsers
+    // For other browsers
   } else {
     const dataURL = URL.createObjectURL(blob);
 

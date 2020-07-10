@@ -7,20 +7,22 @@ import WistiaVideoPlayer from '../WistiaVideoPlayer/WistiaVideoPlayer';
 import styles from './LearnTemplate.module.css';
 
 export const Row = ({ children, className }) => (
-  <div className={classNames(styles.row, className)}>
-    { children }
-  </div>
+  <div className={classNames(styles.row, className)}>{children}</div>
 );
 
 export const Column = ({ children, className }) => (
-  <div className={classNames(styles.column, className)}>
-    { children }
-  </div>
+  <div className={classNames(styles.column, className)}>{children}</div>
 );
 
 export const LearnCallToAction = ({ children, className }) => (
-  <div className={classNames(styles['mt-xx-large'], styles['mt-sm-medium'], className)}>
-    { children }
+  <div
+    className={classNames(
+      styles['mt-xx-large'],
+      styles['mt-sm-medium'],
+      className
+    )}
+  >
+    {children}
   </div>
 );
 
@@ -33,9 +35,7 @@ export const LearnTemplate = ({ title, children }) => {
     <BaseTemplate baseTemplateClassName={styles.learnTemplate}>
       <PageHead title={title} />
 
-      <Card>
-        { children }
-      </Card>
+      <Card>{children}</Card>
     </BaseTemplate>
   );
 

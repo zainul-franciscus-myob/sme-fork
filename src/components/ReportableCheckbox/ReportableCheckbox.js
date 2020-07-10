@@ -26,7 +26,8 @@ const ReportableCheckbox = ({
           disabled={disabled}
         />
       )}
-    />);
+    />
+  );
 
   return {
     au: auView,
@@ -34,5 +35,4 @@ const ReportableCheckbox = ({
   }[region];
 };
 
-
-export default (ReportableCheckbox);
+export default ReportableCheckbox;

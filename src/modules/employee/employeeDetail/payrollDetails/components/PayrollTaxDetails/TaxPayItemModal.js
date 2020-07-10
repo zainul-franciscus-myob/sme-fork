@@ -1,5 +1,10 @@
 import {
-  Alert, Button, Icons, Modal, Select, Tooltip,
+  Alert,
+  Button,
+  Icons,
+  Modal,
+  Select,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -7,8 +12,10 @@ import React from 'react';
 import {
   getTaxPayItemAccounts,
   getTaxPayItemAtoReportingCategoryList,
-  getTaxPayItemDetail, getTaxPayItemModalAlertMessage,
-  getTaxPayItemModalLoading, getTaxPayItemModalSubmitting,
+  getTaxPayItemDetail,
+  getTaxPayItemModalAlertMessage,
+  getTaxPayItemModalLoading,
+  getTaxPayItemModalSubmitting,
 } from '../../selectors/PayrollTaxSelectors';
 import AccountCombobox from '../../../../../../components/combobox/AccountCombobox';
 import PageView from '../../../../../../components/PageView/PageView';
@@ -42,38 +49,41 @@ const TaxPayItemModal = ({
           hideLabel={false}
           items={accounts}
           selectedId={taxPayItemDetail.accountId}
-          onChange={handleComboboxChange('accountId', onTaxPayItemModalDetailChange)}
-          labelAccessory={(
-            <Tooltip triggerContent={<Icons.Info />} placement="bottom">
-              This account will track the amount of PAYG that is withheld from employee pays.
-              We recommend to use the default one we suggested for you.
-            </Tooltip>
+          onChange={handleComboboxChange(
+            'accountId',
+            onTaxPayItemModalDetailChange
           )}
+          labelAccessory={
+            <Tooltip triggerContent={<Icons.Info />} placement="bottom">
+              This account will track the amount of PAYG that is withheld from
+              employee pays. We recommend to use the default one we suggested
+              for you.
+            </Tooltip>
+          }
         />
         <Select
           name="atoReportingCategory"
           label="ATO reporting category"
           value={taxPayItemDetail.atoReportingCategory}
           onChange={handleSelectChange(onTaxPayItemModalDetailChange)}
-          labelAccessory={(
+          labelAccessory={
             <Tooltip triggerContent={<Icons.Info />} placement="bottom">
-              Select the ATO reporting category if you&apos;re using Single Touch Payroll.
+              Select the ATO reporting category if you&apos;re using Single
+              Touch Payroll.
             </Tooltip>
-          )}
-        >
-          {
-            atoReportCategoryList.map(category => (
-              <Select.Option key={category.value} value={category.value} label={category.name} />
-            ))
           }
+        >
+          {atoReportCategoryList.map((category) => (
+            <Select.Option
+              key={category.value}
+              value={category.value}
+              label={category.name}
+            />
+          ))}
         </Select>
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          type="secondary"
-          onClick={onCloseModal}
-          disabled={isSubmitting}
-        >
+        <Button type="secondary" onClick={onCloseModal} disabled={isSubmitting}>
           Cancel
         </Button>
         <Button
@@ -88,17 +98,13 @@ const TaxPayItemModal = ({
   );
 
   return (
-    <Modal
-      title="PAYG Withholding"
-      size="small"
-      onCancel={onCloseModal}
-    >
+    <Modal title="PAYG Withholding" size="small" onCancel={onCloseModal}>
       <PageView isLoading={isLoading} view={view} />
     </Modal>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoading: getTaxPayItemModalLoading(state),
   isSubmitting: getTaxPayItemModalSubmitting(state),
   alertMessage: getTaxPayItemModalAlertMessage(state),

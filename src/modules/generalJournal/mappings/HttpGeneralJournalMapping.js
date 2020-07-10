@@ -12,35 +12,43 @@ import {
 const HttpGeneralJournalMapping = {
   [LOAD_GENERAL_JOURNAL_DETAIL]: {
     method: 'GET',
-    getPath: ({ businessId, generalJournalId }) => `/${businessId}/generalJournal/load_general_journal_detail/${generalJournalId}`,
+    getPath: ({ businessId, generalJournalId }) =>
+      `/${businessId}/generalJournal/load_general_journal_detail/${generalJournalId}`,
   },
   [LOAD_NEW_GENERAL_JOURNAL]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/generalJournal/load_new_general_journal_detail`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/generalJournal/load_new_general_journal_detail`,
   },
   [CREATE_GENERAL_JOURNAL]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/generalJournal/create_general_journal_detail`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/generalJournal/create_general_journal_detail`,
   },
   [UPDATE_GENERAL_JOURNAL]: {
     method: 'PUT',
-    getPath: ({ businessId, generalJournalId }) => `/${businessId}/generalJournal/update_general_journal_detail/${generalJournalId}`,
+    getPath: ({ businessId, generalJournalId }) =>
+      `/${businessId}/generalJournal/update_general_journal_detail/${generalJournalId}`,
   },
   [DELETE_GENERAL_JOURNAL]: {
     method: 'DELETE',
-    getPath: ({ businessId, generalJournalId }) => `/${businessId}/generalJournal/delete_general_journal_detail/${generalJournalId}`,
+    getPath: ({ businessId, generalJournalId }) =>
+      `/${businessId}/generalJournal/delete_general_journal_detail/${generalJournalId}`,
   },
   [LOAD_ACCOUNT_AFTER_CREATE]: {
     method: 'GET',
-    getPath: ({ businessId, accountId }) => `/${businessId}/generalJournal/load_account/${accountId}`,
+    getPath: ({ businessId, accountId }) =>
+      `/${businessId}/generalJournal/load_account/${accountId}`,
   },
   [LOAD_JOB_AFTER_CREATE]: {
     method: 'GET',
-    getPath: ({ businessId, jobId }) => `/${businessId}/generalJournal/load_job/${jobId}`,
+    getPath: ({ businessId, jobId }) =>
+      `/${businessId}/generalJournal/load_job/${jobId}`,
   },
   [LOAD_DUPLICATE_GENERAL_JOURNAL]: {
     method: 'GET',
-    getPath: ({ businessId, duplicateId }) => `/${businessId}/generalJournal/load_duplicate_general_journal_detail/${duplicateId}`,
+    getPath: ({ businessId, duplicateId }) =>
+      `/${businessId}/generalJournal/load_duplicate_general_journal_detail/${duplicateId}`,
   },
 };
 

@@ -1,17 +1,16 @@
 import {
-  Button, ButtonRow, Card, FormHorizontal, Input,
+  Button,
+  ButtonRow,
+  Card,
+  FormHorizontal,
+  Input,
 } from '@myob/myob-widgets';
 import React from 'react';
 
 import handleInputChange from '../../../../../components/handlers/handleInputChange';
 
 const BusinessContact = ({
-  businessContact: {
-    firstName,
-    lastName,
-    email,
-    phone,
-  },
+  businessContact: { firstName, lastName, email, phone },
   onBusinessContactChange,
   onEditBusinessContactClick,
 }) => {
@@ -19,8 +18,8 @@ const BusinessContact = ({
     <>
       <h3>Business contact details for the ATO</h3>
       <p>
-        The ATO will use these details if they need to get in contact with someone from the
-        business.
+        The ATO will use these details if they need to get in contact with
+        someone from the business.
       </p>
       <FormHorizontal layout="primary">
         <Input

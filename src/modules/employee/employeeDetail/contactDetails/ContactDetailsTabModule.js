@@ -4,11 +4,7 @@ import EmployeeDetailContactDetails from './components/ContactDetailsTab';
 import createStartContactDetailsTabDispatchers from './createStartContactDetailsTabDispatchers';
 
 export default class ContactDetailsTabModule {
-  constructor({
-    integration,
-    store,
-    pushMessage,
-  }) {
+  constructor({ integration, store, pushMessage }) {
     this.integration = integration;
     this.pushMessage = pushMessage;
     this.dispatcher = createStartContactDetailsTabDispatchers(store);

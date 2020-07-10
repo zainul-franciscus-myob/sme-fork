@@ -20,10 +20,7 @@ const BankingModal = ({
   let modal;
   if (modalType === ModalTypes.CANCEL) {
     modal = (
-      <CancelModal
-        onCancel={onCloseModal}
-        onConfirm={onConfirmCancelModal}
-      />
+      <CancelModal onCancel={onCloseModal} onConfirm={onConfirmCancelModal} />
     );
   } else if (modalType === ModalTypes.BANKING_RULE) {
     modal = onRenderBankingRuleModal();

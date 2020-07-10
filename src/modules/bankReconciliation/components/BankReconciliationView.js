@@ -1,6 +1,4 @@
-import {
-  Alert, BaseTemplate, Card, PageHead,
-} from '@myob/myob-widgets';
+import { Alert, BaseTemplate, Card, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -89,19 +87,18 @@ const BankReconciliationView = ({
     <React.Fragment>
       {pageHead}
       {alertComponent}
-      <Card classes={[styles.options]} footer={<Card.Footer child={tableHeader} />}>
+      <Card
+        classes={[styles.options]}
+        footer={<Card.Footer child={tableHeader} />}
+      >
         {templateOptions}
       </Card>
     </React.Fragment>
   );
 
   const view = (
-    <BaseTemplate
-      baseTemplateClassName={styles.sticky}
-    >
-      <StickyHeader>
-        {stickyComponent}
-      </StickyHeader>
+    <BaseTemplate baseTemplateClassName={styles.sticky}>
+      <StickyHeader>{stickyComponent}</StickyHeader>
       {modal}
       <Card classes={[styles.table]}>
         <BankReconciliationTable
@@ -118,7 +115,7 @@ const BankReconciliationView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   isModalActive: getIsModalActive(state),
   loadingState: getLoadingState(state),

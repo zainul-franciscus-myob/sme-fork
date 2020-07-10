@@ -1,4 +1,7 @@
-import { LOAD_BANKING_RULE_LIST, SORT_AND_FILTER_BANKING_RULE_LIST } from './BankingRuleListIntents';
+import {
+  LOAD_BANKING_RULE_LIST,
+  SORT_AND_FILTER_BANKING_RULE_LIST,
+} from './BankingRuleListIntents';
 import {
   getBusinessId,
   getFilterOptions,

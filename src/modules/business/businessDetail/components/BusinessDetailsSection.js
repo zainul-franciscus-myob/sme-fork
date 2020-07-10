@@ -6,13 +6,17 @@ import { getBusinessDetails, getIsRegionAu } from '../businessDetailSelectors';
 import AuTaxDetails from './AuTaxDetails';
 import NzTaxDetails from './NzTaxDetails';
 
-const onInputChange = handler => (e) => {
+const onInputChange = (handler) => (e) => {
   const { value, name } = e.target;
   handler({ key: name, value });
 };
 
 const BusinessDetailsSection = ({
-  serialNumber, organisationName, tradingName, isAu, onChange,
+  serialNumber,
+  organisationName,
+  tradingName,
+  isAu,
+  onChange,
 }) => (
   <FieldGroup label="Business details">
     <ReadOnly name="serialNumber" label="MYOB serial number">
@@ -34,11 +38,15 @@ const BusinessDetailsSection = ({
       maxLength={100}
       width="xl"
     />
-    {isAu ? <AuTaxDetails onChange={onChange} /> : <NzTaxDetails onChange={onChange} />}
+    {isAu ? (
+      <AuTaxDetails onChange={onChange} />
+    ) : (
+      <NzTaxDetails onChange={onChange} />
+    )}
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...getBusinessDetails(state),
   isAu: getIsRegionAu(state),
 });

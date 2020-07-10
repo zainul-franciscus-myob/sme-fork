@@ -7,7 +7,7 @@ import EmployeeCombobox from './EmployeeCombobox';
 import LeavePayItemEmployeesTable from './LeavePayItemEmployeesTable';
 import styles from './LeavePayItemView.module.css';
 
-const handleEmployeeComboboxChange = handler => (item) => {
+const handleEmployeeComboboxChange = (handler) => (item) => {
   handler(item);
 };
 
@@ -16,11 +16,7 @@ const LeavePayItemEmployees = ({
   onAddEmployee,
   onRemoveEmployee,
 }) => {
-  const fieldGroupLabel = (
-    <div>
-      Employees using this pay item
-    </div>
-  );
+  const fieldGroupLabel = <div>Employees using this pay item</div>;
 
   return (
     <FieldGroup label={fieldGroupLabel} className={styles.editableTable}>
@@ -37,7 +33,7 @@ const LeavePayItemEmployees = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   employees: getFilteredEmployees(state),
 });
 

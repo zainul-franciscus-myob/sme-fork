@@ -12,7 +12,7 @@ import {
 } from '../ContactIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createContactListDispatcher = store => ({
+const createContactListDispatcher = (store) => ({
   setInitialState: (context) => {
     store.dispatch({ intent: SET_INITIAL_STATE, context });
   },
@@ -41,17 +41,27 @@ const createContactListDispatcher = store => ({
     store.dispatch({ intent: RESET_FILTERS });
   },
   setSortOrder: (orderBy, newSortOrder) => {
-    store.dispatch({ intent: SET_SORT_ORDER, sortOrder: newSortOrder, orderBy });
+    store.dispatch({
+      intent: SET_SORT_ORDER,
+      sortOrder: newSortOrder,
+      orderBy,
+    });
   },
   loadContactList: (payload) => {
     store.dispatch({ intent: LOAD_CONTACT_LIST, ...payload });
   },
   loadContactListNextPage: ({ entries, pagination }) => {
-    store.dispatch({ intent: LOAD_CONTACT_LIST_NEXT_PAGE, entries, pagination });
+    store.dispatch({
+      intent: LOAD_CONTACT_LIST_NEXT_PAGE,
+      entries,
+      pagination,
+    });
   },
   sortAndFilterContactList: ({ entries, pagination }) => {
     store.dispatch({
-      intent: SORT_AND_FILTER_CONTACT_LIST, entries, pagination,
+      intent: SORT_AND_FILTER_CONTACT_LIST,
+      entries,
+      pagination,
     });
   },
 });

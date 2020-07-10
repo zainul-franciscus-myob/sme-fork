@@ -9,7 +9,8 @@ import loadNewApplyToSaleResponse from './data/loadNewApplyToSaleResponse';
 import successResponse from './data/success.json';
 
 const MemoryApplyToSaleMapping = {
-  [LOAD_NEW_APPLY_TO_SALE]: ({ onSuccess }) => onSuccess(loadNewApplyToSaleResponse),
+  [LOAD_NEW_APPLY_TO_SALE]: ({ onSuccess }) =>
+    onSuccess(loadNewApplyToSaleResponse),
   [LOAD_APPLY_TO_SALE]: ({ onSuccess }) => onSuccess(loadApplyToSaleResponse),
   [CREATE_APPLY_TO_SALE]: ({ onSuccess }) => onSuccess(successResponse),
   [DELETE_APPLY_TO_SALE]: ({ onSuccess }) => onSuccess(successResponse),

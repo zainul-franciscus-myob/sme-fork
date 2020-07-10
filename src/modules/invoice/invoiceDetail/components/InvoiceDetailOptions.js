@@ -1,5 +1,9 @@
 import {
-  Alert, DetailHeader, Input, RadioButtonGroup, ReadOnly,
+  Alert,
+  DetailHeader,
+  Input,
+  RadioButtonGroup,
+  ReadOnly,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -50,14 +54,14 @@ const InvoiceDetailOptions = ({
   shouldShowAbn,
   onDismissPreConversionAlert,
 }) => {
-  const onComboBoxChange = handler => (option) => {
+  const onComboBoxChange = (handler) => (option) => {
     const key = 'customerId';
     const { id: value } = option;
 
     handler({ key, value });
   };
 
-  const onIsTaxInclusiveChange = handler => (e) => {
+  const onIsTaxInclusiveChange = (handler) => (e) => {
     handler({ key: 'isTaxInclusive', value: e.value === taxInclusiveLabel });
   };
 
@@ -71,10 +75,10 @@ const InvoiceDetailOptions = ({
 
   const primary = (
     <>
-      <div className={classnames(
-        styles.contactComboBox,
-        { [styles.maximiseContactCombobox]: !shouldShowAbn },
-      )}
+      <div
+        className={classnames(styles.contactComboBox, {
+          [styles.maximiseContactCombobox]: !shouldShowAbn,
+        })}
       >
         <CustomerCombobox
           items={customerOptions}
@@ -155,29 +159,27 @@ const InvoiceDetailOptions = ({
 
   const preConversionAlert = showPreConversionAlert && (
     <Alert type="info" onDismiss={onDismissPreConversionAlert}>
-      {
-        `Invoices dated before your opening balance month will not automatically update account balances.
-        Remember to include the invoice amounts in the respective account's opening balance`
-      }
+      {`Invoices dated before your opening balance month will not automatically update account balances.
+        Remember to include the invoice amounts in the respective account's opening balance`}
     </Alert>
   );
 
-  const readOnlyWarning = (
-    <Alert type="info">
-      {readOnlyMessage}
-    </Alert>
-  );
+  const readOnlyWarning = <Alert type="info">{readOnlyMessage}</Alert>;
 
   return (
     <div className={styles.options}>
       {isReadOnly && readOnlyWarning}
       {preConversionAlert}
-      <DetailHeader primary={primary} secondary={secondary} className={styles.detail} />
+      <DetailHeader
+        primary={primary}
+        secondary={secondary}
+        className={styles.detail}
+      />
     </div>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...getInvoiceDetailOptions(state),
   readOnlyMessage: getReadOnlyMessage(state),
   isReadOnly: getIsReadOnly(state),

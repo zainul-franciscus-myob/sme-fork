@@ -12,10 +12,7 @@ describe('bulkAllocationHandlers', () => {
   describe('selectTransction', () => {
     it('should select a transaction', () => {
       const state = {
-        entries: [
-          {},
-          {},
-        ],
+        entries: [{}, {}],
       };
 
       const expected = {
@@ -42,7 +39,10 @@ describe('bulkAllocationHandlers', () => {
         ],
       };
 
-      const actual = selectTransaction(state, { index: BULK_LIMITATION, value: true });
+      const actual = selectTransaction(state, {
+        index: BULK_LIMITATION,
+        value: true,
+      });
 
       expect(actual).toEqual(state);
     });
@@ -156,7 +156,10 @@ describe('bulkAllocationHandlers', () => {
         },
       };
 
-      const actual = updateBulkAllocationOptions(state, { key: 'accountId', value: '123' });
+      const actual = updateBulkAllocationOptions(state, {
+        key: 'accountId',
+        value: '123',
+      });
 
       expect(actual).toEqual(expected);
     });
@@ -176,7 +179,10 @@ describe('bulkAllocationHandlers', () => {
         },
       };
 
-      const actual = updateBulkAllocationOptions(state, { key: 'taxCodeId', value: '2' });
+      const actual = updateBulkAllocationOptions(state, {
+        key: 'taxCodeId',
+        value: '2',
+      });
 
       expect(actual).toEqual(expected);
     });
@@ -274,71 +280,77 @@ describe('bulkAllocationHandlers', () => {
         [BankTransactionStatusTypes.splitAllocation],
         [BankTransactionStatusTypes.splitMatched],
         [BankTransactionStatusTypes.transfer],
-      ])('should not update the calculated balances for a %s bank transaction', (status) => {
-        const modifiedState = {
-          ...state,
-          entries: [
-            {
-              transactionId: '1',
-              allocateOrMatch: '',
-              withdrawal: 100,
-              type: status,
-            },
-          ],
-        };
+      ])(
+        'should not update the calculated balances for a %s bank transaction',
+        (status) => {
+          const modifiedState = {
+            ...state,
+            entries: [
+              {
+                transactionId: '1',
+                allocateOrMatch: '',
+                withdrawal: 100,
+                type: status,
+              },
+            ],
+          };
 
-        const action = {
-          entries: [
-            {
-              transactionId: '1',
-              allocateOrMatch: 'Income',
-              type: BankTransactionStatusTypes.singleAllocation,
-            },
-          ],
-        };
+          const action = {
+            entries: [
+              {
+                transactionId: '1',
+                allocateOrMatch: 'Income',
+                type: BankTransactionStatusTypes.singleAllocation,
+              },
+            ],
+          };
 
-        const actual = bulkAllocateTransactions(modifiedState, action);
+          const actual = bulkAllocateTransactions(modifiedState, action);
 
-        expect(actual.balances).toEqual(state.balances);
-      });
+          expect(actual.balances).toEqual(state.balances);
+        }
+      );
 
       it.each([
         [BankTransactionStatusTypes.unmatched],
         [BankTransactionStatusTypes.matched],
         [BankTransactionStatusTypes.paymentRuleMatched],
-      ])('should update the calculated balances for a %s bank transaction', (status) => {
-        const modifiedState = {
-          ...state,
-          entries: [
-            {
-              transactionId: '2',
-              allocateOrMatch: '',
-              withdrawal: 100,
-              type: status,
-            },
-          ],
-        };
+      ])(
+        'should update the calculated balances for a %s bank transaction',
+        (status) => {
+          const modifiedState = {
+            ...state,
+            entries: [
+              {
+                transactionId: '2',
+                allocateOrMatch: '',
+                withdrawal: 100,
+                type: status,
+              },
+            ],
+          };
 
-        const action = {
-          entries: [
-            {
-              transactionId: '2',
-              allocateOrMatch: 'Income',
-              type: BankTransactionStatusTypes.singleAllocation,
-            },
-          ],
-        };
+          const action = {
+            entries: [
+              {
+                transactionId: '2',
+                allocateOrMatch: 'Income',
+                type: BankTransactionStatusTypes.singleAllocation,
+              },
+            ],
+          };
 
-        const expectedBalances = {
-          ...state.balances,
-          myobBalance: 900,
-          unallocated: 1100,
-        };
+          const expectedBalances = {
+            ...state.balances,
+            myobBalance: 900,
+            unallocated: 1100,
+          };
 
-        const actual = bulkAllocateTransactions(modifiedState, action);
+          const actual = bulkAllocateTransactions(modifiedState, action);
 
-        expect(actual.balances).toEqual(expectedBalances);
-      });
+          expect(actual.balances).toEqual(expectedBalances);
+        }
+      );
 
       it('should handle a bulk allocating a variety of different transaction types', () => {
         const modifiedState = {

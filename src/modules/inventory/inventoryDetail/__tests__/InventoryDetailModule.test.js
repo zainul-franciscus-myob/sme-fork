@@ -200,7 +200,9 @@ describe('InventoryDetailModule', () => {
         type: SUCCESSFULLY_DELETED_ITEM,
         content: expect.any(String),
       });
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/inventory'));
+      expect(window.location.href).toEqual(
+        expect.stringContaining('/#/au/1/inventory')
+      );
     });
 
     it('fail to delete', () => {
@@ -272,7 +274,9 @@ describe('InventoryDetailModule', () => {
           type: SUCCESSFULLY_SAVED_ITEM,
           content: expect.any(String),
         });
-        expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/inventory'));
+        expect(window.location.href).toEqual(
+          expect.stringContaining('/#/au/1/inventory')
+        );
       });
 
       it('fails to create', () => {
@@ -340,7 +344,9 @@ describe('InventoryDetailModule', () => {
           type: SUCCESSFULLY_SAVED_ITEM,
           content: expect.any(String),
         });
-        expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/inventory'));
+        expect(window.location.href).toEqual(
+          expect.stringContaining('/#/au/1/inventory')
+        );
       });
 
       it('fails to update', () => {
@@ -403,7 +409,9 @@ describe('InventoryDetailModule', () => {
       module.openCancelModal();
 
       expect(store.getActions()).toEqual([]);
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/inventory'));
+      expect(window.location.href).toEqual(
+        expect.stringContaining('/#/au/1/inventory')
+      );
     });
   });
 });

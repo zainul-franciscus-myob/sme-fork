@@ -17,8 +17,8 @@ const OutOfBalanceModal = ({
       <p>
         There’s an out of balance of
         {` ${outOfBalance} `}
-        between the calculated closing balance and the entered closing statement balance.
-        Check the following details with your bank statement
+        between the calculated closing balance and the entered closing statement
+        balance. Check the following details with your bank statement
       </p>
       <div className={styles.grid}>
         <Columns>
@@ -31,17 +31,23 @@ const OutOfBalanceModal = ({
         </Columns>
       </div>
       <p>
-        <a href="http://help.myob.com/wiki/x/NwPWAg" target="_blank" rel="noopener noreferrer">
+        <a
+          href="http://help.myob.com/wiki/x/NwPWAg"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Tell me more
         </a>
       </p>
     </Modal.Body>
     <Modal.Footer>
-      <Button type="secondary" onClick={onCancel}>Close</Button>
+      <Button type="secondary" onClick={onCancel}>
+        Close
+      </Button>
     </Modal.Footer>
   </Modal>
 );
 
-const mapStateToProps = state => getBankReconciliationCancelModal(state);
+const mapStateToProps = (state) => getBankReconciliationCancelModal(state);
 
 export default connect(mapStateToProps)(OutOfBalanceModal);

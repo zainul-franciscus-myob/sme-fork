@@ -6,7 +6,10 @@ import {
   UPDATE_LEAVE_PAY_ITEM,
 } from './LeavePayItemIntents';
 import {
-  getBusinessId, getIsCreating, getLeavePayItemId, getLeavePayItemPayload,
+  getBusinessId,
+  getIsCreating,
+  getLeavePayItemId,
+  getLeavePayItemPayload,
 } from './leavePayItemSelectors';
 
 const createLeavePayItemIntegrator = (store, integration) => ({
@@ -14,9 +17,7 @@ const createLeavePayItemIntegrator = (store, integration) => ({
     const state = store.getState();
     const isCreating = getIsCreating(state);
 
-    const intent = isCreating
-      ? LOAD_NEW_LEAVE_PAY_ITEM
-      : LOAD_LEAVE_PAY_ITEM;
+    const intent = isCreating ? LOAD_NEW_LEAVE_PAY_ITEM : LOAD_LEAVE_PAY_ITEM;
 
     const urlParams = {
       businessId: getBusinessId(state),
@@ -24,7 +25,10 @@ const createLeavePayItemIntegrator = (store, integration) => ({
     };
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -32,9 +36,7 @@ const createLeavePayItemIntegrator = (store, integration) => ({
     const state = store.getState();
     const isCreating = getIsCreating(state);
 
-    const intent = isCreating
-      ? CREATE_LEAVE_PAY_ITEM
-      : UPDATE_LEAVE_PAY_ITEM;
+    const intent = isCreating ? CREATE_LEAVE_PAY_ITEM : UPDATE_LEAVE_PAY_ITEM;
 
     const urlParams = {
       businessId: getBusinessId(state),
@@ -44,7 +46,11 @@ const createLeavePayItemIntegrator = (store, integration) => ({
     const content = getLeavePayItemPayload(state);
 
     integration.write({
-      intent, urlParams, content, onSuccess, onFailure,
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
     });
   },
 

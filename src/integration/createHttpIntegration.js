@@ -31,7 +31,7 @@ const encodeQuerySegment = (key, value) => {
   const encode = encodeURIComponent;
   if (Array.isArray(value)) {
     return value
-      .map(segment => `${encode(key)}=${encode(segment)}`)
+      .map((segment) => `${encode(key)}=${encode(segment)}`)
       .join('&');
   }
   return `${encode(key)}=${encode(value)}`;
@@ -39,8 +39,8 @@ const encodeQuerySegment = (key, value) => {
 
 const getQueryFromParams = (params = {}) => {
   const query = Object.keys(params)
-    .filter(key => params[key] !== undefined)
-    .map(key => encodeQuerySegment(key, params[key]))
+    .filter((key) => params[key] !== undefined)
+    .map((key) => encodeQuerySegment(key, params[key]))
     .join('&');
   return query && `?${query}`;
 };
@@ -60,8 +60,14 @@ const abortRequest = (intent) => {
   }
 };
 
-
-const doFetch = (intent, urlParams, allowParallelRequests, headers, body, params) => {
+const doFetch = (
+  intent,
+  urlParams,
+  allowParallelRequests,
+  headers,
+  body,
+  params
+) => {
   if (!allowParallelRequests) {
     abortRequest(intent);
   }
@@ -86,7 +92,15 @@ const doFetch = (intent, urlParams, allowParallelRequests, headers, body, params
   return fetch(url, requestOptions);
 };
 
-const sendXHRRequest = (method, url, headers, body, onSuccess, onFailure, onProgress) => {
+const sendXHRRequest = (
+  method,
+  url,
+  headers,
+  body,
+  onSuccess,
+  onFailure,
+  onProgress
+) => {
   const xhr = new XMLHttpRequest();
   xhr.withCredentials = true;
   xhr.responseType = 'json';
@@ -97,7 +111,8 @@ const sendXHRRequest = (method, url, headers, body, onSuccess, onFailure, onProg
       }
     };
   }
-  xhr.onload = () => (xhr.status >= 400 ? onFailure(xhr.response) : onSuccess(xhr.response));
+  xhr.onload = () =>
+    xhr.status >= 400 ? onFailure(xhr.response) : onSuccess(xhr.response);
   xhr.open(method, url, true);
   Object.keys(headers).forEach((key) => {
     xhr.setRequestHeader(key, headers[key]);
@@ -122,17 +137,28 @@ const writeFormData = async ({
     ...additionalHeaders,
   };
   const body = new FormData();
-  Object.keys(content).forEach(key => body.append(key, content[key] || ''));
+  Object.keys(content).forEach((key) => body.append(key, content[key] || ''));
 
   const { baseUrl } = config;
   const requestSpec = retrieveRequestSpec(RootMapping, intent);
   const intentUrlPath = requestSpec.getPath(urlParams);
   const url = `${baseUrl}${intentUrlPath}`;
 
-  sendXHRRequest(requestSpec.method, url, headers, body, onSuccess, onFailure, onProgress);
+  sendXHRRequest(
+    requestSpec.method,
+    url,
+    headers,
+    body,
+    onSuccess,
+    onFailure,
+    onProgress
+  );
 };
 
-const createHttpIntegration = ({ getAdditionalHeaders = NO_OP, getRegion } = {}) => ({
+const createHttpIntegration = ({
+  getAdditionalHeaders = NO_OP,
+  getRegion,
+} = {}) => ({
   read: async ({
     intent,
     urlParams,
@@ -167,7 +193,7 @@ const createHttpIntegration = ({ getAdditionalHeaders = NO_OP, getRegion } = {})
     const url = `${baseUrl}${intentUrlPath}${query}`;
 
     const fetchedPromise = fetch(url, requestOptions);
-    const responseParser = response => response.json();
+    const responseParser = (response) => response.json();
 
     handleResponse({
       fetchedPromise,
@@ -207,7 +233,7 @@ const createHttpIntegration = ({ getAdditionalHeaders = NO_OP, getRegion } = {})
     const url = `${baseUrl}${intentUrlPath}${query}`;
 
     const fetchedPromise = fetch(url, requestOptions);
-    const responseParser = response => response.blob();
+    const responseParser = (response) => response.blob();
 
     handleResponse({
       fetchedPromise,
@@ -230,8 +256,15 @@ const createHttpIntegration = ({ getAdditionalHeaders = NO_OP, getRegion } = {})
     const headers = { ...getDefaultHttpHeaders(), ...additionalHeaders };
     const body = JSON.stringify(content);
 
-    const fetchedPromise = doFetch(intent, urlParams, allowParallelRequests, headers, body, params);
-    const responseParser = response => response.json();
+    const fetchedPromise = doFetch(
+      intent,
+      urlParams,
+      allowParallelRequests,
+      headers,
+      body,
+      params
+    );
+    const responseParser = (response) => response.json();
 
     handleResponse({
       fetchedPromise,
@@ -268,22 +301,27 @@ const createHttpIntegration = ({ getAdditionalHeaders = NO_OP, getRegion } = {})
     onFailure,
     onComplete,
   }) => {
-    const requests = contents.map((content, index) => new Promise(resolve => writeFormData({
-      intent,
-      urlParams,
-      content,
-      allowParallelRequests: true,
-      onProgress,
-      onSuccess: (response) => {
-        onSuccess(response, index);
-        resolve({ success: true, response });
-      },
-      onFailure: (response) => {
-        onFailure(response, index);
-        resolve({ success: false, response });
-      },
-      getAdditionalHeaders,
-    })));
+    const requests = contents.map(
+      (content, index) =>
+        new Promise((resolve) =>
+          writeFormData({
+            intent,
+            urlParams,
+            content,
+            allowParallelRequests: true,
+            onProgress,
+            onSuccess: (response) => {
+              onSuccess(response, index);
+              resolve({ success: true, response });
+            },
+            onFailure: (response) => {
+              onFailure(response, index);
+              resolve({ success: false, response });
+            },
+            getAdditionalHeaders,
+          })
+        )
+    );
 
     Promise.all(requests).then(onComplete);
   },

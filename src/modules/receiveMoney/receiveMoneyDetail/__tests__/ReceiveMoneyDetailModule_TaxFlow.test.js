@@ -15,21 +15,13 @@ describe('ReceiveMoneyDetailModule_TaxFlow', () => {
     {
       name: 'update line with accountId',
       do: (module) => {
-        module.updateReceiveMoneyLine(
-          0,
-          'accountId',
-          '123',
-        );
+        module.updateReceiveMoneyLine(0, 'accountId', '123');
       },
     },
     {
       name: 'update line with taxCodeId',
       do: (module) => {
-        module.updateReceiveMoneyLine(
-          0,
-          'taxCodeId',
-          '4',
-        );
+        module.updateReceiveMoneyLine(0, 'taxCodeId', '4');
       },
     },
     {
@@ -56,13 +48,11 @@ describe('ReceiveMoneyDetailModule_TaxFlow', () => {
 
       test.do(module);
 
-      expect(store.getActions()).toContainEqual(
-        {
-          intent: GET_TAX_CALCULATIONS,
-          lines: expect.any(Object),
-          totals: expect.any(Object),
-        },
-      );
+      expect(store.getActions()).toContainEqual({
+        intent: GET_TAX_CALCULATIONS,
+        lines: expect.any(Object),
+        totals: expect.any(Object),
+      });
     });
   });
 });

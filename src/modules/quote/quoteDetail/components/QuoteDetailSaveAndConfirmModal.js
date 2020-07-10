@@ -7,17 +7,15 @@ const QuoteDetailSaveAndConfirmModal = ({
   onConfirmSave,
   onCancel,
 }) => (
-  <Modal
-    title={title}
-    size="small"
-    onCancel={onCancel}
-  >
-    <Modal.Body>
-      {description}
-    </Modal.Body>
+  <Modal title={title} size="small" onCancel={onCancel}>
+    <Modal.Body>{description}</Modal.Body>
     <Modal.Footer>
-      <Button type="secondary" onClick={onCancel}>Go back</Button>
-      <Button type="primary" onClick={onConfirmSave}>Save</Button>
+      <Button type="secondary" onClick={onCancel}>
+        Go back
+      </Button>
+      <Button type="primary" onClick={onConfirmSave}>
+        Save
+      </Button>
     </Modal.Footer>
   </Modal>
 );

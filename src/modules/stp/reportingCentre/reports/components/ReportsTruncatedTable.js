@@ -25,7 +25,7 @@ const ReportsTruncatedTable = ({
     </Table.Header>
   );
 
-  const rows = payEvents.map(row => (
+  const rows = payEvents.map((row) => (
     <Table.Row
       key={row.id}
       rowData={{ id: row.id }}
@@ -34,7 +34,9 @@ const ReportsTruncatedTable = ({
       onRowSelect={onRowSelect}
     >
       <Table.RowItem {...tableConfig.payPeriod}>{row.payPeriod}</Table.RowItem>
-      <Table.RowItem {...tableConfig.recordedDate}>{row.recordedDate}</Table.RowItem>
+      <Table.RowItem {...tableConfig.recordedDate}>
+        {row.recordedDate}
+      </Table.RowItem>
       <Table.RowItem {...tableConfig.status}>
         <ReportsStatusLabel status={row.status} />
       </Table.RowItem>
@@ -48,9 +50,7 @@ const ReportsTruncatedTable = ({
       isEmpty={payEvents.length === 0}
       emptyView={<ReportsEmpty />}
     >
-      <Table.Body>
-        {rows}
-      </Table.Body>
+      <Table.Body>{rows}</Table.Body>
     </TableView>
   );
 

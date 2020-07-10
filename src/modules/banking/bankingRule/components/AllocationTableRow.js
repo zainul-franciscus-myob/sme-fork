@@ -57,29 +57,27 @@ const AllocationTableRow = ({
       onChange={handleComboboxChange('accountId', onChange)}
       disabled={isAccountDisabled}
     />
-    {
-      isInputField ? (
-        <Input
-          textAlign="right"
-          label="value"
-          name="value"
-          value={allocation.value}
-          disabled
-        />
-      ) : (
-        <AmountInput
-          textAlign="right"
-          label="value"
-          name="value"
-          value={allocation.value}
-          onChange={handleAmountInputChange('value', onChange)}
-          onBlur={handleAmountInputChange('value', onChange)}
-          numeralDecimalScaleMin={2}
-          numeralDecimalScaleMax={6}
-          disabled={isFieldDisabled}
-        />
-      )
-    }
+    {isInputField ? (
+      <Input
+        textAlign="right"
+        label="value"
+        name="value"
+        value={allocation.value}
+        disabled
+      />
+    ) : (
+      <AmountInput
+        textAlign="right"
+        label="value"
+        name="value"
+        value={allocation.value}
+        onChange={handleAmountInputChange('value', onChange)}
+        onBlur={handleAmountInputChange('value', onChange)}
+        numeralDecimalScaleMin={2}
+        numeralDecimalScaleMax={6}
+        disabled={isFieldDisabled}
+      />
+    )}
     <TaxCodeCombobox
       name="taxCodeId"
       items={taxCodes}
@@ -89,7 +87,6 @@ const AllocationTableRow = ({
     />
   </LineItemTable.Row>
 );
-
 
 const mapStateToProps = (state, props) => ({
   allocation: getTableRow(state, props),

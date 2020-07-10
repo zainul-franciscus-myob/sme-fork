@@ -19,7 +19,9 @@ const getLeanEnagageFields = ({
       user_type: currentUser.isAdvisor ? 'partner' : 'SME',
       region: businessDetails.region,
       account_status: subscription.type === 'free' ? 'trial' : 'active',
-      product_type: subscription.product ? `${subscription.product.name}_${subscription.product.id}` : undefined,
+      product_type: subscription.product
+        ? `${subscription.product.name}_${subscription.product.id}`
+        : undefined,
     },
     company: {
       company_id: subscription.businessId,

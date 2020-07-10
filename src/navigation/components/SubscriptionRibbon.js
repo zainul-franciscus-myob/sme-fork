@@ -17,7 +17,8 @@ const telephoneNumber = (region) => {
 
 const SubscriptionRibbon = ({ trialEndDate, onSubscribeNowClick, region }) => {
   const now = new Date(Date.now());
-  const end = typeof trialEndDate === 'string' ? new Date(trialEndDate) : trialEndDate;
+  const end =
+    typeof trialEndDate === 'string' ? new Date(trialEndDate) : trialEndDate;
   // The trial expiration date in Archie includes a time, which is significant. Other services will
   // take the time into account when determining when the file can be used. Hence we're using
   // `differentInDays()` rather than whole calendar days or anything else. This function is actually
@@ -26,18 +27,23 @@ const SubscriptionRibbon = ({ trialEndDate, onSubscribeNowClick, region }) => {
   return (
     <p className={styles.subscriptionRibbon}>
       {pluraliseMessage(daysUntilExpired)}
-      <a href onClick={onSubscribeNowClick} target="_blank" rel="noopener noreferrer">
+      <a
+        href
+        onClick={onSubscribeNowClick}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <span>Subscribe now</span>
-      </a>
-      {' '}
-      or talk to an expert on
-      {' '}
-      <a href={`tel:${telephoneNumber(region).replace(/ /g, '')}`} rel="nofollow">
+      </a>{' '}
+      or talk to an expert on{' '}
+      <a
+        href={`tel:${telephoneNumber(region).replace(/ /g, '')}`}
+        rel="nofollow"
+      >
         <span>{telephoneNumber(region)}</span>
       </a>
     </p>
   );
 };
-
 
 export default SubscriptionRibbon;

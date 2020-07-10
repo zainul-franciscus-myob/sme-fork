@@ -16,11 +16,9 @@ const InTrayDropzoneTableRow = ({ onAddAttachment }) => (
       &nbsp;or&nbsp;
       <strong>PNG</strong>
       &nbsp;and&nbsp;
-      <strong>below 10MB</strong>
-      .
+      <strong>below 10MB</strong>.
     </div>
   </Table.Row>
 );
-
 
 export default InTrayDropzoneTableRow;

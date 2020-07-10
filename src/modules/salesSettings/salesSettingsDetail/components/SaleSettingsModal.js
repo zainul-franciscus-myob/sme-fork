@@ -12,10 +12,7 @@ const SaleSettingsModal = ({
 }) => {
   if (modalType === modalTypes.switchTab) {
     return (
-      <CancelModal
-        onCancel={onCloseModal}
-        onConfirm={onConfirmSwitchTab}
-      />
+      <CancelModal onCancel={onCloseModal} onConfirm={onConfirmSwitchTab} />
     );
   }
 

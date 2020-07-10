@@ -29,8 +29,7 @@ import BillModal from './BillModal';
 import BillPrimaryOptions from './BillPrimaryOptions';
 import BillSecondaryOptions from './BillSecondaryOptions';
 import BillServiceTable from './BillServiceTable';
-import MasterDetailLineItemTemplate
-  from '../../../../components/MasterDetailLineItemTemplate/MasterDetailLineItemTemplate';
+import MasterDetailLineItemTemplate from '../../../../components/MasterDetailLineItemTemplate/MasterDetailLineItemTemplate';
 import PageView from '../../../../components/PageView/PageView';
 import UpgradeModal from './UpgradeModal';
 import styles from './BillView.module.css';
@@ -41,7 +40,7 @@ const getOptionInfo = ({ isReadOnly, readOnlyMessage, showPrefillInfo }) => {
   }
 
   if (showPrefillInfo) {
-    return 'We\'ve used your document to fill in some details. Check the fields highlighted in blue.';
+    return "We've used your document to fill in some details. Check the fields highlighted in blue.";
   }
 
   return undefined;
@@ -107,9 +106,7 @@ const BillView = ({
     <BillItemAndServiceTable listeners={itemAndServiceLayoutListeners} />
   );
 
-  const serviceTable = (
-    <BillServiceTable listeners={serviceLayoutListeners} />
-  );
+  const serviceTable = <BillServiceTable listeners={serviceLayoutListeners} />;
 
   const table = {
     [BillLayout.ITEM_AND_SERVICE]: itemAndServiceTable,
@@ -121,14 +118,14 @@ const BillView = ({
   const stickyHeader = (
     <div>
       {isAlertShown && (
-      <BillAlert onDismissAlert={
-        () => {
-          // Trigger resize event to force MasterDetailTemplate recalculate sticky height
-          window.dispatchEvent(new Event('resize'));
-          onDismissAlert();
-        }
-      }
-      />)}
+        <BillAlert
+          onDismissAlert={() => {
+            // Trigger resize event to force MasterDetailTemplate recalculate sticky height
+            window.dispatchEvent(new Event('resize'));
+            onDismissAlert();
+          }}
+        />
+      )}
       <BillHeader onCreatePaymentClick={onCreatePaymentClick} />
     </div>
   );
@@ -160,7 +157,9 @@ const BillView = ({
           onModalClose={onModalClose}
           onCancelModalConfirm={onCancelModalConfirm}
           onDeleteModalConfirm={onDeleteModalConfirm}
-          onConfirmSaveAmountDueWarningButtonClick={onConfirmSaveAmountDueWarningButtonClick}
+          onConfirmSaveAmountDueWarningButtonClick={
+            onConfirmSaveAmountDueWarningButtonClick
+          }
           onConfirmSaveAndCreateNewButtonClick={
             onConfirmSaveAndCreateNewButtonClick
           }
@@ -183,7 +182,11 @@ const BillView = ({
     </div>
   );
 
-  const optionInfo = getOptionInfo({ isReadOnly, readOnlyMessage, showPrefillInfo });
+  const optionInfo = getOptionInfo({
+    isReadOnly,
+    readOnlyMessage,
+    showPrefillInfo,
+  });
   const onDismissOptionInfo = isReadOnly ? undefined : onClosePrefillInfo;
 
   const view = (
@@ -191,22 +194,22 @@ const BillView = ({
       optionInfo={optionInfo}
       onDismissOptionInfo={onDismissOptionInfo}
       detailHeaderClassName={classNames(styles.secondaryOptions, styles.detail)}
-      primaryOptions={(
+      primaryOptions={
         <BillPrimaryOptions
           onUpdateBillOption={onUpdateBillOption}
           onAddSupplierButtonClick={onAddSupplierButtonClick}
         />
-      )}
+      }
       secondaryOptions={
         <BillSecondaryOptions onUpdateBillOption={onUpdateBillOption} />
       }
       tableLayoutOption={tableLayoutOption}
-      table={(
+      table={
         <div className={classNames(isReadOnly && styles.disabledTable)}>
           {table}
         </div>
-      )}
-      actions={(
+      }
+      actions={
         <BillActions
           onSaveButtonClick={onSaveButtonClick}
           onSaveAndButtonClick={onSaveAndButtonClick}
@@ -215,7 +218,7 @@ const BillView = ({
           onExportPdfButtonClick={onExportPdfButtonClick}
           onCreatePaymentClick={onCreatePaymentClick}
         />
-      )}
+      }
       subHeadChildren={subHeaderChildren}
       detail={detail}
       pageHead={stickyHeader}
@@ -233,7 +236,7 @@ const BillView = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isModalShown: getIsModalShown(state),
   isAlertShown: getIsAlertShown(state),
   isBlocking: getIsBlocking(state),

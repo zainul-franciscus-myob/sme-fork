@@ -54,10 +54,7 @@ const PaySuperCreateView = ({
   onSort,
   totalPayment,
   isTableLoading,
-  filterOptions: {
-    dateFrom,
-    dateTo,
-  },
+  filterOptions: { dateFrom, dateTo },
   modal,
   onCloseModalClick,
   onCancelButtonClick,
@@ -68,7 +65,7 @@ const PaySuperCreateView = ({
   employeeTransactionModal,
   paySuperAuthorisationModal,
 }) => {
-  const onDatePickerChange = filterName => ({ value }) => {
+  const onDatePickerChange = (filterName) => ({ value }) => {
     onUpdateFilterBarOptions({ filterName, value });
   };
 
@@ -105,8 +102,18 @@ const PaySuperCreateView = ({
       <Card>
         <FilterBar>
           <FilterBar.Group>
-            <DatePicker label="Transactions from" name="datepicker-from" value={dateFrom} onSelect={onDatePickerChange('dateFrom')} />
-            <DatePicker label="Transactions to" name="datepicker-to" value={dateTo} onSelect={onDatePickerChange('dateTo')} />
+            <DatePicker
+              label="Transactions from"
+              name="datepicker-from"
+              value={dateFrom}
+              onSelect={onDatePickerChange('dateFrom')}
+            />
+            <DatePicker
+              label="Transactions to"
+              name="datepicker-to"
+              value={dateTo}
+              onSelect={onDatePickerChange('dateTo')}
+            />
           </FilterBar.Group>
         </FilterBar>
       </Card>
@@ -136,18 +143,18 @@ const PaySuperCreateView = ({
       </Card>
       <div style={{ marginTop: '12px' }}>
         <ButtonRow>
-          <Button onClick={onCancelButtonClick} type="secondary">Cancel</Button>
+          <Button onClick={onCancelButtonClick} type="secondary">
+            Cancel
+          </Button>
           <Button onClick={onRecord}>Record</Button>
         </ButtonRow>
       </div>
     </BaseTemplate>
   );
-  return (
-    <PageView loadingState={loadingState} view={view} />
-  );
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   superPayments: getSuperPayments(state),
   accounts: getAccounts(state),

@@ -7,17 +7,7 @@ describe('evaluate', () => {
   });
 
   describe('should not support the evaluation of the following expressions', () => {
-    [
-      '',
-      ' ',
-      '+',
-      '-',
-      '*',
-      '/',
-      '++/*',
-      '*1-',
-      '/1',
-    ].forEach((test) => {
+    ['', ' ', '+', '-', '*', '/', '++/*', '*1-', '/1'].forEach((test) => {
       it(`${test}`, () => {
         expect(Boolean(evaluate(test))).toEqual(false);
       });

@@ -13,7 +13,7 @@ const svgPath = (key) => {
   }
 };
 
-const isTaskActive = url => decodeURI(window.location.href).indexOf(url) > -1;
+const isTaskActive = (url) => decodeURI(window.location.href).indexOf(url) > -1;
 
 const Onboarding = ({ tasks, closeTasks, dismissTask }) => (
   <ul className={styles.tasks}>
@@ -36,36 +36,42 @@ const Onboarding = ({ tasks, closeTasks, dismissTask }) => (
                 <h3>{task.title}</h3>
                 <p>{task.description}</p>
               </div>
-              {task.isComplete && (
-                <div className={styles.isComplete}>Done</div>
-              )}
+              {task.isComplete && <div className={styles.isComplete}>Done</div>}
               {!task.isComplete && (
-              <button type="button" className={styles.close} onClick={(event) => { event.preventDefault(); dismissTask(task.key); }}>
-                <Icons.Close />
-              </button>
+                <button
+                  type="button"
+                  className={styles.close}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    dismissTask(task.key);
+                  }}
+                >
+                  <Icons.Close />
+                </button>
               )}
             </div>
           </a>
 
           <ol className={styles.subTasks}>
-            {task.tasks && task.tasks.map(subItem => (
-              <li
-                key={subItem.title}
-                className={classNames({
-                  [styles.completed]: subItem.isComplete,
-                  [styles.active]: isTaskActive(subItem.action),
-                })}
-              >
-                <a
-                  href={`${subItem.action}`}
-                  onClick={() => {
-                    closeTasks({ closeEvent: `${subItem.key}Viewed` });
-                  }}
+            {task.tasks &&
+              task.tasks.map((subItem) => (
+                <li
+                  key={subItem.title}
+                  className={classNames({
+                    [styles.completed]: subItem.isComplete,
+                    [styles.active]: isTaskActive(subItem.action),
+                  })}
                 >
-                  <span>{subItem.title}</span>
-                </a>
-              </li>
-            ))}
+                  <a
+                    href={`${subItem.action}`}
+                    onClick={() => {
+                      closeTasks({ closeEvent: `${subItem.key}Viewed` });
+                    }}
+                  >
+                    <span>{subItem.title}</span>
+                  </a>
+                </li>
+              ))}
           </ol>
         </li>
       );

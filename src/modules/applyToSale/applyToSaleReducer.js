@@ -34,18 +34,19 @@ const getDefaultState = () => ({
   startOfFinancialYearDate: '',
 });
 
-const safeParseNumber = string => (Number(string) ? Number(string) : 0);
+const safeParseNumber = (string) => (Number(string) ? Number(string) : 0);
 
 const setInitialState = (state, action) => {
   const defaultState = getDefaultState();
 
-  return ({
+  return {
     ...state,
     region: action.context.region,
     businessId: action.context.businessId,
-    customerReturnId: action.context.customerReturnId || defaultState.customerReturnId,
+    customerReturnId:
+      action.context.customerReturnId || defaultState.customerReturnId,
     applyToSaleId: action.context.applyToSaleId || defaultState.applyToSaleId,
-  });
+  };
 };
 
 const resetState = () => getDefaultState();

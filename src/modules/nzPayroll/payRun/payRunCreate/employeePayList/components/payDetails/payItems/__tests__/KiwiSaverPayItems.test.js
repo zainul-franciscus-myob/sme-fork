@@ -1,7 +1,5 @@
 import { Provider } from 'react-redux';
-import {
-  Table,
-} from '@myob/myob-widgets';
+import { Table } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 import React from 'react';
 
@@ -33,15 +31,21 @@ describe('KiwiSaverPayItems', () => {
 
   afterEach(jest.clearAllMocks);
 
-  const mountWithProvider = component => mount(component,
-    { wrappingComponent: Provider, wrappingComponentProps: { store } });
+  const mountWithProvider = (component) =>
+    mount(component, {
+      wrappingComponent: Provider,
+      wrappingComponentProps: { store },
+    });
 
   it('Should have the expected values in row header', () => {
     const wrapper = mountWithProvider(<KiwiSaverPayItems {...props} />);
 
     const expected = 'KiwiSaver';
 
-    const actual = wrapper.find(Table.RowItem).find({ title: 'KiwiSaver' }).text();
+    const actual = wrapper
+      .find(Table.RowItem)
+      .find({ title: 'KiwiSaver' })
+      .text();
 
     expect(actual).toEqual(expected);
   });

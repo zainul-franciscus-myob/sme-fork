@@ -46,7 +46,9 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
   getIsContactReportable,
-  getIsCreating, getIsReportable, getShowBankStatementText,
+  getIsCreating,
+  getIsReportable,
+  getShowBankStatementText,
 } from './spendMoneyDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
@@ -130,7 +132,7 @@ const getDefaultState = () => ({
 
 const pageEdited = { isPageEdited: true };
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const getDefaultTaxCodeId = ({ accountId, accounts }) => {
   const account = accounts.find(({ id }) => id === accountId);
@@ -139,10 +141,12 @@ const getDefaultTaxCodeId = ({ accountId, accounts }) => {
 
 const getLinePrefillStatus = (key, currentStateLinePrefillStatus) => {
   const isPrefillField = Object.keys(defaultLinePrefillStatus).includes(key);
-  return isPrefillField ? {
-    ...currentStateLinePrefillStatus,
-    [key]: false,
-  } : currentStateLinePrefillStatus;
+  return isPrefillField
+    ? {
+        ...currentStateLinePrefillStatus,
+        [key]: false,
+      }
+    : currentStateLinePrefillStatus;
 };
 
 const updateSpendMoneyLine = (line, { lineKey, lineValue }, accounts) => {
@@ -166,9 +170,11 @@ const updateLine = (state, action) => ({
   ...pageEdited,
   spendMoney: {
     ...state.spendMoney,
-    lines: state.spendMoney.lines.map((line, index) => (
-      index === action.lineIndex ? updateSpendMoneyLine(line, action, state.accounts) : line
-    )),
+    lines: state.spendMoney.lines.map((line, index) =>
+      index === action.lineIndex
+        ? updateSpendMoneyLine(line, action, state.accounts)
+        : line
+    ),
   },
 });
 
@@ -196,13 +202,22 @@ const deleteLine = (state, action) => ({
   ...pageEdited,
   spendMoney: {
     ...state.spendMoney,
-    lines: state.spendMoney.lines.filter((item, index) => index !== action.index),
+    lines: state.spendMoney.lines.filter(
+      (item, index) => index !== action.index
+    ),
   },
 });
 
-const updateAllLinesWithExpenseAccount = (lines, accounts, expenseAccountId) => {
-  const taxCodeId = getDefaultTaxCodeId({ accountId: expenseAccountId, accounts });
-  return lines.map(line => ({
+const updateAllLinesWithExpenseAccount = (
+  lines,
+  accounts,
+  expenseAccountId
+) => {
+  const taxCodeId = getDefaultTaxCodeId({
+    accountId: expenseAccountId,
+    accounts,
+  });
+  return lines.map((line) => ({
     ...line,
     accountId: expenseAccountId,
     taxCodeId,
@@ -210,9 +225,10 @@ const updateAllLinesWithExpenseAccount = (lines, accounts, expenseAccountId) => 
 };
 
 const updateHeader = (state, { key, value }) => {
-  const isReportable = key === 'selectedPayToContactId'
-    ? getIsContactReportable(state, value)
-    : getIsReportable(state);
+  const isReportable =
+    key === 'selectedPayToContactId'
+      ? getIsContactReportable(state, value)
+      : getIsReportable(state);
 
   const isPrefillFields = Object.keys(defaultPrefillStatus).includes(key);
 
@@ -223,9 +239,14 @@ const updateHeader = (state, { key, value }) => {
       ...state.spendMoney,
       isReportable,
       [key]: value,
-      lines: state.spendMoney.lines.length > 0 && key === 'expenseAccountId'
-        ? updateAllLinesWithExpenseAccount(state.spendMoney.lines, state.accounts, value)
-        : state.spendMoney.lines,
+      lines:
+        state.spendMoney.lines.length > 0 && key === 'expenseAccountId'
+          ? updateAllLinesWithExpenseAccount(
+              state.spendMoney.lines,
+              state.accounts,
+              value
+            )
+          : state.spendMoney.lines,
     },
     prefillStatus: isPrefillFields
       ? { ...state.prefillStatus, [key]: false }
@@ -238,8 +259,10 @@ const getBankStatementText = (state, referenceId) => {
   return shouldSetBankstatementText ? `Payment ${referenceId}` : '';
 };
 
-const buildLineJobOptions = ({ action, jobId }) => (action.jobs
-  ? action.jobs.filter(job => job.isActive || job.id === jobId) : []);
+const buildLineJobOptions = ({ action, jobId }) =>
+  action.jobs
+    ? action.jobs.filter((job) => job.isActive || job.id === jobId)
+    : [];
 
 const loadNewSpendMoney = (state, action) => {
   const newState = {
@@ -264,7 +287,10 @@ const loadNewSpendMoney = (state, action) => {
     startOfFinancialYearDate: action.startOfFinancialYearDate,
   };
 
-  const bankStatementText = getBankStatementText(newState, action.spendMoney.referenceId);
+  const bankStatementText = getBankStatementText(
+    newState,
+    action.spendMoney.referenceId
+  );
 
   return {
     ...newState,
@@ -283,7 +309,7 @@ const loadSpendMoneyDetail = (state, action) => ({
     ...action.spendMoney,
     originalReferenceId: action.spendMoney.referenceId,
     originalBankStatementText: action.spendMoney.bankStatementText,
-    lines: action.spendMoney.lines.map(line => ({
+    lines: action.spendMoney.lines.map((line) => ({
       ...line,
       lineJobOptions: buildLineJobOptions({ action, jobId: line.jobId }),
     })),
@@ -312,7 +338,8 @@ const loadReferenceId = (state, action) => {
       referenceId: action.referenceId,
       originalReferenceId: action.referenceId,
       bankStatementText,
-      originalBankStatementText: bankStatementText || state.originalBankStatementText,
+      originalBankStatementText:
+        bankStatementText || state.originalBankStatementText,
     },
   };
 };
@@ -322,13 +349,14 @@ const loadSupplierExpenseAccount = (state, action) => ({
   spendMoney: {
     ...state.spendMoney,
     expenseAccountId: action.response.expenseAccountId,
-    lines: state.spendMoney.lines.length > 0
-      ? updateAllLinesWithExpenseAccount(
-        state.spendMoney.lines,
-        state.accounts,
-        action.response.expenseAccountId,
-      )
-      : state.spendMoney.lines,
+    lines:
+      state.spendMoney.lines.length > 0
+        ? updateAllLinesWithExpenseAccount(
+            state.spendMoney.lines,
+            state.accounts,
+            action.response.expenseAccountId
+          )
+        : state.spendMoney.lines,
   },
 });
 
@@ -357,7 +385,7 @@ const openModal = (state, action) => ({
   modal: action.modal,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modal: undefined,
 });
@@ -383,7 +411,7 @@ const getTaxCalculations = (state, { taxCalculations: { lines, totals } }) => ({
   },
 });
 
-const resetTotals = state => ({
+const resetTotals = (state) => ({
   ...state,
   totals: getDefaultState().totals,
 });
@@ -393,17 +421,18 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
-const isMoreThan10MB = size => size > 10000000;
+const isMoreThan10MB = (size) => size > 10000000;
 
-const buildAttachmentState = size => (
-  isMoreThan10MB(size) ? { state: 'failed', error: 'File is more than 10MB' } : { state: 'queued' }
-);
+const buildAttachmentState = (size) =>
+  isMoreThan10MB(size)
+    ? { state: 'failed', error: 'File is more than 10MB' }
+    : { state: 'queued' };
 
 const addAttachments = (state, { files }) => ({
   ...state,
   attachments: [
     ...state.attachments,
-    ...files.map(file => ({
+    ...files.map((file) => ({
       name: file.name,
       size: file.size,
       ...buildAttachmentState(file.size),
@@ -414,28 +443,27 @@ const addAttachments = (state, { files }) => ({
 
 const updateAttachment = (state, file, partialAttachment) => ({
   ...state,
-  attachments: state.attachments.map(attachment => (
-    attachment.file === file ? { ...attachment, ...partialAttachment } : attachment
-  )),
+  attachments: state.attachments.map((attachment) =>
+    attachment.file === file
+      ? { ...attachment, ...partialAttachment }
+      : attachment
+  ),
 });
 
-const uploadAttachment = (state, { id, name, file }) => (
-  updateAttachment(state, file, { id, name, state: 'finished' })
-);
+const uploadAttachment = (state, { id, name, file }) =>
+  updateAttachment(state, file, { id, name, state: 'finished' });
 
-const uploadAttachmentFailed = (state, { message, file }) => (
-  updateAttachment(state, file, { error: message, state: 'failed' })
-);
+const uploadAttachmentFailed = (state, { message, file }) =>
+  updateAttachment(state, file, { error: message, state: 'failed' });
 
-const uploadAttachmentProgress = (state, { file, uploadProgress }) => (
-  updateAttachment(state, file, { state: 'loading', uploadProgress })
-);
+const uploadAttachmentProgress = (state, { file, uploadProgress }) =>
+  updateAttachment(state, file, { state: 'loading', uploadProgress });
 
 const setOperationInProgressState = (state, { id, isInProgress }) => ({
   ...state,
-  attachments: state.attachments.map(attachment => (
+  attachments: state.attachments.map((attachment) =>
     attachment.id === id ? { ...attachment, isInProgress } : attachment
-  )),
+  ),
 });
 
 const openRemoveAttachmentModal = (state, { id, modal }) => ({
@@ -454,7 +482,7 @@ const removeAttachmentByIndex = (state, { index }) => ({
 
 const removeAttachment = (state, { id }) => ({
   ...state,
-  attachments: state.attachments.filter(attachment => attachment.id !== id),
+  attachments: state.attachments.filter((attachment) => attachment.id !== id),
 });
 
 const appendAlert = (state, { message }) => {
@@ -489,7 +517,7 @@ const setInTrayDocumentUrl = (state, { inTrayDocumentUrl }) => ({
   },
 });
 
-const clearInTrayDocumentUrl = state => ({
+const clearInTrayDocumentUrl = (state) => ({
   ...state,
   inTrayDocument: {
     ...state.inTrayDocument,
@@ -497,13 +525,20 @@ const clearInTrayDocumentUrl = state => ({
   },
 });
 
-const getPrefilledLineFromInTray = (state, prefilledLine, expenseAccountId) => ({
+const getPrefilledLineFromInTray = (
+  state,
+  prefilledLine,
+  expenseAccountId
+) => ({
   ...state.newLine,
   amount: prefilledLine.amount,
   description: prefilledLine.description || state.newLine.description,
   accountId: expenseAccountId || state.newLine.accountId,
   taxCodeId: expenseAccountId
-    ? getDefaultTaxCodeId({ accountId: expenseAccountId, accounts: state.accounts })
+    ? getDefaultTaxCodeId({
+        accountId: expenseAccountId,
+        accounts: state.accounts,
+      })
     : state.newLine.taxCodeId,
   prefillStatus: {
     description: Boolean(prefilledLine.description),
@@ -527,16 +562,18 @@ const prefillDataFromInTray = (state, action) => {
     isPageEdited: true,
     spendMoney: {
       ...state.spendMoney,
-      selectedPayToContactId: spendMoney.selectedPayToContactId || selectedPayToContactId,
+      selectedPayToContactId:
+        spendMoney.selectedPayToContactId || selectedPayToContactId,
       description: spendMoney.description || description,
       date: spendMoney.date || date,
       isTaxInclusive: spendMoney.isTaxInclusive || isTaxInclusive,
-      originalExpenseAccountId: spendMoney.expenseAccountId || originalExpenseAccountId,
+      originalExpenseAccountId:
+        spendMoney.expenseAccountId || originalExpenseAccountId,
       expenseAccountId: spendMoney.expenseAccountId || expenseAccountId,
       lines: spendMoney.lines
-        ? spendMoney.lines.map(
-          line => getPrefilledLineFromInTray(state, line, spendMoney.expenseAccountId),
-        )
+        ? spendMoney.lines.map((line) =>
+            getPrefilledLineFromInTray(state, line, spendMoney.expenseAccountId)
+          )
         : lines,
     },
     inTrayDocument: {
@@ -554,7 +591,7 @@ const prefillDataFromInTray = (state, action) => {
   };
 };
 
-const hidePrefillInfo = state => ({
+const hidePrefillInfo = (state) => ({
   ...state,
   showPrefillInfo: false,
 });
@@ -566,9 +603,10 @@ const loadAccountAfterCreate = (state, { intent, ...account }) => ({
 });
 
 const contactIsSupplier = ({ contactType }) => contactType === 'Supplier';
-const loadContactAfterCreate = (state, {
-  intent, expenseAccountId, contactId, ...rest
-}) => {
+const loadContactAfterCreate = (
+  state,
+  { intent, expenseAccountId, contactId, ...rest }
+) => {
   if (getIsCreating(state) && contactIsSupplier(rest)) {
     return {
       ...state,
@@ -577,13 +615,14 @@ const loadContactAfterCreate = (state, {
         selectedPayToContactId: contactId,
         payToContacts: [rest, ...state.spendMoney.payToContacts],
         expenseAccountId,
-        lines: state.spendMoney.lines.length > 0
-          ? updateAllLinesWithExpenseAccount(
-            state.spendMoney.lines,
-            state.accounts,
-            expenseAccountId,
-          )
-          : state.spendMoney.lines,
+        lines:
+          state.spendMoney.lines.length > 0
+            ? updateAllLinesWithExpenseAccount(
+                state.spendMoney.lines,
+                state.accounts,
+                expenseAccountId
+              )
+            : state.spendMoney.lines,
       },
     };
   }
@@ -602,20 +641,26 @@ const resetBankStatementText = (state, { value }) => ({
   ...state,
   spendMoney: {
     ...state.spendMoney,
-    bankStatementText: !value ? state.spendMoney.originalBankStatementText : value,
+    bankStatementText: !value
+      ? state.spendMoney.originalBankStatementText
+      : value,
   },
   isPageEdited: true,
 });
 
 const updateBankStatementText = (state) => {
-  const bankStatementText = getBankStatementText(state, state.spendMoney.referenceId);
+  const bankStatementText = getBankStatementText(
+    state,
+    state.spendMoney.referenceId
+  );
 
   return {
     ...state,
     spendMoney: {
       ...state.spendMoney,
       bankStatementText,
-      originalBankStatementText: bankStatementText || state.spendMoney.originalBankStatementText,
+      originalBankStatementText:
+        bankStatementText || state.spendMoney.originalBankStatementText,
     },
     isPageEdited: true,
   };
@@ -656,27 +701,22 @@ const loadJobAfterCreate = (state, { intent, ...job }) => ({
   ...state,
   spendMoney: {
     ...state.spendMoney,
-    lines: state.spendMoney.lines.map(line => ({
+    lines: state.spendMoney.lines.map((line) => ({
       ...line,
-      lineJobOptions: [
-        job,
-        ...line.lineJobOptions,
-      ],
+      lineJobOptions: [job, ...line.lineJobOptions],
     })),
   },
   newLine: {
     ...state.newLine,
-    lineJobOptions: [
-      job,
-      ...state.newLine.lineJobOptions,
-    ],
+    lineJobOptions: [job, ...state.newLine.lineJobOptions],
   },
   isPageEdited: true,
 });
 
-const setJobLoadingState = (state, { isJobLoading }) => (
-  { ...state, isJobLoading }
-);
+const setJobLoadingState = (state, { isJobLoading }) => ({
+  ...state,
+  isJobLoading,
+});
 
 const handlers = {
   [UPDATE_SPEND_MONEY_HEADER]: updateHeader,

@@ -1,4 +1,7 @@
-import { getCreateInvoiceFromQuoteUrl, getCreateNewQuoteUrl } from '../RedirectSelectors';
+import {
+  getCreateInvoiceFromQuoteUrl,
+  getCreateNewQuoteUrl,
+} from '../RedirectSelectors';
 
 describe('RedirectSelectors', () => {
   const state = {

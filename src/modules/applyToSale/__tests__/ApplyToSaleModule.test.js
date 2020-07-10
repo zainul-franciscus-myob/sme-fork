@@ -24,21 +24,26 @@ const setup = () => {
   const pushMessage = jest.fn();
   const integration = new TestIntegration();
 
-  const module = new ApplyToSaleModule({ integration, setRootView, pushMessage });
+  const module = new ApplyToSaleModule({
+    integration,
+    setRootView,
+    pushMessage,
+  });
   const store = new TestStore(applyToSaleReducer);
   module.store = store;
   module.dispatcher = createApplyToSaleDispatcher(store);
   module.integrator = createApplyToSaleIntegrator(store, integration);
 
   return {
-    store, module, integration, pushMessage,
+    store,
+    module,
+    integration,
+    pushMessage,
   };
 };
 
 const setupWithNew = () => {
-  const {
-    store, module, integration, pushMessage,
-  } = setup();
+  const { store, module, integration, pushMessage } = setup();
   module.run({
     applyToSaleId: '',
     customerReturnId: '👻',
@@ -49,14 +54,15 @@ const setupWithNew = () => {
   integration.resetRequests();
 
   return {
-    store, module, integration, pushMessage,
+    store,
+    module,
+    integration,
+    pushMessage,
   };
 };
 
 const setupWithExisting = () => {
-  const {
-    store, module, integration, pushMessage,
-  } = setup();
+  const { store, module, integration, pushMessage } = setup();
   module.run({
     applyToSaleId: '🆔',
     customerReturnId: '👻',
@@ -67,14 +73,15 @@ const setupWithExisting = () => {
   integration.resetRequests();
 
   return {
-    store, module, integration, pushMessage,
+    store,
+    module,
+    integration,
+    pushMessage,
   };
 };
 
 const setupEditedPage = () => {
-  const {
-    store, module, integration, pushMessage,
-  } = setupWithExisting();
+  const { store, module, integration, pushMessage } = setupWithExisting();
   module.updateApplyToSaleOption({
     key: 'description',
     value: '👀 some description',
@@ -83,7 +90,10 @@ const setupEditedPage = () => {
   store.resetActions();
 
   return {
-    store, module, integration, pushMessage,
+    store,
+    module,
+    integration,
+    pushMessage,
   };
 };
 
@@ -227,10 +237,12 @@ describe('ApplyToSaleModule', () => {
       const { store, module } = setupEditedPage();
       module.openCancelModal();
 
-      expect(store.getActions()).toEqual([{
-        intent: SET_MODAL_TYPE,
-        modalType: ModalType.CANCEL,
-      }]);
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_MODAL_TYPE,
+          modalType: ModalType.CANCEL,
+        },
+      ]);
     });
   });
 

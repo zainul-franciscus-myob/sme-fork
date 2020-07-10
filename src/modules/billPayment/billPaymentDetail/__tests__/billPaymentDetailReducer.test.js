@@ -1,5 +1,8 @@
 import {
-  LOAD_BILL_LIST, LOAD_NEW_BILL_PAYMENT, RESET_BANK_STATEMENT_TEXT, UPDATE_REFERENCE_ID,
+  LOAD_BILL_LIST,
+  LOAD_NEW_BILL_PAYMENT,
+  RESET_BANK_STATEMENT_TEXT,
+  UPDATE_REFERENCE_ID,
 } from '../../BillPaymentIntents';
 import billPaymentDetailReducer from '../billPaymentDetailReducer';
 
@@ -48,10 +51,12 @@ describe('billPaymentDetailReducer', () => {
 
       const actual = billPaymentDetailReducer(state, action);
 
-      expect(actual.entries).toContainEqual(expect.objectContaining({
-        id: '1',
-        paidAmount: '200',
-      }));
+      expect(actual.entries).toContainEqual(
+        expect.objectContaining({
+          id: '1',
+          paidAmount: '200',
+        })
+      );
     });
 
     it('keeps the previous paidAmount and discountAmount', () => {
@@ -67,16 +72,18 @@ describe('billPaymentDetailReducer', () => {
 
       const actual = billPaymentDetailReducer(state, action);
 
-      expect(actual.entries).toContainEqual(expect.objectContaining({
-        id: '1',
-        paidAmount: '300',
-        discountAmount: '200',
-      }));
+      expect(actual.entries).toContainEqual(
+        expect.objectContaining({
+          id: '1',
+          paidAmount: '300',
+          discountAmount: '200',
+        })
+      );
     });
   });
 
   describe('RESET_BANK_STATEMENT_TEXT', () => {
-    it('should reset bank statement text if it\'s cleared', () => {
+    it("should reset bank statement text if it's cleared", () => {
       const state = {
         bankStatementText: 'some-text',
         originalBankStatementText: 'the-original-text',
@@ -92,7 +99,7 @@ describe('billPaymentDetailReducer', () => {
       expect(actual.bankStatementText).toEqual('the-original-text');
     });
 
-    it('should use the given value if it hasn\'t been cleared', () => {
+    it("should use the given value if it hasn't been cleared", () => {
       const state = {
         bankStatementText: 'some-text',
         originalBankStatementText: 'the-original-text',

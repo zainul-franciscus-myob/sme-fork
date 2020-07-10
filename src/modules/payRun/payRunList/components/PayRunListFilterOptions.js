@@ -1,7 +1,4 @@
-import {
-  DatePicker,
-  FilterBar,
-} from '@myob/myob-widgets';
+import { DatePicker, FilterBar } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -10,27 +7,34 @@ import { getFilterOptions } from '../payRunListSelectors';
 const PayRunListFilterOptions = (props) => {
   const {
     onUpdateFilterBarOptions,
-    filterOptions: {
-      dateFrom,
-      dateTo,
-    },
+    filterOptions: { dateFrom, dateTo },
   } = props;
 
-  const onDatePickerChange = filterName => ({ value }) => {
+  const onDatePickerChange = (filterName) => ({ value }) => {
     onUpdateFilterBarOptions({ filterName, value });
   };
 
   return (
     <FilterBar>
       <FilterBar.Group>
-        <DatePicker label="Payment from" name="dateFrom" value={dateFrom} onSelect={onDatePickerChange('dateFrom')} />
-        <DatePicker label="Payment to" name="dateTo" value={dateTo} onSelect={onDatePickerChange('dateTo')} />
+        <DatePicker
+          label="Payment from"
+          name="dateFrom"
+          value={dateFrom}
+          onSelect={onDatePickerChange('dateFrom')}
+        />
+        <DatePicker
+          label="Payment to"
+          name="dateTo"
+          value={dateTo}
+          onSelect={onDatePickerChange('dateTo')}
+        />
       </FilterBar.Group>
     </FilterBar>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   filterOptions: getFilterOptions(state),
 });
 

@@ -45,17 +45,19 @@ const Combobox = ({
     onFocus={onFocus}
     onBlur={onBlur}
     onKeyDown={onKeyDown}
-    itemToString={item => metaData.reduce(
-      (result, meta) => result
-          + (item
-          && meta.showData
-          && Object.prototype.hasOwnProperty.call(item, meta.columnName)
+    itemToString={(item) =>
+      metaData.reduce(
+        (result, meta) =>
+          result +
+          (item &&
+          meta.showData &&
+          Object.prototype.hasOwnProperty.call(item, meta.columnName)
             ? item[meta.columnName]
             : ''),
-      '',
-    )
+        ''
+      )
     }
-    itemsFilter={allItems => allItems}
+    itemsFilter={(allItems) => allItems}
     onChange={(selectedItem, stateAndHelpers) => {
       // Want to use underscores here to ensure that our new item attributes don't clash with
       // real item attributes
@@ -98,11 +100,13 @@ const Combobox = ({
     }) => (
       <table className="table-bordered">
         <colgroup>
-          {// Metadata should be constant so it is fine to use index as key
-          /* eslint-disable react/no-array-index-key */
-          metaData.map((meta, idx) => (
-            <col style={{ width: meta.columnWidth }} key={idx} />
-          ))}
+          {
+            // Metadata should be constant so it is fine to use index as key
+            /* eslint-disable react/no-array-index-key */
+            metaData.map((meta, idx) => (
+              <col style={{ width: meta.columnWidth }} key={idx} />
+            ))
+          }
         </colgroup>
         <tbody>
           {addNewItem && (
@@ -140,19 +144,22 @@ const Combobox = ({
                 })}
                 key={index}
               >
-                {// Metadata should be constant so it is fine to use index as key
-                /* eslint-disable react/no-array-index-key */
-                metaData.map((meta, idx) => (
-                  <td
-                    key={idx}
-                    className={`combobox-menu__cell--align-${meta.align
-                      || 'left'}`}
-                  >
-                    {renderItem
-                      ? renderItem(meta.columnName, item, menuItems)
-                      : item[meta.columnName]}
-                  </td>
-                ))}
+                {
+                  // Metadata should be constant so it is fine to use index as key
+                  /* eslint-disable react/no-array-index-key */
+                  metaData.map((meta, idx) => (
+                    <td
+                      key={idx}
+                      className={`combobox-menu__cell--align-${
+                        meta.align || 'left'
+                      }`}
+                    >
+                      {renderItem
+                        ? renderItem(meta.columnName, item, menuItems)
+                        : item[meta.columnName]}
+                    </td>
+                  ))
+                }
               </tr>
             ))
           )}
@@ -218,7 +225,7 @@ Combobox.propTypes = {
        * This defines the alignment of a column in the menu.
        */
       align: PropTypes.oneOf(['left', 'right']),
-    }),
+    })
   ).isRequired,
   /**
    * Message displayed inside dropdown menu when no matches are found for value in the input box.

@@ -11,7 +11,10 @@ describe('LeavePayItemModalSelectors', () => {
       const employees = [{ id: '1' }, { id: '2' }];
       const selectedEmployees = [{ id: '1' }];
 
-      const actual = getFilteredEmployees.resultFunc(employees, selectedEmployees);
+      const actual = getFilteredEmployees.resultFunc(
+        employees,
+        selectedEmployees
+      );
 
       const expected = [{ id: '2' }];
 
@@ -24,7 +27,10 @@ describe('LeavePayItemModalSelectors', () => {
       const exemptionOptions = [{ id: '1' }, { id: '2' }];
       const selectedExemptions = [{ id: '1' }];
 
-      const actual = getFilteredExemptions.resultFunc(exemptionOptions, selectedExemptions);
+      const actual = getFilteredExemptions.resultFunc(
+        exemptionOptions,
+        selectedExemptions
+      );
 
       const expected = [{ id: '2' }];
 
@@ -37,7 +43,10 @@ describe('LeavePayItemModalSelectors', () => {
       const linkedWagesOptions = [{ id: '1' }, { id: '2' }];
       const selectedLinkedWages = [{ id: '1' }];
 
-      const actual = getFilteredLinkedWages.resultFunc(linkedWagesOptions, selectedLinkedWages);
+      const actual = getFilteredLinkedWages.resultFunc(
+        linkedWagesOptions,
+        selectedLinkedWages
+      );
 
       const expected = [{ id: '2' }];
 
@@ -112,12 +121,8 @@ describe('LeavePayItemModalSelectors', () => {
             mappedType: 'Wages',
           },
         ],
-        selectedEmployees: [
-          '21',
-        ],
-        selectedLinkedWages: [
-          '51',
-        ],
+        selectedEmployees: ['21'],
+        selectedLinkedWages: ['51'],
       };
 
       expect(actual).toEqual(expected);

@@ -41,22 +41,28 @@ import debounce from '../../common/debounce/debounce';
 import transactionListReducer from './transactionListReducer';
 
 const messageTypes = [
-  SUCCESSFULLY_DELETED_GENERAL_JOURNAL, SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
-  SUCCESSFULLY_DELETED_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY,
-  SUCCESSFULLY_DELETED_SPEND_MONEY, SUCCESSFULLY_SAVED_SPEND_MONEY,
-  SUCCESSFULLY_SAVED_TRANSFER_MONEY, SUCCESSFULLY_DELETED_TRANSFER_MONEY,
-  SUCCESSFULLY_DELETED_INVOICE_PAYMENT, SUCCESSFULLY_SAVED_INVOICE_PAYMENT,
-  SUCCESSFULLY_SAVED_BILL_PAYMENT, SUCCESSFULLY_DELETED_BILL_PAYMENT,
-  SUCCESSFULLY_DELETED_RECEIVE_REFUND, SUCCESSFULLY_DELETED_PURCHASE_RETURN,
-  SUCCESSFULLY_DELETED_PAY_REFUND, SUCCESSFULLY_DELETED_APPLY_TO_SALE,
+  SUCCESSFULLY_DELETED_GENERAL_JOURNAL,
+  SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
+  SUCCESSFULLY_DELETED_RECEIVE_MONEY,
+  SUCCESSFULLY_SAVED_RECEIVE_MONEY,
+  SUCCESSFULLY_DELETED_SPEND_MONEY,
+  SUCCESSFULLY_SAVED_SPEND_MONEY,
+  SUCCESSFULLY_SAVED_TRANSFER_MONEY,
+  SUCCESSFULLY_DELETED_TRANSFER_MONEY,
+  SUCCESSFULLY_DELETED_INVOICE_PAYMENT,
+  SUCCESSFULLY_SAVED_INVOICE_PAYMENT,
+  SUCCESSFULLY_SAVED_BILL_PAYMENT,
+  SUCCESSFULLY_DELETED_BILL_PAYMENT,
+  SUCCESSFULLY_DELETED_RECEIVE_REFUND,
+  SUCCESSFULLY_DELETED_PURCHASE_RETURN,
+  SUCCESSFULLY_DELETED_PAY_REFUND,
+  SUCCESSFULLY_DELETED_APPLY_TO_SALE,
   SUCCESSFULLY_DELETED_ELECTRONIC_PAYMENT,
   SUCCESSFULLY_DELETED_EMPLOYEE_PAY_TRANSACTION,
 ];
 
 export default class TransactionListModule {
-  constructor({
-    integration, setRootView, popMessages, replaceURLParams,
-  }) {
+  constructor({ integration, setRootView, popMessages, replaceURLParams }) {
     this.integration = integration;
     this.store = new Store(transactionListReducer);
     this.setRootView = setRootView;
@@ -64,7 +70,10 @@ export default class TransactionListModule {
     this.messageTypes = messageTypes;
     this.replaceURLParams = replaceURLParams;
     this.dispatcher = createTransactionListDispatcher(this.store);
-    this.integrator = createTransactionListIntegrator(this.store, this.integration);
+    this.integrator = createTransactionListIntegrator(
+      this.store,
+      this.integration
+    );
   }
 
   /* Credits and debits */
@@ -72,19 +81,25 @@ export default class TransactionListModule {
     this.setLastLoadingTab(DEBITS_AND_CREDITS);
 
     const onSuccess = (response) => {
-      this.dispatcher.setLoadingState(DEBITS_AND_CREDITS, LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setLoadingState(
+        DEBITS_AND_CREDITS,
+        LoadingState.LOADING_SUCCESS
+      );
       this.dispatcher.loadCreditsAndDebitsList(response);
     };
 
     const onFailure = () => {
-      this.dispatcher.setLoadingState(DEBITS_AND_CREDITS, LoadingState.LOADING_FAIL);
+      this.dispatcher.setLoadingState(
+        DEBITS_AND_CREDITS,
+        LoadingState.LOADING_FAIL
+      );
     };
 
     this.integrator.loadCreditsAndDebitsList({
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   loadCreditsAndDebitsNextPage = () => {
     this.dispatcher.setNextPageLoadingState(DEBITS_AND_CREDITS, true);
@@ -103,7 +118,7 @@ export default class TransactionListModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   sortAndFilterCreditsAndDebitsList = () => {
     this.dispatcher.setTableLoadingState(DEBITS_AND_CREDITS, true);
@@ -111,7 +126,10 @@ export default class TransactionListModule {
 
     const onSuccess = ({ entries, pagination }) => {
       this.dispatcher.setTableLoadingState(DEBITS_AND_CREDITS, false);
-      this.dispatcher.sortAndFilterCreditsAndDebitsList({ entries, pagination });
+      this.dispatcher.sortAndFilterCreditsAndDebitsList({
+        entries,
+        pagination,
+      });
     };
 
     const onFailure = ({ message }) => {
@@ -122,7 +140,9 @@ export default class TransactionListModule {
     this.integrator.sortAndFilterCreditsAndDebitsList({ onSuccess, onFailure });
   };
 
-  debouncedSortAndFilterCreditsAndDebitsList = debounce(this.sortAndFilterCreditsAndDebitsList);
+  debouncedSortAndFilterCreditsAndDebitsList = debounce(
+    this.sortAndFilterCreditsAndDebitsList
+  );
 
   /* Journal transactions */
   sortAndFilterTransactionList = () => {
@@ -161,7 +181,9 @@ export default class TransactionListModule {
     this.integrator.loadTransactionListNextPage({ onSuccess, onFailure });
   };
 
-  debouncedSortAndFilterTransactionList = debounce(this.sortAndFilterTransactionList);
+  debouncedSortAndFilterTransactionList = debounce(
+    this.sortAndFilterTransactionList
+  );
 
   /* Common */
   sort = (orderBy) => {
@@ -175,7 +197,7 @@ export default class TransactionListModule {
     } else {
       this.sortAndFilterTransactionList();
     }
-  }
+  };
 
   sortAndFilter = (key, debouncedFunc, func) => {
     if (key === 'keywords') {
@@ -183,7 +205,7 @@ export default class TransactionListModule {
     } else {
       func();
     }
-  }
+  };
 
   updateFilterOptions = ({ key, value }) => {
     const state = this.store.getState();
@@ -198,13 +220,13 @@ export default class TransactionListModule {
       this.sortAndFilter(
         key,
         this.debouncedSortAndFilterCreditsAndDebitsList,
-        this.sortAndFilterCreditsAndDebitsList,
+        this.sortAndFilterCreditsAndDebitsList
       );
     } else {
       this.sortAndFilter(
         key,
         this.debouncedSortAndFilterTransactionList,
-        this.sortAndFilterTransactionList,
+        this.sortAndFilterTransactionList
       );
     }
   };
@@ -222,7 +244,7 @@ export default class TransactionListModule {
     } else {
       this.sortAndFilterTransactionList();
     }
-  }
+  };
 
   loadNextPage = () => {
     const state = this.store.getState();
@@ -233,7 +255,7 @@ export default class TransactionListModule {
     } else {
       this.loadTransactionListNextPage();
     }
-  }
+  };
 
   readMessages = () => {
     const [successMessage] = this.popMessages(this.messageTypes);
@@ -244,7 +266,7 @@ export default class TransactionListModule {
         message,
       });
     }
-  }
+  };
 
   setAlert = ({ message, type }) => this.dispatcher.setAlert({ message, type });
 
@@ -253,7 +275,7 @@ export default class TransactionListModule {
   setTab = (tabId) => {
     this.dispatcher.setTab(tabId);
     this.setView(tabId);
-  }
+  };
 
   loadCreditsAndDebitsTab = () => {
     const state = this.store.getState();
@@ -266,7 +288,7 @@ export default class TransactionListModule {
         this.sortAndFilterCreditsAndDebitsList();
       }
     }
-  }
+  };
 
   loadTransactionListTab = () => {
     const state = this.store.getState();
@@ -275,7 +297,7 @@ export default class TransactionListModule {
     if (isSwitchingTab) {
       this.sortAndFilterTransactionList();
     }
-  }
+  };
 
   setView = (tabId) => {
     if (tabId === DEBITS_AND_CREDITS) {
@@ -283,11 +305,12 @@ export default class TransactionListModule {
     } else {
       this.loadTransactionListTab();
     }
-  }
+  };
 
   setLastLoadingTab = (tabId) => this.dispatcher.setLastLoadingTab(tabId);
 
-  setInitialState = (context, settings) => this.dispatcher.setInitialState(context, settings);
+  setInitialState = (context, settings) =>
+    this.dispatcher.setInitialState(context, settings);
 
   render = () => {
     const wrappedView = (
@@ -309,10 +332,17 @@ export default class TransactionListModule {
   unsubscribeFromStore = () => this.store.unsubscribeAll();
 
   run(context) {
-    const settings = loadSettings(context.businessId, RouteName.TRANSACTION_LIST);
+    const settings = loadSettings(
+      context.businessId,
+      RouteName.TRANSACTION_LIST
+    );
     this.setInitialState(context, settings);
     this.store.subscribe((state) => {
-      saveSettings(context.businessId, RouteName.TRANSACTION_LIST, getSettings(state));
+      saveSettings(
+        context.businessId,
+        RouteName.TRANSACTION_LIST,
+        getSettings(state)
+      );
     });
     this.render();
     this.readMessages();
@@ -327,5 +357,5 @@ export default class TransactionListModule {
     const state = this.store.getState();
     const params = getURLParams(state);
     this.replaceURLParams(params);
-  }
+  };
 }

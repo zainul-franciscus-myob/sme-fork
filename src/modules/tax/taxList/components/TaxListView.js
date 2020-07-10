@@ -16,7 +16,7 @@ const TaxListView = ({ loadingState, pageHead }) => {
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   pageHead: getPageHead(state),
 });

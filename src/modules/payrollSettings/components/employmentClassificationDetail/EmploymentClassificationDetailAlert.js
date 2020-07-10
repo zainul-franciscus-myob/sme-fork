@@ -16,7 +16,7 @@ const EmploymentClassificationDetailAlert = ({
   </Alert>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
 });
 

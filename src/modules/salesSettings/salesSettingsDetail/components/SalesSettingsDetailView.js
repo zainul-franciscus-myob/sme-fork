@@ -84,16 +84,14 @@ const SalesSettingsDetailView = ({
 
   const view = (
     <>
-      {
-        modalType && (
-          <SaleSettingsModal
-            modalType={modalType}
-            onCloseModal={onCloseModal}
-            onConfirmDeleteTemplate={onConfirmDeleteTemplate}
-            onConfirmSwitchTab={onConfirmSwitchTab}
-          />
-        )
-      }
+      {modalType && (
+        <SaleSettingsModal
+          modalType={modalType}
+          onCloseModal={onCloseModal}
+          onConfirmDeleteTemplate={onConfirmDeleteTemplate}
+          onConfirmSwitchTab={onConfirmSwitchTab}
+        />
+      )}
       <FormTemplate
         alert={alertComponent}
         pageHead="Invoice and quote settings"
@@ -103,7 +101,9 @@ const SalesSettingsDetailView = ({
 
         <Content {...contentProps} />
 
-        {showActions && <SalesSettingsDetailActions onSaveButtonClick={saveHandler} />}
+        {showActions && (
+          <SalesSettingsDetailActions onSaveButtonClick={saveHandler} />
+        )}
       </FormTemplate>
     </>
   );
@@ -111,7 +111,7 @@ const SalesSettingsDetailView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   loadingState: getLoadingState(state),
   modalType: getModalType(state),

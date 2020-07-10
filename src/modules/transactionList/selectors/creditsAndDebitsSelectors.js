@@ -15,14 +15,11 @@ const getDebitsAndCredits = (state) => state.debitsAndCredits;
 
 export const getEntries = createSelector(
   getDebitsAndCredits,
-  state => state.entries,
+  (state) => state.entries
 );
 
 const getEntryLink = (entry, businessId, region) => {
-  const {
-    id,
-    businessEventType,
-  } = entry;
+  const { id, businessEventType } = entry;
   const feature = businessEventToFeatureMap[businessEventType];
 
   return feature ? `/#/${region}/${businessId}/${feature}/${id}` : undefined;
@@ -32,49 +29,56 @@ export const getTableEntries = createSelector(
   getEntries,
   getBusinessId,
   getRegion,
-  (entries, businessId, region) => entries.map(
-    entry => ({
+  (entries, businessId, region) =>
+    entries.map((entry) => ({
       ...entry,
       link: getEntryLink(entry, businessId, region),
-    }),
-  ),
+    }))
 );
 
 export const getIsTableEmpty = createSelector(
   getDebitsAndCredits,
-  ({ entries }) => entries.length === 0,
+  ({ entries }) => entries.length === 0
 );
 
 export const getIsTableLoading = createSelector(
   getDebitsAndCredits,
-  state => state.isTableLoading,
+  (state) => state.isTableLoading
 );
 
 export const getLoadingState = createSelector(
   getDebitsAndCredits,
-  state => state.loadingState,
+  (state) => state.loadingState
 );
 
 export const getIsCreditsAndDebitsLoaded = createSelector(
   getLoadingState,
-  (loadingState) => loadingState !== LoadingState.LOADING,
+  (loadingState) => loadingState !== LoadingState.LOADING
 );
 
 export const getLoadMoreButtonStatus = createSelector(
   getDebitsAndCredits,
-  state => state.loadMoreButtonStatus,
+  (state) => state.loadMoreButtonStatus
 );
 
 const getOffset = createSelector(
   getDebitsAndCredits,
-  state => state.pagination.offset,
+  (state) => state.pagination.offset
 );
 
 export const getSortingForCreditsAndDebits = createSelector(
   getSortOrder,
   getOrderBy,
   (sortOrder, orderBy) => {
-    const validOrderByOptions = ['Reference', 'Date', 'Description', 'SourceJournal', 'AccountIdentifier', 'Debit', 'Credit'];
+    const validOrderByOptions = [
+      'Reference',
+      'Date',
+      'Description',
+      'SourceJournal',
+      'AccountIdentifier',
+      'Debit',
+      'Credit',
+    ];
     if (validOrderByOptions.includes(orderBy)) {
       return {
         orderBy,
@@ -85,18 +89,16 @@ export const getSortingForCreditsAndDebits = createSelector(
       orderBy: getDefaultState().orderBy,
       sortOrder: getDefaultState().sortOrder,
     };
-  },
+  }
 );
 
 export const getLoadNextPageParams = createSelector(
   getFilterOptions,
   getSortingForCreditsAndDebits,
   getOffset,
-  (filterOptions, sortingOptions, offset) => (
-    {
-      ...filterOptions,
-      ...sortingOptions,
-      offset,
-    }
-  ),
+  (filterOptions, sortingOptions, offset) => ({
+    ...filterOptions,
+    ...sortingOptions,
+    offset,
+  })
 );

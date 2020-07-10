@@ -30,7 +30,10 @@ describe('UserDetailModule', () => {
     const integration = new TestIntegration();
 
     const module = new UserDetailModule({
-      integration, setRootView, pushMessage, usersInvited,
+      integration,
+      setRootView,
+      pushMessage,
+      usersInvited,
     });
     const store = new TestStore(userDetailReducer);
     module.store = store;
@@ -38,7 +41,10 @@ describe('UserDetailModule', () => {
     module.integrator = createUserDetailIntegrator(store, integration);
 
     return {
-      store, module, integration, pushMessage,
+      store,
+      module,
+      integration,
+      pushMessage,
     };
   };
 
@@ -279,7 +285,7 @@ describe('UserDetailModule', () => {
 
         expect(module.pushMessage).toHaveBeenCalledWith({
           type: SUCCESSFULLY_SAVED_USER,
-          content: 'Great Work! You\'ve done it well!',
+          content: "Great Work! You've done it well!",
         });
       });
 

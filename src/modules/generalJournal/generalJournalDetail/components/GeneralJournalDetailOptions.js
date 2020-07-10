@@ -27,7 +27,7 @@ class GeneralJournalDetailOptions extends Component {
     const { value, name } = e.target;
 
     onUpdateHeaderOptions({ key: name, value });
-  }
+  };
 
   handleRadioChange = (e) => {
     const { onUpdateHeaderOptions } = this.props;
@@ -37,21 +37,21 @@ class GeneralJournalDetailOptions extends Component {
       key: name,
       value: value === 'true',
     });
-  }
+  };
 
   handleCheckboxChange = (e) => {
     const { onUpdateHeaderOptions } = this.props;
     const { checked, name } = e.target;
 
     onUpdateHeaderOptions({ key: name, value: checked });
-  }
+  };
 
   handleDateChange = ({ value }) => {
     const { onUpdateHeaderOptions } = this.props;
     const key = 'date';
 
     onUpdateHeaderOptions({ key, value });
-  }
+  };
 
   render = () => {
     const {
@@ -74,7 +74,8 @@ class GeneralJournalDetailOptions extends Component {
 
     const eofyAdjustmentAlert = isSystem && (
       <Alert type="info">
-        This general journal is read only because it is an end of financial year adjustment.
+        This general journal is read only because it is an end of financial year
+        adjustment.
       </Alert>
     );
 
@@ -97,8 +98,20 @@ class GeneralJournalDetailOptions extends Component {
           disabled={isSystem}
           renderRadios={({ value, ...props }) => (
             <React.Fragment>
-              <RadioButton {...props} label="Purchase" value="purchase" checked={isPurchase} onChange={this.handleInputChange} />
-              <RadioButton {...props} label="Sale" value="sale" checked={isSale} onChange={this.handleInputChange} />
+              <RadioButton
+                {...props}
+                label="Purchase"
+                value="purchase"
+                checked={isPurchase}
+                onChange={this.handleInputChange}
+              />
+              <RadioButton
+                {...props}
+                label="Sale"
+                value="sale"
+                checked={isSale}
+                onChange={this.handleInputChange}
+              />
             </React.Fragment>
           )}
         />
@@ -134,12 +147,12 @@ class GeneralJournalDetailOptions extends Component {
             <Checkbox
               name="isEndOfYearAdjustment"
               label="EOFY adjustment"
-              labelAccessory={(
+              labelAccessory={
                 <Tooltip>
-                  When running reports you have the option to include or
-                  exclude entries marked as end of financial year (EOFY) adjustments
+                  When running reports you have the option to include or exclude
+                  entries marked as end of financial year (EOFY) adjustments
                 </Tooltip>
-              )}
+              }
               checked={isEndOfYearAdjustment}
               disabled={isSystem}
               onChange={this.handleCheckboxChange}
@@ -152,8 +165,20 @@ class GeneralJournalDetailOptions extends Component {
           disabled={isSystem}
           renderRadios={({ value, ...props }) => (
             <React.Fragment>
-              <RadioButton {...props} checked={isTaxInclusive} onChange={this.handleRadioChange} value="true" label={taxInclusiveLabel} />
-              <RadioButton {...props} checked={!isTaxInclusive} onChange={this.handleRadioChange} value="false" label={taxExclusiveLabel} />
+              <RadioButton
+                {...props}
+                checked={isTaxInclusive}
+                onChange={this.handleRadioChange}
+                value="true"
+                label={taxInclusiveLabel}
+              />
+              <RadioButton
+                {...props}
+                checked={!isTaxInclusive}
+                onChange={this.handleRadioChange}
+                value="false"
+                label={taxExclusiveLabel}
+              />
             </React.Fragment>
           )}
         />
@@ -166,11 +191,11 @@ class GeneralJournalDetailOptions extends Component {
         <DetailHeader primary={primary} secondary={secondary} />
       </>
     );
-  }
+  };
 }
 // TODO: refactor to be component function
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   headerOptions: getHeaderOptions(state),
   taxInclusiveLabel: getTaxInclusiveLabel(state),
   taxExclusiveLabel: getTaxExclusiveLabel(state),

@@ -37,7 +37,11 @@ describe('TransferMoneyDetailModule', () => {
     const popMessages = () => [];
 
     const module = new TransferMoneyDetailModule({
-      store, integration, setRootView, popMessages, pushMessage,
+      store,
+      integration,
+      setRootView,
+      popMessages,
+      pushMessage,
     });
     module.store = store;
     module.dispatcher = createTransferMoneyDetailDispatcher(store);
@@ -283,7 +287,9 @@ describe('TransferMoneyDetailModule', () => {
         type: SUCCESSFULLY_DELETED_TRANSFER_MONEY,
         content: expect.any(String),
       });
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/👋/transactionList');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/👋/transactionList'
+      );
     });
 
     describe('fail to delete', () => {
@@ -337,7 +343,9 @@ describe('TransferMoneyDetailModule', () => {
           intent: CREATE_TRANSFER_MONEY,
         }),
       ]);
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/👋/transactionList');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/👋/transactionList'
+      );
       expect(module.pushMessage).toHaveBeenCalledWith({
         type: SUCCESSFULLY_SAVED_TRANSFER_MONEY,
         content: expect.any(String),
@@ -445,7 +453,9 @@ describe('TransferMoneyDetailModule', () => {
             intent: CREATE_TRANSFER_MONEY,
           }),
         ]);
-        expect(module.navigateTo).toHaveBeenCalledWith('/#/au/👋/transferMoney/new');
+        expect(module.navigateTo).toHaveBeenCalledWith(
+          '/#/au/👋/transferMoney/new'
+        );
         expect(module.pushMessage).toHaveBeenCalledWith({
           type: SUCCESSFULLY_SAVED_TRANSFER_MONEY,
           content: expect.any(String),
@@ -521,7 +531,9 @@ describe('TransferMoneyDetailModule', () => {
           intent: CREATE_TRANSFER_MONEY,
         }),
       ]);
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/👋/transactionList');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/👋/transactionList'
+      );
     });
 
     it('does nothing when already submitting', () => {
@@ -592,7 +604,9 @@ describe('TransferMoneyDetailModule', () => {
       module.openCancelModal();
 
       expect(store.getActions()).toEqual([]);
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/👋/transactionList');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/👋/transactionList'
+      );
     });
   });
 

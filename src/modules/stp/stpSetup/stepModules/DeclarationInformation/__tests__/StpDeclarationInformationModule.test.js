@@ -1,13 +1,21 @@
 import { Alert } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 
-import { LOAD_BUSINESS_CONTACT_INFORMATION, SUBMIT_BUSINESS_CONTACT_INFORMATION } from '../StpDeclarationInformationIntents';
-import { findButtonWithTestId, findComponentWithTestId } from '../../../../../../common/tests/selectors';
+import {
+  LOAD_BUSINESS_CONTACT_INFORMATION,
+  SUBMIT_BUSINESS_CONTACT_INFORMATION,
+} from '../StpDeclarationInformationIntents';
+import {
+  findButtonWithTestId,
+  findComponentWithTestId,
+} from '../../../../../../common/tests/selectors';
 import StpDeclarationInformationModule from '../StpDeclarationInformationModule';
 import loadBusinessContactInformation from '../mappings/data/loadBusinessContactInformation';
 
-
-const simulateInputChange = (component, value) => component.prop('onChange')({ target: { value, name: component.prop('name') } });
+const simulateInputChange = (component, value) =>
+  component.prop('onChange')({
+    target: { value, name: component.prop('name') },
+  });
 
 describe('StpDeclarationInformationModule', () => {
   const constructModule = ({
@@ -18,7 +26,11 @@ describe('StpDeclarationInformationModule', () => {
     onPrevious = jest.fn(),
     onFinish = jest.fn(),
   }) => {
-    const module = new StpDeclarationInformationModule({ integration, onPrevious, onFinish });
+    const module = new StpDeclarationInformationModule({
+      integration,
+      onPrevious,
+      onFinish,
+    });
     const wrapper = mount(module.getView());
 
     return {
@@ -53,9 +65,11 @@ describe('StpDeclarationInformationModule', () => {
       const nextButton = findButtonWithTestId(wrapper, 'nextButton');
       nextButton.simulate('click');
 
-      expect(integration.write).toHaveBeenCalledWith(expect.objectContaining({
-        intent: SUBMIT_BUSINESS_CONTACT_INFORMATION,
-      }));
+      expect(integration.write).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: SUBMIT_BUSINESS_CONTACT_INFORMATION,
+        })
+      );
     });
 
     it('calls the passed onFinish function if the request succeeds', () => {
@@ -72,7 +86,8 @@ describe('StpDeclarationInformationModule', () => {
 
     it('does not call the passed onFinish function if the request fails', () => {
       const integration = {
-        write: ({ onFailure }) => onFailure({ message: 'failed to submit information' }),
+        write: ({ onFailure }) =>
+          onFailure({ message: 'failed to submit information' }),
       };
       const onFinish = jest.fn();
       const { wrapper } = constructModule({
@@ -94,9 +109,11 @@ describe('StpDeclarationInformationModule', () => {
 
       module.loadBusinessInformation({});
 
-      expect(integration.read).toHaveBeenCalledWith(expect.objectContaining({
-        intent: LOAD_BUSINESS_CONTACT_INFORMATION,
-      }));
+      expect(integration.read).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: LOAD_BUSINESS_CONTACT_INFORMATION,
+        })
+      );
     });
 
     it('should render an alert if business contact information was found', () => {
@@ -112,9 +129,10 @@ describe('StpDeclarationInformationModule', () => {
 
     it('should not render an alert if business contact information was not found', () => {
       const integration = {
-        read: ({ onSuccess }) => onSuccess({
-          businessContactInformationWasFound: false,
-        }),
+        read: ({ onSuccess }) =>
+          onSuccess({
+            businessContactInformationWasFound: false,
+          }),
       };
       const { wrapper, module } = constructModule({ integration });
 
@@ -129,9 +147,10 @@ describe('StpDeclarationInformationModule', () => {
       it('should not render an error alert if the integration fails', () => {
         const errorMessage = 'THIS IS A TEST ERROR MESSAGE';
         const integration = {
-          read: ({ onFailure }) => onFailure({
-            message: errorMessage,
-          }),
+          read: ({ onFailure }) =>
+            onFailure({
+              message: errorMessage,
+            }),
         };
         const { wrapper, module } = constructModule({ integration });
 
@@ -148,7 +167,9 @@ describe('StpDeclarationInformationModule', () => {
         module.loadBusinessInformation({});
         wrapper.update();
 
-        const errorAlert = wrapper.findWhere(c => c.name() === 'Alert' && c.prop('type') === 'danger');
+        const errorAlert = wrapper.findWhere(
+          (c) => c.name() === 'Alert' && c.prop('type') === 'danger'
+        );
         expect(errorAlert).toHaveLength(0);
       });
     });
@@ -161,15 +182,25 @@ describe('StpDeclarationInformationModule', () => {
       module.loadBusinessInformation({});
       wrapper.update();
 
-      const payerAbnInput = findComponentWithTestId(wrapper, 'payerAbnInput', 'Input');
+      const payerAbnInput = findComponentWithTestId(
+        wrapper,
+        'payerAbnInput',
+        'Input'
+      );
       expect(payerAbnInput).toHaveLength(1);
-      expect(payerAbnInput.prop('value')).toEqual(loadBusinessContactInformation.payerAbn);
+      expect(payerAbnInput.prop('value')).toEqual(
+        loadBusinessContactInformation.payerAbn
+      );
     });
 
     it('updates the state on change of a field', () => {
       const { wrapper, module } = constructModule({});
 
-      const payerAbnInput = findComponentWithTestId(wrapper, 'payerAbnInput', 'Input');
+      const payerAbnInput = findComponentWithTestId(
+        wrapper,
+        'payerAbnInput',
+        'Input'
+      );
 
       simulateInputChange(payerAbnInput, '123');
 

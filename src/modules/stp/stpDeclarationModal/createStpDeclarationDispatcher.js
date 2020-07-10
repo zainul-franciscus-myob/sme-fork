@@ -6,7 +6,7 @@ import {
 } from './StpDeclarationModalIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createStpDeclarationModalDispatcher = store => ({
+const createStpDeclarationModalDispatcher = (store) => ({
   setInitialState: (context) => {
     store.dispatch({
       intent: SET_INITIAL_STATE,

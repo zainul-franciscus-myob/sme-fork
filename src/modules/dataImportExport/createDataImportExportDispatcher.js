@@ -16,7 +16,7 @@ import {
 } from './DataImportExportIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 
-const createDataImportExportDispatcher = store => ({
+const createDataImportExportDispatcher = (store) => ({
   setLoadingState: (loadingState) => {
     store.dispatch({
       intent: SET_LOADING_STATE,

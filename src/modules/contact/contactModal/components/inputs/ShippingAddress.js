@@ -4,7 +4,7 @@ import React from 'react';
 import { getContactModalShippingAddress } from '../../ContactModalSelectors';
 import Address from './Address';
 
-const ShippingAddress = props => (
+const ShippingAddress = (props) => (
   <Address
     title="Shipping address"
     toggleLabel="Add shipping address"
@@ -12,6 +12,6 @@ const ShippingAddress = props => (
   />
 );
 
-const mapStateToProps = state => getContactModalShippingAddress(state);
+const mapStateToProps = (state) => getContactModalShippingAddress(state);
 
 export default connect(mapStateToProps)(ShippingAddress);

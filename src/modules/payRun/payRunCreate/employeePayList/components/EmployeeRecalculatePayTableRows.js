@@ -22,7 +22,7 @@ const EmployeeRecalculatePayTableRows = ({
     </Table.Row>
   );
 
-  const rows = entries.map(entry => (
+  const rows = entries.map((entry) => (
     <EmployeeRecalculatePayTableRow
       key={entry.payItemId}
       tableConfig={tableConfig}

@@ -12,7 +12,10 @@ export default class StpDeclarationModalModule {
     this.store = new Store(StpDeclarationModalReducer);
     this.onDeclared = onDeclared || (() => {});
     this.dispatcher = createStpDeclarationModalDispatcher(this.store);
-    this.integrator = createStpDeclarationModalIntegrator(this.store, integration);
+    this.integrator = createStpDeclarationModalIntegrator(
+      this.store,
+      integration
+    );
   }
 
   resetState = () => {

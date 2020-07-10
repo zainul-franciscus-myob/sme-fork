@@ -13,26 +13,29 @@ describe('RecordPayRunModule', () => {
   const constructRecordPayRunModule = () => {
     const integration = {
       readFile: ({ onSuccess }) => onSuccess('FOO'),
-      write: ({ onSuccess }) => { onSuccess({ message: 'success' }); },
+      write: ({ onSuccess }) => {
+        onSuccess({ message: 'success' });
+      },
     };
     const pushMessage = () => {};
-    const setRootView = () => (<div />);
+    const setRootView = () => <div />;
     const isToggleOn = () => true;
 
     const payRunModule = new PayRunModule({
-      integration, setRootView, pushMessage, isToggleOn,
+      integration,
+      setRootView,
+      pushMessage,
+      isToggleOn,
     });
 
     const recordPayRunModule = new RecordPayRunModule({
-      integration, store: payRunModule.store, pushMessage,
+      integration,
+      store: payRunModule.store,
+      pushMessage,
     });
     const view = recordPayRunModule.getView();
 
-    const wrappedView = (
-      <Provider store={payRunModule.store}>
-        {view}
-      </Provider>
-    );
+    const wrappedView = <Provider store={payRunModule.store}>{view}</Provider>;
 
     const wrapper = mount(wrappedView);
 
@@ -44,7 +47,10 @@ describe('RecordPayRunModule', () => {
     it('renders the Save and close button', () => {
       const wrapper = constructRecordPayRunModule();
 
-      const saveAndCloseButton = findButtonWithTestId(wrapper, 'saveAndCloseButton');
+      const saveAndCloseButton = findButtonWithTestId(
+        wrapper,
+        'saveAndCloseButton'
+      );
 
       expect(saveAndCloseButton).toHaveLength(1);
     });
@@ -62,7 +68,10 @@ describe('RecordPayRunModule', () => {
     it('calls the openBlob function', () => {
       const wrapper = constructRecordPayRunModule();
 
-      const reportLink = findButtonWithTestId(wrapper, 'previewPayRunActivityButton');
+      const reportLink = findButtonWithTestId(
+        wrapper,
+        'previewPayRunActivityButton'
+      );
       reportLink.simulate('click');
 
       expect(openBlob).toHaveBeenCalled();
@@ -73,7 +82,10 @@ describe('RecordPayRunModule', () => {
     it('calls the openBlob function', () => {
       const wrapper = constructRecordPayRunModule();
 
-      const reportLink = findButtonWithTestId(wrapper, 'previewPayDetailsButton');
+      const reportLink = findButtonWithTestId(
+        wrapper,
+        'previewPayDetailsButton'
+      );
       reportLink.simulate('click');
 
       expect(openBlob).toHaveBeenCalled();

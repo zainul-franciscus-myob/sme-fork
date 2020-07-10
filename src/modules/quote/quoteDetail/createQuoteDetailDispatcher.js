@@ -42,156 +42,225 @@ import {
 } from '../QuoteIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createQuoteDetailDispatcher = store => ({
-  setInitialState: context => store.dispatch({ intent: SET_INITIAL_STATE, context }),
+const createQuoteDetailDispatcher = (store) => ({
+  setInitialState: (context) =>
+    store.dispatch({ intent: SET_INITIAL_STATE, context }),
 
   resetState: () => store.dispatch({ intent: RESET_STATE }),
 
-  setLoadingState: loadingState => store.dispatch({ intent: SET_LOADING_STATE, loadingState }),
+  setLoadingState: (loadingState) =>
+    store.dispatch({ intent: SET_LOADING_STATE, loadingState }),
 
-  setSubmittingState: isSubmitting => store.dispatch({
-    intent: SET_SUBMITTING_STATE, isSubmitting,
-  }),
+  setSubmittingState: (isSubmitting) =>
+    store.dispatch({
+      intent: SET_SUBMITTING_STATE,
+      isSubmitting,
+    }),
 
-  setAlert: ({ type, message }) => store.dispatch({ intent: SET_ALERT, alert: { type, message } }),
+  setAlert: ({ type, message }) =>
+    store.dispatch({ intent: SET_ALERT, alert: { type, message } }),
 
   dismissAlert: () => store.dispatch({ intent: SET_ALERT }),
 
-  openModal: ({ type, url }) => store.dispatch({ intent: OPEN_MODAL, modal: { type, url } }),
+  openModal: ({ type, url }) =>
+    store.dispatch({ intent: OPEN_MODAL, modal: { type, url } }),
 
   closeModal: () => store.dispatch({ intent: CLOSE_MODAL }),
 
-  setModalSubmittingState: isModalSubmitting => store.dispatch({
-    intent: SET_MODAL_SUBMITTING_STATE, isModalSubmitting,
-  }),
+  setModalSubmittingState: (isModalSubmitting) =>
+    store.dispatch({
+      intent: SET_MODAL_SUBMITTING_STATE,
+      isModalSubmitting,
+    }),
 
-  setModalAlert: ({ type, message }) => store.dispatch({
-    intent: SET_MODAL_ALERT, modalAlert: { type, message },
-  }),
+  setModalAlert: ({ type, message }) =>
+    store.dispatch({
+      intent: SET_MODAL_ALERT,
+      modalAlert: { type, message },
+    }),
 
   dismissModalAlert: () => store.dispatch({ intent: SET_MODAL_ALERT }),
 
-  loadQuote: (payload) => store.dispatch({ intent: LOAD_QUOTE_DETAIL, ...payload }),
+  loadQuote: (payload) =>
+    store.dispatch({ intent: LOAD_QUOTE_DETAIL, ...payload }),
 
-  reloadQuote: (payload) => store.dispatch({ intent: RELOAD_QUOTE_DETAIL, ...payload }),
+  reloadQuote: (payload) =>
+    store.dispatch({ intent: RELOAD_QUOTE_DETAIL, ...payload }),
 
-  updateQuoteIdAfterCreate: quoteId => store.dispatch({
-    intent: UPDATE_QUOTE_ID_AFTER_CREATE, quoteId,
-  }),
+  updateQuoteIdAfterCreate: (quoteId) =>
+    store.dispatch({
+      intent: UPDATE_QUOTE_ID_AFTER_CREATE,
+      quoteId,
+    }),
 
-  setDuplicateId: duplicateId => store.dispatch({
-    intent: SET_DUPLICATE_ID,
-    duplicateId,
-  }),
+  setDuplicateId: (duplicateId) =>
+    store.dispatch({
+      intent: SET_DUPLICATE_ID,
+      duplicateId,
+    }),
 
-  updateQuoteDetailHeaderOptions: (key, value) => store.dispatch({
-    intent: UPDATE_QUOTE_DETAIL_HEADER_OPTIONS, key, value,
-  }),
+  updateQuoteDetailHeaderOptions: (key, value) =>
+    store.dispatch({
+      intent: UPDATE_QUOTE_DETAIL_HEADER_OPTIONS,
+      key,
+      value,
+    }),
 
-  updateLayout: ({ value }) => store.dispatch({
-    intent: UPDATE_LAYOUT, value,
-  }),
+  updateLayout: ({ value }) =>
+    store.dispatch({
+      intent: UPDATE_LAYOUT,
+      value,
+    }),
 
-  addQuoteLine: line => store.dispatch({ intent: ADD_QUOTE_LINE, line }),
+  addQuoteLine: (line) => store.dispatch({ intent: ADD_QUOTE_LINE, line }),
 
-  updateQuoteLine: (index, key, value) => store.dispatch({
-    intent: UPDATE_QUOTE_LINE, index, key, value,
-  }),
+  updateQuoteLine: (index, key, value) =>
+    store.dispatch({
+      intent: UPDATE_QUOTE_LINE,
+      index,
+      key,
+      value,
+    }),
 
-  removeQuoteLine: index => store.dispatch({
-    intent: REMOVE_QUOTE_LINE, index,
-  }),
+  removeQuoteLine: (index) =>
+    store.dispatch({
+      intent: REMOVE_QUOTE_LINE,
+      index,
+    }),
 
   resetQuoteTotals: () => store.dispatch({ intent: RESET_QUOTE_TOTALS }),
 
-  setQuoteSubmittingState: isCalculating => store.dispatch({
-    intent: SET_QUOTE_SUBMITTING_STATE, isCalculating,
-  }),
+  setQuoteSubmittingState: (isCalculating) =>
+    store.dispatch({
+      intent: SET_QUOTE_SUBMITTING_STATE,
+      isCalculating,
+    }),
 
-  setQuoteLineDirty: isLineAmountInputDirty => store.dispatch({
-    intent: SET_QUOTE_LINE_DIRTY, isLineAmountInputDirty,
-  }),
+  setQuoteLineDirty: (isLineAmountInputDirty) =>
+    store.dispatch({
+      intent: SET_QUOTE_LINE_DIRTY,
+      isLineAmountInputDirty,
+    }),
 
-  setQuoteCalculatedLines: ({ lines, totals }, isSwitchingTaxInclusive) => store.dispatch({
-    intent: SET_QUOTE_CALCULATED_LINES,
-    lines,
-    totals,
-    isSwitchingTaxInclusive,
-  }),
+  setQuoteCalculatedLines: ({ lines, totals }, isSwitchingTaxInclusive) =>
+    store.dispatch({
+      intent: SET_QUOTE_CALCULATED_LINES,
+      lines,
+      totals,
+      isSwitchingTaxInclusive,
+    }),
 
-  loadContactAddress: address => store.dispatch({ intent: LOAD_CONTACT_ADDRESS, address }),
+  loadContactAddress: (address) =>
+    store.dispatch({ intent: LOAD_CONTACT_ADDRESS, address }),
 
-  loadContactAfterCreate: (contactId, payload) => store.dispatch({
-    intent: LOAD_CONTACT_AFTER_CREATE, contactId, ...payload,
-  }),
+  loadContactAfterCreate: (contactId, payload) =>
+    store.dispatch({
+      intent: LOAD_CONTACT_AFTER_CREATE,
+      contactId,
+      ...payload,
+    }),
 
-  loadJobAfterCreate: (payload) => store.dispatch({
-    intent: LOAD_JOB_AFTER_CREATE, ...payload,
-  }),
+  loadJobAfterCreate: (payload) =>
+    store.dispatch({
+      intent: LOAD_JOB_AFTER_CREATE,
+      ...payload,
+    }),
 
-  setContactLoadingState: isContactLoading => store.dispatch({
-    intent: SET_CONTACT_LOADING_STATE, isContactLoading,
-  }),
+  setContactLoadingState: (isContactLoading) =>
+    store.dispatch({
+      intent: SET_CONTACT_LOADING_STATE,
+      isContactLoading,
+    }),
 
-  loadAccountAfterCreate: payload => store.dispatch({
-    intent: LOAD_ACCOUNT_AFTER_CREATE, ...payload,
-  }),
+  loadAccountAfterCreate: (payload) =>
+    store.dispatch({
+      intent: LOAD_ACCOUNT_AFTER_CREATE,
+      ...payload,
+    }),
 
-  setAccountLoadingState: isAccountLoading => store.dispatch({
-    intent: SET_ACCOUNT_LOADING_STATE, isAccountLoading,
-  }),
+  setAccountLoadingState: (isAccountLoading) =>
+    store.dispatch({
+      intent: SET_ACCOUNT_LOADING_STATE,
+      isAccountLoading,
+    }),
 
-  setJobLoadingState: isJobLoading => store.dispatch({
-    intent: SET_JOB_LOADING_STATE, isJobLoading,
-  }),
+  setJobLoadingState: (isJobLoading) =>
+    store.dispatch({
+      intent: SET_JOB_LOADING_STATE,
+      isJobLoading,
+    }),
 
-  loadItemAfterCreate: response => store.dispatch({
-    intent: LOAD_ITEM_AFTER_CREATE, response,
-  }),
+  loadItemAfterCreate: (response) =>
+    store.dispatch({
+      intent: LOAD_ITEM_AFTER_CREATE,
+      response,
+    }),
 
-  updateEmailQuoteDetail: ({ key, value }) => store.dispatch({
-    intent: UPDATE_EMAIL_QUOTE_DETAIL, key, value,
-  }),
+  updateEmailQuoteDetail: ({ key, value }) =>
+    store.dispatch({
+      intent: UPDATE_EMAIL_QUOTE_DETAIL,
+      key,
+      value,
+    }),
 
-  resetEmailQuoteDetail: () => store.dispatch({ intent: RESET_EMAIL_QUOTE_DETAIL }),
+  resetEmailQuoteDetail: () =>
+    store.dispatch({ intent: RESET_EMAIL_QUOTE_DETAIL }),
 
   resetOpenSendEmail: () => store.dispatch({ intent: RESET_OPEN_SEND_EMAIL }),
 
-  addEmailAttachments: files => store.dispatch({ intent: ADD_EMAIL_ATTACHMENTS, files }),
+  addEmailAttachments: (files) =>
+    store.dispatch({ intent: ADD_EMAIL_ATTACHMENTS, files }),
 
-  uploadEmailAttachment: (response, file) => store.dispatch({
-    intent: UPLOAD_EMAIL_ATTACHMENT, ...response, file,
-  }),
+  uploadEmailAttachment: (response, file) =>
+    store.dispatch({
+      intent: UPLOAD_EMAIL_ATTACHMENT,
+      ...response,
+      file,
+    }),
 
-  uploadEmailAttachmentFailed: (message, file) => store.dispatch({
-    intent: UPLOAD_EMAIL_ATTACHMENT_FAILED, message, file,
-  }),
+  uploadEmailAttachmentFailed: (message, file) =>
+    store.dispatch({
+      intent: UPLOAD_EMAIL_ATTACHMENT_FAILED,
+      message,
+      file,
+    }),
 
-  uploadEmailAttachmentUploadProgress: (uploadProgress, file) => store.dispatch({
-    intent: UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS, uploadProgress, file,
-  }),
+  uploadEmailAttachmentUploadProgress: (uploadProgress, file) =>
+    store.dispatch({
+      intent: UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
+      uploadProgress,
+      file,
+    }),
 
-  removeEmailAttachment: index => store.dispatch({ intent: REMOVE_EMAIL_ATTACHMENT, index }),
+  removeEmailAttachment: (index) =>
+    store.dispatch({ intent: REMOVE_EMAIL_ATTACHMENT, index }),
 
-  changeExportPdfTemplate: ({ value }) => store.dispatch({
-    intent: CHANGE_EXPORT_PDF_TEMPLATE, template: value,
-  }),
+  changeExportPdfTemplate: ({ value }) =>
+    store.dispatch({
+      intent: CHANGE_EXPORT_PDF_TEMPLATE,
+      template: value,
+    }),
 
-  calculateLineAmounts: (index, key) => store.dispatch({
-    intent: CALCULATE_LINE_AMOUNTS, key, index,
-  }),
+  calculateLineAmounts: (index, key) =>
+    store.dispatch({
+      intent: CALCULATE_LINE_AMOUNTS,
+      key,
+      index,
+    }),
 
-  loadItemSellingDetails: ({ index, itemSellingDetails }) => store.dispatch({
-    intent: LOAD_ITEM_SELLING_DETAILS,
-    index,
-    itemSellingDetails,
-  }),
+  loadItemSellingDetails: ({ index, itemSellingDetails }) =>
+    store.dispatch({
+      intent: LOAD_ITEM_SELLING_DETAILS,
+      index,
+      itemSellingDetails,
+    }),
 
-  cacheItemSellingDetails: ({ itemId, itemSellingDetails }) => store.dispatch({
-    intent: CACHE_ITEM_SELLING_DETAILS,
-    itemId,
-    itemSellingDetails,
-  }),
+  cacheItemSellingDetails: ({ itemId, itemSellingDetails }) =>
+    store.dispatch({
+      intent: CACHE_ITEM_SELLING_DETAILS,
+      itemId,
+      itemSellingDetails,
+    }),
 });
 
 export default createQuoteDetailDispatcher;

@@ -10,11 +10,7 @@ import createAtoSettingsDispatcher from './createAtoSettingsDispatcher';
 import createAtoSettingsIntegrator from './createAtoSettingsIntegrator';
 
 export default class AtoSettingsModule {
-  constructor({
-    integration,
-    context,
-    setAlert,
-  }) {
+  constructor({ integration, context, setAlert }) {
     this.store = new Store(atoSettingsReducer);
     this.dispatcher = createAtoSettingsDispatcher(this.store);
     this.integrator = createAtoSettingsIntegrator(this.store, integration);
@@ -107,7 +103,9 @@ export default class AtoSettingsModule {
           onEditAgentContactClick={this.updateAgentContact}
           onEditBusinessConnectionClick={this.dispatcher.openConfirmationModal}
           onEditBusinessConnectionConfirm={this.redirectToRegistration}
-          onEditBusinessConnectionCancel={this.dispatcher.closeConfirmationModal}
+          onEditBusinessConnectionCancel={
+            this.dispatcher.closeConfirmationModal
+          }
         />
       </Provider>
     );

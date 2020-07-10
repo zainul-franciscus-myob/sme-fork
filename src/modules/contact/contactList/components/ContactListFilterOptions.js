@@ -71,7 +71,7 @@ class ContactListFilterOptions extends React.Component {
   };
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   filterOptions: getFilterOptions(state),
   typeFilterOptions: getTypeFilterOptions(state),
 });

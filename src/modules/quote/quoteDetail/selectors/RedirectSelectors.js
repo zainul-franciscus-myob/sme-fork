@@ -1,5 +1,8 @@
 import {
-  getBusinessId, getLayout, getQuoteId, getRegion,
+  getBusinessId,
+  getLayout,
+  getQuoteId,
+  getRegion,
 } from './QuoteDetailSelectors';
 
 const getBaseUrl = (state) => {

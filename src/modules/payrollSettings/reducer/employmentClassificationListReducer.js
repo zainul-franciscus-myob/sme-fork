@@ -1,4 +1,7 @@
-const updateEmploymentClassificationListState = (state, employmentClassificationListState) => ({
+const updateEmploymentClassificationListState = (
+  state,
+  employmentClassificationListState
+) => ({
   ...state,
   employmentClassificationList: {
     ...state.employmentClassificationList,
@@ -6,39 +9,44 @@ const updateEmploymentClassificationListState = (state, employmentClassification
   },
 });
 
-export const loadEmploymentClassificationList = (state, action) => (
+export const loadEmploymentClassificationList = (state, action) =>
   updateEmploymentClassificationListState(state, {
     entries: action.entries,
     sortOrder: action.sortOrder,
     orderBy: action.orderBy,
-  }));
+  });
 
-export const sortAndFilterEmploymentClassificationList = (state, action) => (
+export const sortAndFilterEmploymentClassificationList = (state, action) =>
   updateEmploymentClassificationListState(state, {
     entries: action.entries,
-  }));
+  });
 
-export const setEmploymentClassificationListFilterOption = (state, action) => (
+export const setEmploymentClassificationListFilterOption = (state, action) =>
   updateEmploymentClassificationListState(state, {
     filterOptions: {
       ...state.employmentClassificationList.filterOptions,
       [action.key]: action.value,
     },
-  }));
+  });
 
-export const setEmploymentClassificationListSortOrder = (state, action) => (
+export const setEmploymentClassificationListSortOrder = (state, action) =>
   updateEmploymentClassificationListState(state, {
     orderBy: action.orderBy,
     sortOrder: action.sortOrder,
-  }));
+  });
 
-export const setEmploymentClassificationListLoadingState = (state, { loadingState }) => (
+export const setEmploymentClassificationListLoadingState = (
+  state,
+  { loadingState }
+) =>
   updateEmploymentClassificationListState(state, {
     loadingState,
-  }));
+  });
 
-export const setEmploymentClassificationListTableLoadingState = (state, action) => (
-  updateEmploymentClassificationListState(
-    state,
-    { isTableLoading: action.isTableLoading },
-  ));
+export const setEmploymentClassificationListTableLoadingState = (
+  state,
+  action
+) =>
+  updateEmploymentClassificationListState(state, {
+    isTableLoading: action.isTableLoading,
+  });

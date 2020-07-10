@@ -1,10 +1,19 @@
 import {
-  Button, Columns, DropZone, Field, FileChip, Icons, Spinner,
+  Button,
+  Columns,
+  DropZone,
+  Field,
+  FileChip,
+  Icons,
+  Spinner,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAttachments, getIsAttachmentsLoading } from '../bankingSelectors/attachmentsSelectors';
+import {
+  getAttachments,
+  getIsAttachmentsLoading,
+} from '../bankingSelectors/attachmentsSelectors';
 import styles from './OpenEntrySecondaryContent.module.css';
 
 const wrapAttachmentHandler = (handler, index) => () => handler(index);
@@ -23,8 +32,7 @@ const header = (
         &nbsp;or&nbsp;
         <strong>PNG</strong>
         &nbsp;and make sure it&apos;s&nbsp;
-        <strong>below 10MB</strong>
-        .
+        <strong>below 10MB</strong>.
       </p>
     </div>
   </div>
@@ -44,40 +52,49 @@ const OpenEntrySecondaryContent = ({
   onRemoveAttachment,
   onLinkFromInTrayButtonClick,
 }) => {
-  const dropzone = isAttachmentsLoading ? spinner : (
-    <DropZone
-      onDrop={onAddAttachments}
-      onFileSelected={onAddAttachments}
-    >
-      <Button type="secondary" className={styles.linkButton} onClick={onLinkFromInTrayButtonClick}>Link from In tray</Button>
+  const dropzone = isAttachmentsLoading ? (
+    spinner
+  ) : (
+    <DropZone onDrop={onAddAttachments} onFileSelected={onAddAttachments}>
+      <Button
+        type="secondary"
+        className={styles.linkButton}
+        onClick={onLinkFromInTrayButtonClick}
+      >
+        Link from In tray
+      </Button>
       <div className={styles.columns}>
         <Columns type="two">
-          {
-            attachments.map(({
-              id, canOperate, isInProgress, ...otherProps
-            }, index) => (
-              <div key={id || index} className={isInProgress ? styles.inProgress : ''}>
+          {attachments.map(
+            ({ id, canOperate, isInProgress, ...otherProps }, index) => (
+              <div
+                key={id || index}
+                className={isInProgress ? styles.inProgress : ''}
+              >
                 <FileChip
                   {...otherProps}
                   onRemove={
-                    canOperate ? wrapAttachmentHandler(onRemoveAttachment, index) : undefined
+                    canOperate
+                      ? wrapAttachmentHandler(onRemoveAttachment, index)
+                      : undefined
                   }
                 >
-                  {
-                    canOperate && (
-                      <Button
-                        type="secondary"
-                        onClick={wrapAttachmentHandler(onDownloadAttachment, index)}
-                        icon={<Icons.Download />}
-                        aria-label="Download file"
-                        size="xs"
-                      />
-                    )
-                  }
+                  {canOperate && (
+                    <Button
+                      type="secondary"
+                      onClick={wrapAttachmentHandler(
+                        onDownloadAttachment,
+                        index
+                      )}
+                      icon={<Icons.Download />}
+                      aria-label="Download file"
+                      size="xs"
+                    />
+                  )}
                 </FileChip>
               </div>
-            ))
-          }
+            )
+          )}
         </Columns>
       </div>
     </DropZone>
@@ -86,14 +103,14 @@ const OpenEntrySecondaryContent = ({
   return (
     <div className={styles.secondary}>
       <div className={styles.dropzone}>
-        { header }
-        { dropzone }
+        {header}
+        {dropzone}
       </div>
     </div>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   attachments: getAttachments(state),
   isAttachmentsLoading: getIsAttachmentsLoading(state),
 });

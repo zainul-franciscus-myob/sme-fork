@@ -24,16 +24,27 @@ const AutoComplete = ({
     _setIsEditing(status);
   };
 
-  const displayColumns = metaData.filter(column => column.showData);
+  const displayColumns = metaData.filter((column) => column.showData);
   const comboboxItems = buildItems({
-    items, selectedItem, isEditing, displayColumns, allowClearSelection, clearSelectionText,
+    items,
+    selectedItem,
+    isEditing,
+    displayColumns,
+    allowClearSelection,
+    clearSelectionText,
   });
-  const selected = buildSelectedItem({ items: comboboxItems, selectedItem, identifier });
-
+  const selected = buildSelectedItem({
+    items: comboboxItems,
+    selectedItem,
+    identifier,
+  });
 
   const onInputChange = (e) => {
     setIsEditing(true);
-    debounce(onLoad, delay)({
+    debounce(
+      onLoad,
+      delay
+    )({
       keywords: e.target.value,
       onSuccess: (data) => {
         if (isEditingRef.current) {
@@ -50,7 +61,10 @@ const AutoComplete = ({
 
   const wrappedOnChange = (item) => {
     clearState();
-    if (allowClearSelection && item[displayColumns[0].columnName] === clearSelectionText) {
+    if (
+      allowClearSelection &&
+      item[displayColumns[0].columnName] === clearSelectionText
+    ) {
       onChange({ [identifier]: '' });
     } else {
       onChange(item);

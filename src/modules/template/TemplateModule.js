@@ -45,23 +45,24 @@ class TemplateModule {
     this.dispatcher.updateTemplateOption({ key, value });
   };
 
-  render = () => this.setRootView(
-    <Provider store={this.store}>
-      <TemplateView
-        onUpdateTemplateOptions={this.updateTemplateOption}
-        onPreviewTypeChange={this.onPreviewTypeChange}
-        onFileSelected={this.selectFile}
-        onFileRemoved={this.removeFile}
-        onSave={this.saveTemplate}
-        onDismissAlert={this.dismissAlert}
-        onCancel={this.onCancel}
-        onCloseModal={this.closeModal}
-        onConfirmSave={this.handleModalSave}
-        onConfirmUnsave={this.handleModalUnsave}
-        onEditBusinessDetails={this.redirectToBusinessDetails}
-      />
-    </Provider>,
-  );
+  render = () =>
+    this.setRootView(
+      <Provider store={this.store}>
+        <TemplateView
+          onUpdateTemplateOptions={this.updateTemplateOption}
+          onPreviewTypeChange={this.onPreviewTypeChange}
+          onFileSelected={this.selectFile}
+          onFileRemoved={this.removeFile}
+          onSave={this.saveTemplate}
+          onDismissAlert={this.dismissAlert}
+          onCancel={this.onCancel}
+          onCloseModal={this.closeModal}
+          onConfirmSave={this.handleModalSave}
+          onConfirmUnsave={this.handleModalUnsave}
+          onEditBusinessDetails={this.redirectToBusinessDetails}
+        />
+      </Provider>
+    );
 
   onPreviewTypeChange = ({ key, value }) => {
     this.dispatcher.updatePreviewOption({ key, value });
@@ -137,7 +138,7 @@ class TemplateModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   selectFile = (file) => {
     const state = this.store.getState();

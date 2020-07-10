@@ -1,4 +1,7 @@
-import { getLoadAccountAfterCreateUrlParams, getSendEmailPayload } from '../IntegratorSelectors';
+import {
+  getLoadAccountAfterCreateUrlParams,
+  getSendEmailPayload,
+} from '../IntegratorSelectors';
 import state from './fixtures/state';
 
 describe('IntegratorSelectors', () => {
@@ -7,7 +10,8 @@ describe('IntegratorSelectors', () => {
       const actual = getLoadAccountAfterCreateUrlParams(state, 'accountId');
 
       expect(actual).toEqual({
-        accountId: 'accountId', businessId: 'businessId',
+        accountId: 'accountId',
+        businessId: 'businessId',
       });
     });
   });
@@ -22,12 +26,14 @@ describe('IntegratorSelectors', () => {
         subject: 'Thank you!',
         toEmail: ['geoff.spires@myob.com', 'tom.xu@myob.com'],
         templateName: 'INV Item print',
-        attachments: [{
-          filename: 'emailAttachment',
-          mimeType: 'image/svg+xml',
-          keyName: 'some/key',
-          uploadPassword: 'some/password',
-        }],
+        attachments: [
+          {
+            filename: 'emailAttachment',
+            mimeType: 'image/svg+xml',
+            keyName: 'some/key',
+            uploadPassword: 'some/password',
+          },
+        ],
       };
 
       const actual = getSendEmailPayload(state);

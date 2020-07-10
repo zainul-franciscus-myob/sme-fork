@@ -37,9 +37,7 @@ const messageTypes = [
 ];
 
 export default class EmployeeListModule {
-  constructor({
-    integration, setRootView, popMessages,
-  }) {
+  constructor({ integration, setRootView, popMessages }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.popMessages = popMessages;
@@ -53,7 +51,7 @@ export default class EmployeeListModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/employee/new`;
-  }
+  };
 
   updateFilterBarOptions = ({ key, value }) => {
     this.store.dispatch({ intent: UPDATE_FILTER_BAR_OPTIONS, key, value });
@@ -63,13 +61,14 @@ export default class EmployeeListModule {
     } else {
       this.sortAndFilterEmployeeList();
     }
-  }
+  };
 
-  setSortOrder = (orderBy, sortOrder) => this.store.dispatch({
-    intent: SET_SORT_ORDER,
-    orderBy,
-    sortOrder,
-  });
+  setSortOrder = (orderBy, sortOrder) =>
+    this.store.dispatch({
+      intent: SET_SORT_ORDER,
+      orderBy,
+      sortOrder,
+    });
 
   sortEmployeeList = (orderBy) => {
     const state = this.store.getState();
@@ -103,9 +102,13 @@ export default class EmployeeListModule {
     };
 
     this.integration.read({
-      intent, urlParams, onSuccess, onFailure, params,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+      params,
     });
-  }
+  };
 
   setAlert = ({ message, type }) => {
     const intent = SET_ALERT;
@@ -116,7 +119,7 @@ export default class EmployeeListModule {
         type,
       },
     });
-  }
+  };
 
   sortAndFilterEmployeeList = () => {
     const state = this.store.getState();
@@ -140,7 +143,8 @@ export default class EmployeeListModule {
     const onFailure = ({ message }) => {
       this.setTableLoadingState(false);
       this.setAlert({
-        message, type: 'danger',
+        message,
+        type: 'danger',
       });
     };
 
@@ -188,7 +192,7 @@ export default class EmployeeListModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   startLoadingMore = () => {
     this.store.dispatch({
@@ -226,13 +230,9 @@ export default class EmployeeListModule {
       />
     );
 
-    const wrappedView = (
-      <Provider store={this.store}>
-        {View}
-      </Provider>
-    );
+    const wrappedView = <Provider store={this.store}>{View}</Provider>;
     this.setRootView(wrappedView);
-  }
+  };
 
   dismissAlert = () => {
     const intent = SET_ALERT;
@@ -240,11 +240,11 @@ export default class EmployeeListModule {
       intent,
       alert: undefined,
     });
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   setTableLoadingState = (isTableLoading) => {
     const intent = SET_TABLE_LOADING_STATE;
@@ -252,7 +252,7 @@ export default class EmployeeListModule {
       intent,
       isTableLoading,
     });
-  }
+  };
 
   setLoadingState = (loadingState) => {
     const intent = SET_LOADING_STATE;
@@ -260,7 +260,7 @@ export default class EmployeeListModule {
       intent,
       loadingState,
     });
-  }
+  };
 
   setInitialState = (context) => {
     const intent = SET_INITIAL_STATE;
@@ -269,7 +269,7 @@ export default class EmployeeListModule {
       intent,
       context,
     });
-  }
+  };
 
   run(context) {
     this.setInitialState(context);

@@ -4,7 +4,13 @@ import TableSummary from './TableSummary';
 import getRegionToDialectText from '../../../../../dialect/getRegionToDialectText';
 
 const InvoiceServiceItemSummary = ({
-  region, description, subtotalAmount, taxAmount, totalAmount, totalPaid, balanceDue,
+  region,
+  description,
+  subtotalAmount,
+  taxAmount,
+  totalAmount,
+  totalPaid,
+  balanceDue,
 }) => (
   <TableSummary
     summary={[

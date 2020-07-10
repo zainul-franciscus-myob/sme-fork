@@ -35,7 +35,7 @@ const TemplateDetailsOptions = ({
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   templateName: getTemplateName(state),
   isDefault: getIsDefault(state),
 });

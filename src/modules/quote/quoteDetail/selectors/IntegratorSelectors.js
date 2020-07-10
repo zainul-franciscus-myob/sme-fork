@@ -67,10 +67,10 @@ export const getCreateOrUpdateQuotePayload = (state) => {
     return rest;
   });
 
-  return ({
+  return {
     ...quote,
     lines,
-  });
+  };
 };
 
 export const getDeleteQuoteUrlParams = (state) => {
@@ -102,7 +102,7 @@ export const getLoadAccountAfterCreateUrlParams = (state, accountId) => {
 export const getLoadItemAfterCreateUrlParams = (state, itemId) => {
   const businessId = getBusinessId(state);
 
-  return ({ businessId, itemId });
+  return { businessId, itemId };
 };
 
 export const getSendEmailUrlParams = (state) => {
@@ -123,7 +123,7 @@ export const getSendEmailPayload = (state) => {
   return {
     ...restOfEmailQuote,
     attachments: attachments
-      .filter(attachment => attachment.state === 'finished')
+      .filter((attachment) => attachment.state === 'finished')
       .map(({ file, keyName, uploadPassword }) => ({
         filename: file.name,
         mimeType: file.type,
@@ -139,11 +139,11 @@ export const getUploadEmailAttachmentUrlParams = (state) => {
   return { businessId };
 };
 
-export const getExportPdfQuoteUrlParams = state => ({
+export const getExportPdfQuoteUrlParams = (state) => ({
   businessId: getBusinessId(state),
   quoteId: getQuoteId(state),
 });
 
-export const getExportPdfQuoteParams = state => ({
+export const getExportPdfQuoteParams = (state) => ({
   formName: getExportPdfTemplate(state),
 });

@@ -10,7 +10,10 @@ import {
   UPDATE_BILL_LINE,
 } from '../BillIntents';
 import {
-  mockCreateObjectUrl, setUp, setUpNewBillWithPrefilled, setUpWithRun,
+  mockCreateObjectUrl,
+  setUp,
+  setUpNewBillWithPrefilled,
+  setUpWithRun,
 } from './BillModule.test';
 import loadItemAndServiceBillWithOneLineResponse from './fixtures/loadItemAndServiceBillWithOneLine';
 
@@ -23,14 +26,12 @@ describe('BillModule_TableBehaviour', () => {
 
       module.updateBillLine({ index: 0, key: 'amount', value: '10' });
 
-      expect(store.getActions()).toContainEqual(
-        {
-          intent: UPDATE_BILL_LINE,
-          index: 0,
-          key: 'amount',
-          value: '10',
-        },
-      );
+      expect(store.getActions()).toContainEqual({
+        intent: UPDATE_BILL_LINE,
+        index: 0,
+        key: 'amount',
+        value: '10',
+      });
     });
 
     [
@@ -165,12 +166,14 @@ describe('BillModule_TableBehaviour', () => {
       const { module, store, integration } = setUp();
 
       // set up bill to have one existing line
-      integration.overrideMapping(
-        LOAD_BILL,
-        ({ onSuccess }) => onSuccess(loadItemAndServiceBillWithOneLineResponse),
+      integration.overrideMapping(LOAD_BILL, ({ onSuccess }) =>
+        onSuccess(loadItemAndServiceBillWithOneLineResponse)
       );
       module.run({
-        billId: '🍉', businessId: '🐷', region: 'au', isBillJobColumnEnabled: true,
+        billId: '🍉',
+        businessId: '🐷',
+        region: 'au',
+        isBillJobColumnEnabled: true,
       });
       store.resetActions();
       integration.resetRequests();

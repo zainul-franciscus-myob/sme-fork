@@ -1,5 +1,8 @@
 import {
-  CLOSE_INTRO_MODAL, OPEN_INTRO_MODAL, SET_ACTIVE_STATE, SET_LOADING_STATE,
+  CLOSE_INTRO_MODAL,
+  OPEN_INTRO_MODAL,
+  SET_ACTIVE_STATE,
+  SET_LOADING_STATE,
 } from './TasksIntents';
 import { SET_INITIAL_STATE } from '../../SystemIntents';
 import LoadingState from '../../components/PageView/LoadingState';

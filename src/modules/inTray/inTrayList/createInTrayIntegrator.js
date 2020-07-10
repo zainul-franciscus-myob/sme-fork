@@ -150,7 +150,6 @@ const createInTrayIntegrator = (store, integration) => ({
       onFailure,
     });
   },
-
 });
 
 export default createInTrayIntegrator;

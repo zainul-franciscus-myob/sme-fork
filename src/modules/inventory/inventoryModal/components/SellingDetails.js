@@ -1,5 +1,10 @@
 import {
-  Checkbox, CheckboxGroup, FieldGroup, Icons, Input, Tooltip,
+  Checkbox,
+  CheckboxGroup,
+  FieldGroup,
+  Icons,
+  Input,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -25,28 +30,30 @@ import handleCheckboxChange from '../../../../components/handlers/handleCheckbox
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
-const SellingDetails = (
-  {
-    isSelling,
-    price,
-    isTaxInclusive,
-    unitOfMeasure,
-    accountId,
-    taxCodeId,
-    accountOptions,
-    taxCodeOptions,
-    taxCodeLabel,
-    taxInclusiveLabel,
-    taxExclusiveLabel,
-    onUpdateSellingOption,
-    onUpdateIsSelling,
-  },
-
-) => (
+const SellingDetails = ({
+  isSelling,
+  price,
+  isTaxInclusive,
+  unitOfMeasure,
+  accountId,
+  taxCodeId,
+  accountOptions,
+  taxCodeOptions,
+  taxCodeLabel,
+  taxInclusiveLabel,
+  taxExclusiveLabel,
+  onUpdateSellingOption,
+  onUpdateIsSelling,
+}) => (
   <FieldGroup label="Selling details">
     <CheckboxGroup
       renderCheckbox={() => (
-        <Checkbox label="I sell this item" checked={isSelling} name="isSelling" onChange={handleCheckboxChange(onUpdateIsSelling)} />
+        <Checkbox
+          label="I sell this item"
+          checked={isSelling}
+          name="isSelling"
+          onChange={handleCheckboxChange(onUpdateIsSelling)}
+        />
       )}
     />
     <AmountInput
@@ -75,11 +82,11 @@ const SellingDetails = (
       label="Unit of measure"
       name="unitOfMeasure"
       value={unitOfMeasure}
-      labelAccessory={(
+      labelAccessory={
         <Tooltip triggerContent={<Icons.Info />}>
           Eg. boxes, cans, hours, kg (max 5 characters)
         </Tooltip>
-      )}
+      }
       onChange={handleInputChange(onUpdateSellingOption)}
       maxLength={5}
       width="xs"
@@ -104,7 +111,7 @@ const SellingDetails = (
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isSelling: getIsSelling(state),
   price: getSellingPrice(state),
   isTaxInclusive: getSellingIsTaxInclusive(state),
@@ -115,7 +122,6 @@ const mapStateToProps = state => ({
   accountOptions: getSellingAccountOptions(state),
   taxInclusiveLabel: getTaxInclusiveLabel(state),
   taxExclusiveLabel: getTaxExclusiveLabel(state),
-}
-);
+});
 
 export default connect(mapStateToProps)(SellingDetails);

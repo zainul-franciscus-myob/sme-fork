@@ -22,11 +22,8 @@ import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 import userDetailReducer from './userDetailReducer';
 
-
 export default class UserDetailModule {
-  constructor({
-    integration, setRootView, pushMessage, usersInvited,
-  }) {
+  constructor({ integration, setRootView, pushMessage, usersInvited }) {
     this.store = new Store(userDetailReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -64,7 +61,7 @@ export default class UserDetailModule {
     } else {
       this.integrator.updateUser({ onSuccess, onFailure });
     }
-  }
+  };
 
   render = () => {
     const userDetailView = (
@@ -82,9 +79,7 @@ export default class UserDetailModule {
     );
 
     const wrappedView = (
-      <Provider store={this.store}>
-        {userDetailView}
-      </Provider>
+      <Provider store={this.store}>{userDetailView}</Provider>
     );
     this.setRootView(wrappedView);
   };
@@ -178,7 +173,7 @@ export default class UserDetailModule {
         this.createOrUpdateUser();
         break;
     }
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,
@@ -199,5 +194,5 @@ export default class UserDetailModule {
     } else {
       this.redirectToUrl(url);
     }
-  }
+  };
 }

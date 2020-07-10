@@ -85,7 +85,12 @@ const industries = [
   {
     id: 'Other services',
     title: 'Other services',
-    examples: ['hairdressing', 'beauty', 'tattooing services', 'religious services'],
+    examples: [
+      'hairdressing',
+      'beauty',
+      'tattooing services',
+      'religious services',
+    ],
   },
 ];
 

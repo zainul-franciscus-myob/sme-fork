@@ -1,11 +1,6 @@
-import {
-  addDays, addMonths, subDays,
-} from 'date-fns';
+import { addDays, addMonths, subDays } from 'date-fns';
 
-import {
-  SET_PAY_PERIOD_DETAILS,
-  START_NEW_PAY_RUN,
-} from '../PayRunIntents';
+import { SET_PAY_PERIOD_DETAILS, START_NEW_PAY_RUN } from '../PayRunIntents';
 import formatIsoDate from '../../../../../common/valueFormatters/formatDate/formatIsoDate';
 
 export const getStartPayRunDefaultState = () => ({
@@ -18,37 +13,29 @@ export const getStartPayRunDefaultState = () => ({
   },
 });
 
-const calculateWeeklyEndDate = startDate => addDays(startDate, 6);
+const calculateWeeklyEndDate = (startDate) => addDays(startDate, 6);
 
-const calculateFortnightlyEndDate = startDate => addDays(startDate, 13);
+const calculateFortnightlyEndDate = (startDate) => addDays(startDate, 13);
 
 const calculateMonthlyEndDate = (startDate) => {
   const sameDateNextMonth = addMonths(startDate, 1);
   return subDays(sameDateNextMonth, 1);
 };
 
-const calculateFourWeeklyEndDate = startDate => addDays(startDate, 27);
+const calculateFourWeeklyEndDate = (startDate) => addDays(startDate, 27);
 
 export const calculateEndDate = (payCycle, startDateString) => {
   const startDate = new Date(startDateString);
 
   switch (payCycle) {
     case 'Weekly':
-      return formatIsoDate(
-        calculateWeeklyEndDate(startDate),
-      );
+      return formatIsoDate(calculateWeeklyEndDate(startDate));
     case 'Fortnightly':
-      return formatIsoDate(
-        calculateFortnightlyEndDate(startDate),
-      );
+      return formatIsoDate(calculateFortnightlyEndDate(startDate));
     case 'Monthly':
-      return formatIsoDate(
-        calculateMonthlyEndDate(startDate),
-      );
+      return formatIsoDate(calculateMonthlyEndDate(startDate));
     case 'FourWeekly':
-      return formatIsoDate(
-        calculateFourWeeklyEndDate(startDate),
-      );
+      return formatIsoDate(calculateFourWeeklyEndDate(startDate));
     default:
       throw new Error(`Invalid payCycle '${payCycle}'`);
   }
@@ -70,7 +57,10 @@ const startNewPayRun = (state, { newPayRunDetails }) => {
 const setPayPeriodDetails = (state, { key, value }) => {
   let startPayRunPartial;
   if (key === 'payPeriodStart') {
-    const payPeriodEnd = calculateEndDate(state.currentEditingPayRun.paymentFrequency, value);
+    const payPeriodEnd = calculateEndDate(
+      state.currentEditingPayRun.paymentFrequency,
+      value
+    );
     startPayRunPartial = {
       [key]: value,
       payPeriodEnd,

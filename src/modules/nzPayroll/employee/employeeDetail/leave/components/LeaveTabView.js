@@ -10,15 +10,15 @@ import React from 'react';
 import { getLeaveDetails } from '../LeaveSelectors';
 import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
 
-const LeaveTabView = ({
-  leave, onLeaveChange,
-}) => {
-  const onInputChange = event => onLeaveChange({
-    key: event.target.name,
-    value: event.target.value,
-  });
+const LeaveTabView = ({ leave, onLeaveChange }) => {
+  const onInputChange = (event) =>
+    onLeaveChange({
+      key: event.target.name,
+      value: event.target.value,
+    });
 
-  const onDateChange = (fieldName) => ({ value }) => onLeaveChange({ key: fieldName, value });
+  const onDateChange = (fieldName) => ({ value }) =>
+    onLeaveChange({ key: fieldName, value });
 
   return (
     <FormHorizontal layout="primary">
@@ -83,7 +83,10 @@ const LeaveTabView = ({
       </FieldGroup>
 
       <FieldGroup label="Alternative holidays">
-        <ReadOnly name="alternativeCurrentBalance" label="Current balance (days)">
+        <ReadOnly
+          name="alternativeCurrentBalance"
+          label="Current balance (days)"
+        >
           {leave.alternativeCurrentBalance}
         </ReadOnly>
         <AmountInput

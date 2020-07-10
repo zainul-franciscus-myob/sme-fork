@@ -223,7 +223,6 @@ describe('BillPaymentSelector', () => {
       expect(actual).toEqual(expected);
     });
 
-
     it('Should return create payload of entries with paidAmount applied when creating', () => {
       const state = {
         billPaymentId: 'new',
@@ -348,7 +347,7 @@ describe('BillPaymentSelector', () => {
         const actual = getIsBeforeStartOfFinancialYear(state);
 
         expect(actual).toEqual(expected);
-      },
+      }
     );
   });
 });

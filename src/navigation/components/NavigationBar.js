@@ -58,69 +58,70 @@ const getPrimary = ({
   shouldDisplayInTray,
   shouldDisplayReportsMenu,
   isJobEnabled,
-}) => [
-  shouldDisplayHome && <Home key="Home" onMenuLinkClick={onMenuLinkClick} />,
-  shouldDisplaySalesMenu && (
-    <SalesMenu
-      key="SalesMenu"
-      onMenuSelect={onMenuSelect}
-      onMenuLinkClick={onMenuLinkClick}
-    />
-  ),
-  shouldDisplayPurchasesMenu && (
-    <PurchasesMenu
-      key="PurchasesMenu"
-      onMenuSelect={onMenuSelect}
-      onMenuLinkClick={onMenuLinkClick}
-    />
-  ),
-  shouldDisplayBankingMenu && (
-    <BankingMenu
-      key="BankingMenu"
-      onMenuSelect={onMenuSelect}
-      onMenuLinkClick={onMenuLinkClick}
-    />
-  ),
-  shouldDisplayAccountingMenu && (
-    <AccountingMenu
-      key="AccountingMenu"
-      onMenuSelect={onMenuSelect}
-      onMenuLinkClick={onMenuLinkClick}
-      isJobEnabled={isJobEnabled}
-    />
-  ),
-  shouldDisplayPayrollMenu && (
-    <PayrollMenu
-      key="PayrollMenu"
-      onMenuSelect={onMenuSelect}
-      onMenuLinkClick={onMenuLinkClick}
-    />
-  ),
-  shouldDisplayPayrollNzMenu && (
-    <PayrollNzMenu
-      key="PayrollNzMenu"
-      onMenuSelect={onMenuSelect}
-      onMenuLinkClick={onMenuLinkClick}
-    />
-  ),
-  shouldDisplayContactMenu && (
-    <ContactMenu
-      key="ContactMenu"
-      onMenuSelect={onMenuSelect}
-      onMenuLinkClick={onMenuLinkClick}
-    />
-  ),
-  shouldDisplayReportsMenu && (
-    <ReportsMenu
-      key="Reports"
-      onMenuSelect={onMenuSelect}
-      onMenuLinkClick={onMenuLinkClick}
-    />
-  ),
-  shouldDisplayInTray && (
-    <InTray key="InTray" onMenuLinkClick={onMenuLinkClick} />
-  ),
-].filter(Boolean);
+}) =>
+  [
+    shouldDisplayHome && <Home key="Home" onMenuLinkClick={onMenuLinkClick} />,
+    shouldDisplaySalesMenu && (
+      <SalesMenu
+        key="SalesMenu"
+        onMenuSelect={onMenuSelect}
+        onMenuLinkClick={onMenuLinkClick}
+      />
+    ),
+    shouldDisplayPurchasesMenu && (
+      <PurchasesMenu
+        key="PurchasesMenu"
+        onMenuSelect={onMenuSelect}
+        onMenuLinkClick={onMenuLinkClick}
+      />
+    ),
+    shouldDisplayBankingMenu && (
+      <BankingMenu
+        key="BankingMenu"
+        onMenuSelect={onMenuSelect}
+        onMenuLinkClick={onMenuLinkClick}
+      />
+    ),
+    shouldDisplayAccountingMenu && (
+      <AccountingMenu
+        key="AccountingMenu"
+        onMenuSelect={onMenuSelect}
+        onMenuLinkClick={onMenuLinkClick}
+        isJobEnabled={isJobEnabled}
+      />
+    ),
+    shouldDisplayPayrollMenu && (
+      <PayrollMenu
+        key="PayrollMenu"
+        onMenuSelect={onMenuSelect}
+        onMenuLinkClick={onMenuLinkClick}
+      />
+    ),
+    shouldDisplayPayrollNzMenu && (
+      <PayrollNzMenu
+        key="PayrollNzMenu"
+        onMenuSelect={onMenuSelect}
+        onMenuLinkClick={onMenuLinkClick}
+      />
+    ),
+    shouldDisplayContactMenu && (
+      <ContactMenu
+        key="ContactMenu"
+        onMenuSelect={onMenuSelect}
+        onMenuLinkClick={onMenuLinkClick}
+      />
+    ),
+    shouldDisplayReportsMenu && (
+      <ReportsMenu
+        key="Reports"
+        onMenuSelect={onMenuSelect}
+        onMenuLinkClick={onMenuLinkClick}
+      />
+    ),
+    shouldDisplayInTray && (
+      <InTray key="InTray" onMenuLinkClick={onMenuLinkClick} />
+    ),
+  ].filter(Boolean);
 
 const getSecondary = ({
   shouldDisplayBusinessMenu,
@@ -140,37 +141,51 @@ const getSecondary = ({
   onCreateBusinessClick,
   hasTasks,
   businessName,
-}) => [
-  shouldDisplayAddMenu && (
-    <AddMenu
-      className={styles.add}
-      key="AddMenu"
-      onMenuSelect={onMenuSelect}
-      onMenuLinkClick={onMenuLinkClick}
-    />
-  ),
-  shouldDisplayHelpMenu && (
-    <Help className={styles.help} key="Help" onMenuLinkClick={onHelpLinkClick} />
-  ),
-  shouldDisplayTasksMenu && (
-    <Tasks className={styles.tasks} key="Tasks" onMenuLinkClick={onTasksLinkClick} showNotificationIcon={hasTasks} />
-  ),
-  shouldDisplayBusinessMenu && (
-    <BusinessMenu
-      key="BusinessMenu"
-      businessName={businessName}
-      onMenuSelect={onMenuSelect}
-      onMenuLinkClick={onMenuLinkClick}
-      onSubscribeNowClick={shouldDisplaySubscriptionNow && onSubscribeNowClick}
-      onLogoutLinkClick={onLogoutLinkClick}
-      onChangePlanClick={shouldDisplayChangePlan && onChangePlanClick}
-      onCreateBusinessClick={shouldDisplayCreateBusiness && onCreateBusinessClick}
-    />
-  ),
-  !shouldDisplayBusinessMenu && (
-    <Logout key="Logout" onMenuLinkClick={onLogoutLinkClick} />
-  ),
-].filter(Boolean);
+}) =>
+  [
+    shouldDisplayAddMenu && (
+      <AddMenu
+        className={styles.add}
+        key="AddMenu"
+        onMenuSelect={onMenuSelect}
+        onMenuLinkClick={onMenuLinkClick}
+      />
+    ),
+    shouldDisplayHelpMenu && (
+      <Help
+        className={styles.help}
+        key="Help"
+        onMenuLinkClick={onHelpLinkClick}
+      />
+    ),
+    shouldDisplayTasksMenu && (
+      <Tasks
+        className={styles.tasks}
+        key="Tasks"
+        onMenuLinkClick={onTasksLinkClick}
+        showNotificationIcon={hasTasks}
+      />
+    ),
+    shouldDisplayBusinessMenu && (
+      <BusinessMenu
+        key="BusinessMenu"
+        businessName={businessName}
+        onMenuSelect={onMenuSelect}
+        onMenuLinkClick={onMenuLinkClick}
+        onSubscribeNowClick={
+          shouldDisplaySubscriptionNow && onSubscribeNowClick
+        }
+        onLogoutLinkClick={onLogoutLinkClick}
+        onChangePlanClick={shouldDisplayChangePlan && onChangePlanClick}
+        onCreateBusinessClick={
+          shouldDisplayCreateBusiness && onCreateBusinessClick
+        }
+      />
+    ),
+    !shouldDisplayBusinessMenu && (
+      <Logout key="Logout" onMenuLinkClick={onLogoutLinkClick} />
+    ),
+  ].filter(Boolean);
 
 const NavigationBar = ({
   onMenuSelect,
@@ -246,10 +261,7 @@ const NavigationBar = ({
     businessName,
   });
   const brand = (
-    <Navigation.Brand
-      url={menuLogoUrl}
-      width="7.3rem"
-    >
+    <Navigation.Brand url={menuLogoUrl} width="7.3rem">
       <MYOBLogo />
     </Navigation.Brand>
   );
@@ -264,18 +276,17 @@ const NavigationBar = ({
     />
   );
 
-  const liveChat = (
-    shouldDisplayLiveChat && businessRole === 'Business owner'
-  ) && (
-    <LiveChat
-      businessId={businessId}
-      businessName={businessName}
-      businessRole={businessRole}
-      email={email}
-      region={region}
-      serialNumber={serialNumber}
-    />
-  );
+  const liveChat = shouldDisplayLiveChat &&
+    businessRole === 'Business owner' && (
+      <LiveChat
+        businessId={businessId}
+        businessName={businessName}
+        businessRole={businessRole}
+        email={email}
+        region={region}
+        serialNumber={serialNumber}
+      />
+    );
 
   return (
     <div className={styles.navigation}>
@@ -286,7 +297,7 @@ const NavigationBar = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   region: getRegion(state),
   shouldDisplayHome: getShowUrls(state),
   shouldDisplayBusinessMenu: getShouldDisplayBusinessMenu(state),

@@ -1,9 +1,7 @@
 import BusinessListModule from './businessList/BusinessListModule';
 import RouteName from '../../router/RouteName';
 
-const getBusinessListRoutes = ({
-  setRootView, integration,
-}) => {
+const getBusinessListRoutes = ({ setRootView, integration }) => {
   const routes = [
     {
       name: RouteName.BUSINESS_LIST,

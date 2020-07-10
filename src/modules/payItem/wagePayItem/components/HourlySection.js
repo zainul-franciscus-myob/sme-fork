@@ -23,45 +23,45 @@ const HourlySection = ({
       onChange={handleSelectChange(onDetailsChange)}
       disabled={wage.isSystem}
     >
-      {
-        payRateList.map(category => (
-          <Select.Option key={category.value} value={category.value} label={category.name} />
-        ))
-      }
+      {payRateList.map((category) => (
+        <Select.Option
+          key={category.value}
+          value={category.value}
+          label={category.name}
+        />
+      ))}
     </Select>
-    {
-      wage.payRate === 'RegularRate' ? (
-        <AmountInput
-          key="payRateMultiplier"
-          name="payRateMultiplier"
-          label="payRateMultiplier"
-          hideLabel
-          numeralDecimalScaleMin={4}
-          numeralDecimalScaleMax={4}
-          numeralIntegerScale={3}
-          numeralPositiveOnly
-          value={wage.payRateMultiplier}
-          onChange={handleAmountInputChange(onDetailsChange)}
-          onBlur={handleAmountInputChange(onDetailsChange)}
-          disabled={wage.isSystem}
-        />
-      ) : (
-        <AmountInput
-          key="fixedHourlyPayRate"
-          name="fixedHourlyPayRate"
-          label="fixedHourlyPayRate"
-          hideLabel
-          numeralDecimalScaleMin={4}
-          numeralDecimalScaleMax={4}
-          numeralIntegerScale={13}
-          numeralPositiveOnly
-          value={wage.fixedHourlyPayRate}
-          onChange={handleAmountInputChange(onDetailsChange)}
-          onBlur={handleAmountInputChange(onDetailsChange)}
-          disabled={wage.isSystem}
-        />
-      )
-    }
+    {wage.payRate === 'RegularRate' ? (
+      <AmountInput
+        key="payRateMultiplier"
+        name="payRateMultiplier"
+        label="payRateMultiplier"
+        hideLabel
+        numeralDecimalScaleMin={4}
+        numeralDecimalScaleMax={4}
+        numeralIntegerScale={3}
+        numeralPositiveOnly
+        value={wage.payRateMultiplier}
+        onChange={handleAmountInputChange(onDetailsChange)}
+        onBlur={handleAmountInputChange(onDetailsChange)}
+        disabled={wage.isSystem}
+      />
+    ) : (
+      <AmountInput
+        key="fixedHourlyPayRate"
+        name="fixedHourlyPayRate"
+        label="fixedHourlyPayRate"
+        hideLabel
+        numeralDecimalScaleMin={4}
+        numeralDecimalScaleMax={4}
+        numeralIntegerScale={13}
+        numeralPositiveOnly
+        value={wage.fixedHourlyPayRate}
+        onChange={handleAmountInputChange(onDetailsChange)}
+        onBlur={handleAmountInputChange(onDetailsChange)}
+        disabled={wage.isSystem}
+      />
+    )}
     <OverrideAccount
       onDetailsChange={onDetailsChange}
       onOverrideAccountChange={onOverrideAccountChange}
@@ -82,7 +82,7 @@ const HourlySection = ({
   </React.Fragment>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   wage: getWage(state),
   payRateList: getPayRateList(state),
 });

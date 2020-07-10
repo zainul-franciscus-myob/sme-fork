@@ -19,7 +19,7 @@ const AccountDetailActions = ({ linkedAccounts, currentBalance }) => (
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   linkedAccounts: getLinkedAccountsForDisplay(state),
   currentBalance: getCurrentBalance(state),
 });

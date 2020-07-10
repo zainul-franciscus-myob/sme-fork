@@ -1,9 +1,7 @@
 import BankReconciliationModule from './BankReconciliationModule';
 import RouteName from '../../router/RouteName';
 
-const getBankReconciliationRoutes = ({
-  setRootView, integration,
-}) => {
+const getBankReconciliationRoutes = ({ setRootView, integration }) => {
   const routes = [
     {
       name: RouteName.BANK_RECONCILIATION,

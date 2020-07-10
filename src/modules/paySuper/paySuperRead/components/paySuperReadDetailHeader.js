@@ -1,9 +1,5 @@
-import {
-  DetailHeader,
-  ReadOnly,
-} from '@myob/myob-widgets';
+import { DetailHeader, ReadOnly } from '@myob/myob-widgets';
 import React from 'react';
-
 
 const paySuperReadDetailHeader = ({
   account,
@@ -13,16 +9,10 @@ const paySuperReadDetailHeader = ({
 }) => {
   const primary = (
     <div>
-      <ReadOnly
-        label="Pay from"
-        name="account"
-      >
+      <ReadOnly label="Pay from" name="account">
         {account}
       </ReadOnly>
-      <ReadOnly
-        label="Description"
-        name="description"
-      >
+      <ReadOnly label="Description" name="description">
         {description}
       </ReadOnly>
     </div>
@@ -30,22 +20,16 @@ const paySuperReadDetailHeader = ({
 
   const secondary = (
     <div>
-      <ReadOnly
-        name="referenceNumber"
-        label="Reference number"
-      >
+      <ReadOnly name="referenceNumber" label="Reference number">
         {referenceNumber}
       </ReadOnly>
-      <ReadOnly
-        name="date"
-        label="Date"
-      >
+      <ReadOnly name="date" label="Date">
         {date}
       </ReadOnly>
     </div>
   );
 
-  return (<DetailHeader primary={primary} secondary={secondary} />);
+  return <DetailHeader primary={primary} secondary={secondary} />;
 };
 
 export default paySuperReadDetailHeader;

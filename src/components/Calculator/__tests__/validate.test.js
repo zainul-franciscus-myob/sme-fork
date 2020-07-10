@@ -5,14 +5,14 @@ describe('validate', () => {
     const validate = createValidator();
 
     describe('it should support the following operations', () => {
-      const buildTests = operator => ([
+      const buildTests = (operator) => [
         `${operator}`, // +
         `5${operator}5`, // 5+5
         `${operator}5${operator}`, // +5+
         `${operator}5${operator}${operator}`, // +5++
         `2${operator}5${operator}${operator}1`, // 2+5++1
         `2${operator}5${operator} ${operator}1`, // 2+5+ +1
-      ]);
+      ];
 
       describe('addition', () => {
         const tests = buildTests('+');
@@ -74,7 +74,25 @@ describe('validate', () => {
 
     describe('it should not support the following operations', () => {
       const simpleTests = [
-        '!', '@', '#', '$', '%', '^', '&', '_', '=', '|', '\'', '"', '<', '>', '?', '{', '}', '`', '~',
+        '!',
+        '@',
+        '#',
+        '$',
+        '%',
+        '^',
+        '&',
+        '_',
+        '=',
+        '|',
+        "'",
+        '"',
+        '<',
+        '>',
+        '?',
+        '{',
+        '}',
+        '`',
+        '~',
       ];
 
       const mixedTests = [
@@ -103,9 +121,7 @@ describe('validate', () => {
 
     describe('it should restrict', () => {
       describe('numbers', () => {
-        [
-          '123', '123.1', '1234', 123, 999, '1,000', '000',
-        ].forEach(test => {
+        ['123', '123.1', '1234', 123, 999, '1,000', '000'].forEach((test) => {
           it(`${test}`, () => {
             expect(validate(test)).toEqual(false);
           });
@@ -113,24 +129,19 @@ describe('validate', () => {
       });
 
       describe('expressions', () => {
-        [
-          '99 + 1',
-          '100 + 0',
-          '100 * 1',
-          '99 * 1 + 0.9 + 0.1',
-        ].forEach(test => {
-          it(`${test}`, () => {
-            expect(validate(test)).toEqual(false);
-          });
-        });
+        ['99 + 1', '100 + 0', '100 * 1', '99 * 1 + 0.9 + 0.1'].forEach(
+          (test) => {
+            it(`${test}`, () => {
+              expect(validate(test)).toEqual(false);
+            });
+          }
+        );
       });
     });
 
     describe('it should not restrict', () => {
       describe('numbers', () => {
-        [
-          '', ' ', 0, '12', '12.1', 13, 99, '00',
-        ].forEach(test => {
+        ['', ' ', 0, '12', '12.1', 13, 99, '00'].forEach((test) => {
           it(`${test}`, () => {
             expect(validate(test)).toEqual(true);
           });
@@ -146,7 +157,7 @@ describe('validate', () => {
           '100 * 0',
           '100 / 100',
           '99.99 + 0.0001',
-        ].forEach(test => {
+        ].forEach((test) => {
           it(`${test}`, () => {
             expect(validate(test)).toEqual(true);
           });

@@ -1,8 +1,5 @@
 import { SORT_AND_FILTER_ACCOUNT_LIST } from '../AccountIntents';
-import {
-  getBusinessId,
-  getFilterOptions,
-} from './AccountListSelectors';
+import { getBusinessId, getFilterOptions } from './AccountListSelectors';
 
 const createAccountListIntegrator = (store, integration) => ({
   filterAccountList: ({ onSuccess, onFailure }) => {

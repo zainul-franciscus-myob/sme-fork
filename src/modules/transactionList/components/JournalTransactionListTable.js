@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getIsDefaultFilters } from '../selectors/transactionListSelectors';
-import { getIsTableEmpty, getIsTableLoading } from '../selectors/journalTransactionSelectors';
+import {
+  getIsTableEmpty,
+  getIsTableLoading,
+} from '../selectors/journalTransactionSelectors';
 import Icon from '../../../components/Icon/Icon';
 import JournalTransactionListTableBody from './JournalTransactionListTableBody';
 import TableView from '../../../components/TableView/TableView';
@@ -21,13 +24,23 @@ const JournalTransactionListTable = ({
     <PageState
       title="Record your first transaction"
       description="Create transactions to record sales, invoices, or general journal entries."
-      image={<TransactionEmptyStateIcon className={style['empty-state-icon']} alt="Record your first transaction." />}
+      image={
+        <TransactionEmptyStateIcon
+          className={style['empty-state-icon']}
+          alt="Record your first transaction."
+        />
+      }
     />
   ) : (
     <PageState
       title="No transactions found"
       description="Perhaps check the dates or remove the filters and try again."
-      image={<Icon.NoResultState className={style['no-results-icon']} alt="No transactions found." />}
+      image={
+        <Icon.NoResultState
+          className={style['no-results-icon']}
+          alt="No transactions found."
+        />
+      }
     />
   );
 
@@ -45,7 +58,7 @@ const JournalTransactionListTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
   isDefaultFilter: getIsDefaultFilters(state),

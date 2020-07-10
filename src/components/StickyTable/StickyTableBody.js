@@ -1,25 +1,21 @@
-import {
-  PageState,
-  Spinner,
-  Table,
-} from '@myob/myob-widgets';
+import { PageState, Spinner, Table } from '@myob/myob-widgets';
 import React from 'react';
 
 const spinnerView = (
-  <PageState
-    title={<Spinner size="medium" />}
-    description="Loading"
-  />
+  <PageState title={<Spinner size="medium" />} description="Loading" />
 );
 
 const getDefaultEmptyView = (emptyMessage = 'No results found') => (
-  <PageState
-    title={emptyMessage}
-  />
+  <PageState title={emptyMessage} />
 );
 
 const StickyTableBody = ({
-  isLoading, isEmpty, emptyMessage, emptyView, children, ...props
+  isLoading,
+  isEmpty,
+  emptyMessage,
+  emptyView,
+  children,
+  ...props
 }) => {
   let view;
   if (isLoading) {
@@ -36,9 +32,7 @@ const StickyTableBody = ({
 
   return (
     <Table {...props}>
-      <Table.Body>
-        {view}
-      </Table.Body>
+      <Table.Body>{view}</Table.Body>
     </Table>
   );
 };

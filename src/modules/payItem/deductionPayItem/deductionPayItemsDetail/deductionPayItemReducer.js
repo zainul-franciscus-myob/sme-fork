@@ -59,7 +59,7 @@ const getDefaultState = () => ({
   alert: undefined,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setInitialState = (state, action) => ({
   ...state,
@@ -71,9 +71,16 @@ const setLoadingState = (state, { loadingState }) => ({
   loadingState,
 });
 
-const loadDetailsData = (state, {
-  name, accounts, atoReportCategoryList, atoReportingCategory, linkedPayableAccountId,
-}) => ({
+const loadDetailsData = (
+  state,
+  {
+    name,
+    accounts,
+    atoReportCategoryList,
+    atoReportingCategory,
+    linkedPayableAccountId,
+  }
+) => ({
   ...state.details,
   name,
   accounts,
@@ -82,12 +89,27 @@ const loadDetailsData = (state, {
   linkedPayableAccountId,
 });
 
-const loadInformationData = (state, {
-  calculationBasis, calculationPercentage, calculationPercentOfId, calculationDollars,
-  calculationPer, calculationBasisOptions, calculationPercentOfOptions, calculationDollarPerOptions,
-  limit, limitPercentage, limitPercentOfId, limitDollars, limitPer,
-  limitOptions, limitPercentOfOptions, limitDollarPerOptions,
-}) => ({
+const loadInformationData = (
+  state,
+  {
+    calculationBasis,
+    calculationPercentage,
+    calculationPercentOfId,
+    calculationDollars,
+    calculationPer,
+    calculationBasisOptions,
+    calculationPercentOfOptions,
+    calculationDollarPerOptions,
+    limit,
+    limitPercentage,
+    limitPercentOfId,
+    limitDollars,
+    limitPer,
+    limitOptions,
+    limitPercentOfOptions,
+    limitDollarPerOptions,
+  }
+) => ({
   ...state.information,
   calculationBasis,
   calculationPercentage,
@@ -113,7 +135,10 @@ const loadEmployeeAllocation = (state, { employees, selectedEmployees }) => ({
   selectedEmployees,
 });
 
-const loadExemptionAllocations = (state, { exemptions, selectedExemptions }) => ({
+const loadExemptionAllocations = (
+  state,
+  { exemptions, selectedExemptions }
+) => ({
   ...state.exemptionAllocations,
   exemptions,
   selectedExemptions,
@@ -167,7 +192,7 @@ const removeEmployee = (state, { id }) => ({
   employeeAllocations: {
     ...state.employeeAllocations,
     selectedEmployees: state.employeeAllocations.selectedEmployees.filter(
-      employee => employee.id !== id,
+      (employee) => employee.id !== id
     ),
   },
   isPageEdited: true,
@@ -190,7 +215,7 @@ const removeExemption = (state, { id }) => ({
   exemptionAllocations: {
     ...state.exemptionAllocations,
     selectedExemptions: state.exemptionAllocations.selectedExemptions.filter(
-      exemption => exemption.id !== id,
+      (exemption) => exemption.id !== id
     ),
   },
   isPageEdited: true,
@@ -201,7 +226,7 @@ const openModal = (state, action) => ({
   modalType: action.modalType,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modalType: '',
 });

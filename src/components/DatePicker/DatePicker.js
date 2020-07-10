@@ -1,4 +1,8 @@
-import { DatePicker as FeelixDatePicker, Field, Tooltip } from '@myob/myob-widgets';
+import {
+  DatePicker as FeelixDatePicker,
+  Field,
+  Tooltip,
+} from '@myob/myob-widgets';
 import React from 'react';
 
 import Icon from '../Icon/Icon';
@@ -15,7 +19,7 @@ const DatePicker = ({
   label,
   hideLabel,
   onSelect,
-  onBlur = () => { },
+  onBlur = () => {},
   requiredLabel,
   displayWarning,
   warningMessage,
@@ -23,11 +27,7 @@ const DatePicker = ({
   const { newOnBlur, newOnSelect } = useOnBlur({ onSelect, onBlur });
 
   const datePicker = (
-    <div
-      id={containerId}
-      onBlur={newOnBlur}
-      className={styles.datePicker}
-    >
+    <div id={containerId} onBlur={newOnBlur} className={styles.datePicker}>
       <FeelixDatePicker
         value={value}
         name={name}
@@ -50,9 +50,7 @@ const DatePicker = ({
   );
 
   const disabledDatePickerContainer = (
-    <Tooltip triggerContent={datePicker}>
-      {disabledMessage}
-    </Tooltip>
+    <Tooltip triggerContent={datePicker}>{disabledMessage}</Tooltip>
   );
 
   const datePickerContainer = (
@@ -67,11 +65,11 @@ const DatePicker = ({
       label={label}
       hideLabel={hideLabel}
       requiredLabel={requiredLabel}
-      renderField={() => (
+      renderField={() =>
         disabled && disabledMessage
           ? disabledDatePickerContainer
           : datePickerContainer
-      )}
+      }
     />
   );
 };

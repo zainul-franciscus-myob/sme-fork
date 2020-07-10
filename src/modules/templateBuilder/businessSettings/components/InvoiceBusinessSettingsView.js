@@ -1,11 +1,13 @@
-import {
-  Alert, Button, ButtonRow, FormTemplate,
-} from '@myob/myob-widgets';
+import { Alert, Button, ButtonRow, FormTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsLoading, getIsSubmitting, getModal, getPageTitle,
+  getAlert,
+  getIsLoading,
+  getIsSubmitting,
+  getModal,
+  getPageTitle,
 } from '../invoiceBusinessSettingsDetailSelectors';
 import FormCard from '../../../../components/FormCard/FormCard';
 import InvoiceBusinessSettingsDetails from './InvoiceBusinessSettingsDetails';
@@ -40,7 +42,14 @@ const BusinessSettingsView = ({
 
   const pageFooter = (
     <ButtonRow>
-      <Button name="save" type="primary" onClick={onSaveButtonClick} disabled={isSubmitting}>Next</Button>
+      <Button
+        name="save"
+        type="primary"
+        onClick={onSaveButtonClick}
+        disabled={isSubmitting}
+      >
+        Next
+      </Button>
     </ButtonRow>
   );
 
@@ -63,7 +72,7 @@ const BusinessSettingsView = ({
 
 BusinessSettingsView.defaultProps = { alert: undefined };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   isLoading: getIsLoading(state),
   isSubmitting: getIsSubmitting(state),

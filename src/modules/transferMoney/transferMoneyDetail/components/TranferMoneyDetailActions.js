@@ -1,6 +1,4 @@
-import {
-  Button, ButtonRow, Dropdown, Icons,
-} from '@myob/myob-widgets';
+import { Button, ButtonRow, Dropdown, Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -32,12 +30,12 @@ const TransferMoneyDetailActions = ({
     <Dropdown
       key="saveAnd"
       onSelect={onSaveAnd}
-      toggle={(
+      toggle={
         <Dropdown.Toggle disabled={isActionsDisabled}>
           Record and new
           <Icons.Caret />
         </Dropdown.Toggle>
-      )}
+      }
       items={dropdownActionItems}
     />
   );
@@ -45,19 +43,37 @@ const TransferMoneyDetailActions = ({
   return (
     <ButtonRow
       primary={[
-        <Button key="cancel" name="cancel" type={isCreating ? 'secondary' : 'primary'} onClick={onCancel} disabled={isActionsDisabled}>
-          { isCreating ? 'Cancel' : 'Go back'}
+        <Button
+          key="cancel"
+          name="cancel"
+          type={isCreating ? 'secondary' : 'primary'}
+          onClick={onCancel}
+          disabled={isActionsDisabled}
+        >
+          {isCreating ? 'Cancel' : 'Go back'}
         </Button>,
         isCreating && saveAndButton,
         isCreating && (
-          <Button key="save" name="save" type="primary" onClick={onSave} disabled={isActionsDisabled}>
+          <Button
+            key="save"
+            name="save"
+            type="primary"
+            onClick={onSave}
+            disabled={isActionsDisabled}
+          >
             Record
           </Button>
         ),
       ]}
       secondary={[
         !isCreating && (
-          <Button key="delete" name="delete" type="secondary" onClick={onDelete} disabled={isActionsDisabled}>
+          <Button
+            key="delete"
+            name="delete"
+            type="secondary"
+            onClick={onDelete}
+            disabled={isActionsDisabled}
+          >
             Delete
           </Button>
         ),
@@ -66,7 +82,7 @@ const TransferMoneyDetailActions = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isActionsDisabled: getIsActionsDisabled(state),
 });
 

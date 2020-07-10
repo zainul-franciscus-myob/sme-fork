@@ -2,7 +2,11 @@ import { Card, PageState } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsDefaultFilters, getIsTableEmpty, getIsTableLoading } from '../selectors/customerStatementListSelectors';
+import {
+  getIsDefaultFilters,
+  getIsTableEmpty,
+  getIsTableLoading,
+} from '../selectors/customerStatementListSelectors';
 import CustomerStatementListTableActions from './CustomerStatementListTableActions';
 import CustomerStatementListTableBody from './CustomerStatementListTableBody';
 import CustomerStatementListTableHeader from './CustomerStatementListTableHeader';
@@ -57,9 +61,7 @@ const CustomerStatementListTable = ({
   onClickEmailButton,
   onSort,
 }) => {
-  const noResultImage = (
-    <Icon.NoResultState alt="No result found" />
-  );
+  const noResultImage = <Icon.NoResultState alt="No result found" />;
 
   const emptyView = isDefaultFilters ? (
     <PageState
@@ -80,7 +82,8 @@ const CustomerStatementListTable = ({
       tableConfig={tableConfig}
       onToggleAllCustomerStatements={onToggleAllCustomerStatements}
       onSort={onSort}
-    />);
+    />
+  );
 
   const tableBody = (
     <CustomerStatementListTableBody
@@ -112,7 +115,7 @@ const CustomerStatementListTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
   isDefaultFilters: getIsDefaultFilters(state),

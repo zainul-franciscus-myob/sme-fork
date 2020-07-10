@@ -49,9 +49,7 @@ describe('allocationHandlers', () => {
         bankingRule: {
           ...state.bankingRule,
           allocationType: 'Percent',
-          allocations: [
-            {},
-          ],
+          allocations: [{}],
         },
       };
 
@@ -123,10 +121,7 @@ describe('allocationHandlers', () => {
     const state = {
       bankingRule: {
         allocationType: 'Percent',
-        allocations: [
-          {},
-          {},
-        ],
+        allocations: [{}, {}],
       },
     };
 
@@ -172,11 +167,7 @@ describe('allocationHandlers', () => {
         bankingRule: {
           ...state.bankingRule,
           allocationType: 'Amount',
-          allocations: [
-            {},
-            {},
-            {},
-          ],
+          allocations: [{}, {}, {}],
         },
       };
 

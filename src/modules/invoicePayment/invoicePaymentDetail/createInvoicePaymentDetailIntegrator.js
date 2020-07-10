@@ -20,7 +20,9 @@ const createInvoicePaymentDetailIntegrator = (store, integration) => ({
     const state = store.getState();
     const isCreating = getIsCreating(state);
 
-    const intent = isCreating ? LOAD_NEW_INVOICE_PAYMENT_DETAIL : LOAD_INVOICE_PAYMENT_DETAIL;
+    const intent = isCreating
+      ? LOAD_NEW_INVOICE_PAYMENT_DETAIL
+      : LOAD_INVOICE_PAYMENT_DETAIL;
     const urlParams = getUrlParams(state);
 
     integration.read({

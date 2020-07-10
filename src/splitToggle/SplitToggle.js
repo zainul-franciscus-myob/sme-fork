@@ -3,13 +3,11 @@ import { SplitFactory } from '@splitsoftware/splitio';
 import Config from '../Config';
 
 export default class SplitToggle {
-  CONTROL_STATE = 'control'
+  CONTROL_STATE = 'control';
 
-  TOGGLE_ON = 'on'
+  TOGGLE_ON = 'on';
 
-  init = ({
-    businessId,
-  }) => {
+  init = ({ businessId }) => {
     const client = SplitFactory({
       core: {
         authorizationKey: Config.SPLIT_IO_API_KEY,
@@ -36,7 +34,7 @@ export default class SplitToggle {
         resolve();
       });
     });
-  }
+  };
 
   isToggleOn(toggleName) {
     if (this.client) {

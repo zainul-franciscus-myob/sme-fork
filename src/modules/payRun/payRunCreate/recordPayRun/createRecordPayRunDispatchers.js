@@ -1,6 +1,6 @@
 import createPayRunDispatchers from '../createPayRunDispatchers';
 
-const createRecordPayRunDispatchers = store => ({
+const createRecordPayRunDispatchers = (store) => ({
   ...createPayRunDispatchers(store),
 });
 

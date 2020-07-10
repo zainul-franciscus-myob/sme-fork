@@ -4,7 +4,7 @@ import buildJournalEntry from './buildJournalEntry';
 import buildTaxCalculationResults from './buildTaxCalculationResults';
 import buildTaxCodesMetadata from './buildTaxCodesMetadata';
 
-const createTaxCalculator = handler => ({
+const createTaxCalculator = (handler) => ({
   isTaxInclusive,
   isLineAmountsTaxInclusive,
   lines,
@@ -17,42 +17,42 @@ const createTaxCalculator = handler => ({
 
   const taxCodesMetadata = buildTaxCodesMetadata(taxCodes);
 
-  const taxCalculations = lines.reduce(({
-    Lines,
-    EffectiveTaxAmount,
-  }, currentLine, index) => {
-    const lineTaxCode = taxCodesMetadata[currentLine.taxCodeId];
-    const lineAmount = Decimal(currentLine.amount || 0);
-    if (lineTaxCode) {
-      const journalEntry = buildJournalEntry({
-        currentLine,
-        calculatedLines: Lines,
-        effectiveTaxAmount: EffectiveTaxAmount,
-      });
+  const taxCalculations = lines.reduce(
+    ({ Lines, EffectiveTaxAmount }, currentLine, index) => {
+      const lineTaxCode = taxCodesMetadata[currentLine.taxCodeId];
+      const lineAmount = Decimal(currentLine.amount || 0);
+      if (lineTaxCode) {
+        const journalEntry = buildJournalEntry({
+          currentLine,
+          calculatedLines: Lines,
+          effectiveTaxAmount: EffectiveTaxAmount,
+        });
 
-      return handler.flow.setTaxLocally(
-        !isLineAmountsTaxInclusive,
-        journalEntry,
-        index,
-        lineTaxCode,
-        taxCodesMetadata,
-        lineAmount,
-      );
-    }
+        return handler.flow.setTaxLocally(
+          !isLineAmountsTaxInclusive,
+          journalEntry,
+          index,
+          lineTaxCode,
+          taxCodesMetadata,
+          lineAmount
+        );
+      }
 
-    return {
-      Lines: [
-        ...Lines,
-        {
-          Amount: lineAmount,
-          TaxTransaction: {
-            EffectiveTaxAmount: new Decimal(0),
+      return {
+        Lines: [
+          ...Lines,
+          {
+            Amount: lineAmount,
+            TaxTransaction: {
+              EffectiveTaxAmount: new Decimal(0),
+            },
           },
-        },
-      ],
-      EffectiveTaxAmount,
-    };
-  }, emptyResult);
+        ],
+        EffectiveTaxAmount,
+      };
+    },
+    emptyResult
+  );
 
   return buildTaxCalculationResults({
     taxCalculations,

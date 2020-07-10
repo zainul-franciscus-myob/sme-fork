@@ -23,7 +23,11 @@ describe('BillRedirectSelectors', () => {
           bill: {
             isTaxInclusive: true,
             lines: [
-              { type: BillLineType.SERVICE, taxExclusiveAmount: test.value, taxAmount: '0' },
+              {
+                type: BillLineType.SERVICE,
+                taxExclusiveAmount: test.value,
+                taxAmount: '0',
+              },
             ],
             taxExclusiveFreightAmount: '0',
             freightTaxAmount: '0',

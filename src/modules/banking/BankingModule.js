@@ -26,7 +26,10 @@ import {
   getMatchTransactionOrderBy,
   getShowType,
 } from './bankingSelectors/matchTransactionSelectors';
-import { getFilesForUpload, getInTrayModalContext } from './bankingSelectors/attachmentsSelectors';
+import {
+  getFilesForUpload,
+  getInTrayModalContext,
+} from './bankingSelectors/attachmentsSelectors';
 import {
   getMatchTransferMoneyFlipSortOrder,
   getMatchTransferMoneyOrderBy,
@@ -47,22 +50,18 @@ import debounce from '../../common/debounce/debounce';
 import openBlob from '../../common/blobOpener/openBlob';
 
 export default class BankingModule {
-  constructor({
-    integration, setRootView, isToggleOn,
-  }) {
+  constructor({ integration, setRootView, isToggleOn }) {
     this.store = new Store(bankingReducer);
     this.setRootView = setRootView;
     this.dispatcher = createBankingDispatcher(this.store);
     this.integrator = createBankingIntegrator(this.store, integration);
     this.isToggleOn = isToggleOn;
-    this.bankingRuleModule = new BankingRuleModule(
-      {
-        integration,
-        store: this.store,
-        onCancel: this.dispatcher.closeModal,
-        onSaveSuccess: this.applyRuleToTransaction,
-      },
-    );
+    this.bankingRuleModule = new BankingRuleModule({
+      integration,
+      store: this.store,
+      onCancel: this.dispatcher.closeModal,
+      onSaveSuccess: this.applyRuleToTransaction,
+    });
     this.inTrayModalModule = new InTrayModalModule({ integration });
     this.accountModalModule = new AccountModalModule({
       integration,
@@ -77,7 +76,7 @@ export default class BankingModule {
     } else {
       this.filterBankTransactions();
     }
-  }
+  };
 
   updateMatchTransactionOptions = ({ key, value }) => {
     this.dispatcher.updateMatchTransactionOptions({ key, value });
@@ -87,7 +86,7 @@ export default class BankingModule {
     } else {
       this.sortOrFilterMatchTransaction();
     }
-  }
+  };
 
   updatePeriodDateRange = ({ period, dateFrom, dateTo }) => {
     this.dispatcher.updatePeriodDateRange({
@@ -97,12 +96,12 @@ export default class BankingModule {
     });
 
     this.filterBankTransactions();
-  }
+  };
 
   resetFilters = () => {
     this.dispatcher.resetFilters();
     this.filterBankTransactions();
-  }
+  };
 
   render = () => {
     const {
@@ -159,9 +158,9 @@ export default class BankingModule {
         onTabChange={this.confirmBefore(this.changeOpenEntryTab)}
         onSaveSplitAllocation={this.saveSplitAllocation}
         onCancelSplitAllocation={this.confirmBefore(collapseTransactionLine)}
-        onUnallocateSplitAllocation={
-          this.openUnmatchTransactionModal(this.unallocateOpenEntryTransaction)
-        }
+        onUnallocateSplitAllocation={this.openUnmatchTransactionModal(
+          this.unallocateOpenEntryTransaction
+        )}
         onUpdateSplitAllocationHeader={updateSplitAllocationHeader}
         onAddSplitAllocationLine={this.addSplitAllocationLine}
         onUpdateSplitAllocationLine={updateSplitAllocationLine}
@@ -180,7 +179,9 @@ export default class BankingModule {
         onSaveTransferMoney={this.saveTransferMoney}
         onSaveMatchTransferMoney={this.saveMatchTransferMoney}
         onCancelTransferMoney={this.confirmBefore(collapseTransactionLine)}
-        onUnmatchTransaction={this.openUnmatchTransactionModal(this.unmatchTransaction)}
+        onUnmatchTransaction={this.openUnmatchTransactionModal(
+          this.unmatchTransaction
+        )}
         onUpdateTransfer={setTransferMoneyDetail}
         onSortTransfer={this.sortMatchTransferMoney}
         onUpdateTransferSelection={setMatchTransferMoneySelection}
@@ -211,12 +212,10 @@ export default class BankingModule {
     );
 
     const wrappedView = (
-      <Provider store={this.store}>
-        {transactionListView}
-      </Provider>
+      <Provider store={this.store}>{transactionListView}</Provider>
     );
     this.setRootView(wrappedView);
-  }
+  };
 
   redirectToBankStatementImport = () => {
     const state = this.store.getState();
@@ -224,11 +223,11 @@ export default class BankingModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/bankStatementImport`;
-  }
+  };
 
   toggleSelectAllState = ({ value }) => {
     this.dispatcher.toggleSelectAllState(value);
-  }
+  };
 
   applyRuleToTransaction = ({ message, bankingRuleId }) => {
     this.dispatcher.closeModal();
@@ -253,9 +252,11 @@ export default class BankingModule {
     };
 
     this.integrator.applyRuleToTransactions({
-      onSuccess, onFailure, bankingRuleId,
+      onSuccess,
+      onFailure,
+      bankingRuleId,
     });
-  }
+  };
 
   renderBankingRuleModal = () => {
     const initState = getBankingRuleInitState(this.store.getState());
@@ -331,10 +332,10 @@ export default class BankingModule {
     });
   };
 
-  openUnmatchTransactionModal = onConfirm => (index) => {
+  openUnmatchTransactionModal = (onConfirm) => (index) => {
     this.afterCancel = () => onConfirm(index);
     this.dispatcher.openUnmatchTransactionModal();
-  }
+  };
 
   loadBankTransactions = () => {
     const onSuccess = (payload) => {
@@ -351,7 +352,7 @@ export default class BankingModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   loadBankTransactionsNextPage = () => {
     this.dispatcher.startLoadingMore();
@@ -370,12 +371,12 @@ export default class BankingModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   bankAccountChange = ({ value }) => {
     this.dispatcher.updateFilterOptions({ filterName: 'bankAccount', value });
     this.confirmBefore(this.filterBankTransactions)();
-  }
+  };
 
   filterBankTransactions = () => {
     const state = this.store.getState();
@@ -400,7 +401,7 @@ export default class BankingModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   sortBankTransactions = (orderBy) => {
     const state = this.store.getState();
@@ -426,13 +427,13 @@ export default class BankingModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
-  confirmBefore = onConfirm => (...args) => {
+  confirmBefore = (onConfirm) => (...args) => {
     const state = this.store.getState();
     const isEdited = getIsOpenEntryEdited(state);
 
@@ -443,7 +444,7 @@ export default class BankingModule {
     } else {
       onConfirm(...args);
     }
-  }
+  };
 
   ifOpen = (index, fn) => (...args) => {
     const state = this.store.getState();
@@ -452,7 +453,7 @@ export default class BankingModule {
     }
 
     fn(...args);
-  }
+  };
 
   toggleLine = (index) => {
     const state = this.store.getState();
@@ -464,7 +465,7 @@ export default class BankingModule {
     } else {
       this.expandTransactionLine(index);
     }
-  }
+  };
 
   expandTransactionLine = (index) => {
     const state = this.store.getState();
@@ -474,7 +475,7 @@ export default class BankingModule {
 
     this.loadOpenEntryTab(index, tabId);
     this.loadAttachments(index);
-  }
+  };
 
   changeOpenEntryTab = (tabId) => {
     const state = this.store.getState();
@@ -483,17 +484,18 @@ export default class BankingModule {
       const index = getOpenPosition(state);
       this.loadOpenEntryTab(index, tabId);
     }
-  }
+  };
 
   loadOpenEntryTab = (index, tabId) => {
-    const openEntryAction = {
-      [tabIds.match]: this.loadMatchTransaction,
-      [tabIds.allocate]: this.loadAllocate,
-      [tabIds.transfer]: this.loadTransferMoney,
-    }[tabId] || this.loadAllocate;
+    const openEntryAction =
+      {
+        [tabIds.match]: this.loadMatchTransaction,
+        [tabIds.allocate]: this.loadAllocate,
+        [tabIds.transfer]: this.loadTransferMoney,
+      }[tabId] || this.loadAllocate;
 
     openEntryAction(index);
-  }
+  };
 
   loadTransferMoney = (index) => {
     const state = this.store.getState();
@@ -504,16 +506,13 @@ export default class BankingModule {
     } else {
       this.loadMatchTransferMoney(index);
     }
-  }
+  };
 
   loadExistingTransferMoney = (index) => {
-    const onSuccess = this.ifOpen(
-      index,
-      (payload) => {
-        this.dispatcher.setOpenEntryLoadingState(false);
-        this.dispatcher.loadExistingTransferMoney(index, payload);
-      },
-    );
+    const onSuccess = this.ifOpen(index, (payload) => {
+      this.dispatcher.setOpenEntryLoadingState(false);
+      this.dispatcher.loadExistingTransferMoney(index, payload);
+    });
 
     const onFailure = ({ message }) => {
       this.dispatcher.setOpenEntryLoadingState(false);
@@ -531,16 +530,13 @@ export default class BankingModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   loadMatchTransferMoney = (index) => {
-    const onSuccess = this.ifOpen(
-      index,
-      (payload) => {
-        this.dispatcher.setOpenEntryLoadingState(false);
-        this.dispatcher.loadMatchTransferMoney(index, payload);
-      },
-    );
+    const onSuccess = this.ifOpen(index, (payload) => {
+      this.dispatcher.setOpenEntryLoadingState(false);
+      this.dispatcher.loadMatchTransferMoney(index, payload);
+    });
 
     const onFailure = ({ message }) => {
       this.dispatcher.setOpenEntryLoadingState(false);
@@ -551,23 +547,22 @@ export default class BankingModule {
     this.dispatcher.setOpenEntryPosition(index);
     this.dispatcher.setOpenEntryLoadingState(true);
     this.integrator.loadMatchTransferMoney({ index, onSuccess, onFailure });
-  }
+  };
 
   sortMatchTransferMoney = (orderBy) => {
     const state = this.store.getState();
     const index = getOpenPosition(state);
 
-    const newSortOrder = orderBy === getMatchTransferMoneyOrderBy(state)
-      ? getMatchTransferMoneyFlipSortOrder(state) : 'asc';
+    const newSortOrder =
+      orderBy === getMatchTransferMoneyOrderBy(state)
+        ? getMatchTransferMoneyFlipSortOrder(state)
+        : 'asc';
     this.dispatcher.setMatchTransferMoneySortOrder(orderBy, newSortOrder);
 
-    const onSuccess = this.ifOpen(
-      index,
-      (payload) => {
-        this.dispatcher.setMatchTransferMoneyLoadingState(false);
-        this.dispatcher.sortMatchTransferMoney(payload);
-      },
-    );
+    const onSuccess = this.ifOpen(index, (payload) => {
+      this.dispatcher.setMatchTransferMoneyLoadingState(false);
+      this.dispatcher.sortMatchTransferMoney(payload);
+    });
 
     const onFailure = ({ message }) => {
       this.dispatcher.setMatchTransferMoneyLoadingState(false);
@@ -576,7 +571,7 @@ export default class BankingModule {
 
     this.dispatcher.setMatchTransferMoneyLoadingState(true);
     this.integrator.loadMatchTransferMoney({ index, onSuccess, onFailure });
-  }
+  };
 
   loadAllocate = (index) => {
     const state = this.store.getState();
@@ -587,16 +582,13 @@ export default class BankingModule {
     } else {
       this.dispatcher.loadNewSplitAllocation(index);
     }
-  }
+  };
 
   loadSplitAllocation = (index) => {
-    const onSuccess = this.ifOpen(
-      index,
-      (payload) => {
-        this.dispatcher.setOpenEntryLoadingState(false);
-        this.dispatcher.loadSplitAllocation(index, payload);
-      },
-    );
+    const onSuccess = this.ifOpen(index, (payload) => {
+      this.dispatcher.setOpenEntryLoadingState(false);
+      this.dispatcher.loadSplitAllocation(index, payload);
+    });
 
     const onFailure = ({ message }) => {
       this.dispatcher.setOpenEntryLoadingState(false);
@@ -615,7 +607,7 @@ export default class BankingModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   saveSplitAllocation = () => {
     const state = this.store.getState();
@@ -647,7 +639,7 @@ export default class BankingModule {
     });
 
     this.dispatcher.collapseTransactionLine();
-  }
+  };
 
   unmatchTransaction = () => {
     const state = this.store.getState();
@@ -671,7 +663,7 @@ export default class BankingModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   unallocateOpenEntryTransaction = () => {
     const onSuccess = (payload) => {
@@ -692,7 +684,7 @@ export default class BankingModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   openCancelModal = ({ onConfirm = () => {} }) => {
     this.afterCancel = onConfirm;
@@ -704,13 +696,13 @@ export default class BankingModule {
 
     this.afterCancel();
     this.afterCancel = () => {};
-  }
+  };
 
   addSplitAllocationLine = (partialLine) => {
     const [key, value] = Object.entries(partialLine)[0] || [];
 
     this.dispatcher.addSplitAllocationLine({ key, value });
-  }
+  };
 
   loadMatchTransaction = (index) => {
     const state = this.store.getState();
@@ -719,18 +711,21 @@ export default class BankingModule {
 
     const line = getBankTransactionLineByIndex(state, index);
     const { withdrawal, deposit } = line;
-    const filterOptions = getDefaultMatchTransactionFilterRequestParams(accountId, line);
-
-    const onSuccess = this.ifOpen(
-      index,
-      (payload) => {
-        this.dispatcher.setOpenEntryLoadingState(false);
-        const totalAmount = withdrawal || deposit;
-        this.dispatcher.loadMatchTransaction(
-          index, filterOptions, payload, totalAmount,
-        );
-      },
+    const filterOptions = getDefaultMatchTransactionFilterRequestParams(
+      accountId,
+      line
     );
+
+    const onSuccess = this.ifOpen(index, (payload) => {
+      this.dispatcher.setOpenEntryLoadingState(false);
+      const totalAmount = withdrawal || deposit;
+      this.dispatcher.loadMatchTransaction(
+        index,
+        filterOptions,
+        payload,
+        totalAmount
+      );
+    });
 
     const onFailure = ({ message }) => {
       this.dispatcher.setOpenEntryLoadingState(false);
@@ -748,12 +743,12 @@ export default class BankingModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   sortMatchTransaction = (orderBy) => {
     this.updateMatchTransactionSortOrder(orderBy);
     this.sortOrFilterMatchTransaction();
-  }
+  };
 
   sortOrFilterMatchTransaction = () => {
     const state = this.store.getState();
@@ -785,7 +780,7 @@ export default class BankingModule {
         onFailure,
       });
     }
-  }
+  };
 
   saveMatchTransaction = () => {
     const state = this.store.getState();
@@ -817,16 +812,18 @@ export default class BankingModule {
     });
 
     this.dispatcher.collapseTransactionLine();
-  }
+  };
 
   updateMatchTransactionSortOrder = (orderBy) => {
     const state = this.store.getState();
 
-    const newSortOrder = orderBy === getMatchTransactionOrderBy(state)
-      ? getMatchTransactionFlipSortOrder(state) : 'asc';
+    const newSortOrder =
+      orderBy === getMatchTransactionOrderBy(state)
+        ? getMatchTransactionFlipSortOrder(state)
+        : 'asc';
 
     this.dispatcher.updateMatchTransactionSortOrder(orderBy, newSortOrder);
-  }
+  };
 
   saveMatchTransferMoney = () => {
     const state = this.store.getState();
@@ -853,7 +850,7 @@ export default class BankingModule {
       onFailure,
     });
     this.dispatcher.collapseTransactionLine();
-  }
+  };
 
   saveTransferMoney = () => {
     const state = this.store.getState();
@@ -892,7 +889,7 @@ export default class BankingModule {
 
   openTransferMoneyModal = () => {
     this.dispatcher.openTransferMoneyModal();
-  }
+  };
 
   selectAllTransactions = () => {
     const state = this.store.getState();
@@ -982,7 +979,9 @@ export default class BankingModule {
   uploadAttachments = (files) => {
     const state = this.store.getState();
 
-    getFilesForUpload(state, files).forEach(file => this.uploadAttachment(file));
+    getFilesForUpload(state, files).forEach((file) =>
+      this.uploadAttachment(file)
+    );
   };
 
   uploadAttachment = (file) => {
@@ -1095,12 +1094,17 @@ export default class BankingModule {
           });
         };
 
-        this.integrator.linkInTrayDocument({ onSuccess, onFailure, inTrayDocumentId });
+        this.integrator.linkInTrayDocument({
+          onSuccess,
+          onFailure,
+          inTrayDocumentId,
+        });
       },
-      onLoadFailure: message => this.dispatcher.setAlert({
-        type: 'danger',
-        message,
-      }),
+      onLoadFailure: (message) =>
+        this.dispatcher.setAlert({
+          type: 'danger',
+          message,
+        }),
     });
   };
 
@@ -1112,12 +1116,11 @@ export default class BankingModule {
       onSaveSuccess: ({ id }) => {
         this.loadAccountAfterCreate(id, onAccountCreated);
       },
-      onLoadFailure: message => (
+      onLoadFailure: (message) =>
         this.dispatcher.setAlert({
           type: 'danger',
           message,
-        })
-      ),
+        }),
     });
   };
 
@@ -1159,8 +1162,8 @@ export default class BankingModule {
 
     this.jobModalModule.run({
       context,
-      onLoadFailure: message => this.setAlert({ type: 'danger', message }),
-      onSaveSuccess: payload => this.loadJobAfterCreate(payload, onChange),
+      onLoadFailure: (message) => this.setAlert({ type: 'danger', message }),
+      onSaveSuccess: (payload) => this.loadJobAfterCreate(payload, onChange),
     });
   };
 

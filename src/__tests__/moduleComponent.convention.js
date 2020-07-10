@@ -6,9 +6,9 @@ import { project } from './shared.convention';
 
 describe('module component conventions', () => {
   const sourceFiles = project.getSourceFiles('./src/**/*Module.js');
-  const root = commonPath(sourceFiles.map(sf => sf.getFilePath())).replace(
+  const root = commonPath(sourceFiles.map((sf) => sf.getFilePath())).replace(
     `${join('src', 'modules')}/`,
-    '',
+    ''
   );
 
   // eslint-disable-next-line no-restricted-syntax
@@ -17,7 +17,8 @@ describe('module component conventions', () => {
     it(`exports a module component from "${sourceFilePath}"`, () => {
       const moduleClass = assertSourceFile(sourceFile)
         .classes.includes(/Module$/)
-        .length(1).declarations[0].isDefaultExport();
+        .length(1)
+        .declarations[0].isDefaultExport();
 
       moduleClass.member('render')[0].isMethod();
     });

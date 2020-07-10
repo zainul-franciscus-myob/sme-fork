@@ -8,8 +8,11 @@ describe('getShowExpiryDaysOptions', () => {
     ['NumberOfDaysAfterEOM', true],
     ['CashOnDelivery', false],
     ['Prepaid', false],
-  ])('returns true when the expiry days input should be displayed', (expirationTerm, expected) => {
-    const actual = getShowExpiryDaysOptions(expirationTerm);
-    expect(actual).toBe(expected);
-  });
+  ])(
+    'returns true when the expiry days input should be displayed',
+    (expirationTerm, expected) => {
+      const actual = getShowExpiryDaysOptions(expirationTerm);
+      expect(actual).toBe(expected);
+    }
+  );
 });

@@ -3,7 +3,7 @@ import React from 'react';
 
 import styles from './ClearableTextArea.module.css';
 
-const handleClear = handler => (e) => {
+const handleClear = (handler) => (e) => {
   e.preventDefault();
   handler();
 };

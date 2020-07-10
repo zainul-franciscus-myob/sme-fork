@@ -1,7 +1,10 @@
 import React from 'react';
 
 import { SUCCESSFULLY_SAVED_DRAFT_PAY_RUN } from '../../../../common/types/MessageTypes';
-import { getIsRegisteredForStp, getStpDeclarationContext } from './RecordPayRunSelectors';
+import {
+  getIsRegisteredForStp,
+  getStpDeclarationContext,
+} from './RecordPayRunSelectors';
 import { getPayRunListUrl } from '../PayRunSelectors';
 import AlertType from '../types/AlertType';
 import LoadingState from '../../../../components/PageView/LoadingState';
@@ -12,11 +15,7 @@ import createRecordPayRunIntegrator from './createRecordPayRunIntegrator';
 import openBlob from '../../../../common/blobOpener/openBlob';
 
 export default class RecordPayRunModule {
-  constructor({
-    integration,
-    store,
-    pushMessage,
-  }) {
+  constructor({ integration, store, pushMessage }) {
     this.integration = integration;
     this.pushMessage = pushMessage;
     this.store = store;
@@ -97,7 +96,7 @@ export default class RecordPayRunModule {
     };
 
     this.integrator.previewPayDetails({ onSuccess, onFailure });
-  }
+  };
 
   onPreviewPayRunActivityClick = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
@@ -115,7 +114,7 @@ export default class RecordPayRunModule {
     };
 
     this.integrator.previewPayRunActivity({ onSuccess, onFailure });
-  }
+  };
 
   getView() {
     const declarationModal = this.stpDeclarationModule.getView();

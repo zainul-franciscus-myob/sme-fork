@@ -3,17 +3,15 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAbn, getAbnLink, getIsAbnLoading, getSupplierLink,
+  getAbn,
+  getAbnLink,
+  getIsAbnLoading,
+  getSupplierLink,
 } from '../selectors/billSelectors';
 import AbnPopover from '../../../../components/autoFormatter/AbnInput/AbnPopover';
 import styles from './BillAbnPopover.module.css';
 
-const BillAbnPopover = ({
-  abn,
-  abnLink,
-  supplierUrl,
-  isAbnLoading,
-}) => {
+const BillAbnPopover = ({ abn, abnLink, supplierUrl, isAbnLoading }) => {
   const abnSpinner = (
     <div className={styles.spinner}>
       <Spinner size="small" />
@@ -21,17 +19,13 @@ const BillAbnPopover = ({
   );
 
   const abnPopover = abn ? (
-    <AbnPopover
-      {...abn}
-      abnLink={abnLink}
-      editContactUrl={supplierUrl}
-    />
+    <AbnPopover {...abn} abnLink={abnLink} editContactUrl={supplierUrl} />
   ) : null;
 
   return isAbnLoading ? abnSpinner : abnPopover;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAbnLoading: getIsAbnLoading(state),
   abn: getAbn(state),
   abnLink: getAbnLink(state),

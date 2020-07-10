@@ -7,9 +7,12 @@ const previewHorizontalPadding = parseFloat(styles.previewPadding) * 2;
 const previewVerticalPadding = parseFloat(styles.previewPadding) * 2;
 
 function calcScale(containerEl, previewOriginalWidth) {
-  const containerWidth = parseFloat(window.getComputedStyle(containerEl.current).width);
+  const containerWidth = parseFloat(
+    window.getComputedStyle(containerEl.current).width
+  );
   const spaceAvailableForPreview = containerWidth - containerHorizontalPadding;
-  const spaceRequiredForPreview = previewOriginalWidth + previewHorizontalPadding;
+  const spaceRequiredForPreview =
+    previewOriginalWidth + previewHorizontalPadding;
   return spaceAvailableForPreview / spaceRequiredForPreview;
 }
 
@@ -36,28 +39,27 @@ const Preview = ({
     return () => {};
   }, [previewOriginalWidth, preview]);
 
-  const previewOriginalHeight = previewOriginalWidth * previewRatio + previewVerticalPadding;
+  const previewOriginalHeight =
+    previewOriginalWidth * previewRatio + previewVerticalPadding;
 
   const style = scale
     ? {
-      transform: `scale(${scale})`,
-      width: `calc(${previewOriginalWidth}px + ${previewHorizontalPadding}px)`,
-      height: `${previewOriginalHeight}px`,
-    }
+        transform: `scale(${scale})`,
+        width: `calc(${previewOriginalWidth}px + ${previewHorizontalPadding}px)`,
+        height: `${previewOriginalHeight}px`,
+      }
     : {};
   const previewHeight = previewOriginalHeight * scale;
   return (
     <div className={styles.container}>
-      <div
-        className={styles.previewContainer}
-        ref={containerEl}
-      >
+      <div className={styles.previewContainer} ref={containerEl}>
         <div className={styles.header} ref={headerEl}>
           {previewHeader}
         </div>
-        <div style={{
-          height: `${previewHeight}px`,
-        }}
+        <div
+          style={{
+            height: `${previewHeight}px`,
+          }}
         >
           <div className={styles.preview} style={style} ref={contentEl}>
             {preview}

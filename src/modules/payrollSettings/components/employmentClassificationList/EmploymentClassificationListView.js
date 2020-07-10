@@ -1,10 +1,11 @@
-import {
-  Button, ButtonRow, StandardTemplate,
-} from '@myob/myob-widgets';
+import { Button, ButtonRow, StandardTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsLoading, getLoadingState } from '../../selectors/employmentClassificationListSelectors';
+import {
+  getIsLoading,
+  getLoadingState,
+} from '../../selectors/employmentClassificationListSelectors';
 import EmploymentClassificationListFilterOptions from './EmploymentClassificationListFilterOptions';
 import EmploymentClassificationListTable from './EmploymentClassificationListTable';
 import PageView from '../../../../components/PageView/PageView';
@@ -33,8 +34,8 @@ const EmploymentClassificationListView = (props) => {
 
   const subHeadChildren = (
     <React.Fragment>
-      { tabs }
-      { actions }
+      {tabs}
+      {actions}
     </React.Fragment>
   );
 
@@ -46,7 +47,10 @@ const EmploymentClassificationListView = (props) => {
   );
 
   const view = (
-    <EmploymentClassificationListTable onSort={onSort} onClickRowButton={onClickRowButton} />
+    <EmploymentClassificationListTable
+      onSort={onSort}
+      onClickRowButton={onClickRowButton}
+    />
   );
 
   return (
@@ -62,7 +66,7 @@ const EmploymentClassificationListView = (props) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoading: getIsLoading(state),
   loadingState: getLoadingState(state),
 });

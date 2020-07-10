@@ -10,42 +10,42 @@ const EmployeeDetailActions = ({
   onDeleteButtonClick,
   isActionsDisabled,
 }) => (
-    <ButtonRow
-      primary={[
-        <Button
-          key="cancel"
-          name="cancel"
-          type="secondary"
-          onClick={onCancelButtonClick}
-          disabled={isActionsDisabled}
-        >
+  <ButtonRow
+    primary={[
+      <Button
+        key="cancel"
+        name="cancel"
+        type="secondary"
+        onClick={onCancelButtonClick}
+        disabled={isActionsDisabled}
+      >
         Cancel
-        </Button>,
-        <Button
-          key="save"
-          name="save"
-          type="primary"
-          onClick={onSaveButtonClick}
-          disabled={isActionsDisabled}
-        >
+      </Button>,
+      <Button
+        key="save"
+        name="save"
+        type="primary"
+        onClick={onSaveButtonClick}
+        disabled={isActionsDisabled}
+      >
         Save
-        </Button>,
-      ]}
-
-      secondary={
-        [<Button
-          key="delete"
-          name="delete"
-          type="secondary"
-          onClick={onDeleteButtonClick}
-          disabled={isActionsDisabled}
-        >
+      </Button>,
+    ]}
+    secondary={[
+      <Button
+        key="delete"
+        name="delete"
+        type="secondary"
+        onClick={onDeleteButtonClick}
+        disabled={isActionsDisabled}
+      >
         Delete
-        </Button>]}
-    />
+      </Button>,
+    ]}
+  />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isActionsDisabled: getIsSubmitting(state),
 });
 

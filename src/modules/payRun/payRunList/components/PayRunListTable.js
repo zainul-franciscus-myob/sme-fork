@@ -1,7 +1,4 @@
-import {
-  HeaderSort,
-  Table,
-} from '@myob/myob-widgets';
+import { HeaderSort, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -17,13 +14,17 @@ import TableView from '../../../../components/TableView/TableView';
 
 const tableConfig = {
   date: {
-    valign: 'top', columnName: 'Date of payment',
+    valign: 'top',
+    columnName: 'Date of payment',
   },
   payPeriod: {
-    valign: 'top', columnName: 'Pay period',
+    valign: 'top',
+    columnName: 'Pay period',
   },
   employees: {
-    valign: 'top', align: 'left', columnName: 'Employees',
+    valign: 'top',
+    align: 'left',
+    columnName: 'Employees',
   },
 };
 
@@ -39,7 +40,12 @@ const PayRunListTable = ({
   const header = (
     <Table.Header>
       <Table.HeaderItem {...tableConfig.date}>
-        <HeaderSort title={tableConfig.date.columnName} sortName="date" activeSort={sortOrder} onSort={onSort} />
+        <HeaderSort
+          title={tableConfig.date.columnName}
+          sortName="date"
+          activeSort={sortOrder}
+          onSort={onSort}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.payPeriod}>
         {tableConfig.payPeriod.columnName}
@@ -50,18 +56,25 @@ const PayRunListTable = ({
     </Table.Header>
   );
 
-  const rows = entries.map(entry => (
+  const rows = entries.map((entry) => (
     <Table.Row key={entry.id}>
       <Table.RowItem {...tableConfig.date}>
         <a href={entry.link}>{entry.paymentDate}</a>
       </Table.RowItem>
-      <Table.RowItem {...tableConfig.payPeriod}>{entry.payPeriod}</Table.RowItem>
-      <Table.RowItem {...tableConfig.employees}>{entry.employeeCount}</Table.RowItem>
+      <Table.RowItem {...tableConfig.payPeriod}>
+        {entry.payPeriod}
+      </Table.RowItem>
+      <Table.RowItem {...tableConfig.employees}>
+        {entry.employeeCount}
+      </Table.RowItem>
     </Table.Row>
   ));
 
   const emptyView = (
-    <PayRunListEmptyView emptyState={emptyState} onStpSignUpClick={onStpSignUpClick} />
+    <PayRunListEmptyView
+      emptyState={emptyState}
+      onStpSignUpClick={onStpSignUpClick}
+    />
   );
 
   return (
@@ -72,14 +85,12 @@ const PayRunListTable = ({
       emptyView={emptyView}
       emptyMessage="Empty table"
     >
-      <Table.Body>
-        {rows}
-      </Table.Body>
+      <Table.Body>{rows}</Table.Body>
     </TableView>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   entries: getTableEntries(state),
   sortOrder: getOrder(state),
   isTableEmpty: shouldShowEmptyState(state),

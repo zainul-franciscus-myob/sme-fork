@@ -4,10 +4,16 @@ import React from 'react';
 import { getDeductionTableRows } from '../../selectors/PayrollPayHistorySelectors';
 import PayrollPayHistoryDetailsTableRowGroup from './PayrollPayHistoryDetailsTableRowGroup';
 
-const PayrollPayHistoryDetailsDeductionTableRowGroup = props => (
-  <PayrollPayHistoryDetailsTableRowGroup name="deductions" title="Deductions" {...props} />
+const PayrollPayHistoryDetailsDeductionTableRowGroup = (props) => (
+  <PayrollPayHistoryDetailsTableRowGroup
+    name="deductions"
+    title="Deductions"
+    {...props}
+  />
 );
 
-const mapStateToProps = state => getDeductionTableRows(state);
+const mapStateToProps = (state) => getDeductionTableRows(state);
 
-export default connect(mapStateToProps)(PayrollPayHistoryDetailsDeductionTableRowGroup);
+export default connect(mapStateToProps)(
+  PayrollPayHistoryDetailsDeductionTableRowGroup
+);

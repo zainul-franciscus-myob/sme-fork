@@ -1,4 +1,8 @@
-import { ADD_ATTACHMENTS, UPLOAD_ATTACHMENT, UPLOAD_ATTACHMENT_FAILED } from '../../BankingIntents';
+import {
+  ADD_ATTACHMENTS,
+  UPLOAD_ATTACHMENT,
+  UPLOAD_ATTACHMENT_FAILED,
+} from '../../BankingIntents';
 import { loadOpenEntry } from '../openEntryHandlers';
 import bankingReducer from '../index';
 
@@ -23,12 +27,14 @@ describe('openEntryHandlers', () => {
 
       const expected = {
         openEntry: {
-          attachments: [{
-            name: 'filename',
-            size: 10000000,
-            state: 'queued',
-            file,
-          }],
+          attachments: [
+            {
+              name: 'filename',
+              size: 10000000,
+              state: 'queued',
+              file,
+            },
+          ],
         },
       };
 
@@ -56,13 +62,15 @@ describe('openEntryHandlers', () => {
 
       const expected = {
         openEntry: {
-          attachments: [{
-            name: 'filename',
-            size: 10000001,
-            state: 'failed',
-            error: 'File is more than 10MB',
-            file,
-          }],
+          attachments: [
+            {
+              name: 'filename',
+              size: 10000001,
+              state: 'failed',
+              error: 'File is more than 10MB',
+              file,
+            },
+          ],
         },
       };
 
@@ -80,11 +88,13 @@ describe('openEntryHandlers', () => {
 
       const state = {
         openEntry: {
-          attachments: [{
-            state: 'queued',
-            name: 'filename',
-            file,
-          }],
+          attachments: [
+            {
+              state: 'queued',
+              name: 'filename',
+              file,
+            },
+          ],
         },
       };
 
@@ -97,12 +107,14 @@ describe('openEntryHandlers', () => {
 
       const expected = {
         openEntry: {
-          attachments: [{
-            id: 'document id',
-            name: 'filename',
-            state: 'finished',
-            file,
-          }],
+          attachments: [
+            {
+              id: 'document id',
+              name: 'filename',
+              state: 'finished',
+              file,
+            },
+          ],
         },
       };
 
@@ -120,10 +132,12 @@ describe('openEntryHandlers', () => {
 
       const state = {
         openEntry: {
-          attachments: [{
-            state: 'queued',
-            file,
-          }],
+          attachments: [
+            {
+              state: 'queued',
+              file,
+            },
+          ],
         },
       };
 
@@ -135,11 +149,13 @@ describe('openEntryHandlers', () => {
 
       const expected = {
         openEntry: {
-          attachments: [{
-            state: 'failed',
-            error: 'error',
-            file,
-          }],
+          attachments: [
+            {
+              state: 'failed',
+              error: 'error',
+              file,
+            },
+          ],
         },
       };
 
@@ -153,10 +169,7 @@ describe('openEntryHandlers', () => {
     const attachments = ['some', 'attachments'];
 
     const state = {
-      entries: [
-        {},
-        { description: 'abc' },
-      ],
+      entries: [{}, { description: 'abc' }],
       openEntry: {
         attachments,
       },

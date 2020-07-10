@@ -155,7 +155,7 @@ import getDateRangeByPeriodAndRegion from '../../../components/PeriodPicker/getD
 import getDefaultState from './getDefaultState';
 import wrapHandlers from '../../../store/wrapHandlers';
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const loadBankTransactions = (state, action) => ({
   ...state,
@@ -170,7 +170,7 @@ const loadBankTransactions = (state, action) => ({
   customers: action.customers,
   taxCodes: action.taxCodes,
   jobs: action.jobs,
-  entries: action.entries.map(entry => ({
+  entries: action.entries.map((entry) => ({
     ...entry,
     isLoading: false,
   })),
@@ -183,26 +183,24 @@ const loadBankTransactions = (state, action) => ({
     ...state.defaultFilterOptions,
     bankAccount: action.bankAccount,
   },
-}
-);
+});
 
 const loadBankTransactionsNextPage = (state, action) => {
-  const allTransactionIds = state.entries.map(transaction => transaction.transactionId);
-
-  const entries = action.entries.filter(
-    transaction => !allTransactionIds.includes(transaction.transactionId),
+  const allTransactionIds = state.entries.map(
+    (transaction) => transaction.transactionId
   );
 
-  return ({
+  const entries = action.entries.filter(
+    (transaction) => !allTransactionIds.includes(transaction.transactionId)
+  );
+
+  return {
     ...state,
-    entries: [
-      ...state.entries,
-      ...entries,
-    ],
+    entries: [...state.entries, ...entries],
     pagination: {
       ...action.pagination,
     },
-  });
+  };
 };
 
 const sortAndFilterBankTransactions = (state, action) => ({
@@ -234,7 +232,7 @@ const updatePeriodDateRange = (state, { period, dateFrom, dateTo }) => ({
   },
 });
 
-const resetFilters = state => ({
+const resetFilters = (state) => ({
   ...state,
   filterOptions: {
     ...state.defaultFilterOptions,
@@ -251,12 +249,12 @@ const setLoadingState = (state, action) => ({
   isLoading: action.isLoading,
 });
 
-const startLoadingMore = state => ({
+const startLoadingMore = (state) => ({
   ...state,
   isLoadingMore: true,
 });
 
-const stopLoadingMore = state => ({
+const stopLoadingMore = (state) => ({
   ...state,
   isLoadingMore: false,
 });
@@ -271,7 +269,7 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
-const getTransactionType = transactionType => {
+const getTransactionType = (transactionType) => {
   switch (transactionType) {
     case 'Linked':
       return TransactionTypes.ALLOCATED;
@@ -292,22 +290,29 @@ const setInitialState = (state, action) => {
   const datesWithDefaultPeriod = getDateRangeByPeriodAndRegion(
     action.context.region,
     new Date(),
-    period,
+    period
   );
 
   const setDate = (date, dateInState) => {
     const dateObject = new Date(date);
-    return Number.isNaN(dateObject.getDate()) ? dateInState : formatIsoDate(dateObject);
+    return Number.isNaN(dateObject.getDate())
+      ? dateInState
+      : formatIsoDate(dateObject);
   };
 
-  const datesFromContext = transactionType === TransactionTypes.ALLOCATED ? {
-    dateFrom: setDate(action.context.dateFrom, datesWithDefaultPeriod.dateFrom),
-    dateTo: setDate(action.context.dateTo, datesWithDefaultPeriod.dateTo),
-    period: Periods.custom,
-  } : {
-    ...datesWithDefaultPeriod,
-  };
-
+  const datesFromContext =
+    transactionType === TransactionTypes.ALLOCATED
+      ? {
+          dateFrom: setDate(
+            action.context.dateFrom,
+            datesWithDefaultPeriod.dateFrom
+          ),
+          dateTo: setDate(action.context.dateTo, datesWithDefaultPeriod.dateTo),
+          period: Periods.custom,
+        }
+      : {
+          ...datesWithDefaultPeriod,
+        };
 
   const filterOptions = {
     ...state.filterOptions,
@@ -328,20 +333,19 @@ export const openModal = (state, action) => ({
   modalType: action.modalType,
 });
 
-export const closeModal = state => ({
+export const closeModal = (state) => ({
   ...state,
   modalType: '',
 });
 
-export const startModalBlocking = state => ({
+export const startModalBlocking = (state) => ({
   ...state,
   isModalBlocking: true,
 });
 
-export const stopModalBlocking = state => ({
+export const stopModalBlocking = (state) => ({
   ...state,
   isModalBlocking: false,
-
 });
 
 export const setModalAlert = (state, action) => ({
@@ -369,27 +373,27 @@ export const setEntryHovered = (state, action) => ({
 
 export const startEntryLoadingState = (state, action) => ({
   ...state,
-  entries: state.entries.map(
-    (entry, index) => (
-      index === action.index ? {
-        ...entry,
-        isLoading: true,
-        displayName: action.displayName,
-      } : entry
-    ),
+  entries: state.entries.map((entry, index) =>
+    index === action.index
+      ? {
+          ...entry,
+          isLoading: true,
+          displayName: action.displayName,
+        }
+      : entry
   ),
 });
 
 export const stopEntryLoadingState = (state, action) => ({
   ...state,
-  entries: state.entries.map(
-    (entry, index) => (
-      index === action.index ? {
-        ...entry,
-        isLoading: false,
-        displayName: '',
-      } : entry
-    ),
+  entries: state.entries.map((entry, index) =>
+    index === action.index
+      ? {
+          ...entry,
+          isLoading: false,
+          displayName: '',
+        }
+      : entry
   ),
 });
 
@@ -397,11 +401,11 @@ const setEditingNoteState = (state, { editingNotePosition }) => {
   const entry = state.entries[editingNotePosition] || {};
   const pendingNote = entry.note || entry.description;
 
-  return ({
+  return {
     ...state,
     editingNotePosition,
     pendingNote,
-  });
+  };
 };
 
 const setPendingNote = (state, { pendingNote }) => ({
@@ -411,16 +415,16 @@ const setPendingNote = (state, { pendingNote }) => ({
 
 const savePendingNote = (state) => {
   const { editingNotePosition, entries, pendingNote } = state;
-  const newEntries = entries.map((entry, index) => (
+  const newEntries = entries.map((entry, index) =>
     index === editingNotePosition ? { ...entry, note: pendingNote } : entry
-  ));
+  );
 
-  return ({
+  return {
     ...state,
     editingNotePosition: undefined,
     pendingNote: undefined,
     entries: newEntries,
-  });
+  };
 };
 
 const setSubmittingNoteState = (state, action) => ({
@@ -430,32 +434,20 @@ const setSubmittingNoteState = (state, action) => ({
 
 export const loadAccountAfterCreate = (state, { account }) => ({
   ...state,
-  withdrawalAccounts: [
-    account,
-    ...state.withdrawalAccounts,
-  ],
-  depositAccounts: [
-    account,
-    ...state.depositAccounts,
-  ],
+  withdrawalAccounts: [account, ...state.withdrawalAccounts],
+  depositAccounts: [account, ...state.depositAccounts],
 });
 
 const loadJobAfterCreate = (state, { intent, ...job }) => ({
   ...state,
-  jobs: [
-    job,
-    ...state.jobs,
-  ],
+  jobs: [job, ...state.jobs],
   openEntry: {
     ...state.openEntry,
     allocate: {
       ...state.openEntry.allocate,
-      lines: state.openEntry.allocate.lines.map(line => ({
+      lines: state.openEntry.allocate.lines.map((line) => ({
         ...line,
-        lineJobOptions: [
-          job,
-          ...line.lineJobOptions,
-        ],
+        lineJobOptions: [job, ...line.lineJobOptions],
       })),
       newLine: {
         ...state.openEntry.allocate.newLine,
@@ -469,9 +461,10 @@ const loadJobAfterCreate = (state, { intent, ...job }) => ({
   isPageEdited: true,
 });
 
-const setJobLoadingState = (state, { isJobLoading }) => (
-  { ...state, isJobLoading }
-);
+const setJobLoadingState = (state, { isJobLoading }) => ({
+  ...state,
+  isJobLoading,
+});
 
 export const setLoadingSingleAccountState = (state, action) => ({
   ...state,

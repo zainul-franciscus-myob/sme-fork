@@ -11,12 +11,7 @@ import {
 import AbnPopover from '../../../../components/autoFormatter/AbnInput/AbnPopover';
 import styles from './InvoiceAbnPopover.module.css';
 
-const InvoiceAbnPopover = ({
-  abn,
-  abnLink,
-  customerUrl,
-  isAbnLoading,
-}) => {
+const InvoiceAbnPopover = ({ abn, abnLink, customerUrl, isAbnLoading }) => {
   const abnSpinner = (
     <div className={styles.spinner}>
       <Spinner size="small" />
@@ -24,17 +19,13 @@ const InvoiceAbnPopover = ({
   );
 
   const abnPopover = abn ? (
-    <AbnPopover
-      {...abn}
-      abnLink={abnLink}
-      editContactUrl={customerUrl}
-    />
+    <AbnPopover {...abn} abnLink={abnLink} editContactUrl={customerUrl} />
   ) : null;
 
   return isAbnLoading ? abnSpinner : abnPopover;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAbnLoading: getIsAbnLoading(state),
   abn: getAbn(state),
   abnLink: getAbnLink(state),

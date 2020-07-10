@@ -2,7 +2,10 @@ import { Aside, Button, Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getInTrayDocumentFileUrl, getInTrayDocumentUploadedDate } from '../spendMoneyDetailSelectors';
+import {
+  getInTrayDocumentFileUrl,
+  getInTrayDocumentUploadedDate,
+} from '../spendMoneyDetailSelectors';
 import DocumentViewer from '../../../../components/DocumentViewer/DocumentViewer';
 import styles from './SpendMoneyDocumentViewer.module.css';
 
@@ -22,7 +25,7 @@ const SpendMoneyDocumentViewer = ({
   return (
     <Aside
       className={styles.aside}
-      header={(
+      header={
         <Aside.Header>
           <Aside.Title>
             {`Source document uploaded ${documentUploadedDate}`}
@@ -33,18 +36,18 @@ const SpendMoneyDocumentViewer = ({
               type="link"
               icon={<Icons.Collapse />}
             >
-            Close split view
+              Close split view
             </Button>
           </div>
         </Aside.Header>
-    )}
+      }
     >
       {documentViewer}
     </Aside>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   documentFileUrl: getInTrayDocumentFileUrl(state),
   documentUploadedDate: getInTrayDocumentUploadedDate(state),
 });

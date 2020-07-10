@@ -1,6 +1,4 @@
-import {
-  Button, ButtonRow, Dropdown, Icons,
-} from '@myob/myob-widgets';
+import { Button, ButtonRow, Dropdown, Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -34,20 +32,16 @@ const GeneralJournalDetailActions = ({
     />,
   ];
 
-  return (isSystem
-    ? <ButtonRow
+  return isSystem ? (
+    <ButtonRow
       primary={[
-          <Button
-            key="goBack"
-            name="goBack"
-            type="primary"
-            onClick={onGoBack}
-          >
-            Go back
-          </Button>,
+        <Button key="goBack" name="goBack" type="primary" onClick={onGoBack}>
+          Go back
+        </Button>,
       ]}
     />
-    : <ButtonRow
+  ) : (
+    <ButtonRow
       primary={[
         <Button
           key="cancel"
@@ -61,12 +55,12 @@ const GeneralJournalDetailActions = ({
         <Dropdown
           key="saveAnd"
           onSelect={onSaveAndButtonClick}
-          toggle={(
+          toggle={
             <Dropdown.Toggle disabled={isActionsDisabled}>
               Record and new
               <Icons.Caret />
             </Dropdown.Toggle>
-          )}
+          }
           items={dropdownActionItems}
         />,
         <Button

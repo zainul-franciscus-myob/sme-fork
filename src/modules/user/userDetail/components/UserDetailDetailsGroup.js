@@ -1,6 +1,4 @@
-import {
-  Checkbox, CheckboxGroup, FieldGroup, Input,
-} from '@myob/myob-widgets';
+import { Checkbox, CheckboxGroup, FieldGroup, Input } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -35,28 +33,25 @@ const UserDetailDetailsGroup = ({
       disabled={!isCreating}
       width="lg"
     />
-    {
-      !isCreating
-      && (
-        <CheckboxGroup
-          label="isInactive"
-          hideLabel
-          renderCheckbox={() => (
-            <Checkbox
-              key="isInactive"
-              name="isInactive"
-              label="Inactive user"
-              checked={isInactive}
-              onChange={handleCheckboxChange(onUserDetailsChange)}
-              disabled={!isCreating && isAdmin}
-            />)
-          }
-        />
-      )
-    }
+    {!isCreating && (
+      <CheckboxGroup
+        label="isInactive"
+        hideLabel
+        renderCheckbox={() => (
+          <Checkbox
+            key="isInactive"
+            name="isInactive"
+            label="Inactive user"
+            checked={isInactive}
+            onChange={handleCheckboxChange(onUserDetailsChange)}
+            disabled={!isCreating && isAdmin}
+          />
+        )}
+      />
+    )}
   </FieldGroup>
 );
 
-const mapStateToProps = state => getUserDetails(state);
+const mapStateToProps = (state) => getUserDetails(state);
 
 export default connect(mapStateToProps)(UserDetailDetailsGroup);

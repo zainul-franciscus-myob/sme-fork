@@ -3,12 +3,13 @@ import {
   LOAD_RECEIVE_REFUND,
   OPEN_MODAL,
   SET_ALERT,
-  SET_LOADING_STATE, SET_RECEIVE_REFUND_DETAIL,
+  SET_LOADING_STATE,
+  SET_RECEIVE_REFUND_DETAIL,
   SET_SUBMITTING_STATE,
 } from '../ReceiveRefundIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createReceiveRefundDispatcher = store => ({
+const createReceiveRefundDispatcher = (store) => ({
   setInitialState: (context) => {
     const intent = SET_INITIAL_STATE;
     store.dispatch({ intent, context });

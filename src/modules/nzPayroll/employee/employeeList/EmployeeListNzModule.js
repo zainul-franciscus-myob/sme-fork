@@ -20,12 +20,15 @@ export default class EmployeeListNzModule {
 
     this.store = new Store(employeeListNzReducer);
     this.dispatcher = employeeListNzDispatcher({ store: this.store });
-    this.integrator = employeeListNzIntegrator({ store: this.store, integration });
+    this.integrator = employeeListNzIntegrator({
+      store: this.store,
+      integration,
+    });
   }
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   loadEmployeeList = () => {
     const onSuccess = (response) => {
@@ -37,15 +40,17 @@ export default class EmployeeListNzModule {
     };
 
     this.integrator.loadEmployeeList({ onSuccess, onFailure });
-  }
+  };
 
   resetState = () => this.dispatcher.resetState();
 
   render() {
-    const view = <EmployeeListNzView
-      onDismissAlert={this.dismissAlert}
-      onEmployeeCreateButtonClick={this.redirectToCreateEmployee}
-    />;
+    const view = (
+      <EmployeeListNzView
+        onDismissAlert={this.dismissAlert}
+        onEmployeeCreateButtonClick={this.redirectToCreateEmployee}
+      />
+    );
     const wrappedView = <Provider store={this.store}>{view}</Provider>;
     this.setRootView(wrappedView);
   }
@@ -63,15 +68,13 @@ export default class EmployeeListNzModule {
 
   setAlert = ({ type, message }) => {
     this.dispatcher.setAlert({ type, message });
-  }
+  };
 
   readMessages = () => {
-    const [inboxMessage] = this.popMessages(
-      [
-        SUCCESSFULLY_DELETED_NZ_EMPLOYEE,
-        SUCCESSFULLY_SAVED_NZ_EMPLOYEE,
-      ],
-    );
+    const [inboxMessage] = this.popMessages([
+      SUCCESSFULLY_DELETED_NZ_EMPLOYEE,
+      SUCCESSFULLY_SAVED_NZ_EMPLOYEE,
+    ]);
     if (inboxMessage) {
       this.setAlert({
         type: 'success',
@@ -84,5 +87,5 @@ export default class EmployeeListNzModule {
     const state = this.store.getState();
     const { businessId, region } = state;
     window.location.href = `/#/${region}/${businessId}/employee/new`;
-  }
+  };
 }

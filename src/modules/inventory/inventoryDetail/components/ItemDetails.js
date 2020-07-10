@@ -1,5 +1,9 @@
 import {
-  Checkbox, CheckboxGroup, FieldGroup, Input, TextArea,
+  Checkbox,
+  CheckboxGroup,
+  FieldGroup,
+  Input,
+  TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -36,7 +40,7 @@ const ItemDetails = ({
     <CheckboxGroup
       hideLabel
       label="useItemDescription"
-      renderCheckbox={props => (
+      renderCheckbox={(props) => (
         <Checkbox
           {...props}
           name="useItemDescription"
@@ -70,6 +74,6 @@ const ItemDetails = ({
   </FieldGroup>
 );
 
-const mapStateToProps = state => getItemDetails(state);
+const mapStateToProps = (state) => getItemDetails(state);
 
 export default connect(mapStateToProps)(ItemDetails);

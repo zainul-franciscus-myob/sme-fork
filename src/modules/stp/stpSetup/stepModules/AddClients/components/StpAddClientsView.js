@@ -1,6 +1,4 @@
-import {
-  Alert, Button, ButtonRow, Card, Icons,
-} from '@myob/myob-widgets';
+import { Alert, Button, ButtonRow, Card, Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -22,20 +20,18 @@ const StpAddClientsView = ({
   errorMessage,
 }) => (
   <div>
-    {errorMessage && (<Alert type="danger">{errorMessage}</Alert>)}
+    {errorMessage && <Alert type="danger">{errorMessage}</Alert>}
     <Card header={<h2>{`Launch ${agentRole} portal`}</h2>}>
-      <Alert type="info">If you have already done this, you can skip this step.</Alert>
+      <Alert type="info">
+        If you have already done this, you can skip this step.
+      </Alert>
       <p>
-        You need to add this business to your client list. Make sure the client has authorised you
-        to act on their behalf.
+        You need to add this business to your client list. Make sure the client
+        has authorised you to act on their behalf.
       </p>
       <div className={styles.divP}>
         Detailed instructions:&nbsp;
-        <a
-          href={instructionsLink}
-          target="_blank"
-          rel="noreferrer noopener"
-        >
+        <a href={instructionsLink} target="_blank" rel="noreferrer noopener">
           Adding and removing clients
         </a>
         &nbsp;(ATO Website)
@@ -44,18 +40,18 @@ const StpAddClientsView = ({
         <Card header={<h3>Add a client</h3>}>
           <ol>
             <li>
-            Log in to the
+              Log in to the
               <strong>{` ${agentRole} portal.`}</strong>
             </li>
             <li>
-            Click&nbsp;
+              Click&nbsp;
               <strong>Your clients</strong>
               &nbsp;in the left menu and select&nbsp;
               <strong>Add client.</strong>
             </li>
             <li>Enter client details.</li>
             <li>
-            Come back to this page and click&nbsp;
+              Come back to this page and click&nbsp;
               <strong>Next</strong>
             </li>
             <LinkButton
@@ -73,14 +69,28 @@ const StpAddClientsView = ({
     </Card>
     <ButtonRow
       primary={[
-        <Button type="secondary" testid="previousButton" onClick={onPreviousClick} key="previousButton">Previous</Button>,
-        <Button type="primary" testid="nextButton" onClick={onNextClick} key="nextButton">Next</Button>,
+        <Button
+          type="secondary"
+          testid="previousButton"
+          onClick={onPreviousClick}
+          key="previousButton"
+        >
+          Previous
+        </Button>,
+        <Button
+          type="primary"
+          testid="nextButton"
+          onClick={onNextClick}
+          key="nextButton"
+        >
+          Next
+        </Button>,
       ]}
     />
   </div>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   agentRole: getAgentRoleText(state),
   errorMessage: getErrorMessage(state),
   instructionsLink: getATOInstructionsLink(state),

@@ -34,7 +34,7 @@ import {
 } from './PayrollSettingsIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 
-const createPayrollSettingsDispatcher = store => ({
+const createPayrollSettingsDispatcher = (store) => ({
   setInitialState: (context) => {
     const intent = SET_INITIAL_STATE;
     store.dispatch({

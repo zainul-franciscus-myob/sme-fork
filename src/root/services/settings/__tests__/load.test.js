@@ -35,7 +35,6 @@ describe('SettingsService', () => {
         }),
       };
 
-
       load(dispatcher, integration, store);
       expect(dispatcher.loadSettings).toBeCalledTimes(0);
     });
@@ -48,7 +47,6 @@ describe('SettingsService', () => {
           areOnboardingSettingsLoaded: true,
         }),
       };
-
 
       load(dispatcher, integration, store);
       expect(dispatcher.loadSettings).toBeCalledTimes(0);

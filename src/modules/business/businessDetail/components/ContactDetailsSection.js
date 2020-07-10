@@ -4,13 +4,18 @@ import React from 'react';
 
 import { getContactDetails } from '../businessDetailSelectors';
 
-const onInputChange = handler => (e) => {
+const onInputChange = (handler) => (e) => {
   const { value, name } = e.target;
   handler({ key: name, value });
 };
 
 const ContactDetailsSection = ({
-  phoneNumber, fax, website, email, address, onChange,
+  phoneNumber,
+  fax,
+  website,
+  email,
+  address,
+  onChange,
 }) => (
   <FieldGroup label="Contact details">
     <TextArea
@@ -55,6 +60,6 @@ const ContactDetailsSection = ({
   </FieldGroup>
 );
 
-const mapStateToProps = state => getContactDetails(state);
+const mapStateToProps = (state) => getContactDetails(state);
 
 export default connect(mapStateToProps)(ContactDetailsSection);

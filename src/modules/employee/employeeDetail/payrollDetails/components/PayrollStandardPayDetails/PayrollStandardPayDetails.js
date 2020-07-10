@@ -4,12 +4,7 @@ import PayrollStandardPayDetailsAllocatedPayItems from './PayrollStandardPayDeta
 import PayrollStandardPayDetailsBasePay from './PayrollStandardPayDetailsBasePay';
 
 const PayrollStandardPayDetails = ({
-  listeners: {
-    onDetailChange,
-    onPayItemChange,
-    onPayItemBlur,
-    onPayItemClick,
-  },
+  listeners: { onDetailChange, onPayItemChange, onPayItemBlur, onPayItemClick },
 }) => (
   <>
     <PayrollStandardPayDetailsBasePay onChange={onDetailChange} />

@@ -1,6 +1,4 @@
-import {
-  Card, PageState,
-} from '@myob/myob-widgets';
+import { Card, PageState } from '@myob/myob-widgets';
 import React from 'react';
 
 import PageView from '../../../components/PageView/PageView';

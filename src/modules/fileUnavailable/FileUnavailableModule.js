@@ -31,11 +31,14 @@ export default class FileUnavailableModule {
       region,
     };
 
-    this.integration.read(urlParams)
+    this.integration
+      .read(urlParams)
       .then((payload) => {
         this.dispatcher.load(payload);
       })
-      .catch((error) => { throw error; });
+      .catch((error) => {
+        throw error;
+      });
   }
 
   run(context) {
@@ -48,7 +51,8 @@ export default class FileUnavailableModule {
     const wrappedView = (
       <Provider store={this.store}>
         <FileUnavailable />
-      </Provider>);
+      </Provider>
+    );
     this.setRootView(wrappedView);
   };
 }

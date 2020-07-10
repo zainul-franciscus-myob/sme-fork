@@ -1,6 +1,4 @@
-import {
-  Button, Card, Container, Icons, PageHead,
-} from '@myob/myob-widgets';
+import { Button, Card, Container, Icons, PageHead } from '@myob/myob-widgets';
 import PropTypes from 'prop-types';
 import React from 'react';
 import classnames from 'classnames';
@@ -15,20 +13,20 @@ function getReactElementPosition(element) {
   const parentPos = node.offsetParent;
   return {
     top:
-      node.offsetTop
-      && parentPos.offsetTop
-      && node.offsetTop - parentPos.offsetTop,
+      node.offsetTop &&
+      parentPos.offsetTop &&
+      node.offsetTop - parentPos.offsetTop,
     left:
-      node.offsetLeft
-      && parentPos.offsetLeft
-      && node.offsetLeft - parentPos.offsetLeft,
+      node.offsetLeft &&
+      parentPos.offsetLeft &&
+      node.offsetLeft - parentPos.offsetLeft,
     height: node.offsetHeight,
     width: node.offsetWidth,
     boundingClientRect: node.getBoundingClientRect(),
   };
 }
 
-const isNil = e => e === undefined || e === null;
+const isNil = (e) => e === undefined || e === null;
 
 const MasterDetailTemplateClose = ({ onClick }) => (
   <div className="flx-masterdetail-detail__close">
@@ -117,7 +115,7 @@ class MasterDetailTemplate extends React.Component {
     }
   }
 
-  prefixClass = section => `flx-masterdetail__${section}`;
+  prefixClass = (section) => `flx-masterdetail__${section}`;
 
   modifierClasses = (section, showDetail) => {
     const modifierClass = showDetail
@@ -130,7 +128,7 @@ class MasterDetailTemplate extends React.Component {
     const { sectionClassName } = this.props;
     return classnames(
       `flx-masterdetail__${section}`,
-      sectionClassName && `${sectionClassName}__${section}`,
+      sectionClassName && `${sectionClassName}__${section}`
     );
   };
 
@@ -167,16 +165,15 @@ class MasterDetailTemplate extends React.Component {
     const toTop = getReactElementPosition(this.headerRef).boundingClientRect
       .bottom;
 
-    const availableHeight = toTop < nonStickyDetailOffsetTop
-      ? `calc(100vh - ${nonStickyDetailOffsetTop}px - ${detailOffsetBottom}px)`
-      : `calc(100vh - ${toTop}px - ${detailOffsetBottom}px)`;
+    const availableHeight =
+      toTop < nonStickyDetailOffsetTop
+        ? `calc(100vh - ${nonStickyDetailOffsetTop}px - ${detailOffsetBottom}px)`
+        : `calc(100vh - ${toTop}px - ${detailOffsetBottom}px)`;
 
     return availableHeight;
   }
 
-  renderSwitch({
-    alert, pageHead, subHead, filterBar,
-  }) {
+  renderSwitch({ alert, pageHead, subHead, filterBar }) {
     const { sticky } = this.props;
     const { isMobile } = this.state;
     if (isMobile) {
@@ -197,14 +194,15 @@ class MasterDetailTemplate extends React.Component {
         });
       default:
         return this.renderStickyHeader({
-          alert, pageHead, subHead, filterBar,
+          alert,
+          pageHead,
+          subHead,
+          filterBar,
         });
     }
   }
 
-  renderNonStickyHeader({
-    alert, pageHead, subHead, filterBar,
-  }) {
+  renderNonStickyHeader({ alert, pageHead, subHead, filterBar }) {
     return (
       <div className="flx-template__header" ref={this.setHeaderRef}>
         {alert}
@@ -216,9 +214,7 @@ class MasterDetailTemplate extends React.Component {
     );
   }
 
-  renderStickyHeader({
-    alert, pageHead, subHead, filterBar,
-  }) {
+  renderStickyHeader({ alert, pageHead, subHead, filterBar }) {
     return (
       <StickyHeader reference={this.setHeaderRef}>
         {alert}
@@ -230,9 +226,7 @@ class MasterDetailTemplate extends React.Component {
   }
 
   renderContentInMobile() {
-    const {
-      showDetail, detail, master, actions,
-    } = this.props;
+    const { showDetail, detail, master, actions } = this.props;
 
     return (
       <div className="flx-masterdetail" ref={this.setContentContainerRef()}>
@@ -241,7 +235,7 @@ class MasterDetailTemplate extends React.Component {
             className={classnames(
               this.classes('detail'),
               `${this.prefixClass('detail')}--mobile`,
-              this.modifierClasses('detail', showDetail),
+              this.modifierClasses('detail', showDetail)
             )}
           >
             {detail}
@@ -251,7 +245,7 @@ class MasterDetailTemplate extends React.Component {
           className={classnames(
             this.classes('master'),
             `${this.prefixClass('master')}--mobile`,
-            this.modifierClasses('master', !showDetail),
+            this.modifierClasses('master', !showDetail)
           )}
         >
           {master}
@@ -271,7 +265,7 @@ class MasterDetailTemplate extends React.Component {
           <aside
             className={classnames(
               this.classes('detail'),
-              `${this.prefixClass('detail')}--hidden`,
+              `${this.prefixClass('detail')}--hidden`
             )}
           >
             {detail}
@@ -284,9 +278,15 @@ class MasterDetailTemplate extends React.Component {
 
     const stickyContent = (
       <aside
-        className={classnames(this.classes('detail'), `${this.prefixClass('detail')}--shown`)}
+        className={classnames(
+          this.classes('detail'),
+          `${this.prefixClass('detail')}--shown`
+        )}
         style={{
-          ...style, height: detailHeight, position: 'sticky', top: detailTopOffset,
+          ...style,
+          height: detailHeight,
+          position: 'sticky',
+          top: detailTopOffset,
         }}
       >
         <div
@@ -298,9 +298,7 @@ class MasterDetailTemplate extends React.Component {
       </aside>
     );
 
-    return (
-      stickyContent
-    );
+    return stickyContent;
   }
 
   renderContentForNonMobile() {
@@ -359,10 +357,11 @@ class MasterDetailTemplate extends React.Component {
     const templateClasses = classnames(
       'flx-template',
       'flx-template-masterdetail',
-      templateClassName,
+      templateClassName
     );
 
-    const safePageHead = typeof pageHead === 'string' ? <PageHead title={pageHead} /> : pageHead;
+    const safePageHead =
+      typeof pageHead === 'string' ? <PageHead title={pageHead} /> : pageHead;
     const safeAlert = alert && (
       <div className="flx-template__alert">{alert}</div>
     );

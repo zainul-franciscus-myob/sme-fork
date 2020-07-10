@@ -8,17 +8,21 @@ describe('createTaxCalculator', () => {
 
   const lines = [
     {
-      amount: '100.00', taxCodeId: '2', units: '1', lineTypeId: 17,
+      amount: '100.00',
+      taxCodeId: '2',
+      units: '1',
+      lineTypeId: 17,
     },
   ];
 
-  const setTaxLocally = () => (
-    {
-      Lines: [
-        { Amount: Decimal(90.91), TaxTransaction: { EffectiveTaxAmount: Decimal(9.09) } },
-      ],
-    }
-  );
+  const setTaxLocally = () => ({
+    Lines: [
+      {
+        Amount: Decimal(90.91),
+        TaxTransaction: { EffectiveTaxAmount: Decimal(9.09) },
+      },
+    ],
+  });
 
   let handler;
 
@@ -59,7 +63,10 @@ describe('createTaxCalculator', () => {
     const journalEntry = {
       Lines: [
         {
-          Amount: Decimal(100), UnitCount: 1, LineType: 17, AmountForeign: null,
+          Amount: Decimal(100),
+          UnitCount: 1,
+          LineType: 17,
+          AmountForeign: null,
         },
       ],
       EffectiveTaxAmount: Decimal(0),
@@ -67,15 +74,14 @@ describe('createTaxCalculator', () => {
 
     const lineTaxCode = expectedTaxCodesMetadata['2'];
 
-    expect(handler.flow.setTaxLocally)
-      .toHaveBeenCalledWith(
-        false,
-        journalEntry,
-        0,
-        lineTaxCode,
-        expectedTaxCodesMetadata,
-        Decimal(100),
-      );
+    expect(handler.flow.setTaxLocally).toHaveBeenCalledWith(
+      false,
+      journalEntry,
+      0,
+      lineTaxCode,
+      expectedTaxCodesMetadata,
+      Decimal(100)
+    );
   });
 
   it('should call buildTotals with right params', () => {
@@ -86,16 +92,16 @@ describe('createTaxCalculator', () => {
       lines,
     });
 
-    expect(handler.buildTotals)
-      .toHaveBeenCalledWith({
-        isTaxInclusive: true,
-        lines: [
-          {
-            amount: Decimal(100),
-            isCredit: undefined,
-            taxAmount: Decimal(9.09),
-            taxExclusiveAmount: Decimal(90.91),
-          }],
-      });
+    expect(handler.buildTotals).toHaveBeenCalledWith({
+      isTaxInclusive: true,
+      lines: [
+        {
+          amount: Decimal(100),
+          isCredit: undefined,
+          taxAmount: Decimal(9.09),
+          taxExclusiveAmount: Decimal(90.91),
+        },
+      ],
+    });
   });
 });

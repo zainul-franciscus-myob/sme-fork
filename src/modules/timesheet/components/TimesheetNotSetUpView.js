@@ -3,9 +3,7 @@ import React from 'react';
 
 import NoResultPageState from '../../../components/NoResultPageState/NoResultPageState';
 
-const TimesheetNotSetUpView = ({
-  onLinkClick,
-}) => {
+const TimesheetNotSetUpView = ({ onLinkClick }) => {
   const description = (
     <p>
       Do you pay employees for additional hours worked, like overtime?
@@ -26,7 +24,7 @@ const TimesheetNotSetUpView = ({
             testid="payrollSettingsLink"
             icon={<Icons.Settings />}
           >
-          Open timesheet settings
+            Open timesheet settings
           </Button>,
         ]}
       />

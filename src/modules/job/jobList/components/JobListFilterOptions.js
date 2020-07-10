@@ -10,10 +10,7 @@ import handleInputChange from '../../../../components/handlers/handleInputChange
 
 const JobListFilterOptions = ({
   onUpdateFilters,
-  filterOptions: {
-    keywords,
-    showInactive,
-  },
+  filterOptions: { keywords, showInactive },
 }) => (
   <FilterBar>
     <FilterBarSearch
@@ -33,7 +30,7 @@ const JobListFilterOptions = ({
   </FilterBar>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   filterOptions: getFilterOptions(state),
 });
 

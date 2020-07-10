@@ -15,10 +15,15 @@ const tableConfig = {
 const EmployeeListNzTable = ({ isTableEmpty }) => {
   const header = (
     <Table.Header>
-      <Table.HeaderItem {...tableConfig.name}>{tableConfig.name.columnName}</Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.name}>
+        {tableConfig.name.columnName}
+      </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.phoneNumber}>
-                            {tableConfig.phoneNumber.columnName}</Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.email}>{tableConfig.email.columnName}</Table.HeaderItem>
+        {tableConfig.phoneNumber.columnName}
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.email}>
+        {tableConfig.email.columnName}
+      </Table.HeaderItem>
     </Table.Header>
   );
 
@@ -33,7 +38,7 @@ const EmployeeListNzTable = ({ isTableEmpty }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isTableEmpty: getIsTableEmpty(state),
 });
 

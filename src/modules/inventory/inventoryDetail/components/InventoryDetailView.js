@@ -1,6 +1,4 @@
-import {
-  Alert, FormTemplate, Label, PageHead,
-} from '@myob/myob-widgets';
+import { Alert, FormTemplate, Label, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -43,12 +41,7 @@ const InventoryDetailView = ({
 }) => {
   let modal;
   if (modalType === 'cancel') {
-    modal = (
-      <CancelModal
-        onCancel={onCloseModal}
-        onConfirm={onCancelModal}
-      />
-    );
+    modal = <CancelModal onCancel={onCloseModal} onConfirm={onCancelModal} />;
   } else if (modalType === 'delete') {
     modal = (
       <DeleteModal
@@ -59,8 +52,14 @@ const InventoryDetailView = ({
     );
   }
 
-  const pageHead = isCreating ? 'Create item'
-    : <PageHead title={`Item ${originalName}`} tag={isInactive && <Label type="boxed">Inactive</Label>} />;
+  const pageHead = isCreating ? (
+    'Create item'
+  ) : (
+    <PageHead
+      title={`Item ${originalName}`}
+      tag={isInactive && <Label type="boxed">Inactive</Label>}
+    />
+  );
 
   const alertComponent = alertMessage && (
     <Alert type="danger" onDismiss={onDismissAlert}>
@@ -101,7 +100,7 @@ const InventoryDetailView = ({
   return <PageView loadingState={loadingState} view={itemDetailView} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   originalName: getOriginalName(state),
   alertMessage: getAlertMessage(state),
   modalType: getModalType(state),

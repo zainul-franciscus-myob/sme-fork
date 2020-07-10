@@ -16,14 +16,18 @@ describe('EmployeeListModule', () => {
 
   const setup = () => {
     // Mock loadSettings from localStorage to prevent side effects
-    localStorageDriver.loadSettings = () => { };
+    localStorageDriver.loadSettings = () => {};
 
-    const setRootView = () => { };
+    const setRootView = () => {};
     const popMessages = () => [];
     const store = new TestStore(employeeListReducer);
     const integration = new TestIntegration();
 
-    const module = new EmployeeListModule({ integration, setRootView, popMessages });
+    const module = new EmployeeListModule({
+      integration,
+      setRootView,
+      popMessages,
+    });
     module.store = store;
 
     return { store, module, integration };
@@ -59,7 +63,11 @@ describe('EmployeeListModule', () => {
         {
           intent: SORT_AND_FILTER_EMPLOYEE_LIST,
           params: {
-            keywords: 'value', showInactive: false, orderBy: 'Name', sortOrder: 'asc', offset: 0,
+            keywords: 'value',
+            showInactive: false,
+            orderBy: 'Name',
+            sortOrder: 'asc',
+            offset: 0,
           },
           urlParams: { businessId },
         },
@@ -82,7 +90,11 @@ describe('EmployeeListModule', () => {
         {
           intent: SORT_AND_FILTER_EMPLOYEE_LIST,
           params: {
-            keywords: '', showInactive: true, orderBy: 'Name', sortOrder: 'asc', offset: 0,
+            keywords: '',
+            showInactive: true,
+            orderBy: 'Name',
+            sortOrder: 'asc',
+            offset: 0,
           },
           urlParams: { businessId },
         },
@@ -110,7 +122,11 @@ describe('EmployeeListModule', () => {
         {
           intent: SORT_AND_FILTER_EMPLOYEE_LIST,
           params: {
-            keywords: '', showInactive: false, orderBy, sortOrder, offset: 0,
+            keywords: '',
+            showInactive: false,
+            orderBy,
+            sortOrder,
+            offset: 0,
           },
           urlParams: { businessId },
         },

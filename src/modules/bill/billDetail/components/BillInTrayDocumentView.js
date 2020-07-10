@@ -25,7 +25,9 @@ const BillInTrayDocumentView = ({
   onOpenSplitViewButtonClick,
   onUnlinkDocumentButtonClick,
 }) => {
-  const title = inTrayDocument.uploadedDate ? `Source document uploaded ${inTrayDocument.uploadedDate}` : 'Source document';
+  const title = inTrayDocument.uploadedDate
+    ? `Source document uploaded ${inTrayDocument.uploadedDate}`
+    : 'Source document';
 
   const documentView = (
     <div className={styles.documentView}>
@@ -34,13 +36,23 @@ const BillInTrayDocumentView = ({
         alt="Document thumbnail"
       />
       <div className={styles.pdf}>
-        <div><h4>{title}</h4></div>
+        <div>
+          <h4>{title}</h4>
+        </div>
         <div className={styles.buttonGroup}>
-          <Button onClick={onOpenSplitViewButtonClick} type="link" icon={<Icons.Expand />}>
+          <Button
+            onClick={onOpenSplitViewButtonClick}
+            type="link"
+            icon={<Icons.Expand />}
+          >
             Open split view
           </Button>
-          { !isCreatingFromInTray && !isReadOnly && (
-            <Button onClick={onUnlinkDocumentButtonClick} type="link" icon={<Icons.UnLink />}>
+          {!isCreatingFromInTray && !isReadOnly && (
+            <Button
+              onClick={onUnlinkDocumentButtonClick}
+              type="link"
+              icon={<Icons.UnLink />}
+            >
               Unlink
             </Button>
           )}
@@ -51,7 +63,11 @@ const BillInTrayDocumentView = ({
 
   const noDocumentView = (
     <div>
-      <Button type="link" onClick={onPrefillButtonClick} icon={<Icons.GenericDocument />}>
+      <Button
+        type="link"
+        onClick={onPrefillButtonClick}
+        icon={<Icons.GenericDocument />}
+      >
         {prefillButtonText}
       </Button>
     </div>
@@ -59,15 +75,10 @@ const BillInTrayDocumentView = ({
 
   const view = hasInTrayDocumentId ? documentView : noDocumentView;
 
-  return (
-    <Card
-      classes={[styles.card]}
-      body={(<Card.Body child={view} />)}
-    />
-  );
+  return <Card classes={[styles.card]} body={<Card.Body child={view} />} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   hasInTrayDocumentId: getHasInTrayDocumentId(state),
   inTrayDocument: getInTrayDocument(state),
   isDocumentLoading: getIsDocumentLoading(state),

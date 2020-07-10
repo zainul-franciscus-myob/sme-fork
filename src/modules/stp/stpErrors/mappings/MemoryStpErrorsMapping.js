@@ -1,4 +1,8 @@
-import { LOAD_BUSINESS_DETAILS, LOAD_STP_ERRORS, SUBMIT_BUSINESS_DETAILS } from '../stpErrorsIntents';
+import {
+  LOAD_BUSINESS_DETAILS,
+  LOAD_STP_ERRORS,
+  SUBMIT_BUSINESS_DETAILS,
+} from '../stpErrorsIntents';
 import loadBusinessDetails from './data/loadBusinessDetails';
 import loadStpErrors from './data/loadStpErrors';
 

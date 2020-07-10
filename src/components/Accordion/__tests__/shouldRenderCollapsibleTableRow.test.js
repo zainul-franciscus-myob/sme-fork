@@ -1,4 +1,7 @@
-import shouldRenderCollapsibleTableRow, { DONT_RENDER, RENDER } from '../shouldRenderCollapsibleTableRow';
+import shouldRenderCollapsibleTableRow, {
+  DONT_RENDER,
+  RENDER,
+} from '../shouldRenderCollapsibleTableRow';
 
 describe('shouldRenderCollapsibleTableRow', () => {
   it('should render if isRowOpen changes across updates', () => {
@@ -45,15 +48,15 @@ describe('shouldRenderCollapsibleTableRow', () => {
       rowType: '',
       header: '',
       children: '',
-      onExpand: () => { },
+      onExpand: () => {},
       handleHeaderClick: undefined,
       className: '',
       columns: [],
       isActive: false,
       isInactive: false,
-      onRowBlur: () => { },
-      onRowFocus: () => { },
-      onRowSelect: () => { },
+      onRowBlur: () => {},
+      onRowFocus: () => {},
+      onRowSelect: () => {},
     };
 
     const nextProps = {

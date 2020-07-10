@@ -1,4 +1,8 @@
-import { getLoadEmployeePaysRequestContent, getRegularPayCycleOptions, getStartPayRun } from '../StartPayRunSelectors';
+import {
+  getLoadEmployeePaysRequestContent,
+  getRegularPayCycleOptions,
+  getStartPayRun,
+} from '../StartPayRunSelectors';
 
 describe('StartPayRunSelectors', () => {
   describe('getStartPayRun', () => {
@@ -23,7 +27,7 @@ describe('StartPayRunSelectors', () => {
     });
 
     it('should get regularPayCycleOptions if they exist', () => {
-      const state = { startPayRun: { } };
+      const state = { startPayRun: {} };
 
       const actual = getRegularPayCycleOptions(state);
 

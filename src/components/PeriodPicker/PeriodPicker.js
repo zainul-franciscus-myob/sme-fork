@@ -1,20 +1,11 @@
-import {
-  DatePicker, FilterBar, Select,
-} from '@myob/myob-widgets';
+import { DatePicker, FilterBar, Select } from '@myob/myob-widgets';
 import React, { useEffect } from 'react';
 
 import Periods from './Periods';
 import getDateRangeByPeriodAndRegion from './getDateRangeByPeriodAndRegion';
 import handleSelectChange from '../handlers/handleSelectChange';
 
-
-const PeriodPicker = ({
-  region,
-  dateFrom,
-  dateTo,
-  period,
-  onChange,
-}) => {
+const PeriodPicker = ({ region, dateFrom, dateTo, period, onChange }) => {
   /**
    * When user select `This month`, `period`, `dateFrom` and `dateTo` are cached in storage.
    * In the following month, when we pass these stored data to PeriodPicker,
@@ -37,9 +28,12 @@ const PeriodPicker = ({
     onChange(getDateRangeByPeriodAndRegion(region, new Date(), value));
   });
 
-  const onDateChange = key => ({ value }) => {
+  const onDateChange = (key) => ({ value }) => {
     onChange({
-      dateFrom, dateTo, period: Periods.custom, [key]: value,
+      dateFrom,
+      dateTo,
+      period: Periods.custom,
+      [key]: value,
     });
   };
 
@@ -51,7 +45,7 @@ const PeriodPicker = ({
         value={period}
         onChange={onPeriodChange}
       >
-        {Object.values(Periods).map(key => (
+        {Object.values(Periods).map((key) => (
           <Select.Option value={key} label={key} key={key} />
         ))}
       </Select>

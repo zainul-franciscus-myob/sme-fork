@@ -20,16 +20,18 @@ import createTemplateIntegrator from '../../template/createTemplateIntegrator';
 import templateReducer from '../../template/templateReducer';
 
 class InvoiceLogoModule {
-  constructor({
-    integration, setRootView, pushMessage, uploadedLogo,
-  }) {
+  constructor({ integration, setRootView, pushMessage, uploadedLogo }) {
     this.store = new Store(templateReducer);
     this.dispatcher = createTemplateDispatcher(this.store);
     this.integrator = createTemplateIntegrator(this.store, integration);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.uploadedLogoCallback = uploadedLogo;
-    this.templateBuilderService = TemplateBuilderService(this.dispatcher, integration, this.store);
+    this.templateBuilderService = TemplateBuilderService(
+      this.dispatcher,
+      integration,
+      this.store
+    );
   }
 
   unsubscribeFromStore = () => this.store.unsubscribeAll();
@@ -44,20 +46,21 @@ class InvoiceLogoModule {
     this.dispatcher.updateTemplateOption({ key, value });
   };
 
-  render = () => this.setRootView(
-    <Provider store={this.store}>
-      <InvoiceLogoView
-        onCloseModal={this.closeModal}
-        onConfirmSave={this.handleModalSave}
-        onConfirmUnsave={this.handleModalUnsave}
-        onDismissAlert={this.dismissAlert}
-        onFileRemoved={this.removeFile}
-        onFileSelected={this.selectFile}
-        onSave={this.saveTemplate}
-        onUpdateTemplateOptions={this.updateTemplateOption}
-      />
-    </Provider>,
-  );
+  render = () =>
+    this.setRootView(
+      <Provider store={this.store}>
+        <InvoiceLogoView
+          onCloseModal={this.closeModal}
+          onConfirmSave={this.handleModalSave}
+          onConfirmUnsave={this.handleModalUnsave}
+          onDismissAlert={this.dismissAlert}
+          onFileRemoved={this.removeFile}
+          onFileSelected={this.selectFile}
+          onSave={this.saveTemplate}
+          onUpdateTemplateOptions={this.updateTemplateOption}
+        />
+      </Provider>
+    );
 
   run = (context) => {
     this.setInitialState(context);
@@ -66,7 +69,9 @@ class InvoiceLogoModule {
 
     const shouldLoadPayDirect = getShouldLoadPayDirect(this.store.getState());
 
-    if (shouldLoadPayDirect) { this.loadPayDirect(); }
+    if (shouldLoadPayDirect) {
+      this.loadPayDirect();
+    }
   };
 
   loadPayDirect = () => {

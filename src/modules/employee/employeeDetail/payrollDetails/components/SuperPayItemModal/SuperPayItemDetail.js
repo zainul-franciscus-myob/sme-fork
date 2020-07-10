@@ -1,6 +1,4 @@
-import {
-  FieldGroup, Icons, Input, Select, Tooltip,
-} from '@myob/myob-widgets';
+import { FieldGroup, Icons, Input, Select, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -40,17 +38,18 @@ const SuperPayItemDetail = (props) => {
         value={contributionType}
         onChange={handleInputChange(onChange)}
         disabled={!isCreating}
-        labelAccessory={(
+        labelAccessory={
           <Tooltip triggerContent={<Icons.Info />} placement="right">
-            The contribution type cannot be changed once the superannuation pay item has been saved
+            The contribution type cannot be changed once the superannuation pay
+            item has been saved
           </Tooltip>
-        )}
+        }
       >
         {contributionTypeOptions.map(({ name: label, value }) => (
           <Select.Option key={value} value={value} label={label} />
         ))}
       </Select>
-      { showExpenseAccounts && (
+      {showExpenseAccounts && (
         <AccountCombobox
           label="Linked expense account"
           hideLabel={false}
@@ -71,11 +70,12 @@ const SuperPayItemDetail = (props) => {
         label="ATO reporting category"
         value={atoReportingCategory}
         onChange={handleInputChange(onChange)}
-        labelAccessory={(
+        labelAccessory={
           <Tooltip triggerContent={<Icons.Info />} placement="right">
-            Select the ATO reporting category if you&#39;re using Single Touch Payroll.
+            Select the ATO reporting category if you&#39;re using Single Touch
+            Payroll.
           </Tooltip>
-        )}
+        }
       >
         {atoReportingCategoryOptions.map(({ name: label, value }) => (
           <Select.Option key={value} value={value} label={label} />
@@ -85,6 +85,6 @@ const SuperPayItemDetail = (props) => {
   );
 };
 
-const mapStateToProps = state => getSuperPayItemDetail(state);
+const mapStateToProps = (state) => getSuperPayItemDetail(state);
 
 export default connect(mapStateToProps)(SuperPayItemDetail);

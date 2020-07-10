@@ -1,11 +1,23 @@
 import {
-  Alert, Button, ButtonRow, Card, Field, FormHorizontal, Input, RadioButtonGroup,
+  Alert,
+  Button,
+  ButtonRow,
+  Card,
+  Field,
+  FormHorizontal,
+  Input,
+  RadioButtonGroup,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAgentAbn, getAgentNumber, getErrorMessage, getLoadingState, getRole, getShowContactDetails,
+  getAgentAbn,
+  getAgentNumber,
+  getErrorMessage,
+  getLoadingState,
+  getRole,
+  getShowContactDetails,
 } from '../stpYourRoleSelectors';
 import AbnInput from '../../../../../../components/autoFormatter/AbnInput/AbnInput';
 import ContactDetails from './ContactDetails';
@@ -35,15 +47,15 @@ const StpYourRoleView = ({
     );
   }
 
-  const onAutoFormatInputChange = handler => (e) => {
+  const onAutoFormatInputChange = (handler) => (e) => {
     const { rawValue, name } = e.target;
     handler({ key: name, value: rawValue });
   };
 
   const someoneFromBusinessContent = (
     <p>
-      You must complete these steps yourself. You can&apos;t get your agent to complete these
-      steps on your behalf
+      You must complete these steps yourself. You can&apos;t get your agent to
+      complete these steps on your behalf
     </p>
   );
 
@@ -66,7 +78,13 @@ const StpYourRoleView = ({
       <Field
         label=""
         renderField={() => (
-          <Button type="secondary" onClick={onSearchClick} testid="agentSearchButton">Search</Button>
+          <Button
+            type="secondary"
+            onClick={onSearchClick}
+            testid="agentSearchButton"
+          >
+            Search
+          </Button>
         )}
       />
       {showContactDetails && (
@@ -78,38 +96,58 @@ const StpYourRoleView = ({
   return (
     <div>
       <Card header={<h2>What is your role?</h2>}>
-        {errorMessage && (
-          <Alert type="danger">{errorMessage}</Alert>
-        )}
+        {errorMessage && <Alert type="danger">{errorMessage}</Alert>}
         <p>
-          Each person who processes pays must complete these steps from their own MYOB account.
-          You cannot complete these steps on behalf of someone else.
+          Each person who processes pays must complete these steps from their
+          own MYOB account. You cannot complete these steps on behalf of someone
+          else.
         </p>
         <p>
-          Agents - you&apos;ll need to enter your own details here, signed into MYOB as yourself.
-          You cannot complete this on behalf of your client.
+          Agents - you&apos;ll need to enter your own details here, signed into
+          MYOB as yourself. You cannot complete this on behalf of your client.
         </p>
         <FormHorizontal layout="primary">
           <RadioButtonGroup
             label="Are you"
             name="role"
-            options={[Role.SOMEONE_FROM_THE_BUSINESS, Role.TAX_AGENT, Role.BAS_AGENT]}
+            options={[
+              Role.SOMEONE_FROM_THE_BUSINESS,
+              Role.TAX_AGENT,
+              Role.BAS_AGENT,
+            ]}
             onChange={handleRadioButtonChange('role', onFieldChange)}
             value={role}
           />
         </FormHorizontal>
-        {role === Role.SOMEONE_FROM_THE_BUSINESS ? someoneFromBusinessContent : agentContent}
+        {role === Role.SOMEONE_FROM_THE_BUSINESS
+          ? someoneFromBusinessContent
+          : agentContent}
       </Card>
-      <ButtonRow primary={[
-        <Button type="secondary" onClick={onPreviousClick} key="previous" testid="previousButton">Previous</Button>,
-        <Button type="primary" onClick={onNextClick} key="next" testid="nextButton">Next</Button>,
-      ]}
+      <ButtonRow
+        primary={[
+          <Button
+            type="secondary"
+            onClick={onPreviousClick}
+            key="previous"
+            testid="previousButton"
+          >
+            Previous
+          </Button>,
+          <Button
+            type="primary"
+            onClick={onNextClick}
+            key="next"
+            testid="nextButton"
+          >
+            Next
+          </Button>,
+        ]}
       />
     </div>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   role: getRole(state),
   agentAbn: getAgentAbn(state),
   agentNumber: getAgentNumber(state),

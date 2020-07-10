@@ -1,11 +1,12 @@
-import {
-  Alert,
-} from '@myob/myob-widgets';
+import { Alert } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getLoadingState, getModal, getPageTitle,
+  getAlert,
+  getLoadingState,
+  getModal,
+  getPageTitle,
 } from '../generalJournalDetailSelectors';
 import GeneralJournalDetailActions from './GeneralJournalDetailActions';
 import GeneralJournalDetailModal from './GeneralJournalDetailModal';
@@ -37,7 +38,9 @@ const GeneralJournalDetailView = ({
   onCreateJobButtonClick,
 }) => {
   const templateOptions = (
-    <GeneralJournalDetailOptions onUpdateHeaderOptions={onUpdateHeaderOptions} />
+    <GeneralJournalDetailOptions
+      onUpdateHeaderOptions={onUpdateHeaderOptions}
+    />
   );
 
   const actions = (
@@ -65,14 +68,12 @@ const GeneralJournalDetailView = ({
     >
       {accountModal}
       {jobModal}
-      {
-        modal && (
-          <GeneralJournalDetailModal
-            modal={modal}
-            listeners={confirmModalListeners}
-          />
-        )
-      }
+      {modal && (
+        <GeneralJournalDetailModal
+          modal={modal}
+          listeners={confirmModalListeners}
+        />
+      )}
       <GeneralJournalDetailTable
         onUpdateRow={onUpdateRow}
         onAddRow={onAddRow}
@@ -87,7 +88,7 @@ const GeneralJournalDetailView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   modal: getModal(state),
   loadingState: getLoadingState(state),

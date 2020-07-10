@@ -15,7 +15,7 @@ import {
 } from './InventoryModalIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createInventoryModalDispatcher = store => ({
+const createInventoryModalDispatcher = (store) => ({
   open: () => {
     store.dispatch({
       intent: OPEN,

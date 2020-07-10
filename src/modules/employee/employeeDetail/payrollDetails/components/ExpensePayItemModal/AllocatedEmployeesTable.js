@@ -28,7 +28,11 @@ const AllocatedEmployeesTable = ({
     <Table.Row key={id}>
       <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
       <Table.RowItem {...tableConfig.actions} cellRole="actions">
-        <Button type="secondary" size="xs" onClick={onButtonClick(onRemoveAllocatedEmployee, id)}>
+        <Button
+          type="secondary"
+          size="xs"
+          onClick={onButtonClick(onRemoveAllocatedEmployee, id)}
+        >
           <Icons.Remove />
         </Button>
       </Table.RowItem>
@@ -41,14 +45,12 @@ const AllocatedEmployeesTable = ({
         <Table.HeaderItem {...tableConfig.name}>Name</Table.HeaderItem>
         <Table.HeaderItem {...tableConfig.actions} />
       </Table.Header>
-      <Table.Body>
-        {rows}
-      </Table.Body>
+      <Table.Body>{rows}</Table.Body>
     </Table>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   allocatedEmployees: getAllocatedEmployees(state),
 });
 

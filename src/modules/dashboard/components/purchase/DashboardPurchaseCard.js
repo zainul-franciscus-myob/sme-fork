@@ -33,7 +33,9 @@ const DashboardPurchaseCard = ({
 }) => {
   const table = <DashboardPurchaseTable onLinkClick={onLinkClick} />;
 
-  const emptyTable = (<div className={styles.emptyTableView}>No overdue bills - great work!</div>);
+  const emptyTable = (
+    <div className={styles.emptyTableView}>No overdue bills - great work!</div>
+  );
 
   const tableView = isTableEmpty ? emptyTable : table;
 
@@ -46,10 +48,13 @@ const DashboardPurchaseCard = ({
   const summary = (
     <div className={styles.summary}>
       <DashboardCardHeader title="Purchases">
-        <Button type="link" icon={<Icons.Add />} onClick={handleLinkClick(onLinkClick, createBillLink)}>
+        <Button
+          type="link"
+          icon={<Icons.Add />}
+          onClick={handleLinkClick(onLinkClick, createBillLink)}
+        >
           Create bill
         </Button>
-
       </DashboardCardHeader>
 
       <hr />
@@ -70,10 +75,22 @@ const DashboardPurchaseCard = ({
     <PageState
       title="Keep on top of your expenses"
       actions={[
-        <Button type="link" icon={<Icons.Add />} onClick={handleLinkClick(onLinkClick, createBillLink)}>Create bill</Button>,
+        <Button
+          type="link"
+          icon={<Icons.Add />}
+          onClick={handleLinkClick(onLinkClick, createBillLink)}
+        >
+          Create bill
+        </Button>,
       ]}
       description="Keep track of outstanding bills, and see how you're tracking over time."
-      image={<img src={EmptyStatesExpenses} style={{ width: '50%' }} alt="no expenses" />}
+      image={
+        <img
+          src={EmptyStatesExpenses}
+          style={{ width: '50%' }}
+          alt="no expenses"
+        />
+      }
     />
   );
 
@@ -84,7 +101,7 @@ const DashboardPurchaseCard = ({
   return <CardView isLoading={isLoading} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isEmpty: getIsEmpty(state),
   isTableEmpty: getIsTableEmpty(state),
   createBillLink: getCreateBillLink(state),

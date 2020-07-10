@@ -38,14 +38,15 @@ import NoMoveWrapper from '../../../components/LineItemTable/NoMoveWrapper';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import styles from './Timesheet.module.css';
 
-const handleComboBoxChange = (name, onChange) => item => onChange({
-  target: {
-    name,
-    value: item.id,
-  },
-});
+const handleComboBoxChange = (name, onChange) => (item) =>
+  onChange({
+    target: {
+      name,
+      value: item.id,
+    },
+  });
 
-const handleHoursInputChange = handler => (e) => {
+const handleHoursInputChange = (handler) => (e) => {
   const { name, rawValue } = e.target;
   handler({ target: { name, value: rawValue } });
 };
@@ -53,7 +54,7 @@ const handleHoursInputBlur = (index, handler) => (e) => {
   const { name, rawValue } = e.target;
   handler(index, name, rawValue);
 };
-const sum = (list => list.reduce((total, value) => (total + value), 0));
+const sum = (list) => list.reduce((total, value) => total + value, 0);
 
 const TimesheetIsSetUpView = ({
   weekDayLabels,
@@ -91,45 +92,45 @@ const TimesheetIsSetUpView = ({
 
   const isEmployeeSelected = selectedEmployeeId;
 
-  const columnConfig = [{
-    config: [
-      {
-        columnName: 'Jobs',
-        styles: {
-          width: '90px',
+  const columnConfig = [
+    {
+      config: [
+        {
+          columnName: 'Jobs',
+          styles: {
+            width: '90px',
+          },
         },
-      },
-      {
-        columnName: 'Total',
-        styles: {
-          align: 'right',
-          width: '75px',
+        {
+          columnName: 'Total',
+          styles: {
+            align: 'right',
+            width: '75px',
+          },
         },
-      },
-      {
-        columnName: 'Start and stop times',
-        styles: {
-          width: '150px',
+        {
+          columnName: 'Start and stop times',
+          styles: {
+            width: '150px',
+          },
         },
-      },
-      ...weekDayLabels.map(label => ({
-        columnName: label,
-        styles: {
-          width: '70px',
-          align: 'right',
-        },
-      })),
-    ],
-  }];
+        ...weekDayLabels.map((label) => ({
+          columnName: label,
+          styles: {
+            width: '70px',
+            align: 'right',
+          },
+        })),
+      ],
+    },
+  ];
   const renderRow = (index, data, onChange, labels) => {
     const weekDays = weekDayLabels.map((label, i) => ({
       field: `day${i + 1}`,
       label,
     }));
     const weekDayCells = weekDays.map(({ field, label }) => {
-      const value = data[field] && data[field].hours
-        ? data[field].hours
-        : '';
+      const value = data[field] && data[field].hours ? data[field].hours : '';
       const readonly = data[field] && data[field].readonly;
       return (
         <HoursInput
@@ -149,14 +150,10 @@ const TimesheetIsSetUpView = ({
 
     const weekDayHours = getRowHours(data);
     const totalHoursNumber = sum(weekDayHours);
-    const totalHours = totalHoursNumber !== 0 ? getFormattedHours(totalHoursNumber) : '';
+    const totalHours =
+      totalHoursNumber !== 0 ? getFormattedHours(totalHoursNumber) : '';
     return (
-      <LineItemTable.Row
-        id={index}
-        key={data.id}
-        index={index}
-        labels={labels}
-      >
+      <LineItemTable.Row id={index} key={data.id} index={index} labels={labels}>
         <Select
           name="payItemId"
           value={data.payItemId ? data.payItemId : ''}
@@ -166,18 +163,24 @@ const TimesheetIsSetUpView = ({
           disabled={!isEmployeeSelected}
         >
           <Select.Option value={null} label=""></Select.Option>
-          {payItems.map(payItem => (
-            <Select.Option value={payItem.id} key={payItem.id} label={payItem.name} />
+          {payItems.map((payItem) => (
+            <Select.Option
+              value={payItem.id}
+              key={payItem.id}
+              label={payItem.name}
+            />
           ))}
         </Select>
-        {isTimesheetJobColumnEnabled && <JobCombobox
-          label="job"
-          onChange={handleComboBoxChange('jobId', onChange)}
-          items={data.jobOptions ? data.jobOptions : activeJobOptions}
-          selectedId={data.jobId}
-          disabled={!isEmployeeSelected}
-          allowClear
-        />}
+        {isTimesheetJobColumnEnabled && (
+          <JobCombobox
+            label="job"
+            onChange={handleComboBoxChange('jobId', onChange)}
+            items={data.jobOptions ? data.jobOptions : activeJobOptions}
+            selectedId={data.jobId}
+            disabled={!isEmployeeSelected}
+            allowClear
+          />
+        )}
         <TextArea
           name="notes"
           label="Notes"
@@ -189,11 +192,7 @@ const TimesheetIsSetUpView = ({
           disabled={!isEmployeeSelected}
         />
         {weekDayCells}
-        <ReadOnly
-          name="totals"
-          label="totals"
-          hideLabel
-        >
+        <ReadOnly name="totals" label="totals" hideLabel>
           {totalHours}
         </ReadOnly>
         {displayStartStopTimes && (
@@ -223,7 +222,10 @@ const TimesheetIsSetUpView = ({
               label="Employee"
               width="lg"
               selectedId={selectedEmployeeId}
-              onChange={handleComboboxChange('selectedEmployee', onEmployeeChange)}
+              onChange={handleComboboxChange(
+                'selectedEmployee',
+                onEmployeeChange
+              )}
             />
             <DatePicker
               name="selectedDate"
@@ -301,7 +303,7 @@ const TimesheetIsSetUpView = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   weekDayLabels: getWeekDayLabels(state),
   timesheetRows: getTimesheetRows(state),
   employeeList: getEmployeeList(state),

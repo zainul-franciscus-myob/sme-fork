@@ -1,8 +1,4 @@
-import {
-  addCommasInPlace,
-  addDecimalPlaces,
-  removeCommas,
-} from '../formatter';
+import { addCommasInPlace, addDecimalPlaces, removeCommas } from '../formatter';
 
 describe('removeCommas', () => {
   [

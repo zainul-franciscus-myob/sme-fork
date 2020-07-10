@@ -30,13 +30,11 @@ const SalesSettingsTemplateDetails = ({
         onCreateTemplate={onCreateTemplate}
       />
       {hasArlTemplates && <ArlTemplateTable />}
-      {hasEssentialsTemplates && (
-        <EssentialsTemplateTable />
-      )}
+      {hasEssentialsTemplates && <EssentialsTemplateTable />}
     </div>
   );
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   hasArlTemplates: getHasArlTemplates(state),
   hasEssentialsTemplates: getHasEssentialsTemplates(state),
 });

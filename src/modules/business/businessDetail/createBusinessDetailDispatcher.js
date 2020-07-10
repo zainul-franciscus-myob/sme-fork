@@ -16,7 +16,7 @@ import {
 } from '../BusinessIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createBusinessDetailDispatcher = store => ({
+const createBusinessDetailDispatcher = (store) => ({
   resetState: () => {
     store.dispatch({
       intent: RESET_STATE,
@@ -86,7 +86,10 @@ const createBusinessDetailDispatcher = store => ({
     });
   },
   loadBusinessDetail: ({
-    businessDetails, pageTitle, financialYearOptions, openingBalanceYearOptions,
+    businessDetails,
+    pageTitle,
+    financialYearOptions,
+    openingBalanceYearOptions,
   }) => {
     store.dispatch({
       intent: LOAD_BUSINESS_DETAIL,

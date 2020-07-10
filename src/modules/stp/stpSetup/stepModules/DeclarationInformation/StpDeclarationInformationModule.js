@@ -19,12 +19,7 @@ import StpDeclarationInformationView from './components/StpDeclarationInformatio
 import stpDeclarationInformationReducer from './stpDeclarationInformationReducer';
 
 export default class StpDeclarationInformationModule {
-  constructor({
-    onPrevious,
-    onFinish,
-    integration,
-    context,
-  }) {
+  constructor({ onPrevious, onFinish, integration, context }) {
     this.onPreviousFunc = onPrevious;
     this.onFinishFunc = onFinish;
     this.integration = integration;

@@ -1,6 +1,4 @@
-import {
-  FieldGroup, Icons, Input, Select, Tooltip,
-} from '@myob/myob-widgets';
+import { FieldGroup, Icons, Input, Select, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -38,21 +36,24 @@ const DetailsView = ({
       label="ATO reporting category"
       value={atoReportingCategory}
       onChange={handleSelectChange(onDetailsChange)}
-      labelAccessory={(
+      labelAccessory={
         <Tooltip triggerContent={<Icons.Info />}>
-          Select the ATO reporting category if you&apos;re using Single Touch Payroll.
+          Select the ATO reporting category if you&apos;re using Single Touch
+          Payroll.
         </Tooltip>
-      )}
-    >
-      {
-        atoReportCategoryList.map(category => (
-          <Select.Option key={category.value} value={category.value} label={category.name} />
-        ))
       }
+    >
+      {atoReportCategoryList.map((category) => (
+        <Select.Option
+          key={category.value}
+          value={category.value}
+          label={category.name}
+        />
+      ))}
     </Select>
   </FieldGroup>
 );
 
-const mapStateToProps = state => getDetails(state);
+const mapStateToProps = (state) => getDetails(state);
 
 export default connect(mapStateToProps)(DetailsView);

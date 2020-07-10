@@ -57,7 +57,9 @@ describe('handleResponse', () => {
         urlParams: { businessId: '1234-3456-123456-123456' },
       });
 
-      expect(window.location.href).toBe('http://localhost/#/au/1234-3456-123456-123456/permissionDenied');
+      expect(window.location.href).toBe(
+        'http://localhost/#/au/1234-3456-123456-123456/permissionDenied'
+      );
     });
 
     it('should redirect to linked user', async () => {
@@ -76,7 +78,9 @@ describe('handleResponse', () => {
         urlParams: { businessId: '1234-3456-123456-123456' },
       });
 
-      expect(window.location.href).toContain('http://localhost/#/au/1234-3456-123456-123456/linkUser');
+      expect(window.location.href).toContain(
+        'http://localhost/#/au/1234-3456-123456-123456/linkUser'
+      );
     });
   });
 
@@ -96,7 +100,9 @@ describe('handleResponse', () => {
         urlParams: { businessId: '1234-3456-123456-123456' },
       });
 
-      expect(window.location.href).toBe('http://localhost/#/au/1234-3456-123456-123456/unavailable');
+      expect(window.location.href).toBe(
+        'http://localhost/#/au/1234-3456-123456-123456/unavailable'
+      );
     });
   });
 

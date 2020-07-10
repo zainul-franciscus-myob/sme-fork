@@ -15,7 +15,7 @@ const Designation = ({ designation, onChange }) => (
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   designation: getDesignation(state),
 });
 

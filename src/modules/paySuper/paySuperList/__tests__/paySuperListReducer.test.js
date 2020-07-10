@@ -10,7 +10,6 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import paySuperListReducer, { getDefaultState } from '../paySuperListReducer';
 
-
 describe('paySuperListReducer', () => {
   describe('resetState', () => {
     it('resets state to the default state', () => {
@@ -99,7 +98,7 @@ describe('paySuperListReducer', () => {
       });
     });
 
-    it('toggles descending to false if the column name doesn\'t change', () => {
+    it("toggles descending to false if the column name doesn't change", () => {
       const state = {
         sortDescending: true,
         orderBy: 'date',
@@ -118,7 +117,7 @@ describe('paySuperListReducer', () => {
       });
     });
 
-    it('toggles descending to true if the column name doesn\'t change', () => {
+    it("toggles descending to true if the column name doesn't change", () => {
       const state = {
         sortDescending: false,
         orderBy: 'date',
@@ -179,10 +178,12 @@ describe('paySuperListReducer', () => {
         },
       ];
       const state = {
-        superPayments: [{
-          batchPaymentId: '1',
-          status: 'Authorised',
-        }],
+        superPayments: [
+          {
+            batchPaymentId: '1',
+            status: 'Authorised',
+          },
+        ],
       };
       const action = {
         intent: LOAD_UPDATED_SUPER_PAYMENT_STATUS_LIST,
@@ -192,10 +193,12 @@ describe('paySuperListReducer', () => {
       const newState = paySuperListReducer(state, action);
 
       expect(newState).toEqual({
-        superPayments: [{
-          batchPaymentId: '1',
-          status: 'Created',
-        }],
+        superPayments: [
+          {
+            batchPaymentId: '1',
+            status: 'Created',
+          },
+        ],
       });
     });
 
@@ -207,10 +210,12 @@ describe('paySuperListReducer', () => {
         },
       ];
       const state = {
-        superPayments: [{
-          batchPaymentId: '1',
-          status: 'Authorised',
-        }],
+        superPayments: [
+          {
+            batchPaymentId: '1',
+            status: 'Authorised',
+          },
+        ],
       };
       const action = {
         intent: LOAD_UPDATED_SUPER_PAYMENT_STATUS_LIST,

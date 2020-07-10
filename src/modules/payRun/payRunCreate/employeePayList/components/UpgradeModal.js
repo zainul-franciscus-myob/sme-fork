@@ -7,29 +7,23 @@ import {
   getUpgradeModalShowing,
 } from '../EmployeePayListSelectors';
 
-const pluraliseEmployeeLimit = limit => (limit === 1 ? '1 employee' : `${limit} employees`);
+const pluraliseEmployeeLimit = (limit) =>
+  limit === 1 ? '1 employee' : `${limit} employees`;
 
 const UpgradeModal = ({
   isUpgradeModalShowing,
   limit,
   onUpgradeModalDismiss,
   onUpgradeModalUpgradeButtonClick,
-}) => (isUpgradeModalShowing
-  ? (
-    <Modal
-      title="Need to pay more employees?"
-      onCancel={onUpgradeModalDismiss}
-    >
+}) =>
+  isUpgradeModalShowing ? (
+    <Modal title="Need to pay more employees?" onCancel={onUpgradeModalDismiss}>
       <Modal.Body>
         <p>
-          Your subscription includes payroll for
-          {' '}
-          {pluraliseEmployeeLimit(limit)}
+          Your subscription includes payroll for {pluraliseEmployeeLimit(limit)}
           .
         </p>
-        <p>
-          Upgrade your subscription to pay additional employees.
-        </p>
+        <p>Upgrade your subscription to pay additional employees.</p>
       </Modal.Body>
       <Modal.Footer>
         <button
@@ -37,21 +31,20 @@ const UpgradeModal = ({
           className="btn btn-default"
           onClick={onUpgradeModalDismiss}
         >
-            Go back
+          Go back
         </button>
         <button
           type="button"
           className="btn btn-primary"
           onClick={onUpgradeModalUpgradeButtonClick}
         >
-            Upgrade now
+          Upgrade now
         </button>
       </Modal.Footer>
     </Modal>
-  ) : null
-);
+  ) : null;
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   limit: getPayPeriodEmployeeLimit(state).limit,
   isUpgradeModalShowing: getUpgradeModalShowing(state),
 });

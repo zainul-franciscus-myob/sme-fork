@@ -20,7 +20,7 @@ import linkedAccountsReducer from '../linkedAccountsReducer';
 const setup = () => {
   const store = new TestStore(linkedAccountsReducer);
   const integration = new TestIntegration();
-  const setRootView = () => { };
+  const setRootView = () => {};
 
   const module = new LinkedAccountsModule({ integration, setRootView });
   module.store = store;

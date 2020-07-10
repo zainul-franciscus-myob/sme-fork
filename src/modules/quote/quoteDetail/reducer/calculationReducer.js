@@ -4,9 +4,8 @@ import buildLineWithCalculatedAmounts from '../../../../common/itemAndServiceLay
 import calculateUnitPrice from '../../../../common/itemAndServiceLayout/calculateUnitPrice';
 import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
 
-export const getIsCalculableLine = line => [
-  QuoteLineType.SERVICE, QuoteLineType.ITEM,
-].includes(line.type);
+export const getIsCalculableLine = (line) =>
+  [QuoteLineType.SERVICE, QuoteLineType.ITEM].includes(line.type);
 
 export const calculatePartialQuoteLineAmounts = (state, action) => {
   const { layout } = state.quote;
@@ -16,11 +15,11 @@ export const calculatePartialQuoteLineAmounts = (state, action) => {
       ...state,
       quote: {
         ...state.quote,
-        lines: state.quote.lines.map((line, index) => (
+        lines: state.quote.lines.map((line, index) =>
           action.index === index && getIsCalculableLine(line)
             ? buildLineWithCalculatedAmounts(line, action.key)
             : line
-        )),
+        ),
       },
     };
   }
@@ -28,15 +27,18 @@ export const calculatePartialQuoteLineAmounts = (state, action) => {
   return state;
 };
 
-const shouldCalculateUnitPriceWithTaxInclusiveSwitch = (line, isSwitchingTaxInclusive) => (
+const shouldCalculateUnitPriceWithTaxInclusiveSwitch = (
+  line,
   isSwitchingTaxInclusive
-    && Number(line.units) !== 0
-    && Number(line.discount) !== 100
-);
+) =>
+  isSwitchingTaxInclusive &&
+  Number(line.units) !== 0 &&
+  Number(line.discount) !== 100;
 
-export const setQuoteCalculatedLines = (state, {
-  lines: calculatedLines, totals: calculatedTotals, isSwitchingTaxInclusive,
-}) => ({
+export const setQuoteCalculatedLines = (
+  state,
+  { lines: calculatedLines, totals: calculatedTotals, isSwitchingTaxInclusive }
+) => ({
   ...state,
   quote: {
     ...state.quote,
@@ -47,7 +49,12 @@ export const setQuoteCalculatedLines = (state, {
 
       const { amount } = calculatedLines[index];
 
-      if (shouldCalculateUnitPriceWithTaxInclusiveSwitch(line, isSwitchingTaxInclusive)) {
+      if (
+        shouldCalculateUnitPriceWithTaxInclusiveSwitch(
+          line,
+          isSwitchingTaxInclusive
+        )
+      ) {
         const units = Number(line.units);
         const discount = Number(line.discount);
         const calculatedUnitPrice = calculateUnitPrice(units, amount, discount);

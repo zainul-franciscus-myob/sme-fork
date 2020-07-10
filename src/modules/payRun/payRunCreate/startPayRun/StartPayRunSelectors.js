@@ -1,67 +1,69 @@
 import { createSelector } from 'reselect';
 import { isBefore } from 'date-fns';
 
-export const getStartPayRun = state => state.startPayRun;
+export const getStartPayRun = (state) => state.startPayRun;
 
-export const getLoadEmployeePaysRequestContent = state => ({
+export const getLoadEmployeePaysRequestContent = (state) => ({
   ...state.startPayRun.currentEditingPayRun,
   unprocessedTimesheetLines: state.unprocessedTimesheetLines,
 });
 
-export const getRegularPayCycleOptions = state => (
-  state.startPayRun.regularPayCycleOptions || []
-);
-export const isThereExistingPayRun = state => (state.startPayRun.draftPayRun);
+export const getRegularPayCycleOptions = (state) =>
+  state.startPayRun.regularPayCycleOptions || [];
+export const isThereExistingPayRun = (state) => state.startPayRun.draftPayRun;
 
 export const getDraftPayRun = createSelector(
   getStartPayRun,
-  startPayRun => startPayRun.draftPayRun,
+  (startPayRun) => startPayRun.draftPayRun
 );
 
 export const getPayPeriodStart = createSelector(
   getDraftPayRun,
-  draftPayRun => draftPayRun.payPeriodStart,
+  (draftPayRun) => draftPayRun.payPeriodStart
 );
 
 export const getPayPeriodEnd = createSelector(
   getDraftPayRun,
-  draftPayRun => draftPayRun.payPeriodEnd,
+  (draftPayRun) => draftPayRun.payPeriodEnd
 );
 export const getDateOfPayment = createSelector(
   getDraftPayRun,
-  draftPayRun => draftPayRun.paymentDate,
+  (draftPayRun) => draftPayRun.paymentDate
 );
 
-export const getIsTableLoading = state => state.startPayRun.isTableLoading;
+export const getIsTableLoading = (state) => state.startPayRun.isTableLoading;
 
-export const getTimesheets = state => state.timesheets;
-export const getLoadTimesheetsParams = state => ({
+export const getTimesheets = (state) => state.timesheets;
+export const getLoadTimesheetsParams = (state) => ({
   paymentDate: state.startPayRun.currentEditingPayRun.paymentDate,
   payPeriodStart: state.startPayRun.currentEditingPayRun.payPeriodStart,
   payPeriodEnd: state.startPayRun.currentEditingPayRun.payPeriodEnd,
   paymentFrequency: state.startPayRun.currentEditingPayRun.paymentFrequency,
 });
 
-export const getShowStpValidationErrorModal = state => (
-  state.startPayRun.showStpValidationErrorModal
-);
+export const getShowStpValidationErrorModal = (state) =>
+  state.startPayRun.showStpValidationErrorModal;
 
-export const getIsTimesheetUsed = state => state.startPayRun.isTimesheetUsed;
+export const getIsTimesheetUsed = (state) => state.startPayRun.isTimesheetUsed;
 export const getTimesheetRequiredFieldsFilled = (state) => {
   const params = getLoadTimesheetsParams(state);
   return Boolean(
-    params.paymentFrequency
-    && params.paymentDate
-    && params.payPeriodStart
-    && params.payPeriodEnd,
+    params.paymentFrequency &&
+      params.paymentDate &&
+      params.payPeriodStart &&
+      params.payPeriodEnd
   );
 };
 
-const getCurrentEditingDateOfPayment = state => state.startPayRun.currentEditingPayRun.paymentDate;
-const getStartOfFinancialYearDate = state => state.startPayRun.startOfFinancialYearDate;
+const getCurrentEditingDateOfPayment = (state) =>
+  state.startPayRun.currentEditingPayRun.paymentDate;
+const getStartOfFinancialYearDate = (state) =>
+  state.startPayRun.startOfFinancialYearDate;
 export const getIsBeforeStartOfFinancialYear = createSelector(
   getCurrentEditingDateOfPayment,
   getStartOfFinancialYearDate,
-  (date, startOfFinancialYearDate) => date && startOfFinancialYearDate
-  && isBefore(new Date(date), new Date(startOfFinancialYearDate)),
+  (date, startOfFinancialYearDate) =>
+    date &&
+    startOfFinancialYearDate &&
+    isBefore(new Date(date), new Date(startOfFinancialYearDate))
 );

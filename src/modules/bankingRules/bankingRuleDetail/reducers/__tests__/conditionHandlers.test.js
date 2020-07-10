@@ -22,9 +22,7 @@ describe('conditionHandlers', () => {
 
       const modifiedState = {
         ...state,
-        conditions: [
-          { field: 'Description', predicates: [] },
-        ],
+        conditions: [{ field: 'Description', predicates: [] }],
       };
 
       const actual = bankingRuleDetailReducer(modifiedState, action);
@@ -44,9 +42,7 @@ describe('conditionHandlers', () => {
 
       const modifiedState = {
         ...state,
-        conditions: [
-          { field: 'Amount', predicates: [] },
-        ],
+        conditions: [{ field: 'Amount', predicates: [] }],
       };
 
       const actual = bankingRuleDetailReducer(modifiedState, action);
@@ -71,9 +67,7 @@ describe('conditionHandlers', () => {
 
       const modifiedState = {
         ...state,
-        conditions: [
-          { predicates: [{ id: 1 }, { id: 2 }] },
-        ],
+        conditions: [{ predicates: [{ id: 1 }, { id: 2 }] }],
       };
 
       const actual = bankingRuleDetailReducer(modifiedState, action);
@@ -91,9 +85,7 @@ describe('conditionHandlers', () => {
 
       const modifiedState = {
         ...state,
-        conditions: [
-          { predicates: [{}] },
-        ],
+        conditions: [{ predicates: [{}] }],
       };
 
       const actual = bankingRuleDetailReducer(modifiedState, action);

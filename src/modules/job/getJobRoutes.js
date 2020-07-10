@@ -3,14 +3,21 @@ import JobListModule from './jobList/JobListModule';
 import RouteName from '../../router/RouteName';
 
 const getJobRoutes = ({
-  integration, setRootView, popMessages, pushMessage, isToggleOn,
+  integration,
+  setRootView,
+  popMessages,
+  pushMessage,
+  isToggleOn,
 }) => {
   const routes = [
     {
       name: RouteName.JOB_LIST,
       path: '/:region/:businessId/job/',
       module: new JobListModule({
-        integration, setRootView, popMessages, isToggleOn,
+        integration,
+        setRootView,
+        popMessages,
+        isToggleOn,
       }),
       documentTitle: 'Jobs',
     },
@@ -18,7 +25,10 @@ const getJobRoutes = ({
       name: RouteName.JOB_DETAIL,
       path: '/:region/:businessId/job/:jobId',
       module: new JobDetailModule({
-        integration, setRootView, pushMessage, isToggleOn,
+        integration,
+        setRootView,
+        pushMessage,
+        isToggleOn,
       }),
       documentTitle: 'Job',
     },

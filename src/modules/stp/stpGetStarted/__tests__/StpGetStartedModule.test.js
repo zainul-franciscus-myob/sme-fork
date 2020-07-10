@@ -48,9 +48,10 @@ describe('StpGetStartedModule', () => {
 
   it('does not render the modal where there are no stp registration errors', () => {
     const noErrorIntegration = {
-      read: ({ onSuccess }) => onSuccess({
-        hasRegistrationErrors: false,
-      }),
+      read: ({ onSuccess }) =>
+        onSuccess({
+          hasRegistrationErrors: false,
+        }),
     };
     const { wrapper } = constructModule(noErrorIntegration);
 

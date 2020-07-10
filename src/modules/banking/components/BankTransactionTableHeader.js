@@ -1,6 +1,4 @@
-import {
-  Card, Checkbox, HeaderSort,
-} from '@myob/myob-widgets';
+import { Card, Checkbox, HeaderSort } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -96,9 +94,8 @@ const BankTransactionTableHeader = ({
   </Card>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   title: getTitle(state),
 });
-
 
 export default connect(mapStateToProps)(BankTransactionTableHeader);

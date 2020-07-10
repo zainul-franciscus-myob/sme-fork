@@ -9,23 +9,28 @@ import {
 const HttpTransactionListMapping = {
   [LOAD_CREDITS_AND_DEBITS_LIST]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/credits_and_debits/load_transaction_list`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/credits_and_debits/load_transaction_list`,
   },
   [SORT_AND_FILTER_CREDITS_AND_DEBITS_LIST]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/credits_and_debits/filter_transaction_list`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/credits_and_debits/filter_transaction_list`,
   },
   [LOAD_CREDITS_AND_DEBITS_NEXT_PAGE]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/credits_and_debits/filter_transaction_list`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/credits_and_debits/filter_transaction_list`,
   },
   [SORT_AND_FILTER_TRANSACTION_LIST]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/journalTransactions/filter_transaction_list`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/journalTransactions/filter_transaction_list`,
   },
   [LOAD_TRANSACTION_NEXT_PAGE]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/journalTransactions/filter_transaction_list`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/journalTransactions/filter_transaction_list`,
   },
 };
 

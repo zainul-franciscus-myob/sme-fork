@@ -1,4 +1,3 @@
-
 import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import React from 'react';
@@ -14,8 +13,11 @@ beforeEach(() => {
   store = new Store(employeeListNzReducer);
 });
 
-const mountWithProvider = component => mount(component,
-  { wrappingComponent: Provider, wrappingComponentProps: { store } });
+const mountWithProvider = (component) =>
+  mount(component, {
+    wrappingComponent: Provider,
+    wrappingComponentProps: { store },
+  });
 
 describe('when there are employees', () => {
   it('renders a table rows', () => {
@@ -27,9 +29,7 @@ describe('when there are employees', () => {
     };
 
     const response = {
-      entries: [
-        entry,
-      ],
+      entries: [entry],
     };
 
     const context = { region: 'nz', businessId: '12' };
@@ -39,17 +39,19 @@ describe('when there are employees', () => {
       phoneNumber: { columnName: 'Phone', width: 'flex-1', valign: 'top' },
       email: { columnName: 'Email', width: 'flex-1', valign: 'top' },
     };
-    const wrapper = mountWithProvider(<EmployeeListNZTableBody
-      tableConfig={tableConfig}
-    />);
+    const wrapper = mountWithProvider(
+      <EmployeeListNZTableBody tableConfig={tableConfig} />
+    );
 
     store.dispatch({ intent: LOAD_EMPLOYEE_LIST, ...response });
     wrapper.update();
 
     const nameRowItem = wrapper.find({ ...tableConfig.name });
-    expect(nameRowItem.find(
-      { href: `/#/${context.region}/${context.businessId}/employee/1` },
-    ).exists()).toBe(true);
+    expect(
+      nameRowItem
+        .find({ href: `/#/${context.region}/${context.businessId}/employee/1` })
+        .exists()
+    ).toBe(true);
     expect(nameRowItem.text()).toContain(entry.name);
 
     const phoneNumberRowItem = wrapper.find({ ...tableConfig.phoneNumber });

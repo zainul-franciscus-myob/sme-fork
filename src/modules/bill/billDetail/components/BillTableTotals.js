@@ -22,18 +22,14 @@ const BillTableTotals = ({
   isBlocking,
   amountPaid,
   amountDue,
-  totals: {
-    totalAmount,
-    totalTax,
-    subTotal,
-  },
+  totals: { totalAmount, totalTax, subTotal },
   totalTaxLabel,
   onUpdateBillOption,
   freightAmount,
   showFreight,
   freightTaxCode,
 }) => {
-  const amountPaidInputLine = (isCreating ? (
+  const amountPaidInputLine = isCreating ? (
     <LineItemTableTotalsInput
       label="Amount paid ($)"
       name="amountPaid"
@@ -42,22 +38,45 @@ const BillTableTotals = ({
       disabled={isBlocking}
     />
   ) : (
-    <LineItemTableTotalsFormattedCurrency title="Amount paid" amount={amountPaid} />
-  ));
+    <LineItemTableTotalsFormattedCurrency
+      title="Amount paid"
+      amount={amountPaid}
+    />
+  );
 
   return (
     <LineItemTable.Total>
-      <LineItemTableTotalsFormattedCurrency title="Subtotal" amount={subTotal} />
-      { showFreight && <LineItemTableTotalsFormattedCurrency title="Freight" amount={freightAmount} note={freightTaxCode} /> }
-      <LineItemTableTotalsFormattedCurrency title={totalTaxLabel} amount={totalTax} />
-      <LineItemTableTotalsFormattedCurrency totalAmount title="Total" amount={totalAmount} />
+      <LineItemTableTotalsFormattedCurrency
+        title="Subtotal"
+        amount={subTotal}
+      />
+      {showFreight && (
+        <LineItemTableTotalsFormattedCurrency
+          title="Freight"
+          amount={freightAmount}
+          note={freightTaxCode}
+        />
+      )}
+      <LineItemTableTotalsFormattedCurrency
+        title={totalTaxLabel}
+        amount={totalTax}
+      />
+      <LineItemTableTotalsFormattedCurrency
+        totalAmount
+        title="Total"
+        amount={totalAmount}
+      />
       {amountPaidInputLine}
-      <LineItemTableTotalsFormattedCurrency totalAmount title="Balance due" amount={amountDue} />
+      <LineItemTableTotalsFormattedCurrency
+        totalAmount
+        title="Balance due"
+        amount={amountDue}
+      />
     </LineItemTable.Total>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isCreating: getIsCreating(state),
   isBlocking: getIsBlocking(state),
   amountPaid: getAmountPaid(state),
@@ -68,6 +87,5 @@ const mapStateToProps = state => ({
   showFreight: getHasFreightAmount(state),
   freightTaxCode: getFreightTaxCode(state),
 });
-
 
 export default connect(mapStateToProps)(BillTableTotals);

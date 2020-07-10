@@ -1,9 +1,4 @@
-import {
-  Alert,
-  Card,
-  DetailHeader,
-  Separator,
-} from '@myob/myob-widgets';
+import { Alert, Card, DetailHeader, Separator } from '@myob/myob-widgets';
 import React, { useState } from 'react';
 import classnames from 'classnames';
 
@@ -60,15 +55,15 @@ const MasterDetailLineItemTemplate = ({
   );
   return (
     <MasterDetailTemplate
-      master={(
+      master={
         <div role="presentation" onMouseDown={onMouseDown}>
           {subHeadChildren}
           <Card classes={styles.card}>
             <div className={styles.options}>
-              { optionInfo && (
-              <Alert type="info" onDismiss={onDismissOptionInfo}>
-                {optionInfo}
-              </Alert>
+              {optionInfo && (
+                <Alert type="info" onDismiss={onDismissOptionInfo}>
+                  {optionInfo}
+                </Alert>
               )}
               {options}
               <Separator />
@@ -79,19 +74,16 @@ const MasterDetailLineItemTemplate = ({
           {actions}
           {more}
         </div>
-      )}
+      }
       detail={detail}
       pageHead={pageHead}
       sticky={sticky}
       showDetail={showDetail}
       detailWidth="55%"
-      containerClassName={classnames(
-        styles.container,
-        {
-          [styles.showDetail]: showDetail,
-          [styles.noPointerEvents]: isMouseDown,
-        },
-      )}
+      containerClassName={classnames(styles.container, {
+        [styles.showDetail]: showDetail,
+        [styles.noPointerEvents]: isMouseDown,
+      })}
       sectionClassName={styles.section}
       templateClassName={templateClassName}
     />

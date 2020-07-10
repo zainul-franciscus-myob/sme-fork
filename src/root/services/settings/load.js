@@ -1,5 +1,9 @@
 import { LOAD_SETTINGS } from '../../rootIntents';
-import { getAreOnboardingSettingsLoaded, getBusinessId, getPreviousSettingsBusinessId } from '../../rootSelectors';
+import {
+  getAreOnboardingSettingsLoaded,
+  getBusinessId,
+  getPreviousSettingsBusinessId,
+} from '../../rootSelectors';
 
 const load = async (dispatcher, integration, store) => {
   const state = store.getState();
@@ -7,18 +11,26 @@ const load = async (dispatcher, integration, store) => {
   const previousSettingsBusinessId = getPreviousSettingsBusinessId(state);
   const areOnboardingSettingsLoaded = getAreOnboardingSettingsLoaded(state);
 
-  if (!businessId
-    || (businessId === previousSettingsBusinessId && areOnboardingSettingsLoaded)) return;
+  if (
+    !businessId ||
+    (businessId === previousSettingsBusinessId && areOnboardingSettingsLoaded)
+  )
+    return;
 
   try {
-    const settings = await new Promise((resolve, reject) => integration.read({
-      intent: LOAD_SETTINGS,
-      urlParams: { businessId },
-      onSuccess: resolve,
-      onFailure: reject,
-    }));
+    const settings = await new Promise((resolve, reject) =>
+      integration.read({
+        intent: LOAD_SETTINGS,
+        urlParams: { businessId },
+        onSuccess: resolve,
+        onFailure: reject,
+      })
+    );
 
-    dispatcher.loadSettings({ ...settings, previousSettingsBusinessId: businessId });
+    dispatcher.loadSettings({
+      ...settings,
+      previousSettingsBusinessId: businessId,
+    });
   } catch (error) {
     console.error(error); // eslint-disable-line no-console
   }

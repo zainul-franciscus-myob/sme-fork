@@ -5,12 +5,7 @@ import createBankingRuleDispatcher from './createBankingRuleDispatcher';
 import createBankingRuleIntegrator from './createBankingRuleIntegrator';
 
 export default class BankingRuleModule {
-  constructor({
-    integration,
-    store,
-    onCancel,
-    onSaveSuccess,
-  }) {
+  constructor({ integration, store, onCancel, onSaveSuccess }) {
     this.dispatcher = createBankingRuleDispatcher(store);
     this.integrator = createBankingRuleIntegrator(store, integration);
     this.closeModal = onCancel;
@@ -19,39 +14,48 @@ export default class BankingRuleModule {
 
   updateRuleDetails = ({ key, value }) => {
     this.dispatcher.updateRuleDetails(key, value);
-  }
+  };
 
   addRuleCondition = () => {
     this.dispatcher.addRuleCondition();
-  }
+  };
 
   updateRuleCondition = (conditionIndex, { key, value }) => {
     this.dispatcher.updateRuleCondition(conditionIndex, key, value);
-  }
+  };
 
   addConditionPredicate = (conditionIndex, newData) => {
     this.dispatcher.addConditionPredicate(conditionIndex, newData);
-  }
+  };
 
-  updateConditionPredicate = (conditionIndex, predicationIndex, { key, value }) => {
-    this.dispatcher.updateConditionPredicate(conditionIndex, predicationIndex, key, value);
-  }
+  updateConditionPredicate = (
+    conditionIndex,
+    predicationIndex,
+    { key, value }
+  ) => {
+    this.dispatcher.updateConditionPredicate(
+      conditionIndex,
+      predicationIndex,
+      key,
+      value
+    );
+  };
 
   removeConditionPredicate = (conditionIndex, predicationIndex) => {
     this.dispatcher.removeConditionPredicate(conditionIndex, predicationIndex);
-  }
+  };
 
   addTableRow = (row) => {
     this.dispatcher.addTableRow(row);
-  }
+  };
 
   updateTableRow = (index, key, value) => {
     this.dispatcher.updateTableRow(index, key, value);
-  }
+  };
 
   removeTableRow = (index) => {
     this.dispatcher.removeTableRow(index);
-  }
+  };
 
   createBankingRule = () => {
     this.dispatcher.setSavingState(true);
@@ -73,7 +77,7 @@ export default class BankingRuleModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   getView(state) {
     this.dispatcher.setInitialState(state);

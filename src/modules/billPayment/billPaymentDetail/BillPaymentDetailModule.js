@@ -28,14 +28,15 @@ import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class BillPaymentModule {
-  constructor({
-    integration, setRootView, pushMessage, navigateTo,
-  }) {
+  constructor({ integration, setRootView, pushMessage, navigateTo }) {
     this.store = new Store(billPaymentReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.dispatcher = createBillPaymentDetailDispatcher(this.store);
-    this.integrator = createBillPaymentDetailIntegrator(this.store, integration);
+    this.integrator = createBillPaymentDetailIntegrator(
+      this.store,
+      integration
+    );
     this.navigateTo = navigateTo;
   }
 
@@ -56,7 +57,7 @@ export default class BillPaymentModule {
     if (getSupplierId(state)) {
       this.loadBillList();
     }
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
@@ -76,7 +77,7 @@ export default class BillPaymentModule {
     };
 
     this.integrator.loadBillList({ onSuccess, onFailure });
-  }
+  };
 
   updateHeaderOption = ({ key, value }) => {
     const state = this.store.getState();
@@ -90,7 +91,7 @@ export default class BillPaymentModule {
     if (key === 'accountId') {
       this.updateReferenceId();
     }
-  }
+  };
 
   updateReferenceId = () => {
     const state = this.store.getState();
@@ -113,33 +114,33 @@ export default class BillPaymentModule {
     };
 
     this.integrator.updateReferenceId({ onSuccess, onFailure });
-  }
+  };
 
-  redirectToTransactionList= () => {
+  redirectToTransactionList = () => {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
     const region = getRegion(state);
 
     this.navigateTo(`/#/${region}/${businessId}/transactionList`);
-  }
+  };
 
-  redirectToBillList= () => {
+  redirectToBillList = () => {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
     const region = getRegion(state);
 
     this.navigateTo(`/#/${region}/${businessId}/bill`);
-  }
+  };
 
-  redirectToBillDetail= (billId) => {
+  redirectToBillDetail = (billId) => {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
     const region = getRegion(state);
 
     this.navigateTo(`/#/${region}/${businessId}/bill/${billId}`);
-  }
+  };
 
-  dismissAlert = () => this.dispatcher.setAlertMessage('')
+  dismissAlert = () => this.dispatcher.setAlertMessage('');
 
   saveBillPayment = () => {
     const state = this.store.getState();
@@ -173,7 +174,7 @@ export default class BillPaymentModule {
     };
 
     this.integrator.saveBillPayment({ onSuccess, onFailure });
-  }
+  };
 
   openCancelModal = () => {
     if (getIsPageEdited(this.store.getState())) {
@@ -185,7 +186,7 @@ export default class BillPaymentModule {
 
   openDeleteModal = () => {
     this.dispatcher.openModal('delete');
-  }
+  };
 
   deleteBillPayment = () => {
     this.dispatcher.setSubmittingState(true);
@@ -206,7 +207,7 @@ export default class BillPaymentModule {
     };
 
     this.integrator.deleteBillPayment({ onSuccess, onFailure });
-  }
+  };
 
   cancelBillPayment = () => {
     const state = this.store.getState();
@@ -217,7 +218,7 @@ export default class BillPaymentModule {
     } else {
       this.redirectToTransactionList();
     }
-  }
+  };
 
   render = () => {
     const billPaymentView = (
@@ -239,9 +240,7 @@ export default class BillPaymentModule {
     );
 
     const wrappedView = (
-      <Provider store={this.store}>
-        {billPaymentView}
-      </Provider>
+      <Provider store={this.store}>{billPaymentView}</Provider>
     );
 
     this.setRootView(wrappedView);
@@ -253,7 +252,7 @@ export default class BillPaymentModule {
     if (modalType) return;
 
     this.saveBillPayment();
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,
@@ -265,7 +264,7 @@ export default class BillPaymentModule {
     this.render();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.loadBillPayment();
-  }
+  };
 
   resetState() {
     this.dispatcher.resetState();
@@ -275,17 +274,17 @@ export default class BillPaymentModule {
     this.dispatcher.closeModal();
     const url = getRedirectUrl(this.store.getState());
     this.navigateTo(url);
-  }
+  };
 
   saveAndRedirect = () => {
     this.dispatcher.closeModal();
     this.saveBillPayment();
-  }
+  };
 
   closeUnsaveModal = () => {
     this.dispatcher.setRedirectUrl('');
     this.dispatcher.closeModal();
-  }
+  };
 
   handlePageTransition = (url) => {
     const state = this.store.getState();
@@ -295,5 +294,5 @@ export default class BillPaymentModule {
     } else {
       this.navigateTo(url);
     }
-  }
+  };
 }

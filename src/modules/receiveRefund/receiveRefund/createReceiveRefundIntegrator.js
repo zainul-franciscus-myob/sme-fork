@@ -5,7 +5,11 @@ import {
   LOAD_RECEIVE_REFUND,
 } from '../ReceiveRefundIntents';
 import {
-  getBusinessId, getIsCreating, getRefundForCreate, getRefundId, getSupplierReturnId,
+  getBusinessId,
+  getIsCreating,
+  getRefundForCreate,
+  getRefundId,
+  getSupplierReturnId,
 } from './receiveRefundSelectors';
 
 const createReceiveRefundIntegrator = (store, integration) => ({
@@ -13,11 +17,11 @@ const createReceiveRefundIntegrator = (store, integration) => ({
     const state = store.getState();
     const isCreating = getIsCreating(state);
 
-    const intent = isCreating
-      ? LOAD_NEW_RECEIVE_REFUND
-      : LOAD_RECEIVE_REFUND;
+    const intent = isCreating ? LOAD_NEW_RECEIVE_REFUND : LOAD_RECEIVE_REFUND;
 
-    const supplierReturnId = isCreating ? getSupplierReturnId(state) : undefined;
+    const supplierReturnId = isCreating
+      ? getSupplierReturnId(state)
+      : undefined;
     const refundId = isCreating ? undefined : getRefundId(state);
 
     const urlParams = {
@@ -27,7 +31,10 @@ const createReceiveRefundIntegrator = (store, integration) => ({
     };
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 

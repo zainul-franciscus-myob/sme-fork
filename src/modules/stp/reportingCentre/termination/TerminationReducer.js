@@ -45,7 +45,11 @@ const setIsTableLoading = (state, { isTableLoading }) => ({
 const setEmployees = (state, { response }) => ({
   ...state,
   ...response,
-  selectedPayrollYear: (response.payrollYears && response.payrollYears[0] && response.payrollYears[0].year) || '',
+  selectedPayrollYear:
+    (response.payrollYears &&
+      response.payrollYears[0] &&
+      response.payrollYears[0].year) ||
+    '',
 });
 
 const setFilteredEmployees = (state, { response }) => ({
@@ -71,14 +75,18 @@ const setSelectedPayrollYear = (state, { selectedPayrollYear }) => ({
 
 const setTerminationDate = (state, { employee, terminationDate }) => ({
   ...state,
-  employees: state.employees.map(emp => (emp.id === employee.id ? {
-    ...emp,
-    terminationDate,
-    isDirty: true,
-  } : emp)),
+  employees: state.employees.map((emp) =>
+    emp.id === employee.id
+      ? {
+          ...emp,
+          terminationDate,
+          isDirty: true,
+        }
+      : emp
+  ),
 });
 
-const setNewEventId = state => ({
+const setNewEventId = (state) => ({
   ...state,
   eventId: uuid(),
 });

@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getIsCreating, getLoadingState, getModal, getPageTitle,
+  getAlertMessage,
+  getIsCreating,
+  getLoadingState,
+  getModal,
+  getPageTitle,
 } from '../jobDetailSelectors';
 import CancelModal from '../../../../components/modal/CancelModal';
 import DeleteModal from '../../../../components/modal/DeleteModal';
@@ -39,16 +43,15 @@ const JobDetailView = ({
 
   let modalElement;
   const deleteBody = (
-    <div>Deleting this job will remove it from all transactions.<br />
+    <div>
+      Deleting this job will remove it from all transactions.
+      <br />
       This can&apos;t be undone, or recovered later.
     </div>
   );
   if (modal.type === ModalType.CANCEL) {
     modalElement = (
-      <CancelModal
-        onCancel={onCloseModal}
-        onConfirm={onCancelModal}
-      />
+      <CancelModal onCancel={onCloseModal} onConfirm={onCancelModal} />
     );
   } else if (modal.type === ModalType.DELETE) {
     modalElement = (
@@ -74,14 +77,14 @@ const JobDetailView = ({
       pageHead={pageHeadTitle}
       alert={alertComponent}
       sticky="none"
-      actions={(
+      actions={
         <JobDetailActions
           isCreating={isCreating}
           onSaveButtonClick={onSaveButtonClick}
           onCancelButtonClick={onCancelButtonClick}
           onDeleteButtonClick={onDeleteButtonClick}
         />
-      )}
+      }
     >
       {modalElement}
       {contactModal}
@@ -92,14 +95,13 @@ const JobDetailView = ({
           onAddCustomerButtonClick={onAddCustomerButtonClick}
         />
       </FormCard>
-
     </FormTemplate>
   );
 
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   pageHeadTitle: getPageTitle(state),
   isCreating: getIsCreating(state),
   loadingState: getLoadingState(state),

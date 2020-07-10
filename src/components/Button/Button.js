@@ -4,15 +4,8 @@ import classNames from 'classnames';
 
 import styles from './Button.module.css';
 
-const Button = ({
-  children,
-  className,
-  ...props
-}) => (
-  <FeelixButton
-    {...props}
-    className={classNames(styles.unwrap, className)}
-  >
+const Button = ({ children, className, ...props }) => (
+  <FeelixButton {...props} className={classNames(styles.unwrap, className)}>
     {children}
   </FeelixButton>
 );

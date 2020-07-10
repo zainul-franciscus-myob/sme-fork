@@ -29,13 +29,12 @@ const JobKeeperFilter = ({
           <Select.Option value={year} label={label} key={year} />
         ))}
       </Select>
-      {
-        featureToggles && featureToggles.isJobKeeperReportingEnabled
-          ? <>
-            <span className={styles.divider} />
-            <JobKeeperReporting onOpenJobKeeperReport={onOpenJobKeeperReport} />
-          </> : null
-      }
+      {featureToggles && featureToggles.isJobKeeperReportingEnabled ? (
+        <>
+          <span className={styles.divider} />
+          <JobKeeperReporting onOpenJobKeeperReport={onOpenJobKeeperReport} />
+        </>
+      ) : null}
     </>
   );
 

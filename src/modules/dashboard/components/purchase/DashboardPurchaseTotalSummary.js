@@ -15,13 +15,21 @@ const DashboardPurchaseTotalSummary = ({
 }) => (
   <DashboardTotalSummary
     items={[
-      { title: purchaseTotalLabel, content: purchaseTotal, link: purchaseTotalLink },
+      {
+        title: purchaseTotalLabel,
+        content: purchaseTotal,
+        link: purchaseTotalLink,
+      },
       { title: 'All open bills', content: unpaidTotal, link: unpaidTotalLink },
-      { title: 'All overdue bills', content: overDueTotal, link: overDueTotalLink },
+      {
+        title: 'All overdue bills',
+        content: overDueTotal,
+        link: overDueTotalLink,
+      },
     ]}
   />
 );
 
-const mapStateToProps = state => getPurchaseTotalSummary(state);
+const mapStateToProps = (state) => getPurchaseTotalSummary(state);
 
 export default connect(mapStateToProps)(DashboardPurchaseTotalSummary);

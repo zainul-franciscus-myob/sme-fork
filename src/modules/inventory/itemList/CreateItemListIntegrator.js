@@ -1,4 +1,8 @@
-import { LOAD_ITEM_LIST, LOAD_NEXT_PAGE, SORT_AND_FILTER_ITEM_LIST } from '../InventoryIntents';
+import {
+  LOAD_ITEM_LIST,
+  LOAD_NEXT_PAGE,
+  SORT_AND_FILTER_ITEM_LIST,
+} from '../InventoryIntents';
 import {
   getBusinessId,
   getFilterOptions,
@@ -25,9 +29,7 @@ const CreateItemListIntegrator = (store, integration) => ({
       onFailure,
     });
   },
-  sortAndFilterItemList: ({
-    onSuccess, onFailure,
-  }) => {
+  sortAndFilterItemList: ({ onSuccess, onFailure }) => {
     const state = store.getState();
     const filterOptions = getFilterOptions(state);
 

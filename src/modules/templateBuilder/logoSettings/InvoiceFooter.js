@@ -4,7 +4,6 @@ import React from 'react';
 import Footer from '../../template/components/TemplatePreview/footer/Footer';
 import formatSlashDate from '../../../common/valueFormatters/formatDate/formatSlashDate';
 
-
 const InvoiceFooter = () => (
   <Footer
     items={[

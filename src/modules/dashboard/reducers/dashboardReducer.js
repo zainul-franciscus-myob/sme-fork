@@ -1,5 +1,8 @@
 import {
-  LOAD_CONFIG, LOAD_DASHBOARD, SET_ALERT, SET_LOADING_STATE,
+  LOAD_CONFIG,
+  LOAD_DASHBOARD,
+  SET_ALERT,
+  SET_LOADING_STATE,
 } from '../DashboardIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import createReducer from '../../../store/createReducer';
@@ -89,20 +92,55 @@ const getDefaultState = () => ({
     hasError: false,
     favourites: [],
     all: [
-      { name: 'Payroll category transactions', path: 'payrollCategoryTransactions', displayName: 'Pay item transactions' },
-      { name: 'Payroll summary', path: 'payrollSummary', displayName: 'Payroll summary' },
-      { name: 'Payroll register', path: 'payrollRegister', displayName: 'Payroll register' },
-      { name: 'Payroll activity', path: 'payrollActivity', displayName: 'Payroll activity' },
-      { name: 'Payroll advice', path: 'payrollAdvice', displayName: 'Payroll advice' },
+      {
+        name: 'Payroll category transactions',
+        path: 'payrollCategoryTransactions',
+        displayName: 'Pay item transactions',
+      },
+      {
+        name: 'Payroll summary',
+        path: 'payrollSummary',
+        displayName: 'Payroll summary',
+      },
+      {
+        name: 'Payroll register',
+        path: 'payrollRegister',
+        displayName: 'Payroll register',
+      },
+      {
+        name: 'Payroll activity',
+        path: 'payrollActivity',
+        displayName: 'Payroll activity',
+      },
+      {
+        name: 'Payroll advice',
+        path: 'payrollAdvice',
+        displayName: 'Payroll advice',
+      },
       { name: 'Timesheets', path: 'timesheets', displayName: 'Timesheets' },
-      { name: 'Accrual by fund summary', path: 'accrualByFundSummary', displayName: 'Accrual by fund' },
-      { name: 'Accrual by fund detail', path: 'accrualByFundDetail', displayName: 'Accrual by fund (detail)' },
-      { name: 'Leave balance summary', path: 'leaveBalanceSummary', displayName: 'Leave balance' },
-      { name: 'Leave balance detail', path: 'leaveBalanceDetail', displayName: 'Leave balance (detail)' },
+      {
+        name: 'Accrual by fund summary',
+        path: 'accrualByFundSummary',
+        displayName: 'Accrual by fund',
+      },
+      {
+        name: 'Accrual by fund detail',
+        path: 'accrualByFundDetail',
+        displayName: 'Accrual by fund (detail)',
+      },
+      {
+        name: 'Leave balance summary',
+        path: 'leaveBalanceSummary',
+        displayName: 'Leave balance',
+      },
+      {
+        name: 'Leave balance detail',
+        path: 'leaveBalanceDetail',
+        displayName: 'Leave balance (detail)',
+      },
     ],
   },
 });
-
 
 const setInitialState = (state, { context }) => ({
   ...state,

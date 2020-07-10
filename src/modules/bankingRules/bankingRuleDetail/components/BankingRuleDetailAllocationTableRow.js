@@ -57,29 +57,27 @@ const BankingRuleDetailAllocationTableRow = ({
       onChange={onComboboxChange('accountId', onChange)}
       disabled={isAccountDisabled}
     />
-    {
-        isInputField ? (
-          <Input
-            textAlign="right"
-            label="value"
-            name="value"
-            value={row.value}
-            disabled
-          />
-        ) : (
-          <AmountInput
-            textAlign="right"
-            label="value"
-            name="value"
-            value={row.value}
-            onChange={onAmountInputChange('value', onChange)}
-            onBlur={onAmountInputChange('value', onChange)}
-            numeralDecimalScaleMin={2}
-            numeralDecimalScaleMax={6}
-            disabled={isFieldDisabled}
-          />
-        )
-    }
+    {isInputField ? (
+      <Input
+        textAlign="right"
+        label="value"
+        name="value"
+        value={row.value}
+        disabled
+      />
+    ) : (
+      <AmountInput
+        textAlign="right"
+        label="value"
+        name="value"
+        value={row.value}
+        onChange={onAmountInputChange('value', onChange)}
+        onBlur={onAmountInputChange('value', onChange)}
+        numeralDecimalScaleMin={2}
+        numeralDecimalScaleMax={6}
+        disabled={isFieldDisabled}
+      />
+    )}
     <TaxCodeCombobox
       name="taxCodeId"
       items={taxCodes}

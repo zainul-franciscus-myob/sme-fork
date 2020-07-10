@@ -19,7 +19,10 @@ import {
   UPDATE_GENERAL_JOURNAL_LINE,
 } from '../GeneralJournalIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { getDefaultTaxCodeId, getIsSale } from './generalJournalDetailSelectors';
+import {
+  getDefaultTaxCodeId,
+  getIsSale,
+} from './generalJournalDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
@@ -77,41 +80,53 @@ const getDefaultState = () => ({
 
 const pageEdited = { isPageEdited: true };
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
-const isAccountLineItem = lineKey => lineKey === 'accountId';
+const isAccountLineItem = (lineKey) => lineKey === 'accountId';
 
-const isUpdatingAccountItemInFirstLine = (lineIndex, lineKey) => lineIndex === 0
-  && isAccountLineItem(lineKey);
+const isUpdatingAccountItemInFirstLine = (lineIndex, lineKey) =>
+  lineIndex === 0 && isAccountLineItem(lineKey);
 
-const getReportingMethodFromSelectAccount = (accounts, selectAccountId) => accounts
-  .find(account => account.id === selectAccountId).reportingMethod;
+const getReportingMethodFromSelectAccount = (accounts, selectAccountId) =>
+  accounts.find((account) => account.id === selectAccountId).reportingMethod;
 
-const getReportingMethodForUpdate = (action, { gstReportingMethod }, accounts) => {
+const getReportingMethodForUpdate = (
+  action,
+  { gstReportingMethod },
+  accounts
+) => {
   let reportingMethod = gstReportingMethod;
   if (isUpdatingAccountItemInFirstLine(action.lineIndex, action.lineKey)) {
     const accountId = action.lineValue;
     if (accountId) {
       reportingMethod = getReportingMethodFromSelectAccount(
         accounts,
-        accountId,
+        accountId
       );
     }
   }
   return reportingMethod;
 };
 
-const getReportingMethodForCreate = (action, accounts, { lines, gstReportingMethod }) => {
+const getReportingMethodForCreate = (
+  action,
+  accounts,
+  { lines, gstReportingMethod }
+) => {
   let reportingMethod = gstReportingMethod;
   if (lines.length === 0 && action.line.accountId) {
-    reportingMethod = getReportingMethodFromSelectAccount(accounts, action.line.accountId);
+    reportingMethod = getReportingMethodFromSelectAccount(
+      accounts,
+      action.line.accountId
+    );
   }
   return reportingMethod;
 };
 
-const buildLineJobOptions = ({ action, jobId }) => (action.jobs
-  ? action.jobs.filter(job => job.isActive || job.id === jobId)
-  : []);
+const buildLineJobOptions = ({ action, jobId }) =>
+  action.jobs
+    ? action.jobs.filter((job) => job.isActive || job.id === jobId)
+    : [];
 
 const loadGeneralJournalDetail = (state, action) => ({
   ...state,
@@ -119,12 +134,16 @@ const loadGeneralJournalDetail = (state, action) => ({
     ...state.generalJournal,
     ...action.generalJournal,
     originalReferenceId: action.generalJournal.referenceId,
-    lines: action.generalJournal.lines.map(line => ({
+    lines: action.generalJournal.lines.map((line) => ({
       ...line,
       lineJobOptions: buildLineJobOptions({ action, jobId: line.jobId }),
     })),
   },
-  newLine: { ...state.newLine, ...action.newLine, lineJobOptions: buildLineJobOptions({ action }) },
+  newLine: {
+    ...state.newLine,
+    ...action.newLine,
+    lineJobOptions: buildLineJobOptions({ action }),
+  },
   totals: action.totals,
   pageTitle: action.pageTitle,
   jobOptions: action.jobOptions,
@@ -141,15 +160,18 @@ const updateGeneralJournalLine = (line, { lineKey, lineValue }, accounts) => {
 
   return isAccountLineItem(lineKey)
     ? {
-      ...updatedLine,
-      taxCodeId: getDefaultTaxCodeId({ accountId: lineValue, accounts }),
-    }
+        ...updatedLine,
+        taxCodeId: getDefaultTaxCodeId({ accountId: lineValue, accounts }),
+      }
     : updatedLine;
 };
 
-const getLinesForUpdate = (action, lines, accounts) => lines.map((line, index) => (
-  index === action.lineIndex ? updateGeneralJournalLine(line, action, accounts) : line
-));
+const getLinesForUpdate = (action, lines, accounts) =>
+  lines.map((line, index) =>
+    index === action.lineIndex
+      ? updateGeneralJournalLine(line, action, accounts)
+      : line
+  );
 
 const updateLine = (state, action) => ({
   ...state,
@@ -159,9 +181,13 @@ const updateLine = (state, action) => ({
     gstReportingMethod: getReportingMethodForUpdate(
       action,
       state.generalJournal,
-      state.accountOptions,
+      state.accountOptions
     ),
-    lines: getLinesForUpdate(action, state.generalJournal.lines, state.accountOptions),
+    lines: getLinesForUpdate(
+      action,
+      state.generalJournal.lines,
+      state.accountOptions
+    ),
   },
 });
 
@@ -173,7 +199,7 @@ const addLine = (state, action) => ({
     gstReportingMethod: getReportingMethodForCreate(
       action,
       state.accountOptions,
-      state.generalJournal,
+      state.generalJournal
     ),
     lines: [
       ...state.generalJournal.lines,
@@ -195,7 +221,9 @@ const deleteLine = (state, action) => ({
   ...pageEdited,
   generalJournal: {
     ...state.generalJournal,
-    lines: state.generalJournal.lines.filter((item, index) => index !== action.index),
+    lines: state.generalJournal.lines.filter(
+      (item, index) => index !== action.index
+    ),
   },
 });
 
@@ -216,7 +244,11 @@ const loadNewGeneralJournal = (state, action) => ({
     date: formatIsoDate(new Date()),
     originalReferenceId: action.generalJournal.referenceId,
   },
-  newLine: { ...state.newLine, ...action.newLine, lineJobOptions: buildLineJobOptions({ action }) },
+  newLine: {
+    ...state.newLine,
+    ...action.newLine,
+    lineJobOptions: buildLineJobOptions({ action }),
+  },
   pageTitle: action.pageTitle,
   jobOptions: action.jobOptions,
   taxCodeOptions: action.taxCodeOptions,
@@ -254,7 +286,7 @@ const openModal = (state, action) => ({
   modal: action.modal,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modal: undefined,
 });
@@ -293,7 +325,7 @@ const getTaxCalculations = (state, { taxCalculations: { lines, totals } }) => ({
     totalCredit: formatCurrency(totals.totalCredit.valueOf()),
     totalOutOfBalance: formatCurrency(totals.totalOutOfBalance.valueOf()),
     totalTax: formatCurrency(
-      getIsSale(state) ? -totals.totalTax.valueOf() : totals.totalTax.valueOf(),
+      getIsSale(state) ? -totals.totalTax.valueOf() : totals.totalTax.valueOf()
     ),
   },
 });
@@ -305,10 +337,7 @@ const setInitialState = (state, action) => ({
 
 const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   ...state,
-  accountOptions: [
-    account,
-    ...state.accountOptions,
-  ],
+  accountOptions: [account, ...state.accountOptions],
   isPageEdited: true,
 });
 
@@ -316,20 +345,14 @@ const loadJobAfterCreate = (state, { intent, ...job }) => ({
   ...state,
   generalJournal: {
     ...state.generalJournal,
-    lines: state.generalJournal.lines.map(line => ({
+    lines: state.generalJournal.lines.map((line) => ({
       ...line,
-      lineJobOptions: [
-        job,
-        ...line.lineJobOptions,
-      ],
+      lineJobOptions: [job, ...line.lineJobOptions],
     })),
   },
   newLine: {
     ...state.newLine,
-    lineJobOptions: [
-      job,
-      ...state.newLine.lineJobOptions,
-    ],
+    lineJobOptions: [job, ...state.newLine.lineJobOptions],
   },
   isPageEdited: true,
 });

@@ -1,9 +1,13 @@
-import { ADD_TABLE_ROW, CHANGE_TABLE_ROW, REMOVE_TABLE_ROW } from '../BankingRuleDetailIntents';
+import {
+  ADD_TABLE_ROW,
+  CHANGE_TABLE_ROW,
+  REMOVE_TABLE_ROW,
+} from '../BankingRuleDetailIntents';
 import { allocationTypeOptions } from '../AllocationTypes';
 
-const findTaxCodeIdByAccountId = (state, accountId) => state.allocationAccounts
-  .find(account => account.id === accountId)
-  .taxCodeId;
+const findTaxCodeIdByAccountId = (state, accountId) =>
+  state.allocationAccounts.find((account) => account.id === accountId)
+    .taxCodeId;
 
 const addAllocation = ({ state, allocations, newRow }) => {
   const updatedAllocations = [
@@ -20,15 +24,16 @@ const addAllocation = ({ state, allocations, newRow }) => {
   };
 };
 
-const addRowForPercentage = (state, partialRow) => addAllocation({
-  state,
-  allocations: state.allocations,
-  newRow: {
-    ...state.newAllocationLine,
-    ...partialRow,
-    value: state.allocations.length !== 0 ? '0.00' : '100.00',
-  },
-});
+const addRowForPercentage = (state, partialRow) =>
+  addAllocation({
+    state,
+    allocations: state.allocations,
+    newRow: {
+      ...state.newAllocationLine,
+      ...partialRow,
+      value: state.allocations.length !== 0 ? '0.00' : '100.00',
+    },
+  });
 
 const addRowForAmount = (state, partialRow) => {
   if (state.allocations.length === 0) {
@@ -62,7 +67,7 @@ const addRowForAmount = (state, partialRow) => {
 const addTableRow = (state, action) => {
   const { id, ...partialRow } = action.row;
 
-  return (state.allocationType === allocationTypeOptions.percent)
+  return state.allocationType === allocationTypeOptions.percent
     ? addRowForPercentage(state, partialRow)
     : addRowForAmount(state, partialRow);
 };
@@ -73,9 +78,10 @@ const changeTableRow = (state, action) => ({
     if (index === action.index) {
       return {
         ...line,
-        taxCodeId: action.key === 'accountId'
-          ? findTaxCodeIdByAccountId(state, action.value)
-          : line.taxCodeId,
+        taxCodeId:
+          action.key === 'accountId'
+            ? findTaxCodeIdByAccountId(state, action.value)
+            : line.taxCodeId,
         [action.key]: action.value,
       };
     }
@@ -85,32 +91,37 @@ const changeTableRow = (state, action) => ({
 
 const removeRowForPercentage = (state, allocations) => ({
   ...state,
-  allocations: allocations.map((allocation, index) => (
+  allocations: allocations.map((allocation, index) =>
     index === allocations.length - 1
       ? {
-        ...allocation,
-        value: allocations.length === 1 ? '100.00' : allocation.value,
-      }
-      : allocation)),
+          ...allocation,
+          value: allocations.length === 1 ? '100.00' : allocation.value,
+        }
+      : allocation
+  ),
 });
 
 const removeRowForAmount = (state, allocations) => ({
   ...state,
-  allocations: allocations.map((allocation, index) => (
+  allocations: allocations.map((allocation, index) =>
     index === allocations.length - 1
       ? {
-        ...allocation,
-        value: allocations.length === 1 ? 'Full amount' : 'Remainder',
-      }
-      : allocation)),
+          ...allocation,
+          value: allocations.length === 1 ? 'Full amount' : 'Remainder',
+        }
+      : allocation
+  ),
 });
 
 const removeTableRow = (state, action) => {
-  const updatedAllocations = state.allocations.filter((_, index) => index !== action.index);
+  const updatedAllocations = state.allocations.filter(
+    (_, index) => index !== action.index
+  );
 
-  const updatedState = (state.allocationType === allocationTypeOptions.percent)
-    ? removeRowForPercentage(state, updatedAllocations)
-    : removeRowForAmount(state, updatedAllocations);
+  const updatedState =
+    state.allocationType === allocationTypeOptions.percent
+      ? removeRowForPercentage(state, updatedAllocations)
+      : removeRowForAmount(state, updatedAllocations);
 
   return {
     ...updatedState,

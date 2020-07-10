@@ -8,9 +8,18 @@ import {
   getExpensePayItems as getAllocatedExpensePayItems,
   getExpensePayItemOptions,
 } from './PayrollExpenseDetailSelectors';
-import { getAllocatedLeavePayItems, getLeavePayItemOptions } from './PayrollLeaveDetailSelectors';
-import { getAllocatedPayItems as getAllocatedSuperPayItems, getSuperPayItemOptions } from './PayrollSuperSelectors';
-import { getTaxPayItems as getAllocatedTaxPayItems, getTaxPayItemOptions } from './PayrollTaxSelectors';
+import {
+  getAllocatedLeavePayItems,
+  getLeavePayItemOptions,
+} from './PayrollLeaveDetailSelectors';
+import {
+  getAllocatedPayItems as getAllocatedSuperPayItems,
+  getSuperPayItemOptions,
+} from './PayrollSuperSelectors';
+import {
+  getTaxPayItems as getAllocatedTaxPayItems,
+  getTaxPayItemOptions,
+} from './PayrollTaxSelectors';
 import {
   getBaseHourlyWagePayItemId,
   getBaseSalaryWagePayItemId,
@@ -32,20 +41,20 @@ export const fieldTypes = {
   input: 'input',
 };
 
-export const getStandardPayFormattedHours = amount => (
-  formatNumberWithDecimalScaleRange(amount, 2, 3)
-);
+export const getStandardPayFormattedHours = (amount) =>
+  formatNumberWithDecimalScaleRange(amount, 2, 3);
 
-export const getStandardPayFormattedAmount = amount => (
-  formatNumberWithDecimalScaleRange(amount, 2, 2)
-);
+export const getStandardPayFormattedAmount = (amount) =>
+  formatNumberWithDecimalScaleRange(amount, 2, 2);
 
-const getDescription = state => state.payrollDetails.standardPayDetails.description;
+const getDescription = (state) =>
+  state.payrollDetails.standardPayDetails.description;
 
-export const getStandardPayItems = state => state.payrollDetails.standardPayDetails
-  .standardPayItems;
+export const getStandardPayItems = (state) =>
+  state.payrollDetails.standardPayDetails.standardPayItems;
 
-export const getWageAmountRules = state => state.payrollDetails.standardPayDetails.wageAmountRules;
+export const getWageAmountRules = (state) =>
+  state.payrollDetails.standardPayDetails.wageAmountRules;
 
 export const getBasePay = createStructuredSelector({
   payCycle: getWagePayCycleDisplayName,
@@ -53,15 +62,17 @@ export const getBasePay = createStructuredSelector({
   description: getDescription,
 });
 
-export const getJobOptions = state => state.jobs;
+export const getJobOptions = (state) => state.jobs;
 
-export const getIsPayrollJobColumnEnabled = state => state.isPayrollJobColumnEnabled;
+export const getIsPayrollJobColumnEnabled = (state) =>
+  state.isPayrollJobColumnEnabled;
 
 export const getHoursFieldType = (payItemType, calculationBasis, payBasis) => {
   switch (payItemType) {
     case payItemTypes.entitlement:
       return calculationBasis === 'UserEntered'
-        ? fieldTypes.input : fieldTypes.calculated;
+        ? fieldTypes.input
+        : fieldTypes.calculated;
     case payItemTypes.wages:
       return payBasis === 'Hourly' ? fieldTypes.input : fieldTypes.blank;
     default:
@@ -79,7 +90,8 @@ export const getAmountFieldType = (payItemType, calculationBasis) => {
     case payItemTypes.superDeductionAfterTax:
     case payItemTypes.superExpense:
       return calculationBasis === 'UserEntered'
-        ? fieldTypes.input : fieldTypes.calculated;
+        ? fieldTypes.input
+        : fieldTypes.calculated;
     case payItemTypes.wages:
       return fieldTypes.input;
     default:
@@ -91,17 +103,18 @@ export const buildPayItemEntry = (
   standardPayItems,
   payItemOptions,
   allocatedPayItemId,
-  jobOptions,
+  jobOptions
 ) => {
-  const {
-    hours, amount, jobId, ...rest
-  } = standardPayItems
-    .find(({ payItemId: standardPayItemId }) => standardPayItemId === allocatedPayItemId) || {};
+  const { hours, amount, jobId, ...rest } =
+    standardPayItems.find(
+      ({ payItemId: standardPayItemId }) =>
+        standardPayItemId === allocatedPayItemId
+    ) || {};
 
-  const {
-    name, type, calculationBasis, payBasis,
-  } = payItemOptions
-    .find(({ id: optionPayItemId }) => optionPayItemId === allocatedPayItemId) || {};
+  const { name, type, calculationBasis, payBasis } =
+    payItemOptions.find(
+      ({ id: optionPayItemId }) => optionPayItemId === allocatedPayItemId
+    ) || {};
 
   return {
     ...rest,
@@ -114,7 +127,7 @@ export const buildPayItemEntry = (
     amountFieldType: getAmountFieldType(type, calculationBasis),
     payBasis,
     jobId,
-    jobOptions: jobOptions.filter(job => job.isActive || job.id === jobId),
+    jobOptions: jobOptions.filter((job) => job.isActive || job.id === jobId),
   };
 };
 
@@ -123,10 +136,15 @@ const getWagePayItemEntries = createSelector(
   getWagePayItems,
   getWagePayItemOptions,
   getJobOptions,
-  (standardPayItems, allocatedPayItems, payItemOptions, jobOptions) => allocatedPayItems
-    .map(({ id: allocatedPayItemId }) => buildPayItemEntry(
-      standardPayItems, payItemOptions, allocatedPayItemId, jobOptions,
-    )),
+  (standardPayItems, allocatedPayItems, payItemOptions, jobOptions) =>
+    allocatedPayItems.map(({ id: allocatedPayItemId }) =>
+      buildPayItemEntry(
+        standardPayItems,
+        payItemOptions,
+        allocatedPayItemId,
+        jobOptions
+      )
+    )
 );
 
 const getTaxPayItemEntries = createSelector(
@@ -134,10 +152,15 @@ const getTaxPayItemEntries = createSelector(
   getAllocatedTaxPayItems,
   getTaxPayItemOptions,
   getJobOptions,
-  (standardPayItems, allocatedPayItems, payItemOptions, jobOptions) => allocatedPayItems
-    .map(({ id: allocatedPayItemId }) => buildPayItemEntry(
-      standardPayItems, payItemOptions, allocatedPayItemId, jobOptions,
-    )),
+  (standardPayItems, allocatedPayItems, payItemOptions, jobOptions) =>
+    allocatedPayItems.map(({ id: allocatedPayItemId }) =>
+      buildPayItemEntry(
+        standardPayItems,
+        payItemOptions,
+        allocatedPayItemId,
+        jobOptions
+      )
+    )
 );
 
 const getDeductionPayItemEntries = createSelector(
@@ -145,10 +168,15 @@ const getDeductionPayItemEntries = createSelector(
   getAllocatedDeductionPayItems,
   getDeductionPayItemOptions,
   getJobOptions,
-  (standardPayItems, allocatedPayItems, payItemOptions, jobOptions) => allocatedPayItems
-    .map(({ id: allocatedPayItemId }) => buildPayItemEntry(
-      standardPayItems, payItemOptions, allocatedPayItemId, jobOptions,
-    )),
+  (standardPayItems, allocatedPayItems, payItemOptions, jobOptions) =>
+    allocatedPayItems.map(({ id: allocatedPayItemId }) =>
+      buildPayItemEntry(
+        standardPayItems,
+        payItemOptions,
+        allocatedPayItemId,
+        jobOptions
+      )
+    )
 );
 
 const getSuperPayItemEntries = createSelector(
@@ -156,10 +184,15 @@ const getSuperPayItemEntries = createSelector(
   getAllocatedSuperPayItems,
   getSuperPayItemOptions,
   getJobOptions,
-  (standardPayItems, allocatedPayItems, payItemOptions, jobOptions) => allocatedPayItems
-    .map(({ id: allocatedPayItemId }) => buildPayItemEntry(
-      standardPayItems, payItemOptions, allocatedPayItemId, jobOptions,
-    )),
+  (standardPayItems, allocatedPayItems, payItemOptions, jobOptions) =>
+    allocatedPayItems.map(({ id: allocatedPayItemId }) =>
+      buildPayItemEntry(
+        standardPayItems,
+        payItemOptions,
+        allocatedPayItemId,
+        jobOptions
+      )
+    )
 );
 
 const getLeavePayItemEntries = createSelector(
@@ -167,10 +200,15 @@ const getLeavePayItemEntries = createSelector(
   getAllocatedLeavePayItems,
   getLeavePayItemOptions,
   getJobOptions,
-  (standardPayItems, allocatedPayItems, payItemOptions, jobOptions) => allocatedPayItems
-    .map(({ payItemId: allocatedPayItemId }) => buildPayItemEntry(
-      standardPayItems, payItemOptions, allocatedPayItemId, jobOptions,
-    )),
+  (standardPayItems, allocatedPayItems, payItemOptions, jobOptions) =>
+    allocatedPayItems.map(({ payItemId: allocatedPayItemId }) =>
+      buildPayItemEntry(
+        standardPayItems,
+        payItemOptions,
+        allocatedPayItemId,
+        jobOptions
+      )
+    )
 );
 
 const getEmployerExpensePayItemEntries = createSelector(
@@ -178,25 +216,33 @@ const getEmployerExpensePayItemEntries = createSelector(
   getAllocatedExpensePayItems,
   getExpensePayItemOptions,
   getJobOptions,
-  (standardPayItems, allocatedPayItems, payItemOptions, jobOptions) => allocatedPayItems
-    .map(({ id: allocatedPayItemId }) => buildPayItemEntry(
-      standardPayItems, payItemOptions, allocatedPayItemId, jobOptions,
-    )),
+  (standardPayItems, allocatedPayItems, payItemOptions, jobOptions) =>
+    allocatedPayItems.map(({ id: allocatedPayItemId }) =>
+      buildPayItemEntry(
+        standardPayItems,
+        payItemOptions,
+        allocatedPayItemId,
+        jobOptions
+      )
+    )
 );
 
 const getSuperDeductionPayItemEntries = createSelector(
   getSuperPayItemEntries,
-  entries => entries
-    .filter(({ payItemType }) => (
-      payItemType === payItemTypes.superDeductionBeforeTax
-      || payItemType === payItemTypes.superDeductionAfterTax
-    )),
+  (entries) =>
+    entries.filter(
+      ({ payItemType }) =>
+        payItemType === payItemTypes.superDeductionBeforeTax ||
+        payItemType === payItemTypes.superDeductionAfterTax
+    )
 );
 
 const getSuperExpensePayItemEntries = createSelector(
   getSuperPayItemEntries,
-  entries => entries
-    .filter(({ payItemType }) => payItemType === payItemTypes.superExpense),
+  (entries) =>
+    entries.filter(
+      ({ payItemType }) => payItemType === payItemTypes.superExpense
+    )
 );
 
 const getExpensePayItemEntries = createSelector(
@@ -205,7 +251,7 @@ const getExpensePayItemEntries = createSelector(
   (employerExpensePayItems, superPayItems) => [
     ...employerExpensePayItems,
     ...superPayItems,
-  ],
+  ]
 );
 
 export const getWageTableRows = createSelector(
@@ -213,9 +259,13 @@ export const getWageTableRows = createSelector(
   getBaseSalaryWagePayItemId,
   getBaseHourlyWagePayItemId,
   (entries, baseSalaryWagePayItemId, baseHourlyWagePayItemId) => ({
-    entries: sortPayItems({ payItems: entries, baseSalaryWagePayItemId, baseHourlyWagePayItemId }),
+    entries: sortPayItems({
+      payItems: entries,
+      baseSalaryWagePayItemId,
+      baseHourlyWagePayItemId,
+    }),
     showTableRows: entries.length > 0,
-  }),
+  })
 );
 
 export const getDeductionTableRows = createSelector(
@@ -224,55 +274,61 @@ export const getDeductionTableRows = createSelector(
   (deductionEntries, superEntries) => ({
     entries: deductionEntries.concat(superEntries),
     showTableRows: deductionEntries.concat(superEntries).length > 0,
-  }),
+  })
 );
 
 export const getTaxTableRows = createSelector(
   getTaxPayItemEntries,
-  entries => ({
+  (entries) => ({
     entries,
     showTableRows: entries.length > 0,
-  }),
+  })
 );
 
 export const getExpenseTableRows = createSelector(
   getExpensePayItemEntries,
-  entries => ({
+  (entries) => ({
     entries,
     showTableRows: entries.length > 0,
-  }),
+  })
 );
 
 export const getLeaveTableRows = createSelector(
   getLeavePayItemEntries,
-  entries => ({
+  (entries) => ({
     entries,
     showTableRows: entries.length > 0,
-  }),
+  })
 );
 
 export const getStandardPayItemByPayItemId = (state, payItemId) => {
   const standardPayItems = getStandardPayItems(state);
 
-  return standardPayItems
-    .find(({ payItemId: standardPayItemId }) => payItemId === standardPayItemId);
+  return standardPayItems.find(
+    ({ payItemId: standardPayItemId }) => payItemId === standardPayItemId
+  );
 };
 
 export const getStandardPayItemsToApplyAmountRule = (state) => {
   const entries = getWagePayItemEntries(state);
 
-  return entries
-    .filter(({ hourFieldType, hours }) => (
-      hourFieldType === fieldTypes.input && hours !== getStandardPayFormattedHours(0)
-    ));
+  return entries.filter(
+    ({ hourFieldType, hours }) =>
+      hourFieldType === fieldTypes.input &&
+      hours !== getStandardPayFormattedHours(0)
+  );
 };
 
-export const getIsAmountRuleApplied = (state, { payItemId, payItemType, value }) => {
+export const getIsAmountRuleApplied = (
+  state,
+  { payItemId, payItemType, value }
+) => {
   if (payItemType !== payItemTypes.wages) {
     return false;
   }
 
-  const { appliedHours } = getStandardPayItemByPayItemId(state, payItemId) || {};
+  const { appliedHours } =
+    getStandardPayItemByPayItemId(state, payItemId) || {};
 
   return appliedHours !== value;
 };
@@ -286,12 +342,18 @@ export const getStandardPayWageAmountRuleById = (state, id) => {
 export const getStandardPayWageAmountRuleFromModal = createSelector(
   getWagePayItemModalWage,
   ({ payRate, payRateMultiplier, fixedHourlyPayRate: fixedHourlyRate }) => ({
-    payRate, payRateMultiplier, fixedHourlyRate,
-  }),
+    payRate,
+    payRateMultiplier,
+    fixedHourlyRate,
+  })
 );
 
 export const calculateWagePayItemAmount = ({
-  payRate, payRateMultiplier, fixedHourlyRate, hours, hourlyRate,
+  payRate,
+  payRateMultiplier,
+  fixedHourlyRate,
+  hours,
+  hourlyRate,
 }) => {
   if (payRate === 'RegularRate') {
     return hours * hourlyRate * payRateMultiplier;
@@ -317,14 +379,23 @@ export const getShouldResetPayrollStandardHourlyWagePayItems = (state, key) => {
   }
 };
 
-export const getCalculatedWagePayItemAmount = (state, payItemId, wagePayItem) => {
-  const { hours: standardPayHours } = getStandardPayItemByPayItemId(state, payItemId) || {};
+export const getCalculatedWagePayItemAmount = (
+  state,
+  payItemId,
+  wagePayItem
+) => {
+  const { hours: standardPayHours } =
+    getStandardPayItemByPayItemId(state, payItemId) || {};
   const wageDetailsHourlyRate = getHourlyRate(state);
 
   const hours = Number(standardPayHours || 0);
   const hourlyRate = Number(wageDetailsHourlyRate || 0);
 
-  const amount = calculateWagePayItemAmount({ ...wagePayItem, hours, hourlyRate });
+  const amount = calculateWagePayItemAmount({
+    ...wagePayItem,
+    hours,
+    hourlyRate,
+  });
 
   return getStandardPayFormattedAmount(amount);
 };
@@ -339,21 +410,32 @@ export const getStandardPayDetailsPayload = createSelector(
   getEmployerExpensePayItemEntries,
   (
     description,
-    wagePayItems, deductionPayItems, superPayItems, taxPayItems,
-    leavePayItems, employerExpensePayItems,
+    wagePayItems,
+    deductionPayItems,
+    superPayItems,
+    taxPayItems,
+    leavePayItems,
+    employerExpensePayItems
   ) => {
     const standardPayItems = [
-      ...wagePayItems, ...deductionPayItems, ...superPayItems, ...taxPayItems,
-      ...leavePayItems, ...employerExpensePayItems,
-    ].map(({
-      id, payItemId, payItemType, hours, amount, jobId,
-    }) => ({
-      id, payItemId, payItemType, hours, amount, jobId,
+      ...wagePayItems,
+      ...deductionPayItems,
+      ...superPayItems,
+      ...taxPayItems,
+      ...leavePayItems,
+      ...employerExpensePayItems,
+    ].map(({ id, payItemId, payItemType, hours, amount, jobId }) => ({
+      id,
+      payItemId,
+      payItemType,
+      hours,
+      amount,
+      jobId,
     }));
 
     return {
       description,
       standardPayItems,
     };
-  },
+  }
 );

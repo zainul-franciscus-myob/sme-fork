@@ -18,7 +18,7 @@ const AccountOpeningBalance = ({ openingBalance, onChange }) => (
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   openingBalance: getOpeningBalance(state),
 });
 

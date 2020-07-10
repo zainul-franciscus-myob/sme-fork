@@ -1,4 +1,3 @@
-
 import { UPDATE_LEAVE_DETAILS } from '../EmployeeDetailIntents';
 
 const updateLeaveDetails = (state, action) => ({

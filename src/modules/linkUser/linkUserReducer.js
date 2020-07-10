@@ -5,10 +5,7 @@ import {
   SET_LOADING_STATE,
   UPDATE_USER_INFORMATION,
 } from './LinkUserIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import LoadingState from '../../components/PageView/LoadingState';
 import createReducer from '../../store/createReducer';
 
@@ -44,7 +41,7 @@ const setAlert = (state, action) => ({
   alertMessage: action.alertMessage,
 });
 
-const dismissAlert = state => ({
+const dismissAlert = (state) => ({
   ...state,
   alertMessage: '',
 });

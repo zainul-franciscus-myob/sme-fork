@@ -84,9 +84,11 @@ const BankFeedsCreateView = ({
   const view = (
     <div className={styles.createForm}>
       <FormTemplate
-        actions={(
+        actions={
           <ButtonRow>
-            <Button type="secondary" onClick={() => window.history.back()}>Cancel</Button>
+            <Button type="secondary" onClick={() => window.history.back()}>
+              Cancel
+            </Button>
             <Button
               onClick={() => {
                 const errorMessages = [];
@@ -101,29 +103,35 @@ const BankFeedsCreateView = ({
                 if (!financialInstitution) error('Financial institution');
 
                 if (applicationPreference === 'form') {
-                  if (accountNameRequired && !accountName) error('Account name');
-                  if (accountTypeRequired && !accountType) error('Account type');
+                  if (accountNameRequired && !accountName)
+                    error('Account name');
+                  if (accountTypeRequired && !accountType)
+                    error('Account type');
                   if (bsbRequired && !bsb) error('BSB');
                   if (bsbBankRequired && !bsbBank) error('BSB bank');
                   if (bsbBranchRequired && !bsbBranch) error('BSB branch');
-                  if (accountNumberRequired && !accountNumber) error('Account number');
-                  if (accountSuffixRequired && !accountSuffix) error('Account suffix');
+                  if (accountNumberRequired && !accountNumber)
+                    error('Account number');
+                  if (accountSuffixRequired && !accountSuffix)
+                    error('Account suffix');
                   if (branchNameRequired && !branchName) error('Branch name');
                   if (nameOnCardRequired && !nameOnCard) error('Name on card');
-                  if (lastFourDigitsRequired && !lastFourDigits) error('Last four digits');
+                  if (lastFourDigitsRequired && !lastFourDigits)
+                    error('Last four digits');
                 }
 
-                if (applicationPreference && !confirmedApplication) error('Confirmation');
+                if (applicationPreference && !confirmedApplication)
+                  error('Confirmation');
                 if (errorMessages.length === 0) onNext();
               }}
             >
               Next
             </Button>
           </ButtonRow>
-        )}
+        }
         pageHead={
           <>
-            {alert && <Alert type="danger">{alert}</Alert> }
+            {alert && <Alert type="danger">{alert}</Alert>}
             <PageHead title="Create a bank feed" />
           </>
         }
@@ -131,29 +139,32 @@ const BankFeedsCreateView = ({
         <>
           <Card
             body={
-              <Card.Body child={
-                <>
-                  <BankFeedsAccountType
-                    setAccountType={setAccountType}
-                    value={accountType}
-                  />
+              <Card.Body
+                child={
+                  <>
+                    <BankFeedsAccountType
+                      setAccountType={setAccountType}
+                      value={accountType}
+                    />
 
-                  <BankFeedsFinancialInstitutions
-                    financialInstitution={financialInstitution}
-                    redirectToImportStatements={redirectToImportStatements}
-                    setFinancialInstitution={setFinancialInstitution}
-                    setModalState={setModalState}
-                  />
+                    <BankFeedsFinancialInstitutions
+                      financialInstitution={financialInstitution}
+                      redirectToImportStatements={redirectToImportStatements}
+                      setFinancialInstitution={setFinancialInstitution}
+                      setModalState={setModalState}
+                    />
 
-                  <BankFeedsApplicationMethod setApplicationPreference={setApplicationPreference} />
+                    <BankFeedsApplicationMethod
+                      setApplicationPreference={setApplicationPreference}
+                    />
 
-                  <BankFeedsAccountInformation onUpdateForm={onUpdateForm} />
+                    <BankFeedsAccountInformation onUpdateForm={onUpdateForm} />
 
-                  <BankFeedsConfirmation onUpdateForm={onUpdateForm} />
+                    <BankFeedsConfirmation onUpdateForm={onUpdateForm} />
 
-                  <BankFeedsSecurity />
-                </>
-              }
+                    <BankFeedsSecurity />
+                  </>
+                }
               />
             }
           />
@@ -165,7 +176,7 @@ const BankFeedsCreateView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accountName: getAccountName(state),
   accountNameRequired: getAccountNameRequired(state),
   accountNumber: getAccountNumber(state),

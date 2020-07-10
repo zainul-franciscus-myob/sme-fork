@@ -13,7 +13,10 @@ describe('bankingService', () => {
 
     getState.mockReturnValue({ businessId });
 
-    BankingService({ store, integration }).getSerialNumber({ onSuccess, onFailure });
+    BankingService({ store, integration }).getSerialNumber({
+      onSuccess,
+      onFailure,
+    });
     expect(getSerialNumber).toBeCalledWith({
       integration,
       context: { businessId },

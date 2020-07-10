@@ -3,7 +3,6 @@ import React from 'react';
 import Table from '../../template/components/TemplatePreview/tables/Table';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
-
 const ServiceItemTable = ({ region }) => {
   const columns = [
     { key: 'itemId', name: 'Item ID', width: '70px' },

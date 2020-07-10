@@ -16,10 +16,16 @@ import getCreditCardsTableResponsiveConfig from './getCreditCardsTableResponsive
 import styles from './CreditCardsTable.module.css';
 
 const tableConfig = {
-  financialInstitution: { columnName: 'Financial institution', styles: { valign: 'middle' } },
+  financialInstitution: {
+    columnName: 'Financial institution',
+    styles: { valign: 'middle' },
+  },
   cardName: { columnName: 'Card name', styles: { valign: 'middle' } },
   cardNumber: { columnName: 'Card number', styles: { valign: 'middle' } },
-  linkedAccount: { columnName: 'Linked account', styles: { valign: 'middle', textWrap: 'wrap' } },
+  linkedAccount: {
+    columnName: 'Linked account',
+    styles: { valign: 'middle', textWrap: 'wrap' },
+  },
   status: { columnName: 'Status', styles: { valign: 'middle' } },
   removeButton: { styles: { width: '3.6rem', valign: 'middle' } },
 };
@@ -70,7 +76,7 @@ const CreditCardsTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isCreditCardsEmpty: getIsCreditCardsEmpty(state),
   manageBankFeedsLink: getCreateBankFeedsUrl(state),
   isTableLoading: getIsTableLoading(state),

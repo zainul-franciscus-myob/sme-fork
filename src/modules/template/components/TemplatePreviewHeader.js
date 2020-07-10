@@ -9,7 +9,6 @@ import { getPreviewType } from '../templateSelectors';
 import handleRadioButtonChange from '../../../components/handlers/handleRadioButtonChange';
 import styles from './TemplatePreviewHeader.module.css';
 
-
 const TemplatePreviewHeader = ({ previewType, onPreviewTypeChange }) => (
   <div className={styles.header}>
     <span className={styles.headerTitle}>PDF preview</span>
@@ -26,16 +25,13 @@ const TemplatePreviewHeader = ({ previewType, onPreviewTypeChange }) => (
         className={styles.headerRadioGroup}
         options={Object.values(PreviewType)}
         inline
-        onChange={handleRadioButtonChange(
-          'previewType',
-          onPreviewTypeChange,
-        )}
+        onChange={handleRadioButtonChange('previewType', onPreviewTypeChange)}
       />
     </div>
   </div>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   previewType: getPreviewType(state),
 });
 export default connect(mapStateToProps)(TemplatePreviewHeader);

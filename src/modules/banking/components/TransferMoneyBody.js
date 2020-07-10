@@ -17,7 +17,10 @@ const TransferMoneyBody = ({
   const createView = (
     <div className={styles.createView}>
       <FieldGroup label="Find an existing matching transfer">
-        <TransferMoneyTable onSort={onSortTransfer} onSelect={onUpdateTransferSelection} />
+        <TransferMoneyTable
+          onSort={onSortTransfer}
+          onSelect={onUpdateTransferSelection}
+        />
       </FieldGroup>
     </div>
   );
@@ -25,9 +28,15 @@ const TransferMoneyBody = ({
   const readOnlyView = (
     <div className={styles.readonlyView}>
       <Columns type="three">
-        <ReadOnly name="TransferFrom" label="Bank account from">{transferFromDisplayName}</ReadOnly>
-        <ReadOnly name="TransferTo" label="Bank account to">{transferToDisplayName}</ReadOnly>
-        <ReadOnly name="Amount" label="Amount ($)">{amount}</ReadOnly>
+        <ReadOnly name="TransferFrom" label="Bank account from">
+          {transferFromDisplayName}
+        </ReadOnly>
+        <ReadOnly name="TransferTo" label="Bank account to">
+          {transferToDisplayName}
+        </ReadOnly>
+        <ReadOnly name="Amount" label="Amount ($)">
+          {amount}
+        </ReadOnly>
       </Columns>
     </div>
   );
@@ -35,6 +44,6 @@ const TransferMoneyBody = ({
   return isCreating ? createView : readOnlyView;
 };
 
-const mapStateToProps = state => getTransferMoneyBody(state);
+const mapStateToProps = (state) => getTransferMoneyBody(state);
 
 export default connect(mapStateToProps)(TransferMoneyBody);

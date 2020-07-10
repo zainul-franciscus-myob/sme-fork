@@ -4,10 +4,7 @@ import React from 'react';
 import LinkButton from '../Button/LinkButton';
 import noAccessImage from './no-access.svg';
 
-const PayrollNotSetup = ({
-  payrollSettingsLink,
-  description,
-}) => {
+const PayrollNotSetup = ({ payrollSettingsLink, description }) => {
   const actions = (
     <LinkButton href={payrollSettingsLink} icon={<Icons.Settings />}>
       Check and save your payroll settings

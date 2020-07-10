@@ -21,7 +21,9 @@ const browsersList = (os) => {
   return baseList;
 };
 
-const NotSupportedPage = (os) => `<div style="padding:2.4rem;margin-top:2.4rem;text-align:center">
+const NotSupportedPage = (
+  os
+) => `<div style="padding:2.4rem;margin-top:2.4rem;text-align:center">
   <img
     src="assets/something-went-wrong.svg"
     alt="something went wrong" />

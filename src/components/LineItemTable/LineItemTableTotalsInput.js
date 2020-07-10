@@ -3,9 +3,7 @@ import React from 'react';
 import FormattedAmountInput from '../autoFormatter/AmountInput/FormattedAmountInput';
 
 const LineItemTableTotalsInput = (props) => {
-  const {
-    name, label, value, onChange, onBlur, disabled,
-  } = props;
+  const { name, label, value, onChange, onBlur, disabled } = props;
 
   return (
     <tr>

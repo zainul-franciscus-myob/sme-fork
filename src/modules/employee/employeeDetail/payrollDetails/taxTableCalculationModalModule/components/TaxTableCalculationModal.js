@@ -20,7 +20,6 @@ import {
 } from '../taxTableCalculationModalSelectors';
 import TaxTableCalculationForm from './TaxTableCalculationForm';
 
-
 const TaxTableCalculationModal = ({
   isOpen,
   isLoading,
@@ -63,8 +62,12 @@ const TaxTableCalculationModal = ({
         />
       </Modal.Body>
       <Modal.Footer>
-        <Button type="secondary" onClick={onCancel}>Cancel</Button>
-        <Button type="primary" onClick={onSave} testid="saveButton">Save</Button>
+        <Button type="secondary" onClick={onCancel}>
+          Cancel
+        </Button>
+        <Button type="primary" onClick={onSave} testid="saveButton">
+          Save
+        </Button>
       </Modal.Footer>
     </Modal>
   );
@@ -72,7 +75,7 @@ const TaxTableCalculationModal = ({
   return isOpen ? view : null;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isOpen: getIsOpen(state),
   selectedResidencyStatus: getSelectedResidencyStatus(state),
   residencyStatusOptions: getResidencyStatusOptions(state),

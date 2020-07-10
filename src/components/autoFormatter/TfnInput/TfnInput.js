@@ -2,7 +2,7 @@ import React from 'react';
 
 import AutoFormatter from '../AutoFormatterCore/AutoFormatter';
 
-const TfnInput = props => (
+const TfnInput = (props) => (
   <AutoFormatter
     {...props}
     options={{

@@ -4,19 +4,11 @@ import React from 'react';
 import { getTabItems } from '../bankingSelectors';
 import Tabs from '../../../components/Tabs/Tabs';
 
-const BankTransactionTabs = ({
-  tabItems,
-  selected,
-  onSelected,
-}) => (
-  <Tabs
-    items={tabItems}
-    selected={selected}
-    onSelected={onSelected}
-  />
+const BankTransactionTabs = ({ tabItems, selected, onSelected }) => (
+  <Tabs items={tabItems} selected={selected} onSelected={onSelected} />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   tabItems: getTabItems(state),
 });
 

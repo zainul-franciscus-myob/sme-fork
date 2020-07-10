@@ -9,7 +9,8 @@ const AutoAllocated = ({ className = '' }) => (
     className={classNames(styles.wand, className)}
     triggerContent={<Icons.AutoAllocation />}
   >
-    This transaction has been automatically allocated based on your bank feed rules
+    This transaction has been automatically allocated based on your bank feed
+    rules
   </Tooltip>
 );
 

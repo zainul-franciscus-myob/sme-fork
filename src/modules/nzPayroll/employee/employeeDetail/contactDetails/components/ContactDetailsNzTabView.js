@@ -9,16 +9,19 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAddPhoneButton, getContactDetail } from '../ContactDetailsNzSelector';
+import {
+  getAddPhoneButton,
+  getContactDetail,
+} from '../ContactDetailsNzSelector';
 import CountryCombobox from '../../../../../../components/combobox/CountryCombobox';
 import PhoneNumberList from '../../../../../../components/phoneNumberList/PhoneNumberList';
 
-const onInputChange = handler => (e) => {
+const onInputChange = (handler) => (e) => {
   const { name, value } = e.target;
   handler({ key: name, value });
 };
 
-const onCheckBoxChange = handler => (e) => {
+const onCheckBoxChange = (handler) => (e) => {
   const { name, checked } = e.target;
   handler({ key: name, value: checked });
 };
@@ -28,11 +31,15 @@ const onComboBoxChange = (handler, key) => (option) => {
   handler({ key, value });
 };
 
-const onPhoneNumberChange = handler => (phoneNumbers) => {
+const onPhoneNumberChange = (handler) => (phoneNumbers) => {
   handler({ key: 'phoneNumbers', value: phoneNumbers });
 };
 
-const ContactDetailsNzTabView = ({ contactDetail, showAddPhoneButton, onContactDetailsChange }) => {
+const ContactDetailsNzTabView = ({
+  contactDetail,
+  showAddPhoneButton,
+  onContactDetailsChange,
+}) => {
   const view = (
     <FormHorizontal layout="primary">
       <FieldGroup label="Details">
@@ -138,7 +145,7 @@ const ContactDetailsNzTabView = ({ contactDetail, showAddPhoneButton, onContactD
   return view;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   contactDetail: getContactDetail(state),
   showAddPhoneButton: getAddPhoneButton(state),
 });

@@ -11,17 +11,29 @@ const LinkBillActions = ({
 }) => (
   <ButtonRow
     primary={[
-      <Button key="cancel" name="cancel" type="secondary" disabled={areActionButtonsDisabled} onClick={onCancelButtonClick}>
+      <Button
+        key="cancel"
+        name="cancel"
+        type="secondary"
+        disabled={areActionButtonsDisabled}
+        onClick={onCancelButtonClick}
+      >
         Cancel
       </Button>,
-      <Button key="link" name="link" type="primary" disabled={areActionButtonsDisabled} onClick={onLinkButtonClick}>
+      <Button
+        key="link"
+        name="link"
+        type="primary"
+        disabled={areActionButtonsDisabled}
+        onClick={onLinkButtonClick}
+      >
         Link
       </Button>,
     ]}
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   areActionButtonsDisabled: getAreActionButtonsDisabled(state),
 });
 

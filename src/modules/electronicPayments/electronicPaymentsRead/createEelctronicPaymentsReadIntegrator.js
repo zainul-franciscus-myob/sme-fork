@@ -2,7 +2,10 @@ import {
   DELETE_ELECTRONIC_PAYMENT,
   LOAD_ELECTRONIC_PAYMENT_DETAILS,
 } from './ElectronicPaymentsReadIntents';
-import { getBusinessId, getElectronicPaymentId } from './ElectronicPaymentsReadSelector';
+import {
+  getBusinessId,
+  getElectronicPaymentId,
+} from './ElectronicPaymentsReadSelector';
 
 const createElectronicPaymentsReadIntegrator = (store, integration) => ({
   loadElectronicPaymentDetails: ({ onSuccess, onFailure }) => {

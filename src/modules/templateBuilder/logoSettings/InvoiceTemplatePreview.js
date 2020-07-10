@@ -48,34 +48,42 @@ const getPaymentMethod = ({
 }) => {
   const shouldShowOnlinePayment = getShouldShowOnlinePayment(previewType);
   const shouldShowBankDepositPayment = getShouldShowBankDepositPayment({
-    previewType, isAllowPaymentByDirectDeposit,
+    previewType,
+    isAllowPaymentByDirectDeposit,
   });
   const shouldShowChequePayment = getShouldShowChequePayment({
-    previewType, isAllowPaymentByCheque,
+    previewType,
+    isAllowPaymentByCheque,
   });
   const shouldShowDueDate = getShouldShowDueDate(previewType);
 
   const auPayments = {
-    bPay: shouldShowOnlinePayment
-      ? <BpayPayment isLoading={isOnlinePaymentLoading} isShown={isAllowOnlinePayment} />
-      : undefined,
-    creditCard: shouldShowOnlinePayment
-      ? <CreditCardPayment isLoading={isOnlinePaymentLoading} isShown={isAllowOnlinePayment} />
-      : undefined,
-    bankDeposit: shouldShowBankDepositPayment ? <AUBankDepositPayment /> : undefined,
+    bPay: shouldShowOnlinePayment ? (
+      <BpayPayment
+        isLoading={isOnlinePaymentLoading}
+        isShown={isAllowOnlinePayment}
+      />
+    ) : undefined,
+    creditCard: shouldShowOnlinePayment ? (
+      <CreditCardPayment
+        isLoading={isOnlinePaymentLoading}
+        isShown={isAllowOnlinePayment}
+      />
+    ) : undefined,
+    bankDeposit: shouldShowBankDepositPayment ? (
+      <AUBankDepositPayment />
+    ) : undefined,
     cheque: shouldShowChequePayment ? <AUChequePayment /> : undefined,
   };
   const nzPayments = {
-    bankDeposit: shouldShowBankDepositPayment ? <NZBankDepositPayment /> : undefined,
+    bankDeposit: shouldShowBankDepositPayment ? (
+      <NZBankDepositPayment />
+    ) : undefined,
     cheque: shouldShowChequePayment ? <NZChequePayment /> : undefined,
   };
 
   const dueDate = shouldShowDueDate ? (
-    <span>
-      Due date:
-      {' '}
-      {formatSlashDate(addMonths(Date.now(), 1))}
-    </span>
+    <span>Due date: {formatSlashDate(addMonths(Date.now(), 1))}</span>
   ) : undefined;
 
   const payments = region === 'au' ? auPayments : nzPayments;

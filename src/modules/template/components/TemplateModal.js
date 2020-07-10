@@ -9,24 +9,25 @@ const TemplateModal = ({
   onCloseModal,
   onConfirmUnsave,
   onConfirmSave,
-}) => ([
-  ModalTypes.deleteLogo,
-  ModalTypes.changeImage,
-  ModalTypes.deleteImage,
-  ModalTypes.changeLogo,
-].includes(type) ? (
-  <ImageModal
-    type={type}
-    onConfirmUnsave={onConfirmUnsave}
-    onConfirmSave={onConfirmSave}
-    onCloseModal={onCloseModal}
-  />
+}) =>
+  [
+    ModalTypes.deleteLogo,
+    ModalTypes.changeImage,
+    ModalTypes.deleteImage,
+    ModalTypes.changeLogo,
+  ].includes(type) ? (
+    <ImageModal
+      type={type}
+      onConfirmUnsave={onConfirmUnsave}
+      onConfirmSave={onConfirmSave}
+      onCloseModal={onCloseModal}
+    />
   ) : (
     <UnsavedModal
       onConfirmSave={() => onConfirmSave(type)}
       onConfirmUnsave={() => onConfirmUnsave(type)}
       onCancel={onCloseModal}
     />
-  ));
+  );
 
 export default TemplateModal;

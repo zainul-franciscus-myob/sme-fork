@@ -25,7 +25,10 @@ export default class PaySuperListModule {
     this.integration = integration;
     this.store = new Store(paySuperListReducer);
     this.dispatcher = createPaySuperListDispatcher(this.store);
-    this.integrator = createPaySuperListIntegrator(this.store, this.integration);
+    this.integrator = createPaySuperListIntegrator(
+      this.store,
+      this.integration
+    );
     this.setRootView = setRootView;
     this.popMessages = popMessages;
     this.messageTypes = [
@@ -112,7 +115,9 @@ export default class PaySuperListModule {
   openLoginModal = () => {
     if (getIsRegistered(this.store.getState())) {
       this.dispatcher.setLoadingState(LoadingState.LOADING);
-      this.stsLoginModal.run({ businessId: getBusinessId(this.store.getState()) });
+      this.stsLoginModal.run({
+        businessId: getBusinessId(this.store.getState()),
+      });
     }
   };
 

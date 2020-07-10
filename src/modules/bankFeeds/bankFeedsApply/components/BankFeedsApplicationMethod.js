@@ -29,7 +29,11 @@ const BankFeedsApplicationMethod = ({
     <>
       <RadioButton
         {...props}
-        labelAccessory={<Label color="green" size="small" type="boxed">Recommended</Label>}
+        labelAccessory={
+          <Label color="green" size="small" type="boxed">
+            Recommended
+          </Label>
+        }
       />
       <span className={styles.subText}>Takes a few days</span>
     </>
@@ -88,7 +92,7 @@ const BankFeedsApplicationMethod = ({
   return null;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   applicationPreference: getApplicationPreference(state),
   hasOnlineApplication: getHasOnlineApplication(state),
   hasPaperApplication: getHasPaperApplication(state),

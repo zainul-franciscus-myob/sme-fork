@@ -14,7 +14,7 @@ const incomeLineColor = flxPaletteDusk70;
 const expenseLineColor = '#ffdc4b';
 const profitLineColor = flxPaletteStorm72;
 
-const getDataSetOptions = color => ({
+const getDataSetOptions = (color) => ({
   fill: false,
   borderWidth: 3,
   lineTension: 0,
@@ -29,9 +29,7 @@ const getDataSetOptions = color => ({
   pointHoverBackgroundColor: color,
 });
 
-const getData = ({
-  incomeData, expenseData, profitData, labels,
-}) => ({
+const getData = ({ incomeData, expenseData, profitData, labels }) => ({
   labels,
   datasets: [
     {
@@ -57,7 +55,7 @@ const getData = ({
   ],
 });
 
-const getOptions = data => ({
+const getOptions = (data) => ({
   responsive: true,
   maintainAspectRatio: false,
   scales: {
@@ -124,7 +122,6 @@ const getOptions = data => ({
         const datum = dataset.data[index];
         const { name } = datum;
 
-
         return `${label}: ${name}`;
       },
       label: (tooltipItem) => {
@@ -140,24 +137,20 @@ const getOptions = data => ({
 });
 
 const DashboardTrackingChart = ({
-  data: {
+  data: { incomeData, expenseData, profitData, labels },
+}) => {
+  const data = getData({
     incomeData,
     expenseData,
     profitData,
     labels,
-  },
-}) => {
-  const data = getData({
-    incomeData, expenseData, profitData, labels,
   });
   const options = getOptions(data);
 
-  return (
-    <Line data={data} options={options} />
-  );
+  return <Line data={data} options={options} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getChart(state),
 });
 

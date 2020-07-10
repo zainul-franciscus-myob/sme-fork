@@ -9,7 +9,7 @@ import {
   SET_MODAL_STATE,
 } from './AtoSettingsIntents';
 
-const createAtoSettingsDispatcher = store => ({
+const createAtoSettingsDispatcher = (store) => ({
   setInitialState: (context) => {
     store.dispatch({
       intent: SET_INITIAL_STATE,

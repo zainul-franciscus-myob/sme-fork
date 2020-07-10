@@ -1,5 +1,9 @@
 import {
-  Checkbox, CheckboxGroup, FieldGroup, Icons, Tooltip,
+  Checkbox,
+  CheckboxGroup,
+  FieldGroup,
+  Icons,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -9,17 +13,13 @@ import DollarInput from '../../components/DollarInput';
 import SuperPayItemCalculationBasis from './SuperPayItemCalculationBasis';
 import SuperPayItemLimit from './SuperPayItemLimit';
 
-const handleCheckBoxChange = handler => (e) => {
+const handleCheckBoxChange = (handler) => (e) => {
   const { name, checked } = e.target;
   handler({ key: name, value: checked });
 };
 
 const SuperPayItemInfo = (props) => {
-  const {
-    printOnPayAdvice,
-    threshold,
-    onSuperPayItemDetailsChange,
-  } = props;
+  const { printOnPayAdvice, threshold, onSuperPayItemDetailsChange } = props;
 
   return (
     <FieldGroup label="Super information">
@@ -36,23 +36,28 @@ const SuperPayItemInfo = (props) => {
           />
         )}
       />
-      <SuperPayItemCalculationBasis onSuperPayItemDetailsChange={onSuperPayItemDetailsChange} />
-      <SuperPayItemLimit onSuperPayItemDetailsChange={onSuperPayItemDetailsChange} />
+      <SuperPayItemCalculationBasis
+        onSuperPayItemDetailsChange={onSuperPayItemDetailsChange}
+      />
+      <SuperPayItemLimit
+        onSuperPayItemDetailsChange={onSuperPayItemDetailsChange}
+      />
       <DollarInput
         label="Threshold $"
         name="threshold"
         value={threshold}
         onChange={onSuperPayItemDetailsChange}
-        labelAccessory={(
+        labelAccessory={
           <Tooltip triggerContent={<Icons.Info />} placement="right">
-            Calculate once eligible wages of this amount have been paid per month
+            Calculate once eligible wages of this amount have been paid per
+            month
           </Tooltip>
-        )}
+        }
       />
     </FieldGroup>
   );
 };
 
-const mapStateToProps = state => getSuperPayItemInfo(state);
+const mapStateToProps = (state) => getSuperPayItemInfo(state);
 
 export default connect(mapStateToProps)(SuperPayItemInfo);

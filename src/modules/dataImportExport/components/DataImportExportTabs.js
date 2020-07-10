@@ -5,10 +5,7 @@ import React from 'react';
 import { getTab } from '../selectors/DataImportExportSelectors';
 import TabItem from '../types/TabItem';
 
-const DataImportExportTabs = ({
-  selectedTab,
-  onSelectTab,
-}) => (
+const DataImportExportTabs = ({ selectedTab, onSelectTab }) => (
   <Tabs
     items={[
       {
@@ -25,7 +22,7 @@ const DataImportExportTabs = ({
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedTab: getTab(state),
 });
 

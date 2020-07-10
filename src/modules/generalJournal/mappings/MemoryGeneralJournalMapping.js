@@ -16,13 +16,17 @@ import generalJournalDetail from './data/generalJournalDetailEntry';
 import generalJournalDetailNew from './data/generalJournalDetailNewEntry';
 import successResponse from './data/success';
 
-const readGeneralJournalDetail = ({ onSuccess }) => onSuccess(generalJournalDetail);
+const readGeneralJournalDetail = ({ onSuccess }) =>
+  onSuccess(generalJournalDetail);
 
-const newGeneralJournalDetail = ({ onSuccess }) => onSuccess(generalJournalDetailNew);
+const newGeneralJournalDetail = ({ onSuccess }) =>
+  onSuccess(generalJournalDetailNew);
 
-const deleteGeneralJournalDetail = ({ onSuccess }) => onSuccess(successResponse);
+const deleteGeneralJournalDetail = ({ onSuccess }) =>
+  onSuccess(successResponse);
 
-const createGeneralJournal = ({ onSuccess }) => onSuccess(createGeneralJournalResponse);
+const createGeneralJournal = ({ onSuccess }) =>
+  onSuccess(createGeneralJournalResponse);
 
 const updateGeneralJournal = ({ onSuccess }) => onSuccess(successResponse);
 
@@ -30,7 +34,8 @@ const loadCreatedAccount = ({ onSuccess }) => onSuccess(createdAccountResponse);
 
 const loadCreatedJob = ({ onSuccess }) => onSuccess(createdJobResponse);
 
-const loadDuplicateGeneralJournal = ({ onSuccess }) => onSuccess(duplicateGeneralJournalEntry);
+const loadDuplicateGeneralJournal = ({ onSuccess }) =>
+  onSuccess(duplicateGeneralJournalEntry);
 
 const MemoryGeneralJournalMapping = {
   [LOAD_GENERAL_JOURNAL_DETAIL]: readGeneralJournalDetail,

@@ -7,9 +7,7 @@ import handleCheckboxChange from '../../../../../../../components/handlers/handl
 
 const PaySuperSection = ({
   isPaySuperFund,
-  superFundModalListeners: {
-    onUpdateSuperFundDetail,
-  },
+  superFundModalListeners: { onUpdateSuperFundDetail },
 }) => (
   <CheckboxGroup
     label="Pay using PaySuper"
@@ -18,12 +16,12 @@ const PaySuperSection = ({
       <Checkbox
         name="isPaySuperFund"
         label="Pay using PaySuper"
-        labelAccessory={(
+        labelAccessory={
           <Tooltip>
-            Select to pay employee super contributions
-            and remit details to this fund directly from MYOB
+            Select to pay employee super contributions and remit details to this
+            fund directly from MYOB
           </Tooltip>
-        )}
+        }
         checked={isPaySuperFund}
         onChange={handleCheckboxChange(onUpdateSuperFundDetail)}
       />
@@ -31,7 +29,7 @@ const PaySuperSection = ({
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isPaySuperFund: getIsPaySuperFund(state),
 });
 

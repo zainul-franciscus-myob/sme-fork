@@ -164,9 +164,7 @@ describe('superFundReducer', () => {
     });
 
     it('sets access token', () => {
-      const state = {
-
-      };
+      const state = {};
       const action = {
         intent: SET_ACCESS_TOKEN,
         accessToken: 'foobarbaz',

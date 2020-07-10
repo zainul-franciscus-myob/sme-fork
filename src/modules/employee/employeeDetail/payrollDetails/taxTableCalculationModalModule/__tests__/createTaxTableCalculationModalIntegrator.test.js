@@ -6,13 +6,21 @@ describe('createTaxTableCalculationModalIntegrator', () => {
     it('calls the right intent', () => {
       const integration = { read: jest.fn() };
       const store = { getState: () => ({}) };
-      const integrator = createTaxTableCalculationModalIntegrator(store, integration);
+      const integrator = createTaxTableCalculationModalIntegrator(
+        store,
+        integration
+      );
 
-      integrator.fetchTaxTableResult({ onSuccess: () => {}, onFailure: () => {} });
+      integrator.fetchTaxTableResult({
+        onSuccess: () => {},
+        onFailure: () => {},
+      });
 
-      expect(integration.read).toHaveBeenCalledWith(expect.objectContaining({
-        intent: LOAD_TAX_TABLE_RESULT,
-      }));
+      expect(integration.read).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: LOAD_TAX_TABLE_RESULT,
+        })
+      );
     });
   });
 });

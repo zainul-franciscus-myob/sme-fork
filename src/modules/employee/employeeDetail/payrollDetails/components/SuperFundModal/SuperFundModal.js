@@ -26,23 +26,21 @@ const SuperFundModal = ({
       {alertMessage}
     </Alert>
   );
-  const detailView = isPaySuperEnabled
-    ? (
-      <SuperFundWithPaySuperView
-        superFundModalListeners={superFundModalListeners}
-      />
-    )
-    : (
-      <SuperFundNoPaySuperView
-        superFundModalListeners={superFundModalListeners}
-        signUpForPaySuperUrl={signUpForPaySuperUrl}
-      />
-    );
+  const detailView = isPaySuperEnabled ? (
+    <SuperFundWithPaySuperView
+      superFundModalListeners={superFundModalListeners}
+    />
+  ) : (
+    <SuperFundNoPaySuperView
+      superFundModalListeners={superFundModalListeners}
+      signUpForPaySuperUrl={signUpForPaySuperUrl}
+    />
+  );
 
   const view = (
     <>
-      { alertView }
-      { detailView }
+      {alertView}
+      {detailView}
     </>
   );
 
@@ -58,14 +56,18 @@ const SuperFundModal = ({
         <PageView isLoading={isLoading} view={view} />
       </Modal.Body>
       <Modal.Footer>
-        <Button type="secondary" onClick={onCancel} disabled={isActionDisabled}>Cancel</Button>
-        <Button type="primary" onClick={onSave} disabled={isActionDisabled}>Save</Button>
+        <Button type="secondary" onClick={onCancel} disabled={isActionDisabled}>
+          Cancel
+        </Button>
+        <Button type="primary" onClick={onSave} disabled={isActionDisabled}>
+          Save
+        </Button>
       </Modal.Footer>
     </Modal>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alertMessage: getAlertMessage(state),
   isLoading: getIsLoading(state),
   isActionDisabled: getIsActionDisabled(state),

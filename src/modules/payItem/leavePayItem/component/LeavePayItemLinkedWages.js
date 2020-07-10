@@ -7,7 +7,7 @@ import LeavePayItemLinkedWagesTable from './LeavePayItemLinkedWagesTable';
 import PayItemCombobox from './PayItemCombobox';
 import styles from './LeavePayItemView.module.css';
 
-const handleLinkedWagesComboboxChange = handler => (item) => {
+const handleLinkedWagesComboboxChange = (handler) => (item) => {
   handler(item);
 };
 
@@ -40,7 +40,7 @@ const LeavePayItemLinkedWages = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   linkedWagesOptions: getFilteredLinkedWages(state),
 });
 

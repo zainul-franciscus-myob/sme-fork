@@ -1,7 +1,4 @@
-import {
-  getIsTableEmpty,
-  getTableEntries,
-} from '../jobListSelector';
+import { getIsTableEmpty, getTableEntries } from '../jobListSelector';
 
 describe('jobListSelector', () => {
   describe('getIsTableEmpty', () => {

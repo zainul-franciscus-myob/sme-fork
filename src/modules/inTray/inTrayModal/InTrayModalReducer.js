@@ -85,7 +85,12 @@ const setTableLoadingState = (state, action) => ({
 
 const createInTrayModalDocument = (state, { uploadId, entry }) => ({
   ...state,
-  entries: getUpdatedEntriesByKey(state, 'uploadId', uploadId, getUploadedEntry(uploadId, entry)),
+  entries: getUpdatedEntriesByKey(
+    state,
+    'uploadId',
+    uploadId,
+    getUploadedEntry(uploadId, entry)
+  ),
 });
 
 const addEntry = (state, { entry }) => ({

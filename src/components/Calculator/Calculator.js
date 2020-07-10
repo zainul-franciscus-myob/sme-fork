@@ -40,7 +40,7 @@ const onWrappedBlur = ({
   const valueWithDecimalPlaces = addDecimalPlaces(
     parsedValue,
     numeralDecimalScaleMin,
-    numeralDecimalScaleMax,
+    numeralDecimalScaleMax
   );
 
   // Trigger setCurrValue to update value visible to user
@@ -69,11 +69,14 @@ const onWrappedOnChange = ({
   if (isValidValue) {
     const valueWithoutCommas = removeCommas(value);
     const parsedValue = evaluate(valueWithoutCommas);
-    const isCalculable = isCalculableExpression(valueWithoutCommas, String(parsedValue));
+    const isCalculable = isCalculableExpression(
+      valueWithoutCommas,
+      String(parsedValue)
+    );
     const valueWithDecimalPlaces = addDecimalPlaces(
       parsedValue,
       numeralDecimalScaleMin,
-      numeralDecimalScaleMax,
+      numeralDecimalScaleMax
     );
 
     setCurrValue(valueWithoutCommas);
@@ -156,14 +159,14 @@ const Calculator = ({
     const valueWithDecimalPlaces = addDecimalPlaces(
       value,
       numeralDecimalScaleMin,
-      numeralDecimalScaleMax,
+      numeralDecimalScaleMax
     );
 
     if (value !== evaluatedValue) {
       setCurrValue(valueWithDecimalPlaces);
       setEvaluatedValue(value);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [numeralDecimalScaleMax, numeralDecimalScaleMin, value]);
 
   const validate = createValidator({ numeralIntegerScale });
@@ -194,14 +197,7 @@ const Calculator = ({
 
   return (
     <>
-      {
-        isActive && (
-          <CalculatorTooltip
-            value={evaluatedValue}
-            width={width}
-          />
-        )
-      }
+      {isActive && <CalculatorTooltip value={evaluatedValue} width={width} />}
       <FieldMessagePopup
         id={elementId}
         reference={setTarget}
@@ -216,7 +212,7 @@ const Calculator = ({
         infoBody={infoBody}
         requiredLabel={requiredLabel}
         width={width}
-        renderField={props => (
+        renderField={(props) => (
           <InputBox
             {...props}
             {...inputBoxProps}

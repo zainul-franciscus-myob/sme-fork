@@ -1,5 +1,11 @@
 import {
-  Alert, Checkbox, Field, Input, Select, Separator, Spinner,
+  Alert,
+  Checkbox,
+  Field,
+  Input,
+  Select,
+  Separator,
+  Spinner,
 } from '@myob/myob-widgets';
 import React from 'react';
 
@@ -44,8 +50,12 @@ const TaxTableCalculationForm = ({
       onChange={handleSelectChange(onFieldChange)}
       name="selectedResidencyStatus"
     >
-      {residencyStatusOptions.map(option => (
-        <Select.Option value={option.value} label={option.label} key={option.value} />
+      {residencyStatusOptions.map((option) => (
+        <Select.Option
+          value={option.value}
+          label={option.label}
+          key={option.value}
+        />
       ))}
     </Select>
     <Checkbox
@@ -95,8 +105,12 @@ const TaxTableCalculationForm = ({
       onChange={handleSelectChange(onFieldChange)}
       name="selectedSeniorTaxOffset"
     >
-      {seniorTaxOffsetOptions.map(option => (
-        <Select.Option value={option.value} label={option.label} key={option.value} />
+      {seniorTaxOffsetOptions.map((option) => (
+        <Select.Option
+          value={option.value}
+          label={option.label}
+          key={option.value}
+        />
       ))}
     </Select>
     <Select
@@ -105,18 +119,20 @@ const TaxTableCalculationForm = ({
       onChange={handleSelectChange(onFieldChange)}
       name="selectedMedicareLevy"
     >
-      {medicareLevyOptions.map(option => (
-        <Select.Option value={option.value} label={option.label} key={option.value} />
+      {medicareLevyOptions.map((option) => (
+        <Select.Option
+          value={option.value}
+          label={option.label}
+          key={option.value}
+        />
       ))}
     </Select>
     <Separator />
     {taxTableDescription || isLoading ? (
       <>
         <div className={styles.bottomMargin}>
-        From your answers, below is the selected tax table for your employee. For more information
-        on tax tables please
-          {' '}
-          {atoLink}
+          From your answers, below is the selected tax table for your employee.
+          For more information on tax tables please {atoLink}
         </div>
         <span className={styles.taxTableResult}>
           <Field
@@ -130,23 +146,17 @@ const TaxTableCalculationForm = ({
                   testid="taxTableResult"
                   label=""
                 />
-                {isLoading && (
-                  <Spinner size="small" />
-                )}
+                {isLoading && <Spinner size="small" />}
               </>
             )}
           />
         </span>
       </>
     ) : (
-      <Alert
-        type="danger"
-        testid="noTaxTableAlert"
-      >
-        From your answers, no relevant tax table could be selected. Please review your answers or
-        choose your tax table manually on the previous page. For more information on tax tables
-        {' '}
-        {atoLink}
+      <Alert type="danger" testid="noTaxTableAlert">
+        From your answers, no relevant tax table could be selected. Please
+        review your answers or choose your tax table manually on the previous
+        page. For more information on tax tables {atoLink}
       </Alert>
     )}
   </div>

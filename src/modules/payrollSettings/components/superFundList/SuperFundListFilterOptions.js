@@ -5,13 +5,11 @@ import React from 'react';
 import { getFilterOptions } from '../../selectors/superFundListSelectors';
 import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
 
-const onInputChange = handler => ({ target: { name: key, value } }) => handler({ key, value });
+const onInputChange = (handler) => ({ target: { name: key, value } }) =>
+  handler({ key, value });
 
 const SuperFundListFilterOptions = (props) => {
-  const {
-    keywords,
-    onUpdateFilterOptions,
-  } = props;
+  const { keywords, onUpdateFilterOptions } = props;
 
   return (
     <FilterBar>
@@ -25,6 +23,6 @@ const SuperFundListFilterOptions = (props) => {
   );
 };
 
-const mapStateToProps = state => getFilterOptions(state);
+const mapStateToProps = (state) => getFilterOptions(state);
 
 export default connect(mapStateToProps)(SuperFundListFilterOptions);

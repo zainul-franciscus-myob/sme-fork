@@ -1,6 +1,4 @@
-import {
-  FieldGroup, Icons, Label, Tooltip,
-} from '@myob/myob-widgets';
+import { FieldGroup, Icons, Label, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -80,7 +78,7 @@ const PayrollLeaveDetail = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   leaveDetail: getLeaveDetail(state),
   showAddPayItemButton: getShowAddPayItemButton(state),
 });

@@ -16,10 +16,7 @@ const buildJournalEntry = ({
     IsCredit: isCredit,
   };
   return {
-    Lines: [
-      ...calculatedLines,
-      line,
-    ],
+    Lines: [...calculatedLines, line],
     EffectiveTaxAmount: effectiveTaxAmount,
   };
 };

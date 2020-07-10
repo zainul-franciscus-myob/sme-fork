@@ -7,10 +7,7 @@ import {
   SORT_AND_FILTER_BANKING_RULE_LIST,
   UPDATE_FILTER_OPTIONS,
 } from './BankingRuleListIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
@@ -72,7 +69,7 @@ const setInitalState = (state, action) => ({
   ...action.context,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const handlers = {
   [LOAD_BANKING_RULE_LIST]: loadBankingRuleList,

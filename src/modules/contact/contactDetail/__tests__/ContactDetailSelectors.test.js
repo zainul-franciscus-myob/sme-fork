@@ -1,6 +1,4 @@
-import {
-  getReminderLink,
-} from '../contactDetailSelectors';
+import { getReminderLink } from '../contactDetailSelectors';
 
 describe('contactDetailSelectors', () => {
   describe('getReminderLink', () => {
@@ -15,7 +13,8 @@ describe('contactDetailSelectors', () => {
         },
       };
 
-      const expected = 'https://justin.com/preferences/customer?consumer=ARL&origin=Customer&cfid=1234&id=e312-e312-e312-e312';
+      const expected =
+        'https://justin.com/preferences/customer?consumer=ARL&origin=Customer&cfid=1234&id=e312-e312-e312-e312';
       const actual = getReminderLink(state);
 
       expect(actual).toEqual(expected);

@@ -31,19 +31,14 @@ const PaySlipEmailDefaultsView = ({
   subject,
   fromName,
   replyToEmail,
-  listeners: {
-    onPaySlipEmailDefaultsFieldChange,
-    onPaySlipEmailDefaultsSave,
-  },
+  listeners: { onPaySlipEmailDefaultsFieldChange, onPaySlipEmailDefaultsSave },
 }) => {
   const view = (
     <>
       <Card>
         <FormHorizontal layout="primary">
           <FieldGroup label="Pay slip email defaults">
-            <p>
-              Customise the default email text sent with your pay slips.
-            </p>
+            <p>Customise the default email text sent with your pay slips.</p>
             <Input
               label="Subject"
               width="xl"
@@ -65,8 +60,8 @@ const PaySlipEmailDefaultsView = ({
         <FormHorizontal layout="primary">
           <FieldGroup label="Email settings">
             <p>
-            These email settings apply to all email sent on your behalf from MYOB.
-            This includes invoices, quotes and pay slips (payroll).
+              These email settings apply to all email sent on your behalf from
+              MYOB. This includes invoices, quotes and pay slips (payroll).
             </p>
             <Input
               label="From name"
@@ -87,7 +82,13 @@ const PaySlipEmailDefaultsView = ({
       </Card>
       <ButtonRow
         primary={[
-          <Button testid="saveButton" key="SaveButton" onClick={onPaySlipEmailDefaultsSave}>Save</Button>,
+          <Button
+            testid="saveButton"
+            key="SaveButton"
+            onClick={onPaySlipEmailDefaultsSave}
+          >
+            Save
+          </Button>,
         ]}
       />
     </>

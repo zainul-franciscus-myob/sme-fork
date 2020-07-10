@@ -44,10 +44,11 @@ describe('PaySuperReadModule', () => {
   describe('reversal modal', () => {
     const reversalIntegration = {
       ...defaultIntegration,
-      read: ({ onSuccess }) => onSuccess({
-        ...loadPaySuperReadResponse,
-        status: 'FundsUnavailable',
-      }),
+      read: ({ onSuccess }) =>
+        onSuccess({
+          ...loadPaySuperReadResponse,
+          status: 'FundsUnavailable',
+        }),
     };
     it('opens the modal when you press the reversal action button', () => {
       const { wrapper } = constructModule(reversalIntegration);
@@ -73,16 +74,19 @@ describe('PaySuperReadModule', () => {
   describe('Record reversal button', () => {
     const reversalIntegration = {
       ...defaultIntegration,
-      read: ({ onSuccess }) => onSuccess({
-        ...loadPaySuperReadResponse,
-        status: 'FundsUnavailable',
-      }),
+      read: ({ onSuccess }) =>
+        onSuccess({
+          ...loadPaySuperReadResponse,
+          status: 'FundsUnavailable',
+        }),
     };
 
     it('shows a failure alert when transaction is not reversed successfully', () => {
       const { wrapper, module } = constructModule({
         ...reversalIntegration,
-        write: ({ onFailure }) => { onFailure('failure message'); },
+        write: ({ onFailure }) => {
+          onFailure('failure message');
+        },
       });
       module.openReverseModal();
       wrapper.update();

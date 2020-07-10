@@ -1,11 +1,11 @@
-import {
-  Button, Icons, PageState,
-} from '@myob/myob-widgets';
+import { Button, Icons, PageState } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsTableEmpty, getIsTableLoading, getTableBodyState,
+  getIsTableEmpty,
+  getIsTableLoading,
+  getTableBodyState,
 } from '../billListSelectors';
 import BillListTableBody from './BillListTableBody';
 import Icon from '../../../../components/Icon/Icon';
@@ -32,8 +32,18 @@ const BillListTable = ({
     <PageState
       title="Create bills"
       description="Create a record of the bills you receive from suppliers. You'll be able to keep track of payments and due dates more easily."
-      image={<img src={billsEmptyStateImage} style={{ width: '25%' }} alt="Create bills" />}
-      actions={[<Button type="link" icon={<Icons.Add />} onClick={onCreateButtonClick}>Create bill</Button>]}
+      image={
+        <img
+          src={billsEmptyStateImage}
+          style={{ width: '25%' }}
+          alt="Create bills"
+        />
+      }
+      actions={[
+        <Button type="link" icon={<Icons.Add />} onClick={onCreateButtonClick}>
+          Create bill
+        </Button>,
+      ]}
     />
   );
 
@@ -53,7 +63,7 @@ const BillListTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
   tableBodyState: getTableBodyState(state),

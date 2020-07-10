@@ -1,12 +1,22 @@
 import {
-  Checkbox, CheckboxGroup,
-  FieldGroup, Icons, Input, RadioButtonGroup, Select, Tooltip,
+  Checkbox,
+  CheckboxGroup,
+  FieldGroup,
+  Icons,
+  Input,
+  RadioButtonGroup,
+  Select,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAtoReportCategoryList, getIsHourlyView, getIsJobKeeper, getIsWagePayItemModalCreating, getWage,
+  getAtoReportCategoryList,
+  getIsHourlyView,
+  getIsJobKeeper,
+  getIsWagePayItemModalCreating,
+  getWage,
 } from '../../selectors/WagePayItemModalSelectors';
 import HourlySection from './WagePayItemHourlySection';
 import OverrideAccount from './WagePayItemOverrideAccount';
@@ -27,23 +37,23 @@ const WagePayItemDetails = ({
   isWagePayItemModalCreating,
 }) => (
   <FieldGroup label="Details">
-    {featureToggles && featureToggles.isJobKeeperTabEnabled
-    && <CheckboxGroup
-      label="JobKeeper top-up payment"
-      hideLabel
-      renderCheckbox={() => (
-        <Checkbox
-          testid="jobKeeperCheckbox"
-          id="jobKeeper"
-          name="jobKeeper"
-          label="JobKeeper top-up payment"
-          onChange={handleCheckboxChange(onJobKeeperChange)}
-          checked={isJobKeeper}
-          disabled={!isWagePayItemModalCreating}
-        />
-      )}
-    />
-    }
+    {featureToggles && featureToggles.isJobKeeperTabEnabled && (
+      <CheckboxGroup
+        label="JobKeeper top-up payment"
+        hideLabel
+        renderCheckbox={() => (
+          <Checkbox
+            testid="jobKeeperCheckbox"
+            id="jobKeeper"
+            name="jobKeeper"
+            label="JobKeeper top-up payment"
+            onChange={handleCheckboxChange(onJobKeeperChange)}
+            checked={isJobKeeper}
+            disabled={!isWagePayItemModalCreating}
+          />
+        )}
+      />
+    )}
     <Input
       label="Name"
       name="name"
@@ -59,17 +69,20 @@ const WagePayItemDetails = ({
       value={wage.atoReportingCategory}
       onChange={handleSelectChange(onDetailsChange)}
       disabled={isJobKeeper}
-      labelAccessory={(
+      labelAccessory={
         <Tooltip triggerContent={<Icons.Info />}>
-          Select the ATO reporting category if you&apos;re using Single Touch Payroll.
+          Select the ATO reporting category if you&apos;re using Single Touch
+          Payroll.
         </Tooltip>
-      )}
-    >
-      {
-        atoReportCategoryList.map(category => (
-          <Select.Option key={category.value} value={category.value} label={category.name} />
-        ))
       }
+    >
+      {atoReportCategoryList.map((category) => (
+        <Select.Option
+          key={category.value}
+          value={category.value}
+          label={category.name}
+        />
+      ))}
     </Select>
 
     <RadioButtonGroup
@@ -81,7 +94,7 @@ const WagePayItemDetails = ({
       value={wage.payBasis}
     />
 
-    { isHourlyView ? (
+    {isHourlyView ? (
       <HourlySection
         onDetailsChange={onDetailsChange}
         onOverrideAccountChange={onOverrideAccountChange}
@@ -92,11 +105,10 @@ const WagePayItemDetails = ({
         onOverrideAccountChange={onOverrideAccountChange}
       />
     )}
-
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   wage: getWage(state),
   atoReportCategoryList: getAtoReportCategoryList(state),
   isHourlyView: getIsHourlyView(state),

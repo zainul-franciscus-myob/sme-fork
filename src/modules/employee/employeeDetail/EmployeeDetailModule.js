@@ -37,9 +37,7 @@ import employeeDetailReducer from './employeeDetailReducer';
 import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
-const popMessageTypes = [
-  SUCCESSFULLY_SAVED_EMPLOYEE,
-];
+const popMessageTypes = [SUCCESSFULLY_SAVED_EMPLOYEE];
 
 export default class EmployeeDetailModule {
   constructor({
@@ -244,7 +242,7 @@ export default class EmployeeDetailModule {
     } else {
       this.saveEmployee();
     }
-  }
+  };
 
   render = () => {
     const employeeDetailView = (
@@ -265,9 +263,7 @@ export default class EmployeeDetailModule {
     );
 
     const wrappedView = (
-      <Provider store={this.store}>
-        {employeeDetailView}
-      </Provider>
+      <Provider store={this.store}>{employeeDetailView}</Provider>
     );
     this.setRootView(wrappedView);
   };
@@ -276,7 +272,7 @@ export default class EmployeeDetailModule {
     this.store.unsubscribeAll();
   };
 
-  updateURLFromState = state => this.replaceURLParams(getURLParams(state));
+  updateURLFromState = (state) => this.replaceURLParams(getURLParams(state));
 
   saveHandler = () => {
     const state = this.store.getState();
@@ -330,7 +326,7 @@ export default class EmployeeDetailModule {
         this.saveEmployee();
         break;
     }
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,
@@ -339,7 +335,9 @@ export default class EmployeeDetailModule {
   run(context) {
     this.dispatcher.setInitialState({
       ...context,
-      isPayrollJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobsPayrun),
+      isPayrollJobColumnEnabled: this.isToggleOn(
+        FeatureToggle.EssentialsJobsPayrun
+      ),
     });
     this.dispatcher.setInitialState(context);
     this.store.subscribe(this.updateURLFromState);
@@ -360,5 +358,5 @@ export default class EmployeeDetailModule {
     } else {
       this.redirectToUrl(url);
     }
-  }
+  };
 }

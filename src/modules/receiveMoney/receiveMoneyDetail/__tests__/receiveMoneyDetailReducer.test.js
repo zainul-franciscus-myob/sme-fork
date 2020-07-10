@@ -27,7 +27,10 @@ describe('receiveMoneyDetailReducer', () => {
       };
 
       const action = {
-        intent: UPDATE_RECEIVE_MONEY_LINE, lineIndex: 1, lineKey: 'hello', lineValue: 3,
+        intent: UPDATE_RECEIVE_MONEY_LINE,
+        lineIndex: 1,
+        lineKey: 'hello',
+        lineValue: 3,
       };
 
       const actual = receiveMoneyReducer(state, action);
@@ -38,9 +41,7 @@ describe('receiveMoneyDetailReducer', () => {
     it('updates amount when key is amount', () => {
       const state = {
         receiveMoney: {
-          lines: [
-            {},
-          ],
+          lines: [{}],
         },
       };
 
@@ -96,9 +97,7 @@ describe('receiveMoneyDetailReducer', () => {
 
       const state = {
         receiveMoney: {
-          lines: [
-            {},
-          ],
+          lines: [{}],
         },
       };
       const actual = receiveMoneyReducer(state, action);
@@ -116,9 +115,7 @@ describe('receiveMoneyDetailReducer', () => {
 
       const state = {
         receiveMoney: {
-          lines: [
-            {},
-          ],
+          lines: [{}],
         },
       };
       const actual = receiveMoneyReducer(state, action);
@@ -169,10 +166,7 @@ describe('receiveMoneyDetailReducer', () => {
   describe('ADD_RECEIVE_MONEY_LINE', () => {
     const state = {
       receiveMoney: {
-        lines: [
-          {},
-          {},
-        ],
+        lines: [{}, {}],
       },
       newLine: {},
       accountOptions: [],
@@ -344,7 +338,9 @@ describe('receiveMoneyDetailReducer', () => {
     it('adds new job payload to the front of all line job options', () => {
       const actual = receiveMoneyReducer(state, action);
 
-      expect(actual.receiveMoney.lines.map(line => line.lineJobOptions[0])).toEqual([
+      expect(
+        actual.receiveMoney.lines.map((line) => line.lineJobOptions[0])
+      ).toEqual([
         { id: '3', jobName: 'Job 3', jobNumber: '300' },
         { id: '3', jobName: 'Job 3', jobNumber: '300' },
         { id: '3', jobName: 'Job 3', jobNumber: '300' },
@@ -464,7 +460,9 @@ describe('receiveMoneyDetailReducer', () => {
     };
     describe('sets job options on newLine', () => {
       it('shows active jobs against new line', () => {
-        const expectedJobOptions = action.jobOptions.filter(job => job.isActive);
+        const expectedJobOptions = action.jobOptions.filter(
+          (job) => job.isActive
+        );
         const actual = receiveMoneyReducer(state, action);
 
         expect(actual.newLine.lineJobOptions).toEqual(expectedJobOptions);
@@ -514,19 +512,33 @@ describe('receiveMoneyDetailReducer', () => {
     };
     describe('sets job options on each line and newLine', () => {
       it('shows inactive selected jobs against each line', () => {
-        const lineOneExpectedOptions = action.jobOptions.filter(job => job.id !== '2');
-        const lineTwoExpectedOptions = action.jobOptions.filter(job => job.id !== '1');
-        const lineThreeExpectedOptions = action.jobOptions.filter(job => job.id !== '1' && job.id !== '2');
+        const lineOneExpectedOptions = action.jobOptions.filter(
+          (job) => job.id !== '2'
+        );
+        const lineTwoExpectedOptions = action.jobOptions.filter(
+          (job) => job.id !== '1'
+        );
+        const lineThreeExpectedOptions = action.jobOptions.filter(
+          (job) => job.id !== '1' && job.id !== '2'
+        );
 
         const actual = receiveMoneyReducer(state, action);
 
-        expect(actual.receiveMoney.lines[0].lineJobOptions).toEqual(lineOneExpectedOptions);
-        expect(actual.receiveMoney.lines[1].lineJobOptions).toEqual(lineTwoExpectedOptions);
-        expect(actual.receiveMoney.lines[2].lineJobOptions).toEqual(lineThreeExpectedOptions);
+        expect(actual.receiveMoney.lines[0].lineJobOptions).toEqual(
+          lineOneExpectedOptions
+        );
+        expect(actual.receiveMoney.lines[1].lineJobOptions).toEqual(
+          lineTwoExpectedOptions
+        );
+        expect(actual.receiveMoney.lines[2].lineJobOptions).toEqual(
+          lineThreeExpectedOptions
+        );
       });
 
       it('shows active jobs against new line', () => {
-        const expectedJobOptions = action.jobOptions.filter(job => job.isActive);
+        const expectedJobOptions = action.jobOptions.filter(
+          (job) => job.isActive
+        );
         const actual = receiveMoneyReducer(state, action);
 
         expect(actual.newLine.lineJobOptions).toEqual(expectedJobOptions);

@@ -3,13 +3,9 @@ import React from 'react';
 import Combobox from './Combobox';
 
 const CustomerCombobox = (props) => {
-  const {
-    items = [],
-  } = props;
+  const { items = [] } = props;
 
-  const metaData = [
-    { columnName: 'name', showData: true },
-  ];
+  const metaData = [{ columnName: 'name', showData: true }];
 
   return (
     <Combobox

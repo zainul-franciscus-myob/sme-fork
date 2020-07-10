@@ -30,23 +30,8 @@ import styles from './TemplateDetailsHeaderInformation.module.css';
 
 const uploadLogoPrompt = (
   <div className={styles.logoPrompt}>
-    Only
-    {' '}
-    <strong>BMP</strong>
-    ,
-    {' '}
-    <strong>TIFF</strong>
-    ,
-    {' '}
-    <strong>JPEG</strong>
-    {' '}
-    or
-    {' '}
-    <strong>PNG</strong>
-    {' '}
-    files
-    {' '}
-    <strong>under 2MB</strong>
+    Only <strong>BMP</strong>, <strong>TIFF</strong>, <strong>JPEG</strong> or{' '}
+    <strong>PNG</strong> files <strong>under 2MB</strong>
   </div>
 );
 
@@ -108,7 +93,7 @@ const TemplateDetailsHeaderInformation = ({
                 value={logoSize}
                 onChange={handleSliderChange(
                   'logoSize',
-                  onUpdateTemplateOptions,
+                  onUpdateTemplateOptions
                 )}
               />
             )}
@@ -116,41 +101,43 @@ const TemplateDetailsHeaderInformation = ({
               label="Business details placement"
               name="businessDetailsPlacement"
               value={businessDetailsPlacement}
-              renderRadios={({ value, ...props }) => ['Left', 'Right'].map(label => (
-                <RadioButton
-                  checked={value === label}
-                  key={label}
-                  value={label}
-                  label={label}
-                  {...props}
-                />
-              ))
+              renderRadios={({ value, ...props }) =>
+                ['Left', 'Right'].map((label) => (
+                  <RadioButton
+                    checked={value === label}
+                    key={label}
+                    value={label}
+                    label={label}
+                    {...props}
+                  />
+                ))
               }
               onChange={handleRadioButtonChange(
                 'businessDetailsPlacement',
-                onUpdateTemplateOptions,
+                onUpdateTemplateOptions
               )}
             />
             <CheckboxGroup
               label="Your business details"
-              renderCheckbox={props => Object.entries(
-                businessDetailsOptions,
-              ).map(([key, { label, value, checked }]) => (
-                <Checkbox
-                  name={key}
-                  label={label}
-                  onChange={handleCheckboxChange(onUpdateTemplateOptions)}
-                  checked={checked}
-                  labelAccessory={
+              renderCheckbox={(props) =>
+                Object.entries(
+                  businessDetailsOptions
+                ).map(([key, { label, value, checked }]) => (
+                  <Checkbox
+                    name={key}
+                    label={label}
+                    onChange={handleCheckboxChange(onUpdateTemplateOptions)}
+                    checked={checked}
+                    labelAccessory={
                       !value && (
                         <Tooltip triggerContent={<Icons.Warning />}>
                           You haven’t entered any details for this field.
                         </Tooltip>
                       )
                     }
-                  {...props}
-                />
-              ))
+                    {...props}
+                  />
+                ))
               }
             />
             <Button type="link" onClick={onEditBusinessDetails}>
@@ -163,7 +150,7 @@ const TemplateDetailsHeaderInformation = ({
   />
 );
 
-const mapsStateToProps = state => ({
+const mapsStateToProps = (state) => ({
   businessDetailsPlacement: getBusinessDetailsPlacement(state),
   businessDetailsOptions: getBusinessDetailsOptions(state),
   logoSize: getLogoSize(state),

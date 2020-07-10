@@ -86,7 +86,7 @@ describe('ElectronicPaymentsCreateSelector', () => {
         const actual = getIsBeforeStartOfFinancialYear(state);
 
         expect(actual).toEqual(expected);
-      },
+      }
     );
   });
 });

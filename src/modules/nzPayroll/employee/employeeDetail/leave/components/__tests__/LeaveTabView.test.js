@@ -1,4 +1,3 @@
-
 import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import React from 'react';
@@ -19,13 +18,18 @@ describe('LeaveTabView', () => {
     jest.clearAllMocks();
   });
 
-  const mountWithProvider = component => mount(component,
-    { wrappingComponent: Provider, wrappingComponentProps: { store } });
+  const mountWithProvider = (component) =>
+    mount(component, {
+      wrappingComponent: Provider,
+      wrappingComponentProps: { store },
+    });
 
   const setup = () => {
     store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, payload: employeeDetail });
     const onLeaveChange = jest.fn();
-    const wrapper = mountWithProvider(<LeaveTabView onLeaveChange={onLeaveChange} />);
+    const wrapper = mountWithProvider(
+      <LeaveTabView onLeaveChange={onLeaveChange} />
+    );
     return { wrapper, onLeaveChange };
   };
 
@@ -60,11 +64,26 @@ describe('LeaveTabView', () => {
 
     it.each([
       { label: 'Holiday pay (%)', name: 'holidayPay', data: leave.holidayPay },
-      { label: 'Annual entitlement (days)', name: 'sickLeaveAnnualEntitlement', data: leave.sickLeaveAnnualEntitlement },
-      { label: 'Maximum to accure (days)', name: 'sickLeaveMaximumToAccure', data: leave.sickLeaveMaximumToAccure },
-      { label: 'Opening balance (days)', name: 'sickLeaveOpeningBalance', data: leave.sickLeaveOpeningBalance },
-      { label: 'Opening balance (days)', name: 'alternativeOpeningBalance', data: leave.alternativeOpeningBalance },
-
+      {
+        label: 'Annual entitlement (days)',
+        name: 'sickLeaveAnnualEntitlement',
+        data: leave.sickLeaveAnnualEntitlement,
+      },
+      {
+        label: 'Maximum to accure (days)',
+        name: 'sickLeaveMaximumToAccure',
+        data: leave.sickLeaveMaximumToAccure,
+      },
+      {
+        label: 'Opening balance (days)',
+        name: 'sickLeaveOpeningBalance',
+        data: leave.sickLeaveOpeningBalance,
+      },
+      {
+        label: 'Opening balance (days)',
+        name: 'alternativeOpeningBalance',
+        data: leave.alternativeOpeningBalance,
+      },
     ])('AmountInput Field: %p', ({ label, name, data }) => {
       const { wrapper } = setup();
 
@@ -78,8 +97,16 @@ describe('LeaveTabView', () => {
     });
 
     it.each([
-      { label: 'Current balance (days)', name: 'sickLeaveCurrentBalance', data: leave.sickLeaveCurrentBalance },
-      { label: 'Current balance (days)', name: 'alternativeCurrentBalance', data: leave.alternativeCurrentBalance },
+      {
+        label: 'Current balance (days)',
+        name: 'sickLeaveCurrentBalance',
+        data: leave.sickLeaveCurrentBalance,
+      },
+      {
+        label: 'Current balance (days)',
+        name: 'alternativeCurrentBalance',
+        data: leave.alternativeCurrentBalance,
+      },
     ])('ReadOnly Field: %p', ({ label, name, data }) => {
       const { wrapper } = setup();
 
@@ -125,7 +152,9 @@ describe('LeaveTabView', () => {
       const { wrapper, onLeaveChange } = setup();
       const field = wrapper.find('DatePicker');
 
-      field.props().onSelect({ target: { fieldName: 'nextAnniversaryDate', value: '' } });
+      field
+        .props()
+        .onSelect({ target: { fieldName: 'nextAnniversaryDate', value: '' } });
 
       expect(onLeaveChange).toHaveBeenCalledTimes(1);
     });

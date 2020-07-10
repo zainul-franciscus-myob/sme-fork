@@ -7,12 +7,13 @@ import LinkButton from '../../Button/LinkButton';
 import ServiceUnavailableImage from '../../ServiceUnavailableImage/ServiceUnavailableImage';
 import styles from './AbnPopover.module.css';
 
-const getDisplayTextByStatus = status => ({
-  [AbnStatus.ACTIVE]: 'ABN active',
-  [AbnStatus.CANCELLED]: 'ABN cancelled',
-  [AbnStatus.INVALID]: 'ABN invalid',
-  [AbnStatus.NONE]: 'No ABN provided',
-})[status];
+const getDisplayTextByStatus = (status) =>
+  ({
+    [AbnStatus.ACTIVE]: 'ABN active',
+    [AbnStatus.CANCELLED]: 'ABN cancelled',
+    [AbnStatus.INVALID]: 'ABN invalid',
+    [AbnStatus.NONE]: 'No ABN provided',
+  }[status]);
 
 const AbnPopover = ({
   abn,
@@ -49,12 +50,12 @@ const AbnPopover = ({
         className={classNames(
           status === AbnStatus.ACTIVE && styles.active,
           status === AbnStatus.CANCELLED && styles.cancelled,
-          status === AbnStatus.INVALID && styles.invalid,
+          status === AbnStatus.INVALID && styles.invalid
         )}
       >
         {status}
       </span>
-      { effectiveFrom && <span>{` (${effectiveFrom})`}</span>}
+      {effectiveFrom && <span>{` (${effectiveFrom})`}</span>}
     </div>
   );
 
@@ -67,7 +68,7 @@ const AbnPopover = ({
         href={abnLink}
       >
         Open ABN lookup website
-        </LinkButton>
+      </LinkButton>
     </div>
   );
 
@@ -83,7 +84,9 @@ const AbnPopover = ({
       {statusInfo}
       <div>
         <span className={styles.label}>Registered for GST</span>
-        <span>{gstRegistered ? `Yes (${gstEffectiveFrom})` : 'Not registered'}</span>
+        <span>
+          {gstRegistered ? `Yes (${gstEffectiveFrom})` : 'Not registered'}
+        </span>
       </div>
       <div className={styles.separator}></div>
       <div>
@@ -117,7 +120,7 @@ const AbnPopover = ({
       {statusInfo}
       <br />
       <div>
-        {'The ABN entered isn\'t valid. Contact the'}
+        {"The ABN entered isn't valid. Contact the"}
         <br />
         company or individual to confirm their
         <br />
@@ -132,7 +135,7 @@ const AbnPopover = ({
   const noAbnAvailableInfo = (
     <>
       <div>
-        {'You haven\'t entered an ABN'}
+        {"You haven't entered an ABN"}
         <br />
         for this contact.
       </div>
@@ -141,12 +144,12 @@ const AbnPopover = ({
     </>
   );
 
-  const popoverBody = ({
+  const popoverBody = {
     [AbnStatus.ACTIVE]: activeAndCancelledAbnInfo,
     [AbnStatus.CANCELLED]: activeAndCancelledAbnInfo,
     [AbnStatus.INVALID]: invalidAbnInfo,
     [AbnStatus.NONE]: noAbnAvailableInfo,
-  })[status];
+  }[status];
 
   const statusIcon = {
     [AbnStatus.ACTIVE]: {
@@ -170,16 +173,20 @@ const AbnPopover = ({
   const noIconClassname = !statusIcon.icon ? styles.noIcon : '';
 
   return (
-    <Popover closeOnOuterAction body={<Popover.Body child={popoverBody} />} place="below">
+    <Popover
+      closeOnOuterAction
+      body={<Popover.Body child={popoverBody} />}
+      place="below"
+    >
       <div className={classNames(styles.validationResult, noIconClassname)}>
-        {
-          statusIcon.icon && (
-            <span className={classNames(styles.icon, statusIcon.className)}>
-              {statusIcon.icon}
-            </span>
-          )
-        }
-        <span className={styles.statusText}>{`${getDisplayTextByStatus(status)}`}</span>
+        {statusIcon.icon && (
+          <span className={classNames(styles.icon, statusIcon.className)}>
+            {statusIcon.icon}
+          </span>
+        )}
+        <span className={styles.statusText}>{`${getDisplayTextByStatus(
+          status
+        )}`}</span>
       </div>
     </Popover>
   );

@@ -1,5 +1,10 @@
 import {
-  Alert, Card, FormHorizontal, FormTemplate, Input, PageHead,
+  Alert,
+  Card,
+  FormHorizontal,
+  FormTemplate,
+  Input,
+  PageHead,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -34,30 +39,34 @@ const LinkUserView = ({
     </Alert>
   );
 
-  const pageHead = (<PageHead title="Link a User ID to your MYOB account" />);
+  const pageHead = <PageHead title="Link a User ID to your MYOB account" />;
 
   const body = (
     <Card>
       <p>
-        Which User ID do you want to sign in to
-        {' '}
-        <strong>{businessName}</strong>
-        {' '}
+        Which User ID do you want to sign in to <strong>{businessName}</strong>{' '}
         as?
       </p>
       <FormHorizontal layout="primary">
-        <Input name="userId" label="User ID" maxLength={35} value={userId} onChange={handleInputChange(onUserInformationUpdate)} />
-        <Input name="password" label="Password" type="password" value={password} onChange={handleInputChange(onUserInformationUpdate)} />
+        <Input
+          name="userId"
+          label="User ID"
+          maxLength={35}
+          value={userId}
+          onChange={handleInputChange(onUserInformationUpdate)}
+        />
+        <Input
+          name="password"
+          label="Password"
+          type="password"
+          value={password}
+          onChange={handleInputChange(onUserInformationUpdate)}
+        />
       </FormHorizontal>
       <Alert type="info">
-        From now on, when you sign in to MYOB as
-        {' '}
-        <strong>{userEmail}</strong>
-        {' '}
-        and open
-        {' '}
-        <strong>{businessName}</strong>
-        , you&apos;ll be signed in with this ID automatically.
+        From now on, when you sign in to MYOB as <strong>{userEmail}</strong>{' '}
+        and open <strong>{businessName}</strong>, you&apos;ll be signed in with
+        this ID automatically.
       </Alert>
     </Card>
   );
@@ -75,7 +84,7 @@ const LinkUserView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   businessName: getBusinessName(state),
   userEmail: getUserEmail(state),

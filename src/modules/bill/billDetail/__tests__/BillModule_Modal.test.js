@@ -23,11 +23,24 @@ import {
   STOP_SUPPLIER_BLOCKING,
   UNLINK_IN_TRAY_DOCUMENT,
 } from '../BillIntents';
-import { CREATE_ACCOUNT_MODAL, LOAD_NEW_ACCOUNT_MODAL } from '../../../account/AccountIntents';
-import { CREATE_CONTACT_MODAL, LOAD_CONTACT_MODAL } from '../../../contact/ContactIntents';
+import {
+  CREATE_ACCOUNT_MODAL,
+  LOAD_NEW_ACCOUNT_MODAL,
+} from '../../../account/AccountIntents';
+import {
+  CREATE_CONTACT_MODAL,
+  LOAD_CONTACT_MODAL,
+} from '../../../contact/ContactIntents';
 import { LOAD_IN_TRAY_MODAL } from '../../../inTray/InTrayIntents';
-import { LOAD_NEW_ITEM, SAVE_ITEM } from '../../../inventory/inventoryModal/InventoryModalIntents';
-import { mockCreateObjectUrl, setUpNewBillWithPrefilled, setUpWithRun } from './BillModule.test';
+import {
+  LOAD_NEW_ITEM,
+  SAVE_ITEM,
+} from '../../../inventory/inventoryModal/InventoryModalIntents';
+import {
+  mockCreateObjectUrl,
+  setUpNewBillWithPrefilled,
+  setUpWithRun,
+} from './BillModule.test';
 import ModalType from '../types/ModalType';
 
 describe('BillModule_Modal', () => {
@@ -41,7 +54,10 @@ describe('BillModule_Modal', () => {
       module.openInventoryModal();
       expect(module.inventoryModalModule.run).toHaveBeenCalledWith({
         context: {
-          businessId: 'bizId', region: 'au', isBuying: true, isSelling: false,
+          businessId: 'bizId',
+          region: 'au',
+          isBuying: true,
+          isSelling: false,
         },
         onSaveSuccess: expect.any(Function),
         onLoadFailure: expect.any(Function),
@@ -53,7 +69,10 @@ describe('BillModule_Modal', () => {
 
       const onChangeItemTableRow = jest.fn();
       module.inventoryModalModule.resetState = jest.fn();
-      integration.mapSuccess(SAVE_ITEM, { itemId: 'itemId', message: 'message' });
+      integration.mapSuccess(SAVE_ITEM, {
+        itemId: 'itemId',
+        message: 'message',
+      });
 
       module.openInventoryModal(onChangeItemTableRow);
       module.inventoryModalModule.save();
@@ -65,9 +84,10 @@ describe('BillModule_Modal', () => {
         expect.objectContaining({ intent: LOAD_ITEM_OPTION }),
       ]);
 
-      expect(integration.getRequests()).toContainEqual(
-        { intent: LOAD_ITEM_OPTION, urlParams: { businessId: 'bizId', itemId: 'itemId' } },
-      );
+      expect(integration.getRequests()).toContainEqual({
+        intent: LOAD_ITEM_OPTION,
+        urlParams: { businessId: 'bizId', itemId: 'itemId' },
+      });
 
       expect(onChangeItemTableRow).toHaveBeenCalledWith({ id: 'itemId' });
       expect(module.inventoryModalModule.resetState).toHaveBeenCalled();
@@ -97,7 +117,8 @@ describe('BillModule_Modal', () => {
       module.openAccountModal();
       expect(module.accountModalModule.run).toHaveBeenCalledWith({
         context: {
-          businessId: 'bizId', region: 'au',
+          businessId: 'bizId',
+          region: 'au',
         },
         onSaveSuccess: expect.any(Function),
         onLoadFailure: expect.any(Function),
@@ -113,8 +134,14 @@ describe('BillModule_Modal', () => {
       const createAccountSuccessPayload = { id: 'id', message: 'message' };
       integration.mapSuccess(CREATE_ACCOUNT_MODAL, createAccountSuccessPayload);
 
-      const loadAccountAfterCreateSuccessPayload = { id: 'afterId', message: 'afterCreateSuccess' };
-      integration.mapSuccess(LOAD_ACCOUNT_AFTER_CREATE, loadAccountAfterCreateSuccessPayload);
+      const loadAccountAfterCreateSuccessPayload = {
+        id: 'afterId',
+        message: 'afterCreateSuccess',
+      };
+      integration.mapSuccess(
+        LOAD_ACCOUNT_AFTER_CREATE,
+        loadAccountAfterCreateSuccessPayload
+      );
 
       module.openAccountModal(onChange);
       module.accountModalModule.save();
@@ -126,11 +153,14 @@ describe('BillModule_Modal', () => {
         expect.objectContaining({ intent: LOAD_ACCOUNT_AFTER_CREATE }),
       ]);
 
-      expect(integration.getRequests()).toContainEqual(
-        { intent: LOAD_ACCOUNT_AFTER_CREATE, urlParams: { businessId: 'bizId', accountId: 'id' } },
-      );
+      expect(integration.getRequests()).toContainEqual({
+        intent: LOAD_ACCOUNT_AFTER_CREATE,
+        urlParams: { businessId: 'bizId', accountId: 'id' },
+      });
 
-      expect(onChange).toHaveBeenCalledWith(loadAccountAfterCreateSuccessPayload);
+      expect(onChange).toHaveBeenCalledWith(
+        loadAccountAfterCreateSuccessPayload
+      );
       expect(module.accountModalModule.close).toHaveBeenCalled();
     });
 
@@ -158,7 +188,9 @@ describe('BillModule_Modal', () => {
       module.openSupplierModal();
       expect(module.contactModalModule.run).toHaveBeenCalledWith({
         context: {
-          businessId: 'bizId', region: 'au', contactType: 'Supplier',
+          businessId: 'bizId',
+          region: 'au',
+          contactType: 'Supplier',
         },
         onSaveSuccess: expect.any(Function),
         onLoadFailure: expect.any(Function),
@@ -170,7 +202,10 @@ describe('BillModule_Modal', () => {
 
       module.contactModalModule.resetState = jest.fn();
 
-      integration.mapSuccess(CREATE_CONTACT_MODAL, { id: 'supplierId', message: 'message' });
+      integration.mapSuccess(CREATE_CONTACT_MODAL, {
+        id: 'supplierId',
+        message: 'message',
+      });
 
       module.openSupplierModal();
       module.contactModalModule.save();
@@ -179,16 +214,22 @@ describe('BillModule_Modal', () => {
         { intent: OPEN_ALERT, type: 'success', message: 'message' },
         { intent: START_SUPPLIER_BLOCKING },
         { intent: STOP_SUPPLIER_BLOCKING },
-        expect.objectContaining({ intent: LOAD_SUPPLIER_AFTER_CREATE, supplierId: 'supplierId' }),
+        expect.objectContaining({
+          intent: LOAD_SUPPLIER_AFTER_CREATE,
+          supplierId: 'supplierId',
+        }),
         { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
         { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
         expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
       ]);
 
       expect(integration.getRequests()).toContainEqual(
-        { intent: LOAD_SUPPLIER_AFTER_CREATE, urlParams: { businessId: 'bizId', supplierId: 'supplierId' } },
+        {
+          intent: LOAD_SUPPLIER_AFTER_CREATE,
+          urlParams: { businessId: 'bizId', supplierId: 'supplierId' },
+        },
         expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
-        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER })
       );
 
       expect(module.contactModalModule.resetState).toHaveBeenCalled();
@@ -199,7 +240,10 @@ describe('BillModule_Modal', () => {
 
       module.contactModalModule.resetState = jest.fn();
 
-      integration.mapSuccess(CREATE_CONTACT_MODAL, { id: 'supplierId', message: 'message' });
+      integration.mapSuccess(CREATE_CONTACT_MODAL, {
+        id: 'supplierId',
+        message: 'message',
+      });
 
       module.openSupplierModal();
       module.contactModalModule.save();
@@ -208,7 +252,10 @@ describe('BillModule_Modal', () => {
         { intent: OPEN_ALERT, type: 'success', message: 'message' },
         { intent: START_SUPPLIER_BLOCKING },
         { intent: STOP_SUPPLIER_BLOCKING },
-        expect.objectContaining({ intent: LOAD_SUPPLIER_AFTER_CREATE, supplierId: 'supplierId' }),
+        expect.objectContaining({
+          intent: LOAD_SUPPLIER_AFTER_CREATE,
+          supplierId: 'supplierId',
+        }),
         {
           intent: GET_TAX_CALCULATIONS,
           isSwitchingTaxInclusive: false,
@@ -220,8 +267,11 @@ describe('BillModule_Modal', () => {
       ]);
 
       expect(integration.getRequests()).toContainEqual(
-        expect.objectContaining({ intent: LOAD_SUPPLIER_AFTER_CREATE, urlParams: { businessId: 'bizId', supplierId: 'supplierId' } }),
-        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+        expect.objectContaining({
+          intent: LOAD_SUPPLIER_AFTER_CREATE,
+          urlParams: { businessId: 'bizId', supplierId: 'supplierId' },
+        }),
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER })
       );
 
       expect(module.contactModalModule.resetState).toHaveBeenCalled();
@@ -247,7 +297,8 @@ describe('BillModule_Modal', () => {
       module.openInTrayModal();
       expect(module.inTrayModalModule.run).toHaveBeenCalledWith({
         context: {
-          businessId: 'bizId', region: 'au',
+          businessId: 'bizId',
+          region: 'au',
         },
         onSaveSuccess: expect.any(Function),
         onLoadFailure: expect.any(Function),
@@ -285,14 +336,17 @@ describe('BillModule_Modal', () => {
 
       expect(integration.getRequests()).toContainEqual(
         expect.objectContaining({ intent: PREFILL_BILL_FROM_IN_TRAY }),
-        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER })
       );
     });
 
     it('successfully links in tray doc to existing bill and prefills bill with in tray data, on document link action on in tray modal, when updating an existing bill', () => {
       const { module, store, integration } = setUpWithRun();
       module.inTrayModalModule.close = jest.fn();
-      integration.mapSuccess(LINK_IN_TRAY_DOCUMENT, { message: 'link success', attachmentId: 'attachmentId' });
+      integration.mapSuccess(LINK_IN_TRAY_DOCUMENT, {
+        message: 'link success',
+        attachmentId: 'attachmentId',
+      });
 
       module.openInTrayModal();
       module.inTrayModalModule.linkInTrayDocument();
@@ -325,14 +379,16 @@ describe('BillModule_Modal', () => {
       expect(integration.getRequests()).toContainEqual(
         expect.objectContaining({ intent: LINK_IN_TRAY_DOCUMENT }),
         expect.objectContaining({ intent: PREFILL_BILL_FROM_IN_TRAY }),
-        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER })
       );
     });
 
     it('fails to link in tray doc to existing bill, on document link action on in tray modal', () => {
       const { module, store, integration } = setUpWithRun();
       module.inTrayModalModule.close = jest.fn();
-      integration.mapFailure(LINK_IN_TRAY_DOCUMENT, { message: 'link failure' });
+      integration.mapFailure(LINK_IN_TRAY_DOCUMENT, {
+        message: 'link failure',
+      });
 
       module.openInTrayModal();
       module.inTrayModalModule.linkInTrayDocument();
@@ -404,7 +460,9 @@ describe('BillModule_Modal', () => {
     it('shows alert when request to unlink document fails for existing bill', () => {
       const { module, store, integration } = setUpWithRun();
       store.state.attachmentId = 'attachmentId';
-      integration.mapFailure(UNLINK_IN_TRAY_DOCUMENT, { message: 'unlink failure' });
+      integration.mapFailure(UNLINK_IN_TRAY_DOCUMENT, {
+        message: 'unlink failure',
+      });
 
       module.unlinkInTrayDocument();
 
@@ -487,7 +545,10 @@ describe('BillModule_Modal', () => {
 
   describe('unsaved modal', () => {
     it('opens unsaved modal if page has been edited', () => {
-      const { module, store } = setUpWithRun({ isCreating: true, isPageEdited: true });
+      const { module, store } = setUpWithRun({
+        isCreating: true,
+        isPageEdited: true,
+      });
       store.resetActions();
 
       module.handlePageTransition('/#/foo');
@@ -506,11 +567,10 @@ describe('BillModule_Modal', () => {
     });
 
     it('should save and redirect when confirm modal', () => {
-      const {
-        module,
-        integration,
-        navigateTo,
-      } = setUpWithRun({ isCreating: true, isPageEdited: true });
+      const { module, integration, navigateTo } = setUpWithRun({
+        isCreating: true,
+        isPageEdited: true,
+      });
       integration.resetRequests();
       module.handlePageTransition('/#/bar');
       module.saveAndRedirect();
@@ -521,11 +581,10 @@ describe('BillModule_Modal', () => {
     });
 
     it('should redirect without save when click on discard', () => {
-      const {
-        module,
-        integration,
-        navigateTo,
-      } = setUpWithRun({ isCreating: true, isPageEdited: true });
+      const { module, integration, navigateTo } = setUpWithRun({
+        isCreating: true,
+        isPageEdited: true,
+      });
       integration.resetRequests();
       module.handlePageTransition('/#/bar');
       module.discardAndRedirect();

@@ -10,16 +10,16 @@ import {
   getFilterOptions,
 } from './selectors/transactionListSelectors';
 import {
-  getLoadNextPageParams as getLoadNextPageParamsForCreditsAndDebits, getSortingForCreditsAndDebits,
+  getLoadNextPageParams as getLoadNextPageParamsForCreditsAndDebits,
+  getSortingForCreditsAndDebits,
 } from './selectors/creditsAndDebitsSelectors';
 import {
-  getLoadNextPageParams as getLoadNextPageParamsForTransactions, getSortingForJournalTransactions,
+  getLoadNextPageParams as getLoadNextPageParamsForTransactions,
+  getSortingForJournalTransactions,
 } from './selectors/journalTransactionSelectors';
 
 const createTransactionListIntegrator = (store, integration) => ({
-  loadCreditsAndDebitsList: ({
-    onSuccess, onFailure,
-  }) => {
+  loadCreditsAndDebitsList: ({ onSuccess, onFailure }) => {
     const state = store.getState();
     const intent = LOAD_CREDITS_AND_DEBITS_LIST;
 
@@ -42,9 +42,7 @@ const createTransactionListIntegrator = (store, integration) => ({
     });
   },
 
-  sortAndFilterCreditsAndDebitsList: ({
-    onSuccess, onFailure,
-  }) => {
+  sortAndFilterCreditsAndDebitsList: ({ onSuccess, onFailure }) => {
     const state = store.getState();
     const intent = SORT_AND_FILTER_CREDITS_AND_DEBITS_LIST;
 
@@ -67,9 +65,7 @@ const createTransactionListIntegrator = (store, integration) => ({
     });
   },
 
-  loadCreditsAndDebitsNextPage: ({
-    onSuccess, onFailure,
-  }) => {
+  loadCreditsAndDebitsNextPage: ({ onSuccess, onFailure }) => {
     const state = store.getState();
     const intent = LOAD_CREDITS_AND_DEBITS_NEXT_PAGE;
 

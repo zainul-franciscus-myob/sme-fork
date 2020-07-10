@@ -1,4 +1,8 @@
-import { getIsPaySlipEmailRequired, getTerminationConfirmModalIsOpen, getTerminationDateNewlySet } from '../EmploymentDetailsSelectors';
+import {
+  getIsPaySlipEmailRequired,
+  getTerminationConfirmModalIsOpen,
+  getTerminationDateNewlySet,
+} from '../EmploymentDetailsSelectors';
 import { getMainTab, getSubTab } from '../../../EmployeeDetailSelectors';
 import { mainTabIds, payrollDetailsSubTabIds } from '../../../tabItems';
 

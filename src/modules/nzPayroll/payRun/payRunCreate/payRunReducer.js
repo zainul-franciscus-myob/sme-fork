@@ -10,7 +10,10 @@ import {
   employeePayListHandlers,
   getEmployeePayListDefaultState,
 } from './employeePayList/employeePayListReducer';
-import { getStartPayRunDefaultState, startPayRunHandlers } from './startPayRun/startPayRunReducer';
+import {
+  getStartPayRunDefaultState,
+  startPayRunHandlers,
+} from './startPayRun/startPayRunReducer';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
 import uuid from '../../../../common/uuid/uuid';
@@ -37,7 +40,7 @@ const setInitialState = (state, { context }) => ({
   ...context,
 });
 
-const nextStep = state => ({
+const nextStep = (state) => ({
   ...state,
   step: state.step.nextStep,
 });

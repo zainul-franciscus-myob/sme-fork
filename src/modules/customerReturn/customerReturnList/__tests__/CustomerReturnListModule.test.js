@@ -100,12 +100,12 @@ describe('CustomerReturnListModule', () => {
     });
 
     it('displays alert from inbox', () => {
-      const {
-        store, module,
-      } = setup();
-      module.popMessages = jest.fn().mockReturnValue([{
-        content: '🍄',
-      }]);
+      const { store, module } = setup();
+      module.popMessages = jest.fn().mockReturnValue([
+        {
+          content: '🍄',
+        },
+      ]);
 
       module.run({});
 
@@ -127,7 +127,7 @@ describe('CustomerReturnListModule', () => {
         sortOrder: 'asc',
         orderBy: '🤡',
       };
-      localStorageDriver.loadSettings = () => (localSettings);
+      localStorageDriver.loadSettings = () => localSettings;
       module.run({});
 
       expect(store.getActions()).toContainEqual({
@@ -212,25 +212,21 @@ describe('CustomerReturnListModule', () => {
       const { store, integration, module } = setupWithRun();
 
       module.updateSortOrder('DisplayId');
-      expect(store.getActions()).toContainEqual(
-        {
-          intent: SET_SORT_ORDER,
-          sortOrder: 'asc',
-          orderBy: 'DisplayId',
-        },
-      );
+      expect(store.getActions()).toContainEqual({
+        intent: SET_SORT_ORDER,
+        sortOrder: 'asc',
+        orderBy: 'DisplayId',
+      });
 
       store.resetActions();
       integration.resetRequests();
 
       module.updateSortOrder('DisplayId');
-      expect(store.getActions()).toContainEqual(
-        {
-          intent: SET_SORT_ORDER,
-          sortOrder: 'desc',
-          orderBy: 'DisplayId',
-        },
-      );
+      expect(store.getActions()).toContainEqual({
+        intent: SET_SORT_ORDER,
+        sortOrder: 'desc',
+        orderBy: 'DisplayId',
+      });
     });
   });
 

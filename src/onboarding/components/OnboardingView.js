@@ -25,7 +25,7 @@ const industryData = [
   { columnName: 'secondary' },
 ];
 
-const industryItems = industries.map(industry => ({
+const industryItems = industries.map((industry) => ({
   id: industry.id,
   title: industry.title,
   secondary: industry.examples && `Eg. ${industry.examples.join(', ')}`,
@@ -55,16 +55,19 @@ class OnboardingView extends Component {
 
     this.setState({ hasRendered: true });
     onLoad();
-  }
+  };
 
   save = (event) => {
     event.preventDefault();
-    const { props: { businessName, businessRole, industryId } } = this;
+    const {
+      props: { businessName, businessRole, industryId },
+    } = this;
 
     let businessNameError = null;
     let industryError = null;
 
-    if (businessName === '') businessNameError = 'You need to enter a business name';
+    if (businessName === '')
+      businessNameError = 'You need to enter a business name';
     if (industryId === '') industryError = 'You need to select an industry';
 
     this.setState({ businessNameError, industryError });
@@ -91,12 +94,7 @@ class OnboardingView extends Component {
       onChangeBusinessName,
       onChangeBusinessRole,
       onChangeIndustry,
-      props: {
-        businessId,
-        businessName,
-        businessRole,
-        industryId,
-      },
+      props: { businessId, businessName, businessRole, industryId },
     } = this;
 
     if (!businessId) return <LoadingPageState />;
@@ -110,7 +108,12 @@ class OnboardingView extends Component {
         </div>
 
         <div className={classNames(styles.column, styles.img)}>
-          <img src={welcomeImage} alt="Grid of 20 people from different industries, including trades, retail and food service" width="100%" height="auto" />
+          <img
+            src={welcomeImage}
+            alt="Grid of 20 people from different industries, including trades, retail and food service"
+            width="100%"
+            height="auto"
+          />
         </div>
 
         <div className={classNames(styles.column, styles.form)}>
@@ -118,7 +121,8 @@ class OnboardingView extends Component {
 
           <Card classes={[styles.card]}>
             <p className={styles.intro}>
-              Let&apos;s start with a few details that will help us personalise your experience.
+              Let&apos;s start with a few details that will help us personalise
+              your experience.
             </p>
 
             <div>
@@ -137,7 +141,7 @@ class OnboardingView extends Component {
 
             <div>
               <Combobox
-                defaultItem={industryItems.find(ind => ind.id === industryId)}
+                defaultItem={industryItems.find((ind) => ind.id === industryId)}
                 errorMessage={industryError}
                 items={industryItems}
                 label="What industry is your business in?"
@@ -158,7 +162,7 @@ class OnboardingView extends Component {
                 onChange={handleSelectChange(onChangeBusinessRole)}
                 requiredLabel="This is required"
               >
-                {BusinessRoles.map(businessType => (
+                {BusinessRoles.map((businessType) => (
                   <Select.Option
                     key={businessType}
                     label={businessType}
@@ -180,7 +184,11 @@ class OnboardingView extends Component {
   }
 }
 
-const mapStateToProps = ({ businessRole, industryId, proposedBusinessName }) => ({
+const mapStateToProps = ({
+  businessRole,
+  industryId,
+  proposedBusinessName,
+}) => ({
   businessName: proposedBusinessName,
   businessRole: businessRole || 'Bookkeeper',
   industryId: industryId || '',

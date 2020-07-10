@@ -1,5 +1,9 @@
 import {
-  LOAD_CONFIG, LOAD_NAVIGATION_CONFIG, SET_JOB_TOGGLE_STATUS, SET_LOADING_STATE, SET_ROUTE_INFO,
+  LOAD_CONFIG,
+  LOAD_NAVIGATION_CONFIG,
+  SET_JOB_TOGGLE_STATUS,
+  SET_LOADING_STATE,
+  SET_ROUTE_INFO,
   SET_URLS,
 } from './NavigationIntents';
 import createReducer from '../store/createReducer';
@@ -49,16 +53,16 @@ const setUrls = (state, action) => ({
   urls: action.urls,
 });
 
-const loadConfig = (state, {
-  selfServicePortalUrl,
-  myReportsUrl,
-}) => ({
+const loadConfig = (state, { selfServicePortalUrl, myReportsUrl }) => ({
   ...state,
   selfServicePortalUrl,
   myReportsUrl,
 });
 
-const setJobToggleStatus = (state, { isJobEnabled }) => ({ ...state, isJobEnabled });
+const setJobToggleStatus = (state, { isJobEnabled }) => ({
+  ...state,
+  isJobEnabled,
+});
 
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,

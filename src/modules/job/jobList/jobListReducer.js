@@ -6,9 +6,7 @@ import {
   SET_TABLE_LOADING_STATE,
   UPDATE_FILTER_OPTIONS,
 } from '../JobIntents';
-import {
-  RESET_STATE, SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import shallowCompare from '../../../common/shallowCompare/shallowCompare';
@@ -32,7 +30,7 @@ const getDefaultState = () => ({
   showStatusColumn: false,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const loadJobList = (state, action) => ({
   ...state,

@@ -13,11 +13,7 @@ import {
 import ReceiveMoneyDetailRow from './ReceiveMoneyDetailRow';
 
 const ReceiveMoneyDetailTable = ({
-  amountTotals: {
-    subTotal,
-    totalTax,
-    totalAmount,
-  },
+  amountTotals: { subTotal, totalTax, totalAmount },
   indexOfLastLine,
   tableData,
   taxLabel,
@@ -67,7 +63,9 @@ const ReceiveMoneyDetailTable = ({
       label: 'Description',
       styles: {},
     },
-    ...(isReceiveMoneyJobColumnEnabled ? [{ label: 'Job', styles: { width: '9rem' } }] : []),
+    ...(isReceiveMoneyJobColumnEnabled
+      ? [{ label: 'Job', styles: { width: '9rem' } }]
+      : []),
     {
       label: taxCodeLabel,
       requiredLabel: 'required',
@@ -116,7 +114,7 @@ const ReceiveMoneyDetailTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   amountTotals: getTotals(state),
   indexOfLastLine: getIndexOfLastLine(state),
   isReceiveMoneyJobColumnEnabled: getIsReceiveMoneyJobColumnEnabled(state),

@@ -9,10 +9,7 @@ const ImportItemsDetail = ({
   onDuplicateRecordsOptionChange,
 }) => (
   <>
-    <UploadFile
-      onFileSelected={onFileSelected}
-      onFileRemove={onFileRemove}
-    />
+    <UploadFile onFileSelected={onFileSelected} onFileRemove={onFileRemove} />
     <DuplicateRecords
       onDuplicateRecordsOptionChange={onDuplicateRecordsOptionChange}
     />

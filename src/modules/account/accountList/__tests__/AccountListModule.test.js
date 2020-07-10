@@ -27,7 +27,11 @@ describe('AccountListModule', () => {
     const store = new TestStore(accountListReducer);
     const setRootView = () => {};
     const popMessages = () => [];
-    const module = new AccountListModule({ integration, setRootView, popMessages });
+    const module = new AccountListModule({
+      integration,
+      setRootView,
+      popMessages,
+    });
     module.store = store;
     module.dispatcher = createAccountListDispatcher(store);
     module.integrator = createAccountListIntegrator(store, integration);
@@ -212,7 +216,7 @@ describe('AccountListModule', () => {
 
     it('debounces keyword filter', () => {
       const { module } = setupWithRun();
-      debounce.default = jest.fn().mockImplementation(fn => fn);
+      debounce.default = jest.fn().mockImplementation((fn) => fn);
 
       module.updateFilterOptions({ key: 'keywords', value: '🐛' });
 

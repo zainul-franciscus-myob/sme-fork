@@ -4,7 +4,10 @@ import {
   LOAD_EMPLOYEE_PAY_REVERSAL_PREVIEW_DETAIL,
   SEND_EMPLOYEE_PAY_REVERSAL_DETAIL,
 } from './EmployeePayDetailIntents';
-import { getReversalEmployeePayContent, getUrlParams } from './EmployeePayDetailSelectors';
+import {
+  getReversalEmployeePayContent,
+  getUrlParams,
+} from './EmployeePayDetailSelectors';
 
 const createEmployeePayDetailIntegrator = (store, integration) => ({
   loadEmployeePayDetail: ({ onSuccess, onFailure }) => {

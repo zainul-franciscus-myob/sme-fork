@@ -1,45 +1,47 @@
 import { createSelector } from 'reselect';
 import { isBefore } from 'date-fns';
 
-export const getBusinessId = state => state.businessId;
+export const getBusinessId = (state) => state.businessId;
 
-export const getRegion = state => state.region;
+export const getRegion = (state) => state.region;
 
-export const getCustomerReturnId = state => state.customerReturnId;
+export const getCustomerReturnId = (state) => state.customerReturnId;
 
-export const getRefundId = state => state.refundId;
+export const getRefundId = (state) => state.refundId;
 
-export const getAlert = state => state.alert;
+export const getAlert = (state) => state.alert;
 
-export const getIsCreating = state => (state.customerReturnId && !state.refundId);
+export const getIsCreating = (state) =>
+  state.customerReturnId && !state.refundId;
 
-export const getLoadingState = state => state.loadingState;
+export const getLoadingState = (state) => state.loadingState;
 
-export const getIsSubmitting = state => state.isSubmitting;
+export const getIsSubmitting = (state) => state.isSubmitting;
 
-export const getIsPageEdited = state => state.isPageEdited;
+export const getIsPageEdited = (state) => state.isPageEdited;
 
-export const getModalType = state => state.modalType;
+export const getModalType = (state) => state.modalType;
 
-export const getContactOptions = state => state.contactOptions;
+export const getContactOptions = (state) => state.contactOptions;
 
-export const getAccountOptions = state => state.accountOptions;
+export const getAccountOptions = (state) => state.accountOptions;
 
-export const getRefund = state => state.refund;
+export const getRefund = (state) => state.refund;
 
-export const getRefundDate = state => state.refund.date;
+export const getRefundDate = (state) => state.refund.date;
 
-export const getStartOfFinancialYearDate = state => state.startOfFinancialYearDate;
+export const getStartOfFinancialYearDate = (state) =>
+  state.startOfFinancialYearDate;
 
-const getReferenceId = state => state.refund.referenceId;
+const getReferenceId = (state) => state.refund.referenceId;
 
 export const getTitle = createSelector(
-  getIsCreating, getReferenceId,
-  (isCreating, referenceId) => (
+  getIsCreating,
+  getReferenceId,
+  (isCreating, referenceId) =>
     isCreating
       ? 'Record customer credit as refund'
       : `Customer credit recorded as refund ${referenceId}`
-  ),
 );
 
 export const isReferenceIdDirty = (state) => {
@@ -48,9 +50,10 @@ export const isReferenceIdDirty = (state) => {
 };
 
 export const getIsBeforeStartOfFinancialYear = createSelector(
-  getStartOfFinancialYearDate, getRefundDate,
-  (startOfFinancialYearDate, date) => (
-    date && startOfFinancialYearDate
-      && isBefore(new Date(date), new Date(startOfFinancialYearDate))
-  ),
+  getStartOfFinancialYearDate,
+  getRefundDate,
+  (startOfFinancialYearDate, date) =>
+    date &&
+    startOfFinancialYearDate &&
+    isBefore(new Date(date), new Date(startOfFinancialYearDate))
 );

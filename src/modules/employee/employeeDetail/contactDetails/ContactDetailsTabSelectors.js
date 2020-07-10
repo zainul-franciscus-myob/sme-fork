@@ -2,31 +2,33 @@ import { createSelector } from 'reselect';
 
 import countryList from '../../../../sharedData/countryList';
 
-const getContactDetailPhoneNumbers = state => state.contactDetail.phoneNumbers;
+const getContactDetailPhoneNumbers = (state) =>
+  state.contactDetail.phoneNumbers;
 
 const MAX_PHONE_NUMBERS = 3;
-const hasAddPhoneButton = state => getContactDetailPhoneNumbers(state).length < MAX_PHONE_NUMBERS;
+const hasAddPhoneButton = (state) =>
+  getContactDetailPhoneNumbers(state).length < MAX_PHONE_NUMBERS;
 
 const getPhoneNumbers = (state) => {
   const phoneNumbers = getContactDetailPhoneNumbers(state);
   return phoneNumbers.length === 0 ? [''] : phoneNumbers;
 };
 
-export const getContactDetail = state => ({
+export const getContactDetail = (state) => ({
   ...state.contactDetail,
   phoneNumbers: getPhoneNumbers(state),
   hasAddPhoneButton: hasAddPhoneButton(state),
 });
 
-const getSelectedCountry = state => state.contactDetail.country;
+const getSelectedCountry = (state) => state.contactDetail.country;
 
 export const getStateOptions = createSelector(
   getSelectedCountry,
-  selectedcountry => (countryList
-    .find(country => country.id === selectedcountry) || {}).states,
+  (selectedcountry) =>
+    (countryList.find((country) => country.id === selectedcountry) || {}).states
 );
 
 export const getIsStateDropdown = createSelector(
   getStateOptions,
-  states => states !== undefined,
+  (states) => states !== undefined
 );

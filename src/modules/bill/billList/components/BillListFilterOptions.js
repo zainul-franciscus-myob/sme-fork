@@ -21,13 +21,7 @@ import handleSelectChange from '../../../../components/handlers/handleSelectChan
 import styles from './BillListFilterOptions.module.css';
 
 const BillListFilterOptions = ({
-  filterOptions: {
-    status,
-    supplierId,
-    dateFrom,
-    dateTo,
-    keywords,
-  },
+  filterOptions: { status, supplierId, dateFrom, dateTo, keywords },
   supplierFilterOptions,
   statusFilterOptions,
   total,
@@ -36,46 +30,65 @@ const BillListFilterOptions = ({
   hasOverdue,
   onUpdateFilters,
 }) => (
-    <React.Fragment>
-      <FilterBar>
-        <Select name="status" label="Status" value={status} onChange={handleSelectChange(onUpdateFilters)}>
-          {statusFilterOptions.map(({ name, value }) => (
-            <Select.Option value={value} label={name} key={value} />
-          ))}
-        </Select>
-        <div className={styles.supplier}>
-          <SupplierCombobox
-            label="Supplier"
-            name="supplier"
-            hideLabel={false}
-            items={supplierFilterOptions}
-            selectedId={supplierId}
-            onChange={handleComboboxChange('supplierId', onUpdateFilters)}
-            hintText="All"
-            allowClear
-            hasAllItem
-          />
-        </div>
-        <FilterBar.Group>
-          <DatePicker label="Issue from" name="dateFrom" value={dateFrom} onSelect={handleDateChange('dateFrom', onUpdateFilters)} />
-          <DatePicker label="Issue to" name="dateTo" value={dateTo} onSelect={handleDateChange('dateTo', onUpdateFilters)} />
-        </FilterBar.Group>
-        <FilterBarSearch
-          name="keywords"
-          value={keywords}
-          onChange={handleInputChange(onUpdateFilters)}
+  <React.Fragment>
+    <FilterBar>
+      <Select
+        name="status"
+        label="Status"
+        value={status}
+        onChange={handleSelectChange(onUpdateFilters)}
+      >
+        {statusFilterOptions.map(({ name, value }) => (
+          <Select.Option value={value} label={name} key={value} />
+        ))}
+      </Select>
+      <div className={styles.supplier}>
+        <SupplierCombobox
+          label="Supplier"
+          name="supplier"
+          hideLabel={false}
+          items={supplierFilterOptions}
+          selectedId={supplierId}
+          onChange={handleComboboxChange('supplierId', onUpdateFilters)}
+          hintText="All"
+          allowClear
+          hasAllItem
         />
-      </FilterBar>
-      <hr />
-      <div className={styles.total}>
-        <div>{`Total amount ${total}`}</div>
-        <div>{`Balance due ${totalDue}`}</div>
-        <div className={classnames(styles.totalOverdue, { [styles.hasOverdue]: hasOverdue })}>{`Overdue ${totalOverdue}`}</div>
       </div>
-    </React.Fragment>
+      <FilterBar.Group>
+        <DatePicker
+          label="Issue from"
+          name="dateFrom"
+          value={dateFrom}
+          onSelect={handleDateChange('dateFrom', onUpdateFilters)}
+        />
+        <DatePicker
+          label="Issue to"
+          name="dateTo"
+          value={dateTo}
+          onSelect={handleDateChange('dateTo', onUpdateFilters)}
+        />
+      </FilterBar.Group>
+      <FilterBarSearch
+        name="keywords"
+        value={keywords}
+        onChange={handleInputChange(onUpdateFilters)}
+      />
+    </FilterBar>
+    <hr />
+    <div className={styles.total}>
+      <div>{`Total amount ${total}`}</div>
+      <div>{`Balance due ${totalDue}`}</div>
+      <div
+        className={classnames(styles.totalOverdue, {
+          [styles.hasOverdue]: hasOverdue,
+        })}
+      >{`Overdue ${totalOverdue}`}</div>
+    </div>
+  </React.Fragment>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   filterOptions: getFilterOptions(state),
   supplierFilterOptions: getSupplierFilterOptions(state),
   statusFilterOptions: getStatusFilterOptions(state),

@@ -8,10 +8,7 @@ const onConfirmClick = (handler, entry) => () => {
 
 const InTrayDeleteModal = ({
   entry,
-  listeners: {
-    onConfirmClose,
-    onConfirmDelete,
-  },
+  listeners: { onConfirmClose, onConfirmDelete },
 }) => (
   <DeleteModal
     onCancel={onConfirmClose}

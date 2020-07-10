@@ -1,5 +1,9 @@
 import {
-  addDays, addMonths, endOfMonth, getDaysInMonth, setDate,
+  addDays,
+  addMonths,
+  endOfMonth,
+  getDaysInMonth,
+  setDate,
 } from 'date-fns';
 
 import formatSlashDate from '../../../common/valueFormatters/formatDate/formatSlashDate';
@@ -55,12 +59,12 @@ const calculateDate = (issueDate, expirationTerm, expirationDays) => {
   return issueDate;
 };
 
-const getExpiredDate = ({
-  issueDate,
-  expirationTerm,
-  expirationDays,
-}) => {
-  const calculatedDate = calculateDate(issueDate, expirationTerm, expirationDays);
+const getExpiredDate = ({ issueDate, expirationTerm, expirationDays }) => {
+  const calculatedDate = calculateDate(
+    issueDate,
+    expirationTerm,
+    expirationDays
+  );
   return formatSlashDate(new Date(calculatedDate));
 };
 

@@ -1,17 +1,22 @@
 import {
-  getDeleteTimesheetContent, getSaveTimesheetContent, getTimesheetTotalHours, getWeekDayTotals,
+  getDeleteTimesheetContent,
+  getSaveTimesheetContent,
+  getTimesheetTotalHours,
+  getWeekDayTotals,
 } from '../timesheetSelectors';
 
 describe('timesheetSelectors', () => {
   describe('getTimesheetTotalHours', () => {
     it('returns zero when no hours entered', () => {
       const state = {
-        timesheetRows: [{
-          day1: { hours: '' },
-          day2: { hours: '' },
-          day3: { hours: '' },
-          day7: { hours: '' },
-        }],
+        timesheetRows: [
+          {
+            day1: { hours: '' },
+            day2: { hours: '' },
+            day3: { hours: '' },
+            day7: { hours: '' },
+          },
+        ],
       };
 
       const actual = getTimesheetTotalHours(state);
@@ -21,18 +26,20 @@ describe('timesheetSelectors', () => {
 
     it('sums up the hours for all rows', () => {
       const state = {
-        timesheetRows: [{
-          day1: { hours: '1' },
-          day2: { hours: '0' },
-          day3: { hours: '0' },
-          day7: { hours: '1' },
-        },
-        {
-          day4: { hours: '1' },
-          day5: { hours: '2' },
-          day6: { hours: '1.5' },
-          day7: { hours: '2' },
-        }],
+        timesheetRows: [
+          {
+            day1: { hours: '1' },
+            day2: { hours: '0' },
+            day3: { hours: '0' },
+            day7: { hours: '1' },
+          },
+          {
+            day4: { hours: '1' },
+            day5: { hours: '2' },
+            day6: { hours: '1.5' },
+            day7: { hours: '2' },
+          },
+        ],
       };
 
       const actual = getTimesheetTotalHours(state);
@@ -78,34 +85,36 @@ describe('timesheetSelectors', () => {
             id: 2,
           },
         ],
-        timesheetRows: [{
-          notes: '',
-          startStopDescription: '',
-          day1: {
-            hours: '1',
-            hoursPaid: 0,
+        timesheetRows: [
+          {
+            notes: '',
+            startStopDescription: '',
+            day1: {
+              hours: '1',
+              hoursPaid: 0,
+            },
+            day2: {
+              hours: '0.00',
+              hoursPaid: 0,
+            },
+            day3: {
+              hours: '',
+              hoursPaid: 0,
+            },
+            day4: {
+              hours: '0',
+              hoursPaid: 0,
+            },
+            day5: {
+              hours: '0',
+              hoursPaid: 0,
+            },
+            day7: {
+              hours: '1.50',
+              hoursPaid: 0,
+            },
           },
-          day2: {
-            hours: '0.00',
-            hoursPaid: 0,
-          },
-          day3: {
-            hours: '',
-            hoursPaid: 0,
-          },
-          day4: {
-            hours: '0',
-            hoursPaid: 0,
-          },
-          day5: {
-            hours: '0',
-            hoursPaid: 0,
-          },
-          day7: {
-            hours: '1.50',
-            hoursPaid: 0,
-          },
-        }],
+        ],
       };
 
       const actual = getSaveTimesheetContent(state);
@@ -113,38 +122,40 @@ describe('timesheetSelectors', () => {
       expect(actual).toEqual({
         startDate: '2020-02-02',
         employeeName: 'Kent Clark',
-        timesheetRows: [{
-          notes: null,
-          startStopDescription: null,
-          day1: {
-            hours: 1,
-            hoursPaid: 0,
+        timesheetRows: [
+          {
+            notes: null,
+            startStopDescription: null,
+            day1: {
+              hours: 1,
+              hoursPaid: 0,
+            },
+            day2: {
+              hours: 0,
+              hoursPaid: 0,
+            },
+            day3: {
+              hours: 0,
+              hoursPaid: 0,
+            },
+            day4: {
+              hours: 0,
+              hoursPaid: 0,
+            },
+            day5: {
+              hours: 0,
+              hoursPaid: 0,
+            },
+            day6: {
+              hours: 0,
+              hoursPaid: 0,
+            },
+            day7: {
+              hours: 1.5,
+              hoursPaid: 0,
+            },
           },
-          day2: {
-            hours: 0,
-            hoursPaid: 0,
-          },
-          day3: {
-            hours: 0,
-            hoursPaid: 0,
-          },
-          day4: {
-            hours: 0,
-            hoursPaid: 0,
-          },
-          day5: {
-            hours: 0,
-            hoursPaid: 0,
-          },
-          day6: {
-            hours: 0,
-            hoursPaid: 0,
-          },
-          day7: {
-            hours: 1.5,
-            hoursPaid: 0,
-          },
-        }],
+        ],
       });
     });
   });

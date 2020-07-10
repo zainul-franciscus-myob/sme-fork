@@ -42,9 +42,7 @@ import keyMap from '../../../../hotKeys/keyMap';
 import setupHotKeys from '../../../../hotKeys/setupHotKeys';
 
 export default class DeductionPayItemModule {
-  constructor({
-    integration, setRootView, pushMessage,
-  }) {
+  constructor({ integration, setRootView, pushMessage }) {
     this.integration = integration;
     this.store = new Store(deductionPayItemReducer);
     this.setRootView = setRootView;
@@ -56,18 +54,20 @@ export default class DeductionPayItemModule {
       intent: SET_INITIAL_STATE,
       context,
     });
-  }
+  };
 
   setLoadingState = (loadingState) => {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
       loadingState,
     });
-  }
+  };
 
   loadPayItem = () => {
     const state = this.store.getState();
-    const intent = getIsCreating(state) ? LOAD_NEW_PAY_ITEM : LOAD_EXISTING_PAY_ITEM;
+    const intent = getIsCreating(state)
+      ? LOAD_NEW_PAY_ITEM
+      : LOAD_EXISTING_PAY_ITEM;
 
     const onSuccess = (payload) => {
       this.setLoadingState(LoadingState.LOADING_SUCCESS);
@@ -92,49 +92,56 @@ export default class DeductionPayItemModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
-  updatePayItemDetails = ({ key, value }) => this.store.dispatch({
-    intent: UPDATE_DETAILS,
-    key,
-    value,
-  })
+  updatePayItemDetails = ({ key, value }) =>
+    this.store.dispatch({
+      intent: UPDATE_DETAILS,
+      key,
+      value,
+    });
 
-  updatePayItemInformation = ({ key, value }) => this.store.dispatch({
-    intent: UPDATE_INFORMATION,
-    key,
-    value,
-  })
+  updatePayItemInformation = ({ key, value }) =>
+    this.store.dispatch({
+      intent: UPDATE_INFORMATION,
+      key,
+      value,
+    });
 
-  addEmployeeToSelectedList = ({ key, value }) => this.store.dispatch({
-    intent: ADD_EMPLOYEE,
-    key,
-    value,
-  })
+  addEmployeeToSelectedList = ({ key, value }) =>
+    this.store.dispatch({
+      intent: ADD_EMPLOYEE,
+      key,
+      value,
+    });
 
-  removeEmployeeFromSelectedList = id => this.store.dispatch({
-    intent: REMOVE_EMPLOYEE,
-    id,
-  })
+  removeEmployeeFromSelectedList = (id) =>
+    this.store.dispatch({
+      intent: REMOVE_EMPLOYEE,
+      id,
+    });
 
-  addExemptionToSelectedList = ({ key, value }) => this.store.dispatch({
-    intent: ADD_EXEMPTION,
-    key,
-    value,
-  })
+  addExemptionToSelectedList = ({ key, value }) =>
+    this.store.dispatch({
+      intent: ADD_EXEMPTION,
+      key,
+      value,
+    });
 
-  removeExemptionFromSelectedList = id => this.store.dispatch({
-    intent: REMOVE_EXEMPTION,
-    id,
-  })
+  removeExemptionFromSelectedList = (id) =>
+    this.store.dispatch({
+      intent: REMOVE_EXEMPTION,
+      id,
+    });
 
-  openModal = modalType => this.store.dispatch({ intent: OPEN_MODAL, modalType });
+  openModal = (modalType) =>
+    this.store.dispatch({ intent: OPEN_MODAL, modalType });
 
   closeModal = () => this.store.dispatch({ intent: CLOSE_MODAL });
 
   confirmBeforeDelete = () => {
     this.openModal('delete');
-  }
+  };
 
   confirmBeforeCancel = () => {
     if (getIsPageEdited(this.store.getState())) {
@@ -142,12 +149,12 @@ export default class DeductionPayItemModule {
     } else {
       this.redirectToDeductionList();
     }
-  }
+  };
 
   confirmCancel = () => {
     this.closeModal();
     this.redirectToDeductionList();
-  }
+  };
 
   deleteDeductionPayItem = () => {
     this.setIsSubmitting(true);
@@ -169,16 +176,19 @@ export default class DeductionPayItemModule {
     const state = this.store.getState();
     this.integration.write({
       intent: DELETE_PAY_ITEM,
-      urlParams: { businessId: getBusinessId(state), payItemId: getPayItemId(state) },
+      urlParams: {
+        businessId: getBusinessId(state),
+        payItemId: getPayItemId(state),
+      },
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   confirmDelete = () => {
     this.closeModal();
     this.deleteDeductionPayItem();
-  }
+  };
 
   redirectToDeductionList = () => {
     const state = this.store.getState();
@@ -186,12 +196,13 @@ export default class DeductionPayItemModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/payItem?tab=deductions`;
-  }
+  };
 
-  setIsSubmitting = isSubmitting => this.store.dispatch({
-    intent: SET_IS_SUBMITTING,
-    isSubmitting,
-  })
+  setIsSubmitting = (isSubmitting) =>
+    this.store.dispatch({
+      intent: SET_IS_SUBMITTING,
+      isSubmitting,
+    });
 
   savePayItemDeduction = () => {
     const state = this.store.getState();
@@ -217,25 +228,30 @@ export default class DeductionPayItemModule {
     const intent = getIsCreating(state) ? CREATE_PAY_ITEM : UPDATE_PAY_ITEM;
     this.integration.write({
       intent,
-      urlParams: { businessId: getBusinessId(state), payItemId: getPayItemId(state) },
+      urlParams: {
+        businessId: getBusinessId(state),
+        payItemId: getPayItemId(state),
+      },
       content: payItemPayload,
       onSuccess,
       onFailure,
     });
-  }
+  };
 
-  dismissAlert = () => this.store.dispatch({
-    intent: SET_ALERT,
-    alert: undefined,
-  })
+  dismissAlert = () =>
+    this.store.dispatch({
+      intent: SET_ALERT,
+      alert: undefined,
+    });
 
-  setAlert = message => this.store.dispatch({
-    intent: SET_ALERT,
-    alert: {
-      type: 'danger',
-      message,
-    },
-  })
+  setAlert = (message) =>
+    this.store.dispatch({
+      intent: SET_ALERT,
+      alert: {
+        type: 'danger',
+        message,
+      },
+    });
 
   saveHandler = () => {
     const state = this.store.getState();
@@ -243,7 +259,7 @@ export default class DeductionPayItemModule {
     if (modalType) return;
 
     this.savePayItemDeduction();
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,
@@ -257,7 +273,7 @@ export default class DeductionPayItemModule {
   }
 
   render = () => {
-    this.setRootView((
+    this.setRootView(
       <Provider store={this.store}>
         <DeductionPayItemView
           onDetailsChange={this.updatePayItemDetails}
@@ -275,8 +291,8 @@ export default class DeductionPayItemModule {
           onDismissAlert={this.dismissAlert}
         />
       </Provider>
-    ));
-  }
+    );
+  };
 
   resetState() {
     const intent = RESET_STATE;
@@ -285,7 +301,7 @@ export default class DeductionPayItemModule {
     });
   }
 
-  unsubscribeFromStore= () => {
+  unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 }

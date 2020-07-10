@@ -1,9 +1,6 @@
 import { addMonths } from 'date-fns';
 
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
   SET_ALERT,
   SET_LOADING_STATE,
@@ -33,7 +30,7 @@ const getDefaultState = () => ({
   },
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setTableLoadingState = (state, action) => ({
   ...state,
@@ -67,7 +64,6 @@ const setSortOrder = (state, action) => ({
   ...state,
   sortOrder: action.sortOrder,
 });
-
 
 const sortAndFilterPayRunList = (state, action) => ({
   ...state,

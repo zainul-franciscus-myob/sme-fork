@@ -7,7 +7,7 @@ import {
   SET_TAB,
 } from './ReportingCentreIntents';
 
-const createReportingCentreDispatcher = store => ({
+const createReportingCentreDispatcher = (store) => ({
   resetState: () => {
     store.dispatch({
       intent: RESET_STATE,

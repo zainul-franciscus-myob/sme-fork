@@ -1,10 +1,7 @@
-import {
-  LOAD_EMPLOYEE_PAYS,
-  SET_PAY_PERIOD_DETAILS,
-} from '../PayRunIntents';
+import { LOAD_EMPLOYEE_PAYS, SET_PAY_PERIOD_DETAILS } from '../PayRunIntents';
 import createPayRunDispatchers from '../createPayRunDispatchers';
 
-const createStartPayRunDispatchers = store => ({
+const createStartPayRunDispatchers = (store) => ({
   ...createPayRunDispatchers(store),
 
   setPayPeriodDetails: ({ key, value }) => {
@@ -14,7 +11,6 @@ const createStartPayRunDispatchers = store => ({
   loadEmployeePays: (employeePays) => {
     store.dispatch({ intent: LOAD_EMPLOYEE_PAYS, employeePays });
   },
-
 });
 
 export default createStartPayRunDispatchers;

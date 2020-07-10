@@ -19,7 +19,7 @@ import BankTransactionTableBody from './BankTransactionTableBody';
 import BankTransactionTableHeader from './BankTransactionTableHeader';
 import ErrorViewImage from './no-results-found.svg';
 
-const emptyView = header => (
+const emptyView = (header) => (
   <React.Fragment>
     {header}
     <Card>
@@ -28,18 +28,15 @@ const emptyView = header => (
         description="Perhaps checks the date or remove the filters and try again"
         image={<img src={ErrorViewImage} alt="Please change your filters" />}
       />
-  </Card>
+    </Card>
   </React.Fragment>
 );
 
-const spinnerView = header => (
+const spinnerView = (header) => (
   <React.Fragment>
     {header}
     <Card>
-      <PageState
-        title={<Spinner size="medium" />}
-        description="Loading"
-      />
+      <PageState title={<Spinner size="medium" />} description="Loading" />
     </Card>
   </React.Fragment>
 );
@@ -111,7 +108,8 @@ const BankTransactionTable = ({
       isBulkLoading={isBulkLoading}
       onSort={onSort}
       order={order}
-    />);
+    />
+  );
 
   if (isTableLoading) {
     return spinnerView(header);
@@ -172,7 +170,8 @@ const BankTransactionTable = ({
       onPendingNoteChange={onPendingNoteChange}
       onNoteBlur={onNoteBlur}
       onLinkFromInTrayButtonClick={onLinkFromInTrayButtonClick}
-    />);
+    />
+  );
 
   return (
     <React.Fragment>
@@ -182,7 +181,7 @@ const BankTransactionTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
   order: getOrder(state),

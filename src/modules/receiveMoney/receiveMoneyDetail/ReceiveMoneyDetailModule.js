@@ -44,7 +44,12 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class ReceiveMoneyDetailModule {
   constructor({
-    integration, setRootView, pushMessage, navigateTo, popMessages, isToggleOn,
+    integration,
+    setRootView,
+    pushMessage,
+    navigateTo,
+    popMessages,
+    isToggleOn,
   }) {
     this.integration = integration;
     this.store = new Store(receiveMoneyDetailReducer);
@@ -54,7 +59,10 @@ export default class ReceiveMoneyDetailModule {
     this.navigateTo = navigateTo;
 
     this.dispatcher = createReceiveMoneyDetailDispatcher({ store: this.store });
-    this.integrator = createReceiveMoneyDetailIntegrator({ store: this.store, integration });
+    this.integrator = createReceiveMoneyDetailIntegrator({
+      store: this.store,
+      integration,
+    });
 
     this.isToggleOn = isToggleOn;
 
@@ -71,10 +79,10 @@ export default class ReceiveMoneyDetailModule {
 
     this.contactModalModule.run({
       context,
-      onLoadFailure: message => this.displayFailureAlert(message),
+      onLoadFailure: (message) => this.displayFailureAlert(message),
       onSaveSuccess: this.loadContactAfterCreate,
     });
-  }
+  };
 
   loadContactAfterCreate = ({ id, message }) => {
     this.contactModalModule.resetState();
@@ -91,7 +99,7 @@ export default class ReceiveMoneyDetailModule {
     };
 
     this.integrator.loadContactAfterCreate({ id, onSuccess, onFailure });
-  }
+  };
 
   openJobModal = (onChange) => {
     const state = this.store.getState();
@@ -99,8 +107,8 @@ export default class ReceiveMoneyDetailModule {
 
     this.jobModalModule.run({
       context,
-      onLoadFailure: message => this.displayFailureAlert(message),
-      onSaveSuccess: payload => this.loadJobAfterCreate(payload, onChange),
+      onLoadFailure: (message) => this.displayFailureAlert(message),
+      onSaveSuccess: (payload) => this.loadJobAfterCreate(payload, onChange),
     });
   };
 
@@ -128,8 +136,9 @@ export default class ReceiveMoneyDetailModule {
     const accountModalContext = getAccountModalContext(state);
     this.accountModalModule.run({
       context: accountModalContext,
-      onSaveSuccess: payload => this.loadAccountAfterCreate(payload, onChange),
-      onLoadFailure: message => this.displayFailureAlert(message),
+      onSaveSuccess: (payload) =>
+        this.loadAccountAfterCreate(payload, onChange),
+      onLoadFailure: (message) => this.displayFailureAlert(message),
     });
   };
 
@@ -181,7 +190,7 @@ export default class ReceiveMoneyDetailModule {
     };
 
     this.integrator.deleteReceiveMoney({ onSuccess, onFailure });
-  }
+  };
 
   createOrUpdateReceiveMoney = (onSuccess) => {
     if (getIsActionsDisabled(this.store.getState())) return;
@@ -198,7 +207,7 @@ export default class ReceiveMoneyDetailModule {
     };
 
     this.integrator.saveReceiveMoney({ onSuccess, onFailure });
-  }
+  };
 
   saveReceiveMoney = () => {
     const onSuccess = (response) => {
@@ -210,9 +219,9 @@ export default class ReceiveMoneyDetailModule {
     };
 
     this.createOrUpdateReceiveMoney(onSuccess);
-  }
+  };
 
-  saveAndDuplicate =() => {
+  saveAndDuplicate = () => {
     const onSuccess = ({ message, id }) => {
       const state = this.store.getState();
       const isCreating = getIsCreating(state);
@@ -228,7 +237,7 @@ export default class ReceiveMoneyDetailModule {
     };
 
     this.createOrUpdateReceiveMoney(onSuccess);
-  }
+  };
 
   saveAndCreateNew = () => {
     const onSuccess = ({ message }) => {
@@ -238,9 +247,9 @@ export default class ReceiveMoneyDetailModule {
     };
 
     this.createOrUpdateReceiveMoney(onSuccess);
-  }
+  };
 
-  saveAnd = saveActionType => {
+  saveAnd = (saveActionType) => {
     if (saveActionType === SaveActionType.SAVE_AND_DUPLICATE) {
       this.saveAndDuplicate();
     }
@@ -248,7 +257,7 @@ export default class ReceiveMoneyDetailModule {
     if (saveActionType === SaveActionType.SAVE_AND_CREATE_NEW) {
       this.saveAndCreateNew();
     }
-  }
+  };
 
   updateHeaderOptions = ({ key, value }) => {
     this.dispatcher.updateHeaderOptions({ key, value });
@@ -265,7 +274,7 @@ export default class ReceiveMoneyDetailModule {
     if (taxKeys.includes(lineKey)) {
       this.getCalculatedTotals(false);
     }
-  }
+  };
 
   addReceiveMoneyLine = (line) => {
     this.dispatcher.addReceiveMoneyLine();
@@ -278,12 +287,12 @@ export default class ReceiveMoneyDetailModule {
     const newLineIndex = getIndexOfLastLine(state);
 
     this.updateReceiveMoneyLine(newLineIndex, newLineKey, newLineValue);
-  }
+  };
 
   deleteReceiveMoneyLine = (index) => {
     this.dispatcher.deleteReceiveMoneyLine(index);
     this.getCalculatedTotals(false);
-  }
+  };
 
   getCalculatedTotals = (isSwitchingTaxInclusive) => {
     const state = this.store.getState();
@@ -292,9 +301,12 @@ export default class ReceiveMoneyDetailModule {
       return;
     }
 
-    const { lines, totals } = getTaxCalculations(state, isSwitchingTaxInclusive);
+    const { lines, totals } = getTaxCalculations(
+      state,
+      isSwitchingTaxInclusive
+    );
     this.dispatcher.getCalculatedTotals({ lines, totals });
-  }
+  };
 
   calculateLineTotals = () => {
     const state = this.store.getState();
@@ -302,13 +314,16 @@ export default class ReceiveMoneyDetailModule {
     if (isLineEdited) {
       this.getCalculatedTotals(false);
     }
-  }
+  };
 
-  setSubmittingState = isSubmitting => this.dispatcher.setSubmittingState(isSubmitting);
+  setSubmittingState = (isSubmitting) =>
+    this.dispatcher.setSubmittingState(isSubmitting);
 
-  displayFailureAlert = message => this.dispatcher.setAlert({ type: 'danger', message });
+  displayFailureAlert = (message) =>
+    this.dispatcher.setAlert({ type: 'danger', message });
 
-  displaySuccessAlert = message => this.dispatcher.setAlert({ type: 'success', message });
+  displaySuccessAlert = (message) =>
+    this.dispatcher.setAlert({ type: 'success', message });
 
   openCancelModal = () => {
     if (isPageEdited(this.store.getState())) {
@@ -320,7 +335,7 @@ export default class ReceiveMoneyDetailModule {
 
   openDeleteModal = () => this.dispatcher.openDeleteModal();
 
-  openUnsavedModal = url => this.dispatcher.openUnsavedModal(url);
+  openUnsavedModal = (url) => this.dispatcher.openUnsavedModal(url);
 
   closeModal = () => this.dispatcher.closeModal();
 
@@ -333,7 +348,7 @@ export default class ReceiveMoneyDetailModule {
       type: SUCCESSFULLY_SAVED_RECEIVE_MONEY,
       content: message,
     });
-  }
+  };
 
   redirectToTransactionList = () => {
     const state = this.store.getState();
@@ -346,14 +361,14 @@ export default class ReceiveMoneyDetailModule {
     const url = getModalUrl(state);
 
     this.navigateTo(url);
-  }
+  };
 
   redirectToCreateReceiveMoney = () => {
     const state = this.store.getState();
     const url = getCreateReceiveMoneyUrl(state);
 
     this.navigateTo(url);
-  }
+  };
 
   render = () => {
     const accountModal = this.accountModalModule.render();
@@ -385,9 +400,7 @@ export default class ReceiveMoneyDetailModule {
     );
 
     const wrappedView = (
-      <Provider store={this.store}>
-        {receiveMoneyView}
-      </Provider>
+      <Provider store={this.store}>{receiveMoneyView}</Provider>
     );
 
     this.setRootView(wrappedView);
@@ -415,7 +428,7 @@ export default class ReceiveMoneyDetailModule {
         this.saveReceiveMoney();
         break;
     }
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,
@@ -425,7 +438,7 @@ export default class ReceiveMoneyDetailModule {
     this.popMessages([
       SUCCESSFULLY_SAVED_RECEIVE_MONEY,
       DUPLICATE_RECEIVE_MONEY,
-    ]).forEach(message => {
+    ]).forEach((message) => {
       if (message.type === SUCCESSFULLY_SAVED_RECEIVE_MONEY) {
         this.dispatcher.setAlert({ message: message.content, type: 'success' });
       } else if (message.type === DUPLICATE_RECEIVE_MONEY) {
@@ -437,7 +450,9 @@ export default class ReceiveMoneyDetailModule {
   run(context) {
     this.dispatcher.setInitialState({
       ...context,
-      isReceiveMoneyJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
+      isReceiveMoneyJobColumnEnabled: this.isToggleOn(
+        FeatureToggle.EssentialsJobs
+      ),
     });
     setupHotKeys(keyMap, this.handlers);
     this.render();
@@ -459,5 +474,5 @@ export default class ReceiveMoneyDetailModule {
     } else {
       this.navigateTo(url);
     }
-  }
+  };
 }

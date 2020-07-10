@@ -1,8 +1,4 @@
-import {
-  Alert,
-  Button,
-  PageHead,
-} from '@myob/myob-widgets';
+import { Alert, Button, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -55,17 +51,13 @@ const InTrayView = ({
   deleteModalListeners,
 }) => {
   const alertComponent = alert && (
-    <Alert
-      type={alert.type}
-      onDismiss={onDismissAlert}
-    >
+    <Alert type={alert.type} onDismiss={onDismissAlert}>
       {alert.message}
     </Alert>
   );
 
-
-  const uploadOptionsModalComponent = modalType
-    === modalTypes.uploadOptions && (
+  const uploadOptionsModalComponent = modalType ===
+    modalTypes.uploadOptions && (
     <UploadOptionsModal listeners={uploadOptionsModalListeners} />
   );
 
@@ -89,9 +81,7 @@ const InTrayView = ({
   );
 
   const filterBar = (
-    <InTrayListFilterOptions
-      onUpdateFilterOptions={onUpdateFilterOptions}
-    />
+    <InTrayListFilterOptions onUpdateFilterOptions={onUpdateFilterOptions} />
   );
 
   const inTrayView = (
@@ -102,17 +92,17 @@ const InTrayView = ({
         alert={alertComponent}
         pageHead={pageHead}
         filterBar={filterBar}
-        detail={(
+        detail={
           <InTrayListDetail
             onClose={onCloseDetail}
             handleActionSelect={handleActionSelect}
           />
-        )}
+        }
         sticky="all"
         showDetail={isDetailShown}
         detailWidth="40%"
         detailMobileBreakpoint={800}
-        master={(
+        master={
           <InTrayListTable
             onSort={onSort}
             onDownload={onDownload}
@@ -123,7 +113,7 @@ const InTrayView = ({
             onAddAttachments={onAddAttachments}
             handleActionSelect={handleActionSelect}
           />
-        )}
+        }
       />
     </div>
   );
@@ -131,7 +121,7 @@ const InTrayView = ({
   return <PageView loadingState={loadingState} view={inTrayView} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   isEntryLoading: getIsEntryLoading(state),
   alert: getAlert(state),

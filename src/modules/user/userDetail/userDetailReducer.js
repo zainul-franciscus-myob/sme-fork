@@ -37,7 +37,7 @@ const getDefaultState = () => ({
   alertMessage: '',
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const pageEdited = { isPageEdited: true };
 
@@ -60,7 +60,7 @@ const openModal = (state, action) => ({
   modal: action.modal,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modal: undefined,
 });
@@ -75,25 +75,26 @@ const loadUserDetail = (state, { user, isCurrentUserOnlineAdmin }) => ({
 });
 
 const updateUserRoles = (state, action) => {
-  const { type } = state.user.roles
-    .find(({ id }) => id === action.key) || { type: RoleTypes.CUSTOM };
+  const { type } = state.user.roles.find(({ id }) => id === action.key) || {
+    type: RoleTypes.CUSTOM,
+  };
 
-  const isReadOnly = type === RoleTypes.ADMINISTRATOR && action.value === true
-    ? false : state.user.isReadOnly;
+  const isReadOnly =
+    type === RoleTypes.ADMINISTRATOR && action.value === true
+      ? false
+      : state.user.isReadOnly;
 
-  return ({
+  return {
     ...state,
     user: {
       ...state.user,
-      roles: state.user.roles.map(role => (
-        role.id === action.key
-          ? { ...role, selected: action.value }
-          : role
-      )),
+      roles: state.user.roles.map((role) =>
+        role.id === action.key ? { ...role, selected: action.value } : role
+      ),
       isReadOnly,
     },
     isPageEdited: true,
-  });
+  };
 };
 
 const setSubmittingState = (state, action) => ({

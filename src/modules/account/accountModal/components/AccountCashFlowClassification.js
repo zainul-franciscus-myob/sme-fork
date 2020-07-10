@@ -2,11 +2,14 @@ import { Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getCashFlowClassification, getCashFlowClassifications } from '../accountModalSelectors';
+import {
+  getCashFlowClassification,
+  getCashFlowClassifications,
+} from '../accountModalSelectors';
 import handleSelectChange from '../../../../components/handlers/handleSelectChange';
 
-const buildClassificationTypes = cashFlowClassifications => cashFlowClassifications
-  .map(({ displayName, value }) => (
+const buildClassificationTypes = (cashFlowClassifications) =>
+  cashFlowClassifications.map(({ displayName, value }) => (
     <Select.Option value={value} label={displayName} key={value} />
   ));
 
@@ -27,7 +30,7 @@ const AccountCashFlowClassification = ({
   </Select>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   cashFlowClassification: getCashFlowClassification(state),
   cashFlowClassifications: getCashFlowClassifications(state),
 });

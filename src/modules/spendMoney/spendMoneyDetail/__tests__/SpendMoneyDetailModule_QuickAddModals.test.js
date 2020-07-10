@@ -14,10 +14,13 @@ describe('SpendMoneyDetailModule_QuickAddModals', () => {
       const { module, store, integration } = setupWithNew();
 
       const onChange = jest.fn();
-      module.loadAccountAfterCreate({
-        message: 'well done',
-        id: '123',
-      }, onChange);
+      module.loadAccountAfterCreate(
+        {
+          message: 'well done',
+          id: '123',
+        },
+        onChange
+      );
 
       expect(store.getActions()).toEqual([
         {
@@ -55,10 +58,13 @@ describe('SpendMoneyDetailModule_QuickAddModals', () => {
 
       const onChange = jest.fn();
       integration.mapFailure(LOAD_ACCOUNT_AFTER_CREATE);
-      module.loadAccountAfterCreate({
-        message: 'well done',
-        id: '123',
-      }, onChange);
+      module.loadAccountAfterCreate(
+        {
+          message: 'well done',
+          id: '123',
+        },
+        onChange
+      );
 
       expect(store.getActions()).toEqual([
         {
@@ -92,10 +98,13 @@ describe('SpendMoneyDetailModule_QuickAddModals', () => {
       const { module, store, integration } = setupWithNew();
 
       const onChange = jest.fn();
-      module.loadJobAfterCreate({
-        message: 'well done',
-        id: '123',
-      }, onChange);
+      module.loadJobAfterCreate(
+        {
+          message: 'well done',
+          id: '123',
+        },
+        onChange
+      );
 
       expect(store.getActions()).toEqual([
         {
@@ -133,10 +142,13 @@ describe('SpendMoneyDetailModule_QuickAddModals', () => {
 
       const onChange = jest.fn();
       integration.mapFailure(LOAD_JOB_AFTER_CREATE);
-      module.loadJobAfterCreate({
-        message: 'well done',
-        id: '123',
-      }, onChange);
+      module.loadJobAfterCreate(
+        {
+          message: 'well done',
+          id: '123',
+        },
+        onChange
+      );
 
       expect(store.getActions()).toEqual([
         {

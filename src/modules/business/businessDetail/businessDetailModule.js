@@ -2,7 +2,9 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsPageEdited, getIsSubmitting, getModalUrl,
+  getIsPageEdited,
+  getIsSubmitting,
+  getModalUrl,
 } from './businessDetailSelectors';
 import BusinessDetailsView from './components/BusinessDetailView';
 import FeatureToggles from '../../../FeatureToggles';
@@ -16,7 +18,10 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class BusinessDetailModule {
   constructor({
-    integration, setRootView, businessDetailsConfirmed, isToggleOn,
+    integration,
+    setRootView,
+    businessDetailsConfirmed,
+    isToggleOn,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -40,17 +45,17 @@ export default class BusinessDetailModule {
     };
 
     this.integrator.loadBusinessDetail({ onSuccess, onFailure });
-  }
+  };
 
   updateBusinessDetailField = ({ key, value }) => {
     this.dispatcher.setPageEditedState(true);
     this.dispatcher.updateBusinessDetail({ key, value });
-  }
+  };
 
   updateLockDateDetail = ({ key, value }) => {
     this.dispatcher.setPageEditedState(true);
     this.dispatcher.updateLockDateDetail({ key, value });
-  }
+  };
 
   updateBusinessDetail = () => {
     const onSuccess = ({ message }) => {
@@ -64,18 +69,21 @@ export default class BusinessDetailModule {
   };
 
   saveBusinessDetails = (onSuccess) => {
-    const state = (this.store.getState());
+    const state = this.store.getState();
     if (getIsSubmitting(state)) return;
 
     this.dispatcher.setSubmittingState(true);
 
     const onFailure = (error) => {
       this.dispatcher.setSubmittingState(false);
-      this.dispatcher.setAlertMessage({ message: error.message, type: 'danger' });
+      this.dispatcher.setAlertMessage({
+        message: error.message,
+        type: 'danger',
+      });
     };
 
     this.integrator.saveBusinessDetails({ onSuccess, onFailure });
-  }
+  };
 
   dismissAlert = () => {
     this.dispatcher.setAlertMessage();
@@ -110,7 +118,8 @@ export default class BusinessDetailModule {
 
     this.dispatcher.startLoadingFinancialYearModal();
     this.integrator.startNewFinancialYear({
-      onSuccess: () => this.integrator.loadBusinessDetail({ onSuccess, onFailure }),
+      onSuccess: () =>
+        this.integrator.loadBusinessDetail({ onSuccess, onFailure }),
       onFailure,
     });
   };
@@ -132,9 +141,7 @@ export default class BusinessDetailModule {
     );
 
     const wrappedView = (
-      <Provider store={this.store}>
-        {businessDetailsView}
-      </Provider>
+      <Provider store={this.store}>{businessDetailsView}</Provider>
     );
     this.setRootView(wrappedView);
   };
@@ -147,7 +154,7 @@ export default class BusinessDetailModule {
     if (url) {
       window.location.href = url;
     }
-  }
+  };
 
   redirectToModalUrl = () => {
     const state = this.store.getState();
@@ -170,13 +177,15 @@ export default class BusinessDetailModule {
     } else {
       this.redirectToUrl(url);
     }
-  }
+  };
 
   // @FEATURE_TOGGLE: start-new-financial-year
   run(context) {
     this.dispatcher.setInitialState({
       ...context,
-      isStartNewFinancialYearEnabled: this.isToggleOn(FeatureToggles.StartNewFinancialYear),
+      isStartNewFinancialYearEnabled: this.isToggleOn(
+        FeatureToggles.StartNewFinancialYear
+      ),
     });
     this.render();
     setupHotKeys(keyMap, this.handlers);

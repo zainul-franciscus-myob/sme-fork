@@ -12,7 +12,11 @@ const InvoiceDocumentInfo = () => (
       { name: 'Purchase order no', value: '000000001' },
       { name: 'Invoice number', value: 'IV000000001' },
       { name: 'Issue date', value: formatSlashDate(Date.now()) },
-      { name: 'Due date', value: formatSlashDate(addMonths(Date.now(), 1)), className: styles.grey },
+      {
+        name: 'Due date',
+        value: formatSlashDate(addMonths(Date.now(), 1)),
+        className: styles.grey,
+      },
     ]}
   />
 );

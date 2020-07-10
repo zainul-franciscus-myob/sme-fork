@@ -11,7 +11,7 @@ const ContactModalMoreDetails = ({ onChange }) => (
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   notes: getNotes(state),
 });
 

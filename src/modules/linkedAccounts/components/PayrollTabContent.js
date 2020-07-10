@@ -28,28 +28,40 @@ const PayrollTabContent = ({
       hideLabel={false}
       items={bankAccountCashPayments.accounts}
       selectedId={bankAccountCashPayments.accountId}
-      onChange={handleComboboxChange('bankAccountCashPayments', onAccountChange)}
+      onChange={handleComboboxChange(
+        'bankAccountCashPayments',
+        onAccountChange
+      )}
     />
     <AccountCombobox
       label="Bank account for cheque payments"
       hideLabel={false}
       items={bankAccountChequePayments.accounts}
       selectedId={bankAccountChequePayments.accountId}
-      onChange={handleComboboxChange('bankAccountChequePayments', onAccountChange)}
+      onChange={handleComboboxChange(
+        'bankAccountChequePayments',
+        onAccountChange
+      )}
     />
     <AccountCombobox
       label="Bank account for electronic payments"
       hideLabel={false}
       items={bankAccountElectronicPayments.accounts}
       selectedId={bankAccountElectronicPayments.accountId}
-      onChange={handleComboboxChange('bankAccountElectronicPayments', onAccountChange)}
+      onChange={handleComboboxChange(
+        'bankAccountElectronicPayments',
+        onAccountChange
+      )}
     />
     <AccountCombobox
       label="Default employer expense account"
       hideLabel={false}
       items={employmentExpenseAccount.accounts}
       selectedId={employmentExpenseAccount.accountId}
-      onChange={handleComboboxChange('employmentExpenseAccount', onAccountChange)}
+      onChange={handleComboboxChange(
+        'employmentExpenseAccount',
+        onAccountChange
+      )}
     />
     <AccountCombobox
       label="Default wages expense account"
@@ -63,12 +75,15 @@ const PayrollTabContent = ({
       hideLabel={false}
       items={taxDeductionsPayableAccount.accounts}
       selectedId={taxDeductionsPayableAccount.accountId}
-      onChange={handleComboboxChange('taxDeductionsPayableAccount', onAccountChange)}
+      onChange={handleComboboxChange(
+        'taxDeductionsPayableAccount',
+        onAccountChange
+      )}
     />
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   bankAccountCashPayments: getBankAccountCashPayments(state),
   bankAccountChequePayments: getBankAccountChequePayments(state),
   bankAccountElectronicPayments: getBankAccountElectronicPayments(state),

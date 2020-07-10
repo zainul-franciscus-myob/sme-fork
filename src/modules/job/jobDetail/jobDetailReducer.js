@@ -40,7 +40,7 @@ const getDefaultState = () => ({
   region: '',
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 const pageEdited = { isPageEdited: true };
 
 const loadJobDetail = (state, action) => ({
@@ -77,7 +77,6 @@ const setAlertMessage = (state, action) => ({
   alertMessage: action.alertMessage,
 });
 
-
 const openModal = (state, action) => ({
   ...state,
   modal: {
@@ -85,7 +84,7 @@ const openModal = (state, action) => ({
   },
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modal: {
     type: '',
@@ -102,7 +101,10 @@ const loadCustomerAfterCreate = (state, { customerId, option }) => ({
   customerOptions: getUpdatedCustomerOptions(state, option),
 });
 
-const setCustomerLoadingState = (state, { isCustomerLoading }) => ({ ...state, isCustomerLoading });
+const setCustomerLoadingState = (state, { isCustomerLoading }) => ({
+  ...state,
+  isCustomerLoading,
+});
 
 const setInitialState = (state, action) => ({
   ...state,

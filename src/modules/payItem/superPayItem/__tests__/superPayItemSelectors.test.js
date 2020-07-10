@@ -6,7 +6,8 @@ import {
   getFormattedAmount,
   getFormattedPercentage,
   getIsExemptionDisabled,
-  getLimit, getUpdatedSuperPayItemForSave,
+  getLimit,
+  getUpdatedSuperPayItemForSave,
 } from '../superPayItemSelectors';
 
 describe('superPayItemSelectors', () => {
@@ -48,10 +49,12 @@ describe('superPayItemSelectors', () => {
           it(`should ${expected ? '' : ' not'} contain "${name}"`, () => {
             const actual = getFilteredAtoReportingCategories.resultFunc(
               contributionType,
-              atoReportingCategories,
+              atoReportingCategories
             );
 
-            expect(!!(actual.find(item => item.value === value))).toEqual(expected);
+            expect(!!actual.find((item) => item.value === value)).toEqual(
+              expected
+            );
           });
         });
       });
@@ -233,10 +236,13 @@ describe('superPayItemSelectors', () => {
       const employees = [{ value: '1' }, { value: '2' }];
       const superPayItemEmployees = [{ id: '1' }];
 
-      const actual = getFilteredEmployees.resultFunc(employees, superPayItemEmployees);
+      const actual = getFilteredEmployees.resultFunc(
+        employees,
+        superPayItemEmployees
+      );
 
-      expect(actual.find(item => item.id === '1')).toBeFalsy();
-      expect(actual.find(item => item.id === '2')).toBeUndefined();
+      expect(actual.find((item) => item.id === '1')).toBeFalsy();
+      expect(actual.find((item) => item.id === '2')).toBeUndefined();
     });
   });
 
@@ -245,10 +251,13 @@ describe('superPayItemSelectors', () => {
       const exemptions = [{ value: '1' }, { value: '2' }];
       const superPayItemExemptions = [{ id: '1' }];
 
-      const actual = getFilteredExemptions.resultFunc(exemptions, superPayItemExemptions);
+      const actual = getFilteredExemptions.resultFunc(
+        exemptions,
+        superPayItemExemptions
+      );
 
-      expect(actual.find(item => item.id === '1')).toBeFalsy();
-      expect(actual.find(item => item.id === '2')).toBeUndefined();
+      expect(actual.find((item) => item.id === '1')).toBeFalsy();
+      expect(actual.find((item) => item.id === '2')).toBeUndefined();
     });
   });
 
@@ -261,7 +270,11 @@ describe('superPayItemSelectors', () => {
         },
       ];
 
-      const actual = getIsExemptionDisabled.resultFunc('DisabledForAll', 1, configuration);
+      const actual = getIsExemptionDisabled.resultFunc(
+        'DisabledForAll',
+        1,
+        configuration
+      );
 
       expect(actual).toEqual(true);
     });
@@ -274,7 +287,11 @@ describe('superPayItemSelectors', () => {
         },
       ];
 
-      const actual = getIsExemptionDisabled.resultFunc('EnabledForSome', 11, configuration);
+      const actual = getIsExemptionDisabled.resultFunc(
+        'EnabledForSome',
+        11,
+        configuration
+      );
 
       expect(actual).toEqual(false);
     });
@@ -302,7 +319,10 @@ describe('superPayItemSelectors', () => {
       },
       calculationBasisDeductionPayItems: [
         { id: 'grossWagesId', mappedType: 'grossWagesType' },
-        { id: 'calculationDeductionId', mappedType: 'calculationDeductionType' },
+        {
+          id: 'calculationDeductionId',
+          mappedType: 'calculationDeductionType',
+        },
       ],
       calculationBasisExpensePayItems: [
         { id: 'grossWagesId', mappedType: 'grossWagesType' },
@@ -320,11 +340,39 @@ describe('superPayItemSelectors', () => {
 
     describe('calculationBasis', () => {
       [
-        ['UserEntered', '0.00', 'grossWagesId', 'grossWagesType', '0.00', 'PayPeriod'],
-        ['PercentOfPayrollCategory', '10.00', 'calculationDeductionId', 'calculationDeductionType', '0.00', 'PayPeriod'],
-        ['FixedDollar', '0.00', 'grossWagesId', 'grossWagesType', '20.00', 'Month'],
+        [
+          'UserEntered',
+          '0.00',
+          'grossWagesId',
+          'grossWagesType',
+          '0.00',
+          'PayPeriod',
+        ],
+        [
+          'PercentOfPayrollCategory',
+          '10.00',
+          'calculationDeductionId',
+          'calculationDeductionType',
+          '0.00',
+          'PayPeriod',
+        ],
+        [
+          'FixedDollar',
+          '0.00',
+          'grossWagesId',
+          'grossWagesType',
+          '20.00',
+          'Month',
+        ],
       ].forEach((args) => {
-        const [basisType, percentage, payItemId, payItemType, amount, period] = args;
+        const [
+          basisType,
+          percentage,
+          payItemId,
+          payItemType,
+          amount,
+          period,
+        ] = args;
 
         it('should clear amount when calculation basis is UserEntered', () => {
           const customState = {
@@ -348,11 +396,39 @@ describe('superPayItemSelectors', () => {
 
     describe('limit', () => {
       [
-        ['NoLimit', '0.00', 'grossWagesId', 'grossWagesType', '0.00', 'PayPeriod'],
-        ['Percent', '30.00', 'limitDeductionId', 'limitDeductionType', '0.00', 'PayPeriod'],
-        ['FixedDollar', '0.00', 'grossWagesId', 'grossWagesType', '40.00', 'Quarter'],
+        [
+          'NoLimit',
+          '0.00',
+          'grossWagesId',
+          'grossWagesType',
+          '0.00',
+          'PayPeriod',
+        ],
+        [
+          'Percent',
+          '30.00',
+          'limitDeductionId',
+          'limitDeductionType',
+          '0.00',
+          'PayPeriod',
+        ],
+        [
+          'FixedDollar',
+          '0.00',
+          'grossWagesId',
+          'grossWagesType',
+          '40.00',
+          'Quarter',
+        ],
       ].forEach((args) => {
-        const [basisType, percentage, payItemId, payItemType, amount, period] = args;
+        const [
+          basisType,
+          percentage,
+          payItemId,
+          payItemType,
+          amount,
+          period,
+        ] = args;
 
         it('should clear amount when calculation basis is UserEntered', () => {
           const customState = {

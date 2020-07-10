@@ -22,9 +22,7 @@ import createAccountListDispatcher from './createAccountListDispatcher';
 import createAccountListIntegrator from './createAccountListIntegrator';
 import debounce from '../../../common/debounce/debounce';
 
-const messageTypes = [
-  SUCCESSFULLY_DELETED_ACCOUNT, SUCCESSFULLY_SAVED_ACCOUNT,
-];
+const messageTypes = [SUCCESSFULLY_DELETED_ACCOUNT, SUCCESSFULLY_SAVED_ACCOUNT];
 export default class AccountListModule {
   constructor({ integration, setRootView, popMessages }) {
     this.integration = integration;
@@ -49,7 +47,7 @@ export default class AccountListModule {
     };
 
     this.integrator.filterAccountList({ onSuccess, onFailure });
-  }
+  };
 
   filterAccountList = () => {
     this.dispatcher.setAccountListTableLoadingState(true);
@@ -65,24 +63,24 @@ export default class AccountListModule {
     };
 
     this.integrator.filterAccountList({ onSuccess, onFailure });
-  }
+  };
 
   setTab = (tabId) => {
     this.dispatcher.setAccountListTab(tabId);
     this.filterAccountList();
-  }
+  };
 
   redirectToLinkedAccounts = () => {
     window.location.href = getLinkedAccountUrl(this.store.getState());
-  }
+  };
 
   redirectToImportChartOfAccounts = () => {
     window.location.href = getImportChartOfAccountsUrl(this.store.getState());
-  }
+  };
 
-  redirectToNewAccount= () => {
+  redirectToNewAccount = () => {
     window.location.href = getNewAccountUrl(this.store.getState());
-  }
+  };
 
   updateFilterOptions = ({ key, value }) => {
     this.dispatcher.setAccountListFilterOptions({ key, value });
@@ -92,7 +90,7 @@ export default class AccountListModule {
     } else {
       this.filterAccountList();
     }
-  }
+  };
 
   render = () => {
     const accountView = (
@@ -106,25 +104,21 @@ export default class AccountListModule {
       />
     );
 
-    const wrappedView = (
-      <Provider store={this.store}>
-        {accountView}
-      </Provider>
-    );
+    const wrappedView = <Provider store={this.store}>{accountView}</Provider>;
 
     this.setRootView(wrappedView);
-  }
+  };
 
   resetState = () => {
     const intent = RESET_STATE;
     this.store.dispatch({
       intent,
     });
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   setInitialState = (context, settings) => {
     this.store.dispatch({
@@ -132,31 +126,33 @@ export default class AccountListModule {
       context,
       settings,
     });
-  }
+  };
 
   readMessages = () => {
     const [successMessage] = this.popMessages(this.messageTypes);
 
     if (successMessage) {
-      const {
-        content: message,
-      } = successMessage;
+      const { content: message } = successMessage;
 
       this.dispatcher.setAlert({
         type: 'success',
         message,
       });
     }
-  }
+  };
 
   run = (context) => {
     const settings = loadSettings(context.businessId, RouteName.ACCOUNT_LIST);
     this.setInitialState(context, settings);
     this.render();
     this.readMessages();
-    this.store.subscribe(state => (
-      saveSettings(context.businessId, RouteName.ACCOUNT_LIST, getFilterOptions(state))
-    ));
+    this.store.subscribe((state) =>
+      saveSettings(
+        context.businessId,
+        RouteName.ACCOUNT_LIST,
+        getFilterOptions(state)
+      )
+    );
     this.loadAccountList();
-  }
+  };
 }

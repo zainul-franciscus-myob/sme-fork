@@ -1,10 +1,12 @@
-import {
-  Alert, BaseTemplate, PageHead,
-} from '@myob/myob-widgets';
+import { Alert, BaseTemplate, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getLoadingState, getModal } from '../selectors/customerStatementListSelectors';
+import {
+  getAlert,
+  getLoadingState,
+  getModal,
+} from '../selectors/customerStatementListSelectors';
 import CustomerStatementFilterOptions from './CustomerStatementFilterOptions';
 import CustomerStatementListModal from './CustomerStatementListModal';
 import CustomerStatementListTable from './CustomerStatementListTable';
@@ -45,8 +47,7 @@ const CustomerStatementListView = ({
       onSort={onSort}
     />
   );
-  const modalComponent = (
-    modal && (
+  const modalComponent = modal && (
     <CustomerStatementListModal
       onDismissModal={onDismissModal}
       onDismissModalAlert={onDismissModalAlert}
@@ -56,7 +57,6 @@ const CustomerStatementListView = ({
       onUpdateEmailOptions={onUpdateEmailOptions}
       modal={modal}
     />
-    )
   );
 
   const alertComponent = alert && (
@@ -78,7 +78,7 @@ const CustomerStatementListView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   alert: getAlert(state),
   modal: getModal(state),

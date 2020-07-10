@@ -1,5 +1,10 @@
 import {
-  Button, Combobox, FieldGroup, Icons, Table, Tooltip,
+  Button,
+  Combobox,
+  FieldGroup,
+  Icons,
+  Table,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -14,11 +19,7 @@ const tableConfig = {
 
 const metaData = [{ columnName: 'name', showData: true }];
 
-const title = (
-  <React.Fragment>
-    Employees using this pay item
-  </React.Fragment>
-);
+const title = <React.Fragment>Employees using this pay item</React.Fragment>;
 
 const onButtonClick = (handler, key, itemId) => () => {
   handler({ key, itemId });
@@ -46,11 +47,16 @@ const DeductionPayItemEmployees = ({
             <Table.Row key={id}>
               <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
               <Table.RowItem cellRole="actions" {...tableConfig.actions}>
-                <Tooltip triggerContent={(
-                  <Button type="secondary" size="xs" onClick={onButtonClick(onRemoveItem, 'employees', id)}>
-                    <Icons.Remove />
-                  </Button>
-                )}
+                <Tooltip
+                  triggerContent={
+                    <Button
+                      type="secondary"
+                      size="xs"
+                      onClick={onButtonClick(onRemoveItem, 'employees', id)}
+                    >
+                      <Icons.Remove />
+                    </Button>
+                  }
                 >
                   Remove employee
                 </Tooltip>
@@ -70,8 +76,8 @@ const DeductionPayItemEmployees = ({
       onChange={handleComboboxChange(onAddItem, 'employees')}
       width="lg"
     />
-  </FieldGroup>);
-
+  </FieldGroup>
+);
 
 const mapToStateProps = getEmployeeAllocations;
 

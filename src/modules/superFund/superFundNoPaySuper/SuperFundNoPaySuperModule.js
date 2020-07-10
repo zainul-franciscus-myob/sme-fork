@@ -36,44 +36,48 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 import superFundNoPaySuperReducer from './superFundNoPaySuperReducer';
 
 export default class SuperFundNoPaySuperModule {
-  constructor({
-    integration, setRootView, pushMessage,
-  }) {
+  constructor({ integration, setRootView, pushMessage }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.store = new Store(superFundNoPaySuperReducer);
   }
 
-  displayErrorAlert = errorMessage => this.store.dispatch({
-    intent: SET_ALERT_MESSAGE,
-    alertMessage: errorMessage,
-  });
+  displayErrorAlert = (errorMessage) =>
+    this.store.dispatch({
+      intent: SET_ALERT_MESSAGE,
+      alertMessage: errorMessage,
+    });
 
-  dismissErrorAlert = () => this.store.dispatch({
-    intent: SET_ALERT_MESSAGE,
-    alertMessage: '',
-  });
+  dismissErrorAlert = () =>
+    this.store.dispatch({
+      intent: SET_ALERT_MESSAGE,
+      alertMessage: '',
+    });
 
-  setSubmittingState = isSubmitting => this.store.dispatch({
-    intent: SET_SUBMITTING_STATE,
-    isSubmitting,
-  });
+  setSubmittingState = (isSubmitting) =>
+    this.store.dispatch({
+      intent: SET_SUBMITTING_STATE,
+      isSubmitting,
+    });
 
-  showContactDetails = () => this.store.dispatch({
-    intent: SHOW_CONTACT_DETAILS,
-  })
+  showContactDetails = () =>
+    this.store.dispatch({
+      intent: SHOW_CONTACT_DETAILS,
+    });
 
-  updateSuperFundDetail = ({ key, value }) => this.store.dispatch({
-    intent: UPDATE_SUPER_FUND_DETAIL,
-    key,
-    value,
-  })
+  updateSuperFundDetail = ({ key, value }) =>
+    this.store.dispatch({
+      intent: UPDATE_SUPER_FUND_DETAIL,
+      key,
+      value,
+    });
 
-  updateSuperProduct = superProduct => this.store.dispatch({
-    intent: UPDATE_SUPER_PRODUCT,
-    superProduct,
-  })
+  updateSuperProduct = (superProduct) =>
+    this.store.dispatch({
+      intent: UPDATE_SUPER_PRODUCT,
+      superProduct,
+    });
 
   redirectToPayrollSettings = () => {
     const state = this.store.getState();
@@ -81,20 +85,21 @@ export default class SuperFundNoPaySuperModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/payrollSettings?tab=superFundList`;
-  }
+  };
 
-  openCancelModal = () => (getIsPageEdited(this.store.getState())
-    ? this.store.dispatch({
+  openCancelModal = () =>
+    getIsPageEdited(this.store.getState())
+      ? this.store.dispatch({
+          intent: OPEN_MODAL,
+          modalType: modalTypes.cancel,
+        })
+      : this.redirectToPayrollSettings();
+
+  openDeleteModal = () =>
+    this.store.dispatch({
       intent: OPEN_MODAL,
-      modalType: modalTypes.cancel,
-    })
-    : this.redirectToPayrollSettings()
-  );
-
-  openDeleteModal = () => this.store.dispatch({
-    intent: OPEN_MODAL,
-    modalType: modalTypes.delete,
-  });
+      modalType: modalTypes.delete,
+    });
 
   closeModal = () => this.store.dispatch({ intent: CLOSE_MODAL });
 
@@ -126,7 +131,7 @@ export default class SuperFundNoPaySuperModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   saveSuperFund = () => {
     const state = this.store.getState();
@@ -162,7 +167,7 @@ export default class SuperFundNoPaySuperModule {
     });
 
     this.setSubmittingState(true);
-  }
+  };
 
   render = () => {
     const superFundNoPaySuperView = (
@@ -183,12 +188,10 @@ export default class SuperFundNoPaySuperModule {
     );
 
     const wrappedView = (
-      <Provider store={this.store}>
-        {superFundNoPaySuperView}
-      </Provider>
+      <Provider store={this.store}>{superFundNoPaySuperView}</Provider>
     );
     this.setRootView(wrappedView);
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
@@ -218,7 +221,7 @@ export default class SuperFundNoPaySuperModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   setInitialState = (context, payload) => {
     const intent = SET_INITIAL_STATE;

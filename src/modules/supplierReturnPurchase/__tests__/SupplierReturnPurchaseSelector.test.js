@@ -178,7 +178,7 @@ describe('SupplierReturnPurchaseSelector', () => {
       expect(actual.purchases[0].amountApplied).toEqual('100.00');
     });
 
-    it('should include the referenceId if it\'s different to the original', () => {
+    it("should include the referenceId if it's different to the original", () => {
       const state = {
         supplierReturnPurchase: {
           referenceId: 'hi',
@@ -192,7 +192,7 @@ describe('SupplierReturnPurchaseSelector', () => {
       expect(actual.referenceId).toEqual('hi');
     });
 
-    it('should not include the referenceId if it\'s the same as the original', () => {
+    it("should not include the referenceId if it's the same as the original", () => {
       const state = {
         supplierReturnPurchase: {
           referenceId: 'hi',
@@ -227,6 +227,6 @@ describe('getIsBeforeStartOfFinancialYear', () => {
       const actual = getIsBeforeStartOfFinancialYear(state);
 
       expect(actual).toEqual(expected);
-    },
+    }
   );
 });

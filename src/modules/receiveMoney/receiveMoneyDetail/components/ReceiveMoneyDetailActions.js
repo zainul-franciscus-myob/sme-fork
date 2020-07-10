@@ -1,10 +1,11 @@
-import {
-  Button, ButtonRow, Dropdown, Icons,
-} from '@myob/myob-widgets';
+import { Button, ButtonRow, Dropdown, Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsActionsDisabled, getIsCreating } from '../selectors/receiveMoneyDetailSelectors';
+import {
+  getIsActionsDisabled,
+  getIsCreating,
+} from '../selectors/receiveMoneyDetailSelectors';
 import SaveActionType from './SaveActionType';
 
 const ReceiveMoneyDetailActions = ({
@@ -31,27 +32,45 @@ const ReceiveMoneyDetailActions = ({
   return (
     <ButtonRow
       primary={[
-        <Button key="cancel" name="cancel" type="secondary" onClick={onCancelButtonClick} disabled={isActionsDisabled}>
+        <Button
+          key="cancel"
+          name="cancel"
+          type="secondary"
+          onClick={onCancelButtonClick}
+          disabled={isActionsDisabled}
+        >
           Cancel
         </Button>,
         <Dropdown
           key="saveAnd"
           onSelect={onSaveAndButtonClick}
-          toggle={(
+          toggle={
             <Dropdown.Toggle disabled={isActionsDisabled}>
               Record and new
               <Icons.Caret />
             </Dropdown.Toggle>
-          )}
+          }
           items={dropdownActionItems}
         />,
-        <Button key="save" name="save" type="primary" onClick={onSaveButtonClick} disabled={isActionsDisabled}>
+        <Button
+          key="save"
+          name="save"
+          type="primary"
+          onClick={onSaveButtonClick}
+          disabled={isActionsDisabled}
+        >
           Record
         </Button>,
       ]}
       secondary={[
         !isCreating && (
-          <Button key="delete" name="delete" type="secondary" onClick={onDeleteButtonClick} disabled={isActionsDisabled}>
+          <Button
+            key="delete"
+            name="delete"
+            type="secondary"
+            onClick={onDeleteButtonClick}
+            disabled={isActionsDisabled}
+          >
             Delete
           </Button>
         ),
@@ -60,7 +79,7 @@ const ReceiveMoneyDetailActions = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isCreating: getIsCreating(state),
   isActionsDisabled: getIsActionsDisabled(state),
 });

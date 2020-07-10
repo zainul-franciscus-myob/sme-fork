@@ -50,10 +50,7 @@ describe('wagePayItemSelector', () => {
         fixedHourlyPayRate: '0.0000',
         accountId: '134',
         autoAdjustBase: false,
-        employeeIds: [
-          '1',
-          '2',
-        ],
+        employeeIds: ['1', '2'],
         exemptions: [
           {
             id: '33',
@@ -117,10 +114,7 @@ describe('wagePayItemSelector', () => {
         fixedHourlyPayRate: '0.0000',
         accountId: '',
         autoAdjustBase: false,
-        employeeIds: [
-          '1',
-          '2',
-        ],
+        employeeIds: ['1', '2'],
         exemptions: [
           {
             id: '33',

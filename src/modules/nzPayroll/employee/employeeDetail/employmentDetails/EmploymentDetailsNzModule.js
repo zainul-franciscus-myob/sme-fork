@@ -4,9 +4,7 @@ import EmploymentDetailsNzTab from './components/EmploymentDetailsTab';
 import contactDetailsTabDispatchers from './employmentDetailsDispatcher';
 
 export default class EmploymentDetailsNzModule {
-  constructor({
-    store,
-  }) {
+  constructor({ store }) {
     this.dispatcher = contactDetailsTabDispatchers(store);
   }
 

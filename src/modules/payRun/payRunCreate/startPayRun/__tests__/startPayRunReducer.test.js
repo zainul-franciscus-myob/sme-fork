@@ -1,4 +1,8 @@
-import { SET_PAY_PERIOD_DETAILS, SET_UNPROCESSED_TIMESHEET_LINES, START_NEW_PAY_RUN } from '../../PayRunIntents';
+import {
+  SET_PAY_PERIOD_DETAILS,
+  SET_UNPROCESSED_TIMESHEET_LINES,
+  START_NEW_PAY_RUN,
+} from '../../PayRunIntents';
 import { calculateEndDate } from '../startPayRunReducer';
 import payRunReducer from '../../payRunReducer';
 import startNewPayRun from '../../../mappings/data/payRun/startNewPayRun.json';
@@ -31,7 +35,8 @@ describe('startPayRunReducer', () => {
             payPeriodStart: '',
             payPeriodEnd: '',
           },
-          regularPayCycleOptions: startNewPayRun.newPayRunDetails.regularPayCycleOptions,
+          regularPayCycleOptions:
+            startNewPayRun.newPayRunDetails.regularPayCycleOptions,
           draftPayRun: startNewPayRun.draftPayRun,
           isTimesheetUsed: true,
           startOfFinancialYearDate: '2019-07-01T00:00:00',
@@ -64,7 +69,9 @@ describe('startPayRunReducer', () => {
       const result = payRunReducer(state, action);
 
       expect(result.startPayRun.currentEditingPayRun.paymentDate).toEqual('');
-      expect(result.startPayRun.currentEditingPayRun.payPeriodStart).toEqual('');
+      expect(result.startPayRun.currentEditingPayRun.payPeriodStart).toEqual(
+        ''
+      );
       expect(result.startPayRun.currentEditingPayRun.payPeriodEnd).toEqual('');
     });
 
@@ -87,11 +94,19 @@ describe('startPayRunReducer', () => {
 
       const result = payRunReducer(state, action);
 
-      expect(result.startPayRun.currentEditingPayRun.payPeriodEnd).toEqual('2019-08-02');
+      expect(result.startPayRun.currentEditingPayRun.payPeriodEnd).toEqual(
+        '2019-08-02'
+      );
 
-      expect(result.startPayRun.currentEditingPayRun.payPeriodStart).toEqual('2019-08-01');
-      expect(result.startPayRun.currentEditingPayRun.paymentDate).toEqual('2019-08-01');
-      expect(result.startPayRun.currentEditingPayRun.paymentFrequency).toEqual('weekly');
+      expect(result.startPayRun.currentEditingPayRun.payPeriodStart).toEqual(
+        '2019-08-01'
+      );
+      expect(result.startPayRun.currentEditingPayRun.paymentDate).toEqual(
+        '2019-08-01'
+      );
+      expect(result.startPayRun.currentEditingPayRun.paymentFrequency).toEqual(
+        'weekly'
+      );
     });
 
     describe('payment date', () => {
@@ -114,8 +129,12 @@ describe('startPayRunReducer', () => {
 
         const result = payRunReducer(state, action);
 
-        expect(result.startPayRun.currentEditingPayRun.payPeriodEnd).toEqual('2019-08-15');
-        expect(result.startPayRun.currentEditingPayRun.paymentDate).toEqual('2019-08-16');
+        expect(result.startPayRun.currentEditingPayRun.payPeriodEnd).toEqual(
+          '2019-08-15'
+        );
+        expect(result.startPayRun.currentEditingPayRun.paymentDate).toEqual(
+          '2019-08-16'
+        );
       });
     });
   });
@@ -259,7 +278,9 @@ describe('startPayRunReducer', () => {
         ],
       };
 
-      const actual = payRunReducer(state, { intent: SET_UNPROCESSED_TIMESHEET_LINES });
+      const actual = payRunReducer(state, {
+        intent: SET_UNPROCESSED_TIMESHEET_LINES,
+      });
 
       expect(actual).toEqual(expected);
     });

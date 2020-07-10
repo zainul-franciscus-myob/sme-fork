@@ -56,33 +56,47 @@ import updateNoteResponse from './data/updateBankFeedNoteResponse';
 import uploadAttachmentResponse from './data/uploadAttachmentResponse';
 
 const loadBankTransactions = ({ onSuccess }) => onSuccess(bankTransactions);
-const loadBankTransactionsNextPage = ({ onSuccess }) => onSuccess(bankTransactionsNextPage);
-const filterBankTransactions = ({ onSuccess }) => onSuccess(filteredBankTransactions);
-const allocateBankTransaction = ({ onSuccess }) => onSuccess(allocatedBankTransaction);
-const unallocateBankTransaction = ({ onSuccess }) => onSuccess(unallocatedBankTransaction);
-const loadSplitAlloation = ({ urlParams, onSuccess }) => onSuccess(
-  urlParams.type === 'spend_money' ? loadSpendMoney : loadReceiveMoney,
-);
-const saveSplitAllocation = ({ onSuccess }) => onSuccess(allocatedBankTransaction);
-const loadMatchTransactions = ({ params, onSuccess }) => onSuccess(
-  params.allocatedJournalLineId ? matchAllocatedTransactions : matchTransactions,
-);
-const sortAndFilterMatchTransactions = ({ onSuccess }) => onSuccess(filteredMatchTransactions);
-const saveMatchTransaction = ({ onSuccess }) => onSuccess(savedMatchTransaction);
+const loadBankTransactionsNextPage = ({ onSuccess }) =>
+  onSuccess(bankTransactionsNextPage);
+const filterBankTransactions = ({ onSuccess }) =>
+  onSuccess(filteredBankTransactions);
+const allocateBankTransaction = ({ onSuccess }) =>
+  onSuccess(allocatedBankTransaction);
+const unallocateBankTransaction = ({ onSuccess }) =>
+  onSuccess(unallocatedBankTransaction);
+const loadSplitAlloation = ({ urlParams, onSuccess }) =>
+  onSuccess(
+    urlParams.type === 'spend_money' ? loadSpendMoney : loadReceiveMoney
+  );
+const saveSplitAllocation = ({ onSuccess }) =>
+  onSuccess(allocatedBankTransaction);
+const loadMatchTransactions = ({ params, onSuccess }) =>
+  onSuccess(
+    params.allocatedJournalLineId
+      ? matchAllocatedTransactions
+      : matchTransactions
+  );
+const sortAndFilterMatchTransactions = ({ onSuccess }) =>
+  onSuccess(filteredMatchTransactions);
+const saveMatchTransaction = ({ onSuccess }) =>
+  onSuccess(savedMatchTransaction);
 const loadTransferMoney = ({ onSuccess }) => onSuccess(transferMoneyPayload);
-const loadMatchTransferMoneyTransactions = ({ onSuccess }) => onSuccess(
-  matchTransferMoneyTransactionsPayload,
-);
-const saveTransferMoney = ({ onSuccess }) => onSuccess(saveTransferMoneyPayload);
-const saveBulkAllocation = ({ onSuccess }) => onSuccess(bulkAllocatedBankTransaction);
-const createBankingRule = ({ onSuccess }) => onSuccess(createBankingRuleResponse);
+const loadMatchTransferMoneyTransactions = ({ onSuccess }) =>
+  onSuccess(matchTransferMoneyTransactionsPayload);
+const saveTransferMoney = ({ onSuccess }) =>
+  onSuccess(saveTransferMoneyPayload);
+const saveBulkAllocation = ({ onSuccess }) =>
+  onSuccess(bulkAllocatedBankTransaction);
+const createBankingRule = ({ onSuccess }) =>
+  onSuccess(createBankingRuleResponse);
 const applyBankingRule = ({ onSuccess }) => onSuccess(applyBankingRuleResponse);
 const loadAttachments = ({ onSuccess }) => onSuccess(attachments);
 const uploadAttachment = ({ onSuccess }) => onSuccess(uploadAttachmentResponse);
 const openAttachment = ({ onSuccess }) => onSuccess(attachmentDetailResponse);
 const removeAttachment = ({ onSuccess }) => onSuccess(successResponse);
 const updateNote = ({ onSuccess }) => onSuccess(updateNoteResponse);
-const linkInTrayDocument = ({ onSuccess }) => onSuccess(linkInTrayDocumentResponse);
+const linkInTrayDocument = ({ onSuccess }) =>
+  onSuccess(linkInTrayDocumentResponse);
 const loadAddedAccount = ({ onSuccess }) => onSuccess(loadAddedAccountResponse);
 const loadAddedJob = ({ onSuccess }) => onSuccess(loadAddedJobResponse);
 

@@ -25,14 +25,13 @@ const getDefaultState = () => ({
   region: '',
 });
 
-
 const setInitialState = (state, action) => ({
   ...getDefaultState(),
   ...action.context,
   isOpen: true,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const loadNewJobModal = (state, action) => ({
   ...state,
@@ -65,7 +64,6 @@ const setAlertMessage = (state, action) => ({
   ...state,
   alertMessage: action.alertMessage,
 });
-
 
 const handlers = {
   [RESET_STATE]: resetState,

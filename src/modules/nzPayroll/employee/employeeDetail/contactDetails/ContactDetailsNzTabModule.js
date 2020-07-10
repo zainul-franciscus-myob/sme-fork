@@ -4,9 +4,7 @@ import ContactDetailsNzTabView from './components/ContactDetailsNzTabView';
 import contactDetailsTabDispatchers from './contactDetailsTabDispatchers';
 
 export default class ContactDetailsNzTabModule {
-  constructor({
-    store,
-  }) {
+  constructor({ store }) {
     this.dispatcher = contactDetailsTabDispatchers(store);
   }
 

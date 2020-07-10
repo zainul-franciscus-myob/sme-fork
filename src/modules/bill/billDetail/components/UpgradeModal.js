@@ -7,7 +7,8 @@ import {
   getMonthlyLimit,
 } from '../selectors/billSubscriptionSelectors';
 
-const pluraliseBillsLimit = limit => (limit === 1 ? '1 bill' : `${limit} bills`);
+const pluraliseBillsLimit = (limit) =>
+  limit === 1 ? '1 bill' : `${limit} bills`;
 
 const UpgradeModal = (props) => {
   const {
@@ -17,38 +18,32 @@ const UpgradeModal = (props) => {
     onUpgradeModalUpgradeButtonClick,
   } = props;
 
-  return (isUpgradeModalShowing
-    ? (
-      <Modal
-        title="Need to record more bills?"
-        size="small"
-        onCancel={onUpgradeModalDismiss}
-      >
-        <Modal.Body>
-          <p>
-            You’ve reached your monthly limit of
-            {' '}
-            {pluraliseBillsLimit(monthlyLimit.limit)}
-            {' '}
-            for
-            {' '}
-            {monthlyLimit.month}
-            .
-          </p>
-          <p>
-            Upgrade your subscription to record more bills.
-          </p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button type="secondary" onClick={onUpgradeModalDismiss}>Cancel</Button>
-          <Button type="primary" onClick={onUpgradeModalUpgradeButtonClick}>Upgrade now</Button>
-        </Modal.Footer>
-      </Modal>
-    ) : null
-  );
+  return isUpgradeModalShowing ? (
+    <Modal
+      title="Need to record more bills?"
+      size="small"
+      onCancel={onUpgradeModalDismiss}
+    >
+      <Modal.Body>
+        <p>
+          You’ve reached your monthly limit of{' '}
+          {pluraliseBillsLimit(monthlyLimit.limit)} for {monthlyLimit.month}.
+        </p>
+        <p>Upgrade your subscription to record more bills.</p>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button type="secondary" onClick={onUpgradeModalDismiss}>
+          Cancel
+        </Button>
+        <Button type="primary" onClick={onUpgradeModalUpgradeButtonClick}>
+          Upgrade now
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  ) : null;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   monthlyLimit: getMonthlyLimit(state),
   isUpgradeModalShowing: getIsUpgradeModalShowing(state),
 });

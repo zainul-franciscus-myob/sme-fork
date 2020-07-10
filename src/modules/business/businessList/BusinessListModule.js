@@ -1,9 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import {
-  LOAD_BUSINESS_LIST,
-} from '../BusinessIntents';
+import { LOAD_BUSINESS_LIST } from '../BusinessIntents';
 import { getBusinessUrl, getShouldRedirect } from './BusinessListSelector';
 import BusinessListView from './components/BusinessListView';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -44,7 +42,7 @@ export default class BusinessModule {
     const state = this.store.getState();
     const url = getBusinessUrl(state);
     window.location.href = url;
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
@@ -52,7 +50,7 @@ export default class BusinessModule {
 
   onUpdateKeyword = ({ value }) => {
     this.dispatcher.updateKeyword(value);
-  }
+  };
 
   render = () => {
     const view = (
@@ -70,7 +68,7 @@ export default class BusinessModule {
     this.render();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.loadBusinessList();
-  }
+  };
 
   resetState() {
     this.dispatcher.resetState();

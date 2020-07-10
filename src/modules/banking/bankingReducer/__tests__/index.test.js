@@ -12,8 +12,11 @@ getDateRangeByPeriodAndRegion.mockReturnValue({
   dateTo: '2019-11-30',
 });
 
-const { dateFrom, dateTo } = getDateRangeByPeriodAndRegion('au', new Date(), Periods.thisMonth);
-
+const { dateFrom, dateTo } = getDateRangeByPeriodAndRegion(
+  'au',
+  new Date(),
+  Periods.thisMonth
+);
 
 describe('bankingReducer', () => {
   describe('setInitialState', () => {
@@ -22,22 +25,27 @@ describe('bankingReducer', () => {
       ['Unlinked', TransactionTypes.UNALLOCATED],
       ['All', TransactionTypes.ALL],
       ['random-value', TransactionTypes.ALL],
-    ])('given %s it should set the transaction type to %s', (type, expectedTransactionType) => {
-      const state = {
-        filterOptions: {
-          period: Periods.thisMonth,
-        },
-      };
+    ])(
+      'given %s it should set the transaction type to %s',
+      (type, expectedTransactionType) => {
+        const state = {
+          filterOptions: {
+            period: Periods.thisMonth,
+          },
+        };
 
-      const action = {
-        intent: SET_INITIAL_STATE,
-        context: { transactionType: type },
-      };
+        const action = {
+          intent: SET_INITIAL_STATE,
+          context: { transactionType: type },
+        };
 
-      const actual = bankingReducer(state, action);
+        const actual = bankingReducer(state, action);
 
-      expect(actual.filterOptions.transactionType).toEqual(expectedTransactionType);
-    });
+        expect(actual.filterOptions.transactionType).toEqual(
+          expectedTransactionType
+        );
+      }
+    );
 
     it('should use custom period if transaction type in context is Linked', () => {
       const state = {
@@ -170,7 +178,9 @@ describe('bankingReducer', () => {
     const actual = bankingReducer(state, action);
 
     it('adds newly created job into the front of jobOptions on each line', () => {
-      expect(actual.openEntry.allocate.lines.map(line => line.lineJobOptions[0])).toEqual([
+      expect(
+        actual.openEntry.allocate.lines.map((line) => line.lineJobOptions[0])
+      ).toEqual([
         { id: '3', jobNumber: '300' },
         { id: '3', jobNumber: '300' },
         { id: '3', jobNumber: '300' },

@@ -1,11 +1,19 @@
 import {
-  Button, DatePicker, DetailHeader, Icons, Label,
+  Button,
+  DatePicker,
+  DetailHeader,
+  Icons,
+  Label,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classNames from 'classnames';
 
-import { getIsActionDisabled, getIsOutOfBalance, getOptions } from '../BankReconciliationSelectors';
+import {
+  getIsActionDisabled,
+  getIsOutOfBalance,
+  getOptions,
+} from '../BankReconciliationSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
 import handleAmountInputChange from '../../../components/handlers/handleAmountInputChange';
@@ -37,7 +45,7 @@ const BankReconciliationOptions = ({
           selectedId={selectedAccountId}
           onChange={handleComboboxChange(
             'selectedAccountId',
-            onUpdateHeaderOption,
+            onUpdateHeaderOption
           )}
           label="Account"
           name="selectedAccountId"
@@ -58,19 +66,17 @@ const BankReconciliationOptions = ({
             hasReconciled ? lastReconcileDate : 'Never'
           }`}
         </Label>
-        {
-          hasReconciled && (
-            <Button
-              className={styles.undoButton}
-              type="link"
-              icon={<Icons.History />}
-              onClick={onUndoReconciliationClick}
-              disabled={isActionDisabled}
-            >
-              Undo
-            </Button>
-          )
-        }
+        {hasReconciled && (
+          <Button
+            className={styles.undoButton}
+            type="link"
+            icon={<Icons.History />}
+            onClick={onUndoReconciliationClick}
+            disabled={isActionDisabled}
+          >
+            Undo
+          </Button>
+        )}
       </div>
     </div>
   );
@@ -94,26 +100,34 @@ const BankReconciliationOptions = ({
       </div>
       <div className={styles.closingBankStatementBalance}>
         <div className={styles.labels}>Calculated closing balance</div>
-        <div className={styles.balances}><span>{calculatedClosingBalance}</span></div>
+        <div className={styles.balances}>
+          <span>{calculatedClosingBalance}</span>
+        </div>
       </div>
       <div
         className={classNames(
           outOfBalanceClassName,
-          styles.closingBankStatementBalance,
+          styles.closingBankStatementBalance
         )}
       >
         <div className={styles.labels}>Out of balance</div>
-        <div className={styles.balances}><span>{outOfBalance}</span></div>
+        <div className={styles.balances}>
+          <span>{outOfBalance}</span>
+        </div>
       </div>
     </div>
   );
 
   return (
-    <DetailHeader primary={primary} secondary={secondary} className={styles.options} />
+    <DetailHeader
+      primary={primary}
+      secondary={secondary}
+      className={styles.options}
+    />
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   options: getOptions(state),
   isActionDisabled: getIsActionDisabled(state),
   isOutOfBalance: getIsOutOfBalance(state),

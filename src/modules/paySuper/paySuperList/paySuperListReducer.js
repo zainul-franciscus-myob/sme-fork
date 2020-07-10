@@ -52,7 +52,8 @@ const setAlert = (state, { alert }) => ({
   alert,
 });
 
-const sortColumnUnchanged = (clickedColumn, currentColumn) => clickedColumn === currentColumn;
+const sortColumnUnchanged = (clickedColumn, currentColumn) =>
+  clickedColumn === currentColumn;
 const DESCENDING = true;
 
 const setSortOrder = (state, { orderBy }) => {
@@ -70,7 +71,9 @@ const setSortOrder = (state, { orderBy }) => {
 const updateSuperPaymentStatus = (state, { response }) => ({
   ...state,
   superPayments: state.superPayments.map((p) => {
-    const updatedPayment = response.find(r => r.batchPaymentId === p.batchPaymentId);
+    const updatedPayment = response.find(
+      (r) => r.batchPaymentId === p.batchPaymentId
+    );
     return {
       ...p,
       status: updatedPayment ? updatedPayment.status : p.status,

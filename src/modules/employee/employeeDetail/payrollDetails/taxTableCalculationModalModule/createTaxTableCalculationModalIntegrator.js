@@ -1,5 +1,8 @@
 import { LOAD_TAX_TABLE_RESULT } from './taxTableCalculationModalIntents';
-import { getBusinessId, getFetchTaxTableResultRequestContext } from './taxTableCalculationModalSelectors';
+import {
+  getBusinessId,
+  getFetchTaxTableResultRequestContext,
+} from './taxTableCalculationModalSelectors';
 
 const createTaxTableCalculationModalIntegrator = (store, integration) => ({
   fetchTaxTableResult: ({ onSuccess, onFailure }) => {

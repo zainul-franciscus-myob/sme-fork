@@ -26,9 +26,7 @@ import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class ContactDetailModule {
-  constructor({
-    integration, setRootView, pushMessage,
-  }) {
+  constructor({ integration, setRootView, pushMessage }) {
     this.integration = integration;
     this.store = new Store(contactDetailReducer);
     this.setRootView = setRootView;
@@ -46,7 +44,7 @@ export default class ContactDetailModule {
     this.accountModalModule.run({
       context: accountModalContext,
       onSaveSuccess: ({ id }) => this.loadAccountAfterCreate(id),
-      onLoadFailure: message => this.dispatcher.displayAlert(message),
+      onLoadFailure: (message) => this.dispatcher.displayAlert(message),
     });
   };
 
@@ -57,7 +55,10 @@ export default class ContactDetailModule {
     const onSuccess = (payload) => {
       this.dispatcher.setLoadingSingleAccountState(false);
       this.dispatcher.loadAccountAfterCreate(payload);
-      this.dispatcher.updateContactDetails({ key: 'expenseAccountId', value: id });
+      this.dispatcher.updateContactDetails({
+        key: 'expenseAccountId',
+        value: id,
+      });
     };
 
     const onFailure = ({ message }) => {
@@ -88,12 +89,10 @@ export default class ContactDetailModule {
     );
 
     const wrappedView = (
-      <Provider store={this.store}>
-        {contactDetailView}
-      </Provider>
+      <Provider store={this.store}>{contactDetailView}</Provider>
     );
     this.setRootView(wrappedView);
-  }
+  };
 
   validateAbn = () => {
     const onSuccess = (payload) => {
@@ -118,7 +117,7 @@ export default class ContactDetailModule {
         onFailure,
       });
     }
-  }
+  };
 
   updateOrCreateContact = () => {
     const state = this.store.getState();
@@ -144,14 +143,16 @@ export default class ContactDetailModule {
 
     if (isCreating) {
       this.integrator.createContact({
-        onSuccess, onFailure,
+        onSuccess,
+        onFailure,
       });
     } else {
       this.integrator.updateContact({
-        onSuccess, onFailure,
+        onSuccess,
+        onFailure,
       });
     }
-  }
+  };
 
   loadContactDetail = () => {
     const state = this.store.getState();
@@ -177,7 +178,7 @@ export default class ContactDetailModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
@@ -219,7 +220,7 @@ export default class ContactDetailModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   deleteContact = () => {
     this.dispatcher.setSubmittingState(true);
@@ -242,7 +243,7 @@ export default class ContactDetailModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   saveHandler = () => {
     const state = this.store.getState();
@@ -250,7 +251,7 @@ export default class ContactDetailModule {
     if (modalType) return;
 
     this.updateOrCreateContact();
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,

@@ -37,12 +37,8 @@ const ElectronicPaymentsCreateHeader = ({
       />
       <FormHorizontal>
         <h4>
-          <span>
-            Balance
-          </span>
-          <span className={styles.balanceAmount}>
-            {balanceValue}
-          </span>
+          <span>Balance</span>
+          <span className={styles.balanceAmount}>{balanceValue}</span>
         </h4>
       </FormHorizontal>
       <Input
@@ -84,7 +80,7 @@ const ElectronicPaymentsCreateHeader = ({
     </div>
   );
 
-  return (<DetailHeader primary={primary} secondary={secondary} />);
+  return <DetailHeader primary={primary} secondary={secondary} />;
 };
 
 export default ElectronicPaymentsCreateHeader;

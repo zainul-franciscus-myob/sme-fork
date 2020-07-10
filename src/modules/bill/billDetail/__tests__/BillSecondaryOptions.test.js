@@ -12,7 +12,7 @@ describe('billSecondaryOptions', () => {
     const wrapper = mount(
       <Provider store={store}>
         <BillSecondaryOptions />
-      </Provider>,
+      </Provider>
     );
     const billNumberInput = wrapper.find({ name: 'billNumber' }).first();
     expect(billNumberInput.prop('maxLength')).toBe(13);

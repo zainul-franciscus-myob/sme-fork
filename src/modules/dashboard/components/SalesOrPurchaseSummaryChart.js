@@ -97,18 +97,12 @@ const getOptions = (title, data) => ({
 
 const SalesOrPurchaseSummaryChart = ({
   title,
-  data: {
-    currentYearData,
-    previousYearData,
-    labels,
-  },
+  data: { currentYearData, previousYearData, labels },
 }) => {
   const data = getData({ currentYearData, previousYearData, labels });
   const options = getOptions(title, data);
 
-  return (
-    <Bar data={data} options={options} />
-  );
+  return <Bar data={data} options={options} />;
 };
 
 export default SalesOrPurchaseSummaryChart;

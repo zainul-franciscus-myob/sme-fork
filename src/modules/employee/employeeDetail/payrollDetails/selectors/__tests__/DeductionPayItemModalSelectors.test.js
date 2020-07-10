@@ -131,10 +131,13 @@ describe('DeductionPayItemModalSelectors', () => {
       const employees = [{ id: '1' }, { id: '2' }];
       const selectedEmployees = [{ id: '1' }];
 
-      const actual = getFilteredEmployeeOptions.resultFunc(employees, selectedEmployees);
+      const actual = getFilteredEmployeeOptions.resultFunc(
+        employees,
+        selectedEmployees
+      );
 
-      expect(actual.find(item => item.id === '1')).toBeFalsy();
-      expect(actual.find(item => item.id === '2')).toBeDefined();
+      expect(actual.find((item) => item.id === '1')).toBeFalsy();
+      expect(actual.find((item) => item.id === '2')).toBeDefined();
     });
   });
 
@@ -143,10 +146,13 @@ describe('DeductionPayItemModalSelectors', () => {
       const exemptions = [{ id: '1' }, { id: '2' }];
       const selectedExemptions = [{ id: '1' }];
 
-      const actual = getFilteredExemptionOptions.resultFunc(exemptions, selectedExemptions);
+      const actual = getFilteredExemptionOptions.resultFunc(
+        exemptions,
+        selectedExemptions
+      );
 
-      expect(actual.find(item => item.id === '1')).toBeFalsy();
-      expect(actual.find(item => item.id === '2')).toBeDefined();
+      expect(actual.find((item) => item.id === '1')).toBeFalsy();
+      expect(actual.find((item) => item.id === '2')).toBeDefined();
     });
   });
 
@@ -173,7 +179,9 @@ describe('DeductionPayItemModalSelectors', () => {
       };
 
       const exemptionAllocations = getExemptionAllocations(state);
-      expect(exemptionAllocations.isSelectedExemptionPayGWithholding).toEqual(true);
+      expect(exemptionAllocations.isSelectedExemptionPayGWithholding).toEqual(
+        true
+      );
     });
 
     it('should return false if selected exemption does not have is PayG Withholding exemption', () => {
@@ -193,7 +201,9 @@ describe('DeductionPayItemModalSelectors', () => {
       };
 
       const exemptionAllocations = getExemptionAllocations(state);
-      expect(exemptionAllocations.isSelectedExemptionPayGWithholding).toEqual(false);
+      expect(exemptionAllocations.isSelectedExemptionPayGWithholding).toEqual(
+        false
+      );
     });
 
     it('should return false if no exemption is selected', () => {
@@ -207,7 +217,9 @@ describe('DeductionPayItemModalSelectors', () => {
       };
 
       const exemptionAllocations = getExemptionAllocations(state);
-      expect(exemptionAllocations.isSelectedExemptionPayGWithholding).toEqual(false);
+      expect(exemptionAllocations.isSelectedExemptionPayGWithholding).toEqual(
+        false
+      );
     });
   });
 });

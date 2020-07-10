@@ -4,7 +4,10 @@ import {
   VIEW_IN_TRAY_MODAL_DOCUMENT,
 } from '../InTrayIntents';
 import {
-  getBusinessId, getFilterOptions, getOrderBy, getSortOrder,
+  getBusinessId,
+  getFilterOptions,
+  getOrderBy,
+  getSortOrder,
 } from './InTrayModalSelectors';
 
 const createInTrayModalIntegrator = (store, integration) => ({
@@ -34,7 +37,11 @@ const createInTrayModalIntegrator = (store, integration) => ({
   },
 
   createInTrayDocuments: ({
-    onProgress, onSuccess, onFailure, onComplete, entries,
+    onProgress,
+    onSuccess,
+    onFailure,
+    onComplete,
+    entries,
   }) => {
     const state = store.getState();
     const urlParams = {

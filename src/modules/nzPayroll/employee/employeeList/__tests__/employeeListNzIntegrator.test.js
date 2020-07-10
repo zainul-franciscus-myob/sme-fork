@@ -13,11 +13,13 @@ describe('employeeListNzIntegrator', () => {
     const integrator = employeeListNzIntegrator({ store, integration });
     integrator.loadEmployeeList({ onSuccess, onFailure });
 
-    expect(integration.read).toHaveBeenCalledWith(expect.objectContaining({
-      intent: LOAD_EMPLOYEE_LIST,
-      urlParams: { businessId },
-      onSuccess,
-      onFailure,
-    }));
+    expect(integration.read).toHaveBeenCalledWith(
+      expect.objectContaining({
+        intent: LOAD_EMPLOYEE_LIST,
+        urlParams: { businessId },
+        onSuccess,
+        onFailure,
+      })
+    );
   });
 });

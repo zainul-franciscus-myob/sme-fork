@@ -1,6 +1,4 @@
-import {
-  FieldGroup,
-} from '@myob/myob-widgets';
+import { FieldGroup } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -36,14 +34,20 @@ const PurchasesTabContent = ({
         hideLabel={false}
         items={liabilityAccountTrackingPayables.accounts}
         selectedId={liabilityAccountTrackingPayables.accountId}
-        onChange={handleComboboxChange('liabilityAccountTrackingPayables', onAccountChange)}
+        onChange={handleComboboxChange(
+          'liabilityAccountTrackingPayables',
+          onAccountChange
+        )}
       />
       <AccountCombobox
         label="Bank account for paying bills"
         hideLabel={false}
         items={bankAccountPayingBills.accounts}
         selectedId={bankAccountPayingBills.accountId}
-        onChange={handleComboboxChange('bankAccountPayingBills', onAccountChange)}
+        onChange={handleComboboxChange(
+          'bankAccountPayingBills',
+          onAccountChange
+        )}
       />
     </FieldGroup>
     <FieldGroup>
@@ -55,7 +59,10 @@ const PurchasesTabContent = ({
         comboboxLabel="Liability account for item receipt"
         comboboxSelectedId={liabilityAccountItemReceipts.accountId}
         comboboxItems={liabilityAccountItemReceipts.accounts}
-        comboboxHandler={handleComboboxChange('liabilityAccountItemReceipts', onAccountChange)}
+        comboboxHandler={handleComboboxChange(
+          'liabilityAccountItemReceipts',
+          onAccountChange
+        )}
       />
     </FieldGroup>
     <FieldGroup>
@@ -67,7 +74,10 @@ const PurchasesTabContent = ({
         comboboxLabel="Expense or cost of sales account for freight"
         comboboxSelectedId={expenseSalesAccountFreight.accountId}
         comboboxItems={expenseSalesAccountFreight.accounts}
-        comboboxHandler={handleComboboxChange('expenseSalesAccountFreight', onAccountChange)}
+        comboboxHandler={handleComboboxChange(
+          'expenseSalesAccountFreight',
+          onAccountChange
+        )}
       />
     </FieldGroup>
     <FieldGroup>
@@ -79,7 +89,10 @@ const PurchasesTabContent = ({
         comboboxLabel="Asset account for supplier deposits"
         comboboxSelectedId={assetAccountSupplierDeposits.accountId}
         comboboxItems={assetAccountSupplierDeposits.accounts}
-        comboboxHandler={handleComboboxChange('assetAccountSupplierDeposits', onAccountChange)}
+        comboboxHandler={handleComboboxChange(
+          'assetAccountSupplierDeposits',
+          onAccountChange
+        )}
       />
     </FieldGroup>
     <FieldGroup>
@@ -91,7 +104,10 @@ const PurchasesTabContent = ({
         comboboxLabel="Expense (or Contra) account for discounts"
         comboboxSelectedId={expenseAccountDiscounts.accountId}
         comboboxItems={expenseAccountDiscounts.accounts}
-        comboboxHandler={handleComboboxChange('expenseAccountDiscounts', onAccountChange)}
+        comboboxHandler={handleComboboxChange(
+          'expenseAccountDiscounts',
+          onAccountChange
+        )}
       />
     </FieldGroup>
     <FieldGroup>
@@ -103,13 +119,16 @@ const PurchasesTabContent = ({
         comboboxLabel="Expense account for late charges"
         comboboxSelectedId={expenseAccountLaterCharges.accountId}
         comboboxItems={expenseAccountLaterCharges.accounts}
-        comboboxHandler={handleComboboxChange('expenseAccountLaterCharges', onAccountChange)}
+        comboboxHandler={handleComboboxChange(
+          'expenseAccountLaterCharges',
+          onAccountChange
+        )}
       />
     </FieldGroup>
   </React.Fragment>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   liabilityAccountTrackingPayables: getLiabilityAccountTrackingPayables(state),
   bankAccountPayingBills: getBankAccountPayingBills(state),
   liabilityAccountItemReceipts: getLiabilityAccountItemReceipts(state),

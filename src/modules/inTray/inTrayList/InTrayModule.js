@@ -13,7 +13,10 @@ import {
 } from '../../../common/types/MessageTypes';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { getBusinessId, getRegion } from './selectors/InTraySelectors';
-import { getEmail, getIsUploadOptionsLoading } from './selectors/UploadOptionsSelectors';
+import {
+  getEmail,
+  getIsUploadOptionsLoading,
+} from './selectors/UploadOptionsSelectors';
 import {
   getIsEntryLoading,
   getIsEntryUploadingDone,
@@ -44,7 +47,11 @@ const messageTypes = [
 
 export default class InTrayModule {
   constructor({
-    integration, setRootView, popMessages, pushMessage, globalCallbacks,
+    integration,
+    setRootView,
+    popMessages,
+    pushMessage,
+    globalCallbacks,
   }) {
     this.integration = integration;
     this.store = new Store(inTrayReducer);
@@ -73,9 +80,9 @@ export default class InTrayModule {
     };
 
     this.integrator.loadInTray({ onSuccess, onFailure });
-  }
+  };
 
-  handleActionSelect = id => (action) => {
+  handleActionSelect = (id) => (action) => {
     switch (action) {
       case actionTypes.linkToExistingBill:
         this.redirectToLinkToExistingBill(id);
@@ -111,7 +118,7 @@ export default class InTrayModule {
     };
 
     this.integrator.sortAndfilterInTrayList({ onSuccess, onFailure });
-  }
+  };
 
   sortInTrayList = (orderBy) => {
     const state = this.store.getState();
@@ -123,7 +130,7 @@ export default class InTrayModule {
     this.dispatcher.setInTrayListSortOrder(orderBy, sortOrder);
 
     this.sortAndFilterInTrayList();
-  }
+  };
 
   uploadInTrayFiles = (files) => {
     const entries = files.reverse().reduce((acc, file, index) => {
@@ -145,10 +152,10 @@ export default class InTrayModule {
     if (entries.length) {
       this.createInTrayDocuments(entries);
     }
-  }
+  };
 
   createInTrayDocuments = (entries) => {
-    const onProgress = () => { };
+    const onProgress = () => {};
 
     const onSuccess = ({ entry }, index) => {
       const { uploadId } = entries[index] || { uploadId: 'none' };
@@ -175,11 +182,11 @@ export default class InTrayModule {
       onComplete,
       entries,
     });
-  }
+  };
 
   stopPolling = () => {
     this.pollTimer = undefined;
-  }
+  };
 
   startPolling = () => {
     const state = this.store.getState();
@@ -196,12 +203,15 @@ export default class InTrayModule {
     };
 
     const onFailure = () => {
-      this.dispatcher.setAlert({ message: 'Failed to get OCR data', type: 'danger' });
+      this.dispatcher.setAlert({
+        message: 'Failed to get OCR data',
+        type: 'danger',
+      });
       this.stopPolling();
     };
 
     this.integrator.pollInTrayList({ onSuccess, onFailure });
-  }
+  };
 
   deleteInTrayDocument = (id) => {
     const state = this.store.getState();
@@ -227,7 +237,7 @@ export default class InTrayModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   openInTrayDocument = (id) => {
     this.dispatcher.setInTrayListEntrySubmittingState(id, true);
@@ -246,7 +256,7 @@ export default class InTrayModule {
       onFailure,
       id,
     });
-  }
+  };
 
   setDocumentViewerUrl = (id) => {
     const onSuccess = (blob) => {
@@ -263,7 +273,7 @@ export default class InTrayModule {
       onFailure,
       id,
     });
-  }
+  };
 
   redirectToCreateBill = (id) => {
     const state = this.store.getState();
@@ -276,7 +286,7 @@ export default class InTrayModule {
     });
 
     window.location.href = `/#/${region}/${businessId}/bill/new`;
-  }
+  };
 
   redirectToCreateSpendMoney = (id) => {
     const state = this.store.getState();
@@ -289,15 +299,17 @@ export default class InTrayModule {
     });
 
     window.location.href = `/#/${region}/${businessId}/spendMoney/new`;
-  }
+  };
 
   openMoreUploadOptionsDialog = () => {
     this.dispatcher.openModal(modalTypes.uploadOptions);
-  }
+  };
 
-  showEmailGenerationConfirmation = () => this.dispatcher.setConfirmingEmailGeneration(true);
+  showEmailGenerationConfirmation = () =>
+    this.dispatcher.setConfirmingEmailGeneration(true);
 
-  hideEmailGenerationConfirmation = () => this.dispatcher.setConfirmingEmailGeneration(false);
+  hideEmailGenerationConfirmation = () =>
+    this.dispatcher.setConfirmingEmailGeneration(false);
 
   generateNewEmail = () => {
     this.dispatcher.setUploadOptionsLoading(true);
@@ -315,7 +327,7 @@ export default class InTrayModule {
     };
 
     this.integrator.generateNewEmail({ onSuccess, onFailure });
-  }
+  };
 
   onCloseUploadOptionsModal = () => {
     if (!getIsUploadOptionsLoading(this.store.getState())) {
@@ -323,12 +335,12 @@ export default class InTrayModule {
       this.dispatcher.closeModal();
     }
     this.globalCallbacks.inTrayUploadOptionsClosed();
-  }
+  };
 
   copyEmail = () => {
     copy(getEmail(this.store.getState()));
     this.dispatcher.setUploadOptionsAlert('success', 'Copied!');
-  }
+  };
 
   redirectToLinkToExistingBill = (id) => {
     const state = this.store.getState();
@@ -336,7 +348,7 @@ export default class InTrayModule {
     const businessId = getBusinessId(state);
 
     window.location.href = `/#/${region}/${businessId}/linkBill/${id}`;
-  }
+  };
 
   activateEntryRow = (id) => {
     const state = this.store.getState();
@@ -344,12 +356,12 @@ export default class InTrayModule {
       this.dispatcher.activeEntryRow(id);
       this.setDocumentViewerUrl(id);
     }
-  }
+  };
 
   deactivateEntryRow = (id) => {
     this.dispatcher.removeActiveEntryRow(id);
     this.dispatcher.unsetDocumentViewerUrl();
-  }
+  };
 
   updateFilterOptions = ({ key, value }) => {
     const state = this.store.getState();
@@ -360,7 +372,7 @@ export default class InTrayModule {
     this.dispatcher.setInTrayListFilterOptions({ key, value });
 
     debounce(this.sortAndFilterInTrayList)();
-  }
+  };
 
   render = () => {
     const inTrayView = (
@@ -384,7 +396,8 @@ export default class InTrayModule {
         }}
         uploadOptionsModalListeners={{
           onCancel: this.onCloseUploadOptionsModal,
-          onConfirmEmailGenerationButtonClick: this.showEmailGenerationConfirmation,
+          onConfirmEmailGenerationButtonClick: this
+            .showEmailGenerationConfirmation,
           onGenerateNewEmailButtonClick: this.generateNewEmail,
           onDismissAlert: this.dispatcher.dismissUploadOptionsAlert,
           onDismissConfirmEmailGeneration: this.hideEmailGenerationConfirmation,
@@ -393,21 +406,17 @@ export default class InTrayModule {
       />
     );
 
-    const wrappedView = (
-      <Provider store={this.store}>
-        {inTrayView}
-      </Provider>
-    );
+    const wrappedView = <Provider store={this.store}>{inTrayView}</Provider>;
 
     this.setRootView(wrappedView);
-  }
+  };
 
   resetState = () => {
     const intent = RESET_STATE;
     this.store.dispatch({
       intent,
     });
-  }
+  };
 
   unsubscribeFromStore = () => {
     if (this.pollTimer) {
@@ -415,21 +424,24 @@ export default class InTrayModule {
       clearTimeout(this.pollTimer);
     }
     this.store.unsubscribeAll();
-  }
+  };
 
   setInitialState = (context) => {
     this.store.dispatch({
       intent: SET_INITIAL_STATE,
       context,
     });
-  }
+  };
 
   readMessages = () => {
     const [successMessage] = this.popMessages(this.messageTypes);
 
     if (successMessage) {
       const { content: message, type: messageType } = successMessage;
-      const type = messageType === SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK ? 'info' : 'success';
+      const type =
+        messageType === SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK
+          ? 'info'
+          : 'success';
       this.dispatcher.setAlert({
         type,
         message,
@@ -444,5 +456,5 @@ export default class InTrayModule {
     this.render();
     this.readMessages();
     this.loadInTray();
-  }
+  };
 }

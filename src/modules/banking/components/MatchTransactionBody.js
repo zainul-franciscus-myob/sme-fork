@@ -1,8 +1,4 @@
-import {
-  Button,
-  FieldGroup,
-  Icons,
-} from '@myob/myob-widgets';
+import { Button, FieldGroup, Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -43,7 +39,13 @@ const MatchTransactionBody = ({
 
   const addAdjustmentButton = (
     <div className={styles.adjustmentButton}>
-      <Button type="link" icon={<Icons.Add />} onClick={onExpandAdjustmentSection}>Add adjustment</Button>
+      <Button
+        type="link"
+        icon={<Icons.Add />}
+        onClick={onExpandAdjustmentSection}
+      >
+        Add adjustment
+      </Button>
     </div>
   );
 
@@ -57,18 +59,18 @@ const MatchTransactionBody = ({
           onSortMatchTransactions={onSortMatchTransactions}
           onToggleSelectAllState={onToggleSelectAllState}
           onUpdateMatchTransactionSelection={onUpdateMatchTransactionSelection}
-          onUpdateSelectedTransactionDetails={onUpdateSelectedTransactionDetails}
+          onUpdateSelectedTransactionDetails={
+            onUpdateSelectedTransactionDetails
+          }
         />
       </FieldGroup>
-      {
-        showAdjustmentTable ? adjustmentTable : addAdjustmentButton
-      }
+      {showAdjustmentTable ? adjustmentTable : addAdjustmentButton}
       <MatchTransactionTotals />
     </div>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   showAdjustmentTable: getShowAdjustmentTable(state),
 });
 

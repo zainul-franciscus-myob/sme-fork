@@ -55,18 +55,12 @@ describe('payRunReducer', () => {
           {
             employeeId: 21,
             payInfo: 'pay information 1',
-            payItems: [
-              { line: 1 },
-              { line: 2 },
-            ],
+            payItems: [{ line: 1 }, { line: 2 }],
           },
           {
             employeeId: 22,
             payInfo: 'pay information 2',
-            payItems: [
-              { line: 3 },
-              { line: 4 },
-            ],
+            payItems: [{ line: 3 }, { line: 4 }],
           },
         ],
       },
@@ -108,18 +102,12 @@ describe('payRunReducer', () => {
           {
             employeeId: 21,
             payInfo: 'pay information 1',
-            payItems: [
-              { line: 1 },
-              { line: 2 },
-            ],
+            payItems: [{ line: 1 }, { line: 2 }],
           },
           {
             employeeId: 22,
             payInfo: 'pay information 2',
-            payItems: [
-              { line: 3 },
-              { line: 4 },
-            ],
+            payItems: [{ line: 3 }, { line: 4 }],
           },
         ],
       };
@@ -167,27 +155,39 @@ describe('payRunReducer', () => {
       const actual = payRunReducer(state, actionWithNegativeValues);
 
       it('sets negative amount to zero for base salary pay item in lines', () => {
-        expect(actual.employeePayList.lines[0].payItems[0].amount).toEqual('0.00');
+        expect(actual.employeePayList.lines[0].payItems[0].amount).toEqual(
+          '0.00'
+        );
       });
 
       it('sets negative hours to zero for base salary pay item in lines', () => {
-        expect(actual.employeePayList.lines[0].payItems[0].hours).toEqual('0.00');
+        expect(actual.employeePayList.lines[0].payItems[0].hours).toEqual(
+          '0.00'
+        );
       });
 
       it('sets negative amount to zero for base hourly pay item in lines', () => {
-        expect(actual.employeePayList.lines[0].payItems[1].amount).toEqual('0.00');
+        expect(actual.employeePayList.lines[0].payItems[1].amount).toEqual(
+          '0.00'
+        );
       });
 
       it('sets negative hours to zero for base hourly pay item in lines', () => {
-        expect(actual.employeePayList.lines[0].payItems[1].hours).toEqual('0.00');
+        expect(actual.employeePayList.lines[0].payItems[1].hours).toEqual(
+          '0.00'
+        );
       });
 
       it('does not set negative amount to zero for other pay items in lines', () => {
-        expect(actual.employeePayList.lines[0].payItems[2].amount).toEqual('-200.00');
+        expect(actual.employeePayList.lines[0].payItems[2].amount).toEqual(
+          '-200.00'
+        );
       });
 
       it('does not set negative hours to zero for other pay items in lines', () => {
-        expect(actual.employeePayList.lines[0].payItems[2].hours).toEqual('-20.00');
+        expect(actual.employeePayList.lines[0].payItems[2].hours).toEqual(
+          '-20.00'
+        );
       });
     });
   });

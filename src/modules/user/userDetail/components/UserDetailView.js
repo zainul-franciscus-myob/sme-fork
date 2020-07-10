@@ -2,7 +2,11 @@ import { Alert, FormTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlertMessage, getLoadingState, getModal } from '../userDetailSelectors';
+import {
+  getAlertMessage,
+  getLoadingState,
+  getModal,
+} from '../userDetailSelectors';
 import FormCard from '../../../../components/FormCard/FormCard';
 import PageView from '../../../../components/PageView/PageView';
 import UserDetailAccessGroup from './UserDetailAccessGroup';
@@ -43,7 +47,7 @@ const UserDetailView = ({
 
   const view = (
     <FormTemplate pageHead={pageHead} alert={alertComponent} actions={actions}>
-      { modal && (
+      {modal && (
         <UserDetailModal
           modalType={modal.type}
           onCloseModal={onCloseModal}
@@ -53,9 +57,7 @@ const UserDetailView = ({
         />
       )}
       <FormCard>
-        <UserDetailDetailsGroup
-          onUserDetailsChange={onUserDetailsChange}
-        />
+        <UserDetailDetailsGroup onUserDetailsChange={onUserDetailsChange} />
         <UserDetailAccessGroup
           onUserDetailsChange={onUserDetailsChange}
           onUserRolesChange={onUserRolesChange}
@@ -67,7 +69,7 @@ const UserDetailView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   modal: getModal(state),
   loadingState: getLoadingState(state),
   alertMessage: getAlertMessage(state),

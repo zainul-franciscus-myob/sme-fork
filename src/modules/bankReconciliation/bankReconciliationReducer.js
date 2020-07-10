@@ -18,7 +18,10 @@ import {
   UPDATE_RESULT,
 } from './BankReconciliationIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import { getIsAllSelected, getSelectedAccount } from './BankReconciliationSelectors';
+import {
+  getIsAllSelected,
+  getSelectedAccount,
+} from './BankReconciliationSelectors';
 import LoadingState from '../../components/PageView/LoadingState';
 import createReducer from '../../store/createReducer';
 import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
@@ -39,7 +42,7 @@ const getDefaultState = () => ({
   accounts: [],
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setLoadingState = (state, { loadingState }) => ({
   ...state,
@@ -52,12 +55,7 @@ const setTableLoadingState = (state, action) => ({
 });
 
 const setInitialState = (state, action) => {
-  const {
-    bankAccount,
-    bankBalanceDate,
-    bankBalance,
-    ...rest
-  } = action.context;
+  const { bankAccount, bankBalanceDate, bankBalance, ...rest } = action.context;
 
   return {
     ...state,
@@ -76,7 +74,10 @@ const setSubmittingState = (state, action) => ({
   isSubmitting: action.isSubmitting,
 });
 
-const loadBankReconciliation = (state, { intent, closingBankStatementBalance, ...rest }) => ({
+const loadBankReconciliation = (
+  state,
+  { intent, closingBankStatementBalance, ...rest }
+) => ({
   ...state,
   ...rest,
   closingBankStatementBalance: state.overwriteClosingBankStatementBalance
@@ -95,7 +96,7 @@ const openModal = (state, { modal }) => ({
   modal,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modal: undefined,
 });
@@ -109,7 +110,7 @@ const getAdjustmentForRow = ({ withdrawal, deposit }, value, accountType) => {
   if (withdrawal === 0 || deposit === 0) {
     return 0;
   }
-  const amount = (-1 * withdrawal) || deposit;
+  const amount = -1 * withdrawal || deposit;
 
   const isNotLiability = accountType !== 'Liability';
   const accountModifier = isNotLiability ? 1 : -1;
@@ -121,62 +122,66 @@ const selectRow = (state, { index, value }) => {
   const balanceAdjustment = getAdjustmentForRow(
     state.entries[index],
     value,
-    getSelectedAccount(state).accountType,
+    getSelectedAccount(state).accountType
   );
 
   return {
     ...state,
-    calculatedClosingBalance: state.calculatedClosingBalance + balanceAdjustment,
-    entries: state.entries.map(
-      (entry, i) => (
-        i === index
-          ? {
+    calculatedClosingBalance:
+      state.calculatedClosingBalance + balanceAdjustment,
+    entries: state.entries.map((entry, i) =>
+      i === index
+        ? {
             ...entry,
             isChecked: value,
           }
-          : entry
-      ),
+        : entry
     ),
   };
 };
 
-const getAdjustmentForEntries = (entries, isSelect, accountType) => entries
-  .reduce((total, entry) => total + getAdjustmentForRow(entry, isSelect, accountType), 0);
+const getAdjustmentForEntries = (entries, isSelect, accountType) =>
+  entries.reduce(
+    (total, entry) => total + getAdjustmentForRow(entry, isSelect, accountType),
+    0
+  );
 
 const selectAll = (state) => {
   const isAllSelected = getIsAllSelected(state);
   const entriesAffected = isAllSelected
-    ? state.entries : state.entries.filter(entry => !entry.isChecked);
+    ? state.entries
+    : state.entries.filter((entry) => !entry.isChecked);
   const balanceAdjustment = getAdjustmentForEntries(
     entriesAffected,
     !isAllSelected,
-    getSelectedAccount(state).accountType,
+    getSelectedAccount(state).accountType
   );
 
   return {
     ...state,
-    calculatedClosingBalance: state.calculatedClosingBalance + balanceAdjustment,
-    entries: state.entries.map(entry => ({
+    calculatedClosingBalance:
+      state.calculatedClosingBalance + balanceAdjustment,
+    entries: state.entries.map((entry) => ({
       ...entry,
       isChecked: !isAllSelected,
     })),
   };
 };
 
-const flipSortOrder = sortOrder => (sortOrder === 'desc' ? 'asc' : 'desc');
+const flipSortOrder = (sortOrder) => (sortOrder === 'desc' ? 'asc' : 'desc');
 const setSortOrder = (state, { orderBy }) => ({
   ...state,
   orderBy,
   sortOrder: orderBy === state.orderBy ? flipSortOrder(state.sortOrder) : 'asc',
 });
 
-const updateReconciliationResult = state => ({
+const updateReconciliationResult = (state) => ({
   ...state,
   lastReconcileDate: state.statementDate,
-  entries: state.entries.filter(entry => !entry.isChecked),
+  entries: state.entries.filter((entry) => !entry.isChecked),
 });
 
-const resetStatementDate = state => ({
+const resetStatementDate = (state) => ({
   ...state,
   statementDate: getDefaultState().statementDate,
 });
@@ -201,6 +206,9 @@ const handlers = {
   [RESET_STATEMENT_DATE]: resetStatementDate,
 };
 
-const bankReconciliationDetailReducer = createReducer(getDefaultState(), handlers);
+const bankReconciliationDetailReducer = createReducer(
+  getDefaultState(),
+  handlers
+);
 
 export default bankReconciliationDetailReducer;

@@ -20,7 +20,7 @@ import handleComboboxChange from '../../../../../../components/handlers/handleCo
 import handleInputChange from '../../../../../../components/handlers/handleInputChange';
 import styles from './PayrollDetailSuperannuation.module.css';
 
-const openNewTab = url => () => window.open(url);
+const openNewTab = (url) => () => window.open(url);
 
 const PayrollDetailSuperannuationDetails = ({
   selectedSuperFundId,
@@ -40,7 +40,7 @@ const PayrollDetailSuperannuationDetails = ({
           selectedId={selectedSuperFundId}
           onChange={handleComboboxChange(
             'selectedSuperFundId',
-            onUpdatePayrollDetailSuperannuationDetails,
+            onUpdatePayrollDetailSuperannuationDetails
           )}
           allowClear
           addNewItem={{
@@ -54,7 +54,7 @@ const PayrollDetailSuperannuationDetails = ({
           value={employeeMembershipNumber}
           maxLength={17}
           onChange={handleInputChange(
-            onUpdatePayrollDetailSuperannuationDetails,
+            onUpdatePayrollDetailSuperannuationDetails
           )}
         />
         <Field
@@ -75,7 +75,7 @@ const PayrollDetailSuperannuationDetails = ({
   </div>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedSuperFundId: getSelectedSuperFundId(state),
   superFundOptions: getSuperFundOptions(state),
   employeeMembershipNumber: getEmployeeMembershipNumber(state),

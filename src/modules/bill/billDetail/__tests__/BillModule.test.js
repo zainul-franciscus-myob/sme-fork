@@ -93,12 +93,7 @@ export const setUp = () => {
 };
 
 export const setUpWithFailDocumentLoad = () => {
-  const {
-    module,
-    integration,
-    store,
-    pushMessage,
-  } = setUp();
+  const { module, integration, store, pushMessage } = setUp();
   integration.mapFailure(DOWNLOAD_IN_TRAY_DOCUMENT);
   module.inTrayModalModule = new InTrayModalModule({ integration });
 
@@ -121,18 +116,19 @@ export const setUpWithFailDocumentLoad = () => {
   };
 };
 
-export const setUpWithRun = ({ isCreating = false, isPageEdited = false } = {}) => {
-  const {
-    module,
-    integration,
-    store,
-    pushMessage,
-    navigateTo,
-  } = setUp();
+export const setUpWithRun = ({
+  isCreating = false,
+  isPageEdited = false,
+} = {}) => {
+  const { module, integration, store, pushMessage, navigateTo } = setUp();
 
   // With the current memory data, there are two lines created
   // when this set up is created for an existing bill
-  module.run({ billId: isCreating ? 'new' : 'billId', businessId: 'bizId', region: 'au' });
+  module.run({
+    billId: isCreating ? 'new' : 'billId',
+    businessId: 'bizId',
+    region: 'au',
+  });
 
   if (isPageEdited) {
     module.updateBillOption({ key: 'option', value: 'A' });
@@ -151,16 +147,13 @@ export const setUpWithRun = ({ isCreating = false, isPageEdited = false } = {}) 
 };
 
 export const setUpNewBillWithPrefilled = () => {
-  const {
-    module,
-    integration,
-    store,
-    pushMessage,
-  } = setUp();
-  module.popMessages = () => [{
-    type: PREFILL_INTRAY_DOCUMENT_FOR_BILL,
-    inTrayDocumentId: '🍟',
-  }];
+  const { module, integration, store, pushMessage } = setUp();
+  module.popMessages = () => [
+    {
+      type: PREFILL_INTRAY_DOCUMENT_FOR_BILL,
+      inTrayDocumentId: '🍟',
+    },
+  ];
 
   module.run({
     billId: 'new',
@@ -279,10 +272,12 @@ describe('BillModule', () => {
 
     it('should successfully load duplicate', () => {
       const { module, integration, store } = setUp();
-      module.popMessages = () => [{
-        type: DUPLICATE_BILL,
-        duplicateId: '🐶',
-      }];
+      module.popMessages = () => [
+        {
+          type: DUPLICATE_BILL,
+          duplicateId: '🐶',
+        },
+      ];
 
       const context = {
         billId: 'new',
@@ -328,10 +323,12 @@ describe('BillModule', () => {
 
     it('should fail to load duplicate bill', () => {
       const { module, integration, store } = setUp();
-      module.popMessages = () => [{
-        type: DUPLICATE_BILL,
-        duplicateId: '🐶',
-      }];
+      module.popMessages = () => [
+        {
+          type: DUPLICATE_BILL,
+          duplicateId: '🐶',
+        },
+      ];
       integration.mapFailure(LOAD_NEW_DUPLICATE_BILL);
       const context = {
         billId: 'new',
@@ -371,10 +368,12 @@ describe('BillModule', () => {
 
     it('displays a success alert on successfully save', () => {
       const { module, store } = setUp();
-      module.popMessages = () => [{
-        type: SUCCESSFULLY_SAVED_BILL,
-        content: '🥬',
-      }];
+      module.popMessages = () => [
+        {
+          type: SUCCESSFULLY_SAVED_BILL,
+          content: '🥬',
+        },
+      ];
 
       const context = {
         billId: 'new',
@@ -394,10 +393,12 @@ describe('BillModule', () => {
 
     it('displays an info alert on successfully save but not link', () => {
       const { module, store } = setUp();
-      module.popMessages = () => [{
-        type: SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
-        content: '🥬',
-      }];
+      module.popMessages = () => [
+        {
+          type: SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
+          content: '🥬',
+        },
+      ];
 
       const context = {
         billId: 'new',
@@ -583,10 +584,12 @@ describe('BillModule', () => {
 
       it('should successfully prefill bill from intray and calls tax calculator', () => {
         const { module, integration, store } = setUp();
-        module.popMessages = () => [{
-          type: PREFILL_INTRAY_DOCUMENT_FOR_BILL,
-          inTrayDocumentId: '🍟',
-        }];
+        module.popMessages = () => [
+          {
+            type: PREFILL_INTRAY_DOCUMENT_FOR_BILL,
+            inTrayDocumentId: '🍟',
+          },
+        ];
 
         module.run(context);
 
@@ -610,14 +613,20 @@ describe('BillModule', () => {
 
       it('should successfully prefill bill from intray and not call tax calculator', () => {
         const { module, integration, store } = setUp();
-        module.popMessages = () => [{
-          type: PREFILL_INTRAY_DOCUMENT_FOR_BILL,
-          inTrayDocumentId: '🍟',
-        }];
-        integration.overrideMapping(PREFILL_BILL_FROM_IN_TRAY, ({ onSuccess }) => onSuccess({
-          ...prefillBillFromInTrayResponse,
-          lines: [],
-        }));
+        module.popMessages = () => [
+          {
+            type: PREFILL_INTRAY_DOCUMENT_FOR_BILL,
+            inTrayDocumentId: '🍟',
+          },
+        ];
+        integration.overrideMapping(
+          PREFILL_BILL_FROM_IN_TRAY,
+          ({ onSuccess }) =>
+            onSuccess({
+              ...prefillBillFromInTrayResponse,
+              lines: [],
+            })
+        );
 
         module.run(context);
 
@@ -635,10 +644,12 @@ describe('BillModule', () => {
 
       it('should fail to prefill bill from intray', () => {
         const { module, integration, store } = setUp();
-        module.popMessages = () => [{
-          type: PREFILL_INTRAY_DOCUMENT_FOR_BILL,
-          inTrayDocumentId: '🍟',
-        }];
+        module.popMessages = () => [
+          {
+            type: PREFILL_INTRAY_DOCUMENT_FOR_BILL,
+            inTrayDocumentId: '🍟',
+          },
+        ];
         integration.mapFailure(PREFILL_BILL_FROM_IN_TRAY);
 
         module.run(context);
@@ -660,10 +671,12 @@ describe('BillModule', () => {
 
       it('should fail to download document', () => {
         const { module, integration, store } = setUp();
-        module.popMessages = () => [{
-          type: PREFILL_INTRAY_DOCUMENT_FOR_BILL,
-          inTrayDocumentId: '🍟',
-        }];
+        module.popMessages = () => [
+          {
+            type: PREFILL_INTRAY_DOCUMENT_FOR_BILL,
+            inTrayDocumentId: '🍟',
+          },
+        ];
         integration.mapFailure(DOWNLOAD_IN_TRAY_DOCUMENT);
 
         module.run(context);
@@ -814,7 +827,9 @@ describe('BillModule', () => {
       });
 
       it('loads supplier detail and does not call tax calc - if user is creating a new bill and the selected supplier has default expense account - but the table is empty', () => {
-        const { module, integration, store } = setUpWithRun({ isCreating: true });
+        const { module, integration, store } = setUpWithRun({
+          isCreating: true,
+        });
 
         module.updateBillOption({ key: 'supplierId', value: '2' });
 
@@ -848,7 +863,9 @@ describe('BillModule', () => {
       });
 
       it('loads supplier detail and calls tax calc - if user is creating a new bill and the selected supplier has default expense account - and the table has lines', () => {
-        const { module, integration, store } = setUpWithRun({ isCreating: true });
+        const { module, integration, store } = setUpWithRun({
+          isCreating: true,
+        });
         module.addBillLine({ id: '2', description: 'hello' });
         integration.resetRequests();
         store.resetActions();
@@ -1034,7 +1051,9 @@ describe('BillModule', () => {
       it('closes split view and shows alert if document download fails', () => {
         const { module, store, integration } = setUpWithFailDocumentLoad();
 
-        integration.mapFailure(DOWNLOAD_IN_TRAY_DOCUMENT, { message: 'download failure' });
+        integration.mapFailure(DOWNLOAD_IN_TRAY_DOCUMENT, {
+          message: 'download failure',
+        });
 
         module.downloadDocument();
 
@@ -1080,15 +1099,13 @@ describe('BillModule', () => {
   ].forEach((test) => {
     it(`should ${test.name}`, () => {
       const { module, store } = setUp();
-      module.popMessages = () => [
-        test.message,
-      ];
+      module.popMessages = () => [test.message];
       module.run();
 
       expect(store.getActions()).toEqual(
         expect.arrayContaining([
           { intent: OPEN_ALERT, message: '✌️', type: test.messageType },
-        ]),
+        ])
       );
     });
   });
@@ -1096,7 +1113,9 @@ describe('BillModule', () => {
   describe('openExportPdfModalOrSaveAndExportPdf', () => {
     describe('new bill', () => {
       it('create bill, update bill id, update url params, reload bill, open export pdf modal and show alert inside modal', () => {
-        const { module, store, integration } = setUpWithRun({ isCreating: true });
+        const { module, store, integration } = setUpWithRun({
+          isCreating: true,
+        });
         module.globalCallbacks.inTrayBillSaved = jest.fn();
         module.replaceURLParams = jest.fn();
         module.pushMessage = jest.fn();
@@ -1116,7 +1135,10 @@ describe('BillModule', () => {
         ]);
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: CREATE_BILL }),
-          { intent: LOAD_BILL, urlParams: { businessId: 'bizId', billId: '1' } },
+          {
+            intent: LOAD_BILL,
+            urlParams: { businessId: 'bizId', billId: '1' },
+          },
           expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
         expect(module.replaceURLParams).toHaveBeenCalled();
@@ -1124,7 +1146,9 @@ describe('BillModule', () => {
       });
 
       it('does not open export pdf modal when create bill failed', () => {
-        const { module, store, integration } = setUpWithRun({ isCreating: true });
+        const { module, store, integration } = setUpWithRun({
+          isCreating: true,
+        });
         const message = 'Error';
         integration.mapFailure(CREATE_BILL, { message });
         module.replaceURLParams = jest.fn();
@@ -1142,7 +1166,9 @@ describe('BillModule', () => {
       });
 
       it('does not open export pdf modal when reload bill failed', () => {
-        const { module, store, integration } = setUpWithRun({ isCreating: true });
+        const { module, store, integration } = setUpWithRun({
+          isCreating: true,
+        });
         const message = 'Error';
         integration.mapFailure(LOAD_BILL, { message });
         module.globalCallbacks.inTrayBillSaved = jest.fn();
@@ -1166,7 +1192,9 @@ describe('BillModule', () => {
 
     describe('existing bill that has been edited', () => {
       it('update bill, reload bill, open export pdf modal and show alert inside modal', () => {
-        const { module, store, integration } = setUpWithRun({ isPageEdited: true });
+        const { module, store, integration } = setUpWithRun({
+          isPageEdited: true,
+        });
         module.globalCallbacks.inTrayBillSaved = jest.fn();
         module.replaceURLParams = jest.fn();
 
@@ -1184,14 +1212,19 @@ describe('BillModule', () => {
         ]);
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: UPDATE_BILL }),
-          { intent: LOAD_BILL, urlParams: { businessId: 'bizId', billId: 'billId' } },
+          {
+            intent: LOAD_BILL,
+            urlParams: { businessId: 'bizId', billId: 'billId' },
+          },
           expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
         expect(module.replaceURLParams).not.toHaveBeenCalled();
       });
 
       it('does not open export pdf modal when update bill failed', () => {
-        const { module, store, integration } = setUpWithRun({ isPageEdited: true });
+        const { module, store, integration } = setUpWithRun({
+          isPageEdited: true,
+        });
         const message = 'Error';
         integration.mapFailure(UPDATE_BILL, { message });
 
@@ -1208,7 +1241,9 @@ describe('BillModule', () => {
       });
 
       it('does not open export pdf modal when reload bill failed', () => {
-        const { module, store, integration } = setUpWithRun({ isPageEdited: true });
+        const { module, store, integration } = setUpWithRun({
+          isPageEdited: true,
+        });
         const message = 'Error';
         integration.mapFailure(LOAD_BILL, { message });
         module.globalCallbacks.inTrayBillSaved = jest.fn();

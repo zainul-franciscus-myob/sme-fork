@@ -17,12 +17,13 @@ import {
 } from '../ContactIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createContactDetailDispatcher = store => ({
-  setInitialState: context => store.dispatch({ intent: SET_INITIAL_STATE, context }),
+const createContactDetailDispatcher = (store) => ({
+  setInitialState: (context) =>
+    store.dispatch({ intent: SET_INITIAL_STATE, context }),
 
   resetState: () => store.dispatch({ intent: RESET_STATE }),
 
-  openModal: modalType => store.dispatch({ intent: OPEN_MODAL, modalType }),
+  openModal: (modalType) => store.dispatch({ intent: OPEN_MODAL, modalType }),
 
   closeModal: () => store.dispatch({ intent: CLOSE_MODAL }),
 
@@ -40,25 +41,29 @@ const createContactDetailDispatcher = store => ({
     });
   },
 
-  dismissAlert: () => store.dispatch({
-    intent: SET_ALERT_MESSAGE,
-    alertMessage: '',
-  }),
+  dismissAlert: () =>
+    store.dispatch({
+      intent: SET_ALERT_MESSAGE,
+      alertMessage: '',
+    }),
 
-  displayAlert: errorMessage => store.dispatch({
-    intent: SET_ALERT_MESSAGE,
-    alertMessage: errorMessage,
-  }),
+  displayAlert: (errorMessage) =>
+    store.dispatch({
+      intent: SET_ALERT_MESSAGE,
+      alertMessage: errorMessage,
+    }),
 
-  loadContactDetail: content => store.dispatch({
-    intent: LOAD_CONTACT_DETAIL,
-    ...content,
-  }),
+  loadContactDetail: (content) =>
+    store.dispatch({
+      intent: LOAD_CONTACT_DETAIL,
+      ...content,
+    }),
 
-  loadNewContact: content => store.dispatch({
-    intent: LOAD_NEW_CONTACT,
-    ...content,
-  }),
+  loadNewContact: (content) =>
+    store.dispatch({
+      intent: LOAD_NEW_CONTACT,
+      ...content,
+    }),
 
   updateContactDetails: ({ key, value }) => {
     store.dispatch({

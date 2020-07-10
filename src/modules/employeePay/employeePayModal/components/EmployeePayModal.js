@@ -1,6 +1,4 @@
-import {
-  Alert, Icons, Modal, Separator,
-} from '@myob/myob-widgets';
+import { Alert, Icons, Modal, Separator } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -70,8 +68,9 @@ const EmployeePayModal = ({
 
   const infoReversal = isReversalPreview && (
     <Alert type="info" testid="reversalInfoMsg">
-      This pay has been reported to the ATO for Single Touch Payroll.
-      When you record the reversal, you will have to report it to STP for reporting purposes.
+      This pay has been reported to the ATO for Single Touch Payroll. When you
+      record the reversal, you will have to report it to STP for reporting
+      purposes.
     </Alert>
   );
 
@@ -116,7 +115,12 @@ const EmployeePayModal = ({
   );
 
   return (
-    <Modal title={employeeName} size="large" onCancel={onBackButtonClick} focusTrapPaused>
+    <Modal
+      title={employeeName}
+      size="large"
+      onCancel={onBackButtonClick}
+      focusTrapPaused
+    >
       <meta data-testid="pay-detail-modal" />
       <Modal.Body>
         <PageView loadingState={loadingState} view={modalDetail} />
@@ -129,7 +133,11 @@ const EmployeePayModal = ({
           onDeleteButtonClick={onDeleteButtonClick}
           onReverseButtonClick={onReverseButtonClick}
           onBackButtonClick={onBackButtonClick}
-          showReverse={featureToggles && featureToggles.isPayrollReversibleEnabled && isReversible}
+          showReverse={
+            featureToggles &&
+            featureToggles.isPayrollReversibleEnabled &&
+            isReversible
+          }
           loadingSuccess={loadingState === LoadingState.LOADING_SUCCESS}
           isReversalPreview={isReversalPreview}
           onRecordReversalButtonClick={onRecordReversalButtonClick}
@@ -141,7 +149,7 @@ const EmployeePayModal = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   employeePay: getEmployeePay(state),
   loadingState: getLoadingState(state),
   employeeName: getEmployeeName(state),

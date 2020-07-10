@@ -18,13 +18,7 @@ import jobKeeperReducer from './JobKeeperReducer';
 import openBlob from '../../../../common/blobOpener/openBlob';
 
 export default class JobKeeperModule {
-  constructor({
-    integration,
-    context,
-    setAlert,
-    pushMessage,
-    featureToggles,
-  }) {
+  constructor({ integration, context, setAlert, pushMessage, featureToggles }) {
     this.store = new Store(jobKeeperReducer);
     this.integration = integration;
     this.dispatcher = createJobKeeperDispatcher(this.store);
@@ -48,7 +42,10 @@ export default class JobKeeperModule {
       this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.integrator.loadInitialEmployeesAndHeaderDetails({ onSuccess, onFailure });
+    this.integrator.loadInitialEmployeesAndHeaderDetails({
+      onSuccess,
+      onFailure,
+    });
   };
 
   filterEmployeesByYear = (payrollYear) => {
@@ -97,7 +94,6 @@ export default class JobKeeperModule {
     });
   };
 
-
   redirectToReportTab = () => {
     const state = this.store.getState();
     window.location.href = getStpReportTabUrl(state);
@@ -109,7 +105,10 @@ export default class JobKeeperModule {
     const onSuccess = ({ message }) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setNewEventId();
-      this.pushMessage({ type: SUCCESSFULLY_UPDATED_JOB_KEEPER_PAYMENTS, content: message });
+      this.pushMessage({
+        type: SUCCESSFULLY_UPDATED_JOB_KEEPER_PAYMENTS,
+        content: message,
+      });
       this.redirectToReportTab();
     };
 
@@ -124,11 +123,11 @@ export default class JobKeeperModule {
   openStpDeclarationModal = () => {
     const context = getStpDeclarationContext(this.store.getState());
     this.stpDeclarationModule.run(context, this.updateJobKeeperPayments);
-  }
+  };
 
   updateEmployeeRow = ({ key, value, rowId }) => {
     this.dispatcher.updateEmployeeRow({ key, value, rowId });
-  }
+  };
 
   tryToNavigate = (navigationFunction) => {
     const isDirty = getIsDirty(this.store.getState());
@@ -137,47 +136,48 @@ export default class JobKeeperModule {
     } else {
       this.openUnsavedChangesModal(navigationFunction);
     }
-  }
+  };
 
   openUnsavedChangesModal = (navigationFunction) => {
     this.pendingNavigationFunction = navigationFunction;
 
     this.dispatcher.setUnsavedChangesModal(true);
-  }
+  };
 
   closeUnsavedChangesModal = () => {
     this.dispatcher.setUnsavedChangesModal(false);
     this.pendingNavigationFunction = null;
-  }
+  };
 
   onUnsavedChangesCancel = () => {
     this.closeUnsavedChangesModal();
-  }
+  };
 
   onUnsavedChangesConfirm = () => {
     this.pendingNavigationFunction();
     this.dispatcher.setUnsavedChangesModal(false);
     this.dispatcher.resetDirtyFlag();
     this.pendingNavigationFunction = null;
-  }
+  };
 
   onPayrollYearChange = (payrollYear) => {
     this.tryToNavigate(() => this.filterEmployeesByYear(payrollYear));
-  }
+  };
 
   onOpenJobKeeperReport = (month) => {
     const onSuccess = (response) => {
       openBlob({ blob: response });
     };
 
-    const onError = (message) => this.dispatcher.setAlert({ type: 'danger', message });
+    const onError = (message) =>
+      this.dispatcher.setAlert({ type: 'danger', message });
 
     this.integrator.onOpenJobKeeperReport({
       onSuccess,
       onError,
       month,
     });
-  }
+  };
 
   run = () => {
     this.loadInitialEmployeesAndHeaderDetails();
@@ -201,6 +201,7 @@ export default class JobKeeperModule {
           }}
           featureToggles={this.featureToggles}
         />
-      </Provider>);
+      </Provider>
+    );
   }
 }

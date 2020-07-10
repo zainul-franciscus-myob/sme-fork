@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getLeavePayItemEntries, getShouldShowLeavePayItemTableRows,
+  getLeavePayItemEntries,
+  getShouldShowLeavePayItemTableRows,
 } from '../EmployeePayListSelectors';
 import EmployeeRecalculatePayTableRows from './EmployeeRecalculatePayTableRows';
 

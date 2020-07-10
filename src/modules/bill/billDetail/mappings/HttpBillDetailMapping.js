@@ -22,7 +22,8 @@ import {
 const HttpBillDetailMapping = {
   [LOAD_BILL]: {
     method: 'GET',
-    getPath: ({ businessId, billId }) => `/${businessId}/bill/load_bill/${billId}`,
+    getPath: ({ businessId, billId }) =>
+      `/${businessId}/bill/load_bill/${billId}`,
   },
   [LOAD_NEW_BILL]: {
     method: 'GET',
@@ -30,15 +31,18 @@ const HttpBillDetailMapping = {
   },
   [LOAD_NEW_DUPLICATE_BILL]: {
     method: 'GET',
-    getPath: ({ businessId, duplicateId }) => `/${businessId}/bill/load_new_duplicate_bill/${duplicateId}`,
+    getPath: ({ businessId, duplicateId }) =>
+      `/${businessId}/bill/load_new_duplicate_bill/${duplicateId}`,
   },
   [LOAD_SUPPLIER_DETAIL]: {
     method: 'GET',
-    getPath: ({ businessId, supplierId }) => `/${businessId}/bill/load_supplier_detail/${supplierId}`,
+    getPath: ({ businessId, supplierId }) =>
+      `/${businessId}/bill/load_supplier_detail/${supplierId}`,
   },
   [LOAD_SUPPLIER_AFTER_CREATE]: {
     method: 'GET',
-    getPath: ({ businessId, supplierId }) => `/${businessId}/bill/load_supplier_after_create/${supplierId}`,
+    getPath: ({ businessId, supplierId }) =>
+      `/${businessId}/bill/load_supplier_after_create/${supplierId}`,
   },
   [LOAD_ITEM_DETAIL_FOR_LINE]: {
     method: 'POST',
@@ -50,23 +54,28 @@ const HttpBillDetailMapping = {
   },
   [DELETE_BILL]: {
     method: 'DELETE',
-    getPath: ({ businessId, billId }) => `/${businessId}/bill/delete_bill/${billId}`,
+    getPath: ({ businessId, billId }) =>
+      `/${businessId}/bill/delete_bill/${billId}`,
   },
   [UPDATE_BILL]: {
     method: 'PUT',
-    getPath: ({ businessId, billId }) => `/${businessId}/bill/update_bill/${billId}`,
+    getPath: ({ businessId, billId }) =>
+      `/${businessId}/bill/update_bill/${billId}`,
   },
   [EXPORT_BILL_PDF]: {
     method: 'GET',
-    getPath: ({ businessId, billId }) => `/${businessId}/bill/export_bill_pdf/${billId}`,
+    getPath: ({ businessId, billId }) =>
+      `/${businessId}/bill/export_bill_pdf/${billId}`,
   },
   [LOAD_ITEM_OPTION]: {
     method: 'GET',
-    getPath: ({ businessId, itemId }) => `/${businessId}/bill/load_item_option/${itemId}`,
+    getPath: ({ businessId, itemId }) =>
+      `/${businessId}/bill/load_item_option/${itemId}`,
   },
   [LOAD_ACCOUNT_AFTER_CREATE]: {
     method: 'GET',
-    getPath: ({ businessId, accountId }) => `/${businessId}/bill/load_account/${accountId}`,
+    getPath: ({ businessId, accountId }) =>
+      `/${businessId}/bill/load_account/${accountId}`,
   },
   [LOAD_JOB_AFTER_CREATE]: {
     method: 'GET',
@@ -74,15 +83,18 @@ const HttpBillDetailMapping = {
   },
   [PREFILL_BILL_FROM_IN_TRAY]: {
     method: 'GET',
-    getPath: ({ businessId, inTrayDocumentId }) => `/${businessId}/bill/prefill_bill_from_in_tray/${inTrayDocumentId}`,
+    getPath: ({ businessId, inTrayDocumentId }) =>
+      `/${businessId}/bill/prefill_bill_from_in_tray/${inTrayDocumentId}`,
   },
   [DOWNLOAD_IN_TRAY_DOCUMENT]: {
     method: 'GET',
-    getPath: ({ businessId, inTrayDocumentId }) => `/${businessId}/bill/download_in_tray_document/${inTrayDocumentId}`,
+    getPath: ({ businessId, inTrayDocumentId }) =>
+      `/${businessId}/bill/download_in_tray_document/${inTrayDocumentId}`,
   },
   [UNLINK_IN_TRAY_DOCUMENT]: {
     method: 'DELETE',
-    getPath: ({ businessId, inTrayDocumentId }) => `/${businessId}/bill/unlink_in_tray_document/${inTrayDocumentId}`,
+    getPath: ({ businessId, inTrayDocumentId }) =>
+      `/${businessId}/bill/unlink_in_tray_document/${inTrayDocumentId}`,
   },
   [LINK_IN_TRAY_DOCUMENT]: {
     method: 'POST',
@@ -90,7 +102,8 @@ const HttpBillDetailMapping = {
   },
   [LOAD_ABN_FROM_SUPPLIER]: {
     method: 'GET',
-    getPath: ({ businessId, supplierId }) => `/${businessId}/bill/load_abn_from_supplier/${supplierId}`,
+    getPath: ({ businessId, supplierId }) =>
+      `/${businessId}/bill/load_abn_from_supplier/${supplierId}`,
   },
 };
 

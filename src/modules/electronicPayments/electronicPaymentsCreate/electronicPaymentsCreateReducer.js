@@ -64,11 +64,12 @@ const loadAccountsAndTransactions = (state, { response }) => ({
   bankStatementDescription: response.bankStatementDescription,
   transactionDescription: response.transactionDescription,
   dateOfPayment: response.dateOfPayment,
-  transactions: response.transactions.map(e => ({
+  transactions: response.transactions.map((e) => ({
     ...e,
     isSelected: false,
   })),
-  selectedAccountId: response.accounts && response.accounts[0] && response.accounts[0].id,
+  selectedAccountId:
+    response.accounts && response.accounts[0] && response.accounts[0].id,
   startOfFinancialYearDate: response.startOfFinancialYearDate,
 });
 
@@ -108,7 +109,7 @@ const sortAndFilterTransactions = (state, { response }) => ({
 
 const selectAllTransactions = (state, action) => ({
   ...state,
-  transactions: state.transactions.map(e => ({
+  transactions: state.transactions.map((e) => ({
     ...e,
     isSelected: action.isSelected,
   })),
@@ -116,9 +117,9 @@ const selectAllTransactions = (state, action) => ({
 
 const selectItem = (state, action) => ({
   ...state,
-  transactions: state.transactions.map(e => (
+  transactions: state.transactions.map((e) =>
     e.id === action.item.id ? { ...e, isSelected: action.isSelected } : e
-  )),
+  ),
 });
 
 const updateBankFileDetails = (state, action) => ({
@@ -138,7 +139,7 @@ const openModal = (state, action) => ({
   modal: action.modal,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modal: undefined,
 });
@@ -161,6 +162,9 @@ const handlers = {
   [CLOSE_MODAL]: closeModal,
 };
 
-const electronicPaymentsCreateReducer = createReducer(getDefaultState(), handlers);
+const electronicPaymentsCreateReducer = createReducer(
+  getDefaultState(),
+  handlers
+);
 
 export default electronicPaymentsCreateReducer;

@@ -48,7 +48,7 @@ export default class ApplyToSaleModule {
     };
 
     this.integrator.loadApplyToSale({ isCreating, onSuccess, onFailure });
-  }
+  };
 
   createApplyToSale = () => {
     const state = this.store.getState();
@@ -69,7 +69,7 @@ export default class ApplyToSaleModule {
       this.dispatcher.setAlertMessage(message);
     };
     this.integrator.createApplyToSale({ onSuccess, onFailure });
-  }
+  };
 
   deleteApplyToSale = () => {
     this.dispatcher.setIsSubmitting(true);
@@ -88,11 +88,11 @@ export default class ApplyToSaleModule {
     };
 
     this.integrator.deleteApplyToSale({ onSuccess, onFailure });
-  }
+  };
 
   cancelApplyToSale = () => {
     this.redirectToCustomerReturnList();
-  }
+  };
 
   updateApplyToSaleOption = ({ key, value }) => {
     this.dispatcher.updateApplyToSaleOption({ key, value });
@@ -106,7 +106,7 @@ export default class ApplyToSaleModule {
       index,
     });
     this.dispatcher.setIsPageEdited(true);
-  }
+  };
 
   redirectToCustomerReturnList = () => {
     const state = this.store.getState();
@@ -122,7 +122,7 @@ export default class ApplyToSaleModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/transactionList`;
-  }
+  };
 
   openCancelModal = () => {
     const state = this.store.getState();
@@ -131,19 +131,19 @@ export default class ApplyToSaleModule {
     } else {
       this.redirectToCustomerReturnList();
     }
-  }
+  };
 
   openDeleteModal = () => {
     this.dispatcher.setModalType(ModalType.DELETE);
-  }
+  };
 
   dismissModal = () => {
     this.dispatcher.setModalType('');
-  }
+  };
 
   dismissAlert = () => {
     this.dispatcher.setAlertMessage('');
-  }
+  };
 
   saveHandler = () => {
     const state = this.store.getState();
@@ -151,7 +151,7 @@ export default class ApplyToSaleModule {
     if (modalType) return;
 
     this.createApplyToSale();
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,

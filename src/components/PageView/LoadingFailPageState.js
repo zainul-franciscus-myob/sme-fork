@@ -8,16 +8,14 @@ const LoadingFailPageState = () => (
   <StandardTemplate>
     <PageState
       title="Something went wrong"
-      description={(
+      description={
         <div>
           Try refreshing your browser
           <br />
           If the issue persists, contact MYOB support
         </div>
-      )}
-      image={(
-        <Icon.Error className={styles.errorImage} />
-      )}
+      }
+      image={<Icon.Error className={styles.errorImage} />}
     />
   </StandardTemplate>
 );

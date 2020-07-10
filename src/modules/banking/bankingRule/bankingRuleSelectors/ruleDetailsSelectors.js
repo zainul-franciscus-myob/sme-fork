@@ -10,21 +10,21 @@ import ApplyTypes from '../ApplyTypes';
 import RuleTypes from '../RuleTypes';
 import formatSlashDate from '../../../../common/valueFormatters/formatDate/formatSlashDate';
 
-export const getBankingRuleModal = state => state.bankingRuleModal;
+export const getBankingRuleModal = (state) => state.bankingRuleModal;
 
 export const getBankingRule = createSelector(
   getBankingRuleModal,
-  bankingRuleModal => bankingRuleModal.bankingRule,
+  (bankingRuleModal) => bankingRuleModal.bankingRule
 );
 
 export const getIsSaving = createSelector(
   getBankingRuleModal,
-  bankingRuleModal => bankingRuleModal.isSaving,
+  (bankingRuleModal) => bankingRuleModal.isSaving
 );
 
 export const getBankAccounts = createSelector(
   getBankingRuleModal,
-  ({ bankAccounts }) => bankAccounts,
+  ({ bankAccounts }) => bankAccounts
 );
 
 export const getBankTransactionDetails = createSelector(
@@ -32,9 +32,7 @@ export const getBankTransactionDetails = createSelector(
   getFilterOptions,
   getBankAccounts,
   (transaction, filterOptions, accountList) => {
-    const {
-      date, withdrawal, deposit, description,
-    } = transaction;
+    const { date, withdrawal, deposit, description } = transaction;
     const { bankAccount } = filterOptions;
     return {
       accountId: bankAccount,
@@ -44,12 +42,12 @@ export const getBankTransactionDetails = createSelector(
       withdrawal,
       deposit,
     };
-  },
+  }
 );
 
 export const getIsWithdrawal = createSelector(
   getBankTransactionDetails,
-  ({ withdrawal }) => Boolean(withdrawal),
+  ({ withdrawal }) => Boolean(withdrawal)
 );
 
 export const getBankTransactionSummaryHeader = createSelector(
@@ -57,25 +55,33 @@ export const getBankTransactionSummaryHeader = createSelector(
   getIsWithdrawal,
   (bankTransactionDetails, isWithdrawal) => {
     const {
-      date, description, accountDisplayName, withdrawal, deposit,
+      date,
+      description,
+      accountDisplayName,
+      withdrawal,
+      deposit,
     } = bankTransactionDetails;
     const amountLabel = isWithdrawal ? 'Withdrawal ($)' : 'Deposit ($)';
     const amount = withdrawal || deposit;
     return {
       date: {
-        label: 'Date', value: formatSlashDate(new Date(date)),
+        label: 'Date',
+        value: formatSlashDate(new Date(date)),
       },
       account: {
-        label: 'Bank account', value: accountDisplayName,
+        label: 'Bank account',
+        value: accountDisplayName,
       },
       description: {
-        label: 'Bank statement description', value: description,
+        label: 'Bank statement description',
+        value: description,
       },
       amount: {
-        label: amountLabel, value: formatCurrency(amount),
+        label: amountLabel,
+        value: formatCurrency(amount),
       },
     };
-  },
+  }
 );
 
 export const getRuleTypes = (isWithdrawal) => {
@@ -93,44 +99,41 @@ export const getRuleTypes = (isWithdrawal) => {
   return isWithdrawal ? mapping.withdrawal : mapping.deposit;
 };
 
-export const getRuleTypeOptions = createSelector(
-  getIsWithdrawal,
-  getRuleTypes,
-);
+export const getRuleTypeOptions = createSelector(getIsWithdrawal, getRuleTypes);
 
 export const getRuleType = createSelector(
   getBankingRule,
-  bankingRule => bankingRule.ruleType,
+  (bankingRule) => bankingRule.ruleType
 );
 
 export const getIsInactive = createSelector(
   getBankingRule,
-  bankingRule => bankingRule.isInactiveRule,
+  (bankingRule) => bankingRule.isInactiveRule
 );
 
 export const getApplyToAllAccounts = createSelector(
   getBankingRule,
-  bankingRule => bankingRule.applyToAllAccounts,
+  (bankingRule) => bankingRule.applyToAllAccounts
 );
 
 export const getAlert = createSelector(
   getBankingRuleModal,
-  ({ alert }) => alert,
+  ({ alert }) => alert
 );
 
 export const getShouldShowBankAccountList = createSelector(
   getApplyToAllAccounts,
-  applyToAllAccounts => applyToAllAccounts === ApplyTypes.oneBankAccount,
+  (applyToAllAccounts) => applyToAllAccounts === ApplyTypes.oneBankAccount
 );
 
 export const getRuleName = createSelector(
   getBankingRule,
-  bankingRule => bankingRule.name,
+  (bankingRule) => bankingRule.name
 );
 
 export const getConditions = createSelector(
   getBankingRule,
-  bankingRule => bankingRule.conditions,
+  (bankingRule) => bankingRule.conditions
 );
 
 export const getContacts = createSelector(
@@ -144,10 +147,10 @@ export const getContacts = createSelector(
       return contacts.filter(({ contactType }) => contactType === 'Customer');
     }
     return contacts;
-  },
+  }
 );
 
 export const getContactId = createSelector(
   getBankingRule,
-  bankingRule => bankingRule.contactId,
+  (bankingRule) => bankingRule.contactId
 );

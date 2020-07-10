@@ -11,9 +11,7 @@ import handleSelectChange from '../../../components/handlers/handleSelectChange'
 
 const ExportTabContent = ({
   onUpdateExportDataType,
-  exportChartOfAccountsListeners: {
-    onExportChartOfAccountsDetailChange,
-  },
+  exportChartOfAccountsListeners: { onExportChartOfAccountsDetailChange },
   exportCompanyFileListeners,
   selectedDataType,
 }) => (
@@ -25,21 +23,30 @@ const ExportTabContent = ({
       onChange={handleSelectChange(onUpdateExportDataType)}
     >
       <Select.Option hidden value={ImportExportDataType.NONE} label="" />
-      <Select.Option value={ImportExportDataType.CHART_OF_ACCOUNTS} label="Chart of accounts" />
-      <Select.Option value={ImportExportDataType.COMPANY_FILE} label="Data for your accountant" />
+      <Select.Option
+        value={ImportExportDataType.CHART_OF_ACCOUNTS}
+        label="Chart of accounts"
+      />
+      <Select.Option
+        value={ImportExportDataType.COMPANY_FILE}
+        label="Data for your accountant"
+      />
     </Select>
-    {selectedDataType && {
-      [ImportExportDataType.CHART_OF_ACCOUNTS]: <ExportChartOfAccountsDetail
-        onChange={onExportChartOfAccountsDetailChange}
-      />,
-      [ImportExportDataType.COMPANY_FILE]: (
-        <ExportCompanyFile onChange={exportCompanyFileListeners.onChange} />
-      ),
-    }[selectedDataType]}
+    {selectedDataType &&
+      {
+        [ImportExportDataType.CHART_OF_ACCOUNTS]: (
+          <ExportChartOfAccountsDetail
+            onChange={onExportChartOfAccountsDetailChange}
+          />
+        ),
+        [ImportExportDataType.COMPANY_FILE]: (
+          <ExportCompanyFile onChange={exportCompanyFileListeners.onChange} />
+        ),
+      }[selectedDataType]}
   </FormHorizontal>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedDataType: getCurrentDataTypeInCurrentTab(state, TabItem.EXPORT),
 });
 

@@ -1,18 +1,20 @@
-import {
-  DetailHeader, Input, TextArea,
-} from '@myob/myob-widgets';
+import { DetailHeader, Input, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAccountOptions, getContactOptions, getIsBeforeStartOfFinancialYear, getIsCreating, getRefund,
+  getAccountOptions,
+  getContactOptions,
+  getIsBeforeStartOfFinancialYear,
+  getIsCreating,
+  getRefund,
 } from '../receiveRefundSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
 import DatePicker from '../../../../components/DatePicker/DatePicker';
 
-const onInputChange = handler => (e) => {
+const onInputChange = (handler) => (e) => {
   const { value, name } = e.target;
   handler({ key: name, value });
 };
@@ -21,7 +23,7 @@ const handleDateChange = (handler, key) => ({ value }) => {
   handler({ key, value });
 };
 
-const handleAmountChange = handler => (e) => {
+const handleAmountChange = (handler) => (e) => {
   const { name, rawValue } = e.target;
   handler({ key: name, value: rawValue });
 };
@@ -66,7 +68,10 @@ const ReceiveRefundDetail = (props) => {
         hideLabel={false}
         items={accountOptions}
         selectedId={accountId}
-        onChange={handleAccountComboboxChange(onRefundDetailsChange, 'accountId')}
+        onChange={handleAccountComboboxChange(
+          onRefundDetailsChange,
+          'accountId'
+        )}
         requiredLabel={requiredLabel}
         disabled={!isCreating}
       />
@@ -115,14 +120,13 @@ const ReceiveRefundDetail = (props) => {
         displayWarning={isBeforeStartOfFinancialYear}
         warningMessage={'The date is set to a previous financial year'}
       />
-
     </>
   );
 
   return <DetailHeader primary={primary} secondary={secondary} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isCreating: getIsCreating(state),
   refund: getRefund(state),
   contactOptions: getContactOptions(state),

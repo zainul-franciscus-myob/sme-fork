@@ -40,9 +40,7 @@ export default class InvoiceListModule {
   }
 
   loadInvoiceList = () => {
-    const onSuccess = (
-      response,
-    ) => {
+    const onSuccess = (response) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadInvoiceList(response);
     };
@@ -57,11 +55,12 @@ export default class InvoiceListModule {
 
   sortInvoiceList = (orderBy) => {
     const state = this.store.getState();
-    const newSortOrder = orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
+    const newSortOrder =
+      orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
     this.dispatcher.setSortOrder({ orderBy, newSortOrder });
 
     this.sortAndFilterInvoiceList();
-  }
+  };
 
   filterInvoiceList = ({ filterName, value }) => {
     this.dispatcher.updateFilterOptions({
@@ -106,9 +105,7 @@ export default class InvoiceListModule {
   loadNextPage = () => {
     this.dispatcher.setNextPageLoadingState(true);
 
-    const onSuccess = ({
-      entries, pagination,
-    }) => {
+    const onSuccess = ({ entries, pagination }) => {
       this.dispatcher.setNextPageLoadingState(false);
       this.dispatcher.loadNextPage({ entries, pagination });
     };
@@ -156,9 +153,7 @@ export default class InvoiceListModule {
     );
 
     const wrappedView = (
-      <Provider store={this.store}>
-        {invoiceListView}
-      </Provider>
+      <Provider store={this.store}>{invoiceListView}</Provider>
     );
     this.setRootView(wrappedView);
   };
@@ -174,9 +169,13 @@ export default class InvoiceListModule {
     this.dispatcher.setInitialState(context, settings);
     this.render();
     this.readMessages();
-    this.store.subscribe(state => (
-      saveSettings(context.businessId, RouteName.INVOICE_LIST, getSettings(state))
-    ));
+    this.store.subscribe((state) =>
+      saveSettings(
+        context.businessId,
+        RouteName.INVOICE_LIST,
+        getSettings(state)
+      )
+    );
     this.loadInvoiceList();
   }
 

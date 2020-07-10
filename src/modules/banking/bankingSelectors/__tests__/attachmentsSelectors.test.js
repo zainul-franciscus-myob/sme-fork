@@ -69,10 +69,7 @@ describe('attachmentsSelectors', () => {
 
   describe('getFilesForUpload', () => {
     it('get files for upload', () => {
-      const files = [
-        { file: 'invalid' },
-        { file: 'valid' },
-      ];
+      const files = [{ file: 'invalid' }, { file: 'valid' }];
 
       const state = {
         openEntry: {

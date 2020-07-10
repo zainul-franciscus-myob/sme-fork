@@ -18,7 +18,7 @@ const JobDescription = ({ description, onChange }) => (
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   description: getJobDescription(state),
 });
 

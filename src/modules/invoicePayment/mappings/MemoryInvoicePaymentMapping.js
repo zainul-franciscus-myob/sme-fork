@@ -11,8 +11,10 @@ import invoicePaymentDetail from './data/invoicePaymentDetail';
 import newInvoicePaymentDetail from './data/invoicePaymentNewEntry';
 import success from './data/success.json';
 
-const loadInvoicePaymentDetail = ({ onSuccess }) => onSuccess(invoicePaymentDetail);
-const loadNewInvoicePaymentDetail = ({ onSuccess }) => onSuccess(newInvoicePaymentDetail);
+const loadInvoicePaymentDetail = ({ onSuccess }) =>
+  onSuccess(invoicePaymentDetail);
+const loadNewInvoicePaymentDetail = ({ onSuccess }) =>
+  onSuccess(newInvoicePaymentDetail);
 const loadInvoiceList = ({ onSuccess }) => onSuccess(invoiceList);
 const createInvoicePaymentDetail = ({ onSuccess }) => onSuccess(success);
 const updateInvoicePaymentDetail = ({ onSuccess }) => onSuccess(success);

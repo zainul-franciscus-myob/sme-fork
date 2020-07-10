@@ -12,11 +12,7 @@ const LeavePayItemEmployees = ({
   onAddEmployee,
   onRemoveEmployee,
 }) => {
-  const fieldGroupLabel = (
-    <div>
-      Employees using this pay item
-    </div>
-  );
+  const fieldGroupLabel = <div>Employees using this pay item</div>;
 
   return (
     <FieldGroup label={fieldGroupLabel} className={styles.editableTable}>
@@ -33,7 +29,7 @@ const LeavePayItemEmployees = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   employees: getFilteredEmployees(state),
 });
 

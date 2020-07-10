@@ -1,17 +1,23 @@
 import {
-  Card, Checkbox, CheckboxGroup, FieldGroup, Input, TextArea, Tooltip,
+  Card,
+  Checkbox,
+  CheckboxGroup,
+  FieldGroup,
+  Input,
+  TextArea,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getTabData } from '../SalesSettingsDetailSelectors';
 
-const onInputChange = handler => (e) => {
+const onInputChange = (handler) => (e) => {
   const { value, name } = e.target;
   handler({ key: name, value });
 };
 
-const onCheckboxChange = handler => (e) => {
+const onCheckboxChange = (handler) => (e) => {
   const { checked, name } = e.target;
   handler({ key: name, value: checked });
 };
@@ -41,23 +47,24 @@ const SalesSettingsEmailDetails = (props) => {
         <Input
           name="fromName"
           label="From name"
-          labelAccessory={(
+          labelAccessory={
             <Tooltip>
               The name that will display when your clients receive an invoice.
               This could be your business name or contact person.
             </Tooltip>
-          )}
+          }
           value={fromName}
           onChange={onInputChange(onUpdateEmailSettings)}
         />
         <Input
           name="replyToEmail"
           label="Reply-to email address"
-          labelAccessory={(
+          labelAccessory={
             <Tooltip>
-              The email address used when your clients reply to an emailed invoice.
+              The email address used when your clients reply to an emailed
+              invoice.
             </Tooltip>
-          )}
+          }
           value={replyToEmail}
           onChange={onInputChange(onUpdateEmailSettings)}
         />
@@ -69,7 +76,12 @@ const SalesSettingsEmailDetails = (props) => {
     <Card>
       <FieldGroup label="Default invoice email">
         <p>Customise the default email text sent with your invoices.</p>
-        <Input name="invoiceEmailSubject" label="Subject" value={invoiceEmailSubject} onChange={onInputChange(onUpdateEmailSettings)} />
+        <Input
+          name="invoiceEmailSubject"
+          label="Subject"
+          value={invoiceEmailSubject}
+          onChange={onInputChange(onUpdateEmailSettings)}
+        />
         <CheckboxGroup
           label="isInvoiceNumberIncluded"
           hideLabel
@@ -98,7 +110,12 @@ const SalesSettingsEmailDetails = (props) => {
     <Card>
       <FieldGroup label="Default quote email">
         <p>Customise the default email text sent with your quotes.</p>
-        <Input name="quoteEmailSubject" label="Subject" value={quoteEmailSubject} onChange={onInputChange(onUpdateEmailSettings)} />
+        <Input
+          name="quoteEmailSubject"
+          label="Subject"
+          value={quoteEmailSubject}
+          onChange={onInputChange(onUpdateEmailSettings)}
+        />
         <CheckboxGroup
           label="isQuoteNumberIncluded"
           hideLabel
@@ -127,7 +144,12 @@ const SalesSettingsEmailDetails = (props) => {
     <Card>
       <FieldGroup label="Default statement email">
         <p>Customise the default email text sent with your statements.</p>
-        <Input name="statementEmailSubject" label="Subject" value={statementEmailSubject} onChange={onInputChange(onUpdateEmailSettings)} />
+        <Input
+          name="statementEmailSubject"
+          label="Subject"
+          value={statementEmailSubject}
+          onChange={onInputChange(onUpdateEmailSettings)}
+        />
         <TextArea
           name="statementEmailBody"
           label="Message"
@@ -142,14 +164,14 @@ const SalesSettingsEmailDetails = (props) => {
 
   return (
     <React.Fragment>
-      { emailSignature }
-      { quoteEmail }
-      { invoiceEmail }
-      { statementEmail }
+      {emailSignature}
+      {quoteEmail}
+      {invoiceEmail}
+      {statementEmail}
     </React.Fragment>
   );
 };
 
-const mapStateToProps = state => getTabData(state);
+const mapStateToProps = (state) => getTabData(state);
 
 export default connect(mapStateToProps)(SalesSettingsEmailDetails);

@@ -51,7 +51,7 @@ const loadHelpContent = (state, action) => ({
   answers: action.linkedEntries,
 });
 
-const loadHelpContentFailure = state => ({
+const loadHelpContentFailure = (state) => ({
   ...state,
   document: undefined,
   answers: undefined,

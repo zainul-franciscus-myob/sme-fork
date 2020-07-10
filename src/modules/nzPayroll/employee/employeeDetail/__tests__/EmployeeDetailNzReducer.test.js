@@ -54,7 +54,10 @@ describe('EmployeeDetailNzReducer', () => {
       const result = employeeDetailNzReducer(undefined, action);
 
       expect(result).toHaveProperty('userInterface.mainTab', context.mainTab);
-      expect(result).toHaveProperty(`userInterface.subTabs.${context.mainTab}`, context.subTab);
+      expect(result).toHaveProperty(
+        `userInterface.subTabs.${context.mainTab}`,
+        context.subTab
+      );
     });
   });
 
@@ -116,7 +119,10 @@ describe('EmployeeDetailNzReducer', () => {
       };
 
       const result = employeeDetailNzReducer(defaultState, action);
-      expect(result).toHaveProperty(`userInterface.subTabs.${action.mainTab}`, action.subTab);
+      expect(result).toHaveProperty(
+        `userInterface.subTabs.${action.mainTab}`,
+        action.subTab
+      );
     });
 
     it('should not update state if mainTab is undefiend', () => {
@@ -226,7 +232,10 @@ describe('EmployeeDetailNzReducer', () => {
 
   describe('setIsSubmitting', () => {
     it('should set isSubmitting in state', () => {
-      const action = { intent: intents.SET_SUBMITTING_STATE, isSubmitting: true };
+      const action = {
+        intent: intents.SET_SUBMITTING_STATE,
+        isSubmitting: true,
+      };
 
       const actual = employeeDetailNzReducer({}, action);
 
@@ -272,9 +281,11 @@ describe('EmployeeDetailNzReducer', () => {
           alert: { type: 'danger', message: 'Failed' },
           isSubmitting: false,
         },
-
       };
-      const action = { intent: intents.UPDATE_EMPLOYEE_FAILED, message: 'Failed' };
+      const action = {
+        intent: intents.UPDATE_EMPLOYEE_FAILED,
+        message: 'Failed',
+      };
 
       const actual = employeeDetailNzReducer(state, action);
 

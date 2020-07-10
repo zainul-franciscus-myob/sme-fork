@@ -1,15 +1,9 @@
-import {
-  RECALCULATE_PAY,
-} from '../PayRunIntents';
+import { RECALCULATE_PAY } from '../PayRunIntents';
 import { getBusinessId } from '../PayRunSelectors';
-import {
-  getRecalculatePayPayload,
-} from './EmployeePayListSelectors';
+import { getRecalculatePayPayload } from './EmployeePayListSelectors';
 
 const createEmployeePayListIntegrator = (store, integration) => ({
-  recalculatePay: ({
-    employeeId, payItemId, key, onSuccess, onFailure,
-  }) => {
+  recalculatePay: ({ employeeId, payItemId, key, onSuccess, onFailure }) => {
     const state = store.getState();
     const intent = RECALCULATE_PAY;
     const businessId = getBusinessId(state);
@@ -17,7 +11,10 @@ const createEmployeePayListIntegrator = (store, integration) => ({
       businessId,
     };
     const content = getRecalculatePayPayload({
-      state, employeeId, payItemId, key,
+      state,
+      employeeId,
+      payItemId,
+      key,
     });
 
     integration.write({

@@ -36,11 +36,18 @@ describe('InvoicePaymentDetailModule', () => {
     const setRootView = () => {};
     const pushMessage = jest.fn();
 
-    const module = new InvoicePaymentDetailModule({ integration, setRootView, pushMessage });
+    const module = new InvoicePaymentDetailModule({
+      integration,
+      setRootView,
+      pushMessage,
+    });
     module.store = store;
 
     module.dispatcher = createInvoicePaymentDetailDispatcher(store);
-    module.integrator = createInvoicePaymentDetailIntegrator(store, integration);
+    module.integrator = createInvoicePaymentDetailIntegrator(
+      store,
+      integration
+    );
 
     return { store, integration, module };
   };
@@ -50,7 +57,10 @@ describe('InvoicePaymentDetailModule', () => {
     const { store, integration, module } = toolbox;
 
     module.run({
-      businessId: '1', region: 'au', invoicePaymentId: 'new', applyPaymentToInvoiceId,
+      businessId: '1',
+      region: 'au',
+      invoicePaymentId: 'new',
+      applyPaymentToInvoiceId,
     });
     store.resetActions();
     integration.resetRequests();
@@ -73,7 +83,10 @@ describe('InvoicePaymentDetailModule', () => {
     const toolbox = setupWithExisting();
     const { module, store } = toolbox;
 
-    module.dispatcher.updateInvoicePaymentDetails({ key: 'accountId', value: '1' });
+    module.dispatcher.updateInvoicePaymentDetails({
+      key: 'accountId',
+      value: '1',
+    });
 
     expect(store.getActions()).toEqual([
       {
@@ -262,7 +275,9 @@ describe('InvoicePaymentDetailModule', () => {
         type: SUCCESSFULLY_DELETED_INVOICE_PAYMENT,
         content: expect.any(String),
       });
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/transactionList'));
+      expect(window.location.href).toEqual(
+        expect.stringContaining('/#/au/1/transactionList')
+      );
     });
 
     it('fails to delete', () => {
@@ -302,7 +317,9 @@ describe('InvoicePaymentDetailModule', () => {
 
       module.cancelInvoicePayment();
 
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/transactionList'));
+      expect(window.location.href).toEqual(
+        expect.stringContaining('/#/au/1/transactionList')
+      );
     });
 
     it('redirect to invoice list on new invoice payment', () => {
@@ -310,7 +327,9 @@ describe('InvoicePaymentDetailModule', () => {
 
       module.cancelInvoicePayment();
 
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/invoice'));
+      expect(window.location.href).toEqual(
+        expect.stringContaining('/#/au/1/invoice')
+      );
     });
 
     it('redirect to invoice detail on prefilled invoice payment', () => {
@@ -318,7 +337,9 @@ describe('InvoicePaymentDetailModule', () => {
 
       module.cancelInvoicePayment();
 
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/invoice/invoiceId'));
+      expect(window.location.href).toEqual(
+        expect.stringContaining('/#/au/1/invoice/invoiceId')
+      );
     });
   });
 
@@ -375,7 +396,10 @@ describe('InvoicePaymentDetailModule', () => {
       },
     ].forEach(({ modalType, openHandler }) => {
       it(`does nothing when ${modalType} modal open`, () => {
-        const { module, store, integration } = setupWithOpenModal(modalType, openHandler);
+        const { module, store, integration } = setupWithOpenModal(
+          modalType,
+          openHandler
+        );
 
         module.saveHandler();
 
@@ -385,7 +409,9 @@ describe('InvoicePaymentDetailModule', () => {
     });
 
     it('saves changes when UNSAVED modal open', () => {
-      const { module, integration } = setupWithOpenUnsavedModal('/#/au/1/inTray');
+      const { module, integration } = setupWithOpenUnsavedModal(
+        '/#/au/1/inTray'
+      );
 
       module.saveHandler();
 
@@ -394,7 +420,9 @@ describe('InvoicePaymentDetailModule', () => {
           intent: UPDATE_INVOICE_PAYMENT,
         }),
       ]);
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/inTray'));
+      expect(window.location.href).toEqual(
+        expect.stringContaining('/#/au/1/inTray')
+      );
     });
 
     [
@@ -410,9 +438,7 @@ describe('InvoicePaymentDetailModule', () => {
         intent: UPDATE_INVOICE_PAYMENT,
         redirectUrl: '/#/au/1/transactionList',
       },
-    ].forEach(({
-      name, setupHandler, intent, redirectUrl,
-    }) => {
+    ].forEach(({ name, setupHandler, intent, redirectUrl }) => {
       it(`successfully ${name}`, () => {
         const { module, store, integration } = setupHandler();
         module.pushMessage = jest.fn();
@@ -436,9 +462,11 @@ describe('InvoicePaymentDetailModule', () => {
         ]);
         expect(module.pushMessage).toHaveBeenCalledWith({
           type: SUCCESSFULLY_SAVED_INVOICE_PAYMENT,
-          content: 'Great Work! You\'ve done it well!',
+          content: "Great Work! You've done it well!",
         });
-        expect(window.location.href).toEqual(expect.stringContaining(redirectUrl));
+        expect(window.location.href).toEqual(
+          expect.stringContaining(redirectUrl)
+        );
       });
 
       it(`fails to ${name}`, () => {
@@ -537,7 +565,10 @@ describe('InvoicePaymentDetailModule', () => {
       const toolbox = setupWithExisting();
       const { module, store, integration } = toolbox;
 
-      module.dispatcher.updateInvoicePaymentDetails({ key: 'customerId', value });
+      module.dispatcher.updateInvoicePaymentDetails({
+        key: 'customerId',
+        value,
+      });
       store.resetActions();
       integration.resetRequests();
 
@@ -636,7 +667,9 @@ describe('InvoicePaymentDetailModule', () => {
         module.openCancelModal();
 
         expect(store.getActions()).toEqual([]);
-        expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/transactionList'));
+        expect(window.location.href).toEqual(
+          expect.stringContaining('/#/au/1/transactionList')
+        );
       });
 
       it('redirect to invoice list on new invoice payment', () => {
@@ -644,15 +677,21 @@ describe('InvoicePaymentDetailModule', () => {
 
         module.openCancelModal();
 
-        expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/invoice'));
+        expect(window.location.href).toEqual(
+          expect.stringContaining('/#/au/1/invoice')
+        );
       });
 
       it('redirect to invoice detail on prefilled invoice payment', () => {
-        const { module } = setupWithNew({ applyPaymentToInvoiceId: 'invoiceId' });
+        const { module } = setupWithNew({
+          applyPaymentToInvoiceId: 'invoiceId',
+        });
 
         module.openCancelModal();
 
-        expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/invoice/invoiceId'));
+        expect(window.location.href).toEqual(
+          expect.stringContaining('/#/au/1/invoice/invoiceId')
+        );
       });
     });
   });
@@ -663,7 +702,9 @@ describe('InvoicePaymentDetailModule', () => {
 
       module.handlePageTransition('/#/au/1/inTray');
 
-      expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/inTray'));
+      expect(window.location.href).toEqual(
+        expect.stringContaining('/#/au/1/inTray')
+      );
     });
 
     it('open unsaved modal when page edited', () => {

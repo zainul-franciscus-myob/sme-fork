@@ -2,7 +2,11 @@ import { FieldGroup } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsCompany, getIsSupplier, getShowContactType } from '../../ContactModalSelectors';
+import {
+  getIsCompany,
+  getIsSupplier,
+  getShowContactType,
+} from '../../ContactModalSelectors';
 import Abn from '../inputs/Abn';
 import CompanyName from '../inputs/CompanyName';
 import ContactType from '../inputs/ContactType';
@@ -18,7 +22,7 @@ const ContactModalDetails = ({
   onChange,
 }) => (
   <FieldGroup label="Details">
-    { showContactType && <ContactType onChange={onChange} /> }
+    {showContactType && <ContactType onChange={onChange} />}
     <Designation onChange={onChange} />
     {isCompany && <CompanyName onChange={onChange} />}
     {!isCompany && <IndividualName onChange={onChange} />}
@@ -28,7 +32,7 @@ const ContactModalDetails = ({
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isCompany: getIsCompany(state),
   isSupplier: getIsSupplier(state),
   showContactType: getShowContactType(state),

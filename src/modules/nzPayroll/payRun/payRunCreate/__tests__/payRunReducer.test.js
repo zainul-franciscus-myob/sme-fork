@@ -1,6 +1,9 @@
 import { EMPLOYEE_PAY_LIST, START_PAY_RUN } from '../payRunSteps';
 import {
-  NEXT_STEP, SET_LOADING_STATE, SET_SUBMITTING_STATE, SET_TOTAL_TAKE_HOME_PAY,
+  NEXT_STEP,
+  SET_LOADING_STATE,
+  SET_SUBMITTING_STATE,
+  SET_TOTAL_TAKE_HOME_PAY,
 } from '../PayRunIntents';
 import { RESET_STATE } from '../../../../../SystemIntents';
 import LoadingState from '../../../../../components/PageView/LoadingState';
@@ -101,7 +104,6 @@ describe('NZ Payrun reducer', () => {
 
       const expected = {
         isSubmitting: true,
-
       };
 
       const actual = payRunReducer(state, action);

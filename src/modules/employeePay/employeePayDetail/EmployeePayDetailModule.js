@@ -2,7 +2,10 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import { SUCCESSFULLY_DELETED_EMPLOYEE_PAY_TRANSACTION } from '../../../common/types/MessageTypes';
-import { getPayRunListUrl, getTransactionListUrl } from './EmployeePayDetailSelectors';
+import {
+  getPayRunListUrl,
+  getTransactionListUrl,
+} from './EmployeePayDetailSelectors';
 import { getStpDeclarationContext } from '../employeePayModal/EmployeePayModalSelectors';
 import EmployeePayDetailView from './components/EmployeePayDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -13,13 +16,14 @@ import createEmployeePayDetailIntegrator from './createEmployeePayDetailIntegrat
 import employeePayDetailReducer from './employeePayDetailReducer';
 
 export default class EmployeePayDetailModule {
-  constructor({
-    integration, setRootView, pushMessage, featureToggles,
-  }) {
+  constructor({ integration, setRootView, pushMessage, featureToggles }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.store = new Store(employeePayDetailReducer);
-    this.integrator = createEmployeePayDetailIntegrator(this.store, integration);
+    this.integrator = createEmployeePayDetailIntegrator(
+      this.store,
+      integration
+    );
     this.dispatcher = createEmployeePayDetailDispatchers(this.store);
     this.featureToggles = featureToggles;
     this.stpDeclarationModule = new StpDeclarationModalModule({
@@ -76,7 +80,10 @@ export default class EmployeePayDetailModule {
       this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.integrator.loadEmployeePayReversalPreviewDetail({ onSuccess, onFailure });
+    this.integrator.loadEmployeePayReversalPreviewDetail({
+      onSuccess,
+      onFailure,
+    });
   };
 
   sendReversalEmployeePay = () => {
@@ -118,7 +125,9 @@ export default class EmployeePayDetailModule {
   }
 
   openDeclarationModal = () => {
-    this.stpDeclarationModule.run(getStpDeclarationContext(this.store.getState()));
+    this.stpDeclarationModule.run(
+      getStpDeclarationContext(this.store.getState())
+    );
   };
 
   render = () => {

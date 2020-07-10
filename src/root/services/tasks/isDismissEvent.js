@@ -1,3 +1,3 @@
-const isDismissEvent = event => /Dismiss$/.test(event);
+const isDismissEvent = (event) => /Dismiss$/.test(event);
 
 export default isDismissEvent;

@@ -1,4 +1,7 @@
-import { GET_SOFTWARE_ID, SUBMIT_STP_REGISTRATION } from '../stpNotifyAtoIntents';
+import {
+  GET_SOFTWARE_ID,
+  SUBMIT_STP_REGISTRATION,
+} from '../stpNotifyAtoIntents';
 
 const StpNotifyAtoMapping = {
   [GET_SOFTWARE_ID]: {

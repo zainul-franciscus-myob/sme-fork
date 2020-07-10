@@ -36,12 +36,7 @@ const NumericInput = ({
 );
 
 const NzAccountNumberInputs = ({
-  salesSettings: {
-    bankNumber,
-    branch,
-    accountNumber,
-    suffix,
-  },
+  salesSettings: { bankNumber, branch, accountNumber, suffix },
   onChange,
 }) => (
   <FieldSet
@@ -57,7 +52,6 @@ const NzAccountNumberInputs = ({
             maxLength={2}
             onChange={handleAmountInputChange(onChange)}
           />
-
         </div>
         <div className={styles.branch}>
           <NumericInput
@@ -91,7 +85,7 @@ const NzAccountNumberInputs = ({
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   salesSettings: getTabData(state),
 });
 

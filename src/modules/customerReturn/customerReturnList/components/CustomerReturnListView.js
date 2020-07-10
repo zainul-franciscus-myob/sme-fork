@@ -1,8 +1,4 @@
-import {
-  Alert,
-  PageHead,
-  StandardTemplate,
-} from '@myob/myob-widgets';
+import { Alert, PageHead, StandardTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -21,9 +17,7 @@ const CustomerReturnListView = ({
   onCreateRefundClick,
   onCreateApplyToSaleClick,
 }) => {
-  const pageHead = (
-    <PageHead title="Sale returns and credits" />
-  );
+  const pageHead = <PageHead title="Sale returns and credits" />;
 
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -38,8 +32,12 @@ const CustomerReturnListView = ({
   );
 
   const customerReturnListView = (
-    <StandardTemplate alert={alertComponent} sticky="none" pageHead={pageHead} filterBar={filterBar}>
-
+    <StandardTemplate
+      alert={alertComponent}
+      sticky="none"
+      pageHead={pageHead}
+      filterBar={filterBar}
+    >
       <div className={style.list}>
         <CustomerReturnListTable
           onSort={onSort}
@@ -47,14 +45,13 @@ const CustomerReturnListView = ({
           onCreateApplyToSaleClick={onCreateApplyToSaleClick}
         />
       </div>
-
     </StandardTemplate>
   );
 
   return <PageView loadingState={loadingState} view={customerReturnListView} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   alert: getAlert(state),
 });

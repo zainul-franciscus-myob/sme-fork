@@ -1,5 +1,5 @@
-const removeTrailingZeros = str => String(Number(str));
+const removeTrailingZeros = (str) => String(Number(str));
 
-const formatUnits = units => removeTrailingZeros(units);
+const formatUnits = (units) => removeTrailingZeros(units);
 
 export default formatUnits;

@@ -4,18 +4,21 @@ import React from 'react';
 
 import { getIsActionDisabled } from '../BankFeedsSelectors';
 
-const LinkedAccountsActions = ({
-  isActionDisabled,
-  onSaveButtonClick,
-}) => (
+const LinkedAccountsActions = ({ isActionDisabled, onSaveButtonClick }) => (
   <ButtonRow>
-    <Button key="save" name="save" type="primary" onClick={onSaveButtonClick} disabled={isActionDisabled}>
+    <Button
+      key="save"
+      name="save"
+      type="primary"
+      onClick={onSaveButtonClick}
+      disabled={isActionDisabled}
+    >
       Save
     </Button>
   </ButtonRow>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isActionDisabled: getIsActionDisabled(state),
 });
 

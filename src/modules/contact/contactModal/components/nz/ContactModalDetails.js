@@ -9,11 +9,7 @@ import Designation from '../inputs/Designation';
 import IndividualName from '../inputs/IndividualName';
 import ReferenceId from '../inputs/ReferenceId';
 
-const ContactModalDetails = ({
-  isCompany,
-  showContactType,
-  onChange,
-}) => (
+const ContactModalDetails = ({ isCompany, showContactType, onChange }) => (
   <FieldGroup label="Details">
     {showContactType && <ContactType onChange={onChange} />}
     <Designation onChange={onChange} />
@@ -23,7 +19,7 @@ const ContactModalDetails = ({
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isCompany: getIsCompany(state),
   showContactType: getShowContactType(state),
 });

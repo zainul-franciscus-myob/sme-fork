@@ -1,15 +1,14 @@
 const parseString = (string) => {
   const pathSegments = string.split('/');
   const regexPatternForId = '^[0-9]*';
-  const regexPatternForGuid = '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}';
+  const regexPatternForGuid =
+    '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}';
 
-  const segmentsWithIdsOrGuids = pathSegments.filter(
-    (pathSegment) => {
-      const isId = pathSegment.match(regexPatternForId);
-      const isGuid = pathSegment.match(regexPatternForGuid);
-      return Boolean(isId[0]) || isGuid;
-    },
-  );
+  const segmentsWithIdsOrGuids = pathSegments.filter((pathSegment) => {
+    const isId = pathSegment.match(regexPatternForId);
+    const isGuid = pathSegment.match(regexPatternForGuid);
+    return Boolean(isId[0]) || isGuid;
+  });
 
   const updatedPathSegments = pathSegments.map((pathSegment, index) => {
     if (segmentsWithIdsOrGuids.includes(pathSegment)) {
@@ -25,7 +24,9 @@ const parseString = (string) => {
       }
 
       const numberPartOfPathSegment = pathSegment.match(regexPatternForId);
-      const restOfPathSegment = pathSegment.slice(numberPartOfPathSegment[0].length);
+      const restOfPathSegment = pathSegment.slice(
+        numberPartOfPathSegment[0].length
+      );
       return `${pathSegments[index - 1]}Detail${restOfPathSegment}`;
     }
     return pathSegment;
@@ -35,13 +36,17 @@ const parseString = (string) => {
 };
 
 export const parseUrl = (url, businessId) => {
-  const urlWithoutBusinessId = businessId ? url.replace(`/${businessId}`, '') : url;
+  const urlWithoutBusinessId = businessId
+    ? url.replace(`/${businessId}`, '')
+    : url;
   const urlWithoutHash = urlWithoutBusinessId.replace('/#', '');
   return parseString(urlWithoutHash);
 };
 
 export const parsePath = (path, businessId) => {
-  const pathWithoutBusinessId = businessId ? path.replace(`/${businessId}`, '') : path;
+  const pathWithoutBusinessId = businessId
+    ? path.replace(`/${businessId}`, '')
+    : path;
   const pathWithoutHash = pathWithoutBusinessId.replace('#', '');
   return parseString(pathWithoutHash);
 };

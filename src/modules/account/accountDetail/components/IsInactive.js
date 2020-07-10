@@ -4,7 +4,7 @@ import React from 'react';
 
 import { getIsActive } from '../accountDetailSelectors';
 
-const onInactiveChange = handler => (e) => {
+const onInactiveChange = (handler) => (e) => {
   const { checked } = e.target;
   handler({ key: 'isActive', value: !checked });
 };
@@ -24,7 +24,7 @@ const IsInactive = ({ isInactive, onChange }) => (
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isInactive: !getIsActive(state),
 });
 

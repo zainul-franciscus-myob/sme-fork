@@ -2,7 +2,11 @@ import { Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getCreateBankFeedsUrl, getIsBankAccountsEmpty, getIsTableLoading } from '../BankFeedsSelectors';
+import {
+  getCreateBankFeedsUrl,
+  getIsBankAccountsEmpty,
+  getIsTableLoading,
+} from '../BankFeedsSelectors';
 import BankAccountsTableBody from './BankAccountsTableBody';
 import BankAccountsTableHeader from './BankAccountsTableHeader';
 import LinkButton from '../../../../components/Button/LinkButton';
@@ -12,11 +16,17 @@ import getBankAccountsTableResponsiveConfig from './getBankAccountsTableResponsi
 import styles from './BankAccountsTable.module.css';
 
 export const tableConfig = {
-  financialInstitution: { columnName: 'Financial institution', styles: { valign: 'middle' } },
+  financialInstitution: {
+    columnName: 'Financial institution',
+    styles: { valign: 'middle' },
+  },
   accountName: { columnName: 'Account name', styles: { valign: 'middle' } },
   BSB: { columnName: 'BSB', styles: { valign: 'middle' } },
   accountNumber: { columnName: 'Account number', styles: { valign: 'middle' } },
-  linkedAccount: { columnName: 'Linked account', styles: { valign: 'middle', textWrap: 'wrap' } },
+  linkedAccount: {
+    columnName: 'Linked account',
+    styles: { valign: 'middle', textWrap: 'wrap' },
+  },
   status: { columnName: 'Status', styles: { valign: 'middle' } },
   removeButton: { styles: { width: '3.6rem', valign: 'middle' } },
 };
@@ -67,7 +77,7 @@ const BankAccountsTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isBankAccountsEmpty: getIsBankAccountsEmpty(state),
   manageBankFeedsLink: getCreateBankFeedsUrl(state),
   isTableLoading: getIsTableLoading(state),

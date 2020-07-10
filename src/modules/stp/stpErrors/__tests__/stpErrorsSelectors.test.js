@@ -1,4 +1,8 @@
-import { getEmployeePageUrl, getPayItemPageUrl, getSource } from '../stpErrorsSelectors';
+import {
+  getEmployeePageUrl,
+  getPayItemPageUrl,
+  getSource,
+} from '../stpErrorsSelectors';
 
 describe('getEmployeePageUrl', () => {
   it('returns expected url', () => {

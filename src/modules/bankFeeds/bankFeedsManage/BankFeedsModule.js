@@ -13,9 +13,7 @@ import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 class BankFeedsModule {
-  constructor({
-    integration, setRootView, globalCallbacks,
-  }) {
+  constructor({ integration, setRootView, globalCallbacks }) {
     this.setRootView = setRootView;
     this.integration = integration;
     this.store = new Store(bankFeedsReducer);
@@ -34,7 +32,7 @@ class BankFeedsModule {
       this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
     this.integrator.loadBankFeeds({ onSuccess, onFailure });
-  }
+  };
 
   saveBankFeeds = () => {
     if (getIsSubmitting(this.store.getState())) return;
@@ -55,10 +53,16 @@ class BankFeedsModule {
     this.integrator.saveBankFeeds({ onSuccess, onFailure });
   };
 
-  openDeleteModalAndSetAccountToBeDeleted = (bankFeedAccountType, bankFeedId) => {
-    this.dispatcher.setBankFeedAccountToBeDeleted({ bankFeedAccountType, bankFeedId });
+  openDeleteModalAndSetAccountToBeDeleted = (
+    bankFeedAccountType,
+    bankFeedId
+  ) => {
+    this.dispatcher.setBankFeedAccountToBeDeleted({
+      bankFeedAccountType,
+      bankFeedId,
+    });
     this.dispatcher.openDeleteModal();
-  }
+  };
 
   deleteBankFeed = () => {
     this.dispatcher.closeModal();
@@ -78,22 +82,24 @@ class BankFeedsModule {
     };
 
     this.integrator.deleteBankFeed({ onSuccess, onFailure });
-  }
+  };
 
   closeDeleteModal = () => {
     this.dispatcher.resetBankFeedAccountToBeDeleted();
     this.dispatcher.closeModal();
-  }
+  };
 
-  displaySuccessMessage = successMessage => this.dispatcher.setAlert({
-    message: successMessage,
-    type: 'success',
-  });
+  displaySuccessMessage = (successMessage) =>
+    this.dispatcher.setAlert({
+      message: successMessage,
+      type: 'success',
+    });
 
-  displayFailureAlert = errorMessage => this.dispatcher.setAlert({
-    message: errorMessage,
-    type: 'danger',
-  });
+  displayFailureAlert = (errorMessage) =>
+    this.dispatcher.setAlert({
+      message: errorMessage,
+      type: 'danger',
+    });
 
   cancelBankFeedsLoginModal = () => {
     this.dispatcher.closeModal();
@@ -113,7 +119,7 @@ class BankFeedsModule {
 
     this.dispatcher.setIsTableLoading(true);
     this.integrator.loadBankFeeds({ onSuccess, onFailure });
-  }
+  };
 
   bankFeedsLogin = () => {
     const onSuccess = ({ message }) => {
@@ -146,7 +152,7 @@ class BankFeedsModule {
         this.saveBankFeeds();
         break;
     }
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,
@@ -169,12 +175,20 @@ class BankFeedsModule {
           onSaveButtonClick={this.saveBankFeeds}
           onDismissAlert={this.dispatcher.dismissAlert}
           onCloseDeleteModal={this.closeDeleteModal}
-          onBankAccountLinkedAccountChange={this.dispatcher.updateBankAccountLinkedAccount}
-          onCreditCardLinkedAccountChange={this.dispatcher.updateCreditCardLinkedAccount}
-          onDeleteBankFeedAccountClick={this.openDeleteModalAndSetAccountToBeDeleted}
+          onBankAccountLinkedAccountChange={
+            this.dispatcher.updateBankAccountLinkedAccount
+          }
+          onCreditCardLinkedAccountChange={
+            this.dispatcher.updateCreditCardLinkedAccount
+          }
+          onDeleteBankFeedAccountClick={
+            this.openDeleteModalAndSetAccountToBeDeleted
+          }
           onDeleteBankFeedAccountConfirm={this.deleteBankFeed}
           onUpdateButtonClick={this.dispatcher.openBankFeedsLoginModal}
-          onUpdateBankFeedsLoginDetails={this.dispatcher.updateBankFeedsLoginDetails}
+          onUpdateBankFeedsLoginDetails={
+            this.dispatcher.updateBankFeedsLoginDetails
+          }
           onCancelBankFeedsLogin={this.cancelBankFeedsLoginModal}
           onConfirmBankFeedsLogin={this.bankFeedsLogin}
         />

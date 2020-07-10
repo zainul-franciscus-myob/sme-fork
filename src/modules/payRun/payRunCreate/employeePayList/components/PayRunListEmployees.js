@@ -2,10 +2,12 @@ import { PageHead, Stepper } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsEtpOpen, getIsJobListModalOpen, getIsUnsavedModalOpen } from '../EmployeePayListSelectors';
 import {
-  getStepNumber, getStepperSteps,
-} from '../../PayRunSelectors';
+  getIsEtpOpen,
+  getIsJobListModalOpen,
+  getIsUnsavedModalOpen,
+} from '../EmployeePayListSelectors';
+import { getStepNumber, getStepperSteps } from '../../PayRunSelectors';
 import EmployeePayActions from './EmployeePayActions';
 import EmployeePayHeader from '../../components/EmployeePayHeader';
 import EmployeePayTable from './EmployeePayTable';
@@ -52,30 +54,31 @@ const PayRunListEmployees = ({
       onUpgradeModalUpgradeButtonClick={onUpgradeModalUpgradeButtonClick}
       onUpgradeModalDismiss={onUpgradeModalDismiss}
     />
-    { isJobListModalOpen
-    && (<JobListModalView
-      onSave={onAddJobSave}
-      onCancel={onAddJobCancel}
-      onAddJobCheckboxChange={onAddJobCheckboxChange}
-      onAddJobAmountChange={onAddJobAmountChange}
-      onAddJobAmountBlur={onAddJobAmountBlur}
-      onAllJobsCheckboxChange={onAllJobsCheckboxChange}
-    />)}
-    { isEtpOpen && (
-    <EtpModal
-      onChangeEtpCode={onChangeEtpCode}
-      onChangeEtpCodeCategory={onChangeEtpCodeCategory}
-      onCloseEtpModal={onCloseEtpModal}
-      onSaveEtp={onSaveEtp}
-    />
+    {isJobListModalOpen && (
+      <JobListModalView
+        onSave={onAddJobSave}
+        onCancel={onAddJobCancel}
+        onAddJobCheckboxChange={onAddJobCheckboxChange}
+        onAddJobAmountChange={onAddJobAmountChange}
+        onAddJobAmountBlur={onAddJobAmountBlur}
+        onAllJobsCheckboxChange={onAllJobsCheckboxChange}
+      />
     )}
-    { isUnsavedModalOpen && (
-    <UnsavedModal
-      onCancel={onUnsavedModalCancel}
-      onConfirmSave={onUnsavedModalSave}
-      onConfirmUnsave={onUnsavedModalDiscard}
-    />
-    ) }
+    {isEtpOpen && (
+      <EtpModal
+        onChangeEtpCode={onChangeEtpCode}
+        onChangeEtpCodeCategory={onChangeEtpCodeCategory}
+        onCloseEtpModal={onCloseEtpModal}
+        onSaveEtp={onSaveEtp}
+      />
+    )}
+    {isUnsavedModalOpen && (
+      <UnsavedModal
+        onCancel={onUnsavedModalCancel}
+        onConfirmSave={onUnsavedModalSave}
+        onConfirmUnsave={onUnsavedModalDiscard}
+      />
+    )}
     <PageHead title="Calculate pays" />
     <div className={styles.stepper}>
       <Stepper activeStepNumber={stepNumber} steps={payRunSteps} />
@@ -98,7 +101,7 @@ const PayRunListEmployees = ({
   </React.Fragment>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isEtpOpen: getIsEtpOpen(state),
   isJobListModalOpen: getIsJobListModalOpen(state),
   stepNumber: getStepNumber(state),

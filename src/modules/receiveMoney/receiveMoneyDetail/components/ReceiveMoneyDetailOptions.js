@@ -1,10 +1,17 @@
 import {
-  DetailHeader, Input, RadioButton, RadioButtonGroup, TextArea,
+  DetailHeader,
+  Input,
+  RadioButton,
+  RadioButtonGroup,
+  TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
-import { getHeaderOptions, getIsBeforeStartOfFinancialYear } from '../selectors/receiveMoneyDetailSelectors';
+import {
+  getHeaderOptions,
+  getIsBeforeStartOfFinancialYear,
+} from '../selectors/receiveMoneyDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import ContactCombobox from '../../../../components/combobox/ContactCombobox';
 import DatePicker from '../../../../components/DatePicker/DatePicker';
@@ -15,7 +22,7 @@ class ReceiveMoneyDetailOptions extends Component {
     const { value, name } = e.target;
 
     onUpdateHeaderOptions({ key: name, value });
-  }
+  };
 
   handleRadioChange = (e) => {
     const { onUpdateHeaderOptions } = this.props;
@@ -25,19 +32,19 @@ class ReceiveMoneyDetailOptions extends Component {
       key: name,
       value: value === 'true',
     });
-  }
+  };
 
   handleDateChange = ({ value }) => {
     const { onUpdateHeaderOptions } = this.props;
     const key = 'date';
 
     onUpdateHeaderOptions({ key, value });
-  }
+  };
 
-  handleComboBoxChange = key => (item) => {
+  handleComboBoxChange = (key) => (item) => {
     const { onUpdateHeaderOptions } = this.props;
     onUpdateHeaderOptions({ key, value: item.id });
-  }
+  };
 
   render = () => {
     const {
@@ -117,21 +124,31 @@ class ReceiveMoneyDetailOptions extends Component {
           name="isTaxInclusive"
           renderRadios={({ value, ...props }) => (
             <React.Fragment>
-              <RadioButton {...props} checked={isTaxInclusive} onChange={this.handleRadioChange} value="true" label="Tax inclusive" />
-              <RadioButton {...props} checked={!isTaxInclusive} onChange={this.handleRadioChange} value="false" label="Tax exclusive" />
+              <RadioButton
+                {...props}
+                checked={isTaxInclusive}
+                onChange={this.handleRadioChange}
+                value="true"
+                label="Tax inclusive"
+              />
+              <RadioButton
+                {...props}
+                checked={!isTaxInclusive}
+                onChange={this.handleRadioChange}
+                value="false"
+                label="Tax exclusive"
+              />
             </React.Fragment>
           )}
         />
       </React.Fragment>
     );
 
-    return (
-      <DetailHeader primary={primary} secondary={secondary} />
-    );
-  }
+    return <DetailHeader primary={primary} secondary={secondary} />;
+  };
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   headerOptions: getHeaderOptions(state),
   isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
 });

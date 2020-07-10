@@ -5,14 +5,20 @@ import {
   LOAD_NEW_INVENTORY_DETAIL,
   UPDATE_INVENTORY_DETAIL,
 } from '../InventoryIntents';
-import { getIsCreating, getItem, getUrlParams } from './inventoryDetailSelectors';
+import {
+  getIsCreating,
+  getItem,
+  getUrlParams,
+} from './inventoryDetailSelectors';
 
 const createInventoryDetailIntegrator = (store, integration) => ({
   loadInventoryDetail: ({ onSuccess, onFailure }) => {
     const state = store.getState();
     const isCreating = getIsCreating(state);
 
-    const intent = isCreating ? LOAD_NEW_INVENTORY_DETAIL : LOAD_INVENTORY_DETAIL;
+    const intent = isCreating
+      ? LOAD_NEW_INVENTORY_DETAIL
+      : LOAD_INVENTORY_DETAIL;
     const urlParams = getUrlParams(state);
 
     integration.read({
@@ -27,7 +33,9 @@ const createInventoryDetailIntegrator = (store, integration) => ({
     const state = store.getState();
     const isCreating = getIsCreating(state);
 
-    const intent = isCreating ? CREATE_INVENTORY_DETAIL : UPDATE_INVENTORY_DETAIL;
+    const intent = isCreating
+      ? CREATE_INVENTORY_DETAIL
+      : UPDATE_INVENTORY_DETAIL;
     const urlParams = getUrlParams(state);
     const content = getItem(state);
 

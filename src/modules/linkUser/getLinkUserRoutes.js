@@ -1,9 +1,7 @@
 import LinkUserModule from './LinkUserModule';
 import RouteName from '../../router/RouteName';
 
-const getLinkUserRoutes = ({
-  setRootView, integration,
-}) => {
+const getLinkUserRoutes = ({ setRootView, integration }) => {
   const routes = [
     {
       name: RouteName.LINK_USER,

@@ -1,4 +1,3 @@
-
 import {
   LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR,
   LOAD_INITIAL_EMPLOYEES_AND_HEADERS,
@@ -17,7 +16,7 @@ import {
 } from './FinalisationIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 
-const createFinalisationDispatcher = store => ({
+const createFinalisationDispatcher = (store) => ({
   setInitialState: (context) => {
     store.dispatch({
       intent: SET_INITIAL_STATE,

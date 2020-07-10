@@ -1,12 +1,18 @@
 import {
-  Alert, Button, Checkbox, CheckboxGroup, Input, Modal, Select, TextArea,
+  Alert,
+  Button,
+  Checkbox,
+  CheckboxGroup,
+  Input,
+  Modal,
+  Select,
+  TextArea,
 } from '@myob/myob-widgets';
 import React from 'react';
 
 import EmailInvoiceAttachmentsContent from './EmailInvoiceAttachmentsContent';
 import EmailItemList from '../../../../../components/itemList/EmailItemList';
-import EnterKeyFocusableWrapper
-  from '../../../../../components/EnterKeyFocusableWrapper/EnterKeyFocusableWrapper';
+import EnterKeyFocusableWrapper from '../../../../../components/EnterKeyFocusableWrapper/EnterKeyFocusableWrapper';
 import handleCheckboxChange from '../../../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../../../components/handlers/handleInputChange';
 import handleSelectChange from '../../../../../components/handlers/handleSelectChange';
@@ -32,7 +38,7 @@ const EmailInvoiceModal = ({
   onRemoveAttachment,
   onAddAttachments,
 }) => {
-  const renderContent = onKeyDown => (
+  const renderContent = (onKeyDown) => (
     <div className={styles.formWidth}>
       <EmailItemList
         label="To"
@@ -80,7 +86,9 @@ const EmailInvoiceModal = ({
         onRemoveAttachment={onRemoveAttachment}
         onAddAttachments={onAddAttachments}
       />
-      <Alert type="info">Total size of uploaded documents cannot exceed 25MB</Alert>
+      <Alert type="info">
+        Total size of uploaded documents cannot exceed 25MB
+      </Alert>
       <Select
         label="Template"
         name="templateName"
@@ -107,13 +115,19 @@ const EmailInvoiceModal = ({
             {alert.message}
           </Alert>
         )}
-        <EnterKeyFocusableWrapper
-          renderContent={renderContent}
-        />
+        <EnterKeyFocusableWrapper renderContent={renderContent} />
       </Modal.Body>
       <Modal.Footer>
-        <Button type="secondary" onClick={onCancel} disabled={isActionsDisabled}>Cancel</Button>
-        <Button type="primary" onClick={onConfirm} disabled={isActionsDisabled}>Send invoice</Button>
+        <Button
+          type="secondary"
+          onClick={onCancel}
+          disabled={isActionsDisabled}
+        >
+          Cancel
+        </Button>
+        <Button type="primary" onClick={onConfirm} disabled={isActionsDisabled}>
+          Send invoice
+        </Button>
       </Modal.Footer>
     </Modal>
   );

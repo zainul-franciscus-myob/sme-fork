@@ -17,7 +17,7 @@ import {
 } from './paySuperCreateIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createPaySuperCreateDispatcher = store => ({
+const createPaySuperCreateDispatcher = (store) => ({
   setLoadingState: (loadingState) => {
     store.dispatch({
       intent: SET_LOADING_STATE,

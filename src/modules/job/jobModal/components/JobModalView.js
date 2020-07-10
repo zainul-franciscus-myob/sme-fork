@@ -65,7 +65,7 @@ const JobModalView = ({
   return isOpen && modal;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isOpen: getIsOpen(state),
   isLoading: getIsLoading(state),
   isActionDisabled: getIsActionDisabled(state),

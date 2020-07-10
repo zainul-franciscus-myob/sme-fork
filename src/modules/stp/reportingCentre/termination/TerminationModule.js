@@ -1,7 +1,11 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getFlipSortOrder, getSelectedPayrollYear, getStpDeclarationContext } from './TerminationSelector';
+import {
+  getFlipSortOrder,
+  getSelectedPayrollYear,
+  getStpDeclarationContext,
+} from './TerminationSelector';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import Store from '../../../../store/Store';
 import StpDeclarationModalModule from '../../stpDeclarationModal/StpDeclarationModalModule';
@@ -11,11 +15,7 @@ import createTerminationIntegrator from './createTerminationIntegrator';
 import terminationReducer from './TerminationReducer';
 
 export default class TerminationModule {
-  constructor({
-    integration,
-    context,
-    setAlert,
-  }) {
+  constructor({ integration, context, setAlert }) {
     this.store = new Store(terminationReducer);
     this.setAlert = setAlert;
     this.integration = integration;
@@ -110,7 +110,7 @@ export default class TerminationModule {
     this.stpDeclarationModule.run(context, this.terminateEmployees);
   };
 
-  unterminateEmployee = employee => () => {
+  unterminateEmployee = (employee) => () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = ({ message }) => {
@@ -128,12 +128,12 @@ export default class TerminationModule {
     this.integrator.unterminateEmployee({ employee, onSuccess, onFailure });
   };
 
-  onUnterminateEmployee = employee => () => {
+  onUnterminateEmployee = (employee) => () => {
     const context = getStpDeclarationContext(this.store.getState());
     this.stpDeclarationModule.run(context, this.unterminateEmployee(employee));
   };
 
-  onTerminationDateChange = employee => ({ value }) => {
+  onTerminationDateChange = (employee) => ({ value }) => {
     this.dispatcher.setTerminationDate(employee, value);
   };
 

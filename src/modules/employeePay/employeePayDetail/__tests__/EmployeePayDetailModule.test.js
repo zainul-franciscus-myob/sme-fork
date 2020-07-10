@@ -12,17 +12,15 @@ describe('employeePayModalModule', () => {
     const setRootView = (component) => {
       wrapper = mount(component);
     };
-    const module = new EmployeePayDetailModule(
-      {
-        integration: {
-          read: ({ onSuccess }) => {
-            onSuccess(loadEmployeePayReversalPreviewDetail);
-          },
-          write: ({ onSuccess }) => onSuccess(),
+    const module = new EmployeePayDetailModule({
+      integration: {
+        read: ({ onSuccess }) => {
+          onSuccess(loadEmployeePayReversalPreviewDetail);
         },
-        setRootView,
+        write: ({ onSuccess }) => onSuccess(),
       },
-    );
+      setRootView,
+    });
     module.run({ businessId: '1', region: 'au' });
 
     return {
@@ -48,7 +46,9 @@ describe('employeePayModalModule', () => {
     wrapper.update();
 
     expect(wrapper).toEqual({});
-    expect(window.location.href).toEqual(expect.stringContaining('/#/au/1/payRun'));
+    expect(window.location.href).toEqual(
+      expect.stringContaining('/#/au/1/payRun')
+    );
   });
 
   describe('Stp Declaration Modal', () => {
@@ -57,12 +57,16 @@ describe('employeePayModalModule', () => {
       module.loadEmployeePayReversalPreviewDetail();
       wrapper.update();
 
-      findButtonWithTestId(wrapper, 'view-record-reverse-btn').simulate('click');
+      findButtonWithTestId(wrapper, 'view-record-reverse-btn').simulate(
+        'click'
+      );
       wrapper.update();
 
       const declarationModal = wrapper.find(StpDeclarationModal);
       expect(declarationModal.find(Modal)).toHaveLength(1);
-      expect(module.stpDeclarationModule.onDeclared).toBe(module.sendReversalEmployeePay);
+      expect(module.stpDeclarationModule.onDeclared).toBe(
+        module.sendReversalEmployeePay
+      );
     });
 
     it('should not open stp declaration modal when Cancel button is pressed', () => {
@@ -70,7 +74,9 @@ describe('employeePayModalModule', () => {
       module.loadEmployeePayReversalPreviewDetail();
       wrapper.update();
 
-      findButtonWithTestId(wrapper, 'view-record-reverse-back-btn').simulate('click');
+      findButtonWithTestId(wrapper, 'view-record-reverse-back-btn').simulate(
+        'click'
+      );
       wrapper.update();
 
       const declarationModal = wrapper.find(StpDeclarationModal);

@@ -1,18 +1,13 @@
 import React from 'react';
 
-import {
-  getTotals,
-  isPayItemLineDirty,
-} from './EmployeePayListSelectors';
+import { getTotals, isPayItemLineDirty } from './EmployeePayListSelectors';
 import EmployeePayListView from './components/EmployeePayListView';
 import createEmployeePayListDispatcher from './createEmployeePayListDispatcher';
 import createEmployeePayListIntegrator from './createEmployeePayListIntegrator';
 import formatAmount from '../../../../../common/valueFormatters/formatAmount';
 
 export default class EmployeePayListModule {
-  constructor({
-    integration, store, pushMessage, subscribeOrUpgrade,
-  }) {
+  constructor({ integration, store, pushMessage, subscribeOrUpgrade }) {
     this.store = store;
     this.pushMessage = pushMessage;
     this.dispatcher = createEmployeePayListDispatcher(store);
@@ -28,40 +23,45 @@ export default class EmployeePayListModule {
     this.dispatcher.nextStep();
   };
 
-  changeEmployeePayItem = ({
-    employeeId, payItemId, key, value,
-  }) => {
+  changeEmployeePayItem = ({ employeeId, payItemId, key, value }) => {
     this.dispatcher.setPayItemLineDirty(true);
     this.dispatcher.updateEmployeePayItem({
-      employeeId, payItemId, key, value,
+      employeeId,
+      payItemId,
+      key,
+      value,
     });
   };
 
-  updateEmployeePay = ({
-    employeeId, payItemId, key, value,
-  }) => {
+  updateEmployeePay = ({ employeeId, payItemId, key, value }) => {
     const state = this.store.getState();
     const payItemLineIsDirty = isPayItemLineDirty(state);
 
     if (payItemLineIsDirty) {
       this.dispatcher.formatEmployeePayItem({
-        employeeId, payItemId, key, value,
+        employeeId,
+        payItemId,
+        key,
+        value,
       });
       this.recalculateEmployeePay({
-        employeeId, payItemId, key,
+        employeeId,
+        payItemId,
+        key,
       });
     }
   };
 
-  recalculateEmployeePay = ({
-    employeeId, payItemId, key,
-  }) => {
+  recalculateEmployeePay = ({ employeeId, payItemId, key }) => {
     this.dispatcher.setSubmittingState(true);
 
     const onSuccess = (recalculatedEmployeePay) => {
       this.dispatcher.setSubmittingState(false);
       this.dispatcher.setPayItemLineDirty(false);
-      this.dispatcher.updateEmployeeLineAfterRecalculation({ employeeId, recalculatedEmployeePay });
+      this.dispatcher.updateEmployeeLineAfterRecalculation({
+        employeeId,
+        recalculatedEmployeePay,
+      });
     };
 
     const onFailure = () => {
@@ -70,13 +70,15 @@ export default class EmployeePayListModule {
     };
 
     this.integrator.recalculatePay({
-      employeeId, payItemId, key, onSuccess, onFailure,
+      employeeId,
+      payItemId,
+      key,
+      onSuccess,
+      onFailure,
     });
   };
 
-  updateDaysPaid = ({
-    employeeId, daysPaid,
-  }) => {
+  updateDaysPaid = ({ employeeId, daysPaid }) => {
     this.dispatcher.updateEmployeeDaysPaid(employeeId, daysPaid);
   };
 

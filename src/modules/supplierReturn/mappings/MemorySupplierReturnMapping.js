@@ -5,11 +5,11 @@ import {
 import filterSupplierReturnListResponse from './data/filterSupplierReturnList';
 import loadSupplierReturnListResponse from './data/loadSupplierReturnList';
 
-const loadSupplierReturnList = ({ onSuccess }) => onSuccess(loadSupplierReturnListResponse);
+const loadSupplierReturnList = ({ onSuccess }) =>
+  onSuccess(loadSupplierReturnListResponse);
 
-const sortAndFilterSupplierReturnList = ({ onSuccess }) => onSuccess(
-  filterSupplierReturnListResponse,
-);
+const sortAndFilterSupplierReturnList = ({ onSuccess }) =>
+  onSuccess(filterSupplierReturnListResponse);
 
 const MemorySupplierReturnMapping = {
   [LOAD_SUPPLIER_RETURN_LIST]: loadSupplierReturnList,

@@ -10,9 +10,7 @@ import {
   SORT_AND_FILTER_CONTACT_LIST,
   UPDATE_FILTER_OPTIONS,
 } from '../ContactIntents';
-import {
-  RESET_STATE, SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
@@ -38,7 +36,7 @@ const getDefaultState = () => ({
   showHiddenColumns: false,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const loadContactList = (state, action) => ({
   ...state,
@@ -98,7 +96,7 @@ const updateFilterOptions = (state, action) => ({
   },
 });
 
-const resetFilters = state => ({
+const resetFilters = (state) => ({
   ...state,
   filterOptions: {
     ...state.defaultFilterOptions,
@@ -117,27 +115,24 @@ const setInitialState = (state, action) => ({
 });
 
 const loadContactListNextPage = (state, action) => {
-  const contactExistsInState = payloadContact => state.entries.some(
-    existingContact => existingContact.id === payloadContact.id,
-  );
+  const contactExistsInState = (payloadContact) =>
+    state.entries.some(
+      (existingContact) => existingContact.id === payloadContact.id
+    );
 
   const entries = action.entries.filter(
-    payloadContact => !contactExistsInState(payloadContact),
+    (payloadContact) => !contactExistsInState(payloadContact)
   );
 
-  return ({
+  return {
     ...state,
-    entries: [
-      ...state.entries,
-      ...entries,
-    ],
+    entries: [...state.entries, ...entries],
     pagination: {
       hasNextPage: action.pagination.hasNextPage,
       offset: action.pagination.offset,
     },
-  });
+  };
 };
-
 
 const handlers = {
   [LOAD_CONTACT_LIST]: loadContactList,

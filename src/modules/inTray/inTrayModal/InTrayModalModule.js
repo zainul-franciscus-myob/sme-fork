@@ -103,7 +103,7 @@ export default class InTrayModalModule {
   };
 
   createInTrayDocuments = (entries) => {
-    const onProgress = () => { };
+    const onProgress = () => {};
 
     const onSuccess = ({ entry }, index) => {
       const { uploadId } = entries[index] || { uploadId: 'none' };
@@ -186,7 +186,7 @@ export default class InTrayModalModule {
     this.onLoadFailure = onLoadFailure;
     this.dispatcher.setInitialState(context);
     this.loadInTrayModal();
-  }
+  };
 
   resetState = () => this.dispatcher.resetState();
 }

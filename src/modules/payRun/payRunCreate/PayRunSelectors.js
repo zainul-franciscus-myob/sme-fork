@@ -3,19 +3,33 @@ import { createSelector } from 'reselect';
 import formatDate from '../../../common/valueFormatters/formatDate/formatDate';
 import formatSlashDate from '../../../common/valueFormatters/formatDate/formatSlashDate';
 
-export const getLoadingState = state => state.loadingState;
-export const getIsSubmitting = state => state.isSubmitting;
-export const getBusinessId = state => state.businessId;
-export const getAlert = state => state.alert;
-export const getStep = state => state.step;
-export const getPreviousStepModalIsOpen = state => state.previousStepModalIsOpen;
-export const getIsPayrollSetup = state => state.startPayRun.isPayrollSetup;
+export const getLoadingState = (state) => state.loadingState;
+export const getIsSubmitting = (state) => state.isSubmitting;
+export const getBusinessId = (state) => state.businessId;
+export const getAlert = (state) => state.alert;
+export const getStep = (state) => state.step;
+export const getPreviousStepModalIsOpen = (state) =>
+  state.previousStepModalIsOpen;
+export const getIsPayrollSetup = (state) => state.startPayRun.isPayrollSetup;
 
-const getPaymentFrequency = state => state.startPayRun.currentEditingPayRun.paymentFrequency;
-const getPaymentDate = state => formatDate(new Date(state.startPayRun.currentEditingPayRun.paymentDate), 'iii dd/MM/yyyy');
-const getPayPeriodStart = state => formatDate(new Date(state.startPayRun.currentEditingPayRun.payPeriodStart), 'iii dd/MM/yyyy');
-const getPayPeriodEnd = state => formatDate(new Date(state.startPayRun.currentEditingPayRun.payPeriodEnd), 'iii dd/MM/yyyy');
-const getTotalNetPay = state => state.totalNetPay;
+const getPaymentFrequency = (state) =>
+  state.startPayRun.currentEditingPayRun.paymentFrequency;
+const getPaymentDate = (state) =>
+  formatDate(
+    new Date(state.startPayRun.currentEditingPayRun.paymentDate),
+    'iii dd/MM/yyyy'
+  );
+const getPayPeriodStart = (state) =>
+  formatDate(
+    new Date(state.startPayRun.currentEditingPayRun.payPeriodStart),
+    'iii dd/MM/yyyy'
+  );
+const getPayPeriodEnd = (state) =>
+  formatDate(
+    new Date(state.startPayRun.currentEditingPayRun.payPeriodEnd),
+    'iii dd/MM/yyyy'
+  );
+const getTotalNetPay = (state) => state.totalNetPay;
 
 export const getEmployeeHeader = createSelector(
   getPaymentFrequency,
@@ -23,18 +37,23 @@ export const getEmployeeHeader = createSelector(
   getPayPeriodStart,
   getPayPeriodEnd,
   getTotalNetPay,
-  (paymentFrequency, paymentDate, payPeriodStart, payPeriodEnd, totalNetPay) => ({
+  (
+    paymentFrequency,
+    paymentDate,
+    payPeriodStart,
+    payPeriodEnd,
+    totalNetPay
+  ) => ({
     paymentFrequency,
     paymentDate,
     payPeriodStart,
     payPeriodEnd,
     totalNetPay,
-  }),
+  })
 );
 
-export const getPayOnDate = state => (
-  formatSlashDate(new Date(state.startPayRun.currentEditingPayRun.paymentDate))
-);
+export const getPayOnDate = (state) =>
+  formatSlashDate(new Date(state.startPayRun.currentEditingPayRun.paymentDate));
 
 const initialStepperSteps = [
   {
@@ -64,8 +83,9 @@ const initialStepperSteps = [
   },
 ];
 
-const isStepCompleted = (stepIndex, activeStepIndex) => (stepIndex < activeStepIndex);
-const completeTheStep = step => ({ ...step, type: 'complete' });
+const isStepCompleted = (stepIndex, activeStepIndex) =>
+  stepIndex < activeStepIndex;
+const completeTheStep = (step) => ({ ...step, type: 'complete' });
 
 export const getPayRunListUrl = (state) => {
   const { businessId, region } = state;
@@ -85,36 +105,33 @@ export const getStpReportingUrl = (state) => {
 export const getStepperSteps = (state) => {
   const activeStepIndex = getStep(state);
 
-  return initialStepperSteps.map(
-    (step, index) => (isStepCompleted(index, activeStepIndex)
-      ? completeTheStep(step)
-      : step),
+  return initialStepperSteps.map((step, index) =>
+    isStepCompleted(index, activeStepIndex) ? completeTheStep(step) : step
   );
 };
 
-export const getStepNumber = state => (String(state.step + 1));
+export const getStepNumber = (state) => String(state.step + 1);
 
-const getSelectedEmployeeIds = state => (
+const getSelectedEmployeeIds = (state) =>
   state.employeePayList.lines
-    .filter(employeePay => employeePay.isSelected === true)
-    .map(employeePay => employeePay.employeeId)
-);
+    .filter((employeePay) => employeePay.isSelected === true)
+    .map((employeePay) => employeePay.employeeId);
 
-const getEmployeePays = state => (state.employeePayList.originalLines);
-const getEmployeePayLines = state => (state.employeePayList.lines);
-const getUnprocessedTimesheetLines = state => state.unprocessedTimesheetLines;
+const getEmployeePays = (state) => state.employeePayList.originalLines;
+const getEmployeePayLines = (state) => state.employeePayList.lines;
+const getUnprocessedTimesheetLines = (state) => state.unprocessedTimesheetLines;
 
-export const getSaveDraftContent = state => ({
+export const getSaveDraftContent = (state) => ({
   ...state.startPayRun.currentEditingPayRun,
   selectedEmployeeIds: getSelectedEmployeeIds(state),
   employeePays: getEmployeePays(state).map((employeePay, i) => ({
     ...employeePay,
     note: getEmployeePayLines(state)[i].note,
-    payItems: employeePay.payItems.map(payItem => ({
+    payItems: employeePay.payItems.map((payItem) => ({
       ...payItem,
       jobs: getEmployeePayLines(state)
-        .find(q => q.employeeId === employeePay.employeeId)?.payItems
-        .find(q => q.payItemId === payItem.payItemId)?.jobs,
+        .find((q) => q.employeeId === employeePay.employeeId)
+        ?.payItems.find((q) => q.payItemId === payItem.payItemId)?.jobs,
     })),
   })),
   unprocessedTimesheetSelections: getUnprocessedTimesheetLines(state),
@@ -125,10 +142,9 @@ export const getPayrollSettingsLink = (state) => {
   return `/#/${region}/${businessId}/payrollSettings?tab=general`;
 };
 
+export const getRegion = (state) => state.region;
 
-export const getRegion = state => state.region;
-
-export const getStpErrorUrl = state => {
+export const getStpErrorUrl = (state) => {
   const region = getRegion(state);
   const businessId = getBusinessId(state);
 

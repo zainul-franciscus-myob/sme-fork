@@ -11,9 +11,7 @@ import React from 'react';
 import styles from './NoMoveWrapper.module.css';
 
 const NoMoveWrapper = ({ children }) => (
-  <div className={styles.noMoveWrapper}>
-    {children}
-  </div>
+  <div className={styles.noMoveWrapper}>{children}</div>
 );
 
 export default NoMoveWrapper;

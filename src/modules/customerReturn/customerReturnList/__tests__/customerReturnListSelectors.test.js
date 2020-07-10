@@ -1,4 +1,7 @@
-import { getTableBodyState, isDefaultFilters } from '../CustomerReturnListSelectors';
+import {
+  getTableBodyState,
+  isDefaultFilters,
+} from '../CustomerReturnListSelectors';
 import TableBodyType from '../TableBodyType';
 
 describe('customerReturnListSelectors', () => {
@@ -14,9 +17,7 @@ describe('customerReturnListSelectors', () => {
         keywords: '',
       };
 
-      const actual = isDefaultFilters(
-        filters, defaultFilterOptions,
-      );
+      const actual = isDefaultFilters(filters, defaultFilterOptions);
 
       expect(actual).toEqual(true);
     });
@@ -31,9 +32,7 @@ describe('customerReturnListSelectors', () => {
         keywords: '123',
       };
 
-      const actual = isDefaultFilters(
-        filters, defaultFilterOptions,
-      );
+      const actual = isDefaultFilters(filters, defaultFilterOptions);
 
       expect(actual).toEqual(false);
     });

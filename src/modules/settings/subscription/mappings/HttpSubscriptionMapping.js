@@ -1,5 +1,6 @@
 import {
-  GET_CHANGE_PLAN_URL, GET_UPDATE_SUBSCRIPTION_URL,
+  GET_CHANGE_PLAN_URL,
+  GET_UPDATE_SUBSCRIPTION_URL,
 } from '../subscriptionIntents';
 
 export default {

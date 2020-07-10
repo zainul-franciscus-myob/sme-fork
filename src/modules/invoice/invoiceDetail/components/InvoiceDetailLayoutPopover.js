@@ -1,10 +1,17 @@
 import {
-  Button, Icons, RadioButton, RadioButtonGroup,
+  Button,
+  Icons,
+  RadioButton,
+  RadioButtonGroup,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsReadOnly, getIsSubmitting, getLayout } from '../selectors/invoiceDetailSelectors';
+import {
+  getIsReadOnly,
+  getIsSubmitting,
+  getLayout,
+} from '../selectors/invoiceDetailSelectors';
 import InvoiceLayout from '../types/InvoiceLayout';
 import Popover from '../../../../components/Feelix/Popover/Popover';
 import styles from './InvoiceDetailLayoutPopover.module.css';
@@ -40,23 +47,28 @@ const InvoiceDetailLayoutPopover = ({
   );
 
   const triggerButton = (
-    <Button disabled={isReadOnly} type="link" icon={<Icons.Settings />} iconRight>Field layout</Button>
+    <Button
+      disabled={isReadOnly}
+      type="link"
+      icon={<Icons.Settings />}
+      iconRight
+    >
+      Field layout
+    </Button>
   );
 
-  const view = isReadOnly ? triggerButton : (
+  const view = isReadOnly ? (
+    triggerButton
+  ) : (
     <Popover body={layoutBody} preferPlace="below" closeOnOuterAction>
       {triggerButton}
     </Popover>
   );
 
-  return (
-    <div className={styles.popover}>
-      {view}
-    </div>
-  );
+  return <div className={styles.popover}>{view}</div>;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isSubmitting: getIsSubmitting(state),
   layout: getLayout(state),
   isReadOnly: getIsReadOnly(state),

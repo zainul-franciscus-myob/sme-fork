@@ -2,7 +2,10 @@ import { Input } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getSuperFund, getSuperProducts } from '../../../selectors/SuperFundModalSelectors';
+import {
+  getSuperFund,
+  getSuperProducts,
+} from '../../../selectors/SuperFundModalSelectors';
 import AbnInput from '../../../../../../../components/autoFormatter/AbnInput/AbnInput';
 import SuperFundProductCombobox from '../SuperFundProductCombobox';
 import handleAmountInputChange from '../../../../../../../components/handlers/handleAmountInputChange';
@@ -16,10 +19,7 @@ const SuperFundDetailSection = ({
     superProductAbn,
     employerMembershipNumber,
   },
-  superFundModalListeners: {
-    onUpdateSuperFundDetail,
-    onSelectSuperFund,
-  },
+  superFundModalListeners: { onUpdateSuperFundDetail, onSelectSuperFund },
 }) => (
   <>
     <SuperFundProductCombobox
@@ -38,12 +38,7 @@ const SuperFundDetailSection = ({
       onChange={handleInputChange(onUpdateSuperFundDetail)}
       requiredLabel="Name is required"
     />
-    <Input
-      name="spinUsi"
-      label="SPIN/USI"
-      value={superProductId}
-      disabled
-    />
+    <Input name="spinUsi" label="SPIN/USI" value={superProductId} disabled />
     <AbnInput
       name="superProductAbn"
       label="Fund ABN"
@@ -60,7 +55,7 @@ const SuperFundDetailSection = ({
   </>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   superFund: getSuperFund(state),
   superProducts: getSuperProducts(state),
 });

@@ -4,12 +4,21 @@ import loadTasks from './loadTasks';
 
 export default (dispatcher, integration, store) => {
   const load = () => loadTasks({ dispatcher, integration, store });
-  const close = context => closeTasks({
-    dispatcher, integration, context, store,
-  });
-  const dismiss = taskKey => dismissTask({
-    dispatcher, integration, taskKey, store, closeTasks: close,
-  });
+  const close = (context) =>
+    closeTasks({
+      dispatcher,
+      integration,
+      context,
+      store,
+    });
+  const dismiss = (taskKey) =>
+    dismissTask({
+      dispatcher,
+      integration,
+      taskKey,
+      store,
+      closeTasks: close,
+    });
 
   return {
     load,

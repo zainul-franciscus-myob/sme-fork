@@ -12,7 +12,7 @@ describe('invoiceDetailsOptions', () => {
     const wrapper = mount(
       <Provider store={store}>
         <InvoiceDetailOptions />
-      </Provider>,
+      </Provider>
     );
     const invoiceNumberInput = wrapper.find({ name: 'invoiceNumber' }).first();
     expect(invoiceNumberInput.prop('maxLength')).toBe(13);

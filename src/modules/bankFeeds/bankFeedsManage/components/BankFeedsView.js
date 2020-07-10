@@ -1,6 +1,4 @@
-import {
-  BaseTemplate, Icons, PageHead,
-} from '@myob/myob-widgets';
+import { BaseTemplate, Icons, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -48,10 +46,7 @@ const BankFeedsView = ({
   );
 
   const alertComponent = alert && (
-    <Alert
-      alert={alert}
-      onDismissAlert={onDismissAlert}
-    />
+    <Alert alert={alert} onDismissAlert={onDismissAlert} />
   );
 
   const modal = {
@@ -71,22 +66,20 @@ const BankFeedsView = ({
     ),
   }[modalType];
 
-  const tableView = isBankFeedsEmpty
-    ? (
-      <BankFeedsEmptyView />
-    )
-    : (
-      <>
-        <BankAccounts
-          onBankAccountLinkedAccountChange={onBankAccountLinkedAccountChange}
-          onDeleteBankFeedAccountClick={onDeleteBankFeedAccountClick}
-        />
-        <CreditCards
-          onCreditCardLinkedAccountChange={onCreditCardLinkedAccountChange}
-          onDeleteBankFeedAccountClick={onDeleteBankFeedAccountClick}
-        />
-      </>
-    );
+  const tableView = isBankFeedsEmpty ? (
+    <BankFeedsEmptyView />
+  ) : (
+    <>
+      <BankAccounts
+        onBankAccountLinkedAccountChange={onBankAccountLinkedAccountChange}
+        onDeleteBankFeedAccountClick={onDeleteBankFeedAccountClick}
+      />
+      <CreditCards
+        onCreditCardLinkedAccountChange={onCreditCardLinkedAccountChange}
+        onDeleteBankFeedAccountClick={onDeleteBankFeedAccountClick}
+      />
+    </>
+  );
 
   const stickyComponents = (
     <div>
@@ -113,9 +106,7 @@ const BankFeedsView = ({
 
   const view = (
     <BaseTemplate>
-      <StickyHeader>
-        {stickyComponents}
-      </StickyHeader>
+      <StickyHeader>{stickyComponents}</StickyHeader>
       {tableView}
       {modal}
       {actions}
@@ -125,7 +116,7 @@ const BankFeedsView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   isActionDisabled: getIsActionDisabled(state),
   alert: getAlert(state),

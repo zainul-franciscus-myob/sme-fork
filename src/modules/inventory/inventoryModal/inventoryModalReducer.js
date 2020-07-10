@@ -48,7 +48,7 @@ const getDefaultState = () => ({
   taxCodeOptions: [],
 });
 
-const open = state => ({
+const open = (state) => ({
   ...state,
   isOpen: true,
 });
@@ -65,7 +65,7 @@ const loadItem = (state, action) => ({
   ...action.response,
 });
 
-const closeAlert = state => ({
+const closeAlert = (state) => ({
   ...state,
   alert: undefined,
 });
@@ -78,12 +78,12 @@ const openAlert = (state, action) => ({
   },
 });
 
-const startLoading = state => ({
+const startLoading = (state) => ({
   ...state,
   isLoading: true,
 });
 
-const stopLoading = state => ({
+const stopLoading = (state) => ({
   ...state,
   isLoading: false,
 });
@@ -96,29 +96,34 @@ const updateItemOption = (state, action) => ({
   },
 });
 
-const getTaxCodeIdFromAccountId = ({ accountOptions, accountId }) => accountOptions
-  .find(accountOption => accountOption.id === accountId).taxCodeId;
-
+const getTaxCodeIdFromAccountId = ({ accountOptions, accountId }) =>
+  accountOptions.find((accountOption) => accountOption.id === accountId)
+    .taxCodeId;
 
 const updateSellingOption = (state, action) => {
-  const key = action.key === 'isTaxInclusiveForSellingDetails' ? 'isTaxInclusive' : action.key;
+  const key =
+    action.key === 'isTaxInclusiveForSellingDetails'
+      ? 'isTaxInclusive'
+      : action.key;
 
   const isAccountId = action.key === 'accountId';
 
-  return ({
+  return {
     ...state,
     item: {
       ...state.item,
       sellingDetails: {
         ...state.item.sellingDetails,
-        taxCodeId: isAccountId ? getTaxCodeIdFromAccountId({
-          accountOptions: state.sellingAccountOptions,
-          accountId: action.value,
-        }) : state.item.sellingDetails.taxCodeId,
+        taxCodeId: isAccountId
+          ? getTaxCodeIdFromAccountId({
+              accountOptions: state.sellingAccountOptions,
+              accountId: action.value,
+            })
+          : state.item.sellingDetails.taxCodeId,
         [key]: action.value,
       },
     },
-  });
+  };
 };
 
 const updateBuyingOption = (state, action) => {
@@ -132,9 +137,9 @@ const updateBuyingOption = (state, action) => {
         ...state.item.buyingDetails,
         taxCodeId: isAccountId
           ? getTaxCodeIdFromAccountId({
-            accountOptions: state.buyingAccountOptions,
-            accountId: action.value,
-          })
+              accountOptions: state.buyingAccountOptions,
+              accountId: action.value,
+            })
           : state.item.buyingDetails.taxCodeId,
         [action.key]: action.value,
       },
@@ -160,12 +165,12 @@ const updateIsSelling = (state, action) => ({
   },
 });
 
-const openBuyingDetails = state => ({
+const openBuyingDetails = (state) => ({
   ...state,
   isBuying: true,
 });
 
-const openSellingDetails = state => ({
+const openSellingDetails = (state) => ({
   ...state,
   isSelling: true,
 });

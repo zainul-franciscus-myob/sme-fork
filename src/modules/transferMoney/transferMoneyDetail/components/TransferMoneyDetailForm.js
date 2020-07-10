@@ -1,10 +1,18 @@
 import {
-  Columns, DetailHeader, Input, Separator, TextArea,
+  Columns,
+  DetailHeader,
+  Input,
+  Separator,
+  TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getBalance, getIsBeforeStartOfFinancialYear, getTransferMoneyProperties } from '../transferMoneyDetailSelectors';
+import {
+  getBalance,
+  getIsBeforeStartOfFinancialYear,
+  getTransferMoneyProperties,
+} from '../transferMoneyDetailSelectors';
 import AccountBalances from './TransferMoneyAccountBalance';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import Calculator from '../../../../components/Calculator/Calculator';
@@ -16,14 +24,15 @@ import handleInputChange from '../../../../components/handlers/handleInputChange
 
 const TransferMoneyDetailForm = ({
   transferMoney: {
-    referenceId, accounts, date, amount, description,
+    referenceId,
+    accounts,
+    date,
+    amount,
+    description,
     selectedTransferFromAccountId,
     selectedTransferToAccountId,
   },
-  balance: {
-    transferFrom,
-    transferTo,
-  },
+  balance: { transferFrom, transferTo },
   onUpdateForm,
   isCreating,
   isBeforeStartOfFinancialYear,
@@ -93,7 +102,10 @@ const TransferMoneyDetailForm = ({
           requiredLabel="This is required"
           items={accounts}
           selectedId={selectedTransferFromAccountId}
-          onChange={handleComboboxChange('selectedTransferFromAccountId', onUpdateForm)}
+          onChange={handleComboboxChange(
+            'selectedTransferFromAccountId',
+            onUpdateForm
+          )}
           disabled={!isCreating}
         />
         <AccountCombobox
@@ -102,29 +114,30 @@ const TransferMoneyDetailForm = ({
           requiredLabel="This is required"
           items={accounts}
           selectedId={selectedTransferToAccountId}
-          onChange={handleComboboxChange('selectedTransferToAccountId', onUpdateForm)}
+          onChange={handleComboboxChange(
+            'selectedTransferToAccountId',
+            onUpdateForm
+          )}
           disabled={!isCreating}
         />
-        {
-            isCreating && (
-              <React.Fragment>
-                <AccountBalances
-                  currentBalance={transferFrom.currentBalance}
-                  calculatedBalance={transferFrom.calculatedBalance}
-                />
-                <AccountBalances
-                  currentBalance={transferTo.currentBalance}
-                  calculatedBalance={transferTo.calculatedBalance}
-                />
-              </React.Fragment>
-            )
-          }
+        {isCreating && (
+          <React.Fragment>
+            <AccountBalances
+              currentBalance={transferFrom.currentBalance}
+              calculatedBalance={transferFrom.calculatedBalance}
+            />
+            <AccountBalances
+              currentBalance={transferTo.currentBalance}
+              calculatedBalance={transferTo.calculatedBalance}
+            />
+          </React.Fragment>
+        )}
       </Columns>
     </React.Fragment>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   transferMoney: getTransferMoneyProperties(state),
   balance: getBalance(state),
   isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),

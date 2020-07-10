@@ -9,7 +9,10 @@ describe('<PersonalEmploymentFieldGroup />', () => {
     dateOfBirth: '1980-12-09T00:00:00',
     calculatedAge: 50,
     gender: 'gender1',
-    genderOptions: [{ name: 'gender1', value: 'Gender 1' }, { name: 'gender2', value: 'Gender 2' }],
+    genderOptions: [
+      { name: 'gender1', value: 'Gender 1' },
+      { name: 'gender2', value: 'Gender 2' },
+    ],
     onDateChange: jest.fn(),
     onSelectChange: jest.fn(),
   };
@@ -30,7 +33,6 @@ describe('<PersonalEmploymentFieldGroup />', () => {
     });
   });
 
-
   describe('age field', () => {
     it('should display the age', () => {
       const wrapper = mount(<PersonalEmploymentFieldGroup {...props} />);
@@ -41,7 +43,6 @@ describe('<PersonalEmploymentFieldGroup />', () => {
       expect(field.text()).toContain(props.calculatedAge);
     });
   });
-
 
   describe('gender field', () => {
     const name = 'gender';
@@ -58,7 +59,10 @@ describe('<PersonalEmploymentFieldGroup />', () => {
       const field = wrapper.find({ name }).find(Select);
 
       const optionComponents = field.find(Select.Option);
-      const optionProps = optionComponents.map(c => ({ name: c.prop('label'), value: c.prop('value') }));
+      const optionProps = optionComponents.map((c) => ({
+        name: c.prop('label'),
+        value: c.prop('value'),
+      }));
 
       expect(optionProps).toEqual(props.genderOptions);
     });

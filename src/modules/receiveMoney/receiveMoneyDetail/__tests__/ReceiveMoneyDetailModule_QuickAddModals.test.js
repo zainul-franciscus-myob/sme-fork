@@ -13,10 +13,13 @@ describe('ReceiveMoneyDetailModule_QuickAddModals', () => {
       const { module, store, integration } = setupWithNew();
 
       const onChange = jest.fn();
-      module.loadAccountAfterCreate({
-        message: 'well done',
-        id: '123',
-      }, onChange);
+      module.loadAccountAfterCreate(
+        {
+          message: 'well done',
+          id: '123',
+        },
+        onChange
+      );
 
       expect(store.getActions()).toEqual([
         {
@@ -54,10 +57,13 @@ describe('ReceiveMoneyDetailModule_QuickAddModals', () => {
 
       const onChange = jest.fn();
       integration.mapFailure(LOAD_ACCOUNT_AFTER_CREATE);
-      module.loadAccountAfterCreate({
-        message: 'well done',
-        id: '123',
-      }, onChange);
+      module.loadAccountAfterCreate(
+        {
+          message: 'well done',
+          id: '123',
+        },
+        onChange
+      );
 
       expect(store.getActions()).toEqual([
         {

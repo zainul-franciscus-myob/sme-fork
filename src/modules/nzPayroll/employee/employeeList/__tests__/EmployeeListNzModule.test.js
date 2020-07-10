@@ -18,11 +18,16 @@ describe('EmployeeListNzModule', () => {
     const integration = new TestIntegration();
     let wrapper;
 
-    const setRootView = (component) => { wrapper = mount(component); };
+    const setRootView = (component) => {
+      wrapper = mount(component);
+    };
     const popMessages = () => [];
 
-
-    const module = new EmployeeListNzModule({ integration, setRootView, popMessages });
+    const module = new EmployeeListNzModule({
+      integration,
+      setRootView,
+      popMessages,
+    });
     module.store = store;
     module.dispatcher = employeeListNzDispatcher({ store });
     module.integrator = employeeListNzIntegrator({ store, integration });
@@ -32,15 +37,16 @@ describe('EmployeeListNzModule', () => {
     integration.resetRequests();
 
     return {
-      store, integration, module, wrapper,
+      store,
+      integration,
+      module,
+      wrapper,
     };
   };
 
   describe('run', () => {
     describe('should load employee list successfully', () => {
-      const {
-        store, integration, module, wrapper,
-      } = setup();
+      const { store, integration, module, wrapper } = setup();
 
       module.run({ businessId: 'id' });
       wrapper.update();
@@ -61,9 +67,7 @@ describe('EmployeeListNzModule', () => {
     });
 
     it('should load LoadingFailPageState when integration fails', () => {
-      const {
-        store, integration, module, wrapper,
-      } = setup();
+      const { store, integration, module, wrapper } = setup();
 
       integration.mapFailure(LOAD_EMPLOYEE_LIST);
 

@@ -84,7 +84,6 @@ describe('InTrayModule', () => {
     return toolbox;
   };
 
-
   describe('run', () => {
     it('successfully load', () => {
       const { module, store, integration } = setup();
@@ -159,7 +158,7 @@ describe('InTrayModule', () => {
       SUCCESSFULLY_SAVED_BILL,
       SUCCESSFULLY_SAVED_SPEND_MONEY,
       SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
-    ].forEach(messageType => {
+    ].forEach((messageType) => {
       it(`alerts when message with type \`${messageType.toString()}\` popped`, () => {
         const { module, store } = setup();
         module.popMessages = () => [
@@ -211,7 +210,7 @@ describe('InTrayModule', () => {
   describe('updateFilterOptions', () => {
     const setupWithMockedDebounce = () => {
       const toolbox = setupWithRun();
-      debounce.default = jest.fn().mockImplementation(fn => fn);
+      debounce.default = jest.fn().mockImplementation((fn) => fn);
       return toolbox;
     };
 

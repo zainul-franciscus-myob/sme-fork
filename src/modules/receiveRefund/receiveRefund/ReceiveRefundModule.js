@@ -23,9 +23,7 @@ import receiveRefundReducer from './receiveRefundReducer';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class ReceiveRefundModule {
-  constructor({
-    integration, setRootView, pushMessage,
-  }) {
+  constructor({ integration, setRootView, pushMessage }) {
     this.setRootView = setRootView;
     this.store = new Store(receiveRefundReducer);
     this.pushMessage = pushMessage;
@@ -46,7 +44,7 @@ export default class ReceiveRefundModule {
     };
 
     this.integrator.loadRefund({ onSuccess, onFailure });
-  }
+  };
 
   createRefund = () => {
     if (getIsSubmitting(this.store.getState())) return;
@@ -68,7 +66,7 @@ export default class ReceiveRefundModule {
     };
 
     this.integrator.createRefund({ onSuccess, onFailure });
-  }
+  };
 
   deleteRefund = () => {
     this.dispatcher.setSubmittingState(true);
@@ -88,17 +86,17 @@ export default class ReceiveRefundModule {
     };
 
     this.integrator.deleteRefund({ onSuccess, onFailure });
-  }
+  };
 
   confirmBeforeDelete = () => {
     this.dispatcher.openModal('delete');
-  }
+  };
 
   confirmDelete = () => {
     this.dispatcher.closeModal();
 
     this.deleteRefund();
-  }
+  };
 
   confirmBeforeCancel = () => {
     const state = this.store.getState();
@@ -109,12 +107,12 @@ export default class ReceiveRefundModule {
     } else {
       this.redirectToSupplierReturnList();
     }
-  }
+  };
 
   confirmCancel = () => {
     this.dispatcher.closeModal();
     this.redirectToSupplierReturnList();
-  }
+  };
 
   redirectToSupplierReturnList = () => {
     const state = this.store.getState();
@@ -122,7 +120,7 @@ export default class ReceiveRefundModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/supplierReturn`;
-  }
+  };
 
   redirectToTransactionList = () => {
     const state = this.store.getState();
@@ -130,15 +128,15 @@ export default class ReceiveRefundModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/transactionList`;
-  }
+  };
 
   resetState = () => {
     this.dispatcher.resetState();
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   saveHandler = () => {
     const state = this.store.getState();
@@ -147,7 +145,7 @@ export default class ReceiveRefundModule {
     if (!isCreating || modalType) return;
 
     this.createRefund();
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,
@@ -175,11 +173,7 @@ export default class ReceiveRefundModule {
       />
     );
 
-    const wrappedView = (
-      <Provider store={this.store}>
-        {view}
-      </Provider>
-    );
+    const wrappedView = <Provider store={this.store}>{view}</Provider>;
     this.setRootView(wrappedView);
-  }
+  };
 }

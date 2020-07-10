@@ -1,11 +1,12 @@
-import {
-  Button,
-  ButtonRow,
-} from '@myob/myob-widgets';
+import { Button, ButtonRow } from '@myob/myob-widgets';
 import React from 'react';
 
 const authoriseButtonStatus = ['Created', 'PartiallyAuthorised'];
-const reverseButtonStatus = ['FundsUnavailable', 'FundsTransferError', 'PaymentDispersmentError'];
+const reverseButtonStatus = [
+  'FundsUnavailable',
+  'FundsTransferError',
+  'PaymentDispersmentError',
+];
 const recordReversalButtonStatus = ['RecordReversal'];
 const ActionButtons = ({
   status,
@@ -36,7 +37,12 @@ const ActionButtons = ({
       <ButtonRow
         primary={[
           CancelButton,
-          <Button testid="reversalButton" key="reverse" type="primary" onClick={onReverseClick}>
+          <Button
+            testid="reversalButton"
+            key="reverse"
+            type="primary"
+            onClick={onReverseClick}
+          >
             Reverse transaction
           </Button>,
         ]}
@@ -48,19 +54,18 @@ const ActionButtons = ({
       <ButtonRow
         primary={[
           CancelButton,
-          <Button testid="recordReversalButton" key="recordReverse" type="primary" onClick={onRecordReverseClick}>
-          Record reversal
+          <Button
+            testid="recordReversalButton"
+            key="recordReverse"
+            type="primary"
+            onClick={onRecordReverseClick}
+          >
+            Record reversal
           </Button>,
         ]}
       />
     );
   }
-  return (
-    <ButtonRow
-      primary={[
-        CancelButton,
-      ]}
-    />
-  );
+  return <ButtonRow primary={[CancelButton]} />;
 };
 export default ActionButtons;

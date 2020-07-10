@@ -213,10 +213,7 @@ describe('BankReconciliationSelectors', () => {
   describe('getHeaderSelectStatus', () => {
     it('show checked when all entries are selected', () => {
       const state = {
-        entries: [
-          { isChecked: true },
-          { isChecked: true },
-        ],
+        entries: [{ isChecked: true }, { isChecked: true }],
       };
       const status = getHeaderSelectStatus(state);
 
@@ -234,10 +231,7 @@ describe('BankReconciliationSelectors', () => {
 
     it('show indeterminate when partial entries are selected', () => {
       const state = {
-        entries: [
-          { isChecked: true },
-          { isChecked: false },
-        ],
+        entries: [{ isChecked: true }, { isChecked: false }],
       };
       const status = getHeaderSelectStatus(state);
 
@@ -246,10 +240,7 @@ describe('BankReconciliationSelectors', () => {
 
     it('show default status when no entry selected', () => {
       const state = {
-        entries: [
-          { isChecked: false },
-          { isChecked: false },
-        ],
+        entries: [{ isChecked: false }, { isChecked: false }],
       };
       const status = getHeaderSelectStatus(state);
 
@@ -388,7 +379,11 @@ describe('BankReconciliationSelectors', () => {
       const matchingAccount = { id: 5, accountType: 'Asset' };
       const state = {
         selectedAccountId: matchingAccount.id,
-        accounts: [{ id: 1, accountType: 'Asset' }, { id: 2, accountType: 'Asset' }, matchingAccount],
+        accounts: [
+          { id: 1, accountType: 'Asset' },
+          { id: 2, accountType: 'Asset' },
+          matchingAccount,
+        ],
       };
 
       const actual = getSelectedAccount(state);
@@ -418,7 +413,9 @@ describe('BankReconciliationSelectors', () => {
       };
 
       const actual = getBankReconciliationCancelModal.resultFunc(
-        closingBankStatementBalance, calculatedClosingBalance, entries,
+        closingBankStatementBalance,
+        calculatedClosingBalance,
+        entries
       );
 
       expect(actual).toEqual(expected);

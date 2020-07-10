@@ -1,7 +1,7 @@
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
 import { SET_LOADING_STATE, SET_SERIAL_NUMBER } from './bankingLearnIntents';
 
-const createLearnBankingDispatcher = store => ({
+const createLearnBankingDispatcher = (store) => ({
   setInitialState: (context) => {
     store.dispatch({
       intent: SET_INITIAL_STATE,

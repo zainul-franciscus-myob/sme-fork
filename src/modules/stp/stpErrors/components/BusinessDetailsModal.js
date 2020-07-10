@@ -1,6 +1,4 @@
-import {
-  Alert, Button, Input, Modal, Select,
-} from '@myob/myob-widgets';
+import { Alert, Button, Input, Modal, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -50,18 +48,18 @@ const BusinessDetailsModal = ({
 
   const alertContent = alertMessage || (
     <>
-      <p>
-        The following need to be fixed for Single Touch Payroll reporting
-      </p>
+      <p>The following need to be fixed for Single Touch Payroll reporting</p>
       <ul>
-        {businessDetailErrors.map(e => (
+        {businessDetailErrors.map((e) => (
           <li key={e.error}>{e.error}</li>
         ))}
       </ul>
     </>
   );
 
-  const modalBody = isLoading ? <LoadingPageState /> : (
+  const modalBody = isLoading ? (
+    <LoadingPageState />
+  ) : (
     <>
       <Alert type="danger">{alertContent}</Alert>
       <Input
@@ -114,7 +112,7 @@ const BusinessDetailsModal = ({
         requiredLabel="This is required"
         width="xs"
       >
-        {States.all.map(s => (
+        {States.all.map((s) => (
           <Select.Option value={s} label={s} />
         ))}
       </Select>
@@ -140,22 +138,24 @@ const BusinessDetailsModal = ({
 
   const modalFooter = isLoading ? null : (
     <Modal.Footer>
-      <Button type="secondary" onClick={onCancelClick}>Cancel</Button>
-      <Button type="primary" onClick={onSaveClick}>Save</Button>
+      <Button type="secondary" onClick={onCancelClick}>
+        Cancel
+      </Button>
+      <Button type="primary" onClick={onSaveClick}>
+        Save
+      </Button>
     </Modal.Footer>
   );
 
   return (
     <Modal title="Business details" onCancel={onCancelClick}>
-      <Modal.Body>
-        {modalBody}
-      </Modal.Body>
+      <Modal.Body>{modalBody}</Modal.Body>
       {modalFooter}
     </Modal>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoading: getBusinessDetailsModalIsLoading(state),
   businessName: getBusinessName(state),
   abnWpn: getAbnWpn(state),

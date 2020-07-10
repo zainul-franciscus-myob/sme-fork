@@ -13,7 +13,7 @@ const getPaymentTermsPopoverLabel = ({
   });
 
   return ['Prepaid', 'CashOnDelivery'].includes(expirationTerm)
-    ? expirationTermOptions.find(term => term.value === expirationTerm).name
+    ? expirationTermOptions.find((term) => term.value === expirationTerm).name
     : expiredDate;
 };
 

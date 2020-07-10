@@ -38,16 +38,33 @@ const ReportsView = ({
 }) => {
   const tableConfig = {
     payPeriod: { columnName: 'Pay period', width: '21rem', valign: 'middle' },
-    paymentDate: { columnName: 'Date of payment', width: 'flex-1', valign: 'middle' },
-    recordedDate: { columnName: 'Date recorded', width: '18rem', valign: 'middle' },
+    paymentDate: {
+      columnName: 'Date of payment',
+      width: 'flex-1',
+      valign: 'middle',
+    },
+    recordedDate: {
+      columnName: 'Date recorded',
+      width: '18rem',
+      valign: 'middle',
+    },
     employeeCount: {
-      columnName: 'Employees', width: '10rem', valign: 'middle', align: 'right',
+      columnName: 'Employees',
+      width: '10rem',
+      valign: 'middle',
+      align: 'right',
     },
     gross: {
-      columnName: 'Gross payments ($)', width: '16rem', valign: 'middle', align: 'right',
+      columnName: 'Gross payments ($)',
+      width: '16rem',
+      valign: 'middle',
+      align: 'right',
     },
     tax: {
-      columnName: 'PAYG Withholding ($)', width: '18rem', valign: 'middle', align: 'right',
+      columnName: 'PAYG Withholding ($)',
+      width: '18rem',
+      valign: 'middle',
+      align: 'right',
     },
     status: { columnName: 'Status', width: 'flex-2', valign: 'middle' },
   };
@@ -102,7 +119,7 @@ const ReportsView = ({
   return <PageView loadingState={loadingState} view={page} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   isTableLoading: getIsTableLoading(state),
   detailsLoadingState: getDetailsLoadingState(state),

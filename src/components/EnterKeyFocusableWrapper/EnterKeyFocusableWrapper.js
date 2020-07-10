@@ -8,7 +8,8 @@ const EnterKeyFocusableWrapper = ({
 }) => {
   const wrapper = React.createRef();
 
-  const hasNextSibling = (index, focusableElements) => index < focusableElements.length - 1;
+  const hasNextSibling = (index, focusableElements) =>
+    index < focusableElements.length - 1;
 
   const focusNextElement = (current) => {
     const focusableElements = wrapper.current.querySelectorAll(selectors);
@@ -29,11 +30,7 @@ const EnterKeyFocusableWrapper = ({
     }
   };
 
-  return (
-    <div ref={wrapper}>
-      {renderContent(onKeyDown)}
-    </div>
-  );
+  return <div ref={wrapper}>{renderContent(onKeyDown)}</div>;
 };
 
 export default EnterKeyFocusableWrapper;

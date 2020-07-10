@@ -18,7 +18,7 @@ const ExportDataTypeSection = ({
     onChange={handleSelectChange(onChange)}
   >
     <Select.Option hidden value="" label="" key="blank" />
-    {dataTypes.map(dataType => (
+    {dataTypes.map((dataType) => (
       <Select.Option
         key={dataType.value}
         value={dataType.value}

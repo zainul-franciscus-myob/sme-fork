@@ -8,7 +8,9 @@ import wageList from '../mappings/data/loadWageList';
 describe('PayItemListModule', () => {
   const defaultPayrollSettings = { currentYear: null };
 
-  const constructPayItemListModule = ({ payrollSettings = defaultPayrollSettings }) => {
+  const constructPayItemListModule = ({
+    payrollSettings = defaultPayrollSettings,
+  }) => {
     const integration = {
       read: ({ intent, onSuccess }) => {
         if (intent === LOAD_PAYROLL_SETTINGS) {

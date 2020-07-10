@@ -2,28 +2,24 @@ import { createSelector } from 'reselect';
 
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
-export const getBusinessId = state => state.businessId;
+export const getBusinessId = (state) => state.businessId;
 
-export const getTableEntries = state => state.entries;
+export const getTableEntries = (state) => state.entries;
 
-export const getLoadingState = state => state.loadingState;
+export const getLoadingState = (state) => state.loadingState;
 
-const getRegion = state => state.region;
+const getRegion = (state) => state.region;
 
-export const getTableHeaderTexts = createSelector(
-  getRegion,
-  (region) => {
-    const getText = getRegionToDialectText(region);
+export const getTableHeaderTexts = createSelector(getRegion, (region) => {
+  const getText = getRegionToDialectText(region);
 
-    return {
-      taxCode: getText('Tax code'),
-      collectedAccountName: `Account for ${getText('tax collected')}`,
-      paidAccountName: `Account for ${getText('tax paid')}`,
-    };
-  },
-);
+  return {
+    taxCode: getText('Tax code'),
+    collectedAccountName: `Account for ${getText('tax collected')}`,
+    paidAccountName: `Account for ${getText('tax paid')}`,
+  };
+});
 
-export const getPageHead = createSelector(
-  getRegion,
-  region => getRegionToDialectText(region)('Tax codes'),
+export const getPageHead = createSelector(getRegion, (region) =>
+  getRegionToDialectText(region)('Tax codes')
 );

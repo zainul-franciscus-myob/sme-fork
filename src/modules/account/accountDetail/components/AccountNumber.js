@@ -2,7 +2,10 @@ import { Input } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAccountNumber, getIsAccountNumberDisabled } from '../accountDetailSelectors';
+import {
+  getAccountNumber,
+  getIsAccountNumberDisabled,
+} from '../accountDetailSelectors';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
 const AccountNumber = ({
@@ -23,7 +26,7 @@ const AccountNumber = ({
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accountNumber: getAccountNumber(state),
   isAccountNumberDisabled: getIsAccountNumberDisabled(state),
 });

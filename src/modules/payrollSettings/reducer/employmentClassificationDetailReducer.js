@@ -1,6 +1,6 @@
 import getDefaultState from './getDefaultState';
 
-export const setNewEmploymentClassificationInitialState = state => ({
+export const setNewEmploymentClassificationInitialState = (state) => ({
   ...state,
   employmentClassificationDetail: {
     ...getDefaultState().employmentClassificationDetail,

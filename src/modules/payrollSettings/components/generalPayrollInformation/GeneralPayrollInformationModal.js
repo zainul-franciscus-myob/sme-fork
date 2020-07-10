@@ -7,11 +7,11 @@ const GeneralPayrollInformationModal = ({
   onConfirmSave,
   onConfirmCancelButtonClick,
 }) => (
-    <UnsavedModal
-      onConfirmSave={onConfirmSave}
-      onConfirmUnsave={onConfirmCancelButtonClick}
-      onCancel={onDismissModal}
-    />
+  <UnsavedModal
+    onConfirmSave={onConfirmSave}
+    onConfirmUnsave={onConfirmCancelButtonClick}
+    onCancel={onDismissModal}
+  />
 );
 
 export default GeneralPayrollInformationModal;

@@ -12,7 +12,6 @@ import AccountListTableBody from './AccountListTableBody';
 import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
 import TableView from '../../../../components/TableView/TableView';
 
-
 const emptyView = (
   <NoResultPageState
     title="No accounts found. :("
@@ -21,25 +20,30 @@ const emptyView = (
 );
 
 const AccountListTable = (props) => {
-  const {
-    isTableLoading,
-    isTableEmpty,
-    showInactive,
-    taxCodeHeader,
-  } = props;
+  const { isTableLoading, isTableEmpty, showInactive, taxCodeHeader } = props;
 
   const tableConfig = {
-    accountNumber: { columnName: 'Account number', styles: { valign: 'middle' } },
+    accountNumber: {
+      columnName: 'Account number',
+      styles: { valign: 'middle' },
+    },
     accountName: { columnName: 'Account name', styles: { valign: 'middle' } },
-    status: { columnName: 'Status', styles: { valign: 'middle' }, isHidden: !showInactive },
+    status: {
+      columnName: 'Status',
+      styles: { valign: 'middle' },
+      isHidden: !showInactive,
+    },
     type: { columnName: 'Account type', styles: { valign: 'middle' } },
     taxCode: { columnName: taxCodeHeader, styles: { valign: 'middle' } },
     linked: { columnName: 'Linked', styles: { valign: 'middle' } },
     level: { columnName: 'Level', styles: { valign: 'middle' } },
-    balance: { columnName: 'Current balance ($)', styles: { valign: 'middle', align: 'right' } },
+    balance: {
+      columnName: 'Current balance ($)',
+      styles: { valign: 'middle', align: 'right' },
+    },
   };
 
-  const responsiveWidths = (showInactive)
+  const responsiveWidths = showInactive
     ? withStatus(tableConfig)
     : withoutStatus(tableConfig);
 
@@ -55,7 +59,7 @@ const AccountListTable = (props) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
   showInactive: getShowInactive(state),

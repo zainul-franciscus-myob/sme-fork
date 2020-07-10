@@ -22,17 +22,17 @@ export const getDefaultState = () => ({
 const setInitialState = (state, { context }) => {
   const defaultState = getDefaultState();
   const { businessId, emailSettings, employees } = context;
-  return ({
+  return {
     ...defaultState,
     businessId,
     isOpen: true,
     emailSettings,
     employees,
     currentEmployee: employees[0],
-  });
+  };
 };
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setLoadingState = (state, { isLoading }) => ({ ...state, isLoading });
 
@@ -46,12 +46,12 @@ const setNextEmployee = (state) => {
   };
 };
 
-const setEmployeeErrored = state => ({
+const setEmployeeErrored = (state) => ({
   ...state,
   errors: [...state.errors, state.currentEmployee],
 });
 
-const setEmployeeSucceeded = state => ({
+const setEmployeeSucceeded = (state) => ({
   ...state,
   success: [...state.success, state.currentEmployee],
 });

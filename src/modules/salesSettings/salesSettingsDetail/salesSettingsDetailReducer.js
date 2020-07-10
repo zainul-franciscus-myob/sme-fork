@@ -111,11 +111,12 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
-const getTabData = (selectedTab, state) => ({
-  layoutAndTheme: state.salesSettings,
-  payments: state.salesSettings,
-  emailDefaults: state.emailSettings,
-}[selectedTab]);
+const getTabData = (selectedTab, state) =>
+  ({
+    layoutAndTheme: state.salesSettings,
+    payments: state.salesSettings,
+    emailDefaults: state.emailSettings,
+  }[selectedTab]);
 
 const loadSalesSettings = (state, { intent, templateSettings, ...rest }) => ({
   ...state,
@@ -127,14 +128,15 @@ const loadSalesSettings = (state, { intent, templateSettings, ...rest }) => ({
   },
 });
 
-const defaultDate = paymentType => ({
-  CashOnDelivery: '0',
-  Prepaid: '0',
-  OnADayOfTheMonth: '31',
-  InAGivenNumberOfDays: '30',
-  DayOfMonthAfterEOM: '15',
-  NumberOfDaysAfterEOM: '30',
-}[paymentType]);
+const defaultDate = (paymentType) =>
+  ({
+    CashOnDelivery: '0',
+    Prepaid: '0',
+    OnADayOfTheMonth: '31',
+    InAGivenNumberOfDays: '30',
+    DayOfMonthAfterEOM: '15',
+    NumberOfDaysAfterEOM: '30',
+  }[paymentType]);
 
 const updateSalesSettingsItem = (state, action) => {
   let salesSettingsPatch;
@@ -182,13 +184,14 @@ const updateEmailSettings = (state, action) => ({
   isPageEdited: true,
 });
 
-const getDataType = selectedTab => ({
-  layoutAndTheme: 'salesSettings',
-  payments: 'salesSettings',
-  emailDefaults: 'emailSettings',
-}[selectedTab]);
+const getDataType = (selectedTab) =>
+  ({
+    layoutAndTheme: 'salesSettings',
+    payments: 'salesSettings',
+    emailDefaults: 'emailSettings',
+  }[selectedTab]);
 
-const saveTabData = state => ({
+const saveTabData = (state) => ({
   ...state,
   [getDataType(state.selectedTab)]: state.tabData,
   isPageEdited: false,
@@ -230,7 +233,7 @@ const openModal = (state, { modalType }) => ({
   modalType,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modalType: '',
 });
@@ -245,8 +248,8 @@ const deleteTemplate = (state, { templateName }) => ({
   pendingDeleteTemplate: '',
   templateSettings: {
     ...state.templateSettings,
-    templates: (
-      state.templateSettings.templates.filter(({ name }) => name !== templateName)
+    templates: state.templateSettings.templates.filter(
+      ({ name }) => name !== templateName
     ),
   },
 });
@@ -259,13 +262,11 @@ const updatePayDirectState = (state, partialPayDirect) => ({
   },
 });
 
-export const loadPayDirectSettings = (state, { payDirect }) => updatePayDirectState(
-  state, { ...payDirect, isServiceAvailable: true },
-);
+export const loadPayDirectSettings = (state, { payDirect }) =>
+  updatePayDirectState(state, { ...payDirect, isServiceAvailable: true });
 
-export const setPayDirectSettingsLoadingState = (state, { isLoading }) => updatePayDirectState(
-  state, { isLoading },
-);
+export const setPayDirectSettingsLoadingState = (state, { isLoading }) =>
+  updatePayDirectState(state, { isLoading });
 
 const handlers = {
   [RESET_STATE]: resetState,

@@ -6,7 +6,7 @@ const PayRunErrorsList = ({ errors }) => (
   <>
     <h3>Pay run information errors</h3>
     <ul>
-      {errors.map(error => (
+      {errors.map((error) => (
         <li key={error.code} className={styles.listItems}>
           {error.text}
           <br />

@@ -21,10 +21,7 @@ describe('applyRuleResultHandlers', () => {
       const updatedState = {
         ...state,
         balances: {},
-        entries: [
-          { transactionId: '1' },
-          { transactionId: '2' },
-        ],
+        entries: [{ transactionId: '1' }, { transactionId: '2' }],
       };
 
       const action = {
@@ -60,12 +57,16 @@ describe('applyRuleResultHandlers', () => {
 
       const actual = appliedTransactions(state, action);
 
-      const expected = { bankBalance: 1000, myobBalance: 1250, unallocated: 750 };
+      const expected = {
+        bankBalance: 1000,
+        myobBalance: 1250,
+        unallocated: 750,
+      };
 
       expect(actual.balances).toEqual(expected);
     });
 
-    it('shouldn\'t update balances if no allocated transactions', () => {
+    it("shouldn't update balances if no allocated transactions", () => {
       const action = {
         entries: [
           { transactionId: '1', type: 'splitMatched' },

@@ -1,4 +1,7 @@
-import { addConditionPredicate, removeConditionPredicate } from '../conditionHandlers';
+import {
+  addConditionPredicate,
+  removeConditionPredicate,
+} from '../conditionHandlers';
 
 describe('conditionHandlers', () => {
   describe('addConditionPredicate', () => {
@@ -20,15 +23,15 @@ describe('conditionHandlers', () => {
         ...state,
         bankingRule: {
           ...state.bankingRule,
-          conditions: [
-            { field: 'Description', predicates: [] },
-          ],
+          conditions: [{ field: 'Description', predicates: [] }],
         },
       };
 
       const actual = addConditionPredicate(modifiedState, action);
 
-      expect(actual.bankingRule.conditions[0].predicates[0].matcher).toEqual('Contains');
+      expect(actual.bankingRule.conditions[0].predicates[0].matcher).toEqual(
+        'Contains'
+      );
     });
 
     it('should set matcher to Equal when condition field is Amount', () => {
@@ -44,15 +47,15 @@ describe('conditionHandlers', () => {
         ...state,
         bankingRule: {
           ...state.bankingRule,
-          conditions: [
-            { field: 'Amount', predicates: [] },
-          ],
+          conditions: [{ field: 'Amount', predicates: [] }],
         },
       };
 
       const actual = addConditionPredicate(modifiedState, action);
 
-      expect(actual.bankingRule.conditions[0].predicates[0].matcher).toEqual('Equal');
+      expect(actual.bankingRule.conditions[0].predicates[0].matcher).toEqual(
+        'Equal'
+      );
     });
   });
 
@@ -72,9 +75,7 @@ describe('conditionHandlers', () => {
         ...state,
         bankingRule: {
           ...state.bankingRule,
-          conditions: [
-            { predicates: [{ id: 1 }, { id: 2 }] },
-          ],
+          conditions: [{ predicates: [{ id: 1 }, { id: 2 }] }],
         },
       };
 
@@ -94,9 +95,7 @@ describe('conditionHandlers', () => {
         ...state,
         bankingRule: {
           ...state.bankingRule,
-          conditions: [
-            { predicates: [{}] },
-          ],
+          conditions: [{ predicates: [{}] }],
         },
       };
 

@@ -23,13 +23,13 @@ import {
 } from '../selectors/EmploymentDetailsSelectors';
 import handleRadioButtonChange from '../../../../../components/handlers/handleRadioButtonChange';
 
-const handleSelectChange = handler => (e) => {
+const handleSelectChange = (handler) => (e) => {
   const { name, value } = e.target;
 
   handler({ key: name, value });
 };
 
-const handleInputChange = handler => (e) => {
+const handleInputChange = (handler) => (e) => {
   const { value, name } = e.target;
   handler({ key: name, value });
 };
@@ -72,7 +72,9 @@ const EmploymentDetails = ({
           onSelect={onDateChange('dateOfBirth', onEmploymentDetailsChange)}
           width="sm"
         />
-        <ReadOnly label="Calculated age" name="calculatedAge">{calculatedAge}</ReadOnly>
+        <ReadOnly label="Calculated age" name="calculatedAge">
+          {calculatedAge}
+        </ReadOnly>
         <Select
           name="gender"
           label="Gender"
@@ -105,22 +107,31 @@ const EmploymentDetails = ({
           name="employmentBasis"
           label="Employment basis"
           value={employmentBasis}
-          renderRadios={({ id, value, ...props }) => employmentBasisOptions.map(item => (
-            <RadioButton
-              {...props}
-              checked={item.value === employmentBasis}
-              key={item.value}
-              value={item.value}
-              label={item.name}
-            />))}
-          onChange={handleRadioButtonChange('employmentBasis', onEmploymentDetailsChange)}
+          renderRadios={({ id, value, ...props }) =>
+            employmentBasisOptions.map((item) => (
+              <RadioButton
+                {...props}
+                checked={item.value === employmentBasis}
+                key={item.value}
+                value={item.value}
+                label={item.name}
+              />
+            ))
+          }
+          onChange={handleRadioButtonChange(
+            'employmentBasis',
+            onEmploymentDetailsChange
+          )}
         />
         <RadioButtonGroup
           name="employmentCategory"
           label="Employment category"
           value={employmentCategory}
-          options={employmentCategoryOptions.map(option => option.value)}
-          onChange={handleRadioButtonChange('employmentCategory', onEmploymentDetailsChange)}
+          options={employmentCategoryOptions.map((option) => option.value)}
+          onChange={handleRadioButtonChange(
+            'employmentCategory',
+            onEmploymentDetailsChange
+          )}
         />
         <Select
           name="employmentStatus"
@@ -151,7 +162,9 @@ const EmploymentDetails = ({
           name="paySlipEmail"
           value={paySlipEmail}
           onChange={handleInputChange(onEmploymentDetailsChange)}
-          requiredLabel={isPaySlipEmailRequired ? 'Pay slip email is required' : null}
+          requiredLabel={
+            isPaySlipEmailRequired ? 'Pay slip email is required' : null
+          }
           width="lg"
         />
       </FieldGroup>
@@ -159,7 +172,7 @@ const EmploymentDetails = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   employmentDetails: getEmploymentDetails(state),
   genderOptions: getGenderOptions(state),
   employmentBasisOptions: getEmploymentBasisOptions(state),

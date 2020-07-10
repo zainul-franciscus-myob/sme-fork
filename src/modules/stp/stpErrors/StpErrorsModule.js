@@ -26,11 +26,7 @@ import StpErrorsView from './components/StpErrorsView';
 import stpErrorsReducer from './stpErrorsReducer';
 
 export default class StpErrorsModule {
-  constructor({
-    setRootView,
-    integration,
-    replaceURLParams,
-  }) {
+  constructor({ setRootView, integration, replaceURLParams }) {
     this.setRootView = setRootView;
     this.integration = integration;
     this.replaceURLParams = replaceURLParams;
@@ -40,39 +36,39 @@ export default class StpErrorsModule {
   openEmployeePage = (employeeId) => {
     const state = this.store.getState();
     window.open(getEmployeePageUrl(state, employeeId), '_blank');
-  }
+  };
 
   openPayItemPage = ({ itemType, id }) => {
     const state = this.store.getState();
     window.open(getPayItemPageUrl(state, itemType, id), '_blank');
-  }
+  };
 
   goToStpSetup = () => {
     const state = this.store.getState();
     const stpSetupUrl = getStpSetupUrl(state);
     window.location.href = stpSetupUrl;
-  }
+  };
 
   setBusinessDetailsModalIsOpen = (isOpen) => {
     this.store.dispatch({
       intent: SET_IS_BUSINESS_DETAILS_MODAL_OPEN,
       isOpen,
     });
-  }
+  };
 
   setBusinessDetailModalIsLoading = (isLoading) => {
     this.store.dispatch({
       intent: SET_BUSINESS_DETAIL_IS_LOADING,
       isLoading,
     });
-  }
+  };
 
   setBusinessDetailModalAlert = (message) => {
     this.store.dispatch({
       intent: SET_BUSINESS_DETAIL_MODAL_ALERT_MESSAGE,
       message,
     });
-  }
+  };
 
   loadBusinessDetail = () => {
     this.setBusinessDetailModalIsLoading(true);
@@ -103,7 +99,7 @@ export default class StpErrorsModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   submitBusinessDetail = () => {
     this.setBusinessDetailModalIsLoading(true);
@@ -134,12 +130,12 @@ export default class StpErrorsModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   openBusinessDetailModal = () => {
     this.setBusinessDetailsModalIsOpen(true);
     this.loadBusinessDetail();
-  }
+  };
 
   onBusinessDetailsFieldChange = ({ key, value }) => {
     this.store.dispatch({
@@ -147,11 +143,11 @@ export default class StpErrorsModule {
       key,
       value,
     });
-  }
+  };
 
   closeTab = () => {
     window.close();
-  }
+  };
 
   render = () => {
     const wrappedView = (
@@ -171,14 +167,14 @@ export default class StpErrorsModule {
     );
 
     this.setRootView(wrappedView);
-  }
+  };
 
   setIsLoading = (isLoading) => {
     this.store.dispatch({
       intent: SET_IS_LOADING,
       isLoading,
     });
-  }
+  };
 
   loadStpErrors = () => {
     this.setIsLoading(true);
@@ -211,7 +207,7 @@ export default class StpErrorsModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   updateURLFromState = () => {
     const params = {
@@ -219,24 +215,24 @@ export default class StpErrorsModule {
     };
 
     this.replaceURLParams(params);
-  }
+  };
 
   run = (context) => {
     this.store.subscribe(this.updateURLFromState);
     this.setInitialState(context);
     this.loadStpErrors();
     this.render();
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   resetState = () => {
     this.store.dispatch({
       intent: RESET_STATE,
     });
-  }
+  };
 
   setInitialState = (context) => {
     const intent = SET_INITIAL_STATE;
@@ -245,5 +241,5 @@ export default class StpErrorsModule {
       intent,
       context,
     });
-  }
+  };
 }

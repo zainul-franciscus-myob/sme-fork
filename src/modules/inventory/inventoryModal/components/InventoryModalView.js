@@ -1,5 +1,12 @@
 import {
-  Button, Checkbox, CheckboxGroup, FieldGroup, Icons, Input, Modal, TextArea,
+  Button,
+  Checkbox,
+  CheckboxGroup,
+  FieldGroup,
+  Icons,
+  Input,
+  Modal,
+  TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -48,50 +55,88 @@ const InventoryModalView = ({
   const view = (
     <React.Fragment>
       <Modal.Body>
-        {isAlertShown && <InventoryModalAlert onDismissAlert={onDismissAlert} />}
+        {isAlertShown && (
+          <InventoryModalAlert onDismissAlert={onDismissAlert} />
+        )}
         <FieldGroup label="Item details">
-          <Input label="Name" name="name" requiredLabel="This is required" value={name} onChange={handleInputChange(onUpdateItemOption)} />
-          <TextArea label="Description" name="description" value={description} onChange={handleInputChange(onUpdateItemOption)} />
-          <CheckboxGroup renderCheckbox={() => (
-            <Checkbox label="Use description on transaction instead of name" name="useDescription" checked={useDescription} onChange={handleCheckboxChange(onUpdateItemOption)} />
-          )}
+          <Input
+            label="Name"
+            name="name"
+            requiredLabel="This is required"
+            value={name}
+            onChange={handleInputChange(onUpdateItemOption)}
           />
-          <Input label="Item ID" name="displayId" requiredLabel="This is required" value={itemId} onChange={handleInputChange(onUpdateItemOption)} width="sm" />
+          <TextArea
+            label="Description"
+            name="description"
+            value={description}
+            onChange={handleInputChange(onUpdateItemOption)}
+          />
+          <CheckboxGroup
+            renderCheckbox={() => (
+              <Checkbox
+                label="Use description on transaction instead of name"
+                name="useDescription"
+                checked={useDescription}
+                onChange={handleCheckboxChange(onUpdateItemOption)}
+              />
+            )}
+          />
+          <Input
+            label="Item ID"
+            name="displayId"
+            requiredLabel="This is required"
+            value={itemId}
+            onChange={handleInputChange(onUpdateItemOption)}
+            width="sm"
+          />
         </FieldGroup>
 
-        {!isSelling
-        && (
-        <FieldGroup>
-          <Button type="link" icon={<Icons.Add />} onClick={onOpenSellingDetails}>Add selling details</Button>
-        </FieldGroup>
-        )
-      }
+        {!isSelling && (
+          <FieldGroup>
+            <Button
+              type="link"
+              icon={<Icons.Add />}
+              onClick={onOpenSellingDetails}
+            >
+              Add selling details
+            </Button>
+          </FieldGroup>
+        )}
 
         {isSelling && (
-        <SellingDetails
-          taxCodeLabel={taxCodeLabel}
-          onUpdateSellingOption={onUpdateSellingOption}
-          onUpdateIsSelling={onUpdateIsSelling}
-        />
+          <SellingDetails
+            taxCodeLabel={taxCodeLabel}
+            onUpdateSellingOption={onUpdateSellingOption}
+            onUpdateIsSelling={onUpdateIsSelling}
+          />
         )}
 
         {!isBuying && (
-        <FieldGroup>
-          <Button type="link" icon={<Icons.Add />} onClick={onOpenBuyingDetails}>Add buying details</Button>
-        </FieldGroup>
+          <FieldGroup>
+            <Button
+              type="link"
+              icon={<Icons.Add />}
+              onClick={onOpenBuyingDetails}
+            >
+              Add buying details
+            </Button>
+          </FieldGroup>
         )}
 
         {isBuying && (
-        <BuyingDetails
-          taxCodeLabel={taxCodeLabel}
-          onOpenBuyingDetails={onOpenBuyingDetails}
-          onUpdateBuyingOption={onUpdateBuyingOption}
-          onUpdateIsBuying={onUpdateIsBuying}
-        />
+          <BuyingDetails
+            taxCodeLabel={taxCodeLabel}
+            onOpenBuyingDetails={onOpenBuyingDetails}
+            onUpdateBuyingOption={onUpdateBuyingOption}
+            onUpdateIsBuying={onUpdateIsBuying}
+          />
         )}
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={onClose} type="secondary">Cancel</Button>
+        <Button onClick={onClose} type="secondary">
+          Cancel
+        </Button>
         <Button onClick={onSave}>Save</Button>
       </Modal.Footer>
     </React.Fragment>
@@ -100,16 +145,13 @@ const InventoryModalView = ({
   return (
     isOpen && (
       <Modal title="Create item" size="small" onCancel={onClose}>
-        <PageView
-          isLoading={isLoading}
-          view={view}
-        />
+        <PageView isLoading={isLoading} view={view} />
       </Modal>
     )
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isOpen: getIsOpen(state),
   name: getName(state),
   description: getDescription(state),

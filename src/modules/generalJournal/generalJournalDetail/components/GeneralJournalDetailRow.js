@@ -65,16 +65,14 @@ const GeneralJournalDetailRow = ({
   } = data;
 
   return (
-    <LineItemTable.Row
-      id={index}
-      index={index}
-      {...feelixInjectedProps}
-    >
+    <LineItemTable.Row id={index} index={index} {...feelixInjectedProps}>
       <AccountCombobox
         label="Accounts"
         items={accountOptions}
         selectedId={accountId}
-        addNewAccount={() => onCreateAccountButtonClick(onComboboxChange('accountId', onChange))}
+        addNewAccount={() =>
+          onCreateAccountButtonClick(onComboboxChange('accountId', onChange))
+        }
         onChange={onComboboxChange('accountId', onChange)}
         disabled={isTableDisabled || isSystem}
       />
@@ -116,16 +114,20 @@ const GeneralJournalDetailRow = ({
         onChange={onChange}
         disabled={isTableDisabled || isSystem}
       />
-      {isGeneralJournalJobColumnEnabled && <JobCombobox
-        label="Job"
-        onChange={onComboboxChange('jobId', onChange)}
-        addNewJob={() => onCreateJobButtonClick(onComboboxChange('jobId', onChange))}
-        items={lineJobOptions}
-        selectedId={jobId}
-        disabled={isTableDisabled || isSystem}
-        allowClear
-        left
-      />}
+      {isGeneralJournalJobColumnEnabled && (
+        <JobCombobox
+          label="Job"
+          onChange={onComboboxChange('jobId', onChange)}
+          addNewJob={() =>
+            onCreateJobButtonClick(onComboboxChange('jobId', onChange))
+          }
+          items={lineJobOptions}
+          selectedId={jobId}
+          disabled={isTableDisabled || isSystem}
+          allowClear
+          left
+        />
+      )}
       <TaxCodeCombobox
         label="Tax codes"
         items={taxCodeOptions}
@@ -133,7 +135,8 @@ const GeneralJournalDetailRow = ({
         onChange={onComboboxChange('taxCodeId', onChange)}
         disabled={isTableDisabled || isSystem}
       />
-    </LineItemTable.Row>);
+    </LineItemTable.Row>
+  );
 };
 
 const makeMapRowStateToProps = () => {

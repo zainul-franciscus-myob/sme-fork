@@ -2,19 +2,12 @@ import { Combobox } from '@myob/myob-widgets';
 import React from 'react';
 
 const EmployeeCombobox = (props) => {
-  const {
-    items = [],
-    selectedId,
-    onChange,
-    ...otherProps
-  } = props;
+  const { items = [], selectedId, onChange, ...otherProps } = props;
 
-  const metaData = [
-    { columnName: 'name', showData: true },
-  ];
+  const metaData = [{ columnName: 'name', showData: true }];
 
-  const selectedItem = items
-    .find(option => option.value === selectedId) || {};
+  const selectedItem =
+    items.find((option) => option.value === selectedId) || {};
 
   return (
     <Combobox

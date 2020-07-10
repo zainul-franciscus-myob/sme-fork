@@ -9,7 +9,10 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getBankingRuleType, getIsInactiveRule, getIsSelectRuleTypeDisabled, getName,
+  getBankingRuleType,
+  getIsInactiveRule,
+  getIsSelectRuleTypeDisabled,
+  getName,
 } from '../bankingRuleDetailSelectors';
 import BankingRuleDetailBankingSection from './BankingRuleDetailBankingSection';
 import RuleTypes from '../RuleTypes';
@@ -43,11 +46,9 @@ const BankingRuleDetailRuleDetails = ({
       requiredLabel="This is required"
       width="md"
     >
-      {
-        ruleTypes.map(({ name: ruleName, value }) => (
-          <Select.Option key={value} value={value} label={ruleName} />
-        ))
-      }
+      {ruleTypes.map(({ name: ruleName, value }) => (
+        <Select.Option key={value} value={value} label={ruleName} />
+      ))}
     </Select>
     <Input
       name="name"
@@ -70,11 +71,13 @@ const BankingRuleDetailRuleDetails = ({
         />
       )}
     />
-    <BankingRuleDetailBankingSection onRuleConditionsChange={onRuleConditionsChange} />
+    <BankingRuleDetailBankingSection
+      onRuleConditionsChange={onRuleConditionsChange}
+    />
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   name: getName(state),
   isInactiveRule: getIsInactiveRule(state),
   isSelectRuleTypeDisabled: getIsSelectRuleTypeDisabled(state),

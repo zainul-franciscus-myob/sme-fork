@@ -1,6 +1,4 @@
-import {
-  Button, Columns, DropZone, FileChip, Icons,
-} from '@myob/myob-widgets';
+import { Button, Columns, DropZone, FileChip, Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -20,8 +18,7 @@ const description = (
     &nbsp;or&nbsp;
     <strong>PNG</strong>
     &nbsp;and&nbsp;
-    <strong>below 10MB</strong>
-    .
+    <strong>below 10MB</strong>.
   </p>
 );
 
@@ -32,48 +29,45 @@ const SpendMoneyAttachmentsContent = ({
   onOpenAttachment,
 }) => (
   <div className={styles.dropzone}>
-    <DropZone
-      onDrop={onAddAttachments}
-      onFileSelected={onAddAttachments}
-    >
+    <DropZone onDrop={onAddAttachments} onFileSelected={onAddAttachments}>
       <div className={styles.columns}>
         <Columns type="two">
-          {
-            attachments.map(({
-              state, id, canRemove, isInProgress, ...otherProps
-            }, index) => (
-              <div key={id || index} className={isInProgress ? styles.inProgress : ''}>
+          {attachments.map(
+            ({ state, id, canRemove, isInProgress, ...otherProps }, index) => (
+              <div
+                key={id || index}
+                className={isInProgress ? styles.inProgress : ''}
+              >
                 <FileChip
                   state={state}
                   {...otherProps}
                   onRemove={
-                    canRemove ? wrapAttachmentHandler(onRemoveAttachment, index) : undefined}
-                >
-                  {
-                    id && (
-                      <Button
-                        type="secondary"
-                        onClick={wrapAttachmentHandler(onOpenAttachment, index)}
-                        icon={<Icons.Download />}
-                        aria-label="Download file"
-                        size="xs"
-                      />
-                    )
+                    canRemove
+                      ? wrapAttachmentHandler(onRemoveAttachment, index)
+                      : undefined
                   }
+                >
+                  {id && (
+                    <Button
+                      type="secondary"
+                      onClick={wrapAttachmentHandler(onOpenAttachment, index)}
+                      icon={<Icons.Download />}
+                      aria-label="Download file"
+                      size="xs"
+                    />
+                  )}
                 </FileChip>
               </div>
-            ))
-          }
+            )
+          )}
         </Columns>
       </div>
     </DropZone>
-    <div className={styles.description}>
-      {description}
-    </div>
+    <div className={styles.description}>{description}</div>
   </div>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   attachments: getAttachments(state),
 });
 

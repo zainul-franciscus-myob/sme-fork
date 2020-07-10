@@ -2,7 +2,10 @@ import { FormHorizontal, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getCurrentDataTypeInCurrentTab, getRegion } from '../selectors/DataImportExportSelectors';
+import {
+  getCurrentDataTypeInCurrentTab,
+  getRegion,
+} from '../selectors/DataImportExportSelectors';
 import ImportChartOfAccountsDetail from './ImportChartOfAccountsDetail';
 import ImportContactsDetail from './ImportContactsDetail';
 import ImportEmployeesDetail from './ImportEmployeesDetail';
@@ -34,11 +37,19 @@ const ImportTabContent = ({
       onChange={handleSelectChange(onUpdateImportDataType)}
     >
       <Select.Option hidden value={ImportExportDataType.NONE} label="" />
-      <Select.Option value={ImportExportDataType.CHART_OF_ACCOUNTS} label="Chart of accounts" />
+      <Select.Option
+        value={ImportExportDataType.CHART_OF_ACCOUNTS}
+        label="Chart of accounts"
+      />
       <Select.Option value={ImportExportDataType.CONTACTS} label="Contacts" />
       <Select.Option value={ImportExportDataType.EMPLOYEES} label="Employees" />
       <Select.Option value={ImportExportDataType.ITEMS} label="Items" />
-      {region === 'au' && <Select.Option value={ImportExportDataType.TIMESHEETS} label="Timesheets" />}
+      {region === 'au' && (
+        <Select.Option
+          value={ImportExportDataType.TIMESHEETS}
+          label="Timesheets"
+        />
+      )}
       {/* <Select.Option
       value={ImportExportDataType.GENERAL_JOURNALS} label="General journals" />
       <Select.Option
@@ -47,49 +58,64 @@ const ImportTabContent = ({
       /> */}
     </Select>
 
-    {selectedDataType && {
-      [ImportExportDataType.CHART_OF_ACCOUNTS]: <ImportChartOfAccountsDetail
-        onFileSelected={onFileSelected}
-        onFileRemove={onFileRemove}
-        onDuplicateRecordsOptionChange={onDuplicateRecordsOptionChange}
-        onDeleteUnusedAccountsChange={onDeleteUnusedAccountsChange}
-      />,
-      [ImportExportDataType.CONTACTS]: <ImportContactsDetail
-        onFileSelected={onFileSelected}
-        onFileRemove={onFileRemove}
-        onDuplicateRecordsOptionChange={onDuplicateRecordsOptionChange}
-        onUpdateContactsIdentifyBy={onUpdateContactsIdentifyBy}
-        onUpdateContactsType={onUpdateContactsType}
-      />,
-      [ImportExportDataType.EMPLOYEES]: <ImportEmployeesDetail
-        onFileSelected={onFileSelected}
-        onFileRemove={onFileRemove}
-        onDuplicateRecordsOptionChange={onDuplicateRecordsOptionChange}
-        onUpdateContactsIdentifyBy={onUpdateContactsIdentifyBy}
-      />,
-      [ImportExportDataType.ITEMS]: <ImportItemsDetail
-        onFileSelected={onFileSelected}
-        onFileRemove={onFileRemove}
-        onDuplicateRecordsOptionChange={onDuplicateRecordsOptionChange}
-      />,
-      [ImportExportDataType.GENERAL_JOURNALS]: <ImportGeneralJournalsDetail
-        onFileSelected={onFileSelected}
-        onFileRemove={onFileRemove}
-      />,
-      [ImportExportDataType.TRANSACTION_JOURNALS]: <ImportTransactionJournalsDetail
-        onFileSelected={onFileSelected}
-        onFileRemove={onFileRemove}
-      />,
-      [ImportExportDataType.TIMESHEETS]: <ImportTimesheetsDetail
-        onFileSelected={onFileSelected}
-        onFileRemove={onFileRemove}
-        onUpdateContactsIdentifyBy={onUpdateContactsIdentifyBy}
-      />,
-    }[selectedDataType]}
+    {selectedDataType &&
+      {
+        [ImportExportDataType.CHART_OF_ACCOUNTS]: (
+          <ImportChartOfAccountsDetail
+            onFileSelected={onFileSelected}
+            onFileRemove={onFileRemove}
+            onDuplicateRecordsOptionChange={onDuplicateRecordsOptionChange}
+            onDeleteUnusedAccountsChange={onDeleteUnusedAccountsChange}
+          />
+        ),
+        [ImportExportDataType.CONTACTS]: (
+          <ImportContactsDetail
+            onFileSelected={onFileSelected}
+            onFileRemove={onFileRemove}
+            onDuplicateRecordsOptionChange={onDuplicateRecordsOptionChange}
+            onUpdateContactsIdentifyBy={onUpdateContactsIdentifyBy}
+            onUpdateContactsType={onUpdateContactsType}
+          />
+        ),
+        [ImportExportDataType.EMPLOYEES]: (
+          <ImportEmployeesDetail
+            onFileSelected={onFileSelected}
+            onFileRemove={onFileRemove}
+            onDuplicateRecordsOptionChange={onDuplicateRecordsOptionChange}
+            onUpdateContactsIdentifyBy={onUpdateContactsIdentifyBy}
+          />
+        ),
+        [ImportExportDataType.ITEMS]: (
+          <ImportItemsDetail
+            onFileSelected={onFileSelected}
+            onFileRemove={onFileRemove}
+            onDuplicateRecordsOptionChange={onDuplicateRecordsOptionChange}
+          />
+        ),
+        [ImportExportDataType.GENERAL_JOURNALS]: (
+          <ImportGeneralJournalsDetail
+            onFileSelected={onFileSelected}
+            onFileRemove={onFileRemove}
+          />
+        ),
+        [ImportExportDataType.TRANSACTION_JOURNALS]: (
+          <ImportTransactionJournalsDetail
+            onFileSelected={onFileSelected}
+            onFileRemove={onFileRemove}
+          />
+        ),
+        [ImportExportDataType.TIMESHEETS]: (
+          <ImportTimesheetsDetail
+            onFileSelected={onFileSelected}
+            onFileRemove={onFileRemove}
+            onUpdateContactsIdentifyBy={onUpdateContactsIdentifyBy}
+          />
+        ),
+      }[selectedDataType]}
   </FormHorizontal>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   region: getRegion(state),
   selectedDataType: getCurrentDataTypeInCurrentTab(state, TabItem.IMPORT),
 });

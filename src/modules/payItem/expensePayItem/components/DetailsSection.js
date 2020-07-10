@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getLinkedExpenseAccountId, getLinkedExpenseAccountOptions,
-  getLinkedPayablesAccountId, getLinkedPayablesAccountOptions,
+  getLinkedExpenseAccountId,
+  getLinkedExpenseAccountOptions,
+  getLinkedPayablesAccountId,
+  getLinkedPayablesAccountOptions,
   getName,
 } from '../ExpensePayItemSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
@@ -32,19 +34,25 @@ const DetailsSection = ({
       hideLabel={false}
       items={linkedExpenseAccountOptions}
       selectedId={linkedExpenseAccountId}
-      onChange={handleComboboxChange('linkedExpenseAccountId', onChangeExpensePayItemInput)}
+      onChange={handleComboboxChange(
+        'linkedExpenseAccountId',
+        onChangeExpensePayItemInput
+      )}
     />
     <AccountCombobox
       label="Linked payables account"
       hideLabel={false}
       items={linkedPayablesAccountOptions}
       selectedId={linkedPayablesAccountId}
-      onChange={handleComboboxChange('linkedPayablesAccountId', onChangeExpensePayItemInput)}
+      onChange={handleComboboxChange(
+        'linkedPayablesAccountId',
+        onChangeExpensePayItemInput
+      )}
     />
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   name: getName(state),
   linkedExpenseAccountOptions: getLinkedExpenseAccountOptions(state),
   linkedPayablesAccountOptions: getLinkedPayablesAccountOptions(state),

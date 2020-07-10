@@ -12,14 +12,15 @@ import linkedAccountsReducer from './linkedAccountsReducer';
 import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 class LinkedAccountsModule {
-  constructor({
-    integration, setRootView,
-  }) {
+  constructor({ integration, setRootView }) {
     this.setRootView = setRootView;
     this.integration = integration;
     this.store = new Store(linkedAccountsReducer);
     this.dispatcher = createLinkedAccountsDispatcher({ store: this.store });
-    this.integrator = createLinkedAccountsIntegrator({ store: this.store, integration });
+    this.integrator = createLinkedAccountsIntegrator({
+      store: this.store,
+      integration,
+    });
   }
 
   loadLinkedAccounts = () => {
@@ -33,13 +34,16 @@ class LinkedAccountsModule {
     };
 
     this.integrator.loadLinkedAccounts({ onSuccess, onFailure });
-  }
+  };
 
-  updateAccount = ({ key, value }) => this.dispatcher.updateAccount({ key, value });
+  updateAccount = ({ key, value }) =>
+    this.dispatcher.updateAccount({ key, value });
 
-  updateHasAccountOption = ({ key, value }) => this.dispatcher.updateHasAccountOption({
-    key, value,
-  });
+  updateHasAccountOption = ({ key, value }) =>
+    this.dispatcher.updateHasAccountOption({
+      key,
+      value,
+    });
 
   saveLinkedAccounts = () => {
     const state = this.store.getState();
@@ -63,23 +67,27 @@ class LinkedAccountsModule {
     });
   };
 
-  displaySuccessMessage = successMessage => this.dispatcher.displayAlert({
-    message: successMessage,
-    type: 'success',
-  });
+  displaySuccessMessage = (successMessage) =>
+    this.dispatcher.displayAlert({
+      message: successMessage,
+      type: 'success',
+    });
 
-  displayFailureAlert = errorMessage => this.dispatcher.displayAlert({
-    message: errorMessage,
-    type: 'danger',
-  });
+  displayFailureAlert = (errorMessage) =>
+    this.dispatcher.displayAlert({
+      message: errorMessage,
+      type: 'danger',
+    });
 
   dismissAlert = () => this.dispatcher.dismissAlert();
 
-  setLoadingState = loadingState => this.dispatcher.setLoadingState(loadingState);
+  setLoadingState = (loadingState) =>
+    this.dispatcher.setLoadingState(loadingState);
 
-  setIsSubmitting = isSubmitting => this.dispatcher.setIsSubmitting(isSubmitting);
+  setIsSubmitting = (isSubmitting) =>
+    this.dispatcher.setIsSubmitting(isSubmitting);
 
-  setSelectedTab = selectedTab => this.dispatcher.setSelectedTab(selectedTab);
+  setSelectedTab = (selectedTab) => this.dispatcher.setSelectedTab(selectedTab);
 
   handlers = {
     SAVE_ACTION: this.saveLinkedAccounts,

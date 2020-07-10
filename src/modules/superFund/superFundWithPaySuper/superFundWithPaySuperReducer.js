@@ -50,7 +50,8 @@ const getDefaultState = () => ({
   accessToken: '',
 });
 
-const shouldShowContactDetails = ({ phoneNumber, webSite }) => phoneNumber || webSite;
+const shouldShowContactDetails = ({ phoneNumber, webSite }) =>
+  phoneNumber || webSite;
 
 const setInitialState = (state, action) => ({
   ...state,
@@ -64,7 +65,7 @@ const setInitialState = (state, action) => ({
   showContactDetails: shouldShowContactDetails(action.superFund),
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setSubmittingState = (state, action) => ({
   ...state,
@@ -86,49 +87,49 @@ const openModal = (state, action) => ({
   modalType: action.modalType,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modalType: undefined,
 });
 
-const showContactDetails = state => ({
+const showContactDetails = (state) => ({
   ...state,
   showContactDetails: true,
 });
 
-const getAppliedFormatRestrictions = (currentText, text, pattern) => (
-  pattern.test(text) ? text : currentText
-);
+const getAppliedFormatRestrictions = (currentText, text, pattern) =>
+  pattern.test(text) ? text : currentText;
 
 const allowedPhoneNumberPattern = /^[0-9 ]*$/;
 
 const getUpdateSuperFundDetailValue = (key, currentValue, newValue) => {
   if (key === 'phoneNumber') {
-    return getAppliedFormatRestrictions(currentValue, newValue, allowedPhoneNumberPattern);
+    return getAppliedFormatRestrictions(
+      currentValue,
+      newValue,
+      allowedPhoneNumberPattern
+    );
   }
 
   return newValue;
 };
 
-const getUpdatedFundType = (state, key, newValue) => ((key === 'isPaySuperFund' && !newValue)
-  ? 'APRASuperFund'
-  : getFundType(state));
+const getUpdatedFundType = (state, key, newValue) =>
+  key === 'isPaySuperFund' && !newValue ? 'APRASuperFund' : getFundType(state);
 
 const updateSuperFundDetail = (state, action) => {
   const { key, value } = action;
   const fundType = getUpdatedFundType(state, key, value);
 
-  return ({
+  return {
     ...state,
     superFund: {
       ...state.superFund,
       fundType,
-      [key]: getUpdateSuperFundDetailValue(
-        key, state.superFund[key], value,
-      ),
+      [key]: getUpdateSuperFundDetailValue(key, state.superFund[key], value),
     },
     isPageEdited: true,
-  });
+  };
 };
 
 const updateSelfManagedFundAbn = (state, action) => ({
@@ -147,10 +148,14 @@ const selectAPRAFund = (state, action) => {
     ...state,
     superFund: {
       ...state.superFund,
-      superProductAbn: action.superProduct.abn || defaultState.superFund.superProductAbn,
-      superFundIdentifier: action.superProduct.scfi || defaultState.superFund.superFundIdentifier,
-      superProductId: action.superProduct.usi || defaultState.superFund.superProductId,
-      superProductName: action.superProduct.name || defaultState.superFund.superProductName,
+      superProductAbn:
+        action.superProduct.abn || defaultState.superFund.superProductAbn,
+      superFundIdentifier:
+        action.superProduct.scfi || defaultState.superFund.superFundIdentifier,
+      superProductId:
+        action.superProduct.usi || defaultState.superFund.superProductId,
+      superProductName:
+        action.superProduct.name || defaultState.superFund.superProductName,
       name: action.superProduct.name || state.superFund.name,
     },
     isPageEdited: true,

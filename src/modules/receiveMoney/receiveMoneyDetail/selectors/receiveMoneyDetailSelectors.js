@@ -1,36 +1,42 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 import { isBefore } from 'date-fns';
 
-import { TaxCalculatorTypes, createTaxCalculator } from '../../../../common/taxCalculator';
+import {
+  TaxCalculatorTypes,
+  createTaxCalculator,
+} from '../../../../common/taxCalculator';
 import ModalType from '../../ModalType';
 import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 
 const calculate = createTaxCalculator(TaxCalculatorTypes.receiveMoney);
 
-export const getIsLineEdited = state => state.isLineEdited;
-export const getIsCreating = state => state.receiveMoneyId === 'new';
+export const getIsLineEdited = (state) => state.isLineEdited;
+export const getIsCreating = (state) => state.receiveMoneyId === 'new';
 export const getDuplicateId = (state) => state.duplicateId;
-export const getReceiveMoneyId = state => state.receiveMoneyId;
+export const getReceiveMoneyId = (state) => state.receiveMoneyId;
 
-const getReferenceId = state => state.receiveMoney.referenceId;
-const getSelectedDepositIntoId = state => state.receiveMoney.selectedDepositIntoAccountId;
-const getSelectedPayFromContact = state => state.receiveMoney.selectedPayFromContactId;
-const getDate = state => state.receiveMoney.date;
-const getDescription = state => state.receiveMoney.description;
-const getIsReportable = state => state.receiveMoney.isReportable;
-const getIsTaxInclusive = state => state.receiveMoney.isTaxInclusive;
-const getLines = state => state.receiveMoney.lines;
+const getReferenceId = (state) => state.receiveMoney.referenceId;
+const getSelectedDepositIntoId = (state) =>
+  state.receiveMoney.selectedDepositIntoAccountId;
+const getSelectedPayFromContact = (state) =>
+  state.receiveMoney.selectedPayFromContactId;
+const getDate = (state) => state.receiveMoney.date;
+const getDescription = (state) => state.receiveMoney.description;
+const getIsReportable = (state) => state.receiveMoney.isReportable;
+const getIsTaxInclusive = (state) => state.receiveMoney.isTaxInclusive;
+const getLines = (state) => state.receiveMoney.lines;
 const getStartOfFinancialYearDate = (state) => state.startOfFinancialYearDate;
 
-export const getIsReceiveMoneyJobColumnEnabled = state => state.isReceiveMoneyJobColumnEnabled;
+export const getIsReceiveMoneyJobColumnEnabled = (state) =>
+  state.isReceiveMoneyJobColumnEnabled;
 
-const getDepositIntoAccountOptions = state => state.depositIntoAccountOptions;
-const getPayFromContactOptions = state => state.payFromContactOptions;
-export const getAccountOptions = state => state.accountOptions;
-export const getTaxCodeOptions = state => state.taxCodeOptions;
+const getDepositIntoAccountOptions = (state) => state.depositIntoAccountOptions;
+const getPayFromContactOptions = (state) => state.payFromContactOptions;
+export const getAccountOptions = (state) => state.accountOptions;
+export const getTaxCodeOptions = (state) => state.taxCodeOptions;
 
-export const getIsContactLoading = state => state.isContactLoading;
+export const getIsContactLoading = (state) => state.isContactLoading;
 
 export const getHeaderOptions = createStructuredSelector({
   referenceId: getReferenceId,
@@ -45,42 +51,38 @@ export const getHeaderOptions = createStructuredSelector({
   isContactDisabled: getIsContactLoading,
 });
 
-export const getAlertMessage = state => state.alertMessage;
-export const getAlert = state => state.alert;
-export const getLoadingState = state => state.loadingState;
-export const getIsJobComboboxDisabled = state => state.isJobLoading;
+export const getAlertMessage = (state) => state.alertMessage;
+export const getAlert = (state) => state.alert;
+export const getLoadingState = (state) => state.loadingState;
+export const getIsJobComboboxDisabled = (state) => state.isJobLoading;
 
 export const getDefaultTaxCodeId = ({ accountId, accountOptions }) => {
   const account = accountOptions.find(({ id }) => id === accountId);
   return account === undefined ? '' : account.taxCodeId;
 };
 
-export const getLineDataByIndexSelector = () => createSelector(
-  (state, props) => state.receiveMoney.lines[props.index],
-  (line => (line
-    ? { ...line }
-    : {})),
+export const getLineDataByIndexSelector = () =>
+  createSelector(
+    (state, props) => state.receiveMoney.lines[props.index],
+    (line) => (line ? { ...line } : {})
+  );
+
+const getLength = (state) => state.receiveMoney.lines.length;
+
+export const getTableData = createSelector(getLength, (len) =>
+  Array(len).fill({})
 );
 
-const getLength = state => state.receiveMoney.lines.length;
+export const getIsTableEmpty = createSelector(getLength, (len) => len === 0);
 
-export const getTableData = createSelector(
-  getLength,
-  len => Array(len).fill({}),
-);
+export const getNewLineData = (state) => state.newLine;
 
-export const getIsTableEmpty = createSelector(
-  getLength,
-  len => len === 0,
-);
+export const getIndexOfLastLine = (state) =>
+  state.receiveMoney.lines.length - 1;
 
-export const getNewLineData = state => state.newLine;
+export const getReceiveMoney = (state) => state.receiveMoney;
 
-export const getIndexOfLastLine = state => state.receiveMoney.lines.length - 1;
-
-export const getReceiveMoney = state => state.receiveMoney;
-
-export const getTotals = state => state.totals;
+export const getTotals = (state) => state.totals;
 
 export const getCalculatedTotalsPayload = (state) => {
   const { lines, isTaxInclusive } = getReceiveMoney(state);
@@ -90,16 +92,18 @@ export const getCalculatedTotalsPayload = (state) => {
   };
 };
 
-export const getIsActionsDisabled = state => state.isSubmitting;
-export const isPageEdited = state => state.isPageEdited;
-export const getBusinessId = state => state.businessId;
-export const getRegion = state => state.region;
-export const getPageTitle = state => state.pageTitle;
-export const getTaxCodeLabel = state => getRegionToDialectText(state.region)('Tax code');
-export const getTaxLabel = state => getRegionToDialectText(state.region)('Tax');
+export const getIsActionsDisabled = (state) => state.isSubmitting;
+export const isPageEdited = (state) => state.isPageEdited;
+export const getBusinessId = (state) => state.businessId;
+export const getRegion = (state) => state.region;
+export const getPageTitle = (state) => state.pageTitle;
+export const getTaxCodeLabel = (state) =>
+  getRegionToDialectText(state.region)('Tax code');
+export const getTaxLabel = (state) =>
+  getRegionToDialectText(state.region)('Tax');
 
-export const getModal = state => state.modal;
-export const getModalUrl = state => ((state.modal || {}).url);
+export const getModal = (state) => state.modal;
+export const getModalUrl = (state) => (state.modal || {}).url;
 
 export const getOpenedModalType = (state) => {
   const modal = getModal(state) || { type: ModalType.NONE };
@@ -109,7 +113,9 @@ export const getOpenedModalType = (state) => {
 
 export const getTaxCalculations = (state, isSwitchingTaxInclusive) => {
   const isTaxInclusive = getIsTaxInclusive(state);
-  const isLineAmountsTaxInclusive = isSwitchingTaxInclusive ? !isTaxInclusive : isTaxInclusive;
+  const isLineAmountsTaxInclusive = isSwitchingTaxInclusive
+    ? !isTaxInclusive
+    : isTaxInclusive;
   const lines = getLines(state);
   const taxCodes = getTaxCodeOptions(state);
 
@@ -137,7 +143,7 @@ export const getTaxCalculations = (state, isSwitchingTaxInclusive) => {
 export const getAccountModalContext = createSelector(
   getBusinessId,
   getRegion,
-  (businessId, region) => ({ businessId, region }),
+  (businessId, region) => ({ businessId, region })
 );
 
 export const getContactModalContext = (state) => {
@@ -157,14 +163,18 @@ export const getJobModalContext = (state) => {
 export const getUpdatedContactOptions = (state, updatedOption) => {
   const contactOptions = getPayFromContactOptions(state);
 
-  return contactOptions.some(option => option.id === updatedOption.id)
-    ? contactOptions.map(option => (option.id === updatedOption.id ? updatedOption : option))
+  return contactOptions.some((option) => option.id === updatedOption.id)
+    ? contactOptions.map((option) =>
+        option.id === updatedOption.id ? updatedOption : option
+      )
     : [updatedOption, ...contactOptions];
 };
 
 export const getIsBeforeStartOfFinancialYear = createSelector(
   getDate,
   getStartOfFinancialYearDate,
-  (date, startOfFinancialYearDate) => date && startOfFinancialYearDate
-  && isBefore(new Date(date), new Date(startOfFinancialYearDate)),
+  (date, startOfFinancialYearDate) =>
+    date &&
+    startOfFinancialYearDate &&
+    isBefore(new Date(date), new Date(startOfFinancialYearDate))
 );

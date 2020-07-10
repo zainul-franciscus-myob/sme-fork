@@ -1,4 +1,8 @@
-import { LOAD_CUSTOMER_STATEMENTS, SELECT_CUSTOMER_STATEMENT, TOGGLE_ALL_CUSTOMER_STATEMENTS } from '../CustomerStatementIntents';
+import {
+  LOAD_CUSTOMER_STATEMENTS,
+  SELECT_CUSTOMER_STATEMENT,
+  TOGGLE_ALL_CUSTOMER_STATEMENTS,
+} from '../CustomerStatementIntents';
 import customerStatementListReducer from '../customerStatementListReducer';
 
 describe('customerStatementListReducer', () => {
@@ -82,7 +86,7 @@ describe('customerStatementListReducer', () => {
   });
 
   describe('toggleAllCustomerStatements', () => {
-    it('should deselect all customer statements if they\'re already all selected', () => {
+    it("should deselect all customer statements if they're already all selected", () => {
       const state = {
         customerStatements: [
           {

@@ -11,7 +11,7 @@ import {
 } from '../QuoteIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createQuoteListDispatcher = store => ({
+const createQuoteListDispatcher = (store) => ({
   setInitialState: (context, settings) => {
     store.dispatch({ intent: SET_INITIAL_STATE, context, settings });
   },
@@ -37,7 +37,11 @@ const createQuoteListDispatcher = store => ({
     store.dispatch({ intent: UPDATE_FILTER_OPTIONS, filterName, value });
   },
   setSortOrder: (orderBy, newSortOrder) => {
-    store.dispatch({ intent: SET_SORT_ORDER, sortOrder: newSortOrder, orderBy });
+    store.dispatch({
+      intent: SET_SORT_ORDER,
+      sortOrder: newSortOrder,
+      orderBy,
+    });
   },
   loadQuoteList: (payload) => {
     store.dispatch({ intent: LOAD_QUOTE_LIST, ...payload });
@@ -45,9 +49,7 @@ const createQuoteListDispatcher = store => ({
   loadQuoteListNextPage: ({ entries, pagination }) => {
     store.dispatch({ intent: LOAD_QUOTE_LIST_NEXT_PAGE, entries, pagination });
   },
-  sortAndFilterQuoteList: ({
-    entries, total, pagination,
-  }) => {
+  sortAndFilterQuoteList: ({ entries, total, pagination }) => {
     store.dispatch({
       intent: SORT_AND_FILTER_QUOTE_LIST,
       entries,

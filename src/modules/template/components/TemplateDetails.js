@@ -12,7 +12,9 @@ const TemplateDetails = ({
 }) => (
   <>
     <TemplateDetailsOptions onUpdateTemplateOptions={onUpdateTemplateOptions} />
-    <TemplateDetailsHeaderStyle onUpdateTemplateOptions={onUpdateTemplateOptions} />
+    <TemplateDetailsHeaderStyle
+      onUpdateTemplateOptions={onUpdateTemplateOptions}
+    />
     <TemplateDetailsHeaderInformation
       onUpdateTemplateOptions={onUpdateTemplateOptions}
       onFileSelected={onFileSelected}

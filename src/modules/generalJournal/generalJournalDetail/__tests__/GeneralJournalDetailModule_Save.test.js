@@ -6,7 +6,10 @@ import {
   UPDATE_GENERAL_JOURNAL,
 } from '../../GeneralJournalIntents';
 import { SUCCESSFULLY_SAVED_GENERAL_JOURNAL } from '../../../../common/types/MessageTypes';
-import { setupWithExisting, setupWithNew } from './GeneralJournalDetailModule.test';
+import {
+  setupWithExisting,
+  setupWithNew,
+} from './GeneralJournalDetailModule.test';
 
 describe('GeneralJournalDetailModule', () => {
   describe('saveGeneralJournal', () => {
@@ -45,9 +48,11 @@ describe('GeneralJournalDetailModule', () => {
       ]);
 
       expect(module.pushMessage).toHaveBeenCalledWith(
-        expect.objectContaining({ type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL }),
+        expect.objectContaining({ type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL })
       );
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/transactionList');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/bizId/transactionList'
+      );
     });
 
     it('fail to create a new general journal', () => {
@@ -107,9 +112,11 @@ describe('GeneralJournalDetailModule', () => {
       ]);
 
       expect(module.pushMessage).toHaveBeenCalledWith(
-        expect.objectContaining({ type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL }),
+        expect.objectContaining({ type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL })
       );
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/transactionList');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/bizId/transactionList'
+      );
     });
 
     it('fails to save', () => {
@@ -178,10 +185,12 @@ describe('GeneralJournalDetailModule', () => {
         ]);
 
         expect(module.pushMessage).toHaveBeenCalledWith(
-          expect.objectContaining({ type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL }),
+          expect.objectContaining({ type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL })
         );
 
-        expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/generalJournal/new');
+        expect(module.navigateTo).toHaveBeenCalledWith(
+          '/#/au/bizId/generalJournal/new'
+        );
       });
 
       it('successfully updates a general journal and redirects to modal url', () => {
@@ -215,9 +224,11 @@ describe('GeneralJournalDetailModule', () => {
         ]);
 
         expect(module.pushMessage).toHaveBeenCalledWith(
-          expect.objectContaining({ type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL }),
+          expect.objectContaining({ type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL })
         );
-        expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/someOtherPage');
+        expect(module.navigateTo).toHaveBeenCalledWith(
+          '/#/au/bizId/someOtherPage'
+        );
       });
 
       it('fails to save and closes unsaved modal', () => {

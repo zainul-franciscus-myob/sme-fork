@@ -3,7 +3,9 @@ import {
   SET_ALERT,
   SET_EMPLOYEE_ETP,
   SET_LOADING_STATE,
-  SET_NEW_EVENT_ID, SET_SELECTED_ETP, SET_SELECT_ALL_ETP,
+  SET_NEW_EVENT_ID,
+  SET_SELECTED_ETP,
+  SET_SELECT_ALL_ETP,
 } from './EtpIntents';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
@@ -31,7 +33,7 @@ const setLoadingState = (state, { loadingState }) => ({
   loadingState,
 });
 
-const setNewEventId = state => ({
+const setNewEventId = (state) => ({
   ...state,
   eventId: uuid(),
 });
@@ -48,15 +50,19 @@ const setEmployee = (state, { response }) => ({
 
 const setSelectedPay = (state, { pay, isSelected }) => ({
   ...state,
-  pays: state.pays.map(p => (p.id === pay.id ? ({
-    ...p,
-    isSelected,
-  }) : p)),
+  pays: state.pays.map((p) =>
+    p.id === pay.id
+      ? {
+          ...p,
+          isSelected,
+        }
+      : p
+  ),
 });
 
 const setSelectAll = (state, { isSelected }) => ({
   ...state,
-  pays: state.pays.map(p => ({
+  pays: state.pays.map((p) => ({
     ...p,
     isSelected,
   })),

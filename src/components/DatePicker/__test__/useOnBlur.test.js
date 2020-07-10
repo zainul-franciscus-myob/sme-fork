@@ -4,12 +4,13 @@ import testHook from '../../../common/tests/testHook';
 import useOnBlur from '../useOnBlur';
 
 const setup = (args = {}) => {
-  const {
-    onSelect = () => {}, onBlur = () => {},
-  } = args;
-  return testHook(() => useOnBlur({
-    onSelect, onBlur,
-  }));
+  const { onSelect = () => {}, onBlur = () => {} } = args;
+  return testHook(() =>
+    useOnBlur({
+      onSelect,
+      onBlur,
+    })
+  );
 };
 
 describe('useOnBlur', () => {

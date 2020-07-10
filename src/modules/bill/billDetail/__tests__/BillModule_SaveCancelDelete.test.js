@@ -86,7 +86,11 @@ describe('BillModule_Save', () => {
         { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
         { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
         expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
-        { intent: OPEN_ALERT, type: 'success', message: "Success! You've successfully created a new bill." },
+        {
+          intent: OPEN_ALERT,
+          type: 'success',
+          message: "Success! You've successfully created a new bill.",
+        },
       ]);
 
       expect(integration.getRequests()).toEqual([
@@ -131,12 +135,19 @@ describe('BillModule_Save', () => {
         { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
         { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
         expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
-        { intent: OPEN_ALERT, type: 'success', message: "Great Work! You've done it well!" },
+        {
+          intent: OPEN_ALERT,
+          type: 'success',
+          message: "Great Work! You've done it well!",
+        },
       ]);
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({ intent: UPDATE_BILL }),
-        { intent: LOAD_BILL, urlParams: { businessId: 'bizId', billId: 'billId' } },
+        {
+          intent: LOAD_BILL,
+          urlParams: { businessId: 'bizId', billId: 'billId' },
+        },
         expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
       ]);
 
@@ -204,12 +215,10 @@ describe('BillModule_Save', () => {
       ]);
 
       expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
-      expect(module.pushMessage).toHaveBeenCalledWith(
-        {
-          type: SUCCESSFULLY_SAVED_BILL,
-          content: 'Bill successfully created from document',
-        },
-      );
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: SUCCESSFULLY_SAVED_BILL,
+        content: 'Bill successfully created from document',
+      });
       expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/inTray');
     });
 
@@ -233,12 +242,11 @@ describe('BillModule_Save', () => {
       ]);
 
       expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
-      expect(module.pushMessage).toHaveBeenCalledWith(
-        {
-          type: SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
-          content: 'Bill created, but the document failed to link. Open the bill to link the document again',
-        },
-      );
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
+        content:
+          'Bill created, but the document failed to link. Open the bill to link the document again',
+      });
       expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/inTray');
     });
   });
@@ -266,7 +274,7 @@ describe('BillModule_Save', () => {
 
       expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
       expect(module.pushMessage).toHaveBeenCalledWith(
-        expect.objectContaining({ type: SUCCESSFULLY_SAVED_BILL }),
+        expect.objectContaining({ type: SUCCESSFULLY_SAVED_BILL })
       );
       expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/bill/new');
     });
@@ -278,10 +286,12 @@ describe('BillModule_Save', () => {
         businessId: 'bizId',
         region: 'au',
       });
-      module.popMessages = () => [{
-        type: DUPLICATE_BILL,
-        duplicateId: '🐶',
-      }];
+      module.popMessages = () => [
+        {
+          type: DUPLICATE_BILL,
+          duplicateId: '🐶',
+        },
+      ];
       store.resetActions();
       integration.resetRequests();
 
@@ -305,7 +315,7 @@ describe('BillModule_Save', () => {
 
       expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
       expect(module.pushMessage).toHaveBeenCalledWith(
-        expect.objectContaining({ type: SUCCESSFULLY_SAVED_BILL }),
+        expect.objectContaining({ type: SUCCESSFULLY_SAVED_BILL })
       );
       expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/bill/new');
     });
@@ -470,7 +480,7 @@ describe('BillModule_Save', () => {
       ]);
 
       expect(module.pushMessage).toHaveBeenCalledWith(
-        expect.objectContaining({ type: SUCCESSFULLY_DELETED_BILL }),
+        expect.objectContaining({ type: SUCCESSFULLY_DELETED_BILL })
       );
       expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/bill');
     });

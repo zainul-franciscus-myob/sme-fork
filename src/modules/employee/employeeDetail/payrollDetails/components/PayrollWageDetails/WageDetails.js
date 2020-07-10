@@ -1,5 +1,8 @@
 import {
-  FieldGroup, FormHorizontal, RadioButtonGroup, Select,
+  FieldGroup,
+  FormHorizontal,
+  RadioButtonGroup,
+  Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -39,7 +42,10 @@ const WageDetails = ({
           name="selectedPayBasis"
           options={wagePayBasisOptions}
           value={selectedPayBasis}
-          onChange={handleRadioButtonChange('selectedPayBasis', onPayrollWagePayBasisChange)}
+          onChange={handleRadioButtonChange(
+            'selectedPayBasis',
+            onPayrollWagePayBasisChange
+          )}
         />
         <AmountInput
           key="annualSalary"
@@ -91,13 +97,16 @@ const WageDetails = ({
           hideLabel={false}
           items={wageExpenseAccounts}
           selectedId={selectedWageExpenseAccount}
-          onChange={handleComboboxChange('selectedWageExpenseAccount', onPayrollWageDetailsChange)}
+          onChange={handleComboboxChange(
+            'selectedWageExpenseAccount',
+            onPayrollWageDetailsChange
+          )}
         />
       </FieldGroup>
     </FormHorizontal>
   </div>
 );
 
-const mapStateToProps = state => getWageDetails(state);
+const mapStateToProps = (state) => getWageDetails(state);
 
 export default connect(mapStateToProps)(WageDetails);

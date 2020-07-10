@@ -1,10 +1,12 @@
-import {
-  Button, HeaderSort, Icons, Table,
-} from '@myob/myob-widgets';
+import { Button, HeaderSort, Icons, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getDeductionsOrder, getIsDeductionsTableEmpty, getIsTableLoading } from '../PayItemListSelectors';
+import {
+  getDeductionsOrder,
+  getIsDeductionsTableEmpty,
+  getIsTableLoading,
+} from '../PayItemListSelectors';
 import DeductionsTableBody from './PayItemDeductionsTableBody';
 import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
 import TableView from '../../../../components/TableView/TableView';
@@ -18,13 +20,28 @@ const PayItemDeductionsTable = ({
   const header = (
     <Table.Header>
       <Table.HeaderItem>
-        <HeaderSort title="Pay item name" sortName="Name" activeSort={order} onSort={onSortDeductionsList} />
+        <HeaderSort
+          title="Pay item name"
+          sortName="Name"
+          activeSort={order}
+          onSort={onSortDeductionsList}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem>
-        <HeaderSort title="Calculation basis" sortName="DisplayType" activeSort={order} onSort={onSortDeductionsList} />
+        <HeaderSort
+          title="Calculation basis"
+          sortName="DisplayType"
+          activeSort={order}
+          onSort={onSortDeductionsList}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem>
-        <HeaderSort title="ATO reporting category" sortName="StpCategory" activeSort={order} onSort={onSortDeductionsList} />
+        <HeaderSort
+          title="ATO reporting category"
+          sortName="StpCategory"
+          activeSort={order}
+          onSort={onSortDeductionsList}
+        />
       </Table.HeaderItem>
     </Table.Header>
   );
@@ -60,7 +77,7 @@ const PayItemDeductionsTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   order: getDeductionsOrder(state),
   isTableLoading: getIsTableLoading(state),
   isDeductionsTableEmpty: getIsDeductionsTableEmpty(state),

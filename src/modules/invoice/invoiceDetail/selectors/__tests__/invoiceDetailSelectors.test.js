@@ -33,7 +33,8 @@ describe('invoiceDetailSelectors', () => {
       amountPaid: '10.00',
       isTaxInclusive: true,
       invoiceNumber: '0000012334563456',
-      address: 'Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia',
+      address:
+        'Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia',
       issueDate: '2018-11-02',
       purchaseOrderNumber: '123',
       note: 'Thank you!',
@@ -144,7 +145,8 @@ describe('invoiceDetailSelectors', () => {
         purchaseOrderNumber: '123',
         customerId: '3',
         isTaxInclusive: true,
-        address: 'Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia',
+        address:
+          'Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia',
         issueDate: '2018-11-02',
         expirationTerm: 'Prepaid',
         expirationDays: 0,
@@ -214,8 +216,16 @@ describe('invoiceDetailSelectors', () => {
         invoice: {
           ...state.invoice,
           lines: [
-            { type: InvoiceLineType.SERVICE, taxExclusiveAmount: '9.99', taxAmount: '0.01' },
-            { type: InvoiceLineType.SUB_TOTAL, taxExclusiveAmount: '99', taxAmount: '1' },
+            {
+              type: InvoiceLineType.SERVICE,
+              taxExclusiveAmount: '9.99',
+              taxAmount: '0.01',
+            },
+            {
+              type: InvoiceLineType.SUB_TOTAL,
+              taxExclusiveAmount: '99',
+              taxAmount: '1',
+            },
           ],
         },
       });
@@ -264,7 +274,12 @@ describe('invoiceDetailSelectors', () => {
       };
 
       const actual = getInvoiceDetailTotals.resultFunc(
-        totals, amountPaid, isCreating, noFreightInfo, taxCodeOptions, false,
+        totals,
+        amountPaid,
+        isCreating,
+        noFreightInfo,
+        taxCodeOptions,
+        false
       );
 
       expect(actual).toEqual(expected);
@@ -283,7 +298,12 @@ describe('invoiceDetailSelectors', () => {
       };
 
       const actual = getInvoiceDetailTotals.resultFunc(
-        totals, noAmountPaid, isCreating, noFreightInfo, taxCodeOptions, false,
+        totals,
+        noAmountPaid,
+        isCreating,
+        noFreightInfo,
+        taxCodeOptions,
+        false
       );
 
       expect(actual).toEqual(expected);
@@ -310,7 +330,12 @@ describe('invoiceDetailSelectors', () => {
       };
 
       const actual = getInvoiceDetailTotals.resultFunc(
-        totals, noAmountPaid, isCreating, freightInfo, taxCodeOptions, true,
+        totals,
+        noAmountPaid,
+        isCreating,
+        freightInfo,
+        taxCodeOptions,
+        true
       );
 
       expect(actual).toEqual(expected);
@@ -337,7 +362,12 @@ describe('invoiceDetailSelectors', () => {
       };
 
       const actual = getInvoiceDetailTotals.resultFunc(
-        totals, noAmountPaid, isCreating, freightInfo, taxCodeOptions, true,
+        totals,
+        noAmountPaid,
+        isCreating,
+        freightInfo,
+        taxCodeOptions,
+        true
       );
 
       expect(actual).toEqual(expected);
@@ -372,7 +402,10 @@ describe('invoiceDetailSelectors', () => {
       const option2 = { id: '2', name: 'Option 2' };
       const expected = [option2, option1];
 
-      const actual = getUpdatedCustomerOptions({ customerOptions: [option1] }, option2);
+      const actual = getUpdatedCustomerOptions(
+        { customerOptions: [option1] },
+        option2
+      );
 
       expect(actual).toEqual(expected);
     });
@@ -382,7 +415,10 @@ describe('invoiceDetailSelectors', () => {
       const option2 = { id: '1', name: 'Updated option 1' };
       const expected = [option2];
 
-      const actual = getUpdatedCustomerOptions({ customerOptions: [option1] }, option2);
+      const actual = getUpdatedCustomerOptions(
+        { customerOptions: [option1] },
+        option2
+      );
 
       expect(actual).toEqual(expected);
     });
@@ -400,9 +436,7 @@ describe('invoiceDetailSelectors', () => {
 
       const actual = getTemplateOptions(modifiedState);
 
-      expect(actual).toEqual([
-        { name: 'a', label: 'a' },
-      ]);
+      expect(actual).toEqual([{ name: 'a', label: 'a' }]);
     });
 
     it('uses service template options by default', () => {
@@ -416,9 +450,7 @@ describe('invoiceDetailSelectors', () => {
 
       const actual = getTemplateOptions(modifiedState);
 
-      expect(actual).toEqual([
-        { name: 'a', label: 'a' },
-      ]);
+      expect(actual).toEqual([{ name: 'a', label: 'a' }]);
     });
   });
 
@@ -471,13 +503,23 @@ describe('invoiceDetailSelectors', () => {
         ...state,
         invoice: {
           ...state.invoice,
-          lines: [{ type: InvoiceLineType.SUB_TOTAL, description: 'Description', amount: '10' }],
+          lines: [
+            {
+              type: InvoiceLineType.SUB_TOTAL,
+              description: 'Description',
+              amount: '10',
+            },
+          ],
         },
       };
 
       const actual = getInvoiceLine(modifiedState, { index: 0 });
 
-      expect(actual).toEqual({ type: InvoiceLineType.SUB_TOTAL, description: 'Subtotal', amount: '10' });
+      expect(actual).toEqual({
+        type: InvoiceLineType.SUB_TOTAL,
+        description: 'Subtotal',
+        amount: '10',
+      });
     });
   });
 
@@ -487,17 +529,20 @@ describe('invoiceDetailSelectors', () => {
       [InvoiceLineType.ITEM, true],
       [InvoiceLineType.HEADER, false],
       [InvoiceLineType.SUB_TOTAL, false],
-    ])('validate whether invoice with %s line type are supported', (type, expected) => {
-      const lines = [
-        { type: InvoiceLineType.SERVICE },
-        { type: InvoiceLineType.ITEM },
-        { type },
-      ];
+    ])(
+      'validate whether invoice with %s line type are supported',
+      (type, expected) => {
+        const lines = [
+          { type: InvoiceLineType.SERVICE },
+          { type: InvoiceLineType.ITEM },
+          { type },
+        ];
 
-      const actual = getIsLinesSupported.resultFunc(lines);
+        const actual = getIsLinesSupported.resultFunc(lines);
 
-      expect(actual).toEqual(expected);
-    });
+        expect(actual).toEqual(expected);
+      }
+    );
   });
 
   describe('getIsReadOnly', () => {
@@ -550,15 +595,36 @@ describe('invoiceDetailSelectors', () => {
 
   describe('getReadOnlyMessage', () => {
     it.each([
-      [false, 'Blah', false, 'This invoice is read only because the Blah layout isn\'t supported in the browser. Switch to AccountRight desktop to edit this invoice.'],
-      [true, '', false, 'This invoice is read only because it contains unsupported features. Switch to AccountRight desktop to edit this invoice.'],
-      [true, '', true, 'This invoice is read only because freight isn\'t supported in the browser. Switch to AccountRight desktop to edit this invoice.'],
-    ])('isLayoutSupported %s, layout %s, hasFreightAmount %s', (isLayoutSupported, layout, hasFreightAmount, message) => {
-      const actual = getReadOnlyMessage.resultFunc(isLayoutSupported, layout, hasFreightAmount);
+      [
+        false,
+        'Blah',
+        false,
+        "This invoice is read only because the Blah layout isn't supported in the browser. Switch to AccountRight desktop to edit this invoice.",
+      ],
+      [
+        true,
+        '',
+        false,
+        'This invoice is read only because it contains unsupported features. Switch to AccountRight desktop to edit this invoice.',
+      ],
+      [
+        true,
+        '',
+        true,
+        "This invoice is read only because freight isn't supported in the browser. Switch to AccountRight desktop to edit this invoice.",
+      ],
+    ])(
+      'isLayoutSupported %s, layout %s, hasFreightAmount %s',
+      (isLayoutSupported, layout, hasFreightAmount, message) => {
+        const actual = getReadOnlyMessage.resultFunc(
+          isLayoutSupported,
+          layout,
+          hasFreightAmount
+        );
 
-      expect(actual)
-        .toEqual(message);
-    });
+        expect(actual).toEqual(message);
+      }
+    );
   });
 
   describe('getIsBeforeConversionDate', () => {
@@ -633,7 +699,7 @@ describe('invoiceDetailSelectors', () => {
         const actual = getIsBeforeFYAndAfterConversionDate(modifiedState);
 
         expect(actual).toEqual(expected);
-      },
+      }
     );
   });
 
@@ -643,7 +709,7 @@ describe('invoiceDetailSelectors', () => {
       { value: '2013-01-01', expected: 'January 2013' },
       { value: '2013-07-01', expected: 'July 2013' },
       { value: '2013-12-01', expected: 'December 2013' },
-    ].forEach(test => {
+    ].forEach((test) => {
       it('should format correctly', () => {
         const modifiedState = {
           ...state,

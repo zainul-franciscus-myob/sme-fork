@@ -1,19 +1,14 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import { getRegion } from './onlineTaxSelectors';
 import RegionToOnlineTaxViewMapping from './RegionToOnlineTaxViewMapping';
 import Store from '../../store/Store';
 import onlineTaxReducer from './onlineTaxReducer';
 
 export default class OnlineTaxModule {
-  constructor({
-    integration, setRootView,
-  }) {
+  constructor({ integration, setRootView }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.store = new Store(onlineTaxReducer);
@@ -32,11 +27,11 @@ export default class OnlineTaxModule {
     );
 
     this.setRootView(wrappedView);
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   setInitialState = (context) => {
     const intent = SET_INITIAL_STATE;
@@ -45,7 +40,7 @@ export default class OnlineTaxModule {
       intent,
       context,
     });
-  }
+  };
 
   run(context) {
     this.setInitialState(context);

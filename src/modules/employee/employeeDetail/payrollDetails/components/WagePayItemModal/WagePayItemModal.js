@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsActionDisabled, getIsLoading, getModalTitle,
+  getAlert,
+  getIsActionDisabled,
+  getIsLoading,
+  getModalTitle,
 } from '../../selectors/WagePayItemModalSelectors';
 import PageView from '../../../../../../components/PageView/PageView';
 import WagePayItemDetails from './WagePayItemDetails';
@@ -35,7 +38,7 @@ const WagePayItemModal = ({
 
   const view = (
     <>
-      { alertComponent }
+      {alertComponent}
       <WagePayItemDetails
         onDetailsChange={onDetailsChange}
         onOverrideAccountChange={onOverrideAccountChange}
@@ -54,23 +57,23 @@ const WagePayItemModal = ({
   );
 
   return (
-    <Modal
-      title={title}
-      onCancel={onCancel}
-      canClose={!isActionDisabled}
-    >
+    <Modal title={title} onCancel={onCancel} canClose={!isActionDisabled}>
       <Modal.Body>
         <PageView isLoading={isLoading} view={view} />
       </Modal.Body>
       <Modal.Footer>
-        <Button type="secondary" onClick={onCancel} disabled={isActionDisabled}>Cancel</Button>
-        <Button type="primary" onClick={onSave} disabled={isActionDisabled}>Save</Button>
+        <Button type="secondary" onClick={onCancel} disabled={isActionDisabled}>
+          Cancel
+        </Button>
+        <Button type="primary" onClick={onSave} disabled={isActionDisabled}>
+          Save
+        </Button>
       </Modal.Footer>
     </Modal>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   title: getModalTitle(state),
   alert: getAlert(state),
   isLoading: getIsLoading(state),

@@ -1,25 +1,22 @@
-import {
-  PageState,
-  Spinner,
-  Table,
-} from '@myob/myob-widgets';
+import { PageState, Spinner, Table } from '@myob/myob-widgets';
 import React from 'react';
 
 const spinnerView = (
-  <PageState
-    title={<Spinner size="medium" />}
-    description="Loading"
-  />
+  <PageState title={<Spinner size="medium" />} description="Loading" />
 );
 
 const getDefaultEmptyView = (emptyMessage = 'No results found') => (
-  <PageState
-    title={emptyMessage}
-  />
+  <PageState title={emptyMessage} />
 );
 
 const TableView = ({
-  isLoading, isEmpty, emptyMessage, emptyView, header, children, ...props
+  isLoading,
+  isEmpty,
+  emptyMessage,
+  emptyView,
+  header,
+  children,
+  ...props
 }) => {
   let view;
   if (isLoading) {

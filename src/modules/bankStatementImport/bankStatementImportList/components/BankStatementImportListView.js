@@ -1,6 +1,4 @@
-import {
-  Alert, Button, HeaderSort, PageHead, Table,
-} from '@myob/myob-widgets';
+import { Alert, Button, HeaderSort, PageHead, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -30,9 +28,7 @@ const tableConfig = {
   remove: { columnName: 'Delete', valign: 'top', align: 'center' },
 };
 
-const HeaderItem = ({
-  config, sortName, activeSort, onSort,
-}) => (
+const HeaderItem = ({ config, sortName, activeSort, onSort }) => (
   <Table.HeaderItem {...config}>
     <HeaderSort
       title={config.columnName}
@@ -61,7 +57,9 @@ const BankStatementImportListView = ({
 }) => {
   const pageHead = (
     <PageHead title="Bank statement import history">
-      <Button onClick={onImportButtonClick} disabled={isSubmitting}>Import statement file</Button>
+      <Button onClick={onImportButtonClick} disabled={isSubmitting}>
+        Import statement file
+      </Button>
     </PageHead>
   );
 
@@ -98,11 +96,36 @@ const BankStatementImportListView = ({
   const header = (
     <Table responsiveWidths={responsiveWidths}>
       <Table.Header>
-        <HeaderItem config={tableConfig.importedDate} sortName="ImportedDate" activeSort={order} onSort={onSort} />
-        <HeaderItem config={tableConfig.fileName} sortName="FileName" activeSort={order} onSort={onSort} />
-        <HeaderItem config={tableConfig.firstTransactionDate} sortName="FirstTransactionDate" activeSort={order} onSort={onSort} />
-        <HeaderItem config={tableConfig.lastTransactionDate} sortName="LastTransactionDate" activeSort={order} onSort={onSort} />
-        <HeaderItem config={tableConfig.importedBy} sortName="ImportedBy" activeSort={order} onSort={onSort} />
+        <HeaderItem
+          config={tableConfig.importedDate}
+          sortName="ImportedDate"
+          activeSort={order}
+          onSort={onSort}
+        />
+        <HeaderItem
+          config={tableConfig.fileName}
+          sortName="FileName"
+          activeSort={order}
+          onSort={onSort}
+        />
+        <HeaderItem
+          config={tableConfig.firstTransactionDate}
+          sortName="FirstTransactionDate"
+          activeSort={order}
+          onSort={onSort}
+        />
+        <HeaderItem
+          config={tableConfig.lastTransactionDate}
+          sortName="LastTransactionDate"
+          activeSort={order}
+          onSort={onSort}
+        />
+        <HeaderItem
+          config={tableConfig.importedBy}
+          sortName="ImportedBy"
+          activeSort={order}
+          onSort={onSort}
+        />
         <Table.HeaderItem {...tableConfig.remove} />
       </Table.Header>
     </Table>
@@ -115,7 +138,7 @@ const BankStatementImportListView = ({
       tableHeader={header}
       filterBar={filterBar}
     >
-      { modal }
+      {modal}
       <div className={styles.list}>
         <BankStatementImportListTable
           tableConfig={tableConfig}
@@ -127,10 +150,12 @@ const BankStatementImportListView = ({
     </StandardTemplate>
   );
 
-  return <PageView loadingState={loadingState} view={bankStatementImportListView} />;
+  return (
+    <PageView loadingState={loadingState} view={bankStatementImportListView} />
+  );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   isSubmitting: getIsSubmitting(state),
   modalType: getModalType(state),

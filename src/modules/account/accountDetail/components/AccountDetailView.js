@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getIsCreating, getIsHeader, getLoadingState, getModalType,
+  getAlertMessage,
+  getIsCreating,
+  getIsHeader,
+  getLoadingState,
+  getModalType,
 } from '../accountDetailSelectors';
 import AccountCategory from './AccountCategory';
 import AccountDetailActions from './AccountDetailActions';
@@ -49,12 +53,7 @@ const AccountDetailView = ({
 
   let modal;
   if (modalType === 'cancel') {
-    modal = (
-      <CancelModal
-        onCancel={onCloseModal}
-        onConfirm={onCancelModal}
-      />
-    );
+    modal = <CancelModal onCancel={onCloseModal} onConfirm={onCancelModal} />;
   } else if (modalType === 'delete') {
     modal = (
       <DeleteModal
@@ -88,14 +87,14 @@ const AccountDetailView = ({
       pageHead={<AccountHeader />}
       alert={alertComponent}
       sticky="none"
-      actions={(
+      actions={
         <AccountDetailActions
           isCreating={isCreating}
           onSaveButtonClick={onSaveButtonClick}
           onCancelButtonClick={onCancelButtonClick}
           onDeleteButtonClick={onDeleteButtonClick}
         />
-)}
+      }
     >
       {modal}
       <FormCard>
@@ -109,7 +108,7 @@ const AccountDetailView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isCreating: getIsCreating(state),
   loadingState: getLoadingState(state),
   modalType: getModalType(state),

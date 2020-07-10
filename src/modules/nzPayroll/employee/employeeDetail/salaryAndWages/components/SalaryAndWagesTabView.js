@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getHourlyRate, getPayCycleOptions, getSelectedPayBasis, getSelectedPayCycle,
+  getHourlyRate,
+  getPayCycleOptions,
+  getSelectedPayBasis,
+  getSelectedPayCycle,
 } from '../salaryAndWageSelectors';
 import PayDetailsFieldGroup from './PayDetailsFieldGroup';
 
@@ -25,7 +28,7 @@ const SalaryAndWagesTabView = ({
   </FormHorizontal>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   hourlyRate: getHourlyRate(state),
   selectedPayBasis: getSelectedPayBasis(state),
   selectedPayCycle: getSelectedPayCycle(state),

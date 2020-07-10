@@ -8,124 +8,133 @@ import employeeDetailReducer from '../../../employeeDetailReducer';
 
 describe('PayrollDetailReducer', () => {
   describe('updatePayrollEmployeeEmail', () => {
-    it('sets email to Contact detail when contact email is present, paySlip email is blank and'
-      + ' paySlip delivery is to be emailed when delivery method is changed', () => {
-      const email = 'foo@bar.com';
-      const state = {
-        contactDetail: {
-          email,
-        },
-        payrollDetails: {
-          employmentDetails: {
-            paySlipEmail: '',
-            paySlipDelivery: 'ToBePrinted',
+    it(
+      'sets email to Contact detail when contact email is present, paySlip email is blank and' +
+        ' paySlip delivery is to be emailed when delivery method is changed',
+      () => {
+        const email = 'foo@bar.com';
+        const state = {
+          contactDetail: {
+            email,
           },
-        },
-      };
-
-      const action = {
-        intent: UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY,
-        key: 'paySlipDelivery',
-        value: 'ToBeEmailed',
-      };
-
-      const expected = {
-        contactDetail: {
-          email,
-        },
-        payrollDetails: {
-          employmentDetails: {
-            paySlipEmail: email,
-            paySlipDelivery: 'ToBeEmailed',
+          payrollDetails: {
+            employmentDetails: {
+              paySlipEmail: '',
+              paySlipDelivery: 'ToBePrinted',
+            },
           },
-        },
-        isPageEdited: true,
-      };
+        };
 
-      const actual = employeeDetailReducer(state, action);
+        const action = {
+          intent: UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY,
+          key: 'paySlipDelivery',
+          value: 'ToBeEmailed',
+        };
 
-      expect(actual).toEqual(expected);
-    });
-
-    it('sets email to Contact detail when contact email is present, paySlip email is blank and'
-      + ' paySlip delivery is to be printed and emailed when delivery method is changed', () => {
-      const email = 'foo@bar.com';
-      const state = {
-        contactDetail: {
-          email,
-        },
-        payrollDetails: {
-          employmentDetails: {
-            paySlipEmail: '',
-            paySlipDelivery: 'ToBePrinted',
+        const expected = {
+          contactDetail: {
+            email,
           },
-        },
-      };
-
-      const action = {
-        intent: UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY,
-        key: 'paySlipDelivery',
-        value: 'ToBePrintedAndEmailed',
-      };
-
-      const expected = {
-        contactDetail: {
-          email,
-        },
-        payrollDetails: {
-          employmentDetails: {
-            paySlipEmail: email,
-            paySlipDelivery: 'ToBePrintedAndEmailed',
+          payrollDetails: {
+            employmentDetails: {
+              paySlipEmail: email,
+              paySlipDelivery: 'ToBeEmailed',
+            },
           },
-        },
-        isPageEdited: true,
-      };
+          isPageEdited: true,
+        };
 
-      const actual = employeeDetailReducer(state, action);
+        const actual = employeeDetailReducer(state, action);
 
-      expect(actual).toEqual(expected);
-    });
+        expect(actual).toEqual(expected);
+      }
+    );
 
-    it('sets email to Contact detail when contact email is present, paySlip email is blank and'
-      + ' paySlip delivery is to be printed and emailed when payroll detail is navigated to', () => {
-      const email = 'foo@bar.com';
-      const state = {
-        mainTab: 'contactDetails',
-        showAddPayItemButton: false,
-        contactDetail: {
-          email,
-        },
-        payrollDetails: {
-          employmentDetails: {
-            paySlipEmail: '',
-            paySlipDelivery: 'ToBeEmailed',
+    it(
+      'sets email to Contact detail when contact email is present, paySlip email is blank and' +
+        ' paySlip delivery is to be printed and emailed when delivery method is changed',
+      () => {
+        const email = 'foo@bar.com';
+        const state = {
+          contactDetail: {
+            email,
           },
-        },
-      };
-
-      const action = {
-        intent: SET_MAIN_TAB,
-        selectedTab: 'payrollDetails',
-      };
-
-      const expected = {
-        mainTab: 'payrollDetails',
-        showAddPayItemButton: true,
-        contactDetail: {
-          email,
-        },
-        payrollDetails: {
-          employmentDetails: {
-            paySlipEmail: email,
-            paySlipDelivery: 'ToBeEmailed',
+          payrollDetails: {
+            employmentDetails: {
+              paySlipEmail: '',
+              paySlipDelivery: 'ToBePrinted',
+            },
           },
-        },
-      };
+        };
 
-      const actual = employeeDetailReducer(state, action);
+        const action = {
+          intent: UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY,
+          key: 'paySlipDelivery',
+          value: 'ToBePrintedAndEmailed',
+        };
 
-      expect(actual).toEqual(expected);
-    });
+        const expected = {
+          contactDetail: {
+            email,
+          },
+          payrollDetails: {
+            employmentDetails: {
+              paySlipEmail: email,
+              paySlipDelivery: 'ToBePrintedAndEmailed',
+            },
+          },
+          isPageEdited: true,
+        };
+
+        const actual = employeeDetailReducer(state, action);
+
+        expect(actual).toEqual(expected);
+      }
+    );
+
+    it(
+      'sets email to Contact detail when contact email is present, paySlip email is blank and' +
+        ' paySlip delivery is to be printed and emailed when payroll detail is navigated to',
+      () => {
+        const email = 'foo@bar.com';
+        const state = {
+          mainTab: 'contactDetails',
+          showAddPayItemButton: false,
+          contactDetail: {
+            email,
+          },
+          payrollDetails: {
+            employmentDetails: {
+              paySlipEmail: '',
+              paySlipDelivery: 'ToBeEmailed',
+            },
+          },
+        };
+
+        const action = {
+          intent: SET_MAIN_TAB,
+          selectedTab: 'payrollDetails',
+        };
+
+        const expected = {
+          mainTab: 'payrollDetails',
+          showAddPayItemButton: true,
+          contactDetail: {
+            email,
+          },
+          payrollDetails: {
+            employmentDetails: {
+              paySlipEmail: email,
+              paySlipDelivery: 'ToBeEmailed',
+            },
+          },
+        };
+
+        const actual = employeeDetailReducer(state, action);
+
+        expect(actual).toEqual(expected);
+      }
+    );
   });
 
   describe('SET_TERMINATION_CONFIRM_MODAL', () => {
@@ -145,7 +154,9 @@ describe('PayrollDetailReducer', () => {
 
       const result = employeeDetailReducer(state, action);
 
-      expect(result.payrollDetails.employmentDetails.terminationConfirmModalIsOpen).toBe(true);
+      expect(
+        result.payrollDetails.employmentDetails.terminationConfirmModalIsOpen
+      ).toBe(true);
     });
 
     it('closes the termination confirmation modal', () => {
@@ -164,7 +175,9 @@ describe('PayrollDetailReducer', () => {
 
       const result = employeeDetailReducer(state, action);
 
-      expect(result.payrollDetails.employmentDetails.terminationConfirmModalIsOpen).toBe(false);
+      expect(
+        result.payrollDetails.employmentDetails.terminationConfirmModalIsOpen
+      ).toBe(false);
     });
   });
 
@@ -188,7 +201,9 @@ describe('PayrollDetailReducer', () => {
         };
         const actual = employeeDetailReducer(state, action);
 
-        expect(actual.payrollDetails.employmentDetails.terminationDateNewlySet).toBe(true);
+        expect(
+          actual.payrollDetails.employmentDetails.terminationDateNewlySet
+        ).toBe(true);
       });
 
       it('does not set terminationDateNewlySet when changing a different field', () => {
@@ -199,7 +214,9 @@ describe('PayrollDetailReducer', () => {
         };
         const actual = employeeDetailReducer(state, action);
 
-        expect(actual.payrollDetails.employmentDetails.terminationDateNewlySet).toBe(originalValue);
+        expect(
+          actual.payrollDetails.employmentDetails.terminationDateNewlySet
+        ).toBe(originalValue);
       });
 
       it('removes the flag when the termination date is set back to empty', () => {
@@ -211,7 +228,9 @@ describe('PayrollDetailReducer', () => {
 
         const actual = employeeDetailReducer(state, action);
 
-        expect(actual.payrollDetails.employmentDetails.terminationDateNewlySet).toBe(false);
+        expect(
+          actual.payrollDetails.employmentDetails.terminationDateNewlySet
+        ).toBe(false);
       });
     });
 
@@ -233,7 +252,9 @@ describe('PayrollDetailReducer', () => {
           value: '2020-02-03',
         };
         const actual = employeeDetailReducer(state, action);
-        expect(actual.payrollDetails.employmentDetails.terminationDateNewlySet).toBe(originalValue);
+        expect(
+          actual.payrollDetails.employmentDetails.terminationDateNewlySet
+        ).toBe(originalValue);
       });
     });
   });

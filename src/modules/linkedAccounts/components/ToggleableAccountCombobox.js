@@ -27,13 +27,13 @@ const ToggleableAccountCombobox = ({
       )}
     />
     {isChecked && (
-    <AccountCombobox
-      label={comboboxLabel}
-      hideLabel={false}
-      items={comboboxItems}
-      selectedId={comboboxSelectedId}
-      onChange={comboboxHandler}
-    />
+      <AccountCombobox
+        label={comboboxLabel}
+        hideLabel={false}
+        items={comboboxItems}
+        selectedId={comboboxSelectedId}
+        onChange={comboboxHandler}
+      />
     )}
   </React.Fragment>
 );

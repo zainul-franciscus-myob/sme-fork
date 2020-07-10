@@ -1,4 +1,8 @@
-import { DELETE_PAY_RUN_DRAFT, LOAD_TIMESHEETS, START_NEW_PAY_RUN } from './PayRunIntents';
+import {
+  DELETE_PAY_RUN_DRAFT,
+  LOAD_TIMESHEETS,
+  START_NEW_PAY_RUN,
+} from './PayRunIntents';
 import { getBusinessId } from './PayRunSelectors';
 import { getLoadTimesheetsParams } from './startPayRun/StartPayRunSelectors';
 

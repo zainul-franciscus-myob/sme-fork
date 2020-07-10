@@ -14,7 +14,6 @@ import {
 import EmploymentFieldGroup from './EmploymentFieldGroup';
 import PersonalEmploymentFieldGroup from './PersonalEmploymentFieldGroup';
 
-
 const EmploymentDetailsNzTab = ({
   dateOfBirth,
   gender,
@@ -26,33 +25,37 @@ const EmploymentDetailsNzTab = ({
   onEmploymentDetailsChange,
 }) => {
   const onInputChange = useCallback(
-    target => onEmploymentDetailsChange({
-      key: target.name,
-      value: target.value,
-    }),
-    [onEmploymentDetailsChange],
+    (target) =>
+      onEmploymentDetailsChange({
+        key: target.name,
+        value: target.value,
+      }),
+    [onEmploymentDetailsChange]
   );
 
-  const onDateChange = (fieldName) => ({ value }) => onInputChange({ name: fieldName, value });
+  const onDateChange = (fieldName) => ({ value }) =>
+    onInputChange({ name: fieldName, value });
 
   const onSelectChange = ({ target }) => onInputChange(target);
 
-  return (<FormHorizontal layout="primary">
-    <PersonalEmploymentFieldGroup
-      dateOfBirth={dateOfBirth}
-      gender={gender}
-      calculatedAge={calculatedAge}
-      genderOptions={genderOptions}
-      onDateChange={onDateChange}
-      onSelectChange={onSelectChange}
-    />
-    <EmploymentFieldGroup
-      startDate={startDate}
-      terminationDate={terminationDate}
-      employmentStatus={employmentStatus}
-      onDateChange={onDateChange}
-    />
-  </FormHorizontal>);
+  return (
+    <FormHorizontal layout="primary">
+      <PersonalEmploymentFieldGroup
+        dateOfBirth={dateOfBirth}
+        gender={gender}
+        calculatedAge={calculatedAge}
+        genderOptions={genderOptions}
+        onDateChange={onDateChange}
+        onSelectChange={onSelectChange}
+      />
+      <EmploymentFieldGroup
+        startDate={startDate}
+        terminationDate={terminationDate}
+        employmentStatus={employmentStatus}
+        onDateChange={onDateChange}
+      />
+    </FormHorizontal>
+  );
 };
 
 const mapStateToProps = (state) => ({

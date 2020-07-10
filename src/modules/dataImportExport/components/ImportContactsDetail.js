@@ -1,12 +1,8 @@
-import {
-  RadioButton, RadioButtonGroup,
-} from '@myob/myob-widgets';
+import { RadioButton, RadioButtonGroup } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getContactType,
-} from '../selectors/DataImportExportSelectors';
+import { getContactType } from '../selectors/DataImportExportSelectors';
 import ContactType from '../types/ContactType';
 import DuplicateRecords from './DuplicateRecords';
 import IdentifyBy from './IdentifyBy';
@@ -42,10 +38,7 @@ const ImportContactsDetail = ({
         />,
       ]}
     />
-    <UploadFile
-      onFileSelected={onFileSelected}
-      onFileRemove={onFileRemove}
-    />
+    <UploadFile onFileSelected={onFileSelected} onFileRemove={onFileRemove} />
     <IdentifyBy
       label="Match contacts using"
       onUpdateContactsIdentifyBy={onUpdateContactsIdentifyBy}
@@ -56,7 +49,7 @@ const ImportContactsDetail = ({
   </>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   contactType: getContactType(state),
 });
 

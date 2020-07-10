@@ -25,15 +25,15 @@ const RootView = ({
 
   return (
     <div id="main" className={style.main}>
-      { drawer.render(tasks) }
+      {drawer.render(tasks)}
       <div className={style.navAndRootView}>
-        { nav.render(
+        {nav.render(
           tasks,
           businessId,
           businessName,
           businessRole,
-          serialNumber,
-        ) }
+          serialNumber
+        )}
         {browserAlert && (
           <div className={style.browserAlert}>
             <Alert type={browserAlert.type} onDismiss={onDismissBrowserAlert}>
@@ -41,7 +41,7 @@ const RootView = ({
             </Alert>
           </div>
         )}
-        { children }
+        {children}
       </div>
     </div>
   );

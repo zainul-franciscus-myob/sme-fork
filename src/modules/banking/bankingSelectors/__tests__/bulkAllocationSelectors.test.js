@@ -12,10 +12,7 @@ describe('bulkAllocationSelector', () => {
   describe('getBulkSelectStatus', () => {
     it('show checked when all entries are selected', () => {
       const state = {
-        entries: [
-          { selected: true },
-          { selected: true },
-        ],
+        entries: [{ selected: true }, { selected: true }],
       };
       const status = getBulkSelectStatus(state);
 
@@ -24,10 +21,7 @@ describe('bulkAllocationSelector', () => {
 
     it('show indeterminate when partial entries are selected', () => {
       const state = {
-        entries: [
-          { selected: true },
-          { selected: false },
-        ],
+        entries: [{ selected: true }, { selected: false }],
       };
       const status = getBulkSelectStatus(state);
 
@@ -36,10 +30,7 @@ describe('bulkAllocationSelector', () => {
 
     it('show default status when no entry selected', () => {
       const state = {
-        entries: [
-          { selected: false },
-          { selected: false },
-        ],
+        entries: [{ selected: false }, { selected: false }],
       };
       const status = getBulkSelectStatus(state);
 
@@ -61,7 +52,7 @@ describe('bulkAllocationSelector', () => {
           {
             transactionId: '1',
             date: '2019-02-11',
-            withdrawal: 32.00,
+            withdrawal: 32.0,
             allocateOrMatch: 'Allocate me',
             selected: true,
             type: 'unmatched',
@@ -70,7 +61,7 @@ describe('bulkAllocationSelector', () => {
           {
             transactionId: '2',
             date: '2019-02-12',
-            deposit: 33.00,
+            deposit: 33.0,
             allocateOrMatch: 'Possible match found',
             type: 'matched',
             description: 'receive money',
@@ -88,7 +79,7 @@ describe('bulkAllocationSelector', () => {
           {
             transactionId: '1',
             date: '2019-02-11',
-            withdrawal: 32.00,
+            withdrawal: 32.0,
             description: 'spend money',
           },
         ],
@@ -111,7 +102,7 @@ describe('bulkAllocationSelector', () => {
           {
             transactionId: '1',
             date: '2019-02-11',
-            withdrawal: 32.00,
+            withdrawal: 32.0,
             allocateOrMatch: 'Allocate me',
             type: 'unmatched',
             selected: true,
@@ -120,7 +111,7 @@ describe('bulkAllocationSelector', () => {
           {
             transactionId: '2',
             date: '2019-02-12',
-            deposit: 33.00,
+            deposit: 33.0,
             allocateOrMatch: 'Possible match found',
             type: 'matched',
             selected: true,
@@ -128,7 +119,7 @@ describe('bulkAllocationSelector', () => {
           {
             transactionId: '3',
             date: '2019-02-13',
-            withdrawal: 35.00,
+            withdrawal: 35.0,
             allocateOrMatch: 'Internet',
             type: 'singleAllocation',
             selected: true,
@@ -136,7 +127,7 @@ describe('bulkAllocationSelector', () => {
           {
             transactionId: '4',
             date: '2019-02-14',
-            deposit: 38.00,
+            deposit: 38.0,
             allocateOrMatch: 'Splitted across accounts',
             type: 'splitAllocation',
             selected: true,
@@ -144,7 +135,7 @@ describe('bulkAllocationSelector', () => {
           {
             transactionId: '5',
             date: '2019-02-15',
-            withdrawal: 40.00,
+            withdrawal: 40.0,
             allocateOrMatch: 'Matched to payment',
             type: 'payment',
             selected: true,
@@ -162,23 +153,23 @@ describe('bulkAllocationSelector', () => {
           {
             transactionId: '1',
             date: '2019-02-11',
-            withdrawal: 32.00,
+            withdrawal: 32.0,
             description: 'spend money',
           },
           {
             transactionId: '2',
             date: '2019-02-12',
-            deposit: 33.00,
+            deposit: 33.0,
           },
           {
             transactionId: '3',
             date: '2019-02-13',
-            withdrawal: 35.00,
+            withdrawal: 35.0,
           },
           {
             transactionId: '4',
             date: '2019-02-14',
-            deposit: 38.00,
+            deposit: 38.0,
           },
         ],
       };
@@ -360,9 +351,11 @@ describe('bulkAllocationSelector', () => {
   describe('getBulkMessage', () => {
     it('build message for single selection', () => {
       const state = {
-        entries: [{
-          selected: true,
-        }],
+        entries: [
+          {
+            selected: true,
+          },
+        ],
       };
 
       const actual = getBulkMessage(state);

@@ -1,6 +1,4 @@
-import {
-  FieldGroup, Icons, Input, Select, TextArea,
-} from '@myob/myob-widgets';
+import { FieldGroup, Icons, Input, Select, TextArea } from '@myob/myob-widgets';
 import React from 'react';
 
 import Button from '../../../../../components/Button/Button';
@@ -14,7 +12,7 @@ const onComboBoxChange = (handler, key) => (option) => {
   handler({ key, value });
 };
 
-const onPhoneNumberChange = handler => (phoneNumbers) => {
+const onPhoneNumberChange = (handler) => (phoneNumbers) => {
   handler({ key: 'phoneNumbers', value: phoneNumbers });
 };
 
@@ -37,7 +35,11 @@ const Address = ({
   onToggle,
   onChange,
 }) => {
-  const toggleButton = <Button type="link" icon={<Icons.Add />} onClick={onToggle}>{toggleLabel}</Button>;
+  const toggleButton = (
+    <Button type="link" icon={<Icons.Add />} onClick={onToggle}>
+      {toggleLabel}
+    </Button>
+  );
 
   const stateInput = isStateDropdown ? (
     <Select
@@ -50,7 +52,7 @@ const Address = ({
       {[<Select.Option value="placeholder" label="" hidden />].concat(
         stateOptions.map(({ name, id }) => (
           <Select.Option key={id} value={id} label={name} />
-        )),
+        ))
       )}
     </Select>
   ) : (
@@ -131,9 +133,7 @@ const Address = ({
   );
 
   return (
-    <FieldGroup label={title}>
-      { showAddress ? view : toggleButton }
-    </FieldGroup>
+    <FieldGroup label={title}>{showAddress ? view : toggleButton}</FieldGroup>
   );
 };
 

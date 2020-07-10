@@ -12,10 +12,8 @@ describe('GeneralPayrollInformationView', () => {
     const store = new Store(payrollSettingsReducer);
     const wrapper = mount(
       <Provider store={store}>
-        <GeneralPayrollInformationView
-          listeners={{}}
-        />
-      </Provider>,
+        <GeneralPayrollInformationView listeners={{}} />
+      </Provider>
     );
     const timesheetSettings = wrapper.find(TimesheetsSettingsView);
 

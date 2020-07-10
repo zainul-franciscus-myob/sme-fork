@@ -2,7 +2,12 @@ import ReceiveMoneyDetailModule from './receiveMoneyDetail/ReceiveMoneyDetailMod
 import RouteName from '../../router/RouteName';
 
 const getReceiveMoneyRoutes = ({
-  integration, setRootView, pushMessage, popMessages, navigateTo, isToggleOn,
+  integration,
+  setRootView,
+  pushMessage,
+  popMessages,
+  navigateTo,
+  isToggleOn,
 }) => {
   const routes = [
     {
@@ -10,7 +15,12 @@ const getReceiveMoneyRoutes = ({
       path: '/:region/:businessId/receiveMoney/:receiveMoneyId',
       allowedParams: ['duplicateReceiveMoneyId'],
       module: new ReceiveMoneyDetailModule({
-        integration, setRootView, pushMessage, popMessages, navigateTo, isToggleOn,
+        integration,
+        setRootView,
+        pushMessage,
+        popMessages,
+        navigateTo,
+        isToggleOn,
       }),
       documentTitle: 'Receive money',
     },

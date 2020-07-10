@@ -26,11 +26,13 @@ const DashboardView = ({
 
   const header = <DashboardPayrollHeader />;
 
-  const leanEngageSurvey = <LeanEngageSurvey
-    surveyType="survey"
-    surveyName="micro-payroll-dashboard"
-    productName="dashboard"
-  />;
+  const leanEngageSurvey = (
+    <LeanEngageSurvey
+      surveyType="survey"
+      surveyName="micro-payroll-dashboard"
+      productName="dashboard"
+    />
+  );
 
   const body = (
     <div className={styles.body}>
@@ -62,7 +64,7 @@ const DashboardView = ({
   return dashboardView;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   shouldShowLeanEngage: getShouldShowLeanEngage(state),
 });

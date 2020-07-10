@@ -1,8 +1,7 @@
-
 import { LOAD_TAX_LIST, SET_LOADING_STATE } from '../TaxIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createTaxListDispatcher = store => ({
+const createTaxListDispatcher = (store) => ({
   resetState: () => {
     store.dispatch({
       intent: RESET_STATE,

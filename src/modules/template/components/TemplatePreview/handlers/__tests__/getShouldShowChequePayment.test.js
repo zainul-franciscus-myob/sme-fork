@@ -7,17 +7,15 @@ describe('getShouldShowChequePayment', () => {
     [PreviewType.Quote, false, false],
     ['someOtherTemplate', true, true],
     ['someOtherTemplate', false, false],
-  ])('only returns true if cheque payment is allowed and preview template is not quote',
-    (
-      previewType,
-      isAllowPaymentByCheque,
-      expectedResult,
-    ) => {
+  ])(
+    'only returns true if cheque payment is allowed and preview template is not quote',
+    (previewType, isAllowPaymentByCheque, expectedResult) => {
       const actual = getShouldShowChequePayment({
         previewType,
         isAllowPaymentByCheque,
       });
 
       expect(actual).toEqual(expectedResult);
-    });
+    }
+  );
 });

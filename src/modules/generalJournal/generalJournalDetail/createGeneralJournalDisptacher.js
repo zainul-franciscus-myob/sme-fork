@@ -18,7 +18,7 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { getLoadGeneralJournalIntent } from './generalJournalDetailSelectors';
 
-const createGeneralJournalDispatcher = store => ({
+const createGeneralJournalDispatcher = (store) => ({
   setInitialState: (context) => {
     store.dispatch({
       intent: SET_INITIAL_STATE,
@@ -150,10 +150,11 @@ const createGeneralJournalDispatcher = store => ({
       ...payload,
     });
   },
-  setDuplicateId: duplicateId => store.dispatch({
-    intent: SET_DUPLICATE_ID,
-    duplicateId,
-  }),
+  setDuplicateId: (duplicateId) =>
+    store.dispatch({
+      intent: SET_DUPLICATE_ID,
+      duplicateId,
+    }),
 });
 
 export default createGeneralJournalDispatcher;

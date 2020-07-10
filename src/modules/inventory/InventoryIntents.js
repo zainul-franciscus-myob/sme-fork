@@ -14,10 +14,14 @@ export const DELETE_INVENTORY_DETAIL = Symbol('Delete an existing item');
 export const LOAD_ITEM_LIST = Symbol('Load list of items');
 export const SET_TABLE_LOADING_STATE = Symbol('Set table loading state');
 export const SET_ALERT = Symbol('Set the Alert of the page');
-export const SORT_AND_FILTER_ITEM_LIST = Symbol('Sort and filter list of items');
+export const SORT_AND_FILTER_ITEM_LIST = Symbol(
+  'Sort and filter list of items'
+);
 export const SET_SORT_ORDER = Symbol('Set sort order for item list');
 export const UPDATE_FILTER_OPTIONS = Symbol('Update filter Options');
 export const SET_ENABLE_FOR_SELLING = Symbol('Set enable for selling state');
 export const SET_ENABLE_FOR_BUYING = Symbol('Set enable for buying state');
-export const SET_NEXT_PAGE_LOADING_STATE = Symbol('Set loading next page state');
+export const SET_NEXT_PAGE_LOADING_STATE = Symbol(
+  'Set loading next page state'
+);
 export const LOAD_NEXT_PAGE = Symbol('Load next page');

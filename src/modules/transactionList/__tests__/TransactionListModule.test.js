@@ -28,8 +28,8 @@ import transactionListReducer from '../transactionListReducer';
 describe('TransactionListModule', () => {
   const setup = () => {
     // Mock loadSettings & saveSettings from localStorage to prevent side effects
-    localStorageDriver.loadSettings = () => { };
-    localStorageDriver.saveSettings = () => { };
+    localStorageDriver.loadSettings = () => {};
+    localStorageDriver.saveSettings = () => {};
 
     const setRootView = () => {};
     const popMessages = () => [];
@@ -124,7 +124,7 @@ describe('TransactionListModule', () => {
       ]);
     });
 
-    it('should handle if the credits and debits tab doesn\' load', () => {
+    it("should handle if the credits and debits tab doesn' load", () => {
       const { module, store, integration } = setup();
       integration.mapFailure(LOAD_CREDITS_AND_DEBITS_LIST);
 
@@ -158,7 +158,11 @@ describe('TransactionListModule', () => {
 
   describe('setTab', () => {
     it('should sort and filter journal transactions', () => {
-      const { module, store, integration } = setUpWithJournalTransactionLoaded();
+      const {
+        module,
+        store,
+        integration,
+      } = setUpWithJournalTransactionLoaded();
 
       module.setTab(JOURNAL_TRANSACTIONS);
 
@@ -193,7 +197,11 @@ describe('TransactionListModule', () => {
     });
 
     it('should handle if sort and filter journal transactions fails', () => {
-      const { module, store, integration } = setUpWithJournalTransactionLoaded();
+      const {
+        module,
+        store,
+        integration,
+      } = setUpWithJournalTransactionLoaded();
       integration.mapFailure(SORT_AND_FILTER_TRANSACTION_LIST);
 
       module.setTab(JOURNAL_TRANSACTIONS);
@@ -306,7 +314,7 @@ describe('TransactionListModule', () => {
         tab: JOURNAL_TRANSACTIONS,
         intent: SORT_AND_FILTER_TRANSACTION_LIST,
       },
-    ].forEach(test => {
+    ].forEach((test) => {
       describe(`when ${test.tab}`, () => {
         it('should update a filter option and sort and filter', () => {
           const { module, integration, store } = setupWithTab(test.tab);
@@ -344,7 +352,11 @@ describe('TransactionListModule', () => {
     it('should update the period date range and sort and filter credits and debits', () => {
       const { module, integration, store } = setupWithRun();
 
-      module.updatePeriodDateRange({ period: 'monthly', dateFrom: '20/02/2020', dateTo: '20/02/2020' });
+      module.updatePeriodDateRange({
+        period: 'monthly',
+        dateFrom: '20/02/2020',
+        dateTo: '20/02/2020',
+      });
 
       expect(store.getActions()[0]).toEqual({
         intent: UPDATE_PERIOD_DATE_RANGE,
@@ -366,7 +378,11 @@ describe('TransactionListModule', () => {
       store.resetActions();
       integration.resetRequests();
 
-      module.updatePeriodDateRange({ period: 'monthly', dateFrom: '20/02/2020', dateTo: '20/02/2020' });
+      module.updatePeriodDateRange({
+        period: 'monthly',
+        dateFrom: '20/02/2020',
+        dateTo: '20/02/2020',
+      });
 
       expect(store.getActions()[0]).toEqual({
         intent: UPDATE_PERIOD_DATE_RANGE,
@@ -450,7 +466,7 @@ describe('TransactionListModule', () => {
       ]);
     });
 
-    it('should handle if we can\'t load the next page for credits and debits', () => {
+    it("should handle if we can't load the next page for credits and debits", () => {
       const { module, store, integration } = setupWithRun();
       integration.mapFailure(LOAD_CREDITS_AND_DEBITS_NEXT_PAGE);
 
@@ -507,7 +523,7 @@ describe('TransactionListModule', () => {
       ]);
     });
 
-    it('should handle if we can\'t load the next page for journal transactions', () => {
+    it("should handle if we can't load the next page for journal transactions", () => {
       const { module, store, integration } = setupWithRun();
 
       module.setTab(JOURNAL_TRANSACTIONS);

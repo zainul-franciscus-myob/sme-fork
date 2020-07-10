@@ -1,4 +1,7 @@
-import { SET_PAYROLL_PAY_HISTORY_FILTER_OPTIONS, SET_PAYROLL_PAY_HISTORY_ITEM_INPUT } from '../../../EmployeeIntents';
+import {
+  SET_PAYROLL_PAY_HISTORY_FILTER_OPTIONS,
+  SET_PAYROLL_PAY_HISTORY_ITEM_INPUT,
+} from '../../../EmployeeIntents';
 import {
   getUpdatedPayHistoryItems,
   getUpdatedPayHistoryItemsFromFilterOptions,
@@ -15,7 +18,10 @@ const setPayrollPayHistoryState = (state, partialPayHistoryDetails) => ({
   },
 });
 
-const setPayrollPayHistoryAndPageEdited = (state, partialPayHistoryDetails) => ({
+const setPayrollPayHistoryAndPageEdited = (
+  state,
+  partialPayHistoryDetails
+) => ({
   ...setPayrollPayHistoryState(state, partialPayHistoryDetails),
   isPageEdited: true,
 });
@@ -26,7 +32,10 @@ const setPayrollPayHistoryFilterOptions = (state, { value: period }) => {
     period,
   };
 
-  const updatedPayHistoryItems = getUpdatedPayHistoryItemsFromFilterOptions(state, period);
+  const updatedPayHistoryItems = getUpdatedPayHistoryItemsFromFilterOptions(
+    state,
+    period
+  );
 
   return setPayrollPayHistoryState(state, {
     filterOptions: updatedFilterOptions,
@@ -34,11 +43,17 @@ const setPayrollPayHistoryFilterOptions = (state, { value: period }) => {
   });
 };
 
-const setPayrollPayHistoryItemInput = (state, { payItemId, payItemType, value: total }) => (
+const setPayrollPayHistoryItemInput = (
+  state,
+  { payItemId, payItemType, value: total }
+) =>
   setPayrollPayHistoryAndPageEdited(state, {
-    payHistoryItems: getUpdatedPayHistoryItems(state, { payItemId, payItemType, total }),
-  })
-);
+    payHistoryItems: getUpdatedPayHistoryItems(state, {
+      payItemId,
+      payItemType,
+      total,
+    }),
+  });
 
 export default {
   [SET_PAYROLL_PAY_HISTORY_FILTER_OPTIONS]: setPayrollPayHistoryFilterOptions,

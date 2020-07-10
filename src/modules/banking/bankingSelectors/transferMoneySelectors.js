@@ -14,23 +14,26 @@ import {
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 import formatSlashDate from '../../../common/valueFormatters/formatDate/formatSlashDate';
 
-const getTransfer = state => state.openEntry.transfer;
+const getTransfer = (state) => state.openEntry.transfer;
 
-export const getIsWithdrawal = state => state.openEntry.transfer.isWithdrawal;
-export const getIsTableLoading = state => state.openEntry.transfer.isTableLoading;
-export const getMatchTransferMoneyEntries = state => state.openEntry.transfer.entries;
-export const getMatchTransferMoneyOrderBy = state => state.openEntry.transfer.orderBy;
-export const getMatchTransferMoneySortOrder = state => state.openEntry.transfer.sortOrder;
-export const getTransferFrom = state => state.openEntry.transfer.transferFrom;
-export const getTransferTo = state => state.openEntry.transfer.transferTo;
-export const getAmount = state => state.openEntry.transfer.amount;
-export const getDate = state => state.openEntry.transfer.date;
-export const getDescription = state => state.openEntry.transfer.description;
-export const getIsModalBlocking = state => state.isModalBlocking;
+export const getIsWithdrawal = (state) => state.openEntry.transfer.isWithdrawal;
+export const getIsTableLoading = (state) =>
+  state.openEntry.transfer.isTableLoading;
+export const getMatchTransferMoneyEntries = (state) =>
+  state.openEntry.transfer.entries;
+export const getMatchTransferMoneyOrderBy = (state) =>
+  state.openEntry.transfer.orderBy;
+export const getMatchTransferMoneySortOrder = (state) =>
+  state.openEntry.transfer.sortOrder;
+export const getTransferFrom = (state) => state.openEntry.transfer.transferFrom;
+export const getTransferTo = (state) => state.openEntry.transfer.transferTo;
+export const getAmount = (state) => state.openEntry.transfer.amount;
+export const getDate = (state) => state.openEntry.transfer.date;
+export const getDescription = (state) => state.openEntry.transfer.description;
+export const getIsModalBlocking = (state) => state.isModalBlocking;
 
-export const getMatchTransferMoneyFlipSortOrder = state => (
-  state.openEntry.transfer.sortOrder === 'desc' ? 'asc' : 'desc'
-);
+export const getMatchTransferMoneyFlipSortOrder = (state) =>
+  state.openEntry.transfer.sortOrder === 'desc' ? 'asc' : 'desc';
 
 export const getOrder = createSelector(
   getMatchTransferMoneySortOrder,
@@ -38,20 +41,21 @@ export const getOrder = createSelector(
   (sortOrder, orderBy) => ({
     column: orderBy,
     descending: sortOrder === 'desc',
-  }),
+  })
 );
 
 export const getIsTableEmpty = createSelector(
   getMatchTransferMoneyEntries,
-  entries => entries.length === 0,
+  (entries) => entries.length === 0
 );
 
 export const getTableEntries = createSelector(
   getMatchTransferMoneyEntries,
-  entries => entries.map(entry => ({
-    ...entry,
-    displayDate: formatSlashDate(entry.date),
-  })),
+  (entries) =>
+    entries.map((entry) => ({
+      ...entry,
+      displayDate: formatSlashDate(entry.date),
+    }))
 );
 
 const getTransferDisplayType = createSelector(
@@ -62,26 +66,42 @@ const getTransferDisplayType = createSelector(
       return isWithdrawal ? 'transferTo' : 'transferFrom';
     }
     return 'readOnly';
-  },
+  }
 );
 
 export const getTransferMoneyBody = createSelector(
-  getTransferFrom, getTransferTo, getAmount, getTransferAccounts, getIsOpenEntryCreating,
-  (
-    transferFrom, transferTo, amount, accountList, isCreating,
-  ) => ({
+  getTransferFrom,
+  getTransferTo,
+  getAmount,
+  getTransferAccounts,
+  getIsOpenEntryCreating,
+  (transferFrom, transferTo, amount, accountList, isCreating) => ({
     transferFromDisplayName: getDisplayName(transferFrom, accountList),
     transferToDisplayName: getDisplayName(transferTo, accountList),
     amount,
     isCreating,
-  }),
+  })
 );
 export const getTransferMoneyModal = createSelector(
-  getDate, getTransferFrom, getTransferTo, getAmount, getDescription,
-  getTransferDisplayType, getTransferAccounts, getModalAlert, getIsModalBlocking,
+  getDate,
+  getTransferFrom,
+  getTransferTo,
+  getAmount,
+  getDescription,
+  getTransferDisplayType,
+  getTransferAccounts,
+  getModalAlert,
+  getIsModalBlocking,
   (
-    date, transferFrom, transferTo, amount, description,
-    transferDisplayType, accountList, modalAlert, isModalBlocking,
+    date,
+    transferFrom,
+    transferTo,
+    amount,
+    description,
+    transferDisplayType,
+    accountList,
+    modalAlert,
+    isModalBlocking
   ) => ({
     transferFrom,
     transferTo,
@@ -94,7 +114,7 @@ export const getTransferMoneyModal = createSelector(
     accountList,
     modalAlert,
     isModalBlocking,
-  }),
+  })
 );
 
 export const getMatchTransferMoneyUrlParams = (state) => {
@@ -114,7 +134,11 @@ export const getMatchTransferMoneyQueryParams = (state, index) => {
   const orderBy = getMatchTransferMoneyOrderBy(state);
 
   return {
-    bankFeedTransactionId, dateFrom, dateTo, sortOrder, orderBy,
+    bankFeedTransactionId,
+    dateFrom,
+    dateTo,
+    sortOrder,
+    orderBy,
   };
 };
 
@@ -122,9 +146,7 @@ export const getMatchTransferMoneyPayload = (state, index) => {
   const entries = getEntries(state);
   const openedEntry = entries[index];
 
-  const {
-    transactionId, date, deposit, withdrawal, description,
-  } = openedEntry;
+  const { transactionId, date, deposit, withdrawal, description } = openedEntry;
 
   const isWithdrawal = !!withdrawal;
   const { bankAccount: accountId } = getFilterOptions(state);
@@ -136,7 +158,10 @@ export const getMatchTransferMoneyPayload = (state, index) => {
     accountId: matchAccountId,
     date: matchDate,
     description: matchDescription,
-  } = matches.find(({ selected }) => selected) || { bankFeedTransactionId: '', accountId: '' };
+  } = matches.find(({ selected }) => selected) || {
+    bankFeedTransactionId: '',
+    accountId: '',
+  };
 
   return {
     isWithdrawal,
@@ -154,9 +179,7 @@ export const getCreateTransferMoneyPayload = (state, index) => {
   const entries = getEntries(state);
   const openedEntry = entries[index];
 
-  const {
-    transactionId, date, deposit, withdrawal,
-  } = openedEntry;
+  const { transactionId, date, deposit, withdrawal } = openedEntry;
 
   const isWithdrawal = !!withdrawal;
   const { bankAccount: accountId } = getFilterOptions(state);

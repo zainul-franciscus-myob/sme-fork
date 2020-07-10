@@ -2,7 +2,10 @@ import { Button, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { fieldTypes, getIsPayrollJobColumnEnabled } from '../../selectors/PayrollStandardPaySelectors';
+import {
+  fieldTypes,
+  getIsPayrollJobColumnEnabled,
+} from '../../selectors/PayrollStandardPaySelectors';
 import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
 import JobCombobox from '../../../../../../components/combobox/JobCombobox';
 import styles from './PayrollStandardPayDetailsTableRow.module.css';
@@ -10,7 +13,10 @@ import styles from './PayrollStandardPayDetailsTableRow.module.css';
 const handleInputChange = (handler, payItemId, payItemType) => (e) => {
   const { name, rawValue } = e.target;
   handler({
-    payItemId, payItemType, key: name, value: rawValue,
+    payItemId,
+    payItemType,
+    key: name,
+    value: rawValue,
   });
 };
 
@@ -27,9 +33,17 @@ const handleComboboxChange = (payItemId, key, handler) => (item) => {
 };
 
 const renderAmountInputField = ({
-
-  name, label, value, numeralDecimalScaleMin, numeralDecimalScaleMax,
-  fieldType, payItemId, payItemType, isLoading, onChange, onBlur,
+  name,
+  label,
+  value,
+  numeralDecimalScaleMin,
+  numeralDecimalScaleMax,
+  fieldType,
+  payItemId,
+  payItemType,
+  isLoading,
+  onChange,
+  onBlur,
 }) => {
   switch (fieldType) {
     case fieldTypes.input:
@@ -101,14 +115,16 @@ const PayrollStandardPayDetailsTableRow = ({
     onChange,
     onBlur,
   });
-  const jobRowItem = !excludeJobs && <JobCombobox
-    onChange={handleComboboxChange(payItemId, 'jobId', onChange)}
-    items={jobOptions}
-    selectedId={jobId}
-    disabled={isLoading}
-    allowClear
-    className={styles.jobComboPosition}
-  />;
+  const jobRowItem = !excludeJobs && (
+    <JobCombobox
+      onChange={handleComboboxChange(payItemId, 'jobId', onChange)}
+      items={jobOptions}
+      selectedId={jobId}
+      disabled={isLoading}
+      allowClear
+      className={styles.jobComboPosition}
+    />
+  );
 
   const tableConfigWithConditionalHeaders = {
     ...tableConfig,
@@ -129,16 +145,31 @@ const PayrollStandardPayDetailsTableRow = ({
   return (
     <Table.Row key={payItemId}>
       <Table.RowItem {...tableConfig.name} indentLevel={1}>
-        <Button type="link" onClick={handleOnClick(onClick, payItemId, payItemType)}>{name}</Button>
+        <Button
+          type="link"
+          onClick={handleOnClick(onClick, payItemId, payItemType)}
+        >
+          {name}
+        </Button>
       </Table.RowItem>
-      <Table.RowItem {...tableConfigWithConditionalHeaders.hours}>{hourRowItem}</Table.RowItem>
-      <Table.RowItem {...tableConfigWithConditionalHeaders.amount}>{amountRowItem}</Table.RowItem>
-      {isPayrollJobColumnEnabled
-      && <Table.RowItem textWrap="wrap" {...tableConfigWithConditionalHeaders.job}>{jobRowItem}</Table.RowItem>}
+      <Table.RowItem {...tableConfigWithConditionalHeaders.hours}>
+        {hourRowItem}
+      </Table.RowItem>
+      <Table.RowItem {...tableConfigWithConditionalHeaders.amount}>
+        {amountRowItem}
+      </Table.RowItem>
+      {isPayrollJobColumnEnabled && (
+        <Table.RowItem
+          textWrap="wrap"
+          {...tableConfigWithConditionalHeaders.job}
+        >
+          {jobRowItem}
+        </Table.RowItem>
+      )}
     </Table.Row>
   );
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isPayrollJobColumnEnabled: getIsPayrollJobColumnEnabled(state),
 });
 

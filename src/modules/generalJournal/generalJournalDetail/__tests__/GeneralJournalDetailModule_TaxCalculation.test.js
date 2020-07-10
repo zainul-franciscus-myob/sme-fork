@@ -33,21 +33,13 @@ describe('GeneralJournalDetailModule', () => {
     {
       name: 'update line with accountId',
       do: (module) => {
-        module.updateGeneralJournalLine(
-          0,
-          'accountId',
-          '4',
-        );
+        module.updateGeneralJournalLine(0, 'accountId', '4');
       },
     },
     {
       name: 'update line with taxCodeId',
       do: (module) => {
-        module.updateGeneralJournalLine(
-          0,
-          'taxCodeId',
-          '1',
-        );
+        module.updateGeneralJournalLine(0, 'taxCodeId', '1');
       },
     },
     {
@@ -74,12 +66,10 @@ describe('GeneralJournalDetailModule', () => {
 
       test.do(module);
 
-      expect(store.getActions()).toContainEqual(
-        {
-          intent: GET_TAX_CALCULATIONS,
-          taxCalculations: expect.any(Object),
-        },
-      );
+      expect(store.getActions()).toContainEqual({
+        intent: GET_TAX_CALCULATIONS,
+        taxCalculations: expect.any(Object),
+      });
     });
   });
 });

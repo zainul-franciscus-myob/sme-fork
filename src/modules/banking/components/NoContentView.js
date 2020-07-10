@@ -1,13 +1,10 @@
-import {
-  BaseTemplate, Card, Icons, PageState,
-} from '@myob/myob-widgets';
+import { BaseTemplate, Card, Icons, PageState } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getMyMyobLink } from '../bankingSelectors';
 import ErrorViewImage from './NoContentView.svg';
 import LinkButton from '../../../components/Button/LinkButton';
-
 
 const NoContentView = ({ errorLink }) => (
   <BaseTemplate>
@@ -25,14 +22,19 @@ const NoContentView = ({ errorLink }) => (
             Connect your bank from my.MYOB
           </LinkButton>,
         ]}
-        image={<img src={ErrorViewImage} style={{ width: '60%' }} alt="Connect your bank and we'll do the rest" />}
+        image={
+          <img
+            src={ErrorViewImage}
+            style={{ width: '60%' }}
+            alt="Connect your bank and we'll do the rest"
+          />
+        }
       />
     </Card>
   </BaseTemplate>
-
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   errorLink: getMyMyobLink(state),
 });
 

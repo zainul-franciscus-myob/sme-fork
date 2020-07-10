@@ -1,10 +1,7 @@
 import { FieldGroup, Input, Select } from '@myob/myob-widgets';
 import React from 'react';
 
-
-const TaxDeclaration = ({
-  taxCodeOptions = [], tax = {}, onInputChange,
-}) => (
+const TaxDeclaration = ({ taxCodeOptions = [], tax = {}, onInputChange }) => (
   <FieldGroup label="Tax declaration">
     <Input
       name="irdNumber"
@@ -23,16 +20,10 @@ const TaxDeclaration = ({
       value={tax.taxCode}
       onChange={onInputChange}
     >
-      {
-        taxCodeOptions.map(({ key, value }) => (
-          <Select.Option
-            key={key}
-            value={key}
-            label={value}
-          />))
-      }
+      {taxCodeOptions.map(({ key, value }) => (
+        <Select.Option key={key} value={key} label={value} />
+      ))}
     </Select>
-
   </FieldGroup>
 );
 

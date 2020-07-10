@@ -1,4 +1,7 @@
-import { getSaveAmountDueWarningModalBody, shouldShowSaveAmountDueWarningModal } from '../invoiceSaveSelectors';
+import {
+  getSaveAmountDueWarningModalBody,
+  shouldShowSaveAmountDueWarningModal,
+} from '../invoiceSaveSelectors';
 import InvoiceLineType from '../../types/InvoiceLineType';
 
 describe('InvoiceSaveSelectors', () => {
@@ -9,7 +12,11 @@ describe('InvoiceSaveSelectors', () => {
           status: 'Closed',
           amountPaid: '10',
           lines: [
-            { type: InvoiceLineType.SERVICE, taxExclusiveAmount: '9', taxAmount: '1' },
+            {
+              type: InvoiceLineType.SERVICE,
+              taxExclusiveAmount: '9',
+              taxAmount: '1',
+            },
           ],
           taxExclusiveFreightAmount: '0',
           freightTaxAmount: '0',
@@ -28,7 +35,11 @@ describe('InvoiceSaveSelectors', () => {
           status: 'Open',
           amountPaid: '10',
           lines: [
-            { type: InvoiceLineType.SERVICE, taxExclusiveAmount: '4', taxAmount: '1' },
+            {
+              type: InvoiceLineType.SERVICE,
+              taxExclusiveAmount: '4',
+              taxAmount: '1',
+            },
           ],
           taxExclusiveFreightAmount: '0',
           freightTaxAmount: '0',
@@ -48,7 +59,11 @@ describe('InvoiceSaveSelectors', () => {
           status: 'Open',
           amountPaid: '10',
           lines: [
-            { type: InvoiceLineType.SERVICE, taxExclusiveAmount: '4', taxAmount: '1' },
+            {
+              type: InvoiceLineType.SERVICE,
+              taxExclusiveAmount: '4',
+              taxAmount: '1',
+            },
           ],
           taxExclusiveFreightAmount: '0',
           freightTaxAmount: '0',
@@ -70,7 +85,11 @@ describe('InvoiceSaveSelectors', () => {
             status: 'Closed',
             amountPaid: '10',
             lines: [
-              { type: InvoiceLineType.SERVICE, taxExclusiveAmount: '9', taxAmount: '1' },
+              {
+                type: InvoiceLineType.SERVICE,
+                taxExclusiveAmount: '9',
+                taxAmount: '1',
+              },
             ],
             taxExclusiveFreightAmount: '0',
             freightTaxAmount: '0',
@@ -80,7 +99,8 @@ describe('InvoiceSaveSelectors', () => {
         };
 
         const actual = getSaveAmountDueWarningModalBody(state);
-        const expected = 'There is a payment recorded against this invoice. Are you sure you want to save the changes?';
+        const expected =
+          'There is a payment recorded against this invoice. Are you sure you want to save the changes?';
 
         expect(actual).toEqual(expected);
       });
@@ -91,7 +111,11 @@ describe('InvoiceSaveSelectors', () => {
             status: 'Closed',
             amountPaid: '10',
             lines: [
-              { type: InvoiceLineType.SERVICE, taxExclusiveAmount: '14', taxAmount: '1' },
+              {
+                type: InvoiceLineType.SERVICE,
+                taxExclusiveAmount: '14',
+                taxAmount: '1',
+              },
             ],
             taxExclusiveFreightAmount: '0',
             freightTaxAmount: '0',
@@ -101,7 +125,8 @@ describe('InvoiceSaveSelectors', () => {
         };
 
         const actual = getSaveAmountDueWarningModalBody(state);
-        const expected = 'If you save, you\'ll be changing the invoice status to open as there is now a balance due.';
+        const expected =
+          "If you save, you'll be changing the invoice status to open as there is now a balance due.";
 
         expect(actual).toEqual(expected);
       });
@@ -112,7 +137,11 @@ describe('InvoiceSaveSelectors', () => {
             status: 'Closed',
             amountPaid: '10',
             lines: [
-              { type: InvoiceLineType.SERVICE, taxExclusiveAmount: '4', taxAmount: '1' },
+              {
+                type: InvoiceLineType.SERVICE,
+                taxExclusiveAmount: '4',
+                taxAmount: '1',
+              },
             ],
             taxExclusiveFreightAmount: '0',
             freightTaxAmount: '0',
@@ -122,7 +151,8 @@ describe('InvoiceSaveSelectors', () => {
         };
 
         const actual = getSaveAmountDueWarningModalBody(state);
-        const expected = 'If you save, you\'ll be creating a customer credit as the balance due is negative.';
+        const expected =
+          "If you save, you'll be creating a customer credit as the balance due is negative.";
 
         expect(actual).toEqual(expected);
       });
@@ -136,7 +166,11 @@ describe('InvoiceSaveSelectors', () => {
             status: 'Open',
             amountPaid: '10',
             lines: [
-              { type: InvoiceLineType.SERVICE, taxExclusiveAmount: '4', taxAmount: '1' },
+              {
+                type: InvoiceLineType.SERVICE,
+                taxExclusiveAmount: '4',
+                taxAmount: '1',
+              },
             ],
             taxExclusiveFreightAmount: '0',
             freightTaxAmount: '0',
@@ -146,7 +180,8 @@ describe('InvoiceSaveSelectors', () => {
         };
 
         const actual = getSaveAmountDueWarningModalBody(state);
-        const expected = 'If you save, you\'ll be creating a customer credit as the balance due is negative.';
+        const expected =
+          "If you save, you'll be creating a customer credit as the balance due is negative.";
 
         expect(actual).toEqual(expected);
       });
@@ -160,7 +195,11 @@ describe('InvoiceSaveSelectors', () => {
             status: 'Open',
             amountPaid: '10',
             lines: [
-              { type: InvoiceLineType.SERVICE, taxExclusiveAmount: '4', taxAmount: '1' },
+              {
+                type: InvoiceLineType.SERVICE,
+                taxExclusiveAmount: '4',
+                taxAmount: '1',
+              },
             ],
             taxExclusiveFreightAmount: '0',
             freightTaxAmount: '0',
@@ -170,7 +209,8 @@ describe('InvoiceSaveSelectors', () => {
         };
 
         const actual = getSaveAmountDueWarningModalBody(state);
-        const expected = 'If you save, you\'ll be creating a customer credit as the balance due is negative.';
+        const expected =
+          "If you save, you'll be creating a customer credit as the balance due is negative.";
 
         expect(actual).toEqual(expected);
       });

@@ -23,8 +23,12 @@ const InvoicePaymentSettingsView = ({
   selectedTab,
   showActions,
 }) => {
-  const contentProps = { [mainTabIds.payments]: { onUpdateSalesSettingsItem } }[selectedTab];
-  const saveHandler = { [mainTabIds.payments]: onSalesSettingsSave }[selectedTab];
+  const contentProps = { [mainTabIds.payments]: { onUpdateSalesSettingsItem } }[
+    selectedTab
+  ];
+  const saveHandler = { [mainTabIds.payments]: onSalesSettingsSave }[
+    selectedTab
+  ];
 
   const alertComponent = alert.type && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -32,7 +36,9 @@ const InvoicePaymentSettingsView = ({
     </Alert>
   );
 
-  const pageFooter = showActions && <SalesSettingsDetailActions onSaveButtonClick={saveHandler} />;
+  const pageFooter = showActions && (
+    <SalesSettingsDetailActions onSaveButtonClick={saveHandler} />
+  );
 
   const view = (
     <FormTemplate
@@ -50,7 +56,7 @@ const InvoicePaymentSettingsView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   loadingState: getLoadingState(state),
   selectedTab: getSelectedTab(state),

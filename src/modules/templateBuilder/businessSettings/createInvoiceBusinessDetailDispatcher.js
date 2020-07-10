@@ -10,7 +10,7 @@ import {
 } from './invoiceBusinessIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createInvoiceBusinessDetailDispatcher = store => ({
+const createInvoiceBusinessDetailDispatcher = (store) => ({
   resetState: () => {
     store.dispatch({
       intent: RESET_STATE,

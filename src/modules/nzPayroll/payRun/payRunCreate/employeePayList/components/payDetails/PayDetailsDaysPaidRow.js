@@ -6,7 +6,8 @@ import HoursInput from '../../../../../../../components/autoFormatter/HoursInput
 const handleInputChange = (handler, employeeId) => (e) => {
   const { rawValue } = e.target;
   handler({
-    employeeId, daysPaid: rawValue,
+    employeeId,
+    daysPaid: rawValue,
   });
 };
 
@@ -43,7 +44,8 @@ const PayDetailsDaysPaidRow = ({
       onBlur={onDaysPaidChange}
       value={daysPaid}
       employeeId={employeeId}
-    />);
+    />
+  );
 
   return (
     <Table.Row key={1}>
@@ -51,9 +53,9 @@ const PayDetailsDaysPaidRow = ({
         Number of days paid this period&nbsp;
         <Tooltip>
           Number of whole or part days where employee earned gross earnings,
-          including any paid holiday or paid leave.
-          E.g. Employee works a half day on Tuesday, a half day on Wednesday,
-          and takes Thursday as paid sick leave would be paid on 3 days.
+          including any paid holiday or paid leave. E.g. Employee works a half
+          day on Tuesday, a half day on Wednesday, and takes Thursday as paid
+          sick leave would be paid on 3 days.
         </Tooltip>
       </Table.RowItem>
       <Table.RowItem {...tableConfig.hours}>{daysPaidInputField}</Table.RowItem>

@@ -1,4 +1,8 @@
-import { LOAD_QUOTE_LIST_NEXT_PAGE, SET_NEXT_PAGE_LOADING_STATE, SORT_AND_FILTER_QUOTE_LIST } from '../../QuoteIntents';
+import {
+  LOAD_QUOTE_LIST_NEXT_PAGE,
+  SET_NEXT_PAGE_LOADING_STATE,
+  SORT_AND_FILTER_QUOTE_LIST,
+} from '../../QuoteIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import quoteListReducer from '../quoteListReducer';
 
@@ -107,19 +111,17 @@ describe('quoteListReducer', () => {
 
       const actual = quoteListReducer(state, action);
 
-      expect(actual.entries).toEqual(
-        [
-          {
-            id: '1',
-          },
-          {
-            id: '2',
-          },
-          {
-            id: '4',
-          },
-        ],
-      );
+      expect(actual.entries).toEqual([
+        {
+          id: '1',
+        },
+        {
+          id: '2',
+        },
+        {
+          id: '4',
+        },
+      ]);
     });
     it('sets hasNextPage to true if action.pagination.hasNextPage is true', () => {
       const state = {

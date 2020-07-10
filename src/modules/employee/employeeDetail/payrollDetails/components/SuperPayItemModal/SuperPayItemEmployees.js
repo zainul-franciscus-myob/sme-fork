@@ -1,10 +1,18 @@
 import {
-  Button, Combobox, FieldGroup, Icons, Table, Tooltip,
+  Button,
+  Combobox,
+  FieldGroup,
+  Icons,
+  Table,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getEmployees, getFilteredEmployeeOptions } from '../../selectors/SuperPayItemModalSelectors';
+import {
+  getEmployees,
+  getFilteredEmployeeOptions,
+} from '../../selectors/SuperPayItemModalSelectors';
 import styles from './SuperPayItemEmployees.module.css';
 
 const tableConfig = {
@@ -12,15 +20,9 @@ const tableConfig = {
   actions: { width: '5rem', valign: 'middle', align: 'right' },
 };
 
-const metaData = [
-  { columnName: 'name', showData: true },
-];
+const metaData = [{ columnName: 'name', showData: true }];
 
-const label = (
-  <div>
-    Employees using this pay item
-  </div>
-);
+const label = <div>Employees using this pay item</div>;
 
 const onButtonClick = (handler, key, itemId) => () => {
   handler({ key, itemId });
@@ -50,11 +52,16 @@ const SuperPayItemEmployees = (props) => {
             <Table.Row key={id}>
               <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
               <Table.RowItem cellRole="actions" {...tableConfig.actions}>
-                <Tooltip triggerContent={(
-                  <Button type="secondary" size="xs" onClick={onButtonClick(onRemoveItem, 'employees', id)}>
-                    <Icons.Remove />
-                  </Button>
-                )}
+                <Tooltip
+                  triggerContent={
+                    <Button
+                      type="secondary"
+                      size="xs"
+                      onClick={onButtonClick(onRemoveItem, 'employees', id)}
+                    >
+                      <Icons.Remove />
+                    </Button>
+                  }
                 >
                   Remove employee
                 </Tooltip>
@@ -77,7 +84,7 @@ const SuperPayItemEmployees = (props) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   employees: getEmployees(state),
   employeeOptions: getFilteredEmployeeOptions(state),
 });

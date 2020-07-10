@@ -29,15 +29,18 @@ const HttpDashboardMapping = {
   },
   [LOAD_TRACKING_DETAIL]: {
     method: 'GET',
-    getPath: ({ businessId, financialYear }) => `/${businessId}/dashboard/load_tracking_detail/${financialYear}`,
+    getPath: ({ businessId, financialYear }) =>
+      `/${businessId}/dashboard/load_tracking_detail/${financialYear}`,
   },
   [LOAD_DEFAULT_BANKING]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/dashboard/load_default_banking`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/dashboard/load_default_banking`,
   },
   [LOAD_ACCOUNT_BANKING]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/dashboard/load_account_banking`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/dashboard/load_account_banking`,
   },
   [LOAD_PAYROLL]: {
     method: 'GET',
@@ -45,7 +48,8 @@ const HttpDashboardMapping = {
   },
   [LOAD_PAYROLL_REPORTS]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/dashboard/load_payroll_reports`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/dashboard/load_payroll_reports`,
   },
 };
 

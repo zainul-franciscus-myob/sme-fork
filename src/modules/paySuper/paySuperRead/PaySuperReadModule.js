@@ -22,16 +22,13 @@ import {
 import EmployeePayModalModule from '../../employeePay/employeePayModal/EmployeePayModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
-import PaySuperAuthorisationModalModule
-  from '../paySuperAuthorisationModal/PaySuperAuthorisationModalModule';
+import PaySuperAuthorisationModalModule from '../paySuperAuthorisationModal/PaySuperAuthorisationModalModule';
 import PaySuperReadView from './components/PaySuperReadView';
 import Store from '../../../store/Store';
 import paySuperReadReducer from './paySuperReadReducer';
 
 export default class PaySuperReadModule {
-  constructor({
-    integration, setRootView, pushMessage, featureToggles,
-  }) {
+  constructor({ integration, setRootView, pushMessage, featureToggles }) {
     this.integration = integration;
     this.store = new Store(paySuperReadReducer);
     this.setRootView = setRootView;

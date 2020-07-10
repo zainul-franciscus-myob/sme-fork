@@ -7,13 +7,13 @@ class Store {
 
   unsubscribeAll = () => {
     this.subscribers = [];
-  }
+  };
 
   subscribe = (subscriber) => {
     this.subscribers.push(subscriber);
 
     const unsubscribe = () => {
-      this.subscribers = this.subscribers.filter(item => item !== subscriber);
+      this.subscribers = this.subscribers.filter((item) => item !== subscriber);
     };
 
     return unsubscribe;

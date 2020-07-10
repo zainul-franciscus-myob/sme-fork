@@ -1,12 +1,11 @@
-import {
-  Alert, Button, Input, Modal,
-} from '@myob/myob-widgets';
+import { Alert, Button, Input, Modal } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
   getAlertMessage,
-  getIsLoading, getIsOpen,
+  getIsLoading,
+  getIsOpen,
   getStpDeclarationName,
 } from '../StpDeclarationModalSelectors';
 import PageView from '../../../../components/PageView/PageView';
@@ -38,8 +37,8 @@ const StpDeclarationModal = ({
           <img src={atoLogoImage} alt="ATO logo" />
         </div>
         <p>
-          I declare the information transmitted in this payroll report is true and
-          correct and I am authorised to make this declaration.
+          I declare the information transmitted in this payroll report is true
+          and correct and I am authorised to make this declaration.
         </p>
         <Input
           name="name"
@@ -49,8 +48,8 @@ const StpDeclarationModal = ({
           onChange={handleInputChange(onChangeStpDeclaration)}
         />
         <p>
-          Don&apos;t worry, you can still update this information later by processing
-          another payroll with the changes.
+          Don&apos;t worry, you can still update this information later by
+          processing another payroll with the changes.
         </p>
       </Modal.Body>
       <Modal.Footer>
@@ -65,13 +64,16 @@ const StpDeclarationModal = ({
   );
 
   return isOpen ? (
-    <Modal title="Send payroll information to the ATO" onCancel={onCancelStpDeclaration}>
+    <Modal
+      title="Send payroll information to the ATO"
+      onCancel={onCancelStpDeclaration}
+    >
       <PageView isLoading={isLoading} view={view} />
     </Modal>
   ) : null;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isOpen: getIsOpen(state),
   name: getStpDeclarationName(state),
   alertMessage: getAlertMessage(state),

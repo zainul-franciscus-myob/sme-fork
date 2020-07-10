@@ -5,7 +5,7 @@ import copyEventWithValue from './copyEventWithValue';
 import formatNumberWithRoundedScaleRange from '../../../common/valueFormatters/formatNumberWithRoundedScaleRange';
 import useFormattedValue from '../../../common/valueFormatters/useFormattedValue';
 
-export const buildOnBlurEvent = e => {
+export const buildOnBlurEvent = (e) => {
   const { rawValue } = e.target;
   const number = Number(rawValue);
 
@@ -16,7 +16,7 @@ export const buildOnBlurEvent = e => {
   return copyEventWithValue(e, rawValue);
 };
 
-const handleOnBlur = handle => event => {
+const handleOnBlur = (handle) => (event) => {
   const maybeEvent = buildOnBlurEvent(event);
 
   if (maybeEvent) {
@@ -36,12 +36,13 @@ const FormattedAmountInput = ({
   ...props
 }) => {
   const onFormat = useCallback(
-    val => formatNumberWithRoundedScaleRange(
-      val,
-      numeralDecimalScaleMin,
-      numeralDecimalScaleMax,
-    ),
-    [numeralDecimalScaleMax, numeralDecimalScaleMin],
+    (val) =>
+      formatNumberWithRoundedScaleRange(
+        val,
+        numeralDecimalScaleMin,
+        numeralDecimalScaleMax
+      ),
+    [numeralDecimalScaleMax, numeralDecimalScaleMin]
   );
 
   const { formattedValue, newOnBlur, newOnChange } = useFormattedValue({

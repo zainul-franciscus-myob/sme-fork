@@ -1,5 +1,11 @@
-import { LOAD_SUPPLIER_RETURN_LIST, SORT_AND_FILTER_SUPPLIER_RETURN_LIST } from '../SupplierReturnIntents';
-import { getParams, getUrlParams } from './selectors/SupplierReturnListIntegrationSelectors';
+import {
+  LOAD_SUPPLIER_RETURN_LIST,
+  SORT_AND_FILTER_SUPPLIER_RETURN_LIST,
+} from '../SupplierReturnIntents';
+import {
+  getParams,
+  getUrlParams,
+} from './selectors/SupplierReturnListIntegrationSelectors';
 
 const createSupplierReturnListIntegrator = (store, integration) => ({
   loadSupplierReturnList: ({ onSuccess, onFailure }) => {
@@ -10,7 +16,11 @@ const createSupplierReturnListIntegrator = (store, integration) => ({
     const params = getParams(state);
 
     integration.read({
-      intent, urlParams, params, onSuccess, onFailure,
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
     });
   },
   sortAndFilterSupplierReturnList: ({ onSuccess, onFailure }) => {
@@ -21,7 +31,11 @@ const createSupplierReturnListIntegrator = (store, integration) => ({
     const params = getParams(state);
 
     integration.read({
-      intent, urlParams, params, onSuccess, onFailure,
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
     });
   },
 });

@@ -43,7 +43,12 @@ class WistiaVideoPlayer extends Component {
     return (
       <div className={classNames(className, styles.wistiaVideoPlayer)}>
         <div className={styles.wistiaVideoPlayer__wrapper}>
-          <div className={classNames(wistiaEmbedDefaultClass, styles.wistiaVideoPlayer__embed)}>
+          <div
+            className={classNames(
+              wistiaEmbedDefaultClass,
+              styles.wistiaVideoPlayer__embed
+            )}
+          >
             &nbsp;
           </div>
         </div>

@@ -7,7 +7,7 @@ import EmployeeCombobox from './EmployeeCombobox';
 import SuperPayItemEmployeesTable from './SuperPayItemEmployeesTable';
 import styles from './SuperPayItemView.module.css';
 
-const handleEmployeeComboboxChange = handler => (item) => {
+const handleEmployeeComboboxChange = (handler) => (item) => {
   handler(item);
 };
 
@@ -18,15 +18,13 @@ const SuperPayItemEmployees = (props) => {
     onRemoveSuperPayItemEmployee,
   } = props;
 
-  const fieldGroupLabel = (
-    <div>
-      Employees using this pay item
-    </div>
-  );
+  const fieldGroupLabel = <div>Employees using this pay item</div>;
 
   return (
     <FieldGroup label={fieldGroupLabel} className={styles.editableTable}>
-      <SuperPayItemEmployeesTable onRemoveSuperPayItemEmployee={onRemoveSuperPayItemEmployee} />
+      <SuperPayItemEmployeesTable
+        onRemoveSuperPayItemEmployee={onRemoveSuperPayItemEmployee}
+      />
       <EmployeeCombobox
         label="Employees"
         hideLabel
@@ -39,7 +37,7 @@ const SuperPayItemEmployees = (props) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   employees: getFilteredEmployees(state),
 });
 

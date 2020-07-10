@@ -3,7 +3,9 @@ import {
   getIsSelectedPayEvent,
   getLoadPayEventDetailsUrlParams,
   getPayEvents,
-  getSelectedPayEvent, getShowDeclareAction, getStpDeclarationContext,
+  getSelectedPayEvent,
+  getShowDeclareAction,
+  getStpDeclarationContext,
 } from '../ReportsSelector';
 
 describe('ReportsSelected', () => {
@@ -160,7 +162,8 @@ describe('ReportsSelected', () => {
               errors: [
                 {
                   code: 'CMN.ATO.GEN.XML03',
-                  text: 'A field contains invalid data (such as letters in numeric or date field).',
+                  text:
+                    'A field contains invalid data (such as letters in numeric or date field).',
                 },
               ],
             },
@@ -168,16 +171,21 @@ describe('ReportsSelected', () => {
           employerErrors: [
             {
               code: 'CMN.ATO.GEN.XML03',
-              text: 'A field contains invalid data (such as letters in numeric or date field).',
+              text:
+                'A field contains invalid data (such as letters in numeric or date field).',
             },
           ],
           payRunErrors: [
             {
               code: 'CMN.ATO.PAYEVNT.000199',
-              text: "The date entered for Pay/Update Date must not be later than today's date",
+              text:
+                "The date entered for Pay/Update Date must not be later than today's date",
             },
           ],
-          mismatchedAbns: { abnWithStp: '30086760269', abnWithPayEvent: '30086760270' },
+          mismatchedAbns: {
+            abnWithStp: '30086760269',
+            abnWithPayEvent: '30086760270',
+          },
           eventType: 'Pay event',
         },
       };
@@ -222,7 +230,10 @@ describe('ReportsSelected', () => {
           employeeErrors: [],
           employerErrors: [],
           payRunErrors: [],
-          mismatchedAbns: { abnWithStp: '30086760269', abnWithPayEvent: '30086760270' },
+          mismatchedAbns: {
+            abnWithStp: '30086760269',
+            abnWithPayEvent: '30086760270',
+          },
           eventType: 'Pay event',
         },
       };

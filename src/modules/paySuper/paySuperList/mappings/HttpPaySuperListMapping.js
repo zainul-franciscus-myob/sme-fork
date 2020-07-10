@@ -1,4 +1,7 @@
-import { LOAD_PAY_SUPER_LIST, LOAD_UPDATED_SUPER_PAYMENT_STATUS_LIST } from '../paySuperIntents';
+import {
+  LOAD_PAY_SUPER_LIST,
+  LOAD_UPDATED_SUPER_PAYMENT_STATUS_LIST,
+} from '../paySuperIntents';
 
 const HttpPaySuperListMapping = {
   [LOAD_PAY_SUPER_LIST]: {
@@ -7,7 +10,8 @@ const HttpPaySuperListMapping = {
   },
   [LOAD_UPDATED_SUPER_PAYMENT_STATUS_LIST]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/paySuper/load_updated_super_payment_status_list`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/paySuper/load_updated_super_payment_status_list`,
   },
 };
 

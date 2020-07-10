@@ -1,5 +1,12 @@
 import {
-  Alert, Button, Checkbox, CheckboxGroup, Input, Modal, Select, TextArea,
+  Alert,
+  Button,
+  Checkbox,
+  CheckboxGroup,
+  Input,
+  Modal,
+  Select,
+  TextArea,
 } from '@myob/myob-widgets';
 import React from 'react';
 
@@ -31,7 +38,7 @@ const EmailQuoteModal = ({
   onRemoveAttachment,
   onAddAttachments,
 }) => {
-  const renderContent = onKeyDown => (
+  const renderContent = (onKeyDown) => (
     <div className={styles.formWidth}>
       <EmailItemList
         label="To"
@@ -79,7 +86,9 @@ const EmailQuoteModal = ({
         onRemoveAttachment={onRemoveAttachment}
         onAddAttachments={onAddAttachments}
       />
-      <Alert type="info">Total size of uploaded documents cannot exceed 25MB</Alert>
+      <Alert type="info">
+        Total size of uploaded documents cannot exceed 25MB
+      </Alert>
       <Select
         label="Template"
         name="templateName"
@@ -95,24 +104,22 @@ const EmailQuoteModal = ({
   );
 
   return (
-    <Modal
-      title="Email quote"
-      onCancel={onCancel}
-      canClose={!isActionDisabled}
-    >
+    <Modal title="Email quote" onCancel={onCancel} canClose={!isActionDisabled}>
       <Modal.Body>
         {alert && (
           <Alert type={alert.type} onDismiss={onDismissAlert}>
             {alert.message}
           </Alert>
         )}
-        <EnterKeyFocusableWrapper
-          renderContent={renderContent}
-        />
+        <EnterKeyFocusableWrapper renderContent={renderContent} />
       </Modal.Body>
       <Modal.Footer>
-        <Button type="secondary" onClick={onCancel} disabled={isActionDisabled}>Cancel</Button>
-        <Button type="primary" onClick={onConfirm} disabled={isActionDisabled}>Send quote</Button>
+        <Button type="secondary" onClick={onCancel} disabled={isActionDisabled}>
+          Cancel
+        </Button>
+        <Button type="primary" onClick={onConfirm} disabled={isActionDisabled}>
+          Send quote
+        </Button>
       </Modal.Footer>
     </Modal>
   );

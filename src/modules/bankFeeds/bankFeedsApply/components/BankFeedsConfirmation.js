@@ -1,7 +1,4 @@
-import {
-  Checkbox,
-  CheckboxGroup,
-} from '@myob/myob-widgets';
+import { Checkbox, CheckboxGroup } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -18,7 +15,7 @@ const BankFeedsConfirmation = ({
   confirmedApplication,
   onUpdateForm,
   termsOfUseLink,
-}) => (
+}) =>
   applicationPreference ? (
     <>
       <hr />
@@ -39,21 +36,23 @@ const BankFeedsConfirmation = ({
 
       <ul className={styles.termsList}>
         <li>
-          I am authorised to submit this application on behalf
-          of the business that operates the nominated bank account
-          or credit card, either as a signatory or underwritten authority
-          of the signatory(s); and
+          I am authorised to submit this application on behalf of the business
+          that operates the nominated bank account or credit card, either as a
+          signatory or underwritten authority of the signatory(s); and
         </li>
         <li>
-          I have read and accepted &quot;Section 4. Bank Feeds&quot; of
-          the <b><a href={termsOfUseLink} target="_blank" rel="noopener noreferrer">Terms of Use</a></b>
+          I have read and accepted &quot;Section 4. Bank Feeds&quot; of the{' '}
+          <b>
+            <a href={termsOfUseLink} target="_blank" rel="noopener noreferrer">
+              Terms of Use
+            </a>
+          </b>
         </li>
       </ul>
     </>
-  ) : null
-);
+  ) : null;
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   applicationPreference: getApplicationPreference(state),
   confirmedApplication: getConfirmedApplication(state),
   termsOfUseLink: getTermsOfUseLink(state),

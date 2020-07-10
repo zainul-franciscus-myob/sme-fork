@@ -9,7 +9,7 @@ import {
 } from './paySuperIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createPaySuperListDispatcher = store => ({
+const createPaySuperListDispatcher = (store) => ({
   setInitialState: (context) => {
     store.dispatch({
       intent: SET_INITIAL_STATE,

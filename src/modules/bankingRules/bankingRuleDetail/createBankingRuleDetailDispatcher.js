@@ -16,7 +16,7 @@ import {
 } from './BankingRuleDetailIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createBankingRuleDetailDispatcher = store => ({
+const createBankingRuleDetailDispatcher = (store) => ({
   setInitialState: (context) => {
     store.dispatch({
       intent: SET_INITIAL_STATE,
@@ -59,15 +59,17 @@ const createBankingRuleDetailDispatcher = store => ({
     });
   },
 
-  displayAlert: errorMessage => store.dispatch({
-    intent: SET_ALERT_MESSAGE,
-    alertMessage: errorMessage,
-  }),
+  displayAlert: (errorMessage) =>
+    store.dispatch({
+      intent: SET_ALERT_MESSAGE,
+      alertMessage: errorMessage,
+    }),
 
-  dismissAlert: () => store.dispatch({
-    intent: SET_ALERT_MESSAGE,
-    alertMessage: '',
-  }),
+  dismissAlert: () =>
+    store.dispatch({
+      intent: SET_ALERT_MESSAGE,
+      alertMessage: '',
+    }),
 
   setLoadingState: (loadingState) => {
     store.dispatch({
@@ -108,54 +110,44 @@ const createBankingRuleDetailDispatcher = store => ({
   },
 
   updateRuleCondition: (conditionIndex, key, value) => {
-    store.dispatch(
-      {
-        intent: UPDATE_RULE_CONDITION,
-        conditionIndex,
-        key,
-        value,
-      },
-    );
+    store.dispatch({
+      intent: UPDATE_RULE_CONDITION,
+      conditionIndex,
+      key,
+      value,
+    });
   },
 
   addRuleCondition: () => {
-    store.dispatch(
-      {
-        intent: ADD_RULE_CONDITION,
-      },
-    );
+    store.dispatch({
+      intent: ADD_RULE_CONDITION,
+    });
   },
 
   addConditionPredicate: (conditionIndex, newData) => {
-    store.dispatch(
-      {
-        intent: ADD_CONDITION_PREDICATE,
-        conditionIndex,
-        newData,
-      },
-    );
+    store.dispatch({
+      intent: ADD_CONDITION_PREDICATE,
+      conditionIndex,
+      newData,
+    });
   },
 
   updateConditionPredicate: (conditionIndex, predicateIndex, key, value) => {
-    store.dispatch(
-      {
-        intent: UPDATE_CONDITION_PREDICATE,
-        conditionIndex,
-        predicateIndex,
-        key,
-        value,
-      },
-    );
+    store.dispatch({
+      intent: UPDATE_CONDITION_PREDICATE,
+      conditionIndex,
+      predicateIndex,
+      key,
+      value,
+    });
   },
 
   removeConditionPredicate: (conditionIndex, predicateIndex) => {
-    store.dispatch(
-      {
-        intent: REMOVE_CONDITION_PREDICATE,
-        conditionIndex,
-        predicateIndex,
-      },
-    );
+    store.dispatch({
+      intent: REMOVE_CONDITION_PREDICATE,
+      conditionIndex,
+      predicateIndex,
+    });
   },
 });
 

@@ -20,7 +20,9 @@ const InvoiceDetailPreConversionModal = ({
         update account balances. Remember to include the invoice amount in the
         respective account&apos;s opening balance.
       </p>
-      <p>Opening balance month: <strong>{conversionMonthYear}</strong></p>
+      <p>
+        Opening balance month: <strong>{conversionMonthYear}</strong>
+      </p>
     </Modal.Body>
     <Modal.Footer>
       <Button type="secondary" onClick={onCancel}>
@@ -33,7 +35,7 @@ const InvoiceDetailPreConversionModal = ({
   </Modal>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   conversionMonthYear: getConversionMonthYear(state),
 });
 

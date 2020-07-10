@@ -109,7 +109,9 @@ const createDashboardIntegrator = (store, integration) => ({
     const urlParams = { businessId };
     const params = getLoadBankingParams(state);
 
-    const intent = params.bankFeedAccountId ? LOAD_ACCOUNT_BANKING : LOAD_DEFAULT_BANKING;
+    const intent = params.bankFeedAccountId
+      ? LOAD_ACCOUNT_BANKING
+      : LOAD_DEFAULT_BANKING;
 
     integration.read({
       intent,

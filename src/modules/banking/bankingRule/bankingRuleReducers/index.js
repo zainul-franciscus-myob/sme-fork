@@ -19,7 +19,11 @@ import {
   updateConditionPredicate,
   updateRuleCondition,
 } from './conditionHandlers';
-import { addTableRow, removeTableRow, updateTableRow } from './allocationHandlers';
+import {
+  addTableRow,
+  removeTableRow,
+  updateTableRow,
+} from './allocationHandlers';
 import { getRuleTypes } from '../bankingRuleSelectors';
 import { tabIds } from '../../tabItems';
 import FieldTypes from '../FieldTypes';
@@ -47,12 +51,13 @@ export const updateRuleDetails = (state, action) => {
   return newState;
 };
 
-export const setInitialState = (state, {
-  intent, description, activeTabId, isWithdrawal, ...otherFields
-}) => {
+export const setInitialState = (
+  state,
+  { intent, description, activeTabId, isWithdrawal, ...otherFields }
+) => {
   const defaultState = getDefaultState();
-  const isAllocationOrMatchTabOpen = activeTabId === tabIds.allocate
-  || activeTabId === tabIds.match;
+  const isAllocationOrMatchTabOpen =
+    activeTabId === tabIds.allocate || activeTabId === tabIds.match;
   const ruleTypeIndex = isAllocationOrMatchTabOpen ? 0 : 1;
   const ruleType = getRuleTypes(isWithdrawal)[ruleTypeIndex].value;
   return {
@@ -61,12 +66,12 @@ export const setInitialState = (state, {
       ...defaultState.bankingRule,
       name: description,
       ruleType,
-      conditions: [{
-        field: FieldTypes.description,
-        predicates: [
-          { matcher: 'Contains', value: description },
-        ],
-      }],
+      conditions: [
+        {
+          field: FieldTypes.description,
+          predicates: [{ matcher: 'Contains', value: description }],
+        },
+      ],
     },
     ...otherFields,
   };

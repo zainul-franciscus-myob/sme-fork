@@ -2,7 +2,11 @@ import { Card, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getFilterOptions, getRegion, getTransactionTypes } from '../bankingSelectors';
+import {
+  getFilterOptions,
+  getRegion,
+  getTransactionTypes,
+} from '../bankingSelectors';
 import FilterBar from '../../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../../components/FilterBarSearch/FilterBarSearch';
 import PeriodPicker from '../../../components/PeriodPicker/PeriodPicker';
@@ -14,25 +18,19 @@ class BankTransactionFilterOptions extends React.Component {
     const { onUpdateFilters } = this.props;
 
     onUpdateFilters({ filterName, value });
-  }
+  };
 
   onSelectChange = (e) => {
     const { value, name } = e.target;
     const { onUpdateFilters } = this.props;
 
     onUpdateFilters({ filterName: name, value });
-  }
+  };
 
   render = () => {
     const {
       region,
-      filterOptions: {
-        transactionType,
-        period,
-        dateFrom,
-        dateTo,
-        keywords,
-      },
+      filterOptions: { transactionType, period, dateFrom, dateTo, keywords },
       transactionTypes,
       onPeriodChange,
       onResetFilters,
@@ -42,7 +40,13 @@ class BankTransactionFilterOptions extends React.Component {
       <Card>
         <FilterBar onReset={onResetFilters}>
           <FilterBar.Group>
-            <Select name="transactionType" label="Status" value={transactionType} onChange={this.onSelectChange} width="sm">
+            <Select
+              name="transactionType"
+              label="Status"
+              value={transactionType}
+              onChange={this.onSelectChange}
+              width="sm"
+            >
               {transactionTypes.map(({ label, value }) => (
                 <Select.Option value={value} label={label} key={value} />
               ))}
@@ -55,14 +59,19 @@ class BankTransactionFilterOptions extends React.Component {
               onChange={onPeriodChange}
             />
           </FilterBar.Group>
-          <FilterBarSearch id="Search_Box" name="Search" value={keywords} onChange={this.onSearchBoxChange} />
+          <FilterBarSearch
+            id="Search_Box"
+            name="Search"
+            value={keywords}
+            onChange={this.onSearchBoxChange}
+          />
         </FilterBar>
       </Card>
     );
-  }
+  };
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   region: getRegion(state),
   filterOptions: getFilterOptions(state),
   transactionTypes: getTransactionTypes(state),

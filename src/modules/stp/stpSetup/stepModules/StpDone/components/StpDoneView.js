@@ -1,9 +1,7 @@
 import { Button, ButtonRow, Card } from '@myob/myob-widgets';
 import React from 'react';
 
-const StpDoneView = ({
-  onDoneButtonClick,
-}) => (
+const StpDoneView = ({ onDoneButtonClick }) => (
   <div>
     <Card header={<h2>Done!</h2>}>
       <p>

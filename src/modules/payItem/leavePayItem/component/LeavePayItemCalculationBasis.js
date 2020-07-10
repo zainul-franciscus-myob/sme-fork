@@ -7,12 +7,12 @@ import AmountInput from '../../../../components/autoFormatter/AmountInput/Amount
 import PayItemCombobox from './PayItemCombobox';
 import PercentInput from '../../components/PercentInput';
 
-const handleInputChange = handler => (e) => {
+const handleInputChange = (handler) => (e) => {
   const { value, name } = e.target;
   handler({ key: name, value });
 };
 
-const handleAmountChange = handler => (e) => {
+const handleAmountChange = (handler) => (e) => {
   const { name, rawValue } = e.target;
   handler({ key: name, value: rawValue });
 };
@@ -59,7 +59,10 @@ const LeavePayItemCalculationBasis = ({
           hideLabel={false}
           items={calculationBasisPercentOfOptions}
           selectedId={calculationBasisPayItemId}
-          onChange={handlePayItemComboboxChange(onCalculationBasisChange, 'calculationBasisPayItemId')}
+          onChange={handlePayItemComboboxChange(
+            onCalculationBasisChange,
+            'calculationBasisPayItemId'
+          )}
         />
       </React.Fragment>
     )}
@@ -91,6 +94,6 @@ const LeavePayItemCalculationBasis = ({
   </React.Fragment>
 );
 
-const mapStateToProps = state => getCalculationBasis(state);
+const mapStateToProps = (state) => getCalculationBasis(state);
 
 export default connect(mapStateToProps)(LeavePayItemCalculationBasis);

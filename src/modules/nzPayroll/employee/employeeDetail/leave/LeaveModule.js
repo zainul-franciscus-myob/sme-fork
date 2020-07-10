@@ -7,10 +7,12 @@ export default class LeaveModule {
   constructor({ store } = {}) {
     this.dispatcher = leaveDispatcher(store);
 
-    this.view = <LeaveTabView onLeaveChange={this.dispatcher.updateLeaveDetails} />;
+    this.view = (
+      <LeaveTabView onLeaveChange={this.dispatcher.updateLeaveDetails} />
+    );
   }
 
   getView() {
-    return (this.view);
+    return this.view;
   }
 }

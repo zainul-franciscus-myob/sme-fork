@@ -41,16 +41,20 @@ describe('fetchDefaultTemplate', () => {
   it('gives intent to the read', async () => {
     await fetchDefaultTemplate(integration, mockStore);
 
-    expect(integration.read).toBeCalledWith(expect.objectContaining({
-      intent: LOAD_DEFAULT_TEMPLATE,
-    }));
+    expect(integration.read).toBeCalledWith(
+      expect.objectContaining({
+        intent: LOAD_DEFAULT_TEMPLATE,
+      })
+    );
   });
 
   it('passes businessId into url params', async () => {
     await fetchDefaultTemplate(integration, mockStore);
 
-    expect(integration.read).toBeCalledWith(expect.objectContaining({
-      urlParams: { businessId },
-    }));
+    expect(integration.read).toBeCalledWith(
+      expect.objectContaining({
+        urlParams: { businessId },
+      })
+    );
   });
 });

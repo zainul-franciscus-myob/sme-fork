@@ -2,7 +2,11 @@ import { Button, Icons, PageState } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsDefaultFilters, getIsTableEmpty, getIsTableLoading } from '../invoiceListSelectors';
+import {
+  getIsDefaultFilters,
+  getIsTableEmpty,
+  getIsTableLoading,
+} from '../invoiceListSelectors';
 import Icon from '../../../../components/Icon/Icon';
 import InvoiceListTableBody from './InvoiceListTableBody';
 import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
@@ -34,7 +38,7 @@ const InvoiceListTable = ({
     <PageState
       title="No invoices found"
       description="Perhaps check the dates or remove the filters and try again."
-      image={(<Icon.NoResultState alt="No invoices found" />)}
+      image={<Icon.NoResultState alt="No invoices found" />}
     />
   );
 
@@ -49,7 +53,7 @@ const InvoiceListTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isTableEmpty: getIsTableEmpty(state),
   isTableLoading: getIsTableLoading(state),
   isDefaultFilter: getIsDefaultFilters(state),

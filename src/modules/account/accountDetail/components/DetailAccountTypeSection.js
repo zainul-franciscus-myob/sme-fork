@@ -11,20 +11,22 @@ import {
 } from '../accountDetailSelectors';
 import handleSelectChange from '../../../../components/handlers/handleSelectChange';
 
-const AccountTypes = ({ options }) => options
-  .map(({ displayName, value, type }) => (type ? (
-    <Select.OptionGroup value={value} label={displayName} key={value}>
-      {type.map(({ displayName: subDisplayName, value: subValue }) => (
-        <Select.Option
-          value={subValue}
-          label={subDisplayName}
-          key={subValue}
-        />
-      ))}
-    </Select.OptionGroup>
-  ) : (
-    <Select.Option value={value} label={displayName} key={value} />
-  )));
+const AccountTypes = ({ options }) =>
+  options.map(({ displayName, value, type }) =>
+    type ? (
+      <Select.OptionGroup value={value} label={displayName} key={value}>
+        {type.map(({ displayName: subDisplayName, value: subValue }) => (
+          <Select.Option
+            value={subValue}
+            label={subDisplayName}
+            key={subValue}
+          />
+        ))}
+      </Select.OptionGroup>
+    ) : (
+      <Select.Option value={value} label={displayName} key={value} />
+    )
+  );
 
 const DetailAccountTypeSection = ({
   accountClassifications,
@@ -58,7 +60,7 @@ const DetailAccountTypeSection = ({
   </React.Fragment>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accountClassifications: getAccountClassificationsForDetail(state),
   accountClassificationforDisplay: getAccountClassificationforDisplay(state),
   accountType: getAccountType(state),

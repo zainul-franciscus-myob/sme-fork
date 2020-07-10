@@ -20,9 +20,7 @@ describe('PayRunModule', () => {
       const integration = {
         read: ({ intent, onSuccess }) => {
           if (intent === START_NEW_PAY_RUN) {
-            onSuccess(
-              successResponse || startNewPayRunResponse,
-            );
+            onSuccess(successResponse || startNewPayRunResponse);
           }
         },
         write: () => {},
@@ -36,7 +34,10 @@ describe('PayRunModule', () => {
       };
 
       const payRunModule = new PayRunModule({
-        integration, setRootView, pushMessage: [], isToggleOn,
+        integration,
+        setRootView,
+        pushMessage: [],
+        isToggleOn,
       });
       payRunModule.run();
       payRunModule.startNewPayRun();
@@ -74,7 +75,8 @@ describe('PayRunModule', () => {
       };
 
       const module = new PayRunModule({
-        integration, setRootView,
+        integration,
+        setRootView,
       });
       module.store = store;
       module.dispatcher = createPayRunDispatchers(store);
@@ -85,14 +87,15 @@ describe('PayRunModule', () => {
       integration.resetRequests();
 
       return {
-        store, integration, module, wrapper,
+        store,
+        integration,
+        module,
+        wrapper,
       };
     };
 
     it('should display LoadingFailPageState when integration call fails', () => {
-      const {
-        store, integration, module, wrapper,
-      } = setup();
+      const { store, integration, module, wrapper } = setup();
 
       integration.mapFailure(START_NEW_PAY_RUN);
 
@@ -127,9 +130,7 @@ describe('PayRunModule', () => {
     });
 
     it('should display LoadingSuccessPageState when integration call succeeds', () => {
-      const {
-        store, integration, module, wrapper,
-      } = setup();
+      const { store, integration, module, wrapper } = setup();
 
       integration.mapSuccess(START_NEW_PAY_RUN, startNewPayRunResponse);
 

@@ -1,7 +1,7 @@
 export default class MemoryToggle {
-  init = () => {}
+  init = () => {};
 
-  isToggleOn = () => true
+  isToggleOn = () => true;
 
-  reset = () => {}
+  reset = () => {};
 }

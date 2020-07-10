@@ -49,7 +49,7 @@ const JournalTransactionListTableHeader = ({ order, onSort, tableConfig }) => (
   </Table.Header>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   order: getOrder(state),
 });
 

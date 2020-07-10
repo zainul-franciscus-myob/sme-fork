@@ -8,21 +8,22 @@ import KiwiSaver from './KiwiSaver';
 import TaxDeclaration from './TaxDeclaration';
 
 const TaxAndKiwiSaverTab = ({ taxCodeOptions, tax, onTaxChange }) => {
-  const onInputChange = event => onTaxChange({
-    key: event.target.name,
-    value: event.target.value,
-  });
+  const onInputChange = (event) =>
+    onTaxChange({
+      key: event.target.name,
+      value: event.target.value,
+    });
 
   return (
-  <FormHorizontal layout="primary">
-    <TaxDeclaration
-      taxCodeOptions={taxCodeOptions}
-      tax={tax}
-      onInputChange={onInputChange}
-    />
-    <KiwiSaver />
-    <EmployerSCTR />
-  </FormHorizontal>
+    <FormHorizontal layout="primary">
+      <TaxDeclaration
+        taxCodeOptions={taxCodeOptions}
+        tax={tax}
+        onInputChange={onInputChange}
+      />
+      <KiwiSaver />
+      <EmployerSCTR />
+    </FormHorizontal>
   );
 };
 

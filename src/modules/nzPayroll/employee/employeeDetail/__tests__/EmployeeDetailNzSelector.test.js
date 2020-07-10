@@ -76,8 +76,7 @@ describe('EmployeeDetailNzSelectors', () => {
       const state = {
         userInterface: { mainTab: 'a_tab' },
       };
-      expect(getMainTab(state))
-        .toEqual(state.userInterface.mainTab);
+      expect(getMainTab(state)).toEqual(state.userInterface.mainTab);
     });
   });
 
@@ -89,8 +88,9 @@ describe('EmployeeDetailNzSelectors', () => {
           subTabs: { tab_a: 'tab_a_1' },
         },
       };
-      expect(getCurrentSubTab(state))
-        .toEqual(state.userInterface.subTabs.tab_a);
+      expect(getCurrentSubTab(state)).toEqual(
+        state.userInterface.subTabs.tab_a
+      );
     });
     it('should return undefined if current main tab has no sub tab', () => {
       const state = {
@@ -99,8 +99,7 @@ describe('EmployeeDetailNzSelectors', () => {
           subTabs: { tab_a: 'tab_a_1' },
         },
       };
-      expect(getCurrentSubTab(state))
-        .toBeUndefined();
+      expect(getCurrentSubTab(state)).toBeUndefined();
     });
   });
 

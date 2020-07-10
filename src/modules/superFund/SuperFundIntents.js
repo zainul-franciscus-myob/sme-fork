@@ -1,5 +1,7 @@
 export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
-export const SET_ALERT_MESSAGE = Symbol('Set the error alert message of the page');
+export const SET_ALERT_MESSAGE = Symbol(
+  'Set the error alert message of the page'
+);
 export const LOAD_SUPER_FUND = Symbol('Load super fund');
 export const LOAD_NEW_SUPER_FUND = Symbol('Load new super fund');
 export const OPEN_MODAL = Symbol('Open modal');
@@ -10,7 +12,9 @@ export const SHOW_CONTACT_DETAILS = Symbol('Show contact detail fields');
 export const CREATE_SUPER_FUND = Symbol('Create super fund');
 export const UPDATE_SUPER_FUND = Symbol('Update super fund');
 export const DELETE_SUPER_FUND = Symbol('Delete super fund');
-export const UPDATE_SELF_MANAGED_FUND_ABN = Symbol('Update self managed fund abn');
+export const UPDATE_SELF_MANAGED_FUND_ABN = Symbol(
+  'Update self managed fund abn'
+);
 export const SELECT_APRA_FUND = Symbol('Select a APRA fund');
 export const LOAD_ABN_DETAIL = Symbol('Load abn detail');
 export const SET_ABN_STATUS = Symbol('Set abn status');

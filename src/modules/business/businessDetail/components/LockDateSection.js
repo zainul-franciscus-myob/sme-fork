@@ -1,6 +1,10 @@
 import {
-  Checkbox, CheckboxGroup, DatePicker,
-  FieldGroup, Icons, Tooltip,
+  Checkbox,
+  CheckboxGroup,
+  DatePicker,
+  FieldGroup,
+  Icons,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -10,11 +14,7 @@ import handleCheckboxChange from '../../../../components/handlers/handleCheckbox
 import handleDatePickerChange from '../../../../components/handlers/handleDatePickerChange';
 import styles from './LockDateSection.module.css';
 
-const LockDateSection = ({
-  hasLockPeriod,
-  lockDate,
-  onChange,
-}) => (
+const LockDateSection = ({ hasLockPeriod, lockDate, onChange }) => (
   <FieldGroup label="Lock date" className={styles.lockDate}>
     <CheckboxGroup
       label="hasLockPeriod"
@@ -23,12 +23,12 @@ const LockDateSection = ({
         <Checkbox
           name="hasLockPeriod"
           label="Prevent changes prior to the lock date"
-          labelAccessory={(
+          labelAccessory={
             <Tooltip triggerContent={<Icons.Info />}>
-              Prevent transactions from being added, edited or deleted
-              if they are prior to the lock date entered.
+              Prevent transactions from being added, edited or deleted if they
+              are prior to the lock date entered.
             </Tooltip>
-          )}
+          }
           checked={hasLockPeriod}
           onChange={handleCheckboxChange(onChange)}
         />
@@ -44,6 +44,6 @@ const LockDateSection = ({
   </FieldGroup>
 );
 
-const mapStateToProps = state => getLockDateDetails(state);
+const mapStateToProps = (state) => getLockDateDetails(state);
 
 export default connect(mapStateToProps)(LockDateSection);

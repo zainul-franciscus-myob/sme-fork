@@ -26,7 +26,11 @@ import PopWrapper from '@myob/myob-widgets/lib/components/Popover/PopWrapper';
 import React from 'react';
 import classnames from 'classnames';
 
-const { Body: PopoverBody, Header: PopoverHeader, Footer: PopoverFooter } = FeelixPopover;
+const {
+  Body: PopoverBody,
+  Header: PopoverHeader,
+  Footer: PopoverFooter,
+} = FeelixPopover;
 
 /**
  * Popover
@@ -56,7 +60,8 @@ export default class Popover extends React.Component {
   togglePopover(toState) {
     if (!this.state.controlled) {
       this.setState((previousState) => {
-        const popoverIsOpen = typeof toState === 'boolean' ? toState : !previousState.popoverIsOpen;
+        const popoverIsOpen =
+          typeof toState === 'boolean' ? toState : !previousState.popoverIsOpen;
         return { popoverIsOpen };
       });
     }
@@ -68,7 +73,7 @@ export default class Popover extends React.Component {
       <div
         className="flx-popover"
         role="presentation"
-        onClick={e => this.togglePopover(e)}
+        onClick={(e) => this.togglePopover(e)}
       >
         {this.props.children}
       </div>

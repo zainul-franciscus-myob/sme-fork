@@ -1,15 +1,12 @@
-import {
-  Dropdown,
-  Icons,
-  Spinner,
-  Table,
-  Tooltip,
-} from '@myob/myob-widgets';
+import { Dropdown, Icons, Spinner, Table, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classNames from 'classnames';
 
-import { getAllowedActions, getTableEntries } from '../selectors/InTrayListSelectors';
+import {
+  getAllowedActions,
+  getTableEntries,
+} from '../selectors/InTrayListSelectors';
 import InTrayDropzoneTableRow from './InTrayDropzoneTableRow';
 import actionTypes from '../actionTypes';
 import styles from './InTrayListTableBody.module.css';
@@ -57,39 +54,64 @@ const UploadDateComponent = ({
   return uploadedDate;
 };
 
-const InvoiceComponent = value => value || (
-<Tooltip triggerContent={<Icons.Info />}>Information not available</Tooltip>
-);
+const InvoiceComponent = (value) =>
+  value || (
+    <Tooltip triggerContent={<Icons.Info />}>Information not available</Tooltip>
+  );
 
 const getDropdownItem = (key, label, value) => (
-  <Dropdown.Item
-    key={key}
-    label={label}
-    value={value}
-  />
+  <Dropdown.Item key={key} label={label} value={value} />
 );
 
-const getItems = allowedActions => [
-  allowedActions.includes(actionTypes.linkToExistingBill) && getDropdownItem(actionTypes.linkToExistingBill, 'Link to existing bill', actionTypes.linkToExistingBill),
-  allowedActions.includes(actionTypes.createBill) && getDropdownItem(actionTypes.createBill, 'Create bill', actionTypes.createBill),
-  allowedActions.includes(actionTypes.createSpendMoney) && getDropdownItem(actionTypes.createSpendMoney, 'Create spend money transaction', actionTypes.createSpendMoney),
+const getItems = (allowedActions) => [
+  allowedActions.includes(actionTypes.linkToExistingBill) &&
+    getDropdownItem(
+      actionTypes.linkToExistingBill,
+      'Link to existing bill',
+      actionTypes.linkToExistingBill
+    ),
+  allowedActions.includes(actionTypes.createBill) &&
+    getDropdownItem(
+      actionTypes.createBill,
+      'Create bill',
+      actionTypes.createBill
+    ),
+  allowedActions.includes(actionTypes.createSpendMoney) &&
+    getDropdownItem(
+      actionTypes.createSpendMoney,
+      'Create spend money transaction',
+      actionTypes.createSpendMoney
+    ),
   <Dropdown.Separator key="separator" />,
-  allowedActions.includes(actionTypes.download) && getDropdownItem(actionTypes.download, 'Download document', actionTypes.download),
-  allowedActions.includes(actionTypes.delete) && getDropdownItem(actionTypes.delete, 'Delete document', actionTypes.delete),
+  allowedActions.includes(actionTypes.download) &&
+    getDropdownItem(
+      actionTypes.download,
+      'Download document',
+      actionTypes.download
+    ),
+  allowedActions.includes(actionTypes.delete) &&
+    getDropdownItem(actionTypes.delete, 'Delete document', actionTypes.delete),
 ];
 
 const ActionComponent = ({ id, handleActionSelect, allowedActions }) => (
   // Prevent onRowSelect from being triggered on dropdown click within table.
-  <div tabIndex="-1" role="button" onClick={(e) => { e.stopPropagation(); }} onKeyUp={() => {}}>
+  <div
+    tabIndex="-1"
+    role="button"
+    onClick={(e) => {
+      e.stopPropagation();
+    }}
+    onKeyUp={() => {}}
+  >
     <Dropdown
       right
       items={getItems(allowedActions)}
       onSelect={handleActionSelect(id)}
-      toggle={(
+      toggle={
         <Dropdown.Toggle size="xs">
           <Icons.More />
         </Dropdown.Toggle>
-)}
+      }
     />
   </div>
 );
@@ -145,15 +167,18 @@ const InTrayListTableBody = ({
         <Table.RowItem {...tableConfig.totalAmount}>
           {showInvoiceDetails && InvoiceComponent(totalAmount)}
         </Table.RowItem>
-        <Table.RowItem {...tableConfig.action} cellRole="actions" className={styles.action}>
-          {showActions
-            && (
+        <Table.RowItem
+          {...tableConfig.action}
+          cellRole="actions"
+          className={styles.action}
+        >
+          {showActions && (
             <ActionComponent
               allowedActions={allowedActions}
               handleActionSelect={handleActionSelect}
               id={id}
             />
-            )}
+          )}
         </Table.RowItem>
       </Table.Row>
     );
@@ -161,15 +186,13 @@ const InTrayListTableBody = ({
 
   return (
     <Table.Body>
-      <InTrayDropzoneTableRow
-        onAddAttachment={onAddAttachments}
-      />
+      <InTrayDropzoneTableRow onAddAttachment={onAddAttachments} />
       {rows}
     </Table.Body>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   entries: getTableEntries(state),
   allowedActions: getAllowedActions(state),
 });

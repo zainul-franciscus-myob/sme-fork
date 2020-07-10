@@ -42,8 +42,7 @@ import invoiceListLoadResponse from './data/loadInvoiceList';
 import invoiceServiceDetail from './data/serviceLayout/invoiceServiceDetail';
 import invoiceServiceDetailWithFreight from './data/serviceLayout/invoiceServiceDetailWithFreight';
 import invoiceServiceNewDetail from './data/serviceLayout/invoiceServiceNewDetail';
-import invoiceServiceNewDetailFromQuote
-  from './data/serviceLayout/invoiceServiceNewDetailFromQuote';
+import invoiceServiceNewDetailFromQuote from './data/serviceLayout/invoiceServiceNewDetailFromQuote';
 import invoiceServiceReadOnlyDetail from './data/serviceLayout/invoiceServiceReadOnlyDetail';
 import loadAbnDetail from './data/loadAbn.json';
 import loadAccountOptions from './data/loadAccountOptions';
@@ -64,24 +63,29 @@ const SERVICE_LAYOUT = 'service';
 
 const MemoryInvoiceMapping = {
   [LOAD_INVOICE_LIST]: ({ onSuccess }) => onSuccess(invoiceListLoadResponse),
-  [SORT_AND_FILTER_INVOICE_LIST]: ({ onSuccess }) => onSuccess(invoiceListFilterResponse),
+  [SORT_AND_FILTER_INVOICE_LIST]: ({ onSuccess }) =>
+    onSuccess(invoiceListFilterResponse),
 
-  [LOAD_NEW_INVOICE_DETAIL]: ({ params = {}, onSuccess }) => onSuccess(
-    params.layout === SERVICE_LAYOUT
-      ? invoiceServiceNewDetail
-      : invoiceItemNewDetail,
-  ),
-  [LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE]: ({ params = {}, onSuccess }) => onSuccess(
-    params.layout === SERVICE_LAYOUT
-      ? invoiceServiceNewDetailFromQuote
-      : invoiceItemNewDetailFromQuote,
-  ),
-  [LOAD_NEW_DUPLICATE_INVOICE_DETAIL]: ({ params = {}, onSuccess }) => onSuccess(
-    params.layout === SERVICE_LAYOUT
-      ? duplicateInvoiceServiceDetail
-      : duplicateInvoiceItemDetail,
-  ),
-  [CREATE_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess({ ...successResponse, id: '1' }),
+  [LOAD_NEW_INVOICE_DETAIL]: ({ params = {}, onSuccess }) =>
+    onSuccess(
+      params.layout === SERVICE_LAYOUT
+        ? invoiceServiceNewDetail
+        : invoiceItemNewDetail
+    ),
+  [LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE]: ({ params = {}, onSuccess }) =>
+    onSuccess(
+      params.layout === SERVICE_LAYOUT
+        ? invoiceServiceNewDetailFromQuote
+        : invoiceItemNewDetailFromQuote
+    ),
+  [LOAD_NEW_DUPLICATE_INVOICE_DETAIL]: ({ params = {}, onSuccess }) =>
+    onSuccess(
+      params.layout === SERVICE_LAYOUT
+        ? duplicateInvoiceServiceDetail
+        : duplicateInvoiceItemDetail
+    ),
+  [CREATE_INVOICE_DETAIL]: ({ onSuccess }) =>
+    onSuccess({ ...successResponse, id: '1' }),
   [LOAD_INVOICE_DETAIL]: ({ urlParams = {}, onSuccess }) => {
     switch (urlParams.invoiceId) {
       case 'service-readonly-id':
@@ -119,24 +123,33 @@ const MemoryInvoiceMapping = {
   [UPDATE_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [DELETE_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [LOAD_CUSTOMER]: ({ onSuccess }) => onSuccess(customerAddress),
-  [LOAD_CUSTOMER_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedCustomerResponse),
+  [LOAD_CUSTOMER_AFTER_CREATE]: ({ onSuccess }) =>
+    onSuccess(loadAddedCustomerResponse),
   [LOAD_PAY_DIRECT]: ({ onSuccess }) => onSuccess(payDirect),
-  [UPLOAD_EMAIL_ATTACHMENT]: ({ onSuccess }) => onSuccess(uploadEmailAttachmentResponse),
+  [UPLOAD_EMAIL_ATTACHMENT]: ({ onSuccess }) =>
+    onSuccess(uploadEmailAttachmentResponse),
   [SEND_EMAIL]: ({ onSuccess }) => onSuccess(successResponse),
-  [SAVE_EMAIL_SETTINGS]: ({ onSuccess }) => onSuccess(saveEmailSettingsSuccessResponse),
-  [EXPORT_INVOICE_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
-  [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedAccountResponse),
+  [SAVE_EMAIL_SETTINGS]: ({ onSuccess }) =>
+    onSuccess(saveEmailSettingsSuccessResponse),
+  [EXPORT_INVOICE_PDF]: ({ onSuccess }) =>
+    onSuccess(new Blob([], { type: 'application/pdf' })),
+  [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) =>
+    onSuccess(loadAddedAccountResponse),
   [LOAD_ITEM_OPTION]: ({ onSuccess }) => onSuccess(loadItemOption),
   [LOAD_INVOICE_HISTORY]: ({ onSuccess }) => onSuccess(loadInvoiceHistory),
   [LOAD_ACCOUNT_OPTIONS]: ({ onSuccess }) => onSuccess(loadAccountOptions),
   [LOAD_ITEM_OPTIONS]: ({ onSuccess }) => onSuccess(loadItemOptions),
   [LOAD_CUSTOMER_OPTIONS]: ({ onSuccess }) => onSuccess(loadCustomerOptions),
-  [LOAD_ITEM_SELLING_DETAILS]: ({ onSuccess }) => onSuccess(loadItemSellingDetailsResponse),
+  [LOAD_ITEM_SELLING_DETAILS]: ({ onSuccess }) =>
+    onSuccess(loadItemSellingDetailsResponse),
   [LOAD_NEXT_PAGE]: ({ onSuccess }) => onSuccess(invoiceListFilterResponse),
   [LOAD_JOB_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedJobResponse),
-  [CREATE_PRE_CONVERSION_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess({ ...successResponse, id: '1' }),
-  [UPDATE_PRE_CONVERSION_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
-  [DELETE_PRE_CONVERSION_INVOIVE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
+  [CREATE_PRE_CONVERSION_INVOICE_DETAIL]: ({ onSuccess }) =>
+    onSuccess({ ...successResponse, id: '1' }),
+  [UPDATE_PRE_CONVERSION_INVOICE_DETAIL]: ({ onSuccess }) =>
+    onSuccess(successResponse),
+  [DELETE_PRE_CONVERSION_INVOIVE_DETAIL]: ({ onSuccess }) =>
+    onSuccess(successResponse),
   [LOAD_ABN_FROM_CUSTOMER]: ({ onSuccess }) => onSuccess(loadAbnDetail),
 };
 

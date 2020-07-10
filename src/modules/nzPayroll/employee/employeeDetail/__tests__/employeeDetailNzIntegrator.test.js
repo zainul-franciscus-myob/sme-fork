@@ -16,20 +16,18 @@ describe('employeeDetailNzIntegrator', () => {
       const onFailure = () => {};
 
       const integration = { read: jest.fn() };
-      const integrator = employeeDetailNzIntegrator(
-        { store, integration },
-      );
+      const integrator = employeeDetailNzIntegrator({ store, integration });
 
-      integrator.loadEmployeeDetails(
-        { onSuccess, onFailure },
-      );
+      integrator.loadEmployeeDetails({ onSuccess, onFailure });
 
-      expect(integration.read).toHaveBeenCalledWith(expect.objectContaining({
-        intent: LOAD_EMPLOYEE_DETAIL,
-        urlParams,
-        onSuccess,
-        onFailure,
-      }));
+      expect(integration.read).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: LOAD_EMPLOYEE_DETAIL,
+          urlParams,
+          onSuccess,
+          onFailure,
+        })
+      );
     });
   });
 
@@ -47,7 +45,6 @@ describe('employeeDetailNzIntegrator', () => {
         payrollDetails,
       };
 
-
       const store = { getState: () => state };
       const urlParams = { businessId, employeeId };
       const onSuccess = () => {};
@@ -55,21 +52,19 @@ describe('employeeDetailNzIntegrator', () => {
       const content = { contactDetail, payrollDetails };
 
       const integration = { write: jest.fn(), read: jest.fn() };
-      const integrator = employeeDetailNzIntegrator(
-        { store, integration },
-      );
+      const integrator = employeeDetailNzIntegrator({ store, integration });
 
-      integrator.createOrSaveEmployeeDetails(
-        { onSuccess, onFailure },
-      );
+      integrator.createOrSaveEmployeeDetails({ onSuccess, onFailure });
 
-      expect(integration.write).toHaveBeenCalledWith(expect.objectContaining({
-        intent: UPDATE_EMPLOYEE,
-        urlParams,
-        content,
-        onSuccess,
-        onFailure,
-      }));
+      expect(integration.write).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: UPDATE_EMPLOYEE,
+          urlParams,
+          content,
+          onSuccess,
+          onFailure,
+        })
+      );
     });
   });
 });

@@ -1,5 +1,7 @@
 const EtpPayItemStpCategories = [
-  'ETPTaxableComponent', 'ETPTaxFreeComponent', 'ETPTaxWithholding',
+  'ETPTaxableComponent',
+  'ETPTaxFreeComponent',
+  'ETPTaxWithholding',
 ];
 
 export default EtpPayItemStpCategories;

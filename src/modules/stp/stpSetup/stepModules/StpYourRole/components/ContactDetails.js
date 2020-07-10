@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getEmail, getFirstName, getLastName, getPhone, getShowAlert,
+  getEmail,
+  getFirstName,
+  getLastName,
+  getPhone,
+  getShowAlert,
 } from '../stpYourRoleSelectors';
 import handleInputChange from '../../../../../../components/handlers/handleInputChange';
 
@@ -17,13 +21,14 @@ const ContactDetails = ({
 }) => (
   <FieldGroup label="Contact Details">
     <p>
-      If you can&apos;t find your existing contact information, you&apos;ll need to create a new
-      contact and type your details in
+      If you can&apos;t find your existing contact information, you&apos;ll need
+      to create a new contact and type your details in
     </p>
     {showAlert && (
       <Alert type="info">
-        Looks like we&apos;ve already got some information saved for this business. You can use this
-        contact person, or add someone different for payroll reporting
+        Looks like we&apos;ve already got some information saved for this
+        business. You can use this contact person, or add someone different for
+        payroll reporting
       </Alert>
     )}
     <Input
@@ -57,7 +62,7 @@ const ContactDetails = ({
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   firstName: getFirstName(state),
   lastName: getLastName(state),
   email: getEmail(state),

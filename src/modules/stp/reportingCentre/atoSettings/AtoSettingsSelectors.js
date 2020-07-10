@@ -2,20 +2,22 @@ import { createSelector } from 'reselect';
 
 import States from '../../common/States';
 
-export const getLoadingState = state => state.loadingState;
-export const getIsModalOpen = state => state.isModalOpen;
-export const getBusinessDetails = state => state.businessDetails;
-export const getBusinessContact = state => state.businessContact;
-export const getAgentContact = state => state.agentContact;
-export const getBusinessConnection = state => state.businessConnection;
-export const getIsAgent = state => !!state.agentDetails;
+export const getLoadingState = (state) => state.loadingState;
+export const getIsModalOpen = (state) => state.isModalOpen;
+export const getBusinessDetails = (state) => state.businessDetails;
+export const getBusinessContact = (state) => state.businessContact;
+export const getAgentContact = (state) => state.agentContact;
+export const getBusinessConnection = (state) => state.businessConnection;
+export const getIsAgent = (state) => !!state.agentDetails;
 
-export const getAgentDetails = state => (state.agentDetails ? state.agentDetails : {});
-export const getShowCountryField = state => (state.businessDetails.state === States.OTH);
+export const getAgentDetails = (state) =>
+  state.agentDetails ? state.agentDetails : {};
+export const getShowCountryField = (state) =>
+  state.businessDetails.state === States.OTH;
 
 export const getUpdateBusinessDetailsContent = createSelector(
   getBusinessDetails,
-  businessDetails => ({
+  (businessDetails) => ({
     businessName: businessDetails.businessName,
     abnWpn: businessDetails.abn,
     abnBranch: businessDetails.branch,
@@ -24,18 +26,19 @@ export const getUpdateBusinessDetailsContent = createSelector(
     city: businessDetails.city,
     state: businessDetails.state,
     postcode: businessDetails.postcode,
-    country: businessDetails.state === States.OTH ? businessDetails.country : null,
-  }),
+    country:
+      businessDetails.state === States.OTH ? businessDetails.country : null,
+  })
 );
 
 export const getUpdateBusinessContactContent = createSelector(
   getBusinessContact,
-  contact => ({
+  (contact) => ({
     firstName: contact.firstName,
     lastName: contact.lastName,
     email: contact.email,
     phone: contact.phone,
-  }),
+  })
 );
 
 export const getUpdateAgentContactContent = createSelector(
@@ -48,5 +51,5 @@ export const getUpdateAgentContactContent = createSelector(
     phone: contact.phone,
     agentAbn: details.agentAbn,
     agentNumber: details.agentNumber,
-  }),
+  })
 );

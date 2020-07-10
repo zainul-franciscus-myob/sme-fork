@@ -66,9 +66,7 @@ const messageTypes = [
 ];
 
 export default class PayItemListModule {
-  constructor({
-    integration, setRootView, popMessages, replaceURLParams,
-  }) {
+  constructor({ integration, setRootView, popMessages, replaceURLParams }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.store = new Store(payItemListReducer);
@@ -82,20 +80,18 @@ export default class PayItemListModule {
     const [successMessage] = this.popMessages(this.messageTypes);
 
     if (successMessage) {
-      const {
-        content: message,
-      } = successMessage;
+      const { content: message } = successMessage;
 
       this.setAlert({
         type: 'success',
         message,
       });
     }
-  }
+  };
 
   setTab = (selectedTab) => {
     this.dispatcher.setTab(selectedTab);
-  }
+  };
 
   setTabAndLoadContent = (selectedTab) => {
     const state = this.store.getState();
@@ -106,19 +102,19 @@ export default class PayItemListModule {
       this.setTab(selectedTab);
       this.loadTabContentList();
     }
-  }
+  };
 
   setAlert = ({ message, type }) => {
     this.dispatcher.setAlert({ message, type });
-  }
+  };
 
   dismissAlert = () => {
     this.dispatcher.dismissAlert();
-  }
+  };
 
   setTableLoadingState = (isTableLoading) => {
     this.dispatcher.setTableLoadingState(isTableLoading);
-  }
+  };
 
   setSubmittingState = (isSubmitting) => {
     this.dispatcher.setSubmittingState(isSubmitting);
@@ -142,7 +138,8 @@ export default class PayItemListModule {
     const onFailure = (error) => {
       this.setTableLoadingState(false);
       this.setAlert({
-        message: error.message, type: 'danger',
+        message: error.message,
+        type: 'danger',
       });
     };
 
@@ -153,11 +150,9 @@ export default class PayItemListModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
-  sortList = ({
-    intent, sortIntent, newSortOrder, orderBy,
-  }) => {
+  sortList = ({ intent, sortIntent, newSortOrder, orderBy }) => {
     this.setSortOrder(sortIntent, orderBy, newSortOrder);
 
     const state = this.store.getState();
@@ -172,7 +167,8 @@ export default class PayItemListModule {
     const onFailure = (error) => {
       this.setTableLoadingState(false);
       this.setAlert({
-        message: error.message, type: 'danger',
+        message: error.message,
+        type: 'danger',
       });
     };
 
@@ -189,7 +185,7 @@ export default class PayItemListModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   sortWagesList = (orderBy) => {
     const state = this.store.getState();
@@ -198,9 +194,12 @@ export default class PayItemListModule {
     const newSortOrder = getNewWagesSortOrder(state, { orderBy });
 
     this.sortList({
-      intent, sortIntent, newSortOrder, orderBy,
+      intent,
+      sortIntent,
+      newSortOrder,
+      orderBy,
     });
-  }
+  };
 
   sortSuperannuationList = (orderBy) => {
     const state = this.store.getState();
@@ -209,9 +208,12 @@ export default class PayItemListModule {
     const newSortOrder = getNewSuperannuationSortOrder(state, { orderBy });
 
     this.sortList({
-      intent, sortIntent, newSortOrder, orderBy,
+      intent,
+      sortIntent,
+      newSortOrder,
+      orderBy,
     });
-  }
+  };
 
   sortLeaveList = (orderBy) => {
     const state = this.store.getState();
@@ -220,9 +222,12 @@ export default class PayItemListModule {
     const newSortOrder = getNewLeaveSortOrder(state, { orderBy });
 
     this.sortList({
-      intent, sortIntent, newSortOrder, orderBy,
+      intent,
+      sortIntent,
+      newSortOrder,
+      orderBy,
     });
-  }
+  };
 
   sortDeductionsList = (orderBy) => {
     const state = this.store.getState();
@@ -231,9 +236,12 @@ export default class PayItemListModule {
     const newSortOrder = getNewDeductionsSortOrder(state, { orderBy });
 
     this.sortList({
-      intent, sortIntent, newSortOrder, orderBy,
+      intent,
+      sortIntent,
+      newSortOrder,
+      orderBy,
     });
-  }
+  };
 
   sortExpensesList = (orderBy) => {
     const state = this.store.getState();
@@ -242,9 +250,12 @@ export default class PayItemListModule {
     const newSortOrder = getNewExpensesSortOrder(state, { orderBy });
 
     this.sortList({
-      intent, sortIntent, newSortOrder, orderBy,
+      intent,
+      sortIntent,
+      newSortOrder,
+      orderBy,
     });
-  }
+  };
 
   saveTaxPayItem = () => {
     this.setSubmittingState(true);
@@ -280,11 +291,11 @@ export default class PayItemListModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   updateTaxPayItemDetail = ({ key, value }) => {
     this.dispatcher.updateTaxPayItemDetail({ key, value });
-  }
+  };
 
   redirectToCreatePayItem = () => {
     const state = this.store.getState();
@@ -301,7 +312,7 @@ export default class PayItemListModule {
     }[selectedTab];
 
     window.location.href = `/#/${region}/${businessId}/payItem/${linkType}/new`;
-  }
+  };
 
   render = () => {
     const payItemListView = (
@@ -325,46 +336,44 @@ export default class PayItemListModule {
     );
 
     const wrappedView = (
-      <Provider store={this.store}>
-        {payItemListView}
-      </Provider>
+      <Provider store={this.store}>{payItemListView}</Provider>
     );
     this.setRootView(wrappedView);
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   redirectToUrl = (url) => {
     if (url) {
       window.location.href = url;
     }
-  }
+  };
 
-  openModal= ({ type, url }) => {
+  openModal = ({ type, url }) => {
     this.dispatcher.openModal({ type, url });
-  }
+  };
 
   openUnsavedModal = (url) => {
     this.openModal({ type: ModalType.UNSAVED, url });
-  }
+  };
 
   dismissModal = () => {
     this.dispatcher.closeModal();
-  }
+  };
 
   redirectToModalUrl = () => {
     const state = this.store.getState();
     const url = getModalUrl(state);
     this.redirectToUrl(url);
-  }
+  };
 
-  updateURLFromState = state => this.replaceURLParams(getUrlTabParams(state))
+  updateURLFromState = (state) => this.replaceURLParams(getUrlTabParams(state));
 
   setLoadingState = (loadingState) => {
     this.dispatcher.setLoadingState(loadingState);
-  }
+  };
 
   loadPayrollSettings = () => {
     const state = this.store.getState();
@@ -390,7 +399,7 @@ export default class PayItemListModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   run(context) {
     this.dispatcher.setInitialState(context);
@@ -402,7 +411,7 @@ export default class PayItemListModule {
 
   resetState = () => {
     this.dispatcher.resetState();
-  }
+  };
 
   handlePageTransition = (url) => {
     const state = this.store.getState();
@@ -411,5 +420,5 @@ export default class PayItemListModule {
     } else {
       this.redirectToUrl(url);
     }
-  }
+  };
 }

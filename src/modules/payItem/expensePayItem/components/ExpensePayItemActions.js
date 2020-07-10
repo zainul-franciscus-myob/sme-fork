@@ -32,21 +32,25 @@ const ExpensePayItemActions = ({
         Save
       </Button>,
     ]}
-    secondary={!isCreating ? [
-      <Button
-        key="delete"
-        name="delete"
-        type="secondary"
-        onClick={onDeleteButtonClick}
-        disabled={isSubmitting}
-      >
-        Delete
-      </Button>,
-    ] : []}
+    secondary={
+      !isCreating
+        ? [
+            <Button
+              key="delete"
+              name="delete"
+              type="secondary"
+              onClick={onDeleteButtonClick}
+              disabled={isSubmitting}
+            >
+              Delete
+            </Button>,
+          ]
+        : []
+    }
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isCreating: getIsCreating(state),
   isSubmitting: getIsSubmitting(state),
 });

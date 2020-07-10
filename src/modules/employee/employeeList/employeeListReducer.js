@@ -30,7 +30,6 @@ const getDefaultState = () => ({
     hasNextPage: false,
     offset: 0,
   },
-
 });
 
 const setLoadingState = (state, { loadingState }) => ({
@@ -43,7 +42,7 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const updateFilterBarOptions = (state, action) => ({
   ...state,
@@ -84,28 +83,26 @@ const setSortOrder = (state, action) => ({
 });
 
 const loadEmployeeListNextPage = (state, action) => {
-  const allEmployeeIds = state.entries.map(employee => employee.id);
-  const entries = action
-    .entries.filter(employee => !allEmployeeIds.includes(employee.id));
+  const allEmployeeIds = state.entries.map((employee) => employee.id);
+  const entries = action.entries.filter(
+    (employee) => !allEmployeeIds.includes(employee.id)
+  );
 
-  return ({
+  return {
     ...state,
-    entries: [
-      ...state.entries,
-      ...entries,
-    ],
+    entries: [...state.entries, ...entries],
     pagination: {
       ...action.pagination,
     },
-  });
+  };
 };
 
-const startLoadingMore = state => ({
+const startLoadingMore = (state) => ({
   ...state,
   isLoadingMore: true,
 });
 
-const stopLoadingMore = state => ({
+const stopLoadingMore = (state) => ({
   ...state,
   isLoadingMore: false,
 });

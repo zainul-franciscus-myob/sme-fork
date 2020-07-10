@@ -9,18 +9,17 @@ import creditsAndDebitsListFilterResponse from './data/filterCreditsAndDebitsLis
 import creditsAndDebitsListLoadResponse from './data/loadCreditsAndDebitsList.json';
 import transactionListFilterResponse from './data/filterTransactionList.json';
 
-const sortAndFilterCreditsAndDebitsList = ({ onSuccess }) => (
-  onSuccess(creditsAndDebitsListFilterResponse)
-);
-const loadCreditsAndDebitsList = ({ onSuccess }) => onSuccess(creditsAndDebitsListLoadResponse);
-const loadNextPageForCreditsAndDebits = ({ onSuccess }) => (
-  onSuccess(creditsAndDebitsListFilterResponse)
-);
+const sortAndFilterCreditsAndDebitsList = ({ onSuccess }) =>
+  onSuccess(creditsAndDebitsListFilterResponse);
+const loadCreditsAndDebitsList = ({ onSuccess }) =>
+  onSuccess(creditsAndDebitsListLoadResponse);
+const loadNextPageForCreditsAndDebits = ({ onSuccess }) =>
+  onSuccess(creditsAndDebitsListFilterResponse);
 
-const sortAndFilterTransactionList = ({ onSuccess }) => onSuccess(transactionListFilterResponse);
-const loadNextPageForJournalTransactions = ({ onSuccess }) => (
-  onSuccess(transactionListFilterResponse)
-);
+const sortAndFilterTransactionList = ({ onSuccess }) =>
+  onSuccess(transactionListFilterResponse);
+const loadNextPageForJournalTransactions = ({ onSuccess }) =>
+  onSuccess(transactionListFilterResponse);
 
 const MemoryTransactionListMapping = {
   [LOAD_CREDITS_AND_DEBITS_NEXT_PAGE]: loadNextPageForCreditsAndDebits,

@@ -1,6 +1,4 @@
-import {
-  FieldGroup, Icons, Tooltip,
-} from '@myob/myob-widgets';
+import { FieldGroup, Icons, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -46,7 +44,7 @@ const PayrollDeductionDetails = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   deductionPayItems: getDeductionPayItems(state),
   deductionPayItemOptions: getFilteredDeductionPayItemOptions(state),
   showAddPayItemButton: getShowAddPayItemButton(state),

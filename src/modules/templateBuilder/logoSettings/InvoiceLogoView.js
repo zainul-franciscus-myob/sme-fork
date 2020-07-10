@@ -1,9 +1,4 @@
-import {
-  Alert,
-  Button,
-  PageHead,
-  StickyHeader,
-} from '@myob/myob-widgets';
+import { Alert, Button, PageHead, StickyHeader } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -74,7 +69,9 @@ const InvoiceLogoView = ({
   saleLayout,
   useAddressEnvelopePosition,
 }) => {
-  const pageTitle = isCreating ? 'Build your invoice template' : 'Edit your invoice template';
+  const pageTitle = isCreating
+    ? 'Build your invoice template'
+    : 'Edit your invoice template';
 
   const pageHead = (
     <StickyHeader>
@@ -139,13 +136,13 @@ const InvoiceLogoView = ({
 
       <PreviewTemplate
         alert={alertComponent}
-        details={(
+        details={
           <InvoiceLogoDetails
             onFileRemoved={onFileRemoved}
             onFileSelected={onFileSelected}
             onUpdateTemplateOptions={onUpdateTemplateOptions}
           />
-        )}
+        }
         pageHead={pageHead}
         preview={preview}
         previewHeader={previewHeader}
@@ -158,7 +155,7 @@ const InvoiceLogoView = ({
   return <PageView view={view} isLoading={isLoading} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   businessDetails: getBusinessDetailsOptionsForDisplay(state),
   featureColour: getFeatureColour(state),

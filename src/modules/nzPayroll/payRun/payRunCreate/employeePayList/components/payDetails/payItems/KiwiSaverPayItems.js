@@ -1,7 +1,10 @@
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getKiwiSaverPayItemEntries, getShouldShowKiwiSaverPayItems } from '../../../EmployeePayListSelectors';
+import {
+  getKiwiSaverPayItemEntries,
+  getShouldShowKiwiSaverPayItems,
+} from '../../../EmployeePayListSelectors';
 import PayDetailsTableRows from '../PayDetailsTableRows';
 
 const KiwiSaverPayItems = ({

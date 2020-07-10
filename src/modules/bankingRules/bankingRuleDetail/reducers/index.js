@@ -8,16 +8,13 @@ import {
   SET_LOADING_STATE,
   UPDATE_FORM,
 } from '../BankingRuleDetailIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import allocationHandlers from './allocationHandlers';
 import conditionHandlers from './conditionHandlers';
 import createReducer from '../../../../store/createReducer';
 import getDefaultState from './getDefaultState';
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setInitalState = (state, action) => ({
   ...getDefaultState(),
@@ -32,7 +29,7 @@ const loadBankingRuleDetail = (state, action) => ({
   ...action.bankingRule,
 });
 
-const isContact = key => key === 'contactId';
+const isContact = (key) => key === 'contactId';
 const updateContactId = (state, action) => {
   const contact = state.contacts.find(({ id }) => id === action.value);
 
@@ -71,7 +68,7 @@ const openModal = (state, action) => ({
   modal: action.modal,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modal: undefined,
 });
@@ -81,7 +78,7 @@ const setAlertMessage = (state, action) => ({
   alertMessage: action.alertMessage,
 });
 
-const setIsPagedEdited = state => ({
+const setIsPagedEdited = (state) => ({
   ...state,
   isPageEdited: true,
 });

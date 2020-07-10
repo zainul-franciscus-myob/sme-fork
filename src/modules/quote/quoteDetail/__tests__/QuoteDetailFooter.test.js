@@ -13,9 +13,11 @@ describe('quoteDetailFooter', () => {
     const wrapper = mount(
       <Provider store={store}>
         <QuoteDetailFooter />
-      </Provider>,
+      </Provider>
     );
-    const noteTextArea = wrapper.find(TextArea).filterWhere((t) => t.prop('name') === 'note');
+    const noteTextArea = wrapper
+      .find(TextArea)
+      .filterWhere((t) => t.prop('name') === 'note');
     expect(noteTextArea.prop('maxLength')).toBe(2000);
   });
 });

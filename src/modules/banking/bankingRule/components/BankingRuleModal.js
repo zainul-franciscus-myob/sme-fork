@@ -1,6 +1,4 @@
-import {
-  Alert, Button, Modal,
-} from '@myob/myob-widgets';
+import { Alert, Button, Modal } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -34,13 +32,7 @@ const BankingRuleModal = ({
 }) => {
   const view = (
     <>
-      {
-        alert && (
-          <Alert type={alert.type}>
-            {alert.message}
-          </Alert>
-        )
-      }
+      {alert && <Alert type={alert.type}>{alert.message}</Alert>}
       <HeaderSection />
       <RuleDetailsSection onDetailsChange={onDetailsChange} />
       <ConditionsSection
@@ -50,19 +42,17 @@ const BankingRuleModal = ({
         onPredicateChange={onPredicateChange}
         onPredicateRemove={onPredicateRemove}
       />
-      {
-        showShowAllocationSection && (
-          <AllocationSection
-            onDetailsChange={onDetailsChange}
-            onAddAllocationLine={onAddAllocationLine}
-            onUpdateAllocationLine={onUpdateAllocationLine}
-            onRemoveAllocationLine={onRemoveAllocationLine}
-          />
-        )
-      }
-      {
-        !showShowAllocationSection && <SuggestMatchSection onDetailsChange={onDetailsChange} />
-      }
+      {showShowAllocationSection && (
+        <AllocationSection
+          onDetailsChange={onDetailsChange}
+          onAddAllocationLine={onAddAllocationLine}
+          onUpdateAllocationLine={onUpdateAllocationLine}
+          onRemoveAllocationLine={onRemoveAllocationLine}
+        />
+      )}
+      {!showShowAllocationSection && (
+        <SuggestMatchSection onDetailsChange={onDetailsChange} />
+      )}
     </>
   );
 
@@ -77,14 +67,18 @@ const BankingRuleModal = ({
         <PageView isLoading={isSaving} view={view} />
       </Modal.Body>
       <Modal.Footer>
-        <Button type="secondary" onClick={onCancel} disabled={isSaving}>Cancel</Button>
-        <Button type="primary" onClick={onSave} disabled={isSaving}>Save</Button>
+        <Button type="secondary" onClick={onCancel} disabled={isSaving}>
+          Cancel
+        </Button>
+        <Button type="primary" onClick={onSave} disabled={isSaving}>
+          Save
+        </Button>
       </Modal.Footer>
     </Modal>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   showShowAllocationSection: getShouldShowAllocationSection(state),
   alert: getAlert(state),
   isSaving: getIsSaving(state),

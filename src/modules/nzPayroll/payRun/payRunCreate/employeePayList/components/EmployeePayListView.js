@@ -2,9 +2,7 @@ import { PageHead, Stepper } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getStepNumber, getStepperSteps,
-} from '../../PayRunSelectors';
+import { getStepNumber, getStepperSteps } from '../../PayRunSelectors';
 import EmployeePayActions from './EmployeePayActions';
 import EmployeePayHeader from '../../components/EmployeePayHeader';
 import EmployeePayTable from './EmployeesPayTable';
@@ -33,13 +31,11 @@ const EmployeePayListView = ({
       onEmployeePayItemBlur={onEmployeePayItemBlur}
       onDaysPaidChange={onDaysPaidChange}
     />
-    <EmployeePayActions
-      onNextButtonClick={onNextButtonClick}
-    />
+    <EmployeePayActions onNextButtonClick={onNextButtonClick} />
   </React.Fragment>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   stepNumber: getStepNumber(state),
   payRunSteps: getStepperSteps(state),
 });

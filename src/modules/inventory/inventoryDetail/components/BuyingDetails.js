@@ -1,10 +1,17 @@
 import {
-  Checkbox, CheckboxGroup, FieldGroup, Input, Tooltip,
+  Checkbox,
+  CheckboxGroup,
+  FieldGroup,
+  Input,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getBuyingDetails, getIsEnableForBuying } from '../inventoryDetailSelectors';
+import {
+  getBuyingDetails,
+  getIsEnableForBuying,
+} from '../inventoryDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
@@ -29,7 +36,7 @@ const BuyingDetails = ({
     <CheckboxGroup
       hideLabel
       label="isBuyItem"
-      renderCheckbox={props => (
+      renderCheckbox={(props) => (
         <Checkbox
           {...props}
           onChange={handleCheckboxChange(onEnableStateChange)}
@@ -58,12 +65,9 @@ const BuyingDetails = ({
       label="Unit of measure"
       disabled={!enabled}
       value={unitOfMeasure}
-      labelAccessory={(
-        <Tooltip>
-          Eg. boxes, cans, hours, kg
-          (max 5 characters)
-        </Tooltip>
-      )}
+      labelAccessory={
+        <Tooltip>Eg. boxes, cans, hours, kg (max 5 characters)</Tooltip>
+      }
       onChange={handleInputChange(onBuyingDetailsChange)}
       maxLength={5}
       width="xs"
@@ -75,7 +79,10 @@ const BuyingDetails = ({
       items={buyingAccounts}
       selectedId={allocateToAccountId}
       allowClear
-      onChange={handleComboboxChange('allocateToAccountId', onBuyingDetailsChange)}
+      onChange={handleComboboxChange(
+        'allocateToAccountId',
+        onBuyingDetailsChange
+      )}
     />
     <TaxCodeCombobox
       items={taxCodes}
@@ -90,7 +97,7 @@ const BuyingDetails = ({
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...getBuyingDetails(state),
   enabled: getIsEnableForBuying(state),
 });

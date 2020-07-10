@@ -1,11 +1,12 @@
-import {
-  Alert, FormHorizontal, StandardTemplate,
-} from '@myob/myob-widgets';
+import { Alert, FormHorizontal, StandardTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsLoading, getModalType, getTitle,
+  getAlert,
+  getIsLoading,
+  getModalType,
+  getTitle,
 } from '../wagePayItemSelector';
 import DetailsView from './DetailsView';
 import EmployeeAllocationView from './EmployeeAllocationView';
@@ -53,11 +54,7 @@ const WagePayItemView = ({
   );
 
   const view = (
-    <StandardTemplate
-      pageHead={title}
-      alert={alertComponent}
-      sticky="none"
-    >
+    <StandardTemplate pageHead={title} alert={alertComponent} sticky="none">
       {modal}
       <div className={styles.payItemView}>
         <FormHorizontal>
@@ -90,7 +87,7 @@ const WagePayItemView = ({
   return <PageView isLoading={isLoading} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   title: getTitle(state),
   isLoading: getIsLoading(state),
   modalType: getModalType(state),

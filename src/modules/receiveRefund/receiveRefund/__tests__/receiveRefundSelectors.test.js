@@ -1,10 +1,17 @@
-import { getIsBeforeStartOfFinancialYear, getRefundForCreate } from '../receiveRefundSelectors';
+import {
+  getIsBeforeStartOfFinancialYear,
+  getRefundForCreate,
+} from '../receiveRefundSelectors';
 
 describe('receiveRefundSelectors', () => {
   describe('getRefundForCreate', () => {
     [
       ['should return custom reference id', 'ABC001', 'ABC001'],
-      ['should return undefined if reference id is the same as auto-generated value', 'CR0001', undefined],
+      [
+        'should return undefined if reference id is the same as auto-generated value',
+        'CR0001',
+        undefined,
+      ],
       ['should return empty string if reference id empty string', '', ''],
     ].forEach((args) => {
       const [scenario, referenceId, expectedReferenceId] = args;
@@ -42,7 +49,7 @@ describe('receiveRefundSelectors', () => {
         const actual = getIsBeforeStartOfFinancialYear(state);
 
         expect(actual).toEqual(expected);
-      },
+      }
     );
   });
 });

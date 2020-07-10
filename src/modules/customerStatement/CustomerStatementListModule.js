@@ -30,7 +30,10 @@ export default class CustomerStatementListModule {
     this.setRootView = setRootView;
     this.store = new Store(customerStatementListReducer);
     this.dispatcher = createCustomerStatementListDispatcher(this.store);
-    this.integrator = createCustomerStatementListIntegrator(this.store, this.integration);
+    this.integrator = createCustomerStatementListIntegrator(
+      this.store,
+      this.integration
+    );
   }
 
   loadCustomerStatementList = () => {
@@ -44,7 +47,7 @@ export default class CustomerStatementListModule {
     };
 
     this.integrator.loadCustomerStatementList({ onSuccess, onFailure });
-  }
+  };
 
   sortAndfilterCustomerStatementList = () => {
     this.dispatcher.setTableLoadingState(true);
@@ -59,7 +62,10 @@ export default class CustomerStatementListModule {
       this.dispatcher.setAlert({ type: 'danger', message });
     };
 
-    this.integrator.sortAndfilterCustomerStatementList({ onSuccess, onFailure });
+    this.integrator.sortAndfilterCustomerStatementList({
+      onSuccess,
+      onFailure,
+    });
   };
 
   updateSortOrder = (orderBy) => {
@@ -107,7 +113,7 @@ export default class CustomerStatementListModule {
     };
 
     this.integrator.downloadPDF({ onSuccess, onFailure, templateOption });
-  }
+  };
 
   downloadPDF = () => {
     const state = this.store.getState();
@@ -138,7 +144,7 @@ export default class CustomerStatementListModule {
     };
 
     this.integrator.downloadPDF({ onSuccess, onFailure, templateOption });
-  }
+  };
 
   sendEmail = () => {
     if (getIsModalSubmitting(this.store.getState())) return;
@@ -161,9 +167,9 @@ export default class CustomerStatementListModule {
     };
 
     this.integrator.sendEmail({ onSuccess, onFailure });
-  }
+  };
 
-  openEmailModal = () => this.dispatcher.openModal(ModalType.EMAIL)
+  openEmailModal = () => this.dispatcher.openModal(ModalType.EMAIL);
 
   dismissModalAlert = () => this.dispatcher.setModalAlertMessage('');
 
@@ -179,8 +185,12 @@ export default class CustomerStatementListModule {
     const view = (
       <CustomerStatementListView
         onUpdateFilters={this.updateFilterOptions}
-        onUpdateTemplateAdditionalOptions={this.dispatcher.updateTemplateAdditionalOptions}
-        onToggleAllCustomerStatements={this.dispatcher.toggleAllCustomerStatements}
+        onUpdateTemplateAdditionalOptions={
+          this.dispatcher.updateTemplateAdditionalOptions
+        }
+        onToggleAllCustomerStatements={
+          this.dispatcher.toggleAllCustomerStatements
+        }
         onSelectCustomerStatement={this.dispatcher.selectCustomerStatement}
         onSelectPDFDropdown={this.selectPDFOption}
         onClickEmailButton={this.openEmailModal}
@@ -195,14 +205,10 @@ export default class CustomerStatementListModule {
       />
     );
 
-    const wrappedView = (
-      <Provider store={this.store}>
-        {view}
-      </Provider>
-    );
+    const wrappedView = <Provider store={this.store}>{view}</Provider>;
 
     this.setRootView(wrappedView);
-  }
+  };
 
   saveHandler = () => {
     const state = this.store.getState();
@@ -218,29 +224,36 @@ export default class CustomerStatementListModule {
         // DO NOTHING
         break;
     }
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,
   };
 
   run(context) {
-    const settings = loadSettings(context.businessId, RouteName.CUSTOMER_STATEMENT_LIST);
+    const settings = loadSettings(
+      context.businessId,
+      RouteName.CUSTOMER_STATEMENT_LIST
+    );
     this.dispatcher.setInitialState(context, settings);
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
-    this.store.subscribe(state => (
-      saveSettings(context.businessId, RouteName.CUSTOMER_STATEMENT_LIST, getSettings(state))
-    ));
+    this.store.subscribe((state) =>
+      saveSettings(
+        context.businessId,
+        RouteName.CUSTOMER_STATEMENT_LIST,
+        getSettings(state)
+      )
+    );
     this.loadCustomerStatementList();
   }
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   resetState = () => {
     this.dispatcher.resetState();
-  }
+  };
 }

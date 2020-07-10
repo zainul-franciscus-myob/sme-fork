@@ -36,10 +36,7 @@ describe('EmployeePayListSelectors', () => {
     it('returns false when all selected', () => {
       const state = {
         employeePayList: {
-          lines: [
-            { isSelected: true },
-            { isSelected: true },
-          ],
+          lines: [{ isSelected: true }, { isSelected: true }],
         },
       };
 
@@ -49,10 +46,7 @@ describe('EmployeePayListSelectors', () => {
     it('returns false when none selected', () => {
       const state = {
         employeePayList: {
-          lines: [
-            { isSelected: false },
-            { isSelected: false },
-          ],
+          lines: [{ isSelected: false }, { isSelected: false }],
         },
       };
 
@@ -62,10 +56,7 @@ describe('EmployeePayListSelectors', () => {
     it('returns true when some selected', () => {
       const state = {
         employeePayList: {
-          lines: [
-            { isSelected: true },
-            { isSelected: false },
-          ],
+          lines: [{ isSelected: true }, { isSelected: false }],
         },
       };
 
@@ -164,9 +155,9 @@ describe('EmployeePayListSelectors', () => {
           employeePayList: {
             ...state.employeePayList,
             lines: [
-              ...state.employeePayList.lines.map(line => ({
+              ...state.employeePayList.lines.map((line) => ({
                 ...line,
-                payItems: line.payItems.map(payItem => ({
+                payItems: line.payItems.map((payItem) => ({
                   ...payItem,
                   stpCategory: test.stpCategory,
                 })),
@@ -200,9 +191,9 @@ describe('EmployeePayListSelectors', () => {
         employeePayList: {
           ...state.employeePayList,
           lines: [
-            ...state.employeePayList.lines.map(line => ({
+            ...state.employeePayList.lines.map((line) => ({
               ...line,
-              payItems: line.payItems.map(payItem => ({
+              payItems: line.payItems.map((payItem) => ({
                 ...payItem,
                 stpCategory: 'something else',
               })),
@@ -229,7 +220,7 @@ describe('EmployeePayListSelectors', () => {
         employeePayList: {
           ...state.employeePayList,
           lines: [
-            ...state.employeePayList.lines.map(line => ({
+            ...state.employeePayList.lines.map((line) => ({
               ...line,
               isSelected: false,
             })),
@@ -269,7 +260,10 @@ describe('EmployeePayListSelectors', () => {
         it(`returns true when has ${test.stpCategory} and non empty amount`, () => {
           const modifiedLine = {
             ...line,
-            payItems: line.payItems.map(payItem => ({ ...payItem, stpCategory: test.stpCategory })),
+            payItems: line.payItems.map((payItem) => ({
+              ...payItem,
+              stpCategory: test.stpCategory,
+            })),
           };
 
           const actual = isEtpSelectionForLineShown(modifiedLine);
@@ -281,7 +275,10 @@ describe('EmployeePayListSelectors', () => {
       it('returns false when has no etp pay items', () => {
         const modifiedLine = {
           ...line,
-          payItems: line.payItems.map(payItem => ({ ...payItem, stpCategory: 'something else' })),
+          payItems: line.payItems.map((payItem) => ({
+            ...payItem,
+            stpCategory: 'something else',
+          })),
         };
 
         const actual = isEtpSelectionForLineShown(modifiedLine);
@@ -384,7 +381,10 @@ describe('EmployeePayListSelectors', () => {
       it(`true when has ${test.stpCategory}, non-empty amount and no etp code`, () => {
         const modifiedLine = {
           ...line,
-          payItems: line.payItems.map(payItem => ({ ...payItem, stpCategory: test.stpCategory })),
+          payItems: line.payItems.map((payItem) => ({
+            ...payItem,
+            stpCategory: test.stpCategory,
+          })),
         };
         const actual = isEtpAlertForLineShown(modifiedLine);
 
@@ -395,7 +395,10 @@ describe('EmployeePayListSelectors', () => {
     it('false when has no etp pay items', () => {
       const modifiedLine = {
         ...line,
-        payItems: line.payItems.map(payItem => ({ ...payItem, stpCategory: 'something else' })),
+        payItems: line.payItems.map((payItem) => ({
+          ...payItem,
+          stpCategory: 'something else',
+        })),
       };
 
       const actual = isEtpAlertForLineShown(modifiedLine);
@@ -446,7 +449,9 @@ describe('EmployeePayListSelectors', () => {
 
   describe('getWagePayItemEntries', () => {
     it('returns sorted wage pay item entries', () => {
-      const actualWagePayItemEntries = getWagePayItemEntries(employeePayList, { employeeId: '21' });
+      const actualWagePayItemEntries = getWagePayItemEntries(employeePayList, {
+        employeeId: '21',
+      });
 
       const expectedWagePayItemEntries = wagePayItemEntries;
 
@@ -551,7 +556,9 @@ describe('EmployeePayListSelectors', () => {
           baseSalaryWagePayItemId: '1',
         },
       };
-      const actualWagePayItemEntries = getWagePayItemEntries(state, { employeeId: '21' });
+      const actualWagePayItemEntries = getWagePayItemEntries(state, {
+        employeeId: '21',
+      });
 
       const expectedWagePayItemEntries = [
         {
@@ -578,17 +585,24 @@ describe('EmployeePayListSelectors', () => {
 
   describe('getDeductionPayItemEntries', () => {
     it('returns deduction pay item entries', () => {
-      const actualDeductionPayItemEntries = getDeductionPayItemEntries(employeePayList, { employeeId: '21' });
+      const actualDeductionPayItemEntries = getDeductionPayItemEntries(
+        employeePayList,
+        { employeeId: '21' }
+      );
 
       const expectedDeductionPayItemEntries = deductionPayItemEntries;
 
-      expect(actualDeductionPayItemEntries).toEqual(expectedDeductionPayItemEntries);
+      expect(actualDeductionPayItemEntries).toEqual(
+        expectedDeductionPayItemEntries
+      );
     });
   });
 
   describe('getTaxPayItemEntries', () => {
     it('returns tax pay item entries', () => {
-      const actualTaxPayItemEntries = getTaxPayItemEntries(employeePayList, { employeeId: '21' });
+      const actualTaxPayItemEntries = getTaxPayItemEntries(employeePayList, {
+        employeeId: '21',
+      });
 
       const expectedTaxPayItemEntries = taxPayItemEntries;
 
@@ -598,7 +612,10 @@ describe('EmployeePayListSelectors', () => {
 
   describe('getLeavePayItemEntries', () => {
     it('returns leave pay items with the hours field', () => {
-      const actualLeavePayItemEntries = getLeavePayItemEntries(employeePayList, { employeeId: '21' });
+      const actualLeavePayItemEntries = getLeavePayItemEntries(
+        employeePayList,
+        { employeeId: '21' }
+      );
 
       const expectedLeavePayItemEntries = leavePayItemEntries;
 
@@ -608,17 +625,24 @@ describe('EmployeePayListSelectors', () => {
 
   describe('getEmployerExpensePayItemEntries', () => {
     it('returns employer expense pay items without the hours field', () => {
-      const actualEmployerExpensePayItemEntries = getEmployerExpensePayItemEntries(employeePayList, { employeeId: '21' });
+      const actualEmployerExpensePayItemEntries = getEmployerExpensePayItemEntries(
+        employeePayList,
+        { employeeId: '21' }
+      );
 
       const expectedEmployerExpensePayItemEntries = employerExpensePayItemEntries;
 
-      expect(actualEmployerExpensePayItemEntries).toEqual(expectedEmployerExpensePayItemEntries);
+      expect(actualEmployerExpensePayItemEntries).toEqual(
+        expectedEmployerExpensePayItemEntries
+      );
     });
   });
 
   describe('getShouldShowWagePayItemTableRows', () => {
     it('returns true when employee has at least one wage pay item', () => {
-      const actual = getShouldShowWagePayItemTableRows(employeePayList, { employeeId: '21' });
+      const actual = getShouldShowWagePayItemTableRows(employeePayList, {
+        employeeId: '21',
+      });
       const expected = true;
 
       expect(actual).toEqual(expected);
@@ -627,15 +651,21 @@ describe('EmployeePayListSelectors', () => {
     it('returns false when employee has no wage pay item', () => {
       const state = {
         employeePayList: {
-          lines: [{
-            employeeId: '21',
-            payItems: [{
-              type: 'Tax',
-            }],
-          }],
+          lines: [
+            {
+              employeeId: '21',
+              payItems: [
+                {
+                  type: 'Tax',
+                },
+              ],
+            },
+          ],
         },
       };
-      const actual = getShouldShowWagePayItemTableRows(state, { employeeId: '21' });
+      const actual = getShouldShowWagePayItemTableRows(state, {
+        employeeId: '21',
+      });
       const expected = false;
 
       expect(actual).toEqual(expected);
@@ -644,7 +674,9 @@ describe('EmployeePayListSelectors', () => {
 
   describe('getShouldShowDeductionPayItemTableRows', () => {
     it('returns true when employee has at least one deduction pay item', () => {
-      const actual = getShouldShowDeductionPayItemTableRows(employeePayList, { employeeId: '21' });
+      const actual = getShouldShowDeductionPayItemTableRows(employeePayList, {
+        employeeId: '21',
+      });
       const expected = true;
 
       expect(actual).toEqual(expected);
@@ -653,15 +685,21 @@ describe('EmployeePayListSelectors', () => {
     it('returns false when employee has no deduction pay item', () => {
       const state = {
         employeePayList: {
-          lines: [{
-            employeeId: '21',
-            payItems: [{
-              type: 'Tax',
-            }],
-          }],
+          lines: [
+            {
+              employeeId: '21',
+              payItems: [
+                {
+                  type: 'Tax',
+                },
+              ],
+            },
+          ],
         },
       };
-      const actual = getShouldShowDeductionPayItemTableRows(state, { employeeId: '21' });
+      const actual = getShouldShowDeductionPayItemTableRows(state, {
+        employeeId: '21',
+      });
       const expected = false;
 
       expect(actual).toEqual(expected);
@@ -670,7 +708,9 @@ describe('EmployeePayListSelectors', () => {
 
   describe('getShouldShowTaxPayItemTableRows', () => {
     it('returns true when employee has at least one tax pay item', () => {
-      const actual = getShouldShowTaxPayItemTableRows(employeePayList, { employeeId: '21' });
+      const actual = getShouldShowTaxPayItemTableRows(employeePayList, {
+        employeeId: '21',
+      });
       const expected = true;
 
       expect(actual).toEqual(expected);
@@ -679,15 +719,21 @@ describe('EmployeePayListSelectors', () => {
     it('returns false when employee has no tax pay item', () => {
       const state = {
         employeePayList: {
-          lines: [{
-            employeeId: '21',
-            payItems: [{
-              type: 'Deduction',
-            }],
-          }],
+          lines: [
+            {
+              employeeId: '21',
+              payItems: [
+                {
+                  type: 'Deduction',
+                },
+              ],
+            },
+          ],
         },
       };
-      const actual = getShouldShowTaxPayItemTableRows(state, { employeeId: '21' });
+      const actual = getShouldShowTaxPayItemTableRows(state, {
+        employeeId: '21',
+      });
       const expected = false;
 
       expect(actual).toEqual(expected);
@@ -696,7 +742,9 @@ describe('EmployeePayListSelectors', () => {
 
   describe('getShouldShowLeavePayItemTableRows', () => {
     it('returns true when employee has at least one leave pay item', () => {
-      const actual = getShouldShowLeavePayItemTableRows(employeePayList, { employeeId: '21' });
+      const actual = getShouldShowLeavePayItemTableRows(employeePayList, {
+        employeeId: '21',
+      });
       const expected = true;
 
       expect(actual).toEqual(expected);
@@ -704,15 +752,21 @@ describe('EmployeePayListSelectors', () => {
     it('returns false when employee has no leave pay item', () => {
       const state = {
         employeePayList: {
-          lines: [{
-            employeeId: '21',
-            payItems: [{
-              type: 'Tax',
-            }],
-          }],
+          lines: [
+            {
+              employeeId: '21',
+              payItems: [
+                {
+                  type: 'Tax',
+                },
+              ],
+            },
+          ],
         },
       };
-      const actual = getShouldShowLeavePayItemTableRows(state, { employeeId: '21' });
+      const actual = getShouldShowLeavePayItemTableRows(state, {
+        employeeId: '21',
+      });
       const expected = false;
 
       expect(actual).toEqual(expected);
@@ -721,7 +775,9 @@ describe('EmployeePayListSelectors', () => {
 
   describe('getShouldShowEmployerExpensePayItemTableRows', () => {
     it('returns true when employee has at least one employer expense pay item', () => {
-      const actual = getShouldShowExpensePayItemTableRows(employeePayList, { employeeId: '21' });
+      const actual = getShouldShowExpensePayItemTableRows(employeePayList, {
+        employeeId: '21',
+      });
       const expected = true;
 
       expect(actual).toEqual(expected);
@@ -729,15 +785,21 @@ describe('EmployeePayListSelectors', () => {
     it('returns false when employee has no employer expense pay item', () => {
       const state = {
         employeePayList: {
-          lines: [{
-            employeeId: '21',
-            payItems: [{
-              type: 'Tax',
-            }],
-          }],
+          lines: [
+            {
+              employeeId: '21',
+              payItems: [
+                {
+                  type: 'Tax',
+                },
+              ],
+            },
+          ],
         },
       };
-      const actual = getShouldShowExpensePayItemTableRows(state, { employeeId: '21' });
+      const actual = getShouldShowExpensePayItemTableRows(state, {
+        employeeId: '21',
+      });
       const expected = false;
 
       expect(actual).toEqual(expected);
@@ -747,7 +809,10 @@ describe('EmployeePayListSelectors', () => {
   describe('getRecalculatedPayPayload', () => {
     it('returns the payload to recalculate the pay for a particular employee', () => {
       const actualPayload = getRecalculatePayPayload({
-        state: employeePayList, employeeId: '21', payItemId: '2', key: 'hours',
+        state: employeePayList,
+        employeeId: '21',
+        payItemId: '2',
+        key: 'hours',
       });
       const expectedPayload = expectedRecalculatePayPayload;
 
@@ -758,13 +823,13 @@ describe('EmployeePayListSelectors', () => {
   describe('getLeaveWarning', () => {
     const leaveWarning = {
       currentLeaveBalance: 10,
-      leaveAccruedThisPay: 15.50,
+      leaveAccruedThisPay: 15.5,
       leaveBeingPaid: 38,
-      projectedLeaveBalance: -12.50,
+      projectedLeaveBalance: -12.5,
     };
 
     it('should return null if inputHours is less than 0', () => {
-      const actual = getLeaveWarning(-10.00, leaveWarning);
+      const actual = getLeaveWarning(-10.0, leaveWarning);
       expect(actual).toEqual(null);
     });
 
@@ -775,13 +840,13 @@ describe('EmployeePayListSelectors', () => {
 
     describe('inputHours is greater than 0', () => {
       it('should return null if leave warning is null', () => {
-        const actual = getLeaveWarning(10.00, null);
+        const actual = getLeaveWarning(10.0, null);
         expect(actual).toEqual(null);
       });
 
       describe('leave warning is not null', () => {
         it('should format the warning hours if the project balance is less than 0', () => {
-          const actual = getLeaveWarning(10.00, leaveWarning);
+          const actual = getLeaveWarning(10.0, leaveWarning);
           const expected = {
             currentLeaveBalance: '10.00',
             leaveAccruedThisPay: '15.50',
@@ -793,18 +858,18 @@ describe('EmployeePayListSelectors', () => {
         });
 
         it('should return null if the project balance is 0', () => {
-          const actual = getLeaveWarning(
-            10.00,
-            { ...leaveWarning, ...{ projectedLeaveBalance: 0 } },
-          );
+          const actual = getLeaveWarning(10.0, {
+            ...leaveWarning,
+            ...{ projectedLeaveBalance: 0 },
+          });
           expect(actual).toEqual(null);
         });
 
         it('should return null if the project balance is greater than 0', () => {
-          const actual = getLeaveWarning(
-            10.00,
-            { ...leaveWarning, ...{ projectedLeaveBalance: 2 } },
-          );
+          const actual = getLeaveWarning(10.0, {
+            ...leaveWarning,
+            ...{ projectedLeaveBalance: 2 },
+          });
           expect(actual).toEqual(null);
         });
       });
@@ -847,7 +912,7 @@ describe('EmployeePayListSelectors', () => {
         ],
         selectedPayItem: {
           payItemId: '38',
-          amount: 100.00,
+          amount: 100.0,
           jobs: [
             {
               jobId: 1,
@@ -864,46 +929,64 @@ describe('EmployeePayListSelectors', () => {
         lines: [
           {
             employeeId: 21,
-            payItems: [{
-              payItemId: '38',
-              jobs: [
-                {
-                  jobId: 1,
-                  amount: 10,
-                },
-                {
-                  jobId: 2,
-                  amount: 20,
-                },
-              ],
-            }, { payItemId: '39', jobs: [] }],
+            payItems: [
+              {
+                payItemId: '38',
+                jobs: [
+                  {
+                    jobId: 1,
+                    amount: 10,
+                  },
+                  {
+                    jobId: 2,
+                    amount: 20,
+                  },
+                ],
+              },
+              { payItemId: '39', jobs: [] },
+            ],
             isSelected: false,
           },
           {
             employeeId: 23,
-            payItems: [{ payItemId: '39', jobs: [] }, { payItemId: '40', jobs: [] }],
+            payItems: [
+              { payItemId: '39', jobs: [] },
+              { payItemId: '40', jobs: [] },
+            ],
             isSelected: true,
           },
           {
             employeeId: 25,
-            payItems: [{ payItemId: '39', jobs: [] }, { payItemId: '40', jobs: [] }],
+            payItems: [
+              { payItemId: '39', jobs: [] },
+              { payItemId: '40', jobs: [] },
+            ],
             isSelected: true,
           },
         ],
         originalLines: [
           {
             employeeId: 21,
-            payItems: [{ payItemId: '38', jobs: [] }, { payItemId: '39', jobs: [] }],
+            payItems: [
+              { payItemId: '38', jobs: [] },
+              { payItemId: '39', jobs: [] },
+            ],
             isSelected: false,
           },
           {
             employeeId: 23,
-            payItems: [{ payItemId: '39', jobs: [] }, { payItemId: '40', jobs: [] }],
+            payItems: [
+              { payItemId: '39', jobs: [] },
+              { payItemId: '40', jobs: [] },
+            ],
             isSelected: true,
           },
           {
             employeeId: 25,
-            payItems: [{ payItemId: '39', jobs: [] }, { payItemId: '40', jobs: [] }],
+            payItems: [
+              { payItemId: '39', jobs: [] },
+              { payItemId: '40', jobs: [] },
+            ],
             isSelected: true,
           },
         ],

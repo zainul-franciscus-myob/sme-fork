@@ -1,28 +1,18 @@
-import {
-  Select,
-} from '@myob/myob-widgets';
+import { Select } from '@myob/myob-widgets';
 import React from 'react';
 
 import { Tabs as FeelixTabs } from '../Feelix/Tabs/Tabs';
 import styles from './Tabs.module.css';
 
-const handleSelectChange = handler => (e) => {
+const handleSelectChange = (handler) => (e) => {
   const { value } = e.target;
   handler(value);
 };
 
-const Tabs = ({
-  items,
-  selected,
-  onSelected,
-}) => (
+const Tabs = ({ items, selected, onSelected }) => (
   <>
     <div className={styles.tabs}>
-      <FeelixTabs
-        items={items}
-        selected={selected}
-        onSelected={onSelected}
-      />
+      <FeelixTabs items={items} selected={selected} onSelected={onSelected} />
     </div>
     <div className={styles.select}>
       <Select

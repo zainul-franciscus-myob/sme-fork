@@ -16,12 +16,7 @@ import GeneralJournalDetailRow from './GeneralJournalDetailRow';
 
 const GeneralJournalDetailTable = ({
   tableData,
-  amountTotals: {
-    totalDebit,
-    totalCredit,
-    totalTax,
-    totalOutOfBalance,
-  },
+  amountTotals: { totalDebit, totalCredit, totalTax, totalOutOfBalance },
   indexOfLastLine,
   isOutOfBalance,
   taxLabel,
@@ -75,7 +70,9 @@ const GeneralJournalDetailTable = ({
       label: 'Description',
       styles: {},
     },
-    ...(isGeneralJournalJobColumnEnabled ? [{ label: 'Job', styles: { width: '8.4rem', align: 'left' } }] : []),
+    ...(isGeneralJournalJobColumnEnabled
+      ? [{ label: 'Job', styles: { width: '8.4rem', align: 'left' } }]
+      : []),
     {
       label: taxCodeLabel,
       requiredLabel: 'Required',
@@ -119,13 +116,18 @@ const GeneralJournalDetailTable = ({
         <LineItemTable.Totals title="Total debit" amount={totalDebit} />
         <LineItemTable.Totals title="Total credit" amount={totalCredit} />
         <LineItemTable.Totals title={taxLabel} amount={totalTax} />
-        <LineItemTable.Totals totalAmount type={isOutOfBalance && 'danger'} title="Out of balance" amount={totalOutOfBalance} />
+        <LineItemTable.Totals
+          totalAmount
+          type={isOutOfBalance && 'danger'}
+          title="Out of balance"
+          amount={totalOutOfBalance}
+        />
       </LineItemTable.Total>
     </LineItemTable>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   amountTotals: getTotals(state),
   indexOfLastLine: getIndexOfLastLine(state),
   tableData: getTableData(state),

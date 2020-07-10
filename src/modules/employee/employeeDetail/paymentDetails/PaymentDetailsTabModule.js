@@ -4,12 +4,7 @@ import EmployeeDetailPaymentDetails from './components/EmployeeDetailPaymentDeta
 import createPaymentDetailsTabDispatchers from './createPaymentDetailsTabDispatchers';
 
 export default class PaymentDetailsTabModule {
-  constructor({
-    integration,
-    store,
-    pushMessage,
-    globalCallbacks,
-  }) {
+  constructor({ integration, store, pushMessage, globalCallbacks }) {
     this.integration = integration;
     this.pushMessage = pushMessage;
     this.dispatchers = createPaymentDetailsTabDispatchers(store);

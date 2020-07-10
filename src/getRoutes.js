@@ -56,7 +56,7 @@ import getTransactionListRoutes from './modules/transactionList/getTransactionLi
 import getTransferMoneyRoutes from './modules/transferMoney/getTransferMoneyRoutes';
 import getUserRoutes from './modules/user/getUserRoutes';
 
-const getRoutes = moduleParams => [
+const getRoutes = (moduleParams) => [
   ...getBusinessListRoutes(moduleParams),
   ...getGeneralJournalRoutes(moduleParams),
   ...getSpendMoneyRoutes(moduleParams),

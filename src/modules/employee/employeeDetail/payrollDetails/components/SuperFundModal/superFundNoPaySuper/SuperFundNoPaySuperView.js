@@ -1,5 +1,9 @@
 import {
-  Field, Icons, RadioButton, RadioButtonGroup, Tooltip,
+  Field,
+  Icons,
+  RadioButton,
+  RadioButtonGroup,
+  Tooltip,
 } from '@myob/myob-widgets';
 import React from 'react';
 
@@ -17,7 +21,7 @@ const SuperFundNoPaySuperView = ({
       <RadioButtonGroup
         label="Type"
         name="fundType"
-        renderRadios={() => ([
+        renderRadios={() => [
           <RadioButton
             key={standardSuperFund.name}
             name="fundType"
@@ -31,32 +35,34 @@ const SuperFundNoPaySuperView = ({
             label={selfManagedSuperFund.name}
             value={selfManagedSuperFund.value}
             disabled
-            labelAccessory={(
+            labelAccessory={
               <Tooltip>
                 You can only select an SMSF if you sign up to Pay super
               </Tooltip>
-            )}
+            }
           />,
-        ])}
+        ]}
       />
-      <SuperFundDetailSection superFundModalListeners={superFundModalListeners} />
-      <SuperFundContactDetails superFundModalListeners={superFundModalListeners} />
+      <SuperFundDetailSection
+        superFundModalListeners={superFundModalListeners}
+      />
+      <SuperFundContactDetails
+        superFundModalListeners={superFundModalListeners}
+      />
       <Field
         label="Sign up for Pay super"
         hideLabel
-        renderField={
-              () => (
-                <LinkButton
-                  href={signUpForPaySuperUrl}
-                  align="center"
-                  icon={<Icons.OpenExternalLink />}
-                  iconRight
-                  isOpenInNewTab
-                >
-                  Sign up for Pay super
-                </LinkButton>
-              )
-            }
+        renderField={() => (
+          <LinkButton
+            href={signUpForPaySuperUrl}
+            align="center"
+            icon={<Icons.OpenExternalLink />}
+            iconRight
+            isOpenInNewTab
+          >
+            Sign up for Pay super
+          </LinkButton>
+        )}
       />
     </>
   );

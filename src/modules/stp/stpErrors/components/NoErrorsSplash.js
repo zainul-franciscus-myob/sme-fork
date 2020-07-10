@@ -1,6 +1,4 @@
-import {
-  Button, PageHead, PageState,
-} from '@myob/myob-widgets';
+import { Button, PageHead, PageState } from '@myob/myob-widgets';
 import React from 'react';
 
 import StandardTemplate from '../../../../components/Feelix/StandardTemplate/StandardTemplate';
@@ -10,7 +8,11 @@ const StpSplash = ({ onGetStartedClick }) => (
   <PageState
     title="All clear! No more errors"
     description="Now you can start to set up Single Touch Payroll reporting"
-    actions={[<Button type="primary" onClick={onGetStartedClick}>Get started</Button>]}
+    actions={[
+      <Button type="primary" onClick={onGetStartedClick}>
+        Get started
+      </Button>,
+    ]}
     image={<img src={successDoneCompleteImage} alt="All clear!" />}
   />
 );
@@ -19,7 +21,11 @@ const PayRunCreateSplash = ({ onDoneClick }) => (
   <PageState
     title="Single Touch Payroll ready!"
     description="All of your payroll information meets ATO requirements for Single Touch Payroll reporting."
-    actions={[<Button type="primary" onClick={onDoneClick}>Done</Button>]}
+    actions={[
+      <Button type="primary" onClick={onDoneClick}>
+        Done
+      </Button>,
+    ]}
     image={<img src={successDoneCompleteImage} alt="All clear!" />}
   />
 );

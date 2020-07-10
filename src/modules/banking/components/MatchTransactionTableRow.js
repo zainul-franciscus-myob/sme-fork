@@ -1,6 +1,4 @@
-import {
-  Checkbox, Label, Table, Tooltip,
-} from '@myob/myob-widgets';
+import { Checkbox, Label, Table, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
 
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
@@ -16,10 +14,7 @@ const handleSelectionChange = (index, handler) => (e) => {
   handler({ index, selected: checked });
 };
 
-const InfoMessage = ({
-  overAmount,
-  type,
-}) => {
+const InfoMessage = ({ overAmount, type }) => {
   const isCredit = type === 'Sale';
   const creditOrDebit = isCredit ? 'credit' : 'debit';
   const page = isCredit ? 'Customer returns' : 'Supplier returns';
@@ -30,8 +25,7 @@ const InfoMessage = ({
         This payment will create a&nbsp;
         <b>{overAmount}</b>
         &nbsp;
-        {creditOrDebit}
-        .
+        {creditOrDebit}.
       </div>
       <br />
       <div>
@@ -70,7 +64,9 @@ const MatchTransactionTableRow = React.memo((props) => {
   const rowClass = selected ? styles.selected : '';
 
   const entryLink = link ? (
-    <a href={link} target="_blank" rel="noopener noreferrer">{referenceId}</a>
+    <a href={link} target="_blank" rel="noopener noreferrer">
+      {referenceId}
+    </a>
   ) : (
     <Tooltip placement="bottom" triggerContent={referenceId}>
       This transaction type can only be viewed and edited from your desktop
@@ -91,14 +87,22 @@ const MatchTransactionTableRow = React.memo((props) => {
       </Table.RowItem>
       <Table.RowItem {...tableConfig.date}>{date}</Table.RowItem>
       <Table.RowItem {...tableConfig.referenceId}>{entryLink}</Table.RowItem>
-      <Table.RowItem {...tableConfig.description} className={styles.descriptionContainer}>
+      <Table.RowItem
+        {...tableConfig.description}
+        className={styles.descriptionContainer}
+      >
         <div className={styles.description}>{description}</div>
-        { badgeText && <Label color={badgeColor && badgeColor} type="boxed" size="small">{badgeText}</Label>}
+        {badgeText && (
+          <Label color={badgeColor && badgeColor} type="boxed" size="small">
+            {badgeText}
+          </Label>
+        )}
       </Table.RowItem>
-      <Table.RowItem {...tableConfig.amount}>{displayTotalAmount}</Table.RowItem>
+      <Table.RowItem {...tableConfig.amount}>
+        {displayTotalAmount}
+      </Table.RowItem>
       <Table.RowItem {...tableConfig.discount}>
-        {allowCustomAmount
-        && (
+        {allowCustomAmount && (
           <AmountInput
             name="discountAmount"
             value={discountAmount}
@@ -118,7 +122,9 @@ const MatchTransactionTableRow = React.memo((props) => {
           textAlign="right"
           disabled={!allowCustomAmount}
           maxLength={13}
-          infoBody={overAmount && <InfoMessage type={type} overAmount={overAmount} />}
+          infoBody={
+            overAmount && <InfoMessage type={type} overAmount={overAmount} />
+          }
           onChange={handleAmountChange(index, onUpdate)}
           onBlur={handleAmountChange(index, onUpdate)}
           numeralDecimalScaleMin={2}

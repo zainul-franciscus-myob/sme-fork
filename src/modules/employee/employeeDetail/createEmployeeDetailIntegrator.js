@@ -17,9 +17,7 @@ const createEmployeeDetailIntegrator = (store, integration) => ({
     const state = store.getState();
     const isCreating = getIsCreating(state);
 
-    const intent = isCreating
-      ? LOAD_NEW_EMPLOYEE_DETAIL
-      : LOAD_EMPLOYEE_DETAIL;
+    const intent = isCreating ? LOAD_NEW_EMPLOYEE_DETAIL : LOAD_EMPLOYEE_DETAIL;
 
     const businessId = getBusinessId(state);
     const employeeId = isCreating ? undefined : getEmployeeId(state);
@@ -38,9 +36,7 @@ const createEmployeeDetailIntegrator = (store, integration) => ({
     const state = store.getState();
     const isCreating = getIsCreating(state);
 
-    const intent = isCreating
-      ? CREATE_EMPLOYEE
-      : UPDATE_EMPLOYEE;
+    const intent = isCreating ? CREATE_EMPLOYEE : UPDATE_EMPLOYEE;
 
     const businessId = getBusinessId(state);
     const employeeId = isCreating ? undefined : getEmployeeId(state);

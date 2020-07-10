@@ -1,9 +1,4 @@
-import {
-  Alert,
-  Button,
-  PageHead,
-  Table,
-} from '@myob/myob-widgets';
+import { Alert, Button, PageHead, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -82,11 +77,7 @@ const JobListView = (props) => {
     </Alert>
   );
 
-  const filterBar = (
-    <JobListFilterOptions
-      onUpdateFilters={onUpdateFilters}
-    />
-  );
+  const filterBar = <JobListFilterOptions onUpdateFilters={onUpdateFilters} />;
 
   const pageHead = (
     <PageHead title="Jobs">
@@ -109,7 +100,7 @@ const JobListView = (props) => {
         >
           Job name
         </Table.HeaderItem>
-        { showStatusColumn ? statusColumnHeader({ tableConfig }) : undefined }
+        {showStatusColumn ? statusColumnHeader({ tableConfig }) : undefined}
         <Table.HeaderItem
           columnName={tableConfig.income.columnName}
           {...tableConfig.income.headerStyle}
@@ -157,7 +148,7 @@ const JobListView = (props) => {
   return <PageView loadingState={loadingState} view={jobListView} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   loadingState: getLoadingState(state),
   showStatusColumn: getShowStatusColumn(state),

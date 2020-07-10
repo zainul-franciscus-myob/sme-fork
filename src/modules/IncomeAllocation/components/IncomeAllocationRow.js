@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getLineDataByIndexSelector, getNewLineData,
+  getLineDataByIndexSelector,
+  getNewLineData,
 } from '../IncomeAllocationSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 
@@ -40,11 +41,7 @@ const IncomeAllocationRow = (props) => {
   } = data;
 
   return (
-    <LineItemTable.Row
-      id={index}
-      index={index}
-      {...feelixInjectedProps}
-    >
+    <LineItemTable.Row id={index} index={index} {...feelixInjectedProps}>
       <AccountCombobox
         items={headerAccounts}
         selectedId={headerAccountId}
@@ -73,7 +70,8 @@ const IncomeAllocationRow = (props) => {
         step="0.01"
         onBlur={onRowInputBlur(index)}
       />
-    </LineItemTable.Row>);
+    </LineItemTable.Row>
+  );
 };
 
 const makeMapRowStateToProps = () => {

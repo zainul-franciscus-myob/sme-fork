@@ -17,10 +17,16 @@ const getInvoiceRoutes = ({
     {
       name: RouteName.INVOICE_LIST,
       path: '/:region/:businessId/invoice/',
-      allowedParams: ['dateFrom', 'dateTo', 'keywords', 'customerId', 'status', 'orderBy', 'sortOrder'],
-      module: new InvoiceListModule(
-        { integration, setRootView, popMessages },
-      ),
+      allowedParams: [
+        'dateFrom',
+        'dateTo',
+        'keywords',
+        'customerId',
+        'status',
+        'orderBy',
+        'sortOrder',
+      ],
+      module: new InvoiceListModule({ integration, setRootView, popMessages }),
       documentTitle: 'Invoices',
     },
     {

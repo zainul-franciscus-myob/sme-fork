@@ -1,7 +1,4 @@
-import {
-  Button,
-  ButtonRow,
-} from '@myob/myob-widgets';
+import { Button, ButtonRow } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -16,16 +13,27 @@ const UserDetailButtons = ({
 }) => (
   <ButtonRow
     primary={[
-      <Button key="cancel" name="cancel" type="secondary" onClick={onCancelButtonClick} disabled={isActionsDisabled}>
+      <Button
+        key="cancel"
+        name="cancel"
+        type="secondary"
+        onClick={onCancelButtonClick}
+        disabled={isActionsDisabled}
+      >
         Cancel
       </Button>,
-      <Button key="save" name="save" type="primary" onClick={onSaveButtonClick} disabled={isActionsDisabled}>
+      <Button
+        key="save"
+        name="save"
+        type="primary"
+        onClick={onSaveButtonClick}
+        disabled={isActionsDisabled}
+      >
         {isCreating ? 'Save and send invitation' : 'Save'}
       </Button>,
     ]}
     secondary={[
-      !isCreating
-      && (
+      !isCreating && (
         <Button
           key="delete"
           name="delete"
@@ -40,7 +48,7 @@ const UserDetailButtons = ({
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isCreating: getIsCreating(state),
   isActionsDisabled: getIsActionsDisabled(state),
 });

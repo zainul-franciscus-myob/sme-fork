@@ -1,7 +1,4 @@
-import {
-  Card,
-  PageHead,
-} from '@myob/myob-widgets';
+import { Card, PageHead } from '@myob/myob-widgets';
 import React from 'react';
 
 import StickyHeader from '../StickyHeader/StickyHeader';
@@ -48,7 +45,8 @@ const LineItemTemplate = ({
   const hasFluid = fluid ? 'flx-container--fluid' : '';
   const hasCozy = cozy ? 'flx-container--cozy' : '';
   const hasWcagAA = wcagAA ? 'flx-container--aa' : '';
-  const safePageHead = typeof pageHead === 'string' ? <PageHead title={pageHead} /> : pageHead;
+  const safePageHead =
+    typeof pageHead === 'string' ? <PageHead title={pageHead} /> : pageHead;
   const safeAlert = alert && (
     <div className="flx-template__alert flx-template-line-item__alert">
       {alert}

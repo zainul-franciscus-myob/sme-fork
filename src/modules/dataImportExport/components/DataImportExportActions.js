@@ -2,7 +2,10 @@ import { Button, ButtonRow } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsActionDisabled, getTab } from '../selectors/DataImportExportSelectors';
+import {
+  getIsActionDisabled,
+  getTab,
+} from '../selectors/DataImportExportSelectors';
 import TabItem from '../types/TabItem';
 
 const DataImportExportActions = ({
@@ -18,15 +21,17 @@ const DataImportExportActions = ({
       onClick={onSaveButtonClick}
       disabled={isActionDisabled}
     >
-      {{
-        [TabItem.IMPORT]: 'Import',
-        [TabItem.EXPORT]: 'Export',
-      }[selectedTab]}
+      {
+        {
+          [TabItem.IMPORT]: 'Import',
+          [TabItem.EXPORT]: 'Export',
+        }[selectedTab]
+      }
     </Button>
   </ButtonRow>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isActionDisabled: getIsActionDisabled(state),
   selectedTab: getTab(state),
 });

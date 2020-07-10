@@ -28,21 +28,26 @@ import validatePayPeriodEmployeeLimit from './data/payRun/validatePayPeriodEmplo
 const PayRunMapping = {
   [START_NEW_PAY_RUN]: ({ onSuccess }) => onSuccess(startNewPayRun),
   [LOAD_EMPLOYEE_PAYS]: ({ onSuccess }) => onSuccess(loadEmployeePayList),
-  [VALIDATE_STP_REGISTRATION]: ({ onSuccess }) => onSuccess({ hasRegistrationErrors: true }),
+  [VALIDATE_STP_REGISTRATION]: ({ onSuccess }) =>
+    onSuccess({ hasRegistrationErrors: true }),
   [VALIDATE_ETP]: ({ onSuccess }) => onSuccess(validateEtp),
-  [VALIDATE_PAY_PERIOD_EMPLOYEE_LIMIT]: ({ onSuccess }) => (
-    onSuccess(validatePayPeriodEmployeeLimit)
-  ),
+  [VALIDATE_PAY_PERIOD_EMPLOYEE_LIMIT]: ({ onSuccess }) =>
+    onSuccess(validatePayPeriodEmployeeLimit),
   [RECALCULATE_PAY]: ({ onSuccess }) => onSuccess(recalculatedEmployeePay),
   [RECORD_PAYMENTS]: ({ onSuccess }) => onSuccess(recordPayments),
   [GET_DETAIL_JOB_LIST]: ({ onSuccess }) => onSuccess(detailJobList),
   [DELETE_PAY_RUN_DRAFT]: ({ onSuccess }) => onSuccess({}),
-  [LOAD_STP_REGISTRATION_STATUS]: ({ onSuccess }) => onSuccess(stpRegistrationStatus),
-  [EXPORT_TRANSACTION_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
-  [SAVE_DRAFT]: ({ onSuccess }) => onSuccess({ message: 'Saved the draft successfully' }),
+  [LOAD_STP_REGISTRATION_STATUS]: ({ onSuccess }) =>
+    onSuccess(stpRegistrationStatus),
+  [EXPORT_TRANSACTION_PDF]: ({ onSuccess }) =>
+    onSuccess(new Blob([], { type: 'application/pdf' })),
+  [SAVE_DRAFT]: ({ onSuccess }) =>
+    onSuccess({ message: 'Saved the draft successfully' }),
   [LOAD_TIMESHEETS]: ({ onSuccess }) => onSuccess(loadTimesheets),
-  [PREVIEW_PAY_DETAILS]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
-  [PREVIEW_PAY_RUN_ACTIVITY]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
+  [PREVIEW_PAY_DETAILS]: ({ onSuccess }) =>
+    onSuccess(new Blob([], { type: 'application/pdf' })),
+  [PREVIEW_PAY_RUN_ACTIVITY]: ({ onSuccess }) =>
+    onSuccess(new Blob([], { type: 'application/pdf' })),
 };
 
 export default PayRunMapping;

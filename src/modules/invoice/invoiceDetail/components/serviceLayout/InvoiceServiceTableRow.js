@@ -26,7 +26,7 @@ const onComboboxChange = (name, onChange) => (item) => {
   });
 };
 
-const handleAmountInputChange = onChange => (e) => {
+const handleAmountInputChange = (onChange) => (e) => {
   onChange({
     target: {
       name: e.target.name,
@@ -82,11 +82,7 @@ const InvoiceServiceTableRow = ({
   }
 
   return (
-    <LineItemTable.Row
-      index={index}
-      id={index}
-      {...feelixInjectedProps}
-    >
+    <LineItemTable.Row index={index} id={index} {...feelixInjectedProps}>
       <TextArea
         name="description"
         autoSize
@@ -116,16 +112,18 @@ const InvoiceServiceTableRow = ({
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
-      {isInvoiceJobColumnEnabled && <JobCombobox
-        label="Job"
-        onChange={onChangeJobId}
-        addNewJob={() => onAddJob(onChangeJobId)}
-        items={lineJobOptions}
-        selectedId={jobId}
-        disabled={isSubmitting || isReadOnly}
-        allowClear
-        left
-      />}
+      {isInvoiceJobColumnEnabled && (
+        <JobCombobox
+          label="Job"
+          onChange={onChangeJobId}
+          addNewJob={() => onAddJob(onChangeJobId)}
+          items={lineJobOptions}
+          selectedId={jobId}
+          disabled={isSubmitting || isReadOnly}
+          allowClear
+          left
+        />
+      )}
       <TaxCodeCombobox
         label="Tax code"
         hideLabel

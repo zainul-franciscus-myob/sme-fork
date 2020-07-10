@@ -5,14 +5,9 @@ import React from 'react';
 import { getTableEntries } from '../userListSelectors';
 
 const UserListTableBody = (props) => {
-  const {
-    tableConfig,
-    entries,
-  } = props;
+  const { tableConfig, entries } = props;
 
-  const rows = entries.map(({
-    id, link, name, advisor, email, status,
-  }) => (
+  const rows = entries.map(({ id, link, name, advisor, email, status }) => (
     <Table.Row key={id}>
       <Table.RowItem {...tableConfig.name}>
         <a href={link}>{name}</a>
@@ -25,11 +20,7 @@ const UserListTableBody = (props) => {
     </Table.Row>
   ));
 
-  return (
-    <Table.Body>
-      {rows}
-    </Table.Body>
-  );
+  return <Table.Body>{rows}</Table.Body>;
 };
 
 const mapStateToProps = (state, props) => ({

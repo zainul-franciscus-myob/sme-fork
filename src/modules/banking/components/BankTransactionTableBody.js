@@ -133,12 +133,11 @@ const BankTransactionTableBody = (props) => {
     },
   }[activeTabId];
 
-  const openEntryPrimaryContent = isOpenEntryLoading ? spinner : (
+  const openEntryPrimaryContent = isOpenEntryLoading ? (
+    spinner
+  ) : (
     <>
-      <BankTransactionTabs
-        selected={activeTabId}
-        onSelected={onTabChange}
-      />
+      <BankTransactionTabs selected={activeTabId} onSelected={onTabChange} />
       <Content {...contentProps} />
     </>
   );
@@ -146,12 +145,12 @@ const BankTransactionTableBody = (props) => {
   const openEntry = (
     <Card
       classes={[styles.openEntryCard]}
-      body={(
+      body={
         <Card.Body
           classes={[styles.openEntryCardBody]}
-          child={(
+          child={
             <>
-              { openEntryPrimaryContent }
+              {openEntryPrimaryContent}
               <Separator />
               <OpenEntrySecondaryContent
                 onAddAttachments={onAddAttachments}
@@ -160,17 +159,15 @@ const BankTransactionTableBody = (props) => {
                 onLinkFromInTrayButtonClick={onLinkFromInTrayButtonClick}
               />
             </>
-          )}
+          }
         />
-      )}
-      footer={(
+      }
+      footer={
         <Card.Footer
           classes={[styles.openEntryCardFooter]}
-          child={(
-            <OpenEntryFooter {...footerProps} />
-        )}
+          child={<OpenEntryFooter {...footerProps} />}
         />
-      )}
+      }
     />
   );
 
@@ -195,20 +192,13 @@ const BankTransactionTableBody = (props) => {
       onPendingNoteChange={onPendingNoteChange}
       onNoteBlur={onNoteBlur}
     >
-      {openPosition === index
-          && (
-          <div className={styles.openEntry}>
-            { openEntry }
-          </div>
-          )}
+      {openPosition === index && (
+        <div className={styles.openEntry}>{openEntry}</div>
+      )}
     </BankTransactionTableRow>
   ));
 
-  return (
-    <React.Fragment>
-      {rows}
-    </React.Fragment>
-  );
+  return <React.Fragment>{rows}</React.Fragment>;
 };
 
 export default BankTransactionTableBody;

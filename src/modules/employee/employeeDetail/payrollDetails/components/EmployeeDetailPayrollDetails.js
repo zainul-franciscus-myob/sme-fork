@@ -203,9 +203,7 @@ const EmployeeDetailPayrollDetails = ({
   );
 
   const StandardPay = () => (
-    <PayrollStandardPayDetails
-      listeners={onPayrollStandardPayListeners}
-    />
+    <PayrollStandardPayDetails listeners={onPayrollStandardPayListeners} />
   );
 
   const PayHistory = () => (
@@ -232,18 +230,28 @@ const EmployeeDetailPayrollDetails = ({
         onSelected={onSubTabSelected}
       />
       <Content />
-      {leavePayItemModal && <LeavePayItemModal {...leavePayItemModalListeners} />}
-      {deductionPayItemModal && <DeductionPayItemModal {...deductionPayItemModalListeners} />}
-      {superPayItemModal && <SuperPayItemModal {...superPayItemModalListeners} />}
+      {leavePayItemModal && (
+        <LeavePayItemModal {...leavePayItemModalListeners} />
+      )}
+      {deductionPayItemModal && (
+        <DeductionPayItemModal {...deductionPayItemModalListeners} />
+      )}
+      {superPayItemModal && (
+        <SuperPayItemModal {...superPayItemModalListeners} />
+      )}
       {taxPayItemModal && <TaxPayItemModal {...taxPayItemModalListeners} />}
-      {expensePayItemModal && <ExpensePayItemModal {...expensePayItemModalListeners} />}
+      {expensePayItemModal && (
+        <ExpensePayItemModal {...expensePayItemModalListeners} />
+      )}
       {wagePayItemModal && <WagePayItemModal {...wagePayItemModalListeners} />}
-      {terminationConfirmModal && <TerminationConfirmModal {...terminationConfirmModalListeners} />}
+      {terminationConfirmModal && (
+        <TerminationConfirmModal {...terminationConfirmModalListeners} />
+      )}
     </Fragment>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedTab: getSubTab(state),
   leavePayItemModal: getLeavePayItemModal(state),
   deductionPayItemModal: getDeductionPayItemModal(state),

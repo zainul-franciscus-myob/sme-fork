@@ -1,5 +1,12 @@
 import {
-  Checkbox, CheckboxGroup, FieldGroup, Icons, Input, RadioButtonGroup, Select, Tooltip,
+  Checkbox,
+  CheckboxGroup,
+  FieldGroup,
+  Icons,
+  Input,
+  RadioButtonGroup,
+  Select,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -33,9 +40,10 @@ const DetailsView = ({
   isJobKeeper,
   onJobKeeperChange,
   isCreating,
-}) => (<FieldGroup label="Details">
-    {featureToggles && featureToggles.isJobKeeperTabEnabled
-      && <CheckboxGroup
+}) => (
+  <FieldGroup label="Details">
+    {featureToggles && featureToggles.isJobKeeperTabEnabled && (
+      <CheckboxGroup
         label="JobKeeper top-up payment"
         hideLabel
         renderCheckbox={() => (
@@ -50,7 +58,7 @@ const DetailsView = ({
           />
         )}
       />
-    }
+    )}
     <Input
       label="Name"
       name="name"
@@ -65,17 +73,20 @@ const DetailsView = ({
       value={wage.atoReportingCategory}
       disabled={isJobKeeper}
       onChange={handleSelectChange(onDetailsChange)}
-      labelAccessory={(
+      labelAccessory={
         <Tooltip triggerContent={<Icons.Info />}>
-          Select the ATO reporting category if you&apos;re using Single Touch Payroll.
+          Select the ATO reporting category if you&apos;re using Single Touch
+          Payroll.
         </Tooltip>
-      )}
-    >
-      {
-        atoReportCategoryList.map(category => (
-          <Select.Option key={category.value} value={category.value} label={category.name} />
-        ))
       }
+    >
+      {atoReportCategoryList.map((category) => (
+        <Select.Option
+          key={category.value}
+          value={category.value}
+          label={category.name}
+        />
+      ))}
     </Select>
     <RadioButtonGroup
       label="Pay basis"
@@ -85,7 +96,7 @@ const DetailsView = ({
       disabled={wage.isSystem || isJobKeeper}
       value={wage.payBasis}
     />
-    { isHourlyView ? (
+    {isHourlyView ? (
       <HourlySection
         onDetailsChange={onDetailsChange}
         onAmountInputBlur={onAmountInputBlur}
@@ -100,7 +111,7 @@ const DetailsView = ({
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   wage: getWage(state),
   accounts: getAccounts(state),
   payRateList: getPayRateList(state),

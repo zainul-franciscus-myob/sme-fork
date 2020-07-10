@@ -5,7 +5,10 @@ describe('OnboardingModule', () => {
     const dispatcher = jest.fn();
     const settingsService = jest.fn();
 
-    const onboardingModule = new OnboardingModule({ dispatcher, settingsService });
+    const onboardingModule = new OnboardingModule({
+      dispatcher,
+      settingsService,
+    });
     expect(onboardingModule).toBeDefined();
   });
 });

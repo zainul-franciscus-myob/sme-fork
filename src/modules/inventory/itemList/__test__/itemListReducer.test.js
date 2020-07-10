@@ -10,7 +10,9 @@ describe('itemListReducer', () => {
           hasNextPage: true,
         },
       };
-      expect(getLoadMoreButtonStatus(state)).toEqual(LoadMoreButtonStatuses.HIDDEN);
+      expect(getLoadMoreButtonStatus(state)).toEqual(
+        LoadMoreButtonStatuses.HIDDEN
+      );
     });
     it('should return HIDDEN when react last page', () => {
       const state = {
@@ -19,7 +21,9 @@ describe('itemListReducer', () => {
           hasNextPage: false,
         },
       };
-      expect(getLoadMoreButtonStatus(state)).toEqual(LoadMoreButtonStatuses.HIDDEN);
+      expect(getLoadMoreButtonStatus(state)).toEqual(
+        LoadMoreButtonStatuses.HIDDEN
+      );
     });
     it('should return LOADING when loading next page', () => {
       const state = {
@@ -29,7 +33,9 @@ describe('itemListReducer', () => {
           hasNextPage: true,
         },
       };
-      expect(getLoadMoreButtonStatus(state)).toEqual(LoadMoreButtonStatuses.LOADING);
+      expect(getLoadMoreButtonStatus(state)).toEqual(
+        LoadMoreButtonStatuses.LOADING
+      );
     });
     it('should return SHOWN when page loaded and not last page', () => {
       const state = {
@@ -39,7 +45,9 @@ describe('itemListReducer', () => {
           hasNextPage: true,
         },
       };
-      expect(getLoadMoreButtonStatus(state)).toEqual(LoadMoreButtonStatuses.SHOWN);
+      expect(getLoadMoreButtonStatus(state)).toEqual(
+        LoadMoreButtonStatuses.SHOWN
+      );
     });
   });
 });

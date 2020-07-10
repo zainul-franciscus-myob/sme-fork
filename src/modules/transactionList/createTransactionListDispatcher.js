@@ -16,13 +16,10 @@ import {
 } from './TransactionListIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 
-const createTransactionListDispatcher = store => ({
+const createTransactionListDispatcher = (store) => ({
   setInitialState: (context, settings = { filterOptions: {} }) => {
     const intent = SET_INITIAL_STATE;
-    const {
-      sourceJournal,
-      ...rest
-    } = context;
+    const { sourceJournal, ...rest } = context;
 
     store.dispatch({
       intent,
@@ -85,10 +82,11 @@ const createTransactionListDispatcher = store => ({
     });
   },
 
-  setLastLoadingTab: (tabId) => store.dispatch({
-    intent: SET_LAST_LOADING_TAB,
-    lastLoadingTab: tabId,
-  }),
+  setLastLoadingTab: (tabId) =>
+    store.dispatch({
+      intent: SET_LAST_LOADING_TAB,
+      lastLoadingTab: tabId,
+    }),
 
   setLoadingState: (key, loadingState) => {
     const intent = SET_LOADING_STATE;
@@ -127,10 +125,11 @@ const createTransactionListDispatcher = store => ({
     });
   },
 
-  dismissAlert: () => store.dispatch({
-    intent: SET_ALERT,
-    alert: undefined,
-  }),
+  dismissAlert: () =>
+    store.dispatch({
+      intent: SET_ALERT,
+      alert: undefined,
+    }),
 
   setSortOrder: (orderBy, newSortOrder) => {
     store.dispatch({

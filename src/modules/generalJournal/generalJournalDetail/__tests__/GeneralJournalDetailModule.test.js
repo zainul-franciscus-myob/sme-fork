@@ -31,13 +31,17 @@ import createGeneralJournalIntegrator from '../createGeneralJournalIntegrator';
 import generalJournalDetailReducer from '../generalJournalDetailReducer';
 
 export const setup = () => {
-  const setRootView = () => { };
+  const setRootView = () => {};
   const pushMessage = jest.fn();
   const popMessages = () => [];
   const integration = new TestIntegration();
 
   const module = new GeneralJournalDetailModule({
-    integration, setRootView, pushMessage, popMessages, isToggleOn: () => true,
+    integration,
+    setRootView,
+    pushMessage,
+    popMessages,
+    isToggleOn: () => true,
   });
   const store = new TestStore(generalJournalDetailReducer);
   module.store = store;
@@ -45,42 +49,50 @@ export const setup = () => {
   module.integrator = createGeneralJournalIntegrator(store, integration);
 
   return {
-    store, module, integration, pushMessage, popMessages,
+    store,
+    module,
+    integration,
+    pushMessage,
+    popMessages,
   };
 };
 
 export const setupWithExisting = () => {
-  const {
-    store, module, integration, pushMessage, popMessages,
-  } = setup();
+  const { store, module, integration, pushMessage, popMessages } = setup();
   module.run({ generalJournalId: '1', businessId: 'bizId', region: 'au' });
   store.resetActions();
   integration.resetRequests();
 
   return {
-    store, module, integration, pushMessage, popMessages,
+    store,
+    module,
+    integration,
+    pushMessage,
+    popMessages,
   };
 };
 
 export const setupWithNew = () => {
-  const {
-    store, module, integration, pushMessage, popMessages,
-  } = setup();
+  const { store, module, integration, pushMessage, popMessages } = setup();
   module.run({ generalJournalId: 'new', businessId: 'bizId', region: 'au' });
   store.resetActions();
   integration.resetRequests();
 
   return {
-    store, module, integration, pushMessage, popMessages,
+    store,
+    module,
+    integration,
+    pushMessage,
+    popMessages,
   };
 };
 
 const setupWithDuplicate = () => {
-  const {
-    store, module, integration, pushMessage, popMessages,
-  } = setup();
+  const { store, module, integration, pushMessage, popMessages } = setup();
   module.run({
-    generalJournalId: 'new', businessId: 'bizId', region: 'au',
+    generalJournalId: 'new',
+    businessId: 'bizId',
+    region: 'au',
   });
   module.popMessages = () => [
     {
@@ -92,23 +104,27 @@ const setupWithDuplicate = () => {
   integration.resetRequests();
 
   return {
-    store, module, integration, pushMessage, popMessages,
+    store,
+    module,
+    integration,
+    pushMessage,
+    popMessages,
   };
 };
 
 export const setupEditedPage = () => {
-  const {
-    store, module, integration, pushMessage,
-  } = setupWithExisting();
+  const { store, module, integration, pushMessage } = setupWithExisting();
   module.addGeneralJournalLine({ accountId: '4' }); // edit page
   integration.resetRequests();
   store.resetActions();
 
   return {
-    store, module, integration, pushMessage,
+    store,
+    module,
+    integration,
+    pushMessage,
   };
 };
-
 
 describe('GeneralJournalDetailModule', () => {
   describe('run', () => {
@@ -222,10 +238,12 @@ describe('GeneralJournalDetailModule', () => {
 
     it('should successfully load with duplicate', () => {
       const { store, integration, module } = setup();
-      module.popMessages = () => [{
-        type: DUPLICATE_GENERAL_JOURNAL,
-        duplicateId: '👨🏻‍💻',
-      }];
+      module.popMessages = () => [
+        {
+          type: DUPLICATE_GENERAL_JOURNAL,
+          duplicateId: '👨🏻‍💻',
+        },
+      ];
 
       module.run({ businessId: 'bizId', generalJournalId: 'new' });
 
@@ -267,7 +285,6 @@ describe('GeneralJournalDetailModule', () => {
     });
   });
 
-
   describe('updateHeaderOptions', () => {
     it('updates key with value', () => {
       const { module, store } = setupWithNew();
@@ -307,13 +324,15 @@ describe('GeneralJournalDetailModule', () => {
 
       module.openCancelModal();
 
-      expect(store.getActions()).toEqual([{
-        intent: OPEN_MODAL,
-        modal: {
-          type: ModalType.CANCEL,
-          url: expect.any(String),
+      expect(store.getActions()).toEqual([
+        {
+          intent: OPEN_MODAL,
+          modal: {
+            type: ModalType.CANCEL,
+            url: expect.any(String),
+          },
         },
-      }]);
+      ]);
     });
   });
 
@@ -340,7 +359,7 @@ describe('GeneralJournalDetailModule', () => {
 
     it('when account modal is open does not save general journal but saves account', () => {
       const { module, integration } = setupWithExisting();
-      const onChange = () => { };
+      const onChange = () => {};
       module.openAccountModal(onChange);
       module.accountModalModule.save = jest.fn();
       integration.resetRequests();
@@ -355,7 +374,10 @@ describe('GeneralJournalDetailModule', () => {
   describe('saveAndDuplicate', () => {
     it('should save and redirect', () => {
       const { store, integration, module } = setupWithNew();
-      integration.mapSuccess(CREATE_GENERAL_JOURNAL, { id: '🍌', message: '🤖' });
+      integration.mapSuccess(CREATE_GENERAL_JOURNAL, {
+        id: '🍌',
+        message: '🤖',
+      });
       module.navigateTo = jest.fn();
       module.pushMessage = jest.fn();
 
@@ -380,7 +402,9 @@ describe('GeneralJournalDetailModule', () => {
         type: DUPLICATE_GENERAL_JOURNAL,
         duplicateId: '🍌',
       });
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/generalJournal/new');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/bizId/generalJournal/new'
+      );
     });
 
     it('should save and redirect', () => {
@@ -410,10 +434,11 @@ describe('GeneralJournalDetailModule', () => {
         type: DUPLICATE_GENERAL_JOURNAL,
         duplicateId: '1',
       });
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/generalJournal/new');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/bizId/generalJournal/new'
+      );
     });
   });
-
 
   describe('saveAndCreateNew', () => {
     it('should save and navigate to create general journal page', () => {
@@ -435,7 +460,9 @@ describe('GeneralJournalDetailModule', () => {
         }),
       ]);
 
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/generalJournal/new');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/bizId/generalJournal/new'
+      );
     });
   });
 
@@ -446,7 +473,9 @@ describe('GeneralJournalDetailModule', () => {
 
       module.handlePageTransition('/#/au/bizId/transactionList');
 
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/transactionList');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/bizId/transactionList'
+      );
     });
 
     it('open unsaved modal when page edited', () => {
@@ -469,7 +498,9 @@ describe('GeneralJournalDetailModule', () => {
   describe('deleteGeneralJournal', () => {
     it('shows alert when it fails', () => {
       const { module, store, integration } = setupWithExisting();
-      integration.overrideMapping(DELETE_GENERAL_JOURNAL, ({ onFailure }) => onFailure({ message: 'hello' }));
+      integration.overrideMapping(DELETE_GENERAL_JOURNAL, ({ onFailure }) =>
+        onFailure({ message: 'hello' })
+      );
       module.openDeleteModal();
       store.resetActions();
 
@@ -502,9 +533,7 @@ describe('GeneralJournalDetailModule', () => {
     });
 
     it('redirect to transaction list with alert', () => {
-      const {
-        module, store, integration, pushMessage,
-      } = setupWithExisting();
+      const { module, store, integration, pushMessage } = setupWithExisting();
       module.navigateTo = jest.fn();
       module.openDeleteModal();
       store.resetActions();
@@ -527,10 +556,12 @@ describe('GeneralJournalDetailModule', () => {
 
       expect(pushMessage).toHaveBeenCalledWith({
         type: SUCCESSFULLY_DELETED_GENERAL_JOURNAL,
-        content: 'Great Work! You\'ve done it well!',
+        content: "Great Work! You've done it well!",
       });
 
-      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/transactionList');
+      expect(module.navigateTo).toHaveBeenCalledWith(
+        '/#/au/bizId/transactionList'
+      );
     });
   });
 });

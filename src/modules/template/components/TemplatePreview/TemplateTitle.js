@@ -25,12 +25,7 @@ const TemplateTitle = ({
         <img className={styles.header} src={headerImage} alt="Header banner" />
       );
       return (
-        <div
-          className={classnames(
-            styles.title,
-            styles.withHeader,
-          )}
-        >
+        <div className={classnames(styles.title, styles.withHeader)}>
           {header}
         </div>
       );
@@ -38,7 +33,9 @@ const TemplateTitle = ({
     case HeaderBusinessDetailStyle.logoAndBusinessDetails:
     default: {
       const headerText = tradingName || businessName;
-      const header = headerText && <h3 style={{ color: headerTextColour }}>{headerText}</h3>;
+      const header = headerText && (
+        <h3 style={{ color: headerTextColour }}>{headerText}</h3>
+      );
       const details = (
         <div>
           {header}

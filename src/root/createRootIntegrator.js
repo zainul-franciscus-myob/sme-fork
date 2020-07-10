@@ -9,12 +9,14 @@ const createRootIntegrator = (store, integration) => ({
     };
 
     try {
-      const subscription = await new Promise((resolve, reject) => integration.read({
-        intent: LOAD_SUBSCRIPTION,
-        urlParams,
-        onSuccess: resolve,
-        onFailure: reject,
-      }));
+      const subscription = await new Promise((resolve, reject) =>
+        integration.read({
+          intent: LOAD_SUBSCRIPTION,
+          urlParams,
+          onSuccess: resolve,
+          onFailure: reject,
+        })
+      );
 
       onSuccess(subscription);
     } catch (error) {
@@ -29,12 +31,14 @@ const createRootIntegrator = (store, integration) => ({
     };
 
     try {
-      const sharedInfo = await new Promise((resolve, reject) => integration.read({
-        intent: LOAD_SHARED_INFO,
-        urlParams,
-        onSuccess: resolve,
-        onFailure: reject,
-      }));
+      const sharedInfo = await new Promise((resolve, reject) =>
+        integration.read({
+          intent: LOAD_SHARED_INFO,
+          urlParams,
+          onSuccess: resolve,
+          onFailure: reject,
+        })
+      );
 
       onSuccess(sharedInfo);
     } catch (error) {

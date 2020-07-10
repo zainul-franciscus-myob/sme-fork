@@ -56,6 +56,6 @@ const ExportCompanyFile = ({
   </>
 );
 
-const mapStateToProps = state => getExportCompanyFileDetail(state);
+const mapStateToProps = (state) => getExportCompanyFileDetail(state);
 
 export default connect(mapStateToProps)(ExportCompanyFile);

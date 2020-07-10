@@ -1,16 +1,12 @@
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getBankTransactionSummaryHeader,
-} from '../bankingRuleSelectors';
+import { getBankTransactionSummaryHeader } from '../bankingRuleSelectors';
 import SummaryHeader from '../../../../components/SummaryHeader/SummaryHeader';
 import SummaryHeaderItem from '../../../../components/SummaryHeader/SummaryHeaderItem';
 import styles from './HeaderSection.module.css';
 
-const HeaderSection = ({
-  summaryHeaderItems,
-}) => (
+const HeaderSection = ({ summaryHeaderItems }) => (
   <SummaryHeader
     left={[
       <SummaryHeaderItem
@@ -29,20 +25,18 @@ const HeaderSection = ({
         value={summaryHeaderItems.description.value}
       />,
     ]}
-    right={
-      [
-        <SummaryHeaderItem
-          right
-          className={styles.amount}
-          label={summaryHeaderItems.amount.label}
-          value={summaryHeaderItems.amount.value}
-        />,
-      ]
-    }
+    right={[
+      <SummaryHeaderItem
+        right
+        className={styles.amount}
+        label={summaryHeaderItems.amount.label}
+        value={summaryHeaderItems.amount.value}
+      />,
+    ]}
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   summaryHeaderItems: getBankTransactionSummaryHeader(state),
 });
 

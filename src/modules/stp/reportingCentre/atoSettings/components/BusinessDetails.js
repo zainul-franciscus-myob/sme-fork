@@ -1,5 +1,10 @@
 import {
-  Button, ButtonRow, Card, FormHorizontal, Input, Select,
+  Button,
+  ButtonRow,
+  Card,
+  FormHorizontal,
+  Input,
+  Select,
 } from '@myob/myob-widgets';
 import React from 'react';
 
@@ -34,7 +39,8 @@ const BusinessDetails = ({
     <>
       <h3>Business details for the ATO</h3>
       <p>
-        These are the details the ATO has for your business, keep this up to date.
+        These are the details the ATO has for your business, keep this up to
+        date.
       </p>
       <FormHorizontal layout="primary">
         <Input
@@ -91,7 +97,7 @@ const BusinessDetails = ({
           requiredLabel="This is required"
           width="xs"
         >
-          {States.all.map(s => (
+          {States.all.map((s) => (
             <Select.Option value={s} label={s} />
           ))}
         </Select>

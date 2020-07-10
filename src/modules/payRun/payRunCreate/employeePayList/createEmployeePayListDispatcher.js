@@ -25,7 +25,7 @@ import {
 } from '../PayRunIntents';
 import createPayRunDispatchers from '../createPayRunDispatchers';
 
-const createEmployeePayListDispatcher = store => ({
+const createEmployeePayListDispatcher = (store) => ({
   ...createPayRunDispatchers(store),
 
   updateIsEmployeeSelected: (id) => {
@@ -115,12 +115,11 @@ const createEmployeePayListDispatcher = store => ({
     });
   },
 
-  updatePayPeriodEmployeeLimit: payPeriodEmployeeLimit => (
+  updatePayPeriodEmployeeLimit: (payPeriodEmployeeLimit) =>
     store.dispatch({
       intent: UPDATE_PAY_PERIOD_EMPLOYEE_LIMIT,
       payPeriodEmployeeLimit,
-    })
-  ),
+    }),
 
   setPayItemLineDirty: (isDirty) => {
     store.dispatch({
@@ -136,25 +135,32 @@ const createEmployeePayListDispatcher = store => ({
     });
   },
 
-  updateEmployeePayItem: ({
-    employeeId, payItemId, key, value,
-  }) => {
+  updateEmployeePayItem: ({ employeeId, payItemId, key, value }) => {
     const intent = UPDATE_EMPLOYEE_PAY_ITEM;
     store.dispatch({
-      intent, employeeId, payItemId, key, value,
+      intent,
+      employeeId,
+      payItemId,
+      key,
+      value,
     });
   },
 
-  formatEmployeePayItem: ({
-    employeeId, payItemId, key, value,
-  }) => {
+  formatEmployeePayItem: ({ employeeId, payItemId, key, value }) => {
     const intent = FORMAT_EMPLOYEE_PAY_ITEM;
     store.dispatch({
-      intent, employeeId, payItemId, key, value,
+      intent,
+      employeeId,
+      payItemId,
+      key,
+      value,
     });
   },
 
-  updateEmployeeLineAfterRecalculation: ({ employeeId, recalculatedEmployeePay }) => {
+  updateEmployeeLineAfterRecalculation: ({
+    employeeId,
+    recalculatedEmployeePay,
+  }) => {
     const intent = UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION;
     store.dispatch({
       intent,

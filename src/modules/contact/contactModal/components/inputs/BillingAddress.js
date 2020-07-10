@@ -4,7 +4,7 @@ import React from 'react';
 import { getContactModalBillingAddress } from '../../ContactModalSelectors';
 import Address from './Address';
 
-const BillingAddress = props => (
+const BillingAddress = (props) => (
   <Address
     title="Billing address"
     toggleLabel="Add billing address"
@@ -12,6 +12,6 @@ const BillingAddress = props => (
   />
 );
 
-const mapStateToProps = state => getContactModalBillingAddress(state);
+const mapStateToProps = (state) => getContactModalBillingAddress(state);
 
 export default connect(mapStateToProps)(BillingAddress);

@@ -60,7 +60,7 @@ const PayRunDetailView = ({
   return <PageView loadingState={loadingState} view={payRunDetailView} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   alert: getAlert(state),
 });

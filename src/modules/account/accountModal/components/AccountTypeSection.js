@@ -2,22 +2,29 @@ import { ReadOnly, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAccountClassificationforDisplay, getAccountClassifications, getAccountType } from '../accountModalSelectors';
+import {
+  getAccountClassificationforDisplay,
+  getAccountClassifications,
+  getAccountType,
+} from '../accountModalSelectors';
 import handleSelectChange from '../../../../components/handlers/handleSelectChange';
 
-const AccountTypes = ({ options }) => options.map(({ displayName, value, type }) => (type ? (
-  <Select.OptionGroup value={value} label={displayName} key={value}>
-    {type.map(({ displayName: subDisplayName, value: subValue }) => (
-      <Select.Option
-        value={subValue}
-        label={subDisplayName}
-        key={subValue}
-      />
-    ))}
-  </Select.OptionGroup>
-) : (
-  <Select.Option value={value} label={displayName} key={value} />
-)));
+const AccountTypes = ({ options }) =>
+  options.map(({ displayName, value, type }) =>
+    type ? (
+      <Select.OptionGroup value={value} label={displayName} key={value}>
+        {type.map(({ displayName: subDisplayName, value: subValue }) => (
+          <Select.Option
+            value={subValue}
+            label={subDisplayName}
+            key={subValue}
+          />
+        ))}
+      </Select.OptionGroup>
+    ) : (
+      <Select.Option value={value} label={displayName} key={value} />
+    )
+  );
 
 const AccountTypeSection = ({
   accountClassifications,
@@ -44,7 +51,7 @@ const AccountTypeSection = ({
   </React.Fragment>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accountClassifications: getAccountClassifications(state),
   accountClassificationforDisplay: getAccountClassificationforDisplay(state),
   accountType: getAccountType(state),

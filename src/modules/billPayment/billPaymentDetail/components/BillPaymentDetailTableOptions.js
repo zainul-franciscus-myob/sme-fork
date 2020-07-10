@@ -20,7 +20,7 @@ const BillPaymentDetailTableOptions = ({
   </div>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   showPaidBills: getShowPaidBills(state),
 });
 

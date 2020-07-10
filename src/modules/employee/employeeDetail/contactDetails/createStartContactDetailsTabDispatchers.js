@@ -1,7 +1,7 @@
 import { UPDATE_CONTACT_DETAILS } from '../../EmployeeIntents';
 import createEmployeeDetailDispatcher from '../createEmployeeDetailDispatcher';
 
-const createStartContactDetailsTabDispatchers = store => ({
+const createStartContactDetailsTabDispatchers = (store) => ({
   ...createEmployeeDetailDispatcher(store),
 
   updateContactDetails: ({ key, value }) => {

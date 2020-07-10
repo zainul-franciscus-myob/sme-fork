@@ -2,7 +2,10 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getFilterOptions, getSupplierFilterOptions, getTotalAmount, getTotalDebitAmount,
+  getFilterOptions,
+  getSupplierFilterOptions,
+  getTotalAmount,
+  getTotalDebitAmount,
 } from '../selectors/SupplierReturnListSelectors';
 import FilterBar from '../../../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
@@ -16,48 +19,51 @@ const SupplierReturnListFilterOptions = ({
   totalAmount,
   totalDebitAmount,
   supplierFilterOptions,
-  filterOptions: {
-    keywords,
-    supplierId,
-  },
+  filterOptions: { keywords, supplierId },
 }) => (
-    <React.Fragment>
-      <FilterBar>
-        <div className={styles.supplierCombobox}>
-          <SupplierCombobox
-            label="Supplier"
-            name="supplierId"
-            hideLabel={false}
-            items={supplierFilterOptions}
-            selectedId={supplierId}
-            onChange={handleComboboxChange('supplierId', onUpdateFilterBarOptions)}
-            hintText="All"
-            allowClear
-            hasAllItem
-          />
-        </div>
-        <FilterBarSearch
-          id="keywords"
-          label="Search"
-          name="keywords"
-          placeholder="Search"
-          maxLength={255}
-          value={keywords}
-          onChange={handleInputChange(onUpdateFilterBarOptions)}
+  <React.Fragment>
+    <FilterBar>
+      <div className={styles.supplierCombobox}>
+        <SupplierCombobox
+          label="Supplier"
+          name="supplierId"
+          hideLabel={false}
+          items={supplierFilterOptions}
+          selectedId={supplierId}
+          onChange={handleComboboxChange(
+            'supplierId',
+            onUpdateFilterBarOptions
+          )}
+          hintText="All"
+          allowClear
+          hasAllItem
         />
-      </FilterBar>
-
-      <hr />
-
-      <div className={styles.totals}>
-        <span className={styles.totalAmount}>{`Total amount: ${totalAmount}`}</span>
-        <span className={styles.totalDebitAmount}>{`Total debit amount: ${totalDebitAmount}`}</span>
       </div>
+      <FilterBarSearch
+        id="keywords"
+        label="Search"
+        name="keywords"
+        placeholder="Search"
+        maxLength={255}
+        value={keywords}
+        onChange={handleInputChange(onUpdateFilterBarOptions)}
+      />
+    </FilterBar>
 
-    </React.Fragment>
+    <hr />
+
+    <div className={styles.totals}>
+      <span
+        className={styles.totalAmount}
+      >{`Total amount: ${totalAmount}`}</span>
+      <span
+        className={styles.totalDebitAmount}
+      >{`Total debit amount: ${totalDebitAmount}`}</span>
+    </div>
+  </React.Fragment>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   totalAmount: getTotalAmount(state),
   totalDebitAmount: getTotalDebitAmount(state),
   supplierFilterOptions: getSupplierFilterOptions(state),

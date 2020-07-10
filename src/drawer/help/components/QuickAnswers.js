@@ -1,6 +1,4 @@
-import {
-  Button, Card, Icons, ToggleContent,
-} from '@myob/myob-widgets';
+import { Button, Card, Icons, ToggleContent } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classNames from 'classnames';
@@ -19,9 +17,7 @@ const QuickAnswer = ({ question, richTextAnswers }) => (
           [styles['question--open']]: show,
         })}
         iconRight
-        icon={(
-          <Icons.DownChevron />
-        )}
+        icon={<Icons.DownChevron />}
       >
         {question}
       </Button>
@@ -33,17 +29,16 @@ const QuickAnswer = ({ question, richTextAnswers }) => (
   </ToggleContent>
 );
 
-const QuickAnswers = ({ answers }) => answers.map(
-  ({ fields: { question, richTextAnswers }, sys: { id } }) => (
+const QuickAnswers = ({ answers }) =>
+  answers.map(({ fields: { question, richTextAnswers }, sys: { id } }) => (
     <QuickAnswer
       key={id}
       question={question}
       richTextAnswers={richTextAnswers}
     />
-  ),
-);
+  ));
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   answers: getQuickAnswers(state),
 });
 

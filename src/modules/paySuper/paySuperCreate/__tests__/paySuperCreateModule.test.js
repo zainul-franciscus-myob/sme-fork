@@ -1,4 +1,3 @@
-
 import Adapter from 'enzyme-adapter-react-16/build';
 import Enzyme, { mount } from 'enzyme/build';
 
@@ -23,16 +22,16 @@ Enzyme.configure({ adapter: new Adapter() });
 describe('paySuperCreateModule', () => {
   const constructPaySuperCreateModule = () => {
     const context = {};
-    const popMessages = () => (['']);
-    const replaceURLParams = url => (url);
+    const popMessages = () => [''];
+    const replaceURLParams = (url) => url;
 
     const integration = {
       read: ({ onSuccess }) => {
-        onSuccess(
-          loadAccountsAndSuperPaymentsResponse,
-        );
+        onSuccess(loadAccountsAndSuperPaymentsResponse);
       },
-      write: ({ onSuccess }) => { onSuccess({}); },
+      write: ({ onSuccess }) => {
+        onSuccess({});
+      },
     };
 
     let wrapper;
@@ -46,7 +45,6 @@ describe('paySuperCreateModule', () => {
       popMessages,
       replaceURLParams,
     });
-
 
     module.run(context);
     wrapper.update();
@@ -107,12 +105,20 @@ describe('paySuperCreateModule', () => {
 
   describe('updateFilterBarOptions', () => {
     it('successfully applies filter', () => {
-      const { store, integration, module } = setUpModuleWithRunForSortFilterTests();
+      const {
+        store,
+        integration,
+        module,
+      } = setUpModuleWithRunForSortFilterTests();
 
       module.updateFilterBarOptions({ filterName: 'dateTo', value: 'dateTo' });
 
       expect(store.getActions()).toEqual([
-        { intent: UPDATE_FILTER_OPTIONS, filterName: 'dateTo', value: 'dateTo' },
+        {
+          intent: UPDATE_FILTER_OPTIONS,
+          filterName: 'dateTo',
+          value: 'dateTo',
+        },
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
         expect.objectContaining({ intent: SORT_AND_FILTER_SUPER_PAYMENTS }),
@@ -124,13 +130,24 @@ describe('paySuperCreateModule', () => {
 
     it('fails to apply filter', () => {
       const message = 'ERROR';
-      const { store, integration, module } = setUpModuleWithRunForSortFilterTests();
+      const {
+        store,
+        integration,
+        module,
+      } = setUpModuleWithRunForSortFilterTests();
       integration.mapFailure(SORT_AND_FILTER_SUPER_PAYMENTS, { message });
 
-      module.updateFilterBarOptions({ filterName: 'dateFrom', value: 'dateFrom' });
+      module.updateFilterBarOptions({
+        filterName: 'dateFrom',
+        value: 'dateFrom',
+      });
 
       expect(store.getActions()).toEqual([
-        { intent: UPDATE_FILTER_OPTIONS, filterName: 'dateFrom', value: 'dateFrom' },
+        {
+          intent: UPDATE_FILTER_OPTIONS,
+          filterName: 'dateFrom',
+          value: 'dateFrom',
+        },
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
         { intent: SET_ALERT, alert: { type: 'danger', message } },
@@ -144,7 +161,11 @@ describe('paySuperCreateModule', () => {
   describe('sortSuperPayments', () => {
     it('successfully sorts', () => {
       const orderBy = 'amount';
-      const { store, integration, module } = setUpModuleWithRunForSortFilterTests();
+      const {
+        store,
+        integration,
+        module,
+      } = setUpModuleWithRunForSortFilterTests();
 
       module.sortSuperPayments(orderBy);
 
@@ -162,7 +183,11 @@ describe('paySuperCreateModule', () => {
     it('fails to sort', () => {
       const message = 'ERROR';
       const orderBy = 'amount';
-      const { store, integration, module } = setUpModuleWithRunForSortFilterTests();
+      const {
+        store,
+        integration,
+        module,
+      } = setUpModuleWithRunForSortFilterTests();
       integration.mapFailure(SORT_AND_FILTER_SUPER_PAYMENTS, { message });
 
       module.sortSuperPayments(orderBy);
@@ -187,7 +212,7 @@ describe('paySuperCreateModule', () => {
 
       expect(store.getActions()).toContainEqual(
         { intent: SET_SORT_ORDER, sortOrder: 'asc', orderBy },
-        { intent: SET_SORT_ORDER, sortOrder: 'desc', orderBy },
+        { intent: SET_SORT_ORDER, sortOrder: 'desc', orderBy }
       );
     });
   });

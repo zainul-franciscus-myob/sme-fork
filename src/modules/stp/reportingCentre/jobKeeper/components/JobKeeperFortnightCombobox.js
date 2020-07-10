@@ -11,9 +11,8 @@ const JobKeeperFortnightCombobox = ({
   allowClear,
   ...props
 }) => {
-  const selected = fortnightOptions.find(
-    option => option.id === selectedFn,
-  ) || null;
+  const selected =
+    fortnightOptions.find((option) => option.id === selectedFn) || null;
 
   const metaData = [
     {
@@ -39,7 +38,8 @@ const JobKeeperFortnightCombobox = ({
       metaData={metaData}
       allowClear={allowClear}
       {...props}
-    />);
+    />
+  );
 };
 
 export default JobKeeperFortnightCombobox;

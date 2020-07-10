@@ -41,27 +41,27 @@ const StpNotifyModuleView = ({
 
   return (
     <div>
-      {
-        showConfirmation
-        && (
+      {showConfirmation && (
         <ConfirmationModal
           onCloseConfirmationModal={onCloseConfirmationModal}
           onSendButtonClick={onFinish}
         />
-        )
-      }
+      )}
       {alert && <Alert type={alert.type}>{alert.message}</Alert>}
-      <Card header={<h2>Notify the ATO you&apos;re using MYOB for payroll reporting</h2>}>
+      <Card
+        header={
+          <h2>Notify the ATO you&apos;re using MYOB for payroll reporting</h2>
+        }
+      >
         <p>
           To start using Single Touch Payroll reporting you&apos;ll need to
           nominate MYOB as your online software provider in tone two ways.
         </p>
         <div className={styles.innerCard}>
-
           <Card header={<h3>Option 1. Phone the ATO on 1300 85 22 32</h3>}>
             <p>
-              This only takes a few minutes.&nbsp;
-              Make sure you have your own TFN, ABN or RAN (for agents), to verify your identity.
+              This only takes a few minutes.&nbsp; Make sure you have your own
+              TFN, ABN or RAN (for agents), to verify your identity.
             </p>
             <ol>
               <li>
@@ -73,27 +73,26 @@ const StpNotifyModuleView = ({
               </li>
             </ol>
           </Card>
-          <Card header={<h3>Option 2. Create notification in Access Manager</h3>}>
+          <Card
+            header={<h3>Option 2. Create notification in Access Manager</h3>}
+          >
             <p>
-              If you have an Access Manager account, you can notify the ATO online.
-              You can also create an Access Manager account.
+              If you have an Access Manager account, you can notify the ATO
+              online. You can also create an Access Manager account.
             </p>
             <ol>
-              <li>
-                Log into Access Manager.
-              </li>
+              <li>Log into Access Manager.</li>
               <li>
                 Click My hosted SBR software services from the left hand menu.
               </li>
-              <li>
-                Click Notify the ATO of your hosted service.
-              </li>
+              <li>Click Notify the ATO of your hosted service.</li>
               <li>
                 Complete all steps using the following details.
                 <SoftwareDetailsView softwareId={softwareId} />
               </li>
               <li>
-                Once confirmed, come back to this page and click I&apst;ve notified the ATO button.
+                Once confirmed, come back to this page and click I&apst;ve
+                notified the ATO button.
               </li>
             </ol>
           </Card>
@@ -122,15 +121,29 @@ const StpNotifyModuleView = ({
       </Card>
       <ButtonRow
         primary={[
-          <Button type="secondary" onClick={onPreviousClick} key="previous" testid="previousButton">Previous</Button>,
-          <Button type="primary" onClick={onNotifiedAtoClick} key="notifiedAto" testid="notifiedAtoButton">I&apos;ve notified the ATO</Button>,
+          <Button
+            type="secondary"
+            onClick={onPreviousClick}
+            key="previous"
+            testid="previousButton"
+          >
+            Previous
+          </Button>,
+          <Button
+            type="primary"
+            onClick={onNotifiedAtoClick}
+            key="notifiedAto"
+            testid="notifiedAtoButton"
+          >
+            I&apos;ve notified the ATO
+          </Button>,
         ]}
       />
     </div>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoading: getIsLoading(state),
   alert: getAlert(state),
   softwareId: getSoftwareId(state),

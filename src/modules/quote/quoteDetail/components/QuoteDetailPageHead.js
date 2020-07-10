@@ -9,16 +9,13 @@ import {
   getPageTitle,
   getTotals,
 } from '../selectors/QuoteDetailSelectors';
-import TotalsHeaderItemFormattedCurrency
-  from '../../../../components/TotalsHeader/TotalsHeaderItemFormattedCurrency';
+import TotalsHeaderItemFormattedCurrency from '../../../../components/TotalsHeader/TotalsHeaderItemFormattedCurrency';
 
 const QuoteDetailPageHead = ({
   isCreating,
   isActionsDisabled,
   isReadOnly,
-  totals: {
-    totalAmount,
-  },
+  totals: { totalAmount },
   pageTitle,
   onConvertToInvoiceButtonClick,
 }) => {
@@ -42,10 +39,12 @@ const QuoteDetailPageHead = ({
     </Button>,
   ];
 
-  return <TotalsHeader title={pageTitle} totalItems={totalItems} actions={actions} />;
+  return (
+    <TotalsHeader title={pageTitle} totalItems={totalItems} actions={actions} />
+  );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isCreating: getIsCreating(state),
   isActionsDisabled: getIsActionsDisabled(state),
   totals: getTotals(state),

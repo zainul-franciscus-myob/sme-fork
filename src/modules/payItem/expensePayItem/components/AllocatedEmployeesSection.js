@@ -14,14 +14,12 @@ const AllocatedEmployeesSection = ({
   onRemoveAllocatedEmployee,
 }) => (
   <FieldGroup
-    label={(
-      <React.Fragment>
-        Employees using this pay item
-      </React.Fragment>
-    )}
+    label={<React.Fragment>Employees using this pay item</React.Fragment>}
     className={styles.editableTable}
   >
-    <AllocatedEmployeesTable onRemoveAllocatedEmployee={onRemoveAllocatedEmployee} />
+    <AllocatedEmployeesTable
+      onRemoveAllocatedEmployee={onRemoveAllocatedEmployee}
+    />
     <EmployeeCombobox
       label="Employees"
       hideLabel
@@ -33,7 +31,7 @@ const AllocatedEmployeesSection = ({
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   employeeOptions: getEmployeeOptions(state),
 });
 

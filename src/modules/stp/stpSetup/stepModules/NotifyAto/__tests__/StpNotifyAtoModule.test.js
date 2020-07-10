@@ -57,11 +57,14 @@ describe('StpNotifyAtoModule', () => {
 
   describe('Notified Ato button', () => {
     it('opens modal on click', () => {
-      const { wrapper } = constructStpNotifyAtoModule({ });
+      const { wrapper } = constructStpNotifyAtoModule({});
 
       expect(wrapper.find(ConfirmationModal)).toHaveLength(0);
 
-      const notifyAtoButton = findButtonWithTestId(wrapper, 'notifiedAtoButton');
+      const notifyAtoButton = findButtonWithTestId(
+        wrapper,
+        'notifiedAtoButton'
+      );
       notifyAtoButton.simulate('click');
 
       wrapper.update();
@@ -80,9 +83,11 @@ describe('StpNotifyAtoModule', () => {
 
       module.getSoftwareId({});
 
-      expect(integration.read).toHaveBeenCalledWith(expect.objectContaining({
-        intent: GET_SOFTWARE_ID,
-      }));
+      expect(integration.read).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: GET_SOFTWARE_ID,
+        })
+      );
     });
 
     it('stores the business sid in the state', () => {

@@ -9,15 +9,14 @@ const metaData = [
 ];
 
 const AccountAutoComplete = (props) => {
-  const {
-    addNewAccount,
-    ...otherProps
-  } = props;
+  const { addNewAccount, ...otherProps } = props;
 
   return (
     <AutoComplete
       metaData={metaData}
-      addNewItem={addNewAccount && { onAddNew: addNewAccount, label: 'Create account' }}
+      addNewItem={
+        addNewAccount && { onAddNew: addNewAccount, label: 'Create account' }
+      }
       {...otherProps}
     />
   );

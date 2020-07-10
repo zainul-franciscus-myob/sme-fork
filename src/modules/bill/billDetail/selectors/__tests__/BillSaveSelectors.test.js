@@ -1,4 +1,7 @@
-import { getSaveAmountDueWarningModalBody, shouldShowSaveAmountDueWarningModal } from '../BillSaveSelectors';
+import {
+  getSaveAmountDueWarningModalBody,
+  shouldShowSaveAmountDueWarningModal,
+} from '../BillSaveSelectors';
 import BillLineType from '../../types/BillLineType';
 
 describe('BillSaveSelectors', () => {
@@ -72,7 +75,8 @@ describe('BillSaveSelectors', () => {
         };
 
         const actual = getSaveAmountDueWarningModalBody(state);
-        const expected = 'There is a payment recorded against this bill. Are you sure you want to save the changes?';
+        const expected =
+          'There is a payment recorded against this bill. Are you sure you want to save the changes?';
 
         expect(actual).toEqual(expected);
       });
@@ -84,14 +88,19 @@ describe('BillSaveSelectors', () => {
             ...baseState.bill,
             status: 'Closed',
             lines: [
-              { type: BillLineType.SERVICE, taxExclusiveAmount: '0.99', taxAmount: '0.01' },
+              {
+                type: BillLineType.SERVICE,
+                taxExclusiveAmount: '0.99',
+                taxAmount: '0.01',
+              },
             ],
             amountPaid: '0.5',
           },
         };
 
         const actual = getSaveAmountDueWarningModalBody(state);
-        const expected = 'If you save, you\'ll be changing the bill status to open as there is now a balance due.';
+        const expected =
+          "If you save, you'll be changing the bill status to open as there is now a balance due.";
 
         expect(actual).toEqual(expected);
       });
@@ -103,14 +112,19 @@ describe('BillSaveSelectors', () => {
             ...baseState.bill,
             status: 'Closed',
             lines: [
-              { type: BillLineType.SERVICE, taxExclusiveAmount: '0.99', taxAmount: '0.01' },
+              {
+                type: BillLineType.SERVICE,
+                taxExclusiveAmount: '0.99',
+                taxAmount: '0.01',
+              },
             ],
             amountPaid: '2',
           },
         };
 
         const actual = getSaveAmountDueWarningModalBody(state);
-        const expected = 'If you save, you\'ll be creating a supplier debit as the balance due is negative.';
+        const expected =
+          "If you save, you'll be creating a supplier debit as the balance due is negative.";
 
         expect(actual).toEqual(expected);
       });
@@ -130,7 +144,8 @@ describe('BillSaveSelectors', () => {
         };
 
         const actual = getSaveAmountDueWarningModalBody(state);
-        const expected = 'If you save, you\'ll be creating a supplier debit as the balance due is negative.';
+        const expected =
+          "If you save, you'll be creating a supplier debit as the balance due is negative.";
 
         expect(actual).toEqual(expected);
       });
@@ -149,7 +164,8 @@ describe('BillSaveSelectors', () => {
         };
 
         const actual = getSaveAmountDueWarningModalBody(state);
-        const expected = 'If you save, you\'ll be creating a supplier debit as the balance due is negative.';
+        const expected =
+          "If you save, you'll be creating a supplier debit as the balance due is negative.";
 
         expect(actual).toEqual(expected);
       });

@@ -15,7 +15,11 @@ const createContactModalIntegrator = (store, integration) => ({
     const params = getLoadNewContactModalQueryParams(state);
 
     integration.read({
-      intent, urlParams, params, onSuccess, onFailure,
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -27,7 +31,11 @@ const createContactModalIntegrator = (store, integration) => ({
     const content = getContact(state);
 
     integration.write({
-      intent, urlParams, content, onSuccess, onFailure,
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
     });
   },
 });

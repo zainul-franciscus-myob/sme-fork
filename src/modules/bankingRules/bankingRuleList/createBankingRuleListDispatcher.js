@@ -1,4 +1,3 @@
-
 import {
   LOAD_BANKING_RULE_LIST,
   SET_ALERT,
@@ -8,13 +7,10 @@ import {
   SORT_AND_FILTER_BANKING_RULE_LIST,
   UPDATE_FILTER_OPTIONS,
 } from './BankingRuleListIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { getNewSortOrder } from './BankingRuleListSelectors';
 
-const createBankingRuleListDispatcher = store => ({
+const createBankingRuleListDispatcher = (store) => ({
   resetState: () => {
     store.dispatch({
       intent: RESET_STATE,

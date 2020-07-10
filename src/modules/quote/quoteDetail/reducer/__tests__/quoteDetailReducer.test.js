@@ -176,7 +176,7 @@ describe('quoteDetailReducer', () => {
       };
 
       const actual = quoteDetailReducer(state, action);
-      actual.quote.lines.forEach(line => {
+      actual.quote.lines.forEach((line) => {
         expect(line.lineJobOptions).toEqual([
           {
             id: '3',
@@ -223,7 +223,7 @@ describe('quoteDetailReducer', () => {
       };
       const actual = quoteDetailReducer(state, action);
 
-      actual.quote.lines.forEach(line => {
+      actual.quote.lines.forEach((line) => {
         expect(line.lineJobOptions).toEqual([
           {
             id: '1',
@@ -338,7 +338,11 @@ describe('quoteDetailReducer', () => {
         },
       };
 
-      const action = { intent: UPDATE_LAYOUT, key: 'layout', value: 'itemAndService' };
+      const action = {
+        intent: UPDATE_LAYOUT,
+        key: 'layout',
+        value: 'itemAndService',
+      };
 
       const actual = quoteDetailReducer(state, action);
 
@@ -492,7 +496,10 @@ describe('quoteDetailReducer', () => {
       };
 
       const action = {
-        intent: UPDATE_QUOTE_LINE, index: 1, key: 'hello', value: 3,
+        intent: UPDATE_QUOTE_LINE,
+        index: 1,
+        key: 'hello',
+        value: 3,
       };
 
       const actual = quoteDetailReducer(state, action);
@@ -503,9 +510,7 @@ describe('quoteDetailReducer', () => {
     it('updates taxCodeId and allocatedAccountId when key is allocatedAccountId', () => {
       const state = {
         quote: {
-          lines: [
-            {},
-          ],
+          lines: [{}],
         },
         accountOptions: [
           {
@@ -516,7 +521,10 @@ describe('quoteDetailReducer', () => {
       };
 
       const action = {
-        intent: UPDATE_QUOTE_LINE, index: 0, key: 'allocatedAccountId', value: '1',
+        intent: UPDATE_QUOTE_LINE,
+        index: 0,
+        key: 'allocatedAccountId',
+        value: '1',
       };
 
       const actual = quoteDetailReducer(state, action);
@@ -528,14 +536,15 @@ describe('quoteDetailReducer', () => {
     it('updates type to item when key is itemId', () => {
       const state = {
         quote: {
-          lines: [
-            {},
-          ],
+          lines: [{}],
         },
       };
 
       const action = {
-        intent: UPDATE_QUOTE_LINE, index: 0, key: 'itemId', value: '1',
+        intent: UPDATE_QUOTE_LINE,
+        index: 0,
+        key: 'itemId',
+        value: '1',
       };
 
       const actual = quoteDetailReducer(state, action);
@@ -557,7 +566,10 @@ describe('quoteDetailReducer', () => {
       };
 
       const action = {
-        intent: UPDATE_QUOTE_LINE, index: 0, key: 'itemId', value: '1',
+        intent: UPDATE_QUOTE_LINE,
+        index: 0,
+        key: 'itemId',
+        value: '1',
       };
 
       const actual = quoteDetailReducer(state, action);
@@ -578,7 +590,10 @@ describe('quoteDetailReducer', () => {
       };
 
       const action = {
-        intent: UPDATE_QUOTE_LINE, index: 0, key: 'description', value: 'blah',
+        intent: UPDATE_QUOTE_LINE,
+        index: 0,
+        key: 'description',
+        value: 'blah',
       };
 
       const actual = quoteDetailReducer(state, action);
@@ -592,9 +607,7 @@ describe('quoteDetailReducer', () => {
     it('removes line at index', () => {
       const state = {
         quote: {
-          lines: [
-            1, 2,
-          ],
+          lines: [1, 2],
         },
       };
 
@@ -636,16 +649,18 @@ describe('quoteDetailReducer', () => {
         isPageEdited: true,
         quote: {
           isTaxInclusive: true,
-          lines: [{
-            allocatedAccountId: '2',
-            amount: 10,
-            unitPrice: 10,
-            description: 'item',
-            discount: '0',
-            taxCodeId: '1',
-            unitOfMeasure: 'kg',
-            units: '1',
-          }],
+          lines: [
+            {
+              allocatedAccountId: '2',
+              amount: 10,
+              unitPrice: 10,
+              description: 'item',
+              discount: '0',
+              taxCodeId: '1',
+              unitOfMeasure: 'kg',
+              units: '1',
+            },
+          ],
         },
       };
 
@@ -679,16 +694,18 @@ describe('quoteDetailReducer', () => {
         isPageEdited: true,
         quote: {
           isTaxInclusive: true,
-          lines: [{
-            allocatedAccountId: '2',
-            amount: 11,
-            unitPrice: 11,
-            description: 'item',
-            discount: '0',
-            taxCodeId: '1',
-            unitOfMeasure: 'kg',
-            units: '1',
-          }],
+          lines: [
+            {
+              allocatedAccountId: '2',
+              amount: 11,
+              unitPrice: 11,
+              description: 'item',
+              discount: '0',
+              taxCodeId: '1',
+              unitOfMeasure: 'kg',
+              units: '1',
+            },
+          ],
         },
       };
 
@@ -722,16 +739,18 @@ describe('quoteDetailReducer', () => {
         isPageEdited: true,
         quote: {
           isTaxInclusive: false,
-          lines: [{
-            allocatedAccountId: '2',
-            amount: 9.09,
-            unitPrice: 9.09,
-            description: 'item',
-            discount: '0',
-            taxCodeId: '1',
-            unitOfMeasure: 'kg',
-            units: '1',
-          }],
+          lines: [
+            {
+              allocatedAccountId: '2',
+              amount: 9.09,
+              unitPrice: 9.09,
+              description: 'item',
+              discount: '0',
+              taxCodeId: '1',
+              unitOfMeasure: 'kg',
+              units: '1',
+            },
+          ],
         },
       };
 
@@ -765,16 +784,18 @@ describe('quoteDetailReducer', () => {
         isPageEdited: true,
         quote: {
           isTaxInclusive: false,
-          lines: [{
-            allocatedAccountId: '2',
-            amount: 10,
-            unitPrice: 10,
-            description: 'item',
-            discount: '0',
-            taxCodeId: '1',
-            unitOfMeasure: 'kg',
-            units: '1',
-          }],
+          lines: [
+            {
+              allocatedAccountId: '2',
+              amount: 10,
+              unitPrice: 10,
+              description: 'item',
+              discount: '0',
+              taxCodeId: '1',
+              unitOfMeasure: 'kg',
+              units: '1',
+            },
+          ],
         },
       };
 

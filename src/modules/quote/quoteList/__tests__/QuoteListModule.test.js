@@ -22,7 +22,7 @@ import quoteListReducer from '../quoteListReducer';
 describe('QuoteListModule', () => {
   const setup = () => {
     // Mock loadSettings from localStorage to prevent side effects
-    localStorageDriver.loadSettings = () => { };
+    localStorageDriver.loadSettings = () => {};
 
     const store = new TestStore(quoteListReducer);
     const integration = new TestIntegration();
@@ -59,7 +59,10 @@ describe('QuoteListModule', () => {
       expect(store.getActions()).toEqual([
         { intent: SET_INITIAL_STATE, context },
         { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING },
-        { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING_SUCCESS },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
         expect.objectContaining({ intent: LOAD_QUOTE_LIST }),
       ]);
       expect(integration.getRequests()).toEqual([
@@ -90,9 +93,10 @@ describe('QuoteListModule', () => {
 
       module.run(context);
 
-      expect(store.getActions()).toContainEqual(
-        { intent: SET_ALERT, alert: { type: 'success', message } },
-      );
+      expect(store.getActions()).toContainEqual({
+        intent: SET_ALERT,
+        alert: { type: 'success', message },
+      });
     });
   });
 
@@ -178,7 +182,7 @@ describe('QuoteListModule', () => {
 
       expect(store.getActions()).toContainEqual(
         { intent: SET_SORT_ORDER, sortOrder: 'asc', orderBy },
-        { intent: SET_SORT_ORDER, sortOrder: 'desc', orderBy },
+        { intent: SET_SORT_ORDER, sortOrder: 'desc', orderBy }
       );
     });
   });

@@ -1,8 +1,4 @@
-import {
-  Checkbox,
-  HeaderSort,
-  Table,
-} from '@myob/myob-widgets';
+import { Checkbox, HeaderSort, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -21,36 +17,56 @@ import styles from './BankTransactionOpenEntryTable.module.css';
 
 const tableConfig = {
   date: {
-    columnName: 'Date', width: '11rem', valign: 'middle', align: 'left',
+    columnName: 'Date',
+    width: '11rem',
+    valign: 'middle',
+    align: 'left',
   },
   referenceId: {
-    columnName: 'Reference', width: '12.4rem', valign: 'middle', align: 'left',
+    columnName: 'Reference',
+    width: '12.4rem',
+    valign: 'middle',
+    align: 'left',
   },
   description: {
-    columnName: 'Description', width: 'flex-1', valign: 'middle', align: 'left',
+    columnName: 'Description',
+    width: 'flex-1',
+    valign: 'middle',
+    align: 'left',
   },
   amount: {
-    columnName: 'Total ($)', width: '16rem', valign: 'middle', align: 'right',
+    columnName: 'Total ($)',
+    width: '16rem',
+    valign: 'middle',
+    align: 'right',
   },
   discount: {
-    columnName: 'Discount ($)', width: '15rem', valign: 'middle', align: 'right',
+    columnName: 'Discount ($)',
+    width: '15rem',
+    valign: 'middle',
+    align: 'right',
   },
   amountDue: {
-    columnName: 'Balance due ($)', width: '15rem', valign: 'middle', align: 'right',
+    columnName: 'Balance due ($)',
+    width: '15rem',
+    valign: 'middle',
+    align: 'right',
   },
   matchAmount: {
-    columnName: 'Match amount ($)', width: '17rem', valign: 'middle', align: 'right',
+    columnName: 'Match amount ($)',
+    width: '17rem',
+    valign: 'middle',
+    align: 'right',
   },
   checkbox: {
-    cellRole: 'checkbox', valign: 'middle', width: 'auto', align: 'left',
+    cellRole: 'checkbox',
+    valign: 'middle',
+    width: 'auto',
+    align: 'left',
   },
 };
 
-const emptyView = (
-  <div className={styles.openEntryEmpty}>
-    No results.
-  </div>
-);
+const emptyView = <div className={styles.openEntryEmpty}>No results.</div>;
 
 const spinnerView = (
   <div className={styles.bankingTableSpinner}>
@@ -58,17 +74,17 @@ const spinnerView = (
   </div>
 );
 
-const Sorter = ({
-  title,
-  sortName,
-  activeSort,
-  onSort,
-  disabled,
-}) => (
-  disabled ? title : (
-    <HeaderSort title={title} sortName={sortName} activeSort={activeSort} onSort={onSort} />
-  )
-);
+const Sorter = ({ title, sortName, activeSort, onSort, disabled }) =>
+  disabled ? (
+    title
+  ) : (
+    <HeaderSort
+      title={title}
+      sortName={sortName}
+      activeSort={activeSort}
+      onSort={onSort}
+    />
+  );
 
 const MatchTransactionTable = (props) => {
   const {
@@ -169,7 +185,7 @@ const MatchTransactionTable = (props) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
   order: getOrder(state),

@@ -1,6 +1,4 @@
-import {
-  Button, Modal, Select, Spinner,
-} from '@myob/myob-widgets';
+import { Button, Modal, Select, Spinner } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -17,29 +15,34 @@ const ExportPdfModal = ({
   templateOptions,
   isModalBlocking,
   isExportingPDF,
-  listeners: {
-    onCancel,
-    onConfirm,
-    onChange,
-  },
+  listeners: { onCancel, onConfirm, onChange },
 }) => (
   <Modal title="View PDF" onCancel={onCancel} canClose={!isModalBlocking}>
     <Modal.Body>
-      <Select name="template" label="Template" value={template} onChange={handleSelectChange(onChange)}>
+      <Select
+        name="template"
+        label="Template"
+        value={template}
+        onChange={handleSelectChange(onChange)}
+      >
         {templateOptions.map(({ name, label }) => (
           <Select.Option key={name} value={name} label={label} />
-        )) }
+        ))}
       </Select>
     </Modal.Body>
     <Modal.Footer>
-      <Button type="secondary" onClick={onCancel} disabled={isModalBlocking}>Cancel</Button>
-      <Button type="primary" onClick={onConfirm} disabled={isModalBlocking}>Export</Button>
-      { isExportingPDF && <Spinner size="small" /> }
+      <Button type="secondary" onClick={onCancel} disabled={isModalBlocking}>
+        Cancel
+      </Button>
+      <Button type="primary" onClick={onConfirm} disabled={isModalBlocking}>
+        Export
+      </Button>
+      {isExportingPDF && <Spinner size="small" />}
     </Modal.Footer>
   </Modal>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   template: getExportPdfTemplate(state),
   templateOptions: getExportPdfTemplateOptions(state),
   isModalBlocking: getIsModalBlocking(state),

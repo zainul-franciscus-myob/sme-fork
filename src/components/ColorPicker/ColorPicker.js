@@ -14,7 +14,9 @@ const ColorPicker = ({
   // This is because a native color picker is unintuituve to use when
   // black is selected.
 
-  const [showValue, shouldShowValue] = useState(!(defaultColorIfBlack && value === '#000000'));
+  const [showValue, shouldShowValue] = useState(
+    !(defaultColorIfBlack && value === '#000000')
+  );
 
   const handleColorChange = (e) => {
     shouldShowValue(true);
@@ -30,7 +32,12 @@ const ColorPicker = ({
       renderField={() => (
         <div className={styles.container}>
           <Input value={value} maxLength={7} onChange={handleColorChange} />
-          <input className={styles.trigger} type="color" value={showValue ? value : defaultColorIfBlack} onChange={handleColorChange} />
+          <input
+            className={styles.trigger}
+            type="color"
+            value={showValue ? value : defaultColorIfBlack}
+            onChange={handleColorChange}
+          />
           <div className={styles.palette} style={{ backgroundColor: value }} />
         </div>
       )}

@@ -91,15 +91,24 @@ import InvoiceLayout from '../types/InvoiceLayout';
 import InvoiceLineType from '../types/InvoiceLineType';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
-import getDefaultState, { DEFAULT_DISCOUNT, DEFAULT_UNITS } from './getDefaultState';
+import getDefaultState, {
+  DEFAULT_DISCOUNT,
+  DEFAULT_UNITS,
+} from './getDefaultState';
 
 const setInitialState = (state, { context }) => ({ ...state, ...context });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
-const setLoadingState = (state, { loadingState }) => ({ ...state, loadingState });
+const setLoadingState = (state, { loadingState }) => ({
+  ...state,
+  loadingState,
+});
 
-const setSubmittingState = (state, { isSubmitting }) => ({ ...state, isSubmitting });
+const setSubmittingState = (state, { isSubmitting }) => ({
+  ...state,
+  isSubmitting,
+});
 
 const setAlert = (state, { alert }) => ({ ...state, alert });
 
@@ -107,27 +116,39 @@ const setModalType = (state, { modalType }) => ({ ...state, modalType });
 
 const setModalAlert = (state, { modalAlert }) => ({ ...state, modalAlert });
 
-const setModalSubmittingState = (state, { isModalSubmitting }) => ({ ...state, isModalSubmitting });
+const setModalSubmittingState = (state, { isModalSubmitting }) => ({
+  ...state,
+  isModalSubmitting,
+});
 
 const setOriginalAmountDue = ({
-  isTaxInclusive, lines, amountPaid, taxExclusiveFreightAmount = '0', freightTaxAmount = '0',
+  isTaxInclusive,
+  lines,
+  amountPaid,
+  taxExclusiveFreightAmount = '0',
+  freightTaxAmount = '0',
 }) => {
   const totals = calculateTotals({
-    isTaxInclusive, lines, taxExclusiveFreightAmount, freightTaxAmount,
+    isTaxInclusive,
+    lines,
+    taxExclusiveFreightAmount,
+    freightTaxAmount,
   });
 
   return calculateAmountDue(totals.totalAmount, amountPaid);
 };
 
-const buildLineJobOptions = ({ action, jobId }) => (action.jobOptions
-  ? action.jobOptions.filter(job => job.isActive || job.id === jobId) : []);
+const buildLineJobOptions = ({ action, jobId }) =>
+  action.jobOptions
+    ? action.jobOptions.filter((job) => job.isActive || job.id === jobId)
+    : [];
 
 const loadInvoiceDetail = (state, action) => {
   const defaultState = getDefaultState();
 
   const isPreConversion = isBefore(
     new Date(action.invoice.issueDate),
-    new Date(action.conversionDate),
+    new Date(action.conversionDate)
   );
 
   return {
@@ -137,16 +158,21 @@ const loadInvoiceDetail = (state, action) => {
       ...state.invoice,
       ...action.invoice,
       status: action.invoice.status || defaultState.invoice.status,
-      lines: action.invoice.lines.map(line => {
-        const lineJobOptions = buildLineJobOptions({ action, jobId: line.jobId });
-        if ([
-          InvoiceLineType.SERVICE,
-          InvoiceLineType.ITEM,
-          InvoiceLineType.SUB_TOTAL,
-        ].includes(line.type)) {
+      lines: action.invoice.lines.map((line) => {
+        const lineJobOptions = buildLineJobOptions({
+          action,
+          jobId: line.jobId,
+        });
+        if (
+          [
+            InvoiceLineType.SERVICE,
+            InvoiceLineType.ITEM,
+            InvoiceLineType.SUB_TOTAL,
+          ].includes(line.type)
+        ) {
           const amount = action.invoice.isTaxInclusive
-            ? (new Decimal(line.taxExclusiveAmount).add(line.taxAmount)).valueOf()
-            : (new Decimal(line.taxExclusiveAmount)).valueOf();
+            ? new Decimal(line.taxExclusiveAmount).add(line.taxAmount).valueOf()
+            : new Decimal(line.taxExclusiveAmount).valueOf();
 
           return { ...line, amount, lineJobOptions };
         }
@@ -163,7 +189,8 @@ const loadInvoiceDetail = (state, action) => {
     comments: action.comments || state.comments,
     serialNumber: action.serialNumber,
     customerOptions: action.customerOptions || state.customerOptions,
-    expirationTermOptions: action.expirationTermOptions || state.expirationTermOptions,
+    expirationTermOptions:
+      action.expirationTermOptions || state.expirationTermOptions,
     itemOptions: action.itemOptions || state.itemOptions,
     taxCodeOptions: action.taxCodeOptions || state.taxCodeOptions,
     emailInvoice: {
@@ -187,7 +214,9 @@ const loadInvoiceDetail = (state, action) => {
     subscription: {
       ...defaultState.subscription,
       ...action.subscription,
-      monthlyLimit: action.subscription.monthlyLimit || defaultState.subscription.monthlyLimit,
+      monthlyLimit:
+        action.subscription.monthlyLimit ||
+        defaultState.subscription.monthlyLimit,
       isUpgradeModalShowing: action.subscription.monthlyLimit
         ? !!action.subscription.monthlyLimit.hasHitLimit
         : defaultState.subscription.isUpgradeModalShowing,
@@ -243,9 +272,7 @@ const loadCustomer = (state, { address }) => ({
   },
 });
 
-const loadCustomerAfterCreate = (state, {
-  customerId, address, option,
-}) => ({
+const loadCustomerAfterCreate = (state, { customerId, address, option }) => ({
   ...state,
   invoice: {
     ...state.invoice,
@@ -255,7 +282,10 @@ const loadCustomerAfterCreate = (state, {
   customerOptions: getUpdatedCustomerOptions(state, option),
 });
 
-const setCustomerLoadingState = (state, { isCustomerLoading }) => ({ ...state, isCustomerLoading });
+const setCustomerLoadingState = (state, { isCustomerLoading }) => ({
+  ...state,
+  isCustomerLoading,
+});
 
 const resetCustomer = (state) => ({
   ...state,
@@ -270,39 +300,32 @@ export const loadJobAfterCreate = (state, { intent, ...job }) => ({
   ...state,
   invoice: {
     ...state.invoice,
-    lines: state.invoice.lines.map(line => ({
+    lines: state.invoice.lines.map((line) => ({
       ...line,
-      lineJobOptions: [
-        job,
-        ...line.lineJobOptions,
-      ],
+      lineJobOptions: [job, ...line.lineJobOptions],
     })),
   },
   newLine: {
     ...state.newLine,
-    lineJobOptions: [
-      job,
-      ...state.newLine.lineJobOptions,
-    ],
+    lineJobOptions: [job, ...state.newLine.lineJobOptions],
   },
   isPageEdited: true,
 });
 
+const updateInvoiceIdAfterCreate = (state, { invoiceId }) => ({
+  ...state,
+  invoiceId,
+});
 
-const updateInvoiceIdAfterCreate = (state, { invoiceId }) => ({ ...state, invoiceId });
+const setInvoiceDetailHeaderOptions = (state, { key, value }) =>
+  updateInvoiceState(state, { [key]: value });
 
-const setInvoiceDetailHeaderOptions = (state, { key, value }) => updateInvoiceState(
-  state, { [key]: value },
-);
-
-const updatePaymentAmount = (state, { amountPaid }) => updateInvoiceState(state, { amountPaid });
+const updatePaymentAmount = (state, { amountPaid }) =>
+  updateInvoiceState(state, { amountPaid });
 
 const loadItemOption = (state, action) => ({
   ...state,
-  itemOptions: [
-    action.response,
-    ...state.itemOptions,
-  ],
+  itemOptions: [action.response, ...state.itemOptions],
 });
 
 const updateInvoiceLayout = (state, action) => ({
@@ -311,8 +334,8 @@ const updateInvoiceLayout = (state, action) => ({
     ...state.invoice,
     layout: action.layout,
     lines: state.invoice.lines
-      .filter(line => line.type === InvoiceLineType.SERVICE)
-      .map(line => ({
+      .filter((line) => line.type === InvoiceLineType.SERVICE)
+      .map((line) => ({
         ...line,
         id: '',
       })),
@@ -336,7 +359,7 @@ const updateInvoiceLine = (state, action) => {
     return key === 'itemId' ? InvoiceLineType.ITEM : InvoiceLineType.SERVICE;
   };
 
-  return ({
+  return {
     ...state,
     isPageEdited: true,
     invoice: {
@@ -351,9 +374,9 @@ const updateInvoiceLine = (state, action) => {
             id: type === line.type ? line.id : '',
             taxCodeId: isUpdateAccountId
               ? getDefaultTaxCodeId({
-                accountId: action.value,
-                accountOptions: state.accountOptions,
-              })
+                  accountId: action.value,
+                  accountOptions: state.accountOptions,
+                })
               : line.taxCodeId,
             jobId: isUpdateJob ? action.value : line.jobId,
             [action.key]: action.value,
@@ -363,18 +386,15 @@ const updateInvoiceLine = (state, action) => {
         return line;
       }),
     },
-  });
+  };
 };
 
-const addInvoiceLine = state => ({
+const addInvoiceLine = (state) => ({
   ...state,
   isPageEdited: true,
   invoice: {
     ...state.invoice,
-    lines: [
-      ...state.invoice.lines,
-      state.newLine,
-    ],
+    lines: [...state.invoice.lines, state.newLine],
   },
 });
 
@@ -404,7 +424,10 @@ export const setRedirectState = (state, { redirectUrl, isOpenInNewTab }) => ({
   isOpenInNewTab,
 });
 
-const setUpgradeModalShowing = (state, { isUpgradeModalShowing, monthlyLimit }) => ({
+const setUpgradeModalShowing = (
+  state,
+  { isUpgradeModalShowing, monthlyLimit }
+) => ({
   ...state,
   subscription: {
     ...state.subscription,

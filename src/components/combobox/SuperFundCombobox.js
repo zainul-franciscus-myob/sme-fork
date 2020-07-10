@@ -3,16 +3,14 @@ import React from 'react';
 import Combobox from './Combobox';
 
 const SuperFundCombobox = (props) => {
-  const {
-    items = [],
-    ...otherProps
-  } = props;
+  const { items = [], ...otherProps } = props;
 
-  const metaData = [
-    { columnName: 'name', showData: true },
-  ];
+  const metaData = [{ columnName: 'name', showData: true }];
 
-  const formattedItems = items.map(({ name, ...rest }) => ({ ...rest, name: ` ${name}` }));
+  const formattedItems = items.map(({ name, ...rest }) => ({
+    ...rest,
+    name: ` ${name}`,
+  }));
 
   return (
     <Combobox

@@ -1,9 +1,4 @@
-import {
-  Button,
-  Combobox,
-  Modal,
-  ReadOnly,
-} from '@myob/myob-widgets';
+import { Button, Combobox, Modal, ReadOnly } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -24,7 +19,9 @@ const FinancialInstitutions = ({
   <fieldset>
     <Combobox
       selected={financialInstitution}
-      items={accountType === 'Trading Account' ? bankAccounts : creditCardAccounts}
+      items={
+        accountType === 'Trading Account' ? bankAccounts : creditCardAccounts
+      }
       label="Financial institution"
       metaData={[{ columnName: 'description', showData: true }]}
       name="financialInstitution"
@@ -42,30 +39,49 @@ const NoFinancialInstitution = ({
 }) => (
   <>
     <fieldset>
-      <ReadOnly hideLabel label="No financial institution" name="noFinancialInstitution">
-        <Button type="link" onClick={setModalState}>My bank is not listed</Button>
+      <ReadOnly
+        hideLabel
+        label="No financial institution"
+        name="noFinancialInstitution"
+      >
+        <Button type="link" onClick={setModalState}>
+          My bank is not listed
+        </Button>
       </ReadOnly>
     </fieldset>
 
-    {
-      isModalOpen
-        ? <Modal onCancel={setModalState} size="small" title="My bank is not listed">
-            <Modal.Body>
-              <p>
-                Can&apos;t find your bank on the list?
-                Then it seems your bank doesn&apos;t currently support bank feeds.
-              </p>
+    {isModalOpen ? (
+      <Modal
+        onCancel={setModalState}
+        size="small"
+        title="My bank is not listed"
+      >
+        <Modal.Body>
+          <p>
+            Can&apos;t find your bank on the list? Then it seems your bank
+            doesn&apos;t currently support bank feeds.
+          </p>
+          You will need to import bank and credit card statements instead.
+        </Modal.Body>
 
-              You will need to import bank and credit card statements instead.
-            </Modal.Body>
-
-            <Modal.Footer>
-              <button type="button" className="btn btn-default" onClick={setModalState}>Go back</button>
-              <button type="button" className="btn btn-primary" onClick={redirectToImportStatements}>Import statements</button>
-            </Modal.Footer>
-          </Modal>
-        : null
-    }
+        <Modal.Footer>
+          <button
+            type="button"
+            className="btn btn-default"
+            onClick={setModalState}
+          >
+            Go back
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={redirectToImportStatements}
+          >
+            Import statements
+          </button>
+        </Modal.Footer>
+      </Modal>
+    ) : null}
   </>
 );
 
@@ -96,7 +112,7 @@ const BankFeedsFinancialInstitutions = ({
   </>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accountType: getAccountType(state),
   bankAccounts: getBankAccounts(state),
   creditCardAccounts: getCreditCardAccounts(state),

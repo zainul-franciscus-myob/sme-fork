@@ -38,15 +38,29 @@ const DashboardTrackingLegend = ({
     </div>
     <div className={styles.amounts}>
       <div className={styles.incomeExpenses}>
-        <DashboardTrackingLegendItem name="Income" value={incomeAmount} className={styles.income} isNegative={isIncomeNegative} />
-        <DashboardTrackingLegendItem name="Expenses" value={expenseAmount} className={styles.expense} isNegative={isExpensesNegative} />
+        <DashboardTrackingLegendItem
+          name="Income"
+          value={incomeAmount}
+          className={styles.income}
+          isNegative={isIncomeNegative}
+        />
+        <DashboardTrackingLegendItem
+          name="Expenses"
+          value={expenseAmount}
+          className={styles.expense}
+          isNegative={isExpensesNegative}
+        />
       </div>
-      <DashboardTrackingLegendItem name="Net profit" value={profitAmount} className={styles.profit} isNegative={isProfitNegative} />
+      <DashboardTrackingLegendItem
+        name="Net profit"
+        value={profitAmount}
+        className={styles.profit}
+        isNegative={isProfitNegative}
+      />
     </div>
   </div>
 );
 
-
-const mapStateToProps = state => getLegend(state);
+const mapStateToProps = (state) => getLegend(state);
 
 export default connect(mapStateToProps)(DashboardTrackingLegend);

@@ -76,7 +76,7 @@ const SpendMoneyDetailSecondaryOptions = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isSupplierBlocking: getIsSupplierBlocking(state),
   headerOptions: getHeaderOptions(state),
   prefillStatus: getPrefillStatus(state),

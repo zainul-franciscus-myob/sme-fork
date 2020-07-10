@@ -1,10 +1,6 @@
 import { addCommasInPlace, removeCommas } from './formatter';
 
-const getNewCursorPosition = ({
-  endPosition,
-  oldValue,
-  value,
-}) => {
+const getNewCursorPosition = ({ endPosition, oldValue, value }) => {
   const valueWithoutCommas = removeCommas(value);
   const valueWithCommas = addCommasInPlace(valueWithoutCommas);
 
@@ -15,10 +11,12 @@ const getNewCursorPosition = ({
 
   if (isNotAddingOrRemovingComma) {
     return endPosition;
-  } if (isCommaBeingAdded) {
+  }
+  if (isCommaBeingAdded) {
     const numberOfCommasToAdd = valueWithCommas.length - value.length;
     return endPosition + numberOfCommasToAdd;
-  } if (isCommaBeingDeleted && !isCursorAtBeginning) {
+  }
+  if (isCommaBeingDeleted && !isCursorAtBeginning) {
     /*
       For understanding of which scenarios this branching handles,
       look at `edge cases` in `getNewCursorPosition.test.js`

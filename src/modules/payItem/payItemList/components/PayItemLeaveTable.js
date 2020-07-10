@@ -1,10 +1,12 @@
-import {
-  Button, HeaderSort, Icons, Table,
-} from '@myob/myob-widgets';
+import { Button, HeaderSort, Icons, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsLeaveTableEmpty, getIsTableLoading, getLeaveOrder } from '../PayItemListSelectors';
+import {
+  getIsLeaveTableEmpty,
+  getIsTableLoading,
+  getLeaveOrder,
+} from '../PayItemListSelectors';
 import LeaveTableBody from './PayItemLeaveTableBody';
 import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
 import TableView from '../../../../components/TableView/TableView';
@@ -18,10 +20,20 @@ const PayItemLeaveList = ({
   const header = (
     <Table.Header>
       <Table.HeaderItem>
-        <HeaderSort title="Pay item name" sortName="Name" activeSort={order} onSort={onSortLeaveList} />
+        <HeaderSort
+          title="Pay item name"
+          sortName="Name"
+          activeSort={order}
+          onSort={onSortLeaveList}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem>
-        <HeaderSort title="Calculation basis" sortName="DisplayType" activeSort={order} onSort={onSortLeaveList} />
+        <HeaderSort
+          title="Calculation basis"
+          sortName="DisplayType"
+          activeSort={order}
+          onSort={onSortLeaveList}
+        />
       </Table.HeaderItem>
     </Table.Header>
   );
@@ -57,7 +69,7 @@ const PayItemLeaveList = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   order: getLeaveOrder(state),
   isTableLoading: getIsTableLoading(state),
   isLeaveTableEmpty: getIsLeaveTableEmpty(state),

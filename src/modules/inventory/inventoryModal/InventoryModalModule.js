@@ -29,7 +29,7 @@ export default class InventoryModalModule {
     };
 
     this.integrator.loadItem({ onSuccess, onFailure });
-  }
+  };
 
   save = () => {
     if (this.isLoading()) return;
@@ -46,7 +46,7 @@ export default class InventoryModalModule {
 
     this.dispatcher.startLoading();
     this.integrator.saveItem({ onSuccess, onFailure });
-  }
+  };
 
   run = ({ context, onSaveSuccess, onLoadFailure }) => {
     this.onSaveSuccess = onSaveSuccess;
@@ -54,11 +54,11 @@ export default class InventoryModalModule {
     this.dispatcher.setInitialState(context);
     this.dispatcher.open();
     this.loadItem();
-  }
+  };
 
   resetState = () => {
     this.dispatcher.resetState();
-  }
+  };
 
   render() {
     return (

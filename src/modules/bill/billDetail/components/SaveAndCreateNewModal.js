@@ -11,22 +11,24 @@ const SaveAndCreateNewModal = ({
   onConfirmSaveAndCreateNewButtonClick,
   onCancel,
 }) => (
-  <Modal
-    title="Save and create new"
-    size="small"
-    onCancel={onCancel}
-  >
-    <Modal.Body>
-      {modalBody}
-    </Modal.Body>
+  <Modal title="Save and create new" size="small" onCancel={onCancel}>
+    <Modal.Body>{modalBody}</Modal.Body>
     <Modal.Footer>
-      <Button type="secondary" onClick={onCancel} disabled={isBlocking}>Go back</Button>
-      <Button type="primary" onClick={onConfirmSaveAndCreateNewButtonClick} disabled={isBlocking}>Save</Button>
+      <Button type="secondary" onClick={onCancel} disabled={isBlocking}>
+        Go back
+      </Button>
+      <Button
+        type="primary"
+        onClick={onConfirmSaveAndCreateNewButtonClick}
+        disabled={isBlocking}
+      >
+        Save
+      </Button>
     </Modal.Footer>
   </Modal>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isBlocking: getIsBlocking(state),
   modalBody: getSaveAndCreateNewModalBody(state),
 });

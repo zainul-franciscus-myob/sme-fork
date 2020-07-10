@@ -71,7 +71,9 @@ const PayItemListView = ({
 
   const actions = createButtonType && (
     <ButtonRow>
-      <Button onClick={onCreatePayItemButtonClick}>{`Create ${createButtonType} pay item`}</Button>
+      <Button
+        onClick={onCreatePayItemButtonClick}
+      >{`Create ${createButtonType} pay item`}</Button>
     </ButtonRow>
   );
 
@@ -124,13 +126,15 @@ const PayItemListView = ({
     />
   );
 
-  return <PageView
-    loadingState={loadingState}
-    view={payrollIsSetUp ? payItemView : payrollNotSetUpView}
-  />;
+  return (
+    <PageView
+      loadingState={loadingState}
+      view={payrollIsSetUp ? payItemView : payrollNotSetUpView}
+    />
+  );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedTab: getTab(state),
   showActionButtonForTax: getShowActionButtonForTax(state),
   alert: getAlert(state),

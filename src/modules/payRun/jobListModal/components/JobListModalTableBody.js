@@ -1,6 +1,4 @@
-import {
-  Checkbox, Table,
-} from '@myob/myob-widgets';
+import { Checkbox, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -17,9 +15,13 @@ const JobListModalTableBody = ({
   onAddJobAmountBlur,
   onAddJobAmountChange,
 }) => {
-  const rows = jobs.map(job => {
+  const rows = jobs.map((job) => {
     const onCheckboxChanged = ({ value }) => {
-      onAddJobCheckboxChange({ id: job.id, isSelected: value, amount: job.amount });
+      onAddJobCheckboxChange({
+        id: job.id,
+        isSelected: value,
+        amount: job.amount,
+      });
     };
 
     const onAmountChanged = ({ value }) => {
@@ -40,39 +42,29 @@ const JobListModalTableBody = ({
       />
     );
 
-    const onRowSelect = () => { };
+    const onRowSelect = () => {};
 
     return (
       <Table.Row onRowSelect={onRowSelect} key={`${job.id}`}>
-        <Table.RowItem {...tableConfig.checkbox}>
-          {checkbox}
-        </Table.RowItem>
-        <Table.RowItem {...tableConfig.id}>
-          {job.jobNumber}
-        </Table.RowItem>
-        <Table.RowItem {...tableConfig.name}>
-          {job.jobName}
-        </Table.RowItem>
+        <Table.RowItem {...tableConfig.checkbox}>{checkbox}</Table.RowItem>
+        <Table.RowItem {...tableConfig.id}>{job.jobNumber}</Table.RowItem>
+        <Table.RowItem {...tableConfig.name}>{job.jobName}</Table.RowItem>
         <Table.RowItem {...tableConfig.amount}>
-        <AmountInput
-          textAlign="left"
-          name="value"
-          value={job.amount}
-          onChange={handleAmountInputChange(onAmountChanged)}
-          onBlur={handleAmountInputChange(onAmountBlur)}
-          numeralDecimalScaleMin={2}
-          numeralDecimalScaleMax={2}
-        />
+          <AmountInput
+            textAlign="left"
+            name="value"
+            value={job.amount}
+            onChange={handleAmountInputChange(onAmountChanged)}
+            onBlur={handleAmountInputChange(onAmountBlur)}
+            numeralDecimalScaleMin={2}
+            numeralDecimalScaleMax={2}
+          />
         </Table.RowItem>
       </Table.Row>
     );
   });
 
-  return (
-    <Table.Body className={styles.jobListTableBody}>
-      {rows}
-    </Table.Body>
-  );
+  return <Table.Body className={styles.jobListTableBody}>{rows}</Table.Body>;
 };
 
 const mapStateToProps = (state) => ({

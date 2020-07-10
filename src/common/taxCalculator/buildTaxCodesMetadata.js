@@ -50,7 +50,7 @@ const buildTaxCodeMetadata = ({
   Rate: Decimal(isWithholding ? Math.abs(Number(rate)) : rate),
   Threshold: Decimal(threshold),
   ChildrenCalculationCollection: childrenCalculationCollection.map(
-    childTaxCode => buildTaxCodeMetadata(childTaxCode),
+    (childTaxCode) => buildTaxCodeMetadata(childTaxCode)
   ),
   CalculationMethod: CalculationMethods[calculationMethod],
   RoundingMethod: RoundingMethods[roundingMethod],
@@ -61,12 +61,13 @@ const buildTaxCodeMetadata = ({
   IncludeInGstReturn: includeInGstReturn,
 });
 
-const buildTaxCodesMetadata = taxCodes => (
-  taxCodes.reduce((results, taxCode) => ({
-    ...results,
-    [taxCode.id]: buildTaxCodeMetadata(taxCode),
-  }), {})
-);
-
+const buildTaxCodesMetadata = (taxCodes) =>
+  taxCodes.reduce(
+    (results, taxCode) => ({
+      ...results,
+      [taxCode.id]: buildTaxCodeMetadata(taxCode),
+    }),
+    {}
+  );
 
 export default buildTaxCodesMetadata;

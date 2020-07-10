@@ -31,17 +31,21 @@ const loadWagesList = ({ onSuccess }) => onSuccess(wagesListLoadResponse);
 
 const sortWagesList = ({ onSuccess }) => onSuccess(wagesListSortResponse);
 
-const loadSuperannuationList = ({ onSuccess }) => onSuccess(superannuationListLoadResponse);
+const loadSuperannuationList = ({ onSuccess }) =>
+  onSuccess(superannuationListLoadResponse);
 
-const sortSuperannuationList = ({ onSuccess }) => onSuccess(superannuationListSortResponse);
+const sortSuperannuationList = ({ onSuccess }) =>
+  onSuccess(superannuationListSortResponse);
 
 const loadLeaveList = ({ onSuccess }) => onSuccess(leaveListLoadResponse);
 
 const sortLeaveList = ({ onSuccess }) => onSuccess(leaveListSortResponse);
 
-const loadDeductionsList = ({ onSuccess }) => onSuccess(deductionsListLoadResponse);
+const loadDeductionsList = ({ onSuccess }) =>
+  onSuccess(deductionsListLoadResponse);
 
-const sortDeductionList = ({ onSuccess }) => onSuccess(deductionsListSortResponse);
+const sortDeductionList = ({ onSuccess }) =>
+  onSuccess(deductionsListSortResponse);
 
 const loadExpensesList = ({ onSuccess }) => onSuccess(expensesListLoadResponse);
 

@@ -104,7 +104,11 @@ export default class PayRunDetailModule {
 
   openPayDetailModal = (transactionId, employeeName) => {
     const state = this.store.getState();
-    const modalContext = getEmployeePayModalContext({ state, transactionId, employeeName });
+    const modalContext = getEmployeePayModalContext({
+      state,
+      transactionId,
+      employeeName,
+    });
     this.employeePayModal.openModal(modalContext);
   };
 
@@ -112,7 +116,11 @@ export default class PayRunDetailModule {
     const state = this.store.getState();
     const employees = getSelectedEmployeesToEmail(state);
     const emailSettings = getEmailSettings(state);
-    const context = getEmailPaySlipModalContext({ state, employees, emailSettings });
+    const context = getEmailPaySlipModalContext({
+      state,
+      employees,
+      emailSettings,
+    });
     this.emailPaySlipModal.run({ context, onClose: this.loadPayRunDetails });
   };
 

@@ -1,11 +1,7 @@
 import { FileBrowser } from '@myob/myob-widgets';
 import React from 'react';
 
-const InTrayFileBrowser = ({
-  buttonType,
-  buttonLabel,
-  onFileSelected,
-}) => (
+const InTrayFileBrowser = ({ buttonType, buttonLabel, onFileSelected }) => (
   <FileBrowser
     onFileSelected={onFileSelected}
     buttonType={buttonType}

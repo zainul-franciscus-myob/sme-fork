@@ -1,4 +1,8 @@
-import { getTitle, getUserDetails, getUserForCreate } from '../userDetailSelectors';
+import {
+  getTitle,
+  getUserDetails,
+  getUserForCreate,
+} from '../userDetailSelectors';
 import RoleTypes from '../../../../common/types/RoleTypes';
 
 describe('User Detail Selectors', () => {
@@ -34,10 +38,7 @@ describe('User Detail Selectors', () => {
         email: 'riveng@myob.com',
         isAdvisor: false,
         isAdmin: false,
-        roleIds: [
-          1,
-          3,
-        ],
+        roleIds: [1, 3],
       };
       const actual = getUserForCreate(state);
 
@@ -150,9 +151,11 @@ describe('User Detail Selectors', () => {
       };
       const actual = getUserDetails.resultFunc(user, true, true);
 
-      expect(actual.roles).toEqual([{
-        type: RoleTypes.ADMINISTRATOR,
-      }]);
+      expect(actual.roles).toEqual([
+        {
+          type: RoleTypes.ADMINISTRATOR,
+        },
+      ]);
     });
   });
 });

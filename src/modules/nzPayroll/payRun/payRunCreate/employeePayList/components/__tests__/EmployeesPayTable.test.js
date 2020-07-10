@@ -1,11 +1,12 @@
 import { Provider } from 'react-redux';
-import {
-  Table,
-} from '@myob/myob-widgets';
+import { Table } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { LOAD_EMPLOYEE_PAYS, UPDATE_IS_EMPLOYEE_SELECTED } from '../../../PayRunIntents';
+import {
+  LOAD_EMPLOYEE_PAYS,
+  UPDATE_IS_EMPLOYEE_SELECTED,
+} from '../../../PayRunIntents';
 import EmployeePayTable from '../EmployeesPayTable';
 import TestStore from '../../../../../../../store/TestStore';
 import employeePayList from '../../__tests__/fixtures/loadEmployeePayList';
@@ -21,15 +22,28 @@ describe('EmployeePayTable', () => {
 
   afterEach(jest.clearAllMocks);
 
-  const mountWithProvider = component => mount(component,
-    { wrappingComponent: Provider, wrappingComponentProps: { store } });
+  const mountWithProvider = (component) =>
+    mount(component, {
+      wrappingComponent: Provider,
+      wrappingComponentProps: { store },
+    });
 
   describe('on table load', () => {
     it('should have headers in correct order', () => {
       const wrapper = mountWithProvider(<EmployeePayTable {...props} />);
 
-      const expected = ['Employee', 'Days Paid ', 'Gross ($)', 'PAYE ($)', 'KiwiSaver ($)', 'Take home pay ($)'];
-      const actual = wrapper.find({ testClass: 'column-type-test-class' }).find(Table.HeaderItem).map(x => x.text());
+      const expected = [
+        'Employee',
+        'Days Paid ',
+        'Gross ($)',
+        'PAYE ($)',
+        'KiwiSaver ($)',
+        'Take home pay ($)',
+      ];
+      const actual = wrapper
+        .find({ testClass: 'column-type-test-class' })
+        .find(Table.HeaderItem)
+        .map((x) => x.text());
 
       expect(actual).toEqual(expected);
     });
@@ -46,7 +60,7 @@ describe('EmployeePayTable', () => {
         .find({ testId: 'employee-21-row' })
         .find({ testClass: 'column-type-test-class' })
         .find(Table.RowItem);
-      const employeeRowTexts = employeeRow.map(x => x.text());
+      const employeeRowTexts = employeeRow.map((x) => x.text());
 
       const expected = [
         'Mary Jones',
@@ -54,7 +68,8 @@ describe('EmployeePayTable', () => {
         '1,500.00',
         '100.00',
         '150.00',
-        '700.00'];
+        '700.00',
+      ];
 
       expect(employeeRowTexts).toEqual(expected);
     });
@@ -73,14 +88,9 @@ describe('EmployeePayTable', () => {
         .find({ testId: 'totals-row-test-id' })
         .find({ testClass: 'totals-row-item-test-class' })
         .find(Table.RowItem);
-      const totalsRowTextValues = totalsRow.map(x => x.text());
+      const totalsRowTextValues = totalsRow.map((x) => x.text());
 
-      const expected = [
-        '3,750.55',
-        '225.00',
-        '350.00',
-        '1,705.15',
-      ];
+      const expected = ['3,750.55', '225.00', '350.00', '1,705.15'];
 
       expect(totalsRowTextValues).toEqual(expected);
     });
@@ -104,14 +114,9 @@ describe('EmployeePayTable', () => {
         .find({ testId: 'totals-row-test-id' })
         .find({ testClass: 'totals-row-item-test-class' })
         .find(Table.RowItem);
-      const totalsRowTextValues = totalsRow.map(x => x.text());
+      const totalsRowTextValues = totalsRow.map((x) => x.text());
 
-      const expected = [
-        '1,500.00',
-        '100.00',
-        '150.00',
-        '700.00',
-      ];
+      const expected = ['1,500.00', '100.00', '150.00', '700.00'];
 
       expect(totalsRowTextValues).toEqual(expected);
     });

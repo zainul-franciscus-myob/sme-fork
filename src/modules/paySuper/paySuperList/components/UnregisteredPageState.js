@@ -14,7 +14,13 @@ const UnregisteredPageState = ({ onLinkClick }) => {
     <PageState
       title="Pay Super, straight from MYOB"
       description="Get more time back by paying your employees' super contributions directly from MYOB - it's simple, secure and SuperStream ready."
-      image={<img src={accessDeniedImage} style={{ width: '60%' }} alt="Not registered for PaySuper" />}
+      image={
+        <img
+          src={accessDeniedImage}
+          style={{ width: '60%' }}
+          alt="Not registered for PaySuper"
+        />
+      }
       actions={[signUpButton]}
     />
   );

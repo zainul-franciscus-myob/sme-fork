@@ -13,9 +13,7 @@ import {
   getPayrollSettingsLink,
   getPayrunListLink,
 } from '../../selectors/DashboardPayrollSelectors';
-import {
-  getShouldUsePayrollLayout,
-} from '../../selectors/DashboardSelectors';
+import { getShouldUsePayrollLayout } from '../../selectors/DashboardSelectors';
 import CreatePayrun from './create_pay_run.svg';
 import DashboardCardHeader from '../DashboardCardHeader';
 import DashboardPayrollCard from './DashboardPayrollCard';
@@ -35,55 +33,77 @@ const DashboardPayrollPayrunsCard = ({
   payrollSettingsLink,
   shouldUsePayrollLayout,
 }) => {
-  const entries = payrollEntries.map(entry => (
-      <div className={styles.container}>
-        <div>
-          <div className={classNames(styles.row, styles.firstRow, styles.payRunCompleted)}>
-            <h3>{entry.date}</h3>
-            {entry.isDraft
-              ? <div className={styles.tag}>Draft</div>
-              : <div className={styles.tick}><Icons.Tick /></div>}
-          </div>
-          <div className={styles.row}>
-            <div className={styles.lightText}>{entry.formatedPaymentDate}</div>
-            {entry.isDraft
-              ? (
-                <Button
-                  type="link"
-                  icon={<Icons.ArrowRight />}
-                  onClick={() => { onLinkClick(createPayrunLink); }}
-                >
-                  Continue pay run
-                </Button>
-              )
-              : <div className={styles.lightText}>{entry.amount}</div>}
-          </div>
+  const entries = payrollEntries.map((entry) => (
+    <div className={styles.container}>
+      <div>
+        <div
+          className={classNames(
+            styles.row,
+            styles.firstRow,
+            styles.payRunCompleted
+          )}
+        >
+          <h3>{entry.date}</h3>
+          {entry.isDraft ? (
+            <div className={styles.tag}>Draft</div>
+          ) : (
+            <div className={styles.tick}>
+              <Icons.Tick />
+            </div>
+          )}
+        </div>
+        <div className={styles.row}>
+          <div className={styles.lightText}>{entry.formatedPaymentDate}</div>
+          {entry.isDraft ? (
+            <Button
+              type="link"
+              icon={<Icons.ArrowRight />}
+              onClick={() => {
+                onLinkClick(createPayrunLink);
+              }}
+            >
+              Continue pay run
+            </Button>
+          ) : (
+            <div className={styles.lightText}>{entry.amount}</div>
+          )}
         </div>
       </div>
+    </div>
   ));
 
   const createPayrunButton = shouldUsePayrollLayout ? (
     <Button
       type="primary"
-      onClick={() => { onLinkClick(createPayrunLink); }}
+      onClick={() => {
+        onLinkClick(createPayrunLink);
+      }}
     >
       Create pay run
     </Button>
   ) : (
-      <Button
-        type="link"
-        icon={<Icons.Add />}
-        onClick={() => { onLinkClick(createPayrunLink); }}
-      >
-        Create pay run
-      </Button>
+    <Button
+      type="link"
+      icon={<Icons.Add />}
+      onClick={() => {
+        onLinkClick(createPayrunLink);
+      }}
+    >
+      Create pay run
+    </Button>
   );
 
   const emptyView = (
     <PageState
       title="You have no recent pay runs"
       actions={[createPayrunButton]}
-      image={<img src={EmptyStatePayroll} style={{ width: '50%' }} alt="no recent payruns" />}
+      image={
+        <img
+          src={EmptyStatePayroll}
+          style={{ width: '50%' }}
+          alt="no recent payruns"
+        />
+      }
     />
   );
 
@@ -91,21 +111,30 @@ const DashboardPayrollPayrunsCard = ({
     <PageState
       title="Setup your payroll"
       actions={[
-      <Button type="primary" onClick={() => { onLinkClick(payrollSettingsLink); }}>Get started</Button>,
+        <Button
+          type="primary"
+          onClick={() => {
+            onLinkClick(payrollSettingsLink);
+          }}
+        >
+          Get started
+        </Button>,
       ]}
-      image={<img src={CreatePayrun} style={{ width: '50%' }} alt="setup payroll" />}
+      image={
+        <img src={CreatePayrun} style={{ width: '50%' }} alt="setup payroll" />
+      }
     />
   );
 
   const payrollPayrunView = (
     <div className={styles.body}>
-      <div>
-        {entries}
-      </div>
+      <div>{entries}</div>
       <div className={styles.viewAllSection}>
         <Button
           type="link"
-          onClick={() => { onLinkClick(payrunListLink); }}
+          onClick={() => {
+            onLinkClick(payrunListLink);
+          }}
         >
           View all
         </Button>
@@ -139,12 +168,14 @@ const DashboardPayrollPayrunsCard = ({
     </>
   );
 
-  return <DashboardPayrollCard
-    hasError={hasError}
-    onReload={onReload}
-    isLoading={isLoading}
-    view={view}
-  />;
+  return (
+    <DashboardPayrollCard
+      hasError={hasError}
+      onReload={onReload}
+      isLoading={isLoading}
+      view={view}
+    />
+  );
 };
 
 const mapStateToProps = (state) => ({

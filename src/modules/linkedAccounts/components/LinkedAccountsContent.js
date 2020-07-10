@@ -15,26 +15,32 @@ const LinkedAccountsContent = ({
   onHasAccountOptionChange,
 }) => (
   <Card>
-    {{
-      [TabItem.ACCOUNTS_AND_BANKING]: <AccountsAndBankingTabContent
-        onAccountChange={onAccountChange}
-      />,
-      [TabItem.SALES]: <SalesTabContent
-        onAccountChange={onAccountChange}
-        onHasAccountOptionChange={onHasAccountOptionChange}
-      />,
-      [TabItem.PURCHASES]: <PurchasesTabContent
-        onAccountChange={onAccountChange}
-        onHasAccountOptionChange={onHasAccountOptionChange}
-      />,
-      [TabItem.PAYROLL]: <PayrollTabContent
-        onAccountChange={onAccountChange}
-      />,
-    }[selectedTab]}
+    {
+      {
+        [TabItem.ACCOUNTS_AND_BANKING]: (
+          <AccountsAndBankingTabContent onAccountChange={onAccountChange} />
+        ),
+        [TabItem.SALES]: (
+          <SalesTabContent
+            onAccountChange={onAccountChange}
+            onHasAccountOptionChange={onHasAccountOptionChange}
+          />
+        ),
+        [TabItem.PURCHASES]: (
+          <PurchasesTabContent
+            onAccountChange={onAccountChange}
+            onHasAccountOptionChange={onHasAccountOptionChange}
+          />
+        ),
+        [TabItem.PAYROLL]: (
+          <PayrollTabContent onAccountChange={onAccountChange} />
+        ),
+      }[selectedTab]
+    }
   </Card>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedTab: getSelectedTab(state),
 });
 

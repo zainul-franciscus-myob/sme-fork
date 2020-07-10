@@ -85,7 +85,7 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import ModalTypes from './ModalTypes';
 
-const createBankingDispatcher = store => ({
+const createBankingDispatcher = (store) => ({
   focusEntry: (index) => {
     store.dispatch({
       intent: SET_ENTRY_FOCUS,
@@ -161,7 +161,6 @@ const createBankingDispatcher = store => ({
     });
   },
 
-
   allocateTransaction: (index, { payload }) => {
     store.dispatch({
       intent: ALLOCATE_TRANSACTION,
@@ -207,7 +206,6 @@ const createBankingDispatcher = store => ({
       hasError,
     });
   },
-
 
   setLoadingState: (isLoading) => {
     store.dispatch({
@@ -285,7 +283,11 @@ const createBankingDispatcher = store => ({
   },
 
   loadMatchTransferMoney: (index, payload) => {
-    store.dispatch({ intent: LOAD_MATCH_TRANSFER_MONEY, index, entries: payload });
+    store.dispatch({
+      intent: LOAD_MATCH_TRANSFER_MONEY,
+      index,
+      entries: payload,
+    });
   },
 
   sortMatchTransferMoney: (payload) => {
@@ -293,15 +295,25 @@ const createBankingDispatcher = store => ({
   },
 
   setMatchTransferMoneySortOrder: (orderBy, sortOrder) => {
-    store.dispatch({ intent: SET_MATCH_TRANSFER_MONEY_SORT_ORDER, orderBy, sortOrder });
+    store.dispatch({
+      intent: SET_MATCH_TRANSFER_MONEY_SORT_ORDER,
+      orderBy,
+      sortOrder,
+    });
   },
 
   setMatchTransferMoneySelection: ({ value }) => {
-    store.dispatch({ intent: SET_MATCH_TRANSFER_MONEY_SELECTION, index: value });
+    store.dispatch({
+      intent: SET_MATCH_TRANSFER_MONEY_SELECTION,
+      index: value,
+    });
   },
 
   setMatchTransferMoneyLoadingState: (isTableLoading) => {
-    store.dispatch({ intent: SET_MATCH_TRANSFER_MONEY_LOADING_STATE, isTableLoading });
+    store.dispatch({
+      intent: SET_MATCH_TRANSFER_MONEY_LOADING_STATE,
+      isTableLoading,
+    });
   },
 
   loadExistingTransferMoney: (index, payload) => {
@@ -311,7 +323,6 @@ const createBankingDispatcher = store => ({
   setTransferMoneyDetail: ({ key, value }) => {
     store.dispatch({ intent: SET_TRANSFER_MONEY_DETAIL, key, value });
   },
-
 
   loadSplitAllocation: (index, payload) => {
     store.dispatch({
@@ -694,13 +705,18 @@ const createBankingDispatcher = store => ({
     });
   },
 
-  loadJobAfterCreate: (jobId, payload) => store.dispatch({
-    intent: LOAD_JOB_AFTER_CREATE, jobId, ...payload,
-  }),
+  loadJobAfterCreate: (jobId, payload) =>
+    store.dispatch({
+      intent: LOAD_JOB_AFTER_CREATE,
+      jobId,
+      ...payload,
+    }),
 
-  setJobLoadingState: isJobLoading => store.dispatch({
-    intent: SET_JOB_LOADING_STATE, isJobLoading,
-  }),
+  setJobLoadingState: (isJobLoading) =>
+    store.dispatch({
+      intent: SET_JOB_LOADING_STATE,
+      isJobLoading,
+    }),
 });
 
 export default createBankingDispatcher;

@@ -3,10 +3,7 @@ import React from 'react';
 import Combobox from './Combobox';
 
 const TaxCodeCombobox = (props) => {
-  const {
-    disabled,
-    ...otherProps
-  } = props;
+  const { disabled, ...otherProps } = props;
 
   const metaData = [
     { columnName: 'displayName', columnWidth: '5rem', showData: true },

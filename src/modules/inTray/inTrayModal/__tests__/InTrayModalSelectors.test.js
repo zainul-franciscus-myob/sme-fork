@@ -15,9 +15,7 @@ describe('InTrayModalSelectors', () => {
   describe('getTableEntries', () => {
     describe('showInvoiceDetails', () => {
       it('should return true on existing document', () => {
-        const entries = [
-          { id: 'id-1', ocrStatus: 'Completed' },
-        ];
+        const entries = [{ id: 'id-1', ocrStatus: 'Completed' }];
 
         const actual = getTableEntries.resultFunc(entries);
 
@@ -35,9 +33,7 @@ describe('InTrayModalSelectors', () => {
       });
 
       it('should return false if OCR is in progress', () => {
-        const entries = [
-          { id: 'id-1', ocrStatus: 'InProgress' },
-        ];
+        const entries = [{ id: 'id-1', ocrStatus: 'InProgress' }];
 
         const actual = getTableEntries.resultFunc(entries);
 
@@ -45,9 +41,7 @@ describe('InTrayModalSelectors', () => {
       });
 
       it('should return false if document is submitting', () => {
-        const entries = [
-          { id: 'id-1', isSubmitting: true },
-        ];
+        const entries = [{ id: 'id-1', isSubmitting: true }];
 
         const actual = getTableEntries.resultFunc(entries);
 
@@ -57,9 +51,7 @@ describe('InTrayModalSelectors', () => {
 
     describe('showActions', () => {
       it('should return true on existing document', () => {
-        const entries = [
-          { id: 'id-1', ocrStatus: 'Completed' },
-        ];
+        const entries = [{ id: 'id-1', ocrStatus: 'Completed' }];
 
         const actual = getTableEntries.resultFunc(entries);
 
@@ -77,9 +69,7 @@ describe('InTrayModalSelectors', () => {
       });
 
       it('should return true if OCR is in progress', () => {
-        const entries = [
-          { id: 'id-1', ocrStatus: 'InProgress' },
-        ];
+        const entries = [{ id: 'id-1', ocrStatus: 'InProgress' }];
 
         const actual = getTableEntries.resultFunc(entries);
 
@@ -87,9 +77,7 @@ describe('InTrayModalSelectors', () => {
       });
 
       it('should return false if document is submitting', () => {
-        const entries = [
-          { id: 'id-1', isSubmitting: true },
-        ];
+        const entries = [{ id: 'id-1', isSubmitting: true }];
 
         const actual = getTableEntries.resultFunc(entries);
 
@@ -111,10 +99,7 @@ describe('InTrayModalSelectors', () => {
     });
 
     it('should return true if any of the entry is submitting', () => {
-      const entries = [
-        { id: 'id-1' },
-        { id: 'id-2', isSubmitting: true },
-      ];
+      const entries = [{ id: 'id-1' }, { id: 'id-2', isSubmitting: true }];
 
       const actual = getIsEntryLoading.resultFunc(entries);
 
@@ -122,10 +107,7 @@ describe('InTrayModalSelectors', () => {
     });
 
     it('should return false if none of the entry is uploading or submitting', () => {
-      const entries = [
-        { id: 'id-1' },
-        { id: 'id-2' },
-      ];
+      const entries = [{ id: 'id-1' }, { id: 'id-2' }];
 
       const actual = getIsEntryLoading.resultFunc(entries);
 
@@ -139,7 +121,6 @@ describe('InTrayModalSelectors', () => {
         [1, undefined],
         [10000000, undefined],
         [10000001, 'The file is too large. Please choose a file under 10MB.'],
-
       ])('should allow file size with in 10 MB limit', (size, expected) => {
         const file = { size, type: 'application/pdf' };
 
@@ -155,7 +136,10 @@ describe('InTrayModalSelectors', () => {
         ['image/png', undefined],
         ['image/jpeg', undefined],
         ['image/tiff', undefined],
-        ['text/plain', 'You can\'t attach a file of this format. Please use PDF, JPG, TIFF or PNG files.'],
+        [
+          'text/plain',
+          "You can't attach a file of this format. Please use PDF, JPG, TIFF or PNG files.",
+        ],
       ])('should allow file size with in 10 MB limit', (type, expected) => {
         const file = { size: 10, type };
 
@@ -193,11 +177,7 @@ describe('InTrayModalSelectors', () => {
       const entry = { id: 'newEntry' };
       const entries = [{ id: '1' }, { id: '2' }];
       const state = { entries };
-      const expected = [
-        entry,
-        { id: '1' },
-        { id: '2' },
-      ];
+      const expected = [entry, { id: '1' }, { id: '2' }];
 
       const actual = getAddedEntries(state, entry);
 
@@ -211,12 +191,14 @@ describe('InTrayModalSelectors', () => {
       const partialEntry = { id, isLoading: true };
       const entries = [{ id }, { id: '2' }];
       const state = { entries };
-      const expected = [
-        { id, isLoading: true },
-        { id: '2' },
-      ];
+      const expected = [{ id, isLoading: true }, { id: '2' }];
 
-      const actual = getUpdatedEntriesByKey(state, 'id', partialEntry.id, partialEntry);
+      const actual = getUpdatedEntriesByKey(
+        state,
+        'id',
+        partialEntry.id,
+        partialEntry
+      );
 
       expect(actual).toEqual(expected);
     });
@@ -226,12 +208,14 @@ describe('InTrayModalSelectors', () => {
       const partialEntry = { uploadId, isLoading: true };
       const entries = [{ uploadId }, { uploadId: '2' }];
       const state = { entries };
-      const expected = [
-        { uploadId, isLoading: true },
-        { uploadId: '2' },
-      ];
+      const expected = [{ uploadId, isLoading: true }, { uploadId: '2' }];
 
-      const actual = getUpdatedEntriesByKey(state, 'uploadId', partialEntry.uploadId, partialEntry);
+      const actual = getUpdatedEntriesByKey(
+        state,
+        'uploadId',
+        partialEntry.uploadId,
+        partialEntry
+      );
 
       expect(actual).toEqual(expected);
     });

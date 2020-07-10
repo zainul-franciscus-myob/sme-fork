@@ -2,7 +2,12 @@ import GeneralJournalDetailModule from './generalJournalDetail/GeneralJournalDet
 import RouteName from '../../router/RouteName';
 
 const getGeneralJournalRoutes = ({
-  integration, setRootView, popMessages, pushMessage, navigateTo, isToggleOn,
+  integration,
+  setRootView,
+  popMessages,
+  pushMessage,
+  navigateTo,
+  isToggleOn,
 }) => {
   const routes = [
     {
@@ -10,7 +15,12 @@ const getGeneralJournalRoutes = ({
       path: '/:region/:businessId/generalJournal/:generalJournalId',
       allowedParams: ['duplicateGeneralJournalId'],
       module: new GeneralJournalDetailModule({
-        integration, setRootView, popMessages, pushMessage, navigateTo, isToggleOn,
+        integration,
+        setRootView,
+        popMessages,
+        pushMessage,
+        navigateTo,
+        isToggleOn,
       }),
       documentTitle: 'General Journal',
     },

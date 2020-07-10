@@ -1,20 +1,34 @@
 import {
-  Checkbox, CheckboxGroup, Field, Icons, Tooltip,
+  Checkbox,
+  CheckboxGroup,
+  Field,
+  Icons,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAccountOptions, getIsRegistered, getTabData } from '../SalesSettingsDetailSelectors';
+import {
+  getAccountOptions,
+  getIsRegistered,
+  getTabData,
+} from '../SalesSettingsDetailSelectors';
 import AuDirectDeposit from './AuDirectDeposit';
 import OnlinePaymentOptions from './OnlinePaymentOptions';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 
-const AuPaymentOptions = ({ onUpdateSalesSettingsItem, salesSettings, onSubscribeNowClick }) => (
+const AuPaymentOptions = ({
+  onUpdateSalesSettingsItem,
+  salesSettings,
+  onSubscribeNowClick,
+}) => (
   <>
     <Field
       hideLabel
       label="Mail"
-      renderField={() => <legend className="margin-bottom-00">Direct deposit</legend>}
+      renderField={() => (
+        <legend className="margin-bottom-00">Direct deposit</legend>
+      )}
     />
 
     <CheckboxGroup
@@ -24,21 +38,20 @@ const AuPaymentOptions = ({ onUpdateSalesSettingsItem, salesSettings, onSubscrib
         <Checkbox
           checked={salesSettings.isAllowPaymentsByDirectDeposit}
           label="Allow payments by direct deposit"
-          labelAccessory={(
+          labelAccessory={
             <Tooltip triggerContent={<Icons.Info />}>
               Show direct deposit details at the bottom of your invoices
             </Tooltip>
-          )}
+          }
           name="isAllowPaymentsByDirectDeposit"
           onChange={handleCheckboxChange(onUpdateSalesSettingsItem)}
         />
       )}
     />
 
-    {
-      salesSettings.isAllowPaymentsByDirectDeposit
-      && <AuDirectDeposit onUpdateSalesSettingsItem={onUpdateSalesSettingsItem} />
-    }
+    {salesSettings.isAllowPaymentsByDirectDeposit && (
+      <AuDirectDeposit onUpdateSalesSettingsItem={onUpdateSalesSettingsItem} />
+    )}
 
     <hr />
 
@@ -55,11 +68,11 @@ const AuPaymentOptions = ({ onUpdateSalesSettingsItem, salesSettings, onSubscrib
         <Checkbox
           checked={salesSettings.isAllowPaymentsByMail}
           label="Allow payments by mail"
-          labelAccessory={(
+          labelAccessory={
             <Tooltip triggerContent={<Icons.Info />}>
               Show your business address on your invoices
             </Tooltip>
-          )}
+          }
           name="isAllowPaymentsByMail"
           onChange={handleCheckboxChange(onUpdateSalesSettingsItem)}
         />
@@ -75,7 +88,7 @@ const AuPaymentOptions = ({ onUpdateSalesSettingsItem, salesSettings, onSubscrib
   </>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accountOptions: getAccountOptions(state),
   isRegistered: getIsRegistered(state),
   salesSettings: getTabData(state),

@@ -60,7 +60,6 @@ describe('StartPayRunSelectors', () => {
     });
   });
 
-
   describe('getDateOfPayment', () => {
     it('returns date of payment', () => {
       const state = {
@@ -94,9 +93,11 @@ describe('StartPayRunSelectors', () => {
       };
       const expected = {
         something: 'something',
-        unprocessedTimesheetLines: [{
-          timesheetLine: 'timesheetLine',
-        }],
+        unprocessedTimesheetLines: [
+          {
+            timesheetLine: 'timesheetLine',
+          },
+        ],
       };
 
       const actual = getLoadEmployeePaysRequestContent(state);
@@ -166,7 +167,7 @@ describe('StartPayRunSelectors', () => {
         const actual = getIsBeforeStartOfFinancialYear(state);
 
         expect(actual).toEqual(expected);
-      },
+      }
     );
   });
 });

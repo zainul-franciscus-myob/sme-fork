@@ -1,6 +1,9 @@
 import { mount } from 'enzyme';
 
-import { findButtonWithTestId, findComponentWithTestId } from '../../../../common/tests/selectors';
+import {
+  findButtonWithTestId,
+  findComponentWithTestId,
+} from '../../../../common/tests/selectors';
 import { mainTabIds } from '../tabItems';
 import DeleteModal from '../../../../components/modal/DeleteModal';
 import EmployeeDetailModule from '../EmployeeDetailModule';
@@ -70,7 +73,11 @@ describe('EmployeeDetailModule', () => {
       it('opens the modal on save click', () => {
         const { wrapper } = constructEmployeeDetailModuleAtPayrollDetails();
         const saveButton = findButtonWithTestId(wrapper, 'testSaveButton');
-        const terminationDateField = findComponentWithTestId(wrapper, 'terminationDate', 'DatePicker');
+        const terminationDateField = findComponentWithTestId(
+          wrapper,
+          'terminationDate',
+          'DatePicker'
+        );
 
         terminationDateField.prop('onSelect')({ value: '11-11-2011' });
         saveButton.simulate('click');

@@ -18,7 +18,8 @@ describe('Employee pay details table', () => {
   it('Should render with unselectable amount input field', () => {
     const wrapper = mount(<PayDetailsTableRow {...props} />);
 
-    const isSelectable = wrapper.find(AmountInput).find('input').props().disabled;
+    const isSelectable = wrapper.find(AmountInput).find('input').props()
+      .disabled;
 
     expect(isSelectable).toEqual(true);
   });

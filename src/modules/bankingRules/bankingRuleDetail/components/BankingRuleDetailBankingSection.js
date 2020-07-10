@@ -29,23 +29,24 @@ const BankingRuleDetailBankingSection = ({
         applyToAllBankAccountValues.allBankAccounts,
         applyToAllBankAccountValues.oneBankAccount,
       ]}
-      onChange={handleRadioButtonChange('applyToAllAccounts', onRuleConditionsChange)}
+      onChange={handleRadioButtonChange(
+        'applyToAllAccounts',
+        onRuleConditionsChange
+      )}
     />
-    {
-      applyToAllAccounts === applyToAllBankAccountValues.oneBankAccount && (
-        <div className={`${styles.applyToAllAccounts} ${styles.form}`}>
-          <AccountCombobox
-            items={bankAccounts}
-            selectedId={accountId}
-            hintText="Select a bank account"
-            onChange={handleComboboxChange('accountId', onRuleConditionsChange)}
-          />
-        </div>
-      )
-    }
+    {applyToAllAccounts === applyToAllBankAccountValues.oneBankAccount && (
+      <div className={`${styles.applyToAllAccounts} ${styles.form}`}>
+        <AccountCombobox
+          items={bankAccounts}
+          selectedId={accountId}
+          hintText="Select a bank account"
+          onChange={handleComboboxChange('accountId', onRuleConditionsChange)}
+        />
+      </div>
+    )}
   </React.Fragment>
 );
 
-const mapStateToProps = state => getBankingSection(state);
+const mapStateToProps = (state) => getBankingSection(state);
 
 export default connect(mapStateToProps)(BankingRuleDetailBankingSection);

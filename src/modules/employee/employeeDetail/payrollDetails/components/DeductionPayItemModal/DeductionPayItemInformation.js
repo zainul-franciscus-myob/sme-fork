@@ -8,7 +8,9 @@ import PercentInput from '../PercentInput';
 import handleComboboxChange from '../../../../../../components/handlers/handleComboboxChange';
 import handleSelectChange from '../../../../../../components/handlers/handleSelectChange';
 
-const percentOfOptionsMetadata = [{ columnName: 'displayName', showData: true }];
+const percentOfOptionsMetadata = [
+  { columnName: 'displayName', showData: true },
+];
 
 const DeductionPayItemInformation = ({
   calculationBasis,
@@ -65,11 +67,9 @@ const DeductionPayItemInformation = ({
         value={calculationPer}
         onChange={handleSelectChange(onChange)}
       >
-        {
-          calculationDollarPerOptions.map(({ name, value }) => (
-            <Select.Option key={value} value={value} label={name} />
-          ))
-        }
+        {calculationDollarPerOptions.map(({ name, value }) => (
+          <Select.Option key={value} value={value} label={name} />
+        ))}
       </Select>
     </>
   );
@@ -106,11 +106,9 @@ const DeductionPayItemInformation = ({
         value={limitPer}
         onChange={handleSelectChange(onChange)}
       >
-        {
-          limitDollarPerOptions.map(({ name, value }) => (
-            <Select.Option key={value} value={value} label={name} />
-          ))
-        }
+        {limitDollarPerOptions.map(({ name, value }) => (
+          <Select.Option key={value} value={value} label={name} />
+        ))}
       </Select>
     </>
   );
@@ -123,32 +121,28 @@ const DeductionPayItemInformation = ({
         onChange={handleSelectChange(onChange)}
         value={calculationBasis}
       >
-        {
-        calculationBasisOptions.map(({ name, value }) => (
+        {calculationBasisOptions.map(({ name, value }) => (
           <Select.Option key={value} value={value} label={name} />
-        ))
-      }
+        ))}
       </Select>
-      { calculationPercentageView }
-      { calculationDollarView }
+      {calculationPercentageView}
+      {calculationDollarView}
       <Select
         name="limit"
         label="Limit"
         onChange={handleSelectChange(onChange)}
         value={limit}
       >
-        {
-        limitOptions.map(({ name, value }) => (
+        {limitOptions.map(({ name, value }) => (
           <Select.Option key={value} value={value} label={name} />
-        ))
-      }
+        ))}
       </Select>
-      { limitPercentageView }
-      { limitDollarView }
+      {limitPercentageView}
+      {limitDollarView}
     </FieldGroup>
   );
 };
 
-const mapStateToProps = state => getInformation(state);
+const mapStateToProps = (state) => getInformation(state);
 
 export default connect(mapStateToProps)(DeductionPayItemInformation);

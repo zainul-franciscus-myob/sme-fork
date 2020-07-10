@@ -15,15 +15,14 @@ const setBankingState = (state, bankingState) => ({
 
 const loadBanking = (state, action) => setBankingState(state, action.banking);
 
-const setBankingLoadingState = (state, { isLoading }) => (
-  setBankingState(state, { isLoading })
-);
+const setBankingLoadingState = (state, { isLoading }) =>
+  setBankingState(state, { isLoading });
 
-const setBankingErrorState = (state, { hasError }) => setBankingState(state, { hasError });
+const setBankingErrorState = (state, { hasError }) =>
+  setBankingState(state, { hasError });
 
-const setBankFeedAccount = (state, { bankFeedAccountId }) => (
-  setBankingState(state, { bankFeedAccountId })
-);
+const setBankFeedAccount = (state, { bankFeedAccountId }) =>
+  setBankingState(state, { bankFeedAccountId });
 
 export default {
   [LOAD_DEFAULT_BANKING]: loadBanking,

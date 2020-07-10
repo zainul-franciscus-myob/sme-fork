@@ -8,7 +8,7 @@ import ContactCombobox from '../../../components/combobox/ContactCombobox';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import styles from './BankingView.module.css';
 
-const handleCheckboxChange = handler => (e) => {
+const handleCheckboxChange = (handler) => (e) => {
   const { checked, name } = e.target;
   handler({ key: name, value: checked });
 };
@@ -33,7 +33,10 @@ const SplitAllocationOptions = (props) => {
       <ContactCombobox
         items={contacts}
         selectedId={contactId}
-        onChange={handleComboBoxChange('contactId', onUpdateSplitAllocationHeader)}
+        onChange={handleComboBoxChange(
+          'contactId',
+          onUpdateSplitAllocationHeader
+        )}
         label={`Contact (${contactLabel})`}
         name="contact"
         hideLabel={false}
@@ -62,6 +65,6 @@ SplitAllocationOptions.defaultProps = {
   isReportable: undefined,
 };
 
-const mapStateToProps = state => getOptions(state);
+const mapStateToProps = (state) => getOptions(state);
 
 export default connect(mapStateToProps)(SplitAllocationOptions);

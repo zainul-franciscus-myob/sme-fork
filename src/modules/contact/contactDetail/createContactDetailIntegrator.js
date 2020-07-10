@@ -8,7 +8,11 @@ import {
   UPDATE_CONTACT,
 } from '../ContactIntents';
 import {
-  getBusinessId, getContact, getContactId, getLoadAddedAccountUrlParams, getRegion,
+  getBusinessId,
+  getContact,
+  getContactId,
+  getLoadAddedAccountUrlParams,
+  getRegion,
 } from './contactDetailSelectors';
 
 const createContactDetailIntegrator = (store, integration) => ({
@@ -100,7 +104,10 @@ const createContactDetailIntegrator = (store, integration) => ({
     const urlParams = getLoadAddedAccountUrlParams(state, id);
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 

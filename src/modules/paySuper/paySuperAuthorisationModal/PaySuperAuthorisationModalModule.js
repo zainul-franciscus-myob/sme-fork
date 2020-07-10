@@ -13,7 +13,10 @@ export default class PaySuperAuthorisationModalModule {
   constructor({ integration, onClose, onAuthoriseSuccess }) {
     this.store = new Store(paySuperAuthorisationModalReducer);
     this.dispatcher = createPaySuperAuthorisationModalDispatcher(this.store);
-    this.integrator = createPaySuperAuthorisationModalIntegrator(this.store, integration);
+    this.integrator = createPaySuperAuthorisationModalIntegrator(
+      this.store,
+      integration
+    );
     this.onCloseFunc = onClose || (() => {});
     this.onAuthoriseSuccess = onAuthoriseSuccess || (() => {});
     this.stsLoginModal = new StsLoginModule({
@@ -40,7 +43,7 @@ export default class PaySuperAuthorisationModalModule {
       intent: SET_IS_LOADING,
       isLoading,
     });
-  }
+  };
 
   closeModal = () => {
     this.dispatcher.setIsOpen(false);

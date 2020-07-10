@@ -45,7 +45,7 @@ const LeavePayItemModal = (props) => {
 
   const view = (
     <>
-      { alertComponent }
+      {alertComponent}
       <LeavePayItemDetail onNameChange={onNameChange} />
       <LeavePayItemInfo onCalculationBasisChange={onCalculationBasisChange} />
       <LeavePayItemLinkedWages
@@ -65,23 +65,23 @@ const LeavePayItemModal = (props) => {
   );
 
   return (
-    <Modal
-      title={title}
-      onCancel={onCancel}
-      canClose={!isActionDisabled}
-    >
+    <Modal title={title} onCancel={onCancel} canClose={!isActionDisabled}>
       <Modal.Body>
         <PageView isLoading={isLoading} view={view} />
       </Modal.Body>
       <Modal.Footer>
-        <Button type="secondary" onClick={onCancel} disabled={isActionDisabled}>Cancel</Button>
-        <Button type="primary" onClick={onSave} disabled={isActionDisabled}>Save</Button>
+        <Button type="secondary" onClick={onCancel} disabled={isActionDisabled}>
+          Cancel
+        </Button>
+        <Button type="primary" onClick={onSave} disabled={isActionDisabled}>
+          Save
+        </Button>
       </Modal.Footer>
     </Modal>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   title: getModalTitle(state),
   isActionDisabled: getIsActionDisabled(state),

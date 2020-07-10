@@ -11,24 +11,23 @@ const onLinkButtonClick = (handler, id) => () => {
 const EmploymentClassificationListTableBody = (props) => {
   const { tableConfig, entries, onClickRowButton } = props;
 
-  const rows = entries.map(entry => (
+  const rows = entries.map((entry) => (
     <Table.Row key={entry.id}>
       <Table.RowItem {...tableConfig.classification}>
-        <Button type="link" onClick={onLinkButtonClick(onClickRowButton, entry.id)}>
+        <Button
+          type="link"
+          onClick={onLinkButtonClick(onClickRowButton, entry.id)}
+        >
           {entry.classification}
         </Button>
       </Table.RowItem>
     </Table.Row>
   ));
 
-  return (
-    <Table.Body>
-      {rows}
-    </Table.Body>
-  );
+  return <Table.Body>{rows}</Table.Body>;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   entries: getTableEntries(state),
 });
 

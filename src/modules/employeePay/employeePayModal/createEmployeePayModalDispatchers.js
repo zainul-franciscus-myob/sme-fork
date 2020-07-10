@@ -10,7 +10,7 @@ import {
 } from './EmployeePayModalIntents';
 import { RESET_STATE } from '../../../SystemIntents';
 
-const createEmployeePayModalDispatchers = store => ({
+const createEmployeePayModalDispatchers = (store) => ({
   setInitialState: (context) => {
     store.dispatch({
       intent: SET_INITIAL_MODAL_STATE,

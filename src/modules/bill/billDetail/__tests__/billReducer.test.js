@@ -55,7 +55,6 @@ describe('billReducer', () => {
           itemId: 'a',
           description: 'A',
         },
-
       ]);
     });
   });
@@ -237,13 +236,14 @@ describe('billReducer', () => {
       const state = {
         bill: {
           layout: BillLayout.SERVICE,
-          lines: [
-            { type: BillLineType.SERVICE, id: 'a' },
-          ],
+          lines: [{ type: BillLineType.SERVICE, id: 'a' }],
         },
       };
 
-      const action = { intent: UPDATE_LAYOUT, value: BillLayout.ITEM_AND_SERVICE };
+      const action = {
+        intent: UPDATE_LAYOUT,
+        value: BillLayout.ITEM_AND_SERVICE,
+      };
 
       const actual = billReducer(state, action);
 
@@ -295,10 +295,7 @@ describe('billReducer', () => {
       expect(actual.isPageEdited).toEqual(true);
     });
 
-    [
-      'DayOfMonthAfterEOM',
-      'OnADayOfTheMonth',
-    ].forEach((expirationTerm) => {
+    ['DayOfMonthAfterEOM', 'OnADayOfTheMonth'].forEach((expirationTerm) => {
       it(`sets expirationDays to 1, when is currently 0 and expirationTerms is changed to ${expirationTerm}`, () => {
         const state = {
           bill: {
@@ -387,11 +384,7 @@ describe('billReducer', () => {
             { id: '2', taxCodeId: '2' },
             { id: '3', taxCodeId: '3' },
           ],
-          taxCodes: [
-            { id: '1' },
-            { id: '2' },
-            { id: '3' },
-          ],
+          taxCodes: [{ id: '1' }, { id: '2' }, { id: '3' }],
         };
 
         const action = {
@@ -458,19 +451,13 @@ describe('billReducer', () => {
       const state = {
         billId: 'new',
         bill,
-        supplierOptions: [
-          { id: '1', expenseAccountId: '1' },
-        ],
+        supplierOptions: [{ id: '1', expenseAccountId: '1' }],
         accountOptions: [
           { id: '1', taxCodeId: '1' },
           { id: '2', taxCodeId: '2' },
           { id: '3', taxCodeId: '3' },
         ],
-        taxCodes: [
-          { id: '1' },
-          { id: '2' },
-          { id: '3' },
-        ],
+        taxCodes: [{ id: '1' }, { id: '2' }, { id: '3' }],
       };
 
       const actual = billReducer(state, action);
@@ -520,19 +507,13 @@ describe('billReducer', () => {
       const state = {
         billId: 'new',
         bill,
-        supplierOptions: [
-          { id: '1', expenseAccountId: '1' },
-        ],
+        supplierOptions: [{ id: '1', expenseAccountId: '1' }],
         accountOptions: [
           { id: '1', taxCodeId: '1' },
           { id: '2', taxCodeId: '2' },
           { id: '3', taxCodeId: '3' },
         ],
-        taxCodes: [
-          { id: '1' },
-          { id: '2' },
-          { id: '3' },
-        ],
+        taxCodes: [{ id: '1' }, { id: '2' }, { id: '3' }],
       };
 
       const actual = billReducer(state, action);
@@ -548,9 +529,7 @@ describe('billReducer', () => {
     it('does not update expenseAccountId or lines with the accountId if is not creating new bill', () => {
       const state = {
         billId: 'id',
-        supplierOptions: [
-          { id: '1', expenseAccountId: '1' },
-        ],
+        supplierOptions: [{ id: '1', expenseAccountId: '1' }],
         bill,
       };
 
@@ -564,9 +543,7 @@ describe('billReducer', () => {
     it('adds to supplier options with newly created supplier', () => {
       const state = {
         billId: 'id',
-        supplierOptions: [
-          { id: '1', displayName: 'name1' },
-        ],
+        supplierOptions: [{ id: '1', displayName: 'name1' }],
         bill,
       };
 
@@ -582,10 +559,7 @@ describe('billReducer', () => {
   describe('ADD_BILL_LINE', () => {
     const state = {
       bill: {
-        lines: [
-          {},
-          {},
-        ],
+        lines: [{}, {}],
       },
       newLine: {},
       accountOptions: [],
@@ -661,7 +635,10 @@ describe('billReducer', () => {
       };
 
       const action = {
-        intent: UPDATE_BILL_LINE, index: 1, key: 'hello', value: 3,
+        intent: UPDATE_BILL_LINE,
+        index: 1,
+        key: 'hello',
+        value: 3,
       };
 
       const actual = billReducer(state, action);
@@ -672,9 +649,7 @@ describe('billReducer', () => {
     it('updates both discount when key is discount', () => {
       const state = {
         bill: {
-          lines: [
-            {},
-          ],
+          lines: [{}],
         },
       };
 
@@ -693,9 +668,7 @@ describe('billReducer', () => {
     it('updates both amount when key is amount', () => {
       const state = {
         bill: {
-          lines: [
-            {},
-          ],
+          lines: [{}],
         },
       };
 
@@ -744,14 +717,15 @@ describe('billReducer', () => {
     it('updates type to item when key is itemId', () => {
       const state = {
         bill: {
-          lines: [
-            {},
-          ],
+          lines: [{}],
         },
       };
 
       const action = {
-        intent: UPDATE_BILL_LINE, index: 0, key: 'itemId', value: '1',
+        intent: UPDATE_BILL_LINE,
+        index: 0,
+        key: 'itemId',
+        value: '1',
       };
 
       const actual = billReducer(state, action);
@@ -763,14 +737,15 @@ describe('billReducer', () => {
     it('clears line id if the line type has been changed', () => {
       const state = {
         bill: {
-          lines: [
-            { type: BillLineType.SERVICE, id: '1' },
-          ],
+          lines: [{ type: BillLineType.SERVICE, id: '1' }],
         },
       };
 
       const action = {
-        intent: UPDATE_BILL_LINE, index: 0, key: 'itemId', value: '1',
+        intent: UPDATE_BILL_LINE,
+        index: 0,
+        key: 'itemId',
+        value: '1',
       };
 
       const actual = billReducer(state, action);
@@ -788,9 +763,7 @@ describe('billReducer', () => {
 
       const state = {
         bill: {
-          lines: [
-            {},
-          ],
+          lines: [{}],
         },
       };
       const actual = billReducer(state, action);
@@ -820,7 +793,7 @@ describe('billReducer', () => {
       const actual = billReducer(state, action);
 
       expect(actual.bill.lines[0].lineSubTypeId).toEqual(
-        LineTaxTypes.DEFAULT_ITEM_LINE_SUB_TYPE_ID,
+        LineTaxTypes.DEFAULT_ITEM_LINE_SUB_TYPE_ID
       );
     });
 
@@ -846,46 +819,48 @@ describe('billReducer', () => {
       const actual = billReducer(state, action);
 
       expect(actual.bill.lines[0].lineSubTypeId).toEqual(
-        LineTaxTypes.DEFAULT_SERVICE_LINE_SUB_TYPE_ID,
+        LineTaxTypes.DEFAULT_SERVICE_LINE_SUB_TYPE_ID
       );
     });
 
     describe('updates line prefill status', () => {
-      [
-        { key: 'itemId' },
-        { key: 'accountId' },
-        { key: 'taxCodeId' },
-      ].forEach((test) => {
-        it(`should not update prefillStatus if line has been prefilled and ${test.key} is updated`, () => {
-          const state = {
-            bill: {
-              lines: [{
-                amount: '23',
-                prefillStatus: {
-                  amount: true,
-                },
-              }],
-            },
-            accountOptions: [
-              {
-                id: '5',
-                taxCodeId: '10',
+      [{ key: 'itemId' }, { key: 'accountId' }, { key: 'taxCodeId' }].forEach(
+        (test) => {
+          it(`should not update prefillStatus if line has been prefilled and ${test.key} is updated`, () => {
+            const state = {
+              bill: {
+                lines: [
+                  {
+                    amount: '23',
+                    prefillStatus: {
+                      amount: true,
+                    },
+                  },
+                ],
               },
-            ],
-          };
+              accountOptions: [
+                {
+                  id: '5',
+                  taxCodeId: '10',
+                },
+              ],
+            };
 
-          const action = {
-            intent: UPDATE_BILL_LINE,
-            index: 0,
-            key: test.key,
-            value: '',
-          };
+            const action = {
+              intent: UPDATE_BILL_LINE,
+              index: 0,
+              key: test.key,
+              value: '',
+            };
 
-          const actual = billReducer(state, action);
+            const actual = billReducer(state, action);
 
-          expect(actual.bill.lines[0].prefillStatus).toEqual({ amount: true });
-        });
-      });
+            expect(actual.bill.lines[0].prefillStatus).toEqual({
+              amount: true,
+            });
+          });
+        }
+      );
 
       [
         { key: 'description' },
@@ -897,12 +872,14 @@ describe('billReducer', () => {
         it(`should update status to false if line has been prefilled and ${test.key} is updated`, () => {
           const state = {
             bill: {
-              lines: [{
-                amount: '23',
-                prefillStatus: {
-                  amount: true,
+              lines: [
+                {
+                  amount: '23',
+                  prefillStatus: {
+                    amount: true,
+                  },
                 },
-              }],
+              ],
             },
           };
 
@@ -922,9 +899,11 @@ describe('billReducer', () => {
       it('should return undefined for prefillStatus if line has not been prefilled', () => {
         const state = {
           bill: {
-            lines: [{
-              amount: '',
-            }],
+            lines: [
+              {
+                amount: '',
+              },
+            ],
           },
         };
 
@@ -1016,7 +995,7 @@ describe('billReducer', () => {
         };
 
         const actual = billReducer(state, action);
-        actual.bill.lines.forEach(line => {
+        actual.bill.lines.forEach((line) => {
           expect(line.lineJobOptions).toEqual([
             {
               id: '3',
@@ -1065,7 +1044,7 @@ describe('billReducer', () => {
         };
         const actual = billReducer(state, action);
 
-        actual.bill.lines.forEach(line => {
+        actual.bill.lines.forEach((line) => {
           expect(line.lineJobOptions).toEqual([
             {
               id: '1',
@@ -1155,7 +1134,8 @@ describe('billReducer', () => {
 
   describe('PREFILL_NEW_BILL_FROM_IN_TRAY', () => {
     const document = {
-      thumbnailUrl: 'https://assets.digital.myob.com/images/favicons/apple-touch-icon.png',
+      thumbnailUrl:
+        'https://assets.digital.myob.com/images/favicons/apple-touch-icon.png',
       uploadedDate: '04/04/2019',
     };
 
@@ -1168,10 +1148,12 @@ describe('billReducer', () => {
         isTaxInclusive: true,
         note: 'Some notes',
       },
-      lines: [{
-        id: '',
-        amount: '500.77',
-      }],
+      lines: [
+        {
+          id: '',
+          amount: '500.77',
+        },
+      ],
       supplierOptions: [],
       document,
     };
@@ -1217,30 +1199,34 @@ describe('billReducer', () => {
 
       const actual = billReducer(state, action);
 
-      expect(actual).toEqual(buildExpected({
-        bill: {
-          supplierId: '2',
-          supplierInvoiceNumber: '1234',
-          layout: 'service',
-          issueDate: '2018-11-02',
-          isTaxInclusive: true,
-          note: 'Some notes',
-          lines: [{
-            id: '',
-            amount: '500.77',
-            prefillStatus: {
-              ...defaultLinePrefillStatus,
-              amount: true,
-            },
-          }],
-        },
-        prefillStatus: {
-          supplierId: true,
-          supplierInvoiceNumber: true,
-          issueDate: true,
-          note: true,
-        },
-      }));
+      expect(actual).toEqual(
+        buildExpected({
+          bill: {
+            supplierId: '2',
+            supplierInvoiceNumber: '1234',
+            layout: 'service',
+            issueDate: '2018-11-02',
+            isTaxInclusive: true,
+            note: 'Some notes',
+            lines: [
+              {
+                id: '',
+                amount: '500.77',
+                prefillStatus: {
+                  ...defaultLinePrefillStatus,
+                  amount: true,
+                },
+              },
+            ],
+          },
+          prefillStatus: {
+            supplierId: true,
+            supplierInvoiceNumber: true,
+            issueDate: true,
+            note: true,
+          },
+        })
+      );
     });
 
     it('prefills bill from a supplier feed', () => {
@@ -1280,36 +1266,40 @@ describe('billReducer', () => {
 
       const actual = billReducer(state, action);
 
-      expect(actual).toEqual(buildExpected({
-        bill: {
-          supplierId: '2',
-          supplierInvoiceNumber: '1234',
-          layout: 'itemAndService',
-          issueDate: '2018-11-02',
-          isTaxInclusive: true,
-          note: 'Some notes',
-          lines: [{
-            id: '',
-            description: 'Hello',
-            amount: '20.44',
-            unitPrice: '21.44',
-            discount: '0',
-            prefillStatus: {
-              ...defaultLinePrefillStatus,
-              description: true,
-              amount: true,
-              discount: true,
-              unitPrice: true,
-            },
-          }],
-        },
-        prefillStatus: {
-          supplierId: true,
-          supplierInvoiceNumber: true,
-          issueDate: true,
-          note: true,
-        },
-      }));
+      expect(actual).toEqual(
+        buildExpected({
+          bill: {
+            supplierId: '2',
+            supplierInvoiceNumber: '1234',
+            layout: 'itemAndService',
+            issueDate: '2018-11-02',
+            isTaxInclusive: true,
+            note: 'Some notes',
+            lines: [
+              {
+                id: '',
+                description: 'Hello',
+                amount: '20.44',
+                unitPrice: '21.44',
+                discount: '0',
+                prefillStatus: {
+                  ...defaultLinePrefillStatus,
+                  description: true,
+                  amount: true,
+                  discount: true,
+                  unitPrice: true,
+                },
+              },
+            ],
+          },
+          prefillStatus: {
+            supplierId: true,
+            supplierInvoiceNumber: true,
+            issueDate: true,
+            note: true,
+          },
+        })
+      );
     });
 
     it('does not prefill bill when there is user input data, except for issue date', () => {
@@ -1321,9 +1311,7 @@ describe('billReducer', () => {
           issueDate: '2018-10-02',
           isTaxInclusive: false,
           note: 'Some note typed by the user',
-          lines: [
-            { id: '1' },
-          ],
+          lines: [{ id: '1' }],
         },
         newLine: {
           id: '',
@@ -1340,25 +1328,25 @@ describe('billReducer', () => {
 
       const actual = billReducer(state, action);
 
-      expect(actual).toEqual(buildExpected({
-        bill: {
-          supplierId: '1',
-          supplierInvoiceNumber: '123',
-          layout: 'itemAndService',
-          issueDate: '2018-11-02',
-          isTaxInclusive: false,
-          note: 'Some note typed by the user',
-          lines: [
-            { id: '1' },
-          ],
-        },
-        prefillStatus: {
-          supplierId: false,
-          supplierInvoiceNumber: false,
-          issueDate: true,
-          note: false,
-        },
-      }));
+      expect(actual).toEqual(
+        buildExpected({
+          bill: {
+            supplierId: '1',
+            supplierInvoiceNumber: '123',
+            layout: 'itemAndService',
+            issueDate: '2018-11-02',
+            isTaxInclusive: false,
+            note: 'Some note typed by the user',
+            lines: [{ id: '1' }],
+          },
+          prefillStatus: {
+            supplierId: false,
+            supplierInvoiceNumber: false,
+            issueDate: true,
+            note: false,
+          },
+        })
+      );
     });
 
     it('does not prefill bill lines when there is no in tray data returned', () => {
@@ -1396,22 +1384,24 @@ describe('billReducer', () => {
 
       const actual = billReducer(state, action);
 
-      expect(actual).toEqual(buildExpected({
-        bill: {
-          supplierId: '2',
-          supplierInvoiceNumber: '123',
-          layout: 'service',
-          issueDate: '2018-10-02',
-          isTaxInclusive: true,
-          lines: [],
-        },
-        prefillStatus: {
-          supplierId: false,
-          supplierInvoiceNumber: false,
-          issueDate: false,
-          note: false,
-        },
-      }));
+      expect(actual).toEqual(
+        buildExpected({
+          bill: {
+            supplierId: '2',
+            supplierInvoiceNumber: '123',
+            layout: 'service',
+            issueDate: '2018-10-02',
+            isTaxInclusive: true,
+            lines: [],
+          },
+          prefillStatus: {
+            supplierId: false,
+            supplierInvoiceNumber: false,
+            issueDate: false,
+            note: false,
+          },
+        })
+      );
     });
 
     describe('supplerOptions', () => {
@@ -1439,7 +1429,10 @@ describe('billReducer', () => {
 
         const actual = billReducer(state, action);
 
-        expect(actual.supplierOptions).toEqual([supplierOptionB, supplierOptionA]);
+        expect(actual.supplierOptions).toEqual([
+          supplierOptionB,
+          supplierOptionA,
+        ]);
       });
 
       it('does not add prefilled supplier to supplier options if supplier exists', () => {

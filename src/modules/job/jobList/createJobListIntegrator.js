@@ -1,8 +1,5 @@
 import { FILTER_JOB_LIST, LOAD_JOB_LIST } from '../JobIntents';
-import {
-  getFilterJobListParams,
-  getJobListUrlParams,
-} from './jobListSelector';
+import { getFilterJobListParams, getJobListUrlParams } from './jobListSelector';
 
 const createJobListIntegrator = (store, integration) => ({
   loadJobList: ({ onSuccess, onFailure }) => {
@@ -13,7 +10,11 @@ const createJobListIntegrator = (store, integration) => ({
     const params = getFilterJobListParams(state);
 
     integration.read({
-      intent, urlParams, params, onSuccess, onFailure,
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
     });
   },
   filterJobList: ({ onSuccess, onFailure }) => {
@@ -24,7 +25,11 @@ const createJobListIntegrator = (store, integration) => ({
     const params = getFilterJobListParams(state);
 
     integration.read({
-      intent, urlParams, params, onSuccess, onFailure,
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
     });
   },
 });

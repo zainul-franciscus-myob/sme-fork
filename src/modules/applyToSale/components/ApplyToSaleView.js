@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getIsLoading, getModalType, getTitle,
+  getAlertMessage,
+  getIsLoading,
+  getModalType,
+  getTitle,
 } from '../applyToSaleSelectors';
 import ApplyToSaleActions from './ApplyToSaleActions';
 import ApplyToSaleModal from './ApplyToSaleModal';
@@ -31,31 +34,33 @@ const ApplyToSaleView = ({
   const view = (
     <LineItemTemplate
       pageHead={title}
-      options={(
+      options={
         <ApplyToSaleOptions
           onUpdateApplyToSaleOption={onUpdateApplyToSaleOption}
         />
-      )}
-      actions={(
+      }
+      actions={
         <ApplyToSaleActions
           onSaveButtonClick={onSaveButtonClick}
           onCancelButtonClick={onCancelButtonClick}
           onDeleteButtonClick={onDeleteButtonClick}
           onGoBackButtonClick={onGoBackButtonClick}
         />
-      )}
-      alert={alertMessage && (
-        <Alert type="danger" onDismiss={onDismissAlert}>
-          {alertMessage}
-        </Alert>
-      )}
+      }
+      alert={
+        alertMessage && (
+          <Alert type="danger" onDismiss={onDismissAlert}>
+            {alertMessage}
+          </Alert>
+        )
+      }
     >
       {modalType && (
-      <ApplyToSaleModal
-        onDismissModal={onDismissModal}
-        onConfirmCancelButtonClick={onConfirmCancelButtonClick}
-        onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
-      />
+        <ApplyToSaleModal
+          onDismissModal={onDismissModal}
+          onConfirmCancelButtonClick={onConfirmCancelButtonClick}
+          onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
+        />
       )}
       <ApplyToSaleTable onUpdateTableAmountInput={onUpdateTableAmountInput} />
     </LineItemTemplate>
@@ -64,7 +69,7 @@ const ApplyToSaleView = ({
   return <PageView isLoading={isLoading} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoading: getIsLoading(state),
   modalType: getModalType(state),
   alertMessage: getAlertMessage(state),

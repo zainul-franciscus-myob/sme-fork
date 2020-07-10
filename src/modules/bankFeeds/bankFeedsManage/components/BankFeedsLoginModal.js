@@ -1,6 +1,4 @@
-import {
-  Button, Input, Modal,
-} from '@myob/myob-widgets';
+import { Button, Input, Modal } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -31,12 +29,16 @@ const BankFeedsLoginModal = ({
       />
     </Modal.Body>
     <Modal.Footer>
-      <Button type="secondary" onClick={onCancelBankFeedsLogin}>Cancel</Button>
-      <Button type="primary" onClick={onConfirmBankFeedsLogin}>OK</Button>
+      <Button type="secondary" onClick={onCancelBankFeedsLogin}>
+        Cancel
+      </Button>
+      <Button type="primary" onClick={onConfirmBankFeedsLogin}>
+        OK
+      </Button>
     </Modal.Footer>
   </Modal>
 );
 
-const mapStateToProps = state => getBankFeedsLoginDetails(state);
+const mapStateToProps = (state) => getBankFeedsLoginDetails(state);
 
 export default connect(mapStateToProps)(BankFeedsLoginModal);

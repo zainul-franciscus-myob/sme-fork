@@ -41,7 +41,11 @@ const createQuoteDetailIntegrator = (store, integration) => ({
     const params = getLoadQuoteQueryParams(state);
 
     integration.read({
-      intent, urlParams, params, onSuccess, onFailure,
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -54,7 +58,11 @@ const createQuoteDetailIntegrator = (store, integration) => ({
     const content = getCreateOrUpdateQuotePayload(state);
 
     integration.write({
-      intent, urlParams, content, onSuccess, onFailure,
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -65,7 +73,10 @@ const createQuoteDetailIntegrator = (store, integration) => ({
     const urlParams = getDeleteQuoteUrlParams(state);
 
     integration.write({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -76,7 +87,10 @@ const createQuoteDetailIntegrator = (store, integration) => ({
     const urlParams = getLoadContactAddressUrlParams(state);
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -87,7 +101,10 @@ const createQuoteDetailIntegrator = (store, integration) => ({
     const urlParams = getLoadContactAfterCreateUrlParams(state, id);
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -98,7 +115,10 @@ const createQuoteDetailIntegrator = (store, integration) => ({
     const urlParams = getLoadAccountAfterCreateUrlParams(state, id);
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -109,7 +129,10 @@ const createQuoteDetailIntegrator = (store, integration) => ({
     const urlParams = getLoadItemAfterCreateUrlParams(state, id);
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -119,7 +142,10 @@ const createQuoteDetailIntegrator = (store, integration) => ({
     const urlParams = getLoadAddedJobUrlParams(state, id);
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -131,13 +157,15 @@ const createQuoteDetailIntegrator = (store, integration) => ({
     const content = getSendEmailPayload(state);
 
     integration.write({
-      intent, urlParams, content, onSuccess, onFailure,
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
     });
   },
 
-  uploadEmailAttachment: ({
-    file, onSuccess, onFailure, onProgress,
-  }) => {
+  uploadEmailAttachment: ({ file, onSuccess, onFailure, onProgress }) => {
     const state = store.getState();
 
     const intent = UPLOAD_EMAIL_ATTACHMENT;
@@ -145,7 +173,12 @@ const createQuoteDetailIntegrator = (store, integration) => ({
     const content = { file };
 
     integration.writeFormData({
-      intent, content, urlParams, onSuccess, onFailure, onProgress,
+      intent,
+      content,
+      urlParams,
+      onSuccess,
+      onFailure,
+      onProgress,
     });
   },
 

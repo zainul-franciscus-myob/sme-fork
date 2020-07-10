@@ -1,4 +1,3 @@
-
 import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import React from 'react';
@@ -8,7 +7,6 @@ import TaxAndKiwiSaverTab from '../TaxAndKiwiSaverTab';
 import TestStore from '../../../../../../../store/TestStore';
 import employeeDetail from '../../../../mappings/data/employeeDetailEntry';
 import employeeDetailNzReducer from '../../../employeeDetailNzReducer';
-
 
 describe('TaxAndKiwiSaverTab', () => {
   let store;
@@ -20,14 +18,17 @@ describe('TaxAndKiwiSaverTab', () => {
     jest.clearAllMocks();
   });
 
-  const mountWithProvider = component => mount(component,
-    { wrappingComponent: Provider, wrappingComponentProps: { store } });
+  const mountWithProvider = (component) =>
+    mount(component, {
+      wrappingComponent: Provider,
+      wrappingComponentProps: { store },
+    });
 
   const setup = () => {
     store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, payload: employeeDetail });
     const onTaxChange = jest.fn();
     const wrapper = mountWithProvider(
-    <TaxAndKiwiSaverTab onTaxChange={onTaxChange} />,
+      <TaxAndKiwiSaverTab onTaxChange={onTaxChange} />
     );
     return { wrapper, onTaxChange };
   };

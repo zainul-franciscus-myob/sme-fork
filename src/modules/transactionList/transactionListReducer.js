@@ -1,4 +1,8 @@
-import { DEBITS_AND_CREDITS, JOURNAL_TRANSACTIONS, getDefaultState } from './getDefaultState';
+import {
+  DEBITS_AND_CREDITS,
+  JOURNAL_TRANSACTIONS,
+  getDefaultState,
+} from './getDefaultState';
 import {
   LOAD_CREDITS_AND_DEBITS_LIST,
   LOAD_CREDITS_AND_DEBITS_NEXT_PAGE,
@@ -21,32 +25,31 @@ import Periods from '../../components/PeriodPicker/Periods';
 import createReducer from '../../store/createReducer';
 import getDateRangeByPeriodAndRegion from '../../components/PeriodPicker/getDateRangeByPeriodAndRegion';
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
-const setInitialState = (state, {
-  context,
-  settings,
-  sourceJournal,
-}) => {
+const setInitialState = (state, { context, settings, sourceJournal }) => {
   const period = settings.filterOptions.period || state.filterOptions.period;
-  const filterDates = period !== Periods.custom
-    ? getDateRangeByPeriodAndRegion(context.region, new Date(), period) : {};
+  const filterDates =
+    period !== Periods.custom
+      ? getDateRangeByPeriodAndRegion(context.region, new Date(), period)
+      : {};
 
   const filterOptions = {
     ...state.filterOptions,
     ...settings.filterOptions,
     ...filterDates,
-    sourceJournal: (
-      sourceJournal || settings.filterOptions.sourceJournal || state.filterOptions.sourceJournal
-    ),
+    sourceJournal:
+      sourceJournal ||
+      settings.filterOptions.sourceJournal ||
+      state.filterOptions.sourceJournal,
   };
-  return ({
+  return {
     ...state,
     ...context,
     filterOptions,
     orderBy: settings.orderBy || state.orderBy,
     sortOrder: settings.sortOrder || state.sortOrder,
-  });
+  };
 };
 
 const setTab = (state, action) => ({
@@ -96,8 +99,8 @@ const setTableLoadingState = (state, { key, isTableLoading }) => ({
   },
 });
 
-const getLoadMoreButtonStatus = hasNextPage => (
-  hasNextPage ? LoadMoreButtonStatuses.SHOWN : LoadMoreButtonStatuses.HIDDEN);
+const getLoadMoreButtonStatus = (hasNextPage) =>
+  hasNextPage ? LoadMoreButtonStatuses.SHOWN : LoadMoreButtonStatuses.HIDDEN;
 
 const setNextPageLoadingState = (state, { key, isNextPageLoading }) => ({
   ...state,
@@ -124,7 +127,9 @@ const loadCreditsAndDebitsList = (state, action) => ({
     ...state[DEBITS_AND_CREDITS],
     entries: action.entries,
     pagination: action.pagination,
-    loadMoreButtonStatus: getLoadMoreButtonStatus(action.pagination.hasNextPage),
+    loadMoreButtonStatus: getLoadMoreButtonStatus(
+      action.pagination.hasNextPage
+    ),
   },
 });
 
@@ -134,7 +139,9 @@ const sortAndFilterCreditsAndDebitsList = (state, action) => ({
     ...state[DEBITS_AND_CREDITS],
     entries: action.entries,
     pagination: action.pagination,
-    loadMoreButtonStatus: getLoadMoreButtonStatus(action.pagination.hasNextPage),
+    loadMoreButtonStatus: getLoadMoreButtonStatus(
+      action.pagination.hasNextPage
+    ),
   },
 });
 
@@ -142,12 +149,11 @@ const loadCreditsAndDebitsNextPage = (state, action) => ({
   ...state,
   [DEBITS_AND_CREDITS]: {
     ...state[DEBITS_AND_CREDITS],
-    entries: [
-      ...state[DEBITS_AND_CREDITS].entries,
-      ...action.entries,
-    ],
+    entries: [...state[DEBITS_AND_CREDITS].entries, ...action.entries],
     pagination: action.pagination,
-    loadMoreButtonStatus: getLoadMoreButtonStatus(action.pagination.hasNextPage),
+    loadMoreButtonStatus: getLoadMoreButtonStatus(
+      action.pagination.hasNextPage
+    ),
   },
 });
 
@@ -160,7 +166,9 @@ const sortAndFilterTransactionList = (state, action) => ({
       hasNextPage: action.pagination.hasNextPage,
       offset: action.pagination.offset,
     },
-    loadMoreButtonStatus: getLoadMoreButtonStatus(action.pagination.hasNextPage),
+    loadMoreButtonStatus: getLoadMoreButtonStatus(
+      action.pagination.hasNextPage
+    ),
   },
 });
 
@@ -168,12 +176,11 @@ const loadTransactionNextPage = (state, action) => ({
   ...state,
   [JOURNAL_TRANSACTIONS]: {
     ...state[JOURNAL_TRANSACTIONS],
-    entries: [
-      ...state[JOURNAL_TRANSACTIONS].entries,
-      ...action.entries,
-    ],
+    entries: [...state[JOURNAL_TRANSACTIONS].entries, ...action.entries],
     pagination: action.pagination,
-    loadMoreButtonStatus: getLoadMoreButtonStatus(action.pagination.hasNextPage),
+    loadMoreButtonStatus: getLoadMoreButtonStatus(
+      action.pagination.hasNextPage
+    ),
   },
 });
 

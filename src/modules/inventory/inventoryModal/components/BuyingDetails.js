@@ -1,5 +1,10 @@
 import {
-  Checkbox, CheckboxGroup, FieldGroup, Icons, Input, Tooltip,
+  Checkbox,
+  CheckboxGroup,
+  FieldGroup,
+  Icons,
+  Input,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -36,7 +41,12 @@ const BuyingDetails = ({
   <FieldGroup label="Buying details">
     <CheckboxGroup
       renderCheckbox={() => (
-        <Checkbox label="I buy this item" checked={isBuying} name="isBuying" onChange={handleCheckboxChange(onUpdateIsBuying)} />
+        <Checkbox
+          label="I buy this item"
+          checked={isBuying}
+          name="isBuying"
+          onChange={handleCheckboxChange(onUpdateIsBuying)}
+        />
       )}
     />
     <AmountInput
@@ -56,11 +66,11 @@ const BuyingDetails = ({
       label="Unit of measure"
       name="unitOfMeasure"
       value={unitOfMeasure}
-      labelAccessory={(
+      labelAccessory={
         <Tooltip triggerContent={<Icons.Info />}>
           Eg. boxes, cans, hours, kg (max 5 characters)
         </Tooltip>
-      )}
+      }
       onChange={handleInputChange(onUpdateBuyingOption)}
       maxLength={5}
       width="xs"
@@ -85,7 +95,7 @@ const BuyingDetails = ({
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isBuying: getIsBuying(state),
   price: getBuyingPrice(state),
   unitOfMeasure: getBuyingUnitOfMeasure(state),

@@ -8,11 +8,11 @@ describe('PayrollSuperSelectors', () => {
 
       const actual = getFilteredSuperPayItemOptions.resultFunc(
         payItemOptions,
-        payItems,
+        payItems
       );
 
-      expect(actual.find(item => item.id === '1')).toBeFalsy();
-      expect(actual.find(item => item.id === '2')).toBeTruthy();
+      expect(actual.find((item) => item.id === '1')).toBeFalsy();
+      expect(actual.find((item) => item.id === '2')).toBeTruthy();
     });
   });
 });

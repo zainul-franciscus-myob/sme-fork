@@ -6,7 +6,11 @@ import {
   LOAD_REFERENCE_ID,
 } from '../PayRefundIntents';
 import {
-  getBusinessId, getCustomerReturnId, getIsCreating, getRefund, getRefundId,
+  getBusinessId,
+  getCustomerReturnId,
+  getIsCreating,
+  getRefund,
+  getRefundId,
 } from './payRefundSelectors';
 
 const createPayRefundIntegrator = (store, integration) => ({
@@ -14,11 +18,11 @@ const createPayRefundIntegrator = (store, integration) => ({
     const state = store.getState();
     const isCreating = getIsCreating(state);
 
-    const intent = isCreating
-      ? LOAD_NEW_PAY_REFUND
-      : LOAD_PAY_REFUND;
+    const intent = isCreating ? LOAD_NEW_PAY_REFUND : LOAD_PAY_REFUND;
 
-    const customerReturnId = isCreating ? getCustomerReturnId(state) : undefined;
+    const customerReturnId = isCreating
+      ? getCustomerReturnId(state)
+      : undefined;
     const refundId = isCreating ? undefined : getRefundId(state);
 
     const urlParams = {
@@ -28,7 +32,10 @@ const createPayRefundIntegrator = (store, integration) => ({
     };
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 
@@ -68,9 +75,7 @@ const createPayRefundIntegrator = (store, integration) => ({
     });
   },
 
-  loadReferenceId: ({
-    accountId, onSuccess, onFailure,
-  }) => {
+  loadReferenceId: ({ accountId, onSuccess, onFailure }) => {
     const intent = LOAD_REFERENCE_ID;
 
     const state = store.getState();

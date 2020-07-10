@@ -8,33 +8,23 @@ const PayItemsErrorsCard = ({ errors, onPayItemClick }) => {
 
   const tableHeader = (
     <Table.Header>
-      <Table.HeaderItem
-        name="payItem"
-        label="Pay item"
-      >
+      <Table.HeaderItem name="payItem" label="Pay item">
         Pay item
       </Table.HeaderItem>
-      <Table.HeaderItem
-        name="error"
-        label="Error"
-      >
+      <Table.HeaderItem name="error" label="Error">
         Error
       </Table.HeaderItem>
     </Table.Header>
   );
 
-  const tableRows = errors.map(error => (
-    <Table.Row
-      key={error.id}
-    >
+  const tableRows = errors.map((error) => (
+    <Table.Row key={error.id}>
       <Table.RowItem columnName="Name">
         <Button type="link" onClick={() => onPayItemClick(error)}>
           {error.name}
         </Button>
       </Table.RowItem>
-      <Table.RowItem columnName="Error">
-        {error.error}
-      </Table.RowItem>
+      <Table.RowItem columnName="Error">{error.error}</Table.RowItem>
     </Table.Row>
   ));
 
@@ -42,15 +32,14 @@ const PayItemsErrorsCard = ({ errors, onPayItemClick }) => {
     <Card>
       <h3>Pay items</h3>
       <p>
-        Each of your pay items, including inactive and deleted, must be assigned an ATO reporting
-        category to indicate what information to report to the ATO. This is a complex area, if you
-        are not sure what to assign, please contact your advisor.
+        Each of your pay items, including inactive and deleted, must be assigned
+        an ATO reporting category to indicate what information to report to the
+        ATO. This is a complex area, if you are not sure what to assign, please
+        contact your advisor.
       </p>
       <Table>
         {tableHeader}
-        <Table.Body>
-          {tableRows}
-        </Table.Body>
+        <Table.Body>{tableRows}</Table.Body>
       </Table>
     </Card>
   );

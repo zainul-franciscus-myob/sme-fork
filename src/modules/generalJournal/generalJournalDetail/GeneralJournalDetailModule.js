@@ -6,7 +6,10 @@ import {
   SUCCESSFULLY_DELETED_GENERAL_JOURNAL,
   SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
 } from '../../../common/types/MessageTypes';
-import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalculator';
+import {
+  TaxCalculatorTypes,
+  createTaxCalculator,
+} from '../../../common/taxCalculator';
 import {
   getAccountModalContext,
   getCreateGeneralJournalUrl,
@@ -41,15 +44,24 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class GeneralJournalDetailModule {
   constructor({
-    integration, setRootView, popMessages, pushMessage, navigateTo, isToggleOn,
+    integration,
+    setRootView,
+    popMessages,
+    pushMessage,
+    navigateTo,
+    isToggleOn,
   }) {
     this.store = new Store(generalJournalDetailReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.popMessages = popMessages;
     this.navigateTo = navigateTo;
-    this.purchasesTaxCalculate = createTaxCalculator(TaxCalculatorTypes.generalJournalPurchases);
-    this.salesTaxCalculate = createTaxCalculator(TaxCalculatorTypes.generalJournalSales);
+    this.purchasesTaxCalculate = createTaxCalculator(
+      TaxCalculatorTypes.generalJournalPurchases
+    );
+    this.salesTaxCalculate = createTaxCalculator(
+      TaxCalculatorTypes.generalJournalSales
+    );
     this.dispatcher = createGeneralJournalDispatcher(this.store);
     this.integrator = createGeneralJournalIntegrator(this.store, integration);
     this.isToggleOn = isToggleOn;
@@ -114,7 +126,7 @@ export default class GeneralJournalDetailModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   createGeneralJournal = (onSuccess) => {
     if (getIsActionsDisabled(this.store.getState())) return;
@@ -130,7 +142,7 @@ export default class GeneralJournalDetailModule {
     };
 
     this.integrator.saveGeneralJournalDetail({ onSuccess, onFailure });
-  }
+  };
 
   saveGeneralJournal = () => {
     const onSuccess = (response) => {
@@ -146,7 +158,7 @@ export default class GeneralJournalDetailModule {
     };
 
     this.createGeneralJournal(onSuccess);
-  }
+  };
 
   saveAndDuplicate = () => {
     const onSuccess = ({ message, id }) => {
@@ -168,7 +180,7 @@ export default class GeneralJournalDetailModule {
     };
 
     this.createGeneralJournal(onSuccess);
-  }
+  };
 
   saveAndCreateNew = () => {
     const onSuccess = ({ message }) => {
@@ -181,9 +193,9 @@ export default class GeneralJournalDetailModule {
     };
 
     this.createGeneralJournal(onSuccess);
-  }
+  };
 
-  saveAnd = saveAndAction => {
+  saveAnd = (saveAndAction) => {
     if (saveAndAction === SaveActionType.SAVE_AND_CREATE_NEW) {
       this.saveAndCreateNew();
     }
@@ -191,13 +203,13 @@ export default class GeneralJournalDetailModule {
     if (saveAndAction === SaveActionType.SAVE_AND_DUPLICATE) {
       this.saveAndDuplicate();
     }
-  }
+  };
 
   redirectToCreateGeneralJournal = () => {
     const url = getCreateGeneralJournalUrl(this.store.getState());
 
     this.navigateTo(url);
-  }
+  };
 
   saveUnsavedChanges = () => {
     const state = this.store.getState();
@@ -226,7 +238,7 @@ export default class GeneralJournalDetailModule {
     };
 
     this.integrator.saveGeneralJournalDetail({ onSuccess, onFailure });
-  }
+  };
 
   updateHeaderOptions = ({ key, value }) => {
     this.dispatcher.updateGeneralJournalHeader({ key, value });
@@ -250,39 +262,42 @@ export default class GeneralJournalDetailModule {
     if (taxKeys.includes(lineKey)) {
       this.getCalculatedTotals({ isSwitchingTaxInclusive: false });
     }
-  }
+  };
 
   addGeneralJournalLine = (line) => {
     const { id, ...partialLine } = line;
 
     this.dispatcher.addGeneralJournalLine(partialLine);
     this.getCalculatedTotals({ isSwitchingTaxInclusive: false });
-  }
+  };
 
   deleteGeneralJournalLine = (index) => {
     this.dispatcher.deleteGeneralJournalLine(index);
     this.getCalculatedTotals({ isSwitchingTaxInclusive: false });
-  }
+  };
 
   getCalculatedTotals = ({ isSwitchingTaxInclusive }) => {
     const state = this.store.getState();
     const isTaxInclusive = getIsTaxInclusive(state);
-    const taxCalculate = getIsSale(state) ? this.salesTaxCalculate : this.purchasesTaxCalculate;
+    const taxCalculate = getIsSale(state)
+      ? this.salesTaxCalculate
+      : this.purchasesTaxCalculate;
     const taxCalculations = taxCalculate({
       isTaxInclusive,
       lines: getLinesForTaxCalculation(state),
       taxCodes: getTaxCodeOptions(state),
       isLineAmountsTaxInclusive: getIsLineAmountsTaxInclusive(
-        state, isSwitchingTaxInclusive,
+        state,
+        isSwitchingTaxInclusive
       ),
     });
 
     this.dispatcher.getTaxCalculations(taxCalculations);
-  }
+  };
 
   formatAndCalculateTotals = () => {
     this.getCalculatedTotals({ isSwitchingTaxInclusive: false });
-  }
+  };
 
   openCancelModal = () => {
     if (isPageEdited(this.store.getState())) {
@@ -305,15 +320,17 @@ export default class GeneralJournalDetailModule {
       type: ModalType.DELETE,
       url: transactionListUrl,
     });
-  }
+  };
 
   openAccountModal = (onChange) => {
     const state = this.store.getState();
     const accountModalContext = getAccountModalContext(state);
     this.accountModalModule.run({
       context: accountModalContext,
-      onSaveSuccess: payload => this.loadAccountAfterCreate(payload, onChange),
-      onLoadFailure: message => this.dispatcher.setAlert({ message, type: 'danger' }),
+      onSaveSuccess: (payload) =>
+        this.loadAccountAfterCreate(payload, onChange),
+      onLoadFailure: (message) =>
+        this.dispatcher.setAlert({ message, type: 'danger' }),
     });
   };
 
@@ -323,8 +340,9 @@ export default class GeneralJournalDetailModule {
 
     this.jobModalModule.run({
       context,
-      onLoadFailure: message => this.dispatcher.setAlert({ message, type: 'danger' }),
-      onSaveSuccess: payload => this.loadJobAfterCreate(payload, onChange),
+      onLoadFailure: (message) =>
+        this.dispatcher.setAlert({ message, type: 'danger' }),
+      onSaveSuccess: (payload) => this.loadJobAfterCreate(payload, onChange),
     });
   };
 
@@ -345,7 +363,7 @@ export default class GeneralJournalDetailModule {
     };
 
     this.integrator.loadJobAfterCreate({ id, onSuccess, onFailure });
-  }
+  };
 
   loadAccountAfterCreate = ({ message, id }, onChange) => {
     this.dispatcher.setAlert({ message, type: 'success' });
@@ -373,14 +391,14 @@ export default class GeneralJournalDetailModule {
     const state = this.store.getState();
     const transactionListUrl = getTransactionListUrl(state);
     this.navigateTo(transactionListUrl);
-  }
+  };
 
   redirectToModalUrl = () => {
     const state = this.store.getState();
     const modalUrl = getModalUrl(state);
 
     this.navigateTo(modalUrl);
-  }
+  };
 
   render = () => {
     const accountModal = this.accountModalModule.render();
@@ -420,9 +438,7 @@ export default class GeneralJournalDetailModule {
     );
 
     const wrappedView = (
-      <Provider store={this.store}>
-        {generalJournalView}
-      </Provider>
+      <Provider store={this.store}>{generalJournalView}</Provider>
     );
 
     this.setRootView(wrappedView);
@@ -449,7 +465,7 @@ export default class GeneralJournalDetailModule {
         this.saveGeneralJournal();
         break;
     }
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,
@@ -459,7 +475,7 @@ export default class GeneralJournalDetailModule {
     this.popMessages([
       SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
       DUPLICATE_GENERAL_JOURNAL,
-    ]).forEach(message => {
+    ]).forEach((message) => {
       if (message.type === SUCCESSFULLY_SAVED_GENERAL_JOURNAL) {
         this.dispatcher.setAlert({ message: message.content, type: 'success' });
       } else if (message.type === DUPLICATE_GENERAL_JOURNAL) {
@@ -471,7 +487,9 @@ export default class GeneralJournalDetailModule {
   run(context) {
     this.dispatcher.setInitialState({
       ...context,
-      isGeneralJournalJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
+      isGeneralJournalJobColumnEnabled: this.isToggleOn(
+        FeatureToggle.EssentialsJobs
+      ),
     });
     setupHotKeys(keyMap, this.handlers);
     this.render();
@@ -492,5 +510,5 @@ export default class GeneralJournalDetailModule {
     } else {
       this.navigateTo(url);
     }
-  }
+  };
 }

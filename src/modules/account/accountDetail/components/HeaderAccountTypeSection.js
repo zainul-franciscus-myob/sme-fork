@@ -11,8 +11,8 @@ import {
 } from '../accountDetailSelectors';
 import handleSelectChange from '../../../../components/handlers/handleSelectChange';
 
-const AccountTypes = ({ options }) => options
-  .map(({ displayName, value }) => (
+const AccountTypes = ({ options }) =>
+  options.map(({ displayName, value }) => (
     <Select.Option value={value} label={displayName} key={value} />
   ));
 
@@ -23,26 +23,27 @@ const HeaderAccountTypeSection = ({
   disabled,
   isReadOnly,
   accountClassificationforDisplay,
-}) => (isReadOnly ? (
-  <ReadOnly label="Account type" name="type">
-    {accountClassificationforDisplay}
-  </ReadOnly>
-) : (
-  <Select
-    name="accountClassification"
-    label="Account type"
-    value={accountClassification}
-    requiredLabel="This is required"
-    onChange={handleSelectChange(onChange)}
-    disabled={disabled}
-    width="md"
-  >
-    <Select.Option hidden value="" label="Select an option" key="blank" />
-    <AccountTypes options={accountClassifications} />
-  </Select>
-));
+}) =>
+  isReadOnly ? (
+    <ReadOnly label="Account type" name="type">
+      {accountClassificationforDisplay}
+    </ReadOnly>
+  ) : (
+    <Select
+      name="accountClassification"
+      label="Account type"
+      value={accountClassification}
+      requiredLabel="This is required"
+      onChange={handleSelectChange(onChange)}
+      disabled={disabled}
+      width="md"
+    >
+      <Select.Option hidden value="" label="Select an option" key="blank" />
+      <AccountTypes options={accountClassifications} />
+    </Select>
+  );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accountClassifications: getAccountClassifications(state),
   accountClassification: getAccountClassification(state),
   accountClassificationforDisplay: getAccountClassificationforDisplay(state),

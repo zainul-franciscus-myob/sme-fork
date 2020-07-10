@@ -2,7 +2,7 @@ import React from 'react';
 
 import AutoFormatter from '../AutoFormatterCore/AutoFormatter';
 
-const BSBInput = props => (
+const BSBInput = (props) => (
   <AutoFormatter
     {...props}
     options={{

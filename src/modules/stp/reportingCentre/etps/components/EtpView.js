@@ -1,6 +1,10 @@
 import {
   Alert,
-  BaseTemplate, Button, ButtonRow, Card, PageHead,
+  BaseTemplate,
+  Button,
+  ButtonRow,
+  Card,
+  PageHead,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -37,8 +41,9 @@ const EtpView = ({
     <>
       <h2>Employment termination payments (ETP)</h2>
       <p>
-        Select one of all Employees termination payments to remove. You&apos;ll also need to
-        change or delete each pay that contains a deleted ETP transaction.
+        Select one of all Employees termination payments to remove. You&apos;ll
+        also need to change or delete each pay that contains a deleted ETP
+        transaction.
       </p>
       <PaysTable
         selectedStatus={selectedStatus}
@@ -51,8 +56,12 @@ const EtpView = ({
 
   const actions = (
     <ButtonRow>
-      <Button type="secondary" onClick={onCancelClick}>Cancel</Button>
-      <Button type="primary" onClick={onRemoveClick}>Remove and notify the ATO</Button>
+      <Button type="secondary" onClick={onCancelClick}>
+        Cancel
+      </Button>
+      <Button type="primary" onClick={onRemoveClick}>
+        Remove and notify the ATO
+      </Button>
     </ButtonRow>
   );
 
@@ -68,7 +77,7 @@ const EtpView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   alert: getAlert(state),
   name: getEmployeeName(state),

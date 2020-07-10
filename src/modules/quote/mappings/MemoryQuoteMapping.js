@@ -37,11 +37,14 @@ import uploadEmailAttachmentResponse from './data/uploadEmailAttachmentResponse'
 
 const MemoryQuoteMapping = {
   [LOAD_QUOTE_LIST]: ({ onSuccess }) => onSuccess(quoteListLoadResponse),
-  [SORT_AND_FILTER_QUOTE_LIST]: ({ onSuccess }) => onSuccess(quoteListFilterResponse),
-  [LOAD_QUOTE_LIST_NEXT_PAGE]: ({ onSuccess }) => onSuccess(loadQuoteListNextPageResponse),
+  [SORT_AND_FILTER_QUOTE_LIST]: ({ onSuccess }) =>
+    onSuccess(quoteListFilterResponse),
+  [LOAD_QUOTE_LIST_NEXT_PAGE]: ({ onSuccess }) =>
+    onSuccess(loadQuoteListNextPageResponse),
 
   [LOAD_NEW_QUOTE_DETAIL]: ({ onSuccess }) => onSuccess(loadNewQuoteDetail),
-  [LOAD_NEW_DUPLICATE_QUOTE_DETAIL]: ({ onSuccess }) => onSuccess(loadDuplicateQuoteDetail),
+  [LOAD_NEW_DUPLICATE_QUOTE_DETAIL]: ({ onSuccess }) =>
+    onSuccess(loadDuplicateQuoteDetail),
   [LOAD_QUOTE_DETAIL]: ({ urlParams = {}, onSuccess }) => {
     switch (urlParams.quoteId) {
       case 'service-readonly-id':
@@ -51,13 +54,22 @@ const MemoryQuoteMapping = {
         onSuccess(loadReadOnlyItemQuoteDetail);
         break;
       case 'professional-id':
-        onSuccess({ ...loadQuoteDetail, quote: { ...loadQuoteDetail.quote, layout: 'professional' } });
+        onSuccess({
+          ...loadQuoteDetail,
+          quote: { ...loadQuoteDetail.quote, layout: 'professional' },
+        });
         break;
       case 'time-billing-id':
-        onSuccess({ ...loadQuoteDetail, quote: { ...loadQuoteDetail.quote, layout: 'timeBilling' } });
+        onSuccess({
+          ...loadQuoteDetail,
+          quote: { ...loadQuoteDetail.quote, layout: 'timeBilling' },
+        });
         break;
       case 'miscellaneous-id':
-        onSuccess({ ...loadQuoteDetail, quote: { ...loadQuoteDetail.quote, layout: 'miscellaneous' } });
+        onSuccess({
+          ...loadQuoteDetail,
+          quote: { ...loadQuoteDetail.quote, layout: 'miscellaneous' },
+        });
         break;
       case 'service-id':
       default:
@@ -65,18 +77,25 @@ const MemoryQuoteMapping = {
         break;
     }
   },
-  [CREATE_QUOTE_DETAIL]: ({ onSuccess }) => onSuccess({ ...successResponse, id: '1' }),
+  [CREATE_QUOTE_DETAIL]: ({ onSuccess }) =>
+    onSuccess({ ...successResponse, id: '1' }),
   [UPDATE_QUOTE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [DELETE_QUOTE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [LOAD_CONTACT_ADDRESS]: ({ onSuccess }) => onSuccess(customerAddress),
-  [LOAD_CONTACT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadCustomerResponse),
-  [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedAccountResponse),
-  [LOAD_ITEM_AFTER_CREATE]: ({ onSuccess }) => onSuccess(itemQuoteLoadItemOption),
+  [LOAD_CONTACT_AFTER_CREATE]: ({ onSuccess }) =>
+    onSuccess(loadCustomerResponse),
+  [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) =>
+    onSuccess(loadAddedAccountResponse),
+  [LOAD_ITEM_AFTER_CREATE]: ({ onSuccess }) =>
+    onSuccess(itemQuoteLoadItemOption),
   [LOAD_JOB_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedJobResponse),
-  [EXPORT_QUOTE_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
+  [EXPORT_QUOTE_PDF]: ({ onSuccess }) =>
+    onSuccess(new Blob([], { type: 'application/pdf' })),
   [SEND_EMAIL]: ({ onSuccess }) => onSuccess(successResponse),
-  [UPLOAD_EMAIL_ATTACHMENT]: ({ onSuccess }) => onSuccess(uploadEmailAttachmentResponse),
-  [LOAD_ITEM_SELLING_DETAILS]: ({ onSuccess }) => onSuccess(loadItemSellingDetailsResponse),
+  [UPLOAD_EMAIL_ATTACHMENT]: ({ onSuccess }) =>
+    onSuccess(uploadEmailAttachmentResponse),
+  [LOAD_ITEM_SELLING_DETAILS]: ({ onSuccess }) =>
+    onSuccess(loadItemSellingDetailsResponse),
 };
 
 export default MemoryQuoteMapping;

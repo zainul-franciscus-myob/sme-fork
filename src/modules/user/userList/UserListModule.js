@@ -15,16 +15,17 @@ import {
   SUCCESSFULLY_SAVED_USER,
 } from '../../../common/types/MessageTypes';
 import {
-  getBusinessId, getFlipSortOrder, getOrderBy, getRegion,
+  getBusinessId,
+  getFlipSortOrder,
+  getOrderBy,
+  getRegion,
 } from './userListSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import UserListView from './components/UserListView';
 import userListReducer from './userListReducer';
 
-const messageTypes = [
-  SUCCESSFULLY_DELETED_USER, SUCCESSFULLY_SAVED_USER,
-];
+const messageTypes = [SUCCESSFULLY_DELETED_USER, SUCCESSFULLY_SAVED_USER];
 
 export default class UserListModule {
   constructor({ integration, setRootView, popMessages }) {
@@ -41,7 +42,7 @@ export default class UserListModule {
       intent,
       alert: undefined,
     });
-  }
+  };
 
   loadUserList = () => {
     const intent = LOAD_USER_LIST;
@@ -69,31 +70,29 @@ export default class UserListModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   readMessages = () => {
     const [successMessage] = this.popMessages(this.messageTypes);
 
     if (successMessage) {
-      const {
-        content: message,
-      } = successMessage;
+      const { content: message } = successMessage;
 
       this.setAlert({
         type: 'success',
         message,
       });
     }
-  }
+  };
 
-  redirectToCreateUser = isAdvisor => () => {
+  redirectToCreateUser = (isAdvisor) => () => {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
     const region = getRegion(state);
 
     const destination = isAdvisor ? 'new-advisor' : 'new';
     window.location.href = `/#/${region}/${businessId}/user/${destination}`;
-  }
+  };
 
   setAlert = ({ message, type }) => {
     const intent = SET_ALERT;
@@ -104,14 +103,14 @@ export default class UserListModule {
         type,
       },
     });
-  }
+  };
 
   setInitialState = (context) => {
     this.store.dispatch({
       intent: SET_INITIAL_STATE,
       context,
     });
-  }
+  };
 
   setLoadingState = (loadingState) => {
     const intent = SET_LOADING_STATE;
@@ -119,7 +118,7 @@ export default class UserListModule {
       intent,
       loadingState,
     });
-  }
+  };
 
   setSortOrder = (orderBy, sortOrder) => {
     this.store.dispatch({
@@ -127,7 +126,7 @@ export default class UserListModule {
       sortOrder,
       orderBy,
     });
-  }
+  };
 
   setTableLoadingState = (isTableLoading) => {
     const intent = SET_TABLE_LOADING_STATE;
@@ -135,11 +134,12 @@ export default class UserListModule {
       intent,
       isTableLoading,
     });
-  }
+  };
 
   sortUserList = (orderBy) => {
     const state = this.store.getState();
-    const newSortOrder = orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
+    const newSortOrder =
+      orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
     this.setSortOrder(orderBy, newSortOrder);
 
     const intent = SORT_USER_LIST;
@@ -147,9 +147,7 @@ export default class UserListModule {
       businessId: getBusinessId(state),
     };
 
-    const onSuccess = ({
-      entries,
-    }) => {
+    const onSuccess = ({ entries }) => {
       this.setTableLoadingState(false);
       this.store.dispatch({
         intent,
@@ -173,7 +171,7 @@ export default class UserListModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   render = () => {
     const userListView = (
@@ -184,13 +182,9 @@ export default class UserListModule {
       />
     );
 
-    const wrappedView = (
-      <Provider store={this.store}>
-        {userListView}
-      </Provider>
-    );
+    const wrappedView = <Provider store={this.store}>{userListView}</Provider>;
     this.setRootView(wrappedView);
-  }
+  };
 
   resetState() {
     const intent = RESET_STATE;

@@ -13,7 +13,7 @@ import createLinkBillIntegrator from '../createLinkBillIntegrator';
 import linkBillReducer from '../linkBillReducer';
 
 const setup = () => {
-  const setRootView = () => { };
+  const setRootView = () => {};
   const pushMessage = () => {};
   const store = new TestStore(linkBillReducer);
   const integration = new TestIntegration();

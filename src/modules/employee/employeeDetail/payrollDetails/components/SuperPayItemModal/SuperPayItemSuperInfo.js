@@ -1,5 +1,9 @@
 import {
-  Checkbox, CheckboxGroup, FieldGroup, Icons, Tooltip,
+  Checkbox,
+  CheckboxGroup,
+  FieldGroup,
+  Icons,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -11,11 +15,7 @@ import SuperPayItemLimit from './SuperPayItemLimit';
 import handleCheckboxChange from '../../../../../../components/handlers/handleCheckboxChange';
 
 const SuperPayItemInfo = (props) => {
-  const {
-    printOnPayAdvice,
-    threshold,
-    onChange,
-  } = props;
+  const { printOnPayAdvice, threshold, onChange } = props;
 
   return (
     <FieldGroup label="Super information">
@@ -39,16 +39,17 @@ const SuperPayItemInfo = (props) => {
         name="threshold"
         value={threshold}
         onChange={onChange}
-        labelAccessory={(
+        labelAccessory={
           <Tooltip triggerContent={<Icons.Info />} placement="right">
-            Calculate once eligible wages of this amount have been paid per month
+            Calculate once eligible wages of this amount have been paid per
+            month
           </Tooltip>
-        )}
+        }
       />
     </FieldGroup>
   );
 };
 
-const mapStateToProps = state => getSuperPayItemInfo(state);
+const mapStateToProps = (state) => getSuperPayItemInfo(state);
 
 export default connect(mapStateToProps)(SuperPayItemInfo);

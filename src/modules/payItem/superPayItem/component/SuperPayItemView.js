@@ -1,11 +1,13 @@
-import {
-  Alert, FormHorizontal, StandardTemplate,
-} from '@myob/myob-widgets';
+import { Alert, FormHorizontal, StandardTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsCreating, getLoadingState, getModalType, getSuperPayItemOriginalName,
+  getAlert,
+  getIsCreating,
+  getLoadingState,
+  getModalType,
+  getSuperPayItemOriginalName,
 } from '../superPayItemSelectors';
 import PageView from '../../../../components/PageView/PageView';
 import SuperPayItemActions from './SuperPayItemActions';
@@ -55,16 +57,16 @@ const SuperPayItemView = (props) => {
   );
 
   const view = (
-    <StandardTemplate
-      pageHead={pageHead}
-      alert={alertComponent}
-      sticky="none"
-    >
+    <StandardTemplate pageHead={pageHead} alert={alertComponent} sticky="none">
       {modal}
       <div className={styles.payItemView}>
         <FormHorizontal>
-          <SuperPayItemDetail onSuperPayItemDetailsChange={onSuperPayItemDetailsChange} />
-          <SuperPayItemInfo onSuperPayItemDetailsChange={onSuperPayItemDetailsChange} />
+          <SuperPayItemDetail
+            onSuperPayItemDetailsChange={onSuperPayItemDetailsChange}
+          />
+          <SuperPayItemInfo
+            onSuperPayItemDetailsChange={onSuperPayItemDetailsChange}
+          />
         </FormHorizontal>
       </div>
       <hr />
@@ -87,7 +89,7 @@ const SuperPayItemView = (props) => {
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   isCreating: getIsCreating(state),
   loadingState: getLoadingState(state),

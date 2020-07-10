@@ -82,10 +82,30 @@ describe('TerminationSelector', () => {
 
   describe('hasTerminationDate', () => {
     it.each([
-      ['should return true when terminationDate exists and not edited', '2020-01-01', false, true],
-      ['should return false when termindationDate exists but is edited', '2020-01-01', true, false],
-      ['should return false when termindationDate does not exist and is not edited', '', false, false],
-      ['should return false when termindationDate does not exist and is edited', '', true, false],
+      [
+        'should return true when terminationDate exists and not edited',
+        '2020-01-01',
+        false,
+        true,
+      ],
+      [
+        'should return false when termindationDate exists but is edited',
+        '2020-01-01',
+        true,
+        false,
+      ],
+      [
+        'should return false when termindationDate does not exist and is not edited',
+        '',
+        false,
+        false,
+      ],
+      [
+        'should return false when termindationDate does not exist and is edited',
+        '',
+        true,
+        false,
+      ],
     ])('%s', (_, terminationDate, isDirty, expected) => {
       const employee = {
         terminationDate,

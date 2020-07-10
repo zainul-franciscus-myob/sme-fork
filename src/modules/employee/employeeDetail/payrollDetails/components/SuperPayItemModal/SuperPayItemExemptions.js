@@ -1,6 +1,4 @@
-import {
-  Button, FieldGroup, Icons, Table, Tooltip,
-} from '@myob/myob-widgets';
+import { Button, FieldGroup, Icons, Table, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -39,7 +37,8 @@ const SuperPayItemExemptions = (props) => {
     <div>
       <span>Exemptions&nbsp;</span>
       <Tooltip triggerContent={<Icons.Info />} placement="right">
-        Select wage pay items to be excluded before calculating this per pay item
+        Select wage pay items to be excluded before calculating this per pay
+        item
       </Tooltip>
     </div>
   );
@@ -58,11 +57,16 @@ const SuperPayItemExemptions = (props) => {
               <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
               <Table.RowItem {...tableConfig.type}>{type}</Table.RowItem>
               <Table.RowItem cellRole="actions" {...tableConfig.actions}>
-                <Tooltip triggerContent={(
-                  <Button type="secondary" size="xs" onClick={onButtonClick(onRemoveItem, 'exemptions', id)}>
-                    <Icons.Remove />
-                  </Button>
-                )}
+                <Tooltip
+                  triggerContent={
+                    <Button
+                      type="secondary"
+                      size="xs"
+                      onClick={onButtonClick(onRemoveItem, 'exemptions', id)}
+                    >
+                      <Icons.Remove />
+                    </Button>
+                  }
                 >
                   Remove pay item
                 </Tooltip>
@@ -84,7 +88,7 @@ const SuperPayItemExemptions = (props) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   exemptions: getExemptions(state),
   exemptionOptions: getFilteredExemptionOptions(state),
   isExemptionDisabled: getIsExemptionDisabled(state),

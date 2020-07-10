@@ -32,7 +32,7 @@ const TemplateDetailsHeaderStyle = ({
           value={featureColour}
           onChange={handleColorPickerChange(
             'featureColour',
-            onUpdateTemplateOptions,
+            onUpdateTemplateOptions
           )}
           defaultColorIfBlack="#ffffff"
         />
@@ -42,7 +42,7 @@ const TemplateDetailsHeaderStyle = ({
           label="Header text colour"
           onChange={handleColorPickerChange(
             'headerTextColour',
-            onUpdateTemplateOptions,
+            onUpdateTemplateOptions
           )}
           defaultColorIfBlack="#ffffff"
         />
@@ -50,28 +50,29 @@ const TemplateDetailsHeaderStyle = ({
           label="PDF style"
           name="headerBusinessDetailsStyle"
           value={headerBusinessDetailsStyle}
-          renderRadios={({ value, ...props }) => [
-            {
-              value: HeaderBusinessDetailStyle.logoAndBusinessDetails,
-              label: 'Logo and business details',
-            },
-            {
-              value: HeaderBusinessDetailStyle.fullWidthHeaderImage,
-              label: 'Full width header image',
-            },
-          ].map(option => (
-            <RadioButton
-              checked={value === option.value}
-              key={option.value}
-              value={option.value}
-              label={option.label}
-              {...props}
-            />
-          ))
+          renderRadios={({ value, ...props }) =>
+            [
+              {
+                value: HeaderBusinessDetailStyle.logoAndBusinessDetails,
+                label: 'Logo and business details',
+              },
+              {
+                value: HeaderBusinessDetailStyle.fullWidthHeaderImage,
+                label: 'Full width header image',
+              },
+            ].map((option) => (
+              <RadioButton
+                checked={value === option.value}
+                key={option.value}
+                value={option.value}
+                label={option.label}
+                {...props}
+              />
+            ))
           }
           onChange={handleRadioButtonChange(
             'headerBusinessDetailsStyle',
-            onUpdateTemplateOptions,
+            onUpdateTemplateOptions
           )}
         />
         <Checkbox
@@ -85,7 +86,7 @@ const TemplateDetailsHeaderStyle = ({
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   headerBusinessDetailsStyle: getHeaderBusinessDetailsStyle(state),
   useAddressEnvelopePosition: getUseAddressEnvelopePosition(state),
   featureColour: getFeatureColour(state),

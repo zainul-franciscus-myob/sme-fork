@@ -1,4 +1,7 @@
-import { getExemptionAllocations, getSaveDeductionPayItemPayload } from '../DeductionPayItemSelectors';
+import {
+  getExemptionAllocations,
+  getSaveDeductionPayItemPayload,
+} from '../DeductionPayItemSelectors';
 
 describe('deductionPayItemSelector', () => {
   describe('getSaveDeductionPayItemPayload', () => {
@@ -112,7 +115,9 @@ describe('deductionPayItemSelector', () => {
       };
 
       const exemptionAllocations = getExemptionAllocations(state);
-      expect(exemptionAllocations.isSelectedExemptionPayGWithholding).toEqual(true);
+      expect(exemptionAllocations.isSelectedExemptionPayGWithholding).toEqual(
+        true
+      );
     });
 
     it('should return false if selected exemption does not have is PayG Withholding exemption', () => {
@@ -130,7 +135,9 @@ describe('deductionPayItemSelector', () => {
       };
 
       const exemptionAllocations = getExemptionAllocations(state);
-      expect(exemptionAllocations.isSelectedExemptionPayGWithholding).toEqual(false);
+      expect(exemptionAllocations.isSelectedExemptionPayGWithholding).toEqual(
+        false
+      );
     });
 
     it('should return false if no exemption is selected', () => {
@@ -142,7 +149,9 @@ describe('deductionPayItemSelector', () => {
       };
 
       const exemptionAllocations = getExemptionAllocations(state);
-      expect(exemptionAllocations.isSelectedExemptionPayGWithholding).toEqual(false);
+      expect(exemptionAllocations.isSelectedExemptionPayGWithholding).toEqual(
+        false
+      );
     });
   });
 });

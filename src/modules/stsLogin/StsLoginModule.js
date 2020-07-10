@@ -1,7 +1,11 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { clearSettings, loadSettings, saveSettings } from '../../store/sessionStorageDriver';
+import {
+  clearSettings,
+  loadSettings,
+  saveSettings,
+} from '../../store/sessionStorageDriver';
 import { getBusinessId } from './stsLoginSelectors';
 import RouteName from '../../router/RouteName';
 import Store from '../../store/Store';

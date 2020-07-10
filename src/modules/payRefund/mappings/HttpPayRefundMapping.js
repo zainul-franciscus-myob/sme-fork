@@ -9,33 +9,26 @@ import {
 const HttpPayRefundMapping = {
   [LOAD_NEW_PAY_REFUND]: {
     method: 'GET',
-    getPath: ({ businessId, customerReturnId }) => (
-      `/${businessId}/payRefund/load_new_pay_refund/${customerReturnId}`
-    ),
+    getPath: ({ businessId, customerReturnId }) =>
+      `/${businessId}/payRefund/load_new_pay_refund/${customerReturnId}`,
   },
   [CREATE_PAY_REFUND]: {
     method: 'POST',
-    getPath: ({ businessId }) => (
-      `/${businessId}/payRefund/create_pay_refund`
-    ),
+    getPath: ({ businessId }) => `/${businessId}/payRefund/create_pay_refund`,
   },
   [LOAD_PAY_REFUND]: {
     method: 'GET',
-    getPath: ({ businessId, refundId }) => (
-      `/${businessId}/payRefund/load_pay_refund/${refundId}`
-    ),
+    getPath: ({ businessId, refundId }) =>
+      `/${businessId}/payRefund/load_pay_refund/${refundId}`,
   },
   [DELETE_PAY_REFUND]: {
     method: 'DELETE',
-    getPath: ({ businessId, refundId }) => (
-      `/${businessId}/payRefund/delete_pay_refund/${refundId}`
-    ),
+    getPath: ({ businessId, refundId }) =>
+      `/${businessId}/payRefund/delete_pay_refund/${refundId}`,
   },
   [LOAD_REFERENCE_ID]: {
     method: 'GET',
-    getPath: ({ businessId }) => (
-      `/${businessId}/payRefund/get_reference_id`
-    ),
+    getPath: ({ businessId }) => `/${businessId}/payRefund/get_reference_id`,
   },
 };
 

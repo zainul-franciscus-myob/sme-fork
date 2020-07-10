@@ -46,19 +46,19 @@ const BankingRuleDetailView = ({
   const view = (
     <BaseTemplate>
       <PageHead title={pageTitle} />
-      {isAlertShown && <BankingRuleDetailAlert onDismissAlert={onDismissAlert} /> }
+      {isAlertShown && (
+        <BankingRuleDetailAlert onDismissAlert={onDismissAlert} />
+      )}
       <Card>
-        {
-          modal && (
-            <ModalContainer
-              modal={modal}
-              onDismissModal={onDismissModal}
-              onConfirmSave={onConfirmSave}
-              onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
-              onConfirmCancelButtonClick={onConfirmCancelButtonClick}
-            />
-          )
-        }
+        {modal && (
+          <ModalContainer
+            modal={modal}
+            onDismissModal={onDismissModal}
+            onConfirmSave={onConfirmSave}
+            onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
+            onConfirmCancelButtonClick={onConfirmCancelButtonClick}
+          />
+        )}
         <BankingRuleDetailRuleDetails
           onRuleDetailsChange={onRuleDetailsChange}
           onRuleConditionsChange={onRuleConditionsChange}
@@ -73,15 +73,13 @@ const BankingRuleDetailView = ({
         <BankingRuleDetailTransactionSection
           onRuleConditionsChange={onRuleConditionsChange}
         />
-        {
-          showAllocationTable && (
-            <BankingRuleDetailAllocationTable
-              onAddRow={onAddRow}
-              onRowChange={onRowChange}
-              onRemoveRow={onRemoveRow}
-            />
-          )
-        }
+        {showAllocationTable && (
+          <BankingRuleDetailAllocationTable
+            onAddRow={onAddRow}
+            onRowChange={onRowChange}
+            onRemoveRow={onRemoveRow}
+          />
+        )}
       </Card>
       <Actions
         onSaveButtonClick={onSaveButtonClick}
@@ -94,7 +92,7 @@ const BankingRuleDetailView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   modal: getModal(state),
   pageTitle: getPageTitle(state),

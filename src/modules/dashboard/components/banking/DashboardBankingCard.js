@@ -50,9 +50,14 @@ const DashboardBankingCard = ({
         </LinkButton>,
       ]}
       description="Automatically and securely import your bank and credit card transactions with bank feeds."
-      image={<img src={EmptyStatesBankFeeds} alt="no bankfeeds" style={{ width: '50%' }} />}
-    >
-    </PageState>
+      image={
+        <img
+          src={EmptyStatesBankFeeds}
+          alt="no bankfeeds"
+          style={{ width: '50%' }}
+        />
+      }
+    ></PageState>
   );
 
   const bankingView = (
@@ -76,7 +81,11 @@ const DashboardBankingCard = ({
       <DashboardTotalSummary
         className={styles.balances}
         items={[
-          { title: 'Bank feed balance', content: bankFeedBalance, labelAccessory: (<Tooltip>{bankBalanceDateText}</Tooltip>) },
+          {
+            title: 'Bank feed balance',
+            content: bankFeedBalance,
+            labelAccessory: <Tooltip>{bankBalanceDateText}</Tooltip>,
+          },
           { title: 'Calculated balance', content: ledgerBalance },
         ]}
       />
@@ -90,7 +99,7 @@ const DashboardBankingCard = ({
   return <CardView isLoading={isLoading} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   hasError: getHasError(state),
   isLoading: getIsLoading(state),
   isBankFeedAvailable: getIsBankFeedAvailable(state),
@@ -101,7 +110,6 @@ const mapStateToProps = state => ({
   ledgerBalance: getCurrentBalance(state),
   bankBalanceDateText: getBalanceDateText(state),
   addBankFeedUrl: getAddBankFeedUrl(state),
-
 });
 
 export default connect(mapStateToProps)(DashboardBankingCard);

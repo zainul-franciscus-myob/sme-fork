@@ -14,10 +14,7 @@ export default class JobModalModule {
     this.integration = integration;
 
     this.store = new Store(jobModalReducer);
-    this.integrator = createJobModalIntegrator(
-      this.store,
-      this.integration,
-    );
+    this.integrator = createJobModalIntegrator(this.store, this.integration);
     this.dispatcher = createJobModalDispatcher(this.store);
   }
 
@@ -27,7 +24,7 @@ export default class JobModalModule {
 
   close = () => {
     this.dispatcher.resetState();
-  }
+  };
 
   save = () => {
     if (this.isSubmitting()) return;

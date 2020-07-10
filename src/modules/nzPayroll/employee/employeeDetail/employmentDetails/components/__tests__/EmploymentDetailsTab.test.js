@@ -15,8 +15,11 @@ describe('<EmployeeDetailsTab />', () => {
     store = new TestStore(employeeDetailNzReducer);
   });
 
-  const mountWithProvider = component => mount(component,
-    { wrappingComponent: Provider, wrappingComponentProps: { store } });
+  const mountWithProvider = (component) =>
+    mount(component, {
+      wrappingComponent: Provider,
+      wrappingComponentProps: { store },
+    });
 
   const employmentDetails = {
     dateOfBirth: '1945-08-29T00:00:00',
@@ -42,24 +45,30 @@ describe('<EmployeeDetailsTab />', () => {
 
   it('should contain a PersonalEmploymentFieldGroup', () => {
     const wrapper = setup();
-    const personalEmploymentFieldGroup = wrapper.find(PersonalEmploymentFieldGroup);
+    const personalEmploymentFieldGroup = wrapper.find(
+      PersonalEmploymentFieldGroup
+    );
 
-    expect(personalEmploymentFieldGroup.props()).toEqual(expect.objectContaining({
-      dateOfBirth: employmentDetails.dateOfBirth,
-      gender: employmentDetails.gender,
-      calculatedAge: expect.any(String),
-      genderOptions: employeeDetails.genderOptions,
-    }));
+    expect(personalEmploymentFieldGroup.props()).toEqual(
+      expect.objectContaining({
+        dateOfBirth: employmentDetails.dateOfBirth,
+        gender: employmentDetails.gender,
+        calculatedAge: expect.any(String),
+        genderOptions: employeeDetails.genderOptions,
+      })
+    );
   });
 
   it('should contain a EmploymentFieldGroup', () => {
     const wrapper = setup();
     const personalEmploymentFieldGroup = wrapper.find(EmploymentFieldGroup);
 
-    expect(personalEmploymentFieldGroup.props()).toEqual(expect.objectContaining({
-      startDate: employmentDetails.startDate,
-      terminationDate: employmentDetails.terminationDate,
-      employmentStatus: employmentDetails.employmentStatus,
-    }));
+    expect(personalEmploymentFieldGroup.props()).toEqual(
+      expect.objectContaining({
+        startDate: employmentDetails.startDate,
+        terminationDate: employmentDetails.terminationDate,
+        employmentStatus: employmentDetails.employmentStatus,
+      })
+    );
   });
 });

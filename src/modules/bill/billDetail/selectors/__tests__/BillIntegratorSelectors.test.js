@@ -1,5 +1,9 @@
 import {
-  CREATE_BILL, LOAD_BILL, LOAD_NEW_BILL, LOAD_NEW_DUPLICATE_BILL, UPDATE_BILL,
+  CREATE_BILL,
+  LOAD_BILL,
+  LOAD_NEW_BILL,
+  LOAD_NEW_DUPLICATE_BILL,
+  UPDATE_BILL,
 } from '../../BillIntents';
 import {
   getCalculateBillContent,
@@ -193,7 +197,8 @@ describe('IntegratorSelectors', () => {
       const actual = getLoadAddedAccountUrlParams(state, 'accountId');
 
       expect(actual).toEqual({
-        accountId: 'accountId', businessId: 'batman',
+        accountId: 'accountId',
+        businessId: 'batman',
       });
     });
   });
@@ -235,7 +240,10 @@ describe('IntegratorSelectors', () => {
           lines,
         };
 
-        const actual = getCalculateBillItemChangeContent(state, { index, itemId });
+        const actual = getCalculateBillItemChangeContent(state, {
+          index,
+          itemId,
+        });
 
         expect(actual).toEqual(expected);
       });

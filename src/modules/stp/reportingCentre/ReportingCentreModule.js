@@ -21,9 +21,7 @@ import TerminationModule from './termination/TerminationModule';
 import createReportingCentreDispatcher from './createReportingCentreDispatcher';
 import createReportingCentreIntegrator from './createReportingCentreIntegrator';
 
-const messageTypes = [
-  SUCCESSFULLY_UPDATED_JOB_KEEPER_PAYMENTS,
-];
+const messageTypes = [SUCCESSFULLY_UPDATED_JOB_KEEPER_PAYMENTS];
 
 export default class ReportingCentreModule {
   constructor({
@@ -39,7 +37,10 @@ export default class ReportingCentreModule {
     this.featureToggles = featureToggles;
     this.replaceURLParams = replaceURLParams;
     this.store = new Store(ReportingCentreReducer);
-    this.integrator = createReportingCentreIntegrator(this.store, this.integration);
+    this.integrator = createReportingCentreIntegrator(
+      this.store,
+      this.integration
+    );
     this.dispatcher = createReportingCentreDispatcher(this.store);
     this.popMessages = popMessages;
     this.pushMessage = pushMessage;
@@ -165,11 +166,11 @@ export default class ReportingCentreModule {
     );
 
     this.setRootView(wrappedView);
-  }
+  };
 
   redirectToUrl = (url) => {
     window.location.href = url;
-  }
+  };
 
   attemptToRoute = (navigationFunction) => {
     const state = this.store.getState();
@@ -179,11 +180,11 @@ export default class ReportingCentreModule {
     } else {
       navigationFunction();
     }
-  }
+  };
 
   handlePageTransition = (url) => {
     this.attemptToRoute(() => {
       this.redirectToUrl(url);
     });
-  }
+  };
 }

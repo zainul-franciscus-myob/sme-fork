@@ -2,29 +2,30 @@ import { createSelector } from 'reselect';
 
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
-export const getBusinessId = state => state.businessId;
+export const getBusinessId = (state) => state.businessId;
 
-const getRegion = state => state.region;
+const getRegion = (state) => state.region;
 
-export const getAlert = state => state.alert;
+export const getAlert = (state) => state.alert;
 
-export const getLoadingState = state => state.loadingState;
+export const getLoadingState = (state) => state.loadingState;
 
-export const getIsTableLoading = state => state.isTableLoading;
+export const getIsTableLoading = (state) => state.isTableLoading;
 
-export const getFilterOptions = state => state.filterOptions;
+export const getFilterOptions = (state) => state.filterOptions;
 
-export const getShowInactive = state => state.filterOptions.showInactive;
+export const getShowInactive = (state) => state.filterOptions.showInactive;
 
-export const getType = state => state.filterOptions.type;
+export const getType = (state) => state.filterOptions.type;
 
-const getEntries = state => state.entries;
+const getEntries = (state) => state.entries;
 
-export const getTableTaxCodeHeader = state => getRegionToDialectText(state.region)('Tax code');
+export const getTableTaxCodeHeader = (state) =>
+  getRegionToDialectText(state.region)('Tax code');
 
-export const getIsTableEmpty = state => state.entries.length === 0;
+export const getIsTableEmpty = (state) => state.entries.length === 0;
 
-const getHasFlexibleAccountNumbers = state => state.hasFlexibleAccountNumbers;
+const getHasFlexibleAccountNumbers = (state) => state.hasFlexibleAccountNumbers;
 
 const getAccountLink = (account, businessId, region) => {
   const { id } = account;
@@ -36,22 +37,22 @@ export const getTableEntries = createSelector(
   getBusinessId,
   getRegion,
   getHasFlexibleAccountNumbers,
-  (entries, businessId, region, hasFlexibleAccountNumbers) => entries.map((entry) => {
-    const { level, isSystem } = entry;
+  (entries, businessId, region, hasFlexibleAccountNumbers) =>
+    entries.map((entry) => {
+      const { level, isSystem } = entry;
 
-    const indentLevel = level > 1 ? level - 1 : undefined;
-    const hideAccountNumber = indentLevel === undefined
-      && isSystem
-      && hasFlexibleAccountNumbers;
+      const indentLevel = level > 1 ? level - 1 : undefined;
+      const hideAccountNumber =
+        indentLevel === undefined && isSystem && hasFlexibleAccountNumbers;
 
-    return {
-      ...entry,
-      indentLevel,
-      displayLevel: `Level ${level}`,
-      link: getAccountLink(entry, businessId, region),
-      hideAccountNumber,
-    };
-  }),
+      return {
+        ...entry,
+        indentLevel,
+        displayLevel: `Level ${level}`,
+        link: getAccountLink(entry, businessId, region),
+        hideAccountNumber,
+      };
+    })
 );
 
 export const getLinkedAccountUrl = (state) => {

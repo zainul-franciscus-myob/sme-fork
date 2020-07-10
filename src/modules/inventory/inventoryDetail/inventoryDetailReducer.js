@@ -53,7 +53,7 @@ const getDefaultState = () => ({
   region: '',
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const loadInventoryDetail = (state, action) => {
   const isCreating = getIsCreating(state);
@@ -102,14 +102,15 @@ const updateItemDetails = (state, action) => ({
 });
 
 const getTaxCodeId = (accounts, accountId) => {
-  const account = accounts.find(acc => acc.id === accountId);
+  const account = accounts.find((acc) => acc.id === accountId);
   return account ? account.taxCodeId : '';
 };
 
 const updateSellingDetails = (state, action) => {
-  const taxCodeId = action.key === 'allocateToAccountId'
-    ? getTaxCodeId(state.sellingAccounts, action.value)
-    : state.item.sellingDetails.taxCodeId;
+  const taxCodeId =
+    action.key === 'allocateToAccountId'
+      ? getTaxCodeId(state.sellingAccounts, action.value)
+      : state.item.sellingDetails.taxCodeId;
   return {
     ...state,
     isPageEdited: true,
@@ -125,9 +126,10 @@ const updateSellingDetails = (state, action) => {
 };
 
 const updateBuyingDetails = (state, action) => {
-  const taxCodeId = action.key === 'allocateToAccountId'
-    ? getTaxCodeId(state.buyingAccounts, action.value)
-    : state.item.buyingDetails.taxCodeId;
+  const taxCodeId =
+    action.key === 'allocateToAccountId'
+      ? getTaxCodeId(state.buyingAccounts, action.value)
+      : state.item.buyingDetails.taxCodeId;
   return {
     ...state,
     isPageEdited: true,
@@ -152,7 +154,7 @@ const openModal = (state, action) => ({
   modalType: action.modalType,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modalType: '',
 });

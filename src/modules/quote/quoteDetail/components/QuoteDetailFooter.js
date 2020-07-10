@@ -14,7 +14,7 @@ import LineItemTableTotalsFormattedCurrency from '../../../../components/LineIte
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 import styles from './QuoteDetailFooter.module.css';
 
-const handleNoteChange = handler => ({ value }) => {
+const handleNoteChange = (handler) => ({ value }) => {
   handler({
     key: 'note',
     value,
@@ -22,21 +22,13 @@ const handleNoteChange = handler => ({ value }) => {
 };
 
 const QuoteDetailFooter = ({
-  totals: {
-    subTotal,
-    totalTax,
-    totalAmount,
-  },
+  totals: { subTotal, totalTax, totalAmount },
   taxLabel,
   note,
   commentOptions,
   onUpdateNote,
   isReadOnly,
-  freightInfo: {
-    showFreight,
-    freightAmount,
-    freightTaxCode,
-  },
+  freightInfo: { showFreight, freightAmount, freightTaxCode },
 }) => (
   <div className={styles.footer}>
     <div className={styles.note}>
@@ -44,9 +36,7 @@ const QuoteDetailFooter = ({
         name="note"
         label="Notes to customer"
         hideLabel={false}
-        metaData={[
-          { columnName: 'value', showData: true },
-        ]}
+        metaData={[{ columnName: 'value', showData: true }]}
         items={commentOptions}
         onChange={handleNoteChange(onUpdateNote)}
         disabled={isReadOnly}
@@ -64,15 +54,30 @@ const QuoteDetailFooter = ({
       />
     </div>
     <LineItemTable.Total>
-      <LineItemTableTotalsFormattedCurrency title="Subtotal" amount={subTotal} />
-      { showFreight && <LineItemTableTotalsFormattedCurrency title="Freight" amount={freightAmount} note={freightTaxCode} /> }
-      <LineItemTableTotalsFormattedCurrency title={taxLabel} amount={totalTax} />
-      <LineItemTableTotalsFormattedCurrency title="Total" amount={totalAmount} />
+      <LineItemTableTotalsFormattedCurrency
+        title="Subtotal"
+        amount={subTotal}
+      />
+      {showFreight && (
+        <LineItemTableTotalsFormattedCurrency
+          title="Freight"
+          amount={freightAmount}
+          note={freightTaxCode}
+        />
+      )}
+      <LineItemTableTotalsFormattedCurrency
+        title={taxLabel}
+        amount={totalTax}
+      />
+      <LineItemTableTotalsFormattedCurrency
+        title="Total"
+        amount={totalAmount}
+      />
     </LineItemTable.Total>
   </div>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   totals: getTotals(state),
   taxLabel: getTaxLabel(state),
   note: getNote(state),

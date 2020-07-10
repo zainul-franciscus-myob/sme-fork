@@ -1,4 +1,8 @@
-import { LOAD_DUPLICATE_RECEIVE_MONEY, LOAD_NEW_RECEIVE_MONEY, LOAD_RECEIVE_MONEY_DETAIL } from '../../../ReceiveMoneyIntents';
+import {
+  LOAD_DUPLICATE_RECEIVE_MONEY,
+  LOAD_NEW_RECEIVE_MONEY,
+  LOAD_RECEIVE_MONEY_DETAIL,
+} from '../../../ReceiveMoneyIntents';
 import {
   getIsBeforeStartOfFinancialYear,
   getTaxCalculations,
@@ -43,50 +47,57 @@ describe('receiveMoneySelectors', () => {
     it.each([
       ['Tax inclusive', true, '$2.00', '$0.18', '$2.00'],
       ['Tax exclusive', false, '$2.00', '$0.20', '$2.20'],
-    ])('should returns calculated lines and totals for %s', (
-      scenario, isTaxInclusive, subTotal, totalTax, totalAmount,
-    ) => {
-      const lines = [
-        {
-          taxCodeId: '2', amount: '1', units: '1', lineTypeId: '6',
-        },
-        {
-          taxCodeId: '2', amount: '1', units: '1', lineTypeId: '6',
-        },
-      ];
-
-      const state = {
-        receiveMoney: { isTaxInclusive, lines },
-        taxCodeOptions: [
+    ])(
+      'should returns calculated lines and totals for %s',
+      (scenario, isTaxInclusive, subTotal, totalTax, totalAmount) => {
+        const lines = [
           {
-            id: '2',
-            displayName: 'GST',
-            description: 'Goods & Service Tax',
-            displayRate: '10%',
-            codeType: 'GST_VAT',
-            rate: 10,
-            threshold: 0,
-            childrenCalculationCollection: [],
-            calculationMethod: 2,
-            roundingMethod: 2,
-            collectedBehaviour: 1,
-            payedBehaviour: 1,
-            isWithholding: false,
-            thresholdRate: 10,
-            includeInGstReturn: false,
+            taxCodeId: '2',
+            amount: '1',
+            units: '1',
+            lineTypeId: '6',
           },
-        ],
-      };
+          {
+            taxCodeId: '2',
+            amount: '1',
+            units: '1',
+            lineTypeId: '6',
+          },
+        ];
 
-      const expected = {
-        lines,
-        totals: { subTotal, totalTax, totalAmount },
-      };
+        const state = {
+          receiveMoney: { isTaxInclusive, lines },
+          taxCodeOptions: [
+            {
+              id: '2',
+              displayName: 'GST',
+              description: 'Goods & Service Tax',
+              displayRate: '10%',
+              codeType: 'GST_VAT',
+              rate: 10,
+              threshold: 0,
+              childrenCalculationCollection: [],
+              calculationMethod: 2,
+              roundingMethod: 2,
+              collectedBehaviour: 1,
+              payedBehaviour: 1,
+              isWithholding: false,
+              thresholdRate: 10,
+              includeInGstReturn: false,
+            },
+          ],
+        };
 
-      const actual = getTaxCalculations(state);
+        const expected = {
+          lines,
+          totals: { subTotal, totalTax, totalAmount },
+        };
 
-      expect(actual).toEqual(expected);
-    });
+        const actual = getTaxCalculations(state);
+
+        expect(actual).toEqual(expected);
+      }
+    );
   });
 
   describe('getUrlParams', () => {
@@ -184,7 +195,7 @@ describe('receiveMoneySelectors', () => {
         const actual = getIsBeforeStartOfFinancialYear(state);
 
         expect(actual).toEqual(expected);
-      },
+      }
     );
   });
 });

@@ -24,16 +24,17 @@ const tableConfig = {
   },
 };
 
-const ExemptionsTable = ({
-  exemptionPayItems,
-  onRemoveExemptionPayItem,
-}) => {
+const ExemptionsTable = ({ exemptionPayItems, onRemoveExemptionPayItem }) => {
   const rows = exemptionPayItems.map(({ id, name, mappedType }) => (
     <Table.Row key={id}>
       <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
       <Table.RowItem {...tableConfig.type}>{mappedType}</Table.RowItem>
       <Table.RowItem {...tableConfig.actions} cellRole="actions">
-        <Button type="secondary" size="xs" onClick={onButtonClick(onRemoveExemptionPayItem, id)}>
+        <Button
+          type="secondary"
+          size="xs"
+          onClick={onButtonClick(onRemoveExemptionPayItem, id)}
+        >
           <Icons.Remove />
         </Button>
       </Table.RowItem>
@@ -47,14 +48,12 @@ const ExemptionsTable = ({
         <Table.HeaderItem {...tableConfig.type}>Type</Table.HeaderItem>
         <Table.HeaderItem {...tableConfig.actions} />
       </Table.Header>
-      <Table.Body>
-        {rows}
-      </Table.Body>
+      <Table.Body>{rows}</Table.Body>
     </Table>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   exemptionPayItems: getExemptionPayItems(state),
 });
 

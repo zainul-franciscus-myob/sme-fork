@@ -38,12 +38,14 @@ describe('spendMoneyDetailReducer', () => {
       };
 
       const expected = {
-        attachments: [{
-          name: 'filename',
-          size: 10000000,
-          state: 'queued',
-          file,
-        }],
+        attachments: [
+          {
+            name: 'filename',
+            size: 10000000,
+            state: 'queued',
+            file,
+          },
+        ],
       };
 
       const actual = spendMoneyReducer(state, action);
@@ -67,13 +69,15 @@ describe('spendMoneyDetailReducer', () => {
       };
 
       const expected = {
-        attachments: [{
-          name: 'filename',
-          size: 10000001,
-          state: 'failed',
-          error: 'File is more than 10MB',
-          file,
-        }],
+        attachments: [
+          {
+            name: 'filename',
+            size: 10000001,
+            state: 'failed',
+            error: 'File is more than 10MB',
+            file,
+          },
+        ],
       };
 
       const actual = spendMoneyReducer(state, action);
@@ -89,11 +93,13 @@ describe('spendMoneyDetailReducer', () => {
       };
 
       const state = {
-        attachments: [{
-          state: 'queued',
-          name: 'filename',
-          file,
-        }],
+        attachments: [
+          {
+            state: 'queued',
+            name: 'filename',
+            file,
+          },
+        ],
       };
 
       const action = {
@@ -104,12 +110,14 @@ describe('spendMoneyDetailReducer', () => {
       };
 
       const expected = {
-        attachments: [{
-          id: 'document id',
-          name: 'filename',
-          state: 'finished',
-          file,
-        }],
+        attachments: [
+          {
+            id: 'document id',
+            name: 'filename',
+            state: 'finished',
+            file,
+          },
+        ],
       };
 
       const actual = spendMoneyReducer(state, action);
@@ -125,10 +133,12 @@ describe('spendMoneyDetailReducer', () => {
       };
 
       const state = {
-        attachments: [{
-          state: 'queued',
-          file,
-        }],
+        attachments: [
+          {
+            state: 'queued',
+            file,
+          },
+        ],
       };
 
       const action = {
@@ -138,11 +148,13 @@ describe('spendMoneyDetailReducer', () => {
       };
 
       const expected = {
-        attachments: [{
-          state: 'failed',
-          error: 'error',
-          file,
-        }],
+        attachments: [
+          {
+            state: 'failed',
+            error: 'error',
+            file,
+          },
+        ],
       };
 
       const actual = spendMoneyReducer(state, action);
@@ -257,11 +269,7 @@ describe('spendMoneyDetailReducer', () => {
             { id: '2', taxCodeId: '2' },
             { id: '3', taxCodeId: '3' },
           ],
-          taxCodes: [
-            { id: '1' },
-            { id: '2' },
-            { id: '3' },
-          ],
+          taxCodes: [{ id: '1' }, { id: '2' }, { id: '3' }],
         };
 
         const actual = spendMoneyReducer(state, action);
@@ -300,11 +308,7 @@ describe('spendMoneyDetailReducer', () => {
           { id: '2', taxCodeId: '2' },
           { id: '3', taxCodeId: '3' },
         ],
-        taxCodes: [
-          { id: '1' },
-          { id: '2' },
-          { id: '3' },
-        ],
+        taxCodes: [{ id: '1' }, { id: '2' }, { id: '3' }],
       };
 
       const actual = spendMoneyReducer(state, action);
@@ -320,19 +324,18 @@ describe('spendMoneyDetailReducer', () => {
 
   describe('updateLine', () => {
     describe('updates line prefill status', () => {
-      [
-        { key: 'description' },
-        { key: 'amount' },
-      ].forEach((test) => {
+      [{ key: 'description' }, { key: 'amount' }].forEach((test) => {
         it(`should update status to false if line has been prefilled and ${test.key} is updated`, () => {
           const state = {
             spendMoney: {
-              lines: [{
-                amount: '23',
-                prefillStatus: {
-                  amount: true,
+              lines: [
+                {
+                  amount: '23',
+                  prefillStatus: {
+                    amount: true,
+                  },
                 },
-              }],
+              ],
             },
           };
 
@@ -345,16 +348,20 @@ describe('spendMoneyDetailReducer', () => {
 
           const actual = spendMoneyReducer(state, action);
 
-          expect(actual.spendMoney.lines[0].prefillStatus[action.lineKey]).toEqual(false);
+          expect(
+            actual.spendMoney.lines[0].prefillStatus[action.lineKey]
+          ).toEqual(false);
         });
       });
 
       it('should not update prefill status if line has not been prefilled', () => {
         const state = {
           spendMoney: {
-            lines: [{
-              amount: '23',
-            }],
+            lines: [
+              {
+                amount: '23',
+              },
+            ],
           },
         };
 
@@ -374,7 +381,8 @@ describe('spendMoneyDetailReducer', () => {
 
   describe('PREFILL_NEW_SPEND_MONEY_FROM_IN_TRAY', () => {
     const document = {
-      thumbnailUrl: 'https://assets.digital.myob.com/images/favicons/apple-touch-icon.png',
+      thumbnailUrl:
+        'https://assets.digital.myob.com/images/favicons/apple-touch-icon.png',
       uploadedDate: '04/04/2019',
     };
 
@@ -392,11 +400,7 @@ describe('spendMoneyDetailReducer', () => {
       { id: '3', taxCodeId: '3' },
     ];
 
-    const taxCodes = [
-      { id: '1' },
-      { id: '2' },
-      { id: '3' },
-    ];
+    const taxCodes = [{ id: '1' }, { id: '2' }, { id: '3' }];
 
     it('prefills spendMoney', () => {
       const state = {
@@ -439,16 +443,18 @@ describe('spendMoneyDetailReducer', () => {
             isTaxInclusive: true,
             originalExpenseAccountId: '1',
             expenseAccountId: '1',
-            lines: [{
-              amount: '10.00',
-              description: 'Cooler Large',
-              accountId: '1',
-              taxCodeId: '1',
-              prefillStatus: {
-                amount: true,
-                description: true,
+            lines: [
+              {
+                amount: '10.00',
+                description: 'Cooler Large',
+                accountId: '1',
+                taxCodeId: '1',
+                prefillStatus: {
+                  amount: true,
+                  description: true,
+                },
               },
-            }],
+            ],
           },
           prefillStatus: {
             date: true,
@@ -483,16 +489,17 @@ describe('spendMoneyDetailReducer', () => {
 
       const actual = spendMoneyReducer(state, action);
 
-      expect(actual).toEqual(buildExpected({
-        spendMoney: {
-        },
-        prefillStatus: {
-          date: false,
-          description: false,
-          isTaxInclusive: false,
-          selectedPayToContactId: false,
-        },
-      }));
+      expect(actual).toEqual(
+        buildExpected({
+          spendMoney: {},
+          prefillStatus: {
+            date: false,
+            description: false,
+            isTaxInclusive: false,
+            selectedPayToContactId: false,
+          },
+        })
+      );
     });
 
     it('does not prefill lines when there are no prefilled lines returned', () => {
@@ -572,15 +579,17 @@ describe('spendMoneyDetailReducer', () => {
       const expected = {
         ...buildExpected({
           spendMoney: {
-            lines: [{
-              amount: '10.00',
-              accountId: '',
-              taxCodeId: '',
-              prefillStatus: {
-                amount: true,
-                description: false,
+            lines: [
+              {
+                amount: '10.00',
+                accountId: '',
+                taxCodeId: '',
+                prefillStatus: {
+                  amount: true,
+                  description: false,
+                },
               },
-            }],
+            ],
           },
           prefillStatus: {
             date: false,
@@ -604,7 +613,11 @@ describe('spendMoneyDetailReducer', () => {
   describe('getTaxCalculations', () => {
     const taxCalculations = {
       lines: [
-        { taxExclusiveAmount: Decimal(90.91), taxAmount: Decimal(9.09), amount: Decimal(100) },
+        {
+          taxExclusiveAmount: Decimal(90.91),
+          taxAmount: Decimal(9.09),
+          amount: Decimal(100),
+        },
       ],
       totals: {
         subTotal: Decimal(100),
@@ -725,10 +738,7 @@ describe('spendMoneyDetailReducer', () => {
       const actual = spendMoneyReducer(state, action);
 
       const { expenseAccountId, ...expectedContact } = newContact;
-      const expected = [
-        expectedContact,
-        payToContacts[0],
-      ];
+      const expected = [expectedContact, payToContacts[0]];
 
       expect(actual.spendMoney.payToContacts).toEqual(expected);
       expect(actual.spendMoney.selectedPayToContactId).toEqual(newContactId);
@@ -757,10 +767,7 @@ describe('spendMoneyDetailReducer', () => {
       const actual = spendMoneyReducer(state, action);
 
       const { expenseAccountId, ...expectedContact } = updatedContact;
-      const expected = [
-        expectedContact,
-        payToContacts[0],
-      ];
+      const expected = [expectedContact, payToContacts[0]];
 
       expect(actual.spendMoney.payToContacts).toEqual(expected);
       expect(actual.spendMoney.selectedPayToContactId).toEqual(newContactId);
@@ -788,10 +795,7 @@ describe('spendMoneyDetailReducer', () => {
       const actual = spendMoneyReducer(state, action);
 
       const { expenseAccountId, ...expectedContact } = updatedContact;
-      const expected = [
-        expectedContact,
-        payToContacts[0],
-      ];
+      const expected = [expectedContact, payToContacts[0]];
 
       expect(actual.spendMoney.payToContacts).toEqual(expected);
       expect(actual.spendMoney.selectedPayToContactId).toEqual(newContactId);
@@ -821,10 +825,7 @@ describe('spendMoneyDetailReducer', () => {
       const actual = spendMoneyReducer(state, action);
 
       const { expenseAccountId, ...expectedContact } = newContact;
-      const expected = [
-        expectedContact,
-        payToContacts[0],
-      ];
+      const expected = [expectedContact, payToContacts[0]];
 
       expect(actual.spendMoney.payToContacts).toEqual(expected);
       expect(actual.spendMoney.selectedPayToContactId).toEqual(newContactId);
@@ -923,7 +924,9 @@ describe('spendMoneyDetailReducer', () => {
       const actual = spendMoneyReducer(state, action);
 
       expect(actual.spendMoney.bankStatementText).toEqual('');
-      expect(actual.spendMoney.originalBankStatementText).toEqual('original-text');
+      expect(actual.spendMoney.originalBankStatementText).toEqual(
+        'original-text'
+      );
     });
   });
 
@@ -1005,7 +1008,7 @@ describe('spendMoneyDetailReducer', () => {
     };
     describe('sets job options on newLine', () => {
       it('shows active jobs against new line', () => {
-        const expectedJobOptions = action.jobs.filter(job => job.isActive);
+        const expectedJobOptions = action.jobs.filter((job) => job.isActive);
         const actual = spendMoneyReducer(state, action);
 
         expect(actual.newLine.lineJobOptions).toEqual(expectedJobOptions);
@@ -1055,19 +1058,31 @@ describe('spendMoneyDetailReducer', () => {
     };
     describe('sets job options on each line and newLine', () => {
       it('shows inactive selected jobs against each line', () => {
-        const lineOneExpectedOptions = action.jobs.filter(job => job.id !== '2');
-        const lineTwoExpectedOptions = action.jobs.filter(job => job.id !== '1');
-        const lineThreeExpectedOptions = action.jobs.filter(job => job.id !== '1' && job.id !== '2');
+        const lineOneExpectedOptions = action.jobs.filter(
+          (job) => job.id !== '2'
+        );
+        const lineTwoExpectedOptions = action.jobs.filter(
+          (job) => job.id !== '1'
+        );
+        const lineThreeExpectedOptions = action.jobs.filter(
+          (job) => job.id !== '1' && job.id !== '2'
+        );
 
         const actual = spendMoneyReducer(state, action);
 
-        expect(actual.spendMoney.lines[0].lineJobOptions).toEqual(lineOneExpectedOptions);
-        expect(actual.spendMoney.lines[1].lineJobOptions).toEqual(lineTwoExpectedOptions);
-        expect(actual.spendMoney.lines[2].lineJobOptions).toEqual(lineThreeExpectedOptions);
+        expect(actual.spendMoney.lines[0].lineJobOptions).toEqual(
+          lineOneExpectedOptions
+        );
+        expect(actual.spendMoney.lines[1].lineJobOptions).toEqual(
+          lineTwoExpectedOptions
+        );
+        expect(actual.spendMoney.lines[2].lineJobOptions).toEqual(
+          lineThreeExpectedOptions
+        );
       });
 
       it('shows active jobs against new line', () => {
-        const expectedJobOptions = action.jobs.filter(job => job.isActive);
+        const expectedJobOptions = action.jobs.filter((job) => job.isActive);
         const actual = spendMoneyReducer(state, action);
 
         expect(actual.newLine.lineJobOptions).toEqual(expectedJobOptions);
@@ -1106,7 +1121,9 @@ describe('spendMoneyDetailReducer', () => {
     it('adds new job payload to the front of all line job options', () => {
       const actual = spendMoneyReducer(state, action);
 
-      expect(actual.spendMoney.lines.map(line => line.lineJobOptions[0])).toEqual([
+      expect(
+        actual.spendMoney.lines.map((line) => line.lineJobOptions[0])
+      ).toEqual([
         { id: '3', jobName: 'Job 3', jobNumber: '300' },
         { id: '3', jobName: 'Job 3', jobNumber: '300' },
         { id: '3', jobName: 'Job 3', jobNumber: '300' },

@@ -24,8 +24,8 @@ const InvoiceBusinessSettingsDetails = ({
 }) => (
   <FieldGroup label="Add business details">
     <p>
-      Enter the details you want to show on your quotes and invoices.
-      You can change these at any time from the business details page.
+      Enter the details you want to show on your quotes and invoices. You can
+      change these at any time from the business details page.
     </p>
 
     <Input
@@ -45,27 +45,24 @@ const InvoiceBusinessSettingsDetails = ({
       width="xl"
     />
 
-    {isAu
-      ? (
-        <AbnInput
-          name="abn"
-          label="ABN"
-          value={abn}
-          maxLength={14}
-          onChange={handleInputChange(onChange)}
-          width="sm"
-        />
-      )
-      : (
-        <Input
-          name="irdNumber"
-          label="IRD Number/GST Number"
-          value={irdNumber}
-          onChange={handleInputChange(onChange)}
-          width="sm"
-        />
-      )
-    }
+    {isAu ? (
+      <AbnInput
+        name="abn"
+        label="ABN"
+        value={abn}
+        maxLength={14}
+        onChange={handleInputChange(onChange)}
+        width="sm"
+      />
+    ) : (
+      <Input
+        name="irdNumber"
+        label="IRD Number/GST Number"
+        value={irdNumber}
+        onChange={handleInputChange(onChange)}
+        width="sm"
+      />
+    )}
 
     <TextArea
       autoSize
@@ -96,7 +93,7 @@ const InvoiceBusinessSettingsDetails = ({
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...getBusinessDetails(state),
   ...getContactDetails(state),
   ...getRegionTaxDetails(state),

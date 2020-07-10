@@ -13,7 +13,11 @@ import handleComboboxChange from '../../../../components/handlers/handleCombobox
 import styles from './SuggestMatchSection.module.css';
 
 const SuggestMatchSection = ({
-  onDetailsChange, contactId, contacts, label, header,
+  onDetailsChange,
+  contactId,
+  contacts,
+  label,
+  header,
 }) => (
   <FieldGroup label={header}>
     <div className={styles.suggestMatch}>
@@ -28,7 +32,7 @@ const SuggestMatchSection = ({
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   contacts: getContacts(state),
   contactId: getContactId(state),
   label: getContactLabel(state),

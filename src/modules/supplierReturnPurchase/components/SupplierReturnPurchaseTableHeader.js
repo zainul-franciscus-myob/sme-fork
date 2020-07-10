@@ -1,9 +1,7 @@
 import { Table } from '@myob/myob-widgets';
 import React from 'react';
 
-const SupplierReturnPurchaseTableHeader = ({
-  tableConfig,
-}) => (
+const SupplierReturnPurchaseTableHeader = ({ tableConfig }) => (
   <Table.Header>
     <Table.HeaderItem {...tableConfig.date}>
       {tableConfig.date.columnName}

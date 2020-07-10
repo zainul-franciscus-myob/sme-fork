@@ -1,7 +1,4 @@
-import {
-  LINK_USER,
-  LOAD_BUSINESS_INFORMATION,
-} from '../LinkUserIntents';
+import { LINK_USER, LOAD_BUSINESS_INFORMATION } from '../LinkUserIntents';
 
 const HttpLinkUserMapping = {
   [LINK_USER]: {
@@ -10,7 +7,8 @@ const HttpLinkUserMapping = {
   },
   [LOAD_BUSINESS_INFORMATION]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/linkUser/loadBusinessInformation`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/linkUser/loadBusinessInformation`,
   },
 };
 

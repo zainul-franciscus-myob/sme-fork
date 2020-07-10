@@ -1,4 +1,3 @@
-
 import { UPDATE_CONTACT_DETAIL } from '../../EmployeeDetailIntents';
 import contactDetailsNzTabReducer from '../contactDetailsNzTabReducer';
 

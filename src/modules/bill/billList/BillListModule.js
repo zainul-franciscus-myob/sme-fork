@@ -12,7 +12,10 @@ import {
   UPDATE_FILTER_OPTIONS,
 } from '../BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { START_LOADING_MORE, STOP_LOADING_MORE } from '../billDetail/BillIntents';
+import {
+  START_LOADING_MORE,
+  STOP_LOADING_MORE,
+} from '../billDetail/BillIntents';
 import {
   SUCCESSFULLY_DELETED_BILL,
   SUCCESSFULLY_SAVED_BILL_PAYMENT,
@@ -43,9 +46,7 @@ const messageTypes = [
 ];
 
 export default class BillListModule {
-  constructor({
-    integration, setRootView, popMessages,
-  }) {
+  constructor({ integration, setRootView, popMessages }) {
     this.integration = integration;
     this.store = new Store(billListReducer);
     this.setRootView = setRootView;
@@ -64,11 +65,7 @@ export default class BillListModule {
       />
     );
 
-    const wrappedView = (
-      <Provider store={this.store}>
-        {billListView}
-      </Provider>
-    );
+    const wrappedView = <Provider store={this.store}>{billListView}</Provider>;
     this.setRootView(wrappedView);
   };
 
@@ -139,7 +136,11 @@ export default class BillListModule {
     };
 
     const onSuccess = ({
-      entries, pagination, totalDue, total, totalOverdue,
+      entries,
+      pagination,
+      totalDue,
+      total,
+      totalOverdue,
     }) => {
       this.setTableLoadingState(false);
       this.store.dispatch({
@@ -205,13 +206,13 @@ export default class BillListModule {
     this.store.dispatch({
       intent: START_LOADING_MORE,
     });
-  }
+  };
 
   stopLoadingMore = () => {
     this.store.dispatch({
       intent: STOP_LOADING_MORE,
     });
-  }
+  };
 
   loadBillListNextPage = () => {
     const state = this.store.getState();
@@ -254,11 +255,12 @@ export default class BillListModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   updateSortOrder = (orderBy) => {
     const state = this.store.getState();
-    const newSortOrder = orderBy === getOrderBy(state) ? flipSortOrder(state) : 'asc';
+    const newSortOrder =
+      orderBy === getOrderBy(state) ? flipSortOrder(state) : 'asc';
     this.setSortOrder(orderBy, newSortOrder);
 
     this.sortAndFilterBillList();
@@ -292,7 +294,10 @@ export default class BillListModule {
 
     if (successMessage) {
       const { content: message, type: messageType } = successMessage;
-      const type = messageType === SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK ? 'info' : 'success';
+      const type =
+        messageType === SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK
+          ? 'info'
+          : 'success';
       this.setAlert({
         type,
         message,
@@ -306,9 +311,9 @@ export default class BillListModule {
     this.render();
     this.readMessages();
     this.setLoadingState(LoadingState.LOADING);
-    this.store.subscribe(state => (
+    this.store.subscribe((state) =>
       saveSettings(context.businessId, RouteName.BILL_LIST, getSettings(state))
-    ));
+    );
     this.loadBillList();
   }
 

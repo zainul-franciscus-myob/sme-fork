@@ -1,14 +1,12 @@
-import {
-  Alert,
-  DetailHeader,
-  Input,
-  ReadOnly,
-} from '@myob/myob-widgets';
+import { Alert, DetailHeader, Input, ReadOnly } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React, { Fragment } from 'react';
 
 import {
-  getIsBeforeStartOfFinancialYear, getIsReadOnly, getQuoteDetailOptions, getReadOnlyMessage,
+  getIsBeforeStartOfFinancialYear,
+  getIsReadOnly,
+  getQuoteDetailOptions,
+  getReadOnlyMessage,
 } from '../selectors/QuoteDetailSelectors';
 import BooleanRadioButtonGroup from '../../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
@@ -18,7 +16,7 @@ import handleDateChange from '../../../../components/handlers/handleDateChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 import styles from './QuoteDetailOptions.module.css';
 
-const onComboBoxChange = handler => (option) => {
+const onComboBoxChange = (handler) => (option) => {
   const key = 'contactId';
   const { id: value } = option;
 
@@ -66,7 +64,11 @@ const QuoteDetailOptions = (props) => {
         }}
         requiredLabel={requiredLabel}
       />
-      { address && <ReadOnly className={styles.address} label="Billing address">{address}</ReadOnly> }
+      {address && (
+        <ReadOnly className={styles.address} label="Billing address">
+          {address}
+        </ReadOnly>
+      )}
     </Fragment>
   );
 
@@ -121,21 +123,17 @@ const QuoteDetailOptions = (props) => {
     </Fragment>
   );
 
-  const readOnlyWarning = (
-    <Alert type="info">
-      {readOnlyMessage}
-    </Alert>
-  );
+  const readOnlyWarning = <Alert type="info">{readOnlyMessage}</Alert>;
 
   return (
     <div className={styles.options}>
-      { isReadOnlyLayout && readOnlyWarning }
+      {isReadOnlyLayout && readOnlyWarning}
       <DetailHeader primary={primary} secondary={secondary} />
     </div>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...getQuoteDetailOptions(state),
   isReadOnlyLayout: getIsReadOnly(state),
   readOnlyMessage: getReadOnlyMessage(state),

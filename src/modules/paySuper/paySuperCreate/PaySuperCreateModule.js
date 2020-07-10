@@ -12,8 +12,7 @@ import {
 import EmployeePayModalModule from '../../employeePay/employeePayModal/EmployeePayModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
-import PaySuperAuthorisationModalModule
-  from '../paySuperAuthorisationModal/PaySuperAuthorisationModalModule';
+import PaySuperAuthorisationModalModule from '../paySuperAuthorisationModal/PaySuperAuthorisationModalModule';
 import PaySuperCreateView from './components/PaySuperCreateView';
 import Store from '../../../store/Store';
 import StsLoginModule from '../../stsLogin/StsLoginModule';
@@ -22,9 +21,7 @@ import createPaySuperCreateIntegrator from './createPaySuperCreateIntegrator';
 import paySuperCreateReducer from './paySuperCreateReducer';
 
 export default class PaySuperCreateModule {
-  constructor({
-    setRootView, integration, pushMessage, featureToggles,
-  }) {
+  constructor({ setRootView, integration, pushMessage, featureToggles }) {
     this.setRootView = setRootView;
     this.store = new Store(paySuperCreateReducer);
     this.integration = integration;
@@ -90,7 +87,7 @@ export default class PaySuperCreateModule {
     this.integrator.sortAndFilterSuperPayments({ onSuccess, onFailure });
   };
 
-  getFirstAccountId = accounts => accounts && accounts[0] && accounts[0].id;
+  getFirstAccountId = (accounts) => accounts && accounts[0] && accounts[0].id;
 
   loadAccountsAndSuperPayments = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
@@ -98,7 +95,9 @@ export default class PaySuperCreateModule {
     const onSuccess = (response) => {
       this.dispatcher.loadAccountsAndPayments(response);
 
-      const firstAccountId = this.getFirstAccountId(response && response.accounts);
+      const firstAccountId = this.getFirstAccountId(
+        response && response.accounts
+      );
       this.dispatcher.updateSelectedAccount(firstAccountId);
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
     };
@@ -113,7 +112,8 @@ export default class PaySuperCreateModule {
 
   sortSuperPayments = (orderBy) => {
     const state = this.store.getState();
-    const newSortOrder = orderBy === getOrderBy(state) ? this.flipSortOrder(state) : 'asc';
+    const newSortOrder =
+      orderBy === getOrderBy(state) ? this.flipSortOrder(state) : 'asc';
     this.dispatcher.setSortOrder(orderBy, newSortOrder);
 
     this.sortAndFilterSuperPayments();
@@ -208,7 +208,8 @@ export default class PaySuperCreateModule {
           onDoNotAuthoriseButtonClick={this.goToSuperPaymentList}
           onYesAuthoriseButtonClick={this.openAuthoriseModal}
         />
-      </Provider>);
+      </Provider>
+    );
 
     this.setRootView(wrappedView);
   };

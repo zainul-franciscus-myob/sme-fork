@@ -34,7 +34,9 @@ const DashboardSalesCard = ({
   const table = <DashboardSalesTable onLinkClick={onLinkClick} />;
 
   const emptyTable = (
-    <div className={styles.emptyTableView}>No overdue invoices - looking good!</div>
+    <div className={styles.emptyTableView}>
+      No overdue invoices - looking good!
+    </div>
   );
 
   const tableView = isTableEmpty ? emptyTable : table;
@@ -48,7 +50,11 @@ const DashboardSalesCard = ({
   const summary = (
     <div className={styles.summary}>
       <DashboardCardHeader title="Sales">
-        <Button type="link" icon={<Icons.Add />} onClick={handleLinkClick(onLinkClick, createInvoiceLink)}>
+        <Button
+          type="link"
+          icon={<Icons.Add />}
+          onClick={handleLinkClick(onLinkClick, createInvoiceLink)}
+        >
           Create invoice
         </Button>
       </DashboardCardHeader>
@@ -72,12 +78,24 @@ const DashboardSalesCard = ({
     <PageState
       title="Invoicing that gets you paid fast"
       actions={[
-        <Button key={1} type="link" icon={<Icons.Add />} onClick={handleLinkClick(onLinkClick, createInvoiceLink)}>Create invoice</Button>,
+        <Button
+          key={1}
+          type="link"
+          icon={<Icons.Add />}
+          onClick={handleLinkClick(onLinkClick, createInvoiceLink)}
+        >
+          Create invoice
+        </Button>,
       ]}
       description="Create professional invoices in a few clicks, and stay on top of overdue payments with online invoice tracking."
-      image={<img src={EmptyStatesSales} alt="no invoices" style={{ width: '50%' }} />}
-    >
-    </PageState>
+      image={
+        <img
+          src={EmptyStatesSales}
+          alt="no invoices"
+          style={{ width: '50%' }}
+        />
+      }
+    ></PageState>
   );
 
   if (hasError) return <ErrorCard onTry={onReload} />;
@@ -87,7 +105,7 @@ const DashboardSalesCard = ({
   return <CardView isLoading={isLoading} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isEmpty: getIsEmpty(state),
   isTableEmpty: getIsTableEmpty(state),
   createInvoiceLink: getCreateInvoiceLink(state),

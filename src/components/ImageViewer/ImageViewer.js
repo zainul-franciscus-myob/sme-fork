@@ -10,7 +10,9 @@ export const isElementContained = ({
   containerHeight,
   naturalHeight,
   naturalWidth,
-}) => widthRatio * containerWidth / containerHeight <= naturalWidth / naturalHeight;
+}) =>
+  (widthRatio * containerWidth) / containerHeight <=
+  naturalWidth / naturalHeight;
 
 const ImageViewer = ({ mediaSrc, title, className }) => {
   const [openInViewer, setOpenInViewer] = useState(false);
@@ -41,7 +43,8 @@ const ImageViewer = ({ mediaSrc, title, className }) => {
     const { naturalHeight, naturalWidth } = node;
     const { innerWidth: containerWidth, innerHeight: windowHeight } = window;
 
-    const containerHeight = windowHeight - Number.parseFloat(styles.imageViewerHeaderHeight);
+    const containerHeight =
+      windowHeight - Number.parseFloat(styles.imageViewerHeaderHeight);
     const widthRatio = Number.parseFloat(styles.imageDisplayRatio) * 0.01;
     const shouldUseFixHeight = !isElementContained({
       widthRatio,
@@ -54,10 +57,15 @@ const ImageViewer = ({ mediaSrc, title, className }) => {
   }, []);
 
   const viewer = openInViewer && (
-    // ImageViewer need to be focused to listen to keydown event
-    // Accessibility is not necessary in ImageViewer
-    // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-    <div role="dialog" className={styles.imageViewer} ref={imageViewerCloseRef} tabIndex="0">
+    <div
+      role="dialog"
+      className={styles.imageViewer}
+      ref={imageViewerCloseRef}
+      // ImageViewer need to be focused to listen to keydown event
+      // Accessibility is not necessary in ImageViewer
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+      tabIndex={0}
+    >
       <div className={styles.imageViewer__header}>
         <button
           type="button"
@@ -74,7 +82,7 @@ const ImageViewer = ({ mediaSrc, title, className }) => {
           ref={imageRef}
           className={classNames(
             { [styles['image--fixed-height']]: useFixedHeight },
-            { [styles['image--fixed-width']]: !useFixedHeight },
+            { [styles['image--fixed-width']]: !useFixedHeight }
           )}
         />
       </div>

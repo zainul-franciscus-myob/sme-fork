@@ -2,7 +2,11 @@ import { LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsQuoteJobColumnEnabled, getTableData, getTaxCodeLabel } from '../../selectors/QuoteDetailSelectors';
+import {
+  getIsQuoteJobColumnEnabled,
+  getTableData,
+  getTaxCodeLabel,
+} from '../../selectors/QuoteDetailSelectors';
 import QuoteItemAndServiceTableRow from './QuoteItemAndServiceTableRow';
 
 const itemIdLabel = 'Item ID';
@@ -31,28 +35,24 @@ const QuoteItemAndServiceTable = ({
   taxCodeLabel,
   isQuoteJobColumnEnabled,
 }) => {
-  const jobColumn = <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>;
+  const jobColumn = (
+    <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>
+  );
 
   const headerItems = [
-    <LineItemTable.HeaderItem>
-      {itemIdLabel}
-    </LineItemTable.HeaderItem>,
+    <LineItemTable.HeaderItem>{itemIdLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{descriptionLabel}</LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem
-      requiredLabel={requiredLabel}
-    >
+    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {accountLabel}
     </LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{unitOfMeasureLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{unitLabel}</LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem>
-      {unitPriceLabel}
-    </LineItemTable.HeaderItem>,
+    <LineItemTable.HeaderItem>{unitPriceLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{discountLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {amountLabel}
     </LineItemTable.HeaderItem>,
-    (isQuoteJobColumnEnabled ? jobColumn : undefined),
+    isQuoteJobColumnEnabled ? jobColumn : undefined,
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {taxCodeLabel}
     </LineItemTable.HeaderItem>,
@@ -118,11 +118,7 @@ const QuoteItemAndServiceTable = ({
     },
   ];
 
-  const renderRow = (
-    index,
-    _,
-    onChange,
-  ) => (
+  const renderRow = (index, _, onChange) => (
     <QuoteItemAndServiceTableRow
       index={index}
       key={index}
@@ -153,7 +149,7 @@ const QuoteItemAndServiceTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   emptyQuoteLines: getTableData(state),
   taxCodeLabel: getTaxCodeLabel(state),
   isQuoteJobColumnEnabled: getIsQuoteJobColumnEnabled(state),

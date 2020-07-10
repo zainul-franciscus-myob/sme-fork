@@ -1,7 +1,4 @@
-
-import {
-  LOAD_CONTACT_LIST_NEXT_PAGE,
-} from '../../ContactIntents';
+import { LOAD_CONTACT_LIST_NEXT_PAGE } from '../../ContactIntents';
 import contactListReducer from '../contactListReducer';
 
 describe('contactListReducer', () => {

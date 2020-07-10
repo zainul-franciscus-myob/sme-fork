@@ -1,10 +1,18 @@
 import {
-  Checkbox, CheckboxGroup, FieldGroup, Input, TextArea,
+  Checkbox,
+  CheckboxGroup,
+  FieldGroup,
+  Input,
+  TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getCustomerOptions, getIsCreating, getJobDetails } from '../jobDetailSelectors';
+import {
+  getCustomerOptions,
+  getIsCreating,
+  getJobDetails,
+} from '../jobDetailSelectors';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
@@ -61,7 +69,10 @@ const JobDetails = (props) => {
         label="Linked customer"
         selectedId={customerId}
         items={customerOptions}
-        onChange={handleCustomerComboboxChange('customerId', onJobDetailsChange)}
+        onChange={handleCustomerComboboxChange(
+          'customerId',
+          onJobDetailsChange
+        )}
         addNewItem={{
           label: 'Create customer',
           onAddNew: onAddCustomerButtonClick,
@@ -99,7 +110,7 @@ const JobDetails = (props) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isCreating: getIsCreating(state),
   job: getJobDetails(state),
   customerOptions: getCustomerOptions(state),

@@ -11,10 +11,7 @@ const ImportEmployeesDetail = ({
   onUpdateContactsIdentifyBy,
 }) => (
   <>
-    <UploadFile
-      onFileSelected={onFileSelected}
-      onFileRemove={onFileRemove}
-    />
+    <UploadFile onFileSelected={onFileSelected} onFileRemove={onFileRemove} />
     <IdentifyBy
       label="Match employees using"
       onUpdateContactsIdentifyBy={onUpdateContactsIdentifyBy}

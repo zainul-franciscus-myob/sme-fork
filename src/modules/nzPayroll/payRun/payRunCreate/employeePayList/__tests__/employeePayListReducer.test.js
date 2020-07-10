@@ -82,14 +82,16 @@ describe('employeePayListReducer', () => {
               deduction: 300,
               netPay: 700,
               super: 150,
-              payItems: [{
-                payItemId: '11',
-                payItemName: 'PayGWithholding',
-                type: 'Tax',
-                amount: '222.00',
-                isSubmitting: true,
-                hours: '1.00',
-              }],
+              payItems: [
+                {
+                  payItemId: '11',
+                  payItemName: 'PayGWithholding',
+                  type: 'Tax',
+                  amount: '222.00',
+                  isSubmitting: true,
+                  hours: '1.00',
+                },
+              ],
             },
           ],
           originalLines: [
@@ -101,13 +103,15 @@ describe('employeePayListReducer', () => {
               deduction: 300,
               netPay: 700,
               super: 150,
-              payItems: [{
-                payItemId: '11',
-                payItemName: 'PayGWithholding',
-                type: 'Tax',
-                amount: '222.00',
-                hours: '0.00',
-              }],
+              payItems: [
+                {
+                  payItemId: '11',
+                  payItemName: 'PayGWithholding',
+                  type: 'Tax',
+                  amount: '222.00',
+                  hours: '0.00',
+                },
+              ],
             },
           ],
         },
@@ -146,14 +150,16 @@ describe('employeePayListReducer', () => {
               deduction: 300,
               netPay: 700,
               super: 150,
-              payItems: [{
-                payItemId: '11',
-                payItemName: 'PayGWithholding',
-                type: 'Tax',
-                isSubmitting: false,
-                amount: '222.00',
-                hours: '1.00',
-              }],
+              payItems: [
+                {
+                  payItemId: '11',
+                  payItemName: 'PayGWithholding',
+                  type: 'Tax',
+                  isSubmitting: false,
+                  amount: '222.00',
+                  hours: '1.00',
+                },
+              ],
             },
           ],
           originalLines: [
@@ -165,13 +171,15 @@ describe('employeePayListReducer', () => {
               deduction: 300,
               netPay: 700,
               super: 150,
-              payItems: [{
-                payItemId: '11',
-                payItemName: 'PayGWithholding',
-                type: 'Tax',
-                amount: '222.00',
-                hours: '1.00',
-              }],
+              payItems: [
+                {
+                  payItemId: '11',
+                  payItemName: 'PayGWithholding',
+                  type: 'Tax',
+                  amount: '222.00',
+                  hours: '1.00',
+                },
+              ],
             },
           ],
         },
@@ -225,21 +233,23 @@ describe('employeePayListReducer', () => {
               deduction: 300,
               netPay: 700,
               super: 150,
-              payItems: [{
-                payItemId: '11',
-                payItemName: 'Base Hourly',
-                type: 'HourlyWage',
-                amount: '-222.00',
-                hours: '-1.00',
-              },
-              {
-                payItemId: '10',
-                payItemName: 'Some other wage',
-                type: 'HourlyWage',
-                amount: '-10.00',
-                isSubmitting: true,
-                hours: '-20.00',
-              }],
+              payItems: [
+                {
+                  payItemId: '11',
+                  payItemName: 'Base Hourly',
+                  type: 'HourlyWage',
+                  amount: '-222.00',
+                  hours: '-1.00',
+                },
+                {
+                  payItemId: '10',
+                  payItemName: 'Some other wage',
+                  type: 'HourlyWage',
+                  amount: '-10.00',
+                  isSubmitting: true,
+                  hours: '-20.00',
+                },
+              ],
             },
           ],
         },
@@ -273,13 +283,17 @@ describe('employeePayListReducer', () => {
       it('clears the negative amount for base hourly', () => {
         const actual = payRunReducer(state, action);
 
-        expect(actual.employeePayList.lines[0].payItems[0].amount).toEqual('0.00');
+        expect(actual.employeePayList.lines[0].payItems[0].amount).toEqual(
+          '0.00'
+        );
       });
 
       it('clears the negative hours for base hourly', () => {
         const actual = payRunReducer(state, action);
 
-        expect(actual.employeePayList.lines[0].payItems[0].hours).toEqual('0.00');
+        expect(actual.employeePayList.lines[0].payItems[0].hours).toEqual(
+          '0.00'
+        );
       });
 
       const recalculatedEmployeePayForNonBaseHourly = {
@@ -316,7 +330,9 @@ describe('employeePayListReducer', () => {
           recalculatedEmployeePay: recalculatedEmployeePayForNonBaseHourly,
         });
 
-        expect(actual.employeePayList.lines[0].payItems[1].amount).toEqual('-10.00');
+        expect(actual.employeePayList.lines[0].payItems[1].amount).toEqual(
+          '-10.00'
+        );
       });
 
       it('does not clear the negative hours for non base hourly', () => {
@@ -326,7 +342,9 @@ describe('employeePayListReducer', () => {
           recalculatedEmployeePay: recalculatedEmployeePayForNonBaseHourly,
         });
 
-        expect(actual.employeePayList.lines[0].payItems[1].hours).toEqual('-20.00');
+        expect(actual.employeePayList.lines[0].payItems[1].hours).toEqual(
+          '-20.00'
+        );
       });
     });
   });
@@ -359,7 +377,9 @@ describe('employeePayListReducer', () => {
     it('should format the amount field of a particular pay item to 2 decimal places', () => {
       const actual = payRunReducer(state, action);
 
-      expect(actual.employeePayList.lines[0].payItems[0].amount).toEqual('3.00');
+      expect(actual.employeePayList.lines[0].payItems[0].amount).toEqual(
+        '3.00'
+      );
     });
 
     it('should format the amount field of a particular pay item to 0.00 for a NaN input', () => {
@@ -370,22 +390,23 @@ describe('employeePayListReducer', () => {
 
       const actual = payRunReducer(state, modifiedAction);
 
-      expect(actual.employeePayList.lines[0].payItems[0].amount).toEqual('0.00');
+      expect(actual.employeePayList.lines[0].payItems[0].amount).toEqual(
+        '0.00'
+      );
     });
 
-    it('should format the hours field of a particular pay item to 2 decimal places min, and 3 decimal places max',
-      () => {
-        // The detailed cases of 2 and 3 decimal places are tested in the
-        // formatNumberWithDecimalScaleRange function
-        const modifiedAction = {
-          ...action,
-          key: 'hours',
-        };
+    it('should format the hours field of a particular pay item to 2 decimal places min, and 3 decimal places max', () => {
+      // The detailed cases of 2 and 3 decimal places are tested in the
+      // formatNumberWithDecimalScaleRange function
+      const modifiedAction = {
+        ...action,
+        key: 'hours',
+      };
 
-        const actual = payRunReducer(state, modifiedAction);
+      const actual = payRunReducer(state, modifiedAction);
 
-        expect(actual.employeePayList.lines[0].payItems[0].hours).toEqual('3.00');
-      });
+      expect(actual.employeePayList.lines[0].payItems[0].hours).toEqual('3.00');
+    });
 
     it('should format the hours field of a particular pay item to 0.00 for a NaN input', () => {
       const modifiedAction = {
@@ -444,18 +465,24 @@ describe('employeePayListReducer', () => {
     it('sets negative amount to zero for base salary pay item in the lines', () => {
       const actual = payRunReducer(state, action);
 
-      expect(actual.employeePayList.lines[0].payItems[0].amount).toEqual('0.00');
+      expect(actual.employeePayList.lines[0].payItems[0].amount).toEqual(
+        '0.00'
+      );
     });
 
     it('does not set negative amount to zero for other pay items', () => {
       const actual = payRunReducer(state, action);
-      expect(actual.employeePayList.lines[0].payItems[2].amount).toEqual('-10.00');
+      expect(actual.employeePayList.lines[0].payItems[2].amount).toEqual(
+        '-10.00'
+      );
     });
 
     it('sets negative amount to zero for base hourly pay item in the lines', () => {
       const actual = payRunReducer(state, action);
 
-      expect(actual.employeePayList.lines[0].payItems[1].amount).toEqual('0.00');
+      expect(actual.employeePayList.lines[0].payItems[1].amount).toEqual(
+        '0.00'
+      );
     });
 
     it('sets negative hours to zero for base hourly pay item in the lines', () => {
@@ -509,7 +536,8 @@ describe('employeePayListReducer', () => {
 
       const expected = 1;
 
-      const actual = payRunReducer(state, action).employeePayList.lines[0].daysPaid;
+      const actual = payRunReducer(state, action).employeePayList.lines[0]
+        .daysPaid;
 
       expect(actual).toEqual(expected);
     });

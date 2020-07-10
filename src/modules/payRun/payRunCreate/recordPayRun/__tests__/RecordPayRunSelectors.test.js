@@ -1,7 +1,4 @@
-import {
-  getPayRunId,
-  getRecordPayContents,
-} from '../RecordPayRunSelectors';
+import { getPayRunId, getRecordPayContents } from '../RecordPayRunSelectors';
 
 describe('RecordPayRunSelectors', () => {
   describe('getRecordPayContents', () => {

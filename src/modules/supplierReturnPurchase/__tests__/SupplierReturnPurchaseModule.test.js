@@ -25,7 +25,11 @@ describe('SupplierReturnPurchaseModule', () => {
     const integration = new TestIntegration();
     const setRootView = () => {};
 
-    const module = new SupplierReturnPurchaseModule({ store, integration, setRootView });
+    const module = new SupplierReturnPurchaseModule({
+      store,
+      integration,
+      setRootView,
+    });
     module.store = store;
 
     return { store, integration, module };

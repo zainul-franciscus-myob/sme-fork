@@ -30,7 +30,11 @@ import transferMoneyDetailReducer from './transferMoneyDetailReducer';
 
 export default class TransferMoneyDetailModule {
   constructor({
-    integration, setRootView, pushMessage, popMessages, navigateTo,
+    integration,
+    setRootView,
+    pushMessage,
+    popMessages,
+    navigateTo,
   }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -38,7 +42,10 @@ export default class TransferMoneyDetailModule {
     this.navigateTo = navigateTo;
     this.store = new Store(transferMoneyDetailReducer);
     this.dispatcher = createTransferMoneyDetailDispatcher(this.store);
-    this.integrator = createTransferMoneyDetailIntegrator(this.store, integration);
+    this.integrator = createTransferMoneyDetailIntegrator(
+      this.store,
+      integration
+    );
   }
 
   loadTransferMoney = () => {
@@ -52,7 +59,7 @@ export default class TransferMoneyDetailModule {
     };
 
     this.integrator.loadTransferMoney({ onSuccess, onFailure });
-  }
+  };
 
   redirectToTransactionList = () => {
     const state = this.store.getState();
@@ -65,7 +72,7 @@ export default class TransferMoneyDetailModule {
     const url = getModalUrl(state);
 
     this.navigateTo(url);
-  }
+  };
 
   dismissAlert = () => this.dispatcher.setAlert();
 
@@ -92,7 +99,7 @@ export default class TransferMoneyDetailModule {
 
     this.dispatcher.setSubmittingState(true);
     this.integrator.createTransferMoney({ onSuccess, onFailure });
-  }
+  };
 
   deleteTransferMoney = () => {
     this.dispatcher.setSubmittingState(true);
@@ -112,7 +119,7 @@ export default class TransferMoneyDetailModule {
     };
 
     this.integrator.deleteTranferMoney({ onSuccess, onFailure });
-  }
+  };
 
   openDeleteModal = () => {
     const state = this.store.getState();
@@ -122,7 +129,7 @@ export default class TransferMoneyDetailModule {
       type: ModalType.DELETE,
       url: transactionListUrl,
     });
-  }
+  };
 
   openCancelModal = () => {
     if (isPageEdited(this.store.getState())) {
@@ -136,14 +143,14 @@ export default class TransferMoneyDetailModule {
     } else {
       this.redirectToTransactionList();
     }
-  }
+  };
 
   openUnsavedModal = (url) => {
     this.dispatcher.openModal({
       type: ModalType.UNSAVED,
       url,
     });
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
@@ -163,14 +170,15 @@ export default class TransferMoneyDetailModule {
         onConfirmCancelButtonClick={this.handleOnDiscardClickFromUnsavedModal}
         onConfirmDeleteButtonClick={this.deleteTransferMoney}
         onDismissModal={this.dispatcher.closeModal}
-      />);
+      />
+    );
 
     const wrappedView = (
       <Provider store={this.store}>{transferMoneyView}</Provider>
     );
 
     this.setRootView(wrappedView);
-  }
+  };
 
   handleSaveAndAction = (actionType) => {
     const onPostCreate = (response) => {
@@ -187,7 +195,7 @@ export default class TransferMoneyDetailModule {
     };
 
     this.createTransferMoneyEntry(onPostCreate);
-  }
+  };
 
   handleSaveAction = () => {
     const onPostCreate = () => {
@@ -196,7 +204,7 @@ export default class TransferMoneyDetailModule {
     };
 
     this.createTransferMoneyEntry(onPostCreate);
-  }
+  };
 
   saveHandler = () => {
     const state = this.store.getState();
@@ -213,7 +221,7 @@ export default class TransferMoneyDetailModule {
       default:
         this.handleSaveAction();
     }
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,
@@ -223,10 +231,13 @@ export default class TransferMoneyDetailModule {
     this.popMessages([
       SUCCESSFULLY_SAVED_TRANSFER_MONEY,
       DUPLICATE_TRANSFER_MONEY,
-    ]).forEach(message => {
+    ]).forEach((message) => {
       switch (message.type) {
         case SUCCESSFULLY_SAVED_TRANSFER_MONEY:
-          this.dispatcher.setAlert({ message: message.content, type: 'success' });
+          this.dispatcher.setAlert({
+            message: message.content,
+            type: 'success',
+          });
           break;
         case DUPLICATE_TRANSFER_MONEY:
           this.dispatcher.setDuplicateId(message.duplicateId);
@@ -252,5 +263,5 @@ export default class TransferMoneyDetailModule {
     } else {
       this.navigateTo(url);
     }
-  }
+  };
 }

@@ -14,7 +14,9 @@ describe('DashboardTrackingSelectors', () => {
         financialYearDisplay: '2019-2020',
       };
 
-      const actual = getLegend.resultFunc(1, -1, 1, '2019-07-01', [{ name: 'Current', value: '2019-07-01' }]);
+      const actual = getLegend.resultFunc(1, -1, 1, '2019-07-01', [
+        { name: 'Current', value: '2019-07-01' },
+      ]);
 
       expect(actual).toEqual(expected);
     });

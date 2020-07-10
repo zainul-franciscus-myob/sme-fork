@@ -91,9 +91,7 @@ const InvoiceDetailView = ({
     </Alert>
   );
 
-  const actions = (
-    <InvoiceDetailActions listeners={invoiceActionListeners} />
-  );
+  const actions = <InvoiceDetailActions listeners={invoiceActionListeners} />;
 
   const modal = modalType && (
     <InvoiceDetailModal
@@ -135,19 +133,16 @@ const InvoiceDetailView = ({
   );
 
   const itemAndServiceTable = (
-    <InvoiceItemTable
-      listeners={itemLayoutListeners}
-      footer={notesAndTotals}
-    />
+    <InvoiceItemTable listeners={itemLayoutListeners} footer={notesAndTotals} />
   );
 
-  const table = ({
+  const table = {
     [InvoiceLayout.SERVICE]: serviceTable,
     [InvoiceLayout.ITEM_AND_SERVICE]: itemAndServiceTable,
     [InvoiceLayout.PROFESSIONAL]: serviceTable,
     [InvoiceLayout.TIME_BILLING]: itemAndServiceTable,
     [InvoiceLayout.MISCELLANEOUS]: serviceTable,
-  }[layout]);
+  }[layout];
 
   const layoutPopver = isPreConversion || (
     <InvoiceDetailLayoutPopover onUpdateInvoiceLayout={onUpdateInvoiceLayout} />
@@ -156,12 +151,12 @@ const InvoiceDetailView = ({
   const view = (
     <React.Fragment>
       <LineItemTemplate
-        pageHead={(
+        pageHead={
           <InvoiceDetailHeader
             onFocusActivityHistory={onFocusActivityHistory}
             onRedirectToCreatePayment={onRedirectToCreatePayment}
           />
-        )}
+        }
         alert={alertComponent}
         options={options}
         actions={actions}
@@ -177,21 +172,20 @@ const InvoiceDetailView = ({
           {table}
         </div>
       </LineItemTemplate>
-      {!isCreating
-        && (
-          <MoreInformation
-            onAccordionClose={onAccordionClose}
-            onAccordionOpen={onAccordionOpen}
-            onClickOnRefNo={onClickOnRefNo}
-          />
-        )}
+      {!isCreating && (
+        <MoreInformation
+          onAccordionClose={onAccordionClose}
+          onAccordionOpen={onAccordionOpen}
+          onClickOnRefNo={onClickOnRefNo}
+        />
+      )}
     </React.Fragment>
   );
 
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   modalAlert: getModalAlert(state),
   modalType: getModalType(state),

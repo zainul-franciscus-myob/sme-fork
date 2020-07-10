@@ -2,7 +2,11 @@ import { Alert, Button, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getLoadMoreButtonStatus, getLoadingState } from '../quoteListSelectors';
+import {
+  getAlert,
+  getLoadMoreButtonStatus,
+  getLoadingState,
+} from '../quoteListSelectors';
 import PageView from '../../../../components/PageView/PageView';
 import PaginatedListTemplate from '../../../../components/PaginatedListTemplate/PaginatedListTemplate';
 import QuoteListFilterOptions from './QuoteListFilterOptions';
@@ -28,9 +32,7 @@ const QuoteListView = (props) => {
   );
 
   const filterBar = (
-    <QuoteListFilterOptions
-      onUpdateFilters={onUpdateFilters}
-    />
+    <QuoteListFilterOptions onUpdateFilters={onUpdateFilters} />
   );
 
   const pageHead = (
@@ -59,7 +61,7 @@ const QuoteListView = (props) => {
   return <PageView loadingState={loadingState} view={quoteListView} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   loadingState: getLoadingState(state),
   loadMoreButtonStatus: getLoadMoreButtonStatus(state),

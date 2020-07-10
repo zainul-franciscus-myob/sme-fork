@@ -78,7 +78,10 @@ const setup = () => {
   module.integrator = createSpendMoneyIntegrator(store, integration);
 
   return {
-    store, integration, module, popMessages,
+    store,
+    integration,
+    module,
+    popMessages,
   };
 };
 
@@ -96,13 +99,17 @@ export const setupWithNew = () => {
 export const setUpWithNewFromInTray = () => {
   const toolbox = setup();
   const { store, integration, module } = toolbox;
-  module.popMessages = () => [{
-    type: PREFILL_INTRAY_DOCUMENT_FOR_SPEND_MONEY,
-    inTrayDocumentId: 'docId',
-  }];
+  module.popMessages = () => [
+    {
+      type: PREFILL_INTRAY_DOCUMENT_FOR_SPEND_MONEY,
+      inTrayDocumentId: 'docId',
+    },
+  ];
 
   module.run({
-    spendMoneyId: 'new', businessId: 'bizId', region: 'au',
+    spendMoneyId: 'new',
+    businessId: 'bizId',
+    region: 'au',
   });
   store.resetActions();
   integration.resetRequests();
@@ -193,10 +200,12 @@ describe('SpendMoneyDetailModule', () => {
 
       it('successfully load', () => {
         const { store, integration, module } = setup();
-        module.popMessages = () => [{
-          type: PREFILL_INTRAY_DOCUMENT_FOR_SPEND_MONEY,
-          inTrayDocumentId: '🍌',
-        }];
+        module.popMessages = () => [
+          {
+            type: PREFILL_INTRAY_DOCUMENT_FOR_SPEND_MONEY,
+            inTrayDocumentId: '🍌',
+          },
+        ];
 
         module.run({ spendMoneyId: 'new', businessId: '👺' });
 
@@ -237,10 +246,12 @@ describe('SpendMoneyDetailModule', () => {
       it('fail to download in tray document', () => {
         const { store, integration, module } = setup();
         integration.mapFailure(DOWNLOAD_IN_TRAY_DOCUMENT);
-        module.popMessages = () => [{
-          type: PREFILL_INTRAY_DOCUMENT_FOR_SPEND_MONEY,
-          inTrayDocumentId: '🍌',
-        }];
+        module.popMessages = () => [
+          {
+            type: PREFILL_INTRAY_DOCUMENT_FOR_SPEND_MONEY,
+            inTrayDocumentId: '🍌',
+          },
+        ];
 
         module.run({ spendMoneyId: 'new', businessId: '👺' });
 
@@ -288,10 +299,12 @@ describe('SpendMoneyDetailModule', () => {
       it('fail to prefill in tray document', () => {
         const { store, integration, module } = setup();
         integration.mapFailure(PREFILL_DATA_FROM_IN_TRAY);
-        module.popMessages = () => [{
-          type: PREFILL_INTRAY_DOCUMENT_FOR_SPEND_MONEY,
-          inTrayDocumentId: '🍌',
-        }];
+        module.popMessages = () => [
+          {
+            type: PREFILL_INTRAY_DOCUMENT_FOR_SPEND_MONEY,
+            inTrayDocumentId: '🍌',
+          },
+        ];
 
         module.run({ spendMoneyId: 'new', businessId: '👺' });
 
@@ -610,31 +623,33 @@ describe('SpendMoneyDetailModule', () => {
 
       module.run({ businessId: '👺', region: 'au', spendMoneyId: '1' });
 
-      expect(store.getActions()).toEqual(expect.arrayContaining([
-        {
-          intent: SET_INITIAL_STATE,
-          context: {
-            isSpendMoneyJobColumnEnabled: true,
-            businessId: '👺',
-            region: 'au',
-            spendMoneyId: '1',
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          {
+            intent: SET_INITIAL_STATE,
+            context: {
+              isSpendMoneyJobColumnEnabled: true,
+              businessId: '👺',
+              region: 'au',
+              spendMoneyId: '1',
+            },
           },
-        },
-        {
-          intent: SET_LOADING_STATE,
-          isLoading: LoadingState.LOADING,
-        },
-        expect.objectContaining({
-          intent: LOAD_SPEND_MONEY_DETAIL,
-        }),
-        {
-          intent: SET_LOADING_STATE,
-          isLoading: LoadingState.LOADING_SUCCESS,
-        },
-        expect.objectContaining({
-          intent: GET_TAX_CALCULATIONS,
-        }),
-      ]));
+          {
+            intent: SET_LOADING_STATE,
+            isLoading: LoadingState.LOADING,
+          },
+          expect.objectContaining({
+            intent: LOAD_SPEND_MONEY_DETAIL,
+          }),
+          {
+            intent: SET_LOADING_STATE,
+            isLoading: LoadingState.LOADING_SUCCESS,
+          },
+          expect.objectContaining({
+            intent: GET_TAX_CALCULATIONS,
+          }),
+        ])
+      );
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
@@ -666,10 +681,13 @@ describe('SpendMoneyDetailModule', () => {
   describe('updateHeaderOptions', () => {
     describe('key is selectedPayFromAccountId', () => {
       describe('when on a new spend money', () => {
-        it('should load the next reference id if the reference field hasn\'t been changed', () => {
+        it("should load the next reference id if the reference field hasn't been changed", () => {
           const { module, store, integration } = setupWithNew();
 
-          module.updateHeaderOptions({ key: 'selectedPayFromAccountId', value: '2' });
+          module.updateHeaderOptions({
+            key: 'selectedPayFromAccountId',
+            value: '2',
+          });
 
           expect(store.getActions()).toEqual([
             {
@@ -694,7 +712,10 @@ describe('SpendMoneyDetailModule', () => {
           module.updateHeaderOptions({ key: 'referenceId', value: 'hello ' });
           store.resetActions();
 
-          module.updateHeaderOptions({ key: 'selectedPayFromAccountId', value: '2' });
+          module.updateHeaderOptions({
+            key: 'selectedPayFromAccountId',
+            value: '2',
+          });
 
           expect(store.getActions()).toEqual([
             {
@@ -714,7 +735,10 @@ describe('SpendMoneyDetailModule', () => {
         it('should update the bank statement text', () => {
           const { module, store } = setUpWithExisting();
 
-          module.updateHeaderOptions({ key: 'selectedPayFromAccountId', value: '2' });
+          module.updateHeaderOptions({
+            key: 'selectedPayFromAccountId',
+            value: '2',
+          });
 
           expect(store.getActions()).toEqual([
             {
@@ -745,11 +769,13 @@ describe('SpendMoneyDetailModule', () => {
         }),
       ];
 
-
       it('should load the abn from the selected contact', () => {
         const { module, store, integration } = setUpWithExisting();
 
-        module.updateHeaderOptions({ key: 'selectedPayToContactId', value: '2' });
+        module.updateHeaderOptions({
+          key: 'selectedPayToContactId',
+          value: '2',
+        });
 
         expect(store.getActions()).toEqual([
           {
@@ -788,7 +814,10 @@ describe('SpendMoneyDetailModule', () => {
         store.resetActions();
         integration.resetRequests();
 
-        module.updateHeaderOptions({ key: 'selectedPayToContactId', value: '2' });
+        module.updateHeaderOptions({
+          key: 'selectedPayToContactId',
+          value: '2',
+        });
 
         expect(store.getActions()).toEqual([
           {
@@ -804,7 +833,10 @@ describe('SpendMoneyDetailModule', () => {
       it('should clear the abn given the contact has been cleared', () => {
         const { module, store } = setUpWithExisting();
 
-        module.updateHeaderOptions({ key: 'selectedPayToContactId', value: '' });
+        module.updateHeaderOptions({
+          key: 'selectedPayToContactId',
+          value: '',
+        });
 
         expect(store.getActions()).toEqual([
           {
@@ -825,7 +857,10 @@ describe('SpendMoneyDetailModule', () => {
           store.resetActions();
           integration.resetRequests();
 
-          module.updateHeaderOptions({ key: 'selectedPayToContactId', value: '2' });
+          module.updateHeaderOptions({
+            key: 'selectedPayToContactId',
+            value: '2',
+          });
 
           expect(store.getActions()).toEqual([
             {
@@ -864,7 +899,10 @@ describe('SpendMoneyDetailModule', () => {
 
         it('should not load expense account id if contact is not supplier', () => {
           const { module, store } = setupWithNew();
-          module.updateHeaderOptions({ key: 'selectedPayToContactId', value: '1' });
+          module.updateHeaderOptions({
+            key: 'selectedPayToContactId',
+            value: '1',
+          });
 
           expect(store.getActions()).toEqual([
             {
@@ -880,7 +918,10 @@ describe('SpendMoneyDetailModule', () => {
           const { module, store, integration } = setupWithNew();
 
           integration.mapSuccess(LOAD_SUPPLIER_EXPENSE_ACCOUNT, {});
-          module.updateHeaderOptions({ key: 'selectedPayToContactId', value: '2' });
+          module.updateHeaderOptions({
+            key: 'selectedPayToContactId',
+            value: '2',
+          });
 
           expect(store.getActions()).toEqual([
             {
@@ -952,9 +993,11 @@ describe('SpendMoneyDetailModule', () => {
           ]);
 
           expect(module.pushMessage).toHaveBeenCalledWith(
-            expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY }),
+            expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY })
           );
-          expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/transactionList');
+          expect(module.navigateTo).toHaveBeenCalledWith(
+            '/#/au/bizId/transactionList'
+          );
         });
       });
 
@@ -993,7 +1036,7 @@ describe('SpendMoneyDetailModule', () => {
         });
       });
 
-      it('should do an early return if it\'s already submitting', () => {
+      it("should do an early return if it's already submitting", () => {
         const { module, store, integration } = setUpWithExisting();
 
         const dontTriggerOnSuccess = () => {};
@@ -1040,7 +1083,7 @@ describe('SpendMoneyDetailModule', () => {
         ]);
 
         expect(module.pushMessage).toHaveBeenCalledWith(
-          expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY }),
+          expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY })
         );
         expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/inTray');
       });
@@ -1074,7 +1117,9 @@ describe('SpendMoneyDetailModule', () => {
         ]);
 
         expect(module.pushMessage).toHaveBeenCalledWith(
-          expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK }),
+          expect.objectContaining({
+            type: SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
+          })
         );
         expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/inTray');
       });
@@ -1111,17 +1156,17 @@ describe('SpendMoneyDetailModule', () => {
           }),
         ]);
 
-        expect(module.pushMessage).toHaveBeenCalledWith(
-          {
-            type: SUCCESSFULLY_SAVED_SPEND_MONEY,
-            content: '👽',
-          },
-        );
+        expect(module.pushMessage).toHaveBeenCalledWith({
+          type: SUCCESSFULLY_SAVED_SPEND_MONEY,
+          content: '👽',
+        });
         expect(module.pushMessage).toHaveBeenCalledWith({
           type: DUPLICATE_SPEND_MONEY,
           duplicateId: '🦕',
         });
-        expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/spendMoney/new');
+        expect(module.navigateTo).toHaveBeenCalledWith(
+          '/#/au/bizId/spendMoney/new'
+        );
       });
 
       it('should update and redirect to create', () => {
@@ -1159,7 +1204,9 @@ describe('SpendMoneyDetailModule', () => {
           type: DUPLICATE_SPEND_MONEY,
           duplicateId: '1',
         });
-        expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/spendMoney/new');
+        expect(module.navigateTo).toHaveBeenCalledWith(
+          '/#/au/bizId/spendMoney/new'
+        );
       });
     });
 
@@ -1184,7 +1231,9 @@ describe('SpendMoneyDetailModule', () => {
       };
 
       it('should create', () => {
-        const { module, store, integration } = setupWithSelectedDate(setupWithNew);
+        const { module, store, integration } = setupWithSelectedDate(
+          setupWithNew
+        );
         integration.mapSuccess(CREATE_SPEND_MONEY, {
           message: '👽',
           id: '🦕',
@@ -1220,11 +1269,15 @@ describe('SpendMoneyDetailModule', () => {
           selectedBankAccountId: '123',
           selectedDate: '2020-04-19',
         });
-        expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/spendMoney/new');
+        expect(module.navigateTo).toHaveBeenCalledWith(
+          '/#/au/bizId/spendMoney/new'
+        );
       });
 
       it('should update', () => {
-        const { module, store, integration } = setupWithSelectedDate(setUpWithExisting);
+        const { module, store, integration } = setupWithSelectedDate(
+          setUpWithExisting
+        );
         integration.mapSuccess(UPDATE_SPEND_MONEY, {
           message: '👽',
           id: '🦕',
@@ -1260,7 +1313,9 @@ describe('SpendMoneyDetailModule', () => {
           selectedBankAccountId: '456',
           selectedDate: '2020-04-19',
         });
-        expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/spendMoney/new');
+        expect(module.navigateTo).toHaveBeenCalledWith(
+          '/#/au/bizId/spendMoney/new'
+        );
       });
     });
     [
@@ -1304,11 +1359,14 @@ describe('SpendMoneyDetailModule', () => {
             });
           });
 
-          it('should do an early return if it\'s already submitting', () => {
+          it("should do an early return if it's already submitting", () => {
             const { module, store, integration } = setUpWithExisting();
 
             const dontTriggerOnSuccess = () => {};
-            integration.overrideMapping(UPDATE_SPEND_MONEY, dontTriggerOnSuccess);
+            integration.overrideMapping(
+              UPDATE_SPEND_MONEY,
+              dontTriggerOnSuccess
+            );
 
             // Setup: this will trigger an update spend money request,
             // but will not trigger the onSuccess which means that
@@ -1351,9 +1409,11 @@ describe('SpendMoneyDetailModule', () => {
             ]);
 
             expect(module.pushMessage).toHaveBeenCalledWith(
-              expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY }),
+              expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY })
             );
-            expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/inTray');
+            expect(module.navigateTo).toHaveBeenCalledWith(
+              '/#/au/bizId/inTray'
+            );
           });
 
           it('successfully creates a spend money but fails to link in tray document', () => {
@@ -1385,9 +1445,13 @@ describe('SpendMoneyDetailModule', () => {
             ]);
 
             expect(module.pushMessage).toHaveBeenCalledWith(
-              expect.objectContaining({ type: SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK }),
+              expect.objectContaining({
+                type: SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
+              })
             );
-            expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/inTray');
+            expect(module.navigateTo).toHaveBeenCalledWith(
+              '/#/au/bizId/inTray'
+            );
           });
         });
       });
@@ -1497,9 +1561,11 @@ describe('SpendMoneyDetailModule', () => {
         test.setup(module, integration);
         module.saveHandler();
 
-        const toNotContain = (array, i) => array.find(({ intent }) => intent === i) !== undefined;
+        const toNotContain = (array, i) =>
+          array.find(({ intent }) => intent === i) !== undefined;
         const hasUpdateSpendMoneyIntent = toNotContain(
-          integration.getRequests(), UPDATE_SPEND_MONEY,
+          integration.getRequests(),
+          UPDATE_SPEND_MONEY
         );
 
         expect(hasUpdateSpendMoneyIntent).toEqual(false);

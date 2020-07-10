@@ -2,7 +2,6 @@ import { Alert, BaseTemplate, LeanEngageSurvey } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-
 import {
   getAlert,
   getIsLoading,
@@ -57,11 +56,16 @@ const DashboardView = ({
 
   const header = <DashboardHeader />;
 
-  const leanEngageSurvey = shouldShowPayroll && isPayrollWidgetToggleOn ? <LeanEngageSurvey
-    surveyType="survey"
-    surveyName="dashboard-csat"
-    productName="dashboard"
-  /> : <DashboardLeanEngageCard />;
+  const leanEngageSurvey =
+    shouldShowPayroll && isPayrollWidgetToggleOn ? (
+      <LeanEngageSurvey
+        surveyType="survey"
+        surveyName="dashboard-csat"
+        productName="dashboard"
+      />
+    ) : (
+      <DashboardLeanEngageCard />
+    );
 
   const body = (
     <div className={styles.body}>
@@ -102,11 +106,12 @@ const DashboardView = ({
             />
           )}
 
-
           {shouldShowLeanEngage && leanEngageSurvey}
         </div>
 
-        {!(shouldShowPayroll && isPayrollWidgetToggleOn) && <img src={footerImage} alt="" />}
+        {!(shouldShowPayroll && isPayrollWidgetToggleOn) && (
+          <img src={footerImage} alt="" />
+        )}
       </div>
     </div>
   );
@@ -133,7 +138,7 @@ const DashboardView = ({
   return <PageView isLoading={isLoading} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   shouldShowBanking: getShouldShowBanking(state),
   shouldShowSales: getShouldShowSales(state),
   shouldShowPurchases: getShouldShowPurchases(state),

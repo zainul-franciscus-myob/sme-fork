@@ -1,7 +1,4 @@
-import {
-  Button,
-  Modal,
-} from '@myob/myob-widgets';
+import { Button, Modal } from '@myob/myob-widgets';
 import React from 'react';
 
 const AuthoriseModal = ({
@@ -13,8 +10,8 @@ const AuthoriseModal = ({
     <Modal.Body>
       <h4>Authorise and process now?</h4>
       <p>
-        Your superannuation payment was recorded successfully.
-        Do you want to authorise and process it now?
+        Your superannuation payment was recorded successfully. Do you want to
+        authorise and process it now?
       </p>
     </Modal.Body>
     <Modal.Footer>

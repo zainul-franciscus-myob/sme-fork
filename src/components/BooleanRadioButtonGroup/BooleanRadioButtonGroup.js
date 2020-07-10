@@ -7,7 +7,13 @@ const handleRadioButtonChange = (name, handler) => (e) => {
 };
 
 const BooleanRadioButtonGroup = ({
-  name, value, trueLabel, falseLabel, handler, label, ...props
+  name,
+  value,
+  trueLabel,
+  falseLabel,
+  handler,
+  label,
+  ...props
 }) => (
   <RadioButtonGroup
     {...props}

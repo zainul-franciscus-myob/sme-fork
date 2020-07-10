@@ -1,6 +1,4 @@
-import {
-  Button, Icons, Table, Tooltip,
-} from '@myob/myob-widgets';
+import { Button, Icons, Table, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -25,11 +23,15 @@ const LeavePayItemEmployeesTable = ({
       <Table.RowItem cellRole="actions" {...tableConfig.actions}>
         <Tooltip
           placement="left"
-          triggerContent={(
-          <Button type="secondary" size="xs" onClick={onButtonClick(onRemoveEmployee, id)}>
-            <Icons.Remove />
-          </Button>
-        )}
+          triggerContent={
+            <Button
+              type="secondary"
+              size="xs"
+              onClick={onButtonClick(onRemoveEmployee, id)}
+            >
+              <Icons.Remove />
+            </Button>
+          }
         >
           Remove employee
         </Tooltip>
@@ -43,14 +45,12 @@ const LeavePayItemEmployeesTable = ({
         <Table.HeaderItem {...tableConfig.name}>Name</Table.HeaderItem>
         <Table.HeaderItem {...tableConfig.actions} />
       </Table.Header>
-      <Table.Body>
-        {rows}
-      </Table.Body>
+      <Table.Body>{rows}</Table.Body>
     </Table>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedEmployees: getLeavePayItemEmployees(state),
 });
 

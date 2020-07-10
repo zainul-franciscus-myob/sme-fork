@@ -1,5 +1,8 @@
 import {
-  Checkbox, CheckboxGroup, FieldGroup, Select,
+  Checkbox,
+  CheckboxGroup,
+  FieldGroup,
+  Select,
 } from '@myob/myob-widgets';
 import React from 'react';
 
@@ -44,7 +47,7 @@ const TimesheetsSettingsView = ({
       disabled={!useTimesheets}
       width="xl"
     >
-      {days.map(day => (
+      {days.map((day) => (
         <Select.Option key={day} value={day} label={day} />
       ))}
     </Select>

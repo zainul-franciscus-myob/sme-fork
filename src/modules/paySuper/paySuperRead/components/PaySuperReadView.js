@@ -1,9 +1,4 @@
-import {
-  Alert,
-  BaseTemplate,
-  Card,
-  PageHead,
-} from '@myob/myob-widgets';
+import { Alert, BaseTemplate, Card, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -52,11 +47,18 @@ const PaySuperReadView = ({
   onDismissAlert,
   modalType,
 }) => {
-  const title = <>Super payment {referenceNumber}<PaymentStatus size="large" paymentStatus={labelStatus} /></>;
+  const title = (
+    <>
+      Super payment {referenceNumber}
+      <PaymentStatus size="large" paymentStatus={labelStatus} />
+    </>
+  );
   const totalPaymentFooter = (
     <div className={styles.totalPaymentsFooter}>
       <h4>
-        <span className={styles.totalPaymentsFooter}>Total superannuation amount</span>
+        <span className={styles.totalPaymentsFooter}>
+          Total superannuation amount
+        </span>
         <span>{totalPayment}</span>
       </h4>
     </div>
@@ -72,7 +74,11 @@ const PaySuperReadView = ({
           onReverseButtonClick={onReverseModalConfirmClick}
         />
       )}
-      {alert && <Alert type={alert.type} onDismiss={onDismissAlert}>{alert.message}</Alert>}
+      {alert && (
+        <Alert type={alert.type} onDismiss={onDismissAlert}>
+          {alert.message}
+        </Alert>
+      )}
       <PageHead title={title} />
       <Card footer={totalPaymentFooter}>
         <PaySuperReadDetailHeader
@@ -98,7 +104,7 @@ const PaySuperReadView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   account: getAccount(state),
   description: getDescription(state),

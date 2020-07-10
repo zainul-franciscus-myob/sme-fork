@@ -11,14 +11,12 @@ const associateUserWithGroup = (currentBusinessId, { businessId }) => {
 
 const getCookie = (cname) => {
   const decodedCookie = decodeURIComponent(document.cookie);
-  const cookieMap = decodedCookie
-    .split(';')
-    .reduce((cmap, value) => {
-      const [key, val] = value.trim().split('=');
-      // eslint-disable-next-line no-param-reassign
-      cmap[key] = val;
-      return cmap;
-    }, {});
+  const cookieMap = decodedCookie.split(';').reduce((cmap, value) => {
+    const [key, val] = value.trim().split('=');
+    // eslint-disable-next-line no-param-reassign
+    cmap[key] = val;
+    return cmap;
+  }, {});
   return cookieMap[cname];
 };
 
@@ -100,8 +98,14 @@ const initializeHttpTelemetry = () => {
     }
     if (window.newrelic) {
       window.newrelic.setCustomAttribute('currentRouteName', currentRouteName);
-      window.newrelic.setCustomAttribute('previousRouteName', previousRouteName);
-      window.newrelic.setCustomAttribute('buildNumber', process.env.REACT_APP_BUILD_NUMBER || 'dev');
+      window.newrelic.setCustomAttribute(
+        'previousRouteName',
+        previousRouteName
+      );
+      window.newrelic.setCustomAttribute(
+        'buildNumber',
+        process.env.REACT_APP_BUILD_NUMBER || 'dev'
+      );
     }
   };
 };

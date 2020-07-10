@@ -1,6 +1,4 @@
-import {
-  Alert, Button, PageHead,
-} from '@myob/myob-widgets';
+import { Alert, Button, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -37,9 +35,7 @@ const InvoiceListView = ({
   loadMoreButtonStatus,
 }) => {
   const filterBar = (
-    <InvoiceListFilterOptions
-      onUpdateFilter={onUpdateFilter}
-    />
+    <InvoiceListFilterOptions onUpdateFilter={onUpdateFilter} />
   );
 
   const pageHead = (
@@ -80,7 +76,7 @@ const InvoiceListView = ({
   return <PageView loadingState={loadingState} view={invoiceListView} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   alert: getAlert(state),
   loadMoreButtonStatus: getLoadMoreButtonStatus(state),

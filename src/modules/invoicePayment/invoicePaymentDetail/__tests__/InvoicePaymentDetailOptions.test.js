@@ -12,9 +12,11 @@ describe('invoicePaymentDetailsOptions', () => {
     const wrapper = mount(
       <Provider store={store}>
         <InvoicePaymentDetailOptions />
-      </Provider>,
+      </Provider>
     );
-    const invoicePaymentNumberInput = wrapper.find({ name: 'referenceId' }).first();
+    const invoicePaymentNumberInput = wrapper
+      .find({ name: 'referenceId' })
+      .first();
     expect(invoicePaymentNumberInput.prop('maxLength')).toBe(13);
   });
 });

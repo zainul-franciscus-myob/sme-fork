@@ -23,29 +23,23 @@ export default ({
   onUnmatchedFocus,
   onAllocate,
 }) => {
-  const {
-    type,
-    displayName,
-    isLoading,
-  } = entry;
+  const { type, displayName, isLoading } = entry;
 
   if (isLoading) {
     return <AllocatedLoadingItem displayName={displayName} />;
   }
 
   if (isExpanded) {
-    return (
-      <ExpandedRowItem
-        entry={entry}
-      />
-    );
+    return <ExpandedRowItem entry={entry} />;
   }
 
-  if ([
-    StatusTypes.matched,
-    StatusTypes.paymentRuleMatched,
-    StatusTypes.splitMatched,
-  ].includes(type)) {
+  if (
+    [
+      StatusTypes.matched,
+      StatusTypes.paymentRuleMatched,
+      StatusTypes.splitMatched,
+    ].includes(type)
+  ) {
     return (
       <MatchedRowItem
         entry={entry}
@@ -54,10 +48,7 @@ export default ({
     );
   }
 
-  if ([
-    StatusTypes.splitAllocation,
-    StatusTypes.transfer,
-  ].includes(type)) {
+  if ([StatusTypes.splitAllocation, StatusTypes.transfer].includes(type)) {
     return (
       <SplitRowItem
         index={index}
@@ -74,7 +65,7 @@ export default ({
         isHovering={isHovering}
         isFocused={isFocused}
         onAddAccount={onAddAccount}
-        onAllocate={item => onAllocate(index, item)}
+        onAllocate={(item) => onAllocate(index, item)}
         onFocus={() => onMatchedToFocus(index)}
         onBlur={() => onMatchedToBlur(index)}
       />
@@ -87,7 +78,7 @@ export default ({
       isHovering={isHovering}
       isFocused={isFocused}
       onAddAccount={onAddAccount}
-      onAllocate={item => onAllocate(index, item)}
+      onAllocate={(item) => onAllocate(index, item)}
       onFocus={() => onUnmatchedFocus(index)}
       onBlur={() => onUnmatchedBlur(index)}
     />

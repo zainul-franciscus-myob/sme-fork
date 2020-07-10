@@ -1,9 +1,7 @@
 import { Combobox as FeelixCombobox } from '@myob/myob-widgets';
 import React from 'react';
 
-const buildItems = ({
-  hasAllItem, items, selectedId, allItemColumnName,
-}) => {
+const buildItems = ({ hasAllItem, items, selectedId, allItemColumnName }) => {
   const allItem = { [allItemColumnName]: 'All' };
   const allItemIsSelected = selectedId === '';
 
@@ -14,10 +12,14 @@ const buildItems = ({
 };
 
 const Combobox = ({
-  selectedId = '', items = [], onChange, hasAllItem, allItemColumnName = '', ...otherProps
+  selectedId = '',
+  items = [],
+  onChange,
+  hasAllItem,
+  allItemColumnName = '',
+  ...otherProps
 }) => {
-  const selectedItem = items
-    .find(option => option.id === selectedId) || {};
+  const selectedItem = items.find((option) => option.id === selectedId) || {};
 
   const onComboboxChange = (item) => {
     const newItem = item || {};
@@ -32,7 +34,10 @@ const Combobox = ({
       selected={selectedItem}
       onChange={onComboboxChange}
       items={buildItems({
-        hasAllItem, items, selectedId, allItemColumnName,
+        hasAllItem,
+        items,
+        selectedId,
+        allItemColumnName,
       })}
       {...otherProps}
     />

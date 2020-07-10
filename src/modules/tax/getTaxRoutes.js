@@ -1,9 +1,7 @@
 import RouteName from '../../router/RouteName';
 import TaxListModule from './taxList/TaxListModule';
 
-const getTaxRoutes = ({
-  integration, setRootView,
-}) => {
+const getTaxRoutes = ({ integration, setRootView }) => {
   const routes = [
     {
       name: RouteName.TAX_LIST,

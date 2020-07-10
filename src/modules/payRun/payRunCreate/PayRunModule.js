@@ -92,7 +92,7 @@ export default class PayRunModule {
     };
 
     this.integrator.loadTimesheets({ onSuccess, onFailure });
-  }
+  };
 
   deleteDraftAndGoBack = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
@@ -105,13 +105,16 @@ export default class PayRunModule {
       this.startNewPayRun();
     };
 
-    this.integrator.deleteDraft({ onSuccess: afterDelete, onFailure: afterDelete });
+    this.integrator.deleteDraft({
+      onSuccess: afterDelete,
+      onFailure: afterDelete,
+    });
   };
 
   render = () => {
-    const stepViews = Object
-      .keys(this.subModules)
-      .map(module => this.subModules[module].getView());
+    const stepViews = Object.keys(this.subModules).map((module) =>
+      this.subModules[module].getView()
+    );
 
     const payRunView = (
       <PayRunView
@@ -122,11 +125,7 @@ export default class PayRunModule {
       />
     );
 
-    const wrappedView = (
-      <Provider store={this.store}>
-        {payRunView}
-      </Provider>
-    );
+    const wrappedView = <Provider store={this.store}>{payRunView}</Provider>;
     this.setRootView(wrappedView);
   };
 
@@ -137,7 +136,9 @@ export default class PayRunModule {
   run(context) {
     this.dispatcher.setInitialState({
       ...context,
-      isPayrollJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobsPayrun),
+      isPayrollJobColumnEnabled: this.isToggleOn(
+        FeatureToggle.EssentialsJobsPayrun
+      ),
     });
     this.render();
     this.startNewPayRun();
@@ -149,7 +150,7 @@ export default class PayRunModule {
 
   redirectToUrl = (url) => {
     window.location.href = url;
-  }
+  };
 
   getCurrentSubModule = () => {
     const state = this.store.getState();
@@ -158,7 +159,7 @@ export default class PayRunModule {
     const currentSubModuleName = subModuleNamesArray[currentStep];
     const currentSubModule = this.subModules[currentSubModuleName];
     return currentSubModule;
-  }
+  };
 
   attemptToRoute = (navigationFunction) => {
     const subModule = this.getCurrentSubModule();
@@ -167,11 +168,11 @@ export default class PayRunModule {
     } else {
       navigationFunction();
     }
-  }
+  };
 
   handlePageTransition = (url) => {
     this.attemptToRoute(() => {
       this.redirectToUrl(url);
     });
-  }
+  };
 }

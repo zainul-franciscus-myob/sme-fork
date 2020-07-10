@@ -1,4 +1,8 @@
-import { getIsBeforeStartOfFinancialYear, getRefundDate, getStartOfFinancialYearDate } from '../payRefundSelectors';
+import {
+  getIsBeforeStartOfFinancialYear,
+  getRefundDate,
+  getStartOfFinancialYearDate,
+} from '../payRefundSelectors';
 
 describe('getIsBeforeStartOfFinancialYear', () => {
   it.each([
@@ -19,36 +23,34 @@ describe('getIsBeforeStartOfFinancialYear', () => {
       const actual = getIsBeforeStartOfFinancialYear(state);
 
       expect(actual).toEqual(expected);
-    },
+    }
   );
 });
 
 describe('getStartOfFinancialYearDate', () => {
-  it('should return the value of StartOfFinancialYearDate',
-    () => {
-      const expected = '2014-07-01';
-      const state = {
-        startOfFinancialYearDate: expected,
-      };
+  it('should return the value of StartOfFinancialYearDate', () => {
+    const expected = '2014-07-01';
+    const state = {
+      startOfFinancialYearDate: expected,
+    };
 
-      const actual = getStartOfFinancialYearDate(state);
+    const actual = getStartOfFinancialYearDate(state);
 
-      expect(actual).toEqual(expected);
-    });
+    expect(actual).toEqual(expected);
+  });
 });
 
 describe('getRefundDate', () => {
-  it('should return the value of Refund Date',
-    () => {
-      const expected = '2020-06-01';
-      const state = {
-        refund: {
-          date: expected,
-        },
-      };
+  it('should return the value of Refund Date', () => {
+    const expected = '2020-06-01';
+    const state = {
+      refund: {
+        date: expected,
+      },
+    };
 
-      const actual = getRefundDate(state);
+    const actual = getRefundDate(state);
 
-      expect(actual).toEqual(expected);
-    });
+    expect(actual).toEqual(expected);
+  });
 });

@@ -1,4 +1,3 @@
-
 import * as intents from '../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import { tabIds } from './tabItems';
@@ -110,7 +109,7 @@ const openModal = (state, action) => ({
   },
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   userInterface: {
     ...state.userInterface,
@@ -144,24 +143,23 @@ const setMainTab = (state, { mainTab }) => ({
   },
 });
 
-const setSubTab = (state, { mainTab, subTab }) => (
+const setSubTab = (state, { mainTab, subTab }) =>
   mainTab && subTab
     ? {
-      ...state,
-      userInterface: {
-        ...state.userInterface,
-        subTabs: {
-          ...state.userInterface.subTabs,
-          [mainTab]: subTab,
+        ...state,
+        userInterface: {
+          ...state.userInterface,
+          subTabs: {
+            ...state.userInterface.subTabs,
+            [mainTab]: subTab,
+          },
         },
-      },
-    }
-    : state
-);
+      }
+    : state;
 
 const setInitialState = (
   state = getDefaultState(),
-  { context: { mainTab, subTab, ...params } },
+  { context: { mainTab, subTab, ...params } }
 ) => ({
   ...state,
   ...params,

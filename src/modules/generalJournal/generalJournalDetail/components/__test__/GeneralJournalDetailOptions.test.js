@@ -12,7 +12,7 @@ describe('generalJournalDetailOptions', () => {
     const wrapper = mount(
       <Provider store={store}>
         <GeneralJournalDetailOptions />
-      </Provider>,
+      </Provider>
     );
     const referenceIdInput = wrapper.find({ name: 'referenceId' }).first();
     expect(referenceIdInput.prop('maxLength')).toBe(13);

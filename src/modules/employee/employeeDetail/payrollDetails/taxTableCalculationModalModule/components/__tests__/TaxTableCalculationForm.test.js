@@ -15,7 +15,11 @@ describe('TaxTableCalculationForm', () => {
       };
       const form = mount(<TaxTableCalculationForm {...props} />);
 
-      const variationField = findComponentWithTestId(form, 'withholdingVariation', 'AmountInput');
+      const variationField = findComponentWithTestId(
+        form,
+        'withholdingVariation',
+        'AmountInput'
+      );
 
       expect(variationField).toHaveLength(1);
     });
@@ -29,7 +33,11 @@ describe('TaxTableCalculationForm', () => {
       };
       const form = mount(<TaxTableCalculationForm {...props} />);
 
-      const variationField = findComponentWithTestId(form, 'withholdingVariation', 'AmountInput');
+      const variationField = findComponentWithTestId(
+        form,
+        'withholdingVariation',
+        'AmountInput'
+      );
 
       expect(variationField).toHaveLength(0);
     });

@@ -8,7 +8,7 @@ import {
   UPDATE_AUTHORISATION_INFORMATION,
 } from './paySuperAuthorisationModalIntents';
 
-const createPaySuperAuthorisationModalDispatcher = store => ({
+const createPaySuperAuthorisationModalDispatcher = (store) => ({
   setInitialContext: (batchPaymentId, businessId) => {
     store.dispatch({
       intent: SET_OPENING_CONTEXT,

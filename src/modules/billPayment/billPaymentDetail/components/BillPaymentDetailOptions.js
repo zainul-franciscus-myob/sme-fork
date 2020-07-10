@@ -1,19 +1,23 @@
-import {
-  DetailHeader, Input, TextArea,
-} from '@myob/myob-widgets';
+import { DetailHeader, Input, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getBillPaymentOptions, getIsBeforeStartOfFinancialYear } from '../BillPaymentDetailSelectors';
+import {
+  getBillPaymentOptions,
+  getIsBeforeStartOfFinancialYear,
+} from '../BillPaymentDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import ContactCombobox from '../../../../components/combobox/ContactCombobox';
 import DatePicker from '../../../../components/DatePicker/DatePicker';
 
-const onTextFieldChange = handler => ({ target: { name: key, value } }) => handler({ key, value });
+const onTextFieldChange = (handler) => ({ target: { name: key, value } }) =>
+  handler({ key, value });
 
-const onComboBoxChange = handler => key => item => handler({ key, value: item.id });
+const onComboBoxChange = (handler) => (key) => (item) =>
+  handler({ key, value: item.id });
 
-const onDateChange = handler => key => ({ value }) => handler({ key, value });
+const onDateChange = (handler) => (key) => ({ value }) =>
+  handler({ key, value });
 
 const BillPaymentOptions = ({
   suppliers,
@@ -52,19 +56,17 @@ const BillPaymentOptions = ({
         selectedId={accountId}
         onChange={onComboBoxChange(onUpdateHeaderOption)('accountId')}
       />
-      {
-        showBankStatementText && (
-          <Input
-            name="bankStatementText"
-            label="Bank statement text"
-            value={bankStatementText}
-            onChange={onTextFieldChange(onUpdateHeaderOption)}
-            onBlur={onTextFieldChange(onBlurBankStatementText)}
-            requiredLabel={requiredLabel}
-            maxLength={18}
-          />
-        )
-      }
+      {showBankStatementText && (
+        <Input
+          name="bankStatementText"
+          label="Bank statement text"
+          value={bankStatementText}
+          onChange={onTextFieldChange(onUpdateHeaderOption)}
+          onBlur={onTextFieldChange(onBlurBankStatementText)}
+          requiredLabel={requiredLabel}
+          maxLength={18}
+        />
+      )}
       <TextArea
         name="description"
         label="Description of transaction"
@@ -103,7 +105,7 @@ const BillPaymentOptions = ({
   return <DetailHeader primary={primary} secondary={secondary} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...getBillPaymentOptions(state),
   isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
 });

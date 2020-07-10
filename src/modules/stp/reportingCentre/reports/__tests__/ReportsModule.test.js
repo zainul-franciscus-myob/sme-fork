@@ -18,11 +18,14 @@ describe('ReportsModule', () => {
   const defaultIntegration = {
     read: ({ intent, onSuccess }) => {
       switch (intent) {
-        case LOAD_EMPLOYEE_YTD_REPORT: onSuccess('');
+        case LOAD_EMPLOYEE_YTD_REPORT:
+          onSuccess('');
           break;
-        case LOAD_PAY_EVENTS: onSuccess(loadPayEventsResponse);
+        case LOAD_PAY_EVENTS:
+          onSuccess(loadPayEventsResponse);
           break;
-        case LOAD_PAY_EVENT_DETAILS: onSuccess(loadPayEventDetailResponse);
+        case LOAD_PAY_EVENT_DETAILS:
+          onSuccess(loadPayEventDetailResponse);
           break;
         default:
           throw new Error(`unmocked intent "${intent.toString()}"`);
@@ -49,13 +52,15 @@ describe('ReportsModule', () => {
     };
   };
 
-
   describe('View Employee ytd report', () => {
     it('should call open Blob to view employee ytd report', () => {
       const { wrapper } = constructModule();
 
       wrapper.find(Table.Row).first().simulate('click');
-      const reportButton = findButtonWithTestId(wrapper, 'viewEmployeeReportLink');
+      const reportButton = findButtonWithTestId(
+        wrapper,
+        'viewEmployeeReportLink'
+      );
 
       reportButton.simulate('click');
 

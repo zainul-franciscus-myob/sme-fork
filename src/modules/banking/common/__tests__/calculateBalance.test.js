@@ -136,7 +136,7 @@ describe('calculateBalance', () => {
     expect(actual.bankBalanceDate).toEqual('12/09/2020');
   });
 
-  it('should default to asset bank account calculations if the bank account can\'t be found', () => {
+  it("should default to asset bank account calculations if the bank account can't be found", () => {
     const balances = {
       bankBalance: 0,
       myobBalance: 0,

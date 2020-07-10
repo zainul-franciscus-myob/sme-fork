@@ -1,6 +1,4 @@
-import {
-  DetailHeader, Input, TextArea,
-} from '@myob/myob-widgets';
+import { DetailHeader, Input, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -19,7 +17,7 @@ import handleInputChange from '../../../../components/handlers/handleInputChange
 
 const requiredLabel = 'Required';
 
-const handleCustomerComboBoxChange = handler => ({ id }) => handler(id);
+const handleCustomerComboBoxChange = (handler) => ({ id }) => handler(id);
 
 const InvoicePaymentDetailOptions = ({
   customers,
@@ -50,7 +48,10 @@ const InvoicePaymentDetailOptions = ({
       <AccountCombobox
         label="Bank account"
         hideLabel={false}
-        onChange={handleComboboxChange('accountId', onUpdateInvoicePaymentDetails)}
+        onChange={handleComboboxChange(
+          'accountId',
+          onUpdateInvoicePaymentDetails
+        )}
         selectedId={accountId}
         items={accounts}
       />
@@ -91,7 +92,7 @@ const InvoicePaymentDetailOptions = ({
   return <DetailHeader primary={primary} secondary={secondary} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...getOptions(state),
   isCreating: getIsCreating(state),
   wasRedirectedFromInvoiceDetail: getWasRedirectedFromInvoiceDetail(state),

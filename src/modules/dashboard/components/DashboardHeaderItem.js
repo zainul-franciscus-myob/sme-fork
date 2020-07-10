@@ -3,16 +3,16 @@ import classNames from 'classnames';
 
 import styles from './DashboardHeaderItem.module.css';
 
-const DashboardHeaderItem = ({
-  title, content, clickable, labelAccessory,
-}) => (
-  <div className={classNames(styles.headerItem, { [styles.headerItemClickable]: clickable })}>
+const DashboardHeaderItem = ({ title, content, clickable, labelAccessory }) => (
+  <div
+    className={classNames(styles.headerItem, {
+      [styles.headerItemClickable]: clickable,
+    })}
+  >
     <div>
       {title}
       {labelAccessory && (
-        <span className={styles.labelAccessory}>
-          {labelAccessory}
-        </span>
+        <span className={styles.labelAccessory}>{labelAccessory}</span>
       )}
     </div>
     <div>

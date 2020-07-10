@@ -76,15 +76,18 @@ const getDefaultState = () => ({
   alert: undefined,
 });
 
-const setInitialState = (state, {
-  context,
-  settings = {
-    filterOptions: defaultFilterOptions,
-    templateAdditionalOptions: defaultTemplateAdditionalOptions,
-    sortOrder: defaultSortingOption.sortOrder,
-    orderBy: defaultSortingOption.orderBy,
-  },
-}) => ({
+const setInitialState = (
+  state,
+  {
+    context,
+    settings = {
+      filterOptions: defaultFilterOptions,
+      templateAdditionalOptions: defaultTemplateAdditionalOptions,
+      sortOrder: defaultSortingOption.sortOrder,
+      orderBy: defaultSortingOption.orderBy,
+    },
+  }
+) => ({
   ...state,
   ...context,
   filterOptions: {
@@ -153,23 +156,23 @@ const updateEmailOption = (state, { key, value }) => ({
   },
 });
 
-const isAllSelected = entries => entries.every(entry => entry.isSelected);
+const isAllSelected = (entries) => entries.every((entry) => entry.isSelected);
 
 const toggleAllCustomerStatements = (state) => {
   const isSelected = !isAllSelected(state.customerStatements);
 
   return {
     ...state,
-    customerStatements: state.customerStatements.map(customerStatement => ({
+    customerStatements: state.customerStatements.map((customerStatement) => ({
       ...customerStatement,
       isSelected,
     })),
   };
 };
 
-const unselectAllCustomerStatements = state => ({
+const unselectAllCustomerStatements = (state) => ({
   ...state,
-  customerStatements: state.customerStatements.map(customerStatement => ({
+  customerStatements: state.customerStatements.map((customerStatement) => ({
     ...customerStatement,
     isSelected: false,
   })),
@@ -177,12 +180,14 @@ const unselectAllCustomerStatements = state => ({
 
 const selectCustomerStatement = (state, { index }) => ({
   ...state,
-  customerStatements: state.customerStatements.map((customerStatement, i) => (index === i
-    ? ({
-      ...customerStatement,
-      isSelected: !customerStatement.isSelected,
-    })
-    : customerStatement)),
+  customerStatements: state.customerStatements.map((customerStatement, i) =>
+    index === i
+      ? {
+          ...customerStatement,
+          isSelected: !customerStatement.isSelected,
+        }
+      : customerStatement
+  ),
 });
 
 const setSortOrder = (state, action) => ({
@@ -235,7 +240,7 @@ const openModal = (state, { type }) => ({
   },
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modal: undefined,
   selectedTemplateOption: '',
@@ -252,7 +257,7 @@ const setIsDownloadingDefaultPDF = (state, { isDownloadingDefaultPDF }) => ({
   isDownloadingDefaultPDF,
 });
 
-const handlers = ({
+const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_ARE_ACTIONS_DISABLED]: setAreActionsDisabled,
@@ -274,6 +279,6 @@ const handlers = ({
   [SELECT_CUSTOMER_STATEMENT]: selectCustomerStatement,
   [SET_SORT_ORDER]: setSortOrder,
   [SET_IS_DOWNLOADING_DEFAULT_PDF]: setIsDownloadingDefaultPDF,
-});
+};
 
 export default createReducer(getDefaultState, handlers);

@@ -107,7 +107,7 @@ const openModal = (state, { modalType }) => ({
   modalType,
 });
 
-const closeModal = state => ({
+const closeModal = (state) => ({
   ...state,
   modalType: '',
 });
@@ -122,7 +122,7 @@ const setDocumentViewerUrl = (state, action) => ({
   documentViewerUrl: action.documentViewerUrl,
 });
 
-const unsetDocumentViewerUrl = state => ({
+const unsetDocumentViewerUrl = (state) => ({
   ...state,
   documentViewerUrl: undefined,
 });

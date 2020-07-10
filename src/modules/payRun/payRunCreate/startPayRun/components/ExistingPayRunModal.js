@@ -32,37 +32,56 @@ const ExistingPayRunModal = ({
   >
     <Modal.Body>
       <Alert type="warning">
-          Looks like you&#39;ve got a pay run in progress.
-          When you create this new pay run, the unfinished one will be discarded.
+        Looks like you&#39;ve got a pay run in progress. When you create this
+        new pay run, the unfinished one will be discarded.
       </Alert>
 
       <FormHorizontal>
-        <ReadOnly name="PayPeriodStart" label="Pay period start">{formatSlashDate(payPeriodStart)}</ReadOnly>
-        <ReadOnly name="PayPeriodEnd" label="Pay period end">{formatSlashDate(payPeriodEnd)}</ReadOnly>
-        <ReadOnly name="DateOfPayment" label="Date of payment">{formatSlashDate(dateOfPayment)}</ReadOnly>
+        <ReadOnly name="PayPeriodStart" label="Pay period start">
+          {formatSlashDate(payPeriodStart)}
+        </ReadOnly>
+        <ReadOnly name="PayPeriodEnd" label="Pay period end">
+          {formatSlashDate(payPeriodEnd)}
+        </ReadOnly>
+        <ReadOnly name="DateOfPayment" label="Date of payment">
+          {formatSlashDate(dateOfPayment)}
+        </ReadOnly>
       </FormHorizontal>
-
     </Modal.Body>
     <div className={styles.existingPayRunModalButtons}>
       <ButtonRow
         secondary={[
-          <Button key="goBackButton" type="secondary" onClick={onGoBackButtonClick}>
-              Go Back
+          <Button
+            key="goBackButton"
+            type="secondary"
+            onClick={onGoBackButtonClick}
+          >
+            Go Back
           </Button>,
         ]}
         primary={[
-          <Button key="editExistingPayRunButton" type="secondary" onClick={onEditExistingPayRunClick}>
-              Edit existing pay run
+          <Button
+            key="editExistingPayRunButton"
+            type="secondary"
+            onClick={onEditExistingPayRunClick}
+          >
+            Edit existing pay run
           </Button>,
-          <Button key="createPayRunButton" testid="createPayRunButton" type="primary" onClick={onCreatePayRunClick}>
-              Create pay run
+          <Button
+            key="createPayRunButton"
+            testid="createPayRunButton"
+            type="primary"
+            onClick={onCreatePayRunClick}
+          >
+            Create pay run
           </Button>,
         ]}
       />
     </div>
-  </Modal>);
+  </Modal>
+);
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   payPeriodStart: getPayPeriodStart(state),
   payPeriodEnd: getPayPeriodEnd(state),
   dateOfPayment: getDateOfPayment(state),

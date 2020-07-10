@@ -13,7 +13,11 @@ import {
   UPDATE_INCOME_ALLOCATION_LINE,
 } from './IncomeAllocationIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import { getBusinessId, getIncomeAllocationSavePayload, getLoadingState } from './IncomeAllocationSelectors';
+import {
+  getBusinessId,
+  getIncomeAllocationSavePayload,
+  getLoadingState,
+} from './IncomeAllocationSelectors';
 import IncomeAllocationView from './components/IncomeAllocationView';
 import LoadingState from '../../components/PageView/LoadingState';
 import Store from '../../store/Store';
@@ -34,7 +38,10 @@ export default class IncomeAllocationModule {
     this.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = ({
-      incomeAllocation, newLine, accounts, entityTypes,
+      incomeAllocation,
+      newLine,
+      accounts,
+      entityTypes,
     }) => {
       this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
@@ -56,7 +63,7 @@ export default class IncomeAllocationModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   setLoadingState = (loadingState) => {
     const intent = SET_LOADING_STATE;
@@ -65,7 +72,7 @@ export default class IncomeAllocationModule {
       intent,
       loadingState,
     });
-  }
+  };
 
   updateEntityType = (value) => {
     const intent = UPDATE_ENTITY_TYPE;
@@ -74,7 +81,7 @@ export default class IncomeAllocationModule {
       intent,
       entityType: value,
     });
-  }
+  };
 
   updateIncomeAllocationLine = (lineIndex, lineKey, lineValue) => {
     const intent = UPDATE_INCOME_ALLOCATION_LINE;
@@ -85,7 +92,7 @@ export default class IncomeAllocationModule {
       lineKey,
       lineValue,
     });
-  }
+  };
 
   addIncomeAllocationLine = (partialLine) => {
     const intent = ADD_INCOME_ALLOCATION_LINE;
@@ -94,7 +101,7 @@ export default class IncomeAllocationModule {
       intent,
       line: partialLine,
     });
-  }
+  };
 
   deleteIncomeAllocationLine = (index) => {
     const intent = DELETE_INCOME_ALLOCATION_LINE;
@@ -103,7 +110,7 @@ export default class IncomeAllocationModule {
       intent,
       index,
     });
-  }
+  };
 
   formatIncomeAllocationLine = (index) => {
     const intent = FORMAT_INCOME_ALLOCATION_LINE;
@@ -112,7 +119,7 @@ export default class IncomeAllocationModule {
       intent,
       index,
     });
-  }
+  };
 
   setAlert = ({ message, type }) => {
     const intent = SET_ALERT;
@@ -124,7 +131,7 @@ export default class IncomeAllocationModule {
         type,
       },
     });
-  }
+  };
 
   dismissAlert = () => {
     const intent = SET_ALERT;
@@ -133,7 +140,7 @@ export default class IncomeAllocationModule {
       intent,
       alert: undefined,
     });
-  }
+  };
 
   saveIncomeAllocation = () => {
     const state = this.store.getState();
@@ -174,7 +181,7 @@ export default class IncomeAllocationModule {
     });
 
     this.setLoadingState(LoadingState.LOADING);
-  }
+  };
 
   render = () => {
     const incomeAllocationView = (
@@ -190,31 +197,29 @@ export default class IncomeAllocationModule {
     );
 
     const wrappedView = (
-      <Provider store={this.store}>
-        {incomeAllocationView}
-      </Provider>
+      <Provider store={this.store}>{incomeAllocationView}</Provider>
     );
 
     this.setRootView(wrappedView);
-  }
+  };
 
   resetState = () => {
     const intent = RESET_STATE;
     this.store.dispatch({
       intent,
     });
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   setInitialState = (context) => {
     this.store.dispatch({
       intent: SET_INITIAL_STATE,
       context,
     });
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveIncomeAllocation,
@@ -225,5 +230,5 @@ export default class IncomeAllocationModule {
     this.render();
     setupHotKeys(keyMap, this.handlers);
     this.loadIncomeAllocation();
-  }
+  };
 }

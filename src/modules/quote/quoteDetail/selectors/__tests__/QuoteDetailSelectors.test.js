@@ -35,7 +35,8 @@ describe('QuoteDetailSelectors', () => {
           amountPaid: '10.00',
           isTaxInclusive: true,
           quoteNumber: '0000012334563456',
-          address: 'Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia',
+          address:
+            'Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia',
           issueDate: '2018-11-02',
           purchaseOrderNumber: '123',
           note: 'Thank you!',
@@ -90,7 +91,8 @@ describe('QuoteDetailSelectors', () => {
 
       const expected = {
         contactId: '3',
-        address: 'Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia',
+        address:
+          'Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia',
         quoteNumber: '0000012334563456',
         purchaseOrderNumber: '123',
         issueDate: '2018-11-02',
@@ -164,7 +166,8 @@ describe('QuoteDetailSelectors', () => {
   describe('getAccountModalContext', () => {
     it('returns region and businesID from state', () => {
       const contextState = {
-        region: 'Spain', businessId: 'manzana',
+        region: 'Spain',
+        businessId: 'manzana',
       };
 
       const actual = getAccountModalContext(contextState);
@@ -182,7 +185,10 @@ describe('QuoteDetailSelectors', () => {
       };
       const expected = [option2, option1];
 
-      const actual = getUpdatedContactOptions({ contactOptions: [option1] }, option2);
+      const actual = getUpdatedContactOptions(
+        { contactOptions: [option1] },
+        option2
+      );
 
       expect(actual).toEqual(expected);
     });
@@ -195,7 +201,10 @@ describe('QuoteDetailSelectors', () => {
       };
       const expected = [option2];
 
-      const actual = getUpdatedContactOptions({ contactOptions: [option1] }, option2);
+      const actual = getUpdatedContactOptions(
+        { contactOptions: [option1] },
+        option2
+      );
 
       expect(actual).toEqual(expected);
     });
@@ -205,10 +214,7 @@ describe('QuoteDetailSelectors', () => {
     it('should calculate tax when at least one line has tax code', () => {
       const state = {
         quote: {
-          lines: [
-            { taxCodeId: '4' },
-            { taxCodeId: '' },
-          ],
+          lines: [{ taxCodeId: '4' }, { taxCodeId: '' }],
         },
       };
 
@@ -220,10 +226,7 @@ describe('QuoteDetailSelectors', () => {
     it('should not calculate tax when no line has tax code', () => {
       const state = {
         quote: {
-          lines: [
-            { taxCodeId: '' },
-            { taxCodeId: '' },
-          ],
+          lines: [{ taxCodeId: '' }, { taxCodeId: '' }],
         },
       };
 
@@ -303,7 +306,11 @@ describe('QuoteDetailSelectors', () => {
 
       const actual = getQuoteLine.resultFunc(newLine, line);
 
-      expect(actual).toEqual({ type: QuoteLineType.SUB_TOTAL, description: 'Subtotal', amount: '10' });
+      expect(actual).toEqual({
+        type: QuoteLineType.SUB_TOTAL,
+        description: 'Subtotal',
+        amount: '10',
+      });
     });
   });
 
@@ -313,17 +320,20 @@ describe('QuoteDetailSelectors', () => {
       [QuoteLineType.ITEM, true],
       [QuoteLineType.HEADER, false],
       [QuoteLineType.SUB_TOTAL, false],
-    ])('validate whether invoice with %s line type are supported', (type, expected) => {
-      const lines = [
-        { type: QuoteLineType.SERVICE },
-        { type: QuoteLineType.ITEM },
-        { type },
-      ];
+    ])(
+      'validate whether invoice with %s line type are supported',
+      (type, expected) => {
+        const lines = [
+          { type: QuoteLineType.SERVICE },
+          { type: QuoteLineType.ITEM },
+          { type },
+        ];
 
-      const actual = getIsLinesSupported.resultFunc(lines);
+        const actual = getIsLinesSupported.resultFunc(lines);
 
-      expect(actual).toEqual(expected);
-    });
+        expect(actual).toEqual(expected);
+      }
+    );
   });
 
   describe('getIsReadOnly', () => {
@@ -376,15 +386,36 @@ describe('QuoteDetailSelectors', () => {
 
   describe('getReadOnlyMessage', () => {
     it.each([
-      [false, 'Blah', false, 'This quote is missing information because the Blah quote layout isn\'t supported in the browser. Switch to AccountRight desktop to use this feature.'],
-      [true, '', false, 'This quote is read only because it contains unsupported features. Switch to AccountRight desktop to edit this quote.'],
-      [true, '', true, 'This quote is read only because freight isn\'t supported in the browser. Switch to AccountRight desktop to edit this quote.'],
-    ])('isLayoutSupported %s, layout %s, hasFreight %s', (isLayoutSupported, layout, hasFreight, message) => {
-      const actual = getReadOnlyMessage.resultFunc(isLayoutSupported, layout, hasFreight);
+      [
+        false,
+        'Blah',
+        false,
+        "This quote is missing information because the Blah quote layout isn't supported in the browser. Switch to AccountRight desktop to use this feature.",
+      ],
+      [
+        true,
+        '',
+        false,
+        'This quote is read only because it contains unsupported features. Switch to AccountRight desktop to edit this quote.',
+      ],
+      [
+        true,
+        '',
+        true,
+        "This quote is read only because freight isn't supported in the browser. Switch to AccountRight desktop to edit this quote.",
+      ],
+    ])(
+      'isLayoutSupported %s, layout %s, hasFreight %s',
+      (isLayoutSupported, layout, hasFreight, message) => {
+        const actual = getReadOnlyMessage.resultFunc(
+          isLayoutSupported,
+          layout,
+          hasFreight
+        );
 
-      expect(actual)
-        .toEqual(message);
-    });
+        expect(actual).toEqual(message);
+      }
+    );
   });
 
   describe('getShowExportPdfButton', () => {
@@ -450,7 +481,8 @@ describe('QuoteDetailSelectors', () => {
       ['2014-07-01', '2014-07-01', false],
       ['2014-07-01', '2014-07-02', false],
       ['2014-07-01', '2015-01-01', false],
-    ])('when start of financial year date is %s and issue date is %s, should return %s',
+    ])(
+      'when start of financial year date is %s and issue date is %s, should return %s',
       (startOfFinancialYearDate, issueDate, expected) => {
         const state = {
           quote: {
@@ -462,7 +494,8 @@ describe('QuoteDetailSelectors', () => {
         const actual = getIsBeforeStartOfFinancialYear(state);
 
         expect(actual).toEqual(expected);
-      });
+      }
+    );
   });
 
   describe('getFreightInfo', () => {

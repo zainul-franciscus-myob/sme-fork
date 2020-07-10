@@ -1,8 +1,4 @@
-import {
-  Dropdown,
-  Icons,
-  PageHead,
-} from '@myob/myob-widgets';
+import { Dropdown, Icons, PageHead } from '@myob/myob-widgets';
 import React from 'react';
 
 import BankingRuleTypes from '../BankingRuleTypes';
@@ -35,12 +31,12 @@ const BankingRuleListPageHead = ({ onSelectBankingRule }) => (
     <Dropdown
       onSelect={onSelectBankingRule}
       items={items}
-      toggle={(
+      toggle={
         <Dropdown.Toggle type="primary">
           Create rule
           <Icons.Caret />
         </Dropdown.Toggle>
-      )}
+      }
     />
   </PageHead>
 );

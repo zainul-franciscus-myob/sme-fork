@@ -21,9 +21,7 @@ const description = {
     'The image will be changed for all templates using the "Full width header image" PDF style.',
 };
 
-const ImageModal = ({
-  type, onConfirmSave, onConfirmUnsave, onCloseModal,
-}) => (
+const ImageModal = ({ type, onConfirmSave, onConfirmUnsave, onCloseModal }) => (
   <Modal title={title[type]} size="small" onCancel={onCloseModal} canClose>
     <Modal.Body>{description[type]}</Modal.Body>
     <Modal.Footer>

@@ -1,6 +1,4 @@
-import {
-  BaseTemplate, Button, ButtonRow,
-} from '@myob/myob-widgets';
+import { BaseTemplate, Button, ButtonRow } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -43,7 +41,9 @@ const TerminationView = ({
 
   const actions = (
     <ButtonRow>
-      <Button type="primary" onClick={onTerminateEmployees}>Notify the ATO</Button>
+      <Button type="primary" onClick={onTerminateEmployees}>
+        Notify the ATO
+      </Button>
     </ButtonRow>
   );
 
@@ -62,7 +62,7 @@ const TerminationView = ({
   return <PageView loadingState={loadingState} view={page} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   isTableLoading: getIsTableLoading(state),
   payrollYears: getPayrollYears(state),

@@ -28,7 +28,11 @@ import employeeDetailNzReducer from './employeeDetailNzReducer';
 
 export default class EmployeeDetailNzModule {
   constructor({
-    setRootView, integration, replaceURLParams, pushMessage, popMessages,
+    setRootView,
+    integration,
+    replaceURLParams,
+    pushMessage,
+    popMessages,
   }) {
     this.setRootView = setRootView;
     this.integration = integration;
@@ -37,7 +41,10 @@ export default class EmployeeDetailNzModule {
     this.popMessages = popMessages;
     this.store = new Store(employeeDetailNzReducer);
     this.dispatcher = employeeDetailNzDispatcher({ store: this.store });
-    this.integrator = employeeDetailNzIntegrator({ store: this.store, integration });
+    this.integrator = employeeDetailNzIntegrator({
+      store: this.store,
+      integration,
+    });
     this.subModules = {
       contactDetails: new ContactDetailsNzTabModule({ store: this.store }),
       employmentDetails: new EmploymentDetailsNzModule({ store: this.store }),
@@ -49,11 +56,11 @@ export default class EmployeeDetailNzModule {
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
-  updateURLFromState = state => this.replaceURLParams(getURLParams(state));
+  updateURLFromState = (state) => this.replaceURLParams(getURLParams(state));
 
-  setInitialState = context => this.dispatcher.setInitialState(context);
+  setInitialState = (context) => this.dispatcher.setInitialState(context);
 
   resetState = () => this.dispatcher.resetState();
 
@@ -72,31 +79,35 @@ export default class EmployeeDetailNzModule {
   setMainTab = (mainTab) => {
     this.dispatcher.setMainTab(mainTab);
     this.replaceURLParams(getURLParams(this.store.getState()));
-  }
+  };
 
   setSubTab = (mainTab, subTab) => {
     this.dispatcher.setSubTab(mainTab, subTab);
     this.replaceURLParams({ mainTab, subTab });
-  }
+  };
 
   render() {
-    const employeeDetailNzView = <EmployeeDetailsNzView
-      tabItems={tabItems}
-      subModules={this.subModules}
-      onMainTabSelected={this.setMainTab}
-      onSubTabSelected={this.setSubTab}
-      onCancelButtonClick={this.onCancelButtonClick}
-      onSaveButtonClick={this.onSaveButtonClick}
-      onDeleteButtonClick={this.onDeleteButtonClick}
-      onDismissAlertClick={this.dispatcher.dismissAlert}
-      confirmModalListeners={{
-        onConfirmClose: this.dispatcher.closeModal,
-        onConfirmCancel: this.redirectToModalUrl,
-        onConfirmDelete: this.deleteEmployee,
-        onConfirmSave: this.saveUnsavedChanges,
-      }}
-    />;
-    const wrappedView = <Provider store={this.store}>{employeeDetailNzView}</Provider>;
+    const employeeDetailNzView = (
+      <EmployeeDetailsNzView
+        tabItems={tabItems}
+        subModules={this.subModules}
+        onMainTabSelected={this.setMainTab}
+        onSubTabSelected={this.setSubTab}
+        onCancelButtonClick={this.onCancelButtonClick}
+        onSaveButtonClick={this.onSaveButtonClick}
+        onDeleteButtonClick={this.onDeleteButtonClick}
+        onDismissAlertClick={this.dispatcher.dismissAlert}
+        confirmModalListeners={{
+          onConfirmClose: this.dispatcher.closeModal,
+          onConfirmCancel: this.redirectToModalUrl,
+          onConfirmDelete: this.deleteEmployee,
+          onConfirmSave: this.saveUnsavedChanges,
+        }}
+      />
+    );
+    const wrappedView = (
+      <Provider store={this.store}>{employeeDetailNzView}</Provider>
+    );
     this.setRootView(wrappedView);
   }
 
@@ -115,7 +126,7 @@ export default class EmployeeDetailNzModule {
     };
 
     this.integrator.createOrSaveEmployeeDetails({ onSuccess, onFailure });
-  }
+  };
 
   onSaveButtonClick = () => {
     const onSuccess = (response) => {
@@ -162,7 +173,7 @@ export default class EmployeeDetailNzModule {
     }
   };
 
-  openUnsavedModal = url => {
+  openUnsavedModal = (url) => {
     this.dispatcher.openModal({ type: ModalTypes.UNSAVED, url });
   };
 
@@ -191,7 +202,7 @@ export default class EmployeeDetailNzModule {
     this.redirectToUrl(url);
   };
 
-  redirectToUrl = url => {
+  redirectToUrl = (url) => {
     if (url) window.location.href = url;
   };
 
@@ -203,16 +214,13 @@ export default class EmployeeDetailNzModule {
   redirectWithEmployeeId = (employeeId) => {
     const { businessId, region } = this.store.getState();
     this.redirectToUrl(`/#/${region}/${businessId}/employee/${employeeId}`);
-  }
-
+  };
 
   readMessages = () => {
-    const [inboxMessage] = this.popMessages(
-      [
-        SUCCESSFULLY_DELETED_NZ_EMPLOYEE,
-        SUCCESSFULLY_SAVED_NZ_EMPLOYEE,
-      ],
-    );
+    const [inboxMessage] = this.popMessages([
+      SUCCESSFULLY_DELETED_NZ_EMPLOYEE,
+      SUCCESSFULLY_SAVED_NZ_EMPLOYEE,
+    ]);
 
     if (inboxMessage) {
       this.dispatcher.setAlert({

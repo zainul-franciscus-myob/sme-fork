@@ -16,7 +16,10 @@ export default class ElectronicPaymentsReadModule {
     this.integration = integration;
     this.pushMessage = pushMessage;
     this.store = new Store(electronicPaymentReadReducer);
-    this.integrator = createElectronicPaymentsReadIntegrator(this.store, this.integration);
+    this.integrator = createElectronicPaymentsReadIntegrator(
+      this.store,
+      this.integration
+    );
     this.dispatcher = createElectronicPaymentsReadDispatcher(this.store);
   }
 

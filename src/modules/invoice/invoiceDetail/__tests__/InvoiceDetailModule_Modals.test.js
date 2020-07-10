@@ -30,7 +30,11 @@ describe('InvoiceDetailModule_Modals', () => {
           },
         });
 
-        module.run({ invoiceId: 'invoiceId', businessId: 'businessId', region: 'au' });
+        module.run({
+          invoiceId: 'invoiceId',
+          businessId: 'businessId',
+          region: 'au',
+        });
         module.saveAndEmailInvoice(); // open email settings modal and not fill out Reply-to email
         store.resetActions();
         integration.resetRequests();
@@ -50,11 +54,21 @@ describe('InvoiceDetailModule_Modals', () => {
 
       it('successfully saves email settings and open the email invoice modal', () => {
         const { module, store, integration } = setup();
-        integration.mapSuccess(LOAD_INVOICE_DETAIL, invoiceDetailWithNoEmailDetails);
+        integration.mapSuccess(
+          LOAD_INVOICE_DETAIL,
+          invoiceDetailWithNoEmailDetails
+        );
 
-        module.run({ invoiceId: 'invoiceId', businessId: 'businessId', region: 'au' });
+        module.run({
+          invoiceId: 'invoiceId',
+          businessId: 'businessId',
+          region: 'au',
+        });
         module.saveAndEmailInvoice(); // open email settings modal
-        module.updateEmailInvoiceDetail({ key: 'fromEmail', value: 'romeo@meow.com' }); // fill out fromEmail
+        module.updateEmailInvoiceDetail({
+          key: 'fromEmail',
+          value: 'romeo@meow.com',
+        }); // fill out fromEmail
         store.resetActions();
         integration.resetRequests();
 
@@ -96,12 +110,22 @@ describe('InvoiceDetailModule_Modals', () => {
 
       it('fails to save email settings and shows alert on email settings modal', () => {
         const { module, store, integration } = setup();
-        integration.mapSuccess(LOAD_INVOICE_DETAIL, invoiceDetailWithNoEmailDetails);
+        integration.mapSuccess(
+          LOAD_INVOICE_DETAIL,
+          invoiceDetailWithNoEmailDetails
+        );
         integration.mapFailure(SAVE_EMAIL_SETTINGS, { message: 'failed' });
 
-        module.run({ invoiceId: 'invoiceId', businessId: 'businessId', region: 'au' });
+        module.run({
+          invoiceId: 'invoiceId',
+          businessId: 'businessId',
+          region: 'au',
+        });
         module.saveAndEmailInvoice(); // open email settings modal
-        module.updateEmailInvoiceDetail({ key: 'fromEmail', value: 'romeo@meow.com' }); // fill out fromEmail
+        module.updateEmailInvoiceDetail({
+          key: 'fromEmail',
+          value: 'romeo@meow.com',
+        }); // fill out fromEmail
         store.resetActions();
         integration.resetRequests();
 

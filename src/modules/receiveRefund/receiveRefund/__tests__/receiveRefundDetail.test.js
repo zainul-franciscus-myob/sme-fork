@@ -12,7 +12,7 @@ describe('receiveRefundDetail', () => {
     const wrapper = mount(
       <Provider store={store}>
         <ReceiveRefundDetail />
-      </Provider>,
+      </Provider>
     );
     const referenceIdInput = wrapper.find({ name: 'referenceId' }).first();
     expect(referenceIdInput.prop('maxLength')).toBe(13);

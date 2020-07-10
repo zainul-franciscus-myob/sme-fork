@@ -1,6 +1,4 @@
-import {
-  Input,
-} from '@myob/myob-widgets';
+import { Input } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -14,7 +12,7 @@ import AbnInput from '../../../../../../../components/autoFormatter/AbnInput/Abn
 import SuperFundProductCombobox from '../SuperFundProductCombobox';
 import handleInputChange from '../../../../../../../components/handlers/handleInputChange';
 
-const onInputChange = handler => (e) => {
+const onInputChange = (handler) => (e) => {
   const { value, name } = e.target;
   handler({ key: name, value });
 };
@@ -22,10 +20,7 @@ const onInputChange = handler => (e) => {
 const SuperFundAPRADetail = ({
   superFund,
   isAbnLoading,
-  superFundModalListeners: {
-    onUpdateSuperFundDetail,
-    onSelectSuperFund,
-  },
+  superFundModalListeners: { onUpdateSuperFundDetail, onSelectSuperFund },
   superProducts,
   abnIsDisabled,
 }) => (
@@ -47,7 +42,12 @@ const SuperFundAPRADetail = ({
       disabled={isAbnLoading}
       requiredLabel="Name is required"
     />
-    <Input label="SPIN/USI" name="usi" value={superFund.superProductId} disabled />
+    <Input
+      label="SPIN/USI"
+      name="usi"
+      value={superFund.superProductId}
+      disabled
+    />
     <AbnInput
       name="superProductAbn"
       label="Fund ABN"
@@ -64,7 +64,7 @@ const SuperFundAPRADetail = ({
   </>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   superFund: getSuperFund(state),
   superProducts: getSuperProducts(state),
   isAbnLoading: getIsAbnLoading(state),

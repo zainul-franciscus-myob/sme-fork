@@ -11,7 +11,7 @@ import {
 } from '../InvoiceIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createInvoiceListDispatcher = store => ({
+const createInvoiceListDispatcher = (store) => ({
   setInitialState: (context, settings) => {
     store.dispatch({
       intent: SET_INITIAL_STATE,

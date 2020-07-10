@@ -46,7 +46,6 @@ const createAtoSettingsIntegrator = (store, integration) => ({
     });
   },
 
-
   updateBusinessContact: ({ onSuccess, onFailure }) => {
     const state = store.getState();
     const urlParams = {

@@ -1,13 +1,11 @@
-import {
-  Alert,
-  Button,
-  PageHead,
-} from '@myob/myob-widgets';
+import { Alert, Button, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsLoading, getLoadMoreButtonStatus,
+  getAlert,
+  getIsLoading,
+  getLoadMoreButtonStatus,
 } from '../itemListSelectors';
 import ItemListFilterOptions from './ItemListFilterOptions';
 import ItemListTableBody from './ItemListTableBody';
@@ -44,23 +42,26 @@ const ItemListView = ({
     </Alert>
   );
 
-  const filterBar = (
-    <ItemListFilterOptions
-      onUpdateFilters={onUpdateFilters}
-    />
-  );
+  const filterBar = <ItemListFilterOptions onUpdateFilters={onUpdateFilters} />;
 
   const itemListView = (
     <PaginatedListTemplate
       alert={alertComponent}
-      pageHead={(
+      pageHead={
         <PageHead title="Items">
           <Button onClick={onCreateItem}>Create item</Button>
         </PageHead>
-      )}
+      }
       filterBar={filterBar}
-      tableHeader={<ItemListTableHeader tableConfig={tableConfig} onSort={onSort} />}
-      listTable={<ItemListTableBody tableConfig={tableConfig} onCreateItem={onCreateItem} />}
+      tableHeader={
+        <ItemListTableHeader tableConfig={tableConfig} onSort={onSort} />
+      }
+      listTable={
+        <ItemListTableBody
+          tableConfig={tableConfig}
+          onCreateItem={onCreateItem}
+        />
+      }
       onLoadMoreButtonClick={onLoadMoreButtonClick}
       loadMoreButtonStatus={loadMoreButtonStatus}
     />
@@ -69,7 +70,7 @@ const ItemListView = ({
   return <PageView isLoading={isLoading} view={itemListView} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alert: getAlert(state),
   isLoading: getIsLoading(state),
   loadMoreButtonStatus: getLoadMoreButtonStatus(state),

@@ -13,12 +13,13 @@ import {
 } from '../JobIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createJobDetailDispatcher = store => ({
-  setInitialState: context => store.dispatch({ intent: SET_INITIAL_STATE, context }),
+const createJobDetailDispatcher = (store) => ({
+  setInitialState: (context) =>
+    store.dispatch({ intent: SET_INITIAL_STATE, context }),
 
   resetState: () => store.dispatch({ intent: RESET_STATE }),
 
-  openModal: modal => store.dispatch({ intent: OPEN_MODAL, modal }),
+  openModal: (modal) => store.dispatch({ intent: OPEN_MODAL, modal }),
 
   closeModal: () => store.dispatch({ intent: CLOSE_MODAL }),
 
@@ -36,27 +37,32 @@ const createJobDetailDispatcher = store => ({
     });
   },
 
-  dismissAlert: () => store.dispatch({
-    intent: SET_ALERT_MESSAGE,
-    alertMessage: '',
-  }),
+  dismissAlert: () =>
+    store.dispatch({
+      intent: SET_ALERT_MESSAGE,
+      alertMessage: '',
+    }),
 
-  displayAlert: errorMessage => store.dispatch({
-    intent: SET_ALERT_MESSAGE,
-    alertMessage: errorMessage,
-  }),
+  displayAlert: (errorMessage) =>
+    store.dispatch({
+      intent: SET_ALERT_MESSAGE,
+      alertMessage: errorMessage,
+    }),
 
-  setAlert: ({ type, message }) => store.dispatch({ intent: SET_ALERT, alert: { type, message } }),
+  setAlert: ({ type, message }) =>
+    store.dispatch({ intent: SET_ALERT, alert: { type, message } }),
 
-  loadJobDetail: content => store.dispatch({
-    intent: LOAD_JOB_DETAIL,
-    ...content,
-  }),
+  loadJobDetail: (content) =>
+    store.dispatch({
+      intent: LOAD_JOB_DETAIL,
+      ...content,
+    }),
 
-  loadNewJob: content => store.dispatch({
-    intent: LOAD_NEW_JOB,
-    ...content,
-  }),
+  loadNewJob: (content) =>
+    store.dispatch({
+      intent: LOAD_NEW_JOB,
+      ...content,
+    }),
 
   updateJobDetails: ({ key, value }) => {
     store.dispatch({
@@ -66,13 +72,18 @@ const createJobDetailDispatcher = store => ({
     });
   },
 
-  setCustomerLoadingState: isCustomerLoading => store.dispatch({
-    intent: SET_CUSTOMER_LOADING_STATE, isCustomerLoading,
-  }),
+  setCustomerLoadingState: (isCustomerLoading) =>
+    store.dispatch({
+      intent: SET_CUSTOMER_LOADING_STATE,
+      isCustomerLoading,
+    }),
 
-  loadCustomerAfterCreate: (customerId, payload) => store.dispatch({
-    intent: LOAD_CUSTOMER_AFTER_CREATE, customerId, ...payload,
-  }),
+  loadCustomerAfterCreate: (customerId, payload) =>
+    store.dispatch({
+      intent: LOAD_CUSTOMER_AFTER_CREATE,
+      customerId,
+      ...payload,
+    }),
 });
 
 export default createJobDetailDispatcher;

@@ -18,7 +18,9 @@ const PayrollDetailSuperannuation = ({
   onAddPayItemComboBlur,
 }) => (
   <>
-    { superFundModal && <SuperFundModal superFundModalListeners={superFundModalListeners} />}
+    {superFundModal && (
+      <SuperFundModal superFundModalListeners={superFundModalListeners} />
+    )}
     <PayrollDetailSuperannuationDetails
       onUpdatePayrollDetailSuperannuationDetails={
         onUpdatePayrollDetailSuperannuationDetails
@@ -36,7 +38,7 @@ const PayrollDetailSuperannuation = ({
   </>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   superFundModal: getSuperFundModal(state),
 });
 

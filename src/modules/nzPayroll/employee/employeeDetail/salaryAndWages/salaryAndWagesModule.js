@@ -7,10 +7,14 @@ export default class SalaryAndWagesModule {
   constructor({ store } = {}) {
     this.dispatcher = salaryAndWageDispatcher(store);
 
-    this.view = <SalaryAndWagesTabView onWageDetailsChange={this.dispatcher.updateWageDetail} />;
+    this.view = (
+      <SalaryAndWagesTabView
+        onWageDetailsChange={this.dispatcher.updateWageDetail}
+      />
+    );
   }
 
   getView() {
-    return (this.view);
+    return this.view;
   }
 }

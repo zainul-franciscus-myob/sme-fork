@@ -1,6 +1,4 @@
-import {
-  Button, Icons, TotalsHeader,
-} from '@myob/myob-widgets';
+import { Button, Icons, TotalsHeader } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -17,25 +15,23 @@ const BillHeader = ({
   isCreating,
   pageTitle,
   amountPaid,
-  totals: {
-    totalAmount,
-  },
+  totals: { totalAmount },
   amountDue,
   onCreatePaymentClick,
 }) => {
   const actions = [
-    <Button key="createPayment" type="link" icon={<Icons.Dollar />} onClick={onCreatePaymentClick}>
+    <Button
+      key="createPayment"
+      type="link"
+      icon={<Icons.Dollar />}
+      onClick={onCreatePaymentClick}
+    >
       Create payment
     </Button>,
   ];
 
   if (isCreating) {
-    return (
-      <TotalsHeader
-        title={pageTitle}
-        totalItems={[]}
-      />
-    );
+    return <TotalsHeader title={pageTitle} totalItems={[]} />;
   }
 
   return (
@@ -63,13 +59,12 @@ const BillHeader = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isCreating: getIsCreating(state),
   pageTitle: getPageTitle(state),
   amountDue: getAmountDue(state),
   amountPaid: getAmountPaid(state),
   totals: getTotals(state),
 });
-
 
 export default connect(mapStateToProps)(BillHeader);

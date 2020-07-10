@@ -45,21 +45,22 @@ const getDefaultState = () => ({
   accountId: '',
 });
 
-
 const setInitialState = (state, action) => ({
   ...getDefaultState(),
   ...action.context,
   isOpen: true,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const pageEdited = { isPageEdited: true };
 
 const loadNewAccountModal = (state, action) => {
-  const classification = action.accountClassifications.find(
-    accountClass => accountClass.value === action.account.accountClassification,
-  ) || {};
+  const classification =
+    action.accountClassifications.find(
+      (accountClass) =>
+        accountClass.value === action.account.accountClassification
+    ) || {};
 
   return {
     ...state,
@@ -104,7 +105,7 @@ const updateNonFlexAccountNumber = (state, action) => {
   const { accountNumberPrefix } = state.readonly;
   const startsWithPrefix = value.startsWith(accountNumberPrefix);
   const onlyNumeric = new RegExp('^[0-9]*$').test(
-    value.substr(accountNumberPrefix.length),
+    value.substr(accountNumberPrefix.length)
   );
   const maxLength = value.length <= accountNumberPrefix.length + 4;
   return startsWithPrefix && onlyNumeric && maxLength
@@ -125,7 +126,7 @@ const padAccountNumber = (state, action) => {
   const { accountNumberPrefix } = state.readonly;
   const autoCompletedNumber = action.value.padEnd(
     accountNumberPrefix.length + 4,
-    '0',
+    '0'
   );
   return updateAccountDetails(state, { ...action, value: autoCompletedNumber });
 };
@@ -144,7 +145,7 @@ const updateBankingDetails = (state, action) => ({
 
 const getNewParentAccountId = (state, accountClassification) => {
   const currentHeader = state.headerAccounts.find(
-    ({ id }) => id === state.detail.parentAccountId,
+    ({ id }) => id === state.detail.parentAccountId
   ) || { accountClassification: '' };
   return currentHeader.accountClassification === accountClassification
     ? state.detail.parentAccountId
@@ -156,21 +157,23 @@ const updateAccountNumberWithPrefix = (state, prefix) => {
     return state.detail.accountNumber;
   }
   return prefix.concat(
-    state.detail.accountNumber.substr(state.readonly.accountNumberPrefix.length),
+    state.detail.accountNumber.substr(state.readonly.accountNumberPrefix.length)
   );
 };
 
 const updateAccountType = (state, action) => {
   // finds the account classification that contains the currently selected accountType
-  const findAccountClassificationforType = (classifications, selectedType) => classifications.find(
-    classification => classification.value === selectedType
-        || (classification.type
-          && classification.type.some(type => type.value === selectedType)),
-  );
+  const findAccountClassificationforType = (classifications, selectedType) =>
+    classifications.find(
+      (classification) =>
+        classification.value === selectedType ||
+        (classification.type &&
+          classification.type.some((type) => type.value === selectedType))
+    );
 
   const accountClassification = findAccountClassificationforType(
     state.accountClassifications,
-    action.value,
+    action.value
   );
   const prefix = accountClassification.accountNumberPrefix || '';
   return {
@@ -182,7 +185,10 @@ const updateAccountType = (state, action) => {
       cashFlowClassification:
         accountTypeToCashFlowClassificationMapping[action.value] || '',
       accountNumber: updateAccountNumberWithPrefix(state, prefix),
-      parentAccountId: getNewParentAccountId(state, accountClassification.value),
+      parentAccountId: getNewParentAccountId(
+        state,
+        accountClassification.value
+      ),
     },
     readonly: {
       ...state.readonly,
@@ -201,7 +207,6 @@ const setAlertMessage = (state, action) => ({
   ...state,
   alertMessage: action.alertMessage,
 });
-
 
 const handlers = {
   [RESET_STATE]: resetState,

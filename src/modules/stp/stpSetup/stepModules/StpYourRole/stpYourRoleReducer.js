@@ -1,5 +1,8 @@
 import {
-  LOAD_AGENT_CONTACT_INFO, SET_ERROR_MESSAGE, SET_FIELD, SET_LOADING_STATE,
+  LOAD_AGENT_CONTACT_INFO,
+  SET_ERROR_MESSAGE,
+  SET_FIELD,
+  SET_LOADING_STATE,
 } from './stpYourRoleIntents';
 import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import Role from '../../Role';

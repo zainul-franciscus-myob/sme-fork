@@ -9,7 +9,9 @@ export const SET_WAGES_SORT_ORDER = Symbol('Set sort order');
 export const LOAD_WAGES_LIST = Symbol('Load wages list');
 export const SORT_WAGES_LIST = Symbol('Sort wages list');
 
-export const SET_SUPERANNUATION_SORT_ORDER = Symbol('Set superannuation sort order');
+export const SET_SUPERANNUATION_SORT_ORDER = Symbol(
+  'Set superannuation sort order'
+);
 export const LOAD_SUPERANNUATION_LIST = Symbol('Load superannuation list');
 export const SORT_SUPERANNUATION_LIST = Symbol('Sort superannuation list');
 

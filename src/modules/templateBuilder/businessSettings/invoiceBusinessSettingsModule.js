@@ -2,7 +2,11 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  getBusinessId, getIsPageEdited, getIsSubmitting, getModalUrl, getRegion,
+  getBusinessId,
+  getIsPageEdited,
+  getIsSubmitting,
+  getModalUrl,
+  getRegion,
 } from './invoiceBusinessSettingsDetailSelectors';
 import InvoiceBusinessSettingsView from './components/InvoiceBusinessSettingsView';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -14,14 +18,15 @@ import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class InvoiceBusinessSettingsModule {
-  constructor({
-    integration, setRootView, setupBusinessDetails,
-  }) {
+  constructor({ integration, setRootView, setupBusinessDetails }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.store = new Store(businessDetailReducer);
     this.dispatcher = createInvoiceBusinessDetailDispatcher(this.store);
-    this.integrator = createInvoiceBusinessDetailIntegrator(this.store, integration);
+    this.integrator = createInvoiceBusinessDetailIntegrator(
+      this.store,
+      integration
+    );
     this.setupBusinessDetailsCallback = setupBusinessDetails;
   }
 
@@ -33,7 +38,8 @@ export default class InvoiceBusinessSettingsModule {
       this.dispatcher.loadBusinessDetail(response);
     };
 
-    const onFailure = () => this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    const onFailure = () =>
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
 
     this.integrator.loadBusinessDetail({ onSuccess, onFailure });
   };
@@ -66,7 +72,7 @@ export default class InvoiceBusinessSettingsModule {
   redirectToLogoSettings = () => this.redirectToPath('/invoiceLogoSettings');
 
   saveBusinessDetails = (onSuccess) => {
-    const state = (this.store.getState());
+    const state = this.store.getState();
 
     if (getIsSubmitting(state)) return;
 
@@ -74,7 +80,10 @@ export default class InvoiceBusinessSettingsModule {
 
     const onFailure = (error) => {
       this.dispatcher.setSubmittingState(false);
-      this.dispatcher.setAlertMessage({ message: error.message, type: 'danger' });
+      this.dispatcher.setAlertMessage({
+        message: error.message,
+        type: 'danger',
+      });
     };
 
     this.integrator.saveBusinessDetails({ onSuccess, onFailure });
@@ -99,9 +108,7 @@ export default class InvoiceBusinessSettingsModule {
     );
 
     this.setRootView(
-      <Provider store={this.store}>
-        {businessDetailsView}
-      </Provider>,
+      <Provider store={this.store}>{businessDetailsView}</Provider>
     );
   };
 

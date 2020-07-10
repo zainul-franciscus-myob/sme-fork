@@ -14,7 +14,7 @@ const JobName = ({ jobName, onChange }) => (
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accountName: getJobName(state),
 });
 

@@ -37,15 +37,16 @@ const downloadAsFile = (content, filename) => {
 };
 
 export default class ElectronicPaymentsModule {
-  constructor({
-    setRootView, integration, replaceURLParams, featureToggles,
-  }) {
+  constructor({ setRootView, integration, replaceURLParams, featureToggles }) {
     this.setRootView = setRootView;
     this.integration = integration;
     this.replaceURLParams = replaceURLParams;
     this.store = new Store(electronicPaymentsCreateReducer);
     this.dispatcher = createElectronicPaymentsCreateDispatcher(this.store);
-    this.integrator = createElectronicPaymentsCreateIntegrator(this.store, this.integration);
+    this.integrator = createElectronicPaymentsCreateIntegrator(
+      this.store,
+      this.integration
+    );
     this.isSpendMoneyEnabled = featureToggles.isSpendMoneyBankPaymentEnabled;
   }
 
@@ -108,7 +109,8 @@ export default class ElectronicPaymentsModule {
 
   sortElectronicPayments = (orderBy) => {
     const state = this.store.getState();
-    const newSortOrder = orderBy === getOrderBy(state) ? flipSortOrder(state) : 'asc';
+    const newSortOrder =
+      orderBy === getOrderBy(state) ? flipSortOrder(state) : 'asc';
     this.dispatcher.setSortOrder(orderBy, newSortOrder);
 
     this.fetchTransactions();
@@ -117,7 +119,8 @@ export default class ElectronicPaymentsModule {
   openModal = () => {
     const state = this.store.getState();
     const modalType = getIsPaymentDateToday(state)
-      ? ModalType.RECORD_AND_CREATE_BANK_FILE : ModalType.DATE_MISMATCH;
+      ? ModalType.RECORD_AND_CREATE_BANK_FILE
+      : ModalType.DATE_MISMATCH;
     this.dispatcher.openModal(modalType);
   };
 
@@ -135,7 +138,10 @@ export default class ElectronicPaymentsModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState({ ...context, isSpendMoneyEnabled: this.isSpendMoneyEnabled });
+    this.dispatcher.setInitialState({
+      ...context,
+      isSpendMoneyEnabled: this.isSpendMoneyEnabled,
+    });
     this.render();
     this.loadAccountsAndElectronicPayments();
 

@@ -18,7 +18,7 @@ const TableSummaryAmount = ({
   <div
     className={classnames(
       styles.summaryAmount,
-      summaryAmountClassMapping[type],
+      summaryAmountClassMapping[type]
     )}
   >
     <div className={styles.summaryAmountTitle}>
@@ -44,9 +44,7 @@ const TableSummary = ({ summary, description }) => (
       </div>
     </div>
     <div className={styles.totals}>
-      {summary.map(({
-        title, titleAccessory, amount, type,
-      }) => (
+      {summary.map(({ title, titleAccessory, amount, type }) => (
         <TableSummaryAmount
           title={title}
           titleAccessory={titleAccessory}

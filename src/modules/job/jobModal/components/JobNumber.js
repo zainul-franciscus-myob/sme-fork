@@ -5,10 +5,7 @@ import React from 'react';
 import { getJobNumber } from '../JobModalSelectors';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
-const JobNumber = ({
-  number,
-  onChange,
-}) => (
+const JobNumber = ({ number, onChange }) => (
   <Input
     name="number"
     label="Job number"
@@ -20,7 +17,7 @@ const JobNumber = ({
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   number: getJobNumber(state),
 });
 

@@ -3,46 +3,54 @@ import { createSelector } from 'reselect/lib/index';
 import { getStartDate, getTerminationDate } from './EmploymentDetailsSelectors';
 import formatSlashDate from '../../../../../common/valueFormatters/formatDate/formatSlashDate';
 
-export const getLeavePayItemOptions = state => state.leavePayItemOptions;
+export const getLeavePayItemOptions = (state) => state.leavePayItemOptions;
 
-export const getAllocatedLeavePayItems = state => state.payrollDetails.leaveDetails
-  .allocatedLeavePayItems;
+export const getAllocatedLeavePayItems = (state) =>
+  state.payrollDetails.leaveDetails.allocatedLeavePayItems;
 
-export const getAllLeavePayItems = state => state.payrollDetails.leaveDetails
-  .allLeavePayItems;
+export const getAllLeavePayItems = (state) =>
+  state.payrollDetails.leaveDetails.allLeavePayItems;
 
+const getAllocatedLeaveItemModal = (state) =>
+  state.payrollDetails.leaveDetails.modal;
 
-const getAllocatedLeaveItemModal = state => state.payrollDetails.leaveDetails.modal;
+const getNumberOrZero = (value) =>
+  Number.isNaN(Number(value)) ? 0 : Number(value);
 
-
-const getNumberOrZero = value => (Number.isNaN(Number(value)) ? 0 : Number(value));
-
-const calculateAllocatedLeavePayItemTotal = ({ balanceAdjustment, carryOver, yearToDate }) => {
+const calculateAllocatedLeavePayItemTotal = ({
+  balanceAdjustment,
+  carryOver,
+  yearToDate,
+}) => {
   const checkedBalanceAdjustment = getNumberOrZero(balanceAdjustment);
   const checkedCarryOver = getNumberOrZero(carryOver);
   const checkedYearToDate = getNumberOrZero(yearToDate);
-  const sum = Number(checkedCarryOver) + Number(checkedYearToDate)
-              + Number(checkedBalanceAdjustment);
+  const sum =
+    Number(checkedCarryOver) +
+    Number(checkedYearToDate) +
+    Number(checkedBalanceAdjustment);
   return String(sum.toFixed(2));
 };
 
 export const getLeavePayItems = createSelector(
   getAllocatedLeavePayItems,
-  allocatedLeaveItems => allocatedLeaveItems.map(allocatedItem => ({
-    ...allocatedItem,
-    total: calculateAllocatedLeavePayItemTotal(allocatedItem),
-  })),
+  (allocatedLeaveItems) =>
+    allocatedLeaveItems.map((allocatedItem) => ({
+      ...allocatedItem,
+      total: calculateAllocatedLeavePayItemTotal(allocatedItem),
+    }))
 );
 
 export const getFilteredLeavePayItemOptions = createSelector(
   getLeavePayItemOptions,
   getLeavePayItems,
-  (leavePayItemOptions, allocatedLeavePayItems) => leavePayItemOptions
-    .filter((leavePayItemOption) => {
-      const listedItem = allocatedLeavePayItems
-        .find(leavePayItem => leavePayItem.payItemId === leavePayItemOption.id);
+  (leavePayItemOptions, allocatedLeavePayItems) =>
+    leavePayItemOptions.filter((leavePayItemOption) => {
+      const listedItem = allocatedLeavePayItems.find(
+        (leavePayItem) => leavePayItem.payItemId === leavePayItemOption.id
+      );
       return !listedItem;
-    }),
+    })
 );
 
 export const getLeaveDetail = createSelector(
@@ -56,13 +64,15 @@ export const getLeaveDetail = createSelector(
     terminationDate,
     allocatedLeavePayItems,
     allocatedLeavePayItemOptions,
-    allocatedLeavePayItemModal,
+    allocatedLeavePayItemModal
   ) => ({
     startDate: startDate ? formatSlashDate(new Date(startDate)) : '-',
-    terminationDate: terminationDate ? formatSlashDate(new Date(terminationDate)) : '-',
+    terminationDate: terminationDate
+      ? formatSlashDate(new Date(terminationDate))
+      : '-',
     showAllocatedLeavePayItems: !terminationDate,
     allocatedLeavePayItems,
     allocatedLeavePayItemOptions,
     allocatedLeavePayItemModal,
-  }),
+  })
 );

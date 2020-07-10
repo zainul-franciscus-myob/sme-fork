@@ -1,4 +1,3 @@
-
 import {
   CLOSE_MODAL,
   CREATE_BANK_RECONCILIATION,
@@ -44,11 +43,7 @@ describe('BankReconciliationModule', () => {
   };
 
   const setupWithoutBankAccount = () => {
-    const {
-      store,
-      integration,
-      module,
-    } = setup();
+    const { store, integration, module } = setup();
 
     module.run({ businessId: '🐤', region: 'au', bankAccount: '' });
     store.resetActions();
@@ -62,11 +57,7 @@ describe('BankReconciliationModule', () => {
   };
 
   const setupWithBankAccount = () => {
-    const {
-      store,
-      integration,
-      module,
-    } = setup();
+    const { store, integration, module } = setup();
 
     module.run({ businessId: '🐤', region: 'au', bankAccount: '🐧' });
     store.resetActions();
@@ -95,7 +86,11 @@ describe('BankReconciliationModule', () => {
       it(`successfully ${test.name}`, () => {
         const { module, integration, store } = setup();
 
-        const context = { businessId: '🐤', region: 'au', bankAccount: test.bankAccount };
+        const context = {
+          businessId: '🐤',
+          region: 'au',
+          bankAccount: test.bankAccount,
+        };
         module.run(context);
 
         expect(store.getActions()).toEqual([
@@ -126,7 +121,11 @@ describe('BankReconciliationModule', () => {
 
         integration.mapFailure(test.intent);
 
-        const context = { businessId: '🐤', region: 'au', bankAccount: test.bankAccount };
+        const context = {
+          businessId: '🐤',
+          region: 'au',
+          bankAccount: test.bankAccount,
+        };
         module.run(context);
 
         expect(store.getActions()).toEqual([
@@ -185,7 +184,9 @@ describe('BankReconciliationModule', () => {
         ]);
 
         expect(integration.getRequests()).toEqual([
-          expect.objectContaining({ intent: SORT_AND_FILTER_BANK_RECONCILIATION }),
+          expect.objectContaining({
+            intent: SORT_AND_FILTER_BANK_RECONCILIATION,
+          }),
         ]);
       });
 
@@ -218,7 +219,9 @@ describe('BankReconciliationModule', () => {
         ]);
 
         expect(integration.getRequests()).toEqual([
-          expect.objectContaining({ intent: SORT_AND_FILTER_BANK_RECONCILIATION }),
+          expect.objectContaining({
+            intent: SORT_AND_FILTER_BANK_RECONCILIATION,
+          }),
         ]);
       });
     });
@@ -257,7 +260,7 @@ describe('BankReconciliationModule', () => {
       return { integration, module, store };
     };
 
-    it('successfully save when it\'s balanced', () => {
+    it("successfully save when it's balanced", () => {
       const { integration, module, store } = setupWithBalancedData();
 
       // action
@@ -286,19 +289,21 @@ describe('BankReconciliationModule', () => {
       ]);
     });
 
-    it('open modal when it\'s out of balance', () => {
+    it("open modal when it's out of balance", () => {
       const { integration, module, store } = setupWithUnbalancedData();
 
       // action
       module.saveBankReconciliation();
 
       // assertion
-      expect(store.getActions()).toEqual([{
-        intent: OPEN_MODAL,
-        modal: {
-          type: ModalType.OUT_OF_BALANCE,
+      expect(store.getActions()).toEqual([
+        {
+          intent: OPEN_MODAL,
+          modal: {
+            type: ModalType.OUT_OF_BALANCE,
+          },
         },
-      }]);
+      ]);
 
       expect(integration.getRequests()).toEqual([]);
     });
@@ -353,7 +358,9 @@ describe('BankReconciliationModule', () => {
       ]);
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({ intent: UNDO_BANK_RECONCILIATION }),
-        expect.objectContaining({ intent: SORT_AND_FILTER_BANK_RECONCILIATION }),
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_BANK_RECONCILIATION,
+        }),
       ]);
     });
 
@@ -422,7 +429,9 @@ describe('BankReconciliationModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        expect.objectContaining({ intent: SORT_AND_FILTER_BANK_RECONCILIATION }),
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_BANK_RECONCILIATION,
+        }),
       ]);
     });
 
@@ -448,7 +457,9 @@ describe('BankReconciliationModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        expect.objectContaining({ intent: SORT_AND_FILTER_BANK_RECONCILIATION }),
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_BANK_RECONCILIATION,
+        }),
       ]);
     });
 

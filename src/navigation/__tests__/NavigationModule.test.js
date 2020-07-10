@@ -12,7 +12,8 @@ describe('Navigation Module', () => {
 
   const integrationIntents = [];
   const navigationModule = new NavigationModule({
-    constructPath: (routeName, { region, businessId }) => `${region}/${businessId}/${routeName}`,
+    constructPath: (routeName, { region, businessId }) =>
+      `${region}/${businessId}/${routeName}`,
     integration: {
       read: ({ intent, onSuccess }) => {
         integrationIntents.push(intent);
@@ -78,8 +79,7 @@ describe('Navigation Module', () => {
       it('delegates to the router to construct most routes', () => {
         navigationModule.run(baseData);
         const state = navigationModule.store.getState();
-        expect(state.urls.invoiceList)
-          .toEqual('/#🇦🇺/🍟/invoice/invoiceList');
+        expect(state.urls.invoiceList).toEqual('/#🇦🇺/🍟/invoice/invoiceList');
       });
 
       const reportsRoutes = [
@@ -115,8 +115,9 @@ describe('Navigation Module', () => {
 
           const state = navigationModule.store.getState();
 
-          expect(state.urls[test.routeName])
-            .toEqual(`my-reports.url/#/🇦🇺/🍟/${test.suffix}`);
+          expect(state.urls[test.routeName]).toEqual(
+            `my-reports.url/#/🇦🇺/🍟/${test.suffix}`
+          );
         });
       });
 
@@ -125,8 +126,9 @@ describe('Navigation Module', () => {
 
         const state = navigationModule.store.getState();
 
-        expect(state.urls[RouteName.PAYMENT_DETAIL])
-          .toEqual('self-service-portal.url/#/billingAndPayments?businessId=🍟');
+        expect(state.urls[RouteName.PAYMENT_DETAIL]).toEqual(
+          'self-service-portal.url/#/billingAndPayments?businessId=🍟'
+        );
       });
     });
   });

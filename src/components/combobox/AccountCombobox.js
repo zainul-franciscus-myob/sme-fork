@@ -3,11 +3,7 @@ import React from 'react';
 import Combobox from './Combobox';
 
 const AccountCombobox = (props) => {
-  const {
-    items = [],
-    addNewAccount,
-    ...otherProps
-  } = props;
+  const { items = [], addNewAccount, ...otherProps } = props;
 
   const metaData = [
     { columnName: 'displayId', columnWidth: '8rem', showData: true },
@@ -15,8 +11,9 @@ const AccountCombobox = (props) => {
     { columnName: 'accountType', columnWidth: '10rem' },
   ];
 
-  const formattedItems = items
-    && items.map(({ displayName, ...rest }) => ({
+  const formattedItems =
+    items &&
+    items.map(({ displayName, ...rest }) => ({
       ...rest,
       displayName: ` ${displayName}`,
     }));
@@ -25,7 +22,9 @@ const AccountCombobox = (props) => {
     <Combobox
       metaData={metaData}
       items={formattedItems}
-      addNewItem={addNewAccount && { onAddNew: addNewAccount, label: 'Create account' }}
+      addNewItem={
+        addNewAccount && { onAddNew: addNewAccount, label: 'Create account' }
+      }
       noMatchFoundMessage="No account found"
       allItemColumnName="displayId"
       {...otherProps}

@@ -14,8 +14,11 @@ describe('<SalaryAndWagesTabView />', () => {
     store = new TestStore(employeeDetailNzReducer);
   });
 
-  const mountWithProvider = component => mount(component,
-    { wrappingComponent: Provider, wrappingComponentProps: { store } });
+  const mountWithProvider = (component) =>
+    mount(component, {
+      wrappingComponent: Provider,
+      wrappingComponentProps: { store },
+    });
 
   const wage = {
     hourlyRate: '100.00',

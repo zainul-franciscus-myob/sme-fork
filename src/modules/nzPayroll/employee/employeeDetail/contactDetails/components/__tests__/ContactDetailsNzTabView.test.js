@@ -1,10 +1,4 @@
-
-import {
-  Checkbox,
-  FieldGroup,
-  Input,
-  TextArea,
-} from '@myob/myob-widgets';
+import { Checkbox, FieldGroup, Input, TextArea } from '@myob/myob-widgets';
 import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import React from 'react';
@@ -27,11 +21,7 @@ const employeeDetails = {
     state: 'Auckland',
     postcode: '7400',
     email: 'bob@thebuilder.com',
-    phoneNumbers: [
-      '03 93883848',
-      '03 94839483',
-      '03 94839482',
-    ],
+    phoneNumbers: ['03 93883848', '03 94839483', '03 94839482'],
     notes: 'notes goes here',
   },
 };
@@ -45,39 +35,48 @@ describe('<ContactDetailsNzTab />', () => {
     store = new TestStore(employeeDetailNzReducer);
   });
 
-  const mountWithProvider = component => mount(component,
-    { wrappingComponent: Provider, wrappingComponentProps: { store } });
+  const mountWithProvider = (component) =>
+    mount(component, {
+      wrappingComponent: Provider,
+      wrappingComponentProps: { store },
+    });
 
   describe('should render Input fields', () => {
     const setup = () => {
       const wrapper = mountWithProvider(<ContactDetailsNzTabView />);
-      store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, payload: employeeDetails });
+      store.dispatch({
+        intent: LOAD_EMPLOYEE_DETAIL,
+        payload: employeeDetails,
+      });
       wrapper.update();
       return wrapper;
     };
 
-    const fieldWithName = (inputType, name) => (wrapper) => (
-      wrapper.type() === inputType && wrapper.props().name === name
-    );
+    const fieldWithName = (inputType, name) => (wrapper) =>
+      wrapper.type() === inputType && wrapper.props().name === name;
 
     it.each([
       { label: 'First name', name: 'firstName', data: cd.firstName },
       { label: 'Surname or family name', name: 'lastName', data: cd.lastName },
-      { label: 'Employee number', name: 'employeeNumber', data: cd.employeeNumber },
+      {
+        label: 'Employee number',
+        name: 'employeeNumber',
+        data: cd.employeeNumber,
+      },
       { label: 'City/town', name: 'suburb', data: cd.suburb },
       { label: 'Postcode', name: 'postcode', data: cd.postcode },
       { label: 'Region', name: 'state', data: cd.state },
       { label: 'Email', name: 'email', data: cd.email },
-    ])('Input Field: %p', ({
-      label, name, data,
-    }) => {
+    ])('Input Field: %p', ({ label, name, data }) => {
       const wrapper = setup();
       const field = wrapper.findWhere(fieldWithName(Input, name));
-      expect(field.props()).toEqual(expect.objectContaining({
-        label,
-        name,
-        value: data,
-      }));
+      expect(field.props()).toEqual(
+        expect.objectContaining({
+          label,
+          name,
+          value: data,
+        })
+      );
     });
   });
 
@@ -88,39 +87,33 @@ describe('<ContactDetailsNzTab />', () => {
 
     expect(wrapper.find({ label: 'Address' }).first().type()).toBe(FieldGroup);
 
-    const inactiveEmpCheckbox = wrapper.find(
-      {
-        name: 'isInactive',
-        label: 'Inactive employee',
-      },
-    );
+    const inactiveEmpCheckbox = wrapper.find({
+      name: 'isInactive',
+      label: 'Inactive employee',
+    });
     expect(inactiveEmpCheckbox.type()).toBe(Checkbox);
 
-    const addressField = wrapper.find(
-      {
-        label: 'Address',
-        name: 'address',
-        value: cd.address,
-      },
-    );
+    const addressField = wrapper.find({
+      label: 'Address',
+      name: 'address',
+      value: cd.address,
+    });
     expect(addressField.type()).toBe(TextArea);
 
-    const countryField = wrapper.find(
-      {
+    const countryField = wrapper
+      .find({
         label: 'Country',
         name: 'country',
         selectedId: cd.country,
-      },
-    ).first();
+      })
+      .first();
     expect(countryField.type()).toBe(CountryCombobox);
 
-    const notesField = wrapper.find(
-      {
-        label: 'Notes',
-        name: 'notes',
-        value: cd.notes,
-      },
-    );
+    const notesField = wrapper.find({
+      label: 'Notes',
+      name: 'notes',
+      value: cd.notes,
+    });
     expect(notesField.exists()).toBe(true);
   });
 
@@ -131,8 +124,12 @@ describe('<ContactDetailsNzTab />', () => {
       store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, payload });
       wrapper.update();
       expect(wrapper.find('PhoneNumberList').exists()).toBe(true);
-      expect(wrapper.find('PhoneNumberList').prop('phoneNumbers').length).toEqual(3);
-      expect(wrapper.find('PhoneNumberList').prop('hasAddPhoneButton')).toEqual(false);
+      expect(
+        wrapper.find('PhoneNumberList').prop('phoneNumbers').length
+      ).toEqual(3);
+      expect(wrapper.find('PhoneNumberList').prop('hasAddPhoneButton')).toEqual(
+        false
+      );
     });
 
     it('should render PhoneNumberList without add button ', () => {
@@ -146,7 +143,9 @@ describe('<ContactDetailsNzTab />', () => {
       wrapper.update();
 
       expect(wrapper.find('PhoneNumberList').exists()).toBe(true);
-      expect(wrapper.find('PhoneNumberList').prop('hasAddPhoneButton')).toEqual(true);
+      expect(wrapper.find('PhoneNumberList').prop('hasAddPhoneButton')).toEqual(
+        true
+      );
     });
   });
 
@@ -161,13 +160,11 @@ describe('<ContactDetailsNzTab />', () => {
       store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, payload: response });
       wrapper.update();
 
-      const inactiveEmpCheckbox = wrapper.find(
-        {
-          name: 'isInactive',
-          label: 'Inactive employee',
-          checked: response.contactDetail.isInactive,
-        },
-      );
+      const inactiveEmpCheckbox = wrapper.find({
+        name: 'isInactive',
+        label: 'Inactive employee',
+        checked: response.contactDetail.isInactive,
+      });
 
       expect(inactiveEmpCheckbox.exists()).toBe(true);
     });
@@ -184,13 +181,11 @@ describe('<ContactDetailsNzTab />', () => {
       store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, payload: response });
       wrapper.update();
 
-      const inactiveEmpCheckbox = wrapper.find(
-        {
-          name: 'isInactive',
-          label: 'Inactive employee',
-          checked: response.contactDetail.isInactive,
-        },
-      );
+      const inactiveEmpCheckbox = wrapper.find({
+        name: 'isInactive',
+        label: 'Inactive employee',
+        checked: response.contactDetail.isInactive,
+      });
 
       expect(inactiveEmpCheckbox.exists()).toBe(true);
     });

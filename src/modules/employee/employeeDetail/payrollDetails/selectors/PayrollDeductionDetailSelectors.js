@@ -1,15 +1,20 @@
 import { createSelector } from 'reselect';
 
-export const getDeductionPayItemOptions = state => state.deductionPayItemOptions;
+export const getDeductionPayItemOptions = (state) =>
+  state.deductionPayItemOptions;
 
-export const getDeductionPayItems = state => (
-  state.payrollDetails.deductionDetails.deductionPayItems
-);
+export const getDeductionPayItems = (state) =>
+  state.payrollDetails.deductionDetails.deductionPayItems;
 
 export const getFilteredDeductionPayItemOptions = createSelector(
   getDeductionPayItemOptions,
   getDeductionPayItems,
-  (deductionPayItemOptions, deductionPayItems) => deductionPayItemOptions
-    .filter(deductionPayItemOption => !deductionPayItems
-      .some(deductionPayItem => deductionPayItem.id === deductionPayItemOption.id)),
+  (deductionPayItemOptions, deductionPayItems) =>
+    deductionPayItemOptions.filter(
+      (deductionPayItemOption) =>
+        !deductionPayItems.some(
+          (deductionPayItem) =>
+            deductionPayItem.id === deductionPayItemOption.id
+        )
+    )
 );

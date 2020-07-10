@@ -1,7 +1,11 @@
 import { Dropdown, Modal, Table } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 
-import { LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR, LOAD_INITIAL_EMPLOYEES_AND_HEADERS, SUBMIT_EMPLOYEES_FINALISATION } from '../FinalisationIntents';
+import {
+  LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR,
+  LOAD_INITIAL_EMPLOYEES_AND_HEADERS,
+  SUBMIT_EMPLOYEES_FINALISATION,
+} from '../FinalisationIntents';
 import { findButtonWithTestId } from '../../../../../common/tests/selectors';
 import FinalisationModule from '../FinalisationModule';
 import StpDeclarationModal from '../../../stpDeclarationModal/components/StpDeclarationModal';
@@ -10,7 +14,6 @@ import loadFinalisation from '../../mappings/data/loadFinalisationInitialEmploye
 import openBlob from '../../../../../common/blobOpener/openBlob';
 
 jest.mock('../../../../../common/blobOpener/openBlob');
-
 
 describe('FinalisationModule', () => {
   const defaultIntegration = {
@@ -81,9 +84,11 @@ describe('FinalisationModule', () => {
 
       module.submitEmployeesFinalisation();
 
-      expect(integration.write).toHaveBeenCalledWith(expect.objectContaining({
-        intent: SUBMIT_EMPLOYEES_FINALISATION,
-      }));
+      expect(integration.write).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: SUBMIT_EMPLOYEES_FINALISATION,
+        })
+      );
     });
   });
 
@@ -102,7 +107,9 @@ describe('FinalisationModule', () => {
 
       const declarationModal = wrapper.find(StpDeclarationModal);
       expect(declarationModal.find(Modal)).toHaveLength(1);
-      expect(module.stpDeclarationModalModule.onDeclared).toBe(module.submitEmployeesFinalisation);
+      expect(module.stpDeclarationModalModule.onDeclared).toBe(
+        module.submitEmployeesFinalisation
+      );
     });
 
     it('renders the declaration modal when the remove finalisation button is clicked', () => {
@@ -111,7 +118,10 @@ describe('FinalisationModule', () => {
       module.selectAllEmployees(true);
       wrapper.update();
 
-      const finaliseButton = findButtonWithTestId(wrapper, 'removeFinalisationButton');
+      const finaliseButton = findButtonWithTestId(
+        wrapper,
+        'removeFinalisationButton'
+      );
       expect(finaliseButton).toHaveLength(1);
 
       finaliseButton.simulate('click');
@@ -120,7 +130,7 @@ describe('FinalisationModule', () => {
       const declarationModal = wrapper.find(StpDeclarationModal);
       expect(declarationModal.find(Modal)).toHaveLength(1);
       expect(module.stpDeclarationModalModule.onDeclared).toBe(
-        module.submitEmployeesRemoveFinalisation,
+        module.submitEmployeesRemoveFinalisation
       );
     });
   });
@@ -173,9 +183,11 @@ describe('FinalisationModule', () => {
 
       module.submitEmployeesFinalisation();
 
-      expect(integration.read).toHaveBeenCalledWith(expect.objectContaining({
-        intent: LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR,
-      }));
+      expect(integration.read).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR,
+        })
+      );
     });
   });
 
@@ -227,9 +239,11 @@ describe('FinalisationModule', () => {
 
       module.submitEmployeesRemoveFinalisation();
 
-      expect(integration.read).toHaveBeenCalledWith(expect.objectContaining({
-        intent: LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR,
-      }));
+      expect(integration.read).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR,
+        })
+      );
     });
   });
 
@@ -254,10 +268,12 @@ describe('FinalisationModule', () => {
 
       expect(navFunction).not.toHaveBeenCalled();
       expect(module.openUnsavedChangesModal).toHaveBeenCalledWith(navFunction);
-      expect(module.store.getState()).toEqual(expect.objectContaining({
-        unsavedChangesModalIsOpen: true,
-        isDirty: true,
-      }));
+      expect(module.store.getState()).toEqual(
+        expect.objectContaining({
+          unsavedChangesModalIsOpen: true,
+          isDirty: true,
+        })
+      );
     });
   });
 
@@ -265,7 +281,10 @@ describe('FinalisationModule', () => {
     it('calls the openBlob function', () => {
       const { wrapper } = constructModule();
 
-      const reportLink = findButtonWithTestId(wrapper, 'verificationReportLink');
+      const reportLink = findButtonWithTestId(
+        wrapper,
+        'verificationReportLink'
+      );
       reportLink.simulate('click');
 
       expect(openBlob).toHaveBeenCalled();

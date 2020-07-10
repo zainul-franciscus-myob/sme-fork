@@ -17,13 +17,19 @@ describe('EmployeePayActions', () => {
 
   afterEach(jest.clearAllMocks);
 
-  const mountWithProvider = component => mount(component,
-    { wrappingComponent: Provider, wrappingComponentProps: { store } });
+  const mountWithProvider = (component) =>
+    mount(component, {
+      wrappingComponent: Provider,
+      wrappingComponentProps: { store },
+    });
 
   describe('When Submitting state is false', () => {
     it('next button should be false', () => {
       const wrapper = mountWithProvider(<EmployeePayActions {...props} />);
-      const actionsIsSubmitting = wrapper.find(EmployeePayActions).childAt(0).prop('isSubmitting');
+      const actionsIsSubmitting = wrapper
+        .find(EmployeePayActions)
+        .childAt(0)
+        .prop('isSubmitting');
       const buttonDisabledState = wrapper.find('button').prop('disabled');
 
       expect(actionsIsSubmitting).toEqual(false);
@@ -38,7 +44,10 @@ describe('EmployeePayActions', () => {
       store.dispatch({ intent: SET_SUBMITTING_STATE, isSubmitting: true });
       wrapper.update();
 
-      const actionsIsSubmitting = wrapper.find(EmployeePayActions).childAt(0).prop('isSubmitting');
+      const actionsIsSubmitting = wrapper
+        .find(EmployeePayActions)
+        .childAt(0)
+        .prop('isSubmitting');
       const buttonDisabledState = wrapper.find('button').prop('disabled');
 
       expect(actionsIsSubmitting).toEqual(true);

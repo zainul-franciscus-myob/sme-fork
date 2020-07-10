@@ -13,14 +13,8 @@ import {
 import TableRow from './AllocationTableRow';
 import styles from './AllocationTable.module.css';
 
-
 const renderRow = (index, _, onChange, labels) => (
-  <TableRow
-    index={index}
-    key={index}
-    labels={labels}
-    onChange={onChange}
-  />
+  <TableRow index={index} key={index} labels={labels} onChange={onChange} />
 );
 
 const AllocationTable = ({
@@ -56,26 +50,18 @@ const AllocationTable = ({
     },
   ];
 
-  const labels = [
-    accountLabel, allocationLabel, taxCodeLabel,
-  ];
+  const labels = [accountLabel, allocationLabel, taxCodeLabel];
 
   const headerItems = [
-    (
-      <LineItemTable.HeaderItem key={accountLabel} requiredLabel="required">
-        {accountLabel}
-      </LineItemTable.HeaderItem>
-    ),
-    (
-      <LineItemTable.HeaderItem key={allocationLabel} requiredLabel="required">
-        {allocationLabel}
-      </LineItemTable.HeaderItem>
-    ),
-    (
-      <LineItemTable.HeaderItem key={taxCodeLabel}>
-        {taxCodeLabel}
-      </LineItemTable.HeaderItem>
-    ),
+    <LineItemTable.HeaderItem key={accountLabel} requiredLabel="required">
+      {accountLabel}
+    </LineItemTable.HeaderItem>,
+    <LineItemTable.HeaderItem key={allocationLabel} requiredLabel="required">
+      {allocationLabel}
+    </LineItemTable.HeaderItem>,
+    <LineItemTable.HeaderItem key={taxCodeLabel}>
+      {taxCodeLabel}
+    </LineItemTable.HeaderItem>,
   ];
   return (
     <div className={`${styles.allocationTable} ${remainingClassName}`}>
@@ -91,11 +77,12 @@ const AllocationTable = ({
       >
         <div className={styles.totals}>
           <LineItemTable.Total>
-            {
-              showRemainingPercentage && (
-                <LineItemTable.Totals title="Remaining" amount={remainingPercentage} />
-              )
-            }
+            {showRemainingPercentage && (
+              <LineItemTable.Totals
+                title="Remaining"
+                amount={remainingPercentage}
+              />
+            )}
           </LineItemTable.Total>
         </div>
       </LineItemTable>
@@ -103,7 +90,7 @@ const AllocationTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   allocationLabel: getAllocationLabel(state),
   allocations: getTableData(state),
   showRemainingPercentage: getShowRemainingPercentage(state),

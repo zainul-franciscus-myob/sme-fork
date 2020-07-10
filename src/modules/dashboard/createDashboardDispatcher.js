@@ -28,7 +28,7 @@ import {
 } from './DashboardIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 
-const createDashboardDispatcher = store => ({
+const createDashboardDispatcher = (store) => ({
   setInitialState: (context) => {
     store.dispatch({ intent: SET_INITIAL_STATE, context });
   },

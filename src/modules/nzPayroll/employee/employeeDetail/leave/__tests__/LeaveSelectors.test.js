@@ -1,4 +1,3 @@
-
 import { getLeaveDetails } from '../LeaveSelectors';
 
 describe('getLeaveDetails', () => {

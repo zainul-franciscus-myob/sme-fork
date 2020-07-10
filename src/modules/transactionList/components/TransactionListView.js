@@ -1,8 +1,4 @@
-import {
-  Alert,
-  PageHead,
-  Tabs,
-} from '@myob/myob-widgets';
+import { Alert, PageHead, Tabs } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -23,11 +19,7 @@ const TransactionListView = ({
   onLoadMoreButtonClick,
 }) => {
   const tabs = (
-    <Tabs
-      items={tabItems}
-      selected={selectedTab}
-      onSelected={onTabSelected}
-    />
+    <Tabs items={tabItems} selected={selectedTab} onSelected={onTabSelected} />
   );
 
   const alertComponent = alert && (
@@ -36,9 +28,7 @@ const TransactionListView = ({
     </Alert>
   );
 
-  const pageHead = (
-    <PageHead title={pageHeadTitle} />
-  );
+  const pageHead = <PageHead title={pageHeadTitle} />;
 
   const journalTransactionListView = (
     <JournalTransactionListView
@@ -70,7 +60,7 @@ const TransactionListView = ({
   }[selectedTab];
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedTab: getActiveTab(state),
   alert: getAlert(state),
 });

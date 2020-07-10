@@ -1,14 +1,8 @@
-import {
-  Alert, ButtonRow, PageHead, Separator,
-} from '@myob/myob-widgets';
+import { Alert, ButtonRow, PageHead, Separator } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getAlert,
-  getLoadingState,
-  getType,
-} from '../AccountListSelectors';
+import { getAlert, getLoadingState, getType } from '../AccountListSelectors';
 import { tabItems } from '../tabItems';
 import AccountListFilterOptions from './AccountListFilterOptions';
 import AccountListTable from './AccountListTable';
@@ -38,26 +32,26 @@ const AccountListView = ({
   const pageHead = (
     <PageHead title="Accounts">
       <ButtonRow>
-        <Button type="secondary" onClick={onEditLinkedAccountButtonClick}>Edit linked accounts</Button>
+        <Button type="secondary" onClick={onEditLinkedAccountButtonClick}>
+          Edit linked accounts
+        </Button>
         <Separator direction="vertical" />
-        <Button type="secondary" onClick={onImportChartOfAccountsClick}>Import chart of accounts</Button>
-        <Button type="primary" onClick={onCreateAccountButtonClick}>Create account</Button>
+        <Button type="secondary" onClick={onImportChartOfAccountsClick}>
+          Import chart of accounts
+        </Button>
+        <Button type="primary" onClick={onCreateAccountButtonClick}>
+          Create account
+        </Button>
       </ButtonRow>
     </PageHead>
   );
 
   const filterBar = (
-    <AccountListFilterOptions
-      onUpdateFilterOptions={onUpdateFilterOptions}
-    />
+    <AccountListFilterOptions onUpdateFilterOptions={onUpdateFilterOptions} />
   );
 
   const tabs = (
-    <Tabs
-      items={tabItems}
-      selected={selectedTab}
-      onSelected={onTabSelect}
-    />
+    <Tabs items={tabItems} selected={selectedTab} onSelected={onTabSelect} />
   );
 
   const tableHeader = <AccountListTableHeader />;
@@ -79,7 +73,7 @@ const AccountListView = ({
   return <PageView loadingState={loadingState} view={accountView} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   alert: getAlert(state),
   selectedTab: getType(state),

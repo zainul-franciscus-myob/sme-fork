@@ -10,9 +10,7 @@ const handleCustomerComboboxChange = (key, handler) => (item) => {
   handler({ key, value: item.id });
 };
 
-const LinkedCustomer = ({
-  customerId, customerOptions, onChange,
-}) => (
+const LinkedCustomer = ({ customerId, customerOptions, onChange }) => (
   <CustomerCombobox
     label="Linked customer"
     selectedId={customerId}
@@ -22,7 +20,7 @@ const LinkedCustomer = ({
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   customerId: getCustomerId(state),
   customerOptions: getCustomerOptions(state),
 });

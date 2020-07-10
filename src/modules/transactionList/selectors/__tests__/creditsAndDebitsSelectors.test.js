@@ -3,9 +3,7 @@ import { getSortingForCreditsAndDebits } from '../creditsAndDebitsSelectors';
 
 describe('getSortingForCreditsAndDebits', () => {
   describe('use the default sortOrder and orderBy', () => {
-    [
-      'Amount',
-    ].forEach(test => {
+    ['Amount'].forEach((test) => {
       it(`given order by is ${test}`, () => {
         const state = {
           orderBy: test,

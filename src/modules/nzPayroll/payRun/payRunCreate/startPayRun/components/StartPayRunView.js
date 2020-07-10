@@ -14,10 +14,7 @@ import {
   getRegularPayCycleOptions,
   getStartPayRun,
 } from '../StartPayRunSelectors';
-import {
-  getStepNumber,
-  getStepperSteps,
-} from '../../PayRunSelectors';
+import { getStepNumber, getStepperSteps } from '../../PayRunSelectors';
 import StartPayRunActions from './StartPayRunActions';
 import handleDatePickerChange from '../../../../../../components/handlers/handleDatePickerChange';
 import handleSelectChange from '../../../../../../components/handlers/handleSelectChange';
@@ -59,19 +56,38 @@ const StartPayRunView = ({
               ))}
             </Select.OptionGroup>
           </Select>
-          <DatePicker label="Pay period start" name="payPeriodStart" value={payPeriodStart} onSelect={handleDatePickerChange(onPayPeriodChange, 'payPeriodStart')} testid="testPayPeriodStart" />
-          <DatePicker label="Pay period end" name="payPeriodEnd" value={payPeriodEnd} onSelect={handleDatePickerChange(onPayPeriodChange, 'payPeriodEnd')} testid="testPayPeriodEnd" />
-          <DatePicker label="Date of payment" name="paymentDate" value={paymentDate} onSelect={handleDatePickerChange(onPayPeriodChange, 'paymentDate')} testid="testPayPeriodPaymentDate" />
+          <DatePicker
+            label="Pay period start"
+            name="payPeriodStart"
+            value={payPeriodStart}
+            onSelect={handleDatePickerChange(
+              onPayPeriodChange,
+              'payPeriodStart'
+            )}
+            testid="testPayPeriodStart"
+          />
+          <DatePicker
+            label="Pay period end"
+            name="payPeriodEnd"
+            value={payPeriodEnd}
+            onSelect={handleDatePickerChange(onPayPeriodChange, 'payPeriodEnd')}
+            testid="testPayPeriodEnd"
+          />
+          <DatePicker
+            label="Date of payment"
+            name="paymentDate"
+            value={paymentDate}
+            onSelect={handleDatePickerChange(onPayPeriodChange, 'paymentDate')}
+            testid="testPayPeriodPaymentDate"
+          />
         </FieldGroup>
       </FormHorizontal>
     </Card>
-    <StartPayRunActions
-      onNextButtonClick={onNextButtonClick}
-    />
+    <StartPayRunActions onNextButtonClick={onNextButtonClick} />
   </div>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   startPayRun: getStartPayRun(state),
   regularPayCycleOptions: getRegularPayCycleOptions(state),
   stepNumber: getStepNumber(state),

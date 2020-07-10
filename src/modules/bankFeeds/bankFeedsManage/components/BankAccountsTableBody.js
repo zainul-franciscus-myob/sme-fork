@@ -2,7 +2,10 @@ import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getBankFeedsBankAccounts, getIsActionDisabled } from '../BankFeedsSelectors';
+import {
+  getBankFeedsBankAccounts,
+  getIsActionDisabled,
+} from '../BankFeedsSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 
@@ -11,7 +14,7 @@ const BankAccountsTableBody = ({
   entries,
   onBankAccountLinkedAccountChange,
 }) => {
-  const rows = entries.map(entry => (
+  const rows = entries.map((entry) => (
     <Table.Row key={entry.id}>
       <Table.RowItem
         textWrap="wrap"
@@ -48,7 +51,10 @@ const BankAccountsTableBody = ({
           hideLabel
           items={entry.accountOptions}
           selectedId={entry.linkedAccountId}
-          onChange={handleComboboxChange(entry.id, onBankAccountLinkedAccountChange)}
+          onChange={handleComboboxChange(
+            entry.id,
+            onBankAccountLinkedAccountChange
+          )}
         />
       </Table.RowItem>
       <Table.RowItem
@@ -61,19 +67,14 @@ const BankAccountsTableBody = ({
       <Table.RowItem
         cellRole="actions"
         {...tableConfig.removeButton.styles}
-      >
-      </Table.RowItem>
+      ></Table.RowItem>
     </Table.Row>
   ));
 
-  return (
-    <Table.Body>
-      {rows}
-    </Table.Body>
-  );
+  return <Table.Body>{rows}</Table.Body>;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   entries: getBankFeedsBankAccounts(state),
   isActionDisabled: getIsActionDisabled(state),
 });

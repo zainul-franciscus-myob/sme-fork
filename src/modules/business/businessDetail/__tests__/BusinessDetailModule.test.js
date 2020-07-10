@@ -29,7 +29,11 @@ describe('BusinessDetailModule', () => {
     const setRootView = () => {};
     const isToggleOn = () => true;
 
-    const module = new BusinessDetailModule({ integration, setRootView, isToggleOn });
+    const module = new BusinessDetailModule({
+      integration,
+      setRootView,
+      isToggleOn,
+    });
     module.store = store;
     module.dispatcher = createBusinessDetailDispatcher(store);
     module.integrator = createBusinessDetailIntegrator(store, integration);
@@ -70,7 +74,6 @@ describe('BusinessDetailModule', () => {
 
     return toolbox;
   };
-
 
   describe('run', () => {
     it('successfully load', () => {
@@ -437,15 +440,13 @@ describe('BusinessDetailModule', () => {
       integration.mapFailure(LOAD_BUSINESS_DETAIL);
       module.startNewFinancialYear();
 
-      expect(store.getActions()).toContainEqual(
-        {
-          intent: SET_ALERT_MESSAGE,
-          alert: {
-            message: 'fails',
-            type: 'danger',
-          },
+      expect(store.getActions()).toContainEqual({
+        intent: SET_ALERT_MESSAGE,
+        alert: {
+          message: 'fails',
+          type: 'danger',
         },
-      );
+      });
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: START_NEW_FINANCIAL_YEAR,

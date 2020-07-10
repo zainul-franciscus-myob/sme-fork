@@ -11,11 +11,7 @@ import {
 } from '../SuperFundWithPaySuperSelectors';
 
 const SuperFundActions = ({
-  listeners: {
-    onSaveButtonClick,
-    onCancelButtonClick,
-    onDeleteButtonClick,
-  },
+  listeners: { onSaveButtonClick, onCancelButtonClick, onDeleteButtonClick },
   isSubmitting,
   isCreating,
   isAbnLoading,
@@ -25,9 +21,16 @@ const SuperFundActions = ({
   <ButtonRow
     primary={[
       !isUpdateSMSFSuperFund && (
-        <Button key="cancel" name="cancel" type="secondary" onClick={onCancelButtonClick} disabled={isSubmitting}>
+        <Button
+          key="cancel"
+          name="cancel"
+          type="secondary"
+          onClick={onCancelButtonClick}
+          disabled={isSubmitting}
+        >
           Cancel
-        </Button>),
+        </Button>
+      ),
       !isUpdateSMSFSuperFund && (
         <Button
           key="save"
@@ -37,15 +40,29 @@ const SuperFundActions = ({
           disabled={isSubmitting || isAbnLoading || !isSuperFundEditable}
         >
           Save
-        </Button>),
+        </Button>
+      ),
       isUpdateSMSFSuperFund && (
-        <Button key="goback" name="goback" type="primary" onClick={onCancelButtonClick} disabled={isSubmitting}>
+        <Button
+          key="goback"
+          name="goback"
+          type="primary"
+          onClick={onCancelButtonClick}
+          disabled={isSubmitting}
+        >
           Go back
-        </Button>),
+        </Button>
+      ),
     ]}
     secondary={[
-      (!isCreating && !isUpdateSMSFSuperFund) && (
-        <Button key="delete" name="delete" type="secondary" onClick={onDeleteButtonClick} disabled={isSubmitting}>
+      !isCreating && !isUpdateSMSFSuperFund && (
+        <Button
+          key="delete"
+          name="delete"
+          type="secondary"
+          onClick={onDeleteButtonClick}
+          disabled={isSubmitting}
+        >
           Delete
         </Button>
       ),
@@ -53,7 +70,7 @@ const SuperFundActions = ({
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isSubmitting: getIsSubmitting(state),
   isCreating: getIsCreating(state),
   isAbnLoading: getIsAbnLoading(state),

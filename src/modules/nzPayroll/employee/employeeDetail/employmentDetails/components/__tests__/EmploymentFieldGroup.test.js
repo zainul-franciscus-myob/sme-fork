@@ -1,6 +1,4 @@
-import {
-  DatePicker, ReadOnly,
-} from '@myob/myob-widgets';
+import { DatePicker, ReadOnly } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 import React from 'react';
 

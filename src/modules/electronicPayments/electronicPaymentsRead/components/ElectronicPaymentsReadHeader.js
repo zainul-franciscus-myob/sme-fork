@@ -1,7 +1,8 @@
 import {
   DetailHeader,
   FormHorizontal,
-  Input, Tooltip,
+  Input,
+  Tooltip,
 } from '@myob/myob-widgets';
 import React from 'react';
 
@@ -20,12 +21,8 @@ const ElectronicPaymentsReadHeader = ({
       <Input name="account" label="Account" value={account} disabled />
       <FormHorizontal>
         <h4>
-          <span>
-            Balance
-          </span>
-          <span className={styles.balanceAmount}>
-            {balance}
-          </span>
+          <span>Balance</span>
+          <span className={styles.balanceAmount}>{balance}</span>
         </h4>
       </FormHorizontal>
       <Input
@@ -39,8 +36,18 @@ const ElectronicPaymentsReadHeader = ({
 
   const secondary = (
     <>
-      <Input name="referenceNumber" label="Reference number" value={referenceNumber} disabled />
-      <Input name="dateOfPayment" label="Date of payment" value={dateOfPayment} disabled />
+      <Input
+        name="referenceNumber"
+        label="Reference number"
+        value={referenceNumber}
+        disabled
+      />
+      <Input
+        name="dateOfPayment"
+        label="Date of payment"
+        value={dateOfPayment}
+        disabled
+      />
       <Input
         name="bankStatementDescription"
         label="Description"
@@ -51,7 +58,7 @@ const ElectronicPaymentsReadHeader = ({
     </>
   );
 
-  return (<DetailHeader primary={primary} secondary={secondary} />);
+  return <DetailHeader primary={primary} secondary={secondary} />;
 };
 
 export default ElectronicPaymentsReadHeader;

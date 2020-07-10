@@ -2,7 +2,10 @@ import { Button, Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getBankingLink, getUnallocatedTransactionsTotal } from '../../selectors/DashboardBankingSelectors';
+import {
+  getBankingLink,
+  getUnallocatedTransactionsTotal,
+} from '../../selectors/DashboardBankingSelectors';
 import foldersImage from '../folders-papers.svg';
 import styles from './DashboardBankingUnallocations.module.css';
 
@@ -27,7 +30,7 @@ const DashboardUnallocations = ({ count, bankingLink, onLinkClick }) => (
   </div>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   count: getUnallocatedTransactionsTotal(state),
   bankingLink: getBankingLink(state),
 });

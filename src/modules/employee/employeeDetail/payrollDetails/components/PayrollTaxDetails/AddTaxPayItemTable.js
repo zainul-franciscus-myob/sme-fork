@@ -1,6 +1,4 @@
-import {
-  Button, Combobox, Icons, Table, Tooltip,
-} from '@myob/myob-widgets';
+import { Button, Combobox, Icons, Table, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
 
 import styles from './AddTaxPayItemTable.module.css';
@@ -10,11 +8,9 @@ const tableConfig = {
   actions: { width: '5rem', valign: 'middle', align: 'right' },
 };
 
-const comboboxMetaData = [
-  { columnName: 'name', showData: true },
-];
+const comboboxMetaData = [{ columnName: 'name', showData: true }];
 
-const handleComboboxChange = handler => (item) => {
+const handleComboboxChange = (handler) => (item) => {
   handler(item);
 };
 
@@ -37,33 +33,34 @@ const AddTaxPayItemTable = ({
         <Table.HeaderItem {...tableConfig.actions} />
       </Table.Header>
       <Table.Body>
-        {
-          selected.map(({ id, name }) => (
-            <Table.Row key={id}>
-              <Table.RowItem {...tableConfig.name}>
-                <Button type="link" onClick={onTaxPayItemClick}>
-                  {name}
-                </Button>
-              </Table.RowItem>
-              <Table.RowItem cellRole="actions" {...tableConfig.actions}>
-                <Tooltip
-                  placement="left"
-                  triggerContent={(
-                    <Button type="secondary" size="xs" onClick={onRemoveButtonClick(onRemovePayItem, id)}>
-                      <Icons.Remove />
-                    </Button>
-                )}
-                >
-                  Remove from employee
-                </Tooltip>
-              </Table.RowItem>
-            </Table.Row>
-          ))
-        }
+        {selected.map(({ id, name }) => (
+          <Table.Row key={id}>
+            <Table.RowItem {...tableConfig.name}>
+              <Button type="link" onClick={onTaxPayItemClick}>
+                {name}
+              </Button>
+            </Table.RowItem>
+            <Table.RowItem cellRole="actions" {...tableConfig.actions}>
+              <Tooltip
+                placement="left"
+                triggerContent={
+                  <Button
+                    type="secondary"
+                    size="xs"
+                    onClick={onRemoveButtonClick(onRemovePayItem, id)}
+                  >
+                    <Icons.Remove />
+                  </Button>
+                }
+              >
+                Remove from employee
+              </Tooltip>
+            </Table.RowItem>
+          </Table.Row>
+        ))}
       </Table.Body>
     </Table>
-    { items.length > 0
-      && (
+    {items.length > 0 && (
       <Combobox
         label={label}
         hideLabel
@@ -74,8 +71,7 @@ const AddTaxPayItemTable = ({
         onChange={handleComboboxChange(onAddPayItem)}
         width="lg"
       />
-      )
-    }
+    )}
   </div>
 );
 

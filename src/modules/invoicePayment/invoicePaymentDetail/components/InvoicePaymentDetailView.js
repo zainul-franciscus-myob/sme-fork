@@ -20,7 +20,7 @@ import PageView from '../../../../components/PageView/PageView';
 import UnsavedModal from '../../../../components/modal/UnsavedModal';
 import styles from './InvoicePaymentDetailView.module.css';
 
-const handleCheckboxChange = handler => (e) => {
+const handleCheckboxChange = (handler) => (e) => {
   const { checked } = e.target;
   handler(checked);
 };
@@ -59,38 +59,44 @@ const InvoicePaymentDetailView = ({
     </Alert>
   );
 
-  const modalComponent = modal && {
-    [InvoicePaymentModalTypes.CANCEL]: <CancelModal
-      onCancel={onCloseModal}
-      onConfirm={onConfirmCancel}
-    />,
-    [InvoicePaymentModalTypes.DELETE]: <DeleteModal
-      onCancel={onCloseModal}
-      onConfirm={onConfirmDelete}
-      title="Delete this payment?"
-    />,
-    [InvoicePaymentModalTypes.UNSAVED]: <UnsavedModal
-      onConfirmSave={onConfirmSaveButtonClick}
-      onConfirmUnsave={onConfirmUnsaveButtonClick}
-      onCancel={onCloseModal}
-    />,
-  }[modal.type];
+  const modalComponent =
+    modal &&
+    {
+      [InvoicePaymentModalTypes.CANCEL]: (
+        <CancelModal onCancel={onCloseModal} onConfirm={onConfirmCancel} />
+      ),
+      [InvoicePaymentModalTypes.DELETE]: (
+        <DeleteModal
+          onCancel={onCloseModal}
+          onConfirm={onConfirmDelete}
+          title="Delete this payment?"
+        />
+      ),
+      [InvoicePaymentModalTypes.UNSAVED]: (
+        <UnsavedModal
+          onConfirmSave={onConfirmSaveButtonClick}
+          onConfirmUnsave={onConfirmUnsaveButtonClick}
+          onCancel={onCloseModal}
+        />
+      ),
+    }[modal.type];
 
   const view = (
     <React.Fragment>
       {modalComponent}
       <LineItemTemplate
         pageHead="Record payment from customer"
-        options={(
+        options={
           <InvoicePaymentDetailOptions
             onUpdateInvoicePaymentDetails={onUpdateInvoicePaymentDetails}
             onUpdateCustomer={onUpdateCustomer}
-          />)}
+          />
+        }
         actions={actions}
         alert={alertComponent}
         sticky="none"
       >
-        { isCreating && (
+        {isCreating && (
           <div className={styles.tableOption}>
             <Checkbox
               name="showPaidInvoices"
@@ -101,7 +107,9 @@ const InvoicePaymentDetailView = ({
             />
           </div>
         )}
-        <InvoicePaymentDetailTable onUpdateInvoicePaymentEntries={onUpdateInvoicePaymentEntries} />
+        <InvoicePaymentDetailTable
+          onUpdateInvoicePaymentEntries={onUpdateInvoicePaymentEntries}
+        />
       </LineItemTemplate>
     </React.Fragment>
   );
@@ -109,7 +117,7 @@ const InvoicePaymentDetailView = ({
   return <PageView loadingState={loadingState} view={view} />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   isCreating: getIsCreating(state),
   alertMessage: getAlertMessage(state),

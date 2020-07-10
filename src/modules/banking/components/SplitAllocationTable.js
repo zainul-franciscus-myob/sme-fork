@@ -4,10 +4,14 @@ import React from 'react';
 
 import {
   getIndexOfLastLine,
-  getTableData, getTaxLabel,
+  getTableData,
+  getTaxLabel,
   getTotals,
 } from '../bankingSelectors/splitAllocationSelectors';
-import { getIsBankingJobColumnEnabled, getIsLoadingAccount } from '../bankingSelectors';
+import {
+  getIsBankingJobColumnEnabled,
+  getIsLoadingAccount,
+} from '../bankingSelectors';
 import SplitAllocationRow from './SplitAllocationRow';
 
 const accountLabel = 'Account';
@@ -18,13 +22,17 @@ const lineDescription = 'Line description';
 const jobLabel = 'Job';
 const requiredText = 'This is required';
 
+const onRowChange = (handler) => (index, key, value) =>
+  handler(index, key, value);
 
-const onRowChange = handler => (index, key, value) => handler(index, key, value);
+const onAddRow = (handler) => ({ id, ...partialLine }) => handler(partialLine);
 
-const onAddRow = handler => ({ id, ...partialLine }) => handler(partialLine);
-
-const renderRow = (indexOfLastLine, onAddAccount,
-  onAddJob, disabled) => (index, data, onChange, labels) => {
+const renderRow = (indexOfLastLine, onAddAccount, onAddJob, disabled) => (
+  index,
+  data,
+  onChange,
+  labels
+) => {
   const isNewLineRow = indexOfLastLine < index;
 
   return (
@@ -46,10 +54,7 @@ const SplitAllocationTable = (props) => {
     taxLabel,
     tableData,
     indexOfLastLine,
-    totals: {
-      totalAllocated,
-      totalUnallocated,
-    },
+    totals: { totalAllocated, totalUnallocated },
     onAddSplitAllocationLine,
     onUpdateSplitAllocationLine,
     onDeleteSplitAllocationLine,
@@ -93,7 +98,9 @@ const SplitAllocationTable = (props) => {
       columnName: lineDescription,
       styles: {},
     },
-    ...isBankingJobColumnEnabled ? [{ columnName: jobLabel, styles: { width: '8.4rem' } }] : [],
+    ...(isBankingJobColumnEnabled
+      ? [{ columnName: jobLabel, styles: { width: '8.4rem' } }]
+      : []),
     {
       columnName: taxLabel,
       requiredLabel: requiredText,
@@ -124,7 +131,12 @@ const SplitAllocationTable = (props) => {
     <LineItemTable
       labels={labels}
       data={tableData}
-      renderRow={renderRow(indexOfLastLine, onAddAccount, onAddJob, isLoadingAccount)}
+      renderRow={renderRow(
+        indexOfLastLine,
+        onAddAccount,
+        onAddJob,
+        isLoadingAccount
+      )}
       onAddRow={onAddRow(onAddSplitAllocationLine)}
       onRowChange={onRowChange(onUpdateSplitAllocationLine)}
       onRemoveRow={onDeleteSplitAllocationLine}
@@ -133,13 +145,17 @@ const SplitAllocationTable = (props) => {
     >
       <LineItemTable.Total>
         <LineItemTable.Totals title="Total allocated" amount={totalAllocated} />
-        <LineItemTable.Totals totalAmount title="Unallocated" amount={totalUnallocated} />
+        <LineItemTable.Totals
+          totalAmount
+          title="Unallocated"
+          amount={totalUnallocated}
+        />
       </LineItemTable.Total>
     </LineItemTable>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   tableData: getTableData(state),
   indexOfLastLine: getIndexOfLastLine(state),
   totals: getTotals(state),

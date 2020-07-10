@@ -1,7 +1,7 @@
 import buildAmountInputBlurEvent from '../buildAmountInputBlurEvent';
 
 describe('buildAmountInputBlurEvent', () => {
-  const generateTestEvent = rawValue => ({
+  const generateTestEvent = (rawValue) => ({
     target: {
       name: 'a',
       rawValue,
@@ -13,7 +13,11 @@ describe('buildAmountInputBlurEvent', () => {
     const numeralDecimalScaleMin = undefined;
     const numeralDecimalScaleMax = undefined;
 
-    const actual = buildAmountInputBlurEvent(event, numeralDecimalScaleMin, numeralDecimalScaleMax);
+    const actual = buildAmountInputBlurEvent(
+      event,
+      numeralDecimalScaleMin,
+      numeralDecimalScaleMax
+    );
 
     expect(actual).toEqual(event);
   });
@@ -23,7 +27,11 @@ describe('buildAmountInputBlurEvent', () => {
     const numeralDecimalScaleMin = undefined;
     const numeralDecimalScaleMax = undefined;
 
-    const actual = buildAmountInputBlurEvent(event, numeralDecimalScaleMin, numeralDecimalScaleMax);
+    const actual = buildAmountInputBlurEvent(
+      event,
+      numeralDecimalScaleMin,
+      numeralDecimalScaleMax
+    );
 
     expect(actual).toEqual(event);
   });
@@ -33,7 +41,11 @@ describe('buildAmountInputBlurEvent', () => {
     const numeralDecimalScaleMin = 2;
     const numeralDecimalScaleMax = undefined;
 
-    const actual = buildAmountInputBlurEvent(event, numeralDecimalScaleMin, numeralDecimalScaleMax);
+    const actual = buildAmountInputBlurEvent(
+      event,
+      numeralDecimalScaleMin,
+      numeralDecimalScaleMax
+    );
 
     expect(actual).toEqual({
       target: {
@@ -49,7 +61,11 @@ describe('buildAmountInputBlurEvent', () => {
     const numeralDecimalScaleMin = 2;
     const numeralDecimalScaleMax = undefined;
 
-    const actual = buildAmountInputBlurEvent(event, numeralDecimalScaleMin, numeralDecimalScaleMax);
+    const actual = buildAmountInputBlurEvent(
+      event,
+      numeralDecimalScaleMin,
+      numeralDecimalScaleMax
+    );
 
     expect(actual).toEqual({
       target: {

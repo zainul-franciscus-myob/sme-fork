@@ -8,15 +8,17 @@ import EmployeeListNzView from '../EmployeeListNzView';
 import Store from '../../../../../../store/Store';
 import employeeListNzReducer from '../../employeeListNzReducer';
 
-
 describe('<EmployeeListNzView />', () => {
   let store;
   beforeEach(() => {
     store = new Store(employeeListNzReducer);
   });
 
-  const mountWithProvider = (component) => mount(component,
-    { wrappingComponent: Provider, wrappingComponentProps: { store } });
+  const mountWithProvider = (component) =>
+    mount(component, {
+      wrappingComponent: Provider,
+      wrappingComponentProps: { store },
+    });
 
   it('should render LoadingPageState component', () => {
     const wrapper = mountWithProvider(<EmployeeListNzView />);
@@ -48,12 +50,14 @@ describe('<EmployeeListNzView />', () => {
     const wrapper = mountWithProvider(<EmployeeListNzView />);
 
     const response = {
-      entries: [{
-        name: 'uncle bob',
-        email: 'j@gmail.com',
-        phone: '0424345464',
-        id: '1',
-      }],
+      entries: [
+        {
+          name: 'uncle bob',
+          email: 'j@gmail.com',
+          phone: '0424345464',
+          id: '1',
+        },
+      ],
     };
     store.dispatch({ intent: LOAD_EMPLOYEE_LIST, ...response });
     wrapper.update();
@@ -77,8 +81,10 @@ describe('<EmployeeListNzView />', () => {
     wrapper.update();
 
     expect(wrapper.text()).toContain('alert message');
-    expect(wrapper.find(Alert).props()).toEqual(expect.objectContaining({
-      type: 'success',
-    }));
+    expect(wrapper.find(Alert).props()).toEqual(
+      expect.objectContaining({
+        type: 'success',
+      })
+    );
   });
 });

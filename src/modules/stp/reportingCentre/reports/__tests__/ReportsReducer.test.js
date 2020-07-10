@@ -1,4 +1,8 @@
-import { SET_PAY_EVENTS, SET_PAY_EVENT_DETAILS, SET_SELECTED_PAY_EVENT } from '../ReportsIntents';
+import {
+  SET_PAY_EVENTS,
+  SET_PAY_EVENT_DETAILS,
+  SET_SELECTED_PAY_EVENT,
+} from '../ReportsIntents';
 import ReportsReducer from '../ReportsReducer';
 
 describe('ReportsReducer', () => {
@@ -107,11 +111,7 @@ describe('ReportsReducer', () => {
   describe('setSelectedPayEvent', () => {
     it('should set the selected pay event if it exists in the list', () => {
       const state = {
-        payEvents: [
-          { id: '123' },
-          { id: '234' },
-          { id: '345' },
-        ],
+        payEvents: [{ id: '123' }, { id: '234' }, { id: '345' }],
       };
 
       const action = {
@@ -128,10 +128,7 @@ describe('ReportsReducer', () => {
 
     it('should set the selected pay event to null if it is not in the list', () => {
       const state = {
-        payEvents: [
-          { id: '123' },
-          { id: '234' },
-        ],
+        payEvents: [{ id: '123' }, { id: '234' }],
       };
 
       const action = {

@@ -18,9 +18,7 @@ import linkBillReducer from './linkBillReducer';
 import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 export default class LinkBillModule {
-  constructor({
-    integration, setRootView, pushMessage,
-  }) {
+  constructor({ integration, setRootView, pushMessage }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -42,12 +40,12 @@ export default class LinkBillModule {
     };
 
     this.integrator.loadLinkBill({ onSuccess, onFailure });
-  }
+  };
 
   updateFilterOptions = ({ key, value }) => {
     this.dispatcher.updateFilterOptions({ key, value });
     this.sortAndFilterLinkBillList();
-  }
+  };
 
   updateSortOption = (orderBy) => {
     const state = this.store.getState();
@@ -55,7 +53,7 @@ export default class LinkBillModule {
     this.dispatcher.setSortOrder(orderBy, sortOrder);
 
     this.sortAndFilterLinkBillList();
-  }
+  };
 
   sortAndFilterLinkBillList = () => {
     this.dispatcher.setTableLoadingState(true);
@@ -71,7 +69,7 @@ export default class LinkBillModule {
     };
 
     this.integrator.sortAndFilterLinkBillList({ onSuccess, onFailure });
-  }
+  };
 
   linkDocumentToBill = () => {
     const state = this.store.getState();
@@ -84,7 +82,7 @@ export default class LinkBillModule {
         message: 'Please select a bill to link to the document.',
       });
     }
-  }
+  };
 
   createDocumentLink = () => {
     if (getAreActionButtonsDisabled(this.store.getState())) return;
@@ -108,17 +106,17 @@ export default class LinkBillModule {
     };
 
     this.integrator.linkDocumentToBill({ onSuccess, onFailure });
-  }
+  };
 
   redirectToInTrayListPage = () => {
     window.location.href = getInTrayListUrl(this.store.getState());
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.linkDocumentToBill,
   };
 
-  setInitialState = context => this.dispatcher.setInitialState(context);
+  setInitialState = (context) => this.dispatcher.setInitialState(context);
 
   resetState = () => this.dispatcher.resetState();
 

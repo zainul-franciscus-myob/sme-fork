@@ -50,7 +50,6 @@ describe('buildAmountInputChangeEvent', () => {
     };
     const currentValue = '-1';
 
-
     const actual = buildAmountInputChangeEvent(modifiedEvent, currentValue);
 
     expect(actual).toEqual({

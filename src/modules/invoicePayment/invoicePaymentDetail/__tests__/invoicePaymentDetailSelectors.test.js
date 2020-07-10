@@ -44,22 +44,21 @@ describe('invoicePaymentDetailSelectors', () => {
 
     it('default discountedBalance to 0 when read', () => {
       const actual = getEntries(state);
-      expect(actual)
-        .toEqual(expected);
+      expect(actual).toEqual(expected);
     });
 
     it('calculates discountedBalance when creating', () => {
       const modifiedState = {
         ...state,
         invoicePaymentId: 'new',
-        entries: state.entries.map(entry => ({
+        entries: state.entries.map((entry) => ({
           ...entry,
           balanceDue: '2500.00',
           discountAmount: '1000.00',
         })),
       };
 
-      const modifiedExpected = expected.map(entry => ({
+      const modifiedExpected = expected.map((entry) => ({
         ...entry,
         balanceDue: '2,500.00',
         paidAmount: '2500.05',
@@ -75,13 +74,13 @@ describe('invoicePaymentDetailSelectors', () => {
     it('set status color for closed entry', () => {
       const modifiedState = {
         ...state,
-        entries: state.entries.map(entry => ({
+        entries: state.entries.map((entry) => ({
           ...entry,
           status: 'Closed',
         })),
       };
 
-      const modifiedExpected = expected.map(entry => ({
+      const modifiedExpected = expected.map((entry) => ({
         ...entry,
         status: 'Closed',
         statusColor: 'green',
@@ -117,7 +116,7 @@ describe('invoicePaymentDetailSelectors', () => {
       it('returns undefined for overAmount if there is no paidAmount', () => {
         const modifiedState = {
           ...state,
-          entries: state.entries.map(entry => ({
+          entries: state.entries.map((entry) => ({
             ...entry,
             paidAmount: '',
           })),
@@ -154,8 +153,7 @@ describe('invoicePaymentDetailSelectors', () => {
         ],
       };
 
-      expect(getTotalReceived(state))
-        .toBe('$3,500.10');
+      expect(getTotalReceived(state)).toBe('$3,500.10');
     });
 
     it('calculates total received when paidAmount is undefined', () => {
@@ -173,8 +171,7 @@ describe('invoicePaymentDetailSelectors', () => {
         ],
       };
 
-      expect(getTotalReceived(state))
-        .toBe('$0.00');
+      expect(getTotalReceived(state)).toBe('$0.00');
     });
   });
 
@@ -325,7 +322,7 @@ describe('invoicePaymentDetailSelectors', () => {
         const actual = getIsBeforeStartOfFinancialYear(state);
 
         expect(actual).toEqual(expected);
-      },
+      }
     );
   });
 });

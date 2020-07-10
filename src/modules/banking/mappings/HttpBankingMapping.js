@@ -33,63 +33,78 @@ import {
 const HttpBankingMapping = {
   [LOAD_BANK_TRANSACTIONS]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/banking/load_bank_transactions`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/banking/load_bank_transactions`,
   },
   [LOAD_BANK_TRANSACTIONS_NEXT_PAGE]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/banking/filter_bank_transactions`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/banking/filter_bank_transactions`,
   },
   [LOAD_ACCOUNT_AFTER_CREATE]: {
     method: 'GET',
-    getPath: ({ businessId, accountId }) => `/${businessId}/banking/load_account/${accountId}`,
+    getPath: ({ businessId, accountId }) =>
+      `/${businessId}/banking/load_account/${accountId}`,
   },
   [LOAD_JOB_AFTER_CREATE]: {
     method: 'GET',
-    getPath: ({ businessId, jobId }) => `/${businessId}/banking/load_job/${jobId}`,
+    getPath: ({ businessId, jobId }) =>
+      `/${businessId}/banking/load_job/${jobId}`,
   },
   [SORT_AND_FILTER_BANK_TRANSACTIONS]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/banking/filter_bank_transactions`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/banking/filter_bank_transactions`,
   },
   [ALLOCATE_TRANSACTION]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/banking/allocate_bank_transaction`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/banking/allocate_bank_transaction`,
   },
   [BULK_ALLOCATE_TRANSACTIONS]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/banking/bulk_allocate_bank_transactions`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/banking/bulk_allocate_bank_transactions`,
   },
   [UNALLOCATE_TRANSACTION]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/banking/unallocate_bank_transaction`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/banking/unallocate_bank_transaction`,
   },
   [LOAD_SPLIT_ALLOCATION]: {
     method: 'GET',
-    getPath: ({ businessId, type, journalId }) => `/${businessId}/banking/load_split_allocation/${type}/${journalId}`,
+    getPath: ({ businessId, type, journalId }) =>
+      `/${businessId}/banking/load_split_allocation/${type}/${journalId}`,
   },
   [SAVE_SPLIT_ALLOCATION]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/banking/create_split_allocation`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/banking/create_split_allocation`,
   },
   [LOAD_MATCH_TRANSACTIONS]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/banking/load_match_transactions`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/banking/load_match_transactions`,
   },
   [SORT_AND_FILTER_MATCH_TRANSACTIONS]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/banking/filter_match_transactions`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/banking/filter_match_transactions`,
   },
   [SAVE_MATCH_TRANSACTION]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/banking/save_match_transaction`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/banking/save_match_transaction`,
   },
   [LOAD_TRANSFER_MONEY]: {
     method: 'GET',
-    getPath: ({ businessId, transferMoneyId }) => `/${businessId}/banking/load_transfer_money/${transferMoneyId}`,
+    getPath: ({ businessId, transferMoneyId }) =>
+      `/${businessId}/banking/load_transfer_money/${transferMoneyId}`,
   },
   [LOAD_MATCH_TRANSFER_MONEY]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/banking/load_match_transfer_money`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/banking/load_match_transfer_money`,
   },
   [SAVE_TRANSFER_MONEY]: {
     method: 'POST',
@@ -97,23 +112,28 @@ const HttpBankingMapping = {
   },
   [CREATE_BANKING_RULE_BILL]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/banking/create_banking_rule_bill`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/banking/create_banking_rule_bill`,
   },
   [CREATE_BANKING_RULE_SPEND_MONEY]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/banking/create_banking_rule_spend_money`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/banking/create_banking_rule_spend_money`,
   },
   [CREATE_BANKING_RULE_RECEIVE_MONEY]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/banking/create_banking_rule_receive_money`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/banking/create_banking_rule_receive_money`,
   },
   [CREATE_BANKING_RULE_INVOICE]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/banking/create_banking_rule_invoice`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/banking/create_banking_rule_invoice`,
   },
   [APPLY_RULE_TO_TRANSACTIONS]: {
     method: 'POST',
-    getPath: ({ businessId, bankingRuleId }) => `/${businessId}/banking/apply_banking_rule/${bankingRuleId}`,
+    getPath: ({ businessId, bankingRuleId }) =>
+      `/${businessId}/banking/apply_banking_rule/${bankingRuleId}`,
   },
   [LOAD_ATTACHMENTS]: {
     method: 'GET',
@@ -125,15 +145,18 @@ const HttpBankingMapping = {
   },
   [OPEN_ATTACHMENT]: {
     method: 'GET',
-    getPath: ({ businessId, documentId }) => `/${businessId}/banking/load_attachment_detail/${documentId}`,
+    getPath: ({ businessId, documentId }) =>
+      `/${businessId}/banking/load_attachment_detail/${documentId}`,
   },
   [REMOVE_ATTACHMENT]: {
     method: 'DELETE',
-    getPath: ({ businessId, documentId }) => `/${businessId}/banking/delete_attachment/${documentId}`,
+    getPath: ({ businessId, documentId }) =>
+      `/${businessId}/banking/delete_attachment/${documentId}`,
   },
   [SAVE_PENDING_NOTE]: {
     method: 'PUT',
-    getPath: ({ businessId, transactionId }) => `/${businessId}/banking/update_note/${transactionId}`,
+    getPath: ({ businessId, transactionId }) =>
+      `/${businessId}/banking/update_note/${transactionId}`,
   },
   [LINK_IN_TRAY_DOCUMENT]: {
     method: 'POST',

@@ -1,14 +1,23 @@
 import {
-  Button, ButtonRow, Card, Icons, PageHead, PageState, Stepper,
+  Button,
+  ButtonRow,
+  Card,
+  Icons,
+  PageHead,
+  PageState,
+  Stepper,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getPayOnDate, getStepNumber, getStepperSteps } from '../../PayRunSelectors';
+import {
+  getPayOnDate,
+  getStepNumber,
+  getStepperSteps,
+} from '../../PayRunSelectors';
 import EmployeePayHeader from '../../components/EmployeePayHeader';
 import payRunDoneImage from './PayRunDone.svg';
 import styles from './PayRunDoneView.module.css';
-
 
 const PayRunDoneView = ({
   onCloseButtonClick,
@@ -19,10 +28,20 @@ const PayRunDoneView = ({
   onStpReportingClick,
 }) => {
   const actions = [
-    <Button key={1} type="link" icon={<Icons.SignOut />} onClick={onPayViaBankFileButtonClick}>
+    <Button
+      key={1}
+      type="link"
+      icon={<Icons.SignOut />}
+      onClick={onPayViaBankFileButtonClick}
+    >
       Pay employees via bank file
     </Button>,
-    <Button key={2} type="link" icon={<Icons.SignOut />} onClick={onStpReportingClick}>
+    <Button
+      key={2}
+      type="link"
+      icon={<Icons.SignOut />}
+      onClick={onStpReportingClick}
+    >
       Payroll reporting (STP)
     </Button>,
   ];
@@ -51,7 +70,7 @@ const PayRunDoneView = ({
             onClick={onCloseButtonClick}
             testid="closeButton"
           >
-              Close
+            Close
           </Button>,
         ]}
       />
@@ -59,12 +78,10 @@ const PayRunDoneView = ({
   );
 };
 
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   paymentDate: getPayOnDate(state),
   stepNumber: getStepNumber(state),
   payRunSteps: getStepperSteps(state),
 });
-
 
 export default connect(mapStateToProps)(PayRunDoneView);

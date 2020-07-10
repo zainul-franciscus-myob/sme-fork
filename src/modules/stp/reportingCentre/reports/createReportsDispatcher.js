@@ -10,7 +10,7 @@ import {
   SET_TABLE_LOADING_STATE,
 } from './ReportsIntents';
 
-const createReportsDispatcher = store => ({
+const createReportsDispatcher = (store) => ({
   setInitialState: (context) => {
     store.dispatch({
       intent: SET_INITIAL_STATE,

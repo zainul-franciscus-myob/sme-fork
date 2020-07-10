@@ -22,9 +22,7 @@ import leavePayItemReducer from './leavePayItemReducer';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class LeavePayItemModule {
-  constructor({
-    integration, setRootView, pushMessage,
-  }) {
+  constructor({ integration, setRootView, pushMessage }) {
     this.setRootView = setRootView;
     this.store = new Store(leavePayItemReducer);
     this.dispatcher = createLeavePayItemDispatcher(this.store);
@@ -45,7 +43,7 @@ export default class LeavePayItemModule {
     };
 
     this.integrator.loadLeavePayItem({ onSuccess, onFailure });
-  }
+  };
 
   saveLeavePayItem = () => {
     if (getIsSubmitting(this.store.getState())) return;
@@ -67,7 +65,7 @@ export default class LeavePayItemModule {
     };
 
     this.integrator.saveLeavePayItem({ onSuccess, onFailure });
-  }
+  };
 
   deleteLeavePayItem = () => {
     this.dispatcher.setSubmittingState(true);
@@ -87,16 +85,16 @@ export default class LeavePayItemModule {
     };
 
     this.integrator.deleteLeavePayItem({ onSuccess, onFailure });
-  }
+  };
 
   confirmBeforeDelete = () => {
     this.dispatcher.openModal('delete');
-  }
+  };
 
   confirmDelete = () => {
     this.dispatcher.closeModal();
     this.deleteLeavePayItem();
-  }
+  };
 
   confirmBeforeCancel = () => {
     const state = this.store.getState();
@@ -107,12 +105,12 @@ export default class LeavePayItemModule {
     } else {
       this.redirectToLeavePayItemList();
     }
-  }
+  };
 
   confirmCancel = () => {
     this.dispatcher.closeModal();
     this.redirectToLeavePayItemList();
-  }
+  };
 
   redirectToLeavePayItemList = () => {
     const state = this.store.getState();
@@ -120,15 +118,15 @@ export default class LeavePayItemModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/payItem?tab=leave`;
-  }
+  };
 
   resetState = () => {
     this.dispatcher.resetState();
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   saveHandler = () => {
     const state = this.store.getState();
@@ -136,7 +134,7 @@ export default class LeavePayItemModule {
     if (modalType) return;
 
     this.saveLeavePayItem();
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,
@@ -166,17 +164,15 @@ export default class LeavePayItemModule {
         onAddLinkedWage={this.dispatcher.addLinkedWage}
         onRemoveLinkedWage={this.dispatcher.removeLinkedWage}
         onCalculationBasisChange={this.dispatcher.updateCalculationBasis}
-        onCalculationBasisAmountChange={this.dispatcher.updateCalculationBasisAmount}
+        onCalculationBasisAmountChange={
+          this.dispatcher.updateCalculationBasisAmount
+        }
         onNameChange={this.dispatcher.updateName}
       />
     );
 
-    const wrappedView = (
-      <Provider store={this.store}>
-        {view}
-      </Provider>
-    );
+    const wrappedView = <Provider store={this.store}>{view}</Provider>;
 
     this.setRootView(wrappedView);
-  }
+  };
 }

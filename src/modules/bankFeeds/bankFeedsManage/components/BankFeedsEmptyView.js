@@ -10,16 +10,10 @@ import NoResultPageState from '../../../../components/NoResultPageState/NoResult
 import TableView from '../../../../components/TableView/TableView';
 import getBankAccountsTableResponsiveConfig from './getBankAccountsTableResponsiveConfig';
 
-const BankFeedsEmptyView = ({
-  manageBankFeedsLink,
-}) => {
+const BankFeedsEmptyView = ({ manageBankFeedsLink }) => {
   const learnMoreBankFeedsLink = 'https://help.myob.com/wiki/x/GaRqAg';
   const emptyViewActions = [
-    <LinkButton
-      key={1}
-      icon={<Icons.Info />}
-      href={learnMoreBankFeedsLink}
-    >
+    <LinkButton key={1} icon={<Icons.Info />} href={learnMoreBankFeedsLink}>
       Learn more
     </LinkButton>,
     <LinkButton
@@ -28,7 +22,7 @@ const BankFeedsEmptyView = ({
       href={manageBankFeedsLink}
       isOpenInNewTab
     >
-    Create bank feed
+      Create bank feed
     </LinkButton>,
   ];
 
@@ -41,9 +35,7 @@ const BankFeedsEmptyView = ({
     />
   );
 
-  const emptyViewHeader = (
-    <BankAccountsTableHeader tableConfig={tableConfig} />
-  );
+  const emptyViewHeader = <BankAccountsTableHeader tableConfig={tableConfig} />;
 
   return (
     <Card>
@@ -57,7 +49,7 @@ const BankFeedsEmptyView = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   manageBankFeedsLink: getCreateBankFeedsUrl(state),
 });
 

@@ -11,7 +11,11 @@ const MoreInformation = ({
 }) => (
   <StandardTemplate sticky="none">
     <FieldGroup
-      label={<span id={InvoiceDetailElementId.ACTIVITY_HISTORY_ELEMENT_ID}>More information</span>}
+      label={
+        <span id={InvoiceDetailElementId.ACTIVITY_HISTORY_ELEMENT_ID}>
+          More information
+        </span>
+      }
     >
       <InvoiceHistory
         onAccordionClose={onAccordionClose}

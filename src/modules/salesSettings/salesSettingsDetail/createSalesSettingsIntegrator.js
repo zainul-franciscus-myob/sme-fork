@@ -8,7 +8,6 @@ import {
 } from '../SalesSettingsIntents';
 import { getBusinessId } from './SalesSettingsDetailSelectors';
 
-
 const createInTrayIntegrator = (store, integration) => ({
   loadSalesSettings: ({ onSuccess, onFailure, templateListSortOrder }) => {
     const state = store.getState();
@@ -63,11 +62,7 @@ const createInTrayIntegrator = (store, integration) => ({
     });
   },
 
-  sortTemplateList: ({
-    sortOrder,
-    onSuccess,
-    onFailure,
-  }) => {
+  sortTemplateList: ({ sortOrder, onSuccess, onFailure }) => {
     const intent = SORT_TEMPLATE_LIST;
     const state = store.getState();
 
@@ -86,11 +81,7 @@ const createInTrayIntegrator = (store, integration) => ({
     });
   },
 
-  deleteTemplate: ({
-    templateName,
-    onSuccess,
-    onFailure,
-  }) => {
+  deleteTemplate: ({ templateName, onSuccess, onFailure }) => {
     const intent = DELETE_TEMPLATE;
     const state = store.getState();
     const urlParams = {
@@ -115,7 +106,10 @@ const createInTrayIntegrator = (store, integration) => ({
     };
 
     integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 });

@@ -168,10 +168,7 @@ export default class AccountDetailModule {
       this.dispatcher.displayAlert(error.message);
     };
 
-    this.integrator.deleteAccount(
-      onSuccess,
-      onFailure,
-    );
+    this.integrator.deleteAccount(onSuccess, onFailure);
   };
 
   saveHandler = () => {
@@ -180,7 +177,7 @@ export default class AccountDetailModule {
     if (modalType) return;
 
     this.updateOrCreateAccount();
-  }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,

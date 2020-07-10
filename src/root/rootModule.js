@@ -29,9 +29,7 @@ import loadSubscriptionUrl from '../modules/settings/subscription/loadSubscripti
 import tasksService from './services/tasks';
 
 export default class RootModule {
-  init = ({
-    integration, router, sendTelemetryEvent, startLeanEngage,
-  }) => {
+  init = ({ integration, router, sendTelemetryEvent, startLeanEngage }) => {
     const { constructPath, replaceURLParamsAndReload, navigateTo } = router;
 
     this.store = new Store(RootReducer);
@@ -42,8 +40,16 @@ export default class RootModule {
     this.integrator = CreateRootIntegrator(this.store, integration);
 
     this.tasksService = tasksService(this.dispatcher, integration, this.store);
-    this.settingsService = SettingsService(this.dispatcher, integration, this.store);
-    this.businessDetailsService = BusinessDetailsService(this.dispatcher, integration, this.store);
+    this.settingsService = SettingsService(
+      this.dispatcher,
+      integration,
+      this.store
+    );
+    this.businessDetailsService = BusinessDetailsService(
+      this.dispatcher,
+      integration,
+      this.store
+    );
     this.last_business_id = null;
     this.startLeanEngage = startLeanEngage;
     this.featureToggles = getSplitToggle();
@@ -76,7 +82,7 @@ export default class RootModule {
     this.globalCallbacks = buildGlobalCallbacks({
       closeTasks: this.tasksService.closeTasks,
     });
-  }
+  };
 
   getRegion = () => this.store.getState().region;
 
@@ -99,13 +105,14 @@ export default class RootModule {
 
   isToggleOn = (toggleName) => {
     if (
-      toggleName === FeatureToggle.EssentialsJobs
-      || toggleName === FeatureToggle.EssentialsJobsPayrun) {
+      toggleName === FeatureToggle.EssentialsJobs ||
+      toggleName === FeatureToggle.EssentialsJobsPayrun
+    ) {
       return true;
     }
 
     return this.featureToggles.isToggleOn(toggleName);
-  }
+  };
 
   runLeanEngage = () => {
     const state = this.store.getState();
@@ -123,7 +130,7 @@ export default class RootModule {
     const url = await urlLoader(
       this.integration,
       businessId,
-      window.location.href,
+      window.location.href
     );
 
     if (!url) {
@@ -157,16 +164,20 @@ export default class RootModule {
   openBrowserAlert = () => {
     this.dispatcher.setBrowserAlert({
       type: 'danger',
-      message: 'Your browser version is not fully supported, some pages may not work as expected. Please upgrade to the latest version.',
+      message:
+        'Your browser version is not fully supported, some pages may not work as expected. Please upgrade to the latest version.',
     });
-  }
+  };
 
   closeBrowserAlert = () => {
     this.dispatcher.setBrowserAlert();
-  }
+  };
 
   run = async (routeProps, module, context) => {
-    const { routeParams: { businessId, region }, currentRouteName } = routeProps;
+    const {
+      routeParams: { businessId, region },
+      currentRouteName,
+    } = routeProps;
 
     this.dispatcher.setBusinessId(businessId);
     this.dispatcher.setRegion(region);
@@ -193,7 +204,10 @@ export default class RootModule {
     }
 
     this.drawer.run(routeProps);
-    this.nav.run({ ...routeProps, onPageTransition: module.handlePageTransition });
+    this.nav.run({
+      ...routeProps,
+      onPageTransition: module.handlePageTransition,
+    });
     this.onboarding.run(routeProps);
 
     module.resetState();

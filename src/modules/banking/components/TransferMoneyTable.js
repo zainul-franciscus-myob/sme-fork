@@ -12,21 +12,36 @@ import TableView from '../../../components/TableView/TableView';
 import TransferMoneyTableBody from './TransferMoneyTableBody';
 import styles from './BankTransactionOpenEntryTable.module.css';
 
-const getTableConfig = isWithdrawal => ({
+const getTableConfig = (isWithdrawal) => ({
   select: {
-    cellRole: 'checkbox', valign: 'middle', width: 'auto', align: 'left',
+    cellRole: 'checkbox',
+    valign: 'middle',
+    width: 'auto',
+    align: 'left',
   },
   date: {
-    columnName: 'Date', width: '11rem', valign: 'middle', align: 'left',
+    columnName: 'Date',
+    width: '11rem',
+    valign: 'middle',
+    align: 'left',
   },
   account: {
-    columnName: 'Bank account', width: 'flex-1', valign: 'middle', align: 'left',
+    columnName: 'Bank account',
+    width: 'flex-1',
+    valign: 'middle',
+    align: 'left',
   },
   description: {
-    columnName: 'Description', width: 'flex-1', valign: 'middle', align: 'left',
+    columnName: 'Description',
+    width: 'flex-1',
+    valign: 'middle',
+    align: 'left',
   },
   amount: {
-    columnName: !isWithdrawal ? 'Withdrawal ($)' : 'Deposit ($)', width: '16rem', valign: 'middle', align: 'right',
+    columnName: !isWithdrawal ? 'Withdrawal ($)' : 'Deposit ($)',
+    width: '16rem',
+    valign: 'middle',
+    align: 'right',
   },
 });
 
@@ -49,16 +64,36 @@ const TransferMoneyTable = (props) => {
     <Table.Header>
       <Table.HeaderItem {...tableConfig.select} />
       <Table.HeaderItem {...tableConfig.date}>
-        <HeaderSort title={tableConfig.date.columnName} sortName="Date" activeSort={order} onSort={onSort} />
+        <HeaderSort
+          title={tableConfig.date.columnName}
+          sortName="Date"
+          activeSort={order}
+          onSort={onSort}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.account}>
-        <HeaderSort title={tableConfig.account.columnName} sortName="AccountDisplayId" activeSort={order} onSort={onSort} />
+        <HeaderSort
+          title={tableConfig.account.columnName}
+          sortName="AccountDisplayId"
+          activeSort={order}
+          onSort={onSort}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.description}>
-        <HeaderSort title={tableConfig.description.columnName} sortName="Description" activeSort={order} onSort={onSort} />
+        <HeaderSort
+          title={tableConfig.description.columnName}
+          sortName="Description"
+          activeSort={order}
+          onSort={onSort}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.amount}>
-        <HeaderSort title={tableConfig.amount.columnName} sortName="Amount" activeSort={order} onSort={onSort} />
+        <HeaderSort
+          title={tableConfig.amount.columnName}
+          sortName="Amount"
+          activeSort={order}
+          onSort={onSort}
+        />
       </Table.HeaderItem>
     </Table.Header>
   );
@@ -78,7 +113,7 @@ const TransferMoneyTable = (props) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   order: getOrder(state),
   isWithdrawal: getIsWithdrawal(state),
   isTableLoading: getIsTableLoading(state),

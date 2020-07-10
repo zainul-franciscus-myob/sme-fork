@@ -3,7 +3,12 @@ import buildModuleContext from '../buildModuleContext';
 describe('buildModuleContext', () => {
   it('should decode params', () => {
     const url = 'https://localghost:👻';
-    const route = { params: { redirectURL: encodeURIComponent(url), c: encodeURIComponent('abc') } };
+    const route = {
+      params: {
+        redirectURL: encodeURIComponent(url),
+        c: encodeURIComponent('abc'),
+      },
+    };
     const expected = { redirectURL: url, c: 'abc' };
 
     const actual = buildModuleContext(route);

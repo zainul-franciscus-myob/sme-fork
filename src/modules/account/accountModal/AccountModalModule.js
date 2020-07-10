@@ -16,7 +16,7 @@ export default class AccountModalModule {
     this.store = new Store(accountModalReducer);
     this.integrator = createAccountModalIntegrator(
       this.store,
-      this.integration,
+      this.integration
     );
     this.dispatcher = createAccountModalDispatcher(this.store);
   }
@@ -27,7 +27,7 @@ export default class AccountModalModule {
 
   close = () => {
     this.dispatcher.resetState();
-  }
+  };
 
   save = () => {
     if (this.isSubmitting()) return;

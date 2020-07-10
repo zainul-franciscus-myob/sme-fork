@@ -1,6 +1,6 @@
 import Role from '../../Role';
 
-export const getErrorMessage = state => state.errorMessage;
+export const getErrorMessage = (state) => state.errorMessage;
 export const getAgentRoleText = (state) => {
   if (state.agentRole === Role.TAX_AGENT) {
     return 'Tax agent';

@@ -28,9 +28,7 @@ describe('PayItemListView', () => {
 
     const view = (
       <Provider store={store}>
-        <PayItemListView
-          {...props}
-        />
+        <PayItemListView {...props} />
       </Provider>
     );
 
@@ -48,9 +46,7 @@ describe('PayItemListView', () => {
     };
     const view = (
       <Provider store={store}>
-        <PayItemListView
-          {...modifiedProps}
-        />
+        <PayItemListView {...modifiedProps} />
       </Provider>
     );
 

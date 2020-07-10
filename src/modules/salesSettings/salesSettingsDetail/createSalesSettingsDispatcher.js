@@ -20,7 +20,7 @@ import {
 } from '../SalesSettingsIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createSalesSettingsDispatcher = store => ({
+const createSalesSettingsDispatcher = (store) => ({
   setLoadingState: (loadingState) => {
     const intent = SET_LOADING_STATE;
     store.dispatch({ intent, loadingState });

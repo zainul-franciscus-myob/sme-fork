@@ -11,8 +11,7 @@ import {
 } from '../AccountIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-
-const createAccountModalDispatcher = store => ({
+const createAccountModalDispatcher = (store) => ({
   updateAccountNumber: ({ key, value }) => {
     const intent = UPDATE_ACCOUNT_NUMBER;
     store.dispatch({

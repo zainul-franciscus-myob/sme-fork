@@ -10,6 +10,9 @@ const BillAlert = ({ message, type, onDismissAlert }) => (
   </Alert>
 );
 
-const mapStateToProps = state => ({ message: getAlertMessage(state), type: getAlertType(state) });
+const mapStateToProps = (state) => ({
+  message: getAlertMessage(state),
+  type: getAlertType(state),
+});
 
 export default connect(mapStateToProps)(BillAlert);

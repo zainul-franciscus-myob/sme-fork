@@ -4,12 +4,15 @@ describe('buildAutoCompleteItems', () => {
   describe('buildItems', () => {
     const items = [{ first: '1', last: '2', hidden: '3' }];
     const selectedItem = { first: '4', last: '5', hidden: '6' };
-    const displayColumns = [
-      { columnName: 'first' },
-    ];
+    const displayColumns = [{ columnName: 'first' }];
 
     const defaultInputs = {
-      items, selectedItem, isEditing: true, displayColumns, allowClearSelection: false, clearSelectionText: 'None',
+      items,
+      selectedItem,
+      isEditing: true,
+      displayColumns,
+      allowClearSelection: false,
+      clearSelectionText: 'None',
     };
 
     it('build items when editing', () => {
@@ -25,15 +28,25 @@ describe('buildAutoCompleteItems', () => {
     });
 
     it('build empty items when not editing and no selected item', () => {
-      const actual = buildItems({ ...defaultInputs, isEditing: false, selectedItem: undefined });
+      const actual = buildItems({
+        ...defaultInputs,
+        isEditing: false,
+        selectedItem: undefined,
+      });
 
       expect(actual).toEqual([]);
     });
 
     it('add clear item when required', () => {
-      const actual = buildItems({ ...defaultInputs, allowClearSelection: true });
+      const actual = buildItems({
+        ...defaultInputs,
+        allowClearSelection: true,
+      });
 
-      expect(actual).toEqual([{ first: 'None' }, { first: '1', last: '2', hidden: '3' }]);
+      expect(actual).toEqual([
+        { first: 'None' },
+        { first: '1', last: '2', hidden: '3' },
+      ]);
     });
 
     it('add space to 2nd and after display column fields for proper concatenate', () => {
@@ -59,7 +72,9 @@ describe('buildAutoCompleteItems', () => {
 
     it('select item from items when identifier matches', () => {
       const actual = buildSelectedItem({
-        items, selectedItem: { id: 1 }, identifier: 'id',
+        items,
+        selectedItem: { id: 1 },
+        identifier: 'id',
       });
 
       expect(actual).toBe(items[0]);

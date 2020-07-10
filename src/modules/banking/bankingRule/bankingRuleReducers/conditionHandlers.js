@@ -1,9 +1,7 @@
 import FieldTypes from '../FieldTypes';
 
 export const updateRuleCondition = (state, action) => {
-  const {
-    conditionIndex, key, value,
-  } = action;
+  const { conditionIndex, key, value } = action;
   const conditions = state.bankingRule.conditions.map((condition, i) => {
     if (i === conditionIndex) {
       return {
@@ -26,9 +24,7 @@ export const updateRuleCondition = (state, action) => {
 export const addRuleCondition = (state) => {
   const newCondition = {
     field: FieldTypes.description,
-    predicates: [
-      { matcher: 'Contains', value: '' },
-    ],
+    predicates: [{ matcher: 'Contains', value: '' }],
   };
   return {
     ...state,
@@ -40,25 +36,28 @@ export const addRuleCondition = (state) => {
 };
 
 export const addConditionPredicate = (state, action) => {
-  const {
-    conditionIndex, newData,
-  } = action;
+  const { conditionIndex, newData } = action;
   const { key, value, id } = newData;
-  const conditions = state.bankingRule.conditions.map((condition, currentConditionIndex) => {
-    if (currentConditionIndex === conditionIndex) {
-      const matcher = condition.field === FieldTypes.description ? 'Contains' : 'Equal';
-      return {
-        ...condition,
-        predicates: [
-          ...condition.predicates,
-          {
-            id, matcher, [key]: value,
-          },
-        ],
-      };
+  const conditions = state.bankingRule.conditions.map(
+    (condition, currentConditionIndex) => {
+      if (currentConditionIndex === conditionIndex) {
+        const matcher =
+          condition.field === FieldTypes.description ? 'Contains' : 'Equal';
+        return {
+          ...condition,
+          predicates: [
+            ...condition.predicates,
+            {
+              id,
+              matcher,
+              [key]: value,
+            },
+          ],
+        };
+      }
+      return condition;
     }
-    return condition;
-  });
+  );
   return {
     ...state,
     bankingRule: {
@@ -69,27 +68,29 @@ export const addConditionPredicate = (state, action) => {
 };
 
 export const updateConditionPredicate = (state, action) => {
-  const {
-    conditionIndex, predicateIndex, key, value,
-  } = action;
-  const conditions = state.bankingRule.conditions.map((condition, currentConditionIndex) => {
-    if (currentConditionIndex === conditionIndex) {
-      const predicates = condition.predicates.map((predicate, currentPredicateIndex) => {
-        if (currentPredicateIndex === predicateIndex) {
-          return {
-            ...predicate,
-            [key]: value,
-          };
-        }
-        return predicate;
-      });
-      return {
-        ...condition,
-        predicates,
-      };
+  const { conditionIndex, predicateIndex, key, value } = action;
+  const conditions = state.bankingRule.conditions.map(
+    (condition, currentConditionIndex) => {
+      if (currentConditionIndex === conditionIndex) {
+        const predicates = condition.predicates.map(
+          (predicate, currentPredicateIndex) => {
+            if (currentPredicateIndex === predicateIndex) {
+              return {
+                ...predicate,
+                [key]: value,
+              };
+            }
+            return predicate;
+          }
+        );
+        return {
+          ...condition,
+          predicates,
+        };
+      }
+      return condition;
     }
-    return condition;
-  });
+  );
   return {
     ...state,
     bankingRule: {
@@ -101,18 +102,20 @@ export const updateConditionPredicate = (state, action) => {
 
 export const removeConditionPredicate = (state, action) => {
   const { conditionIndex, predicateIndex } = action;
-  const conditions = state.bankingRule.conditions.map((condition, currentConditionIndex) => {
-    if (conditionIndex === currentConditionIndex) {
-      const predicates = condition
-        .predicates
-        .filter((_, currentPredicateIndex) => currentPredicateIndex !== predicateIndex);
-      return {
-        ...condition,
-        predicates,
-      };
-    }
-    return condition;
-  }).filter(({ predicates }) => predicates.length > 0);
+  const conditions = state.bankingRule.conditions
+    .map((condition, currentConditionIndex) => {
+      if (conditionIndex === currentConditionIndex) {
+        const predicates = condition.predicates.filter(
+          (_, currentPredicateIndex) => currentPredicateIndex !== predicateIndex
+        );
+        return {
+          ...condition,
+          predicates,
+        };
+      }
+      return condition;
+    })
+    .filter(({ predicates }) => predicates.length > 0);
   return {
     ...state,
     bankingRule: {

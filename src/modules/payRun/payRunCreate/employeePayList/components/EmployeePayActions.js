@@ -12,20 +12,39 @@ const EmployeePayActions = ({
 }) => (
   <ButtonRow
     primary={[
-      <Button key="saveAndClose" testid="saveAndCloseButton" name="saveAndClose" type="secondary" disabled={isSubmitting} onClick={onSaveAndCloseButtonClick}>
-          Save and close
+      <Button
+        key="saveAndClose"
+        testid="saveAndCloseButton"
+        name="saveAndClose"
+        type="secondary"
+        disabled={isSubmitting}
+        onClick={onSaveAndCloseButtonClick}
+      >
+        Save and close
       </Button>,
-      <Button key="previous" name="previous" type="secondary" disabled={isSubmitting} onClick={onPreviousButtonClick}>
-          Previous
+      <Button
+        key="previous"
+        name="previous"
+        type="secondary"
+        disabled={isSubmitting}
+        onClick={onPreviousButtonClick}
+      >
+        Previous
       </Button>,
-      <Button key="save" name="save" type="primary" disabled={isSubmitting} onClick={onNextButtonClick}>
-          Next
+      <Button
+        key="save"
+        name="save"
+        type="primary"
+        disabled={isSubmitting}
+        onClick={onNextButtonClick}
+      >
+        Next
       </Button>,
     ]}
   />
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isSubmitting: getIsSubmitting(state),
 });
 

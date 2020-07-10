@@ -30,7 +30,6 @@ describe('SpendMoneyView', () => {
       </Provider>
     );
 
-
     ReactDOM.render(view, div);
     ReactDOM.unmountComponentAtNode(div);
   });

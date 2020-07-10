@@ -11,7 +11,7 @@ import {
 } from '../PayRunIntents';
 import createPayRunDispatchers from '../createPayRunDispatchers';
 
-const createStartPayRunDispatchers = store => ({
+const createStartPayRunDispatchers = (store) => ({
   ...createPayRunDispatchers(store),
 
   loadEmployeePays: (employeePays) => {

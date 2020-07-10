@@ -14,7 +14,7 @@ import {
 } from './SuperPayItemIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createSuperPayItemDispatcher = store => ({
+const createSuperPayItemDispatcher = (store) => ({
   setInitialState: (context) => {
     const intent = SET_INITIAL_STATE;
     store.dispatch({ intent, context });

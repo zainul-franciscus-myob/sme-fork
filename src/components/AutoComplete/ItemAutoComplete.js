@@ -8,10 +8,7 @@ const metaData = [
 ];
 
 const ItemAutoComplete = (props) => {
-  const {
-    addNewItem,
-    ...otherProps
-  } = props;
+  const { addNewItem, ...otherProps } = props;
 
   return (
     <AutoComplete

@@ -1,5 +1,7 @@
 import {
-  getDownloadPDFQueryParams, getQueryParamsForList, getSendEmailContent,
+  getDownloadPDFQueryParams,
+  getQueryParamsForList,
+  getSendEmailContent,
 } from '../selectors/customerStatementListIntegrationSelectors';
 import StatementType from '../StatementType';
 

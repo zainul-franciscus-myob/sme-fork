@@ -1,4 +1,8 @@
-import { LINK_DOCUMENT_TO_BILL, LOAD_LINK_BILL, SORT_AND_FILTER_BILL_LIST } from './LinkBillIntents';
+import {
+  LINK_DOCUMENT_TO_BILL,
+  LOAD_LINK_BILL,
+  SORT_AND_FILTER_BILL_LIST,
+} from './LinkBillIntents';
 import {
   getBusinessId,
   getDocumentId,
@@ -50,9 +54,7 @@ const createLinkBillIntegrator = (store, integration) => ({
     });
   },
 
-  linkDocumentToBill: ({
-    onSuccess, onFailure,
-  }) => {
+  linkDocumentToBill: ({ onSuccess, onFailure }) => {
     const intent = LINK_DOCUMENT_TO_BILL;
     const state = store.getState();
     const urlParams = {

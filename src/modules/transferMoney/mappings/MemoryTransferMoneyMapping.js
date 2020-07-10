@@ -10,12 +10,13 @@ import transferMoneyDetailEntry from './data/transferMoneyDetailEntry';
 import transferMoneyDetailNewDuplicateEntry from './data/transferMoneyDetailNewDuplicateEntry';
 import transferMoneyDetailNewEntry from './data/transferMoneyDetailNewEntry';
 
-const loadNewTransferMoney = ({ onSuccess }) => onSuccess(transferMoneyDetailNewEntry);
-const loadNewDuplicateTransferMoney = ({ onSuccess }) => (
-  onSuccess(transferMoneyDetailNewDuplicateEntry)
-);
+const loadNewTransferMoney = ({ onSuccess }) =>
+  onSuccess(transferMoneyDetailNewEntry);
+const loadNewDuplicateTransferMoney = ({ onSuccess }) =>
+  onSuccess(transferMoneyDetailNewDuplicateEntry);
 const createTransferMoney = ({ onSuccess }) => onSuccess(successResponse);
-const loadTransferMoneyDetail = ({ onSuccess }) => onSuccess(transferMoneyDetailEntry);
+const loadTransferMoneyDetail = ({ onSuccess }) =>
+  onSuccess(transferMoneyDetailEntry);
 const deleteTransferMoney = ({ onSuccess }) => onSuccess(successResponse);
 
 const MemoryTransferMoneyMapping = {

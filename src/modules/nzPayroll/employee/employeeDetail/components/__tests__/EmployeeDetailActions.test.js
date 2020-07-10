@@ -7,15 +7,16 @@ import EmployeeDetailActions from '../EmployeeDetailActions';
 import Store from '../../../../../../store/Store';
 import employeeDetailNzReducer from '../../employeeDetailNzReducer';
 
-
 describe('EmployeeDetailActions', () => {
   describe('<ButtonRow/>', () => {
     let store;
     let wrapper;
     beforeEach(() => {
       store = new Store(employeeDetailNzReducer);
-      wrapper = mount(<EmployeeDetailActions />,
-        { wrappingComponent: Provider, wrappingComponentProps: { store } });
+      wrapper = mount(<EmployeeDetailActions />, {
+        wrappingComponent: Provider,
+        wrappingComponentProps: { store },
+      });
     });
 
     it('should render 3 buttons', () => {
@@ -23,9 +24,7 @@ describe('EmployeeDetailActions', () => {
     });
 
     it('delete button should have proper props', () => {
-      const deleteButton = wrapper
-        .find({ name: 'delete' })
-        .find('Button');
+      const deleteButton = wrapper.find({ name: 'delete' }).find('Button');
 
       expect(deleteButton.props()).toMatchObject({
         disabled: false,
@@ -35,9 +34,7 @@ describe('EmployeeDetailActions', () => {
     });
 
     it('cancel button should have proper props', () => {
-      const deleteButton = wrapper
-        .find({ name: 'cancel' })
-        .find('Button');
+      const deleteButton = wrapper.find({ name: 'cancel' }).find('Button');
 
       expect(deleteButton.props()).toMatchObject({
         disabled: false,
@@ -47,9 +44,7 @@ describe('EmployeeDetailActions', () => {
     });
 
     it('save button should have proper props', () => {
-      const deleteButton = wrapper
-        .find({ name: 'save' })
-        .find('Button');
+      const deleteButton = wrapper.find({ name: 'save' }).find('Button');
 
       expect(deleteButton.props()).toMatchObject({
         disabled: false,

@@ -10,13 +10,9 @@ describe('PayRunModule', () => {
     const integration = {
       read: ({ intent, onSuccess }) => {
         if (intent === START_NEW_PAY_RUN) {
-          onSuccess(
-            successResponse || startNewPayRunResponse,
-          );
+          onSuccess(successResponse || startNewPayRunResponse);
         } else if (intent === LOAD_TIMESHEETS) {
-          onSuccess(
-            loadTimesheetsResponse,
-          );
+          onSuccess(loadTimesheetsResponse);
         }
       },
       write: () => {},
@@ -30,7 +26,10 @@ describe('PayRunModule', () => {
     };
 
     const payRunModule = new PayRunModule({
-      integration, setRootView, pushMessage: [], isToggleOn,
+      integration,
+      setRootView,
+      pushMessage: [],
+      isToggleOn,
     });
     payRunModule.run();
     payRunModule.startNewPayRun();

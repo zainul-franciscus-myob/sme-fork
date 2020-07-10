@@ -7,12 +7,17 @@ import { getShowInactive, getTableEntries } from '../AccountListSelectors';
 import styles from './AccountListTableBody.module.css';
 
 const StatusRowItem = ({ tableConfig, isInactive }) => (
-  <Table.RowItem columnName={tableConfig.status.columnName} className={!isInactive ? styles.hidden : ''}>
-    {
-      isInactive
-        ? <Label type="boxed" color="light-grey" size="small">Inactive</Label>
-        : <span />
-    }
+  <Table.RowItem
+    columnName={tableConfig.status.columnName}
+    className={!isInactive ? styles.hidden : ''}
+  >
+    {isInactive ? (
+      <Label type="boxed" color="light-grey" size="small">
+        Inactive
+      </Label>
+    ) : (
+      <span />
+    )}
   </Table.RowItem>
 );
 
@@ -35,18 +40,27 @@ const AccountRowItem = ({
   const isHidden = value === '' || value === undefined ? styles.hidden : '';
   const hideHeaderAccountNumber = hideAccountNumber && isAccountNumber;
 
-  return !config.isHidden && !hideHeaderAccountNumber && (
-    <Table.RowItem columnName={config.columnName} {...config.styles} className={isHidden}>
-      <span title={title} className={className} data-indent-level={indentLevel}>{value}</span>
-    </Table.RowItem>
+  return (
+    !config.isHidden &&
+    !hideHeaderAccountNumber && (
+      <Table.RowItem
+        columnName={config.columnName}
+        {...config.styles}
+        className={isHidden}
+      >
+        <span
+          title={title}
+          className={className}
+          data-indent-level={indentLevel}
+        >
+          {value}
+        </span>
+      </Table.RowItem>
+    )
   );
 };
 
-const AccountListTableBody = ({
-  tableConfig,
-  showInactive,
-  entries,
-}) => {
+const AccountListTableBody = ({ tableConfig, showInactive, entries }) => {
   const rows = entries.map((entry) => {
     const {
       id,
@@ -84,12 +98,8 @@ const AccountListTableBody = ({
           isSystem={isSystem}
           isHeader={isHeader}
         />
-        { showInactive && StatusRowItem({ tableConfig, isInactive })}
-        <AccountRowItem
-          config={tableConfig.type}
-          value={type}
-          title={type}
-        />
+        {showInactive && StatusRowItem({ tableConfig, isInactive })}
+        <AccountRowItem config={tableConfig.type} value={type} title={type} />
         <AccountRowItem
           config={tableConfig.taxCode}
           value={taxCode}
@@ -120,14 +130,10 @@ const AccountListTableBody = ({
     );
   });
 
-  return (
-    <Table.Body>
-      {rows}
-    </Table.Body>
-  );
+  return <Table.Body>{rows}</Table.Body>;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   showInactive: getShowInactive(state),
   entries: getTableEntries(state),
 });

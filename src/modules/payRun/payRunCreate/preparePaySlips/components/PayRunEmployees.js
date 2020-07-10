@@ -2,7 +2,11 @@ import { FieldGroup, Tabs } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getEmailTabEmployees, getPrintTabEmployees, getSelectedTab } from '../PreparePaySlipsSelectors';
+import {
+  getEmailTabEmployees,
+  getPrintTabEmployees,
+  getSelectedTab,
+} from '../PreparePaySlipsSelectors';
 import EmailPaySlipsTab from './EmailPaySlipsTab';
 import PrintPaySlipsTab from './PrintPaySlipsTab';
 
@@ -20,28 +24,33 @@ const PayRunEmployees = ({
   ];
 
   const tabContent = {
-    'email-pay-slips': <EmailPaySlipsTab
-      employees={emailTabEmployees}
-      selectAll={emailTabListeners.selectAll}
-      selectItem={emailTabListeners.selectItem}
-      exportPdf={exportPdf}
-      onEmailClick={emailTabListeners.onEmailClick}
-    />,
-    'print-pay-slips': <PrintPaySlipsTab
-      employees={printTabEmployees}
-      exportPdf={exportPdf}
-    />,
+    'email-pay-slips': (
+      <EmailPaySlipsTab
+        employees={emailTabEmployees}
+        selectAll={emailTabListeners.selectAll}
+        selectItem={emailTabListeners.selectItem}
+        exportPdf={exportPdf}
+        onEmailClick={emailTabListeners.onEmailClick}
+      />
+    ),
+    'print-pay-slips': (
+      <PrintPaySlipsTab employees={printTabEmployees} exportPdf={exportPdf} />
+    ),
   }[selectedTab];
 
   return (
     <FieldGroup label="Employees">
-      <Tabs items={tabItems} selected={selectedTab} onSelected={setSelectedTab} />
+      <Tabs
+        items={tabItems}
+        selected={selectedTab}
+        onSelected={setSelectedTab}
+      />
       {tabContent}
     </FieldGroup>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedTab: getSelectedTab(state),
   emailTabEmployees: getEmailTabEmployees(state),
   printTabEmployees: getPrintTabEmployees(state),

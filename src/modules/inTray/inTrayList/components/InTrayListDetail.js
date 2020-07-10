@@ -1,10 +1,4 @@
-import {
-  Aside,
-  Button,
-  ButtonRow,
-  Dropdown,
-  Icons,
-} from '@myob/myob-widgets';
+import { Aside, Button, ButtonRow, Dropdown, Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -28,25 +22,29 @@ const items = [
 ];
 
 const InTrayListDetail = ({
-  onClose, handleActionSelect, activeEntryId, uploadedDate, documentViewerUrl,
+  onClose,
+  handleActionSelect,
+  activeEntryId,
+  uploadedDate,
+  documentViewerUrl,
 }) => (
   <Aside
     className={styles.aside}
-    header={(
+    header={
       <Aside.Header>
         <Aside.Title icon={<Icons.Invoice set="lg" />}>
-            Document uploaded
-          {' '}
-          {uploadedDate}
+          Document uploaded {uploadedDate}
         </Aside.Title>
         <Aside.Button onClick={onClose} icon={<Icons.Close />} />
       </Aside.Header>
-    )}
-    footer={(
+    }
+    footer={
       <ButtonRow>
         <Button
           type="secondary"
-          onClick={() => handleActionSelect(activeEntryId)(actionTypes.linkToExistingBill)}
+          onClick={() =>
+            handleActionSelect(activeEntryId)(actionTypes.linkToExistingBill)
+          }
         >
           Link to existing bill
         </Button>
@@ -54,22 +52,22 @@ const InTrayListDetail = ({
           top
           right
           onSelect={handleActionSelect(activeEntryId)}
-          toggle={(
+          toggle={
             <Dropdown.Toggle>
               Create
               <Icons.Caret />
             </Dropdown.Toggle>
-          )}
+          }
           items={items}
         />
       </ButtonRow>
-    )}
+    }
   >
     <DocumentViewer src={documentViewerUrl} type="application/pdf" />
   </Aside>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...getActiveEntry(state),
   documentViewerUrl: getDocumentViewerUrl(state),
 });

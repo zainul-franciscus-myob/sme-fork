@@ -1,5 +1,9 @@
 import {
-  FieldGroup, FormTemplate, Input, ReadOnly, Select,
+  FieldGroup,
+  FormTemplate,
+  Input,
+  ReadOnly,
+  Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -47,14 +51,20 @@ const EmployeeDetailPaymentDetails = ({
     bankAccounts,
   } = paymentDetails;
 
-  const valueOptionsSelect = valueOptions.map(
-    option => <Select.Option key={option.name} value={option.value} label={option.name} />,
-  );
-  const paymentMethodOptionsSelect = paymentMethodOptions.map(
-    option => <Select.Option key={option.name} value={option.value} label={option.name} />,
-  );
+  const valueOptionsSelect = valueOptions.map((option) => (
+    <Select.Option key={option.name} value={option.value} label={option.name} />
+  ));
+  const paymentMethodOptionsSelect = paymentMethodOptions.map((option) => (
+    <Select.Option key={option.name} value={option.value} label={option.name} />
+  ));
   const splitNetPayBetweenOptionsSelect = splitNetPayBetweenOptions.map(
-    option => <Select.Option key={option.name} value={option.value} label={option.name} />,
+    (option) => (
+      <Select.Option
+        key={option.name}
+        value={option.value}
+        label={option.name}
+      />
+    )
   );
 
   const bankAccount = bankAccounts.map((account, index) => {
@@ -83,24 +93,29 @@ const EmployeeDetailPaymentDetails = ({
           value={account.accountName}
           onChange={onInputChange(onBankAccountDetailsChange, index)}
         />
-        {
-          (bankAccounts.length === nextIndex)
-            ? <ReadOnly name="balanceRemaining" label="Amount: ">Balance remaining</ReadOnly>
-            : (
-              <div>
-                <Select label="Value" name="value" value={account.value} onChange={onSelectChange(onBankAccountDetailsChange, index)}>
-                  {valueOptionsSelect}
-                </Select>
-                <AmountInput
-                  numeralDecimalScaleMax={6}
-                  label={`Amount ${account.amountLabel}`}
-                  name="amount"
-                  value={account.amount}
-                  onChange={onAmountChange(onBankAccountDetailsChange, index)}
-                />
-              </div>
-            )
-        }
+        {bankAccounts.length === nextIndex ? (
+          <ReadOnly name="balanceRemaining" label="Amount: ">
+            Balance remaining
+          </ReadOnly>
+        ) : (
+          <div>
+            <Select
+              label="Value"
+              name="value"
+              value={account.value}
+              onChange={onSelectChange(onBankAccountDetailsChange, index)}
+            >
+              {valueOptionsSelect}
+            </Select>
+            <AmountInput
+              numeralDecimalScaleMax={6}
+              label={`Amount ${account.amountLabel}`}
+              name="amount"
+              value={account.amount}
+              onChange={onAmountChange(onBankAccountDetailsChange, index)}
+            />
+          </div>
+        )}
       </FieldGroup>
     );
   });
@@ -108,19 +123,34 @@ const EmployeeDetailPaymentDetails = ({
   const electronicPaymentOptions = showElectronicPaymentDetails && (
     <React.Fragment>
       <div className={styles.splitBank}>
-        <Select label="Split net pay between" name="splitPayBetween" value={splitPayBetween} onChange={onSelectChange(onPaymentDetailsChange)}>
+        <Select
+          label="Split net pay between"
+          name="splitPayBetween"
+          value={splitPayBetween}
+          onChange={onSelectChange(onPaymentDetailsChange)}
+        >
           {splitNetPayBetweenOptionsSelect}
         </Select>
         <p className={styles.paragraphPadding}>employee bank accounts</p>
       </div>
-      <Input label="Bank statement text" name="bankStatementText" value={bankStatementText} onChange={onInputChange(onPaymentDetailsChange)} />
+      <Input
+        label="Bank statement text"
+        name="bankStatementText"
+        value={bankStatementText}
+        onChange={onInputChange(onPaymentDetailsChange)}
+      />
     </React.Fragment>
   );
 
   return (
     <FormTemplate pageHead="">
       <FieldGroup label="Payment details">
-        <Select label="Payment method" name="paymentMethod" value={paymentMethod} onChange={onSelectChange(onPaymentDetailsChange)}>
+        <Select
+          label="Payment method"
+          name="paymentMethod"
+          value={paymentMethod}
+          onChange={onSelectChange(onPaymentDetailsChange)}
+        >
           {paymentMethodOptionsSelect}
         </Select>
         {electronicPaymentOptions}
@@ -130,7 +160,7 @@ const EmployeeDetailPaymentDetails = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   paymentDetails: getPaymentDetails(state),
   paymentMethodOptions: getPaymentMethodOptions(state),
   splitNetPayBetweenOptions: getSplitNetPayBetweenOptions(state),

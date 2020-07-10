@@ -22,7 +22,7 @@ describe('LeavePayItemInfo', () => {
       const wrapper = mount(
         <Provider store={store}>
           <LeavePayItemInfo />
-        </Provider>,
+        </Provider>
       );
       const carryRemainingLeave = wrapper
         .find({ name: 'carryRemainingLeave' })
@@ -38,7 +38,7 @@ describe('LeavePayItemInfo', () => {
       const wrapper = mount(
         <Provider store={store}>
           <LeavePayItemInfo />,
-        </Provider>,
+        </Provider>
       );
       const carryRemainingLeave = wrapper
         .find({ name: 'carryRemainingLeave' })

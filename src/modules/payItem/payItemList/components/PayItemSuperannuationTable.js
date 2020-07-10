@@ -1,10 +1,12 @@
-import {
-  Button, HeaderSort, Icons, Table,
-} from '@myob/myob-widgets';
+import { Button, HeaderSort, Icons, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsSuperannuationTableEmpty, getIsTableLoading, getSuperannuationOrder } from '../PayItemListSelectors';
+import {
+  getIsSuperannuationTableEmpty,
+  getIsTableLoading,
+  getSuperannuationOrder,
+} from '../PayItemListSelectors';
 import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
 import SuperannuationTableBody from './PayItemSuperannuationTableBody';
 import TableView from '../../../../components/TableView/TableView';
@@ -18,13 +20,28 @@ const PayItemSuperannuationTable = ({
   const header = (
     <Table.Header>
       <Table.HeaderItem>
-        <HeaderSort title="Pay item name" sortName="Name" activeSort={order} onSort={onSortSuperannuationList} />
+        <HeaderSort
+          title="Pay item name"
+          sortName="Name"
+          activeSort={order}
+          onSort={onSortSuperannuationList}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem>
-        <HeaderSort title="Contribution type" sortName="DisplayType" activeSort={order} onSort={onSortSuperannuationList} />
+        <HeaderSort
+          title="Contribution type"
+          sortName="DisplayType"
+          activeSort={order}
+          onSort={onSortSuperannuationList}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem>
-        <HeaderSort title="ATO reporting category" sortName="StpCategory" activeSort={order} onSort={onSortSuperannuationList} />
+        <HeaderSort
+          title="ATO reporting category"
+          sortName="StpCategory"
+          activeSort={order}
+          onSort={onSortSuperannuationList}
+        />
       </Table.HeaderItem>
     </Table.Header>
   );
@@ -60,7 +77,7 @@ const PayItemSuperannuationTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   order: getSuperannuationOrder(state),
   isTableLoading: getIsTableLoading(state),
   isSuperannuationTableEmpty: getIsSuperannuationTableEmpty(state),

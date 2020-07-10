@@ -1,14 +1,11 @@
-import {
-  Button, Field, Icons, Spinner,
-} from '@myob/myob-widgets';
+import { Button, Field, Icons, Spinner } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getOnlinePaymentOptions } from '../SalesSettingsDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import LinkButton from '../../../../components/Button/LinkButton';
-import ServiceUnavailableImage
-  from '../../../../components/ServiceUnavailableImage/ServiceUnavailableImage';
+import ServiceUnavailableImage from '../../../../components/ServiceUnavailableImage/ServiceUnavailableImage';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import onlinePaymentMethodsImage from '../../../../common/images/OnlinePaymentMethods.png';
 import styles from './OnlinePaymentOptions.module.css';
@@ -38,9 +35,15 @@ const OnlinePaymentOptions = ({
 
   const setupInfo = (
     <p>
-      Online payments allow your customers to
-      pay direct from their emailed invoice -
-      meaning you get paid faster and minimise overdue invoices. <a href="https://help.myob.com/wiki/x/r51qAg" target="_blank" rel="noopener noreferrer">Learn more</a>
+      Online payments allow your customers to pay direct from their emailed
+      invoice - meaning you get paid faster and minimise overdue invoices.{' '}
+      <a
+        href="https://help.myob.com/wiki/x/r51qAg"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Learn more
+      </a>
     </p>
   );
 
@@ -52,11 +55,8 @@ const OnlinePaymentOptions = ({
         renderField={() => (
           <>
             <legend className="margin-bottom-10">{label}</legend>
-
             {img}
-
             This feature is only <b>available to subscribers</b>.
-
             <Button
               className={styles.spacingBottomSmall}
               icon={<Icons.OpenExternalLink />}
@@ -66,7 +66,6 @@ const OnlinePaymentOptions = ({
             >
               Subscribe now
             </Button>
-
             {setupInfo}
           </>
         )}
@@ -98,7 +97,6 @@ const OnlinePaymentOptions = ({
     <>
       You have online invoice payments
       <span className={styles.activeStatus}> activated</span>.
-
       <LinkButton
         className={styles.spacingBottomSmall}
         href={payDirectLink}
@@ -115,7 +113,6 @@ const OnlinePaymentOptions = ({
     <>
       You have online invoice payments
       <span className={styles.inactiveStatus}> inactive</span>.
-
       <LinkButton
         className={styles.spacingBottomSmall}
         href={registrationLink}
@@ -125,7 +122,6 @@ const OnlinePaymentOptions = ({
       >
         Set up online payments options
       </LinkButton>
-
       {setupInfo}
     </>
   );
@@ -141,12 +137,12 @@ const OnlinePaymentOptions = ({
 
             {img}
 
-            { isRegistered ? registeredView : unregisteredView }
+            {isRegistered ? registeredView : unregisteredView}
           </>
         )}
       />
 
-      { isRegistered && (
+      {isRegistered && (
         <Field
           label="Account for receiving online payments"
           renderField={() => (
@@ -155,12 +151,15 @@ const OnlinePaymentOptions = ({
                 hideLabel
                 items={accountOptions}
                 label="Account for receiving online payments"
-                onChange={handleComboboxChange('accountId', onUpdateSalesSettingsItem)}
+                onChange={handleComboboxChange(
+                  'accountId',
+                  onUpdateSalesSettingsItem
+                )}
                 selectedId={accountId}
               />
               <p>
-                This account must match the bank account you chose when
-                setting up your online payments.
+                This account must match the bank account you chose when setting
+                up your online payments.
               </p>
             </div>
           )}
@@ -170,6 +169,6 @@ const OnlinePaymentOptions = ({
   );
 };
 
-const mapStateToProps = state => getOnlinePaymentOptions(state);
+const mapStateToProps = (state) => getOnlinePaymentOptions(state);
 
 export default connect(mapStateToProps)(OnlinePaymentOptions);

@@ -1,4 +1,7 @@
-import { getIsExportingPDF, getShowExportPdfButton } from '../exportPdfSelectors';
+import {
+  getIsExportingPDF,
+  getShowExportPdfButton,
+} from '../exportPdfSelectors';
 import InvoiceDetailModalType from '../../types/InvoiceDetailModalType';
 import InvoiceLayout from '../../types/InvoiceLayout';
 

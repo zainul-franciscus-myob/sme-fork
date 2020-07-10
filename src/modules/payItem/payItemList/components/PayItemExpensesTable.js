@@ -1,10 +1,12 @@
-import {
-  Button, HeaderSort, Icons, Table,
-} from '@myob/myob-widgets';
+import { Button, HeaderSort, Icons, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getExpensesOrder, getIsExpensesTableEmpty, getIsTableLoading } from '../PayItemListSelectors';
+import {
+  getExpensesOrder,
+  getIsExpensesTableEmpty,
+  getIsTableLoading,
+} from '../PayItemListSelectors';
 import ExpensesTableBody from './PayItemExpensesTableBody';
 import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
 import TableView from '../../../../components/TableView/TableView';
@@ -18,10 +20,20 @@ const PayItemExpensesTable = ({
   const header = (
     <Table.Header>
       <Table.HeaderItem>
-        <HeaderSort title="Pay item name" sortName="Name" activeSort={order} onSort={onSortExpensesList} />
+        <HeaderSort
+          title="Pay item name"
+          sortName="Name"
+          activeSort={order}
+          onSort={onSortExpensesList}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem>
-        <HeaderSort title="Calculation basis" sortName="DisplayType" activeSort={order} onSort={onSortExpensesList} />
+        <HeaderSort
+          title="Calculation basis"
+          sortName="DisplayType"
+          activeSort={order}
+          onSort={onSortExpensesList}
+        />
       </Table.HeaderItem>
     </Table.Header>
   );
@@ -57,7 +69,7 @@ const PayItemExpensesTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   order: getExpensesOrder(state),
   isTableLoading: getIsTableLoading(state),
   isExpensesTableEmpty: getIsExpensesTableEmpty(state),

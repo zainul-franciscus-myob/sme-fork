@@ -1,12 +1,12 @@
 import formatDateTime from '../../../../common/valueFormatters/formatDate/formatDateTime';
 
-export const getBusinessId = state => state.businessId;
-export const getLoadingState = state => state.loadingState;
-export const getIsTableLoading = state => state.isTableLoading;
-export const getDetailsLoadingState = state => state.detailsLoadingState;
-export const getPayrollYears = state => state.payrollYears;
-export const getSelectedPayrollYear = state => state.selectedPayrollYear;
-export const getHasPayEventSelected = state => !!state.selectedPayEvent;
+export const getBusinessId = (state) => state.businessId;
+export const getLoadingState = (state) => state.loadingState;
+export const getIsTableLoading = (state) => state.isTableLoading;
+export const getDetailsLoadingState = (state) => state.detailsLoadingState;
+export const getPayrollYears = (state) => state.payrollYears;
+export const getSelectedPayrollYear = (state) => state.selectedPayrollYear;
+export const getHasPayEventSelected = (state) => !!state.selectedPayEvent;
 
 const getStatusColor = (status) => {
   const colorMap = {
@@ -19,28 +19,32 @@ const getStatusColor = (status) => {
     Rejected: 'red',
   };
 
-  return ({
+  return {
     label: status,
     color: colorMap[status],
-  });
+  };
 };
 
-export const getPayEvents = state => state.payEvents.map(payEvent => ({
-  ...payEvent,
-  status: getStatusColor(payEvent.status),
-  recordedDate: formatDateTime(payEvent.recordedDate),
-  isSelected: payEvent.id === state.selectedPayEvent,
-}));
-
-const formatDeclarationDate = declarationDate => (declarationDate ? formatDateTime(declarationDate) : '');
-export const getSelectedPayEvent = (state) => {
-  const payEvent = state.selectedPayEvent;
-  return payEvent ? {
+export const getPayEvents = (state) =>
+  state.payEvents.map((payEvent) => ({
     ...payEvent,
     status: getStatusColor(payEvent.status),
     recordedDate: formatDateTime(payEvent.recordedDate),
-    declarationDate: formatDeclarationDate(payEvent.declarationDate),
-  } : {};
+    isSelected: payEvent.id === state.selectedPayEvent,
+  }));
+
+const formatDeclarationDate = (declarationDate) =>
+  declarationDate ? formatDateTime(declarationDate) : '';
+export const getSelectedPayEvent = (state) => {
+  const payEvent = state.selectedPayEvent;
+  return payEvent
+    ? {
+        ...payEvent,
+        status: getStatusColor(payEvent.status),
+        recordedDate: formatDateTime(payEvent.recordedDate),
+        declarationDate: formatDeclarationDate(payEvent.declarationDate),
+      }
+    : {};
 };
 
 export const getFilterPayEventsParams = (state) => {
@@ -53,23 +57,22 @@ export const getFilterPayEventsParams = (state) => {
   };
 };
 
-export const getLoadPayEventDetailsUrlParams = state => ({
+export const getLoadPayEventDetailsUrlParams = (state) => ({
   businessId: state.businessId,
   payEventId: state.selectedPayEvent.id,
 });
 
-export const getIsSelectedPayEvent = (state, payEventId) => (
-  payEventId === state.selectedPayEvent.id
-);
+export const getIsSelectedPayEvent = (state, payEventId) =>
+  payEventId === state.selectedPayEvent.id;
 
 export const getShowDeclareAction = (state) => {
   const payEvent = state.selectedPayEvent;
   return !!(payEvent && payEvent.status === 'Not sent');
 };
 
-export const getStpDeclarationContext = state => ({
+export const getStpDeclarationContext = (state) => ({
   businessId: getBusinessId(state),
   eventId: state.selectedPayEvent.id,
 });
 
-export const getSelectedPayEventId = state => state.selectedPayEvent.id;
+export const getSelectedPayEventId = (state) => state.selectedPayEvent.id;

@@ -44,12 +44,12 @@ const setLoadingState = (state, { loadingState }) => ({
   loadingState,
 });
 
-const addAllowClearToEmployees = response => {
+const addAllowClearToEmployees = (response) => {
   if (!response || !response.employees) return [];
-  return response.employees.map(e => ({
+  return response.employees.map((e) => ({
     ...e,
-    allowClearFirstFortnight: (!e.firstFortnight),
-    allowClearFinalFortnight: (!e.finalFortnight),
+    allowClearFirstFortnight: !e.firstFortnight,
+    allowClearFinalFortnight: !e.finalFortnight,
   }));
 };
 
@@ -87,7 +87,7 @@ const setUnsavedChangesModal = (state, { isOpen }) => ({
   unsavedChangesModalIsOpen: isOpen,
 });
 
-const resetDirtyFlag = state => ({
+const resetDirtyFlag = (state) => ({
   ...state,
   isDirty: false,
 });
@@ -95,13 +95,12 @@ const resetDirtyFlag = state => ({
 const updateEmployeeRow = (state, { key, value, rowId }) => ({
   ...state,
   isDirty: true,
-  employees: state.employees.map(e => (
-    e.employeeId === rowId
-      ? { ...e, [key]: value, isDirty: true }
-      : { ...e })),
+  employees: state.employees.map((e) =>
+    e.employeeId === rowId ? { ...e, [key]: value, isDirty: true } : { ...e }
+  ),
 });
 
-const setNewEventId = state => ({
+const setNewEventId = (state) => ({
   ...state,
   eventId: uuid(),
 });

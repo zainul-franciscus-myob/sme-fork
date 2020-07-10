@@ -5,13 +5,11 @@ import React from 'react';
 import { getActiveNav, getPayrollUrls } from '../NavigationSelectors';
 import handleMenuLinkClick from './handlers/handleMenuLinkClick';
 
-const isEmployeeSeparatorRequired = urls => (
-  urls.employeeList || urls.employeeCreate
-);
+const isEmployeeSeparatorRequired = (urls) =>
+  urls.employeeList || urls.employeeCreate;
 
-const isPayRunSeparatorRequired = urls => (
-  urls.payRunList || urls.payRunCreate
-);
+const isPayRunSeparatorRequired = (urls) =>
+  urls.payRunList || urls.payRunCreate;
 
 const getMenuLink = (url, label, onMenuLinkClick) => (
   <Navigation.MenuLink
@@ -34,26 +32,52 @@ const getMenuLinkWithIcon = (url, label, icon, onMenuLinkClick, target) => (
   />
 );
 
-const getItems = (urls, onMenuLinkClick) => [
-  urls.employeeList && getMenuLink(urls.employeeList, 'Employees', onMenuLinkClick),
-  urls.employeeCreate && getMenuLink(urls.employeeCreate, 'Create employee', onMenuLinkClick),
-  isEmployeeSeparatorRequired(urls) && <Navigation.Separator key="separator-employee" />,
-  urls.payRunList && getMenuLink(urls.payRunList, 'Pay runs', onMenuLinkClick),
-  urls.payRunCreate && getMenuLink(urls.payRunCreate, 'Create pay run', onMenuLinkClick),
-  isPayRunSeparatorRequired(urls) && <Navigation.Separator key="separator-pay-run" />,
-  urls.payItemList && getMenuLink(urls.payItemList, 'Pay items', onMenuLinkClick),
-  urls.timesheets && getMenuLink(urls.timesheets, 'Timesheets', onMenuLinkClick),
-  getMenuLinkWithIcon('https://team.myob.com', 'MYOB Team', <Icons.OpenExternalLink />, onMenuLinkClick, '_blank'),
-  <Navigation.Separator key="separator-pay-item-timesheets" />,
-  urls.electronicPaymentCreate && getMenuLink(urls.electronicPaymentCreate, 'Bank file payments', onMenuLinkClick),
-  urls.superPaymentList && getMenuLink(urls.superPaymentList, 'Super payments', onMenuLinkClick),
-  <Navigation.Separator key="separator-payments" />,
-  urls.stpReporting && getMenuLink(urls.stpReporting, 'Single Touch Payroll reporting', onMenuLinkClick),
-].filter(Boolean);
+const getItems = (urls, onMenuLinkClick) =>
+  [
+    urls.employeeList &&
+      getMenuLink(urls.employeeList, 'Employees', onMenuLinkClick),
+    urls.employeeCreate &&
+      getMenuLink(urls.employeeCreate, 'Create employee', onMenuLinkClick),
+    isEmployeeSeparatorRequired(urls) && (
+      <Navigation.Separator key="separator-employee" />
+    ),
+    urls.payRunList &&
+      getMenuLink(urls.payRunList, 'Pay runs', onMenuLinkClick),
+    urls.payRunCreate &&
+      getMenuLink(urls.payRunCreate, 'Create pay run', onMenuLinkClick),
+    isPayRunSeparatorRequired(urls) && (
+      <Navigation.Separator key="separator-pay-run" />
+    ),
+    urls.payItemList &&
+      getMenuLink(urls.payItemList, 'Pay items', onMenuLinkClick),
+    urls.timesheets &&
+      getMenuLink(urls.timesheets, 'Timesheets', onMenuLinkClick),
+    getMenuLinkWithIcon(
+      'https://team.myob.com',
+      'MYOB Team',
+      <Icons.OpenExternalLink />,
+      onMenuLinkClick,
+      '_blank'
+    ),
+    <Navigation.Separator key="separator-pay-item-timesheets" />,
+    urls.electronicPaymentCreate &&
+      getMenuLink(
+        urls.electronicPaymentCreate,
+        'Bank file payments',
+        onMenuLinkClick
+      ),
+    urls.superPaymentList &&
+      getMenuLink(urls.superPaymentList, 'Super payments', onMenuLinkClick),
+    <Navigation.Separator key="separator-payments" />,
+    urls.stpReporting &&
+      getMenuLink(
+        urls.stpReporting,
+        'Single Touch Payroll reporting',
+        onMenuLinkClick
+      ),
+  ].filter(Boolean);
 
-const PayrollMenu = ({
-  urls, onMenuSelect, onMenuLinkClick, activeNav,
-}) => (
+const PayrollMenu = ({ urls, onMenuSelect, onMenuLinkClick, activeNav }) => (
   <Navigation.Menu
     label="Payroll"
     icon={<Icons.Caret />}

@@ -33,7 +33,9 @@ describe('contactModalReducer', () => {
       const actual = reducer(state, action);
 
       expect(actual.showContactType).toBeTruthy();
-      expect(actual.contact.contactType).toEqual(getDefaultState().contact.contactType);
+      expect(actual.contact.contactType).toEqual(
+        getDefaultState().contact.contactType
+      );
     });
 
     it('should not show contact type if contact type is provided', () => {

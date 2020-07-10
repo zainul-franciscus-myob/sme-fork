@@ -1,5 +1,8 @@
 import {
-  Button, Icons, RadioButton, RadioButtonGroup,
+  Button,
+  Icons,
+  RadioButton,
+  RadioButtonGroup,
 } from '@myob/myob-widgets';
 import React from 'react';
 
@@ -40,22 +43,25 @@ const QuoteDetailLayoutPopover = ({
   );
 
   const triggerButton = (
-    <Button disabled={isReadOnlyLayout} type="link" icon={<Icons.Settings />} iconRight>
+    <Button
+      disabled={isReadOnlyLayout}
+      type="link"
+      icon={<Icons.Settings />}
+      iconRight
+    >
       Field layout
     </Button>
   );
 
-  const view = isReadOnlyLayout ? triggerButton : (
+  const view = isReadOnlyLayout ? (
+    triggerButton
+  ) : (
     <Popover body={popoverBody} preferPlace="below" closeOnOuterAction>
       {triggerButton}
     </Popover>
   );
 
-  return (
-    <div className={styles.popover}>
-      {view}
-    </div>
-  );
+  return <div className={styles.popover}>{view}</div>;
 };
 
 export default QuoteDetailLayoutPopover;

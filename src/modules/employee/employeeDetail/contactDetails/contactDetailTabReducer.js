@@ -1,6 +1,4 @@
-import {
-  UPDATE_CONTACT_DETAILS,
-} from '../../EmployeeIntents';
+import { UPDATE_CONTACT_DETAILS } from '../../EmployeeIntents';
 
 const updateContactDetails = (state, action) => ({
   ...state,

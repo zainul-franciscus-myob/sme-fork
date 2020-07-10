@@ -10,7 +10,7 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { getLoadUserIntent } from './userDetailSelectors';
 
-const createUserDetailDispatcher = store => ({
+const createUserDetailDispatcher = (store) => ({
   resetState: () => {
     store.dispatch({
       intent: RESET_STATE,

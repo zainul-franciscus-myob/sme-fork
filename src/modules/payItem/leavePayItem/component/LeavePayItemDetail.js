@@ -1,20 +1,15 @@
-import {
-  FieldGroup, Input,
-} from '@myob/myob-widgets';
+import { FieldGroup, Input } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getName } from '../leavePayItemSelectors';
 
-const handleInputChange = handler => (e) => {
+const handleInputChange = (handler) => (e) => {
   const { value } = e.target;
   handler({ value });
 };
 
-const LeavePayItemDetail = ({
-  name,
-  onNameChange,
-}) => (
+const LeavePayItemDetail = ({ name, onNameChange }) => (
   <FieldGroup label="Details">
     <Input
       name="name"
@@ -26,7 +21,7 @@ const LeavePayItemDetail = ({
   </FieldGroup>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   name: getName(state),
 });
 

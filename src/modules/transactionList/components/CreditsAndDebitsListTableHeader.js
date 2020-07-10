@@ -68,7 +68,7 @@ const CreditsAndDebitsListTableHeader = ({ order, onSort, tableConfig }) => (
   </Table>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   order: getOrder(state),
 });
 

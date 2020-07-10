@@ -7,16 +7,26 @@ import styles from './JobKeeperTable.module.css';
 
 const tableConfig = {
   firstName: {
-    columnName: 'First name', width: 'flex-1', valign: 'middle',
+    columnName: 'First name',
+    width: 'flex-1',
+    valign: 'middle',
   },
   lastName: {
-    columnName: 'Surname or family name', width: 'flex-2', valign: 'middle',
+    columnName: 'Surname or family name',
+    width: 'flex-2',
+    valign: 'middle',
   },
   firstFortnight: {
-    columnName: 'First JobKeeper fortnight', width: 'flex-2', valign: 'middle', textWrap: 'wrap',
+    columnName: 'First JobKeeper fortnight',
+    width: 'flex-2',
+    valign: 'middle',
+    textWrap: 'wrap',
   },
   finalFortnight: {
-    columnName: 'Final JobKeeper fortnight', width: 'flex-2', valign: 'middle', textWrap: 'wrap',
+    columnName: 'Final JobKeeper fortnight',
+    width: 'flex-2',
+    valign: 'middle',
+    textWrap: 'wrap',
   },
 };
 
@@ -51,14 +61,10 @@ const JobKeeperTable = ({
     </Table.Header>
   );
 
-  const rows = employees.map(row => (
+  const rows = employees.map((row) => (
     <Table.Row key={row.employeeId} rowData={{ id: row.employeeId }}>
-      <Table.RowItem {...tableConfig.firstName}>
-        {row.firstName}
-      </Table.RowItem>
-      <Table.RowItem {...tableConfig.lastName}>
-        {row.lastName}
-      </Table.RowItem>
+      <Table.RowItem {...tableConfig.firstName}>{row.firstName}</Table.RowItem>
+      <Table.RowItem {...tableConfig.lastName}>{row.lastName}</Table.RowItem>
       <Table.RowItem {...tableConfig.firstFortnight}>
         <JobKeeperFortnightCombobox
           name="firstFortnightCombobox"
@@ -67,9 +73,13 @@ const JobKeeperTable = ({
           hideLabel
           selectedFn={row.firstFortnight}
           allowClear={row.allowClearFirstFortnight}
-          onChange={handleComboboxChange('firstFortnight', ({ key, value }) => onEmployeeChange({
-            key, value, rowId: row.employeeId,
-          }))}
+          onChange={handleComboboxChange('firstFortnight', ({ key, value }) =>
+            onEmployeeChange({
+              key,
+              value,
+              rowId: row.employeeId,
+            })
+          )}
         />
       </Table.RowItem>
       <Table.RowItem {...tableConfig.finalFortnight}>
@@ -80,9 +90,13 @@ const JobKeeperTable = ({
           label="finalFortnightCombobox"
           hideLabel
           allowClear={row.allowClearFinalFortnight}
-          onChange={handleComboboxChange('finalFortnight', ({ key, value }) => onEmployeeChange({
-            key, value, rowId: row.employeeId,
-          }))}
+          onChange={handleComboboxChange('finalFortnight', ({ key, value }) =>
+            onEmployeeChange({
+              key,
+              value,
+              rowId: row.employeeId,
+            })
+          )}
         />
       </Table.RowItem>
     </Table.Row>
@@ -94,9 +108,7 @@ const JobKeeperTable = ({
       isLoading={isTableLoading}
       isEmpty={employees.length === 0}
     >
-      <Table.Body>
-        {rows}
-      </Table.Body>
+      <Table.Body>{rows}</Table.Body>
     </TableView>
   );
 
@@ -105,17 +117,27 @@ const JobKeeperTable = ({
       <h3>Confirm employees eligible for JobKeeper payment</h3>
       <p></p>
       <p testid="jobKeeperPaymentHeader">
-        Only select the first JobKeeper fortnight for eligible employees and we&apos;ll
-        send this information to the ATO. When you want to stop claiming JobKeeper for an employee,
-        enter a final JobKeeper fortnight, and notify the ATO. The final fortnight should be
-        selected as the fortnight after the last payment fortnight.
+        Only select the first JobKeeper fortnight for eligible employees and
+        we&apos;ll send this information to the ATO. When you want to stop
+        claiming JobKeeper for an employee, enter a final JobKeeper fortnight,
+        and notify the ATO. The final fortnight should be selected as the
+        fortnight after the last payment fortnight.
       </p>
       <p>
         For more information about JobKeeper payments,&nbsp;
-        <a href="https://www.ato.gov.au/General/JobKeeper-Payment/Employers/" target="_blank" rel="noopener noreferrer">visit the ATO.</a>
+        <a
+          href="https://www.ato.gov.au/General/JobKeeper-Payment/Employers/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          visit the ATO.
+        </a>
       </p>
       <div className={styles.info}>
-        <Alert type="info">JobKeeper fortnights notified to the ATO will update below after the STP report has sent.&nbsp;</Alert>
+        <Alert type="info">
+          JobKeeper fortnights notified to the ATO will update below after the
+          STP report has sent.&nbsp;
+        </Alert>
       </div>
       {table}
     </>

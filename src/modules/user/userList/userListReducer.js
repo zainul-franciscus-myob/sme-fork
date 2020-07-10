@@ -25,7 +25,7 @@ const loadUserList = (state, { intent, ...data }) => ({
   ...data,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setAlert = (state, action) => ({
   ...state,

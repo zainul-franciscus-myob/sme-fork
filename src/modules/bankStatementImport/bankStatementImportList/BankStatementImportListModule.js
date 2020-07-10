@@ -11,12 +11,13 @@ import createBankStatementImportListDispatcher from './CreateBankStatementImport
 import createBankStatementImportListIntegrator from './CreateBankStatementImportListIntegrator';
 
 export default class BankStatementImportListModule {
-  constructor({
-    integration, setRootView,
-  }) {
+  constructor({ integration, setRootView }) {
     this.setRootView = setRootView;
     this.store = new Store(BankStatementImportListReducer);
-    this.integrator = createBankStatementImportListIntegrator(this.store, integration);
+    this.integrator = createBankStatementImportListIntegrator(
+      this.store,
+      integration
+    );
     this.dispatcher = createBankStatementImportListDispatcher(this.store);
   }
 
@@ -46,7 +47,10 @@ export default class BankStatementImportListModule {
       this.dispatcher.setAlert({ message, type: 'danger' });
     };
 
-    this.integrator.sortAndFilterBankStatementImportList({ onSuccess, onFailure });
+    this.integrator.sortAndFilterBankStatementImportList({
+      onSuccess,
+      onFailure,
+    });
   };
 
   updateSortOrder = (orderBy) => {
@@ -131,11 +135,7 @@ export default class BankStatementImportListModule {
       />
     );
 
-    const wrappedView = (
-      <Provider store={this.store}>
-        {View}
-      </Provider>
-    );
+    const wrappedView = <Provider store={this.store}>{View}</Provider>;
     this.setRootView(wrappedView);
   };
 

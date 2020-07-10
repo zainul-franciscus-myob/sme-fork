@@ -1,7 +1,10 @@
 import {
   getCurrentEmployeeEmail,
-  getCurrentEmployeeName, getEmailContentForCurrentEmployee,
-  getEmailUrlParams, getEmployeeCount, getIsFinished,
+  getCurrentEmployeeName,
+  getEmailContentForCurrentEmployee,
+  getEmailUrlParams,
+  getEmployeeCount,
+  getIsFinished,
 } from '../EmailPaySlipModalSelectors';
 
 describe('EmailPaySlipModalSelectors', () => {

@@ -7,17 +7,15 @@ describe('getShouldShowBankDeposit', () => {
     [PreviewType.Quote, false, false],
     ['someOtherTemplate', true, true],
     ['someOtherTemplate', false, false],
-  ])('only returns true if direct deposit is allowed and preview template is not quote',
-    (
-      previewType,
-      isAllowPaymentByDirectDeposit,
-      expectedResult,
-    ) => {
+  ])(
+    'only returns true if direct deposit is allowed and preview template is not quote',
+    (previewType, isAllowPaymentByDirectDeposit, expectedResult) => {
       const actual = getShouldShowBankDepositPayment({
         previewType,
         isAllowPaymentByDirectDeposit,
       });
 
       expect(actual).toEqual(expectedResult);
-    });
+    }
+  );
 });

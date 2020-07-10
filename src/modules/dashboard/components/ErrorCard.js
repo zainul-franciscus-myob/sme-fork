@@ -1,9 +1,4 @@
-import {
-  Button,
-  Card,
-  Icons,
-  PageState,
-} from '@myob/myob-widgets';
+import { Button, Card, Icons, PageState } from '@myob/myob-widgets';
 import React from 'react';
 
 import Icon from '../../../components/Icon/Icon';
@@ -19,9 +14,7 @@ export default ({ onTry }) => (
             Try again
           </Button>,
         ]}
-        image={(
-          <Icon.Error className={styles.errorImage} />
-        )}
+        image={<Icon.Error className={styles.errorImage} />}
       />
     </div>
   </Card>

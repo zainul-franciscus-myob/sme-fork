@@ -1,7 +1,10 @@
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getSaveAndCreateNewModalBody, getSaveAndDuplicateModalBody } from '../selectors/invoiceSaveSelectors';
+import {
+  getSaveAndCreateNewModalBody,
+  getSaveAndDuplicateModalBody,
+} from '../selectors/invoiceSaveSelectors';
 import CancelModal from '../../../../components/modal/CancelModal';
 import DeleteModal from '../../../../components/modal/DeleteModal';
 import EmailInvoiceModal from './email/EmailInvoiceModal';
@@ -39,7 +42,9 @@ const InvoiceDetailModal = ({
         alert={alert}
         onCancel={emailInvoiceDetailModalListeners.onCloseModal}
         onConfirm={emailInvoiceDetailModalListeners.onConfirm}
-        onEmailInvoiceDetailChange={emailInvoiceDetailModalListeners.onEmailInvoiceDetailChange}
+        onEmailInvoiceDetailChange={
+          emailInvoiceDetailModalListeners.onEmailInvoiceDetailChange
+        }
         onDismissAlert={emailInvoiceDetailModalListeners.onDismissAlert}
         onAddAttachments={emailInvoiceDetailModalListeners.onAddAttachments}
         onRemoveAttachment={emailInvoiceDetailModalListeners.onRemoveAttachment}
@@ -147,7 +152,7 @@ const InvoiceDetailModal = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   saveAndCreateNewModalBody: getSaveAndCreateNewModalBody(state),
   saveAndDuplicateModalBody: getSaveAndDuplicateModalBody(state),
 });

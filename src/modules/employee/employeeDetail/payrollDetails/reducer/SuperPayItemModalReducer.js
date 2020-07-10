@@ -73,7 +73,7 @@ const openSuperPayItemModal = (state, { id }) => {
   };
 };
 
-const closeSuperPayItemModal = state => ({
+const closeSuperPayItemModal = (state) => ({
   ...state,
   superPayItemModal: undefined,
 });
@@ -94,9 +94,10 @@ const loadSuperPayItemModal = (state, { response }) => {
   };
 };
 
-const createSuperPayItemModal = (state, {
-  response: { allocatedPayItem, superPayItemOptions },
-}) => ({
+const createSuperPayItemModal = (
+  state,
+  { response: { allocatedPayItem, superPayItemOptions } }
+) => ({
   ...state,
   payrollDetails: {
     ...state.payrollDetails,
@@ -112,12 +113,14 @@ const createSuperPayItemModal = (state, {
   superPayItemOptions,
 });
 
-const updateSuperPayItemModal = (state, {
-  response: { allocatedPayItem, superPayItemOptions },
-}) => {
+const updateSuperPayItemModal = (
+  state,
+  { response: { allocatedPayItem, superPayItemOptions } }
+) => {
   const allocatedPayItems = getAllocatedPayItems(state);
-  const updatedAllocatedPayItems = allocatedPayItems
-    .map(payItem => (payItem.id === allocatedPayItem.id ? allocatedPayItem : payItem));
+  const updatedAllocatedPayItems = allocatedPayItems.map((payItem) =>
+    payItem.id === allocatedPayItem.id ? allocatedPayItem : payItem
+  );
 
   return {
     ...state,
@@ -140,17 +143,14 @@ const setSuperPayItemModalState = (state, modal) => ({
   },
 });
 
-const setSuperPayItemModalAlert = (state, { alert }) => (
-  setSuperPayItemModalState(state, { alert })
-);
+const setSuperPayItemModalAlert = (state, { alert }) =>
+  setSuperPayItemModalState(state, { alert });
 
-const setSuperPayItemModalLoadingState = (state, { isLoading }) => (
-  setSuperPayItemModalState(state, { isLoading })
-);
+const setSuperPayItemModalLoadingState = (state, { isLoading }) =>
+  setSuperPayItemModalState(state, { isLoading });
 
-const setSuperPayItemModalSubmittingState = (state, { isSubmitting }) => (
-  setSuperPayItemModalState(state, { isSubmitting })
-);
+const setSuperPayItemModalSubmittingState = (state, { isSubmitting }) =>
+  setSuperPayItemModalState(state, { isSubmitting });
 
 const setSuperPayItemState = (state, partialSuperPayItem) => ({
   ...state,
@@ -163,8 +163,8 @@ const setSuperPayItemState = (state, partialSuperPayItem) => ({
   },
 });
 
-const setSuperPayItemModalSuperPayItem = (state, { superPayItem }) => (
-  setSuperPayItemState(state, superPayItem));
+const setSuperPayItemModalSuperPayItem = (state, { superPayItem }) =>
+  setSuperPayItemState(state, superPayItem);
 
 const setSuperPayItemModalInput = (state, action) => {
   const partialSuperPayItem = { [action.key]: action.value };
@@ -172,20 +172,17 @@ const setSuperPayItemModalInput = (state, action) => {
   return setSuperPayItemState(state, partialSuperPayItem);
 };
 
-const addSuperPayItemModalItem = (state, { key, item }) => (
+const addSuperPayItemModalItem = (state, { key, item }) =>
   setSuperPayItemState(state, {
-    [key]: [
-      ...state.superPayItemModal.superPayItem[key],
-      item,
-    ],
-  })
-);
+    [key]: [...state.superPayItemModal.superPayItem[key], item],
+  });
 
-const removeSuperPayItemModalItem = (state, { key, itemId }) => (
+const removeSuperPayItemModalItem = (state, { key, itemId }) =>
   setSuperPayItemState(state, {
-    [key]: state.superPayItemModal.superPayItem[key].filter(({ id }) => id !== itemId),
-  })
-);
+    [key]: state.superPayItemModal.superPayItem[key].filter(
+      ({ id }) => id !== itemId
+    ),
+  });
 
 export default {
   [OPEN_SUPER_PAY_ITEM_MODAL]: openSuperPayItemModal,

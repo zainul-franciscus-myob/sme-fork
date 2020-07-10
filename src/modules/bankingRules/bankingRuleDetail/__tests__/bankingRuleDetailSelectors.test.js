@@ -1,4 +1,7 @@
-import { getIsInputField, getRemainingPercentage } from '../bankingRuleDetailSelectors';
+import {
+  getIsInputField,
+  getRemainingPercentage,
+} from '../bankingRuleDetailSelectors';
 
 describe('bankingRuleDetailSelectors', () => {
   describe('getIsInputField', () => {
@@ -6,12 +9,10 @@ describe('bankingRuleDetailSelectors', () => {
       allocations: [],
     };
 
-    it('is false when it\'s percent allocation type', () => {
+    it("is false when it's percent allocation type", () => {
       const modifiedState = {
         ...state,
-        allocations: [
-          {},
-        ],
+        allocations: [{}],
         allocationType: 'Percent',
       };
 
@@ -23,9 +24,7 @@ describe('bankingRuleDetailSelectors', () => {
     it('is true when there is only 1 row item when allocation type is amount', () => {
       const modifiedState = {
         ...state,
-        allocations: [
-          {},
-        ],
+        allocations: [{}],
       };
 
       const actual = getIsInputField(modifiedState, { index: 0 });
@@ -36,10 +35,7 @@ describe('bankingRuleDetailSelectors', () => {
     it('is true when last row item when allocation type is amount', () => {
       const modifiedState = {
         ...state,
-        allocations: [
-          {},
-          {},
-        ],
+        allocations: [{}, {}],
       };
 
       const actual = getIsInputField(modifiedState, { index: 1 });
@@ -47,13 +43,10 @@ describe('bankingRuleDetailSelectors', () => {
       expect(actual).toEqual(true);
     });
 
-    it('is false when it\'s not the last element given that the list has more than one element when allocation type is amount', () => {
+    it("is false when it's not the last element given that the list has more than one element when allocation type is amount", () => {
       const modifiedState = {
         ...state,
-        allocations: [
-          {},
-          {},
-        ],
+        allocations: [{}, {}],
       };
 
       const actual = getIsInputField(modifiedState, { index: 0 });
@@ -87,7 +80,7 @@ describe('bankingRuleDetailSelectors', () => {
       expect(actual).toEqual('90.00%');
     });
 
-    it('should handle the scenario if the value isn\'t a number', () => {
+    it("should handle the scenario if the value isn't a number", () => {
       const state = {
         allocations: [
           {
