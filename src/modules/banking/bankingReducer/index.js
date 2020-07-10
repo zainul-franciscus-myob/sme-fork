@@ -39,7 +39,6 @@ import {
   SET_EDITING_NOTE_STATE,
   SET_ENTRY_FOCUS,
   SET_ENTRY_HOVERED,
-  SET_ENTRY_LOADING_STATE,
   SET_ERROR_STATE,
   SET_JOB_LOADING_STATE,
   SET_LOADING_SINGLE_ACCOUNT_STATE,
@@ -61,8 +60,10 @@ import {
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
   SORT_MATCH_TRANSFER_MONEY,
+  START_ENTRY_LOADING_STATE,
   START_LOADING_MORE,
   START_MODAL_BLOCKING,
+  STOP_ENTRY_LOADING_STATE,
   STOP_LOADING_MORE,
   STOP_MODAL_BLOCKING,
   TOGGLE_MATCH_TRANSACTION_SELECT_ALL_STATE,
@@ -366,11 +367,28 @@ export const setEntryHovered = (state, action) => ({
   hoverIndex: action.isHovering ? action.index : -1,
 });
 
-export const setEntryLoading = (state, action) => ({
+export const startEntryLoadingState = (state, action) => ({
   ...state,
   entries: state.entries.map(
     (entry, index) => (
-      index === action.index ? { ...entry, isLoading: action.isLoading } : entry
+      index === action.index ? {
+        ...entry,
+        isLoading: true,
+        displayName: action.displayName,
+      } : entry
+    ),
+  ),
+});
+
+export const stopEntryLoadingState = (state, action) => ({
+  ...state,
+  entries: state.entries.map(
+    (entry, index) => (
+      index === action.index ? {
+        ...entry,
+        isLoading: false,
+        displayName: '',
+      } : entry
     ),
   ),
 });
@@ -477,7 +495,8 @@ const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [SET_ENTRY_FOCUS]: setEntryFocus,
   [SET_ENTRY_HOVERED]: setEntryHovered,
-  [SET_ENTRY_LOADING_STATE]: setEntryLoading,
+  [START_ENTRY_LOADING_STATE]: startEntryLoadingState,
+  [STOP_ENTRY_LOADING_STATE]: stopEntryLoadingState,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [START_MODAL_BLOCKING]: startModalBlocking,

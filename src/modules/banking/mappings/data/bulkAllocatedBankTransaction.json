@@ -12,6 +12,7 @@
         }
       ],
       "type": "singleAllocation",
+      "selectedAccountId": "128",
       "taxCode": "GST",
       "isReportable": false
     },
@@ -26,6 +27,7 @@
         }
       ],
       "type": "singleAllocation",
+      "selectedAccountId": "128",
       "taxCode": "GST",
       "isReportable": false
     }

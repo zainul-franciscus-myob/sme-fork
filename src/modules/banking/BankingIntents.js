@@ -21,7 +21,8 @@ export const RESET_FILTERS = Symbol('Reset filters');
 
 export const SET_ENTRY_FOCUS = Symbol('Set the focus state of an entry');
 export const SET_ENTRY_HOVERED = Symbol('Set the hover state of an entry');
-export const SET_ENTRY_LOADING_STATE = Symbol('Set the loading state of an entry');
+export const START_ENTRY_LOADING_STATE = Symbol('Start the loading state of an entry');
+export const STOP_ENTRY_LOADING_STATE = Symbol('Stop the loading state of an entry');
 
 export const ALLOCATE_TRANSACTION = Symbol('Allocate a bank transaction');
 export const UNALLOCATE_TRANSACTION = Symbol('Unallocate an allocated bank transaction');

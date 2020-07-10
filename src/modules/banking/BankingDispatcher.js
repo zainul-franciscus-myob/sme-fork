@@ -39,7 +39,6 @@ import {
   SET_EDITING_NOTE_STATE,
   SET_ENTRY_FOCUS,
   SET_ENTRY_HOVERED,
-  SET_ENTRY_LOADING_STATE,
   SET_ERROR_STATE,
   SET_JOB_LOADING_STATE,
   SET_LOADING_SINGLE_ACCOUNT_STATE,
@@ -61,8 +60,10 @@ import {
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
   SORT_MATCH_TRANSFER_MONEY,
+  START_ENTRY_LOADING_STATE,
   START_LOADING_MORE,
   START_MODAL_BLOCKING,
+  STOP_ENTRY_LOADING_STATE,
   STOP_LOADING_MORE,
   STOP_MODAL_BLOCKING,
   TOGGLE_MATCH_TRANSACTION_SELECT_ALL_STATE,
@@ -109,11 +110,18 @@ const createBankingDispatcher = store => ({
     });
   },
 
-  setEntryLoadingState: (index, isLoading) => {
+  startEntryLoadingState: (index, displayName) => {
     store.dispatch({
-      intent: SET_ENTRY_LOADING_STATE,
+      intent: START_ENTRY_LOADING_STATE,
       index,
-      isLoading,
+      displayName,
+    });
+  },
+
+  stopEntryLoadingState: (index) => {
+    store.dispatch({
+      intent: STOP_ENTRY_LOADING_STATE,
+      index,
     });
   },
 
@@ -154,12 +162,11 @@ const createBankingDispatcher = store => ({
   },
 
 
-  allocateTransaction: (index, { payload, selectedAccount }) => {
+  allocateTransaction: (index, { payload }) => {
     store.dispatch({
       intent: ALLOCATE_TRANSACTION,
       index,
       ...payload,
-      selectedAccount,
     });
   },
 

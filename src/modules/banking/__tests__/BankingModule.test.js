@@ -1,4 +1,5 @@
 import {
+  ALLOCATE_TRANSACTION,
   COLLAPSE_TRANSACTION_LINE,
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
@@ -7,6 +8,7 @@ import {
   LOAD_NEW_SPLIT_ALLOCATION,
   SET_ALERT,
   SET_ATTACHMENTS_LOADING_STATE,
+  SET_ENTRY_FOCUS,
   SET_ERROR_STATE,
   SET_LOADING_STATE,
   SET_MATCH_TRANSACTION_LOADING_STATE,
@@ -15,7 +17,9 @@ import {
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
+  START_ENTRY_LOADING_STATE,
   START_LOADING_MORE,
+  STOP_ENTRY_LOADING_STATE,
   STOP_LOADING_MORE,
   UPDATE_MATCH_TRANSACTION_OPTIONS,
   UPDATE_PERIOD_DATE_RANGE,
@@ -801,6 +805,39 @@ describe('BankingModule', () => {
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: SORT_AND_FILTER_BANK_TRANSACTIONS,
+        }),
+      ]);
+    });
+  });
+
+  describe('allocateTransaction', () => {
+    it('should allocate a transaction', () => {
+      const { module, store, integration } = setUpWithRun();
+
+      const selectedAccount = store.getState().depositAccounts[0];
+
+      module.allocateTransaction(0, selectedAccount);
+
+      expect(store.getActions()).toEqual([
+        {
+          index: 1,
+          intent: SET_ENTRY_FOCUS,
+          isFocused: true,
+        },
+        expect.objectContaining({
+          intent: START_ENTRY_LOADING_STATE,
+          displayName: selectedAccount.displayName,
+        }),
+        expect.objectContaining({
+          intent: STOP_ENTRY_LOADING_STATE,
+        }),
+        expect.objectContaining({
+          intent: ALLOCATE_TRANSACTION,
+        }),
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: ALLOCATE_TRANSACTION,
         }),
       ]);
     });

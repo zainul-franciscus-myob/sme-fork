@@ -443,6 +443,7 @@ describe('bulkAllocationHandlers', () => {
             allocateOrMatch: 'Possible match found',
             journals: [],
             taxCode: '',
+            selectedAccountId: '',
             type: BankTransactionStatusTypes.matched,
             withdrawal: 100,
           },

@@ -263,16 +263,17 @@ export default class BankingModule {
   };
 
   allocateTransaction = (index, selectedAccount) => {
+    const { displayName } = selectedAccount;
     this.dispatcher.focusEntry(index + 1);
-    this.dispatcher.setEntryLoadingState(index, true);
+    this.dispatcher.startEntryLoadingState(index, displayName);
 
     const onSuccess = (payload) => {
-      this.dispatcher.setEntryLoadingState(index, false);
-      this.dispatcher.allocateTransaction(index, { payload, selectedAccount });
+      this.dispatcher.stopEntryLoadingState(index);
+      this.dispatcher.allocateTransaction(index, { payload });
     };
 
     const onFailure = ({ message }) => {
-      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.stopEntryLoadingState(index);
       this.dispatcher.setAlert({
         type: 'danger',
         message,
@@ -621,7 +622,7 @@ export default class BankingModule {
     const index = getOpenPosition(state);
 
     const onSuccess = (payload) => {
-      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.stopEntryLoadingState(index);
       this.dispatcher.saveSplitAllocation(index, payload);
       this.dispatcher.setAlert({
         type: 'success',
@@ -630,14 +631,14 @@ export default class BankingModule {
     };
 
     const onFailure = ({ message }) => {
-      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.stopEntryLoadingState(index);
       this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    this.dispatcher.setEntryLoadingState(index, true);
+    this.dispatcher.startEntryLoadingState(index);
 
     this.integrator.saveSplitAllocation({
       index,
@@ -792,7 +793,7 @@ export default class BankingModule {
     const index = getOpenPosition(state);
 
     const onSuccess = (payload) => {
-      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.stopEntryLoadingState(index);
       this.dispatcher.saveMatchTransaction(index, payload);
       this.dispatcher.setAlert({
         type: 'success',
@@ -801,14 +802,14 @@ export default class BankingModule {
     };
 
     const onFailure = ({ message }) => {
-      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.stopEntryLoadingState(index);
       this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    this.dispatcher.setEntryLoadingState(index, true);
+    this.dispatcher.startEntryLoadingState(index);
     this.integrator.saveMatchTransaction({
       index,
       onSuccess,
@@ -835,17 +836,17 @@ export default class BankingModule {
     const index = getOpenPosition(state);
 
     const onSuccess = (payload) => {
-      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.stopEntryLoadingState(index);
       this.dispatcher.saveTransferMoney(index, payload);
       this.dispatcher.setAlert({ type: 'success', message: payload.message });
     };
 
     const onFailure = ({ message }) => {
-      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.stopEntryLoadingState(index);
       this.dispatcher.setAlert({ type: 'danger', message });
     };
 
-    this.dispatcher.setEntryLoadingState(index, true);
+    this.dispatcher.startEntryLoadingState(index);
     this.integrator.saveMatchTransferMoney({
       index,
       onSuccess,
@@ -862,7 +863,7 @@ export default class BankingModule {
     const index = getOpenPosition(state);
 
     const onSuccess = (payload) => {
-      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.stopEntryLoadingState(index);
       this.dispatcher.saveTransferMoney(index, payload);
       this.dispatcher.stopModalBlocking();
       this.dispatcher.closeModal();
@@ -874,7 +875,7 @@ export default class BankingModule {
     };
 
     const onFailure = ({ message }) => {
-      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.stopEntryLoadingState(index);
       this.dispatcher.stopModalBlocking();
       this.dispatcher.setModalAlert({
         type: 'danger',

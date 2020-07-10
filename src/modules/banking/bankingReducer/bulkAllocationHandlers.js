@@ -125,6 +125,7 @@ export const bulkAllocateTransactions = (state, action) => ({
         journals: allocation.journals,
         type: allocation.type,
         taxCode: allocation.taxCode,
+        selectedAccountId: allocation.selectedAccountId,
       };
     }
 
@@ -145,6 +146,7 @@ export const unallocateTransactions = (state, action) => ({
         journals: [],
         type: allocation.type,
         taxCode: '',
+        selectedAccountId: '',
       };
     }
 

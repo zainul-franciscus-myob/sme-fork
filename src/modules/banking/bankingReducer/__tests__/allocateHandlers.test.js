@@ -23,9 +23,7 @@ describe('allocateHandlers', () => {
 
     const action = {
       index: 0,
-      selectedAccount: {
-        id: '1',
-      },
+      selectedAccountId: '1',
       allocateOrMatch: 'Internet',
       journals: [
         {
@@ -77,12 +75,12 @@ describe('allocateHandlers', () => {
     it('should not set a selectedAccountId if not provided', () => {
       const modifiedAction = {
         ...action,
-        selectedAccount: undefined,
+        selectedAccountId: '',
       };
 
       const actual = allocateTransaction(state, modifiedAction);
 
-      expect(actual.entries[0].selectedAccountId).toEqual(undefined);
+      expect(actual.entries[0].selectedAccountId).toEqual('');
     });
 
     it('should set the appliedRule to undefined if not given', () => {

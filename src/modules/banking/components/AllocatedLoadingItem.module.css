@@ -1,0 +1,8 @@
+.loadingItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--flx-spacing-tiny);
+  padding-left: var(--flx-spacing-x-small);
+  color: darkgray;
+}

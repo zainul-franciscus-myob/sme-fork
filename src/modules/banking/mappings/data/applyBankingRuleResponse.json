@@ -21,6 +21,7 @@
     "transactionId": "3",
     "allocateOrMatch": "Possible invoice match found",
     "type": "paymentRuleMatched",
+    "selectedAccountId": "128",
     "appliedRule": {
       "ruleType": "Invoice",
       "ruleName": "Suggestion rule",

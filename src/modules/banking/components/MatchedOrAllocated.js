@@ -1,6 +1,6 @@
-import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
+import AllocatedLoadingItem from './AllocatedLoadingItem';
 import AllocatedRowItem from './AllocatedRowItem';
 import ExpandedRowItem from './ExpandedRowItem';
 import MatchedRowItem from './MatchedRowItem';
@@ -25,13 +25,12 @@ export default ({
 }) => {
   const {
     type,
+    displayName,
     isLoading,
   } = entry;
 
   if (isLoading) {
-    return (
-      <Spinner size="small" />
-    );
+    return <AllocatedLoadingItem displayName={displayName} />;
   }
 
   if (isExpanded) {
