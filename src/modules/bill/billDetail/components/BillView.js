@@ -11,7 +11,12 @@ import {
   getLoadingState,
   getReadOnlyMessage,
 } from '../selectors/billSelectors';
-import { getIsDocumentLoading, getShowPrefillInfo, getShowSplitView } from '../selectors/BillInTrayDocumentSelectors';
+import {
+  getIsDocumentLoading,
+  getShouldShowInTrayDocument,
+  getShowPrefillInfo,
+  getShowSplitView,
+} from '../selectors/BillInTrayDocumentSelectors';
 import BillActions from './BillActions';
 import BillAlert from './BillAlert';
 import BillDocumentViewer from './BillDocumentViewer';
@@ -56,6 +61,7 @@ const BillView = ({
   showPrefillInfo,
   isReadOnly,
   readOnlyMessage,
+  shouldShowInTrayDocument,
   layout,
   inventoryModal,
   inTrayModal,
@@ -167,7 +173,7 @@ const BillView = ({
           onDiscardAndRedirect={onDiscardAndRedirect}
         />
       )}
-      {!isSplitViewShown && (
+      {shouldShowInTrayDocument && !isSplitViewShown && (
         <BillInTrayDocumentView
           onPrefillButtonClick={onPrefillButtonClick}
           onOpenSplitViewButtonClick={onOpenSplitViewButtonClick}
@@ -238,6 +244,7 @@ const mapStateToProps = state => ({
   showPrefillInfo: getShowPrefillInfo(state),
   isReadOnly: getIsReadOnly(state),
   readOnlyMessage: getReadOnlyMessage(state),
+  shouldShowInTrayDocument: getShouldShowInTrayDocument(state),
 });
 
 export default connect(mapStateToProps)(BillView);

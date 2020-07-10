@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect';
 
-import { getBusinessId, getIsCreating, getRegion } from './billSelectors';
+import {
+  getBusinessId, getIsCreating, getIsReadOnly, getRegion,
+} from './billSelectors';
 
 export const getInTrayDocument = state => state.inTrayDocument || {
   thumbnailUrl: '',
@@ -37,4 +39,10 @@ export const getShouldLinkInTrayDocument = createSelector(
   getIsCreating,
   getHasInTrayDocumentId,
   (isCreating, hasInTrayDocumentId) => isCreating && hasInTrayDocumentId,
+);
+
+export const getShouldShowInTrayDocument = createSelector(
+  getIsReadOnly,
+  getHasInTrayDocumentId,
+  (isReadOnly, hasInTrayDocumentId) => !isReadOnly || (isReadOnly && hasInTrayDocumentId),
 );

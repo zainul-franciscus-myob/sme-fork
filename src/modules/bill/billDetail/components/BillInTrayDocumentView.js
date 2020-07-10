@@ -1,6 +1,4 @@
-import {
-  Button, Card, Icons,
-} from '@myob/myob-widgets';
+import { Button, Card, Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -9,7 +7,11 @@ import {
   getInTrayDocument,
   getIsDocumentLoading,
 } from '../selectors/BillInTrayDocumentSelectors';
-import { getIsCreatingFromInTray, getPrefillButtonText } from '../selectors/billSelectors';
+import {
+  getIsCreatingFromInTray,
+  getIsReadOnly,
+  getPrefillButtonText,
+} from '../selectors/billSelectors';
 import Thumbnail from '../../../../components/Thumbnail/Thumbnail';
 import styles from './BillInTrayDocumentView.module.css';
 
@@ -18,6 +20,7 @@ const BillInTrayDocumentView = ({
   inTrayDocument,
   isCreatingFromInTray,
   prefillButtonText,
+  isReadOnly,
   onPrefillButtonClick,
   onOpenSplitViewButtonClick,
   onUnlinkDocumentButtonClick,
@@ -36,7 +39,7 @@ const BillInTrayDocumentView = ({
           <Button onClick={onOpenSplitViewButtonClick} type="link" icon={<Icons.Expand />}>
             Open split view
           </Button>
-          { !isCreatingFromInTray && (
+          { !isCreatingFromInTray && !isReadOnly && (
             <Button onClick={onUnlinkDocumentButtonClick} type="link" icon={<Icons.UnLink />}>
               Unlink
             </Button>
@@ -54,21 +57,12 @@ const BillInTrayDocumentView = ({
     </div>
   );
 
-  let view;
-  if (hasInTrayDocumentId) {
-    view = documentView;
-  } else {
-    view = noDocumentView;
-  }
+  const view = hasInTrayDocumentId ? documentView : noDocumentView;
 
   return (
     <Card
       classes={[styles.card]}
-      body={(
-        <Card.Body
-          child={view}
-        />
-      )}
+      body={(<Card.Body child={view} />)}
     />
   );
 };
@@ -79,6 +73,7 @@ const mapStateToProps = state => ({
   isDocumentLoading: getIsDocumentLoading(state),
   isCreatingFromInTray: getIsCreatingFromInTray(state),
   prefillButtonText: getPrefillButtonText(state),
+  isReadOnly: getIsReadOnly(state),
 });
 
 export default connect(mapStateToProps)(BillInTrayDocumentView);

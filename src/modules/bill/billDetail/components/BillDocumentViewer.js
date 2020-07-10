@@ -7,7 +7,7 @@ import {
   getInTrayDocument,
   getInTrayDocumentUrl,
 } from '../selectors/BillInTrayDocumentSelectors';
-import { getIsCreatingFromInTray } from '../selectors/billSelectors';
+import { getIsCreatingFromInTray, getIsReadOnly } from '../selectors/billSelectors';
 import DocumentViewer from '../../../../components/DocumentViewer/DocumentViewer';
 import PageView from '../../../../components/PageView/PageView';
 import styles from './BillDocumentViewer.module.css';
@@ -19,6 +19,7 @@ const BillDocumentViewer = ({
   hasInTrayDocumentUrl,
   inTrayDocumentUrl,
   isCreatingFromInTray,
+  isReadOnly,
 }) => (
   <Aside
     className={styles.aside}
@@ -32,7 +33,7 @@ const BillDocumentViewer = ({
           <Button onClick={onCloseSplitViewButtonClick} type="link" icon={<Icons.Collapse />}>
             Close split view
           </Button>
-          { !isCreatingFromInTray && (
+          { !isCreatingFromInTray && !isReadOnly && (
             <Button onClick={onUnlinkDocumentButtonClick} type="link" icon={<Icons.UnLink />}>
               Unlink
             </Button>
@@ -55,6 +56,7 @@ const mapStateToProps = state => ({
   hasInTrayDocumentUrl: getHasInTrayDocumentUrl(state),
   inTrayDocumentUrl: getInTrayDocumentUrl(state),
   isCreatingFromInTray: getIsCreatingFromInTray(state),
+  isReadOnly: getIsReadOnly(state),
 });
 
 export default connect(mapStateToProps)(BillDocumentViewer);
