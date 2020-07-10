@@ -10,7 +10,8 @@ import ComboboxCore from './ComboboxCore';
  *
  * @visibleName
  *
- * @propDocs {path:"./ComboboxBox", ignore: ["itemToString", "defaultSelectedItem", "children", "filterOnType", "itemsFilter"]}
+ * @propDocs {path:"./ComboboxBox", ignore: ["itemToString", "defaultSelectedItem", "children",
+ * "filterOnType", "itemsFilter"]}
  * @propDocs {path:"../Field/Field", ignore:["renderField"]}
  */
 const Combobox = ({
@@ -192,9 +193,12 @@ Combobox.propTypes = {
    */
   renderItem: PropTypes.func,
   /**
-   * This defines which attributes are displayed as columns in the dropdown and which attribute value will be displayed in the input box upon selection (showData).
+   * This defines which attributes are displayed as columns in the dropdown and which attribute
+   * value will be displayed in the input box upon selection (showData).
    *
-   * There can be multiple attributes/columns with showData set. The display value will include the concatenated value of each attribute/column with showData set. The order is determined by metaData array.
+   * There can be multiple attributes/columns with showData set. The display value will include the
+   * concatenated value of each attribute/column with showData set. The order is determined by
+   * metaData array.
    */
   metaData: PropTypes.arrayOf(
     PropTypes.shape({
@@ -221,15 +225,19 @@ Combobox.propTypes = {
    */
   noMatchFoundMessage: PropTypes.string,
   /**
-   * Callback trigger when the selected item is changed. Will receive selected item as first parameter
+   * Callback trigger when the selected item is changed. Will receive selected item as first
+   * parameter
    */
   onChange: PropTypes.func.isRequired,
   /**
-   * Callback trigger when any item is selected (regardless of prior selected item). Will receive selected item as first parameter
+   * Callback trigger when any item is selected (regardless of prior selected item). Will receive
+   * selected item as first parameter
    */
   onSelect: PropTypes.func,
   /**
-   * onAddNew key contains function callback that will be triggered when the Add New Item option is selected (callback will receive the current value of input box as a parameter). label key contains the name of the new entry eg: 'Add new Account'
+   * onAddNew key contains function callback that will be triggered when the Add New Item option is
+   * selected (callback will receive the current value of input box as a parameter). label key
+   * contains the name of the new entry eg: 'Add new Account'
    */
   addNewItem: PropTypes.shape({
     onAddNew: PropTypes.func.isRequired,

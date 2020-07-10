@@ -1,7 +1,7 @@
 /* eslint-disable react/button-has-type */
 import { Icons } from '@myob/myob-widgets';
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import classnames from 'classnames';
 
 class ComboboxInput extends React.Component {
@@ -122,9 +122,12 @@ class ComboboxInput extends React.Component {
 
     return (
       <div className="input-group">
-        <input {...inputProps}/>
+        <input {...inputProps} />
         <div className="input-group-btn">
-          {/* this needs to be an a tag in order to enable onBlur/onFocus functionality. Buttons supporting onFocus/onBlur is OS specific. */}
+          {
+            /* this needs to be an a tag in order to enable onBlur/onFocus functionality. Buttons
+            supporting onFocus/onBlur is OS specific. */
+          }
           <a
             {...getButtonProps({
               className: 'btn btn-default btn-xs dropdown-toggle clickable',

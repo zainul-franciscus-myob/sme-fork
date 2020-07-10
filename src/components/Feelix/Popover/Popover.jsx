@@ -3,14 +3,17 @@
 /* *  WARNING WARNING  * */
 /*
 
-The underlying library of our Popover component "react-popover" supported react@14 and 15 at its <0.5.0 releases.
-"react-popover" began support for react@16 from >=0.5.0 releases, but removed support for earlier versions of react.
-Since our move to support react@16 we have also moved to maintain support for our react@15 customers. Atleast until all are on react@16
+The underlying library of our Popover component "react-popover" supported react@14 and 15 at its
+<0.5.0 releases. "react-popover" began support for react@16 from >=0.5.0 releases, but removed
+support for earlier versions of react. Since our move to support react@16 we have also moved to
+maintain support for our react@15 customers. Atleast until all are on react@16
 
-There was no release of "react-popover" or alternate library that met feature parity (particularly the "preferPlace" feature)
+There was no release of "react-popover" or alternate library that met feature parity (particularly
+the "preferPlace" feature)
 
-There was a PR on "react-popover" which implemented both techniques from <0.5.0 versions and >=0.5.0 versions. This pr was not merged.
-Rather than fork and re-publish those changes we have copied and pasted the requisite code. This can be found in PopWrapper.jsx
+There was a PR on "react-popover" which implemented both techniques from <0.5.0 versions and >=0.5.0
+versions. This pr was not merged. Rather than fork and re-publish those changes we have copied and
+pasted the requisite code. This can be found in PopWrapper.jsx
 
 THIS ONLY EXISTS SO WE CAN MOVE FORWARDS WITH THE COMPONENT LIBRARY
 

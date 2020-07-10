@@ -1,7 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import Downshift from 'downshift';
+import PropTypes from 'prop-types';
+import React from 'react';
 import classnames from 'classnames';
+
 import ComboboxInput from './ComboboxInput';
 import ComboboxMenu from './ComboboxMenu';
 
@@ -95,9 +96,9 @@ class ComboboxBox extends React.Component {
       }
     }
     if (
-      this.props.filterOnType &&
-      Object.prototype.hasOwnProperty.call(changes, 'inputValue') &&
-      changes.type !== controlledPropUpdatedSelectedItem
+      this.props.filterOnType
+      && Object.prototype.hasOwnProperty.call(changes, 'inputValue')
+      && changes.type !== controlledPropUpdatedSelectedItem
     ) {
       this.setState({ isTyping: true });
     }
@@ -193,9 +194,9 @@ class ComboboxBox extends React.Component {
             // disableEventEnterKeyOnMenu: when a user presses ENTER
             // key when the menu is open, stop bubbling the event.
             if (
-              disableEventEnterKeyOnMenu &&
-              event.key === ENTER_KEY &&
-              isOpen
+              disableEventEnterKeyOnMenu
+              && event.key === ENTER_KEY
+              && isOpen
             ) {
               selectHighlightedItem();
               event.stopPropagation();

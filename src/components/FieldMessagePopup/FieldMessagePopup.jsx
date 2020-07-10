@@ -17,9 +17,9 @@ import styles from './FieldMessagePopup.module.css';
 class FieldMessagePopup extends React.Component {
   static propTypes = {
     /**
-     * Sets the id of the field element, the aria-describedby of the field and the for attribute on the label.
-     * If no id is specified, a generated one is used.
-     * These attributes associates the label and the error message to the field. Used for accessibility purposes.
+     * Sets the id of the field element, the aria-describedby of the field and the for attribute on
+     * the label. If no id is specified, a generated one is used. These attributes associates the
+     * label and the error message to the field. Used for accessibility purposes.
      */
     id: PropTypes.string,
     /**
@@ -36,11 +36,13 @@ class FieldMessagePopup extends React.Component {
      */
     hideLabel: PropTypes.bool,
     /**
-     *  If this is not null or empty, it displays the string as an error message in the style dictated by Feelix.
+     *  If this is not null or empty, it displays the string as an error message in the style
+     *  dictated by Feelix.
      */
     errorMessage: PropTypes.string,
     /**
-     * If there is an error message, and this is set to true, the error message will be displayed as a Tooltip in the field rather than below the field.
+     * If there is an error message, and this is set to true, the error message will be displayed as
+     * a Tooltip in the field rather than below the field.
      */
     errorMessageInline: PropTypes.bool,
     /**
@@ -56,19 +58,19 @@ class FieldMessagePopup extends React.Component {
      */
     labelAccessory: PropTypes.node,
     /**
-     * If present will wrap the label in a ToolTip component and have the required label appear on hover.
-     * Additionally will also add an asterix next to label.
+     * If present will wrap the label in a ToolTip component and have the required label appear on
+     * hover. Additionally will also add an asterix next to label.
      */
     requiredLabel: PropTypes.string,
     /**
-     * Render props function called with a subset of props passed to the component with `id`, `errorId` and `aria-describedby` values.
-     * These are used to connect element to the label and error messages.
-     * It also passes any other unnamed props, which you can pass through.
+     * Render props function called with a subset of props passed to the component with `id`,
+     * `errorId` and `aria-describedby` values. These are used to connect element to the label and
+     * error messages. It also passes any other unnamed props, which you can pass through.
      */
     renderField: PropTypes.func.isRequired,
     /**
-     * Sets the aria-describedby of the field. If no requiredId is specified, a generated one is used.
-     * This associates the required message to the field. Used for accessibility purposes.
+     * Sets the aria-describedby of the field. If no requiredId is specified, a generated one is
+     * used. This associates the required message to the field. Used for accessibility purposes.
      */
     requiredId: PropTypes.string,
 
