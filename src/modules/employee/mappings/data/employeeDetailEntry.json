@@ -44,10 +44,42 @@
           "id": "521",
           "payItemId": "53",
           "name": "Leave user entered",
+          "carryLeaveOverToNextYear":true,
           "balanceAdjustment": "140.2",
           "carryOver": "0.50",
           "yearToDate": "0.50",
           "total": "10.90"
+        }
+      ],
+      "allLeavePayItems": [
+        {
+          "id": "-1",
+          "payItemId": "51",
+          "name": "Leave percent",
+          "balanceAdjustment": "140.1",
+          "carryOver": "43.434",
+          "yearToDate": "10.5",
+          "total": "53.5"
+        },
+        {
+          "id": "-1",
+          "payItemId": "53",
+          "name": "Leave user entered",
+          "carryLeaveOverToNextYear":true,
+          "balanceAdjustment": "140.2",
+          "carryOver": "0.50",
+          "yearToDate": "0.50",
+          "total": "10.90"
+        },
+        {
+          "id": "-1",
+          "payItemId": "52",
+          "name": "Leave fixed hours",
+          "carryLeaveOverToNextYear":false,
+          "balanceAdjustment": "5.1",
+          "carryOver": "10.4",
+          "yearToDate": "15.5",
+          "total": "31"
         }
       ]
     },

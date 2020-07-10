@@ -19,6 +19,11 @@ import {
   getStandardPayWageAmountRuleById,
   getStandardPayWageAmountRuleFromModal,
 } from './selectors/PayrollStandardPaySelectors';
+import {
+  getCarryRemainingLeave,
+  getIsActionDisabled as getIsLeavePayItemModalActionDisabled,
+  getIsLeavePayItemModalCreating,
+} from './selectors/LeavePayItemModalSelectors';
 import { getFundType, getIsActionDisabled as getIsSuperFundModalActionDisabled } from './selectors/SuperFundModalSelectors';
 import { getHasTfn, getTaxPayItemModalSubmitting, getTaxTableCalculations } from './selectors/PayrollTaxSelectors';
 import {
@@ -29,10 +34,6 @@ import {
   getIsActionDisabled as getIsExpensePayItemModalActionDisabled,
   getIsExpensePayItemModalCreating,
 } from './selectors/ExpensePayItemModalSelectors';
-import {
-  getIsActionDisabled as getIsLeavePayItemModalActionDisabled,
-  getIsLeavePayItemModalCreating,
-} from './selectors/LeavePayItemModalSelectors';
 import {
   getIsActionDisabled as getIsSuperPayItemModalActionDisabled,
   getIsSuperPayItemModalCreating,
@@ -614,10 +615,14 @@ export default class PayrollDetailsTabModule {
     const onSuccess = (response) => {
       const state = this.store.getState();
       const isCreating = getIsLeavePayItemModalCreating(state);
+      const carryLeaveOverToNextYear = getCarryRemainingLeave(state);
+      const leavePayItem = response ? { ...response.leavePayItem, carryLeaveOverToNextYear }
+        : { carryLeaveOverToNextYear };
+      const integratedResponse = { ...response, leavePayItem };
       if (isCreating) {
-        this.dispatcher.createLeavePayItem(response);
+        this.dispatcher.createLeavePayItem(integratedResponse);
       } else {
-        this.dispatcher.updateLeavePayItem(response);
+        this.dispatcher.updateLeavePayItem(integratedResponse);
       }
       this.dispatcher.closeLeavePayItemModal();
       this.dispatcher.setAlert({ type: 'success', message: response.message });

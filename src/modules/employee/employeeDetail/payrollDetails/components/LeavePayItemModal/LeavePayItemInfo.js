@@ -4,7 +4,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getCarryRemainingLeave, getIsCreating, getPrintOnPaySlip } from '../../selectors/LeavePayItemModalSelectors';
+import { getCarryRemainingLeave, getIsLeavePayItemModalCreating, getPrintOnPaySlip } from '../../selectors/LeavePayItemModalSelectors';
 import LeavePayItemCalculationBasis from './LeavePayItemCalculationBasis';
 
 const handleCheckBoxChange = handler => (e) => {
@@ -57,7 +57,7 @@ const LeavePayItemInfo = ({
 
 const mapStateToProps = state => ({
   printOnPaySlip: getPrintOnPaySlip(state),
-  isCreating: getIsCreating(state),
+  isCreating: getIsLeavePayItemModalCreating(state),
   carryRemainingLeave: getCarryRemainingLeave(state),
 });
 

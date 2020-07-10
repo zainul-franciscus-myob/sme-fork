@@ -8,6 +8,10 @@ export const getLeavePayItemOptions = state => state.leavePayItemOptions;
 export const getAllocatedLeavePayItems = state => state.payrollDetails.leaveDetails
   .allocatedLeavePayItems;
 
+export const getAllLeavePayItems = state => state.payrollDetails.leaveDetails
+  .allLeavePayItems;
+
+
 const getAllocatedLeaveItemModal = state => state.payrollDetails.leaveDetails.modal;
 
 

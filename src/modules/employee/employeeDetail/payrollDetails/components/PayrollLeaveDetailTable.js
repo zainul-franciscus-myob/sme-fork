@@ -58,17 +58,21 @@ const PayrollLeaveDetailTable = ({
 }) => {
   const tableBodyView = selected.map((payItem) => {
     const {
-      payItemId, name, balanceAdjustment, carryOver, yearToDate, total,
+      payItemId, name, balanceAdjustment, carryOver, yearToDate, total, carryLeaveOverToNextYear,
     } = payItem;
-
 
     return (
       <Table.Row key={payItemId}>
         <Table.RowItem {...tableConfig.name}>
           <Button type="link" onClick={onPayItemSelect(onOpenLeavePayItemModal, payItemId)}>{name}</Button>
         </Table.RowItem>
-        <Table.RowItem {...tableConfig.balanceAdjustment}>
-          <AmountInput
+      {/*
+        by default carryLeaveOverToNextYear is true, so need to explicitly check for false value
+        to make falsy value (null, undefined) show input
+       */}
+        <Table.RowItem {...tableConfig.balanceAdjustment}> { !carryLeaveOverToNextYear
+          ? balanceAdjustment
+          : <AmountInput
             name="balanceAdjustment"
             label="Balance Adjustment"
             hideLabel
@@ -78,6 +82,7 @@ const PayrollLeaveDetailTable = ({
             numeralIntegerScale={29}
             numeralDecimalScaleMax={30}
           />
+        }
         </Table.RowItem>
         <Table.RowItem {...tableConfig.carryOver}>{carryOver}
         </Table.RowItem>

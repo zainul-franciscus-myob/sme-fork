@@ -16,7 +16,8 @@ import {
   UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS,
   UPDATE_LEAVE_PAY_ITEM_MODAL_NAME,
 } from '../../../EmployeeIntents';
-import { getAllocatedLeavePayItems } from '../selectors/PayrollLeaveDetailSelectors';
+import { getAllLeavePayItems, getAllocatedLeavePayItems } from '../selectors/PayrollLeaveDetailSelectors';
+import { getCarryRemainingLeave } from '../selectors/LeavePayItemModalSelectors';
 
 export const getLeavePayItemModalDefaultState = () => ({
   leavePayItem: {
@@ -181,21 +182,39 @@ const updateLeavePayItem = (state, { leavePayItem, leavePayItemOptions }) => ({
   leavePayItemOptions,
 });
 
-const createLeavePayItem = (state, { leavePayItem, leavePayItemOptions }) => ({
-  ...state,
-  payrollDetails: {
-    ...state.payrollDetails,
-    leaveDetails: {
-      ...state.payrollDetails.leaveDetails,
-      allocatedLeavePayItems: [
-        ...getAllocatedLeavePayItems(state),
-        { ...leavePayItem, balanceAdjustment: '0', carryOver: '0' },
-      ],
+const createLeavePayItem = (state, payload) => {
+  const { leavePayItem, leavePayItemOptions } = payload;
+  const newLeavePayItem = {
+    ...leavePayItem,
+    balanceAdjustment: '0',
+    carryOver: '0',
+    yearToDate: '0',
+  };
+
+  newLeavePayItem.carryLeaveOverToNextYear = newLeavePayItem.carryLeaveOverToNextYear
+  ?? getCarryRemainingLeave(state);
+
+  return {
+    ...state,
+    payrollDetails: {
+      ...state.payrollDetails,
+      leaveDetails: {
+        ...state.payrollDetails.leaveDetails,
+        allocatedLeavePayItems: [
+          ...getAllocatedLeavePayItems(state),
+          { ...newLeavePayItem },
+        ],
+        allLeavePayItems: [
+          ...getAllLeavePayItems(state),
+          { ...newLeavePayItem },
+        ],
+      },
     },
-  },
-  isPageEdited: true,
-  leavePayItemOptions,
-});
+    isPageEdited: true,
+    leavePayItemOptions,
+  };
+};
+
 
 export default {
   [SET_LEAVE_PAY_ITEM_MODAL_ALERT]: setLeavePayItemModalAlert,

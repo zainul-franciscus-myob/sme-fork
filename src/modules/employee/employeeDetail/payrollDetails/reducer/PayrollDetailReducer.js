@@ -78,10 +78,24 @@ const setPayrollAllocatedLeaveState = (state, partialAllocatedLeave) => ({
 
 const addAllocatedLeaveItem = (state, action) => {
   const { leaveItem } = action;
+  const allLeavePayItems = state.payrollDetails.leaveDetails.allLeavePayItems ?? [];
+
+  const correspondingLeavePayItem = allLeavePayItems
+    .find(leavePayItem => leavePayItem.payItemId === leaveItem.id)
+  // if can't find them, meaning the item was just added
+  ?? {
+    payItemId: leaveItem.id,
+    carryOver: '0',
+    balanceAdjustment: '0',
+    yearToDate: '0',
+    name: leaveItem.name,
+    carryLeaveOverToNextYear: leaveItem.carryLeaveOverToNextYear,
+  };
+
   const updatedLeaveItems = [
     ...state.payrollDetails.leaveDetails.allocatedLeavePayItems,
     {
-      payItemId: leaveItem.id, name: leaveItem.name, carryOver: '0',
+      ...correspondingLeavePayItem,
     },
   ];
   const partialAllocatedLeave = { allocatedLeavePayItems: updatedLeaveItems };
