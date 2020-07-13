@@ -29,6 +29,7 @@ const BankFeedsApplyView = ({
   setFormAlertState,
   setModalState,
   shouldDisplayConnectForm,
+  uploadAuthorityForm,
 }) => {
   const view = shouldDisplayConnectForm ? (
     <BankFeedsConnectView
@@ -39,6 +40,7 @@ const BankFeedsApplyView = ({
       redirectToBank={redirectToBank}
       redirectToBankFeeds={redirectToBankFeeds}
       setCopyAlertText={setCopyAlertText}
+      uploadAuthorityForm={uploadAuthorityForm}
     />
   ) : (
     <BankFeedsCreateView

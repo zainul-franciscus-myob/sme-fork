@@ -12,6 +12,7 @@ import BankFeedsApplyDispatcher from './BankFeedsApplyDispatcher';
 import BankFeedsApplyIntegrator from './BankFeedsApplyIntegrator';
 import BankFeedsApplyReducer from './BankFeedsApplyReducer';
 import BankFeedsApplyView from './components/BankFeedsApplyView';
+import Config from '../../../Config';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import openBlob from '../../../common/blobOpener/openBlob';
@@ -111,6 +112,7 @@ export default class BankFeedsApplyModule {
         <BankFeedsApplyView
           getAuthorityForm={() => this.getAuthorityForm()}
           onCopy={this.onCopy}
+          onNext={() => this.submitBankFeedApplication()}
           onUpdateForm={({ key, value }) =>
             this.dispatcher.updateForm({ key, value })
           }
@@ -134,7 +136,9 @@ export default class BankFeedsApplyModule {
             this.dispatcher.setFormAlertState(state)
           }
           setModalState={() => this.dispatcher.setModalState()}
-          onNext={() => this.submitBankFeedApplication()}
+          uploadAuthorityForm={() =>
+            this.navigateTo(Config.BANKFEED_PORTAL_URL, true)
+          }
         />
       </Provider>
     );

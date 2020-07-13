@@ -28,6 +28,7 @@ const BankFeedsConnectView = ({
   redirectToBank,
   redirectToBankFeeds,
   setCopyAlertText,
+  uploadAuthorityForm,
 }) => {
   const applicationPreferenceOnline = applicationPreference === 'online';
 
@@ -68,8 +69,7 @@ const BankFeedsConnectView = ({
                 ) : (
                   <BankFeedsConnectForm
                     getAuthorityForm={getAuthorityForm}
-                    onCopy={onCopy}
-                    setCopyAlertText={setCopyAlertText}
+                    uploadAuthorityForm={uploadAuthorityForm}
                   />
                 )
               }

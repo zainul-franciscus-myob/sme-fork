@@ -10,24 +10,18 @@
   margin: var(--flx-spacing-tiny) 0 var(--flx-spacing-medium);
 }
 
-.bankFeedLoadEmail,
 .referenceNumber {
   align-items: flex-start;
   display: flex;
   margin-top: var(--flx-spacing-tiny);
 }
 
-.bankFeedLoadEmail :global(.form-group),
 .referenceNumber :global(.form-group) {
   margin-right: var(--flx-spacing-tiny);
   max-width: 100%;
 }
 
-.bankFeedLoadEmail :global(.form-group__label-group),
 .referenceNumber :global(.form-group__label-group) { display: none; }
 
 .referenceNumber :global(.form-group),
 .referenceNumber :global(.form-group__input-group) { width: var(--flx-width-field-s); }
-
-.bankFeedLoadEmail :global(.form-group),
-.bankFeedLoadEmail :global(.form-group__input-group) { width: var(--flx-width-field-m); }
