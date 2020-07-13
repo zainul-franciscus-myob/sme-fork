@@ -35,11 +35,12 @@ const BankingRuleDetailBankingSection = ({
       )}
     />
     {applyToAllAccounts === applyToAllBankAccountValues.oneBankAccount && (
-      <div className={`${styles.applyToAllAccounts} ${styles.form}`}>
+      <div className={`${styles.applyToAllAccounts}`}>
         <AccountCombobox
           items={bankAccounts}
           selectedId={accountId}
           hintText="Select a bank account"
+          width="xl"
           onChange={handleComboboxChange('accountId', onRuleConditionsChange)}
         />
       </div>
