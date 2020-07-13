@@ -128,8 +128,8 @@ export const getMatchTransferMoneyQueryParams = (state, index) => {
   const { transactionId: bankFeedTransactionId, date } = line;
 
   const transactionDate = new Date(date);
-  const dateFrom = formatIsoDate(subDays(transactionDate, 5));
-  const dateTo = formatIsoDate(addDays(transactionDate, 5));
+  const dateFrom = formatIsoDate(subDays(transactionDate, 7));
+  const dateTo = formatIsoDate(addDays(transactionDate, 7));
   const sortOrder = getMatchTransferMoneySortOrder(state);
   const orderBy = getMatchTransferMoneyOrderBy(state);
 
