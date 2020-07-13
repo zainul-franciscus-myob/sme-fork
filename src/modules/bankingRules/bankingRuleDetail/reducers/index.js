@@ -1,6 +1,7 @@
 import {
   CLOSE_MODAL,
   LOAD_BANKING_RULE,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_BANKING_RULE,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
@@ -24,9 +25,23 @@ const setInitalState = (state, action) => ({
   ruleType: action.context.ruleType ? action.context.ruleType : state.ruleType,
 });
 
+const buildLineJobOptions = ({ action, jobId }) =>
+  action.bankingRule.jobs
+    ? action.bankingRule.jobs.filter((job) => job.isActive || job.id === jobId)
+    : [];
+
 const loadBankingRuleDetail = (state, action) => ({
   ...state,
   ...action.bankingRule,
+  allocations: action.bankingRule.allocations.map((allocation) => ({
+    ...allocation,
+    lineJobOptions: buildLineJobOptions({ action, jobId: allocation.jobId }),
+  })),
+  newAllocationLine: {
+    ...state.newAllocationLine,
+    ...action.bankingRule.newAllocationLine,
+    lineJobOptions: buildLineJobOptions({ action }),
+  },
 });
 
 const isContact = (key) => key === 'contactId';
@@ -83,6 +98,19 @@ const setIsPagedEdited = (state) => ({
   isPageEdited: true,
 });
 
+const loadJobAfterCreate = (state, { intent, ...job }) => ({
+  ...state,
+  allocations: state.allocations.map((allocation) => ({
+    ...allocation,
+    lineJobOptions: [job, ...allocation.lineJobOptions],
+  })),
+  newAllocationLine: {
+    ...state.newAllocationLine,
+    lineJobOptions: [job, ...state.newAllocationLine.lineJobOptions],
+  },
+  isPageEdited: true,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitalState,
@@ -94,6 +122,7 @@ const handlers = {
   [UPDATE_FORM]: updateForm,
   [LOAD_NEW_BANKING_RULE]: loadBankingRuleDetail,
   [LOAD_BANKING_RULE]: loadBankingRuleDetail,
+  [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
   ...allocationHandlers,
   ...conditionHandlers,
 };

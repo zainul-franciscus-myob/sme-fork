@@ -21,3 +21,6 @@ export const ADD_RULE_CONDITION = Symbol('Add rule condition');
 export const ADD_CONDITION_PREDICATE = Symbol('Add condition predicate');
 export const UPDATE_CONDITION_PREDICATE = Symbol('Update condition predicate');
 export const REMOVE_CONDITION_PREDICATE = Symbol('Remove condition predicate');
+
+export const LOAD_JOB_AFTER_CREATE = Symbol('Load job after create');
+export const SET_JOB_LOADING_STATE = Symbol('Set job loading state');

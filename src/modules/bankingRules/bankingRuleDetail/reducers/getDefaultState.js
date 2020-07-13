@@ -27,7 +27,9 @@ const getDefaultState = () => ({
   newAllocationLine: {
     accountId: '',
     value: '',
+    jobId: '',
     taxCodeId: '',
+    lineJobOptions: [],
   },
   loadingState: LoadingState.LOADING,
   isPageEdited: false,

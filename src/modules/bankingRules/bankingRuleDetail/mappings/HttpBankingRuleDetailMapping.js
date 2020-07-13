@@ -2,6 +2,7 @@ import {
   CREATE_BANKING_RULE,
   DELETE_BANKING_RULE,
   LOAD_BANKING_RULE,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_BANKING_RULE,
   UPDATE_BANKING_RULE,
 } from '../BankingRuleDetailIntents';
@@ -31,6 +32,11 @@ const HttpBankingRuleDetailMapping = {
     method: 'DELETE',
     getPath: ({ businessId, bankingRuleId }) =>
       `/${businessId}/bankingRule/delete_banking_rule/${bankingRuleId}`,
+  },
+  [LOAD_JOB_AFTER_CREATE]: {
+    method: 'GET',
+    getPath: ({ businessId, jobId }) =>
+      `/${businessId}/bankingRule/load_job/${jobId}`,
   },
 };
 

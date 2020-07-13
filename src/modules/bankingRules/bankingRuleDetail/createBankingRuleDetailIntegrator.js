@@ -2,11 +2,13 @@ import {
   CREATE_BANKING_RULE,
   DELETE_BANKING_RULE,
   LOAD_BANKING_RULE,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_BANKING_RULE,
   UPDATE_BANKING_RULE,
 } from './BankingRuleDetailIntents';
 import {
   getBankingRuleParams,
+  getBusinessId,
   getIsCreating,
   getNewBankingRuleParams,
   getSaveBankingRuleContent,
@@ -56,6 +58,22 @@ const createBankingRuleDetailIntegrator = (store, integration) => ({
 
     integration.write({
       intent: DELETE_BANKING_RULE,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadJobAfterCreate: ({ id, onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = LOAD_JOB_AFTER_CREATE;
+    const urlParams = {
+      jobId: id,
+      businessId: getBusinessId(state),
+    };
+
+    integration.read({
+      intent,
       urlParams,
       onSuccess,
       onFailure,

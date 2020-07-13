@@ -8,12 +8,14 @@ import {
 import {
   getBankingRuleListUrl,
   getIsPagedEdited,
+  getJobModalContext,
   getLoadingState,
   getModalUrl,
   getOpenedModalType,
   getSaveUrl,
 } from './bankingRuleDetailSelectors';
 import BankingRuleDetailView from './components/BankingRuleDetailView';
+import JobModalModule from '../../job/jobModal/JobModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
 import Store from '../../../store/Store';
@@ -34,9 +36,12 @@ export default class BankingRuleDetailModule {
       this.store,
       this.integration
     );
+    this.jobModalModule = new JobModalModule({ integration });
   }
 
   render = () => {
+    const jobModal = this.jobModalModule.render();
+
     const bankingRuleDetailView = (
       <BankingRuleDetailView
         onRuleDetailsChange={this.updateForm}
@@ -46,7 +51,9 @@ export default class BankingRuleDetailModule {
         onPredicateAdd={this.addConditionPredicate}
         onPredicateChange={this.updateConditionPredicate}
         onPredicateRemove={this.removeConditionPredicate}
+        jobModal={jobModal}
         onAddRow={this.addTableRow}
+        onAddJob={this.openJobModal}
         onRowChange={this.changeTableRow}
         onRemoveRow={this.removeTableRow}
         onSaveButtonClick={this.saveBankingRule}
@@ -217,6 +224,37 @@ export default class BankingRuleDetailModule {
     } else {
       this.redirectToBankingRuleList();
     }
+  };
+
+  openJobModal = (onChange) => {
+    const state = this.store.getState();
+    const context = getJobModalContext(state);
+
+    this.jobModalModule.run({
+      context,
+      onLoadFailure: (message) => this.dispatcher.displayAlert(message),
+      onSaveSuccess: (payload) => this.loadJobAfterCreate(payload, onChange),
+    });
+  };
+
+  loadJobAfterCreate = ({ id }, onChange) => {
+    this.jobModalModule.resetState();
+    this.dispatcher.setJobLoadingState(true);
+
+    const onSuccess = (payload) => {
+      const job = { ...payload, id };
+
+      this.dispatcher.setJobLoadingState(false);
+      this.dispatcher.loadJobAfterCreate(id, job);
+      onChange(job);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setJobLoadingState(false);
+      this.dispatcher.displayAlert(message);
+    };
+
+    this.integrator.loadJobAfterCreate({ id, onSuccess, onFailure });
   };
 
   dismissModal = () => {

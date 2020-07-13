@@ -12,6 +12,7 @@ import {
 } from '../bankingRuleDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
+import JobCombobox from '../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 
 const onComboboxChange = (name, onChange) => (item) => {
@@ -42,6 +43,7 @@ const BankingRuleDetailAllocationTableRow = ({
   isFieldDisabled,
   isAccountDisabled,
   onChange,
+  onAddJob,
   ...feelixInjectedProps
 }) => (
   <LineItemTable.Row
@@ -78,6 +80,16 @@ const BankingRuleDetailAllocationTableRow = ({
         disabled={isFieldDisabled}
       />
     )}
+    <JobCombobox
+      label="Job"
+      onChange={onComboboxChange('jobId', onChange)}
+      items={row.lineJobOptions}
+      selectedId={row.jobId}
+      disabled={isFieldDisabled}
+      addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
+      allowClear
+      left
+    />
     <TaxCodeCombobox
       name="taxCodeId"
       items={taxCodes}

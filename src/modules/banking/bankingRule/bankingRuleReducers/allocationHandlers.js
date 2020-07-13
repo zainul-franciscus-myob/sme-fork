@@ -5,6 +5,7 @@ import formatNumberWithDecimalScaleRange from '../../../../common/valueFormatter
 const newAllocationLine = {
   accountId: '',
   value: '',
+  jobId: '',
   taxCodeId: '',
 };
 

@@ -4,11 +4,13 @@ import {
   ADD_TABLE_ROW,
   CHANGE_TABLE_ROW,
   CLOSE_MODAL,
+  LOAD_JOB_AFTER_CREATE,
   OPEN_MODAL,
   REMOVE_CONDITION_PREDICATE,
   REMOVE_TABLE_ROW,
   SET_ALERT_MESSAGE,
   SET_IS_PAGE_EDITED,
+  SET_JOB_LOADING_STATE,
   SET_LOADING_STATE,
   UPDATE_CONDITION_PREDICATE,
   UPDATE_FORM,
@@ -149,6 +151,19 @@ const createBankingRuleDetailDispatcher = (store) => ({
       predicateIndex,
     });
   },
+
+  loadJobAfterCreate: (jobId, payload) =>
+    store.dispatch({
+      intent: LOAD_JOB_AFTER_CREATE,
+      jobId,
+      ...payload,
+    }),
+
+  setJobLoadingState: (isJobLoading) =>
+    store.dispatch({
+      intent: SET_JOB_LOADING_STATE,
+      isJobLoading,
+    }),
 });
 
 export default createBankingRuleDetailDispatcher;

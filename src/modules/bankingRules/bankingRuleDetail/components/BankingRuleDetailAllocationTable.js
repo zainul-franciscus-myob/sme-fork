@@ -14,8 +14,14 @@ import NoMoveWrapper from '../../../../components/LineItemTable/NoMoveWrapper';
 import TableRow from './BankingRuleDetailAllocationTableRow';
 import styles from './BankingRuleDetailView.module.css';
 
-const renderRow = (index, _, onChange, labels) => (
-  <TableRow index={index} key={index} labels={labels} onChange={onChange} />
+const renderRow = (onAddJob) => (index, _, onChange, labels) => (
+  <TableRow
+    index={index}
+    key={index}
+    labels={labels}
+    onChange={onChange}
+    onAddJob={onAddJob}
+  />
 );
 
 const BankingRuleDetailAllocationTable = ({
@@ -26,10 +32,12 @@ const BankingRuleDetailAllocationTable = ({
   isPercentageRed,
   showRemainingPercentage,
   onAddRow,
+  onAddJob,
   onRowChange,
   onRemoveRow,
 }) => {
   const accountLabel = 'Account';
+  const jobLabel = 'Job';
 
   const columnConfig = [
     {
@@ -43,6 +51,10 @@ const BankingRuleDetailAllocationTable = ({
           styles: { width: '12.8rem' },
         },
         {
+          columnName: jobLabel,
+          styles: { width: '11.7rem' },
+        },
+        {
           columnName: taxCodeLabel,
           styles: { width: '10.6rem' },
         },
@@ -50,7 +62,7 @@ const BankingRuleDetailAllocationTable = ({
     },
   ];
 
-  const labels = [accountLabel, allocationLabel, taxCodeLabel];
+  const labels = [accountLabel, allocationLabel, jobLabel, taxCodeLabel];
 
   const headerItems = [
     <LineItemTable.HeaderItem key={accountLabel} requiredLabel="required">
@@ -58,6 +70,9 @@ const BankingRuleDetailAllocationTable = ({
     </LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem key={allocationLabel} requiredLabel="required">
       {allocationLabel}
+    </LineItemTable.HeaderItem>,
+    <LineItemTable.HeaderItem key={jobLabel}>
+      {jobLabel}
     </LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem key={taxCodeLabel}>
       {taxCodeLabel}
@@ -70,7 +85,7 @@ const BankingRuleDetailAllocationTable = ({
       <NoMoveWrapper>
         <LineItemTable
           labels={labels}
-          renderRow={renderRow}
+          renderRow={renderRow(onAddJob)}
           data={tableData}
           onAddRow={onAddRow}
           onRowChange={onRowChange}

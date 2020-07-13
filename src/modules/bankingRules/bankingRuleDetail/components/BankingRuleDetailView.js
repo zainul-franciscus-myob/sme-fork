@@ -22,6 +22,7 @@ const BankingRuleDetailView = ({
   loadingState,
   isAlertShown,
   modal,
+  jobModal,
   pageTitle,
   showAllocationTable,
   onRuleDetailsChange,
@@ -32,6 +33,7 @@ const BankingRuleDetailView = ({
   onPredicateChange,
   onPredicateRemove,
   onAddRow,
+  onAddJob,
   onRowChange,
   onRemoveRow,
   onSaveButtonClick,
@@ -50,6 +52,7 @@ const BankingRuleDetailView = ({
         <BankingRuleDetailAlert onDismissAlert={onDismissAlert} />
       )}
       <Card>
+        {jobModal}
         {modal && (
           <ModalContainer
             modal={modal}
@@ -78,6 +81,7 @@ const BankingRuleDetailView = ({
             onAddRow={onAddRow}
             onRowChange={onRowChange}
             onRemoveRow={onRemoveRow}
+            onAddJob={onAddJob}
           />
         )}
       </Card>

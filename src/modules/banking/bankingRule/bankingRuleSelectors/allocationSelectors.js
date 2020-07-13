@@ -63,6 +63,7 @@ export const getTableRow = (state, { index }) => {
     row || {
       accountId: '',
       value: '',
+      jobId: '',
       taxCodeId: '',
     }
   );

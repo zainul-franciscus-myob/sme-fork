@@ -49,6 +49,7 @@ export const getAllocationType = (state) => state.allocationType;
 export const getIsSelectRuleTypeDisabled = (state) => !getIsCreating(state);
 
 export const getBankingRuleType = (state) => state.ruleType;
+
 export const getShowAllocationTable = createSelector(
   getBankingRuleType,
   (ruleType) =>
@@ -219,4 +220,11 @@ export const getOpenedModalType = (state) => {
   const modal = getModal(state) || { type: ModalType.NONE };
 
   return modal.type;
+};
+
+export const getJobModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region };
 };

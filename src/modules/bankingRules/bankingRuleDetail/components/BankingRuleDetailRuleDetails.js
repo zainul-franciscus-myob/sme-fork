@@ -58,6 +58,7 @@ const BankingRuleDetailRuleDetails = ({
       onChange={handleInputChange(onRuleDetailsChange)}
       maxLength={255}
       className={styles.ruleName}
+      width="xl"
     />
     <CheckboxGroup
       hideLabel

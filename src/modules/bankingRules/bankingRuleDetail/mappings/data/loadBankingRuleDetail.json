@@ -14,10 +14,12 @@
       {
           "accountId": "123",
           "taxCodeId": "1",
+          "jobId": "1",
           "value": "80.00"
       },
       {
           "accountId": "123",
+          "jobId": "1",
           "taxCodeId": "1",
           "value": "20.00"
       }
@@ -124,6 +126,26 @@
       "id": "2"
     }
   ],
+  "jobs": [
+    {
+      "id": "1",
+      "jobNumber": "100",
+      "jobName": "Job 1",
+      "isActive": true
+    },
+    {
+      "id": "2",
+      "jobNumber": "200",
+      "jobName": "Job 2 with a long name",
+      "isActive": true
+    },
+    {
+      "id": "3",
+      "jobNumber": "12345678901234",
+      "jobName": "Job 3 with an even longer name",
+      "isActive": false
+    }
+  ],
   "taxCodes": [
     {
       "id": "1",
@@ -146,6 +168,7 @@
   ],
   "newAllocationLine": {
     "accountId": "",
+    "jobId": "",
     "taxCodeId": "",
     "value": ""
   }

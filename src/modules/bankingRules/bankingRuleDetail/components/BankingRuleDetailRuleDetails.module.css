@@ -1,7 +1,3 @@
-.ruleName {
-  width: var(--flx-width-field-xl);
-}
-
 .isInactiveRule {
   margin-bottom: var(--flx-spacing-small);
 }
