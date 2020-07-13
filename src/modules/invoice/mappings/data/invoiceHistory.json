@@ -2,80 +2,67 @@
     "invoiceHistory": [
       {
         "status": "DELIVERY_FAILED",
-        "date": "14/12/2019",
-        "time": "12:00pm",
+        "date": "2019-12-14T01:00:00.000Z",
         "description": "Couldn't send to fakeemail@gmail.com. Check the email address"
       },
       {
         "status": "CREATED",
-        "date": "02/12/2019",
-        "time": "12:00pm",
+        "date": "2019-12-02",
         "description": ""
       },
       {
         "status": "VIEWED_ONLINE",
-        "date": "03/12/2019",
-        "time": "12:00pm",
+        "date": "2019-12-03T01:00:00.000Z",
         "description": ""
       },
       {
         "status": "DOWNLOADED",
-        "date": "04/12/2019",
-        "time": "12:00pm",
+        "date": "2019-12-03T01:00:00.000Z",
         "description": ""
       },
       {
         "status": "PRINTED",
-        "date": "05/12/2019",
-        "time": "12:00pm",
+        "date": "2019-12-05T01:00:00.000Z",
         "description": ""
       },
       {
         "status": "EXPORTED_TO_PDF",
-        "date": "06/12/2019",
-        "time": "12:00pm",
+        "date": "2019-12-06T01:00:00.000Z",
         "description": ""
       },
       {
         "status": "PAID_ONLINE",
-        "date": "07/12/2019",
-        "time": "12:00pm",
+        "date": "2019-12-07T01:00:00.000Z",
         "description": "More details"
       },
       {
         "status": "PAID_IN_BULK_ONLINE",
-        "date": "08/12/2019",
-        "time": "12:00pm",
+        "date": "2019-12-08T01:00:00.000Z",
         "description": "Received $60"
       },
       {
         "status": "PAYMENT_DECLINED",
-        "date": "09/12/2019",
-        "time": "12:00pm",
+        "date": "2019-12-09T01:00:00.000Z",
         "description": "Payment unsuccessful"
       },
       {
         "status": "BULK_PAYMENT_DECLINED",
-        "date": "10/12/2019",
-        "time": "12:00pm",
+        "date": "2019-12-10T01:00:00.000Z",
         "description": "Payment unsuccessful"
       },
       {
         "status": "PAYMENT_RECEIVED",
-        "date": "11/12/2019",
-        "time": "12:00pm",
+        "date": "2019-12-11T01:00:00.000Z",
         "description": "Received $60"
       },
       {
         "status": "INVOICE_REVERSED",
-        "date": "12/12/2019",
-        "time": "12:00pm",
+        "date": "2019-12-12T01:00:00.000Z",
         "description": "Reference number"
       },
       {
         "status": "EMAILED",
-        "date": "13/12/2019",
-        "time": "12:00pm",
+        "date": "2019-12-13T01:00:00.000Z",
         "description": "To: fakeemail@gmail.com, notrealmail@realmail.com"
       }
     ]

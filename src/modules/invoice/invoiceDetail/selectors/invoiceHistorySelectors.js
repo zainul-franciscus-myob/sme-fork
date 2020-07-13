@@ -1,4 +1,5 @@
 import { businessEventToFeatureMap } from '../../../../common/types/BusinessEventTypeMap';
+import FormatDateWithPattern from '../../../../common/valueFormatters/formatDate/formatDateWithPattern';
 import InvoiceHistoryAccordionStatus from '../types/InvoiceHistoryAccordionStatus';
 import InvoiceHistoryStatus from '../types/InvoiceHistoryStatus';
 
@@ -10,9 +11,21 @@ const getShowLink = (line) => {
   return feature && referenceNo;
 };
 
+export const getDate = (row) =>
+  row.date !== undefined
+    ? FormatDateWithPattern('dd/MM/yyyy')(new Date(row.date))
+    : '';
+
+export const getTime = (row) =>
+  row.date !== undefined && row.date.includes('T')
+    ? FormatDateWithPattern('h:mmaa')(new Date(row.date)).toLowerCase()
+    : '';
+
 export const getInvoiceHistoryTable = (state) =>
   state.invoiceHistory.map((line) => ({
     ...line,
+    displayDate: getDate(line),
+    displayTime: getTime(line),
     showLink: getShowLink(line),
   }));
 

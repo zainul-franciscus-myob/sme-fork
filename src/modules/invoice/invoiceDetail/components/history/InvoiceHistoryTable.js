@@ -64,11 +64,12 @@ const InvoiceHistoryTable = ({ invoiceHistory, onClickOnRefNo }) => (
               )}
               {row.description}
             </Table.RowItem>
-            <Table.RowItem width="11rem" title={row.date}>
-              {row.date}
+
+            <Table.RowItem width="11rem" title={row.displayDate}>
+              {row.displayDate}
             </Table.RowItem>
-            <Table.RowItem width="9rem" align="right" title={row.time}>
-              {row.time}
+            <Table.RowItem width="9rem" align="right" title={row.displayTime}>
+              {row.displayTime}
             </Table.RowItem>
           </Table.Row>
         ))}

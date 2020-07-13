@@ -1,6 +1,8 @@
 import {
+  getDate,
   getMostRecentStatus,
   getMostRecentStatusColor,
+  getTime,
 } from '../invoiceHistorySelectors';
 import InvoiceHistoryAccordionStatus from '../../types/InvoiceHistoryAccordionStatus';
 import InvoiceHistoryStatus from '../../types/InvoiceHistoryStatus';
@@ -141,6 +143,56 @@ describe('invoiceHistorySelectors', () => {
 
       state = addMostRecentStatusToState(state, InvoiceHistoryStatus.EMAILED);
       expect(getMostRecentStatusColor(state)).toEqual(expected);
+    });
+  });
+
+  describe('getDate', () => {
+    it('returns nothing when there is no date', () => {
+      const expected = '';
+      const row = {};
+
+      const actual = getDate(row);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('returns the date when there is no time component', () => {
+      const expected = '11/12/2019';
+      const row = { date: '2019-12-11' };
+
+      const actual = getDate(row);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('returns a date when given a utc date string', () => {
+      const expected = '12/12/2019';
+      const row = { date: '2019-12-12T01:00:00.000Z' };
+
+      const actual = getDate(row);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getTime', () => {
+    it('returns nothing when there is no utcDate or date', () => {
+      const expected = '';
+      const row = {};
+
+      const actual = getTime(row);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('returns a formatted time when given a utc date string', () => {
+      // expect 1:00am because tests run with a universal locale (not AU)
+      const expected = '1:00am';
+      const row = { date: '2019-12-12T01:00:00.000Z' };
+
+      const actual = getTime(row);
+
+      expect(actual).toEqual(expected);
     });
   });
 });
