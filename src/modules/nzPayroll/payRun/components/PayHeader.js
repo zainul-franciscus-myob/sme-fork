@@ -6,7 +6,9 @@ import styles from './PayHeader.module.css';
 const PayHeader = ({ items }) => {
   const domItems = items.map((item) => (
     <ReadOnly label={item.label} name={item.name} key={item.name}>
-      <span className={styles.headerValue}>{item.value}</span>
+      <span testid={item.testid} className={styles.headerValue}>
+        {item.value}
+      </span>
     </ReadOnly>
   ));
   return (

@@ -1,6 +1,12 @@
-import { EMPLOYEE_PAY_LIST, START_PAY_RUN } from './payRunSteps';
+import {
+  EMPLOYEE_PAY_LIST,
+  PREPARE_PAYSLIPS,
+  START_PAY_RUN,
+} from './payRunSteps';
 import {
   NEXT_STEP,
+  SET_ALERT,
+  SET_EMPLOYEE_PAYMENTS,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   SET_TOTAL_TAKE_HOME_PAY,
@@ -55,13 +61,33 @@ const setSubmittingState = (state, { isSubmitting }) => ({
   isSubmitting,
 });
 
+const setAlert = (state, action) => ({
+  ...state,
+  alert: action.alert,
+});
+
+const setEmployeePayments = (state, { response }) => ({
+  ...state,
+  [PREPARE_PAYSLIPS.key]: {
+    ...state[PREPARE_PAYSLIPS.key],
+    printPaySlipEmployees: response.printPaySlipEmployees,
+    emailPaySlipEmployees: response.emailPaySlipEmployees.map((employee) => ({
+      ...employee,
+      isSelected: true,
+    })),
+    emailSettings: response.emailSettings,
+  },
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
   [SET_LOADING_STATE]: setLoadingState,
+  [SET_EMPLOYEE_PAYMENTS]: setEmployeePayments,
   [SET_TOTAL_TAKE_HOME_PAY]: setTotalTakeHomePay,
   [NEXT_STEP]: nextStep,
   [SET_SUBMITTING_STATE]: setSubmittingState,
+  [SET_ALERT]: setAlert,
   ...wrapHandlers(START_PAY_RUN.key, startPayRunHandlers),
   ...wrapHandlers(EMPLOYEE_PAY_LIST.key, employeePayListHandlers),
 };

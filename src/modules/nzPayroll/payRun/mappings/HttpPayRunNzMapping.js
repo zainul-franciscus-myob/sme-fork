@@ -1,6 +1,7 @@
 import {
   LOAD_EMPLOYEE_PAYS,
   RECALCULATE_PAY,
+  RECORD_PAYMENTS,
   START_NEW_PAY_RUN,
 } from '../payRunCreate/PayRunIntents';
 
@@ -16,6 +17,10 @@ const PayRunMapping = {
   [RECALCULATE_PAY]: {
     method: 'POST',
     getPath: ({ businessId }) => `/nz/${businessId}/payRun/recalculate_pay`,
+  },
+  [RECORD_PAYMENTS]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/nz/${businessId}/payRun/record_payments`,
   },
 };
 

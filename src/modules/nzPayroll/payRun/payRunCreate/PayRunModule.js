@@ -1,11 +1,16 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { EMPLOYEE_PAY_LIST, START_PAY_RUN } from './payRunSteps';
+import {
+  EMPLOYEE_PAY_LIST,
+  RECORD_AND_REPORT,
+  START_PAY_RUN,
+} from './payRunSteps';
 import { getStepKey } from './PayRunSelectors';
 import EmployeePayListModule from './employeePayList/EmployeePayListModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import PayRunView from './components/PayRunView';
+import RecordPayRunModule from './recordPayRun/RecordPayRunModule';
 import StartPayRunModule from './startPayRun/StartPayRunModule';
 import Store from '../../../../store/Store';
 import createPayRunDispatchers from './createPayRunDispatchers';
@@ -29,6 +34,10 @@ export default class PayRunModule {
         store: this.store,
         pushMessage,
         subscribeOrUpgrade,
+      }),
+      [RECORD_AND_REPORT.key]: new RecordPayRunModule({
+        integration,
+        store: this.store,
       }),
     };
   }

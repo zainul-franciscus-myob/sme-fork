@@ -1,5 +1,7 @@
 import {
   NEXT_STEP,
+  SET_ALERT,
+  SET_EMPLOYEE_PAYMENTS,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   SET_TOTAL_TAKE_HOME_PAY,
@@ -18,6 +20,16 @@ const createPayRunDispatchers = (store) => ({
     store.dispatch({ intent });
   },
 
+  dismissAlert: () => {
+    const intent = SET_ALERT;
+    store.dispatch({ intent, alert: undefined });
+  },
+
+  setAlert: ({ type, message }) => {
+    const intent = SET_ALERT;
+    store.dispatch({ intent, alert: { type, message } });
+  },
+
   setLoadingState: (loadingState) => {
     const intent = SET_LOADING_STATE;
     store.dispatch({ intent, loadingState });
@@ -26,6 +38,11 @@ const createPayRunDispatchers = (store) => ({
   startNewPayRun: (response) => {
     const intent = START_NEW_PAY_RUN;
     store.dispatch({ intent, ...response });
+  },
+
+  setEmployeePayments: (response) => {
+    const intent = SET_EMPLOYEE_PAYMENTS;
+    store.dispatch({ intent, response });
   },
 
   nextStep: () => {
