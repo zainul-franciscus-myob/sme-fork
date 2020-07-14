@@ -2,6 +2,7 @@ import {
   getCreateTransferMoneyPayload,
   getIsTableEmpty,
   getMatchTransferMoneyPayload,
+  getMatchTransferMoneyQueryParams,
   getTransferMoneyModal,
 } from '../transferMoneySelectors';
 import { getShowCreateTransferMoneyButton } from '..';
@@ -303,5 +304,42 @@ describe('transferMoneySelectors', () => {
       const actual = getShowCreateTransferMoneyButton(state);
       expect(actual).toEqual(false);
     });
+  });
+
+  describe('getMatchTransferMoneyQueryParams', () => {
+    it.each(['deposit', 'withdrawal'])(
+      'should return correct request params for a %s',
+      (transactionType) => {
+        const state = {
+          entries: [
+            {
+              transactionId: '1',
+              [transactionType]: '100',
+              date: '2018-05-20',
+            },
+          ],
+          openEntry: {
+            transfer: {
+              sortOrder: 'desc',
+              orderBy: 'Date',
+            },
+          },
+        };
+
+        const expected = {
+          bankFeedTransactionId: '1',
+          dateFrom: '2018-05-13',
+          dateTo: '2018-05-27',
+          amountFrom: 99.9,
+          amountTo: 100.1,
+          sortOrder: 'desc',
+          orderBy: 'Date',
+        };
+
+        const index = 0;
+        const actual = getMatchTransferMoneyQueryParams(state, index);
+        expect(actual).toEqual(expected);
+      }
+    );
   });
 });

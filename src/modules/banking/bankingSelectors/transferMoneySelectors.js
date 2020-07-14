@@ -126,10 +126,14 @@ export const getMatchTransferMoneyUrlParams = (state) => {
 export const getMatchTransferMoneyQueryParams = (state, index) => {
   const line = getBankTransactionLineByIndex(state, index);
   const { transactionId: bankFeedTransactionId, date } = line;
+  const amount = Number(line.withdrawal || line.deposit);
+  const amountOffset = 0.1;
 
   const transactionDate = new Date(date);
   const dateFrom = formatIsoDate(subDays(transactionDate, 7));
   const dateTo = formatIsoDate(addDays(transactionDate, 7));
+  const amountFrom = amount - amountOffset;
+  const amountTo = amount + amountOffset;
   const sortOrder = getMatchTransferMoneySortOrder(state);
   const orderBy = getMatchTransferMoneyOrderBy(state);
 
@@ -137,6 +141,8 @@ export const getMatchTransferMoneyQueryParams = (state, index) => {
     bankFeedTransactionId,
     dateFrom,
     dateTo,
+    amountFrom,
+    amountTo,
     sortOrder,
     orderBy,
   };
