@@ -6,7 +6,7 @@ import RecordPayRunView from './components/RecordPayRunView';
 import createRecordPayRunDispatchers from './createRecordPayRunDispatchers';
 import createRecordPayRunIntegrator from './createRecordPayRunIntegrator';
 
-export default class RecordPayRunModule {
+export default class RecordPayRunSubModule {
   constructor({ integration, store }) {
     this.integration = integration;
     this.store = store;

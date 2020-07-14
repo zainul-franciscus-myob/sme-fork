@@ -3,7 +3,7 @@
     {
       "transactionId": 2,
       "employeeId": 297,
-      "name": "Fin Adventurelad",
+      "name": "Fin Adventureland",
       "email": "finlovesswords@fcbarcelona.com",
       "takeHomePay": "61.77",
       "hasPaySlipEmailSent": false,
@@ -14,35 +14,9 @@
       "employeeId": 299,
       "name": "Princess Bubblegum",
       "email": "pbubs@fcbarcelona.com",
-      "takeHomePay": "61.77",
+      "takeHomePay": "61.78",
       "hasPaySlipEmailSent": false,
       "hasBankFile": false
     }
-  ],
-  "emailPaySlipEmployees": [
-    {
-      "transactionId": 3,
-      "employeeId": 298,
-      "name": "Jake Magicdog",
-      "email": "jake.criminaldog@fcbarcelona.com",
-      "takeHomePay": "61.77",
-      "hasPaySlipEmailSent": false,
-      "hasBankFile": false
-    },
-    {
-      "transactionId": 4,
-      "employeeId": 299,
-      "name": "Princess Bubblegum",
-      "email": "pbubs@fcbarcelona.com",
-      "takeHomePay": "61.77",
-      "hasPaySlipEmailSent": false,
-      "hasBankFile": false
-    }
-  ],
-  "emailSettings": {
-    "fromEmail": "alex.skoufis@myob.com",
-    "fromName": "Alex Skoufis",
-    "paySlipSubject": "Pay Slip From Clearwater Pty Ltd",
-    "paySlipBody": "Please contact us immediately if you are unable to detach or download your Pay Slip. Thank you."
-  }
+  ]
 }

@@ -1,11 +1,12 @@
-export const PREPARE_PAYSLIPS = {
-  key: 'preparePayslips',
-  index: 3,
-};
-
 export const DONE = {
   key: 'done',
   index: 4,
+};
+
+export const PREPARE_PAYSLIPS = {
+  key: 'preparePaySlips',
+  index: 3,
+  nextStep: DONE,
 };
 
 export const RECORD_AND_REPORT = {

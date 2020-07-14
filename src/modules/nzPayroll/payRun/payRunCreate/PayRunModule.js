@@ -3,15 +3,17 @@ import React from 'react';
 
 import {
   EMPLOYEE_PAY_LIST,
+  PREPARE_PAYSLIPS,
   RECORD_AND_REPORT,
   START_PAY_RUN,
 } from './payRunSteps';
 import { getStepKey } from './PayRunSelectors';
-import EmployeePayListModule from './employeePayList/EmployeePayListModule';
+import EmployeePayListSubModule from './employeePayList/EmployeePayListSubModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import PayRunView from './components/PayRunView';
-import RecordPayRunModule from './recordPayRun/RecordPayRunModule';
-import StartPayRunModule from './startPayRun/StartPayRunModule';
+import PreparePaySlipsSubModule from './preparePayslips/PreparePaySlipsSubModule';
+import RecordPayRunSubModule from './recordPayRun/RecordPayRunSubModule';
+import StartPayRunSubModule from './startPayRun/StartPayRunSubModule';
 import Store from '../../../../store/Store';
 import createPayRunDispatchers from './createPayRunDispatchers';
 import createPayRunIntegrator from './createPayRunIntegrator';
@@ -25,17 +27,21 @@ export default class PayRunModule {
     this.dispatcher = createPayRunDispatchers(this.store);
     this.integrator = createPayRunIntegrator(this.store, integration);
     this.subModules = {
-      [START_PAY_RUN.key]: new StartPayRunModule({
+      [START_PAY_RUN.key]: new StartPayRunSubModule({
         integration,
         store: this.store,
       }),
-      [EMPLOYEE_PAY_LIST.key]: new EmployeePayListModule({
+      [EMPLOYEE_PAY_LIST.key]: new EmployeePayListSubModule({
         integration,
         store: this.store,
         pushMessage,
         subscribeOrUpgrade,
       }),
-      [RECORD_AND_REPORT.key]: new RecordPayRunModule({
+      [RECORD_AND_REPORT.key]: new RecordPayRunSubModule({
+        integration,
+        store: this.store,
+      }),
+      [PREPARE_PAYSLIPS.key]: new PreparePaySlipsSubModule({
         integration,
         store: this.store,
       }),

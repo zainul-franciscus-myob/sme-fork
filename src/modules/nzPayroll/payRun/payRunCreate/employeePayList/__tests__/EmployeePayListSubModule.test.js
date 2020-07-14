@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import React from 'react';
 
 import { LOAD_EMPLOYEE_PAYS } from '../../PayRunIntents';
-import EmployeePayListModule from '../EmployeePayListModule';
+import EmployeePayListSubModule from '../EmployeePayListSubModule';
 import PayRunModule from '../../PayRunModule';
 import TestIntegration from '../../../../../../integration/TestIntegration';
 import TestStore from '../../../../../../store/TestStore';
@@ -12,8 +12,8 @@ import createEmployeePayListIntegrator from '../createEmployeePayListIntegrator'
 import employeePays from '../../../mappings/data/payRun/loadEmployeePayList.json';
 import payRunReducer from '../../payRunReducer';
 
-describe('EmployeePayListModule', () => {
-  const constructEmployeePayListModule = () => {
+describe('EmployeePayListSubModule', () => {
+  const constructEmployeePayListSubModule = () => {
     const integration = new TestIntegration();
     const pushMessage = () => {};
     const setRootView = () => <div />;
@@ -28,7 +28,7 @@ describe('EmployeePayListModule', () => {
     const store = new TestStore(payRunReducer);
     payRunModule.store = store;
 
-    const employeePayListModule = new EmployeePayListModule({
+    const employeePayListModule = new EmployeePayListSubModule({
       integration,
       store: payRunModule.store,
       pushMessage,
@@ -54,7 +54,7 @@ describe('EmployeePayListModule', () => {
     };
   };
   describe('Check dispatcher and reducer are linked', () => {
-    const { payRunModule, module, store } = constructEmployeePayListModule();
+    const { payRunModule, module, store } = constructEmployeePayListSubModule();
 
     it('should hold id', () => {
       payRunModule.resetState();

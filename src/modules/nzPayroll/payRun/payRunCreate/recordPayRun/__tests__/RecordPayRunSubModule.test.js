@@ -12,23 +12,23 @@ import {
 import { findButtonWithTestId } from '../../../../../../common/tests/selectors';
 import AlertType from '../../types/AlertType';
 import LoadingState from '../../../../../../components/PageView/LoadingState';
-import RecordPayRunModule from '../RecordPayRunModule';
+import RecordPayRunSubModule from '../RecordPayRunSubModule';
 import TestIntegration from '../../../../../../integration/TestIntegration';
 import TestStore from '../../../../../../store/TestStore';
 import payRunReducer from '../../payRunReducer';
 import recordPayments from '../../../mappings/data/payRun/recordPayments';
 
-describe('RecordPayRunModule', () => {
-  const constructRecordPayRunModule = () => {
+describe('RecordPayRunSubModule', () => {
+  const constructRecordPayRunSubModule = () => {
     const store = new TestStore(payRunReducer);
     const integration = new TestIntegration();
 
-    const recordPayRunModule = new RecordPayRunModule({
+    const recordPayRunSubModule = new RecordPayRunSubModule({
       integration,
       store,
     });
 
-    const view = recordPayRunModule.render();
+    const view = recordPayRunSubModule.render();
 
     const wrappedView = <Provider store={store}>{view}</Provider>;
 
@@ -44,7 +44,7 @@ describe('RecordPayRunModule', () => {
 
   describe('Record button', () => {
     it('sets employee payments when integration is successful', () => {
-      const { store, integration, wrapper } = constructRecordPayRunModule();
+      const { store, integration, wrapper } = constructRecordPayRunSubModule();
 
       integration.mapSuccess(RECORD_PAYMENTS, recordPayments);
 
@@ -83,7 +83,7 @@ describe('RecordPayRunModule', () => {
     });
 
     it('displays an alert message when integration is unsuccessful', () => {
-      const { store, integration, wrapper } = constructRecordPayRunModule();
+      const { store, integration, wrapper } = constructRecordPayRunSubModule();
 
       const message = 'this failed!';
       const type = AlertType.ERROR;

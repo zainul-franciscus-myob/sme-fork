@@ -210,7 +210,9 @@ const EmployeesPayTable = ({
                   </Table.RowItem>
                 </Table.Row>
               }
-            />
+            >
+              <></>
+            </Table.CollapsibleRow>
           </Table.Body>
         }
       />

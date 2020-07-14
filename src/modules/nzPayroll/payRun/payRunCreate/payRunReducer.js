@@ -71,11 +71,6 @@ const setEmployeePayments = (state, { response }) => ({
   [PREPARE_PAYSLIPS.key]: {
     ...state[PREPARE_PAYSLIPS.key],
     printPaySlipEmployees: response.printPaySlipEmployees,
-    emailPaySlipEmployees: response.emailPaySlipEmployees.map((employee) => ({
-      ...employee,
-      isSelected: true,
-    })),
-    emailSettings: response.emailSettings,
   },
 });
 

@@ -5,7 +5,7 @@ import StartPayRunView from './components/StartPayRunView';
 import createStartPayRunDispatchers from './createStartPayRunDispatchers';
 import createStartPayRunIntegrator from './createStartPayRunIntegrator';
 
-export default class StartPayRunModule {
+export default class StartPayRunSubModule {
   constructor({ integration, store }) {
     this.integration = integration;
     this.store = store;

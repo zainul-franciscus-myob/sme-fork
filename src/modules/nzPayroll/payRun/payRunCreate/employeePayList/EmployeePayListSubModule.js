@@ -6,7 +6,7 @@ import createEmployeePayListDispatcher from './createEmployeePayListDispatcher';
 import createEmployeePayListIntegrator from './createEmployeePayListIntegrator';
 import formatAmount from '../../../../../common/valueFormatters/formatAmount';
 
-export default class EmployeePayListModule {
+export default class EmployeePayListSubModule {
   constructor({ integration, store, pushMessage, subscribeOrUpgrade }) {
     this.store = store;
     this.pushMessage = pushMessage;
