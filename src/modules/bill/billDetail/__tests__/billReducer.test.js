@@ -330,6 +330,7 @@ describe('billReducer', () => {
           prefillStatus: {
             supplierId: true,
           },
+          supplierOptions: [],
         };
 
         const action = {
@@ -428,6 +429,38 @@ describe('billReducer', () => {
         expect(actual.bill.lines).toEqual(expectedLines);
       });
     });
+
+    describe('when supplierId is updated', () => {
+      it('updates isReportable', () => {
+        const state = {
+          bill: {
+            contactId: '1',
+            isReportable: false,
+            lines: [],
+          },
+          supplierOptions: [
+            {
+              contactType: 'Supplier',
+              displayContactType: 'Supplier',
+              displayName: 'Cow Feed Supplier',
+              id: '2',
+              displayId: 'SUP000002',
+              isReportable: true,
+              expenseAccountId: '456',
+            },
+          ],
+        };
+
+        const action = {
+          intent: UPDATE_BILL_OPTION,
+          key: 'supplierId',
+          value: '2',
+        };
+        const actual = billReducer(state, action);
+
+        expect(actual.bill.isReportable).toBeTruthy();
+      });
+    });
   });
 
   describe('LOAD_SUPPLIER_DETAIL', () => {
@@ -500,6 +533,7 @@ describe('billReducer', () => {
       option: {
         id: '2',
         displayName: '🏖',
+        isReportable: true,
       },
     };
 
@@ -540,18 +574,32 @@ describe('billReducer', () => {
       expect(actual.bill.expenseAccountId).toEqual('1');
     });
 
+    it('update isReportable from newly created supplier', () => {
+      const state = {
+        billId: 'id',
+        supplierOptions: [],
+        bill,
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual.bill.isReportable).toBeTruthy();
+    });
+
     it('adds to supplier options with newly created supplier', () => {
       const state = {
         billId: 'id',
-        supplierOptions: [{ id: '1', displayName: 'name1' }],
+        supplierOptions: [
+          { id: '1', displayName: 'name1', isReportable: false },
+        ],
         bill,
       };
 
       const actual = billReducer(state, action);
 
       expect(actual.supplierOptions).toEqual([
-        { id: '2', displayName: '🏖' },
-        { id: '1', displayName: 'name1' },
+        { id: '2', displayName: '🏖', isReportable: true },
+        { id: '1', displayName: 'name1', isReportable: false },
       ]);
     });
   });
@@ -1147,6 +1195,7 @@ describe('billReducer', () => {
         issueDate: '2018-11-02',
         isTaxInclusive: true,
         note: 'Some notes',
+        isReportable: true,
       },
       lines: [
         {
@@ -1207,6 +1256,7 @@ describe('billReducer', () => {
             layout: 'service',
             issueDate: '2018-11-02',
             isTaxInclusive: true,
+            isReportable: true,
             note: 'Some notes',
             lines: [
               {
@@ -1274,6 +1324,7 @@ describe('billReducer', () => {
             layout: 'itemAndService',
             issueDate: '2018-11-02',
             isTaxInclusive: true,
+            isReportable: true,
             note: 'Some notes',
             lines: [
               {

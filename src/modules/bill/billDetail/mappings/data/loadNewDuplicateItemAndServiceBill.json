@@ -138,8 +138,13 @@
   ],
   "supplierOptions": [
     {
-      "displayName": "Cow Feed",
-      "id": "2"
+      "contactType": "Supplier",
+      "displayContactType": "Supplier",
+      "displayName": "Cow Feed Supplier",
+      "id": "2",
+      "displayId": "SUP000002",
+      "isReportable": true,
+      "expenseAccountId": "456"
     }
   ],
   "expirationTermOptions": [

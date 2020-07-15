@@ -5,7 +5,8 @@
     "supplierInvoiceNumber": "1234",
     "issueDate": "2018-11-02",
     "isTaxInclusive": true,
-    "expenseAccountId": "123"
+    "expenseAccountId": "123",
+    "isReportable": true
   },
   "lines": [
     {

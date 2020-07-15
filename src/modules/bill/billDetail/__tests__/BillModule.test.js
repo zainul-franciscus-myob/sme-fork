@@ -763,12 +763,12 @@ describe('BillModule', () => {
         module.updateBillOption({ key: 'supplierId', value: '2' });
 
         expect(store.getActions()).toEqual([
+          { intent: RESET_SUPPLIER },
           {
             intent: UPDATE_BILL_OPTION,
             key: 'supplierId',
             value: '2',
           },
-          { intent: RESET_SUPPLIER },
           {
             intent: START_BLOCKING,
           },
@@ -798,12 +798,12 @@ describe('BillModule', () => {
         module.updateBillOption({ key: 'supplierId', value: '2' });
 
         expect(store.getActions()).toEqual([
+          { intent: RESET_SUPPLIER },
           {
             intent: UPDATE_BILL_OPTION,
             key: 'supplierId',
             value: '2',
           },
-          { intent: RESET_SUPPLIER },
           {
             intent: START_BLOCKING,
           },
@@ -834,12 +834,12 @@ describe('BillModule', () => {
         module.updateBillOption({ key: 'supplierId', value: '2' });
 
         expect(store.getActions()).toEqual([
+          { intent: RESET_SUPPLIER },
           {
             intent: UPDATE_BILL_OPTION,
             key: 'supplierId',
             value: '2',
           },
-          { intent: RESET_SUPPLIER },
           {
             intent: START_BLOCKING,
           },
@@ -873,12 +873,12 @@ describe('BillModule', () => {
         module.updateBillOption({ key: 'supplierId', value: '2' });
 
         expect(store.getActions()).toEqual([
+          { intent: RESET_SUPPLIER },
           {
             intent: UPDATE_BILL_OPTION,
             key: 'supplierId',
             value: '2',
           },
-          { intent: RESET_SUPPLIER },
           {
             intent: START_BLOCKING,
           },
@@ -912,12 +912,12 @@ describe('BillModule', () => {
         module.updateBillOption({ key: 'supplierId', value: '' });
 
         expect(store.getActions()).toEqual([
+          { intent: RESET_SUPPLIER },
           {
             intent: UPDATE_BILL_OPTION,
             key: 'supplierId',
             value: '',
           },
-          { intent: RESET_SUPPLIER },
         ]);
 
         expect(integration.getRequests().length).toEqual(0);

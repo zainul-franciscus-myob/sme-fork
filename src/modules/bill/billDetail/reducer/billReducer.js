@@ -180,6 +180,13 @@ const getDefaultTaxCodeId = ({ accountId, accountOptions }) => {
   return account === undefined ? '' : account.taxCodeId;
 };
 
+const getSupplierIsReportable = ({ supplierId, supplierOptions }) => {
+  const { isReportable } = supplierOptions.find(
+    ({ id }) => id === supplierId
+  ) || { isReportable: false };
+  return isReportable;
+};
+
 const updateAllLinesWithExpenseAccount = (
   lines,
   accountOptions,
@@ -207,6 +214,14 @@ const updateBillOption = (state, action) => {
     action.key
   );
 
+  const isUpdatingSupplierId = action.key === 'supplierId';
+  const isReportable = isUpdatingSupplierId
+    ? getSupplierIsReportable({
+        supplierId: action.value,
+        supplierOptions: state.supplierOptions,
+      })
+    : state.bill.isReportable;
+
   return {
     ...state,
     bill: {
@@ -214,6 +229,7 @@ const updateBillOption = (state, action) => {
       expirationDays: shouldSetExpirationDaysTo1
         ? '1'
         : state.bill.expirationDays,
+      isReportable,
       lines:
         state.bill.lines.length > 0 && action.key === 'expenseAccountId'
           ? updateAllLinesWithExpenseAccount(
@@ -396,6 +412,7 @@ const loadSupplierAfterCreate = (
     expenseAccountId: getIsCreating(state)
       ? expenseAccountId
       : state.bill.expenseAccountId,
+    isReportable: option.isReportable,
     lines:
       state.bill.lines.length > 0 && getIsCreating(state)
         ? updateAllLinesWithExpenseAccount(
@@ -480,6 +497,10 @@ const prefillBillFromInTray = (state, action) => {
       isTaxInclusive: shouldPrefillLines
         ? bill.isTaxInclusive
         : state.bill.isTaxInclusive,
+      isReportable:
+        !state.bill.supplierId && bill.isReportable !== undefined
+          ? bill.isReportable
+          : state.bill.isReportable,
       originalExpenseAccountId:
         bill.expenseAccountId || state.bill.originalExpenseAccountId,
       expenseAccountId: bill.expenseAccountId || state.bill.expenseAccountId,
@@ -644,14 +665,19 @@ const loadAbnFromSupplier = (state, action) => ({
   abn: action.abn,
 });
 
-const resetSupplier = (state) => ({
-  ...state,
-  bill: {
-    ...state.bill,
-    supplierAddress: '',
-  },
-  abn: undefined,
-});
+const resetSupplier = (state) => {
+  const defaultState = getDefaultState();
+
+  return {
+    ...state,
+    bill: {
+      ...state.bill,
+      supplierAddress: defaultState.bill.supplierAddress,
+      isReportable: defaultState.bill.isReportable,
+    },
+    abn: defaultState.abn,
+  };
+};
 
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
