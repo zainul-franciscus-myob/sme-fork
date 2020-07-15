@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>MYOB</title>
+    <link rel="shortcut icon" href="https://assets.digital.myob.com/images/favicons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://assets.digital.myob.com/images/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="https://assets.digital.myob.com/images/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://assets.digital.myob.com/images/favicons/favicon-16x16.png" sizes="16x16">
+  </head>
+  <body>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <div style="padding:2.4rem;margin-top:2.4rem;text-align:center;">
+      <img
+        src="assets/something-went-wrong.svg"
+        alt="something went wrong" />
+      <h3>Your browser version isn’t supported.</h3>
+      <h5 style="margin-top:2.4rem;margin-bottom:0.4rem">
+        Here’s what works
+        <a href="https://www.google.com/chrome/">Google Chrome</a>
+        <a href="https://www.mozilla.org/en-US/firefox/new/">Mozilla Firefox</a>
+        <a href="https://www.apple.com/safari/" id="safariLink" style="display:none;">Safari</a>
+        <a href="https://www.microsoft.com/en-us/edge" id="edgeLink" style="display:none;">Microsoft Edge</a>
+      </h5>
+    </div>
+    <script>
+      function showDomElement(id) {
+        document.getElementById(id).style.display = "block";
+      }
+      if (navigator.userAgent.indexOf("Mac") !== -1) {
+        showDomElement("safariLink");
+      }
+      if (navigator.userAgent.indexOf("Win") !== -1) {
+        showDomElement("edgeLink");
+      }
+    </script>
+  </body>
+</html>
