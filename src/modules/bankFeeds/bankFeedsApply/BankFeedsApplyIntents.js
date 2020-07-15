@@ -11,6 +11,7 @@ export const SET_APPLICATION_ID = Symbol('Set the application id');
 export const SET_APPLICATION_PREFERENCE = Symbol(
   'Set the application preference'
 );
+export const SET_COMMBANK_URL = Symbol('Set the Commonwealth Bank url');
 export const SET_COPY_ALERT_STATE = Symbol('Set the copy alert state');
 export const SET_COPY_ALERT_TEXT = Symbol('Set the copy alert text');
 export const SET_DISPLAY_CONNECT_FORM_STATE = Symbol(

@@ -8,6 +8,7 @@ import {
   getApplicationId,
   getBusinessId,
   getFinancialInstitutionCode,
+  getOnlineBankLink,
   getRegion,
   getSubmitApplicationBody,
 } from './BankFeedsApplySelectors';
@@ -38,6 +39,7 @@ const BankFeedsApplyIntegrator = (store, integration) => ({
       urlParams,
       content: {
         BankCode: getFinancialInstitutionCode(state),
+        BankLink: getOnlineBankLink(state),
       },
       onSuccess,
       onFailure,

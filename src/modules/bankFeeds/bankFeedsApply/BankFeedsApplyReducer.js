@@ -4,6 +4,7 @@ import {
   SET_ALERT,
   SET_APPLICATION_ID,
   SET_APPLICATION_PREFERENCE,
+  SET_COMMBANK_URL,
   SET_COPY_ALERT_STATE,
   SET_COPY_ALERT_TEXT,
   SET_DISPLAY_CONNECT_FORM_STATE,
@@ -105,6 +106,11 @@ const setApplicationPreferenceState = (state, { applicationPreference }) => ({
   applicationPreference,
 });
 
+const setCommBankState = (state, { commBankUrl }) => ({
+  ...state,
+  links: commBankUrl,
+});
+
 const setCopyAlertState = (state) => ({
   ...state,
   copyAlertState: !state.copyAlertState,
@@ -199,6 +205,7 @@ const handlers = {
   [SET_ACCOUNT_TYPE]: setAccountTypeState,
   [SET_APPLICATION_ID]: setApplicationIdState,
   [SET_APPLICATION_PREFERENCE]: setApplicationPreferenceState,
+  [SET_COMMBANK_URL]: setCommBankState,
   [SET_COPY_ALERT_STATE]: setCopyAlertState,
   [SET_COPY_ALERT_TEXT]: setCopyAlertText,
   [SET_DISPLAY_CONNECT_FORM_STATE]: setDisplayConnectFormState,

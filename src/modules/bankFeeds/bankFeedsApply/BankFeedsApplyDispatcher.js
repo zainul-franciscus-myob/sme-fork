@@ -5,6 +5,7 @@ import {
   SET_ALERT,
   SET_APPLICATION_ID,
   SET_APPLICATION_PREFERENCE,
+  SET_COMMBANK_URL,
   SET_COPY_ALERT_STATE,
   SET_COPY_ALERT_TEXT,
   SET_DISPLAY_CONNECT_FORM_STATE,
@@ -58,6 +59,12 @@ const BankFeedsApplyDispatcher = (store) => ({
     store.dispatch({
       intent: SET_APPLICATION_PREFERENCE,
       applicationPreference,
+    }),
+
+  setCommBankUrl: (commBankUrl) =>
+    store.dispatch({
+      intent: SET_COMMBANK_URL,
+      commBankUrl,
     }),
 
   setCopyAlertState: (copyAlertState) =>

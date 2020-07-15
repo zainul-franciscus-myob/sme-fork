@@ -28,28 +28,32 @@ export default class BankFeedsApplyModule {
   }
 
   getAuthorityForm = () => {
+    const { dispatcher, integrator } = this;
+
     const onSuccess = (data) => {
-      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       openBlob({ blob: data });
     };
 
     const onFailure = () =>
-      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+      dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
 
-    this.dispatcher.setLoadingState(LoadingState.LOADING);
-    this.integrator.getAuthorityForm({ onSuccess, onFailure });
+    dispatcher.setLoadingState(LoadingState.LOADING);
+    integrator.getAuthorityForm({ onSuccess, onFailure });
   };
 
   loadBankFeedApplicationData = () => {
+    const { dispatcher, integrator } = this;
+
     const onSuccess = (response) => {
-      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.dispatcher.loadBankFeedApplicationData(response);
+      dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      dispatcher.loadBankFeedApplicationData(response);
     };
 
     const onFailure = () =>
-      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+      dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
 
-    this.integrator.loadBankFeedApplicationData({ onSuccess, onFailure });
+    integrator.loadBankFeedApplicationData({ onSuccess, onFailure });
   };
 
   onCopy = (item) => {
@@ -60,34 +64,41 @@ export default class BankFeedsApplyModule {
   setCopyAlertState = () => this.dispatcher.setCopyAlertState();
 
   onlineApplication = () => {
-    this.dispatcher.setLoadingState(LoadingState.LOADING);
+    const { dispatcher, integrator } = this;
+
+    dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
-      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.dispatcher.setReferenceNumber(response.referenceNumber);
-      this.dispatcher.setDisplayConnectFormState();
+      dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      dispatcher.setReferenceNumber(response.referenceNumber);
+
+      if (response.commBankUrl) dispatcher.setCommBankUrl(response.commBankUrl);
+
+      dispatcher.setDisplayConnectFormState();
     };
 
     const onFailure = () =>
-      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+      dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
 
-    this.integrator.getReferenceNumber({ onSuccess, onFailure });
+    integrator.getReferenceNumber({ onSuccess, onFailure });
   };
 
   formApplication = () => {
-    this.dispatcher.setLoadingState(LoadingState.LOADING);
+    const { dispatcher, integrator } = this;
+
+    dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
-      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.dispatcher.setFormAlertState('');
-      this.dispatcher.setApplicationId(response.applicationId);
-      this.dispatcher.setDisplayConnectFormState();
+      dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      dispatcher.setFormAlertState('');
+      dispatcher.setApplicationId(response.applicationId);
+      dispatcher.setDisplayConnectFormState();
     };
 
     const onFailure = () =>
-      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+      dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
 
-    this.integrator.submitBankFeedApplication({ onSuccess, onFailure });
+    integrator.submitBankFeedApplication({ onSuccess, onFailure });
   };
 
   submitBankFeedApplication = () => {
@@ -107,6 +118,8 @@ export default class BankFeedsApplyModule {
   };
 
   render = () => {
+    const { dispatcher, navigateTo, redirectToPath } = this;
+
     this.setRootView(
       <Provider store={this.store}>
         <BankFeedsApplyView
@@ -114,30 +127,28 @@ export default class BankFeedsApplyModule {
           onCopy={this.onCopy}
           onNext={() => this.submitBankFeedApplication()}
           onUpdateForm={({ key, value }) =>
-            this.dispatcher.updateForm({ key, value })
+            dispatcher.updateForm({ key, value })
           }
           redirectToBank={() =>
-            this.navigateTo(getOnlineBankLink(this.store.getState()), true)
+            navigateTo(getOnlineBankLink(this.store.getState()), true)
           }
-          redirectToBankFeeds={() => this.redirectToPath('bankFeeds')}
+          redirectToBankFeeds={() => redirectToPath('bankFeeds')}
           redirectToImportStatements={() =>
-            this.redirectToPath('bankStatementImport')
+            redirectToPath('bankStatementImport')
           }
-          setAccountType={(type) => this.dispatcher.setAccountType(type)}
+          setAccountType={(type) => dispatcher.setAccountType(type)}
           setApplicationPreference={(preference) =>
-            this.dispatcher.setApplicationPreference(preference)
+            dispatcher.setApplicationPreference(preference)
           }
           setCopyAlertState={this.setCopyAlertState}
-          setCopyAlertText={(text) => this.dispatcher.setCopyAlertText(text)}
+          setCopyAlertText={(text) => dispatcher.setCopyAlertText(text)}
           setFinancialInstitution={(value) =>
-            this.dispatcher.setFinancialInstitution(value)
+            dispatcher.setFinancialInstitution(value)
           }
-          setFormAlertState={(state) =>
-            this.dispatcher.setFormAlertState(state)
-          }
-          setModalState={() => this.dispatcher.setModalState()}
+          setFormAlertState={(state) => dispatcher.setFormAlertState(state)}
+          setModalState={() => dispatcher.setModalState()}
           uploadAuthorityForm={() =>
-            this.navigateTo(Config.BANKFEED_PORTAL_URL, true)
+            navigateTo(Config.BANKFEED_PORTAL_URL, true)
           }
         />
       </Provider>

@@ -21,6 +21,7 @@ export const getBsbBankRequired = (state) => state.bsbBankRequired;
 export const getBsbBranch = (state) => state.bsbBranch;
 export const getBsbBranchRequired = (state) => state.bsbBranchRequired;
 export const getBsbRequired = (state) => state.bsbRequired;
+export const getCommBankUrl = (state) => state.commBankUrl;
 export const getCopyAlertState = (state) => state.copyAlertState;
 export const getCopyAlertText = (state) => state.copyAlertText;
 export const getBusinessId = (state) => state.businessId;
