@@ -185,10 +185,46 @@ describe('invoiceHistorySelectors', () => {
       expect(actual).toEqual(expected);
     });
 
+    it('returns nothing for business events', () => {
+      const expected = '';
+
+      const event = [
+        {
+          status: 'CREATED',
+          date: '2019-12-12T01:00:00.000Z',
+        },
+        {
+          status: 'PAYMENT_RECEIVED',
+          date: '2019-12-12T01:00:00.000Z',
+        },
+        {
+          status: 'INVOICE_REVERSED',
+          date: '2019-12-12T01:00:00.000Z',
+        },
+        {
+          status: 'EXPORTED_TO_PDF',
+          date: '2019-12-12T01:00:00.000Z',
+        },
+        {
+          status: 'CREDIT_APPLIED',
+          date: '2019-12-12T01:00:00.000Z',
+        },
+      ];
+
+      event.forEach((row) => {
+        const actual = getTime(row);
+
+        expect(actual).toEqual(expected);
+      });
+    });
+
     it('returns a formatted time when given a utc date string', () => {
       // expect 1:00am because tests run with a universal locale (not AU)
       const expected = '1:00am';
-      const row = { date: '2019-12-12T01:00:00.000Z' };
+      const row = {
+        status: 'VIEWED_ONLINE',
+        date: '2019-12-12T01:00:00.000Z',
+      };
 
       const actual = getTime(row);
 

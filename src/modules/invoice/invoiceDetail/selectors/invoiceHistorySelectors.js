@@ -16,8 +16,16 @@ export const getDate = (row) =>
     ? FormatDateWithPattern('dd/MM/yyyy')(new Date(row.date))
     : '';
 
+const businessEvents = [
+  'CREATED',
+  'PAYMENT_RECEIVED',
+  'INVOICE_REVERSED',
+  'EXPORTED_TO_PDF',
+  'CREDIT_APPLIED',
+];
+
 export const getTime = (row) =>
-  row.date !== undefined && row.date.includes('T')
+  row.date !== undefined && !businessEvents.includes(row.status)
     ? FormatDateWithPattern('h:mmaa')(new Date(row.date)).toLowerCase()
     : '';
 
