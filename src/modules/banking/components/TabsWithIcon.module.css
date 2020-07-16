@@ -1,0 +1,3 @@
+.tabsWithIcon :global(.flx-tabs) {
+  flex-direction: row-reverse;
+}

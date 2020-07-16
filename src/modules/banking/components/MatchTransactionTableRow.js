@@ -1,5 +1,6 @@
 import { Checkbox, Label, Table, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
+import classNames from 'classnames';
 
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
 import styles from './MatchTransactionTable.module.css';
@@ -74,9 +75,13 @@ const MatchTransactionTableRow = React.memo((props) => {
     </Tooltip>
   );
 
+  const SlimTableRowItem = ({ className, ...rest }) => (
+    <Table.RowItem {...rest} className={classNames(styles.row, className)} />
+  );
+
   return (
     <Table.Row key={`${journalId}${journalLineId}`} className={rowClass}>
-      <Table.RowItem {...tableConfig.checkbox}>
+      <SlimTableRowItem {...tableConfig.checkbox}>
         <Checkbox
           name={journalId}
           label="Match"
@@ -84,10 +89,12 @@ const MatchTransactionTableRow = React.memo((props) => {
           checked={selected}
           onChange={handleSelectionChange(index, onSelect)}
         />
-      </Table.RowItem>
-      <Table.RowItem {...tableConfig.date}>{date}</Table.RowItem>
-      <Table.RowItem {...tableConfig.referenceId}>{entryLink}</Table.RowItem>
-      <Table.RowItem
+      </SlimTableRowItem>
+      <SlimTableRowItem {...tableConfig.date}>{date}</SlimTableRowItem>
+      <SlimTableRowItem {...tableConfig.referenceId}>
+        {entryLink}
+      </SlimTableRowItem>
+      <SlimTableRowItem
         {...tableConfig.description}
         className={styles.descriptionContainer}
       >
@@ -97,13 +104,14 @@ const MatchTransactionTableRow = React.memo((props) => {
             {badgeText}
           </Label>
         )}
-      </Table.RowItem>
-      <Table.RowItem {...tableConfig.amount}>
+      </SlimTableRowItem>
+      <SlimTableRowItem {...tableConfig.amount}>
         {displayTotalAmount}
-      </Table.RowItem>
-      <Table.RowItem {...tableConfig.discount}>
+      </SlimTableRowItem>
+      <SlimTableRowItem {...tableConfig.discount}>
         {allowCustomAmount && (
           <AmountInput
+            hideLabel
             name="discountAmount"
             value={discountAmount}
             textAlign="right"
@@ -113,10 +121,13 @@ const MatchTransactionTableRow = React.memo((props) => {
             numeralDecimalScaleMax={2}
           />
         )}
-      </Table.RowItem>
-      <Table.RowItem {...tableConfig.amountDue}>{balanceOwed}</Table.RowItem>
-      <Table.RowItem {...tableConfig.matchAmount}>
+      </SlimTableRowItem>
+      <SlimTableRowItem {...tableConfig.amountDue}>
+        {balanceOwed}
+      </SlimTableRowItem>
+      <SlimTableRowItem {...tableConfig.matchAmount}>
         <AmountInput
+          hideLabel
           name="matchAmount"
           value={matchAmount}
           textAlign="right"
@@ -130,7 +141,7 @@ const MatchTransactionTableRow = React.memo((props) => {
           numeralDecimalScaleMin={2}
           numeralDecimalScaleMax={2}
         />
-      </Table.RowItem>
+      </SlimTableRowItem>
     </Table.Row>
   );
 });

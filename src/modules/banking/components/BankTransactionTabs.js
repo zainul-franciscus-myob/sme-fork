@@ -1,12 +1,54 @@
+import { Icons, Popover } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getTabItems } from '../bankingSelectors';
-import Tabs from '../../../components/Tabs/Tabs';
+import TabsWithIcon from './TabsWithIcon';
+import styles from './BankTransactionTabs.module.css';
 
-const BankTransactionTabs = ({ tabItems, selected, onSelected }) => (
-  <Tabs items={tabItems} selected={selected} onSelected={onSelected} />
-);
+const TypeInfoPopOver = () => {
+  const body = (
+    <Popover.Body
+      child={
+        <div className={styles.typeInfoPopover}>
+          <p>
+            <strong>Match transaction</strong>
+            {' - Find and select existing matching transactions.'}
+          </p>
+          <p>
+            <strong>Allocate</strong>
+            {
+              ' - Create a new Spend money transaction for withdrawals or Receive money transaction for deposits.'
+            }
+          </p>
+          <p>
+            <strong>Transfer Money</strong>
+            {' - Transfer from or to another bank account.'}
+          </p>
+        </div>
+      }
+    />
+  );
+
+  return (
+    <div className={styles.popoverIcon}>
+      <Popover body={body} closeOnOuterAction>
+        <Icons.Info />
+      </Popover>
+    </div>
+  );
+};
+
+const BankTransactionTabs = ({ tabItems, selected, onSelected }) => {
+  return (
+    <TabsWithIcon
+      icon={<TypeInfoPopOver />}
+      items={tabItems}
+      selected={selected}
+      onSelected={onSelected}
+    />
+  );
+};
 
 const mapStateToProps = (state) => ({
   tabItems: getTabItems(state),

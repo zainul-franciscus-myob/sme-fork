@@ -274,7 +274,7 @@
 
   .columns {
     display: grid;
-    grid-template-columns: auto 1fr 36.4rem;
+    grid-template-columns: auto 1fr 43.5rem;
   }
 
   .label {

@@ -1,9 +1,3 @@
-.openEntry .spinnerContainer {
-  min-height: 22rem;
-  position: relative;
-  background: var(--flx-palette-white);
-}
-
 /*
   @FEELIX: the below five stylings are to achieve making the card footer grey
   among adding a border outline
@@ -18,16 +12,9 @@
   padding: 0;
 }
 
-.openEntryCard :global(.combobox-menu) {
-  width: 100%;
-}
-
-.openEntryCardBody {
-  padding: var(--flx-padding-card-body);
-}
-
 .openEntryCardFooter {
   padding: 0;
+  margin-top: 0;
   background-color: var(--flx-palette-storm-06);
   border-top: 1px solid var(--flx-palette-storm-28);
   border-bottom-left-radius: var(--flx-border-radius-card);
@@ -36,18 +23,6 @@
 
 .openEntryCardFooter :global(.flx-btn-row) {
   padding: var(--flx-padding-card-body);
-}
-
-.spinner {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
 }
 
 .paymentFooter {
@@ -79,16 +54,16 @@
   margin-top: 2.7rem;
 }
 
-.openEntry :global(.flx-tabs) {
-  flex-direction: row-reverse;
-}
-
 .entryLoading :global(.filter-bar__item button) {
   cursor: progress;
   opacity: 0.65;
   filter: alpha(opacity=65);
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+
+.bankTransactionView :global(.flx-container) {
+  max-width: 1368px;
 }
 
 .bankTransactionView :global(.flx-template__body) > :global(.flx-card) {
@@ -123,8 +98,6 @@
     padding-left: 12px;
     max-width: 19.5rem;
   }
-
-  .openEntryCard :global(.combobox-menu) {
-    width: auto;
-  }
 }
+
+

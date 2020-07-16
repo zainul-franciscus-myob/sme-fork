@@ -1,4 +1,4 @@
-import { HeaderSort, Table } from '@myob/myob-widgets';
+import { Button, HeaderSort, Icons, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -8,6 +8,7 @@ import {
   getIsWithdrawal,
   getOrder,
 } from '../bankingSelectors/transferMoneySelectors';
+import EmptyView from './EmptyView';
 import TableView from '../../../components/TableView/TableView';
 import TransferMoneyTableBody from './TransferMoneyTableBody';
 import styles from './BankTransactionOpenEntryTable.module.css';
@@ -53,6 +54,7 @@ const TransferMoneyTable = (props) => {
     isTableLoading,
     onSort,
     onSelect,
+    onCreateTransferMoney,
   } = props;
 
   const tableConfig = getTableConfig(isWithdrawal);
@@ -98,13 +100,28 @@ const TransferMoneyTable = (props) => {
     </Table.Header>
   );
 
+  const emptyView = (
+    <EmptyView>
+      <div>
+        <div>No matching transfers found.</div>
+        <Button
+          type="link"
+          icon={<Icons.Add />}
+          onClick={onCreateTransferMoney}
+        >
+          Create a transfer money
+        </Button>
+      </div>
+    </EmptyView>
+  );
+
   return (
     <>
       <TableView
         header={header}
         isLoading={isTableLoading}
         isEmpty={isTableEmpty}
-        emptyMessage="No matching transfers found"
+        emptyView={emptyView}
         className={styles.matchTransactionTable}
       >
         {view}

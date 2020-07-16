@@ -1,0 +1,16 @@
+.lineItemTable :global(.line-item-table) {
+  overflow-x: auto;
+  /*
+    Extra space below so comboboxes inside
+    LineItemTable have room to show
+  */
+  min-height: 20rem;
+}
+
+.lineItemTable :global(.combobox-menu) {
+  /*
+    Reduce `max-height` to make combobox
+    fit without clipping
+  */
+  max-height: 10rem;
+}

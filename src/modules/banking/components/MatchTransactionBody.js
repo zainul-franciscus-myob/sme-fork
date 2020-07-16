@@ -2,7 +2,10 @@ import { Button, FieldGroup, Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getShowAdjustmentTable } from '../bankingSelectors/matchTransactionSelectors';
+import {
+  getSelectedText,
+  getShowAdjustmentTable,
+} from '../bankingSelectors/matchTransactionSelectors';
 import MatchTransactionAdjustments from './MatchTransactionAdjustments';
 import MatchTransactionOptions from './MatchTransactionOptions';
 import MatchTransactionTable from './MatchTransactionTable';
@@ -22,6 +25,7 @@ const MatchTransactionBody = ({
   onRemoveAdjustment,
   onExpandAdjustmentSection,
   showAdjustmentTable,
+  tableFooterLabel,
 }) => {
   const adjustmentTable = (
     <FieldGroup label="Add adjustments or roundings">
@@ -38,33 +42,32 @@ const MatchTransactionBody = ({
   );
 
   const addAdjustmentButton = (
-    <div className={styles.adjustmentButton}>
-      <Button
-        type="link"
-        icon={<Icons.Add />}
-        onClick={onExpandAdjustmentSection}
-      >
-        Add adjustment
-      </Button>
-    </div>
+    <Button
+      className={styles.adjustmentButton}
+      type="link"
+      icon={<Icons.Add />}
+      onClick={onExpandAdjustmentSection}
+    >
+      Add adjustment
+    </Button>
   );
 
   return (
     <div className={styles.matchTransactionBody}>
-      <FieldGroup label="Find and select existing matching transactions">
-        <MatchTransactionOptions
-          onUpdateMatchTransactionOptions={onUpdateMatchTransactionOptions}
-        />
-        <MatchTransactionTable
-          onSortMatchTransactions={onSortMatchTransactions}
-          onToggleSelectAllState={onToggleSelectAllState}
-          onUpdateMatchTransactionSelection={onUpdateMatchTransactionSelection}
-          onUpdateSelectedTransactionDetails={
-            onUpdateSelectedTransactionDetails
-          }
-        />
-      </FieldGroup>
-      {showAdjustmentTable ? adjustmentTable : addAdjustmentButton}
+      <MatchTransactionOptions
+        onUpdateMatchTransactionOptions={onUpdateMatchTransactionOptions}
+      />
+      <MatchTransactionTable
+        onSortMatchTransactions={onSortMatchTransactions}
+        onToggleSelectAllState={onToggleSelectAllState}
+        onUpdateMatchTransactionSelection={onUpdateMatchTransactionSelection}
+        onUpdateSelectedTransactionDetails={onUpdateSelectedTransactionDetails}
+      />
+      <div className={styles.tableFooter}>
+        <div>{tableFooterLabel}</div>
+        {!showAdjustmentTable && addAdjustmentButton}
+      </div>
+      {showAdjustmentTable && adjustmentTable}
       <MatchTransactionTotals />
     </div>
   );
@@ -72,6 +75,7 @@ const MatchTransactionBody = ({
 
 const mapStateToProps = (state) => ({
   showAdjustmentTable: getShowAdjustmentTable(state),
+  tableFooterLabel: getSelectedText(state),
 });
 
 export default connect(mapStateToProps)(MatchTransactionBody);

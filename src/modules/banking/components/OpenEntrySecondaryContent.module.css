@@ -1,8 +1,3 @@
-/* @FEELIX */
-.dropzoneHeader :global(.form-group) {
-  margin-bottom: 0;
-}
-
 .inProgress {
   cursor: progress;
   opacity: 0.65;
@@ -13,69 +8,33 @@
   padding: var(--flx-spacing-large);
 }
 
-.description > p {
-  font-size: var(--flx-font-size-text-small);
-  margin-bottom: var(--flx-spacing-tiny);
+.file :global(.flx-chip){
+  margin-bottom: 0;
 }
 
-/* @FEELIX */
-.dropzone :global(.dropzone-border) {
-  padding: var(--flx-spacing-small);
+.container {
+  @value gridSpacing: 1rem;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-gap: gridSpacing;
+  padding-top: var(--flx-spacing-small);
 }
 
-/* @FEELIX */
-.dropzone :global(.file-browser-label-wrapper) {
-  margin-bottom: var(--flx-spacing-x-small);
-}
-
-/* @FEELIX */
-.dropzone :global(.file-browser__label-text) {
-  margin-right: var(--flx-spacing-x-tiny);
-  vertical-align: middle;
-}
-
-/* @FEELIX */
-@media only screen and (max-width: 500px) {
-  .dropzone :global(.file-browser-label-wrapper) {
-    display: unset;
+/*
+  To avoid horizontal overflow, the grid gaps and columns
+  need to sum to 100%
+*/
+@media screen and (min-width: 728px) {
+  .container{
+    @value numberOfColumns: 2;
+    @value twoColumnWidth: calc((100% - gridSpacing * (numberOfColumns - 1)) / numberOfColumns);
+    grid-template-columns: twoColumnWidth twoColumnWidth;
   }
 }
-
-/* @FEELIX */
-@media only screen and (min-width: 500px) {
-  .columns :global(.flx-col) {
-    grid-gap: 0.8rem;
-  }
-
-  .columns :global(.flx-chip) {
-    margin-bottom: 0;
-  }
-}
-
-@media only screen and (min-width: 850px) {
-  .secondary {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .dropzone {
-    width: 100%;
-  }
-
-  .dropzoneHeader {
-    display: flex;
-    justify-content: space-between;
-  }
-}
-
-.linkButton {
-  margin: 0 auto var(--flx-spacing-small) auto;
-  display: block;
-  width: 100%;
-}
-
-@media only screen and (min-width: 768px) {
-  .linkButton {
-    width: auto;
+@media screen and (min-width: 968px) {
+  .container{
+    @value numberOfColumns: 3;
+    @value threeColumnWidth: calc((100% - gridSpacing * (numberOfColumns - 1)) / numberOfColumns);
+    grid-template-columns: threeColumnWidth threeColumnWidth threeColumnWidth;
   }
 }

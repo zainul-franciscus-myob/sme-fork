@@ -1,9 +1,10 @@
-import { Card, Separator } from '@myob/myob-widgets';
+import { Card } from '@myob/myob-widgets';
 import React from 'react';
 
 import { tabIds } from '../tabItems';
 import BankTransactionTableRow from './BankTransactionTableRow';
 import BankTransactionTabs from './BankTransactionTabs';
+import DropZoneCardBody from './DropZoneCardBody';
 import LoadingPageState from '../../../components/LoadingPageState/LoadingPageState';
 import MatchTransactionBody from './MatchTransactionBody';
 import OpenEntryFooter from './OpenEntryFooter';
@@ -11,8 +12,6 @@ import OpenEntrySecondaryContent from './OpenEntrySecondaryContent';
 import SplitAllocationBody from './SplitAllocationBody';
 import TransferMoneyBody from './TransferMoneyBody';
 import styles from './BankingView.module.css';
-
-/* eslint-disable react/no-array-index-key */
 
 const BankTransactionTableBody = (props) => {
   const {
@@ -69,14 +68,6 @@ const BankTransactionTableBody = (props) => {
     onLinkFromInTrayButtonClick,
   } = props;
 
-  const spinner = (
-    <div className={styles.spinnerContainer}>
-      <div className={styles.spinner}>
-        <LoadingPageState size="medium" />
-      </div>
-    </div>
-  );
-
   const Content = {
     [tabIds.allocate]: SplitAllocationBody,
     [tabIds.match]: MatchTransactionBody,
@@ -109,6 +100,7 @@ const BankTransactionTableBody = (props) => {
       onUpdateTransfer,
       onSortTransfer,
       onUpdateTransferSelection,
+      onCreateTransferMoney: onOpenTransferMoneyModal,
     },
   }[activeTabId];
 
@@ -134,38 +126,40 @@ const BankTransactionTableBody = (props) => {
   }[activeTabId];
 
   const openEntryPrimaryContent = isOpenEntryLoading ? (
-    spinner
+    <LoadingPageState size="medium" />
   ) : (
-    <>
-      <BankTransactionTabs selected={activeTabId} onSelected={onTabChange} />
-      <Content {...contentProps} />
-    </>
+    <Content {...contentProps} />
   );
 
   const openEntry = (
     <Card
       classes={[styles.openEntryCard]}
       body={
-        <Card.Body
-          classes={[styles.openEntryCardBody]}
-          child={
-            <>
-              {openEntryPrimaryContent}
-              <Separator />
-              <OpenEntrySecondaryContent
-                onAddAttachments={onAddAttachments}
-                onDownloadAttachment={onDownloadAttachment}
-                onRemoveAttachment={onRemoveAttachment}
-                onLinkFromInTrayButtonClick={onLinkFromInTrayButtonClick}
-              />
-            </>
-          }
-        />
+        <DropZoneCardBody
+          onDrop={onAddAttachments}
+          onFileSelected={onAddAttachments}
+        >
+          <BankTransactionTabs
+            selected={activeTabId}
+            onSelected={onTabChange}
+          />
+          {openEntryPrimaryContent}
+          <OpenEntrySecondaryContent
+            onDownloadAttachment={onDownloadAttachment}
+            onRemoveAttachment={onRemoveAttachment}
+          />
+        </DropZoneCardBody>
       }
       footer={
         <Card.Footer
           classes={[styles.openEntryCardFooter]}
-          child={<OpenEntryFooter {...footerProps} />}
+          child={
+            <OpenEntryFooter
+              {...footerProps}
+              onLinkFromInTrayButtonClick={onLinkFromInTrayButtonClick}
+              onAddAttachments={onAddAttachments}
+            />
+          }
         />
       }
     />
@@ -173,6 +167,7 @@ const BankTransactionTableBody = (props) => {
 
   const rows = entries.map((entry, index) => (
     <BankTransactionTableRow
+      // eslint-disable-next-line react/no-array-index-key
       key={index}
       onAddAccount={onAddAccount}
       onHeaderClick={onHeaderClick}
@@ -192,9 +187,7 @@ const BankTransactionTableBody = (props) => {
       onPendingNoteChange={onPendingNoteChange}
       onNoteBlur={onNoteBlur}
     >
-      {openPosition === index && (
-        <div className={styles.openEntry}>{openEntry}</div>
-      )}
+      {openPosition === index && openEntry}
     </BankTransactionTableRow>
   ));
 

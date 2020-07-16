@@ -1,7 +1,6 @@
 .adjustmentButton {
-  display: flex;
-  justify-content: flex-end;
-  padding: 0 var(--flx-spacing-small);
+  padding: 0;
+
 }
 
 /*
@@ -11,4 +10,10 @@
   margin-top: var(--flx-spacing-small);
   border-bottom: 0;
   padding-bottom: 0;
+}
+
+.tableFooter {
+  display: flex;
+  justify-content: space-between;
+  padding-top: var(--flx-spacing-small);
 }

@@ -1,4 +1,4 @@
-import { Columns, FieldGroup, ReadOnly } from '@myob/myob-widgets';
+import { Columns, ReadOnly } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -13,15 +13,15 @@ const TransferMoneyBody = ({
   isCreating,
   onSortTransfer,
   onUpdateTransferSelection,
+  onCreateTransferMoney,
 }) => {
   const createView = (
     <div className={styles.createView}>
-      <FieldGroup label="Find an existing matching transfer">
-        <TransferMoneyTable
-          onSort={onSortTransfer}
-          onSelect={onUpdateTransferSelection}
-        />
-      </FieldGroup>
+      <TransferMoneyTable
+        onSort={onSortTransfer}
+        onSelect={onUpdateTransferSelection}
+        onCreateTransferMoney={onCreateTransferMoney}
+      />
     </div>
   );
 

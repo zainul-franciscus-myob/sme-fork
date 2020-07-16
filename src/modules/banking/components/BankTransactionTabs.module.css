@@ -1,0 +1,17 @@
+@value iconSize: 1.6rem;
+
+.popoverIcon :global(.flx-popover) {
+  height: iconSize;
+}
+
+.popoverIcon :global(.svg-icon) {
+  height: iconSize;
+  width: iconSize;
+}
+
+.typeInfoPopover {
+  max-width: 280px;
+}
+.typeInfoPopover > p:last-child {
+  margin-bottom: 0;
+}

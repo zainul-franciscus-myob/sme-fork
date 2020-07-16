@@ -6,32 +6,30 @@ import {
   getHasAdjustment,
   getTotals,
 } from '../bankingSelectors/matchTransactionSelectors';
-import styles from './MatchTransactionTotals.module.css';
+import TotalsContainer from './TotalsContainer';
 
 const MatchTransactionTotals = ({ totals, showGroupedTotals }) => (
-  <div className={styles.totals}>
-    <LineItemTable.Total>
-      {showGroupedTotals && (
-        <LineItemTable.Totals
-          title="Selected transactions"
-          amount={totals.matchAmountTotal}
-        />
-      )}
-      {showGroupedTotals && (
-        <LineItemTable.Totals
-          title="Adjustments"
-          amount={totals.adjustmentsTotal}
-        />
-      )}
-      <LineItemTable.Totals title="Subtotal" amount={totals.subtotal} />
+  <TotalsContainer>
+    {showGroupedTotals && (
       <LineItemTable.Totals
-        totalAmount
-        type={totals.isOutOfBalance && 'danger'}
-        title="Out of balance"
-        amount={totals.outOfBalance}
+        title="Selected transactions"
+        amount={totals.matchAmountTotal}
       />
-    </LineItemTable.Total>
-  </div>
+    )}
+    {showGroupedTotals && (
+      <LineItemTable.Totals
+        title="Adjustments"
+        amount={totals.adjustmentsTotal}
+      />
+    )}
+    <LineItemTable.Totals title="Subtotal" amount={totals.subtotal} />
+    <LineItemTable.Totals
+      totalAmount
+      type={totals.isOutOfBalance && 'danger'}
+      title="Out of balance"
+      amount={totals.outOfBalance}
+    />
+  </TotalsContainer>
 );
 
 const mapStateToProps = (state) => ({

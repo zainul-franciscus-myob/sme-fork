@@ -1,0 +1,10 @@
+.dropZone :global(.dropzone-container) {
+    display: none;
+  }
+  .dropZone :global(.dropzone-border) {
+    padding: calc(var(--flx-padding-card-body) / 2);
+    border-color: transparent;
+  }
+  .cardBody {
+    padding: calc(var(--flx-padding-card-body) / 2);
+  }

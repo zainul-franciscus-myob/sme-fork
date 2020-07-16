@@ -1,0 +1,3 @@
+.attachFileButton :global(.file-browser-label-wrapper){
+    margin-bottom: 0;
+}

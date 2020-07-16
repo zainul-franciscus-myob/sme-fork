@@ -13,6 +13,8 @@ import {
   getIsLoadingAccount,
 } from '../bankingSelectors';
 import SplitAllocationRow from './SplitAllocationRow';
+import TotalsContainer from './TotalsContainer';
+import styles from './SplitAllocationTable.module.css';
 
 const accountLabel = 'Account';
 const amountLabelDollar = 'Amount ($)';
@@ -110,9 +112,9 @@ const SplitAllocationTable = (props) => {
 
   const columnConfig = [
     {
-      config: columns.map(({ columnName, styles }) => ({
-        columnName,
-        styles,
+      config: columns.map((column) => ({
+        columnName: column.columnName,
+        styles: column.styles,
       })),
     },
   ];
@@ -128,30 +130,35 @@ const SplitAllocationTable = (props) => {
   ));
 
   return (
-    <LineItemTable
-      labels={labels}
-      data={tableData}
-      renderRow={renderRow(
-        indexOfLastLine,
-        onAddAccount,
-        onAddJob,
-        isLoadingAccount
-      )}
-      onAddRow={onAddRow(onAddSplitAllocationLine)}
-      onRowChange={onRowChange(onUpdateSplitAllocationLine)}
-      onRemoveRow={onDeleteSplitAllocationLine}
-      columnConfig={columnConfig}
-      headerItems={headerItems}
-    >
-      <LineItemTable.Total>
-        <LineItemTable.Totals title="Total allocated" amount={totalAllocated} />
-        <LineItemTable.Totals
-          totalAmount
-          title="Unallocated"
-          amount={totalUnallocated}
-        />
-      </LineItemTable.Total>
-    </LineItemTable>
+    <div className={styles.lineItemTable}>
+      <LineItemTable
+        labels={labels}
+        data={tableData}
+        renderRow={renderRow(
+          indexOfLastLine,
+          onAddAccount,
+          onAddJob,
+          isLoadingAccount
+        )}
+        onAddRow={onAddRow(onAddSplitAllocationLine)}
+        onRowChange={onRowChange(onUpdateSplitAllocationLine)}
+        onRemoveRow={onDeleteSplitAllocationLine}
+        columnConfig={columnConfig}
+        headerItems={headerItems}
+      >
+        <TotalsContainer>
+          <LineItemTable.Totals
+            title="Total allocated"
+            amount={totalAllocated}
+          />
+          <LineItemTable.Totals
+            totalAmount
+            title="Unallocated"
+            amount={totalUnallocated}
+          />
+        </TotalsContainer>
+      </LineItemTable>
+    </div>
   );
 };
 

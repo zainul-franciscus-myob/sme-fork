@@ -7,9 +7,9 @@ import {
   getIsTableLoading,
   getOrder,
   getSelectAllState,
-  getSelectedText,
   getSortingDisabled,
 } from '../bankingSelectors/matchTransactionSelectors';
+import EmptyView from './EmptyView';
 import LoadingPageState from '../../../components/LoadingPageState/LoadingPageState';
 import MatchTransactionTableBody from './MatchTransactionTableBody';
 import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
@@ -42,7 +42,7 @@ const tableConfig = {
   },
   discount: {
     columnName: 'Discount ($)',
-    width: '15rem',
+    width: '11.5rem',
     valign: 'middle',
     align: 'right',
   },
@@ -65,8 +65,6 @@ const tableConfig = {
     align: 'left',
   },
 };
-
-const emptyView = <div className={styles.openEntryEmpty}>No results.</div>;
 
 const spinnerView = (
   <div className={styles.bankingTableSpinner}>
@@ -91,7 +89,6 @@ const MatchTransactionTable = (props) => {
     isTableEmpty,
     isTableLoading,
     isSelectedAll,
-    footerLabel,
     order,
     onSortMatchTransactions,
     onUpdateMatchTransactionSelection,
@@ -104,7 +101,7 @@ const MatchTransactionTable = (props) => {
   if (isTableLoading) {
     view = spinnerView;
   } else if (isTableEmpty) {
-    view = emptyView;
+    view = <EmptyView>No results.</EmptyView>;
   } else {
     view = (
       <MatchTransactionTableBody
@@ -175,13 +172,10 @@ const MatchTransactionTable = (props) => {
   );
 
   return (
-    <>
-      <Table className={styles.matchTransactionTable}>
-        {header}
-        {view}
-      </Table>
-      <div className={styles.footerLabel}>{footerLabel}</div>
-    </>
+    <Table className={styles.matchTransactionTable}>
+      {header}
+      {view}
+    </Table>
   );
 };
 
@@ -190,7 +184,6 @@ const mapStateToProps = (state) => ({
   isTableEmpty: getIsTableEmpty(state),
   order: getOrder(state),
   isSelectedAll: getSelectAllState(state),
-  footerLabel: getSelectedText(state),
   disableSorting: getSortingDisabled(state),
 });
 
