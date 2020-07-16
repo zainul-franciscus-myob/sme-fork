@@ -35,6 +35,7 @@ const getDefaultState = () => ({
     transactionDesc: '',
     isReversible: false,
     isReversalPreview: false,
+    stpAlertMessage: '',
   },
   alert: '',
   isDeleteModalOpen: false,

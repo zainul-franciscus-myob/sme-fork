@@ -73,6 +73,8 @@ const EmployeePayDetailView = ({
     parentBusinessEventDisplayId,
     isReversible,
     isReversalPreview,
+    stpAlertMessage,
+    isDeletable,
   } = employeePay;
 
   const infoReversal = isReversalPreview && (
@@ -82,6 +84,14 @@ const EmployeePayDetailView = ({
       purposes.
     </Alert>
   );
+
+  const alertStpAlertMessage = featureToggles &&
+    featureToggles.isPayrollReversibleEnabled &&
+    stpAlertMessage && (
+      <Alert type="warning" testid="stp-alert-message-id">
+        {stpAlertMessage}
+      </Alert>
+    );
 
   const electronicPaymentFooter = (
     <p className={styles.electronicPaymentFooter}>
@@ -135,11 +145,13 @@ const EmployeePayDetailView = ({
         featureToggles.isPayrollReversibleEnabled &&
         isReversible
       }
+      showDelete={isDeletable}
     />
   );
 
   const view = (
     <BaseTemplate>
+      {alertStpAlertMessage}
       {alert}
       {infoReversal}
       {deleteModal}

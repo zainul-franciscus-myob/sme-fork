@@ -16,6 +16,7 @@ const EmployeePayModalButtons = ({
   loadingSuccess,
   isReversalPreview,
   isReadonly,
+  showDelete,
 }) => {
   const reversalPreviewButtons = (
     <ButtonRow
@@ -54,7 +55,7 @@ const EmployeePayModalButtons = ({
             Reverse Pay
           </Button>
         ),
-        !isReadonly && loadingSuccess && !showReverse && (
+        !isReadonly && loadingSuccess && showDelete && (
           <DeleteButtonWithPopover
             key="delete"
             testid="employee-pay-modal-delete-btn"

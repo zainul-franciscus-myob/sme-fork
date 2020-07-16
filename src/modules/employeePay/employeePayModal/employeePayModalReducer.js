@@ -33,6 +33,7 @@ const getDefaultState = () => ({
     isDeletable: false,
     isReversible: false,
     isReversalPreview: false,
+    stpAlertMessage: '',
   },
   alert: '',
   loadingState: LoadingState.LOADING,

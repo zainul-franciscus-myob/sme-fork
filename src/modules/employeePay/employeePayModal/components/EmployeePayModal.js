@@ -54,6 +54,8 @@ const EmployeePayModal = ({
     parentBusinessEventDisplayId,
     isReversible,
     isReversalPreview,
+    stpAlertMessage,
+    isDeletable,
   } = employeePay;
 
   if (!isOpen) {
@@ -74,6 +76,15 @@ const EmployeePayModal = ({
     </Alert>
   );
 
+  const alertStpAlertMessage = !isReadonly &&
+    featureToggles &&
+    featureToggles.isPayrollReversibleEnabled &&
+    stpAlertMessage && (
+      <Alert type="warning" testid="stp-alert-message-id">
+        {stpAlertMessage}
+      </Alert>
+    );
+
   const electronicPaymentFooter = (
     <p className={styles.electronicPaymentFooter}>
       <Icons.Dollar />
@@ -89,6 +100,7 @@ const EmployeePayModal = ({
 
   const modalDetail = (
     <>
+      {alertStpAlertMessage}
       {alert}
       {infoReversal}
       <EmployeePayModalHeader
@@ -143,6 +155,7 @@ const EmployeePayModal = ({
           onRecordReversalButtonClick={onRecordReversalButtonClick}
           onCancelReversalButtonClick={onCancelReversalButtonClick}
           isReadonly={isReadonly}
+          showDelete={isDeletable}
         />
       </div>
     </Modal>

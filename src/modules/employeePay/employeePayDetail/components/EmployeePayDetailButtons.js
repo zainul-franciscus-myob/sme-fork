@@ -6,6 +6,7 @@ const EmployeePayDetailButtons = ({
   onDeleteButtonClick,
   onReverseButtonClick,
   showReverse,
+  showDelete,
 }) => (
   <ButtonRow
     secondary={[
@@ -19,8 +20,12 @@ const EmployeePayDetailButtons = ({
           Reverse Pay
         </Button>
       ),
-      !showReverse && (
-        <Button type="secondary" onClick={onDeleteButtonClick}>
+      showDelete && (
+        <Button
+          type="secondary"
+          testid="pay-detail-delete-btn"
+          onClick={onDeleteButtonClick}
+        >
           Delete
         </Button>
       ),
