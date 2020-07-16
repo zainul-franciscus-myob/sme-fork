@@ -51,3 +51,4 @@ It is designed to work hand-in-hand with [sme-web-bff](https://github.com/MYOB-T
 1. [Feelix Upgrade](docs/specifics/feelix-upgrade.md)
 1. [New Relic Instrumentation](docs/specifics/new-relic-instrumentation.md)
 1. [Wrapped Feelix Components](docs/specifics/wrapped-feelix-components.md)
+1. [Split.io Guidelines](docs/specifics/split-io.md)
