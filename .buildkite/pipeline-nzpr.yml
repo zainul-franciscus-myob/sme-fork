@@ -1,0 +1,45 @@
+steps:
+
+  - name: ':traffic_light: Unit Tests'
+    command: ./ops/bin/test
+    branches: master nzpr*
+    agents:
+      queue: cacc-prod-dflt
+
+  - name: ':book: Linting'
+    command: ./ops/bin/lint
+    branches: master nzpr*
+    agents:
+      queue: cacc-prod-dflt
+
+  - name: ':package: :hatched_chick: Build nzpr-sit Javascript'
+    command: ./ops/bin/build nzpr-sit
+    branches: master nzpr*
+    env:
+      REACT_APP_BUILD_NUMBER: ${BUILDKITE_BUILD_NUMBER}
+    agents:
+      queue: cacc-prod-dflt
+    artifact_paths: "build-nzpr-sit.tar.gz"
+
+  - wait
+
+  - block: ":green_button: Deploy to NZPR-SIT environment?"
+    branches: master nzpr*
+
+  - name: ':rocket: :hatched_chick: Deploy nzpr-sit App'
+    commands:
+      - ./aws/deploy-stack nzpr-sit
+      - ./ops/bin/deploy nzpr-sit
+    branches: master nzpr*
+    agents:
+      queue: cacc-prod-dflt
+
+  - wait
+
+  - name: ':white_check_mark: Record "nzpr-sit" release'
+    command: 'myob-release nzpr-sit sme-web'
+    branches: master nzpr*
+    agents:
+      queue: cacc-prod-dflt
+
+

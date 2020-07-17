@@ -1,0 +1,18 @@
+[
+  {
+  "ParameterKey": "BucketName",
+  "ParameterValue": "myob-sme-web-ui-nzpr-sit-bucket"
+  },
+  {
+  "ParameterKey": "AcmCertificate",
+  "ParameterValue": "arn:aws:acm:us-east-1:590476131038:certificate/ad9fd5e9-3c3e-45ab-8d9b-36703d4e4d4e"
+  },
+  {
+  "ParameterKey": "Aliases",
+  "ParameterValue": "nzpr-sit-sme-web.app.myob.com"
+  },
+  {
+  "ParameterKey": "ACLDefaultAction",
+  "ParameterValue": "BLOCK"
+  }
+]
