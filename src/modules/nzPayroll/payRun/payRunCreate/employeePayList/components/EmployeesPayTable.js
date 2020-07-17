@@ -96,7 +96,7 @@ const EmployeesPayTable = ({
               Employee
             </Table.HeaderItem>
             <Table.HeaderItem {...tableConfig.daysPaid}>
-              Days Paid&nbsp;
+              Days paid&nbsp;
               <Tooltip>
                 Number of whole or part days where employee earned gross
                 earnings, including any paid holiday or paid leave. E.g.

@@ -34,7 +34,7 @@ describe('EmployeePayTable', () => {
 
       const expected = [
         'Employee',
-        'Days Paid ',
+        'Days paid ',
         'Gross ($)',
         'PAYE ($)',
         'KiwiSaver ($)',
