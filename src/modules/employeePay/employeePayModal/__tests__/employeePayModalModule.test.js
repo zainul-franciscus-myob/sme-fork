@@ -281,10 +281,10 @@ describe('employeePayModalModule', () => {
 
   describe('Render stp alert message', () => {
     it('should display alert message if stp alert message exists and isPayrollReversibleEnabled feature toggle is on', () => {
-      const stpAlertMessage = 'Some alert message';
+      const isPending = true;
       const employeePayDetail = {
         ...loadEmployeePayDetail,
-        stpAlertMessage,
+        isPending,
       };
       const constructModule = (
         module = new EmployeePayModalModule({
@@ -319,17 +319,21 @@ describe('employeePayModalModule', () => {
       });
       wrapper.update();
 
-      expect(wrapper.find({ testid: 'stp-alert-message-id' })).toHaveLength(1);
-      expect(wrapper.find({ testid: 'stp-alert-message-id' }).text()).toEqual(
-        stpAlertMessage
+      expect(wrapper.find({ testid: 'pending-alert-message-id' })).toHaveLength(
+        1
+      );
+      expect(
+        wrapper.find({ testid: 'pending-alert-message-id' }).text()
+      ).toEqual(
+        'This pay is still processing to the ATO for Single Touch Payroll reporting. If you need to reverse the pay, you will be able to, once it has processed. You can check the status of the pay in Single Touch Payroll reporting'
       );
     });
 
-    it('should not display alert message if stp alert message does not exists and isPayrollReversibleEnabled feature toggle is on', () => {
-      const stpAlertMessage = '';
+    it('should not display alert message if isPending is false and isPayrollReversibleEnabled feature toggle is on', () => {
+      const isPending = false;
       const employeePayDetail = {
         ...loadEmployeePayDetail,
-        stpAlertMessage,
+        isPending,
       };
       const constructModule = (
         module = new EmployeePayModalModule({
@@ -364,14 +368,18 @@ describe('employeePayModalModule', () => {
       });
       wrapper.update();
 
-      expect(wrapper.find({ testid: 'stp-alert-message-id' })).toHaveLength(0);
+      expect(wrapper.find({ testid: 'pending-alert-message-id' })).toHaveLength(
+        0
+      );
     });
 
-    it('should not display alert message if stp alert message does exists and isPayrollReversibleEnabled feature toggle is off', () => {
-      const stpAlertMessage = 'Some alert message';
+    it('should not display alert message if isPending and isRejected is true and isPayrollReversibleEnabled feature toggle is off', () => {
+      const isPending = true;
+      const isRejected = true;
       const employeePayDetail = {
         ...loadEmployeePayDetail,
-        stpAlertMessage,
+        isPending,
+        isRejected,
       };
       const constructModule = (
         module = new EmployeePayModalModule({
@@ -406,7 +414,61 @@ describe('employeePayModalModule', () => {
       });
       wrapper.update();
 
-      expect(wrapper.find({ testid: 'stp-alert-message-id' })).toHaveLength(0);
+      expect(wrapper.find({ testid: 'pending-alert-message-id' })).toHaveLength(
+        0
+      );
+      expect(wrapper.find({ testid: 'reject-alert-message-id' })).toHaveLength(
+        0
+      );
+    });
+
+    it('should display alert message if payrun is isRejected and isPayrollReversibleEnabled feature toggle is on', () => {
+      const isRejected = true;
+      const employeePayDetail = {
+        ...loadEmployeePayDetail,
+        isRejected,
+      };
+      const constructModule = (
+        module = new EmployeePayModalModule({
+          integration: {
+            read: ({ intent, onSuccess }) => {
+              if (intent === SET_MODAL_IS_OPEN) {
+                onSuccess(true);
+              }
+              if (intent === LOAD_EMPLOYEE_PAY_MODAL) {
+                onSuccess(employeePayDetail);
+              }
+            },
+            write: ({ onSuccess }) => onSuccess(),
+          },
+          featureToggles: { isPayrollReversibleEnabled: true },
+        })
+      ) => {
+        const wrapper = mount(module.getView());
+        return {
+          wrapper,
+          module,
+        };
+      };
+      const { wrapper, module } = constructModule();
+
+      module.openModal({
+        transactionId: '01',
+        businessId: '0000-1111-2222-3333',
+        employeeName: 'Batman',
+        region: 'au',
+        readonly: false,
+      });
+      wrapper.update();
+
+      expect(wrapper.find({ testid: 'reject-alert-message-id' })).toHaveLength(
+        1
+      );
+      expect(
+        wrapper.find({ testid: 'reject-alert-message-id' }).text()
+      ).toEqual(
+        'This pay was rejected by the ATO for Single Touch Payroll reporting. You can delete the pay, and the deletion does not need to be reported. We recommend fixing the reason for the rejection, so you don’t continue to have rejected reports.Learn More'
+      );
     });
   });
 });

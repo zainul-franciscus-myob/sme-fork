@@ -73,8 +73,9 @@ const EmployeePayDetailView = ({
     parentBusinessEventDisplayId,
     isReversible,
     isReversalPreview,
-    stpAlertMessage,
     isDeletable,
+    isRejected,
+    isPending,
   } = employeePay;
 
   const infoReversal = isReversalPreview && (
@@ -85,14 +86,34 @@ const EmployeePayDetailView = ({
     </Alert>
   );
 
-  const alertStpAlertMessage = featureToggles &&
+  const pendingAlertMessage = featureToggles &&
     featureToggles.isPayrollReversibleEnabled &&
-    stpAlertMessage && (
-      <Alert type="warning" testid="stp-alert-message-id">
-        {stpAlertMessage}
+    isPending && (
+      <Alert type="warning" testid="pending-alert-message-id">
+        This pay is still processing to the ATO for Single Touch Payroll
+        reporting. If you need to reverse the pay, you will be able to, once it
+        has processed. You can check the status of the pay in Single Touch
+        Payroll reporting
       </Alert>
     );
 
+  const rejectedAlertMessage = featureToggles &&
+    featureToggles.isPayrollReversibleEnabled &&
+    isRejected && (
+      <Alert type="warning" testid="reject-alert-message-id">
+        This pay was rejected by the ATO for Single Touch Payroll reporting. You
+        can delete the pay, and the deletion does not need to be reported. We
+        recommend fixing the reason for the rejection, so you don’t continue to
+        have rejected reports.
+        <a
+          href="https://help.myob.com/wiki/x/M6hqAg"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn More
+        </a>
+      </Alert>
+    );
   const electronicPaymentFooter = (
     <p className={styles.electronicPaymentFooter}>
       <Icons.Dollar />
@@ -151,7 +172,8 @@ const EmployeePayDetailView = ({
 
   const view = (
     <BaseTemplate>
-      {alertStpAlertMessage}
+      {pendingAlertMessage}
+      {rejectedAlertMessage}
       {alert}
       {infoReversal}
       {deleteModal}
