@@ -396,6 +396,8 @@ export const getLoadMoreButtonStatus = (state) => {
   return LoadMoreButtonStatuses.SHOWN;
 };
 
+const getIsFastModeEnabled = (state) => state.isFastModeEnabled;
+
 export const getLoadBankTransactionsUrlParams = createSelector(
   getBusinessId,
   (businessId) => ({ businessId })
@@ -404,10 +406,12 @@ export const getLoadBankTransactionsParams = createSelector(
   getFilterOptions,
   getSortOrder,
   getOrderBy,
-  (filterOptions, sortOrder, orderBy) => ({
+  getIsFastModeEnabled,
+  (filterOptions, sortOrder, orderBy, isFastModeEnabled) => ({
     ...filterOptions,
     sortOrder,
     orderBy,
+    fastMode: isFastModeEnabled,
   })
 );
 
@@ -420,11 +424,13 @@ export const getLoadBankTransactionsNextPageParams = createSelector(
   getSortOrder,
   getOrderBy,
   getOffset,
-  (filterOptions, sortOrder, orderBy, offset) => ({
+  getIsFastModeEnabled,
+  (filterOptions, sortOrder, orderBy, offset, isFastModeEnabled) => ({
     ...filterOptions,
     sortOrder,
     orderBy,
     offset,
+    fastMode: isFastModeEnabled,
   })
 );
 
@@ -436,11 +442,13 @@ export const getFilterBankTransactionsParams = createSelector(
   getFilterOptions,
   getSortOrder,
   getOrderBy,
-  (filterOptions, sortOrder, orderBy) => ({
+  getIsFastModeEnabled,
+  (filterOptions, sortOrder, orderBy, isFastModeEnabled) => ({
     ...filterOptions,
     sortOrder,
     orderBy,
     offset: 0,
+    fastMode: isFastModeEnabled,
   })
 );
 
@@ -453,6 +461,7 @@ export const getSortBankTransactionsParams = (state, orderBy) => ({
   sortOrder: getFlipSortOrder(state),
   orderBy,
   offset: 0,
+  fastMode: getIsFastModeEnabled(state),
 });
 
 export const getIsHovering = (state, index) => state.hoverIndex === index;

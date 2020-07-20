@@ -7,6 +7,7 @@ const getBankingRoutes = ({
   setRootView,
   globalCallbacks: { learnBankingCompleted },
   isToggleOn,
+  featureToggles,
 }) => [
   {
     name: RouteName.BANKING_TRANSACTION_LIST,
@@ -15,6 +16,7 @@ const getBankingRoutes = ({
       integration,
       setRootView,
       isToggleOn,
+      featureToggles,
     }),
     documentTitle: 'Bank feed transactions',
   },

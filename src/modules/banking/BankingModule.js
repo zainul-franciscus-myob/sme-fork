@@ -50,12 +50,13 @@ import debounce from '../../common/debounce/debounce';
 import openBlob from '../../common/blobOpener/openBlob';
 
 export default class BankingModule {
-  constructor({ integration, setRootView, isToggleOn }) {
+  constructor({ integration, setRootView, isToggleOn, featureToggles }) {
     this.store = new Store(bankingReducer);
     this.setRootView = setRootView;
     this.dispatcher = createBankingDispatcher(this.store);
     this.integrator = createBankingIntegrator(this.store, integration);
     this.isToggleOn = isToggleOn;
+    this.featureToggles = featureToggles;
     this.bankingRuleModule = new BankingRuleModule({
       integration,
       store: this.store,
@@ -1187,9 +1188,14 @@ export default class BankingModule {
   };
 
   run(context) {
+    const { fastMode = false, ...rest } = context;
+    const { isBankTransactionsFastModeEnabled = false } = this.featureToggles;
+    const isFastModeEnabled = fastMode && isBankTransactionsFastModeEnabled;
+
     this.dispatcher.setInitialState({
-      ...context,
+      ...rest,
       isBankingJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
+      isFastModeEnabled,
     });
     this.render();
     this.dispatcher.setLoadingState(true);

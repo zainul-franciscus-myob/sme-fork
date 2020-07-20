@@ -40,6 +40,11 @@ describe('BankingModule', () => {
     const pushMessage = () => {};
     const popMessages = () => [];
     const isToggleOn = () => true;
+
+    // @TODO: To be deleted alongside our disposable test when we no longer need featureToggles
+    const featureToggles = {
+      isBankTransactionsFastModeEnabled: true,
+    };
     const integration = new TestIntegration();
 
     const module = new BankingModule({
@@ -48,6 +53,7 @@ describe('BankingModule', () => {
       pushMessage,
       popMessages,
       isToggleOn,
+      featureToggles,
     });
     const store = new TestStore(bankingReducer);
     module.store = store;
@@ -107,7 +113,10 @@ describe('BankingModule', () => {
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
-          context: { isBankingJobColumnEnabled: true },
+          context: {
+            isBankingJobColumnEnabled: true,
+            isFastModeEnabled: false,
+          },
         },
         {
           intent: SET_LOADING_STATE,
@@ -138,7 +147,10 @@ describe('BankingModule', () => {
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
-          context: { isBankingJobColumnEnabled: true },
+          context: {
+            isBankingJobColumnEnabled: true,
+            isFastModeEnabled: false,
+          },
         },
         {
           intent: SET_LOADING_STATE,
@@ -159,6 +171,24 @@ describe('BankingModule', () => {
           intent: LOAD_BANK_TRANSACTIONS,
         }),
       ]);
+    });
+
+    // @Disposable tests: Ensures our logic for setting isFastModeEnabled is correct
+    it('sets fastMode given feature toggle is true and a query param is given', () => {
+      const { store, integration, module } = setUp();
+      integration.mapFailure(LOAD_BANK_TRANSACTIONS);
+
+      module.run({
+        fastMode: true,
+      });
+
+      expect(store.getActions()[0]).toEqual({
+        intent: SET_INITIAL_STATE,
+        context: {
+          isBankingJobColumnEnabled: true,
+          isFastModeEnabled: true,
+        },
+      });
     });
   });
 

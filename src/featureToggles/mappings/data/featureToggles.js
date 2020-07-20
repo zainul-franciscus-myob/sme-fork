@@ -11,4 +11,5 @@ export default {
   isJobKeeperTabEnabled: true,
   isJobKeeperReportingEnabled: true,
   isPayrollReversibleEnabled: true,
+  isBankTransactionsFastModeEnabled: true,
 };
