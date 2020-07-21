@@ -16,6 +16,7 @@
     "issueDate": "2018-11-02",
     "amountPaid": "77.77",
     "status": "Open",
+    "isForeignCurrency": false,
     "lines": [
       {
         "type": "header",

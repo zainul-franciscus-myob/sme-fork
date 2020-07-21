@@ -38,6 +38,7 @@ const getFreightTaxAmount = (state) => state.bill.freightTaxAmount;
 const getFreightTaxCodeId = (state) => state.bill.freightTaxCodeId;
 export const getHasFreightAmount = (state) =>
   !!Number(state.bill.taxExclusiveFreightAmount);
+export const getIsForeignCurrency = (state) => state.bill.isForeignCurrency;
 
 export const getAbn = (state) => state.abn;
 export const getAccountOptions = (state) => state.accountOptions;
@@ -207,8 +208,12 @@ const getIsLayoutSupported = createSelector(getBillLayout, (layout) =>
   [BillLayout.SERVICE, BillLayout.ITEM_AND_SERVICE].includes(layout)
 );
 
-export const getShowExportPdfButton = createSelector(getBillLayout, (layout) =>
-  [BillLayout.SERVICE, BillLayout.ITEM_AND_SERVICE].includes(layout)
+export const getShowExportPdfButton = createSelector(
+  getBillLayout,
+  getIsForeignCurrency,
+  (layout, isForeignCurrency) =>
+    [BillLayout.SERVICE, BillLayout.ITEM_AND_SERVICE].includes(layout) &&
+    !isForeignCurrency
 );
 
 export const getIsLinesSupported = createSelector(getLines, (lines) =>
@@ -219,8 +224,12 @@ export const getIsReadOnly = createSelector(
   getIsLayoutSupported,
   getIsLinesSupported,
   getHasFreightAmount,
-  (isLayoutSupported, isLinesSupported, hasFreightAmount) =>
-    !isLayoutSupported || !isLinesSupported || hasFreightAmount
+  getIsForeignCurrency,
+  (isLayoutSupported, isLinesSupported, hasFreightAmount, isForeignCurrency) =>
+    !isLayoutSupported ||
+    !isLinesSupported ||
+    hasFreightAmount ||
+    isForeignCurrency
 );
 
 const capitalise = (word) =>
@@ -230,7 +239,8 @@ export const getReadOnlyMessage = createSelector(
   getIsLayoutSupported,
   getBillLayout,
   getHasFreightAmount,
-  (isLayoutSupported, layout, hasFreightAmount) => {
+  getIsForeignCurrency,
+  (isLayoutSupported, layout, hasFreightAmount, isForeignCurrency) => {
     if (!isLayoutSupported) {
       return `This bill is read only because the ${capitalise(
         layout
@@ -239,6 +249,10 @@ export const getReadOnlyMessage = createSelector(
 
     if (hasFreightAmount) {
       return "This bill is read only because freight isn't supported in the browser. Switch to AccountRight desktop to edit this bill.";
+    }
+
+    if (isForeignCurrency) {
+      return "This bill is read only because [multi-currency] isn't supported int the browser. Switch to AccountRight desktop to edit this bill.";
     }
 
     return 'This bill is read only because it contains unsupported features. Switch to AccountRight desktop to edit this bill.';

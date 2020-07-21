@@ -301,6 +301,7 @@ describe('BillSelectors', () => {
       const actual = getIsReadOnly({
         bill: {
           layout,
+          isForeignCurrency: false,
           lines: [],
         },
       });
@@ -318,6 +319,7 @@ describe('BillSelectors', () => {
       const actual = getIsReadOnly({
         bill: {
           layout: BillLayout.ITEM_AND_SERVICE,
+          isForeignCurrency: false,
           lines: [
             { type: BillLineType.SERVICE },
             { type: BillLineType.ITEM },
@@ -335,6 +337,7 @@ describe('BillSelectors', () => {
           layout: BillLayout.ITEM_AND_SERVICE,
           lines: [],
           taxExclusiveFreightAmount: '1',
+          isForeignCurrency: false,
         },
       });
 
