@@ -136,7 +136,7 @@ const BillActions = ({
       <ButtonRow
         primary={[backButton]}
         secondary={[
-          !isCreating && createPaymentButton,
+          !isCreating && !isForeignCurrency && createPaymentButton,
           showExportPdfButton && exportPdfButton,
         ]}
       />
@@ -149,7 +149,7 @@ const BillActions = ({
       secondary={[
         !isCreating && deleteButton,
         !isCreating && separator,
-        !isCreating && !isForeignCurrency && createPaymentButton,
+        !isCreating && createPaymentButton,
         exportPdfButton,
       ]}
     />
