@@ -5,7 +5,7 @@ import React from 'react';
 import { getFinancialYearDetails } from '../businessDetailSelectors';
 import FinancialYearButton from './FinancialYearButton';
 import MonthSelect from './MonthSelect';
-import MonthYearSelect from './MonthYearSelect';
+import OpeningBalanceDate from './OpeningBalanceDate';
 import YearSelect from './YearSelect';
 import formatDate from '../../../../common/valueFormatters/formatDate/formatDate';
 import handleSelectChange from '../../../../components/handlers/handleSelectChange';
@@ -26,9 +26,10 @@ const FinancialYearSection = ({
   onOpenFinancialYearModal,
   onCloseFinancialYearModal,
   financialYearOptions,
-  openingBalanceYearOptions,
   lastMonthInFY,
   monthOptions,
+  financialYearDateRange,
+  cannotRecordTransactionBeforeDate,
 }) => {
   const financialYearComboBox = isFinancialYearSectionReadOnly ? (
     <ReadOnly label="Current financial year" name="financialYear">
@@ -82,31 +83,45 @@ const FinancialYearSection = ({
     />
   );
 
+  const startDateToEndDateOfFY = (
+    <ReadOnly label="Financial Year" name="financialYearDateRange">
+      <strong>{financialYearDateRange.start}</strong>
+      <span> to </span>
+      <strong>{financialYearDateRange.end}</strong>
+    </ReadOnly>
+  );
+
   const openingBalanceDateTooltip = (
     <Tooltip triggerContent={<Icons.Info />}>
-      The date you either started using MYOB or the start of a period, like a
-      new financial year.
+      This is the date you started recording transactions.
     </Tooltip>
   );
 
   const openingBalanceDateComboBox = isFinancialYearSectionReadOnly ? (
     <ReadOnly
-      label="Opening balance month"
+      label="Opening balance date"
       name="openingBalanceDate"
       labelAccessory={openingBalanceDateTooltip}
     >
       {formatDate(openingBalanceDate, dateFormat)}
     </ReadOnly>
   ) : (
-    <MonthYearSelect
+    <OpeningBalanceDate
       labelAccessory={openingBalanceDateTooltip}
       year={openingBalanceYear}
       month={openingBalanceMonth}
-      yearOptions={openingBalanceYearOptions}
       monthOptions={monthOptions}
-      onYearChange={handleSelectChange(onChange)}
       onMonthChange={handleSelectChange(onChange)}
     />
+  );
+
+  const cannotRecordTransactionsBefore = (
+    <ReadOnly
+      label="Cannot record transactions before"
+      name="cannotRecordTransactionsBefore"
+    >
+      <strong>{cannotRecordTransactionBeforeDate}</strong>
+    </ReadOnly>
   );
 
   return (
@@ -114,7 +129,9 @@ const FinancialYearSection = ({
       {financialYearComboBox}
       {startNewFYButton}
       {lastMonthInFYComboBox}
+      {startDateToEndDateOfFY}
       {openingBalanceDateComboBox}
+      {cannotRecordTransactionsBefore}
     </FieldGroup>
   );
 };

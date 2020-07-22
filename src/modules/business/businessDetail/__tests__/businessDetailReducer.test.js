@@ -1,5 +1,6 @@
 import {
   LOAD_BUSINESS_DETAIL,
+  UPDATE_BUSINESS_DETAIL,
   UPDATE_LOCK_DATE_DETAIL,
 } from '../../BusinessIntents';
 import businessDetailsReducer from '../businessDetailReducer';
@@ -161,52 +162,6 @@ describe('businessDetailReducer', () => {
       expect(actual.isFinancialYearSectionReadOnly).toBeTruthy();
     });
 
-    it('should make all fields in FinancialYearSection readonly when companyfile has any transactions', () => {
-      const state = {
-        businessDetails: {
-          hasTransactions: false,
-        },
-        isFinancialYearSectionReadOnly: false,
-      };
-
-      const action = {
-        businessDetails: {
-          hasTransactions: true,
-        },
-      };
-
-      const actual = businessDetailsReducer(state, {
-        intent: LOAD_BUSINESS_DETAIL,
-        businessDetails: action.businessDetails,
-      });
-
-      expect(actual.isFinancialYearSectionReadOnly).toBeTruthy();
-    });
-
-    it('should make all fields in FinancialYearSection edittable when current financial year is not closed and no transactions exist', () => {
-      const state = {
-        businessDetails: {
-          isFinancialYearClosed: false,
-          hasTransactions: true,
-        },
-        isFinancialYearSectionReadOnly: true,
-      };
-
-      const action = {
-        businessDetails: {
-          isFinancialYearClosed: false,
-          hasTransactions: false,
-        },
-      };
-
-      const actual = businessDetailsReducer(state, {
-        intent: LOAD_BUSINESS_DETAIL,
-        businessDetails: action.businessDetails,
-      });
-
-      expect(actual.businessDetails.isFinancialYearSectionReadOnly).toBeFalsy();
-    });
-
     it('should have OpeningBalanceYear and OpeningBalanceMonth', () => {
       const state = {
         businessDetails: {
@@ -234,6 +189,42 @@ describe('businessDetailReducer', () => {
       });
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('updateBusinessDetail', () => {
+    it('should set openingBalanceYear to same as financialYear when openingBalanceMonth is on/before lastMonthInFinancialYear', () => {
+      const state = {
+        businessDetails: {
+          financialYear: 2020,
+          lastMonthInFinancialYear: 6,
+        },
+      };
+
+      const actual = businessDetailsReducer(state, {
+        intent: UPDATE_BUSINESS_DETAIL,
+        key: 'openingBalanceMonth',
+        value: 6,
+      });
+
+      expect(actual.businessDetails.openingBalanceYear).toEqual(2020);
+    });
+
+    it('should set openingBalanceYear to financialYear - 1 when openingBalanceMonth is after lastMonthInFinancialYear', () => {
+      const state = {
+        businessDetails: {
+          financialYear: 2020,
+          lastMonthInFinancialYear: 6,
+        },
+      };
+
+      const actual = businessDetailsReducer(state, {
+        intent: UPDATE_BUSINESS_DETAIL,
+        key: 'openingBalanceMonth',
+        value: 10,
+      });
+
+      expect(actual.businessDetails.openingBalanceYear).toEqual(2019);
     });
   });
 });

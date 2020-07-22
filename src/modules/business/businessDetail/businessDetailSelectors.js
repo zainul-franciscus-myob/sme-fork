@@ -16,6 +16,8 @@ export const getRegion = (state) => state.region;
 export const getBusinessId = (state) => state.businessId;
 export const getFinancialYearModal = (state) => state.financialYearModal;
 export const getFinancialYear = (state) => state.businessDetails.financialYear;
+export const getLastMonthInFinancialYear = (state) =>
+  state.businessDetails.lastMonthInFinancialYear;
 
 const getLastMonthIndex = (state) =>
   state.businessDetails.lastMonthInFinancialYear - 1;
@@ -87,6 +89,41 @@ export const getOpeningBalanceMonth = (state) => {
   return new Date(openingBalanceDate).getMonth() + 1;
 };
 
+export const getFinancialYearDateRange = createSelector(
+  getLastMonthInFinancialYear,
+  getFinancialYear,
+  (lastMonthInFinancialYearValue, financialYear) => {
+    const financialYearDateFormat = 'd MMM yyyy';
+
+    const lastMonthInFYIndex = Number(lastMonthInFinancialYearValue) - 1;
+
+    const startOfFY = addYears(
+      addMonths(new Date(financialYear, lastMonthInFYIndex, 1), 1),
+      -1
+    );
+
+    const endOfFY = endOfMonth(new Date(financialYear, lastMonthInFYIndex, 1));
+
+    const financialYearDateRange = {
+      start: format(startOfFY, financialYearDateFormat),
+      end: format(endOfFY, financialYearDateFormat),
+    };
+    return financialYearDateRange;
+  }
+);
+
+export const getCannotRecordTransactionBeforeDate = (state) => {
+  const financialYearDateFormat = 'd MMM yyyy';
+  const { openingBalanceMonth, openingBalanceYear } = state.businessDetails;
+  const openingBalanceMonthIndex = Number(openingBalanceMonth) - 1;
+  const cannotRecordTransactionBeforeDate = new Date(
+    openingBalanceYear,
+    openingBalanceMonthIndex,
+    1
+  );
+  return format(cannotRecordTransactionBeforeDate, financialYearDateFormat);
+};
+
 export const getFinancialYearDetails = createStructuredSelector({
   financialYear: (state) => state.businessDetails.financialYear,
   lastMonthInFinancialYear: (state) =>
@@ -100,9 +137,11 @@ export const getFinancialYearDetails = createStructuredSelector({
   isFinancialYearSectionReadOnly: (state) =>
     state.isFinancialYearSectionReadOnly,
   financialYearOptions: (state) => state.financialYearOptions,
-  openingBalanceYearOptions: (state) => state.openingBalanceYearOptions,
   lastMonthInFY: (state) => getLastMonthInFY(state),
   monthOptions: (state) => state.monthOptions,
+  financialYearDateRange: (state) => getFinancialYearDateRange(state),
+  cannotRecordTransactionBeforeDate: (state) =>
+    getCannotRecordTransactionBeforeDate(state),
 });
 
 export const getLockDateDetails = createStructuredSelector({

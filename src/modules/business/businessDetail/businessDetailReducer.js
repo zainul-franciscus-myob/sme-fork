@@ -65,7 +65,6 @@ const getDefaultState = () => ({
   isStartNewFinancialYearEnabled: false,
   financialYearOptions: [],
   isFinancialYearSectionReadOnly: false,
-  openingBalanceYearOptions: [],
   monthOptions: [
     'January',
     'February',
@@ -101,9 +100,7 @@ const setAlert = (state, action) => ({
 
 const loadBusinessDetail = (state, action) => {
   const isFinancialYearSectionReadOnly =
-    action.businessDetails.isFinancialYearClosed ||
-    action.businessDetails.hasTransactions;
-
+    action.businessDetails.isFinancialYearClosed;
   return {
     ...state,
     businessDetails: {
@@ -115,7 +112,6 @@ const loadBusinessDetail = (state, action) => {
     pageTitle: action.pageTitle,
     financialYearOptions: action.financialYearOptions,
     isFinancialYearSectionReadOnly,
-    openingBalanceYearOptions: action.openingBalanceYearOptions,
   };
 };
 
@@ -124,13 +120,47 @@ const setSubmittingState = (state, action) => ({
   isSubmitting: action.isSubmitting,
 });
 
-const updateBusinessDetail = (state, action) => ({
-  ...state,
-  businessDetails: {
-    ...state.businessDetails,
-    [action.key]: action.value,
-  },
-});
+const calculateOpeningBalanceYear = (businessDetails) => {
+  const {
+    openingBalanceMonth,
+    financialYear,
+    lastMonthInFinancialYear,
+  } = businessDetails;
+
+  return Number(openingBalanceMonth) <= Number(lastMonthInFinancialYear)
+    ? financialYear
+    : financialYear - 1;
+};
+
+const updateBusinessDetail = (state, action) => {
+  const fieldBeingChanged = action.key;
+  const newBusinessDetail = {
+    ...state,
+    businessDetails: {
+      ...state.businessDetails,
+      [fieldBeingChanged]: action.value,
+    },
+  };
+
+  if (
+    fieldBeingChanged === 'financialYear' ||
+    fieldBeingChanged === 'lastMonthInFinancialYear' ||
+    fieldBeingChanged === 'openingBalanceMonth'
+  ) {
+    const openingBalanceYear = calculateOpeningBalanceYear(
+      newBusinessDetail.businessDetails
+    );
+
+    return {
+      ...newBusinessDetail,
+      businessDetails: {
+        ...newBusinessDetail.businessDetails,
+        openingBalanceYear,
+      },
+    };
+  }
+  return newBusinessDetail;
+};
 
 const updateLockDateDetail = (state, { key, value }) => {
   let {

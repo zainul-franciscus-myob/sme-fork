@@ -8,15 +8,5 @@
 
 .year {
   width: 101px;
-}
-
-.month :global(.form-control){
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.year :global(.form-control){
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  margin-left: -1px;
+  padding: 0.4rem 1rem;
 }

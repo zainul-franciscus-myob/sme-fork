@@ -14,7 +14,7 @@ export default {
     address: '123 Some Street\nSomewhere VIC 3111',
     financialYear: '2019',
     lastMonthInFinancialYear: '2',
-    openingBalanceDate: '2014-04-01T00:00:00',
+    openingBalanceDate: '2018-04-01T00:00:00',
     serialNumber: '612312344567',
     hasLockPeriod: true,
     lockDate: '2019-11-11',
@@ -32,5 +32,4 @@ export default {
     '2019',
     '2020',
   ],
-  openingBalanceYearOptions: ['2015', '2016', '2017', '2018', '2019'],
 };
