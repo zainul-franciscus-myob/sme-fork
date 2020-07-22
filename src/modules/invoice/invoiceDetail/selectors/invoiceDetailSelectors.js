@@ -262,6 +262,7 @@ export const getInvoiceDetailTotals = createSelector(
   getTotals,
   getAmountPaid,
   getIsCreating,
+  getIsPreConversion,
   getFreightInfo,
   getTaxCodeOptions,
   getHasFreightAmount,
@@ -270,6 +271,7 @@ export const getInvoiceDetailTotals = createSelector(
     totals,
     amountPaid,
     isCreating,
+    isPreConversion,
     freightInfo,
     taxCodeOptions,
     hasFreightAmount,
@@ -286,6 +288,7 @@ export const getInvoiceDetailTotals = createSelector(
       (taxCode) => taxCode.id === freightInfo.freightTaxCodeId
     )?.displayName,
     isCreating,
+    isPreConversion,
     taxLabel,
   })
 );

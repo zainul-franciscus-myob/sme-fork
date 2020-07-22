@@ -18,22 +18,24 @@ const InvoiceDetailTotals = ({
   freightTaxCode,
   showFreight,
   isCreating,
+  isPreConversion,
   onChange,
   taxLabel,
 }) => {
-  const amountPaidInputLine = isCreating ? (
-    <LineItemTableTotalsInput
-      name="amountPaid"
-      label="Amount paid ($)"
-      value={amountPaid}
-      onChange={onAmountInputChange(onChange)}
-    />
-  ) : (
-    <LineItemTableTotalsFormattedCurrency
-      title="Amount paid"
-      amount={amountPaid}
-    />
-  );
+  const amountPaidInputLine =
+    isCreating && !isPreConversion ? (
+      <LineItemTableTotalsInput
+        name="amountPaid"
+        label="Amount paid ($)"
+        value={amountPaid}
+        onChange={onAmountInputChange(onChange)}
+      />
+    ) : (
+      <LineItemTableTotalsFormattedCurrency
+        title="Amount paid"
+        amount={amountPaid}
+      />
+    );
 
   return (
     <LineItemTable.Total>

@@ -251,6 +251,7 @@ describe('invoiceDetailSelectors', () => {
       totalAmount: '128',
     };
     const isCreating = false;
+    const isPreConversion = false;
     const noAmountPaid = '';
     const noFreightInfo = {
       taxExclusiveFreightAmount: '0',
@@ -271,12 +272,14 @@ describe('invoiceDetailSelectors', () => {
         amountDue: '118',
         showFreight: false,
         isCreating,
+        isPreConversion,
       };
 
       const actual = getInvoiceDetailTotals.resultFunc(
         totals,
         amountPaid,
         isCreating,
+        isPreConversion,
         noFreightInfo,
         taxCodeOptions,
         false
@@ -295,12 +298,14 @@ describe('invoiceDetailSelectors', () => {
         amountDue: '128',
         showFreight: false,
         isCreating,
+        isPreConversion,
       };
 
       const actual = getInvoiceDetailTotals.resultFunc(
         totals,
         noAmountPaid,
         isCreating,
+        isPreConversion,
         noFreightInfo,
         taxCodeOptions,
         false
@@ -327,12 +332,14 @@ describe('invoiceDetailSelectors', () => {
         showFreight: true,
         freightTaxCode: 'GST',
         isCreating,
+        isPreConversion,
       };
 
       const actual = getInvoiceDetailTotals.resultFunc(
         totals,
         noAmountPaid,
         isCreating,
+        isPreConversion,
         freightInfo,
         taxCodeOptions,
         true
@@ -359,12 +366,14 @@ describe('invoiceDetailSelectors', () => {
         showFreight: true,
         freightTaxCode: 'GST',
         isCreating,
+        isPreConversion,
       };
 
       const actual = getInvoiceDetailTotals.resultFunc(
         totals,
         noAmountPaid,
         isCreating,
+        isPreConversion,
         freightInfo,
         taxCodeOptions,
         true
