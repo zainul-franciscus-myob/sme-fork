@@ -11,6 +11,7 @@ import React from 'react';
 import {
   getIsBlocking,
   getIsCreating,
+  getIsForeignCurrency,
   getIsReadOnly,
   getShowExportPdfButton,
 } from '../selectors/billSelectors';
@@ -20,6 +21,7 @@ const BillActions = ({
   isCreating,
   isBlocking,
   isReadOnly,
+  isForeignCurrency,
   showExportPdfButton,
   onSaveButtonClick,
   onSaveAndButtonClick,
@@ -147,7 +149,7 @@ const BillActions = ({
       secondary={[
         !isCreating && deleteButton,
         !isCreating && separator,
-        !isCreating && createPaymentButton,
+        !isCreating && !isForeignCurrency && createPaymentButton,
         exportPdfButton,
       ]}
     />
@@ -158,6 +160,7 @@ const mapStateToProps = (state) => ({
   isCreating: getIsCreating(state),
   isBlocking: getIsBlocking(state),
   isReadOnly: getIsReadOnly(state),
+  isForeignCurrency: getIsForeignCurrency(state),
   showExportPdfButton: getShowExportPdfButton(state),
 });
 
