@@ -130,35 +130,31 @@ const SplitAllocationTable = (props) => {
   ));
 
   return (
-    <div className={styles.lineItemTable}>
-      <LineItemTable
-        labels={labels}
-        data={tableData}
-        renderRow={renderRow(
-          indexOfLastLine,
-          onAddAccount,
-          onAddJob,
-          isLoadingAccount
-        )}
-        onAddRow={onAddRow(onAddSplitAllocationLine)}
-        onRowChange={onRowChange(onUpdateSplitAllocationLine)}
-        onRemoveRow={onDeleteSplitAllocationLine}
-        columnConfig={columnConfig}
-        headerItems={headerItems}
-      >
-        <TotalsContainer>
-          <LineItemTable.Totals
-            title="Total allocated"
-            amount={totalAllocated}
-          />
-          <LineItemTable.Totals
-            totalAmount
-            title="Unallocated"
-            amount={totalUnallocated}
-          />
-        </TotalsContainer>
-      </LineItemTable>
-    </div>
+    <LineItemTable
+      labels={labels}
+      data={tableData}
+      className={styles.lineItemTable}
+      renderRow={renderRow(
+        indexOfLastLine,
+        onAddAccount,
+        onAddJob,
+        isLoadingAccount
+      )}
+      onAddRow={onAddRow(onAddSplitAllocationLine)}
+      onRowChange={onRowChange(onUpdateSplitAllocationLine)}
+      onRemoveRow={onDeleteSplitAllocationLine}
+      columnConfig={columnConfig}
+      headerItems={headerItems}
+    >
+      <TotalsContainer>
+        <LineItemTable.Totals title="Total allocated" amount={totalAllocated} />
+        <LineItemTable.Totals
+          totalAmount
+          title="Unallocated"
+          amount={totalUnallocated}
+        />
+      </TotalsContainer>
+    </LineItemTable>
   );
 };
 
