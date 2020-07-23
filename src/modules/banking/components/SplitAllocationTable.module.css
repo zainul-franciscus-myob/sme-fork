@@ -1,4 +1,4 @@
-.lineItemTable {
+.lineItemTable :global(.line-item-table) {
   overflow-x: auto;
   /*
     Extra space below so comboboxes inside
