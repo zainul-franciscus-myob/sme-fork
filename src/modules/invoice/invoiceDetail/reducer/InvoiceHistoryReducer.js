@@ -12,22 +12,22 @@ const sortByDescendingTime = (a, b) =>
 const sortByJournalId = (a, b) => b.journalId - a.journalId;
 
 const sortPaymentReceivedToEndOfDay = (a, b) => {
-  const isPaymentReceivedEventSecond =
-    b.status === InvoiceHistoryStatus.PAYMENT_RECEIVED;
+  const isPaymentReceivedEventFirst =
+    a.status === InvoiceHistoryStatus.PAYMENT_RECEIVED;
 
   const isOnSameDay = getDate(a.date) === getDate(b.date);
-  if (isPaymentReceivedEventSecond && isOnSameDay) {
-    return 1;
+  if (isPaymentReceivedEventFirst && isOnSameDay) {
+    return -1;
   }
 
   return 0;
 };
 
-const sortCreateToLast = (a) => {
-  const isCreateEventFirst = a.status === InvoiceHistoryStatus.CREATED;
+const sortCreateToLast = (_, b) => {
+  const isCreateEventSecond = b.status === InvoiceHistoryStatus.CREATED;
 
-  if (isCreateEventFirst) {
-    return 1;
+  if (isCreateEventSecond) {
+    return -1;
   }
 
   return 0;

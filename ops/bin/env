@@ -3,6 +3,8 @@ set -euo pipefail
 
 hash docker 2>/dev/null || die "missing dep: docker"
 
+IMAGE_SHA_DIGEST=505f9648cc6398895d3ecce0c9d5eeb9d265cbee2de83fd081eba0b15884f9c7
+
 docker run --rm \
   -v "$(pwd)":/app \
   -v "${HOME}"/.npmrc:/app/.npmrc \
@@ -10,5 +12,5 @@ docker run --rm \
   -w /app \
   -e "REACT_APP_BUILD_NUMBER=${REACT_APP_BUILD_NUMBER:-dev}" \
   -e "CI=true" \
-  -it docker.myob.com/sme-web/sme-web-buildnode@sha256:84dcfd8c53df18a710f30e01839ae4578b3c67f84d41d6eba9bf68cbea8e8338 \
+  -it docker.myob.com/sme-web/sme-web-buildnode@sha256:${IMAGE_SHA_DIGEST} \
   /bin/sh -c "$@"

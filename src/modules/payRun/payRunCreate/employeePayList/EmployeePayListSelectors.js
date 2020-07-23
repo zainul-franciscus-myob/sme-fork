@@ -262,11 +262,11 @@ const getBaseSalaryWagePayItemId = (state) =>
 const SMALLER = -1;
 const BIGGER = 1;
 const wagePayItemComparator = (a, b, baseWageIds) => {
-  if (baseWageIds.includes(a.payItemId)) {
-    return SMALLER;
-  }
   if (baseWageIds.includes(b.payItemId)) {
     return BIGGER;
+  }
+  if (baseWageIds.includes(a.payItemId)) {
+    return SMALLER;
   }
 
   if (a.type === 'HourlyWage' && b.type === 'SalaryWage') return SMALLER;

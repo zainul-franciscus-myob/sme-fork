@@ -69,8 +69,8 @@
     "not op_mini all"
   ],
   "engines": {
-    "node": "10.16.0",
-    "yarn": "1.16.0"
+    "node": "12",
+    "yarn": "1.22"
   },
   "prettier": {
     "singleQuote": true
