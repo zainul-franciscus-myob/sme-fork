@@ -22,6 +22,7 @@ It is designed to work hand-in-hand with [sme-web-bff](https://github.com/MYOB-T
 1. [Testing](docs/development/testing.md)
 1. [Coding Standards](docs/development/coding-standards.md)
 1. [Build and Deploy](docs/development/build-and-deploy.md)
+1. [Installing and Upgrading Packages](docs/development/installing-and-upgrading-packages.md)
 
 ## Debugging
 

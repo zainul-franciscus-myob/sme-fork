@@ -9,7 +9,7 @@ They are often used to pass information between modules in order to render diffe
 
 ## Define URL parameters
 
-URL parameters are declared when a module is associated with a route, e.g [getBankingRuleRoutes](src/modules/bankingRules/getBankingRuleRoutes.js).
+URL parameters are declared when a module is associated with a route, e.g [getBankingRuleRoutes](../../../src/modules/bankingRules/getBankingRuleRoutes.js).
 
 ```js
 // Routes
