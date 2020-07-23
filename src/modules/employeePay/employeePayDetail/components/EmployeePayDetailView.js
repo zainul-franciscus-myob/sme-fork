@@ -166,7 +166,11 @@ const EmployeePayDetailView = ({
         featureToggles.isPayrollReversibleEnabled &&
         isReversible
       }
-      showDelete={isDeletable}
+      showDelete={
+        featureToggles && featureToggles.isPayrollReversibleEnabled
+          ? isDeletable
+          : true
+      }
     />
   );
 

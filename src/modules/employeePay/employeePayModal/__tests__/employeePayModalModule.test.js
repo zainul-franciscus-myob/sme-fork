@@ -277,6 +277,51 @@ describe('employeePayModalModule', () => {
         wrapper.find({ testid: 'employee-pay-modal-delete-btn' })
       ).toHaveLength(1);
     });
+
+    it('should render delete button if readonly state is false and isDeletable is true but feature toggle is off', () => {
+      const isDeletable = true;
+      const employeePayDetail = {
+        ...loadEmployeePayDetail,
+        isDeletable,
+      };
+
+      const constructModule = (
+        module = new EmployeePayModalModule({
+          integration: {
+            read: ({ intent, onSuccess }) => {
+              if (intent === SET_MODAL_IS_OPEN) {
+                onSuccess(true);
+              }
+              if (intent === LOAD_EMPLOYEE_PAY_MODAL) {
+                onSuccess(employeePayDetail);
+              }
+            },
+            write: ({ onSuccess }) => onSuccess(),
+          },
+          featureToggles: { isPayrollReversibleEnabled: false },
+        })
+      ) => {
+        const wrapper = mount(module.getView());
+        return {
+          wrapper,
+          module,
+        };
+      };
+
+      const { wrapper, module } = constructModule();
+      module.openModal({
+        transactionId: '01',
+        businessId: '0000-1111-2222-3333',
+        employeeName: 'Batman',
+        region: 'au',
+        readonly: false,
+      });
+      wrapper.update();
+
+      expect(
+        wrapper.find({ testid: 'employee-pay-modal-delete-btn' })
+      ).toHaveLength(1);
+    });
   });
 
   describe('Render stp alert message', () => {

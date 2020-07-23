@@ -179,7 +179,11 @@ const EmployeePayModal = ({
           onRecordReversalButtonClick={onRecordReversalButtonClick}
           onCancelReversalButtonClick={onCancelReversalButtonClick}
           isReadonly={isReadonly}
-          showDelete={isDeletable}
+          showDelete={
+            featureToggles && featureToggles.isPayrollReversibleEnabled
+              ? isDeletable
+              : true
+          }
         />
       </div>
     </Modal>
