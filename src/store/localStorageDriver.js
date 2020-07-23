@@ -19,6 +19,8 @@ const load = (key) => {
   }
 };
 
+export const setAnalyticsTraits = (traits) => save('ajs_user_traits', traits);
+
 export const saveSettings = (businessId, routeName, settings) =>
   save(`${businessId}.${routeName}.settings`, settings);
 

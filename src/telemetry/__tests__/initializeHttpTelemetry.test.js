@@ -1,18 +1,18 @@
 import { getUser } from '../../Auth';
+import { setAnalyticsTraits } from '../../store/localStorageDriver';
 import initializeHttpTelemetry from '../initializeHttpTelemetry';
 
 jest.mock('../../Auth');
+jest.mock('../../store/localStorageDriver');
 
 describe('Telemetry', () => {
   const segmentWriteKey = undefined;
   const currentRouteName = 'home';
-  const routeParams = {
-    region: 'au',
-    businessId: 'a-business-id',
-  };
-  const route = {
+  const telemetryParams = {
     currentRouteName,
-    routeParams,
+    telemetryData: {
+      businessId: 'a-business-id',
+    },
   };
 
   describe('initialisation', () => {
@@ -42,9 +42,12 @@ describe('Telemetry', () => {
         href: 'http://localhost/#/au/a-business-id/home?access_token="ABCD"',
       },
     });
+
     getUser.mockImplementation(() => ({
       userId: 'mockuserId',
     }));
+
+    setAnalyticsTraits.mockImplementation(() => {});
 
     beforeEach(() => {
       telemetry = initializeHttpTelemetry(segmentWriteKey);
@@ -58,7 +61,7 @@ describe('Telemetry', () => {
     });
 
     it('should call page with the expected payload', () => {
-      telemetry(route);
+      telemetry(telemetryParams);
       expect(pageMock.mock.calls.length).toBe(1);
       expect(pageMock.mock.calls[0]).toEqual([
         'home',
@@ -80,39 +83,70 @@ describe('Telemetry', () => {
       ]);
     });
 
-    it('identifies the user', () => {
-      telemetry(route);
+    it('should identify user with the expected traits', () => {
+      const modifiedTelemetryParams = {
+        ...telemetryParams,
+        telemetryData: {
+          ...telemetryParams.telemetryData,
+          a: 'a',
+          b: 'b',
+        },
+      };
+
+      telemetry(modifiedTelemetryParams);
+
+      expect(setAnalyticsTraits).toHaveBeenCalledTimes(1);
       expect(identifyMock).toHaveBeenCalledTimes(1);
       expect(identifyMock).toBeCalledWith('mockuserId', {
         businessId: 'a-business-id',
+        a: 'a',
+        b: 'b',
       });
     });
 
+    it('should identify user even when no business has been selected', () => {
+      const modifiedTelemetryParams = {
+        ...telemetryParams,
+        telemetryData: {},
+      };
+
+      telemetry(modifiedTelemetryParams);
+
+      expect(setAnalyticsTraits).toHaveBeenCalledTimes(1);
+      expect(identifyMock).toHaveBeenCalledTimes(1);
+      expect(identifyMock).toBeCalledWith('mockuserId', {});
+    });
+
     it('should call group', () => {
-      telemetry(route);
+      telemetry(telemetryParams);
       expect(groupMock.mock.calls.length).toBe(1);
       expect(groupMock.mock.calls[0]).toEqual(['a-business-id']);
     });
 
     it('does not group twice', () => {
-      telemetry(route);
-      telemetry(route);
+      telemetry(telemetryParams);
+      telemetry(telemetryParams);
       expect(groupMock.mock.calls.length).toBe(1);
     });
 
     it('does not identify twice', () => {
-      telemetry(route);
-      telemetry(route);
+      telemetry(telemetryParams);
+      telemetry(telemetryParams);
+      expect(setAnalyticsTraits.mock.calls.length).toBe(1);
       expect(identifyMock.mock.calls.length).toBe(1);
     });
 
     it('identifies again when business id changes', () => {
-      telemetry(route);
+      telemetry(telemetryParams);
       telemetry({
-        ...route,
-        routeParams: { ...routeParams, businessId: 'new-business-id' },
+        ...telemetryParams,
+        telemetryData: {
+          ...telemetryParams.telemetryData,
+          businessId: 'new-business-id',
+        },
       });
       expect(identifyMock).toHaveBeenCalledTimes(2);
+      expect(setAnalyticsTraits).toHaveBeenCalledTimes(2);
       expect(identifyMock).toHaveBeenLastCalledWith('mockuserId', {
         businessId: 'new-business-id',
       });

@@ -199,6 +199,9 @@ export default class NavigationModule {
     const telemetryProps = {
       ...this.routeProps,
       currentRouteName: 'createNewBusiness',
+      telemetryData: {
+        businessId: this.routeProps.routeParams.businessId,
+      },
     };
     this.sendTelemetryEvent(telemetryProps);
     this.redirectToPage(this.config.CREATE_BUSINESS_URL);

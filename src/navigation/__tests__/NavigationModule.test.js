@@ -29,6 +29,7 @@ describe('Navigation Module', () => {
     },
     setNavigationView: () => {},
     isToggleOn: () => true,
+    sendTelemetryEvent: jest.fn(),
   });
 
   describe('run', () => {
@@ -128,6 +129,29 @@ describe('Navigation Module', () => {
 
         expect(state.urls[RouteName.PAYMENT_DETAIL]).toEqual(
           'self-service-portal.url/#/billingAndPayments?businessId=🍟'
+        );
+      });
+    });
+
+    describe('when user clicks on Create new business', () => {
+      it('sends telemetry info with expected payload', () => {
+        const data = {
+          routeParams: {
+            businessId: 'businessId',
+          },
+          currentRouteName: 'someUrl',
+        };
+        navigationModule.run(data);
+        navigationModule.createBusiness();
+
+        expect(navigationModule.sendTelemetryEvent).toHaveBeenCalledTimes(1);
+        expect(navigationModule.sendTelemetryEvent).toBeCalledWith(
+          expect.objectContaining({
+            currentRouteName: 'createNewBusiness',
+            telemetryData: {
+              businessId: 'businessId',
+            },
+          })
         );
       });
     });

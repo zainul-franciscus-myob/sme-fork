@@ -8,6 +8,7 @@ import {
   getHasCheckedBrowserAlert,
   getIsPaidSubscription,
   getLeanEngageInfo,
+  getTelemetryData,
 } from './rootSelectors';
 import BusinessDetailsService from './services/businessDetails';
 import Config from '../Config';
@@ -52,6 +53,7 @@ export default class RootModule {
     );
     this.last_business_id = null;
     this.startLeanEngage = startLeanEngage;
+    this.sendTelemetryEvent = sendTelemetryEvent;
     this.featureToggles = getSplitToggle();
 
     this.drawer = new DrawerModule({
@@ -90,6 +92,7 @@ export default class RootModule {
     const onSuccess = (sharedInfo) => {
       this.dispatcher.loadSharedInfo(sharedInfo);
       this.runLeanEngage();
+      this.runTelemetry(this.routeProps);
     };
 
     this.integrator.loadSharedInfo({ onSuccess });
@@ -118,6 +121,17 @@ export default class RootModule {
     const state = this.store.getState();
 
     this.startLeanEngage(getLeanEngageInfo(state));
+  };
+
+  runTelemetry = ({ currentRouteName, previousRouteName }) => {
+    const state = this.store.getState();
+    const telemetryData = getTelemetryData(state);
+
+    this.sendTelemetryEvent({
+      currentRouteName,
+      previousRouteName,
+      telemetryData,
+    });
   };
 
   subscribeOrUpgrade = async () => {
@@ -178,22 +192,30 @@ export default class RootModule {
       routeParams: { businessId, region },
       currentRouteName,
     } = routeProps;
+    this.routeProps = routeProps;
 
     this.dispatcher.setBusinessId(businessId);
     this.dispatcher.setRegion(region);
 
     if (businessId) {
       if (businessId !== this.last_business_id) {
-        await this.featureToggles.init({ businessId });
-        await this.loadSubscription();
-        this.loadSharedInfo();
+        await Promise.all([
+          this.featureToggles.init({ businessId }),
+          this.loadSubscription(),
+          this.settingsService.load(),
+        ]);
         this.tasksService.load();
-        this.settingsService.load();
+        this.loadSharedInfo();
         this.businessDetailsService.load();
       } else {
         this.runLeanEngage();
+        this.runTelemetry(routeProps);
       }
+    } else {
+      // User is on business list
+      this.runTelemetry(routeProps);
     }
+
     this.last_business_id = businessId;
 
     if (!getHasCheckedBrowserAlert(this.store.getState())) {

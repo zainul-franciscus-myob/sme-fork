@@ -41,7 +41,12 @@ class OnboardingModule {
   onboardingVisited = () => {
     const { sendTelemetryEvent, routeProps } = this;
 
-    sendTelemetryEvent(routeProps);
+    sendTelemetryEvent({
+      ...routeProps,
+      telemetryData: {
+        businessId: routeProps.routeParams.businessId,
+      },
+    });
   };
 
   render = () => {

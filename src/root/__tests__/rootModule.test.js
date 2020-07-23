@@ -32,6 +32,7 @@ describe('rootModule', () => {
         integration: jest.fn(),
         router: jest.fn(),
         startLeanEngage: jest.fn(),
+        sendTelemetryEvent: jest.fn(),
       });
       stubFunctionsOn(
         root.settingsService,
@@ -149,6 +150,38 @@ describe('rootModule', () => {
         root.integrator.loadSharedInfo.mock.calls[0][0].onSuccess();
 
         expect(root.startLeanEngage).toBeCalledTimes(1);
+      });
+    });
+
+    describe('runTelemetry', () => {
+      it('when business id is null', async () => {
+        const root = await createAndRunModule(
+          buildRouteProps(),
+          buildModule(),
+          context
+        );
+        expect(root.sendTelemetryEvent).toBeCalledTimes(1);
+      });
+
+      it('when business id is set and is the same as last business id', async () => {
+        const root = await createAndRunModule(
+          buildRouteProps('id'),
+          buildModule(),
+          context,
+          'id'
+        );
+        expect(root.sendTelemetryEvent).toBeCalledTimes(1);
+      });
+
+      it('when business id is set and is different from last business id', async () => {
+        const root = await createAndRunModule(
+          buildRouteProps('id'),
+          buildModule(),
+          context
+        );
+
+        root.integrator.loadSharedInfo.mock.calls[0][0].onSuccess();
+        expect(root.sendTelemetryEvent).toBeCalledTimes(1);
       });
     });
   });

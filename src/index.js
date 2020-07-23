@@ -73,7 +73,6 @@ async function main(integrationType, telemetryType, leanEngageType) {
   const beforeAll = ({ routeProps }) => {
     unbindAllKeys();
     unsubscribeAllModulesFromStore();
-    telemetry(routeProps);
     showAppcues(routeProps);
   };
 

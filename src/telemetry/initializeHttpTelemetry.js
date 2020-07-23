@@ -1,5 +1,6 @@
 import { getUser } from '../Auth';
 import { parsePath, parseUrl } from './parseUrlAndPath';
+import { setAnalyticsTraits } from '../store/localStorageDriver';
 
 const associateUserWithGroup = (currentBusinessId, { businessId }) => {
   if (businessId && currentBusinessId !== businessId) {
@@ -29,13 +30,15 @@ const getGoogleAnalyticsClientId = () => {
   }
 };
 
-const identifyUser = (currentUserId, currentBusinessId, { businessId }) => {
+const identifyUser = (currentUserId, currentBusinessId, telemetryData) => {
   const user = getUser();
   if (user) {
     const userChanged = currentUserId !== user.userId;
-    const businessChanged = currentBusinessId !== businessId;
+    const businessChanged = currentBusinessId !== telemetryData.businessId;
+
     if (userChanged || businessChanged) {
-      window.analytics.identify(user.userId, { businessId });
+      setAnalyticsTraits(telemetryData);
+      window.analytics.identify(user.userId, telemetryData);
       return user.userId;
     }
   }
@@ -90,10 +93,14 @@ const initializeHttpTelemetry = () => {
   let userId;
   let businessId;
 
-  return ({ currentRouteName, previousRouteName, routeParams }) => {
+  return ({
+    currentRouteName,
+    previousRouteName,
+    telemetryData = { businessId: undefined },
+  }) => {
     if (window.analytics) {
-      userId = identifyUser(userId, businessId, routeParams);
-      businessId = associateUserWithGroup(businessId, routeParams);
+      userId = identifyUser(userId, businessId, telemetryData);
+      businessId = associateUserWithGroup(businessId, telemetryData);
       recordPageVisit(currentRouteName, userId, businessId);
     }
     if (window.newrelic) {
