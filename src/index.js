@@ -21,7 +21,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
 
   const rootModule = new RootModule();
 
-  const createIntegration = getCreateIntegration(integrationType);
+  const createIntegration = await getCreateIntegration(integrationType);
   const integration = createIntegration({
     getRegion: rootModule.getRegion,
   });
