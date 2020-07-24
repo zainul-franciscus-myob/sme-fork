@@ -1,6 +1,5 @@
 import {
   getAccountModalContext,
-  getFreightInfo,
   getIsAccountComboboxDisabled,
   getIsBeforeStartOfFinancialYear,
   getIsExportingPDF,
@@ -449,28 +448,49 @@ describe('QuoteDetailSelectors', () => {
   });
 
   describe('getTotals', () => {
-    it('When quote has freight amount', () => {
-      const state = {
+    it('calculate totals with just freight amount when no lines', () => {
+      const actual = getTotals({
         quote: {
-          taxExclusiveFreightAmount: '10',
-          freightTaxAmount: '1',
+          isTaxInclusive: true,
+          taxExclusiveFreightAmount: '9.09',
+          freightTaxAmount: '0.91',
+          lines: [],
         },
-        totals: {
-          subTotal: '$100.00',
-          totalTax: '$11.00',
-          totalAmount: '$111.00',
+      });
+
+      expect(actual).toEqual({
+        subTotal: '0',
+        totalTax: '0.91',
+        totalAmount: '10',
+      });
+    });
+
+    it('calculate totals with both freight amount and lines amount', () => {
+      const actual = getTotals({
+        quote: {
+          isTaxInclusive: true,
+          taxExclusiveFreightAmount: '9.09',
+          freightTaxAmount: '0.91',
+          lines: [
+            {
+              type: QuoteLineType.SERVICE,
+              taxExclusiveAmount: '9.99',
+              taxAmount: '0.01',
+            },
+            {
+              type: QuoteLineType.SUB_TOTAL,
+              taxExclusiveAmount: '99',
+              taxAmount: '1',
+            },
+          ],
         },
-      };
+      });
 
-      const expected = {
-        subTotal: '100',
-        totalTax: '12',
-        totalAmount: '122',
-      };
-
-      const actual = getTotals(state);
-
-      expect(actual).toEqual(expected);
+      expect(actual).toEqual({
+        subTotal: '10',
+        totalTax: '0.92',
+        totalAmount: '20',
+      });
     });
   });
 
@@ -496,61 +516,5 @@ describe('QuoteDetailSelectors', () => {
         expect(actual).toEqual(expected);
       }
     );
-  });
-
-  describe('getFreightInfo', () => {
-    it('When quote(tax-inclusive) has freight line return freight info', () => {
-      const state = {
-        quote: {
-          taxExclusiveFreightAmount: '10',
-          freightTaxAmount: '1',
-          freightTaxCodeId: '2',
-          isTaxInclusive: true,
-        },
-        taxCodeOptions: [
-          {
-            id: '2',
-            displayName: 'GST',
-          },
-        ],
-      };
-
-      const expected = {
-        showFreight: true,
-        freightAmount: '11',
-        freightTaxCode: 'GST',
-      };
-
-      const actual = getFreightInfo(state);
-
-      expect(actual).toEqual(expected);
-    });
-
-    it('When quote(tax-exclusive) has freight line return freight info', () => {
-      const state = {
-        quote: {
-          taxExclusiveFreightAmount: '10',
-          freightTaxAmount: '1',
-          freightTaxCodeId: '2',
-          isTaxInclusive: false,
-        },
-        taxCodeOptions: [
-          {
-            id: '2',
-            displayName: 'GST',
-          },
-        ],
-      };
-
-      const expected = {
-        showFreight: true,
-        freightAmount: '10',
-        freightTaxCode: 'GST',
-      };
-
-      const actual = getFreightInfo(state);
-
-      expect(actual).toEqual(expected);
-    });
   });
 });

@@ -2,6 +2,7 @@ import {
   ADD_EMAIL_ATTACHMENTS,
   ADD_QUOTE_LINE,
   CACHE_ITEM_SELLING_DETAILS,
+  CALCULATE_LINES,
   CALCULATE_LINE_AMOUNTS,
   CHANGE_EXPORT_PDF_TEMPLATE,
   CLOSE_MODAL,
@@ -18,7 +19,6 @@ import {
   REMOVE_QUOTE_LINE,
   RESET_EMAIL_QUOTE_DETAIL,
   RESET_OPEN_SEND_EMAIL,
-  RESET_QUOTE_TOTALS,
   SET_ACCOUNT_LOADING_STATE,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
@@ -27,7 +27,6 @@ import {
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
   SET_MODAL_SUBMITTING_STATE,
-  SET_QUOTE_CALCULATED_LINES,
   SET_QUOTE_LINE_DIRTY,
   SET_QUOTE_SUBMITTING_STATE,
   SET_SUBMITTING_STATE,
@@ -128,8 +127,6 @@ const createQuoteDetailDispatcher = (store) => ({
       index,
     }),
 
-  resetQuoteTotals: () => store.dispatch({ intent: RESET_QUOTE_TOTALS }),
-
   setQuoteSubmittingState: (isCalculating) =>
     store.dispatch({
       intent: SET_QUOTE_SUBMITTING_STATE,
@@ -142,11 +139,10 @@ const createQuoteDetailDispatcher = (store) => ({
       isLineAmountInputDirty,
     }),
 
-  setQuoteCalculatedLines: ({ lines, totals }, isSwitchingTaxInclusive) =>
+  setQuoteCalculatedLines: (taxCalculations, isSwitchingTaxInclusive) =>
     store.dispatch({
-      intent: SET_QUOTE_CALCULATED_LINES,
-      lines,
-      totals,
+      intent: CALCULATE_LINES,
+      taxCalculations,
       isSwitchingTaxInclusive,
     }),
 

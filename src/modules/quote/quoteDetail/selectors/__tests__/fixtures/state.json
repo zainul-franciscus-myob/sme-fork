@@ -19,7 +19,7 @@
       {
         "id": "345",
         "description": "Yak shaving - 1/2 an hour",
-        "allocatedAccountId": "123",
+        "accountId": "123",
         "amount": "48.50",
         "taxCodeId": "124",
         "accounts": [

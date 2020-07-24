@@ -1,14 +1,15 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 import { isBefore } from 'date-fns';
-import Decimal from 'decimal.js';
 
 import {
   TaxCalculatorTypes,
   createTaxCalculator,
 } from '../../../../common/taxCalculator';
+import { calculateFreightAmount } from '../../../invoice/invoiceDetail/selectors/invoiceDetailSelectors';
 import ModalType from '../ModalType';
 import QuoteLayout from '../QuoteLayout';
 import QuoteLineType from '../QuoteLineType';
+import calculateLineTotals from '../../../../common/taxCalculator/calculateLineTotals';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 
 const calculate = createTaxCalculator(TaxCalculatorTypes.quote);
@@ -290,68 +291,81 @@ export const getReadOnlyMessage = createSelector(
   }
 );
 
-const parseDecimal = (formattedCurrency) =>
-  Decimal(formattedCurrency.replace('$', '').replace(',', ''));
+export const getFreightInfo = createStructuredSelector({
+  taxExclusiveFreightAmount: getTaxExclusiveFreightAmount,
+  freightTaxAmount: getFreightTaxAmount,
+  freightTaxCodeId: getFreightTaxCodeId,
+  isTaxInclusive: getIsTaxInclusive,
+});
 
-export const getTotals = createSelector(
-  getLineTotals,
-  getTaxExclusiveFreightAmount,
-  getFreightTaxAmount,
-  (lineTotals, taxExclusiveFreightAmount, freightTaxAmount) => {
-    const subTotal = parseDecimal(lineTotals.subTotal).valueOf();
-    const totalTax = parseDecimal(lineTotals.totalTax)
-      .plus(freightTaxAmount)
-      .valueOf();
-    const totalAmount = parseDecimal(lineTotals.totalAmount)
-      .plus(taxExclusiveFreightAmount)
-      .plus(freightTaxAmount)
-      .valueOf();
-    return {
-      subTotal,
-      totalTax,
-      totalAmount,
-    };
-  }
-);
+export const getIsCalculableLine = (line) =>
+  [QuoteLineType.SERVICE, QuoteLineType.ITEM].includes(line.type);
 
-export const calculateFreightAmount = (
+export const calculateTotals = ({
+  lines,
+  isTaxInclusive,
   taxExclusiveFreightAmount,
   freightTaxAmount,
-  isTaxInclusive
-) =>
-  isTaxInclusive
-    ? Decimal(taxExclusiveFreightAmount)
-        .add(Decimal(freightTaxAmount))
-        .valueOf()
-    : taxExclusiveFreightAmount;
-
-export const getFreightInfo = createSelector(
-  canShowFreight,
-  getTaxExclusiveFreightAmount,
-  getFreightTaxAmount,
-  getIsTaxInclusive,
-  getFreightTaxCodeId,
-  getTaxCodeOptions,
-  (
-    showFreight,
-    taxExclusiveFreightAmount,
-    freightTaxAmount,
+}) => {
+  const calculableLines = lines.filter((line) => getIsCalculableLine(line));
+  const lineTotals = calculateLineTotals({
     isTaxInclusive,
-    freightTaxCodeId,
-    taxCodeOptions
-  ) => {
-    const freightAmount = calculateFreightAmount(
+    lines: calculableLines,
+  });
+
+  return {
+    subTotal: lineTotals.subTotal.valueOf(),
+    totalTax: lineTotals.totalTax.plus(freightTaxAmount).valueOf(),
+    totalAmount: lineTotals.totalAmount
+      .plus(taxExclusiveFreightAmount)
+      .plus(freightTaxAmount)
+      .valueOf(),
+  };
+};
+
+export const getTotals = createSelector(
+  getLines,
+  getIsTaxInclusive,
+  getFreightInfo,
+  (lines, isTaxInclusive, { taxExclusiveFreightAmount, freightTaxAmount }) =>
+    calculateTotals({
+      lines,
+      isTaxInclusive,
       taxExclusiveFreightAmount,
       freightTaxAmount,
-      isTaxInclusive
-    );
-    const freightTaxCode = taxCodeOptions.find(
-      (taxCode) => taxCode.id === freightTaxCodeId
-    )?.displayName;
+    })
+);
+
+export const getQuoteDetailFooter = createSelector(
+  getTotals,
+  getTaxLabel,
+  getNote,
+  getCommentOptions,
+  getIsReadOnly,
+  canShowFreight,
+  getFreightInfo,
+  getTaxCodeOptions,
+  (
+    totals,
+    taxLabel,
+    note,
+    commentOptions,
+    isReadOnly,
+    showFreight,
+    freightInfo,
+    taxCodeOptions
+  ) => {
     return {
+      totals,
+      taxLabel,
+      note,
+      commentOptions,
+      isReadOnly,
       showFreight,
-      freightAmount,
-      freightTaxCode,
+      freightAmount: calculateFreightAmount(freightInfo),
+      freightTaxCode: taxCodeOptions.find(
+        (taxCode) => taxCode.id === freightInfo.freightTaxCodeId
+      )?.displayName,
     };
   }
 );

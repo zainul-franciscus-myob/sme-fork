@@ -48,12 +48,13 @@ const QuoteItemAndServiceTableRow = ({
     type,
     itemId,
     description,
-    allocatedAccountId,
+    accountId,
     unitOfMeasure,
     units,
     unitPrice,
     discount,
     amount,
+    displayAmount,
     jobId,
     taxCodeId,
     lineJobOptions,
@@ -82,7 +83,7 @@ const QuoteItemAndServiceTableRow = ({
         <QuoteTableReadOnlyRowItem />
         <QuoteTableReadOnlyRowItem />
         <QuoteTableReadOnlyRowItem />
-        <QuoteTableReadOnlyRowItem value={amount} />
+        <QuoteTableReadOnlyRowItem value={displayAmount} />
         {isQuoteJobColumnEnabled && <QuoteTableReadOnlyRowItem />}
         <QuoteTableReadOnlyRowItem />
       </LineItemTable.Row>
@@ -118,13 +119,11 @@ const QuoteItemAndServiceTableRow = ({
       />
       <AccountCombobox
         label="Allocate to"
-        onChange={onComboboxChange('allocatedAccountId', onChange)}
+        onChange={onComboboxChange('accountId', onChange)}
         items={accountOptions}
-        selectedId={allocatedAccountId}
+        selectedId={accountId}
         addNewAccount={() =>
-          onAddAccountButtonClick(
-            onComboboxChange('allocatedAccountId', onChange)
-          )
+          onAddAccountButtonClick(onComboboxChange('accountId', onChange))
         }
         disabled={isCalculating || isReadOnly}
       />

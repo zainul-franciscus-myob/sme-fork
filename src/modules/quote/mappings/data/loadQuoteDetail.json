@@ -16,8 +16,8 @@
     "purchaseOrderNumber": "IN00000123",
     "issueDate": "2018-11-02",
     "note": "hello",
-    "taxExclusiveFreightAmount": "9.09",
-    "freightTaxAmount": "0.91",
+    "taxExclusiveFreightAmount": "0",
+    "freightTaxAmount": "0",
     "freightTaxCodeId": "2",
     "lines": [
       {
@@ -25,13 +25,14 @@
         "units": "2",
         "unitOfMeasure": "qty",
         "itemId": "3",
-        "allocatedAccountId": "123",
+        "accountId": "123",
         "description": "Cooler Medium",
         "unitPrice": "100",
         "discount": "0",
         "jobId": "1",
         "taxCodeId": "2",
-        "amount": "850.910100",
+        "taxAmount": "0.9111",
+        "taxExclusiveAmount": "850",
         "lineTypeId": "5"
       },
       {
@@ -39,13 +40,14 @@
         "units": "",
         "unitOfMeasure": "",
         "itemId": "",
-        "allocatedAccountId": "123",
+        "accountId": "123",
         "description": "Buying some stuff",
         "unitPrice": "",
         "discount": "",
         "jobId": "1",
         "taxCodeId": "3",
-        "amount": "850.910100",
+        "taxAmount": "0.9111",
+        "taxExclusiveAmount": "850",
         "lineTypeId": "5"
       }
     ]
@@ -177,14 +179,13 @@
     "type": "item",
     "units": "",
     "itemId": "",
-    "allocatedAccountId": "",
+    "accountId": "",
     "description": "",
     "descriptionDirty": false,
     "unitPrice": "",
     "discount": "",
     "jobId": "",
     "taxCodeId": "",
-    "amount": "",
     "lineTypeId": "5"
   },
   "totals": {

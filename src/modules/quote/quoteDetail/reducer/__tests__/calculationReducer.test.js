@@ -1,53 +1,48 @@
 import Decimal from 'decimal.js';
 
+import { CALCULATE_LINES, CALCULATE_LINE_AMOUNTS } from '../../../QuoteIntents';
 import {
-  CALCULATE_LINE_AMOUNTS,
-  SET_QUOTE_CALCULATED_LINES,
-} from '../../../QuoteIntents';
-import {
+  calculateLines,
   calculatePartialQuoteLineAmounts,
-  setQuoteCalculatedLines,
 } from '../calculationReducer';
+import QuoteLineType from '../../QuoteLineType';
 
 describe('calculationReducer', () => {
-  describe('SET_QUOTE_CALCULATED_LINES', () => {
+  describe('CALCULATE_LINES', () => {
     const baseline = {
       type: 'item',
       units: '2',
       unitPrice: '45.455',
       discount: '',
-      amount: '0',
+      displayDiscount: '',
+      amount: '100',
+      displayAmount: '0.00',
+      taxExclusiveAmount: '90.91',
+      taxAmount: '9.09',
     };
 
     const buildState = (partialLine) => ({
       quote: {
         lines: [
-          {
-            ...baseline,
-            ...partialLine,
-          },
+          { type: QuoteLineType.HEADER, lineTypeId: -1 },
+          { ...baseline, ...partialLine },
+          { type: QuoteLineType.SUB_TOTAL, lineTypeId: -1, amount: '100.00' },
         ],
-      },
-      totals: {
-        subTotal: '$0.00',
-        totalTax: '$0.00',
-        totalAmount: '$0.00',
       },
     });
 
     const action = {
-      intent: SET_QUOTE_CALCULATED_LINES,
-      lines: [
-        {
-          taxExclusiveAmount: Decimal(90.91),
-          taxAmount: Decimal(9.09),
-          amount: Decimal(100),
-        },
-      ],
-      totals: {
-        subTotal: Decimal(100),
-        totalTax: Decimal(9.09),
-        totalAmount: Decimal(100),
+      intent: CALCULATE_LINES,
+      taxCalculations: {
+        lines: [
+          { taxExclusiveAmount: 0, taxAmount: 0, amount: 0 },
+          {
+            taxExclusiveAmount: Decimal(90.91),
+            taxAmount: Decimal(9.09),
+            amount: Decimal(100),
+          },
+          { taxExclusiveAmount: 100, taxAmount: 0, amount: 100 },
+        ],
       },
       isSwitchingTaxInclusive: true,
     };
@@ -55,23 +50,18 @@ describe('calculationReducer', () => {
     const buildExpect = (partialLine) => ({
       quote: {
         lines: [
-          {
-            ...baseline,
-            ...partialLine,
-          },
+          { type: QuoteLineType.HEADER, lineTypeId: -1 },
+          { ...baseline, ...partialLine },
+          { type: QuoteLineType.SUB_TOTAL, lineTypeId: -1, amount: '100.00' },
         ],
       },
-      totals: {
-        subTotal: '$100.00',
-        totalTax: '$9.09',
-        totalAmount: '$100.00',
-      },
+      isPageEdited: true,
     });
 
-    it('should calculate unitPrice and update amount and totals', () => {
+    it('should calculate unitPrice and update amount', () => {
       const state = buildState();
 
-      const actual = setQuoteCalculatedLines(state, action);
+      const actual = calculateLines(state, action);
 
       const expected = buildExpect({
         amount: '100',
@@ -84,7 +74,7 @@ describe('calculationReducer', () => {
     it('should not update unitPrice or amount when not switching tax inclusive toggle', () => {
       const state = buildState();
 
-      const actual = setQuoteCalculatedLines(state, {
+      const actual = calculateLines(state, {
         ...action,
         isSwitchingTaxInclusive: false,
       });
@@ -105,7 +95,7 @@ describe('calculationReducer', () => {
         const partialLine = { [key]: value };
         const state = buildState(partialLine);
 
-        const actual = setQuoteCalculatedLines(state, action);
+        const actual = calculateLines(state, action);
 
         const expected = buildExpect({
           ...partialLine,

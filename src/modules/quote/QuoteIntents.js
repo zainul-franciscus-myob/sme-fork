@@ -35,7 +35,6 @@ export const UPDATE_LAYOUT = Symbol('Update layout');
 export const ADD_QUOTE_LINE = Symbol('Add quote line');
 export const UPDATE_QUOTE_LINE = Symbol('Update quote line');
 export const REMOVE_QUOTE_LINE = Symbol('Remove quote line');
-export const RESET_QUOTE_TOTALS = Symbol('Reset quote totals');
 
 export const CALCULATE_QUOTE_LINE_TOTALS = Symbol(
   'Calculate quote line totals'
@@ -52,9 +51,7 @@ export const CALCULATE_QUOTE_TAX_INCLUSIVE_CHANGE = Symbol(
 export const CALCULATE_LINE_AMOUNTS = Symbol('Calculate line amount changes');
 export const LOAD_ITEM_SELLING_DETAILS = Symbol('Load item selling details');
 export const CACHE_ITEM_SELLING_DETAILS = Symbol('Cache item selling details');
-export const SET_QUOTE_CALCULATED_LINES = Symbol(
-  'Set quote item from calculation'
-);
+export const CALCULATE_LINES = Symbol('Set quote item from calculation');
 export const SET_QUOTE_SUBMITTING_STATE = Symbol('Set is submitting');
 export const SET_QUOTE_LINE_DIRTY = Symbol('Set is line amount input dirty');
 

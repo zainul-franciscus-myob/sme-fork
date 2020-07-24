@@ -400,7 +400,7 @@ describe('quoteDetailReducer', () => {
         intent: ADD_QUOTE_LINE,
         line: {
           id: 'notUsed',
-          allocatedAccountId: 'some-id',
+          accountId: 'some-id',
         },
       };
 
@@ -409,7 +409,7 @@ describe('quoteDetailReducer', () => {
       expect(actual.quote.lines[0].type).toEqual('service');
     });
 
-    it('adds a new line and sets the default taxCodeId if allocatedAccountId has been changed', () => {
+    it('adds a new line and sets the default taxCodeId if accountId has been changed', () => {
       const state = {
         quote: {
           lines: [],
@@ -428,7 +428,7 @@ describe('quoteDetailReducer', () => {
         intent: ADD_QUOTE_LINE,
         line: {
           id: 'notUsed',
-          allocatedAccountId: '1',
+          accountId: '1',
         },
       };
 
@@ -507,7 +507,7 @@ describe('quoteDetailReducer', () => {
       expect(actual.quote.lines[1].hello).toEqual(3);
     });
 
-    it('updates taxCodeId and allocatedAccountId when key is allocatedAccountId', () => {
+    it('updates taxCodeId and accountId when key is accountId', () => {
       const state = {
         quote: {
           lines: [{}],
@@ -523,14 +523,14 @@ describe('quoteDetailReducer', () => {
       const action = {
         intent: UPDATE_QUOTE_LINE,
         index: 0,
-        key: 'allocatedAccountId',
+        key: 'accountId',
         value: '1',
       };
 
       const actual = quoteDetailReducer(state, action);
 
       expect(actual.quote.lines[0].taxCodeId).toEqual('2');
-      expect(actual.quote.lines[0].allocatedAccountId).toEqual('1');
+      expect(actual.quote.lines[0].accountId).toEqual('1');
     });
 
     it('updates type to item when key is itemId', () => {
@@ -651,7 +651,7 @@ describe('quoteDetailReducer', () => {
           isTaxInclusive: true,
           lines: [
             {
-              allocatedAccountId: '2',
+              accountId: '2',
               amount: 10,
               unitPrice: 10,
               description: 'item',
@@ -696,7 +696,7 @@ describe('quoteDetailReducer', () => {
           isTaxInclusive: true,
           lines: [
             {
-              allocatedAccountId: '2',
+              accountId: '2',
               amount: 11,
               unitPrice: 11,
               description: 'item',
@@ -741,7 +741,7 @@ describe('quoteDetailReducer', () => {
           isTaxInclusive: false,
           lines: [
             {
-              allocatedAccountId: '2',
+              accountId: '2',
               amount: 9.09,
               unitPrice: 9.09,
               description: 'item',
@@ -786,7 +786,7 @@ describe('quoteDetailReducer', () => {
           isTaxInclusive: false,
           lines: [
             {
-              allocatedAccountId: '2',
+              accountId: '2',
               amount: 10,
               unitPrice: 10,
               description: 'item',

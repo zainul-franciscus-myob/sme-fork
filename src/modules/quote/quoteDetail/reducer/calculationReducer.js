@@ -1,11 +1,7 @@
+import { getIsCalculableLine } from '../selectors/QuoteDetailSelectors';
 import QuoteLayout from '../QuoteLayout';
-import QuoteLineType from '../QuoteLineType';
 import buildLineWithCalculatedAmounts from '../../../../common/itemAndServiceLayout/buildLineWithCalculatedAmounts';
 import calculateUnitPrice from '../../../../common/itemAndServiceLayout/calculateUnitPrice';
-import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
-
-export const getIsCalculableLine = (line) =>
-  [QuoteLineType.SERVICE, QuoteLineType.ITEM].includes(line.type);
 
 export const calculatePartialQuoteLineAmounts = (state, action) => {
   const { layout } = state.quote;
@@ -35,11 +31,12 @@ const shouldCalculateUnitPriceWithTaxInclusiveSwitch = (
   Number(line.units) !== 0 &&
   Number(line.discount) !== 100;
 
-export const setQuoteCalculatedLines = (
+export const calculateLines = (
   state,
-  { lines: calculatedLines, totals: calculatedTotals, isSwitchingTaxInclusive }
+  { taxCalculations: { lines: calculatedLines }, isSwitchingTaxInclusive }
 ) => ({
   ...state,
+  isPageEdited: true,
   quote: {
     ...state.quote,
     lines: state.quote.lines.map((line, index) => {
@@ -47,7 +44,14 @@ export const setQuoteCalculatedLines = (
         return line;
       }
 
-      const { amount } = calculatedLines[index];
+      const { amount, taxExclusiveAmount, taxAmount } = calculatedLines[index];
+
+      const updatedLine = {
+        ...line,
+        amount: amount.valueOf(),
+        taxExclusiveAmount: taxExclusiveAmount.valueOf(),
+        taxAmount: taxAmount.valueOf(),
+      };
 
       if (
         shouldCalculateUnitPriceWithTaxInclusiveSwitch(
@@ -60,26 +64,12 @@ export const setQuoteCalculatedLines = (
         const calculatedUnitPrice = calculateUnitPrice(units, amount, discount);
 
         return {
-          ...line,
-          amount: amount.valueOf(),
+          ...updatedLine,
           unitPrice: calculatedUnitPrice,
         };
       }
 
-      if (isSwitchingTaxInclusive) {
-        return {
-          ...line,
-          amount: amount.valueOf(),
-        };
-      }
-
-      return line;
+      return updatedLine;
     }),
-  },
-  totals: {
-    ...state.totals,
-    subTotal: formatCurrency(calculatedTotals.subTotal.valueOf()),
-    totalTax: formatCurrency(calculatedTotals.totalTax.valueOf()),
-    totalAmount: formatCurrency(calculatedTotals.totalAmount.valueOf()),
   },
 });

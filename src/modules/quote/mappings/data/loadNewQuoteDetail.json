@@ -150,12 +150,11 @@
     "itemId": "",
     "description": "",
     "descriptionDirty": false,
-    "allocatedAccountId": "",
+    "accountId": "",
     "unitPrice": "",
     "discount": "",
     "jobId": "",
     "taxCodeId": "",
-    "amount": "",
     "lineTypeId": "5"
   },
   "totals": {

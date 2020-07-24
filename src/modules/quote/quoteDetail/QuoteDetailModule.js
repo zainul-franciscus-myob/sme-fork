@@ -23,7 +23,6 @@ import {
   getIsModalActionDisabled,
   getIsPageEdited,
   getIsSubmitting,
-  getIsTableEmpty,
   getIsTaxCalculationRequired,
   getItemSellingDetailsFromCache,
   getJobModalContext,
@@ -297,7 +296,7 @@ export default class QuoteDetailModule {
     this.dispatcher.updateQuoteLine(index, key, value);
 
     const itemKeys = ['units', 'unitPrice', 'discount', 'amount'];
-    const taxKeys = ['allocatedAccountId', 'taxCodeId'];
+    const taxKeys = ['accountId', 'taxCodeId'];
 
     if (itemKeys.includes(key)) {
       this.dispatcher.setQuoteLineDirty(true);
@@ -312,11 +311,6 @@ export default class QuoteDetailModule {
     this.dispatcher.removeQuoteLine(index);
 
     const state = this.store.getState();
-
-    if (getIsTableEmpty(state)) {
-      this.dispatcher.resetQuoteTotals();
-      return;
-    }
 
     const taxCalculations = getTaxCalculations(state, {
       isSwitchingTaxInclusive: false,
@@ -354,11 +348,6 @@ export default class QuoteDetailModule {
     isSwitchingTaxInclusive = false
   ) => {
     const state = this.store.getState();
-
-    if (getIsTableEmpty(state)) {
-      this.dispatcher.resetQuoteTotals();
-      return;
-    }
 
     if (
       intent !== CALCULATE_QUOTE_ITEM_CHANGE &&

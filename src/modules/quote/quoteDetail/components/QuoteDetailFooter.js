@@ -2,14 +2,7 @@ import { Combobox, LineItemTable, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getCommentOptions,
-  getFreightInfo,
-  getIsReadOnly,
-  getNote,
-  getTaxLabel,
-  getTotals,
-} from '../selectors/QuoteDetailSelectors';
+import { getQuoteDetailFooter } from '../selectors/QuoteDetailSelectors';
 import LineItemTableTotalsFormattedCurrency from '../../../../components/LineItemTable/LineItemTableTotalsFormattedCurrency';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 import styles from './QuoteDetailFooter.module.css';
@@ -28,7 +21,9 @@ const QuoteDetailFooter = ({
   commentOptions,
   onUpdateNote,
   isReadOnly,
-  freightInfo: { showFreight, freightAmount, freightTaxCode },
+  showFreight,
+  freightAmount,
+  freightTaxCode,
 }) => (
   <div className={styles.footer}>
     <div className={styles.note}>
@@ -77,13 +72,6 @@ const QuoteDetailFooter = ({
   </div>
 );
 
-const mapStateToProps = (state) => ({
-  totals: getTotals(state),
-  taxLabel: getTaxLabel(state),
-  note: getNote(state),
-  commentOptions: getCommentOptions(state),
-  isReadOnly: getIsReadOnly(state),
-  freightInfo: getFreightInfo(state),
-});
+const mapStateToProps = (state) => getQuoteDetailFooter(state);
 
 export default connect(mapStateToProps)(QuoteDetailFooter);

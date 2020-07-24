@@ -28,19 +28,21 @@
         "units": "",
         "unitOfMeasure": "",
         "itemId": "",
-        "allocatedAccountId": "123",
+        "accountId": "123",
         "description": "Cooler Large",
         "unitPrice": "",
         "discount": "",
         "jobId": "1",
         "taxCodeId": "3",
-        "amount": "850.910100",
+        "taxAmount": "0.9111",
+        "taxExclusiveAmount": "850",
         "lineTypeId": "5"
       },
       {
         "id": "675",
         "type": "subTotal",
-        "amount": "1701.82",
+        "taxAmount": "1.82",
+        "taxExclusiveAmount": "1700",
         "lineTypeId": -1
       }
     ]
@@ -176,14 +178,13 @@
     "type": "item",
     "units": "",
     "itemId": "",
-    "allocatedAccountId": "",
+    "accountId": "",
     "description": "",
     "descriptionDirty": false,
     "unitPrice": "",
     "discount": "",
     "jobId": "",
     "taxCodeId": "",
-    "amount": "",
     "lineTypeId": "5"
   },
   "totals": {

@@ -60,10 +60,11 @@ const QuoteServiceTableRow = ({
   const {
     type,
     description,
-    allocatedAccountId,
+    accountId,
     jobId,
     taxCodeId,
     amount,
+    displayAmount,
     lineJobOptions,
   } = quoteLine;
 
@@ -72,7 +73,7 @@ const QuoteServiceTableRow = ({
       <LineItemTable.Row index={index} id={index} {...feelixInjectedProps}>
         <QuoteTableReadOnlyRowItem value={description} />
         <QuoteTableReadOnlyRowItem />
-        <QuoteTableReadOnlyRowItem value={amount} />
+        <QuoteTableReadOnlyRowItem value={displayAmount} />
         {isQuoteJobColumnEnabled && <QuoteTableReadOnlyRowItem />}
         <QuoteTableReadOnlyRowItem />
       </LineItemTable.Row>
@@ -98,11 +99,11 @@ const QuoteServiceTableRow = ({
       />
       <AccountCombobox
         label="Allocate to"
-        onChange={onComboboxChange('allocatedAccountId', onChange)}
+        onChange={onComboboxChange('accountId', onChange)}
         items={accountOptions}
-        selectedId={allocatedAccountId}
+        selectedId={accountId}
         addNewAccount={() =>
-          onAddAccount(onComboboxChange('allocatedAccountId', onChange))
+          onAddAccount(onComboboxChange('accountId', onChange))
         }
         disabled={isAccountComboboxDisabled || isCalculating || isReadOnly}
       />

@@ -1,7 +1,10 @@
+import Decimal from 'decimal.js';
+
 import {
   ADD_EMAIL_ATTACHMENTS,
   ADD_QUOTE_LINE,
   CACHE_ITEM_SELLING_DETAILS,
+  CALCULATE_LINES,
   CALCULATE_LINE_AMOUNTS,
   CHANGE_EXPORT_PDF_TEMPLATE,
   CLOSE_MODAL,
@@ -18,7 +21,6 @@ import {
   REMOVE_QUOTE_LINE,
   RESET_EMAIL_QUOTE_DETAIL,
   RESET_OPEN_SEND_EMAIL,
-  RESET_QUOTE_TOTALS,
   SET_ACCOUNT_LOADING_STATE,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
@@ -27,7 +29,6 @@ import {
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
   SET_MODAL_SUBMITTING_STATE,
-  SET_QUOTE_CALCULATED_LINES,
   SET_QUOTE_LINE_DIRTY,
   SET_QUOTE_SUBMITTING_STATE,
   SET_SUBMITTING_STATE,
@@ -52,8 +53,8 @@ import {
   uploadEmailAttachmentUploadProgress,
 } from './EmailReducer';
 import {
+  calculateLines,
   calculatePartialQuoteLineAmounts,
-  setQuoteCalculatedLines,
 } from './calculationReducer';
 import {
   getBusinessId,
@@ -65,6 +66,7 @@ import LoadingState from '../../../../components/PageView/LoadingState';
 import QuoteLayout from '../QuoteLayout';
 import QuoteLineType from '../QuoteLineType';
 import createReducer from '../../../../store/createReducer';
+import formatAmount from '../../../../common/valueFormatters/formatAmount';
 import getDefaultState, {
   DEFAULT_DISCOUNT,
   DEFAULT_UNITS,
@@ -121,17 +123,36 @@ const loadQuoteDetail = (state, action) => ({
   quote: {
     ...state.quote,
     ...action.quote,
-    lines: action.quote.lines.map((line) => ({
-      ...line,
-      lineJobOptions: buildJobOptions({ action, jobId: line.jobId }),
-    })),
+    lines: action.quote.lines.map((line) => {
+      const lineJobOptions = buildJobOptions({ action, jobId: line.jobId });
+
+      if (
+        [
+          QuoteLineType.SERVICE,
+          QuoteLineType.ITEM,
+          QuoteLineType.SUB_TOTAL,
+        ].includes(line.type)
+      ) {
+        const amount = action.quote.isTaxInclusive
+          ? new Decimal(line.taxExclusiveAmount).add(line.taxAmount).valueOf()
+          : new Decimal(line.taxExclusiveAmount).valueOf();
+
+        return {
+          ...line,
+          amount,
+          displayAmount: formatAmount(amount),
+          lineJobOptions,
+        };
+      }
+
+      return { ...line, lineJobOptions };
+    }),
   },
   newLine: {
     ...state.newLine,
     ...action.newLine,
     lineJobOptions: buildJobOptions({ action }),
   },
-  totals: action.totals,
   contactOptions: action.contactOptions,
   expirationTermOptions: action.expirationTermOptions,
   commentOptions: action.commentOptions,
@@ -229,10 +250,10 @@ const addQuoteLine = (state, action) => {
   const { id, ...partialLine } = action.line;
   const type = partialLine.itemId ? QuoteLineType.ITEM : QuoteLineType.SERVICE;
 
-  const taxCodeId = partialLine.allocatedAccountId
+  const taxCodeId = partialLine.accountId
     ? getDefaultTaxCodeId({
         accountOptions: state.accountOptions,
-        accountId: partialLine.allocatedAccountId,
+        accountId: partialLine.accountId,
       })
     : '';
 
@@ -270,7 +291,7 @@ const updateQuoteLine = (state, action) => ({
           id: line.type === lineLayout ? line.id : '',
           jobId: action.key === 'jobId' ? action.value : line.jobId,
           taxCodeId:
-            action.key === 'allocatedAccountId'
+            action.key === 'accountId'
               ? getDefaultTaxCodeId({
                   accountId: action.value,
                   accountOptions: state.accountOptions,
@@ -295,11 +316,6 @@ const removeQuoteLine = (state, action) => ({
     ...state.quote,
     lines: state.quote.lines.filter((_, index) => index !== action.index),
   },
-});
-
-const resetQuoteTotals = (state) => ({
-  ...state,
-  totals: getDefaultState().totals,
 });
 
 const setQuoteSubmittingState = (state, action) => ({
@@ -427,7 +443,7 @@ const loadItemSellingDetails = (state, action) => ({
         discount: DEFAULT_DISCOUNT,
         description,
         taxCodeId: sellTaxCodeId,
-        allocatedAccountId: incomeAccountId,
+        accountId: incomeAccountId,
         unitPrice,
         amount: unitPrice,
       };
@@ -465,11 +481,9 @@ const handlers = {
   [UPDATE_QUOTE_LINE]: updateQuoteLine,
   [REMOVE_QUOTE_LINE]: removeQuoteLine,
 
-  [RESET_QUOTE_TOTALS]: resetQuoteTotals,
-
   [SET_QUOTE_SUBMITTING_STATE]: setQuoteSubmittingState,
   [SET_QUOTE_LINE_DIRTY]: setQuoteLineDirty,
-  [SET_QUOTE_CALCULATED_LINES]: setQuoteCalculatedLines,
+  [CALCULATE_LINES]: calculateLines,
 
   [LOAD_CONTACT_ADDRESS]: loadCustomerAddress,
   [LOAD_CONTACT_AFTER_CREATE]: loadCustomerAfterCreate,
