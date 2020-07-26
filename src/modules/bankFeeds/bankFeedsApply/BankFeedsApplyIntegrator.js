@@ -1,5 +1,6 @@
 import {
   GET_AUTHORITY_FORM,
+  GET_BANK_FEEDS_ACCESS,
   GET_REFERENCE_NUMBER,
   LOAD_BANK_FEED_APPLICATION_DATA,
   SUBMIT_BANK_FEED_APPLICATION,
@@ -25,6 +26,19 @@ const BankFeedsApplyIntegrator = (store, integration) => ({
       params: {
         applicationId: getApplicationId(state),
       },
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  getBankFeedsAccess: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = GET_BANK_FEEDS_ACCESS;
+    const urlParams = { businessId: getBusinessId(state) };
+
+    integration.read({
+      intent,
+      urlParams,
       onSuccess,
       onFailure,
     });

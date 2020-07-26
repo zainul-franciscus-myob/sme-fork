@@ -1,5 +1,6 @@
 import {
   GET_AUTHORITY_FORM,
+  GET_BANK_FEEDS_ACCESS,
   GET_REFERENCE_NUMBER,
   LOAD_BANK_FEED_APPLICATION_DATA,
   SUBMIT_BANK_FEED_APPLICATION,
@@ -10,6 +11,11 @@ const HttpBankFeedsCreateMapping = {
     method: 'GET',
     getPath: ({ businessId }) =>
       `/${businessId}/bankFeeds/create/authority_form`,
+  },
+  [GET_BANK_FEEDS_ACCESS]: {
+    method: 'GET',
+    getPath: ({ businessId }) =>
+      `/${businessId}/bankFeeds/create/can_use_new_flow`,
   },
   [GET_REFERENCE_NUMBER]: {
     method: 'POST',

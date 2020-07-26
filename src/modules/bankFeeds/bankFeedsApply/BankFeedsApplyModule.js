@@ -42,6 +42,23 @@ export default class BankFeedsApplyModule {
     integrator.getAuthorityForm({ onSuccess, onFailure });
   };
 
+  getBankFeedsAccess = () => {
+    const { dispatcher, integrator } = this;
+
+    const onSuccess = (response) => {
+      const canUserAccessNewFlow = response;
+      dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      if (!canUserAccessNewFlow) {
+        dispatcher.setDisplayEmptyState(true);
+      }
+    };
+
+    const onFailure = () =>
+      dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+
+    integrator.getBankFeedsAccess({ onSuccess, onFailure });
+  };
+
   loadBankFeedApplicationData = () => {
     const { dispatcher, integrator } = this;
 
@@ -158,6 +175,7 @@ export default class BankFeedsApplyModule {
   run(context) {
     this.dispatcher.setInitialState(context);
     this.render();
+    this.getBankFeedsAccess();
     this.loadBankFeedApplicationData();
   }
 

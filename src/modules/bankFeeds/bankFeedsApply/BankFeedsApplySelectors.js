@@ -47,6 +47,8 @@ export const getReferenceNumber = (state) => state.referenceNumber;
 export const getRegion = (state) => state.region;
 export const getShouldDisplayConnectForm = (state) =>
   state.shouldDisplayConnectForm;
+export const getShouldDisplayEmptyState = (state) =>
+  state.shouldDisplayEmptyState;
 export const getUserEmail = (state) => state.userEmail;
 export const getIsCreditCard = (state) =>
   getAccountType(state) === 'Credit card account';

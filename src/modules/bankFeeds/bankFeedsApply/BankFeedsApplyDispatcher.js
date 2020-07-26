@@ -9,6 +9,7 @@ import {
   SET_COPY_ALERT_STATE,
   SET_COPY_ALERT_TEXT,
   SET_DISPLAY_CONNECT_FORM_STATE,
+  SET_DISPLAY_EMPTY_STATE,
   SET_FINANCIAL_INSTITUTION,
   SET_FORM_ALERT_STATE,
   SET_IS_SUBMITTING,
@@ -25,6 +26,12 @@ const BankFeedsApplyDispatcher = (store) => ({
     store.dispatch({
       intent: GET_REFERENCE_NUMBER,
       ...response,
+    }),
+
+  setDisplayEmptyState: (shouldDisplayEmptyState) =>
+    store.dispatch({
+      intent: SET_DISPLAY_EMPTY_STATE,
+      shouldDisplayEmptyState,
     }),
 
   loadBankFeedApplicationData: (response) =>

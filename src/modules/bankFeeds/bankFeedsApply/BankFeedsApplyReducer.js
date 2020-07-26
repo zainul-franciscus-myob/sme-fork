@@ -8,6 +8,7 @@ import {
   SET_COPY_ALERT_STATE,
   SET_COPY_ALERT_TEXT,
   SET_DISPLAY_CONNECT_FORM_STATE,
+  SET_DISPLAY_EMPTY_STATE,
   SET_FINANCIAL_INSTITUTION,
   SET_FORM_ALERT_STATE,
   SET_IS_SUBMITTING,
@@ -72,6 +73,7 @@ const getDefaultState = () => ({
   region: '',
   serialNumber: '',
   shouldDisplayConnectForm: false,
+  shouldDisplayEmptyState: false,
   userEmail: '',
 });
 
@@ -124,6 +126,11 @@ const setCopyAlertText = (state, { copyAlertText }) => ({
 const setDisplayConnectFormState = (state) => ({
   ...state,
   shouldDisplayConnectForm: !state.shouldDisplayConnectForm,
+});
+
+const setDisplayEmptyState = (state, { shouldDisplayEmptyState }) => ({
+  ...state,
+  shouldDisplayEmptyState,
 });
 
 const setFormAlertState = (state, { formAlertState }) => ({
@@ -209,6 +216,7 @@ const handlers = {
   [SET_COPY_ALERT_STATE]: setCopyAlertState,
   [SET_COPY_ALERT_TEXT]: setCopyAlertText,
   [SET_DISPLAY_CONNECT_FORM_STATE]: setDisplayConnectFormState,
+  [SET_DISPLAY_EMPTY_STATE]: setDisplayEmptyState,
   [SET_FINANCIAL_INSTITUTION]: setFinancialInstitution,
   [SET_FORM_ALERT_STATE]: setFormAlertState,
   [SET_INITIAL_STATE]: setInitialState,

@@ -1,4 +1,5 @@
 export const GET_AUTHORITY_FORM = Symbol('Get authority form');
+export const GET_BANK_FEEDS_ACCESS = Symbol('Get bank feed access');
 export const GET_REFERENCE_NUMBER = Symbol('Get reference number');
 
 export const LOAD_BANK_FEED_APPLICATION_DATA = Symbol(
@@ -17,6 +18,7 @@ export const SET_COPY_ALERT_TEXT = Symbol('Set the copy alert text');
 export const SET_DISPLAY_CONNECT_FORM_STATE = Symbol(
   'Set display connect form state'
 );
+export const SET_DISPLAY_EMPTY_STATE = Symbol('Set display empty state');
 export const SET_FINANCIAL_INSTITUTION = Symbol(
   'Set the currently selected financial institution'
 );
