@@ -1,13 +1,8 @@
-import { UPDATE_EMPLOYMENT_DETAIL } from '../EmployeeDetailIntents';
+import { UPDATE_EMPLOYMENT_DETAIL } from './employementDetailsIntents';
 
 const updateEmploymentDetails = (state, action) => ({
   ...state,
-
-  userInterface: {
-    ...state.userInterface,
-    isPageEdited: true,
-  },
-
+  isPageEdited: true,
   payrollDetails: {
     ...state.payrollDetails,
     employmentDetails: {

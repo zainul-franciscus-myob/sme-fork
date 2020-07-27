@@ -1,13 +1,8 @@
-import { UPDATE_TAX_DETAIL } from '../EmployeeDetailIntents';
+import { UPDATE_TAX_DETAIL } from './TaxAndKiwiSaverIntents';
 
 const updateTaxDetails = (state, action) => ({
   ...state,
-
-  userInterface: {
-    ...state.userInterface,
-    isPageEdited: true,
-  },
-
+  isPageEdited: true,
   payrollDetails: {
     ...state.payrollDetails,
     tax: {

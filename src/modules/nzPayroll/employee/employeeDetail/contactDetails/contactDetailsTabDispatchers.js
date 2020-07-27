@@ -1,4 +1,4 @@
-import { UPDATE_CONTACT_DETAIL } from '../EmployeeDetailIntents';
+import { UPDATE_CONTACT_DETAIL } from '../../EmployeeNzIntents';
 
 const contactDetailsTabDispatchers = (store) => ({
   updateContactDetails: ({ key, value }) => {

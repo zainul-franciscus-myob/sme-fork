@@ -29,7 +29,9 @@ describe('EmployeeDetailNzSelectors', () => {
   describe('getLoadingState', () => {
     it('should return loading state', () => {
       const loadingState = LoadingState.LOADING_SUCCESS;
-      const state = { userInterface: { loadingState } };
+      const state = {
+        loadingState,
+      };
 
       const actual = getLoadingState(state);
       expect(actual).toEqual(loadingState);
@@ -74,29 +76,33 @@ describe('EmployeeDetailNzSelectors', () => {
   describe('getMainTab', () => {
     it('should return the main tab', () => {
       const state = {
-        userInterface: { mainTab: 'a_tab' },
+        tabs: {
+          main: 'a_tab',
+        },
       };
-      expect(getMainTab(state)).toEqual(state.userInterface.mainTab);
+      expect(getMainTab(state)).toEqual(state.tabs.main);
     });
   });
 
   describe('getCurrentSubTab', () => {
     it('should return the current sub tab', () => {
       const state = {
-        userInterface: {
-          mainTab: 'tab_a',
-          subTabs: { tab_a: 'tab_a_1' },
+        tabs: {
+          main: 'tab_a',
+          subTabs: {
+            tab_a: 'tab_a_1',
+          },
         },
       };
-      expect(getCurrentSubTab(state)).toEqual(
-        state.userInterface.subTabs.tab_a
-      );
+      expect(getCurrentSubTab(state)).toEqual(state.tabs.subTabs.tab_a);
     });
     it('should return undefined if current main tab has no sub tab', () => {
       const state = {
-        userInterface: {
-          mainTab: 'tab_b',
-          subTabs: { tab_a: 'tab_a_1' },
+        tabs: {
+          main: 'tab_b',
+          subTabs: {
+            tab_a: 'tab_a_1',
+          },
         },
       };
       expect(getCurrentSubTab(state)).toBeUndefined();
@@ -115,7 +121,7 @@ describe('EmployeeDetailNzSelectors', () => {
 
   it('should return modal from state', () => {
     const modal = { type: 'some-type' };
-    const state = { userInterface: { modal } };
+    const state = { modal };
 
     const actual = getModal(state);
 
@@ -124,7 +130,7 @@ describe('EmployeeDetailNzSelectors', () => {
 
   describe('getIsSubmitting', () => {
     it('should return submitting state', () => {
-      const state = { userInterface: { isSubmitting: true } };
+      const state = { isSubmitting: true };
 
       const actual = getIsSubmitting(state);
 

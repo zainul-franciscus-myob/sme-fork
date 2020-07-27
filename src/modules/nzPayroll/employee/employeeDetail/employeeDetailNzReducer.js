@@ -10,13 +10,15 @@ import salaryAndWageReducer from './salaryAndWages/salaryAndWageReducer';
 import taxAndKiwiSaverReducer from './taxAndKiwiSaver/taxAndKiwiSaverReducer';
 
 const getDefaultState = () => ({
-  userInterface: {
-    loadingState: LoadingState.LOADING,
-    alert: undefined,
-    isPageEdited: false,
-    isSubmitting: false,
-    mainTab: tabIds.contactDetails,
-    subTabs: { [tabIds.payrollDetails]: tabIds.employmentDetails },
+  loadingState: LoadingState.LOADING,
+  alert: undefined,
+  isPageEdited: false,
+  isSubmitting: false,
+  tabs: {
+    main: tabIds.contactDetails,
+    subTabs: {
+      [tabIds.payrollDetails]: tabIds.employmentDetails,
+    },
   },
   contactDetail: {
     firstName: '',
@@ -38,18 +40,12 @@ const resetState = () => getDefaultState();
 
 const setAlert = (state, action) => ({
   ...state,
-  userInterface: {
-    ...state.userInterface,
-    alert: action.alert,
-  },
+  alert: action.alert,
 });
 
 const dismissAlert = (state) => ({
   ...state,
-  userInterface: {
-    ...state.userInterface,
-    alert: undefined,
-  },
+  alert: undefined,
 });
 
 const loadContactDetail = (state, payload) => ({
@@ -59,10 +55,7 @@ const loadContactDetail = (state, payload) => ({
 
 const loadEmployeeDetail = (state, action) => ({
   ...state,
-  userInterface: {
-    ...state.userInterface,
-    loadingState: LoadingState.LOADING_SUCCESS,
-  },
+  loadingState: LoadingState.LOADING_SUCCESS,
 
   ...action.payload,
   contactDetail: loadContactDetail(state, action.payload),
@@ -70,76 +63,53 @@ const loadEmployeeDetail = (state, action) => ({
 
 const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  userInterface: {
-    ...state.userInterface,
-    loadingState,
-  },
+  loadingState,
 });
 
 const updateEmployeeDetail = (state, action) => ({
   ...state,
-
-  userInterface: {
-    ...state.userInterface,
-    loadingState: LoadingState.LOADING_SUCCESS,
-    alert: { type: 'success', message: action.message },
-    isPageEdited: false,
-    isSubmitting: false,
-  },
-
+  loadingState: LoadingState.LOADING_SUCCESS,
   contactDetail: loadContactDetail(state, action),
   payrollDetails: action.payrollDetails,
+  alert: { type: 'success', message: action.message },
+  isPageEdited: false,
+  isSubmitting: false,
 });
 
 const updateEmployeeFailed = (state, action) => ({
   ...state,
-  userInterface: {
-    ...state.userInterface,
-    loadingState: LoadingState.LOADING_SUCCESS,
-    alert: { type: 'danger', message: action.message },
-    isSubmitting: false,
-  },
+  loadingState: LoadingState.LOADING_SUCCESS,
+  isSubmitting: false,
+  alert: { type: 'danger', message: action.message },
 });
 
 const openModal = (state, action) => ({
   ...state,
-  userInterface: {
-    ...state.userInterface,
-    modal: action.modal,
-  },
+  modal: action.modal,
 });
 
 const closeModal = (state) => ({
   ...state,
-  userInterface: {
-    ...state.userInterface,
-    modal: undefined,
-  },
+  modal: undefined,
 });
 
 const setIsSubmitting = (state, action) => ({
   ...state,
-  userInterface: {
-    ...state.userInterface,
-    isSubmitting: action.isSubmitting,
-  },
+  isSubmitting: action.isSubmitting,
 });
 
 const setSavingState = (state) => ({
   ...state,
-  userInterface: {
-    ...state.userInterface,
-    loadingState: LoadingState.LOADING,
-    isSubmitting: true,
-    modal: undefined,
-  },
+  isSubmitting: true,
+  loadingState: LoadingState.LOADING,
+  modal: undefined,
 });
 
 const setMainTab = (state, { mainTab }) => ({
   ...state,
-  userInterface: {
-    ...state.userInterface,
-    mainTab,
+  tabs: {
+    ...state.tabs,
+    main: mainTab,
   },
 });
 
@@ -147,10 +117,10 @@ const setSubTab = (state, { mainTab, subTab }) =>
   mainTab && subTab
     ? {
         ...state,
-        userInterface: {
-          ...state.userInterface,
+        tabs: {
+          ...state.tabs,
           subTabs: {
-            ...state.userInterface.subTabs,
+            ...state.tabs.subTabs,
             [mainTab]: subTab,
           },
         },
@@ -163,10 +133,9 @@ const setInitialState = (
 ) => ({
   ...state,
   ...params,
-  userInterface: {
-    ...state.userInterface,
-    mainTab: mainTab || state.userInterface.mainTab,
-    subTabs: setSubTab(state, { mainTab, subTab }).userInterface.subTabs,
+  tabs: {
+    main: mainTab || state.tabs.main,
+    subTabs: setSubTab(state, { mainTab, subTab }).tabs.subTabs,
   },
 });
 

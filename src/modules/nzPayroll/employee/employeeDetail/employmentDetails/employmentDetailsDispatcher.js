@@ -1,4 +1,4 @@
-import { UPDATE_EMPLOYMENT_DETAIL } from '../EmployeeDetailIntents';
+import { UPDATE_EMPLOYMENT_DETAIL } from './employementDetailsIntents';
 
 const employmentDetailsDispatcher = (store) => ({
   updateEmploymentDetails: ({ key, value }) => {

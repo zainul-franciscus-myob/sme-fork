@@ -1,4 +1,4 @@
-import { UPDATE_WAGE_DETAIL } from '../../EmployeeDetailIntents';
+import { UPDATE_WAGE_DETAIL } from '../salaryAndWagesIntents';
 import salaryAndWageReducers from '../salaryAndWageReducer';
 
 describe('salaryAndWageReducer', () => {

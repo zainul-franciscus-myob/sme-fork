@@ -1,4 +1,4 @@
-import { UPDATE_TAX_DETAIL } from '../../EmployeeDetailIntents';
+import { UPDATE_TAX_DETAIL } from '../TaxAndKiwiSaverIntents';
 import taxAndKiwiSaverReducer from '../taxAndKiwiSaverReducer';
 
 describe('leaveReducer', () => {
@@ -10,7 +10,7 @@ describe('leaveReducer', () => {
     const action = { key: 'irdNumber', value: '555' };
 
     expect(reducer(state, action)).toMatchObject({
-      userInterface: { isPageEdited: true },
+      isPageEdited: true,
       payrollDetails: { tax: { irdNumber: '555' } },
     });
   });

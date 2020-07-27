@@ -1,13 +1,8 @@
-import { UPDATE_WAGE_DETAIL } from '../EmployeeDetailIntents';
+import { UPDATE_WAGE_DETAIL } from './salaryAndWagesIntents';
 
 const updateWageDetails = (state, { key, value }) => ({
   ...state,
-
-  userInterface: {
-    ...state.userInterface,
-    isPageEdited: true,
-  },
-
+  isPageEdited: true,
   payrollDetails: {
     ...state.payrollDetails,
     wage: {
