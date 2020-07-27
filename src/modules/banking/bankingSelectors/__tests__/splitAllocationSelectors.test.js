@@ -1,4 +1,7 @@
 import {
+  getContactLabel,
+  getIsSupplier,
+  getShowIsReportableCheckbox,
   getSplitAllocationPayload,
   getTotalDollarAmount,
   getTotals,
@@ -77,6 +80,7 @@ describe('splitAllocationSelectors', () => {
       });
     });
   });
+
   describe('getSplitAllocationPayload', () => {
     it('should return a valid payload when selected contact is reportable', () => {
       const state = {
@@ -198,6 +202,154 @@ describe('splitAllocationSelectors', () => {
       const index = 0;
       const actual = getSplitAllocationPayload(state, index);
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getIsSupplier', () => {
+    const buildState = ({ isSpendMoney, contactId, contactType }) => ({
+      openEntry: {
+        allocate: {
+          isSpendMoney,
+          contactId,
+        },
+      },
+      contacts: [
+        {
+          id: '1',
+          contactType,
+        },
+      ],
+    });
+
+    it('should return true when the contactType is supplier', () => {
+      const state = buildState({
+        isSpendMoney: true,
+        contactId: '1',
+        contactType: 'Supplier',
+      });
+
+      const actual = getIsSupplier(state);
+
+      expect(actual).toBeTruthy();
+    });
+
+    it('should return false when the contactType is not supplier', () => {
+      const state = buildState({
+        isSpendMoney: true,
+        contactId: '1',
+        contactType: 'Customer',
+      });
+
+      const actual = getIsSupplier(state);
+
+      expect(actual).toBeFalsy();
+    });
+
+    it('should return false when the contact id is not equal to the contacts id', () => {
+      const state = buildState({
+        isSpendMoney: true,
+        contactId: '2',
+        contactType: 'Supplier',
+      });
+
+      const actual = getIsSupplier(state);
+
+      expect(actual).toBeFalsy();
+    });
+  });
+
+  describe('getShowIsReportableCheckbox', () => {
+    const buildState = ({ region, isSpendMoney, contactType }) => ({
+      region,
+      openEntry: {
+        allocate: {
+          isSpendMoney,
+          contactId: '1',
+        },
+      },
+      contacts: [
+        {
+          id: '1',
+          contactType,
+        },
+      ],
+    });
+    it('should return true when it is spend money, it is supplier and region is au', () => {
+      const state = buildState({
+        region: 'au',
+        isSpendMoney: true,
+        contactType: 'Supplier',
+      });
+
+      const actual = getShowIsReportableCheckbox(state);
+
+      expect(actual).toBeTruthy();
+    });
+
+    it('should return false when it is not spend money, it is supplier and region is au', () => {
+      const state = buildState({
+        region: 'au',
+        isSpendMoney: false,
+        contactType: 'Supplier',
+      });
+
+      const actual = getShowIsReportableCheckbox(state);
+
+      expect(actual).toBeFalsy();
+    });
+
+    it('should return false when it is spend money, it is not supplier and region is au', () => {
+      const state = buildState({
+        region: 'au',
+        isSpendMoney: true,
+        contactType: 'Customer',
+      });
+
+      const actual = getShowIsReportableCheckbox(state);
+
+      expect(actual).toBeFalsy();
+    });
+
+    it('should return false when it is spend money, it is supplier and region is nz', () => {
+      const state = buildState({
+        region: 'nz',
+        isSpendMoney: true,
+        contactType: 'Customer',
+      });
+
+      const actual = getShowIsReportableCheckbox(state);
+
+      expect(actual).toBeFalsy();
+    });
+  });
+
+  describe('getContactLabel', () => {
+    it('should return payee if it is a spend money', () => {
+      const state = {
+        openEntry: {
+          allocate: {
+            isSpendMoney: true,
+          },
+        },
+      };
+
+      const actual = getContactLabel(state);
+
+      expect(actual).toEqual('payee');
+    });
+
+    it('should return payer if it is a spend money', () => {
+      const state = {
+        openEntry: {
+          allocate: {
+            isSpendMoney: false,
+          },
+        },
+      };
+
+      const actual = getContactLabel(state);
+
+      expect(actual).toEqual('payer');
     });
   });
 });

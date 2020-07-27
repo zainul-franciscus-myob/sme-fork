@@ -3,7 +3,15 @@ import { connect } from 'react-redux';
 import React from 'react';
 import classNames from 'classnames';
 
-import { getOptions } from '../bankingSelectors/splitAllocationSelectors';
+import {
+  getContactId,
+  getContactLabel,
+  getDescription,
+  getIsReportable,
+  getIsSpendMoney,
+  getShowIsReportableCheckbox,
+} from '../bankingSelectors/splitAllocationSelectors';
+import { getContacts } from '../bankingSelectors';
 import ContactCombobox from '../../../components/combobox/ContactCombobox';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import styles from './BankingView.module.css';
@@ -65,6 +73,14 @@ SplitAllocationOptions.defaultProps = {
   isReportable: undefined,
 };
 
-const mapStateToProps = (state) => getOptions(state);
+const mapStateToProps = (state) => ({
+  contacts: getContacts(state),
+  contactId: getContactId(state),
+  isReportable: getIsReportable(state),
+  isSpendMoney: getIsSpendMoney(state),
+  description: getDescription(state),
+  showIsReportable: getShowIsReportableCheckbox(state),
+  contactLabel: getContactLabel(state),
+});
 
 export default connect(mapStateToProps)(SplitAllocationOptions);

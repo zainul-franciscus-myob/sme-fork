@@ -11,19 +11,21 @@ import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
 const getAllocate = (state) => state.openEntry.allocate;
 
-const getIsSpendMoney = (state) => state.openEntry.allocate.isSpendMoney;
+export const getIsSpendMoney = (state) => state.openEntry.allocate.isSpendMoney;
 
 export const getTotalAmount = (state) => state.openEntry.allocate.totalAmount;
 
 export const getNewLineData = (state) => state.openEntry.allocate.newLine;
 
-const getContactId = (state) => state.openEntry.allocate.contactId;
+export const getContactId = (state) => state.openEntry.allocate.contactId;
 
-const getIsReportable = (state) => state.openEntry.allocate.isReportable;
+export const getIsReportable = (state) => state.openEntry.allocate.isReportable;
 
 const getLines = (state) => state.openEntry.allocate.lines;
 
 const getLinesLength = (state) => state.openEntry.allocate.lines.length;
+
+export const getRegion = (state) => state.region;
 
 export const getIndexOfLastLine = (state) =>
   state.openEntry.allocate.lines.length - 1;
@@ -67,39 +69,27 @@ export const getLineDataByIndexSelector = () =>
     (line) => line || {}
   );
 
-const getContact = createSelector(
+export const getContact = createSelector(
   getContacts,
   getContactId,
   (contacts, contactId) => contacts.find(({ id }) => id === contactId)
 );
 
-const getIsSupplier = createSelector(
+export const getIsSupplier = createSelector(
   getContact,
   (contact) => contact && contact.contactType === 'Supplier'
 );
 
-export const getOptions = createSelector(
-  getContacts,
-  getContactId,
-  getIsReportable,
+export const getShowIsReportableCheckbox = createSelector(
   getIsSpendMoney,
-  getDescription,
   getIsSupplier,
-  (
-    contacts,
-    contactId,
-    isReportable,
-    isSpendMoney,
-    description,
-    isSupplier
-  ) => ({
-    contacts,
-    contactId,
-    isReportable,
-    description,
-    showIsReportable: isSpendMoney && isSupplier,
-    contactLabel: isSpendMoney ? 'payee' : 'payer',
-  })
+  getRegion,
+  (isSpendMoney, isSupplier, region) =>
+    isSpendMoney && isSupplier && region === 'au'
+);
+
+export const getContactLabel = createSelector(getIsSpendMoney, (isSpendMoney) =>
+  isSpendMoney ? 'payee' : 'payer'
 );
 
 export const getTotals = createSelector(
