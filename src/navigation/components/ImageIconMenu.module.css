@@ -41,10 +41,3 @@
   pointer-events: none;
   position: absolute;
 }
-
-@media (max-width: 768px) {
-  .notification {
-    left: 40px;
-    top: var(--flx-spacing-medium);
-  }
-}

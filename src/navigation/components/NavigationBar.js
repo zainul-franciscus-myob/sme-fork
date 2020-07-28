@@ -123,7 +123,7 @@ const getPrimary = ({
     ),
   ].filter(Boolean);
 
-const getSecondary = ({
+const getSettings = ({
   shouldDisplayBusinessMenu,
   shouldDisplayAddMenu,
   shouldDisplayHelpMenu,
@@ -240,7 +240,7 @@ const NavigationBar = ({
     shouldDisplayReportsMenu,
     isJobEnabled,
   });
-  const secondary = getSecondary({
+  const settings = getSettings({
     onMenuSelect,
     onMenuLinkClick,
     onHelpLinkClick,
@@ -291,7 +291,7 @@ const NavigationBar = ({
   return (
     <div className={styles.navigation}>
       {trialToBuyRibbon}
-      <Navigation brand={brand} primary={primary} secondary={secondary} fluid />
+      <Navigation brand={brand} primary={primary} settings={settings} fluid />
       {liveChat}
     </div>
   );

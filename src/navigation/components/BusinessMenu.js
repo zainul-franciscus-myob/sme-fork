@@ -187,11 +187,13 @@ const BusinessMenu = ({
       label={
         <div className={styles.avatar}>
           <BusinessAvatar businessName={businessName} />
-          {businessName}
-          {isReadOnly && <ReadonlyStatus />}
-          <div className={styles.caret}>
-            <Icons.Caret />
-          </div>
+          <span className={styles.mobileHide}>
+            {businessName}
+            {isReadOnly && <ReadonlyStatus />}
+            <div className={styles.caret}>
+              <Icons.Caret />
+            </div>
+          </span>
         </div>
       }
       items={getItems({

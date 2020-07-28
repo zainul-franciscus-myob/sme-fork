@@ -65,3 +65,24 @@
   border-bottom-left-radius: var(--flx-border-radius-button);
   border-bottom-right-radius: var(--flx-border-radius-button);
 }
+
+.businessMenu .mobileHide {
+  display: inline-flex
+}
+
+@media (max-width: 767px) {
+  .businessMenu .mobileHide {
+    display: none;
+  }
+
+  .avatar {
+    margin-left: 1rem;
+    margin-right: -1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .businessMenu :global(.flx-navbar__menu-link) {
+    border-bottom: 0;
+  }
+}
