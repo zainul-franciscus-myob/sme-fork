@@ -71,6 +71,8 @@ export const getIsLineAmountDirty = (state) => state.isLineAmountDirty;
 
 export const getTemplateOptions = (state) => state.template.templateOptions;
 
+export const getIsForeignCurrency = (state) => state.invoice.isForeignCurrency;
+
 export const getHasFreightAmount = (state) =>
   !!Number(state.invoice.taxExclusiveFreightAmount);
 const getFreightInfo = ({
@@ -150,8 +152,12 @@ export const getIsReadOnly = createSelector(
   getIsLayoutSupported,
   getIsLinesSupported,
   getHasFreightAmount,
-  (isLayoutSupported, isLinesSupported, hasFreightAmount) =>
-    !isLayoutSupported || !isLinesSupported || hasFreightAmount
+  getIsForeignCurrency,
+  (isLayoutSupported, isLinesSupported, hasFreightAmount, isForeignCurrency) =>
+    !isLayoutSupported ||
+    !isLinesSupported ||
+    hasFreightAmount ||
+    isForeignCurrency
 );
 
 export const getLayoutDisplayName = (layout) =>
@@ -167,7 +173,8 @@ export const getReadOnlyMessage = createSelector(
   getIsLayoutSupported,
   getLayout,
   getHasFreightAmount,
-  (isLayoutSupported, layout, hasFreightAmount) => {
+  getIsForeignCurrency,
+  (isLayoutSupported, layout, hasFreightAmount, isForeignCurrency) => {
     if (!isLayoutSupported) {
       return `This invoice is read only because the ${getLayoutDisplayName(
         layout
@@ -176,6 +183,10 @@ export const getReadOnlyMessage = createSelector(
 
     if (hasFreightAmount) {
       return "This invoice is read only because freight isn't supported in the browser. Switch to AccountRight desktop to edit this invoice.";
+    }
+
+    if (isForeignCurrency) {
+      return "This invoice is read only because multi-currency isn't supported in the browser. Switch to AccountRight desktop to edit this invoice.";
     }
 
     return 'This invoice is read only because it contains unsupported features. Switch to AccountRight desktop to edit this invoice.';

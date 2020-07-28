@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 import {
   getBusinessId,
   getInvoiceId,
+  getIsForeignCurrency,
   getLayout,
 } from './invoiceDetailSelectors';
 import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
@@ -128,6 +129,10 @@ export const getEmailModalType = (state) =>
     ? InvoiceDetailModalType.EMAIL_INVOICE
     : InvoiceDetailModalType.EMAIL_SETTINGS;
 
-export const getShowEmailButton = createSelector(getLayout, (layout) =>
-  [InvoiceLayout.SERVICE, InvoiceLayout.ITEM_AND_SERVICE].includes(layout)
+export const getShowEmailButton = createSelector(
+  getLayout,
+  getIsForeignCurrency,
+  (layout, isForeignCurrency) =>
+    [InvoiceLayout.SERVICE, InvoiceLayout.ITEM_AND_SERVICE].includes(layout) &&
+    !isForeignCurrency
 );

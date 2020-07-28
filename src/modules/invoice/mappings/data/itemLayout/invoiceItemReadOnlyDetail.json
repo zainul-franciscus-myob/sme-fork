@@ -17,6 +17,7 @@
     "numberOfDaysForDiscount": 10,
     "amountPaid": "10.00",
     "status": "Open",
+    "isForeignCurrency": false,
     "lines": [
       {
         "id": "323",

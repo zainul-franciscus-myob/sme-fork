@@ -40,6 +40,7 @@ describe('invoiceDetailSelectors', () => {
       note: 'Thank you!',
       taxExclusiveFreightAmount: '9.09',
       freightTaxAmount: '0.91',
+      isForeignCurrency: false,
       lines: [
         {
           id: '345',
@@ -563,7 +564,9 @@ describe('invoiceDetailSelectors', () => {
       [InvoiceLayout.MISCELLANEOUS, true],
       ['N/A', true],
     ])('%s layout', (layout, expected) => {
-      const actual = getIsReadOnly({ invoice: { layout, lines: [] } });
+      const actual = getIsReadOnly({
+        invoice: { layout, isForeignCurrency: false, lines: [] },
+      });
 
       expect(actual).toEqual(expected);
     });
@@ -578,6 +581,7 @@ describe('invoiceDetailSelectors', () => {
       const actual = getIsReadOnly({
         invoice: {
           layout: InvoiceLayout.ITEM_AND_SERVICE,
+          isForeignCurrency: false,
           lines: [
             { type: InvoiceLineType.SERVICE },
             { type: InvoiceLineType.ITEM },
@@ -595,6 +599,7 @@ describe('invoiceDetailSelectors', () => {
           layout: InvoiceLayout.ITEM_AND_SERVICE,
           lines: [],
           taxExclusiveFreightAmount: '10',
+          isForeignCurrency: false,
         },
       });
 
@@ -608,11 +613,13 @@ describe('invoiceDetailSelectors', () => {
         false,
         'Blah',
         false,
+        false,
         "This invoice is read only because the Blah layout isn't supported in the browser. Switch to AccountRight desktop to edit this invoice.",
       ],
       [
         true,
         '',
+        false,
         false,
         'This invoice is read only because it contains unsupported features. Switch to AccountRight desktop to edit this invoice.',
       ],
@@ -620,15 +627,30 @@ describe('invoiceDetailSelectors', () => {
         true,
         '',
         true,
+        false,
         "This invoice is read only because freight isn't supported in the browser. Switch to AccountRight desktop to edit this invoice.",
       ],
+      [
+        true,
+        'service',
+        false,
+        true,
+        "This invoice is read only because multi-currency isn't supported in the browser. Switch to AccountRight desktop to edit this invoice.",
+      ],
     ])(
-      'isLayoutSupported %s, layout %s, hasFreightAmount %s',
-      (isLayoutSupported, layout, hasFreightAmount, message) => {
+      'isLayoutSupported %s, layout %s, hasFreightAmount %s, isForeignCurrency %s',
+      (
+        isLayoutSupported,
+        layout,
+        hasFreightAmount,
+        isForeignCurrency,
+        message
+      ) => {
         const actual = getReadOnlyMessage.resultFunc(
           isLayoutSupported,
           layout,
-          hasFreightAmount
+          hasFreightAmount,
+          isForeignCurrency
         );
 
         expect(actual).toEqual(message);

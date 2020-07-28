@@ -50,16 +50,24 @@ describe('exportPdfSelectors', () => {
 
   describe('getShowExportPdfButton', () => {
     it.each([
-      [InvoiceLayout.SERVICE, true],
-      [InvoiceLayout.ITEM_AND_SERVICE, true],
-      [InvoiceLayout.PROFESSIONAL, false],
-      [InvoiceLayout.TIME_BILLING, false],
-      [InvoiceLayout.MISCELLANEOUS, false],
-      ['BOGUS_LAYOUT', false],
-    ])('when invoice has %s layout, return %s', (layout, expected) => {
-      const actual = getShowExportPdfButton.resultFunc(layout);
+      [InvoiceLayout.SERVICE, false, true],
+      [InvoiceLayout.ITEM_AND_SERVICE, false, true],
+      [InvoiceLayout.PROFESSIONAL, false, false],
+      [InvoiceLayout.TIME_BILLING, false, false],
+      [InvoiceLayout.MISCELLANEOUS, false, false],
+      ['BOGUS_LAYOUT', false, false],
+      [InvoiceLayout.SERVICE, true, false],
+      [InvoiceLayout.ITEM_AND_SERVICE, true, false],
+    ])(
+      'when invoice has %s layout, return %s',
+      (layout, foreignCurrency, expected) => {
+        const actual = getShowExportPdfButton.resultFunc(
+          layout,
+          foreignCurrency
+        );
 
-      expect(actual).toEqual(expected);
-    });
+        expect(actual).toEqual(expected);
+      }
+    );
   });
 });

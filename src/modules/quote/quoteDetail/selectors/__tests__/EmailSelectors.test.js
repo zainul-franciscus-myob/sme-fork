@@ -135,16 +135,21 @@ describe('EmailSelectors', () => {
 
   describe('getShowEmailButton', () => {
     it.each([
-      [QuoteLayout.SERVICE, true],
-      [QuoteLayout.ITEM_AND_SERVICE, true],
-      [QuoteLayout.PROFESSIONAL, true],
-      [QuoteLayout.TIME_BILLING, true],
-      [QuoteLayout.MISCELLANEOUS, false],
-      ['BOGUS_LAYOUT', false],
-    ])('when quote has %s layout, return %s', (layout, expected) => {
-      const actual = getShowEmailButton.resultFunc(layout);
+      [QuoteLayout.SERVICE, false, true],
+      [QuoteLayout.ITEM_AND_SERVICE, false, true],
+      [QuoteLayout.PROFESSIONAL, false, true],
+      [QuoteLayout.TIME_BILLING, false, true],
+      [QuoteLayout.MISCELLANEOUS, false, false],
+      ['BOGUS_LAYOUT', false, false],
+      [QuoteLayout.SERVICE, true, false],
+      [QuoteLayout.ITEM_AND_SERVICE, true, false],
+    ])(
+      'when quote has %s layout with multicurrency %s, return %s',
+      (layout, isForeignCurrency, expected) => {
+        const actual = getShowEmailButton.resultFunc(layout, isForeignCurrency);
 
-      expect(actual).toEqual(expected);
-    });
+        expect(actual).toEqual(expected);
+      }
+    );
   });
 });

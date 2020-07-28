@@ -252,7 +252,7 @@ export const getReadOnlyMessage = createSelector(
     }
 
     if (isForeignCurrency) {
-      return "This bill is read only because [multi-currency] isn't supported int the browser. Switch to AccountRight desktop to edit this bill.";
+      return "This bill is read only because multi-currency isn't supported int the browser. Switch to AccountRight desktop to edit this bill.";
     }
 
     return 'This bill is read only because it contains unsupported features. Switch to AccountRight desktop to edit this bill.';

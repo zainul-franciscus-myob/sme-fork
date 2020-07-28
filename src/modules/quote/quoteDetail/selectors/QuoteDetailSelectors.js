@@ -58,6 +58,7 @@ export const getFreightTaxAmount = (state) => state.quote.freightTaxAmount;
 export const getFreightTaxCodeId = (state) => state.quote.freightTaxCodeId;
 export const canShowFreight = (state) =>
   !!Number(state.quote.taxExclusiveFreightAmount);
+export const getIsForeignCurrency = (state) => state.quote.isForeignCurrency;
 
 const getNewLine = (state) => state.newLine;
 
@@ -235,13 +236,16 @@ export const getIsExportingPDF = createSelector(
     modal && modal.type === ModalType.EXPORT_PDF && isModalActionDisabled
 );
 
-export const getShowExportPdfButton = createSelector(getLayout, (layout) =>
-  [
-    QuoteLayout.SERVICE,
-    QuoteLayout.ITEM_AND_SERVICE,
-    QuoteLayout.PROFESSIONAL,
-    QuoteLayout.TIME_BILLING,
-  ].includes(layout)
+export const getShowExportPdfButton = createSelector(
+  getLayout,
+  getIsForeignCurrency,
+  (layout, isForeignCurrency) =>
+    [
+      QuoteLayout.SERVICE,
+      QuoteLayout.ITEM_AND_SERVICE,
+      QuoteLayout.PROFESSIONAL,
+      QuoteLayout.TIME_BILLING,
+    ].includes(layout) && !isForeignCurrency
 );
 
 const getIsLineTypeSupported = (line) =>
@@ -259,8 +263,9 @@ export const getIsReadOnly = createSelector(
   getIsLayoutSupported,
   getIsLinesSupported,
   canShowFreight,
-  (isLayoutSupported, isLinesSupported, hasFreight) =>
-    !isLayoutSupported || !isLinesSupported || hasFreight
+  getIsForeignCurrency,
+  (isLayoutSupported, isLinesSupported, hasFreight, isForeignCurrency) =>
+    !isLayoutSupported || !isLinesSupported || hasFreight || isForeignCurrency
 );
 
 export const getLayoutDisplayName = (layout) =>
@@ -276,7 +281,8 @@ export const getReadOnlyMessage = createSelector(
   getIsLayoutSupported,
   getLayout,
   canShowFreight,
-  (isLayoutSupported, layout, hasFreight) => {
+  getIsForeignCurrency,
+  (isLayoutSupported, layout, hasFreight, isForeignCurrency) => {
     if (!isLayoutSupported) {
       return `This quote is missing information because the ${getLayoutDisplayName(
         layout
@@ -285,6 +291,10 @@ export const getReadOnlyMessage = createSelector(
 
     if (hasFreight) {
       return "This quote is read only because freight isn't supported in the browser. Switch to AccountRight desktop to edit this quote.";
+    }
+
+    if (isForeignCurrency) {
+      return "This quote is read only because multi-currency isn't supported in the browser. Switch to AccountRight desktop to edit this quote.";
     }
 
     return 'This quote is read only because it contains unsupported features. Switch to AccountRight desktop to edit this quote.';

@@ -19,6 +19,7 @@
     "taxExclusiveFreightAmount": "9.09",
     "freightTaxAmount": "0.91",
     "freightTaxCodeId": "2",
+    "isForeignCurrency": false,
     "lines": [
       {
         "id": "323",

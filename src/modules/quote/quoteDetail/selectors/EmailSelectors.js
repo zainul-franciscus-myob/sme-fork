@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import { getLayout } from './QuoteDetailSelectors';
+import { getIsForeignCurrency, getLayout } from './QuoteDetailSelectors';
 import ModalType from '../ModalType';
 import QuoteLayout from '../QuoteLayout';
 
@@ -67,11 +67,14 @@ export const getEmailModalType = (state) =>
     ? ModalType.EMAIL_QUOTE
     : ModalType.EMAIL_SETTINGS;
 
-export const getShowEmailButton = createSelector(getLayout, (layout) =>
-  [
-    QuoteLayout.SERVICE,
-    QuoteLayout.ITEM_AND_SERVICE,
-    QuoteLayout.PROFESSIONAL,
-    QuoteLayout.TIME_BILLING,
-  ].includes(layout)
+export const getShowEmailButton = createSelector(
+  getLayout,
+  getIsForeignCurrency,
+  (layout, isForeignCurrency) =>
+    [
+      QuoteLayout.SERVICE,
+      QuoteLayout.ITEM_AND_SERVICE,
+      QuoteLayout.PROFESSIONAL,
+      QuoteLayout.TIME_BILLING,
+    ].includes(layout) && !isForeignCurrency
 );

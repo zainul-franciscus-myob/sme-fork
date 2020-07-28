@@ -39,6 +39,7 @@ describe('QuoteDetailSelectors', () => {
           issueDate: '2018-11-02',
           purchaseOrderNumber: '123',
           note: 'Thank you!',
+          isForeignCurrency: false,
         },
         commentOptions: [],
         contactOptions: [
@@ -344,7 +345,9 @@ describe('QuoteDetailSelectors', () => {
       [QuoteLayout.MISCELLANEOUS, true],
       ['N/A', true],
     ])('%s layout', (layout, expected) => {
-      const actual = getIsReadOnly({ quote: { layout, lines: [] } });
+      const actual = getIsReadOnly({
+        quote: { layout, isForeignCurrency: false, lines: [] },
+      });
 
       expect(actual).toEqual(expected);
     });
@@ -359,6 +362,7 @@ describe('QuoteDetailSelectors', () => {
       const actual = getIsReadOnly({
         quote: {
           layout: QuoteLayout.ITEM_AND_SERVICE,
+          isForeignCurrency: false,
           lines: [
             { type: QuoteLineType.SERVICE },
             { type: QuoteLineType.ITEM },
@@ -374,8 +378,21 @@ describe('QuoteDetailSelectors', () => {
       const actual = getIsReadOnly({
         quote: {
           layout: QuoteLayout.ITEM_AND_SERVICE,
+          isForeignCurrency: false,
           lines: [],
           taxExclusiveFreightAmount: '10',
+        },
+      });
+
+      expect(actual).toBe(true);
+    });
+
+    it('should be readonly when quote has multicurrency', () => {
+      const actual = getIsReadOnly({
+        quote: {
+          layout: QuoteLayout.ITEM_AND_SERVICE,
+          lines: [],
+          isForeignCurrency: true,
         },
       });
 
@@ -389,11 +406,13 @@ describe('QuoteDetailSelectors', () => {
         false,
         'Blah',
         false,
+        false,
         "This quote is missing information because the Blah quote layout isn't supported in the browser. Switch to AccountRight desktop to use this feature.",
       ],
       [
         true,
         '',
+        false,
         false,
         'This quote is read only because it contains unsupported features. Switch to AccountRight desktop to edit this quote.',
       ],
@@ -401,15 +420,24 @@ describe('QuoteDetailSelectors', () => {
         true,
         '',
         true,
+        false,
         "This quote is read only because freight isn't supported in the browser. Switch to AccountRight desktop to edit this quote.",
+      ],
+      [
+        true,
+        '',
+        false,
+        true,
+        "This quote is read only because multi-currency isn't supported in the browser. Switch to AccountRight desktop to edit this quote.",
       ],
     ])(
       'isLayoutSupported %s, layout %s, hasFreight %s',
-      (isLayoutSupported, layout, hasFreight, message) => {
+      (isLayoutSupported, layout, hasFreight, isForeignCurrency, message) => {
         const actual = getReadOnlyMessage.resultFunc(
           isLayoutSupported,
           layout,
-          hasFreight
+          hasFreight,
+          isForeignCurrency
         );
 
         expect(actual).toEqual(message);
@@ -419,17 +447,25 @@ describe('QuoteDetailSelectors', () => {
 
   describe('getShowExportPdfButton', () => {
     it.each([
-      [QuoteLayout.SERVICE, true],
-      [QuoteLayout.ITEM_AND_SERVICE, true],
-      [QuoteLayout.PROFESSIONAL, true],
-      [QuoteLayout.TIME_BILLING, true],
-      [QuoteLayout.MISCELLANEOUS, false],
-      ['BOGUS_LAYOUT', false],
-    ])('when quote has %s layout, return %s', (layout, expected) => {
-      const actual = getShowExportPdfButton.resultFunc(layout);
+      [QuoteLayout.SERVICE, false, true],
+      [QuoteLayout.ITEM_AND_SERVICE, false, true],
+      [QuoteLayout.PROFESSIONAL, false, true],
+      [QuoteLayout.TIME_BILLING, false, true],
+      [QuoteLayout.MISCELLANEOUS, false, false],
+      ['BOGUS_LAYOUT', false, false],
+      [QuoteLayout.SERVICE, true, false],
+      [QuoteLayout.ITEM_AND_SERVICE, true, false],
+    ])(
+      'when quote has %s layout with multicurrency %s, return %s',
+      (layout, isForeignCurrency, expected) => {
+        const actual = getShowExportPdfButton.resultFunc(
+          layout,
+          isForeignCurrency
+        );
 
-      expect(actual).toEqual(expected);
-    });
+        expect(actual).toEqual(expected);
+      }
+    );
   });
 
   describe('getLayoutDisplayName', () => {

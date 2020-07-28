@@ -20,6 +20,7 @@
     "taxExclusiveFreightAmount": "0",
     "freightTaxAmount": "0",
     "freightTaxCodeId": "2",
+    "isForeignCurrency": false,
     "lines": [
       {
         "id": "345",

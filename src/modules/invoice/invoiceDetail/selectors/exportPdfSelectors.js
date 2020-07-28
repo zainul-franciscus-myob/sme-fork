@@ -4,6 +4,7 @@ import {
   getBusinessId,
   getInvoiceId,
   getInvoiceNumber,
+  getIsForeignCurrency,
   getIsModalActionDisabled,
   getLayout,
   getModalType,
@@ -37,6 +38,10 @@ export const getIsExportingPDF = createSelector(
     modalType === InvoiceDetailModalType.EXPORT_PDF && isModalActionDisabled
 );
 
-export const getShowExportPdfButton = createSelector(getLayout, (layout) =>
-  [InvoiceLayout.SERVICE, InvoiceLayout.ITEM_AND_SERVICE].includes(layout)
+export const getShowExportPdfButton = createSelector(
+  getLayout,
+  getIsForeignCurrency,
+  (layout, isForeignCurrency) =>
+    [InvoiceLayout.SERVICE, InvoiceLayout.ITEM_AND_SERVICE].includes(layout) &&
+    !isForeignCurrency
 );

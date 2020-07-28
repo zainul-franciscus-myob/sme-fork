@@ -10,6 +10,7 @@ import React from 'react';
 
 import {
   getIsCreating,
+  getIsForeignCurrency,
   getIsPreConversion,
   getIsReadOnly,
   getIsSubmitting,
@@ -154,7 +155,7 @@ const InvoiceDetailActions = ({
       <ButtonRow
         primary={[backButton]}
         secondary={[
-          recordPaymentButton,
+          recordPaymentButton && !getIsForeignCurrency,
           showExportPdfButton && exportPdfButton,
           showEmailButton && saveAndEmailButton,
         ]}
@@ -196,6 +197,7 @@ const mapStateToProps = (state) => ({
   isPreConversion: getIsPreConversion(state),
   showEmailButton: getShowEmailButton(state),
   showExportPdfButton: getShowExportPdfButton(state),
+  isForeignCurrency: getIsForeignCurrency(state),
 });
 
 export default connect(mapStateToProps)(InvoiceDetailActions);
