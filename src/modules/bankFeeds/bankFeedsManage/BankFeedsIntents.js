@@ -22,3 +22,5 @@ export const UPDATE_BANK_FEEDS_LOGIN = Symbol(
 );
 export const CLEAR_BANK_FEEDS_LOGIN = Symbol('Clears bank feeds login details');
 export const REFRESH_BANK_FEEDS = Symbol('Refresh bank feeds');
+export const GET_BANK_FEEDS_ACCESS = Symbol('Get bank feed access');
+export const SET_NEW_BANK_FEEDS_ACCESS = Symbol('Set new bank feed access');

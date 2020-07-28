@@ -2,7 +2,10 @@ import { Card, Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getCreateBankFeedsUrl } from '../BankFeedsSelectors';
+import {
+  getCreateBankFeedsUrl,
+  getNewBankFeedsAccess,
+} from '../BankFeedsSelectors';
 import { tableConfig } from './BankAccountsTable';
 import BankAccountsTableHeader from './BankAccountsTableHeader';
 import LinkButton from '../../../../components/Button/LinkButton';
@@ -10,7 +13,10 @@ import NoResultPageState from '../../../../components/NoResultPageState/NoResult
 import TableView from '../../../../components/TableView/TableView';
 import getBankAccountsTableResponsiveConfig from './getBankAccountsTableResponsiveConfig';
 
-const BankFeedsEmptyView = ({ manageBankFeedsLink }) => {
+const BankFeedsEmptyView = ({
+  manageBankFeedsLink,
+  hasAccessToNewBankFeeds,
+}) => {
   const learnMoreBankFeedsLink = 'https://help.myob.com/wiki/x/GaRqAg';
   const emptyViewActions = [
     <LinkButton key={1} icon={<Icons.Info />} href={learnMoreBankFeedsLink}>
@@ -20,7 +26,7 @@ const BankFeedsEmptyView = ({ manageBankFeedsLink }) => {
       key={2}
       icon={<Icons.Add />}
       href={manageBankFeedsLink}
-      isOpenInNewTab
+      isOpenInNewTab={!hasAccessToNewBankFeeds}
     >
       Create bank feed
     </LinkButton>,
@@ -51,6 +57,7 @@ const BankFeedsEmptyView = ({ manageBankFeedsLink }) => {
 
 const mapStateToProps = (state) => ({
   manageBankFeedsLink: getCreateBankFeedsUrl(state),
+  hasAccessToNewBankFeeds: getNewBankFeedsAccess(state),
 });
 
 export default connect(mapStateToProps)(BankFeedsEmptyView);

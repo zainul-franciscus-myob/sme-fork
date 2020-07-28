@@ -8,6 +8,7 @@ import {
   SET_IS_SUBMITTING,
   SET_IS_TABLE_LOADING,
   SET_MODAL_TYPE,
+  SET_NEW_BANK_FEEDS_ACCESS,
   UPDATE_BANK_ACCOUNT_LINKED_ACCOUNT,
   UPDATE_BANK_FEEDS_LOGIN,
   UPDATE_CREDIT_CARD_LINKED_ACCOUNT,
@@ -35,6 +36,7 @@ const getDefaultState = () => ({
     username: '',
     password: '',
   },
+  accessToNewBankFeeds: false,
 });
 
 const resetState = () => getDefaultState();
@@ -157,6 +159,11 @@ const clearBankFeedsLoginDetails = (state) => ({
   },
 });
 
+const setAccessToNewBankFeeds = (state, { accessToNewBankFeeds }) => ({
+  ...state,
+  accessToNewBankFeeds,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -172,6 +179,7 @@ const handlers = {
   [DELETE_BANK_FEED]: deleteBankFeed,
   [UPDATE_BANK_FEEDS_LOGIN]: updateBankFeedsLoginDetails,
   [CLEAR_BANK_FEEDS_LOGIN]: clearBankFeedsLoginDetails,
+  [SET_NEW_BANK_FEEDS_ACCESS]: setAccessToNewBankFeeds,
 };
 
 const bankFeedsReducer = createReducer(getDefaultState(), handlers);

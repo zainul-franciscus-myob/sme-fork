@@ -1,5 +1,6 @@
 import {
   DELETE_BANK_FEED,
+  GET_BANK_FEEDS_ACCESS,
   LOAD_BANK_FEEDS,
   REFRESH_BANK_FEEDS,
   SAVE_BANK_FEEDS,
@@ -11,12 +12,14 @@ const loadBankFeeds = ({ onSuccess }) => onSuccess(loadBankFeedsResponse);
 const saveBankFeeds = ({ onSuccess }) => onSuccess(successResponse);
 const deleteBankFeed = ({ onSuccess }) => onSuccess(successResponse);
 const refreshBankFeeds = ({ onSuccess }) => onSuccess(successResponse);
+const getBankFeedsAccess = ({ onSuccess }) => onSuccess(true);
 
 const MemoryBankFeedsMapping = {
   [LOAD_BANK_FEEDS]: loadBankFeeds,
   [SAVE_BANK_FEEDS]: saveBankFeeds,
   [DELETE_BANK_FEED]: deleteBankFeed,
   [REFRESH_BANK_FEEDS]: refreshBankFeeds,
+  [GET_BANK_FEEDS_ACCESS]: getBankFeedsAccess,
 };
 
 export default MemoryBankFeedsMapping;

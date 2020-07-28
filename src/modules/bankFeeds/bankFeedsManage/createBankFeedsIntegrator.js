@@ -1,5 +1,6 @@
 import {
   DELETE_BANK_FEED,
+  GET_BANK_FEEDS_ACCESS,
   LOAD_BANK_FEEDS,
   REFRESH_BANK_FEEDS,
   SAVE_BANK_FEEDS,
@@ -7,6 +8,7 @@ import {
 import {
   getBankFeedsLoginDetails,
   getBankFeedsUrlParams,
+  getBusinessId,
   getDeleteBankFeedUrlParams,
   getSaveBankFeedsPayload,
 } from './BankFeedsSelectors';
@@ -56,6 +58,18 @@ const createBankFeedsIntegrator = (store, integration) => ({
       intent: REFRESH_BANK_FEEDS,
       urlParams,
       content,
+      onSuccess,
+      onFailure,
+    });
+  },
+  getBankFeedsAccess: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = GET_BANK_FEEDS_ACCESS;
+    const urlParams = { businessId: getBusinessId(state) };
+
+    integration.read({
+      intent,
+      urlParams,
       onSuccess,
       onFailure,
     });

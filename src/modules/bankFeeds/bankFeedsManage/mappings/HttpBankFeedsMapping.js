@@ -1,5 +1,6 @@
 import {
   DELETE_BANK_FEED,
+  GET_BANK_FEEDS_ACCESS,
   LOAD_BANK_FEEDS,
   REFRESH_BANK_FEEDS,
   SAVE_BANK_FEEDS,
@@ -22,6 +23,10 @@ const HttpBankFeedsMapping = {
   [REFRESH_BANK_FEEDS]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/bankFeeds/refresh_bank_feeds`,
+  },
+  [GET_BANK_FEEDS_ACCESS]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/bankFeeds/can_use_new_flow`,
   },
 };
 

@@ -8,6 +8,7 @@ import {
   SET_IS_SUBMITTING,
   SET_IS_TABLE_LOADING,
   SET_MODAL_TYPE,
+  SET_NEW_BANK_FEEDS_ACCESS,
   UPDATE_BANK_ACCOUNT_LINKED_ACCOUNT,
   UPDATE_BANK_FEEDS_LOGIN,
   UPDATE_CREDIT_CARD_LINKED_ACCOUNT,
@@ -117,6 +118,12 @@ const createBankFeedsDispatcher = (store) => ({
     store.dispatch({
       intent: SET_IS_TABLE_LOADING,
       isTableLoading,
+    }),
+
+  setNewBankFeedsAccess: (accessToNewBankFeeds) =>
+    store.dispatch({
+      intent: SET_NEW_BANK_FEEDS_ACCESS,
+      accessToNewBankFeeds,
     }),
 });
 

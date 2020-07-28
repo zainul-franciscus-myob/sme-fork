@@ -106,6 +106,21 @@ class BankFeedsModule {
     this.dispatcher.clearBankFeedsLogin();
   };
 
+  getBankFeedsAccess = () => {
+    const { dispatcher, integrator } = this;
+
+    const onSuccess = (response) => {
+      const canUserAccessNewFlow = response;
+      dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      dispatcher.setNewBankFeedsAccess(canUserAccessNewFlow);
+    };
+
+    const onFailure = () =>
+      dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+
+    integrator.getBankFeedsAccess({ onSuccess, onFailure });
+  };
+
   reloadBankFeeds = () => {
     const onSuccess = (response) => {
       this.dispatcher.setIsTableLoading(false);
@@ -166,6 +181,7 @@ class BankFeedsModule {
     this.render();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.loadBankFeeds();
+    this.getBankFeedsAccess();
   }
 
   render = () => {

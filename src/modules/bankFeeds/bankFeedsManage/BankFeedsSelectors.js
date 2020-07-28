@@ -67,17 +67,22 @@ export const getIsCreditCardsEmpty = (state) =>
 
 const getBankFeedsAction = (state) =>
   getIsBankFeedsEmpty(state) ? 'app' : 'admin';
+export const getNewBankFeedsAccess = (state) => state.accessToNewBankFeeds;
 export const getCreateBankFeedsUrl = createSelector(
+  getRegion,
   getBusinessId,
   getSerialNumber,
   getBankFeedsAction,
-  (businessId, serialNumber, bankFeedsAction) => {
+  getNewBankFeedsAccess,
+  (region, businessId, serialNumber, bankFeedsAction, accessToNewBankFeeds) => {
     const baseUrl = Config.MANAGE_BANK_FEEDS_BASE_URL;
     const queryParams = getQueryFromParams({
       SerialNumber: serialNumber,
       CdfId: businessId,
       Action: bankFeedsAction,
     });
-    return `${baseUrl}${queryParams}`;
+    return accessToNewBankFeeds
+      ? `#/${region}/${businessId}/bankfeeds/create`
+      : `${baseUrl}${queryParams}`;
   }
 );
