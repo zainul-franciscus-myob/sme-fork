@@ -5,6 +5,7 @@ import { LOAD_EMPLOYEE_PAY_DETAIL } from '../EmployeePayDetailIntents';
 import { findButtonWithTestId } from '../../../../common/tests/selectors';
 import EmployeePayDetailModule from '../EmployeePayDetailModule';
 import StpDeclarationModal from '../../../stp/stpDeclarationModal/components/StpDeclarationModal';
+import StpRegistrationAlertModal from '../../../stp/stpRegistrationAlertModal/components/StpRegistrationAlertModal';
 import loadEmployeePayDetail from '../../mappings/data/loadEmployeePayDetail';
 import loadEmployeePayReversalPreviewDetail from '../../mappings/data/loadEmployeePayReversalPreviewDetail';
 
@@ -56,6 +57,16 @@ describe('EmployeePayDetailsModule', () => {
   });
 
   describe('Stp Declaration Modal', () => {
+    const isDeletable = false;
+    const isUserStpRegistered = true;
+    const isReversible = true;
+    const employeePayDetail = {
+      ...loadEmployeePayDetail,
+      isDeletable,
+      isUserStpRegistered,
+      isReversible,
+    };
+
     const constructModule = () => {
       let wrapper;
       const setRootView = (component) => {
@@ -63,8 +74,12 @@ describe('EmployeePayDetailsModule', () => {
       };
       const module = new EmployeePayDetailModule({
         integration: {
-          read: ({ onSuccess }) => {
-            onSuccess(loadEmployeePayReversalPreviewDetail);
+          read: ({ intent, onSuccess }) => {
+            if (intent === LOAD_EMPLOYEE_PAY_DETAIL) {
+              onSuccess(employeePayDetail);
+            } else {
+              onSuccess(loadEmployeePayReversalPreviewDetail);
+            }
           },
           write: ({ onSuccess }) => onSuccess(),
         },
@@ -106,6 +121,61 @@ describe('EmployeePayDetailsModule', () => {
 
       const declarationModal = wrapper.find(StpDeclarationModal);
       expect(declarationModal.find(Modal)).toHaveLength(0);
+    });
+  });
+
+  describe('Stp Registration Alert Modal', () => {
+    const isDeletable = false;
+    const isUserStpRegistered = false;
+    const isReversible = true;
+    const employeePayDetail = {
+      ...loadEmployeePayDetail,
+      isDeletable,
+      isUserStpRegistered,
+      isReversible,
+    };
+
+    const constructModule = () => {
+      let wrapper;
+      const setRootView = (component) => {
+        wrapper = mount(component);
+      };
+      const module = new EmployeePayDetailModule({
+        integration: {
+          read: ({ intent, onSuccess }) => {
+            if (intent === LOAD_EMPLOYEE_PAY_DETAIL) {
+              onSuccess(employeePayDetail);
+            } else {
+              onSuccess(loadEmployeePayReversalPreviewDetail);
+            }
+          },
+          write: ({ onSuccess }) => onSuccess(),
+        },
+        setRootView,
+      });
+      module.run({ businessId: '1', region: 'au' });
+
+      return {
+        wrapper,
+        module,
+      };
+    };
+
+    it('should open stp registration alert modal when user is not registered to STP', () => {
+      const { wrapper, module } = constructModule();
+      module.loadEmployeePayReversalPreviewDetail();
+      wrapper.update();
+
+      findButtonWithTestId(wrapper, 'view-record-reverse-btn').simulate(
+        'click'
+      );
+      wrapper.update();
+
+      const registrationModal = wrapper.find(StpRegistrationAlertModal);
+      expect(registrationModal.find(Modal)).toHaveLength(1);
+      expect(module.stpRegistrationAlertModal.onContinue).toBe(
+        module.sendReversalEmployeePay
+      );
     });
   });
 

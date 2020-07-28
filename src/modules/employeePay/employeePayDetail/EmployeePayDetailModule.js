@@ -4,13 +4,16 @@ import React from 'react';
 import { SUCCESSFULLY_DELETED_EMPLOYEE_PAY_TRANSACTION } from '../../../common/types/MessageTypes';
 import {
   getPayRunListUrl,
+  getStpDeclarationContext,
+  getStpRegistrationAlertContext,
   getTransactionListUrl,
+  isUserStpRegistered,
 } from './EmployeePayDetailSelectors';
-import { getStpDeclarationContext } from '../employeePayModal/EmployeePayModalSelectors';
 import EmployeePayDetailView from './components/EmployeePayDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import StpDeclarationModalModule from '../../stp/stpDeclarationModal/StpDeclarationModalModule';
+import StpRegistrationAlertModalModule from '../../stp/stpRegistrationAlertModal/StpRegistrationAlertModalModule';
 import createEmployeePayDetailDispatchers from './createEmployeePayDetailDispatchers';
 import createEmployeePayDetailIntegrator from './createEmployeePayDetailIntegrator';
 import employeePayDetailReducer from './employeePayDetailReducer';
@@ -29,6 +32,10 @@ export default class EmployeePayDetailModule {
     this.stpDeclarationModule = new StpDeclarationModalModule({
       integration,
       onDeclared: this.sendReversalEmployeePay,
+    });
+
+    this.stpRegistrationAlertModal = new StpRegistrationAlertModalModule({
+      onContinue: this.sendReversalEmployeePay,
     });
   }
 
@@ -124,17 +131,23 @@ export default class EmployeePayDetailModule {
     this.loadEmployeePayDetail();
   }
 
-  openDeclarationModal = () => {
-    this.stpDeclarationModule.run(
-      getStpDeclarationContext(this.store.getState())
-    );
+  onRecordReversal = () => {
+    if (!isUserStpRegistered(this.store.getState())) {
+      this.stpRegistrationAlertModal.run(
+        getStpRegistrationAlertContext(this.store.getState())
+      );
+    } else {
+      this.stpDeclarationModule.run(
+        getStpDeclarationContext(this.store.getState())
+      );
+    }
   };
 
   render = () => {
-    const declarationModal = this.stpDeclarationModule.getView();
     const wrappedView = (
       <Provider store={this.store}>
-        {declarationModal}
+        {this.stpDeclarationModule.getView()}
+        {this.stpRegistrationAlertModal.getView()}
         <EmployeePayDetailView
           onGoBackClick={this.goBack}
           onDeleteButtonClick={this.dispatcher.openDeleteModal}
@@ -142,7 +155,7 @@ export default class EmployeePayDetailModule {
           onDeleteCancelButtonClick={this.dispatcher.closeDeleteModal}
           onDismissAlert={this.dispatcher.dismissAlert}
           onReverseButtonClick={this.loadEmployeePayReversalPreviewDetail}
-          onRecordReversalButtonClick={this.openDeclarationModal}
+          onRecordReversalButtonClick={this.onRecordReversal}
           featureToggles={this.featureToggles}
         />
       </Provider>

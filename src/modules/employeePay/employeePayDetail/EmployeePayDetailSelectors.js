@@ -10,6 +10,7 @@ export const getAlert = (state) => state.alert;
 export const getIsDeleteModalOpen = (state) => state.isDeleteModalOpen;
 export const getBusinessId = (state) => state.businessId;
 export const getRegion = (state) => state.region;
+export const isUserStpRegistered = (state) => state.isUserStpRegistered;
 
 export const getPageTitle = (state) => {
   const {
@@ -51,3 +52,5 @@ export const getStpDeclarationContext = createSelector(
     eventId: payRunId,
   })
 );
+
+export const getStpRegistrationAlertContext = (state) => createSelector(state);

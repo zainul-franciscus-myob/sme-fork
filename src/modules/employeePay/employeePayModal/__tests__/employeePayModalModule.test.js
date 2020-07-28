@@ -8,6 +8,7 @@ import {
 import { findButtonWithTestId } from '../../../../common/tests/selectors';
 import EmployeePayModalModule from '../EmployeePayModalModule';
 import StpDeclarationModal from '../../../stp/stpDeclarationModal/components/StpDeclarationModal';
+import StpRegistrationAlertModal from '../../../stp/stpRegistrationAlertModal/components/StpRegistrationAlertModal';
 import loadEmployeePayDetail from '../../mappings/data/loadEmployeePayDetail';
 import loadEmployeePayReversalPreviewDetail from '../../mappings/data/loadEmployeePayReversalPreviewDetail';
 
@@ -136,12 +137,21 @@ describe('employeePayModalModule', () => {
   });
 
   describe('Stp Declaration Modal', () => {
+    const employeePayDetail = {
+      ...loadEmployeePayDetail,
+      isUserStpRegistered: true,
+      isDeletable: false,
+      isReversible: true,
+    };
     const constructModuleWithModal = (
       module = new EmployeePayModalModule({
         integration: {
           read: ({ intent, onSuccess }) => {
             if (intent === SET_MODAL_IS_OPEN) {
               onSuccess(true);
+            }
+            if (intent === LOAD_EMPLOYEE_PAY_MODAL) {
+              onSuccess(employeePayDetail);
             } else {
               onSuccess(loadEmployeePayReversalPreviewDetail);
             }
@@ -161,7 +171,7 @@ describe('employeePayModalModule', () => {
       };
     };
 
-    it('should open stp declaration modal', () => {
+    it('should open stp declaration modal when user is registered for STP', () => {
       const { wrapper, module } = constructModuleWithModal();
       module.openModal({
         transactionId: '01',
@@ -182,6 +192,67 @@ describe('employeePayModalModule', () => {
       const declarationModal = wrapper.find(StpDeclarationModal);
       expect(declarationModal.find(Modal)).toHaveLength(1);
       expect(module.stpDeclarationModule.onDeclared).toBe(
+        module.sendReversalEmployeePay
+      );
+    });
+  });
+
+  describe('Stp Registration Alert Modal', () => {
+    const employeePayDetail = {
+      ...loadEmployeePayDetail,
+      isUserStpRegistered: false,
+      isDeletable: false,
+      isReversible: true,
+    };
+    const constructModuleWithModal = (
+      module = new EmployeePayModalModule({
+        integration: {
+          read: ({ intent, onSuccess }) => {
+            if (intent === SET_MODAL_IS_OPEN) {
+              onSuccess(true);
+            }
+            if (intent === LOAD_EMPLOYEE_PAY_MODAL) {
+              onSuccess(employeePayDetail);
+            } else {
+              onSuccess(loadEmployeePayReversalPreviewDetail);
+            }
+          },
+        },
+        onDelete: {},
+        featureToggles: { isPayrollReversibleEnabled: true },
+      })
+    ) => {
+      const wrapper = mount(module.getView());
+      module.openModal({});
+      wrapper.update();
+
+      return {
+        wrapper,
+        module,
+      };
+    };
+
+    it('should open registration warning modal when user is not registered to STP', () => {
+      const { wrapper, module } = constructModuleWithModal();
+      module.openModal({
+        transactionId: '01',
+        businessId: '0000-1111-2222-3333',
+        employeeName: 'Batman',
+        region: 'au',
+        readonly: false,
+      });
+      wrapper.update();
+
+      findButtonWithTestId(wrapper, 'modal-preview-reverse-btn').simulate(
+        'click'
+      );
+      findButtonWithTestId(wrapper, 'modal-record-reverse-btn').simulate(
+        'click'
+      );
+
+      const registerModal = wrapper.find(StpRegistrationAlertModal);
+      expect(registerModal.find(Modal)).toHaveLength(1);
+      expect(module.stpRegistrationAlertModule.onContinue).toBe(
         module.sendReversalEmployeePay
       );
     });

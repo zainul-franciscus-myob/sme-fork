@@ -41,6 +41,7 @@ const getDefaultState = () => ({
   isOpen: false,
   deletePopoverIsOpen: false,
   readonly: true,
+  isUserStpRegistered: false,
 });
 
 const resetState = () => ({
@@ -49,6 +50,7 @@ const resetState = () => ({
 
 const loadEmployeePayDetails = (state, { response }) => ({
   ...state,
+  isUserStpRegistered: response.isUserStpRegistered,
   employeePay: {
     ...state.employeePay,
     ...response,

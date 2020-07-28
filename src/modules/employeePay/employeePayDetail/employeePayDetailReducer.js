@@ -40,6 +40,7 @@ const getDefaultState = () => ({
   },
   alert: '',
   isDeleteModalOpen: false,
+  isUserStpRegistered: false,
 });
 
 const setInitialState = (state, { context }) => ({
@@ -61,6 +62,7 @@ const setAlertMessage = (store, { message }) => ({
 
 const setEmployeePayDetails = (state, { response }) => ({
   ...state,
+  isUserStpRegistered: response.isUserStpRegistered,
   employeePay: {
     ...state.employeePay,
     ...response,

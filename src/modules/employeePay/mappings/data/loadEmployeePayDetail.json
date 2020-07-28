@@ -4,6 +4,7 @@
   "referenceNumber": "EP000687",
   "isDeletable": true,
   "isReversible": false,
+  "isUserStpRegistered": true,
   "isPending" : false,
   "isRejected" : false,
   "isEditable": true,

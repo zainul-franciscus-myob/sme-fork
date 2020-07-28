@@ -13,6 +13,7 @@ export const getReadonly = (state) => state.readonly;
 export const getAlert = (state) => state.alert;
 export const getBusinessId = (state) => state.businessId;
 export const getRegion = (state) => state.region;
+export const isUserStpRegistered = (state) => state.isUserStpRegistered;
 
 export const getElectronicPaymentLink = (state) =>
   `/#/${state.region}/${state.businessId}/electronicPayments/${state.employeePay.parentBusinessEventId}`;
@@ -38,3 +39,4 @@ export const getStpDeclarationContext = createSelector(
     eventId: payRunId,
   })
 );
+export const getStpRegistrationAlertContext = (state) => createSelector(state);

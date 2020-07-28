@@ -4,11 +4,14 @@ import React from 'react';
 import {
   getPayRunListUrl,
   getStpDeclarationContext,
+  getStpRegistrationAlertContext,
+  isUserStpRegistered,
 } from './EmployeePayModalSelectors';
 import EmployeePayDetailModal from './components/EmployeePayModal';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import StpDeclarationModalModule from '../../stp/stpDeclarationModal/StpDeclarationModalModule';
+import StpRegistrationAlertModalModule from '../../stp/stpRegistrationAlertModal/StpRegistrationAlertModalModule';
 import createEmployeePayModalDispatchers from './createEmployeePayModalDispatchers';
 import createEmployeePayModalIntegrator from './createEmployeePayModalIntegrator';
 import employeePayModalReducer from './employeePayModalReducer';
@@ -23,6 +26,10 @@ export default class EmployeePayModalModule {
     this.stpDeclarationModule = new StpDeclarationModalModule({
       integration,
       onDeclared: this.sendReversalEmployeePay,
+    });
+
+    this.stpRegistrationAlertModule = new StpRegistrationAlertModalModule({
+      onContinue: this.sendReversalEmployeePay,
     });
   }
 
@@ -115,24 +122,30 @@ export default class EmployeePayModalModule {
     this.dispatcher.resetState();
   };
 
-  openDeclarationModal = () => {
-    this.stpDeclarationModule.run(
-      getStpDeclarationContext(this.store.getState())
-    );
+  onRecordReversal = () => {
+    if (!isUserStpRegistered(this.store.getState())) {
+      this.stpRegistrationAlertModule.run(
+        getStpRegistrationAlertContext(this.store.getState())
+      );
+    } else {
+      this.stpDeclarationModule.run(
+        getStpDeclarationContext(this.store.getState())
+      );
+    }
   };
 
   getView() {
-    const declarationModal = this.stpDeclarationModule.getView();
     return (
       <Provider store={this.store}>
-        {declarationModal}
+        {this.stpDeclarationModule.getView()}
+        {this.stpRegistrationAlertModule.getView()}
         <EmployeePayDetailModal
           onBackButtonClick={this.closeModal}
           onDeleteButtonClick={this.dispatcher.openDeletePopover}
           onDeletePopoverCancel={this.dispatcher.closeDeletePopover}
           onDeletePopoverDelete={this.deleteEmployeePayDetail}
           onReverseButtonClick={this.loadEmployeePayReversalPreviewDetail}
-          onRecordReversalButtonClick={this.openDeclarationModal}
+          onRecordReversalButtonClick={this.onRecordReversal}
           onCancelReversalButtonClick={this.closeModal}
           onDismissAlert={this.dispatcher.dismissAlert}
           featureToggles={this.featureToggles}
