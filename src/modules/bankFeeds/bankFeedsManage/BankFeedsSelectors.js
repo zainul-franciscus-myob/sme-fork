@@ -68,21 +68,37 @@ export const getIsCreditCardsEmpty = (state) =>
 const getBankFeedsAction = (state) =>
   getIsBankFeedsEmpty(state) ? 'app' : 'admin';
 export const getNewBankFeedsAccess = (state) => state.accessToNewBankFeeds;
-export const getCreateBankFeedsUrl = createSelector(
+
+export const getMyDotBankFeedsUrl = createSelector(
   getRegion,
   getBusinessId,
   getSerialNumber,
   getBankFeedsAction,
-  getNewBankFeedsAccess,
-  (region, businessId, serialNumber, bankFeedsAction, accessToNewBankFeeds) => {
+  (region, businessId, serialNumber, bankFeedsAction) => {
     const baseUrl = Config.MANAGE_BANK_FEEDS_BASE_URL;
     const queryParams = getQueryFromParams({
       SerialNumber: serialNumber,
       CdfId: businessId,
       Action: bankFeedsAction,
     });
-    return accessToNewBankFeeds
-      ? `#/${region}/${businessId}/bankFeeds/create`
-      : `${baseUrl}${queryParams}`;
+
+    return `${baseUrl}${queryParams}`;
   }
+);
+
+export const getSmeBankFeedUrl = createSelector(
+  getRegion,
+  getBusinessId,
+  (region, businessId) => `/#/${region}/${businessId}/bankFeeds/create`
+);
+
+export const getCreateBankFeedsUrl = createSelector(
+  getNewBankFeedsAccess,
+  getSmeBankFeedUrl,
+  getMyDotBankFeedsUrl,
+  getBusinessId,
+  (hasAccess, smeUrl, myDotUrl, businessId) =>
+    hasAccess && businessId === '3aa68c87-7256-4ad6-bb4c-a43ab196636c'
+      ? smeUrl
+      : myDotUrl
 );

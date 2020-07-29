@@ -20,7 +20,8 @@ export const getCreateBankFeedsUrl = createSelector(
       CdfId: businessId,
       Action: 'app',
     });
-    return accessToNewBankFeeds
+    return accessToNewBankFeeds &&
+      businessId === '3aa68c87-7256-4ad6-bb4c-a43ab196636c'
       ? `#/${region}/${businessId}/bankFeeds/create`
       : `${baseUrl}${queryParams}`;
   }

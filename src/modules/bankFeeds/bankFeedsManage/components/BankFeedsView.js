@@ -4,11 +4,11 @@ import React from 'react';
 
 import {
   getAlert,
-  getCreateBankFeedsUrl,
   getIsActionDisabled,
   getIsBankFeedsEmpty,
   getLoadingState,
   getModalType,
+  getMyDotBankFeedsUrl,
 } from '../BankFeedsSelectors';
 import Alert from './Alert';
 import BankAccounts from './BankAccounts';
@@ -24,20 +24,20 @@ import StickyHeader from '../../../../components/Feelix/StickyHeader/StickyHeade
 
 const BankFeedsView = ({
   alert,
-  modalType,
-  manageBankFeedsLink,
   isBankFeedsEmpty,
   loadingState,
   // isActionDisabled,
-  onSaveButtonClick,
-  onDismissAlert,
-  onCloseDeleteModal,
-  onDeleteBankFeedAccountConfirm,
+  modalType,
+  myDotBankFeedUrl,
   onBankAccountLinkedAccountChange,
+  onCancelBankFeedsLogin,
+  onCloseDeleteModal,
+  onConfirmBankFeedsLogin,
   onCreditCardLinkedAccountChange,
   onDeleteBankFeedAccountClick,
-  onCancelBankFeedsLogin,
-  onConfirmBankFeedsLogin,
+  onDeleteBankFeedAccountConfirm,
+  onDismissAlert,
+  onSaveButtonClick,
   onUpdateBankFeedsLoginDetails,
   // onUpdateButtonClick,
 }) => {
@@ -86,7 +86,7 @@ const BankFeedsView = ({
       {alertComponent}
       <PageHead title="Manage bank feeds">
         <LinkButton
-          href={manageBankFeedsLink}
+          href={myDotBankFeedUrl}
           icon={<Icons.OpenExternalLink />}
           iconRight
           isOpenInNewTab
@@ -121,7 +121,7 @@ const mapStateToProps = (state) => ({
   isActionDisabled: getIsActionDisabled(state),
   alert: getAlert(state),
   modalType: getModalType(state),
-  manageBankFeedsLink: getCreateBankFeedsUrl(state),
+  myDotBankFeedUrl: getMyDotBankFeedsUrl(state),
   isBankFeedsEmpty: getIsBankFeedsEmpty(state),
 });
 
