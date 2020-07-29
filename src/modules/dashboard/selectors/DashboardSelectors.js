@@ -52,6 +52,3 @@ export const getShouldUsePayrollLayout = (state) =>
   !getShouldShowSales(state) &&
   !getShouldShowBankFeedBalance(state) &&
   !getShouldShowBanking(state);
-
-// @FEATURE_TOGGLE: essentials-dashboard-payroll-payrun-widget
-export const getPayrollWidgetFeatureToggle = (state) => state.isPayrollEnabled;

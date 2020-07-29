@@ -10,7 +10,6 @@ import {
 } from './selectors/DashboardSelectors';
 import Config from '../../Config';
 import DashboardView from './components/DashboardView';
-import FeatureToggle from '../../FeatureToggles';
 import Store from '../../store/Store';
 import createDashboardDispatcher from './createDashboardDispatcher';
 import createDashboardIntegrator from './createDashboardIntegrator';
@@ -241,11 +240,9 @@ export default class DashboardModule {
     this.store.unsubscribeAll();
   };
 
-  // @FEATURE_TOGGLE: essentials-dashboard-payroll-payrun-widget
   run = (context) => {
     this.setInitialState({
       ...context,
-      isPayrollEnabled: this.isToggleOn(FeatureToggle.DashboardPayrollWidget),
     });
     this.render();
 

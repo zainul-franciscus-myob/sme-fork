@@ -5,7 +5,6 @@ import React from 'react';
 import {
   getAlert,
   getIsLoading,
-  getPayrollWidgetFeatureToggle,
   getShouldShowBanking,
   getShouldShowLeanEngage,
   getShouldShowPayroll,
@@ -46,7 +45,6 @@ const DashboardView = ({
   shouldShowTracking,
   shouldUsePayrollLayout,
   shouldShowPayroll,
-  isPayrollWidgetToggleOn,
 }) => {
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -56,16 +54,15 @@ const DashboardView = ({
 
   const header = <DashboardHeader />;
 
-  const leanEngageSurvey =
-    shouldShowPayroll && isPayrollWidgetToggleOn ? (
-      <LeanEngageSurvey
-        surveyType="survey"
-        surveyName="dashboard-csat"
-        productName="dashboard"
-      />
-    ) : (
-      <DashboardLeanEngageCard />
-    );
+  const leanEngageSurvey = shouldShowPayroll ? (
+    <LeanEngageSurvey
+      surveyType="survey"
+      surveyName="dashboard-csat"
+      productName="dashboard"
+    />
+  ) : (
+    <DashboardLeanEngageCard />
+  );
 
   const body = (
     <div className={styles.body}>
@@ -99,7 +96,7 @@ const DashboardView = ({
             />
           )}
 
-          {shouldShowPayroll && isPayrollWidgetToggleOn && (
+          {shouldShowPayroll && (
             <DashboardPayrollPayrunsCard
               onLinkClick={onLinkClick}
               onReload={onPayrollReload}
@@ -109,9 +106,7 @@ const DashboardView = ({
           {shouldShowLeanEngage && leanEngageSurvey}
         </div>
 
-        {!(shouldShowPayroll && isPayrollWidgetToggleOn) && (
-          <img src={footerImage} alt="" />
-        )}
+        {!shouldShowPayroll && <img src={footerImage} alt="" />}
       </div>
     </div>
   );
@@ -148,9 +143,6 @@ const mapStateToProps = (state) => ({
   shouldShowPayroll: getShouldShowPayroll(state),
   isLoading: getIsLoading(state),
   alert: getAlert(state),
-
-  // @FEATURE_TOGGLE: essentials-dashboard-payroll-payrun-widget
-  isPayrollWidgetToggleOn: getPayrollWidgetFeatureToggle(state),
 });
 
 export default connect(mapStateToProps)(DashboardView);
