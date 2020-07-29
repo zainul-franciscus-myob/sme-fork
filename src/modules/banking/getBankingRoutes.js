@@ -8,6 +8,7 @@ const getBankingRoutes = ({
   globalCallbacks: { learnBankingCompleted },
   isToggleOn,
   featureToggles,
+  navigateTo,
 }) => [
   {
     name: RouteName.BANKING_TRANSACTION_LIST,
@@ -27,6 +28,7 @@ const getBankingRoutes = ({
       integration,
       setRootView,
       learnBankingCompleted,
+      navigateTo,
     }),
     documentTitle: 'Learn banking',
   },

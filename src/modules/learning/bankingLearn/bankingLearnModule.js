@@ -1,54 +1,67 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import {
+  getCreateBankFeedsUrl,
+  getNewBankFeedsAccess,
+} from './BankingLearnSelectors';
 import BankingLearnView from './components/bankingLearnView';
-import Config from '../../../Config';
+import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import bankingLearnReducer from './bankingLearnReducer';
-import createLearnBankFeedIntegrator from './services';
+import createLearnBankFeedIntegrator from './createBankingLearnIntegrator';
 import createLearnBankingDispatcher from './createBankingLearnDispatcher';
-import getQueryFromParams from '../../../common/getQueryFromParams/getQueryFromParams';
 
 export default class BankingLearnModule {
-  constructor({ integration, setRootView, learnBankingCompleted }) {
+  constructor({ integration, setRootView, learnBankingCompleted, navigateTo }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.learnBankingCompleted = learnBankingCompleted;
+    this.navigateTo = navigateTo;
     this.store = new Store(bankingLearnReducer);
     this.dispatcher = createLearnBankingDispatcher(this.store);
-    this.integrator = createLearnBankFeedIntegrator({
-      store: this.store,
-      integration: this.integration,
-    });
+    this.integrator = createLearnBankFeedIntegrator(
+      this.store,
+      this.integration
+    );
   }
 
   getSerialNumber = () => {
-    const onSuccess = (serialNumber) => {
-      this.dispatcher.setLoading(false);
-      this.dispatcher.setSerialNumber(serialNumber);
+    const { dispatcher, integrator } = this;
+    const onSuccess = (response) => {
+      dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      dispatcher.setSerialNumber(response.serialNumber);
     };
 
-    const onFailure = () => {
-      this.dispatcher.setLoading(false);
+    const onFailure = () =>
+      dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+
+    integrator.getSerialNumber({ onSuccess, onFailure });
+  };
+
+  getBankFeedsAccess = () => {
+    const { dispatcher, integrator } = this;
+
+    const onSuccess = (response) => {
+      dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      dispatcher.setNewBankFeedsAccess(response);
     };
-    this.dispatcher.setLoading(true);
-    this.integrator.getSerialNumber({ onSuccess, onFailure });
+
+    const onFailure = () =>
+      dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+
+    integrator.getBankFeedsAccess({ onSuccess, onFailure });
   };
 
-  connectBankFeedUrl = (serialNumber, businessId) => {
-    const baseUrl = Config.MANAGE_BANK_FEEDS_BASE_URL;
-    const queryParams = getQueryFromParams({
-      SerialNumber: serialNumber,
-      CdfId: businessId,
-      Action: 'app',
-    });
-    return `${baseUrl}${queryParams}`;
-  };
-
-  onClick = (serialNumber, businessId) => {
+  onClick = () => {
     this.learnBankingCompleted();
-    const url = this.connectBankFeedUrl(serialNumber, businessId);
-    window.open(url, '_blank');
+    const state = this.store.getState();
+
+    if (getNewBankFeedsAccess(state)) {
+      this.navigateTo(getCreateBankFeedsUrl(state));
+    } else {
+      this.navigateTo(getCreateBankFeedsUrl(state), true);
+    }
   };
 
   render = () => {
@@ -61,8 +74,9 @@ export default class BankingLearnModule {
 
   run = (context) => {
     this.dispatcher.setInitialState(context);
-    this.getSerialNumber();
     this.render();
+    this.getSerialNumber();
+    this.getBankFeedsAccess();
   };
 
   resetState = () => {};

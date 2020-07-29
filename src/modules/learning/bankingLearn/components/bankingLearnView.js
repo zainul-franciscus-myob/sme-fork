@@ -9,6 +9,7 @@ import {
   LearnVideo,
   Row,
 } from '../../../../components/LearnTemplate/LearnTemplate';
+import { getRegion } from '../BankingLearnSelectors';
 import imageANZ from '../assets/anz.svg';
 import imageASB from '../assets/asb.svg';
 import imageBNZ from '../assets/bnz.svg';
@@ -19,13 +20,7 @@ import imageTSB from '../assets/tsb.svg';
 import imageWestpac from '../assets/westpac.svg';
 import styles from './bankingLearnView.module.css';
 
-const BankingLearnView = ({
-  businessId,
-  isLoading,
-  onClick,
-  region,
-  serialNumber,
-}) => (
+const BankingLearnView = ({ onClick, region }) => (
   <LearnTemplate title="Make the connection to your bank">
     <Row>
       <Column>
@@ -63,8 +58,7 @@ const BankingLearnView = ({
               <Button
                 type="primary"
                 key="createBankFeed"
-                disabled={isLoading}
-                onClick={() => onClick(serialNumber, businessId)}
+                onClick={() => onClick()}
               >
                 Create a bank feed
               </Button>,
@@ -113,11 +107,8 @@ const BankingLearnView = ({
   </LearnTemplate>
 );
 
-const mapStateToProps = ({ businessId, isLoading, region, serialNumber }) => ({
-  businessId,
-  isLoading,
-  region,
-  serialNumber,
+const mapStateToProps = (state) => ({
+  region: getRegion(state),
 });
 
 export default connect(mapStateToProps)(BankingLearnView);

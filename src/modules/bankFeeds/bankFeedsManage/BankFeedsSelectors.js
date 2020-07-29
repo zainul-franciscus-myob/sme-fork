@@ -82,7 +82,7 @@ export const getCreateBankFeedsUrl = createSelector(
       Action: bankFeedsAction,
     });
     return accessToNewBankFeeds
-      ? `#/${region}/${businessId}/bankfeeds/create`
+      ? `#/${region}/${businessId}/bankFeeds/create`
       : `${baseUrl}${queryParams}`;
   }
 );
