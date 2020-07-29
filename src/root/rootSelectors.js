@@ -31,6 +31,7 @@ export const getTelemetryData = (state) =>
         businessRole: state.businessRole,
         businessCreationDate: state.subscription.startDateTime,
         accountStatus: state.subscription.status,
+        accountType: state.subscription.type,
         productCatalogId: state.subscription.product
           ? state.subscription.product.id
           : undefined,

@@ -10,6 +10,7 @@ describe('rootSelector', () => {
       subscription: {
         startDateTime: 'startDateTime',
         status: 'status',
+        type: 'trial',
         product: {
           id: 'productCatalogId',
         },
@@ -26,6 +27,7 @@ describe('rootSelector', () => {
         businessRole: 'businessRole',
         businessCreationDate: 'startDateTime',
         accountStatus: 'status',
+        accountType: 'trial',
         productCatalogId: 'productCatalogId',
         industry: 'industry',
         userType: 'advisor',
