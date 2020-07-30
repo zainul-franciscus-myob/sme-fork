@@ -1,10 +1,4 @@
 #!/bin/bash
 set -euo pipefail
 
-if [[ $(git diff-tree --no-commit-id --name-only -r "$BUILDKITE_COMMIT" origin/master | grep -e 'package.json' -e 'yarn.lock') ]]; then
-  echo '--- Install packages and run unit tests'
-  ops/bin/env 'yarn install && yarn test --coverage --testPathIgnorePatterns \"\.convention\.\"'
-else
-  echo '--- Running unit tests'
-  ops/bin/env 'yarn test --coverage --testPathIgnorePatterns \"\.convention\.\"'
-fi
+ops/bin/env "echo '--- Running unit tests' && yarn test --coverage --testPathIgnorePatterns \"\.convention\.\""
