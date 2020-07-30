@@ -7,3 +7,4 @@
 * [Storing user settings](recipes/storing-user-settings.md)
 * [Cancel Modal](recipes/cancel-modal.md)
 * [Module routing](recipes/module-routing.md)
+* [Root module](recipes/root-module.md)
