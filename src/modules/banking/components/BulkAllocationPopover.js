@@ -5,6 +5,7 @@ import React from 'react';
 import {
   getBulkAllocationAccounts,
   getBulkAllocationOptions,
+  getIsBulkOpen,
   getTaxCodes,
 } from '../bankingSelectors/bulkAllocationSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
@@ -21,9 +22,11 @@ const BulkAllocationPopover = ({
   taxCodes,
   bulkAllocationAccounts,
   bulkAllocationOptions,
+  isBulkOpen,
   onUpdateBulkAllocationOption,
   onSaveBulkAllocation,
   onCloseBulkAllocation,
+  onOpenBulkAllocation,
 }) => {
   const body = (
     <React.Fragment>
@@ -63,9 +66,14 @@ const BulkAllocationPopover = ({
       footer={<Popover.Footer child={footer} />}
       closeOnOuterAction
       preferPlace="below"
-      onOuterAction={onCloseBulkAllocation}
+      onOuterAction={() => onCloseBulkAllocation(isBulkOpen)}
+      isOpen={isBulkOpen}
     >
-      <Button type="secondary" className={styles.allocateButton}>
+      <Button
+        type="secondary"
+        className={styles.allocateButton}
+        onClick={onOpenBulkAllocation}
+      >
         Allocate
       </Button>
     </Popover>
@@ -76,6 +84,7 @@ const mapStateToProps = (state) => ({
   taxCodes: getTaxCodes(state),
   bulkAllocationAccounts: getBulkAllocationAccounts(state),
   bulkAllocationOptions: getBulkAllocationOptions(state),
+  isBulkOpen: getIsBulkOpen(state),
 });
 
 export default connect(mapStateToProps)(BulkAllocationPopover);

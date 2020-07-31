@@ -126,7 +126,7 @@ export default class BankingModule {
       closeModal,
       updateBulkAllocationOption,
       openBankingRuleModal,
-      resetBulkAllocation,
+      openBulkAllocation,
       setEditingNoteState,
       setPendingNote,
     } = this.dispatcher;
@@ -192,7 +192,8 @@ export default class BankingModule {
         onSelectAllTransactions={this.selectAllTransactions}
         onUpdateBulkAllocationOption={updateBulkAllocationOption}
         onSaveBulkAllocation={this.saveBulkAllocation}
-        onCloseBulkAllocation={resetBulkAllocation}
+        onCloseBulkAllocation={this.closeBulkAllocation}
+        onOpenBulkAllocation={openBulkAllocation}
         onCancelUnallocateModal={closeModal}
         onOpenBankingRuleModal={openBankingRuleModal}
         onOpenTransferMoneyModal={this.openTransferMoneyModal}
@@ -303,6 +304,17 @@ export default class BankingModule {
     } else {
       this.bulkAllocateTransactions();
     }
+
+    this.dispatcher.closeBulkAllocation();
+    this.dispatcher.resetBulkAllocation();
+  };
+
+  closeBulkAllocation = (isBulkOpen) => {
+    if (isBulkOpen) {
+      this.dispatcher.closeBulkAllocation();
+    }
+
+    this.dispatcher.resetBulkAllocation();
   };
 
   bulkAllocateTransactions = () => {

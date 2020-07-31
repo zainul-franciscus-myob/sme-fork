@@ -6,6 +6,7 @@ import {
   APPEND_NEW_ACCOUNT_TO_ALLOCATE_TABLE,
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
+  CLOSE_BULK_ALLOCATION,
   CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
   DELETE_SPLIT_ALLOCATION_LINE,
@@ -20,6 +21,7 @@ import {
   LOAD_NEW_SPLIT_ALLOCATION,
   LOAD_SPLIT_ALLOCATION,
   LOAD_TRANSFER_MONEY,
+  OPEN_BULK_ALLOCATION,
   OPEN_MODAL,
   OPEN_REMOVE_ATTACHMENT_MODAL,
   REMOVE_ATTACHMENT,
@@ -128,6 +130,8 @@ import { allocateTransaction } from './allocateHandlers';
 import { appliedTransactions } from './applyRuleResultHandlers';
 import {
   bulkAllocateTransactions,
+  closeBulkAllocation,
+  openBulkAllocation,
   resetBulkAllocation,
   selectAllTransactions,
   selectTransaction,
@@ -534,6 +538,8 @@ const handlers = {
   [BULK_ALLOCATE_TRANSACTIONS]: bulkAllocateTransactions,
   [RESET_BULK_ALLOCATION]: resetBulkAllocation,
   [SET_BULK_LOADING_STATE]: setBulkLoading,
+  [OPEN_BULK_ALLOCATION]: openBulkAllocation,
+  [CLOSE_BULK_ALLOCATION]: closeBulkAllocation,
   [APPLY_RULE_TO_TRANSACTIONS]: appliedTransactions,
   [UNSELECT_TRANSACTIONS]: unselectTransactions,
   [SET_ATTACHMENTS_LOADING_STATE]: setAttachemntsLoadingState,

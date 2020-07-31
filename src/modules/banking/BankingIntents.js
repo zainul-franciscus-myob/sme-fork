@@ -138,7 +138,8 @@ export const SET_BULK_LOADING_STATE = Symbol(
 export const RESET_BULK_ALLOCATION = Symbol(
   'Reset the state of the bulk allocation options'
 );
-
+export const OPEN_BULK_ALLOCATION = Symbol('Open bulk allocation');
+export const CLOSE_BULK_ALLOCATION = Symbol('Close bulk allocation');
 export const APPLY_RULE_TO_TRANSACTIONS = Symbol(
   'Apply baning rule to transactions'
 );

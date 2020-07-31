@@ -1,13 +1,18 @@
 import {
   ALLOCATE_TRANSACTION,
+  BULK_ALLOCATE_TRANSACTIONS,
+  CLOSE_BULK_ALLOCATION,
   COLLAPSE_TRANSACTION_LINE,
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_NEW_SPLIT_ALLOCATION,
+  OPEN_MODAL,
+  RESET_BULK_ALLOCATION,
   SET_ALERT,
   SET_ATTACHMENTS_LOADING_STATE,
+  SET_BULK_LOADING_STATE,
   SET_ENTRY_FOCUS,
   SET_ERROR_STATE,
   SET_LOADING_STATE,
@@ -21,6 +26,7 @@ import {
   START_LOADING_MORE,
   STOP_ENTRY_LOADING_STATE,
   STOP_LOADING_MORE,
+  UNSELECT_TRANSACTIONS,
   UPDATE_MATCH_TRANSACTION_OPTIONS,
   UPDATE_PERIOD_DATE_RANGE,
 } from '../BankingIntents';
@@ -28,6 +34,7 @@ import { SET_INITIAL_STATE } from '../../../SystemIntents';
 import BankTransactionStatusTypes from '../BankTransactionStatusTypes';
 import BankingModule from '../BankingModule';
 import MatchTransactionShowType from '../MatchTransactionShowType';
+import ModalTypes from '../ModalTypes';
 import TestIntegration from '../../../integration/TestIntegration';
 import TestStore from '../../../store/TestStore';
 import bankingReducer from '../bankingReducer';
@@ -101,6 +108,28 @@ describe('BankingModule', () => {
 
     store.resetActions();
     integration.resetRequests();
+
+    return toolbox;
+  };
+
+  const setUpWithTransactionsForBulkAllocation = () => {
+    const toolbox = setUpWithRun();
+    const { module, store } = toolbox;
+
+    module.selectTransaction({ index: 0, value: true });
+
+    store.resetActions();
+
+    return toolbox;
+  };
+
+  const setUpWithOpenBulkAllocation = () => {
+    const toolbox = setUpWithTransactionsForBulkAllocation();
+    const { module, store } = toolbox;
+
+    module.dispatcher.openBulkAllocation();
+
+    store.resetActions();
 
     return toolbox;
   };
@@ -888,6 +917,145 @@ describe('BankingModule', () => {
         expect.objectContaining({
           intent: ALLOCATE_TRANSACTION,
         }),
+      ]);
+    });
+  });
+
+  describe('closeBulkAllocation', () => {
+    it('should reset fields when Bulk Allocation is closed', () => {
+      const { module, store } = setUpWithTransactionsForBulkAllocation();
+
+      module.closeBulkAllocation(false);
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: RESET_BULK_ALLOCATION,
+        },
+      ]);
+    });
+
+    it('should reset fields and close when Bulk Allocation is open', () => {
+      const { module, store } = setUpWithOpenBulkAllocation();
+
+      module.closeBulkAllocation(true);
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: CLOSE_BULK_ALLOCATION,
+        },
+        {
+          intent: RESET_BULK_ALLOCATION,
+        },
+      ]);
+    });
+  });
+
+  describe('saveBulkAllocation', () => {
+    it('should successfully bulk allocate', () => {
+      const { module, store, integration } = setUpWithOpenBulkAllocation();
+
+      module.saveBulkAllocation();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_BULK_LOADING_STATE,
+          isLoading: true,
+        },
+        {
+          intent: COLLAPSE_TRANSACTION_LINE,
+        },
+        {
+          intent: SET_BULK_LOADING_STATE,
+          isLoading: false,
+        },
+        {
+          intent: UNSELECT_TRANSACTIONS,
+        },
+        expect.objectContaining({
+          intent: BULK_ALLOCATE_TRANSACTIONS,
+        }),
+        {
+          intent: SET_ALERT,
+          alert: {
+            type: 'success',
+            message: expect.any(String),
+          },
+        },
+        {
+          intent: CLOSE_BULK_ALLOCATION,
+        },
+        {
+          intent: RESET_BULK_ALLOCATION,
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: BULK_ALLOCATE_TRANSACTIONS,
+        }),
+      ]);
+    });
+
+    it('should fail to bulk allocate', () => {
+      const { module, store, integration } = setUpWithOpenBulkAllocation();
+      integration.mapFailure(BULK_ALLOCATE_TRANSACTIONS);
+
+      module.saveBulkAllocation();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_BULK_LOADING_STATE,
+          isLoading: true,
+        },
+        {
+          intent: COLLAPSE_TRANSACTION_LINE,
+        },
+        {
+          intent: SET_BULK_LOADING_STATE,
+          isLoading: false,
+        },
+        {
+          intent: SET_ALERT,
+          alert: {
+            type: 'danger',
+            message: expect.any(String),
+          },
+        },
+        {
+          intent: CLOSE_BULK_ALLOCATION,
+        },
+        {
+          intent: RESET_BULK_ALLOCATION,
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: BULK_ALLOCATE_TRANSACTIONS,
+        }),
+      ]);
+    });
+
+    it('should throw unsaved changes modal when has edited open transaction', () => {
+      const { module, store } = setUpWithOpenBulkAllocation();
+      module.toggleLine(0);
+      module.dispatcher.updateSplitAllocationHeader({
+        key: 'description',
+        value: 'test',
+      });
+      store.resetActions();
+
+      module.saveBulkAllocation();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: OPEN_MODAL,
+          modalType: ModalTypes.CANCEL,
+        },
+        {
+          intent: CLOSE_BULK_ALLOCATION,
+        },
+        {
+          intent: RESET_BULK_ALLOCATION,
+        },
       ]);
     });
   });

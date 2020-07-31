@@ -6,6 +6,7 @@ import {
   APPEND_NEW_ACCOUNT_TO_ALLOCATE_TABLE,
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
+  CLOSE_BULK_ALLOCATION,
   CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
   DELETE_SPLIT_ALLOCATION_LINE,
@@ -20,6 +21,7 @@ import {
   LOAD_NEW_SPLIT_ALLOCATION,
   LOAD_SPLIT_ALLOCATION,
   LOAD_TRANSFER_MONEY,
+  OPEN_BULK_ALLOCATION,
   OPEN_MODAL,
   OPEN_REMOVE_ATTACHMENT_MODAL,
   REMOVE_ATTACHMENT,
@@ -129,6 +131,18 @@ const createBankingDispatcher = (store) => ({
     store.dispatch({
       intent: SET_BULK_LOADING_STATE,
       isLoading,
+    });
+  },
+
+  openBulkAllocation: () => {
+    store.dispatch({
+      intent: OPEN_BULK_ALLOCATION,
+    });
+  },
+
+  closeBulkAllocation: () => {
+    store.dispatch({
+      intent: CLOSE_BULK_ALLOCATION,
     });
   },
 

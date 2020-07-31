@@ -37,6 +37,7 @@ export const getTaxCodes = (state) => state.taxCodes;
 export const getBulkAllocationAccounts = (state) =>
   state.bulkAllocationAccounts;
 export const getBulkAllocationOptions = (state) => state.bulkAllocationOptions;
+export const getIsBulkOpen = (state) => state.isBulkOpen;
 
 const eligibleBulkAllocationTypes = [
   StatusTypes.unmatched,

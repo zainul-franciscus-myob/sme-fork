@@ -87,6 +87,7 @@ const BankingView = (props) => {
     onUpdateBulkAllocationOption,
     onSaveBulkAllocation,
     onCloseBulkAllocation,
+    onOpenBulkAllocation,
     onOpenBankingRuleModal,
     onOpenTransferMoneyModal,
     onRenderBankingRuleModal,
@@ -109,6 +110,7 @@ const BankingView = (props) => {
         onUpdateBulkAllocationOption={onUpdateBulkAllocationOption}
         onSaveBulkAllocation={onSaveBulkAllocation}
         onCloseBulkAllocation={onCloseBulkAllocation}
+        onOpenBulkAllocation={onOpenBulkAllocation}
       />
       {bulkMessage}
     </BulkActions>

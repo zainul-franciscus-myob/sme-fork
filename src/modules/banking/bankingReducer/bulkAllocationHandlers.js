@@ -178,3 +178,13 @@ export const resetBulkAllocation = (state) => ({
     taxCodeId: '',
   },
 });
+
+export const openBulkAllocation = (state) => ({
+  ...state,
+  isBulkOpen: true,
+});
+
+export const closeBulkAllocation = (state) => ({
+  ...state,
+  isBulkOpen: false,
+});
