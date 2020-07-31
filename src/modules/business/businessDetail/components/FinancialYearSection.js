@@ -1,4 +1,11 @@
-import { FieldGroup, Icons, ReadOnly, Tooltip } from '@myob/myob-widgets';
+import {
+  Alert,
+  Field,
+  FieldGroup,
+  Icons,
+  ReadOnly,
+  Tooltip,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -21,7 +28,7 @@ const FinancialYearSection = ({
   openingBalanceMonth,
   isStartNewFinancialYearEnabled,
   isFinancialYearSectionReadOnly,
-  onChange,
+  onFinancialYearSettingsChange,
   onStartNewFinancialYear,
   onOpenFinancialYearModal,
   onCloseFinancialYearModal,
@@ -30,6 +37,7 @@ const FinancialYearSection = ({
   monthOptions,
   financialYearDateRange,
   cannotRecordTransactionBeforeDate,
+  isFinancialYearSettingsChanged,
 }) => {
   const financialYearComboBox = isFinancialYearSectionReadOnly ? (
     <ReadOnly label="Current financial year" name="financialYear">
@@ -41,7 +49,7 @@ const FinancialYearSection = ({
       name="financialYear"
       label="Current financial year"
       value={financialYear}
-      onChange={handleSelectChange(onChange)}
+      onChange={handleSelectChange(onFinancialYearSettingsChange)}
       width="xs"
     />
   );
@@ -51,7 +59,7 @@ const FinancialYearSection = ({
       onStartNewFinancialYear={onStartNewFinancialYear}
       onOpenFinancialYearModal={onOpenFinancialYearModal}
       onCloseFinancialYearModal={onCloseFinancialYearModal}
-      onMonthSelect={onChange}
+      onMonthSelect={onFinancialYearSettingsChange}
     />
   );
 
@@ -77,7 +85,7 @@ const FinancialYearSection = ({
       className={styles.monthSelect}
       value={lastMonthInFinancialYear}
       labelAccessory={lastMonthFYToolTip}
-      onChange={handleSelectChange(onChange)}
+      onChange={handleSelectChange(onFinancialYearSettingsChange)}
       width="sm"
       monthOptions={monthOptions}
     />
@@ -111,7 +119,7 @@ const FinancialYearSection = ({
       year={openingBalanceYear}
       month={openingBalanceMonth}
       monthOptions={monthOptions}
-      onMonthChange={handleSelectChange(onChange)}
+      onMonthChange={handleSelectChange(onFinancialYearSettingsChange)}
     />
   );
 
@@ -124,6 +132,25 @@ const FinancialYearSection = ({
     </ReadOnly>
   );
 
+  const infoBox = isFinancialYearSettingsChanged && (
+    <Field
+      renderField={() => (
+        <Alert type="info">
+          Changing these dates can affect business reporting and account opening
+          balances. Check with an advisor if you&apos;re unsure.
+          <br />
+          <a
+            href="https://help.myob.com/wiki/x/165qAg"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn more
+          </a>
+        </Alert>
+      )}
+    />
+  );
+
   return (
     <FieldGroup label="Financial year">
       {financialYearComboBox}
@@ -132,6 +159,7 @@ const FinancialYearSection = ({
       {startDateToEndDateOfFY}
       {openingBalanceDateComboBox}
       {cannotRecordTransactionsBefore}
+      {infoBox}
     </FieldGroup>
   );
 };

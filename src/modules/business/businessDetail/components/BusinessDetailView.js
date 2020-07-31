@@ -10,6 +10,7 @@ import {
   getPageTitle,
 } from '../businessDetailSelectors';
 import BusinessDetailsSection from './BusinessDetailsSection';
+import CancelModal from '../../../../components/modal/CancelModal';
 import ContactDetailsSection from './ContactDetailsSection';
 import FinancialYearSection from './FinancialYearSection';
 import FormCard from '../../../../components/FormCard/FormCard';
@@ -20,9 +21,11 @@ import UnsavedModal from '../../../../components/modal/UnsavedModal';
 const BusinessDetailView = ({
   loadingState,
   onChange,
+  onFinancialYearSettingsChange,
   onStartNewFinancialYear,
   onLockDateDetailChange,
   onSaveButtonClick,
+  onCancelButtonClick,
   onConfirmSave,
   onConfirmCancel,
   onConfirmClose,
@@ -40,16 +43,31 @@ const BusinessDetailView = ({
     </Alert>
   );
 
-  const unsavedModal = modal && (
-    <UnsavedModal
-      onConfirmSave={onConfirmSave}
-      onConfirmUnsave={onConfirmCancel}
-      onCancel={onConfirmClose}
-    />
-  );
+  let modalComponent;
+  if (modal && modal.type === 'unsaved') {
+    modalComponent = (
+      <UnsavedModal
+        onConfirmSave={onConfirmSave}
+        onConfirmUnsave={onConfirmCancel}
+        onCancel={onConfirmClose}
+      />
+    );
+  } else if (modal && modal.type === 'cancel') {
+    modalComponent = (
+      <CancelModal onConfirm={onConfirmCancel} onCancel={onConfirmClose} />
+    );
+  }
 
   const pageFooter = (
     <ButtonRow>
+      <Button
+        name="cancel"
+        type="secondary"
+        onClick={onCancelButtonClick}
+        disabled={isSubmitting}
+      >
+        Cancel
+      </Button>
       <Button
         name="save"
         type="primary"
@@ -67,12 +85,12 @@ const BusinessDetailView = ({
       alert={alertComponent}
       actions={pageFooter}
     >
-      {unsavedModal}
+      {modalComponent}
       <FormCard>
         <BusinessDetailsSection onChange={onChange} />
         <ContactDetailsSection onChange={onChange} />
         <FinancialYearSection
-          onChange={onChange}
+          onFinancialYearSettingsChange={onFinancialYearSettingsChange}
           onStartNewFinancialYear={onStartNewFinancialYear}
           onCloseFinancialYearModal={onCloseFinancialYearModal}
           onOpenFinancialYearModal={onOpenFinancialYearModal}

@@ -4,6 +4,7 @@ import {
   LOAD_BUSINESS_DETAIL,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
+  SET_IS_FINANCIAL_YEAR_SETTINGS_CHANGED_STATE,
   SET_LOADING_STATE,
   SET_LOCK_DATE_AUTO_POPULATED_STATE,
   SET_PAGE_EDITED_STATE,
@@ -45,7 +46,7 @@ describe('BusinessDetailModule', () => {
     const toolbox = setup();
     const { store, integration, module } = toolbox;
 
-    module.run({ businessId: '🦒' });
+    module.run({ businessId: '🦒', region: 'AU' });
     store.resetActions();
     integration.resetRequests();
 
@@ -169,6 +170,10 @@ describe('BusinessDetailModule', () => {
             type: 'success',
             message: expect.any(String),
           },
+        },
+        {
+          intent: SET_IS_FINANCIAL_YEAR_SETTINGS_CHANGED_STATE,
+          isFinancialYearSettingsChanged: false,
         },
       ]);
       expect(integration.getRequests()).toEqual([
@@ -327,6 +332,47 @@ describe('BusinessDetailModule', () => {
           intent: OPEN_MODAL,
           modal: {
             url: '👩‍🚀',
+            type: 'unsaved',
+          },
+        },
+      ]);
+    });
+  });
+
+  describe('openCancelModal', () => {
+    it('redirects to dashboard url when not edited', () => {
+      const { module } = setupWithRun();
+      module.redirectToUrl = jest.fn();
+
+      module.openCancelModal();
+
+      expect(module.redirectToUrl).toHaveBeenCalledWith('/#/AU/🦒/dashboard');
+    });
+
+    it('opens cancel modal when edited', () => {
+      const { module, store } = setup();
+
+      module.run({ businessId: '123', region: 'AU' });
+      store.resetActions();
+
+      module.updateBusinessDetailField({ key: 'description', value: '🤯' });
+      module.openCancelModal();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_PAGE_EDITED_STATE,
+          isPageEdited: true,
+        },
+        {
+          intent: UPDATE_BUSINESS_DETAIL,
+          key: 'description',
+          value: '🤯',
+        },
+        {
+          intent: OPEN_MODAL,
+          modal: {
+            url: '/#/AU/123/dashboard',
+            type: 'cancel',
           },
         },
       ]);

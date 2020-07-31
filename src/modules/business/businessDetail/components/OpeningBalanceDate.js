@@ -1,7 +1,7 @@
-import { Field, Select } from '@myob/myob-widgets';
+import { Field, Select, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
 
-import styles from './MonthYearSelect.module.css';
+import styles from './OpeningBalanceDate.module.css';
 
 const OpeningBalanceDate = (props) => {
   const { labelAccessory, month, year, onMonthChange, monthOptions } = props;
@@ -23,6 +23,12 @@ const OpeningBalanceDate = (props) => {
 
   const OpeningBalanceYear = <div className={styles.year}>{year}</div>;
 
+  const OpeningBalanceYearWithTooltip = (
+    <Tooltip triggerContent={OpeningBalanceYear}>
+      The opening balance year is related to the current financial year.
+    </Tooltip>
+  );
+
   return (
     <Field
       label="Opening balance date"
@@ -30,7 +36,7 @@ const OpeningBalanceDate = (props) => {
       renderField={() => (
         <div className={styles.container}>
           {OpeningBalanceMonth}
-          {OpeningBalanceYear}
+          {OpeningBalanceYearWithTooltip}
         </div>
       )}
     />

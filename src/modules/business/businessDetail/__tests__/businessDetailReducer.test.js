@@ -1,6 +1,6 @@
 import {
   LOAD_BUSINESS_DETAIL,
-  UPDATE_BUSINESS_DETAIL,
+  UPDATE_FINANCIAL_YEAR_SETTINGS,
   UPDATE_LOCK_DATE_DETAIL,
 } from '../../BusinessIntents';
 import businessDetailsReducer from '../businessDetailReducer';
@@ -192,7 +192,7 @@ describe('businessDetailReducer', () => {
     });
   });
 
-  describe('updateBusinessDetail', () => {
+  describe('updateFinancialYearSettings', () => {
     it('should set openingBalanceYear to same as financialYear when openingBalanceMonth is on/before lastMonthInFinancialYear', () => {
       const state = {
         businessDetails: {
@@ -202,7 +202,7 @@ describe('businessDetailReducer', () => {
       };
 
       const actual = businessDetailsReducer(state, {
-        intent: UPDATE_BUSINESS_DETAIL,
+        intent: UPDATE_FINANCIAL_YEAR_SETTINGS,
         key: 'openingBalanceMonth',
         value: 6,
       });
@@ -219,12 +219,31 @@ describe('businessDetailReducer', () => {
       };
 
       const actual = businessDetailsReducer(state, {
-        intent: UPDATE_BUSINESS_DETAIL,
+        intent: UPDATE_FINANCIAL_YEAR_SETTINGS,
         key: 'openingBalanceMonth',
         value: 10,
       });
 
       expect(actual.businessDetails.openingBalanceYear).toEqual(2019);
+    });
+
+    it('should set isFinancialYearSettingsChanged to true when any financial detail is changed', () => {
+      const state = {
+        businessDetails: {
+          financialYear: 2020,
+          lastMonthInFinancialYear: 6,
+          openingBalanceMonth: 4,
+        },
+        isFinancialYearSettingsChanged: false,
+      };
+
+      const actual = businessDetailsReducer(state, {
+        intent: UPDATE_FINANCIAL_YEAR_SETTINGS,
+        key: 'lastMonthInFinancialYear',
+        value: 10,
+      });
+
+      expect(actual.isFinancialYearSettingsChanged).toBeTruthy();
     });
   });
 });

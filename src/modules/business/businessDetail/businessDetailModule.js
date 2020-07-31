@@ -2,6 +2,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  getDashboardUrl,
   getIsPageEdited,
   getIsSubmitting,
   getModalUrl,
@@ -52,6 +53,11 @@ export default class BusinessDetailModule {
     this.dispatcher.updateBusinessDetail({ key, value });
   };
 
+  updateFinancialYearSettingsField = ({ key, value }) => {
+    this.dispatcher.setPageEditedState(true);
+    this.dispatcher.updateFinancialYearSettings({ key, value });
+  };
+
   updateLockDateDetail = ({ key, value }) => {
     this.dispatcher.setPageEditedState(true);
     this.dispatcher.updateLockDateDetail({ key, value });
@@ -64,6 +70,7 @@ export default class BusinessDetailModule {
       this.dispatcher.setPageEditedState(false);
       this.dispatcher.setIsLockDateAutoPopulated(false);
       this.dispatcher.setAlertMessage({ message, type: 'success' });
+      this.dispatcher.setIsFinancialYearSettingsChangedState(false);
     };
     this.saveBusinessDetails(onSuccess);
   };
@@ -83,6 +90,17 @@ export default class BusinessDetailModule {
     };
 
     this.integrator.saveBusinessDetails({ onSuccess, onFailure });
+  };
+
+  openCancelModal = () => {
+    const state = this.store.getState();
+    const dashboardUrl = getDashboardUrl(state);
+
+    if (getIsPageEdited(state)) {
+      this.dispatcher.openModal(dashboardUrl, 'cancel');
+    } else {
+      this.redirectToUrl(dashboardUrl);
+    }
   };
 
   dismissAlert = () => {
@@ -128,9 +146,11 @@ export default class BusinessDetailModule {
     const businessDetailsView = (
       <BusinessDetailsView
         onChange={this.updateBusinessDetailField}
+        onFinancialYearSettingsChange={this.updateFinancialYearSettingsField}
         onStartNewFinancialYear={this.startNewFinancialYear}
         onLockDateDetailChange={this.updateLockDateDetail}
         onSaveButtonClick={this.updateBusinessDetail}
+        onCancelButtonClick={this.openCancelModal}
         onDismissAlert={this.dismissAlert}
         onConfirmSave={this.updateAndRedirectToUrl}
         onConfirmCancel={this.redirectToModalUrl}
@@ -173,7 +193,7 @@ export default class BusinessDetailModule {
   handlePageTransition = (url) => {
     const state = this.store.getState();
     if (getIsPageEdited(state)) {
-      this.dispatcher.openModal(url);
+      this.dispatcher.openModal(url, 'unsaved');
     } else {
       this.redirectToUrl(url);
     }

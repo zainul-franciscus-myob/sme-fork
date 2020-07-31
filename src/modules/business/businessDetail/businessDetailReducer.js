@@ -5,6 +5,7 @@ import {
   OPEN_FINANCIAL_YEAR_MODAL,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
+  SET_IS_FINANCIAL_YEAR_SETTINGS_CHANGED_STATE,
   SET_LOADING_STATE,
   SET_LOCK_DATE_AUTO_POPULATED_STATE,
   SET_PAGE_EDITED_STATE,
@@ -12,6 +13,7 @@ import {
   START_LOADING_FINANCIAL_YEAR_MODAL,
   STOP_LOADING_FINANCIAL_YEAR_MODAL,
   UPDATE_BUSINESS_DETAIL,
+  UPDATE_FINANCIAL_YEAR_SETTINGS,
   UPDATE_LOCK_DATE_DETAIL,
 } from '../BusinessIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -63,6 +65,7 @@ const getDefaultState = () => ({
     isLoading: false,
   },
   isStartNewFinancialYearEnabled: false,
+  isFinancialYearSettingsChanged: false,
   financialYearOptions: [],
   isFinancialYearSectionReadOnly: false,
   monthOptions: [
@@ -120,6 +123,11 @@ const setSubmittingState = (state, action) => ({
   isSubmitting: action.isSubmitting,
 });
 
+const setIsFinancialYearSettingsChangedState = (state, action) => ({
+  ...state,
+  isFinancialYearSettingsChanged: action.isFinancialYearSettingsChanged,
+});
+
 const calculateOpeningBalanceYear = (businessDetails) => {
   const {
     openingBalanceMonth,
@@ -132,35 +140,34 @@ const calculateOpeningBalanceYear = (businessDetails) => {
     : financialYear - 1;
 };
 
-const updateBusinessDetail = (state, action) => {
-  const fieldBeingChanged = action.key;
+const updateFinancialYearSettings = (state, action) => {
   const newBusinessDetail = {
     ...state,
     businessDetails: {
       ...state.businessDetails,
-      [fieldBeingChanged]: action.value,
+      [action.key]: action.value,
+    },
+    isFinancialYearSettingsChanged: true,
+  };
+  const openingBalanceYear = calculateOpeningBalanceYear(
+    newBusinessDetail.businessDetails
+  );
+  return {
+    ...newBusinessDetail,
+    businessDetails: {
+      ...newBusinessDetail.businessDetails,
+      openingBalanceYear,
     },
   };
-
-  if (
-    fieldBeingChanged === 'financialYear' ||
-    fieldBeingChanged === 'lastMonthInFinancialYear' ||
-    fieldBeingChanged === 'openingBalanceMonth'
-  ) {
-    const openingBalanceYear = calculateOpeningBalanceYear(
-      newBusinessDetail.businessDetails
-    );
-
-    return {
-      ...newBusinessDetail,
-      businessDetails: {
-        ...newBusinessDetail.businessDetails,
-        openingBalanceYear,
-      },
-    };
-  }
-  return newBusinessDetail;
 };
+
+const updateBusinessDetail = (state, action) => ({
+  ...state,
+  businessDetails: {
+    ...state.businessDetails,
+    [action.key]: action.value,
+  },
+});
 
 const updateLockDateDetail = (state, { key, value }) => {
   let {
@@ -244,7 +251,9 @@ const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [LOAD_BUSINESS_DETAIL]: loadBusinessDetail,
   [SET_SUBMITTING_STATE]: setSubmittingState,
+  [SET_IS_FINANCIAL_YEAR_SETTINGS_CHANGED_STATE]: setIsFinancialYearSettingsChangedState,
   [UPDATE_BUSINESS_DETAIL]: updateBusinessDetail,
+  [UPDATE_FINANCIAL_YEAR_SETTINGS]: updateFinancialYearSettings,
   [UPDATE_LOCK_DATE_DETAIL]: updateLockDateDetail,
   [SET_ALERT_MESSAGE]: setAlert,
   [RESET_STATE]: resetState,

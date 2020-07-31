@@ -142,6 +142,8 @@ export const getFinancialYearDetails = createStructuredSelector({
   financialYearDateRange: (state) => getFinancialYearDateRange(state),
   cannotRecordTransactionBeforeDate: (state) =>
     getCannotRecordTransactionBeforeDate(state),
+  isFinancialYearSettingsChanged: (state) =>
+    state.isFinancialYearSettingsChanged,
 });
 
 export const getLockDateDetails = createStructuredSelector({
@@ -171,4 +173,10 @@ export const getNewFinancialYearDetails = createSelector(
       lastMonthInNewFinancialYear,
     };
   }
+);
+
+export const getDashboardUrl = createSelector(
+  getBusinessId,
+  getRegion,
+  (businessId, region) => `/#/${region}/${businessId}/dashboard`
 );

@@ -5,6 +5,7 @@ import {
   OPEN_FINANCIAL_YEAR_MODAL,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
+  SET_IS_FINANCIAL_YEAR_SETTINGS_CHANGED_STATE,
   SET_LOADING_STATE,
   SET_LOCK_DATE_AUTO_POPULATED_STATE,
   SET_PAGE_EDITED_STATE,
@@ -12,6 +13,7 @@ import {
   START_LOADING_FINANCIAL_YEAR_MODAL,
   STOP_LOADING_FINANCIAL_YEAR_MODAL,
   UPDATE_BUSINESS_DETAIL,
+  UPDATE_FINANCIAL_YEAR_SETTINGS,
   UPDATE_LOCK_DATE_DETAIL,
 } from '../BusinessIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -40,6 +42,12 @@ const createBusinessDetailDispatcher = (store) => ({
       isSubmitting,
     });
   },
+  setIsFinancialYearSettingsChangedState: (isFinancialYearSettingsChanged) => {
+    store.dispatch({
+      intent: SET_IS_FINANCIAL_YEAR_SETTINGS_CHANGED_STATE,
+      isFinancialYearSettingsChanged,
+    });
+  },
   setAlertMessage: (alert) => {
     store.dispatch({
       intent: SET_ALERT_MESSAGE,
@@ -51,11 +59,12 @@ const createBusinessDetailDispatcher = (store) => ({
       intent: CLOSE_MODAL,
     });
   },
-  openModal: (url) => {
+  openModal: (url, modalType) => {
     store.dispatch({
       intent: OPEN_MODAL,
       modal: {
         url,
+        type: modalType,
       },
     });
   },
@@ -74,6 +83,13 @@ const createBusinessDetailDispatcher = (store) => ({
   updateBusinessDetail: ({ key, value }) => {
     store.dispatch({
       intent: UPDATE_BUSINESS_DETAIL,
+      key,
+      value,
+    });
+  },
+  updateFinancialYearSettings: ({ key, value }) => {
+    store.dispatch({
+      intent: UPDATE_FINANCIAL_YEAR_SETTINGS,
       key,
       value,
     });

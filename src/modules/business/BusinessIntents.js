@@ -4,9 +4,15 @@ export const LOAD_BUSINESS_LIST = Symbol(
 export const SET_LOADING_STATE = Symbol('Set loading state');
 export const LOAD_BUSINESS_DETAIL = Symbol('Load business detail');
 export const UPDATE_BUSINESS_DETAIL = Symbol('Update business detail');
+export const UPDATE_FINANCIAL_YEAR_SETTINGS = Symbol(
+  'Update financial year settings'
+);
 export const START_NEW_FINANCIAL_YEAR = Symbol('Start new financial year');
 export const UPDATE_LOCK_DATE_DETAIL = Symbol('Update lock date detail');
 export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
+export const SET_IS_FINANCIAL_YEAR_SETTINGS_CHANGED_STATE = Symbol(
+  'Set is financial year settings changed state'
+);
 export const SET_ALERT_MESSAGE = Symbol('Set alert message');
 export const OPEN_MODAL = Symbol('Open modal');
 export const CLOSE_MODAL = Symbol('Close modal');
