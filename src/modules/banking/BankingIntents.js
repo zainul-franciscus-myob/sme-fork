@@ -80,6 +80,9 @@ export const SHOW_SELECTED_MATCH_TRANSACTIONS = Symbol(
 export const UPDATE_MATCH_TRANSACTION_OPTIONS = Symbol(
   'Update match transaction filter Options'
 );
+export const RESET_MATCH_TRANSACTION_OPTIONS = Symbol(
+  'Reset match transaction filter Options'
+);
 export const SET_MATCH_TRANSACTION_SORT_ORDER = Symbol(
   'Set match transaction sort order'
 );

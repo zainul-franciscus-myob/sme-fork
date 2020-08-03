@@ -1,6 +1,7 @@
 import {
   FILTER_JOB_LIST,
   LOAD_JOB_LIST,
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_TABLE_LOADING_STATE,
@@ -67,6 +68,11 @@ const updateFilterOptions = (state, action) => ({
   },
 });
 
+const resetFilterOptions = (state) => ({
+  ...state,
+  filterOptions: defaultFilterOptions,
+});
+
 const setInitialState = (state, action) => ({
   ...state,
   ...action.context,
@@ -80,6 +86,7 @@ const handlers = {
   [FILTER_JOB_LIST]: filterJobList,
   [RESET_STATE]: resetState,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
+  [RESET_FILTER_OPTIONS]: resetFilterOptions,
   [SET_INITIAL_STATE]: setInitialState,
 };
 

@@ -1,6 +1,7 @@
 import {
   LOAD_INVOICE_LIST,
   LOAD_NEXT_PAGE,
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_NEXT_PAGE_LOADING_STATE,
@@ -29,6 +30,11 @@ const createInvoiceListDispatcher = (store) => ({
       intent: UPDATE_FILTER_OPTIONS,
       filterName,
       value,
+    });
+  },
+  resetFilterOptions: () => {
+    store.dispatch({
+      intent: RESET_FILTER_OPTIONS,
     });
   },
   setSortOrder: ({ orderBy, newSortOrder }) => {

@@ -7,6 +7,7 @@ export const SET_NEXT_PAGE_LOADING_STATE = Symbol(
 );
 export const SET_LOADING_STATE = Symbol('Set loading state');
 export const UPDATE_FILTER_OPTIONS = Symbol('Update filter Options');
+export const RESET_FILTER_OPTIONS = Symbol('Reset filter Options');
 export const SET_SORT_ORDER = Symbol('Set sort order');
 export const UPDATE_PERIOD_DATE_RANGE = Symbol('Update period date range');
 

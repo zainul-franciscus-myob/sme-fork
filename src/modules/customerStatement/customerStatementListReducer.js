@@ -4,6 +4,7 @@ import {
   CLOSE_MODAL,
   LOAD_CUSTOMER_STATEMENTS,
   OPEN_MODAL,
+  RESET_FILTER_OPTIONS,
   SELECT_CUSTOMER_STATEMENT,
   SET_ALERT,
   SET_ARE_ACTIONS_DISABLED,
@@ -133,6 +134,12 @@ const updateFilterOptions = (state, action) => ({
     ...state.filterOptions,
     [action.key]: action.value,
   },
+});
+
+const resetFilterOptions = (state) => ({
+  ...state,
+  filterOptions: defaultFilterOptions,
+  templateAdditionalOptions: defaultTemplateAdditionalOptions,
 });
 
 const updateTemplateAdditionalOptions = (state, action) => ({
@@ -271,6 +278,7 @@ const handlers = {
   [LOAD_CUSTOMER_STATEMENTS]: loadCustomerStatements,
   [SORT_AND_FILTER_CUSTOMER_STATEMENTS]: sortAndFilterCustomerStatementList,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
+  [RESET_FILTER_OPTIONS]: resetFilterOptions,
   [UPDATE_TEMPLATE_ADDITIONAL_OPTIONS]: updateTemplateAdditionalOptions,
   [UPDATE_TEMPLATE_OPTION]: updateTemplateOption,
   [UPDATE_EMAIL_OPTIONS]: updateEmailOption,

@@ -181,10 +181,17 @@ export default class CustomerStatementListModule {
     this.sortAndfilterCustomerStatementList();
   };
 
+  resetFilterOptions = () => {
+    this.dispatcher.resetFilterOptions();
+
+    this.sortAndfilterCustomerStatementList();
+  };
+
   render = () => {
     const view = (
       <CustomerStatementListView
         onUpdateFilters={this.updateFilterOptions}
+        onResetFilters={this.resetFilterOptions}
         onUpdateTemplateAdditionalOptions={
           this.dispatcher.updateTemplateAdditionalOptions
         }

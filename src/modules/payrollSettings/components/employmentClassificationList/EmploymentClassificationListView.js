@@ -20,6 +20,7 @@ const EmploymentClassificationListView = (props) => {
     listeners: {
       onCreateButtonClick,
       onUpdateFilterOptions,
+      onResetFilterOptions,
       onApplyFilter,
       onSort,
       onClickRowButton,
@@ -42,6 +43,7 @@ const EmploymentClassificationListView = (props) => {
   const filterBar = (
     <EmploymentClassificationListFilterOptions
       onUpdateFilterOptions={onUpdateFilterOptions}
+      onResetFilterOptions={onResetFilterOptions}
       onApplyFilter={onApplyFilter}
     />
   );

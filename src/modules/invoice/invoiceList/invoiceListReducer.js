@@ -3,6 +3,7 @@ import { addMonths } from 'date-fns';
 import {
   LOAD_INVOICE_LIST,
   LOAD_NEXT_PAGE,
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_NEXT_PAGE_LOADING_STATE,
@@ -149,6 +150,11 @@ const updateFilterOptions = (state, action) => ({
   },
 });
 
+const resetFilterOptions = (state) => ({
+  ...state,
+  filterOptions: defaultFilterOptions,
+});
+
 const setSortOrder = (state, action) => ({
   ...state,
   sortOrder: action.sortOrder,
@@ -199,6 +205,7 @@ const handlers = {
   [LOAD_INVOICE_LIST]: loadInvoiceList,
   [SORT_AND_FILTER_INVOICE_LIST]: sortAndFilterInvoiceList,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
+  [RESET_FILTER_OPTIONS]: resetFilterOptions,
   [SET_SORT_ORDER]: setSortOrder,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,

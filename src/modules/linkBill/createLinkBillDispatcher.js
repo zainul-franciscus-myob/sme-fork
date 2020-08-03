@@ -1,5 +1,6 @@
 import {
   LOAD_LINK_BILL,
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
@@ -24,6 +25,12 @@ const createLinkBillDispatcher = (store) => ({
       intent: UPDATE_FILTER_OPTIONS,
       key,
       value,
+    });
+  },
+
+  resetFilterOptions: () => {
+    store.dispatch({
+      intent: RESET_FILTER_OPTIONS,
     });
   },
 

@@ -4,12 +4,20 @@ import React from 'react';
 import LinkBillListOptions from './LinkBillListOptions';
 import LinkBillListTable from './LinkBillListTable';
 
-const LinkBillListView = ({ onUpdateFilterOptions, onSort, onBillSelect }) => {
+const LinkBillListView = ({
+  onUpdateFilterOptions,
+  onResetFilterOptions,
+  onSort,
+  onBillSelect,
+}) => {
   const cardBody = (
     <Card.Body
       child={
         <>
-          <LinkBillListOptions onUpdateFilterOptions={onUpdateFilterOptions} />
+          <LinkBillListOptions
+            onUpdateFilterOptions={onUpdateFilterOptions}
+            onResetFilterOptions={onResetFilterOptions}
+          />
           <Separator />
           <LinkBillListTable onSort={onSort} onBillSelect={onBillSelect} />
         </>

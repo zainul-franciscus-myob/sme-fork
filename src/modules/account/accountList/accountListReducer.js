@@ -1,5 +1,5 @@
-import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
+  RESET_ACCOUNT_LIST_FILTER_OPTIONS,
   SET_ACCOUNT_LIST_FILTER_OPTIONS,
   SET_ACCOUNT_LIST_TAB,
   SET_ACCOUNT_LIST_TABLE_LOADING_STATE,
@@ -7,6 +7,7 @@ import {
   SET_LOADING_STATE,
   SORT_AND_FILTER_ACCOUNT_LIST,
 } from '../AccountIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { tabIds } from './tabItems';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
@@ -57,6 +58,15 @@ const setAccountListFilterOption = (state, action) => ({
   },
 });
 
+const resetAccountListFilterOption = (state) => ({
+  ...state,
+  filterOptions: {
+    ...state.filterOptions,
+    keywords: '',
+    showInactive: false,
+  },
+});
+
 const setAccountListTab = (state, { tabId }) => ({
   ...state,
   filterOptions: {
@@ -78,6 +88,7 @@ const handlers = {
 
   [SORT_AND_FILTER_ACCOUNT_LIST]: sortAndFilterAccountList,
   [SET_ACCOUNT_LIST_FILTER_OPTIONS]: setAccountListFilterOption,
+  [RESET_ACCOUNT_LIST_FILTER_OPTIONS]: resetAccountListFilterOption,
   [SET_ACCOUNT_LIST_TAB]: setAccountListTab,
   [SET_ACCOUNT_LIST_TABLE_LOADING_STATE]: setAccountListTableLoadingState,
 };

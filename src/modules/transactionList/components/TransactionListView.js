@@ -14,6 +14,7 @@ const TransactionListView = ({
   onDismissAlert,
   pageHeadTitle,
   onUpdateFilters,
+  onResetFilters,
   onPeriodChange,
   onSort,
   onLoadMoreButtonClick,
@@ -34,6 +35,7 @@ const TransactionListView = ({
     <JournalTransactionListView
       onSort={onSort}
       onUpdateFilters={onUpdateFilters}
+      onResetFilters={onResetFilters}
       onPeriodChange={onPeriodChange}
       onLoadMoreButtonClick={onLoadMoreButtonClick}
       pageHead={pageHead}
@@ -46,6 +48,7 @@ const TransactionListView = ({
     <CreditsAndDebitsListView
       onSort={onSort}
       onUpdateFilters={onUpdateFilters}
+      onResetFilters={onResetFilters}
       onPeriodChange={onPeriodChange}
       onLoadMoreButtonClick={onLoadMoreButtonClick}
       pageHead={pageHead}

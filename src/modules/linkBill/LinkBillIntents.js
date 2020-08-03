@@ -5,6 +5,7 @@ export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
 
 export const LOAD_LINK_BILL = Symbol('Load link bill');
 export const UPDATE_FILTER_OPTIONS = Symbol('Update filter options');
+export const RESET_FILTER_OPTIONS = Symbol('Reset filter options');
 export const SET_SORT_ORDER = Symbol('Set sort order');
 export const UPDATE_BILL_SELECTION = Symbol('Update bill selection');
 export const SORT_AND_FILTER_BILL_LIST = Symbol('Sort and filter bill list');

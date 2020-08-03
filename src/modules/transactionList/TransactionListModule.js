@@ -231,6 +231,18 @@ export default class TransactionListModule {
     }
   };
 
+  resetFilterOptions = () => {
+    const state = this.store.getState();
+    const activeTab = getActiveTab(state);
+    this.dispatcher.resetFilterOptions();
+
+    if (activeTab === DEBITS_AND_CREDITS) {
+      this.sortAndFilterCreditsAndDebitsList();
+    } else {
+      this.sortAndFilterTransactionList();
+    }
+  };
+
   updatePeriodDateRange = ({ period, dateFrom, dateTo }) => {
     const state = this.store.getState();
     const activeTab = getActiveTab(state);
@@ -320,6 +332,7 @@ export default class TransactionListModule {
           onDismissAlert={this.dismissAlert}
           pageHeadTitle="Find transactions"
           onUpdateFilters={this.updateFilterOptions}
+          onResetFilters={this.resetFilterOptions}
           onPeriodChange={this.updatePeriodDateRange}
           onSort={this.sort}
           onLoadMoreButtonClick={this.loadNextPage}

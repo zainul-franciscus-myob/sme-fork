@@ -1,6 +1,7 @@
 import * as debounce from '../../../../common/debounce/debounce';
 import {
   LOAD_BANKING_RULE_LIST,
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
@@ -295,6 +296,47 @@ describe('BankingRuleListModule', () => {
       module.updateFilterOptions({ key: 'keywords', value: '🐛' });
 
       expect(debounce.default).toHaveBeenCalled();
+    });
+  });
+
+  describe('resetFilterBankingRuleList', () => {
+    it('successfully resets filter', () => {
+      const { store, integration, module } = setupWithRun();
+      const defaultFilterOptions = store.getState().filterOptions;
+
+      store.setState({
+        ...store.getState(),
+        filterOptions: {
+          keywords: 'test',
+          showInactive: true,
+        },
+      });
+
+      module.resetFilterOptions();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: RESET_FILTER_OPTIONS,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: true,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: false,
+        },
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_BANKING_RULE_LIST,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_BANKING_RULE_LIST,
+          params: expect.objectContaining(defaultFilterOptions),
+        }),
+      ]);
     });
   });
 });

@@ -20,6 +20,7 @@ const SuperFundListView = (props) => {
     listeners: {
       onCreateButtonClick,
       onUpdateFilterOptions,
+      onResetFilterOptions,
       onApplyFilter,
       onSort,
     },
@@ -41,6 +42,7 @@ const SuperFundListView = (props) => {
   const filterBar = (
     <SuperFundListFilterOptions
       onUpdateFilterOptions={onUpdateFilterOptions}
+      onResetFilterOptions={onResetFilterOptions}
       onApplyFilter={onApplyFilter}
     />
   );

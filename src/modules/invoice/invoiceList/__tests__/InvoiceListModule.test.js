@@ -2,6 +2,7 @@ import * as localStorageDriver from '../../../../store/localStorageDriver';
 import {
   LOAD_INVOICE_LIST,
   LOAD_NEXT_PAGE,
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_NEXT_PAGE_LOADING_STATE,
@@ -321,6 +322,51 @@ describe('InvoiceListModule', () => {
         expect.objectContaining({
           intent: SORT_AND_FILTER_INVOICE_LIST,
         }),
+      ]);
+    });
+  });
+
+  describe('resetInvoiceListFilter', () => {
+    it('clears filters and reload', () => {
+      const { store, integration, module } = setupWithRun();
+      const defaultFilterOptions = store.getState().filterOptions;
+
+      store.setState({
+        ...store.getState(),
+        filterOptions: {
+          dateFrom: '12/12/2017',
+          dateTo: '12/12/2019',
+          keywords: 'abc',
+          customerId: '123',
+          status: 'All',
+        },
+      });
+
+      module.resetInvoiceListFilter();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: RESET_FILTER_OPTIONS,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isLoading: true,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isLoading: false,
+        },
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_INVOICE_LIST,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        {
+          intent: SORT_AND_FILTER_INVOICE_LIST,
+          params: expect.objectContaining(defaultFilterOptions),
+          urlParams: { businessId: undefined },
+        },
       ]);
     });
   });

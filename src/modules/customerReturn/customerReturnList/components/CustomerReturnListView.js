@@ -11,6 +11,7 @@ import style from './CustomerReturnListView.module.css';
 const CustomerReturnListView = ({
   loadingState,
   onUpdateFilterBarOptions,
+  onResetFilterBarOptions,
   alert,
   onDismissAlert,
   onSort,
@@ -28,6 +29,7 @@ const CustomerReturnListView = ({
   const filterBar = (
     <CustomerReturnListFilterOptions
       onUpdateFilterBarOptions={onUpdateFilterBarOptions}
+      onResetFilterBarOptions={onResetFilterBarOptions}
     />
   );
 

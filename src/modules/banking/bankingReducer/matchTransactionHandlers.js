@@ -84,6 +84,19 @@ export const updateMatchTransactionOptions = (state, action) => ({
   },
 });
 
+export const resetMatchTransactionOptions = (state) => ({
+  ...state,
+  openEntry: {
+    ...state.openEntry,
+    match: {
+      ...state.openEntry.match,
+      filterOptions: {
+        ...getDefaultState().openEntry.match.filterOptions,
+      },
+    },
+  },
+});
+
 export const setMatchTransactionSortOrder = (state, action) => ({
   ...state,
   openEntry: {

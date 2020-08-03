@@ -1,6 +1,7 @@
 import {
   LOAD_ITEM_LIST,
   LOAD_NEXT_PAGE,
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_NEXT_PAGE_LOADING_STATE,
@@ -78,6 +79,12 @@ const updateFilterOptions = (state, action) => ({
   },
 });
 
+const resetFilterOptions = (state) => ({
+  ...state,
+  isFilteredList: false,
+  filterOptions: getDefaultState().filterOptions,
+});
+
 const setLoadingState = (state, action) => ({
   ...state,
   isLoading: action.isLoading,
@@ -120,6 +127,7 @@ const handlers = {
   [SET_SORT_ORDER]: setSortOrder,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
+  [RESET_FILTER_OPTIONS]: resetFilterOptions,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,

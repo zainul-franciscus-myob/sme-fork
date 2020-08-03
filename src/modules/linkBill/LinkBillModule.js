@@ -47,6 +47,11 @@ export default class LinkBillModule {
     this.sortAndFilterLinkBillList();
   };
 
+  resetFilterOptions = () => {
+    this.dispatcher.resetFilterOptions();
+    this.sortAndFilterLinkBillList();
+  };
+
   updateSortOption = (orderBy) => {
     const state = this.store.getState();
     const sortOrder = getNewSortOrder(orderBy)(state);
@@ -129,6 +134,7 @@ export default class LinkBillModule {
       <Provider store={this.store}>
         <LinkBillView
           onUpdateFilterOptions={this.updateFilterOptions}
+          onResetFilterOptions={this.resetFilterOptions}
           onSort={this.updateSortOption}
           onBillSelect={this.dispatcher.updateBillSelection}
           onCancelButtonClick={this.redirectToInTrayListPage}

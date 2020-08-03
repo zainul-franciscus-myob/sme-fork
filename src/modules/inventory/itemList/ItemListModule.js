@@ -29,6 +29,7 @@ export default class ItemListModule {
     const itemListView = (
       <ItemListView
         onUpdateFilters={this.updateFilterOptions}
+        onResetFilters={this.resetFilterOptions}
         onDismissAlert={this.dismissAlert}
         onSort={this.updateSort}
         onCreateItem={this.createItem}
@@ -121,6 +122,11 @@ export default class ItemListModule {
     } else {
       this.sortAndFilterItemList();
     }
+  };
+
+  resetFilterOptions = () => {
+    this.dispatcher.resetFilterOptions();
+    this.sortAndFilterItemList();
   };
 
   dismissAlert = () => {

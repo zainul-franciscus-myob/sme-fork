@@ -1,5 +1,6 @@
 import {
   LOAD_BANKING_RULE_LIST,
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
@@ -54,6 +55,11 @@ const updateFilterOptions = (state, action) => ({
   },
 });
 
+const resetFilterOptions = (state) => ({
+  ...state,
+  filterOptions: getDefaultState().filterOptions,
+});
+
 const setLoadingState = (state, { loadingState }) => ({
   ...state,
   loadingState,
@@ -76,6 +82,7 @@ const handlers = {
   [SORT_AND_FILTER_BANKING_RULE_LIST]: sortAndFilterBankingRuleList,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
+  [RESET_FILTER_OPTIONS]: resetFilterOptions,
   [SET_SORT_ORDER]: setSortOrder,
   [SET_ALERT]: setAlert,
   [SET_LOADING_STATE]: setLoadingState,

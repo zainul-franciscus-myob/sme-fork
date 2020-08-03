@@ -38,10 +38,9 @@ export default class ContactListModule {
           onAddContactButtonClick={this.redirectToAddContact}
           onDismissAlert={this.dispatcher.dismissAlert}
           onUpdateFilters={this.updateFilterOptions}
+          onResetFilter={this.resetFilters}
           onSort={this.updateSortOrder}
           onLoadMoreButtonClick={this.loadContactListNextPage}
-          // Disabled until decision on whether Reset link will be on all list screens
-          // onResetFilter={this.resetFilters}
         />
       </Provider>
     );

@@ -1,6 +1,7 @@
 export const SET_LOADING_STATE = Symbol('Set loading state');
 export const SET_ALERT = Symbol('Set alert');
 export const UPDATE_FILTER_OPTIONS = Symbol('Update filter options');
+export const RESET_FILTER_OPTIONS = Symbol('Reset filter options');
 export const LOAD_ACCOUNTS_AND_TRANSACTIONS = Symbol(
   'Load accounts and transactions'
 );

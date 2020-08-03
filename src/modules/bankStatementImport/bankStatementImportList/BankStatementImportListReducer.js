@@ -2,6 +2,7 @@ import {
   DELETE_BANK_STATEMENT,
   IMPORT_BANK_STATEMENT,
   LOAD_BANK_STATEMENT_IMPORT_LIST,
+  RESET_FILTER_BAR_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
@@ -52,6 +53,11 @@ const updateFilterBarOptions = (state, { key, value }) => ({
     ...state.filterOptions,
     [key]: value,
   },
+});
+
+const resetFilterBarOptions = (state) => ({
+  ...state,
+  filterOptions: getDefaultState().filterOptions,
 });
 
 const sortAndFilterBankStatementImportList = (state, { entries }) => ({
@@ -136,6 +142,7 @@ const handlers = {
   [RESET_STATE]: resetState,
   [LOAD_BANK_STATEMENT_IMPORT_LIST]: loadBankStatementImportList,
   [UPDATE_FILTER_BAR_OPTIONS]: updateFilterBarOptions,
+  [RESET_FILTER_BAR_OPTIONS]: resetFilterBarOptions,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [SORT_AND_FILTER_BANK_STATEMENT_IMPORT_LIST]: sortAndFilterBankStatementImportList,
   [SET_ALERT]: setAlert,

@@ -43,6 +43,7 @@ const BankStatementImportListView = ({
   loadingState,
   isSubmitting,
   onUpdateFilterBarOptions,
+  onResetFilterBarOptions,
   alert,
   modalType,
   order,
@@ -72,6 +73,7 @@ const BankStatementImportListView = ({
   const filterBar = (
     <BankStatementImportListFilterOptions
       onUpdateFilterBarOptions={onUpdateFilterBarOptions}
+      onResetFilterBarOptions={onResetFilterBarOptions}
     />
   );
 

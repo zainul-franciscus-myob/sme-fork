@@ -73,6 +73,7 @@ const BankTransactionTable = ({
   onUpdateSplitAllocationLine,
   onDeleteSplitAllocationLine,
   onUpdateMatchTransactionOptions,
+  onResetMatchTransactionOptions,
   onSortMatchTransactions,
   onUpdateMatchTransactionSelection,
   onUpdateSelectedTransactionDetails,
@@ -144,6 +145,7 @@ const BankTransactionTable = ({
       onUpdateSplitAllocationLine={onUpdateSplitAllocationLine}
       onDeleteSplitAllocationLine={onDeleteSplitAllocationLine}
       onUpdateMatchTransactionOptions={onUpdateMatchTransactionOptions}
+      onResetMatchTransactionOptions={onResetMatchTransactionOptions}
       onSortMatchTransactions={onSortMatchTransactions}
       onUpdateMatchTransactionSelection={onUpdateMatchTransactionSelection}
       onUpdateSelectedTransactionDetails={onUpdateSelectedTransactionDetails}

@@ -52,11 +52,16 @@ export default class BusinessModule {
     this.dispatcher.updateKeyword(value);
   };
 
+  onResetKeyword = () => {
+    this.dispatcher.resetKeyword();
+  };
+
   render = () => {
     const view = (
       <Provider store={this.store}>
         <BusinessListView
           onUpdateKeyword={this.onUpdateKeyword}
+          onResetKeyword={this.onResetKeyword}
           onSort={this.dispatcher.updateSortOrder}
         />
       </Provider>

@@ -7,6 +7,9 @@ export const SORT_AND_FILTER_ACCOUNT_LIST = Symbol(
 export const SET_ACCOUNT_LIST_FILTER_OPTIONS = Symbol(
   'Set in account list filter options'
 );
+export const RESET_ACCOUNT_LIST_FILTER_OPTIONS = Symbol(
+  'Reset account list filter options'
+);
 export const SET_ACCOUNT_LIST_TAB = Symbol('Set in account list tab');
 export const SET_ACCOUNT_LIST_TABLE_LOADING_STATE = Symbol(
   'Set account list table loading state'

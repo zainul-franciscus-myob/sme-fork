@@ -10,6 +10,7 @@ import {
   LOAD_NEW_SPLIT_ALLOCATION,
   OPEN_MODAL,
   RESET_BULK_ALLOCATION,
+  RESET_MATCH_TRANSACTION_OPTIONS,
   SET_ALERT,
   SET_ATTACHMENTS_LOADING_STATE,
   SET_BULK_LOADING_STATE,
@@ -856,6 +857,60 @@ describe('BankingModule', () => {
           params: expect.objectContaining({
             contactId: '🙅‍♀️',
           }),
+        }),
+      ]);
+    });
+  });
+
+  describe('resetMatchTransactionOptions', () => {
+    it('successfully resets filters', () => {
+      const {
+        module,
+        integration,
+        store,
+      } = setUpWithOpenTransactionOnAllocateTab();
+      const state = store.getState();
+      const defaultFilterOptions = state.openEntry.match.filterOptions;
+
+      store.setState({
+        ...state,
+        openEntry: {
+          ...state.openEntry,
+          match: {
+            ...state.openEntry.match,
+            filterOptions: {
+              showType: MatchTransactionShowType.SELECTED,
+              contactId: '🙅‍♀️',
+              keywords: 'test',
+              includeClosed: true,
+            },
+          },
+        },
+      });
+
+      module.resetMatchTransactionOptions();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: RESET_MATCH_TRANSACTION_OPTIONS,
+        },
+        {
+          intent: SET_MATCH_TRANSACTION_LOADING_STATE,
+          isLoading: true,
+        },
+        {
+          intent: SET_MATCH_TRANSACTION_LOADING_STATE,
+          isLoading: false,
+        },
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_MATCH_TRANSACTIONS,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_MATCH_TRANSACTIONS,
+          params: expect.objectContaining(defaultFilterOptions),
         }),
       ]);
     });

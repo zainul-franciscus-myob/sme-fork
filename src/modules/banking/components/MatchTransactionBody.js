@@ -19,6 +19,7 @@ const MatchTransactionBody = ({
   onSortMatchTransactions,
   onUpdateMatchTransactionSelection,
   onUpdateSelectedTransactionDetails,
+  onResetMatchTransactionOptions,
   onToggleSelectAllState,
   onAddAdjustment,
   onUpdateAdjustment,
@@ -56,6 +57,7 @@ const MatchTransactionBody = ({
     <div className={styles.matchTransactionBody}>
       <MatchTransactionOptions
         onUpdateMatchTransactionOptions={onUpdateMatchTransactionOptions}
+        onResetMatchTransactionOptions={onResetMatchTransactionOptions}
       />
       <MatchTransactionTable
         onSortMatchTransactions={onSortMatchTransactions}

@@ -75,6 +75,11 @@ export default class InvoiceListModule {
     }
   };
 
+  resetInvoiceListFilter = () => {
+    this.dispatcher.resetFilterOptions();
+    this.sortAndFilterInvoiceList();
+  };
+
   sortAndFilterInvoiceList = () => {
     const onSuccess = ({
       entries,
@@ -145,6 +150,7 @@ export default class InvoiceListModule {
     const invoiceListView = (
       <InvoiceListView
         onUpdateFilter={this.filterInvoiceList}
+        onResetFilter={this.resetInvoiceListFilter}
         onDismissAlert={this.dispatcher.dismissAlert}
         onSort={this.sortInvoiceList}
         onLoadMoreButtonClick={this.loadNextPage}

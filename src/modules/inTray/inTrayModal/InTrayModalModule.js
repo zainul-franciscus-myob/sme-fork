@@ -68,6 +68,11 @@ export default class InTrayModalModule {
     this.debouncedSortAndFilterInTrayList();
   };
 
+  resetFilterOptions = () => {
+    this.dispatcher.resetFilterOptions();
+    this.sortAndFilterInTrayList();
+  };
+
   updateSortOrder = (orderBy) => {
     const state = this.store.getState();
     if (getIsEntryLoading(state)) {
@@ -168,6 +173,7 @@ export default class InTrayModalModule {
         }}
         inTrayListListeners={{
           onUpdateFilterOptions: this.updateFilterOptions,
+          onResetFilterOptions: this.resetFilterOptions,
           onSort: this.updateSortOrder,
           onUpload: this.uploadInTrayFiles,
           onView: this.viewInTrayDocument,

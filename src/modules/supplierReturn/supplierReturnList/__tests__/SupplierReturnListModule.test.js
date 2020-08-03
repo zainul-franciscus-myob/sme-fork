@@ -1,6 +1,7 @@
 import * as localStorageDriver from '../../../../store/localStorageDriver';
 import {
   LOAD_SUPPLIER_RETURN_LIST,
+  RESET_FILTER_BAR_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
@@ -18,6 +19,8 @@ import createSupplierReturnListIntegrator from '../createSupplierReturnListInteg
 import supplierReturnListReducer from '../supplierReturnListReducer';
 
 describe('SupplierReturnListModule', () => {
+  const businessId = 'businessId';
+
   const setup = () => {
     // Mock loadSettings from localStorage to prevent side effects
     localStorageDriver.loadSettings = () => {};
@@ -39,7 +42,7 @@ describe('SupplierReturnListModule', () => {
   const setupWithRun = () => {
     const { store, integration, module } = setup();
 
-    module.run({});
+    module.run({ businessId });
     store.resetActions();
     integration.resetRequests();
 
@@ -134,6 +137,40 @@ describe('SupplierReturnListModule', () => {
         expect.objectContaining({
           intent: SORT_AND_FILTER_SUPPLIER_RETURN_LIST,
         }),
+      ]);
+    });
+  });
+
+  describe('resetFilterBarOptions', () => {
+    it('successfully resets filter', () => {
+      const { store, integration, module } = setupWithRun();
+      const defaultFilterOptions = store.getState().filterOptions;
+
+      store.setState({
+        ...store.getState(),
+        filterOptions: {
+          supplierId: '1',
+          keywords: 'test',
+          dateFrom: '1960-01-01',
+          dateTo: '1960-30-01',
+        },
+      });
+      module.resetFilterBarOptions();
+
+      expect(store.getActions()).toEqual([
+        { intent: RESET_FILTER_BAR_OPTIONS },
+        { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
+        { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_SUPPLIER_RETURN_LIST,
+        }),
+      ]);
+      expect(integration.getRequests()).toEqual([
+        {
+          intent: SORT_AND_FILTER_SUPPLIER_RETURN_LIST,
+          params: expect.objectContaining(defaultFilterOptions),
+          urlParams: { businessId },
+        },
       ]);
     });
   });

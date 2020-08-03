@@ -25,6 +25,7 @@ const InTrayModalView = ({
   inTrayModalListeners: { onDismissAlert, onCloseModal, onLinkButtonClick },
   inTrayListListeners: {
     onUpdateFilterOptions,
+    onResetFilterOptions,
     onSort,
     onUpload,
     onView,
@@ -38,7 +39,10 @@ const InTrayModalView = ({
   );
 
   const filterBar = (
-    <InTrayModalFilterOptions onUpdateFilterOptions={onUpdateFilterOptions} />
+    <InTrayModalFilterOptions
+      onUpdateFilterOptions={onUpdateFilterOptions}
+      onResetFilterOptions={onResetFilterOptions}
+    />
   );
 
   const inTrayView = (

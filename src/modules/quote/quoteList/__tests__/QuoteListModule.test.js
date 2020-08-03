@@ -20,6 +20,7 @@ import createQuoteListIntegrator from '../createQuoteListIntegrator';
 import quoteListReducer from '../quoteListReducer';
 
 describe('QuoteListModule', () => {
+  const businessId = 'businessId';
   const setup = () => {
     // Mock loadSettings from localStorage to prevent side effects
     localStorageDriver.loadSettings = () => {};
@@ -41,7 +42,7 @@ describe('QuoteListModule', () => {
   const setupWithRun = () => {
     const { store, integration, module } = setup();
 
-    module.run({});
+    module.run({ businessId });
     store.resetActions();
     integration.resetRequests();
 
@@ -132,6 +133,33 @@ describe('QuoteListModule', () => {
       ]);
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({ intent: SORT_AND_FILTER_QUOTE_LIST }),
+      ]);
+    });
+  });
+
+  describe('resetFilterOptions', () => {
+    it('successfully resets filter', () => {
+      const { store, integration, module } = setupWithRun();
+
+      const defaultFilterOptions = store.getState().filterOptions;
+
+      store.setState({
+        ...store.getState(),
+        filterOptions: {
+          customerId: '123',
+          keywords: 'test',
+          dateFrom: '1960-01-01',
+          dateTo: '1960-30-01',
+        },
+      });
+      module.resetFilterOptions();
+
+      expect(integration.getRequests()).toEqual([
+        {
+          intent: SORT_AND_FILTER_QUOTE_LIST,
+          params: expect.objectContaining(defaultFilterOptions),
+          urlParams: { businessId },
+        },
       ]);
     });
   });

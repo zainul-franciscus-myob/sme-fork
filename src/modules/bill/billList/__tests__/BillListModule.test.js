@@ -2,6 +2,7 @@ import * as localStorageDriver from '../../../../store/localStorageDriver';
 import {
   LOAD_BILL_LIST,
   LOAD_BILL_LIST_NEXT_PAGE,
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
@@ -22,6 +23,7 @@ import TestStore from '../../../../store/TestStore';
 import billListReducer from '../billListReducer';
 
 describe('BillListModule', () => {
+  const businessId = 'businessId';
   const setup = () => {
     // Mock loadSettings from localStorage to prevent side effects
     localStorageDriver.loadSettings = () => {};
@@ -383,6 +385,51 @@ describe('BillListModule', () => {
         expect.objectContaining({
           intent: SORT_AND_FILTER_BILL_LIST,
         }),
+      ]);
+    });
+  });
+
+  describe('resetFilterOptions', () => {
+    it('reset filter options and triggers filtering', () => {
+      const { store, integration, module } = setupWithRun();
+      const { defaultFilterOptions } = store.getState();
+
+      store.setState({
+        businessId,
+        filterOptions: {
+          status: 'Some Status',
+          supplierId: '1',
+          dateFrom: '2010-02-02',
+          dateTo: '2015-02-03',
+          keywords: '🍏🍏',
+        },
+      });
+
+      module.resetFilterOptions();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: RESET_FILTER_OPTIONS,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: true,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: false,
+        },
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_BILL_LIST,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        {
+          intent: SORT_AND_FILTER_BILL_LIST,
+          params: expect.objectContaining(defaultFilterOptions),
+          urlParams: { businessId },
+        },
       ]);
     });
   });

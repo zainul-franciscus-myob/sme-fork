@@ -4,6 +4,7 @@ import {
   LOAD_CREDITS_AND_DEBITS_LIST,
   LOAD_CREDITS_AND_DEBITS_NEXT_PAGE,
   LOAD_TRANSACTION_NEXT_PAGE,
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LAST_LOADING_TAB,
   SET_LOADING_STATE,
@@ -18,6 +19,7 @@ import {
 } from '../TransactionListIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
+import Periods from '../../../components/PeriodPicker/Periods';
 import TestIntegration from '../../../integration/TestIntegration';
 import TestStore from '../../../store/TestStore';
 import TransactionListModule from '../TransactionListModule';
@@ -26,6 +28,8 @@ import createTransactionListIntegrator from '../createTransactionListIntegrator'
 import transactionListReducer from '../transactionListReducer';
 
 describe('TransactionListModule', () => {
+  const businessId = 'businessId';
+
   const setup = () => {
     // Mock loadSettings & saveSettings from localStorage to prevent side effects
     localStorageDriver.loadSettings = () => {};
@@ -59,7 +63,7 @@ describe('TransactionListModule', () => {
     const toolbox = setup();
     const { module, store, integration } = toolbox;
 
-    module.run({});
+    module.run({ businessId });
     store.resetActions();
     integration.resetRequests();
 
@@ -81,7 +85,7 @@ describe('TransactionListModule', () => {
     const toolbox = setup();
     const { module, store, integration } = toolbox;
 
-    module.run({});
+    module.run({ businessId });
     module.setTab(JOURNAL_TRANSACTIONS);
     module.setTab(DEBITS_AND_CREDITS);
     store.resetActions();
@@ -344,6 +348,68 @@ describe('TransactionListModule', () => {
             sourceJournal: 'All',
           });
         });
+      });
+    });
+  });
+
+  describe('resetFilterOptions', () => {
+    describe(`when on credit and debits tab`, () => {
+      it('should reset filter options', () => {
+        const { module, integration, store } = setupWithTab(DEBITS_AND_CREDITS);
+        const { defaultFilterOptions } = store.getState();
+
+        store.setState({
+          ...store.getState(),
+          filterOptions: {
+            accountId: '1',
+            sourceJournal: 'Any',
+            keywords: 'test',
+            period: Periods.lastMonth,
+          },
+        });
+        module.resetFilterOptions();
+
+        expect(store.getActions()[0]).toEqual({
+          intent: RESET_FILTER_OPTIONS,
+        });
+
+        expect(integration.getRequests()).toEqual([
+          {
+            intent: SORT_AND_FILTER_CREDITS_AND_DEBITS_LIST,
+            params: expect.objectContaining(defaultFilterOptions),
+            urlParams: { businessId },
+          },
+        ]);
+      });
+    });
+
+    describe(`when on transaction list tab`, () => {
+      it('should reset filter options', () => {
+        const { module, integration, store } = setupWithTab(
+          SORT_AND_FILTER_TRANSACTION_LIST
+        );
+
+        module.resetFilterOptions();
+
+        expect(store.getActions()[0]).toEqual({
+          intent: RESET_FILTER_OPTIONS,
+        });
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: SORT_AND_FILTER_TRANSACTION_LIST,
+            params: {
+              accountId: undefined,
+              keywords: '',
+              offset: 0,
+              orderBy: 'Date',
+              period: 'This month',
+              sortOrder: 'desc',
+              sourceJournal: 'All',
+            },
+            urlParams: { businessId },
+          }),
+        ]);
       });
     });
   });

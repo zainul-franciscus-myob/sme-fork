@@ -18,13 +18,14 @@ const handleComboboxChange = (key, handler) => ({ id: value } = {}) =>
 
 const CustomerReturnListFilterOptions = ({
   onUpdateFilterBarOptions,
+  onResetFilterBarOptions,
   totalAmount,
   totalCreditAmount,
   customerFilterOptions,
   filterOptions: { keywords, customerId },
 }) => (
   <React.Fragment>
-    <FilterBar>
+    <FilterBar onReset={onResetFilterBarOptions}>
       <div className={styles.customerCombobox}>
         <CustomerCombobox
           label="Customer"

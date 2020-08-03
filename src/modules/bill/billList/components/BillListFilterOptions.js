@@ -29,9 +29,10 @@ const BillListFilterOptions = ({
   totalOverdue,
   hasOverdue,
   onUpdateFilters,
+  onResetFilters,
 }) => (
   <React.Fragment>
-    <FilterBar>
+    <FilterBar onReset={onResetFilters}>
       <Select
         name="status"
         label="Status"

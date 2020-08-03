@@ -1,4 +1,5 @@
 import {
+  RESET_ACCOUNT_LIST_FILTER_OPTIONS,
   SET_ACCOUNT_LIST_FILTER_OPTIONS,
   SET_ACCOUNT_LIST_TAB,
   SET_ACCOUNT_LIST_TABLE_LOADING_STATE,
@@ -45,6 +46,11 @@ const createAccountListDispatcher = (store) => ({
       key,
       value,
     });
+  },
+
+  resetAccountListFilterOptions: () => {
+    const intent = RESET_ACCOUNT_LIST_FILTER_OPTIONS;
+    store.dispatch({ intent });
   },
 
   setAccountListTab: (tabId) => {

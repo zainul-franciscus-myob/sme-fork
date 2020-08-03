@@ -14,8 +14,9 @@ const LinkBillListOptions = ({
   supplierFilterOptions,
   filterOptions: { supplierId, showPaidBills },
   onUpdateFilterOptions,
+  onResetFilterOptions,
 }) => (
-  <FilterBar>
+  <FilterBar onReset={onResetFilterOptions}>
     <SupplierCombobox
       label="Supplier"
       name="supplier"

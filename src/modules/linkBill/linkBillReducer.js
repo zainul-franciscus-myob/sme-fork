@@ -1,5 +1,6 @@
 import {
   LOAD_LINK_BILL,
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
@@ -21,7 +22,7 @@ const getDefaultState = () => ({
   sortOrder: '',
   orderBy: '',
   filterOptions: {
-    supplierId: '',
+    supplierId: 'All',
     showPaidBills: false,
   },
   alert: undefined,
@@ -56,6 +57,11 @@ const updateFilterOptions = (state, action) => ({
     ...state.filterOptions,
     [action.key]: action.value,
   },
+});
+
+const resetFilterOptions = (state) => ({
+  ...state,
+  filterOptions: getDefaultState().filterOptions,
 });
 
 const updateBillSelection = (state, action) => ({
@@ -113,6 +119,7 @@ const handlers = {
   [SET_ALERT]: setAlert,
   [LOAD_LINK_BILL]: loadLinkBill,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
+  [RESET_FILTER_OPTIONS]: resetFilterOptions,
   [UPDATE_BILL_SELECTION]: updateBillSelection,
   [SET_SORT_ORDER]: setSortOrder,
   [SORT_AND_FILTER_BILL_LIST]: sortAndFilterBillList,

@@ -3,6 +3,7 @@ import { mount } from 'enzyme';
 
 import {
   LOAD_PAY_SLIP_EMAIL_DEFAULTS,
+  RESET_SUPER_FUND_LIST_FILTER_OPTIONS,
   SET_EMPLOYMENT_CLASSIFICATION_LIST_FILTER_OPTIONS,
   SET_EMPLOYMENT_CLASSIFICATION_LIST_SORT_ORDER,
   SET_EMPLOYMENT_CLASSIFICATION_LIST_TABLE_LOADING_STATE,
@@ -259,6 +260,47 @@ describe('PayrollSettingsModule', () => {
           {
             intent: SORT_AND_FILTER_SUPER_FUND_LIST,
             params: { keywords: 'value', orderBy: 'Name', sortOrder: 'asc' },
+            urlParams: { businessId },
+          },
+        ]);
+      });
+    });
+
+    describe('resetSuperFundListFilterOptions', () => {
+      it('reset filters options and triggers filtering', () => {
+        const { store, integration, module } = setupWithLoad();
+        jest.useFakeTimers();
+        const defaultFilterOptions = store.getState().superFundList
+          .filterOptions;
+
+        store.setState({
+          ...store.getState(),
+          filterOptions: {
+            keywords: 'test',
+          },
+        });
+        module.resetSuperFundListFilterOptions();
+        jest.runAllTimers();
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: RESET_SUPER_FUND_LIST_FILTER_OPTIONS,
+          },
+          {
+            intent: SET_SUPER_FUND_LIST_TABLE_LOADING_STATE,
+            isTableLoading: true,
+          },
+          {
+            intent: SET_SUPER_FUND_LIST_TABLE_LOADING_STATE,
+            isTableLoading: false,
+          },
+          expect.objectContaining({ intent: SORT_AND_FILTER_SUPER_FUND_LIST }),
+        ]);
+
+        expect(integration.getRequests()).toEqual([
+          {
+            intent: SORT_AND_FILTER_SUPER_FUND_LIST,
+            params: expect.objectContaining(defaultFilterOptions),
             urlParams: { businessId },
           },
         ]);

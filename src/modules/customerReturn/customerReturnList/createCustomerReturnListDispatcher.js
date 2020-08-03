@@ -1,5 +1,6 @@
 import {
   LOAD_CUSTOMER_RETURN_LIST,
+  RESET_FILTER_BAR_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
@@ -69,6 +70,10 @@ const createCustomerReturnListDispatcher = (store) => ({
       intent: UPDATE_FILTER_BAR_OPTIONS,
       key,
       value,
+    }),
+  resetFilterBarOptions: () =>
+    store.dispatch({
+      intent: RESET_FILTER_BAR_OPTIONS,
     }),
   sortAndFilterCustomerReturnList: ({
     entries,

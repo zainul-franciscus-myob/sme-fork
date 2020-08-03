@@ -43,6 +43,7 @@ const ElectronicPaymentsCreateView = ({
   accounts,
   paymentTypes,
   onUpdateFilterBarOptions,
+  onResetFilterBarOptions,
   onRecordAndDownloadBankFile,
   onAccountChange,
   selectedAccountId,
@@ -94,6 +95,7 @@ const ElectronicPaymentsCreateView = ({
           dateFrom={dateFrom}
           dateTo={dateTo}
           onUpdateFilterBarOptions={onUpdateFilterBarOptions}
+          onResetFilterBarOptions={onResetFilterBarOptions}
           isSpendMoneyEnabled={isSpendMoneyEnabled}
         />
       </Card>

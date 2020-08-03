@@ -10,6 +10,8 @@ import {
   LOAD_PAY_SLIP_EMAIL_DEFAULTS,
   LOAD_SUPER_FUND_LIST,
   OPEN_MODAL,
+  RESET_EMPLOYMENT_CLASSIFICATION_LIST_FILTER_OPTIONS,
+  RESET_SUPER_FUND_LIST_FILTER_OPTIONS,
   SET_ALERT,
   SET_EMPLOYMENT_CLASSIFICATION_DETAIL_ALERT,
   SET_EMPLOYMENT_CLASSIFICATION_DETAIL_INITIAL_STATE,
@@ -49,6 +51,7 @@ import {
 } from './paySlipEmailDefaultsReducer';
 import {
   loadEmploymentClassificationList,
+  resetEmploymentClassificationListFilterOption,
   setEmploymentClassificationListFilterOption,
   setEmploymentClassificationListLoadingState,
   setEmploymentClassificationListSortOrder,
@@ -57,6 +60,7 @@ import {
 } from './employmentClassificationListReducer';
 import {
   loadSuperFundList,
+  resetSuperFundListFilterOption,
   setSuperFundListFilterOption,
   setSuperFundListLoadingState,
   setSuperFundListSortOrder,
@@ -148,12 +152,14 @@ const handlers = {
   [LOAD_SUPER_FUND_LIST]: loadSuperFundList,
   [SORT_AND_FILTER_SUPER_FUND_LIST]: sortAndFilterSuperFundList,
   [SET_SUPER_FUND_LIST_FILTER_OPTIONS]: setSuperFundListFilterOption,
+  [RESET_SUPER_FUND_LIST_FILTER_OPTIONS]: resetSuperFundListFilterOption,
   [SET_SUPER_FUND_LIST_SORT_ORDER]: setSuperFundListSortOrder,
   [SET_SUPER_FUND_LIST_LOADING_STATE]: setSuperFundListLoadingState,
   [SET_SUPER_FUND_LIST_TABLE_LOADING_STATE]: setSuperFundListTableLoadingState,
   [LOAD_EMPLOYMENT_CLASSIFICATION_LIST]: loadEmploymentClassificationList,
   [SET_EMPLOYMENT_CLASSIFICATION_LIST_LOADING_STATE]: setEmploymentClassificationListLoadingState,
   [SET_EMPLOYMENT_CLASSIFICATION_LIST_FILTER_OPTIONS]: setEmploymentClassificationListFilterOption,
+  [RESET_EMPLOYMENT_CLASSIFICATION_LIST_FILTER_OPTIONS]: resetEmploymentClassificationListFilterOption,
   [SORT_AND_FILTER_EMPLOYMENT_CLASSIFICATION_LIST]: sortAndFilterEmploymentClassificationList,
   [SET_EMPLOYMENT_CLASSIFICATION_DETAIL_INITIAL_STATE]: setEmploymentClassificationInitialState,
   [SET_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL_INITIAL_STATE]: setNewEmploymentClassificationInitialState,

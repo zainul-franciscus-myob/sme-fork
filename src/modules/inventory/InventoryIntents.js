@@ -19,6 +19,7 @@ export const SORT_AND_FILTER_ITEM_LIST = Symbol(
 );
 export const SET_SORT_ORDER = Symbol('Set sort order for item list');
 export const UPDATE_FILTER_OPTIONS = Symbol('Update filter Options');
+export const RESET_FILTER_OPTIONS = Symbol('Reset filter Options');
 export const SET_ENABLE_FOR_SELLING = Symbol('Set enable for selling state');
 export const SET_ENABLE_FOR_BUYING = Symbol('Set enable for buying state');
 export const SET_NEXT_PAGE_LOADING_STATE = Symbol(

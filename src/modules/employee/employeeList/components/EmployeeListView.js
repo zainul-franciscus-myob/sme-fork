@@ -17,6 +17,7 @@ const EmployeeListView = ({
   loadMoreButtonStatus,
   onEmployeeCreateButtonClick,
   onUpdateFilterBarOptions,
+  onResetFilterBarOptions,
   loadingState,
   alert,
   onDismissAlert,
@@ -38,6 +39,7 @@ const EmployeeListView = ({
   const filterBar = (
     <EmployeeListFilterOptions
       onUpdateFilterBarOptions={onUpdateFilterBarOptions}
+      onResetFilterBarOptions={onResetFilterBarOptions}
     />
   );
 

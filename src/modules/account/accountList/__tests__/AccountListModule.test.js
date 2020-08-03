@@ -1,6 +1,7 @@
 import * as debounce from '../../../../common/debounce/debounce';
 import * as localStorageDriver from '../../../../store/localStorageDriver';
 import {
+  RESET_ACCOUNT_LIST_FILTER_OPTIONS,
   SET_ACCOUNT_LIST_FILTER_OPTIONS,
   SET_ACCOUNT_LIST_TABLE_LOADING_STATE,
   SET_ALERT,
@@ -221,6 +222,37 @@ describe('AccountListModule', () => {
       module.updateFilterOptions({ key: 'keywords', value: '🐛' });
 
       expect(debounce.default).toHaveBeenCalled();
+    });
+  });
+
+  describe('resetFilterOptions', () => {
+    it('successfully resets filters', () => {
+      const { module, store, integration } = setupWithRun();
+
+      module.resetFilterOptions();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: RESET_ACCOUNT_LIST_FILTER_OPTIONS,
+        },
+        {
+          intent: SET_ACCOUNT_LIST_TABLE_LOADING_STATE,
+          isTableLoading: true,
+        },
+        {
+          intent: SET_ACCOUNT_LIST_TABLE_LOADING_STATE,
+          isTableLoading: false,
+        },
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+        }),
+      ]);
     });
   });
 });

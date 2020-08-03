@@ -1,4 +1,5 @@
 import {
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
@@ -26,18 +27,20 @@ const setup = () => {
   return { store, module, integration };
 };
 
-const setupWithRun = () => {
-  const toolbox = setup();
-  const { module, store, integration } = toolbox;
-
-  module.run({});
-  store.resetActions();
-  integration.resetRequests();
-
-  return toolbox;
-};
-
 describe('LinkBillModule', () => {
+  const businessId = 'businessId';
+
+  const setupWithRun = () => {
+    const toolbox = setup();
+    const { module, store, integration } = toolbox;
+
+    module.run({ businessId });
+    store.resetActions();
+    integration.resetRequests();
+
+    return toolbox;
+  };
+
   describe('updateFilterOptions', () => {
     it('successfully applies the filter', () => {
       const { module, store, integration } = setupWithRun();
@@ -72,19 +75,25 @@ describe('LinkBillModule', () => {
         }),
       ]);
     });
+  });
 
-    it('fails to apply the filter', () => {
+  describe('resetFilterOptions', () => {
+    it('successfully resets the filter', () => {
       const { module, store, integration } = setupWithRun();
+      const defaultFilterOptions = store.getState().filterOptions;
 
-      const message = 'ERROR';
-      integration.mapFailure(SORT_AND_FILTER_BILL_LIST, { message });
-      module.updateFilterOptions({ key: 'showPaidBills', value: true });
+      store.setState({
+        ...store.getState(),
+        filterOptions: {
+          supplierId: 'Any',
+          showPaidBills: true,
+        },
+      });
+      module.resetFilterOptions();
 
       expect(store.getActions()).toEqual([
         {
-          intent: UPDATE_FILTER_OPTIONS,
-          key: 'showPaidBills',
-          value: true,
+          intent: RESET_FILTER_OPTIONS,
         },
         {
           intent: SET_TABLE_LOADING_STATE,
@@ -94,12 +103,16 @@ describe('LinkBillModule', () => {
           intent: SET_TABLE_LOADING_STATE,
           isTableLoading: false,
         },
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_BILL_LIST,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
         {
-          intent: SET_ALERT,
-          alert: {
-            type: 'danger',
-            message,
-          },
+          intent: SORT_AND_FILTER_BILL_LIST,
+          params: expect.objectContaining(defaultFilterOptions),
+          urlParams: { businessId },
         },
       ]);
     });

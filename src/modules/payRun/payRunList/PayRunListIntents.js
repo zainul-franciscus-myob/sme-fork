@@ -5,4 +5,5 @@ export const SORT_AND_FILTER_PAY_RUN_LIST = Symbol(
   'Sort and filter pay run list'
 );
 export const UPDATE_FILTER_OPTIONS = Symbol('Update filter options');
+export const RESET_FILTER_OPTIONS = Symbol('Reset filter options');
 export const SET_SORT_ORDER = Symbol('Set sort order');

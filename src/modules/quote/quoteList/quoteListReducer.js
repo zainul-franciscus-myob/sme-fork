@@ -3,6 +3,7 @@ import { addMonths } from 'date-fns';
 import {
   LOAD_QUOTE_LIST,
   LOAD_QUOTE_LIST_NEXT_PAGE,
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_NEXT_PAGE_LOADING_STATE,
@@ -140,6 +141,11 @@ const updateFilterOptions = (state, action) => ({
   },
 });
 
+const resetFilterOptions = (state) => ({
+  ...state,
+  filterOptions: defaultFilterOptions,
+});
+
 const handlers = {
   [LOAD_QUOTE_LIST]: loadQuoteList,
   [RESET_STATE]: resetState,
@@ -150,6 +156,7 @@ const handlers = {
   [SET_SORT_ORDER]: setSortOrder,
   [SORT_AND_FILTER_QUOTE_LIST]: sortAndFilterQuoteList,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
+  [RESET_FILTER_OPTIONS]: resetFilterOptions,
   [LOAD_QUOTE_LIST_NEXT_PAGE]: loadQuoteListNextPage,
   [SET_NEXT_PAGE_LOADING_STATE]: setNextPageLoadingState,
 };

@@ -155,6 +155,12 @@ export default class PayrollSettingsModule {
     debounce(this.sortAndFilterSuperFundList)();
   };
 
+  resetSuperFundListFilterOptions = () => {
+    this.dispatcher.resetSuperFundListFilterOptions();
+
+    this.sortAndFilterSuperFundList();
+  };
+
   redirectSuperannuationFundToCreateSuperFund = () => {
     const state = this.store.getState();
 
@@ -225,6 +231,12 @@ export default class PayrollSettingsModule {
     });
 
     debounce(this.sortAndFilterEmploymentClassificationList)();
+  };
+
+  resetEmploymentClassificationListFilterOptions = () => {
+    this.dispatcher.resetEmploymentClassificationListFilterOptions();
+
+    this.sortAndFilterEmploymentClassificationList();
   };
 
   closeEmploymentClassificationDetailModal = () => {
@@ -479,6 +491,7 @@ export default class PayrollSettingsModule {
         superFundListeners={{
           onCreateButtonClick: this.redirectSuperannuationFundToCreateSuperFund,
           onUpdateFilterOptions: this.setSuperFundListFilterOptions,
+          onResetFilterOptions: this.resetSuperFundListFilterOptions,
           onSort: this.sortSuperFundList,
         }}
         generalPayrollInformationListeners={{
@@ -496,6 +509,8 @@ export default class PayrollSettingsModule {
           onCreateButtonClick: this.openNewEmployeeClassificationDetailModal,
           onUpdateFilterOptions: this
             .setEmploymentClassificationListFilterOptions,
+          onResetFilterOptions: this
+            .resetEmploymentClassificationListFilterOptions,
           onSort: this.sortEmploymentClassificationList,
           onClickRowButton: this.openEmployeeClassificationDetailModal,
         }}

@@ -1,12 +1,14 @@
 import {
   DEBITS_AND_CREDITS,
   JOURNAL_TRANSACTIONS,
+  defaultFilterOptions,
   getDefaultState,
 } from './getDefaultState';
 import {
   LOAD_CREDITS_AND_DEBITS_LIST,
   LOAD_CREDITS_AND_DEBITS_NEXT_PAGE,
   LOAD_TRANSACTION_NEXT_PAGE,
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LAST_LOADING_TAB,
   SET_LOADING_STATE,
@@ -79,6 +81,11 @@ const updateFilterOptions = (state, action) => ({
     ...state.filterOptions,
     [action.filterName]: action.value,
   },
+});
+
+const resetFilterOptions = (state) => ({
+  ...state,
+  filterOptions: defaultFilterOptions,
 });
 
 const updatePeriodDateRange = (state, { period, dateFrom, dateTo }) => ({
@@ -196,6 +203,7 @@ const handlers = {
   [SET_SORT_ORDER]: setSortOrder,
   [UPDATE_PERIOD_DATE_RANGE]: updatePeriodDateRange,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
+  [RESET_FILTER_OPTIONS]: resetFilterOptions,
   [LOAD_CREDITS_AND_DEBITS_LIST]: loadCreditsAndDebitsList,
   [SORT_AND_FILTER_CREDITS_AND_DEBITS_LIST]: sortAndFilterCreditsAndDebitsList,
   [LOAD_CREDITS_AND_DEBITS_NEXT_PAGE]: loadCreditsAndDebitsNextPage,

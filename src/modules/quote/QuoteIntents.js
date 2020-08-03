@@ -13,6 +13,7 @@ export const SORT_AND_FILTER_QUOTE_LIST = Symbol(
   'Sort and filter list of quotes'
 );
 export const UPDATE_FILTER_OPTIONS = Symbol('Update filter Options');
+export const RESET_FILTER_OPTIONS = Symbol('Reset filter Options');
 
 export const LOAD_NEW_QUOTE_DETAIL = Symbol('Load a new quote');
 export const LOAD_NEW_DUPLICATE_QUOTE_DETAIL = Symbol(

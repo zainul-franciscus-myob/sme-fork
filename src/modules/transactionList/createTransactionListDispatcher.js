@@ -2,6 +2,7 @@ import {
   LOAD_CREDITS_AND_DEBITS_LIST,
   LOAD_CREDITS_AND_DEBITS_NEXT_PAGE,
   LOAD_TRANSACTION_NEXT_PAGE,
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LAST_LOADING_TAB,
   SET_LOADING_STATE,
@@ -145,6 +146,13 @@ const createTransactionListDispatcher = (store) => ({
       intent,
       filterName: key,
       value,
+    });
+  },
+
+  resetFilterOptions: () => {
+    const intent = RESET_FILTER_OPTIONS;
+    store.dispatch({
+      intent,
     });
   },
 

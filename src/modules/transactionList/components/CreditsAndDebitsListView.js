@@ -24,6 +24,7 @@ export const tableConfig = {
 const CreditsAndDebitsListView = ({
   loadingState,
   onUpdateFilters,
+  onResetFilters,
   onPeriodChange,
   onLoadMoreButtonClick,
   onSort,
@@ -35,6 +36,7 @@ const CreditsAndDebitsListView = ({
   const filterBar = (
     <TransactionListFilterOptions
       onUpdateFilters={onUpdateFilters}
+      onResetFilters={onResetFilters}
       onPeriodChange={onPeriodChange}
     />
   );

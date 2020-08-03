@@ -1,6 +1,7 @@
 import {
   FILTER_JOB_LIST,
   LOAD_JOB_LIST,
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_TABLE_LOADING_STATE,
@@ -29,6 +30,9 @@ const createJobListDispatcher = (store) => ({
   },
   updateFilterOptions: ({ key, value }) => {
     store.dispatch({ intent: UPDATE_FILTER_OPTIONS, key, value });
+  },
+  resetFilterOptions: () => {
+    store.dispatch({ intent: RESET_FILTER_OPTIONS });
   },
   loadJobList: (payload) => {
     store.dispatch({ intent: LOAD_JOB_LIST, ...payload });

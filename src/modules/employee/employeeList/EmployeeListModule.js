@@ -4,6 +4,7 @@ import React from 'react';
 import {
   LOAD_EMPLOYEE_LIST,
   LOAD_EMPLOYEE_LIST_NEXT_PAGE,
+  RESET_FILTER_BAR_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
@@ -61,6 +62,11 @@ export default class EmployeeListModule {
     } else {
       this.sortAndFilterEmployeeList();
     }
+  };
+
+  resetFilterBarOptions = () => {
+    this.store.dispatch({ intent: RESET_FILTER_BAR_OPTIONS });
+    this.sortAndFilterEmployeeList();
   };
 
   setSortOrder = (orderBy, sortOrder) =>
@@ -224,6 +230,7 @@ export default class EmployeeListModule {
       <EmployeeListView
         onEmployeeCreateButtonClick={this.redirectToCreateEmployee}
         onUpdateFilterBarOptions={this.updateFilterBarOptions}
+        onResetFilterBarOptions={this.resetFilterBarOptions}
         onSort={this.sortEmployeeList}
         onDismissAlert={this.dismissAlert}
         onLoadMoreButtonClick={this.loadEmployeeListNextPage}

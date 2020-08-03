@@ -9,10 +9,10 @@ const onInputChange = (handler) => ({ target: { name: key, value } }) =>
   handler({ key, value });
 
 const SuperFundListFilterOptions = (props) => {
-  const { keywords, onUpdateFilterOptions } = props;
+  const { keywords, onUpdateFilterOptions, onResetFilterOptions } = props;
 
   return (
-    <FilterBar>
+    <FilterBar onReset={onResetFilterOptions}>
       <FilterBarSearch
         id="keywords"
         name="keywords"

@@ -125,10 +125,16 @@ export default class CustomerReturnListModule {
     }
   };
 
+  resetFilterBarOptions = () => {
+    this.dispatcher.resetFilterBarOptions();
+    this.sortAndFilterCustomerReturnList();
+  };
+
   render = () => {
     const View = (
       <CustomerReturnListView
         onUpdateFilterBarOptions={this.updateFilterBarOptions}
+        onResetFilterBarOptions={this.resetFilterBarOptions}
         onDismissAlert={this.dispatcher.dismissAlert}
         onSort={this.updateSortOrder}
         onCreateRefundClick={this.redirectToCreateRefund}

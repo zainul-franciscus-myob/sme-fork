@@ -4,6 +4,7 @@ import {
   CLOSE_MODAL,
   LOAD_ACCOUNTS_AND_TRANSACTIONS,
   OPEN_MODAL,
+  RESET_FILTER_OPTIONS,
   SELECT_ALL_TRANSACTIONS,
   SELECT_ITEM_TRANSACTIONS,
   SET_ALERT,
@@ -81,6 +82,11 @@ const updateFilterOptions = (state, { key, value }) => ({
   },
 });
 
+const resetFilterOptions = (state) => ({
+  ...state,
+  filterOptions: getDefaultState().filterOptions,
+});
+
 const updateSelectedAccountId = (state, action) => ({
   ...state,
   selectedAccountId: action.value,
@@ -152,6 +158,7 @@ const handlers = {
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [RESET_STATE]: resetState,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
+  [RESET_FILTER_OPTIONS]: resetFilterOptions,
   [UPDATE_SELECTED_ACCOUNT_ID]: updateSelectedAccountId,
   [SET_SORT_ORDER]: setSortOrder,
   [SORT_AND_FILTER_TRANSACTIONS]: sortAndFilterTransactions,

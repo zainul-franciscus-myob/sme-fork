@@ -3,6 +3,7 @@ import { addMonths } from 'date-fns';
 import {
   LOAD_BILL_LIST,
   LOAD_BILL_LIST_NEXT_PAGE,
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
@@ -194,6 +195,11 @@ const updateFilterOptions = (state, action) => ({
   },
 });
 
+const resetFilterOptions = (state) => ({
+  ...state,
+  filterOptions: defaultFilterOptions,
+});
+
 const sortAndFilterBillList = (state, action) => ({
   ...state,
   entries: action.entries,
@@ -217,6 +223,7 @@ const handlers = {
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [SET_LOADING_STATE]: setLoadingState,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
+  [RESET_FILTER_OPTIONS]: resetFilterOptions,
   [SORT_AND_FILTER_BILL_LIST]: sortAndFilterBillList,
   [SET_SORT_ORDER]: setSortOrder,
   [SET_ALERT]: setAlert,

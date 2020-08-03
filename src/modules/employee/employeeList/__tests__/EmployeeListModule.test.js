@@ -1,5 +1,6 @@
 import * as localStorageDriver from '../../../../store/localStorageDriver';
 import {
+  RESET_FILTER_BAR_OPTIONS,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_EMPLOYEE_LIST,
@@ -92,6 +93,35 @@ describe('EmployeeListModule', () => {
           params: {
             keywords: '',
             showInactive: true,
+            orderBy: 'Name',
+            sortOrder: 'asc',
+            offset: 0,
+          },
+          urlParams: { businessId },
+        },
+      ]);
+    });
+  });
+
+  describe('resetFilterOptions', () => {
+    it('reset filter options and trigger reload', () => {
+      const { store, integration, module } = setupWithRun();
+
+      module.resetFilterBarOptions();
+
+      expect(store.getActions()).toEqual([
+        { intent: RESET_FILTER_BAR_OPTIONS },
+        { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
+        { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
+        expect.objectContaining({ intent: SORT_AND_FILTER_EMPLOYEE_LIST }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        {
+          intent: SORT_AND_FILTER_EMPLOYEE_LIST,
+          params: {
+            keywords: '',
+            showInactive: false,
             orderBy: 'Name',
             sortOrder: 'asc',
             offset: 0,

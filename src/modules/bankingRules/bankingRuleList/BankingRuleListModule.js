@@ -87,11 +87,17 @@ export default class BankingRuleListModule {
     }
   };
 
+  resetFilterOptions = () => {
+    this.dispatcher.resetFilterOptions();
+    this.filterBankingRuleList();
+  };
+
   render = () => {
     const bankingRuleListView = (
       <BankingRuleListView
         onSort={this.sortBankingRuleList}
         onUpdateFilters={this.updateFilterOptions}
+        onResetFilters={this.resetFilterOptions}
         onDismissAlert={this.dismissAlert}
         onSelectBankingRule={this.selectBankingRule}
       />

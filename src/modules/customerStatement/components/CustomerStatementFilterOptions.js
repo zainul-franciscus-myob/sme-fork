@@ -39,6 +39,7 @@ const CustomerStatementFilterOptions = ({
   filterOptions: { selectedCustomerId, showZeroAmount },
   customerOptions,
   onUpdateFilters,
+  onResetFilters,
   onUpdateTemplateAdditionalOptions,
 }) => {
   const statementTypeSelect = (
@@ -89,7 +90,7 @@ const CustomerStatementFilterOptions = ({
 
   const invoiceFilterOptions = (
     <>
-      <FilterBar>
+      <FilterBar onReset={onResetFilters}>
         {statementTypeSelect}
         <DatePicker
           name="statementDate"
@@ -125,7 +126,7 @@ const CustomerStatementFilterOptions = ({
 
   const activityFilterOptions = (
     <>
-      <FilterBar>
+      <FilterBar onReset={onResetFilters}>
         {statementTypeSelect}
         <DatePicker
           name="fromDate"

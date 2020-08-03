@@ -14,6 +14,7 @@ const BankingRuleListView = ({
   onSort,
   onSelectBankingRule,
   onUpdateFilters,
+  onResetFilters,
   onDismissAlert,
 }) => {
   const alertComponent = alert && (
@@ -23,7 +24,10 @@ const BankingRuleListView = ({
   );
 
   const filterBar = (
-    <BankingRuleListFilterOptions onUpdateFilters={onUpdateFilters} />
+    <BankingRuleListFilterOptions
+      onUpdateFilters={onUpdateFilters}
+      onResetFilters={onResetFilters}
+    />
   );
 
   const view = (

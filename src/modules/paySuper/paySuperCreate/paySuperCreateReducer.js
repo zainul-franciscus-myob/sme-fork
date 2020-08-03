@@ -4,6 +4,7 @@ import {
   CLOSE_MODAL,
   LOAD_ACCOUNTS_AND_SUPER_PAYMENTS,
   OPEN_MODAL,
+  RESET_FILTER_OPTIONS,
   SELECT_ALL_SUPER_PAYMENTS,
   SELECT_ITEM_SUPER_PAYMENT,
   SET_ACCESS_TOKEN,
@@ -76,6 +77,11 @@ const updateFilterOptions = (state, action) => ({
     ...state.filterOptions,
     [action.filterName]: action.value,
   },
+});
+
+const resetFilterOptions = (state) => ({
+  ...state,
+  filterOptions: getDefaultState().filterOptions,
 });
 
 const updateSelectedAccountId = (state, action) => ({
@@ -168,6 +174,7 @@ const handlers = {
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [RESET_STATE]: resetState,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
+  [RESET_FILTER_OPTIONS]: resetFilterOptions,
   [UPDATE_SELECTED_ACCOUNT_ID]: updateSelectedAccountId,
   [SET_SORT_ORDER]: setSortOrder,
   [SORT_AND_FILTER_SUPER_PAYMENTS]: sortAndFilterSuperPayments,

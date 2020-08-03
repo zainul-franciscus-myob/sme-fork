@@ -8,10 +8,15 @@ import handleCheckboxChange from '../../../../components/handlers/handleCheckbox
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
 const AccountListFilterOptions = (props) => {
-  const { keywords, showInactive, onUpdateFilterOptions } = props;
+  const {
+    keywords,
+    showInactive,
+    onUpdateFilterOptions,
+    onResetFilterOptions,
+  } = props;
 
   return (
-    <FilterBar>
+    <FilterBar onReset={onResetFilterOptions}>
       <FilterBarSearch
         id="keywords"
         name="keywords"

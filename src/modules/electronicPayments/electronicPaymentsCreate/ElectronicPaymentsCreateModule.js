@@ -107,6 +107,12 @@ export default class ElectronicPaymentsModule {
     this.fetchTransactions();
   };
 
+  resetFilterBarOptions = () => {
+    this.dispatcher.resetFilterBarOptions();
+
+    this.fetchTransactions();
+  };
+
   sortElectronicPayments = (orderBy) => {
     const state = this.store.getState();
     const newSortOrder =
@@ -155,6 +161,7 @@ export default class ElectronicPaymentsModule {
       <Provider store={this.store}>
         <ElectronicPaymentsCreateView
           onUpdateFilterBarOptions={this.updateFilterBarOptions}
+          onResetFilterBarOptions={this.resetFilterBarOptions}
           onAccountChange={this.dispatcher.updateSelectedAccountId}
           selectAll={this.dispatcher.selectAll}
           selectItem={this.dispatcher.selectItem}

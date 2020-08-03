@@ -27,6 +27,7 @@ const tableConfig = {
 const InvoiceListView = ({
   alert,
   onUpdateFilter,
+  onResetFilter,
   onSort,
   loadingState,
   onCreateInvoiceButtonClick,
@@ -35,7 +36,10 @@ const InvoiceListView = ({
   loadMoreButtonStatus,
 }) => {
   const filterBar = (
-    <InvoiceListFilterOptions onUpdateFilter={onUpdateFilter} />
+    <InvoiceListFilterOptions
+      onUpdateFilter={onUpdateFilter}
+      onResetFilter={onResetFilter}
+    />
   );
 
   const pageHead = (

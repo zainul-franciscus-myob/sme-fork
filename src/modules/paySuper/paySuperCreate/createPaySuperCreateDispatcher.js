@@ -2,6 +2,7 @@ import {
   CLOSE_MODAL,
   LOAD_ACCOUNTS_AND_SUPER_PAYMENTS,
   OPEN_MODAL,
+  RESET_FILTER_OPTIONS,
   SELECT_ALL_SUPER_PAYMENTS,
   SELECT_ITEM_SUPER_PAYMENT,
   SET_ACCESS_TOKEN,
@@ -45,6 +46,12 @@ const createPaySuperCreateDispatcher = (store) => ({
       intent: UPDATE_FILTER_OPTIONS,
       filterName,
       value,
+    });
+  },
+
+  resetFilterBarOptions: () => {
+    store.dispatch({
+      intent: RESET_FILTER_OPTIONS,
     });
   },
 

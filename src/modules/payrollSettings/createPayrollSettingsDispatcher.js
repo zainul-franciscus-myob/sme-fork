@@ -10,6 +10,8 @@ import {
   LOAD_PAY_SLIP_EMAIL_DEFAULTS,
   LOAD_SUPER_FUND_LIST,
   OPEN_MODAL,
+  RESET_EMPLOYMENT_CLASSIFICATION_LIST_FILTER_OPTIONS,
+  RESET_SUPER_FUND_LIST_FILTER_OPTIONS,
   SET_ALERT,
   SET_EMPLOYMENT_CLASSIFICATION_DETAIL_ALERT,
   SET_EMPLOYMENT_CLASSIFICATION_DETAIL_INITIAL_STATE,
@@ -120,6 +122,13 @@ const createPayrollSettingsDispatcher = (store) => ({
     });
   },
 
+  resetSuperFundListFilterOptions: () => {
+    const intent = RESET_SUPER_FUND_LIST_FILTER_OPTIONS;
+    store.dispatch({
+      intent,
+    });
+  },
+
   setSuperFundListSortOrder: (orderBy, sortOrder) => {
     const intent = SET_SUPER_FUND_LIST_SORT_ORDER;
     store.dispatch({
@@ -208,6 +217,13 @@ const createPayrollSettingsDispatcher = (store) => ({
       intent,
       key,
       value,
+    });
+  },
+
+  resetEmploymentClassificationListFilterOptions: () => {
+    const intent = RESET_EMPLOYMENT_CLASSIFICATION_LIST_FILTER_OPTIONS;
+    store.dispatch({
+      intent,
     });
   },
 

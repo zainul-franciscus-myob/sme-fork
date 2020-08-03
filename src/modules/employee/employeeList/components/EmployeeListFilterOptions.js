@@ -13,10 +13,15 @@ const onCheckBoxChange = (handler) => ({
 }) => handler({ key, value });
 
 const EmployeeListFilterOptions = (props) => {
-  const { onUpdateFilterBarOptions, keywords, showInactive } = props;
+  const {
+    onUpdateFilterBarOptions,
+    keywords,
+    showInactive,
+    onResetFilterBarOptions,
+  } = props;
 
   return (
-    <FilterBar>
+    <FilterBar onReset={onResetFilterBarOptions}>
       <FilterBarSearch
         id="keywords"
         name="keywords"

@@ -42,11 +42,17 @@ export default class JobListModule {
     }
   };
 
+  resetFilterOptions = () => {
+    this.dispatcher.resetFilterOptions();
+    this.filterJobList();
+  };
+
   render = () => {
     const jobListView = (
       <JobListView
         onDismissAlert={this.dispatcher.dismissAlert}
         onUpdateFilters={this.updateFilterOptions}
+        onResetFilters={this.resetFilterOptions}
         onAddJobButtonClick={this.redirectToAddJob}
       />
     );

@@ -16,13 +16,14 @@ import styles from './SupplierReturnListFilterOptions.module.css';
 
 const SupplierReturnListFilterOptions = ({
   onUpdateFilterBarOptions,
+  onResetFilterBarOptions,
   totalAmount,
   totalDebitAmount,
   supplierFilterOptions,
   filterOptions: { keywords, supplierId },
 }) => (
   <React.Fragment>
-    <FilterBar>
+    <FilterBar onReset={onResetFilterBarOptions}>
       <div className={styles.supplierCombobox}>
         <SupplierCombobox
           label="Supplier"

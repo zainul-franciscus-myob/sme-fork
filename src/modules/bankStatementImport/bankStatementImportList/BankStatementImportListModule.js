@@ -67,6 +67,12 @@ export default class BankStatementImportListModule {
     this.sortAndFilterBankStatementImportList();
   };
 
+  resetFilterBarOptions = () => {
+    this.dispatcher.resetFilterBarOptions();
+
+    this.loadBankStatementImportList();
+  };
+
   openImportModal = () => this.dispatcher.setModalType(ModalTypes.IMPORT);
 
   openDeleteModal = (id) => {
@@ -124,6 +130,7 @@ export default class BankStatementImportListModule {
     const View = (
       <BankStatementImportListView
         onUpdateFilterBarOptions={this.updateFilterBarOptions}
+        onResetFilterBarOptions={this.resetFilterBarOptions}
         onUpdateImportModal={this.dispatcher.updateImportModal}
         onImportButtonClick={this.openImportModal}
         onDeleteButtonClick={this.openDeleteModal}

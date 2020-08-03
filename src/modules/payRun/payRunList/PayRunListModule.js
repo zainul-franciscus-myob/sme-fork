@@ -1,8 +1,8 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
@@ -10,6 +10,7 @@ import {
   SORT_AND_FILTER_PAY_RUN_LIST,
   UPDATE_FILTER_OPTIONS,
 } from './PayRunListIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { SUCCESSFULLY_SAVED_DRAFT_PAY_RUN } from '../../../common/types/MessageTypes';
 import {
   getBusinessId,
@@ -53,6 +54,13 @@ export default class PayrunListModule {
       intent: UPDATE_FILTER_OPTIONS,
       filterName,
       value,
+    });
+    this.sortAndFilterPayRunList({ setLoadingFunc: this.setTableLoadingState });
+  };
+
+  resetFilterBarOptions = () => {
+    this.store.dispatch({
+      intent: RESET_FILTER_OPTIONS,
     });
     this.sortAndFilterPayRunList({ setLoadingFunc: this.setTableLoadingState });
   };
@@ -178,6 +186,7 @@ export default class PayrunListModule {
         onDismissAlert={this.dismissAlert}
         onSort={this.sortPayRunList}
         onUpdateFilterBarOptions={this.updateFilterBarOptions}
+        onResetFilterBarOptions={this.resetFilterBarOptions}
         onStpSignUpClick={this.goToStpReporting}
       />
     );

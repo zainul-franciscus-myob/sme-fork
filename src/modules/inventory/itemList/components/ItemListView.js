@@ -32,6 +32,7 @@ const ItemListView = ({
   loadMoreButtonStatus,
   onDismissAlert,
   onUpdateFilters,
+  onResetFilters,
   onSort,
   onCreateItem,
   onLoadMoreButtonClick,
@@ -42,7 +43,12 @@ const ItemListView = ({
     </Alert>
   );
 
-  const filterBar = <ItemListFilterOptions onUpdateFilters={onUpdateFilters} />;
+  const filterBar = (
+    <ItemListFilterOptions
+      onUpdateFilters={onUpdateFilters}
+      onResetFilters={onResetFilters}
+    />
+  );
 
   const itemListView = (
     <PaginatedListTemplate

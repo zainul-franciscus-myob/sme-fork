@@ -33,6 +33,11 @@ class InvoiceListFilterOptions extends React.Component {
     onUpdateFilter({ filterName: 'status', value: event.target.value });
   };
 
+  onResetFilter = () => {
+    const { onResetFilter } = this.props;
+    onResetFilter();
+  };
+
   onDateChange = (filterName) => ({ value }) => {
     const { onUpdateFilter } = this.props;
     onUpdateFilter({ filterName, value });
@@ -51,7 +56,7 @@ class InvoiceListFilterOptions extends React.Component {
 
     return (
       <Fragment>
-        <FilterBar>
+        <FilterBar onReset={this.onResetFilter}>
           <div className={styles.status}>
             <Select
               name="status"

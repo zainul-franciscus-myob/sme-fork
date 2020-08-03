@@ -1,5 +1,6 @@
 import {
   LOAD_SUPPLIER_RETURN_LIST,
+  RESET_FILTER_BAR_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
@@ -82,6 +83,11 @@ const updateFilterBarOptions = (state, action) => ({
   },
 });
 
+const resetFilterBarOptions = (state) => ({
+  ...state,
+  filterOptions: defaultFilterOptions,
+});
+
 const sortAndFilterSupplierReturnList = (
   state,
   { intent, isSort, ...rest }
@@ -119,6 +125,7 @@ const handlers = {
   [RESET_STATE]: resetState,
   [LOAD_SUPPLIER_RETURN_LIST]: loadSupplierReturnList,
   [UPDATE_FILTER_BAR_OPTIONS]: updateFilterBarOptions,
+  [RESET_FILTER_BAR_OPTIONS]: resetFilterBarOptions,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [SORT_AND_FILTER_SUPPLIER_RETURN_LIST]: sortAndFilterSupplierReturnList,
   [SET_ALERT]: setAlert,

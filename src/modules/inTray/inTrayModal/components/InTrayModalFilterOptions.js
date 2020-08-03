@@ -11,10 +11,11 @@ const InTrayModalFilterOptions = (props) => {
     filterOptions: { keywords },
     isEntryLoading,
     onUpdateFilterOptions,
+    onResetFilterOptions,
   } = props;
 
   return (
-    <FilterBar>
+    <FilterBar onReset={onResetFilterOptions}>
       <FilterBarSearch
         id="keywords"
         name="keywords"

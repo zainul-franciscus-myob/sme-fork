@@ -3,6 +3,7 @@ import {
   CREATE_IN_TRAY_MODAL_DOCUMENT,
   LOAD_IN_TRAY_MODAL,
   REMOVE_IN_TRAY_LIST_ENTRY,
+  RESET_IN_TRAY_LIST_FILTER_OPTIONS,
   SELECT_DOCUMENT,
   SET_ALERT,
   SET_IN_TRAY_LIST_ENTRY_SUBMITTING_STATE,
@@ -72,6 +73,11 @@ const setFilterOption = (state, action) => ({
   },
 });
 
+const resetFilterOption = (state) => ({
+  ...state,
+  filterOptions: getDefaultState().filterOptions,
+});
+
 const setSortOrder = (state, action) => ({
   ...state,
   orderBy: action.orderBy,
@@ -122,6 +128,7 @@ const handlers = {
 
   [SORT_AND_FILTER_IN_TRAY_MODAL]: sortAndFilterInTrayModal,
   [SET_IN_TRAY_LIST_FILTER_OPTIONS]: setFilterOption,
+  [RESET_IN_TRAY_LIST_FILTER_OPTIONS]: resetFilterOption,
   [SET_IN_TRAY_LIST_SORT_ORDER]: setSortOrder,
   [SET_IN_TRAY_LIST_TABLE_LOADING_STATE]: setTableLoadingState,
 

@@ -1,3 +1,5 @@
+import getDefaultState from './getDefaultState';
+
 const updateEmploymentClassificationListState = (
   state,
   employmentClassificationListState
@@ -27,6 +29,11 @@ export const setEmploymentClassificationListFilterOption = (state, action) =>
       ...state.employmentClassificationList.filterOptions,
       [action.key]: action.value,
     },
+  });
+
+export const resetEmploymentClassificationListFilterOption = (state) =>
+  updateEmploymentClassificationListState(state, {
+    filterOptions: getDefaultState().employmentClassificationList.filterOptions,
   });
 
 export const setEmploymentClassificationListSortOrder = (state, action) =>

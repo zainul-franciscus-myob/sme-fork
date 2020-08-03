@@ -4,6 +4,7 @@ export const SET_ALERT = Symbol('Set the Alert of the page');
 export const SET_ALERT_MESSAGE = Symbol('Set alert message');
 export const SET_TABLE_LOADING_STATE = Symbol('Set Table loading state');
 export const UPDATE_FILTER_OPTIONS = Symbol('Update filter Options');
+export const RESET_FILTER_OPTIONS = Symbol('Reset filter Options');
 export const FILTER_JOB_LIST = Symbol('Filter list of jobs');
 
 export const CREATE_JOB_MODAL = Symbol('Create job modal');

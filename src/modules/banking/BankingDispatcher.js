@@ -29,6 +29,7 @@ import {
   REMOVE_MATCH_TRANSACTION_ADJUSTMENT,
   RESET_BULK_ALLOCATION,
   RESET_FILTERS,
+  RESET_MATCH_TRANSACTION_OPTIONS,
   SAVE_MATCH_TRANSACTION,
   SAVE_PENDING_NOTE,
   SAVE_SPLIT_ALLOCATION,
@@ -491,6 +492,12 @@ const createBankingDispatcher = (store) => ({
       intent: UPDATE_MATCH_TRANSACTION_OPTIONS,
       key,
       value,
+    });
+  },
+
+  resetMatchTransactionOptions: () => {
+    store.dispatch({
+      intent: RESET_MATCH_TRANSACTION_OPTIONS,
     });
   },
 

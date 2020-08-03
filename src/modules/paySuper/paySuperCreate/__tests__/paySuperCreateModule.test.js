@@ -2,6 +2,7 @@ import Adapter from 'enzyme-adapter-react-16/build';
 import Enzyme, { mount } from 'enzyme/build';
 
 import {
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
@@ -20,8 +21,10 @@ import paySuperCreateReducer from '../paySuperCreateReducer';
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('paySuperCreateModule', () => {
+  const businessId = 'businessId';
+
   const constructPaySuperCreateModule = () => {
-    const context = {};
+    const context = { businessId };
     const popMessages = () => [''];
     const replaceURLParams = (url) => url;
 
@@ -67,7 +70,7 @@ describe('paySuperCreateModule', () => {
     module.dispatcher = createPaySuperCreateDispatcher(store);
     module.integrator = createPaySuperCreateIntegrator(store, integration);
 
-    module.run({});
+    module.run({ businessId });
     store.resetActions();
     integration.resetRequests();
 
@@ -154,6 +157,42 @@ describe('paySuperCreateModule', () => {
       ]);
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({ intent: SORT_AND_FILTER_SUPER_PAYMENTS }),
+      ]);
+    });
+  });
+
+  describe('resetFilterBarOptions', () => {
+    it('successfully resets filter', () => {
+      const {
+        store,
+        integration,
+        module,
+      } = setUpModuleWithRunForSortFilterTests();
+      const defaultFilterOptions = store.getState().filterOptions;
+
+      store.setState({
+        ...store.getState(),
+        filterOptions: {
+          customerId: '123',
+          keywords: 'test',
+          dateFrom: '1960-01-01',
+          dateTo: '1960-30-01',
+        },
+      });
+      module.resetFilterBarOptions();
+
+      expect(store.getActions()).toEqual([
+        { intent: RESET_FILTER_OPTIONS },
+        { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
+        { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
+        expect.objectContaining({ intent: SORT_AND_FILTER_SUPER_PAYMENTS }),
+      ]);
+      expect(integration.getRequests()).toEqual([
+        {
+          intent: SORT_AND_FILTER_SUPER_PAYMENTS,
+          params: expect.objectContaining(defaultFilterOptions),
+          urlParams: { businessId },
+        },
       ]);
     });
   });

@@ -1,6 +1,7 @@
 import {
   FILTER_JOB_LIST,
   LOAD_JOB_LIST,
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_TABLE_LOADING_STATE,
@@ -15,6 +16,7 @@ import createJobListIntegrator from '../createJobListIntegrator';
 import jobListReducer from '../jobListReducer';
 
 describe('JobListModule', () => {
+  const businessId = 'businessId';
   const setup = () => {
     const store = new TestStore(jobListReducer);
     const integration = new TestIntegration();
@@ -34,7 +36,7 @@ describe('JobListModule', () => {
   const setupWithRun = () => {
     const { store, integration, module } = setup();
 
-    module.run({});
+    module.run({ businessId });
     store.resetActions();
     integration.resetRequests();
 
@@ -42,7 +44,7 @@ describe('JobListModule', () => {
   };
 
   describe('run', () => {
-    const context = { isJobEnabled: true };
+    const context = { isJobEnabled: true, businessId };
 
     it('successfully load', () => {
       const { store, integration, module } = setup();
@@ -123,6 +125,39 @@ describe('JobListModule', () => {
       ]);
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({ intent: FILTER_JOB_LIST }),
+      ]);
+    });
+  });
+
+  describe('resetFilterOptions', () => {
+    it('successfully resets filter', () => {
+      const { store, integration, module } = setupWithRun();
+      const defaultFilterOptions = store.getState().filterOptions;
+
+      store.setState({
+        ...store.getState(),
+        filterOptions: {
+          keywords: 'test',
+          showInactive: true,
+        },
+      });
+      module.resetFilterOptions();
+
+      expect(store.getActions()).toEqual([
+        { intent: RESET_FILTER_OPTIONS },
+        { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
+        { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
+        expect.objectContaining({
+          intent: FILTER_JOB_LIST,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        {
+          intent: FILTER_JOB_LIST,
+          params: expect.objectContaining(defaultFilterOptions),
+          urlParams: { businessId },
+        },
       ]);
     });
   });

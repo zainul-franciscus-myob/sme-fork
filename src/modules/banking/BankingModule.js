@@ -89,6 +89,11 @@ export default class BankingModule {
     }
   };
 
+  resetMatchTransactionOptions = () => {
+    this.dispatcher.resetMatchTransactionOptions();
+    this.sortOrFilterMatchTransaction();
+  };
+
   updatePeriodDateRange = ({ period, dateFrom, dateTo }) => {
     this.dispatcher.updatePeriodDateRange({
       period,
@@ -167,6 +172,7 @@ export default class BankingModule {
         onUpdateSplitAllocationLine={updateSplitAllocationLine}
         onDeleteSplitAllocationLine={deleteSplitAllocationLine}
         onUpdateMatchTransactionOptions={this.updateMatchTransactionOptions}
+        onResetMatchTransactionOptions={this.resetMatchTransactionOptions}
         onSortMatchTransactions={this.sortMatchTransaction}
         onUpdateMatchTransactionSelection={updateMatchTransactionSelection}
         onAddAdjustment={addMatchTransactionAdjustment}

@@ -18,6 +18,7 @@ const AccountListView = ({
   selectedTab,
   onDismissAlert,
   onUpdateFilterOptions,
+  onResetFilterOptions,
   onTabSelect,
   onEditLinkedAccountButtonClick,
   onCreateAccountButtonClick,
@@ -47,7 +48,10 @@ const AccountListView = ({
   );
 
   const filterBar = (
-    <AccountListFilterOptions onUpdateFilterOptions={onUpdateFilterOptions} />
+    <AccountListFilterOptions
+      onUpdateFilterOptions={onUpdateFilterOptions}
+      onResetFilterOptions={onResetFilterOptions}
+    />
   );
 
   const tabs = (

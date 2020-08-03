@@ -31,6 +31,7 @@ const MatchTransactionOptions = (props) => {
     contacts,
     filterOptions: { showType, contactId, keywords, includeClosed },
     onUpdateMatchTransactionOptions,
+    onResetMatchTransactionOptions,
     showAllFilters,
     includedClosedTransactionLabel,
     showIncludeClosedCheckbox,
@@ -61,7 +62,7 @@ const MatchTransactionOptions = (props) => {
 
   return (
     <div className={styles.filterOptions}>
-      <FilterBar>
+      <FilterBar onReset={onResetMatchTransactionOptions}>
         <Select
           label="Show"
           name="showType"

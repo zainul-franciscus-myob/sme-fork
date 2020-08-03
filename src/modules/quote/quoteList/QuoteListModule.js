@@ -40,6 +40,7 @@ export default class QuoteListModule {
           onDismissAlert={this.dispatcher.dismissAlert}
           onSort={this.sortQuoteList}
           onUpdateFilters={this.updateFilterOptions}
+          onResetFilters={this.resetFilterOptions}
           onAddQuote={this.redirectToAddQuote}
           onLoadQuoteListNextPage={this.loadQuoteListNextPage}
         />
@@ -107,7 +108,8 @@ export default class QuoteListModule {
     }
   };
 
-  filterQuoteList = () => {
+  resetFilterOptions = () => {
+    this.dispatcher.resetFilterOptions();
     this.sortAndFilterQuoteList();
   };
 

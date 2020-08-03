@@ -62,6 +62,7 @@ const BankingView = (props) => {
     onUpdateSplitAllocationLine,
     onDeleteSplitAllocationLine,
     onUpdateMatchTransactionOptions,
+    onResetMatchTransactionOptions,
     onSortMatchTransactions,
     onUpdateMatchTransactionSelection,
     onUpdateSelectedTransactionDetails,
@@ -185,6 +186,7 @@ const BankingView = (props) => {
           onUpdateSplitAllocationLine={onUpdateSplitAllocationLine}
           onDeleteSplitAllocationLine={onDeleteSplitAllocationLine}
           onUpdateMatchTransactionOptions={onUpdateMatchTransactionOptions}
+          onResetMatchTransactionOptions={onResetMatchTransactionOptions}
           onSortMatchTransactions={onSortMatchTransactions}
           onUpdateMatchTransactionSelection={onUpdateMatchTransactionSelection}
           onUpdateSelectedTransactionDetails={

@@ -3,6 +3,7 @@ import {
   CREATE_IN_TRAY_MODAL_DOCUMENT,
   LOAD_IN_TRAY_MODAL,
   REMOVE_IN_TRAY_LIST_ENTRY,
+  RESET_IN_TRAY_LIST_FILTER_OPTIONS,
   SELECT_DOCUMENT,
   SET_ALERT,
   SET_IN_TRAY_LIST_ENTRY_SUBMITTING_STATE,
@@ -65,6 +66,13 @@ const createInTrayModalDispatcher = (store) => ({
       intent,
       key,
       value,
+    });
+  },
+
+  resetFilterOptions: () => {
+    const intent = RESET_IN_TRAY_LIST_FILTER_OPTIONS;
+    store.dispatch({
+      intent,
     });
   },
 

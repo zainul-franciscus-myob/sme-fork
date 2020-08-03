@@ -32,9 +32,10 @@ const TransactionListFilterOptions = ({
   sourceJournalFilterOptions,
   activeTab,
   onUpdateFilters,
+  onResetFilters,
   onPeriodChange,
 }) => (
-  <FilterBar>
+  <FilterBar onReset={onResetFilters}>
     <PeriodPicker
       region={region}
       period={period}

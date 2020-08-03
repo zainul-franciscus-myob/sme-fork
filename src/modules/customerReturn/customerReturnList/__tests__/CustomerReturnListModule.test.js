@@ -1,6 +1,7 @@
 import * as localStorageDriver from '../../../../store/localStorageDriver';
 import {
   LOAD_CUSTOMER_RETURN_LIST,
+  RESET_FILTER_BAR_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
@@ -316,6 +317,48 @@ describe('CustomerReturnListModule', () => {
         expect.objectContaining({
           intent: SORT_AND_FILTER_CUSTOMER_RETURN_LIST,
         }),
+      ]);
+    });
+  });
+
+  describe('resetFilterOptions', () => {
+    it('reset filter options and triggers filtering', () => {
+      const { module, integration, store } = setupWithRun();
+      const defaultFilterOptions = store.getState().filterOptions;
+
+      store.setState({
+        ...store.getState(),
+        filterOptions: {
+          customerId: '123',
+          keywords: 'test',
+        },
+      });
+
+      module.resetFilterBarOptions();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: RESET_FILTER_BAR_OPTIONS,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: true,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: false,
+        },
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_CUSTOMER_RETURN_LIST,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        {
+          intent: SORT_AND_FILTER_CUSTOMER_RETURN_LIST,
+          params: expect.objectContaining(defaultFilterOptions),
+          urlParams: { businessId: '' },
+        },
       ]);
     });
   });

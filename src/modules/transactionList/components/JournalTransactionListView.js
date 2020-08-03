@@ -29,6 +29,7 @@ const JournalTransactionListView = (props) => {
   const {
     loadMoreButtonStatus,
     onUpdateFilters,
+    onResetFilters,
     onPeriodChange,
     onSort,
     onLoadMoreButtonClick,
@@ -40,6 +41,7 @@ const JournalTransactionListView = (props) => {
   const filterBar = (
     <TransactionListFilterOptions
       onUpdateFilters={onUpdateFilters}
+      onResetFilters={onResetFilters}
       onPeriodChange={onPeriodChange}
     />
   );

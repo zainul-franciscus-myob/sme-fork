@@ -4,6 +4,7 @@ import React from 'react';
 import {
   LOAD_BILL_LIST,
   LOAD_BILL_LIST_NEXT_PAGE,
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
@@ -58,6 +59,7 @@ export default class BillListModule {
     const billListView = (
       <BillListView
         onUpdateFilters={this.updateFilterOptions}
+        onResetFilters={this.resetFilterOptions}
         onSort={this.updateSortOrder}
         onDismissAlert={this.dismissAlert}
         onCreateButtonClick={this.redirectToCreateNewBill}
@@ -200,6 +202,13 @@ export default class BillListModule {
     } else {
       this.sortAndFilterBillList();
     }
+  };
+
+  resetFilterOptions = () => {
+    this.store.dispatch({
+      intent: RESET_FILTER_OPTIONS,
+    });
+    this.sortAndFilterBillList();
   };
 
   startLoadingMore = () => {

@@ -2,6 +2,7 @@ import {
   CLOSE_MODAL,
   LOAD_CUSTOMER_STATEMENTS,
   OPEN_MODAL,
+  RESET_FILTER_OPTIONS,
   SELECT_CUSTOMER_STATEMENT,
   SET_ALERT,
   SET_ARE_ACTIONS_DISABLED,
@@ -57,6 +58,11 @@ const createCustomerStatementListDispatcher = (store) => ({
       intent: UPDATE_FILTER_OPTIONS,
       key,
       value,
+    }),
+
+  resetFilterOptions: () =>
+    store.dispatch({
+      intent: RESET_FILTER_OPTIONS,
     }),
 
   updateTemplateAdditionalOptions: ({ key, value }) =>

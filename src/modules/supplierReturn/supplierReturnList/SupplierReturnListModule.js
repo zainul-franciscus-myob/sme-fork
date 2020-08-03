@@ -44,6 +44,7 @@ export default class SupplierReturnListModule {
       <Provider store={this.store}>
         <SupplierReturnListView
           onUpdateFilterBarOptions={this.updateFilterBarOptions}
+          onResetFilterBarOptions={this.resetFilterBarOptions}
           onDismissAlert={this.dispatcher.dismissAlert}
           onSort={this.sortSupplierReturnList}
           onCreateRefundClick={this.redirectToCreateRefund}
@@ -91,6 +92,11 @@ export default class SupplierReturnListModule {
     } else {
       this.sortAndFilterSupplierReturnList();
     }
+  };
+
+  resetFilterBarOptions = () => {
+    this.dispatcher.resetFilterBarOptions();
+    this.sortAndFilterSupplierReturnList();
   };
 
   sortSupplierReturnList = (orderBy) => {

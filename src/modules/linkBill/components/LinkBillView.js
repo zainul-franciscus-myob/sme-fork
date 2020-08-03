@@ -13,6 +13,7 @@ const LinkBillView = ({
   alert,
   loadingState,
   onUpdateFilterOptions,
+  onResetFilterOptions,
   onSort,
   onBillSelect,
   onCancelButtonClick,
@@ -38,6 +39,7 @@ const LinkBillView = ({
       <LinkBillDocumentView />
       <LinkBillListView
         onUpdateFilterOptions={onUpdateFilterOptions}
+        onResetFilterOptions={onResetFilterOptions}
         onSort={onSort}
         onBillSelect={onBillSelect}
       />

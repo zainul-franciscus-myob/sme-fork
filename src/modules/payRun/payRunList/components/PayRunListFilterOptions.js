@@ -7,6 +7,7 @@ import { getFilterOptions } from '../payRunListSelectors';
 const PayRunListFilterOptions = (props) => {
   const {
     onUpdateFilterBarOptions,
+    onResetFilterBarOptions,
     filterOptions: { dateFrom, dateTo },
   } = props;
 
@@ -15,7 +16,7 @@ const PayRunListFilterOptions = (props) => {
   };
 
   return (
-    <FilterBar>
+    <FilterBar onReset={onResetFilterBarOptions}>
       <FilterBar.Group>
         <DatePicker
           label="Payment from"

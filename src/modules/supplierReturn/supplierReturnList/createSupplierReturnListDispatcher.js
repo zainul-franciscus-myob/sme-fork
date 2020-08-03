@@ -1,5 +1,6 @@
 import {
   LOAD_SUPPLIER_RETURN_LIST,
+  RESET_FILTER_BAR_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
@@ -30,6 +31,9 @@ const createSupplierReturnListDispatcher = (store) => ({
   },
   updateFilterBarOptions: ({ key, value }) => {
     store.dispatch({ intent: UPDATE_FILTER_BAR_OPTIONS, key, value });
+  },
+  resetFilterBarOptions: () => {
+    store.dispatch({ intent: RESET_FILTER_BAR_OPTIONS });
   },
   setSortOrder: (orderBy, sortOrder) => {
     store.dispatch({ intent: SET_SORT_ORDER, orderBy, sortOrder });

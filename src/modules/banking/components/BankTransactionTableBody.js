@@ -40,6 +40,7 @@ const BankTransactionTableBody = (props) => {
     onUpdateSplitAllocationLine,
     onDeleteSplitAllocationLine,
     onUpdateMatchTransactionOptions,
+    onResetMatchTransactionOptions,
     onSortMatchTransactions,
     onUpdateMatchTransactionSelection,
     onUpdateSelectedTransactionDetails,
@@ -85,6 +86,7 @@ const BankTransactionTableBody = (props) => {
     },
     [tabIds.match]: {
       onUpdateMatchTransactionOptions,
+      onResetMatchTransactionOptions,
       onSortMatchTransactions,
       onUpdateMatchTransactionSelection,
       onUpdateSelectedTransactionDetails,

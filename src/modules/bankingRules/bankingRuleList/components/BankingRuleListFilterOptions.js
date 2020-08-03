@@ -9,9 +9,10 @@ import handleInputChange from '../../../../components/handlers/handleInputChange
 
 const BankingRuleListFilterOptions = ({
   onUpdateFilters,
+  onResetFilters,
   filterOptions: { keywords, showInactive },
 }) => (
-  <FilterBar>
+  <FilterBar onReset={onResetFilters}>
     <FilterBarSearch
       name="keywords"
       value={keywords}

@@ -2,6 +2,7 @@ import * as debounce from '../../../../common/debounce/debounce';
 import {
   LOAD_ITEM_LIST,
   LOAD_NEXT_PAGE,
+  RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_NEXT_PAGE_LOADING_STATE,
@@ -361,6 +362,37 @@ describe('ItemListModule', () => {
       module.updateFilterOptions({ key: 'keywords', value: '🐛' });
 
       expect(debounce.default).toHaveBeenCalled();
+    });
+  });
+
+  describe('resetFilterOptions', () => {
+    it('clears filters and reloads', () => {
+      const { module, store, integration } = setupWithRun();
+
+      module.resetFilterOptions();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: RESET_FILTER_OPTIONS,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: true,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: false,
+        },
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ITEM_LIST,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ITEM_LIST,
+        }),
+      ]);
     });
   });
 });

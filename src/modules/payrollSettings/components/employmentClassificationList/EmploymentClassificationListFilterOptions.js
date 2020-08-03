@@ -7,10 +7,10 @@ import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSea
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
 const EmploymentClassificationListFilterOptions = (props) => {
-  const { keywords, onUpdateFilterOptions } = props;
+  const { keywords, onUpdateFilterOptions, onResetFilterOptions } = props;
 
   return (
-    <FilterBar>
+    <FilterBar onReset={onResetFilterOptions}>
       <FilterBarSearch
         id="keywords"
         name="keywords"

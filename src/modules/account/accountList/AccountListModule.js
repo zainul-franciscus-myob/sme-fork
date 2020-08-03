@@ -92,11 +92,17 @@ export default class AccountListModule {
     }
   };
 
+  resetFilterOptions = () => {
+    this.dispatcher.resetAccountListFilterOptions();
+    this.filterAccountList();
+  };
+
   render = () => {
     const accountView = (
       <AccountListView
         onDismissAlert={this.dispatcher.dismissAlert}
         onUpdateFilterOptions={this.updateFilterOptions}
+        onResetFilterOptions={this.resetFilterOptions}
         onTabSelect={this.setTab}
         onEditLinkedAccountButtonClick={this.redirectToLinkedAccounts}
         onImportChartOfAccountsClick={this.redirectToImportChartOfAccounts}

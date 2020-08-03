@@ -17,6 +17,7 @@ const CustomerStatementListView = ({
   modal,
   alert,
   onUpdateFilters,
+  onResetFilters,
   onUpdateTemplateAdditionalOptions,
   onToggleAllCustomerStatements,
   onSelectCustomerStatement,
@@ -35,6 +36,7 @@ const CustomerStatementListView = ({
   const filterOptions = (
     <CustomerStatementFilterOptions
       onUpdateFilters={onUpdateFilters}
+      onResetFilters={onResetFilters}
       onUpdateTemplateAdditionalOptions={onUpdateTemplateAdditionalOptions}
     />
   );

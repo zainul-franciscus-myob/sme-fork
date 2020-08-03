@@ -11,6 +11,9 @@ export const SORT_AND_FILTER_SUPER_FUND_LIST = Symbol(
 export const SET_SUPER_FUND_LIST_FILTER_OPTIONS = Symbol(
   'Set superannuation funds filter options'
 );
+export const RESET_SUPER_FUND_LIST_FILTER_OPTIONS = Symbol(
+  'reSet superannuation funds filter options'
+);
 export const SET_SUPER_FUND_LIST_SORT_ORDER = Symbol(
   'Set superannuation funds sort order'
 );
@@ -32,6 +35,9 @@ export const SORT_AND_FILTER_EMPLOYMENT_CLASSIFICATION_LIST = Symbol(
 );
 export const SET_EMPLOYMENT_CLASSIFICATION_LIST_FILTER_OPTIONS = Symbol(
   'Set employment classification filter options'
+);
+export const RESET_EMPLOYMENT_CLASSIFICATION_LIST_FILTER_OPTIONS = Symbol(
+  'Reset employment classification filter options'
 );
 export const SET_EMPLOYMENT_CLASSIFICATION_LIST_SORT_ORDER = Symbol(
   'Set employment classification sort order'

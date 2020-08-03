@@ -6,6 +6,7 @@ export const SET_SORT_ORDER = Symbol('Set sort order');
 export const SET_MODAL_TYPE = Symbol('Set modal type');
 
 export const UPDATE_FILTER_BAR_OPTIONS = Symbol('Update filter bar options');
+export const RESET_FILTER_BAR_OPTIONS = Symbol('Reset filter bar options');
 export const UPDATE_IMPORT_MODAL = Symbol('Update import modal');
 export const LOAD_BANK_STATEMENT_IMPORT_LIST = Symbol(
   'Load bank statement import list'

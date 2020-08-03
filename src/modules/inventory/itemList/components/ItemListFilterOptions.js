@@ -12,8 +12,9 @@ const ItemListFilterOptions = ({
   filterOptions: { type, keywords, showInactive },
   typeOptions,
   onUpdateFilters,
+  onResetFilters,
 }) => (
-  <FilterBar>
+  <FilterBar onReset={onResetFilters}>
     <Select
       name="type"
       label="Item type"

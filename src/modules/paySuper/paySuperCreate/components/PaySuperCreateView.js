@@ -44,6 +44,7 @@ const PaySuperCreateView = ({
   superPayments,
   accounts,
   onUpdateFilterBarOptions,
+  onResetFilterBarOptions,
   onRecord,
   onAccountChange,
   selectedAccountId,
@@ -100,7 +101,7 @@ const PaySuperCreateView = ({
       )}
       <PageHead title="Create super payment" testid="paySuperCreateHeader" />
       <Card>
-        <FilterBar>
+        <FilterBar onReset={onResetFilterBarOptions}>
           <FilterBar.Group>
             <DatePicker
               label="Transactions from"

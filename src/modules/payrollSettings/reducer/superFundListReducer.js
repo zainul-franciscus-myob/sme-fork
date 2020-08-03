@@ -1,3 +1,5 @@
+import getDefaultState from './getDefaultState';
+
 const updateSuperFundListState = (state, superFundListState) => ({
   ...state,
   superFundList: {
@@ -24,6 +26,11 @@ export const setSuperFundListFilterOption = (state, action) =>
       ...state.superFundList.filterOptions,
       [action.key]: action.value,
     },
+  });
+
+export const resetSuperFundListFilterOption = (state) =>
+  updateSuperFundListState(state, {
+    filterOptions: getDefaultState().superFundList.filterOptions,
   });
 
 export const setSuperFundListSortOrder = (state, action) =>

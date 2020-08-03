@@ -14,8 +14,9 @@ const BankStatementImportListFilterOptions = ({
   accountOptions,
   filterOptions: { accountId },
   onUpdateFilterBarOptions,
+  onResetFilterBarOptions,
 }) => (
-  <FilterBar>
+  <FilterBar onReset={onResetFilterBarOptions}>
     <div className={styles.account}>
       <AccountCombobox
         label="Bank account"

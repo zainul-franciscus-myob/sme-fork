@@ -21,6 +21,7 @@ export const SET_LOCK_DATE_AUTO_POPULATED_STATE = Symbol(
   'Set lock date auto populated state'
 );
 export const UPDATE_KEYWORD = Symbol('Update keyword');
+export const RESET_KEYWORD = Symbol('Reset keyword');
 export const UPDATE_SORT_ORDER = Symbol('Update sort order');
 export const OPEN_FINANCIAL_YEAR_MODAL = Symbol('Open financial year modal');
 export const CLOSE_FINANCIAL_YEAR_MODAL = Symbol('Close financial year modal');

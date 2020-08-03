@@ -71,6 +71,11 @@ export default class PaySuperCreateModule {
     this.sortAndFilterSuperPayments();
   };
 
+  resetFilterBarOptions = () => {
+    this.dispatcher.resetFilterBarOptions();
+    this.sortAndFilterSuperPayments();
+  };
+
   sortAndFilterSuperPayments = () => {
     this.dispatcher.setIsTableLoading(true);
 
@@ -197,6 +202,7 @@ export default class PaySuperCreateModule {
           onInputChange={this.dispatcher.updateInputField}
           onSort={this.sortSuperPayments}
           onUpdateFilterBarOptions={this.updateFilterBarOptions}
+          onResetFilterBarOptions={this.resetFilterBarOptions}
           employeeTransactionModal={employeeTransactionModal}
           paySuperAuthorisationModal={paySuperAuthorisationModal}
           onDateLinkClick={this.openEmployeeTransactionModal}

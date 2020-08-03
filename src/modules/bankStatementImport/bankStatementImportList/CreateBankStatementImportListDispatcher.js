@@ -2,6 +2,7 @@ import {
   DELETE_BANK_STATEMENT,
   IMPORT_BANK_STATEMENT,
   LOAD_BANK_STATEMENT_IMPORT_LIST,
+  RESET_FILTER_BAR_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
@@ -94,6 +95,11 @@ const CreateBankStatementImportListDispatcher = (store) => ({
       intent: UPDATE_FILTER_BAR_OPTIONS,
       key,
       value,
+    }),
+
+  resetFilterBarOptions: () =>
+    store.dispatch({
+      intent: RESET_FILTER_BAR_OPTIONS,
     }),
 
   updateImportModal: ({ key, value }) =>

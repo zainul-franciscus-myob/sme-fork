@@ -1,6 +1,7 @@
 import {
   LOAD_EMPLOYEE_LIST,
   LOAD_EMPLOYEE_LIST_NEXT_PAGE,
+  RESET_FILTER_BAR_OPTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
@@ -50,6 +51,11 @@ const updateFilterBarOptions = (state, action) => ({
     ...state.filterOptions,
     [action.key]: action.value,
   },
+});
+
+const resetFilterBarOptions = (state) => ({
+  ...state,
+  filterOptions: getDefaultState().filterOptions,
 });
 
 const loadEmployeeList = (state, { intent, ...response }) => ({
@@ -113,6 +119,7 @@ const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
   [UPDATE_FILTER_BAR_OPTIONS]: updateFilterBarOptions,
+  [RESET_FILTER_BAR_OPTIONS]: resetFilterBarOptions,
   [LOAD_EMPLOYEE_LIST]: loadEmployeeList,
   [SORT_AND_FILTER_EMPLOYEE_LIST]: sortAndFilterEmployeeList,
   [SET_ALERT]: setAlert,

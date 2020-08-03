@@ -19,6 +19,11 @@ export const SORT_AND_FILTER_IN_TRAY_LIST = Symbol(
 export const SET_IN_TRAY_LIST_FILTER_OPTIONS = Symbol(
   'Set in tray document list filter options'
 );
+
+export const RESET_IN_TRAY_LIST_FILTER_OPTIONS = Symbol(
+  'Reset in tray document list filter options'
+);
+
 export const SET_IN_TRAY_LIST_SORT_ORDER = Symbol(
   'Set in tray document list sort order'
 );

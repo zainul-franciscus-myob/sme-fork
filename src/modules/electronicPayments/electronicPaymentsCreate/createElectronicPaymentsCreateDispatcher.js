@@ -2,6 +2,7 @@ import {
   CLOSE_MODAL,
   LOAD_ACCOUNTS_AND_TRANSACTIONS,
   OPEN_MODAL,
+  RESET_FILTER_OPTIONS,
   SELECT_ALL_TRANSACTIONS,
   SELECT_ITEM_TRANSACTIONS,
   SET_ALERT,
@@ -85,6 +86,12 @@ const createElectronicPaymentsCreateDispatcher = (store) => ({
       intent: UPDATE_FILTER_OPTIONS,
       key,
       value,
+    });
+  },
+
+  resetFilterBarOptions: () => {
+    store.dispatch({
+      intent: RESET_FILTER_OPTIONS,
     });
   },
 

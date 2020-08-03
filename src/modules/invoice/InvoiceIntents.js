@@ -17,6 +17,7 @@ export const SET_TABLE_LOADING_STATE = Symbol('Set table loading state');
 export const UPDATE_FILTER_OPTIONS = Symbol(
   'Update filter options of invoices'
 );
+export const RESET_FILTER_OPTIONS = Symbol('Reset filter options of invoices');
 export const SET_NEXT_PAGE_LOADING_STATE = Symbol(
   'Set loading next page state'
 );
