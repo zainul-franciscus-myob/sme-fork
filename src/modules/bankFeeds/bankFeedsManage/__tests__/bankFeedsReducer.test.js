@@ -1,6 +1,7 @@
 import {
   CLEAR_BANK_FEEDS_LOGIN,
   DELETE_BANK_FEED,
+  LOAD_BANK_FEEDS,
   UPDATE_BANK_FEEDS_LOGIN,
 } from '../BankFeedsIntents';
 import BankFeedTypes from '../BankFeedTypes';
@@ -50,6 +51,52 @@ describe('bankFeedsReducer', () => {
       expect(actual.bankFeeds.bankAccounts).toEqual(
         expectedBankAccountsInState
       );
+    });
+  });
+
+  describe('loadBankFeeds', () => {
+    it('should add isAccountSelectionEnabled to each entry', () => {
+      const state = {};
+
+      const action = {
+        intent: LOAD_BANK_FEEDS,
+        bankFeeds: {
+          bankAccounts: [
+            {
+              id: '1',
+              accountName: 'Bob',
+            },
+          ],
+          creditCards: [
+            {
+              id: '',
+              accountName: 'Bob',
+            },
+          ],
+        },
+        serialNumber: '1111',
+      };
+
+      const actual = bankFeedsReducer(state, action);
+
+      const expectedBankAccounts = [
+        {
+          id: '1',
+          accountName: 'Bob',
+          isAccountSelectionEnabled: true,
+        },
+      ];
+
+      const expectedCreditCards = [
+        {
+          id: '',
+          accountName: 'Bob',
+          isAccountSelectionEnabled: false,
+        },
+      ];
+
+      expect(actual.bankFeeds.bankAccounts).toEqual(expectedBankAccounts);
+      expect(actual.bankFeeds.creditCards).toEqual(expectedCreditCards);
     });
   });
 

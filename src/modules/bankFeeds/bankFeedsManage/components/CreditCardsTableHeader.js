@@ -1,5 +1,7 @@
-import { Table } from '@myob/myob-widgets';
+import { Table, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
+
+import styles from './TableHeader.module.css';
 
 const BankFeedsCreditCardsTableHeader = ({ tableConfig }) => (
   <Table>
@@ -16,7 +18,12 @@ const BankFeedsCreditCardsTableHeader = ({ tableConfig }) => (
         {tableConfig.cardNumber.columnName}
       </Table.HeaderItem>
       <Table.HeaderItem columnName={tableConfig.linkedAccount.columnName}>
-        {tableConfig.linkedAccount.columnName}
+        <>
+          {tableConfig.linkedAccount.columnName}
+          <Tooltip className={styles.linkedAccountsTooltip}>
+            Accounts can only be linked for active bank feeds.
+          </Tooltip>
+        </>
       </Table.HeaderItem>
       <Table.HeaderItem columnName={tableConfig.status.columnName}>
         {tableConfig.status.columnName}

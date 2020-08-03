@@ -74,8 +74,14 @@ const setModalType = (state, action) => ({
 const loadBankFeeds = (state, { bankFeeds, serialNumber }) => ({
   ...state,
   bankFeeds: {
-    bankAccounts: bankFeeds.bankAccounts,
-    creditCards: bankFeeds.creditCards,
+    bankAccounts: bankFeeds.bankAccounts.map((bankAccount) => ({
+      ...bankAccount,
+      isAccountSelectionEnabled: Boolean(bankAccount.id),
+    })),
+    creditCards: bankFeeds.creditCards.map((creditCard) => ({
+      ...creditCard,
+      isAccountSelectionEnabled: Boolean(creditCard.id),
+    })),
   },
   serialNumber,
 });

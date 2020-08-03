@@ -102,3 +102,6 @@ export const getCreateBankFeedsUrl = createSelector(
       ? smeUrl
       : myDotUrl
 );
+
+export const getShouldLoadBankFeedsApplications = (state) =>
+  state.shouldLoadBankFeedsApplications;

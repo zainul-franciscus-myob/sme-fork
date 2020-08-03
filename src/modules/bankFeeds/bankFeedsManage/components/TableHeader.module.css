@@ -1,0 +1,7 @@
+.linkedAccountsTooltip {
+  margin-left: var(--flx-spacing-x-tiny);
+}
+
+.linkedAccountsTooltip :global(.svg-icon) {
+  vertical-align: text-top;
+}

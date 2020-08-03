@@ -49,6 +49,7 @@ const BankAccountsTableBody = ({
         <AccountCombobox
           label="linked account"
           hideLabel
+          disabled={!entry.isAccountSelectionEnabled}
           items={entry.accountOptions}
           selectedId={entry.linkedAccountId}
           onChange={handleComboboxChange(
