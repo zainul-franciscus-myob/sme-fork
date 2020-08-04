@@ -1,28 +1,12 @@
-import EmployeeDetailModule from './employeeDetail/EmployeeDetailModule';
-import EmployeeListModule from './employeeList/EmployeeListModule';
-import LearnEmployeeModule from '../learning/employeeLearn/LearnEmployeeModule';
 import RouteName from '../../router/RouteName';
 
-const getEmployeeRoutes = ({
-  integration,
-  setRootView,
-  popMessages,
-  pushMessage,
-  replaceURLParams,
-  globalCallbacks,
-  featureToggles,
-  isToggleOn,
-}) => {
+const getEmployeeRoutes = () => {
   const routes = [
     {
       name: RouteName.EMPLOYEE_LIST,
       path: '/au/:businessId/employee/',
       defaultParams: { region: 'au' },
-      module: new EmployeeListModule({
-        integration,
-        setRootView,
-        popMessages,
-      }),
+      loadModule: () => import('./employeeList/EmployeeListModule'),
       documentTitle: 'Employees',
     },
     {
@@ -30,26 +14,13 @@ const getEmployeeRoutes = ({
       path: '/au/:businessId/employee/:employeeId',
       defaultParams: { region: 'au' },
       allowedParams: ['mainTab', 'subTab'],
-      module: new EmployeeDetailModule({
-        integration,
-        setRootView,
-        popMessages,
-        pushMessage,
-        replaceURLParams,
-        globalCallbacks,
-        featureToggles,
-        isToggleOn,
-      }),
+      loadModule: () => import('./employeeDetail/EmployeeDetailModule'),
       documentTitle: 'Employee',
     },
     {
       name: RouteName.ONBOARDING_LEARN_EMPLOYEE,
       path: '/:region/:businessId/learn/employee',
-      module: new LearnEmployeeModule({
-        setRootView,
-        integration,
-        learnEmployeeCompleted: globalCallbacks.learnEmployeeCompleted,
-      }),
+      loadModule: () => import('../learning/employeeLearn/LearnEmployeeModule'),
       documentTitle: 'Create your first employee',
     },
   ];

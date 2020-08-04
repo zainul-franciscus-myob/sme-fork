@@ -1,13 +1,11 @@
 const getRouteNameToModuleMapping = (routes) =>
-  routes.reduce(
-    (acc, { name, module, documentTitle }) => ({
-      ...acc,
-      [name]: {
-        module,
-        title: documentTitle,
-      },
-    }),
-    {}
-  );
+  routes.reduce((acc, { name, module, loadModule, documentTitle }) => {
+    acc[name] = {
+      module,
+      loadModule,
+      title: documentTitle,
+    };
+    return acc;
+  }, {});
 
 export default getRouteNameToModuleMapping;

@@ -71,7 +71,7 @@ const getRoutes = (moduleParams) => [
   ...getBusinessRoutes(moduleParams),
   ...getInventoryRoutes(moduleParams),
   ...getUserRoutes(moduleParams),
-  ...getEmployeeRoutes(moduleParams),
+  ...getEmployeeRoutes(),
   ...getBillRoutes(moduleParams),
   ...getCustomerReturnRoutes(moduleParams),
   ...getInvoicePaymentRoutes(moduleParams),

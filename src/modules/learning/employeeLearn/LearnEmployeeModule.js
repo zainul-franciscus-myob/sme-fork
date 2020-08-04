@@ -11,7 +11,7 @@ import employeeImg from './assets/high_five_employees.svg';
 import styles from './LearnEmployeeModule.module.css';
 
 export default class LearnEmployeeModule {
-  constructor({ setRootView, learnEmployeeCompleted }) {
+  constructor({ setRootView, globalCallbacks: { learnEmployeeCompleted } }) {
     this.setRootView = setRootView;
     this.learnEmployeeCompleted = learnEmployeeCompleted;
   }

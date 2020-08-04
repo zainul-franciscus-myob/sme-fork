@@ -44,7 +44,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
 
   const featureToggles = await loadFeatureToggles(integration);
 
-  const routes = getRoutes({
+  const container = Object.freeze({
     integration,
     setRootView: rootModule.render,
     popMessages: inbox.popMessages,
@@ -57,13 +57,14 @@ async function main(integrationType, telemetryType, leanEngageType) {
     featureToggles,
   });
 
-  const moduleList = routes.map((route) => route.module);
+  const routes = getRoutes(container);
 
-  const unsubscribeAllModulesFromStore = () => {
-    moduleList.forEach((module) => {
-      module.unsubscribeFromStore();
+  const unsubscribeAllModulesFromStore = () =>
+    routes.forEach((route) => {
+      if (route.module) {
+        route.module.unsubscribeFromStore();
+      }
     });
-  };
 
   const showAppcues = ({ routeParams }) => {
     const { appcue } = routeParams;
@@ -79,6 +80,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
   router.start({
     rootModule,
     routes,
+    container,
     beforeAll,
     afterAll: inbox.clearInbox,
   });

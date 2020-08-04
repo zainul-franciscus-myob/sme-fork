@@ -83,16 +83,20 @@ export default class Router {
 
   buildDocumentTitle = (title) => (title ? `MYOB - ${title}` : 'MYOB');
 
-  start = (options) => {
-    const { rootModule, routes, beforeAll, afterAll } = options;
+  start = ({ rootModule, routes, beforeAll, afterAll, container }) => {
     const routerConfig = convertRoutesToRouterConfig(routes);
     const moduleMapping = getRouteNameToModuleMapping(routes);
 
     this.router.add(routerConfig);
 
     this.router.subscribe(async ({ route, previousRoute }) => {
-      const { module, title } = moduleMapping[route.name];
-      document.title = this.buildDocumentTitle(title);
+      const mappedRoute = moduleMapping[route.name];
+      document.title = this.buildDocumentTitle(mappedRoute.title);
+
+      if (!mappedRoute.module) {
+        const { default: ModuleCtor } = await mappedRoute.loadModule();
+        mappedRoute.module = new ModuleCtor(container);
+      }
 
       const routeProps = {
         routeParams: route.params,
@@ -101,7 +105,11 @@ export default class Router {
       };
 
       beforeAll({ routeProps });
-      await rootModule.run(routeProps, module, buildModuleContext(route));
+      await rootModule.run(
+        routeProps,
+        mappedRoute.module,
+        buildModuleContext(route)
+      );
       afterAll();
     });
 
