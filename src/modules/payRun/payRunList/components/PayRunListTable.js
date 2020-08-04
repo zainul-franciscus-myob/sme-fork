@@ -1,4 +1,4 @@
-import { HeaderSort, Table } from '@myob/myob-widgets';
+import { HeaderSort, Label, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -11,9 +11,10 @@ import {
 } from '../payRunListSelectors';
 import PayRunListEmptyView from './PayRunListEmptyView';
 import TableView from '../../../../components/TableView/TableView';
+import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
 
 const tableConfig = {
-  date: {
+  paymentDate: {
     valign: 'top',
     columnName: 'Date of payment',
   },
@@ -21,10 +22,20 @@ const tableConfig = {
     valign: 'top',
     columnName: 'Pay period',
   },
-  employees: {
+  employeeCount: {
     valign: 'top',
     align: 'left',
     columnName: 'Employees',
+  },
+  totalNetPay: {
+    valign: 'top',
+    align: 'right',
+    columnName: 'Total net pay ($)',
+  },
+  isReversal: {
+    valign: 'top',
+    align: 'center',
+    columnName: '',
   },
 };
 
@@ -37,12 +48,13 @@ const PayRunListTable = ({
   emptyState,
   onStpSignUpClick,
 }) => {
+  const reversalExistInEntries = entries.some((x) => x.isReversal);
   const header = (
     <Table.Header>
-      <Table.HeaderItem {...tableConfig.date}>
+      <Table.HeaderItem {...tableConfig.paymentDate}>
         <HeaderSort
-          title={tableConfig.date.columnName}
-          sortName="date"
+          title={tableConfig.paymentDate.columnName}
+          sortName="paymentDate"
           activeSort={sortOrder}
           onSort={onSort}
         />
@@ -50,23 +62,46 @@ const PayRunListTable = ({
       <Table.HeaderItem {...tableConfig.payPeriod}>
         {tableConfig.payPeriod.columnName}
       </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.employees}>
-        {tableConfig.employees.columnName}
+      <Table.HeaderItem {...tableConfig.employeeCount}>
+        {tableConfig.employeeCount.columnName}
       </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.totalNetPay}>
+        {tableConfig.totalNetPay.columnName}
+      </Table.HeaderItem>
+      {reversalExistInEntries ? (
+        <Table.HeaderItem {...tableConfig.isReversal}>
+          {tableConfig.isReversal.columnName}
+        </Table.HeaderItem>
+      ) : null}
     </Table.Header>
   );
 
   const rows = entries.map((entry) => (
     <Table.Row key={entry.id}>
-      <Table.RowItem {...tableConfig.date}>
+      <Table.RowItem {...tableConfig.paymentDate}>
         <a href={entry.link}>{entry.paymentDate}</a>
       </Table.RowItem>
       <Table.RowItem {...tableConfig.payPeriod}>
         {entry.payPeriod}
       </Table.RowItem>
-      <Table.RowItem {...tableConfig.employees}>
+      <Table.RowItem {...tableConfig.employeeCount}>
         {entry.employeeCount}
       </Table.RowItem>
+      <Table.RowItem {...tableConfig.totalNetPay}>
+        {formatCurrency(entry.totalNetPay)}
+      </Table.RowItem>
+
+      {reversalExistInEntries ? (
+        <Table.RowItem {...tableConfig.isReversal}>
+          {entry.isReversal ? (
+            <Label type="boxed" color="orange">
+              Reversed pay
+            </Label>
+          ) : (
+            <div></div>
+          )}
+        </Table.RowItem>
+      ) : null}
     </Table.Row>
   ));
 

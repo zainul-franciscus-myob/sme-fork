@@ -1,4 +1,4 @@
-import { addMonths } from 'date-fns';
+import { addYears } from 'date-fns';
 
 import {
   RESET_FILTER_OPTIONS,
@@ -13,9 +13,9 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
-const getDefaultDateRange = () => addMonths(new Date(), -3);
+const getDefaultDateRange = () => addYears(new Date(), -1);
 
-const getDefaultState = () => ({
+export const getDefaultState = () => ({
   entries: [],
   filtersTouched: false,
   sortOrder: 'desc',

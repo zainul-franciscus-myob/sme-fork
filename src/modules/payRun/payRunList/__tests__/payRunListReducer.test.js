@@ -1,4 +1,8 @@
+import { addYears } from 'date-fns';
+
+import { RESET_STATE } from '../../../../SystemIntents';
 import { SET_SORT_ORDER, UPDATE_FILTER_OPTIONS } from '../PayRunListIntents';
+import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
 import payRunListReducer from '../payRunListReducer';
 
 describe('payRunListReducer', () => {
@@ -42,6 +46,21 @@ describe('payRunListReducer', () => {
 
       const actual = payRunListReducer(state, action);
 
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('defaultfilterOptions', () => {
+    it('is date range of 1 years prior to today', () => {
+      const action = {
+        intent: RESET_STATE,
+      };
+      const today = new Date();
+      const expected = {
+        dateFrom: formatIsoDate(addYears(today, -1)),
+        dateTo: formatIsoDate(today),
+      };
+      const actual = payRunListReducer({}, action).filterOptions;
       expect(actual).toEqual(expected);
     });
   });

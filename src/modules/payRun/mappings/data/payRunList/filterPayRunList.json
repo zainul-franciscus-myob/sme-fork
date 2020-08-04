@@ -7,6 +7,8 @@
       "payPeriodStart": "2017/02/24",
       "payPeriodEnd": "2017/02/24",
       "employeeCount": 3,
+      "totalNetPay": 1663.59,
+      "isReversal": true,
       "id": "9edb7d42-62cb-4f22-b387-fb522ba35137"
     },
     {
@@ -14,6 +16,8 @@
       "payPeriodStart": "2017/02/24",
       "payPeriodEnd": "2017/02/24",
       "employeeCount": 4,
+      "totalNetPay": 6421.59,
+      "isReversal": false,
       "id": "9edb7d42-62cb-4f22-b387-fb522ba35138"
     },
     {
@@ -21,6 +25,8 @@
       "payPeriodStart": "2017/02/24",
       "payPeriodEnd": "2017/02/24",
       "employeeCount": 5,
+      "totalNetPay": 999.59,
+      "isReversal": true,
       "id": "9edb7d42-62cb-4f22-b387-fb522ba35139"
     }
   ]
