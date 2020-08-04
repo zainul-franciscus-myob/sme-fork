@@ -1,0 +1,251 @@
+{
+  "pageTitle": "Quote BL00000123",
+  "quote": {
+    "id": "service-readonly-id",
+    "layout": "service",
+    "contactId": "1",
+    "contactName": "A-Z Stationery Supplies",
+    "address": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
+    "expirationTerm": "OnADayOfTheMonth",
+    "expirationDays": "4",
+    "chargeForLatePayment": 0,
+    "discountForEarlyPayment": 0,
+    "numberOfDaysForDiscount": 1,
+    "isTaxInclusive": true,
+    "quoteNumber": "BL00000123",
+    "purchaseOrderNumber": "IN00000123",
+    "issueDate": "2018-11-02",
+    "note": "hello",
+    "taxExclusiveFreightAmount": "9.09",
+    "freightTaxAmount": "0.91",
+    "freightTaxCodeId": "2",
+    "isForeignCurrency": false,
+    "lines": [
+      {
+        "id": "323",
+        "type": "header",
+        "description": "Coolest Header",
+        "lineTypeId": -1
+      },
+      {
+        "type": "item",
+        "accountId": "123",
+        "description": "Cooler Medium",
+        "jobId": "1",
+        "taxCodeId": "2",
+        "taxAmount": "0.9111",
+        "taxExclusiveAmount": "850",
+        "lineTypeId": "5"
+      },
+      {
+        "type": "service",
+        "units": "",
+        "unitOfMeasure": "",
+        "itemId": "",
+        "accountId": "123",
+        "description": "Buying some stuff",
+        "unitPrice": "",
+        "discount": "",
+        "jobId": "1",
+        "taxCodeId": "3",
+        "taxAmount": "0.9111",
+        "taxExclusiveAmount": "850",
+        "lineTypeId": "5"
+      },
+      {
+        "id": "675",
+        "type": "subTotal",
+        "taxAmount": "1.82",
+        "taxExclusiveAmount": "1700",
+        "lineTypeId": -1
+      }
+    ]
+  },
+  "contactOptions": [
+    {
+      "name": "A-Z Stationery Supplies",
+      "id": "1"
+    }
+  ],
+  "expirationTermOptions": [
+    {
+      "value": "OnADayOfTheMonth",
+      "name": "Due on a date of this month"
+    },
+    {
+      "value": "Prepaid",
+      "name": "Prepaid"
+    },
+    {
+      "value": "InAGivenNumberOfDays",
+      "name": "Due in a number of days after the issue date"
+    },
+    {
+      "value": "CashOnDelivery",
+      "name": "Cash on delivery"
+    },
+    {
+      "value": "DayOfMonthAfterEOM",
+      "name": "Due on a date of next month"
+    },
+    {
+      "value": "NumberOfDaysAfterEOM",
+      "name": "Due in a number of days after the end of the month"
+    }
+  ],
+  "accountOptions": [
+    {
+      "id": "123",
+      "displayName": "My Sales Account 1",
+      "accountType": "Sales",
+      "taxCodeId": "123",
+      "displayId": "4-123"
+    },
+    {
+      "id": "456",
+      "displayName": "Sales Account 2",
+      "accountType": "Assets",
+      "taxCodeId": "124",
+      "displayId": "4-456"
+    },
+    {
+      "id": "789",
+      "displayName": "Expense Account",
+      "accountType": "Assets",
+      "taxCodeId": "124",
+      "displayId": "6-789"
+    }
+  ],
+  "itemOptions": [
+    {
+      "id": "3",
+      "itemId": "100",
+      "description": "Cooler Large"
+    },
+    {
+      "id": "4",
+      "itemId": "101",
+      "description": "Cooler Medium"
+    }
+  ],
+  "jobOptions": [
+    {
+      "id": "1",
+      "jobNumber": "100",
+      "jobName": "Job 1",
+      "isActive": true
+    },
+    {
+      "id": "2",
+      "jobNumber": "200",
+      "jobName": "Job 2 with a long name",
+      "isActive": true
+    },
+    {
+      "id": "3",
+      "jobNumber": "12345678901234",
+      "jobName": "Job 3 with an even longer name",
+      "isActive": false
+    }
+  ],
+  "taxCodeOptions": [
+    {
+      "id": "2",
+      "displayName": "GST",
+      "description": "Goods & Service Tax",
+      "displayRate": "10%",
+      "codeType": "GST_VAT",
+      "rate": "10",
+      "threshold": 0,
+      "childrenCalculationCollection": [],
+      "calculationMethod": 2,
+      "roundingMethod": 2,
+      "collectedBehaviour": 1,
+      "payedBehaviour": 1,
+      "isWithholding": false,
+      "thresholdRate": 10,
+      "includeInGstReturn": false
+    },
+    {
+      "id": "4",
+      "displayName": "WET",
+      "description": "GST FREE",
+      "displayRate": "29%",
+      "codeType": "SalesTax",
+      "rate": 29,
+      "threshold": 0,
+      "childrenCalculationCollection": [],
+      "calculationMethod": 2,
+      "roundingMethod": 2,
+      "collectedBehaviour": 1,
+      "payedBehaviour": 3,
+      "isWithholding": false,
+      "thresholdRate": 10,
+      "includeInGstReturn": false
+    }
+  ],
+  "newLine": {
+    "type": "item",
+    "units": "",
+    "itemId": "",
+    "accountId": "",
+    "description": "",
+    "descriptionDirty": false,
+    "unitPrice": "",
+    "discount": "",
+    "jobId": "",
+    "taxCodeId": "",
+    "lineTypeId": "5"
+  },
+  "totals": {
+    "subTotal": "$1,000.00",
+    "totalTax": "$5.00",
+    "totalAmount": "$1,000.00"
+  },
+  "commentOptions": [
+    {
+      "value": "Happy Holiday!"
+    },
+    {
+      "value": "Great doing business"
+    },
+    {
+      "value": "don't call us we'll call you"
+    }
+  ],
+  "emailQuote": {
+    "hasEmailReplyDetails": true,
+    "isEmailMeACopy": false,
+    "ccToEmail": [
+      "t-pain@myob.com",
+      "hamzzz@myob.com"
+    ],
+    "fromEmail": "tom.xu@myob.com",
+    "fromName": "Tom Xu",
+    "messageBody": "Let's make some hot chocolate!!",
+    "subject": "Hot Chocolate is life",
+    "toEmail": [
+      "geoff.spires@myob.com",
+      "tom.xu@myob.com"
+    ],
+    "includeQuoteNumberInEmail": true,
+    "attachments": [],
+    "templateName": "a"
+  },
+  "template": {
+    "defaultTemplate": "a",
+    "templateOptions": [
+      {
+        "name": "a",
+        "label": "apple"
+      },
+      {
+        "name": "b",
+        "label": "banana"
+      }
+    ]
+  },
+  "exportPdf": {
+    "template": "a"
+  }
+}

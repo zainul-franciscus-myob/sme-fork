@@ -1,0 +1,100 @@
+{
+  "layout": "service",
+  "loadingState": "LOADING",
+  "quote": {
+    "id": "1",
+    "customerId": "3",
+    "expirationTerm": "InAGivenNumberOfDays",
+    "expirationDays": 0,
+    "chargeForLatePayment": 123.12,
+    "discountForEarlyPayment": 3546.34,
+    "numberOfDaysForDiscount": 10,
+    "taxInclusive": true,
+    "quoteNumber": "0000012334563456",
+    "address": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
+    "issueDate": "2018-11-02",
+    "purchaseOrderNumber": "123",
+    "notesToCustomer": "Thank you!",
+    "lines": [
+      {
+        "id": "345",
+        "description": "Yak shaving - 1/2 an hour",
+        "accountId": "123",
+        "amount": "48.50",
+        "taxCodeId": "124",
+        "accounts": [
+          {
+            "id": "123",
+            "displayName": "My Sales Account 1",
+            "accountType": "Sales",
+            "taxCodeId": "123",
+            "displayId": "4-123"
+          }
+        ],
+        "taxCodes": [
+          {
+            "id": "123",
+            "displayName": "GST",
+            "description": "Goods & Service Tax",
+            "displayRate": "10%"
+          }
+        ]
+      }
+    ]
+  },
+  "customerOptions": [
+    {
+      "name": "Cow Feed 1",
+      "value": "1"
+    }
+  ],
+  "expirationTerms": [
+    {
+      "value": "OnADayOfTheMonth",
+      "name": "On a day of the month"
+    },
+    {
+      "value": "Prepaid",
+      "name": "Prepaid"
+    },
+    {
+      "value": "CashOnDelivery",
+      "name": "C.O.D."
+    }
+  ],
+  "comments": [
+    {
+      "value": "Happy Holiday!"
+    }
+  ],
+  "region": "au",
+  "businessId": "businessId",
+  "quoteId": "1",
+  "emailQuote": {
+    "hasEmailReplyDetails": true,
+    "ccToEmail": [
+      "geoff.spires@myob.com", "tom.xu@myob.com"
+    ],
+    "fromEmail": "tom.xu@myob.com",
+    "fromName": "Tom Xu",
+    "messageBody": "Thank you for your patronage!",
+    "subject": "Thank you!",
+    "toEmail": [
+      "geoff.spires@myob.com", "tom.xu@myob.com"
+    ],
+    "templateName": "INV Item print",
+    "includeQuoteNumberInEmail": true,
+    "attachments": [
+      {
+        "keyName": "some/key",
+        "uploadPassword": "some/password",
+        "file": { "name": "emailAttachment", "size": 1000, "type": "image/svg+xml" },
+        "state": "finished"
+      },
+      {
+        "file": { "name": "failedEmailAttachment", "size": 2000, "type": "image/svg+xml" },
+        "state": "failed"
+      }
+    ]
+  }
+}

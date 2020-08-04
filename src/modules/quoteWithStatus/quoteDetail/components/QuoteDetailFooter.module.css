@@ -1,0 +1,27 @@
+/*
+  Display note input besides table totals
+*/
+.footer :global(.line-item__total) {
+  border: none;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+@media (min-width: 768px) {
+  .footer {
+    flex-direction: initial;
+    justify-content: space-between;
+    padding-top: var(--flx-spacing-small);
+  }
+
+  .note {
+    width: var(--flx-width-field-xl);
+  }
+
+  .note div:first-child {
+    margin-bottom: var(--flx-spacing-tiny);
+  }
+}

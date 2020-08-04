@@ -101,6 +101,8 @@ const RouteName = {
   FILE_UNAVAILABLE: 'unavailable',
   JOB_LIST: 'job/jobList',
   JOB_DETAIL: 'job/jobDetail',
+  QUOTE_WITH_STATUS_LIST: 'quoteWithList/quoteList',
+  QUOTE_WITH_STATUS_DETAIL: 'quoteWithList/quoteDetail',
 };
 
 export default RouteName;
