@@ -25,17 +25,3 @@
      margin-right: var(--flx-spacing-small);
    }
 }
-
-/*
-  @FEELIX:
-  To align the image icons along the top right of the navigation bar
-*/
-@media (max-width: 768px) {
-  .navigation :global(.flx-navbar__menu-item) {
-    display: flex;
-    align-items: center;
-    height: 100%;
-  }
-}
-
-
