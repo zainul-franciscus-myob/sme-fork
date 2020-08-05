@@ -59,6 +59,7 @@ export default class ReportingCentreModule {
         integration: this.integration,
         context,
         setAlert: this.dispatcher.setAlert,
+        featureToggles: this.featureToggles,
       }),
       [tabIds.finalisation]: new FinalisationModule({
         integration: this.integration,

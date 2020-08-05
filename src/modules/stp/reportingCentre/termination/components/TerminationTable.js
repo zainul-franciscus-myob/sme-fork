@@ -5,6 +5,7 @@ import {
   HeaderSort,
   Icons,
   Table,
+  Tooltip,
 } from '@myob/myob-widgets';
 import React from 'react';
 
@@ -59,6 +60,7 @@ const TerminationTable = ({
   onUnterminateEmployee,
   onSort,
   activeSort,
+  featureToggles,
 }) => {
   const header = (
     <Table.Header>
@@ -93,11 +95,23 @@ const TerminationTable = ({
       <Table.RowItem {...tableConfig.firstName}>{row.firstName}</Table.RowItem>
       <Table.RowItem {...tableConfig.lastName}>{row.lastName}</Table.RowItem>
       <Table.RowItem {...tableConfig.etpCount}>
-        {hasEtps(row.etpCount) ? (
-          <a href={row.employeeLink}>{getEtpCountText(row.etpCount)}</a>
+        {hasEtps(row.etpCount) &&
+        featureToggles &&
+        !featureToggles.isPayrollReversibleEnabled ? (
+          <a href={row.employeeLink} name="view-etp-link">
+            {getEtpCountText(row.etpCount)}
+          </a>
         ) : (
           getEtpCountText(row.etpCount)
         )}
+        {hasEtps(row.etpCount) &&
+          featureToggles &&
+          featureToggles.isPayrollReversibleEnabled && (
+            <Tooltip>
+              View the payment details through the employee summary report in
+              EOFY finalisation
+            </Tooltip>
+          )}
       </Table.RowItem>
       <Table.RowItem {...tableConfig.terminationDate}>
         {hasTerminationDate(row) ? (

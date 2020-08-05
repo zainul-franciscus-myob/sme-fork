@@ -15,7 +15,7 @@ import createTerminationIntegrator from './createTerminationIntegrator';
 import terminationReducer from './TerminationReducer';
 
 export default class TerminationModule {
-  constructor({ integration, context, setAlert }) {
+  constructor({ integration, context, setAlert, featureToggles }) {
     this.store = new Store(terminationReducer);
     this.setAlert = setAlert;
     this.integration = integration;
@@ -24,6 +24,7 @@ export default class TerminationModule {
     this.stpDeclarationModule = new StpDeclarationModalModule({ integration });
 
     this.dispatcher.setInitialState(context);
+    this.featureToggles = featureToggles;
   }
 
   loadEmployeesForThisYear = () => {
@@ -153,6 +154,7 @@ export default class TerminationModule {
           onTerminateEmployees={this.onTerminateEmployees}
           onUnterminateEmployee={this.onUnterminateEmployee}
           onSort={this.sortEmployees}
+          featureToggles={this.featureToggles}
         />
       </Provider>
     );

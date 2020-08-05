@@ -13,7 +13,7 @@ const getStpRoutes = ({
   popMessages,
   featureToggles,
 }) => {
-  const routes = [
+  let routes = [
     {
       name: RouteName.STP_GET_STARTED,
       path: '/:region/:businessId/stp/getStarted',
@@ -69,6 +69,9 @@ const getStpRoutes = ({
     },
   ];
 
+  if (featureToggles && featureToggles.isPayrollReversibleEnabled) {
+    routes = routes.filter((obj) => obj.name !== RouteName.STP_EMPLOYEE_ETP);
+  }
   return routes;
 };
 

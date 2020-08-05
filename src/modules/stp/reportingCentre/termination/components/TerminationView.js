@@ -27,6 +27,7 @@ const TerminationView = ({
   onUnterminateEmployee,
   onSort,
   activeSort,
+  featureToggles,
 }) => {
   const terminationTable = (
     <TerminationTable
@@ -36,6 +37,7 @@ const TerminationView = ({
       onUnterminateEmployee={onUnterminateEmployee}
       onSort={onSort}
       activeSort={activeSort}
+      featureToggles={featureToggles}
     />
   );
 
