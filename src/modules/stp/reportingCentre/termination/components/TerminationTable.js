@@ -109,7 +109,7 @@ const TerminationTable = ({
           featureToggles.isPayrollReversibleEnabled && (
             <Tooltip>
               View the payment details through the employee summary report in
-              EOFY finalisation
+              EOFY finalisation.
             </Tooltip>
           )}
       </Table.RowItem>
