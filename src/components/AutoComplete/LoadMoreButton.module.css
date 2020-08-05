@@ -1,9 +1,8 @@
 .button {
   display: flex;
   justify-content: center;
-  margin-top: var(--flx-spacing-x-small);
-  margin-bottom: var(--flx-spacing-x-small);
-  width: var(--flx-font-size-button);
+  align-items: center;
+  width: min-content;
 }
 
 .spinner {

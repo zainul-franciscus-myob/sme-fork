@@ -1,18 +1,21 @@
 import React from 'react';
 
-import AutoComplete from './AutoComplete';
+import AutoCompleteCombobox from './AutoCompleteCombobox';
 
-const metaData = [{ columnName: 'name', showData: true }];
+const metaData = [{ columnName: 'name', showData: true, showPagination: true }];
 
-const CustomerAutoComplete = (props) => {
-  const { addNewCustomer, ...otherProps } = props;
+const CustomerAutoComplete = ({ onAddNewCustomer, ...otherProps }) => {
+  const addNewItem = onAddNewCustomer
+    ? {
+        label: 'Create customer',
+        onAddNew: onAddNewCustomer,
+      }
+    : undefined;
 
   return (
-    <AutoComplete
+    <AutoCompleteCombobox
       metaData={metaData}
-      addNewItem={
-        addNewCustomer && { label: 'Create customer', onAddNew: addNewCustomer }
-      }
+      addNewItem={addNewItem}
       {...otherProps}
     />
   );
@@ -20,6 +23,7 @@ const CustomerAutoComplete = (props) => {
 
 CustomerAutoComplete.defaultProps = {
   hintText: 'Search for customer...',
+  noMatchFoundMessage: 'No customer found',
 };
 
 export default CustomerAutoComplete;
