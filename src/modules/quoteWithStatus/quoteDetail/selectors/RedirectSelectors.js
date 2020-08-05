@@ -15,7 +15,7 @@ const getBaseUrl = (state) => {
 const getCreateQuoteUrl = (state) => {
   const baseUrl = getBaseUrl(state);
 
-  return `${baseUrl}/quote/new`;
+  return `${baseUrl}/quoteWithStatus/new`;
 };
 
 export const getCreateNewQuoteUrl = (state) => {
@@ -29,7 +29,7 @@ const getReadQuoteUrl = (state) => {
   const baseUrl = getBaseUrl(state);
   const quoteId = getQuoteId(state);
 
-  return `${baseUrl}/quote/${quoteId}`;
+  return `${baseUrl}/quoteWithStatus/${quoteId}`;
 };
 
 export const getQuoteReadWithEmailModalUrl = (state) => {
@@ -41,7 +41,7 @@ export const getQuoteReadWithEmailModalUrl = (state) => {
 export const getQuoteListURL = (state) => {
   const baseUrl = getBaseUrl(state);
 
-  return `${baseUrl}/quote`;
+  return `${baseUrl}/quoteWithStatus`;
 };
 
 export const getCreateInvoiceFromQuoteUrl = (state) => {

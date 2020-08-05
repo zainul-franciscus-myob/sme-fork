@@ -820,7 +820,7 @@ describe('QuoteDetailModule', () => {
         duplicateId: '👨🏻‍💻',
       });
       expect(module.navigateTo).toHaveBeenCalledWith(
-        '/#/au/businessId/quote/new?layout=itemAndService'
+        '/#/au/businessId/quoteWithStatus/new?layout=itemAndService'
       );
     });
 
@@ -895,7 +895,7 @@ describe('QuoteDetailModule', () => {
         duplicateId: 'quoteId',
       });
       expect(module.navigateTo).toHaveBeenCalledWith(
-        '/#/au/businessId/quote/new?layout=itemAndService'
+        '/#/au/businessId/quoteWithStatus/new?layout=itemAndService'
       );
     });
 
@@ -947,7 +947,7 @@ describe('QuoteDetailModule', () => {
       module.pushMessage = jest.fn();
       module.navigateTo = jest.fn();
 
-      const navRedirectToUrl = '/#/au/businessId/quote/new';
+      const navRedirectToUrl = '/#/au/businessId/quoteWithStatus/new';
       module.handlePageTransition(navRedirectToUrl); // open unsaved modal
       store.resetActions();
 
@@ -975,7 +975,7 @@ describe('QuoteDetailModule', () => {
       });
 
       expect(module.navigateTo).toHaveBeenCalledWith(
-        '/#/au/businessId/quote/new'
+        '/#/au/businessId/quoteWithStatus/new'
       );
     });
 
@@ -986,7 +986,7 @@ describe('QuoteDetailModule', () => {
       module.pushMessage = jest.fn();
       module.navigateTo = jest.fn();
 
-      const navRedirectToUrl = '/#/au/businessId/quote/new';
+      const navRedirectToUrl = '/#/au/businessId/quoteWithStatus/new';
       module.handlePageTransition(navRedirectToUrl); // open unsaved modal
       store.resetActions();
 
@@ -1014,7 +1014,7 @@ describe('QuoteDetailModule', () => {
       });
 
       expect(module.navigateTo).toHaveBeenCalledWith(
-        '/#/au/businessId/quote/new'
+        '/#/au/businessId/quoteWithStatus/new'
       );
     });
 
@@ -1024,7 +1024,7 @@ describe('QuoteDetailModule', () => {
       });
       integration.mapFailure(UPDATE_QUOTE_DETAIL);
 
-      const navRedirectToUrl = '/#/au/businessId/quote/new';
+      const navRedirectToUrl = '/#/au/businessId/quoteWithStatus/new';
       module.handlePageTransition(navRedirectToUrl); // open unsaved modal
       store.resetActions();
 
@@ -1133,7 +1133,7 @@ describe('QuoteDetailModule', () => {
           module.pushMessage = jest.fn();
           module.navigateTo = jest.fn();
 
-          const navRedirectToUrl = '/#/au/businessId/quote/new';
+          const navRedirectToUrl = '/#/au/businessId/quoteWithStatus/new';
           module.handlePageTransition(navRedirectToUrl); // open unsaved modal
           store.resetActions();
 
@@ -1145,7 +1145,7 @@ describe('QuoteDetailModule', () => {
             }),
           ]);
           expect(module.navigateTo).toHaveBeenCalledWith(
-            '/#/au/businessId/quote/new'
+            '/#/au/businessId/quoteWithStatus/new'
           );
         });
       });

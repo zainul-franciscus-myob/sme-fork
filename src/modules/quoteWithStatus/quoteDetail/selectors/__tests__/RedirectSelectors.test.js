@@ -23,7 +23,7 @@ describe('RedirectSelectors', () => {
 
   describe('getCreateNewQuoteUrl', () => {
     it('returns the correct URL to create a new quote from another quote CRUD page', () => {
-      const expected = '/#/au/businessId/quote/new?layout=service';
+      const expected = '/#/au/businessId/quoteWithStatus/new?layout=service';
       const actual = getCreateNewQuoteUrl(state);
 
       expect(expected).toEqual(actual);
