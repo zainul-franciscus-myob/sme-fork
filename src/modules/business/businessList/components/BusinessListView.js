@@ -51,12 +51,11 @@ const BusinessListView = ({
   orderBy,
   isEmpty,
   onUpdateKeyword,
-  onResetKeyword,
   onSort,
 }) => {
   const businessList = businesses.map((business) => renderRow(business));
   const filterBar = (
-    <FilterBar onReset={onResetKeyword}>
+    <FilterBar>
       <Search
         name="search"
         value={keyword}

@@ -1,6 +1,5 @@
 import {
   LOAD_BUSINESS_LIST,
-  RESET_KEYWORD,
   SET_LOADING_STATE,
   UPDATE_KEYWORD,
   UPDATE_SORT_ORDER,
@@ -35,11 +34,6 @@ const businessReducer = (state = getDefaultState(), action) => {
       return {
         ...state,
         keyword: action.keyword,
-      };
-    case RESET_KEYWORD:
-      return {
-        ...state,
-        keyword: getDefaultState().keyword,
       };
     case UPDATE_SORT_ORDER:
       return {

@@ -1,6 +1,5 @@
 import {
   LOAD_BUSINESS_LIST,
-  RESET_KEYWORD,
   SET_LOADING_STATE,
   UPDATE_KEYWORD,
   UPDATE_SORT_ORDER,
@@ -22,10 +21,6 @@ const createBusinessListDispatcher = (store) => ({
     store.dispatch({
       intent: UPDATE_KEYWORD,
       keyword,
-    }),
-  resetKeyword: () =>
-    store.dispatch({
-      intent: RESET_KEYWORD,
     }),
   updateSortOrder: (sortOrder) =>
     store.dispatch({
