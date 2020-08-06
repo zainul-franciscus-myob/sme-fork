@@ -17,6 +17,7 @@ const BusinessDetailsSection = ({
   tradingName,
   isAu,
   onChange,
+  clientCode,
 }) => (
   <FieldGroup label="Business details">
     <ReadOnly name="serialNumber" label="MYOB serial number">
@@ -43,6 +44,14 @@ const BusinessDetailsSection = ({
     ) : (
       <NzTaxDetails onChange={onChange} />
     )}
+    <Input
+      name="clientCode"
+      label="Client code"
+      value={clientCode}
+      onChange={onInputChange(onChange)}
+      maxLength={10}
+      width="sm"
+    />
   </FieldGroup>
 );
 

@@ -49,6 +49,7 @@ export const getBusinessForUpdate = createStructuredSelector({
   lockDate: (state) => state.businessDetails.lockDate,
   tradingName: (state) => state.businessDetails.tradingName,
   website: (state) => state.businessDetails.website,
+  clientCode: (state) => state.businessDetails.clientCode,
 });
 
 export const getBusinessDetails = createStructuredSelector({
@@ -56,6 +57,7 @@ export const getBusinessDetails = createStructuredSelector({
   organisationName: (state) => state.businessDetails.organisationName,
   tradingName: (state) => state.businessDetails.tradingName,
   region: (state) => state.businessDetails.region,
+  clientCode: (state) => state.businessDetails.clientCode,
 });
 
 export const getAuTaxDetails = createStructuredSelector({

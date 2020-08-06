@@ -36,6 +36,7 @@ const getDefaultState = () => ({
     irdNumber: '',
     gstBranchNumber: '',
     acn: '',
+    clientCode: '',
     phoneNumber: '',
     fax: '',
     email: '',

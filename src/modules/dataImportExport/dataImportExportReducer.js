@@ -128,6 +128,10 @@ const loadDataImportExport = (state, action) => ({
       ...state.export.chartOfAccounts,
       ...action.export.chartOfAccounts,
     },
+    companyFile: {
+      ...state.export.companyFile,
+      ...action.export.companyFile,
+    },
   },
 });
 

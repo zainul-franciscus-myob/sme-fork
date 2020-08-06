@@ -10,6 +10,7 @@ export default {
     acn: '123456', // only be used for AU business
     phoneNumber: '0212123445',
     fax: '0212123445',
+    clientCode: 'test code',
     email: 'bruce@waynecorp.com',
     address: '123 Some Street\nSomewhere VIC 3111',
     financialYear: '2019',

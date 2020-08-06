@@ -50,6 +50,7 @@ const ExportCompanyFile = ({
         name="clientCode"
         requiredLabel="This is required"
         value={clientCode}
+        disabled
         onChange={handleInputChange(onChange)}
         maxLength={10}
       />
