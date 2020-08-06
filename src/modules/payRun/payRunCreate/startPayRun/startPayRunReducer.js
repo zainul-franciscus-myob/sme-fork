@@ -43,6 +43,11 @@ const calculateTwiceAMonthEndDate = (startDate) => {
   return addDays(startDate, secondHalfDays);
 };
 
+const calculateQuarterlyEndDate = (startDate) => {
+  const sameDateNextMonth = addMonths(startDate, 3);
+  return subDays(sameDateNextMonth, 1);
+};
+
 export const calculateEndDate = (payCycle, startDateString) => {
   const startDate = new Date(startDateString);
 
@@ -55,9 +60,17 @@ export const calculateEndDate = (payCycle, startDateString) => {
       return formatIsoDate(calculateMonthlyEndDate(startDate));
     case 'TwiceAMonth':
       return formatIsoDate(calculateTwiceAMonthEndDate(startDate));
+    case 'Quarterly':
+      return formatIsoDate(calculateQuarterlyEndDate(startDate));
     default:
       throw new Error(`Invalid payCycle '${payCycle}'`);
   }
+};
+
+export const calculatePayOnDate = (payCycle, endDate) => {
+  return payCycle === 'Quarterly'
+    ? endDate
+    : formatIsoDate(addDays(new Date(endDate), 1));
 };
 
 const startNewPayRun = (
@@ -97,7 +110,10 @@ const setPayPeriodDetails = (state, { key, value }) => {
     startPayRunPartial = {
       [key]: value,
       payPeriodEnd,
-      paymentDate: formatIsoDate(addDays(new Date(payPeriodEnd), 1)),
+      paymentDate: calculatePayOnDate(
+        state.currentEditingPayRun.paymentFrequency,
+        payPeriodEnd
+      ),
     };
   } else if (key === 'paymentFrequency') {
     startPayRunPartial = {

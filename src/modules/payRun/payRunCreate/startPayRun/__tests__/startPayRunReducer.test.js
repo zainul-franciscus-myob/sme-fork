@@ -3,7 +3,7 @@ import {
   SET_UNPROCESSED_TIMESHEET_LINES,
   START_NEW_PAY_RUN,
 } from '../../PayRunIntents';
-import { calculateEndDate } from '../startPayRunReducer';
+import { calculateEndDate, calculatePayOnDate } from '../startPayRunReducer';
 import payRunReducer from '../../payRunReducer';
 import startNewPayRun from '../../../mappings/data/payRun/startNewPayRun.json';
 
@@ -227,6 +227,48 @@ describe('startPayRunReducer', () => {
         expect(endDate).toEqual('2019-08-31');
       });
     });
+
+    describe('Quarterly pay period', () => {
+      it('sets the end date 3 months after the start date', () => {
+        const endDate = calculateEndDate('Quarterly', '2019-01-01');
+
+        expect(endDate).toEqual('2019-03-31');
+      });
+
+      it('sets the end date to 1 day before the start date in the following month', () => {
+        const endDate = calculateEndDate('Quarterly', '2019-07-11');
+
+        expect(endDate).toEqual('2019-10-10');
+      });
+
+      it('sets the end date to the last day of a 30 day month when the start date is the 1st', () => {
+        const endDate = calculateEndDate('Quarterly', '2019-04-01');
+
+        expect(endDate).toEqual('2019-06-30');
+      });
+
+      it('sets the end date to the last day of a 29 day month when the start date is the 1st', () => {
+        const endDate = calculateEndDate('Quarterly', '2019-12-01');
+
+        expect(endDate).toEqual('2020-02-29');
+      });
+    });
+  });
+
+  describe('calculatePayOnDate', () => {
+    test.each`
+      payCycle         | endDate         | expectedValue
+      ${'Weekly'}      | ${'2020-03-31'} | ${'2020-04-01'}
+      ${'Fortnightly'} | ${'2020-03-31'} | ${'2020-04-01'}
+      ${'TwiceAMonth'} | ${'2020-03-31'} | ${'2020-04-01'}
+      ${'Monthly'}     | ${'2020-03-31'} | ${'2020-04-01'}
+      ${'Quarterly'}   | ${'2020-03-31'} | ${'2020-03-31'}
+    `(
+      'payOnDate should be $expectedValue for endDate:$endDate with payCycle:$payCycle',
+      ({ payCycle, endDate, expectedValue }) => {
+        expect(calculatePayOnDate(payCycle, endDate)).toBe(expectedValue);
+      }
+    );
   });
 
   describe('setUnprocessedTimesheetLines', () => {
