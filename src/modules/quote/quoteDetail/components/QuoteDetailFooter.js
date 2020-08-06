@@ -38,7 +38,7 @@ const QuoteDetailFooter = ({
       />
       <TextArea
         value={note}
-        resize="vertical"
+        resize="both"
         name="note"
         label="Notes to customer"
         hideLabel

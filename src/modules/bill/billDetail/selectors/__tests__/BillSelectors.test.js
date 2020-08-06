@@ -114,6 +114,7 @@ describe('BillSelectors', () => {
     it('returns true for all create new scenarios', () => {
       const state = {
         billId: 'new',
+        source: 'inTray',
       };
 
       const actual = getShouldShowAccountCode(state);

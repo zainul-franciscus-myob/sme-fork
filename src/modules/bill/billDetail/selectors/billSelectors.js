@@ -164,7 +164,7 @@ export const getModalContext = (state) => {
   return { businessId, region };
 };
 
-export const getShouldShowAccountCode = getIsCreating;
+export const getShouldShowAccountCode = getIsCreatingFromInTray;
 
 export const getIsSupplierDisabled = createSelector(
   getIsCreating,

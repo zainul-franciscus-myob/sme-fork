@@ -37,7 +37,7 @@ const InvoiceDetailNotes = ({
       <TextArea
         value={note}
         disabled={isReadOnly}
-        resize="vertical"
+        resize="both"
         name="note"
         label="Notes to customer"
         hideLabel

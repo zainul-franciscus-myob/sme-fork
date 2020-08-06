@@ -48,9 +48,7 @@ const QuoteDetailLayoutPopover = ({
       type="link"
       icon={<Icons.Settings />}
       iconRight
-    >
-      Field layout
-    </Button>
+    ></Button>
   );
 
   const view = isReadOnlyLayout ? (

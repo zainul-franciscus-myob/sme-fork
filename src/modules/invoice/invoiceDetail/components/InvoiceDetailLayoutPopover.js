@@ -52,9 +52,7 @@ const InvoiceDetailLayoutPopover = ({
       type="link"
       icon={<Icons.Settings />}
       iconRight
-    >
-      Field layout
-    </Button>
+    ></Button>
   );
 
   const view = isReadOnly ? (

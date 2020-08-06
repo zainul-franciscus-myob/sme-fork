@@ -159,6 +159,7 @@ const InvoiceDetailView = ({
         }
         alert={alertComponent}
         options={options}
+        separatorOptions={layoutPopver}
         actions={actions}
       >
         {accountModal}
@@ -167,7 +168,6 @@ const InvoiceDetailView = ({
         {contactModal}
         {inventoryModal}
         {modal}
-        {layoutPopver}
         <div className={classNames(isReadOnly && styles.disabledTable)}>
           {table}
         </div>

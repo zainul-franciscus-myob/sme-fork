@@ -1,7 +1,8 @@
-import { Card, PageHead } from '@myob/myob-widgets';
+import { Card, PageHead, Separator } from '@myob/myob-widgets';
 import React from 'react';
 
 import StickyHeader from '../StickyHeader/StickyHeader';
+import styles from './LineItemTemplate.module.css';
 
 const STICKY_NONE = 'none';
 const STICKY_ALL = 'all';
@@ -41,6 +42,7 @@ const LineItemTemplate = ({
   options,
   alert,
   sticky,
+  separatorOptions,
 }) => {
   const hasFluid = fluid ? 'flx-container--fluid' : '';
   const hasCozy = cozy ? 'flx-container--cozy' : '';
@@ -53,6 +55,15 @@ const LineItemTemplate = ({
     </div>
   );
 
+  const separator = separatorOptions ? (
+    <div className={styles.separator}>
+      <Separator />
+      {separatorOptions}
+    </div>
+  ) : (
+    <Separator />
+  );
+
   return (
     <div className={`flx-container ${hasFluid} ${hasCozy} ${hasWcagAA}`}>
       <div className="flx-template flx-template-line-item">
@@ -60,7 +71,7 @@ const LineItemTemplate = ({
         <div className="flx-template__body">
           <Card>
             <div className="flx-template-line-item__options">{options}</div>
-            <hr />
+            {separator}
             {children}
           </Card>
         </div>

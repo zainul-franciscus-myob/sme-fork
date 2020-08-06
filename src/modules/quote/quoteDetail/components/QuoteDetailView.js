@@ -106,6 +106,7 @@ const QuoteDetailView = ({
       pageHead={pageHead}
       alert={alertComponent}
       options={options}
+      separatorOptions={layoutPopover}
       actions={actions}
     >
       {modalComponent}
@@ -113,7 +114,6 @@ const QuoteDetailView = ({
       {accountModal}
       {jobModal}
       {inventoryModal}
-      {layoutPopover}
       <div className={classNames(isReadOnly && styles.disabledTable)}>
         {table}
       </div>

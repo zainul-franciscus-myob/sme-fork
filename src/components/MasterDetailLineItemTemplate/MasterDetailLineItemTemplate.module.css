@@ -87,6 +87,18 @@ div.card:global.flx-card {
   margin-bottom: -1.2rem;
 }
 
+.separator {
+  display: flex;
+  flex-direction: row;
+  flex-flow: row;
+  width: 100%;
+  align-items: center;
+}
+
+.separator :global(.flx-separator) {
+  margin-right: 1rem;
+}
+
 @media (min-width: 768px) {
   .container :global(.line-item-table) {
       margin-left: -1.6rem;

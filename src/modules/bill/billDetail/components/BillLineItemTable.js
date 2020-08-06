@@ -52,7 +52,7 @@ const BillItemTable = ({
         <TextArea
           name="note"
           label="Notes"
-          resize="vertical"
+          resize="both"
           value={note}
           onChange={handleInputChange(onUpdateBillOption)}
           maxLength={2000}

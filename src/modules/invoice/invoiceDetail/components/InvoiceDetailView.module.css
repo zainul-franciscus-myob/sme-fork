@@ -39,7 +39,16 @@
     width: var(--flx-width-field-xl);
   }
 
-  .notes div:first-child {
+  .notes div {
     margin-bottom: var(--flx-spacing-tiny);
+  }
+
+  .notes div:last-child {
+    margin-bottom: auto;
+  }
+
+  .notes :global(textarea) {
+    min-width: var(--flx-width-field-xl);
+    max-width: 70rem;
   }
 }

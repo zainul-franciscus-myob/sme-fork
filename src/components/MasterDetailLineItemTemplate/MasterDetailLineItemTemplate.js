@@ -53,6 +53,16 @@ const MasterDetailLineItemTemplate = ({
       secondary={secondaryOptions}
     />
   );
+
+  const separator = tableLayoutOption ? (
+    <div className={styles.separator}>
+      <Separator />
+      {tableLayoutOption}
+    </div>
+  ) : (
+    <Separator />
+  );
+
   return (
     <MasterDetailTemplate
       master={
@@ -66,9 +76,8 @@ const MasterDetailLineItemTemplate = ({
                 </Alert>
               )}
               {options}
-              <Separator />
+              {separator}
             </div>
-            {tableLayoutOption}
             {table}
           </Card>
           {actions}

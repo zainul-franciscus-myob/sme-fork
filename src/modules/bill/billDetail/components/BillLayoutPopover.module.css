@@ -1,7 +1,6 @@
 .popover {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: var(--flx-spacing-x-small);
 }
 
 .popoverBody {
