@@ -6,8 +6,6 @@ import {
   setDate,
 } from 'date-fns';
 
-import formatSlashDate from '../../../common/valueFormatters/formatDate/formatSlashDate';
-
 const getExpiredDateOnADayOfTheMonth = (issueDate, expirationDays) => {
   const date = new Date(issueDate);
   const month = expirationDays < date.getDate() ? addMonths(date, 1) : date;
@@ -65,7 +63,7 @@ const getExpiredDate = ({ issueDate, expirationTerm, expirationDays }) => {
     expirationTerm,
     expirationDays
   );
-  return formatSlashDate(new Date(calculatedDate));
+  return new Date(calculatedDate);
 };
 
 export default getExpiredDate;

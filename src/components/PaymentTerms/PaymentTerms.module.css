@@ -21,3 +21,17 @@
 .popover :global(.flx-popover) {
   display: inline-block;
 }
+
+.popoverContainer {
+  display: flex;
+  align-content: center;
+}
+
+.warningIcon {
+  display: flex;
+  margin-left: 1.2rem;
+}
+
+.warningTooltip {
+  display: flex; 
+}

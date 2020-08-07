@@ -1,5 +1,5 @@
+import { addDays, isBefore, isPast } from 'date-fns';
 import { createSelector, createStructuredSelector } from 'reselect';
-import { isBefore } from 'date-fns';
 
 import {
   TaxCalculatorTypes,
@@ -10,6 +10,7 @@ import ModalType from '../ModalType';
 import QuoteLayout from '../QuoteLayout';
 import QuoteLineType from '../QuoteLineType';
 import calculateLineTotals from '../../../../common/taxCalculator/calculateLineTotals';
+import getExpiredDate from '../../../../components/PaymentTerms/handlers/getExpiredDate';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 
 const calculate = createTaxCalculator(TaxCalculatorTypes.quote);
@@ -390,4 +391,18 @@ export const getIsBeforeStartOfFinancialYear = (state) => {
     startOfFinancialYearDate &&
     isBefore(new Date(issueDate), new Date(startOfFinancialYearDate))
   );
+};
+
+export const getIsExpired = (state) => {
+  const { quote } = state;
+  const { issueDate, expirationDays, expirationTerm } = quote;
+  const expiredDate = getExpiredDate({
+    issueDate,
+    expirationDays,
+    expirationTerm,
+  });
+  const status = getStatus(state);
+  return ['Prepaid', 'CashOnDelivery'].includes(expirationTerm)
+    ? false
+    : status === 'Open' && isPast(addDays(expiredDate, 1));
 };

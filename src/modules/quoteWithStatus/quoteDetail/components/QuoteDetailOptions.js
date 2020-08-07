@@ -10,6 +10,7 @@ import React, { Fragment } from 'react';
 
 import {
   getIsBeforeStartOfFinancialYear,
+  getIsExpired,
   getIsReadOnly,
   getQuoteDetailOptions,
   getReadOnlyMessage,
@@ -54,6 +55,7 @@ const QuoteDetailOptions = (props) => {
     taxExclusiveLabel,
     onUpdateHeaderOptions,
     onAddCustomerButtonClick,
+    isExpired,
   } = props;
 
   const statusDropdown = ['Open', 'Accepted', 'Declined', 'Invoiced'];
@@ -120,6 +122,8 @@ const QuoteDetailOptions = (props) => {
         popoverLabel="Quote expires"
         requiredLabel={requiredLabel}
         disabled={isReadOnlyLayout}
+        displayWarning={isExpired}
+        warningMessage={'Expired'}
       />
       <Select
         key="status"
@@ -160,6 +164,7 @@ const mapStateToProps = (state) => ({
   isReadOnlyLayout: getIsReadOnly(state),
   readOnlyMessage: getReadOnlyMessage(state),
   isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
+  isExpired: getIsExpired(state),
 });
 
 export default connect(mapStateToProps)(QuoteDetailOptions);

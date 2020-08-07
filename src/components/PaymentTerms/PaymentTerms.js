@@ -1,7 +1,8 @@
-import { Button, Field, Select } from '@myob/myob-widgets';
+import { Button, Field, Select, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
 
 import AmountInput from '../autoFormatter/AmountInput/AmountInput';
+import Icon from '../Icon/Icon';
 import Popover from '../Feelix/Popover/Popover';
 import getDisplayDaysForMonth from './handlers/getDisplayDaysForMonth';
 import getExpirationTermsLabel from './handlers/getExpirationTermsLabel';
@@ -22,6 +23,8 @@ const PaymentTerms = ({
   requiredLabel = 'This is required',
   popoverLabel = 'Payment is',
   disabled,
+  displayWarning,
+  warningMessage,
 }) => {
   const paymentTermsPopoverLabel = getPaymentTermsPopoverLabel({
     issueDate,
@@ -82,19 +85,33 @@ const PaymentTerms = ({
     </React.Fragment>
   );
 
-  const triggerButton = (
-    <Button disabled={disabled} type="secondary">
-      {paymentTermsPopoverLabel}
-    </Button>
+  const warningIcon = (
+    <div className={styles.warningIcon}>
+      <Tooltip
+        className={styles.warningTooltip}
+        triggerContent={<Icon.Warning />}
+      >
+        {warningMessage}
+      </Tooltip>
+    </div>
   );
 
-  const view = disabled ? (
-    triggerButton
-  ) : (
+  const triggerButton = (
+    <div className={styles.popoverContainer}>
+      <Button disabled={disabled} type="secondary">
+        {paymentTermsPopoverLabel}
+      </Button>
+      {displayWarning && warningMessage && warningIcon}
+    </div>
+  );
+
+  const popoverContainer = (
     <Popover body={popoverBody} preferPlace="below" closeOnOuterAction>
-      {triggerButton}
+      <div>{triggerButton}</div>
     </Popover>
   );
+
+  const view = disabled ? triggerButton : popoverContainer;
 
   return (
     <Field
