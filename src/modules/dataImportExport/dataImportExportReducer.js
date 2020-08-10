@@ -26,6 +26,7 @@ import TabItem from './types/TabItem';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
+  settingsVersion: '2e182c2a-d781-11ea-87d0-0242ac130003',
   alert: undefined,
   modalType: '',
   loadingState: LoadingState.LOADING,
@@ -81,23 +82,47 @@ const getDefaultState = () => ({
 
 const resetState = () => getDefaultState();
 
-const setInitialState = (state, action) => ({
-  ...state,
-  businessId: action.businessId,
-  region: action.region,
-  import: {
-    ...state.import,
-    selectedDataType: action.importType
-      ? action.importType
-      : state.import.selectedDataType,
-  },
+const setInitialStateWithSettings = (settings, initialState) => ({
+  ...initialState,
   export: {
-    ...state.export,
-    selectedDataType: action.exportType
-      ? action.exportType
-      : state.export.selectedDataType,
+    ...initialState.export,
+    companyFile: {
+      ...initialState.export.companyFile,
+      dateFrom: settings.dateFrom,
+      dateTo: settings.dateTo,
+      fileType: settings.fileType,
+    },
   },
 });
+
+const shouldSetInitialStateWithSettings = (settings, initialState) =>
+  settings.settingsVersion === initialState.settingsVersion;
+
+const setInitialState = (state, { context, settings = {} }) => {
+  const initialState = {
+    ...state,
+    businessId: context.businessId,
+    region: context.region,
+    import: {
+      ...state.import,
+      selectedDataType: context.importType
+        ? context.importType
+        : state.import.selectedDataType,
+    },
+    export: {
+      ...state.export,
+      selectedDataType: context.exportType
+        ? context.exportType
+        : state.export.selectedDataType,
+    },
+  };
+
+  if (shouldSetInitialStateWithSettings(settings, initialState)) {
+    return setInitialStateWithSettings(settings, initialState);
+  }
+
+  return initialState;
+};
 
 const setLoadingState = (state, { loadingState }) => ({
   ...state,

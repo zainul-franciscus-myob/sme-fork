@@ -47,10 +47,11 @@ const createDataImportExportDispatcher = (store) => ({
     });
   },
 
-  setInitialState: (context) => {
+  setInitialState: (context, settings) => {
     store.dispatch({
       intent: SET_INITIAL_STATE,
-      ...context,
+      context,
+      settings,
     });
   },
 

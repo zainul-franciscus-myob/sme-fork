@@ -12,6 +12,24 @@ export const getTab = (state) => state.selectedTab;
 export const getBusinessId = (state) => state.businessId;
 export const getRegion = (state) => state.region;
 
+const getSettingsVersion = (state) => state.settingsVersion;
+const getDateFrom = (state) => state.export.companyFile.dateFrom;
+const getDateTo = (state) => state.export.companyFile.dateTo;
+const getFileType = (state) => state.export.companyFile.fileType;
+
+export const getSettings = createSelector(
+  getSettingsVersion,
+  getDateFrom,
+  getDateTo,
+  getFileType,
+  (settingsVersion, dateFrom, dateTo, fileType) => ({
+    settingsVersion,
+    dateFrom,
+    dateTo,
+    fileType,
+  })
+);
+
 const getValidDataType = (dataType) => {
   const dataTypeValues = Object.values(ImportExportDataType);
   const isValidDataType = dataTypeValues.includes(dataType);

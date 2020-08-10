@@ -7,13 +7,16 @@ import {
   getDeleteUnusedAccounts,
   getFileValidationError,
   getIsFileValid,
+  getSettings,
   getTab,
 } from './selectors/DataImportExportSelectors';
+import { loadSettings, saveSettings } from '../../store/localStorageDriver';
 import DataImportExportView from './components/DataImportExportView';
 import ExportStatus from './ExportStatus';
 import ImportExportDataType from './types/ImportExportDataType';
 import ImportExportFileType from './types/ImportExportFileType';
 import LoadingState from '../../components/PageView/LoadingState';
+import RouteName from '../../router/RouteName';
 import Store from '../../store/Store';
 import TabItem from './types/TabItem';
 import createDataImportExportDispatcher from './createDataImportExportDispatcher';
@@ -303,9 +306,22 @@ export default class DataImportExportModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState(context);
+    const settings = loadSettings(
+      context.businessId,
+      RouteName.DATA_IMPORT_EXPORT
+    );
+
+    this.dispatcher.setInitialState(context, settings);
     setupHotKeys(keyMap, this.handlers);
     this.render();
+
+    this.store.subscribe((state) =>
+      saveSettings(
+        context.businessId,
+        RouteName.DATA_IMPORT_EXPORT,
+        getSettings(state)
+      )
+    );
     this.loadDataImportExport();
   }
 }

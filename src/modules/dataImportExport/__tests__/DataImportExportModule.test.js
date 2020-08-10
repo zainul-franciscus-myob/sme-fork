@@ -57,11 +57,13 @@ describe('DataImportExportModule', () => {
     it('successfully load', () => {
       const { integration, store, module } = setup();
 
-      module.run();
+      module.run({});
 
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
+          context: {},
+          settings: undefined,
         },
         {
           intent: SET_LOADING_STATE,
@@ -86,11 +88,18 @@ describe('DataImportExportModule', () => {
       const { integration, store, module } = setup();
       integration.mapFailure(LOAD_DATA_IMPORT_EXPORT);
 
-      module.run();
+      module.run({});
 
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
+          context: {},
+          settings: {
+            dateFrom: '',
+            dateTo: '',
+            fileType: '',
+            settingsVersion: '2e182c2a-d781-11ea-87d0-0242ac130003',
+          },
         },
         {
           intent: SET_LOADING_STATE,

@@ -12,36 +12,106 @@ import ImportExportDataType from '../types/ImportExportDataType';
 import dataImportExportReducer from '../dataImportExportReducer';
 
 describe('dataImportExportReducer', () => {
-  it.each([
-    ['someImportType', 'someExportType', 'someImportType', 'someExportType'],
-    ['someImportType', undefined, 'someImportType', ''],
-    [undefined, 'someExportType', '', 'someExportType'],
-    [undefined, undefined, '', ''],
-  ])(
-    'set the initial state correctly with the query params provided',
-    (
-      importTypeQueryParam,
-      exportTypeQueryParam,
-      selectedDataTypeForImport,
-      selectedDataTypeForExport
-    ) => {
-      const state = {
-        import: { selectedDataType: '' },
-        export: { selectedDataType: '' },
-      };
+  describe('SET_INITIAL_STATE', () => {
+    const initialState = {
+      settingsVersion: 'a version',
+      import: { selectedDataType: '' },
+      export: {
+        selectedDataType: '',
+        companyFile: {
+          dateFrom: '',
+          dateTo: '',
+          fileType: '',
+        },
+      },
+    };
+    it.each([
+      ['someImportType', 'someExportType', 'someImportType', 'someExportType'],
+      ['someImportType', undefined, 'someImportType', ''],
+      [undefined, 'someExportType', '', 'someExportType'],
+      [undefined, undefined, '', ''],
+    ])(
+      'set the initial state correctly with the query params provided',
+      (
+        importTypeQueryParam,
+        exportTypeQueryParam,
+        selectedDataTypeForImport,
+        selectedDataTypeForExport
+      ) => {
+        const state = {
+          import: { selectedDataType: '' },
+          export: { selectedDataType: '' },
+        };
 
-      const action = {
+        const action = {
+          intent: SET_INITIAL_STATE,
+          context: {
+            importType: importTypeQueryParam,
+            exportType: exportTypeQueryParam,
+          },
+          settings: {},
+        };
+
+        const actual = dataImportExportReducer(state, action);
+
+        expect(actual.import.selectedDataType).toEqual(
+          selectedDataTypeForImport
+        );
+        expect(actual.export.selectedDataType).toEqual(
+          selectedDataTypeForExport
+        );
+      }
+    );
+
+    [
+      {
+        name: 'undefined',
+        settings: undefined,
+      },
+      {
+        name: 'different settingsVersion',
+        settings: {
+          settingsVersion: 'a different version 😭',
+          dateFrom: '2020-01-01',
+          dateTo: '2021-01-01',
+          fileType: 'Test File Type',
+        },
+      },
+    ].forEach((test) => {
+      it(`uses default settings when settings is ${test.name}`, () => {
+        const actual = dataImportExportReducer(initialState, {
+          intent: SET_INITIAL_STATE,
+          context: {},
+          settings: test.settings,
+        });
+
+        expect(actual.export.companyFile).toEqual({
+          dateFrom: expect.any(String),
+          dateTo: expect.any(String),
+          fileType: expect.any(String),
+        });
+      });
+    });
+
+    it('uses given settings when settingsVersion are the same', () => {
+      const actual = dataImportExportReducer(initialState, {
         intent: SET_INITIAL_STATE,
-        importType: importTypeQueryParam,
-        exportType: exportTypeQueryParam,
-      };
+        context: {},
+        settings: {
+          settingsVersion: 'a version',
+          dateFrom: '12/12/2020',
+          dateTo: '12/01/2021',
+          fileType: 'Test File Type',
+        },
+      });
 
-      const actual = dataImportExportReducer(state, action);
-
-      expect(actual.import.selectedDataType).toEqual(selectedDataTypeForImport);
-      expect(actual.export.selectedDataType).toEqual(selectedDataTypeForExport);
-    }
-  );
+      expect(actual.export.companyFile).toEqual({
+        dateFrom: '12/12/2020',
+        dateTo: '12/01/2021',
+        fileType: 'Test File Type',
+      });
+    });
+  });
 
   describe('LOAD_DATA_IMPORT_EXPORT', () => {
     it('Updates account export state properly', () => {
