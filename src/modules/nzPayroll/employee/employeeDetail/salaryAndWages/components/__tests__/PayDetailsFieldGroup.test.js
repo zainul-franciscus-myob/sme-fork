@@ -49,7 +49,7 @@ describe('<PayDetailsFieldGroup />', () => {
   });
 
   describe('payBasis field', () => {
-    it('should display the hourlyRate provided', () => {
+    it('should display the payBasis provided', () => {
       const wrapper = mount(<PayDetailsFieldGroup {...props} />);
       const field = wrapper.find({ name: 'selectedPayBasis' }).find(ReadOnly);
 
@@ -58,6 +58,33 @@ describe('<PayDetailsFieldGroup />', () => {
       });
 
       expect(field.text()).toContain(props.selectedPayBasis);
+    });
+  });
+
+  describe('payPeriodHours field', () => {
+    const name = 'payPeriodHours';
+    const wrapper = mount(<PayDetailsFieldGroup {...props} />);
+
+    it('should display the payPeriodHours provided', () => {
+      const field = wrapper.find({ name }).find(AmountInput);
+
+      expect(field.props()).toMatchObject({
+        value: props.payPeriodHours,
+        label: 'Estimated hours in a pay cycle',
+      });
+    });
+
+    it('should execute the onWageDetailsChange callback', () => {
+      wrapper
+        .find({ name })
+        .find(AmountInput)
+        .find('input')
+        .simulate('change', { target: { name, value: '3.14' } });
+
+      expect(props.onWageDetailsChange).toHaveBeenCalledWith({
+        key: name,
+        value: '3.14',
+      });
     });
   });
 

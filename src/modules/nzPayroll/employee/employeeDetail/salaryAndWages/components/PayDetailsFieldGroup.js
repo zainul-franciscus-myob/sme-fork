@@ -2,12 +2,14 @@ import { FieldGroup, ReadOnly, Select } from '@myob/myob-widgets';
 import React, { useCallback } from 'react';
 
 import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
+import handleSelectChange from '../../../../../../components/handlers/handleSelectChange';
 
 const PayDetailsFieldGroup = ({
   hourlyRate,
   selectedPayBasis,
   selectedPayCycle,
   payCycleOptions = [],
+  payPeriodHours,
   onWageDetailsChange,
 }) => {
   const onInputChange = useCallback(
@@ -39,12 +41,25 @@ const PayDetailsFieldGroup = ({
         name="selectedPayCycle"
         value={selectedPayCycle}
         width="sm"
-        onChange={onInputChange}
+        onChange={handleSelectChange(onWageDetailsChange)}
       >
         {payCycleOptions.map(({ id, displayName }) => (
           <Select.Option label={displayName} value={id} key={id} />
         ))}
       </Select>
+      <AmountInput
+        key="payPeriodHours"
+        name="payPeriodHours"
+        label="Estimated hours in a pay cycle"
+        numeralDecimalScaleMax={3}
+        numeralIntegerScale={3}
+        numeralPositiveOnly
+        value={payPeriodHours}
+        width="sm"
+        textAlign="right"
+        onChange={onInputChange}
+        onBlur={onInputChange}
+      />
     </FieldGroup>
   );
 };

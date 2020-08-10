@@ -14,5 +14,9 @@ export const getSelectedPayCycle = createSelector(
   getWage,
   ({ selectedPayCycle }) => selectedPayCycle
 );
+export const getPayPeriodHours = createSelector(
+  getWage,
+  ({ payPeriodHours }) => payPeriodHours
+);
 
 export const getPayCycleOptions = (state) => state.payCycleOptions;

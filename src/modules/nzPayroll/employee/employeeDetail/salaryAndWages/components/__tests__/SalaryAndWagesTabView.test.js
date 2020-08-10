@@ -24,6 +24,7 @@ describe('<SalaryAndWagesTabView />', () => {
     hourlyRate: '100.00',
     selectedPayBasis: 'Hourly',
     selectedPayCycle: 'Weekly',
+    payPeriodHours: '40.00',
   };
 
   const employeeDetails = {
@@ -47,6 +48,7 @@ describe('<SalaryAndWagesTabView />', () => {
       hourlyRate: wage.hourlyRate,
       selectedPayBasis: wage.selectedPayBasis,
       selectedPayCycle: wage.selectedPayCycle,
+      payPeriodHours: wage.payPeriodHours,
       payCycleOptions: employeeDetails.payCycleOptions,
     });
   });

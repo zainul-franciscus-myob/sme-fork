@@ -5,6 +5,7 @@ import React from 'react';
 import {
   getHourlyRate,
   getPayCycleOptions,
+  getPayPeriodHours,
   getSelectedPayBasis,
   getSelectedPayCycle,
 } from '../salaryAndWageSelectors';
@@ -15,6 +16,7 @@ const SalaryAndWagesTabView = ({
   selectedPayBasis,
   selectedPayCycle,
   payCycleOptions,
+  payPeriodHours,
   onWageDetailsChange,
 }) => (
   <FormHorizontal layout="primary">
@@ -23,6 +25,7 @@ const SalaryAndWagesTabView = ({
       selectedPayBasis={selectedPayBasis}
       selectedPayCycle={selectedPayCycle}
       payCycleOptions={payCycleOptions}
+      payPeriodHours={payPeriodHours}
       onWageDetailsChange={onWageDetailsChange}
     />
   </FormHorizontal>
@@ -33,6 +36,7 @@ const mapStateToProps = (state) => ({
   selectedPayBasis: getSelectedPayBasis(state),
   selectedPayCycle: getSelectedPayCycle(state),
   payCycleOptions: getPayCycleOptions(state),
+  payPeriodHours: getPayPeriodHours(state),
 });
 
 export default connect(mapStateToProps)(SalaryAndWagesTabView);
