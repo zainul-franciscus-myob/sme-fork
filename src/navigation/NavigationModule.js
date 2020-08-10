@@ -224,13 +224,7 @@ export default class NavigationModule {
     this.redirectToPage(url);
   };
 
-  render = (
-    tasks,
-    businessId = '',
-    businessName = '',
-    businessRole = '',
-    serialNumber = ''
-  ) => {
+  render = (tasks, businessId = '', businessName = '', serialNumber = '') => {
     const {
       changePlan,
       constructPath,
@@ -248,7 +242,6 @@ export default class NavigationModule {
         <NavigationBar
           businessId={businessId}
           businessName={businessName}
-          businessRole={businessRole}
           constructPath={constructPath}
           hasTasks={tasks && tasks.some((t) => !t.isComplete)}
           onChangePlanClick={changePlan}

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getBusinessId,
   getMenuLogoUrl,
   getRegion,
   getShouldDisplayAccountingMenu,
@@ -188,42 +189,42 @@ const getSettings = ({
   ].filter(Boolean);
 
 const NavigationBar = ({
-  onMenuSelect,
-  onMenuLinkClick,
-  onHelpLinkClick,
-  onTasksLinkClick,
-  onLogoutLinkClick,
-  onSubscribeNowClick,
+  businessId,
+  businessName,
+  businessRole,
+  email,
+  hasTasks,
+  isJobEnabled,
+  menuLogoUrl,
   onChangePlanClick,
   onCreateBusinessClick,
+  onHelpLinkClick,
+  onLogoutLinkClick,
+  onMenuLinkClick,
+  onMenuSelect,
+  onSubscribeNowClick,
+  onTasksLinkClick,
   region,
-  shouldDisplayHome,
-  shouldDisplaySalesMenu,
-  shouldDisplayBusinessMenu,
-  shouldDisplayBankingMenu,
-  shouldDisplayContactMenu,
+  serialNumber,
   shouldDisplayAccountingMenu,
+  shouldDisplayAddMenu,
+  shouldDisplayBankingMenu,
+  shouldDisplayBusinessMenu,
+  shouldDisplayChangePlan,
+  shouldDisplayContactMenu,
+  shouldDisplayCreateBusiness,
+  shouldDisplayHelpMenu,
+  shouldDisplayHome,
+  shouldDisplayInTray,
+  shouldDisplayLiveChat,
   shouldDisplayPayrollMenu,
   shouldDisplayPayrollNzMenu,
   shouldDisplayPurchasesMenu,
-  shouldDisplayInTray,
   shouldDisplayReportsMenu,
-  shouldDisplayHelpMenu,
-  shouldDisplayAddMenu,
-  shouldDisplayTasksMenu,
-  shouldDisplayChangePlan,
-  shouldDisplayCreateBusiness,
+  shouldDisplaySalesMenu,
   shouldDisplaySubscriptionNow,
+  shouldDisplayTasksMenu,
   trialEndDate,
-  menuLogoUrl,
-  hasTasks,
-  businessName,
-  businessId,
-  businessRole,
-  email,
-  serialNumber,
-  shouldDisplayLiveChat,
-  isJobEnabled,
 }) => {
   const primaryMenuItems = getPrimary({
     onMenuSelect,
@@ -276,17 +277,16 @@ const NavigationBar = ({
     />
   );
 
-  const liveChat = shouldDisplayLiveChat &&
-    businessRole === 'Business owner' && (
-      <LiveChat
-        businessId={businessId}
-        businessName={businessName}
-        businessRole={businessRole}
-        email={email}
-        region={region}
-        serialNumber={serialNumber}
-      />
-    );
+  const liveChat = shouldDisplayLiveChat && (
+    <LiveChat
+      businessId={businessId}
+      businessName={businessName}
+      businessRole={businessRole}
+      email={email}
+      region={region}
+      serialNumber={serialNumber}
+    />
+  );
 
   return (
     <div className={styles.navigation}>
@@ -298,28 +298,29 @@ const NavigationBar = ({
 };
 
 const mapStateToProps = (state) => ({
+  businessId: getBusinessId(state),
+  email: getUserEmail(state),
+  menuLogoUrl: getMenuLogoUrl(state)(window.location.href),
   region: getRegion(state),
-  shouldDisplayHome: getShowUrls(state),
-  shouldDisplayBusinessMenu: getShouldDisplayBusinessMenu(state),
-  shouldDisplayBankingMenu: getShouldDisplayBankingMenu(state),
-  shouldDisplayContactMenu: getShouldDisplayContactMenu(state),
   shouldDisplayAccountingMenu: getShouldDisplayAccountingMenu(state),
-  shouldDisplaySalesMenu: getShouldDisplaySalesMenu(state),
+  shouldDisplayAddMenu: getShouldDisplayAddMenu(state),
+  shouldDisplayBankingMenu: getShouldDisplayBankingMenu(state),
+  shouldDisplayBusinessMenu: getShouldDisplayBusinessMenu(state),
+  shouldDisplayChangePlan: getShouldDisplayChangePlan(state),
+  shouldDisplayContactMenu: getShouldDisplayContactMenu(state),
+  shouldDisplayCreateBusiness: getShouldDisplayCreateBusiness(state),
+  shouldDisplayHelpMenu: hasBusinessId(state),
+  shouldDisplayHome: getShowUrls(state),
+  shouldDisplayInTray: getShouldDisplayInTray(state),
+  shouldDisplayLiveChat: getShouldDisplayLiveChat(state),
   shouldDisplayPayrollMenu: getShouldDisplayPayrollMenu(state),
   shouldDisplayPayrollNzMenu: getShouldDisplayPayrollNzMenu(state),
   shouldDisplayPurchasesMenu: getShouldDisplayPurchasesMenu(state),
-  shouldDisplayInTray: getShouldDisplayInTray(state),
   shouldDisplayReportsMenu: getShouldDisplayReportsMenu(state),
-  shouldDisplayAddMenu: getShouldDisplayAddMenu(state),
-  shouldDisplayHelpMenu: hasBusinessId(state),
-  shouldDisplayTasksMenu: hasBusinessId(state),
-  shouldDisplayChangePlan: getShouldDisplayChangePlan(state),
-  shouldDisplayCreateBusiness: getShouldDisplayCreateBusiness(state),
+  shouldDisplaySalesMenu: getShouldDisplaySalesMenu(state),
   shouldDisplaySubscriptionNow: getShouldDisplaySubscriptionNow(state),
+  shouldDisplayTasksMenu: hasBusinessId(state),
   trialEndDate: getTrialEndDate(state),
-  menuLogoUrl: getMenuLogoUrl(state)(window.location.href),
-  shouldDisplayLiveChat: getShouldDisplayLiveChat(state),
-  email: getUserEmail(state),
 });
 
 export default connect(mapStateToProps)(NavigationBar);

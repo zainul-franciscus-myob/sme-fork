@@ -8,7 +8,6 @@ import style from './RootView.module.css';
 const RootView = ({
   businessId,
   businessName,
-  businessRole,
   children,
   drawer,
   isLoading,
@@ -27,13 +26,7 @@ const RootView = ({
     <div id="main" className={style.main}>
       {drawer.render(tasks)}
       <div className={style.navAndRootView}>
-        {nav.render(
-          tasks,
-          businessId,
-          businessName,
-          businessRole,
-          serialNumber
-        )}
+        {nav.render(tasks, businessId, businessName, serialNumber)}
         {browserAlert && (
           <div className={style.browserAlert}>
             <Alert type={browserAlert.type} onDismiss={onDismissBrowserAlert}>
@@ -50,7 +43,6 @@ const RootView = ({
 const mapStateToProps = ({
   businessDetails: { organisationName, serialNumber },
   businessId,
-  businessRole,
   isLoading,
   shouldShowOnboarding,
   tasks,
@@ -58,7 +50,6 @@ const mapStateToProps = ({
 }) => ({
   businessId,
   businessName: organisationName,
-  businessRole,
   isLoading,
   serialNumber,
   shouldShowOnboarding,

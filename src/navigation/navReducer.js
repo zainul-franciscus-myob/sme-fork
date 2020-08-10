@@ -9,20 +9,21 @@ import {
 import createReducer from '../store/createReducer';
 
 const getDefaultState = () => ({
-  isLoading: false,
-  serialNumber: '',
-  userEmail: '',
-  enabledFeatures: [],
-  isReadOnly: false,
-  urls: {},
-  routeParams: {},
+  businessRole: '',
   currentRouteName: '',
-  selfServicePortalUrl: '',
-  myReportsUrl: '',
-  subscriptionType: '',
+  enabledFeatures: [],
   isCurrentUserAdvisor: false,
+  isLoading: false,
+  isReadOnly: false,
   isTrial: false,
+  myReportsUrl: '',
+  routeParams: {},
+  selfServicePortalUrl: '',
+  serialNumber: '',
+  subscriptionType: '',
   trialEndDate: undefined,
+  urls: {},
+  userEmail: '',
 });
 
 const setLoadingState = (state, { isLoading }) => ({
@@ -32,14 +33,15 @@ const setLoadingState = (state, { isLoading }) => ({
 
 const loadBusinessDetails = (state, action) => ({
   ...state,
-  serialNumber: action.serialNumber,
-  userEmail: action.userEmail,
+  businessRole: action.businessRole,
   enabledFeatures: action.enabledFeatures,
+  isCurrentUserAdvisor: action.isCurrentUserAdvisor,
   isReadOnly: action.isReadOnly,
   isTrial: action.isTrial,
-  trialEndDate: action.trialEndDate,
-  isCurrentUserAdvisor: action.isCurrentUserAdvisor,
+  serialNumber: action.serialNumber,
   subscriptionType: action.subscriptionType,
+  trialEndDate: action.trialEndDate,
+  userEmail: action.userEmail,
 });
 
 const setRouteInfo = (state, action) => ({

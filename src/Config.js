@@ -18,4 +18,6 @@ export default {
   CREATE_BUSINESS_URL: process.env.REACT_APP_CREATE_BUSINESS_URL,
   SPLIT_IO_API_KEY: process.env.REACT_APP_SPLIT_IO_API_KEY,
   BANKFEED_PORTAL_URL: process.env.REACT_APP_BANKFEED_PORTAL_URL,
+  GENESYS_CHAT:
+    (process.env.REACT_APP_GENESYS_CHAT || 'false').toLowerCase() === 'true',
 };

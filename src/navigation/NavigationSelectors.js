@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { activeMapping } from './navConfig';
+import Config from '../Config';
 import RouteName from '../router/RouteName';
 import getRegionToDialectText from '../dialect/getRegionToDialectText';
 
@@ -290,13 +291,17 @@ export const getShouldDisplayCreateBusiness = (state) => {
   return region === 'au';
 };
 
-export const getShouldDisplayLiveChat = () => {
-  if (process.env.NODE_ENV === 'production') return false;
+export const getBusinessRole = (state) => state.businessRole;
 
-  return createSelector(
-    hasBusinessId,
-    getRegion,
-    getIsTrial,
-    (businessId, region, trialist) => businessId && region === 'au' && trialist
-  );
-};
+export const getShouldDisplayLiveChat = createSelector(
+  hasBusinessId,
+  getRegion,
+  getIsTrial,
+  getBusinessRole,
+  (businessIdExists, region, trialist, businessRole) =>
+    businessIdExists &&
+    region === 'au' &&
+    businessRole === 'Owner' &&
+    trialist &&
+    Config.GENESYS_CHAT
+);
