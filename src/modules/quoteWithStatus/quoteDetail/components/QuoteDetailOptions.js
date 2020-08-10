@@ -10,7 +10,7 @@ import React, { Fragment } from 'react';
 
 import {
   getIsBeforeStartOfFinancialYear,
-  getIsExpired,
+  getIsOpenAndExpired,
   getIsReadOnly,
   getQuoteDetailOptions,
   getReadOnlyMessage,
@@ -164,7 +164,7 @@ const mapStateToProps = (state) => ({
   isReadOnlyLayout: getIsReadOnly(state),
   readOnlyMessage: getReadOnlyMessage(state),
   isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
-  isExpired: getIsExpired(state),
+  isExpired: getIsOpenAndExpired(state),
 });
 
 export default connect(mapStateToProps)(QuoteDetailOptions);

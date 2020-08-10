@@ -393,7 +393,7 @@ export const getIsBeforeStartOfFinancialYear = (state) => {
   );
 };
 
-export const getIsExpired = (state) => {
+export const getIsOpenAndExpired = (state) => {
   const { quote } = state;
   const { issueDate, expirationDays, expirationTerm } = quote;
   const expiredDate = getExpiredDate({

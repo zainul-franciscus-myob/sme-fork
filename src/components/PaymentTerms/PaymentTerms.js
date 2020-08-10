@@ -97,7 +97,7 @@ const PaymentTerms = ({
   );
 
   const triggerButton = (
-    <div className={styles.popoverContainer}>
+    <div className={styles.triggerButtonPopoverContainer}>
       <Button disabled={disabled} type="secondary">
         {paymentTermsPopoverLabel}
       </Button>

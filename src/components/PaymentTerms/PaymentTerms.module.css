@@ -22,7 +22,7 @@
   display: inline-block;
 }
 
-.popoverContainer {
+.triggerButtonPopoverContainer {
   display: flex;
   align-content: center;
 }
