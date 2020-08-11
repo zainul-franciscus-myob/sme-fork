@@ -26,6 +26,7 @@ const tableConfig = {
   displayDate: { width: '11.0rem', valign: 'top' },
   displayAmount: { width: '12.4rem', valign: 'top', align: 'right' },
   displayExpiryDate: { width: '12.4rem', valign: 'top' },
+  status: { width: '12.4rem', valign: 'top' },
 };
 
 const QuoteListTable = ({
@@ -103,6 +104,9 @@ const QuoteListTable = ({
           activeSort={order}
           onSort={onSort}
         />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.status}>
+        <HeaderSort title="Status" sortName="StatusSort" />
       </Table.HeaderItem>
     </Table.Header>
   );

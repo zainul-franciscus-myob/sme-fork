@@ -15,6 +15,8 @@ export default {
       displayDate: '30/01/2019',
       displayAmount: '55.00',
       displayExpiryDate: '15/04/2019',
+      status: 'Open',
+      isOpenAndExpired: true,
     },
     {
       id: 'professional-id',
@@ -24,6 +26,8 @@ export default {
       displayDate: '12/03/2019',
       displayAmount: '3,212.00',
       displayExpiryDate: '12/04/2020',
+      status: 'Invoiced',
+      isOpenAndExpired: false,
     },
     {
       id: 'time-billing-id',
@@ -33,6 +37,8 @@ export default {
       displayDate: '04/01/2019',
       displayAmount: '45.00',
       displayExpiryDate: '21/12/2020',
+      status: 'Open',
+      isOpenAndExpired: false,
     },
     {
       id: 'miscellaneous-id',
@@ -42,6 +48,8 @@ export default {
       displayDate: '05/01/2020',
       displayAmount: '98.00',
       displayExpiryDate: '15/12/2020',
+      status: 'Open',
+      isOpenAndExpired: false,
     },
     {
       id: 'service-readonly-id',
@@ -51,6 +59,8 @@ export default {
       displayDate: '15/02/2019',
       displayAmount: '1,692.00',
       displayExpiryDate: '30/05/2019',
+      status: 'Declined',
+      isOpenAndExpired: false,
     },
     {
       id: 'service-readonly-id',
@@ -60,6 +70,8 @@ export default {
       displayDate: '04/03/2019',
       displayAmount: '8,976.00',
       displayExpiryDate: '04/04/2020',
+      status: 'Accepted',
+      isOpenAndExpired: false,
     },
   ],
   pagination: {

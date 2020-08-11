@@ -1,8 +1,23 @@
-import { Table } from '@myob/myob-widgets';
+import { Label, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getTableEntries } from '../quoteListSelectors';
+
+const statusLabelColour = (status, isOpenAndExpired) => {
+  switch (status) {
+    case 'Open':
+      return isOpenAndExpired ? 'orange' : 'light-grey';
+    case 'Accepted':
+      return 'green';
+    case 'Declined':
+      return 'red';
+    case 'Invoiced':
+      return 'light-grey';
+    default:
+      return 'default';
+  }
+};
 
 /* eslint-disable react/no-array-index-key */
 
@@ -25,6 +40,14 @@ const QuoteListTableBody = (props) => {
       </Table.RowItem>
       <Table.RowItem {...tableConfig.displayExpiryDate}>
         {entry.displayExpiryDate}
+      </Table.RowItem>
+      <Table.RowItem {...tableConfig.status}>
+        <Label
+          type="boxed"
+          color={statusLabelColour(entry.status, entry.isOpenAndExpired)}
+        >
+          {entry.status}
+        </Label>
       </Table.RowItem>
     </Table.Row>
   ));
