@@ -34,6 +34,13 @@ export const getPaymentDetailUrl = createSelector(
     `${selfServicePortalUrl}/#/billingAndPayments?businessId=${businessId}`
 );
 
+export const getProductManagementUrl = createSelector(
+  getSelfServicePortalUrl,
+  getBusinessId,
+  (selfServicePortalUrl, businessId) =>
+    `${selfServicePortalUrl}/#/productManagement?businessId=${businessId}`
+);
+
 export const getReportsUrl = createSelector(
   (state) => state.myReportsUrl,
   getRegion,
@@ -199,6 +206,7 @@ export const getBusinessUrls = createSelector(
     userList: enabledUrls.userList,
     dataImportExport: enabledUrls.dataImportExport,
     paymentDetail: enabledUrls.paymentDetail,
+    productManagementDetail: enabledUrls.productManagementDetail,
     subscription: enabledUrls.subscription,
   })
 );
@@ -207,6 +215,13 @@ export const getShouldShowPaymentDetail = createSelector(
   getBusinessUrls,
   getIsTrial,
   (businessUrls, isTrial) => Boolean(businessUrls.paymentDetail) && !isTrial
+);
+
+export const getShouldShowProductManagementDetail = createSelector(
+  getBusinessUrls,
+  getIsTrial,
+  (businessUrls, isTrial) =>
+    Boolean(businessUrls.productManagementDetail) && !isTrial
 );
 
 export const getPurchasesUrls = createSelector(

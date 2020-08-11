@@ -131,6 +131,16 @@ describe('Navigation Module', () => {
           'self-service-portal.url/#/billingAndPayments?businessId=🍟'
         );
       });
+
+      it('builds a URL for productManagementDetail', () => {
+        navigationModule.run(baseData);
+
+        const state = navigationModule.store.getState();
+
+        expect(state.urls[RouteName.PRODUCT_MANAGEMENT_DETAIL]).toEqual(
+          'self-service-portal.url/#/productManagement?businessId=🍟'
+        );
+      });
     });
 
     describe('when user clicks on Create new business', () => {

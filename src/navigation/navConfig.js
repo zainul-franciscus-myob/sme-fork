@@ -189,4 +189,5 @@ export const featuresConfig = {
   userList: { routeName: RouteName.USER_LIST },
   dataImportExport: { routeName: RouteName.DATA_IMPORT_EXPORT },
   paymentDetail: { routeName: RouteName.PAYMENT_DETAIL },
+  productManagementDetail: { routeName: RouteName.PRODUCT_MANAGEMENT_DETAIL },
 };

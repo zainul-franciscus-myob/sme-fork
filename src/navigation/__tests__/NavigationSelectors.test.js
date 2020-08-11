@@ -6,6 +6,7 @@ import {
   getShouldDisplayPayrollNzMenu,
   getShouldDisplaySubscriptionNow,
   getShouldShowPaymentDetail,
+  getShouldShowProductManagementDetail,
   getShowUrls,
   noOpRouteNames,
 } from '../NavigationSelectors';
@@ -145,6 +146,48 @@ describe('NavigationSelectors', () => {
       };
 
       const actual = getShouldShowPaymentDetail(modifiedState);
+
+      expect(actual).toEqual(false);
+    });
+  });
+
+  describe('shouldShowProductManagementDetail', () => {
+    const state = {
+      routeParams: {
+        businessId: '🍟',
+        region: '🇦🇺',
+      },
+      urls: {
+        [RouteName.PRODUCT_MANAGEMENT_DETAIL]: 'product-management-detail-url',
+      },
+      enabledFeatures: [RouteName.PRODUCT_MANAGEMENT_DETAIL],
+      isTrial: false,
+    };
+
+    it('shows by default', () => {
+      const actual = getShouldShowProductManagementDetail(state);
+
+      expect(actual).toEqual(true);
+    });
+
+    it('does not show when it is not enabled', () => {
+      const modifiedState = {
+        ...state,
+        enabledFeatures: [],
+      };
+
+      const actual = getShouldShowProductManagementDetail(modifiedState);
+
+      expect(actual).toEqual(false);
+    });
+
+    it('does not show when is trial', () => {
+      const modifiedState = {
+        ...state,
+        isTrial: true,
+      };
+
+      const actual = getShouldShowProductManagementDetail(modifiedState);
 
       expect(actual).toEqual(false);
     });

@@ -12,4 +12,5 @@ export default {
   isJobKeeperReportingEnabled: true,
   isPayrollReversibleEnabled: true,
   isBankTransactionsFastModeEnabled: true,
+  isManageMyProductEnabled: true,
 };

@@ -39,8 +39,7 @@ describe('rootModule', () => {
         root.nav,
         root.dispatcher,
         root.drawer,
-        root.integrator,
-        root.featureToggles
+        root.integrator
       );
       root.last_business_id = lastBusinessId;
       await root.run(routeProps, module, context);

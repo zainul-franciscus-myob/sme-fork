@@ -65,6 +65,7 @@
     "userList",
     "dataImportExport",
     "paymentDetail",
+    "productManagementDetail",
     "subscription"
   ],
   "isTrial": false,

@@ -14,6 +14,7 @@ import { featuresConfig } from './navConfig';
 import {
   getBusinessId,
   getPaymentDetailUrl,
+  getProductManagementUrl,
   getRegion,
   getReportsUrl,
   getShowUrls,
@@ -97,6 +98,7 @@ export default class NavigationModule {
     const state = this.store.getState();
     const reportsUrl = getReportsUrl(state);
     const paymentDetailUrl = getPaymentDetailUrl(state);
+    const productManagementUrl = getProductManagementUrl(state);
     const businessId = getBusinessId(state);
     const region = getRegion(state);
 
@@ -109,6 +111,7 @@ export default class NavigationModule {
           feature,
           reportsUrl,
           paymentDetailUrl,
+          productManagementUrl,
         }),
       }))
       .reduce((acc, obj) => ({ ...acc, ...obj }), {});
@@ -126,6 +129,7 @@ export default class NavigationModule {
     feature,
     reportsUrl,
     paymentDetailUrl,
+    productManagementUrl,
   }) => {
     switch (key) {
       case RouteName.REPORTS_PDF_STYLE_TEMPLATES:
@@ -142,6 +146,8 @@ export default class NavigationModule {
         return `${reportsUrl}/reports/reportPackBuilder`;
       case RouteName.PAYMENT_DETAIL:
         return paymentDetailUrl;
+      case RouteName.PRODUCT_MANAGEMENT_DETAIL:
+        return productManagementUrl;
       default:
         return `/#${this.constructPath(feature.routeName, {
           region,

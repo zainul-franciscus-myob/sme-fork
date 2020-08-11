@@ -59,6 +59,7 @@
     "dataImportExport",
     "myMyobAccount",
     "paymentDetail",
+    "productManagementDetail",
     "subscription"
   ],
   "isReadOnly": false,

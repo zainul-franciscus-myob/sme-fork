@@ -35,14 +35,15 @@ async function main(integrationType, telemetryType, leanEngageType) {
   });
   const inbox = new Inbox();
 
+  const featureToggles = await loadFeatureToggles(integration);
+
   rootModule.init({
     integration,
     router,
     sendTelemetryEvent: telemetry,
     startLeanEngage,
+    featureToggles,
   });
-
-  const featureToggles = await loadFeatureToggles(integration);
 
   const container = Object.freeze({
     integration,

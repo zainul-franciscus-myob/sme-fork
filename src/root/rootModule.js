@@ -30,10 +30,13 @@ import loadSubscriptionUrl from '../modules/settings/subscription/loadSubscripti
 import tasksService from './services/tasks';
 
 export default class RootModule {
+  constructor() {
+    this.store = new Store(RootReducer);
+  }
+
   init = ({ integration, router, sendTelemetryEvent, startLeanEngage }) => {
     const { constructPath, replaceURLParamsAndReload, navigateTo } = router;
 
-    this.store = new Store(RootReducer);
     this.integration = integration;
     this.navigateTo = navigateTo;
 
@@ -54,7 +57,7 @@ export default class RootModule {
     this.last_business_id = null;
     this.startLeanEngage = startLeanEngage;
     this.sendTelemetryEvent = sendTelemetryEvent;
-    this.featureToggles = getSplitToggle();
+    this.splitFeatureToggles = getSplitToggle();
 
     this.drawer = new DrawerModule({
       integration,
@@ -114,7 +117,7 @@ export default class RootModule {
       return true;
     }
 
-    return this.featureToggles.isToggleOn(toggleName);
+    return this.splitFeatureToggles.isToggleOn(toggleName);
   };
 
   runLeanEngage = () => {
@@ -197,10 +200,12 @@ export default class RootModule {
     this.dispatcher.setBusinessId(businessId);
     this.dispatcher.setRegion(region);
 
+    this.featureToggles = await this.featureTogglesPromise;
+
     if (businessId) {
       if (businessId !== this.last_business_id) {
         await Promise.all([
-          this.featureToggles.init({ businessId }),
+          this.splitFeatureToggles.init({ businessId }),
           this.loadSubscription(),
           this.settingsService.load(),
         ]);
