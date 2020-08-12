@@ -121,7 +121,7 @@ const getItems = ({
     shouldShowProductManagementDetail
       ? getMenuLinkWithIcon(
           urls.productManagementDetail,
-          'Manage my products',
+          'Manage my product',
           <Icons.Edit />,
           onMenuLinkClick,
           '_blank'
