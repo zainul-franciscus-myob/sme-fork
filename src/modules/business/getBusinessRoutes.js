@@ -6,6 +6,8 @@ const getBusinessRoutes = ({
   integration,
   globalCallbacks: { businessDetailsConfirmed },
   isToggleOn,
+  navigateTo,
+  loadGlobalBusinessDetails,
 }) => [
   {
     name: RouteName.BUSINESS_DETAIL,
@@ -15,6 +17,8 @@ const getBusinessRoutes = ({
       integration,
       businessDetailsConfirmed,
       isToggleOn,
+      navigateTo,
+      loadGlobalBusinessDetails,
     }),
     documentTitle: 'Business details',
   },

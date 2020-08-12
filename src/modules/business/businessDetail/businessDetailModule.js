@@ -23,6 +23,8 @@ export default class BusinessDetailModule {
     setRootView,
     businessDetailsConfirmed,
     isToggleOn,
+    navigateTo,
+    loadGlobalBusinessDetails,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -31,6 +33,8 @@ export default class BusinessDetailModule {
     this.dispatcher = createBusinessDetailDispatcher(this.store);
     this.integrator = createBusinessDetailIntegrator(this.store, integration);
     this.isToggleOn = isToggleOn;
+    this.navigateTo = navigateTo;
+    this.loadGlobalBusinessDetails = loadGlobalBusinessDetails;
   }
 
   loadBusinessDetail = () => {
@@ -71,6 +75,9 @@ export default class BusinessDetailModule {
       this.dispatcher.setIsLockDateAutoPopulated(false);
       this.dispatcher.setAlertMessage({ message, type: 'success' });
       this.dispatcher.setIsFinancialYearSettingsChangedState(false);
+
+      this.loadGlobalBusinessDetails();
+      this.loadBusinessDetail();
     };
     this.saveBusinessDetails(onSuccess);
   };

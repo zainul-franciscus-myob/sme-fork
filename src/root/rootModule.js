@@ -190,6 +190,10 @@ export default class RootModule {
     this.dispatcher.setBrowserAlert();
   };
 
+  loadGlobalBusinessDetails = () => {
+    this.businessDetailsService.load();
+  };
+
   run = async (routeProps, module, context) => {
     const {
       routeParams: { businessId, region },

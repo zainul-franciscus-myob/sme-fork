@@ -56,6 +56,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
     isToggleOn: rootModule.isToggleOn,
     subscribeOrUpgrade: rootModule.subscribeOrUpgrade,
     featureToggles,
+    loadGlobalBusinessDetails: rootModule.loadGlobalBusinessDetails,
   });
 
   const routes = getRoutes(container);

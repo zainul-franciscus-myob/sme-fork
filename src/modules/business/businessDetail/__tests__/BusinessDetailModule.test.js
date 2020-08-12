@@ -20,6 +20,7 @@ import LoadingState from '../../../../components/PageView/LoadingState';
 import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
 import businessDetailsReducer from '../businessDetailReducer';
+import businessDetailsResponse from '../../mappings/data/businessDetailsResponse';
 import createBusinessDetailDispatcher from '../createBusinessDetailDispatcher';
 import createBusinessDetailIntegrator from '../createBusinessDetailIntegrator';
 
@@ -144,6 +145,7 @@ describe('BusinessDetailModule', () => {
     it('successfully update', () => {
       const { module, store, integration } = setupWithEditedPage();
       module.businessDetailsConfirmed = jest.fn();
+      module.loadGlobalBusinessDetails = jest.fn();
 
       module.updateBusinessDetail();
 
@@ -175,13 +177,33 @@ describe('BusinessDetailModule', () => {
           intent: SET_IS_FINANCIAL_YEAR_SETTINGS_CHANGED_STATE,
           isFinancialYearSettingsChanged: false,
         },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: 'LOADING',
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: 'LOADING_SUCCESS',
+        },
+        {
+          intent: LOAD_BUSINESS_DETAIL,
+          businessDetails: businessDetailsResponse.businessDetails,
+          financialYearOptions: businessDetailsResponse.financialYearOptions,
+          openingBalanceYearOptions: undefined,
+          pageTitle: undefined,
+        },
       ]);
+
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: UPDATE_BUSINESS_DETAIL,
         }),
+        expect.objectContaining({
+          intent: LOAD_BUSINESS_DETAIL,
+        }),
       ]);
       expect(module.businessDetailsConfirmed).toHaveBeenCalled();
+      expect(module.loadGlobalBusinessDetails).toHaveBeenCalled();
     });
 
     it('fails to update', () => {
@@ -384,6 +406,7 @@ describe('BusinessDetailModule', () => {
       const toolbox = setupWithEditedPage();
       const { store, integration, module } = toolbox;
       module.businessDetailsConfirmed = () => {};
+      module.loadGlobalBusinessDetails = () => {};
 
       module.updateBusinessDetail();
 
