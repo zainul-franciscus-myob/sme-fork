@@ -7,10 +7,3 @@
   width: 66.3732394366197%;
   max-width: 75.4rem;
 }
-
-@media (min-width: 768px){
-  .etpAlert {
-    margin-left: 33.1866197183%;
-    width: 43rem;
-  }
-}

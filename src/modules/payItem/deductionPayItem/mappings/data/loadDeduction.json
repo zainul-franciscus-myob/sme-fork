@@ -2,7 +2,7 @@
   "title": "Union Fees",
   "name": "Union Fees",
   "linkedPayableAccountId": "456",
-  "atoReportingCategory": "NotReportable",
+  "atoReportingCategory": "NotSet",
   "calculationBasis": "Percent",
   "calculationPercentage": "3.00",
   "calculationPercentOfId": "33",

@@ -2,9 +2,6 @@ import { createSelector, createStructuredSelector } from 'reselect';
 
 export const getDetails = (state) => state.details;
 
-export const getOriginalAtoReportingCategory = (state) =>
-  getDetails(state).originalDeductionDetails.atoReportingCategory;
-
 export const getRegion = (state) => state.region;
 
 export const getIsCreating = (state) => state.payItemId === 'new';
@@ -34,13 +31,6 @@ export const getIsLimitPercentage = (state) =>
   state.information.limit === 'Percent';
 
 export const getAlert = (state) => state.alert;
-
-export const getShowEtpAlert = (state) =>
-  !getIsCreating(state) &&
-  getOriginalAtoReportingCategory(state) !==
-    getDetails(state).atoReportingCategory &&
-  getOriginalAtoReportingCategory(state) !== 'NotSet' &&
-  getDetails(state).atoReportingCategory === 'ETPTaxWithholding';
 
 const getInformation = (state) => state.information;
 

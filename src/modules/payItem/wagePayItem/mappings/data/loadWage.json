@@ -13,12 +13,12 @@
     "selectedEmployees": [
       {
         "id": "1",
-        "name": "Calie Mory"
+        "name": "Calie Mory",
       },
       {
         "name": "Sylvia Belt",
         "id": "2"
-      }
+      },
     ],
     "selectedExemptions": [
       {

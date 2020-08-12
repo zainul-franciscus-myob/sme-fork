@@ -2,12 +2,6 @@ import { createSelector, createStructuredSelector } from 'reselect';
 
 export const getDeductionPayItemModal = (state) => state.deductionPayItemModal;
 
-export const getAtoReportingCategory = (state) =>
-  getDeductionPayItemModal(state).deductionPayItem.atoReportingCategory;
-
-export const getOriginalAtoReportingCategory = (state) =>
-  getDeductionPayItemModal(state).originalDeductionPayItem.atoReportingCategory;
-
 export const getDeductionPayItemModalId = (state) =>
   state.deductionPayItemModal.id;
 
@@ -20,12 +14,6 @@ export const getIsActionDisabled = (state) =>
 
 export const getIsDeductionPayItemModalCreating = (state) =>
   state.deductionPayItemModal.id === 'new';
-
-export const getShowEtpAlert = (state) =>
-  !getIsDeductionPayItemModalCreating(state) &&
-  getOriginalAtoReportingCategory(state) !== getAtoReportingCategory(state) &&
-  getOriginalAtoReportingCategory(state) !== 'NotSet' &&
-  getAtoReportingCategory(state) === 'ETPTaxWithholding';
 
 const getTitle = (state) => state.deductionPayItemModal.title;
 

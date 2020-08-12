@@ -30,17 +30,6 @@ export const getPayRateList = (state) => state.payRateList;
 export const getAtoReportCategoryList = (state) => state.atoReportCategoryList;
 export const getIsHourlyView = (state) => state.wage.payBasis === 'Hourly';
 
-const EtpWagePayItemStpCategories = [
-  'ETPTaxableComponent',
-  'ETPTaxFreeComponent',
-];
-export const getShowEtpAlert = (state) =>
-  !getIsCreating(state) &&
-  state.originalWageValues.atoReportingCategory !==
-    state.wage.atoReportingCategory &&
-  state.originalWageValues.atoReportingCategory !== 'NotSet' &&
-  EtpWagePayItemStpCategories.includes(state.wage.atoReportingCategory);
-
 const getSelectedEmployees = (state) => state.wage.selectedEmployees;
 const getFilteredListOfEmployees = createSelector(
   (state) => state.employees,

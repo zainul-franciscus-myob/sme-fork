@@ -16,10 +16,3 @@
 .limitSectionDivider {
   min-height: 1.5rem;
 }
-
-@media (min-width: 768px){
-  .etpAlert {
-    margin-left: 33.1866197183%;
-    width: 43rem;
-  }
-}

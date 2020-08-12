@@ -1,7 +1,6 @@
 import {
   getExemptionAllocations,
   getSaveDeductionPayItemPayload,
-  getShowEtpAlert,
 } from '../DeductionPayItemSelectors';
 
 describe('deductionPayItemSelector', () => {
@@ -153,88 +152,6 @@ describe('deductionPayItemSelector', () => {
       expect(exemptionAllocations.isSelectedExemptionPayGWithholding).toEqual(
         false
       );
-    });
-  });
-
-  describe('getShowEtpAlert', () => {
-    it('should not show etp alert if new pay item', () => {
-      const state = {
-        details: {
-          payItemId: 'new',
-          atoReportingCategory: '',
-          originalDeductionDetails: {
-            atoReportingCategory: '',
-          },
-        },
-      };
-
-      const result = getShowEtpAlert(state);
-
-      expect(result).toEqual(false);
-    });
-
-    it('should not show etp alert if category not changed', () => {
-      const state = {
-        details: {
-          payItemId: '1',
-          atoReportingCategory: 'ETPTaxWithholding',
-          originalDeductionDetails: {
-            atoReportingCategory: 'ETPTaxWithholding',
-          },
-        },
-      };
-
-      const result = getShowEtpAlert(state);
-
-      expect(result).toEqual(false);
-    });
-
-    it('should show etp alert if update original/assigned pay item to ETP category', () => {
-      const state = {
-        details: {
-          payItemId: '1',
-          atoReportingCategory: 'ETPTaxWithholding',
-          originalDeductionDetails: {
-            atoReportingCategory: 'NotReportable',
-          },
-        },
-      };
-
-      const result = getShowEtpAlert(state);
-
-      expect(result).toEqual(true);
-    });
-
-    it('should not show etp alert if update original/assigned pay item to non-ETP category', () => {
-      const state = {
-        details: {
-          payItemId: '1',
-          atoReportingCategory: 'NotReportable',
-          originalDeductionDetails: {
-            atoReportingCategory: 'ETPTaxWithholding',
-          },
-        },
-      };
-
-      const result = getShowEtpAlert(state);
-
-      expect(result).toEqual(false);
-    });
-
-    it('should not show etp alert if update un-assigned pay item to ETP category', () => {
-      const state = {
-        details: {
-          payItemId: '1',
-          atoReportingCategory: 'ETPTaxWithholding',
-          originalDeductionDetails: {
-            atoReportingCategory: 'NotSet',
-          },
-        },
-      };
-
-      const result = getShowEtpAlert(state);
-
-      expect(result).toEqual(false);
     });
   });
 });

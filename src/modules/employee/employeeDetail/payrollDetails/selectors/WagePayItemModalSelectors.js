@@ -56,20 +56,6 @@ const getFilteredListOfEmployees = createSelector(
     )
 );
 
-const EtpWagePayItemStpCategories = [
-  'ETPTaxableComponent',
-  'ETPTaxFreeComponent',
-];
-export const getShowEtpAlert = (state) =>
-  !getIsWagePayItemModalCreating(state) &&
-  getWagePayItemModal(state).originalWageValues.atoReportingCategory !==
-    getWagePayItemModal(state).wage.atoReportingCategory &&
-  getWagePayItemModal(state).originalWageValues.atoReportingCategory !==
-    'NotSet' &&
-  EtpWagePayItemStpCategories.includes(
-    getWagePayItemModal(state).wage.atoReportingCategory
-  );
-
 export const getEmployeeAllocations = createStructuredSelector({
   selectedEmployees: getSelectedEmployees,
   filteredListOfEmployees: getFilteredListOfEmployees,

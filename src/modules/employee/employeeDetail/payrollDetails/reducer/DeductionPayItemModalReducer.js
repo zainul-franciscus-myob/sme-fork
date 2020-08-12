@@ -46,9 +46,6 @@ const getDeductionPayItemModalDefaultState = () => ({
   limitDollarPerOptions: [],
   employeeOptions: [],
   exemptionOptions: [],
-  originalDeductionPayItem: {
-    atoReportingCategory: '',
-  },
 });
 
 const loadDeductionPayItemModal = (state, { response }) => ({
@@ -59,9 +56,6 @@ const loadDeductionPayItemModal = (state, { response }) => ({
     deductionPayItem: {
       ...state.deductionPayItemModal.deductionPayItem,
       ...response.deductionPayItem,
-    },
-    originalDeductionPayItem: {
-      ...response.deductionPayItem.atoReportingCategory,
     },
   },
 });

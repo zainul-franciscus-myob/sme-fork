@@ -5,7 +5,6 @@ import {
   getFilteredExemptionOptions,
   getFormattedAmount,
   getFormattedPercentage,
-  getShowEtpAlert,
 } from '../DeductionPayItemModalSelectors';
 
 describe('DeductionPayItemModalSelectors', () => {
@@ -221,98 +220,6 @@ describe('DeductionPayItemModalSelectors', () => {
       expect(exemptionAllocations.isSelectedExemptionPayGWithholding).toEqual(
         false
       );
-    });
-  });
-
-  describe('getShowEtpAlert', () => {
-    it('should not show etp alert if new pay item', () => {
-      const state = {
-        deductionPayItemModal: {
-          deductionPayItem: {
-            id: 'new',
-            atoReportingCategory: '',
-          },
-          originalDeductionPayItem: {
-            atoReportingCategory: '',
-          },
-        },
-      };
-
-      const result = getShowEtpAlert(state);
-
-      expect(result).toEqual(false);
-    });
-
-    it('should not show etp alert if category not changed', () => {
-      const state = {
-        deductionPayItemModal: {
-          deductionPayItem: {
-            id: '1',
-            atoReportingCategory: 'ETPTaxWithholding',
-          },
-          originalDeductionPayItem: {
-            atoReportingCategory: 'ETPTaxWithholding',
-          },
-        },
-      };
-
-      const result = getShowEtpAlert(state);
-
-      expect(result).toEqual(false);
-    });
-
-    it('should show etp alert if update original/assigned pay item to ETP category', () => {
-      const state = {
-        deductionPayItemModal: {
-          deductionPayItem: {
-            id: '1',
-            atoReportingCategory: 'ETPTaxWithholding',
-          },
-          originalDeductionPayItem: {
-            atoReportingCategory: 'NotReportable',
-          },
-        },
-      };
-
-      const result = getShowEtpAlert(state);
-
-      expect(result).toEqual(true);
-    });
-
-    it('should not show etp alert if update original/assigned pay item to non-ETP category', () => {
-      const state = {
-        deductionPayItemModal: {
-          deductionPayItem: {
-            id: '1',
-            atoReportingCategory: 'NotReportable',
-          },
-          originalDeductionPayItem: {
-            atoReportingCategory: 'ETPTaxWithholding',
-          },
-        },
-      };
-
-      const result = getShowEtpAlert(state);
-
-      expect(result).toEqual(false);
-    });
-
-    it('should not show etp alert if update un-assigned pay item to ETP category', () => {
-      const state = {
-        deductionPayItemModal: {
-          deductionPayItem: {
-            id: '1',
-            atoReportingCategory: 'ETPTaxWithholding',
-          },
-          originalDeductionPayItem: {
-            atoReportingCategory: 'NotSet',
-          },
-        },
-      };
-
-      const result = getShowEtpAlert(state);
-
-      expect(result).toEqual(false);
     });
   });
 });
