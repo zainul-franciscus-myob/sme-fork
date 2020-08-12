@@ -43,3 +43,5 @@ export const UPDATE_EXPORT_COMPANY_FILE_DETAIL = Symbol(
 );
 export const EXPORT_COMPANY_FILE = Symbol('Export company file');
 export const EXPORT_COMPANY_FILE_RESULT = Symbol('Export company file result');
+
+export const UPDATE_PERIOD_DATE_RANGE = Symbol('Update period date range');

@@ -13,17 +13,20 @@ export const getBusinessId = (state) => state.businessId;
 export const getRegion = (state) => state.region;
 
 const getSettingsVersion = (state) => state.settingsVersion;
+const getPeriod = (state) => state.export.companyFile.period;
 const getDateFrom = (state) => state.export.companyFile.dateFrom;
 const getDateTo = (state) => state.export.companyFile.dateTo;
 const getFileType = (state) => state.export.companyFile.fileType;
 
 export const getSettings = createSelector(
   getSettingsVersion,
+  getPeriod,
   getDateFrom,
   getDateTo,
   getFileType,
-  (settingsVersion, dateFrom, dateTo, fileType) => ({
+  (settingsVersion, period, dateFrom, dateTo, fileType) => ({
     settingsVersion,
+    period,
     dateFrom,
     dateTo,
     fileType,

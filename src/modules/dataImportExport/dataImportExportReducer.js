@@ -13,6 +13,7 @@ import {
   UPDATE_EXPORT_COMPANY_FILE_DETAIL,
   UPDATE_EXPORT_DATA_TYPE,
   UPDATE_IMPORT_DATA_TYPE,
+  UPDATE_PERIOD_DATE_RANGE,
 } from './DataImportExportIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import ContactIdentifyBy from './types/ContactIdentifyBy';
@@ -22,8 +23,10 @@ import ExportCompanyFileType from './types/ExportCompanyFileType';
 import ImportExportDataType from './types/ImportExportDataType';
 import ImportExportFileType from './types/ImportExportFileType';
 import LoadingState from '../../components/PageView/LoadingState';
+import Periods from '../../components/PeriodPicker/Periods';
 import TabItem from './types/TabItem';
 import createReducer from '../../store/createReducer';
+import getDateRangeByPeriodAndRegion from '../../components/PeriodPicker/getDateRangeByPeriodAndRegion';
 
 const getDefaultState = () => ({
   settingsVersion: '2e182c2a-d781-11ea-87d0-0242ac130003',
@@ -76,6 +79,7 @@ const getDefaultState = () => ({
           value: ExportCompanyFileType.SAGE_HANDI_LEDGER,
         },
       ],
+      period: Periods.lastMonth,
     },
   },
 });
@@ -88,6 +92,7 @@ const setInitialStateWithSettings = (settings, initialState) => ({
     ...initialState.export,
     companyFile: {
       ...initialState.export.companyFile,
+      period: settings.period || Periods.custom,
       dateFrom: settings.dateFrom,
       dateTo: settings.dateTo,
       fileType: settings.fileType,
@@ -99,6 +104,12 @@ const shouldSetInitialStateWithSettings = (settings, initialState) =>
   settings.settingsVersion === initialState.settingsVersion;
 
 const setInitialState = (state, { context, settings = {} }) => {
+  const { period } = state.export.companyFile;
+  const exportDates =
+    period !== Periods.custom
+      ? getDateRangeByPeriodAndRegion(context.region, new Date(), period)
+      : {};
+
   const initialState = {
     ...state,
     businessId: context.businessId,
@@ -111,6 +122,10 @@ const setInitialState = (state, { context, settings = {} }) => {
     },
     export: {
       ...state.export,
+      companyFile: {
+        ...state.export.companyFile,
+        ...exportDates,
+      },
       selectedDataType: context.exportType
         ? context.exportType
         : state.export.selectedDataType,
@@ -271,6 +286,19 @@ const updateExportCompanyFile = (state, action) => ({
   },
 });
 
+const updatePeriodDateRange = (state, { period, dateFrom, dateTo }) => ({
+  ...state,
+  export: {
+    ...state.export,
+    companyFile: {
+      ...state.export.companyFile,
+      period,
+      dateFrom,
+      dateTo,
+    },
+  },
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -288,6 +316,7 @@ const handlers = {
   [UPDATE_CONTACTS_IDENTIFY_BY]: updateContactsIdentifyBy,
   [UPDATE_CONTACTS_TYPE]: updateContactsType,
   [UPDATE_EXPORT_COMPANY_FILE_DETAIL]: updateExportCompanyFile,
+  [UPDATE_PERIOD_DATE_RANGE]: updatePeriodDateRange,
 };
 
 const dataImportExportReducer = createReducer(getDefaultState(), handlers);

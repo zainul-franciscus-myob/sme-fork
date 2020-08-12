@@ -1,35 +1,35 @@
-import { DatePicker, Input, Select } from '@myob/myob-widgets';
+import { Input, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getExportCompanyFileDetail } from '../selectors/ExportCompanyFileSelectors';
-import handleDatePickerChange from '../../../components/handlers/handleDatePickerChange';
+import { getRegion } from '../selectors/DataImportExportSelectors';
+import PeriodPicker from '../../../components/PeriodPicker/PeriodPicker';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import handleSelectChange from '../../../components/handlers/handleSelectChange';
 
 const ExportCompanyFile = ({
-  dateFrom,
-  dateTo,
-  fileType,
-  clientCode,
-  fileTypeOptions,
-  shouldShowClientCode,
+  fileDetails: {
+    dateFrom,
+    dateTo,
+    fileType,
+    clientCode,
+    fileTypeOptions,
+    period,
+    shouldShowClientCode,
+  },
   onChange,
+  region,
+  onPeriodChange,
 }) => (
   <>
-    <DatePicker
-      name="dateFrom"
-      label="Date from"
-      requiredLabel="This is required"
-      value={dateFrom}
-      onSelect={handleDatePickerChange(onChange, 'dateFrom')}
-    />
-    <DatePicker
-      name="dateTo"
-      label="Date to"
-      requiredLabel="This is required"
-      value={dateTo}
-      onSelect={handleDatePickerChange(onChange, 'dateTo')}
+    <PeriodPicker
+      region={region}
+      period={period}
+      dateFrom={dateFrom}
+      dateTo={dateTo}
+      onChange={onPeriodChange}
+      required
     />
     <Select
       key="fileType"
@@ -58,6 +58,9 @@ const ExportCompanyFile = ({
   </>
 );
 
-const mapStateToProps = (state) => getExportCompanyFileDetail(state);
+const mapStateToProps = (state) => ({
+  region: getRegion(state),
+  fileDetails: getExportCompanyFileDetail(state),
+});
 
 export default connect(mapStateToProps)(ExportCompanyFile);

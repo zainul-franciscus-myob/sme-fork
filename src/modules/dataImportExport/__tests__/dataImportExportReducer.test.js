@@ -3,16 +3,26 @@ import {
   LOAD_DATA_IMPORT_EXPORT,
   UPDATE_CONTACTS_IDENTIFY_BY,
   UPDATE_IMPORT_DATA_TYPE,
+  UPDATE_PERIOD_DATE_RANGE,
 } from '../DataImportExportIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
 import ContactIdentifyBy from '../types/ContactIdentifyBy';
 import ContactType from '../types/ContactType';
 import DuplicateRecordOption from '../types/DuplicateRecordOption';
 import ImportExportDataType from '../types/ImportExportDataType';
+import Periods from '../../../components/PeriodPicker/Periods';
 import dataImportExportReducer from '../dataImportExportReducer';
+import getDateRangeByPeriodAndRegion from '../../../components/PeriodPicker/getDateRangeByPeriodAndRegion';
+
+jest.mock('../../../components/PeriodPicker/getDateRangeByPeriodAndRegion');
 
 describe('dataImportExportReducer', () => {
   describe('SET_INITIAL_STATE', () => {
+    getDateRangeByPeriodAndRegion.mockReturnValue({
+      dateFrom: '2019-11-01',
+      dateTo: '2019-11-30',
+    });
+
     const initialState = {
       settingsVersion: 'a version',
       import: { selectedDataType: '' },
@@ -22,9 +32,11 @@ describe('dataImportExportReducer', () => {
           dateFrom: '',
           dateTo: '',
           fileType: '',
+          period: Periods.lastMonth,
         },
       },
     };
+
     it.each([
       ['someImportType', 'someExportType', 'someImportType', 'someExportType'],
       ['someImportType', undefined, 'someImportType', ''],
@@ -40,7 +52,10 @@ describe('dataImportExportReducer', () => {
       ) => {
         const state = {
           import: { selectedDataType: '' },
-          export: { selectedDataType: '' },
+          export: {
+            selectedDataType: '',
+            companyFile: { period: Periods.lastMonth },
+          },
         };
 
         const action = {
@@ -62,6 +77,18 @@ describe('dataImportExportReducer', () => {
         );
       }
     );
+
+    it('Set initial dateFrom/dateTo to last month if no settings from local storage', () => {
+      const actual = dataImportExportReducer(initialState, {
+        intent: SET_INITIAL_STATE,
+        context: {},
+        settings: {},
+      });
+
+      expect(actual.export.companyFile.period).toEqual(Periods.lastMonth);
+      expect(actual.export.companyFile.dateFrom).toEqual('2019-11-01');
+      expect(actual.export.companyFile.dateTo).toEqual('2019-11-30');
+    });
 
     [
       {
@@ -89,6 +116,7 @@ describe('dataImportExportReducer', () => {
           dateFrom: expect.any(String),
           dateTo: expect.any(String),
           fileType: expect.any(String),
+          period: Periods.lastMonth,
         });
       });
     });
@@ -99,6 +127,7 @@ describe('dataImportExportReducer', () => {
         context: {},
         settings: {
           settingsVersion: 'a version',
+          period: Periods.custom,
           dateFrom: '12/12/2020',
           dateTo: '12/01/2021',
           fileType: 'Test File Type',
@@ -106,6 +135,7 @@ describe('dataImportExportReducer', () => {
       });
 
       expect(actual.export.companyFile).toEqual({
+        period: Periods.custom,
         dateFrom: '12/12/2020',
         dateTo: '12/01/2021',
         fileType: 'Test File Type',
@@ -319,6 +349,37 @@ describe('dataImportExportReducer', () => {
       const actual = dataImportExportReducer(state, action);
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('UPDATE_PERIOD_DATE_RANGE', () => {
+    it('should update the selected tab', () => {
+      const state = {
+        export: {
+          companyFile: {
+            period: Periods.thisMonth,
+            dateFrom: '',
+            dateTo: '',
+          },
+        },
+      };
+
+      const period = Periods.thisMonth;
+      const dateFrom = '21/02/2019';
+      const dateTo = '21/03/2019';
+
+      const action = {
+        intent: UPDATE_PERIOD_DATE_RANGE,
+        period,
+        dateFrom,
+        dateTo,
+      };
+
+      const actual = dataImportExportReducer(state, action);
+
+      expect(actual.export.companyFile.period).toEqual(period);
+      expect(actual.export.companyFile.dateFrom).toEqual(dateFrom);
+      expect(actual.export.companyFile.dateTo).toEqual(dateTo);
     });
   });
 });

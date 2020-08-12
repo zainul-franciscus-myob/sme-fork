@@ -40,7 +40,10 @@ const ExportTabContent = ({
           />
         ),
         [ImportExportDataType.COMPANY_FILE]: (
-          <ExportCompanyFile onChange={exportCompanyFileListeners.onChange} />
+          <ExportCompanyFile
+            onChange={exportCompanyFileListeners.onChange}
+            onPeriodChange={exportCompanyFileListeners.onPeriodChange}
+          />
         ),
       }[selectedDataType]}
   </FormHorizontal>

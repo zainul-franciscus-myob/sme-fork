@@ -36,13 +36,15 @@ const TransactionListFilterOptions = ({
   onPeriodChange,
 }) => (
   <FilterBar onReset={onResetFilters}>
-    <PeriodPicker
-      region={region}
-      period={period}
-      dateFrom={dateFrom}
-      dateTo={dateTo}
-      onChange={onPeriodChange}
-    />
+    <FilterBar.Group>
+      <PeriodPicker
+        region={region}
+        period={period}
+        dateFrom={dateFrom}
+        dateTo={dateTo}
+        onChange={onPeriodChange}
+      />
+    </FilterBar.Group>
     <Select
       name="sourceJournal"
       label="Source journal"

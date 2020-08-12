@@ -1,11 +1,18 @@
-import { DatePicker, FilterBar, Select } from '@myob/myob-widgets';
+import { DatePicker, Select } from '@myob/myob-widgets';
 import React, { useEffect } from 'react';
 
 import Periods from './Periods';
 import getDateRangeByPeriodAndRegion from './getDateRangeByPeriodAndRegion';
 import handleSelectChange from '../handlers/handleSelectChange';
 
-const PeriodPicker = ({ region, dateFrom, dateTo, period, onChange }) => {
+const PeriodPicker = ({
+  region,
+  dateFrom,
+  dateTo,
+  period,
+  onChange,
+  required,
+}) => {
   /**
    * When user select `This month`, `period`, `dateFrom` and `dateTo` are cached in storage.
    * In the following month, when we pass these stored data to PeriodPicker,
@@ -37,8 +44,10 @@ const PeriodPicker = ({ region, dateFrom, dateTo, period, onChange }) => {
     });
   };
 
+  const isRequired = required ? { requiredLabel: 'This is required' } : {};
+
   return (
-    <FilterBar.Group>
+    <>
       <Select
         name="Period"
         label="Period"
@@ -54,14 +63,16 @@ const PeriodPicker = ({ region, dateFrom, dateTo, period, onChange }) => {
         name="dateFrom"
         value={dateFrom}
         onSelect={onDateChange('dateFrom')}
+        {...isRequired}
       />
       <DatePicker
         label="Date to"
         name="dateTo"
         value={dateTo}
         onSelect={onDateChange('dateTo')}
+        {...isRequired}
       />
-    </FilterBar.Group>
+    </>
   );
 };
 

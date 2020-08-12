@@ -1,3 +1,4 @@
+import * as localStorageDriver from '../../../store/localStorageDriver';
 import {
   BULK_DELETE_UNUSED_ACCOUNTS,
   IMPORT_CHART_OF_ACCOUNTS,
@@ -26,6 +27,9 @@ import dataImportExportReducer from '../dataImportExportReducer';
 
 describe('DataImportExportModule', () => {
   const setup = () => {
+    localStorageDriver.loadSettings = () => {};
+    localStorageDriver.saveSettings = () => {};
+
     const integration = new TestIntegration();
     const store = new TestStore(dataImportExportReducer);
     const setRootView = () => {};
@@ -94,12 +98,7 @@ describe('DataImportExportModule', () => {
         {
           intent: SET_INITIAL_STATE,
           context: {},
-          settings: {
-            dateFrom: '',
-            dateTo: '',
-            fileType: '',
-            settingsVersion: '2e182c2a-d781-11ea-87d0-0242ac130003',
-          },
+          settings: undefined,
         },
         {
           intent: SET_LOADING_STATE,

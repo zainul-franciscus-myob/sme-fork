@@ -8,6 +8,7 @@ const getDateTo = (state) => state.export.companyFile.dateTo;
 const getFileType = (state) => state.export.companyFile.fileType;
 const getClientCode = (state) => state.export.companyFile.clientCode;
 const getFileTypeOptions = (state) => state.export.companyFile.fileTypeOptions;
+const getPeriod = (state) => state.export.companyFile.period;
 
 export const getHasClientCode = createSelector(
   getFileType,
@@ -20,6 +21,7 @@ export const getExportCompanyFileDetail = createStructuredSelector({
   fileType: getFileType,
   clientCode: getClientCode,
   fileTypeOptions: getFileTypeOptions,
+  period: getPeriod,
   shouldShowClientCode: getHasClientCode,
 });
 

@@ -13,6 +13,7 @@ import {
   UPDATE_EXPORT_COMPANY_FILE_DETAIL,
   UPDATE_EXPORT_DATA_TYPE,
   UPDATE_IMPORT_DATA_TYPE,
+  UPDATE_PERIOD_DATE_RANGE,
 } from './DataImportExportIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 
@@ -143,6 +144,15 @@ const createDataImportExportDispatcher = (store) => ({
       intent: UPDATE_EXPORT_COMPANY_FILE_DETAIL,
       key,
       value,
+    });
+  },
+
+  updatePeriodDateRange: ({ period, dateFrom, dateTo }) => {
+    store.dispatch({
+      intent: UPDATE_PERIOD_DATE_RANGE,
+      period,
+      dateFrom,
+      dateTo,
     });
   },
 });
