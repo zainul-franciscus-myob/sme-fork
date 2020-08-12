@@ -3,7 +3,7 @@
   "deductionPayItem": {
     "name": "Union Fees",
     "linkedPayableAccountId": "456",
-    "atoReportingCategory": "NotSet",
+    "atoReportingCategory": "NotReportable",
     "calculationBasis": "Percent",
     "calculationPercentage": "3.00",
     "calculationPercentOfId": "33",

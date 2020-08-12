@@ -25,6 +25,9 @@ const getDefaultState = () => ({
     atoReportCategoryList: [],
     linkedPayableAccountId: '',
     atoReportingCategory: '',
+    originalDeductionDetails: {
+      atoReportingCategory: '',
+    },
   },
   information: {
     calculationBasis: '',
@@ -87,6 +90,9 @@ const loadDetailsData = (
   atoReportCategoryList,
   atoReportingCategory,
   linkedPayableAccountId,
+  originalDeductionDetails: {
+    atoReportingCategory,
+  },
 });
 
 const loadInformationData = (

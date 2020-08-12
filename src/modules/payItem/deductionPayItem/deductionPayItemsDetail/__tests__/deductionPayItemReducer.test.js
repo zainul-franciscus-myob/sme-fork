@@ -44,6 +44,9 @@ describe('deductionPayItemReducer', () => {
         name: 'Union Fees',
         atoReportingCategory: 'NotReportable',
         linkedPayableAccountId: '456',
+        originalDeductionDetails: {
+          atoReportingCategory: 'NotReportable',
+        },
         accounts: [
           {
             id: '134',
