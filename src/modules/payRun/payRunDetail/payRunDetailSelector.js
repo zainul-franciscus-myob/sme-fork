@@ -15,6 +15,7 @@ export const getPaymentPeriodStart = (state) => state.paymentPeriodStart;
 export const getPaymentPeriodEnd = (state) => state.paymentPeriodEnd;
 export const getPaymentDate = (state) => state.paymentDate;
 export const getTotalNetPay = (state) => state.totalNetPay;
+export const getIsReversal = (state) => state.isReversal;
 export const getEmployeePayModalContext = ({
   transactionId,
   employeeName,

@@ -9,7 +9,11 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getLoadingState } from '../payRunDetailSelector';
+import {
+  getAlert,
+  getIsReversal,
+  getLoadingState,
+} from '../payRunDetailSelector';
 import PageView from '../../../../components/PageView/PageView';
 import PayRunDetailHeader from './PayRunDetailHeader';
 import PayRunEmployees from './PayRunEmployees';
@@ -24,6 +28,7 @@ const PayRunDetailView = ({
   exportPdf,
   alert,
   onDismissAlert,
+  isReversal,
 }) => {
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -39,6 +44,7 @@ const PayRunDetailView = ({
         printTabListeners={printTabListeners}
         onEmployeeNameClick={onEmployeeNameClick}
         exportPdf={exportPdf}
+        isReversal={isReversal}
       />
     </Card>
   );
@@ -46,7 +52,11 @@ const PayRunDetailView = ({
   const payRunDetailView = (
     <BaseTemplate>
       {alertComponent}
-      <PageHead title="Pay run details" />
+      {isReversal ? (
+        <PageHead title="Reversed pay details" />
+      ) : (
+        <PageHead title="Pay run details" />
+      )}
       <PayRunDetailHeader />
       {employeeCard}
       <ButtonRow>
@@ -63,6 +73,7 @@ const PayRunDetailView = ({
 const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   alert: getAlert(state),
+  isReversal: getIsReversal(state),
 });
 
 export default connect(mapStateToProps)(PayRunDetailView);

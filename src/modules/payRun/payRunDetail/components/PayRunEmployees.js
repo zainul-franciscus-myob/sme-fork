@@ -9,6 +9,7 @@ import {
 } from '../payRunDetailSelector';
 import EmailPaySlipsTab from './EmailPaySlipsTab';
 import PrintPaySlipsTab from './PrintPaySlipsTab';
+import ReversedPayRunView from './ReversedPayRunView';
 
 const PayRunEmployees = ({
   setSelectedTab,
@@ -19,6 +20,7 @@ const PayRunEmployees = ({
   printTabEmployees,
   onEmployeeNameClick,
   exportPdf,
+  isReversal,
 }) => {
   const tabItems = [
     { id: 'email-pay-slips', label: 'Email pay slips' },
@@ -46,6 +48,34 @@ const PayRunEmployees = ({
       />
     ),
   }[selectedTab];
+
+  const allEmployees = emailTabEmployees.concat(printTabEmployees);
+  const map = new Map();
+  const uniqueEmployees = [];
+
+  allEmployees.forEach((employee) => {
+    if (!map.has(employee.id)) {
+      map.set(employee.id, true);
+      uniqueEmployees.push({
+        ...employee,
+      });
+    }
+  });
+
+  const reversedPayContent = (
+    <ReversedPayRunView
+      employees={uniqueEmployees}
+      onEmployeeNameClick={onEmployeeNameClick}
+    />
+  );
+
+  if (isReversal) {
+    return (
+      <>
+        <FieldGroup label="Employees">{reversedPayContent}</FieldGroup>
+      </>
+    );
+  }
 
   return (
     <>

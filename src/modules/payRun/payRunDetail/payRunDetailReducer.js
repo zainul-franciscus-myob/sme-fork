@@ -20,6 +20,7 @@ const getDefaultState = () => ({
   emailPaySlipEmployees: [],
   printPaySlipEmployees: [],
   totalNetPay: '',
+  isReversal: false,
   paymentPeriodStart: '',
   paymentPeriodEnd: '',
   paymentDate: '',
@@ -81,6 +82,7 @@ const printTabSelectItem = (state, action) => ({
 const loadPayRunDetails = (state, action) => ({
   ...state,
   totalNetPay: action.response.totalNetPay,
+  isReversal: action.response.isReversal,
   paymentPeriodStart: action.response.paymentPeriodStart,
   paymentPeriodEnd: action.response.paymentPeriodEnd,
   paymentDate: action.response.paymentDate,
