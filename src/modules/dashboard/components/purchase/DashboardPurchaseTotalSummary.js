@@ -20,11 +20,17 @@ const DashboardPurchaseTotalSummary = ({
         content: purchaseTotal,
         link: purchaseTotalLink,
       },
-      { title: 'All open bills', content: unpaidTotal, link: unpaidTotalLink },
       {
-        title: 'All overdue bills',
+        title: 'Open bills',
+        content: unpaidTotal,
+        link: unpaidTotalLink,
+        tooltip: true,
+      },
+      {
+        title: 'Overdue bills',
         content: overDueTotal,
         link: overDueTotalLink,
+        tooltip: true,
       },
     ]}
   />

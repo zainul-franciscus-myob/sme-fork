@@ -10,21 +10,23 @@ const DashboardSalesTotalSummary = ({
   salesTotal,
   salesTotalLabel,
   unpaidTotalLink,
-  purchaseTotalLink,
+  invoiceTotalLink,
   overDueTotalLink,
 }) => (
   <DashboardTotalSummary
     items={[
-      { title: salesTotalLabel, content: salesTotal, link: purchaseTotalLink },
+      { title: salesTotalLabel, content: salesTotal, link: invoiceTotalLink },
       {
-        title: 'All open invoices',
+        title: 'Open invoices',
         content: unpaidTotal,
         link: unpaidTotalLink,
+        tooltip: true,
       },
       {
-        title: 'All overdue invoices',
+        title: 'Overdue invoices',
         content: overDueTotal,
         link: overDueTotalLink,
+        tooltip: true,
       },
     ]}
   />

@@ -1,5 +1,5 @@
+import { addDays, startOfMonth, subYears } from 'date-fns';
 import { createSelector, createStructuredSelector } from 'reselect';
-import { endOfMonth, startOfMonth } from 'date-fns';
 
 import { getBusinessId, getRegion } from './DashboardSelectors';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
@@ -33,25 +33,21 @@ export const getBillListLink = createSelector(
   (businessId, region) => `/#/${region}/${businessId}/bill`
 );
 
-export const getUnpaidTotalLink = createSelector(
-  getBillListLink,
-  getFinancialYearStartDate,
-  (link, financialYearStartDate) => {
-    const dateTo = formatIsoDate(endOfMonth(new Date()));
+export const getUnpaidTotalLink = createSelector(getBillListLink, (link) => {
+  const today = new Date();
+  const dateFrom = formatIsoDate(addDays(subYears(today, 1), 1));
+  const dateTo = formatIsoDate(today);
 
-    return `${link}?dateFrom=${financialYearStartDate}&dateTo=${dateTo}&status=Open`;
-  }
-);
+  return `${link}?dateFrom=${dateFrom}&dateTo=${dateTo}&status=Open`;
+});
 
-export const getOverDueTotalLink = createSelector(
-  getBillListLink,
-  getFinancialYearStartDate,
-  (link, financialYearStartDate) => {
-    const dateTo = formatIsoDate(endOfMonth(new Date()));
+export const getOverDueTotalLink = createSelector(getBillListLink, (link) => {
+  const today = new Date();
+  const dateFrom = formatIsoDate(addDays(subYears(today, 1), 1));
+  const dateTo = formatIsoDate(today);
 
-    return `${link}?dateFrom=${financialYearStartDate}&dateTo=${dateTo}&status=Open&orderBy=DateDue&sortOrder=desc`;
-  }
-);
+  return `${link}?dateFrom=${dateFrom}&dateTo=${dateTo}&status=Open&orderBy=DateDue&sortOrder=desc`;
+});
 
 export const getPurchaseTotalLink = createSelector(getBillListLink, (link) => {
   const today = new Date();

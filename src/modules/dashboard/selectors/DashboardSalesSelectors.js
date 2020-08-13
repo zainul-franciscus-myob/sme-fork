@@ -1,5 +1,5 @@
+import { addDays, startOfMonth, subYears } from 'date-fns';
 import { createSelector, createStructuredSelector } from 'reselect';
-import { endOfMonth, startOfMonth } from 'date-fns';
 
 import { getBusinessId, getRegion } from './DashboardSelectors';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
@@ -33,27 +33,26 @@ export const getInvoiceListLink = createSelector(
   (businessId, region) => `/#/${region}/${businessId}/invoice`
 );
 
-export const getUnpaidTotalLink = createSelector(
-  getInvoiceListLink,
-  getFinancialYearStartDate,
-  (link, financialYearStartDate) => {
-    const dateTo = formatIsoDate(endOfMonth(new Date()));
+export const getUnpaidTotalLink = createSelector(getInvoiceListLink, (link) => {
+  const today = new Date();
+  const dateFrom = formatIsoDate(addDays(subYears(today, 1), 1));
+  const dateTo = formatIsoDate(today);
 
-    return `${link}?dateFrom=${financialYearStartDate}&dateTo=${dateTo}&status=Open&orderBy=DateOccurred&sortOrder=desc`;
-  }
-);
+  return `${link}?dateFrom=${dateFrom}&dateTo=${dateTo}&status=Open&orderBy=DateOccurred&sortOrder=desc`;
+});
 
 export const getOverDueTotalLink = createSelector(
   getInvoiceListLink,
-  getFinancialYearStartDate,
-  (link, financialYearStartDate) => {
-    const dateTo = formatIsoDate(endOfMonth(new Date()));
+  (link) => {
+    const today = new Date();
+    const dateFrom = formatIsoDate(addDays(subYears(today, 1), 1));
+    const dateTo = formatIsoDate(today);
 
-    return `${link}?dateFrom=${financialYearStartDate}&dateTo=${dateTo}&status=Open&orderBy=DateDue&sortOrder=desc`;
+    return `${link}?dateFrom=${dateFrom}&dateTo=${dateTo}&status=Open&orderBy=DateDue&sortOrder=desc`;
   }
 );
 
-export const getPurchaseTotalLink = createSelector(
+export const getInvoiceTotalLink = createSelector(
   getInvoiceListLink,
   (link) => {
     const today = new Date();
@@ -72,7 +71,7 @@ export const getSalesTotalSummary = createStructuredSelector({
   salesTotal: (state) => state.sales.salesTotal,
   salesTotalLabel: getSalesTotalLabel,
   unpaidTotalLink: getUnpaidTotalLink,
-  purchaseTotalLink: getPurchaseTotalLink,
+  invoiceTotalLink: getInvoiceTotalLink,
   overDueTotalLink: getOverDueTotalLink,
 });
 
