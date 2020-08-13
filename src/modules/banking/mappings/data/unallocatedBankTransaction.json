@@ -1,5 +1,5 @@
 {
-  "message": "Bank transaction unmatched",
+  "message": "Success! You've successfully unallocated bank transactions",
   "entries": [
     {
       "transactionId": "20",

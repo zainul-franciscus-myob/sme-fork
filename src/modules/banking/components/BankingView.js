@@ -1,4 +1,9 @@
-import { Alert, BulkActions, StandardTemplate } from '@myob/myob-widgets';
+import {
+  Alert,
+  BulkActions,
+  Button,
+  StandardTemplate,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -12,8 +17,9 @@ import {
 } from '../bankingSelectors';
 import {
   getBulkMessage,
+  getShowBulkUnallocate,
   showBulkActionsSelector,
-} from '../bankingSelectors/bulkAllocationSelectors';
+} from '../bankingSelectors/bulkActionSelectors';
 import BankTransactionFilterOptions from './BankTransactionFilterOptions';
 import BankTransactionPageHead from './BankTransactionPageHead';
 import BankTransactionTable from './BankTransactionTable';
@@ -34,6 +40,7 @@ const BankingView = (props) => {
     alert,
     bulkMessage,
     showBulkActions,
+    showBulkUnallocate,
     getBankingRuleModal,
     onUpdateFilters,
     onPeriodChange,
@@ -89,6 +96,8 @@ const BankingView = (props) => {
     onSaveBulkAllocation,
     onCloseBulkAllocation,
     onOpenBulkAllocation,
+    onBulkUnallocationButtonClick,
+    onConfirmBulkUnallocation,
     onOpenBankingRuleModal,
     onOpenTransferMoneyModal,
     onRenderBankingRuleModal,
@@ -105,7 +114,13 @@ const BankingView = (props) => {
     // loadMoreButtonStatus,
   } = props;
 
-  const bulkActions = (
+  const bulkUnallocate = showBulkUnallocate && (
+    <Button type="secondary" onClick={onBulkUnallocationButtonClick}>
+      Unallocate
+    </Button>
+  );
+
+  const bulkActions = showBulkActions && (
     <BulkActions>
       <BulkAllocationPopover
         onUpdateBulkAllocationOption={onUpdateBulkAllocationOption}
@@ -113,6 +128,7 @@ const BankingView = (props) => {
         onCloseBulkAllocation={onCloseBulkAllocation}
         onOpenBulkAllocation={onOpenBulkAllocation}
       />
+      {bulkUnallocate}
       {bulkMessage}
     </BulkActions>
   );
@@ -128,7 +144,7 @@ const BankingView = (props) => {
         onPeriodChange={onPeriodChange}
         onResetFilters={onResetFilters}
       />
-      {showBulkActions && bulkActions}
+      {bulkActions}
     </>
   );
 
@@ -145,6 +161,7 @@ const BankingView = (props) => {
       getBankingRuleModal={getBankingRuleModal}
       onCloseModal={onCloseModal}
       onConfirmCancelModal={onCancelModal}
+      onConfirmUnallocateModal={onConfirmBulkUnallocation}
       onConfirmUnmatchTransactionModal={onCancelModal}
       onRenderBankingRuleModal={onRenderBankingRuleModal}
       onDeleteAttachmentModal={onDeleteAttachmentModal}
@@ -242,6 +259,7 @@ const mapStateToProps = (state) => ({
   modalType: getModalType(state),
   bulkMessage: getBulkMessage(state),
   showBulkActions: showBulkActionsSelector(state),
+  showBulkUnallocate: getShowBulkUnallocate(state),
   // loadMoreButtonStatus: getLoadMoreButtonStatus(state),  See comment above on <LoadMoreButton>
 });
 

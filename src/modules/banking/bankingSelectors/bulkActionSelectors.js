@@ -1,14 +1,17 @@
 import { createSelector } from 'reselect';
 
 import { getEntries } from './index';
-import StatusTypes from '../BankTransactionStatusTypes';
+import StatusTypes, { isStatusUnapproved } from '../BankTransactionStatusTypes';
+import flat from '../../../common/flat/flat';
 
 export const getEntrySelectStatus = (state) =>
   state.entries.map((entry) => entry.selected);
 
 const getSelectedCount = (state) =>
   state.entries.filter((entry) => entry.selected).length;
+
 export const showBulkActionsSelector = (state) => getSelectedCount(state) > 0;
+
 export const getBulkMessage = createSelector(
   getSelectedCount,
   (selectedCount) =>
@@ -34,9 +37,12 @@ export const getBulkSelectStatus = createSelector(
 );
 
 export const getTaxCodes = (state) => state.taxCodes;
+
 export const getBulkAllocationAccounts = (state) =>
   state.bulkAllocationAccounts;
+
 export const getBulkAllocationOptions = (state) => state.bulkAllocationOptions;
+
 export const getIsBulkOpen = (state) => state.isBulkOpen;
 
 const eligibleBulkAllocationTypes = [
@@ -45,11 +51,13 @@ const eligibleBulkAllocationTypes = [
   StatusTypes.singleAllocation,
   StatusTypes.splitAllocation,
 ];
+
 const filterBulkAllocationEntries = (entries) =>
   entries.filter(
     (entry) =>
       eligibleBulkAllocationTypes.includes(entry.type) && entry.selected
   );
+
 export const getBulkAllocationPayload = ({
   entries,
   filterOptions,
@@ -71,17 +79,44 @@ export const getBulkAllocationPayload = ({
   };
 };
 
+const getAllocatedEntries = (entries) =>
+  entries.filter((entry) => !isStatusUnapproved(entry.type) && entry.selected);
+
+export const getBulkUnallocationPayload = ({ entries, filterOptions }) => {
+  const filteredEntries = getAllocatedEntries(entries);
+  const { bankAccount: bankAccountId } = filterOptions;
+
+  return {
+    bankAccountId,
+    entries: flat(
+      filteredEntries.map((entry) =>
+        entry.journals.map((journal) => ({
+          transactionId: entry.transactionId,
+          journalLineId: journal.journalLineId,
+        }))
+      )
+    ),
+  };
+};
+
+export const getShowBulkUnallocate = (state) =>
+  getAllocatedEntries(state.entries).length > 0;
+
 const getIsAllSelected = (state) =>
   state.entries.every((entry) => entry.selected);
+
 export const BULK_LIMITATION = 50;
+
 export const getRemainingAvailable = createSelector(
   getSelectedCount,
   (selectedCount) => Math.max(BULK_LIMITATION - selectedCount, 0)
 );
+
 export const getIsMaximumSelected = createSelector(
   getRemainingAvailable,
   (remaining) => remaining === 0
 );
+
 export const getCanSelectMore = createSelector(
   getIsAllSelected,
   getIsMaximumSelected,
@@ -89,6 +124,7 @@ export const getCanSelectMore = createSelector(
 );
 
 export const getIsBulkLoading = (state) => state.isBulkLoading;
+
 export const getIsCheckboxDisabled = (state, index) => {
   const entries = getEntries(state);
 

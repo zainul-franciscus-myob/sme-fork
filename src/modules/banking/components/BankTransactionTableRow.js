@@ -12,7 +12,7 @@ import {
   getPendingNote,
   getShouldShowNote,
 } from '../bankingSelectors';
-import { getIsCheckboxDisabled } from '../bankingSelectors/bulkAllocationSelectors';
+import { getIsCheckboxDisabled } from '../bankingSelectors/bulkActionSelectors';
 import ClearableTextArea from '../../../components/ClearableTextArea/ClearableTextArea';
 import MatchedOrAllocated from './MatchedOrAllocated';
 import handleTextAreaChange from '../../../components/handlers/handleTextAreaChange';

@@ -3,12 +3,14 @@ import {
   getBulkAllocationPayload,
   getBulkMessage,
   getBulkSelectStatus,
+  getBulkUnallocationPayload,
   getCanSelectMore,
   getIsCheckboxDisabled,
   getIsEditedEntryInBulkSelection,
-} from '../bulkAllocationSelectors';
+  getShowBulkUnallocate,
+} from '../bulkActionSelectors';
 
-describe('bulkAllocationSelector', () => {
+describe('bulkActionSelector', () => {
   describe('getBulkSelectStatus', () => {
     it('show checked when all entries are selected', () => {
       const state = {
@@ -176,6 +178,186 @@ describe('bulkAllocationSelector', () => {
       const actual = getBulkAllocationPayload(state);
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getBulkUnallocationPayload', () => {
+    it('build bulk unallocation payload', () => {
+      const state = {
+        filterOptions: {
+          bankAccount: '1',
+        },
+        entries: [
+          {
+            transactionId: '1',
+            journals: [],
+            selected: true,
+            type: 'unmatched',
+          },
+          {
+            transactionId: '2',
+            journals: [],
+            selected: true,
+            type: 'matched',
+          },
+          {
+            transactionId: '3',
+            journals: [
+              {
+                journalLineId: '333',
+              },
+            ],
+            type: 'singleAllocation',
+          },
+          {
+            transactionId: '4',
+            journals: [
+              {
+                journalLineId: '444',
+              },
+            ],
+            selected: true,
+            type: 'singleAllocation',
+          },
+          {
+            transactionId: '5',
+            journals: [
+              {
+                journalLineId: '555',
+              },
+            ],
+            selected: true,
+            type: 'splitAllocation',
+          },
+          {
+            transactionId: '6',
+            journals: [],
+            selected: true,
+            type: 'paymentRuleMatched',
+          },
+          {
+            transactionId: '7',
+            journals: [
+              {
+                journalLineId: '777',
+              },
+              {
+                journalLineId: '778',
+              },
+            ],
+            selected: true,
+            type: 'splitMatched',
+          },
+          {
+            transactionId: '8',
+            journals: [
+              {
+                journalLineId: '889',
+              },
+            ],
+            selected: true,
+            type: 'transfer',
+          },
+        ],
+      };
+
+      const expected = {
+        bankAccountId: '1',
+        entries: [
+          {
+            transactionId: '4',
+            journalLineId: '444',
+          },
+          {
+            transactionId: '5',
+            journalLineId: '555',
+          },
+          {
+            transactionId: '7',
+            journalLineId: '777',
+          },
+          {
+            transactionId: '7',
+            journalLineId: '778',
+          },
+          {
+            transactionId: '8',
+            journalLineId: '889',
+          },
+        ],
+      };
+      const actual = getBulkUnallocationPayload(state);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getShowBulkUnallocate', () => {
+    it('returns false when none of the selected transactions are allocated', () => {
+      const state = {
+        entries: [
+          {
+            transactionId: '1',
+            journals: [],
+            selected: true,
+            type: 'unmatched',
+          },
+          {
+            transactionId: '2',
+            journals: [],
+            selected: true,
+            type: 'matched',
+          },
+          {
+            transactionId: '3',
+            journals: [],
+            selected: true,
+            type: 'paymentRuleMatched',
+          },
+          {
+            transactionId: '4',
+            journals: [
+              {
+                journalLineId: '444',
+              },
+            ],
+            selected: false,
+            type: 'singleAllocation',
+          },
+        ],
+      };
+
+      const actual = getShowBulkUnallocate(state);
+
+      expect(actual).toBe(false);
+    });
+
+    describe('returns true when at least one selected transaction is allocated', () => {
+      it.each([
+        ['singleAllocation'],
+        ['splitAllocation'],
+        ['splitMatched'],
+        ['transfer'],
+      ])('of type %s', (type) => {
+        const state = {
+          entries: [
+            {
+              transactionId: '3',
+              journals: [
+                {
+                  journalLineId: '333',
+                },
+              ],
+              selected: true,
+              type,
+            },
+          ],
+        };
+
+        const actual = getShowBulkUnallocate(state);
+
+        expect(actual).toBe(true);
+      });
     });
   });
 

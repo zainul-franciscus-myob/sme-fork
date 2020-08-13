@@ -14,7 +14,7 @@ import {
   getBulkSelectStatus,
   getEntrySelectStatus,
   getIsBulkLoading,
-} from '../bankingSelectors/bulkAllocationSelectors';
+} from '../bankingSelectors/bulkActionSelectors';
 import BankTransactionTableBody from './BankTransactionTableBody';
 import BankTransactionTableHeader from './BankTransactionTableHeader';
 import ErrorViewImage from './no-results-found.svg';

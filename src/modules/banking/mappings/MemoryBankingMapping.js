@@ -2,6 +2,7 @@ import {
   ALLOCATE_TRANSACTION,
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
+  BULK_UNALLOCATE_TRANSACTIONS,
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ATTACHMENTS,
@@ -36,6 +37,7 @@ import attachments from './data/loadAttachmentsResponse';
 import bankTransactions from './data/loadBankTransactions';
 import bankTransactionsNextPage from './data/loadBankTransactionsNextPage';
 import bulkAllocatedBankTransaction from './data/bulkAllocatedBankTransaction';
+import bulkUnallocatedBankTransactions from './data/bulkUnallocatedBankTransactions';
 import createBankingRuleResponse from './data/createBankingRuleResponse';
 import filteredBankTransactions from './data/sortAndFilterBankTransactions';
 import filteredMatchTransactions from './data/sortAndFilterMatchTransactions';
@@ -64,6 +66,8 @@ const allocateBankTransaction = ({ onSuccess }) =>
   onSuccess(allocatedBankTransaction);
 const unallocateBankTransaction = ({ onSuccess }) =>
   onSuccess(unallocatedBankTransaction);
+const bulkUnallocateBankTransactions = ({ onSuccess }) =>
+  onSuccess(bulkUnallocatedBankTransactions);
 const loadSplitAlloation = ({ urlParams, onSuccess }) =>
   onSuccess(
     urlParams.type === 'spend_money' ? loadSpendMoney : loadReceiveMoney
@@ -107,6 +111,7 @@ const MemoryBankingMapping = {
   [ALLOCATE_TRANSACTION]: allocateBankTransaction,
   [BULK_ALLOCATE_TRANSACTIONS]: saveBulkAllocation,
   [UNALLOCATE_TRANSACTION]: unallocateBankTransaction,
+  [BULK_UNALLOCATE_TRANSACTIONS]: bulkUnallocateBankTransactions,
   [LOAD_SPLIT_ALLOCATION]: loadSplitAlloation,
   [SAVE_SPLIT_ALLOCATION]: saveSplitAllocation,
   [LOAD_MATCH_TRANSACTIONS]: loadMatchTransactions,

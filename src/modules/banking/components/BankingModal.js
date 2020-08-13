@@ -1,5 +1,6 @@
 import React from 'react';
 
+import BulkUnallocateModal from './BulkUnallocateModal';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
 import ModalTypes from '../ModalTypes';
@@ -11,45 +12,49 @@ const BankingModal = ({
   onCloseModal,
   onConfirmCancelModal,
   onRenderBankingRuleModal,
+  onConfirmUnallocateModal,
   onConfirmUnmatchTransactionModal,
   onDeleteAttachmentModal,
   onSaveTransferMoney,
   onUpdateTransfer,
   onDismissModalAlert,
 }) => {
-  let modal;
-  if (modalType === ModalTypes.CANCEL) {
-    modal = (
+  if (modalType === ModalTypes.BANKING_RULE) {
+    return onRenderBankingRuleModal();
+  }
+
+  return {
+    [ModalTypes.CANCEL]: (
       <CancelModal onCancel={onCloseModal} onConfirm={onConfirmCancelModal} />
-    );
-  } else if (modalType === ModalTypes.BANKING_RULE) {
-    modal = onRenderBankingRuleModal();
-  } else if (modalType === ModalTypes.UNMATCH_TRANSACTION) {
-    modal = (
+    ),
+    [ModalTypes.BULK_UNALLOCATE]: (
+      <BulkUnallocateModal
+        onCancel={onCloseModal}
+        onConfirm={onConfirmUnallocateModal}
+      />
+    ),
+    [ModalTypes.UNMATCH_TRANSACTION]: (
       <UnmatchTransactionModal
         onCancel={onCloseModal}
         onConfirm={onConfirmUnmatchTransactionModal}
       />
-    );
-  } else if (modalType === ModalTypes.DELETE_ATTACHMENT) {
-    modal = (
+    ),
+    [ModalTypes.DELETE_ATTACHMENT]: (
       <DeleteModal
         onCancel={onCloseModal}
         onConfirm={onDeleteAttachmentModal}
         title="Delete this attachment?"
       />
-    );
-  } else if (modalType === ModalTypes.TRANSFER_MONEY) {
-    modal = (
+    ),
+    [ModalTypes.TRANSFER_MONEY]: (
       <TransferMoneyModal
         onCancel={onCloseModal}
         onConfirm={onSaveTransferMoney}
         onUpdateTransfer={onUpdateTransfer}
         onDismissModalAlert={onDismissModalAlert}
       />
-    );
-  }
-  return modal;
+    ),
+  }[modalType];
 };
 
 export default BankingModal;

@@ -2,6 +2,7 @@ import {
   ALLOCATE_TRANSACTION,
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
+  BULK_UNALLOCATE_TRANSACTIONS,
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ATTACHMENTS,
@@ -67,6 +68,11 @@ const HttpBankingMapping = {
       `/${businessId}/banking/bulk_allocate_bank_transactions`,
   },
   [UNALLOCATE_TRANSACTION]: {
+    method: 'POST',
+    getPath: ({ businessId }) =>
+      `/${businessId}/banking/unallocate_bank_transaction`,
+  },
+  [BULK_UNALLOCATE_TRANSACTIONS]: {
     method: 'POST',
     getPath: ({ businessId }) =>
       `/${businessId}/banking/unallocate_bank_transaction`,

@@ -20,7 +20,7 @@ import {
 import {
   getCanSelectMore,
   getIsEditedEntryInBulkSelection,
-} from './bankingSelectors/bulkAllocationSelectors';
+} from './bankingSelectors/bulkActionSelectors';
 import {
   getDefaultMatchTransactionFilterRequestParams,
   getMatchTransactionFlipSortOrder,
@@ -208,6 +208,8 @@ export default class BankingModule {
         onSaveBulkAllocation={this.saveBulkAllocation}
         onCloseBulkAllocation={this.closeBulkAllocation}
         onOpenBulkAllocation={openBulkAllocation}
+        onBulkUnallocationButtonClick={this.openBulkUnallocationModal}
+        onConfirmBulkUnallocation={this.bulkUnallocateTransactions}
         onCancelUnallocateModal={closeModal}
         onOpenBankingRuleModal={openBankingRuleModal}
         onOpenTransferMoneyModal={this.openTransferMoneyModal}
@@ -354,6 +356,39 @@ export default class BankingModule {
     };
 
     this.integrator.bulkAllocateTransactions({
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  openBulkUnallocationModal = () => {
+    this.dispatcher.openBulkUnallocateModal();
+  };
+
+  bulkUnallocateTransactions = () => {
+    this.dispatcher.closeModal();
+    this.dispatcher.collapseTransactionLine();
+    this.dispatcher.setBulkLoadingState(true);
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setBulkLoadingState(false);
+      this.dispatcher.unselectTransactions();
+      this.dispatcher.bulkUnallocateTransactions(payload);
+      this.dispatcher.setAlert({
+        type: 'success',
+        message: payload.message,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setBulkLoadingState(false);
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.integrator.bulkUnallocateTransactions({
       onSuccess,
       onFailure,
     });
@@ -674,7 +709,7 @@ export default class BankingModule {
     const index = getOpenPosition(state);
     const onSuccess = (payload) => {
       this.dispatcher.setOpenEntryLoadingState(false);
-      this.dispatcher.unAllocateTransaction(payload);
+      this.dispatcher.unallocateTransaction(payload);
       this.ifOpen(index, () => this.loadMatchTransaction(index))();
     };
 
@@ -696,7 +731,7 @@ export default class BankingModule {
   unallocateOpenEntryTransaction = () => {
     const onSuccess = (payload) => {
       this.dispatcher.setOpenEntryLoadingState(false);
-      this.dispatcher.unAllocateTransaction(payload);
+      this.dispatcher.unallocateTransaction(payload);
     };
 
     const onFailure = ({ message }) => {

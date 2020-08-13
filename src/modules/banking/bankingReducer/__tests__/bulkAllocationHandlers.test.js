@@ -1,4 +1,4 @@
-import { BULK_LIMITATION } from '../../bankingSelectors/bulkAllocationSelectors';
+import { BULK_LIMITATION } from '../../bankingSelectors/bulkActionSelectors';
 import {
   bulkAllocateTransactions,
   selectAllTransactions,

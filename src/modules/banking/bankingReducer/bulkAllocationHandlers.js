@@ -1,7 +1,7 @@
 import {
   getIsMaximumSelected,
   getRemainingAvailable,
-} from '../bankingSelectors/bulkAllocationSelectors';
+} from '../bankingSelectors/bulkActionSelectors';
 import { isStatusUnapproved } from '../BankTransactionStatusTypes';
 import calculateBalance from '../common/calculateBalances';
 

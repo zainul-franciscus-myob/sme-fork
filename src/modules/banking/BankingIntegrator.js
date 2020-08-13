@@ -2,6 +2,7 @@ import {
   ALLOCATE_TRANSACTION,
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
+  BULK_UNALLOCATE_TRANSACTIONS,
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ATTACHMENTS,
@@ -41,7 +42,10 @@ import {
   getSortBankTransactionsUrlParams,
   getUnallocationPayload,
 } from './bankingSelectors';
-import { getBulkAllocationPayload } from './bankingSelectors/bulkAllocationSelectors';
+import {
+  getBulkAllocationPayload,
+  getBulkUnallocationPayload,
+} from './bankingSelectors/bulkActionSelectors';
 import {
   getCreateTransferMoneyPayload,
   getMatchTransferMoneyPayload,
@@ -149,6 +153,23 @@ const createBankingIntegrator = (store, integration) => ({
     const urlParams = { businessId: getBusinessId(state) };
 
     const content = getBulkAllocationPayload(state);
+
+    integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  bulkUnallocateTransactions: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = BULK_UNALLOCATE_TRANSACTIONS;
+    const urlParams = { businessId: getBusinessId(state) };
+
+    const content = getBulkUnallocationPayload(state);
 
     integration.write({
       intent,

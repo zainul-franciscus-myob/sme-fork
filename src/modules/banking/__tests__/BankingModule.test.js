@@ -1,7 +1,9 @@
 import {
   ALLOCATE_TRANSACTION,
   BULK_ALLOCATE_TRANSACTIONS,
+  BULK_UNALLOCATE_TRANSACTIONS,
   CLOSE_BULK_ALLOCATION,
+  CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
@@ -116,7 +118,7 @@ describe('BankingModule', () => {
     return toolbox;
   };
 
-  const setUpWithTransactionsForBulkAllocation = () => {
+  const setUpWithTransactionsSelected = () => {
     const toolbox = setUpWithRun();
     const { module, store } = toolbox;
 
@@ -128,13 +130,23 @@ describe('BankingModule', () => {
   };
 
   const setUpWithOpenBulkAllocation = () => {
-    const toolbox = setUpWithTransactionsForBulkAllocation();
+    const toolbox = setUpWithTransactionsSelected();
     const { module, store } = toolbox;
 
     module.dispatcher.openBulkAllocation();
 
     store.resetActions();
 
+    return toolbox;
+  };
+
+  const setUpWithOpenBulkUnallocation = () => {
+    const toolbox = setUpWithTransactionsSelected();
+    const { module, store } = toolbox;
+
+    module.dispatcher.openBulkUnallocateModal();
+
+    store.resetActions();
     return toolbox;
   };
 
@@ -878,7 +890,7 @@ describe('BankingModule', () => {
 
   describe('closeBulkAllocation', () => {
     it('should reset fields when Bulk Allocation is closed', () => {
-      const { module, store } = setUpWithTransactionsForBulkAllocation();
+      const { module, store } = setUpWithTransactionsSelected();
 
       module.closeBulkAllocation(false);
 
@@ -1011,6 +1023,85 @@ describe('BankingModule', () => {
         {
           intent: RESET_BULK_ALLOCATION,
         },
+      ]);
+    });
+  });
+
+  describe('confirmBulkUnallocation', () => {
+    it('should successfully bulk unallocate', () => {
+      const { module, store, integration } = setUpWithOpenBulkUnallocation();
+
+      module.bulkUnallocateTransactions();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: CLOSE_MODAL,
+        },
+        {
+          intent: COLLAPSE_TRANSACTION_LINE,
+        },
+        {
+          intent: SET_BULK_LOADING_STATE,
+          isLoading: true,
+        },
+        {
+          intent: SET_BULK_LOADING_STATE,
+          isLoading: false,
+        },
+        {
+          intent: UNSELECT_TRANSACTIONS,
+        },
+        expect.objectContaining({
+          intent: BULK_UNALLOCATE_TRANSACTIONS,
+        }),
+        {
+          intent: SET_ALERT,
+          alert: {
+            type: 'success',
+            message: expect.any(String),
+          },
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: BULK_UNALLOCATE_TRANSACTIONS,
+        }),
+      ]);
+    });
+
+    it('should fail to bulk unallocate', () => {
+      const { module, store, integration } = setUpWithOpenBulkUnallocation();
+      integration.mapFailure(BULK_UNALLOCATE_TRANSACTIONS);
+
+      module.bulkUnallocateTransactions();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: CLOSE_MODAL,
+        },
+        {
+          intent: COLLAPSE_TRANSACTION_LINE,
+        },
+        {
+          intent: SET_BULK_LOADING_STATE,
+          isLoading: true,
+        },
+        {
+          intent: SET_BULK_LOADING_STATE,
+          isLoading: false,
+        },
+        {
+          intent: SET_ALERT,
+          alert: {
+            type: 'danger',
+            message: expect.any(String),
+          },
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: BULK_UNALLOCATE_TRANSACTIONS,
+        }),
       ]);
     });
   });

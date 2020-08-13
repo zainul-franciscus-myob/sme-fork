@@ -6,6 +6,7 @@ import {
   APPEND_NEW_ACCOUNT_TO_ALLOCATE_TABLE,
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
+  BULK_UNALLOCATE_TRANSACTIONS,
   CLOSE_BULK_ALLOCATION,
   CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
@@ -153,6 +154,13 @@ const createBankingDispatcher = (store) => ({
     });
   },
 
+  openBulkUnallocateModal: () => {
+    store.dispatch({
+      intent: OPEN_MODAL,
+      modalType: ModalTypes.BULK_UNALLOCATE,
+    });
+  },
+
   loadBankTransactions: (payload) => {
     store.dispatch({
       intent: LOAD_BANK_TRANSACTIONS,
@@ -198,9 +206,16 @@ const createBankingDispatcher = (store) => ({
     });
   },
 
-  unAllocateTransaction: ({ entries }) => {
+  unallocateTransaction: ({ entries }) => {
     store.dispatch({
       intent: UNALLOCATE_TRANSACTION,
+      entries,
+    });
+  },
+
+  bulkUnallocateTransactions: ({ entries }) => {
+    store.dispatch({
+      intent: BULK_UNALLOCATE_TRANSACTIONS,
       entries,
     });
   },

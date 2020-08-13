@@ -37,6 +37,10 @@ export const UNALLOCATE_TRANSACTION = Symbol(
   'Unallocate an allocated bank transaction'
 );
 
+export const BULK_UNALLOCATE_TRANSACTIONS = Symbol(
+  'Unallocate allocated bank transactions'
+);
+
 export const SET_OPEN_ENTRY_LOADING_STATE = Symbol(
   'Set bank transaction open entry loading state'
 );
