@@ -1,4 +1,5 @@
 import {
+  Alert,
   Checkbox,
   CheckboxGroup,
   FieldGroup,
@@ -16,6 +17,7 @@ import {
   getIsHourlyView,
   getIsJobKeeper,
   getIsWagePayItemModalCreating,
+  getShowEtpAlert,
   getWage,
 } from '../../selectors/WagePayItemModalSelectors';
 import HourlySection from './WagePayItemHourlySection';
@@ -35,6 +37,7 @@ const WagePayItemDetails = ({
   isJobKeeper,
   onJobKeeperChange,
   isWagePayItemModalCreating,
+  showEtpAlert,
 }) => (
   <FieldGroup label="Details">
     {featureToggles && featureToggles.isJobKeeperTabEnabled && (
@@ -85,6 +88,13 @@ const WagePayItemDetails = ({
       ))}
     </Select>
 
+    {showEtpAlert && (
+      <Alert type="warning">
+        Changing the ATO reporting category, does not update the category for
+        previous pay runs recorded with the ATO.
+      </Alert>
+    )}
+
     <RadioButtonGroup
       label="Pay basis"
       name="payBasis"
@@ -114,6 +124,7 @@ const mapStateToProps = (state) => ({
   isHourlyView: getIsHourlyView(state),
   isJobKeeper: getIsJobKeeper(state),
   isWagePayItemModalCreating: getIsWagePayItemModalCreating(state),
+  showEtpAlert: getShowEtpAlert(state),
 });
 
 export default connect(mapStateToProps)(WagePayItemDetails);

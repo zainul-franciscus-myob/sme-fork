@@ -1,10 +1,38 @@
 import {
+  LOAD_WAGE_PAY_ITEM_MODAL,
   MARK_WAGE_AS_JOBKEEPER,
   TOGGLE_JOB_KEEPER,
 } from '../../../../EmployeeIntents';
 import employeeDetailsReducer from '../../../employeeDetailReducer';
 
 describe('wagePayItemReducer', () => {
+  describe('loadWagePayItemModal', () => {
+    it('should load with original atoReportingCategory', () => {
+      const expected = 'ETPTaxableComponent';
+
+      const state = {
+        wagePayItemModal: {
+          wage: {
+            payItemId: '',
+          },
+        },
+      };
+      const actual = employeeDetailsReducer(state, {
+        intent: LOAD_WAGE_PAY_ITEM_MODAL,
+        response: {
+          wage: {
+            payItemId: '1',
+            atoReportingCategory: expected,
+          },
+        },
+      });
+
+      expect(
+        actual.wagePayItemModal.originalWageValues.atoReportingCategory
+      ).toBe(expected);
+    });
+  });
+
   describe('toggleJobKeeper', () => {
     describe('creating a pay item', () => {
       const state = {

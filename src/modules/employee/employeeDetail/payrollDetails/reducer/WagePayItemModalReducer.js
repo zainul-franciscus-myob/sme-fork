@@ -43,6 +43,9 @@ const getWagePayItemModalDefaultState = () => ({
   employees: [],
   exemptions: [],
   isJobKeeper: false,
+  originalWageValues: {
+    atoReportingCategory: '',
+  },
 });
 
 const openWagePayItemModal = (state, { id }) => {
@@ -79,6 +82,9 @@ const loadWagePayItemModal = (state, { response }) => ({
     wage: {
       ...state.wagePayItemModal.wage,
       ...response.wage,
+    },
+    originalWageValues: {
+      atoReportingCategory: response.wage.atoReportingCategory,
     },
   },
 });

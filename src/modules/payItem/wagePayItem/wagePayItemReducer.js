@@ -82,6 +82,9 @@ const loadPayItem = (state, action) => ({
   atoReportCategoryList: action.atoReportCategoryList,
   employees: action.employees,
   exemptions: action.exemptions,
+  originalWageValues: {
+    atoReportingCategory: action.wage.atoReportingCategory,
+  },
 });
 
 const updatePayItemDetails = (state, { key, value }) => ({
