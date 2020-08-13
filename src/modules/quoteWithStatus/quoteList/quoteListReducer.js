@@ -23,6 +23,7 @@ const defaultFilterOptions = {
   dateFrom: formatIsoDate(getDefaultDateRange()),
   dateTo: formatIsoDate(new Date()),
   keywords: '',
+  status: 'All',
 };
 
 const defaultSortOptions = {

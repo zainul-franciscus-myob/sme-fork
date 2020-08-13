@@ -15,6 +15,7 @@ describe('quoteListReducer', () => {
         dateTo: '2020-01-01',
         keywords: '',
         customerId: undefined,
+        status: 'All',
       },
       sortOrder: 'desc',
       orderBy: 'DateOccurred',
@@ -34,6 +35,7 @@ describe('quoteListReducer', () => {
             dateTo: '2021-01-01',
             keywords: '🦒',
             customerId: '1',
+            status: 'All',
           },
           sortOrder: 'asc',
           orderBy: 'DisplayId',
@@ -51,6 +53,7 @@ describe('quoteListReducer', () => {
           dateTo: expect.any(String),
           keywords: '',
           customerId: undefined,
+          status: 'All',
         });
         expect(actual.sortOrder).toEqual('desc');
         expect(actual.orderBy).toEqual('DateOccurred');
@@ -67,6 +70,7 @@ describe('quoteListReducer', () => {
             dateTo: '2021-01-01',
             keywords: '🦒',
             customerId: '1',
+            status: 'All',
           },
           sortOrder: 'asc',
           orderBy: 'DisplayId',
@@ -78,6 +82,7 @@ describe('quoteListReducer', () => {
         dateTo: '2021-01-01',
         keywords: '🦒',
         customerId: '1',
+        status: 'All',
       });
       expect(actual.sortOrder).toEqual('asc');
       expect(actual.orderBy).toEqual('DisplayId');
