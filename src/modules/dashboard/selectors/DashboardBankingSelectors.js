@@ -2,6 +2,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 
 import { getBusinessId, getRegion } from './DashboardSelectors';
 import Config from '../../../Config';
+import TransactionTypes from '../../banking/TransactionTypes';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 import getQueryFromParams from '../../../common/getQueryFromParams/getQueryFromParams';
 
@@ -50,7 +51,7 @@ export const getBankingLink = createSelector(
   getRegion,
   getSelectedBankFeedAccount,
   (businessId, region, bankAccount) =>
-    `/#/${region}/${businessId}/banking?bankAccount=${bankAccount}`
+    `/#/${region}/${businessId}/banking?bankAccount=${bankAccount}&transactionType=${TransactionTypes.UNALLOCATED}`
 );
 
 export const getBankfeedAmount = createStructuredSelector({

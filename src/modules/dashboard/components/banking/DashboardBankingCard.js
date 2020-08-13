@@ -27,7 +27,6 @@ import styles from './DashboardBankingCard.module.css';
 const DashboardBankingCard = ({
   onReload,
   onBankFeedAccountChange,
-  onLinkClick,
   hasError,
   isLoading,
   bankFeedsAccounts,
@@ -90,7 +89,7 @@ const DashboardBankingCard = ({
         ]}
       />
 
-      <DashboardUnallocations onLinkClick={onLinkClick} />
+      <DashboardUnallocations />
     </div>
   );
 

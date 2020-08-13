@@ -15,6 +15,7 @@ import {
   getOpenEntryDefaultTabId,
   getOpenPosition,
   getRegion,
+  getURLParams,
 } from './bankingSelectors';
 import {
   getCanSelectMore,
@@ -50,13 +51,20 @@ import debounce from '../../common/debounce/debounce';
 import openBlob from '../../common/blobOpener/openBlob';
 
 export default class BankingModule {
-  constructor({ integration, setRootView, isToggleOn, featureToggles }) {
+  constructor({
+    integration,
+    setRootView,
+    isToggleOn,
+    featureToggles,
+    replaceURLParams,
+  }) {
     this.store = new Store(bankingReducer);
     this.setRootView = setRootView;
     this.dispatcher = createBankingDispatcher(this.store);
     this.integrator = createBankingIntegrator(this.store, integration);
     this.isToggleOn = isToggleOn;
     this.featureToggles = featureToggles;
+    this.replaceURLParams = replaceURLParams;
     this.bankingRuleModule = new BankingRuleModule({
       integration,
       store: this.store,
@@ -398,6 +406,7 @@ export default class BankingModule {
   };
 
   filterBankTransactions = () => {
+    this.updateURLParams();
     const state = this.store.getState();
     if (getIsEntryLoading(state)) {
       return;
@@ -1203,6 +1212,11 @@ export default class BankingModule {
     };
 
     this.integrator.loadJobAfterCreate({ id, onSuccess, onFailure });
+  };
+
+  updateURLParams = () => {
+    const state = this.store.getState();
+    this.replaceURLParams(getURLParams(state));
   };
 
   run(context) {

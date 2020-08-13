@@ -278,10 +278,12 @@ const setAlert = (state, action) => ({
 const getTransactionType = (transactionType) => {
   switch (transactionType) {
     case 'Linked':
+    case TransactionTypes.ALLOCATED:
       return TransactionTypes.ALLOCATED;
     case 'Unlinked':
+    case TransactionTypes.UNALLOCATED:
       return TransactionTypes.UNALLOCATED;
-    case 'All':
+    case TransactionTypes.ALL:
       return TransactionTypes.ALL;
     default:
       return TransactionTypes.ALL;

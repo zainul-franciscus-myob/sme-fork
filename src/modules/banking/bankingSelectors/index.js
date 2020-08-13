@@ -466,3 +466,16 @@ export const getSortBankTransactionsParams = (state, orderBy) => ({
 
 export const getIsHovering = (state, index) => state.hoverIndex === index;
 export const getIsFocused = (state, index) => state.focusIndex === index;
+
+export const getURLParams = createSelector(
+  getFilterOptions,
+  ({ transactionType, dateFrom, dateTo, bankAccount, keywords }) => {
+    return {
+      transactionType,
+      dateFrom,
+      dateTo,
+      bankAccount,
+      keywords,
+    };
+  }
+);

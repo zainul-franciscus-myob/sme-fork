@@ -9,15 +9,24 @@ const getBankingRoutes = ({
   isToggleOn,
   featureToggles,
   navigateTo,
+  replaceURLParams,
 }) => [
   {
     name: RouteName.BANKING_TRANSACTION_LIST,
     path: '/:region/:businessId/banking/',
+    allowedParams: [
+      'transactionType',
+      'dateFrom',
+      'dateTo',
+      'bankAccount',
+      'keywords',
+    ],
     module: new BankingModule({
       integration,
       setRootView,
       isToggleOn,
       featureToggles,
+      replaceURLParams,
     }),
     documentTitle: 'Bank feed transactions',
   },

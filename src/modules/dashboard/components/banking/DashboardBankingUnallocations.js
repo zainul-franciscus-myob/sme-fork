@@ -1,4 +1,4 @@
-import { Button, Icons } from '@myob/myob-widgets';
+import { Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -6,26 +6,19 @@ import {
   getBankingLink,
   getUnallocatedTransactionsTotal,
 } from '../../selectors/DashboardBankingSelectors';
+import LinkButton from '../../../../components/Button/LinkButton';
 import foldersImage from '../folders-papers.svg';
 import styles from './DashboardBankingUnallocations.module.css';
 
-const handleLinkClick = (handler, link) => () => {
-  handler(link);
-};
-
-const DashboardUnallocations = ({ count, bankingLink, onLinkClick }) => (
+const DashboardUnallocations = ({ count, bankingLink }) => (
   <div className={styles.container}>
     <img src={foldersImage} alt="" />
     <div>
       <h4 className={styles.title}>Unallocated transactions</h4>
       <h1 className={styles.transactionCount}>{count}</h1>
-      <Button
-        type="link"
-        icon={<Icons.ArrowRight />}
-        onClick={handleLinkClick(onLinkClick, bankingLink)}
-      >
+      <LinkButton icon={<Icons.ArrowRight />} href={bankingLink}>
         Allocate transactions
-      </Button>
+      </LinkButton>
     </div>
   </div>
 );

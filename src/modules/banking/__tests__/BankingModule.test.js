@@ -28,6 +28,7 @@ import {
   STOP_ENTRY_LOADING_STATE,
   STOP_LOADING_MORE,
   UNSELECT_TRANSACTIONS,
+  UPDATE_FILTER_OPTIONS,
   UPDATE_MATCH_TRANSACTION_OPTIONS,
   UPDATE_PERIOD_DATE_RANGE,
 } from '../BankingIntents';
@@ -36,8 +37,10 @@ import BankTransactionStatusTypes from '../BankTransactionStatusTypes';
 import BankingModule from '../BankingModule';
 import MatchTransactionShowType from '../MatchTransactionShowType';
 import ModalTypes from '../ModalTypes';
+import Periods from '../../../components/PeriodPicker/Periods';
 import TestIntegration from '../../../integration/TestIntegration';
 import TestStore from '../../../store/TestStore';
+import TransactionTypes from '../TransactionTypes';
 import bankingReducer from '../bankingReducer';
 import createBankingDispatcher from '../BankingDispatcher';
 import createBankingIntegrator from '../BankingIntegrator';
@@ -132,6 +135,12 @@ describe('BankingModule', () => {
 
     store.resetActions();
 
+    return toolbox;
+  };
+
+  const setupWithReplaceURLParams = () => {
+    const toolbox = setUpWithRun();
+    toolbox.module.replaceURLParams = jest.fn();
     return toolbox;
   };
 
@@ -362,88 +371,6 @@ describe('BankingModule', () => {
           params: expect.objectContaining({
             orderBy: 'Date',
           }),
-        }),
-      ]);
-    });
-  });
-
-  describe('filterBankTransactions', () => {
-    it('successfully filters when entry is not loading', () => {
-      const { store, integration, module } = setUpWithRun();
-
-      module.filterBankTransactions();
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: COLLAPSE_TRANSACTION_LINE,
-        },
-        {
-          intent: SET_TABLE_LOADING_STATE,
-          isTableLoading: true,
-        },
-        {
-          intent: SET_TABLE_LOADING_STATE,
-          isTableLoading: false,
-        },
-        expect.objectContaining({
-          intent: SORT_AND_FILTER_BANK_TRANSACTIONS,
-          isSort: false,
-        }),
-      ]);
-
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: SORT_AND_FILTER_BANK_TRANSACTIONS,
-        }),
-      ]);
-    });
-
-    it('does not filter if entry is loading', () => {
-      const { store, integration, module } = setUp();
-      store.state = {
-        isOpenEntryLoading: true,
-      };
-      store.resetActions();
-      integration.resetRequests();
-
-      module.filterBankTransactions('Date');
-
-      expect(store.getActions()).toEqual([]);
-      expect(integration.getRequests()).toEqual([]);
-    });
-
-    it('fails to filter', () => {
-      const { store, integration, module } = setUpWithRun();
-      integration.mapFailure(SORT_AND_FILTER_BANK_TRANSACTIONS, {
-        message: 'Filter failure',
-      });
-
-      module.filterBankTransactions();
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: COLLAPSE_TRANSACTION_LINE,
-        },
-        {
-          intent: SET_TABLE_LOADING_STATE,
-          isTableLoading: true,
-        },
-        {
-          intent: SET_TABLE_LOADING_STATE,
-          isTableLoading: false,
-        },
-        {
-          intent: SET_ALERT,
-          alert: {
-            message: 'Filter failure',
-            type: 'danger',
-          },
-        },
-      ]);
-
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: SORT_AND_FILTER_BANK_TRANSACTIONS,
         }),
       ]);
     });
@@ -916,33 +843,6 @@ describe('BankingModule', () => {
     });
   });
 
-  describe('updatePeriodDateRange', () => {
-    it('should update the period date range and filter bank transactions list', () => {
-      const { module, integration, store } = setUpWithRun();
-
-      store.resetActions();
-      integration.resetRequests();
-
-      module.updatePeriodDateRange({
-        period: 'monthly',
-        dateFrom: '20/02/2020',
-        dateTo: '20/02/2020',
-      });
-
-      expect(store.getActions()[0]).toEqual({
-        intent: UPDATE_PERIOD_DATE_RANGE,
-        period: 'monthly',
-        dateFrom: '20/02/2020',
-        dateTo: '20/02/2020',
-      });
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: SORT_AND_FILTER_BANK_TRANSACTIONS,
-        }),
-      ]);
-    });
-  });
-
   describe('allocateTransaction', () => {
     it('should allocate a transaction', () => {
       const { module, store, integration } = setUpWithRun();
@@ -1112,6 +1012,306 @@ describe('BankingModule', () => {
           intent: RESET_BULK_ALLOCATION,
         },
       ]);
+    });
+  });
+
+  describe('filtering', () => {
+    const successfulFilterActions = [
+      {
+        intent: COLLAPSE_TRANSACTION_LINE,
+      },
+      {
+        intent: SET_TABLE_LOADING_STATE,
+        isTableLoading: true,
+      },
+      {
+        intent: SET_TABLE_LOADING_STATE,
+        isTableLoading: false,
+      },
+      expect.objectContaining({
+        intent: SORT_AND_FILTER_BANK_TRANSACTIONS,
+      }),
+    ];
+
+    const failedFilterActions = [
+      {
+        intent: COLLAPSE_TRANSACTION_LINE,
+      },
+      {
+        intent: SET_TABLE_LOADING_STATE,
+        isTableLoading: true,
+      },
+      {
+        intent: SET_TABLE_LOADING_STATE,
+        isTableLoading: false,
+      },
+      {
+        intent: SET_ALERT,
+        alert: {
+          message: expect.any(String),
+          type: 'danger',
+        },
+      },
+    ];
+
+    describe('updateFilterOptions', () => {
+      const filterName = 'transactionType';
+      const value = TransactionTypes.ALL;
+
+      it('successfully filters', () => {
+        const { module, store, integration } = setupWithReplaceURLParams();
+
+        module.updateFilterOptions({
+          filterName,
+          value,
+        });
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_FILTER_OPTIONS,
+            filterName,
+            value,
+          },
+          ...successfulFilterActions,
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: SORT_AND_FILTER_BANK_TRANSACTIONS,
+            params: expect.objectContaining({
+              [filterName]: value,
+            }),
+          }),
+        ]);
+        expect(module.replaceURLParams).toHaveBeenCalledWith(
+          expect.objectContaining({
+            [filterName]: value,
+          })
+        );
+      });
+
+      it('fails to filter', () => {
+        const { module, store, integration } = setupWithReplaceURLParams();
+        integration.mapFailure(SORT_AND_FILTER_BANK_TRANSACTIONS);
+
+        module.updateFilterOptions({
+          filterName,
+          value,
+        });
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_FILTER_OPTIONS,
+            filterName,
+            value,
+          },
+          ...failedFilterActions,
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: SORT_AND_FILTER_BANK_TRANSACTIONS,
+            params: expect.objectContaining({
+              [filterName]: value,
+            }),
+          }),
+        ]);
+        expect(module.replaceURLParams).toHaveBeenCalledWith(
+          expect.objectContaining({
+            [filterName]: value,
+          })
+        );
+      });
+
+      it('does not filter if entry is loading', () => {
+        const { module, store, integration } = setupWithReplaceURLParams();
+        store.state = {
+          ...store.state,
+          isOpenEntryLoading: true,
+        };
+
+        module.updateFilterOptions({
+          filterName,
+          value,
+        });
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_FILTER_OPTIONS,
+            filterName,
+            value,
+          },
+        ]);
+        expect(integration.getRequests()).toEqual([]);
+      });
+    });
+
+    describe('bankAccountChange', () => {
+      const filterName = 'bankAccount';
+      const value = '1';
+
+      it('successfully filters', () => {
+        const { module, store, integration } = setupWithReplaceURLParams();
+
+        module.bankAccountChange({
+          value,
+        });
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_FILTER_OPTIONS,
+            filterName,
+            value,
+          },
+          ...successfulFilterActions,
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: SORT_AND_FILTER_BANK_TRANSACTIONS,
+            params: expect.objectContaining({
+              [filterName]: value,
+            }),
+          }),
+        ]);
+        expect(module.replaceURLParams).toHaveBeenCalledWith(
+          expect.objectContaining({
+            [filterName]: value,
+          })
+        );
+      });
+
+      it('fails to filter', () => {
+        const { module, store, integration } = setupWithReplaceURLParams();
+        integration.mapFailure(SORT_AND_FILTER_BANK_TRANSACTIONS);
+
+        module.bankAccountChange({
+          value,
+        });
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_FILTER_OPTIONS,
+            filterName,
+            value,
+          },
+          ...failedFilterActions,
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: SORT_AND_FILTER_BANK_TRANSACTIONS,
+            params: expect.objectContaining({
+              [filterName]: value,
+            }),
+          }),
+        ]);
+        expect(module.replaceURLParams).toHaveBeenCalledWith(
+          expect.objectContaining({
+            [filterName]: value,
+          })
+        );
+      });
+
+      it('does not filter if entry is loading', () => {
+        const { module, store, integration } = setupWithReplaceURLParams();
+        store.state = {
+          ...store.state,
+          isOpenEntryLoading: true,
+        };
+
+        module.bankAccountChange({
+          value,
+        });
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_FILTER_OPTIONS,
+            filterName,
+            value,
+          },
+        ]);
+        expect(integration.getRequests()).toEqual([]);
+      });
+    });
+
+    describe('updatePeriodDateRange', () => {
+      const periodDateRange = {
+        dateFrom: '2020-02-02',
+        dateTo: '2020-08-02',
+        period: Periods.custom,
+      };
+
+      it('successfully filters', () => {
+        const { module, store, integration } = setupWithReplaceURLParams();
+
+        module.updatePeriodDateRange(periodDateRange);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_PERIOD_DATE_RANGE,
+            ...periodDateRange,
+          },
+          ...successfulFilterActions,
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: SORT_AND_FILTER_BANK_TRANSACTIONS,
+            params: expect.objectContaining({
+              ...periodDateRange,
+            }),
+          }),
+        ]);
+        expect(module.replaceURLParams).toHaveBeenCalledWith(
+          expect.objectContaining({
+            dateFrom: periodDateRange.dateFrom,
+            dateTo: periodDateRange.dateTo,
+          })
+        );
+      });
+
+      it('fails to filter', () => {
+        const { module, store, integration } = setupWithReplaceURLParams();
+        integration.mapFailure(SORT_AND_FILTER_BANK_TRANSACTIONS);
+
+        module.updatePeriodDateRange(periodDateRange);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_PERIOD_DATE_RANGE,
+            ...periodDateRange,
+          },
+          ...failedFilterActions,
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: SORT_AND_FILTER_BANK_TRANSACTIONS,
+            params: expect.objectContaining({
+              ...periodDateRange,
+            }),
+          }),
+        ]);
+        expect(module.replaceURLParams).toHaveBeenCalledWith(
+          expect.objectContaining({
+            dateFrom: periodDateRange.dateFrom,
+            dateTo: periodDateRange.dateTo,
+          })
+        );
+      });
+
+      it('does not filter if entry is loading', () => {
+        const { module, store, integration } = setupWithReplaceURLParams();
+        store.state = {
+          ...store.state,
+          isOpenEntryLoading: true,
+        };
+
+        module.updatePeriodDateRange(periodDateRange);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_PERIOD_DATE_RANGE,
+            ...periodDateRange,
+          },
+        ]);
+        expect(integration.getRequests()).toEqual([]);
+      });
     });
   });
 });

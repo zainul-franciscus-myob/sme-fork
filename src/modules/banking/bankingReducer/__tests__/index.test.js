@@ -22,8 +22,10 @@ describe('bankingReducer', () => {
   describe('setInitialState', () => {
     it.each([
       ['Linked', TransactionTypes.ALLOCATED],
+      [TransactionTypes.ALLOCATED, TransactionTypes.ALLOCATED],
       ['Unlinked', TransactionTypes.UNALLOCATED],
-      ['All', TransactionTypes.ALL],
+      [TransactionTypes.UNALLOCATED, TransactionTypes.UNALLOCATED],
+      [TransactionTypes.ALL, TransactionTypes.ALL],
       ['random-value', TransactionTypes.ALL],
     ])(
       'given %s it should set the transaction type to %s',

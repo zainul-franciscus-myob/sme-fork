@@ -91,7 +91,6 @@ const DashboardView = ({
           {shouldShowBanking && (
             <DashboardBankingCard
               onReload={onBankingReload}
-              onLinkClick={onLinkClick}
               onBankFeedAccountChange={onBankFeedAccountChange}
             />
           )}
