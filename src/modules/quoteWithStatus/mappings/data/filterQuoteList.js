@@ -9,6 +9,8 @@ export default {
       displayDate: '30/01/2019',
       displayAmount: '200.00',
       displayExpiryDate: '12/04/2019',
+      status: 'Open',
+      isOpenAndExpired: true,
     },
     {
       id: '4',
@@ -18,6 +20,8 @@ export default {
       displayDate: '15/02/2019',
       displayAmount: '2,652.00',
       displayExpiryDate: '24/05/2019',
+      status: 'Declined',
+      isOpenAndExpired: false,
     },
   ],
   pagination: {

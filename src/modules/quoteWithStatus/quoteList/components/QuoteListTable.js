@@ -106,7 +106,12 @@ const QuoteListTable = ({
         />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.status}>
-        <HeaderSort title="Status" sortName="StatusSort" />
+        <HeaderSort
+          title="Status"
+          sortName="Status"
+          activeSort={order}
+          onSort={onSort}
+        />
       </Table.HeaderItem>
     </Table.Header>
   );
