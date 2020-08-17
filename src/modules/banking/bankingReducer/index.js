@@ -293,7 +293,7 @@ const getTransactionType = (transactionType) => {
 
 const setInitialState = (state, action) => {
   const transactionType = getTransactionType(action.context.transactionType);
-  const { bankAccount } = action.context;
+  const { bankAccount, dateFrom, dateTo, keywords } = action.context;
   const { period } = state.filterOptions;
 
   const datesWithDefaultPeriod = getDateRangeByPeriodAndRegion(
@@ -302,32 +302,24 @@ const setInitialState = (state, action) => {
     period
   );
 
-  const setDate = (date, dateInState) => {
-    const dateObject = new Date(date);
-    return Number.isNaN(dateObject.getDate())
-      ? dateInState
-      : formatIsoDate(dateObject);
-  };
-
-  const datesFromContext =
-    transactionType === TransactionTypes.ALLOCATED
-      ? {
-          dateFrom: setDate(
-            action.context.dateFrom,
-            datesWithDefaultPeriod.dateFrom
-          ),
-          dateTo: setDate(action.context.dateTo, datesWithDefaultPeriod.dateTo),
-          period: Periods.custom,
-        }
-      : {
-          ...datesWithDefaultPeriod,
-        };
+  const isValidDate = (dateString) =>
+    !Number.isNaN(new Date(dateString).getDate());
+  const parseDate = (dateString) => formatIsoDate(new Date(dateString));
 
   const filterOptions = {
-    ...state.filterOptions,
-    ...datesFromContext,
     transactionType,
     bankAccount,
+    keywords,
+    dateFrom: isValidDate(dateFrom)
+      ? parseDate(dateFrom)
+      : datesWithDefaultPeriod.dateFrom,
+    dateTo: isValidDate(dateTo)
+      ? parseDate(dateTo)
+      : datesWithDefaultPeriod.dateTo,
+    period:
+      isValidDate(dateFrom) || isValidDate(dateTo)
+        ? Periods.custom
+        : datesWithDefaultPeriod.period,
   };
 
   return {

@@ -49,40 +49,6 @@ describe('bankingReducer', () => {
       }
     );
 
-    it('should use custom period if transaction type in context is Linked', () => {
-      const state = {
-        filterOptions: {
-          period: Periods.thisMonth,
-        },
-      };
-
-      const action = {
-        intent: SET_INITIAL_STATE,
-        context: { transactionType: 'Linked' },
-      };
-
-      const actual = bankingReducer(state, action);
-
-      expect(actual.filterOptions.period).toEqual(Periods.custom);
-    });
-
-    it('should use default period if transaction type in context is not Linked', () => {
-      const state = {
-        filterOptions: {
-          period: Periods.thisMonth,
-        },
-      };
-
-      const action = {
-        intent: SET_INITIAL_STATE,
-        context: { transactionType: 'All' },
-      };
-
-      const actual = bankingReducer(state, action);
-
-      expect(actual.filterOptions.period).toEqual(Periods.thisMonth);
-    });
-
     it('should set dates if values given in context', () => {
       const state = {
         filterOptions: {
@@ -103,6 +69,7 @@ describe('bankingReducer', () => {
 
       expect(actual.filterOptions.dateFrom).toEqual('2019-12-04');
       expect(actual.filterOptions.dateTo).toEqual('2020-12-04');
+      expect(actual.filterOptions.period).toEqual(Periods.custom);
     });
 
     it('should calculate dates based on default period if values not given in context', () => {
