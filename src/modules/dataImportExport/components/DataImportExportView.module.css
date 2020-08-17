@@ -1,0 +1,14 @@
+.feedbackLink {
+  padding-bottom: 0.6rem;
+  padding-left: 0.8rem;
+  border: 0;
+}
+
+.feedbackMessage {
+  margin-left: 0.3rem;
+}
+
+.feedbackIcon {
+  position: relative;
+  top: 0.4rem;
+}

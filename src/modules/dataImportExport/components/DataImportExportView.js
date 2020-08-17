@@ -1,4 +1,4 @@
-import { Card, PageHead } from '@myob/myob-widgets';
+import { Button, Card, Icons, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -19,6 +19,7 @@ import ImportTabContent from './ImportTabContent';
 import PageView from '../../../components/PageView/PageView';
 import SmallScreenTemplate from '../../../components/SmallScreenTemplate/SmallScreenTemplate';
 import TabItem from '../types/TabItem';
+import styles from './DataImportExportView.module.css';
 
 const DataImportExportView = ({
   alert,
@@ -42,6 +43,7 @@ const DataImportExportView = ({
   onConfirmImportData,
   onDeleteUnusedAccountsChange,
   deleteUnusedAccounts,
+  onFeedbackLinkClick,
 }) => {
   const actions = isDataTypeSelectedForTab && (
     <DataImportExportActions onSaveButtonClick={onSaveButtonClick} />
@@ -88,7 +90,21 @@ const DataImportExportView = ({
   const view = (
     <SmallScreenTemplate>
       {alertComponent}
-      <PageHead title="Import and export data" />
+      <PageHead title="Import and export data">
+        <div>
+          <Icons.Comments className={styles.feedbackIcon} />
+          <span className={styles.feedbackMessage}>
+            Have feedback about the import and export page?
+          </span>
+          <Button
+            className={styles.feedbackLink}
+            type="link"
+            onClick={onFeedbackLinkClick}
+          >
+            Let us know
+          </Button>
+        </div>
+      </PageHead>
       <DataImportExportTabs onSelectTab={onSelectTab} />
       {modalComponent}
       {content}

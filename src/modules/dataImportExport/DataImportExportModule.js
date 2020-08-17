@@ -264,10 +264,15 @@ export default class DataImportExportModule {
     this.replaceURLParams({ exportType: value });
   };
 
+  onFeedbackLinkClick = () =>
+    window.Appcues &&
+    window.Appcues.show('a84f5dc8-ef3e-410c-8052-553114dee1a4');
+
   render = () => {
     const wrappedView = (
       <Provider store={this.store}>
         <DataImportExportView
+          onFeedbackLinkClick={this.onFeedbackLinkClick}
           onDismissAlert={this.dispatcher.dismissAlert}
           onSelectTab={this.dispatcher.setSelectedTab}
           onSaveButtonClick={this.importOrExportData}
