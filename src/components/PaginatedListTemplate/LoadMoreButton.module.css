@@ -3,7 +3,6 @@
   justify-content: center;
   margin-top: var(--flx-spacing-x-small);
   margin-bottom: var(--flx-spacing-x-small);
-  width: var(--flx-font-size-button);
 }
 
 .spinner {
