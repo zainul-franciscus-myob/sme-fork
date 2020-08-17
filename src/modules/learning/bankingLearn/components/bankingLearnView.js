@@ -47,8 +47,8 @@ const BankingLearnView = ({ onClick, region }) => (
           </li>
           <li>
             View live bank transactions from all your connected bank accounts
-            and perform tasks within Essentials such as reconciliation and
-            transaction entries.
+            and perform tasks within MYOB such as reconciliation and transaction
+            entries.
           </li>
         </ol>
 
