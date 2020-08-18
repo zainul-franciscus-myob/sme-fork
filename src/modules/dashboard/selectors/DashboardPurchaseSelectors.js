@@ -10,9 +10,6 @@ const getPurchaseMonth = (state) => state.purchase.month;
 
 export const getIsEmpty = (state) => state.purchase.isEmpty;
 
-export const getFinancialYearStartDate = (state) =>
-  state.purchase.financialYearStartDate;
-
 export const getIsTableEmpty = (state) => state.purchase.entries.length === 0;
 
 export const getPurchaseChart = (state) => state.purchase.chart;

@@ -10,9 +10,6 @@ const getSalesMonth = (state) => state.sales.month;
 
 export const getIsEmpty = (state) => state.sales.isEmpty;
 
-export const getFinancialYearStartDate = (state) =>
-  state.sales.financialYearStartDate;
-
 export const getIsTableEmpty = (state) => state.sales.entries.length === 0;
 
 export const getSalesChart = (state) => state.sales.chart;

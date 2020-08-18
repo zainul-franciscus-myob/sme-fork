@@ -32,7 +32,6 @@ const getDefaultState = () => ({
     layout: '',
     month: '',
     isEmpty: true,
-    financialYearStartDate: '',
     isLoading: true,
     unpaidTotal: '',
     overDueTotal: '',
@@ -45,7 +44,6 @@ const getDefaultState = () => ({
   purchase: {
     month: '',
     isEmpty: true,
-    financialYearStartDate: '',
     isLoading: true,
     unpaidTotal: '',
     overDueTotal: '',
