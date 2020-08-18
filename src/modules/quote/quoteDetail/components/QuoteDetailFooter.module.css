@@ -33,4 +33,11 @@
     min-width: var(--flx-width-field-xl);
     max-width: 70rem;
   }
+
+  .notesPreset {
+    position: absolute;
+    width: var(--flx-width-field-xl);
+  }
+
+  .notesMessage { margin-top: 6.75rem; }
 }

@@ -28,24 +28,26 @@ const QuoteDetailFooter = ({
   <div className={styles.footer}>
     <div className={styles.note}>
       <Combobox
-        name="note"
-        label="Notes to customer"
-        hideLabel={false}
-        metaData={[{ columnName: 'value', showData: true }]}
-        items={commentOptions}
-        onChange={handleNoteChange(onUpdateNote)}
+        className={styles.notesPreset}
         disabled={isReadOnly}
+        hideLabel={false}
+        items={commentOptions}
+        label="Notes to customer"
+        metaData={[{ columnName: 'value', showData: true }]}
+        name="note"
+        onChange={handleNoteChange(onUpdateNote)}
       />
       <TextArea
-        value={note}
-        resize="both"
-        name="note"
-        label="Notes to customer"
-        hideLabel
-        rows={3}
-        onChange={handleInputChange(onUpdateNote)}
+        className={styles.notesMessage}
         disabled={isReadOnly}
+        hideLabel
+        label="Notes to customer"
         maxLength={2000}
+        name="note"
+        onChange={handleInputChange(onUpdateNote)}
+        resize="both"
+        rows={3}
+        value={note}
       />
     </div>
     <LineItemTable.Total>

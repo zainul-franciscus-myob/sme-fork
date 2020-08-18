@@ -26,24 +26,26 @@ const InvoiceDetailNotes = ({
   ) : (
     <div className={styles.notes}>
       <Combobox
-        name="note"
-        label="Notes to customer"
-        hideLabel={false}
+        className={styles.notesPreset}
         disabled={isReadOnly}
-        metaData={[{ columnName: 'value', showData: true }]}
+        hideLabel={false}
         items={commentOptions}
+        label="Notes to customer"
+        metaData={[{ columnName: 'value', showData: true }]}
+        name="note"
         onChange={onNoteChange(onUpdateHeaderOptions)}
       />
       <TextArea
-        value={note}
+        className={styles.notesMessage}
         disabled={isReadOnly}
-        resize="both"
-        name="note"
-        label="Notes to customer"
         hideLabel
-        rows={3}
-        onChange={handleTextAreaChange(onUpdateHeaderOptions)}
+        label="Notes to customer"
         maxLength={2000}
+        name="note"
+        onChange={handleTextAreaChange(onUpdateHeaderOptions)}
+        resize="both"
+        rows={3}
+        value={note}
       />
     </div>
   );
