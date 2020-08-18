@@ -74,6 +74,7 @@ export default class EmployeeDetailModule {
         saveEmployee: this.saveEmployee,
         globalCallbacks,
         featureToggles,
+        replaceURLParams,
       }),
       paymentDetails: new PaymentDetailsTabModule({
         integration,
@@ -244,11 +245,18 @@ export default class EmployeeDetailModule {
     }
   };
 
+  selectMainTab = (selectedTab) => {
+    this.dispatcher.setMainTab(selectedTab);
+
+    const state = this.store.getState();
+    this.replaceURLParams(getURLParams(state));
+  };
+
   render = () => {
     const employeeDetailView = (
       <EmployeeDetailView
         tabViews={this.subModules}
-        onMainTabSelected={this.dispatcher.setMainTab}
+        onMainTabSelected={this.selectMainTab}
         onCancelButtonClick={this.cancelEmployee}
         onSaveButtonClick={this.saveButtonClick}
         onDeleteButtonClick={this.openDeleteModal}
@@ -271,8 +279,6 @@ export default class EmployeeDetailModule {
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
   };
-
-  updateURLFromState = (state) => this.replaceURLParams(getURLParams(state));
 
   saveHandler = () => {
     const state = this.store.getState();
@@ -340,7 +346,6 @@ export default class EmployeeDetailModule {
       ),
     });
     this.dispatcher.setInitialState(context);
-    this.store.subscribe(this.updateURLFromState);
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.readMessages();

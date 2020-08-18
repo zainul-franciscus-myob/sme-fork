@@ -9,7 +9,7 @@ import {
   getIsWageDetailsInputChangedOnBlur,
   getPayPeriodHours,
 } from './selectors/PayrollWageSelectors';
-import { getBusinessId } from '../EmployeeDetailSelectors';
+import { getBusinessId, getURLParams } from '../EmployeeDetailSelectors';
 import {
   getCalculatedWagePayItemAmount,
   getIsAmountRuleApplied,
@@ -65,6 +65,7 @@ export default class PayrollDetailsTabModule {
     pushMessage,
     saveEmployee,
     featureToggles,
+    replaceURLParams,
   }) {
     this.integration = integration;
     this.pushMessage = pushMessage;
@@ -83,6 +84,7 @@ export default class PayrollDetailsTabModule {
       onLoggedIn: this.onLoggedIn,
       onCancel: this.closeModal,
     });
+    this.replaceURLParams = replaceURLParams;
   }
 
   updatePayrollWagePayBasisAndStandardPayItems = ({ value }) => {
@@ -727,6 +729,12 @@ export default class PayrollDetailsTabModule {
     this.saveEmployee();
   };
 
+  selectSubTab = (selectedTab) => {
+    this.dispatcher.setSubTab(selectedTab);
+    const state = this.store.getState();
+    this.replaceURLParams(getURLParams(state));
+  };
+
   getView() {
     const stsLoginModal = this.stsLoginModal.getView();
     const taxTableCalculationModal = this.subModules.taxTableCalculationModal.render();
@@ -735,7 +743,7 @@ export default class PayrollDetailsTabModule {
         {stsLoginModal}
         {taxTableCalculationModal}
         <EmployeeDetailPayrollDetails
-          onSubTabSelected={this.dispatcher.setSubTab}
+          onSubTabSelected={this.selectSubTab}
           onEmploymentDetailsChange={
             this.dispatcher.updatePayrollEmploymentDetails
           }
