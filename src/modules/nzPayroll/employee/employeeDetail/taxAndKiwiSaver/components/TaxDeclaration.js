@@ -1,9 +1,11 @@
-import { FieldGroup, Input, Select } from '@myob/myob-widgets';
+import { FieldGroup, Select } from '@myob/myob-widgets';
 import React from 'react';
+
+import TfnInput from '../../../../../../components/autoFormatter/TfnInput/TfnInput';
 
 const TaxDeclaration = ({ taxCodeOptions = [], tax = {}, onInputChange }) => (
   <FieldGroup label="Tax declaration">
-    <Input
+    <TfnInput
       name="irdNumber"
       label="IRD number"
       requiredLabel="IRD number is required"

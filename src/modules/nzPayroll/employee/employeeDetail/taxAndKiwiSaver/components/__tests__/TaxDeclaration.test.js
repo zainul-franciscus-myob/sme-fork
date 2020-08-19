@@ -7,7 +7,7 @@ describe('TaxDeclaration', () => {
   const props = {
     onInputChange: jest.fn(),
 
-    tax: { irdNumber: '999-888-77', taxCode: 'ND' },
+    tax: { irdNumber: '999 888 777', taxCode: 'ND' },
 
     taxCodeOptions: [
       { key: 'M', value: 'M' },
