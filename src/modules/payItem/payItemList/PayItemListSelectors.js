@@ -54,10 +54,6 @@ export const getTab = createSelector(getStateTab, (stateTab) => {
   return isValidTab ? stateTab : tabIdValues[0];
 });
 
-export const getUrlTabParams = createStructuredSelector({
-  tab: getTab,
-});
-
 const flipSortOrder = (sortOrder) => (sortOrder === 'desc' ? 'asc' : 'desc');
 
 const getPayItemEntryLink = (entry, businessId, region, payItemType) => {

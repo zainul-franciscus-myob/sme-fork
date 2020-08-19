@@ -42,7 +42,6 @@ import {
   getTab,
   getTabUrl,
   getUrlParams,
-  getUrlTabParams,
 } from './PayItemListSelectors';
 import { tabIds } from './tabItems';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -100,6 +99,7 @@ export default class PayItemListModule {
       this.openUnsavedModal(url);
     } else {
       this.setTab(selectedTab);
+      this.replaceURLParams({ tab: selectedTab });
       this.loadTabContentList();
     }
   };
@@ -369,8 +369,6 @@ export default class PayItemListModule {
     this.redirectToUrl(url);
   };
 
-  updateURLFromState = (state) => this.replaceURLParams(getUrlTabParams(state));
-
   setLoadingState = (loadingState) => {
     this.dispatcher.setLoadingState(loadingState);
   };
@@ -403,7 +401,6 @@ export default class PayItemListModule {
 
   run(context) {
     this.dispatcher.setInitialState(context);
-    this.store.subscribe(this.updateURLFromState);
     this.render();
     this.readMessages();
     this.loadPayrollSettings();
