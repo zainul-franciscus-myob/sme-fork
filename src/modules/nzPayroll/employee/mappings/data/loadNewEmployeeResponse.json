@@ -19,7 +19,7 @@
       "nextAnniversaryDate":""
     },
     "tax":{
-      "irdNumber": "",
+      "irdNumber": "000000000",
       "taxCode": "ND"
     }
   },
@@ -34,5 +34,16 @@
     { "id": "Fortnightly", "displayName": "Fortnightly" },
     { "id": "FourWeekly", "displayName": "Four weekly" },
     { "id": "Monthly", "displayName": "Monthly" }
+  ],
+  "taxCodeOptions": [
+    { "key": "ND", "value": "ND" },
+    { "key": "M", "value": "M" },
+    { "key": "ME", "value": "ME" },
+    { "key": "SB", "value": "SB" },
+    { "key": "S", "value": "S" },
+    { "key": "SH", "value": "SH" },
+    { "key": "ST", "value": "ST" },
+    { "key": "EDW", "value": "EDW" },
+    { "key": "CAE", "value": "CAE" }
   ]
 }

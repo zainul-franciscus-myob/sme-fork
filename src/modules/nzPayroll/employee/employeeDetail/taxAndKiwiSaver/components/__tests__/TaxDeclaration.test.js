@@ -7,6 +7,8 @@ describe('TaxDeclaration', () => {
   const props = {
     onInputChange: jest.fn(),
 
+    onTaxCodeChange: jest.fn(),
+
     tax: { irdNumber: '999 888 777', taxCode: 'ND' },
 
     taxCodeOptions: [
@@ -35,6 +37,10 @@ describe('TaxDeclaration', () => {
 
       expect(props.onInputChange).toHaveBeenCalledWith({ target });
     });
+
+    it('should be disabled when taxCode is ND', () => {
+      expect(field.prop('disabled')).toBe(true);
+    });
   });
 
   describe('Tax code - Select Input field', () => {
@@ -48,10 +54,11 @@ describe('TaxDeclaration', () => {
       });
     });
 
-    it('should call onInputChange handler', () => {
-      field.props().onChange();
+    it('should call onTaxCodeChange handler', () => {
+      const target = { name: 'taxCode', value: 'M' };
+      field.props().onChange({ target });
 
-      expect(props.onInputChange).toHaveBeenCalled();
+      expect(props.onTaxCodeChange).toHaveBeenCalled();
     });
   });
 });

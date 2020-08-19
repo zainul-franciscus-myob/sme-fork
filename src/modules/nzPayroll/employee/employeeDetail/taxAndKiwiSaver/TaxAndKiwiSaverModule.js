@@ -10,7 +10,10 @@ export default class TaxAndKiwiSaverModule {
 
   getView() {
     return (
-      <TaxAndKiwiSaverTab onTaxChange={this.dispatcher.updateTaxDetails} />
+      <TaxAndKiwiSaverTab
+        onTaxChange={this.dispatcher.updateTaxDetails}
+        onTaxCodeChange={this.dispatcher.updateTaxCode}
+      />
     );
   }
 }

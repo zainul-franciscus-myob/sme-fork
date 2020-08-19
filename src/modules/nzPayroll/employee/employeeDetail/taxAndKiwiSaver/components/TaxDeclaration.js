@@ -2,8 +2,15 @@ import { FieldGroup, Select } from '@myob/myob-widgets';
 import React from 'react';
 
 import TfnInput from '../../../../../../components/autoFormatter/TfnInput/TfnInput';
+import handleSelectChange from '../../../../../../components/handlers/handleSelectChange';
 
-const TaxDeclaration = ({ taxCodeOptions = [], tax = {}, onInputChange }) => (
+const TaxDeclaration = ({
+  taxCodeOptions = [],
+  tax = {},
+  isIrdNumberEditable,
+  onInputChange,
+  onTaxCodeChange,
+}) => (
   <FieldGroup label="Tax declaration">
     <TfnInput
       name="irdNumber"
@@ -12,15 +19,15 @@ const TaxDeclaration = ({ taxCodeOptions = [], tax = {}, onInputChange }) => (
       width="sm"
       onChange={onInputChange}
       value={tax.irdNumber}
+      disabled={!isIrdNumberEditable}
     />
 
     <Select
       name="taxCode"
       label="Tax code"
-      requiredLabel="Tax code is required"
       width="sm"
       value={tax.taxCode}
-      onChange={onInputChange}
+      onChange={handleSelectChange(onTaxCodeChange)}
     >
       {taxCodeOptions.map(({ key, value }) => (
         <Select.Option key={key} value={key} label={value} />
