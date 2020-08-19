@@ -1,4 +1,9 @@
-import { BaseTemplate, Icons, PageHead } from '@myob/myob-widgets';
+import {
+  BaseTemplate,
+  Alert as FeelixAlert,
+  Icons,
+  PageHead,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -9,6 +14,7 @@ import {
   getLoadingState,
   getModalType,
   getMyDotBankFeedsUrl,
+  getShouldShowDisabledMessaging,
 } from '../BankFeedsSelectors';
 import Alert from './Alert';
 import BankAccounts from './BankAccounts';
@@ -29,6 +35,7 @@ const BankFeedsView = ({
   // isActionDisabled,
   modalType,
   myDotBankFeedUrl,
+  shouldShowDisabledMessaging,
   onBankAccountLinkedAccountChange,
   onCancelBankFeedsLogin,
   onCloseDeleteModal,
@@ -83,6 +90,13 @@ const BankFeedsView = ({
 
   const stickyComponents = (
     <div>
+      {shouldShowDisabledMessaging && (
+        <FeelixAlert type={'info'}>
+          Bank feeds can only be linked to an account when the application
+          process has been complete and only after the first bank feed has
+          arrived. Note that this process can take up to 10 days.
+        </FeelixAlert>
+      )}
       {alertComponent}
       <PageHead title="Manage bank feeds">
         <LinkButton
@@ -123,6 +137,7 @@ const mapStateToProps = (state) => ({
   modalType: getModalType(state),
   myDotBankFeedUrl: getMyDotBankFeedsUrl(state),
   isBankFeedsEmpty: getIsBankFeedsEmpty(state),
+  shouldShowDisabledMessaging: getShouldShowDisabledMessaging(state),
 });
 
 export default connect(mapStateToProps)(BankFeedsView);

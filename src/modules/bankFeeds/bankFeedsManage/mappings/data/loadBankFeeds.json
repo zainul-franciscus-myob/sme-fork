@@ -25,11 +25,35 @@
         ]
       },
       {
-        "id": "52",
-        "financialInstitution": "Commonwealth",
+        "financialInstitution": "ANZ",
         "accountName": "Jimi Hendrix",
         "BSB": "234567",
         "accountNumber": "876543210",
+        "accountSuffix": "000",
+        "status": "Pending",
+        "linkedAccountId": "",
+        "accountOptions": [
+          {
+            "id": "1",
+            "displayName": "Expense 1",
+            "accountType": "Expense",
+            "displayId": "6-134"
+          },
+          {
+            "id": "2",
+            "displayName": "Expense 2",
+            "accountType": "Expense",
+            "displayId": "6-135"
+          }
+        ]
+      },
+      {
+        "financialInstitution": "ANZ",
+        "accountName": "Jimi Hendrix",
+        "BSB": "234567",
+        "accountNumber": "876543210",
+        "accountSuffix": "001",
+        "isPotentialSubAccount": true,
         "status": "Pending",
         "linkedAccountId": "",
         "accountOptions": [

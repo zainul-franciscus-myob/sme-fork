@@ -22,11 +22,11 @@ const getBankAccountsTableResponsiveConfig = (tableConfig) => [
       { columnName: tableConfig.BSB.columnName, styles: { width: '10.0rem' } },
       {
         columnName: tableConfig.accountNumber.columnName,
-        styles: { width: '14.0rem' },
+        styles: { width: '16.0rem' },
       },
       {
         columnName: tableConfig.linkedAccount.columnName,
-        styles: { width: '31.4rem' },
+        styles: { width: '29.4rem' },
       },
       {
         columnName: tableConfig.status.columnName,
