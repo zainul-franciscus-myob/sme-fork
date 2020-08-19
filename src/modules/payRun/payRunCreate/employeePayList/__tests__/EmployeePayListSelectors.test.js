@@ -1155,6 +1155,30 @@ describe('EmployeePayListSelectors', () => {
       );
       expect(shouldShowWarning).toBeFalsy();
     });
+
+    it('should return false when when allocated amount is 0', () => {
+      const underAllocatedPayItemEntry = {
+        payItemId: '38',
+        amount: 100.0,
+        jobs: [
+          {
+            jobId: 1,
+            amount: '0.00',
+            isActive: true,
+          },
+          {
+            jobId: 2,
+            amount: '0.00',
+            isActive: false,
+          },
+        ],
+        ignoreUnderAllocationWarning: true,
+      };
+      const shouldShowWarning = getShouldShowUnderAllocationWarning(
+        underAllocatedPayItemEntry
+      );
+      expect(shouldShowWarning).toBeFalsy();
+    });
   });
 
   describe('getShouldShowOverAllocationError', () => {

@@ -87,12 +87,12 @@ describe('payRunReducer', () => {
               {
                 line: 1,
                 isSubmitting: false,
-                ignoreUnderAllocationWarning: false,
+                ignoreUnderAllocationWarning: true,
               },
               {
                 line: 2,
                 isSubmitting: false,
-                ignoreUnderAllocationWarning: false,
+                ignoreUnderAllocationWarning: true,
               },
             ],
           },
@@ -104,12 +104,12 @@ describe('payRunReducer', () => {
               {
                 line: 3,
                 isSubmitting: false,
-                ignoreUnderAllocationWarning: false,
+                ignoreUnderAllocationWarning: true,
               },
               {
                 line: 4,
                 isSubmitting: false,
-                ignoreUnderAllocationWarning: false,
+                ignoreUnderAllocationWarning: true,
               },
             ],
           },

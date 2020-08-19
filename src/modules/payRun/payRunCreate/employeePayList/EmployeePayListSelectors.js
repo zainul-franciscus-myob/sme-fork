@@ -168,13 +168,18 @@ const buildJobAllocationAmount = (payItem) => {
   };
 };
 
-export const getShouldShowUnderAllocationWarning = (payItem) => {
-  const jobAllocationAmount = buildJobAllocationAmount(payItem);
-  return (
-    !payItem.ignoreUnderAllocationWarning &&
-    Math.round(jobAllocationAmount.unallocated) > 0
-  );
+const isUnderAllocated = (payItem) => {
+  const total = Number(payItem.amount);
+  const allocated = payItem.jobs
+    ? payItem.jobs.reduce((t, q) => t + Number(q.amount), 0)
+    : 0;
+  const unallocated = total - allocated;
+
+  return Math.round(unallocated) > 0 && Math.round(allocated) > 0;
 };
+
+export const getShouldShowUnderAllocationWarning = (payItem) =>
+  !payItem.ignoreUnderAllocationWarning && isUnderAllocated(payItem);
 
 export const getShouldShowOverAllocationError = (payItem) => {
   const jobAllocationAmount = buildJobAllocationAmount(payItem);

@@ -7,7 +7,7 @@ const getEmployeePayLines = (employeePays, isSelectedFunc) => {
     payItems: employeePay.payItems.map((payItem) => ({
       ...payItem,
       isSubmitting: false,
-      ignoreUnderAllocationWarning: false,
+      ignoreUnderAllocationWarning: true,
     })),
   }));
 };
