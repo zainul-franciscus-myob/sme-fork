@@ -10,17 +10,6 @@ steps:
     agents:
       queue: cacc-prod-dflt
 
-  - block:
-    branches: '!master'
-
-  - name: ':package: :hatched_chick: Build Development Javascript'
-    command: ./ops/bin/build development
-    env:
-      REACT_APP_BUILD_NUMBER: ${BUILDKITE_BUILD_NUMBER}
-    agents:
-      queue: cacc-prod-dflt
-    artifact_paths: "build-development.tar.gz"
-
   - name: ':package: :hatched_chick: Build Integration Javascript'
     command: ./ops/bin/build integration
     branches: master
@@ -58,13 +47,6 @@ steps:
     artifact_paths: "build-production.tar.gz"
 
   - wait
-
-  - name: ':rocket: :hatched_chick: Deploy Development App'
-    commands:
-      - ./aws/deploy-stack development
-      - ./ops/bin/deploy development
-    agents:
-      queue: cacc-prod-dflt
 
   - name: ':rocket: :eagle: Deploy Integration App'
     commands:

@@ -1,7 +1,7 @@
 ### /aws
 
-We strive to keep all infrastructure immutable. Nothing is precious.  
-Recovery should be as simple as doing a complete Pheonix Deployment of our infrastructure, and triggering a build in CI.  
+We strive to keep all infrastructure immutable. Nothing is precious.
+Recovery should be as simple as doing a complete Pheonix Deployment of our infrastructure, and triggering a build in CI.
 
 * [Cloudformation](#cloudformation)
 * [Deploy Scripts](#deploy)
@@ -27,7 +27,7 @@ sme-web-ui-stack.json
 1. Locally from your machine, `myob-auth l` yourself to `core-accounting`.
 2. From root of the repo,
 
-`$ ./aws/deploy-stack [development|integration|pdv|preview|production]`
+`$ ./aws/deploy-stack [integration|pdv|preview|production]`
 
 #### New Stacks
 If you want to deploy a new stack, perhaps for temporarily for demonstration, make a new `xxx-params.json`.

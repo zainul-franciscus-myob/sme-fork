@@ -33,7 +33,6 @@ AND 05b6f3a3-8aae-40da-9ac3-3ce8825a319a // requestId (optional)
 
         ```sh
         kubectl get services -n sme | grep sme-web-bff
-        # development-sme-web-bff                         ClusterIP   10.100.211.174   <none>        80/TCP           329d
         # integration-sme-web-bff                         ClusterIP   10.98.190.70     <none>        80/TCP           325d
         # pdv-sme-web-bff                                 ClusterIP   10.99.25.190     <none>        80/TCP           189d
         ```
@@ -41,7 +40,6 @@ AND 05b6f3a3-8aae-40da-9ac3-3ce8825a319a // requestId (optional)
 
         ```sh
         kubectl get services -n sme | grep private-api-gateway
-        # development-sme-web-bff                         ClusterIP   10.100.211.174   <none>        80/TCP           329d
         # integration-sme-web-bff                         ClusterIP   10.98.190.70     <none>        80/TCP           325d
         # pdv-sme-web-bff                                 ClusterIP   10.99.25.190     <none>        80/TCP           189d
         ```
