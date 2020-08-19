@@ -1,3 +1,20 @@
 .hidden {
   visibility: hidden;
 }
+
+.jobRowItem {
+  display: flex;
+  justify-content: space-between;
+}
+
+.warningTooltip, .errorTooltip {
+  padding-top: 0.2rem;
+}
+
+.warningTooltip > svg{
+  fill: var(--flx-fill-warning-icon-outer)
+}
+
+.errorTooltip > svg {
+  fill: var(--flx-fill-error-icon-inner);
+}

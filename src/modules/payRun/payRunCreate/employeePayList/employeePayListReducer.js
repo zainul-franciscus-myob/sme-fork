@@ -6,6 +6,7 @@ import {
   EDIT_PAY_ITEM_JOBS,
   FORMAT_EMPLOYEE_PAY_ITEM,
   GET_DETAIL_JOB_LIST,
+  HIDE_WARNING_TOOLTIP,
   LOAD_EMPLOYEE_PAYS,
   OPEN_ETP_MODAL,
   OPEN_JOB_LIST_MODAL,
@@ -190,6 +191,7 @@ const getUpdatedPayItems = (payItems, payItemId, key, value) =>
       ? {
           ...payItem,
           [key]: value,
+          ignoreUnderAllocationWarning: false,
         }
       : payItem
   );
@@ -257,6 +259,10 @@ const updateEmployeeNote = (state, { employeeId, note }) => ({
   ),
 });
 
+const findIgnoreWarningFromCurrentLine = (line, recalculatedPayItem) =>
+  line.payItems.find((item) => item.payItemId === recalculatedPayItem.payItemId)
+    .ignoreUnderAllocationWarning;
+
 const updateTheEditedEmployeePayItems = (
   state,
   employeeId,
@@ -270,6 +276,10 @@ const updateTheEditedEmployeePayItems = (
           payItems: recalculatedEmployeePay.payItems.map((payItem) => ({
             ...payItem,
             isSubmitting: false,
+            ignoreUnderAllocationWarning: findIgnoreWarningFromCurrentLine(
+              line,
+              payItem
+            ),
             jobs: line.payItems.find((q) => q.payItemId === payItem.payItemId)
               ?.jobs,
           })),
@@ -311,6 +321,22 @@ const setJobListModalLoadingState = (state, { loadingState }) => ({
   jobListModalLoadingState: loadingState,
 });
 
+const hideWarningTooltip = (state, { status }) => ({
+  ...state,
+  lines: state.lines.map((line) =>
+    line.employeeId === state.selectedEmployeeId
+      ? {
+          ...line,
+          payItems: line.payItems.map((pi) =>
+            pi.payItemId === state.selectedPayItem.payItemId
+              ? { ...pi, ignoreUnderAllocationWarning: status }
+              : pi
+          ),
+        }
+      : line
+  ),
+});
+
 export const employeePayListHandlers = {
   [SET_JOB_LIST_MODAL_LOADING_STATE]: setJobListModalLoadingState,
   [OPEN_JOB_LIST_MODAL]: openJobListModal,
@@ -335,4 +361,5 @@ export const employeePayListHandlers = {
   [EDIT_PAY_ITEM_JOBS]: editPayItemJobs,
   [SAVE_PAY_ITEM_JOBS]: savePayItemJobs,
   [UPDATE_EMPLOYEE_NOTE]: updateEmployeeNote,
+  [HIDE_WARNING_TOOLTIP]: hideWarningTooltip,
 };

@@ -97,6 +97,14 @@ const getAmount = (array, id) => {
   return obj.amount;
 };
 
+export const getSelectedPayItemWithAllocatedJobs = createSelector(
+  getSelectedPayItem,
+  (payItem) => ({
+    ...payItem,
+    jobs: payItem.jobs.filter((job) => Number(job.amount) !== 0),
+  })
+);
+
 const buildSelectedPayItemJobs = createSelector(
   getJobOptions,
   getSelectedPayItem,
@@ -137,10 +145,10 @@ export const getJobsSelectStatus = createSelector(
   }
 );
 
-export const getJobAmount = createSelector(getSelectedPayItem, (item) => {
-  const total = Number(item.amount);
-  const allocated = item.jobs
-    ? item.jobs.reduce((t, q) => t + Number(q.amount), 0)
+const buildJobAllocationAmount = (payItem) => {
+  const total = Number(payItem.amount);
+  const allocated = payItem.jobs
+    ? payItem.jobs.reduce((t, q) => t + Number(q.amount), 0)
     : 0;
   const unallocated = total - allocated;
   const allocatedPercent = (allocated * 100) / total;
@@ -158,7 +166,25 @@ export const getJobAmount = createSelector(getSelectedPayItem, (item) => {
       2
     ),
   };
-});
+};
+
+export const getShouldShowUnderAllocationWarning = (payItem) => {
+  const jobAllocationAmount = buildJobAllocationAmount(payItem);
+  return (
+    !payItem.ignoreUnderAllocationWarning &&
+    Math.round(jobAllocationAmount.unallocated) > 0
+  );
+};
+
+export const getShouldShowOverAllocationError = (payItem) => {
+  const jobAllocationAmount = buildJobAllocationAmount(payItem);
+
+  return Math.round(jobAllocationAmount.unallocated) < 0;
+};
+
+export const getJobAmount = createSelector(getSelectedPayItem, (item) =>
+  buildJobAllocationAmount(item)
+);
 
 export const getHeaderSelectStatus = createSelector(
   (state) => state.entries.filter((entry) => entry.isChecked).length,

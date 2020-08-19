@@ -84,3 +84,5 @@ export const SET_JOB_LIST_MODAL_LOADING_STATE = Symbol(
   'Set job list modal loading state'
 );
 export const SAVE_PAY_ITEM_JOBS = Symbol('Save pay item jobs');
+
+export const HIDE_WARNING_TOOLTIP = Symbol('Hide warning tooltip');

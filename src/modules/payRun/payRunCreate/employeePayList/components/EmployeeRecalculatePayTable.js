@@ -13,7 +13,7 @@ const tableConfig = {
   name: { width: 'flex-1', valign: 'middle' },
   hours: { width: '20rem', valign: 'middle', align: 'right' },
   amount: { width: '20rem', valign: 'middle', align: 'right' },
-  job: { width: '15rem', valign: 'middle', align: 'left' },
+  job: { width: '17rem', valign: 'middle', align: 'left' },
 };
 
 const EmployeeRecalculatePayTable = ({

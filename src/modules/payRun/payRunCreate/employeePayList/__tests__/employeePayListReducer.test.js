@@ -3,6 +3,7 @@ import {
   CHANGE_ETP_CODE_CATEGORY,
   CLOSE_ETP_MODAL,
   FORMAT_EMPLOYEE_PAY_ITEM,
+  HIDE_WARNING_TOOLTIP,
   LOAD_EMPLOYEE_PAYS,
   OPEN_ETP_MODAL,
   SAVE_ETP,
@@ -209,6 +210,7 @@ describe('employeePayListReducer', () => {
                   amount: '222.00',
                   isSubmitting: true,
                   hours: '1.00',
+                  ignoreUnderAllocationWarning: true,
                 },
               ],
             },
@@ -277,6 +279,7 @@ describe('employeePayListReducer', () => {
                   isSubmitting: false,
                   amount: '222.00',
                   hours: '1.00',
+                  ignoreUnderAllocationWarning: true,
                 },
               ],
             },
@@ -608,6 +611,49 @@ describe('employeePayListReducer', () => {
       const actual = payRunReducer(state, action);
 
       expect(actual.employeePayList.lines[0].payItems[1].hours).toEqual('0.00');
+    });
+  });
+
+  describe('HIDE_WARNING_TOOLTIP', () => {
+    const state = {
+      employeePayList: {
+        lines: [
+          {
+            employeeId: '1',
+            payItems: [
+              {
+                payItemId: '11',
+                ignoreUnderAllocationWarning: false,
+              },
+              {
+                payItemId: '12',
+                ignoreUnderAllocationWarning: false,
+              },
+            ],
+          },
+        ],
+        selectedPayItem: {
+          payItemId: '11',
+        },
+        selectedEmployeeId: '1',
+      },
+    };
+    const action = {
+      intent: HIDE_WARNING_TOOLTIP,
+      status: true,
+    };
+    const actual = payRunReducer(state, action);
+
+    it('should update ignoreUnderAllocationWarning on correct payItem', () => {
+      expect(
+        actual.employeePayList.lines[0].payItems[0].ignoreUnderAllocationWarning
+      ).toBeTruthy();
+    });
+
+    it('should update ignoreUnderAllocationWarning on correct payItem', () => {
+      expect(
+        actual.employeePayList.lines[0].payItems[1].ignoreUnderAllocationWarning
+      ).toBeFalsy();
     });
   });
 });

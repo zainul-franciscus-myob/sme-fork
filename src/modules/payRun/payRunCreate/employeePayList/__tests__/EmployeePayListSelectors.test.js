@@ -9,10 +9,13 @@ import {
   getLeaveWarning,
   getRecalculatePayPayload,
   getSelectedPayItemJobs,
+  getSelectedPayItemWithAllocatedJobs,
   getShouldShowDeductionPayItemTableRows,
   getShouldShowExpensePayItemTableRows,
   getShouldShowLeavePayItemTableRows,
+  getShouldShowOverAllocationError,
   getShouldShowTaxPayItemTableRows,
+  getShouldShowUnderAllocationWarning,
   getShouldShowWagePayItemTableRows,
   getTaxPayItemEntries,
   getTotals,
@@ -1079,6 +1082,176 @@ describe('EmployeePayListSelectors', () => {
       };
       const isAllJobsSelected = getJobsSelectStatus(state);
       expect(isAllJobsSelected).toEqual('');
+    });
+  });
+
+  describe('getShouldShowUnderAllocationWarning', () => {
+    it('should return true when NOT all of that payitem is allocated to selected jobs', () => {
+      const underAllocatedPayItemEntry = {
+        payItemId: '38',
+        amount: 30.9999999,
+        jobs: [
+          {
+            jobId: 1,
+            amount: '10.00',
+            isActive: true,
+          },
+          {
+            jobId: 2,
+            amount: '20.00',
+            isActive: false,
+          },
+        ],
+      };
+      const shouldShowWarning = getShouldShowUnderAllocationWarning(
+        underAllocatedPayItemEntry
+      );
+      expect(shouldShowWarning).toBeTruthy();
+    });
+
+    it('should return false when all of that payitem is allocated to selected jobs', () => {
+      const fullyAllocatedPayItemEntry = {
+        payItemId: '38',
+        amount: 100.011111,
+        jobs: [
+          {
+            jobId: 1,
+            amount: '50.00',
+            isActive: true,
+          },
+          {
+            jobId: 2,
+            amount: '50.00',
+            isActive: false,
+          },
+        ],
+      };
+      const shouldShowWarning = getShouldShowUnderAllocationWarning(
+        fullyAllocatedPayItemEntry
+      );
+      expect(shouldShowWarning).toBeFalsy();
+    });
+
+    it('should return false when ignoreUnderAllocationWarning is true', () => {
+      const underAllocatedPayItemEntry = {
+        payItemId: '38',
+        amount: 100.0,
+        jobs: [
+          {
+            jobId: 1,
+            amount: '50.00',
+            isActive: true,
+          },
+          {
+            jobId: 2,
+            amount: '10.00',
+            isActive: false,
+          },
+        ],
+        ignoreUnderAllocationWarning: true,
+      };
+      const shouldShowWarning = getShouldShowUnderAllocationWarning(
+        underAllocatedPayItemEntry
+      );
+      expect(shouldShowWarning).toBeFalsy();
+    });
+  });
+
+  describe('getShouldShowOverAllocationError', () => {
+    it('should return true when the amount allocated to selected jobs is MORE than actual payitem amount', () => {
+      const overAllocatedPayItemEntry = {
+        payItemId: '38',
+        amount: 519.0999999999,
+        jobs: [
+          {
+            jobId: 1,
+            amount: '500.00',
+            isActive: true,
+          },
+          {
+            jobId: 2,
+            amount: '20.00',
+            isActive: false,
+          },
+        ],
+      };
+      const shouldShowError = getShouldShowOverAllocationError(
+        overAllocatedPayItemEntry
+      );
+      expect(shouldShowError).toBeTruthy();
+    });
+
+    it('should return false when the amount allocated to selected jobs is less than or equal to actual payitem amount', () => {
+      const fullyAllocatedPayItemEntry = {
+        payItemId: '38',
+        amount: 99.999999999,
+        jobs: [
+          {
+            jobId: 1,
+            amount: '110.00',
+            isActive: true,
+          },
+          {
+            jobId: 2,
+            amount: '-10.00',
+            isActive: false,
+          },
+        ],
+      };
+      const shouldShowError = getShouldShowOverAllocationError(
+        fullyAllocatedPayItemEntry
+      );
+      expect(shouldShowError).toBeFalsy();
+    });
+  });
+
+  describe('getSelectedPayItemWithAllocatedJobs', () => {
+    it('should return only jobs with amount > 0', () => {
+      const state = {
+        employeePayList: {
+          selectedPayItem: {
+            payItemId: '38',
+            amount: 100.0,
+            jobs: [
+              {
+                jobId: 1,
+                amount: '10.00',
+                isActive: true,
+              },
+              {
+                jobId: 2,
+                amount: '20.00',
+                isActive: false,
+              },
+              {
+                jobId: 3,
+                amount: '0.00',
+                isActive: true,
+              },
+            ],
+          },
+        },
+      };
+      const expected = {
+        payItemId: '38',
+        amount: 100.0,
+        jobs: [
+          {
+            jobId: 1,
+            amount: '10.00',
+            isActive: true,
+          },
+          {
+            jobId: 2,
+            amount: '20.00',
+            isActive: false,
+          },
+        ],
+      };
+      const payItemWithAllocatedJobs = getSelectedPayItemWithAllocatedJobs(
+        state
+      );
+      expect(payItemWithAllocatedJobs).toEqual(expected);
     });
   });
 });

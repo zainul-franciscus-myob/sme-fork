@@ -9,6 +9,7 @@ import {
   getJobOptions,
   getSelectedEmployeeId,
   getSelectedPayItem,
+  getSelectedPayItemWithAllocatedJobs,
   getTotals,
   isValidEtp,
 } from './EmployeePayListSelectors';
@@ -57,10 +58,10 @@ export default class EmployeePayListModule {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
     };
 
-    const onFailure = () => {
+    const onFailure = ({ message }) => {
       this.dispatcher.setAlert({
         type: AlertType.ERROR,
-        message: 'Failed to save the draft',
+        message,
       });
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
     };
@@ -68,16 +69,29 @@ export default class EmployeePayListModule {
     this.integrator.saveDraft({ onSuccess, onFailure });
   };
 
-  saveDraft = () => {
-    const doNothing = () => {};
-    this.integrator.saveDraft({ onSuccess: doNothing, onFailure: doNothing });
+  saveDraft = (onSuccess) => {
+    this.dispatcher.setSubmittingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setAlert({
+        type: AlertType.ERROR,
+        message,
+      });
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setSubmittingState(false);
+    };
+
+    this.integrator.saveDraft({ onSuccess, onFailure });
   };
 
   nextStep = () => {
-    this.saveDraft();
-    return this.validatePayPeriodEmployeeLimit(() =>
-      this.validateEtp(() => this.dispatcher.nextStep())
-    );
+    const onSuccess = () => {
+      this.validatePayPeriodEmployeeLimit(() =>
+        this.validateEtp(() => this.dispatcher.nextStep())
+      );
+    };
+    this.saveDraft(onSuccess);
   };
 
   validatePayPeriodEmployeeLimit = (next) => {
@@ -240,7 +254,7 @@ export default class EmployeePayListModule {
         onUnsavedModalCancel={this.closeUnsavedModal}
         onAddJob={this.openJobListModal}
         onAddJobSave={this.jobListEditSave}
-        onAddJobCancel={this.dispatcher.closeJobListModal}
+        onAddJobCancel={this.jobListModalCancel}
         onAddJobCheckboxChange={this.onAddJobCheckboxChange}
         onAddJobAmountChange={this.onAddJobAmountChange}
         onAddJobAmountBlur={this.onAddJobAmountBlur}
@@ -253,9 +267,14 @@ export default class EmployeePayListModule {
   jobListEditSave = () => {
     const state = this.store.getState();
     const employeeId = getSelectedEmployeeId(state);
-    const payItem = getSelectedPayItem(state);
-    payItem.jobs = payItem.jobs.filter((q) => Number(q.amount) !== 0);
+    const payItem = getSelectedPayItemWithAllocatedJobs(state);
     this.dispatcher.savePayItemJobs(payItem, employeeId);
+    this.dispatcher.hideWarningTooltip(true);
+    this.dispatcher.closeJobListModal();
+  };
+
+  jobListModalCancel = () => {
+    this.dispatcher.hideWarningTooltip(true);
     this.dispatcher.closeJobListModal();
   };
 
@@ -348,9 +367,11 @@ export default class EmployeePayListModule {
   };
 
   saveDraftAndNavigateAway = () => {
-    this.saveDraft();
+    const onSuccess = () => {
+      this.pendingNavigateFunction();
+    };
+    this.saveDraft(onSuccess);
     this.closeUnsavedModal();
-    this.pendingNavigateFunction();
   };
 
   onUnsavedModalDiscard = () => {

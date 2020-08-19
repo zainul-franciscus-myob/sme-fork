@@ -6,6 +6,7 @@ import {
   EDIT_PAY_ITEM_JOBS,
   FORMAT_EMPLOYEE_PAY_ITEM,
   GET_DETAIL_JOB_LIST,
+  HIDE_WARNING_TOOLTIP,
   OPEN_ETP_MODAL,
   OPEN_JOB_LIST_MODAL,
   SAVE_ETP,
@@ -199,6 +200,13 @@ const createEmployeePayListDispatcher = (store) => ({
       intent: UPDATE_EMPLOYEE_NOTE,
       employeeId,
       note,
+    });
+  },
+
+  hideWarningTooltip: (status) => {
+    store.dispatch({
+      intent: HIDE_WARNING_TOOLTIP,
+      status,
     });
   },
 });

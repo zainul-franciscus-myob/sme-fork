@@ -7,9 +7,14 @@ import {
   GET_DETAIL_JOB_LIST,
   LOAD_EMPLOYEE_PAYS,
   OPEN_JOB_LIST_MODAL,
+  SAVE_DRAFT,
+  SET_ALERT,
   SET_JOB_LIST_MODAL_LOADING_STATE,
+  SET_LOADING_STATE,
+  SET_SUBMITTING_STATE,
 } from '../../PayRunIntents';
 import { findButtonWithTestId } from '../../../../../common/tests/selectors';
+import AlertType from '../../types/AlertType';
 import EmployeePayListModule from '../EmployeePayListModule';
 import JobListModalView from '../../../jobListModal/components/JobListModalView';
 import LoadingState from '../../../../../components/PageView/LoadingState';
@@ -61,6 +66,7 @@ describe('EmployeePayListModule', () => {
       module: employeePayListModule,
       payRunModule,
       store: payRunModule.store,
+      integration,
     };
   };
 
@@ -76,12 +82,60 @@ describe('EmployeePayListModule', () => {
       expect(saveAndCloseButton).toHaveLength(1);
     });
 
+    it('renders error message when at least one payItem is overallocated', () => {
+      const { store, integration, module } = constructEmployeePayListModule();
+      integration.mapFailure(SAVE_DRAFT, { message: 'Test123' });
+
+      module.saveDraftAndRedirect();
+
+      expect(store.getActions()).toEqual([
+        { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING },
+        {
+          intent: SET_ALERT,
+          alert: { type: AlertType.ERROR, message: 'Test123' },
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: SAVE_DRAFT }),
+      ]);
+    });
+
     it('redirects to payRun url, when clicked', () => {
       const { wrapper } = constructEmployeePayListModule();
 
       findButtonWithTestId(wrapper, 'saveAndCloseButton').simulate('click');
 
       expect(window.location.href.endsWith('/payRun')).toBe(true);
+    });
+  });
+
+  describe('nextStep', () => {
+    it('renders error message when at least one payItem is overallocated', () => {
+      const { store, integration, module } = constructEmployeePayListModule();
+      integration.mapFailure(SAVE_DRAFT, { message: 'Test123' });
+
+      module.nextStep();
+
+      expect(store.getActions()).toEqual([
+        { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+        { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING },
+        {
+          intent: SET_ALERT,
+          alert: { type: AlertType.ERROR, message: 'Test123' },
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
+        { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: SAVE_DRAFT }),
+      ]);
     });
   });
 

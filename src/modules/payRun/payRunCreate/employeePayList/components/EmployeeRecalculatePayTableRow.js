@@ -1,11 +1,20 @@
-import { Button, Icons, Table } from '@myob/myob-widgets';
+import { Button, Icons, Table, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
 import classnames from 'classnames';
 
-import { getLeaveWarning } from '../EmployeePayListSelectors';
+import {
+  getLeaveWarning,
+  getShouldShowOverAllocationError,
+  getShouldShowUnderAllocationWarning,
+} from '../EmployeePayListSelectors';
 import AmountInput from '../../../../../components/autoFormatter/AmountInput/AmountInput';
 import HoursInput from '../../../../../components/autoFormatter/HoursInput/HoursInput';
 import styles from './EmployeeRecalculatePayTableRow.module.css';
+
+const underAllocationWarningMessage =
+  "The entire amount of the pay item isn't allocated to a job.";
+const overAllocationErrorMessage =
+  'The total allocated job amount is more than the pay item amount.';
 
 const handleInputChange = (handler, employeeId, payItemId) => (e) => {
   const { name, rawValue } = e.target;
@@ -177,6 +186,31 @@ const EmployeeRecalculatePayTableRow = ({
     />
   );
 
+  const shouldShowUnderAllocationWarning = getShouldShowUnderAllocationWarning(
+    entry
+  );
+  const shouldShowOverAllocationError = getShouldShowOverAllocationError(entry);
+
+  const underAllocationWarningTooltip = (
+    <Tooltip
+      id="underAllocationWarningMessage"
+      className={styles.warningTooltip}
+      triggerContent={<Icons.Warning />}
+    >
+      {underAllocationWarningMessage}
+    </Tooltip>
+  );
+
+  const overAllocationErrorTooltip = (
+    <Tooltip
+      id="overAllocationErrorMessage"
+      className={styles.errorTooltip}
+      triggerContent={<Icons.Error />}
+    >
+      {overAllocationErrorMessage}
+    </Tooltip>
+  );
+
   return (
     <Table.Row key={entry.payItemId}>
       <Table.RowItem {...tableConfig.name} indentLevel={1}>
@@ -187,7 +221,11 @@ const EmployeeRecalculatePayTableRow = ({
       )}
       <Table.RowItem {...tableConfig.amount}>{amountRowItem}</Table.RowItem>
       {isPayrollJobColumnEnabled && (
-        <Table.RowItem {...tableConfig.job}>{addJobRowItem}</Table.RowItem>
+        <Table.RowItem className={styles.jobRowItem} {...tableConfig.job}>
+          {addJobRowItem}
+          {shouldShowUnderAllocationWarning && underAllocationWarningTooltip}
+          {shouldShowOverAllocationError && overAllocationErrorTooltip}
+        </Table.RowItem>
       )}
     </Table.Row>
   );

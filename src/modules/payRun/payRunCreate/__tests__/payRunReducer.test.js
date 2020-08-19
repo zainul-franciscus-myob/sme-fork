@@ -84,8 +84,16 @@ describe('payRunReducer', () => {
             payInfo: 'pay information 1',
             isSelected: false,
             payItems: [
-              { line: 1, isSubmitting: false },
-              { line: 2, isSubmitting: false },
+              {
+                line: 1,
+                isSubmitting: false,
+                ignoreUnderAllocationWarning: false,
+              },
+              {
+                line: 2,
+                isSubmitting: false,
+                ignoreUnderAllocationWarning: false,
+              },
             ],
           },
           {
@@ -93,8 +101,16 @@ describe('payRunReducer', () => {
             payInfo: 'pay information 2',
             isSelected: true,
             payItems: [
-              { line: 3, isSubmitting: false },
-              { line: 4, isSubmitting: false },
+              {
+                line: 3,
+                isSubmitting: false,
+                ignoreUnderAllocationWarning: false,
+              },
+              {
+                line: 4,
+                isSubmitting: false,
+                ignoreUnderAllocationWarning: false,
+              },
             ],
           },
         ],
