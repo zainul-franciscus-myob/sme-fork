@@ -1,3 +1,4 @@
+/* eslint-disable react/static-property-placement */
 /* eslint-disable react/destructuring-assignment */
 import PropTypes from 'prop-types';
 import React from 'react';

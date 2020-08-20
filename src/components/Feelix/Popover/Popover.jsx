@@ -1,5 +1,4 @@
 /* eslint-disable react/destructuring-assignment */
-
 /* *  WARNING WARNING  * */
 /*
 
@@ -22,6 +21,7 @@ Future iterations of Popover will come under careful consideration by the feelix
 */
 
 import { Popover as FeelixPopover } from '@myob/myob-widgets';
+// eslint-disable-next-line no-restricted-imports
 import PopWrapper from '@myob/myob-widgets/lib/components/Popover/PopWrapper';
 import React from 'react';
 import classnames from 'classnames';

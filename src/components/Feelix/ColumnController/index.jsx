@@ -20,6 +20,7 @@ const clearSelectedText = () => {
 };
 
 export default class ColumnController extends React.Component {
+  // eslint-disable-next-line react/static-property-placement
   static contextTypes = {
     target: targetType,
   };

@@ -40,8 +40,8 @@
     "test": "TZ=UTC react-scripts test --env=jsdom",
     "test:debug": "TZ=UTC react-scripts --inspect-brk test --runInBand --no-cache --env=jsdom",
     "eject": "react-scripts eject",
-    "lint:js": "eslint ./src",
-    "lint:js:fix": "eslint ./src --fix",
+    "lint:js": "eslint ./src --ext .js,.jsx",
+    "lint:js:fix": "yarn lint:js --fix",
     "lint:css": "stylelint ./src/**/*.css",
     "lint:css:fix": "stylelint ./src/**/*.css --fix",
     "analyse": "react-scripts build && source-map-explorer ./build/static/js/*.js ./build/static/css/*.css"

@@ -19,6 +19,7 @@ const mockConsoleMethod = (realConsoleMethod) => {
 
 describe('Calculator', () => {
   /* We're hiding a specific set of console errors so as to not pollute the console. */
+  // eslint-disable-next-line no-console
   console.error = jest.fn(mockConsoleMethod(console.error));
 
   const testClassname = 'test-classname';

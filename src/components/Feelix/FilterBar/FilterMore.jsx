@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
+/* eslint-disable react/static-property-placement */
 /* eslint-disable react/destructuring-assignment */
 import { Aside, Button, Separator } from '@myob/myob-widgets';
 import PropTypes from 'prop-types';

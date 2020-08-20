@@ -1,3 +1,4 @@
+/* eslint-disable react/static-property-placement */
 /* eslint-disable react/destructuring-assignment */
 import { Button, Checkbox } from '@myob/myob-widgets';
 import PropTypes from 'prop-types';

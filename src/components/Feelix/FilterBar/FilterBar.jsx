@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable react/destructuring-assignment */
 import { Button } from '@myob/myob-widgets';
 import PropTypes from 'prop-types';

@@ -1,3 +1,5 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/static-property-placement */
 import { Icons, InputError, InputLabel, Tooltip } from '@myob/myob-widgets';
 import PropTypes from 'prop-types';
 import React from 'react';
