@@ -1,5 +1,6 @@
 import {
   getBusinessId,
+  getDashboardUrl,
   getEmployeeHeader,
   getIsSubmitting,
   getLoadingState,
@@ -274,6 +275,19 @@ describe('PayRunSelectors', () => {
       };
 
       expect(getIsSubmitting(state)).toEqual(expected);
+    });
+  });
+
+  describe('getDashboardUrl', () => {
+    it('should get dashboard URL', () => {
+      const expected = '/#/nz/123/dashboard';
+
+      const state = {
+        region: 'nz',
+        businessId: '123',
+      };
+
+      expect(getDashboardUrl(state)).toEqual(expected);
     });
   });
 });

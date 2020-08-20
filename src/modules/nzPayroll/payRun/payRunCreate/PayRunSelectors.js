@@ -114,3 +114,9 @@ export const getStepNumber = createSelector(getStepIndex, (index) =>
 export const getRegion = (state) => state.region;
 
 export const getIsSubmitting = (state) => state.isSubmitting;
+
+export const getDashboardUrl = createSelector(
+  getBusinessId,
+  getRegion,
+  (businessId, region) => `/#/${region}/${businessId}/dashboard`
+);

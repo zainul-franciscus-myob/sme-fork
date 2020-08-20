@@ -2,6 +2,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  DONE,
   EMPLOYEE_PAY_LIST,
   PREPARE_PAYSLIPS,
   RECORD_AND_REPORT,
@@ -10,6 +11,7 @@ import {
 import { getStepKey } from './PayRunSelectors';
 import EmployeePayListSubModule from './employeePayList/EmployeePayListSubModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
+import PayRunDoneSubModule from './payRunDone/PayRunDoneSubModule';
 import PayRunView from './components/PayRunView';
 import PreparePaySlipsSubModule from './preparePayslips/PreparePaySlipsSubModule';
 import RecordPayRunSubModule from './recordPayRun/RecordPayRunSubModule';
@@ -42,6 +44,10 @@ export default class PayRunModule {
         store: this.store,
       }),
       [PREPARE_PAYSLIPS.key]: new PreparePaySlipsSubModule({
+        integration,
+        store: this.store,
+      }),
+      [DONE.key]: new PayRunDoneSubModule({
         integration,
         store: this.store,
       }),
