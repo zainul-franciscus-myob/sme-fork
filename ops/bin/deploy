@@ -14,8 +14,22 @@ BUCKET=s3://myob-sme-web-ui-$TARGET-bucket
 buildkite-agent artifact download build-$TARGET.tar.gz .
 tar -zxvf build-$TARGET.tar.gz
 
-# Deploy it
-aws s3 cp build/ ${BUCKET} --recursive
+# Deploy immutable assets with a very long cache time. Everything with a chunk hash is immutable, as
+# a change to the file contents will cause the filename to change, thereby busting the cache.
+# See https://web.dev/uses-long-cache-ttl/
+aws s3 cp build/ ${BUCKET} --recursive \
+  --cache-control 'max-age=31536000' \
+  --exclude '*' \
+  --include 'static/*' \
 
-# Re-deploy index.html without caching in the browser
-aws s3 cp build/index.html ${BUCKET} --cache-control max-age=0
+# Deploy frequently changing files (and those without chunk hashes) with caching expiration set to 0
+# so they're checked every load for changes. We want to avoid these as much as possible, as they
+# require a HTTP request for each resource for the freshness check.
+aws s3 cp build/ ${BUCKET} \
+  --cache-control 'max-age=0' \
+  --exclude 'static/*' \
+  --exclude 'favicon.ico'
+
+# Force the favicon to refresh every week. It's not small, and though it's not likely to change very
+# often, we also have no way to cache-bust it in case we do want to change it.
+aws s3 cp build/favicon.ico ${BUCKET} --cache-control 'max-age=604800'
