@@ -8,7 +8,15 @@ export const getIsTableLoading = (state) => state.isTableLoading;
 export const getIsSubmitting = (state) => state.isSubmitting;
 export const getOrderBy = (state) => state.orderBy;
 export const getSortOrder = (state) => state.sortOrder;
-export const getEntries = (state) => state.entries;
+
+export const getEntries = (state) =>
+  state.entries.map((entry) => {
+    return {
+      ...entry,
+      importedDate: new Date(entry.importedDate).toLocaleDateString(),
+    };
+  });
+
 export const getAccountOptions = (state) => state.accountOptions;
 export const getAlert = (state) => state.alert;
 export const getImportModal = (state) => state.importModal;
