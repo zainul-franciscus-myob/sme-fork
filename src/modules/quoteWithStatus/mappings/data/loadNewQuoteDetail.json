@@ -14,7 +14,8 @@
     "purchaseOrderNumber": "",
     "note": "",
     "lines": [],
-    "status": "Open"
+    "status": "Open",
+    "isInvoiced": false
   },
   "contactOptions": [
     {

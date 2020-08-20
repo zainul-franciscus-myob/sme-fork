@@ -40,6 +40,7 @@ describe('QuoteDetailSelectors', () => {
           purchaseOrderNumber: '123',
           note: 'Thank you!',
           isForeignCurrency: false,
+          isInvoiced: false,
         },
         commentOptions: [],
         contactOptions: [

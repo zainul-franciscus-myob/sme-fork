@@ -15,6 +15,7 @@
     "purchaseOrderNumber": "IN00000123",
     "issueDate": "2018-11-02",
     "note": "I'm a dupe",
+    "isInvoiced": false,
     "lines": [
       {
         "type": "item",

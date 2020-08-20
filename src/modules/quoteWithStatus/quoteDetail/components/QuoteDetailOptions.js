@@ -14,6 +14,7 @@ import {
   getIsReadOnly,
   getQuoteDetailOptions,
   getReadOnlyMessage,
+  getStatusDropdownOptions,
 } from '../selectors/QuoteDetailSelectors';
 import BooleanRadioButtonGroup from '../../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
@@ -56,9 +57,8 @@ const QuoteDetailOptions = (props) => {
     onUpdateHeaderOptions,
     onAddCustomerButtonClick,
     isExpired,
+    statusOptions,
   } = props;
-
-  const statusDropdown = ['Open', 'Accepted', 'Declined', 'Invoiced'];
 
   const primary = (
     <Fragment>
@@ -133,7 +133,7 @@ const QuoteDetailOptions = (props) => {
         onChange={handleSelectChange(onUpdateHeaderOptions)}
         disabled={isReadOnlyLayout}
       >
-        {statusDropdown.map((item) => (
+        {statusOptions.map((item) => (
           <Select.Option key={item} value={item} label={item} />
         ))}
       </Select>
@@ -165,6 +165,7 @@ const mapStateToProps = (state) => ({
   readOnlyMessage: getReadOnlyMessage(state),
   isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
   isExpired: getIsOpenAndExpired(state),
+  statusOptions: getStatusDropdownOptions(state),
 });
 
 export default connect(mapStateToProps)(QuoteDetailOptions);

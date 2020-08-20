@@ -406,3 +406,11 @@ export const getIsOpenAndExpired = (state) => {
     ? false
     : status === 'Open' && isPast(addDays(expiredDate, 1));
 };
+
+export const getStatusDropdownOptions = (state) => {
+  const { quote } = state;
+  const { isInvoiced } = quote;
+  return isInvoiced
+    ? ['Open', 'Accepted', 'Declined', 'Invoiced']
+    : ['Open', 'Accepted', 'Declined'];
+};

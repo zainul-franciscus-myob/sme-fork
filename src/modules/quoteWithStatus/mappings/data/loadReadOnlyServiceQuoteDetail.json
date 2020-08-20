@@ -20,6 +20,7 @@
     "freightTaxAmount": "0.91",
     "freightTaxCodeId": "2",
     "isForeignCurrency": false,
+    "isInvoiced": false,
     "lines": [
       {
         "id": "323",
