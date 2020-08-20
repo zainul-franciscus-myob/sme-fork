@@ -25,7 +25,7 @@ aws s3 cp build/ ${BUCKET} --recursive \
 # Deploy frequently changing files (and those without chunk hashes) with caching expiration set to 0
 # so they're checked every load for changes. We want to avoid these as much as possible, as they
 # require a HTTP request for each resource for the freshness check.
-aws s3 cp build/ ${BUCKET} \
+aws s3 cp build/ ${BUCKET} --recursive \
   --cache-control 'max-age=0' \
   --exclude 'static/*' \
   --exclude 'favicon.ico'
