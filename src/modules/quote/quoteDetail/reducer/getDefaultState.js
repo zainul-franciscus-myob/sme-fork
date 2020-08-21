@@ -43,7 +43,6 @@ const getDefaultState = () => ({
     taxExclusiveFreightAmount: '0',
     freightTaxAmount: '0',
     freightTaxCodeId: '0',
-    isInvoiced: false,
     lines: [],
   },
   newLine: {

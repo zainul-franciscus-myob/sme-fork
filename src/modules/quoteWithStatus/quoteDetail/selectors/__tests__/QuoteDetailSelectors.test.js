@@ -11,6 +11,7 @@ import {
   getQuoteLine,
   getReadOnlyMessage,
   getShowExportPdfButton,
+  getStatusDropdownOptions,
   getTotals,
   getUpdatedContactOptions,
 } from '../QuoteDetailSelectors';
@@ -41,6 +42,7 @@ describe('QuoteDetailSelectors', () => {
           note: 'Thank you!',
           isForeignCurrency: false,
           status: 'Open',
+          isInvoiced: false,
         },
         commentOptions: [],
         contactOptions: [
@@ -554,5 +556,33 @@ describe('QuoteDetailSelectors', () => {
         expect(actual).toEqual(expected);
       }
     );
+  });
+
+  describe('getStatusDropDownOptionsNotInvoiced', () => {
+    it('should not return Invoiced as dropdown option when isInvoiced false', () => {
+      const state = {
+        quote: {
+          isInvoiced: false,
+        },
+      };
+
+      const actual = getStatusDropdownOptions(state);
+
+      expect(actual).toEqual(['Open', 'Accepted', 'Declined']);
+    });
+  });
+
+  describe('getStatusDropDownOptionsInvoiced', () => {
+    it('should return Invoiced as dropdown option when isInvoiced true', () => {
+      const state = {
+        quote: {
+          isInvoiced: true,
+        },
+      };
+
+      const actual = getStatusDropdownOptions(state);
+
+      expect(actual).toEqual(['Open', 'Accepted', 'Declined', 'Invoiced']);
+    });
   });
 });
