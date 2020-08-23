@@ -25,6 +25,7 @@ const tableConfig = {
   customer: { width: 'flex-1', valign: 'top' },
   displayDate: { width: '11.0rem', valign: 'top' },
   displayAmount: { width: '12.4rem', valign: 'top', align: 'right' },
+  emailStatus: { width: '7rem', valign: 'top', align: 'center' },
   displayExpiryDate: { width: '12.4rem', valign: 'top' },
   status: { width: '12.4rem', valign: 'top' },
 };
@@ -93,6 +94,14 @@ const QuoteListTable = ({
         <HeaderSort
           title="Amount ($)"
           sortName="Amount"
+          activeSort={order}
+          onSort={onSort}
+        />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.emailStatus}>
+        <HeaderSort
+          title="Sent"
+          sortName="EmailStatus"
           activeSort={order}
           onSort={onSort}
         />

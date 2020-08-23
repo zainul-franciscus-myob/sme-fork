@@ -17,6 +17,7 @@ export default {
       displayExpiryDate: '15/04/2019',
       status: 'Open',
       isOpenAndExpired: true,
+      emailStatus: 'None',
     },
     {
       id: 'professional-id',
@@ -28,6 +29,7 @@ export default {
       displayExpiryDate: '12/04/2020',
       status: 'Invoiced',
       isOpenAndExpired: false,
+      emailStatus: 'None',
     },
     {
       id: 'time-billing-id',
@@ -39,6 +41,7 @@ export default {
       displayExpiryDate: '21/12/2020',
       status: 'Open',
       isOpenAndExpired: false,
+      emailStatus: 'Emailed',
     },
     {
       id: 'miscellaneous-id',
@@ -50,6 +53,7 @@ export default {
       displayExpiryDate: '15/12/2020',
       status: 'Open',
       isOpenAndExpired: false,
+      emailStatus: 'Emailed',
     },
     {
       id: 'service-readonly-id',
@@ -61,6 +65,7 @@ export default {
       displayExpiryDate: '30/05/2019',
       status: 'Declined',
       isOpenAndExpired: false,
+      emailStatus: 'None',
     },
     {
       id: 'service-readonly-id',
@@ -72,6 +77,7 @@ export default {
       displayExpiryDate: '04/04/2020',
       status: 'Accepted',
       isOpenAndExpired: false,
+      emailStatus: 'Emailed',
     },
   ],
   pagination: {

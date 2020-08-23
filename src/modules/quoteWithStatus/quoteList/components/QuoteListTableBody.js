@@ -1,4 +1,4 @@
-import { Label, Table } from '@myob/myob-widgets';
+import { Icons, Label, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -19,6 +19,9 @@ const statusLabelColour = (status, isOpenAndExpired) => {
   }
 };
 
+const emailStatusIcon = (emailStatus) =>
+  emailStatus === 'Emailed' ? <Icons.Mail /> : '';
+
 /* eslint-disable react/no-array-index-key */
 
 const QuoteListTableBody = (props) => {
@@ -37,6 +40,9 @@ const QuoteListTableBody = (props) => {
       </Table.RowItem>
       <Table.RowItem {...tableConfig.displayAmount}>
         {entry.displayAmount}
+      </Table.RowItem>
+      <Table.RowItem {...tableConfig.emailStatus}>
+        {emailStatusIcon(entry.emailStatus)}
       </Table.RowItem>
       <Table.RowItem {...tableConfig.displayExpiryDate}>
         {entry.displayExpiryDate}
