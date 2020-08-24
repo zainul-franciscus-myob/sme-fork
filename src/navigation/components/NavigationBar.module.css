@@ -11,10 +11,6 @@
   z-index: 1010;
 }
 
-.navigation {
-  line-height: 2.4rem;
-}
-
 @media (min-width: 768px){
   .add,
   .help {
