@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getActiveSort,
+  getEmployeeTierOptions,
   getEmployees,
   getFinalFortnightOptions,
   getFirstFortnightOptions,
@@ -21,6 +22,7 @@ import PageView from '../../../../../components/PageView/PageView';
 const JobKeeperView = ({
   payrollYears,
   payrollYear,
+  employeeTierOptions,
   employees,
   finalFortnightOptions,
   firstFortnightOptions,
@@ -37,6 +39,8 @@ const JobKeeperView = ({
 }) => {
   const jobKeeperTable = (
     <JobKeeperTable
+      featureToggles={featureToggles}
+      employeeTierOptions={employeeTierOptions}
       employees={employees}
       firstFortnightOptions={firstFortnightOptions}
       finalFortnightOptions={finalFortnightOptions}
@@ -89,6 +93,7 @@ const mapStateToProps = (state) => ({
   firstFortnightOptions: getFirstFortnightOptions(state),
   unsavedChangesModalIsOpen: getUnsavedChangesModalIsOpen(state),
   finalFortnightOptions: getFinalFortnightOptions(state),
+  employeeTierOptions: getEmployeeTierOptions(state),
 });
 
 export default connect(mapStateToProps)(JobKeeperView);

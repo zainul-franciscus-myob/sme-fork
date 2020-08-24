@@ -11,6 +11,7 @@ export const getIsTableLoading = (state) => state.isTableLoading;
 export const getEmployees = (state) => state.employees;
 export const getFinalFortnightOptions = (state) => state.finalFortnightOptions;
 export const getFirstFortnightOptions = (state) => state.firstFortnightOptions;
+export const getEmployeeTierOptions = (state) => state.employeeTierOptions;
 
 export const getFilterEmployeesParams = (state) => ({
   year: state.selectedPayrollYear,

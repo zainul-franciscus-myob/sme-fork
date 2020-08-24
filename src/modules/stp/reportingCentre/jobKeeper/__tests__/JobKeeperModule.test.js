@@ -12,6 +12,7 @@ describe('jobKeeperModule', () => {
       pushMessage: () => {},
       featureToggles: {
         isJobKeeperReportingEnabled: true,
+        isJobKeeper2Enabled: true,
       },
     })
   ) => {
@@ -59,6 +60,42 @@ describe('jobKeeperModule', () => {
     const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
 
     expect(panel).toHaveLength(0);
+  });
+
+  it('shows employee tier when feature toggle on', () => {
+    const read = jest.fn();
+    const module = new JobKeeperModule({
+      integration: {
+        read,
+      },
+      pushMessage: () => {},
+      featureToggles: {
+        isJobKeeper2Enabled: true,
+      },
+    });
+
+    const { wrapper } = constructModule(module);
+    const employeeTier = wrapper.find({ testId: 'test-employee-tier' });
+
+    expect(employeeTier).toHaveLength(1);
+  });
+
+  it('hides employee tier when feature toggle off', () => {
+    const read = jest.fn();
+    const module = new JobKeeperModule({
+      integration: {
+        read,
+      },
+      pushMessage: () => {},
+      featureToggles: {
+        isJobKeeper2Enabled: false,
+      },
+    });
+
+    const { wrapper } = constructModule(module);
+    const employeeTier = wrapper.find({ testId: 'test-employee-tier' });
+
+    expect(employeeTier).toHaveLength(0);
   });
 
   it('reporting calls API with correct month value', () => {

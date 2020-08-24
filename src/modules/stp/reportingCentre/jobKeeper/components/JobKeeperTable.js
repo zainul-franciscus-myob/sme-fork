@@ -1,6 +1,7 @@
-import { Alert, Card, Table } from '@myob/myob-widgets';
+import { Alert, Card, Icons, Table, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
 
+import EmployeeTierCombobox from './EmployeeTierCombobox';
 import JobKeeperFortnightCombobox from './JobKeeperFortnightCombobox';
 import TableView from '../../../../../components/TableView/TableView';
 import styles from './JobKeeperTable.module.css';
@@ -28,6 +29,13 @@ const tableConfig = {
     valign: 'middle',
     textWrap: 'wrap',
   },
+  tier: {
+    columnName: 'Employee Tier',
+    width: 'flex-2',
+    valign: 'middle',
+    textWrap: 'wrap',
+    testId: 'test-employee-tier',
+  },
 };
 
 const handleComboboxChange = (key, handler) => (item) => {
@@ -38,6 +46,8 @@ const handleComboboxChange = (key, handler) => (item) => {
 };
 
 const JobKeeperTable = ({
+  featureToggles,
+  employeeTierOptions,
   employees,
   firstFortnightOptions,
   finalFortnightOptions,
@@ -58,6 +68,17 @@ const JobKeeperTable = ({
       <Table.HeaderItem {...tableConfig.finalFortnight}>
         {tableConfig.finalFortnight.columnName}
       </Table.HeaderItem>
+      {featureToggles && featureToggles.isJobKeeper2Enabled && (
+        <Table.HeaderItem {...tableConfig.tier}>
+          <div>
+            {tableConfig.tier.columnName}
+            &nbsp;
+            <Tooltip triggerContent={<Icons.Info />} placement="right">
+              Employee tiers will update after the STP report has sent.
+            </Tooltip>
+          </div>
+        </Table.HeaderItem>
+      )}
     </Table.Header>
   );
 
@@ -99,6 +120,25 @@ const JobKeeperTable = ({
           )}
         />
       </Table.RowItem>
+      {featureToggles && featureToggles.isJobKeeper2Enabled && (
+        <Table.RowItem {...tableConfig.tier}>
+          <EmployeeTierCombobox
+            name="employeeTierCombobox"
+            employeeTierOptions={employeeTierOptions}
+            selectedFn={row.tier}
+            label="employeeTierCombobox"
+            hideLabel
+            allowClear={row.allowClearTier}
+            onChange={handleComboboxChange('tier', ({ key, value }) =>
+              onEmployeeChange({
+                key,
+                value,
+                rowId: row.employeeId,
+              })
+            )}
+          />
+        </Table.RowItem>
+      )}
     </Table.Row>
   ));
 

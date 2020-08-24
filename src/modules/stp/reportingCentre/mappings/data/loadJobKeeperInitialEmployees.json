@@ -6,7 +6,8 @@
       "firstName": "Alf",
       "lastName": "Galang",
       "firstFortnight": "02",
-      "finalFortnight": null
+      "finalFortnight": null,
+      "tier": "01"
     },
     {
       "employeeId": "100002",
@@ -14,13 +15,15 @@
       "firstName": "Sarah",
       "lastName": "Boss",
       "firstFortnight": "02",
-      "finalFortnight": "03"
+      "finalFortnight": "03",
+      "tier": "02"
     },
     {
       "firstName": "Harpy",
       "employeeId": "100003",
       "isFinalised": false,
-      "lastName": "Brawn"
+      "lastName": "Brawn",
+      "tier": null
     },
     {
       "firstName": "Gran",
@@ -81,6 +84,16 @@
       "dates": "27 Apr - 10 May",
       "allowanceDescription": "JOBKEEPER-FINISH-FN03",
       "id": "03"
+    }
+  ],
+  "employeeTierOptions": [
+    {
+      "description": "Full rate (Tier 1)",
+      "id": "01"
+    },
+    {
+      "description": "Part rate (Tier 2)",
+      "id": "02"
     }
   ]
 }
