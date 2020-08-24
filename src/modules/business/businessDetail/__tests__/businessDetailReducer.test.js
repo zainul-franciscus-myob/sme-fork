@@ -190,6 +190,28 @@ describe('businessDetailReducer', () => {
 
       expect(actual).toEqual(expected);
     });
+
+    it('should set lastMonthInNewFinancialYear with currently saved lastMonthInFinancialYear as default value', () => {
+      const state = {
+        businessDetails: {
+          lastMonthInFinancialYear: '',
+          lastMonthInNewFinancialYear: '',
+        },
+      };
+
+      const action = {
+        businessDetails: {
+          lastMonthInFinancialYear: '11',
+        },
+      };
+
+      const actual = businessDetailsReducer(state, {
+        intent: LOAD_BUSINESS_DETAIL,
+        businessDetails: action.businessDetails,
+      });
+
+      expect(actual.businessDetails.lastMonthInNewFinancialYear).toEqual('11');
+    });
   });
 
   describe('updateFinancialYearSettings', () => {

@@ -112,6 +112,8 @@ const loadBusinessDetail = (state, action) => {
       ...action.businessDetails,
       openingBalanceMonth: getOpeningBalanceMonth(action),
       openingBalanceYear: getOpeningBalanceYear(action),
+      lastMonthInNewFinancialYear:
+        action.businessDetails.lastMonthInFinancialYear,
     },
     pageTitle: action.pageTitle,
     financialYearOptions: action.financialYearOptions,
