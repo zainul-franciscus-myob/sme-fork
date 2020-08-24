@@ -73,7 +73,7 @@ const JobKeeperTable = ({
           <div>
             {tableConfig.tier.columnName}
             &nbsp;
-            <Tooltip triggerContent={<Icons.Info />} placement="right">
+            <Tooltip triggerContent={<Icons.Info />} placement="top">
               Employee tiers will update after the STP report has sent.
             </Tooltip>
           </div>

@@ -29,7 +29,8 @@
       "firstName": "Gran",
       "employeeId": "100004",
       "isFinalised": false,
-      "lastName": "Gedup"
+      "lastName": "Gedup",
+      "tier": null
     }
   ],
   "payrollYears": [
@@ -87,6 +88,10 @@
     }
   ],
   "employeeTierOptions": [
+    {
+      "description": "None",
+      "id": null
+    },
     {
       "description": "Full rate (Tier 1)",
       "id": "01"
