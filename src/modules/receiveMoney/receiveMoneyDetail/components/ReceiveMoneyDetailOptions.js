@@ -13,7 +13,7 @@ import {
   getIsBeforeStartOfFinancialYear,
 } from '../selectors/receiveMoneyDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
-import ContactCombobox from '../../../../components/combobox/ContactCombobox';
+import ContactAutoComplete from '../../../../components/AutoComplete/ContactAutoComplete';
 import DatePicker from '../../../../components/DatePicker/DatePicker';
 
 class ReceiveMoneyDetailOptions extends Component {
@@ -43,7 +43,8 @@ class ReceiveMoneyDetailOptions extends Component {
 
   handleComboBoxChange = (key) => (item) => {
     const { onUpdateHeaderOptions } = this.props;
-    onUpdateHeaderOptions({ key, value: item.id });
+    const value = item ? item.id : '';
+    onUpdateHeaderOptions({ key, value });
   };
 
   render = () => {
@@ -58,8 +59,11 @@ class ReceiveMoneyDetailOptions extends Component {
         selectedDepositIntoAccountId,
         selectedPayFromContactId,
         isContactDisabled,
+        loadContactOptionsStatus,
       },
       onAddContact,
+      onLoadMoreContacts,
+      onContactSearch,
       isBeforeStartOfFinancialYear,
     } = this.props;
 
@@ -73,16 +77,16 @@ class ReceiveMoneyDetailOptions extends Component {
           selectedId={selectedDepositIntoAccountId}
           onChange={this.handleComboBoxChange('selectedDepositIntoAccountId')}
         />
-        <ContactCombobox
+        <ContactAutoComplete
           items={payFromContactOptions}
           selectedId={selectedPayFromContactId}
           onChange={this.handleComboBoxChange('selectedPayFromContactId')}
           label="Contact (payer)"
           name="Pay From Contacts"
-          addNewItem={{
-            label: 'Create contact',
-            onAddNew: onAddContact,
-          }}
+          onAddNewContact={onAddContact}
+          loadMoreButtonStatus={loadContactOptionsStatus}
+          onLoadMoreItems={onLoadMoreContacts}
+          onSearch={onContactSearch}
           hideLabel={false}
           disabled={isContactDisabled}
           allowClear

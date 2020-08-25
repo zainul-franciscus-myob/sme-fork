@@ -3,7 +3,9 @@ import {
   DELETE_RECEIVE_MONEY,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
+  LOAD_CONTACT_OPTIONS,
   LOAD_JOB_AFTER_CREATE,
+  SEARCH_CONTACT,
   UPDATE_RECEIVE_MONEY,
 } from '../ReceiveMoneyIntents';
 import { getIsCreating } from './selectors/receiveMoneyDetailSelectors';
@@ -11,9 +13,12 @@ import {
   getLoadAddedAccountUrlParams,
   getLoadAddedContactUrlParams,
   getLoadAddedJobUrlParams,
+  getLoadContactOptionsParams,
+  getLoadContactOptionsUrlParams,
   getLoadReceiveMoneyIntent,
   getReceiveMoneyForCreatePayload,
   getReceiveMoneyForUpdatePayload,
+  getSearchContactParams,
   getUrlParams,
 } from './selectors/integrationSelectors';
 
@@ -81,6 +86,34 @@ const createReceiveMoneyDetailIntegrator = ({ store, integration }) => ({
     integration.read({
       intent,
       urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+  loadContactOptions: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = LOAD_CONTACT_OPTIONS;
+    const urlParams = getLoadContactOptionsUrlParams(state);
+    const params = getLoadContactOptionsParams(state);
+
+    integration.read({
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
+    });
+  },
+  searchContact: ({ keywords, onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = SEARCH_CONTACT;
+    const urlParams = getLoadContactOptionsUrlParams(state);
+    const params = getSearchContactParams(keywords, state);
+
+    integration.read({
+      intent,
+      urlParams,
+      params,
       onSuccess,
       onFailure,
     });

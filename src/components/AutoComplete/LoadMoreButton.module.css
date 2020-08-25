@@ -5,7 +5,6 @@
   width: min-content;
 }
 
-.spinner {
-  margin-top: var(--flx-spacing-x-small);
-  margin-bottom: var(--flx-spacing-x-small);
+.spinner :global(.smallLoadingSpinner){
+  margin-left: 0;
 }

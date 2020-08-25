@@ -73,18 +73,23 @@ export default class ReceiveMoneyDetailModule {
     this.contactModalModule = new ContactModalModule({ integration });
   }
 
-  openContactModal = () => {
+  openContactModal = ({ onSuccess }) => {
     const state = this.store.getState();
     const context = getContactModalContext(state);
 
     this.contactModalModule.run({
       context,
       onLoadFailure: (message) => this.displayFailureAlert(message),
-      onSaveSuccess: this.loadContactAfterCreate,
+      onSaveSuccess: ({ id, message }) =>
+        this.loadContactAfterCreate({
+          id,
+          message,
+          onCreateContactSuccess: onSuccess,
+        }),
     });
   };
 
-  loadContactAfterCreate = ({ id, message }) => {
+  loadContactAfterCreate = ({ id, message, onCreateContactSuccess }) => {
     this.contactModalModule.resetState();
     this.displaySuccessAlert(message);
     this.dispatcher.setContactLoadingState(true);
@@ -92,6 +97,7 @@ export default class ReceiveMoneyDetailModule {
     const onSuccess = (payload) => {
       this.dispatcher.setContactLoadingState(false);
       this.dispatcher.loadContactAfterCreate(payload);
+      onCreateContactSuccess(payload);
     };
 
     const onFailure = () => {
@@ -159,10 +165,43 @@ export default class ReceiveMoneyDetailModule {
     this.integrator.loadAccountAfterCreate({ id, onSuccess, onFailure });
   };
 
+  loadContactOptions = () => {
+    this.dispatcher.setContactOptionsLoadingState(true);
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setContactOptionsLoadingState(false);
+      this.dispatcher.loadContactOptions(payload);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setContactOptionsLoadingState(false);
+    };
+
+    this.integrator.loadContactOptions({ onSuccess, onFailure });
+  };
+
+  searchContact = ({
+    keywords,
+    onSuccess: onSearchContactSuccess,
+    onFailure: onSearchJobFailure,
+  }) => {
+    const onSuccess = ({ entries }) => {
+      onSearchContactSuccess(entries);
+    };
+
+    const onFailure = () => {
+      onSearchJobFailure();
+    };
+
+    this.integrator.searchContact({ keywords, onSuccess, onFailure });
+  };
+
   loadReceiveMoney = () => {
     const onSuccess = (response) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadReceiveMoney(response);
+
+      this.loadContactOptions();
     };
 
     const onFailure = () => {
@@ -396,6 +435,8 @@ export default class ReceiveMoneyDetailModule {
         onAddAccount={this.openAccountModal}
         onAddContact={this.openContactModal}
         onAddJob={this.openJobModal}
+        onLoadMoreContacts={this.loadContactOptions}
+        onContactSearch={this.searchContact}
       />
     );
 

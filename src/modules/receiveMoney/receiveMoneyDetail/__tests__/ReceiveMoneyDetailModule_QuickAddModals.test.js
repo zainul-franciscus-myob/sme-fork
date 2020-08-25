@@ -6,6 +6,7 @@ import {
   SET_SUBMITTING_STATE,
 } from '../../ReceiveMoneyIntents';
 import { setupWithNew } from './ReceiveMoneyDetailModule.test';
+import addedContactResponse from '../../mappings/data/loadAddedContactResponse';
 
 describe('ReceiveMoneyDetailModule_QuickAddModals', () => {
   describe('loadAccountAfterCreate', () => {
@@ -94,11 +95,13 @@ describe('ReceiveMoneyDetailModule_QuickAddModals', () => {
 
   describe('loadContactAfterCreate', () => {
     it('should load the created contact from the modal', () => {
+      const onCreateContactSuccess = jest.fn();
       const { module, store, integration } = setupWithNew();
 
       module.loadContactAfterCreate({
         message: 'well done',
         id: '123',
+        onCreateContactSuccess,
       });
 
       expect(store.getActions()).toEqual([
@@ -128,6 +131,8 @@ describe('ReceiveMoneyDetailModule_QuickAddModals', () => {
           urlParams: { businessId: 'bizId', contactId: '123' },
         },
       ]);
+
+      expect(onCreateContactSuccess).toHaveBeenCalledWith(addedContactResponse);
     });
 
     it('should not be submitting if we cannot load the created contact', () => {

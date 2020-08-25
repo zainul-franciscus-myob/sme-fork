@@ -5,6 +5,7 @@ import {
   GET_TAX_CALCULATIONS,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
+  LOAD_CONTACT_OPTIONS,
   LOAD_DUPLICATE_RECEIVE_MONEY,
   LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_RECEIVE_MONEY,
@@ -13,6 +14,7 @@ import {
   RESET_TOTALS,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
+  SET_CONTACT_OPTIONS_LOADING_STATE,
   SET_DUPLICATE_ID,
   SET_JOB_LOADING_STATE,
   SET_LOADING_STATE,
@@ -59,7 +61,14 @@ const getDefaultState = () => ({
     totalAmount: '$0.00',
   },
   depositIntoAccountOptions: [],
-  payFromContactOptions: [],
+  payFromContactOptions: {
+    pagination: {
+      hasNextPage: false,
+      offset: 0,
+    },
+    preSelectedIds: [],
+    entries: [],
+  },
   accountOptions: [],
   jobOptions: [],
   taxCodeOptions: [],
@@ -67,6 +76,8 @@ const getDefaultState = () => ({
   alertMessage: '',
   alert: undefined,
   loadingState: LoadingState.LOADING,
+  isContactLoading: false,
+  isContactOptionsLoading: true,
   pageTitle: '',
   isSubmitting: false,
   isLineEdited: false,
@@ -105,7 +116,13 @@ const loadReceiveMoneyDetail = (state, action) => ({
   totals: action.totals,
   pageTitle: action.pageTitle,
   depositIntoAccountOptions: action.depositIntoAccountOptions,
-  payFromContactOptions: action.payFromContactOptions,
+  payFromContactOptions: action.payFromContactOptions
+    ? {
+        ...state.payFromContactOptions,
+        preSelectedIds: action.payFromContactOptions.preSelectedIds,
+        entries: action.payFromContactOptions.entries,
+      }
+    : state.payFromContactOptions,
   accountOptions: action.accountOptions,
   jobOptions: action.jobOptions,
   taxCodeOptions: action.taxCodeOptions,
@@ -181,7 +198,6 @@ const loadNewReceiveMoney = (state, action) => ({
   },
   pageTitle: action.pageTitle,
   depositIntoAccountOptions: action.depositIntoAccountOptions,
-  payFromContactOptions: action.payFromContactOptions,
   accountOptions: action.accountOptions,
   jobOptions: action.jobOptions,
   taxCodeOptions: action.taxCodeOptions,
@@ -240,8 +256,32 @@ const loadContactAfterCreate = (state, { intent, ...contact }) => ({
     ...state.receiveMoney,
     selectedPayFromContactId: contact.id,
   },
-  payFromContactOptions: getUpdatedContactOptions(state, contact),
+  payFromContactOptions: {
+    ...state.payFromContactOptions,
+    preSelectedIds: [...state.payFromContactOptions.preSelectedIds, contact.id],
+    entries: getUpdatedContactOptions(state, contact),
+  },
   isPageEdited: true,
+});
+
+const setContactOptionsLoadingState = (state, { isLoading }) => ({
+  ...state,
+  isContactOptionsLoading: isLoading,
+});
+
+const loadContactOptions = (state, { pagination, entries }) => ({
+  ...state,
+  payFromContactOptions: {
+    ...state.payFromContactOptions,
+    pagination,
+    entries: [
+      ...state.payFromContactOptions.entries,
+      ...entries.filter(
+        (option) =>
+          !state.payFromContactOptions.preSelectedIds.includes(option.id)
+      ),
+    ],
+  },
 });
 
 const loadJobAfterCreate = (state, { intent, ...job }) => ({
@@ -300,6 +340,8 @@ const handlers = {
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [SET_CONTACT_LOADING_STATE]: setContactLoadingState,
   [LOAD_CONTACT_AFTER_CREATE]: loadContactAfterCreate,
+  [SET_CONTACT_OPTIONS_LOADING_STATE]: setContactOptionsLoadingState,
+  [LOAD_CONTACT_OPTIONS]: loadContactOptions,
   [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
   [SET_JOB_LOADING_STATE]: setJobLoadingState,
   [SET_DUPLICATE_ID]: setDuplicateId,

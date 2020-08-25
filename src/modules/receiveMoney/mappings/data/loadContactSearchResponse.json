@@ -1,0 +1,32 @@
+{
+  "entries": [
+    {
+      "contactType": "Customer",
+      "displayContactType": "Customer",
+      "displayName": "Search Customer 11",
+      "id": "11",
+      "displayId": "CUS0000011"
+    },
+    {
+      "contactType": "Supplier",
+      "displayContactType": "Supplier",
+      "displayName": "Search Supplier 12",
+      "id": "12",
+      "displayId": "SUPP00012"
+    },
+    {
+      "contactType": "Customer",
+      "displayContactType": "Customer",
+      "displayName": "Search Customer 13",
+      "id": "13",
+      "displayId": "CUS0000013"
+    },
+    {
+      "contactType": "Supplier",
+      "displayContactType": "Supplier",
+      "displayName": "Search Supplier 14",
+      "id": "14",
+      "displayId": "SUPP00014"
+    }
+  ]
+}

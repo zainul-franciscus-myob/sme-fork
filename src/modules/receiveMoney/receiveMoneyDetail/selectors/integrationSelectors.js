@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect';
+
 import {
   LOAD_DUPLICATE_RECEIVE_MONEY,
   LOAD_NEW_RECEIVE_MONEY,
@@ -72,3 +74,20 @@ export const getUrlParams = (state) => {
     duplicateId,
   };
 };
+
+export const getLoadContactOptionsUrlParams = (state) => {
+  const businessId = getBusinessId(state);
+  return { businessId };
+};
+
+const getContactOptionsOffset = (state) =>
+  state.payFromContactOptions.pagination.offset;
+export const getLoadContactOptionsParams = createSelector(
+  getContactOptionsOffset,
+  (offset) => ({ offset })
+);
+
+export const getSearchContactParams = (keywords) => ({
+  offset: 0,
+  keywords,
+});

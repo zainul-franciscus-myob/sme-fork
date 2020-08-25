@@ -132,7 +132,7 @@ describe('AutoCompleteCombobox', () => {
             expect(onLoadMoreItems).toHaveBeenCalledTimes(1);
           });
 
-          it('calls onChange with previously selected item, when Load More button is selected or clicked on, but the user had previously selected an item from the list', () => {
+          it('calls onChange with previously selected item, when Load More button is selected or clicked on and the user had previously selected an item from the list', () => {
             const onLoadMoreItems = jest.fn();
             const onChange = jest.fn();
             const autoCompleteWrapper = mountComponent({
@@ -184,14 +184,14 @@ describe('AutoCompleteCombobox', () => {
     });
   });
 
-  describe('when user starts typing in input field', () => {
+  describe('when user input field is not empty', () => {
     const searchResults = [
       { id: '3', name: 'heyy' },
       { id: '4', name: 'heyyy' },
       { id: '5', name: 'heeeyyy' },
     ];
 
-    it('makes search request and shows search result list instead of item list', (done) => {
+    it('makes search request and shows search result list instead of item list when the user types', (done) => {
       const onSearch = jest.fn(({ onSuccess }) => onSuccess(searchResults));
 
       const autoCompleteWrapper = mountComponent({
@@ -203,11 +203,12 @@ describe('AutoCompleteCombobox', () => {
       // Run callback immediately after re-render
       setImmediate(() => {
         autoCompleteWrapper.update();
-
         const renderedRows = autoCompleteWrapper
           .find('ComboboxBox')
           .find('table > tbody > tr');
+
         expect(renderedRows.length).toBe(3);
+        expect(onSearch).toHaveBeenCalled();
 
         done();
       });
@@ -236,6 +237,24 @@ describe('AutoCompleteCombobox', () => {
 
         done();
       });
+    });
+
+    it('shows item list instead of search results on Read', () => {
+      const onSearch = jest.fn(({ onSuccess }) => onSuccess(searchResults));
+      const selectedId = '1';
+
+      const autoCompleteWrapper = mountComponent({
+        selectedId,
+        loadMoreButtonStatus: LoadMoreButtonStatus.HIDDEN,
+        items,
+        onSearch,
+      });
+
+      clickOnMenuDropdown(autoCompleteWrapper);
+      const renderedRows = autoCompleteWrapper
+        .find('ComboboxBox')
+        .find('table > tbody > tr');
+      expect(renderedRows.length).toBe(2);
     });
   });
 });

@@ -11,6 +11,7 @@ const LOAD_MORE_BUTTON_ID = Symbol('Load More button item id');
 const IS_LOAD_MORE_BUTTON = Symbol(
   'Property to determine if this is a Load more button item'
 );
+
 const loadMoreButtonItem = {
   id: LOAD_MORE_BUTTON_ID,
   [IS_LOAD_MORE_BUTTON]: true,
@@ -23,18 +24,28 @@ const AutoCompleteCombobox = ({
   addNewItem,
   loadMoreButtonStatus,
   onLoadMoreItems,
-  isSearchLoading,
   searchDelay = 500,
   onSearch,
   onChange,
+  noMatchFoundMessage = 'No item found',
   ...otherProps
 }) => {
+  // All the Refs in this component are purely to keep state, where a change in the Ref value
+  // will not cause a re-render
+  //
+  // Some of these states are stored in downshift but they are not exposed by Feelix hence
+  // we have to keep track of our own state this way
+
   const [currInput, setCurrInput] = useState('');
+  const prevSelectedItem = useRef(null);
   const hasUserSelectedRef = useRef(false);
   const hasDownshiftSelectedRef = useRef(false);
 
   const isSearchingRef = useRef(false);
+  const [isSearchLoading, setIsSearchLoading] = useState(false);
   const [searchItems, setSearchItems] = useState([]);
+
+  const hasBlurredRef = useRef(false);
 
   const paginationDisplayColumn = metaData.find(
     (column) => column.showPagination
@@ -43,56 +54,89 @@ const AutoCompleteCombobox = ({
     loadMoreButtonStatus
   );
 
-  const selectedItem = buildSelectedItem({
-    selectedId,
-    items,
-  });
-
   const comboboxItems = buildItems({
     items,
     searchItems,
     isSearching: isSearchingRef.current,
     isSearchLoading,
+    prevSelectedItem: prevSelectedItem.current,
     shouldShowLoadMoreButton,
     loadMoreButtonItem,
   });
 
-  useEffect(() => {
-    if (hasUserSelectedRef.current) {
-      hasUserSelectedRef.current = false;
-      return;
-    }
+  const selectedItem = buildSelectedItem({
+    isSearching: isSearchingRef.current,
+    prevSelectedItem: prevSelectedItem.current,
+    selectedId,
+    items: comboboxItems,
+  });
 
-    if (hasDownshiftSelectedRef.current) {
+  // Determine if a search request should be made after re-render has happened
+  useEffect(() => {
+    if (hasUserSelectedRef.current || hasDownshiftSelectedRef.current) {
       return;
     }
 
     if (currInput !== '') {
+      // If the user has blurred out, do not proceed with search
+      if (hasBlurredRef.current) {
+        hasBlurredRef.current = false;
+        return;
+      }
+
+      // Start searching
+      setIsSearchLoading(true);
+      isSearchingRef.current = true;
+
       debounce(
         onSearch,
         searchDelay
       )({
-        keyword: currInput,
+        keywords: currInput,
         onSuccess: (data) => {
           if (isSearchingRef.current) {
+            setIsSearchLoading(false);
             setSearchItems(data);
           }
         },
+        onFailure: () => {
+          if (isSearchingRef.current) {
+            setIsSearchLoading(false);
+            setSearchItems([]);
+          }
+        },
       });
-      isSearchingRef.current = true;
-    } else {
-      isSearchingRef.current = false;
     }
-  }, [currInput, onSearch, searchDelay, setSearchItems]);
+    // Input field is empty
+    else {
+      isSearchingRef.current = false;
+      setIsSearchLoading(false);
+    }
+  }, [currInput, onSearch, searchDelay, setIsSearchLoading]);
 
   const onInputValueChange = (value) => {
     if (currInput !== value) {
+      hasUserSelectedRef.current = false;
       setCurrInput(value);
 
+      // User has cleared input box
       if (value === '') {
-        setSearchItems([]);
+        prevSelectedItem.current = null;
         isSearchingRef.current = false;
+        setIsSearchLoading(false);
+        setSearchItems([]);
       }
+      // On Read
+      else if (
+        currInput === '' &&
+        selectedItem &&
+        value === selectedItem[paginationDisplayColumn]
+      ) {
+        prevSelectedItem.current = selectedItem;
+        hasUserSelectedRef.current = true;
+      }
+    } else {
+      hasUserSelectedRef.current = true;
     }
   };
 
@@ -119,11 +163,26 @@ const AutoCompleteCombobox = ({
       const newItem = item || {};
       const { id = '' } = newItem;
       if (selectedId !== id) {
-        onChange(newItem);
+        onChange(item);
+        prevSelectedItem.current = item;
         hasUserSelectedRef.current = true;
         hasDownshiftSelectedRef.current = false;
       }
     }
+  };
+
+  const onBlur = () => {
+    if (
+      isSearchingRef.current &&
+      isSearchLoading &&
+      searchItems.length === 0 &&
+      prevSelectedItem.current
+    ) {
+      isSearchingRef.current = false;
+    }
+
+    hasBlurredRef.current = true;
+    setIsSearchLoading(false);
   };
 
   const renderItem = (columnName, item) => {
@@ -139,8 +198,9 @@ const AutoCompleteCombobox = ({
   const onAddNewItem = () => {
     if (addNewItem) {
       addNewItem.onAddNew({
-        onSuccess: () => {
+        onSuccess: (newItem) => {
           isSearchingRef.current = false;
+          prevSelectedItem.current = newItem;
         },
       });
     }
@@ -159,6 +219,11 @@ const AutoCompleteCombobox = ({
       }
       onInputValueChange={onInputValueChange}
       onChange={onComboboxChange}
+      onSearch={onSearch}
+      onBlur={onBlur}
+      noMatchFoundMessage={
+        isSearchLoading ? 'Searching...' : noMatchFoundMessage
+      }
       {...otherProps}
     />
   );

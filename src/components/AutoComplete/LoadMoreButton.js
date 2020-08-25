@@ -1,4 +1,4 @@
-import { Button, Spinner } from '@myob/myob-widgets';
+import { Button, Icons, Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
 import LoadMoreButtonStatus from './LoadMoreButtonStatus';
@@ -13,7 +13,12 @@ const LoadMoreButton = ({ loadMoreButtonStatus }) => {
 
   const button = (
     <div className={style.button}>
-      <Button key="loadMore" name="loadMore" type="secondary">
+      <Button
+        key="loadMore"
+        name="loadMore"
+        type="link"
+        icon={<Icons.Refresh />}
+      >
         Load more
       </Button>
     </div>

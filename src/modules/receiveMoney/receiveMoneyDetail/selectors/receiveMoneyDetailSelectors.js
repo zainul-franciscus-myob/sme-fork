@@ -7,6 +7,7 @@ import {
 } from '../../../../common/taxCalculator';
 import ModalType from '../../ModalType';
 import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
+import getLoadMoreButtonStatus from '../../../../components/AutoComplete/helpers/getLoadMoreButtonStatus';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 
 const calculate = createTaxCalculator(TaxCalculatorTypes.receiveMoney);
@@ -32,12 +33,22 @@ export const getIsReceiveMoneyJobColumnEnabled = (state) =>
   state.isReceiveMoneyJobColumnEnabled;
 
 const getDepositIntoAccountOptions = (state) => state.depositIntoAccountOptions;
-const getPayFromContactOptions = (state) => state.payFromContactOptions;
+const getPayFromContactOptions = (state) => state.payFromContactOptions.entries;
 export const getAccountOptions = (state) => state.accountOptions;
 export const getTaxCodeOptions = (state) => state.taxCodeOptions;
 
 export const getIsContactLoading = (state) => state.isContactLoading;
 
+const getIsContactOptionsLoading = (state) => state.isContactOptionsLoading;
+const getHasMoreContactOptions = (state) =>
+  state.payFromContactOptions.pagination.hasNextPage;
+export const getLoadContactOptionsStatus = createSelector(
+  getIsContactOptionsLoading,
+  getHasMoreContactOptions,
+  (isContactOptionsLoading, hasMore) =>
+    getLoadMoreButtonStatus(isContactOptionsLoading, hasMore)
+);
+const getIsSearchContactLoading = (state) => state.isSearchContactLoading;
 export const getHeaderOptions = createStructuredSelector({
   referenceId: getReferenceId,
   selectedDepositIntoAccountId: getSelectedDepositIntoId,
@@ -49,6 +60,8 @@ export const getHeaderOptions = createStructuredSelector({
   isReportable: getIsReportable,
   isTaxInclusive: getIsTaxInclusive,
   isContactDisabled: getIsContactLoading,
+  loadContactOptionsStatus: getLoadContactOptionsStatus,
+  isSearchContactLoading: getIsSearchContactLoading,
 });
 
 export const getAlertMessage = (state) => state.alertMessage;

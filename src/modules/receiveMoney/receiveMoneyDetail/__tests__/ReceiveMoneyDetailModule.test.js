@@ -3,11 +3,13 @@ import {
   CLOSE_MODAL,
   CREATE_RECEIVE_MONEY,
   DELETE_RECEIVE_MONEY,
+  LOAD_CONTACT_OPTIONS,
   LOAD_DUPLICATE_RECEIVE_MONEY,
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
   OPEN_MODAL,
   SET_ALERT,
+  SET_CONTACT_OPTIONS_LOADING_STATE,
   SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
@@ -126,7 +128,21 @@ export const setUpWithPageEdited = () => {
 
 describe('ReceiveMoneyDetailModule', () => {
   describe('run', () => {
-    it('should successfully load with new', () => {
+    const loadContactOptionsActions = [
+      {
+        intent: SET_CONTACT_OPTIONS_LOADING_STATE,
+        isLoading: true,
+      },
+      {
+        intent: SET_CONTACT_OPTIONS_LOADING_STATE,
+        isLoading: false,
+      },
+      expect.objectContaining({
+        intent: LOAD_CONTACT_OPTIONS,
+      }),
+    ];
+
+    it('should successfully load with new receive money, followed by loading contact options', () => {
       const { store, integration, module } = setup();
 
       module.run({ receiveMoneyId: 'new' });
@@ -146,16 +162,20 @@ describe('ReceiveMoneyDetailModule', () => {
         expect.objectContaining({
           intent: LOAD_NEW_RECEIVE_MONEY,
         }),
+        ...loadContactOptionsActions,
       ]);
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: LOAD_NEW_RECEIVE_MONEY,
         }),
+        expect.objectContaining({
+          intent: LOAD_CONTACT_OPTIONS,
+        }),
       ]);
     });
 
-    it('should successfully load with existing', () => {
+    it('should successfully load with existing, followed by loading contact options', () => {
       const { store, integration, module } = setup();
 
       module.run({ receiveMoneyId: '1' });
@@ -175,16 +195,20 @@ describe('ReceiveMoneyDetailModule', () => {
         expect.objectContaining({
           intent: LOAD_RECEIVE_MONEY_DETAIL,
         }),
+        ...loadContactOptionsActions,
       ]);
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: LOAD_RECEIVE_MONEY_DETAIL,
         }),
+        expect.objectContaining({
+          intent: LOAD_CONTACT_OPTIONS,
+        }),
       ]);
     });
 
-    it('should successfully load with duplicate', () => {
+    it('should successfully load with duplicate, followed by loading contact options', () => {
       const { store, integration, module } = setup();
       module.popMessages = () => [
         {
@@ -214,6 +238,7 @@ describe('ReceiveMoneyDetailModule', () => {
         expect.objectContaining({
           intent: LOAD_DUPLICATE_RECEIVE_MONEY,
         }),
+        ...loadContactOptionsActions,
       ]);
 
       expect(integration.getRequests()).toEqual([
@@ -224,10 +249,13 @@ describe('ReceiveMoneyDetailModule', () => {
             duplicateId: '🦖',
           },
         }),
+        expect.objectContaining({
+          intent: LOAD_CONTACT_OPTIONS,
+        }),
       ]);
     });
 
-    it('should fail to load', () => {
+    it('should fail to load receive money, and not make any request or action to load contact options', () => {
       const { store, integration, module } = setup();
       integration.mapFailure(LOAD_RECEIVE_MONEY_DETAIL);
 

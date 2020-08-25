@@ -4,6 +4,7 @@ import {
   GET_TAX_CALCULATIONS,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
+  LOAD_CONTACT_OPTIONS,
   LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
@@ -364,57 +365,38 @@ describe('receiveMoneyDetailReducer', () => {
     });
   });
 
-  describe('LOAD', () => {
+  describe('LOAD_CONTACT_AFTER_CREATE', () => {
+    const state = {
+      payFromContactOptions: {
+        preSelectedIds: ['🐶'],
+        entries: [{ id: '🐶', name: 'Dog' }],
+      },
+      receiveMoney: {},
+    };
+
+    const action = {
+      intent: LOAD_CONTACT_AFTER_CREATE,
+      id: '🐱',
+      name: 'Cat',
+    };
+
     it('merges new contact payload into contact options', () => {
-      const state = {
-        payFromContactOptions: [{ id: '🐶', name: 'Dog' }],
-      };
-
-      const action = {
-        intent: LOAD_CONTACT_AFTER_CREATE,
-        id: '🐱',
-        name: 'Cat',
-      };
-
       const actual = receiveMoneyReducer(state, action);
-
-      expect(actual.payFromContactOptions).toEqual([
+      expect(actual.payFromContactOptions.entries).toEqual([
         { id: '🐱', name: 'Cat' },
         { id: '🐶', name: 'Dog' },
       ]);
     });
 
     it('sets page state to edited', () => {
-      const state = {
-        payFromContactOptions: [{ id: '🐶', name: 'Dog' }],
-      };
-
-      const action = {
-        intent: LOAD_CONTACT_AFTER_CREATE,
-        id: '🐱',
-        name: 'Cat',
-      };
-
       const actual = receiveMoneyReducer(state, action);
-
       expect(actual.isPageEdited).toEqual(true);
     });
 
-    it('sets selectedPayFromContactId to created contact', () => {
-      const state = {
-        payFromContactOptions: [{ id: '🐶', name: 'Dog' }],
-        receiveMoney: {},
-      };
-
-      const action = {
-        intent: LOAD_CONTACT_AFTER_CREATE,
-        id: '🐱',
-        name: 'Cat',
-      };
-
+    it('sets selectedPayFromContactId and preSelectedIds', () => {
       const actual = receiveMoneyReducer(state, action);
-
       expect(actual.receiveMoney.selectedPayFromContactId).toEqual('🐱');
+      expect(actual.payFromContactOptions.preSelectedIds).toEqual(['🐶', '🐱']);
     });
   });
 
@@ -471,78 +453,225 @@ describe('receiveMoneyDetailReducer', () => {
   });
 
   describe('LOAD_RECEIVE_MONEY_DETAIL', () => {
-    const state = {};
-
-    const action = {
-      intent: LOAD_RECEIVE_MONEY_DETAIL,
-      receiveMoney: {
-        lines: [
+    describe('job options', () => {
+      const state = {};
+      const action = {
+        intent: LOAD_RECEIVE_MONEY_DETAIL,
+        receiveMoney: {
+          lines: [
+            {
+              jobId: '1',
+            },
+            {
+              jobId: '2',
+            },
+            {
+              jobId: '3',
+            },
+          ],
+        },
+        newLine: {
+          lineJobOptions: [],
+        },
+        jobOptions: [
           {
-            jobId: '1',
+            id: '1',
+            isActive: false,
           },
           {
-            jobId: '2',
+            id: '2',
+            isActive: false,
           },
           {
-            jobId: '3',
+            id: '3',
+            isActive: true,
+          },
+          {
+            id: '4',
+            isActive: true,
           },
         ],
-      },
-      newLine: {
-        lineJobOptions: [],
-      },
-      jobOptions: [
-        {
-          id: '1',
-          isActive: false,
+      };
+
+      describe('sets job options on each line and newLine', () => {
+        it('shows inactive selected jobs against each line', () => {
+          const lineOneExpectedOptions = action.jobOptions.filter(
+            (job) => job.id !== '2'
+          );
+          const lineTwoExpectedOptions = action.jobOptions.filter(
+            (job) => job.id !== '1'
+          );
+          const lineThreeExpectedOptions = action.jobOptions.filter(
+            (job) => job.id !== '1' && job.id !== '2'
+          );
+
+          const actual = receiveMoneyReducer(state, action);
+
+          expect(actual.receiveMoney.lines[0].lineJobOptions).toEqual(
+            lineOneExpectedOptions
+          );
+          expect(actual.receiveMoney.lines[1].lineJobOptions).toEqual(
+            lineTwoExpectedOptions
+          );
+          expect(actual.receiveMoney.lines[2].lineJobOptions).toEqual(
+            lineThreeExpectedOptions
+          );
+        });
+
+        it('shows active jobs against new line', () => {
+          const expectedJobOptions = action.jobOptions.filter(
+            (job) => job.isActive
+          );
+          const actual = receiveMoneyReducer(state, action);
+
+          expect(actual.newLine.lineJobOptions).toEqual(expectedJobOptions);
+        });
+      });
+    });
+
+    describe('payFromContactOptions', () => {
+      const state = {
+        payFromContactOptions: {
+          pagination: {
+            offset: 0,
+            hasNextPage: false,
+          },
+          preSelectedIds: [],
+          entries: [],
         },
-        {
-          id: '2',
-          isActive: false,
+      };
+
+      const action = {
+        intent: LOAD_RECEIVE_MONEY_DETAIL,
+        payFromContactOptions: {
+          preSelectedIds: ['2'],
+          entries: [
+            {
+              id: '2',
+              displayName: 'Pre-selected Customer 2',
+            },
+          ],
         },
+        receiveMoney: {
+          referenceId: 'refId',
+          lines: [],
+        },
+      };
+
+      it('sets preSelectedIds and entries if payFromContactOptions is in action', () => {
+        const actual = receiveMoneyReducer(state, action);
+        const expected = {
+          preSelectedIds: ['2'],
+          entries: [
+            {
+              id: '2',
+              displayName: 'Pre-selected Customer 2',
+            },
+          ],
+          pagination: {
+            offset: 0,
+            hasNextPage: false,
+          },
+        };
+        expect(actual.payFromContactOptions).toEqual(expected);
+      });
+
+      it('keeps state payFromContactOptions if it is not returned from action', () => {
+        const actual = receiveMoneyReducer(state, {
+          ...action,
+          payFromContactOptions: undefined,
+        });
+        expect(actual.payFromContactOptions).toEqual(
+          state.payFromContactOptions
+        );
+      });
+    });
+  });
+
+  describe('LOAD_CONTACT_OPTIONS', () => {
+    const pagination = {
+      hasNextPage: true,
+      offset: 3,
+    };
+    const newEntries = [
+      {
+        id: '5',
+        name: 'Customer 5',
+      },
+    ];
+    const action = {
+      intent: LOAD_CONTACT_OPTIONS,
+      pagination,
+      entries: newEntries,
+    };
+
+    it('merges existing entries with new entries and updates pagination info', () => {
+      const state = {
+        payFromContactOptions: {
+          preSelectedIds: [],
+          pagination: {
+            hasNextPage: false,
+            offset: 0,
+          },
+          entries: [],
+        },
+      };
+
+      const actual = receiveMoneyReducer(state, action);
+      expect(actual.payFromContactOptions.entries).toEqual(newEntries);
+      expect(actual.payFromContactOptions.pagination).toEqual(pagination);
+    });
+
+    it('merges existing entries with new entries and remove duplicated selected contact options if exists', () => {
+      const state = {
+        payFromContactOptions: {
+          preSelectedIds: ['4'],
+          pagination: {
+            hasNextPage: false,
+            offset: 0,
+          },
+          entries: [
+            {
+              id: '3',
+              name: 'Customer 3',
+            },
+            {
+              id: '4',
+              name: 'Customer 4',
+            },
+          ],
+        },
+      };
+
+      const actual = receiveMoneyReducer(state, {
+        ...action,
+        entries: [
+          ...newEntries,
+          {
+            id: '4',
+            name: 'Customer 4',
+          },
+        ],
+      });
+
+      const expectedMergedEntries = [
         {
           id: '3',
-          isActive: true,
+          name: 'Customer 3',
         },
         {
           id: '4',
-          isActive: true,
+          name: 'Customer 4',
         },
-      ],
-    };
-    describe('sets job options on each line and newLine', () => {
-      it('shows inactive selected jobs against each line', () => {
-        const lineOneExpectedOptions = action.jobOptions.filter(
-          (job) => job.id !== '2'
-        );
-        const lineTwoExpectedOptions = action.jobOptions.filter(
-          (job) => job.id !== '1'
-        );
-        const lineThreeExpectedOptions = action.jobOptions.filter(
-          (job) => job.id !== '1' && job.id !== '2'
-        );
+        {
+          id: '5',
+          name: 'Customer 5',
+        },
+      ];
 
-        const actual = receiveMoneyReducer(state, action);
-
-        expect(actual.receiveMoney.lines[0].lineJobOptions).toEqual(
-          lineOneExpectedOptions
-        );
-        expect(actual.receiveMoney.lines[1].lineJobOptions).toEqual(
-          lineTwoExpectedOptions
-        );
-        expect(actual.receiveMoney.lines[2].lineJobOptions).toEqual(
-          lineThreeExpectedOptions
-        );
-      });
-
-      it('shows active jobs against new line', () => {
-        const expectedJobOptions = action.jobOptions.filter(
-          (job) => job.isActive
-        );
-        const actual = receiveMoneyReducer(state, action);
-
-        expect(actual.newLine.lineJobOptions).toEqual(expectedJobOptions);
-      });
+      expect(actual.payFromContactOptions.entries).toEqual(
+        expectedMergedEntries
+      );
     });
   });
 });

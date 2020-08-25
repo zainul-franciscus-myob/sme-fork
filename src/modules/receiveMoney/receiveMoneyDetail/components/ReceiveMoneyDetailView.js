@@ -39,11 +39,15 @@ const ReceiveMoneyDetailView = ({
   onAddAccount,
   onAddContact,
   onAddJob,
+  onLoadMoreContacts,
+  onContactSearch,
 }) => {
   const templateOptions = (
     <ReceiveMoneyDetailOptions
       onUpdateHeaderOptions={onUpdateHeaderOptions}
       onAddContact={onAddContact}
+      onLoadMoreContacts={onLoadMoreContacts}
+      onContactSearch={onContactSearch}
     />
   );
 
