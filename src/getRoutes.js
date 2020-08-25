@@ -44,6 +44,7 @@ import getQuoteRoutes from './modules/quote/getQuoteRoutes';
 import getQuoteWithStatusRoutes from './modules/quoteWithStatus/getQuoteWithStatusRoutes';
 import getReceiveMoneyRoutes from './modules/receiveMoney/getReceiveMoneyRoutes';
 import getReceiveRefundRoutes from './modules/receiveRefund/getReceiveRefundRoutes';
+import getReportsSubscribeNowRoutes from './modules/reportsSubscribeNow/getReportsSubscribeNowRoutes';
 import getSalesSettingsRoutes from './modules/salesSettings/getSalesSettingsRoutes';
 import getSpendMoneyRoutes from './modules/spendMoney/getSpendMoneyRoutes';
 import getStpRoutes from './modules/stp/getStpRoutes';
@@ -118,6 +119,7 @@ const getRoutes = (moduleParams) => [
   ...getBankFeedsApplyRoutes(moduleParams),
   ...getPayRunNzRoutes(moduleParams),
   ...getQuoteWithStatusRoutes(moduleParams),
+  ...getReportsSubscribeNowRoutes(moduleParams),
 ];
 
 export default getRoutes;
