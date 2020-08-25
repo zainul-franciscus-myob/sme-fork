@@ -5,9 +5,11 @@ import ReactDOM from 'react-dom';
 
 import {
   getBusinessId,
+  getErrorPageUrl,
   getHasCheckedBrowserAlert,
   getIsPaidSubscription,
   getLeanEngageInfo,
+  getRegion,
   getTelemetryData,
 } from './rootSelectors';
 import BusinessDetailsService from './services/businessDetails';
@@ -89,24 +91,25 @@ export default class RootModule {
     });
   };
 
-  getRegion = () => this.store.getState().region;
+  getRegion = () => {
+    const state = this.store.getState();
+    return getRegion(state);
+  };
 
-  loadSharedInfo = () => {
-    const onSuccess = (sharedInfo) => {
-      this.dispatcher.loadSharedInfo(sharedInfo);
-      this.runLeanEngage();
-      this.runTelemetry(this.routeProps);
-    };
-
-    this.integrator.loadSharedInfo({ onSuccess });
+  loadSharedInfo = async () => {
+    const sharedInfo = await this.integrator.loadSharedInfo();
+    this.dispatcher.loadSharedInfo(sharedInfo);
   };
 
   loadSubscription = async () => {
-    const onSuccess = (subscription) => {
-      this.dispatcher.loadSubscription(subscription);
-    };
+    const subscription = await this.integrator.loadSubscription();
+    this.dispatcher.loadSubscription(subscription);
+  };
 
-    await this.integrator.loadSubscription({ onSuccess });
+  loadSplit = async () => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    await this.splitFeatureToggles.init({ businessId });
   };
 
   isToggleOn = (toggleName) => {
@@ -194,6 +197,23 @@ export default class RootModule {
     this.businessDetailsService.load();
   };
 
+  loadBusinessServices = async () => {
+    await Promise.all([
+      this.loadSplit(),
+      this.loadSubscription(),
+      this.loadSharedInfo(),
+      this.settingsService.load(),
+      this.tasksService.load(),
+      this.businessDetailsService.load(),
+    ]);
+  };
+
+  navigateToErrorPage = () => {
+    const state = this.store.getState();
+    const url = getErrorPageUrl(state);
+    this.navigateTo(url);
+  };
+
   run = async (routeProps, module, context) => {
     const {
       routeParams: { businessId, region },
@@ -208,22 +228,17 @@ export default class RootModule {
 
     if (businessId) {
       if (businessId !== this.last_business_id) {
-        await Promise.all([
-          this.splitFeatureToggles.init({ businessId }),
-          this.loadSubscription(),
-          this.settingsService.load(),
-        ]);
-        this.tasksService.load();
-        this.loadSharedInfo();
-        this.businessDetailsService.load();
-      } else {
-        this.runLeanEngage();
-        this.runTelemetry(routeProps);
+        try {
+          await this.loadBusinessServices({ businessId });
+        } catch {
+          this.navigateToErrorPage();
+        }
       }
-    } else {
-      // User is on business list
-      this.runTelemetry(routeProps);
+
+      this.runLeanEngage();
     }
+
+    this.runTelemetry(routeProps);
 
     this.last_business_id = businessId;
 

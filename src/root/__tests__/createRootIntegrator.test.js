@@ -7,7 +7,7 @@ const createIntegration = () => {
   };
   integration.read = (options) => {
     integration.readCalls.push(options);
-    options.onSuccess();
+    options.onSuccess('🌶');
   };
   return integration;
 };
@@ -20,24 +20,21 @@ const store = {
 
 let integration;
 let rootIntegrator;
-let onSuccess;
 
 describe('SubscriptionLoader', () => {
   beforeEach(() => {
     integration = createIntegration();
     rootIntegrator = createRootIntegrator(store, integration);
-    onSuccess = jest.fn();
   });
 
   it('requests to load the subscription', async () => {
-    await rootIntegrator.loadSubscription({ onSuccess });
+    await rootIntegrator.loadSubscription();
 
     expect(integration.readCalls[0].intent).toBe(LOAD_SUBSCRIPTION);
   });
 
-  it('calls onSuccess callback', async () => {
-    await rootIntegrator.loadSubscription({ onSuccess });
-
-    expect(onSuccess).toHaveBeenCalled();
+  it('returns result of integration call', async () => {
+    const actual = await rootIntegrator.loadSubscription();
+    expect(actual).toEqual('🌶');
   });
 });

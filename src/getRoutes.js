@@ -19,6 +19,7 @@ import getElectronicPaymentsRoutes from './modules/electronicPayments/getElectro
 import getEmployeeNzRoutes from './modules/nzPayroll/employee/getEmployeeNzRoutes';
 import getEmployeePayRoutes from './modules/employeePay/getEmployeePayRoutes';
 import getEmployeeRoutes from './modules/employee/getEmployeeRoutes';
+import getErrorRoutes from './modules/error/getErrorRoutes';
 import getFileUnavailableRoutes from './modules/fileUnavailable/getFileUnavailableRoutes';
 import getGeneralJournalRoutes from './modules/generalJournal/getGeneralJournalRoutes';
 import getInTrayRoutes from './modules/inTray/getInTrayRoutes';
@@ -97,6 +98,7 @@ const getRoutes = (moduleParams) => [
   ...getAccountRoutes(moduleParams),
   ...getLinkUserRoutes(moduleParams),
   ...getPermissionDeniedRoutes(moduleParams),
+  ...getErrorRoutes(moduleParams),
   ...getDashboardRoutes(moduleParams),
   ...getBankFeedsRoutes(moduleParams),
   ...getDataImportExportRoutes(moduleParams),

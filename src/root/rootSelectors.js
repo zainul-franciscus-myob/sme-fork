@@ -1,6 +1,9 @@
+import { createSelector } from 'reselect';
+
 import SubscriptionType from '../common/types/SubscriptionType';
 
 export const getBusinessId = (state) => state.businessId;
+export const getRegion = (state) => state.region;
 export const getAreOnboardingSettingsLoaded = (state) =>
   state.areOnboardingSettingsLoaded;
 export const getPreviousSettingsBusinessId = (state) =>
@@ -22,6 +25,12 @@ const getUserType = ({ isAdvisor }) => {
 
   return isAdvisor ? 'advisor' : 'SME';
 };
+
+export const getErrorPageUrl = createSelector(
+  getBusinessId,
+  getRegion,
+  (businessId, region) => `/#/${region}/${businessId}/error`
+);
 
 export const getTelemetryData = (state) =>
   state.businessId

@@ -71,6 +71,7 @@ const RouteName = {
   ACCOUNT_DETAIL: 'account/accountDetail',
   LINK_USER: 'linkUser/linkUser',
   PERMISSION_DENIED: 'permissionDenied/permissionDenied',
+  ERROR: 'error/error',
   DASHBOARD: 'dashboard/dashboard',
   BANK_FEEDS: 'bankFeeds/bankFeeds',
   BANK_FEEDS_CREATE: 'bankFeeds/create',

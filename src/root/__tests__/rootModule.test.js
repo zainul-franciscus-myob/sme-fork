@@ -21,27 +21,35 @@ describe('rootModule', () => {
           })
       );
 
-    const createAndRunModule = async (
-      routeProps,
-      module,
-      context,
-      lastBusinessId
-    ) => {
+    const createModule = (lastBusinessId) => {
       const root = new RootModule();
       root.init({
         integration: jest.fn(),
-        router: jest.fn(),
+        router: {
+          navigateTo: jest.fn(),
+        },
         startLeanEngage: jest.fn(),
         sendTelemetryEvent: jest.fn(),
       });
       stubFunctionsOn(
         root.settingsService,
+        root.businessDetailsService,
         root.nav,
         root.dispatcher,
         root.drawer,
         root.integrator
       );
       root.last_business_id = lastBusinessId;
+      return root;
+    };
+
+    const createAndRunModule = async (
+      routeProps,
+      module,
+      context,
+      lastBusinessId
+    ) => {
+      const root = createModule(lastBusinessId);
       await root.run(routeProps, module, context);
       return root;
     };
@@ -51,7 +59,71 @@ describe('rootModule', () => {
       currentRouteName: 'some/route',
     });
     const buildModule = () => ({ resetState: jest.fn(), run: jest.fn() });
-    const context = {};
+    const context = { businessId: '🌶', region: 'au' };
+
+    it('does not redirect to error on success', async () => {
+      const root = await createAndRunModule(
+        buildRouteProps('id'),
+        buildModule(),
+        context
+      );
+
+      expect(root.navigateTo).not.toHaveBeenCalledWith(
+        expect.stringContaining('/error')
+      );
+    });
+
+    describe('subscription', () => {
+      it('navigates to error on failure', async () => {
+        const root = createModule();
+        root.integrator.loadSubscription = jest.fn().mockRejectedValue();
+
+        await root.run(buildRouteProps('id'), buildModule(), context);
+
+        expect(root.navigateTo).toHaveBeenCalledWith(
+          expect.stringContaining('/error')
+        );
+      });
+    });
+
+    describe('settings', () => {
+      it('navigates to error on failure', async () => {
+        const root = createModule();
+        root.settingsService.load = jest.fn().mockRejectedValue();
+
+        await root.run(buildRouteProps('id'), buildModule(), context);
+
+        expect(root.navigateTo).toHaveBeenCalledWith(
+          expect.stringContaining('/error')
+        );
+      });
+    });
+
+    describe('tasks', () => {
+      it('navigates to error on failure', async () => {
+        const root = createModule();
+        root.settingsService.load = jest.fn().mockRejectedValue();
+
+        await root.run(buildRouteProps('id'), buildModule(), context);
+
+        expect(root.navigateTo).toHaveBeenCalledWith(
+          expect.stringContaining('/error')
+        );
+      });
+    });
+
+    describe('business details', () => {
+      it('navigates to error on failure', async () => {
+        const root = createModule();
+        root.businessDetailsService.load = jest.fn().mockRejectedValue();
+
+        await root.run(buildRouteProps('id'), buildModule(), context);
+
+        expect(root.navigateTo).toHaveBeenCalledWith(
+          expect.stringContaining('/error')
+        );
+      });
+    });
 
     describe('runs drawer module', () => {
       // Drawer must run either way since it makes decisions about when to show and hide. When the
@@ -117,6 +189,17 @@ describe('rootModule', () => {
         );
         expect(root.integrator.loadSharedInfo).toBeCalledTimes(1);
       });
+
+      it('navigates to error on failure', async () => {
+        const root = createModule();
+        root.integrator.loadSharedInfo = jest.fn().mockRejectedValue();
+
+        await root.run(buildRouteProps('id'), buildModule(), context);
+
+        expect(root.navigateTo).toHaveBeenCalledWith(
+          expect.stringContaining('/error')
+        );
+      });
     });
 
     describe('runLeanEngage', () => {
@@ -145,8 +228,6 @@ describe('rootModule', () => {
           buildModule(),
           context
         );
-
-        root.integrator.loadSharedInfo.mock.calls[0][0].onSuccess();
 
         expect(root.startLeanEngage).toBeCalledTimes(1);
       });
@@ -179,7 +260,6 @@ describe('rootModule', () => {
           context
         );
 
-        root.integrator.loadSharedInfo.mock.calls[0][0].onSuccess();
         expect(root.sendTelemetryEvent).toBeCalledTimes(1);
       });
     });

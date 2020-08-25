@@ -17,23 +17,19 @@ const load = async (dispatcher, integration, store) => {
   )
     return;
 
-  try {
-    const settings = await new Promise((resolve, reject) =>
-      integration.read({
-        intent: LOAD_SETTINGS,
-        urlParams: { businessId },
-        onSuccess: resolve,
-        onFailure: reject,
-      })
-    );
+  const settings = await new Promise((resolve, reject) =>
+    integration.read({
+      intent: LOAD_SETTINGS,
+      urlParams: { businessId },
+      onSuccess: resolve,
+      onFailure: reject,
+    })
+  );
 
-    dispatcher.loadSettings({
-      ...settings,
-      previousSettingsBusinessId: businessId,
-    });
-  } catch (error) {
-    console.error(error); // eslint-disable-line no-console
-  }
+  dispatcher.loadSettings({
+    ...settings,
+    previousSettingsBusinessId: businessId,
+  });
 };
 
 export default load;
