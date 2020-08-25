@@ -2,15 +2,24 @@ import { Alert, ButtonRow, PageHead, Separator } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getLoadingState, getType } from '../AccountListSelectors';
+import {
+  getAlert,
+  getLoadingState,
+  getRawEntries,
+  getShowDeleteModal,
+  getType,
+} from '../AccountListSelectors';
 import { tabItems } from '../tabItems';
 import AccountListFilterOptions from './AccountListFilterOptions';
 import AccountListTable from './AccountListTable';
 import AccountListTableHeader from './AccountListTableHeader';
 import Button from '../../../../components/Button/Button';
+import DeleteModal from '../../../../components/modal/DeleteModal';
 import PageView from '../../../../components/PageView/PageView';
 import StandardTemplate from '../../../../components/Feelix/StandardTemplate/StandardTemplate';
 import Tabs from '../../../../components/Tabs/Tabs';
+import styles from './AccountListTable.module.css';
+import uuid from '../../../../common/uuid/uuid';
 
 const AccountListView = ({
   alert,
@@ -23,11 +32,28 @@ const AccountListView = ({
   onEditLinkedAccountButtonClick,
   onCreateAccountButtonClick,
   onImportChartOfAccountsClick,
+  onAccountSelected,
+  onAllAccountsSelected,
+  entries,
+  onDeleteAccountsButtonClick,
+  onDeleteConfirmButtonClick,
+  onCloseModal,
+  showDeleteModal,
 }) => {
-  const alertComponent = alert && (
-    <Alert type={alert.type} onDismiss={onDismissAlert}>
-      {alert.message}
-    </Alert>
+  const alertComponents =
+    alert &&
+    alert.map((a, i) => (
+      <Alert type={a.type} key={uuid()} onDismiss={() => onDismissAlert(i)}>
+        {a.message}
+      </Alert>
+    ));
+
+  const modal = (
+    <DeleteModal
+      onCancel={onCloseModal}
+      onConfirm={onDeleteConfirmButtonClick}
+      title="Delete selected accounts?"
+    />
   );
 
   const pageHead = (
@@ -58,18 +84,36 @@ const AccountListView = ({
     <Tabs items={tabItems} selected={selectedTab} onSelected={onTabSelect} />
   );
 
-  const tableHeader = <AccountListTableHeader />;
+  const numSelected = entries.filter((entry) => entry.selected).length;
+  const deleteBar = (
+    <div className={styles.deleteBar}>
+      <Button type="secondary" onClick={onDeleteAccountsButtonClick}>
+        Delete accounts
+      </Button>
+      <span className={styles.deleteAccountsText}>
+        {numSelected} Items selected
+      </span>
+    </div>
+  );
+
+  const tableHeader = (
+    <>
+      {numSelected > 0 && deleteBar}
+      <AccountListTableHeader onAllAccountsSelected={onAllAccountsSelected} />
+    </>
+  );
 
   const accountView = (
     <React.Fragment>
       <StandardTemplate
-        alert={alertComponent}
+        alert={alertComponents}
         pageHead={pageHead}
         filterBar={filterBar}
         subHeadChildren={tabs}
         tableHeader={tableHeader}
       >
-        <AccountListTable />
+        {showDeleteModal && modal}
+        <AccountListTable onAccountSelected={onAccountSelected} />
       </StandardTemplate>
     </React.Fragment>
   );
@@ -81,6 +125,8 @@ const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   alert: getAlert(state),
   selectedTab: getType(state),
+  entries: getRawEntries(state),
+  showDeleteModal: getShowDeleteModal(state),
 });
 
 export default connect(mapStateToProps)(AccountListView);

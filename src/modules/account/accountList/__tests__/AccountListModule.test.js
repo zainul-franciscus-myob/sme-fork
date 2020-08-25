@@ -1,6 +1,7 @@
 import * as debounce from '../../../../common/debounce/debounce';
 import * as localStorageDriver from '../../../../store/localStorageDriver';
 import {
+  DELETE_ACCOUNTS,
   RESET_ACCOUNT_LIST_FILTER_OPTIONS,
   SET_ACCOUNT_LIST_FILTER_OPTIONS,
   SET_ACCOUNT_LIST_TABLE_LOADING_STATE,
@@ -138,6 +139,31 @@ describe('AccountListModule', () => {
           message: '🦄',
         },
       });
+    });
+  });
+
+  describe('bulk actions', () => {
+    it('deletes accounts and reloads list', () => {
+      const { module, integration, store } = setupWithRun();
+
+      module.loadAccountList();
+      module.selectAccount({ index: 0, value: true });
+      const selectedId = store.getState().entries[0].id;
+
+      module.deleteAccounts();
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+        }),
+        expect.objectContaining({
+          intent: DELETE_ACCOUNTS,
+          content: { accountIds: [selectedId] },
+        }),
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+        }),
+      ]);
     });
   });
 

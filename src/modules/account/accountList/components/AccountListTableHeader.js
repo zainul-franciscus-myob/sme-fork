@@ -1,11 +1,13 @@
-import { Table } from '@myob/myob-widgets';
+import { Checkbox, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getRawEntries,
   getShowInactive,
   getTableTaxCodeHeader,
 } from '../AccountListSelectors';
+import styles from './AccountListTable.module.css';
 
 const HeaderItem = ({ config }) =>
   !config.isHidden && (
@@ -14,8 +16,13 @@ const HeaderItem = ({ config }) =>
     </Table.HeaderItem>
   );
 
+const onCheckboxChange = (onSelected) => (e) => {
+  const { checked } = e.target;
+  onSelected(checked);
+};
+
 const AccountListTableHeader = (props) => {
-  const { showInactive, taxCodeHeader } = props;
+  const { showInactive, taxCodeHeader, entries, onAllAccountsSelected } = props;
 
   const tableConfig = {
     accountNumber: {
@@ -38,9 +45,23 @@ const AccountListTableHeader = (props) => {
     },
   };
 
+  const allAccountsSelected = entries.every((entry) => entry.selected);
+  const someAccountsSelected =
+    !allAccountsSelected && entries.some((entry) => entry.selected);
+
   return (
     <Table>
       <Table.Header>
+        <div className={styles.accSelectionColumn}>
+          <Checkbox
+            name="bulkSelect"
+            label="Bulk select"
+            hideLabel
+            onChange={onCheckboxChange(onAllAccountsSelected)}
+            checked={allAccountsSelected}
+            indeterminate={someAccountsSelected}
+          />
+        </div>
         <HeaderItem config={tableConfig.accountNumber} />
         <HeaderItem config={tableConfig.accountName} />
         <HeaderItem config={tableConfig.status} />
@@ -57,6 +78,7 @@ const AccountListTableHeader = (props) => {
 const mapStateToProps = (state) => ({
   showInactive: getShowInactive(state),
   taxCodeHeader: getTableTaxCodeHeader(state),
+  entries: getRawEntries(state),
 });
 
 export default connect(mapStateToProps)(AccountListTableHeader);

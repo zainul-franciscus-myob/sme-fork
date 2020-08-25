@@ -20,7 +20,13 @@ const emptyView = (
 );
 
 const AccountListTable = (props) => {
-  const { isTableLoading, isTableEmpty, showInactive, taxCodeHeader } = props;
+  const {
+    isTableLoading,
+    isTableEmpty,
+    showInactive,
+    taxCodeHeader,
+    onAccountSelected,
+  } = props;
 
   const tableConfig = {
     accountNumber: {
@@ -54,7 +60,10 @@ const AccountListTable = (props) => {
       emptyView={emptyView}
       responsiveWidths={responsiveWidths}
     >
-      <AccountListTableBody tableConfig={tableConfig} />
+      <AccountListTableBody
+        tableConfig={tableConfig}
+        onAccountSelected={onAccountSelected}
+      />
     </TableView>
   );
 };

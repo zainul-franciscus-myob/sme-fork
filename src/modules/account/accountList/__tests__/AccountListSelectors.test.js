@@ -1,4 +1,5 @@
 import {
+  getAccountsForBulkDelete,
   getImportChartOfAccountsUrl,
   getTableEntries,
 } from '../AccountListSelectors';
@@ -87,6 +88,21 @@ describe('AccountListSelectors', () => {
       const actual = getImportChartOfAccountsUrl(state);
       const expected =
         '/#/au/abc/dataImportExport?importType=chartOfAccounts&exportType=chartOfAccounts';
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('bulk delete accounts', () => {
+    it('should return selected accounts', () => {
+      const state = {
+        entries: [
+          { id: 1, selected: true },
+          { id: 2, selected: false },
+        ],
+      };
+      const actual = getAccountsForBulkDelete(state);
+      const expected = { accountIds: [1] };
 
       expect(actual).toEqual(expected);
     });

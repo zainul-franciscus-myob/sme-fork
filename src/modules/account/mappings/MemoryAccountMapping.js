@@ -2,6 +2,7 @@ import {
   CREATE_ACCOUNT,
   CREATE_ACCOUNT_MODAL,
   DELETE_ACCOUNT,
+  DELETE_ACCOUNTS,
   LOAD_ACCOUNT_DETAIL,
   LOAD_NEW_ACCOUNT,
   LOAD_NEW_ACCOUNT_MODAL,
@@ -27,6 +28,7 @@ const MemoryAccountMapping = {
     onSuccess(loadNewAccountModalResponse),
   [CREATE_ACCOUNT_MODAL]: ({ onSuccess }) =>
     onSuccess(createAccountModalResponse),
+  [DELETE_ACCOUNTS]: ({ onSuccess }) => onSuccess(),
 };
 
 export default MemoryAccountMapping;

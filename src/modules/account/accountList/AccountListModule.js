@@ -11,6 +11,7 @@ import {
   getImportChartOfAccountsUrl,
   getLinkedAccountUrl,
   getNewAccountUrl,
+  getRawEntries,
 } from './AccountListSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
 import AccountListView from './components/AccountListView';
@@ -34,12 +35,16 @@ export default class AccountListModule {
     this.integrator = createAccountListIntegrator(this.store, integration);
   }
 
-  loadAccountList = () => {
+  loadAccountList = (onBulkActionCompleted) => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (payload) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.filterAccountList(payload);
+
+      if (onBulkActionCompleted) {
+        onBulkActionCompleted();
+      }
     };
 
     const onFailure = () => {
@@ -82,6 +87,63 @@ export default class AccountListModule {
     window.location.href = getNewAccountUrl(this.store.getState());
   };
 
+  selectAccount = ({ index, value }) => {
+    this.dispatcher.selectAccount({ index, value });
+  };
+
+  selectAllAccounts = (selected) => {
+    this.dispatcher.selectAllAccounts(selected);
+  };
+
+  reselectAccountsNotDeleted = (prevSelectedAccountIds) => {
+    const prevSelectAccountsDict = {};
+    prevSelectedAccountIds.forEach((accId) => {
+      prevSelectAccountsDict[accId] = true;
+    });
+
+    const newEntries = getRawEntries(this.store.getState()).map((acc) => ({
+      ...acc,
+      selected: Boolean(prevSelectAccountsDict[acc.id]),
+    }));
+    this.dispatcher.reselectAccountsNotDeleted(newEntries);
+  };
+
+  deleteAccounts = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+    this.dispatcher.closeModal();
+
+    const accountsBeforeDelete = getRawEntries(this.store.getState());
+    const prevSelectedAccountIds = accountsBeforeDelete
+      .filter((acc) => acc.selected)
+      .map((acc) => acc.id);
+
+    const onBulkDeleteCompleted = () => {
+      this.reselectAccountsNotDeleted(prevSelectedAccountIds);
+
+      const prevNumAccounts = accountsBeforeDelete.length;
+      const currNumAccounts = getRawEntries(this.store.getState()).length;
+      const numDeleted = prevNumAccounts - currNumAccounts;
+      if (numDeleted === 0) return;
+
+      const message = `${numDeleted} accounts deleted.`;
+      this.dispatcher.setAlert({
+        type: 'success',
+        message,
+      });
+    };
+
+    const onSuccess = () => {
+      this.loadAccountList(onBulkDeleteCompleted);
+    };
+
+    const onFailure = (error) => {
+      this.dispatcher.setAlert({ message: error.message, type: 'danger' });
+      this.loadAccountList(onBulkDeleteCompleted);
+    };
+
+    this.integrator.deleteAccounts(onSuccess, onFailure);
+  };
+
   updateFilterOptions = ({ key, value }) => {
     this.dispatcher.setAccountListFilterOptions({ key, value });
 
@@ -107,6 +169,11 @@ export default class AccountListModule {
         onEditLinkedAccountButtonClick={this.redirectToLinkedAccounts}
         onImportChartOfAccountsClick={this.redirectToImportChartOfAccounts}
         onCreateAccountButtonClick={this.redirectToNewAccount}
+        onAccountSelected={this.selectAccount}
+        onAllAccountsSelected={this.selectAllAccounts}
+        onCloseModal={this.dispatcher.closeModal}
+        onDeleteAccountsButtonClick={this.dispatcher.openBulkDeleteModel}
+        onDeleteConfirmButtonClick={this.deleteAccounts}
       />
     );
 

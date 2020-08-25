@@ -18,7 +18,9 @@ export const getShowInactive = (state) => state.filterOptions.showInactive;
 
 export const getType = (state) => state.filterOptions.type;
 
-const getEntries = (state) => state.entries;
+export const getRawEntries = (state) => state.entries;
+
+export const getShowDeleteModal = (state) => state.showDeleteModal;
 
 export const getTableTaxCodeHeader = (state) =>
   getRegionToDialectText(state.region)('Tax code');
@@ -32,8 +34,16 @@ const getAccountLink = (account, businessId, region) => {
   return `/#/${region}/${businessId}/account/${id}`;
 };
 
+const getSelectedAccountIds = (state) =>
+  state.entries.filter((acc) => acc.selected).map((acc) => acc.id);
+
+export const getAccountsForBulkDelete = createSelector(
+  getSelectedAccountIds,
+  (accountIds) => ({ accountIds })
+);
+
 export const getTableEntries = createSelector(
-  getEntries,
+  getRawEntries,
   getBusinessId,
   getRegion,
   getHasFlexibleAccountNumbers,

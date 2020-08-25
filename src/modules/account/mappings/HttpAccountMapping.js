@@ -2,6 +2,7 @@ import {
   CREATE_ACCOUNT,
   CREATE_ACCOUNT_MODAL,
   DELETE_ACCOUNT,
+  DELETE_ACCOUNTS,
   LOAD_ACCOUNT_DETAIL,
   LOAD_NEW_ACCOUNT,
   LOAD_NEW_ACCOUNT_MODAL,
@@ -46,6 +47,10 @@ const HttpAccountMapping = {
   [CREATE_ACCOUNT_MODAL]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/account/create_account_modal`,
+  },
+  [DELETE_ACCOUNTS]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/account/delete_accounts`,
   },
 };
 

@@ -28,12 +28,13 @@ class TestIntegration {
     });
   };
 
-  write = ({ intent, urlParams, params, onSuccess, onFailure }) => {
-    this.requests.push({ intent, urlParams, params });
+  write = ({ intent, urlParams, params, content, onSuccess, onFailure }) => {
+    this.requests.push({ intent, urlParams, params, content });
     this.mapping[intent]({
       intent,
       urlParams,
       params,
+      content,
       onSuccess,
       onFailure,
     });

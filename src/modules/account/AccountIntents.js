@@ -1,5 +1,6 @@
 export const SET_LOADING_STATE = Symbol('Set loading state');
 export const SET_ALERT = Symbol('Set alert');
+export const DISMISS_ALERT = Symbol('Dismiss alert');
 
 export const SORT_AND_FILTER_ACCOUNT_LIST = Symbol(
   'Sort and filter account list'
@@ -37,3 +38,8 @@ export const CREATE_ACCOUNT_MODAL = Symbol('Create account via modal');
 export const LOAD_NEW_ACCOUNT_MODAL = Symbol(
   'Load data for quick add account modal'
 );
+
+export const SELECT_ACCOUNT = Symbol('Select account');
+export const SELECT_ALL_ACCOUNTS = Symbol('Select all accounts');
+export const DELETE_ACCOUNTS = Symbol('Delete accounts');
+export const RESELECT_ACCOUNTS = Symbol('Reselect accounts');

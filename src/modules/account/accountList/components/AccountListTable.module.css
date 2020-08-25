@@ -23,6 +23,19 @@
   padding-left: 8rem;
 }
 
+.accSelectionColumn {
+  padding-top: var(--flx-spacing-tiny);
+}
+
+.deleteAccountsText {
+  margin-left: 10px;
+}
+
+.deleteBar {
+  border-bottom: var(--flx-border-thin);
+  padding-bottom: var(--flx-spacing-tiny);
+}
+
 @media (max-width: 768px) {
   .indent[data-indent-level] {
     padding-left: unset;

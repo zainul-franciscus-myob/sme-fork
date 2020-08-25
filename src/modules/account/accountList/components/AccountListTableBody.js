@@ -1,10 +1,10 @@
-import { Label, Table } from '@myob/myob-widgets';
+import { Checkbox, Label, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classNames from 'classnames';
 
 import { getShowInactive, getTableEntries } from '../AccountListSelectors';
-import styles from './AccountListTableBody.module.css';
+import styles from './AccountListTable.module.css';
 
 const StatusRowItem = ({ tableConfig, isInactive }) => (
   <Table.RowItem
@@ -60,9 +60,20 @@ const AccountRowItem = ({
   );
 };
 
-const AccountListTableBody = ({ tableConfig, showInactive, entries }) => {
-  const rows = entries.map((entry) => {
+const onCheckboxChange = (onSelected, index) => (e) => {
+  const { checked } = e.target;
+  onSelected({ index, value: checked });
+};
+
+const AccountListTableBody = ({
+  tableConfig,
+  showInactive,
+  entries,
+  onAccountSelected,
+}) => {
+  const rows = entries.map((entry, index) => {
     const {
+      selected,
       id,
       accountNumber,
       accountName,
@@ -81,6 +92,15 @@ const AccountListTableBody = ({ tableConfig, showInactive, entries }) => {
 
     return (
       <Table.Row key={id}>
+        <div className={styles.accSelectionColumn}>
+          <Checkbox
+            name={`${index}-select`}
+            label={`Select row ${index}`}
+            hideLabel
+            onChange={onCheckboxChange(onAccountSelected, index)}
+            checked={selected}
+          />
+        </div>
         <AccountRowItem
           config={tableConfig.accountNumber}
           value={accountNumber}

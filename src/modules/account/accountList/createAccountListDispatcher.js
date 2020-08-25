@@ -1,5 +1,11 @@
 import {
+  CLOSE_MODAL,
+  DISMISS_ALERT,
+  OPEN_MODAL,
+  RESELECT_ACCOUNTS,
   RESET_ACCOUNT_LIST_FILTER_OPTIONS,
+  SELECT_ACCOUNT,
+  SELECT_ALL_ACCOUNTS,
   SET_ACCOUNT_LIST_FILTER_OPTIONS,
   SET_ACCOUNT_LIST_TAB,
   SET_ACCOUNT_LIST_TABLE_LOADING_STATE,
@@ -22,12 +28,9 @@ const createAccountListDispatcher = (store) => ({
     });
   },
 
-  dismissAlert: () => {
-    const intent = SET_ALERT;
-    store.dispatch({
-      intent,
-      alert: undefined,
-    });
+  dismissAlert: (id) => {
+    const intent = DISMISS_ALERT;
+    store.dispatch({ intent, id });
   },
 
   filterAccountList: (response) => {
@@ -61,6 +64,31 @@ const createAccountListDispatcher = (store) => ({
   setAccountListTableLoadingState: (isTableLoading) => {
     const intent = SET_ACCOUNT_LIST_TABLE_LOADING_STATE;
     store.dispatch({ intent, isTableLoading });
+  },
+
+  selectAccount: ({ index, value }) => {
+    const intent = SELECT_ACCOUNT;
+    store.dispatch({ intent, index, value });
+  },
+
+  selectAllAccounts: (selected) => {
+    const intent = SELECT_ALL_ACCOUNTS;
+    store.dispatch({ intent, selected });
+  },
+
+  openBulkDeleteModel: () => {
+    const intent = OPEN_MODAL;
+    store.dispatch({ intent });
+  },
+
+  closeModal: () => {
+    const intent = CLOSE_MODAL;
+    store.dispatch({ intent });
+  },
+
+  reselectAccountsNotDeleted: (entries) => {
+    const intent = RESELECT_ACCOUNTS;
+    store.dispatch({ intent, entries });
   },
 });
 
