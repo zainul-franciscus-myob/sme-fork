@@ -64,8 +64,6 @@ steps:
     agents:
       queue: cacc-prod-dflt
 
-  - wait
-
   - name: ':rocket: :eagle: Deploy PDV App'
     commands:
       - ./aws/deploy-stack pdv
@@ -82,7 +80,7 @@ steps:
     agents:
       queue: cacc-prod-dflt
 
-  - block:
+  - block: "Release to Preview"
     if: build.message != 'Scheduled build for sme-web for 7AM AEST'
 
   - name: ':rocket: :eagle: Deploy Preview App'
@@ -103,11 +101,11 @@ steps:
 
   - name: ':git: Tag release in git repo'
     command: './ops/bin/tag ${BUILDKITE_BUILD_NUMBER} buildkite buildkite@myob.com'
-    branches: master
+    branches: master hotfix/*
     agents:
       queue: cacc-prod-dflt
 
-  - block:
+  - block: ":rocket: Release to Production!"
     branches: master hotfix/*
 
   - name: ':rocket: :eagle: Deploy Production App'
