@@ -98,6 +98,102 @@ describe('jobKeeperModule', () => {
     expect(employeeTier).toHaveLength(0);
   });
 
+  it('shows tooltips when feature toggle on', () => {
+    const read = jest.fn();
+    const module = new JobKeeperModule({
+      integration: {
+        read,
+      },
+      pushMessage: () => {},
+      featureToggles: {
+        isJobKeeper2Enabled: true,
+      },
+    });
+
+    const { wrapper } = constructModule(module);
+    const firstFortnight = wrapper.find({
+      testId: 'test-firstFortnight-tooltip',
+    });
+    const finalFortnight = wrapper.find({
+      testId: 'test-finalFortnight-tooltip',
+    });
+
+    expect(firstFortnight).toHaveLength(1);
+    expect(finalFortnight).toHaveLength(1);
+  });
+
+  it('hides tooltips when feature toggle off', () => {
+    const read = jest.fn();
+    const module = new JobKeeperModule({
+      integration: {
+        read,
+      },
+      pushMessage: () => {},
+      featureToggles: {
+        isJobKeeper2Enabled: false,
+      },
+    });
+
+    const { wrapper } = constructModule(module);
+    const firstFortnight = wrapper.find({
+      testId: 'test-firstFortnight-tooltip',
+    });
+    const finalFortnight = wrapper.find({
+      testId: 'test-finalFortnight-tooltip',
+    });
+
+    expect(firstFortnight).toHaveLength(0);
+    expect(finalFortnight).toHaveLength(0);
+  });
+
+  it('shows new alert and hides old info when feature toggle on', () => {
+    const read = jest.fn();
+    const module = new JobKeeperModule({
+      integration: {
+        read,
+      },
+      pushMessage: () => {},
+      featureToggles: {
+        isJobKeeper2Enabled: true,
+      },
+    });
+
+    const { wrapper } = constructModule(module);
+    const newAlert = wrapper.find({
+      testId: 'test-new-JK-alert',
+    });
+    const oldInfo = wrapper.find({
+      testId: 'test-old-JK-info',
+    });
+
+    expect(newAlert).toHaveLength(1);
+    expect(oldInfo).toHaveLength(0);
+  });
+
+  it('hides new alert and shows old info when feature toggle off', () => {
+    const read = jest.fn();
+    const module = new JobKeeperModule({
+      integration: {
+        read,
+      },
+      pushMessage: () => {},
+      featureToggles: {
+        isJobKeeper2Enabled: false,
+      },
+    });
+
+    const { wrapper } = constructModule(module);
+    const newAlert = wrapper.find({
+      testId: 'test-new-JK-alert',
+    });
+    const oldInfo = wrapper.find({
+      testId: 'test-old-JK-info',
+    });
+
+    expect(newAlert).toHaveLength(0);
+    expect(oldInfo).toHaveLength(1);
+  });
+
   it('reporting calls API with correct month value', () => {
     const read = jest.fn();
     const module = new JobKeeperModule({

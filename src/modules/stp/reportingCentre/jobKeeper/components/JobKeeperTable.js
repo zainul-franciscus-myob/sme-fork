@@ -63,10 +63,32 @@ const JobKeeperTable = ({
         {tableConfig.lastName.columnName}
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.firstFortnight}>
-        {tableConfig.firstFortnight.columnName}
+        <div>
+          {tableConfig.firstFortnight.columnName}
+          {featureToggles && featureToggles.isJobKeeper2Enabled && (
+            <span testId="test-firstFortnight-tooltip">
+              &nbsp;
+              <Tooltip triggerContent={<Icons.Info />} placement="top">
+                First JobKeeper fortnights will update after the STP report has
+                sent.
+              </Tooltip>
+            </span>
+          )}
+        </div>
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.finalFortnight}>
-        {tableConfig.finalFortnight.columnName}
+        <div>
+          {tableConfig.finalFortnight.columnName}
+          {featureToggles && featureToggles.isJobKeeper2Enabled && (
+            <span testId="test-finalFortnight-tooltip">
+              &nbsp;
+              <Tooltip triggerContent={<Icons.Info />} placement="top">
+                Final JobKeeper fortnights will update after the STP report has
+                sent.
+              </Tooltip>
+            </span>
+          )}
+        </div>
       </Table.HeaderItem>
       {featureToggles && featureToggles.isJobKeeper2Enabled && (
         <Table.HeaderItem {...tableConfig.tier}>
@@ -163,22 +185,26 @@ const JobKeeperTable = ({
         and notify the ATO. The final fortnight should be selected as the
         fortnight after the last payment fortnight.
       </p>
-      <p>
-        For more information about JobKeeper payments,&nbsp;
-        <a
-          href="https://www.ato.gov.au/General/JobKeeper-Payment/Employers/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          visit the ATO.
-        </a>
-      </p>
-      <div className={styles.info}>
-        <Alert type="info">
-          JobKeeper fortnights notified to the ATO will update below after the
-          STP report has sent.&nbsp;
-        </Alert>
-      </div>
+      {featureToggles && !featureToggles.isJobKeeper2Enabled && (
+        <div testId="test-old-JK-info">
+          <p>
+            For more information about JobKeeper payments,&nbsp;
+            <a
+              href="https://www.ato.gov.au/General/JobKeeper-Payment/Employers/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              visit the ATO.
+            </a>
+          </p>
+          <div className={styles.info}>
+            <Alert type="info">
+              JobKeeper fortnights notified to the ATO will update below after
+              the STP report has sent.&nbsp;
+            </Alert>
+          </div>
+        </div>
+      )}
       {table}
     </>
   );

@@ -1,0 +1,12 @@
+.jobkeeperContainer {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.jobkeeperTemplate :global(.sticky-header) {
+  padding-top: 0;
+}
+
+.link {
+  color: var(--flx-color-link);
+}
