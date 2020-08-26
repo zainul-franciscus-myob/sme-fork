@@ -13,7 +13,7 @@ const updateTaxDetails = (state, action) => ({
 });
 
 const resetIrdNumberIfTaxCodeND = (state, taxCode) =>
-  taxCode === 'ND' ? '000000000' : state.payrollDetails.tax.irdNumber;
+  taxCode === 'ND' ? '000 000 000' : state.payrollDetails.tax.irdNumber;
 
 const updateTaxCode = (state, action) => ({
   ...state,

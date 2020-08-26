@@ -30,14 +30,14 @@ describe('Tax and KiwiSaver Reducer', () => {
 
   it('should reset IRD number when tax code is ND', () => {
     const state = {
-      payrollDetails: { tax: { irdNumber: '123123123', taxCode: 'M' } },
+      payrollDetails: { tax: { irdNumber: '123 123 123', taxCode: 'M' } },
     };
 
     const action = { intent: UPDATE_TAX_CODE, value: 'ND' };
 
     expect(employeeDetailNzReducer(state, action)).toMatchObject({
       isPageEdited: true,
-      payrollDetails: { tax: { irdNumber: '000000000', taxCode: 'ND' } },
+      payrollDetails: { tax: { irdNumber: '000 000 000', taxCode: 'ND' } },
     });
   });
 });
