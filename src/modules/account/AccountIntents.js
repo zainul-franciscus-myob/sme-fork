@@ -1,6 +1,7 @@
 export const SET_LOADING_STATE = Symbol('Set loading state');
 export const SET_ALERT = Symbol('Set alert');
 export const DISMISS_ALERT = Symbol('Dismiss alert');
+export const DISMISS_ALL_ALERTS = Symbol('Dismiss all alerts');
 
 export const SORT_AND_FILTER_ACCOUNT_LIST = Symbol(
   'Sort and filter account list'

@@ -53,6 +53,11 @@
   .headerAccount {
     font-weight: unset;
   }
+
+  .deleteBar {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
 }
 
 @media (pointer: coarse) and (min-width: 768px) {

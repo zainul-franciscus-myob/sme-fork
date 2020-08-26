@@ -43,7 +43,12 @@ const AccountListView = ({
   const alertComponents =
     alert &&
     alert.map((a, i) => (
-      <Alert type={a.type} key={uuid()} onDismiss={() => onDismissAlert(i)}>
+      <Alert
+        type={a.type}
+        key={uuid()}
+        dismissAfter={a.type === 'success' && 8000}
+        onDismiss={() => onDismissAlert(i)}
+      >
         {a.message}
       </Alert>
     ));
@@ -85,7 +90,7 @@ const AccountListView = ({
   );
 
   const numSelected = entries.filter((entry) => entry.selected).length;
-  const deleteBar = (
+  const deleteBar = numSelected > 0 && (
     <div className={styles.deleteBar}>
       <Button type="secondary" onClick={onDeleteAccountsButtonClick}>
         Delete accounts
@@ -97,10 +102,7 @@ const AccountListView = ({
   );
 
   const tableHeader = (
-    <>
-      {numSelected > 0 && deleteBar}
-      <AccountListTableHeader onAllAccountsSelected={onAllAccountsSelected} />
-    </>
+    <AccountListTableHeader onAllAccountsSelected={onAllAccountsSelected} />
   );
 
   const accountView = (
@@ -111,6 +113,7 @@ const AccountListView = ({
         filterBar={filterBar}
         subHeadChildren={tabs}
         tableHeader={tableHeader}
+        bulkActions={deleteBar}
       >
         {showDeleteModal && modal}
         <AccountListTable onAccountSelected={onAccountSelected} />

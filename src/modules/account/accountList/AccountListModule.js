@@ -111,6 +111,7 @@ export default class AccountListModule {
   deleteAccounts = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.dispatcher.closeModal();
+    this.dispatcher.dismissAllAlerts();
 
     const accountsBeforeDelete = getRawEntries(this.store.getState());
     const prevSelectedAccountIds = accountsBeforeDelete

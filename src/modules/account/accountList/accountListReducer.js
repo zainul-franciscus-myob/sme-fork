@@ -1,6 +1,7 @@
 import {
   CLOSE_MODAL,
   DISMISS_ALERT,
+  DISMISS_ALL_ALERTS,
   OPEN_MODAL,
   RESELECT_ACCOUNTS,
   RESET_ACCOUNT_LIST_FILTER_OPTIONS,
@@ -54,6 +55,11 @@ const setAlert = (state, action) => ({
 const dismissAlert = (state, action) => ({
   ...state,
   alert: state.alert.filter((_, i) => i !== action.id),
+});
+
+const dismissAllAlerts = (state) => ({
+  ...state,
+  alert: [],
 });
 
 const sortAndFilterAccountList = (state, action) => ({
@@ -128,6 +134,7 @@ const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_ALERT]: setAlert,
   [DISMISS_ALERT]: dismissAlert,
+  [DISMISS_ALL_ALERTS]: dismissAllAlerts,
 
   [SORT_AND_FILTER_ACCOUNT_LIST]: sortAndFilterAccountList,
   [SET_ACCOUNT_LIST_FILTER_OPTIONS]: setAccountListFilterOption,
