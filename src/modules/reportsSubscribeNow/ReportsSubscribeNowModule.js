@@ -15,7 +15,7 @@ export default class ReportsSubscribeNowModule {
   };
 
   getErrorUrl = ({ businessId, region }) => {
-    return this.navigateTo(`/#/${region}/${businessId}/error`);
+    return `/#/${region}/${businessId}/error`;
   };
 
   subscribeNow = ({ businessId, redirectUrl, errorUrl }) => {
