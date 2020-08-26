@@ -4,6 +4,8 @@ describe('DashboardPayrollSelectors', () => {
   describe('getPayrollEntries', () => {
     it('should transform entry', () => {
       const state = {
+        businessId: '76',
+        region: 'AU',
         payroll: {
           isPayrollSetup: true,
           entries: [
@@ -40,22 +42,25 @@ describe('DashboardPayrollSelectors', () => {
           id: '1',
           date: 'Tue 19 - Mon 25 May',
           isDraft: true,
-          formatedPaymentDate: '',
+          formattedPaymentDate: '',
           amount: '',
+          payRunLink: '/#/AU/76/payRun/new',
         },
         {
           id: '2',
           date: 'Tue 26 May - Mon 1 Jun',
           isDraft: false,
-          formatedPaymentDate: 'Date of payment Wed 27 May',
+          formattedPaymentDate: 'Date of payment Wed 27 May',
           amount: '$16,134.77',
+          payRunLink: '/#/AU/76/payRun/2',
         },
         {
           id: '3',
           date: 'Sat 26 Dec - Fri 1 Jan',
           isDraft: false,
-          formatedPaymentDate: 'Date of payment Wed 27 May',
+          formattedPaymentDate: 'Date of payment Wed 27 May',
           amount: '$16,134.77',
+          payRunLink: '/#/AU/76/payRun/3',
         },
       ];
 

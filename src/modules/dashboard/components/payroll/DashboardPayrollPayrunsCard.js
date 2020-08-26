@@ -33,8 +33,18 @@ const DashboardPayrollPayrunsCard = ({
   payrollSettingsLink,
   shouldUsePayrollLayout,
 }) => {
+  const onEntryKeydown = (entryLink) => ({ key }) =>
+    (key === ' ' || key === 'Enter' || key === 'Spacebar') &&
+    onLinkClick(entryLink);
+
   const entries = payrollEntries.map((entry) => (
-    <div className={styles.container}>
+    <div
+      role="button"
+      tabIndex="0"
+      className={styles.container}
+      onClick={() => onLinkClick(entry.payRunLink)}
+      onKeyDown={onEntryKeydown(entry.payRunLink)}
+    >
       <div>
         <div
           className={classNames(
@@ -53,14 +63,12 @@ const DashboardPayrollPayrunsCard = ({
           )}
         </div>
         <div className={styles.row}>
-          <div className={styles.lightText}>{entry.formatedPaymentDate}</div>
+          <div className={styles.lightText}>{entry.formattedPaymentDate}</div>
           {entry.isDraft ? (
             <Button
               type="link"
               icon={<Icons.ArrowRight />}
-              onClick={() => {
-                onLinkClick(createPayrunLink);
-              }}
+              onClick={() => onLinkClick(entry.payRunLink)}
             >
               Continue pay run
             </Button>

@@ -13,6 +13,9 @@
   border-radius: 0.5rem;
   margin-bottom: 0.8rem;
   padding: 1.6rem;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
 }
 
 .container:hover {
