@@ -1,17 +1,18 @@
 import {
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_LINKED_ACCOUNTS,
   SAVE_LINKED_ACCOUNTS,
 } from '../LinkedAccountsIntents';
+import loadCreatedAccountResponse from './data/loadCreatedAccountResponse';
 import loadLinkedAccountsResponse from './data/loadLinkedAccounts';
 import successResponse from './data/success.json';
 
-const loadLinkedAccounts = ({ onSuccess }) =>
-  onSuccess(loadLinkedAccountsResponse);
-const saveLinkedAccounts = ({ onSuccess }) => onSuccess(successResponse);
-
 const MemoryLinkedAccountsMapping = {
-  [LOAD_LINKED_ACCOUNTS]: loadLinkedAccounts,
-  [SAVE_LINKED_ACCOUNTS]: saveLinkedAccounts,
+  [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) =>
+    onSuccess(loadCreatedAccountResponse),
+  [LOAD_LINKED_ACCOUNTS]: ({ onSuccess }) =>
+    onSuccess(loadLinkedAccountsResponse),
+  [SAVE_LINKED_ACCOUNTS]: ({ onSuccess }) => onSuccess(successResponse),
 };
 
 export default MemoryLinkedAccountsMapping;

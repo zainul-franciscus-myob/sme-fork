@@ -4,6 +4,7 @@ export const getAlert = (state) => state.alert;
 export const getSelectedTab = (state) => state.selectedTab;
 
 export const getBusinessId = (state) => state.businessId;
+export const getRegion = (state) => state.region;
 
 export const getEquityAccountCurrentEarnings = (state) =>
   state.linkedAccounts.equityAccountCurrentEarnings;
@@ -133,3 +134,16 @@ export const getSaveLinkedAccountsPayload = (state) => ({
     accountId: state.linkedAccounts.taxDeductionsPayableAccount.accountId,
   },
 });
+
+export const getAccountModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region };
+};
+
+export const getLoadAddedAccountUrlParams = (state, accountId) => {
+  const businessId = getBusinessId(state);
+
+  return { businessId, accountId };
+};

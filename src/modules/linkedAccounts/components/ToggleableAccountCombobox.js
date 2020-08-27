@@ -4,38 +4,40 @@ import React from 'react';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 
 const ToggleableAccountCombobox = ({
-  isChecked,
-  toggleName,
-  toggleLabel,
-  toggleHandler,
+  comboboxHandler,
+  comboboxItems,
   comboboxLabel,
   comboboxSelectedId,
-  comboboxItems,
-  comboboxHandler,
+  isChecked,
+  toggleHandler,
+  toggleLabel,
+  toggleName,
+  ...otherProps
 }) => (
-  <React.Fragment>
+  <>
     <CheckboxGroup
       label=""
       hideLabel
       renderCheckbox={() => (
         <Checkbox
-          name={toggleName}
-          label={toggleLabel}
           checked={isChecked}
+          label={toggleLabel}
+          name={toggleName}
           onChange={toggleHandler}
         />
       )}
     />
     {isChecked && (
       <AccountCombobox
-        label={comboboxLabel}
         hideLabel={false}
         items={comboboxItems}
-        selectedId={comboboxSelectedId}
+        label={comboboxLabel}
         onChange={comboboxHandler}
+        selectedId={comboboxSelectedId}
+        {...otherProps}
       />
     )}
-  </React.Fragment>
+  </>
 );
 
 export default ToggleableAccountCombobox;

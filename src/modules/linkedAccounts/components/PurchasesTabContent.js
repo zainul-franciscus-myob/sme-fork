@@ -17,40 +17,52 @@ import handleCheckboxChange from '../../../components/handlers/handleCheckboxCha
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 
 const PurchasesTabContent = ({
-  liabilityAccountTrackingPayables,
-  bankAccountPayingBills,
-  liabilityAccountItemReceipts,
-  expenseSalesAccountFreight,
   assetAccountSupplierDeposits,
+  bankAccountPayingBills,
   expenseAccountDiscounts,
   expenseAccountLaterCharges,
+  expenseSalesAccountFreight,
+  liabilityAccountItemReceipts,
+  liabilityAccountTrackingPayables,
   onAccountChange,
+  onCreateAccountButtonClick,
   onHasAccountOptionChange,
 }) => (
-  <React.Fragment>
-    <FieldGroup>
+  <>
+    <FieldGroup label="Liability and bank accounts" hideLabel>
       <AccountCombobox
         label="Liability account for tracking payables"
-        hideLabel={false}
         items={liabilityAccountTrackingPayables.accounts}
         selectedId={liabilityAccountTrackingPayables.accountId}
         onChange={handleComboboxChange(
           'liabilityAccountTrackingPayables',
           onAccountChange
         )}
+        addNewAccount={() =>
+          onCreateAccountButtonClick(
+            handleComboboxChange(
+              'liabilityAccountTrackingPayables',
+              onAccountChange
+            )
+          )
+        }
       />
       <AccountCombobox
         label="Bank account for paying bills"
-        hideLabel={false}
         items={bankAccountPayingBills.accounts}
         selectedId={bankAccountPayingBills.accountId}
         onChange={handleComboboxChange(
           'bankAccountPayingBills',
           onAccountChange
         )}
+        addNewAccount={() =>
+          onCreateAccountButtonClick(
+            handleComboboxChange('bankAccountPayingBills', onAccountChange)
+          )
+        }
       />
     </FieldGroup>
-    <FieldGroup>
+    <FieldGroup label="Liability account for item receipt" hideLabel>
       <ToggleableAccountCombobox
         isChecked={liabilityAccountItemReceipts.hasAccount}
         toggleName="liabilityAccountItemReceipts"
@@ -63,9 +75,17 @@ const PurchasesTabContent = ({
           'liabilityAccountItemReceipts',
           onAccountChange
         )}
+        addNewAccount={() =>
+          onCreateAccountButtonClick(
+            handleComboboxChange(
+              'liabilityAccountItemReceipts',
+              onAccountChange
+            )
+          )
+        }
       />
     </FieldGroup>
-    <FieldGroup>
+    <FieldGroup label="Expense or cost of sales account for freight" hideLabel>
       <ToggleableAccountCombobox
         isChecked={expenseSalesAccountFreight.hasAccount}
         toggleName="expenseSalesAccountFreight"
@@ -78,9 +98,14 @@ const PurchasesTabContent = ({
           'expenseSalesAccountFreight',
           onAccountChange
         )}
+        addNewAccount={() =>
+          onCreateAccountButtonClick(
+            handleComboboxChange('expenseSalesAccountFreight', onAccountChange)
+          )
+        }
       />
     </FieldGroup>
-    <FieldGroup>
+    <FieldGroup label="Asset account for supplier deposits" hideLabel>
       <ToggleableAccountCombobox
         isChecked={assetAccountSupplierDeposits.hasAccount}
         toggleName="assetAccountSupplierDeposits"
@@ -93,9 +118,17 @@ const PurchasesTabContent = ({
           'assetAccountSupplierDeposits',
           onAccountChange
         )}
+        addNewAccount={() =>
+          onCreateAccountButtonClick(
+            handleComboboxChange(
+              'assetAccountSupplierDeposits',
+              onAccountChange
+            )
+          )
+        }
       />
     </FieldGroup>
-    <FieldGroup>
+    <FieldGroup label="Expense (or Contra) account for discounts" hideLabel>
       <ToggleableAccountCombobox
         isChecked={expenseAccountDiscounts.hasAccount}
         toggleName="expenseAccountDiscounts"
@@ -108,9 +141,14 @@ const PurchasesTabContent = ({
           'expenseAccountDiscounts',
           onAccountChange
         )}
+        addNewAccount={() =>
+          onCreateAccountButtonClick(
+            handleComboboxChange('expenseAccountDiscounts', onAccountChange)
+          )
+        }
       />
     </FieldGroup>
-    <FieldGroup>
+    <FieldGroup label="Expense account for late charges" hideLabel>
       <ToggleableAccountCombobox
         isChecked={expenseAccountLaterCharges.hasAccount}
         toggleName="expenseAccountLaterCharges"
@@ -123,9 +161,14 @@ const PurchasesTabContent = ({
           'expenseAccountLaterCharges',
           onAccountChange
         )}
+        addNewAccount={() =>
+          onCreateAccountButtonClick(
+            handleComboboxChange('expenseAccountLaterCharges', onAccountChange)
+          )
+        }
       />
     </FieldGroup>
-  </React.Fragment>
+  </>
 );
 
 const mapStateToProps = (state) => ({

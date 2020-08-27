@@ -18,67 +18,92 @@ const PayrollTabContent = ({
   bankAccountChequePayments,
   bankAccountElectronicPayments,
   employmentExpenseAccount,
-  wagesExpenseAccount,
-  taxDeductionsPayableAccount,
   onAccountChange,
+  onCreateAccountButtonClick,
+  taxDeductionsPayableAccount,
+  wagesExpenseAccount,
 }) => (
-  <FieldGroup>
+  <FieldGroup label={'Payroll'} hideLabel>
     <AccountCombobox
       label="Bank account for cash payments"
-      hideLabel={false}
       items={bankAccountCashPayments.accounts}
       selectedId={bankAccountCashPayments.accountId}
       onChange={handleComboboxChange(
         'bankAccountCashPayments',
         onAccountChange
       )}
+      addNewAccount={() =>
+        onCreateAccountButtonClick(
+          handleComboboxChange('bankAccountCashPayments', onAccountChange)
+        )
+      }
     />
     <AccountCombobox
       label="Bank account for cheque payments"
-      hideLabel={false}
       items={bankAccountChequePayments.accounts}
       selectedId={bankAccountChequePayments.accountId}
       onChange={handleComboboxChange(
         'bankAccountChequePayments',
         onAccountChange
       )}
+      addNewAccount={() =>
+        onCreateAccountButtonClick(
+          handleComboboxChange('bankAccountChequePayments', onAccountChange)
+        )
+      }
     />
     <AccountCombobox
       label="Bank account for electronic payments"
-      hideLabel={false}
       items={bankAccountElectronicPayments.accounts}
       selectedId={bankAccountElectronicPayments.accountId}
       onChange={handleComboboxChange(
         'bankAccountElectronicPayments',
         onAccountChange
       )}
+      addNewAccount={() =>
+        onCreateAccountButtonClick(
+          handleComboboxChange('bankAccountElectronicPayments', onAccountChange)
+        )
+      }
     />
     <AccountCombobox
       label="Default employer expense account"
-      hideLabel={false}
       items={employmentExpenseAccount.accounts}
       selectedId={employmentExpenseAccount.accountId}
       onChange={handleComboboxChange(
         'employmentExpenseAccount',
         onAccountChange
       )}
+      addNewAccount={() =>
+        onCreateAccountButtonClick(
+          handleComboboxChange('employmentExpenseAccount', onAccountChange)
+        )
+      }
     />
     <AccountCombobox
       label="Default wages expense account"
-      hideLabel={false}
       items={wagesExpenseAccount.accounts}
       selectedId={wagesExpenseAccount.accountId}
       onChange={handleComboboxChange('wagesExpenseAccount', onAccountChange)}
+      addNewAccount={() =>
+        onCreateAccountButtonClick(
+          handleComboboxChange('wagesExpenseAccount', onAccountChange)
+        )
+      }
     />
     <AccountCombobox
       label="Default tax/deductions payable account"
-      hideLabel={false}
       items={taxDeductionsPayableAccount.accounts}
       selectedId={taxDeductionsPayableAccount.accountId}
       onChange={handleComboboxChange(
         'taxDeductionsPayableAccount',
         onAccountChange
       )}
+      addNewAccount={() =>
+        onCreateAccountButtonClick(
+          handleComboboxChange('taxDeductionsPayableAccount', onAccountChange)
+        )
+      }
     />
   </FieldGroup>
 );

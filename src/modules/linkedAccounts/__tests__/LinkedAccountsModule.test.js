@@ -193,6 +193,19 @@ describe('LinkedAccountsModule', () => {
         expect.objectContaining({ intent: SAVE_LINKED_ACCOUNTS }),
       ]);
     });
+
+    it('should use the save option from the create account modal when opened', () => {
+      const { module, integration } = setupWithRun();
+      const onAccountChange = () => {};
+      module.openAccountModal(onAccountChange);
+      module.accountModalModule.save = jest.fn();
+      integration.resetRequests();
+
+      module.saveLinkedAccounts();
+
+      expect(integration.getRequests()).toEqual([]);
+      expect(module.accountModalModule.save).toHaveBeenCalled();
+    });
   });
 
   describe('setSelectedTab', () => {

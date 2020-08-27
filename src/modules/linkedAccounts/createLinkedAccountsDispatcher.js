@@ -1,6 +1,8 @@
 import {
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_LINKED_ACCOUNTS,
   SET_ALERT,
+  SET_CREATED_ACCOUNT_LOADING_STATE,
   SET_IS_SUBMITTING,
   SET_LOADING_STATE,
   SET_SELECTED_TAB,
@@ -54,10 +56,24 @@ const createLinkedAccountsDispatcher = ({ store }) => ({
     });
   },
 
+  setAlert: (alert) => {
+    store.dispatch({
+      intent: SET_ALERT,
+      alert,
+    });
+  },
+
   dismissAlert: () => {
     store.dispatch({
       intent: SET_ALERT,
       alert: undefined,
+    });
+  },
+
+  setCreatedAccountLoadingState: (isCreatedAccountLoading) => {
+    store.dispatch({
+      intent: SET_CREATED_ACCOUNT_LOADING_STATE,
+      isCreatedAccountLoading,
     });
   },
 
@@ -81,6 +97,13 @@ const createLinkedAccountsDispatcher = ({ store }) => ({
     store.dispatch({
       intent: LOAD_LINKED_ACCOUNTS,
       ...response,
+    });
+  },
+
+  loadAccountAfterCreate: (payload) => {
+    store.dispatch({
+      intent: LOAD_ACCOUNT_AFTER_CREATE,
+      ...payload,
     });
   },
 });

@@ -18,37 +18,49 @@ import handleComboboxChange from '../../../components/handlers/handleComboboxCha
 const SalesTabContent = ({
   assetAccountTrackingReceivables,
   bankAccountCustomerReceipts,
-  incomeAccountFreight,
-  liabilityAccountCustomerDeposits,
   expenseSalesAccountDiscounts,
+  incomeAccountFreight,
   incomeAccountLateCharges,
+  liabilityAccountCustomerDeposits,
   onAccountChange,
+  onCreateAccountButtonClick,
   onHasAccountOptionChange,
 }) => (
-  <React.Fragment>
-    <FieldGroup>
+  <>
+    <FieldGroup label="Asset and bank accounts" hideLabel>
       <AccountCombobox
         label="Asset account for tracking receivables"
-        hideLabel={false}
         items={assetAccountTrackingReceivables.accounts}
         selectedId={assetAccountTrackingReceivables.accountId}
         onChange={handleComboboxChange(
           'assetAccountTrackingReceivables',
           onAccountChange
         )}
+        addNewAccount={() =>
+          onCreateAccountButtonClick(
+            handleComboboxChange(
+              'assetAccountTrackingReceivables',
+              onAccountChange
+            )
+          )
+        }
       />
       <AccountCombobox
         label="Bank account for customer receipts"
-        hideLabel={false}
         items={bankAccountCustomerReceipts.accounts}
         selectedId={bankAccountCustomerReceipts.accountId}
         onChange={handleComboboxChange(
           'bankAccountCustomerReceipts',
           onAccountChange
         )}
+        addNewAccount={() =>
+          onCreateAccountButtonClick(
+            handleComboboxChange('bankAccountCustomerReceipts', onAccountChange)
+          )
+        }
       />
     </FieldGroup>
-    <FieldGroup>
+    <FieldGroup label="Income account for freight" hideLabel>
       <ToggleableAccountCombobox
         isChecked={incomeAccountFreight.hasAccount}
         toggleName="incomeAccountFreight"
@@ -61,9 +73,14 @@ const SalesTabContent = ({
           'incomeAccountFreight',
           onAccountChange
         )}
+        addNewAccount={() =>
+          onCreateAccountButtonClick(
+            handleComboboxChange('incomeAccountFreight', onAccountChange)
+          )
+        }
       />
     </FieldGroup>
-    <FieldGroup>
+    <FieldGroup label="Liability account for customer deposits" hideLabel>
       <ToggleableAccountCombobox
         isChecked={liabilityAccountCustomerDeposits.hasAccount}
         toggleName="liabilityAccountCustomerDeposits"
@@ -76,9 +93,20 @@ const SalesTabContent = ({
           'liabilityAccountCustomerDeposits',
           onAccountChange
         )}
+        addNewAccount={() =>
+          onCreateAccountButtonClick(
+            handleComboboxChange(
+              'liabilityAccountCustomerDeposits',
+              onAccountChange
+            )
+          )
+        }
       />
     </FieldGroup>
-    <FieldGroup>
+    <FieldGroup
+      label="Expense or cost of sales account for discounts"
+      hideLabel
+    >
       <ToggleableAccountCombobox
         isChecked={expenseSalesAccountDiscounts.hasAccount}
         toggleName="expenseSalesAccountDiscounts"
@@ -91,9 +119,17 @@ const SalesTabContent = ({
           'expenseSalesAccountDiscounts',
           onAccountChange
         )}
+        addNewAccount={() =>
+          onCreateAccountButtonClick(
+            handleComboboxChange(
+              'expenseSalesAccountDiscounts',
+              onAccountChange
+            )
+          )
+        }
       />
     </FieldGroup>
-    <FieldGroup>
+    <FieldGroup label="Income account for late charges" hideLabel>
       <ToggleableAccountCombobox
         isChecked={incomeAccountLateCharges.hasAccount}
         toggleName="incomeAccountLateCharges"
@@ -106,9 +142,14 @@ const SalesTabContent = ({
           'incomeAccountLateCharges',
           onAccountChange
         )}
+        addNewAccount={() =>
+          onCreateAccountButtonClick(
+            handleComboboxChange('incomeAccountLateCharges', onAccountChange)
+          )
+        }
       />
     </FieldGroup>
-  </React.Fragment>
+  </>
 );
 
 const mapStateToProps = (state) => ({

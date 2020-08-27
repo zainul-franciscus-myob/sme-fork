@@ -2,7 +2,7 @@ import LinkedAccountsModule from './LinkedAccountsModule';
 import RouteName from '../../router/RouteName';
 
 const getLinkedAccountsRoutes = ({ integration, setRootView }) => {
-  const routes = [
+  return [
     {
       name: RouteName.LINKED_ACCOUNTS,
       path: '/:region/:businessId/linkedAccounts/',
@@ -13,8 +13,6 @@ const getLinkedAccountsRoutes = ({ integration, setRootView }) => {
       documentTitle: 'Linked accounts',
     },
   ];
-
-  return routes;
 };
 
 export default getLinkedAccountsRoutes;

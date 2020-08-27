@@ -10,30 +10,39 @@ import SalesTabContent from './SalesTabContent';
 import TabItem from '../TabItem';
 
 const LinkedAccountsContent = ({
-  selectedTab,
   onAccountChange,
+  onCreateAccountButtonClick,
   onHasAccountOptionChange,
+  selectedTab,
 }) => (
   <Card>
     {
       {
         [TabItem.ACCOUNTS_AND_BANKING]: (
-          <AccountsAndBankingTabContent onAccountChange={onAccountChange} />
+          <AccountsAndBankingTabContent
+            onAccountChange={onAccountChange}
+            onCreateAccountButtonClick={onCreateAccountButtonClick}
+          />
         ),
         [TabItem.SALES]: (
           <SalesTabContent
             onAccountChange={onAccountChange}
+            onCreateAccountButtonClick={onCreateAccountButtonClick}
             onHasAccountOptionChange={onHasAccountOptionChange}
           />
         ),
         [TabItem.PURCHASES]: (
           <PurchasesTabContent
             onAccountChange={onAccountChange}
+            onCreateAccountButtonClick={onCreateAccountButtonClick}
             onHasAccountOptionChange={onHasAccountOptionChange}
           />
         ),
         [TabItem.PAYROLL]: (
-          <PayrollTabContent onAccountChange={onAccountChange} />
+          <PayrollTabContent
+            onAccountChange={onAccountChange}
+            onCreateAccountButtonClick={onCreateAccountButtonClick}
+          />
         ),
       }[selectedTab]
     }

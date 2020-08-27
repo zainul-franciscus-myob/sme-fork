@@ -13,14 +13,15 @@ import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 
 const AccountsAndBankingTabContent = ({
+  bankAccountElectronicPayments,
+  bankAccountUndepositedFunds,
   equityAccountCurrentEarnings,
   equityAccountRetainedEarnings,
   equityHistoricalBalancing,
-  bankAccountElectronicPayments,
-  bankAccountUndepositedFunds,
   onAccountChange,
+  onCreateAccountButtonClick,
 }) => (
-  <FieldGroup>
+  <FieldGroup label="Accounting and banking" hideLabel>
     <ReadOnly label="Equity account for current earnings">
       {equityAccountCurrentEarnings.accountName}
     </ReadOnly>
@@ -29,33 +30,45 @@ const AccountsAndBankingTabContent = ({
     </ReadOnly>
     <AccountCombobox
       label="Equity account for historical balancing"
-      hideLabel={false}
       items={equityHistoricalBalancing.accounts}
       selectedId={equityHistoricalBalancing.accountId}
       onChange={handleComboboxChange(
         'equityHistoricalBalancing',
         onAccountChange
       )}
+      addNewAccount={() =>
+        onCreateAccountButtonClick(
+          handleComboboxChange('equityHistoricalBalancing', onAccountChange)
+        )
+      }
     />
     <AccountCombobox
       label="Bank account for electronic payments"
-      hideLabel={false}
       items={bankAccountElectronicPayments.accounts}
       selectedId={bankAccountElectronicPayments.accountId}
       onChange={handleComboboxChange(
         'bankAccountElectronicPayments',
         onAccountChange
       )}
+      addNewAccount={() =>
+        onCreateAccountButtonClick(
+          handleComboboxChange('bankAccountElectronicPayments', onAccountChange)
+        )
+      }
     />
     <AccountCombobox
       label="Bank account for undeposited funds"
-      hideLabel={false}
       items={bankAccountUndepositedFunds.accounts}
       selectedId={bankAccountUndepositedFunds.accountId}
       onChange={handleComboboxChange(
         'bankAccountUndepositedFunds',
         onAccountChange
       )}
+      addNewAccount={() =>
+        onCreateAccountButtonClick(
+          handleComboboxChange('bankAccountUndepositedFunds', onAccountChange)
+        )
+      }
     />
   </FieldGroup>
 );

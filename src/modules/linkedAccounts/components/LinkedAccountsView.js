@@ -10,14 +10,16 @@ import LinkedAccountsTabs from './LinkedAccountsTabs';
 import PageView from '../../../components/PageView/PageView';
 
 const LinkedAccountsView = ({
+  accountModal,
   alert,
   loadingState,
-  onDismissAlert,
+  onAccountChange,
   onCancelButtonClick,
+  onCreateAccountButtonClick,
+  onDismissAlert,
+  onHasAccountOptionChange,
   onSaveButtonClick,
   onSelectTab,
-  onAccountChange,
-  onHasAccountOptionChange,
 }) => {
   const actions = (
     <LinkedAccountsActions
@@ -36,10 +38,12 @@ const LinkedAccountsView = ({
       actions={actions}
       alert={alertComponent}
     >
+      {accountModal}
       <LinkedAccountsTabs onSelectTab={onSelectTab} />
       <LinkedAccountsContent
         onAccountChange={onAccountChange}
         onHasAccountOptionChange={onHasAccountOptionChange}
+        onCreateAccountButtonClick={onCreateAccountButtonClick}
       />
     </FormTemplate>
   );
