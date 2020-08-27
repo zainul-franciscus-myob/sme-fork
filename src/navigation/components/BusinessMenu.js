@@ -10,7 +10,6 @@ import {
   getIsReadOnly,
   getSerialNumber,
   getShouldShowPaymentDetail,
-  getShouldShowProductManagementDetail,
   getUserEmail,
 } from '../NavigationSelectors';
 import BusinessAvatar from '../../components/BusinessAvatar/BusinessAvatar';
@@ -74,7 +73,6 @@ const getItems = ({
   serialNumber,
   userEmail,
   shouldShowPaymentDetail,
-  shouldShowProductManagementDetail,
   isCurrentUserAdvisor,
   onMenuLinkClick,
   onLogoutLinkClick,
@@ -118,15 +116,14 @@ const getItems = ({
         <Icons.OpenExternalLink />,
         onChangePlanClick
       ),
-    shouldShowProductManagementDetail
-      ? getMenuLinkWithIcon(
-          urls.productManagementDetail,
-          'Manage my product',
-          <Icons.Edit />,
-          onMenuLinkClick,
-          '_blank'
-        )
-      : undefined,
+    urls.productManagementDetail &&
+      getMenuLinkWithIcon(
+        urls.productManagementDetail,
+        'Manage my product',
+        <Icons.Edit />,
+        onMenuLinkClick,
+        '_blank'
+      ),
     shouldShowPaymentDetail
       ? getMenuLinkWithIcon(
           urls.paymentDetail,
@@ -185,7 +182,6 @@ const BusinessMenu = ({
   activeNav,
   isCurrentUserAdvisor,
   shouldShowPaymentDetail,
-  shouldShowProductManagementDetail,
   onMenuSelect,
   onMenuLinkClick,
   onLogoutLinkClick,
@@ -213,7 +209,6 @@ const BusinessMenu = ({
         serialNumber,
         userEmail,
         shouldShowPaymentDetail,
-        shouldShowProductManagementDetail,
         isCurrentUserAdvisor,
         onMenuLinkClick,
         onLogoutLinkClick,
@@ -235,9 +230,6 @@ const mapStateToProps = (state) => ({
   isReadOnly: getIsReadOnly(state),
   isCurrentUserAdvisor: getIsCurrentUserAdvisor(state),
   shouldShowPaymentDetail: getShouldShowPaymentDetail(state),
-  shouldShowProductManagementDetail: getShouldShowProductManagementDetail(
-    state
-  ),
 });
 
 export default connect(mapStateToProps)(BusinessMenu);

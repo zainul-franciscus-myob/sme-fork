@@ -217,13 +217,6 @@ export const getShouldShowPaymentDetail = createSelector(
   (businessUrls, isTrial) => Boolean(businessUrls.paymentDetail) && !isTrial
 );
 
-export const getShouldShowProductManagementDetail = createSelector(
-  getBusinessUrls,
-  getIsTrial,
-  (businessUrls, isTrial) =>
-    Boolean(businessUrls.productManagementDetail) && !isTrial
-);
-
 export const getPurchasesUrls = createSelector(
   getEnabledUrls,
   (enabledUrls) => ({
