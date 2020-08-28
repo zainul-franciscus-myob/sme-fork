@@ -1,5 +1,6 @@
 .readonly {
   margin-left: 1rem;
+  margin-top: -0.1rem;
 }
 
 .readonly :global(.boxed) {
