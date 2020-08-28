@@ -1,5 +1,10 @@
 const noOp = () => {};
 
-const initializeNoOpTelemetry = () => noOp;
+const initializeNoOpTelemetry = () => {
+  return {
+    trackUserEvent: noOp,
+    recordPageVisit: noOp,
+  };
+};
 
 export default initializeNoOpTelemetry;

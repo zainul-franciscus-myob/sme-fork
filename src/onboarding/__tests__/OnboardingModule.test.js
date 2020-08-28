@@ -14,7 +14,7 @@ describe('OnboardingModule', () => {
 
   it('sends telemetry event with expected payload when onboarding view first loads', () => {
     const onboardingModule = new OnboardingModule({
-      sendTelemetryEvent: jest.fn(),
+      recordPageVisit: jest.fn(),
     });
 
     const routeProps = {
@@ -25,8 +25,8 @@ describe('OnboardingModule', () => {
     onboardingModule.run(routeProps);
     onboardingModule.onboardingVisited();
 
-    expect(onboardingModule.sendTelemetryEvent).toHaveBeenCalledTimes(1);
-    expect(onboardingModule.sendTelemetryEvent).toBeCalledWith(
+    expect(onboardingModule.recordPageVisit).toHaveBeenCalledTimes(1);
+    expect(onboardingModule.recordPageVisit).toBeCalledWith(
       expect.objectContaining({
         currentRouteName: 'onboarding',
         telemetryData: {

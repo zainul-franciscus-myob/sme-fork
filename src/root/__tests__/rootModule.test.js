@@ -29,7 +29,7 @@ describe('rootModule', () => {
           navigateTo: jest.fn(),
         },
         startLeanEngage: jest.fn(),
-        sendTelemetryEvent: jest.fn(),
+        recordPageVisit: jest.fn(),
       });
       stubFunctionsOn(
         root.settingsService,
@@ -240,7 +240,7 @@ describe('rootModule', () => {
           buildModule(),
           context
         );
-        expect(root.sendTelemetryEvent).toBeCalledTimes(1);
+        expect(root.recordPageVisit).toBeCalledTimes(1);
       });
 
       it('when business id is set and is the same as last business id', async () => {
@@ -250,7 +250,7 @@ describe('rootModule', () => {
           context,
           'id'
         );
-        expect(root.sendTelemetryEvent).toBeCalledTimes(1);
+        expect(root.recordPageVisit).toBeCalledTimes(1);
       });
 
       it('when business id is set and is different from last business id', async () => {
@@ -260,7 +260,7 @@ describe('rootModule', () => {
           context
         );
 
-        expect(root.sendTelemetryEvent).toBeCalledTimes(1);
+        expect(root.recordPageVisit).toBeCalledTimes(1);
       });
     });
   });

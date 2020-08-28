@@ -18,6 +18,7 @@ import {
   getRegion,
   getReportsUrl,
   getShowUrls,
+  getUserEmail,
 } from './NavigationSelectors';
 import { logout } from '../Auth';
 import FeatureToggle from '../FeatureToggles.js';
@@ -38,7 +39,9 @@ export default class NavigationModule {
     toggleHelp,
     toggleTasks,
     isToggleOn,
-    sendTelemetryEvent,
+    recordPageVisit,
+    trackUserEvent,
+    navigateTo,
   }) {
     this.integration = integration;
     this.setNavigationView = setNavigationView;
@@ -50,7 +53,9 @@ export default class NavigationModule {
     this.toggleHelp = toggleHelp;
     this.toggleTasks = toggleTasks;
     this.isToggleOn = isToggleOn;
-    this.sendTelemetryEvent = sendTelemetryEvent;
+    this.recordPageVisit = recordPageVisit;
+    this.trackUserEvent = trackUserEvent;
+    this.navigateTo = navigateTo;
   }
 
   setLoadingState = (isLoading) => {
@@ -209,8 +214,27 @@ export default class NavigationModule {
         businessId: this.routeProps.routeParams.businessId,
       },
     };
-    this.sendTelemetryEvent(telemetryProps);
+    this.recordPageVisit(telemetryProps);
     this.redirectToPage(this.config.CREATE_BUSINESS_URL);
+  };
+
+  manageMyProduct = () => {
+    const state = this.store.getState();
+    const userEmail = getUserEmail(state);
+    const productManagementUrl = getProductManagementUrl(state);
+    const businessId = getBusinessId(state);
+
+    const telemetryData = {
+      eventName: 'manageMyProduct',
+      eventProperties: {
+        businessId,
+        userEmail,
+        timestamp: +new Date(),
+      },
+    };
+
+    this.trackUserEvent(telemetryData);
+    this.navigateTo(productManagementUrl, true);
   };
 
   changePlan = async () => {
@@ -241,6 +265,7 @@ export default class NavigationModule {
       subscribeNow,
       toggleHelp,
       toggleTasks,
+      manageMyProduct,
     } = this;
 
     return (
@@ -259,6 +284,7 @@ export default class NavigationModule {
           onSubscribeNowClick={subscribeNow}
           onTasksLinkClick={toggleTasks}
           serialNumber={serialNumber}
+          onManageMyProductClick={manageMyProduct}
         />
       </Provider>
     );

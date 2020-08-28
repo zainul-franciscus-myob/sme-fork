@@ -36,7 +36,13 @@ export default class RootModule {
     this.store = new Store(RootReducer);
   }
 
-  init = ({ integration, router, sendTelemetryEvent, startLeanEngage }) => {
+  init = ({
+    integration,
+    router,
+    recordPageVisit,
+    trackUserEvent,
+    startLeanEngage,
+  }) => {
     const { constructPath, replaceURLParamsAndReload, navigateTo } = router;
 
     this.integration = integration;
@@ -58,7 +64,8 @@ export default class RootModule {
     );
     this.last_business_id = null;
     this.startLeanEngage = startLeanEngage;
-    this.sendTelemetryEvent = sendTelemetryEvent;
+    this.recordPageVisit = recordPageVisit;
+    this.trackUserEvent = trackUserEvent;
     this.splitFeatureToggles = getSplitToggle();
 
     this.drawer = new DrawerModule({
@@ -74,7 +81,9 @@ export default class RootModule {
       toggleTasks: this.drawer.toggleTasks,
       toggleHelp: this.drawer.toggleHelp,
       isToggleOn: this.isToggleOn,
-      sendTelemetryEvent,
+      recordPageVisit,
+      trackUserEvent,
+      navigateTo: this.navigateTo,
     });
 
     this.onboarding = new OnboardingModule({
@@ -83,7 +92,7 @@ export default class RootModule {
       tasksService: this.tasksService,
       toggleTasks: this.drawer.toggleTasks,
       businessDetailsService: this.businessDetailsService,
-      sendTelemetryEvent,
+      recordPageVisit,
     });
 
     this.globalCallbacks = buildGlobalCallbacks({
@@ -133,7 +142,7 @@ export default class RootModule {
     const state = this.store.getState();
     const telemetryData = getTelemetryData(state);
 
-    this.sendTelemetryEvent({
+    this.recordPageVisit({
       currentRouteName,
       previousRouteName,
       telemetryData,

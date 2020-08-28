@@ -9,14 +9,14 @@ class OnboardingModule {
     tasksService,
     toggleTasks,
     businessDetailsService,
-    sendTelemetryEvent,
+    recordPageVisit,
   }) {
     this.dispatcher = dispatcher;
     this.settingsService = settingsService;
     this.tasksService = tasksService;
     this.toggleTasks = toggleTasks;
     this.businessDetailsService = businessDetailsService;
-    this.sendTelemetryEvent = sendTelemetryEvent;
+    this.recordPageVisit = recordPageVisit;
   }
 
   save = async (event, { businessName, businessRole, industryId }) => {
@@ -39,9 +39,9 @@ class OnboardingModule {
   };
 
   onboardingVisited = () => {
-    const { sendTelemetryEvent, routeProps } = this;
+    const { recordPageVisit, routeProps } = this;
 
-    sendTelemetryEvent({
+    recordPageVisit({
       ...routeProps,
       telemetryData: {
         businessId: routeProps.routeParams.businessId,

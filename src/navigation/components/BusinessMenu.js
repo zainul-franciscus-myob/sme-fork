@@ -79,6 +79,7 @@ const getItems = ({
   onSubscribeNowClick,
   onChangePlanClick,
   onCreateBusinessClick,
+  onManageMyProductClick,
 }) =>
   [
     onSubscribeNowClick &&
@@ -116,14 +117,12 @@ const getItems = ({
         <Icons.OpenExternalLink />,
         onChangePlanClick
       ),
-    urls.productManagementDetail &&
-      getMenuLinkWithIcon(
-        urls.productManagementDetail,
-        'Manage my product',
-        <Icons.Edit />,
-        onMenuLinkClick,
-        '_blank'
-      ),
+    getMenuLinkWithIcon(
+      '',
+      'Manage my product',
+      <Icons.Edit />,
+      onManageMyProductClick
+    ),
     shouldShowPaymentDetail
       ? getMenuLinkWithIcon(
           urls.paymentDetail,
@@ -188,6 +187,7 @@ const BusinessMenu = ({
   onSubscribeNowClick,
   onChangePlanClick,
   onCreateBusinessClick,
+  onManageMyProductClick,
   isReadOnly,
 }) => (
   <div className={styles.businessMenu}>
@@ -215,6 +215,7 @@ const BusinessMenu = ({
         onSubscribeNowClick,
         onChangePlanClick,
         onCreateBusinessClick,
+        onManageMyProductClick,
       })}
       onSelect={onMenuSelect}
       active={activeNav === 'business'}

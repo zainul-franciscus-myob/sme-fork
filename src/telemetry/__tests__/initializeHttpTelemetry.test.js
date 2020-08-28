@@ -61,7 +61,8 @@ describe('Telemetry', () => {
     });
 
     it('should call page with the expected payload', () => {
-      telemetry(telemetryParams);
+      const { recordPageVisit } = telemetry;
+      recordPageVisit(telemetryParams);
       expect(pageMock.mock.calls.length).toBe(1);
       expect(pageMock.mock.calls[0]).toEqual([
         'home',
@@ -84,6 +85,7 @@ describe('Telemetry', () => {
     });
 
     it('should identify user with the expected traits', () => {
+      const { recordPageVisit } = telemetry;
       const modifiedTelemetryParams = {
         ...telemetryParams,
         telemetryData: {
@@ -93,7 +95,7 @@ describe('Telemetry', () => {
         },
       };
 
-      telemetry(modifiedTelemetryParams);
+      recordPageVisit(modifiedTelemetryParams);
 
       expect(setAnalyticsTraits).toHaveBeenCalledTimes(1);
       expect(identifyMock).toHaveBeenCalledTimes(1);
@@ -105,12 +107,13 @@ describe('Telemetry', () => {
     });
 
     it('should identify user even when no business has been selected', () => {
+      const { recordPageVisit } = telemetry;
       const modifiedTelemetryParams = {
         ...telemetryParams,
         telemetryData: {},
       };
 
-      telemetry(modifiedTelemetryParams);
+      recordPageVisit(modifiedTelemetryParams);
 
       expect(setAnalyticsTraits).toHaveBeenCalledTimes(1);
       expect(identifyMock).toHaveBeenCalledTimes(1);
@@ -118,27 +121,31 @@ describe('Telemetry', () => {
     });
 
     it('should call group', () => {
-      telemetry(telemetryParams);
+      const { recordPageVisit } = telemetry;
+      recordPageVisit(telemetryParams);
       expect(groupMock.mock.calls.length).toBe(1);
       expect(groupMock.mock.calls[0]).toEqual(['a-business-id']);
     });
 
     it('does not group twice', () => {
-      telemetry(telemetryParams);
-      telemetry(telemetryParams);
+      const { recordPageVisit } = telemetry;
+      recordPageVisit(telemetryParams);
+      recordPageVisit(telemetryParams);
       expect(groupMock.mock.calls.length).toBe(1);
     });
 
     it('does not identify twice', () => {
-      telemetry(telemetryParams);
-      telemetry(telemetryParams);
+      const { recordPageVisit } = telemetry;
+      recordPageVisit(telemetryParams);
+      recordPageVisit(telemetryParams);
       expect(setAnalyticsTraits.mock.calls.length).toBe(1);
       expect(identifyMock.mock.calls.length).toBe(1);
     });
 
     it('identifies again when business id changes', () => {
-      telemetry(telemetryParams);
-      telemetry({
+      const { recordPageVisit } = telemetry;
+      recordPageVisit(telemetryParams);
+      recordPageVisit({
         ...telemetryParams,
         telemetryData: {
           ...telemetryParams.telemetryData,
@@ -150,6 +157,41 @@ describe('Telemetry', () => {
       expect(identifyMock).toHaveBeenLastCalledWith('mockuserId', {
         businessId: 'new-business-id',
       });
+    });
+  });
+
+  describe('sending user events', () => {
+    let telemetry;
+
+    global.window = Object.create(window);
+
+    const trackMock = jest.fn();
+
+    beforeEach(() => {
+      telemetry = initializeHttpTelemetry(segmentWriteKey);
+      jest.clearAllMocks();
+      window.analytics = {
+        initialize: true,
+        track: trackMock,
+      };
+    });
+
+    it('should call window track with expected payload', () => {
+      const { trackUserEvent } = telemetry;
+      const expectedOptions = {
+        context: {
+          'Google Analytics': {
+            clientId: '593164909.1569991666',
+          },
+        },
+      };
+      trackUserEvent({ eventName: 'eventName', eventProperties: { p1: 'p1' } });
+      expect(trackMock).toHaveBeenCalledTimes(1);
+      expect(trackMock).toBeCalledWith(
+        'eventName',
+        { p1: 'p1' },
+        expectedOptions
+      );
     });
   });
 });

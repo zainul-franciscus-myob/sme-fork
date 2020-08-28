@@ -89,31 +89,53 @@ const recordPageVisit = (currentRouteName, userId, businessId) => {
   window.analytics.page(currentRouteName, pageViewProperties, pageViewOptions);
 };
 
+const trackUserEvent = (eventName, telemetryProperties) => {
+  const trackUserEventOptions = { context: {} };
+
+  const googleAnalyticsClientId = getGoogleAnalyticsClientId();
+  if (googleAnalyticsClientId) {
+    trackUserEventOptions.context['Google Analytics'] = {
+      clientId: googleAnalyticsClientId,
+    };
+  }
+  window.analytics.track(eventName, telemetryProperties, trackUserEventOptions);
+};
+
 const initializeHttpTelemetry = () => {
   let userId;
   let businessId;
 
-  return ({
-    currentRouteName,
-    previousRouteName,
-    telemetryData = { businessId: undefined },
-  }) => {
-    if (window.analytics) {
-      userId = identifyUser(userId, businessId, telemetryData);
-      businessId = associateUserWithGroup(businessId, telemetryData);
-      recordPageVisit(currentRouteName, userId, businessId);
-    }
-    if (window.newrelic) {
-      window.newrelic.setCustomAttribute('currentRouteName', currentRouteName);
-      window.newrelic.setCustomAttribute(
-        'previousRouteName',
-        previousRouteName
-      );
-      window.newrelic.setCustomAttribute(
-        'buildNumber',
-        process.env.REACT_APP_BUILD_NUMBER || 'dev'
-      );
-    }
+  return {
+    trackUserEvent: ({ eventName, eventProperties }) => {
+      if (window.analytics) {
+        trackUserEvent(eventName, eventProperties);
+      }
+    },
+    recordPageVisit: ({
+      currentRouteName,
+      previousRouteName,
+      telemetryData = { businessId: undefined },
+    }) => {
+      if (window.analytics) {
+        userId = identifyUser(userId, businessId, telemetryData);
+        businessId = associateUserWithGroup(businessId, telemetryData);
+        recordPageVisit(currentRouteName, userId, businessId);
+      }
+      if (window.newrelic) {
+        window.newrelic.setCustomAttribute(
+          'currentRouteName',
+          currentRouteName
+        );
+        window.newrelic.setCustomAttribute(
+          'previousRouteName',
+          previousRouteName
+        );
+        window.newrelic.setCustomAttribute(
+          'buildNumber',
+          process.env.REACT_APP_BUILD_NUMBER || 'dev'
+        );
+      }
+    },
   };
 };
 

@@ -140,6 +140,7 @@ const getSettings = ({
   onSubscribeNowClick,
   onChangePlanClick,
   onCreateBusinessClick,
+  onManageMyProductClick,
   hasTasks,
   businessName,
 }) =>
@@ -181,6 +182,7 @@ const getSettings = ({
         onCreateBusinessClick={
           shouldDisplayCreateBusiness && onCreateBusinessClick
         }
+        onManageMyProductClick={onManageMyProductClick}
       />
     ),
     !shouldDisplayBusinessMenu && (
@@ -198,6 +200,7 @@ const NavigationBar = ({
   menuLogoUrl,
   onChangePlanClick,
   onCreateBusinessClick,
+  onManageMyProductClick,
   onHelpLinkClick,
   onLogoutLinkClick,
   onMenuLinkClick,
@@ -250,6 +253,7 @@ const NavigationBar = ({
     onSubscribeNowClick,
     onChangePlanClick,
     onCreateBusinessClick,
+    onManageMyProductClick,
     region,
     shouldDisplayBusinessMenu,
     shouldDisplayAddMenu,

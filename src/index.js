@@ -27,6 +27,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
   });
   const initializeTelemetry = getInitializeTelemetry(telemetryType);
   const telemetry = initializeTelemetry();
+  const { recordPageVisit, trackUserEvent } = telemetry;
   const initializeLeanEngage = getInitializeLeanEngage(leanEngageType);
   const startLeanEngage = initializeLeanEngage(Config.LEAN_ENGAGE_APP_ID);
 
@@ -40,7 +41,8 @@ async function main(integrationType, telemetryType, leanEngageType) {
   rootModule.init({
     integration,
     router,
-    sendTelemetryEvent: telemetry,
+    recordPageVisit,
+    trackUserEvent,
     startLeanEngage,
     featureToggles,
   });

@@ -1,8 +1,14 @@
 import { LOAD_NAVIGATION_CONFIG, SET_ROUTE_INFO } from '../NavigationIntents';
 import NavigationModule from '../NavigationModule';
 import RouteName from '../../router/RouteName';
+import TestStore from '../../store/TestStore';
+import navReducer from '../navReducer';
 
 describe('Navigation Module', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   const baseData = {
     routeParams: {
       businessId: '🍟',
@@ -29,8 +35,13 @@ describe('Navigation Module', () => {
     },
     setNavigationView: () => {},
     isToggleOn: () => true,
-    sendTelemetryEvent: jest.fn(),
+    recordPageVisit: jest.fn(),
+    trackUserEvent: jest.fn(),
+    navigateTo: jest.fn(),
   });
+
+  const store = new TestStore(navReducer);
+  navigationModule.store = store;
 
   describe('run', () => {
     describe('when the business ID has not changed', () => {
@@ -154,14 +165,55 @@ describe('Navigation Module', () => {
         navigationModule.run(data);
         navigationModule.createBusiness();
 
-        expect(navigationModule.sendTelemetryEvent).toHaveBeenCalledTimes(1);
-        expect(navigationModule.sendTelemetryEvent).toBeCalledWith(
+        expect(navigationModule.recordPageVisit).toHaveBeenCalledTimes(1);
+        expect(navigationModule.recordPageVisit).toBeCalledWith(
           expect.objectContaining({
             currentRouteName: 'createNewBusiness',
             telemetryData: {
               businessId: 'businessId',
             },
           })
+        );
+      });
+    });
+
+    describe('when user clicks on manage my product', () => {
+      const data = {
+        routeParams: {
+          businessId: 'businessId',
+        },
+        currentRouteName: 'someUrl',
+      };
+
+      it('sends user event telemetry info with expected payload', () => {
+        navigationModule.store.setState({
+          ...navigationModule.store.getState(),
+          userEmail: 'abc',
+        });
+        navigationModule.run(data);
+        navigationModule.manageMyProduct();
+
+        expect(navigationModule.trackUserEvent).toHaveBeenCalledTimes(1);
+        expect(navigationModule.trackUserEvent).toBeCalledWith(
+          expect.objectContaining({
+            eventName: 'manageMyProduct',
+            eventProperties: {
+              businessId: 'businessId',
+              userEmail: 'abc',
+              timestamp: expect.any(Number),
+            },
+          })
+        );
+      });
+
+      it('opens manage my product page in new tab', () => {
+        navigationModule.run(data);
+        navigationModule.manageMyProduct();
+
+        expect(navigationModule.navigateTo).toHaveBeenCalledTimes(1);
+        expect(navigationModule.navigateTo).toBeCalledWith(
+          'self-service-portal.url/#/productManagement?businessId=businessId',
+          true
         );
       });
     });
