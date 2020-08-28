@@ -23,6 +23,7 @@ export default {
     website: 'https://www.myob.com',
     isFinancialYearClosed: false,
     hasTransactions: false,
+    payeeNumber: '00000000', // only be used for AU business
   },
   financialYearOptions: [
     '2014',

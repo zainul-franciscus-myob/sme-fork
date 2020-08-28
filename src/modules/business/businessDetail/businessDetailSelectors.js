@@ -50,6 +50,7 @@ export const getBusinessForUpdate = createStructuredSelector({
   tradingName: (state) => state.businessDetails.tradingName,
   website: (state) => state.businessDetails.website,
   clientCode: (state) => state.businessDetails.clientCode,
+  payeeNumber: (state) => state.businessDetails.payeeNumber,
 });
 
 export const getBusinessDetails = createStructuredSelector({
@@ -106,11 +107,10 @@ export const getFinancialYearDateRange = createSelector(
 
     const endOfFY = endOfMonth(new Date(financialYear, lastMonthInFYIndex, 1));
 
-    const financialYearDateRange = {
+    return {
       start: format(startOfFY, financialYearDateFormat),
       end: format(endOfFY, financialYearDateFormat),
     };
-    return financialYearDateRange;
   }
 );
 

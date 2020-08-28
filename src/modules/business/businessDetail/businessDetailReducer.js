@@ -54,6 +54,7 @@ const getDefaultState = () => ({
     website: '',
     isFinancialYearClosed: false,
     hasTransactions: false,
+    payeeNumber: undefined,
   },
   isLockDateAutoPopulated: false,
   loadingState: LoadingState.LOADING,
