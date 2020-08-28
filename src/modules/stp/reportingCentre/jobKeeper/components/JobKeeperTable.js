@@ -30,7 +30,7 @@ const tableConfig = {
     textWrap: 'wrap',
   },
   tier: {
-    columnName: 'Employee Tier',
+    columnName: 'Employee tier',
     width: 'flex-2',
     valign: 'middle',
     textWrap: 'wrap',

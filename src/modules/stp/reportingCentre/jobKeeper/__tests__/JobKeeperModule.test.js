@@ -160,7 +160,7 @@ describe('jobKeeperModule', () => {
 
     const { wrapper } = constructModule(module);
     const newAlert = wrapper.find({
-      testId: 'test-new-JK-alert',
+      testId: 'test-new-JK-warning',
     });
     const oldInfo = wrapper.find({
       testId: 'test-old-JK-info',
@@ -184,7 +184,7 @@ describe('jobKeeperModule', () => {
 
     const { wrapper } = constructModule(module);
     const newAlert = wrapper.find({
-      testId: 'test-new-JK-alert',
+      testId: 'test-new-JK-warning',
     });
     const oldInfo = wrapper.find({
       testId: 'test-old-JK-info',
@@ -192,6 +192,33 @@ describe('jobKeeperModule', () => {
 
     expect(newAlert).toHaveLength(0);
     expect(oldInfo).toHaveLength(1);
+  });
+
+  it('able to dismiss initial warning', () => {
+    const read = jest.fn();
+    const module = new JobKeeperModule({
+      integration: {
+        read,
+        readFile: read,
+      },
+      pushMessage: () => {},
+      featureToggles: {
+        isJobKeeper2Enabled: true,
+      },
+    });
+
+    module.dismissInitWarning();
+
+    const { wrapper } = constructModule(module);
+    const newAlert = wrapper.find({
+      testId: 'test-new-JK-warning',
+    });
+    const oldInfo = wrapper.find({
+      testId: 'test-old-JK-info',
+    });
+
+    expect(newAlert).toHaveLength(0);
+    expect(oldInfo).toHaveLength(0);
   });
 
   it('reporting calls API with correct month value', () => {

@@ -36,3 +36,5 @@ export const getUnsavedChangesModalIsOpen = (state) =>
 
 export const getStpReportTabUrl = (state) =>
   `/#/${state.region}/${state.businessId}/stp/reportingCentre?tab=reports`;
+
+export const getShowInitWarning = (state) => state.showInitWarning;

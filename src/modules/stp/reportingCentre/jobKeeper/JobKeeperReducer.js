@@ -1,4 +1,5 @@
 import {
+  DISMISS_INITIAL_WARNING,
   RESET_DIRTY_FLAG,
   SET_FILTERED_EMPLOYEES,
   SET_INITIAL_STATE,
@@ -27,6 +28,7 @@ export const getDefaultState = () => ({
   orderBy: 'FirstName',
   isDirty: false,
   unsavedChangesModalIsOpen: false,
+  showInitWarning: true,
 });
 
 const setInitialState = (state, { context }) => ({
@@ -105,6 +107,11 @@ const setNewEventId = (state) => ({
   eventId: uuid(),
 });
 
+const dismissInitWarning = (state) => ({
+  ...state,
+  showInitWarning: false,
+});
+
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_JOB_KEEPER_INITIAL]: setJobKeeperInitial,
@@ -118,6 +125,7 @@ const handlers = {
   [SET_UNSAVED_CHANGES_MODAL]: setUnsavedChangesModal,
   [RESET_DIRTY_FLAG]: resetDirtyFlag,
   [SET_NEW_EVENT_ID]: setNewEventId,
+  [DISMISS_INITIAL_WARNING]: dismissInitWarning,
 };
 
 const jobKeeperReducer = createReducer(getDefaultState(), handlers);

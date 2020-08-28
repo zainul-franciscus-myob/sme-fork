@@ -18,3 +18,4 @@ export const SET_NEW_EVENT_ID = Symbol('Set a new event id');
 export const RESET_DIRTY_FLAG = Symbol('Resets the dirty flag back to false');
 export const SET_UNSAVED_CHANGES_MODAL = Symbol('open unsaved changes modal');
 export const LOAD_JOB_KEEPER_REPORT = Symbol('open JobKeeper report');
+export const DISMISS_INITIAL_WARNING = Symbol('Dismiss the JK initial warning');

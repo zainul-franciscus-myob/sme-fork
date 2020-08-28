@@ -1,4 +1,5 @@
 import {
+  DISMISS_INITIAL_WARNING,
   RESET_DIRTY_FLAG,
   SET_FILTERED_EMPLOYEES,
   SET_INITIAL_STATE,
@@ -103,6 +104,12 @@ const createJobKeeperDispatcher = (store) => ({
   resetDirtyFlag: () => {
     store.dispatch({
       intent: RESET_DIRTY_FLAG,
+    });
+  },
+
+  dismissInitWarning: () => {
+    store.dispatch({
+      intent: DISMISS_INITIAL_WARNING,
     });
   },
 });

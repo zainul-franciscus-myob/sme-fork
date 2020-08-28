@@ -179,6 +179,10 @@ export default class JobKeeperModule {
     });
   };
 
+  dismissInitWarning = () => {
+    this.dispatcher.dismissInitWarning();
+  };
+
   run = () => {
     this.loadInitialEmployeesAndHeaderDetails();
   };
@@ -200,6 +204,7 @@ export default class JobKeeperModule {
             onConfirm: this.onUnsavedChangesConfirm,
           }}
           featureToggles={this.featureToggles}
+          dismissInitWarning={this.dismissInitWarning}
         />
       </Provider>
     );

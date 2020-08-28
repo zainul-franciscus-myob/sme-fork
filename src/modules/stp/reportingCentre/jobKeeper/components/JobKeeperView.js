@@ -12,6 +12,7 @@ import {
   getLoadingState,
   getPayrollYears,
   getSelectedPayrollYear,
+  getShowInitWarning,
   getUnsavedChangesModalIsOpen,
 } from '../JobKeeperSelector';
 import CancelModal from '../../../../../components/modal/CancelModal';
@@ -37,6 +38,8 @@ const JobKeeperView = ({
   unsavedChangesModalIsOpen,
   unsavedChangesModalListeners,
   featureToggles,
+  dismissInitWarning,
+  showInitWarning,
 }) => {
   const jobKeeperTable = (
     <JobKeeperTable
@@ -72,9 +75,9 @@ const JobKeeperView = ({
           onCancel={unsavedChangesModalListeners.onCancel}
         />
       )}
-      {featureToggles && featureToggles.isJobKeeper2Enabled && (
-        <div testId="test-new-JK-alert">
-          <Alert type="warning">
+      {featureToggles && featureToggles.isJobKeeper2Enabled && showInitWarning && (
+        <div testId="test-new-JK-warning">
+          <Alert type="warning" onDismiss={dismissInitWarning}>
             <p>
               <b>Employee JobKeeper eligibility and payment rate changes</b>
             </p>
@@ -82,7 +85,7 @@ const JobKeeperView = ({
               You now need to choose the payment rate you&apos;re claiming for
               each eligible employee.&nbsp;
               <a
-                href="https://www.ato.gov.au/General/JobKeeper-Payment/Employers/Your-eligible-employees/"
+                href="https://help.myob.com/wiki/x/9ARMAw"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -120,6 +123,7 @@ const mapStateToProps = (state) => ({
   unsavedChangesModalIsOpen: getUnsavedChangesModalIsOpen(state),
   finalFortnightOptions: getFinalFortnightOptions(state),
   employeeTierOptions: getEmployeeTierOptions(state),
+  showInitWarning: getShowInitWarning(state),
 });
 
 export default connect(mapStateToProps)(JobKeeperView);
