@@ -3,4 +3,5 @@ export default Object.freeze({
   EssentialsJobsPayrun: 'essentials-jobs-payrun',
   StartNewFinancialYear: 'start-new-financial-year',
   BankFeedsLoadApplications: 'essentials-bank-feeds-load-applications',
+  FastModeLoadBankTransactions: 'fast-mode-load-bank-transactions',
 });

@@ -54,10 +54,6 @@ describe('BankingModule', () => {
     const popMessages = () => [];
     const isToggleOn = () => true;
 
-    // @TODO: To be deleted alongside our disposable test when we no longer need featureToggles
-    const featureToggles = {
-      isBankTransactionsFastModeEnabled: true,
-    };
     const integration = new TestIntegration();
 
     const module = new BankingModule({
@@ -66,7 +62,6 @@ describe('BankingModule', () => {
       pushMessage,
       popMessages,
       isToggleOn,
-      featureToggles,
     });
     const store = new TestStore(bankingReducer);
     module.store = store;
@@ -166,7 +161,7 @@ describe('BankingModule', () => {
           intent: SET_INITIAL_STATE,
           context: {
             isBankingJobColumnEnabled: true,
-            isFastModeEnabled: false,
+            isFastModeEnabled: true,
           },
         },
         {
@@ -200,7 +195,7 @@ describe('BankingModule', () => {
           intent: SET_INITIAL_STATE,
           context: {
             isBankingJobColumnEnabled: true,
-            isFastModeEnabled: false,
+            isFastModeEnabled: true,
           },
         },
         {
@@ -225,13 +220,11 @@ describe('BankingModule', () => {
     });
 
     // @Disposable tests: Ensures our logic for setting isFastModeEnabled is correct
-    it('sets fastMode given feature toggle is true and a query param is given', () => {
+    it('sets fastMode given feature toggle is true', () => {
       const { store, integration, module } = setUp();
       integration.mapFailure(LOAD_BANK_TRANSACTIONS);
 
-      module.run({
-        fastMode: true,
-      });
+      module.run({});
 
       expect(store.getActions()[0]).toEqual({
         intent: SET_INITIAL_STATE,
