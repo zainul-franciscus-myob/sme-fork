@@ -62,6 +62,46 @@ describe('jobKeeperModule', () => {
     expect(panel).toHaveLength(0);
   });
 
+  it('show 12 items in month dropdown when JK2 feature toggle is on', () => {
+    const read = jest.fn();
+    const module = new JobKeeperModule({
+      integration: {
+        read,
+      },
+      pushMessage: () => {},
+      featureToggles: {
+        isJobKeeperReportingEnabled: true,
+        isJobKeeper2Enabled: true,
+      },
+    });
+    const { wrapper } = constructModule(module);
+
+    const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
+    const options = panel.find('Select').find('Option');
+
+    expect(options.length).toBe(12);
+  });
+
+  it('show 6 items in month dropdown when JK2 feature toggle is off', () => {
+    const read = jest.fn();
+    const module = new JobKeeperModule({
+      integration: {
+        read,
+      },
+      pushMessage: () => {},
+      featureToggles: {
+        isJobKeeperReportingEnabled: true,
+        isJobKeeper2Enabled: false,
+      },
+    });
+    const { wrapper } = constructModule(module);
+
+    const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
+    const options = panel.find('Select').find('Option');
+
+    expect(options.length).toBe(6);
+  });
+
   it('shows employee tier when feature toggle on', () => {
     const read = jest.fn();
     const module = new JobKeeperModule({

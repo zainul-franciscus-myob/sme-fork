@@ -32,7 +32,10 @@ const JobKeeperFilter = ({
       {featureToggles && featureToggles.isJobKeeperReportingEnabled ? (
         <>
           <span className={styles.divider} />
-          <JobKeeperReporting onOpenJobKeeperReport={onOpenJobKeeperReport} />
+          <JobKeeperReporting
+            onOpenJobKeeperReport={onOpenJobKeeperReport}
+            featureToggles={featureToggles}
+          />
         </>
       ) : null}
     </>

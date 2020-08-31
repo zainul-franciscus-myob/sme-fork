@@ -14,7 +14,7 @@ class JobKeeperReporting extends React.Component {
 
   render() {
     const {
-      props: { onOpenJobKeeperReport },
+      props: { onOpenJobKeeperReport, featureToggles },
       state: { selectedMonth },
     } = this;
 
@@ -25,6 +25,21 @@ class JobKeeperReporting extends React.Component {
       { label: 'July (fortnights 7 & 8)', month: '7' },
       { label: 'August (fortnights 9, 10 & 11)', month: '8' },
       { label: 'September (fortnights 12 & 13)', month: '9' },
+    ];
+
+    const itemsJK2 = [
+      { label: 'April (fortnights 1 & 2)', month: '4' },
+      { label: 'May (fortnights 3 & 4)', month: '5' },
+      { label: 'June (fortnights 5 & 6)', month: '6' },
+      { label: 'July (fortnights 7 & 8)', month: '7' },
+      { label: 'August (fortnights 9, 10 & 11)', month: '8' },
+      { label: 'September (fortnights 12 & 13)', month: '9' },
+      { label: 'October (fortnights 14 & 15)', month: '10' },
+      { label: 'November (fortnights 16 & 17)', month: '11' },
+      { label: 'December (fortnights 18 & 19)', month: '12' },
+      { label: 'January (fortnights 20, 21 & 22)', month: '1' },
+      { label: 'February (fortnights 23 & 24)', month: '2' },
+      { label: 'March (fortnights 25 & 26)', month: '3' },
     ];
 
     return (
@@ -39,13 +54,21 @@ class JobKeeperReporting extends React.Component {
             this.setState({ selectedMonth: e.value });
           })}
         >
-          {items.map((item) => (
-            <Select.Option
-              label={item.label}
-              value={item.month}
-              key={item.month}
-            />
-          ))}
+          {featureToggles && featureToggles.isJobKeeper2Enabled
+            ? itemsJK2.map((item) => (
+                <Select.Option
+                  label={item.label}
+                  value={item.month}
+                  key={item.month}
+                />
+              ))
+            : items.map((item) => (
+                <Select.Option
+                  label={item.label}
+                  value={item.month}
+                  key={item.month}
+                />
+              ))}
         </Select>
         <Button
           id="job-keeper-reports-btn"
