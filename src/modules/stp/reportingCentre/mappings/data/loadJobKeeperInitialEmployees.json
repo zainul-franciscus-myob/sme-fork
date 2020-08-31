@@ -23,6 +23,8 @@
       "employeeId": "100003",
       "isFinalised": false,
       "lastName": "Brawn",
+      "firstFortnight": "14",
+      "finalFortnight": null,
       "tier": null
     },
     {
@@ -30,6 +32,8 @@
       "employeeId": "100004",
       "isFinalised": false,
       "lastName": "Gedup",
+      "firstFortnight": "14",
+      "finalFortnight": "15",
       "tier": null
     }
   ],
@@ -70,6 +74,23 @@
       "id": "03"
     }
   ],
+  "firstFortnightOptionsJK2": [
+    {
+      "dates": "28 Sep - 11 Oct",
+      "allowanceDescription": "JOBKEEPER-START-FN14",
+      "id": "14"
+    },
+    {
+      "dates": "12 Oct - 25 Oct",
+      "allowanceDescription": "JOBKEEPER-START-FN15",
+      "id": "15"
+    },
+    {
+      "dates": "26 Oct - 08 Nov",
+      "allowanceDescription": "JOBKEEPER-START-FN16",
+      "id": "16"
+    }
+  ],
   "finalFortnightOptions": [
     {
       "dates": "30 Mar - 12 Apr",
@@ -85,6 +106,23 @@
       "dates": "27 Apr - 10 May",
       "allowanceDescription": "JOBKEEPER-FINISH-FN03",
       "id": "03"
+    }
+  ],
+  "finalFortnightOptionsJK2": [
+    {
+      "dates": "28 Sep - 11 Oct",
+      "allowanceDescription": "JOBKEEPER-FINISH-FN14",
+      "id": "14"
+    },
+    {
+      "dates": "12 Oct - 25 Oct",
+      "allowanceDescription": "JOBKEEPER-FINISH-FN15",
+      "id": "15"
+    },
+    {
+      "dates": "26 Oct - 08 Nov",
+      "allowanceDescription": "JOBKEEPER-FINISH-FN16",
+      "id": "16"
     }
   ],
   "employeeTierOptions": [

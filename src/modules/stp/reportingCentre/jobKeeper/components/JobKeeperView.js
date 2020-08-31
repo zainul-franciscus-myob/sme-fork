@@ -7,7 +7,9 @@ import {
   getEmployeeTierOptions,
   getEmployees,
   getFinalFortnightOptions,
+  getFinalFortnightOptionsJK2,
   getFirstFortnightOptions,
+  getFirstFortnightOptionsJK2,
   getIsTableLoading,
   getLoadingState,
   getPayrollYears,
@@ -27,7 +29,9 @@ const JobKeeperView = ({
   employeeTierOptions,
   employees,
   finalFortnightOptions,
+  finalFortnightOptionsJK2,
   firstFortnightOptions,
+  firstFortnightOptionsJK2,
   onPayrollYearChange,
   onSort,
   activeSort,
@@ -41,20 +45,34 @@ const JobKeeperView = ({
   dismissInitWarning,
   showInitWarning,
 }) => {
-  const jobKeeperTable = (
-    <JobKeeperTable
-      featureToggles={featureToggles}
-      employeeTierOptions={employeeTierOptions}
-      employees={employees}
-      firstFortnightOptions={firstFortnightOptions}
-      finalFortnightOptions={finalFortnightOptions}
-      onSort={onSort}
-      isTableLoading={isTableLoading}
-      activeSort={activeSort}
-      onEmployeeChange={onEmployeeChange}
-      onOpenJobKeeperReport={onOpenJobKeeperReport}
-    />
-  );
+  const jobKeeperTable =
+    featureToggles && featureToggles.isJobKeeper2Enabled ? (
+      <JobKeeperTable
+        featureToggles={featureToggles}
+        employeeTierOptions={employeeTierOptions}
+        employees={employees}
+        firstFortnightOptions={firstFortnightOptionsJK2}
+        finalFortnightOptions={finalFortnightOptionsJK2}
+        onSort={onSort}
+        isTableLoading={isTableLoading}
+        activeSort={activeSort}
+        onEmployeeChange={onEmployeeChange}
+        onOpenJobKeeperReport={onOpenJobKeeperReport}
+      />
+    ) : (
+      <JobKeeperTable
+        featureToggles={featureToggles}
+        employeeTierOptions={employeeTierOptions}
+        employees={employees}
+        firstFortnightOptions={firstFortnightOptions}
+        finalFortnightOptions={finalFortnightOptions}
+        onSort={onSort}
+        isTableLoading={isTableLoading}
+        activeSort={activeSort}
+        onEmployeeChange={onEmployeeChange}
+        onOpenJobKeeperReport={onOpenJobKeeperReport}
+      />
+    );
 
   const actions = (
     <ButtonRow>
@@ -120,8 +138,10 @@ const mapStateToProps = (state) => ({
   employees: getEmployees(state),
   activeSort: getActiveSort(state),
   firstFortnightOptions: getFirstFortnightOptions(state),
+  firstFortnightOptionsJK2: getFirstFortnightOptionsJK2(state),
   unsavedChangesModalIsOpen: getUnsavedChangesModalIsOpen(state),
   finalFortnightOptions: getFinalFortnightOptions(state),
+  finalFortnightOptionsJK2: getFinalFortnightOptionsJK2(state),
   employeeTierOptions: getEmployeeTierOptions(state),
   showInitWarning: getShowInitWarning(state),
 });

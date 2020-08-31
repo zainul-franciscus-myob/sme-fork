@@ -10,7 +10,11 @@ export const getBusinessId = (state) => state.businessId;
 export const getIsTableLoading = (state) => state.isTableLoading;
 export const getEmployees = (state) => state.employees;
 export const getFinalFortnightOptions = (state) => state.finalFortnightOptions;
+export const getFinalFortnightOptionsJK2 = (state) =>
+  state.finalFortnightOptionsJK2;
 export const getFirstFortnightOptions = (state) => state.firstFortnightOptions;
+export const getFirstFortnightOptionsJK2 = (state) =>
+  state.firstFortnightOptionsJK2;
 export const getEmployeeTierOptions = (state) => state.employeeTierOptions;
 
 export const getFilterEmployeesParams = (state) => ({
