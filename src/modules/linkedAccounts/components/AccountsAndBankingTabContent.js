@@ -8,6 +8,7 @@ import {
   getEquityAccountCurrentEarnings,
   getEquityAccountRetainedEarnings,
   getEquityHistoricalBalancing,
+  getIsActionDisabled,
 } from '../LinkedAccountsSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
@@ -18,6 +19,7 @@ const AccountsAndBankingTabContent = ({
   equityAccountCurrentEarnings,
   equityAccountRetainedEarnings,
   equityHistoricalBalancing,
+  isDisabled,
   onAccountChange,
   onCreateAccountButtonClick,
 }) => (
@@ -29,6 +31,7 @@ const AccountsAndBankingTabContent = ({
       {equityAccountRetainedEarnings.accountName}
     </ReadOnly>
     <AccountCombobox
+      disabled={isDisabled}
       label="Equity account for historical balancing"
       items={equityHistoricalBalancing.accounts}
       selectedId={equityHistoricalBalancing.accountId}
@@ -43,6 +46,7 @@ const AccountsAndBankingTabContent = ({
       }
     />
     <AccountCombobox
+      disabled={isDisabled}
       label="Bank account for electronic payments"
       items={bankAccountElectronicPayments.accounts}
       selectedId={bankAccountElectronicPayments.accountId}
@@ -57,6 +61,7 @@ const AccountsAndBankingTabContent = ({
       }
     />
     <AccountCombobox
+      disabled={isDisabled}
       label="Bank account for undeposited funds"
       items={bankAccountUndepositedFunds.accounts}
       selectedId={bankAccountUndepositedFunds.accountId}
@@ -74,11 +79,12 @@ const AccountsAndBankingTabContent = ({
 );
 
 const mapStateToProps = (state) => ({
+  bankAccountElectronicPayments: getBankAccountElectronicPayments(state),
+  bankAccountUndepositedFunds: getBankAccountUndepositedFunds(state),
   equityAccountCurrentEarnings: getEquityAccountCurrentEarnings(state),
   equityAccountRetainedEarnings: getEquityAccountRetainedEarnings(state),
   equityHistoricalBalancing: getEquityHistoricalBalancing(state),
-  bankAccountElectronicPayments: getBankAccountElectronicPayments(state),
-  bankAccountUndepositedFunds: getBankAccountUndepositedFunds(state),
+  isDisabled: getIsActionDisabled(state),
 });
 
 export default connect(mapStateToProps)(AccountsAndBankingTabContent);

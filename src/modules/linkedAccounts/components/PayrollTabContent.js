@@ -7,6 +7,7 @@ import {
   getBankAccountChequePayments,
   getBankAccountElectronicPayments,
   getEmploymentExpenseAccount,
+  getIsActionDisabled,
   getTaxDeductionsPayableAccount,
   getWagesExpenseAccount,
 } from '../LinkedAccountsSelectors';
@@ -18,6 +19,7 @@ const PayrollTabContent = ({
   bankAccountChequePayments,
   bankAccountElectronicPayments,
   employmentExpenseAccount,
+  isDisabled,
   onAccountChange,
   onCreateAccountButtonClick,
   taxDeductionsPayableAccount,
@@ -25,6 +27,7 @@ const PayrollTabContent = ({
 }) => (
   <FieldGroup label={'Payroll'} hideLabel>
     <AccountCombobox
+      disabled={isDisabled}
       label="Bank account for cash payments"
       items={bankAccountCashPayments.accounts}
       selectedId={bankAccountCashPayments.accountId}
@@ -39,6 +42,7 @@ const PayrollTabContent = ({
       }
     />
     <AccountCombobox
+      disabled={isDisabled}
       label="Bank account for cheque payments"
       items={bankAccountChequePayments.accounts}
       selectedId={bankAccountChequePayments.accountId}
@@ -53,6 +57,7 @@ const PayrollTabContent = ({
       }
     />
     <AccountCombobox
+      disabled={isDisabled}
       label="Bank account for electronic payments"
       items={bankAccountElectronicPayments.accounts}
       selectedId={bankAccountElectronicPayments.accountId}
@@ -67,6 +72,7 @@ const PayrollTabContent = ({
       }
     />
     <AccountCombobox
+      disabled={isDisabled}
       label="Default employer expense account"
       items={employmentExpenseAccount.accounts}
       selectedId={employmentExpenseAccount.accountId}
@@ -81,6 +87,7 @@ const PayrollTabContent = ({
       }
     />
     <AccountCombobox
+      disabled={isDisabled}
       label="Default wages expense account"
       items={wagesExpenseAccount.accounts}
       selectedId={wagesExpenseAccount.accountId}
@@ -92,6 +99,7 @@ const PayrollTabContent = ({
       }
     />
     <AccountCombobox
+      disabled={isDisabled}
       label="Default tax/deductions payable account"
       items={taxDeductionsPayableAccount.accounts}
       selectedId={taxDeductionsPayableAccount.accountId}
@@ -113,8 +121,9 @@ const mapStateToProps = (state) => ({
   bankAccountChequePayments: getBankAccountChequePayments(state),
   bankAccountElectronicPayments: getBankAccountElectronicPayments(state),
   employmentExpenseAccount: getEmploymentExpenseAccount(state),
-  wagesExpenseAccount: getWagesExpenseAccount(state),
+  isDisabled: getIsActionDisabled(state),
   taxDeductionsPayableAccount: getTaxDeductionsPayableAccount(state),
+  wagesExpenseAccount: getWagesExpenseAccount(state),
 });
 
 export default connect(mapStateToProps)(PayrollTabContent);

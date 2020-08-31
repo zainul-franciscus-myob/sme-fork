@@ -86,11 +86,8 @@ class LinkedAccountsModule {
   dismissAlert = () => this.dispatcher.dismissAlert();
 
   openAccountModal = (onAccountChange) => {
-    const state = this.store.getState();
-    const accountModalContext = getAccountModalContext(state);
-
     this.accountModalModule.run({
-      context: accountModalContext,
+      context: getAccountModalContext(this.store.getState()),
       onSaveSuccess: (payload) =>
         this.loadAccountAfterCreate(payload, onAccountChange),
       onLoadFailure: (message) =>

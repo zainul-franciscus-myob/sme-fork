@@ -8,6 +8,7 @@ import {
   getExpenseAccountDiscounts,
   getExpenseAccountLaterCharges,
   getExpenseSalesAccountFreight,
+  getIsActionDisabled,
   getLiabilityAccountItemReceipts,
   getLiabilityAccountTrackingPayables,
 } from '../LinkedAccountsSelectors';
@@ -22,6 +23,7 @@ const PurchasesTabContent = ({
   expenseAccountDiscounts,
   expenseAccountLaterCharges,
   expenseSalesAccountFreight,
+  isDisabled,
   liabilityAccountItemReceipts,
   liabilityAccountTrackingPayables,
   onAccountChange,
@@ -31,6 +33,7 @@ const PurchasesTabContent = ({
   <>
     <FieldGroup label="Liability and bank accounts" hideLabel>
       <AccountCombobox
+        disabled={isDisabled}
         label="Liability account for tracking payables"
         items={liabilityAccountTrackingPayables.accounts}
         selectedId={liabilityAccountTrackingPayables.accountId}
@@ -48,6 +51,7 @@ const PurchasesTabContent = ({
         }
       />
       <AccountCombobox
+        disabled={isDisabled}
         label="Bank account for paying bills"
         items={bankAccountPayingBills.accounts}
         selectedId={bankAccountPayingBills.accountId}
@@ -64,6 +68,7 @@ const PurchasesTabContent = ({
     </FieldGroup>
     <FieldGroup label="Liability account for item receipt" hideLabel>
       <ToggleableAccountCombobox
+        disabled={isDisabled}
         isChecked={liabilityAccountItemReceipts.hasAccount}
         toggleName="liabilityAccountItemReceipts"
         toggleLabel="I can receive items without a supplier bill"
@@ -87,6 +92,7 @@ const PurchasesTabContent = ({
     </FieldGroup>
     <FieldGroup label="Expense or cost of sales account for freight" hideLabel>
       <ToggleableAccountCombobox
+        disabled={isDisabled}
         isChecked={expenseSalesAccountFreight.hasAccount}
         toggleName="expenseSalesAccountFreight"
         toggleLabel="I pay freight on purchases"
@@ -107,6 +113,7 @@ const PurchasesTabContent = ({
     </FieldGroup>
     <FieldGroup label="Asset account for supplier deposits" hideLabel>
       <ToggleableAccountCombobox
+        disabled={isDisabled}
         isChecked={assetAccountSupplierDeposits.hasAccount}
         toggleName="assetAccountSupplierDeposits"
         toggleLabel="I track deposits paid to suppliers"
@@ -130,6 +137,7 @@ const PurchasesTabContent = ({
     </FieldGroup>
     <FieldGroup label="Expense (or Contra) account for discounts" hideLabel>
       <ToggleableAccountCombobox
+        disabled={isDisabled}
         isChecked={expenseAccountDiscounts.hasAccount}
         toggleName="expenseAccountDiscounts"
         toggleLabel="I take discounts for early payment"
@@ -150,6 +158,7 @@ const PurchasesTabContent = ({
     </FieldGroup>
     <FieldGroup label="Expense account for late charges" hideLabel>
       <ToggleableAccountCombobox
+        disabled={isDisabled}
         isChecked={expenseAccountLaterCharges.hasAccount}
         toggleName="expenseAccountLaterCharges"
         toggleLabel="I pay charges for late payment"
@@ -172,13 +181,14 @@ const PurchasesTabContent = ({
 );
 
 const mapStateToProps = (state) => ({
-  liabilityAccountTrackingPayables: getLiabilityAccountTrackingPayables(state),
-  bankAccountPayingBills: getBankAccountPayingBills(state),
-  liabilityAccountItemReceipts: getLiabilityAccountItemReceipts(state),
-  expenseSalesAccountFreight: getExpenseSalesAccountFreight(state),
   assetAccountSupplierDeposits: getAssetAccountSupplierDeposits(state),
+  bankAccountPayingBills: getBankAccountPayingBills(state),
   expenseAccountDiscounts: getExpenseAccountDiscounts(state),
   expenseAccountLaterCharges: getExpenseAccountLaterCharges(state),
+  expenseSalesAccountFreight: getExpenseSalesAccountFreight(state),
+  isDisabled: getIsActionDisabled(state),
+  liabilityAccountItemReceipts: getLiabilityAccountItemReceipts(state),
+  liabilityAccountTrackingPayables: getLiabilityAccountTrackingPayables(state),
 });
 
 export default connect(mapStateToProps)(PurchasesTabContent);

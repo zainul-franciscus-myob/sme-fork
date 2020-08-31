@@ -8,6 +8,7 @@ import {
   getExpenseSalesAccountDiscounts,
   getIncomeAccountFreight,
   getIncomeAccountLateCharges,
+  getIsActionDisabled,
   getLiabilityAccountCustomerDeposits,
 } from '../LinkedAccountsSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
@@ -21,6 +22,7 @@ const SalesTabContent = ({
   expenseSalesAccountDiscounts,
   incomeAccountFreight,
   incomeAccountLateCharges,
+  isDisabled,
   liabilityAccountCustomerDeposits,
   onAccountChange,
   onCreateAccountButtonClick,
@@ -29,6 +31,7 @@ const SalesTabContent = ({
   <>
     <FieldGroup label="Asset and bank accounts" hideLabel>
       <AccountCombobox
+        disabled={isDisabled}
         label="Asset account for tracking receivables"
         items={assetAccountTrackingReceivables.accounts}
         selectedId={assetAccountTrackingReceivables.accountId}
@@ -46,6 +49,7 @@ const SalesTabContent = ({
         }
       />
       <AccountCombobox
+        disabled={isDisabled}
         label="Bank account for customer receipts"
         items={bankAccountCustomerReceipts.accounts}
         selectedId={bankAccountCustomerReceipts.accountId}
@@ -62,6 +66,7 @@ const SalesTabContent = ({
     </FieldGroup>
     <FieldGroup label="Income account for freight" hideLabel>
       <ToggleableAccountCombobox
+        disabled={isDisabled}
         isChecked={incomeAccountFreight.hasAccount}
         toggleName="incomeAccountFreight"
         toggleLabel="I charge freight on sales"
@@ -82,6 +87,7 @@ const SalesTabContent = ({
     </FieldGroup>
     <FieldGroup label="Liability account for customer deposits" hideLabel>
       <ToggleableAccountCombobox
+        disabled={isDisabled}
         isChecked={liabilityAccountCustomerDeposits.hasAccount}
         toggleName="liabilityAccountCustomerDeposits"
         toggleLabel="I track deposits collected from customers"
@@ -108,6 +114,7 @@ const SalesTabContent = ({
       hideLabel
     >
       <ToggleableAccountCombobox
+        disabled={isDisabled}
         isChecked={expenseSalesAccountDiscounts.hasAccount}
         toggleName="expenseSalesAccountDiscounts"
         toggleLabel="I give discounts for early payment"
@@ -131,6 +138,7 @@ const SalesTabContent = ({
     </FieldGroup>
     <FieldGroup label="Income account for late charges" hideLabel>
       <ToggleableAccountCombobox
+        disabled={isDisabled}
         isChecked={incomeAccountLateCharges.hasAccount}
         toggleName="incomeAccountLateCharges"
         toggleLabel="I assess charges for late payment"
@@ -155,10 +163,11 @@ const SalesTabContent = ({
 const mapStateToProps = (state) => ({
   assetAccountTrackingReceivables: getAssetAccountTrackingReceivables(state),
   bankAccountCustomerReceipts: getBankAccountCustomerReceipts(state),
-  incomeAccountFreight: getIncomeAccountFreight(state),
-  liabilityAccountCustomerDeposits: getLiabilityAccountCustomerDeposits(state),
   expenseSalesAccountDiscounts: getExpenseSalesAccountDiscounts(state),
+  incomeAccountFreight: getIncomeAccountFreight(state),
   incomeAccountLateCharges: getIncomeAccountLateCharges(state),
+  isDisabled: getIsActionDisabled(state),
+  liabilityAccountCustomerDeposits: getLiabilityAccountCustomerDeposits(state),
 });
 
 export default connect(mapStateToProps)(SalesTabContent);
