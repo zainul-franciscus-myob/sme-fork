@@ -117,12 +117,13 @@ const getItems = ({
         <Icons.OpenExternalLink />,
         onChangePlanClick
       ),
-    getMenuLinkWithIcon(
-      '',
-      'Manage my product',
-      <Icons.Edit />,
-      onManageMyProductClick
-    ),
+    urls.productManagementDetail &&
+      getMenuLinkWithIcon(
+        '',
+        'Manage my product',
+        <Icons.Edit />,
+        onManageMyProductClick
+      ),
     shouldShowPaymentDetail
       ? getMenuLinkWithIcon(
           urls.paymentDetail,
