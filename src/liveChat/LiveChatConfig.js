@@ -3,7 +3,6 @@ import chatIcon from './icon-chat.svg';
 const liveChatConfig = (
   businessId,
   businessName,
-  businessRole,
   email,
   region,
   serialNumber
@@ -38,7 +37,6 @@ const liveChatConfig = (
         opm_parameter_group: 'SME Trails Chat',
         businessId,
         businessName,
-        businessRole,
         email,
         region,
         serialNumber,

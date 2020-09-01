@@ -281,11 +281,10 @@ const NavigationBar = ({
     />
   );
 
-  const liveChat = shouldDisplayLiveChat && (
+  const liveChat = shouldDisplayLiveChat(businessRole) && (
     <LiveChat
       businessId={businessId}
       businessName={businessName}
-      businessRole={businessRole}
       email={email}
       region={region}
       serialNumber={serialNumber}

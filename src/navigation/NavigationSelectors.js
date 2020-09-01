@@ -299,17 +299,14 @@ export const getShouldDisplayCreateBusiness = (state) => {
   return region === 'au';
 };
 
-export const getBusinessRole = (state) => state.businessRole;
-
 export const getShouldDisplayLiveChat = createSelector(
   hasBusinessId,
-  getRegion,
   getIsTrial,
-  getBusinessRole,
-  (businessIdExists, region, trialist, businessRole) =>
+  getIsCurrentUserAdvisor,
+  (businessIdExists, trialist, isAdvisor) => (businessRole) =>
     businessIdExists &&
-    region === 'au' &&
-    businessRole === 'Owner' &&
+    businessRole !== 'Student' &&
+    !isAdvisor &&
     trialist &&
     Config.GENESYS_CHAT
 );

@@ -5,7 +5,6 @@ import liveChatConfig from './LiveChatConfig';
 const LiveChat = ({
   businessId,
   businessName,
-  businessRole,
   email,
   region,
   serialNumber,
@@ -28,14 +27,7 @@ const LiveChat = ({
   ];
 
   useEffect(() => {
-    liveChatConfig(
-      businessId,
-      businessName,
-      businessRole,
-      email,
-      region,
-      serialNumber
-    );
+    liveChatConfig(businessId, businessName, email, region, serialNumber);
 
     aTags.forEach((element) => {
       const fs = document.getElementsByTagName(element.type)[0];

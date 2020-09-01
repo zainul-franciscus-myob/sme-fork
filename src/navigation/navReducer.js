@@ -9,7 +9,6 @@ import {
 import createReducer from '../store/createReducer';
 
 const getDefaultState = () => ({
-  businessRole: '',
   currentRouteName: '',
   enabledFeatures: [],
   isCurrentUserAdvisor: false,
@@ -33,7 +32,6 @@ const setLoadingState = (state, { isLoading }) => ({
 
 const loadBusinessDetails = (state, action) => ({
   ...state,
-  businessRole: action.businessRole,
   enabledFeatures: action.enabledFeatures,
   isCurrentUserAdvisor: action.isCurrentUserAdvisor,
   isReadOnly: action.isReadOnly,
