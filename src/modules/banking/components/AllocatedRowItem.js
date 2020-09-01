@@ -29,7 +29,7 @@ const AllocatedRowItem = ({
   onBlur,
   onAllocate,
 }) => {
-  const { allocateOrMatch, accountList, isReportable, appliedRule } = entry;
+  const { allocateOrMatch, accountList, isReportable, isRuleApplied } = entry;
 
   const comboboxStyling = classNames(styles.allocating, {
     [styles.hovering]: isHovering && !isFocused,
@@ -54,19 +54,19 @@ const AllocatedRowItem = ({
 
   const focusedView = (
     <div className={styles.focusedAllocating}>
-      {appliedRule && <AutoAllocated className={styles.allocatedWand} />}
+      {isRuleApplied && <AutoAllocated className={styles.allocatedWand} />}
       {combobox}
       {isReportable && <ReportableLabel />}
     </div>
   );
 
-  const reportableHiddenStyling = appliedRule ? '' : styles.reportableHidden;
+  const reportableHiddenStyling = isRuleApplied ? '' : styles.reportableHidden;
   const defaultView = (
     <div className={styles.allocated}>
       <div
         className={classNames(styles.allocationInfo, reportableHiddenStyling)}
       >
-        {appliedRule && <AutoAllocated className={styles.allocatedWand} />}
+        {isRuleApplied && <AutoAllocated className={styles.allocatedWand} />}
         <AllocatedButton onClick={onFocus} onFocus={onFocus}>
           {allocateOrMatch}
         </AllocatedButton>

@@ -140,6 +140,7 @@
         "ruleType": "Bill",
         "ruleName": "Water Rule"
       },
+      "isRuleApplied": true,
       "taxCode": "GST",
       "note": "",
       "isReportable": true,
@@ -194,6 +195,7 @@
         "ruleType": "Bill",
         "ruleName": "Water Rule"
       },
+      "isRuleApplied": true,
       "journals": [
         {
           "journalId": "101",
