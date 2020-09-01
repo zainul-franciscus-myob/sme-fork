@@ -1,6 +1,7 @@
 {
   "email": "john@doe.com",
   "export": {
+    "businessName": "Clearwater Pty Ltd",
     "chartOfAccounts": {
       "financialYears": [
         {
@@ -48,6 +49,9 @@
         }
       ],
       "accountBalanceTransaction": "All"
+    },
+    "companyFile": {
+      "clientCode": "1234567890"
     }
   }
 }

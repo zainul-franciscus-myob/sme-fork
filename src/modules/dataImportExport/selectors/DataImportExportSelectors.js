@@ -85,3 +85,32 @@ export const getIsDuplicateRecordsAddShown = createSelector(
 export const getIsFileValid = (state) => state.import.isFileValid;
 export const getFileValidationError = (state) =>
   state.import.fileValidationError;
+
+const getBusinessName = (state) => state.export.businessName;
+const getFinancialYear = (state) => state.export.chartOfAccounts.financialYear;
+
+const getChartOfAccountExportFileType = (state) =>
+  state.export.chartOfAccounts.fileType;
+
+const getPascalCaseBusinessName = (businessNameSplit) =>
+  businessNameSplit
+    ? businessNameSplit
+        .map(
+          (word) => word.charAt(0).toUpperCase() + word.substr(1).toLowerCase()
+        )
+        .join('')
+    : '';
+
+export const getExportChartOfAccountsFileName = createSelector(
+  getBusinessName,
+  getFinancialYear,
+  getChartOfAccountExportFileType,
+  (businessName, financialYear, fileType) => {
+    const businessNameSplit = businessName.match(/[a-z0-9]+/gi);
+    const pascalCaseBusinessName = getPascalCaseBusinessName(businessNameSplit);
+
+    return pascalCaseBusinessName
+      ? `${pascalCaseBusinessName}-ChartOfAccounts-${financialYear}.${fileType.toLowerCase()}`
+      : `ChartOfAccounts-${financialYear}.${fileType.toLowerCase()}`;
+  }
+);

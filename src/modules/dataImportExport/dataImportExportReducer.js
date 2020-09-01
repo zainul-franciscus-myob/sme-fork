@@ -51,6 +51,7 @@ const getDefaultState = () => ({
     },
   },
   export: {
+    businessName: '',
     selectedDataType: ImportExportDataType.NONE,
     chartOfAccounts: {
       financialYears: [],
@@ -164,6 +165,7 @@ const loadDataImportExport = (state, action) => ({
   email: action.email,
   export: {
     ...state.export,
+    businessName: action.export.businessName,
     chartOfAccounts: {
       ...state.export.chartOfAccounts,
       ...action.export.chartOfAccounts,

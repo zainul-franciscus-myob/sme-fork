@@ -5,6 +5,7 @@ import {
   getChartOfAccountExportDetail,
   getCurrentDataTypeInCurrentTab,
   getDeleteUnusedAccounts,
+  getExportChartOfAccountsFileName,
   getFileValidationError,
   getIsFileValid,
   getSettings,
@@ -147,19 +148,22 @@ export default class DataImportExportModule {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (data) => {
+      const state = this.store.getState();
       this.dispatcher.updateExportDataType(ImportExportDataType.NONE);
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
 
-      const { fileType } = getChartOfAccountExportDetail(this.store.getState());
+      const { fileType } = getChartOfAccountExportDetail(state);
       const message =
         fileType === ImportExportFileType.TXT
           ? 'Export successful! A tab-delimited TXT file has been downloaded.'
           : 'Export successful! A CSV file has been downloaded.';
       this.displaySuccessMessage(message);
 
+      const exportCOAFileName = getExportChartOfAccountsFileName(state);
+
       openBlob({
         blob: data,
-        filename: `exportedChartOfAccounts.${fileType.toLowerCase()}`,
+        filename: exportCOAFileName,
         shouldDownload: true,
       });
     };

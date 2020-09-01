@@ -1,9 +1,11 @@
 import {
   getCurrentDataTypeInCurrentTab,
+  getExportChartOfAccountsFileName,
   getIsDuplicateRecordsAddShown,
 } from '../selectors/DataImportExportSelectors';
 import ContactIdentifyBy from '../types/ContactIdentifyBy';
 import ImportExportDataType from '../types/ImportExportDataType';
+import ImportExportFileType from '../types/ImportExportFileType';
 
 describe('DataImportExportSelectors', () => {
   describe('getCurrentDataTypeInCurrentTab', () => {
@@ -76,6 +78,39 @@ describe('DataImportExportSelectors', () => {
           expect(actual).toEqual(false);
         });
       });
+    });
+  });
+
+  describe('getExportChartOfAccountsFileName', () => {
+    it('Should return file name with only alphanumerical characters in pascal case', () => {
+      const state = {
+        export: {
+          businessName: "Maria Spicy's t0rtill4 special-char_*)$",
+          chartOfAccounts: {
+            financialYear: '2019',
+            fileType: ImportExportFileType.TXT,
+          },
+        },
+      };
+      const expectedFileName =
+        'MariaSpicyST0rtill4SpecialChar-ChartOfAccounts-2019.txt';
+      const actual = getExportChartOfAccountsFileName(state);
+      expect(actual).toEqual(expectedFileName);
+    });
+
+    it('Should return file name without business name', () => {
+      const state = {
+        export: {
+          businessName: '',
+          chartOfAccounts: {
+            financialYear: '2019',
+            fileType: ImportExportFileType.TXT,
+          },
+        },
+      };
+      const expectedFileName = 'ChartOfAccounts-2019.txt';
+      const actual = getExportChartOfAccountsFileName(state);
+      expect(actual).toEqual(expectedFileName);
     });
   });
 });
