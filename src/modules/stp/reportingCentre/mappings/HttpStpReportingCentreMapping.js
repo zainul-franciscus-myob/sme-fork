@@ -1,3 +1,4 @@
+import { CALCULATE_TURNOVER } from '../gstCalculator/GstCalculatorIntents';
 import { DELETE_EMPLOYEE_ETP, LOAD_EMPLOYEE_ETP } from '../etps/EtpIntents';
 import {
   FILTER_JOB_KEEPER_EMPLOYEES,
@@ -152,6 +153,10 @@ const HttpStpReportingCentreMapping = {
     method: 'GET',
     getPath: ({ businessId, month }) =>
       `/${businessId}/stp/get_job_keeper_report/${month}`,
+  },
+  [CALCULATE_TURNOVER]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/stp/calculate_gst_turnover`,
   },
 };
 

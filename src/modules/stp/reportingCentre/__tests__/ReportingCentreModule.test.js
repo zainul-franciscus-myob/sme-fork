@@ -103,4 +103,26 @@ describe('ReportingCentreModule', () => {
       ).toBeFalsy();
     });
   });
+
+  describe('Job keeper GST calculator tab', () => {
+    it('shows if the feature toggle is on', () => {
+      const wrapper = setupModule('registered', tabIds.reports, true, {
+        isJobKeeper2Enabled: true,
+      });
+
+      const tabs = wrapper.find(Tabs);
+      expect(
+        tabs.prop('items').find((item) => item.id === tabIds.gstCalculator)
+      ).toBeTruthy();
+    });
+
+    it('does not show if the feature toggle is on', () => {
+      const wrapper = setupModule('registered', tabIds.reports, true);
+
+      const tabs = wrapper.find(Tabs);
+      expect(
+        tabs.prop('items').find((item) => item.id === tabIds.gstCalculator)
+      ).toBeFalsy();
+    });
+  });
 });

@@ -11,6 +11,7 @@ import {
 import { tabIds } from './TabItems';
 import AtoSettingsModule from './atoSettings/AtoSettingsModule';
 import FinalisationModule from './finalisation/FinalisationModule';
+import GstCalculatorModule from './gstCalculator/GstCalculatorModule';
 import JobKeeperModule from './jobKeeper/JobKeeperModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ReportingCentreReducer from './ReportingCentreReducer';
@@ -77,6 +78,12 @@ export default class ReportingCentreModule {
         setAlert: this.dispatcher.setAlert,
         pushMessage: this.pushMessage,
         featureToggles: this.featureToggles,
+      }),
+      [tabIds.gstCalculator]: new GstCalculatorModule({
+        integration: this.integration,
+        context,
+        setAlert: this.dispatcher.setAlert,
+        pushMessage: this.pushMessage,
       }),
     };
   };

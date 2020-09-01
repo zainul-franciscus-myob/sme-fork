@@ -1,0 +1,41 @@
+.calculation-result {
+  display: inline-block;
+  border: 1px solid #c5c9ce;
+  padding: 25px;
+  border-radius: 0.4rem;
+  margin-top: 20px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto;
+  padding: 10px;
+}
+
+.grid-item {
+  border: 1px solid black;
+  text-align: right;
+}
+
+.justify-right {
+  text-align: right;
+  width: 50%;
+  padding-left: 0%;
+}
+
+.year-section {
+  margin-top: 30px;
+}
+
+.year-section.year-label label {
+  color: red;
+}
+
+@media (min-width: 768px) {
+  .justify-right {
+    text-align: right;
+    width: 50%;
+    padding-left: 50%;
+  }
+
+}

@@ -4,10 +4,11 @@ export const tabIds = {
   finalisation: 'finalisation',
   atoSettings: 'atoSettings',
   jobKeeper: 'jobKeeper',
+  gstCalculator: 'gstCalculator',
 };
 
-export const getTabItems = (featureToggles) =>
-  featureToggles.isJobKeeperTabEnabled
+export const getTabItems = (featureToggles) => {
+  const tabs = featureToggles.isJobKeeperTabEnabled
     ? [
         { id: tabIds.reports, label: 'STP reports' },
         { id: tabIds.terminations, label: 'Employee terminations' },
@@ -21,3 +22,10 @@ export const getTabItems = (featureToggles) =>
         { id: tabIds.finalisation, label: 'EOFY finalisation' },
         { id: tabIds.atoSettings, label: 'ATO settings' },
       ];
+  return featureToggles.isJobKeeper2Enabled
+    ? [
+        ...tabs,
+        { id: tabIds.gstCalculator, label: 'JobKeeper payment extension' },
+      ]
+    : tabs;
+};
