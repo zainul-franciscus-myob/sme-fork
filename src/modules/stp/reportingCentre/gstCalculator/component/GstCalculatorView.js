@@ -84,7 +84,7 @@ const GstCalculatorView = ({
         </div>
 
         <div className={styles['year-section']}>
-          <ReadOnly name="year2" label="2019-2020 (July - Sept)" />
+          <ReadOnly name="year2" label="2020-2021 (July - Sept)" />
           <AmountInput
             textAlign="right"
             label="Gst Exclusive Sales ($)"

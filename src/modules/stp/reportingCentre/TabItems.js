@@ -22,7 +22,7 @@ export const getTabItems = (featureToggles) => {
         { id: tabIds.finalisation, label: 'EOFY finalisation' },
         { id: tabIds.atoSettings, label: 'ATO settings' },
       ];
-  return featureToggles.isJobKeeper2Enabled
+  return featureToggles.isJobKeeperCalculatorEnabled
     ? [
         ...tabs,
         { id: tabIds.gstCalculator, label: 'JobKeeper payment extension' },

@@ -105,9 +105,9 @@ describe('ReportingCentreModule', () => {
   });
 
   describe('Job keeper GST calculator tab', () => {
-    it('shows if the feature toggle is on', () => {
+    it('shows tab if the feature toggle is on', () => {
       const wrapper = setupModule('registered', tabIds.reports, true, {
-        isJobKeeper2Enabled: true,
+        isJobKeeperCalculatorEnabled: true,
       });
 
       const tabs = wrapper.find(Tabs);
@@ -116,8 +116,10 @@ describe('ReportingCentreModule', () => {
       ).toBeTruthy();
     });
 
-    it('does not show if the feature toggle is on', () => {
-      const wrapper = setupModule('registered', tabIds.reports, true);
+    it('does not tab show if the feature toggle is false', () => {
+      const wrapper = setupModule('registered', tabIds.reports, true, {
+        isJobKeeperCalculatorEnabled: false,
+      });
 
       const tabs = wrapper.find(Tabs);
       expect(
