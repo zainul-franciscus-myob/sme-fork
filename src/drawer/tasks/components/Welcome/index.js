@@ -37,7 +37,7 @@ const Welcome = ({
           }}
         >
           <Modal.Body>
-            <WistiaVideoPlayer hashedId="xe0wwpzd7u" />
+            <WistiaVideoPlayer hashedId="nu4tdi39qw" />
           </Modal.Body>
         </Modal>
       )}
