@@ -43,6 +43,13 @@ export default class RecordPayRunModule {
     };
 
     this.integrator.recordPayments({ onSuccess, onFailure });
+    this.showAppcuesPopup();
+  };
+
+  showAppcuesPopup = () => {
+    // eslint-disable-next-line no-unused-expressions
+    window.Appcues &&
+      window.Appcues.show('c31e7ff9-b5a1-4d21-9b29-5c68b1314304');
   };
 
   saveDraftAndRedirect = () => {
