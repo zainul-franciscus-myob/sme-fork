@@ -1,4 +1,8 @@
-import { UPDATE_TAX_CODE, UPDATE_TAX_DETAIL } from '../TaxAndKiwiSaverIntents';
+import {
+  UPDATE_KIWISAVER_DETAIL,
+  UPDATE_TAX_CODE,
+  UPDATE_TAX_DETAIL,
+} from '../TaxAndKiwiSaverIntents';
 import employeeDetailNzReducer from '../../employeeDetailNzReducer';
 
 describe('Tax and KiwiSaver Reducer', () => {
@@ -38,6 +42,21 @@ describe('Tax and KiwiSaver Reducer', () => {
     expect(employeeDetailNzReducer(state, action)).toMatchObject({
       isPageEdited: true,
       payrollDetails: { tax: { irdNumber: '000 000 000', taxCode: 'ND' } },
+    });
+  });
+
+  it('should update the kiwiSaver for given key', () => {
+    const state = { payrollDetails: { kiwiSaver: { kiwiSaverStatus: 1 } } };
+
+    const action = {
+      intent: UPDATE_KIWISAVER_DETAIL,
+      key: 'kiwiSaverStatus',
+      value: 2,
+    };
+
+    expect(employeeDetailNzReducer(state, action)).toMatchObject({
+      isPageEdited: true,
+      payrollDetails: { kiwiSaver: { kiwiSaverStatus: 2 } },
     });
   });
 });

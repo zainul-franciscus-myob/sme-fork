@@ -1,6 +1,6 @@
 {
-  "contactDetail":{
-     "country":"New Zealand"
+  "contactDetail": {
+    "country": "New Zealand"
   },
   "payrollDetails": {
     "employmentDetails": {
@@ -16,18 +16,23 @@
       "selectedPayCycle": ""
     },
     "leave": {
-      "nextAnniversaryDate":""
+      "nextAnniversaryDate": ""
     },
-    "tax":{
+    "tax": {
       "irdNumber": "000 000 000",
       "taxCode": "ND"
+    },
+    "kiwiSaver": {
+      "kiwiSaverStatus" : 3,
+      "employeeContributionRate" : null,
+      "employerContributionRate" : null
     }
   },
   "genderOptions": [
-    {"name":"-","value":"NotSet"},
-    {"name":"Male","value":"Male"},
-    {"name":"Female","value":"Female"},
-    {"name":"Unspecified","value":"Indeterminate"}
+    { "name": "-", "value": "NotSet" },
+    { "name": "Male", "value": "Male" },
+    { "name": "Female", "value": "Female" },
+    { "name": "Unspecified", "value": "Indeterminate" }
   ],
   "payCycleOptions": [
     { "id": "Weekly", "displayName": "Weekly" },
@@ -45,5 +50,15 @@
     { "key": "ST", "value": "ST" },
     { "key": "EDW", "value": "EDW" },
     { "key": "CAE", "value": "CAE" }
+  ],
+  "kiwiSaverStatusOptions": [
+    { "key": 1, "value": "Active Member" }
+  ],
+  "kiwiSaverEmployeeContributionOptions": [
+    { "key": "3", "value": 3 },
+    { "key": "4", "value": 4 },
+    { "key": "6", "value": 6 },
+    { "key": "8", "value": 8 },
+    { "key": "10", "value": 10 }
   ]
 }

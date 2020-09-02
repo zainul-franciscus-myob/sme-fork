@@ -8,7 +8,7 @@ const TaxDeclaration = ({
   taxCodeOptions = [],
   tax = {},
   isIrdNumberEditable,
-  onInputChange,
+  onTaxInputChange,
   onTaxCodeChange,
 }) => (
   <FieldGroup label="Tax declaration">
@@ -17,7 +17,7 @@ const TaxDeclaration = ({
       label="IRD number"
       requiredLabel="IRD number is required"
       width="sm"
-      onChange={onInputChange}
+      onChange={onTaxInputChange}
       value={tax.irdNumber}
       disabled={!isIrdNumberEditable}
     />

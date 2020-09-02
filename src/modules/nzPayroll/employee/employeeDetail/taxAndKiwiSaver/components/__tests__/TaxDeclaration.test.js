@@ -5,7 +5,7 @@ import TaxDeclaration from '../TaxDeclaration';
 
 describe('TaxDeclaration', () => {
   const props = {
-    onInputChange: jest.fn(),
+    onTaxInputChange: jest.fn(),
 
     onTaxCodeChange: jest.fn(),
 
@@ -30,12 +30,12 @@ describe('TaxDeclaration', () => {
       });
     });
 
-    it('should call onInputChange handler with key and value', () => {
+    it('should call onTaxInputChange handler with key and value', () => {
       const target = { name: 'irdNumber', value: '5' };
 
       field.props().onChange({ target });
 
-      expect(props.onInputChange).toHaveBeenCalledWith({ target });
+      expect(props.onTaxInputChange).toHaveBeenCalledWith({ target });
     });
 
     it('should be disabled when taxCode is ND', () => {

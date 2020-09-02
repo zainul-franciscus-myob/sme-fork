@@ -13,6 +13,7 @@ export default class TaxAndKiwiSaverModule {
       <TaxAndKiwiSaverTab
         onTaxChange={this.dispatcher.updateTaxDetails}
         onTaxCodeChange={this.dispatcher.updateTaxCode}
+        onKiwiSaverChange={this.dispatcher.updateKiwiSaverDetails}
       />
     );
   }

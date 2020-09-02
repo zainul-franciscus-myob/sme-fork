@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getEmployeeContributionOptions,
   getIsIrdNumberEditable,
+  getKiwiSaver,
+  getKiwiSaverStatusOptions,
   getTaxCodeOptions,
   getTaxDetails,
 } from '../TaxAndKiwiSaverSelectors';
@@ -17,9 +20,19 @@ const TaxAndKiwiSaverTab = ({
   isIrdNumberEditable,
   onTaxChange,
   onTaxCodeChange,
+  kiwiSaver,
+  onKiwiSaverChange,
+  employeeContributionOptions,
+  kiwiSaverStatusOptions,
 }) => {
-  const onInputChange = (event) =>
+  const onTaxInputChange = (event) =>
     onTaxChange({
+      key: event.target.name,
+      value: event.target.value,
+    });
+
+  const onKiwiSaverInputChange = (event) =>
+    onKiwiSaverChange({
       key: event.target.name,
       value: event.target.value,
     });
@@ -30,10 +43,15 @@ const TaxAndKiwiSaverTab = ({
         taxCodeOptions={taxCodeOptions}
         tax={tax}
         isIrdNumberEditable={isIrdNumberEditable}
-        onInputChange={onInputChange}
+        onTaxInputChange={onTaxInputChange}
         onTaxCodeChange={onTaxCodeChange}
       />
-      <KiwiSaver />
+      <KiwiSaver
+        kiwiSaver={kiwiSaver}
+        kiwiSaverStatusOptions={kiwiSaverStatusOptions}
+        employeeContributionOptions={employeeContributionOptions}
+        onKiwiSaverInputChange={onKiwiSaverInputChange}
+      />
       <EmployerSCTR />
     </FormHorizontal>
   );
@@ -43,6 +61,10 @@ const mapStateToProps = (state) => ({
   taxCodeOptions: getTaxCodeOptions(state),
   tax: getTaxDetails(state),
   isIrdNumberEditable: getIsIrdNumberEditable(state),
+
+  kiwiSaver: getKiwiSaver(state),
+  kiwiSaverStatusOptions: getKiwiSaverStatusOptions(state),
+  employeeContributionOptions: getEmployeeContributionOptions(state),
 });
 
 export default connect(mapStateToProps)(TaxAndKiwiSaverTab);

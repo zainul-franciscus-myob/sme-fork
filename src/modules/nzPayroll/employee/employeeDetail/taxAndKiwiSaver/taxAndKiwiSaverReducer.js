@@ -1,4 +1,8 @@
-import { UPDATE_TAX_CODE, UPDATE_TAX_DETAIL } from './TaxAndKiwiSaverIntents';
+import {
+  UPDATE_KIWISAVER_DETAIL,
+  UPDATE_TAX_CODE,
+  UPDATE_TAX_DETAIL,
+} from './TaxAndKiwiSaverIntents';
 
 const updateTaxDetails = (state, action) => ({
   ...state,
@@ -28,7 +32,20 @@ const updateTaxCode = (state, action) => ({
   },
 });
 
+const updateKiwiSaverDetails = (state, action) => ({
+  ...state,
+  isPageEdited: true,
+  payrollDetails: {
+    ...state.payrollDetails,
+    kiwiSaver: {
+      ...state.payrollDetails.kiwiSaver,
+      [action.key]: action.value,
+    },
+  },
+});
+
 export default {
   [UPDATE_TAX_DETAIL]: updateTaxDetails,
   [UPDATE_TAX_CODE]: updateTaxCode,
+  [UPDATE_KIWISAVER_DETAIL]: updateKiwiSaverDetails,
 };
