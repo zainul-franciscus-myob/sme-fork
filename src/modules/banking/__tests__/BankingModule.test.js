@@ -75,6 +75,11 @@ describe('BankingModule', () => {
     const popMessages = () => [];
     const isToggleOn = () => true;
 
+    // @TODO: To be deleted alongside our disposable test when we no longer need featureToggles
+    const featureToggles = {
+      isBankTransactionsFastModeEnabled: true,
+    };
+
     const integration = new TestIntegration();
 
     const module = new BankingModule({
@@ -83,6 +88,7 @@ describe('BankingModule', () => {
       pushMessage,
       popMessages,
       isToggleOn,
+      featureToggles,
     });
     const store = new TestStore(bankingReducer);
     module.store = store;

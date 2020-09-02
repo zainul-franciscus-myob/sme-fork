@@ -14,4 +14,5 @@ export default {
   isManageMyProductEnabled: true,
   isJobKeeper2Enabled: true,
   isJobKeeperCalculatorEnabled: true,
+  isBankTransactionsFastModeEnabled: true,
 };

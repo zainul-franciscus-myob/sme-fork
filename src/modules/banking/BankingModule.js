@@ -69,12 +69,19 @@ import debounce from '../../common/debounce/debounce';
 import openBlob from '../../common/blobOpener/openBlob';
 
 export default class BankingModule {
-  constructor({ integration, setRootView, isToggleOn, replaceURLParams }) {
+  constructor({
+    integration,
+    setRootView,
+    isToggleOn,
+    replaceURLParams,
+    featureToggles,
+  }) {
     this.store = new Store(bankingReducer);
     this.setRootView = setRootView;
     this.dispatcher = createBankingDispatcher(this.store);
     this.integrator = createBankingIntegrator(this.store, integration);
     this.isToggleOn = isToggleOn;
+    this.featureToggles = featureToggles;
     this.replaceURLParams = replaceURLParams;
     this.bankingRuleModule = new BankingRuleModule({
       integration,
@@ -1385,12 +1392,19 @@ export default class BankingModule {
   /* */
 
   run(context) {
+    const { fastMode = false, ...rest } = context;
+    const { isBankTransactionsFastModeEnabled = false } = this.featureToggles;
+    const isFastModeEnabledQueryParam =
+      fastMode && isBankTransactionsFastModeEnabled;
+
+    const isFastModeEnabled =
+      this.isToggleOn(FeatureToggle.FastModeLoadBankTransactions) ||
+      isFastModeEnabledQueryParam;
+
     this.dispatcher.setInitialState({
-      ...context,
+      ...rest,
       isBankingJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
-      isFastModeEnabled: this.isToggleOn(
-        FeatureToggle.FastModeLoadBankTransactions
-      ),
+      isFastModeEnabled,
     });
     this.render();
     this.dispatcher.setLoadingState(true);
