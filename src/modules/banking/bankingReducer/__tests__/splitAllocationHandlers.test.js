@@ -1,4 +1,7 @@
-import { LOAD_SPLIT_ALLOCATION } from '../../BankingIntents';
+import {
+  LOAD_SPLIT_ALLOCATION,
+  POPULATE_REMAINING_AMOUNT,
+} from '../../BankingIntents';
 import { calculateLineAmount } from '../splitAllocationHandlers';
 import bankingReducer from '../index';
 
@@ -152,6 +155,103 @@ describe('splitAllocationHandlers', () => {
 
         expect(isAllocated).toEqual(expected);
       });
+    });
+  });
+
+  describe('populateRemainingAmount', () => {
+    it('should calculate the remaining total unallocated value for a new line', () => {
+      const state = {
+        openEntry: {
+          allocate: {
+            totalAmount: 500,
+            lines: [],
+            newLine: {},
+          },
+        },
+      };
+
+      const action = {
+        intent: POPULATE_REMAINING_AMOUNT,
+        index: 0,
+      };
+
+      const actual = bankingReducer(state, action);
+
+      const expectedLines = [
+        {
+          amount: 500,
+          amountPercent: '100.00',
+        },
+      ];
+
+      expect(actual.openEntry.allocate.lines).toEqual(expectedLines);
+    });
+
+    it('should calculate the remaining unallocated value for an existing line', () => {
+      const state = {
+        openEntry: {
+          allocate: {
+            totalAmount: 750,
+            lines: [
+              { amount: 250, amountPercent: '33.33' },
+              { amount: 250, amountPercent: '33.33' },
+            ],
+            newLine: {},
+          },
+        },
+      };
+
+      const action = {
+        intent: POPULATE_REMAINING_AMOUNT,
+        index: 0,
+      };
+
+      const actual = bankingReducer(state, action);
+
+      const expectedLines = [
+        {
+          amount: 500,
+          amountPercent: '66.67',
+        },
+        {
+          amount: 250,
+          amountPercent: '33.33',
+        },
+      ];
+
+      expect(actual.openEntry.allocate.lines).toEqual(expectedLines);
+    });
+
+    it('should calculate the negative remaining unallocated value', () => {
+      const state = {
+        openEntry: {
+          allocate: {
+            totalAmount: 500,
+            lines: [{ amount: 750, amountPercent: '150.00' }],
+            newLine: {},
+          },
+        },
+      };
+
+      const action = {
+        intent: POPULATE_REMAINING_AMOUNT,
+        index: 1,
+      };
+
+      const actual = bankingReducer(state, action);
+
+      const expectedLines = [
+        {
+          amount: 750,
+          amountPercent: '150.00',
+        },
+        {
+          amount: -250,
+          amountPercent: '-50.00',
+        },
+      ];
+
+      expect(actual.openEntry.allocate.lines).toEqual(expectedLines);
     });
   });
 });

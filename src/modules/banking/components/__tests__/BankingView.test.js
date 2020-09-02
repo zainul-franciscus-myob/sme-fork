@@ -19,10 +19,8 @@ describe('TransactionListView', () => {
           onSort={() => {}}
           onDismissAlert={() => {}}
           onAllocate={() => {}}
-          onMatchedToBlur={() => {}}
-          onMatchedToFocus={() => {}}
-          onUnmatchedFocus={() => {}}
-          onUnmatchedBlur={() => {}}
+          onBlur={() => {}}
+          onFocusTransactionLine={() => {}}
           onHeaderClick={() => {}}
           onTabChange={() => {}}
           onSaveSplitAllocation={() => {}}

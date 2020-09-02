@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getIsBankingJobColumnEnabled,
+  getIsFocused,
   getIsJobComboboxDisabled,
 } from '../bankingSelectors';
 import {
@@ -12,6 +13,9 @@ import {
 } from '../bankingSelectors/splitAllocationSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import Calculator from '../../../components/Calculator/Calculator';
+import FocusLocations from '../FocusLocations';
+import HotkeyLocations from '../hotkeys/HotkeyLocations';
+import HotkeyWrapper from '../hotkeys/HotkeyWrapper';
 import JobCombobox from '../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
 
@@ -37,6 +41,7 @@ const SplitAllocationRow = (props) => {
     index,
     onAddAccount,
     onAddJob,
+    onBlur,
     onChange,
     isNewLineRow,
     lineData,
@@ -45,6 +50,7 @@ const SplitAllocationRow = (props) => {
     newLineData,
     isBankingJobColumnEnabled,
     isJobComboboxDisabled,
+    isAccountComboboxFocused,
     ...feelixInjectedProps
   } = props;
   const data = isNewLineRow ? newLineData : lineData;
@@ -74,30 +80,42 @@ const SplitAllocationRow = (props) => {
         items={accounts}
         selectedId={accountId}
         onChange={handleComboBoxChange('accountId', onChange)}
+        autoFocus={isAccountComboboxFocused}
         addNewAccount={() =>
           onAddAccount(handleComboBoxChange('accountId', onChange))
         }
+        onBlur={() => onBlur(index)}
       />
-      <Calculator
-        disabled={disabled}
-        label="Amount"
-        hideLabel
-        name="amount"
-        value={amount}
-        onChange={handleAmountChange(onChange)}
-        numeralDecimalScaleMin={2}
-        numeralDecimalScaleMax={2}
-        textAlign="right"
-      />
-      <Calculator
-        disabled={disabled}
-        label="AmountPercent"
-        hideLabel
-        name="amountPercent"
-        value={amountPercent}
-        onChange={handleAmountChange(onChange)}
-        textAlign="right"
-      />
+      <HotkeyWrapper
+        index={index}
+        location={HotkeyLocations.SPLIT_ALLOCATION_CALCULATOR}
+      >
+        <Calculator
+          disabled={disabled}
+          label="Amount"
+          hideLabel
+          name="amount"
+          value={amount}
+          onChange={handleAmountChange(onChange)}
+          numeralDecimalScaleMin={2}
+          numeralDecimalScaleMax={2}
+          textAlign="right"
+        />
+      </HotkeyWrapper>
+      <HotkeyWrapper
+        index={index}
+        location={HotkeyLocations.SPLIT_ALLOCATION_CALCULATOR}
+      >
+        <Calculator
+          disabled={disabled}
+          label="AmountPercent"
+          hideLabel
+          name="amountPercent"
+          value={amountPercent}
+          onChange={handleAmountChange(onChange)}
+          textAlign="right"
+        />
+      </HotkeyWrapper>
       <Calculator
         disabled={disabled}
         label="Quantity"
@@ -148,6 +166,11 @@ const makeMapRowStateToProps = () => {
     newLineData: getNewLineData(state),
     isBankingJobColumnEnabled: getIsBankingJobColumnEnabled(state),
     isJobComboboxDisabled: getIsJobComboboxDisabled(state),
+    isAccountComboboxFocused: getIsFocused(
+      state,
+      ownProps.index,
+      FocusLocations.SPLIT_ALLOCATION_ACCOUNT_COMBOBOX
+    ),
   });
 };
 

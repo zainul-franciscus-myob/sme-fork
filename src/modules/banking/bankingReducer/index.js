@@ -25,6 +25,7 @@ import {
   OPEN_BULK_ALLOCATION,
   OPEN_MODAL,
   OPEN_REMOVE_ATTACHMENT_MODAL,
+  POPULATE_REMAINING_AMOUNT,
   REMOVE_ATTACHMENT,
   REMOVE_ATTACHMENT_BY_INDEX,
   REMOVE_MATCH_TRANSACTION_ADJUSTMENT,
@@ -41,10 +42,11 @@ import {
   SET_ATTACHMENTS_LOADING_STATE,
   SET_BULK_LOADING_STATE,
   SET_EDITING_NOTE_STATE,
-  SET_ENTRY_FOCUS,
   SET_ENTRY_HOVERED,
   SET_ERROR_STATE,
+  SET_FOCUS,
   SET_JOB_LOADING_STATE,
+  SET_LAST_ALLOCATED_ACCOUNT,
   SET_LOADING_SINGLE_ACCOUNT_STATE,
   SET_LOADING_STATE,
   SET_MATCH_TRANSACTION_LOADING_STATE,
@@ -125,11 +127,15 @@ import {
   deleteSplitAllocationLine,
   loadNewSplitAllocation,
   loadSplitAllocation,
+  populateRemainingAmount,
   saveSplitAllocation,
   updateSplitAllocationHeader,
   updateSplitAllocationLine,
 } from './splitAllocationHandlers';
-import { allocateTransaction } from './allocateHandlers';
+import {
+  allocateTransaction,
+  setLastAllocatedAccount,
+} from './allocateHandlers';
 import { appliedTransactions } from './applyRuleResultHandlers';
 import {
   bulkAllocateTransactions,
@@ -153,6 +159,7 @@ import {
   sortMatchTransferMoney,
   updateTransferMoney,
 } from './transferMoneyHandlers';
+import FocusLocations from '../FocusLocations';
 import Periods from '../../../components/PeriodPicker/Periods';
 import TransactionTypes from '../TransactionTypes';
 import bankingRuleHandlers from '../bankingRule/bankingRuleReducers';
@@ -354,16 +361,30 @@ export const setModalAlert = (state, action) => ({
   modalAlert: action.modalAlert,
 });
 
-export const setEntryFocus = (state, action) => {
-  const currentFocusIndex = state.focusIndex;
-  if (!action.isFocused && currentFocusIndex !== action.index) {
-    return state;
+export const setFocus = (state, { index, location, isFocused }) => {
+  const availableLocations = Object.values(FocusLocations);
+
+  // Ignore the action if it's to remove the focus from an element that's not currently in focus
+  const shouldIgnoreAction = !isFocused && state.focus.index !== index;
+
+  if (shouldIgnoreAction) return state;
+
+  if (availableLocations.includes(location)) {
+    return {
+      ...state,
+      focus: {
+        ...state.focus,
+        index,
+        location,
+        isFocused,
+      },
+    };
   }
 
+  // Reset the focus state if we received an undefined location
   return {
     ...state,
-    focusIndex: action.isFocused ? action.index : -1,
-    hoverIndex: action.isFocused ? action.index : -1,
+    focus: getDefaultState().focus,
   };
 };
 
@@ -487,7 +508,7 @@ const handlers = {
   [SET_ALERT]: setAlert,
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
-  [SET_ENTRY_FOCUS]: setEntryFocus,
+  [SET_FOCUS]: setFocus,
   [SET_ENTRY_HOVERED]: setEntryHovered,
   [START_ENTRY_LOADING_STATE]: startEntryLoadingState,
   [STOP_ENTRY_LOADING_STATE]: stopEntryLoadingState,
@@ -497,6 +518,7 @@ const handlers = {
   [STOP_MODAL_BLOCKING]: stopModalBlocking,
   [SET_MODAL_ALERT]: setModalAlert,
   [ALLOCATE_TRANSACTION]: allocateTransaction,
+  [SET_LAST_ALLOCATED_ACCOUNT]: setLastAllocatedAccount,
   [UNALLOCATE_TRANSACTION]: unallocateTransactions,
   [BULK_UNALLOCATE_TRANSACTIONS]: unallocateTransactions,
   [COLLAPSE_TRANSACTION_LINE]: collapseTransactionLine,
@@ -561,6 +583,7 @@ const handlers = {
   [SET_LOADING_SINGLE_ACCOUNT_STATE]: setLoadingSingleAccountState,
   [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
   [SET_JOB_LOADING_STATE]: setJobLoadingState,
+  [POPULATE_REMAINING_AMOUNT]: populateRemainingAmount,
   ...wrapHandlers('bankingRuleModal', bankingRuleHandlers),
 };
 

@@ -127,11 +127,16 @@ const getDefaultState = () => ({
       date: '',
       description: '',
     },
-    hoverIndex: -1,
-    focusIndex: -1,
     attachments: [],
   },
+  hoverIndex: -1,
+  focus: {
+    index: -1,
+    location: undefined,
+    isFocused: false,
+  },
   bankingRuleModal: getBankingRuleDefaultState(),
+  lastAllocatedAccount: undefined,
 });
 
 export default getDefaultState;

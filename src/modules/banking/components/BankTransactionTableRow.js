@@ -14,6 +14,7 @@ import {
 } from '../bankingSelectors';
 import { getIsCheckboxDisabled } from '../bankingSelectors/bulkActionSelectors';
 import ClearableTextArea from '../../../components/ClearableTextArea/ClearableTextArea';
+import FocusLocations from '../FocusLocations';
 import MatchedOrAllocated from './MatchedOrAllocated';
 import handleTextAreaChange from '../../../components/handlers/handleTextAreaChange';
 import styles from './BankTransactionTable.module.css';
@@ -137,11 +138,9 @@ const BankTransactionTableRow = ({
   onSplitRowItemClick,
   onMatchRowItemClick,
   onAllocate,
-  onMatchedToBlur,
-  onMatchedToFocus,
-  onUnmatchedFocus,
+  onBlur,
+  onFocusTransactionLine,
   onEntryHover,
-  onUnmatchedBlur,
   isExpanded,
   isSelected,
   isHovering,
@@ -161,11 +160,9 @@ const BankTransactionTableRow = ({
       onSplitRowItemClick={onSplitRowItemClick}
       onMatchRowItemClick={onMatchRowItemClick}
       onAllocate={onAllocate}
-      onMatchedToBlur={onMatchedToBlur}
-      onMatchedToFocus={onMatchedToFocus}
-      onUnmatchedFocus={onUnmatchedFocus}
+      onBlur={onBlur}
+      onFocusTransactionLine={onFocusTransactionLine}
       onEntryHover={onEntryHover}
-      onUnmatchedBlur={onUnmatchedBlur}
     />
   );
 
@@ -304,7 +301,11 @@ const makeMapRowStateToProps = () => {
     const entry = getBankEntryByIndex(state, ownProps);
     const isCheckboxDisabled = getIsCheckboxDisabled(state, ownProps.index);
     const isHovering = getIsHovering(state, ownProps.index);
-    const isFocused = getIsFocused(state, ownProps.index);
+    const isFocused = getIsFocused(
+      state,
+      ownProps.index,
+      FocusLocations.MATCHED_OR_ALLOCATED_ELEMENT
+    );
 
     return {
       entry,

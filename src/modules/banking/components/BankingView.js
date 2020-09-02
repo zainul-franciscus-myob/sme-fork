@@ -54,11 +54,9 @@ const BankingView = (props) => {
     onDismissModalAlert,
     onSplitRowItemClick,
     onMatchRowItemClick,
-    onMatchedToBlur,
-    onMatchedToFocus,
-    onUnmatchedFocus,
+    onBlur,
+    onFocusTransactionLine,
     onEntryHover,
-    onUnmatchedBlur,
     onHeaderClick,
     onTabChange,
     onSaveSplitAllocation,
@@ -186,13 +184,11 @@ const BankingView = (props) => {
           onAddAccount={onAddAccount}
           onAddJob={onAddJob}
           onAllocate={onAllocate}
-          onMatchedToBlur={onMatchedToBlur}
-          onMatchedToFocus={onMatchedToFocus}
+          onBlur={onBlur}
+          onFocusTransactionLine={onFocusTransactionLine}
           onSplitRowItemClick={onSplitRowItemClick}
           onMatchRowItemClick={onMatchRowItemClick}
-          onUnmatchedFocus={onUnmatchedFocus}
           onEntryHover={onEntryHover}
-          onUnmatchedBlur={onUnmatchedBlur}
           onHeaderClick={onHeaderClick}
           onTabChange={onTabChange}
           onSaveSplitAllocation={onSaveSplitAllocation}

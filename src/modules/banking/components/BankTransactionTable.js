@@ -50,13 +50,11 @@ const BankTransactionTable = ({
   entrySelectStatus,
   onAddAccount,
   onAddJob,
-  onMatchedToBlur,
+  onBlur,
   onSplitRowItemClick,
   onMatchRowItemClick,
-  onMatchedToFocus,
-  onUnmatchedFocus,
+  onFocusTransactionLine,
   onEntryHover,
-  onUnmatchedBlur,
   onAllocate,
   onSort,
   order,
@@ -129,12 +127,10 @@ const BankTransactionTable = ({
       onHeaderClick={onHeaderClick}
       onSplitRowItemClick={onSplitRowItemClick}
       onMatchRowItemClick={onMatchRowItemClick}
-      onMatchedToBlur={onMatchedToBlur}
-      onMatchedToFocus={onMatchedToFocus}
+      onBlur={onBlur}
+      onFocusTransactionLine={onFocusTransactionLine}
       onAllocate={onAllocate}
-      onUnmatchedFocus={onUnmatchedFocus}
       onEntryHover={onEntryHover}
-      onUnmatchedBlur={onUnmatchedBlur}
       openPosition={openPosition}
       onTabChange={onTabChange}
       onSaveSplitAllocation={onSaveSplitAllocation}

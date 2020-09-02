@@ -25,6 +25,7 @@ import {
   OPEN_BULK_ALLOCATION,
   OPEN_MODAL,
   OPEN_REMOVE_ATTACHMENT_MODAL,
+  POPULATE_REMAINING_AMOUNT,
   REMOVE_ATTACHMENT,
   REMOVE_ATTACHMENT_BY_INDEX,
   REMOVE_MATCH_TRANSACTION_ADJUSTMENT,
@@ -41,10 +42,11 @@ import {
   SET_ATTACHMENTS_LOADING_STATE,
   SET_BULK_LOADING_STATE,
   SET_EDITING_NOTE_STATE,
-  SET_ENTRY_FOCUS,
   SET_ENTRY_HOVERED,
   SET_ERROR_STATE,
+  SET_FOCUS,
   SET_JOB_LOADING_STATE,
+  SET_LAST_ALLOCATED_ACCOUNT,
   SET_LOADING_SINGLE_ACCOUNT_STATE,
   SET_LOADING_STATE,
   SET_MATCH_TRANSACTION_LOADING_STATE,
@@ -90,10 +92,11 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import ModalTypes from './ModalTypes';
 
 const createBankingDispatcher = (store) => ({
-  focusEntry: (index) => {
+  setFocus: ({ index, location }) => {
     store.dispatch({
-      intent: SET_ENTRY_FOCUS,
+      intent: SET_FOCUS,
       index,
+      location,
       isFocused: true,
     });
   },
@@ -108,8 +111,9 @@ const createBankingDispatcher = (store) => ({
 
   blurEntry: (index) => {
     store.dispatch({
-      intent: SET_ENTRY_FOCUS,
+      intent: SET_FOCUS,
       index,
+      location: undefined,
       isFocused: false,
     });
   },
@@ -181,6 +185,13 @@ const createBankingDispatcher = (store) => ({
       intent: SORT_AND_FILTER_BANK_TRANSACTIONS,
       isSort,
       ...payload,
+    });
+  },
+
+  setLastAllocatedAccount: (selectedAccount) => {
+    store.dispatch({
+      intent: SET_LAST_ALLOCATED_ACCOUNT,
+      selectedAccount,
     });
   },
 
@@ -752,6 +763,12 @@ const createBankingDispatcher = (store) => ({
     store.dispatch({
       intent: SET_JOB_LOADING_STATE,
       isJobLoading,
+    }),
+
+  populateRemainingAmount: (index) =>
+    store.dispatch({
+      intent: POPULATE_REMAINING_AMOUNT,
+      index,
     }),
 });
 

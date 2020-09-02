@@ -1,9 +1,11 @@
-import { LOAD_JOB_AFTER_CREATE, SET_ENTRY_FOCUS } from '../../BankingIntents';
+import { LOAD_JOB_AFTER_CREATE, SET_FOCUS } from '../../BankingIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
+import FocusLocations from '../../FocusLocations';
 import Periods from '../../../../components/PeriodPicker/Periods';
 import TransactionTypes from '../../TransactionTypes';
 import bankingReducer from '../index';
 import getDateRangeByPeriodAndRegion from '../../../../components/PeriodPicker/getDateRangeByPeriodAndRegion';
+import getDefaultState from '../getDefaultState';
 
 jest.mock('../../../../components/PeriodPicker/getDateRangeByPeriodAndRegion');
 
@@ -176,56 +178,94 @@ describe('bankingReducer', () => {
     });
   });
 
-  describe('setEntryFocus', () => {
+  describe('SET_FOCUS', () => {
     const state = {
-      focusIndex: -1,
-      hoverIndex: -1,
+      focus: { index: -1, location: undefined, isFocused: false },
     };
 
-    it('should set the focusIndex', () => {
-      const action = {
-        intent: SET_ENTRY_FOCUS,
-        index: 0,
-        isFocused: true,
-      };
+    describe('when setting focus', () => {
+      const availableLocations = Object.values(FocusLocations);
+      test.each(availableLocations)(
+        'should set the focus when location is %s',
+        (location) => {
+          const action = {
+            intent: SET_FOCUS,
+            index: 0,
+            location,
+            isFocused: true,
+          };
 
-      const actual = bankingReducer(state, action);
+          const actual = bankingReducer(state, action);
 
-      expect(actual.focusIndex).toEqual(0);
+          expect(actual.focus).toEqual({
+            index: 0,
+            location,
+            isFocused: true,
+          });
+        }
+      );
+
+      it('should set focus to default when location is undefined', () => {
+        const updatedState = {
+          ...state,
+          focus: {
+            index: 2,
+            location: FocusLocations.SPLIT_ALLOCATION_ACCOUNT_COMBOBOX,
+            isFocused: true,
+          },
+        };
+
+        const action = {
+          intent: SET_FOCUS,
+          index: 0,
+          location: 'undefined',
+          isFocused: true,
+        };
+
+        const actual = bankingReducer(updatedState, action);
+
+        expect(actual.focus).toEqual(getDefaultState().focus);
+      });
     });
 
-    it('should unset the focusIndex if focus is taken away', () => {
-      const updatedState = {
-        ...state,
-        focusIndex: 2,
-      };
+    describe('when removing focus', () => {
+      it('should set the focus to default when element was in focus', () => {
+        const updatedState = {
+          ...state,
+          focus: {
+            ...state.focus,
+            index: 2,
+            isFocused: true,
+          },
+        };
 
-      const action = {
-        intent: SET_ENTRY_FOCUS,
-        index: 2,
-        isFocused: false,
-      };
+        const action = {
+          intent: SET_FOCUS,
+          index: 2,
+          isFocused: false,
+        };
 
-      const actual = bankingReducer(updatedState, action);
+        const actual = bankingReducer(updatedState, action);
 
-      expect(actual.focusIndex).toEqual(-1);
-    });
+        expect(actual.focus).toEqual(getDefaultState().focus);
+      });
 
-    it('should ignore the action if the action is to remove the focusIndex for a different index', () => {
-      const updatedState = {
-        ...state,
-        focusIndex: 2,
-      };
+      it('should do nothing when the element was not in focus', () => {
+        const updatedState = {
+          ...state,
+          focus: { ...state.focus, index: 2 },
+        };
 
-      const action = {
-        intent: SET_ENTRY_FOCUS,
-        index: 3,
-        isFocused: false,
-      };
+        const action = {
+          intent: SET_FOCUS,
+          index: 3,
+          isFocused: false,
+        };
 
-      const actual = bankingReducer(updatedState, action);
+        const actual = bankingReducer(updatedState, action);
 
-      expect(actual.focusIndex).toEqual(2);
+        expect(actual.focus).toEqual(updatedState.focus);
+      });
     });
   });
 });

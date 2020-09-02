@@ -1,4 +1,16 @@
 import {
+  A,
+  COMMAND,
+  CTRL,
+  ENTER,
+  EQUALS,
+  FORWARD_SLASH,
+  M,
+  OPTION,
+  SHIFT,
+  T,
+} from '../hotkeys/HotkeyEnums';
+import {
   ALLOCATE_TRANSACTION,
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
@@ -9,15 +21,21 @@ import {
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
   LOAD_MATCH_TRANSACTIONS,
+  LOAD_MATCH_TRANSFER_MONEY,
   LOAD_NEW_SPLIT_ALLOCATION,
   OPEN_MODAL,
+  POPULATE_REMAINING_AMOUNT,
   RESET_BULK_ALLOCATION,
   RESET_MATCH_TRANSACTION_OPTIONS,
+  SAVE_MATCH_TRANSACTION,
+  SAVE_SPLIT_ALLOCATION,
+  SAVE_TRANSFER_MONEY,
   SET_ALERT,
   SET_ATTACHMENTS_LOADING_STATE,
   SET_BULK_LOADING_STATE,
-  SET_ENTRY_FOCUS,
   SET_ERROR_STATE,
+  SET_FOCUS,
+  SET_LAST_ALLOCATED_ACCOUNT,
   SET_LOADING_STATE,
   SET_MATCH_TRANSACTION_LOADING_STATE,
   SET_OPEN_ENTRY_LOADING_STATE,
@@ -35,8 +53,11 @@ import {
   UPDATE_PERIOD_DATE_RANGE,
 } from '../BankingIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
+import { tabIds } from '../tabItems';
 import BankTransactionStatusTypes from '../BankTransactionStatusTypes';
 import BankingModule from '../BankingModule';
+import FocusLocations from '../FocusLocations';
+import HotkeyLocations from '../hotkeys/HotkeyLocations';
 import MatchTransactionShowType from '../MatchTransactionShowType';
 import ModalTypes from '../ModalTypes';
 import Periods from '../../../components/PeriodPicker/Periods';
@@ -857,14 +878,18 @@ describe('BankingModule', () => {
       module.allocateTransaction(0, selectedAccount);
 
       expect(store.getActions()).toEqual([
-        {
+        expect.objectContaining({
           index: 1,
-          intent: SET_ENTRY_FOCUS,
+          intent: SET_FOCUS,
           isFocused: true,
-        },
+        }),
         expect.objectContaining({
           intent: START_ENTRY_LOADING_STATE,
           displayName: selectedAccount.displayName,
+        }),
+        expect.objectContaining({
+          intent: SET_LAST_ALLOCATED_ACCOUNT,
+          selectedAccount,
         }),
         expect.objectContaining({
           intent: STOP_ENTRY_LOADING_STATE,
@@ -1396,6 +1421,465 @@ describe('BankingModule', () => {
         ]);
         expect(integration.getRequests()).toEqual([]);
       });
+    });
+  });
+
+  describe('expandTransactionLine', () => {
+    it('expands transaction line to allocate tab', () => {
+      const { module, store, integration } = setUpWithRun();
+      const index = 1;
+
+      // Action
+      module.expandTransactionLine(index, tabIds.allocate);
+
+      // Assertion
+      expect(store.getActions()).toEqual([
+        {
+          intent: LOAD_NEW_SPLIT_ALLOCATION,
+          index,
+        },
+        {
+          intent: SET_ATTACHMENTS_LOADING_STATE,
+          isAttachmentsLoading: true,
+        },
+        {
+          intent: SET_ATTACHMENTS_LOADING_STATE,
+          isAttachmentsLoading: false,
+        },
+        expect.objectContaining({
+          intent: LOAD_ATTACHMENTS,
+        }),
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_ATTACHMENTS,
+        }),
+      ]);
+    });
+  });
+
+  describe('buildHotkeyHandlers', () => {
+    const getHotkeyHandler = (module, location, inputtedKey) =>
+      module.buildHotkeyHandlers()[location].find(({ key }) => {
+        if (Array.isArray(inputtedKey) && Array.isArray(key)) {
+          return key.join('+') === inputtedKey.join('+');
+        }
+        return key === inputtedKey;
+      });
+
+    const entry = {
+      transactionId: '1',
+      transactionUid: '123e4567-e89b-12d3-a456-789123456789',
+      date: '2018-10-21',
+      description: '',
+      withdrawal: 3300.0,
+      journals: [],
+      taxCode: '',
+      note: '',
+      isReportable: false,
+      allocateOrMatch: 'Allocate me',
+      type: BankTransactionStatusTypes.unmatched,
+    };
+
+    describe(`${HotkeyLocations.UNMATCHED_ACCOUNT_COMBOBOX}`, () => {
+      const location = HotkeyLocations.UNMATCHED_ACCOUNT_COMBOBOX;
+
+      it('shift = allocates transaction to last allocated account', () => {
+        const {
+          module,
+          store,
+          integration,
+          index,
+        } = setUpWithBankTransactionEntry(entry);
+
+        // Set up
+        const selectedAccount = store.getState().depositAccounts[0];
+        module.allocateTransaction(index, selectedAccount);
+        integration.resetRequests();
+        store.resetActions();
+
+        // Action
+        const event = { index: 1 };
+        const hotkeyHandler = getHotkeyHandler(module, location, [
+          SHIFT,
+          EQUALS,
+        ]);
+        hotkeyHandler.action(event);
+
+        // Assertion
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              intent: SET_LAST_ALLOCATED_ACCOUNT,
+              selectedAccount,
+            }),
+          ])
+        );
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: ALLOCATE_TRANSACTION,
+          }),
+        ]);
+      });
+
+      it('/ expands accordian to default tab (split allocation)', () => {
+        const {
+          module,
+          store,
+          integration,
+          index,
+        } = setUpWithBankTransactionEntry(entry);
+
+        // Action
+        const event = { index };
+        const hotkeyHandler = getHotkeyHandler(module, location, FORWARD_SLASH);
+        hotkeyHandler.action(event);
+
+        // Assertion
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            {
+              intent: SET_FOCUS,
+              index: 0,
+              location: FocusLocations.SPLIT_ALLOCATION_ACCOUNT_COMBOBOX,
+              isFocused: true,
+            },
+            {
+              intent: LOAD_NEW_SPLIT_ALLOCATION,
+              index,
+            },
+          ])
+        );
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+          }),
+        ]);
+      });
+
+      it('option a expands accordian to split allocation tab', () => {
+        const {
+          module,
+          store,
+          integration,
+          index,
+        } = setUpWithBankTransactionEntry(entry);
+
+        // Action
+        const event = { index };
+        const hotkeyHandler = getHotkeyHandler(module, location, [OPTION, A]);
+        hotkeyHandler.action(event);
+
+        // Assertion
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            {
+              intent: SET_FOCUS,
+              index: 0,
+              location: FocusLocations.SPLIT_ALLOCATION_ACCOUNT_COMBOBOX,
+              isFocused: true,
+            },
+            {
+              intent: LOAD_NEW_SPLIT_ALLOCATION,
+              index,
+            },
+          ])
+        );
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+          }),
+        ]);
+      });
+
+      it('option m expands accordian to match transaction tab', () => {
+        const {
+          module,
+          store,
+          integration,
+          index,
+        } = setUpWithBankTransactionEntry(entry);
+
+        // Action
+        const event = { index };
+        const hotkeyHandler = getHotkeyHandler(module, location, [OPTION, M]);
+        hotkeyHandler.action(event);
+
+        // Assertion
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              intent: LOAD_MATCH_TRANSACTIONS,
+              index,
+            }),
+          ])
+        );
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_MATCH_TRANSACTIONS,
+          }),
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+          }),
+        ]);
+      });
+
+      it('option t expands accordian to transfer money tab', () => {
+        const {
+          module,
+          store,
+          integration,
+          index,
+        } = setUpWithBankTransactionEntry(entry);
+
+        // Action
+        const event = { index };
+        const hotkeyHandler = getHotkeyHandler(module, location, [OPTION, T]);
+        hotkeyHandler.action(event);
+
+        // Assertion
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              intent: LOAD_MATCH_TRANSFER_MONEY,
+              index,
+            }),
+          ])
+        );
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_MATCH_TRANSFER_MONEY,
+          }),
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+          }),
+        ]);
+      });
+    });
+
+    describe(`${HotkeyLocations.SPLIT_ALLOCATION_CALCULATOR}`, () => {
+      const location = HotkeyLocations.SPLIT_ALLOCATION_CALCULATOR;
+
+      it('= populates the calculator with the remaining unallocated value', () => {
+        const { module, store } = setUpWithBankTransactionEntry(entry);
+
+        const hotkeyHandler = getHotkeyHandler(module, location, EQUALS);
+        hotkeyHandler.action({ index: 0 });
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: POPULATE_REMAINING_AMOUNT,
+            index: 0,
+          },
+        ]);
+      });
+    });
+
+    describe(`${HotkeyLocations.GLOBAL}`, () => {
+      const location = HotkeyLocations.GLOBAL;
+
+      it('option a switches to the split allocation tab', () => {
+        // Setup
+        const {
+          module,
+          store,
+          integration,
+          index,
+        } = setUpWithBankTransactionEntry(entry);
+        module.toggleLine(index);
+        module.changeOpenEntryTab(tabIds.match);
+        store.resetActions();
+        integration.resetRequests();
+
+        // Action
+        const hotkeyHandler = getHotkeyHandler(module, location, [OPTION, A]);
+        hotkeyHandler.action();
+
+        // Assertion
+        expect(store.getActions()).toEqual([
+          {
+            intent: LOAD_NEW_SPLIT_ALLOCATION,
+            index,
+          },
+        ]);
+      });
+
+      it('option m switches to the match transaction tab', () => {
+        // Setup
+        const {
+          module,
+          store,
+          integration,
+          index,
+        } = setUpWithBankTransactionEntry(entry);
+        module.toggleLine(index);
+        store.resetActions();
+        integration.resetRequests();
+
+        // Action
+        const hotkeyHandler = getHotkeyHandler(module, location, [OPTION, M]);
+        hotkeyHandler.action();
+
+        // Assertion
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              intent: LOAD_MATCH_TRANSACTIONS,
+              index,
+            }),
+          ])
+        );
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_MATCH_TRANSACTIONS,
+          }),
+        ]);
+      });
+
+      it('option t switches to the transfer money tab', () => {
+        // Setup
+        const {
+          module,
+          store,
+          integration,
+          index,
+        } = setUpWithBankTransactionEntry(entry);
+        module.toggleLine(index);
+        store.resetActions();
+        integration.resetRequests();
+
+        // Action
+        const hotkeyHandler = getHotkeyHandler(module, location, [OPTION, T]);
+        hotkeyHandler.action();
+
+        // Assertion
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              intent: LOAD_MATCH_TRANSFER_MONEY,
+              index,
+            }),
+          ])
+        );
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_MATCH_TRANSFER_MONEY,
+          }),
+        ]);
+      });
+
+      test.each([
+        [[OPTION, A], 'split allocation'],
+        [[OPTION, T], 'transfer money'],
+      ])('%s should do nothing if %s is disabled', (hotkey) => {
+        // Setup
+        const splitMatchedEntry = {
+          ...entry,
+          type: BankTransactionStatusTypes.splitMatched,
+        };
+        const {
+          module,
+          store,
+          index,
+          integration,
+        } = setUpWithBankTransactionEntry(splitMatchedEntry);
+        module.toggleLine(index);
+        module.changeOpenEntryTab(tabIds.match);
+        store.resetActions();
+        integration.resetRequests();
+
+        // Action
+        const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+        hotkeyHandler.action();
+
+        // Assertion
+        expect(store.getActions()).toEqual([]);
+      });
+
+      test.each([
+        [[OPTION, A]],
+        [[OPTION, M]],
+        [[OPTION, T]],
+        [[COMMAND, ENTER]],
+        [[CTRL, ENTER]],
+      ])('%s should do nothing if accordion is not open', (hotkey) => {
+        // Setup
+        const { module, store } = setUpWithBankTransactionEntry(entry);
+
+        // Action
+        const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+        hotkeyHandler.action();
+
+        // Assertion
+        expect(store.getActions()).toEqual([]);
+      });
+
+      test.each([
+        [
+          [COMMAND, ENTER],
+          'split allocation',
+          tabIds.allocate,
+          SAVE_SPLIT_ALLOCATION,
+        ],
+        [
+          [CTRL, ENTER],
+          'split allocation',
+          tabIds.allocate,
+          SAVE_SPLIT_ALLOCATION,
+        ],
+        [
+          [COMMAND, ENTER],
+          'match transaction',
+          tabIds.match,
+          SAVE_MATCH_TRANSACTION,
+        ],
+        [
+          [CTRL, ENTER],
+          'match transaction',
+          tabIds.match,
+          SAVE_MATCH_TRANSACTION,
+        ],
+        [
+          [COMMAND, ENTER],
+          'transfer money',
+          tabIds.transfer,
+          SAVE_TRANSFER_MONEY,
+        ],
+        [[CTRL, ENTER], 'transfer money', tabIds.transfer, SAVE_TRANSFER_MONEY],
+      ])(
+        '%s should save %s when on %s tab',
+        (hotkey, _, tab, expectedIntent) => {
+          // Setup
+          const {
+            module,
+            store,
+            integration,
+            index,
+          } = setUpWithBankTransactionEntry(entry);
+          module.toggleLine(index);
+          module.changeOpenEntryTab(tab);
+          store.resetActions();
+          integration.resetRequests();
+
+          // Action
+          const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+          hotkeyHandler.action();
+
+          // Assertion
+          expect(store.getActions()).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                intent: expectedIntent,
+              }),
+            ])
+          );
+          expect(integration.getRequests()).toEqual([
+            expect.objectContaining({
+              intent: expectedIntent,
+            }),
+          ]);
+        }
+      );
     });
   });
 });

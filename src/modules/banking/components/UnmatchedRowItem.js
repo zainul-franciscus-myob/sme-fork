@@ -9,7 +9,7 @@ const UnmatchedRowItem = ({
   entry,
   isHovering,
   isFocused,
-  onFocus,
+  onFocusTransactionLine,
   onBlur,
   onAllocate,
   onAddAccount,
@@ -27,7 +27,7 @@ const UnmatchedRowItem = ({
         items={accountList}
         onChange={onAllocate}
         onBlur={onBlur}
-        onFocus={onFocus}
+        onFocus={onFocusTransactionLine}
         autoFocus={isFocused}
         label="Allocate to"
         hintText={hintText}
@@ -41,7 +41,11 @@ const UnmatchedRowItem = ({
 
   const defaultView = (
     <div className={styles.unallocated}>
-      <Button type="link" onClick={onFocus} onFocus={onFocus}>
+      <Button
+        type="link"
+        onClick={onFocusTransactionLine}
+        onFocus={onFocusTransactionLine}
+      >
         {allocateOrMatch}
       </Button>
     </div>

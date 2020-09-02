@@ -25,7 +25,7 @@ const AllocatedRowItem = ({
   isHovering,
   isFocused,
   onAddAccount,
-  onFocus,
+  onFocusTransactionLine,
   onBlur,
   onAllocate,
 }) => {
@@ -43,7 +43,7 @@ const AllocatedRowItem = ({
         hideLabel
         autoFocus={isFocused}
         onChange={onAllocate}
-        onFocus={onFocus}
+        onFocus={onFocusTransactionLine}
         onBlur={onBlur}
         preventTabbingOnSelect
         selectedId={entry.selectedAccountId}
@@ -67,7 +67,10 @@ const AllocatedRowItem = ({
         className={classNames(styles.allocationInfo, reportableHiddenStyling)}
       >
         {isRuleApplied && <AutoAllocated className={styles.allocatedWand} />}
-        <AllocatedButton onClick={onFocus} onFocus={onFocus}>
+        <AllocatedButton
+          onClick={onFocusTransactionLine}
+          onFocus={onFocusTransactionLine}
+        >
           {allocateOrMatch}
         </AllocatedButton>
       </div>

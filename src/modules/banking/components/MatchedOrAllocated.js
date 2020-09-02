@@ -3,6 +3,8 @@ import React from 'react';
 import AllocatedLoadingItem from './AllocatedLoadingItem';
 import AllocatedRowItem from './AllocatedRowItem';
 import ExpandedRowItem from './ExpandedRowItem';
+import HotkeyLocations from '../hotkeys/HotkeyLocations';
+import HotkeyWrapper from '../hotkeys/HotkeyWrapper';
 import MatchedRowItem from './MatchedRowItem';
 import SplitRowItem from './SplitRowItem';
 import StatusTypes from '../BankTransactionStatusTypes';
@@ -17,10 +19,8 @@ export default ({
   onAddAccount,
   onSplitRowItemClick,
   onMatchRowItemClick,
-  onMatchedToFocus,
-  onMatchedToBlur,
-  onUnmatchedBlur,
-  onUnmatchedFocus,
+  onFocusTransactionLine,
+  onBlur,
   onAllocate,
 }) => {
   const { type, displayName, isLoading } = entry;
@@ -66,21 +66,26 @@ export default ({
         isFocused={isFocused}
         onAddAccount={onAddAccount}
         onAllocate={(item) => onAllocate(index, item)}
-        onFocus={() => onMatchedToFocus(index)}
-        onBlur={() => onMatchedToBlur(index)}
+        onFocusTransactionLine={() => onFocusTransactionLine(index)}
+        onBlur={() => onBlur(index)}
       />
     );
   }
 
   return (
-    <UnmatchedRowItem
-      entry={entry}
-      isHovering={isHovering}
-      isFocused={isFocused}
-      onAddAccount={onAddAccount}
-      onAllocate={(item) => onAllocate(index, item)}
-      onFocus={() => onUnmatchedFocus(index)}
-      onBlur={() => onUnmatchedBlur(index)}
-    />
+    <HotkeyWrapper
+      index={index}
+      location={HotkeyLocations.UNMATCHED_ACCOUNT_COMBOBOX}
+    >
+      <UnmatchedRowItem
+        entry={entry}
+        isHovering={isHovering}
+        isFocused={isFocused}
+        onAddAccount={onAddAccount}
+        onAllocate={(item) => onAllocate(index, item)}
+        onFocusTransactionLine={() => onFocusTransactionLine(index)}
+        onBlur={() => onBlur(index)}
+      />
+    </HotkeyWrapper>
   );
 };

@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 import { businessEventTypes } from '../../../common/types/BusinessEventTypeMap';
 import { tabIds } from '../tabItems';
 import Config from '../../../Config';
+import FocusLocations from '../FocusLocations';
 import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import Region from '../Region';
 import StatusTypes from '../BankTransactionStatusTypes';
@@ -206,6 +207,9 @@ export const getIsAllocated = ({ type, journals }) =>
     journals[0].journalId
   );
 
+export const getLastAllocatedAccount = ({ lastAllocatedAccount }) =>
+  lastAllocatedAccount;
+
 export const getIsSplitAllocationSelected = (state) =>
   getOpenEntryActiveTabId(state) === tabIds.allocate;
 
@@ -248,21 +252,41 @@ export const getOpenTransactionLine = createSelector(
   (entries, openPosition) => entries[openPosition]
 );
 
+const getIsAllocateDisabled = ({ journals, type }) => {
+  const sourceJournal = journals[0]?.sourceJournal || '';
+  return (
+    (sourceJournal !== businessEventTypes.spendMoney &&
+      sourceJournal !== businessEventTypes.receiveMoney &&
+      sourceJournal !== '') ||
+    type === StatusTypes.splitMatched
+  );
+};
+
+const getIsTransferDisabled = ({ journals, type }) => {
+  const sourceJournal = journals[0]?.sourceJournal || '';
+  return (
+    (sourceJournal !== businessEventTypes.transferMoney &&
+      sourceJournal !== '') ||
+    type === StatusTypes.splitMatched
+  );
+};
+
+export const getIsTabDisabled = (state, tabToExpandTo) => {
+  const transactionLine = getOpenTransactionLine(state);
+  if (tabToExpandTo === tabIds.allocate) {
+    return getIsAllocateDisabled(transactionLine);
+  }
+  if (tabToExpandTo === tabIds.transfer) {
+    return getIsTransferDisabled(transactionLine);
+  }
+  return false;
+};
+
 export const getTabItems = createSelector(
   getOpenTransactionLine,
-  ({ journals, type }) => {
-    const sourceJournal = journals[0]?.sourceJournal || '';
-
-    const isAllocateDisabled =
-      (sourceJournal !== businessEventTypes.spendMoney &&
-        sourceJournal !== businessEventTypes.receiveMoney &&
-        sourceJournal !== '') ||
-      type === StatusTypes.splitMatched;
-
-    const isTransferDisabled =
-      (sourceJournal !== businessEventTypes.transferMoney &&
-        sourceJournal !== '') ||
-      type === StatusTypes.splitMatched;
+  (openTransactionLine) => {
+    const isTransferDisabled = getIsTransferDisabled(openTransactionLine);
+    const isAllocateDisabled = getIsAllocateDisabled(openTransactionLine);
 
     return [
       {
@@ -465,7 +489,19 @@ export const getSortBankTransactionsParams = (state, orderBy) => ({
 });
 
 export const getIsHovering = (state, index) => state.hoverIndex === index;
-export const getIsFocused = (state, index) => state.focusIndex === index;
+export const getIsFocused = (state, index, location) =>
+  state.focus.index === index &&
+  state.focus.location === location &&
+  state.focus.isFocused;
+
+export const getLocationOfTransactionLine = (state, index) => {
+  const entries = getEntries(state);
+  if (index >= entries.length) {
+    return undefined;
+  }
+
+  return FocusLocations.MATCHED_OR_ALLOCATED_ELEMENT;
+};
 
 export const getURLParams = createSelector(
   getFilterOptions,

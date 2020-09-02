@@ -48,3 +48,8 @@ export const allocateTransaction = (state, action) => {
     ),
   };
 };
+
+export const setLastAllocatedAccount = (state, action) => ({
+  ...state,
+  lastAllocatedAccount: action.selectedAccount,
+});

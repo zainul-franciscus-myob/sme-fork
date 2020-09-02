@@ -23,7 +23,7 @@ export const UPDATE_FILTER_OPTIONS = Symbol('Update filter Options');
 export const UPDATE_PERIOD_DATE_RANGE = Symbol('Update period date range');
 export const RESET_FILTERS = Symbol('Reset filters');
 
-export const SET_ENTRY_FOCUS = Symbol('Set the focus state of an entry');
+export const SET_FOCUS = Symbol('Set the focus state');
 export const SET_ENTRY_HOVERED = Symbol('Set the hover state of an entry');
 export const START_ENTRY_LOADING_STATE = Symbol(
   'Start the loading state of an entry'
@@ -36,6 +36,7 @@ export const ALLOCATE_TRANSACTION = Symbol('Allocate a bank transaction');
 export const UNALLOCATE_TRANSACTION = Symbol(
   'Unallocate an allocated bank transaction'
 );
+export const SET_LAST_ALLOCATED_ACCOUNT = Symbol('Set last allocated account');
 
 export const BULK_UNALLOCATE_TRANSACTIONS = Symbol(
   'Unallocate allocated bank transactions'
@@ -189,3 +190,5 @@ export const SET_LOADING_SINGLE_ACCOUNT_STATE = Symbol(
 
 export const LOAD_JOB_AFTER_CREATE = Symbol('Load job after create');
 export const SET_JOB_LOADING_STATE = Symbol('Set job loading state');
+
+export const POPULATE_REMAINING_AMOUNT = Symbol('Calculate the remainder');

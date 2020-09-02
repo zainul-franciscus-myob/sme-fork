@@ -23,11 +23,9 @@ const BankTransactionTableBody = (props) => {
     onAddJob,
     onSplitRowItemClick,
     onMatchRowItemClick,
-    onMatchedToBlur,
-    onMatchedToFocus,
+    onBlur,
+    onFocusTransactionLine,
     onEntryHover,
-    onUnmatchedFocus,
-    onUnmatchedBlur,
     onAllocate,
     openPosition,
     activeTabId,
@@ -83,6 +81,7 @@ const BankTransactionTableBody = (props) => {
       onDeleteSplitAllocationLine,
       onAddAccount,
       onAddJob,
+      onBlur,
     },
     [tabIds.match]: {
       onUpdateMatchTransactionOptions,
@@ -175,11 +174,9 @@ const BankTransactionTableBody = (props) => {
       onHeaderClick={onHeaderClick}
       onSplitRowItemClick={onSplitRowItemClick}
       onMatchRowItemClick={onMatchRowItemClick}
-      onMatchedToFocus={onMatchedToFocus}
+      onFocusTransactionLine={onFocusTransactionLine}
       onEntryHover={onEntryHover}
-      onMatchedToBlur={onMatchedToBlur}
-      onUnmatchedBlur={onUnmatchedBlur}
-      onUnmatchedFocus={onUnmatchedFocus}
+      onBlur={onBlur}
       onAllocate={onAllocate}
       index={index}
       isExpanded={index === openPosition}

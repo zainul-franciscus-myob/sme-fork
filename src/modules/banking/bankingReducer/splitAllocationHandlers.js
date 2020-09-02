@@ -262,3 +262,41 @@ export const appendAccountToAllocateTable = (state, { account }) => ({
     },
   },
 });
+
+export const populateRemainingAmount = (state, { index }) => {
+  const { lines } = state.openEntry.allocate;
+  const isANewLine = !lines[index];
+  const lineAmount = isANewLine ? 0 : lines[index].amount;
+
+  const totalAmount = getTotalAmount(state);
+  const totalAmountInLines = getTotalDollarAmount(state) - Number(lineAmount);
+  const amountToBeAdded = Number(totalAmount) - totalAmountInLines;
+  const propName = 'lines';
+
+  const keyAndValue = {
+    lineKey: 'amount',
+    lineValue: amountToBeAdded,
+  };
+
+  if (isANewLine) {
+    const updatedLines = [
+      ...state.openEntry.allocate.lines,
+      getUpdatedLine(
+        state,
+        state.openEntry.allocate.newLine,
+        keyAndValue,
+        isANewLine
+      ),
+    ];
+
+    return updateSplitAllocationState(state, propName, updatedLines);
+  }
+
+  const updatedLines = state.openEntry.allocate.lines.map((line, i) => {
+    return index === i
+      ? getUpdatedLine(state, line, keyAndValue, isANewLine)
+      : line;
+  });
+
+  return updateSplitAllocationState(state, propName, updatedLines);
+};
