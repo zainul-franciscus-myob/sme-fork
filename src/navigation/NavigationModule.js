@@ -149,6 +149,8 @@ export default class NavigationModule {
         return `${reportsUrl}/reports/exceptionsReports`;
       case RouteName.REPORTS_PACK_BUILDER:
         return `${reportsUrl}/reports/reportPackBuilder`;
+      case RouteName.REPORT_SETTINGS:
+        return `${reportsUrl}/reports/reportSettings`;
       case RouteName.PAYMENT_DETAIL:
         return paymentDetailUrl;
       case RouteName.PRODUCT_MANAGEMENT_DETAIL:

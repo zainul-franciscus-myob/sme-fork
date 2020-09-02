@@ -203,6 +203,7 @@ export const getBusinessUrls = createSelector(
     incomeAllocation: enabledUrls.incomeAllocation,
     salesSettings: enabledUrls.salesSettings,
     payrollSettings: enabledUrls.payrollSettings,
+    reportSettings: enabledUrls.reportSettings,
     userList: enabledUrls.userList,
     dataImportExport: enabledUrls.dataImportExport,
     paymentDetail: enabledUrls.paymentDetail,

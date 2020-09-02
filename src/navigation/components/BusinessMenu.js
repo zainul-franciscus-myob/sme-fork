@@ -21,6 +21,7 @@ const isSeparatorRequired = (urls) =>
   urls.incomeAllocation ||
   urls.salesSettings ||
   urls.payrollSettings ||
+  urls.reportSettings ||
   urls.userList ||
   urls.dataImportExport;
 
@@ -102,6 +103,7 @@ const getItems = ({
       ),
     urls.payrollSettings &&
       getMenuLink(urls.payrollSettings, 'Payroll settings', onMenuLinkClick),
+    getMenuLink(urls.reportSettings, 'Report settings', onMenuLinkClick),
     urls.userList && getMenuLink(urls.userList, 'Users', onMenuLinkClick),
     urls.dataImportExport &&
       getMenuLink(

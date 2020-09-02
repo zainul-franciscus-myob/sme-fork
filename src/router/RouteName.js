@@ -106,6 +106,7 @@ const RouteName = {
   QUOTE_WITH_STATUS_LIST: 'quoteWithList/quoteList',
   QUOTE_WITH_STATUS_DETAIL: 'quoteWithList/quoteDetail',
   REPORTS_SUBSCRIBE_NOW: 'reportsSubscribeNow',
+  REPORT_SETTINGS: 'reportSettings',
 };
 
 export default RouteName;

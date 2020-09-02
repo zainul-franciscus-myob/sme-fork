@@ -186,6 +186,7 @@ export const featuresConfig = {
   incomeAllocation: { routeName: RouteName.INCOME_ALLOCATION },
   salesSettings: { routeName: RouteName.SALES_SETTINGS },
   payrollSettings: { routeName: RouteName.PAYROLL_SETTINGS },
+  reportSettings: { routeName: RouteName.REPORT_SETTINGS },
   userList: { routeName: RouteName.USER_LIST },
   dataImportExport: { routeName: RouteName.DATA_IMPORT_EXPORT },
   paymentDetail: { routeName: RouteName.PAYMENT_DETAIL },
