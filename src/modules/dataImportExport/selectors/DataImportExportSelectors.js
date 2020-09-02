@@ -105,12 +105,17 @@ export const getExportChartOfAccountsFileName = createSelector(
   getBusinessName,
   getFinancialYear,
   getChartOfAccountExportFileType,
-  (businessName, financialYear, fileType) => {
+  (businessName, financialYearDateString, fileType) => {
     const businessNameSplit = businessName.match(/[a-z0-9]+/gi);
     const pascalCaseBusinessName = getPascalCaseBusinessName(businessNameSplit);
+    const financialYearDate = new Date(financialYearDateString);
+
+    // Selected FY is the first day of the next Financial Year
+    // We subtract a day as we want to display the last day of the current FY
+    financialYearDate.setDate(financialYearDate.getDate() - 1);
 
     return pascalCaseBusinessName
-      ? `${pascalCaseBusinessName}-ChartOfAccounts-${financialYear}.${fileType.toLowerCase()}`
-      : `ChartOfAccounts-${financialYear}.${fileType.toLowerCase()}`;
+      ? `${pascalCaseBusinessName}-ChartOfAccounts-${financialYearDate.getFullYear()}.${fileType.toLowerCase()}`
+      : `ChartOfAccounts-${financialYearDate.getFullYear()}.${fileType.toLowerCase()}`;
   }
 );

@@ -87,7 +87,7 @@ describe('DataImportExportSelectors', () => {
         export: {
           businessName: "Maria Spicy's t0rtill4 special-char_*)$",
           chartOfAccounts: {
-            financialYear: '2019',
+            financialYear: '2019-07-01',
             fileType: ImportExportFileType.TXT,
           },
         },
@@ -103,12 +103,27 @@ describe('DataImportExportSelectors', () => {
         export: {
           businessName: '',
           chartOfAccounts: {
-            financialYear: '2019',
+            financialYear: '2019-07-01',
             fileType: ImportExportFileType.TXT,
           },
         },
       };
       const expectedFileName = 'ChartOfAccounts-2019.txt';
+      const actual = getExportChartOfAccountsFileName(state);
+      expect(actual).toEqual(expectedFileName);
+    });
+
+    it('Should return previous year if it is the first day of a year', () => {
+      const state = {
+        export: {
+          businessName: 'Test',
+          chartOfAccounts: {
+            financialYear: '2020-01-01',
+            fileType: ImportExportFileType.TXT,
+          },
+        },
+      };
+      const expectedFileName = 'Test-ChartOfAccounts-2019.txt';
       const actual = getExportChartOfAccountsFileName(state);
       expect(actual).toEqual(expectedFileName);
     });
