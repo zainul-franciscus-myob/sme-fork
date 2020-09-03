@@ -52,4 +52,24 @@ export const SET_SHOW_CONTACT_MODAL_SHIPPING_ADDRESS = Symbol(
 export const SET_CONTACT_MODAL_SHIPPING_ADDRESS = Symbol(
   'Set contact modal shipping address input'
 );
+
 export const RESET_FILTERS = Symbol('Reset filters');
+
+export const LOAD_CONTACT_COMBOBOX_OPTIONS = Symbol(
+  'Load contact combobox options'
+);
+export const LOAD_CONTACT_COMBOBOX_OPTION_BY_ID = Symbol(
+  'Load contact combobox option by id'
+);
+export const SEARCH_CONTACT_COMBOBOX = Symbol(
+  'Search contact combobox by keyword'
+);
+export const SET_CONTACT_COMBOBOX_ID = Symbol(
+  'Set contact combobox selected id'
+);
+export const SET_CONTACT_COMBOBOX_LOADING_STATE = Symbol(
+  'Set contact combobox loading state'
+);
+export const SET_CONTACT_COMBOBOX_OPTIONS_LOADING_STATE = Symbol(
+  'Set contact combobox loading state'
+);

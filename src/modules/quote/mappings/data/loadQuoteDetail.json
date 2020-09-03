@@ -53,12 +53,6 @@
       }
     ]
   },
-  "contactOptions": [
-    {
-      "name": "A-Z Stationery Supplies",
-      "id": "1"
-    }
-  ],
   "expirationTermOptions": [
     {
       "value": "OnADayOfTheMonth",

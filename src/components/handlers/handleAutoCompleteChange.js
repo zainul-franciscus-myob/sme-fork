@@ -1,7 +1,7 @@
 const handleAutoCompleteChange = (key, handler) => (item) => {
   handler({
     key,
-    value: item,
+    value: item ? item.id : '',
   });
 };
 

@@ -42,12 +42,6 @@
       }
     ]
   },
-  "customerOptions": [
-    {
-      "name": "Cow Feed 1",
-      "value": "1"
-    }
-  ],
   "expirationTerms": [
     {
       "value": "OnADayOfTheMonth",

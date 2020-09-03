@@ -87,7 +87,7 @@ describe('QuoteDetailModule', () => {
         intent: LOAD_QUOTE_DETAIL,
       },
     ].forEach((test) => {
-      describe(`when ${test.name}`, () => {
+      describe(`when ${test.case}`, () => {
         it('succesfully load', () => {
           const { module, store, integration } = setUp();
 
@@ -119,11 +119,13 @@ describe('QuoteDetailModule', () => {
               intent: LOAD_QUOTE_DETAIL,
             }),
           ]);
-          expect(integration.getRequests()).toEqual([
-            expect.objectContaining({
-              intent: test.intent,
-            }),
-          ]);
+          expect(integration.getRequests()).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                intent: test.intent,
+              }),
+            ])
+          );
         });
 
         it('fails to load new', () => {
@@ -221,15 +223,17 @@ describe('QuoteDetailModule', () => {
           intent: LOAD_QUOTE_DETAIL,
         }),
       ]);
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: LOAD_NEW_DUPLICATE_QUOTE_DETAIL,
-          urlParams: {
-            businessId: 'businessId',
-            duplicateId: '🐛',
-          },
-        }),
-      ]);
+      expect(integration.getRequests()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            intent: LOAD_NEW_DUPLICATE_QUOTE_DETAIL,
+            urlParams: {
+              businessId: 'businessId',
+              duplicateId: '🐛',
+            },
+          }),
+        ])
+      );
     });
 
     it('fails to load duplicate', () => {
@@ -1093,13 +1097,6 @@ describe('QuoteDetailModule', () => {
         setup: (module, integration) => {
           const onChange = () => {};
           module.openAccountModal(onChange);
-          integration.resetRequests();
-        },
-      },
-      {
-        type: 'contact quick add',
-        setup: (module, integration) => {
-          module.openContactModal();
           integration.resetRequests();
         },
       },

@@ -10,7 +10,6 @@ import {
   CLOSE_MODAL,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
-  LOAD_CONTACT_AFTER_CREATE,
   LOAD_ITEM_AFTER_CREATE,
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_JOB_AFTER_CREATE,
@@ -19,6 +18,7 @@ import {
   RELOAD_QUOTE_DETAIL,
   REMOVE_EMAIL_ATTACHMENT,
   REMOVE_QUOTE_LINE,
+  RESET_CONTACT,
   RESET_EMAIL_QUOTE_DETAIL,
   RESET_OPEN_SEND_EMAIL,
   SET_ACCOUNT_LOADING_STATE,
@@ -60,7 +60,6 @@ import {
   getBusinessId,
   getQuoteId,
   getRegion,
-  getUpdatedContactOptions,
 } from '../selectors/QuoteDetailSelectors';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import QuoteLayout from '../QuoteLayout';
@@ -153,7 +152,6 @@ const loadQuoteDetail = (state, action) => ({
     ...action.newLine,
     lineJobOptions: buildJobOptions({ action }),
   },
-  contactOptions: action.contactOptions,
   expirationTermOptions: action.expirationTermOptions,
   commentOptions: action.commentOptions,
   template: action.template || state.template,
@@ -336,14 +334,12 @@ const loadCustomerAddress = (state, action) => ({
   },
 });
 
-const loadCustomerAfterCreate = (state, { contactId, address, option }) => ({
+const resetContact = (state) => ({
   ...state,
   quote: {
     ...state.quote,
-    contactId,
-    address,
+    address: '',
   },
-  contactOptions: getUpdatedContactOptions(state, option),
 });
 
 const setCustomerLoadingState = (state, { isContactLoading }) => ({
@@ -486,7 +482,7 @@ const handlers = {
   [CALCULATE_LINES]: calculateLines,
 
   [LOAD_CONTACT_ADDRESS]: loadCustomerAddress,
-  [LOAD_CONTACT_AFTER_CREATE]: loadCustomerAfterCreate,
+  [RESET_CONTACT]: resetContact,
 
   [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
   [SET_JOB_LOADING_STATE]: setJobLoadingState,

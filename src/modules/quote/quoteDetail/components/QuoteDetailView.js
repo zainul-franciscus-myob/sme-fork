@@ -25,7 +25,7 @@ import QuoteServiceTable from './serviceLayout/QuoteServiceTable';
 import styles from './QuoteDetailView.module.css';
 
 const QuoteDetailView = ({
-  contactModal,
+  renderContactCombobox,
   accountModal,
   jobModal,
   inventoryModal,
@@ -37,7 +37,7 @@ const QuoteDetailView = ({
   onDismissAlert,
   onUpdateHeaderOptions,
   onUpdateLayout,
-  onAddCustomerButtonClick,
+  onInputAlert,
   serviceLayoutListeners,
   itemAndServiceLayoutListeners,
   quoteActionListeners,
@@ -66,8 +66,9 @@ const QuoteDetailView = ({
 
   const options = (
     <QuoteDetailOptions
+      renderContactCombobox={renderContactCombobox}
       onUpdateHeaderOptions={onUpdateHeaderOptions}
-      onAddCustomerButtonClick={onAddCustomerButtonClick}
+      onInputAlert={onInputAlert}
     />
   );
 
@@ -110,7 +111,6 @@ const QuoteDetailView = ({
       actions={actions}
     >
       {modalComponent}
-      {contactModal}
       {accountModal}
       {jobModal}
       {inventoryModal}

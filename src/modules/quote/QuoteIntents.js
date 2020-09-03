@@ -57,7 +57,6 @@ export const SET_QUOTE_SUBMITTING_STATE = Symbol('Set is submitting');
 export const SET_QUOTE_LINE_DIRTY = Symbol('Set is line amount input dirty');
 
 export const LOAD_CONTACT_ADDRESS = Symbol('Load contact address');
-export const LOAD_CONTACT_AFTER_CREATE = Symbol('Load contact after create');
 export const SET_CONTACT_LOADING_STATE = Symbol('Set contact loading state');
 
 export const LOAD_ACCOUNT_AFTER_CREATE = Symbol('Load account after create');
@@ -89,3 +88,5 @@ export const LOAD_QUOTE_LIST_NEXT_PAGE = Symbol('Load quote list next page');
 export const SET_NEXT_PAGE_LOADING_STATE = Symbol(
   'Set next page loading state'
 );
+
+export const RESET_CONTACT = Symbol('Reset contact');

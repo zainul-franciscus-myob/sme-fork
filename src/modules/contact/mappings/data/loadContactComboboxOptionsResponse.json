@@ -1,0 +1,36 @@
+{
+  "contactOptions": [
+    {
+      "contactType": "Customer",
+      "displayContactType": "Customer",
+      "displayName": "Customer Name",
+      "id": "1",
+      "displayId": "CUS000003"
+    },
+    {
+      "contactType": "Supplier",
+      "displayContactType": "Supplier",
+      "displayName": "Supplier Name",
+      "id": "2",
+      "displayId": "SUPP0004"
+    },
+    {
+      "contactType": "Customer",
+      "displayContactType": "Customer",
+      "displayName": "Customer Name",
+      "id": "3",
+      "displayId": "CUS000003"
+    },
+    {
+      "contactType": "Supplier",
+      "displayContactType": "Supplier",
+      "displayName": "Supplier Name",
+      "id": "4",
+      "displayId": "SUPP0004"
+    }
+  ],
+  "pagination": {
+    "hasNextPage": true,
+    "offset": 4
+  }
+}

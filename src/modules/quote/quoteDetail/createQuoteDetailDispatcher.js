@@ -8,7 +8,6 @@ import {
   CLOSE_MODAL,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
-  LOAD_CONTACT_AFTER_CREATE,
   LOAD_ITEM_AFTER_CREATE,
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_JOB_AFTER_CREATE,
@@ -17,6 +16,7 @@ import {
   RELOAD_QUOTE_DETAIL,
   REMOVE_EMAIL_ATTACHMENT,
   REMOVE_QUOTE_LINE,
+  RESET_CONTACT,
   RESET_EMAIL_QUOTE_DETAIL,
   RESET_OPEN_SEND_EMAIL,
   SET_ACCOUNT_LOADING_STATE,
@@ -149,12 +149,9 @@ const createQuoteDetailDispatcher = (store) => ({
   loadContactAddress: (address) =>
     store.dispatch({ intent: LOAD_CONTACT_ADDRESS, address }),
 
-  loadContactAfterCreate: (contactId, payload) =>
-    store.dispatch({
-      intent: LOAD_CONTACT_AFTER_CREATE,
-      contactId,
-      ...payload,
-    }),
+  resetContact: () => {
+    store.dispatch({ intent: RESET_CONTACT });
+  },
 
   loadJobAfterCreate: (payload) =>
     store.dispatch({

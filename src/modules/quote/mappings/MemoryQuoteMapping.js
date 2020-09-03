@@ -4,7 +4,6 @@ import {
   EXPORT_QUOTE_PDF,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
-  LOAD_CONTACT_AFTER_CREATE,
   LOAD_ITEM_AFTER_CREATE,
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_JOB_AFTER_CREATE,
@@ -22,7 +21,6 @@ import customerAddress from './data/customerAddress';
 import itemQuoteLoadItemOption from './data/itemQuoteLoadItemOption';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadAddedJobResponse from './data/loadAddedJobResponse';
-import loadCustomerResponse from './data/loadCustomerResponse';
 import loadDuplicateQuoteDetail from './data/loadDuplicateQuoteDetail';
 import loadItemSellingDetailsResponse from './data/loadItemSellingDetailsResponse';
 import loadNewQuoteDetail from './data/loadNewQuoteDetail';
@@ -82,8 +80,6 @@ const MemoryQuoteMapping = {
   [UPDATE_QUOTE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [DELETE_QUOTE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [LOAD_CONTACT_ADDRESS]: ({ onSuccess }) => onSuccess(customerAddress),
-  [LOAD_CONTACT_AFTER_CREATE]: ({ onSuccess }) =>
-    onSuccess(loadCustomerResponse),
   [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) =>
     onSuccess(loadAddedAccountResponse),
   [LOAD_ITEM_AFTER_CREATE]: ({ onSuccess }) =>

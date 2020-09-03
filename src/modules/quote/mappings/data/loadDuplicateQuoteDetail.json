@@ -48,16 +48,6 @@
       }
     ]
   },
-  "contactOptions": [
-    {
-      "name": "A-Z Stationery Supplies",
-      "id": "1"
-    },
-    {
-      "name": "Cow Feed",
-      "id": "2"
-    }
-  ],
   "expirationTermOptions": [
     {
       "value": "OnADayOfTheMonth",

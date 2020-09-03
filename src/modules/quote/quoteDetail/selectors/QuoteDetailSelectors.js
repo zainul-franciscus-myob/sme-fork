@@ -6,6 +6,8 @@ import {
   createTaxCalculator,
 } from '../../../../common/taxCalculator';
 import { calculateFreightAmount } from '../../../invoice/invoiceDetail/selectors/invoiceDetailSelectors';
+import ContactType from '../../../contact/contactCombobox/types/ContactType';
+import DisplayMode from '../../../contact/contactCombobox/types/DisplayMode';
 import ModalType from '../ModalType';
 import QuoteLayout from '../QuoteLayout';
 import QuoteLineType from '../QuoteLineType';
@@ -64,7 +66,6 @@ const getNewLine = (state) => state.newLine;
 
 export const getLineTotals = (state) => state.totals;
 
-const getContactOptions = (state) => state.contactOptions;
 export const getExpirationTermOptions = (state) => state.expirationTermOptions;
 export const getCommentOptions = (state) => state.commentOptions;
 export const getItemOptions = (state) => state.itemOptions;
@@ -139,7 +140,6 @@ export const getQuoteDetailOptions = createStructuredSelector({
   expirationTerm: getExpirationTerm,
   expirationTermOptions: getExpirationTermOptions,
   isTaxInclusive: getIsTaxInclusive,
-  contactOptions: getContactOptions,
   isCalculating: getIsCalculating,
   isCustomerDisabled: getIsCustomerDisabled,
   taxInclusiveLabel: getTaxInclusiveLabel,
@@ -157,23 +157,6 @@ export const getExportPdfFilename = (state) => {
   const quoteNumber = getQuoteNumber(state);
 
   return `${quoteNumber}.pdf`;
-};
-
-export const getContactModalContext = (state) => {
-  const businessId = getBusinessId(state);
-  const region = getRegion(state);
-
-  return { businessId, region, contactType: 'Customer' };
-};
-
-export const getUpdatedContactOptions = (state, updatedOption) => {
-  const contactOptions = getContactOptions(state);
-
-  return contactOptions.some((option) => option.id === updatedOption.id)
-    ? contactOptions.map((option) =>
-        option.id === updatedOption.id ? updatedOption : option
-      )
-    : [updatedOption, ...contactOptions];
 };
 
 export const getAccountModalContext = (state) => {
@@ -388,4 +371,18 @@ export const getIsBeforeStartOfFinancialYear = (state) => {
     startOfFinancialYearDate &&
     isBefore(new Date(issueDate), new Date(startOfFinancialYearDate))
   );
+};
+
+export const getContactComboboxContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+  const contactId = getContactId(state);
+
+  return {
+    businessId,
+    region,
+    contactId,
+    contactType: ContactType.CUSTOMER,
+    displayMode: DisplayMode.NAME_ONLY,
+  };
 };

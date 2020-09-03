@@ -15,7 +15,7 @@ import {
 } from '../../../common/types/MessageTypes';
 import {
   getAccountModalContext,
-  getContactModalContext,
+  getContactComboboxContext,
   getExportPdfFilename,
   getInventoryModalContext,
   getIsCreating,
@@ -46,7 +46,7 @@ import {
   getFilesForUpload,
 } from './selectors/EmailSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
-import ContactModalModule from '../../contact/contactModal/ContactModalModule';
+import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
 import FeatureToggle from '../../../FeatureToggles';
 import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
 import JobModalModule from '../../job/jobModal/JobModalModule';
@@ -86,10 +86,10 @@ export default class QuoteDetailModule {
 
     this.isToggleOn = isToggleOn;
 
-    this.contactModalModule = new ContactModalModule({ integration });
     this.accountModalModule = new AccountModalModule({ integration });
     this.jobModalModule = new JobModalModule({ integration });
     this.inventoryModalModule = new InventoryModalModule({ integration });
+    this.contactComboboxModule = new ContactComboboxModule({ integration });
   }
 
   loadQuote = () => {
@@ -98,6 +98,7 @@ export default class QuoteDetailModule {
     const onSuccess = (payload) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadQuote(payload);
+      this.loadContactCombobox();
     };
 
     const onFailure = () => {
@@ -276,7 +277,10 @@ export default class QuoteDetailModule {
     }
 
     if (key === 'contactId') {
-      this.loadCustomerAddress();
+      this.dispatcher.resetContact();
+      if (value) {
+        this.loadCustomerAddress();
+      }
     }
   };
 
@@ -445,34 +449,6 @@ export default class QuoteDetailModule {
     };
 
     this.integrator.loadContactAddress({ onSuccess, onFailure });
-  };
-
-  loadCustomerAfterCreate = ({ message, id }) => {
-    this.contactModalModule.resetState();
-    this.displaySuccessAlert(message);
-    this.dispatcher.setContactLoadingState(true);
-
-    const onSuccess = (payload) => {
-      this.dispatcher.setContactLoadingState(false);
-      this.dispatcher.loadContactAfterCreate(id, payload);
-    };
-
-    const onFailure = () => {
-      this.dispatcher.setContactLoadingState(false);
-    };
-
-    this.integrator.loadContactAfterCreate({ id, onSuccess, onFailure });
-  };
-
-  openContactModal = () => {
-    const state = this.store.getState();
-    const context = getContactModalContext(state);
-
-    this.contactModalModule.run({
-      context,
-      onLoadFailure: (message) => this.displayFailureAlert(message),
-      onSaveSuccess: this.loadCustomerAfterCreate,
-    });
   };
 
   loadAccountAfterCreate = ({ message, id }, onChange) => {
@@ -764,8 +740,19 @@ export default class QuoteDetailModule {
     );
   };
 
+  loadContactCombobox = () => {
+    const state = this.store.getState();
+    const context = getContactComboboxContext(state);
+    this.contactComboboxModule.run(context);
+  };
+
+  renderContactCombobox = (props) => {
+    return this.contactComboboxModule
+      ? this.contactComboboxModule.render(props)
+      : null;
+  };
+
   render = () => {
-    const contactModal = this.contactModalModule.render();
     const accountModal = this.accountModalModule.render();
     const inventoryModal = this.inventoryModalModule.render();
     const jobModal = this.jobModalModule.render();
@@ -782,14 +769,14 @@ export default class QuoteDetailModule {
     const view = (
       <Provider store={this.store}>
         <QuoteDetailView
-          contactModal={contactModal}
+          renderContactCombobox={this.renderContactCombobox}
           accountModal={accountModal}
           inventoryModal={inventoryModal}
           jobModal={jobModal}
           onDismissAlert={this.dispatcher.dismissAlert}
           onUpdateHeaderOptions={this.updateQuoteDetailHeaderOptions}
           onUpdateLayout={this.updateLayout}
-          onAddCustomerButtonClick={this.openContactModal}
+          onInputAlert={this.dispatcher.setAlert}
           serviceLayoutListeners={tableListeners}
           itemAndServiceLayoutListeners={{
             ...tableListeners,
@@ -836,7 +823,7 @@ export default class QuoteDetailModule {
   setInitialState = (context) => this.dispatcher.setInitialState(context);
 
   resetState = () => {
-    this.contactModalModule.resetState();
+    this.contactComboboxModule.resetState();
     this.inventoryModalModule.resetState();
     this.accountModalModule.resetState();
     this.dispatcher.resetState();
@@ -846,8 +833,8 @@ export default class QuoteDetailModule {
 
   saveHandler = () => {
     // Quick add modals
-    if (this.contactModalModule.isOpened()) {
-      this.contactModalModule.save();
+    if (this.contactComboboxModule.isContactModalOpened()) {
+      this.contactComboboxModule.createContact();
       return;
     }
 

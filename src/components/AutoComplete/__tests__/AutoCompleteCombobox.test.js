@@ -132,24 +132,6 @@ describe('AutoCompleteCombobox', () => {
             expect(onLoadMoreItems).toHaveBeenCalledTimes(1);
           });
 
-          it('calls onChange with previously selected item, when Load More button is selected or clicked on and the user had previously selected an item from the list', () => {
-            const onLoadMoreItems = jest.fn();
-            const onChange = jest.fn();
-            const autoCompleteWrapper = mountComponent({
-              selectedId: '1',
-              items,
-              loadMoreButtonStatus: LoadMoreButtonStatus.SHOWN,
-              onLoadMoreItems,
-              onChange,
-            });
-            clickOnMenuDropdown(autoCompleteWrapper);
-
-            // Click Load more button
-            selectItem(autoCompleteWrapper, items.length);
-
-            expect(onChange).toHaveBeenCalledWith({ id: '1', name: 'a' });
-          });
-
           it('calls onChange when the user has selected an item from the list', () => {
             const onChange = jest.fn();
             const autoCompleteWrapper = mountComponent({

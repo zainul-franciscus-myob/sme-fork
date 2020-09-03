@@ -73,7 +73,7 @@ export default class ReceiveMoneyDetailModule {
     this.contactModalModule = new ContactModalModule({ integration });
   }
 
-  openContactModal = ({ onSuccess }) => {
+  openContactModal = () => {
     const state = this.store.getState();
     const context = getContactModalContext(state);
 
@@ -81,15 +81,11 @@ export default class ReceiveMoneyDetailModule {
       context,
       onLoadFailure: (message) => this.displayFailureAlert(message),
       onSaveSuccess: ({ id, message }) =>
-        this.loadContactAfterCreate({
-          id,
-          message,
-          onCreateContactSuccess: onSuccess,
-        }),
+        this.loadContactAfterCreate({ id, message }),
     });
   };
 
-  loadContactAfterCreate = ({ id, message, onCreateContactSuccess }) => {
+  loadContactAfterCreate = ({ id, message }) => {
     this.contactModalModule.resetState();
     this.displaySuccessAlert(message);
     this.dispatcher.setContactLoadingState(true);
@@ -97,7 +93,6 @@ export default class ReceiveMoneyDetailModule {
     const onSuccess = (payload) => {
       this.dispatcher.setContactLoadingState(false);
       this.dispatcher.loadContactAfterCreate(payload);
-      onCreateContactSuccess(payload);
     };
 
     const onFailure = () => {

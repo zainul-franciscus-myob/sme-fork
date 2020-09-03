@@ -87,12 +87,6 @@ export const getLoadContactAddressUrlParams = (state) => {
   return { businessId, contactId };
 };
 
-export const getLoadContactAfterCreateUrlParams = (state, contactId) => {
-  const businessId = getBusinessId(state);
-
-  return { businessId, contactId };
-};
-
 export const getLoadAccountAfterCreateUrlParams = (state, accountId) => {
   const businessId = getBusinessId(state);
 

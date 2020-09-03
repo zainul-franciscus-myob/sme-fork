@@ -60,7 +60,6 @@ const getDefaultState = () => ({
     discount: '',
     lineJobOptions: [],
   },
-  contactOptions: [],
   expirationTermOptions: [],
   commentOptions: [],
   itemOptions: [],

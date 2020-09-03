@@ -4,11 +4,14 @@ import {
   DELETE_CONTACT,
   LOAD_ABN_VALIDATION_RESULT,
   LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_CONTACT_COMBOBOX_OPTIONS,
+  LOAD_CONTACT_COMBOBOX_OPTION_BY_ID,
   LOAD_CONTACT_DETAIL,
   LOAD_CONTACT_LIST,
   LOAD_CONTACT_LIST_NEXT_PAGE,
   LOAD_CONTACT_MODAL,
   LOAD_NEW_CONTACT,
+  SEARCH_CONTACT_COMBOBOX,
   SORT_AND_FILTER_CONTACT_LIST,
   UPDATE_CONTACT,
 } from '../ContactIntents';
@@ -68,6 +71,19 @@ const ContactListMapping = {
     method: 'GET',
     getPath: ({ businessId, abn }) =>
       `/${businessId}/contact/validate_abn/${abn}`,
+  },
+  [LOAD_CONTACT_COMBOBOX_OPTIONS]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/contact/load_contact_options`,
+  },
+  [LOAD_CONTACT_COMBOBOX_OPTION_BY_ID]: {
+    method: 'GET',
+    getPath: ({ businessId, contactId }) =>
+      `/${businessId}/contact/load_contact_options/${contactId}`,
+  },
+  [SEARCH_CONTACT_COMBOBOX]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/contact/load_contact_options`,
   },
 };
 

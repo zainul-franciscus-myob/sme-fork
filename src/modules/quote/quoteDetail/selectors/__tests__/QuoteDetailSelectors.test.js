@@ -12,7 +12,6 @@ import {
   getReadOnlyMessage,
   getShowExportPdfButton,
   getTotals,
-  getUpdatedContactOptions,
 } from '../QuoteDetailSelectors';
 import ModalType from '../../ModalType';
 import QuoteLayout from '../../QuoteLayout';
@@ -42,20 +41,6 @@ describe('QuoteDetailSelectors', () => {
           isForeignCurrency: false,
         },
         commentOptions: [],
-        contactOptions: [
-          {
-            name: 'Cow Feed 1',
-            id: '1',
-          },
-          {
-            name: 'Cow Feed 2',
-            id: '2',
-          },
-          {
-            name: 'Cow Feed 3',
-            id: '3',
-          },
-        ],
         expirationTermOptions: [
           {
             value: 'OnADayOfTheMonth',
@@ -125,11 +110,6 @@ describe('QuoteDetailSelectors', () => {
           },
         ],
         isTaxInclusive: true,
-        contactOptions: [
-          { name: 'Cow Feed 1', id: '1' },
-          { name: 'Cow Feed 2', id: '2' },
-          { name: 'Cow Feed 3', id: '3' },
-        ],
         isCalculating: false,
         isCustomerDisabled: true,
         taxExclusiveLabel: 'Tax exclusive',
@@ -173,40 +153,6 @@ describe('QuoteDetailSelectors', () => {
       const actual = getAccountModalContext(contextState);
 
       expect(actual).toEqual({ region: 'Spain', businessId: 'manzana' });
-    });
-  });
-
-  describe('getUpdatedCustomerOptions', () => {
-    it('should contain newly added contact option', () => {
-      const option1 = { id: '1', name: 'Option 1' };
-      const option2 = {
-        id: '2',
-        name: 'Option 2',
-      };
-      const expected = [option2, option1];
-
-      const actual = getUpdatedContactOptions(
-        { contactOptions: [option1] },
-        option2
-      );
-
-      expect(actual).toEqual(expected);
-    });
-
-    it('should contain updated contact option', () => {
-      const option1 = { value: '1', name: 'Option 1' };
-      const option2 = {
-        value: '1',
-        name: 'Option 1',
-      };
-      const expected = [option2];
-
-      const actual = getUpdatedContactOptions(
-        { contactOptions: [option1] },
-        option2
-      );
-
-      expect(actual).toEqual(expected);
     });
   });
 

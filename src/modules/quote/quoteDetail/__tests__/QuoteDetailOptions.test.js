@@ -11,7 +11,7 @@ describe('quoteDetailsOptions', () => {
     const store = new Store(quoteDetailReducer);
     const wrapper = mount(
       <Provider store={store}>
-        <QuoteDetailOptions />
+        <QuoteDetailOptions renderContactCombobox={() => {}} />
       </Provider>
     );
     const quoteNumberInput = wrapper.find({ name: 'quoteNumber' }).first();

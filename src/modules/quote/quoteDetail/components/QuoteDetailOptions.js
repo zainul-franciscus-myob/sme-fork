@@ -9,19 +9,12 @@ import {
   getReadOnlyMessage,
 } from '../selectors/QuoteDetailSelectors';
 import BooleanRadioButtonGroup from '../../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
-import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
 import DatePicker from '../../../../components/DatePicker/DatePicker';
 import PaymentTerms from '../../../../components/PaymentTerms/PaymentTerms';
+import handleAutoCompleteChange from '../../../../components/handlers/handleAutoCompleteChange';
 import handleDateChange from '../../../../components/handlers/handleDateChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 import styles from './QuoteDetailOptions.module.css';
-
-const onComboBoxChange = (handler) => (option) => {
-  const key = 'contactId';
-  const { id: value } = option;
-
-  handler({ key, value });
-};
 
 const requiredLabel = 'Required';
 
@@ -36,7 +29,6 @@ const QuoteDetailOptions = (props) => {
     expirationDays,
     expirationTermOptions,
     isTaxInclusive,
-    contactOptions,
     isBeforeStartOfFinancialYear,
     isCalculating,
     isCustomerDisabled,
@@ -44,26 +36,24 @@ const QuoteDetailOptions = (props) => {
     readOnlyMessage,
     taxInclusiveLabel,
     taxExclusiveLabel,
+    renderContactCombobox,
     onUpdateHeaderOptions,
-    onAddCustomerButtonClick,
+    onInputAlert,
   } = props;
 
   const primary = (
     <Fragment>
-      <CustomerCombobox
-        items={contactOptions}
-        selectedId={contactId}
-        onChange={onComboBoxChange(onUpdateHeaderOptions)}
-        label="Customer"
-        name="contactId"
-        hideLabel={false}
-        disabled={isCustomerDisabled || isReadOnlyLayout}
-        addNewItem={{
-          label: 'Create customer',
-          onAddNew: onAddCustomerButtonClick,
-        }}
-        requiredLabel={requiredLabel}
-      />
+      {renderContactCombobox({
+        selectedId: contactId,
+        name: 'contactId',
+        label: 'Customer',
+        hideLabel: false,
+        requiredLabel: 'Required',
+        allowClear: true,
+        disabled: isCustomerDisabled || isReadOnlyLayout,
+        onChange: handleAutoCompleteChange('contactId', onUpdateHeaderOptions),
+        onAlert: onInputAlert,
+      })}
       {address && (
         <ReadOnly className={styles.address} label="Billing address">
           {address}

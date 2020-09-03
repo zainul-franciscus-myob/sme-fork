@@ -4,21 +4,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { buildItems, buildSelectedItem } from './helpers/buildItems';
 import LoadMoreButton from './LoadMoreButton';
 import LoadMoreButtonStatus from './LoadMoreButtonStatus';
+import buildLoadMoreItem, {
+  IS_LOAD_MORE_BUTTON,
+} from './helpers/buildLoadMoreItem';
 import debounce from '../../common/debounce/debounce';
 import getShouldShowLoadMoreButton from './helpers/getShouldShowLoadMoreButton';
 
-const LOAD_MORE_BUTTON_ID = Symbol('Load More button item id');
-const IS_LOAD_MORE_BUTTON = Symbol(
-  'Property to determine if this is a Load more button item'
-);
-
-const loadMoreButtonItem = {
-  id: LOAD_MORE_BUTTON_ID,
-  [IS_LOAD_MORE_BUTTON]: true,
-};
-
 const AutoCompleteCombobox = ({
-  metaData,
+  metaData = [],
   selectedId = '',
   items = [],
   addNewItem,
@@ -47,13 +40,12 @@ const AutoCompleteCombobox = ({
 
   const hasBlurredRef = useRef(false);
 
-  const paginationDisplayColumn = metaData.find(
-    (column) => column.showPagination
-  ).columnName;
+  const paginationDisplayColumn = metaData.length ? metaData[0].columnName : '';
   const shouldShowLoadMoreButton = getShouldShowLoadMoreButton(
     loadMoreButtonStatus
   );
 
+  const loadMoreButtonItem = buildLoadMoreItem({ metaData, items, selectedId });
   const comboboxItems = buildItems({
     items,
     searchItems,
@@ -147,7 +139,6 @@ const AutoCompleteCombobox = ({
       // previously selected item
       if (selectedItem) {
         downShiftHandlers.selectItem(selectedItem);
-        onChange(selectedItem);
         hasDownshiftSelectedRef.current = true;
       }
 
@@ -159,6 +150,11 @@ const AutoCompleteCombobox = ({
       if (loadMoreButtonStatus === LoadMoreButtonStatus.SHOWN) {
         onLoadMoreItems();
       }
+      // eslint-disable-next-line no-underscore-dangle
+    } else if (item && item._addNewItem) {
+      // DO NOTHING.
+      // onChange should not be triggered on add new item click.
+      // Assume this is Feelix bug?
     } else {
       const newItem = item || {};
       const { id = '' } = newItem;
@@ -186,23 +182,20 @@ const AutoCompleteCombobox = ({
   };
 
   const renderItem = (columnName, item) => {
-    return shouldShowLoadMoreButton &&
-      columnName === paginationDisplayColumn &&
-      item[IS_LOAD_MORE_BUTTON] ? (
-      <LoadMoreButton loadMoreButtonStatus={loadMoreButtonStatus} />
-    ) : (
-      item[columnName]
-    );
+    if (shouldShowLoadMoreButton && item[IS_LOAD_MORE_BUTTON]) {
+      return !metaData.length ||
+        columnName !== paginationDisplayColumn ? null : (
+        <LoadMoreButton loadMoreButtonStatus={loadMoreButtonStatus} />
+      );
+    }
+
+    return item[columnName];
   };
 
   const onAddNewItem = () => {
     if (addNewItem) {
-      addNewItem.onAddNew({
-        onSuccess: (newItem) => {
-          isSearchingRef.current = false;
-          prevSelectedItem.current = newItem;
-        },
-      });
+      isSearchingRef.current = false;
+      addNewItem.onAddNew();
     }
   };
 
@@ -214,7 +207,10 @@ const AutoCompleteCombobox = ({
       renderItem={renderItem}
       addNewItem={
         addNewItem
-          ? { label: addNewItem.label, onAddNew: onAddNewItem }
+          ? {
+              label: addNewItem.label,
+              onAddNew: onAddNewItem,
+            }
           : undefined
       }
       onInputValueChange={onInputValueChange}
@@ -225,6 +221,7 @@ const AutoCompleteCombobox = ({
         isSearchLoading ? 'Searching...' : noMatchFoundMessage
       }
       {...otherProps}
+      allowClear
     />
   );
 };
