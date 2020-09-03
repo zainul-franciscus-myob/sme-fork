@@ -5,6 +5,7 @@ import React from 'react';
 import {
   getIndexOfLastLine,
   getTableData,
+  getTaxAmountLabel,
   getTaxLabel,
   getTotals,
 } from '../bankingSelectors/splitAllocationSelectors';
@@ -22,7 +23,6 @@ const amountLabelPercent = 'Amount (%)';
 const quantityLabel = 'Quantity';
 const lineDescription = 'Line description';
 const jobLabel = 'Job';
-const taxAmountLabel = 'Tax amount';
 const requiredText = 'This is required';
 
 const onRowChange = (handler) => (index, key, value) =>
@@ -57,6 +57,7 @@ const renderRow = (
 const SplitAllocationTable = (props) => {
   const {
     taxLabel,
+    taxAmountLabel,
     tableData,
     indexOfLastLine,
     totals: { totalAllocated, totalUnallocated },
@@ -173,6 +174,7 @@ const mapStateToProps = (state) => ({
   indexOfLastLine: getIndexOfLastLine(state),
   totals: getTotals(state),
   taxLabel: getTaxLabel(state),
+  taxAmountLabel: getTaxAmountLabel(state),
   isLoadingAccount: getIsLoadingAccount(state),
   isBankingJobColumnEnabled: getIsBankingJobColumnEnabled(state),
 });

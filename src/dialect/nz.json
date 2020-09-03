@@ -9,5 +9,6 @@
   "Tax inclusive": "GST inclusive",
   "Including tax": "Including GST",
   "Tax exclusive": "GST exclusive",
-  "Prepare BAS or IAS": "GST and provisional tax"
+  "Prepare BAS or IAS": "GST and provisional tax",
+  "Tax amount": "GST ($)"
 }

@@ -35,6 +35,9 @@ export const getIndexOfLastLine = (state) =>
 export const getTaxLabel = (state) =>
   getRegionToDialectText(state.region)('Tax code');
 
+export const getTaxAmountLabel = (state) =>
+  getRegionToDialectText(state.region)('Tax amount');
+
 export const getDescription = createSelector(
   getAllocate,
   ({ description }) => description
