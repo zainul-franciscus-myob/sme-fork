@@ -14,7 +14,7 @@ import {
   getRawEntries,
 } from './AccountListSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
-import AccountListView from './components/AccountListView';
+import AccountListRootView from './components/AccountListRootView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import RouteName from '../../../router/RouteName';
 import Store from '../../../store/Store';
@@ -160,9 +160,51 @@ export default class AccountListModule {
     this.filterAccountList();
   };
 
+  editAccountsClick = () => {
+    this.dispatcher.setEditMode(true);
+  };
+
+  cancelEditAccountsClick = () => {
+    this.dispatcher.setEditMode(false);
+    this.loadAccountList();
+  };
+
+  saveEditAccountsClicked = () => {
+    const onSuccess = ({ numAccountsUpdated, validationErrors }) => {
+      const onBulkUpdateCompleted = () => {
+        this.dispatcher.setEditMode(false);
+        const message = `${numAccountsUpdated} accounts updated.`;
+        this.dispatcher.setAlert({
+          type: 'success',
+          message,
+        });
+        if (validationErrors) {
+          this.dispatcher.setAlert({
+            type: 'danger',
+            message: validationErrors,
+          });
+        }
+      };
+      this.loadAccountList(onBulkUpdateCompleted);
+    };
+
+    const onFailure = (error) => {
+      const onBulkUpdateCompleted = () => {
+        this.dispatcher.setEditMode(false);
+        this.dispatcher.setAlert({ message: error.message, type: 'danger' });
+      };
+      this.loadAccountList(onBulkUpdateCompleted);
+    };
+    this.integrator.updateAccounts(onSuccess, onFailure);
+  };
+
+  accountDetailsChange = ({ index, key, value }) => {
+    this.dispatcher.setAccountDetails({ index, key, value });
+  };
+
   render = () => {
     const accountView = (
-      <AccountListView
+      <AccountListRootView
         onDismissAlert={this.dispatcher.dismissAlert}
         onUpdateFilterOptions={this.updateFilterOptions}
         onResetFilterOptions={this.resetFilterOptions}
@@ -175,6 +217,10 @@ export default class AccountListModule {
         onCloseModal={this.dispatcher.closeModal}
         onDeleteAccountsButtonClick={this.dispatcher.openBulkDeleteModel}
         onDeleteConfirmButtonClick={this.deleteAccounts}
+        onEditAccountsClick={this.editAccountsClick}
+        onAccountDetailsChange={this.accountDetailsChange}
+        onCancel={this.cancelEditAccountsClick}
+        onSave={this.saveEditAccountsClicked}
       />
     );
 

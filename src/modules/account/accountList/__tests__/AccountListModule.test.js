@@ -8,6 +8,7 @@ import {
   SET_ALERT,
   SET_LOADING_STATE,
   SORT_AND_FILTER_ACCOUNT_LIST,
+  UPDATE_ACCOUNTS,
 } from '../../AccountIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import AccountListModule from '../AccountListModule';
@@ -159,6 +160,41 @@ describe('AccountListModule', () => {
         expect.objectContaining({
           intent: DELETE_ACCOUNTS,
           content: { accountIds: [selectedId] },
+        }),
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+        }),
+      ]);
+    });
+
+    it('updates accounts and reloads list', () => {
+      const { module, integration, store } = setupWithRun();
+
+      module.loadAccountList();
+
+      const accountId = store.getState().entries[2].id;
+      module.accountDetailsChange({
+        index: 2,
+        key: 'openingBalance',
+        value: 1111,
+      });
+
+      module.saveEditAccountsClicked();
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+        }),
+        expect.objectContaining({
+          intent: UPDATE_ACCOUNTS,
+          content: {
+            accounts: [
+              {
+                id: accountId,
+                openingBalance: 1111,
+              },
+            ],
+          },
         }),
         expect.objectContaining({
           intent: SORT_AND_FILTER_ACCOUNT_LIST,

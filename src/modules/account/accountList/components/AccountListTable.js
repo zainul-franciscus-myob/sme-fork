@@ -8,7 +8,6 @@ import {
   getTableTaxCodeHeader,
 } from '../AccountListSelectors';
 import { withStatus, withoutStatus } from './AccountListWidthConfig';
-import AccountListTableBody from './AccountListTableBody';
 import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
 import TableView from '../../../../components/TableView/TableView';
 
@@ -25,7 +24,7 @@ const AccountListTable = (props) => {
     isTableEmpty,
     showInactive,
     taxCodeHeader,
-    onAccountSelected,
+    tableBody,
   } = props;
 
   const tableConfig = {
@@ -43,6 +42,10 @@ const AccountListTable = (props) => {
     taxCode: { columnName: taxCodeHeader, styles: { valign: 'middle' } },
     linked: { columnName: 'Linked', styles: { valign: 'middle' } },
     level: { columnName: 'Level', styles: { valign: 'middle' } },
+    openingBalance: {
+      columnName: 'Opening balance ($)',
+      styles: { valign: 'middle', align: 'right' },
+    },
     balance: {
       columnName: 'Current balance ($)',
       styles: { valign: 'middle', align: 'right' },
@@ -60,10 +63,7 @@ const AccountListTable = (props) => {
       emptyView={emptyView}
       responsiveWidths={responsiveWidths}
     >
-      <AccountListTableBody
-        tableConfig={tableConfig}
-        onAccountSelected={onAccountSelected}
-      />
+      {tableBody}
     </TableView>
   );
 };

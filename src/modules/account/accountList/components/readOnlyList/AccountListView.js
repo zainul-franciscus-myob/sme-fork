@@ -7,19 +7,22 @@ import {
   getLoadingState,
   getRawEntries,
   getShowDeleteModal,
+  getShowInactive,
+  getTableTaxCodeHeader,
   getType,
-} from '../AccountListSelectors';
-import { tabItems } from '../tabItems';
-import AccountListFilterOptions from './AccountListFilterOptions';
-import AccountListTable from './AccountListTable';
+} from '../../AccountListSelectors';
+import { tabItems } from '../../tabItems';
+import AccountListFilterOptions from '../AccountListFilterOptions';
+import AccountListTable from '../AccountListTable';
+import AccountListTableBody from './AccountListTableBody';
 import AccountListTableHeader from './AccountListTableHeader';
-import Button from '../../../../components/Button/Button';
-import DeleteModal from '../../../../components/modal/DeleteModal';
-import PageView from '../../../../components/PageView/PageView';
-import StandardTemplate from '../../../../components/Feelix/StandardTemplate/StandardTemplate';
-import Tabs from '../../../../components/Tabs/Tabs';
-import styles from './AccountListTable.module.css';
-import uuid from '../../../../common/uuid/uuid';
+import Button from '../../../../../components/Button/Button';
+import DeleteModal from '../../../../../components/modal/DeleteModal';
+import PageView from '../../../../../components/PageView/PageView';
+import StandardTemplate from '../../../../../components/Feelix/StandardTemplate/StandardTemplate';
+import Tabs from '../../../../../components/Tabs/Tabs';
+import styles from '../AccountListTable.module.css';
+import uuid from '../../../../../common/uuid/uuid';
 
 const AccountListView = ({
   alert,
@@ -39,6 +42,9 @@ const AccountListView = ({
   onDeleteConfirmButtonClick,
   onCloseModal,
   showDeleteModal,
+  onEditAccountsClick,
+  showInactive,
+  taxCodeHeader,
 }) => {
   const alertComponents =
     alert &&
@@ -64,6 +70,9 @@ const AccountListView = ({
   const pageHead = (
     <PageHead title="Accounts">
       <ButtonRow>
+        <Button type="secondary" onClick={onEditAccountsClick}>
+          Edit accounts
+        </Button>
         <Button type="secondary" onClick={onEditLinkedAccountButtonClick}>
           Edit linked accounts
         </Button>
@@ -84,7 +93,6 @@ const AccountListView = ({
       onResetFilterOptions={onResetFilterOptions}
     />
   );
-
   const tabs = (
     <Tabs items={tabItems} selected={selectedTab} onSelected={onTabSelect} />
   );
@@ -101,8 +109,39 @@ const AccountListView = ({
     </div>
   );
 
+  const tableConfig = {
+    accountNumber: {
+      columnName: 'Account number',
+      styles: { valign: 'middle' },
+    },
+    accountName: { columnName: 'Account name', styles: { valign: 'middle' } },
+    status: {
+      columnName: 'Status',
+      styles: { valign: 'middle' },
+      isHidden: !showInactive,
+    },
+    type: { columnName: 'Account type', styles: { valign: 'middle' } },
+    taxCode: { columnName: taxCodeHeader, styles: { valign: 'middle' } },
+    linked: { columnName: 'Linked', styles: { valign: 'middle' } },
+    level: { columnName: 'Level', styles: { valign: 'middle' } },
+    balance: {
+      columnName: 'Current balance ($)',
+      styles: { valign: 'middle', align: 'right' },
+    },
+  };
+
   const tableHeader = (
-    <AccountListTableHeader onAllAccountsSelected={onAllAccountsSelected} />
+    <AccountListTableHeader
+      onAllAccountsSelected={onAllAccountsSelected}
+      tableConfig={tableConfig}
+    />
+  );
+
+  const tableBody = (
+    <AccountListTableBody
+      tableConfig={tableConfig}
+      onAccountSelected={onAccountSelected}
+    />
   );
 
   const accountView = (
@@ -116,7 +155,10 @@ const AccountListView = ({
         bulkActions={deleteBar}
       >
         {showDeleteModal && modal}
-        <AccountListTable onAccountSelected={onAccountSelected} />
+        <AccountListTable
+          onAccountSelected={onAccountSelected}
+          tableBody={tableBody}
+        />
       </StandardTemplate>
     </React.Fragment>
   );
@@ -130,6 +172,8 @@ const mapStateToProps = (state) => ({
   selectedTab: getType(state),
   entries: getRawEntries(state),
   showDeleteModal: getShowDeleteModal(state),
+  showInactive: getShowInactive(state),
+  taxCodeHeader: getTableTaxCodeHeader(state),
 });
 
 export default connect(mapStateToProps)(AccountListView);

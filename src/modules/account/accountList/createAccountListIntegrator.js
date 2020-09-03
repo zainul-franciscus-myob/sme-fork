@@ -1,9 +1,11 @@
 import {
   DELETE_ACCOUNTS,
   SORT_AND_FILTER_ACCOUNT_LIST,
+  UPDATE_ACCOUNTS,
 } from '../AccountIntents';
 import {
   getAccountsForBulkDelete,
+  getAccountsForBulkUpdate,
   getBusinessId,
   getFilterOptions,
 } from './AccountListSelectors';
@@ -37,6 +39,20 @@ const createAccountListIntegrator = (store, integration) => ({
     };
     integration.write({
       intent: DELETE_ACCOUNTS,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+  updateAccounts: (onSuccess, onFailure) => {
+    const state = store.getState();
+    const content = getAccountsForBulkUpdate(state);
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+    integration.write({
+      intent: UPDATE_ACCOUNTS,
       urlParams,
       content,
       onSuccess,

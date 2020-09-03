@@ -1,5 +1,6 @@
 import {
   getAccountsForBulkDelete,
+  getAccountsForBulkUpdate,
   getImportChartOfAccountsUrl,
   getTableEntries,
 } from '../AccountListSelectors';
@@ -103,6 +104,28 @@ describe('AccountListSelectors', () => {
       };
       const actual = getAccountsForBulkDelete(state);
       const expected = { accountIds: [1] };
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('bulk update accounts', () => {
+    it('should return dirty accounts', () => {
+      const state = {
+        entries: [
+          { id: 1, dirty: false },
+          { id: 2, openingBalance: 111, dirty: true },
+        ],
+      };
+      const actual = getAccountsForBulkUpdate(state);
+      const expected = {
+        accounts: [
+          {
+            id: 2,
+            openingBalance: 111,
+          },
+        ],
+      };
 
       expect(actual).toEqual(expected);
     });

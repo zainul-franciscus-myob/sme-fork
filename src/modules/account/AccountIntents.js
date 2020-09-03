@@ -44,3 +44,7 @@ export const SELECT_ACCOUNT = Symbol('Select account');
 export const SELECT_ALL_ACCOUNTS = Symbol('Select all accounts');
 export const DELETE_ACCOUNTS = Symbol('Delete accounts');
 export const RESELECT_ACCOUNTS = Symbol('Reselect accounts');
+export const UPDATE_ACCOUNTS = Symbol('Update accounts');
+
+export const SET_EDIT_MODE = Symbol('Set edit mode');
+export const SET_ACCOUNT_DETAILS = Symbol('Set account details');

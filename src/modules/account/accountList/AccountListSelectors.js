@@ -27,6 +27,8 @@ export const getTableTaxCodeHeader = (state) =>
 
 export const getIsTableEmpty = (state) => state.entries.length === 0;
 
+export const getEditingMode = (state) => state.editingMode;
+
 const getHasFlexibleAccountNumbers = (state) => state.hasFlexibleAccountNumbers;
 
 const getAccountLink = (account, businessId, region) => {
@@ -41,6 +43,18 @@ export const getAccountsForBulkDelete = createSelector(
   getSelectedAccountIds,
   (accountIds) => ({ accountIds })
 );
+
+export const getDirtyEntries = (state) =>
+  state.entries.filter((entry) => entry.dirty);
+
+export const getAccountsForBulkUpdate = (state) => ({
+  accounts: state.entries
+    .filter((entry) => entry.dirty)
+    .map(({ id, openingBalance }) => ({
+      id,
+      openingBalance,
+    })),
+});
 
 export const getTableEntries = createSelector(
   getRawEntries,

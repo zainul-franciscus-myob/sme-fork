@@ -8,6 +8,7 @@ import {
   LOAD_NEW_ACCOUNT_MODAL,
   SORT_AND_FILTER_ACCOUNT_LIST,
   UPDATE_ACCOUNT,
+  UPDATE_ACCOUNTS,
 } from '../AccountIntents';
 
 const HttpAccountMapping = {
@@ -51,6 +52,10 @@ const HttpAccountMapping = {
   [DELETE_ACCOUNTS]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/account/delete_accounts`,
+  },
+  [UPDATE_ACCOUNTS]: {
+    method: 'PUT',
+    getPath: ({ businessId }) => `/${businessId}/account/update_accounts`,
   },
 };
 

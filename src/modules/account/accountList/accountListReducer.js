@@ -7,10 +7,12 @@ import {
   RESET_ACCOUNT_LIST_FILTER_OPTIONS,
   SELECT_ACCOUNT,
   SELECT_ALL_ACCOUNTS,
+  SET_ACCOUNT_DETAILS,
   SET_ACCOUNT_LIST_FILTER_OPTIONS,
   SET_ACCOUNT_LIST_TAB,
   SET_ACCOUNT_LIST_TABLE_LOADING_STATE,
   SET_ALERT,
+  SET_EDIT_MODE,
   SET_LOADING_STATE,
   SORT_AND_FILTER_ACCOUNT_LIST,
 } from '../AccountIntents';
@@ -32,6 +34,7 @@ const getDefaultState = () => ({
   },
   entries: [],
   hasFlexibleAccountNumbers: false,
+  editingMode: false,
 });
 
 const setInitialState = (state, { context, settings }) => ({
@@ -67,6 +70,7 @@ const sortAndFilterAccountList = (state, action) => ({
   entries: action.entries.map((entry) => ({
     ...entry,
     selected: false,
+    dirty: false,
   })),
   hasFlexibleAccountNumbers: action.hasFlexibleAccountNumbers,
 });
@@ -128,6 +132,20 @@ const reselectAccounts = (state, { entries }) => ({
   entries,
 });
 
+const setEditMode = (state, { editingMode }) => ({
+  ...state,
+  editingMode,
+});
+
+const setAccountDetails = (state, action) => ({
+  ...state,
+  entries: state.entries.map((entry, id) =>
+    id === action.index
+      ? { ...entry, [action.key]: action.value, dirty: true }
+      : entry
+  ),
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -144,6 +162,9 @@ const handlers = {
   [SELECT_ACCOUNT]: selectAccount,
   [SELECT_ALL_ACCOUNTS]: selectAllAccount,
   [RESELECT_ACCOUNTS]: reselectAccounts,
+
+  [SET_EDIT_MODE]: setEditMode,
+  [SET_ACCOUNT_DETAILS]: setAccountDetails,
 
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,

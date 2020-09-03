@@ -7,10 +7,12 @@ import {
   RESET_ACCOUNT_LIST_FILTER_OPTIONS,
   SELECT_ACCOUNT,
   SELECT_ALL_ACCOUNTS,
+  SET_ACCOUNT_DETAILS,
   SET_ACCOUNT_LIST_FILTER_OPTIONS,
   SET_ACCOUNT_LIST_TAB,
   SET_ACCOUNT_LIST_TABLE_LOADING_STATE,
   SET_ALERT,
+  SET_EDIT_MODE,
   SET_LOADING_STATE,
   SORT_AND_FILTER_ACCOUNT_LIST,
 } from '../AccountIntents';
@@ -95,6 +97,16 @@ const createAccountListDispatcher = (store) => ({
   reselectAccountsNotDeleted: (entries) => {
     const intent = RESELECT_ACCOUNTS;
     store.dispatch({ intent, entries });
+  },
+
+  setEditMode: (editingMode) => {
+    const intent = SET_EDIT_MODE;
+    store.dispatch({ intent, editingMode });
+  },
+
+  setAccountDetails: ({ index, key, value }) => {
+    const intent = SET_ACCOUNT_DETAILS;
+    store.dispatch({ intent, index, key, value });
   },
 });
 

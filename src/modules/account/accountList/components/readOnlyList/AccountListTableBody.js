@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import React from 'react';
 import classNames from 'classnames';
 
-import { getShowInactive, getTableEntries } from '../AccountListSelectors';
-import styles from './AccountListTable.module.css';
+import { getShowInactive, getTableEntries } from '../../AccountListSelectors';
+import styles from '../AccountListTable.module.css';
 
 const StatusRowItem = ({ tableConfig, isInactive }) => (
   <Table.RowItem
@@ -127,6 +127,7 @@ const AccountListTableBody = ({
           isSystem={isSystem}
           isHeader={isHeader}
         />
+
         <AccountRowItem
           config={tableConfig.linked}
           value={linked}
@@ -134,6 +135,7 @@ const AccountListTableBody = ({
           isSystem={isSystem}
           isHeader={isHeader}
         />
+
         <AccountRowItem
           config={tableConfig.level}
           value={displayLevel}

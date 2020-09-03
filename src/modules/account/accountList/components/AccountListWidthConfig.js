@@ -5,6 +5,7 @@ export const withStatus = ({
   taxCode,
   linked,
   level,
+  openingBalance,
   balance,
 }) => [
   {
@@ -14,6 +15,7 @@ export const withStatus = ({
       { columnName: taxCode.columnName, styles: { width: '5.4rem' } },
       { columnName: linked.columnName, styles: { width: '7rem' } },
       { columnName: level.columnName, styles: { width: '6rem' } },
+      { columnName: openingBalance.columnName, styles: { width: '16.2rem' } },
       { columnName: balance.columnName, styles: { width: '16.1rem' } },
     ],
   },
@@ -32,6 +34,7 @@ export const withStatus = ({
       { columnName: type.columnName, styles: { width: '15.8rem' } },
       { columnName: taxCode.columnName, styles: { width: '10rem' } },
       { columnName: linked.columnName, styles: { width: '10rem' } },
+      { columnName: openingBalance.columnName, styles: { width: '18rem' } },
       { columnName: balance.columnName, styles: { width: '18rem' } },
     ],
   },
@@ -43,6 +46,7 @@ export const withoutStatus = ({
   taxCode,
   linked,
   level,
+  openingBalance,
   balance,
 }) => [
   {
@@ -51,6 +55,7 @@ export const withoutStatus = ({
       { columnName: taxCode.columnName, styles: { width: '5.4rem' } },
       { columnName: linked.columnName, styles: { width: '7rem' } },
       { columnName: level.columnName, styles: { width: '6rem' } },
+      { columnName: openingBalance.columnName, styles: { width: '16.2rem' } },
       { columnName: balance.columnName, styles: { width: '16.1rem' } },
     ],
   },
@@ -69,6 +74,7 @@ export const withoutStatus = ({
       { columnName: type.columnName, styles: { width: '15.8rem' } },
       { columnName: taxCode.columnName, styles: { width: '10rem' } },
       { columnName: linked.columnName, styles: { width: '10rem' } },
+      { columnName: openingBalance.columnName, styles: { width: '18rem' } },
       { columnName: balance.columnName, styles: { width: '18rem' } },
     ],
   },
