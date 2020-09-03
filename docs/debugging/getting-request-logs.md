@@ -18,7 +18,7 @@ AND 05b6f3a3-8aae-40da-9ac3-3ce8825a319a // requestId (optional)
 
 // parse k8s log
 | json field=_raw "log" as k8s_log
-| json field=k8s_log "log" as app_log
+| json field=k8s_log "message" as app_log
 | fields app_log, k8s_log
 ```
 
@@ -94,7 +94,7 @@ AND 05b6f3a3-8aae-40da-9ac3-3ce8825a319a // requestId (optional)
 
 // parse k8s log
 | json field=_raw "log" as k8s_log
-| json field=k8s_log "log" as app_log
+| json field=k8s_log "message" as app_log
 | fields app_log, k8s_log
 ```
 
@@ -108,7 +108,7 @@ AND 05b6f3a3-8aae-40da-9ac3-3ce8825a319a // requestId (optional)
 
 // parse k8s log
 | json field=_raw "log" as k8s_log
-| json field=k8s_log "log" as app_log
+| json field=k8s_log "message" as app_log
 | fields app_log, k8s_log
 ```
 
@@ -124,7 +124,7 @@ AND 05b6f3a3-8aae-40da-9ac3-3ce8825a319a // requestId (optional)
 
 // parse k8s log
 | json field=_raw "log" as k8s_log
-| json field=k8s_log "log" as app_log
+| json field=k8s_log "message" as app_log
 | fields app_log, k8s_log
 ```
 
@@ -138,7 +138,7 @@ AND 05b6f3a3-8aae-40da-9ac3-3ce8825a319a // requestId (optional)
 
 // parse k8s log
 | json field=_raw "log" as k8s_log
-| json field=k8s_log "log" as app_log
+| json field=k8s_log "message" as app_log
 | fields app_log, k8s_log
 ```
 
@@ -154,7 +154,7 @@ AND 05b6f3a3-8aae-40da-9ac3-3ce8825a319a // requestId (optional)
 
 // parse k8s log
 | json field=_raw "log" as k8s_log
-| json field=k8s_log "log" as app_log
+| json field=k8s_log "message" as app_log
 | fields app_log, k8s_log
 ```
 
@@ -168,6 +168,6 @@ AND 05b6f3a3-8aae-40da-9ac3-3ce8825a319a // requestId (optional)
 
 // parse k8s log
 | json field=_raw "log" as k8s_log
-| json field=k8s_log "log" as app_log
+| json field=k8s_log "message" as app_log
 | fields app_log, k8s_log
 ```
