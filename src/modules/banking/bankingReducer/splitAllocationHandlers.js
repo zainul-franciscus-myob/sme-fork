@@ -54,6 +54,22 @@ export const calculateLineAmount = (
   return ((Number(updatedPercent) / 100) * total).toFixed(2);
 };
 
+export const calculateSplitAllocationTax = (state, { taxCalculations }) => {
+  return {
+    ...state,
+    openEntry: {
+      ...state.openEntry,
+      allocate: {
+        ...state.openEntry.allocate,
+        lines: state.openEntry.allocate.lines.map((line, i) => ({
+          ...line,
+          taxAmount: taxCalculations.lines[i].taxAmount.toString(),
+        })),
+      },
+    },
+  };
+};
+
 const getUpdatedLine = (state, line, { lineKey, lineValue }, isNewLine) => {
   const updatedLine = {
     ...line,

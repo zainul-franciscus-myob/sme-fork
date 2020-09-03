@@ -71,6 +71,9 @@ export const LOAD_SPLIT_ALLOCATION = Symbol(
 export const LOAD_NEW_SPLIT_ALLOCATION = Symbol(
   'Load new split allocation transaction'
 );
+export const CALCULATE_SPLIT_ALLOCATION_TAX = Symbol(
+  'Calculate split allocation tax'
+);
 
 export const LOAD_MATCH_TRANSACTIONS = Symbol(
   'Load list of match transactions'

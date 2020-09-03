@@ -1,3 +1,5 @@
+import Decimal from 'decimal.js';
+
 import {
   A,
   COMMAND,
@@ -11,18 +13,22 @@ import {
   T,
 } from '../hotkeys/HotkeyEnums';
 import {
+  ADD_SPLIT_ALLOCATION_LINE,
   ALLOCATE_TRANSACTION,
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
+  CALCULATE_SPLIT_ALLOCATION_TAX,
   CLOSE_BULK_ALLOCATION,
   CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
+  DELETE_SPLIT_ALLOCATION_LINE,
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_MATCH_TRANSFER_MONEY,
   LOAD_NEW_SPLIT_ALLOCATION,
+  LOAD_SPLIT_ALLOCATION,
   OPEN_MODAL,
   POPULATE_REMAINING_AMOUNT,
   RESET_BULK_ALLOCATION,
@@ -51,6 +57,7 @@ import {
   UPDATE_FILTER_OPTIONS,
   UPDATE_MATCH_TRANSACTION_OPTIONS,
   UPDATE_PERIOD_DATE_RANGE,
+  UPDATE_SPLIT_ALLOCATION_LINE,
 } from '../BankingIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
 import { tabIds } from '../tabItems';
@@ -728,6 +735,200 @@ describe('BankingModule', () => {
             intent: LOAD_MATCH_TRANSACTIONS,
             params: expect.objectContaining({
               showType: MatchTransactionShowType.ALL,
+            }),
+          }),
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+          }),
+        ]);
+      });
+    });
+
+    describe(`when open ${BankTransactionStatusTypes.singleAllocation}`, () => {
+      const setupWithAllocatedWithdrawal = () => {
+        const entry = {
+          transactionId: '3',
+          transactionUid: '123e4567-e89b-12d3-a456-789123456790',
+          date: '2018-10-01',
+          description: 'Bob the builder',
+          withdrawal: 2950.0,
+          allocateOrMatch: 'Internet',
+          journals: [
+            {
+              journalId: '456',
+              journalLineId: '123',
+              sourceJournal: 'CashPayment',
+            },
+          ],
+          taxCode: 'GST',
+          note: '',
+          isReportable: true,
+          selectedAccountId: '128',
+          type: 'singleAllocation',
+        };
+        const taxCalculations = {
+          lines: [
+            {
+              taxAmount: new Decimal('100'),
+            },
+            {
+              taxAmount: new Decimal('200'),
+            },
+          ],
+        };
+        const toolbox = setUpWithBankTransactionEntry(entry);
+
+        toolbox.module.spendMoneyTaxCalculator = jest
+          .fn()
+          .mockReturnValue(taxCalculations);
+
+        return { ...toolbox, taxCalculations };
+      };
+
+      const setupWithAllocatedDeposit = () => {
+        const entry = {
+          transactionId: '99',
+          transactionUid: '123e4567-e89b-12d3-a456-789123456790',
+          date: '2018-10-01',
+          description: 'Bob the builder',
+          deposit: 2950.0,
+          allocateOrMatch: 'Internet',
+          journals: [
+            {
+              journalId: '456',
+              journalLineId: '123',
+              sourceJournal: 'CashPayment',
+            },
+          ],
+          taxCode: 'GST',
+          note: '',
+          isReportable: true,
+          selectedAccountId: '128',
+          type: 'singleAllocation',
+        };
+        const taxCalculations = {
+          lines: [
+            {
+              taxAmount: new Decimal('100'),
+            },
+            {
+              taxAmount: new Decimal('200'),
+            },
+          ],
+        };
+        const toolbox = setUpWithBankTransactionEntry(entry);
+
+        toolbox.module.receiveMoneyTaxCalculator = jest
+          .fn()
+          .mockReturnValue(taxCalculations);
+
+        return { ...toolbox, taxCalculations };
+      };
+
+      it('successfully loads withdrawal', () => {
+        const {
+          module,
+          store,
+          integration,
+          index,
+          taxCalculations,
+        } = setupWithAllocatedWithdrawal();
+
+        module.toggleLine(index);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_OPEN_ENTRY_LOADING_STATE,
+            isLoading: true,
+          },
+          {
+            intent: SET_OPEN_ENTRY_POSITION,
+            index,
+          },
+          {
+            intent: SET_OPEN_ENTRY_LOADING_STATE,
+            isLoading: false,
+          },
+          expect.objectContaining({
+            intent: LOAD_SPLIT_ALLOCATION,
+          }),
+          {
+            intent: CALCULATE_SPLIT_ALLOCATION_TAX,
+            taxCalculations,
+          },
+          {
+            intent: SET_ATTACHMENTS_LOADING_STATE,
+            isAttachmentsLoading: true,
+          },
+          {
+            intent: SET_ATTACHMENTS_LOADING_STATE,
+            isAttachmentsLoading: false,
+          },
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+          }),
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_SPLIT_ALLOCATION,
+            urlParams: expect.objectContaining({
+              type: 'spend_money',
+            }),
+          }),
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+          }),
+        ]);
+      });
+
+      it('successfully loads deposit', () => {
+        const {
+          module,
+          store,
+          integration,
+          index,
+          taxCalculations,
+        } = setupWithAllocatedDeposit();
+
+        module.toggleLine(index);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_OPEN_ENTRY_LOADING_STATE,
+            isLoading: true,
+          },
+          {
+            intent: SET_OPEN_ENTRY_POSITION,
+            index,
+          },
+          {
+            intent: SET_OPEN_ENTRY_LOADING_STATE,
+            isLoading: false,
+          },
+          expect.objectContaining({
+            intent: LOAD_SPLIT_ALLOCATION,
+          }),
+          {
+            intent: CALCULATE_SPLIT_ALLOCATION_TAX,
+            taxCalculations,
+          },
+          {
+            intent: SET_ATTACHMENTS_LOADING_STATE,
+            isAttachmentsLoading: true,
+          },
+          {
+            intent: SET_ATTACHMENTS_LOADING_STATE,
+            isAttachmentsLoading: false,
+          },
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+          }),
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_SPLIT_ALLOCATION,
+            urlParams: expect.objectContaining({
+              type: 'receive_money',
             }),
           }),
           expect.objectContaining({
@@ -1426,6 +1627,182 @@ describe('BankingModule', () => {
           },
         ]);
         expect(integration.getRequests()).toEqual([]);
+      });
+    });
+  });
+
+  describe('split allocation', () => {
+    const setupWithOpenWithdrawal = (taxCalculations) => {
+      const entry = {
+        transactionId: '1',
+        transactionUid: '123e4567-e89b-12d3-a456-789123456789',
+        date: '2018-10-21',
+        description: 'This is an unmatched withdrawal',
+        withdrawal: 3300.0,
+        journals: [],
+        taxCode: '',
+        note: '',
+        isReportable: false,
+        allocateOrMatch: 'Allocate me',
+        type: 'unmatched',
+      };
+      const toolbox = setUpWithBankTransactionEntry(entry);
+      const { module, store, index } = toolbox;
+      module.spendMoneyTaxCalculator = jest
+        .fn()
+        .mockReturnValue(taxCalculations);
+
+      module.toggleLine(index);
+      store.resetActions();
+
+      return toolbox;
+    };
+
+    const setupWithOpenDeposit = (taxCalculations) => {
+      const entry = {
+        transactionId: '2',
+        transactionUid: '123e4567-e89b-12d3-a456-789123456790',
+        date: '2018-10-21',
+        description: 'This is an unmatched deposit',
+        deposit: 3300.0,
+        journals: [],
+        taxCode: '',
+        note: '',
+        isReportable: false,
+        allocateOrMatch: 'Allocate me',
+        type: 'unmatched',
+      };
+      const toolbox = setUpWithBankTransactionEntry(entry);
+      const { module, store, index } = toolbox;
+      module.receiveMoneyTaxCalculator = jest
+        .fn()
+        .mockReturnValue(taxCalculations);
+
+      module.toggleLine(index);
+      store.resetActions();
+
+      return toolbox;
+    };
+
+    describe('updateSplitAllocation', () => {
+      const taxCalculations = {
+        lines: [
+          {
+            taxAmount: new Decimal('100'),
+          },
+        ],
+      };
+
+      it('updates the row and calculates tax', () => {
+        const { module, store } = setupWithOpenWithdrawal(taxCalculations);
+
+        module.updateSplitAllocationLine(0, 'amount', 3300);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_SPLIT_ALLOCATION_LINE,
+            lineIndex: 0,
+            lineKey: 'amount',
+            lineValue: 3300,
+          },
+          {
+            intent: CALCULATE_SPLIT_ALLOCATION_TAX,
+            taxCalculations,
+          },
+        ]);
+      });
+
+      it('uses receive money calculator when deposit', () => {
+        const { module } = setupWithOpenDeposit(taxCalculations);
+
+        module.updateSplitAllocationLine(0, 'amount', 3300);
+
+        expect(module.receiveMoneyTaxCalculator).toHaveBeenCalled();
+      });
+
+      it('uses spend money calculator when withdrawal', () => {
+        const { module } = setupWithOpenWithdrawal(taxCalculations);
+
+        module.updateSplitAllocationLine(0, 'amount', 3300);
+
+        expect(module.spendMoneyTaxCalculator).toHaveBeenCalled();
+      });
+    });
+
+    describe('addSplitAllocationLine', () => {
+      const taxCalculations = {
+        lines: [
+          {
+            taxAmount: new Decimal('100'),
+          },
+          {
+            taxAmount: new Decimal('200'),
+          },
+        ],
+      };
+
+      it('updates the row and calculates tax', () => {
+        const { module, store } = setupWithOpenWithdrawal(taxCalculations);
+
+        module.addSplitAllocationLine({ amount: 3300 });
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: ADD_SPLIT_ALLOCATION_LINE,
+            key: 'amount',
+            value: 3300,
+          },
+        ]);
+      });
+    });
+
+    describe('deleteSplitAllocationLine', () => {
+      const taxCalculations = {
+        lines: [
+          {
+            taxAmount: new Decimal('100'),
+          },
+          {
+            taxAmount: new Decimal('200'),
+          },
+        ],
+      };
+
+      it('updates the row and calculates tax', () => {
+        const { module, store } = setupWithOpenWithdrawal(taxCalculations);
+        module.addSplitAllocationLine({ amount: 3300 });
+        store.resetActions();
+
+        module.deleteSplitAllocationLine(1);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: DELETE_SPLIT_ALLOCATION_LINE,
+            index: 1,
+          },
+          {
+            intent: CALCULATE_SPLIT_ALLOCATION_TAX,
+            taxCalculations,
+          },
+        ]);
+      });
+
+      it('uses receive money calculator when deposit', () => {
+        const { module } = setupWithOpenDeposit(taxCalculations);
+        module.addSplitAllocationLine({ amount: 3300 });
+
+        module.deleteSplitAllocationLine(1);
+
+        expect(module.receiveMoneyTaxCalculator).toHaveBeenCalled();
+      });
+
+      it('uses spend money calculator when withdrawal', () => {
+        const { module } = setupWithOpenWithdrawal(taxCalculations);
+        module.addSplitAllocationLine({ amount: 3300 });
+
+        module.deleteSplitAllocationLine(1);
+
+        expect(module.spendMoneyTaxCalculator).toHaveBeenCalled();
       });
     });
   });

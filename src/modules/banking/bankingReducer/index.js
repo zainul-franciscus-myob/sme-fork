@@ -7,6 +7,7 @@ import {
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
+  CALCULATE_SPLIT_ALLOCATION_TAX,
   CLOSE_BULK_ALLOCATION,
   CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
@@ -124,6 +125,7 @@ import {
 import {
   addSplitAllocationLine,
   appendAccountToAllocateTable,
+  calculateSplitAllocationTax,
   deleteSplitAllocationLine,
   loadNewSplitAllocation,
   loadSplitAllocation,
@@ -531,6 +533,7 @@ const handlers = {
   [LOAD_SPLIT_ALLOCATION]: loadSplitAllocation,
   [LOAD_NEW_SPLIT_ALLOCATION]: loadNewSplitAllocation,
   [SAVE_SPLIT_ALLOCATION]: saveSplitAllocation,
+  [CALCULATE_SPLIT_ALLOCATION_TAX]: calculateSplitAllocationTax,
   [LOAD_MATCH_TRANSACTIONS]: loadMatchTransactions,
   [SORT_AND_FILTER_MATCH_TRANSACTIONS]: sortAndFilterMatchTransactions,
   [SAVE_MATCH_TRANSACTION]: saveMatchTransaction,

@@ -8,7 +8,7 @@ import {
   getIsJobComboboxDisabled,
 } from '../bankingSelectors';
 import {
-  getLineDataByIndexSelector,
+  getLineDataByIndex,
   getNewLineData,
 } from '../bankingSelectors/splitAllocationSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
@@ -66,6 +66,7 @@ const SplitAllocationRow = (props) => {
     taxCodeId,
     quantity = '',
     lineJobOptions = [],
+    taxAmount,
   } = data;
 
   return (
@@ -154,15 +155,22 @@ const SplitAllocationRow = (props) => {
         items={taxCodes}
         selectedId={taxCodeId}
         onChange={handleComboBoxChange('taxCodeId', onChange)}
+        left
+      />
+      <Calculator
+        value={taxAmount}
+        disabled
+        textAlign="right"
+        numeralDecimalScaleMin={2}
+        numeralDecimalScaleMax={2}
       />
     </LineItemTable.Row>
   );
 };
 
 const makeMapRowStateToProps = () => {
-  const lineDataByIndex = getLineDataByIndexSelector();
   return (state, ownProps) => ({
-    lineData: lineDataByIndex(state, ownProps),
+    lineData: getLineDataByIndex(state, ownProps),
     newLineData: getNewLineData(state),
     isBankingJobColumnEnabled: getIsBankingJobColumnEnabled(state),
     isJobComboboxDisabled: getIsJobComboboxDisabled(state),

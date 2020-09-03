@@ -1,11 +1,13 @@
 import {
   getContactLabel,
   getIsSupplier,
+  getLinesForTaxCalculation,
   getShowIsReportableCheckbox,
   getSplitAllocationPayload,
   getTotalDollarAmount,
   getTotals,
 } from '../splitAllocationSelectors';
+import DefaultLineTypeId from '../../DefaultLineTypeId';
 
 describe('splitAllocationSelectors', () => {
   describe('getTotals', () => {
@@ -350,6 +352,88 @@ describe('splitAllocationSelectors', () => {
       const actual = getContactLabel(state);
 
       expect(actual).toEqual('payer');
+    });
+  });
+
+  describe('getLinesForTaxCalculation', () => {
+    const state = {
+      entries: [
+        {},
+        {
+          withdrawal: 100,
+          deposit: undefined,
+        },
+      ],
+      openPosition: 1,
+      openEntry: {
+        allocate: {
+          lines: [
+            {
+              amount: 100,
+              taxCodeId: '1',
+              unnecessaryField: 'x',
+            },
+          ],
+        },
+      },
+    };
+
+    it('only gets relevant tax calculation fields from line', () => {
+      const modifiedState = {
+        ...state,
+        openEntry: {
+          ...state.openEntry,
+          allocate: {
+            ...state.openEntry.allocate,
+            lines: [
+              {
+                ...state.openEntry.allocate.lines[0],
+                lineTypeId: '9000',
+              },
+            ],
+          },
+        },
+      };
+
+      const actual = getLinesForTaxCalculation(modifiedState);
+
+      expect(actual).toEqual([
+        {
+          amount: 100,
+          taxCodeId: '1',
+          lineTypeId: '9000',
+        },
+      ]);
+    });
+
+    it('uses default spend money line type id when withdrawal', () => {
+      const actual = getLinesForTaxCalculation({
+        ...state,
+        entries: [
+          {},
+          {
+            withdrawal: 100,
+            deposit: undefined,
+          },
+        ],
+      });
+
+      expect(actual[0].lineTypeId).toEqual(DefaultLineTypeId.SPEND_MONEY);
+    });
+
+    it('uses default receive money line type id when deposit', () => {
+      const actual = getLinesForTaxCalculation({
+        ...state,
+        entries: [
+          {},
+          {
+            withdrawal: undefined,
+            deposit: 100,
+          },
+        ],
+      });
+
+      expect(actual[0].lineTypeId).toEqual(DefaultLineTypeId.RECEIVE_MONEY);
     });
   });
 });

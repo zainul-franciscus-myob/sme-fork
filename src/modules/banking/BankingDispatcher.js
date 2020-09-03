@@ -7,6 +7,7 @@ import {
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
+  CALCULATE_SPLIT_ALLOCATION_TAX,
   CLOSE_BULK_ALLOCATION,
   CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
@@ -385,6 +386,13 @@ const createBankingDispatcher = (store) => ({
       intent: SAVE_SPLIT_ALLOCATION,
       index,
       ...payload,
+    });
+  },
+
+  calculateSplitAllocationTax: ({ taxCalculations }) => {
+    store.dispatch({
+      intent: CALCULATE_SPLIT_ALLOCATION_TAX,
+      taxCalculations,
     });
   },
 

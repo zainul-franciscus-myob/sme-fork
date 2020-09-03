@@ -22,6 +22,7 @@ const amountLabelPercent = 'Amount (%)';
 const quantityLabel = 'Quantity';
 const lineDescription = 'Line description';
 const jobLabel = 'Job';
+const taxAmountLabel = 'Tax amount';
 const requiredText = 'This is required';
 
 const onRowChange = (handler) => (index, key, value) =>
@@ -77,6 +78,7 @@ const SplitAllocationTable = (props) => {
     lineDescription,
     jobLabel,
     taxLabel,
+    taxAmountLabel,
   ];
 
   const columns = [
@@ -110,6 +112,10 @@ const SplitAllocationTable = (props) => {
       columnName: taxLabel,
       requiredLabel: requiredText,
       styles: { width: '8.4rem' },
+    },
+    {
+      columnName: taxAmountLabel,
+      styles: { width: '12.5rem', align: 'right' },
     },
   ];
 

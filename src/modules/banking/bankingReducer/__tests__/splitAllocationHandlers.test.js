@@ -1,4 +1,7 @@
+import Decimal from 'decimal.js';
+
 import {
+  CALCULATE_SPLIT_ALLOCATION_TAX,
   LOAD_SPLIT_ALLOCATION,
   POPULATE_REMAINING_AMOUNT,
 } from '../../BankingIntents';
@@ -155,6 +158,56 @@ describe('splitAllocationHandlers', () => {
 
         expect(isAllocated).toEqual(expected);
       });
+    });
+  });
+
+  describe('CALCULATE_SPLIT_ALLOCATION_TAX', () => {
+    it('merges tax amount into lines, respectively', () => {
+      const state = {
+        openEntry: {
+          allocate: {
+            lines: [
+              {
+                amount: 100,
+                taxCodeId: '1',
+              },
+              {
+                amount: 200,
+                taxCodeId: '2',
+              },
+            ],
+          },
+        },
+      };
+
+      const action = {
+        intent: CALCULATE_SPLIT_ALLOCATION_TAX,
+        taxCalculations: {
+          lines: [
+            {
+              taxAmount: new Decimal('10.00'),
+            },
+            {
+              taxAmount: new Decimal('20.00'),
+            },
+          ],
+        },
+      };
+
+      const actual = bankingReducer(state, action);
+
+      expect(actual.openEntry.allocate.lines).toEqual([
+        {
+          amount: 100,
+          taxCodeId: '1',
+          taxAmount: '10',
+        },
+        {
+          amount: 200,
+          taxCodeId: '2',
+          taxAmount: '20',
+        },
+      ]);
     });
   });
 

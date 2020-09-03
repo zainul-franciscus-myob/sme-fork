@@ -14,6 +14,10 @@ import {
   T,
 } from './hotkeys/HotkeyEnums';
 import {
+  TaxCalculatorTypes,
+  createTaxCalculator,
+} from '../../common/taxCalculator';
+import {
   getAccountModalContext,
   getBankTransactionLineByIndex,
   getBankingRuleInitState,
@@ -22,6 +26,7 @@ import {
   getIsAllocated,
   getIsEntryLoading,
   getIsOpenEntryEdited,
+  getIsOpenTransactionWithdrawal,
   getIsTabDisabled,
   getJobModalContext,
   getLastAllocatedAccount,
@@ -30,6 +35,7 @@ import {
   getOpenEntryDefaultTabId,
   getOpenPosition,
   getRegion,
+  getTaxCodes,
   getURLParams,
 } from './bankingSelectors';
 import {
@@ -46,6 +52,7 @@ import {
   getFilesForUpload,
   getInTrayModalContext,
 } from './bankingSelectors/attachmentsSelectors';
+import { getLinesForTaxCalculation } from './bankingSelectors/splitAllocationSelectors';
 import {
   getMatchTransferMoneyFlipSortOrder,
   getMatchTransferMoneyOrderBy,
@@ -94,6 +101,12 @@ export default class BankingModule {
       integration,
     });
     this.jobModalModule = new JobModalModule({ integration });
+    this.spendMoneyTaxCalculator = createTaxCalculator(
+      TaxCalculatorTypes.spendMoney
+    );
+    this.receiveMoneyTaxCalculator = createTaxCalculator(
+      TaxCalculatorTypes.receiveMoney
+    );
   }
 
   updateFilterOptions = ({ filterName, value }) => {
@@ -143,8 +156,6 @@ export default class BankingModule {
       blurEntry,
       collapseTransactionLine,
       updateSplitAllocationHeader,
-      updateSplitAllocationLine,
-      deleteSplitAllocationLine,
       updateMatchTransactionSelection,
       addMatchTransactionAdjustment,
       updateMatchTransactionAdjustment,
@@ -195,8 +206,8 @@ export default class BankingModule {
           )}
           onUpdateSplitAllocationHeader={updateSplitAllocationHeader}
           onAddSplitAllocationLine={this.addSplitAllocationLine}
-          onUpdateSplitAllocationLine={updateSplitAllocationLine}
-          onDeleteSplitAllocationLine={deleteSplitAllocationLine}
+          onUpdateSplitAllocationLine={this.updateSplitAllocationLine}
+          onDeleteSplitAllocationLine={this.deleteSplitAllocationLine}
           onUpdateMatchTransactionOptions={this.updateMatchTransactionOptions}
           onResetMatchTransactionOptions={this.resetMatchTransactionOptions}
           onSortMatchTransactions={this.sortMatchTransaction}
@@ -671,6 +682,7 @@ export default class BankingModule {
     const onSuccess = this.ifOpen(index, (payload) => {
       this.dispatcher.setOpenEntryLoadingState(false);
       this.dispatcher.loadSplitAllocation(index, payload);
+      this.calculateSplitAllocationTax();
     });
 
     const onFailure = ({ message }) => {
@@ -779,6 +791,33 @@ export default class BankingModule {
 
     this.afterCancel();
     this.afterCancel = () => {};
+  };
+
+  calculateSplitAllocationTax = () => {
+    const state = this.store.getState();
+    const taxCodes = getTaxCodes(state);
+    const lines = getLinesForTaxCalculation(state);
+    const taxCalculator = getIsOpenTransactionWithdrawal(state)
+      ? this.spendMoneyTaxCalculator
+      : this.receiveMoneyTaxCalculator;
+    const taxCalculations = taxCalculator({
+      isTaxInclusive: true,
+      taxCodes,
+      lines,
+      isLineAmountsTaxInclusive: true,
+    });
+
+    this.dispatcher.calculateSplitAllocationTax({ taxCalculations });
+  };
+
+  updateSplitAllocationLine = (index, key, value) => {
+    this.dispatcher.updateSplitAllocationLine(index, key, value);
+    this.calculateSplitAllocationTax();
+  };
+
+  deleteSplitAllocationLine = (index) => {
+    this.dispatcher.deleteSplitAllocationLine(index);
+    this.calculateSplitAllocationTax();
   };
 
   addSplitAllocationLine = (partialLine) => {
@@ -1274,9 +1313,9 @@ export default class BankingModule {
     this.replaceURLParams(getURLParams(state));
   };
 
-  /* 
+  /*
   =============================================================================
-                                  HOTKEYS 
+                                  HOTKEYS
   =============================================================================
   */
   allocateToLastAllocatedAccount = ({ index }) => {

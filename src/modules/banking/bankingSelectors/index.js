@@ -515,3 +515,9 @@ export const getURLParams = createSelector(
     };
   }
 );
+
+export const getIsOpenTransactionWithdrawal = (state) => {
+  const openPosition = getOpenPosition(state);
+  const { withdrawal } = getBankTransactionLineByIndex(state, openPosition);
+  return Boolean(withdrawal);
+};

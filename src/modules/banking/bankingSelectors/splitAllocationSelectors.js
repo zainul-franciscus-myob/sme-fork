@@ -5,7 +5,9 @@ import {
   getContacts,
   getEntries,
   getFilterOptions,
+  getIsOpenTransactionWithdrawal,
 } from './index';
+import DefaultLineTypeId from '../DefaultLineTypeId';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
@@ -38,6 +40,20 @@ export const getDescription = createSelector(
   ({ description }) => description
 );
 
+export const getLinesForTaxCalculation = (state) => {
+  const lines = getLines(state);
+  const isWithdrawal = getIsOpenTransactionWithdrawal(state);
+  const defaultLineTypeId = isWithdrawal
+    ? DefaultLineTypeId.SPEND_MONEY
+    : DefaultLineTypeId.RECEIVE_MONEY;
+
+  return lines.map((line) => ({
+    amount: line.amount,
+    taxCodeId: line.taxCodeId,
+    lineTypeId: line.lineTypeId || defaultLineTypeId,
+  }));
+};
+
 export const getTotalPercentageAmount = createSelector(getLines, (lines = []) =>
   lines.reduce(
     (accumulator, currentValue) =>
@@ -63,11 +79,10 @@ export const getTableData = createSelector(getLinesLength, (len) =>
   Array(len).fill({})
 );
 
-export const getLineDataByIndexSelector = () =>
-  createSelector(
-    (state, props) => state.openEntry.allocate.lines[props.index],
-    (line) => line || {}
-  );
+export const getLineDataByIndex = createSelector(
+  (state, props) => state.openEntry.allocate.lines[props.index],
+  (line) => line || {}
+);
 
 export const getContact = createSelector(
   getContacts,

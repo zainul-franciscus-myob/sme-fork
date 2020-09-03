@@ -188,16 +188,38 @@
   ],
   "taxCodes": [
     {
-      "id": "123",
+      "description": "Goods & Services Tax",
       "displayName": "GST",
-      "description": "Goods & Service Tax",
-      "displayRate": "10%"
+      "displayRate": "10%",
+      "codeType": "GST_VAT",
+      "id": "123",
+      "rate": "10",
+      "threshold": "0",
+      "childrenCalculationCollection": [],
+      "calculationMethod": "2",
+      "roundingMethod": "2",
+      "collectedBehaviour": "1",
+      "payedBehaviour": "1",
+      "isWithholding": false,
+      "thresholdRate": "10",
+      "includeInGstReturn": false
     },
     {
+      "description": "No ABN Withholding",
+      "displayName": "ABN",
+      "displayRate": "47%",
       "id": "124",
-      "displayName": "FRE",
-      "description": "GST FREE",
-      "displayRate": "5%"
+      "rate": "47",
+      "codeType": "NoABN_TFN",
+      "threshold": "0",
+      "childrenCalculationCollection": [],
+      "calculationMethod": "2",
+      "roundingMethod": "2",
+      "collectedBehaviour": "1",
+      "payedBehaviour": "1",
+      "isWithholding": false,
+      "thresholdRate": "10",
+      "includeInGstReturn": false
     }
   ],
   "jobs": [
@@ -265,6 +287,26 @@
       "date": "2018-10-01",
       "description": "Bob the builder",
       "withdrawal": 2950.00,
+      "allocateOrMatch": "Internet",
+      "journals": [
+        {
+          "journalId": "456",
+          "journalLineId": "123",
+          "sourceJournal": "CashPayment"
+        }
+      ],
+      "taxCode": "GST",
+      "note": "",
+      "isReportable": true,
+      "selectedAccountId": "128",
+      "type": "singleAllocation"
+    },
+    {
+      "transactionId": "99",
+      "transactionUid": "123e4567-e89b-12d3-a456-789123456790",
+      "date": "2018-10-01",
+      "description": "Bob the builder",
+      "deposit": 2950.00,
       "allocateOrMatch": "Internet",
       "journals": [
         {
@@ -349,7 +391,6 @@
       "allocateOrMatch": "Possible bill match found",
       "type": "paymentRuleMatched"
     },
-    
     {
       "transactionId": "6",
       "transactionUid": "123e4567-e89b-12d3-a456-789123456791",

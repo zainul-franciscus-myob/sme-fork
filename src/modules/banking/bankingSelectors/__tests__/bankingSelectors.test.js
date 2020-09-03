@@ -2,6 +2,7 @@ import { businessEventTypes } from '../../../../common/types/BusinessEventTypeMa
 import {
   getDisplayBalances,
   getIsAllocated,
+  getIsOpenTransactionWithdrawal,
   getOpenEntryDefaultTabId,
   getShowCreateBankingRuleButton,
 } from '../index';
@@ -160,5 +161,41 @@ describe('bankingSelector', () => {
         expect(actual).toEqual(expected);
       }
     );
+  });
+
+  describe('getIsOpenTransactionWithdrawal', () => {
+    it('false when deposit', () => {
+      const state = {
+        entries: [
+          {},
+          {
+            withdrawal: undefined,
+            deposit: 100,
+          },
+        ],
+        openPosition: 1,
+      };
+
+      const actual = getIsOpenTransactionWithdrawal(state);
+
+      expect(actual).toEqual(false);
+    });
+
+    it('true when withdrawal', () => {
+      const state = {
+        entries: [
+          {},
+          {
+            withdrawal: 100,
+            deposit: undefined,
+          },
+        ],
+        openPosition: 1,
+      };
+
+      const actual = getIsOpenTransactionWithdrawal(state);
+
+      expect(actual).toEqual(true);
+    });
   });
 });
