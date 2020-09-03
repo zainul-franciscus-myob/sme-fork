@@ -25,15 +25,15 @@ const LeaveTabView = ({ leave, onLeaveChange }) => {
       <FieldGroup label="Holidays">
         <AmountInput
           label="Holiday pay (%)"
-          numeralIntegerScale={3}
-          numeralDecimalScaleMin={2}
           numeralDecimalScaleMax={4}
+          numeralIntegerScale={5}
           numeralPositiveOnly
           width="xs"
           name="holidayPay"
           textAlign="right"
           value={leave.holidayPay}
           onChange={onInputChange}
+          disabled // Disabled to meet EAP requirement
         />
       </FieldGroup>
 

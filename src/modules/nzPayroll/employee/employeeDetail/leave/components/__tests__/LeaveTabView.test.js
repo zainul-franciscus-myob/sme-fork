@@ -158,5 +158,14 @@ describe('LeaveTabView', () => {
 
       expect(onLeaveChange).toHaveBeenCalledTimes(1);
     });
+
+    it('HolidayPay field is disabled', () => {
+      const { wrapper } = setup();
+
+      const field = wrapper.find({ name: 'holidayPay' }).find('AmountInput');
+      const isDisabled = field.props().disabled;
+
+      expect(isDisabled).toBeTruthy();
+    });
   });
 });
