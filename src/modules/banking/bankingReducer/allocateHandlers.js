@@ -43,6 +43,7 @@ export const allocateTransaction = (state, action) => {
             type: action.type,
             taxCode: action.taxCode,
             selectedAccountId: action.selectedAccountId,
+            isRuleApplied: !!action.appliedRule,
           }
         : entry
     ),

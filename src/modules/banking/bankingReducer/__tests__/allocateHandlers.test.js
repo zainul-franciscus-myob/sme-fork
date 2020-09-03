@@ -63,6 +63,7 @@ describe('allocateHandlers', () => {
             type: BankTransactionStatusTypes.singleAllocation,
             taxCode: 'GST',
             isReportable: false,
+            isRuleApplied: false,
           },
         ],
       };
