@@ -168,23 +168,37 @@ const buildJobAllocationAmount = (payItem) => {
   };
 };
 
-const isUnderAllocated = (payItem) => {
+const getJobAllocationForValidation = (payItem) => {
+  const hasJobAllocation = payItem.jobs && payItem.jobs.length > 0;
   const total = Number(payItem.amount);
-  const allocated = payItem.jobs
+  const allocated = hasJobAllocation
     ? payItem.jobs.reduce((t, q) => t + Number(q.amount), 0)
     : 0;
   const unallocated = total - allocated;
 
-  return Math.round(unallocated) > 0 && Math.round(allocated) > 0;
+  return {
+    hasJobAllocation,
+    unallocated,
+  };
+};
+
+const isUnderAllocated = (payItem) => {
+  const jobAllocation = getJobAllocationForValidation(payItem);
+
+  return (
+    jobAllocation.hasJobAllocation && Math.round(jobAllocation.unallocated) > 0
+  );
 };
 
 export const getShouldShowUnderAllocationWarning = (payItem) =>
   !payItem.ignoreUnderAllocationWarning && isUnderAllocated(payItem);
 
 export const getShouldShowOverAllocationError = (payItem) => {
-  const jobAllocationAmount = buildJobAllocationAmount(payItem);
+  const jobAllocation = getJobAllocationForValidation(payItem);
 
-  return Math.round(jobAllocationAmount.unallocated) < 0;
+  return (
+    jobAllocation.hasJobAllocation && Math.round(jobAllocation.unallocated) < 0
+  );
 };
 
 export const getJobAmount = createSelector(getSelectedPayItem, (item) =>

@@ -1156,23 +1156,12 @@ describe('EmployeePayListSelectors', () => {
       expect(shouldShowWarning).toBeFalsy();
     });
 
-    it('should return false when when allocated amount is 0', () => {
+    it('should return false when when there are no jobs allocated', () => {
       const underAllocatedPayItemEntry = {
         payItemId: '38',
         amount: 100.0,
-        jobs: [
-          {
-            jobId: 1,
-            amount: '0.00',
-            isActive: true,
-          },
-          {
-            jobId: 2,
-            amount: '0.00',
-            isActive: false,
-          },
-        ],
-        ignoreUnderAllocationWarning: true,
+        jobs: [],
+        ignoreUnderAllocationWarning: false,
       };
       const shouldShowWarning = getShouldShowUnderAllocationWarning(
         underAllocatedPayItemEntry
@@ -1221,6 +1210,18 @@ describe('EmployeePayListSelectors', () => {
             isActive: false,
           },
         ],
+      };
+      const shouldShowError = getShouldShowOverAllocationError(
+        fullyAllocatedPayItemEntry
+      );
+      expect(shouldShowError).toBeFalsy();
+    });
+
+    it('should return false when there is no amount allocated and the amount is negative', () => {
+      const fullyAllocatedPayItemEntry = {
+        payItemId: '38',
+        amount: -0.01,
+        jobs: [],
       };
       const shouldShowError = getShouldShowOverAllocationError(
         fullyAllocatedPayItemEntry
