@@ -208,6 +208,7 @@ const createHttpIntegration = ({
     urlParams,
     allowParallelRequests = false,
     params,
+    content,
     onSuccess,
     onFailure,
   }) => {
@@ -221,11 +222,14 @@ const createHttpIntegration = ({
     const { baseUrl } = config;
     const requestSpec = retrieveRequestSpec(RootMapping, intent);
     const additionalHeaders = await getAdditionalHeaders();
+    const body = JSON.stringify(content);
+
     const requestOptions = {
       method: requestSpec.method,
       headers: { ...getDefaultHttpHeaders(), ...additionalHeaders },
       signal: controller.signal,
       credentials: 'include',
+      body,
     };
 
     const intentUrlPath = requestSpec.getPath(urlParams);

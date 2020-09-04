@@ -112,12 +112,14 @@ describe('createDecoratedHttpIntegration', () => {
   describe('readFile', () => {
     it('creates fetch request', () => {
       const { integration, mockFetch } = setup();
+      const content = { name: 'John Doe' };
 
       return integration
         .readFile({
           intent,
           urlParams,
           params,
+          content,
           onSuccess,
           onFailure,
         })
@@ -133,6 +135,11 @@ describe('createDecoratedHttpIntegration', () => {
           expect(requestOptions).toHaveProperty(
             'headers.Content-Type',
             'application/json'
+          );
+
+          expect(requestOptions).toHaveProperty(
+            'body',
+            JSON.stringify(content)
           );
           expect(requestOptions).toHaveProperty('headers.x-myobapi-requestid');
           expect(requestOptions).toHaveProperty('method');

@@ -52,7 +52,7 @@ const createMemoryIntegration = () => ({
       });
     });
   },
-  readFile: ({ intent, params, onSuccess, onFailure, urlParams }) => {
+  readFile: ({ intent, params, content, onSuccess, onFailure, urlParams }) => {
     const integrationFunction = retrieveIntegrationFunction(
       RootMapping,
       intent
@@ -61,6 +61,7 @@ const createMemoryIntegration = () => ({
       integrationFunction({
         urlParams,
         params,
+        content,
         onSuccess,
         onFailure,
       });

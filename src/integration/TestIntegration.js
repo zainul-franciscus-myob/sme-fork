@@ -17,12 +17,13 @@ class TestIntegration {
     });
   };
 
-  readFile = ({ intent, urlParams, params, onSuccess, onFailure }) => {
+  readFile = ({ intent, urlParams, params, content, onSuccess, onFailure }) => {
     this.requests.push({ intent, urlParams, params });
     this.mapping[intent]({
       intent,
       urlParams,
       params,
+      content,
       onSuccess,
       onFailure,
     });
