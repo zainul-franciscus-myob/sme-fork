@@ -31,16 +31,6 @@
       }
     ]
   },
-  "customerOptions": [
-    {
-      "name": "Cameron, James",
-      "id": "1"
-    },
-    {
-      "name": "Kev",
-      "id": "2"
-    }
-  ],
   "expirationTermOptions": [
     {
       "value": "OnADayOfTheMonth",

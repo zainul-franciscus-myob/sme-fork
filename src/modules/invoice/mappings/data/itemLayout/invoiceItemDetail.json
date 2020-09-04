@@ -75,16 +75,6 @@
     ]
   },
   "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"],
-  "customerOptions": [
-    {
-      "name": "Cameron, James",
-      "id": "1"
-    },
-    {
-      "name": "Kev",
-      "id": "2"
-    }
-  ],
   "accountOptions": [
     {
       "id": "123",

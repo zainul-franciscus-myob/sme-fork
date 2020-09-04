@@ -9,8 +9,8 @@ import {
 } from '../../../common/types/MessageTypes';
 import {
   getAccountModalContext,
+  getContactComboboxContext,
   getContextForInventoryModal,
-  getCustomerModalContext,
   getInvoiceId,
   getIsBeforeConversionDate,
   getIsCreating,
@@ -45,7 +45,7 @@ import { getExportPdfFilename } from './selectors/exportPdfSelectors';
 import { shouldShowSaveAmountDueWarningModal } from './selectors/invoiceSaveSelectors';
 import AbnStatus from '../../../components/autoFormatter/AbnInput/AbnStatus';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
-import ContactModalModule from '../../contact/contactModal/ContactModalModule';
+import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
 import FeatureToggle from '../../../FeatureToggles';
 import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
 import InvoiceDetailElementId from './types/InvoiceDetailElementId';
@@ -94,8 +94,8 @@ export default class InvoiceDetailModule {
     this.jobModalModule = new JobModalModule({
       integration,
     });
-    this.contactModalModule = new ContactModalModule({ integration });
     this.inventoryModalModule = new InventoryModalModule({ integration });
+    this.contactComboboxModule = new ContactComboboxModule({ integration });
     this.navigateTo = navigateTo;
   }
 
@@ -170,6 +170,7 @@ export default class InvoiceDetailModule {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setSubmittingState(false);
       this.dispatcher.loadInvoice(payload);
+      this.loadContactCombobox();
 
       if (getShouldShowAbn(this.store.getState())) {
         this.loadAbnFromCustomer();
@@ -787,36 +788,6 @@ export default class InvoiceDetailModule {
     }
   };
 
-  openCustomerModal = () => {
-    const state = this.store.getState();
-    const context = getCustomerModalContext(state);
-
-    this.contactModalModule.run({
-      context,
-      onLoadFailure: (message) => this.displayFailureAlert(message),
-      onSaveSuccess: this.loadCustomerAfterCreate,
-    });
-  };
-
-  loadCustomerAfterCreate = ({ message, id }) => {
-    this.contactModalModule.resetState();
-    this.displaySuccessAlert(message);
-    this.dispatcher.setCustomerLoadingState(true);
-
-    const onSuccess = (payload) => {
-      this.dispatcher.setCustomerLoadingState(false);
-      this.dispatcher.loadCustomerAfterCreate(id, payload);
-
-      this.loadAbnFromCustomer();
-    };
-
-    const onFailure = () => {
-      this.dispatcher.setCustomerLoadingState(false);
-    };
-
-    this.integrator.loadCustomerAfterCreate({ id, onSuccess, onFailure });
-  };
-
   loadAbnFromCustomer = () => {
     this.dispatcher.setAbnLoadingState(true);
 
@@ -870,7 +841,7 @@ export default class InvoiceDetailModule {
   };
 
   resetState = () => {
-    this.contactModalModule.resetState();
+    this.contactComboboxModule.resetState();
     this.inventoryModalModule.resetState();
     this.accountModalModule.resetState();
     this.dispatcher.resetState();
@@ -882,8 +853,8 @@ export default class InvoiceDetailModule {
 
   saveHandler = () => {
     // Quick add modals
-    if (this.contactModalModule.isOpened()) {
-      this.contactModalModule.save();
+    if (this.contactComboboxModule.isContactModalOpened()) {
+      this.contactComboboxModule.createContact();
       return;
     }
 
@@ -1087,9 +1058,20 @@ export default class InvoiceDetailModule {
     this.displayPreConversionAlert();
   };
 
+  loadContactCombobox = () => {
+    const state = this.store.getState();
+    const context = getContactComboboxContext(state);
+    this.contactComboboxModule.run(context);
+  };
+
+  renderContactCombobox = (props) => {
+    return this.contactComboboxModule
+      ? this.contactComboboxModule.render(props)
+      : null;
+  };
+
   render = () => {
     const accountModal = this.accountModalModule.render();
-    const contactModal = this.contactModalModule.render();
     const jobModal = this.jobModalModule.render();
     const inventoryModal = this.inventoryModalModule.render();
 
@@ -1173,11 +1155,11 @@ export default class InvoiceDetailModule {
           onCancel: this.dismissPreConversionModal,
           onConfirm: this.convertToPreConversionInvoice,
         }}
-        contactModal={contactModal}
+        renderContactCombobox={this.renderContactCombobox}
+        onInputAlert={this.dispatcher.setAlert}
         onUpdateHeaderOptions={this.updateHeaderOptions}
         onIssueDateBlur={this.validateIssueDate}
         onLoadCustomers={this.loadCustomers}
-        onAddCustomerButtonClick={this.openCustomerModal}
         onUpdateInvoiceLayout={this.updateInvoiceLayout}
         onUpgradeModalDismiss={this.dispatcher.hideUpgradeModal}
         onUpgradeModalUpgradeButtonClick={this.subscribeOrUpgrade}

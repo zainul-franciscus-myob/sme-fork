@@ -18,11 +18,11 @@ import {
   getShouldShowAbn,
   getShowPreConversionAlert,
 } from '../selectors/invoiceDetailSelectors';
-import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
 import DatePicker from '../../../../components/DatePicker/DatePicker';
 import InvoiceAbnPopover from './InvoiceAbnPopover';
 import InvoiceDetailOnlinePaymentMethod from './InvoiceDetailOnlinePaymentMethod';
 import PaymentTerms from '../../../../components/PaymentTerms/PaymentTerms';
+import handleAutoCompleteChange from '../../../../components/handlers/handleAutoCompleteChange';
 import handleDateChange from '../../../../components/handlers/handleDateChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 import styles from './InvoiceDetailOptions.module.css';
@@ -37,15 +37,15 @@ const InvoiceDetailOptions = ({
   expirationDays,
   expirationTermOptions,
   isTaxInclusive,
-  customerOptions,
   isCustomerDisabled,
   isSubmitting,
   showOnlinePayment,
   taxInclusiveLabel,
   taxExclusiveLabel,
+  renderContactCombobox,
+  onInputAlert,
   onUpdateHeaderOptions,
   onIssueDateBlur,
-  onAddCustomerButtonClick,
   isReadOnly,
   readOnlyMessage,
   isPreConversion,
@@ -54,13 +54,6 @@ const InvoiceDetailOptions = ({
   shouldShowAbn,
   onDismissPreConversionAlert,
 }) => {
-  const onComboBoxChange = (handler) => (option) => {
-    const key = 'customerId';
-    const { id: value } = option;
-
-    handler({ key, value });
-  };
-
   const onIsTaxInclusiveChange = (handler) => (e) => {
     handler({ key: 'isTaxInclusive', value: e.value === taxInclusiveLabel });
   };
@@ -80,22 +73,21 @@ const InvoiceDetailOptions = ({
           [styles.maximiseContactCombobox]: !shouldShowAbn,
         })}
       >
-        <CustomerCombobox
-          items={customerOptions}
-          selectedId={customerId}
-          onChange={onComboBoxChange(onUpdateHeaderOptions)}
-          addNewItem={{
-            label: 'Create customer',
-            onAddNew: onAddCustomerButtonClick,
-          }}
-          label="Customer"
-          name="customerId"
-          hideLabel={false}
-          disabled={isCustomerDisabled || isReadOnly}
-          requiredLabel={requiredLabel}
-          allowClear
-          width="xl"
-        />
+        {renderContactCombobox({
+          selectedId: customerId,
+          name: 'customerId',
+          label: 'Customer',
+          hideLabel: false,
+          requiredLabel,
+          allowClear: true,
+          disabled: isCustomerDisabled || isReadOnly,
+          width: 'xl',
+          onChange: handleAutoCompleteChange(
+            'customerId',
+            onUpdateHeaderOptions
+          ),
+          onAlert: onInputAlert,
+        })}
         {shouldShowAbn && <InvoiceAbnPopover />}
       </div>
       {billingAddress}

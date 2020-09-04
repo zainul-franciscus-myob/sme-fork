@@ -11,7 +11,7 @@ describe('invoiceDetailsOptions', () => {
     const store = new Store(invoiceDetailReducer);
     const wrapper = mount(
       <Provider store={store}>
-        <InvoiceDetailOptions />
+        <InvoiceDetailOptions renderContactCombobox={() => {}} />
       </Provider>
     );
     const invoiceNumberInput = wrapper.find({ name: 'invoiceNumber' }).first();

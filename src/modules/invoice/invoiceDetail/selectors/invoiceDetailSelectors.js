@@ -6,6 +6,8 @@ import {
   TaxCalculatorTypes,
   createTaxCalculator,
 } from '../../../../common/taxCalculator';
+import ContactType from '../../../contact/contactCombobox/types/ContactType';
+import DisplayMode from '../../../contact/contactCombobox/types/DisplayMode';
 import InvoiceLayout from '../types/InvoiceLayout';
 import InvoiceLineType from '../types/InvoiceLineType';
 import Region from '../../../../common/types/Region';
@@ -24,7 +26,6 @@ export const getDuplicateId = (state) => state.duplicateId;
 export const getLoadingState = (state) => state.loadingState;
 export const getIsSubmitting = (state) => state.isSubmitting;
 export const getIsPageEdited = (state) => state.isPageEdited;
-export const getIsCustomerLoading = (state) => state.isCustomerLoading;
 export const getIsAbnLoading = (state) => state.isAbnLoading;
 export const getAlert = (state) => state.alert;
 export const getModalType = (state) => state.modalType;
@@ -52,7 +53,6 @@ export const getIsInvoiceJobColumnEnabled = (state) =>
   state.isInvoiceJobColumnEnabled;
 export const getNewLine = (state) => state.newLine;
 
-export const getCustomerOptions = (state) => state.customerOptions;
 export const getExpirationTermOptions = (state) => state.expirationTermOptions;
 export const getTaxCodeOptions = (state) => state.taxCodeOptions;
 export const getItemOptions = (state) => state.itemOptions;
@@ -198,10 +198,8 @@ const getCommentOptions = (state) =>
 
 export const getIsCustomerDisabled = createSelector(
   getIsCreating,
-  getIsCustomerLoading,
   getQuoteIdQueryParam,
-  (isCreating, isCustomerLoading, quoteId) =>
-    !isCreating || isCustomerLoading || (isCreating && Boolean(quoteId))
+  (isCreating, quoteId) => !isCreating || (isCreating && Boolean(quoteId))
 );
 
 export const getIsPreConversion = (state) => state.isPreConversion;
@@ -237,7 +235,6 @@ export const getInvoiceDetailOptions = createStructuredSelector({
   expirationTerm: getExpirationTerm,
   expirationTermOptions: getExpirationTermOptions,
   isTaxInclusive: getIsTaxInclusive,
-  customerOptions: getCustomerOptions,
   isCustomerDisabled: getIsCustomerDisabled,
   isSubmitting: getIsSubmitting,
   showOnlinePayment: getShowOnlinePayment,
@@ -330,16 +327,6 @@ export const getAmountDue = createSelector(
   getAmountPaid,
   ({ totalAmount }, amountPaid) => calculateAmountDue(totalAmount, amountPaid)
 );
-
-export const getUpdatedCustomerOptions = (state, updatedOption) => {
-  const customerOptions = getCustomerOptions(state);
-
-  return customerOptions.some((option) => option.id === updatedOption.id)
-    ? customerOptions.map((option) =>
-        option.id === updatedOption.id ? updatedOption : option
-      )
-    : [updatedOption, ...customerOptions];
-};
 
 export const getTableData = createSelector(getLength, (len) =>
   Array(len).fill({})
@@ -470,3 +457,17 @@ export const getCustomerLink = createSelector(
   (businessId, region, customerId) =>
     `/#/${region}/${businessId}/contact/${customerId}`
 );
+
+export const getContactComboboxContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+  const customerId = getCustomerId(state);
+
+  return {
+    businessId,
+    region,
+    contactId: customerId,
+    contactType: ContactType.CUSTOMER,
+    displayMode: DisplayMode.NAME_ONLY,
+  };
+};

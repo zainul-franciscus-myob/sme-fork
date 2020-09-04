@@ -8,7 +8,6 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ACCOUNT_OPTIONS,
   LOAD_CUSTOMER,
-  LOAD_CUSTOMER_AFTER_CREATE,
   LOAD_CUSTOMER_OPTIONS,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
@@ -47,7 +46,6 @@ import invoiceServiceReadOnlyDetail from './data/serviceLayout/invoiceServiceRea
 import loadAbnDetail from './data/loadAbn.json';
 import loadAccountOptions from './data/loadAccountOptions';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
-import loadAddedCustomerResponse from './data/loadAddedCustomerResponse';
 import loadAddedJobResponse from './data/loadAddedJobResponse';
 import loadCustomerOptions from './data/loadCustomerOptions';
 import loadInvoiceHistory from './data/invoiceHistory.json';
@@ -123,8 +121,6 @@ const MemoryInvoiceMapping = {
   [UPDATE_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [DELETE_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [LOAD_CUSTOMER]: ({ onSuccess }) => onSuccess(customerAddress),
-  [LOAD_CUSTOMER_AFTER_CREATE]: ({ onSuccess }) =>
-    onSuccess(loadAddedCustomerResponse),
   [LOAD_PAY_DIRECT]: ({ onSuccess }) => onSuccess(payDirect),
   [UPLOAD_EMAIL_ATTACHMENT]: ({ onSuccess }) =>
     onSuccess(uploadEmailAttachmentResponse),

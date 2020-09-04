@@ -118,12 +118,6 @@
     "Great doing business",
     "don't call us we'll call you"
   ],
-  "customerOptions": [
-    {
-      "name": "Cow Feed",
-      "id": "2"
-    }
-  ],
   "itemOptions": [
     {
       "id": "3",

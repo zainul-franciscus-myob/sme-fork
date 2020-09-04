@@ -10,7 +10,6 @@ import {
   LOAD_ABN_FROM_CUSTOMER,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CUSTOMER,
-  LOAD_CUSTOMER_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
   LOAD_ITEM_OPTION,
@@ -25,7 +24,6 @@ import {
   SAVE_EMAIL_SETTINGS,
   SET_ABN_LOADING_STATE,
   SET_ALERT,
-  SET_CUSTOMER_LOADING_STATE,
   SET_DUPLICATE_ID,
   SET_INVOICE_HISTORY_CLOSED,
   SET_INVOICE_HISTORY_LOADING,
@@ -69,7 +67,6 @@ import {
   getBusinessId,
   getInvoiceId,
   getRegion,
-  getUpdatedCustomerOptions,
 } from '../selectors/invoiceDetailSelectors';
 import { calculateLineAmounts, calculateLines } from './calculationReducer';
 import { getEmailDetailFromLoadInvoiceDetail } from '../selectors/emailSelectors';
@@ -188,7 +185,6 @@ const loadInvoiceDetail = (state, action) => {
     },
     comments: action.comments || state.comments,
     serialNumber: action.serialNumber,
-    customerOptions: action.customerOptions || state.customerOptions,
     expirationTermOptions:
       action.expirationTermOptions || state.expirationTermOptions,
     itemOptions: action.itemOptions || state.itemOptions,
@@ -270,21 +266,6 @@ const loadCustomer = (state, { address }) => ({
     ...state.invoice,
     address,
   },
-});
-
-const loadCustomerAfterCreate = (state, { customerId, address, option }) => ({
-  ...state,
-  invoice: {
-    ...state.invoice,
-    customerId,
-    address,
-  },
-  customerOptions: getUpdatedCustomerOptions(state, option),
-});
-
-const setCustomerLoadingState = (state, { isCustomerLoading }) => ({
-  ...state,
-  isCustomerLoading,
 });
 
 const resetCustomer = (state) => ({
@@ -524,8 +505,6 @@ const handlers = {
   [RELOAD_INVOICE_DETAIL]: reloadInvoiceDetail,
 
   [LOAD_CUSTOMER]: loadCustomer,
-  [LOAD_CUSTOMER_AFTER_CREATE]: loadCustomerAfterCreate,
-  [SET_CUSTOMER_LOADING_STATE]: setCustomerLoadingState,
   [RESET_CUSTOMER]: resetCustomer,
 
   [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,

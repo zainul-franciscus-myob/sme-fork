@@ -7,7 +7,6 @@ import {
 import {
   getBusinessId,
   getCustomerId,
-  getCustomerOptions,
   getDuplicateId,
   getInvoice,
   getInvoiceId,
@@ -74,19 +73,11 @@ export const getCreateOrUpdateInvoiceUrlParams = (state) => {
 
 export const getCreateOrUpdateInvoicePayload = (state) => {
   const invoice = getInvoice(state);
-
-  const customers = getCustomerOptions(state);
-  const customerId = getCustomerId(state);
-  const { name: customerName } =
-    customers.find(({ id }) => customerId === id) || {};
-
   const lines = getLines(state);
-
   const quoteId = getQuoteIdQueryParam(state);
 
   return {
     ...invoice,
-    customerName,
     lines,
     quoteId,
   };

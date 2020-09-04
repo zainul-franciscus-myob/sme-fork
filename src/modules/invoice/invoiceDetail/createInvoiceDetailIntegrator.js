@@ -8,7 +8,6 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ACCOUNT_OPTIONS,
   LOAD_CUSTOMER,
-  LOAD_CUSTOMER_AFTER_CREATE,
   LOAD_CUSTOMER_OPTIONS,
   LOAD_INVOICE_HISTORY,
   LOAD_ITEM_OPTION,
@@ -37,7 +36,6 @@ import {
   getInvoiceHistoryUrlParams,
   getLoadAbnFromCustomerUrlParams,
   getLoadAddedAccountUrlParams,
-  getLoadAddedCustomerUrlParams,
   getLoadAddedJobUrlParams,
   getLoadCustomerUrlParams,
   getLoadInvoiceIntent,
@@ -167,20 +165,6 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
 
     const intent = LOAD_CUSTOMER;
     const urlParams = getLoadCustomerUrlParams(state);
-
-    integration.read({
-      intent,
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  loadCustomerAfterCreate: ({ id, onSuccess, onFailure }) => {
-    const state = store.getState();
-
-    const intent = LOAD_CUSTOMER_AFTER_CREATE;
-    const urlParams = getLoadAddedCustomerUrlParams(state, id);
 
     integration.read({
       intent,

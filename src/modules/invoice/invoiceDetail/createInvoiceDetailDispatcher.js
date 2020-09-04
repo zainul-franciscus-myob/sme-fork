@@ -7,7 +7,6 @@ import {
   LOAD_ABN_FROM_CUSTOMER,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CUSTOMER,
-  LOAD_CUSTOMER_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
   LOAD_ITEM_OPTION,
@@ -22,7 +21,6 @@ import {
   SAVE_EMAIL_SETTINGS,
   SET_ABN_LOADING_STATE,
   SET_ALERT,
-  SET_CUSTOMER_LOADING_STATE,
   SET_DUPLICATE_ID,
   SET_INVOICE_HISTORY_CLOSED,
   SET_INVOICE_HISTORY_LOADING,
@@ -123,19 +121,6 @@ const createInvoiceDetailDispatcher = (store) => ({
 
   loadCustomer: (payload) =>
     store.dispatch({ intent: LOAD_CUSTOMER, ...payload }),
-
-  loadCustomerAfterCreate: (customerId, payload) =>
-    store.dispatch({
-      intent: LOAD_CUSTOMER_AFTER_CREATE,
-      customerId,
-      ...payload,
-    }),
-
-  setCustomerLoadingState: (isCustomerLoading) =>
-    store.dispatch({
-      intent: SET_CUSTOMER_LOADING_STATE,
-      isCustomerLoading,
-    }),
 
   loadPayDirect: (payDirect) =>
     store.dispatch({ intent: LOAD_PAY_DIRECT, payDirect }),

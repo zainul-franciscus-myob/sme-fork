@@ -48,16 +48,6 @@
       }
     ]
   },
-  "customerOptions": [
-    {
-      "name": "A-Z Stationery Supplies",
-      "id": "1"
-    },
-    {
-      "name": "Patrick Bateman",
-      "id": "2"
-    }
-  ],
   "accountOptions": [
     {
       "id": "123",

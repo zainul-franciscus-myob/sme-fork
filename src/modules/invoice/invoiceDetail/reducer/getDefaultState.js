@@ -21,7 +21,6 @@ const getDefaultState = () => ({
   isModalSubmitting: false,
   isPageEdited: false,
   isSubmitting: false,
-  isCustomerLoading: false,
   isAbnLoading: false,
   saveActionType: SaveActionType.SAVE,
   invoice: {
@@ -67,7 +66,6 @@ const getDefaultState = () => ({
   },
   comments: [],
   serialNumber: '',
-  customerOptions: [],
   accountOptions: [],
   jobOptions: [],
   taxCodeOptions: [],

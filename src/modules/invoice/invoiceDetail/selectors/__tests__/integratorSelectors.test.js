@@ -95,12 +95,6 @@ describe('integratorSelectors', () => {
             },
           ],
         },
-        customerOptions: [
-          {
-            name: 'Cow Feed',
-            id: '2',
-          },
-        ],
         accountOptions: [
           {
             id: '123',
@@ -158,7 +152,6 @@ describe('integratorSelectors', () => {
         discountForEarlyPayment: 3546.34,
         numberOfDaysForDiscount: 10,
         amountPaid: '10.00',
-        customerName: 'Cow Feed',
         lines: [
           {
             id: '345',
@@ -209,23 +202,10 @@ describe('integratorSelectors', () => {
           },
         ],
       };
-      const state = {
-        invoice,
-        customerOptions: [
-          {
-            name: 'Cameron, James',
-            id: '1',
-          },
-          {
-            name: 'Kev',
-            id: '2',
-          },
-        ],
-      };
+      const state = { invoice };
 
       const expected = {
         ...invoice,
-        customerName: 'Cameron, James',
       };
 
       const actual = getCreateOrUpdateInvoicePayload(state);

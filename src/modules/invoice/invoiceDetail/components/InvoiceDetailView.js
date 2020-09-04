@@ -60,11 +60,11 @@ const InvoiceDetailView = ({
   applyPaymentUnsavedChangesListeners,
   redirectToUrlListeners,
   exportPdfModalListeners,
-  contactModal,
+  renderContactCombobox,
+  onInputAlert,
   onDismissPreConversionAlert,
   onUpdateHeaderOptions,
   onIssueDateBlur,
-  onAddCustomerButtonClick,
   onUpdateInvoiceLayout,
   onUpgradeModalDismiss,
   onUpgradeModalUpgradeButtonClick,
@@ -77,9 +77,10 @@ const InvoiceDetailView = ({
 }) => {
   const options = (
     <InvoiceDetailOptions
+      renderContactCombobox={renderContactCombobox}
+      onInputAlert={onInputAlert}
       onUpdateHeaderOptions={onUpdateHeaderOptions}
       onIssueDateBlur={onIssueDateBlur}
-      onAddCustomerButtonClick={onAddCustomerButtonClick}
       onLoadCustomers={onLoadCustomers}
       onDismissPreConversionAlert={onDismissPreConversionAlert}
     />
@@ -165,7 +166,6 @@ const InvoiceDetailView = ({
         {accountModal}
         {jobModal}
         {upgradeModal}
-        {contactModal}
         {inventoryModal}
         {modal}
         <div className={classNames(isReadOnly && styles.disabledTable)}>

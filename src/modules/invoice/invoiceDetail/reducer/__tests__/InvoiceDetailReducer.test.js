@@ -3,7 +3,6 @@ import {
   LOAD_ABN_FROM_CUSTOMER,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CUSTOMER,
-  LOAD_CUSTOMER_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
   LOAD_ITEM_OPTION,
   LOAD_JOB_AFTER_CREATE,
@@ -694,35 +693,6 @@ describe('InvoiceDetailReducer', () => {
       address: 'addr',
       abn: { status: 'None' },
     };
-
-    it('set customer address', () => {
-      const actual = invoiceDetailReducer(state, action);
-
-      expect(actual.invoice.address).toEqual('addr');
-    });
-  });
-
-  describe('LOAD_CUSTOMER_AFTER_CREATE', () => {
-    const state = {
-      invoice: { lines: [] },
-      customerOptions: [{ name: 'name1', id: '1' }],
-    };
-
-    const action = {
-      intent: LOAD_CUSTOMER_AFTER_CREATE,
-      address: 'addr',
-      option: { name: 'name2', id: '2' },
-      abn: { status: 'None' },
-    };
-
-    it('adds newly created customer into customer options', () => {
-      const actual = invoiceDetailReducer(state, action);
-
-      expect(actual.customerOptions).toEqual([
-        { name: 'name2', id: '2' },
-        { name: 'name1', id: '1' },
-      ]);
-    });
 
     it('set customer address', () => {
       const actual = invoiceDetailReducer(state, action);

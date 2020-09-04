@@ -13,7 +13,6 @@ import {
   getReadOnlyMessage,
   getTemplateOptions,
   getTotals,
-  getUpdatedCustomerOptions,
 } from '../invoiceDetailSelectors';
 import InvoiceLayout from '../../types/InvoiceLayout';
 import InvoiceLineType from '../../types/InvoiceLineType';
@@ -89,20 +88,6 @@ describe('invoiceDetailSelectors', () => {
       ],
     },
     comments: [],
-    customerOptions: [
-      {
-        name: 'Cow Feed 1',
-        id: '1',
-      },
-      {
-        name: 'Cow Feed 2',
-        id: '2',
-      },
-      {
-        name: 'Cow Feed 3',
-        id: '3',
-      },
-    ],
     expirationTermOptions: [
       {
         value: 'OnADayOfTheMonth',
@@ -176,11 +161,6 @@ describe('invoiceDetailSelectors', () => {
             value: 'CashOnDelivery',
             name: 'C.O.D.',
           },
-        ],
-        customerOptions: [
-          { name: 'Cow Feed 1', id: '1' },
-          { name: 'Cow Feed 2', id: '2' },
-          { name: 'Cow Feed 3', id: '3' },
         ],
         isCustomerDisabled: true,
         isSubmitting: false,
@@ -403,34 +383,6 @@ describe('invoiceDetailSelectors', () => {
       const actual = getAccountModalContext(state);
 
       expect(actual).toEqual({ region: 'au', businessId: 'abc' });
-    });
-  });
-
-  describe('getUpdatedCustomerOptions', () => {
-    it('should contain newly added customer option', () => {
-      const option1 = { id: '1', name: 'Option 1' };
-      const option2 = { id: '2', name: 'Option 2' };
-      const expected = [option2, option1];
-
-      const actual = getUpdatedCustomerOptions(
-        { customerOptions: [option1] },
-        option2
-      );
-
-      expect(actual).toEqual(expected);
-    });
-
-    it('should contain updated customer option', () => {
-      const option1 = { id: '1', name: 'Option 1' };
-      const option2 = { id: '1', name: 'Updated option 1' };
-      const expected = [option2];
-
-      const actual = getUpdatedCustomerOptions(
-        { customerOptions: [option1] },
-        option2
-      );
-
-      expect(actual).toEqual(expected);
     });
   });
 

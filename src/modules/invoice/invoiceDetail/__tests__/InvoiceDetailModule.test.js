@@ -120,12 +120,14 @@ describe('InvoiceDetailModule', () => {
         { intent: SET_INVOICE_HISTORY_LOADING },
         expect.objectContaining({ intent: LOAD_INVOICE_HISTORY }),
       ]);
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
-        expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
-        expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
-        expect.objectContaining({ intent: LOAD_INVOICE_HISTORY }),
-      ]);
+      expect(integration.getRequests()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
+          expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
+          expect.objectContaining({ intent: LOAD_INVOICE_HISTORY }),
+        ])
+      );
     });
 
     describe('new invoice', () => {
@@ -150,10 +152,12 @@ describe('InvoiceDetailModule', () => {
         { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: false },
         expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
       ]);
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({ intent: LOAD_NEW_INVOICE_DETAIL }),
-        expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
-      ]);
+      expect(integration.getRequests()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ intent: LOAD_NEW_INVOICE_DETAIL }),
+          expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
+        ])
+      );
     });
 
     describe('new duplicate invoice', () => {
@@ -182,11 +186,15 @@ describe('InvoiceDetailModule', () => {
         { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: false },
         expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
       ]);
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({ intent: LOAD_NEW_DUPLICATE_INVOICE_DETAIL }),
-        expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
-        expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
-      ]);
+      expect(integration.getRequests()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            intent: LOAD_NEW_DUPLICATE_INVOICE_DETAIL,
+          }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
+          expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
+        ])
+      );
     });
 
     describe('new invoice from quote', () => {
@@ -215,11 +223,15 @@ describe('InvoiceDetailModule', () => {
         { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: false },
         expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
       ]);
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({ intent: LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE }),
-        expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
-        expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
-      ]);
+      expect(integration.getRequests()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            intent: LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
+          }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
+          expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
+        ])
+      );
     });
 
     describe('abn', () => {

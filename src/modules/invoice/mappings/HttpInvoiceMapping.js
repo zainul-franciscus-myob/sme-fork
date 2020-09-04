@@ -8,7 +8,6 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ACCOUNT_OPTIONS,
   LOAD_CUSTOMER,
-  LOAD_CUSTOMER_AFTER_CREATE,
   LOAD_CUSTOMER_OPTIONS,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
@@ -85,11 +84,6 @@ const HttpInvoiceMapping = {
     method: 'GET',
     getPath: ({ businessId, customerId }) =>
       `/${businessId}/invoice/load_customer/${customerId}`,
-  },
-  [LOAD_CUSTOMER_AFTER_CREATE]: {
-    method: 'GET',
-    getPath: ({ businessId, customerId }) =>
-      `/${businessId}/invoice/load_customer_after_create/${customerId}`,
   },
   [LOAD_PAY_DIRECT]: {
     method: 'GET',
