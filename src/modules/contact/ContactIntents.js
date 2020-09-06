@@ -30,6 +30,7 @@ export const SET_ALERT_MESSAGE = Symbol('Set alert message');
 export const LOAD_CONTACT_DETAIL = Symbol('Load an existing contact');
 export const LOAD_NEW_CONTACT = Symbol('Load a new contact');
 export const UPDATE_CONTACT_DETAILS = Symbol('Update contact details');
+export const UPDATE_PAYMENT_DETAILS = Symbol('Update payment details');
 export const UPDATE_SHIPPING_ADDRESS = Symbol('Update shipping address');
 export const UPDATE_BILLING_ADDRESS = Symbol('Update billing address');
 export const UPDATE_CONTACT = Symbol('Update a contact');

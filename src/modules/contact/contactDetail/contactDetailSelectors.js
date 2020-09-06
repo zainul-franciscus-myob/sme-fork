@@ -123,6 +123,8 @@ export const getFormattedBillingAddress = createSelector(
   formatAddress
 );
 
+export const getPaymentDetails = (state) => state.contact.paymentDetails;
+
 export const getContact = ({ contact }) => ({
   ...contact,
   expenseAccountId:
@@ -136,6 +138,9 @@ export const getIsActionsDisabled = (state) => state.isSubmitting;
 export const isPageEdited = (state) => state.isPageEdited;
 
 export const getBusinessId = (state) => state.businessId;
+
+export const getIsElectronicPaymentEnabled = (state) =>
+  state.isElectronicPaymentEnabled;
 
 export const getAccountModalContext = (state) => {
   const businessId = getBusinessId(state);
@@ -151,3 +156,11 @@ export const getLoadAddedAccountUrlParams = (state, accountId) => {
 
 export const getReminderLink = (state) =>
   `${state.reminders.url}?consumer=ARL&origin=Customer&cfid=${state.businessId}&id=${state.contact.uid}`;
+
+export const getShouldShowPaymentDetails = createSelector(
+  getRegion,
+  getIsSupplier,
+  getIsElectronicPaymentEnabled,
+  (region, isSupplier, isElectronicPaymentEnabled) =>
+    isElectronicPaymentEnabled && region === 'au' && isSupplier
+);

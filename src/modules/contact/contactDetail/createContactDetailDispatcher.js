@@ -13,6 +13,7 @@ import {
   SET_SUBMITTING_STATE,
   UPDATE_BILLING_ADDRESS,
   UPDATE_CONTACT_DETAILS,
+  UPDATE_PAYMENT_DETAILS,
   UPDATE_SHIPPING_ADDRESS,
 } from '../ContactIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -68,6 +69,14 @@ const createContactDetailDispatcher = (store) => ({
   updateContactDetails: ({ key, value }) => {
     store.dispatch({
       intent: UPDATE_CONTACT_DETAILS,
+      key,
+      value,
+    });
+  },
+
+  updatePaymentDetails: ({ key, value }) => {
+    store.dispatch({
+      intent: UPDATE_PAYMENT_DETAILS,
       key,
       value,
     });

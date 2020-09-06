@@ -13,6 +13,7 @@ import {
   SET_SUBMITTING_STATE,
   UPDATE_BILLING_ADDRESS,
   UPDATE_CONTACT_DETAILS,
+  UPDATE_PAYMENT_DETAILS,
   UPDATE_SHIPPING_ADDRESS,
 } from '../ContactIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -58,6 +59,12 @@ const getDefaultState = () => ({
       website: '',
       businessContact: '',
       salutation: '',
+    },
+    paymentDetails: {
+      bankNumber: '',
+      accountNumber: '',
+      accountName: '',
+      statementText: '',
     },
     uid: '',
   },
@@ -130,6 +137,35 @@ const updateContactDetails = (state, action) => ({
   },
   ...pageEdited,
 });
+
+const getAppliedFormatRestrictions = (currentText, text) => {
+  const pattern = `^[a-zA-Z0-9 \\&\\*\\.\\/\\-]*`;
+  const matchedText = text.match(pattern);
+
+  return matchedText === null ? currentText : matchedText[0].toUpperCase();
+};
+
+const updatePaymentDetails = (state, action) => {
+  const fieldsNeedFormatting = ['accountName', 'statementText'];
+  const formattedText = fieldsNeedFormatting.includes(action.key)
+    ? getAppliedFormatRestrictions(
+        state.contact.paymentDetails[action.key],
+        action.value
+      )
+    : action.value;
+
+  return {
+    ...state,
+    contact: {
+      ...state.contact,
+      paymentDetails: {
+        ...state.contact.paymentDetails,
+        [action.key]: formattedText,
+      },
+    },
+    ...pageEdited,
+  };
+};
 
 const updateBillingAddress = (state, action) => ({
   ...state,
@@ -214,6 +250,7 @@ const handlers = {
   [LOAD_CONTACT_DETAIL]: loadContactDetail,
   [SET_LOADING_STATE]: setLoadingState,
   [UPDATE_CONTACT_DETAILS]: updateContactDetails,
+  [UPDATE_PAYMENT_DETAILS]: updatePaymentDetails,
   [UPDATE_BILLING_ADDRESS]: updateBillingAddress,
   [UPDATE_SHIPPING_ADDRESS]: updateShippingAddress,
   [SET_SUBMITTING_STATE]: setSubmittingState,

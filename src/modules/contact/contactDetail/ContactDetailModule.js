@@ -26,7 +26,7 @@ import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class ContactDetailModule {
-  constructor({ integration, setRootView, pushMessage }) {
+  constructor({ integration, setRootView, pushMessage, featureToggles }) {
     this.integration = integration;
     this.store = new Store(contactDetailReducer);
     this.setRootView = setRootView;
@@ -36,6 +36,8 @@ export default class ContactDetailModule {
     this.accountModalModule = new AccountModalModule({
       integration,
     });
+    this.isElectronicPaymentEnabled =
+      featureToggles?.isElectronicPaymentEnabled;
   }
 
   openAccountModal = () => {
@@ -75,6 +77,7 @@ export default class ContactDetailModule {
         onContactDetailsChange={this.dispatcher.updateContactDetails}
         onBillingAddressChange={this.dispatcher.updateBillingAddress}
         onShippingAddressChange={this.dispatcher.updateShippingAddress}
+        onPaymentDetailsChange={this.dispatcher.updatePaymentDetails}
         onDismissAlert={this.dispatcher.dismissAlert}
         onDeleteButtonClick={this.openDeleteModal}
         onCancelButtonClick={this.openCancelModal}
@@ -258,7 +261,10 @@ export default class ContactDetailModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState(context);
+    this.dispatcher.setInitialState({
+      ...context,
+      isElectronicPaymentEnabled: this.isElectronicPaymentEnabled,
+    });
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.loadContactDetail();

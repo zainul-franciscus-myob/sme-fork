@@ -7,6 +7,7 @@ import {
   getIsCreating,
   getLoadingState,
   getModalType,
+  getShouldShowPaymentDetails,
 } from '../contactDetailSelectors';
 import BillingAddress from './BillingAddress';
 import CancelModal from '../../../../components/modal/CancelModal';
@@ -17,6 +18,7 @@ import DeleteModal from '../../../../components/modal/DeleteModal';
 import FormCard from '../../../../components/FormCard/FormCard';
 import MoreDetails from './MoreDetails';
 import PageView from '../../../../components/PageView/PageView';
+import PaymentDetails from './PaymentDetails';
 import ShippingAddress from './ShippingAddress';
 
 const ContactDetailView = ({
@@ -25,7 +27,9 @@ const ContactDetailView = ({
   loadingState,
   modalType,
   alertMessage,
+  shouldShowPaymentDetails,
   onContactDetailsChange,
+  onPaymentDetailsChange,
   onBillingAddressChange,
   onShippingAddressChange,
   onDismissAlert,
@@ -82,6 +86,9 @@ const ContactDetailView = ({
         />
         <BillingAddress onAddressChange={onBillingAddressChange} />
         <ShippingAddress onAddressChange={onShippingAddressChange} />
+        {shouldShowPaymentDetails && (
+          <PaymentDetails onPaymentDetailsChange={onPaymentDetailsChange} />
+        )}
         <MoreDetails onContactDetailsChange={onContactDetailsChange} />
       </FormCard>
     </FormTemplate>
@@ -95,6 +102,7 @@ const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   modalType: getModalType(state),
   alertMessage: getAlertMessage(state),
+  shouldShowPaymentDetails: getShouldShowPaymentDetails(state),
 });
 
 export default connect(mapStateToProps)(ContactDetailView);

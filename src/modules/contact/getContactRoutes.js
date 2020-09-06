@@ -7,6 +7,7 @@ const getContactRoutes = ({
   setRootView,
   popMessages,
   pushMessage,
+  featureToggles,
 }) => {
   const routes = [
     {
@@ -26,6 +27,7 @@ const getContactRoutes = ({
         integration,
         setRootView,
         pushMessage,
+        featureToggles,
       }),
       documentTitle: 'Contact',
     },
