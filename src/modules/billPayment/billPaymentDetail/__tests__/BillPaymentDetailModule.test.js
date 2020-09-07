@@ -116,11 +116,13 @@ describe('BillPaymentDetailModule', () => {
             intent: test.intent,
           }),
         ]);
-        expect(integration.getRequests()).toEqual([
-          expect.objectContaining({
-            intent: test.intent,
-          }),
-        ]);
+        expect(integration.getRequests()).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              intent: test.intent,
+            }),
+          ])
+        );
       });
 
       it(`fails to load ${test.name}`, () => {
@@ -145,11 +147,13 @@ describe('BillPaymentDetailModule', () => {
             loadingState: LoadingState.LOADING_FAIL,
           },
         ]);
-        expect(integration.getRequests()).toEqual([
-          expect.objectContaining({
-            intent: test.intent,
-          }),
-        ]);
+        expect(integration.getRequests()).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              intent: test.intent,
+            }),
+          ])
+        );
       });
     });
   });

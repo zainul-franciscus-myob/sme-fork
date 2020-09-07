@@ -7,8 +7,8 @@ import {
   getIsBeforeStartOfFinancialYear,
 } from '../BillPaymentDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
-import ContactCombobox from '../../../../components/combobox/ContactCombobox';
 import DatePicker from '../../../../components/DatePicker/DatePicker';
+import handleAutoCompleteChange from '../../../../components/handlers/handleAutoCompleteChange';
 
 const onTextFieldChange = (handler) => ({ target: { name: key, value } }) =>
   handler({ key, value });
@@ -20,7 +20,6 @@ const onDateChange = (handler) => (key) => ({ value }) =>
   handler({ key, value });
 
 const BillPaymentOptions = ({
-  suppliers,
   supplierId,
   accounts,
   accountId,
@@ -28,6 +27,7 @@ const BillPaymentOptions = ({
   referenceId,
   bankStatementText,
   showBankStatementText,
+  renderContactCombobox,
   onUpdateHeaderOption,
   onBlurBankStatementText,
   date,
@@ -39,16 +39,17 @@ const BillPaymentOptions = ({
 
   const primary = (
     <>
-      <ContactCombobox
-        disabled={shouldDisableFields}
-        items={suppliers}
-        selectedId={supplierId}
-        onChange={onComboBoxChange(onUpdateHeaderOption)('supplierId')}
-        label="Supplier"
-        name="Supplier"
-        hideLabel={false}
-        requiredLabel={isCreating ? requiredLabel : undefined}
-      />
+      {renderContactCombobox({
+        selectedId: supplierId,
+        name: 'supplierId',
+        label: 'Supplier',
+        hideLabel: false,
+        hideAdd: true,
+        requiredLabel: isCreating ? requiredLabel : undefined,
+        allowClear: true,
+        disabled: shouldDisableFields,
+        onChange: handleAutoCompleteChange('supplierId', onUpdateHeaderOption),
+      })}
       <AccountCombobox
         label="Bank account"
         hideLabel={false}

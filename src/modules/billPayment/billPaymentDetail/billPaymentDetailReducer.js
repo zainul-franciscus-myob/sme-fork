@@ -25,7 +25,6 @@ const getDefaultState = () => ({
   region: '',
   businessId: '',
   billPaymentId: '',
-  suppliers: [],
   supplierId: '',
   accounts: [],
   accountId: '',
@@ -81,7 +80,6 @@ const getBankStatementText = (state, referenceId) => {
 const loadNewBillPayment = (state, action) => {
   const newState = {
     ...state,
-    suppliers: action.suppliers,
     accounts: action.accounts,
     accountId: action.accountId,
     showPaidBills: action.showPaidBills,
@@ -103,7 +101,6 @@ const loadNewBillPayment = (state, action) => {
 const loadBillPayment = (state, action) => ({
   ...state,
   date: action.date,
-  suppliers: action.suppliers,
   supplierId: action.supplierId,
   accounts: action.accounts,
   accountId: action.accountId,
@@ -146,6 +143,10 @@ const updateHeaderOption = (state, action) => ({
   ...state,
   ...pageEdited,
   [action.key]: action.value,
+  entries:
+    action.key === 'supplierId' && action.value !== state.supplierId
+      ? []
+      : state.entries,
 });
 
 const resetBankStatementText = (state, { value }) => ({

@@ -7,6 +7,8 @@ import {
   LOAD_NEW_BILL_PAYMENT,
   UPDATE_BILL_PAYMENT,
 } from '../BillPaymentIntents';
+import ContactType from '../../contact/contactCombobox/types/ContactType';
+import DisplayMode from '../../contact/contactCombobox/types/DisplayMode';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../../common/valueFormatters/formatCurrency';
 import tableViewTypes from './tableViewTypes';
@@ -17,7 +19,6 @@ export const getBusinessId = (state) => state.businessId;
 export const getRegion = (state) => state.region;
 export const getBillPaymentId = (state) => state.billPaymentId;
 export const getApplyPaymentToBillId = (state) => state.applyPaymentToBillId;
-const getSuppliers = (state) => state.suppliers;
 const getAccounts = (state) => state.accounts;
 const getAccountId = (state) => state.accountId;
 const getElectronicClearingAccountId = (state) =>
@@ -96,7 +97,6 @@ export const getShowBankStatementText = createSelector(
 );
 
 export const getBillPaymentOptions = createStructuredSelector({
-  suppliers: getSuppliers,
   accounts: getAccounts,
   accountId: getAccountId,
   supplierId: getSupplierId,
@@ -174,16 +174,7 @@ const getBillEntriesForCreatePayload = (state) =>
     }));
 
 const getOriginalReferenceId = (state) => state.originalReferenceId;
-const getSupplierName = createSelector(
-  getSuppliers,
-  getSupplierId,
-  (suppliers, supplierId) => {
-    const selectedSupplier =
-      suppliers.find(({ id }) => supplierId === id) || {};
 
-    return selectedSupplier.displayName;
-  }
-);
 const getCreateBillPaymentPayload = (state) => {
   const originalReferenceId = getOriginalReferenceId(state);
   const referenceId = getReferenceId(state);
@@ -197,7 +188,6 @@ const getCreateBillPaymentPayload = (state) => {
       : '',
     accountId: getAccountId(state),
     supplierId: getSupplierId(state),
-    supplierName: getSupplierName(state),
     entries: getBillEntriesForCreatePayload(state),
   };
 };
@@ -260,4 +250,18 @@ export const getIsBeforeStartOfFinancialYear = (state) => {
     startOfFinancialYearDate &&
     isBefore(issueDate, new Date(startOfFinancialYearDate))
   );
+};
+
+export const getContactComboboxContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+  const supplierId = getSupplierId(state);
+
+  return {
+    businessId,
+    region,
+    contactId: supplierId,
+    contactType: ContactType.SUPPLIER,
+    displayMode: DisplayMode.NAME_AND_TYPE,
+  };
 };

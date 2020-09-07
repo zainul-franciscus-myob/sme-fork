@@ -1,20 +1,4 @@
 {
-  "suppliers": [
-    {
-      "contactType": "Customer",
-      "displayContactType": "Customer",
-      "displayName": "A-Z Stationery Supplies",
-      "id": "1",
-      "displayId": "CUS000001"
-    },
-    {
-      "contactType": "Supplier",
-      "displayContactType": "Supplier",
-      "displayName": "Cow Feed",
-      "id": "2",
-      "displayId": "CUS000003"
-    }
-  ],
   "accounts": [
     {
       "id": "123",

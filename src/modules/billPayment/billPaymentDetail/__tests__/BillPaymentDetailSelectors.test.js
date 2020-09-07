@@ -192,7 +192,6 @@ describe('BillPaymentSelector', () => {
         accountId: '37',
         supplierId: '102',
         accounts: [],
-        suppliers: [{ id: '102', displayName: 'Name, Supplier' }],
         entries: [
           {
             paidAmount: '100.05',
@@ -209,7 +208,6 @@ describe('BillPaymentSelector', () => {
         accountId: '37',
         supplierId: '102',
         bankStatementText: '',
-        supplierName: 'Name, Supplier',
         entries: [
           {
             paidAmount: '100.05',
@@ -231,7 +229,6 @@ describe('BillPaymentSelector', () => {
         description: 'Payment to Thi and Cameo',
         accountId: '37',
         supplierId: '102',
-        suppliers: [{ id: '102', displayName: 'Name, Supplier' }],
         accounts: [],
         entries: [
           {
@@ -293,7 +290,6 @@ describe('BillPaymentSelector', () => {
       const state = {
         billPaymentId: 'new',
         bankStatementText: 'some-text',
-        suppliers: [],
         entries: [],
         accountId: '1',
         electronicClearingAccountId: '1',

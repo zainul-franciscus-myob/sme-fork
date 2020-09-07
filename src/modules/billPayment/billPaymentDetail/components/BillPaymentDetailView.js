@@ -24,6 +24,7 @@ const BillPaymentDetailView = ({
   modalType,
   title,
   isCreating,
+  renderContactCombobox,
   onUpdateHeaderOption,
   onBlurBankStatementText,
   onUpdateTableInputField,
@@ -81,6 +82,7 @@ const BillPaymentDetailView = ({
       pageHead={title}
       options={
         <BillPaymentOptions
+          renderContactCombobox={renderContactCombobox}
           onUpdateHeaderOption={onUpdateHeaderOption}
           onBlurBankStatementText={onBlurBankStatementText}
         />

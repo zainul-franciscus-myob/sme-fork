@@ -8,6 +8,7 @@ import {
 import {
   getApplyPaymentToBillId,
   getBusinessId,
+  getContactComboboxContext,
   getIsActionsDisabled,
   getIsCreating,
   getIsPageEdited,
@@ -19,6 +20,7 @@ import {
   getSupplierId,
 } from './BillPaymentDetailSelectors';
 import BillPaymentView from './components/BillPaymentDetailView';
+import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import billPaymentReducer from './billPaymentDetailReducer';
@@ -38,6 +40,8 @@ export default class BillPaymentModule {
       integration
     );
     this.navigateTo = navigateTo;
+
+    this.contactComboboxModule = new ContactComboboxModule({ integration });
   }
 
   loadBillPayment = () => {
@@ -57,6 +61,8 @@ export default class BillPaymentModule {
     if (getSupplierId(state)) {
       this.loadBillList();
     }
+
+    this.loadContactCombobox();
   };
 
   unsubscribeFromStore = () => {
@@ -220,9 +226,22 @@ export default class BillPaymentModule {
     }
   };
 
+  loadContactCombobox = () => {
+    const state = this.store.getState();
+    const context = getContactComboboxContext(state);
+    this.contactComboboxModule.run(context);
+  };
+
+  renderContactCombobox = (props) => {
+    return this.contactComboboxModule
+      ? this.contactComboboxModule.render(props)
+      : null;
+  };
+
   render = () => {
     const billPaymentView = (
       <BillPaymentView
+        renderContactCombobox={this.renderContactCombobox}
         onUpdateHeaderOption={this.updateHeaderOption}
         onBlurBankStatementText={this.dispatcher.resetBankStatementText}
         onUpdateTableInputField={this.dispatcher.updateTableInputField}
@@ -267,6 +286,7 @@ export default class BillPaymentModule {
   };
 
   resetState() {
+    this.contactComboboxModule.resetState();
     this.dispatcher.resetState();
   }
 
