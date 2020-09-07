@@ -31,7 +31,7 @@ const BillPaymentOptions = ({
   onUpdateHeaderOption,
   onBlurBankStatementText,
   date,
-  shouldDisableFields,
+  shouldDisableSupplier,
   isCreating,
   isBeforeStartOfFinancialYear,
 }) => {
@@ -47,7 +47,7 @@ const BillPaymentOptions = ({
         hideAdd: true,
         requiredLabel: isCreating ? requiredLabel : undefined,
         allowClear: true,
-        disabled: shouldDisableFields,
+        disabled: shouldDisableSupplier,
         onChange: handleAutoCompleteChange('supplierId', onUpdateHeaderOption),
       })}
       <AccountCombobox

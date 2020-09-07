@@ -89,6 +89,15 @@ export const getBillEntries = createSelector(
     }))
 );
 
+export const getShouldDisableSupplier = createSelector(
+  getShouldDisableFields,
+  getIsCreating,
+  getApplyPaymentToBillId,
+  (shouldDisableFields, isCreating, applyPaymentToBillId) => {
+    return shouldDisableFields || (isCreating && applyPaymentToBillId);
+  }
+);
+
 export const getShowBankStatementText = createSelector(
   getAccountId,
   getElectronicClearingAccountId,
@@ -103,7 +112,7 @@ export const getBillPaymentOptions = createStructuredSelector({
   referenceId: getReferenceId,
   date: getDate,
   description: getDescription,
-  shouldDisableFields: getShouldDisableFields,
+  shouldDisableSupplier: getShouldDisableSupplier,
   isCreating: getIsCreating,
   bankStatementText: getBankStatementText,
   showBankStatementText: getShowBankStatementText,

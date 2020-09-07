@@ -2,6 +2,7 @@ import {
   getBillEntries,
   getIsBeforeStartOfFinancialYear,
   getSaveBillPaymentPayload,
+  getShouldDisableSupplier,
   getShouldLoadBillList,
   getShowBankStatementText,
 } from '../BillPaymentDetailSelectors';
@@ -345,5 +346,25 @@ describe('BillPaymentSelector', () => {
         expect(actual).toEqual(expected);
       }
     );
+  });
+
+  describe('getShouldDisableSupplier', () => {
+    it('enable supplier on creating new bill payment', () => {
+      const actual = getShouldDisableSupplier.resultFunc(false, true, '');
+
+      expect(actual).toBeFalsy();
+    });
+
+    it('disable supplier on editing bill payment', () => {
+      const actual = getShouldDisableSupplier.resultFunc(true, false, '');
+
+      expect(actual).toBeTruthy();
+    });
+
+    it('disable supplier on creating bill payment from a bill', () => {
+      const actual = getShouldDisableSupplier.resultFunc(false, true, '12');
+
+      expect(actual).toBeTruthy();
+    });
   });
 });
