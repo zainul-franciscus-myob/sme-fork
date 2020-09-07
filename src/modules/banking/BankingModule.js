@@ -1372,40 +1372,8 @@ export default class BankingModule {
     });
   };
 
-  buildHotkeyHandlers = () => ({
-    [HotkeyLocations.GLOBAL]: [
-      {
-        key: [OPTION, A],
-        action: () => this.switchToTab(tabIds.allocate),
-      },
-      {
-        key: [OPTION, M],
-        action: () => this.switchToTab(tabIds.match),
-      },
-      {
-        key: [OPTION, T],
-        action: () => this.switchToTab(tabIds.transfer),
-      },
-      {
-        key: [COMMAND, ENTER],
-        action: this.saveTransactionLine,
-      },
-      {
-        key: [CTRL, ENTER],
-        action: this.saveTransactionLine,
-      },
-    ],
-    [HotkeyLocations.SPLIT_ALLOCATION_CALCULATOR]: [
-      {
-        key: EQUALS,
-        action: ({ index }) => this.dispatcher.populateRemainingAmount(index),
-      },
-    ],
-    [HotkeyLocations.UNMATCHED_ACCOUNT_COMBOBOX]: [
-      {
-        key: [SHIFT, EQUALS],
-        action: this.allocateToLastAllocatedAccount,
-      },
+  buildHotkeyHandlers = () => {
+    const hotkeysToExpandAccordionView = [
       {
         key: FORWARD_SLASH,
         action: this.expandTransactionWithHotkey,
@@ -1425,8 +1393,47 @@ export default class BankingModule {
         action: (eventDetail) =>
           this.expandTransactionWithHotkey(eventDetail, tabIds.transfer),
       },
-    ],
-  });
+    ];
+
+    return {
+      [HotkeyLocations.GLOBAL]: [
+        {
+          key: [OPTION, A],
+          action: () => this.switchToTab(tabIds.allocate),
+        },
+        {
+          key: [OPTION, M],
+          action: () => this.switchToTab(tabIds.match),
+        },
+        {
+          key: [OPTION, T],
+          action: () => this.switchToTab(tabIds.transfer),
+        },
+        {
+          key: [COMMAND, ENTER],
+          action: this.saveTransactionLine,
+        },
+        {
+          key: [CTRL, ENTER],
+          action: this.saveTransactionLine,
+        },
+      ],
+      [HotkeyLocations.SPLIT_ALLOCATION_CALCULATOR]: [
+        {
+          key: EQUALS,
+          action: ({ index }) => this.dispatcher.populateRemainingAmount(index),
+        },
+      ],
+      [HotkeyLocations.UNMATCHED_ACCOUNT_COMBOBOX]: [
+        {
+          key: [SHIFT, EQUALS],
+          action: this.allocateToLastAllocatedAccount,
+        },
+        ...hotkeysToExpandAccordionView,
+      ],
+      [HotkeyLocations.POSSIBLE_MATCHED_BUTTON]: hotkeysToExpandAccordionView,
+    };
+  };
 
   /* */
 

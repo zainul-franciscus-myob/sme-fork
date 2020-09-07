@@ -33,18 +33,28 @@ export default ({
     return <ExpandedRowItem entry={entry} />;
   }
 
-  if (
-    [
-      StatusTypes.matched,
-      StatusTypes.paymentRuleMatched,
-      StatusTypes.splitMatched,
-    ].includes(type)
-  ) {
+  if (type === StatusTypes.splitMatched) {
     return (
       <MatchedRowItem
         entry={entry}
         onClick={() => onMatchRowItemClick(index)}
+        isFocused={isFocused}
       />
+    );
+  }
+
+  if ([StatusTypes.matched, StatusTypes.paymentRuleMatched].includes(type)) {
+    return (
+      <HotkeyWrapper
+        index={index}
+        location={HotkeyLocations.POSSIBLE_MATCHED_BUTTON}
+      >
+        <MatchedRowItem
+          entry={entry}
+          onClick={() => onMatchRowItemClick(index)}
+          isFocused={isFocused}
+        />
+      </HotkeyWrapper>
     );
   }
 
@@ -54,6 +64,7 @@ export default ({
         index={index}
         entry={entry}
         onClick={() => onSplitRowItemClick(index)}
+        isFocused={isFocused}
       />
     );
   }

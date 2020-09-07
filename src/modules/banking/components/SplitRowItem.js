@@ -4,13 +4,11 @@ import AllocatedButton from './AllocatedButton';
 import AutoAllocated from './AutoAllocated';
 import styles from './SplitRowItem.module.css';
 
-const SplitRowItem = ({ entry, onClick }) => (
+const SplitRowItem = ({ entry, ...props }) => (
   <div className={styles.splitAllocation}>
     <div className={styles.splitInfo}>
       {entry.isRuleApplied && <AutoAllocated />}
-      <AllocatedButton onClick={onClick}>
-        {entry.allocateOrMatch}
-      </AllocatedButton>
+      <AllocatedButton {...props}>{entry.allocateOrMatch}</AllocatedButton>
     </div>
   </div>
 );
