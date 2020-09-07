@@ -71,8 +71,10 @@ const ContactListMapping = {
     );
     onSuccess({ ...loadContactOptionsResponse, contactOptions });
   },
-  [LOAD_CONTACT_COMBOBOX_OPTION_BY_ID]: ({ onSuccess }) =>
-    onSuccess(loadContactOptionByIdResponse),
+  [LOAD_CONTACT_COMBOBOX_OPTION_BY_ID]: ({ urlParams, onSuccess }) => {
+    const { contactId } = urlParams;
+    onSuccess({ ...loadContactOptionByIdResponse, id: contactId });
+  },
   [SEARCH_CONTACT_COMBOBOX]: ({ onSuccess }) =>
     onSuccess(loadContactSearchResponse),
 };

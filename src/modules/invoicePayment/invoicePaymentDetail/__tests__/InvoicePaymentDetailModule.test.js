@@ -138,11 +138,13 @@ describe('InvoicePaymentDetailModule', () => {
             loadingState: LoadingState.LOADING_SUCCESS,
           },
         ]);
-        expect(integration.getRequests()).toEqual([
-          expect.objectContaining({
-            intent,
-          }),
-        ]);
+        expect(integration.getRequests()).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              intent,
+            }),
+          ])
+        );
       });
 
       it(`fails to load ${name}`, () => {
@@ -167,11 +169,13 @@ describe('InvoicePaymentDetailModule', () => {
             loadingState: LoadingState.LOADING_FAIL,
           },
         ]);
-        expect(integration.getRequests()).toEqual([
-          expect.objectContaining({
-            intent,
-          }),
-        ]);
+        expect(integration.getRequests()).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              intent,
+            }),
+          ])
+        );
       });
     });
 
@@ -215,14 +219,16 @@ describe('InvoicePaymentDetailModule', () => {
           intent: LOAD_INVOICE_LIST,
         }),
       ]);
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: LOAD_INVOICE_PAYMENT_DETAIL,
-        }),
-        expect.objectContaining({
-          intent: LOAD_INVOICE_LIST,
-        }),
-      ]);
+      expect(integration.getRequests()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            intent: LOAD_INVOICE_PAYMENT_DETAIL,
+          }),
+          expect.objectContaining({
+            intent: LOAD_INVOICE_LIST,
+          }),
+        ])
+      );
     });
   });
 

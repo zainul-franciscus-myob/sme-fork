@@ -9,7 +9,6 @@ import {
   getWasRedirectedFromInvoiceDetail,
 } from '../invoicePaymentDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
-import ContactCombobox from '../../../../components/combobox/ContactCombobox';
 import DatePicker from '../../../../components/DatePicker/DatePicker';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import handleDatePickerChange from '../../../../components/handlers/handleDatePickerChange';
@@ -17,10 +16,11 @@ import handleInputChange from '../../../../components/handlers/handleInputChange
 
 const requiredLabel = 'Required';
 
-const handleCustomerComboBoxChange = (handler) => ({ id }) => handler(id);
+const handleCustomerComboBoxChange = (handler) => (item) => {
+  handler(item ? item.id : '');
+};
 
 const InvoicePaymentDetailOptions = ({
-  customers,
   customerId,
   accounts,
   accountId,
@@ -29,22 +29,24 @@ const InvoicePaymentDetailOptions = ({
   date,
   isBeforeStartOfFinancialYear,
   isCreating,
+  renderContactCombobox,
   onUpdateInvoicePaymentDetails,
   onUpdateCustomer,
   wasRedirectedFromInvoiceDetail,
 }) => {
   const primary = (
     <div>
-      <ContactCombobox
-        label="Customer"
-        name="customer"
-        hideLabel={false}
-        requiredLabel={isCreating ? requiredLabel : ''}
-        items={customers}
-        selectedId={customerId}
-        onChange={handleCustomerComboBoxChange(onUpdateCustomer)}
-        disabled={!isCreating || wasRedirectedFromInvoiceDetail}
-      />
+      {renderContactCombobox({
+        selectedId: customerId,
+        name: 'customerId',
+        label: 'Customer',
+        requiredLabel: isCreating ? requiredLabel : '',
+        hideLabel: false,
+        hideAdd: true,
+        allowClear: true,
+        disabled: !isCreating || wasRedirectedFromInvoiceDetail,
+        onChange: handleCustomerComboBoxChange(onUpdateCustomer),
+      })}
       <AccountCombobox
         label="Bank account"
         hideLabel={false}

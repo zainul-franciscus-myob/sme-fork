@@ -11,7 +11,7 @@ describe('invoicePaymentDetailsOptions', () => {
     const store = new Store(invoicePaymentDetailReducer);
     const wrapper = mount(
       <Provider store={store}>
-        <InvoicePaymentDetailOptions />
+        <InvoicePaymentDetailOptions renderContactCombobox={() => {}} />
       </Provider>
     );
     const invoicePaymentNumberInput = wrapper

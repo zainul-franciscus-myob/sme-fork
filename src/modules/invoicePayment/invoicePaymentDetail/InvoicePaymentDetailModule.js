@@ -8,6 +8,7 @@ import {
 import {
   getApplyPaymentToInvoiceId,
   getBusinessId,
+  getContactComboboxContext,
   getCustomerId,
   getIsActionsDisabled,
   getIsCreating,
@@ -16,6 +17,7 @@ import {
   getOpenedModalType,
   getRegion,
 } from './invoicePaymentDetailSelectors';
+import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
 import InvoicePaymentDetailView from './components/InvoicePaymentDetailView';
 import InvoicePaymentModalTypes from '../InvoicePaymentModalTypes';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -37,11 +39,14 @@ export default class InvoicePaymentDetailModule {
       this.store,
       integration
     );
+
+    this.contactComboboxModule = new ContactComboboxModule({ integration });
   }
 
   render = () => {
     const invoicePaymentView = (
       <InvoicePaymentDetailView
+        renderContactCombobox={this.renderContactCombobox}
         onUpdateInvoicePaymentDetails={
           this.dispatcher.updateInvoicePaymentDetails
         }
@@ -69,6 +74,18 @@ export default class InvoicePaymentDetailModule {
     this.setRootView(wrappedView);
   };
 
+  renderContactCombobox = (props) => {
+    return this.contactComboboxModule
+      ? this.contactComboboxModule.render(props)
+      : null;
+  };
+
+  loadContactCombobox = () => {
+    const state = this.store.getState();
+    const context = getContactComboboxContext(state);
+    this.contactComboboxModule.run(context);
+  };
+
   loadInvoicePayment = () => {
     const state = this.store.getState();
 
@@ -87,6 +104,8 @@ export default class InvoicePaymentDetailModule {
     if (customerId !== '') {
       this.updateCustomer(customerId);
     }
+
+    this.loadContactCombobox();
   };
 
   updateShowPaidInvoices = (value) => {
@@ -100,7 +119,10 @@ export default class InvoicePaymentDetailModule {
 
   updateCustomer = (value) => {
     this.dispatcher.updateCustomer(value);
-    this.loadInvoiceList();
+
+    if (value) {
+      this.loadInvoiceList();
+    }
   };
 
   redirectToUrl = (url) => {
@@ -291,7 +313,10 @@ export default class InvoicePaymentDetailModule {
     this.loadInvoicePayment();
   };
 
-  resetState = () => this.dispatcher.resetState();
+  resetState = () => {
+    this.contactComboboxModule.resetState();
+    this.dispatcher.resetState();
+  };
 
   unsubscribeFromStore = () => this.store.unsubscribeAll();
 }

@@ -19,7 +19,6 @@ import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoD
 
 const getDefaultState = () => ({
   alertMessage: '',
-  customers: [],
   accounts: [],
   accountId: '',
   customerId: '',
@@ -89,10 +88,13 @@ const updateShowPaidInvoices = (state, action) => ({
   showPaidInvoices: action.value,
 });
 
-const updateCustomer = (state, action) => ({
-  ...state,
-  customerId: action.value,
-});
+const updateCustomer = (state, action) => {
+  return {
+    ...state,
+    customerId: action.value,
+    entries: state.customerId !== action.value ? [] : state.entries,
+  };
+};
 
 const setAlertMessage = (state, action) => ({
   ...state,

@@ -37,6 +37,7 @@ const ContactComboboxView = ({
   contactOptions,
   isLoading,
   disabled,
+  hideAdd,
   contactModal,
   loadContactOptionsStatus,
   addNewItemLabel,
@@ -46,9 +47,8 @@ const ContactComboboxView = ({
   ...otherProps
 }) => {
   const metaData = getMetaData(displayMode);
-  const addNewItem = onAddNew
-    ? { label: addNewItemLabel, onAddNew }
-    : undefined;
+  const addNewItem =
+    !hideAdd && onAddNew ? { label: addNewItemLabel, onAddNew } : undefined;
 
   return (
     <>

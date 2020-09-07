@@ -30,6 +30,7 @@ const InvoicePaymentDetailView = ({
   loadingState,
   isCreating,
   showPaidInvoices,
+  renderContactCombobox,
   onUpdateInvoicePaymentDetails,
   onUpdateInvoicePaymentEntries,
   onUpdateShowPaidInvoices,
@@ -88,6 +89,7 @@ const InvoicePaymentDetailView = ({
         pageHead="Record payment from customer"
         options={
           <InvoicePaymentDetailOptions
+            renderContactCombobox={renderContactCombobox}
             onUpdateInvoicePaymentDetails={onUpdateInvoicePaymentDetails}
             onUpdateCustomer={onUpdateCustomer}
           />

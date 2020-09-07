@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect';
 import { isBefore } from 'date-fns';
 
+import ContactType from '../../contact/contactCombobox/types/ContactType';
+import DisplayMode from '../../contact/contactCombobox/types/DisplayMode';
 import InvoicePaymentModalTypes from '../InvoicePaymentModalTypes';
 import formatCurrency from '../../../common/valueFormatters/formatCurrency';
 
@@ -15,7 +17,6 @@ const formatAmount = (amount) =>
 export const getOptions = (state) => ({
   accounts: state.accounts,
   accountId: state.accountId,
-  customers: state.customers,
   customerId: state.customerId,
   referenceId: state.referenceId,
   description: state.description,
@@ -86,18 +87,7 @@ export const getEntries = createSelector(
 export const getIsReferenceIdDirty = ({ referenceId, originalReferenceId }) =>
   referenceId !== originalReferenceId;
 
-const getCustomers = (state) => state.customers;
 export const getCustomerId = (state) => state.customerId;
-const getCustomerName = createSelector(
-  getCustomers,
-  getCustomerId,
-  (customers, customerId) => {
-    const selectedCustomer =
-      customers.find(({ id }) => customerId === id) || {};
-
-    return selectedCustomer.displayName;
-  }
-);
 
 const getCreateContent = (state) => ({
   date: state.date,
@@ -105,7 +95,6 @@ const getCreateContent = (state) => ({
   description: state.description,
   accountId: state.accountId,
   customerId: state.customerId,
-  customerName: getCustomerName(state),
   entries: state.entries
     .filter(
       ({ paidAmount }) =>
@@ -158,4 +147,18 @@ export const getIsBeforeStartOfFinancialYear = (state) => {
     startOfFinancialYearDate &&
     isBefore(issueDate, new Date(startOfFinancialYearDate))
   );
+};
+
+export const getContactComboboxContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+  const customerId = getCustomerId(state);
+
+  return {
+    businessId,
+    region,
+    contactId: customerId,
+    contactType: ContactType.CUSTOMER,
+    displayMode: DisplayMode.NAME_AND_TYPE,
+  };
 };

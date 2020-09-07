@@ -111,7 +111,12 @@ export default class ContactComboboxModule {
     this.loadContactComboboxOptionById({ id, onSuccess });
   };
 
-  render({ onChange = () => {}, onAlert = () => {}, ...otherProps }) {
+  render({
+    hideAdd = false,
+    onChange = () => {},
+    onAlert = () => {},
+    ...otherProps
+  }) {
     this.onChange = onChange;
     this.onAlert = onAlert;
 
@@ -120,6 +125,7 @@ export default class ContactComboboxModule {
     return (
       <Provider store={this.store}>
         <ContactComboboxView
+          hideAdd={hideAdd}
           contactModal={contactModal}
           onLoadMore={this.loadContactComboboxOptions}
           onSearch={this.searchContactCombobox}
