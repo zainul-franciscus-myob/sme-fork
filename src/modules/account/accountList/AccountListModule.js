@@ -70,6 +70,22 @@ export default class AccountListModule {
     this.integrator.filterAccountList({ onSuccess, onFailure });
   };
 
+  fetchAllAccounts = () => {
+    this.dispatcher.setAccountListTableLoadingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setAccountListTableLoadingState(false);
+      this.dispatcher.filterAccountList(response);
+    };
+
+    const onFailure = (error) => {
+      this.dispatcher.setAccountListTableLoadingState(false);
+      this.dispatcher.setAlert({ message: error.message, type: 'danger' });
+    };
+
+    this.integrator.fetchAllAccounts({ onSuccess, onFailure });
+  };
+
   setTab = (tabId) => {
     this.dispatcher.setAccountListTab(tabId);
     this.filterAccountList();
@@ -162,18 +178,22 @@ export default class AccountListModule {
 
   editAccountsClick = () => {
     this.dispatcher.setEditMode(true);
+    this.fetchAllAccounts();
   };
 
   cancelEditAccountsClick = () => {
     this.dispatcher.setEditMode(false);
+    this.dispatcher.setSaveBtnEnabled(false);
     this.loadAccountList();
   };
 
   saveEditAccountsClicked = () => {
+    this.dispatcher.setSaveBtnEnabled(false);
     const onSuccess = ({ numAccountsUpdated, validationErrors }) => {
       const onBulkUpdateCompleted = () => {
         this.dispatcher.setEditMode(false);
-        const message = `${numAccountsUpdated} accounts updated.`;
+        const accountGrammar = numAccountsUpdated > 1 ? 'accounts' : 'account';
+        const message = `${numAccountsUpdated} ${accountGrammar} updated.`;
         this.dispatcher.setAlert({
           type: 'success',
           message,
@@ -199,6 +219,7 @@ export default class AccountListModule {
   };
 
   accountDetailsChange = ({ index, key, value }) => {
+    this.dispatcher.setSaveBtnEnabled(true);
     this.dispatcher.setAccountDetails({ index, key, value });
   };
 

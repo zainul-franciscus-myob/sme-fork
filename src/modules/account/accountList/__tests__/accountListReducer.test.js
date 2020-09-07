@@ -8,6 +8,7 @@ import {
   SET_ACCOUNT_DETAILS,
   SET_ALERT,
   SET_EDIT_MODE,
+  SET_SAVE_BTN_ENABLED,
 } from '../../AccountIntents';
 import accountListReducer from '../accountListReducer';
 
@@ -171,6 +172,34 @@ describe('BULK_UPDATE_ACCOUNTS', () => {
     const actual = reducer(state, action);
 
     expect(actual.editingMode).toEqual(false);
+  });
+
+  it('enables the save button', () => {
+    const state = {
+      saveBtnEnabled: false,
+    };
+    const action = {
+      intent: SET_SAVE_BTN_ENABLED,
+      saveBtnEnabled: true,
+    };
+
+    const actual = reducer(state, action);
+
+    expect(actual.saveBtnEnabled).toEqual(true);
+  });
+
+  it('disables the save button', () => {
+    const state = {
+      saveBtnEnabled: true,
+    };
+    const action = {
+      intent: SET_SAVE_BTN_ENABLED,
+      saveBtnEnabled: false,
+    };
+
+    const actual = reducer(state, action);
+
+    expect(actual.saveBtnEnabled).toEqual(false);
   });
 
   it('updates opening balance and marks entry as dirty', () => {

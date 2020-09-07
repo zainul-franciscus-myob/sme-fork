@@ -14,6 +14,7 @@ import {
   SET_ALERT,
   SET_EDIT_MODE,
   SET_LOADING_STATE,
+  SET_SAVE_BTN_ENABLED,
   SORT_AND_FILTER_ACCOUNT_LIST,
 } from '../AccountIntents';
 
@@ -102,6 +103,11 @@ const createAccountListDispatcher = (store) => ({
   setEditMode: (editingMode) => {
     const intent = SET_EDIT_MODE;
     store.dispatch({ intent, editingMode });
+  },
+
+  setSaveBtnEnabled: (saveBtnEnabled) => {
+    const intent = SET_SAVE_BTN_ENABLED;
+    store.dispatch({ intent, saveBtnEnabled });
   },
 
   setAccountDetails: ({ index, key, value }) => {

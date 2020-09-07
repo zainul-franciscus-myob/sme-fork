@@ -57,7 +57,9 @@ const EditableAccountRowItem = ({ config, onChange, index, value }) => (
       name={`${config.fieldName}`}
       value={value}
       onChange={onAmountChange(onChange, index)}
+      onBlur={onAmountChange(onChange, index)}
       numeralDecimalScaleMax={2}
+      numeralDecimalScaleMin={2}
       numeralIntegerScale={13}
     />
   </Table.RowItem>
@@ -125,7 +127,7 @@ const AccountBulkEditListTableBody = ({
             index={index}
             value={openingBalance}
             onChange={({ key, value }) =>
-              onAccountDetailsChange({ index, key, value: Number(value) })
+              onAccountDetailsChange({ index, key, value })
             }
           />
         )}

@@ -29,6 +29,8 @@ export const getIsTableEmpty = (state) => state.entries.length === 0;
 
 export const getEditingMode = (state) => state.editingMode;
 
+export const getSaveBtnEnabled = (state) => state.saveBtnEnabled;
+
 const getHasFlexibleAccountNumbers = (state) => state.hasFlexibleAccountNumbers;
 
 const getAccountLink = (account, businessId, region) => {

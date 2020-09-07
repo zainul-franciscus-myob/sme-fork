@@ -14,6 +14,7 @@ import {
   SET_ALERT,
   SET_EDIT_MODE,
   SET_LOADING_STATE,
+  SET_SAVE_BTN_ENABLED,
   SORT_AND_FILTER_ACCOUNT_LIST,
 } from '../AccountIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -35,6 +36,7 @@ const getDefaultState = () => ({
   entries: [],
   hasFlexibleAccountNumbers: false,
   editingMode: false,
+  saveBtnEnabled: false,
 });
 
 const setInitialState = (state, { context, settings }) => ({
@@ -137,6 +139,11 @@ const setEditMode = (state, { editingMode }) => ({
   editingMode,
 });
 
+const setSaveBtnEnabled = (state, { saveBtnEnabled }) => ({
+  ...state,
+  saveBtnEnabled,
+});
+
 const setAccountDetails = (state, action) => ({
   ...state,
   entries: state.entries.map((entry, id) =>
@@ -165,6 +172,7 @@ const handlers = {
 
   [SET_EDIT_MODE]: setEditMode,
   [SET_ACCOUNT_DETAILS]: setAccountDetails,
+  [SET_SAVE_BTN_ENABLED]: setSaveBtnEnabled,
 
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,

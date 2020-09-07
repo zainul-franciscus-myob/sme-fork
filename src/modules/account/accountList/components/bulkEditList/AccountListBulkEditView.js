@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getDirtyEntries,
   getLoadingState,
   getRawEntries,
+  getSaveBtnEnabled,
   getTableTaxCodeHeader,
 } from '../../AccountListSelectors';
 import AccountBulkEditListTableBody from './AccountBulkEditListTableBody';
@@ -21,7 +21,7 @@ const AccountListBulkEditView = ({
   taxCodeHeader,
   onCancel,
   onSave,
-  isEdited,
+  saveBtnEnabled,
 }) => {
   const pageHead = (
     <PageHead title="Edit Accounts">
@@ -29,7 +29,7 @@ const AccountListBulkEditView = ({
         <Button type="secondary" onClick={onCancel}>
           Cancel
         </Button>
-        <Button type="primary" onClick={onSave} disabled={!isEdited}>
+        <Button type="primary" onClick={onSave} disabled={!saveBtnEnabled}>
           Save
         </Button>
       </ButtonRow>
@@ -81,7 +81,7 @@ const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   entries: getRawEntries(state),
   taxCodeHeader: getTableTaxCodeHeader(state),
-  isEdited: getDirtyEntries(state).length > 0,
+  saveBtnEnabled: getSaveBtnEnabled(state),
 });
 
 export default connect(mapStateToProps)(AccountListBulkEditView);

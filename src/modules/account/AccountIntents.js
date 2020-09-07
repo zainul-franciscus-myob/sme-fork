@@ -48,3 +48,4 @@ export const UPDATE_ACCOUNTS = Symbol('Update accounts');
 
 export const SET_EDIT_MODE = Symbol('Set edit mode');
 export const SET_ACCOUNT_DETAILS = Symbol('Set account details');
+export const SET_SAVE_BTN_ENABLED = Symbol('Set save button enabled');

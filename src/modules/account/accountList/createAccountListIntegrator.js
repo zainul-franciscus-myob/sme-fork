@@ -31,6 +31,20 @@ const createAccountListIntegrator = (store, integration) => ({
       onFailure,
     });
   },
+  fetchAllAccounts: ({ onSuccess, onFailure }) => {
+    const intent = SORT_AND_FILTER_ACCOUNT_LIST;
+
+    const state = store.getState();
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+    integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
   deleteAccounts: (onSuccess, onFailure) => {
     const state = store.getState();
     const content = getAccountsForBulkDelete(state);
