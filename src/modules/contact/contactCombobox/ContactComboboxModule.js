@@ -1,7 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getContactModalContext } from './contactComboboxSelectors';
+import {
+  getContactModalContext,
+  getShouldLoadContactOptionById,
+} from './contactComboboxSelectors';
 import AlertType from '../../../common/types/AlertType';
 import ContactComboboxView from './components/ContactComboboxView';
 import ContactModalModule from '../contactModal/ContactModalModule';
@@ -37,6 +40,17 @@ export default class ContactComboboxModule {
 
     const { contactId } = context;
     if (contactId) {
+      this.loadContactComboboxOptionById({ id: contactId });
+    }
+  };
+
+  load = (contactId) => {
+    const state = this.store.getState();
+    const shouldLoadContactOptionById = getShouldLoadContactOptionById(
+      state,
+      contactId
+    );
+    if (shouldLoadContactOptionById) {
       this.loadContactComboboxOptionById({ id: contactId });
     }
   };

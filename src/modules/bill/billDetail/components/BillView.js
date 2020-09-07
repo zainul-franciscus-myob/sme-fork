@@ -47,6 +47,7 @@ const getOptionInfo = ({ isReadOnly, readOnlyMessage, showPrefillInfo }) => {
 };
 
 const BillView = ({
+  renderContactCombobox,
   serviceLayoutListeners,
   itemAndServiceLayoutListeners,
   accountModal,
@@ -64,7 +65,6 @@ const BillView = ({
   layout,
   inventoryModal,
   inTrayModal,
-  contactModal,
   onSaveButtonClick,
   onSaveAndButtonClick,
   onCancelButtonClick,
@@ -76,6 +76,7 @@ const BillView = ({
   onConfirmSaveAmountDueWarningButtonClick,
   onConfirmSaveAndDuplicateButtonClick,
   onConfirmSaveAndCreateNewButtonClick,
+  onInputAlert,
   onDismissAlert,
   onUpdateBillOption,
   onUpdateLayout,
@@ -149,7 +150,6 @@ const BillView = ({
       {inventoryModal}
       {accountModal}
       {jobModal}
-      {contactModal}
       {inTrayModal}
       {upgradeModal}
       {isModalShown && (
@@ -196,6 +196,8 @@ const BillView = ({
       detailHeaderClassName={classNames(styles.secondaryOptions, styles.detail)}
       primaryOptions={
         <BillPrimaryOptions
+          renderContactCombobox={renderContactCombobox}
+          onInputAlert={onInputAlert}
           onUpdateBillOption={onUpdateBillOption}
           onAddSupplierButtonClick={onAddSupplierButtonClick}
         />

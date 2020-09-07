@@ -16,6 +16,7 @@ import {
 import {
   getAccountModalContext,
   getContactComboboxContext,
+  getContactId,
   getExportPdfFilename,
   getInventoryModalContext,
   getIsCreating,
@@ -98,7 +99,7 @@ export default class QuoteDetailModule {
     const onSuccess = (payload) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadQuote(payload);
-      this.loadContactCombobox();
+      this.updateContactCombobox();
     };
 
     const onFailure = () => {
@@ -746,6 +747,14 @@ export default class QuoteDetailModule {
     this.contactComboboxModule.run(context);
   };
 
+  updateContactCombobox = () => {
+    const state = this.store.getState();
+    const contactId = getContactId(state);
+    if (contactId) {
+      this.contactComboboxModule.load(contactId);
+    }
+  };
+
   renderContactCombobox = (props) => {
     return this.contactComboboxModule
       ? this.contactComboboxModule.render(props)
@@ -904,5 +913,6 @@ export default class QuoteDetailModule {
     this.readMessages();
 
     this.loadQuote();
+    this.loadContactCombobox();
   }
 }

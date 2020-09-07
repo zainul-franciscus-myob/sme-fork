@@ -12,7 +12,6 @@ import {
   LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_BILL,
   LOAD_NEW_DUPLICATE_BILL,
-  LOAD_SUPPLIER_AFTER_CREATE,
   LOAD_SUPPLIER_DETAIL,
   PREFILL_BILL_FROM_IN_TRAY,
   UNLINK_IN_TRAY_DOCUMENT,
@@ -38,11 +37,6 @@ const HttpBillDetailMapping = {
     method: 'GET',
     getPath: ({ businessId, supplierId }) =>
       `/${businessId}/bill/load_supplier_detail/${supplierId}`,
-  },
-  [LOAD_SUPPLIER_AFTER_CREATE]: {
-    method: 'GET',
-    getPath: ({ businessId, supplierId }) =>
-      `/${businessId}/bill/load_supplier_after_create/${supplierId}`,
   },
   [LOAD_ITEM_DETAIL_FOR_LINE]: {
     method: 'POST',

@@ -154,37 +154,16 @@ describe('IntegratorSelectors', () => {
         stuff: 'stuff',
         supplierId: '1',
       },
-      supplierOptions: [
-        {
-          id: '1',
-          displayName: 'mayank',
-        },
-      ],
     };
 
-    it('append layout and supplierName to bill', () => {
+    it('append layout to bill', () => {
       const actual = getSaveBillContent(state);
 
       expect(actual).toEqual({
         stuff: 'stuff',
         supplierId: '1',
-        supplierName: 'mayank',
         layout: 'item',
       });
-    });
-
-    it('returns empty supplier name when no supplier selected', () => {
-      const modifiedState = {
-        ...state,
-        bill: {
-          ...state.bill,
-          supplierId: '',
-        },
-      };
-
-      const actual = getSaveBillContent(modifiedState);
-
-      expect(actual.supplierName).toEqual('');
     });
   });
 

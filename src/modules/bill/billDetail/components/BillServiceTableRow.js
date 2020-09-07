@@ -9,7 +9,6 @@ import {
   getIsBlocking,
   getIsNewLine,
   getIsReadOnly,
-  getIsSupplierBlocking,
   getTaxCodeOptions,
 } from '../selectors/billSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
@@ -49,7 +48,6 @@ const BillServiceTableRow = ({
   taxCodeOptions,
   isNewLine,
   isBlocking,
-  isSupplierDisabled,
   isReadOnly,
   onChange,
   onRowInputBlur,
@@ -88,7 +86,7 @@ const BillServiceTableRow = ({
         onChange={onChange}
         maxLength={1000}
         autoSize
-        disabled={isBlocking || isSupplierDisabled || isReadOnly}
+        disabled={isBlocking || isReadOnly}
       />
       <AccountCombobox
         onChange={handleComboboxChange(onChange, 'accountId')}
@@ -97,7 +95,7 @@ const BillServiceTableRow = ({
         }
         items={accountOptions}
         selectedId={accountId}
-        disabled={isBlocking || isSupplierDisabled || isReadOnly}
+        disabled={isBlocking || isReadOnly}
       />
       <Calculator
         name="amount"
@@ -108,7 +106,7 @@ const BillServiceTableRow = ({
           [styles.prefilled]: Boolean(prefillStatus.amount),
         })}
         textAlign="right"
-        disabled={isBlocking || isSupplierDisabled || isReadOnly}
+        disabled={isBlocking || isReadOnly}
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
@@ -118,7 +116,7 @@ const BillServiceTableRow = ({
           selectedId={jobId}
           addNewJob={() => onAddJob(handleComboboxChange(onChange, 'jobId'))}
           onChange={handleComboboxChange(onChange, 'jobId')}
-          disabled={isBlocking || isSupplierDisabled || isReadOnly}
+          disabled={isBlocking || isReadOnly}
           allowClear
           left
         />
@@ -127,7 +125,7 @@ const BillServiceTableRow = ({
         onChange={handleComboboxChange(onChange, 'taxCodeId')}
         items={taxCodeOptions}
         selectedId={taxCodeId}
-        disabled={isBlocking || isSupplierDisabled || isReadOnly}
+        disabled={isBlocking || isReadOnly}
       />
     </LineItemTable.Row>
   );
@@ -139,7 +137,6 @@ const mapStateToProps = (state, props) => ({
   taxCodeOptions: getTaxCodeOptions(state),
   isNewLine: getIsNewLine(state, props),
   isBlocking: getIsBlocking(state, props),
-  isSupplierDisabled: getIsSupplierBlocking(state),
   isReadOnly: getIsReadOnly(state),
 });
 

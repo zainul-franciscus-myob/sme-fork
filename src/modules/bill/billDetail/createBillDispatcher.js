@@ -13,7 +13,6 @@ import {
   LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_ITEM_OPTION,
   LOAD_JOB_AFTER_CREATE,
-  LOAD_SUPPLIER_AFTER_CREATE,
   LOAD_SUPPLIER_DETAIL,
   OPEN_ALERT,
   OPEN_MODAL,
@@ -33,11 +32,9 @@ import {
   START_BLOCKING,
   START_LOADING,
   START_MODAL_BLOCKING,
-  START_SUPPLIER_BLOCKING,
   STOP_BLOCKING,
   STOP_LOADING,
   STOP_MODAL_BLOCKING,
-  STOP_SUPPLIER_BLOCKING,
   UNLINK_IN_TRAY_DOCUMENT,
   UPDATE_BILL_ID,
   UPDATE_BILL_LINE,
@@ -246,19 +243,6 @@ const createBillDispatcher = (store) => ({
       response,
     });
   },
-
-  loadSupplierAfterCreate: (supplierId, payload) =>
-    store.dispatch({
-      intent: LOAD_SUPPLIER_AFTER_CREATE,
-      supplierId,
-      ...payload,
-    }),
-
-  startSupplierBlocking: () =>
-    store.dispatch({ intent: START_SUPPLIER_BLOCKING }),
-
-  stopSupplierBlocking: () =>
-    store.dispatch({ intent: STOP_SUPPLIER_BLOCKING }),
 
   resetSupplier: () => {
     store.dispatch({ intent: RESET_SUPPLIER });

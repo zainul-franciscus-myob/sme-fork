@@ -4,6 +4,8 @@ import { isBefore } from 'date-fns';
 
 import BillLayout from '../types/BillLayout';
 import BillLineType from '../types/BillLineType';
+import ContactType from '../../../contact/contactCombobox/types/ContactType';
+import DisplayMode from '../../../contact/contactCombobox/types/DisplayMode';
 import Region from '../../../../common/types/Region';
 import buildAbnLink from '../../../../common/links/buildAbnLink';
 import calculateLineTotals from '../../../../common/taxCalculator/calculateLineTotals';
@@ -44,7 +46,6 @@ export const getAbn = (state) => state.abn;
 export const getAccountOptions = (state) => state.accountOptions;
 export const getExpirationTermOptions = (state) => state.expirationTermOptions;
 export const getItemOptions = (state) => state.itemOptions;
-export const getSupplierOptions = (state) => state.supplierOptions;
 export const getTaxCodeOptions = (state) => state.taxCodeOptions;
 
 export const getLoadingState = (state) => state.loadingState;
@@ -168,19 +169,8 @@ export const getShouldShowAccountCode = getIsCreatingFromInTray;
 
 export const getIsSupplierDisabled = createSelector(
   getIsCreating,
-  getIsSupplierBlocking,
-  (isCreating, isSupplierBlocking) => !isCreating || isSupplierBlocking
+  (isCreating) => !isCreating
 );
-
-export const getUpdatedSupplierOptions = (state, updatedOption) => {
-  const supplierOptions = getSupplierOptions(state);
-
-  return supplierOptions.some((option) => option.id === updatedOption.id)
-    ? supplierOptions.map((option) =>
-        option.id === updatedOption.id ? updatedOption : option
-      )
-    : [updatedOption, ...supplierOptions];
-};
 
 export const getCreateSupplierContactModalContext = (state) => {
   const businessId = getBusinessId(state);
@@ -372,3 +362,17 @@ export const getIsBeforeFYAndAfterConversionDate = createSelector(
   (isBeforeConversionDate, isBeforeStartOfFinancialYear) =>
     !isBeforeConversionDate && isBeforeStartOfFinancialYear
 );
+
+export const getContactComboboxContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+  const supplierId = getSupplierId(state);
+
+  return {
+    businessId,
+    region,
+    contactId: supplierId,
+    contactType: ContactType.SUPPLIER,
+    displayMode: DisplayMode.NAME_ONLY,
+  };
+};

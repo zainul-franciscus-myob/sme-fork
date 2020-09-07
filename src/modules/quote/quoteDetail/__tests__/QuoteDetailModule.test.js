@@ -157,11 +157,13 @@ describe('QuoteDetailModule', () => {
               loadingState: LoadingState.LOADING_FAIL,
             },
           ]);
-          expect(integration.getRequests()).toEqual([
-            expect.objectContaining({
-              intent: test.intent,
-            }),
-          ]);
+          expect(integration.getRequests()).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                intent: test.intent,
+              }),
+            ])
+          );
         });
       });
     });
@@ -271,15 +273,17 @@ describe('QuoteDetailModule', () => {
           loadingState: LoadingState.LOADING_FAIL,
         },
       ]);
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: LOAD_NEW_DUPLICATE_QUOTE_DETAIL,
-          urlParams: {
-            businessId: 'businessId',
-            duplicateId: '🐛',
-          },
-        }),
-      ]);
+      expect(integration.getRequests()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            intent: LOAD_NEW_DUPLICATE_QUOTE_DETAIL,
+            urlParams: {
+              businessId: 'businessId',
+              duplicateId: '🐛',
+            },
+          }),
+        ])
+      );
     });
   });
 

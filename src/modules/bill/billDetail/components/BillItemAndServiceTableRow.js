@@ -9,7 +9,6 @@ import {
   getIsBlocking,
   getIsNewLine,
   getIsReadOnly,
-  getIsSupplierBlocking,
   getItemOptions,
   getTaxCodeOptions,
 } from '../selectors/billSelectors';
@@ -51,7 +50,6 @@ const BillItemAndServiceTableRow = ({
   taxCodeOptions,
   itemOptions,
   isBlocking,
-  isSupplierDisabled,
   isNewLine,
   isLineWithoutItemFromInTray,
   isReadOnly,
@@ -103,7 +101,7 @@ const BillItemAndServiceTableRow = ({
         items={itemOptions}
         selectedId={itemId}
         onChange={handleComboboxChange(onChange, 'itemId')}
-        disabled={isBlocking || isSupplierDisabled || isReadOnly}
+        disabled={isBlocking || isReadOnly}
       />
       <div
         className={classnames({
@@ -115,7 +113,7 @@ const BillItemAndServiceTableRow = ({
           autoSize
           value={description}
           onChange={onChange}
-          disabled={isBlocking || isSupplierDisabled || isReadOnly}
+          disabled={isBlocking || isReadOnly}
           maxLength={1000}
         />
       </div>
@@ -126,7 +124,7 @@ const BillItemAndServiceTableRow = ({
         }
         items={accountOptions}
         selectedId={accountId}
-        disabled={isBlocking || isSupplierDisabled || isReadOnly}
+        disabled={isBlocking || isReadOnly}
       />
       <Calculator
         name="units"
@@ -136,7 +134,7 @@ const BillItemAndServiceTableRow = ({
         className={classnames({
           [styles.prefilled]: Boolean(prefillStatus.units),
         })}
-        disabled={isBlocking || isSupplierDisabled || isReadOnly}
+        disabled={isBlocking || isReadOnly}
         numeralIntegerScale={12}
         numeralDecimalScaleMax={6}
       />
@@ -149,7 +147,7 @@ const BillItemAndServiceTableRow = ({
           [styles.prefilled]: Boolean(prefillStatus.unitPrice),
         })}
         textAlign="right"
-        disabled={isBlocking || isSupplierDisabled || isReadOnly}
+        disabled={isBlocking || isReadOnly}
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={6}
       />
@@ -162,7 +160,7 @@ const BillItemAndServiceTableRow = ({
           [styles.prefilled]: Boolean(prefillStatus.discount),
         })}
         textAlign="right"
-        disabled={isBlocking || isSupplierDisabled || isReadOnly}
+        disabled={isBlocking || isReadOnly}
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
@@ -175,7 +173,7 @@ const BillItemAndServiceTableRow = ({
           [styles.prefilled]: Boolean(prefillStatus.amount),
         })}
         textAlign="right"
-        disabled={isBlocking || isSupplierDisabled || isReadOnly}
+        disabled={isBlocking || isReadOnly}
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
@@ -185,7 +183,7 @@ const BillItemAndServiceTableRow = ({
           selectedId={jobId}
           addNewJob={() => onAddJob(handleComboboxChange(onChange, 'jobId'))}
           onChange={handleComboboxChange(onChange, 'jobId')}
-          disabled={isBlocking || isSupplierDisabled || isReadOnly}
+          disabled={isBlocking || isReadOnly}
           allowClear
           left
         />
@@ -194,7 +192,7 @@ const BillItemAndServiceTableRow = ({
         items={taxCodeOptions}
         selectedId={taxCodeId}
         onChange={handleComboboxChange(onChange, 'taxCodeId')}
-        disabled={isBlocking || isSupplierDisabled || isReadOnly}
+        disabled={isBlocking || isReadOnly}
       />
     </LineItemTable.Row>
   );
@@ -207,7 +205,6 @@ const mapStateToProps = (state, props) => ({
   taxCodeOptions: getTaxCodeOptions(state),
   isNewLine: getIsNewLine(state, props),
   isBlocking: getIsBlocking(state),
-  isSupplierDisabled: getIsSupplierBlocking(state),
   isReadOnly: getIsReadOnly(state),
 });
 

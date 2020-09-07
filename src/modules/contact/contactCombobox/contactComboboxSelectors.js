@@ -80,6 +80,12 @@ export const getContactModalContext = (state) => {
   return { businessId, region, contactType: modalContactType };
 };
 
+export const getShouldLoadContactOptionById = (state, contactId) => {
+  const contactOptions = getContactOptions(state);
+
+  return contactId && !contactOptions.some(({ id }) => id === contactId);
+};
+
 export const getLoadContactOptionByIdUrlParams = (state, contactId) => {
   const businessId = getBusinessId(state);
 

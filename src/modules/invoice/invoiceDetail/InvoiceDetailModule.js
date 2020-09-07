@@ -11,6 +11,7 @@ import {
   getAccountModalContext,
   getContactComboboxContext,
   getContextForInventoryModal,
+  getCustomerId,
   getInvoiceId,
   getIsBeforeConversionDate,
   getIsCreating,
@@ -170,8 +171,8 @@ export default class InvoiceDetailModule {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setSubmittingState(false);
       this.dispatcher.loadInvoice(payload);
-      this.loadContactCombobox();
 
+      this.updateContactCombobox();
       if (getShouldShowAbn(this.store.getState())) {
         this.loadAbnFromCustomer();
       }
@@ -919,6 +920,8 @@ export default class InvoiceDetailModule {
 
     this.loadInvoice();
 
+    this.loadContactCombobox();
+
     const showOnlinePayment = getShowOnlinePayment(this.store.getState());
     if (showOnlinePayment) {
       this.loadPayDirect();
@@ -1062,6 +1065,14 @@ export default class InvoiceDetailModule {
     const state = this.store.getState();
     const context = getContactComboboxContext(state);
     this.contactComboboxModule.run(context);
+  };
+
+  updateContactCombobox = () => {
+    const state = this.store.getState();
+    const customerId = getCustomerId(state);
+    if (customerId) {
+      this.contactComboboxModule.load(customerId);
+    }
   };
 
   renderContactCombobox = (props) => {

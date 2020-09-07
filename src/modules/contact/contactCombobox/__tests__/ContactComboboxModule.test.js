@@ -105,6 +105,60 @@ describe('ContactComboboxModule', () => {
     });
   });
 
+  describe('load', () => {
+    const setUpWithContactOptions = (contactOptions) => {
+      const { module, store, integration } = setUp();
+      integration.mapSuccess(LOAD_CONTACT_COMBOBOX_OPTIONS, { contactOptions });
+      module.run({
+        businessId: 'businessId',
+        region: 'au',
+        contactType: ContactType.ALL,
+        displayMode: DisplayMode.NAME_AND_TYPE,
+      });
+      store.resetActions();
+      integration.resetRequests();
+
+      return { module, integration, store };
+    };
+
+    it('successfully load', () => {
+      const { module, store, integration } = setUpWithContactOptions([
+        { id: '1' },
+      ]);
+
+      module.load('2');
+
+      expect(store.getActions()).toEqual([
+        { intent: SET_CONTACT_COMBOBOX_LOADING_STATE, isLoading: true },
+        { intent: SET_CONTACT_COMBOBOX_LOADING_STATE, isLoading: false },
+        expect.objectContaining({ intent: LOAD_CONTACT_COMBOBOX_OPTION_BY_ID }),
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: LOAD_CONTACT_COMBOBOX_OPTION_BY_ID }),
+      ]);
+    });
+
+    it('does not load contact option if it already exists in the list', () => {
+      const { module, store, integration } = setUpWithContactOptions([
+        { id: '1' },
+      ]);
+
+      module.load('1');
+
+      expect(store.getActions()).toEqual([]);
+      expect(integration.getRequests()).toEqual([]);
+    });
+
+    it('does not load contact option if contactId is empty', () => {
+      const { module, store, integration } = setUpWithRun();
+
+      module.load('');
+
+      expect(store.getActions()).toEqual([]);
+      expect(integration.getRequests()).toEqual([]);
+    });
+  });
+
   describe('loadContactComboboxOptions', () => {
     it('successfully load', () => {
       const { module, store, integration } = setUpWithRun();

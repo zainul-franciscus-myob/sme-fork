@@ -20,7 +20,6 @@ import {
   getIsTaxInclusive,
   getLines,
   getSupplierId,
-  getSupplierOptions,
 } from './billSelectors';
 import {
   getAttachmentId,
@@ -135,17 +134,10 @@ export const getLoadAddedJobUrlParams = (state, jobId) => {
 
 export const getSaveBillContent = createSelector(
   (state) => state.bill,
-  getSupplierOptions,
   getBillLayout,
-  (bill, supplierOptions, layout) => {
-    const selectedSupplier = supplierOptions.find(
-      (supplier) => supplier.id === bill.supplierId
-    );
-    const supplierName = selectedSupplier ? selectedSupplier.displayName : '';
-
+  (bill, layout) => {
     return {
       ...bill,
-      supplierName,
       layout,
     };
   }

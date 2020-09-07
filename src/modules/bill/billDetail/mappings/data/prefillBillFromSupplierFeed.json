@@ -30,10 +30,6 @@
       "isSupplierFeedPrefilled": true
     }
   ],
-  "supplierOptions": [{
-    "displayName": "Cow Sleep",
-    "id": "3"
-  }],
   "document": {
     "thumbnailUrl": "https://assets.digital.myob.com/images/favicons/apple-touch-icon.png",
     "uploadedDate": "04/04/2019"

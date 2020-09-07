@@ -15,8 +15,8 @@ import {
 import {
   getBillId,
   getBillUid,
+  getContactComboboxContext,
   getContextForInventoryModal,
-  getCreateSupplierContactModalContext,
   getExpenseAccountId,
   getHasLineBeenPrefilled,
   getIsCreating,
@@ -32,6 +32,7 @@ import {
   getNewLineIndex,
   getRedirectUrl,
   getShouldShowAbn,
+  getSupplierId,
   getTaxCodeOptions,
 } from './selectors/billSelectors';
 import {
@@ -62,8 +63,9 @@ import { getLinkInTrayContentWithoutIds } from './selectors/BillIntegratorSelect
 import { shouldShowSaveAmountDueWarningModal } from './selectors/BillSaveSelectors';
 import AbnStatus from '../../../components/autoFormatter/AbnInput/AbnStatus';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
+import AlertType from '../../../common/types/AlertType';
 import BillView from './components/BillView';
-import ContactModalModule from '../../contact/contactModal/ContactModalModule';
+import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
 import FeatureToggle from '../../../FeatureToggles';
 import InTrayModalModule from '../../inTray/inTrayModal/InTrayModalModule';
 import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
@@ -104,13 +106,14 @@ class BillModule {
     this.jobModalModule = new JobModalModule({
       integration,
     });
-    this.contactModalModule = new ContactModalModule({ integration });
     this.inventoryModalModule = new InventoryModalModule({ integration });
     this.inTrayModalModule = new InTrayModalModule({ integration });
     this.taxCalculate = createTaxCalculator(TaxCalculatorTypes.bill);
     this.globalCallbacks = globalCallbacks;
     this.navigateTo = navigateTo;
     this.subscribeOrUpgrade = subscribeOrUpgrade;
+
+    this.contactComboboxModule = new ContactComboboxModule({ integration });
   }
 
   openAccountModal = (onChange) => {
@@ -180,6 +183,8 @@ class BillModule {
       this.dispatcher.prefillDataFromInTray(response);
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
 
+      this.updateContactCombobox();
+
       const shouldShowAbn = getShouldShowAbn(this.store.getState());
       if (shouldShowAbn) {
         this.loadAbnFromSupplier();
@@ -208,6 +213,8 @@ class BillModule {
       if (getIsCreatingFromInTray(state)) {
         this.prefillBillFromInTray();
       } else {
+        this.updateContactCombobox();
+
         const shouldShowAbn = getShouldShowAbn(state);
         if (shouldShowAbn) {
           this.loadAbnFromSupplier();
@@ -678,44 +685,6 @@ class BillModule {
     }
   };
 
-  openSupplierModal = () => {
-    const state = this.store.getState();
-    const context = getCreateSupplierContactModalContext(state);
-
-    this.contactModalModule.run({
-      context,
-      onLoadFailure: (message) => this.dispatcher.openDangerAlert({ message }),
-      onSaveSuccess: this.loadSupplierAfterCreate,
-    });
-  };
-
-  loadSupplierAfterCreate = ({ message, id }) => {
-    this.contactModalModule.resetState();
-    this.dispatcher.openSuccessAlert({ message });
-    this.dispatcher.startSupplierBlocking();
-
-    const onSuccess = (payload) => {
-      this.dispatcher.stopSupplierBlocking();
-      this.dispatcher.loadSupplierAfterCreate(id, payload);
-
-      const state = this.store.getState();
-      if (getIsCreating(state) && getExpenseAccountId(state)) {
-        this.getTaxCalculations({ isSwitchingTaxInclusive: false });
-      }
-
-      const shouldShowAbn = getShouldShowAbn(state);
-      if (shouldShowAbn) {
-        this.loadAbnFromSupplier();
-      }
-    };
-
-    const onFailure = () => {
-      this.dispatcher.stopSupplierBlocking();
-    };
-
-    this.integrator.loadSupplierAfterCreate({ id, onSuccess, onFailure });
-  };
-
   readMessages = () => {
     this.popMessages([
       SUCCESSFULLY_SAVED_BILL,
@@ -911,16 +880,46 @@ class BillModule {
     this.navigateTo(url);
   };
 
+  openAlert = ({ type, message }) => {
+    if (type === AlertType.SUCCESS) {
+      this.dispatcher.openSuccessAlert({ message });
+    }
+
+    if (type === AlertType.DANGER) {
+      this.dispatcher.openDangerAlert({ message });
+    }
+  };
+
+  loadContactCombobox = () => {
+    const state = this.store.getState();
+    const context = getContactComboboxContext(state);
+    this.contactComboboxModule.run(context);
+  };
+
+  updateContactCombobox = () => {
+    const state = this.store.getState();
+    const supplierId = getSupplierId(state);
+    if (supplierId) {
+      this.contactComboboxModule.load(supplierId);
+    }
+  };
+
+  renderContactCombobox = (props) => {
+    return this.contactComboboxModule
+      ? this.contactComboboxModule.render(props)
+      : null;
+  };
+
   render = () => {
     const accountModal = this.accountModalModule.render();
     const jobModal = this.jobModalModule.render();
-    const contactModal = this.contactModalModule.render();
     const inventoryModal = this.inventoryModalModule.render();
     const inTrayModal = this.inTrayModalModule.render();
 
     const view = (
       <Provider store={this.store}>
         <BillView
+          renderContactCombobox={this.renderContactCombobox}
           inventoryModal={inventoryModal}
           inTrayModal={inTrayModal}
           accountModal={accountModal}
@@ -938,6 +937,7 @@ class BillModule {
           onConfirmSaveAmountDueWarningButtonClick={this.saveBill}
           onConfirmSaveAndCreateNewButtonClick={this.saveAndCreateNewBill}
           onConfirmSaveAndDuplicateButtonClick={this.saveAndDuplicateBill}
+          onInputAlert={this.openAlert}
           onDismissAlert={this.closeAlert}
           onUpdateLayout={this.updateLayout}
           onUpdateBillOption={this.updateBillOption}
@@ -966,7 +966,6 @@ class BillModule {
             onConfirm: this.exportPdf,
             onChange: this.dispatcher.updateExportPdfDetail,
           }}
-          contactModal={contactModal}
           onAddSupplierButtonClick={this.openSupplierModal}
           onOpenSplitViewButtonClick={this.downloadDocument}
           onCloseSplitViewButtonClick={this.closeSplitView}
@@ -987,7 +986,7 @@ class BillModule {
   };
 
   resetState = () => {
-    this.contactModalModule.resetState();
+    this.contactComboboxModule.resetState();
     this.inventoryModalModule.resetState();
     this.accountModalModule.resetState();
     this.inTrayModalModule.resetState();
@@ -1009,6 +1008,7 @@ class BillModule {
     this.render();
     this.readMessages();
     this.loadBill();
+    this.loadContactCombobox();
   }
 
   handlePageTransition = (url) => {

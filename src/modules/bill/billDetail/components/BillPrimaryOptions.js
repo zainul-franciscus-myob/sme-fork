@@ -15,19 +15,17 @@ import {
   getShouldShowAccountCode,
   getSupplierAddress,
   getSupplierId,
-  getSupplierOptions,
 } from '../selectors/billSelectors';
 import { getPrefillStatus } from '../selectors/BillInTrayDocumentSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import BillAbnPopover from './BillAbnPopover';
 import ReportableCheckbox from '../../../../components/ReportableCheckbox/ReportableCheckbox';
-import SupplierCombobox from '../../../../components/combobox/SupplierCombobox';
+import handleAutoCompleteChange from '../../../../components/handlers/handleAutoCompleteChange';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import styles from './BillPrimaryOptions.module.css';
 
 const BillPrimaryOptions = ({
-  supplierOptions,
   supplierId,
   supplierAddress,
   isReportable,
@@ -40,8 +38,9 @@ const BillPrimaryOptions = ({
   isReadOnly,
   prefillStatus,
   shouldShowAbn,
+  renderContactCombobox,
   onUpdateBillOption,
-  onAddSupplierButtonClick,
+  onInputAlert,
 }) => (
   <React.Fragment>
     <div
@@ -50,22 +49,18 @@ const BillPrimaryOptions = ({
         [styles.maximiseContactCombobox]: !shouldShowAbn,
       })}
     >
-      <SupplierCombobox
-        items={supplierOptions}
-        selectedId={supplierId}
-        onChange={handleComboboxChange('supplierId', onUpdateBillOption)}
-        label="Supplier"
-        name="supplierId"
-        requiredLabel="This is required"
-        hideLabel={false}
-        disabled={isSupplierDisabled || isBlocking || isReadOnly}
-        addNewItem={{
-          label: 'Create supplier',
-          onAddNew: onAddSupplierButtonClick,
-        }}
-        allowClear
-        width="xl"
-      />
+      {renderContactCombobox({
+        selectedId: supplierId,
+        name: 'supplierId',
+        label: 'Supplier',
+        hideLabel: false,
+        requiredLabel: 'This is required',
+        allowClear: true,
+        disabled: isSupplierDisabled || isBlocking || isReadOnly,
+        onChange: handleAutoCompleteChange('supplierId', onUpdateBillOption),
+        onAlert: onInputAlert,
+        width: 'xl',
+      })}
       {shouldShowAbn && <BillAbnPopover />}
     </div>
     {supplierAddress && (
@@ -104,7 +99,6 @@ const BillPrimaryOptions = ({
 );
 
 const mapStateToProps = (state) => ({
-  supplierOptions: getSupplierOptions(state),
   supplierId: getSupplierId(state),
   supplierAddress: getSupplierAddress(state),
   isReportable: getIsReportable(state),

@@ -7,7 +7,6 @@ import {
   LOAD_ABN_FROM_SUPPLIER,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ITEM_OPTION,
-  LOAD_SUPPLIER_AFTER_CREATE,
   OPEN_ALERT,
   OPEN_MODAL,
   PREFILL_BILL_FROM_IN_TRAY,
@@ -18,19 +17,13 @@ import {
   SET_REDIRECT_URL,
   SET_SHOW_SPLIT_VIEW,
   START_BLOCKING,
-  START_SUPPLIER_BLOCKING,
   STOP_BLOCKING,
-  STOP_SUPPLIER_BLOCKING,
   UNLINK_IN_TRAY_DOCUMENT,
 } from '../BillIntents';
 import {
   CREATE_ACCOUNT_MODAL,
   LOAD_NEW_ACCOUNT_MODAL,
 } from '../../../account/AccountIntents';
-import {
-  CREATE_CONTACT_MODAL,
-  LOAD_CONTACT_MODAL,
-} from '../../../contact/ContactIntents';
 import { LOAD_IN_TRAY_MODAL } from '../../../inTray/InTrayIntents';
 import {
   LOAD_NEW_ITEM,
@@ -177,115 +170,6 @@ describe('BillModule_Modal', () => {
       ]);
 
       expect(module.accountModalModule.close).toHaveBeenCalled();
-    });
-  });
-
-  describe('contact modal', () => {
-    it('runs the contactModalModule when modal opens', () => {
-      const { module } = setUpWithRun({ isCreating: true });
-      module.contactModalModule.run = jest.fn();
-
-      module.openSupplierModal();
-      expect(module.contactModalModule.run).toHaveBeenCalledWith({
-        context: {
-          businessId: 'bizId',
-          region: 'au',
-          contactType: 'Supplier',
-        },
-        onSaveSuccess: expect.any(Function),
-        onLoadFailure: expect.any(Function),
-      });
-    });
-
-    it('saves the newly added supplier and shows success alert on page when user successfully saves the newly created supplier on the contact modal', () => {
-      const { module, store, integration } = setUpWithRun({ isCreating: true });
-
-      module.contactModalModule.resetState = jest.fn();
-
-      integration.mapSuccess(CREATE_CONTACT_MODAL, {
-        id: 'supplierId',
-        message: 'message',
-      });
-
-      module.openSupplierModal();
-      module.contactModalModule.save();
-
-      expect(store.getActions()).toEqual([
-        { intent: OPEN_ALERT, type: 'success', message: 'message' },
-        { intent: START_SUPPLIER_BLOCKING },
-        { intent: STOP_SUPPLIER_BLOCKING },
-        expect.objectContaining({
-          intent: LOAD_SUPPLIER_AFTER_CREATE,
-          supplierId: 'supplierId',
-        }),
-        { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
-        { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
-        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
-      ]);
-
-      expect(integration.getRequests()).toContainEqual(
-        {
-          intent: LOAD_SUPPLIER_AFTER_CREATE,
-          urlParams: { businessId: 'bizId', supplierId: 'supplierId' },
-        },
-        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
-        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER })
-      );
-
-      expect(module.contactModalModule.resetState).toHaveBeenCalled();
-    });
-
-    it('when creating from in tray - it saves the newly added supplier, shows success alert, and calls tax calc if supplier has default expense account', () => {
-      const { module, store, integration } = setUpNewBillWithPrefilled();
-
-      module.contactModalModule.resetState = jest.fn();
-
-      integration.mapSuccess(CREATE_CONTACT_MODAL, {
-        id: 'supplierId',
-        message: 'message',
-      });
-
-      module.openSupplierModal();
-      module.contactModalModule.save();
-
-      expect(store.getActions()).toEqual([
-        { intent: OPEN_ALERT, type: 'success', message: 'message' },
-        { intent: START_SUPPLIER_BLOCKING },
-        { intent: STOP_SUPPLIER_BLOCKING },
-        expect.objectContaining({
-          intent: LOAD_SUPPLIER_AFTER_CREATE,
-          supplierId: 'supplierId',
-        }),
-        {
-          intent: GET_TAX_CALCULATIONS,
-          isSwitchingTaxInclusive: false,
-          taxCalculations: expect.any(Object),
-        },
-        { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
-        { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
-        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
-      ]);
-
-      expect(integration.getRequests()).toContainEqual(
-        expect.objectContaining({
-          intent: LOAD_SUPPLIER_AFTER_CREATE,
-          urlParams: { businessId: 'bizId', supplierId: 'supplierId' },
-        }),
-        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER })
-      );
-
-      expect(module.contactModalModule.resetState).toHaveBeenCalled();
-    });
-    it('displays page failure alert when contact modal fails to load', () => {
-      const { module, store, integration } = setUpWithRun({ isCreating: true });
-
-      integration.mapFailure(LOAD_CONTACT_MODAL, { message: 'failed' });
-
-      module.openSupplierModal();
-
-      expect(store.getActions()).toEqual([
-        { intent: OPEN_ALERT, type: 'danger', message: 'failed' },
-      ]);
     });
   });
 

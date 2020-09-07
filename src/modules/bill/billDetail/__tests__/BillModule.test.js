@@ -195,9 +195,11 @@ describe('BillModule', () => {
         { intent: STOP_LOADING },
         expect.objectContaining({ intent: LOAD_BILL }),
       ]);
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({ intent: LOAD_NEW_BILL }),
-      ]);
+      expect(integration.getRequests()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ intent: LOAD_NEW_BILL }),
+        ])
+      );
     });
 
     it('should successfully load existing', () => {
@@ -222,10 +224,12 @@ describe('BillModule', () => {
         { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
         expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
       ]);
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({ intent: LOAD_BILL }),
-        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
-      ]);
+      expect(integration.getRequests()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ intent: LOAD_BILL }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+        ])
+      );
     });
 
     [
@@ -264,9 +268,11 @@ describe('BillModule', () => {
             intent: FAIL_LOADING,
           },
         ]);
-        expect(integration.getRequests()).toEqual([
-          expect.objectContaining({ intent: test.requestIntent }),
-        ]);
+        expect(integration.getRequests()).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({ intent: test.requestIntent }),
+          ])
+        );
       });
     });
 
@@ -309,16 +315,18 @@ describe('BillModule', () => {
         { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
         expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
       ]);
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: LOAD_NEW_DUPLICATE_BILL,
-          urlParams: {
-            businessId: '🐷',
-            duplicateId: '🐶',
-          },
-        }),
-        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
-      ]);
+      expect(integration.getRequests()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            intent: LOAD_NEW_DUPLICATE_BILL,
+            urlParams: {
+              businessId: '🐷',
+              duplicateId: '🐶',
+            },
+          }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+        ])
+      );
     });
 
     it('should fail to load duplicate bill', () => {
@@ -355,15 +363,17 @@ describe('BillModule', () => {
           intent: FAIL_LOADING,
         },
       ]);
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: LOAD_NEW_DUPLICATE_BILL,
-          urlParams: {
-            businessId: '🐷',
-            duplicateId: '🐶',
-          },
-        }),
-      ]);
+      expect(integration.getRequests()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            intent: LOAD_NEW_DUPLICATE_BILL,
+            urlParams: {
+              businessId: '🐷',
+              duplicateId: '🐶',
+            },
+          }),
+        ])
+      );
     });
 
     it('displays a success alert on successfully save', () => {
@@ -466,14 +476,16 @@ describe('BillModule', () => {
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
           expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
-        expect(integration.getRequests()).toEqual([
-          expect.objectContaining({ intent: LOAD_BILL }),
-          expect.objectContaining({
-            intent: DOWNLOAD_IN_TRAY_DOCUMENT,
-            params: { isAttachment: true },
-          }),
-          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
-        ]);
+        expect(integration.getRequests()).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({ intent: LOAD_BILL }),
+            expect.objectContaining({
+              intent: DOWNLOAD_IN_TRAY_DOCUMENT,
+              params: { isAttachment: true },
+            }),
+            expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+          ])
+        );
       });
 
       it('should fail to load', () => {
@@ -519,11 +531,13 @@ describe('BillModule', () => {
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
           expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
-        expect(integration.getRequests()).toEqual([
-          expect.objectContaining({ intent: LOAD_BILL }),
-          expect.objectContaining({ intent: DOWNLOAD_IN_TRAY_DOCUMENT }),
-          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
-        ]);
+        expect(integration.getRequests()).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({ intent: LOAD_BILL }),
+            expect.objectContaining({ intent: DOWNLOAD_IN_TRAY_DOCUMENT }),
+            expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+          ])
+        );
       });
     });
 
@@ -608,7 +622,9 @@ describe('BillModule', () => {
           expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
 
-        expect(integration.getRequests()).toEqual(expectedIntegrationRequests);
+        expect(integration.getRequests()).toEqual(
+          expect.arrayContaining(expectedIntegrationRequests)
+        );
       });
 
       it('should successfully prefill bill from intray and not call tax calculator', () => {
@@ -639,7 +655,9 @@ describe('BillModule', () => {
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
           expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
-        expect(integration.getRequests()).toEqual(expectedIntegrationRequests);
+        expect(integration.getRequests()).toEqual(
+          expect.arrayContaining(expectedIntegrationRequests)
+        );
       });
 
       it('should fail to prefill bill from intray', () => {
@@ -662,11 +680,13 @@ describe('BillModule', () => {
             type: 'danger',
           }),
         ]);
-        expect(integration.getRequests()).toEqual([
-          expect.objectContaining({ intent: LOAD_NEW_BILL }),
-          expect.objectContaining({ intent: DOWNLOAD_IN_TRAY_DOCUMENT }),
-          expect.objectContaining({ intent: PREFILL_BILL_FROM_IN_TRAY }),
-        ]);
+        expect(integration.getRequests()).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({ intent: LOAD_NEW_BILL }),
+            expect.objectContaining({ intent: DOWNLOAD_IN_TRAY_DOCUMENT }),
+            expect.objectContaining({ intent: PREFILL_BILL_FROM_IN_TRAY }),
+          ])
+        );
       });
 
       it('should fail to download document', () => {
@@ -736,7 +756,9 @@ describe('BillModule', () => {
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
           expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
         ]);
-        expect(integration.getRequests()).toEqual(expectedIntegrationRequests);
+        expect(integration.getRequests()).toEqual(
+          expect.arrayContaining(expectedIntegrationRequests)
+        );
       });
     });
   });
@@ -888,11 +910,6 @@ describe('BillModule', () => {
           expect.objectContaining({
             intent: LOAD_SUPPLIER_DETAIL,
           }),
-          {
-            intent: GET_TAX_CALCULATIONS,
-            isSwitchingTaxInclusive: false,
-            taxCalculations: expect.any(Object),
-          },
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
           expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),

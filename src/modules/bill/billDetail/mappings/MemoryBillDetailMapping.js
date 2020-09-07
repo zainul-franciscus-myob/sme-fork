@@ -12,7 +12,6 @@ import {
   LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_BILL,
   LOAD_NEW_DUPLICATE_BILL,
-  LOAD_SUPPLIER_AFTER_CREATE,
   LOAD_SUPPLIER_DETAIL,
   PREFILL_BILL_FROM_IN_TRAY,
   UNLINK_IN_TRAY_DOCUMENT,
@@ -34,7 +33,6 @@ import loadReadOnlyServiceBill from './data/loadReadOnlyServiceBill';
 import loadServiceBill from './data/loadServiceBill';
 import loadServiceBillWithFreight from './data/loadServiceBillWithFreight';
 import loadSupplierDetail from './data/loadSupplierDetail';
-import loadSupplierResponse from './data/loadSupplierAfterCreate.json';
 import prefillBillFromInTray from './data/prefillBillFromSupplierFeed';
 import successResponse from './data/success';
 import updatedLineForItemDetail from './data/updatedLineForItemDetail';
@@ -76,8 +74,6 @@ const MemoryBillDetailMapping = {
   [CREATE_BILL]: ({ onSuccess }) => onSuccess(createBillResponse),
   [UPDATE_BILL]: ({ onSuccess }) => onSuccess(successResponse),
   [LOAD_SUPPLIER_DETAIL]: ({ onSuccess }) => onSuccess(loadSupplierDetail),
-  [LOAD_SUPPLIER_AFTER_CREATE]: ({ onSuccess }) =>
-    onSuccess(loadSupplierResponse),
   [LOAD_ITEM_DETAIL_FOR_LINE]: ({ onSuccess }) =>
     onSuccess(updatedLineForItemDetail),
   [EXPORT_BILL_PDF]: ({ onSuccess }) =>

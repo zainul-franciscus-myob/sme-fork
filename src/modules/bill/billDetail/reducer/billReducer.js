@@ -15,7 +15,6 @@ import {
   LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_ITEM_OPTION,
   LOAD_JOB_AFTER_CREATE,
-  LOAD_SUPPLIER_AFTER_CREATE,
   LOAD_SUPPLIER_DETAIL,
   OPEN_ALERT,
   OPEN_MODAL,
@@ -35,11 +34,9 @@ import {
   START_BLOCKING,
   START_LOADING,
   START_MODAL_BLOCKING,
-  START_SUPPLIER_BLOCKING,
   STOP_BLOCKING,
   STOP_LOADING,
   STOP_MODAL_BLOCKING,
-  STOP_SUPPLIER_BLOCKING,
   UNLINK_IN_TRAY_DOCUMENT,
   UPDATE_BILL_ID,
   UPDATE_BILL_LINE,
@@ -53,9 +50,8 @@ import {
   calculateTotals,
   getBillId,
   getBusinessId,
-  getIsCreating,
+  getIsCreatingFromInTray,
   getRegion,
-  getUpdatedSupplierOptions,
 } from '../selectors/billSelectors';
 import { calculateLineAmounts, getTaxCalculations } from './calculationReducer';
 import {
@@ -180,13 +176,6 @@ const getDefaultTaxCodeId = ({ accountId, accountOptions }) => {
   return account === undefined ? '' : account.taxCodeId;
 };
 
-const getSupplierIsReportable = ({ supplierId, supplierOptions }) => {
-  const { isReportable } = supplierOptions.find(
-    ({ id }) => id === supplierId
-  ) || { isReportable: false };
-  return isReportable;
-};
-
 const updateAllLinesWithExpenseAccount = (
   lines,
   accountOptions,
@@ -214,14 +203,6 @@ const updateBillOption = (state, action) => {
     action.key
   );
 
-  const isUpdatingSupplierId = action.key === 'supplierId';
-  const isReportable = isUpdatingSupplierId
-    ? getSupplierIsReportable({
-        supplierId: action.value,
-        supplierOptions: state.supplierOptions,
-      })
-    : state.bill.isReportable;
-
   return {
     ...state,
     bill: {
@@ -229,7 +210,6 @@ const updateBillOption = (state, action) => {
       expirationDays: shouldSetExpirationDaysTo1
         ? '1'
         : state.bill.expirationDays,
-      isReportable,
       lines:
         state.bill.lines.length > 0 && action.key === 'expenseAccountId'
           ? updateAllLinesWithExpenseAccount(
@@ -386,11 +366,12 @@ const loadSupplierDetail = (state, action) => ({
   bill: {
     ...state.bill,
     supplierAddress: action.response.supplierAddress,
-    expenseAccountId: getIsCreating(state)
+    expenseAccountId: getIsCreatingFromInTray(state)
       ? action.response.expenseAccountId
       : state.bill.expenseAccountId,
+    isReportable: action.response.isReportable,
     lines:
-      state.bill.lines.length > 0 && getIsCreating(state)
+      state.bill.lines.length > 0 && getIsCreatingFromInTray(state)
         ? updateAllLinesWithExpenseAccount(
             state.bill.lines,
             state.accountOptions,
@@ -398,45 +379,6 @@ const loadSupplierDetail = (state, action) => ({
           )
         : state.bill.lines,
   },
-});
-
-const loadSupplierAfterCreate = (
-  state,
-  { supplierId, supplierAddress, option, expenseAccountId }
-) => ({
-  ...state,
-  bill: {
-    ...state.bill,
-    supplierId,
-    supplierAddress,
-    expenseAccountId: getIsCreating(state)
-      ? expenseAccountId
-      : state.bill.expenseAccountId,
-    isReportable: option.isReportable,
-    lines:
-      state.bill.lines.length > 0 && getIsCreating(state)
-        ? updateAllLinesWithExpenseAccount(
-            state.bill.lines,
-            state.accountOptions,
-            expenseAccountId
-          )
-        : state.bill.lines,
-  },
-  supplierOptions: getUpdatedSupplierOptions(state, option),
-  prefillStatus: {
-    ...state.prefillStatus,
-    supplierId: false,
-  },
-});
-
-const startSupplierBlocking = (state) => ({
-  ...state,
-  isSupplierBlocking: true,
-});
-
-const stopSupplierBlocking = (state) => ({
-  ...state,
-  isSupplierBlocking: false,
 });
 
 const startBlocking = (state) => ({
@@ -480,7 +422,7 @@ const getPrefilledLines = (state, lines, expenseAccountId) =>
   }));
 
 const prefillBillFromInTray = (state, action) => {
-  const { bill, lines, document, supplierOptions } = action.response;
+  const { bill, lines, document } = action.response;
 
   const shouldPrefillLines = state.bill.lines.length === 0 && lines.length > 0;
 
@@ -509,13 +451,6 @@ const prefillBillFromInTray = (state, action) => {
         ? getPrefilledLines(state, lines, bill.expenseAccountId)
         : state.bill.lines,
     },
-    supplierOptions:
-      supplierOptions.length &&
-      !supplierOptions.some((so) =>
-        state.supplierOptions.some(({ id }) => id === so.id)
-      )
-        ? [...supplierOptions, ...state.supplierOptions]
-        : state.supplierOptions,
     prefillStatus: {
       supplierId: !state.bill.supplierId && Boolean(bill.supplierId),
       supplierInvoiceNumber:
@@ -705,9 +640,6 @@ const handlers = {
   [LOAD_ITEM_OPTION]: loadItemOption,
   [LOAD_ITEM_DETAIL_FOR_LINE]: loadItemDetailForLine,
   [LOAD_SUPPLIER_DETAIL]: loadSupplierDetail,
-  [LOAD_SUPPLIER_AFTER_CREATE]: loadSupplierAfterCreate,
-  [START_SUPPLIER_BLOCKING]: startSupplierBlocking,
-  [STOP_SUPPLIER_BLOCKING]: stopSupplierBlocking,
   [RESET_SUPPLIER]: resetSupplier,
   [PREFILL_BILL_FROM_IN_TRAY]: prefillBillFromInTray,
   [UPDATE_BILL_ID]: updateBillId,

@@ -8,7 +8,6 @@ import {
   LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_ITEM_OPTION,
   LOAD_JOB_AFTER_CREATE,
-  LOAD_SUPPLIER_AFTER_CREATE,
   LOAD_SUPPLIER_DETAIL,
   PREFILL_BILL_FROM_IN_TRAY,
   UNLINK_IN_TRAY_DOCUMENT,
@@ -27,7 +26,6 @@ import {
   getLoadBillUrlParams,
   getLoadItemOptionUrlParams,
   getLoadSupplierDetailUrlParams,
-  getLoadSupplierUrlParams,
   getSaveBillContent,
   getSaveBillIntent,
   getSaveBillUrlParams,
@@ -86,20 +84,6 @@ const createBillIntegrator = (store, integration) => ({
 
     integration.read({
       intent: LOAD_SUPPLIER_DETAIL,
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  loadSupplierAfterCreate: ({ id, onSuccess, onFailure }) => {
-    const state = store.getState();
-
-    const intent = LOAD_SUPPLIER_AFTER_CREATE;
-    const urlParams = getLoadSupplierUrlParams(state, id);
-
-    integration.read({
-      intent,
       urlParams,
       onSuccess,
       onFailure,

@@ -122,12 +122,6 @@
       "includeInGstReturn": false
     }
   ],
-  "supplierOptions": [
-    {
-      "displayName": "Cow Feed",
-      "id": "2"
-    }
-  ],
   "expirationTermOptions": [
     {
       "value": "OnADayOfTheMonth",

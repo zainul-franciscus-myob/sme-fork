@@ -4,7 +4,6 @@ import {
   LOAD_BILL,
   LOAD_ITEM_OPTION,
   LOAD_JOB_AFTER_CREATE,
-  LOAD_SUPPLIER_AFTER_CREATE,
   LOAD_SUPPLIER_DETAIL,
   PREFILL_BILL_FROM_IN_TRAY,
   RELOAD_BILL,
@@ -330,7 +329,6 @@ describe('billReducer', () => {
           prefillStatus: {
             supplierId: true,
           },
-          supplierOptions: [],
         };
 
         const action = {
@@ -429,38 +427,6 @@ describe('billReducer', () => {
         expect(actual.bill.lines).toEqual(expectedLines);
       });
     });
-
-    describe('when supplierId is updated', () => {
-      it('updates isReportable', () => {
-        const state = {
-          bill: {
-            contactId: '1',
-            isReportable: false,
-            lines: [],
-          },
-          supplierOptions: [
-            {
-              contactType: 'Supplier',
-              displayContactType: 'Supplier',
-              displayName: 'Cow Feed Supplier',
-              id: '2',
-              displayId: 'SUP000002',
-              isReportable: true,
-              expenseAccountId: '456',
-            },
-          ],
-        };
-
-        const action = {
-          intent: UPDATE_BILL_OPTION,
-          key: 'supplierId',
-          value: '2',
-        };
-        const actual = billReducer(state, action);
-
-        expect(actual.bill.isReportable).toBeTruthy();
-      });
-    });
   });
 
   describe('LOAD_SUPPLIER_DETAIL', () => {
@@ -477,14 +443,28 @@ describe('billReducer', () => {
       response: {
         supplierAddress: 'addr',
         expenseAccountId: '1',
+        isReportable: true,
       },
     };
 
-    it('updates expenseAccountId and all lines with the accountId if is creating new bill', () => {
+    it('updates isReportable', () => {
       const state = {
         billId: 'new',
         bill,
-        supplierOptions: [{ id: '1', expenseAccountId: '1' }],
+        accountOptions: [],
+        taxCodes: [],
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual.bill.isReportable).toBeTruthy();
+    });
+
+    it('updates expenseAccountId and all lines with the accountId if is creating new bill from intray', () => {
+      const state = {
+        billId: 'new',
+        source: 'inTray',
+        bill,
         accountOptions: [
           { id: '1', taxCodeId: '1' },
           { id: '2', taxCodeId: '2' },
@@ -501,6 +481,19 @@ describe('billReducer', () => {
 
       expect(actual.bill.lines).toEqual(expectedLines);
       expect(actual.bill.expenseAccountId).toEqual('1');
+    });
+
+    it('does not update expenseAccountId or lines with the accountId if not is creating new bill from intray', () => {
+      const state = {
+        billId: 'new',
+        bill,
+      };
+
+      const actual = billReducer(state, action);
+      const expectedLines = bill.lines;
+
+      expect(actual.bill.lines).toEqual(expectedLines);
+      expect(actual.bill.expenseAccountId).toEqual('2');
     });
 
     it('does not update expenseAccountId or lines with the accountId if not is creating new bill', () => {
@@ -514,93 +507,6 @@ describe('billReducer', () => {
 
       expect(actual.bill.lines).toEqual(expectedLines);
       expect(actual.bill.expenseAccountId).toEqual('2');
-    });
-  });
-
-  describe('LOAD_SUPPLIER_AFTER_CREATE', () => {
-    const bill = {
-      expenseAccountId: '1',
-      lines: [
-        { accountId: '1', taxCodeId: '1', amount: '10.00' },
-        { accountId: '1', taxCodeId: '1', amount: '20.00' },
-      ],
-    };
-
-    const action = {
-      intent: LOAD_SUPPLIER_AFTER_CREATE,
-      expenseAccountId: '2',
-      supplierAddress: 'addr',
-      option: {
-        id: '2',
-        displayName: '🏖',
-        isReportable: true,
-      },
-    };
-
-    it('updates expenseAccountId and all lines with the accountId if is creating new bill', () => {
-      const state = {
-        billId: 'new',
-        bill,
-        supplierOptions: [{ id: '1', expenseAccountId: '1' }],
-        accountOptions: [
-          { id: '1', taxCodeId: '1' },
-          { id: '2', taxCodeId: '2' },
-          { id: '3', taxCodeId: '3' },
-        ],
-        taxCodes: [{ id: '1' }, { id: '2' }, { id: '3' }],
-      };
-
-      const actual = billReducer(state, action);
-      const expectedLines = [
-        { accountId: '2', taxCodeId: '2', amount: '10.00' },
-        { accountId: '2', taxCodeId: '2', amount: '20.00' },
-      ];
-
-      expect(actual.bill.lines).toEqual(expectedLines);
-      expect(actual.bill.expenseAccountId).toEqual('2');
-    });
-
-    it('does not update expenseAccountId or lines with the accountId if is not creating new bill', () => {
-      const state = {
-        billId: 'id',
-        supplierOptions: [{ id: '1', expenseAccountId: '1' }],
-        bill,
-      };
-
-      const actual = billReducer(state, action);
-      const expectedLines = bill.lines;
-
-      expect(actual.bill.lines).toEqual(expectedLines);
-      expect(actual.bill.expenseAccountId).toEqual('1');
-    });
-
-    it('update isReportable from newly created supplier', () => {
-      const state = {
-        billId: 'id',
-        supplierOptions: [],
-        bill,
-      };
-
-      const actual = billReducer(state, action);
-
-      expect(actual.bill.isReportable).toBeTruthy();
-    });
-
-    it('adds to supplier options with newly created supplier', () => {
-      const state = {
-        billId: 'id',
-        supplierOptions: [
-          { id: '1', displayName: 'name1', isReportable: false },
-        ],
-        bill,
-      };
-
-      const actual = billReducer(state, action);
-
-      expect(actual.supplierOptions).toEqual([
-        { id: '2', displayName: '🏖', isReportable: true },
-        { id: '1', displayName: 'name1', isReportable: false },
-      ]);
     });
   });
 
@@ -1203,7 +1109,6 @@ describe('billReducer', () => {
           amount: '500.77',
         },
       ],
-      supplierOptions: [],
       document,
     };
 
@@ -1216,7 +1121,6 @@ describe('billReducer', () => {
       prefillStatus,
       isPageEdited: true,
       showPrefillInfo: true,
-      supplierOptions: [],
     });
 
     const defaultLinePrefillStatus = {
@@ -1238,7 +1142,6 @@ describe('billReducer', () => {
         },
         isPageEdited: false,
         inTrayDocument: undefined,
-        supplierOptions: [],
       };
 
       const action = {
@@ -1290,7 +1193,6 @@ describe('billReducer', () => {
         },
         isPageEdited: false,
         inTrayDocument: undefined,
-        supplierOptions: [],
       };
 
       const action = {
@@ -1369,7 +1271,6 @@ describe('billReducer', () => {
         },
         isPageEdited: false,
         inTrayDocument: undefined,
-        supplierOptions: [],
       };
 
       const action = {
@@ -1415,7 +1316,6 @@ describe('billReducer', () => {
         },
         isPageEdited: false,
         inTrayDocument: undefined,
-        supplierOptions: [],
       };
 
       const action = {
@@ -1429,7 +1329,6 @@ describe('billReducer', () => {
           },
           lines: [],
           document,
-          supplierOptions: [],
         },
       };
 
@@ -1453,66 +1352,6 @@ describe('billReducer', () => {
           },
         })
       );
-    });
-
-    describe('supplerOptions', () => {
-      const supplierOptionA = { id: '1', displayName: 'A' };
-      const supplierOptionB = { id: '2', displayName: 'B' };
-      const state = {
-        bill: {
-          layout: 'itemAndService',
-          lines: [],
-        },
-        newLine: { id: '' },
-        isPageEdited: false,
-        inTrayDocument: undefined,
-        supplierOptions: [supplierOptionA],
-      };
-
-      it('add prefilled supplier to supplier options if supplier does not exist', () => {
-        const action = {
-          intent: PREFILL_BILL_FROM_IN_TRAY,
-          response: {
-            ...response,
-            supplierOptions: [supplierOptionB],
-          },
-        };
-
-        const actual = billReducer(state, action);
-
-        expect(actual.supplierOptions).toEqual([
-          supplierOptionB,
-          supplierOptionA,
-        ]);
-      });
-
-      it('does not add prefilled supplier to supplier options if supplier exists', () => {
-        const action = {
-          intent: PREFILL_BILL_FROM_IN_TRAY,
-          response: {
-            ...response,
-            supplierOptions: [supplierOptionA],
-          },
-        };
-
-        const actual = billReducer(state, action);
-
-        expect(actual.supplierOptions).toEqual([supplierOptionA]);
-      });
-
-      it('does not add prefilled supplier to supplier options if there is no prefilled supplier', () => {
-        const action = {
-          intent: PREFILL_BILL_FROM_IN_TRAY,
-          response: {
-            ...response,
-            supplierOptions: [],
-          },
-        };
-
-        const actual = billReducer(state, action);
-
-        expect(actual.supplierOptions).toEqual([supplierOptionA]);
-      });
     });
   });
 
