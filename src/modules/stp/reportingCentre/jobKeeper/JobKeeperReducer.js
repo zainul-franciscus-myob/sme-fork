@@ -1,6 +1,9 @@
 import {
   DISMISS_INITIAL_WARNING,
   RESET_DIRTY_FLAG,
+  SELECT_ALL_EMPLOYEES,
+  SELECT_EMPLOYEE,
+  SET_ALERT_MESSAGE,
   SET_FILTERED_EMPLOYEES,
   SET_INITIAL_STATE,
   SET_JOB_KEEPER_INITIAL,
@@ -11,6 +14,7 @@ import {
   SET_TABLE_LOADING_STATE,
   SET_UNSAVED_CHANGES_MODAL,
   SORT_JOB_KEEPER_EMPLOYEES,
+  TOGGLE_EMPLOYEE_BENEFIT_REPORT_MODAL,
   UPDATE_EMPLOYEE_ROW,
 } from './JobKeeperIntents';
 import LoadingState from '../../../../components/PageView/LoadingState';
@@ -29,6 +33,8 @@ export const getDefaultState = () => ({
   isDirty: false,
   unsavedChangesModalIsOpen: false,
   showInitWarning: true,
+  isEmployeeBenefitReportModalOpen: false,
+  alertMessage: '',
 });
 
 const setInitialState = (state, { context }) => ({
@@ -112,6 +118,35 @@ const dismissInitWarning = (state) => ({
   showInitWarning: false,
 });
 
+const toggleEmployeeBenefitReportModal = (
+  state,
+  { isEmployeeBenefitReportModalOpen }
+) => ({
+  ...state,
+  isEmployeeBenefitReportModalOpen,
+});
+
+const selectEmployee = (state, action) => ({
+  ...state,
+  employees: state.employees.map((e) =>
+    e.employeeId === action.item.employeeId
+      ? { ...e, isSelected: action.value }
+      : e
+  ),
+});
+
+const selectAllEmployees = (state, { isSelected }) => ({
+  ...state,
+  employees: state.employees.map((e) => ({
+    ...e,
+    isSelected,
+  })),
+});
+const setAlertMessage = (state, { alertMessage }) => ({
+  ...state,
+  alertMessage,
+});
+
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_JOB_KEEPER_INITIAL]: setJobKeeperInitial,
@@ -126,6 +161,10 @@ const handlers = {
   [RESET_DIRTY_FLAG]: resetDirtyFlag,
   [SET_NEW_EVENT_ID]: setNewEventId,
   [DISMISS_INITIAL_WARNING]: dismissInitWarning,
+  [TOGGLE_EMPLOYEE_BENEFIT_REPORT_MODAL]: toggleEmployeeBenefitReportModal,
+  [SELECT_EMPLOYEE]: selectEmployee,
+  [SELECT_ALL_EMPLOYEES]: selectAllEmployees,
+  [SET_ALERT_MESSAGE]: setAlertMessage,
 };
 
 const jobKeeperReducer = createReducer(getDefaultState(), handlers);

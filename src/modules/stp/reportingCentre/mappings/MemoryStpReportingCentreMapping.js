@@ -2,6 +2,7 @@ import { CALCULATE_TURNOVER } from '../gstCalculator/GstCalculatorIntents';
 import { DELETE_EMPLOYEE_ETP, LOAD_EMPLOYEE_ETP } from '../etps/EtpIntents';
 import {
   FILTER_JOB_KEEPER_EMPLOYEES,
+  LOAD_EMPLOYEES_BENEFIT_REPORT,
   LOAD_INITIAL_JOB_KEEPER_EMPLOYEES,
   LOAD_JOB_KEEPER_REPORT,
   SORT_JOB_KEEPER_EMPLOYEES,
@@ -108,6 +109,8 @@ const MemoryStpReportingCentreMapping = {
   [LOAD_JOB_KEEPER_REPORT]: ({ onSuccess }) =>
     onSuccess(new Blob([], { type: 'application/pdf' })),
   [CALCULATE_TURNOVER]: ({ onSuccess }) => onSuccess(calculateGstTurnover),
+  [LOAD_EMPLOYEES_BENEFIT_REPORT]: ({ onSuccess }) =>
+    onSuccess(new Blob([], { type: 'application/pdf' })),
 };
 
 export default MemoryStpReportingCentreMapping;

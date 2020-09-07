@@ -14,7 +14,11 @@ class JobKeeperReporting extends React.Component {
 
   render() {
     const {
-      props: { onOpenJobKeeperReport, featureToggles },
+      props: {
+        onOpenJobKeeperReport,
+        featureToggles,
+        onOpenEmployeeBenefitReport,
+      },
       state: { selectedMonth },
     } = this;
 
@@ -72,6 +76,7 @@ class JobKeeperReporting extends React.Component {
         </Select>
         <Button
           id="job-keeper-reports-btn"
+          testid="job-keeper-reports-btn"
           onClick={() => onOpenJobKeeperReport(selectedMonth)}
           type="link"
           icon={<Icons.GenericDocument />}
@@ -79,6 +84,18 @@ class JobKeeperReporting extends React.Component {
         >
           View JobKeeper summary (PDF)
         </Button>
+        {featureToggles && featureToggles.isJobKeeper2Enabled && (
+          <Button
+            id="employee-benefit-report-btn"
+            testid="employee-benefit-report-btn"
+            onClick={onOpenEmployeeBenefitReport}
+            type="link"
+            icon={<Icons.GenericDocument />}
+            className={styles['jobkeeper-reporting-btn']}
+          >
+            View employee benefits report (PDF)
+          </Button>
+        )}
       </div>
     );
   }

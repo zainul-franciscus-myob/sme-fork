@@ -1,5 +1,6 @@
 import {
   FILTER_JOB_KEEPER_EMPLOYEES,
+  LOAD_EMPLOYEES_BENEFIT_REPORT,
   LOAD_INITIAL_JOB_KEEPER_EMPLOYEES,
   LOAD_JOB_KEEPER_REPORT,
   SORT_JOB_KEEPER_EMPLOYEES,
@@ -7,6 +8,7 @@ import {
 } from './JobKeeperIntents';
 import {
   getBusinessId,
+  getEmployeeBenefitReportContent,
   getFilterEmployeesParams,
   getSelectedPayrollYear,
   getUpdateJobKeeperPaymentsContent,
@@ -90,6 +92,23 @@ const createJobKeeperIntegrator = (store, integration) => ({
     integration.readFile({
       intent: LOAD_JOB_KEEPER_REPORT,
       urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadEmployeeBenefitReport: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const content = getEmployeeBenefitReportContent(state);
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    integration.readFile({
+      intent: LOAD_EMPLOYEES_BENEFIT_REPORT,
+      urlParams,
+      content,
       onSuccess,
       onFailure,
     });

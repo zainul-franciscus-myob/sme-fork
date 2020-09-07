@@ -1,6 +1,9 @@
 import {
   DISMISS_INITIAL_WARNING,
   RESET_DIRTY_FLAG,
+  SELECT_ALL_EMPLOYEES,
+  SELECT_EMPLOYEE,
+  SET_ALERT_MESSAGE,
   SET_FILTERED_EMPLOYEES,
   SET_INITIAL_STATE,
   SET_JOB_KEEPER_INITIAL,
@@ -11,6 +14,7 @@ import {
   SET_TABLE_LOADING_STATE,
   SET_UNSAVED_CHANGES_MODAL,
   SORT_JOB_KEEPER_EMPLOYEES,
+  TOGGLE_EMPLOYEE_BENEFIT_REPORT_MODAL,
   UPDATE_EMPLOYEE_ROW,
 } from './JobKeeperIntents';
 
@@ -110,6 +114,42 @@ const createJobKeeperDispatcher = (store) => ({
   dismissInitWarning: () => {
     store.dispatch({
       intent: DISMISS_INITIAL_WARNING,
+    });
+  },
+
+  showEmployeeBenefitReportModal: () => {
+    store.dispatch({
+      intent: TOGGLE_EMPLOYEE_BENEFIT_REPORT_MODAL,
+      isEmployeeBenefitReportModalOpen: true,
+    });
+  },
+
+  hideEmployeeBenefitReportModal: () => {
+    store.dispatch({
+      intent: TOGGLE_EMPLOYEE_BENEFIT_REPORT_MODAL,
+      isEmployeeBenefitReportModalOpen: false,
+    });
+  },
+
+  selectEmployee: (item, value) => {
+    store.dispatch({
+      intent: SELECT_EMPLOYEE,
+      item,
+      value,
+    });
+  },
+
+  selectAllEmployees: (isSelected) => {
+    store.dispatch({
+      intent: SELECT_ALL_EMPLOYEES,
+      isSelected,
+    });
+  },
+
+  setAlertMessage: (alertMessage) => {
+    store.dispatch({
+      intent: SET_ALERT_MESSAGE,
+      alertMessage,
     });
   },
 });

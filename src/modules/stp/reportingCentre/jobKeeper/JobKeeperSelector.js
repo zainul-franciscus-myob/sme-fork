@@ -42,3 +42,20 @@ export const getStpReportTabUrl = (state) =>
   `/#/${state.region}/${state.businessId}/stp/reportingCentre?tab=reports`;
 
 export const getShowInitWarning = (state) => state.showInitWarning;
+
+export const isEmployeeBenefitReportModalOpen = (state) =>
+  state.isEmployeeBenefitReportModalOpen;
+
+export const getAlertMessage = (state) => state.alertMessage;
+
+export const getEmployeeBenefitReportContent = (state) => {
+  const financialYear = state.selectedPayrollYear
+    ? state.selectedPayrollYear
+    : state.payrollYears[0].year;
+  return {
+    financialYear,
+    employeeIds: getEmployees(state)
+      .filter((employee) => employee.isSelected)
+      .map((employee) => employee.employeeId),
+  };
+};

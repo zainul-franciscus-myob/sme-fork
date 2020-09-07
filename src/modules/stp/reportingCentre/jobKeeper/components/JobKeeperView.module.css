@@ -10,3 +10,8 @@
 .link {
   color: var(--flx-color-link);
 }
+
+.employeeBenefitReportModalBody {
+  max-height: 475px;
+  overflow: scroll;
+}

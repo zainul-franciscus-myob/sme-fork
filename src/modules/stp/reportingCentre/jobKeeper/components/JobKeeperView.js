@@ -44,6 +44,7 @@ const JobKeeperView = ({
   featureToggles,
   dismissInitWarning,
   showInitWarning,
+  onOpenEmployeeBenefitReport,
 }) => {
   const jobKeeperTable =
     featureToggles && featureToggles.isJobKeeper2Enabled ? (
@@ -121,6 +122,7 @@ const JobKeeperView = ({
         onPayrollYearChange={onPayrollYearChange}
         onOpenJobKeeperReport={onOpenJobKeeperReport}
         featureToggles={featureToggles}
+        onOpenEmployeeBenefitReport={onOpenEmployeeBenefitReport}
       />
       {jobKeeperTable}
       {actions}

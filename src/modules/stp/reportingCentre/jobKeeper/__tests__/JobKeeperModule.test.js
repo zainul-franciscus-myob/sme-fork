@@ -1,7 +1,15 @@
+import { Table } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 
+import {
+  LOAD_EMPLOYEES_BENEFIT_REPORT,
+  LOAD_INITIAL_JOB_KEEPER_EMPLOYEES,
+} from '../JobKeeperIntents';
 import JobKeeperModule from '../JobKeeperModule';
 import loadJobKeeperInitialEmployees from '../../mappings/data/loadJobKeeperInitialEmployees';
+import openBlob from '../../../../../common/blobOpener/openBlob';
+
+jest.mock('../../../../../common/blobOpener/openBlob');
 
 describe('jobKeeperModule', () => {
   const constructModule = (
@@ -41,7 +49,9 @@ describe('jobKeeperModule', () => {
 
     const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
 
-    expect(panel.find('.btn')).toHaveLength(1);
+    expect(
+      panel.find({ testid: 'job-keeper-reports-btn' }).find('Button')
+    ).toHaveLength(1);
   });
 
   it('hides reporting button when feature toggle off', () => {
@@ -60,46 +70,6 @@ describe('jobKeeperModule', () => {
     const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
 
     expect(panel).toHaveLength(0);
-  });
-
-  it('show 12 items in month dropdown when JK2 feature toggle is on', () => {
-    const read = jest.fn();
-    const module = new JobKeeperModule({
-      integration: {
-        read,
-      },
-      pushMessage: () => {},
-      featureToggles: {
-        isJobKeeperReportingEnabled: true,
-        isJobKeeper2Enabled: true,
-      },
-    });
-    const { wrapper } = constructModule(module);
-
-    const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
-    const options = panel.find('Select').find('Option');
-
-    expect(options.length).toBe(12);
-  });
-
-  it('show 6 items in month dropdown when JK2 feature toggle is off', () => {
-    const read = jest.fn();
-    const module = new JobKeeperModule({
-      integration: {
-        read,
-      },
-      pushMessage: () => {},
-      featureToggles: {
-        isJobKeeperReportingEnabled: true,
-        isJobKeeper2Enabled: false,
-      },
-    });
-    const { wrapper } = constructModule(module);
-
-    const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
-    const options = panel.find('Select').find('Option');
-
-    expect(options.length).toBe(6);
   });
 
   it('shows employee tier when feature toggle on', () => {
@@ -347,6 +317,213 @@ describe('jobKeeperModule', () => {
           isDirty: true,
         })
       );
+    });
+  });
+
+  describe('JobKeeper 2.0', () => {
+    it('show 12 items in month dropdown when JK2 feature toggle is on', () => {
+      const read = jest.fn();
+      const module = new JobKeeperModule({
+        integration: {
+          read,
+        },
+        pushMessage: () => {},
+        featureToggles: {
+          isJobKeeperReportingEnabled: true,
+          isJobKeeper2Enabled: true,
+        },
+      });
+      const { wrapper } = constructModule(module);
+
+      const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
+      const options = panel.find('Select').find('Option');
+
+      expect(options.length).toBe(12);
+    });
+
+    it('show 6 items in month dropdown when JK2 feature toggle is off', () => {
+      const read = jest.fn();
+      const module = new JobKeeperModule({
+        integration: {
+          read,
+        },
+        pushMessage: () => {},
+        featureToggles: {
+          isJobKeeperReportingEnabled: true,
+          isJobKeeper2Enabled: false,
+        },
+      });
+      const { wrapper } = constructModule(module);
+
+      const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
+      const options = panel.find('Select').find('Option');
+
+      expect(options.length).toBe(6);
+    });
+
+    describe('Employee benefit Report', () => {
+      it('should render employee benefit report button when feature toggle jobkeeper 2.0 is enabled', () => {
+        const read = jest.fn();
+        const module = new JobKeeperModule({
+          integration: {
+            read,
+          },
+          pushMessage: () => {},
+          featureToggles: {
+            isJobKeeperReportingEnabled: true,
+            isJobKeeper2Enabled: true,
+          },
+        });
+        const { wrapper } = constructModule(module);
+
+        const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
+        expect(
+          panel.find({ testid: 'employee-benefit-report-btn' }).find('Button')
+            .length
+        ).toBe(1);
+      });
+
+      it('should not render employee benefit report button when feature toggle jobkeeper 2.0 is disabled', () => {
+        const read = jest.fn();
+        const module = new JobKeeperModule({
+          integration: {
+            read,
+          },
+          pushMessage: () => {},
+          featureToggles: {
+            isJobKeeperReportingEnabled: true,
+            isJobKeeper2Enabled: false,
+          },
+        });
+        const { wrapper } = constructModule(module);
+
+        const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
+        expect(
+          panel.find({ testid: 'employee-benefit-report-btn' }).find('Button')
+            .length
+        ).toBe(0);
+      });
+
+      it('calls the open employee benefit report function when open report is clicked', () => {
+        const module = new JobKeeperModule({
+          integration: {
+            read: jest.fn(),
+          },
+          pushMessage: () => {},
+          featureToggles: {
+            isJobKeeperReportingEnabled: true,
+            isJobKeeper2Enabled: true,
+          },
+        });
+        module.onOpenEmployeeBenefitModal = jest.fn(
+          module.onOpenEmployeeBenefitModal
+        );
+        const { wrapper } = constructModule(module);
+
+        wrapper
+          .find({ testid: 'employee-benefit-report-btn' })
+          .find('Button')
+          .simulate('click');
+
+        expect(module.onOpenEmployeeBenefitModal).toHaveBeenCalled();
+      });
+
+      it('calls the close modal function when open report is clicked', () => {
+        const module = new JobKeeperModule({
+          integration: {
+            read: jest.fn(),
+          },
+          pushMessage: () => {},
+          featureToggles: {
+            isJobKeeperReportingEnabled: true,
+            isJobKeeper2Enabled: true,
+          },
+        });
+        module.onCloseEmployeeBenefitModal = jest.fn(
+          module.onCloseEmployeeBenefitModal
+        );
+        const { wrapper } = constructModule(module);
+
+        wrapper
+          .find({ testid: 'employee-benefit-report-btn' })
+          .find('Button')
+          .simulate('click');
+
+        wrapper
+          .find({ testid: 'cancel-employee-benefit-modal-btn' })
+          .find('Button')
+          .simulate('click');
+
+        expect(module.onCloseEmployeeBenefitModal).toHaveBeenCalled();
+      });
+
+      it('should show list of employees', () => {
+        const module = new JobKeeperModule({
+          integration: {
+            read: ({ onSuccess }) => onSuccess(loadJobKeeperInitialEmployees),
+          },
+          pushMessage: () => {},
+          featureToggles: {
+            isJobKeeperReportingEnabled: true,
+            isJobKeeper2Enabled: true,
+          },
+        });
+
+        const { wrapper } = constructModule(module);
+
+        wrapper
+          .find({ testid: 'employee-benefit-report-btn' })
+          .find('Button')
+          .simulate('click');
+
+        expect(
+          wrapper.find('EmployeeBenefitReportModal').find(Table.Row).length
+        ).toBe(loadJobKeeperInitialEmployees.employees.length);
+      });
+
+      it('should call open Blob to view employee benefit report', () => {
+        const module = new JobKeeperModule({
+          integration: {
+            read: ({ intent, onSuccess }) => {
+              switch (intent) {
+                case LOAD_INITIAL_JOB_KEEPER_EMPLOYEES:
+                  onSuccess(loadJobKeeperInitialEmployees);
+                  break;
+                default:
+                  throw new Error(`unmocked intent "${intent.toString()}"`);
+              }
+            },
+            readFile: ({ intent, onSuccess }) => {
+              switch (intent) {
+                case LOAD_EMPLOYEES_BENEFIT_REPORT:
+                  onSuccess('abc');
+                  break;
+                default:
+                  throw new Error(`unmocked intent "${intent.toString()}"`);
+              }
+            },
+          },
+          pushMessage: () => {},
+          featureToggles: {
+            isJobKeeperReportingEnabled: true,
+            isJobKeeper2Enabled: true,
+          },
+        });
+
+        const { wrapper } = constructModule(module);
+
+        wrapper
+          .find({ testid: 'employee-benefit-report-btn' })
+          .find('Button')
+          .simulate('click');
+
+        wrapper
+          .find({ testid: 'get-employee-benefit-report-btn' })
+          .find('Button')
+          .simulate('click');
+
+        expect(openBlob).toHaveBeenCalled();
+      });
     });
   });
 });

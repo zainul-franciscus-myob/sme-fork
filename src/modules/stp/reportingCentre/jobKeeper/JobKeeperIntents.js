@@ -19,3 +19,12 @@ export const RESET_DIRTY_FLAG = Symbol('Resets the dirty flag back to false');
 export const SET_UNSAVED_CHANGES_MODAL = Symbol('open unsaved changes modal');
 export const LOAD_JOB_KEEPER_REPORT = Symbol('open JobKeeper report');
 export const DISMISS_INITIAL_WARNING = Symbol('Dismiss the JK initial warning');
+export const TOGGLE_EMPLOYEE_BENEFIT_REPORT_MODAL = Symbol(
+  'Show/hide the employee benefit report modal'
+);
+export const SELECT_EMPLOYEE = Symbol('Update employee is selected to true');
+export const SELECT_ALL_EMPLOYEES = Symbol('Select all employees');
+export const LOAD_EMPLOYEES_BENEFIT_REPORT = Symbol(
+  'Load employees benefit report'
+);
+export const SET_ALERT_MESSAGE = Symbol('Set alert message');

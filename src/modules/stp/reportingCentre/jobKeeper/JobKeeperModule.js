@@ -8,6 +8,7 @@ import {
   getStpDeclarationContext,
   getStpReportTabUrl,
 } from './JobKeeperSelector';
+import EmployeeBenefitReportModal from './components/EmployeeBenefitReportModal';
 import JobKeeperView from './components/JobKeeperView';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import Store from '../../../../store/Store';
@@ -183,6 +184,45 @@ export default class JobKeeperModule {
     this.dispatcher.dismissInitWarning();
   };
 
+  onOpenEmployeeBenefitModal = () => {
+    this.dispatcher.selectAllEmployees(true);
+    this.dispatcher.showEmployeeBenefitReportModal();
+  };
+
+  onCloseEmployeeBenefitModal = () => {
+    this.dispatcher.hideEmployeeBenefitReportModal();
+  };
+
+  onSelectEmployee = (item, value) => {
+    this.dispatcher.selectEmployee(item, value);
+  };
+
+  onSelectAllEmployees = (isSelected) => {
+    this.dispatcher.selectAllEmployees(isSelected);
+  };
+
+  onViewEmployeeBenefitReport = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const onSuccess = (response) => {
+      openBlob({ blob: response });
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.selectAllEmployees(false);
+      this.dispatcher.hideEmployeeBenefitReportModal();
+      this.dispatcher.setAlertMessage(response.message);
+    };
+
+    const onFailure = (response) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+      this.dispatcher.setAlertMessage(response.message);
+    };
+
+    this.integrator.loadEmployeeBenefitReport({
+      onSuccess,
+      onFailure,
+    });
+  };
+
   run = () => {
     this.loadInitialEmployeesAndHeaderDetails();
   };
@@ -205,6 +245,13 @@ export default class JobKeeperModule {
           }}
           featureToggles={this.featureToggles}
           dismissInitWarning={this.dismissInitWarning}
+          onOpenEmployeeBenefitReport={this.onOpenEmployeeBenefitModal}
+        />
+        <EmployeeBenefitReportModal
+          onCloseModal={this.onCloseEmployeeBenefitModal}
+          onSelectEmployee={this.onSelectEmployee}
+          onSelectAllEmployees={this.onSelectAllEmployees}
+          onViewReport={this.onViewEmployeeBenefitReport}
         />
       </Provider>
     );
