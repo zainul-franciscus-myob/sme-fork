@@ -38,6 +38,7 @@ export const getCustomerId = (state) => state.invoice.customerId;
 const getAddress = (state) => state.invoice.address;
 const getNote = (state) => state.invoice.note;
 export const getInvoiceNumber = (state) => state.invoice.invoiceNumber;
+export const getQuoteId = (state) => state.invoice.quoteId;
 const getPurchaseOrderNumber = (state) => state.invoice.purchaseOrderNumber;
 export const getIssueDate = (state) => state.invoice.issueDate;
 export const getIsTaxInclusive = (state) => state.invoice.isTaxInclusive;
@@ -228,6 +229,7 @@ export const getTaxExclusiveLabel = createRegionDialectSelector(
 export const getInvoiceDetailOptions = createStructuredSelector({
   customerId: getCustomerId,
   invoiceNumber: getInvoiceNumber,
+  quoteId: getQuoteId,
   address: getAddress,
   purchaseOrderNumber: getPurchaseOrderNumber,
   issueDate: getIssueDate,

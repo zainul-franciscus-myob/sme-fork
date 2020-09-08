@@ -18,6 +18,7 @@ export const getDate = (row) =>
 
 const businessEvents = [
   'CREATED',
+  'CREATED_FROM_QUOTE',
   'PAYMENT_RECEIVED',
   'INVOICE_REVERSED',
   'EXPORTED_TO_PDF',

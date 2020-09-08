@@ -20,6 +20,7 @@ const iconAndStatusClassName = (status) =>
 
 const icon = {
   [InvoiceHistoryStatus.CREATED]: <Icons.Invoice />,
+  [InvoiceHistoryStatus.CREATED_FROM_QUOTE]: <Icons.Invoice />,
   [InvoiceHistoryStatus.VIEWED_ONLINE]: <Icons.Show />,
   [InvoiceHistoryStatus.DOWNLOADED]: <Icons.Download />,
   [InvoiceHistoryStatus.PRINTED]: <Icons.PrintEd />,

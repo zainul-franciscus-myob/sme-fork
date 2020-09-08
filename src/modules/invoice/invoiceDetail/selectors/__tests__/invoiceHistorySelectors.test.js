@@ -104,6 +104,12 @@ describe('invoiceHistorySelectors', () => {
 
       state = addMostRecentStatusToState(
         state,
+        InvoiceHistoryStatus.CREATED_FROM_QUOTE
+      );
+      expect(getMostRecentStatusColor(state)).toEqual(expected);
+
+      state = addMostRecentStatusToState(
+        state,
         InvoiceHistoryStatus.VIEWED_ONLINE
       );
       expect(getMostRecentStatusColor(state)).toEqual(expected);
@@ -191,6 +197,10 @@ describe('invoiceHistorySelectors', () => {
       const event = [
         {
           status: 'CREATED',
+          date: '2019-12-12T01:00:00.000Z',
+        },
+        {
+          status: 'CREATED_FROM_QUOTE',
           date: '2019-12-12T01:00:00.000Z',
         },
         {

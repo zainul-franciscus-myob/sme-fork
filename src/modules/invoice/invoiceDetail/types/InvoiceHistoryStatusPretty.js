@@ -2,6 +2,7 @@ import InvoiceHistoryStatus from './InvoiceHistoryStatus';
 
 const InvoiceHistoryStatusPretty = {
   [InvoiceHistoryStatus.CREATED]: 'Created',
+  [InvoiceHistoryStatus.CREATED_FROM_QUOTE]: 'Created from quote',
   [InvoiceHistoryStatus.VIEWED_ONLINE]: 'Viewed online',
   [InvoiceHistoryStatus.DOWNLOADED]: 'Downloaded',
   [InvoiceHistoryStatus.PRINTED]: 'Printed',

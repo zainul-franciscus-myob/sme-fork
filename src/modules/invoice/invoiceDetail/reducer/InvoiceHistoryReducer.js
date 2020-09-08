@@ -24,7 +24,9 @@ const sortPaymentReceivedToEndOfDay = (a, b) => {
 };
 
 const sortCreateToLast = (_, b) => {
-  const isCreateEventSecond = b.status === InvoiceHistoryStatus.CREATED;
+  const isCreateEventSecond =
+    b.status === InvoiceHistoryStatus.CREATED ||
+    b.status === InvoiceHistoryStatus.CREATED_FROM_QUOTE;
 
   if (isCreateEventSecond) {
     return -1;
@@ -34,7 +36,9 @@ const sortCreateToLast = (_, b) => {
 };
 
 const sortExportedToPdfAfterCreate = (a, b) => {
-  const isCreateEventFirst = a.status === InvoiceHistoryStatus.CREATED;
+  const isCreateEventFirst =
+    a.status === InvoiceHistoryStatus.CREATED ||
+    a.status === InvoiceHistoryStatus.CREATED_FROM_QUOTE;
   const isExportedToPdfEventSecond =
     b.status === InvoiceHistoryStatus.EXPORTED_TO_PDF;
 

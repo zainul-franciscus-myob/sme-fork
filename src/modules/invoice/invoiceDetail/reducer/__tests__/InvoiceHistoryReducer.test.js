@@ -8,6 +8,11 @@ describe('InvoiceHistoryReducer', () => {
       date: '2019-12-01',
       description: '',
     },
+    [InvoiceHistoryStatus.CREATED_FROM_QUOTE]: {
+      status: 'CREATED_FROM_QUOTE',
+      date: '2019-12-01',
+      description: '',
+    },
     [InvoiceHistoryStatus.PAYMENT_RECEIVED]: {
       status: 'PAYMENT_RECEIVED',
       date: '2019-12-01',
@@ -78,6 +83,20 @@ describe('InvoiceHistoryReducer', () => {
 
     expect(actual.invoiceHistory[2].status).toEqual(
       InvoiceHistoryStatus.CREATED
+    );
+  });
+
+  it(`${InvoiceHistoryStatus.CREATED_FROM_QUOTE} event is always last`, () => {
+    const invoiceHistory = [
+      event[InvoiceHistoryStatus.CREATED_FROM_QUOTE],
+      event[InvoiceHistoryStatus.INVOICE_REVERSED],
+      event[InvoiceHistoryStatus.VIEWED_ONLINE],
+    ];
+    const state = { invoiceHistory };
+
+    const actual = loadInvoiceHistory(state, { invoiceHistory });
+    expect(actual.invoiceHistory[2].status).toEqual(
+      InvoiceHistoryStatus.CREATED_FROM_QUOTE
     );
   });
 
