@@ -15,7 +15,6 @@ import {
   getBusinessId,
   getPaymentDetailUrl,
   getProductManagementUrl,
-  getRegion,
   getReportsUrl,
   getShowUrls,
   getUserEmail,
@@ -32,7 +31,6 @@ import navReducer from './navReducer';
 export default class NavigationModule {
   constructor({
     integration,
-    setNavigationView,
     constructPath,
     replaceURLParamsAndReload,
     config,
@@ -44,7 +42,6 @@ export default class NavigationModule {
     navigateTo,
   }) {
     this.integration = integration;
-    this.setNavigationView = setNavigationView;
     this.constructPath = constructPath;
     this.store = new Store(navReducer);
     this.replaceURLParamsAndReload = replaceURLParamsAndReload;
@@ -104,22 +101,20 @@ export default class NavigationModule {
     const reportsUrl = getReportsUrl(state);
     const paymentDetailUrl = getPaymentDetailUrl(state);
     const productManagementUrl = getProductManagementUrl(state);
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
 
-    const urls = Object.entries(featuresConfig)
-      .map(([key, feature]) => ({
-        [key]: this.buildUrl({
-          region,
-          businessId,
+    const urls = Object.entries(featuresConfig).reduce(
+      (acc, [key, feature]) => {
+        acc[key] = this.buildUrl({
           key,
           feature,
           reportsUrl,
           paymentDetailUrl,
           productManagementUrl,
-        }),
-      }))
-      .reduce((acc, obj) => ({ ...acc, ...obj }), {});
+        });
+        return acc;
+      },
+      {}
+    );
 
     this.store.dispatch({
       intent: SET_URLS,
@@ -128,8 +123,6 @@ export default class NavigationModule {
   };
 
   buildUrl = ({
-    region,
-    businessId,
     key,
     feature,
     reportsUrl,
@@ -156,11 +149,7 @@ export default class NavigationModule {
       case RouteName.PRODUCT_MANAGEMENT_DETAIL:
         return productManagementUrl;
       default:
-        return `/#${this.constructPath(feature.routeName, {
-          region,
-          businessId,
-          ...feature.params,
-        })}`;
+        return `/#${this.constructPath(feature.routeName, feature.params)}`;
     }
   };
 
@@ -256,16 +245,9 @@ export default class NavigationModule {
     this.redirectToPage(url);
   };
 
-  render = (
-    tasks,
-    businessId = '',
-    businessName = '',
-    serialNumber = '',
-    businessRole = ''
-  ) => {
+  render = (tasks, businessName = '', serialNumber = '', businessRole = '') => {
     const {
       changePlan,
-      constructPath,
       createBusiness,
       onPageTransition,
       redirectToPage,
@@ -279,10 +261,8 @@ export default class NavigationModule {
     return (
       <Provider store={store}>
         <NavigationBar
-          businessId={businessId}
           businessName={businessName}
           businessRole={businessRole}
-          constructPath={constructPath}
           hasTasks={tasks && tasks.some((t) => !t.isComplete)}
           onChangePlanClick={changePlan}
           onCreateBusinessClick={createBusiness}

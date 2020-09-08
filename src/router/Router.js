@@ -7,6 +7,19 @@ import getRouteNameToModuleMapping from './getRouteNameToModuleMapping';
 import isCurrentRoute from './isCurrentRoute';
 import removeEmptyParams from './removeEmptyParams';
 
+function retainDefaultParams(newParams, oldParams) {
+  const params = newParams || {};
+  if (oldParams) {
+    if (!params.region) {
+      params.region = oldParams.region;
+    }
+    if (!params.businessId) {
+      params.businessId = oldParams.businessId;
+    }
+  }
+  return params;
+}
+
 export default class Router {
   constructor({ defaultRoute }) {
     this.router = createRouter([], {
@@ -81,6 +94,44 @@ export default class Router {
     }
   };
 
+  /** Navigate to a route by name.
+   * @param {string} routeName The name of the target route.
+   * @param {Record<string, any>} routeParams The params required by the route. `region` and
+   * `businessId` will default to the values in the current route, unless explicitly provided here.
+   * @example `router.navigateToName('paySuper/PaySuperRead', { businessEventId: 'abc' });
+   */
+  navigateToName = (routeName, routeParams = undefined) => {
+    const params = retainDefaultParams(
+      routeParams,
+      this.router.getState().params
+    );
+    return this.router.navigate(routeName, params);
+  };
+
+  /** Tests whether a route is currently active.
+   * @param {string} routeName The name of the route to check.
+   * @param {Record<string, any>} routeParams The params required by the route. `region` and
+   * `businessId` will default to the values in the current route, unless explicitly provided here.
+   * @param {boolean} ignoreQueryParams Whether to ignore query params.
+   * @example `router.isActive('paySuper/PaySuperRead', { businessEventId: 'abc' });
+   */
+  isActiveRoute = (
+    routeName,
+    routeParams = undefined,
+    ignoreQueryParams = true
+  ) => {
+    const params = retainDefaultParams(
+      routeParams,
+      this.router.getState().params
+    );
+    return this.router.isActive(
+      routeName,
+      params,
+      undefined,
+      ignoreQueryParams
+    );
+  };
+
   buildDocumentTitle = (title) => (title ? `MYOB - ${title}` : 'MYOB');
 
   start = ({ rootModule, routes, beforeAll, afterAll, container }) => {
@@ -118,5 +169,17 @@ export default class Router {
 
   routeParams = () => this.router.getState() && this.router.getState().params;
 
-  constructPath = (name, params) => this.router.buildPath(name, params);
+  /** Creates a path to a named route. The result is suitable for use as a href in an anchor.
+   * @param {string} routeName The name of the target route.
+   * @param {Record<string, any>} routeParams The params required by the route. `region` and
+   * `businessId` will default to the values in the current route, unless explicitly provided here.
+   * @example `router.navigateToName('paySuper/PaySuperRead', { businessEventId: 'abc' });
+   */
+  constructPath = (routeName, routeParams = undefined) => {
+    const params = retainDefaultParams(
+      routeParams,
+      this.router.getState().params
+    );
+    return this.router.buildPath(routeName, params);
+  };
 }

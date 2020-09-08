@@ -43,7 +43,12 @@ export default class RootModule {
     trackUserEvent,
     startLeanEngage,
   }) => {
-    const { constructPath, replaceURLParamsAndReload, navigateTo } = router;
+    const {
+      constructPath,
+      replaceURLParamsAndReload,
+      navigateTo,
+      isActiveRoute,
+    } = router;
 
     this.integration = integration;
     this.navigateTo = navigateTo;
@@ -71,6 +76,8 @@ export default class RootModule {
     this.drawer = new DrawerModule({
       integration,
       tasksService: this.tasksService,
+      constructPath,
+      isActiveRoute,
     });
 
     this.nav = new NavigationModule({

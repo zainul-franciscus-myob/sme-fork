@@ -7,16 +7,30 @@ import createTasksDispatcher from './createTasksDispatcher';
 import tasksReducer from './tasksReducer';
 
 export default class TasksModule {
-  constructor({ integration, closeDrawer, tasksService }) {
+  constructor({
+    integration,
+    closeDrawer,
+    tasksService,
+    constructPath,
+    isActiveRoute,
+  }) {
     this.integration = integration;
     this.store = new Store(tasksReducer);
     this.closeDrawer = closeDrawer;
     this.dispatcher = createTasksDispatcher(this.store);
     this.tasksService = tasksService;
+    this.isActiveRoute = isActiveRoute;
+    this.constructPath = constructPath;
   }
 
   getView = (tasks) => {
-    const { tasksService, closeView, store } = this;
+    const {
+      tasksService,
+      closeView,
+      store,
+      isActiveRoute,
+      constructPath,
+    } = this;
     const { closeTasks, dismissTask } = tasksService;
     const onboardingTasks =
       tasks && tasks.filter((task) => task.template !== 'welcome');
@@ -34,6 +48,8 @@ export default class TasksModule {
           onboardingTasks={onboardingTasks}
           welcomeTask={welcomeTask}
           dismissTask={dismissTask}
+          isActiveRoute={isActiveRoute}
+          constructPath={constructPath}
         />
       </Provider>
     );

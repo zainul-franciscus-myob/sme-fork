@@ -14,7 +14,7 @@ URL parameters are declared when a module is associated with a route, e.g [getBa
 ```js
 // Routes
 
-const getBankingRuleRoutes = ({ integration, setRootView }) => [ 
+const getBankingRuleRoutes = ({ integration, setRootView }) => [
   {
     name: RouteName.BANKING_RULE_DETAIL,
     path: '/:region/:businessId/bankingRule/:bankingRuleId',
@@ -31,7 +31,26 @@ const getBankingRuleRoutes = ({ integration, setRootView }) => [
 
 Path parameters are declared in the `path` using the `:` syntax defined by [`Router5`](https://router5.js.org/guides/path-syntax).
 
-Query parameters are declared as a list in `allowedParams`.
+Query parameters are declared as a list in `allowedParams`. Some query params are always allowed, like `appcue`, which is needed for triggering Appcue journeys.
+
+## Building paths to other routes
+
+When creating buttons or links to other routes, it's best to construct the path based on the canonical route names and parameters, rather than manually constructing it.
+
+Some of the router functions are exposed to modules via the container. In general the `region` and `businessId` can be deduced by the router, and don't need to be provided explicitly.
+
+```js
+import RouteNames from "RouteName";
+
+const MyView = ({ constructPath }) => (
+  <>
+    <a href={`/#${constructPath(RouteNames.PAY_SUPER_READ, { businessEventId: 'abc' })}`}>
+      Pay Super
+    </a>
+  <>
+)
+
+```
 
 ## Store URL parameters
 
@@ -96,7 +115,7 @@ Now that the parameters are in state, we can define selectors to make use of the
 
       saveBankingRule = () => {
         const state = this.store.getState();
-        
+
         const isCreating = getIsCreating(state);
 
         if (isCreating) {

@@ -20,11 +20,11 @@ describe('convertRoutesToRouterConfig', () => {
     expect(actual).toEqual([
       {
         name: '🐸',
-        path: '/freddo',
+        path: '/freddo?appcue',
       },
       {
         name: '🐧',
-        path: '/pingu',
+        path: '/pingu?appcue',
       },
     ]);
   });
@@ -40,7 +40,7 @@ describe('convertRoutesToRouterConfig', () => {
 
     const actual = convertRoutesToRouterConfig(routes);
 
-    expect(actual[0].path).toEqual('/freddo?🐄');
+    expect(actual[0].path).toEqual('/freddo?🐄&appcue');
   });
 
   it('includes multiple allowed params in path', () => {
@@ -54,7 +54,7 @@ describe('convertRoutesToRouterConfig', () => {
 
     const actual = convertRoutesToRouterConfig(routes);
 
-    expect(actual[0].path).toEqual('/freddo?🐄&🐑');
+    expect(actual[0].path).toEqual('/freddo?🐄&🐑&appcue');
   });
 
   it('removes trailing slash from path', () => {
@@ -67,7 +67,7 @@ describe('convertRoutesToRouterConfig', () => {
 
     const actual = convertRoutesToRouterConfig(routes);
 
-    expect(actual[0].path).toEqual('/freddo');
+    expect(actual[0].path).toEqual('/freddo?appcue');
   });
 
   it('allows the passing of defaultParameters', () => {

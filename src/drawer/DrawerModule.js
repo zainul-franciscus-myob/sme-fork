@@ -10,7 +10,7 @@ import createDrawerDispatcher from './createDrawerDispatcher';
 import drawerReducer from './drawerReducer';
 
 export default class DrawerModule {
-  constructor({ integration, tasksService }) {
+  constructor({ integration, tasksService, constructPath, isActiveRoute }) {
     this.store = new Store(drawerReducer);
     this.dispatcher = createDrawerDispatcher(this.store);
     this.subModules = {
@@ -22,6 +22,8 @@ export default class DrawerModule {
         integration,
         closeDrawer: this.closeDrawer,
         tasksService,
+        constructPath,
+        isActiveRoute,
       }),
     };
 

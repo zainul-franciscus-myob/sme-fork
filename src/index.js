@@ -44,7 +44,6 @@ async function main(integrationType, telemetryType, leanEngageType) {
     recordPageVisit,
     trackUserEvent,
     startLeanEngage,
-    featureToggles,
   });
 
   const container = Object.freeze({
@@ -54,6 +53,8 @@ async function main(integrationType, telemetryType, leanEngageType) {
     pushMessage: inbox.pushMessage,
     replaceURLParams: router.replaceURLParams,
     navigateTo: router.navigateTo,
+    navigateToName: router.navigateToName,
+    isActiveRoute: router.isActiveRoute,
     globalCallbacks: rootModule.globalCallbacks,
     isToggleOn: rootModule.isToggleOn,
     subscribeOrUpgrade: rootModule.subscribeOrUpgrade,

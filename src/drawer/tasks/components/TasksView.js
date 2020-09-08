@@ -20,6 +20,8 @@ const TasksView = ({
   loadingState,
   onboardingTasks,
   welcomeTask,
+  isActiveRoute,
+  constructPath,
 }) => {
   if (!isActive) return null;
   const hasTasks =
@@ -37,6 +39,8 @@ const TasksView = ({
         tasks={onboardingTasks}
         closeTasks={closeTasks}
         dismissTask={dismissTask}
+        isActiveRoute={isActiveRoute}
+        constructPath={constructPath}
       />
     </div>
   );

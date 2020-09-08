@@ -62,22 +62,22 @@
   text-align: center;
 }
 
-.subTasks .active { background: var(--flx-palette-dusk-05); }
+.active { background: var(--flx-palette-dusk-05); }
 
-.subTasks .active a { color: var(--flx-palette-dusk-100); }
+.active a { color: var(--flx-palette-dusk-100); }
 
-.subTasks .active a:before {
+.active a:before {
   background: var(--flx-palette-dusk-100);
   color: var(--flx-palette-white);
   padding-top: 1px;
 }
 
-.subTasks .completed a {
+.completed a {
   color: var(--flx-palette-storm-83);
   text-decoration: line-through;
 }
 
-.subTasks .completed a:before {
+.completed a:before {
   background: url('assets/tick.svg') no-repeat 4px 4px / 16px var(--flx-palette-golf);
   content: '';
 }

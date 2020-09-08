@@ -18,8 +18,13 @@ describe('Navigation Module', () => {
 
   const integrationIntents = [];
   const navigationModule = new NavigationModule({
-    constructPath: (routeName, { region, businessId }) =>
-      `${region}/${businessId}/${routeName}`,
+    constructPath: (
+      routeName,
+      { region = undefined, businessId = undefined } = {}
+    ) =>
+      `${region ?? baseData.routeParams.region}/${
+        businessId ?? baseData.routeParams.businessId
+      }/${routeName}`,
     integration: {
       read: ({ intent, onSuccess }) => {
         integrationIntents.push(intent);
@@ -33,11 +38,12 @@ describe('Navigation Module', () => {
       MY_REPORTS_URL: 'my-reports.url',
       SELF_SERVICE_PORTAL_URL: 'self-service-portal.url',
     },
-    setNavigationView: () => {},
     isToggleOn: () => true,
     recordPageVisit: jest.fn(),
     trackUserEvent: jest.fn(),
     navigateTo: jest.fn(),
+    toggleHelp: jest.fn(),
+    toggleTasks: jest.fn(),
   });
 
   const store = new TestStore(navReducer);

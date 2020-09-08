@@ -72,7 +72,6 @@ export default class EmployeeDetailModule {
         store: this.store,
         pushMessage,
         saveEmployee: this.saveEmployee,
-        globalCallbacks,
         featureToggles,
         replaceURLParams,
       }),
