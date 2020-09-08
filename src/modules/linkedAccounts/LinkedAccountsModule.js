@@ -31,6 +31,16 @@ class LinkedAccountsModule {
   loadLinkedAccounts = () => {
     const onSuccess = (response) => {
       this.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setShouldDisplayAccountsBankingTab(
+        response.shouldDisplayAccountsBankingTab
+      );
+      this.dispatcher.setShouldDisplaySalesTab(response.shouldDisplaySalesTab);
+      this.dispatcher.setShouldDisplayPurchasesTab(
+        response.shouldDisplayPurchasesTab
+      );
+      this.dispatcher.setShouldDisplayPayrollTab(
+        response.shouldDisplayPayrollTab
+      );
       this.dispatcher.loadLinkedAccounts(response);
     };
 

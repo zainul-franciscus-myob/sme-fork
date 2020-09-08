@@ -3,6 +3,13 @@ export const getIsActionDisabled = (state) =>
   state.isSubmitting || state.isCreatedAccountLoading;
 export const getAlert = (state) => state.alert;
 export const getSelectedTab = (state) => state.selectedTab;
+export const getShouldDisplayAccountsBankingTab = (state) =>
+  state.shouldDisplayAccountsBankingTab;
+export const getShouldDisplaySalesTab = (state) => state.shouldDisplaySalesTab;
+export const getShouldDisplayPurchasesTab = (state) =>
+  state.shouldDisplayPurchasesTab;
+export const getShouldDisplayPayrollTab = (state) =>
+  state.shouldDisplayPayrollTab;
 
 export const getBusinessId = (state) => state.businessId;
 export const getRegion = (state) => state.region;

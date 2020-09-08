@@ -498,5 +498,9 @@
       }
     ],
     "accountId": "1"
-  }
+  },
+  "shouldDisplayAccountsBankingTab": true,
+  "shouldDisplaySalesTab": false,
+  "shouldDisplayPurchasesTab": false,
+  "shouldDisplayPayrollTab": true
 }

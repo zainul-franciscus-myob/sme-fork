@@ -6,6 +6,10 @@ import {
   SET_IS_SUBMITTING,
   SET_LOADING_STATE,
   SET_SELECTED_TAB,
+  SET_SHOULD_DISPLAY_ACCOUNTS_BANKING_TAB,
+  SET_SHOULD_DISPLAY_PAYROLL_TAB,
+  SET_SHOULD_DISPLAY_PURCHASES_TAB,
+  SET_SHOULD_DISPLAY_SALES_TAB,
   UPDATE_ACCOUNT,
   UPDATE_HAS_ACCOUNT_OPTION,
 } from './LinkedAccountsIntents';
@@ -21,6 +25,10 @@ const getDefaultState = () => ({
   isSubmitting: false,
   alert: undefined,
   selectedTab: TabItem.ACCOUNTS_AND_BANKING,
+  shouldDisplayAccountsBankingTab: false,
+  shouldDisplaySalesTab: false,
+  shouldDisplayPurchasesTab: false,
+  shouldDisplayPayrollTab: false,
   isCreatedAccountLoading: false,
   linkedAccounts: {
     equityAccountCurrentEarnings: {
@@ -152,6 +160,26 @@ const setAlert = (state, action) => ({
 const setSelectedTab = (state, action) => ({
   ...state,
   selectedTab: action.selectedTab,
+});
+
+const setShouldDisplayAccountsBankingTab = (state, action) => ({
+  ...state,
+  shouldDisplayAccountsBankingTab: action.shouldDisplayAccountsBankingTab,
+});
+
+const setShouldDisplaySalesTab = (state, action) => ({
+  ...state,
+  shouldDisplaySalesTab: action.shouldDisplaySalesTab,
+});
+
+const setShouldDisplayPurchasesTab = (state, action) => ({
+  ...state,
+  shouldDisplayPurchasesTab: action.shouldDisplayPurchasesTab,
+});
+
+const setShouldDisplayPayrollTab = (state, action) => ({
+  ...state,
+  shouldDisplayPayrollTab: action.shouldDisplayPayrollTab,
 });
 
 const loadLinkedAccounts = (state, action) => ({
@@ -372,6 +400,10 @@ const handlers = {
   [SET_ALERT]: setAlert,
   [SET_CREATED_ACCOUNT_LOADING_STATE]: setCreatedAccountLoadingState,
   [SET_SELECTED_TAB]: setSelectedTab,
+  [SET_SHOULD_DISPLAY_ACCOUNTS_BANKING_TAB]: setShouldDisplayAccountsBankingTab,
+  [SET_SHOULD_DISPLAY_SALES_TAB]: setShouldDisplaySalesTab,
+  [SET_SHOULD_DISPLAY_PURCHASES_TAB]: setShouldDisplayPurchasesTab,
+  [SET_SHOULD_DISPLAY_PAYROLL_TAB]: setShouldDisplayPayrollTab,
   [LOAD_LINKED_ACCOUNTS]: loadLinkedAccounts,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [UPDATE_ACCOUNT]: updateAccount,

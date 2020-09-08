@@ -5,6 +5,10 @@ import {
   SET_IS_SUBMITTING,
   SET_LOADING_STATE,
   SET_SELECTED_TAB,
+  SET_SHOULD_DISPLAY_ACCOUNTS_BANKING_TAB,
+  SET_SHOULD_DISPLAY_PAYROLL_TAB,
+  SET_SHOULD_DISPLAY_PURCHASES_TAB,
+  SET_SHOULD_DISPLAY_SALES_TAB,
   UPDATE_ACCOUNT,
   UPDATE_HAS_ACCOUNT_OPTION,
 } from '../LinkedAccountsIntents';
@@ -59,6 +63,22 @@ describe('LinkedAccountsModule', () => {
         {
           intent: SET_LOADING_STATE,
           loadingState: LoadingState.LOADING_SUCCESS,
+        },
+        {
+          intent: SET_SHOULD_DISPLAY_ACCOUNTS_BANKING_TAB,
+          shouldDisplayAccountsBankingTab: true,
+        },
+        {
+          intent: SET_SHOULD_DISPLAY_SALES_TAB,
+          shouldDisplaySalesTab: false,
+        },
+        {
+          intent: SET_SHOULD_DISPLAY_PURCHASES_TAB,
+          shouldDisplayPurchasesTab: false,
+        },
+        {
+          intent: SET_SHOULD_DISPLAY_PAYROLL_TAB,
+          shouldDisplayPayrollTab: true,
         },
         expect.objectContaining({ intent: LOAD_LINKED_ACCOUNTS }),
       ]);

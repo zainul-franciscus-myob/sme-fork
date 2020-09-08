@@ -6,6 +6,10 @@ import {
   SET_IS_SUBMITTING,
   SET_LOADING_STATE,
   SET_SELECTED_TAB,
+  SET_SHOULD_DISPLAY_ACCOUNTS_BANKING_TAB,
+  SET_SHOULD_DISPLAY_PAYROLL_TAB,
+  SET_SHOULD_DISPLAY_PURCHASES_TAB,
+  SET_SHOULD_DISPLAY_SALES_TAB,
   UPDATE_ACCOUNT,
   UPDATE_HAS_ACCOUNT_OPTION,
 } from './LinkedAccountsIntents';
@@ -90,6 +94,34 @@ const createLinkedAccountsDispatcher = ({ store }) => ({
       intent: UPDATE_ACCOUNT,
       key,
       value,
+    });
+  },
+
+  setShouldDisplayAccountsBankingTab: (shouldDisplayAccountsBankingTab) => {
+    store.dispatch({
+      intent: SET_SHOULD_DISPLAY_ACCOUNTS_BANKING_TAB,
+      shouldDisplayAccountsBankingTab,
+    });
+  },
+
+  setShouldDisplaySalesTab: (shouldDisplaySalesTab) => {
+    store.dispatch({
+      intent: SET_SHOULD_DISPLAY_SALES_TAB,
+      shouldDisplaySalesTab,
+    });
+  },
+
+  setShouldDisplayPurchasesTab: (shouldDisplayPurchasesTab) => {
+    store.dispatch({
+      intent: SET_SHOULD_DISPLAY_PURCHASES_TAB,
+      shouldDisplayPurchasesTab,
+    });
+  },
+
+  setShouldDisplayPayrollTab: (shouldDisplayPayrollTab) => {
+    store.dispatch({
+      intent: SET_SHOULD_DISPLAY_PAYROLL_TAB,
+      shouldDisplayPayrollTab,
     });
   },
 
