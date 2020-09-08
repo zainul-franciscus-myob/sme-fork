@@ -304,10 +304,12 @@ export const getShouldDisplayLiveChat = createSelector(
   hasBusinessId,
   getIsTrial,
   getIsCurrentUserAdvisor,
-  (businessIdExists, trialist, isAdvisor) => (businessRole) =>
+  getRegion,
+  (businessIdExists, trialist, isAdvisor, region) => (businessRole) =>
     businessIdExists &&
     businessRole !== 'Student' &&
     !isAdvisor &&
     trialist &&
+    region === 'au' &&
     Config.GENESYS_CHAT
 );
