@@ -1,0 +1,21 @@
+@media (min-width: 768px) {
+  .splitAllocationFilterOptions {
+    display: flex;
+  }
+
+  .filterInput {
+    padding: 0 var(--flx-spacing-tiny) 0 0;
+  }
+
+  .contactCombobox,
+  .description {
+    width: var(--flx-width-field-l);
+  }
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  height: 3rem;
+  margin-top: 2.7rem;
+}

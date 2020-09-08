@@ -47,13 +47,6 @@
   width: var(--flx-width-field-s);
 }
 
-.checkbox {
-  display: flex;
-  align-items: center;
-  height: 3rem;
-  margin-top: 2.7rem;
-}
-
 .entryLoading :global(.filter-bar__item button) {
   cursor: progress;
   opacity: 0.65;
@@ -83,15 +76,6 @@
   .paymentAllocationFilterOptions {
     display: grid;
     grid-template-columns: var(--flx-width-field-xl) auto;
-  }
-
-  .splitAllocationFilterOptions {
-    display: flex;
-  }
-
-  .splitAllocationFilterOptions :global(.form-group) {
-    padding: 0 var(--flx-spacing-tiny);
-    width: var(--flx-width-field-l);
   }
 
   .checkbox {

@@ -14,7 +14,7 @@ import {
 import { getContacts } from '../bankingSelectors';
 import ContactCombobox from '../../../components/combobox/ContactCombobox';
 import handleInputChange from '../../../components/handlers/handleInputChange';
-import styles from './BankingView.module.css';
+import styles from './SplitAllocationOptions.module.css';
 
 const handleCheckboxChange = (handler) => (e) => {
   const { checked, name } = e.target;
@@ -39,6 +39,7 @@ const SplitAllocationOptions = (props) => {
   return (
     <div className={styles.splitAllocationFilterOptions}>
       <ContactCombobox
+        className={classNames(styles.filterInput, styles.contactCombobox)}
         items={contacts}
         selectedId={contactId}
         onChange={handleComboBoxChange(
@@ -51,7 +52,13 @@ const SplitAllocationOptions = (props) => {
         hintText="Select contact"
       />
       {showIsReportable && (
-        <div className={classNames('form-group', styles.checkbox)}>
+        <div
+          className={classNames(
+            'form-group',
+            styles.checkbox,
+            styles.filterInput
+          )}
+        >
           <Checkbox
             name="isReportable"
             label="Report to ATO via TPAR"
@@ -61,6 +68,7 @@ const SplitAllocationOptions = (props) => {
         </div>
       )}
       <Input
+        containerClassName={classNames(styles.filterInput, styles.description)}
         label="Description of transaction"
         name="description"
         value={description}

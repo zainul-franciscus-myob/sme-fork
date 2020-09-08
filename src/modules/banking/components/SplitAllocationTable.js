@@ -116,7 +116,7 @@ const SplitAllocationTable = (props) => {
     },
     {
       columnName: taxAmountLabel,
-      styles: { width: '12.5rem', align: 'right' },
+      styles: { width: '10rem', align: 'right' },
     },
   ];
 

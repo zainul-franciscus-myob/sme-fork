@@ -7,6 +7,10 @@
   min-height: 20rem;
 }
 
+.lineItemTable :global(.line-item__icon-left) {
+  display: none;
+}
+
 .lineItemTable :global(.combobox-menu) {
   /*
     Reduce `max-height` to make combobox
