@@ -5,6 +5,8 @@
     "type": "Expense",
     "amount": "10000.00",
     "hours": "0.00",
+    "calculatedAmount": 10000,
+    "calculatedHours": 0,
     "shouldShowHours": false
   },
   {
@@ -13,6 +15,8 @@
     "type": "SuperannuationExpense",
     "amount": "10000.00",
     "hours": "0.00",
+    "calculatedAmount": 10000,
+    "calculatedHours": 0,
     "shouldShowHours": false
   }
 ]

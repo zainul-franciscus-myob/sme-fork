@@ -68,7 +68,14 @@ const createEmployeePayListIntegrator = (store, integration) => ({
     });
   },
 
-  recalculatePay: ({ employeeId, payItemId, key, onSuccess, onFailure }) => {
+  recalculatePay: ({
+    employeeId,
+    payItemId,
+    key,
+    isAllowNegativesInPayRuns,
+    onSuccess,
+    onFailure,
+  }) => {
     const state = store.getState();
     const intent = RECALCULATE_PAY;
     const businessId = getBusinessId(state);
@@ -80,6 +87,7 @@ const createEmployeePayListIntegrator = (store, integration) => ({
       employeeId,
       payItemId,
       key,
+      isAllowNegativesInPayRuns,
     });
 
     integration.write({

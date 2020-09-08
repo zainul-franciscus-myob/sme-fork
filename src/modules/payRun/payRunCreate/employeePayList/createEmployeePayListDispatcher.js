@@ -161,12 +161,14 @@ const createEmployeePayListDispatcher = (store) => ({
   updateEmployeeLineAfterRecalculation: ({
     employeeId,
     recalculatedEmployeePay,
+    isAllowNegativesInPayRuns,
   }) => {
     const intent = UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION;
     store.dispatch({
       intent,
       employeeId,
       recalculatedEmployeePay,
+      isAllowNegativesInPayRuns,
     });
   },
 

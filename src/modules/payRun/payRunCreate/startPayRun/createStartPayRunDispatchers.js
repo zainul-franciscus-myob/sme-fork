@@ -14,8 +14,12 @@ import createPayRunDispatchers from '../createPayRunDispatchers';
 const createStartPayRunDispatchers = (store) => ({
   ...createPayRunDispatchers(store),
 
-  loadEmployeePays: (employeePays) => {
-    store.dispatch({ intent: LOAD_EMPLOYEE_PAYS, employeePays });
+  loadEmployeePays: (employeePays, isAllowNegativesInPayRuns) => {
+    store.dispatch({
+      intent: LOAD_EMPLOYEE_PAYS,
+      employeePays,
+      isAllowNegativesInPayRuns,
+    });
   },
 
   setPayPeriodDetails: ({ key, value }) => {

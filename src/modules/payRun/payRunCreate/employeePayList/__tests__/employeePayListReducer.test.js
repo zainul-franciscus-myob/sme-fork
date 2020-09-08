@@ -189,7 +189,7 @@ describe('employeePayListReducer', () => {
     });
   });
 
-  describe('UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION', () => {
+  describe('old UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION when toggle is off', () => {
     it('should update employee line and original employee line', () => {
       const state = {
         employeePayList: {
@@ -259,6 +259,7 @@ describe('employeePayListReducer', () => {
         intent: UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
         employeeId: '1',
         recalculatedEmployeePay,
+        isAllowNegativesInPayRuns: false,
       };
       const expected = {
         employeePayList: {
@@ -400,6 +401,7 @@ describe('employeePayListReducer', () => {
         intent: UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
         employeeId: '1',
         recalculatedEmployeePay,
+        isAllowNegativesInPayRuns: false,
       };
 
       it('clears the negative amount for base hourly', () => {
@@ -467,6 +469,252 @@ describe('employeePayListReducer', () => {
         expect(actual.employeePayList.lines[0].payItems[1].hours).toEqual(
           '-20.00'
         );
+      });
+    });
+  });
+
+  describe('new UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION when toggle is on', () => {
+    it('should update employee lines only', () => {
+      const state = {
+        employeePayList: {
+          lines: [
+            {
+              employeeId: '1',
+              name: 'Mary Jones',
+              gross: 1500,
+              payg: 100,
+              deduction: 300,
+              netPay: 700,
+              super: 150,
+              payItems: [
+                {
+                  payItemId: '11',
+                  payItemName: 'PayGWithholding',
+                  type: 'Tax',
+                  amount: '222.00',
+                  isSubmitting: true,
+                  hours: '0.00',
+                  calculatedAmount: 222,
+                  calculatedHours: 0,
+                  ignoreUnderAllocationWarning: true,
+                },
+              ],
+            },
+          ],
+        },
+      };
+      const recalculatedEmployeePay = {
+        employeeId: '1',
+        name: 'Mary Jones',
+        gross: 1500,
+        payg: 100,
+        deduction: 300,
+        netPay: 700,
+        super: 150,
+        payItems: [
+          {
+            payItemId: '11',
+            payItemName: 'PayGWithholding',
+            type: 'Tax',
+            amount: '222.00',
+            hours: '1.00',
+            calculatedAmount: 222,
+            calculatedHours: 1,
+          },
+        ],
+      };
+      const action = {
+        intent: UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
+        employeeId: '1',
+        recalculatedEmployeePay,
+        isAllowNegativesInPayRuns: true,
+      };
+      const expected = {
+        employeePayList: {
+          lines: [
+            {
+              employeeId: '1',
+              name: 'Mary Jones',
+              gross: 1500,
+              payg: 100,
+              deduction: 300,
+              netPay: 700,
+              super: 150,
+              payItems: [
+                {
+                  payItemId: '11',
+                  payItemName: 'PayGWithholding',
+                  type: 'Tax',
+                  isSubmitting: false,
+                  amount: '222.00',
+                  hours: '1.00',
+                  calculatedAmount: 222,
+                  calculatedHours: 1,
+                  ignoreUnderAllocationWarning: true,
+                },
+              ],
+            },
+          ],
+        },
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+
+    describe('not clearing negative values after recalculate', () => {
+      const state = {
+        employeePayList: {
+          baseHourlyWagePayItemId: '11',
+          baseSalaryWagePayItemId: '9',
+          lines: [
+            {
+              employeeId: '1',
+              name: 'Mary Jones',
+              gross: 1500,
+              payg: 100,
+              deduction: 300,
+              netPay: 700,
+              super: 150,
+              payItems: [
+                {
+                  payItemId: '11',
+                  payItemName: 'Base Hourly',
+                  type: 'HourlyWage',
+                  amount: '0.00',
+                  isSubmitting: true,
+                  hours: '0.00',
+                  calculatedAmount: 0,
+                  calculatedHours: 0,
+                },
+                {
+                  payItemId: '10',
+                  payItemName: 'Some other wage',
+                  type: 'HourlyWage',
+                  amount: '-10.00',
+                  isSubmitting: true,
+                  hours: '-20.00',
+                  calculatedAmount: -10,
+                  calculatedHours: -20,
+                },
+              ],
+            },
+          ],
+        },
+      };
+
+      const recalculatedEmployeePay = {
+        employeeId: '1',
+        name: 'Mary Jones',
+        gross: 1500,
+        payg: 100,
+        deduction: 300,
+        netPay: 700,
+        super: 150,
+        payItems: [
+          {
+            payItemId: '11',
+            payItemName: 'Base Hourly',
+            type: 'HourlyWage',
+            amount: '-20.00',
+            hours: '-1.00',
+            calculatedAmount: 0,
+            calculatedHours: -1,
+          },
+        ],
+      };
+
+      const action = {
+        intent: UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
+        employeeId: '1',
+        recalculatedEmployeePay,
+        isAllowNegativesInPayRuns: true,
+      };
+
+      it('does not clear the negative amount for base hourly', () => {
+        const actual = payRunReducer(state, action);
+
+        expect(actual.employeePayList.lines[0].payItems[0].amount).toEqual(
+          '-20.00'
+        );
+        expect(
+          actual.employeePayList.lines[0].payItems[0].calculatedAmount
+        ).toEqual(0);
+      });
+
+      it('does not clear the negative hours for base hourly', () => {
+        const actual = payRunReducer(state, action);
+
+        expect(actual.employeePayList.lines[0].payItems[0].hours).toEqual(
+          '-1.00'
+        );
+        expect(
+          actual.employeePayList.lines[0].payItems[0].calculatedHours
+        ).toEqual(-1);
+      });
+
+      const recalculatedEmployeePayForNonBaseHourly = {
+        employeeId: '1',
+        name: 'Mary Jones',
+        gross: 1500,
+        payg: 100,
+        deduction: 300,
+        netPay: 700,
+        super: 150,
+        payItems: [
+          {
+            payItemId: '11',
+            payItemName: 'PayGWithholding',
+            type: 'Tax',
+            amount: '222.00',
+            hours: '1.00',
+            calculatedAmount: 222,
+            calculatedHours: 1,
+          },
+          {
+            payItemId: '10',
+            payItemName: 'Some other wage',
+            type: 'NonHourlyWage',
+            amount: '-10.00',
+            isSubmitting: true,
+            hours: '-20.00',
+            calculatedAmount: -10,
+            calculatedHours: -20,
+          },
+        ],
+      };
+
+      it('does not clear the negative amount for non base hourly', () => {
+        const actual = payRunReducer(state, {
+          intent: UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
+          employeeId: '1',
+          recalculatedEmployeePay: recalculatedEmployeePayForNonBaseHourly,
+          isAllowNegativesInPayRuns: true,
+        });
+
+        expect(actual.employeePayList.lines[0].payItems[1].amount).toEqual(
+          '-10.00'
+        );
+        expect(
+          actual.employeePayList.lines[0].payItems[1].calculatedAmount
+        ).toEqual(-10);
+      });
+
+      it('does not clear the negative hours for non base hourly', () => {
+        const actual = payRunReducer(state, {
+          intent: UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
+          employeeId: '1',
+          recalculatedEmployeePay: recalculatedEmployeePayForNonBaseHourly,
+          isAllowNegativesInPayRuns: true,
+        });
+
+        expect(actual.employeePayList.lines[0].payItems[1].hours).toEqual(
+          '-20.00'
+        );
+        expect(
+          actual.employeePayList.lines[0].payItems[1].calculatedHours
+        ).toEqual(-20);
       });
     });
   });
@@ -543,7 +791,100 @@ describe('employeePayListReducer', () => {
     });
   });
 
-  describe('LOAD_EMPLOYEE_PAYS', () => {
+  describe('new LOAD_EMPLOYEE_PAYS when toggle is on', () => {
+    const state = {
+      employeePayList: {
+        baseHourlyWagePayItemId: 11,
+        baseSalaryWagePayItemId: 9,
+      },
+    };
+
+    const action = {
+      intent: LOAD_EMPLOYEE_PAYS,
+      employeePays: {
+        baseHourlyWagePayItemId: 2,
+        baseSalaryWagePayItemId: 1,
+        employeePays: [
+          {
+            employeeId: 21,
+            payItems: [
+              {
+                payItemId: 1,
+                payItemName: 'Salary Wage',
+                amount: '-100.00',
+                hours: '0.00',
+                calculatedAmount: -100,
+                calculatedHours: 0,
+              },
+              {
+                payItemId: 2,
+                payItemName: 'Hourly Wage',
+                amount: '-100.00',
+                hours: '-10.00',
+                calculatedAmount: -200,
+                calculatedHours: -1.11,
+              },
+              {
+                payItemId: 3,
+                payItemName: 'Annual leave',
+                amount: '-10.00',
+                hours: '-10.00',
+                calculatedAmount: -10,
+                calculatedHours: -10,
+              },
+            ],
+          },
+        ],
+      },
+      isAllowNegativesInPayRuns: true,
+    };
+
+    it('does not transfer negative amount to zero for base salary pay item in the lines', () => {
+      const actual = payRunReducer(state, action);
+
+      expect(actual.employeePayList.lines[0].payItems[0].amount).toEqual(
+        '-100.00'
+      );
+      expect(
+        actual.employeePayList.lines[0].payItems[0].calculatedAmount
+      ).toEqual(-100);
+    });
+
+    it('does not transfer negative amount to zero for other pay items', () => {
+      const actual = payRunReducer(state, action);
+
+      expect(actual.employeePayList.lines[0].payItems[2].amount).toEqual(
+        '-10.00'
+      );
+      expect(
+        actual.employeePayList.lines[0].payItems[2].calculatedAmount
+      ).toEqual(-10);
+    });
+
+    it('does not transfer negative amount to zero for base hourly pay item in the lines', () => {
+      const actual = payRunReducer(state, action);
+
+      expect(actual.employeePayList.lines[0].payItems[1].amount).toEqual(
+        '-100.00'
+      );
+      expect(
+        actual.employeePayList.lines[0].payItems[1].calculatedAmount
+      ).toEqual(-200);
+    });
+
+    it('does not transfer negative hours to zero for base hourly pay item in the lines', () => {
+      const actual = payRunReducer(state, action);
+
+      expect(actual.employeePayList.lines[0].payItems[1].hours).toEqual(
+        '-10.00'
+      );
+      expect(
+        actual.employeePayList.lines[0].payItems[1].calculatedHours
+      ).toEqual(-1.11);
+    });
+  });
+
+  describe('old LOAD_EMPLOYEE_PAYS when toggle is off', () => {
     const state = {
       employeePayList: {
         baseHourlyWagePayItemId: 11,
@@ -582,6 +923,7 @@ describe('employeePayListReducer', () => {
           },
         ],
       },
+      isAllowNegativesInPayRuns: false,
     };
 
     it('sets negative amount to zero for base salary pay item in the lines', () => {

@@ -5,6 +5,8 @@
     "type": "Deduction",
     "amount": "100.00",
     "hours": "0.00",
+    "calculatedAmount": 100,
+    "calculatedHours": 0,
     "shouldShowHours": false
   },
   {
@@ -13,6 +15,8 @@
     "type": "SuperannuationDeductionBeforeTax",
     "amount": "200.00",
     "hours": "0.00",
+    "calculatedAmount": 200,
+    "calculatedHours": 0,
     "shouldShowHours": false
   },
   {
@@ -21,6 +25,8 @@
     "type": "SuperannuationDeductionAfterTax",
     "amount": "100.00",
     "hours": "0.00",
+    "calculatedAmount": 100,
+    "calculatedHours": 0,
     "shouldShowHours": false
   },
   {
@@ -29,6 +35,8 @@
     "type": "Deduction",
     "amount": "5000.00",
     "hours": "0.00",
+    "calculatedAmount": 5000,
+    "calculatedHours": 0,
     "shouldShowHours": false
   }
 ]

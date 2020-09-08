@@ -90,23 +90,40 @@ const HoursInputField = ({
   onBlur,
   leaveWarning,
   isSubmitting,
-}) => (
-  <HoursInput
-    name="hours"
-    label="Hours"
-    hideLabel
-    numeralPositiveOnly
-    textAlign="right"
-    value={value}
-    onChange={handleInputChange(onChange, employeeId, payItemId)}
-    onBlur={handleInputChange(onBlur, employeeId, payItemId)}
-    warningBody={getWarningMessage(
-      getLeaveWarning(value, leaveWarning),
-      employeeName
-    )}
-    disabled={isSubmitting}
-  />
-);
+  featureToggles,
+}) =>
+  featureToggles && featureToggles.isAllowNegativesInPayRuns ? (
+    <HoursInput
+      name="hours"
+      label="Hours"
+      hideLabel
+      textAlign="right"
+      value={value}
+      onChange={handleInputChange(onChange, employeeId, payItemId)}
+      onBlur={handleInputChange(onBlur, employeeId, payItemId)}
+      warningBody={getWarningMessage(
+        getLeaveWarning(value, leaveWarning),
+        employeeName
+      )}
+      disabled={isSubmitting}
+    />
+  ) : (
+    <HoursInput
+      name="hours"
+      label="Hours"
+      hideLabel
+      numeralPositiveOnly
+      textAlign="right"
+      value={value}
+      onChange={handleInputChange(onChange, employeeId, payItemId)}
+      onBlur={handleInputChange(onBlur, employeeId, payItemId)}
+      warningBody={getWarningMessage(
+        getLeaveWarning(value, leaveWarning),
+        employeeName
+      )}
+      disabled={isSubmitting}
+    />
+  );
 
 const getAddJobLinkText = (jobs) => {
   if (jobs && jobs.length > 0) {
@@ -147,6 +164,7 @@ const EmployeeRecalculatePayTableRow = ({
   onBlur,
   isPayrollJobColumnEnabled,
   onAddJob,
+  featureToggles,
 }) => {
   const hourRowItem = (
     <HoursInputField
@@ -158,6 +176,7 @@ const EmployeeRecalculatePayTableRow = ({
       onBlur={onBlur}
       leaveWarning={entry.leaveWarning}
       isSubmitting={entry.isSubmitting}
+      featureToggles={featureToggles}
     />
   );
 

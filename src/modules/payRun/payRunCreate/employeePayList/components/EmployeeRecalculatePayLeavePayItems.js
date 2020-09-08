@@ -17,6 +17,7 @@ const EmployeeRecalculatePayLeavePayItems = ({
   shouldShowTableRows,
   isPayrollJobColumnEnabled,
   onAddJob,
+  featureToggles,
 }) => (
   <EmployeeRecalculatePayTableRows
     name="leave"
@@ -30,6 +31,7 @@ const EmployeeRecalculatePayLeavePayItems = ({
     shouldShowTableRows={shouldShowTableRows}
     isPayrollJobColumnEnabled={isPayrollJobColumnEnabled}
     onAddJob={onAddJob}
+    featureToggles={featureToggles}
   />
 );
 

@@ -24,6 +24,7 @@ const getPayRunRoutes = ({
         pushMessage,
         isToggleOn,
         subscribeOrUpgrade,
+        featureToggles,
       }),
       documentTitle: 'Pay run',
     },

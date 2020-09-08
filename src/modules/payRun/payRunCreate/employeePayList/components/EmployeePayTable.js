@@ -53,6 +53,7 @@ const EmployeePayTable = ({
   onEmployeePayItemBlur,
   onAddJob,
   onEmployeeNoteBlur,
+  featureToggles,
 }) => (
   <Card>
     <div className={styles.employeePayTable}>
@@ -160,6 +161,7 @@ const EmployeePayTable = ({
                   onEmployeePayItemChange={onEmployeePayItemChange}
                   onEmployeePayItemBlur={onEmployeePayItemBlur}
                   onAddJob={onAddJob}
+                  featureToggles={featureToggles}
                 />
               </Table.CollapsibleRow>
             ))}

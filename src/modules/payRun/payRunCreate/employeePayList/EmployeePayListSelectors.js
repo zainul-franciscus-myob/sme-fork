@@ -421,21 +421,31 @@ const getPayItemLineForRecalculatePayload = (payItem) => {
   return restOfPayItem;
 };
 
+const getEditedPayItemLineForRecalculatePayload = (payItem) => {
+  const {
+    isSubmitting,
+    calculatedAmount,
+    calculatedHours,
+    ...restOfPayItem
+  } = payItem;
+  return restOfPayItem;
+};
+
 export const getRecalculatePayPayload = ({
   state,
   employeeId,
   payItemId,
   key,
+  isAllowNegativesInPayRuns,
 }) => {
   const editedField = key;
   const editedEmployeeLine = getEmployeeLineByEmployeeId(state, employeeId);
   const editedPayItem = editedEmployeeLine.payItems.find(
     (payItem) => payItem.payItemId === payItemId
   );
-  const originalEmployeeLine = getOriginalEmployeeLineByEmployeeId(
-    state,
-    employeeId
-  );
+  const originalEmployeeLine =
+    !isAllowNegativesInPayRuns &&
+    getOriginalEmployeeLineByEmployeeId(state, employeeId);
 
   return {
     employeeId,
@@ -443,11 +453,17 @@ export const getRecalculatePayPayload = ({
     paymentDate: state.startPayRun.currentEditingPayRun.paymentDate,
     payPeriodStart: state.startPayRun.currentEditingPayRun.payPeriodStart,
     payPeriodEnd: state.startPayRun.currentEditingPayRun.payPeriodEnd,
-    payItems: originalEmployeeLine.payItems.map((payItem) =>
-      getPayItemLineForRecalculatePayload(payItem)
-    ),
+    payItems: isAllowNegativesInPayRuns
+      ? editedEmployeeLine.payItems.map((payItem) =>
+          getPayItemLineForRecalculatePayload(payItem)
+        )
+      : originalEmployeeLine.payItems.map((payItem) =>
+          getPayItemLineForRecalculatePayload(payItem)
+        ),
     editedField,
-    editedPayItem: getPayItemLineForRecalculatePayload(editedPayItem),
+    editedPayItem: isAllowNegativesInPayRuns
+      ? getEditedPayItemLineForRecalculatePayload(editedPayItem)
+      : getPayItemLineForRecalculatePayload(editedPayItem),
   };
 };
 

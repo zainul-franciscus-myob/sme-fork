@@ -21,13 +21,21 @@ import createEmployeePayListDispatcher from './createEmployeePayListDispatcher';
 import createEmployeePayListIntegrator from './createEmployeePayListIntegrator';
 
 export default class EmployeePayListModule {
-  constructor({ integration, store, pushMessage, subscribeOrUpgrade }) {
+  constructor({
+    integration,
+    store,
+    pushMessage,
+    subscribeOrUpgrade,
+    featureToggles,
+  }) {
     this.store = store;
     this.pushMessage = pushMessage;
     this.dispatcher = createEmployeePayListDispatcher(store);
     this.integrator = createEmployeePayListIntegrator(store, integration);
     this.pendingNavigateFunction = null;
     this.subscribeOrUpgrade = subscribeOrUpgrade;
+    this.featureToggles = featureToggles;
+    this.isAllowNegativesInPayRuns = featureToggles?.isAllowNegativesInPayRuns;
   }
 
   changeEtpCodeCategory = ({ value }) =>
@@ -202,6 +210,7 @@ export default class EmployeePayListModule {
       this.dispatcher.updateEmployeeLineAfterRecalculation({
         employeeId,
         recalculatedEmployeePay,
+        isAllowNegativesInPayRuns: this.isAllowNegativesInPayRuns,
       });
     };
 
@@ -215,6 +224,7 @@ export default class EmployeePayListModule {
       employeeId,
       payItemId,
       key,
+      isAllowNegativesInPayRuns: this.isAllowNegativesInPayRuns,
       onSuccess,
       onFailure,
     });
@@ -260,6 +270,7 @@ export default class EmployeePayListModule {
         onAddJobAmountBlur={this.onAddJobAmountBlur}
         onAllJobsCheckboxChange={this.onAllJobsCheckboxChange}
         onEmployeeNoteBlur={this.setEmployeeNote}
+        featureToggles={this.featureToggles}
       />
     );
   }

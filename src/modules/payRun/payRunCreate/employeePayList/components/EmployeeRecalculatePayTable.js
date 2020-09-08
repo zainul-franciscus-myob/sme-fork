@@ -23,6 +23,7 @@ const EmployeeRecalculatePayTable = ({
   onEmployeePayItemBlur,
   isPayrollJobColumnEnabled,
   onAddJob,
+  featureToggles,
 }) => (
   <Table>
     <Table.Header>
@@ -42,6 +43,7 @@ const EmployeeRecalculatePayTable = ({
         onEmployeePayItemBlur={onEmployeePayItemBlur}
         isPayrollJobColumnEnabled={isPayrollJobColumnEnabled}
         onAddJob={onAddJob}
+        featureToggles={featureToggles}
       />
       <EmployeeRecalculatePayDeductionPayItems
         tableConfig={tableConfig}
@@ -51,6 +53,7 @@ const EmployeeRecalculatePayTable = ({
         onEmployeePayItemBlur={onEmployeePayItemBlur}
         isPayrollJobColumnEnabled={isPayrollJobColumnEnabled}
         onAddJob={onAddJob}
+        featureToggles={featureToggles}
       />
       <EmployeeRecalculatePayTaxPayItems
         tableConfig={tableConfig}
@@ -60,6 +63,7 @@ const EmployeeRecalculatePayTable = ({
         onEmployeePayItemBlur={onEmployeePayItemBlur}
         isPayrollJobColumnEnabled={isPayrollJobColumnEnabled}
         onAddJob={onAddJob}
+        featureToggles={featureToggles}
       />
       <EmployeeRecalculatePayLeavePayItems
         tableConfig={tableConfig}
@@ -69,6 +73,7 @@ const EmployeeRecalculatePayTable = ({
         onEmployeePayItemBlur={onEmployeePayItemBlur}
         isPayrollJobColumnEnabled={isPayrollJobColumnEnabled}
         onAddJob={onAddJob}
+        featureToggles={featureToggles}
       />
       <EmployeeRecalculatePayEmployerExpensePayItems
         tableConfig={tableConfig}
@@ -78,6 +83,7 @@ const EmployeeRecalculatePayTable = ({
         onEmployeePayItemBlur={onEmployeePayItemBlur}
         isPayrollJobColumnEnabled={isPayrollJobColumnEnabled}
         onAddJob={onAddJob}
+        featureToggles={featureToggles}
       />
     </Table.Body>
   </Table>

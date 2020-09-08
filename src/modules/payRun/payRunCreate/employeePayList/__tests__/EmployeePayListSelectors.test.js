@@ -28,8 +28,10 @@ import {
 import EtpCode from '../types/EtpCode';
 import deductionPayItemEntries from './fixtures/deductionPayItemEntries';
 import employeePayList from './fixtures/stateWithEmployeePayItems';
+import employeePayListOld from './fixtures/stateWithEmployeePayItemsOld';
 import employerExpensePayItemEntries from './fixtures/employerExpensePayItemEntries';
 import expectedRecalculatePayPayload from './fixtures/expectedRecalculatePayPayload';
+import expectedRecalculatePayPayloadOld from './fixtures/expectedRecalculatePayPayloadOld';
 import leavePayItemEntries from './fixtures/leavePayItemEntries';
 import taxPayItemEntries from './fixtures/taxPayItemEntries';
 import wagePayItemEntries from './fixtures/wagePayItemEntries';
@@ -810,14 +812,28 @@ describe('EmployeePayListSelectors', () => {
   });
 
   describe('getRecalculatedPayPayload', () => {
-    it('returns the payload to recalculate the pay for a particular employee', () => {
+    it('returns the new payload to recalculate the pay for a particular employee when toggle is on', () => {
       const actualPayload = getRecalculatePayPayload({
         state: employeePayList,
         employeeId: '21',
         payItemId: '2',
-        key: 'hours',
+        key: 'amount',
+        isAllowNegativesInPayRuns: true,
       });
       const expectedPayload = expectedRecalculatePayPayload;
+
+      expect(actualPayload).toEqual(expectedPayload);
+    });
+
+    it('returns the old payload to recalculate the pay for a particular employee when toggle is off', () => {
+      const actualPayload = getRecalculatePayPayload({
+        state: employeePayListOld,
+        employeeId: '21',
+        payItemId: '2',
+        key: 'amount',
+        isAllowNegativesInPayRuns: false,
+      });
+      const expectedPayload = expectedRecalculatePayPayloadOld;
 
       expect(actualPayload).toEqual(expectedPayload);
     });

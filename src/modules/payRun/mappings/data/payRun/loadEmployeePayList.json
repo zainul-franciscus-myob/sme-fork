@@ -20,6 +20,8 @@
           "stpCategory": "GrossPayments",
           "amount": "100000.00",
           "hours": "0.00",
+          "calculatedAmount": 100000,
+          "calculatedHours": 0,
           "jobs": []
         },
         {
@@ -29,6 +31,8 @@
           "stpCategory": "GrossPayments",
           "amount": "20000",
           "hours": "38.50",
+          "calculatedAmount": 20000,
+          "calculatedHours": 38.5,
           "jobs": []
         },
         {
@@ -38,6 +42,8 @@
           "stpCategory": "GrossPayments",
           "amount": "0.00",
           "hours": "0.00",
+          "calculatedAmount": 0,
+          "calculatedHours": 0,
           "jobs": []
         },
         {
@@ -47,6 +53,8 @@
           "stpCategory": "GrossPayments",
           "amount": "0.00",
           "hours": "0.00",
+          "calculatedAmount": 0,
+          "calculatedHours": 0,
           "jobs": []
         },
         {
@@ -56,6 +64,8 @@
           "stpCategory": "NotReportable",
           "amount": "100.00",
           "hours": "0.00",
+          "calculatedAmount": 100,
+          "calculatedHours": 0,
           "jobs": []
         },
         {
@@ -65,6 +75,8 @@
           "stpCategory": "NotReportable",
           "amount": "200.00",
           "hours": "0.00",
+          "calculatedAmount": 200,
+          "calculatedHours": 0,
           "jobs": []
         },
         {
@@ -74,6 +86,8 @@
           "stpCategory": "NotReportable",
           "amount": "100.00",
           "hours": "0.00",
+          "calculatedAmount": 100,
+          "calculatedHours": 0,
           "jobs": []
         },
         {
@@ -83,6 +97,8 @@
           "stpCategory": "NotReportable",
           "amount": "5000.00",
           "hours": "0.00",
+          "calculatedAmount": 5000,
+          "calculatedHours": 0,
           "jobs": []
         },
         {
@@ -92,6 +108,8 @@
           "stpCategory": "NotReportable",
           "amount": "0.00",
           "hours": "30.00",
+          "calculatedAmount": 0,
+          "calculatedHours": 30,
           "jobs": []
         },
         {
@@ -101,6 +119,8 @@
           "stpCategory": "NotReportable",
           "amount": "0.00",
           "hours": "30.00",
+          "calculatedAmount": 0,
+          "calculatedHours": 30,
           "jobs": []
         }
       ]
@@ -122,6 +142,8 @@
           "stpCategory": "ETPTaxableComponent",
           "amount": "200000.00",
           "hours": "0.00",
+          "calculatedAmount": 200000,
+          "calculatedHours": 0,
           "jobs": []
         },
         {
@@ -131,6 +153,8 @@
           "stpCategory": "ETPTaxableComponent",
           "amount": "0.00",
           "hours": "100.50",
+          "calculatedAmount": 0,
+          "calculatedHours": 100.5,
           "jobs": []
         },
         {
@@ -140,6 +164,8 @@
           "stpCategory": "ETPTaxableComponent",
           "amount": "200.00",
           "hours": "0.00",
+          "calculatedAmount": 200,
+          "calculatedHours": 0,
           "jobs": []
         },
         {
@@ -149,6 +175,8 @@
           "stpCategory": "ETPTaxableComponent",
           "amount": "0.00",
           "hours": "50.00",
+          "calculatedAmount": 0,
+          "calculatedHours": 50,
           "jobs": []
         },
         {
@@ -158,6 +186,8 @@
           "stpCategory": "ETPTaxableComponent",
           "amount": "0.00",
           "hours": "40.00",
+          "calculatedAmount": -100,
+          "calculatedHours": 40,
           "jobs": []
         },
         {
@@ -167,6 +197,8 @@
           "stpCategory": "ETPTaxableComponent",
           "amount": "1000000.00",
           "hours": "0.00",
+          "calculatedAmount": 1000000,
+          "calculatedHours": 0,
           "jobs": []
         },
         {
@@ -176,6 +208,8 @@
           "stpCategory": "ETPTaxableComponent",
           "amount": "222333.00",
           "hours": "0.00",
+          "calculatedAmount": 222333,
+          "calculatedHours": 0,
           "jobs": []
         }
       ]

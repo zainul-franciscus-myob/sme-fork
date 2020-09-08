@@ -12,8 +12,11 @@
       "payItemName": "Salary Wage",
       "type": "SalaryWage",
       "stpCategory": "GrossPayments",
-      "amount": "100000.00",
-      "hours": "0.00"
+      "amount": "0.00",
+      "hours": "0.00",
+      "calculatedAmount": -1300,
+      "calculatedHours": -30,
+      "jobs": []
     },
     {
       "payItemId": 2,
@@ -21,7 +24,10 @@
       "type": "HourlyWage",
       "stpCategory": "GrossPayments",
       "amount": "20000",
-      "hours": "38.50",
+      "hours": "-40.00",
+      "calculatedAmount": 20000,
+      "calculatedHours": -40.00,
+      "jobs": [],
       "leaveWarning": {
         "currentLeaveBalance": 14.07,
         "leaveAccruedThisPay": 1.67,
@@ -36,15 +42,21 @@
       "stpCategory": "GrossPayments",
       "amount": "0.00",
       "hours": "0.00",
-      "LeaveWarning": null
+      "calculatedAmount": -298,
+      "calculatedHours": -22,
+      "jobs": [],
+      "leaveWarning": null
     },
     {
       "payItemId": 4,
       "payItemName": "Sick leave",
       "type": "HourlyWage",
       "stpCategory": "GrossPayments",
-      "amount": "0.00",
-      "hours": "0.00",
+      "amount": "5400.00",
+      "hours": "30.00",
+      "calculatedAmount": 5400,
+      "calculatedHours": 30,
+      "jobs": [],
       "leaveWarning": {
         "currentLeaveBalance": 14.07,
         "leaveAccruedThisPay": 1.67,
@@ -58,7 +70,10 @@
       "type": "Deduction",
       "stpCategory": "NotReportable",
       "amount": "100.00",
-      "hours": "0.00"
+      "hours": "0.00",
+      "calculatedAmount": 100,
+      "calculatedHours": 0,
+      "jobs": []
     },
     {
       "payItemId": 6,
@@ -66,7 +81,10 @@
       "type": "SuperannuationDeductionBeforeTax",
       "stpCategory": "NotReportable",
       "amount": "200.00",
-      "hours": "0.00"
+      "hours": "0.00",
+      "calculatedAmount": 200,
+      "calculatedHours": 0,
+      "jobs": []
     },
     {
       "payItemId": 7,
@@ -74,7 +92,10 @@
       "type": "SuperannuationDeductionAfterTax",
       "stpCategory": "NotReportable",
       "amount": "100.00",
-      "hours": "0.00"
+      "hours": "0.00",
+      "calculatedAmount": 100,
+      "calculatedHours": 0,
+      "jobs": []
     },
     {
       "payItemId": 8,
@@ -82,7 +103,10 @@
       "type": "Deduction",
       "stpCategory": "NotReportable",
       "amount": "5000.00",
-      "hours": "0.00"
+      "hours": "0.00",
+      "calculatedAmount": 5000,
+      "calculatedHours": 0,
+      "jobs": []
     },
     {
       "payItemId": 9,
@@ -90,7 +114,10 @@
       "type": "Entitlement",
       "stpCategory": "NotReportable",
       "amount": "0.00",
-      "hours": "30.00"
+      "hours": "30.00",
+      "calculatedAmount": 0,
+      "calculatedHours": 30,
+      "jobs": []
     },
     {
       "payItemId": 10,
@@ -98,7 +125,10 @@
       "type": "Entitlement",
       "stpCategory": "NotReportable",
       "amount": "0.00",
-      "hours": "30.00"
+      "hours": "30.00",
+      "calculatedAmount": 0,
+      "calculatedHours": 30,
+      "jobs": []
     }
   ]
 }

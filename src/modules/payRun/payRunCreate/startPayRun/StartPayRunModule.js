@@ -12,12 +12,13 @@ import createStartPayRunDispatchers from './createStartPayRunDispatchers';
 import createStartPayRunIntegrator from './createStartPayRunIntegrator';
 
 export default class StartPayRunModule {
-  constructor({ integration, store, pushMessage }) {
+  constructor({ integration, store, pushMessage, featureToggles }) {
     this.integration = integration;
     this.pushMessage = pushMessage;
     this.store = store;
     this.dispatcher = createStartPayRunDispatchers(store);
     this.integrator = createStartPayRunIntegrator(store, integration);
+    this.isAllowNegativesInPayRuns = featureToggles?.isAllowNegativesInPayRuns;
   }
 
   createNewPayRun = () => {
@@ -124,7 +125,10 @@ export default class StartPayRunModule {
 
     const onSuccess = (employeePays) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.dispatcher.loadEmployeePays(employeePays);
+      this.dispatcher.loadEmployeePays(
+        employeePays,
+        this.isAllowNegativesInPayRuns
+      );
       this.dispatcher.setStpRegistrationStatus(
         employeePays.stpRegistrationStatus
       );

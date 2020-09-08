@@ -23,6 +23,7 @@ export default class PayRunModule {
     pushMessage,
     isToggleOn,
     subscribeOrUpgrade,
+    featureToggles,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -31,17 +32,20 @@ export default class PayRunModule {
     this.dispatcher = createPayRunDispatchers(this.store);
     this.integrator = createPayRunIntegrator(this.store, integration);
     this.isToggleOn = isToggleOn;
+    this.featureToggles = featureToggles;
     this.subModules = {
       startPayRunModule: new StartPayRunModule({
         integration,
         store: this.store,
         pushMessage,
+        featureToggles: this.featureToggles,
       }),
       employeePayListModule: new EmployeePayListModule({
         integration,
         store: this.store,
         pushMessage,
         subscribeOrUpgrade,
+        featureToggles: this.featureToggles,
       }),
       recordPayRunModule: new RecordPayRunModule({
         integration,
@@ -122,6 +126,7 @@ export default class PayRunModule {
         onDismissAlert={this.dispatcher.dismissAlert}
         onDismissModal={this.dispatcher.closePreviousStepModal}
         onPreviousStepModalGoBack={this.deleteDraftAndGoBack}
+        featureToggles={this.featureToggles}
       />
     );
 

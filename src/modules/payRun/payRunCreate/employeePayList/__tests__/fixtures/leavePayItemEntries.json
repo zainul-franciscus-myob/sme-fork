@@ -5,6 +5,8 @@
     "type": "Entitlement",
     "amount": "0.00",
     "hours": "30.00",
+    "calculatedAmount": 0,
+    "calculatedHours": 30,
     "shouldShowHours": true
   },
   {
@@ -13,6 +15,8 @@
     "type": "Entitlement",
     "amount": "0.00",
     "hours": "10.00",
+    "calculatedAmount": 0,
+    "calculatedHours": 10,
     "shouldShowHours": true
   }
 ]

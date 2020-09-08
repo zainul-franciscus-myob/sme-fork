@@ -53,16 +53,30 @@ export const getEmployeePayListDefaultState = () => ({
   unsavedModalIsOpen: false,
 });
 
-const loadEmployeePays = (state, { employeePays }) => ({
-  ...state,
-  baseHourlyWagePayItemId: employeePays.baseHourlyWagePayItemId,
-  baseSalaryWagePayItemId: employeePays.baseSalaryWagePayItemId,
-  lines: clearNegatives(
-    getEmployeePayLines(employeePays.employeePays, () => true),
-    [employeePays.baseSalaryWagePayItemId, employeePays.baseHourlyWagePayItemId]
-  ),
-  originalLines: getEmployeePayLines(employeePays.employeePays, () => true),
-});
+const loadEmployeePays = (state, { employeePays, isAllowNegativesInPayRuns }) =>
+  isAllowNegativesInPayRuns
+    ? {
+        ...state,
+        baseHourlyWagePayItemId: employeePays.baseHourlyWagePayItemId,
+        baseSalaryWagePayItemId: employeePays.baseSalaryWagePayItemId,
+        lines: getEmployeePayLines(employeePays.employeePays, () => true),
+      }
+    : {
+        ...state,
+        baseHourlyWagePayItemId: employeePays.baseHourlyWagePayItemId,
+        baseSalaryWagePayItemId: employeePays.baseSalaryWagePayItemId,
+        lines: clearNegatives(
+          getEmployeePayLines(employeePays.employeePays, () => true),
+          [
+            employeePays.baseSalaryWagePayItemId,
+            employeePays.baseHourlyWagePayItemId,
+          ]
+        ),
+        originalLines: getEmployeePayLines(
+          employeePays.employeePays,
+          () => true
+        ),
+      };
 
 const updateIsEmployeeSelected = (state, { id }) => ({
   ...state,
@@ -289,22 +303,36 @@ const updateTheEditedEmployeePayItems = (
 
 const updateEmployeeLineAfterRecalculation = (
   state,
-  { employeeId, recalculatedEmployeePay }
-) => ({
-  ...state,
-  lines: clearNegatives(
-    updateTheEditedEmployeePayItems(state, employeeId, recalculatedEmployeePay),
-    [state.baseHourlyWagePayItemId, state.baseSalaryWagePayItemId]
-  ),
-  originalLines: state.originalLines.map((originalLine) =>
-    originalLine.employeeId === employeeId
-      ? {
-          ...originalLine,
-          ...recalculatedEmployeePay,
-        }
-      : originalLine
-  ),
-});
+  { employeeId, recalculatedEmployeePay, isAllowNegativesInPayRuns }
+) =>
+  isAllowNegativesInPayRuns
+    ? {
+        ...state,
+        lines: updateTheEditedEmployeePayItems(
+          state,
+          employeeId,
+          recalculatedEmployeePay
+        ),
+      }
+    : {
+        ...state,
+        lines: clearNegatives(
+          updateTheEditedEmployeePayItems(
+            state,
+            employeeId,
+            recalculatedEmployeePay
+          ),
+          [state.baseHourlyWagePayItemId, state.baseSalaryWagePayItemId]
+        ),
+        originalLines: state.originalLines.map((originalLine) =>
+          originalLine.employeeId === employeeId
+            ? {
+                ...originalLine,
+                ...recalculatedEmployeePay,
+              }
+            : originalLine
+        ),
+      };
 
 const setUpgradeModalShowing = (state, { isUpgradeModalShowing }) => ({
   ...state,
