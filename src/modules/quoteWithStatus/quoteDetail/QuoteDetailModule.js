@@ -475,6 +475,10 @@ export default class QuoteDetailModule {
     });
   };
 
+  toggleQuoteHistoryAccordion = () => {
+    this.dispatcher.toggleQuoteHistoryAccordion();
+  };
+
   loadAccountAfterCreate = ({ message, id }, onChange) => {
     this.accountModalModule.close();
     this.displaySuccessAlert(message);
@@ -826,6 +830,7 @@ export default class QuoteDetailModule {
             onChangeExportPdfTemplate: this.dispatcher.changeExportPdfTemplate,
             onDismissAlert: this.dispatcher.dismissModalAlert,
           }}
+          onAccordionToggle={this.toggleQuoteHistoryAccordion}
         />
       </Provider>
     );

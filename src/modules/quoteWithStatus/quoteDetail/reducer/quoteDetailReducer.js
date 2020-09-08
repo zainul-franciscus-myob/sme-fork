@@ -32,6 +32,7 @@ import {
   SET_QUOTE_LINE_DIRTY,
   SET_QUOTE_SUBMITTING_STATE,
   SET_SUBMITTING_STATE,
+  TOGGLE_QUOTE_HISTORY_ACCORDION,
   UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
   UPDATE_EMAIL_QUOTE_DETAIL,
   UPDATE_LAYOUT,
@@ -62,6 +63,8 @@ import {
   getRegion,
   getUpdatedContactOptions,
 } from '../selectors/QuoteDetailSelectors';
+import { getQuoteHistoryAccordionStatus } from '../selectors/QuoteHistorySelectors';
+import { toggleQuoteHistoryAccordion } from './QuoteHistoryReducer';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import QuoteLayout from '../QuoteLayout';
 import QuoteLineType from '../QuoteLineType';
@@ -197,7 +200,12 @@ const reloadQuoteDetail = (state, action) => {
     loadingState: LoadingState.LOADING_SUCCESS,
   };
 
-  return loadQuoteDetail(initialState, action);
+  const loadState = loadQuoteDetail(initialState, action);
+
+  return {
+    ...loadState,
+    quoteHistoryAccordionStatus: getQuoteHistoryAccordionStatus(state),
+  };
 };
 
 const updateQuoteIdAfterCreate = (state, action) => ({
@@ -510,6 +518,8 @@ const handlers = {
   [CALCULATE_LINE_AMOUNTS]: calculatePartialQuoteLineAmounts,
   [LOAD_ITEM_SELLING_DETAILS]: loadItemSellingDetails,
   [CACHE_ITEM_SELLING_DETAILS]: cacheItemSellingDetails,
+
+  [TOGGLE_QUOTE_HISTORY_ACCORDION]: toggleQuoteHistoryAccordion,
 };
 
 const quoteDetailReducer = createReducer(getDefaultState(), handlers);

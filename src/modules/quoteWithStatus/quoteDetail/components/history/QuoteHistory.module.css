@@ -1,0 +1,4 @@
+.headerLabel {
+  padding-left: var(--flx-spacing-x-tiny);
+  display: inline-block;
+}

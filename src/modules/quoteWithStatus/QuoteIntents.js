@@ -88,3 +88,7 @@ export const LOAD_QUOTE_LIST_NEXT_PAGE = Symbol('Load quote list next page');
 export const SET_NEXT_PAGE_LOADING_STATE = Symbol(
   'Set next page loading state'
 );
+
+export const TOGGLE_QUOTE_HISTORY_ACCORDION = Symbol(
+  'Toggle quote history accordion'
+);

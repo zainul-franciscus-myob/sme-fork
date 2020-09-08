@@ -1,4 +1,5 @@
 import LoadingState from '../../../../components/PageView/LoadingState';
+import QuoteHistoryAccordionStatus from '../types/QuoteHistoryAccordionStatus';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
 
 export const DEFAULT_UNITS = '1';
@@ -88,6 +89,7 @@ const getDefaultState = () => ({
     template: '',
   },
   cachedItemSellingDetails: {},
+  quoteHistoryAccordionStatus: QuoteHistoryAccordionStatus.OPEN,
 });
 
 export default getDefaultState;
