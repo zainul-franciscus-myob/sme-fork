@@ -14,12 +14,12 @@ import {
   getIsLoading,
   getModalType,
   // getLoadMoreButtonStatus, See comment below on <LoadMoreButton>
-} from '../bankingSelectors';
+} from '../selectors';
 import {
   getBulkMessage,
   getShowBulkUnallocate,
   showBulkActionsSelector,
-} from '../bankingSelectors/bulkActionSelectors';
+} from '../selectors/bulkActionSelectors';
 import BankTransactionFilterOptions from './BankTransactionFilterOptions';
 import BankTransactionPageHead from './BankTransactionPageHead';
 import BankTransactionTable from './BankTransactionTable';

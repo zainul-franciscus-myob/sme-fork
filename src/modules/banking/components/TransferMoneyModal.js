@@ -2,7 +2,7 @@ import { Alert, Button, Modal, ReadOnly, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getTransferMoneyModal } from '../bankingSelectors/transferMoneySelectors';
+import { getTransferMoneyModal } from '../tabs/transferMoney/transferMoneySelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import PageView from '../../../components/PageView/PageView';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';

@@ -1,9 +1,9 @@
 import {
   getBalanceValue,
+  getOrder,
   getSortAndFilterSuperPaymentsParams,
   getTotalPayment,
 } from '../paySuperCreateSelector';
-import { getOrder } from '../../../banking/bankingSelectors';
 
 describe('paySuperCreateSelector', () => {
   describe('getBalanceValue', () => {

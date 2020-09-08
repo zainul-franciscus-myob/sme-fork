@@ -2,7 +2,7 @@ import { Icons, Popover } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getTabItems } from '../bankingSelectors';
+import { getTabItems } from '../selectors';
 import TabsWithIcon from './TabsWithIcon';
 import styles from './BankTransactionTabs.module.css';
 

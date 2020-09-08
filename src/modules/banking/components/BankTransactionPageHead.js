@@ -12,8 +12,8 @@ import {
   getBankAccount,
   getBankAccounts,
   getDisplayBalances,
-} from '../bankingSelectors';
-import { getBankReconciliationUrl } from '../bankingSelectors/redirectSelectors';
+} from '../selectors';
+import { getBankReconciliationUrl } from '../selectors/redirectSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import LinkButton from '../../../components/Button/LinkButton';
 import styles from './BankTransactionPageHead.module.css';

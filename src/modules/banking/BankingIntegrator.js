@@ -41,17 +41,17 @@ import {
   getSortBankTransactionsParams,
   getSortBankTransactionsUrlParams,
   getUnallocationPayload,
-} from './bankingSelectors';
+} from './selectors';
 import {
   getBulkAllocationPayload,
   getBulkUnallocationPayload,
-} from './bankingSelectors/bulkActionSelectors';
+} from './selectors/bulkActionSelectors';
 import {
   getCreateTransferMoneyPayload,
   getMatchTransferMoneyPayload,
   getMatchTransferMoneyQueryParams,
   getMatchTransferMoneyUrlParams,
-} from './bankingSelectors/transferMoneySelectors';
+} from './tabs/transferMoney/transferMoneySelectors';
 import {
   getDefaultMatchTransactionFilterRequestParams,
   getMatchTransactionFilterRequestParams,
@@ -59,9 +59,9 @@ import {
   getMatchTransactionPayload,
   getMatchTransactionSortOrder,
   getUnmatchTransactionPayload,
-} from './bankingSelectors/matchTransactionSelectors';
-import { getRemoveDocumentParams } from './bankingSelectors/attachmentsSelectors';
-import { getSplitAllocationPayload } from './bankingSelectors/splitAllocationSelectors';
+} from './tabs/matchTransaction/matchTransactionSelectors';
+import { getRemoveDocumentParams } from './selectors/attachmentsSelectors';
+import { getSplitAllocationPayload } from './tabs/splitAllocation/splitAllocationSelectors';
 
 const createBankingIntegrator = (store, integration) => ({
   loadBankTransactions: ({ onSuccess, onFailure }) => {

@@ -37,26 +37,26 @@ import {
   getRegion,
   getTaxCodes,
   getURLParams,
-} from './bankingSelectors';
+} from './selectors';
 import {
   getCanSelectMore,
   getIsEditedEntryInBulkSelection,
-} from './bankingSelectors/bulkActionSelectors';
+} from './selectors/bulkActionSelectors';
 import {
   getDefaultMatchTransactionFilterRequestParams,
   getMatchTransactionFlipSortOrder,
   getMatchTransactionOrderBy,
   getShowType,
-} from './bankingSelectors/matchTransactionSelectors';
+} from './tabs/matchTransaction/matchTransactionSelectors';
 import {
   getFilesForUpload,
   getInTrayModalContext,
-} from './bankingSelectors/attachmentsSelectors';
-import { getLinesForTaxCalculation } from './bankingSelectors/splitAllocationSelectors';
+} from './selectors/attachmentsSelectors';
+import { getLinesForTaxCalculation } from './tabs/splitAllocation/splitAllocationSelectors';
 import {
   getMatchTransferMoneyFlipSortOrder,
   getMatchTransferMoneyOrderBy,
-} from './bankingSelectors/transferMoneySelectors';
+} from './tabs/transferMoney/transferMoneySelectors';
 import AccountModalModule from '../account/accountModal/AccountModalModule';
 import BankingRuleModule from './bankingRule/BankingRuleModule';
 import BankingView from './components/BankingView';
@@ -69,7 +69,7 @@ import JobModalModule from '../job/jobModal/JobModalModule';
 import MatchTransactionShowType from './types/MatchTransactionShowType';
 import Store from '../../store/Store';
 import TabItems from './types/TabItems';
-import bankingReducer from './bankingReducer';
+import bankingReducer from './reducers';
 import createBankingDispatcher from './BankingDispatcher';
 import createBankingIntegrator from './BankingIntegrator';
 import debounce from '../../common/debounce/debounce';

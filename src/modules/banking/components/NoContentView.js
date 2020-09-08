@@ -2,7 +2,7 @@ import { BaseTemplate, Card, Icons, PageState } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getMyMyobLink } from '../bankingSelectors';
+import { getMyMyobLink } from '../selectors';
 import ErrorViewImage from './NoContentView.svg';
 import LinkButton from '../../../components/Button/LinkButton';
 

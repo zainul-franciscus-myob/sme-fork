@@ -5,12 +5,12 @@ import BankTransactionTableRow from './BankTransactionTableRow';
 import BankTransactionTabs from './BankTransactionTabs';
 import DropZoneCardBody from './DropZoneCardBody';
 import LoadingPageState from '../../../components/LoadingPageState/LoadingPageState';
-import MatchTransactionBody from './MatchTransactionBody';
+import MatchTransactionBody from '../tabs/matchTransaction/components/MatchTransactionBody';
 import OpenEntryFooter from './OpenEntryFooter';
 import OpenEntrySecondaryContent from './OpenEntrySecondaryContent';
-import SplitAllocationBody from './SplitAllocationBody';
+import SplitAllocationBody from '../tabs/splitAllocation/components/SplitAllocationBody';
 import TabItems from '../types/TabItems';
-import TransferMoneyBody from './TransferMoneyBody';
+import TransferMoneyBody from '../tabs/transferMoney/components/TransferMoneyBody';
 import styles from './BankingView.module.css';
 
 const BankTransactionTableBody = (props) => {

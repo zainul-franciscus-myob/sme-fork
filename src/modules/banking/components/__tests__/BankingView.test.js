@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 
 import BankingView from '../BankingView';
 import Store from '../../../../store/Store';
-import bankingReducer from '../../bankingReducer';
+import bankingReducer from '../../reducers';
 
 describe('TransactionListView', () => {
   it('renders without crashing', () => {

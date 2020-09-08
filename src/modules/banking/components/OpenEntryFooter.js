@@ -14,7 +14,7 @@ import {
   getIsOpenEntryLoading,
   getShowCreateBankingRuleButton,
   getShowCreateTransferMoneyButton,
-} from '../bankingSelectors';
+} from '../selectors';
 import styles from './OpenEntryFooter.module.css';
 
 const OpenEntryFooter = ({

@@ -9,12 +9,12 @@ import {
   getIsTableLoading,
   getOpenEntryActiveTabId,
   getOrder,
-} from '../bankingSelectors';
+} from '../selectors';
 import {
   getBulkSelectStatus,
   getEntrySelectStatus,
   getIsBulkLoading,
-} from '../bankingSelectors/bulkActionSelectors';
+} from '../selectors/bulkActionSelectors';
 import BankTransactionTableBody from './BankTransactionTableBody';
 import BankTransactionTableHeader from './BankTransactionTableHeader';
 import ErrorViewImage from './no-results-found.svg';

@@ -2,11 +2,7 @@ import { Card, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getFilterOptions,
-  getRegion,
-  getTransactionTypes,
-} from '../bankingSelectors';
+import { getFilterOptions, getRegion, getTransactionTypes } from '../selectors';
 import FilterBar from '../../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../../components/FilterBarSearch/FilterBarSearch';
 import PeriodPicker from '../../../components/PeriodPicker/PeriodPicker';

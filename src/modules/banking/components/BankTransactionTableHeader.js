@@ -2,7 +2,7 @@ import { Card, Checkbox, HeaderSort } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getTitle } from '../bankingSelectors';
+import { getTitle } from '../selectors';
 import styles from './BankTransactionTable.module.css';
 
 const BankTransactionTableHeaderColumn = ({

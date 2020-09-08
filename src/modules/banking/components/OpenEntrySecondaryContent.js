@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import {
   getAttachments,
   getIsAttachmentsLoading,
-} from '../bankingSelectors/attachmentsSelectors';
+} from '../selectors/attachmentsSelectors';
 import styles from './OpenEntrySecondaryContent.module.css';
 
 const wrapAttachmentHandler = (handler, index) => () => handler(index);

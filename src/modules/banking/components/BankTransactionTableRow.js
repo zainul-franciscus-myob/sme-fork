@@ -11,8 +11,8 @@ import {
   getIsSubmittingNote,
   getPendingNote,
   getShouldShowNote,
-} from '../bankingSelectors';
-import { getIsCheckboxDisabled } from '../bankingSelectors/bulkActionSelectors';
+} from '../selectors';
+import { getIsCheckboxDisabled } from '../selectors/bulkActionSelectors';
 import ClearableTextArea from '../../../components/ClearableTextArea/ClearableTextArea';
 import FocusLocations from '../types/FocusLocations';
 import MatchedOrAllocated from './MatchedOrAllocated';

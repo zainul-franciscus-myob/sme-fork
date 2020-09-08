@@ -1,4 +1,4 @@
-import { getIsBalancesInvalid } from '../bankingSelectors';
+import { getIsBalancesInvalid } from '../selectors';
 import BankTransactionAccountTypes from './BankTransactionAccountTypes';
 
 const getSelectedBankAccount = (bankAccounts, selectedBankAccountId) =>

@@ -71,7 +71,7 @@ import TabItems from '../types/TabItems';
 import TestIntegration from '../../../integration/TestIntegration';
 import TestStore from '../../../store/TestStore';
 import TransactionTypes from '../types/TransactionTypes';
-import bankingReducer from '../bankingReducer';
+import bankingReducer from '../reducers';
 import createBankingDispatcher from '../BankingDispatcher';
 import createBankingIntegrator from '../BankingIntegrator';
 

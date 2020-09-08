@@ -7,7 +7,7 @@ import {
   getBulkAllocationOptions,
   getIsBulkOpen,
   getTaxCodes,
-} from '../bankingSelectors/bulkActionSelectors';
+} from '../selectors/bulkActionSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import Popover from '../../../components/Feelix/Popover/Popover';
 import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';

@@ -5,7 +5,7 @@ import {
   getDisplayName,
   getFilterOptions,
   getOpenTransactionLine,
-} from '../../bankingSelectors';
+} from '../../selectors';
 import ApplyTypes from '../ApplyTypes';
 import RuleTypes from '../RuleTypes';
 import formatSlashDate from '../../../../common/valueFormatters/formatDate/formatSlashDate';
