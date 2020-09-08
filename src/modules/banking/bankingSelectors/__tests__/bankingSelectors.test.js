@@ -6,7 +6,7 @@ import {
   getOpenEntryDefaultTabId,
   getShowCreateBankingRuleButton,
 } from '../index';
-import { tabIds } from '../../tabItems';
+import TabItems from '../../types/TabItems';
 
 describe('bankingSelector', () => {
   describe('getIsAllocated', () => {
@@ -35,17 +35,17 @@ describe('bankingSelector', () => {
       [
         'singleAllocation',
         [{ sourceJournal: businessEventTypes.spendMoney }],
-        tabIds.allocate,
+        TabItems.allocate,
       ],
       [
         'splitAllocation',
         [{ sourceJournal: businessEventTypes.spendMoney }],
-        tabIds.allocate,
+        TabItems.allocate,
       ],
-      ['matched', [], tabIds.match],
-      ['unmatched', [], tabIds.allocate],
-      ['splitMatched', [], tabIds.match],
-      ['paymentRuleMatched', [], tabIds.match],
+      ['matched', [], TabItems.match],
+      ['unmatched', [], TabItems.allocate],
+      ['splitMatched', [], TabItems.match],
+      ['paymentRuleMatched', [], TabItems.match],
     ].forEach((args) => {
       const [type, journals, expected] = args;
 

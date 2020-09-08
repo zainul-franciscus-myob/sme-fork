@@ -25,8 +25,8 @@ import {
   updateTableRow,
 } from './allocationHandlers';
 import { getRuleTypes } from '../bankingRuleSelectors';
-import { tabIds } from '../../tabItems';
 import FieldTypes from '../FieldTypes';
+import TabItems from '../../types/TabItems';
 import getDefaultState from './getDefaultState';
 
 export const updateRuleDetails = (state, action) => {
@@ -57,7 +57,7 @@ export const setInitialState = (
 ) => {
   const defaultState = getDefaultState();
   const isAllocationOrMatchTabOpen =
-    activeTabId === tabIds.allocate || activeTabId === tabIds.match;
+    activeTabId === TabItems.allocate || activeTabId === TabItems.match;
   const ruleTypeIndex = isAllocationOrMatchTabOpen ? 0 : 1;
   const ruleType = getRuleTypes(isWithdrawal)[ruleTypeIndex].value;
   return {

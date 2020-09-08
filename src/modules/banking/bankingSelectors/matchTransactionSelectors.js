@@ -13,8 +13,8 @@ import {
   getRegion,
   getWithdrawalAccounts,
 } from './index';
-import BankTransactionStatusTypes from '../BankTransactionStatusTypes';
-import MatchTransactionShowType from '../MatchTransactionShowType';
+import BankTransactionStatusTypes from '../types/BankTransactionStatusTypes';
+import MatchTransactionShowType from '../types/MatchTransactionShowType';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 

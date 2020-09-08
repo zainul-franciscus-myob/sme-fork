@@ -14,7 +14,7 @@ import {
 } from '../bankingSelectors';
 import { getIsCheckboxDisabled } from '../bankingSelectors/bulkActionSelectors';
 import ClearableTextArea from '../../../components/ClearableTextArea/ClearableTextArea';
-import FocusLocations from '../FocusLocations';
+import FocusLocations from '../types/FocusLocations';
 import MatchedOrAllocated from './MatchedOrAllocated';
 import handleTextAreaChange from '../../../components/handlers/handleTextAreaChange';
 import styles from './BankTransactionTable.module.css';

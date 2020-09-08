@@ -1,7 +1,7 @@
 import { allocateTransaction } from './allocateHandlers';
 import { getFilterOptions } from '../bankingSelectors';
 import { loadOpenEntry } from './openEntryHandlers';
-import { tabIds } from '../tabItems';
+import TabItems from '../types/TabItems';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
 import getDefaultState from './getDefaultState';
 
@@ -16,7 +16,7 @@ export const loadTransferMoney = (state, action) => {
   return loadOpenEntry(
     state,
     action.index,
-    tabIds.transfer,
+    TabItems.transfer,
     transfer,
     isCreating
   );
@@ -51,7 +51,7 @@ export const loadMatchTransferMoney = (state, action) => {
   return loadOpenEntry(
     state,
     action.index,
-    tabIds.transfer,
+    TabItems.transfer,
     transfer,
     isCreating
   );

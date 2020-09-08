@@ -7,7 +7,7 @@ import {
   getFilterOptions,
   getIsOpenTransactionWithdrawal,
 } from './index';
-import DefaultLineTypeId from '../DefaultLineTypeId';
+import DefaultLineTypeId from '../types/DefaultLineTypeId';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 

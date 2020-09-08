@@ -60,17 +60,17 @@ import {
   UPDATE_SPLIT_ALLOCATION_LINE,
 } from '../BankingIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
-import { tabIds } from '../tabItems';
-import BankTransactionStatusTypes from '../BankTransactionStatusTypes';
+import BankTransactionStatusTypes from '../types/BankTransactionStatusTypes';
 import BankingModule from '../BankingModule';
-import FocusLocations from '../FocusLocations';
+import FocusLocations from '../types/FocusLocations';
 import HotkeyLocations from '../hotkeys/HotkeyLocations';
-import MatchTransactionShowType from '../MatchTransactionShowType';
-import ModalTypes from '../ModalTypes';
+import MatchTransactionShowType from '../types/MatchTransactionShowType';
+import ModalTypes from '../types/ModalTypes';
 import Periods from '../../../components/PeriodPicker/Periods';
+import TabItems from '../types/TabItems';
 import TestIntegration from '../../../integration/TestIntegration';
 import TestStore from '../../../store/TestStore';
-import TransactionTypes from '../TransactionTypes';
+import TransactionTypes from '../types/TransactionTypes';
 import bankingReducer from '../bankingReducer';
 import createBankingDispatcher from '../BankingDispatcher';
 import createBankingIntegrator from '../BankingIntegrator';
@@ -1813,7 +1813,7 @@ describe('BankingModule', () => {
       const index = 1;
 
       // Action
-      module.expandTransactionLine(index, tabIds.allocate);
+      module.expandTransactionLine(index, TabItems.allocate);
 
       // Assertion
       expect(store.getActions()).toEqual([
@@ -1971,7 +1971,7 @@ describe('BankingModule', () => {
           index,
         } = setUpWithBankTransactionEntry(entry);
         module.toggleLine(index);
-        module.changeOpenEntryTab(tabIds.match);
+        module.changeOpenEntryTab(TabItems.match);
         store.resetActions();
         integration.resetRequests();
 
@@ -2068,7 +2068,7 @@ describe('BankingModule', () => {
           integration,
         } = setUpWithBankTransactionEntry(splitMatchedEntry);
         module.toggleLine(index);
-        module.changeOpenEntryTab(tabIds.match);
+        module.changeOpenEntryTab(TabItems.match);
         store.resetActions();
         integration.resetRequests();
 
@@ -2102,34 +2102,39 @@ describe('BankingModule', () => {
         [
           [COMMAND, ENTER],
           'split allocation',
-          tabIds.allocate,
+          TabItems.allocate,
           SAVE_SPLIT_ALLOCATION,
         ],
         [
           [CTRL, ENTER],
           'split allocation',
-          tabIds.allocate,
+          TabItems.allocate,
           SAVE_SPLIT_ALLOCATION,
         ],
         [
           [COMMAND, ENTER],
           'match transaction',
-          tabIds.match,
+          TabItems.match,
           SAVE_MATCH_TRANSACTION,
         ],
         [
           [CTRL, ENTER],
           'match transaction',
-          tabIds.match,
+          TabItems.match,
           SAVE_MATCH_TRANSACTION,
         ],
         [
           [COMMAND, ENTER],
           'transfer money',
-          tabIds.transfer,
+          TabItems.transfer,
           SAVE_TRANSFER_MONEY,
         ],
-        [[CTRL, ENTER], 'transfer money', tabIds.transfer, SAVE_TRANSFER_MONEY],
+        [
+          [CTRL, ENTER],
+          'transfer money',
+          TabItems.transfer,
+          SAVE_TRANSFER_MONEY,
+        ],
       ])(
         '%s should save %s when on %s tab',
         (hotkey, _, tab, expectedIntent) => {

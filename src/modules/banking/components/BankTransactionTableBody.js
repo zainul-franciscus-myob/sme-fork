@@ -1,7 +1,6 @@
 import { Card } from '@myob/myob-widgets';
 import React from 'react';
 
-import { tabIds } from '../tabItems';
 import BankTransactionTableRow from './BankTransactionTableRow';
 import BankTransactionTabs from './BankTransactionTabs';
 import DropZoneCardBody from './DropZoneCardBody';
@@ -10,6 +9,7 @@ import MatchTransactionBody from './MatchTransactionBody';
 import OpenEntryFooter from './OpenEntryFooter';
 import OpenEntrySecondaryContent from './OpenEntrySecondaryContent';
 import SplitAllocationBody from './SplitAllocationBody';
+import TabItems from '../types/TabItems';
 import TransferMoneyBody from './TransferMoneyBody';
 import styles from './BankingView.module.css';
 
@@ -68,13 +68,13 @@ const BankTransactionTableBody = (props) => {
   } = props;
 
   const Content = {
-    [tabIds.allocate]: SplitAllocationBody,
-    [tabIds.match]: MatchTransactionBody,
-    [tabIds.transfer]: TransferMoneyBody,
+    [TabItems.allocate]: SplitAllocationBody,
+    [TabItems.match]: MatchTransactionBody,
+    [TabItems.transfer]: TransferMoneyBody,
   }[activeTabId];
 
   const contentProps = {
-    [tabIds.allocate]: {
+    [TabItems.allocate]: {
       onUpdateSplitAllocationHeader,
       onAddSplitAllocationLine,
       onUpdateSplitAllocationLine,
@@ -83,7 +83,7 @@ const BankTransactionTableBody = (props) => {
       onAddJob,
       onBlur,
     },
-    [tabIds.match]: {
+    [TabItems.match]: {
       onUpdateMatchTransactionOptions,
       onResetMatchTransactionOptions,
       onSortMatchTransactions,
@@ -97,7 +97,7 @@ const BankTransactionTableBody = (props) => {
       onAddAccount,
       onAddJob,
     },
-    [tabIds.transfer]: {
+    [TabItems.transfer]: {
       onUpdateTransfer,
       onSortTransfer,
       onUpdateTransferSelection,
@@ -106,19 +106,19 @@ const BankTransactionTableBody = (props) => {
   }[activeTabId];
 
   const footerProps = {
-    [tabIds.allocate]: {
+    [TabItems.allocate]: {
       onSave: onSaveSplitAllocation,
       onCancel: onCancelSplitAllocation,
       onUnmatch: onUnallocateSplitAllocation,
       onCreateRule: onOpenBankingRuleModal,
     },
-    [tabIds.match]: {
+    [TabItems.match]: {
       onSave: onSaveMatchTransaction,
       onCancel: onCancelMatchTransaction,
       onUnmatch: onUnmatchTransaction,
       onCreateRule: onOpenBankingRuleModal,
     },
-    [tabIds.transfer]: {
+    [TabItems.transfer]: {
       onSave: onSaveTransferMoney,
       onCancel: onCancelTransferMoney,
       onUnmatch: onUnallocateSplitAllocation,

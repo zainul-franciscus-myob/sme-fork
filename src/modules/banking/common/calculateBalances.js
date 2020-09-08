@@ -1,5 +1,5 @@
 import { getIsBalancesInvalid } from '../bankingSelectors';
-import BankTransactionAccountTypes from '../BankTransactionAccountTypes';
+import BankTransactionAccountTypes from './BankTransactionAccountTypes';
 
 const getSelectedBankAccount = (bankAccounts, selectedBankAccountId) =>
   bankAccounts.find((b) => b.id === selectedBankAccountId) || {};

@@ -1,4 +1,4 @@
-import ModalTypes from '../ModalTypes';
+import ModalTypes from '../types/ModalTypes';
 import getDefaultState from './getDefaultState';
 
 export const collapseTransactionLine = (state) => {

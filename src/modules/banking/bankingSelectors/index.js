@@ -1,12 +1,12 @@
 import { createSelector } from 'reselect';
 
 import { businessEventTypes } from '../../../common/types/BusinessEventTypeMap';
-import { tabIds } from '../tabItems';
 import Config from '../../../Config';
-import FocusLocations from '../FocusLocations';
+import FocusLocations from '../types/FocusLocations';
 import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
-import Region from '../Region';
-import StatusTypes from '../BankTransactionStatusTypes';
+import Region from '../../../common/types/Region';
+import StatusTypes from '../types/BankTransactionStatusTypes';
+import TabItems from '../types/TabItems';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
 import formatSlashDate from '../../../common/valueFormatters/formatDate/formatSlashDate';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
@@ -163,7 +163,7 @@ export const getOpenEntryDefaultTabId = ({ type, journals }) => {
     type === StatusTypes.splitMatched ||
     type === StatusTypes.paymentRuleMatched
   ) {
-    return tabIds.match;
+    return TabItems.match;
   }
 
   const sourceJournal = journals[0]?.sourceJournal;
@@ -172,22 +172,22 @@ export const getOpenEntryDefaultTabId = ({ type, journals }) => {
     sourceJournal === businessEventTypes.spendMoney ||
     sourceJournal === businessEventTypes.receiveMoney
   ) {
-    return tabIds.allocate;
+    return TabItems.allocate;
   }
 
   if (sourceJournal === businessEventTypes.transferMoney) {
-    return tabIds.transfer;
+    return TabItems.transfer;
   }
-  return tabIds.match;
+  return TabItems.match;
 };
 
 export const getShowCreateBankingRuleButton = (state) =>
-  [tabIds.allocate, tabIds.payment, tabIds.match].includes(
+  [TabItems.allocate, TabItems.payment, TabItems.match].includes(
     state.openEntry.activeTabId
   );
 
 export const getShowCreateTransferMoneyButton = (state) =>
-  [tabIds.transfer].includes(state.openEntry.activeTabId);
+  [TabItems.transfer].includes(state.openEntry.activeTabId);
 
 export const getBankTransactionLineByIndex = (state, index) => {
   const entries = getEntries(state);
@@ -211,7 +211,7 @@ export const getLastAllocatedAccount = ({ lastAllocatedAccount }) =>
   lastAllocatedAccount;
 
 export const getIsSplitAllocationSelected = (state) =>
-  getOpenEntryActiveTabId(state) === tabIds.allocate;
+  getOpenEntryActiveTabId(state) === TabItems.allocate;
 
 export const getIsBalancesInvalid = ({
   bankBalance,
@@ -273,10 +273,10 @@ const getIsTransferDisabled = ({ journals, type }) => {
 
 export const getIsTabDisabled = (state, tabToExpandTo) => {
   const transactionLine = getOpenTransactionLine(state);
-  if (tabToExpandTo === tabIds.allocate) {
+  if (tabToExpandTo === TabItems.allocate) {
     return getIsAllocateDisabled(transactionLine);
   }
-  if (tabToExpandTo === tabIds.transfer) {
+  if (tabToExpandTo === TabItems.transfer) {
     return getIsTransferDisabled(transactionLine);
   }
   return false;
@@ -290,7 +290,7 @@ export const getTabItems = createSelector(
 
     return [
       {
-        id: tabIds.transfer,
+        id: TabItems.transfer,
         label: 'Transfer money',
         isDisabled: isTransferDisabled,
         toolTip:
@@ -298,7 +298,7 @@ export const getTabItems = createSelector(
           'Unmatch this transaction before creating a new one',
       },
       {
-        id: tabIds.allocate,
+        id: TabItems.allocate,
         label: 'Allocate',
         isDisabled: isAllocateDisabled,
         toolTip:
@@ -306,7 +306,7 @@ export const getTabItems = createSelector(
           'Unmatch this transaction before creating a new one',
       },
       {
-        id: tabIds.match,
+        id: TabItems.match,
         label: 'Match transaction',
       },
     ];

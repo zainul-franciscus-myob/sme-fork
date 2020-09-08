@@ -7,7 +7,7 @@ import HotkeyLocations from '../hotkeys/HotkeyLocations';
 import HotkeyWrapper from '../hotkeys/HotkeyWrapper';
 import MatchedRowItem from './MatchedRowItem';
 import SplitRowItem from './SplitRowItem';
-import StatusTypes from '../BankTransactionStatusTypes';
+import StatusTypes from '../types/BankTransactionStatusTypes';
 import UnmatchedRowItem from './UnmatchedRowItem';
 
 export default ({

@@ -1,5 +1,5 @@
 import { allocateTransaction } from '../allocateHandlers';
-import BankTransactionStatusTypes from '../../BankTransactionStatusTypes';
+import BankTransactionStatusTypes from '../../types/BankTransactionStatusTypes';
 
 describe('allocateHandlers', () => {
   describe('allocateTransaction', () => {

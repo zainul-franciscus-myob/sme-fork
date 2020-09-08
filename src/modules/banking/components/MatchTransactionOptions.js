@@ -19,7 +19,7 @@ import ContactCombobox from '../../../components/combobox/ContactCombobox';
 import FilterBar from '../../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../../components/FilterBarSearch/FilterBarSearch';
 import FilterGroup from '../../../components/Feelix/FilterBar/FilterGroup';
-import MatchTransactionShowType from '../MatchTransactionShowType';
+import MatchTransactionShowType from '../types/MatchTransactionShowType';
 import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';

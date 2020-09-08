@@ -8,8 +8,8 @@ import {
   getTotals,
   getUnmatchTransactionPayload,
 } from '../matchTransactionSelectors';
-import BankTransactionStatusTypes from '../../BankTransactionStatusTypes';
-import MatchTransactionShowType from '../../MatchTransactionShowType';
+import BankTransactionStatusTypes from '../../types/BankTransactionStatusTypes';
+import MatchTransactionShowType from '../../types/MatchTransactionShowType';
 
 describe('matchTransactionSelectors', () => {
   describe('getMatchTransactionPayload', () => {

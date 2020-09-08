@@ -7,7 +7,7 @@ import {
   getTotalDollarAmount,
   getTotals,
 } from '../splitAllocationSelectors';
-import DefaultLineTypeId from '../../DefaultLineTypeId';
+import DefaultLineTypeId from '../../types/DefaultLineTypeId';
 
 describe('splitAllocationSelectors', () => {
   describe('getTotals', () => {

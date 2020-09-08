@@ -2,7 +2,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 
 import { getBusinessId, getRegion } from './DashboardSelectors';
 import Config from '../../../Config';
-import TransactionTypes from '../../banking/TransactionTypes';
+import TransactionTypes from '../../banking/types/TransactionTypes';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 import getQueryFromParams from '../../../common/getQueryFromParams/getQueryFromParams';
 

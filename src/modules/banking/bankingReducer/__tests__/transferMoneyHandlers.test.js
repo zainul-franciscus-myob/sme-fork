@@ -3,7 +3,7 @@ import {
   loadMatchTransferMoney,
   setMatchTransferMoneySelection,
 } from '../transferMoneyHandlers';
-import { tabIds } from '../../tabItems';
+import TabItems from '../../types/TabItems';
 
 describe('transferMoneyHandlers', () => {
   describe('loadNewTransferMoney', () => {
@@ -20,7 +20,7 @@ describe('transferMoneyHandlers', () => {
         openPosition: 0,
         openEntry: {
           isCreating: true,
-          activeTabId: tabIds.transfer,
+          activeTabId: TabItems.transfer,
           transfer: {
             isTableLoading: false,
             isWithdrawal: true,
@@ -59,7 +59,7 @@ describe('transferMoneyHandlers', () => {
         openPosition: 0,
         openEntry: {
           isCreating: true,
-          activeTabId: tabIds.transfer,
+          activeTabId: TabItems.transfer,
           transfer: {
             isTableLoading: false,
             isWithdrawal: false,

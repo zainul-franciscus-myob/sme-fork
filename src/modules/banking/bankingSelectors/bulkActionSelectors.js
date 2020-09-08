@@ -1,7 +1,9 @@
 import { createSelector } from 'reselect';
 
 import { getEntries } from './index';
-import StatusTypes, { isStatusUnapproved } from '../BankTransactionStatusTypes';
+import StatusTypes, {
+  isStatusUnapproved,
+} from '../types/BankTransactionStatusTypes';
 import flat from '../../../common/flat/flat';
 
 export const getEntrySelectStatus = (state) =>

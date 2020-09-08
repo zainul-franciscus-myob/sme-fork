@@ -90,7 +90,7 @@ import {
   UPLOAD_ATTACHMENT_FAILED,
 } from './BankingIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import ModalTypes from './ModalTypes';
+import ModalTypes from './types/ModalTypes';
 
 const createBankingDispatcher = (store) => ({
   setFocus: ({ index, location }) => {

@@ -12,7 +12,7 @@ import {
   getTotalPercentageAmount,
 } from '../bankingSelectors/splitAllocationSelectors';
 import { loadOpenEntry } from './openEntryHandlers';
-import { tabIds } from '../tabItems';
+import TabItems from '../types/TabItems';
 import getDefaultState from './getDefaultState';
 
 const isAccountLineItem = (lineKey) => lineKey === 'accountId';
@@ -211,7 +211,7 @@ export const loadSplitAllocation = (state, action) => {
   };
 
   return {
-    ...loadOpenEntry(state, action.index, tabIds.allocate, allocate, false),
+    ...loadOpenEntry(state, action.index, TabItems.allocate, allocate, false),
     contacts: action.allocate.contacts,
   };
 };
@@ -254,7 +254,7 @@ export const loadNewSplitAllocation = (state, action) => {
     newLine,
   };
 
-  return loadOpenEntry(state, action.index, tabIds.allocate, allocate, true);
+  return loadOpenEntry(state, action.index, TabItems.allocate, allocate, true);
 };
 
 export const saveSplitAllocation = (state, action) => ({

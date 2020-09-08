@@ -13,7 +13,7 @@ import {
 } from '../bankingSelectors/splitAllocationSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import Calculator from '../../../components/Calculator/Calculator';
-import FocusLocations from '../FocusLocations';
+import FocusLocations from '../types/FocusLocations';
 import HotkeyLocations from '../hotkeys/HotkeyLocations';
 import HotkeyWrapper from '../hotkeys/HotkeyWrapper';
 import JobCombobox from '../../../components/combobox/JobCombobox';

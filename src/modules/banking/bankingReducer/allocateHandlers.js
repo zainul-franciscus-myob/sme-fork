@@ -1,4 +1,4 @@
-import { isStatusUnapproved } from '../BankTransactionStatusTypes';
+import { isStatusUnapproved } from '../types/BankTransactionStatusTypes';
 import calculateBalance from '../common/calculateBalances';
 
 const getCalculatedAllocatedBalances = (state, index) => {

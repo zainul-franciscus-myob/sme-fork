@@ -1,18 +1,18 @@
 import { SET_INITIAL_STATE } from '../../BankingRuleIntents';
 import { setInitialState } from '../index';
-import { tabIds } from '../../../tabItems';
 import RuleTypes from '../../RuleTypes';
+import TabItems from '../../../types/TabItems';
 import getDefaultState from '../getDefaultState';
 
 describe('index', () => {
   describe('setInitialState', () => {
     it.each([
-      [tabIds.match, true, RuleTypes.spendMoney],
-      [tabIds.match, false, RuleTypes.receiveMoney],
-      [tabIds.allocate, true, RuleTypes.spendMoney],
-      [tabIds.allocate, false, RuleTypes.receiveMoney],
-      [tabIds.transfer, true, RuleTypes.bill],
-      [tabIds.transfer, false, RuleTypes.invoice],
+      [TabItems.match, true, RuleTypes.spendMoney],
+      [TabItems.match, false, RuleTypes.receiveMoney],
+      [TabItems.allocate, true, RuleTypes.spendMoney],
+      [TabItems.allocate, false, RuleTypes.receiveMoney],
+      [TabItems.transfer, true, RuleTypes.bill],
+      [TabItems.transfer, false, RuleTypes.invoice],
     ])(
       'if activeTabId is %s and isWithdrawal is %s, ruleType is %s',
       (tabId, isWithdrawal, expected) => {

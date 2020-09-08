@@ -57,18 +57,18 @@ import {
   getMatchTransferMoneyFlipSortOrder,
   getMatchTransferMoneyOrderBy,
 } from './bankingSelectors/transferMoneySelectors';
-import { tabIds } from './tabItems';
 import AccountModalModule from '../account/accountModal/AccountModalModule';
 import BankingRuleModule from './bankingRule/BankingRuleModule';
 import BankingView from './components/BankingView';
 import FeatureToggle from '../../FeatureToggles';
-import FocusLocations from './FocusLocations';
+import FocusLocations from './types/FocusLocations';
 import HotkeyLocations from './hotkeys/HotkeyLocations';
 import Hotkeys from './hotkeys/Hotkeys';
 import InTrayModalModule from '../inTray/inTrayModal/InTrayModalModule';
 import JobModalModule from '../job/jobModal/JobModalModule';
-import MatchTransactionShowType from './MatchTransactionShowType';
+import MatchTransactionShowType from './types/MatchTransactionShowType';
 import Store from '../../store/Store';
+import TabItems from './types/TabItems';
 import bankingReducer from './bankingReducer';
 import createBankingDispatcher from './BankingDispatcher';
 import createBankingIntegrator from './BankingIntegrator';
@@ -583,9 +583,9 @@ export default class BankingModule {
 
   loadOpenEntryTab = (index, tabId) => {
     const openEntryAction = {
-      [tabIds.match]: this.loadMatchTransaction,
-      [tabIds.allocate]: this.loadAllocate,
-      [tabIds.transfer]: this.loadTransferMoney,
+      [TabItems.match]: this.loadMatchTransaction,
+      [TabItems.allocate]: this.loadAllocate,
+      [TabItems.transfer]: this.loadTransferMoney,
     }[tabId];
 
     openEntryAction(index);
@@ -1255,7 +1255,7 @@ export default class BankingModule {
       const activeTabId = getOpenEntryActiveTabId(state);
       const openPosition = getOpenPosition(state);
       this.dispatcher.loadAccountAfterCreate(payload);
-      if (activeTabId === tabIds.allocate && openPosition > 0) {
+      if (activeTabId === TabItems.allocate && openPosition > 0) {
         this.dispatcher.appendAccountToAllocateTable(payload);
       }
       onAccountCreated(payload);
@@ -1349,9 +1349,9 @@ export default class BankingModule {
     if (isAccordionOpen) {
       const openTabId = getOpenEntryActiveTabId(state);
       const save = {
-        [tabIds.match]: this.saveMatchTransaction,
-        [tabIds.allocate]: this.saveSplitAllocation,
-        [tabIds.transfer]: this.saveMatchTransferMoney,
+        [TabItems.match]: this.saveMatchTransaction,
+        [TabItems.allocate]: this.saveSplitAllocation,
+        [TabItems.transfer]: this.saveMatchTransferMoney,
       };
       save[openTabId]();
       this.setFocusToTransactionLine(openPosition + 1);
@@ -1381,17 +1381,17 @@ export default class BankingModule {
       {
         key: [OPTION, A],
         action: (eventDetail) =>
-          this.expandTransactionWithHotkey(eventDetail, tabIds.allocate),
+          this.expandTransactionWithHotkey(eventDetail, TabItems.allocate),
       },
       {
         key: [OPTION, M],
         action: (eventDetail) =>
-          this.expandTransactionWithHotkey(eventDetail, tabIds.match),
+          this.expandTransactionWithHotkey(eventDetail, TabItems.match),
       },
       {
         key: [OPTION, T],
         action: (eventDetail) =>
-          this.expandTransactionWithHotkey(eventDetail, tabIds.transfer),
+          this.expandTransactionWithHotkey(eventDetail, TabItems.transfer),
       },
     ];
 
@@ -1399,15 +1399,15 @@ export default class BankingModule {
       [HotkeyLocations.GLOBAL]: [
         {
           key: [OPTION, A],
-          action: () => this.switchToTab(tabIds.allocate),
+          action: () => this.switchToTab(TabItems.allocate),
         },
         {
           key: [OPTION, M],
-          action: () => this.switchToTab(tabIds.match),
+          action: () => this.switchToTab(TabItems.match),
         },
         {
           key: [OPTION, T],
-          action: () => this.switchToTab(tabIds.transfer),
+          action: () => this.switchToTab(TabItems.transfer),
         },
         {
           key: [COMMAND, ENTER],

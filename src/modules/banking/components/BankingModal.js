@@ -3,7 +3,7 @@ import React from 'react';
 import BulkUnallocateModal from './BulkUnallocateModal';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
-import ModalTypes from '../ModalTypes';
+import ModalTypes from '../types/ModalTypes';
 import TransferMoneyModal from './TransferMoneyModal';
 import UnmatchTransactionModal from './UnmatchTransactionModal';
 

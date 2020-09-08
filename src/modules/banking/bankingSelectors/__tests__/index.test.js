@@ -12,10 +12,10 @@ import {
   getSortBankTransactionsParams,
   getSortBankTransactionsUrlParams,
 } from '../index';
-import { tabIds } from '../../tabItems';
-import BankTransactionStatusTypes from '../../BankTransactionStatusTypes';
-import FocusLocations from '../../FocusLocations';
-import TransactionTypes from '../../TransactionTypes';
+import BankTransactionStatusTypes from '../../types/BankTransactionStatusTypes';
+import FocusLocations from '../../types/FocusLocations';
+import TabItems from '../../types/TabItems';
+import TransactionTypes from '../../types/TransactionTypes';
 
 describe('Bank transactions index selectors', () => {
   describe('loadBankTransactionsSelectors', () => {
@@ -215,7 +215,7 @@ describe('Bank transactions index selectors', () => {
     it('should be false given tab to expand is neither Allocate nor Transfer', () => {
       const state = getStateWithEntry({});
 
-      const actual = getIsTabDisabled(state, tabIds.match);
+      const actual = getIsTabDisabled(state, TabItems.match);
       expect(actual).toEqual(false);
     });
 
@@ -227,7 +227,7 @@ describe('Bank transactions index selectors', () => {
             journals: [],
           });
 
-          const actual = getIsTabDisabled(state, tabIds.allocate);
+          const actual = getIsTabDisabled(state, TabItems.allocate);
           expect(actual).toEqual(true);
         });
       });
@@ -239,7 +239,7 @@ describe('Bank transactions index selectors', () => {
             journals: [{}],
           });
 
-          const actual = getIsTabDisabled(state, tabIds.allocate);
+          const actual = getIsTabDisabled(state, TabItems.allocate);
           expect(actual).toEqual(false);
         });
 
@@ -253,7 +253,7 @@ describe('Bank transactions index selectors', () => {
               type: BankTransactionStatusTypes.matched,
               journals: [{ sourceJournal }],
             });
-            const actual = getIsTabDisabled(state, tabIds.allocate);
+            const actual = getIsTabDisabled(state, TabItems.allocate);
             expect(actual).toEqual(false);
           }
         );
@@ -279,7 +279,7 @@ describe('Bank transactions index selectors', () => {
               type: BankTransactionStatusTypes.matched,
               journals: [{ sourceJournal }],
             });
-            const actual = getIsTabDisabled(state, tabIds.allocate);
+            const actual = getIsTabDisabled(state, TabItems.allocate);
             expect(actual).toEqual(true);
           }
         );
@@ -294,7 +294,7 @@ describe('Bank transactions index selectors', () => {
             journals: [],
           });
 
-          const actual = getIsTabDisabled(state, tabIds.transfer);
+          const actual = getIsTabDisabled(state, TabItems.transfer);
           expect(actual).toEqual(true);
         });
       });
@@ -306,7 +306,7 @@ describe('Bank transactions index selectors', () => {
             journals: [{}],
           });
 
-          const actual = getIsTabDisabled(state, tabIds.transfer);
+          const actual = getIsTabDisabled(state, TabItems.transfer);
           expect(actual).toEqual(false);
         });
 
@@ -315,7 +315,7 @@ describe('Bank transactions index selectors', () => {
             type: BankTransactionStatusTypes.matched,
             journals: [businessEventTypes.transferMoney],
           });
-          const actual = getIsTabDisabled(state, tabIds.transfer);
+          const actual = getIsTabDisabled(state, TabItems.transfer);
           expect(actual).toEqual(false);
         });
 
@@ -341,7 +341,7 @@ describe('Bank transactions index selectors', () => {
               type: BankTransactionStatusTypes.matched,
               journals: [{ sourceJournal }],
             });
-            const actual = getIsTabDisabled(state, tabIds.transfer);
+            const actual = getIsTabDisabled(state, TabItems.transfer);
             expect(actual).toEqual(true);
           }
         );

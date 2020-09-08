@@ -161,9 +161,9 @@ import {
   sortMatchTransferMoney,
   updateTransferMoney,
 } from './transferMoneyHandlers';
-import FocusLocations from '../FocusLocations';
+import FocusLocations from '../types/FocusLocations';
 import Periods from '../../../components/PeriodPicker/Periods';
-import TransactionTypes from '../TransactionTypes';
+import TransactionTypes from '../types/TransactionTypes';
 import bankingRuleHandlers from '../bankingRule/bankingRuleReducers';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';

@@ -5,7 +5,7 @@ import {
   getPrefilledEntries,
 } from '../bankingSelectors/matchTransactionSelectors';
 import { loadOpenEntry } from './openEntryHandlers';
-import { tabIds } from '../tabItems';
+import TabItems from '../types/TabItems';
 import getDefaultState from './getDefaultState';
 
 export const loadMatchTransactions = (state, action) => {
@@ -28,7 +28,7 @@ export const loadMatchTransactions = (state, action) => {
     entries: getPrefilledEntries(state, action.entries),
   };
 
-  return loadOpenEntry(state, action.index, tabIds.match, match, isCreating);
+  return loadOpenEntry(state, action.index, TabItems.match, match, isCreating);
 };
 
 export const sortAndFilterMatchTransactions = (state, action) => {
@@ -39,7 +39,7 @@ export const sortAndFilterMatchTransactions = (state, action) => {
     entries: getPrefilledEntries(state, action.entries),
   };
 
-  return loadOpenEntry(state, action.index, tabIds.match, match, isCreating);
+  return loadOpenEntry(state, action.index, TabItems.match, match, isCreating);
 };
 
 export const showSelectedMatchTransactions = (state) => {

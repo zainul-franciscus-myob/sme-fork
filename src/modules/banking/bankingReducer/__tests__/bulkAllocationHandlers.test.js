@@ -6,7 +6,7 @@ import {
   unallocateTransactions,
   updateBulkAllocationOptions,
 } from '../bulkAllocationHandlers';
-import BankTransactionStatusTypes from '../../BankTransactionStatusTypes';
+import BankTransactionStatusTypes from '../../types/BankTransactionStatusTypes';
 
 describe('bulkAllocationHandlers', () => {
   describe('selectTransction', () => {

@@ -1,8 +1,8 @@
 import { getDefaultOpenPosition } from '../bankingSelectors';
-import { tabIds } from '../tabItems';
-import MatchTransactionShowType from '../MatchTransactionShowType';
+import MatchTransactionShowType from '../types/MatchTransactionShowType';
 import Periods from '../../../components/PeriodPicker/Periods';
-import TransactionTypes from '../TransactionTypes';
+import TabItems from '../types/TabItems';
+import TransactionTypes from '../types/TransactionTypes';
 import getBankingRuleDefaultState from '../bankingRule/bankingRuleReducers/getDefaultState';
 
 const defaultFilterOptions = {
@@ -78,7 +78,7 @@ const getDefaultState = () => ({
     isEdited: false,
     isCreating: false,
     isAttachmentsLoading: false,
-    activeTabId: tabIds.allocate,
+    activeTabId: TabItems.allocate,
     description: '',
     allocate: {
       id: '',

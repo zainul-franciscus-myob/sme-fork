@@ -1,4 +1,4 @@
-import BankTransactionAccountTypes from '../../BankTransactionAccountTypes';
+import BankTransactionAccountTypes from '../BankTransactionAccountTypes';
 import calculateBalance from '../calculateBalances';
 
 describe('calculateBalance', () => {

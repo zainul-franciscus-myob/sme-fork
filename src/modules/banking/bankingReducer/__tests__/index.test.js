@@ -1,8 +1,8 @@
 import { LOAD_JOB_AFTER_CREATE, SET_FOCUS } from '../../BankingIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
-import FocusLocations from '../../FocusLocations';
+import FocusLocations from '../../types/FocusLocations';
 import Periods from '../../../../components/PeriodPicker/Periods';
-import TransactionTypes from '../../TransactionTypes';
+import TransactionTypes from '../../types/TransactionTypes';
 import bankingReducer from '../index';
 import getDateRangeByPeriodAndRegion from '../../../../components/PeriodPicker/getDateRangeByPeriodAndRegion';
 import getDefaultState from '../getDefaultState';

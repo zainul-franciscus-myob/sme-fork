@@ -1,4 +1,4 @@
-import StatusTypes from '../BankTransactionStatusTypes';
+import StatusTypes from '../types/BankTransactionStatusTypes';
 import calculateBalance from '../common/calculateBalances';
 
 const getBalancesForApplyRule = (state, applyResults) => {

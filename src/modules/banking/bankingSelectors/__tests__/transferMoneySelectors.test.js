@@ -6,7 +6,7 @@ import {
   getTransferMoneyModal,
 } from '../transferMoneySelectors';
 import { getShowCreateTransferMoneyButton } from '..';
-import { tabIds } from '../../tabItems';
+import TabItems from '../../types/TabItems';
 
 describe('transferMoneySelectors', () => {
   describe('getCreateTransferMoneyPayload', () => {
@@ -285,10 +285,10 @@ describe('transferMoneySelectors', () => {
   });
 
   describe('getShowCreateTransferMoneyButton', () => {
-    it('should return true when activeTabId is tabIds.transfer', () => {
+    it('should return true when activeTabId is TabItems.transfer', () => {
       const state = {
         openEntry: {
-          activeTabId: tabIds.transfer,
+          activeTabId: TabItems.transfer,
         },
       };
       const actual = getShowCreateTransferMoneyButton(state);
@@ -298,7 +298,7 @@ describe('transferMoneySelectors', () => {
     it('should return false when activeTabId is not tabId.transfer', () => {
       const state = {
         openEntry: {
-          activeTabId: tabIds.someOtherId,
+          activeTabId: TabItems.someOtherId,
         },
       };
       const actual = getShowCreateTransferMoneyButton(state);

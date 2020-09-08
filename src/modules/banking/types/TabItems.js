@@ -1,6 +1,8 @@
 /* eslint-disable import/prefer-default-export */
-export const tabIds = {
+const TabItems = {
   allocate: 'allocate',
   match: 'match',
   transfer: 'transfer',
 };
+
+export default TabItems;
