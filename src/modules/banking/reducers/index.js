@@ -164,12 +164,10 @@ import {
 import FocusLocations from '../types/FocusLocations';
 import Periods from '../../../components/PeriodPicker/Periods';
 import TransactionTypes from '../types/TransactionTypes';
-import bankingRuleHandlers from '../bankingRule/bankingRuleReducers';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 import getDateRangeByPeriodAndRegion from '../../../components/PeriodPicker/getDateRangeByPeriodAndRegion';
 import getDefaultState from './getDefaultState';
-import wrapHandlers from '../../../store/wrapHandlers';
 
 const resetState = () => getDefaultState();
 
@@ -587,7 +585,6 @@ const handlers = {
   [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
   [SET_JOB_LOADING_STATE]: setJobLoadingState,
   [POPULATE_REMAINING_AMOUNT]: populateRemainingAmount,
-  ...wrapHandlers('bankingRuleModal', bankingRuleHandlers),
 };
 
 const bankingReducer = createReducer(getDefaultState(), handlers);

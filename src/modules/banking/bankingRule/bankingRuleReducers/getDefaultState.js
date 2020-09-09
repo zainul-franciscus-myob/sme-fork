@@ -1,4 +1,14 @@
 const getDefaultState = () => ({
+  businessId: '',
+  region: '',
+  transaction: {
+    accountId: '',
+    accountDisplayName: '',
+    description: '',
+    date: '',
+    withdrawal: undefined,
+    deposit: undefined,
+  },
   bankingRule: {
     name: '',
     ruleType: '',
@@ -10,13 +20,16 @@ const getDefaultState = () => ({
     allocationType: 'Percent',
     allocations: [],
     conditions: [],
+    isPaymentReportable: false,
   },
-  isSaving: false,
+  isOpen: false,
+  isLoading: false,
+  isContactLoading: false,
+  contactType: undefined,
   bankAccounts: [],
   taxCodes: [],
   withdrawalAccounts: [],
   depositAccounts: [],
-  contacts: [],
 });
 
 export default getDefaultState;

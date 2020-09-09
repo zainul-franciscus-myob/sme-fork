@@ -1,30 +1,47 @@
-import { SET_INITIAL_STATE } from '../../BankingRuleIntents';
-import { setInitialState } from '../index';
-import RuleTypes from '../../RuleTypes';
-import TabItems from '../../../types/TabItems';
-import getDefaultState from '../getDefaultState';
+import { LOAD_CONTACT } from '../../BankingRuleIntents';
+import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
+import ContactType from '../../../../contact/contactCombobox/types/ContactType';
+import bankingRuleReducer from '../index';
+import fieldTypes from '../../FieldTypes';
 
-describe('index', () => {
+describe('bankingRuleReducer', () => {
   describe('setInitialState', () => {
-    it.each([
-      [TabItems.match, true, RuleTypes.spendMoney],
-      [TabItems.match, false, RuleTypes.receiveMoney],
-      [TabItems.allocate, true, RuleTypes.spendMoney],
-      [TabItems.allocate, false, RuleTypes.receiveMoney],
-      [TabItems.transfer, true, RuleTypes.bill],
-      [TabItems.transfer, false, RuleTypes.invoice],
-    ])(
-      'if activeTabId is %s and isWithdrawal is %s, ruleType is %s',
-      (tabId, isWithdrawal, expected) => {
-        const state = getDefaultState();
-        const actual = setInitialState(state, {
-          intent: SET_INITIAL_STATE,
-          description: 'hello',
-          activeTabId: tabId,
-          isWithdrawal,
-        });
-        expect(actual.bankingRule.ruleType).toEqual(expected);
-      }
-    );
+    it('prefills name and condition', () => {
+      const action = {
+        intent: SET_INITIAL_STATE,
+        transaction: {
+          description: '🌶',
+        },
+      };
+      const state = {};
+
+      const actual = bankingRuleReducer(state, action);
+
+      expect(actual.bankingRule.name).toEqual('🌶');
+      expect(actual.bankingRule.conditions).toEqual([
+        {
+          field: fieldTypes.description,
+          predicates: [{ matcher: 'Contains', value: '🌶' }],
+        },
+      ]);
+    });
+  });
+
+  describe('loadContact', () => {
+    it('sets isPaymentReportable and contactType', () => {
+      const action = {
+        intent: LOAD_CONTACT,
+        isPaymentReportable: true,
+        contactType: ContactType.SUPPLIER,
+      };
+      const state = {
+        bankingRule: {},
+      };
+
+      const actual = bankingRuleReducer(state, action);
+
+      expect(actual.contactType).toEqual(ContactType.SUPPLIER);
+      expect(actual.bankingRule.isPaymentReportable).toEqual(true);
+    });
   });
 });

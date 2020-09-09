@@ -3,10 +3,12 @@ import {
   CREATE_BANKING_RULE_INVOICE,
   CREATE_BANKING_RULE_RECEIVE_MONEY,
   CREATE_BANKING_RULE_SPEND_MONEY,
+  LOAD_CONTACT,
 } from './BankingRuleIntents';
 import {
   getBankingRule,
   getBusinessId,
+  getContactId,
   getRuleType,
 } from './bankingRuleSelectors';
 import RuleTypes from './RuleTypes';
@@ -19,6 +21,21 @@ const ruleIntentMap = {
 };
 
 const createBankingRuleIntegrator = (store, integration) => ({
+  loadContact: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+      contactId: getContactId(state),
+    };
+
+    integration.read({
+      intent: LOAD_CONTACT,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
   createBankingRule: ({ onSuccess, onFailure }) => {
     const state = store.getState();
 

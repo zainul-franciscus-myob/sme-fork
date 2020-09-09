@@ -4,7 +4,8 @@ import React from 'react';
 
 import {
   getAlert,
-  getIsSaving,
+  getIsLoading,
+  getIsOpen,
   getShouldShowAllocationSection,
 } from '../bankingRuleSelectors';
 import AllocationSection from './AllocationSection';
@@ -14,7 +15,7 @@ import PageView from '../../../../components/PageView/PageView';
 import RuleDetailsSection from './RuleDetailsSection';
 import SuggestMatchSection from './SuggestMatchSection';
 
-const BankingRuleModal = ({
+const BankingRuleView = ({
   onCancel,
   onSave,
   onDetailsChange,
@@ -26,11 +27,14 @@ const BankingRuleModal = ({
   onAddAllocationLine,
   onUpdateAllocationLine,
   onRemoveAllocationLine,
+  onAlert,
   showShowAllocationSection,
-  isSaving,
+  renderContactCombobox,
+  isLoading,
+  isOpen,
   alert,
 }) => {
-  const view = (
+  const modalBody = (
     <>
       {alert && <Alert type={alert.type}>{alert.message}</Alert>}
       <HeaderSection />
@@ -48,40 +52,47 @@ const BankingRuleModal = ({
           onAddAllocationLine={onAddAllocationLine}
           onUpdateAllocationLine={onUpdateAllocationLine}
           onRemoveAllocationLine={onRemoveAllocationLine}
+          renderContactCombobox={renderContactCombobox}
+          onAlert={onAlert}
         />
       )}
       {!showShowAllocationSection && (
-        <SuggestMatchSection onDetailsChange={onDetailsChange} />
+        <SuggestMatchSection
+          onDetailsChange={onDetailsChange}
+          renderContactCombobox={renderContactCombobox}
+          onAlert={onAlert}
+        />
       )}
     </>
   );
 
-  return (
+  return isOpen ? (
     <Modal
       title="Create bank feed rule"
       onCancel={onCancel}
-      canClose={!isSaving}
+      canClose={!isLoading}
       size="large"
     >
       <Modal.Body>
-        <PageView isLoading={isSaving} view={view} />
+        <PageView isLoading={isLoading} view={modalBody} />
       </Modal.Body>
       <Modal.Footer>
-        <Button type="secondary" onClick={onCancel} disabled={isSaving}>
+        <Button type="secondary" onClick={onCancel} disabled={isLoading}>
           Cancel
         </Button>
-        <Button type="primary" onClick={onSave} disabled={isSaving}>
+        <Button type="primary" onClick={onSave} disabled={isLoading}>
           Save
         </Button>
       </Modal.Footer>
     </Modal>
-  );
+  ) : null;
 };
 
 const mapStateToProps = (state) => ({
   showShowAllocationSection: getShouldShowAllocationSection(state),
   alert: getAlert(state),
-  isSaving: getIsSaving(state),
+  isLoading: getIsLoading(state),
+  isOpen: getIsOpen(state),
 });
 
-export default connect(mapStateToProps)(BankingRuleModal);
+export default connect(mapStateToProps)(BankingRuleView);

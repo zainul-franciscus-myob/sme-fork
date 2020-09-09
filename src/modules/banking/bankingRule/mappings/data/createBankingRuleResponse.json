@@ -1,4 +1,4 @@
 {
   "message": "Bank rule created! Any transactions based on this bank rule have been automatically allocated",
-  "ruleId": "6"
+  "bankingRuleId": "6"
 }

@@ -3,7 +3,6 @@ import { createSelector } from 'reselect';
 
 import { businessEventToFeatureMap } from '../../../../common/types/BusinessEventTypeMap';
 import {
-  formatCurrency,
   getAppliedPaymentRuleContactId,
   getBusinessId,
   getDepositAccounts,
@@ -16,6 +15,7 @@ import {
 import BankTransactionStatusTypes from '../../types/BankTransactionStatusTypes';
 import MatchTransactionShowType from '../../types/MatchTransactionShowType';
 import formatAmount from '../../../../common/valueFormatters/formatAmount';
+import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
 
 export const getMatchTransactionFilterOptions = (state) =>

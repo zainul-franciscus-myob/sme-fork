@@ -2,16 +2,23 @@ import {
   ADD_CONDITION_PREDICATE,
   ADD_RULE_CONDITION,
   ADD_TABLE_ROW,
+  CLOSE,
+  LOAD_CONTACT,
+  OPEN,
   REMOVE_CONDITION_PREDICATE,
   REMOVE_TABLE_ROW,
   SET_ALERT,
-  SET_INITIAL_STATE,
   SET_SAVING_STATE,
+  START_LOADING,
+  START_LOADING_CONTACT,
+  STOP_LOADING,
+  STOP_LOADING_CONTACT,
   UPDATE_CONDITION_PREDICATE,
   UPDATE_RULE_CONDITION,
   UPDATE_RULE_DETAILS,
   UPDATE_TABLE_ROW,
 } from './BankingRuleIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
 const createBankingRuleDispatcher = (store) => ({
   updateRuleDetails: (key, value) => {
@@ -103,11 +110,60 @@ const createBankingRuleDispatcher = (store) => ({
     });
   },
 
-  setInitialState: (state) => {
+  startLoading: () => {
+    store.dispatch({
+      intent: START_LOADING,
+    });
+  },
+
+  stopLoading: () => {
+    store.dispatch({
+      intent: STOP_LOADING,
+    });
+  },
+
+  startLoadingContact: () => {
+    store.dispatch({
+      intent: START_LOADING_CONTACT,
+    });
+  },
+
+  stopLoadingContact: () => {
+    store.dispatch({
+      intent: STOP_LOADING_CONTACT,
+    });
+  },
+
+  loadContact: (response) => {
+    store.dispatch({
+      intent: LOAD_CONTACT,
+      ...response,
+    });
+  },
+
+  open: () => {
+    store.dispatch({
+      intent: OPEN,
+    });
+  },
+
+  close: () => {
+    store.dispatch({
+      intent: CLOSE,
+    });
+  },
+
+  setInitialState: (context) => {
     const intent = SET_INITIAL_STATE;
     store.dispatch({
       intent,
-      ...state,
+      ...context,
+    });
+  },
+
+  resetState: () => {
+    store.dispatch({
+      intent: RESET_STATE,
     });
   },
 });

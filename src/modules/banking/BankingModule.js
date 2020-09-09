@@ -20,7 +20,7 @@ import {
 import {
   getAccountModalContext,
   getBankTransactionLineByIndex,
-  getBankingRuleInitState,
+  getBankingRuleModuleContext,
   getBusinessId,
   getFilterOptions,
   getIsAllocated,
@@ -92,9 +92,6 @@ export default class BankingModule {
     this.replaceURLParams = replaceURLParams;
     this.bankingRuleModule = new BankingRuleModule({
       integration,
-      store: this.store,
-      onCancel: this.dispatcher.closeModal,
-      onSaveSuccess: this.applyRuleToTransaction,
     });
     this.inTrayModalModule = new InTrayModalModule({ integration });
     this.accountModalModule = new AccountModalModule({
@@ -166,7 +163,6 @@ export default class BankingModule {
       setMatchTransferMoneySelection,
       closeModal,
       updateBulkAllocationOption,
-      openBankingRuleModal,
       openBulkAllocation,
       setEditingNoteState,
       setPendingNote,
@@ -184,6 +180,11 @@ export default class BankingModule {
           inTrayModal={inTrayModal}
           accountModal={accountModal}
           jobModal={jobModal}
+          renderBankingRuleModule={() =>
+            this.bankingRuleModule.render({
+              onCreateBankingRule: this.applyRuleToTransaction,
+            })
+          }
           onUpdateFilters={this.confirmBefore(this.updateFilterOptions)}
           onPeriodChange={this.confirmBefore(this.updatePeriodDateRange)}
           onResetFilters={this.confirmBefore(this.resetFilters)}
@@ -240,7 +241,7 @@ export default class BankingModule {
           onBulkUnallocationButtonClick={this.openBulkUnallocationModal}
           onConfirmBulkUnallocation={this.bulkUnallocateTransactions}
           onCancelUnallocateModal={closeModal}
-          onOpenBankingRuleModal={openBankingRuleModal}
+          onOpenBankingRuleModal={this.openBankingRuleModal}
           onOpenTransferMoneyModal={this.openTransferMoneyModal}
           onRenderBankingRuleModal={this.renderBankingRuleModal}
           onAddAttachments={this.addAttachments}
@@ -278,7 +279,6 @@ export default class BankingModule {
   };
 
   applyRuleToTransaction = ({ message, bankingRuleId }) => {
-    this.dispatcher.closeModal();
     this.dispatcher.collapseTransactionLine();
     this.dispatcher.setLoadingState(true);
 
@@ -304,11 +304,6 @@ export default class BankingModule {
       onFailure,
       bankingRuleId,
     });
-  };
-
-  renderBankingRuleModal = () => {
-    const initState = getBankingRuleInitState(this.store.getState());
-    return this.bankingRuleModule.getView(initState);
   };
 
   allocateTransaction = (index, selectedAccount) => {
@@ -1230,6 +1225,11 @@ export default class BankingModule {
     });
   };
 
+  openBankingRuleModal = () => {
+    const context = getBankingRuleModuleContext(this.store.getState());
+    return this.bankingRuleModule.run(context);
+  };
+
   openAccountModal = (onAccountCreated) => {
     const state = this.store.getState();
     const accountModalContext = getAccountModalContext(state);
@@ -1276,6 +1276,7 @@ export default class BankingModule {
     this.dispatcher.resetState();
     this.inTrayModalModule.resetState();
     this.accountModalModule.resetState();
+    this.bankingRuleModule.resetState();
   };
 
   openJobModal = (onChange) => {

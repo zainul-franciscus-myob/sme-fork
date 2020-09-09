@@ -2,16 +2,23 @@ import {
   ADD_CONDITION_PREDICATE,
   ADD_RULE_CONDITION,
   ADD_TABLE_ROW,
+  CLOSE,
+  LOAD_CONTACT,
+  OPEN,
   REMOVE_CONDITION_PREDICATE,
   REMOVE_TABLE_ROW,
   SET_ALERT,
-  SET_INITIAL_STATE,
   SET_SAVING_STATE,
+  START_LOADING,
+  START_LOADING_CONTACT,
+  STOP_LOADING,
+  STOP_LOADING_CONTACT,
   UPDATE_CONDITION_PREDICATE,
   UPDATE_RULE_CONDITION,
   UPDATE_RULE_DETAILS,
   UPDATE_TABLE_ROW,
 } from '../BankingRuleIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import {
   addConditionPredicate,
   addRuleCondition,
@@ -24,12 +31,11 @@ import {
   removeTableRow,
   updateTableRow,
 } from './allocationHandlers';
-import { getRuleTypes } from '../bankingRuleSelectors';
 import FieldTypes from '../FieldTypes';
-import TabItems from '../../types/TabItems';
+import createReducer from '../../../../store/createReducer';
 import getDefaultState from './getDefaultState';
 
-export const updateRuleDetails = (state, action) => {
+const updateRuleDetails = (state, action) => {
   const newState = {
     ...state,
     bankingRule: {
@@ -40,57 +46,109 @@ export const updateRuleDetails = (state, action) => {
   if (action.key === 'allocationType') {
     newState.bankingRule.allocations = [];
   }
-  if (action.key === 'contactId') {
-    const contact = state.contacts.find(({ id }) => id === action.value);
-    if (contact && contact.contactType === 'Supplier') {
-      newState.bankingRule.isPaymentReportable = false;
-    } else {
-      newState.bankingRule.isPaymentReportable = undefined;
-    }
-  }
   return newState;
 };
 
-export const setInitialState = (
-  state,
-  { intent, description, activeTabId, isWithdrawal, ...otherFields }
-) => {
-  const defaultState = getDefaultState();
-  const isAllocationOrMatchTabOpen =
-    activeTabId === TabItems.allocate || activeTabId === TabItems.match;
-  const ruleTypeIndex = isAllocationOrMatchTabOpen ? 0 : 1;
-  const ruleType = getRuleTypes(isWithdrawal)[ruleTypeIndex].value;
+const loadContact = (state, { isPaymentReportable, contactType }) => {
   return {
-    ...defaultState,
+    ...state,
+    contactType,
     bankingRule: {
-      ...defaultState.bankingRule,
-      name: description,
-      ruleType,
-      conditions: [
-        {
-          field: FieldTypes.description,
-          predicates: [{ matcher: 'Contains', value: description }],
-        },
-      ],
+      ...state.bankingRule,
+      isPaymentReportable,
     },
-    ...otherFields,
   };
 };
 
-export const setAlert = (state, action) => ({
+const setInitialState = (
+  _,
+  {
+    businessId,
+    region,
+    transaction,
+    ruleType,
+    bankAccounts,
+    withdrawalAccounts,
+    depositAccounts,
+    taxCodes,
+  }
+) => {
+  const state = getDefaultState();
+  return {
+    ...state,
+    businessId,
+    region,
+    transaction,
+    bankAccounts,
+    withdrawalAccounts,
+    depositAccounts,
+    taxCodes,
+    bankingRule: {
+      ...state.bankingRule,
+      ruleType,
+      name: transaction.description,
+      conditions: [
+        {
+          field: FieldTypes.description,
+          predicates: [
+            {
+              matcher: 'Contains',
+              value: transaction.description,
+            },
+          ],
+        },
+      ],
+    },
+  };
+};
+
+const setAlert = (state, action) => ({
   ...state,
   alert: action.alert,
 });
 
-export const setSavingState = (state, action) => ({
+const setSavingState = (state, action) => ({
   ...state,
   isSaving: action.isSaving,
 });
+
+const startLoading = (state) => ({
+  ...state,
+  isLoading: true,
+});
+
+const stopLoading = (state) => ({
+  ...state,
+  isLoading: false,
+});
+
+const open = (state) => ({
+  ...state,
+  isOpen: true,
+});
+
+const close = (state) => ({
+  ...state,
+  isOpen: false,
+});
+
+const startLoadingContact = (state) => ({
+  ...state,
+  isContactLoading: true,
+});
+
+const stopLoadingContact = (state) => ({
+  ...state,
+  isContactLoading: false,
+});
+
+const resetState = () => getDefaultState();
 
 const bankingRuleHandlers = {
   [UPDATE_RULE_DETAILS]: updateRuleDetails,
   [UPDATE_RULE_CONDITION]: updateRuleCondition,
   [SET_INITIAL_STATE]: setInitialState,
+  [RESET_STATE]: resetState,
   [ADD_RULE_CONDITION]: addRuleCondition,
   [ADD_CONDITION_PREDICATE]: addConditionPredicate,
   [UPDATE_CONDITION_PREDICATE]: updateConditionPredicate,
@@ -100,6 +158,13 @@ const bankingRuleHandlers = {
   [REMOVE_TABLE_ROW]: removeTableRow,
   [SET_ALERT]: setAlert,
   [SET_SAVING_STATE]: setSavingState,
+  [START_LOADING]: startLoading,
+  [STOP_LOADING]: stopLoading,
+  [LOAD_CONTACT]: loadContact,
+  [OPEN]: open,
+  [CLOSE]: close,
+  [START_LOADING_CONTACT]: startLoadingContact,
+  [STOP_LOADING_CONTACT]: stopLoadingContact,
 };
 
-export default bankingRuleHandlers;
+export default createReducer(getDefaultState(), bankingRuleHandlers);

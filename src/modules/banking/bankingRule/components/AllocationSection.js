@@ -11,18 +11,17 @@ import {
   getAllocationType,
   getAllocations,
   getContactId,
-  getContacts,
   getDescription,
+  getIsContactLoading,
   getIsPaymentReportable,
   getRegion,
   getShouldShowReportableCheckbox,
 } from '../bankingRuleSelectors';
 import AllocationTable from './AllocationTable';
 import AllocationTypes from '../AllocationTypes';
-import ContactCombobox from '../../../../components/combobox/ContactCombobox';
 import ReportableCheckbox from '../../../../components/ReportableCheckbox/ReportableCheckbox';
+import handleAutoCompleteChange from '../../../../components/handlers/handleAutoCompleteChange';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
-import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 import handleRadioButtonChange from '../../../../components/handlers/handleRadioButtonChange';
 import styles from './AllocationSection.module.css';
@@ -32,25 +31,29 @@ const AllocationSection = ({
   onAddAllocationLine,
   onUpdateAllocationLine,
   onRemoveAllocationLine,
+  onAlert,
+  renderContactCombobox,
   allocations,
-  contacts,
   contactId,
   description,
   allocationType,
   region,
   isPaymentReportable,
+  isContactLoading,
   shouldShowPaymentReportableCheckbox,
 }) => (
   <FieldGroup label="Create transaction with this information">
     <Columns>
       <div className={styles.contact}>
-        <ContactCombobox
-          items={contacts}
-          selectedId={contactId}
-          label="Contact"
-          hideLabel={false}
-          onChange={handleComboboxChange('contactId', onDetailsChange)}
-        />
+        {renderContactCombobox({
+          selectedId: contactId,
+          label: 'Contact',
+          hideLabel: false,
+          allowClear: true,
+          onChange: handleAutoCompleteChange('contactId', onDetailsChange),
+          onAlert,
+          width: 'xl',
+        })}
       </div>
       {shouldShowPaymentReportableCheckbox && (
         <ReportableCheckbox
@@ -59,6 +62,7 @@ const AllocationSection = ({
           checked={isPaymentReportable}
           onChange={handleCheckboxChange(onDetailsChange)}
           region={region}
+          disabled={isContactLoading}
         />
       )}
     </Columns>
@@ -89,12 +93,12 @@ const AllocationSection = ({
 );
 
 const mapStateToProps = (state) => ({
-  contacts: getContacts(state),
   contactId: getContactId(state),
   description: getDescription(state),
   allocationType: getAllocationType(state),
   allocations: getAllocations(state),
   isPaymentReportable: getIsPaymentReportable(state),
+  isContactLoading: getIsContactLoading(state),
   shouldShowPaymentReportableCheckbox: getShouldShowReportableCheckbox(state),
   region: getRegion(state),
 });

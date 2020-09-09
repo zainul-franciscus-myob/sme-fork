@@ -1,5 +1,6 @@
 import { businessEventTypes } from '../../../../common/types/BusinessEventTypeMap';
 import {
+  getBankingRuleModuleContext,
   getFilterBankTransactionsParams,
   getFilterBankTransactionsUrlParams,
   getIsFocused,
@@ -14,6 +15,8 @@ import {
 } from '../index';
 import BankTransactionStatusTypes from '../../types/BankTransactionStatusTypes';
 import FocusLocations from '../../types/FocusLocations';
+import Region from '../../../../common/types/Region';
+import RuleTypes from '../../bankingRule/RuleTypes';
 import TabItems from '../../types/TabItems';
 import TransactionTypes from '../../types/TransactionTypes';
 
@@ -387,5 +390,137 @@ describe('Bank transactions index selectors', () => {
         expect(actual).toEqual(false);
       }
     );
+  });
+
+  describe('getBankingRuleModuleContext', () => {
+    const buildState = ({ withdrawal, deposit, activeTabId }) => ({
+      businessId: '🌶',
+      region: Region.au,
+      openPosition: 1,
+      entries: [
+        {},
+        {
+          date: '2020-01-01',
+          withdrawal,
+          deposit,
+          description: '🙅‍♀️',
+        },
+      ],
+      filterOptions: {
+        bankAccount: '1',
+      },
+      openEntry: {
+        activeTabId,
+      },
+      bankAccounts: [
+        {
+          id: '1',
+          displayId: '🍉',
+          displayName: '👵',
+        },
+      ],
+      taxCodes: [
+        {
+          id: '😍',
+        },
+      ],
+      withdrawalAccounts: [
+        {
+          id: '😌',
+        },
+      ],
+      depositAccounts: [
+        {
+          id: '🥺',
+        },
+      ],
+    });
+
+    it('builds', () => {
+      const state = buildState({
+        withdrawal: 10000,
+        deposit: undefined,
+        activeTabId: TabItems.allocate,
+      });
+
+      const actual = getBankingRuleModuleContext(state);
+
+      expect(actual).toEqual({
+        businessId: '🌶',
+        region: Region.au,
+        transaction: {
+          accountId: '1',
+          accountDisplayName: '🍉 👵',
+          date: '2020-01-01',
+          description: '🙅‍♀️',
+          withdrawal: 10000,
+          deposit: undefined,
+        },
+        ruleType: RuleTypes.spendMoney,
+        bankAccounts: [
+          {
+            id: '1',
+            displayId: '🍉',
+            displayName: '👵',
+          },
+        ],
+        taxCodes: [
+          {
+            id: '😍',
+          },
+        ],
+        withdrawalAccounts: [
+          {
+            id: '😌',
+          },
+        ],
+        depositAccounts: [
+          {
+            id: '🥺',
+          },
+        ],
+      });
+    });
+
+    [
+      {
+        withdrawal: 10000,
+        deposit: undefined,
+        activeTabId: TabItems.allocate,
+        ruleType: RuleTypes.spendMoney,
+      },
+      {
+        withdrawal: 10000,
+        deposit: undefined,
+        activeTabId: TabItems.match,
+        ruleType: RuleTypes.bill,
+      },
+      {
+        withdrawal: undefined,
+        deposit: 10000,
+        activeTabId: TabItems.allocate,
+        ruleType: RuleTypes.receiveMoney,
+      },
+      {
+        withdrawal: undefined,
+        deposit: 10000,
+        activeTabId: TabItems.match,
+        ruleType: RuleTypes.invoice,
+      },
+    ].forEach(({ withdrawal, deposit, activeTabId, ruleType }) => {
+      const withdrawalDepositText = withdrawal ? 'withdrawal' : 'deposit';
+
+      it(`return ruleType of "${ruleType}" when is ${withdrawalDepositText} and on tab "${activeTabId}"`, () => {
+        const state = buildState({
+          withdrawal,
+          deposit,
+          activeTabId,
+        });
+
+        const actual = getBankingRuleModuleContext(state);
+
+        expect(actual.ruleType).toEqual(ruleType);
+      });
+    });
   });
 });

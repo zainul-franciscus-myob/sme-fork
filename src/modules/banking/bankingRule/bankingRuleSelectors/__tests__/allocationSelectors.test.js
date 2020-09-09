@@ -6,17 +6,16 @@ import {
   getShouldShowReportableCheckbox,
 } from '../allocationSelectors';
 import AllocationTypes from '../../AllocationTypes';
+import ContactType from '../../../../contact/contactCombobox/types/ContactType';
 import RuleTypes from '../../RuleTypes';
 
 describe('allocationSelectors', () => {
   describe('getIsInputField', () => {
     it("is false when it's percent allocation type", () => {
       const state = {
-        bankingRuleModal: {
-          bankingRule: {
-            allocations: [{}],
-            allocationType: 'Percent',
-          },
+        bankingRule: {
+          allocations: [{}],
+          allocationType: 'Percent',
         },
       };
 
@@ -27,11 +26,9 @@ describe('allocationSelectors', () => {
 
     it('is true when there is only 1 row item when allocation type is amount', () => {
       const state = {
-        bankingRuleModal: {
-          bankingRule: {
-            allocations: [{}],
-            allocationType: 'Amount',
-          },
+        bankingRule: {
+          allocations: [{}],
+          allocationType: 'Amount',
         },
       };
 
@@ -42,11 +39,9 @@ describe('allocationSelectors', () => {
 
     it('is true when last row item when allocation type is amount', () => {
       const state = {
-        bankingRuleModal: {
-          bankingRule: {
-            allocations: [{}, {}],
-            allocationType: 'Amount',
-          },
+        bankingRule: {
+          allocations: [{}, {}],
+          allocationType: 'Amount',
         },
       };
 
@@ -57,11 +52,9 @@ describe('allocationSelectors', () => {
 
     it("is false when it's not the last element given that the list has more than one element when allocation type is amount", () => {
       const state = {
-        bankingRuleModal: {
-          bankingRule: {
-            allocations: [{}, {}],
-            allocationType: 'Amount',
-          },
+        bankingRule: {
+          allocations: [{}, {}],
+          allocationType: 'Amount',
         },
       };
 
@@ -74,10 +67,8 @@ describe('allocationSelectors', () => {
   describe('getRemainingPercentage', () => {
     it('the initial remaining percentage should be 100.00%', () => {
       const state = {
-        bankingRuleModal: {
-          bankingRule: {
-            allocations: [],
-          },
+        bankingRule: {
+          allocations: [],
         },
       };
 
@@ -88,14 +79,12 @@ describe('allocationSelectors', () => {
 
     it('should calculate the remaining percentage', () => {
       const state = {
-        bankingRuleModal: {
-          bankingRule: {
-            allocations: [
-              {
-                value: '10',
-              },
-            ],
-          },
+        bankingRule: {
+          allocations: [
+            {
+              value: '10',
+            },
+          ],
         },
       };
 
@@ -106,17 +95,15 @@ describe('allocationSelectors', () => {
 
     it("should handle the scenario if the value isn't a number", () => {
       const state = {
-        bankingRuleModal: {
-          bankingRule: {
-            allocations: [
-              {
-                value: '-',
-              },
-              {
-                value: '55.55',
-              },
-            ],
-          },
+        bankingRule: {
+          allocations: [
+            {
+              value: '-',
+            },
+            {
+              value: '55.55',
+            },
+          ],
         },
       };
 
@@ -130,12 +117,10 @@ describe('allocationSelectors', () => {
     it('should return true when region is au and selected contact is supplier', () => {
       const state = {
         region: 'au',
-        bankingRuleModal: {
-          bankingRule: {
-            contactId: '1',
-          },
-          contacts: [{ id: '1', contactType: 'Supplier' }],
+        bankingRule: {
+          contactId: '1',
         },
+        contactType: ContactType.SUPPLIER,
       };
 
       const actual = getShouldShowReportableCheckbox(state);
@@ -146,12 +131,10 @@ describe('allocationSelectors', () => {
     it('should return false when region is not au', () => {
       const state = {
         region: 'nz',
-        bankingRuleModal: {
-          bankingRule: {
-            contactId: '1',
-          },
-          contacts: [{ id: '1', contactType: 'Supplier' }],
+        bankingRule: {
+          contactId: '1',
         },
+        contactType: ContactType.SUPPLIER,
       };
 
       const actual = getShouldShowReportableCheckbox(state);
@@ -162,12 +145,10 @@ describe('allocationSelectors', () => {
     it('should return false when region is au and selected contact is not supplier', () => {
       const state = {
         region: 'au',
-        bankingRuleModal: {
-          bankingRule: {
-            contactId: '1',
-          },
-          contacts: [{ id: '1', contactType: 'Customer' }],
+        bankingRule: {
+          contactId: '1',
         },
+        contactType: ContactType.CUSTOMER,
       };
 
       const actual = getShouldShowReportableCheckbox(state);
@@ -179,10 +160,8 @@ describe('allocationSelectors', () => {
   describe('getAllocationLabel', () => {
     it('should return `Percent (%)` when allocate type is percent', () => {
       const state = {
-        bankingRuleModal: {
-          bankingRule: {
-            allocationType: AllocationTypes.percent,
-          },
+        bankingRule: {
+          allocationType: AllocationTypes.percent,
         },
       };
 
@@ -193,10 +172,8 @@ describe('allocationSelectors', () => {
 
     it('should return `Amount ($)` when allocate type is amount', () => {
       const state = {
-        bankingRuleModal: {
-          bankingRule: {
-            allocationType: AllocationTypes.amount,
-          },
+        bankingRule: {
+          allocationType: AllocationTypes.amount,
         },
       };
 
@@ -211,13 +188,11 @@ describe('allocationSelectors', () => {
     const depositAccounts = [{ id: '2' }];
     it('should return withdrawal accounts when ruleType is `SpendMoney`', () => {
       const state = {
-        bankingRuleModal: {
-          bankingRule: {
-            ruleType: RuleTypes.spendMoney,
-          },
-          withdrawalAccounts,
-          depositAccounts,
+        bankingRule: {
+          ruleType: RuleTypes.spendMoney,
         },
+        withdrawalAccounts,
+        depositAccounts,
       };
 
       const actual = getAllocationAccounts(state);
@@ -227,13 +202,11 @@ describe('allocationSelectors', () => {
 
     it('should return deposit accounts when ruleType is `ReceiveMoney`', () => {
       const state = {
-        bankingRuleModal: {
-          bankingRule: {
-            ruleType: RuleTypes.receiveMoney,
-          },
-          withdrawalAccounts,
-          depositAccounts,
+        bankingRule: {
+          ruleType: RuleTypes.receiveMoney,
         },
+        withdrawalAccounts,
+        depositAccounts,
       };
 
       const actual = getAllocationAccounts(state);

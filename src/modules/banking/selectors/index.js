@@ -5,9 +5,11 @@ import Config from '../../../Config';
 import FocusLocations from '../types/FocusLocations';
 import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import Region from '../../../common/types/Region';
+import RuleTypes from '../bankingRule/RuleTypes';
 import StatusTypes from '../types/BankTransactionStatusTypes';
 import TabItems from '../types/TabItems';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
+import formatCurrency from '../../../common/valueFormatters/formatCurrency';
 import formatSlashDate from '../../../common/valueFormatters/formatDate/formatSlashDate';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
@@ -41,12 +43,6 @@ export const getIsLoadingAccount = (state) => state.isLoadingAccount;
 export const getWithdrawalAccounts = (state) => state.withdrawalAccounts;
 export const getDepositAccounts = (state) => state.depositAccounts;
 export const getTransferAccounts = (state) => state.transferAccounts;
-
-export const formatCurrency = (amount) => {
-  const formattedAmount = formatAmount(Math.abs(amount));
-
-  return amount < 0 ? `-$${formattedAmount}` : `$${formattedAmount}`;
-};
 
 export const getBankTableData = createSelector(
   (state) => state.entries.length,
@@ -336,32 +332,62 @@ export const getTitle = (state) => getRegionToDialectText(state.region)('Tax');
 export const getIsBankingJobColumnEnabled = (state) =>
   state.isBankingJobColumnEnabled;
 
-export const getBankingRuleInitState = createSelector(
+export const getBankingRuleModuleContext = createSelector(
+  getBusinessId,
+  getRegion,
   getOpenTransactionLine,
+  getFilterOptions,
+  getBankAccounts,
   getOpenEntryActiveTabId,
+  getTaxCodes,
   getWithdrawalAccounts,
   getDepositAccounts,
-  getContacts,
-  getTaxCodes,
-  getBankAccounts,
   (
+    businessId,
+    region,
     openTransactionLine,
-    activeTabId,
-    withdrawalAccounts,
-    depositAccounts,
-    contacts,
-    taxCodes,
-    bankAccounts
-  ) => ({
-    description: openTransactionLine.description,
-    isWithdrawal: Boolean(openTransactionLine.withdrawal),
-    activeTabId,
-    withdrawalAccounts,
-    depositAccounts,
-    contacts,
-    taxCodes,
+    filterOptions,
     bankAccounts,
-  })
+    activeTabId,
+    taxCodes,
+    withdrawalAccounts,
+    depositAccounts
+  ) => {
+    const { date, withdrawal, deposit, description } = openTransactionLine;
+    const { bankAccount } = filterOptions;
+    const ruleType = (() => {
+      if (withdrawal) {
+        if (activeTabId === TabItems.allocate) {
+          return RuleTypes.spendMoney;
+        }
+        return RuleTypes.bill;
+      }
+
+      if (activeTabId === TabItems.allocate) {
+        return RuleTypes.receiveMoney;
+      }
+
+      return RuleTypes.invoice;
+    })();
+
+    return {
+      businessId,
+      region,
+      transaction: {
+        accountId: bankAccount,
+        accountDisplayName: getDisplayName(bankAccount, bankAccounts),
+        date,
+        description,
+        withdrawal,
+        deposit,
+      },
+      ruleType,
+      bankAccounts,
+      taxCodes,
+      withdrawalAccounts,
+      depositAccounts,
+    };
+  }
 );
 
 export const getIsEditingNote = (state, index) =>

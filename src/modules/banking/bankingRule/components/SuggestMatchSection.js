@@ -5,35 +5,36 @@ import React from 'react';
 import {
   getContactId,
   getContactLabel,
-  getContacts,
   getMatchSectionHeader,
 } from '../bankingRuleSelectors';
-import ContactCombobox from '../../../../components/combobox/ContactCombobox';
-import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
+import handleAutoCompleteChange from '../../../../components/handlers/handleAutoCompleteChange';
 import styles from './SuggestMatchSection.module.css';
 
 const SuggestMatchSection = ({
   onDetailsChange,
+  onAlert,
+  renderContactCombobox,
   contactId,
-  contacts,
   label,
   header,
 }) => (
   <FieldGroup label={header}>
     <div className={styles.suggestMatch}>
-      <ContactCombobox
-        items={contacts}
-        selectedId={contactId}
-        label={label}
-        requiredLabel="required"
-        onChange={handleComboboxChange('contactId', onDetailsChange)}
-      />
+      {renderContactCombobox({
+        selectedId: contactId,
+        label,
+        requiredLabel: 'This is required',
+        hideLabel: false,
+        allowClear: true,
+        onChange: handleAutoCompleteChange('contactId', onDetailsChange),
+        onAlert,
+        width: 'xl',
+      })}
     </div>
   </FieldGroup>
 );
 
 const mapStateToProps = (state) => ({
-  contacts: getContacts(state),
   contactId: getContactId(state),
   label: getContactLabel(state),
   header: getMatchSectionHeader(state),

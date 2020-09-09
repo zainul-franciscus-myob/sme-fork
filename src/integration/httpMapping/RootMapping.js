@@ -8,6 +8,7 @@ import BankStatementImportMapping from '../../modules/bankStatementImport/mappin
 import BankingMapping from '../../modules/banking/mappings/HttpBankingMapping';
 import BankingRuleDetailMapping from '../../modules/bankingRules/bankingRuleDetail/mappings/HttpBankingRuleDetailMapping';
 import BankingRuleMapping from '../../modules/bankingRules/bankingRuleList/mappings/HttpBankingRuleMapping';
+import BankingRuleModalMapping from '../../modules/banking/bankingRule/mappings/HttpBankingRuleMapping';
 import BillDetailMapping from '../../modules/bill/billDetail/mappings/HttpBillDetailMapping';
 import BillMapping from '../../modules/bill/billList/mappings/HttpBillMapping';
 import BillPaymentMapping from '../../modules/billPayment/mappings/HttpBillPaymentMapping';
@@ -170,6 +171,7 @@ const RootMapping = Object.freeze({
   ...PayRunNzMapping,
   ...QuoteWithStatusMapping,
   ...ReportsSubscribeNowMapping,
+  ...BankingRuleModalMapping,
 });
 
 export default RootMapping;

@@ -1,21 +1,15 @@
 import { createSelector } from 'reselect';
 
-import {
-  getBankingRule,
-  getBankingRuleModal,
-  getContactId,
-  getContacts,
-  getRuleType,
-} from './ruleDetailsSelectors';
+import { getBankingRule, getRuleType } from './ruleDetailsSelectors';
+import { getRegion } from './sharedSelectors';
 import AllocationTypes from '../AllocationTypes';
+import ContactType from '../../../contact/contactCombobox/types/ContactType';
+import Region from '../../../../common/types/Region';
 import RuleTypes from '../RuleTypes';
 import formatNumberWithDecimalScaleRange from '../../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 
-export const getTaxCodes = createSelector(
-  getBankingRuleModal,
-  ({ taxCodes }) => taxCodes
-);
+export const getTaxCodes = (state) => state.taxCodes;
 
 export const getAllocationType = createSelector(
   getBankingRule,
@@ -27,15 +21,9 @@ export const getAllocations = createSelector(
   (bankingRule) => bankingRule.allocations
 );
 
-const getWithdrawalAccounts = createSelector(
-  getBankingRuleModal,
-  ({ withdrawalAccounts }) => withdrawalAccounts
-);
+const getWithdrawalAccounts = ({ withdrawalAccounts }) => withdrawalAccounts;
 
-const getDepositAccounts = createSelector(
-  getBankingRuleModal,
-  ({ depositAccounts }) => depositAccounts
-);
+const getDepositAccounts = ({ depositAccounts }) => depositAccounts;
 
 export const getAllocationAccounts = createSelector(
   getWithdrawalAccounts,
@@ -128,19 +116,14 @@ export const getIsPaymentReportable = createSelector(
   getBankingRule,
   (bankingRule) => bankingRule.isPaymentReportable
 );
+export const getIsContactLoading = (state) => state.isContactLoading;
 
-const getSelectedContact = createSelector(
-  getContacts,
-  getContactId,
-  (contacts, contactId) => contacts.find(({ id }) => id === contactId) || {}
-);
-
-export const getRegion = (state) => state.region;
-
+const getContactType = (state) => state.contactType;
 export const getShouldShowReportableCheckbox = createSelector(
-  getSelectedContact,
+  getContactType,
   getRegion,
-  (contact, region) => contact.contactType === 'Supplier' && region === 'au'
+  (contactType, region) =>
+    contactType === ContactType.SUPPLIER && region === Region.au
 );
 
 export const getDescription = createSelector(

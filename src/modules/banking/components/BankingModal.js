@@ -11,7 +11,6 @@ const BankingModal = ({
   modalType,
   onCloseModal,
   onConfirmCancelModal,
-  onRenderBankingRuleModal,
   onConfirmUnallocateModal,
   onConfirmUnmatchTransactionModal,
   onDeleteAttachmentModal,
@@ -19,10 +18,6 @@ const BankingModal = ({
   onUpdateTransfer,
   onDismissModalAlert,
 }) => {
-  if (modalType === ModalTypes.BANKING_RULE) {
-    return onRenderBankingRuleModal();
-  }
-
   return {
     [ModalTypes.CANCEL]: (
       <CancelModal onCancel={onCloseModal} onConfirm={onConfirmCancelModal} />

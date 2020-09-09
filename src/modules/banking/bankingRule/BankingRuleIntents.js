@@ -1,4 +1,3 @@
-export const SET_INITIAL_STATE = Symbol('Initialize rule state');
 export const UPDATE_RULE_DETAILS = Symbol('Update rule details');
 export const UPDATE_RULE_CONDITION = Symbol('Update rule condition');
 export const ADD_RULE_CONDITION = Symbol('Add rule condition');
@@ -11,6 +10,14 @@ export const REMOVE_TABLE_ROW = Symbol('Remove table row');
 export const FORMAT_AMOUNT = Symbol('Format amount');
 export const SET_ALERT = Symbol('Set alert message');
 export const SET_SAVING_STATE = Symbol('Set saving state');
+export const START_LOADING = Symbol('Start loading');
+export const STOP_LOADING = Symbol('Stop loading');
+export const OPEN = Symbol('Open');
+export const CLOSE = Symbol('Close');
+export const START_LOADING_CONTACT = Symbol('Start loading contact');
+export const STOP_LOADING_CONTACT = Symbol('Start loading contact');
+
+export const LOAD_CONTACT = Symbol('Load contact');
 export const CREATE_BANKING_RULE_BILL = Symbol('Create banking rule bill');
 export const CREATE_BANKING_RULE_INVOICE = Symbol(
   'Create banking rule invoice'

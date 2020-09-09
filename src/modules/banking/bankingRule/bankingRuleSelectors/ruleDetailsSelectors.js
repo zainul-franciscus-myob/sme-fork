@@ -1,49 +1,22 @@
 import { createSelector } from 'reselect';
 
-import {
-  formatCurrency,
-  getDisplayName,
-  getFilterOptions,
-  getOpenTransactionLine,
-} from '../../selectors';
+import { getBusinessId, getRegion } from './sharedSelectors';
 import ApplyTypes from '../ApplyTypes';
+import ContactType from '../../../contact/contactCombobox/types/ContactType';
+import DisplayMode from '../../../contact/contactCombobox/types/DisplayMode';
 import RuleTypes from '../RuleTypes';
+import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
 import formatSlashDate from '../../../../common/valueFormatters/formatDate/formatSlashDate';
 
-export const getBankingRuleModal = (state) => state.bankingRuleModal;
+export const getBankingRule = (state) => state.bankingRule;
 
-export const getBankingRule = createSelector(
-  getBankingRuleModal,
-  (bankingRuleModal) => bankingRuleModal.bankingRule
-);
+export const getIsLoading = (state) => state.isLoading;
 
-export const getIsSaving = createSelector(
-  getBankingRuleModal,
-  (bankingRuleModal) => bankingRuleModal.isSaving
-);
+export const getIsOpen = (state) => state.isOpen;
 
-export const getBankAccounts = createSelector(
-  getBankingRuleModal,
-  ({ bankAccounts }) => bankAccounts
-);
+export const getBankAccounts = (state) => state.bankAccounts;
 
-export const getBankTransactionDetails = createSelector(
-  getOpenTransactionLine,
-  getFilterOptions,
-  getBankAccounts,
-  (transaction, filterOptions, accountList) => {
-    const { date, withdrawal, deposit, description } = transaction;
-    const { bankAccount } = filterOptions;
-    return {
-      accountId: bankAccount,
-      accountDisplayName: getDisplayName(bankAccount, accountList),
-      date,
-      description,
-      withdrawal,
-      deposit,
-    };
-  }
-);
+export const getBankTransactionDetails = (state) => state.transaction;
 
 export const getIsWithdrawal = createSelector(
   getBankTransactionDetails,
@@ -84,7 +57,7 @@ export const getBankTransactionSummaryHeader = createSelector(
   }
 );
 
-export const getRuleTypes = (isWithdrawal) => {
+const getRuleTypes = (isWithdrawal) => {
   const mapping = {
     withdrawal: [
       { name: 'Spend money transaction', value: RuleTypes.spendMoney },
@@ -116,10 +89,7 @@ export const getApplyToAllAccounts = createSelector(
   (bankingRule) => bankingRule.applyToAllAccounts
 );
 
-export const getAlert = createSelector(
-  getBankingRuleModal,
-  ({ alert }) => alert
-);
+export const getAlert = (state) => state.alert;
 
 export const getShouldShowBankAccountList = createSelector(
   getApplyToAllAccounts,
@@ -136,21 +106,33 @@ export const getConditions = createSelector(
   (bankingRule) => bankingRule.conditions
 );
 
-export const getContacts = createSelector(
-  getBankingRuleModal,
-  getRuleType,
-  ({ contacts }, ruleType) => {
-    if (ruleType === RuleTypes.bill) {
-      return contacts.filter(({ contactType }) => contactType === 'Supplier');
-    }
-    if (ruleType === RuleTypes.invoice) {
-      return contacts.filter(({ contactType }) => contactType === 'Customer');
-    }
-    return contacts;
-  }
-);
-
 export const getContactId = createSelector(
   getBankingRule,
   (bankingRule) => bankingRule.contactId
+);
+
+const buildGetContactComboboxContext = (contactType) => (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+  const contactId = getContactId(state);
+
+  return {
+    businessId,
+    region,
+    contactId,
+    contactType,
+    displayMode: DisplayMode.NAME_AND_TYPE,
+  };
+};
+
+export const getCustomerComboboxContext = buildGetContactComboboxContext(
+  ContactType.CUSTOMER
+);
+
+export const getSupplierComboboxContext = buildGetContactComboboxContext(
+  ContactType.SUPPLIER
+);
+
+export const getContactComboboxContext = buildGetContactComboboxContext(
+  ContactType.ALL
 );

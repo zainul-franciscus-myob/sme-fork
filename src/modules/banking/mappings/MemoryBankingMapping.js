@@ -24,12 +24,6 @@ import {
   UNALLOCATE_TRANSACTION,
   UPLOAD_ATTACHMENT,
 } from '../BankingIntents';
-import {
-  CREATE_BANKING_RULE_BILL,
-  CREATE_BANKING_RULE_INVOICE,
-  CREATE_BANKING_RULE_RECEIVE_MONEY,
-  CREATE_BANKING_RULE_SPEND_MONEY,
-} from '../bankingRule/BankingRuleIntents';
 import allocatedBankTransaction from './data/allocatedBankTransaction';
 import applyBankingRuleResponse from './data/applyBankingRuleResponse.json';
 import attachmentDetailResponse from './data/attachmentDetail';
@@ -38,7 +32,6 @@ import bankTransactions from './data/loadBankTransactions';
 import bankTransactionsNextPage from './data/loadBankTransactionsNextPage';
 import bulkAllocatedBankTransaction from './data/bulkAllocatedBankTransaction';
 import bulkUnallocatedBankTransactions from './data/bulkUnallocatedBankTransactions';
-import createBankingRuleResponse from './data/createBankingRuleResponse';
 import filteredBankTransactions from './data/sortAndFilterBankTransactions';
 import filteredMatchTransactions from './data/sortAndFilterMatchTransactions';
 import linkInTrayDocumentResponse from './data/linkInTrayDocumentResponse';
@@ -91,8 +84,6 @@ const saveTransferMoney = ({ onSuccess }) =>
   onSuccess(saveTransferMoneyPayload);
 const saveBulkAllocation = ({ onSuccess }) =>
   onSuccess(bulkAllocatedBankTransaction);
-const createBankingRule = ({ onSuccess }) =>
-  onSuccess(createBankingRuleResponse);
 const applyBankingRule = ({ onSuccess }) => onSuccess(applyBankingRuleResponse);
 const loadAttachments = ({ onSuccess }) => onSuccess(attachments);
 const uploadAttachment = ({ onSuccess }) => onSuccess(uploadAttachmentResponse);
@@ -120,10 +111,6 @@ const MemoryBankingMapping = {
   [LOAD_TRANSFER_MONEY]: loadTransferMoney,
   [LOAD_MATCH_TRANSFER_MONEY]: loadMatchTransferMoneyTransactions,
   [SAVE_TRANSFER_MONEY]: saveTransferMoney,
-  [CREATE_BANKING_RULE_SPEND_MONEY]: createBankingRule,
-  [CREATE_BANKING_RULE_RECEIVE_MONEY]: createBankingRule,
-  [CREATE_BANKING_RULE_INVOICE]: createBankingRule,
-  [CREATE_BANKING_RULE_BILL]: createBankingRule,
   [APPLY_RULE_TO_TRANSACTIONS]: applyBankingRule,
   [LOAD_ATTACHMENTS]: loadAttachments,
   [UPLOAD_ATTACHMENT]: uploadAttachment,

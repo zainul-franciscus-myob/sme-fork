@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect';
 
 import {
-  formatCurrency,
   getContacts,
   getEntries,
   getFilterOptions,
@@ -9,6 +8,7 @@ import {
 } from '../../selectors/index';
 import DefaultLineTypeId from '../../types/DefaultLineTypeId';
 import formatAmount from '../../../../common/valueFormatters/formatAmount';
+import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 
 const getAllocate = (state) => state.openEntry.allocate;

@@ -2326,4 +2326,18 @@ describe('BankingModule', () => {
       });
     });
   });
+
+  describe('openBankingRuleModule', () => {
+    it('runs bankingRuleModule', () => {
+      const { module } = setUpWithRun();
+      module.bankingRuleModule = {
+        run: jest.fn(),
+      };
+      module.toggleLine(0);
+
+      module.openBankingRuleModal();
+
+      expect(module.bankingRuleModule.run).toHaveBeenCalled();
+    });
+  });
 });

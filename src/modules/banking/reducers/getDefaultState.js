@@ -3,7 +3,6 @@ import MatchTransactionShowType from '../types/MatchTransactionShowType';
 import Periods from '../../../components/PeriodPicker/Periods';
 import TabItems from '../types/TabItems';
 import TransactionTypes from '../types/TransactionTypes';
-import getBankingRuleDefaultState from '../bankingRule/bankingRuleReducers/getDefaultState';
 
 const defaultFilterOptions = {
   transactionType: TransactionTypes.ALL,
@@ -135,7 +134,6 @@ const getDefaultState = () => ({
     location: undefined,
     isFocused: false,
   },
-  bankingRuleModal: getBankingRuleDefaultState(),
   lastAllocatedAccount: undefined,
 });
 

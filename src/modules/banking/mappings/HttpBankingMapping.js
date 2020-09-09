@@ -24,12 +24,6 @@ import {
   UNALLOCATE_TRANSACTION,
   UPLOAD_ATTACHMENT,
 } from '../BankingIntents';
-import {
-  CREATE_BANKING_RULE_BILL,
-  CREATE_BANKING_RULE_INVOICE,
-  CREATE_BANKING_RULE_RECEIVE_MONEY,
-  CREATE_BANKING_RULE_SPEND_MONEY,
-} from '../bankingRule/BankingRuleIntents';
 
 const HttpBankingMapping = {
   [LOAD_BANK_TRANSACTIONS]: {
@@ -115,26 +109,6 @@ const HttpBankingMapping = {
   [SAVE_TRANSFER_MONEY]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/banking/create_transfer_money`,
-  },
-  [CREATE_BANKING_RULE_BILL]: {
-    method: 'POST',
-    getPath: ({ businessId }) =>
-      `/${businessId}/banking/create_banking_rule_bill`,
-  },
-  [CREATE_BANKING_RULE_SPEND_MONEY]: {
-    method: 'POST',
-    getPath: ({ businessId }) =>
-      `/${businessId}/banking/create_banking_rule_spend_money`,
-  },
-  [CREATE_BANKING_RULE_RECEIVE_MONEY]: {
-    method: 'POST',
-    getPath: ({ businessId }) =>
-      `/${businessId}/banking/create_banking_rule_receive_money`,
-  },
-  [CREATE_BANKING_RULE_INVOICE]: {
-    method: 'POST',
-    getPath: ({ businessId }) =>
-      `/${businessId}/banking/create_banking_rule_invoice`,
   },
   [APPLY_RULE_TO_TRANSACTIONS]: {
     method: 'POST',

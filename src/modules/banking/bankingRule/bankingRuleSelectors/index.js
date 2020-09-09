@@ -1,5 +1,4 @@
-export const getBusinessId = (state) => state.businessId;
-
+export * from './sharedSelectors';
 export * from './ruleDetailsSelectors';
 export * from './allocationSelectors';
 export * from './matchSuggestionSelectors';

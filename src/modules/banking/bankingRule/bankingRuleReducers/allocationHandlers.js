@@ -10,9 +10,7 @@ const newAllocationLine = {
 };
 
 const findTaxCodeIdByAccountId = (state, accountId) =>
-  getAllocationAccounts({ bankingRuleModal: state }).find(
-    ({ id }) => id === accountId
-  ).taxCodeId;
+  getAllocationAccounts(state).find(({ id }) => id === accountId).taxCodeId;
 
 const addAllocation = ({ state, allocations, newRow }) => {
   const updatedAllocations = [

@@ -409,13 +409,6 @@ const createBankingDispatcher = (store) => ({
     });
   },
 
-  openBankingRuleModal: () => {
-    store.dispatch({
-      intent: OPEN_MODAL,
-      modalType: ModalTypes.BANKING_RULE,
-    });
-  },
-
   openUnmatchTransactionModal: () => {
     store.dispatch({
       intent: OPEN_MODAL,

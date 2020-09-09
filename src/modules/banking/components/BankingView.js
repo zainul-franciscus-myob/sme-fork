@@ -34,6 +34,7 @@ const BankingView = (props) => {
     inTrayModal,
     accountModal,
     jobModal,
+    renderBankingRuleModule,
     hasError,
     isLoading,
     isEntryLoading,
@@ -98,7 +99,6 @@ const BankingView = (props) => {
     onConfirmBulkUnallocation,
     onOpenBankingRuleModal,
     onOpenTransferMoneyModal,
-    onRenderBankingRuleModal,
     onAddAttachments,
     onDownloadAttachment,
     onRemoveAttachment,
@@ -161,7 +161,6 @@ const BankingView = (props) => {
       onConfirmCancelModal={onCancelModal}
       onConfirmUnallocateModal={onConfirmBulkUnallocation}
       onConfirmUnmatchTransactionModal={onCancelModal}
-      onRenderBankingRuleModal={onRenderBankingRuleModal}
       onDeleteAttachmentModal={onDeleteAttachmentModal}
       onSaveTransferMoney={onSaveTransferMoney}
       onUpdateTransfer={onUpdateTransfer}
@@ -174,6 +173,7 @@ const BankingView = (props) => {
         styles.bankTransactionView
       }`}
     >
+      {renderBankingRuleModule()}
       <StandardTemplate sticky="all" alert={alertComponent} pageHead={pageHead}>
         {modal}
         {accountModal}
