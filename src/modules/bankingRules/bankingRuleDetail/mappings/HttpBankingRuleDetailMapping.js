@@ -2,6 +2,7 @@ import {
   CREATE_BANKING_RULE,
   DELETE_BANKING_RULE,
   LOAD_BANKING_RULE,
+  LOAD_CONTACT,
   LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_BANKING_RULE,
   UPDATE_BANKING_RULE,
@@ -37,6 +38,11 @@ const HttpBankingRuleDetailMapping = {
     method: 'GET',
     getPath: ({ businessId, jobId }) =>
       `/${businessId}/bankingRule/load_job/${jobId}`,
+  },
+  [LOAD_CONTACT]: {
+    method: 'GET',
+    getPath: ({ businessId, contactId }) =>
+      `/${businessId}/bankingRule/load_contact/${contactId}`,
   },
 };
 

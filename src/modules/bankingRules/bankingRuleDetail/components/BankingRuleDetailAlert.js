@@ -2,16 +2,16 @@ import { Alert } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlertMessage } from '../bankingRuleDetailSelectors';
+import { getAlert } from '../bankingRuleDetailSelectors';
 
-const BankingRuleDetailAlert = ({ alertMessage, onDismissAlert }) => (
-  <Alert type="danger" onDismiss={onDismissAlert}>
-    {alertMessage}
+const BankingRuleDetailAlert = ({ alert, onDismissAlert }) => (
+  <Alert type={alert.type} onDismiss={onDismissAlert}>
+    {alert.message}
   </Alert>
 );
 
 const mapStateToProps = (state) => ({
-  alertMessage: getAlertMessage(state),
+  alert: getAlert(state),
 });
 
 export default connect(mapStateToProps)(BankingRuleDetailAlert);

@@ -1,12 +1,17 @@
 import {
   CLOSE_MODAL,
+  DISMISS_ALERT,
+  DISPLAY_ALERT,
   LOAD_BANKING_RULE,
   LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_BANKING_RULE,
   OPEN_MODAL,
-  SET_ALERT_MESSAGE,
+  SET_CONTACT_TYPE,
   SET_IS_PAGE_EDITED,
+  SET_IS_PAYMENT_REPORTABLE,
   SET_LOADING_STATE,
+  START_LOAD_CONTACT,
+  STOP_LOAD_CONTACT,
   UPDATE_FORM,
 } from '../BankingRuleDetailIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
@@ -44,16 +49,6 @@ const loadBankingRuleDetail = (state, action) => ({
   },
 });
 
-const isContact = (key) => key === 'contactId';
-const updateContactId = (state, action) => {
-  const contact = state.contacts.find(({ id }) => id === action.value);
-
-  return {
-    ...state,
-    contactId: contact.id,
-    isPaymentReportable: contact.isPaymentReportable,
-  };
-};
 const updateForm = (state, action) => {
   if (action.key === 'allocationType') {
     return {
@@ -61,10 +56,6 @@ const updateForm = (state, action) => {
       [action.key]: action.value,
       allocations: [],
     };
-  }
-
-  if (isContact(action.key)) {
-    return updateContactId(state, action);
   }
 
   return {
@@ -88,9 +79,14 @@ const closeModal = (state) => ({
   modal: undefined,
 });
 
-const setAlertMessage = (state, action) => ({
+const displayAlert = (state, { alert }) => ({
   ...state,
-  alertMessage: action.alertMessage,
+  alert,
+});
+
+const dismissAlert = (state) => ({
+  ...state,
+  alert: undefined,
 });
 
 const setIsPagedEdited = (state) => ({
@@ -111,18 +107,51 @@ const loadJobAfterCreate = (state, { intent, ...job }) => ({
   isPageEdited: true,
 });
 
+const setContactType = (state, { contactType }) => {
+  return {
+    ...state,
+    contactType,
+  };
+};
+
+const setIsPaymentReportable = (state, { isPaymentReportable }) => {
+  return {
+    ...state,
+    isPaymentReportable,
+  };
+};
+
+const startLoadContact = (state) => {
+  return {
+    ...state,
+    isContactLoading: true,
+  };
+};
+
+const stopLoadContact = (state) => {
+  return {
+    ...state,
+    isContactLoading: false,
+  };
+};
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitalState,
   [SET_LOADING_STATE]: setLoadingState,
   [CLOSE_MODAL]: closeModal,
   [OPEN_MODAL]: openModal,
-  [SET_ALERT_MESSAGE]: setAlertMessage,
+  [DISPLAY_ALERT]: displayAlert,
+  [DISMISS_ALERT]: dismissAlert,
   [SET_IS_PAGE_EDITED]: setIsPagedEdited,
   [UPDATE_FORM]: updateForm,
   [LOAD_NEW_BANKING_RULE]: loadBankingRuleDetail,
   [LOAD_BANKING_RULE]: loadBankingRuleDetail,
   [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
+  [SET_CONTACT_TYPE]: setContactType,
+  [SET_IS_PAYMENT_REPORTABLE]: setIsPaymentReportable,
+  [START_LOAD_CONTACT]: startLoadContact,
+  [STOP_LOAD_CONTACT]: stopLoadContact,
   ...allocationHandlers,
   ...conditionHandlers,
 };

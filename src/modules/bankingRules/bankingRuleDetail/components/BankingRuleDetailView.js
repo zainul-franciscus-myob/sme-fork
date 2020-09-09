@@ -19,6 +19,7 @@ import ModalContainer from './BankingRuleDetailModal';
 import PageView from '../../../../components/PageView/PageView';
 
 const BankingRuleDetailView = ({
+  renderContactCombobox,
   loadingState,
   isAlertShown,
   modal,
@@ -44,13 +45,14 @@ const BankingRuleDetailView = ({
   onConfirmCancelButtonClick,
   onConfirmSave,
   onDismissAlert,
+  onAlert,
 }) => {
   const view = (
     <BaseTemplate>
-      <PageHead title={pageTitle} />
       {isAlertShown && (
         <BankingRuleDetailAlert onDismissAlert={onDismissAlert} />
       )}
+      <PageHead title={pageTitle} />
       <Card>
         {jobModal}
         {modal && (
@@ -74,7 +76,9 @@ const BankingRuleDetailView = ({
           onPredicateRemove={onPredicateRemove}
         />
         <BankingRuleDetailTransactionSection
+          renderContactCombobox={renderContactCombobox}
           onRuleConditionsChange={onRuleConditionsChange}
+          onAlert={onAlert}
         />
         {showAllocationTable && (
           <BankingRuleDetailAllocationTable

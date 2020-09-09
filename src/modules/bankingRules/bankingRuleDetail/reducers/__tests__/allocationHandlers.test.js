@@ -197,27 +197,5 @@ describe('allocationHandlers', () => {
 
       expect(actual.a).toEqual('b');
     });
-
-    it('updates isPaymentReportable flag with selected contact default when contactId is changed', () => {
-      const isPaymentReportableState = {
-        isPaymentReportable: true,
-        contacts: [
-          {
-            id: '1',
-            isPaymentReportable: false,
-          },
-        ],
-      };
-      const action = {
-        intent: UPDATE_FORM,
-        key: 'contactId',
-        value: '1',
-      };
-
-      const result = bankingRuleDetailReducer(isPaymentReportableState, action);
-
-      expect(result.contactId).toEqual('1');
-      expect(result.isPaymentReportable).toEqual(false);
-    });
   });
 });

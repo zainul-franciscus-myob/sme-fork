@@ -1,14 +1,12 @@
 {
-  "title": "Spend Money Banking Rule",
-  "name": "Spend Money Banking Rule",
-  "ruleType": "SpendMoney",
+  "title": "Receive Money Banking Rule",
+  "name": "Receive Money Banking Rule",
+  "ruleType": "ReceiveMoney",
   "isInactiveRule": true,
   "applyToAllAccounts": "One bank account",
   "transactionDescription": "This is a description",
   "accountId": "123",
   "contactId": "2",
-  "customerId": "1",
-  "supplierId": "1",
   "allocationType": "Percent",
   "allocations": [
       {
@@ -48,7 +46,6 @@
       ]
     }
   ],
-  "isPaymentReportable": true,
   "bankAccounts": [
     {
       "id": "123",
@@ -79,51 +76,6 @@
       "accountType": "Asset",
       "taxCodeId": "2",
       "displayId": "2-123"
-    }
-  ],
-  "contacts": [
-    {
-      "contactType": "Customer",
-      "displayContactType": "Customer",
-      "displayName": "A-Z Stationery Supplies",
-      "id": "1",
-      "displayId": "CUS000001"
-    },
-    {
-      "contactType": "Supplier",
-      "displayContactType": "Supplier",
-      "displayName": "Cow Feed",
-      "id": "2",
-      "displayId": "CUS000003",
-      "isPaymentReportable": false
-    },
-    {
-      "contactType": "Supplier",
-      "displayContactType": "Supplier",
-      "displayName": "Chicken Feed",
-      "id": "3",
-      "displayId": "CUS000004",
-      "isPaymentReportable": true
-    }
-  ],
-  "suppliers": [
-    {
-      "displayName": "A-Z Stationery Supplies",
-      "id": "1"
-    },
-    {
-      "displayName": "Cow Feed",
-      "id": "2"
-    }
-  ],
-  "customers": [
-    {
-      "name": "A-Z Stationery Supplies",
-      "id": "1"
-    },
-    {
-      "name": "Cow Feed",
-      "id": "2"
     }
   ],
   "jobs": [

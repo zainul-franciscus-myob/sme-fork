@@ -2,12 +2,17 @@ import {
   CLOSE_MODAL,
   CREATE_BANKING_RULE,
   DELETE_BANKING_RULE,
+  DISPLAY_ALERT,
   LOAD_BANKING_RULE,
+  LOAD_CONTACT,
   LOAD_NEW_BANKING_RULE,
   OPEN_MODAL,
-  SET_ALERT_MESSAGE,
+  SET_CONTACT_TYPE,
   SET_IS_PAGE_EDITED,
+  SET_IS_PAYMENT_REPORTABLE,
   SET_LOADING_STATE,
+  START_LOAD_CONTACT,
+  STOP_LOAD_CONTACT,
   UPDATE_BANKING_RULE,
   UPDATE_FORM,
 } from '../BankingRuleDetailIntents';
@@ -16,14 +21,18 @@ import {
   SUCCESSFULLY_DELETED_BANKING_RULE,
   SUCCESSFULLY_SAVED_BANKING_RULE,
 } from '../../../../common/types/MessageTypes';
+import AlertType from '../../../../common/types/AlertType';
 import BankingRuleDetailModule from '../BankingRuleDetailModule';
+import ContactType from '../../../contact/contactCombobox/types/ContactType';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import ModalType from '../ModalType';
+import RuleTypes from '../RuleTypes';
 import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
 import bankingRuleDetailReducer from '../reducers';
 import createBankingRuleDetailDispatcher from '../createBankingRuleDetailDispatcher';
 import createBankingRuleDetailIntegrator from '../createBankingRuleDetailIntegrator';
+import loadBankingRuleDetail from '../mappings/data/loadBankingRuleDetail.json';
 
 describe('BankingRuleDetailModule', () => {
   const setup = () => {
@@ -87,6 +96,10 @@ describe('BankingRuleDetailModule', () => {
       describe(`when ${test.name}`, () => {
         it('loads successfully', () => {
           const { module, store, integration } = setup();
+          module.contactComboboxModule = {
+            resetState: jest.fn(),
+            run: jest.fn(),
+          };
 
           module.run({
             businessId: '🐛',
@@ -120,6 +133,9 @@ describe('BankingRuleDetailModule', () => {
               intent: test.intent,
             }),
           ]);
+
+          expect(module.contactComboboxModule.resetState).toHaveBeenCalled();
+          expect(module.contactComboboxModule.run).toHaveBeenCalled();
         });
 
         it('fails to load', () => {
@@ -155,6 +171,146 @@ describe('BankingRuleDetailModule', () => {
               intent: test.intent,
             }),
           ]);
+        });
+      });
+    });
+
+    describe('when existing spend money rule with contact', () => {
+      const setupWithExistingSpendMoneyRule = () => {
+        const toolbox = setup();
+        const { integration } = toolbox;
+        integration.overrideMapping(LOAD_BANKING_RULE, ({ onSuccess }) => {
+          onSuccess({
+            ...loadBankingRuleDetail,
+            contactId: '🍉',
+            ruleType: RuleTypes.spendMoney,
+          });
+        });
+
+        return toolbox;
+      };
+
+      it('successfully load contact type', () => {
+        const {
+          module,
+          store,
+          integration,
+        } = setupWithExistingSpendMoneyRule();
+
+        module.run({
+          businessId: '🐛',
+          region: 'au',
+          bankingRuleId: '🦕',
+        });
+
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            {
+              intent: START_LOAD_CONTACT,
+            },
+            expect.objectContaining({
+              intent: SET_CONTACT_TYPE,
+            }),
+            {
+              intent: STOP_LOAD_CONTACT,
+            },
+          ])
+        );
+        expect(integration.getRequests()).toContainEqual(
+          expect.objectContaining({
+            intent: LOAD_CONTACT,
+            urlParams: {
+              businessId: '🐛',
+              contactId: '🍉',
+            },
+          })
+        );
+      });
+
+      it('fails to load contact type', () => {
+        const {
+          module,
+          store,
+          integration,
+        } = setupWithExistingSpendMoneyRule();
+        integration.mapFailure(LOAD_CONTACT);
+
+        module.run({
+          businessId: '🐛',
+          region: 'au',
+          bankingRuleId: '🦕',
+        });
+
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            {
+              intent: START_LOAD_CONTACT,
+            },
+            expect.objectContaining({
+              intent: DISPLAY_ALERT,
+            }),
+            {
+              intent: STOP_LOAD_CONTACT,
+            },
+          ])
+        );
+        expect(integration.getRequests()).toContainEqual(
+          expect.objectContaining({
+            intent: LOAD_CONTACT,
+            urlParams: {
+              businessId: '🐛',
+              contactId: '🍉',
+            },
+          })
+        );
+      });
+    });
+
+    [
+      {
+        ruleType: RuleTypes.bill,
+        contactType: ContactType.SUPPLIER,
+      },
+      {
+        ruleType: RuleTypes.invoice,
+        contactType: ContactType.CUSTOMER,
+      },
+      {
+        ruleType: RuleTypes.spendMoney,
+        contactType: ContactType.ALL,
+      },
+      {
+        ruleType: RuleTypes.receiveMoney,
+        contactType: ContactType.ALL,
+      },
+    ].forEach(({ ruleType, contactType }) => {
+      describe(`when existing with ruleType of "${ruleType}"`, () => {
+        it(`loads the contact combobox module with contactType "${contactType}"`, () => {
+          const { module, integration } = setup();
+          integration.overrideMapping(LOAD_BANKING_RULE, ({ onSuccess }) => {
+            onSuccess({
+              ...loadBankingRuleDetail,
+              contactId: '🍉',
+              ruleType,
+            });
+          });
+          module.contactComboboxModule = {
+            resetState: jest.fn(),
+            run: jest.fn(),
+          };
+
+          module.run({
+            businessId: '🐛',
+            region: 'au',
+            bankingRuleId: '🦕',
+          });
+
+          expect(module.contactComboboxModule.resetState).toHaveBeenCalled();
+          expect(module.contactComboboxModule.run).toHaveBeenCalledWith(
+            expect.objectContaining({
+              contactType,
+            })
+          );
         });
       });
     });
@@ -252,8 +408,11 @@ describe('BankingRuleDetailModule', () => {
               loadingState: LoadingState.LOADING_SUCCESS,
             },
             {
-              intent: SET_ALERT_MESSAGE,
-              alertMessage: 'fails',
+              intent: DISPLAY_ALERT,
+              alert: {
+                type: AlertType.DANGER,
+                message: expect.any(String),
+              },
             },
           ]);
           expect(integration.getRequests()).toEqual([
@@ -337,13 +496,192 @@ describe('BankingRuleDetailModule', () => {
           loadingState: LoadingState.LOADING_SUCCESS,
         },
         {
-          intent: SET_ALERT_MESSAGE,
-          alertMessage: 'fails',
+          intent: DISPLAY_ALERT,
+          alert: {
+            type: AlertType.DANGER,
+            message: expect.any(String),
+          },
         },
       ]);
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: DELETE_BANKING_RULE,
+        }),
+      ]);
+    });
+  });
+
+  describe('updateForm', () => {
+    it('sets pages as edited and updates the field', () => {
+      const { module, integration, store } = setupWithNew();
+
+      module.updateForm({ key: 'name', value: '🤷‍♀️' });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_IS_PAGE_EDITED,
+        },
+        {
+          intent: UPDATE_FORM,
+          key: 'name',
+          value: '🤷‍♀️',
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([]);
+    });
+
+    describe('contactId', () => {
+      it('loads the contact and sets the contactType and isPaymentReportable', () => {
+        const { module, integration, store } = setupWithNew();
+
+        module.updateForm({ key: 'contactId', value: '🤷‍♀️' });
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_IS_PAGE_EDITED,
+          },
+          {
+            intent: UPDATE_FORM,
+            key: 'contactId',
+            value: '🤷‍♀️',
+          },
+          {
+            intent: START_LOAD_CONTACT,
+          },
+          expect.objectContaining({
+            intent: SET_CONTACT_TYPE,
+          }),
+          expect.objectContaining({
+            intent: SET_IS_PAYMENT_REPORTABLE,
+          }),
+          {
+            intent: STOP_LOAD_CONTACT,
+          },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_CONTACT,
+            urlParams: {
+              businessId: '🐛',
+              contactId: '🤷‍♀️',
+            },
+          }),
+        ]);
+      });
+    });
+
+    describe('ruleType', () => {
+      [
+        {
+          ruleType: RuleTypes.bill,
+          contactType: ContactType.SUPPLIER,
+        },
+        {
+          ruleType: RuleTypes.invoice,
+          contactType: ContactType.CUSTOMER,
+        },
+        {
+          ruleType: RuleTypes.spendMoney,
+          contactType: ContactType.ALL,
+        },
+        {
+          ruleType: RuleTypes.receiveMoney,
+          contactType: ContactType.ALL,
+        },
+      ].forEach(({ ruleType, contactType }) => {
+        describe(`when updating to "${ruleType}"`, () => {
+          it(`reloads the contact combobox module with contactType "${contactType}"`, () => {
+            const { module } = setupWithNew();
+            module.contactComboboxModule = {
+              resetState: jest.fn(),
+              run: jest.fn(),
+            };
+
+            module.updateForm({ key: 'ruleType', value: ruleType });
+
+            expect(module.contactComboboxModule.resetState).toHaveBeenCalled();
+            expect(module.contactComboboxModule.run).toHaveBeenCalledWith(
+              expect.objectContaining({
+                contactType,
+              })
+            );
+          });
+        });
+      });
+    });
+  });
+
+  describe('saveHandler', () => {
+    const setupWithOpenDeleteModal = () => {
+      const toolbox = setupWithNew();
+      const { module, store, integration } = toolbox;
+      module.contactComboboxModule = {
+        isContactModalOpened: () => false,
+      };
+      module.openDeleteModal();
+      store.resetActions();
+      integration.resetRequests();
+
+      return toolbox;
+    };
+
+    const setupWithOpenUnsavedModal = () => {
+      const toolbox = setupWithNew();
+      const { module, store, integration } = toolbox;
+      module.contactComboboxModule = {
+        isContactModalOpened: () => false,
+      };
+      module.updateForm({ key: 'name', value: '🤖' });
+      module.cancelBankingRule();
+      store.resetActions();
+      integration.resetRequests();
+
+      return toolbox;
+    };
+
+    it('creates contact when contact modal open', () => {
+      const { module } = setupWithNew();
+      module.contactComboboxModule = {
+        isContactModalOpened: () => true,
+        createContact: jest.fn(),
+      };
+
+      module.saveHandler();
+
+      expect(module.contactComboboxModule.createContact).toHaveBeenCalled();
+    });
+
+    it('does nothing when delete modal open', () => {
+      const { module, store, integration } = setupWithOpenDeleteModal();
+
+      module.saveHandler();
+
+      expect(store.getActions()).toEqual([]);
+      expect(integration.getRequests()).toEqual([]);
+    });
+
+    it('saves when unsaved modal open', () => {
+      const { module, integration } = setupWithOpenUnsavedModal();
+      module.pushMessage = () => {};
+
+      module.saveHandler();
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: CREATE_BANKING_RULE,
+        }),
+      ]);
+    });
+
+    it('saves', () => {
+      const { module, integration } = setupWithExisting();
+      module.pushMessage = () => {};
+
+      module.saveHandler();
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: UPDATE_BANKING_RULE,
         }),
       ]);
     });

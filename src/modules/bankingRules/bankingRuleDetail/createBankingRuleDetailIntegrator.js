@@ -2,6 +2,7 @@ import {
   CREATE_BANKING_RULE,
   DELETE_BANKING_RULE,
   LOAD_BANKING_RULE,
+  LOAD_CONTACT,
   LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_BANKING_RULE,
   UPDATE_BANKING_RULE,
@@ -10,6 +11,7 @@ import {
   getBankingRuleParams,
   getBusinessId,
   getIsCreating,
+  getLoadContactUrlParams,
   getNewBankingRuleParams,
   getSaveBankingRuleContent,
 } from './bankingRuleDetailSelectors';
@@ -75,6 +77,17 @@ const createBankingRuleDetailIntegrator = (store, integration) => ({
     integration.read({
       intent,
       urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadContact: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    integration.read({
+      intent: LOAD_CONTACT,
+      urlParams: getLoadContactUrlParams(state),
       onSuccess,
       onFailure,
     });

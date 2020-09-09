@@ -7,17 +7,25 @@ import {
 } from '../../../common/types/MessageTypes';
 import {
   getBankingRuleListUrl,
+  getBankingRuleType,
+  getContactComboboxContext,
+  getCustomerComboboxContext,
   getIsPagedEdited,
   getJobModalContext,
   getLoadingState,
   getModalUrl,
   getOpenedModalType,
   getSaveUrl,
+  getShouldLoadContact,
+  getSupplierComboboxContext,
 } from './bankingRuleDetailSelectors';
+import AlertType from '../../../common/types/AlertType';
 import BankingRuleDetailView from './components/BankingRuleDetailView';
+import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
 import JobModalModule from '../../job/jobModal/JobModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
+import RuleTypes from './RuleTypes';
 import Store from '../../../store/Store';
 import bankingRuleDetailReducer from './reducers';
 import createBankingRuleDetailDispatcher from './createBankingRuleDetailDispatcher';
@@ -37,13 +45,21 @@ export default class BankingRuleDetailModule {
       this.integration
     );
     this.jobModalModule = new JobModalModule({ integration });
+    this.contactComboboxModule = new ContactComboboxModule({ integration });
   }
 
   render = () => {
     const jobModal = this.jobModalModule.render();
 
+    const renderContactCombobox = (props) => {
+      return this.contactComboboxModule
+        ? this.contactComboboxModule.render(props)
+        : null;
+    };
+
     const bankingRuleDetailView = (
       <BankingRuleDetailView
+        renderContactCombobox={renderContactCombobox}
         onRuleDetailsChange={this.updateForm}
         onRuleConditionsChange={this.updateForm}
         onConditionChange={this.updateRuleCondition}
@@ -63,6 +79,7 @@ export default class BankingRuleDetailModule {
         onConfirmDeleteButtonClick={this.deleteBankingRule}
         onConfirmCancelButtonClick={this.redirectToModalUrl}
         onConfirmSave={this.saveBankingRule}
+        onAlert={this.dispatcher.displayAlert}
         onDismissAlert={this.dispatcher.dismissAlert}
       />
     );
@@ -79,6 +96,12 @@ export default class BankingRuleDetailModule {
     const onSuccess = (intent) => (bankingRule) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadBankingRule(intent, bankingRule);
+      if (getShouldLoadContact(this.store.getState())) {
+        this.loadContact(({ contactType }) => {
+          this.dispatcher.setContactType(contactType);
+        });
+      }
+      this.loadContactCombobox();
     };
 
     const onFailure = () => {
@@ -86,6 +109,25 @@ export default class BankingRuleDetailModule {
     };
 
     this.integrator.loadBankingRule(onSuccess, onFailure);
+  };
+
+  loadContactCombobox = () => {
+    const state = this.store.getState();
+    const ruleType = getBankingRuleType(state);
+    this.contactComboboxModule.resetState();
+    switch (ruleType) {
+      case RuleTypes.bill:
+        this.contactComboboxModule.run(getSupplierComboboxContext(state));
+        break;
+      case RuleTypes.invoice:
+        this.contactComboboxModule.run(getCustomerComboboxContext(state));
+        break;
+      case RuleTypes.spendMoney:
+      case RuleTypes.receiveMoney:
+      default:
+        this.contactComboboxModule.run(getContactComboboxContext(state));
+        break;
+    }
   };
 
   saveBankingRule = () => {
@@ -109,7 +151,10 @@ export default class BankingRuleDetailModule {
 
     const onFailure = ({ message }) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.dispatcher.displayAlert(message);
+      this.dispatcher.displayAlert({
+        type: AlertType.DANGER,
+        message,
+      });
     };
 
     this.integrator.saveBankingRule(onSuccess, onFailure);
@@ -131,7 +176,10 @@ export default class BankingRuleDetailModule {
 
     const onFailure = ({ message }) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.dispatcher.displayAlert(message);
+      this.dispatcher.displayAlert({
+        type: AlertType.DANGER,
+        message,
+      });
     };
 
     this.integrator.deleteBankingRule(onSuccess, onFailure);
@@ -202,6 +250,34 @@ export default class BankingRuleDetailModule {
   updateForm = ({ key, value }) => {
     this.dispatcher.setIsPageEdited();
     this.dispatcher.updateForm(key, value);
+
+    if (key === 'ruleType') {
+      this.loadContactCombobox();
+    }
+
+    if (key === 'contactId') {
+      this.loadContact(({ contactType, isPaymentReportable }) => {
+        this.dispatcher.setContactType(contactType);
+        this.dispatcher.setIsPaymentReportable(isPaymentReportable);
+      });
+    }
+  };
+
+  loadContact = (onSuccess) => {
+    const onSuccessInner = (contact) => {
+      onSuccess(contact);
+      this.dispatcher.stopLoadContact();
+    };
+    const onFailure = ({ message }) => {
+      this.dispatcher.displayAlert({
+        type: AlertType.DANGER,
+        message,
+      });
+      this.dispatcher.stopLoadContact();
+    };
+
+    this.dispatcher.startLoadContact();
+    this.integrator.loadContact({ onSuccess: onSuccessInner, onFailure });
   };
 
   openDeleteModal = () => {
@@ -232,7 +308,11 @@ export default class BankingRuleDetailModule {
 
     this.jobModalModule.run({
       context,
-      onLoadFailure: (message) => this.dispatcher.displayAlert(message),
+      onLoadFailure: (message) =>
+        this.dispatcher.displayAlert({
+          type: AlertType.DANGER,
+          message,
+        }),
       onSaveSuccess: (payload) => this.loadJobAfterCreate(payload, onChange),
     });
   };
@@ -251,7 +331,10 @@ export default class BankingRuleDetailModule {
 
     const onFailure = ({ message }) => {
       this.dispatcher.setJobLoadingState(false);
-      this.dispatcher.displayAlert(message);
+      this.dispatcher.displayAlert({
+        type: AlertType.DANGER,
+        message,
+      });
     };
 
     this.integrator.loadJobAfterCreate({ id, onSuccess, onFailure });
@@ -264,6 +347,12 @@ export default class BankingRuleDetailModule {
   saveHandler = () => {
     const state = this.store.getState();
     const modalType = getOpenedModalType(state);
+
+    if (this.contactComboboxModule.isContactModalOpened()) {
+      this.contactComboboxModule.createContact();
+      return;
+    }
+
     switch (modalType) {
       case ModalType.DELETE:
         // DO NOTHING
@@ -290,6 +379,7 @@ export default class BankingRuleDetailModule {
 
   resetState = () => {
     this.dispatcher.resetState();
+    this.contactComboboxModule.resetState();
   };
 
   handlePageTransition = (url) => {

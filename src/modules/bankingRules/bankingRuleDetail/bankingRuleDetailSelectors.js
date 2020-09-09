@@ -1,6 +1,8 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 import { allocationTypeOptions } from './AllocationTypes';
+import ContactType from '../../contact/contactCombobox/types/ContactType';
+import DisplayMode from '../../contact/contactCombobox/types/DisplayMode';
 import ModalType from './ModalType';
 import RuleTypes from './RuleTypes';
 import formatNumberWithDecimalScaleRange from '../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
@@ -25,9 +27,9 @@ export const getLoadingState = (state) => state.loadingState;
 export const getModal = (state) => state.modal;
 export const getModalUrl = (state) => (state.modal || {}).url;
 export const getIsPagedEdited = (state) => state.isPageEdited;
-export const getAlertMessage = (state) => state.alertMessage;
-export const getIsAlertShown = createSelector(getAlertMessage, (message) =>
-  Boolean(message)
+export const getAlert = (state) => state.alert;
+export const getIsAlertShown = createSelector(getAlert, (alert) =>
+  Boolean(alert)
 );
 
 export const getIsInactiveRule = (state) => state.isInactiveRule;
@@ -37,11 +39,6 @@ export const getAllocationAccounts = (state) => state.allocationAccounts;
 export const getBankAccounts = (state) => state.bankAccounts;
 export const getTaxCodes = (state) => state.taxCodes;
 export const getContactId = (state) => state.contactId;
-export const getContacts = (state) => state.contacts;
-export const getSupplierId = (state) => state.supplierId;
-export const getSuppliers = (state) => state.suppliers;
-export const getCustomerId = (state) => state.customerId;
-export const getCustomers = (state) => state.customers;
 export const getTransactionDescription = (state) =>
   state.transactionDescription;
 export const getAllocationType = (state) => state.allocationType;
@@ -166,15 +163,8 @@ export const getIsInputField = (state, { index }) => {
 };
 
 export const getIsPaymentReportable = (state) => state.isPaymentReportable;
-const getSelectedContact = createSelector(
-  getContacts,
-  getContactId,
-  (contacts, contactId) => contacts.find(({ id }) => id === contactId) || {}
-);
-export const getIsPaymentReportableCheckboxDisabled = createSelector(
-  getSelectedContact,
-  (contact) => contact.contactType !== 'Supplier'
-);
+export const getIsPaymentReportableCheckboxDisabled = (state) =>
+  state.contactType !== ContactType.SUPPLIER || state.isContactLoading;
 export const getSaveBankingRuleContent = createStructuredSelector({
   name: getName,
   isInactiveRule: getIsInactiveRule,
@@ -183,8 +173,6 @@ export const getSaveBankingRuleContent = createStructuredSelector({
   transactionDescription: getTransactionDescription,
   accountId: getAccountId,
   contactId: getContactId,
-  supplierId: getSupplierId,
-  customerId: getCustomerId,
   allocationType: getAllocationType,
   allocations: getAllocations,
   conditions: getConditions,
@@ -228,3 +216,46 @@ export const getJobModalContext = (state) => {
 
   return { businessId, region };
 };
+
+const buildGetContactComboboxContext = (contactType) => (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+  const contactId = getContactId(state);
+
+  return {
+    businessId,
+    region,
+    contactId,
+    contactType,
+    displayMode: DisplayMode.NAME_AND_TYPE,
+  };
+};
+
+export const getCustomerComboboxContext = buildGetContactComboboxContext(
+  ContactType.CUSTOMER
+);
+
+export const getSupplierComboboxContext = buildGetContactComboboxContext(
+  ContactType.SUPPLIER
+);
+
+export const getContactComboboxContext = buildGetContactComboboxContext(
+  ContactType.ALL
+);
+
+export const getLoadContactUrlParams = createSelector(
+  getBusinessId,
+  getContactId,
+  (businessId, contactId) => ({
+    businessId,
+    contactId,
+  })
+);
+
+export const getShouldLoadContact = createSelector(
+  getBankingRuleType,
+  getContactId,
+  (bankingRuleType, contactId) => {
+    return bankingRuleType === RuleTypes.spendMoney && Boolean(contactId);
+  }
+);

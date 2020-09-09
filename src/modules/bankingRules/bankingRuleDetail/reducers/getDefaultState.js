@@ -12,17 +12,12 @@ const getDefaultState = () => ({
   applyToAllAccounts: '',
   transactionDescription: '',
   accountId: '',
-  contactId: '', // spend money & receive money
-  supplierId: '', // bill
-  customerId: '', // invoice
+  contactId: '',
   allocationType: '',
   allocations: [],
   conditions: [],
   allocationAccounts: [],
   bankAccounts: [],
-  contacts: [], // spend money & receive money
-  suppliers: [], // bill
-  customers: [], // invoice
   taxCodes: [],
   newAllocationLine: {
     accountId: '',
@@ -33,9 +28,11 @@ const getDefaultState = () => ({
   },
   loadingState: LoadingState.LOADING,
   isPageEdited: false,
-  alertMessage: '',
+  alert: undefined,
   modal: undefined,
   isPaymentReportable: undefined,
+  contactType: undefined,
+  isContactLoading: false,
 });
 
 export default getDefaultState;
