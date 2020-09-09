@@ -15,7 +15,7 @@ export const STOP_LOADING = Symbol('Stop loading');
 export const OPEN = Symbol('Open');
 export const CLOSE = Symbol('Close');
 export const START_LOADING_CONTACT = Symbol('Start loading contact');
-export const STOP_LOADING_CONTACT = Symbol('Start loading contact');
+export const STOP_LOADING_CONTACT = Symbol('Stop loading contact');
 
 export const LOAD_CONTACT = Symbol('Load contact');
 export const CREATE_BANKING_RULE_BILL = Symbol('Create banking rule bill');
