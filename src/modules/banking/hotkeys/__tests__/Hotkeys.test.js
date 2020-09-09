@@ -2,8 +2,8 @@ import { mount } from 'enzyme';
 import React from 'react';
 import hotkeys from 'hotkeys-js';
 
-import { A, COMMAND, ENTER, SHIFT } from '../HotkeyEnums.js';
 import { ALL_EDITABLE_CONTENT_SCOPE } from '../../../../hotKeys/hotkeysFilter.js';
+import { COMMAND, ENTER, SHIFT } from '../HotkeyEnums.js';
 import HotkeyLocations from '../HotkeyLocations.js';
 import Hotkeys from '../Hotkeys';
 
@@ -31,6 +31,7 @@ describe('Hotkeys', () => {
         action: mockGlobalHandler,
       },
     ],
+    [HotkeyLocations.SPLIT_ALLOCATION_CALCULATOR]: [],
   };
 
   beforeEach(() => {
@@ -54,6 +55,7 @@ describe('Hotkeys', () => {
     mount(<Hotkeys hotkeyHandlers={hotkeyHandlers} />);
 
     expect(mockComboboxHandler).toHaveBeenCalled();
+    expect(mockGlobalHandler).not.toHaveBeenCalled();
   });
 
   it('given a single hotkey should trigger the correct handler', () => {
@@ -110,13 +112,13 @@ describe('Hotkeys', () => {
   });
 
   it('given an unimplemented hotkey should not trigger any handler', () => {
-    const hotkey = { key: `${COMMAND}${splitKey}${A}` };
+    const hotkey = { key: `${COMMAND}${splitKey}${ENTER}` };
     hotkeys.mockImplementation((listOfHotkeys, options, callback) => {
       callback(
         {
           preventDefault: () => {},
           hotkeyDetails: {
-            location: HotkeyLocations.UNMATCHED_ACCOUNT_COMBOBOX,
+            location: HotkeyLocations.SPLIT_ALLOCATION_CALCULATOR,
           },
         },
         hotkey

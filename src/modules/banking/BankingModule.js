@@ -7,7 +7,9 @@ import {
   CTRL,
   ENTER,
   EQUALS,
+  F8,
   FORWARD_SLASH,
+  G,
   M,
   OPTION,
   SHIFT,
@@ -23,6 +25,7 @@ import {
   getBankingRuleModuleContext,
   getBusinessId,
   getFilterOptions,
+  getIndexOfNextUnmatchedLine,
   getIsAllocated,
   getIsEntryLoading,
   getIsOpenEntryEdited,
@@ -1359,6 +1362,26 @@ export default class BankingModule {
     }
   };
 
+  setFocusToFirstUnmatchedLine = () => {
+    const index = getIndexOfNextUnmatchedLine(this.store.getState(), 0);
+    if (index >= 0) {
+      this.setFocusToTransactionLine(index);
+    }
+  };
+
+  setFocusToUnmatchedLine = ({ index }) => {
+    const indexToFocus = getIndexOfNextUnmatchedLine(
+      this.store.getState(),
+      index
+    );
+
+    if (indexToFocus >= 0) {
+      this.setFocusToTransactionLine(indexToFocus);
+    } else {
+      this.setFocusToFirstUnmatchedLine();
+    }
+  };
+
   setFocusTo = (index, location) =>
     this.dispatcher.setFocus({
       index,
@@ -1418,6 +1441,14 @@ export default class BankingModule {
           key: [CTRL, ENTER],
           action: this.saveTransactionLine,
         },
+        {
+          key: F8,
+          action: this.setFocusToFirstUnmatchedLine,
+        },
+        {
+          key: [OPTION, G],
+          action: this.setFocusToFirstUnmatchedLine,
+        },
       ],
       [HotkeyLocations.SPLIT_ALLOCATION_CALCULATOR]: [
         {
@@ -1432,7 +1463,27 @@ export default class BankingModule {
         },
         ...hotkeysToExpandAccordionView,
       ],
-      [HotkeyLocations.POSSIBLE_MATCHED_BUTTON]: hotkeysToExpandAccordionView,
+      [HotkeyLocations.POSSIBLE_MATCHED_BUTTON]: [
+        {
+          key: F8,
+          action: this.setFocusToUnmatchedLine,
+        },
+        {
+          key: [OPTION, G],
+          action: this.setFocusToUnmatchedLine,
+        },
+        ...hotkeysToExpandAccordionView,
+      ],
+      [HotkeyLocations.APPROVED_TRANSACTION_BUTTON]: [
+        {
+          key: F8,
+          action: this.setFocusToUnmatchedLine,
+        },
+        {
+          key: [OPTION, G],
+          action: this.setFocusToUnmatchedLine,
+        },
+      ],
     };
   };
 

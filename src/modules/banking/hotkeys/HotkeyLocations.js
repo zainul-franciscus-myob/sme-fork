@@ -5,6 +5,7 @@ const HotkeyLocations = {
   SPLIT_ALLOCATION_CALCULATOR: 'Split allocation calculator',
   POSSIBLE_MATCHED_BUTTON: 'Possible match button',
   UNMATCHED_ACCOUNT_COMBOBOX: 'Unmatched account combobox',
+  APPROVED_TRANSACTION_BUTTON: 'Approved transaction button',
 };
 
 export default HotkeyLocations;

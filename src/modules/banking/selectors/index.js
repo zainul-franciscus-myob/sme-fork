@@ -529,6 +529,14 @@ export const getLocationOfTransactionLine = (state, index) => {
   return FocusLocations.MATCHED_OR_ALLOCATED_ELEMENT;
 };
 
+export const getIndexOfNextUnmatchedLine = (state, startIndex = 0) => {
+  const entries = getEntries(state);
+  return entries.findIndex(
+    (entry, index) =>
+      index >= startIndex && entry.type === StatusTypes.unmatched
+  );
+};
+
 export const getURLParams = createSelector(
   getFilterOptions,
   ({ transactionType, dateFrom, dateTo, bankAccount, keywords }) => {

@@ -6,7 +6,9 @@ import {
   CTRL,
   ENTER,
   EQUALS,
+  F8,
   FORWARD_SLASH,
+  G,
   M,
   OPTION,
   SHIFT,
@@ -71,6 +73,7 @@ import TabItems from '../types/TabItems';
 import TestIntegration from '../../../integration/TestIntegration';
 import TestStore from '../../../store/TestStore';
 import TransactionTypes from '../types/TransactionTypes';
+import bankTransactions from '../mappings/data/loadBankTransactions';
 import bankingReducer from '../reducers';
 import createBankingDispatcher from '../BankingDispatcher';
 import createBankingIntegrator from '../BankingIntegrator';
@@ -133,6 +136,21 @@ describe('BankingModule', () => {
     });
 
     return { ...toolbox, index };
+  };
+
+  const setUpWithBankTransactionEntries = (entries) => {
+    const toolbox = setUp();
+    const { module, store, integration } = toolbox;
+
+    integration.mapSuccess(LOAD_BANK_TRANSACTIONS, {
+      ...bankTransactions,
+      entries,
+    });
+
+    module.run({});
+    store.resetActions();
+
+    return toolbox;
   };
 
   const setUpWithOpenTransactionOnAllocateTab = () => {
@@ -2169,6 +2187,39 @@ describe('BankingModule', () => {
           ]);
         }
       );
+
+      it.each([[F8], [[OPTION, G]]])(
+        `%s should set focus on the first ${BankTransactionStatusTypes.unmatched} transaction line`,
+        (hotkey) => {
+          // Setup
+          const entries = [
+            {
+              type: BankTransactionStatusTypes.matched,
+            },
+            {
+              type: BankTransactionStatusTypes.unmatched,
+            },
+            {
+              type: BankTransactionStatusTypes.unmatched,
+            },
+          ];
+          const { module, store } = setUpWithBankTransactionEntries(entries);
+
+          // Action
+          const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+          hotkeyHandler.action();
+
+          // Assertion
+          expect(store.getActions()).toEqual([
+            {
+              intent: SET_FOCUS,
+              index: 1,
+              location: FocusLocations.MATCHED_OR_ALLOCATED_ELEMENT,
+              isFocused: true,
+            },
+          ]);
+        }
+      );
     });
 
     describe(`${HotkeyLocations.POSSIBLE_MATCHED_BUTTON}`, () => {
@@ -2324,6 +2375,126 @@ describe('BankingModule', () => {
           }),
         ]);
       });
+    });
+
+    describe.each([
+      HotkeyLocations.APPROVED_TRANSACTION_BUTTON,
+      HotkeyLocations.POSSIBLE_MATCHED_BUTTON,
+    ])('%s', (location) => {
+      it.each([[F8], [[OPTION, G]]])(
+        `%s should set focus on next ${BankTransactionStatusTypes.unmatched} transaction below current line`,
+        (hotkey) => {
+          // Setup
+          const entries = [
+            {
+              type: BankTransactionStatusTypes.unmatched,
+            },
+            {
+              type: BankTransactionStatusTypes.matched,
+            },
+            {
+              type: BankTransactionStatusTypes.unmatched,
+            },
+          ];
+          const { module, store } = setUpWithBankTransactionEntries(entries);
+
+          // Action
+          const event = { index: 1 };
+          const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+          hotkeyHandler.action(event);
+
+          // Assertion
+          expect(store.getActions()).toEqual([
+            {
+              intent: SET_FOCUS,
+              index: 2,
+              location: FocusLocations.MATCHED_OR_ALLOCATED_ELEMENT,
+              isFocused: true,
+            },
+          ]);
+        }
+      );
+
+      it.each([[F8], [[OPTION, G]]])(
+        `%s should set focus on first ${BankTransactionStatusTypes.unmatched} transaction if there are none below current line`,
+        (hotkey) => {
+          // Setup
+          const entries = [
+            {
+              type: BankTransactionStatusTypes.unmatched,
+            },
+            {
+              type: BankTransactionStatusTypes.matched,
+            },
+            {
+              type: BankTransactionStatusTypes.matched,
+            },
+          ];
+          const { module, store } = setUpWithBankTransactionEntries(entries);
+
+          // Action
+          const event = { index: 1 };
+          const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+          hotkeyHandler.action(event);
+
+          // Assertion
+          expect(store.getActions()).toEqual([
+            {
+              intent: SET_FOCUS,
+              index: 0,
+              location: FocusLocations.MATCHED_OR_ALLOCATED_ELEMENT,
+              isFocused: true,
+            },
+          ]);
+        }
+      );
+    });
+
+    describe.each([
+      HotkeyLocations.APPROVED_TRANSACTION_BUTTON,
+      HotkeyLocations.POSSIBLE_MATCHED_BUTTON,
+      HotkeyLocations.GLOBAL,
+    ])('%s', (location) => {
+      const index = {
+        [HotkeyLocations.APPROVED_TRANSACTION_BUTTON]: 1,
+        [HotkeyLocations.POSSIBLE_MATCHED_BUTTON]: 1,
+        [HotkeyLocations.GLOBAL]: undefined,
+      };
+      it.each([[F8], [[OPTION, G]]])(
+        `%s should do nothing if there are no ${BankTransactionStatusTypes.unmatched} transaction lines`,
+        (hotkey) => {
+          // Setup
+          const entries = [
+            {
+              type: BankTransactionStatusTypes.splitMatched,
+            },
+            {
+              type: BankTransactionStatusTypes.splitAllocation,
+            },
+            {
+              type: BankTransactionStatusTypes.singleAllocation,
+            },
+            {
+              type: BankTransactionStatusTypes.transfer,
+            },
+            {
+              type: BankTransactionStatusTypes.matched,
+            },
+            {
+              type: BankTransactionStatusTypes.paymentRuleMatched,
+            },
+          ];
+          const { module, store } = setUpWithBankTransactionEntries(entries);
+
+          // Action
+          const event = { index };
+          const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+          hotkeyHandler.action(event);
+
+          // Assertion
+          expect(store.getActions()).toEqual([]);
+        }
+      );
     });
   });
 

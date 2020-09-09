@@ -3,6 +3,7 @@ import {
   getBankingRuleModuleContext,
   getFilterBankTransactionsParams,
   getFilterBankTransactionsUrlParams,
+  getIndexOfNextUnmatchedLine,
   getIsFocused,
   getIsTabDisabled,
   getLoadBankTransactionsNextPageParams,
@@ -390,6 +391,81 @@ describe('Bank transactions index selectors', () => {
         expect(actual).toEqual(false);
       }
     );
+  });
+
+  describe('getIndexOfNextUnmatchedLine', () => {
+    it(`given ${BankTransactionStatusTypes.unmatched} transactions after start index should return index of the first`, () => {
+      const state = {
+        entries: [
+          { type: BankTransactionStatusTypes.splitMatched },
+          {
+            type: BankTransactionStatusTypes.splitAllocation,
+          },
+          {
+            type: BankTransactionStatusTypes.unmatched,
+          },
+          {
+            type: BankTransactionStatusTypes.singleAllocation,
+          },
+          {
+            type: BankTransactionStatusTypes.unmatched,
+          },
+        ],
+      };
+
+      const actual = getIndexOfNextUnmatchedLine(state, 1);
+
+      expect(actual).toEqual(2);
+    });
+
+    it(`given no ${BankTransactionStatusTypes.unmatched} transactions after start index should return -1`, () => {
+      const state = {
+        entries: [
+          {
+            type: BankTransactionStatusTypes.unmatched,
+          },
+          {
+            type: BankTransactionStatusTypes.splitMatched,
+          },
+          {
+            type: BankTransactionStatusTypes.splitAllocation,
+          },
+          {
+            type: BankTransactionStatusTypes.singleAllocation,
+          },
+          {
+            type: BankTransactionStatusTypes.transfer,
+          },
+          {
+            type: BankTransactionStatusTypes.matched,
+          },
+          {
+            type: BankTransactionStatusTypes.paymentRuleMatched,
+          },
+        ],
+      };
+
+      const actual = getIndexOfNextUnmatchedLine(state, 1);
+
+      expect(actual).toEqual(-1);
+    });
+
+    it(`given no start index should should return index of the first ${BankTransactionStatusTypes.unmatched} transaction`, () => {
+      const state = {
+        entries: [
+          {
+            type: BankTransactionStatusTypes.matched,
+          },
+          {
+            type: BankTransactionStatusTypes.unmatched,
+          },
+        ],
+      };
+
+      const actual = getIndexOfNextUnmatchedLine(state);
+
+      expect(actual).toEqual(1);
+    });
   });
 
   describe('getBankingRuleModuleContext', () => {

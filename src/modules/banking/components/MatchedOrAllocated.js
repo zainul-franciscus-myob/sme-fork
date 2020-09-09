@@ -33,16 +33,6 @@ export default ({
     return <ExpandedRowItem entry={entry} />;
   }
 
-  if (type === StatusTypes.splitMatched) {
-    return (
-      <MatchedRowItem
-        entry={entry}
-        onClick={() => onMatchRowItemClick(index)}
-        isFocused={isFocused}
-      />
-    );
-  }
-
   if ([StatusTypes.matched, StatusTypes.paymentRuleMatched].includes(type)) {
     return (
       <HotkeyWrapper
@@ -58,28 +48,53 @@ export default ({
     );
   }
 
+  if (type === StatusTypes.splitMatched) {
+    return (
+      <HotkeyWrapper
+        index={index}
+        location={HotkeyLocations.APPROVED_TRANSACTION_BUTTON}
+      >
+        <MatchedRowItem
+          entry={entry}
+          onClick={() => onMatchRowItemClick(index)}
+          isFocused={isFocused}
+        />
+      </HotkeyWrapper>
+    );
+  }
+
   if ([StatusTypes.splitAllocation, StatusTypes.transfer].includes(type)) {
     return (
-      <SplitRowItem
+      <HotkeyWrapper
         index={index}
-        entry={entry}
-        onClick={() => onSplitRowItemClick(index)}
-        isFocused={isFocused}
-      />
+        location={HotkeyLocations.APPROVED_TRANSACTION_BUTTON}
+      >
+        <SplitRowItem
+          index={index}
+          entry={entry}
+          onClick={() => onSplitRowItemClick(index)}
+          isFocused={isFocused}
+        />
+      </HotkeyWrapper>
     );
   }
 
   if (type === StatusTypes.singleAllocation) {
     return (
-      <AllocatedRowItem
-        entry={entry}
-        isHovering={isHovering}
-        isFocused={isFocused}
-        onAddAccount={onAddAccount}
-        onAllocate={(item) => onAllocate(index, item)}
-        onFocusTransactionLine={() => onFocusTransactionLine(index)}
-        onBlur={() => onBlur(index)}
-      />
+      <HotkeyWrapper
+        index={index}
+        location={HotkeyLocations.APPROVED_TRANSACTION_BUTTON}
+      >
+        <AllocatedRowItem
+          entry={entry}
+          isHovering={isHovering}
+          isFocused={isFocused}
+          onAddAccount={onAddAccount}
+          onAllocate={(item) => onAllocate(index, item)}
+          onFocusTransactionLine={() => onFocusTransactionLine(index)}
+          onBlur={() => onBlur(index)}
+        />
+      </HotkeyWrapper>
     );
   }
 

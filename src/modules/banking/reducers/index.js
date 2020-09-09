@@ -362,14 +362,10 @@ export const setModalAlert = (state, action) => ({
 });
 
 export const setFocus = (state, { index, location, isFocused }) => {
-  const availableLocations = Object.values(FocusLocations);
+  const settingFocus = isFocused;
+  const locationIsAvailable = Object.values(FocusLocations).includes(location);
 
-  // Ignore the action if it's to remove the focus from an element that's not currently in focus
-  const shouldIgnoreAction = !isFocused && state.focus.index !== index;
-
-  if (shouldIgnoreAction) return state;
-
-  if (availableLocations.includes(location)) {
+  if (settingFocus && locationIsAvailable) {
     return {
       ...state,
       focus: {
@@ -381,7 +377,12 @@ export const setFocus = (state, { index, location, isFocused }) => {
     };
   }
 
-  // Reset the focus state if we received an undefined location
+  // Ignore the action if it's to remove the focus from an element that's not currently in focus
+  const elementIsNotInFocus = state.focus.index !== index;
+  if (!settingFocus && elementIsNotInFocus) {
+    return state;
+  }
+
   return {
     ...state,
     focus: getDefaultState().focus,
