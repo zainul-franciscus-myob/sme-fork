@@ -173,13 +173,13 @@ describe('AccountListModule', () => {
       module.loadAccountList();
 
       const accountId = store.getState().entries[2].id;
-      module.accountDetailsChange({
+      module.changeAccountDetails({
         index: 2,
         key: 'openingBalance',
         value: 1111,
       });
 
-      module.saveEditAccountsClicked();
+      module.clickBulkUpdateSave();
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
@@ -200,6 +200,27 @@ describe('AccountListModule', () => {
           intent: SORT_AND_FILTER_ACCOUNT_LIST,
         }),
       ]);
+    });
+
+    it('redirects to another url', () => {
+      const { module } = setupWithRun();
+
+      module.navigateTo = jest.fn(() => undefined);
+
+      const url = 'test';
+      module.clickBulkUpdateModalDiscard(url);
+
+      expect(module.navigateTo.mock.calls[0][0]).toBe(url);
+    });
+
+    it('loads the account list when no redirect url given', () => {
+      const { module } = setupWithRun();
+
+      module.loadAccountList = jest.fn(() => undefined);
+
+      module.clickBulkUpdateModalDiscard();
+
+      expect(module.loadAccountList.mock.calls.length).toBe(1);
     });
   });
 

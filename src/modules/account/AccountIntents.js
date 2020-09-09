@@ -39,6 +39,7 @@ export const CREATE_ACCOUNT_MODAL = Symbol('Create account via modal');
 export const LOAD_NEW_ACCOUNT_MODAL = Symbol(
   'Load data for quick add account modal'
 );
+export const SET_MODAL_TYPE = Symbol('Set modal type');
 
 export const SELECT_ACCOUNT = Symbol('Select account');
 export const SELECT_ALL_ACCOUNTS = Symbol('Select all accounts');
@@ -48,4 +49,5 @@ export const UPDATE_ACCOUNTS = Symbol('Update accounts');
 
 export const SET_EDIT_MODE = Symbol('Set edit mode');
 export const SET_ACCOUNT_DETAILS = Symbol('Set account details');
-export const SET_SAVE_BTN_ENABLED = Symbol('Set save button enabled');
+
+export const SET_REDIRECT_URL = Symbol('Set redirect url');

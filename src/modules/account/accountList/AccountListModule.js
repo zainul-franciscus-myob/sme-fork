@@ -7,6 +7,7 @@ import {
   SUCCESSFULLY_SAVED_ACCOUNT,
 } from '../../../common/types/MessageTypes';
 import {
+  getDirtyEntries,
   getFilterOptions,
   getImportChartOfAccountsUrl,
   getLinkedAccountUrl,
@@ -14,6 +15,7 @@ import {
   getRawEntries,
 } from './AccountListSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
+import AccountListModalType from './components/AccountListModalType';
 import AccountListRootView from './components/AccountListRootView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import RouteName from '../../../router/RouteName';
@@ -25,7 +27,7 @@ import debounce from '../../../common/debounce/debounce';
 
 const messageTypes = [SUCCESSFULLY_DELETED_ACCOUNT, SUCCESSFULLY_SAVED_ACCOUNT];
 export default class AccountListModule {
-  constructor({ integration, setRootView, popMessages }) {
+  constructor({ integration, setRootView, popMessages, navigateTo }) {
     this.integration = integration;
     this.store = new Store(accountListReducer);
     this.setRootView = setRootView;
@@ -33,6 +35,7 @@ export default class AccountListModule {
     this.messageTypes = messageTypes;
     this.dispatcher = createAccountListDispatcher(this.store);
     this.integrator = createAccountListIntegrator(this.store, integration);
+    this.navigateTo = navigateTo;
   }
 
   loadAccountList = (onBulkActionCompleted) => {
@@ -126,7 +129,7 @@ export default class AccountListModule {
 
   deleteAccounts = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
-    this.dispatcher.closeModal();
+    this.dispatcher.setModalType('');
     this.dispatcher.dismissAllAlerts();
 
     const accountsBeforeDelete = getRawEntries(this.store.getState());
@@ -176,22 +179,26 @@ export default class AccountListModule {
     this.filterAccountList();
   };
 
-  editAccountsClick = () => {
+  clickEditAccounts = () => {
     this.dispatcher.setEditMode(true);
     this.fetchAllAccounts();
   };
 
-  cancelEditAccountsClick = () => {
-    this.dispatcher.setEditMode(false);
-    this.dispatcher.setSaveBtnEnabled(false);
-    this.loadAccountList();
+  clickBulkUpdateCancel = () => {
+    if (getDirtyEntries(this.store.getState()).length > 0) {
+      this.dispatcher.setModalType(AccountListModalType.CANCEL);
+    } else {
+      this.clickBulkUpdateModalDiscard();
+    }
   };
 
-  saveEditAccountsClicked = () => {
-    this.dispatcher.setSaveBtnEnabled(false);
+  clickBulkUpdateSave = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+    this.dispatcher.setModalType('');
+    this.dispatcher.setEditMode(false);
+    this.dispatcher.setRedirectUrl('');
     const onSuccess = ({ numAccountsUpdated, validationErrors }) => {
       const onBulkUpdateCompleted = () => {
-        this.dispatcher.setEditMode(false);
         const accountGrammar = numAccountsUpdated > 1 ? 'accounts' : 'account';
         const message = `${numAccountsUpdated} ${accountGrammar} updated.`;
         this.dispatcher.setAlert({
@@ -210,7 +217,6 @@ export default class AccountListModule {
 
     const onFailure = (error) => {
       const onBulkUpdateCompleted = () => {
-        this.dispatcher.setEditMode(false);
         this.dispatcher.setAlert({ message: error.message, type: 'danger' });
       };
       this.loadAccountList(onBulkUpdateCompleted);
@@ -218,9 +224,35 @@ export default class AccountListModule {
     this.integrator.updateAccounts(onSuccess, onFailure);
   };
 
-  accountDetailsChange = ({ index, key, value }) => {
-    this.dispatcher.setSaveBtnEnabled(true);
+  changeAccountDetails = ({ index, key, value }) => {
     this.dispatcher.setAccountDetails({ index, key, value });
+  };
+
+  clickBulkUpdateModalDiscard = (url) => {
+    this.dispatcher.setModalType('');
+    this.dispatcher.setEditMode(false);
+    if (url) {
+      this.dispatcher.setRedirectUrl('');
+      this.navigateTo(url);
+    } else this.loadAccountList();
+  };
+
+  clickBulkUpdateModalCancel = () => {
+    this.dispatcher.setModalType('');
+  };
+
+  openDeleteModal = () => {
+    this.dispatcher.setModalType(AccountListModalType.DELETE);
+  };
+
+  handlePageTransition = (url) => {
+    const state = this.store.getState();
+    if (getDirtyEntries(state).length > 0) {
+      this.dispatcher.setModalType(AccountListModalType.UNSAVED);
+      this.dispatcher.setRedirectUrl(url);
+    } else {
+      this.navigateTo(url);
+    }
   };
 
   render = () => {
@@ -235,13 +267,14 @@ export default class AccountListModule {
         onCreateAccountButtonClick={this.redirectToNewAccount}
         onAccountSelected={this.selectAccount}
         onAllAccountsSelected={this.selectAllAccounts}
-        onCloseModal={this.dispatcher.closeModal}
-        onDeleteAccountsButtonClick={this.dispatcher.openBulkDeleteModel}
+        onDeleteClick={this.openDeleteModal}
         onDeleteConfirmButtonClick={this.deleteAccounts}
-        onEditAccountsClick={this.editAccountsClick}
-        onAccountDetailsChange={this.accountDetailsChange}
-        onCancel={this.cancelEditAccountsClick}
-        onSave={this.saveEditAccountsClicked}
+        onBulkUpdateModalCancelClick={this.clickBulkUpdateModalCancel}
+        onEditAccountsClick={this.clickEditAccounts}
+        onAccountDetailsChange={this.changeAccountDetails}
+        onBulkUpdateCancelClick={this.clickBulkUpdateCancel}
+        onBulkUpdateSaveClick={this.clickBulkUpdateSave}
+        onBulkUpdateDiscardClick={this.clickBulkUpdateModalDiscard}
       />
     );
 

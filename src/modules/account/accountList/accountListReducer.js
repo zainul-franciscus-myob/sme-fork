@@ -1,8 +1,6 @@
 import {
-  CLOSE_MODAL,
   DISMISS_ALERT,
   DISMISS_ALL_ALERTS,
-  OPEN_MODAL,
   RESELECT_ACCOUNTS,
   RESET_ACCOUNT_LIST_FILTER_OPTIONS,
   SELECT_ACCOUNT,
@@ -14,7 +12,8 @@ import {
   SET_ALERT,
   SET_EDIT_MODE,
   SET_LOADING_STATE,
-  SET_SAVE_BTN_ENABLED,
+  SET_MODAL_TYPE,
+  SET_REDIRECT_URL,
   SORT_AND_FILTER_ACCOUNT_LIST,
 } from '../AccountIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -27,7 +26,6 @@ const getDefaultState = () => ({
   alert: [],
   loadingState: LoadingState.LOADING,
   isTableLoading: false,
-  showDeleteModal: false,
   filterOptions: {
     keywords: '',
     showInactive: false,
@@ -36,7 +34,8 @@ const getDefaultState = () => ({
   entries: [],
   hasFlexibleAccountNumbers: false,
   editingMode: false,
-  saveBtnEnabled: false,
+  modalType: '',
+  redirectUrl: '',
 });
 
 const setInitialState = (state, { context, settings }) => ({
@@ -119,14 +118,9 @@ const selectAllAccount = (state, { selected }) => ({
   entries: state.entries.map((entry) => ({ ...entry, selected })),
 });
 
-const openModal = (state) => ({
+const setModalType = (state, { modalType }) => ({
   ...state,
-  showDeleteModal: true,
-});
-
-const closeModal = (state) => ({
-  ...state,
-  showDeleteModal: false,
+  modalType,
 });
 
 const reselectAccounts = (state, { entries }) => ({
@@ -139,11 +133,6 @@ const setEditMode = (state, { editingMode }) => ({
   editingMode,
 });
 
-const setSaveBtnEnabled = (state, { saveBtnEnabled }) => ({
-  ...state,
-  saveBtnEnabled,
-});
-
 const setAccountDetails = (state, action) => ({
   ...state,
   entries: state.entries.map((entry, id) =>
@@ -151,6 +140,11 @@ const setAccountDetails = (state, action) => ({
       ? { ...entry, [action.key]: action.value, dirty: true }
       : entry
   ),
+});
+
+const setRedirectUrl = (state, { redirectUrl }) => ({
+  ...state,
+  redirectUrl,
 });
 
 const handlers = {
@@ -172,10 +166,9 @@ const handlers = {
 
   [SET_EDIT_MODE]: setEditMode,
   [SET_ACCOUNT_DETAILS]: setAccountDetails,
-  [SET_SAVE_BTN_ENABLED]: setSaveBtnEnabled,
 
-  [OPEN_MODAL]: openModal,
-  [CLOSE_MODAL]: closeModal,
+  [SET_MODAL_TYPE]: setModalType,
+  [SET_REDIRECT_URL]: setRedirectUrl,
 };
 
 const accountListReducer = createReducer(getDefaultState(), handlers);

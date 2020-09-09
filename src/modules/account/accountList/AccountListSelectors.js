@@ -20,8 +20,6 @@ export const getType = (state) => state.filterOptions.type;
 
 export const getRawEntries = (state) => state.entries;
 
-export const getShowDeleteModal = (state) => state.showDeleteModal;
-
 export const getTableTaxCodeHeader = (state) =>
   getRegionToDialectText(state.region)('Tax code');
 
@@ -29,7 +27,7 @@ export const getIsTableEmpty = (state) => state.entries.length === 0;
 
 export const getEditingMode = (state) => state.editingMode;
 
-export const getSaveBtnEnabled = (state) => state.saveBtnEnabled;
+export const getRedirectUrl = (state) => state.redirectUrl;
 
 const getHasFlexibleAccountNumbers = (state) => state.hasFlexibleAccountNumbers;
 
@@ -48,6 +46,8 @@ export const getAccountsForBulkDelete = createSelector(
 
 export const getDirtyEntries = (state) =>
   state.entries.filter((entry) => entry.dirty);
+
+export const getModalType = (state) => state.modalType;
 
 export const getAccountsForBulkUpdate = (state) => ({
   accounts: state.entries

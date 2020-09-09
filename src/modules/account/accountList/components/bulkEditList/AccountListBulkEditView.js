@@ -3,33 +3,46 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getDirtyEntries,
   getLoadingState,
+  getModalType,
   getRawEntries,
-  getSaveBtnEnabled,
+  getRedirectUrl,
   getTableTaxCodeHeader,
 } from '../../AccountListSelectors';
 import AccountBulkEditListTableBody from './AccountBulkEditListTableBody';
 import AccountBulkEditListTableHeader from './AccountBulkEditListTableHeader';
+import AccountListModalType from '../AccountListModalType';
 import AccountListTable from '../AccountListTable';
+import CancelModal from '../../../../../components/modal/CancelModal';
 import PageView from '../../../../../components/PageView/PageView';
 import StandardTemplate from '../../../../../components/Feelix/StandardTemplate/StandardTemplate';
+import UnsavedModal from '../../../../../components/modal/UnsavedModal';
 import styles from '../AccountListTable.module.css';
 
 const AccountListBulkEditView = ({
   loadingState,
   onAccountDetailsChange,
   taxCodeHeader,
-  onCancel,
-  onSave,
   saveBtnEnabled,
+  modalType,
+  redirectUrl,
+  onBulkUpdateCancelClick,
+  onBulkUpdateSaveClick,
+  onBulkUpdateDiscardClick,
+  onBulkUpdateModalCancelClick,
 }) => {
   const pageHead = (
     <PageHead title="Edit Accounts">
       <ButtonRow className={styles.bulkUpdateButtonRow}>
-        <Button type="secondary" onClick={onCancel}>
+        <Button type="secondary" onClick={onBulkUpdateCancelClick}>
           Cancel
         </Button>
-        <Button type="primary" onClick={onSave} disabled={!saveBtnEnabled}>
+        <Button
+          type="primary"
+          onClick={onBulkUpdateSaveClick}
+          disabled={!saveBtnEnabled}
+        >
           Save
         </Button>
       </ButtonRow>
@@ -66,9 +79,28 @@ const AccountListBulkEditView = ({
     />
   );
 
+  let modal;
+  if (modalType === AccountListModalType.CANCEL) {
+    modal = (
+      <CancelModal
+        onCancel={onBulkUpdateModalCancelClick}
+        onConfirm={() => onBulkUpdateDiscardClick(redirectUrl)}
+      />
+    );
+  } else if (modalType === AccountListModalType.UNSAVED) {
+    modal = (
+      <UnsavedModal
+        onCancel={onBulkUpdateModalCancelClick}
+        onConfirmUnsave={() => onBulkUpdateDiscardClick(redirectUrl)}
+        onConfirmSave={onBulkUpdateSaveClick}
+      />
+    );
+  }
+
   const accountView = (
     <React.Fragment>
       <StandardTemplate pageHead={pageHead} tableHeader={tableHeader}>
+        {modal}
         <AccountListTable tableBody={tableBody} />
       </StandardTemplate>
     </React.Fragment>
@@ -81,7 +113,9 @@ const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   entries: getRawEntries(state),
   taxCodeHeader: getTableTaxCodeHeader(state),
-  saveBtnEnabled: getSaveBtnEnabled(state),
+  saveBtnEnabled: getDirtyEntries(state).length > 0,
+  modalType: getModalType(state),
+  redirectUrl: getRedirectUrl(state),
 });
 
 export default connect(mapStateToProps)(AccountListBulkEditView);

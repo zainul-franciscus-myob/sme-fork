@@ -7,12 +7,18 @@ const getAccountRoutes = ({
   setRootView,
   popMessages,
   pushMessage,
+  navigateTo,
 }) => {
   const routes = [
     {
       name: RouteName.ACCOUNT_LIST,
       path: '/:region/:businessId/account/',
-      module: new AccountListModule({ integration, setRootView, popMessages }),
+      module: new AccountListModule({
+        integration,
+        setRootView,
+        popMessages,
+        navigateTo,
+      }),
       documentTitle: 'Accounts',
     },
     {

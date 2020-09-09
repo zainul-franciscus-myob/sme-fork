@@ -5,14 +5,15 @@ import React from 'react';
 import {
   getAlert,
   getLoadingState,
+  getModalType,
   getRawEntries,
-  getShowDeleteModal,
   getShowInactive,
   getTableTaxCodeHeader,
   getType,
 } from '../../AccountListSelectors';
 import { tabItems } from '../../tabItems';
 import AccountListFilterOptions from '../AccountListFilterOptions';
+import AccountListModalType from '../AccountListModalType';
 import AccountListTable from '../AccountListTable';
 import AccountListTableBody from './AccountListTableBody';
 import AccountListTableHeader from './AccountListTableHeader';
@@ -38,13 +39,13 @@ const AccountListView = ({
   onAccountSelected,
   onAllAccountsSelected,
   entries,
-  onDeleteAccountsButtonClick,
   onDeleteConfirmButtonClick,
-  onCloseModal,
-  showDeleteModal,
   onEditAccountsClick,
   showInactive,
   taxCodeHeader,
+  onDeleteClick,
+  onBulkUpdateModalCancelClick,
+  modalType,
 }) => {
   const alertComponents =
     alert &&
@@ -61,7 +62,7 @@ const AccountListView = ({
 
   const modal = (
     <DeleteModal
-      onCancel={onCloseModal}
+      onCancel={onBulkUpdateModalCancelClick}
       onConfirm={onDeleteConfirmButtonClick}
       title="Delete selected accounts?"
     />
@@ -100,7 +101,7 @@ const AccountListView = ({
   const numSelected = entries.filter((entry) => entry.selected).length;
   const deleteBar = numSelected > 0 && (
     <div className={styles.deleteBar}>
-      <Button type="secondary" onClick={onDeleteAccountsButtonClick}>
+      <Button type="secondary" onClick={onDeleteClick}>
         Delete accounts
       </Button>
       <span className={styles.deleteAccountsText}>
@@ -154,7 +155,7 @@ const AccountListView = ({
         tableHeader={tableHeader}
         bulkActions={deleteBar}
       >
-        {showDeleteModal && modal}
+        {modalType === AccountListModalType.DELETE && modal}
         <AccountListTable
           onAccountSelected={onAccountSelected}
           tableBody={tableBody}
@@ -171,7 +172,7 @@ const mapStateToProps = (state) => ({
   alert: getAlert(state),
   selectedTab: getType(state),
   entries: getRawEntries(state),
-  showDeleteModal: getShowDeleteModal(state),
+  modalType: getModalType(state),
   showInactive: getShowInactive(state),
   taxCodeHeader: getTableTaxCodeHeader(state),
 });

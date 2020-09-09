@@ -1,14 +1,11 @@
 import {
-  CLOSE_MODAL,
   DISMISS_ALERT,
-  OPEN_MODAL,
   RESELECT_ACCOUNTS,
   SELECT_ACCOUNT,
   SELECT_ALL_ACCOUNTS,
   SET_ACCOUNT_DETAILS,
   SET_ALERT,
   SET_EDIT_MODE,
-  SET_SAVE_BTN_ENABLED,
 } from '../../AccountIntents';
 import accountListReducer from '../accountListReducer';
 
@@ -16,32 +13,6 @@ describe('accountListReducer', () => {
   const reducer = accountListReducer;
 
   describe('BULK_DELETE_ACCOUNTS', () => {
-    it('opens deletes selected accounts modal', () => {
-      const state = {
-        showDeleteModal: false,
-      };
-      const action = {
-        intent: OPEN_MODAL,
-      };
-
-      const actual = reducer(state, action);
-
-      expect(actual.showDeleteModal).toEqual(true);
-    });
-
-    it('closes deletes selected accounts modal', () => {
-      const state = {
-        showDeleteModal: true,
-      };
-      const action = {
-        intent: CLOSE_MODAL,
-      };
-
-      const actual = reducer(state, action);
-
-      expect(actual.showDeleteModal).toEqual(false);
-    });
-
     it('selects single account', () => {
       const state = {
         entries: [
@@ -172,34 +143,6 @@ describe('BULK_UPDATE_ACCOUNTS', () => {
     const actual = reducer(state, action);
 
     expect(actual.editingMode).toEqual(false);
-  });
-
-  it('enables the save button', () => {
-    const state = {
-      saveBtnEnabled: false,
-    };
-    const action = {
-      intent: SET_SAVE_BTN_ENABLED,
-      saveBtnEnabled: true,
-    };
-
-    const actual = reducer(state, action);
-
-    expect(actual.saveBtnEnabled).toEqual(true);
-  });
-
-  it('disables the save button', () => {
-    const state = {
-      saveBtnEnabled: true,
-    };
-    const action = {
-      intent: SET_SAVE_BTN_ENABLED,
-      saveBtnEnabled: false,
-    };
-
-    const actual = reducer(state, action);
-
-    expect(actual.saveBtnEnabled).toEqual(false);
   });
 
   it('updates opening balance and marks entry as dirty', () => {

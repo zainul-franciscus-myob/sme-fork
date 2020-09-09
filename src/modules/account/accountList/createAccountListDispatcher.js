@@ -14,7 +14,8 @@ import {
   SET_ALERT,
   SET_EDIT_MODE,
   SET_LOADING_STATE,
-  SET_SAVE_BTN_ENABLED,
+  SET_MODAL_TYPE,
+  SET_REDIRECT_URL,
   SORT_AND_FILTER_ACCOUNT_LIST,
 } from '../AccountIntents';
 
@@ -105,14 +106,19 @@ const createAccountListDispatcher = (store) => ({
     store.dispatch({ intent, editingMode });
   },
 
-  setSaveBtnEnabled: (saveBtnEnabled) => {
-    const intent = SET_SAVE_BTN_ENABLED;
-    store.dispatch({ intent, saveBtnEnabled });
-  },
-
   setAccountDetails: ({ index, key, value }) => {
     const intent = SET_ACCOUNT_DETAILS;
     store.dispatch({ intent, index, key, value });
+  },
+
+  setModalType: (modalType) => {
+    const intent = SET_MODAL_TYPE;
+    store.dispatch({ intent, modalType });
+  },
+
+  setRedirectUrl: (redirectUrl) => {
+    const intent = SET_REDIRECT_URL;
+    store.dispatch({ intent, redirectUrl });
   },
 });
 
