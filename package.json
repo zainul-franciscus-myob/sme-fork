@@ -24,7 +24,7 @@
     "react-chartjs-2": "2.9.0",
     "react-dom": "16.13.1",
     "react-redux": "7.2.0",
-    "react-scripts": "3.4.1",
+    "react-scripts": "3.4.3",
     "reselect": "4.0.0",
     "router5": "8.0.1",
     "router5-plugin-browser": "8.0.1",
