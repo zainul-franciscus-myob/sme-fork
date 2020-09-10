@@ -16,6 +16,7 @@
     "purchaseOrderNumber": "IN00000123",
     "issueDate": "2018-11-02",
     "status": "Accepted",
+    "emailStatus": "Emailed",
     "isInvoiced": false,
     "note": "hello",
     "taxExclusiveFreightAmount": "0",

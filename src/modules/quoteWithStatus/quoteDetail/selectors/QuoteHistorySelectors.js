@@ -12,7 +12,7 @@ export const getTime = (row) =>
     : '';
 
 export const getQuoteHistoryTable = ({ quote }) => {
-  return [
+  const activityHistory = [
     {
       id: 1,
       status: QuoteHistoryStatus.CREATED,
@@ -23,6 +23,15 @@ export const getQuoteHistoryTable = ({ quote }) => {
       }),
     },
   ];
+
+  if (quote.emailStatus === 'Emailed') {
+    activityHistory.unshift({
+      id: 2,
+      status: QuoteHistoryStatus.EMAILED,
+    });
+  }
+
+  return activityHistory;
 };
 
 export const getQuoteHistoryAccordionStatus = (state) =>

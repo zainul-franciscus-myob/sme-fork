@@ -10,6 +10,7 @@ import styles from './QuoteHistoryTable.module.css';
 
 const icon = {
   [QuoteHistoryStatus.CREATED]: <Icons.Invoice />,
+  [QuoteHistoryStatus.EMAILED]: <Icons.Mail />,
 };
 
 const QuoteHistoryTable = ({ quoteHistory }) => (

@@ -27,6 +27,30 @@ describe('QuoteHistorySelectors', () => {
 
       expect(actual).toEqual(expected);
     });
+
+    it('returns the emailed quote history table', () => {
+      const expected = [
+        {
+          id: 2,
+          status: QuoteHistoryStatus.EMAILED,
+        },
+        {
+          id: 1,
+          status: QuoteHistoryStatus.CREATED,
+          displayDate: '31/01/2020',
+          displayTime: '',
+        },
+      ];
+      const newState = { ...state };
+      newState.quote = {
+        ...state.quote,
+        emailStatus: 'Emailed',
+      };
+
+      const actual = getQuoteHistoryTable(newState);
+
+      expect(actual).toEqual(expected);
+    });
   });
 
   describe('getDate', () => {

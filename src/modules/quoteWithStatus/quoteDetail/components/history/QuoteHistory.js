@@ -43,7 +43,7 @@ const QuoteHistory = ({
       renderRow={(index, _, buildRowProps) => (
         <CollapsibleTableRow
           {...buildRowProps({
-            id: `${quoteHistoryAccordionStatus.toLowerCase()}${index}`,
+            id: `${quoteHistoryAccordionStatus.toLowerCase()}_${mostRecentStatus}${index}`,
             rowType: AccordionRowTypes.COLLAPSIBLE,
             isRowOpen:
               quoteHistoryAccordionStatus === QuoteHistoryAccordionStatus.OPEN,

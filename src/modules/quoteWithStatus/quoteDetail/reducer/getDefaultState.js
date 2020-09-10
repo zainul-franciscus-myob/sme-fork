@@ -47,6 +47,7 @@ const getDefaultState = () => ({
     isInvoiced: false,
     lines: [],
     status: 'Open',
+    emailStatus: 'None',
   },
   newLine: {
     type: '',
