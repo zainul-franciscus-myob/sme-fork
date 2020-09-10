@@ -14,7 +14,15 @@ describe('RecordPayRunSelectors', () => {
         {
           employeeId: '22',
           isSelected: true,
-          payItems: [],
+          payItems: [
+            {
+              payItemId: '11',
+              payItemName: 'PayGWithholding',
+              type: 'Tax',
+              amount: '-222.00',
+              hours: '-1.00',
+            },
+          ],
         },
       ];
 
@@ -35,7 +43,15 @@ describe('RecordPayRunSelectors', () => {
             {
               employeeId: '22',
               isSelected: true,
-              payItems: [],
+              payItems: [
+                {
+                  payItemId: '11',
+                  payItemName: 'PayGWithholding',
+                  type: 'Tax',
+                  amount: '-222.00',
+                  hours: '-1.00',
+                },
+              ],
             },
           ],
         },

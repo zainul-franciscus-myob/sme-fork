@@ -51,6 +51,7 @@ export default class PayRunModule {
         integration,
         store: this.store,
         pushMessage,
+        featureToggles: this.featureToggles,
       }),
       preparePaySlipModule: new PreparePaySlipsModule({
         integration,

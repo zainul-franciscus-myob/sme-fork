@@ -26,8 +26,12 @@ const createStartPayRunDispatchers = (store) => ({
     store.dispatch({ intent: SET_PAY_PERIOD_DETAILS, key, value });
   },
 
-  editExistingPayRun: (draftPayRun) => {
-    store.dispatch({ intent: EDIT_EXISTING_PAY_RUN, draftPayRun });
+  editExistingPayRun: (draftPayRun, isAllowNegativesInPayRuns) => {
+    store.dispatch({
+      intent: EDIT_EXISTING_PAY_RUN,
+      draftPayRun,
+      isAllowNegativesInPayRuns,
+    });
   },
 
   setShowStpValidationErrorModal: (showStpValidationErrorModal) => {

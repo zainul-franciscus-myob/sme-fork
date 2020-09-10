@@ -157,7 +157,99 @@ describe('PayRunSelectors', () => {
     });
   });
 
-  describe('getSaveDraftContent', () => {
+  describe('new getSaveDraftContent when toggle is on', () => {
+    const state = {
+      recordedPayments: {
+        printPaySlipEmployees: [],
+        emailPaySlipEmployees: [],
+      },
+      startPayRun: {
+        currentEditingPayRun: {
+          paymentFrequency: 'Weekly',
+          paymentDate: '2019-12-30',
+          payPeriodStart: '2019-12-15',
+          payPeriodEnd: '2019-12-30',
+          regularPayCycleOptions: [
+            {
+              value: 'Weekly',
+              name: 'Weekly',
+            },
+          ],
+        },
+      },
+      employeePayList: {
+        stpRegistrationStatus: 'lostConnection',
+        lines: [
+          {
+            employeeId: 21,
+            payItems: [
+              {
+                payItemId: '38',
+                amount: '0.00',
+                hours: '0.00',
+                calculatedAmount: -2,
+                calculatedHours: -3,
+              },
+              {
+                payItemId: '39',
+                amount: '-100.00',
+                hours: '-20.00',
+                calculatedAmount: 0,
+                calculatedHours: 0,
+              },
+            ],
+            isSelected: false,
+          },
+          {
+            employeeId: 23,
+            payItems: [{ payItemId: '39' }, { payItemId: '40' }],
+            isSelected: true,
+          },
+          {
+            employeeId: 25,
+            payItems: [{ payItemId: '39' }, { payItemId: '40' }],
+            isSelected: true,
+          },
+        ],
+      },
+    };
+
+    const isAllowNegativesInPayRuns = true;
+    const saveDraftContent = getSaveDraftContent(
+      state,
+      isAllowNegativesInPayRuns
+    );
+
+    it('sets the payment frequency and date from current pay run', () => {
+      expect(saveDraftContent.paymentFrequency).toEqual(
+        state.startPayRun.currentEditingPayRun.paymentFrequency
+      );
+      expect(saveDraftContent.paymentDate).toEqual(
+        state.startPayRun.currentEditingPayRun.paymentDate
+      );
+    });
+
+    it('sets the payPeriod start and end from current pay run', () => {
+      expect(saveDraftContent.payPeriodStart).toEqual(
+        state.startPayRun.currentEditingPayRun.payPeriodStart
+      );
+      expect(saveDraftContent.payPeriodEnd).toEqual(
+        state.startPayRun.currentEditingPayRun.payPeriodEnd
+      );
+    });
+
+    it('adds the selected employees to the selectedEmployeeIds', () => {
+      expect(saveDraftContent.selectedEmployeeIds).toEqual([23, 25]);
+    });
+
+    it('includes all the employeePays lines', () => {
+      expect(saveDraftContent.employeePays).toEqual(
+        state.employeePayList.lines
+      );
+    });
+  });
+
+  describe('old getSaveDraftContent when toggle is off', () => {
     const state = {
       recordedPayments: {
         printPaySlipEmployees: [],
@@ -216,7 +308,11 @@ describe('PayRunSelectors', () => {
       },
     };
 
-    const saveDraftContent = getSaveDraftContent(state);
+    const isAllowNegativesInPayRuns = false;
+    const saveDraftContent = getSaveDraftContent(
+      state,
+      isAllowNegativesInPayRuns
+    );
 
     it('sets the payment frequency and date from current pay run', () => {
       expect(saveDraftContent.paymentFrequency).toEqual(
@@ -240,7 +336,7 @@ describe('PayRunSelectors', () => {
       expect(saveDraftContent.selectedEmployeeIds).toEqual([23, 25]);
     });
 
-    it('includes all the employeePays lines', () => {
+    it('includes all the employeePays originalLines', () => {
       expect(saveDraftContent.employeePays).toEqual(
         state.employeePayList.originalLines
       );

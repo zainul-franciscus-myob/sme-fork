@@ -74,7 +74,11 @@ export default class EmployeePayListModule {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
     };
 
-    this.integrator.saveDraft({ onSuccess, onFailure });
+    this.integrator.saveDraft({
+      onSuccess,
+      onFailure,
+      isAllowNegativesInPayRuns: this.isAllowNegativesInPayRuns,
+    });
   };
 
   saveDraft = (onSuccess) => {
@@ -90,7 +94,11 @@ export default class EmployeePayListModule {
       this.dispatcher.setSubmittingState(false);
     };
 
-    this.integrator.saveDraft({ onSuccess, onFailure });
+    this.integrator.saveDraft({
+      onSuccess,
+      onFailure,
+      isAllowNegativesInPayRuns: this.isAllowNegativesInPayRuns,
+    });
   };
 
   nextStep = () => {

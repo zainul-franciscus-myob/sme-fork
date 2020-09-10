@@ -15,7 +15,7 @@ import createRecordPayRunIntegrator from './createRecordPayRunIntegrator';
 import openBlob from '../../../../common/blobOpener/openBlob';
 
 export default class RecordPayRunModule {
-  constructor({ integration, store, pushMessage }) {
+  constructor({ integration, store, pushMessage, featureToggles }) {
     this.integration = integration;
     this.pushMessage = pushMessage;
     this.store = store;
@@ -25,6 +25,7 @@ export default class RecordPayRunModule {
       integration,
       onDeclared: this.recordPayments,
     });
+    this.isAllowNegativesInPayRuns = featureToggles?.isAllowNegativesInPayRuns;
   }
 
   recordPayments = () => {
@@ -69,7 +70,11 @@ export default class RecordPayRunModule {
       });
     };
 
-    this.integrator.saveDraft({ onSuccess, onFailure });
+    this.integrator.saveDraft({
+      onSuccess,
+      onFailure,
+      isAllowNegativesInPayRuns: this.isAllowNegativesInPayRuns,
+    });
   };
 
   goToPreviousStep = () => {

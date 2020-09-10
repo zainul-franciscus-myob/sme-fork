@@ -117,23 +117,35 @@ const getSelectedEmployeeIds = (state) =>
     .filter((employeePay) => employeePay.isSelected === true)
     .map((employeePay) => employeePay.employeeId);
 
-const getEmployeePays = (state) => state.employeePayList.originalLines;
+const getEmployeePayOriginalLines = (state) =>
+  state.employeePayList.originalLines;
 const getEmployeePayLines = (state) => state.employeePayList.lines;
 const getUnprocessedTimesheetLines = (state) => state.unprocessedTimesheetLines;
 
-export const getSaveDraftContent = (state) => ({
+export const getSaveDraftContent = (state, isAllowNegativesInPayRuns) => ({
   ...state.startPayRun.currentEditingPayRun,
   selectedEmployeeIds: getSelectedEmployeeIds(state),
-  employeePays: getEmployeePays(state).map((employeePay, i) => ({
-    ...employeePay,
-    note: getEmployeePayLines(state)[i].note,
-    payItems: employeePay.payItems.map((payItem) => ({
-      ...payItem,
-      jobs: getEmployeePayLines(state)
-        .find((q) => q.employeeId === employeePay.employeeId)
-        ?.payItems.find((q) => q.payItemId === payItem.payItemId)?.jobs,
-    })),
-  })),
+  employeePays: isAllowNegativesInPayRuns
+    ? getEmployeePayLines(state).map((employeePay, i) => ({
+        ...employeePay,
+        note: getEmployeePayLines(state)[i].note,
+        payItems: employeePay.payItems.map((payItem) => ({
+          ...payItem,
+          jobs: getEmployeePayLines(state)
+            .find((q) => q.employeeId === employeePay.employeeId)
+            ?.payItems.find((q) => q.payItemId === payItem.payItemId)?.jobs,
+        })),
+      }))
+    : getEmployeePayOriginalLines(state).map((employeePay, i) => ({
+        ...employeePay,
+        note: getEmployeePayLines(state)[i].note,
+        payItems: employeePay.payItems.map((payItem) => ({
+          ...payItem,
+          jobs: getEmployeePayLines(state)
+            .find((q) => q.employeeId === employeePay.employeeId)
+            ?.payItems.find((q) => q.payItemId === payItem.payItemId)?.jobs,
+        })),
+      })),
   unprocessedTimesheetSelections: getUnprocessedTimesheetLines(state),
 });
 

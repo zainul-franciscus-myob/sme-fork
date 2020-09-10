@@ -73,7 +73,10 @@ export default class StartPayRunModule {
   editExistingPayRun = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     const state = this.store.getState();
-    this.dispatcher.editExistingPayRun(state.startPayRun.draftPayRun);
+    this.dispatcher.editExistingPayRun(
+      state.startPayRun.draftPayRun,
+      this.isAllowNegativesInPayRuns
+    );
 
     const onSuccess = (response) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);

@@ -164,25 +164,41 @@ const editExistingPayRun = (state, action) => {
     },
   };
 
-  return {
-    ...state,
-    unprocessedTimesheetLines: unprocessedTimesheetSelections,
-    [START_PAY_RUN]: {
-      ...startPayRun,
-    },
-    [EMPLOYEE_PAY_LIST]: {
-      ...state[EMPLOYEE_PAY_LIST],
-      baseSalaryWagePayItemId,
-      baseHourlyWagePayItemId,
-      lines: clearNegatives(
-        getEmployeePayLines(employeePays, (ep) =>
-          isEmployeeSelected(ep.employeeId, selectedEmployeeIds)
-        ),
-        [baseSalaryWagePayItemId, baseHourlyWagePayItemId]
-      ),
-      originalLines: employeePays,
-    },
-  };
+  return action.isAllowNegativesInPayRuns
+    ? {
+        ...state,
+        unprocessedTimesheetLines: unprocessedTimesheetSelections,
+        [START_PAY_RUN]: {
+          ...startPayRun,
+        },
+        [EMPLOYEE_PAY_LIST]: {
+          ...state[EMPLOYEE_PAY_LIST],
+          baseSalaryWagePayItemId,
+          baseHourlyWagePayItemId,
+          lines: getEmployeePayLines(employeePays, (ep) =>
+            isEmployeeSelected(ep.employeeId, selectedEmployeeIds)
+          ),
+        },
+      }
+    : {
+        ...state,
+        unprocessedTimesheetLines: unprocessedTimesheetSelections,
+        [START_PAY_RUN]: {
+          ...startPayRun,
+        },
+        [EMPLOYEE_PAY_LIST]: {
+          ...state[EMPLOYEE_PAY_LIST],
+          baseSalaryWagePayItemId,
+          baseHourlyWagePayItemId,
+          lines: clearNegatives(
+            getEmployeePayLines(employeePays, (ep) =>
+              isEmployeeSelected(ep.employeeId, selectedEmployeeIds)
+            ),
+            [baseSalaryWagePayItemId, baseHourlyWagePayItemId]
+          ),
+          originalLines: employeePays,
+        },
+      };
 };
 
 const selectAllTimesheets = (state, { isSelected }) => ({

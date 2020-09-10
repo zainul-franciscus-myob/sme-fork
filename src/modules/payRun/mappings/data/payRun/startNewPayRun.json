@@ -32,6 +32,8 @@
     "selectedEmployeeIds": [
       22
     ],
+    "baseHourlyWagePayItemId": 2,
+    "baseSalaryWagePayItemId": 1,
     "employeePays": [
       {
         "employeeId": 21,
@@ -49,6 +51,8 @@
             "stpCategory": "GrossPayments",
             "amount": "100000.00",
             "hours": "0.00",
+            "calculatedAmount": 100000,
+            "calculatedHours": 0,
             "jobs": [
               {
                 "jobId": "1",
@@ -61,8 +65,10 @@
             "payItemName": "Hourly Wage",
             "type": "HourlyWage",
             "stpCategory": "GrossPayments",
-            "amount": "20000",
-            "hours": "38.50",
+            "amount": "-20000",
+            "hours": "-38.50",
+            "calculatedAmount": 0,
+            "calculatedHours": 0,
             "jobs": [
               {
                 "jobId": "4",
@@ -96,6 +102,8 @@
             "stpCategory": "GrossPayments",
             "amount": "0.00",
             "hours": "0.00",
+            "calculatedAmount": 0,
+            "calculatedHours": 0,
             "jobs": []
           },
           {
@@ -105,6 +113,8 @@
             "stpCategory": "GrossPayments",
             "amount": "0.00",
             "hours": "0.00",
+            "calculatedAmount": -22,
+            "calculatedHours": -3,
             "jobs": []
           }
         ]
