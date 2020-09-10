@@ -243,8 +243,6 @@ export default class RootModule {
     this.dispatcher.setBusinessId(businessId);
     this.dispatcher.setRegion(region);
 
-    this.featureToggles = await this.featureTogglesPromise;
-
     const action = getModuleAction({
       currentBusinessId: businessId,
       currentRouteName,
@@ -272,7 +270,7 @@ export default class RootModule {
       if (isNotSupportedAndShowAlert()) {
         this.openBrowserAlert();
       }
-      this.dispatcher.setHasCheckedBrowserAlert(true);
+      this.dispatcher.setHasCheckedBrowserAlert();
     }
 
     this.drawer.run(routeProps);

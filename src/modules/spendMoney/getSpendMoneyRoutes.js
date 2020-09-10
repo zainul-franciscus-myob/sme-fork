@@ -1,31 +1,13 @@
 import RouteName from '../../router/RouteName';
-import SpendMoneyDetailModule from './spendMoneyDetail/SpendMoneyDetailModule';
 
-const getSpendMoneyRoutes = ({
-  integration,
-  setRootView,
-  pushMessage,
-  popMessages,
-  navigateTo,
-  isToggleOn,
-}) => {
-  const routes = [
-    {
-      name: RouteName.SPEND_MONEY_DETAIL,
-      path: '/:region/:businessId/spendMoney/:spendMoneyId',
-      module: new SpendMoneyDetailModule({
-        integration,
-        setRootView,
-        pushMessage,
-        popMessages,
-        navigateTo,
-        isToggleOn,
-      }),
-      documentTitle: 'Spend money',
-    },
-  ];
-
-  return routes;
-};
+/** @type {import('../module-types').RouteConfig} */
+const getSpendMoneyRoutes = () => [
+  {
+    name: RouteName.SPEND_MONEY_DETAIL,
+    path: '/:region/:businessId/spendMoney/:spendMoneyId',
+    loadModule: () => import('./spendMoneyDetail/SpendMoneyDetailModule'),
+    documentTitle: 'Spend money',
+  },
+];
 
 export default getSpendMoneyRoutes;

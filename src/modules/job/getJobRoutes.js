@@ -1,40 +1,19 @@
-import JobDetailModule from './jobDetail/JobDetailModule';
-import JobListModule from './jobList/JobListModule';
 import RouteName from '../../router/RouteName';
 
-const getJobRoutes = ({
-  integration,
-  setRootView,
-  popMessages,
-  pushMessage,
-  isToggleOn,
-}) => {
-  const routes = [
-    {
-      name: RouteName.JOB_LIST,
-      path: '/:region/:businessId/job/',
-      module: new JobListModule({
-        integration,
-        setRootView,
-        popMessages,
-        isToggleOn,
-      }),
-      documentTitle: 'Jobs',
-    },
-    {
-      name: RouteName.JOB_DETAIL,
-      path: '/:region/:businessId/job/:jobId',
-      module: new JobDetailModule({
-        integration,
-        setRootView,
-        pushMessage,
-        isToggleOn,
-      }),
-      documentTitle: 'Job',
-    },
-  ];
-
-  return routes;
-};
+/** @type {import('../module-types').RouteConfig} */
+const getJobRoutes = () => [
+  {
+    name: RouteName.JOB_LIST,
+    path: '/:region/:businessId/job/',
+    loadModule: () => import('./jobList/JobListModule'),
+    documentTitle: 'Jobs',
+  },
+  {
+    name: RouteName.JOB_DETAIL,
+    path: '/:region/:businessId/job/:jobId',
+    loadModule: () => import('./jobDetail/JobDetailModule'),
+    documentTitle: 'Job',
+  },
+];
 
 export default getJobRoutes;

@@ -14,23 +14,15 @@ const RouteName = {
 ```js
 // getBankingRuleRoutes.js
 
-const getBankingRuleRoutes = ({
-  integration, setRootView, popMessages, pushMessage,
-}) => {
-  const routes = [
-    // ...
-    {
-      name: RouteName.BANKING_RULE_DETAIL,
-      path: '/:region/:businessId/bankingRule/:bankingRuleId',
-      module: new BankingRuleDetailModule({
-        integration, setRootView, pushMessage,
-      }),
-      documentTitle: 'Banking rule',
-    },
-  ];
-
-  return routes;
-};
+const getBankingRuleRoutes = () => [
+  // ...
+  {
+    name: RouteName.BANKING_RULE_DETAIL,
+    path: '/:region/:businessId/bankingRule/:bankingRuleId',
+    loadModule: () => import('./BankingRuleDetailModule'),
+    documentTitle: 'Banking rule',
+  },
+];
 ```
 
 ```js
@@ -43,28 +35,22 @@ const getRoutes = moduleParams => [
 ```
 
 ----
+
 ## Module mapping with region specific module
+
 If a region is hardcoded to be only for `au` or `nz` in the `path` variable a region must be specified in the `defaultParams` variable.
 
 ```js
 // getBankingRuleRoutesAu.js
 
-const getBankingRuleRoutesAu = ({
-  integration, setRootView, popMessages, pushMessage,
-}) => {
-  const routes = [
-    // ...
-    {
-      name: RouteName.BANKING_RULE_DETAIL,
-      path: '/au/:businessId/bankingRule/:bankingRuleId',
-      defaultParams: { region: 'au' },
-      module: new BankingRuleDetailModule({
-        integration, setRootView, pushMessage,
-      }),
-      documentTitle: 'Banking rule - Australia',
-    },
-  ];
-
-  return routes;
-};
+const getBankingRuleRoutesAu = () => [
+  // ...
+  {
+    name: RouteName.BANKING_RULE_DETAIL,
+    path: '/au/:businessId/bankingRule/:bankingRuleId',
+    defaultParams: { region: 'au' },
+    loadModule: () => import('./BankingRuleDetailModule'),
+    documentTitle: 'Banking rule - Australia',
+  },
+];
 ```

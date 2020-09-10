@@ -15,7 +15,11 @@ import createSalesSettingsIntegrator from '../../salesSettings/salesSettingsDeta
 import salesSettingsReducer from '../../salesSettings/salesSettingsDetail/salesSettingsDetailReducer';
 
 export default class InvoicePaymentSettingsModule {
-  constructor({ integration, setRootView, addedPaymentDetails }) {
+  constructor({
+    integration,
+    setRootView,
+    globalCallbacks: { addedPaymentDetails },
+  }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.store = new Store(salesSettingsReducer);

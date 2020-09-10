@@ -29,10 +29,11 @@ describe('SalesSettingsDetailModule', () => {
     const popMessages = () => [];
 
     const module = new SalesSettingsDetailModule({
-      store,
       integration,
       setRootView,
       popMessages,
+      globalCallbacks: { addedPaymentDetails: () => {} },
+      replaceURLParams: () => {},
     });
     module.store = store;
     module.dispatcher = createSalesSettingsDispatcher(store);

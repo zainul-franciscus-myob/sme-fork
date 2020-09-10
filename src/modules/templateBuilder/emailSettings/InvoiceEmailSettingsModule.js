@@ -17,7 +17,11 @@ import createSalesSettingsIntegrator from '../../salesSettings/salesSettingsDeta
 import salesSettingsReducer from '../../salesSettings/salesSettingsDetail/salesSettingsDetailReducer';
 
 export default class InvoiceEmailSettingsModule {
-  constructor({ integration, setRootView, customisedEmailDefaults }) {
+  constructor({
+    integration,
+    setRootView,
+    globalCallbacks: { customisedEmailDefaults },
+  }) {
     this.integration = integration;
     this.store = new Store(salesSettingsReducer);
     this.setRootView = setRootView;

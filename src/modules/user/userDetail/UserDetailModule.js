@@ -23,7 +23,12 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 import userDetailReducer from './userDetailReducer';
 
 export default class UserDetailModule {
-  constructor({ integration, setRootView, pushMessage, usersInvited }) {
+  constructor({
+    integration,
+    setRootView,
+    pushMessage,
+    globalCallbacks: { usersInvited },
+  }) {
     this.store = new Store(userDetailReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;

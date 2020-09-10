@@ -1,39 +1,19 @@
 import RouteName from '../../router/RouteName';
-import UserDetailModule from './userDetail/UserDetailModule';
-import UserListModule from './userList/UserListModule';
 
-const getUserRoutes = ({
-  integration,
-  setRootView,
-  popMessages,
-  pushMessage,
-  globalCallbacks: { usersInvited },
-}) => {
-  const routes = [
-    {
-      name: RouteName.USER_LIST,
-      path: '/:region/:businessId/user/',
-      module: new UserListModule({
-        integration,
-        setRootView,
-        popMessages,
-      }),
-      documentTitle: 'Users',
-    },
-    {
-      name: RouteName.USER_DETAIL,
-      path: '/:region/:businessId/user/:userId',
-      module: new UserDetailModule({
-        integration,
-        setRootView,
-        pushMessage,
-        usersInvited,
-      }),
-      documentTitle: 'User',
-    },
-  ];
-
-  return routes;
-};
+/** @type {import('../module-types').RouteConfig} */
+const getUserRoutes = () => [
+  {
+    name: RouteName.USER_LIST,
+    path: '/:region/:businessId/user/',
+    loadModule: () => import('./userList/UserListModule'),
+    documentTitle: 'Users',
+  },
+  {
+    name: RouteName.USER_DETAIL,
+    path: '/:region/:businessId/user/:userId',
+    loadModule: () => import('./userDetail/UserDetailModule'),
+    documentTitle: 'User',
+  },
+];
 
 export default getUserRoutes;

@@ -20,7 +20,12 @@ import createTemplateIntegrator from '../../template/createTemplateIntegrator';
 import templateReducer from '../../template/templateReducer';
 
 class InvoiceLogoModule {
-  constructor({ integration, setRootView, pushMessage, uploadedLogo }) {
+  constructor({
+    integration,
+    setRootView,
+    pushMessage,
+    globalCallbacks: { uploadedLogo },
+  }) {
     this.store = new Store(templateReducer);
     this.dispatcher = createTemplateDispatcher(this.store);
     this.integrator = createTemplateIntegrator(this.store, integration);

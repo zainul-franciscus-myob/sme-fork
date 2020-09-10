@@ -1,28 +1,14 @@
-import DashboardModule from './DashboardModule';
 import RouteName from '../../router/RouteName';
 
 // @FEATURE_TOGGLE: essentials-dashboard-payroll-payrun-widget
-const getDashboardRoutes = ({
-  integration,
-  setRootView,
-  navigateTo,
-  isToggleOn,
-}) => {
-  const routes = [
-    {
-      name: RouteName.DASHBOARD,
-      path: '/:region/:businessId/dashboard/',
-      module: new DashboardModule({
-        integration,
-        setRootView,
-        navigateTo,
-        isToggleOn,
-      }),
-      documentTitle: 'Dashboard',
-    },
-  ];
-
-  return routes;
-};
+/** @type {import('../module-types').RouteConfig} */
+const getDashboardRoutes = () => [
+  {
+    name: RouteName.DASHBOARD,
+    path: '/:region/:businessId/dashboard/',
+    loadModule: () => import('./DashboardModule'),
+    documentTitle: 'Dashboard',
+  },
+];
 
 export default getDashboardRoutes;

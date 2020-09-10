@@ -1,17 +1,13 @@
-import ReportsSubscribeNowModule from './ReportsSubscribeNowModule';
 import RouteName from '../../router/RouteName';
 
-const getReportsSubscribeNowRoutes = ({ integration, navigateTo }) => {
-  const routes = [
-    {
-      name: RouteName.REPORTS_SUBSCRIBE_NOW,
-      path: '/:region/:businessId/reportsSubscribeNow',
-      module: new ReportsSubscribeNowModule({ integration, navigateTo }),
-      documentTitle: 'Redirecting...',
-    },
-  ];
-
-  return routes;
-};
+/** @type {import('../module-types').RouteConfig} */
+const getReportsSubscribeNowRoutes = () => [
+  {
+    name: RouteName.REPORTS_SUBSCRIBE_NOW,
+    path: '/:region/:businessId/reportsSubscribeNow',
+    loadModule: () => import('./ReportsSubscribeNowModule'),
+    documentTitle: 'Redirecting...',
+  },
+];
 
 export default getReportsSubscribeNowRoutes;

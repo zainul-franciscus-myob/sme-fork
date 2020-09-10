@@ -1,19 +1,12 @@
-import ErrorModule from './ErrorModule';
 import RouteName from '../../router/RouteName';
 
-const getErrorRoutes = ({ setRootView }) => {
-  const routes = [
-    {
-      name: RouteName.ERROR,
-      path: '/:region/:businessId/error',
-      module: new ErrorModule({
-        setRootView,
-      }),
-      documentTitle: 'Error',
-    },
-  ];
-
-  return routes;
-};
-
+/** @type {import('../module-types').RouteConfig} */
+const getErrorRoutes = () => [
+  {
+    name: RouteName.ERROR,
+    path: '/:region/:businessId/error',
+    loadModule: () => import('./ErrorModule'),
+    documentTitle: 'Error',
+  },
+];
 export default getErrorRoutes;
