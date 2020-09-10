@@ -39,7 +39,7 @@ describe('rootModule', () => {
         root.drawer,
         root.integrator
       );
-      root.last_business_id = lastBusinessId;
+      root.lastBusinessId = lastBusinessId;
       return root;
     };
 

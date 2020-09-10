@@ -9,6 +9,7 @@ import {
   getHasCheckedBrowserAlert,
   getIsPaidSubscription,
   getLeanEngageInfo,
+  getModuleAction,
   getRegion,
   getTelemetryData,
 } from './rootSelectors';
@@ -18,6 +19,7 @@ import CreateRootDispatcher from './createRootDispatcher';
 import CreateRootIntegrator from './createRootIntegrator';
 import DrawerModule from '../drawer/DrawerModule';
 import FeatureToggle from '../FeatureToggles';
+import ModuleAction from '../common/types/ModuleAction';
 import NavigationModule from '../navigation/NavigationModule';
 import OnboardingModule from '../onboarding/OnboardingModule';
 import RootReducer from './rootReducer';
@@ -67,7 +69,7 @@ export default class RootModule {
       integration,
       this.store
     );
-    this.last_business_id = null;
+    this.lastBusinessId = null;
     this.startLeanEngage = startLeanEngage;
     this.recordPageVisit = recordPageVisit;
     this.trackUserEvent = trackUserEvent;
@@ -234,6 +236,7 @@ export default class RootModule {
     const {
       routeParams: { businessId, region },
       currentRouteName,
+      previousRouteName,
     } = routeProps;
     this.routeProps = routeProps;
 
@@ -242,8 +245,15 @@ export default class RootModule {
 
     this.featureToggles = await this.featureTogglesPromise;
 
+    const action = getModuleAction({
+      currentBusinessId: businessId,
+      currentRouteName,
+      previousBusinessId: this.lastBusinessId,
+      previousRouteName,
+    });
+
     if (businessId) {
-      if (businessId !== this.last_business_id) {
+      if (action[ModuleAction.LOAD_BUSINESS]) {
         try {
           await this.loadBusinessServices({ businessId });
         } catch {
@@ -256,7 +266,7 @@ export default class RootModule {
 
     this.runTelemetry(routeProps);
 
-    this.last_business_id = businessId;
+    this.lastBusinessId = businessId;
 
     if (!getHasCheckedBrowserAlert(this.store.getState())) {
       if (isNotSupportedAndShowAlert()) {
@@ -267,8 +277,9 @@ export default class RootModule {
 
     this.drawer.run(routeProps);
     this.nav.run({
-      ...routeProps,
+      routeProps,
       onPageTransition: module.handlePageTransition,
+      action,
     });
     this.onboarding.run(routeProps);
 

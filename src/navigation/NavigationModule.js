@@ -21,6 +21,7 @@ import {
 } from './NavigationSelectors';
 import { logout } from '../Auth';
 import FeatureToggle from '../FeatureToggles.js';
+import ModuleAction from '../common/types/ModuleAction';
 import NavigationBar from './components/NavigationBar';
 import RouteName from '../router/RouteName';
 import Store from '../store/Store';
@@ -283,19 +284,16 @@ export default class NavigationModule {
     this.onPageTransition = onPageTransition;
   };
 
-  run = (routeProps) => {
-    const { routeParams, currentRouteName, onPageTransition } = routeProps;
+  run = ({ routeProps, onPageTransition, action = {} }) => {
+    const { routeParams, currentRouteName } = routeProps;
     this.routeProps = routeProps;
-
-    const previousBusinessId = getBusinessId(this.store.getState());
-    const currentBusinessId = routeParams.businessId;
 
     this.setJobToggleStatus();
     this.loadConfig();
     this.buildAndSetRoutingInfo({ currentRouteName, routeParams });
     this.setOnPageTransition(onPageTransition);
 
-    if (previousBusinessId !== currentBusinessId && currentBusinessId) {
+    if (action[ModuleAction.LOAD_BUSINESS]) {
       this.loadBusinessInfo();
       this.store.dispatch({ intent: RESET_STATE });
     }

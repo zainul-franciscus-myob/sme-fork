@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 
+import ModuleAction from '../common/types/ModuleAction';
+import RouteName from '../router/RouteName';
 import SubscriptionType from '../common/types/SubscriptionType';
 
 export const getBusinessId = (state) => state.businessId;
@@ -48,3 +50,35 @@ export const getTelemetryData = (state) =>
         userType: getUserType(state.currentUser),
       }
     : {};
+
+const getLoadBusinessModuleAction = ({
+  currentBusinessId,
+  currentRouteName,
+  previousBusinessId,
+  previousRouteName,
+}) => {
+  if (!currentBusinessId) {
+    return false;
+  }
+
+  if (currentRouteName === RouteName.ERROR) {
+    return false;
+  }
+
+  if (currentBusinessId !== previousBusinessId) {
+    return true;
+  }
+
+  if (
+    currentBusinessId === previousBusinessId &&
+    previousRouteName === RouteName.LINK_USER
+  ) {
+    return true;
+  }
+
+  return false;
+};
+
+export const getModuleAction = (props) => ({
+  [ModuleAction.LOAD_BUSINESS]: getLoadBusinessModuleAction(props),
+});

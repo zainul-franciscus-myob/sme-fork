@@ -1,4 +1,5 @@
 import { LOAD_NAVIGATION_CONFIG, SET_ROUTE_INFO } from '../NavigationIntents';
+import ModuleAction from '../../common/types/ModuleAction';
 import NavigationModule from '../NavigationModule';
 import RouteName from '../../router/RouteName';
 import TestStore from '../../store/TestStore';
@@ -15,6 +16,7 @@ describe('Navigation Module', () => {
       region: '🇦🇺',
     },
   };
+  const action = { [ModuleAction.LOAD_BUSINESS]: true };
 
   const integrationIntents = [];
   const navigationModule = new NavigationModule({
@@ -66,7 +68,7 @@ describe('Navigation Module', () => {
           },
           currentRouteName: 'someUrl',
         };
-        navigationModule.run(data);
+        navigationModule.run({ routeProps: data });
         expect(integrationIntents).toEqual([]);
       });
     });
@@ -88,14 +90,14 @@ describe('Navigation Module', () => {
           },
           currentRouteName: 'someUrl',
         };
-        navigationModule.run(data);
+        navigationModule.run({ routeProps: data, action });
         expect(integrationIntents).toEqual([LOAD_NAVIGATION_CONFIG]);
       });
     });
 
     describe('building and setting routing info', () => {
       it('delegates to the router to construct most routes', () => {
-        navigationModule.run(baseData);
+        navigationModule.run({ routeProps: baseData, action });
         const state = navigationModule.store.getState();
         expect(state.urls.invoiceList).toEqual('/#🇦🇺/🍟/invoice/invoiceList');
       });
@@ -129,7 +131,7 @@ describe('Navigation Module', () => {
 
       reportsRoutes.forEach((test) => {
         it(`uses the report URL base to build a URL for ${test.routeName}`, () => {
-          navigationModule.run(baseData);
+          navigationModule.run({ routeProps: baseData });
 
           const state = navigationModule.store.getState();
 
@@ -140,7 +142,7 @@ describe('Navigation Module', () => {
       });
 
       it('builds a URL for paymentDetail', () => {
-        navigationModule.run(baseData);
+        navigationModule.run({ routeProps: baseData });
 
         const state = navigationModule.store.getState();
 
@@ -150,7 +152,7 @@ describe('Navigation Module', () => {
       });
 
       it('builds a URL for productManagementDetail', () => {
-        navigationModule.run(baseData);
+        navigationModule.run({ routeProps: baseData });
 
         const state = navigationModule.store.getState();
 
@@ -168,7 +170,7 @@ describe('Navigation Module', () => {
           },
           currentRouteName: 'someUrl',
         };
-        navigationModule.run(data);
+        navigationModule.run({ routeProps: data });
         navigationModule.createBusiness();
 
         expect(navigationModule.recordPageVisit).toHaveBeenCalledTimes(1);
@@ -196,7 +198,7 @@ describe('Navigation Module', () => {
           ...navigationModule.store.getState(),
           userEmail: 'abc',
         });
-        navigationModule.run(data);
+        navigationModule.run({ routeProps: data });
         navigationModule.manageMyProduct();
 
         expect(navigationModule.trackUserEvent).toHaveBeenCalledTimes(1);
@@ -213,7 +215,7 @@ describe('Navigation Module', () => {
       });
 
       it('opens manage my product page in new tab', () => {
-        navigationModule.run(data);
+        navigationModule.run({ routeProps: data });
         navigationModule.manageMyProduct();
 
         expect(navigationModule.navigateTo).toHaveBeenCalledTimes(1);
