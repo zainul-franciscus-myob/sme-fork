@@ -66,20 +66,37 @@ const AmountInputField = ({
   isSubmitting,
   onChange,
   onBlur,
-}) => (
-  <div className={classnames({ [styles.hidden]: type === 'Entitlement' })}>
-    <AmountInput
-      name="amount"
-      label="Amount"
-      hideLabel
-      textAlign="right"
-      value={value}
-      disabled={isSubmitting || type === 'Entitlement' || type === 'HourlyWage'}
-      onChange={handleInputChange(onChange, employeeId, payItemId)}
-      onBlur={handleInputChange(onBlur, employeeId, payItemId)}
-    />
-  </div>
-);
+  featureToggles,
+}) =>
+  featureToggles && featureToggles.isAllowNegativesInPayRuns ? (
+    <div className={classnames({ [styles.hidden]: type === 'Entitlement' })}>
+      <AmountInput
+        name="amount"
+        label="Amount"
+        hideLabel
+        textAlign="right"
+        value={value}
+        disabled={isSubmitting || type === 'Entitlement'}
+        onChange={handleInputChange(onChange, employeeId, payItemId)}
+        onBlur={handleInputChange(onBlur, employeeId, payItemId)}
+      />
+    </div>
+  ) : (
+    <div className={classnames({ [styles.hidden]: type === 'Entitlement' })}>
+      <AmountInput
+        name="amount"
+        label="Amount"
+        hideLabel
+        textAlign="right"
+        value={value}
+        disabled={
+          isSubmitting || type === 'Entitlement' || type === 'HourlyWage'
+        }
+        onChange={handleInputChange(onChange, employeeId, payItemId)}
+        onBlur={handleInputChange(onBlur, employeeId, payItemId)}
+      />
+    </div>
+  );
 
 const HoursInputField = ({
   value,
@@ -189,6 +206,7 @@ const EmployeeRecalculatePayTableRow = ({
       isSubmitting={entry.isSubmitting}
       onChange={onChange}
       onBlur={onBlur}
+      featureToggles={featureToggles}
     />
   );
 
