@@ -27,6 +27,12 @@ describe('get[Module]Routes.js conventions', () => {
         )
         .initializer.isFunctionLike('the variables value is function like');
 
+      fn.parameters
+        .length(1, 'the function has a single parameter')
+        .parameter(0, 'the first parameter exists')
+        .isObject('the first parameter is an object')
+        .isNotOptional('the first parameter is not optional');
+
       const returnElementProperties = fn.return
         .isArray('the function returns an array')
         .arrayElementType.isObject('the array should be an array of objects')
@@ -50,10 +56,10 @@ describe('get[Module]Routes.js conventions', () => {
         .atLeast(1, 'which has at least one type')
         .isString('which is a string');
 
-      returnElementProperties.has(
-        'loadModule',
-        'the object has a property named "loadModule"'
-      );
+      returnElementProperties
+        .getTypes('module', 'the object has a property named "module"')
+        .atLeast(1, 'which has at least one type')
+        .isObject('which is an object');
     });
   }
 });

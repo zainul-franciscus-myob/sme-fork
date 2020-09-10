@@ -1,18 +1,31 @@
+import LearnPayrollModule from '../learning/payrollLearn/LearnPayrollModule';
+import PayrollSettingsModule from './PayrollSettingsModule';
 import RouteName from '../../router/RouteName';
 
-/** @type {import('../module-types').RouteConfig} */
-const getPayrollSettingsRoutes = () => [
+const getPayrollSettingsRoutes = ({
+  integration,
+  setRootView,
+  popMessages,
+  replaceURLParams,
+  globalCallbacks,
+}) => [
   {
     name: RouteName.PAYROLL_SETTINGS,
     path: '/:region/:businessId/payrollSettings/',
     allowedParams: ['tab'],
-    loadModule: () => import('./PayrollSettingsModule'),
+    module: new PayrollSettingsModule({
+      integration,
+      setRootView,
+      popMessages,
+      replaceURLParams,
+      globalCallbacks,
+    }),
     documentTitle: 'Payroll settings',
   },
   {
     name: RouteName.ONBOARDING_LEARN_PAYROLL,
     path: '/:region/:businessId/payroll/learn',
-    loadModule: () => import('../learning/payrollLearn/LearnPayrollModule'),
+    module: new LearnPayrollModule({ setRootView, globalCallbacks }),
     documentTitle: 'Learn payroll',
   },
 ];

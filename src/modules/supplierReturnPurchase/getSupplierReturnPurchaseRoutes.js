@@ -1,13 +1,25 @@
 import RouteName from '../../router/RouteName';
+import SupplierReturnPurchaseModule from './SupplierReturnPurchaseModule';
 
-/** @type {import('../module-types').RouteConfig} */
-const getSupplierReturnPurchaseRoutes = () => [
-  {
-    name: RouteName.SUPPLIER_RETURN_PURCHASES,
-    path: '/:region/:businessId/appliedPurchaseReturn/:purchaseReturnId',
-    loadModule: () => import('./SupplierReturnPurchaseModule'),
-    documentTitle: 'Applied to purchase',
-  },
-];
+const getSupplierReturnPurchaseRoutes = ({
+  integration,
+  setRootView,
+  pushMessage,
+}) => {
+  const routes = [
+    {
+      name: RouteName.SUPPLIER_RETURN_PURCHASES,
+      path: '/:region/:businessId/appliedPurchaseReturn/:purchaseReturnId',
+      module: new SupplierReturnPurchaseModule({
+        integration,
+        setRootView,
+        pushMessage,
+      }),
+      documentTitle: 'Applied to purchase',
+    },
+  ];
+
+  return routes;
+};
 
 export default getSupplierReturnPurchaseRoutes;

@@ -1,17 +1,17 @@
 import RouteName from '../../router/RouteName';
+import TemplateModule from './TemplateModule';
 
-/** @type {import('../module-types').RouteConfig} */
-const getTaxRoutes = () => [
+const getTaxRoutes = ({ integration, setRootView, pushMessage }) => [
   {
     name: RouteName.CREATE_TEMPLATE,
     path: '/:region/:businessId/template/',
-    loadModule: () => import('./TemplateModule'),
+    module: new TemplateModule({ integration, setRootView, pushMessage }),
     documentTitle: 'Template',
   },
   {
     name: RouteName.TEMPLATE_DETAIL,
     path: '/:region/:businessId/template/:templateName',
-    loadModule: () => import('./TemplateModule'),
+    module: new TemplateModule({ integration, setRootView, pushMessage }),
     documentTitle: 'Template',
   },
 ];

@@ -1,12 +1,24 @@
 import RouteName from '../../router/RouteName';
+import SalesSettingsDetailModule from './salesSettingsDetail/SalesSettingsDetailModule';
 
-/** @type {import('../module-types').RouteConfig} */
-const getSalesSettingsRoutes = () => [
+const getSalesSettingsRoutes = ({
+  setRootView,
+  integration,
+  popMessages,
+  replaceURLParams,
+  globalCallbacks: { addedPaymentDetails },
+}) => [
   {
     name: RouteName.SALES_SETTINGS,
     path: '/:region/:businessId/salesSettings/',
     allowedParams: ['selectedTab'],
-    loadModule: () => import('./salesSettingsDetail/SalesSettingsDetailModule'),
+    module: new SalesSettingsDetailModule({
+      setRootView,
+      integration,
+      popMessages,
+      replaceURLParams,
+      addedPaymentDetails,
+    }),
     documentTitle: 'Invoice and quote settings',
   },
 ];

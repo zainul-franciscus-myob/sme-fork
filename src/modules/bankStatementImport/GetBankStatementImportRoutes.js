@@ -1,14 +1,20 @@
+import BankStatementImportListModule from './bankStatementImportList/BankStatementImportListModule';
 import RouteName from '../../router/RouteName';
 
-/** @type {import('../module-types').RouteConfig} */
-const getBankStatementImportRoutes = () => [
-  {
-    name: RouteName.BANK_STATEMENT_IMPORT_LIST,
-    path: '/:region/:businessId/bankStatementImport/',
-    loadModule: () =>
-      import('./bankStatementImportList/BankStatementImportListModule'),
-    documentTitle: 'Bank statement import',
-  },
-];
+const getBankStatementImportRoutes = ({ integration, setRootView }) => {
+  const routes = [
+    {
+      name: RouteName.BANK_STATEMENT_IMPORT_LIST,
+      path: '/:region/:businessId/bankStatementImport/',
+      module: new BankStatementImportListModule({
+        integration,
+        setRootView,
+      }),
+      documentTitle: 'Bank statement import',
+    },
+  ];
+
+  return routes;
+};
 
 export default getBankStatementImportRoutes;

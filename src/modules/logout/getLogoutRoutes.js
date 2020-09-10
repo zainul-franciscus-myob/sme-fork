@@ -1,13 +1,17 @@
+import LogoutModule from './LogoutModule';
 import RouteName from '../../router/RouteName';
 
-/** @type {import('../module-types').RouteConfig} */
-const getLogoutRoutes = () => [
-  {
-    name: RouteName.LOGOUT,
-    path: '/logout',
-    loadModule: () => import('./LogoutModule'),
-    documentTitle: 'Logout',
-  },
-];
+const getLogoutRoutes = (setRootView, integration) => {
+  const routes = [
+    {
+      name: RouteName.LOGOUT,
+      path: '/logout',
+      module: new LogoutModule(setRootView, integration),
+      documentTitle: 'Logout',
+    },
+  ];
+
+  return routes;
+};
 
 export default getLogoutRoutes;

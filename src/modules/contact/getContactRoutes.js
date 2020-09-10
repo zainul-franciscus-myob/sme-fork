@@ -1,19 +1,39 @@
+import ContactDetailModule from './contactDetail/ContactDetailModule';
+import ContactListModule from './contactList/ContactListModule';
 import RouteName from '../../router/RouteName';
 
-/** @type {import('../module-types').RouteConfig} */
-const getContactRoutes = () => [
-  {
-    name: RouteName.CONTACT_LIST,
-    path: '/:region/:businessId/contact/',
-    loadModule: () => import('./contactList/ContactListModule'),
-    documentTitle: 'Contacts',
-  },
-  {
-    name: RouteName.CONTACT_DETAIL,
-    path: '/:region/:businessId/contact/:contactId',
-    loadModule: () => import('./contactDetail/ContactDetailModule'),
-    documentTitle: 'Contact',
-  },
-];
+const getContactRoutes = ({
+  integration,
+  setRootView,
+  popMessages,
+  pushMessage,
+  featureToggles,
+}) => {
+  const routes = [
+    {
+      name: RouteName.CONTACT_LIST,
+      path: '/:region/:businessId/contact/',
+      module: new ContactListModule({
+        integration,
+        setRootView,
+        popMessages,
+      }),
+      documentTitle: 'Contacts',
+    },
+    {
+      name: RouteName.CONTACT_DETAIL,
+      path: '/:region/:businessId/contact/:contactId',
+      module: new ContactDetailModule({
+        integration,
+        setRootView,
+        pushMessage,
+        featureToggles,
+      }),
+      documentTitle: 'Contact',
+    },
+  ];
+
+  return routes;
+};
 
 export default getContactRoutes;

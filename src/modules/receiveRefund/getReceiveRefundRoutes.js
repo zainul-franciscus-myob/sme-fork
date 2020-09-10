@@ -1,13 +1,21 @@
+import ReceiveRefundModule from './receiveRefund/ReceiveRefundModule';
 import RouteName from '../../router/RouteName';
 
-/** @type {import('../module-types').RouteConfig} */
-const getReceiveRefundRoutes = () => [
-  {
-    name: RouteName.RECEIVE_REFUND,
-    path: '/:region/:businessId/receiveRefund/:refundId',
-    loadModule: () => import('./receiveRefund/ReceiveRefundModule'),
-    documentTitle: 'Receive refund',
-  },
-];
+const getReceiveRefundRoutes = ({ integration, setRootView, pushMessage }) => {
+  const routes = [
+    {
+      name: RouteName.RECEIVE_REFUND,
+      path: '/:region/:businessId/receiveRefund/:refundId',
+      module: new ReceiveRefundModule({
+        integration,
+        setRootView,
+        pushMessage,
+      }),
+      documentTitle: 'Receive refund',
+    },
+  ];
+
+  return routes;
+};
 
 export default getReceiveRefundRoutes;

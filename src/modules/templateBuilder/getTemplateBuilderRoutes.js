@@ -1,30 +1,61 @@
+import InvoiceBusinessSettingsModule from './businessSettings/invoiceBusinessSettingsModule';
+import InvoiceEmailSettingsModule from './emailSettings/InvoiceEmailSettingsModule';
+import InvoiceLogoModule from './logoSettings/InvoiceLogoModule';
+import InvoicePaymentSettingsModule from './paymentSettings/InvoicePaymentSettingsModule';
 import RouteName from '../../router/RouteName';
 
-/** @type {import('../module-types').RouteConfig} */
-const getTemplateBuilderRoutes = () => [
+const getTemplateBuilderRoutes = ({
+  setRootView,
+  integration,
+  pushMessage,
+  popMessages,
+  globalCallbacks: {
+    setupBusinessDetails,
+    addedPaymentDetails,
+    uploadedLogo,
+    customisedEmailDefaults,
+  },
+}) => [
   {
     name: RouteName.INVOICE_BUSINESS_SETTINGS,
     path: '/:region/:businessId/invoiceBusinessSettings',
-    loadModule: () =>
-      import('./businessSettings/invoiceBusinessSettingsModule'),
+    module: new InvoiceBusinessSettingsModule({
+      setRootView,
+      integration,
+      setupBusinessDetails,
+    }),
     documentTitle: 'Invoice business details',
   },
   {
     name: RouteName.INVOICE_LOGO_SETTINGS,
     path: '/:region/:businessId/invoiceLogoSettings/',
-    loadModule: () => import('./logoSettings/InvoiceLogoModule'),
+    module: new InvoiceLogoModule({
+      integration,
+      setRootView,
+      pushMessage,
+      uploadedLogo,
+    }),
     documentTitle: 'Upload your logo',
   },
   {
     name: RouteName.INVOICE_PAYMENT_SETTINGS,
     path: '/:region/:businessId/invoicePaymentSettings/',
-    loadModule: () => import('./paymentSettings/InvoicePaymentSettingsModule'),
+    module: new InvoicePaymentSettingsModule({
+      setRootView,
+      integration,
+      popMessages,
+      addedPaymentDetails,
+    }),
     documentTitle: 'Add invoice payment details',
   },
   {
     name: RouteName.INVOICE_EMAIL_SETTINGS,
     path: '/:region/:businessId/invoiceEmailSettings/',
-    loadModule: () => import('./emailSettings/InvoiceEmailSettingsModule'),
+    module: new InvoiceEmailSettingsModule({
+      setRootView,
+      integration,
+      customisedEmailDefaults,
+    }),
     documentTitle: 'Set up your invoice email template',
   },
 ];

@@ -1,15 +1,32 @@
+import GeneralJournalDetailModule from './generalJournalDetail/GeneralJournalDetailModule';
 import RouteName from '../../router/RouteName';
 
-/** @type {import('../module-types').RouteConfig} */
-const getGeneralJournalRoutes = () => [
-  {
-    name: RouteName.GENERAL_JOURNAL_DETAIL,
-    path: '/:region/:businessId/generalJournal/:generalJournalId',
-    allowedParams: ['duplicateGeneralJournalId'],
-    loadModule: () =>
-      import('./generalJournalDetail/GeneralJournalDetailModule'),
-    documentTitle: 'General Journal',
-  },
-];
+const getGeneralJournalRoutes = ({
+  integration,
+  setRootView,
+  popMessages,
+  pushMessage,
+  navigateTo,
+  isToggleOn,
+}) => {
+  const routes = [
+    {
+      name: RouteName.GENERAL_JOURNAL_DETAIL,
+      path: '/:region/:businessId/generalJournal/:generalJournalId',
+      allowedParams: ['duplicateGeneralJournalId'],
+      module: new GeneralJournalDetailModule({
+        integration,
+        setRootView,
+        popMessages,
+        pushMessage,
+        navigateTo,
+        isToggleOn,
+      }),
+      documentTitle: 'General Journal',
+    },
+  ];
+
+  return routes;
+};
 
 export default getGeneralJournalRoutes;

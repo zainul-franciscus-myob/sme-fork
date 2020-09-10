@@ -1,13 +1,17 @@
 import RouteName from '../../router/RouteName';
+import TaxListModule from './taxList/TaxListModule';
 
-/** @type {import('../module-types').RouteConfig} */
-const getTaxRoutes = () => [
-  {
-    name: RouteName.TAX_LIST,
-    path: '/:region/:businessId/tax/',
-    loadModule: () => import('./taxList/TaxListModule'),
-    documentTitle: 'Tax codes',
-  },
-];
+const getTaxRoutes = ({ integration, setRootView }) => {
+  const routes = [
+    {
+      name: RouteName.TAX_LIST,
+      path: '/:region/:businessId/tax/',
+      module: new TaxListModule({ integration, setRootView }),
+      documentTitle: 'Tax codes',
+    },
+  ];
+
+  return routes;
+};
 
 export default getTaxRoutes;

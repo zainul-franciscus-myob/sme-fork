@@ -1,40 +1,70 @@
+import EtpModule from './reportingCentre/etps/EtpModule';
+import ReportingCentreModule from './reportingCentre/ReportingCentreModule';
 import RouteName from '../../router/RouteName';
+import StpErrorsModule from './stpErrors/StpErrorsModule';
+import StpGetStartedModule from './stpGetStarted/StpGetStartedModule';
+import StpSetupModule from './stpSetup/StpSetupModule';
 
-/** @type {import('../module-types').RouteConfig} */
-const getStpRoutes = ({ featureToggles }) => {
-  /** @type {Array<import('../module-types').Route>} */
+const getStpRoutes = ({
+  integration,
+  setRootView,
+  replaceURLParams,
+  pushMessage,
+  popMessages,
+  featureToggles,
+}) => {
   let routes = [
     {
       name: RouteName.STP_GET_STARTED,
       path: '/:region/:businessId/stp/getStarted',
-      loadModule: () => import('./stpGetStarted/StpGetStartedModule'),
+      module: new StpGetStartedModule({
+        integration,
+        setRootView,
+      }),
       documentTitle: 'STP Get Started',
     },
     {
       name: RouteName.STP_SETUP,
       path: '/:region/:businessId/stp/setup',
-      loadModule: () => import('./stpSetup/StpSetupModule'),
+      module: new StpSetupModule({
+        integration,
+        setRootView,
+      }),
       documentTitle: 'Set up STP reporting',
     },
     {
       name: RouteName.STP_ERRORS,
       path: '/:region/:businessId/stp/errors',
       allowedParams: ['source'],
-      loadModule: () => import('./stpErrors/StpErrorsModule'),
+      module: new StpErrorsModule({
+        integration,
+        setRootView,
+        replaceURLParams,
+      }),
       documentTitle: 'STP Errors',
     },
     {
       name: RouteName.STP_REPORTING_CENTRE,
       allowedParams: ['tab'],
       path: '/:region/:businessId/stp/reportingCentre',
-      loadModule: () => import('./reportingCentre/ReportingCentreModule'),
+      module: new ReportingCentreModule({
+        integration,
+        setRootView,
+        replaceURLParams,
+        pushMessage,
+        popMessages,
+        featureToggles,
+      }),
       documentTitle: 'Single Touch Payroll reporting',
     },
     {
       name: RouteName.STP_EMPLOYEE_ETP,
       path: '/:region/:businessId/stp/employeeEtp/:employeeId',
       allowedParams: ['year'],
-      loadModule: () => import('./reportingCentre/etps/EtpModule'),
+      module: new EtpModule({
+        integration,
+        setRootView,
+      }),
       documentTitle: 'Single Touch Payroll reporting',
     },
   ];

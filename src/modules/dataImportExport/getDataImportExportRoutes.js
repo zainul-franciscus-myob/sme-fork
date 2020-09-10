@@ -1,14 +1,26 @@
+import DataImportExportModule from './DataImportExportModule';
 import RouteName from '../../router/RouteName';
 
-/** @type {import('../module-types').RouteConfig} */
-const getDataImportExportRoutes = () => [
-  {
-    name: RouteName.DATA_IMPORT_EXPORT,
-    path: '/:region/:businessId/dataImportExport/',
-    allowedParams: ['importType', 'exportType'],
-    loadModule: () => import('./DataImportExportModule'),
-    documentTitle: 'Import/export data',
-  },
-];
+const getDataImportExportRoutes = ({
+  integration,
+  setRootView,
+  replaceURLParams,
+}) => {
+  const routes = [
+    {
+      name: RouteName.DATA_IMPORT_EXPORT,
+      path: '/:region/:businessId/dataImportExport/',
+      allowedParams: ['importType', 'exportType'],
+      module: new DataImportExportModule({
+        integration,
+        setRootView,
+        replaceURLParams,
+      }),
+      documentTitle: 'Import/export data',
+    },
+  ];
+
+  return routes;
+};
 
 export default getDataImportExportRoutes;

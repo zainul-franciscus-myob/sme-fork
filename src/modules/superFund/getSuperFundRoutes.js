@@ -1,13 +1,21 @@
 import RouteName from '../../router/RouteName';
+import SuperFundModule from './SuperFundModule';
 
-/** @type {import('../module-types').RouteConfig} */
-const getSuperFundRoutes = () => [
-  {
-    name: RouteName.SUPER_FUND_DETAIL,
-    path: '/:region/:businessId/superFund/:superFundId',
-    loadModule: () => import('./SuperFundModule'),
-    documentTitle: 'Superannuation fund',
-  },
-];
+const getSuperFundRoutes = ({ integration, setRootView, pushMessage }) => {
+  const routes = [
+    {
+      name: RouteName.SUPER_FUND_DETAIL,
+      path: '/:region/:businessId/superFund/:superFundId',
+      module: new SuperFundModule({
+        integration,
+        setRootView,
+        pushMessage,
+      }),
+      documentTitle: 'Superannuation fund',
+    },
+  ];
+
+  return routes;
+};
 
 export default getSuperFundRoutes;

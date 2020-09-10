@@ -26,13 +26,14 @@ describe('UserDetailModule', () => {
   const setup = () => {
     const setRootView = () => {};
     const pushMessage = () => {};
+    const usersInvited = () => {};
     const integration = new TestIntegration();
 
     const module = new UserDetailModule({
       integration,
       setRootView,
       pushMessage,
-      globalCallbacks: { usersInvited: () => {} },
+      usersInvited,
     });
     const store = new TestStore(userDetailReducer);
     module.store = store;

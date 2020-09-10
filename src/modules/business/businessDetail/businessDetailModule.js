@@ -21,7 +21,7 @@ export default class BusinessDetailModule {
   constructor({
     integration,
     setRootView,
-    globalCallbacks: { businessDetailsConfirmed },
+    businessDetailsConfirmed,
     isToggleOn,
     navigateTo,
     loadGlobalBusinessDetails,

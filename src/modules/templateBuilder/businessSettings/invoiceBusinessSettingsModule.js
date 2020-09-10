@@ -18,11 +18,7 @@ import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class InvoiceBusinessSettingsModule {
-  constructor({
-    integration,
-    setRootView,
-    globalCallbacks: { setupBusinessDetails },
-  }) {
+  constructor({ integration, setRootView, setupBusinessDetails }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.store = new Store(businessDetailReducer);

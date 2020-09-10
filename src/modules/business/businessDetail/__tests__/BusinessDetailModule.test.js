@@ -35,9 +35,6 @@ describe('BusinessDetailModule', () => {
       integration,
       setRootView,
       isToggleOn,
-      globalCallbacks: { businessDetailsConfirmed: () => {} },
-      navigateTo: () => {},
-      loadGlobalBusinessDetails: () => {},
     });
     module.store = store;
     module.dispatcher = createBusinessDetailDispatcher(store);

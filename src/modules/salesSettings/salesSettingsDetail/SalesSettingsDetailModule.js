@@ -38,7 +38,7 @@ export default class SalesSettingsModule {
     setRootView,
     popMessages,
     replaceURLParams,
-    globalCallbacks: { addedPaymentDetails },
+    addedPaymentDetails,
   }) {
     this.integration = integration;
     this.store = new Store(salesSettingsReducer);
@@ -178,6 +178,7 @@ export default class SalesSettingsModule {
     };
 
     this.integrator.sortTemplateList({
+      orderBy,
       sortOrder,
       onSuccess,
       onFailure,

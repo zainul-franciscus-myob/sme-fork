@@ -43,7 +43,7 @@ describe('importing conventions', () => {
           // Exclude *ModalModule from cross-module test (exemptions)
           if (!importFileName.endsWith('ModalModule')) {
             const importFileShortPath = importFilePath.replace(root, '');
-            acc.push([importFileShortPath, importFilePath]);
+            return [...acc, [importFileShortPath, importFilePath]];
           }
         }
 
@@ -59,7 +59,8 @@ describe('importing conventions', () => {
     if (imports.length) {
       const sourceFilePath = sourceFile.getFilePath();
       const sourceFileShortPath = sourceFilePath.replace(root, '');
-      acc.push([sourceFileShortPath, sourceFilePath, imports]);
+
+      return [...acc, [sourceFileShortPath, sourceFilePath, imports]];
     }
 
     return acc;

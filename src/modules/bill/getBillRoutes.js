@@ -1,28 +1,57 @@
+import BillListModule from './billList/BillListModule';
+import BillModule from './billDetail/BillModule';
 import RouteName from '../../router/RouteName';
 
-/** @type {import('../module-types').RouteConfig} */
-const getBillRoutes = () => [
-  {
-    name: RouteName.BILL_LIST,
-    path: '/:region/:businessId/bill/',
-    allowedParams: [
-      'dateFrom',
-      'dateTo',
-      'keywords',
-      'supplierId',
-      'status',
-      'orderBy',
-      'sortOrder',
-    ],
-    loadModule: () => import('./billList/BillListModule'),
-    documentTitle: 'Bills',
-  },
-  {
-    name: RouteName.BILL_DETAIL,
-    path: '/:region/:businessId/bill/:billId',
-    loadModule: () => import('./billDetail/BillModule'),
-    documentTitle: 'Bill',
-  },
-];
+const getBillRoutes = ({
+  integration,
+  setRootView,
+  pushMessage,
+  popMessages,
+  replaceURLParams,
+  globalCallbacks,
+  navigateTo,
+  isToggleOn,
+  subscribeOrUpgrade,
+}) => {
+  const routes = [
+    {
+      name: RouteName.BILL_LIST,
+      path: '/:region/:businessId/bill/',
+      allowedParams: [
+        'dateFrom',
+        'dateTo',
+        'keywords',
+        'supplierId',
+        'status',
+        'orderBy',
+        'sortOrder',
+      ],
+      module: new BillListModule({
+        integration,
+        setRootView,
+        popMessages,
+      }),
+      documentTitle: 'Bills',
+    },
+    {
+      name: RouteName.BILL_DETAIL,
+      path: '/:region/:businessId/bill/:billId',
+      module: new BillModule({
+        integration,
+        setRootView,
+        pushMessage,
+        replaceURLParams,
+        popMessages,
+        globalCallbacks,
+        navigateTo,
+        isToggleOn,
+        subscribeOrUpgrade,
+      }),
+      documentTitle: 'Bill',
+    },
+  ];
+
+  return routes;
+};
 
 export default getBillRoutes;

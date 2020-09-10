@@ -1,13 +1,17 @@
+import CustomerStatementListModule from './CustomerStatementListModule';
 import RouteName from '../../router/RouteName';
 
-/** @type {import('../module-types').RouteConfig} */
-const getCustomerStatementRoutes = () => [
-  {
-    name: RouteName.CUSTOMER_STATEMENT_LIST,
-    path: '/:region/:businessId/customerStatement/',
-    loadModule: () => import('./CustomerStatementListModule'),
-    documentTitle: 'Customer statements',
-  },
-];
+const getCustomerStatementRoutes = ({ integration, setRootView }) => {
+  const routes = [
+    {
+      name: RouteName.CUSTOMER_STATEMENT_LIST,
+      path: '/:region/:businessId/customerStatement/',
+      module: new CustomerStatementListModule({ integration, setRootView }),
+      documentTitle: 'Customer statements',
+    },
+  ];
+
+  return routes;
+};
 
 export default getCustomerStatementRoutes;

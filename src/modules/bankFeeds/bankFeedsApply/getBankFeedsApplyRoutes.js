@@ -1,11 +1,21 @@
+import BankFeedsApplyModule from './BankFeedsApplyModule';
 import RouteName from '../../../router/RouteName';
 
-/** @type {import('../../module-types').RouteConfig} */
-const getBankFeedsApplyRoutes = () => [
+const getBankFeedsApplyRoutes = ({
+  integration,
+  setRootView,
+  pushMessage,
+  navigateTo,
+}) => [
   {
     name: RouteName.BANK_FEEDS_CREATE,
     path: '/:region/:businessId/bankFeeds/create',
-    loadModule: () => import('./BankFeedsApplyModule'),
+    module: new BankFeedsApplyModule({
+      integration,
+      setRootView,
+      pushMessage,
+      navigateTo,
+    }),
     documentTitle: 'Create a bank feed',
   },
 ];
