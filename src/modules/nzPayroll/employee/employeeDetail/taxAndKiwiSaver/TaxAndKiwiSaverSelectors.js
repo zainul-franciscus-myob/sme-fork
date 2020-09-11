@@ -8,3 +8,8 @@ export const getKiwiSaverStatusOptions = (state) =>
   state.kiwiSaverStatusOptions;
 export const getEmployeeContributionOptions = (state) =>
   state.kiwiSaverEmployeeContributionOptions;
+
+export const getEsct = (state) =>
+  getKiwiSaver(state)?.employerSuperannuationContributionTax;
+export const getEsctOptions = (state) =>
+  state.employerSuperannuationContributionTaxOptions;

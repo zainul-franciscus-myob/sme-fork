@@ -58,6 +58,6 @@ describe('TaxAndKiwiSaverTab', () => {
 
     expect(view.find('TaxDeclaration').exists()).toBeTruthy();
     expect(view.find('KiwiSaver').exists()).toBeTruthy();
-    expect(view.find('EmployerSCTR').exists()).toBeTruthy();
+    expect(view.find('EsctRate').exists()).toBeTruthy();
   });
 });

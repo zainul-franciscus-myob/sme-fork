@@ -39,6 +39,9 @@
     "tax": {
       "irdNumber": "999 888 777",
       "taxCode": "ND"
+    },
+    "kiwiSaver": {
+      "employerSuperannuationContributionTax": 0
     }
   },
   "genderOptions": [
@@ -63,5 +66,27 @@
     { "key": "ST", "value": "ST" },
     { "key": "EDW", "value": "EDW" },
     { "key": "CAE", "value": "CAE" }
+  ],
+  "employerSuperannuationContributionTaxOptions": [
+    {
+      "displayName": "Please select an option",
+      "value": "0"
+    },
+    {
+      "displayName": "Up to $16,800 (tax at 10.5%)",
+      "value": "0.105"
+    },
+    {
+      "displayName": "$16,801 to $57,600 (tax at 17.5%)",
+      "value": "0.175"
+    },
+    {
+      "displayName": "$57,601 to $84,000 (tax at 30%)",
+      "value": "0.3"
+    },
+    {
+      "displayName": "Over $84,000 (tax at 33%)",
+      "value": "0.33"
+    }
   ]
 }

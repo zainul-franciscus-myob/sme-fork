@@ -1,5 +1,7 @@
 import {
   getEmployeeContributionOptions,
+  getEsct,
+  getEsctOptions,
   getKiwiSaver,
   getKiwiSaverStatusOptions,
   getTaxCodeOptions,
@@ -53,5 +55,26 @@ describe('TaxAndKiwiSaverSelectors', () => {
     const actual = getEmployeeContributionOptions(state);
 
     expect(actual).toMatchObject(kiwiSaverEmployeeContributionOptions);
+  });
+
+  it('should get ESCT rate', () => {
+    const kiwiSaver = { employerSuperannuationContributionTax: 'value' };
+    const state = { payrollDetails: { kiwiSaver } };
+
+    const actual = getEsct(state);
+
+    expect(actual).toEqual(kiwiSaver.employerSuperannuationContributionTax);
+  });
+
+  it('should get ESCT Options', () => {
+    const employerSuperannuationContributionTaxOptions = {
+      key: 'someKey',
+      value: 'some-value',
+    };
+    const state = { employerSuperannuationContributionTaxOptions };
+
+    const actual = getEsctOptions(state);
+
+    expect(actual).toMatchObject(employerSuperannuationContributionTaxOptions);
   });
 });

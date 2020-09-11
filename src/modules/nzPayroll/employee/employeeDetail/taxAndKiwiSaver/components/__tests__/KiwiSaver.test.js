@@ -31,10 +31,11 @@ describe('KiwiSaver', () => {
 
     it('should call onKiwiSaverInputChange handler with key and value for kiwiSaverStatus', () => {
       const target = { name: 'kiwiSaverStatus', value: '1' };
+      const expected = { key: 'kiwiSaverStatus', value: '1' };
 
       kiwiSaverStatusSelect.props().onChange({ target });
 
-      expect(props.onKiwiSaverInputChange).toHaveBeenCalledWith({ target });
+      expect(props.onKiwiSaverInputChange).toHaveBeenCalledWith(expected);
     });
 
     const employeeContributionRateSelect = wrapper
@@ -50,10 +51,11 @@ describe('KiwiSaver', () => {
 
     it('should call onKiwiSaverInputChange handler with key and value for employeeContributionRate', () => {
       const target = { name: 'employeeContributionRate', value: '2' };
+      const expected = { key: 'employeeContributionRate', value: '2' };
 
       employeeContributionRateSelect.props().onChange({ target });
 
-      expect(props.onKiwiSaverInputChange).toHaveBeenCalledWith({ target });
+      expect(props.onKiwiSaverInputChange).toHaveBeenCalledWith(expected);
     });
 
     const employerContributionRateInput = wrapper
@@ -69,10 +71,11 @@ describe('KiwiSaver', () => {
 
     it('should call onKiwiSaverInputChange handler with key and value for employerContributionRate', () => {
       const target = { name: 'employerContributionRate', value: '3' };
+      const expected = { key: 'employerContributionRate', value: '3' };
 
       employerContributionRateInput.props().onChange({ target });
 
-      expect(props.onKiwiSaverInputChange).toHaveBeenCalledWith({ target });
+      expect(props.onKiwiSaverInputChange).toHaveBeenCalledWith(expected);
     });
   });
 });

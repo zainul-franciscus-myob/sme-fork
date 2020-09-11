@@ -2,6 +2,8 @@ import { FieldGroup, Select } from '@myob/myob-widgets';
 import React from 'react';
 
 import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
+import handleInputChange from '../../../../../../components/handlers/handleInputChange';
+import handleSelectChange from '../../../../../../components/handlers/handleSelectChange';
 
 const KiwiSaver = ({
   kiwiSaver = {},
@@ -14,7 +16,7 @@ const KiwiSaver = ({
       name="kiwiSaverStatus"
       label="KiwiSaver Status"
       width="sm"
-      onChange={onKiwiSaverInputChange}
+      onChange={handleSelectChange(onKiwiSaverInputChange)}
       value={kiwiSaver.kiwiSaverStatus}
     >
       {kiwiSaverStatusOptions.map(({ key, value }) => (
@@ -26,7 +28,7 @@ const KiwiSaver = ({
       name="employeeContributionRate"
       label="Employee contribution rate (%)"
       width="sm"
-      onChange={onKiwiSaverInputChange}
+      onChange={handleSelectChange(onKiwiSaverInputChange)}
       value={kiwiSaver.employeeContributionRate}
     >
       {employeeContributionOptions.map(({ key, value }) => (
@@ -38,7 +40,7 @@ const KiwiSaver = ({
       name="employerContributionRate"
       label="Employer contribution rate (%)"
       width="sm"
-      onChange={onKiwiSaverInputChange}
+      onChange={handleInputChange(onKiwiSaverInputChange)}
       numeralDecimalScaleMax={2}
       numeralIntegerScale={3}
       numeralPositiveOnly
