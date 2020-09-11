@@ -13,7 +13,6 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_ITEM_DETAIL_FOR_LINE,
-  LOAD_ITEM_OPTION,
   LOAD_JOB_AFTER_CREATE,
   LOAD_SUPPLIER_DETAIL,
   OPEN_ALERT,
@@ -495,11 +494,6 @@ const loadItemDetailForLine = (state, action) => ({
   },
 });
 
-const loadItemOption = (state, action) => ({
-  ...state,
-  itemOptions: [action.response, ...state.itemOptions],
-});
-
 export const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   ...state,
   accountOptions: [account, ...state.accountOptions],
@@ -637,7 +631,6 @@ const handlers = {
   [CALCULATE_LINE_AMOUNTS]: calculateLineAmounts,
   [REMOVE_BILL_LINE]: removeBillLine,
   [GET_TAX_CALCULATIONS]: getTaxCalculations,
-  [LOAD_ITEM_OPTION]: loadItemOption,
   [LOAD_ITEM_DETAIL_FOR_LINE]: loadItemDetailForLine,
   [LOAD_SUPPLIER_DETAIL]: loadSupplierDetail,
   [RESET_SUPPLIER]: resetSupplier,

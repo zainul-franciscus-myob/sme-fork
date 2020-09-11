@@ -6,6 +6,7 @@ import BillLayout from '../types/BillLayout';
 import BillLineType from '../types/BillLineType';
 import ContactType from '../../../contact/contactCombobox/types/ContactType';
 import DisplayMode from '../../../contact/contactCombobox/types/DisplayMode';
+import ItemTypes from '../../../inventory/itemCombobox/ItemTypes';
 import Region from '../../../../common/types/Region';
 import buildAbnLink from '../../../../common/links/buildAbnLink';
 import calculateLineTotals from '../../../../common/taxCalculator/calculateLineTotals';
@@ -45,7 +46,6 @@ export const getIsForeignCurrency = (state) => state.bill.isForeignCurrency;
 export const getAbn = (state) => state.abn;
 export const getAccountOptions = (state) => state.accountOptions;
 export const getExpirationTermOptions = (state) => state.expirationTermOptions;
-export const getItemOptions = (state) => state.itemOptions;
 export const getTaxCodeOptions = (state) => state.taxCodeOptions;
 
 export const getLoadingState = (state) => state.loadingState;
@@ -155,6 +155,34 @@ export const getContextForInventoryModal = (state) => {
     region,
     isBuying: true,
     isSelling: false,
+  };
+};
+
+export const getUniqueSelectedItemIds = (state) => {
+  if (
+    state.bill.layout === BillLayout.ITEM_AND_SERVICE &&
+    state.bill.lines.length > 0
+  ) {
+    const selectedItemIds = state.bill.lines.reduce((itemIds, line) => {
+      if (line.itemId) {
+        itemIds.push(line.itemId);
+      }
+      return itemIds;
+    }, []);
+    return [...new Set([...selectedItemIds])];
+  }
+
+  return [];
+};
+
+export const getItemComboboxContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return {
+    businessId,
+    region,
+    itemType: ItemTypes.Bought,
   };
 };
 

@@ -2,9 +2,12 @@ import {
   CREATE_INVENTORY_DETAIL,
   DELETE_INVENTORY_DETAIL,
   LOAD_INVENTORY_DETAIL,
+  LOAD_ITEM_COMBOBOX_OPTIONS,
+  LOAD_ITEM_COMBOBOX_OPTIONS_BY_IDS,
   LOAD_ITEM_LIST,
   LOAD_NEW_INVENTORY_DETAIL,
   LOAD_NEXT_PAGE,
+  SEARCH_COMBOBOX_ITEM,
   SORT_AND_FILTER_ITEM_LIST,
   UPDATE_INVENTORY_DETAIL,
 } from '../InventoryIntents';
@@ -44,6 +47,19 @@ const HttpInventoryMapping = {
   [LOAD_NEXT_PAGE]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/inventory/filter_item_list`,
+  },
+  [LOAD_ITEM_COMBOBOX_OPTIONS]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/inventory/load_item_options`,
+  },
+  [LOAD_ITEM_COMBOBOX_OPTIONS_BY_IDS]: {
+    method: 'POST',
+    getPath: ({ businessId }) =>
+      `/${businessId}/inventory/load_item_options_by_ids`,
+  },
+  [SEARCH_COMBOBOX_ITEM]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/inventory/load_item_options`,
   },
 };
 

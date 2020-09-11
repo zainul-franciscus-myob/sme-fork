@@ -8,7 +8,6 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_ITEM_DETAIL_FOR_LINE,
-  LOAD_ITEM_OPTION,
   LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_BILL,
   LOAD_NEW_DUPLICATE_BILL,
@@ -60,11 +59,6 @@ const HttpBillDetailMapping = {
     method: 'GET',
     getPath: ({ businessId, billId }) =>
       `/${businessId}/bill/export_bill_pdf/${billId}`,
-  },
-  [LOAD_ITEM_OPTION]: {
-    method: 'GET',
-    getPath: ({ businessId, itemId }) =>
-      `/${businessId}/bill/load_item_option/${itemId}`,
   },
   [LOAD_ACCOUNT_AFTER_CREATE]: {
     method: 'GET',

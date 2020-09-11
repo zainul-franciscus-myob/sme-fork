@@ -2,6 +2,7 @@ import { Combobox } from '@myob/myob-widgets';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { buildItems, buildSelectedItem } from './helpers/buildItems';
+import AutoCompleteComboboxTypes from './AutoCompleteComboboxTypes';
 import LoadMoreButton from './LoadMoreButton';
 import LoadMoreButtonStatus from './LoadMoreButtonStatus';
 import buildLoadMoreItem, {
@@ -11,6 +12,7 @@ import debounce from '../../common/debounce/debounce';
 import getShouldShowLoadMoreButton from './helpers/getShouldShowLoadMoreButton';
 
 const AutoCompleteCombobox = ({
+  type = AutoCompleteComboboxTypes.STAND_ALONE,
   metaData = [],
   selectedId = '',
   items = [],
@@ -29,8 +31,15 @@ const AutoCompleteCombobox = ({
   // Some of these states are stored in downshift but they are not exposed by Feelix hence
   // we have to keep track of our own state this way
 
-  const [currInput, setCurrInput] = useState('');
+  // The prevSelectedItem Ref is to work around the issue where when the user types, if the
+  // Combobox can't find the matching item in the list, it will update the selectedItem to be null,
+  // causing the input field to be emptied.
+  // To overcome this issue for Search, we always include the previously selected item (if exist)
+  // in the dropdown list, so that input field is not updated to be empty and will still show the
+  // typed value
   const prevSelectedItem = useRef(null);
+  const [currInput, setCurrInput] = useState('');
+
   const hasUserSelectedRef = useRef(false);
   const hasDownshiftSelectedRef = useRef(false);
 
@@ -47,6 +56,7 @@ const AutoCompleteCombobox = ({
 
   const loadMoreButtonItem = buildLoadMoreItem({ metaData, items, selectedId });
   const comboboxItems = buildItems({
+    selectedId,
     items,
     searchItems,
     isSearching: isSearchingRef.current,
@@ -79,6 +89,9 @@ const AutoCompleteCombobox = ({
       // Start searching
       setIsSearchLoading(true);
       isSearchingRef.current = true;
+      if (selectedItem) {
+        prevSelectedItem.current = selectedItem;
+      }
 
       debounce(
         onSearch,
@@ -104,7 +117,7 @@ const AutoCompleteCombobox = ({
       isSearchingRef.current = false;
       setIsSearchLoading(false);
     }
-  }, [currInput, onSearch, searchDelay, setIsSearchLoading]);
+  }, [currInput, onSearch, searchDelay, selectedItem, setIsSearchLoading]);
 
   const onInputValueChange = (value) => {
     if (currInput !== value) {
@@ -120,15 +133,41 @@ const AutoCompleteCombobox = ({
       }
       // On Read
       else if (
-        currInput === '' &&
         selectedItem &&
         value === selectedItem[paginationDisplayColumn]
       ) {
-        prevSelectedItem.current = selectedItem;
+        prevSelectedItem.current = null;
         hasUserSelectedRef.current = true;
       }
     } else {
       hasUserSelectedRef.current = true;
+    }
+  };
+
+  const resetState = () => {
+    isSearchingRef.current = false;
+    setIsSearchLoading(false);
+    prevSelectedItem.current = null;
+  };
+
+  const updateStateOnSelectedItemChange = ({ item, onSelectedItemChange }) => {
+    const newItem = item || {};
+    const { id = '' } = newItem;
+
+    if (selectedId !== id) {
+      onSelectedItemChange(item);
+      hasUserSelectedRef.current = true;
+      hasDownshiftSelectedRef.current = false;
+
+      // When rendered inside the LineItemTable, each autocomplete component is rendered
+      // to a specific row. When a row is "deleted", it's not unmounted from the DOM tree,
+      // but its value is updated from the Page Module store, and so we need to manually
+      // update its internal state which is not controlled by props
+      if (item && type === AutoCompleteComboboxTypes.ITEM_LINE) {
+        resetState();
+      } else {
+        prevSelectedItem.current = item;
+      }
     }
   };
 
@@ -156,18 +195,14 @@ const AutoCompleteCombobox = ({
       // onChange should not be triggered on add new item click.
       // Assume this is Feelix bug?
     } else {
-      const newItem = item || {};
-      const { id = '' } = newItem;
-      if (selectedId !== id) {
-        onChange(item);
-        prevSelectedItem.current = item;
-        hasUserSelectedRef.current = true;
-        hasDownshiftSelectedRef.current = false;
-      }
+      updateStateOnSelectedItemChange({
+        item,
+        onSelectedItemChange: onChange,
+      });
     }
   };
 
-  const onBlur = () => {
+  const resetSearchStateOnBlur = () => {
     if (
       isSearchingRef.current &&
       isSearchLoading &&
@@ -177,8 +212,17 @@ const AutoCompleteCombobox = ({
       isSearchingRef.current = false;
     }
 
-    hasBlurredRef.current = true;
     setIsSearchLoading(false);
+  };
+
+  const onBlur = () => {
+    if (type === AutoCompleteComboboxTypes.ITEM_LINE) {
+      resetState();
+    } else {
+      resetSearchStateOnBlur();
+    }
+
+    hasBlurredRef.current = true;
   };
 
   const renderItem = (columnName, item) => {

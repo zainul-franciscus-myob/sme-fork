@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 import ContactType from './types/ContactType';
-import LoadMoreButtonStatus from '../../../components/AutoComplete/LoadMoreButtonStatus';
+import getLoadMoreButtonStatus from '../../../components/AutoComplete/helpers/getLoadMoreButtonStatus';
 
 const getBusinessId = (state) => state.businessId;
 const getRegion = (state) => state.region;
@@ -12,18 +12,6 @@ const getIsContactOptionsLoading = (state) => state.isOptionsLoading;
 export const getContactOptions = (state) => state.contactOptions;
 const getHasMoreContactOptions = (state) => state.pagination.hasNextPage;
 const getContactOptionsOffset = (state) => state.pagination.offset;
-
-const getLoadMoreButtonStatus = (isLoading, hasMore) => {
-  if (isLoading) {
-    return LoadMoreButtonStatus.LOADING;
-  }
-
-  if (hasMore) {
-    return LoadMoreButtonStatus.SHOWN;
-  }
-
-  return LoadMoreButtonStatus.HIDDEN;
-};
 
 export const getLoadContactOptionsStatus = createSelector(
   getIsContactOptionsLoading,

@@ -8,6 +8,7 @@ import {
   getIsLinesSupported,
   getIsNewLine,
   getIsReadOnly,
+  getItemComboboxContext,
   getModalContext,
   getNewLineIndex,
   getPageTitle,
@@ -16,9 +17,11 @@ import {
   getShouldShowAccountCode,
   getTableData,
   getTotals,
+  getUniqueSelectedItemIds,
 } from '../billSelectors';
 import BillLayout from '../../types/BillLayout';
 import BillLineType from '../../types/BillLineType';
+import ItemTypes from '../../../../inventory/itemCombobox/ItemTypes';
 
 describe('BillSelectors', () => {
   describe('getNewLineIndex', () => {
@@ -355,6 +358,40 @@ describe('BillSelectors', () => {
       const actual = getModalContext(state);
 
       expect(actual).toEqual({ region: 'Spain', businessId: 'manzana' });
+    });
+  });
+
+  describe('getItemComboboxModuleContext', () => {
+    it('returns the businessId, region and pre-set item type', () => {
+      const state = {
+        businessId: 'bizId',
+        region: 'vn',
+      };
+
+      const actual = getItemComboboxContext(state);
+      expect(actual).toEqual({
+        businessId: 'bizId',
+        region: 'vn',
+        itemType: ItemTypes.Bought,
+      });
+    });
+  });
+
+  describe('getUniqueSelectedItemIds', () => {
+    it('returns a list of unique selected item ids excluding empty ids', () => {
+      const state = {
+        bill: {
+          layout: BillLayout.ITEM_AND_SERVICE,
+          lines: [
+            { itemId: '1' },
+            { itemId: '2' },
+            { itemId: '' },
+            { itemId: '1' },
+          ],
+        },
+      };
+      const actual = getUniqueSelectedItemIds(state);
+      expect(actual).toEqual(['1', '2']);
     });
   });
 

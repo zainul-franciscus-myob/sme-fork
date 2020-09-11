@@ -9,14 +9,12 @@ import {
   getIsBlocking,
   getIsNewLine,
   getIsReadOnly,
-  getItemOptions,
   getTaxCodeOptions,
 } from '../selectors/billSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import BillLineType from '../types/BillLineType';
 import BillTableReadOnlyRowItem from './BillTableReadOnlyRowItem';
 import Calculator from '../../../../components/Calculator/Calculator';
-import ItemCombobox from '../../../../components/combobox/ItemCombobox';
 import JobCombobox from '../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 import styles from './BillTableRow.module.css';
@@ -26,6 +24,14 @@ const handleComboboxChange = (handler, name) => (e) =>
     target: {
       name,
       value: e.id,
+    },
+  });
+
+const handleAutoCompleteItemChange = (handler, name) => (item) =>
+  handler({
+    target: {
+      name,
+      value: item ? item.id : '',
     },
   });
 
@@ -48,7 +54,6 @@ const BillItemAndServiceTableRow = ({
   billLine,
   accountOptions,
   taxCodeOptions,
-  itemOptions,
   isBlocking,
   isNewLine,
   isLineWithoutItemFromInTray,
@@ -57,8 +62,8 @@ const BillItemAndServiceTableRow = ({
   onAddAccount,
   onAddJob,
   onRowInputBlur,
-  onAddItemButtonClick,
   isBillJobColumnEnabled,
+  renderItemCombobox,
   ...feelixInjectedProps
 }) => {
   const prefillStatus = billLine.prefillStatus || {};
@@ -94,15 +99,14 @@ const BillItemAndServiceTableRow = ({
 
   return (
     <LineItemTable.Row id={index} index={index} {...feelixInjectedProps}>
-      <ItemCombobox
-        addNewItem={() =>
-          onAddItemButtonClick(handleComboboxChange(onChange, 'itemId'))
-        }
-        items={itemOptions}
-        selectedId={itemId}
-        onChange={handleComboboxChange(onChange, 'itemId')}
-        disabled={isBlocking || isReadOnly}
-      />
+      {renderItemCombobox({
+        name: 'itemId',
+        label: 'Item Id',
+        hideLabel: true,
+        selectedId: itemId,
+        disabled: isBlocking || isReadOnly,
+        onChange: handleAutoCompleteItemChange(onChange, 'itemId'),
+      })}
       <div
         className={classnames({
           [styles.prefilled]: Boolean(prefillStatus.description),
@@ -200,7 +204,6 @@ const BillItemAndServiceTableRow = ({
 
 const mapStateToProps = (state, props) => ({
   billLine: getBillLine(state, props),
-  itemOptions: getItemOptions(state),
   accountOptions: getAccountOptions(state),
   taxCodeOptions: getTaxCodeOptions(state),
   isNewLine: getIsNewLine(state, props),

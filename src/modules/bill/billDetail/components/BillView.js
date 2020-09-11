@@ -50,6 +50,7 @@ const BillView = ({
   renderContactCombobox,
   serviceLayoutListeners,
   itemAndServiceLayoutListeners,
+  renderItemCombobox,
   accountModal,
   jobModal,
   isAlertShown,
@@ -104,7 +105,10 @@ const BillView = ({
   );
 
   const itemAndServiceTable = (
-    <BillItemAndServiceTable listeners={itemAndServiceLayoutListeners} />
+    <BillItemAndServiceTable
+      renderItemCombobox={renderItemCombobox}
+      listeners={itemAndServiceLayoutListeners}
+    />
   );
 
   const serviceTable = <BillServiceTable listeners={serviceLayoutListeners} />;

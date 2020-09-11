@@ -6,7 +6,6 @@ import {
   LOAD_ABN_FROM_SUPPLIER,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ITEM_DETAIL_FOR_LINE,
-  LOAD_ITEM_OPTION,
   LOAD_JOB_AFTER_CREATE,
   LOAD_SUPPLIER_DETAIL,
   PREFILL_BILL_FROM_IN_TRAY,
@@ -24,7 +23,6 @@ import {
   getLoadAddedJobUrlParams,
   getLoadBillIntent,
   getLoadBillUrlParams,
-  getLoadItemOptionUrlParams,
   getLoadSupplierDetailUrlParams,
   getSaveBillContent,
   getSaveBillIntent,
@@ -141,19 +139,6 @@ const createBillIntegrator = (store, integration) => ({
       intent,
       urlParams,
       params,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  loadItemOption: ({ onSuccess, onFailure, itemId }) => {
-    const state = store.getState();
-    const intent = LOAD_ITEM_OPTION;
-    const urlParams = getLoadItemOptionUrlParams(state, { itemId });
-
-    integration.read({
-      intent,
-      urlParams,
       onSuccess,
       onFailure,
     });

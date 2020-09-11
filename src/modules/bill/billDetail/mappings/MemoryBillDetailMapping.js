@@ -8,7 +8,6 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_ITEM_DETAIL_FOR_LINE,
-  LOAD_ITEM_OPTION,
   LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_BILL,
   LOAD_NEW_DUPLICATE_BILL,
@@ -23,7 +22,6 @@ import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadAddedJobResponse from './data/loadAddedJobResponse';
 import loadItemAndServiceBill from './data/loadItemAndServiceBill';
 import loadItemAndServiceBillWithFreight from './data/loadItemAndServiceBillWithFreight';
-import loadItemOption from './data/loadItemOption';
 import loadNewBill from './data/loadNewBill';
 import loadNewDuplicateItemAndServiceBill from './data/loadNewDuplicateItemAndServiceBill';
 import loadReadOnlyItemAndServiceBill from './data/loadReadOnlyItemAndServiceBill';
@@ -78,7 +76,6 @@ const MemoryBillDetailMapping = {
     onSuccess(updatedLineForItemDetail),
   [EXPORT_BILL_PDF]: ({ onSuccess }) =>
     onSuccess(new Blob([], { type: 'application/pdf' })),
-  [LOAD_ITEM_OPTION]: ({ onSuccess }) => onSuccess(loadItemOption),
   [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) =>
     onSuccess(loadAddedAccountResponse),
   [LOAD_JOB_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedJobResponse),

@@ -120,6 +120,21 @@ describe('BillModule_TableBehaviour', () => {
           },
         ]);
       });
+
+      it('does not load item detail for line if the updated value is empty', () => {
+        const { module, store } = setUpNewBillWithPrefilled();
+
+        module.updateBillLine({ index: 0, key: 'itemId', value: '' });
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_BILL_LINE,
+            index: 0,
+            key: 'itemId',
+            value: '',
+          },
+        ]);
+      });
     });
   });
 

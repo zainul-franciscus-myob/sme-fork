@@ -11,7 +11,6 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_ITEM_DETAIL_FOR_LINE,
-  LOAD_ITEM_OPTION,
   LOAD_JOB_AFTER_CREATE,
   LOAD_SUPPLIER_DETAIL,
   OPEN_ALERT,
@@ -267,13 +266,6 @@ const createBillDispatcher = (store) => ({
       intent: UPDATE_EXPORT_PDF_DETAIL,
       key,
       value,
-    });
-  },
-
-  loadItemOption: (response) => {
-    store.dispatch({
-      intent: LOAD_ITEM_OPTION,
-      response,
     });
   },
 

@@ -80,6 +80,50 @@ describe('buildItems', () => {
 
         expect(actual).toEqual([{ c: 'd' }]);
       });
+
+      describe('inActive selected item', () => {
+        const items = [
+          { id: '1', isInactive: false },
+          { id: '2', isInactive: true },
+          { id: '3', isInactive: false },
+        ];
+
+        it('should return item list with only active items if the selected item is active', () => {
+          const actual = buildItems({
+            selectedId: '1',
+            items,
+          });
+          const expected = [
+            { id: '1', isInactive: false },
+            { id: '3', isInactive: false },
+          ];
+          expect(actual).toEqual(expected);
+        });
+
+        it('should return item list with active items and the inactive selected item', () => {
+          const actual = buildItems({
+            selectedId: '2',
+            items,
+          });
+          const expected = [
+            { id: '1', isInactive: false },
+            { id: '2', isInactive: true },
+            { id: '3', isInactive: false },
+          ];
+          expect(actual).toEqual(expected);
+        });
+
+        it('should return item list with only active items if there is no selected item', () => {
+          const actual = buildItems({
+            items,
+          });
+          const expected = [
+            { id: '1', isInactive: false },
+            { id: '3', isInactive: false },
+          ];
+          expect(actual).toEqual(expected);
+        });
+      });
     });
   });
 

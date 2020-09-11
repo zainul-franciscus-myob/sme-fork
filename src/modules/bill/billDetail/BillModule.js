@@ -16,7 +16,6 @@ import {
   getBillId,
   getBillUid,
   getContactComboboxContext,
-  getContextForInventoryModal,
   getExpenseAccountId,
   getHasLineBeenPrefilled,
   getIsCreating,
@@ -26,6 +25,7 @@ import {
   getIsLinesEmpty,
   getIsPageEdited,
   getIsTaxInclusive,
+  getItemComboboxContext,
   getLinesForTaxCalculation,
   getModalContext,
   getModalType,
@@ -34,6 +34,7 @@ import {
   getShouldShowAbn,
   getSupplierId,
   getTaxCodeOptions,
+  getUniqueSelectedItemIds,
 } from './selectors/billSelectors';
 import {
   getBillListUrl,
@@ -68,7 +69,7 @@ import BillView from './components/BillView';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
 import FeatureToggle from '../../../FeatureToggles';
 import InTrayModalModule from '../../inTray/inTrayModal/InTrayModalModule';
-import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
+import ItemComboboxModule from '../../inventory/itemCombobox/ItemComboboxModule';
 import JobModalModule from '../../job/jobModal/JobModalModule';
 import ModalType from './types/ModalType';
 import SaveActionType from './types/SaveActionType';
@@ -106,7 +107,6 @@ class BillModule {
     this.jobModalModule = new JobModalModule({
       integration,
     });
-    this.inventoryModalModule = new InventoryModalModule({ integration });
     this.inTrayModalModule = new InTrayModalModule({ integration });
     this.taxCalculate = createTaxCalculator(TaxCalculatorTypes.bill);
     this.globalCallbacks = globalCallbacks;
@@ -114,6 +114,10 @@ class BillModule {
     this.subscribeOrUpgrade = subscribeOrUpgrade;
 
     this.contactComboboxModule = new ContactComboboxModule({ integration });
+    this.itemComboboxModule = new ItemComboboxModule({
+      integration,
+      onAlert: this.openAlert,
+    });
   }
 
   openAccountModal = (onChange) => {
@@ -214,6 +218,7 @@ class BillModule {
         this.prefillBillFromInTray();
       } else {
         this.updateContactCombobox();
+        this.updateItemCombobox();
 
         const shouldShowAbn = getShouldShowAbn(state);
         if (shouldShowAbn) {
@@ -520,7 +525,8 @@ class BillModule {
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
     } else if (
       getIsLineItemIdKey(key) &&
-      !getHasLineBeenPrefilled(this.store.getState(), index)
+      !getHasLineBeenPrefilled(this.store.getState(), index) &&
+      value
     ) {
       this.loadItemDetailForLine({ index, itemId: value });
     }
@@ -711,47 +717,6 @@ class BillModule {
     });
   };
 
-  loadItemOption = ({ itemId }, onChangeItemTableRow) => {
-    const onSuccess = (response) => {
-      this.dispatcher.stopBlocking();
-      this.dispatcher.loadItemOption(response);
-      onChangeItemTableRow({ id: itemId });
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.stopBlocking();
-      this.dispatcher.openDangerAlert({ message });
-    };
-
-    this.dispatcher.startBlocking();
-
-    this.integrator.loadItemOption({ onSuccess, onFailure, itemId });
-  };
-
-  saveItem = ({ message, itemId }, onChangeItemTableRow) => {
-    this.dispatcher.openSuccessAlert({ message });
-    this.loadItemOption({ itemId }, onChangeItemTableRow);
-    this.inventoryModalModule.resetState();
-  };
-
-  failLoadItem = ({ message }) => {
-    this.dispatcher.openDangerAlert({ message });
-    this.inventoryModalModule.resetState();
-  };
-
-  openInventoryModal = (onChangeItemTableRow) => {
-    const state = this.store.getState();
-    const context = getContextForInventoryModal(state);
-
-    this.inventoryModalModule.run({
-      context,
-      onSaveSuccess: (response) => {
-        this.saveItem(response, onChangeItemTableRow);
-      },
-      onLoadFailure: this.failLoadItem,
-    });
-  };
-
   downloadDocument = () => {
     const state = this.store.getState();
 
@@ -910,17 +875,36 @@ class BillModule {
       : null;
   };
 
+  loadItemCombobox = () => {
+    const state = this.store.getState();
+    const context = getItemComboboxContext(state);
+    this.itemComboboxModule.run(context);
+  };
+
+  updateItemCombobox = () => {
+    const state = this.store.getState();
+    const selectedItemIds = getUniqueSelectedItemIds(state);
+    if (selectedItemIds.length > 0) {
+      this.itemComboboxModule.load(selectedItemIds);
+    }
+  };
+
+  renderItemCombobox = (props) => {
+    return this.itemComboboxModule
+      ? this.itemComboboxModule.render(props)
+      : null;
+  };
+
   render = () => {
     const accountModal = this.accountModalModule.render();
     const jobModal = this.jobModalModule.render();
-    const inventoryModal = this.inventoryModalModule.render();
     const inTrayModal = this.inTrayModalModule.render();
 
     const view = (
       <Provider store={this.store}>
         <BillView
+          renderItemCombobox={this.renderItemCombobox}
           renderContactCombobox={this.renderContactCombobox}
-          inventoryModal={inventoryModal}
           inTrayModal={inTrayModal}
           accountModal={accountModal}
           jobModal={jobModal}
@@ -987,7 +971,7 @@ class BillModule {
 
   resetState = () => {
     this.contactComboboxModule.resetState();
-    this.inventoryModalModule.resetState();
+    this.itemComboboxModule.resetState();
     this.accountModalModule.resetState();
     this.inTrayModalModule.resetState();
     this.dispatcher.resetState();
@@ -1007,8 +991,10 @@ class BillModule {
     });
     this.render();
     this.readMessages();
+
     this.loadBill();
     this.loadContactCombobox();
+    this.loadItemCombobox();
   }
 
   handlePageTransition = (url) => {

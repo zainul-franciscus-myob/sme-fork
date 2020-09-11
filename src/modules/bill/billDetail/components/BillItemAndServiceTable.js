@@ -14,6 +14,7 @@ const renderRow = ({
   onAddItemButtonClick,
   onAddAccount,
   onAddJob,
+  renderItemCombobox,
   isBillJobColumnEnabled,
 }) => (index, _, onChange, labels) => (
   <BillItemAndServiceTableRow
@@ -21,6 +22,7 @@ const renderRow = ({
     key={index}
     onChange={onChange}
     onRowInputBlur={onRowInputBlur}
+    renderItemCombobox={renderItemCombobox}
     labels={labels}
     onAddItemButtonClick={onAddItemButtonClick}
     onAddAccount={onAddAccount}
@@ -40,6 +42,7 @@ const BillItemAndServiceTable = ({
     onAddItemButtonClick,
     onUpdateBillOption,
   },
+  renderItemCombobox,
   taxCodeLabel,
   isBillJobColumnEnabled,
 }) => {
@@ -133,6 +136,7 @@ const BillItemAndServiceTable = ({
         onAddAccount,
         onAddJob,
         isBillJobColumnEnabled,
+        renderItemCombobox,
       })}
       onAddRow={onAddRow}
       onRowChange={onRowChange}

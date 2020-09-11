@@ -6,7 +6,6 @@ import {
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ABN_FROM_SUPPLIER,
   LOAD_ACCOUNT_AFTER_CREATE,
-  LOAD_ITEM_OPTION,
   OPEN_ALERT,
   OPEN_MODAL,
   PREFILL_BILL_FROM_IN_TRAY,
@@ -26,10 +25,6 @@ import {
 } from '../../../account/AccountIntents';
 import { LOAD_IN_TRAY_MODAL } from '../../../inTray/InTrayIntents';
 import {
-  LOAD_NEW_ITEM,
-  SAVE_ITEM,
-} from '../../../inventory/inventoryModal/InventoryModalIntents';
-import {
   mockCreateObjectUrl,
   setUpNewBillWithPrefilled,
   setUpWithRun,
@@ -38,69 +33,6 @@ import ModalType from '../types/ModalType';
 
 describe('BillModule_Modal', () => {
   mockCreateObjectUrl();
-
-  describe('inventory modal', () => {
-    it('runs the inventoryModalModule when modal opens', () => {
-      const { module } = setUpWithRun({ isCreating: true });
-      module.inventoryModalModule.run = jest.fn();
-
-      module.openInventoryModal();
-      expect(module.inventoryModalModule.run).toHaveBeenCalledWith({
-        context: {
-          businessId: 'bizId',
-          region: 'au',
-          isBuying: true,
-          isSelling: false,
-        },
-        onSaveSuccess: expect.any(Function),
-        onLoadFailure: expect.any(Function),
-      });
-    });
-
-    it('saves the newly added item option, calls the line onChange and shows success alert on page when the user successfully saves a newly created item from the inventory modal', () => {
-      const { module, store, integration } = setUpWithRun({ isCreating: true });
-
-      const onChangeItemTableRow = jest.fn();
-      module.inventoryModalModule.resetState = jest.fn();
-      integration.mapSuccess(SAVE_ITEM, {
-        itemId: 'itemId',
-        message: 'message',
-      });
-
-      module.openInventoryModal(onChangeItemTableRow);
-      module.inventoryModalModule.save();
-
-      expect(store.getActions()).toEqual([
-        { intent: OPEN_ALERT, type: 'success', message: 'message' },
-        { intent: START_BLOCKING },
-        { intent: STOP_BLOCKING },
-        expect.objectContaining({ intent: LOAD_ITEM_OPTION }),
-      ]);
-
-      expect(integration.getRequests()).toContainEqual({
-        intent: LOAD_ITEM_OPTION,
-        urlParams: { businessId: 'bizId', itemId: 'itemId' },
-      });
-
-      expect(onChangeItemTableRow).toHaveBeenCalledWith({ id: 'itemId' });
-      expect(module.inventoryModalModule.resetState).toHaveBeenCalled();
-    });
-
-    it('displays page failure alert when inventory modal fails to load', () => {
-      const { module, store, integration } = setUpWithRun({ isCreating: true });
-
-      module.inventoryModalModule.resetState = jest.fn();
-      integration.mapFailure(LOAD_NEW_ITEM, { message: 'failed' });
-
-      module.openInventoryModal();
-
-      expect(store.getActions()).toEqual([
-        { intent: OPEN_ALERT, type: 'danger', message: 'failed' },
-      ]);
-
-      expect(module.inventoryModalModule.resetState).toHaveBeenCalled();
-    });
-  });
 
   describe('account modal', () => {
     it('runs the accountModalModule when modal opens', () => {

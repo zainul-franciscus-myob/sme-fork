@@ -130,18 +130,6 @@
       "displayId": "6-789"
     }
   ],
-  "itemOptions": [
-    {
-      "id": "3",
-      "itemId": "100",
-      "description": "Cooler Large"
-    },
-    {
-      "id": "4",
-      "itemId": "101",
-      "description": "Cooler Medium"
-    }
-  ],
   "jobOptions": [
     {
       "id": "1",

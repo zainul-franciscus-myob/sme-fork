@@ -61,7 +61,6 @@ export const getDefaultState = () => ({
     isUpgradeModalShowing: false,
   },
   expirationTermOptions: [],
-  itemOptions: [],
   accountOptions: [],
   taxCodeOptions: [],
   newLine: {

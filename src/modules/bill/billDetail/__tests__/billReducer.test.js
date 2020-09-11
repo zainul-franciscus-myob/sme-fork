@@ -2,7 +2,6 @@ import {
   ADD_BILL_LINE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
-  LOAD_ITEM_OPTION,
   LOAD_JOB_AFTER_CREATE,
   LOAD_SUPPLIER_DETAIL,
   PREFILL_BILL_FROM_IN_TRAY,
@@ -20,44 +19,6 @@ import LoadingState from '../../../../components/PageView/LoadingState';
 import billReducer from '../reducer/billReducer';
 
 describe('billReducer', () => {
-  describe('LOAD_ITEM_OPTION', () => {
-    it('puts the item option at the top of item options', () => {
-      const state = {
-        itemOptions: [
-          {
-            id: '1',
-            itemId: 'a',
-            description: 'A',
-          },
-        ],
-      };
-
-      const action = {
-        intent: LOAD_ITEM_OPTION,
-        response: {
-          id: '2',
-          itemId: 'b',
-          description: 'B',
-        },
-      };
-
-      const actual = billReducer(state, action);
-
-      expect(actual.itemOptions).toEqual([
-        {
-          id: '2',
-          itemId: 'b',
-          description: 'B',
-        },
-        {
-          id: '1',
-          itemId: 'a',
-          description: 'A',
-        },
-      ]);
-    });
-  });
-
   describe('LOAD_BILL', () => {
     it('sets feature toggle when bill is being reloaded', () => {
       const state = {

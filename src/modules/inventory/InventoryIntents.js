@@ -26,3 +26,19 @@ export const SET_NEXT_PAGE_LOADING_STATE = Symbol(
   'Set loading next page state'
 );
 export const LOAD_NEXT_PAGE = Symbol('Load next page');
+
+export const LOAD_ITEM_COMBOBOX_OPTIONS = Symbol('Load item options');
+export const LOAD_ITEM_COMBOBOX_OPTIONS_BY_IDS = Symbol(
+  'Load item combobox options by ids'
+);
+export const LOAD_ITEM_COMBOBOX_OPTION_BY_ID = Symbol(
+  'Load item combobox option by id'
+);
+export const SET_ITEM_COMBOBOX_LOADING_STATE = Symbol('Set item loading state');
+export const SET_ITEM_COMBOBOX_OPTIONS_LOADING_STATE = Symbol(
+  'Set item options loading state'
+);
+export const SEARCH_COMBOBOX_ITEM = Symbol('Search item by keyword');
+export const UPDATE_ITEM_COMBOBOX_OPTIONS = Symbol(
+  'Update item combobox options'
+);
