@@ -13,14 +13,14 @@ const TransferMoneyBody = ({
   isCreating,
   onSortTransfer,
   onUpdateTransferSelection,
-  onCreateTransferMoney,
+  onOpenTransferMoneyModal,
 }) => {
   const createView = (
     <div className={styles.createView}>
       <TransferMoneyTable
         onSort={onSortTransfer}
         onSelect={onUpdateTransferSelection}
-        onCreateTransferMoney={onCreateTransferMoney}
+        onOpenTransferMoneyModal={onOpenTransferMoneyModal}
       />
     </div>
   );

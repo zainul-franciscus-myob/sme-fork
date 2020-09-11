@@ -34,12 +34,14 @@ const spinnerView = (header) => (
 );
 
 const BankTransactionTable = ({
+  splitAllocationProps,
+  matchTransactionProps,
+  transferMoneyProps,
   isTableEmpty,
   isTableLoading,
   isBulkLoading,
   bulkSelectStatus,
   onAddAccount,
-  onAddJob,
   onBlur,
   onSplitRowItemClick,
   onMatchRowItemClick,
@@ -50,41 +52,14 @@ const BankTransactionTable = ({
   order,
   onHeaderClick,
   onTabChange,
-  onSaveSplitAllocation,
-  onCancelSplitAllocation,
-  onUnallocateSplitAllocation,
-  onUpdateSplitAllocationHeader,
-  onAddSplitAllocationLine,
-  onUpdateSplitAllocationLine,
-  onDeleteSplitAllocationLine,
-  onUpdateMatchTransactionOptions,
-  onResetMatchTransactionOptions,
-  onSortMatchTransactions,
-  onUpdateMatchTransactionSelection,
-  onUpdateSelectedTransactionDetails,
-  onAddAdjustment,
-  onUpdateAdjustment,
-  onRemoveAdjustment,
-  onExpandAdjustmentSection,
-  onToggleSelectAllState,
-  onSaveMatchTransaction,
-  onCancelMatchTransaction,
-  onUnmatchTransaction,
-  onSaveTransferMoney,
-  onCancelTransferMoney,
-  onUpdateTransfer,
-  onSortTransfer,
-  onUpdateTransferSelection,
   onSelectTransaction,
   onSelectAllTransactions,
-  onOpenBankingRuleModal,
   onAddAttachments,
   onDownloadAttachment,
   onRemoveAttachment,
   onEditNote,
   onPendingNoteChange,
   onNoteBlur,
-  onOpenTransferMoneyModal,
   onLinkFromInTrayButtonClick,
 }) => {
   const header = (
@@ -106,8 +81,10 @@ const BankTransactionTable = ({
 
   const body = (
     <BankTransactionTableBody
+      splitAllocationProps={splitAllocationProps}
+      matchTransactionProps={matchTransactionProps}
+      transferMoneyProps={transferMoneyProps}
       onAddAccount={onAddAccount}
-      onAddJob={onAddJob}
       onHeaderClick={onHeaderClick}
       onSplitRowItemClick={onSplitRowItemClick}
       onMatchRowItemClick={onMatchRowItemClick}
@@ -116,34 +93,7 @@ const BankTransactionTable = ({
       onAllocate={onAllocate}
       onEntryHover={onEntryHover}
       onTabChange={onTabChange}
-      onSaveSplitAllocation={onSaveSplitAllocation}
-      onCancelSplitAllocation={onCancelSplitAllocation}
-      onUnallocateSplitAllocation={onUnallocateSplitAllocation}
-      onUpdateSplitAllocationHeader={onUpdateSplitAllocationHeader}
-      onAddSplitAllocationLine={onAddSplitAllocationLine}
-      onUpdateSplitAllocationLine={onUpdateSplitAllocationLine}
-      onDeleteSplitAllocationLine={onDeleteSplitAllocationLine}
-      onUpdateMatchTransactionOptions={onUpdateMatchTransactionOptions}
-      onResetMatchTransactionOptions={onResetMatchTransactionOptions}
-      onSortMatchTransactions={onSortMatchTransactions}
-      onUpdateMatchTransactionSelection={onUpdateMatchTransactionSelection}
-      onUpdateSelectedTransactionDetails={onUpdateSelectedTransactionDetails}
-      onAddAdjustment={onAddAdjustment}
-      onUpdateAdjustment={onUpdateAdjustment}
-      onRemoveAdjustment={onRemoveAdjustment}
-      onExpandAdjustmentSection={onExpandAdjustmentSection}
-      onToggleSelectAllState={onToggleSelectAllState}
-      onSaveMatchTransaction={onSaveMatchTransaction}
-      onCancelMatchTransaction={onCancelMatchTransaction}
-      onUnmatchTransaction={onUnmatchTransaction}
-      onSaveTransferMoney={onSaveTransferMoney}
-      onCancelTransferMoney={onCancelTransferMoney}
-      onUpdateTransfer={onUpdateTransfer}
-      onSortTransfer={onSortTransfer}
-      onUpdateTransferSelection={onUpdateTransferSelection}
       onSelectTransaction={onSelectTransaction}
-      onOpenBankingRuleModal={onOpenBankingRuleModal}
-      onOpenTransferMoneyModal={onOpenTransferMoneyModal}
       onAddAttachments={onAddAttachments}
       onDownloadAttachment={onDownloadAttachment}
       onRemoveAttachment={onRemoveAttachment}

@@ -54,7 +54,7 @@ const TransferMoneyTable = (props) => {
     isTableLoading,
     onSort,
     onSelect,
-    onCreateTransferMoney,
+    onOpenTransferMoneyModal,
   } = props;
 
   const tableConfig = getTableConfig(isWithdrawal);
@@ -107,7 +107,7 @@ const TransferMoneyTable = (props) => {
         <Button
           type="link"
           icon={<Icons.Add />}
-          onClick={onCreateTransferMoney}
+          onClick={onOpenTransferMoneyModal}
         >
           Create a transfer money
         </Button>

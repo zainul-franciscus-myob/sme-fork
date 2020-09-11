@@ -9,18 +9,11 @@ import {
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
   LOAD_JOB_AFTER_CREATE,
-  LOAD_MATCH_TRANSACTIONS,
-  LOAD_MATCH_TRANSFER_MONEY,
-  LOAD_SPLIT_ALLOCATION,
-  LOAD_TRANSFER_MONEY,
   OPEN_ATTACHMENT,
   REMOVE_ATTACHMENT,
-  SAVE_MATCH_TRANSACTION,
   SAVE_PENDING_NOTE,
-  SAVE_SPLIT_ALLOCATION,
   SAVE_TRANSFER_MONEY,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
-  SORT_AND_FILTER_MATCH_TRANSACTIONS,
   UNALLOCATE_TRANSACTION,
   UPLOAD_ATTACHMENT,
 } from './BankingIntents';
@@ -31,7 +24,6 @@ import {
   getEditingNoteTransaction,
   getFilterBankTransactionsParams,
   getFilterBankTransactionsUrlParams,
-  getFilterOptions,
   getLoadBankTransactionsNextPageParams,
   getLoadBankTransactionsNextPageUrlParams,
   getLoadBankTransactionsParams,
@@ -46,22 +38,11 @@ import {
   getBulkAllocationPayload,
   getBulkUnallocationPayload,
 } from './selectors/bulkActionSelectors';
-import {
-  getCreateTransferMoneyPayload,
-  getMatchTransferMoneyPayload,
-  getMatchTransferMoneyQueryParams,
-  getMatchTransferMoneyUrlParams,
-} from './tabs/transferMoney/transferMoneySelectors';
-import {
-  getDefaultMatchTransactionFilterRequestParams,
-  getMatchTransactionFilterRequestParams,
-  getMatchTransactionOrderBy,
-  getMatchTransactionPayload,
-  getMatchTransactionSortOrder,
-  getUnmatchTransactionPayload,
-} from './tabs/matchTransaction/matchTransactionSelectors';
+import { getCreateTransferMoneyPayload } from './tabs/transferMoney/transferMoneySelectors';
 import { getRemoveDocumentParams } from './selectors/attachmentsSelectors';
-import { getSplitAllocationPayload } from './tabs/splitAllocation/splitAllocationSelectors';
+import createMatchTransactionIntegrator from './tabs/matchTransaction/createMatchTransactionIntegrator';
+import createSplitAllocationIntegrator from './tabs/splitAllocation/createSplitAllocationIntegrator';
+import createTransferMoneyIntegrator from './tabs/transferMoney/createTransferMoneyIntegrator';
 
 const createBankingIntegrator = (store, integration) => ({
   loadBankTransactions: ({ onSuccess, onFailure }) => {
@@ -180,74 +161,9 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  unmatchTransaction: ({ onSuccess, onFailure }) => {
-    const state = store.getState();
-
-    const intent = UNALLOCATE_TRANSACTION;
-    const urlParams = { businessId: getBusinessId(state) };
-
-    const content = getUnmatchTransactionPayload(state);
-
-    integration.write({
-      intent,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  loadExistingTransferMoney: ({ index, onSuccess, onFailure }) => {
-    const state = store.getState();
-    const intent = LOAD_TRANSFER_MONEY;
-
-    const line = getBankTransactionLineByIndex(state, index);
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-      transferMoneyId: line.journals[0].journalId,
-    };
-
-    integration.read({
-      intent,
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  loadMatchTransferMoney: ({ index, onSuccess, onFailure }) => {
-    const state = store.getState();
-    const intent = LOAD_MATCH_TRANSFER_MONEY;
-    const urlParams = getMatchTransferMoneyUrlParams(state);
-    const params = getMatchTransferMoneyQueryParams(state, index);
-
-    integration.read({
-      intent,
-      urlParams,
-      params,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  saveMatchTransferMoney: ({ index, onSuccess, onFailure }) => {
-    const intent = SAVE_TRANSFER_MONEY;
-    const state = store.getState();
-
-    const urlParams = { businessId: getBusinessId(state) };
-    const content = getMatchTransferMoneyPayload(state, index);
-
-    integration.write({
-      intent,
-      urlParams,
-      allowParallelRequests: true,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  },
-
+  // @TODO: The transfer money modal uses this, i'm going to leave it the banking integrator for now.
+  //        The reason being is that if we can create a transfer money with hotkeys, than
+  //        the banking module will need to be able to do this...
   saveTransferMoney: ({ index, onSuccess, onFailure }) => {
     const intent = SAVE_TRANSFER_MONEY;
     const state = store.getState();
@@ -265,46 +181,8 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  loadSplitAllocation: ({ index, onSuccess, onFailure }) => {
-    const state = store.getState();
-
-    const { withdrawal, journals } = getBankTransactionLineByIndex(
-      state,
-      index
-    );
-    const intent = LOAD_SPLIT_ALLOCATION;
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-      type: withdrawal ? 'spend_money' : 'receive_money',
-      journalId: journals[0].journalId,
-    };
-
-    integration.read({
-      intent,
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  saveSplitAllocation: ({ index, onSuccess, onFailure }) => {
-    const intent = SAVE_SPLIT_ALLOCATION;
-    const state = store.getState();
-
-    const urlParams = { businessId: getBusinessId(state) };
-    const content = getSplitAllocationPayload(state, index);
-
-    integration.write({
-      intent,
-      urlParams,
-      allowParallelRequests: true,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  },
-
+  // @TODO: Currently both split allocation and transfer money make use of this function
+  //        I'll leave it here for now.
   unallocateOpenEntryTransaction: ({ onSuccess, onFailure }) => {
     const intent = UNALLOCATE_TRANSACTION;
     const state = store.getState();
@@ -312,77 +190,6 @@ const createBankingIntegrator = (store, integration) => ({
     const index = getOpenPosition(state);
     const urlParams = { businessId: getBusinessId(state) };
     const content = getUnallocationPayload(index, state);
-
-    integration.write({
-      intent,
-      urlParams,
-      allowParallelRequests: true,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  loadMatchTranscation: ({ index, onSuccess, onFailure }) => {
-    const state = store.getState();
-
-    const intent = LOAD_MATCH_TRANSACTIONS;
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-    const { bankAccount: accountId } = getFilterOptions(state);
-
-    const line = getBankTransactionLineByIndex(state, index);
-
-    const filterOptions = getDefaultMatchTransactionFilterRequestParams(
-      accountId,
-      line
-    );
-
-    integration.read({
-      intent,
-      params: {
-        ...filterOptions,
-      },
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  sortOrFilterMatchTransaction: ({ onSuccess, onFailure }) => {
-    const state = store.getState();
-
-    const intent = SORT_AND_FILTER_MATCH_TRANSACTIONS;
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    const params = getMatchTransactionFilterRequestParams(state);
-    const sortOrder = getMatchTransactionSortOrder(state);
-    const orderBy = getMatchTransactionOrderBy(state);
-
-    integration.read({
-      intent,
-      urlParams,
-      params: {
-        ...params,
-        sortOrder,
-        orderBy,
-      },
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  saveMatchTransaction: ({ index, onSuccess, onFailure }) => {
-    const intent = SAVE_MATCH_TRANSACTION;
-    const state = store.getState();
-
-    const urlParams = { businessId: getBusinessId(state) };
-    const content = getMatchTransactionPayload(state, index);
 
     integration.write({
       intent,
@@ -560,6 +367,10 @@ const createBankingIntegrator = (store, integration) => ({
       onFailure,
     });
   },
+
+  ...createTransferMoneyIntegrator(store, integration),
+  ...createSplitAllocationIntegrator(store, integration),
+  ...createMatchTransactionIntegrator(store, integration),
 });
 
 export default createBankingIntegrator;

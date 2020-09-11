@@ -149,37 +149,93 @@ export default class BankingModule {
   };
 
   render = () => {
-    const {
-      dismissAlert,
-      dismissModalAlert,
-      hoverEntry,
-      blurEntry,
-      collapseTransactionLine,
-      updateSplitAllocationHeader,
-      updateMatchTransactionSelection,
-      addMatchTransactionAdjustment,
-      updateMatchTransactionAdjustment,
-      removeMatchTransactionAdjustment,
-      expandAdjustmentSection,
-      updateSelectedTransactionDetails,
-      setTransferMoneyDetail,
-      setMatchTransferMoneySelection,
-      closeModal,
-      updateBulkAllocationOption,
-      openBulkAllocation,
-      setEditingNoteState,
-      setPendingNote,
-    } = this.dispatcher;
-
     const inTrayModal = this.inTrayModalModule.render();
     const accountModal = this.accountModalModule.render();
     const jobModal = this.jobModalModule.render();
-
     const hotkeyHandlers = this.buildHotkeyHandlers();
+
+    const splitAllocationContentProps = {
+      onUpdateSplitAllocationHeader: this.dispatcher
+        .updateSplitAllocationHeader,
+      onAddSplitAllocationLine: this.addSplitAllocationLine,
+      onUpdateSplitAllocationLine: this.updateSplitAllocationLine,
+      onDeleteSplitAllocationLine: this.deleteSplitAllocationLine,
+      onAddJob: this.openJobModal,
+      onAddAccount: this.openAccountModal,
+      onBlur: this.dispatcher.blurEntry,
+    };
+
+    const splitAllocationFooterProps = {
+      onSaveSplitAllocation: this.saveSplitAllocation,
+      onCancelSplitAllocation: this.confirmBefore(
+        this.dispatcher.collapseTransactionLine
+      ),
+      onUnallocateTransaction: this.openUnmatchTransactionModal(
+        this.unallocateOpenEntryTransaction
+      ),
+      onOpenBankingRuleModal: this.openBankingRuleModal,
+    };
+
+    const matchTransactionContentProps = {
+      onUpdateMatchTransactionOptions: this.updateMatchTransactionOptions,
+      onResetMatchTransactionOptions: this.resetMatchTransactionOptions,
+      onSortMatchTransactions: this.sortMatchTransaction,
+      onUpdateMatchTransactionSelection: this.dispatcher
+        .updateMatchTransactionSelection,
+      onUpdateSelectedTransactionDetails: this.dispatcher
+        .updateSelectedTransactionDetails,
+      onToggleSelectAllState: this.toggleSelectAllState,
+      onAddAdjustment: this.dispatcher.addMatchTransactionAdjustment,
+      onUpdateAdjustment: this.dispatcher.updateMatchTransactionAdjustment,
+      onRemoveAdjustment: this.dispatcher.removeMatchTransactionAdjustment,
+      onExpandAdjustmentSection: this.dispatcher.expandAdjustmentSection,
+      onAddJob: this.openJobModal,
+      onAddAccount: this.openAccountModal,
+    };
+
+    const matchTransactionFooterProps = {
+      onSaveMatchTransaction: this.saveMatchTransaction,
+      onCancelMatchTransaction: this.confirmBefore(
+        this.dispatcher.collapseTransactionLine
+      ),
+      onUnmatchTransaction: this.openUnmatchTransactionModal(
+        this.unmatchTransaction
+      ),
+      onOpenBankingRuleModal: this.openBankingRuleModal,
+    };
+
+    const transferMoneyContentProps = {
+      onSortTransfer: this.sortMatchTransferMoney,
+      onUpdateTransferSelection: this.dispatcher.setMatchTransferMoneySelection,
+      onOpenTransferMoneyModal: this.openTransferMoneyModal,
+    };
+
+    const transferMoneyFooterProps = {
+      onSaveMatchTransferMoney: this.saveMatchTransferMoney,
+      onCancelTransferMoney: this.confirmBefore(
+        this.dispatcher.collapseTransactionLine
+      ),
+      onUnallocateTransaction: this.openUnmatchTransactionModal(
+        this.unallocateOpenEntryTransaction
+      ),
+      onOpenTransferMoneyModal: this.openTransferMoneyModal,
+    };
 
     const transactionListView = (
       <Hotkeys hotkeyHandlers={hotkeyHandlers}>
         <BankingView
+          splitAllocationProps={{
+            contentProps: splitAllocationContentProps,
+            footerProps: splitAllocationFooterProps,
+          }}
+          matchTransactionProps={{
+            contentProps: matchTransactionContentProps,
+            footerProps: matchTransactionFooterProps,
+          }}
+          transferMoneyProps={{
+            contentProps: transferMoneyContentProps,
+            footerProps: transferMoneyFooterProps,
+          }}
           inTrayModal={inTrayModal}
           accountModal={accountModal}
           jobModal={jobModal}
@@ -193,71 +249,42 @@ export default class BankingModule {
           onResetFilters={this.confirmBefore(this.resetFilters)}
           onBankAccountChange={this.bankAccountChange}
           onSort={this.confirmBefore(this.sortBankTransactions)}
-          onDismissAlert={dismissAlert}
-          onDismissModalAlert={dismissModalAlert}
+          onDismissAlert={this.dispatcher.dismissAlert}
+          onDismissModalAlert={this.dispatcher.dismissModalAlert}
           onAllocate={this.allocateTransaction}
           onSplitRowItemClick={this.confirmBefore(this.toggleLine)}
           onMatchRowItemClick={this.confirmBefore(this.toggleLine)}
-          onBlur={blurEntry}
+          onBlur={this.dispatcher.blurEntry}
           onFocusTransactionLine={this.setFocusToTransactionLine}
-          onEntryHover={hoverEntry}
+          onEntryHover={this.dispatcher.hoverEntry}
           onHeaderClick={this.confirmBefore(this.toggleLine)}
           onTabChange={this.confirmBefore(this.changeOpenEntryTab)}
-          onSaveSplitAllocation={this.saveSplitAllocation}
-          onCancelSplitAllocation={this.confirmBefore(collapseTransactionLine)}
-          onUnallocateSplitAllocation={this.openUnmatchTransactionModal(
-            this.unallocateOpenEntryTransaction
-          )}
-          onUpdateSplitAllocationHeader={updateSplitAllocationHeader}
-          onAddSplitAllocationLine={this.addSplitAllocationLine}
-          onUpdateSplitAllocationLine={this.updateSplitAllocationLine}
-          onDeleteSplitAllocationLine={this.deleteSplitAllocationLine}
-          onUpdateMatchTransactionOptions={this.updateMatchTransactionOptions}
-          onResetMatchTransactionOptions={this.resetMatchTransactionOptions}
-          onSortMatchTransactions={this.sortMatchTransaction}
-          onUpdateMatchTransactionSelection={updateMatchTransactionSelection}
-          onAddAdjustment={addMatchTransactionAdjustment}
-          onUpdateAdjustment={updateMatchTransactionAdjustment}
-          onRemoveAdjustment={removeMatchTransactionAdjustment}
-          onExpandAdjustmentSection={expandAdjustmentSection}
-          onUpdateSelectedTransactionDetails={updateSelectedTransactionDetails}
-          onToggleSelectAllState={this.toggleSelectAllState}
-          onSaveMatchTransaction={this.saveMatchTransaction}
-          onCancelMatchTransaction={this.confirmBefore(collapseTransactionLine)}
           onSaveTransferMoney={this.saveTransferMoney}
-          onSaveMatchTransferMoney={this.saveMatchTransferMoney}
-          onCancelTransferMoney={this.confirmBefore(collapseTransactionLine)}
-          onUnmatchTransaction={this.openUnmatchTransactionModal(
-            this.unmatchTransaction
-          )}
-          onUpdateTransfer={setTransferMoneyDetail}
-          onSortTransfer={this.sortMatchTransferMoney}
-          onUpdateTransferSelection={setMatchTransferMoneySelection}
+          onUpdateTransfer={this.dispatcher.setTransferMoneyDetail}
           onCancelModal={this.cancelModal}
-          onCloseModal={closeModal}
+          onCloseModal={this.dispatcher.closeModal}
           onSelectTransaction={this.selectTransaction}
           onSelectAllTransactions={this.selectAllTransactions}
-          onUpdateBulkAllocationOption={updateBulkAllocationOption}
+          onUpdateBulkAllocationOption={
+            this.dispatcher.updateBulkAllocationOption
+          }
           onSaveBulkAllocation={this.saveBulkAllocation}
           onCloseBulkAllocation={this.closeBulkAllocation}
-          onOpenBulkAllocation={openBulkAllocation}
+          onOpenBulkAllocation={this.dispatcher.openBulkAllocation}
           onBulkUnallocationButtonClick={this.openBulkUnallocationModal}
           onConfirmBulkUnallocation={this.bulkUnallocateTransactions}
-          onCancelUnallocateModal={closeModal}
-          onOpenBankingRuleModal={this.openBankingRuleModal}
-          onOpenTransferMoneyModal={this.openTransferMoneyModal}
+          onCancelUnallocateModal={this.dispatcher.closeModal}
           onRenderBankingRuleModal={this.renderBankingRuleModal}
           onAddAttachments={this.addAttachments}
           onRemoveAttachment={this.openDeleteAttachmentModal}
           onDownloadAttachment={this.openAttachment}
           onDeleteAttachmentModal={this.removeAttachment}
-          onEditNote={setEditingNoteState}
-          onPendingNoteChange={setPendingNote}
+          onEditNote={this.dispatcher.setEditingNoteState}
+          onPendingNoteChange={this.dispatcher.setPendingNote}
           onNoteBlur={this.savePendingNote}
           onImportStatementButtonClick={this.redirectToBankStatementImport}
           onLinkFromInTrayButtonClick={this.openInTrayModal}
           onAddAccount={this.openAccountModal}
-          onAddJob={this.openJobModal}
           onLoadMoreButtonClick={this.loadBankTransactionsNextPage}
         />
       </Hotkeys>

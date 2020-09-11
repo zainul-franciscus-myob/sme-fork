@@ -26,7 +26,7 @@ const OpenEntryFooter = ({
   onCancel,
   onUnmatch,
   onCreateRule,
-  onCreateTransferMoney,
+  onOpenTransferMoneyModal,
   onLinkFromInTrayButtonClick,
   onAddAttachments,
 }) => {
@@ -57,7 +57,7 @@ const OpenEntryFooter = ({
         key="transferMoney"
         name="transferMoney"
         type="secondary"
-        onClick={onCreateTransferMoney}
+        onClick={onOpenTransferMoneyModal}
       >
         Create transfer money
       </Button>

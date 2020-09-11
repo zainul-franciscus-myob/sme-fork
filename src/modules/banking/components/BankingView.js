@@ -31,6 +31,9 @@ import styles from './BankingView.module.css';
 
 const BankingView = (props) => {
   const {
+    splitAllocationProps,
+    matchTransactionProps,
+    transferMoneyProps,
     inTrayModal,
     accountModal,
     jobModal,
@@ -47,7 +50,6 @@ const BankingView = (props) => {
     onPeriodChange,
     onResetFilters,
     onAddAccount,
-    onAddJob,
     onBankAccountChange,
     onSort,
     onAllocate,
@@ -60,35 +62,11 @@ const BankingView = (props) => {
     onEntryHover,
     onHeaderClick,
     onTabChange,
-    onSaveSplitAllocation,
-    onCancelSplitAllocation,
-    onUnallocateSplitAllocation,
-    onUpdateSplitAllocationHeader,
-    onAddSplitAllocationLine,
-    onUpdateSplitAllocationLine,
-    onDeleteSplitAllocationLine,
-    onUpdateMatchTransactionOptions,
-    onResetMatchTransactionOptions,
-    onSortMatchTransactions,
-    onUpdateMatchTransactionSelection,
-    onUpdateSelectedTransactionDetails,
-    onAddAdjustment,
-    onUpdateAdjustment,
-    onRemoveAdjustment,
-    onExpandAdjustmentSection,
-    onToggleSelectAllState,
-    onSaveMatchTransaction,
-    onCancelMatchTransaction,
-    onUnmatchTransaction,
     onSaveTransferMoney,
-    onSaveMatchTransferMoney,
-    onCancelTransferMoney,
     modalType,
     onCancelModal,
     onCloseModal,
     onUpdateTransfer,
-    onSortTransfer,
-    onUpdateTransferSelection,
     onSelectTransaction,
     onSelectAllTransactions,
     onUpdateBulkAllocationOption,
@@ -97,8 +75,6 @@ const BankingView = (props) => {
     onOpenBulkAllocation,
     onBulkUnallocationButtonClick,
     onConfirmBulkUnallocation,
-    onOpenBankingRuleModal,
-    onOpenTransferMoneyModal,
     onAddAttachments,
     onDownloadAttachment,
     onRemoveAttachment,
@@ -180,9 +156,11 @@ const BankingView = (props) => {
         {inTrayModal}
         {jobModal}
         <BankTransactionTable
+          splitAllocationProps={splitAllocationProps}
+          matchTransactionProps={matchTransactionProps}
+          transferMoneyProps={transferMoneyProps}
           onSort={onSort}
           onAddAccount={onAddAccount}
-          onAddJob={onAddJob}
           onAllocate={onAllocate}
           onBlur={onBlur}
           onFocusTransactionLine={onFocusTransactionLine}
@@ -191,37 +169,8 @@ const BankingView = (props) => {
           onEntryHover={onEntryHover}
           onHeaderClick={onHeaderClick}
           onTabChange={onTabChange}
-          onSaveSplitAllocation={onSaveSplitAllocation}
-          onCancelSplitAllocation={onCancelSplitAllocation}
-          onUnallocateSplitAllocation={onUnallocateSplitAllocation}
-          onUpdateSplitAllocationHeader={onUpdateSplitAllocationHeader}
-          onAddSplitAllocationLine={onAddSplitAllocationLine}
-          onUpdateSplitAllocationLine={onUpdateSplitAllocationLine}
-          onDeleteSplitAllocationLine={onDeleteSplitAllocationLine}
-          onUpdateMatchTransactionOptions={onUpdateMatchTransactionOptions}
-          onResetMatchTransactionOptions={onResetMatchTransactionOptions}
-          onSortMatchTransactions={onSortMatchTransactions}
-          onUpdateMatchTransactionSelection={onUpdateMatchTransactionSelection}
-          onUpdateSelectedTransactionDetails={
-            onUpdateSelectedTransactionDetails
-          }
-          onAddAdjustment={onAddAdjustment}
-          onUpdateAdjustment={onUpdateAdjustment}
-          onRemoveAdjustment={onRemoveAdjustment}
-          onExpandAdjustmentSection={onExpandAdjustmentSection}
-          onToggleSelectAllState={onToggleSelectAllState}
-          onSaveMatchTransaction={onSaveMatchTransaction}
-          onCancelMatchTransaction={onCancelMatchTransaction}
-          onUnmatchTransaction={onUnmatchTransaction}
-          onSaveTransferMoney={onSaveMatchTransferMoney}
-          onCancelTransferMoney={onCancelTransferMoney}
-          onUpdateTransfer={onUpdateTransfer}
-          onSortTransfer={onSortTransfer}
-          onUpdateTransferSelection={onUpdateTransferSelection}
           onSelectTransaction={onSelectTransaction}
           onSelectAllTransactions={onSelectAllTransactions}
-          onOpenBankingRuleModal={onOpenBankingRuleModal}
-          onOpenTransferMoneyModal={onOpenTransferMoneyModal}
           onAddAttachments={onAddAttachments}
           onDownloadAttachment={onDownloadAttachment}
           onRemoveAttachment={onRemoveAttachment}
