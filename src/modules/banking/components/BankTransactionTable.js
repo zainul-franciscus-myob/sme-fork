@@ -3,18 +3,10 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getBankTableData,
-  getIsOpenEntryLoading,
-  getIsTableEmpty,
-  getIsTableLoading,
-  getOpenEntryActiveTabId,
-  getOrder,
-} from '../selectors';
-import {
   getBulkSelectStatus,
-  getEntrySelectStatus,
   getIsBulkLoading,
 } from '../selectors/bulkActionSelectors';
+import { getIsTableEmpty, getIsTableLoading, getOrder } from '../selectors';
 import BankTransactionTableBody from './BankTransactionTableBody';
 import BankTransactionTableHeader from './BankTransactionTableHeader';
 import ErrorViewImage from './no-results-found.svg';
@@ -45,9 +37,7 @@ const BankTransactionTable = ({
   isTableEmpty,
   isTableLoading,
   isBulkLoading,
-  isOpenEntryLoading,
   bulkSelectStatus,
-  entrySelectStatus,
   onAddAccount,
   onAddJob,
   onBlur,
@@ -58,9 +48,6 @@ const BankTransactionTable = ({
   onAllocate,
   onSort,
   order,
-  entries,
-  openPosition,
-  activeTabId,
   onHeaderClick,
   onTabChange,
   onSaveSplitAllocation,
@@ -116,12 +103,9 @@ const BankTransactionTable = ({
   if (isTableEmpty) {
     return emptyView(header);
   }
+
   const body = (
     <BankTransactionTableBody
-      entries={entries}
-      entrySelectStatus={entrySelectStatus}
-      isOpenEntryLoading={isOpenEntryLoading}
-      activeTabId={activeTabId}
       onAddAccount={onAddAccount}
       onAddJob={onAddJob}
       onHeaderClick={onHeaderClick}
@@ -131,7 +115,6 @@ const BankTransactionTable = ({
       onFocusTransactionLine={onFocusTransactionLine}
       onAllocate={onAllocate}
       onEntryHover={onEntryHover}
-      openPosition={openPosition}
       onTabChange={onTabChange}
       onSaveSplitAllocation={onSaveSplitAllocation}
       onCancelSplitAllocation={onCancelSplitAllocation}
@@ -182,14 +165,9 @@ const BankTransactionTable = ({
 const mapStateToProps = (state) => ({
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
-  order: getOrder(state),
-  openPosition: state.openPosition,
-  isOpenEntryLoading: getIsOpenEntryLoading(state),
-  activeTabId: getOpenEntryActiveTabId(state),
-  entries: getBankTableData(state),
-  bulkSelectStatus: getBulkSelectStatus(state),
-  entrySelectStatus: getEntrySelectStatus(state),
   isBulkLoading: getIsBulkLoading(state),
+  order: getOrder(state),
+  bulkSelectStatus: getBulkSelectStatus(state),
 });
 
 export default connect(mapStateToProps)(BankTransactionTable);

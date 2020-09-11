@@ -6,9 +6,6 @@ import StatusTypes, {
 } from '../types/BankTransactionStatusTypes';
 import flat from '../../../common/flat/flat';
 
-export const getEntrySelectStatus = (state) =>
-  state.entries.map((entry) => entry.selected);
-
 const getSelectedCount = (state) =>
   state.entries.filter((entry) => entry.selected).length;
 

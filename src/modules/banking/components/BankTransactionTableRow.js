@@ -8,6 +8,7 @@ import {
   getIsEditingNote,
   getIsFocused,
   getIsHovering,
+  getIsSelected,
   getIsSubmittingNote,
   getPendingNote,
   getShouldShowNote,
@@ -306,6 +307,7 @@ const makeMapRowStateToProps = () => {
       ownProps.index,
       FocusLocations.MATCHED_OR_ALLOCATED_ELEMENT
     );
+    const isSelected = getIsSelected(state, ownProps.index);
 
     return {
       entry,
@@ -314,6 +316,7 @@ const makeMapRowStateToProps = () => {
       isCheckboxDisabled,
       isEditingNote,
       isSubmittingNote,
+      isSelected,
       pendingNote,
       shouldShowNote,
     };

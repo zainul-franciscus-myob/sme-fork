@@ -514,6 +514,8 @@ export const getSortBankTransactionsParams = (state, orderBy) => ({
   fastMode: getIsFastModeEnabled(state),
 });
 
+export const getIsSelected = (state, index) =>
+  getEntries(state)[index].selected;
 export const getIsHovering = (state, index) => state.hoverIndex === index;
 export const getIsFocused = (state, index, location) =>
   state.focus.index === index &&

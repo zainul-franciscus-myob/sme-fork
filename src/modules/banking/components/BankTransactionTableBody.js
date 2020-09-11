@@ -1,6 +1,13 @@
 import { Card } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import React from 'react';
 
+import {
+  getBankTableData,
+  getIsOpenEntryLoading,
+  getOpenEntryActiveTabId,
+  getOpenPosition,
+} from '../selectors';
 import BankTransactionTableRow from './BankTransactionTableRow';
 import BankTransactionTabs from './BankTransactionTabs';
 import DropZoneCardBody from './DropZoneCardBody';
@@ -16,7 +23,6 @@ import styles from './BankingView.module.css';
 const BankTransactionTableBody = (props) => {
   const {
     entries,
-    entrySelectStatus,
     isOpenEntryLoading,
     onHeaderClick,
     onAddAccount,
@@ -180,7 +186,6 @@ const BankTransactionTableBody = (props) => {
       onAllocate={onAllocate}
       index={index}
       isExpanded={index === openPosition}
-      isSelected={entrySelectStatus[index]}
       onSelectTransaction={onSelectTransaction}
       onEditNote={onEditNote}
       onPendingNoteChange={onPendingNoteChange}
@@ -193,4 +198,11 @@ const BankTransactionTableBody = (props) => {
   return <React.Fragment>{rows}</React.Fragment>;
 };
 
-export default BankTransactionTableBody;
+const mapStateToProps = (state) => ({
+  entries: getBankTableData(state),
+  activeTabId: getOpenEntryActiveTabId(state),
+  openPosition: getOpenPosition(state),
+  isOpenEntryLoading: getIsOpenEntryLoading(state),
+});
+
+export default connect(mapStateToProps)(BankTransactionTableBody);
