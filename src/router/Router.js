@@ -8,7 +8,7 @@ import isCurrentRoute from './isCurrentRoute';
 import removeEmptyParams from './removeEmptyParams';
 
 function retainDefaultParams(newParams, oldParams) {
-  const params = newParams || {};
+  const params = { ...newParams };
   if (oldParams) {
     if (!params.region) {
       params.region = oldParams.region;

@@ -53,9 +53,9 @@ describe('Router.constructPath', () => {
   it('overwrites business ID when provided', () => {
     const router = createRouter('custom-region', 'custom-business-id');
     const path = router.constructPath(route.name, {
-      region: 'my-new-business-id',
+      region: 'my-new-region',
     });
-    expect(path).toContain('/my-new-business-id/');
+    expect(path).toContain('/my-new-region/');
   });
 
   it('omits known query params when not provided', () => {
@@ -79,5 +79,12 @@ describe('Router.constructPath', () => {
     });
     expect(path).not.toContain('unknown-query-param');
     expect(path).not.toContain("shouldn't show");
+  });
+
+  it('does not update provided params object', () => {
+    const router = createRouter('custom-region', 'custom-business-id');
+    const param = {};
+    router.constructPath(route.name, param);
+    expect(param).toEqual({});
   });
 });
