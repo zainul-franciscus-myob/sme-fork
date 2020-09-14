@@ -83,14 +83,17 @@ const getItems = ({
   onManageMyProductClick,
 }) =>
   [
-    onSubscribeNowClick &&
+    !urls.productManagementDetail &&
+      onSubscribeNowClick &&
       getMenuLinkWithIcon(
         '',
         'Subscribe now',
         <Icons.OpenExternalLink />,
         onSubscribeNowClick
       ),
-    onSubscribeNowClick && <Navigation.Separator key="separator" />,
+    !urls.productManagementDetail && onSubscribeNowClick && (
+      <Navigation.Separator key="separator" />
+    ),
     urls.businessDetails &&
       getMenuLink(urls.businessDetails, 'Business details', onMenuLinkClick),
     urls.incomeAllocation &&
@@ -112,7 +115,8 @@ const getItems = ({
         onMenuLinkClick
       ),
     isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
-    onChangePlanClick &&
+    !urls.productManagementDetail &&
+      onChangePlanClick &&
       getMenuLinkWithIcon(
         '',
         'Change plan',
