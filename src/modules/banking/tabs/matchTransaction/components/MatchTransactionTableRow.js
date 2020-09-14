@@ -38,6 +38,10 @@ const InfoMessage = ({ overAmount, type }) => {
   );
 };
 
+const SlimTableRowItem = ({ className, ...rest }) => (
+  <Table.RowItem {...rest} className={classNames(styles.row, className)} />
+);
+
 const MatchTransactionTableRow = React.memo((props) => {
   const {
     index,
@@ -73,10 +77,6 @@ const MatchTransactionTableRow = React.memo((props) => {
       This transaction type can only be viewed and edited from your desktop
       AccountRight software
     </Tooltip>
-  );
-
-  const SlimTableRowItem = ({ className, ...rest }) => (
-    <Table.RowItem {...rest} className={classNames(styles.row, className)} />
   );
 
   return (
