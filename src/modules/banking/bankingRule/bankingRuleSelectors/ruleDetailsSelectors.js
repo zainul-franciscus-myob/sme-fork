@@ -12,7 +12,7 @@ export const getBankingRule = (state) => state.bankingRule;
 
 export const getIsLoading = (state) => state.isLoading;
 
-export const getIsOpen = (state) => state.isOpen;
+export const getIsBankingRuleOpen = (state) => state.isOpen;
 
 export const getBankAccounts = (state) => state.bankAccounts;
 

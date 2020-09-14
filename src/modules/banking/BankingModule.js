@@ -7,11 +7,13 @@ import {
   CTRL,
   ENTER,
   EQUALS,
+  F4,
   F8,
   FORWARD_SLASH,
   G,
   M,
   OPTION,
+  R,
   SHIFT,
   T,
 } from './hotkeys/HotkeyEnums';
@@ -1361,6 +1363,20 @@ export default class BankingModule {
     this.expandTransactionLine(index, tabToExpandTo);
   };
 
+  expandTransactionAndBankingRuleModalWithHotkey = ({ index }) => {
+    this.expandTransactionLine(index);
+    this.openBankingRuleModal();
+  };
+
+  openBankingRuleModalWithAccordionOpen = () => {
+    const state = this.store.getState();
+    const isAccordionOpen = getOpenPosition(state) >= 0;
+
+    if (isAccordionOpen) {
+      this.openBankingRuleModal();
+    }
+  };
+
   switchToTab = (tabToSwitchTo) => {
     const state = this.store.getState();
     const isAccordionOpen = getOpenPosition(state) >= 0;
@@ -1376,8 +1392,13 @@ export default class BankingModule {
     const state = this.store.getState();
     const openPosition = getOpenPosition(state);
     const isAccordionOpen = openPosition >= 0;
+    const isBankingRuleModalOpen = this.bankingRuleModule.getIsBankingRuleOpen();
 
-    if (isAccordionOpen) {
+    if (isBankingRuleModalOpen) {
+      this.bankingRuleModule.createBankingRule(this.applyRuleToTransaction);
+    }
+
+    if (isAccordionOpen && !isBankingRuleModalOpen) {
       const openTabId = getOpenEntryActiveTabId(state);
       const save = {
         [TabItems.match]: this.saveMatchTransaction,
@@ -1446,6 +1467,28 @@ export default class BankingModule {
       },
     ];
 
+    const hotkeysToSetFocusToUnmatchedTransactionLine = [
+      {
+        key: F8,
+        action: this.setFocusToUnmatchedLine,
+      },
+      {
+        key: [OPTION, G],
+        action: this.setFocusToUnmatchedLine,
+      },
+    ];
+
+    const hotkeysToCreateBankRule = [
+      {
+        key: F4,
+        action: this.expandTransactionAndBankingRuleModalWithHotkey,
+      },
+      {
+        key: [OPTION, R],
+        action: this.expandTransactionAndBankingRuleModalWithHotkey,
+      },
+    ];
+
     return {
       [HotkeyLocations.GLOBAL]: [
         {
@@ -1476,6 +1519,14 @@ export default class BankingModule {
           key: [OPTION, G],
           action: this.setFocusToFirstUnmatchedLine,
         },
+        {
+          key: F4,
+          action: this.openBankingRuleModalWithAccordionOpen,
+        },
+        {
+          key: [OPTION, R],
+          action: this.openBankingRuleModalWithAccordionOpen,
+        },
       ],
       [HotkeyLocations.SPLIT_ALLOCATION_CALCULATOR]: [
         {
@@ -1488,28 +1539,18 @@ export default class BankingModule {
           key: [SHIFT, EQUALS],
           action: this.allocateToLastAllocatedAccount,
         },
+        ...hotkeysToCreateBankRule,
         ...hotkeysToExpandAccordionView,
       ],
       [HotkeyLocations.POSSIBLE_MATCHED_BUTTON]: [
-        {
-          key: F8,
-          action: this.setFocusToUnmatchedLine,
-        },
-        {
-          key: [OPTION, G],
-          action: this.setFocusToUnmatchedLine,
-        },
+        ...hotkeysToSetFocusToUnmatchedTransactionLine,
+        ...hotkeysToCreateBankRule,
         ...hotkeysToExpandAccordionView,
       ],
       [HotkeyLocations.APPROVED_TRANSACTION_BUTTON]: [
-        {
-          key: F8,
-          action: this.setFocusToUnmatchedLine,
-        },
-        {
-          key: [OPTION, G],
-          action: this.setFocusToUnmatchedLine,
-        },
+        ...hotkeysToSetFocusToUnmatchedTransactionLine,
+        ...hotkeysToCreateBankRule,
+        ...hotkeysToExpandAccordionView,
       ],
     };
   };

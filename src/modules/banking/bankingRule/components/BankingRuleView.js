@@ -4,8 +4,8 @@ import React from 'react';
 
 import {
   getAlert,
+  getIsBankingRuleOpen,
   getIsLoading,
-  getIsOpen,
   getShouldShowAllocationSection,
 } from '../bankingRuleSelectors';
 import AllocationSection from './AllocationSection';
@@ -92,7 +92,7 @@ const mapStateToProps = (state) => ({
   showShowAllocationSection: getShouldShowAllocationSection(state),
   alert: getAlert(state),
   isLoading: getIsLoading(state),
-  isOpen: getIsOpen(state),
+  isOpen: getIsBankingRuleOpen(state),
 });
 
 export default connect(mapStateToProps)(BankingRuleView);

@@ -6,11 +6,13 @@ import {
   CTRL,
   ENTER,
   EQUALS,
+  F4,
   F8,
   FORWARD_SLASH,
   G,
   M,
   OPTION,
+  R,
   SHIFT,
   T,
 } from '../hotkeys/HotkeyEnums';
@@ -2070,6 +2072,33 @@ describe('BankingModule', () => {
         ]);
       });
 
+      it.each([[F4], [[OPTION, R]]])(
+        '%s open banking rule modal while accordian is open',
+        (hotkey) => {
+          const {
+            module,
+            store,
+            integration,
+            index,
+          } = setUpWithBankTransactionEntry(entry);
+          module.toggleLine(index);
+          store.resetActions();
+          integration.resetRequests();
+
+          // Mock banking rule module
+          module.bankingRuleModule = {
+            run: jest.fn(),
+          };
+
+          // Action
+          const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+          hotkeyHandler.action();
+
+          // Assertion
+          expect(module.bankingRuleModule.run).toHaveBeenCalled();
+        }
+      );
+
       test.each([
         [[OPTION, A], 'split allocation'],
         [[OPTION, T], 'transfer money'],
@@ -2265,18 +2294,65 @@ describe('BankingModule', () => {
     describe.each([
       HotkeyLocations.UNMATCHED_ACCOUNT_COMBOBOX,
       HotkeyLocations.POSSIBLE_MATCHED_BUTTON,
+      HotkeyLocations.APPROVED_TRANSACTION_BUTTON,
     ])('%s', (location) => {
       const type = {
         [HotkeyLocations.UNMATCHED_ACCOUNT_COMBOBOX]:
           BankTransactionStatusTypes.unmatched,
         [HotkeyLocations.POSSIBLE_MATCHED_BUTTON]:
           BankTransactionStatusTypes.matched,
+        [HotkeyLocations.APPROVED_TRANSACTION_BUTTON]:
+          BankTransactionStatusTypes.singleAllocation,
       };
 
       const updatedEntry = {
         ...entry,
         type,
       };
+
+      it.each([[F4], [[OPTION, R]]])(
+        '%s expands accordian and open banking rule modal',
+        (hotkey) => {
+          const {
+            module,
+            store,
+            integration,
+            index,
+          } = setUpWithBankTransactionEntry(updatedEntry);
+
+          // Mock banking rule module
+          module.bankingRuleModule = {
+            run: jest.fn(),
+          };
+
+          // Action
+          const event = { index };
+          const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+          hotkeyHandler.action(event);
+
+          // Assertion
+          expect(store.getActions()).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                intent: LOAD_ATTACHMENTS,
+              }),
+            ])
+          );
+          expect(integration.getRequests()).toEqual([
+            expect.objectContaining({
+              intent: LOAD_MATCH_TRANSACTIONS,
+              params: expect.objectContaining({
+                showType: MatchTransactionShowType.SELECTED,
+              }),
+            }),
+            expect.objectContaining({
+              intent: LOAD_ATTACHMENTS,
+            }),
+          ]);
+          expect(module.bankingRuleModule.run).toHaveBeenCalled();
+        }
+      );
+
       it('option a expands accordian to split allocation tab', () => {
         const {
           module,

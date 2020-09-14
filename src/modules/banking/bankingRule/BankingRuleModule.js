@@ -4,6 +4,7 @@ import React from 'react';
 import {
   getContactComboboxContext,
   getCustomerComboboxContext,
+  getIsBankingRuleOpen,
   getRuleType,
   getSupplierComboboxContext,
 } from './bankingRuleSelectors';
@@ -27,6 +28,11 @@ export default class BankingRuleModule {
   resetState = () => {
     this.contactComboboxModule.resetState();
     this.dispatcher.resetState();
+  };
+
+  getIsBankingRuleOpen = () => {
+    const state = this.store.getState();
+    return getIsBankingRuleOpen(state);
   };
 
   run = (context) => {
