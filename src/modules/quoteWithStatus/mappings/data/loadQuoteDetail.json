@@ -17,7 +17,7 @@
     "issueDate": "2018-11-02",
     "status": "Accepted",
     "emailStatus": "Emailed",
-    "isInvoiced": false,
+    "isInvoiced": true,
     "note": "hello",
     "taxExclusiveFreightAmount": "0",
     "freightTaxAmount": "0",
@@ -243,5 +243,10 @@
   "exportPdf": {
     "template": "a"
   },
-  "startOfFinancialYearDate": "2019-07-01T00:00:00"
+  "startOfFinancialYearDate": "2019-07-01T00:00:00",
+  "activityHistory": [
+    {"id": "Invoiced757", "invoiceId": "757", "status": "CREATED_INVOICE", "date": "2020-08-21T00:00:00", "referenceNo": "00000092"},
+    {"id": "Emailed", "status": "EMAILED"},
+    {"id": "Created", "status": "CREATED", "date": "2020-08-21T00:00:00"}
+  ]
 }

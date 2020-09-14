@@ -27,6 +27,7 @@ const QuoteHistory = ({
   mostRecentStatus,
   quoteHistoryAccordionStatus,
   onAccordionToggle,
+  onReferenceNoClick,
 }) => {
   const headerStatusLabel = (
     <div className={styles.headerLabel}>
@@ -55,7 +56,7 @@ const QuoteHistory = ({
             index,
           })}
         >
-          <QuoteHistoryTable />
+          <QuoteHistoryTable onReferenceNoClick={onReferenceNoClick} />
         </CollapsibleTableRow>
       )}
     />

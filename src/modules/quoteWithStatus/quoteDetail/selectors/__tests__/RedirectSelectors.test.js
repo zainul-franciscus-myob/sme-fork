@@ -1,6 +1,7 @@
 import {
   getCreateInvoiceFromQuoteUrl,
   getCreateNewQuoteUrl,
+  getInvoiceUrl,
 } from '../RedirectSelectors';
 
 describe('RedirectSelectors', () => {
@@ -25,6 +26,15 @@ describe('RedirectSelectors', () => {
     it('returns the correct URL to create a new quote from another quote CRUD page', () => {
       const expected = '/#/au/businessId/quoteWithStatus/new?layout=service';
       const actual = getCreateNewQuoteUrl(state);
+
+      expect(expected).toEqual(actual);
+    });
+  });
+
+  describe('getInvoiceUrl', () => {
+    it('returns the correct URL to redirect to invoice from quote activity history', () => {
+      const expected = '/#/au/businessId/invoice/34';
+      const actual = getInvoiceUrl(state, 34);
 
       expect(expected).toEqual(actual);
     });

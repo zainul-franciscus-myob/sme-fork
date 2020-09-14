@@ -39,6 +39,7 @@ import {
   getCreateInvoiceFromQuoteUrl,
   getCreateNewQuoteUrl,
   getInvoiceAndQuoteSettingsUrl,
+  getInvoiceUrl,
   getQuoteListURL,
 } from './selectors/RedirectSelectors';
 import {
@@ -555,6 +556,12 @@ export default class QuoteDetailModule {
     }
   };
 
+  redirectToRefPage = (invoiceId) => {
+    const state = this.store.getState();
+    const url = getInvoiceUrl(state, invoiceId);
+    this.navigateTo(url, true);
+  };
+
   openJobModal = (onChange) => {
     const state = this.store.getState();
     const context = getJobModalContext(state);
@@ -795,6 +802,7 @@ export default class QuoteDetailModule {
           onUpdateLayout={this.updateLayout}
           onAddCustomerButtonClick={this.openContactModal}
           serviceLayoutListeners={tableListeners}
+          onReferenceNoClick={this.redirectToRefPage}
           itemAndServiceLayoutListeners={{
             ...tableListeners,
             onAddItemButtonClick: this.openInventoryModal,

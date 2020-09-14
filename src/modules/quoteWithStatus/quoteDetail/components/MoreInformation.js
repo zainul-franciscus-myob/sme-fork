@@ -4,7 +4,7 @@ import React from 'react';
 import QuoteDetailElementId from '../types/QuoteDetailElementId';
 import QuoteHistory from './history/QuoteHistory';
 
-const MoreInformation = ({ onAccordionToggle }) => (
+const MoreInformation = ({ onAccordionToggle, onReferenceNoClick }) => (
   <StandardTemplate sticky="none">
     <FieldGroup
       label={
@@ -13,7 +13,10 @@ const MoreInformation = ({ onAccordionToggle }) => (
         </span>
       }
     >
-      <QuoteHistory onAccordionToggle={onAccordionToggle} />
+      <QuoteHistory
+        onAccordionToggle={onAccordionToggle}
+        onReferenceNoClick={onReferenceNoClick}
+      />
     </FieldGroup>
   </StandardTemplate>
 );

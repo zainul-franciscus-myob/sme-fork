@@ -91,6 +91,7 @@ const getDefaultState = () => ({
   },
   cachedItemSellingDetails: {},
   quoteHistoryAccordionStatus: QuoteHistoryAccordionStatus.OPEN,
+  activityHistory: [],
 });
 
 export default getDefaultState;

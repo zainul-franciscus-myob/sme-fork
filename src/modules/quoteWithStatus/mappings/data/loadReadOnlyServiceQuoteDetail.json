@@ -248,5 +248,10 @@
   },
   "exportPdf": {
     "template": "a"
-  }
+  },
+  "activityHistory": [
+    {"id": "Invoiced757", "invoiceId": "757", "status": "CREATED_INVOICE", "date": "2020-08-21T00:00:00", "referenceNo": "00000092"},
+    {"id": "Emailed", "status": "EMAILED"},
+    {"id": "Created", "status": "CREATED", "date": "2020-08-21T00:00:00"}
+  ]
 }

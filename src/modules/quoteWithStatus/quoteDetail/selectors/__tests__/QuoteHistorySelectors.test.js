@@ -11,44 +11,43 @@ describe('QuoteHistorySelectors', () => {
     quote: {
       issueDate: '2020-01-31T01:00:00.000Z',
     },
+    activityHistory: [
+      {
+        date: '2018-12-03T00:00:00',
+        id: 'Invoiced919',
+        invoiceId: 919,
+        referenceNo: '00000767',
+        status: 'CREATED_INVOICE',
+      },
+      {
+        date: '2018-12-03T00:00:00',
+        id: 'Created',
+        status: 'CREATED',
+      },
+    ],
   };
 
   describe('getQuoteHistoryTable', () => {
     it('returns the created quote history table', () => {
       const expected = [
         {
-          id: 1,
-          status: QuoteHistoryStatus.CREATED,
-          displayDate: '31/01/2020',
+          date: '2018-12-03T00:00:00',
+          id: 'Invoiced919',
+          invoiceId: 919,
+          referenceNo: '00000767',
+          status: 'CREATED_INVOICE',
+          displayDate: '03/12/2018',
+          displayTime: '',
+        },
+        {
+          date: '2018-12-03T00:00:00',
+          id: 'Created',
+          status: 'CREATED',
+          displayDate: '03/12/2018',
           displayTime: '',
         },
       ];
       const actual = getQuoteHistoryTable(state);
-
-      expect(actual).toEqual(expected);
-    });
-
-    it('returns the emailed quote history table', () => {
-      const expected = [
-        {
-          id: 2,
-          status: QuoteHistoryStatus.EMAILED,
-        },
-        {
-          id: 1,
-          status: QuoteHistoryStatus.CREATED,
-          displayDate: '31/01/2020',
-          displayTime: '',
-        },
-      ];
-      const newState = { ...state };
-      newState.quote = {
-        ...state.quote,
-        emailStatus: 'Emailed',
-      };
-
-      const actual = getQuoteHistoryTable(newState);
-
       expect(actual).toEqual(expected);
     });
   });
@@ -75,6 +74,16 @@ describe('QuoteHistorySelectors', () => {
       const actual = getTime({
         date: '2020-01-31T01:00:00.000Z',
         status: QuoteHistoryStatus.CREATED,
+      });
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('returns empty if the status is created invoice', () => {
+      const expected = '';
+      const actual = getTime({
+        date: '2020-01-31T01:00:00.000Z',
+        status: QuoteHistoryStatus.CREATED_INVOICE,
       });
 
       expect(actual).toEqual(expected);
@@ -119,7 +128,7 @@ describe('QuoteHistorySelectors', () => {
 
   describe('getMostRecentStatus', () => {
     it('return first record status', () => {
-      const expected = QuoteHistoryStatus.CREATED;
+      const expected = QuoteHistoryStatus.CREATED_INVOICE;
       const actual = getMostRecentStatus(state);
 
       expect(actual).toEqual(expected);

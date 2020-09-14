@@ -82,7 +82,10 @@ const createQuoteDetailDispatcher = (store) => ({
   dismissModalAlert: () => store.dispatch({ intent: SET_MODAL_ALERT }),
 
   loadQuote: (payload) =>
-    store.dispatch({ intent: LOAD_QUOTE_DETAIL, ...payload }),
+    store.dispatch({
+      intent: LOAD_QUOTE_DETAIL,
+      ...payload,
+    }),
 
   reloadQuote: (payload) =>
     store.dispatch({ intent: RELOAD_QUOTE_DETAIL, ...payload }),

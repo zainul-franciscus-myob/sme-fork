@@ -46,6 +46,7 @@ const QuoteDetailView = ({
   modalListeners,
   isReadOnly,
   onAccordionToggle,
+  onReferenceNoClick,
   isCreating,
 }) => {
   const actions = <QuoteDetailActions listeners={quoteActionListeners} />;
@@ -123,7 +124,12 @@ const QuoteDetailView = ({
           {table}
         </div>
       </LineItemTemplate>
-      {!isCreating && <MoreInformation onAccordionToggle={onAccordionToggle} />}
+      {!isCreating && (
+        <MoreInformation
+          onAccordionToggle={onAccordionToggle}
+          onReferenceNoClick={onReferenceNoClick}
+        />
+      )}
     </React.Fragment>
   );
 

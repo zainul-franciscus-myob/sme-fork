@@ -182,6 +182,7 @@ const loadQuoteDetail = (state, action) => ({
     ...action.exportPdf,
   },
   startOfFinancialYearDate: action.startOfFinancialYearDate,
+  activityHistory: action.activityHistory,
 });
 
 const reloadQuoteDetail = (state, action) => {

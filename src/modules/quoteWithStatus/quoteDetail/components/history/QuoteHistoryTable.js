@@ -1,4 +1,4 @@
-import { Icons, Table } from '@myob/myob-widgets';
+import { Button, Icons, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classNames from 'classnames';
@@ -11,9 +11,10 @@ import styles from './QuoteHistoryTable.module.css';
 const icon = {
   [QuoteHistoryStatus.CREATED]: <Icons.Invoice />,
   [QuoteHistoryStatus.EMAILED]: <Icons.Mail />,
+  [QuoteHistoryStatus.CREATED_INVOICE]: <Icons.Invoice />,
 };
 
-const QuoteHistoryTable = ({ quoteHistory }) => (
+const QuoteHistoryTable = ({ quoteHistory, onReferenceNoClick }) => (
   <Table>
     <Table.Body>
       {quoteHistory &&
@@ -28,6 +29,15 @@ const QuoteHistoryTable = ({ quoteHistory }) => (
               <span>{QuoteHistoryStatusPretty[row.status]}</span>
             </Table.RowItem>
             <Table.RowItem title={row.description} textWrap="wrap">
+              {row.referenceNo && (
+                <Button
+                  type="link"
+                  className={styles.refLink}
+                  onClick={() => onReferenceNoClick(row.invoiceId)}
+                >
+                  {row.referenceNo}
+                </Button>
+              )}
               {row.description}
             </Table.RowItem>
             <Table.RowItem width="11rem" title={row.displayDate}>
