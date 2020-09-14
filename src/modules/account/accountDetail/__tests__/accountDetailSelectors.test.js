@@ -8,6 +8,7 @@ import {
   getIsParentHeaderDisabled,
   getIsReadOnlyHeaderAccountType,
   getParentAccountsForType,
+  getParentHeaderAccountId,
   getShowBankDetails,
   getShowReadOnlyAccountType,
 } from '../accountDetailSelectors';
@@ -81,6 +82,7 @@ describe('accountDetailSelectors', () => {
         detail: {
           accountClassification: '',
         },
+        isFlexAccount: true,
       };
       const actual = getIsParentHeaderDisabled(state);
 
@@ -94,6 +96,22 @@ describe('accountDetailSelectors', () => {
           level: 1,
           accountClassification: 'some classification',
         },
+        isFlexAccount: true,
+      };
+      const actual = getIsParentHeaderDisabled(state);
+
+      expect(actual).toEqual(true);
+    });
+
+    it('returns true when account is not flex account', () => {
+      const state = {
+        isHeader: true,
+        header: {
+          isHeader: true,
+          level: 2,
+          accountClassification: 'some classification',
+        },
+        isFlexAccount: false,
       };
       const actual = getIsParentHeaderDisabled(state);
 
@@ -108,6 +126,7 @@ describe('accountDetailSelectors', () => {
           level: 2,
           accountClassification: 'some classification',
         },
+        isFlexAccount: true,
       };
       const actual = getIsParentHeaderDisabled(state);
 
@@ -654,6 +673,122 @@ describe('accountDetailSelectors', () => {
       const actual = getAccountClassificationsForDetail(state);
 
       expect(actual).toEqual([classifications[1]]);
+    });
+  });
+
+  describe('getParentHeaderAccountId', () => {
+    const headerAccounts = [
+      {
+        accountClassification: 'Asset',
+        id: '2',
+        level: 1,
+        accountNumber: '1-0000',
+      },
+      {
+        accountClassification: 'Asset',
+        id: '24',
+        level: 2,
+        accountNumber: '1-1000',
+      },
+      {
+        accountClassification: 'Asset',
+        id: '25',
+        level: 3,
+        accountNumber: '1-1100',
+      },
+      {
+        accountClassification: 'Asset',
+        id: '29',
+        level: 3,
+        accountNumber: '1-1950',
+      },
+      {
+        accountClassification: 'Asset',
+        id: '32',
+        level: 2,
+        accountNumber: '1-2000',
+      },
+      {
+        accountClassification: 'Asset',
+        id: '33',
+        level: 3,
+        accountNumber: '1-3000',
+      },
+      {
+        accountClassification: 'Asset',
+        id: '36',
+        level: 3,
+        accountNumber: '1-4000',
+      },
+      {
+        accountClassification: 'Asset',
+        id: '41',
+        level: 3,
+        accountNumber: '1-5000',
+      },
+      {
+        accountClassification: 'Asset',
+        id: '42',
+        level: 2,
+        accountNumber: '1-0500',
+      },
+      {
+        accountClassification: 'Asset',
+        id: '43',
+        level: 3,
+        accountNumber: '1-0510',
+      },
+    ];
+
+    [
+      { accountNumber: '1-0001', expectedParentAccountId: '2' },
+      { accountNumber: '1-2000', expectedParentAccountId: '2' },
+      { accountNumber: '1-1111', expectedParentAccountId: '25' },
+      { accountNumber: '1-1955', expectedParentAccountId: '29' },
+      { accountNumber: '1-1655', expectedParentAccountId: '24' },
+      { accountNumber: '1-0520', expectedParentAccountId: '43' },
+      { accountNumber: '1-1101', expectedParentAccountId: '25' },
+    ].forEach(({ accountNumber, expectedParentAccountId }) => {
+      it(`returns ${expectedParentAccountId} as parent header account for ${accountNumber}`, () => {
+        const state = {
+          detail: {
+            accountNumber,
+            accountClassification: 'Asset',
+          },
+          headerAccounts,
+        };
+        const actual = getParentHeaderAccountId(state);
+
+        expect(actual).toEqual(expectedParentAccountId);
+      });
+    });
+
+    it(`returns empty parent header id when account is a level 1 header account`, () => {
+      const state = {
+        isHeader: true,
+        header: {
+          accountNumber: '1-0000',
+          accountClassification: 'Asset',
+        },
+        headerAccounts,
+      };
+      const actual = getParentHeaderAccountId(state);
+
+      expect(actual).toEqual('');
+    });
+
+    it(`returns level 2 parent header when account is a header and matches level 3 parent`, () => {
+      const state = {
+        isHeader: true,
+        header: {
+          accountNumber: '1-1951',
+          accountClassification: 'Asset',
+        },
+        headerAccounts,
+      };
+      const actual = getParentHeaderAccountId(state);
+
+      expect(actual).toEqual('24');
     });
   });
 });

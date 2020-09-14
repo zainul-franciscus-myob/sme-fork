@@ -9,7 +9,9 @@ import {
   getBusinessId,
   getIsActionsDisabled,
   getIsCreating,
+  getIsFlexAccount,
   getModalType,
+  getParentHeaderAccountId,
   getRegion,
   isPageEdited,
 } from './accountDetailSelectors';
@@ -43,7 +45,7 @@ export default class AccountDetailModule {
       <AccountDetailView
         onAccountChange={this.dispatcher.updateAccountDetails}
         onAccountNumberChange={this.dispatcher.updateAccountNumber}
-        onAccountNumberBlur={this.dispatcher.padAccountNumberValue}
+        onAccountNumberBlur={this.onAccountNumberBlur}
         onBankDetailsChange={this.dispatcher.updateBankDetails}
         onUpdateAccountCategory={this.dispatcher.updateAccountCategory}
         onHeaderAccountTypeChange={this.dispatcher.onHeaderAccountTypeChange}
@@ -63,6 +65,19 @@ export default class AccountDetailModule {
       <Provider store={this.store}>{accountDetailView}</Provider>
     );
     this.setRootView(wrappedView);
+  };
+
+  onAccountNumberBlur = (e) => {
+    this.dispatcher.padAccountNumberValue(e);
+
+    const state = this.store.getState();
+    if (!getIsFlexAccount(state)) {
+      const parentHeaderAccountId = getParentHeaderAccountId(state);
+      this.dispatcher.updateAccountDetails({
+        key: 'parentAccountId',
+        value: parentHeaderAccountId,
+      });
+    }
   };
 
   updateOrCreateAccount = () => {
@@ -106,6 +121,7 @@ export default class AccountDetailModule {
     };
 
     if (isCreating) {
+      this.dispatcher.setLoadingState(LoadingState.LOADING);
       this.integrator.loadNewAccount(onSuccess, onFailure);
       return;
     }

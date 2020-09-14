@@ -103,8 +103,9 @@ export const getIsReadOnlyHeaderAccountType = createSelector(
 export const getIsParentHeaderDisabled = createSelector(
   getAccountClassification,
   getIsClassificationHeaderAccount,
-  (accountClassification, isClassificationHeader) =>
-    !accountClassification || isClassificationHeader
+  getIsFlexAccount,
+  (accountClassification, isClassificationHeader, isFlexAccount) =>
+    !accountClassification || isClassificationHeader || !isFlexAccount
 );
 
 export const getIsAccountCategoryDisabled = createSelector(
@@ -215,6 +216,70 @@ export const getAccountForRequest = createSelector(
     }
     const { bankingDetails, ...request } = account;
     return request;
+  }
+);
+
+const nearestHeaderAccountIsParent = (
+  accountNumber,
+  accountIsHeader,
+  parentAccountNumber,
+  parentLevel
+) => {
+  // A parent account was found in this level, AND
+  // if current account is a header, the parent cannot be level 3, as we can't have level 4 headers, AND
+  // the first (parentLevel + 1) digits of account number must start with parent's account number
+  return (
+    parentAccountNumber &&
+    !(accountIsHeader && parentLevel === 3) &&
+    accountNumber.substring(0, parentLevel + 1) ===
+      parentAccountNumber.substring(0, parentLevel + 1)
+  );
+};
+
+const findNearestHeaderAccount = (accountNumber, headerAccounts) => {
+  return headerAccounts
+    .filter((ha) => ha.accountNumber < accountNumber)
+    .reduce((prev, curr) => {
+      return prev.accountNumber > curr.accountNumber ? prev : curr;
+    }, {});
+};
+
+export const getParentHeaderAccountId = createSelector(
+  getHeaderAccounts,
+  getAccountClassification,
+  getAccountNumber,
+  getIsHeader,
+  (headerAccounts, accountClassification, accountNumber, accountIsHeader) => {
+    let parentHeaderAccount;
+
+    // Starting with Level 3 as there can only be header accounts upto level 3
+    for (let level = 3; level > 0; level -= 1) {
+      const currentLevelAccounts = headerAccounts.filter(
+        (ha) =>
+          ha.level === level &&
+          ha.accountClassification === accountClassification
+      );
+
+      const nearestHeaderAccount = findNearestHeaderAccount(
+        accountNumber,
+        currentLevelAccounts
+      );
+
+      if (
+        nearestHeaderAccountIsParent(
+          accountNumber,
+          accountIsHeader,
+          nearestHeaderAccount.accountNumber,
+          level
+        )
+      ) {
+        parentHeaderAccount = nearestHeaderAccount;
+
+        break;
+      }
+    }
+
+    return parentHeaderAccount ? parentHeaderAccount.id : '';
   }
 );
 
