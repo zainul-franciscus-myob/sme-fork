@@ -35,9 +35,14 @@ const FinancialYearButton = ({
         alt="floatingLady"
       />
       <div className={styles.mainText}>
-        {
-          "Starting a new financial year will update your account balances by moving current earnings to retained earnings. You'll still be able to enter transaction in the previous financial year."
-        }
+        Starting a new financial year will update your account balances by
+        moving current earnings to retained earnings. You&apos;ll still be able
+        to enter transactions in the previous financial year,
+        <span className={styles.openingBalanceWarning}>
+          {' '}
+          however all opening balances for profit and loss accounts will become
+          locked.
+        </span>
       </div>
       <MonthSelect
         name="lastMonthInNewFinancialYear"

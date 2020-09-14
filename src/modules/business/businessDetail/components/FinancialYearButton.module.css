@@ -7,3 +7,7 @@
 .mainText {
     margin-bottom: 1em;
 }
+
+.openingBalanceWarning {
+  font-weight: bold;
+}
