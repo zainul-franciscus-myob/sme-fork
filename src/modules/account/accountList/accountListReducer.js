@@ -1,6 +1,7 @@
 import {
   DISMISS_ALERT,
   DISMISS_ALL_ALERTS,
+  LOAD_ACCOUNT_LIST,
   RESELECT_ACCOUNTS,
   RESET_ACCOUNT_LIST_FILTER_OPTIONS,
   SELECT_ACCOUNT,
@@ -36,6 +37,7 @@ const getDefaultState = () => ({
   editingMode: false,
   modalType: '',
   redirectUrl: '',
+  openingBalanceDate: '',
 });
 
 const setInitialState = (state, { context, settings }) => ({
@@ -66,7 +68,7 @@ const dismissAllAlerts = (state) => ({
   alert: [],
 });
 
-const sortAndFilterAccountList = (state, action) => ({
+const loadAccountList = (state, action) => ({
   ...state,
   entries: action.entries.map((entry) => ({
     ...entry,
@@ -74,7 +76,24 @@ const sortAndFilterAccountList = (state, action) => ({
     dirty: false,
   })),
   hasFlexibleAccountNumbers: action.hasFlexibleAccountNumbers,
+  openingBalanceDate: action.openingBalanceDate,
 });
+
+const sortAndFilterAccountList = (state, action) => {
+  const selectedAccounts = state.entries.reduce((accumulator, entry) => {
+    accumulator[entry.id] = entry.selected;
+    return accumulator;
+  }, {});
+
+  return {
+    ...state,
+    entries: action.entries.map((entry) => ({
+      ...entry,
+      selected: selectedAccounts[entry.id],
+      dirty: false,
+    })),
+  };
+};
 
 const setAccountListFilterOption = (state, action) => ({
   ...state,
@@ -155,6 +174,7 @@ const handlers = {
   [DISMISS_ALERT]: dismissAlert,
   [DISMISS_ALL_ALERTS]: dismissAllAlerts,
 
+  [LOAD_ACCOUNT_LIST]: loadAccountList,
   [SORT_AND_FILTER_ACCOUNT_LIST]: sortAndFilterAccountList,
   [SET_ACCOUNT_LIST_FILTER_OPTIONS]: setAccountListFilterOption,
   [RESET_ACCOUNT_LIST_FILTER_OPTIONS]: resetAccountListFilterOption,

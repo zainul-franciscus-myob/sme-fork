@@ -3,6 +3,7 @@ export const SET_ALERT = Symbol('Set alert');
 export const DISMISS_ALERT = Symbol('Dismiss alert');
 export const DISMISS_ALL_ALERTS = Symbol('Dismiss all alerts');
 
+export const LOAD_ACCOUNT_LIST = Symbol('Load account list');
 export const SORT_AND_FILTER_ACCOUNT_LIST = Symbol(
   'Sort and filter account list'
 );

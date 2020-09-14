@@ -6,6 +6,7 @@ import {
   getDirtyEntries,
   getLoadingState,
   getModalType,
+  getOpeningBalanceDate,
   getRawEntries,
   getRedirectUrl,
   getTableTaxCodeHeader,
@@ -25,6 +26,7 @@ const AccountListBulkEditView = ({
   onAccountDetailsChange,
   taxCodeHeader,
   saveBtnEnabled,
+  openingBalanceDate,
   modalType,
   redirectUrl,
   onBulkUpdateCancelClick,
@@ -34,6 +36,7 @@ const AccountListBulkEditView = ({
 }) => {
   const pageHead = (
     <PageHead title="Edit Accounts">
+      <span>Opening Balance Date {openingBalanceDate}</span>
       <ButtonRow className={styles.bulkUpdateButtonRow}>
         <Button type="secondary" onClick={onBulkUpdateCancelClick}>
           Cancel
@@ -113,6 +116,7 @@ const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   entries: getRawEntries(state),
   taxCodeHeader: getTableTaxCodeHeader(state),
+  openingBalanceDate: getOpeningBalanceDate(state),
   saveBtnEnabled: getDirtyEntries(state).length > 0,
   modalType: getModalType(state),
   redirectUrl: getRedirectUrl(state),

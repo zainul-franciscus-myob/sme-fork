@@ -1,16 +1,65 @@
 import {
   DISMISS_ALERT,
+  LOAD_ACCOUNT_LIST,
   RESELECT_ACCOUNTS,
   SELECT_ACCOUNT,
   SELECT_ALL_ACCOUNTS,
   SET_ACCOUNT_DETAILS,
   SET_ALERT,
   SET_EDIT_MODE,
+  SORT_AND_FILTER_ACCOUNT_LIST,
 } from '../../AccountIntents';
 import accountListReducer from '../accountListReducer';
 
 describe('accountListReducer', () => {
   const reducer = accountListReducer;
+
+  describe('LOAD_ACCOUNT_LIST', () => {
+    it('successfully loads', () => {
+      const action = {
+        intent: LOAD_ACCOUNT_LIST,
+        entries: [{ id: 1 }, { id: 2 }],
+        hasFlexibleAccountNumbers: true,
+        openingBalanceDate: '11/11/2020',
+      };
+      const actual = reducer({}, action);
+      const expected = {
+        entries: [
+          { id: 1, selected: false, dirty: false },
+          { id: 2, selected: false, dirty: false },
+        ],
+        hasFlexibleAccountNumbers: true,
+        openingBalanceDate: '11/11/2020',
+      };
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('SORT_AND_FILTER_ACCOUNT_LIST', () => {
+    it('successfully reselect accounts', () => {
+      const action = {
+        intent: SORT_AND_FILTER_ACCOUNT_LIST,
+        entries: [
+          { id: 1, openingBalance: 10 },
+          { id: 2, openingBalance: 10 },
+        ],
+      };
+      const state = {
+        entries: [
+          { id: 1, selected: true, dirty: false },
+          { id: 2, selected: true, dirty: false },
+        ],
+      };
+      const actual = reducer(state, action);
+      const expected = {
+        entries: [
+          { id: 1, openingBalance: 10, selected: true, dirty: false },
+          { id: 2, openingBalance: 10, selected: true, dirty: false },
+        ],
+      };
+      expect(actual).toEqual(expected);
+    });
+  });
 
   describe('BULK_DELETE_ACCOUNTS', () => {
     it('selects single account', () => {

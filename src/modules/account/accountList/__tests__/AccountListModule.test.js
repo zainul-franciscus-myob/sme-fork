@@ -2,6 +2,7 @@ import * as debounce from '../../../../common/debounce/debounce';
 import * as localStorageDriver from '../../../../store/localStorageDriver';
 import {
   DELETE_ACCOUNTS,
+  LOAD_ACCOUNT_LIST,
   RESET_ACCOUNT_LIST_FILTER_OPTIONS,
   SET_ACCOUNT_LIST_FILTER_OPTIONS,
   SET_ACCOUNT_LIST_TABLE_LOADING_STATE,
@@ -80,19 +81,19 @@ describe('AccountListModule', () => {
           loadingState: LoadingState.LOADING_SUCCESS,
         },
         expect.objectContaining({
-          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+          intent: LOAD_ACCOUNT_LIST,
         }),
       ]);
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
-          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+          intent: LOAD_ACCOUNT_LIST,
         }),
       ]);
     });
 
     it('fails to load', () => {
       const { module, store, integration } = setup();
-      integration.mapFailure(SORT_AND_FILTER_ACCOUNT_LIST);
+      integration.mapFailure(LOAD_ACCOUNT_LIST);
 
       module.run({
         businessId: '🦕',
@@ -116,7 +117,7 @@ describe('AccountListModule', () => {
       ]);
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
-          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+          intent: LOAD_ACCOUNT_LIST,
         }),
       ]);
     });
@@ -155,7 +156,7 @@ describe('AccountListModule', () => {
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
-          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+          intent: LOAD_ACCOUNT_LIST,
         }),
         expect.objectContaining({
           intent: DELETE_ACCOUNTS,
@@ -183,7 +184,7 @@ describe('AccountListModule', () => {
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
-          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+          intent: LOAD_ACCOUNT_LIST,
         }),
         expect.objectContaining({
           intent: UPDATE_ACCOUNTS,
@@ -216,11 +217,11 @@ describe('AccountListModule', () => {
     it('loads the account list when no redirect url given', () => {
       const { module } = setupWithRun();
 
-      module.loadAccountList = jest.fn(() => undefined);
+      module.filterAccountList = jest.fn(() => undefined);
 
       module.clickBulkUpdateModalDiscard();
 
-      expect(module.loadAccountList.mock.calls.length).toBe(1);
+      expect(module.filterAccountList.mock.calls.length).toBe(1);
     });
   });
 

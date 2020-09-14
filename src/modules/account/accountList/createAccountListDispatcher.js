@@ -2,6 +2,7 @@ import {
   CLOSE_MODAL,
   DISMISS_ALERT,
   DISMISS_ALL_ALERTS,
+  LOAD_ACCOUNT_LIST,
   OPEN_MODAL,
   RESELECT_ACCOUNTS,
   RESET_ACCOUNT_LIST_FILTER_OPTIONS,
@@ -41,6 +42,15 @@ const createAccountListDispatcher = (store) => ({
   dismissAllAlerts: () => {
     const intent = DISMISS_ALL_ALERTS;
     store.dispatch({ intent });
+  },
+
+  loadAccountList: (response) => {
+    const intent = LOAD_ACCOUNT_LIST;
+    store.dispatch({
+      intent,
+      ...response,
+      isSort: false,
+    });
   },
 
   filterAccountList: (response) => {

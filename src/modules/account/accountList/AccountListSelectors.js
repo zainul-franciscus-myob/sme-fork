@@ -29,6 +29,8 @@ export const getEditingMode = (state) => state.editingMode;
 
 export const getRedirectUrl = (state) => state.redirectUrl;
 
+export const getOpeningBalanceDate = (state) => state.openingBalanceDate;
+
 const getHasFlexibleAccountNumbers = (state) => state.hasFlexibleAccountNumbers;
 
 const getAccountLink = (account, businessId, region) => {

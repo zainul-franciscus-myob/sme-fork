@@ -4,6 +4,7 @@ import {
   DELETE_ACCOUNT,
   DELETE_ACCOUNTS,
   LOAD_ACCOUNT_DETAIL,
+  LOAD_ACCOUNT_LIST,
   LOAD_NEW_ACCOUNT,
   LOAD_NEW_ACCOUNT_MODAL,
   SORT_AND_FILTER_ACCOUNT_LIST,
@@ -12,6 +13,10 @@ import {
 } from '../AccountIntents';
 
 const HttpAccountMapping = {
+  [LOAD_ACCOUNT_LIST]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/account/load_account_list`,
+  },
   [SORT_AND_FILTER_ACCOUNT_LIST]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/account/filter_account_list`,

@@ -38,31 +38,31 @@ export default class AccountListModule {
     this.navigateTo = navigateTo;
   }
 
-  loadAccountList = (onBulkActionCompleted) => {
+  loadAccountList = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (payload) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.dispatcher.filterAccountList(payload);
-
-      if (onBulkActionCompleted) {
-        onBulkActionCompleted();
-      }
+      this.dispatcher.loadAccountList(payload);
     };
 
     const onFailure = () => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.integrator.filterAccountList({ onSuccess, onFailure });
+    this.integrator.loadAccountList({ onSuccess, onFailure });
   };
 
-  filterAccountList = () => {
+  filterAccountList = (onBulkActionCompleted) => {
     this.dispatcher.setAccountListTableLoadingState(true);
 
     const onSuccess = (response) => {
       this.dispatcher.setAccountListTableLoadingState(false);
       this.dispatcher.filterAccountList(response);
+
+      if (onBulkActionCompleted) {
+        onBulkActionCompleted();
+      }
     };
 
     const onFailure = (error) => {
@@ -153,12 +153,12 @@ export default class AccountListModule {
     };
 
     const onSuccess = () => {
-      this.loadAccountList(onBulkDeleteCompleted);
+      this.filterAccountList(onBulkDeleteCompleted);
     };
 
     const onFailure = (error) => {
       this.dispatcher.setAlert({ message: error.message, type: 'danger' });
-      this.loadAccountList(onBulkDeleteCompleted);
+      this.filterAccountList(onBulkDeleteCompleted);
     };
 
     this.integrator.deleteAccounts(onSuccess, onFailure);
@@ -199,6 +199,7 @@ export default class AccountListModule {
     this.dispatcher.setRedirectUrl('');
     const onSuccess = ({ numAccountsUpdated, validationErrors }) => {
       const onBulkUpdateCompleted = () => {
+        this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
         const accountGrammar = numAccountsUpdated > 1 ? 'accounts' : 'account';
         const message = `${numAccountsUpdated} ${accountGrammar} updated.`;
         this.dispatcher.setAlert({
@@ -212,14 +213,14 @@ export default class AccountListModule {
           });
         }
       };
-      this.loadAccountList(onBulkUpdateCompleted);
+      this.filterAccountList(onBulkUpdateCompleted);
     };
 
     const onFailure = (error) => {
       const onBulkUpdateCompleted = () => {
         this.dispatcher.setAlert({ message: error.message, type: 'danger' });
       };
-      this.loadAccountList(onBulkUpdateCompleted);
+      this.filterAccountList(onBulkUpdateCompleted);
     };
     this.integrator.updateAccounts(onSuccess, onFailure);
   };
@@ -234,7 +235,7 @@ export default class AccountListModule {
     if (url) {
       this.dispatcher.setRedirectUrl('');
       this.navigateTo(url);
-    } else this.loadAccountList();
+    } else this.filterAccountList();
   };
 
   clickBulkUpdateModalCancel = () => {
