@@ -125,7 +125,7 @@ const getItems = ({
       ),
     urls.productManagementDetail &&
       getMenuLinkWithIcon(
-        '',
+        urls.productManagementDetail,
         'Manage my product',
         <Icons.Edit />,
         onManageMyProductClick

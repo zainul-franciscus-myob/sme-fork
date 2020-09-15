@@ -34,11 +34,11 @@ export const getPaymentDetailUrl = createSelector(
     `${selfServicePortalUrl}/#/billingAndPayments?businessId=${businessId}`
 );
 
+const getMyobUrl = (state) => state.myobUrl;
 export const getProductManagementUrl = createSelector(
-  getSelfServicePortalUrl,
+  getMyobUrl,
   getBusinessId,
-  (selfServicePortalUrl, businessId) =>
-    `${selfServicePortalUrl}/#/productManagement?businessId=${businessId}`
+  (myobUrl, businessId) => `${myobUrl}/manage-my-product/${businessId}`
 );
 
 export const getReportsUrl = createSelector(

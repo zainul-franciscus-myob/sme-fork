@@ -16,6 +16,7 @@ const getDefaultState = () => ({
   isReadOnly: false,
   isTrial: false,
   myReportsUrl: '',
+  myobUrl: '',
   routeParams: {},
   selfServicePortalUrl: '',
   serialNumber: '',
@@ -53,10 +54,14 @@ const setUrls = (state, action) => ({
   urls: action.urls,
 });
 
-const loadConfig = (state, { selfServicePortalUrl, myReportsUrl }) => ({
+const loadConfig = (
+  state,
+  { selfServicePortalUrl, myReportsUrl, myobUrl }
+) => ({
   ...state,
   selfServicePortalUrl,
   myReportsUrl,
+  myobUrl,
 });
 
 const setJobToggleStatus = (state, { isJobEnabled }) => ({

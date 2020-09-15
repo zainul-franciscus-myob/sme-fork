@@ -167,6 +167,7 @@ export default class NavigationModule {
       intent: LOAD_CONFIG,
       selfServicePortalUrl: this.config.SELF_SERVICE_PORTAL_URL,
       myReportsUrl: this.config.MY_REPORTS_URL,
+      myobUrl: this.config.MYOB_URL,
     });
   };
 

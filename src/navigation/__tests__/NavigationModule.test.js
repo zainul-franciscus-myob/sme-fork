@@ -39,6 +39,7 @@ describe('Navigation Module', () => {
     config: {
       MY_REPORTS_URL: 'my-reports.url',
       SELF_SERVICE_PORTAL_URL: 'self-service-portal.url',
+      MYOB_URL: 'myob.url',
     },
     isToggleOn: () => true,
     recordPageVisit: jest.fn(),
@@ -157,7 +158,7 @@ describe('Navigation Module', () => {
         const state = navigationModule.store.getState();
 
         expect(state.urls[RouteName.PRODUCT_MANAGEMENT_DETAIL]).toEqual(
-          'self-service-portal.url/#/productManagement?businessId=🍟'
+          'myob.url/manage-my-product/🍟'
         );
       });
     });
@@ -220,7 +221,7 @@ describe('Navigation Module', () => {
 
         expect(navigationModule.navigateTo).toHaveBeenCalledTimes(1);
         expect(navigationModule.navigateTo).toBeCalledWith(
-          'self-service-portal.url/#/productManagement?businessId=businessId',
+          'myob.url/manage-my-product/businessId',
           true
         );
       });
