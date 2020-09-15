@@ -6,7 +6,7 @@ import {
   getFinancialYearModal,
   getMonthOptions,
   getNewFinancialYearDetails,
-} from '../businessDetailSelectors';
+} from '../businessSettingsSelectors';
 import LoadingPageState from '../../../../components/LoadingPageState/LoadingPageState';
 import MonthSelect from './MonthSelect';
 import floatingLady from './floating-lady.svg';
@@ -85,6 +85,7 @@ const FinancialYearButton = ({
 
   return (
     <Field
+      label=""
       renderField={() => (
         <>
           <Button type="link" onClick={onOpenFinancialYearModal}>

@@ -2,7 +2,7 @@ import { Input } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getNzTaxDetails } from '../businessDetailSelectors';
+import { getNzTaxDetails } from '../businessSettingsSelectors';
 
 const onInputChange = (handler) => (e) => {
   const { value, name } = e.target;

@@ -2,7 +2,7 @@ import { FieldGroup, Input, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getContactDetails } from '../businessDetailSelectors';
+import { getContactDetails } from '../businessSettingsSelectors';
 
 const onInputChange = (handler) => (e) => {
   const { value, name } = e.target;

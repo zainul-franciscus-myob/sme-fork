@@ -74,7 +74,7 @@ export const activeMapping = {
 
   [RouteName.IN_TRAY]: 'inTray',
 
-  [RouteName.BUSINESS_DETAIL]: 'business',
+  [RouteName.BUSINESS_SETTINGS]: 'business',
   [RouteName.INCOME_ALLOCATION]: 'business',
   [RouteName.SALES_SETTINGS]: 'business',
   [RouteName.USER_LIST]: 'business',
@@ -182,7 +182,7 @@ export const featuresConfig = {
 
   inTrayList: { routeName: RouteName.IN_TRAY },
 
-  businessDetails: { routeName: RouteName.BUSINESS_DETAIL },
+  businessDetails: { routeName: RouteName.BUSINESS_SETTINGS },
   incomeAllocation: { routeName: RouteName.INCOME_ALLOCATION },
   salesSettings: { routeName: RouteName.SALES_SETTINGS },
   payrollSettings: { routeName: RouteName.PAYROLL_SETTINGS },

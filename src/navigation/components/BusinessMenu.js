@@ -95,7 +95,7 @@ const getItems = ({
       <Navigation.Separator key="separator" />
     ),
     urls.businessDetails &&
-      getMenuLink(urls.businessDetails, 'Business details', onMenuLinkClick),
+      getMenuLink(urls.businessDetails, 'Business settings', onMenuLinkClick),
     urls.incomeAllocation &&
       getMenuLink(urls.incomeAllocation, 'Income allocation', onMenuLinkClick),
     urls.salesSettings &&

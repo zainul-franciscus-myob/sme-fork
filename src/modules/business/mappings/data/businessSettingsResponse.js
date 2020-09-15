@@ -25,6 +25,10 @@ export default {
     hasTransactions: false,
     payeeNumber: '00000000', // only be used for AU business
   },
+  gstSettings: {
+    gstRegistered: true,
+    accountingBasis: 'Cash',
+  },
   financialYearOptions: [
     '2014',
     '2015',

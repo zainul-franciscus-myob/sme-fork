@@ -1,7 +1,8 @@
 import {
   CLOSE_FINANCIAL_YEAR_MODAL,
   CLOSE_MODAL,
-  LOAD_BUSINESS_DETAIL,
+  DISCARD_TAB_DATA,
+  LOAD_BUSINESS_SETTINGS,
   OPEN_FINANCIAL_YEAR_MODAL,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
@@ -9,16 +10,19 @@ import {
   SET_LOADING_STATE,
   SET_LOCK_DATE_AUTO_POPULATED_STATE,
   SET_PAGE_EDITED_STATE,
+  SET_PENDING_TAB,
   SET_SUBMITTING_STATE,
+  SET_TAB,
   START_LOADING_FINANCIAL_YEAR_MODAL,
   STOP_LOADING_FINANCIAL_YEAR_MODAL,
-  UPDATE_BUSINESS_DETAIL,
+  UPDATE_BUSINESS_DETAILS,
   UPDATE_FINANCIAL_YEAR_SETTINGS,
+  UPDATE_GST_SETTINGS,
   UPDATE_LOCK_DATE_DETAIL,
 } from '../BusinessIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
-const createBusinessDetailDispatcher = (store) => ({
+const createBusinessSettingsDispatcher = (store) => ({
   resetState: () => {
     store.dispatch({
       intent: RESET_STATE,
@@ -80,9 +84,16 @@ const createBusinessDetailDispatcher = (store) => ({
       isLockDateAutoPopulated,
     });
   },
-  updateBusinessDetail: ({ key, value }) => {
+  updateBusinessDetails: ({ key, value }) => {
     store.dispatch({
-      intent: UPDATE_BUSINESS_DETAIL,
+      intent: UPDATE_BUSINESS_DETAILS,
+      key,
+      value,
+    });
+  },
+  updateGstSettings: ({ key, value }) => {
+    store.dispatch({
+      intent: UPDATE_GST_SETTINGS,
       key,
       value,
     });
@@ -101,15 +112,17 @@ const createBusinessDetailDispatcher = (store) => ({
       value,
     });
   },
-  loadBusinessDetail: ({
+  loadBusinessSettings: ({
     businessDetails,
+    gstSettings,
     pageTitle,
     financialYearOptions,
     openingBalanceYearOptions,
   }) => {
     store.dispatch({
-      intent: LOAD_BUSINESS_DETAIL,
+      intent: LOAD_BUSINESS_SETTINGS,
       businessDetails,
+      gstSettings,
       pageTitle,
       financialYearOptions,
       openingBalanceYearOptions,
@@ -135,6 +148,23 @@ const createBusinessDetailDispatcher = (store) => ({
       intent: STOP_LOADING_FINANCIAL_YEAR_MODAL,
     });
   },
+  setPendingTab: (pendingTab) => {
+    store.dispatch({
+      intent: SET_PENDING_TAB,
+      pendingTab,
+    });
+  },
+  setTab: (selectedTab) => {
+    store.dispatch({
+      intent: SET_TAB,
+      selectedTab,
+    });
+  },
+  discardTabData: () => {
+    store.dispatch({
+      intent: DISCARD_TAB_DATA,
+    });
+  },
 });
 
-export default createBusinessDetailDispatcher;
+export default createBusinessSettingsDispatcher;

@@ -9,6 +9,7 @@ const OpeningBalanceDate = (props) => {
   const OpeningBalanceMonth = (
     <div className={styles.month}>
       <Select
+        label=""
         hideLabel
         name="openingBalanceMonth"
         value={month}

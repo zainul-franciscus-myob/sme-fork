@@ -1,8 +1,9 @@
 import {
-  LOAD_BUSINESS_DETAIL,
   LOAD_BUSINESS_LIST,
+  LOAD_BUSINESS_SETTINGS,
+  SAVE_BUSINESS_DETAILS,
+  SAVE_GST_SETTINGS,
   START_NEW_FINANCIAL_YEAR,
-  UPDATE_BUSINESS_DETAIL,
 } from '../BusinessIntents';
 
 const HttpBusinessMapping = {
@@ -10,15 +11,19 @@ const HttpBusinessMapping = {
     method: 'GET',
     getPath: () => '/business/load_business_list',
   },
-  [LOAD_BUSINESS_DETAIL]: {
+  [LOAD_BUSINESS_SETTINGS]: {
     method: 'GET',
     getPath: ({ businessId }) =>
-      `/${businessId}/business/load_business_details`,
+      `/${businessId}/business/load_business_settings`,
   },
-  [UPDATE_BUSINESS_DETAIL]: {
+  [SAVE_BUSINESS_DETAILS]: {
     method: 'PUT',
     getPath: ({ businessId }) =>
       `/${businessId}/business/update_business_details`,
+  },
+  [SAVE_GST_SETTINGS]: {
+    method: 'PUT',
+    getPath: ({ businessId }) => `/${businessId}/business/update_gst_settings`,
   },
   [START_NEW_FINANCIAL_YEAR]: {
     method: 'POST',

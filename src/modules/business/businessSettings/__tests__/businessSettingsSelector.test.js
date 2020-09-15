@@ -2,7 +2,7 @@ import {
   getCannotRecordTransactionBeforeDate,
   getFinancialYearDateRange,
   getNewFinancialYearDetails,
-} from '../businessDetailSelectors';
+} from '../businessSettingsSelectors';
 
 describe('businessDetailSelector', () => {
   describe('getNewFinancialYearDetails', () => {

@@ -2,7 +2,7 @@ import { Icons, Input, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAuTaxDetails } from '../businessDetailSelectors';
+import { getAuTaxDetails } from '../businessSettingsSelectors';
 import AbnInput from '../../../../components/autoFormatter/AbnInput/AbnInput';
 import AcnInput from '../../../../components/autoFormatter/AcnInput/AcnInput';
 

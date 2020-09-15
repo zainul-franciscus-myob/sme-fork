@@ -16,7 +16,7 @@ const RouteName = {
   BILL_PAYMENT_DETAIL: 'billPayment/billPaymentDetail',
   LOGOUT: 'logout/logout',
   TAX_LIST: 'tax/taxList',
-  BUSINESS_DETAIL: 'business/businessDetail',
+  BUSINESS_SETTINGS: 'business/businessSettings',
   BANKING_TRANSACTION_LIST: 'banking/bankTransactionList',
   INVENTORY_DETAIL: 'inventory/inventoryDetail',
   INVENTORY_LIST: 'inventory/itemList',

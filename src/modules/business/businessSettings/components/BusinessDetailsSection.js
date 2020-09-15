@@ -2,7 +2,10 @@ import { FieldGroup, Input, ReadOnly } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getBusinessDetails, getIsRegionAu } from '../businessDetailSelectors';
+import {
+  getBusinessDetails,
+  getIsRegionAu,
+} from '../businessSettingsSelectors';
 import AuTaxDetails from './AuTaxDetails';
 import NzTaxDetails from './NzTaxDetails';
 

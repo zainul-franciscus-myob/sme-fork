@@ -8,6 +8,7 @@ export const getIsLoading = (state) => state.isLoading;
 export const getAlert = (state) => state.alert;
 export const getModal = (state) => state.modal;
 export const getModalUrl = (state) => state.modal && state.modal.url;
+export const getSelectedTab = (state) => state.selectedTab;
 
 export const getIsRegionAu = (state) => state.businessDetails.region === 'AU';
 export const getIsPageEdited = (state) => state.isPageEdited;
@@ -30,7 +31,7 @@ const getOpeningBalanceDate = (state) => {
   return `${openingBalanceYear}-${openingBalanceMonth}-01`;
 };
 
-export const getBusinessForUpdate = createStructuredSelector({
+export const getBusinessDetailsForUpdate = createStructuredSelector({
   organisationName: (state) => state.businessDetails.organisationName,
   abn: (state) => state.businessDetails.abn,
   nzbn: (state) => state.businessDetails.nzbn,
@@ -51,6 +52,14 @@ export const getBusinessForUpdate = createStructuredSelector({
   website: (state) => state.businessDetails.website,
   clientCode: (state) => state.businessDetails.clientCode,
   payeeNumber: (state) => state.businessDetails.payeeNumber,
+});
+
+export const getGstSettingsForUpdate = createStructuredSelector({
+  accountingBasis: (state) => state.gstSettings.accountingBasis,
+  reportingFrequency: (state) => state.gstSettings.reportingFrequency,
+  lastMonthInFinancialYear: (state) =>
+    state.businessDetails.lastMonthInFinancialYear,
+  financialYear: (state) => state.businessDetails.financialYear,
 });
 
 export const getBusinessDetails = createStructuredSelector({
@@ -182,3 +191,7 @@ export const getDashboardUrl = createSelector(
   getRegion,
   (businessId, region) => `/#/${region}/${businessId}/dashboard`
 );
+
+export const getPendingTab = (state) => state.pendingTab;
+
+export const getGstSettings = (state) => state.gstSettings;

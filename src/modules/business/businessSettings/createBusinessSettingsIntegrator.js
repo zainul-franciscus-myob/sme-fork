@@ -1,33 +1,48 @@
 import {
-  LOAD_BUSINESS_DETAIL,
+  LOAD_BUSINESS_SETTINGS,
+  SAVE_BUSINESS_DETAILS,
+  SAVE_GST_SETTINGS,
   START_NEW_FINANCIAL_YEAR,
-  UPDATE_BUSINESS_DETAIL,
 } from '../BusinessIntents';
 import {
-  getBusinessForUpdate,
+  getBusinessDetailsForUpdate,
   getBusinessId,
+  getGstSettingsForUpdate,
   getLastMonthInNewFinancialYear,
-} from './businessDetailSelectors';
+} from './businessSettingsSelectors';
 
-const createBusinessDetailIntegrator = (store, integration) => ({
+const createBusinessSettingsIntegrator = (store, integration) => ({
   saveBusinessDetails: ({ onSuccess, onFailure }) => {
     const state = store.getState();
 
     integration.write({
-      intent: UPDATE_BUSINESS_DETAIL,
+      intent: SAVE_BUSINESS_DETAILS,
       urlParams: {
         businessId: getBusinessId(state),
       },
-      content: getBusinessForUpdate(state),
+      content: getBusinessDetailsForUpdate(state),
       onSuccess,
       onFailure,
     });
   },
-  loadBusinessDetail: ({ onSuccess, onFailure }) => {
+  saveGstSettings: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    integration.write({
+      intent: SAVE_GST_SETTINGS,
+      urlParams: {
+        businessId: getBusinessId(state),
+      },
+      content: getGstSettingsForUpdate(state),
+      onSuccess,
+      onFailure,
+    });
+  },
+  loadBusinessSettings: ({ onSuccess, onFailure }) => {
     const state = store.getState();
 
     integration.read({
-      intent: LOAD_BUSINESS_DETAIL,
+      intent: LOAD_BUSINESS_SETTINGS,
       urlParams: {
         businessId: getBusinessId(state),
       },
@@ -52,4 +67,4 @@ const createBusinessDetailIntegrator = (store, integration) => ({
   },
 });
 
-export default createBusinessDetailIntegrator;
+export default createBusinessSettingsIntegrator;

@@ -6,7 +6,7 @@ const MonthSelect = (props) => {
   return (
     <Select {...props}>
       {monthOptions.map((name, i) => (
-        <Select.Option value={i + 1} label={name} />
+        <Select.Option value={i + 1} key={name} label={name} />
       ))}
     </Select>
   );

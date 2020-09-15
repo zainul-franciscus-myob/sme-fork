@@ -9,7 +9,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getLockDateDetails } from '../businessDetailSelectors';
+import { getLockDateDetails } from '../businessSettingsSelectors';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleDatePickerChange from '../../../../components/handlers/handleDatePickerChange';
 import styles from './LockDateSection.module.css';

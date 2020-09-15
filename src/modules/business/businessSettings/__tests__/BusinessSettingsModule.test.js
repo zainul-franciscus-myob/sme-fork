@@ -1,44 +1,51 @@
 import {
   CLOSE_FINANCIAL_YEAR_MODAL,
   CLOSE_MODAL,
-  LOAD_BUSINESS_DETAIL,
+  DISCARD_TAB_DATA,
+  LOAD_BUSINESS_SETTINGS,
   OPEN_MODAL,
+  SAVE_BUSINESS_DETAILS,
+  SAVE_GST_SETTINGS,
   SET_ALERT_MESSAGE,
   SET_IS_FINANCIAL_YEAR_SETTINGS_CHANGED_STATE,
   SET_LOADING_STATE,
   SET_LOCK_DATE_AUTO_POPULATED_STATE,
   SET_PAGE_EDITED_STATE,
+  SET_PENDING_TAB,
   SET_SUBMITTING_STATE,
+  SET_TAB,
   START_LOADING_FINANCIAL_YEAR_MODAL,
   START_NEW_FINANCIAL_YEAR,
   STOP_LOADING_FINANCIAL_YEAR_MODAL,
-  UPDATE_BUSINESS_DETAIL,
+  UPDATE_BUSINESS_DETAILS,
 } from '../../BusinessIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
-import BusinessDetailModule from '../businessDetailModule';
+import { mainTabIds } from '../tabItems';
+import BusinessSettingsModule from '../businessSettingsModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
-import businessDetailsReducer from '../businessDetailReducer';
-import businessDetailsResponse from '../../mappings/data/businessDetailsResponse';
-import createBusinessDetailDispatcher from '../createBusinessDetailDispatcher';
-import createBusinessDetailIntegrator from '../createBusinessDetailIntegrator';
+import businessSettingsReducer from '../businessSettingsReducer';
+import businessSettingsResponse from '../../mappings/data/businessSettingsResponse';
+import createBusinessSettingsDispatcher from '../createBusinessSettingsDispatcher';
+import createBusinessSettingsIntegrator from '../createBusinessSettingsIntegrator';
+import modalTypes from '../modalTypes';
 
-describe('BusinessDetailModule', () => {
+describe('BusinessSettingsModule', () => {
   const setup = () => {
-    const store = new TestStore(businessDetailsReducer);
+    const store = new TestStore(businessSettingsReducer);
     const integration = new TestIntegration();
     const setRootView = () => {};
     const isToggleOn = () => true;
 
-    const module = new BusinessDetailModule({
+    const module = new BusinessSettingsModule({
       integration,
       setRootView,
       isToggleOn,
     });
     module.store = store;
-    module.dispatcher = createBusinessDetailDispatcher(store);
-    module.integrator = createBusinessDetailIntegrator(store, integration);
+    module.dispatcher = createBusinessSettingsDispatcher(store);
+    module.integrator = createBusinessSettingsIntegrator(store, integration);
 
     return { module, store, integration };
   };
@@ -66,7 +73,7 @@ describe('BusinessDetailModule', () => {
         isPageEdited: true,
       },
       {
-        intent: UPDATE_BUSINESS_DETAIL,
+        intent: UPDATE_BUSINESS_DETAILS,
         key: 'description',
         value: '🤯',
       },
@@ -100,19 +107,19 @@ describe('BusinessDetailModule', () => {
           loadingState: LoadingState.LOADING_SUCCESS,
         },
         expect.objectContaining({
-          intent: LOAD_BUSINESS_DETAIL,
+          intent: LOAD_BUSINESS_SETTINGS,
         }),
       ]);
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
-          intent: LOAD_BUSINESS_DETAIL,
+          intent: LOAD_BUSINESS_SETTINGS,
         }),
       ]);
     });
 
     it('fails to load', () => {
       const { module, store, integration } = setup();
-      integration.mapFailure(LOAD_BUSINESS_DETAIL);
+      integration.mapFailure(LOAD_BUSINESS_SETTINGS);
 
       module.run({ businessId: '🦒' });
 
@@ -135,7 +142,7 @@ describe('BusinessDetailModule', () => {
       ]);
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
-          intent: LOAD_BUSINESS_DETAIL,
+          intent: LOAD_BUSINESS_SETTINGS,
         }),
       ]);
     });
@@ -147,7 +154,7 @@ describe('BusinessDetailModule', () => {
       module.businessDetailsConfirmed = jest.fn();
       module.loadGlobalBusinessDetails = jest.fn();
 
-      module.updateBusinessDetail();
+      module.updateBusinessDetails();
 
       expect(store.getActions()).toEqual([
         {
@@ -186,9 +193,10 @@ describe('BusinessDetailModule', () => {
           loadingState: 'LOADING_SUCCESS',
         },
         {
-          intent: LOAD_BUSINESS_DETAIL,
-          businessDetails: businessDetailsResponse.businessDetails,
-          financialYearOptions: businessDetailsResponse.financialYearOptions,
+          intent: LOAD_BUSINESS_SETTINGS,
+          businessDetails: businessSettingsResponse.businessDetails,
+          gstSettings: businessSettingsResponse.gstSettings,
+          financialYearOptions: businessSettingsResponse.financialYearOptions,
           openingBalanceYearOptions: undefined,
           pageTitle: undefined,
         },
@@ -196,10 +204,10 @@ describe('BusinessDetailModule', () => {
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
-          intent: UPDATE_BUSINESS_DETAIL,
+          intent: SAVE_BUSINESS_DETAILS,
         }),
         expect.objectContaining({
-          intent: LOAD_BUSINESS_DETAIL,
+          intent: LOAD_BUSINESS_SETTINGS,
         }),
       ]);
       expect(module.businessDetailsConfirmed).toHaveBeenCalled();
@@ -208,9 +216,9 @@ describe('BusinessDetailModule', () => {
 
     it('fails to update', () => {
       const { module, store, integration } = setupWithEditedPage();
-      integration.mapFailure(UPDATE_BUSINESS_DETAIL);
+      integration.mapFailure(SAVE_BUSINESS_DETAILS);
 
-      module.updateBusinessDetail();
+      module.updateBusinessDetails();
 
       expect(store.getActions()).toEqual([
         {
@@ -231,7 +239,7 @@ describe('BusinessDetailModule', () => {
       ]);
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
-          intent: UPDATE_BUSINESS_DETAIL,
+          intent: SAVE_BUSINESS_DETAILS,
         }),
       ]);
     });
@@ -241,7 +249,102 @@ describe('BusinessDetailModule', () => {
       module.dispatcher.setSubmittingState(true);
       store.resetActions();
 
-      module.updateBusinessDetail();
+      module.updateBusinessDetails();
+
+      expect(store.getActions()).toEqual([]);
+      expect(integration.getRequests()).toEqual([]);
+    });
+  });
+
+  describe('updateGstSettings', () => {
+    it('successfully update', () => {
+      const { module, store, integration } = setupWithEditedPage();
+      module.updateGstSettings();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
+        {
+          intent: SET_PAGE_EDITED_STATE,
+          isPageEdited: false,
+        },
+        {
+          intent: SET_ALERT_MESSAGE,
+          alert: {
+            type: 'success',
+            message: expect.any(String),
+          },
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: 'LOADING',
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: 'LOADING_SUCCESS',
+        },
+        {
+          intent: LOAD_BUSINESS_SETTINGS,
+          businessDetails: businessSettingsResponse.businessDetails,
+          gstSettings: businessSettingsResponse.gstSettings,
+          financialYearOptions: businessSettingsResponse.financialYearOptions,
+          openingBalanceYearOptions: undefined,
+          pageTitle: undefined,
+        },
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: SAVE_GST_SETTINGS,
+        }),
+        expect.objectContaining({
+          intent: LOAD_BUSINESS_SETTINGS,
+        }),
+      ]);
+    });
+
+    it('fails to update', () => {
+      const { module, store, integration } = setupWithEditedPage();
+      integration.mapFailure(SAVE_GST_SETTINGS);
+
+      module.updateGstSettings();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
+        {
+          intent: SET_ALERT_MESSAGE,
+          alert: {
+            type: 'danger',
+            message: 'fails',
+          },
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: SAVE_GST_SETTINGS,
+        }),
+      ]);
+    });
+
+    it('does nothing when already submitting', () => {
+      const { module, store, integration } = setupWithEditedPage();
+      module.dispatcher.setSubmittingState(true);
+      store.resetActions();
+
+      module.updateGstSettings();
 
       expect(store.getActions()).toEqual([]);
       expect(integration.getRequests()).toEqual([]);
@@ -286,7 +389,7 @@ describe('BusinessDetailModule', () => {
       ]);
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
-          intent: UPDATE_BUSINESS_DETAIL,
+          intent: SAVE_BUSINESS_DETAILS,
         }),
       ]);
       expect(module.redirectToUrl).toHaveBeenCalledWith('🥮');
@@ -294,7 +397,7 @@ describe('BusinessDetailModule', () => {
 
     it('fails to update', () => {
       const { module, store, integration } = setupWithOpenUnsavedModal();
-      integration.mapFailure(UPDATE_BUSINESS_DETAIL);
+      integration.mapFailure(SAVE_BUSINESS_DETAILS);
 
       module.updateAndRedirectToUrl();
 
@@ -317,7 +420,7 @@ describe('BusinessDetailModule', () => {
       ]);
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
-          intent: UPDATE_BUSINESS_DETAIL,
+          intent: SAVE_BUSINESS_DETAILS,
         }),
       ]);
     });
@@ -386,7 +489,7 @@ describe('BusinessDetailModule', () => {
           isPageEdited: true,
         },
         {
-          intent: UPDATE_BUSINESS_DETAIL,
+          intent: UPDATE_BUSINESS_DETAILS,
           key: 'description',
           value: '🤯',
         },
@@ -408,7 +511,7 @@ describe('BusinessDetailModule', () => {
       module.businessDetailsConfirmed = () => {};
       module.loadGlobalBusinessDetails = () => {};
 
-      module.updateBusinessDetail();
+      module.updateBusinessDetails();
 
       expect(store.getActions()).toContainEqual({
         intent: SET_ALERT_MESSAGE,
@@ -454,7 +557,7 @@ describe('BusinessDetailModule', () => {
           intent: CLOSE_FINANCIAL_YEAR_MODAL,
         },
         expect.objectContaining({
-          intent: LOAD_BUSINESS_DETAIL,
+          intent: LOAD_BUSINESS_SETTINGS,
         }),
         {
           intent: SET_ALERT_MESSAGE,
@@ -469,7 +572,7 @@ describe('BusinessDetailModule', () => {
           intent: START_NEW_FINANCIAL_YEAR,
         }),
         expect.objectContaining({
-          intent: LOAD_BUSINESS_DETAIL,
+          intent: LOAD_BUSINESS_SETTINGS,
         }),
       ]);
     });
@@ -506,7 +609,7 @@ describe('BusinessDetailModule', () => {
 
     it('fails to load business details', () => {
       const { module, store, integration } = setupWithRun();
-      integration.mapFailure(LOAD_BUSINESS_DETAIL);
+      integration.mapFailure(LOAD_BUSINESS_SETTINGS);
       module.startNewFinancialYear();
 
       expect(store.getActions()).toContainEqual({
@@ -521,9 +624,84 @@ describe('BusinessDetailModule', () => {
           intent: START_NEW_FINANCIAL_YEAR,
         }),
         expect.objectContaining({
-          intent: LOAD_BUSINESS_DETAIL,
+          intent: LOAD_BUSINESS_SETTINGS,
         }),
       ]);
+    });
+  });
+
+  describe('switchTab', () => {
+    it('sets tab to selected tab', () => {
+      const { module, store } = setupWithRun();
+      module.replaceURLParams = jest.fn();
+
+      module.switchTab(mainTabIds.gstSettings);
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_TAB,
+          selectedTab: mainTabIds.gstSettings,
+        },
+      ]);
+      expect(module.replaceURLParams).toHaveBeenCalledWith({
+        selectedTab: mainTabIds.gstSettings,
+      });
+    });
+
+    it('opens switch tab modal when page edited', () => {
+      const { module, store } = setupWithRun();
+      module.updateBusinessDetailField({ key: 'description', value: '🤯' });
+      store.resetActions();
+
+      module.switchTab(mainTabIds.gstSettings);
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_PENDING_TAB,
+          pendingTab: mainTabIds.gstSettings,
+        },
+        {
+          intent: OPEN_MODAL,
+          modal: { type: modalTypes.switchTab, url: mainTabIds.gstSettings },
+        },
+      ]);
+    });
+  });
+
+  describe('onConfirmSwitchTab', () => {
+    const setupWithSwitchTabModal = () => {
+      const toolbox = setupWithRun();
+      const { module, store } = toolbox;
+
+      module.updateBusinessDetailField({ key: 'description', value: '🤯' });
+      module.switchTab(mainTabIds.gstSettings);
+
+      store.resetActions();
+
+      return toolbox;
+    };
+
+    it('sets tab to pending tab', () => {
+      const { module, store } = setupWithSwitchTabModal();
+      module.replaceURLParams = jest.fn();
+
+      module.onConfirmSwitchTab();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: DISCARD_TAB_DATA,
+        },
+        {
+          intent: SET_TAB,
+          selectedTab: mainTabIds.gstSettings,
+        },
+        {
+          intent: CLOSE_MODAL,
+        },
+      ]);
+      expect(module.replaceURLParams).toHaveBeenCalledWith({
+        selectedTab: mainTabIds.gstSettings,
+      });
     });
   });
 });

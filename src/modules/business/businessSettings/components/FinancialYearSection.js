@@ -9,7 +9,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getFinancialYearDetails } from '../businessDetailSelectors';
+import { getFinancialYearDetails } from '../businessSettingsSelectors';
 import FinancialYearButton from './FinancialYearButton';
 import MonthSelect from './MonthSelect';
 import OpeningBalanceDate from './OpeningBalanceDate';

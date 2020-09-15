@@ -1,4 +1,4 @@
-import BusinessDetailModule from './businessDetail/businessDetailModule';
+import BusinessSetingsModule from './businessSettings/businessSettingsModule';
 import RouteName from '../../router/RouteName';
 
 const getBusinessRoutes = ({
@@ -8,19 +8,22 @@ const getBusinessRoutes = ({
   isToggleOn,
   navigateTo,
   loadGlobalBusinessDetails,
+  replaceURLParams,
 }) => [
   {
-    name: RouteName.BUSINESS_DETAIL,
+    name: RouteName.BUSINESS_SETTINGS,
     path: '/:region/:businessId/',
-    module: new BusinessDetailModule({
+    allowedParams: ['selectedTab'],
+    module: new BusinessSetingsModule({
       setRootView,
       integration,
       businessDetailsConfirmed,
       isToggleOn,
       navigateTo,
       loadGlobalBusinessDetails,
+      replaceURLParams,
     }),
-    documentTitle: 'Business details',
+    documentTitle: 'Business settings',
   },
 ];
 
