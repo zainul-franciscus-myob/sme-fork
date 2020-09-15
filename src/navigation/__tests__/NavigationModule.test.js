@@ -158,7 +158,7 @@ describe('Navigation Module', () => {
         const state = navigationModule.store.getState();
 
         expect(state.urls[RouteName.PRODUCT_MANAGEMENT_DETAIL]).toEqual(
-          'myob.url/manage-my-product/🍟'
+          'myob.url/manage-my-product?businessId=🍟'
         );
       });
     });
@@ -221,7 +221,7 @@ describe('Navigation Module', () => {
 
         expect(navigationModule.navigateTo).toHaveBeenCalledTimes(1);
         expect(navigationModule.navigateTo).toBeCalledWith(
-          'myob.url/manage-my-product/businessId',
+          'myob.url/manage-my-product?businessId=businessId',
           true
         );
       });

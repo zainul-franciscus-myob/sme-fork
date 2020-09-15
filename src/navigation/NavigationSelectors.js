@@ -38,7 +38,8 @@ const getMyobUrl = (state) => state.myobUrl;
 export const getProductManagementUrl = createSelector(
   getMyobUrl,
   getBusinessId,
-  (myobUrl, businessId) => `${myobUrl}/manage-my-product/${businessId}`
+  (myobUrl, businessId) =>
+    `${myobUrl}/manage-my-product?businessId=${businessId}`
 );
 
 export const getReportsUrl = createSelector(
