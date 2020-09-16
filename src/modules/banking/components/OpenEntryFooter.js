@@ -91,28 +91,27 @@ const OpenEntryFooter = ({
   );
 
   const attachFileButton = (
-    <div className={styles.attachFileButton}>
-      <Tooltip
-        triggerContent={
-          <FileBrowser
-            buttonType="link"
-            buttonLabel={
-              <>
-                <span className="btn__icon">
-                  <Icons.File />
-                </span>
-                <span className="btn__content">Attach files</span>
-              </>
-            }
-            onFileSelected={onAddAttachments}
-          />
-        }
-      >
-        {
-          "Upload your files as PDF, TIFF, JPEG or PNG and make sure it's below 10MB"
-        }
-      </Tooltip>
-    </div>
+    <Tooltip
+      triggerContent={
+        <FileBrowser
+          buttonType="link"
+          buttonLabel={
+            <>
+              <span className="btn__icon">
+                <Icons.File />
+              </span>
+              <span className="btn__content">Attach files</span>
+            </>
+          }
+          onFileSelected={onAddAttachments}
+          className={styles.attachFileButton}
+        />
+      }
+    >
+      {
+        "Upload your files as PDF, TIFF, JPEG or PNG and make sure it's below 10MB"
+      }
+    </Tooltip>
   );
 
   const linkInTrayButton = (

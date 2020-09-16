@@ -38,6 +38,7 @@ const Combobox = ({
     <FeelixCombobox
       className={classNames(className, {
         [styles.left]: left,
+        [styles.allPlaceholder]: hasAllItem,
       })}
       selected={selectedItem}
       onChange={onComboboxChange}

@@ -3,15 +3,6 @@
 
 }
 
-/*
-  @FEELIX:
-*/
-.matchTransactionBody :global(.flx-field-group) {
-  margin-top: var(--flx-spacing-small);
-  border-bottom: 0;
-  padding-bottom: 0;
-}
-
 .tableFooter {
   display: flex;
   justify-content: space-between;

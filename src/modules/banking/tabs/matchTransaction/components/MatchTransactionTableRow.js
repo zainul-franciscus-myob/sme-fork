@@ -3,7 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import AmountInput from '../../../../../components/autoFormatter/AmountInput/AmountInput';
-import styles from './MatchTransactionTable.module.css';
+import styles from './MatchTransactionTableRow.module.css';
 
 const handleAmountChange = (index, handler) => (e) => {
   const { rawValue, name } = e.target;

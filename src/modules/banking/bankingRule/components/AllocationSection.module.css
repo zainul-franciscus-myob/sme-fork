@@ -1,11 +1,28 @@
-@media screen and (min-width: 1200px) {
-  .contact {
-    width: var(--flx-width-field-xl);
-    margin-bottom: var(--flx-spacing-small);
+.contactAndIsReportableContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--flx-spacing-small);
+}
+
+.contact,
+.description {
+  max-width: var(--flx-width-field-xl);
+}
+
+@media (min-width: 768px) {
+  .contactAndIsReportableContainer {
+    flex-direction: row;
+    align-items: flex-end;
   }
 
+  .contact {
+    margin-bottom: 0;
+    margin-right: var(--flx-spacing-small);
+  }
+
+  .contact,
   .description {
     width: var(--flx-width-field-xl);
-    margin-bottom: var(--flx-spacing-small);
   }
 }

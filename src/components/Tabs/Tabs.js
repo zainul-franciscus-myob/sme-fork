@@ -1,7 +1,7 @@
-import { Select } from '@myob/myob-widgets';
+import { Tabs as FeelixTabs, Select } from '@myob/myob-widgets';
 import React from 'react';
+import classNames from 'classnames';
 
-import { Tabs as FeelixTabs } from '../Feelix/Tabs/Tabs';
 import styles from './Tabs.module.css';
 
 const handleSelectChange = (handler) => (e) => {
@@ -9,24 +9,26 @@ const handleSelectChange = (handler) => (e) => {
   handler(value);
 };
 
-const Tabs = ({ items, selected, onSelected }) => (
+const Tabs = ({ items, selected, onSelected, className }) => (
   <>
-    <div className={styles.tabs}>
-      <FeelixTabs items={items} selected={selected} onSelected={onSelected} />
-    </div>
-    <div className={styles.select}>
-      <Select
-        name="tabs"
-        label="Tabs"
-        hideLabel
-        value={selected}
-        onChange={handleSelectChange(onSelected)}
-      >
-        {items.map(({ id, label }) => (
-          <Select.Option key={id} value={id} label={label} />
-        ))}
-      </Select>
-    </div>
+    <FeelixTabs
+      items={items}
+      selected={selected}
+      onSelected={onSelected}
+      className={classNames(styles.tabs, className)}
+    />
+    <Select
+      name="tabs"
+      label="Tabs"
+      hideLabel
+      value={selected}
+      onChange={handleSelectChange(onSelected)}
+      className={styles.select}
+    >
+      {items.map(({ id, label }) => (
+        <Select.Option key={id} value={id} label={label} />
+      ))}
+    </Select>
   </>
 );
 

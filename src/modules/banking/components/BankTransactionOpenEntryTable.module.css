@@ -14,12 +14,6 @@
 }
 
 /* @FEELIX */
-.paymentAllocationTable :global(.table-data__body) {
-  max-height: 28rem;
-  overflow-y: scroll;
-}
-
-/* @FEELIX */
 .matchTransactionTable :global(.table-data__body) {
   max-height: 24rem;
   min-width: 102rem;

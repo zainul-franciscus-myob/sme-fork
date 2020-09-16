@@ -37,12 +37,13 @@ const OpenEntrySecondaryContent = ({
         ({ id, canOperate, isInProgress, ...otherProps }, index) => (
           <div
             key={id || index}
-            className={classNames(styles.file, {
+            className={classNames({
               [styles.inProgress]: isInProgress,
             })}
           >
             <FileChip
               {...otherProps}
+              className={styles.file}
               onRemove={
                 canOperate
                   ? wrapAttachmentHandler(onRemoveAttachment, index)

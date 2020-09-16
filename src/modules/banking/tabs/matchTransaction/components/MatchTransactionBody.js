@@ -54,7 +54,7 @@ const MatchTransactionBody = ({
   );
 
   return (
-    <div className={styles.matchTransactionBody}>
+    <>
       <MatchTransactionOptions
         onUpdateMatchTransactionOptions={onUpdateMatchTransactionOptions}
         onResetMatchTransactionOptions={onResetMatchTransactionOptions}
@@ -71,7 +71,7 @@ const MatchTransactionBody = ({
       </div>
       {showAdjustmentTable && adjustmentTable}
       <MatchTransactionTotals />
-    </div>
+    </>
   );
 };
 

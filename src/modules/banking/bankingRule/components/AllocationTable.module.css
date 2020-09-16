@@ -1,11 +1,11 @@
-.remaining :global(.line-item__totals h4) {
+.remaining {
   color: var(--flx-color-alert-error-link);
 }
 
-.allocationTable :global(.line-item-table [data-label="Account"]) {
+/* @FEELIX */
+/* need to force override the width due to
+conflicting line item table with the same
+label (see `SplitAllocationTable`) */
+.allocationTable:global(.line-item-table [data-label="Account"]) {
   flex: 1 1;
-}
-
-.totals :global(.line-item__total) {
-  min-height: 14rem;
 }

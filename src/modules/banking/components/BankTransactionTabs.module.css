@@ -1,10 +1,10 @@
 @value iconSize: 1.6rem;
 
-.popoverIcon :global(.flx-popover) {
+.popover {
   height: iconSize;
 }
 
-.popoverIcon :global(.svg-icon) {
+.icon {
   height: iconSize;
   width: iconSize;
 }

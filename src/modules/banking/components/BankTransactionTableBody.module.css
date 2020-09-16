@@ -1,0 +1,12 @@
+.openEntryCard {
+  padding: 0;
+}
+
+.openEntryCardFooter {
+  padding: var(--flx-padding-card-body);
+  margin-top: 0;
+  background-color: var(--flx-palette-storm-06);
+  border-top: 1px solid var(--flx-palette-storm-28);
+  border-bottom-left-radius: var(--flx-border-radius-card);
+  border-bottom-right-radius: var(--flx-border-radius-card);
+}

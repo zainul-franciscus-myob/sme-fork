@@ -8,7 +8,7 @@
   padding: var(--flx-spacing-large);
 }
 
-.file :global(.flx-chip){
+.file {
   margin-bottom: 0;
 }
 

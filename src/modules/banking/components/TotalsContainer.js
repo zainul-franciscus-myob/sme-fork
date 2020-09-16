@@ -5,9 +5,9 @@ import classNames from 'classnames';
 import styles from './TotalsContainer.module.css';
 
 const TotalsContainer = ({ children, className }) => (
-  <div className={classNames(styles.totals, className)}>
-    <LineItemTable.Total>{children}</LineItemTable.Total>
-  </div>
+  <LineItemTable.Total className={classNames(styles.totals, className)}>
+    {children}
+  </LineItemTable.Total>
 );
 
 export default TotalsContainer;

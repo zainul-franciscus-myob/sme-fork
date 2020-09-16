@@ -13,17 +13,6 @@
   min-width: 11.8rem;
 }
 
-/* @FEELIX */
-.selected:hover:global(.table-data__row:hover:not(.table-data--selected):not(.table-data--active):not(.table-data--header)) {
-  background: var(--flx-background-color-table-row-selected);
-}
-
-/* @FEELIX */
-.table :global(.table-data__row) {
-  padding-left: 4.2rem;
-  padding-right: 4.2rem;
-}
-
 .row {
   padding-top: 0.6rem;
   padding-bottom: 0.6rem;

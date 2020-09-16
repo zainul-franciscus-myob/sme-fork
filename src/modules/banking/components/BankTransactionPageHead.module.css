@@ -1,15 +1,16 @@
 @media only screen and (min-width: 500px) {
   /* @FEELIX */
-  .pageHead :global(.flx-btn-row__secondary-group) {
+  .totalsHeader :global(.flx-btn-row__secondary-group) {
     display: flex;
     flex-wrap: unset;
   }
 
-  .pageHead :global(.form-group) {
+  .accountCombobox {
     flex-basis: 66.66%;
+    margin-right: var(--flx-spacing-x-small);
   }
 
-  .pageHead :global(.btn-link) {
+  .reconcileLink {
     flex-basis: 33.33%;
     margin-top: 0.5rem;
   }
@@ -20,13 +21,13 @@
   Using 900px as this is when the <TotalsHeader /> component breaks.
 */
 @media only screen and (min-width: 900px) {
-  .pageHead :global(.form-group) {
+  .accountCombobox {
     flex-basis: unset;
     margin-bottom: 0;
     width: var(--flx-width-field-xl);
   }
 
-  .pageHead :global(.btn-link) {
+  .reconcileLink {
     flex-basis: unset;
     margin-top: 2.1rem;
   }
@@ -36,6 +37,6 @@
   display: flex;
 }
 
-.pageHead :global(.page-head) {
+.pageHead {
   margin-bottom: 0;
 }

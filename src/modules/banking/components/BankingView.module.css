@@ -8,23 +8,6 @@
   border-bottom-right-radius: var(--flx-border-radius-card);
 }
 
-.openEntryCard {
-  padding: 0;
-}
-
-.openEntryCardFooter {
-  padding: 0;
-  margin-top: 0;
-  background-color: var(--flx-palette-storm-06);
-  border-top: 1px solid var(--flx-palette-storm-28);
-  border-bottom-left-radius: var(--flx-border-radius-card);
-  border-bottom-right-radius: var(--flx-border-radius-card);
-}
-
-.openEntryCardFooter :global(.flx-btn-row) {
-  padding: var(--flx-padding-card-body);
-}
-
 .paymentFooter {
   align-items: center;
   display: flex;
@@ -47,15 +30,7 @@
   width: var(--flx-width-field-s);
 }
 
-.entryLoading :global(.filter-bar__item button) {
-  cursor: progress;
-  opacity: 0.65;
-  filter: alpha(opacity=65);
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-
-.bankTransactionView :global(.flx-container) {
+.bankTransactionView {
   max-width: 1368px;
 }
 

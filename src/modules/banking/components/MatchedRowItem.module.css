@@ -3,11 +3,6 @@
   padding: var(--flx-spacing-tiny) var(--flx-spacing-clear) var(--flx-spacing-tiny) var(--flx-spacing-x-small);
 }
 
-.matchInfo :global(.btn-link) {
-  padding-top: 0.2rem;
-  padding-bottom: 0.3rem;
-}
-
 /*
   We've copied these stylings from Feelixs `Button` component. We can delete these stylings
   once we can revert back to the `Button` component.

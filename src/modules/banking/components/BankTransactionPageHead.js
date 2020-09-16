@@ -57,6 +57,7 @@ const BankTransactionPageHead = ({
       onChange={onComboBoxChange(onBankAccountChange)}
       label="Bank account"
       hideLabel={false}
+      className={styles.accountCombobox}
     />,
     <LinkButton
       className={styles.reconcileLink}
@@ -68,14 +69,18 @@ const BankTransactionPageHead = ({
   ];
 
   return (
-    <div className={styles.pageHead}>
-      <PageHead title="Bank transactions">
+    <>
+      <PageHead title="Bank transactions" className={styles.pageHead}>
         <Button type="secondary" onClick={onImportStatementButtonClick}>
           Import statement
         </Button>
       </PageHead>
-      <TotalsHeader actions={actions} totalItems={totalItems} />
-    </div>
+      <TotalsHeader
+        actions={actions}
+        totalItems={totalItems}
+        className={styles.totalsHeader}
+      />
+    </>
   );
 };
 

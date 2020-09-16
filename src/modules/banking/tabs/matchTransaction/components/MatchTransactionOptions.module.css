@@ -1,14 +1,11 @@
 .typeInfoPopover{
     max-width: 280px;
 }
+
 .typeInfoPopover > p:last-child{
     margin-bottom: 0;
 }
 
 .filterOptions {
   margin-bottom: 1rem;
-}
-
-.filterOptions :global(input[name="contactId"]::placeholder) {
-  color: var(--flx-palette-thunder);
 }

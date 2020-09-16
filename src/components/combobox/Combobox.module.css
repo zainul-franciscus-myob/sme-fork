@@ -1,3 +1,7 @@
 .left :global(.combobox-menu) {
-    right: 0;	
+    right: 0;
+}
+
+.allPlaceholder input::placeholder {
+  color: var(--flx-palette-thunder);
 }

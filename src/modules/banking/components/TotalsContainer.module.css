@@ -1,11 +1,5 @@
-/*
-  @FEELIX:
-*/
-.totals :global(.line-item__total){
+.totals {
   margin: 0;
   padding: 0;
-}
-
-.totals {
   padding-top: var(--flx-spacing-small);
 }

@@ -64,29 +64,27 @@ const AllocationTable = ({
     </LineItemTable.HeaderItem>,
   ];
   return (
-    <div className={`${styles.allocationTable} ${remainingClassName}`}>
-      <LineItemTable
-        labels={labels}
-        renderRow={renderRow}
-        data={allocations}
-        onAddRow={onAddRow}
-        onRowChange={onRowChange}
-        onRemoveRow={onRemoveRow}
-        columnConfig={columnConfig}
-        headerItems={headerItems}
-      >
-        <div className={styles.totals}>
-          <LineItemTable.Total>
-            {showRemainingPercentage && (
-              <LineItemTable.Totals
-                title="Remaining"
-                amount={remainingPercentage}
-              />
-            )}
-          </LineItemTable.Total>
-        </div>
-      </LineItemTable>
-    </div>
+    <LineItemTable
+      labels={labels}
+      renderRow={renderRow}
+      data={allocations}
+      onAddRow={onAddRow}
+      onRowChange={onRowChange}
+      onRemoveRow={onRemoveRow}
+      columnConfig={columnConfig}
+      headerItems={headerItems}
+      className={styles.allocationTable}
+    >
+      <LineItemTable.Total>
+        {showRemainingPercentage && (
+          <LineItemTable.Totals
+            title="Remaining"
+            amount={remainingPercentage}
+            className={remainingClassName}
+          />
+        )}
+      </LineItemTable.Total>
+    </LineItemTable>
   );
 };
 

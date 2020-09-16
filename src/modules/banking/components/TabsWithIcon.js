@@ -50,13 +50,12 @@ const TabsWithIcon = ({ items, selected, onSelected, icon }) => {
     : items;
 
   return (
-    <div className={styles.tabsWithIcon}>
-      <Tabs
-        items={responsiveItems}
-        selected={selected}
-        onSelected={newOnSelected}
-      />
-    </div>
+    <Tabs
+      className={styles.tabsWithIcon}
+      items={responsiveItems}
+      selected={selected}
+      onSelected={newOnSelected}
+    />
   );
 };
 

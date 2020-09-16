@@ -1,9 +1,4 @@
-import {
-  Columns,
-  FieldGroup,
-  RadioButtonGroup,
-  TextArea,
-} from '@myob/myob-widgets';
+import { FieldGroup, RadioButtonGroup, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -43,18 +38,17 @@ const AllocationSection = ({
   shouldShowPaymentReportableCheckbox,
 }) => (
   <FieldGroup label="Create transaction with this information">
-    <Columns>
-      <div className={styles.contact}>
-        {renderContactCombobox({
-          selectedId: contactId,
-          label: 'Contact',
-          hideLabel: false,
-          allowClear: true,
-          onChange: handleAutoCompleteChange('contactId', onDetailsChange),
-          onAlert,
-          width: 'xl',
-        })}
-      </div>
+    <div className={styles.contactAndIsReportableContainer}>
+      {renderContactCombobox({
+        selectedId: contactId,
+        label: 'Contact',
+        hideLabel: false,
+        allowClear: true,
+        onChange: handleAutoCompleteChange('contactId', onDetailsChange),
+        onAlert,
+        width: 'xl',
+        className: styles.contact,
+      })}
       {shouldShowPaymentReportableCheckbox && (
         <ReportableCheckbox
           name="isPaymentReportable"
@@ -65,17 +59,16 @@ const AllocationSection = ({
           disabled={isContactLoading}
         />
       )}
-    </Columns>
-    <div className={styles.description}>
-      <TextArea
-        resize="vertical"
-        name="transactionDescription"
-        label="Description of transaction"
-        value={description}
-        onChange={handleInputChange(onDetailsChange)}
-        maxLength={255}
-      />
     </div>
+    <TextArea
+      resize="vertical"
+      name="transactionDescription"
+      label="Description of transaction"
+      value={description}
+      onChange={handleInputChange(onDetailsChange)}
+      maxLength={255}
+      className={styles.description}
+    />
     <RadioButtonGroup
       name="allocationType"
       label="Allocate by"

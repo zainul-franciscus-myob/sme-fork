@@ -18,7 +18,7 @@ import OpenEntrySecondaryContent from './OpenEntrySecondaryContent';
 import SplitAllocationBody from '../tabs/splitAllocation/components/SplitAllocationBody';
 import TabItems from '../types/TabItems';
 import TransferMoneyBody from '../tabs/transferMoney/components/TransferMoneyBody';
-import styles from './BankingView.module.css';
+import styles from './BankTransactionTableBody.module.css';
 
 const BankTransactionTableBody = (props) => {
   const {

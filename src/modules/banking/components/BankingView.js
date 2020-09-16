@@ -10,7 +10,6 @@ import React from 'react';
 import {
   getAlert,
   getHasError,
-  getIsEntryLoading,
   getIsLoading,
   getModalType,
   // getLoadMoreButtonStatus, See comment below on <LoadMoreButton>
@@ -40,7 +39,6 @@ const BankingView = (props) => {
     renderBankingRuleModule,
     hasError,
     isLoading,
-    isEntryLoading,
     alert,
     bulkMessage,
     showBulkActions,
@@ -144,17 +142,18 @@ const BankingView = (props) => {
   );
 
   const transactionListView = (
-    <div
-      className={`${isEntryLoading ? styles.entryLoading : ''} ${
-        styles.bankTransactionView
-      }`}
-    >
+    <>
       {renderBankingRuleModule()}
-      <StandardTemplate sticky="all" alert={alertComponent} pageHead={pageHead}>
-        {modal}
-        {accountModal}
-        {inTrayModal}
-        {jobModal}
+      {modal}
+      {accountModal}
+      {inTrayModal}
+      {jobModal}
+      <StandardTemplate
+        sticky="all"
+        alert={alertComponent}
+        pageHead={pageHead}
+        className={styles.bankTransactionView}
+      >
         <BankTransactionTable
           splitAllocationProps={splitAllocationProps}
           matchTransactionProps={matchTransactionProps}
@@ -186,7 +185,7 @@ const BankingView = (props) => {
         onLoadMoreButtonClick={onLoadMoreButtonClick}
         loadMoreButtonStatus={loadMoreButtonStatus}
       /> */}
-    </div>
+    </>
   );
 
   const errorView = <NoContentView />;
@@ -200,7 +199,6 @@ const mapStateToProps = (state) => ({
   alert: getAlert(state),
   hasError: getHasError(state),
   isLoading: getIsLoading(state),
-  isEntryLoading: getIsEntryLoading(state),
   modalType: getModalType(state),
   bulkMessage: getBulkMessage(state),
   showBulkActions: showBulkActionsSelector(state),

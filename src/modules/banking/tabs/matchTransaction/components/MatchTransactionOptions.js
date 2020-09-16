@@ -1,6 +1,7 @@
 import {
   Checkbox,
   CheckboxGroup,
+  FilterBar,
   Icons,
   Popover,
   Select,
@@ -16,7 +17,6 @@ import {
   getShowIncludeClosedCheckbox,
 } from '../matchTransactionSelectors';
 import ContactCombobox from '../../../../../components/combobox/ContactCombobox';
-import FilterBar from '../../../../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../../../../components/FilterBarSearch/FilterBarSearch';
 import FilterGroup from '../../../../../components/Feelix/FilterBar/FilterGroup';
 import MatchTransactionShowType from '../../../types/MatchTransactionShowType';
@@ -30,11 +30,11 @@ const MatchTransactionOptions = (props) => {
   const {
     contacts,
     filterOptions: { showType, contactId, keywords, includeClosed },
-    onUpdateMatchTransactionOptions,
-    onResetMatchTransactionOptions,
     showAllFilters,
     includedClosedTransactionLabel,
     showIncludeClosedCheckbox,
+    onUpdateMatchTransactionOptions,
+    onResetMatchTransactionOptions,
   } = props;
 
   const Body = () => (
@@ -61,72 +61,73 @@ const MatchTransactionOptions = (props) => {
   );
 
   return (
-    <div className={styles.filterOptions}>
-      <FilterBar onReset={onResetMatchTransactionOptions}>
-        <Select
-          label="Show"
-          name="showType"
-          value={showType}
-          labelAccessory={typeInfoPopOver}
-          onChange={handleSelectChange(onUpdateMatchTransactionOptions)}
-        >
-          <Select.Option
-            value={MatchTransactionShowType.CLOSE_MATCHES}
-            label="Close matches"
-          />
-          <Select.Option
-            value={MatchTransactionShowType.ALL}
-            label="All transactions"
-          />
-          <Select.Option value="seperator" label="───────────" disabled />
-          <Select.Option
-            value={MatchTransactionShowType.SELECTED}
-            label="Selected transactions"
-          />
-        </Select>
-        {showAllFilters && (
-          <FilterGroup>
-            <ContactCombobox
-              label="Contact"
-              items={contacts}
-              selectedId={contactId}
-              name="contactId"
-              onChange={handleComboboxChange(
-                'contactId',
-                onUpdateMatchTransactionOptions
-              )}
-              hintText="All"
-              allowClear
-              hasAllItem
-            />
-            {showIncludeClosedCheckbox && (
-              <CheckboxGroup
-                label="Include closed transactions"
-                hideLabel
-                renderCheckbox={() => (
-                  <Checkbox
-                    name="includeClosed"
-                    label={includedClosedTransactionLabel}
-                    checked={includeClosed}
-                    onChange={handleCheckboxChange(
-                      onUpdateMatchTransactionOptions
-                    )}
-                  />
-                )}
-              />
+    <FilterBar
+      onReset={onResetMatchTransactionOptions}
+      className={styles.filterOptions}
+    >
+      <Select
+        label="Show"
+        name="showType"
+        value={showType}
+        labelAccessory={typeInfoPopOver}
+        onChange={handleSelectChange(onUpdateMatchTransactionOptions)}
+      >
+        <Select.Option
+          value={MatchTransactionShowType.CLOSE_MATCHES}
+          label="Close matches"
+        />
+        <Select.Option
+          value={MatchTransactionShowType.ALL}
+          label="All transactions"
+        />
+        <Select.Option value="seperator" label="───────────" disabled />
+        <Select.Option
+          value={MatchTransactionShowType.SELECTED}
+          label="Selected transactions"
+        />
+      </Select>
+      {showAllFilters && (
+        <FilterGroup>
+          <ContactCombobox
+            label="Contact"
+            items={contacts}
+            selectedId={contactId}
+            name="contactId"
+            onChange={handleComboboxChange(
+              'contactId',
+              onUpdateMatchTransactionOptions
             )}
-            <FilterBarSearch
-              name="keywords"
-              label="Search"
-              id="search"
-              maxLength={255}
-              value={keywords}
-              onChange={handleInputChange(onUpdateMatchTransactionOptions)}
+            hintText="All"
+            allowClear
+            hasAllItem
+          />
+          {showIncludeClosedCheckbox && (
+            <CheckboxGroup
+              label="Include closed transactions"
+              hideLabel
+              renderCheckbox={() => (
+                <Checkbox
+                  name="includeClosed"
+                  label={includedClosedTransactionLabel}
+                  checked={includeClosed}
+                  onChange={handleCheckboxChange(
+                    onUpdateMatchTransactionOptions
+                  )}
+                />
+              )}
             />
-          </FilterGroup>
-        )}
-      </FilterBar>
-    </div>
+          )}
+          <FilterBarSearch
+            name="keywords"
+            label="Search"
+            id="search"
+            maxLength={255}
+            value={keywords}
+            onChange={handleInputChange(onUpdateMatchTransactionOptions)}
+          />
+        </FilterGroup>
+      )}
+    </FilterBar>
   );
 };
 

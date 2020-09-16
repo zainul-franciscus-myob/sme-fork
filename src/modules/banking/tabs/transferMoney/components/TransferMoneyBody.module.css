@@ -1,18 +1,9 @@
-/*
-  @FEELIX:
-*/
-.createView :global(.flx-field-group) {
-  margin-top: var(--flx-spacing-small);
-  border-bottom: 0;
-  padding-bottom: 0;
-}
-
 @media (max-width: 767px) {
-  .readonlyView :global(.flx-col) {
+  .readonlyView {
     display: block;
   }
 
-  .readonlyView :global(.flx-col) > div {
+  .readonlyView > div {
     margin-bottom: 1.6rem;
   }
 }
