@@ -83,6 +83,7 @@ import {
   UPDATE_MATCH_TRANSACTION_SELECTION,
   UPDATE_PERIOD_DATE_RANGE,
   UPDATE_SELECTED_TRANSACTION_DETAILS,
+  UPDATE_SPLIT_ALLOCATION_CONTACT,
   UPDATE_SPLIT_ALLOCATION_HEADER,
   UPDATE_SPLIT_ALLOCATION_LINE,
   UPDATE_UPLOAD_PROGRESS,
@@ -131,6 +132,7 @@ import {
   loadSplitAllocation,
   populateRemainingAmount,
   saveSplitAllocation,
+  updateSplitAllocationContact,
   updateSplitAllocationHeader,
   updateSplitAllocationLine,
 } from '../tabs/splitAllocation/splitAllocationHandlers';
@@ -526,6 +528,7 @@ const handlers = {
   [SET_OPEN_ENTRY_POSITION]: setOpenPosition,
   [SET_OPEN_ENTRY_LOADING_STATE]: setOpenEntryLoadingState,
   [UPDATE_SPLIT_ALLOCATION_HEADER]: updateSplitAllocationHeader,
+  [UPDATE_SPLIT_ALLOCATION_CONTACT]: updateSplitAllocationContact,
   [ADD_SPLIT_ALLOCATION_LINE]: addSplitAllocationLine,
   [UPDATE_SPLIT_ALLOCATION_LINE]: updateSplitAllocationLine,
   [DELETE_SPLIT_ALLOCATION_LINE]: deleteSplitAllocationLine,

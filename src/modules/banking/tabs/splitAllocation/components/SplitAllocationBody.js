@@ -4,7 +4,9 @@ import SplitAllocationOptions from './SplitAllocationOptions';
 import SplitAllocationTable from './SplitAllocationTable';
 
 const SplitAllocationBody = ({
+  renderContactCombobox,
   onUpdateSplitAllocationHeader,
+  onUpdateSplitAllocationContactCombobox,
   onAddSplitAllocationLine,
   onUpdateSplitAllocationLine,
   onDeleteSplitAllocationLine,
@@ -14,7 +16,11 @@ const SplitAllocationBody = ({
 }) => (
   <React.Fragment>
     <SplitAllocationOptions
+      renderContactCombobox={renderContactCombobox}
       onUpdateSplitAllocationHeader={onUpdateSplitAllocationHeader}
+      onUpdateSplitAllocationContactCombobox={
+        onUpdateSplitAllocationContactCombobox
+      }
     />
     <SplitAllocationTable
       onAddSplitAllocationLine={onAddSplitAllocationLine}

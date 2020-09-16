@@ -58,7 +58,10 @@ import {
   getFilesForUpload,
   getInTrayModalContext,
 } from './selectors/attachmentsSelectors';
-import { getLinesForTaxCalculation } from './tabs/splitAllocation/splitAllocationSelectors';
+import {
+  getLinesForTaxCalculation,
+  getSplitAllocateContactComboboxContext,
+} from './tabs/splitAllocation/splitAllocationSelectors';
 import {
   getMatchTransferMoneyFlipSortOrder,
   getMatchTransferMoneyOrderBy,
@@ -66,6 +69,7 @@ import {
 import AccountModalModule from '../account/accountModal/AccountModalModule';
 import BankingRuleModule from './bankingRule/BankingRuleModule';
 import BankingView from './components/BankingView';
+import ContactComboboxModule from '../contact/contactCombobox/ContactComboboxModule';
 import FeatureToggle from '../../FeatureToggles';
 import FocusLocations from './types/FocusLocations';
 import HotkeyLocations from './hotkeys/HotkeyLocations';
@@ -110,6 +114,7 @@ export default class BankingModule {
     this.receiveMoneyTaxCalculator = createTaxCalculator(
       TaxCalculatorTypes.receiveMoney
     );
+    this.contactComboboxModule = new ContactComboboxModule({ integration });
   }
 
   updateFilterOptions = ({ filterName, value }) => {
@@ -155,11 +160,21 @@ export default class BankingModule {
     const inTrayModal = this.inTrayModalModule.render();
     const accountModal = this.accountModalModule.render();
     const jobModal = this.jobModalModule.render();
+
+    const renderContactCombobox = (props) => {
+      return this.contactComboboxModule
+        ? this.contactComboboxModule.render(props)
+        : null;
+    };
+
     const hotkeyHandlers = this.buildHotkeyHandlers();
 
     const splitAllocationContentProps = {
+      renderContactCombobox,
       onUpdateSplitAllocationHeader: this.dispatcher
         .updateSplitAllocationHeader,
+      onUpdateSplitAllocationContactCombobox: this
+        .updateSplitAllocationContactCombobox,
       onAddSplitAllocationLine: this.addSplitAllocationLine,
       onUpdateSplitAllocationLine: this.updateSplitAllocationLine,
       onDeleteSplitAllocationLine: this.deleteSplitAllocationLine,
@@ -703,6 +718,7 @@ export default class BankingModule {
       this.loadSplitAllocation(index);
     } else {
       this.dispatcher.loadNewSplitAllocation(index);
+      this.loadSplitAllocationContactCombobox();
     }
   };
 
@@ -710,6 +726,7 @@ export default class BankingModule {
     const onSuccess = this.ifOpen(index, (payload) => {
       this.dispatcher.setOpenEntryLoadingState(false);
       this.dispatcher.loadSplitAllocation(index, payload);
+      this.loadSplitAllocationContactCombobox();
       this.calculateSplitAllocationTax();
     });
 
@@ -762,6 +779,16 @@ export default class BankingModule {
     });
 
     this.dispatcher.collapseTransactionLine();
+  };
+
+  updateSplitAllocationContactCombobox = (contact) => {
+    const { key, value, contactType, isReportable } = contact;
+    this.dispatcher.updateSplitAllocationContact({
+      key,
+      value,
+      contactType,
+      isReportable,
+    });
   };
 
   unmatchTransaction = () => {
@@ -1310,6 +1337,7 @@ export default class BankingModule {
     this.inTrayModalModule.resetState();
     this.accountModalModule.resetState();
     this.bankingRuleModule.resetState();
+    this.contactComboboxModule.resetState();
   };
 
   openJobModal = (onChange) => {
@@ -1345,6 +1373,12 @@ export default class BankingModule {
   updateURLParams = () => {
     const state = this.store.getState();
     this.replaceURLParams(getURLParams(state));
+  };
+
+  loadSplitAllocationContactCombobox = () => {
+    const state = this.store.getState();
+    const context = getSplitAllocateContactComboboxContext(state);
+    this.contactComboboxModule.run(context);
   };
 
   /*

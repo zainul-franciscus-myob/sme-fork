@@ -123,6 +123,10 @@ describe('BankingModule', () => {
     module.run({});
     store.resetActions();
     integration.resetRequests();
+    module.contactComboboxModule = {
+      resetState: jest.fn(),
+      run: jest.fn(),
+    };
 
     return toolbox;
   };
@@ -481,6 +485,8 @@ describe('BankingModule', () => {
             intent: LOAD_ATTACHMENTS,
           }),
         ]);
+
+        expect(module.contactComboboxModule.run).toHaveBeenCalled();
       });
 
       it('it fails', () => {
@@ -488,27 +494,21 @@ describe('BankingModule', () => {
         integration.mapFailure(LOAD_ATTACHMENTS);
         module.toggleLine(0);
 
-        expect(store.getActions()).toEqual([
-          {
-            intent: LOAD_NEW_SPLIT_ALLOCATION,
-            index: 0,
-          },
-          {
-            intent: SET_ATTACHMENTS_LOADING_STATE,
-            isAttachmentsLoading: true,
-          },
-          {
-            intent: SET_ATTACHMENTS_LOADING_STATE,
-            isAttachmentsLoading: false,
-          },
-          {
-            intent: SET_ALERT,
-            alert: {
-              message: 'fails',
-              type: 'danger',
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            {
+              intent: SET_ATTACHMENTS_LOADING_STATE,
+              isAttachmentsLoading: false,
             },
-          },
-        ]);
+            {
+              intent: SET_ALERT,
+              alert: {
+                message: 'fails',
+                type: 'danger',
+              },
+            },
+          ])
+        );
 
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({
@@ -900,6 +900,8 @@ describe('BankingModule', () => {
             intent: LOAD_ATTACHMENTS,
           }),
         ]);
+
+        expect(module.contactComboboxModule.run).toHaveBeenCalled();
       });
 
       it('successfully loads deposit', () => {
@@ -956,6 +958,8 @@ describe('BankingModule', () => {
             intent: LOAD_ATTACHMENTS,
           }),
         ]);
+
+        expect(module.contactComboboxModule.run).toHaveBeenCalled();
       });
     });
   });

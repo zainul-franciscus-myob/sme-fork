@@ -55,6 +55,9 @@ export const COLLAPSE_TRANSACTION_LINE = Symbol(
 export const UPDATE_SPLIT_ALLOCATION_HEADER = Symbol(
   'Update the header of split allocation in accordion table'
 );
+export const UPDATE_SPLIT_ALLOCATION_CONTACT = Symbol(
+  'Update the contact in the split allocation tab'
+);
 export const ADD_SPLIT_ALLOCATION_LINE = Symbol('Add split allocation line');
 export const UPDATE_SPLIT_ALLOCATION_LINE = Symbol(
   'Update split allocation line'

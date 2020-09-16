@@ -1,7 +1,6 @@
 import { allocateTransaction } from '../../reducers/allocateHandlers';
 import {
   getActiveJobs,
-  getContacts,
   getDepositAccounts,
   getWithdrawalAccounts,
 } from '../../selectors';
@@ -12,6 +11,7 @@ import {
   getTotalPercentageAmount,
 } from './splitAllocationSelectors';
 import { loadOpenEntry } from '../../reducers/openEntryHandlers';
+import ContactType from '../../../contact/contactCombobox/types/ContactType';
 import TabItems from '../../types/TabItems';
 import getDefaultState from '../../reducers/getDefaultState';
 
@@ -111,16 +111,23 @@ const getUpdatedLine = (state, line, { lineKey, lineValue }, isNewLine) => {
   return updatedLine;
 };
 
-const getContactReportable = (state, contactId) => {
-  const contact = getContacts(state).find(({ id }) => id === contactId);
-  if (!contact) return false;
-  return contact.isReportable;
-};
+const updateSplitAllocationState = (state, propName, propValue) => ({
+  ...state,
+  openEntry: {
+    ...state.openEntry,
+    isEdited: true,
+    allocate: {
+      ...state.openEntry.allocate,
+      [propName]: propValue,
+    },
+  },
+});
 
-const updateSplitAllocationState = (state, propName, propValue) => {
-  const isUpdatingContact = propName === 'contactId';
-  const { isSpendMoney, isReportable } = state.openEntry.allocate;
-  const prefillReportable = isUpdatingContact && isSpendMoney;
+export const updateSplitAllocationContact = (state, action) => {
+  const { key, value, contactType, isReportable } = action;
+  const { isSpendMoney } = state.openEntry.allocate;
+  const isSupplier = contactType === ContactType.SUPPLIER;
+
   return {
     ...state,
     openEntry: {
@@ -128,10 +135,9 @@ const updateSplitAllocationState = (state, propName, propValue) => {
       isEdited: true,
       allocate: {
         ...state.openEntry.allocate,
-        isReportable: prefillReportable
-          ? getContactReportable(state, propValue)
-          : isReportable,
-        [propName]: propValue,
+        contactType,
+        isReportable: isSpendMoney && isSupplier ? isReportable : undefined,
+        [key]: value,
       },
     },
   };
@@ -210,10 +216,7 @@ export const loadSplitAllocation = (state, action) => {
     newLine,
   };
 
-  return {
-    ...loadOpenEntry(state, action.index, TabItems.allocate, allocate, false),
-    contacts: action.allocate.contacts,
-  };
+  return loadOpenEntry(state, action.index, TabItems.allocate, allocate, false);
 };
 
 export const loadNewSplitAllocation = (state, action) => {

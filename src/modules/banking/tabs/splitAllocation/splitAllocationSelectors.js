@@ -1,12 +1,15 @@
 import { createSelector } from 'reselect';
 
 import {
+  getBusinessId,
   getContacts,
   getEntries,
   getFilterOptions,
   getIsOpenTransactionWithdrawal,
 } from '../../selectors/index';
+import ContactType from '../../../contact/contactCombobox/types/ContactType';
 import DefaultLineTypeId from '../../types/DefaultLineTypeId';
+import DisplayMode from '../../../contact/contactCombobox/types/DisplayMode';
 import formatAmount from '../../../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
@@ -93,9 +96,11 @@ export const getContact = createSelector(
   (contacts, contactId) => contacts.find(({ id }) => id === contactId)
 );
 
+const getContactType = (state) => state.openEntry.allocate.contactType;
+
 export const getIsSupplier = createSelector(
-  getContact,
-  (contact) => contact && contact.contactType === 'Supplier'
+  getContactType,
+  (contactType) => contactType === ContactType.SUPPLIER
 );
 
 export const getShowIsReportableCheckbox = createSelector(
@@ -165,5 +170,19 @@ export const getSplitAllocationPayload = (state, index) => {
         quantity,
       })
     ),
+  };
+};
+
+export const getSplitAllocateContactComboboxContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+  const contactId = getContactId(state);
+
+  return {
+    businessId,
+    region,
+    contactId,
+    contactType: ContactType.ALL,
+    displayMode: DisplayMode.NAME_AND_TYPE,
   };
 };

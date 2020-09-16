@@ -12,7 +12,8 @@
       "displayContactType": "Supplier",
       "displayName": "Supplier Name",
       "id": "2",
-      "displayId": "SUPP0004"
+      "displayId": "SUPP0004",
+      "isReportable": true
     },
     {
       "contactType": "Customer",
@@ -26,7 +27,8 @@
       "displayContactType": "Supplier",
       "displayName": "Supplier Name",
       "id": "4",
-      "displayId": "SUPP0004"
+      "displayId": "SUPP0004",
+      "isReportable": false
     }
   ],
   "pagination": {

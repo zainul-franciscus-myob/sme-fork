@@ -7,7 +7,9 @@ import {
   getTotalDollarAmount,
   getTotals,
 } from '../splitAllocationSelectors';
+import ContactType from '../../../../contact/contactCombobox/types/ContactType';
 import DefaultLineTypeId from '../../../types/DefaultLineTypeId';
+import Region from '../../../../../common/types/Region';
 
 describe('splitAllocationSelectors', () => {
   describe('getTotals', () => {
@@ -103,6 +105,7 @@ describe('splitAllocationSelectors', () => {
             isSpendMoney: true,
             date: '2019-10-20',
             contactId: '222',
+            contactType: ContactType.SUPPLIER,
             isReportable: true,
             description: 'bar',
             lines: [
@@ -118,7 +121,6 @@ describe('splitAllocationSelectors', () => {
             ],
           },
         },
-        contacts: [{ id: '222', isReportable: true, contactType: 'Supplier' }],
       };
 
       const expected = {
@@ -213,21 +215,15 @@ describe('splitAllocationSelectors', () => {
         allocate: {
           isSpendMoney,
           contactId,
-        },
-      },
-      contacts: [
-        {
-          id: '1',
           contactType,
         },
-      ],
+      },
     });
 
     it('should return true when the contactType is supplier', () => {
       const state = buildState({
         isSpendMoney: true,
-        contactId: '1',
-        contactType: 'Supplier',
+        contactType: ContactType.SUPPLIER,
       });
 
       const actual = getIsSupplier(state);
@@ -238,20 +234,7 @@ describe('splitAllocationSelectors', () => {
     it('should return false when the contactType is not supplier', () => {
       const state = buildState({
         isSpendMoney: true,
-        contactId: '1',
-        contactType: 'Customer',
-      });
-
-      const actual = getIsSupplier(state);
-
-      expect(actual).toBeFalsy();
-    });
-
-    it('should return false when the contact id is not equal to the contacts id', () => {
-      const state = buildState({
-        isSpendMoney: true,
-        contactId: '2',
-        contactType: 'Supplier',
+        contactType: ContactType.CUSTOMER,
       });
 
       const actual = getIsSupplier(state);
@@ -266,21 +249,15 @@ describe('splitAllocationSelectors', () => {
       openEntry: {
         allocate: {
           isSpendMoney,
-          contactId: '1',
-        },
-      },
-      contacts: [
-        {
-          id: '1',
           contactType,
         },
-      ],
+      },
     });
     it('should return true when it is spend money, it is supplier and region is au', () => {
       const state = buildState({
-        region: 'au',
+        region: Region.au,
         isSpendMoney: true,
-        contactType: 'Supplier',
+        contactType: ContactType.SUPPLIER,
       });
 
       const actual = getShowIsReportableCheckbox(state);
@@ -290,9 +267,9 @@ describe('splitAllocationSelectors', () => {
 
     it('should return false when it is not spend money, it is supplier and region is au', () => {
       const state = buildState({
-        region: 'au',
+        region: Region.au,
         isSpendMoney: false,
-        contactType: 'Supplier',
+        contactType: ContactType.SUPPLIER,
       });
 
       const actual = getShowIsReportableCheckbox(state);
@@ -302,9 +279,9 @@ describe('splitAllocationSelectors', () => {
 
     it('should return false when it is spend money, it is not supplier and region is au', () => {
       const state = buildState({
-        region: 'au',
+        region: Region.au,
         isSpendMoney: true,
-        contactType: 'Customer',
+        contactType: ContactType.CUSTOMER,
       });
 
       const actual = getShowIsReportableCheckbox(state);
@@ -314,9 +291,9 @@ describe('splitAllocationSelectors', () => {
 
     it('should return false when it is spend money, it is supplier and region is nz', () => {
       const state = buildState({
-        region: 'nz',
+        region: Region.nz,
         isSpendMoney: true,
-        contactType: 'Customer',
+        contactType: ContactType.CUSTOMER,
       });
 
       const actual = getShowIsReportableCheckbox(state);

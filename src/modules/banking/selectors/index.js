@@ -133,6 +133,7 @@ export const getUnallocationPayload = (index, state) => {
 
 export const getModalType = (state) => state.modalType;
 
+// @TODO: Remove when we add contact module combobox for match transactions
 export const getContacts = (state) => state.contacts;
 
 export const getOpenPosition = (state) => state.openPosition;

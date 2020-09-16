@@ -4,8 +4,11 @@ import {
   CALCULATE_SPLIT_ALLOCATION_TAX,
   LOAD_SPLIT_ALLOCATION,
   POPULATE_REMAINING_AMOUNT,
+  UPDATE_SPLIT_ALLOCATION_CONTACT,
+  UPDATE_SPLIT_ALLOCATION_HEADER,
 } from '../../../BankingIntents';
 import { calculateLineAmount } from '../splitAllocationHandlers';
+import ContactType from '../../../../contact/contactCombobox/types/ContactType';
 import bankingReducer from '../../../reducers/index';
 
 describe('splitAllocationHandlers', () => {
@@ -18,7 +21,6 @@ describe('splitAllocationHandlers', () => {
       id: '220495',
       isReportable: false,
       isSpendMoney: true,
-      contacts: [],
       lines: [{ jobId: '1' }, { jobId: '2' }, { jobId: '3' }],
     };
 
@@ -31,7 +33,6 @@ describe('splitAllocationHandlers', () => {
       openEntry: {
         attachments: [],
       },
-      contacts: [],
       jobs: [
         { id: '1', isActive: false },
         { id: '2', isActive: false },
@@ -39,29 +40,6 @@ describe('splitAllocationHandlers', () => {
         { id: '4', isActive: true },
       ],
     };
-
-    it('replaces contacts', () => {
-      const action = {
-        intent: LOAD_SPLIT_ALLOCATION,
-        index: 0,
-        allocate: {
-          ...response,
-          contacts: [
-            {
-              id: '🦖',
-            },
-          ],
-        },
-      };
-
-      const actual = bankingReducer(state, action);
-
-      expect(actual.contacts).toEqual([
-        {
-          id: '🦖',
-        },
-      ]);
-    });
 
     describe('lineJobOptions', () => {
       const action = {
@@ -305,6 +283,125 @@ describe('splitAllocationHandlers', () => {
       ];
 
       expect(actual.openEntry.allocate.lines).toEqual(expectedLines);
+    });
+  });
+
+  describe('updateSplitAllocationHeader', () => {
+    it.each(['isReportable', 'description'])('should update %s', (key) => {
+      const state = {
+        openEntry: {
+          allocate: {},
+        },
+      };
+
+      const value = 'test';
+      const action = {
+        intent: UPDATE_SPLIT_ALLOCATION_HEADER,
+        key,
+        value,
+      };
+
+      const actual = bankingReducer(state, action);
+
+      expect(actual.openEntry.allocate[key]).toEqual(value);
+    });
+  });
+
+  describe('updateSplitAllocationContact', () => {
+    const key = 'contactId';
+    const value = '1';
+
+    it('should set contactType and contactId', () => {
+      const state = {
+        openEntry: {
+          allocate: {
+            isSpendMoney: true,
+          },
+        },
+      };
+
+      const action = {
+        intent: UPDATE_SPLIT_ALLOCATION_CONTACT,
+        key,
+        value,
+        contactType: ContactType.SUPPLIER,
+        isReportable: true,
+      };
+
+      const actual = bankingReducer(state, action);
+
+      expect(actual.openEntry.allocate.contactType).toEqual(
+        ContactType.SUPPLIER
+      );
+      expect(actual.openEntry.allocate.contactId).toEqual(value);
+    });
+
+    it('should set isReportable from the given contact if allocation is spend money and contact is supplier', () => {
+      const state = {
+        openEntry: {
+          allocate: {
+            isSpendMoney: true,
+          },
+        },
+      };
+
+      const action = {
+        intent: UPDATE_SPLIT_ALLOCATION_CONTACT,
+        key,
+        value,
+        contactType: ContactType.SUPPLIER,
+        isReportable: true,
+      };
+
+      const actual = bankingReducer(state, action);
+
+      expect(actual.openEntry.allocate.isReportable).toEqual(true);
+    });
+
+    it('should set isReportable to undefined when not a spend money', () => {
+      const state = {
+        openEntry: {
+          allocate: {
+            isSpendMoney: false,
+            isReportable: false,
+          },
+        },
+      };
+
+      const action = {
+        intent: UPDATE_SPLIT_ALLOCATION_CONTACT,
+        key,
+        value,
+        contactType: ContactType.SUPPLIER,
+        isReportable: true,
+      };
+
+      const actual = bankingReducer(state, action);
+
+      expect(actual.openEntry.allocate.isReportable).toEqual(undefined);
+    });
+
+    it('should set isReportable to undefined when not a supplier', () => {
+      const state = {
+        openEntry: {
+          allocate: {
+            isSpendMoney: true,
+            isReportable: false,
+          },
+        },
+      };
+
+      const action = {
+        intent: UPDATE_SPLIT_ALLOCATION_CONTACT,
+        key,
+        value,
+        contactType: ContactType.CUSTOMER,
+        isReportable: true,
+      };
+
+      const actual = bankingReducer(state, action);
+
+      expect(actual.openEntry.allocate.isReportable).toEqual(undefined);
     });
   });
 });

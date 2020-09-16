@@ -5,6 +5,7 @@ import {
   LOAD_NEW_SPLIT_ALLOCATION,
   LOAD_SPLIT_ALLOCATION,
   SAVE_SPLIT_ALLOCATION,
+  UPDATE_SPLIT_ALLOCATION_CONTACT,
   UPDATE_SPLIT_ALLOCATION_HEADER,
   UPDATE_SPLIT_ALLOCATION_LINE,
 } from '../../BankingIntents';
@@ -15,6 +16,16 @@ const createSplitAllocationDispatcher = (store) => ({
       intent: UPDATE_SPLIT_ALLOCATION_HEADER,
       key,
       value,
+    });
+  },
+
+  updateSplitAllocationContact: ({ key, value, contactType, isReportable }) => {
+    store.dispatch({
+      intent: UPDATE_SPLIT_ALLOCATION_CONTACT,
+      key,
+      value,
+      contactType,
+      isReportable,
     });
   },
 

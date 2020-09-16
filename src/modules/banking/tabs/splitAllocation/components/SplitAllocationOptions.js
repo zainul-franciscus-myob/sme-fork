@@ -11,8 +11,6 @@ import {
   getIsSpendMoney,
   getShowIsReportableCheckbox,
 } from '../splitAllocationSelectors';
-import { getContacts } from '../../../selectors'; // @TODO: Refactor so it doesn't rely on list selector
-import ContactCombobox from '../../../../../components/combobox/ContactCombobox';
 import handleInputChange from '../../../../../components/handlers/handleInputChange';
 import styles from './SplitAllocationOptions.module.css';
 
@@ -21,36 +19,44 @@ const handleCheckboxChange = (handler) => (e) => {
   handler({ key: name, value: checked });
 };
 
-const handleComboBoxChange = (key, handler) => (item) => {
-  handler({ key, value: item.id });
+const handleContactAutoCompleteChange = (key, handler) => (item) => {
+  handler({
+    key,
+    value: item ? item.id : '',
+    contactType: item ? item.contactType : '',
+    isReportable: item ? item.isReportable : undefined,
+  });
 };
 
 const SplitAllocationOptions = (props) => {
   const {
-    contacts,
     contactId,
     description,
     contactLabel,
     isReportable,
     showIsReportable,
     onUpdateSplitAllocationHeader,
+    onUpdateSplitAllocationContactCombobox,
+    renderContactCombobox,
   } = props;
 
   return (
     <div className={styles.splitAllocationFilterOptions}>
-      <ContactCombobox
-        className={classNames(styles.filterInput, styles.contactCombobox)}
-        items={contacts}
-        selectedId={contactId}
-        onChange={handleComboBoxChange(
+      {renderContactCombobox({
+        className: classNames(styles.filterInput, styles.contactCombobox),
+        selectedId: contactId,
+        name: 'contact',
+        label: `Contact (${contactLabel})`,
+        hideLabel: false,
+        allowClear: true,
+        onChange: handleContactAutoCompleteChange(
           'contactId',
-          onUpdateSplitAllocationHeader
-        )}
-        label={`Contact (${contactLabel})`}
-        name="contact"
-        hideLabel={false}
-        hintText="Select contact"
-      />
+          onUpdateSplitAllocationContactCombobox
+        ),
+        hintText: 'Select contact',
+        hideAdd: true,
+        width: 'xl',
+      })}
       {showIsReportable && (
         <div
           className={classNames(
@@ -82,7 +88,6 @@ SplitAllocationOptions.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  contacts: getContacts(state),
   contactId: getContactId(state),
   isReportable: getIsReportable(state),
   isSpendMoney: getIsSpendMoney(state),
