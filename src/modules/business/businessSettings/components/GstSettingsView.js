@@ -13,9 +13,7 @@ import handleRadioButtonChange from '../../../../components/handlers/handleRadio
 
 const GstSettingsView = ({
   gstSettings: {
-    accountingBasis,
     reportingFrequency,
-    accountingBasisOptions,
     reportingFrequencyOptions,
     gstRegisteredOptions,
   },
@@ -73,27 +71,6 @@ const GstSettingsView = ({
             }}
           />
         )}
-        <RadioButtonGroup
-          label="Accounting basis"
-          name="accountingBasis"
-          onChange={handleRadioButtonChange(
-            'accountingBasis',
-            onUpdateGstSettings
-          )}
-          value={accountingBasis}
-          defaultValue="Cash"
-          renderRadios={({ id, value, ...props }) => {
-            return accountingBasisOptions.map((option) => (
-              <RadioButton
-                {...props}
-                checked={value === option.value}
-                key={option.value}
-                value={option.value}
-                label={option.displayValue}
-              />
-            ));
-          }}
-        />
       </FieldGroup>
     </Card>
   );

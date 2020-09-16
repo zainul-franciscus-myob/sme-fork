@@ -26,8 +26,21 @@ export default {
     payeeNumber: '00000000', // only be used for AU business
   },
   gstSettings: {
-    gstRegistered: true,
+    reportingFrequency: 'Quarterly',
     accountingBasis: 'Cash',
+    gstRegisteredOptions: [
+      { value: 'NotRegistered', displayValue: 'No' },
+      { value: 'Monthly', displayValue: 'Yes' },
+    ],
+    accountingBasisOptions: [
+      { value: 'Cash', displayValue: 'Cash' },
+      { value: 'Accruals', displayValue: 'Accruals' },
+    ],
+    reportingFrequencyOptions: [
+      { value: 'Monthly', displayValue: 'Monthly' },
+      { value: 'Quarterly', displayValue: 'Quarterly' },
+      { value: 'Annually', displayValue: 'Annually' },
+    ],
   },
   financialYearOptions: [
     '2014',
