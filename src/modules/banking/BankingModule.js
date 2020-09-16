@@ -1385,7 +1385,7 @@ export default class BankingModule {
       isAccordionOpen && !getIsTabDisabled(state, tabToSwitchTo);
 
     if (shouldSwitchToTab) {
-      this.changeOpenEntryTab(tabToSwitchTo);
+      this.confirmBefore(this.changeOpenEntryTab)(tabToSwitchTo);
     }
   };
 
@@ -1458,22 +1458,31 @@ export default class BankingModule {
     const hotkeysToExpandAccordionView = [
       {
         key: FORWARD_SLASH,
-        action: this.expandTransactionWithHotkey,
+        action: this.confirmBefore(this.expandTransactionWithHotkey),
       },
       {
         key: [OPTION, A],
         action: (eventDetail) =>
-          this.expandTransactionWithHotkey(eventDetail, TabItems.allocate),
+          this.confirmBefore(this.expandTransactionWithHotkey)(
+            eventDetail,
+            TabItems.allocate
+          ),
       },
       {
         key: [OPTION, M],
         action: (eventDetail) =>
-          this.expandTransactionWithHotkey(eventDetail, TabItems.match),
+          this.confirmBefore(this.expandTransactionWithHotkey)(
+            eventDetail,
+            TabItems.match
+          ),
       },
       {
         key: [OPTION, T],
         action: (eventDetail) =>
-          this.expandTransactionWithHotkey(eventDetail, TabItems.transfer),
+          this.confirmBefore(this.expandTransactionWithHotkey)(
+            eventDetail,
+            TabItems.transfer
+          ),
       },
     ];
 
@@ -1491,11 +1500,15 @@ export default class BankingModule {
     const hotkeysToCreateBankRule = [
       {
         key: F4,
-        action: this.expandTransactionAndBankingRuleModalWithHotkey,
+        action: this.confirmBefore(
+          this.expandTransactionAndBankingRuleModalWithHotkey
+        ),
       },
       {
         key: [OPTION, R],
-        action: this.expandTransactionAndBankingRuleModalWithHotkey,
+        action: this.confirmBefore(
+          this.expandTransactionAndBankingRuleModalWithHotkey
+        ),
       },
     ];
 

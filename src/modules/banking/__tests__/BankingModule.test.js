@@ -2094,6 +2094,46 @@ describe('BankingModule', () => {
         type,
       };
 
+      it.each([
+        [[OPTION, A]],
+        [[OPTION, M]],
+        [[OPTION, T]],
+        [F4],
+        [[OPTION, R]],
+        [FORWARD_SLASH],
+      ])(
+        '%s should throw unsaved changes modal for an edited and toggled accordion when open another accordion',
+        (hotkey) => {
+          // Setup
+          const { module, store, index } = setUpWithBankTransactionEntry(
+            updatedEntry
+          );
+          module.toggleLine(index);
+          module.dispatcher.updateSplitAllocationHeader({
+            key: 'description',
+            value: 'test',
+          });
+          module.dispatcher.setFocus({
+            index: index - 1,
+            location: FocusLocations.MATCHED_OR_ALLOCATED_ELEMENT,
+          });
+          store.resetActions();
+
+          // Action
+          const event = { index: index - 1 };
+          const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+          hotkeyHandler.action(event);
+
+          // Assertion
+          expect(store.getActions()).toEqual([
+            {
+              intent: OPEN_MODAL,
+              modalType: ModalTypes.CANCEL,
+            },
+          ]);
+        }
+      );
+
       it.each([[F4], [[OPTION, R]]])(
         '%s expands accordian and open banking rule modal',
         (hotkey) => {
@@ -2450,6 +2490,32 @@ describe('BankingModule', () => {
           }),
         ]);
       });
+
+      it.each([[[OPTION, M]], [[OPTION, T]]])(
+        '%s should throw unsaved changes modal on switch tab when has edited open transaction',
+        (hotkey) => {
+          // Setup
+          const { module, store, index } = setUpWithBankTransactionEntry(entry);
+          module.toggleLine(index);
+          module.dispatcher.updateSplitAllocationHeader({
+            key: 'description',
+            value: 'test',
+          });
+          store.resetActions();
+
+          // Action
+          const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+          hotkeyHandler.action();
+
+          // Assertion
+          expect(store.getActions()).toEqual([
+            {
+              intent: OPEN_MODAL,
+              modalType: ModalTypes.CANCEL,
+            },
+          ]);
+        }
+      );
 
       test.each([
         [[OPTION, A], 'split allocation'],
