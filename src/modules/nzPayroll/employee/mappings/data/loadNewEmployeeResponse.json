@@ -16,7 +16,8 @@
       "selectedPayCycle": ""
     },
     "leave": {
-      "nextAnniversaryDate": ""
+      "nextAnniversaryDate": "",
+      "holidayPay": "8.00"
     },
     "tax": {
       "irdNumber": "000 000 000",
