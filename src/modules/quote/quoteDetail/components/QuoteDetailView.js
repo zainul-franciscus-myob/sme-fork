@@ -26,9 +26,9 @@ import styles from './QuoteDetailView.module.css';
 
 const QuoteDetailView = ({
   renderContactCombobox,
+  renderItemCombobox,
   accountModal,
   jobModal,
-  inventoryModal,
   loadingState,
   alert,
   modal,
@@ -80,6 +80,7 @@ const QuoteDetailView = ({
 
   const itemAndServiceTable = (
     <QuoteItemAndServiceTable
+      renderItemCombobox={renderItemCombobox}
       listeners={itemAndServiceLayoutListeners}
       footer={footer}
     />
@@ -113,7 +114,6 @@ const QuoteDetailView = ({
       {modalComponent}
       {accountModal}
       {jobModal}
-      {inventoryModal}
       <div className={classNames(isReadOnly && styles.disabledTable)}>
         {table}
       </div>

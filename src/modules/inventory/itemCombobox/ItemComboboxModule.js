@@ -104,23 +104,21 @@ export default class ItemComboboxModule {
     this.integrator.loadItemOptionById({ itemId, onSuccess, onFailure });
   };
 
-  loadItemAfterCreate = ({ itemId, message }) => {
+  loadItemAfterCreate = ({ itemId, message }, onChange) => {
     this.itemModalModule.resetState();
     this.onAlert({ type: AlertType.SUCCESS, message });
 
-    const onSuccess = this.onChange;
-
-    this.loadItemOptionById({ itemId, onSuccess });
+    this.loadItemOptionById({ itemId, onSuccess: onChange });
   };
 
-  openItemModal = () => {
+  openItemModal = (onChange) => {
     const state = this.store.getState();
     const context = getItemModalContext(state);
 
     this.itemModalModule.run({
       context,
       onLoadFailure: () => {},
-      onSaveSuccess: this.loadItemAfterCreate,
+      onSaveSuccess: (payload) => this.loadItemAfterCreate(payload, onChange),
     });
   };
 
@@ -150,7 +148,7 @@ export default class ItemComboboxModule {
           itemModal={this.itemModal}
           onLoadMore={this.loadItemOptions}
           onSearch={this.searchItem}
-          onAddNew={this.openItemModal}
+          onAddNew={() => this.openItemModal(onChange)}
           onChange={(item) => this.handleOnChange(item, onChange)}
           {...otherProps}
         />

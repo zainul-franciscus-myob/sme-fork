@@ -4,7 +4,6 @@ import {
   EXPORT_QUOTE_PDF,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
-  LOAD_ITEM_AFTER_CREATE,
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_JOB_AFTER_CREATE,
   SEND_EMAIL,
@@ -21,7 +20,6 @@ import {
   getLoadAccountAfterCreateUrlParams,
   getLoadAddedJobUrlParams,
   getLoadContactAddressUrlParams,
-  getLoadItemAfterCreateUrlParams,
   getLoadQuoteIntent,
   getLoadQuoteQueryParams,
   getLoadQuoteUrlParams,
@@ -97,20 +95,6 @@ const createQuoteDetailIntegrator = (store, integration) => ({
 
     const intent = LOAD_ACCOUNT_AFTER_CREATE;
     const urlParams = getLoadAccountAfterCreateUrlParams(state, id);
-
-    integration.read({
-      intent,
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  loadItemAfterCreate: ({ id, onSuccess, onFailure }) => {
-    const state = store.getState();
-
-    const intent = LOAD_ITEM_AFTER_CREATE;
-    const urlParams = getLoadItemAfterCreateUrlParams(state, id);
 
     integration.read({
       intent,

@@ -18,13 +18,13 @@ import {
   getContactComboboxContext,
   getContactId,
   getExportPdfFilename,
-  getInventoryModalContext,
   getIsCreating,
   getIsLineAmountInputDirty,
   getIsModalActionDisabled,
   getIsPageEdited,
   getIsSubmitting,
   getIsTaxCalculationRequired,
+  getItemComboboxContext,
   getItemSellingDetailsFromCache,
   getJobModalContext,
   getLength,
@@ -35,6 +35,7 @@ import {
   getQuoteId,
   getShouldSaveAndReload,
   getTaxCalculations,
+  getUniqueSelectedItemIds,
 } from './selectors/QuoteDetailSelectors';
 import {
   getCreateInvoiceFromQuoteUrl,
@@ -49,7 +50,7 @@ import {
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
 import FeatureToggle from '../../../FeatureToggles';
-import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
+import ItemComboboxModule from '../../inventory/itemCombobox/ItemComboboxModule';
 import JobModalModule from '../../job/jobModal/JobModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
@@ -89,8 +90,11 @@ export default class QuoteDetailModule {
 
     this.accountModalModule = new AccountModalModule({ integration });
     this.jobModalModule = new JobModalModule({ integration });
-    this.inventoryModalModule = new InventoryModalModule({ integration });
     this.contactComboboxModule = new ContactComboboxModule({ integration });
+    this.itemComboboxModule = new ItemComboboxModule({
+      integration,
+      onAlert: this.dispatcher.setAlert,
+    });
   }
 
   loadQuote = () => {
@@ -100,6 +104,7 @@ export default class QuoteDetailModule {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadQuote(payload);
       this.updateContactCombobox();
+      this.updateItemCombobox();
     };
 
     const onFailure = () => {
@@ -481,45 +486,6 @@ export default class QuoteDetailModule {
     });
   };
 
-  loadItemAfterCreate = ({ itemId }, onChangeItemTableRow) => {
-    this.dispatcher.setQuoteSubmittingState(true);
-
-    const onSuccess = (response) => {
-      this.dispatcher.loadItemAfterCreate(response);
-      onChangeItemTableRow({ id: itemId });
-      this.dispatcher.setQuoteSubmittingState(false);
-    };
-
-    const onFailure = ({ message }) => {
-      this.displayFailureAlert(message);
-      this.dispatcher.setQuoteSubmittingState(false);
-    };
-
-    this.integrator.loadItemAfterCreate({ id: itemId, onSuccess, onFailure });
-  };
-
-  openInventoryModal = (onChangeItemTableRow) => {
-    const state = this.store.getState();
-    const context = getInventoryModalContext(state);
-
-    const onLoadFailure = ({ message }) => {
-      this.displayFailureAlert(message);
-      this.inventoryModalModule.resetState();
-    };
-
-    const onSaveSuccess = ({ message, itemId }) => {
-      this.displaySuccessAlert(message);
-      this.loadItemAfterCreate({ itemId }, onChangeItemTableRow);
-      this.inventoryModalModule.resetState();
-    };
-
-    this.inventoryModalModule.run({
-      context,
-      onSaveSuccess,
-      onLoadFailure,
-    });
-  };
-
   openCancelModal = () => {
     if (getIsPageEdited(this.store.getState())) {
       this.dispatcher.openModal({ type: ModalType.CANCEL });
@@ -761,9 +727,28 @@ export default class QuoteDetailModule {
       : null;
   };
 
+  loadItemCombobox = () => {
+    const state = this.store.getState();
+    const context = getItemComboboxContext(state);
+    this.itemComboboxModule.run(context);
+  };
+
+  updateItemCombobox = () => {
+    const state = this.store.getState();
+    const selectedItemIds = getUniqueSelectedItemIds(state);
+    if (selectedItemIds.length > 0) {
+      this.itemComboboxModule.load(selectedItemIds);
+    }
+  };
+
+  renderItemCombobox = (props) => {
+    return this.itemComboboxModule
+      ? this.itemComboboxModule.render(props)
+      : null;
+  };
+
   render = () => {
     const accountModal = this.accountModalModule.render();
-    const inventoryModal = this.inventoryModalModule.render();
     const jobModal = this.jobModalModule.render();
 
     const tableListeners = {
@@ -779,18 +764,15 @@ export default class QuoteDetailModule {
       <Provider store={this.store}>
         <QuoteDetailView
           renderContactCombobox={this.renderContactCombobox}
+          renderItemCombobox={this.renderItemCombobox}
           accountModal={accountModal}
-          inventoryModal={inventoryModal}
           jobModal={jobModal}
           onDismissAlert={this.dispatcher.dismissAlert}
           onUpdateHeaderOptions={this.updateQuoteDetailHeaderOptions}
           onUpdateLayout={this.updateLayout}
           onInputAlert={this.dispatcher.setAlert}
           serviceLayoutListeners={tableListeners}
-          itemAndServiceLayoutListeners={{
-            ...tableListeners,
-            onAddItemButtonClick: this.openInventoryModal,
-          }}
+          itemAndServiceLayoutListeners={tableListeners}
           quoteActionListeners={{
             onSaveButtonClick: this.saveQuote,
             onSaveAndButtonClick: this.executeSaveAndAction,
@@ -833,7 +815,7 @@ export default class QuoteDetailModule {
 
   resetState = () => {
     this.contactComboboxModule.resetState();
-    this.inventoryModalModule.resetState();
+    this.itemComboboxModule.resetState();
     this.accountModalModule.resetState();
     this.dispatcher.resetState();
   };
@@ -852,8 +834,8 @@ export default class QuoteDetailModule {
       return;
     }
 
-    if (this.inventoryModalModule.isOpened()) {
-      this.inventoryModalModule.save();
+    if (this.itemComboboxModule.isCreateItemModalOpened()) {
+      this.itemComboboxModule.createItem();
       return;
     }
 
@@ -914,5 +896,6 @@ export default class QuoteDetailModule {
 
     this.loadQuote();
     this.loadContactCombobox();
+    this.loadItemCombobox();
   }
 }

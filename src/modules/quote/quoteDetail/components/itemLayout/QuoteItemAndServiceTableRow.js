@@ -7,13 +7,11 @@ import {
   getIsCalculating,
   getIsJobComboboxDisabled,
   getIsReadOnly,
-  getItemOptions,
   getQuoteLine,
   getTaxCodeOptions,
 } from '../../selectors/QuoteDetailSelectors';
 import AccountCombobox from '../../../../../components/combobox/AccountCombobox';
 import Calculator from '../../../../../components/Calculator/Calculator';
-import ItemCombobox from '../../../../../components/combobox/ItemCombobox';
 import JobCombobox from '../../../../../components/combobox/JobCombobox';
 import QuoteLineType from '../../QuoteLineType';
 import QuoteTableReadOnlyRowItem from '../QuoteTableReadOnlyRowItem';
@@ -27,6 +25,14 @@ const onComboboxChange = (name, onChange) => (item) => {
     },
   });
 };
+
+const handleAutoCompleteItemChange = (handler, name) => (item) =>
+  handler({
+    target: {
+      name,
+      value: item ? item.id : '',
+    },
+  });
 
 const handleAmountInputChange = (handler) => (e) =>
   handler({
@@ -59,14 +65,13 @@ const QuoteItemAndServiceTableRow = ({
     taxCodeId,
     lineJobOptions,
   },
-  itemOptions,
   taxCodeOptions,
   accountOptions,
   onChange,
   isCalculating,
   isReadOnly,
+  renderItemCombobox,
   onTableRowAmountInputBlur,
-  onAddItemButtonClick,
   onAddAccountButtonClick,
   onAddJob,
   isQuoteJobColumnEnabled,
@@ -97,17 +102,14 @@ const QuoteItemAndServiceTableRow = ({
       index={index}
       onRemove={isCalculating ? undefined : feelixInjectedProps.onRemove}
     >
-      <ItemCombobox
-        addNewItem={() =>
-          onAddItemButtonClick(onComboboxChange('itemId', onChange))
-        }
-        items={itemOptions}
-        selectedId={itemId}
-        onChange={onComboboxChange('itemId', onChange)}
-        label="Item number"
-        name="itemId"
-        disabled={isCalculating || isReadOnly}
-      />
+      {renderItemCombobox({
+        name: 'itemId',
+        label: 'Item Id',
+        hideLabel: true,
+        selectedId: itemId,
+        disabled: isCalculating || isReadOnly,
+        onChange: handleAutoCompleteItemChange(onChange, 'itemId'),
+      })}
       <TextArea
         name="description"
         label="Item name"
@@ -204,7 +206,6 @@ const QuoteItemAndServiceTableRow = ({
 
 const mapStateToProps = (state, props) => ({
   quoteLine: getQuoteLine(state, props),
-  itemOptions: getItemOptions(state),
   taxCodeOptions: getTaxCodeOptions(state),
   accountOptions: getAccountOptions(state),
   isCalculating: getIsCalculating(state),

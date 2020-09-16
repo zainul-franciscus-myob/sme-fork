@@ -14,9 +14,7 @@ describe('calculationReducer', () => {
       units: '2',
       unitPrice: '45.455',
       discount: '',
-      displayDiscount: '',
       amount: '100',
-      displayAmount: '0.00',
       taxExclusiveAmount: '90.91',
       taxAmount: '9.09',
     };

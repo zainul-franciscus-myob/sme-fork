@@ -62,7 +62,6 @@ const getDefaultState = () => ({
   },
   expirationTermOptions: [],
   commentOptions: [],
-  itemOptions: [],
   accountOptions: [],
   taxCodeOptions: [],
   template: {

@@ -10,7 +10,6 @@ import {
   CLOSE_MODAL,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
-  LOAD_ITEM_AFTER_CREATE,
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_JOB_AFTER_CREATE,
   LOAD_QUOTE_DETAIL,
@@ -155,7 +154,6 @@ const loadQuoteDetail = (state, action) => ({
   expirationTermOptions: action.expirationTermOptions,
   commentOptions: action.commentOptions,
   template: action.template || state.template,
-  itemOptions: action.itemOptions,
   accountOptions: action.accountOptions,
   taxCodeOptions: action.taxCodeOptions,
   emailQuote: {
@@ -379,11 +377,6 @@ const setJobLoadingState = (state, { isJobLoading }) => ({
   isJobLoading,
 });
 
-const loadItemOption = (state, action) => ({
-  ...state,
-  itemOptions: [action.response, ...state.itemOptions],
-});
-
 const changeExportPdfForm = (state, action) => ({
   ...state,
   exportPdf: {
@@ -490,8 +483,6 @@ const handlers = {
 
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [SET_ACCOUNT_LOADING_STATE]: setAccountLoadingState,
-
-  [LOAD_ITEM_AFTER_CREATE]: loadItemOption,
 
   [UPDATE_EMAIL_QUOTE_DETAIL]: updateEmailQuoteDetail,
   [RESET_OPEN_SEND_EMAIL]: resetOpenSendEmailParam,

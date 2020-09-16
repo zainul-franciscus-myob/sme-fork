@@ -21,6 +21,7 @@ const jobLabel = 'Job';
 const requiredLabel = 'Required';
 
 const QuoteItemAndServiceTable = ({
+  renderItemCombobox,
   footer,
   emptyQuoteLines,
   listeners: {
@@ -28,7 +29,6 @@ const QuoteItemAndServiceTable = ({
     onRemoveRow,
     onUpdateRow,
     onRowInputBlur,
-    onAddItemButtonClick,
     onAddAccountButtonClick,
     onAddJob,
   },
@@ -124,11 +124,11 @@ const QuoteItemAndServiceTable = ({
       key={index}
       onChange={onChange}
       onTableRowAmountInputBlur={onRowInputBlur}
-      onAddItemButtonClick={onAddItemButtonClick}
       onAddAccountButtonClick={onAddAccountButtonClick}
       onAddJob={onAddJob}
       labels={labels}
       isQuoteJobColumnEnabled={isQuoteJobColumnEnabled}
+      renderItemCombobox={renderItemCombobox}
     />
   );
 

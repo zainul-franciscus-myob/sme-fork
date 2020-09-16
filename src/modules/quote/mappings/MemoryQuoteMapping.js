@@ -4,7 +4,6 @@ import {
   EXPORT_QUOTE_PDF,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
-  LOAD_ITEM_AFTER_CREATE,
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_DUPLICATE_QUOTE_DETAIL,
@@ -18,7 +17,6 @@ import {
   UPLOAD_EMAIL_ATTACHMENT,
 } from '../QuoteIntents';
 import customerAddress from './data/customerAddress';
-import itemQuoteLoadItemOption from './data/itemQuoteLoadItemOption';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadAddedJobResponse from './data/loadAddedJobResponse';
 import loadDuplicateQuoteDetail from './data/loadDuplicateQuoteDetail';
@@ -82,8 +80,6 @@ const MemoryQuoteMapping = {
   [LOAD_CONTACT_ADDRESS]: ({ onSuccess }) => onSuccess(customerAddress),
   [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) =>
     onSuccess(loadAddedAccountResponse),
-  [LOAD_ITEM_AFTER_CREATE]: ({ onSuccess }) =>
-    onSuccess(itemQuoteLoadItemOption),
   [LOAD_JOB_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedJobResponse),
   [EXPORT_QUOTE_PDF]: ({ onSuccess }) =>
     onSuccess(new Blob([], { type: 'application/pdf' })),

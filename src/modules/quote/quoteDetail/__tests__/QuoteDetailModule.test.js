@@ -1104,14 +1104,6 @@ describe('QuoteDetailModule', () => {
           integration.resetRequests();
         },
       },
-      {
-        type: 'inventory quick add',
-        setup: (module, integration) => {
-          const onChange = () => {};
-          module.openInventoryModal(onChange);
-          integration.resetRequests();
-        },
-      },
     ].forEach((test) => {
       describe(`when ${test.type}`, () => {
         it(`should not save quote given the modal type ${test.type}`, () => {

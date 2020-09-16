@@ -93,12 +93,6 @@ export const getLoadAccountAfterCreateUrlParams = (state, accountId) => {
   return { businessId, accountId };
 };
 
-export const getLoadItemAfterCreateUrlParams = (state, itemId) => {
-  const businessId = getBusinessId(state);
-
-  return { businessId, itemId };
-};
-
 export const getSendEmailUrlParams = (state) => {
   const businessId = getBusinessId(state);
   const quoteId = getQuoteId(state);

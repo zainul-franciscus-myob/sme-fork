@@ -8,6 +8,7 @@ import {
 import { calculateFreightAmount } from '../../../invoice/invoiceDetail/selectors/invoiceDetailSelectors';
 import ContactType from '../../../contact/contactCombobox/types/ContactType';
 import DisplayMode from '../../../contact/contactCombobox/types/DisplayMode';
+import ItemTypes from '../../../inventory/itemCombobox/ItemTypes';
 import ModalType from '../ModalType';
 import QuoteLayout from '../QuoteLayout';
 import QuoteLineType from '../QuoteLineType';
@@ -68,7 +69,6 @@ export const getLineTotals = (state) => state.totals;
 
 export const getExpirationTermOptions = (state) => state.expirationTermOptions;
 export const getCommentOptions = (state) => state.commentOptions;
-export const getItemOptions = (state) => state.itemOptions;
 export const getTaxCodeOptions = (state) => state.taxCodeOptions;
 export const getAccountOptions = (state) => state.accountOptions;
 
@@ -171,18 +171,6 @@ export const getJobModalContext = (state) => {
   const region = getRegion(state);
 
   return { businessId, region };
-};
-
-export const getInventoryModalContext = (state) => {
-  const businessId = getBusinessId(state);
-  const region = getRegion(state);
-
-  return {
-    businessId,
-    region,
-    isBuying: false,
-    isSelling: true,
-  };
 };
 
 export const getIsTaxCalculationRequired = (state) =>
@@ -385,4 +373,32 @@ export const getContactComboboxContext = (state) => {
     contactType: ContactType.CUSTOMER,
     displayMode: DisplayMode.NAME_ONLY,
   };
+};
+
+export const getItemComboboxContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return {
+    businessId,
+    region,
+    itemType: ItemTypes.Sold,
+  };
+};
+
+export const getUniqueSelectedItemIds = (state) => {
+  const layout = getLayout(state);
+  const lines = getLines(state);
+
+  if (layout === QuoteLayout.ITEM_AND_SERVICE && lines.length > 0) {
+    const selectedItemIds = lines.reduce((itemIds, line) => {
+      if (line.itemId) {
+        itemIds.push(line.itemId);
+      }
+      return itemIds;
+    }, []);
+    return [...new Set([...selectedItemIds])];
+  }
+
+  return [];
 };

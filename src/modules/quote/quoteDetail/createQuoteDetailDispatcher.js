@@ -8,7 +8,6 @@ import {
   CLOSE_MODAL,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
-  LOAD_ITEM_AFTER_CREATE,
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_JOB_AFTER_CREATE,
   LOAD_QUOTE_DETAIL,
@@ -181,12 +180,6 @@ const createQuoteDetailDispatcher = (store) => ({
     store.dispatch({
       intent: SET_JOB_LOADING_STATE,
       isJobLoading,
-    }),
-
-  loadItemAfterCreate: (response) =>
-    store.dispatch({
-      intent: LOAD_ITEM_AFTER_CREATE,
-      response,
     }),
 
   updateEmailQuoteDetail: ({ key, value }) =>
