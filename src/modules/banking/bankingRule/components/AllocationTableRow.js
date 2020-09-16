@@ -11,7 +11,7 @@ import {
   getTaxCodes,
 } from '../bankingRuleSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
-import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
+import AmountInput from '../../../../components/autoFormatter/AmountInput/FormattedAmountInput';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 
 const handleComboboxChange = (name, onChange) => (item) => {

@@ -11,7 +11,7 @@ import {
   getTaxCodes,
 } from '../bankingRuleDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
-import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
+import AmountInput from '../../../../components/autoFormatter/AmountInput/FormattedAmountInput';
 import JobCombobox from '../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 

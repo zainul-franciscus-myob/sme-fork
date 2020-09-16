@@ -29,6 +29,12 @@ describe('useFormattedValue', () => {
       expect(hook.current.formattedValue).toBe('');
     });
 
+    it('should set formattedValue as empty regardless of formatter', () => {
+      const hook = setup({ value: '', onFormat: () => 'hello' });
+
+      expect(hook.current.formattedValue).toBe('');
+    });
+
     it('should format formattedValue if value is set', () => {
       const hook = setup({ value: 123 });
 

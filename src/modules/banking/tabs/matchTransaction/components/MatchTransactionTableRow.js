@@ -2,7 +2,7 @@ import { Checkbox, Label, Table, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
 import classNames from 'classnames';
 
-import AmountInput from '../../../../../components/autoFormatter/AmountInput/AmountInput';
+import AmountInput from '../../../../../components/autoFormatter/AmountInput/FormattedAmountInput';
 import styles from './MatchTransactionTableRow.module.css';
 
 const handleAmountChange = (index, handler) => (e) => {

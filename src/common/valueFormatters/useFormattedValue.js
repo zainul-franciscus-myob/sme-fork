@@ -10,9 +10,11 @@ const useFormattedValue = ({
   const [isDirty, setIsDirty] = useState(false);
 
   useEffect(() => {
-    // make sure not formating value when the value is empty
-    if (value === '') return;
-    setFormattedValue(onFormat(value));
+    if (value === '') {
+      setFormattedValue('');
+    } else {
+      setFormattedValue(onFormat(value));
+    }
     setIsDirty(false);
   }, [onFormat, value]);
 

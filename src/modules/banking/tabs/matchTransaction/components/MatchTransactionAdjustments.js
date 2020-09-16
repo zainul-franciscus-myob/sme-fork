@@ -11,7 +11,7 @@ import {
   getTaxCodes,
 } from '../../../selectors';
 import AccountCombobox from '../../../../../components/combobox/AccountCombobox';
-import AmountInput from '../../../../../components/autoFormatter/AmountInput/AmountInput';
+import AmountInput from '../../../../../components/autoFormatter/AmountInput/FormattedAmountInput';
 import JobCombobox from '../../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../../components/combobox/TaxCodeCombobox';
 import getRegionToDialectText from '../../../../../dialect/getRegionToDialectText';
@@ -102,6 +102,8 @@ const renderRow = (
           onChange={handleAmountInputChange(onChange)}
           value={amount}
           disabled={isLoadingAccount}
+          numeralDecimalScaleMin={2}
+          numeralDecimalScaleMax={2}
         />
       </BulkAdd.RowItem>
       <BulkAdd.RowItem columnName={quantityColumn.label} {...quantityColumn}>
