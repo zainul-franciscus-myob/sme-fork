@@ -28,7 +28,10 @@ export default class JobKeeperModule {
     this.setAlert = setAlert;
     this.pushMessage = pushMessage;
     this.featureToggles = featureToggles;
-    this.dispatcher.setInitialState(context);
+    this.dispatcher.setInitialState({
+      ...context,
+      isJobKeeper2Enabled: featureToggles.isJobKeeper2Enabled,
+    });
   }
 
   loadInitialEmployeesAndHeaderDetails = () => {

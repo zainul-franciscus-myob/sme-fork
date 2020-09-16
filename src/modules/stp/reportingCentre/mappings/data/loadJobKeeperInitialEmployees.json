@@ -76,6 +76,21 @@
   ],
   "firstFortnightOptionsJK2": [
     {
+      "dates": "30 Mar - 12 Apr",
+      "allowanceDescription": "JOBKEEPER-START-FN01",
+      "id": "01"
+    },
+    {
+      "dates": "13 Apr - 26 Apr",
+      "allowanceDescription": "JOBKEEPER-START-FN02",
+      "id": "02"
+    },
+    {
+      "dates": "27 Apr - 10 May",
+      "allowanceDescription": "JOBKEEPER-START-FN03",
+      "id": "03"
+    },
+    {
       "dates": "28 Sep - 11 Oct",
       "allowanceDescription": "JOBKEEPER-START-FN14",
       "id": "14"
@@ -109,6 +124,21 @@
     }
   ],
   "finalFortnightOptionsJK2": [
+    {
+      "dates": "30 Mar - 12 Apr",
+      "allowanceDescription": "JOBKEEPER-FINISH-FN01",
+      "id": "01"
+    },
+    {
+      "dates": "13 Apr - 26 Apr",
+      "allowanceDescription": "JOBKEEPER-FINISH-FN02",
+      "id": "02"
+    },
+    {
+      "dates": "27 Apr - 10 May",
+      "allowanceDescription": "JOBKEEPER-FINISH-FN03",
+      "id": "03"
+    },
     {
       "dates": "28 Sep - 11 Oct",
       "allowanceDescription": "JOBKEEPER-FINISH-FN14",

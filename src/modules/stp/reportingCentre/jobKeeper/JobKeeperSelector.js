@@ -34,6 +34,24 @@ export const getUpdateJobKeeperPaymentsContent = (state) => ({
   employees: state.employees.filter((emp) => emp.isDirty),
 });
 
+export const isTierBlankOrSuggested = (tier) => !tier || tier === '-';
+
+export const getAreModifiedEmployeesValid = (state) => {
+  const filtered = state.employees
+    // get all modified emplotyee
+    .filter((emp) => emp.isDirty);
+  const valid = filtered.every(
+    (item) =>
+      // condition 3: start JK2 and tier is not blank or prefilled
+      // or still in jobkeeper 1
+      ((item.firstFortnight >= 14 && !isTierBlankOrSuggested(item.tier)) ||
+        item.firstFortnight < 14) &&
+      ((item.finalFortnight >= 14 && !isTierBlankOrSuggested(item.tier)) ||
+        item.finalFortnight < 14)
+  );
+  return valid;
+};
+
 export const getIsDirty = (state) => state.isDirty;
 export const getUnsavedChangesModalIsOpen = (state) =>
   state.unsavedChangesModalIsOpen;
