@@ -1,4 +1,10 @@
-import { Alert, Button, ButtonRow, FormTemplate } from '@myob/myob-widgets';
+import {
+  Alert,
+  Button,
+  ButtonRow,
+  FormTemplate,
+  Tabs,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -15,7 +21,6 @@ import BusinessDetailView from './BusinessDetailView';
 import BusinessSettingsModal from './BusinessSettingsModal';
 import GstSettingsView from './GstSettingsView';
 import PageView from '../../../../components/PageView/PageView';
-import Tabs from '../../../../components/Tabs/Tabs';
 
 const BusinessSettingsView = ({
   alert,

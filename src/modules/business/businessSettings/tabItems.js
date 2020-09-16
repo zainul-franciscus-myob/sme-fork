@@ -4,10 +4,6 @@ export const mainTabIds = {
 };
 
 export const mainTabItems = [
-  {
-    id: mainTabIds.businessDetails,
-    label: 'Business details',
-    hasActions: true,
-  },
-  { id: mainTabIds.gstSettings, label: 'GST settings', hasActions: true },
+  { id: mainTabIds.businessDetails, label: 'Business details' },
+  { id: mainTabIds.gstSettings, label: 'GST settings' },
 ];
