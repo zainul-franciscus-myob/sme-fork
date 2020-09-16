@@ -1,3 +1,7 @@
+.table__hideNewRow :global(.line-item--body .line-item__row-wrapper:last-child) {
+  display: none;
+}
+
 .notesAndTotals :global(.line-item__total) {
   border: none;
 }

@@ -1,6 +1,8 @@
 import {
   CREATE_BILL,
+  CREATE_PRE_CONVERSION_BILL_DETAIL,
   DELETE_BILL,
+  DELETE_PRE_CONVERSION_BILL_DETAIL,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   EXPORT_BILL_PDF,
   LINK_IN_TRAY_DOCUMENT,
@@ -15,6 +17,7 @@ import {
   PREFILL_BILL_FROM_IN_TRAY,
   UNLINK_IN_TRAY_DOCUMENT,
   UPDATE_BILL,
+  UPDATE_PRE_CONVERSION_BILL_DETAIL,
 } from '../BillIntents';
 import createBillResponse from './data/createBillResponse';
 import loadAbnDetail from './data/loadAbnDetail';
@@ -24,6 +27,7 @@ import loadItemAndServiceBill from './data/loadItemAndServiceBill';
 import loadItemAndServiceBillWithFreight from './data/loadItemAndServiceBillWithFreight';
 import loadNewBill from './data/loadNewBill';
 import loadNewDuplicateItemAndServiceBill from './data/loadNewDuplicateItemAndServiceBill';
+import loadPreConversionBill from './data/loadPreConversionBill';
 import loadReadOnlyItemAndServiceBill from './data/loadReadOnlyItemAndServiceBill';
 import loadReadOnlyMiscellaneousBill from './data/loadReadOnlyMiscellaneousBill';
 import loadReadOnlyProfessionalBill from './data/loadReadOnlyProfessionalBill';
@@ -31,7 +35,7 @@ import loadReadOnlyServiceBill from './data/loadReadOnlyServiceBill';
 import loadServiceBill from './data/loadServiceBill';
 import loadServiceBillWithFreight from './data/loadServiceBillWithFreight';
 import loadSupplierDetail from './data/loadSupplierDetail';
-import prefillBillFromInTray from './data/prefillBillFromSupplierFeed';
+import prefillBillFromInTray from './data/prefillBillFromNonSupplierFeed';
 import successResponse from './data/success';
 import updatedLineForItemDetail from './data/updatedLineForItemDetail';
 
@@ -55,6 +59,9 @@ const MemoryBillDetailMapping = {
         break;
       case 'item-freight-id':
         onSuccess(loadItemAndServiceBillWithFreight);
+        break;
+      case 'preconversion-id':
+        onSuccess(loadPreConversionBill);
         break;
       case 'service-id':
         onSuccess(loadServiceBill);
@@ -86,6 +93,12 @@ const MemoryBillDetailMapping = {
   [UNLINK_IN_TRAY_DOCUMENT]: ({ onSuccess }) => onSuccess(successResponse),
   [LINK_IN_TRAY_DOCUMENT]: ({ onSuccess }) => onSuccess(successResponse),
   [LOAD_ABN_FROM_SUPPLIER]: ({ onSuccess }) => onSuccess(loadAbnDetail),
+  [CREATE_PRE_CONVERSION_BILL_DETAIL]: ({ onSuccess }) =>
+    onSuccess({ ...createBillResponse, id: 'preconversion-id' }),
+  [UPDATE_PRE_CONVERSION_BILL_DETAIL]: ({ onSuccess }) =>
+    onSuccess(successResponse),
+  [DELETE_PRE_CONVERSION_BILL_DETAIL]: ({ onSuccess }) =>
+    onSuccess(successResponse),
 };
 
 export default MemoryBillDetailMapping;

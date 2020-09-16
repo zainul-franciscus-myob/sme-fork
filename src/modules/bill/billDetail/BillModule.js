@@ -18,12 +18,14 @@ import {
   getContactComboboxContext,
   getExpenseAccountId,
   getHasLineBeenPrefilled,
+  getIsBeforeConversionDate,
   getIsCreating,
   getIsCreatingFromInTray,
   getIsLineAmountsTaxInclusive,
   getIsLineEdited,
   getIsLinesEmpty,
   getIsPageEdited,
+  getIsPreConversion,
   getIsTaxInclusive,
   getItemComboboxContext,
   getLinesForTaxCalculation,
@@ -77,6 +79,7 @@ import Store from '../../../store/Store';
 import billReducer from './reducer/billReducer';
 import createBillDispatcher from './createBillDispatcher';
 import createBillIntegrator from './createBillIntegrator';
+import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 import keyMap from '../../../hotKeys/keyMap';
 import openBlob from '../../../common/blobOpener/openBlob';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
@@ -314,10 +317,17 @@ class BillModule {
 
     this.dispatcher.startBlocking();
 
-    this.integrator.saveBill({
-      onSuccess: handleSaveSuccess,
-      onFailure,
-    });
+    if (getIsPreConversion(this.store.getState())) {
+      this.integrator.savePreConversionBill({
+        onSuccess: handleSaveSuccess,
+        onFailure,
+      });
+    } else {
+      this.integrator.saveBill({
+        onSuccess: handleSaveSuccess,
+        onFailure,
+      });
+    }
   };
 
   handleSaveBill = () => {
@@ -338,7 +348,8 @@ class BillModule {
     }
 
     const isCreatingFromInTray = getIsCreatingFromInTray(state);
-    if (isCreatingFromInTray) {
+    const isPreConversion = getIsPreConversion(state);
+    if (isCreatingFromInTray && !isPreConversion) {
       const onSuccess = ({ message }) => {
         this.pushMessage({ type: SUCCESSFULLY_SAVED_BILL, content: message });
         this.globalCallbacks.inTrayBillSaved();
@@ -436,7 +447,12 @@ class BillModule {
       this.dispatcher.openDangerAlert({ message });
     };
 
-    this.integrator.deleteBill({ onSuccess, onFailure });
+    const isPreConversion = getIsPreConversion(this.store.getState());
+    if (isPreConversion) {
+      this.integrator.deletePreConversionBill({ onSuccess, onFailure });
+    } else {
+      this.integrator.deleteBill({ onSuccess, onFailure });
+    }
   };
 
   cancelBill = () => {
@@ -507,6 +523,16 @@ class BillModule {
     if (isExpenseAccountIdKey) {
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
     }
+  };
+
+  validateIssueDate = () => {
+    if (getIsBeforeConversionDate(this.store.getState())) {
+      this.openPreConversionModal();
+    }
+  };
+
+  openPreConversionModal = () => {
+    this.dispatcher.openModal({ modalType: ModalType.PreConversionBill });
   };
 
   updateLayout = ({ value }) => {
@@ -875,6 +901,11 @@ class BillModule {
       : null;
   };
 
+  dismissPreConversionModal = () => {
+    this.dispatcher.updateIssueDate(formatIsoDate(new Date()));
+    this.closeModal();
+  };
+
   loadItemCombobox = () => {
     const state = this.store.getState();
     const context = getItemComboboxContext(state);
@@ -893,6 +924,23 @@ class BillModule {
     return this.itemComboboxModule
       ? this.itemComboboxModule.render(props)
       : null;
+  };
+
+  displayPreConversionAlert = () =>
+    this.dispatcher.setShowPreConversionAlert(true);
+
+  dismissPreConversionAlert = () =>
+    this.dispatcher.setShowPreConversionAlert(false);
+
+  convertToPreConversionBill = () => {
+    this.dispatcher.convertToPreConversionBill();
+    this.closeModal();
+    this.displayPreConversionAlert();
+
+    const state = this.store.getState();
+    if (state.bill.lines[0].amount) {
+      this.calculateBillLines({ index: 0, key: 'amount' });
+    }
   };
 
   render = () => {
@@ -925,6 +973,7 @@ class BillModule {
           onDismissAlert={this.closeAlert}
           onUpdateLayout={this.updateLayout}
           onUpdateBillOption={this.updateBillOption}
+          onIssueDateBlur={this.validateIssueDate}
           serviceLayoutListeners={{
             onAddRow: this.addBillLine,
             onRowChange: this.updateBillLine,
@@ -959,6 +1008,11 @@ class BillModule {
           onUpgradeModalDismiss={this.dispatcher.hideUpgradeModal}
           onUpgradeModalUpgradeButtonClick={this.subscribeOrUpgrade}
           onCreatePaymentClick={this.redirectToBillPayment}
+          preConversionModalListeners={{
+            onCancel: this.dismissPreConversionModal,
+            onConfirm: this.convertToPreConversionBill,
+          }}
+          onDismissPreConversionAlert={this.dismissPreConversionAlert}
         />
       </Provider>
     );

@@ -1,42 +1,58 @@
 {
   "bill": {
-    "layout": "itemAndService",
-    "supplierId": "",
-    "supplierAddress": "",
-    "supplierInvoiceNumber": "",
-    "expirationTerm": "InAGivenNumberOfDays",
-    "expirationDays": "0",
-    "chargeForLatePayment": "0",
-    "discountForEarlyPayment": "0",
-    "numberOfDaysForDiscount": "1",
+    "id": "2",
+    "uid": "123e4567-e89b-12d3-a456-426655440000",
+    "layout": "service",
+    "supplierId": "2",
+    "supplierAddress": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
+    "supplierInvoiceNumber": "inv012",
+    "expirationTerm": "OnADayOfTheMonth",
+    "expirationDays": "4",
     "isTaxInclusive": true,
-    "isReportable": false,
+    "isReportable": true,
     "billNumber": "00000123",
-    "note": "",
-    "issueDate": "",
-    "amountPaid": "0",
-    "lines": []
+    "displayBillNumber": "00000123",
+    "issueDate": "2010-11-02",
+    "amountPaid": "77.77",
+    "status": "Closed",
+    "taxExclusiveFreightAmount": "0",
+    "freightTaxAmount": "0",
+    "freightTaxCodeId": "2",
+    "isForeignCurrency": false,
+    "lines": [
+      {
+        "id": "345",
+        "type": "service",
+        "description": "PreConversion Bill",
+        "accountId": "123",
+        "taxAmount": "0.5",
+        "taxExclusiveAmount": "48",
+        "jobId": "2",
+        "taxCodeId": "124",
+        "lineSubTypeId": "11"
+      }
+    ]
   },
   "accountOptions": [
     {
       "id": "123",
       "displayName": "My Sales Account 1",
       "accountType": "Sales",
-      "taxCodeId": "2",
+      "taxCodeId": "123",
       "displayId": "4-123"
     },
     {
       "id": "456",
       "displayName": "Sales Account 2",
       "accountType": "Assets",
-      "taxCodeId": "2",
+      "taxCodeId": "124",
       "displayId": "4-456"
     },
     {
       "id": "789",
       "displayName": "Expense Account",
       "accountType": "Assets",
-      "taxCodeId": "4",
+      "taxCodeId": "124",
       "displayId": "6-789"
     }
   ],
@@ -44,17 +60,20 @@
     {
       "id": "1",
       "jobNumber": "100",
-      "jobName": "Job 1"
+      "jobName": "Job 1",
+      "isActive": true
     },
     {
       "id": "2",
       "jobNumber": "200",
-      "jobName": "Job 2 with a long name"
+      "jobName": "Job 2 with a long name",
+      "isActive": true
     },
     {
       "id": "3",
       "jobNumber": "12345678901234",
-      "jobName": "Job 3 with an even longer name"
+      "jobName": "Job 3 with an even longer name",
+      "isActive": false
     }
   ],
   "taxCodeOptions": [
@@ -121,23 +140,25 @@
   ],
   "newLine": {
     "id": "",
-    "units": "",
-    "itemId": "",
     "description": "",
-    "unitPrice": "",
-    "discount": "",
+    "accountId": "",
     "jobId": "",
     "taxCodeId": "",
     "lineSubTypeId": ""
   },
-  "subscription": {
-    "monthlyLimit": {
-      "limit": 5,
-      "used": 4,
-      "hasHitLimit": false
-    }
+  "template": {
+    "defaultTemplate": "b",
+    "templateOptions": [
+      {
+        "name": "a",
+        "label": "apple"
+      },
+      {
+        "name": "b",
+        "label": "banana"
+      }
+    ]
   },
   "conversionDate": "2014-07-23T00:00:00",
-  "startOfFinancialYearDate": "2019-07-01T00:00:00",
-  "linkedAccountId": "123"
+  "startOfFinancialYearDate": "2019-07-01T00:00:00"
 }

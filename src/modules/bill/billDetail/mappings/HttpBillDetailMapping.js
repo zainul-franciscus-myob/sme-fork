@@ -1,6 +1,8 @@
 import {
   CREATE_BILL,
+  CREATE_PRE_CONVERSION_BILL_DETAIL,
   DELETE_BILL,
+  DELETE_PRE_CONVERSION_BILL_DETAIL,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   EXPORT_BILL_PDF,
   LINK_IN_TRAY_DOCUMENT,
@@ -15,6 +17,7 @@ import {
   PREFILL_BILL_FROM_IN_TRAY,
   UNLINK_IN_TRAY_DOCUMENT,
   UPDATE_BILL,
+  UPDATE_PRE_CONVERSION_BILL_DETAIL,
 } from '../BillIntents';
 
 const HttpBillDetailMapping = {
@@ -92,6 +95,21 @@ const HttpBillDetailMapping = {
     method: 'GET',
     getPath: ({ businessId, supplierId }) =>
       `/${businessId}/bill/load_abn_from_supplier/${supplierId}`,
+  },
+  [CREATE_PRE_CONVERSION_BILL_DETAIL]: {
+    method: 'POST',
+    getPath: ({ businessId }) =>
+      `/${businessId}/bill/create_pre_conversion_bill`,
+  },
+  [UPDATE_PRE_CONVERSION_BILL_DETAIL]: {
+    method: 'PUT',
+    getPath: ({ businessId, billId }) =>
+      `/${businessId}/bill/update_pre_conversion_bill/${billId}`,
+  },
+  [DELETE_PRE_CONVERSION_BILL_DETAIL]: {
+    method: 'DELETE',
+    getPath: ({ businessId, billId }) =>
+      `/${businessId}/bill/delete_pre_conversion_bill/${billId}`,
   },
 };
 

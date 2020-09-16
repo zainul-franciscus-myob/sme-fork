@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 import {
   getBusinessId,
   getIsCreating,
+  getIsPreConversion,
   getIsReadOnly,
   getRegion,
 } from './billSelectors';
@@ -41,13 +42,16 @@ export const getInTrayModalContext = createSelector(
 
 export const getShouldLinkInTrayDocument = createSelector(
   getIsCreating,
+  getIsPreConversion,
   getHasInTrayDocumentId,
-  (isCreating, hasInTrayDocumentId) => isCreating && hasInTrayDocumentId
+  (isCreating, isPreConversion, hasInTrayDocumentId) =>
+    isCreating && !isPreConversion && hasInTrayDocumentId
 );
 
 export const getShouldShowInTrayDocument = createSelector(
   getIsReadOnly,
+  getIsPreConversion,
   getHasInTrayDocumentId,
-  (isReadOnly, hasInTrayDocumentId) =>
-    !isReadOnly || (isReadOnly && hasInTrayDocumentId)
+  (isReadOnly, isPreConversion, hasInTrayDocumentId) =>
+    !isPreConversion && (!isReadOnly || (isReadOnly && hasInTrayDocumentId))
 );

@@ -10,6 +10,7 @@ import {
   getExpirationTermOptions,
   getIsBeforeFYAndAfterConversionDate,
   getIsBlocking,
+  getIsPreConversion,
   getIsReadOnly,
   getIsTaxInclusive,
   getIssueDate,
@@ -29,6 +30,7 @@ const BillSecondaryOptions = ({
   billNumber,
   supplierInvoiceNumber,
   issueDate,
+  onIssueDateBlur,
   expirationTerm,
   expirationDays,
   expirationTermOptions,
@@ -37,6 +39,7 @@ const BillSecondaryOptions = ({
   taxExclusiveLabel,
   isBlocking,
   isReadOnly,
+  isPreConversion,
   prefillStatus,
   onUpdateBillOption,
   isBeforeFYAndAfterConversionDate,
@@ -72,8 +75,10 @@ const BillSecondaryOptions = ({
         name="issueDate"
         value={issueDate}
         requiredLabel="This is required"
+        disabled={isReadOnly || isPreConversion}
+        disabledMessage="You can't change the date of a historical bill."
         onSelect={handleDateChange('issueDate', onUpdateBillOption)}
-        disabled={isReadOnly}
+        onBlur={onIssueDateBlur}
         displayWarning={isBeforeFYAndAfterConversionDate}
         warningMessage={'The issue date is set to a previous financial year'}
       />
@@ -93,7 +98,7 @@ const BillSecondaryOptions = ({
       trueLabel={taxInclusiveLabel}
       falseLabel={taxExclusiveLabel}
       handler={onUpdateBillOption}
-      disabled={isBlocking || isReadOnly}
+      disabled={isBlocking || isReadOnly || isPreConversion}
     />
   </React.Fragment>
 );
@@ -112,6 +117,7 @@ const mapStateToProps = (state) => ({
   prefillStatus: getPrefillStatus(state),
   isReadOnly: getIsReadOnly(state),
   isBeforeFYAndAfterConversionDate: getIsBeforeFYAndAfterConversionDate(state),
+  isPreConversion: getIsPreConversion(state),
 });
 
 export default connect(mapStateToProps)(BillSecondaryOptions);

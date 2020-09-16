@@ -1,3 +1,4 @@
+import { isBefore } from 'date-fns';
 import Decimal from 'decimal.js';
 
 import {
@@ -5,6 +6,7 @@ import {
   CALCULATE_LINE_AMOUNTS,
   CLOSE_ALERT,
   CLOSE_MODAL,
+  CONVERT_TO_PRE_CONVERSION_BILL,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   FAIL_LOADING,
   GET_TAX_CALCULATIONS,
@@ -27,6 +29,7 @@ import {
   SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_ID,
   SET_REDIRECT_URL,
+  SET_SHOW_PRE_CONVERSION_ALERT,
   SET_SHOW_SPLIT_VIEW,
   SET_SOURCE,
   SET_UPGRADE_MODAL_SHOWING,
@@ -41,6 +44,7 @@ import {
   UPDATE_BILL_LINE,
   UPDATE_BILL_OPTION,
   UPDATE_EXPORT_PDF_DETAIL,
+  UPDATE_ISSUE_DATE,
   UPDATE_LAYOUT,
 } from '../BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
@@ -49,6 +53,7 @@ import {
   calculateTotals,
   getBillId,
   getBusinessId,
+  getConversionDate,
   getIsCreatingFromInTray,
   getRegion,
 } from '../selectors/billSelectors';
@@ -58,6 +63,8 @@ import {
   defaultPrefillStatus,
   getDefaultState,
 } from './getDefaultState';
+import { getHasInTrayDocumentId } from '../selectors/BillInTrayDocumentSelectors';
+import BillLayout from '../types/BillLayout';
 import BillLineType from '../types/BillLineType';
 import BillStatus from '../types/BillStatus';
 import LineTaxTypes from '../types/LineTaxTypes';
@@ -86,10 +93,19 @@ const buildJobOptions = ({ action, jobId }) => {
   return jobOptions.filter(({ isActive, id }) => isActive || id === jobId);
 };
 
+const getIsBeforeConversionDate = (date, conversionDate) =>
+  Boolean(date) &&
+  Boolean(conversionDate) &&
+  isBefore(new Date(date), new Date(conversionDate));
+
 const loadBill = (state, action) => {
   const defaultState = getDefaultState();
 
   const isCreating = state.billId === 'new';
+  const isPreConversion = getIsBeforeConversionDate(
+    action.response.bill.issueDate,
+    action.response.conversionDate
+  );
 
   return {
     ...state,
@@ -144,6 +160,8 @@ const loadBill = (state, action) => {
       ...action.response.inTrayDocument,
       uploadedDate: '', // PAPI can not provide correct uploadedDate as part of bill loading, ignore it before the fix is in place
     },
+    isPreConversion,
+    showPreConversionAlert: isPreConversion,
   };
 };
 
@@ -420,10 +438,24 @@ const getPrefilledLines = (state, lines, expenseAccountId) =>
     },
   }));
 
+const getPrefillIssueDate = (state, prefillIssueDate) => {
+  if (prefillIssueDate) {
+    return getIsBeforeConversionDate(prefillIssueDate, getConversionDate(state))
+      ? state.bill.issueDate
+      : prefillIssueDate;
+  }
+
+  return state.bill.issueDate;
+};
+
 const prefillBillFromInTray = (state, action) => {
   const { bill, lines, document } = action.response;
 
   const shouldPrefillLines = state.bill.lines.length === 0 && lines.length > 0;
+  const isIssueDateBeforeConversionDate = getIsBeforeConversionDate(
+    bill.issueDate,
+    getConversionDate(state)
+  );
 
   return {
     ...state,
@@ -434,7 +466,7 @@ const prefillBillFromInTray = (state, action) => {
       supplierInvoiceNumber:
         state.bill.supplierInvoiceNumber || bill.supplierInvoiceNumber,
       layout: shouldPrefillLines ? bill.layout : state.bill.layout,
-      issueDate: bill.issueDate ? bill.issueDate : state.bill.issueDate,
+      issueDate: getPrefillIssueDate(state, bill.issueDate),
       isTaxInclusive: shouldPrefillLines
         ? bill.isTaxInclusive
         : state.bill.isTaxInclusive,
@@ -455,7 +487,7 @@ const prefillBillFromInTray = (state, action) => {
       supplierInvoiceNumber:
         !state.bill.supplierInvoiceNumber &&
         Boolean(bill.supplierInvoiceNumber),
-      issueDate: Boolean(bill.issueDate),
+      issueDate: Boolean(bill.issueDate) && !isIssueDateBeforeConversionDate,
       note: !state.bill.note && Boolean(bill.note),
     },
     inTrayDocument: document,
@@ -608,6 +640,62 @@ const resetSupplier = (state) => {
   };
 };
 
+const updateIssueDate = (state, action) => ({
+  ...state,
+  bill: {
+    ...state.bill,
+    issueDate: action.date,
+  },
+});
+
+const getPreConversionLineAmount = (state) => {
+  const isCreatingFromInTray = getIsCreatingFromInTray(state);
+  const hasInTrayDocumentId = getHasInTrayDocumentId(state);
+  return (isCreatingFromInTray || hasInTrayDocumentId) &&
+    state.bill.lines.length > 0
+    ? state.bill.lines[0].amount
+    : '';
+};
+
+const convertToPreConversionBill = (state) => {
+  const preConversionLineAmount = getPreConversionLineAmount(state);
+  return {
+    ...state,
+    isLineEdited: true,
+    isPreConversion: true,
+    bill: {
+      ...state.bill,
+      isTaxInclusive: true,
+      layout: BillLayout.SERVICE,
+      lines: [
+        {
+          description: 'Historical Purchase',
+          accountId: state.linkedAccountId,
+          amount: preConversionLineAmount,
+          taxAmount: preConversionLineAmount
+            ? state.bill.lines[0].taxAmount
+            : '',
+          taxExclusiveAmount: preConversionLineAmount
+            ? state.bill.lines[0].taxExclusiveAmount
+            : '',
+          jobId: '',
+          taxCodeId: getDefaultTaxCodeId({
+            accountId: state.linkedAccountId,
+            accountOptions: state.accountOptions,
+          }),
+          lineTypeId: LineTaxTypes.SERVICE,
+          type: BillLineType.SERVICE,
+        },
+      ],
+    },
+  };
+};
+
+const setShowPreConversionAlert = (state, { showPreConversionAlert }) => ({
+  ...state,
+  showPreConversionAlert,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -652,6 +740,9 @@ const handlers = {
   [SET_REDIRECT_URL]: setRedirectUrl,
   [SET_ABN_LOADING_STATE]: setAbnLoadingState,
   [LOAD_ABN_FROM_SUPPLIER]: loadAbnFromSupplier,
+  [UPDATE_ISSUE_DATE]: updateIssueDate,
+  [CONVERT_TO_PRE_CONVERSION_BILL]: convertToPreConversionBill,
+  [SET_SHOW_PRE_CONVERSION_ALERT]: setShowPreConversionAlert,
 };
 
 const billReducer = createReducer(getDefaultState(), handlers);

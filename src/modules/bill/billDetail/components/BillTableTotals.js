@@ -10,6 +10,7 @@ import {
   getHasFreightAmount,
   getIsBlocking,
   getIsCreating,
+  getIsPreConversion,
   getTotalTaxLabel,
   getTotals,
 } from '../selectors/billSelectors';
@@ -28,21 +29,23 @@ const BillTableTotals = ({
   freightAmount,
   showFreight,
   freightTaxCode,
+  isPreConversion,
 }) => {
-  const amountPaidInputLine = isCreating ? (
-    <LineItemTableTotalsInput
-      label="Amount paid ($)"
-      name="amountPaid"
-      value={amountPaid}
-      onChange={handleAmountInputChange(onUpdateBillOption)}
-      disabled={isBlocking}
-    />
-  ) : (
-    <LineItemTableTotalsFormattedCurrency
-      title="Amount paid"
-      amount={amountPaid}
-    />
-  );
+  const amountPaidInputLine =
+    isCreating && !isPreConversion ? (
+      <LineItemTableTotalsInput
+        label="Amount paid ($)"
+        name="amountPaid"
+        value={amountPaid}
+        onChange={handleAmountInputChange(onUpdateBillOption)}
+        disabled={isBlocking}
+      />
+    ) : (
+      <LineItemTableTotalsFormattedCurrency
+        title="Amount paid"
+        amount={amountPaid}
+      />
+    );
 
   return (
     <LineItemTable.Total>
@@ -86,6 +89,7 @@ const mapStateToProps = (state) => ({
   freightAmount: getFreightAmount(state),
   showFreight: getHasFreightAmount(state),
   freightTaxCode: getFreightTaxCode(state),
+  isPreConversion: getIsPreConversion(state),
 });
 
 export default connect(mapStateToProps)(BillTableTotals);

@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getModalType } from '../selectors/billSelectors';
+import BillDetailPreConversionModal from './BillDetailPreConversionModal';
 import CancelModal from '../../../../components/modal/CancelModal';
 import DeleteModal from '../../../../components/modal/DeleteModal';
 import ExportPdfModal from './ExportPdfModal';
@@ -24,6 +25,7 @@ const BillModal = ({
   onDiscardAndRedirect,
   onUnlinkDocumentConfirm,
   exportPdfModalListeners,
+  preConversionModalListeners,
 }) =>
   ({
     [ModalType.CancelModal]: (
@@ -74,6 +76,12 @@ const BillModal = ({
       <UnlinkDocumentModal
         onConfirm={onUnlinkDocumentConfirm}
         onCancel={onModalClose}
+      />
+    ),
+    [ModalType.PreConversionBill]: (
+      <BillDetailPreConversionModal
+        onConfirm={preConversionModalListeners.onConfirm}
+        onCancel={preConversionModalListeners.onCancel}
       />
     ),
   }[modalType]);

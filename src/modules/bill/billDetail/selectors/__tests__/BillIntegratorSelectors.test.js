@@ -1,14 +1,17 @@
 import {
   CREATE_BILL,
+  CREATE_PRE_CONVERSION_BILL_DETAIL,
   LOAD_BILL,
   LOAD_NEW_BILL,
   LOAD_NEW_DUPLICATE_BILL,
   UPDATE_BILL,
+  UPDATE_PRE_CONVERSION_BILL_DETAIL,
 } from '../../BillIntents';
 import {
   getCalculateBillContent,
   getCalculateBillItemChangeContent,
   getCalculateBillLinesUrlParams,
+  getDeletePreConversionBillUrlParams,
   getLinkInTrayContentWithoutIds,
   getLoadAddedAccountUrlParams,
   getLoadBillIntent,
@@ -16,6 +19,9 @@ import {
   getSaveBillContent,
   getSaveBillIntent,
   getSaveBillUrlParams,
+  getSavePreConversionBillContent,
+  getSavePreConversionBillIntent,
+  getSavePreConversionBillUrlParams,
 } from '../BillIntegratorSelectors';
 
 describe('IntegratorSelectors', () => {
@@ -163,6 +169,92 @@ describe('IntegratorSelectors', () => {
         stuff: 'stuff',
         supplierId: '1',
         layout: 'item',
+      });
+    });
+  });
+
+  describe('getSavePreConversionBillIntent', () => {
+    it('returns create Intent when creating', () => {
+      const state = {
+        billId: 'new',
+      };
+
+      const actual = getSavePreConversionBillIntent(state);
+
+      expect(actual).toEqual(CREATE_PRE_CONVERSION_BILL_DETAIL);
+    });
+
+    it('returns UPDATE intent when not creating', () => {
+      const state = {
+        billId: '1',
+      };
+
+      const actual = getSavePreConversionBillIntent(state);
+
+      expect(actual).toEqual(UPDATE_PRE_CONVERSION_BILL_DETAIL);
+    });
+  });
+
+  describe('getSavePreConversionBillUrlParams', () => {
+    it('returns businessId and billId when not creating', () => {
+      const state = {
+        businessId: 'a',
+        billId: 'b',
+      };
+
+      const actual = getSavePreConversionBillUrlParams(state);
+
+      expect(actual).toEqual({
+        businessId: 'a',
+        billId: 'b',
+      });
+    });
+
+    it('returns businessId when creating', () => {
+      const state = {
+        businessId: 'a',
+        billId: 'new',
+      };
+
+      const actual = getSavePreConversionBillUrlParams(state);
+
+      expect(actual).toEqual({
+        businessId: 'a',
+      });
+    });
+  });
+
+  describe('getSavePreConversionBillContent', () => {
+    it('returns the right request body', () => {
+      const bill = {
+        supplierId: 'suppId',
+        supplierAddress: 'suppAddr',
+        issueDate: '01/01/2000',
+        supplierInvoiceNumber: 'ROM001',
+        billNumber: 'BIL001',
+        isTaxInclusive: true,
+        expirationTerm: 'OnADayOfTheMonth',
+        expirationDays: '4',
+      };
+      const state = { bill };
+
+      const actual = getSavePreConversionBillContent(state);
+      expect(actual).toEqual(bill);
+    });
+  });
+
+  describe('getDeletePreConversionBillUrlParams', () => {
+    it('returns businessId and billId', () => {
+      const state = {
+        businessId: 'a',
+        billId: 'b',
+      };
+
+      const actual = getDeletePreConversionBillUrlParams(state);
+
+      expect(actual).toEqual({
+        businessId: 'a',
+        billId: 'b',
       });
     });
   });

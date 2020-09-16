@@ -1,5 +1,6 @@
 import {
   getBillLine,
+  getConversionMonthYear,
   getFreightAmount,
   getFreightTaxCode,
   getHasLineBeenPrefilled,
@@ -113,10 +114,11 @@ describe('BillSelectors', () => {
   });
 
   describe('getShouldShowAccountCode', () => {
-    it('returns true for all create new scenarios', () => {
+    it('should only show if is creating from in tray and is not preconversion', () => {
       const state = {
         billId: 'new',
         source: 'inTray',
+        isPreConversion: false,
       };
 
       const actual = getShouldShowAccountCode(state);
@@ -613,5 +615,23 @@ describe('BillSelectors', () => {
         expect(actual).toEqual(expected);
       }
     );
+  });
+
+  describe('getConversionMonthYear', () => {
+    [
+      { value: '2013-08-01', expected: 'August 2013' },
+      { value: '2013-01-01', expected: 'January 2013' },
+      { value: '2013-07-01', expected: 'July 2013' },
+      { value: '2013-12-01', expected: 'December 2013' },
+    ].forEach((test) => {
+      it('should format correctly', () => {
+        const state = {
+          conversionDate: test.value,
+        };
+        const actual = getConversionMonthYear(state);
+
+        expect(actual).toEqual(test.expected);
+      });
+    });
   });
 });

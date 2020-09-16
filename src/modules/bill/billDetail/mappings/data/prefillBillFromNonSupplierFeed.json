@@ -10,6 +10,7 @@
   },
   "lines": [
     {
+      "type": "service",
       "amount": "99.000000",
       "lineSubTypeId": "11"
     }

@@ -55,3 +55,19 @@ export const SET_REDIRECT_URL = Symbol('Set redirect url');
 
 export const LOAD_ABN_FROM_SUPPLIER = Symbol('Load abn given a supplier id');
 export const SET_ABN_LOADING_STATE = Symbol('Set abn loading state');
+export const UPDATE_ISSUE_DATE = Symbol('Update issue date');
+export const CONVERT_TO_PRE_CONVERSION_BILL = Symbol(
+  'Convert to pre conversion bill'
+);
+export const SET_SHOW_PRE_CONVERSION_ALERT = Symbol(
+  'Set show pre conversion alert'
+);
+export const CREATE_PRE_CONVERSION_BILL_DETAIL = Symbol(
+  'Create a new pre conversion bill'
+);
+export const UPDATE_PRE_CONVERSION_BILL_DETAIL = Symbol(
+  'Update an existing pre conversion bill'
+);
+export const DELETE_PRE_CONVERSION_BILL_DETAIL = Symbol(
+  'Delete a pre conversion bill'
+);

@@ -8,4 +8,5 @@ export default {
   UnlinkDocument: 'unlinkDocument',
   None: '',
   Unsaved: 'unsaved',
+  PreConversionBill: 'preConversionBill',
 };

@@ -8,6 +8,7 @@ import {
   getBillLine,
   getIsBlocking,
   getIsNewLine,
+  getIsPreConversion,
   getIsReadOnly,
   getTaxCodeOptions,
 } from '../selectors/billSelectors';
@@ -54,6 +55,7 @@ const BillServiceTableRow = ({
   onAddAccount,
   onAddJob,
   isBillJobColumnEnabled,
+  isPreConversion,
   ...feelixInjectedProps
 }) => {
   if ([BillLineType.HEADER, BillLineType.SUB_TOTAL].includes(billLine.type)) {
@@ -95,7 +97,7 @@ const BillServiceTableRow = ({
         }
         items={accountOptions}
         selectedId={accountId}
-        disabled={isBlocking || isReadOnly}
+        disabled={isBlocking || isReadOnly || isPreConversion}
       />
       <Calculator
         name="amount"
@@ -138,6 +140,7 @@ const mapStateToProps = (state, props) => ({
   isNewLine: getIsNewLine(state, props),
   isBlocking: getIsBlocking(state, props),
   isReadOnly: getIsReadOnly(state),
+  isPreConversion: getIsPreConversion(state),
 });
 
 export default connect(mapStateToProps)(BillServiceTableRow);

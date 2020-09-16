@@ -1,7 +1,9 @@
 import {
   CLOSE_MODAL,
   CREATE_BILL,
+  CREATE_PRE_CONVERSION_BILL_DETAIL,
   DELETE_BILL,
+  DELETE_PRE_CONVERSION_BILL_DETAIL,
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ABN_FROM_SUPPLIER,
   LOAD_BILL,
@@ -14,6 +16,7 @@ import {
   STOP_BLOCKING,
   UPDATE_BILL,
   UPDATE_BILL_ID,
+  UPDATE_PRE_CONVERSION_BILL_DETAIL,
 } from '../BillIntents';
 import {
   DUPLICATE_BILL,
@@ -25,12 +28,13 @@ import {
   mockCreateObjectUrl,
   setUp,
   setUpNewBillWithPrefilled,
+  setUpWithPreConversion,
   setUpWithRun,
 } from './BillModule.test';
 import ModalType from '../types/ModalType';
 import loadItemAndServiceBill from '../mappings/data/loadItemAndServiceBill.json';
 
-describe('BillModule_Save', () => {
+describe('BillModule_SaveCancelDelete', () => {
   mockCreateObjectUrl();
 
   describe('handleSaveBill', () => {
@@ -248,6 +252,77 @@ describe('BillModule_Save', () => {
           'Bill created, but the document failed to link. Open the bill to link the document again',
       });
       expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/inTray');
+    });
+
+    it('successfully creates a new preconversion bill', () => {
+      const { module, store, integration } = setUpWithPreConversion({
+        isCreating: true,
+      });
+      module.globalCallbacks.inTrayBillSaved = jest.fn();
+
+      module.saveBill();
+
+      expect(store.getActions()).toEqual([
+        { intent: START_BLOCKING },
+        { intent: STOP_BLOCKING },
+        { intent: UPDATE_BILL_ID, id: 'preconversion-id' },
+        { intent: START_BLOCKING },
+        expect.objectContaining({ intent: RELOAD_BILL }),
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+        {
+          intent: OPEN_ALERT,
+          type: 'success',
+          message: "Success! You've successfully created a new bill.",
+        },
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: CREATE_PRE_CONVERSION_BILL_DETAIL }),
+        {
+          intent: LOAD_BILL,
+          urlParams: { businessId: 'bizId', billId: 'preconversion-id' },
+        },
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+      ]);
+
+      expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
+    });
+
+    it('successfully updates an existing preconversion bill', () => {
+      const { module, store, integration } = setUpWithPreConversion({
+        isCreating: false,
+      });
+      module.globalCallbacks.inTrayBillSaved = jest.fn();
+
+      module.saveBill();
+
+      expect(store.getActions()).toEqual([
+        { intent: START_BLOCKING },
+        { intent: STOP_BLOCKING },
+        { intent: START_BLOCKING },
+        expect.objectContaining({ intent: RELOAD_BILL }),
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+        {
+          intent: OPEN_ALERT,
+          type: 'success',
+          message: "Great Work! You've done it well!",
+        },
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: UPDATE_PRE_CONVERSION_BILL_DETAIL }),
+        {
+          intent: LOAD_BILL,
+          urlParams: { businessId: 'bizId', billId: 'billId' },
+        },
+        expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+      ]);
+
+      expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
     });
   });
 
@@ -477,6 +552,31 @@ describe('BillModule_Save', () => {
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({ intent: DELETE_BILL }),
+      ]);
+
+      expect(module.pushMessage).toHaveBeenCalledWith(
+        expect.objectContaining({ type: SUCCESSFULLY_DELETED_BILL })
+      );
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/bill');
+    });
+
+    it('successfully deletes pre conversion bill', () => {
+      const { module, store, integration } = setUpWithPreConversion({
+        isCreating: false,
+      });
+      module.pushMessage = jest.fn();
+      module.navigateTo = jest.fn();
+
+      module.deleteBill();
+
+      expect(store.getActions()).toEqual([
+        { intent: CLOSE_MODAL },
+        { intent: START_BLOCKING },
+        { intent: STOP_BLOCKING },
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: DELETE_PRE_CONVERSION_BILL_DETAIL }),
       ]);
 
       expect(module.pushMessage).toHaveBeenCalledWith(

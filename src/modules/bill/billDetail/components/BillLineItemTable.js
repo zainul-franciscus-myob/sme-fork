@@ -5,6 +5,7 @@ import classnames from 'classnames';
 
 import {
   getHasNoteBeenPrefilled,
+  getIsPreConversion,
   getNote,
   getTableData,
 } from '../selectors/billSelectors';
@@ -31,42 +32,52 @@ const BillItemTable = ({
   onRowChange,
   onRemoveRow,
   onUpdateBillOption,
-}) => (
-  <LineItemTable
-    labels={labels}
-    renderRow={renderRow}
-    data={tableData}
-    onAddRow={handleAddRow(onAddRow)}
-    onRowChange={handleRowChange(onRowChange)}
-    onRemoveRow={handleRemoveRow(onRemoveRow)}
-    columnConfig={columnConfig}
-    headerItems={headerItems}
-  >
-    <div className={styles.notesAndTotals}>
-      <div
-        className={classnames({
-          [styles.notes]: true,
-          [styles.prefill]: notePrefilled,
-        })}
-      >
-        <TextArea
-          name="note"
-          label="Notes"
-          resize="both"
-          value={note}
-          onChange={handleInputChange(onUpdateBillOption)}
-          maxLength={2000}
-        />
-      </div>
-      <BillTableTotals onUpdateBillOption={onUpdateBillOption} />
+  isPreConversion,
+}) => {
+  const notes = (
+    <div
+      className={classnames({
+        [styles.notes]: true,
+        [styles.prefill]: notePrefilled,
+      })}
+    >
+      <TextArea
+        name="note"
+        label="Notes"
+        resize="both"
+        value={note}
+        onChange={handleInputChange(onUpdateBillOption)}
+        maxLength={2000}
+      />
     </div>
-  </LineItemTable>
-);
+  );
+
+  return (
+    <div className={isPreConversion ? styles.table__hideNewRow : ''}>
+      <LineItemTable
+        labels={labels}
+        renderRow={renderRow}
+        data={tableData}
+        onAddRow={handleAddRow(onAddRow)}
+        onRowChange={handleRowChange(onRowChange)}
+        onRemoveRow={handleRemoveRow(onRemoveRow)}
+        columnConfig={columnConfig}
+        headerItems={headerItems}
+      >
+        <div className={!isPreConversion ? styles.notesAndTotals : ''}>
+          {!isPreConversion && notes}
+          <BillTableTotals onUpdateBillOption={onUpdateBillOption} />
+        </div>
+      </LineItemTable>
+    </div>
+  );
+};
 
 const mapStateToProps = (state) => ({
   tableData: getTableData(state),
   note: getNote(state),
   notePrefilled: getHasNoteBeenPrefilled(state),
+  isPreConversion: getIsPreConversion(state),
 });
 
 export default connect(mapStateToProps)(BillItemTable);

@@ -3,6 +3,7 @@ import {
   CALCULATE_LINE_AMOUNTS,
   CLOSE_ALERT,
   CLOSE_MODAL,
+  CONVERT_TO_PRE_CONVERSION_BILL,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   FAIL_LOADING,
   GET_TAX_CALCULATIONS,
@@ -25,6 +26,7 @@ import {
   SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_ID,
   SET_REDIRECT_URL,
+  SET_SHOW_PRE_CONVERSION_ALERT,
   SET_SHOW_SPLIT_VIEW,
   SET_SOURCE,
   SET_UPGRADE_MODAL_SHOWING,
@@ -39,6 +41,7 @@ import {
   UPDATE_BILL_LINE,
   UPDATE_BILL_OPTION,
   UPDATE_EXPORT_PDF_DETAIL,
+  UPDATE_ISSUE_DATE,
   UPDATE_LAYOUT,
 } from './BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -223,6 +226,24 @@ const createBillDispatcher = (store) => ({
       value,
     });
   },
+
+  updateIssueDate: (date) => {
+    store.dispatch({
+      intent: UPDATE_ISSUE_DATE,
+      date,
+    });
+  },
+
+  convertToPreConversionBill: () =>
+    store.dispatch({
+      intent: CONVERT_TO_PRE_CONVERSION_BILL,
+    }),
+
+  setShowPreConversionAlert: (showPreConversionAlert) =>
+    store.dispatch({
+      intent: SET_SHOW_PRE_CONVERSION_ALERT,
+      showPreConversionAlert,
+    }),
 
   removeBillLine: ({ index }) => {
     store.dispatch({

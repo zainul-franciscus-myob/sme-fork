@@ -2,13 +2,16 @@ import { createSelector } from 'reselect';
 
 import {
   CREATE_BILL,
+  CREATE_PRE_CONVERSION_BILL_DETAIL,
   LOAD_BILL,
   LOAD_NEW_BILL,
   LOAD_NEW_DUPLICATE_BILL,
   UPDATE_BILL,
+  UPDATE_PRE_CONVERSION_BILL_DETAIL,
 } from '../BillIntents';
 import {
   getAmountPaid,
+  getBill,
   getBillId,
   getBillLayout,
   getBillUid,
@@ -30,12 +33,62 @@ export const getSaveBillIntent = createSelector(getIsCreating, (isCreating) =>
   isCreating ? CREATE_BILL : UPDATE_BILL
 );
 
+export const getSavePreConversionBillIntent = createSelector(
+  getIsCreating,
+  (isCreating) =>
+    isCreating
+      ? CREATE_PRE_CONVERSION_BILL_DETAIL
+      : UPDATE_PRE_CONVERSION_BILL_DETAIL
+);
+
 export const getSaveBillUrlParams = createSelector(
   getIsCreating,
   getBusinessId,
   getBillId,
   (isCreating, businessId, billId) =>
     isCreating ? { businessId } : { businessId, billId }
+);
+
+export const getSavePreConversionBillUrlParams = createSelector(
+  getIsCreating,
+  getBusinessId,
+  getBillId,
+  (isCreating, businessId, billId) =>
+    isCreating ? { businessId } : { businessId, billId }
+);
+
+export const getSavePreConversionBillContent = (state) => {
+  const {
+    supplierId,
+    expirationTerm,
+    expirationDays,
+    isTaxInclusive,
+    billNumber,
+    supplierAddress,
+    issueDate,
+    supplierInvoiceNumber,
+    note,
+    lines,
+  } = getBill(state);
+
+  return {
+    supplierId,
+    expirationTerm,
+    expirationDays,
+    isTaxInclusive,
+    billNumber,
+    supplierAddress,
+    issueDate,
+    supplierInvoiceNumber,
+    note,
+    lines,
+  };
+};
+
+export const getDeletePreConversionBillUrlParams = createSelector(
+  getBusinessId,
+  getBillId,
+  (businessId, billId) => ({ businessId, billId })
 );
 
 export const getLoadBillIntent = createSelector(

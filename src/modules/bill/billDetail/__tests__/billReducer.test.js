@@ -1,5 +1,6 @@
 import {
   ADD_BILL_LINE,
+  CONVERT_TO_PRE_CONVERSION_BILL,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_JOB_AFTER_CREATE,
@@ -1027,6 +1028,115 @@ describe('billReducer', () => {
     });
   });
 
+  describe('CONVERT_TO_PRE_CONVERSION_BILL', () => {
+    const state = {
+      isPreconversion: false,
+      bill: {
+        layout: BillLayout.ITEM_AND_SERVICE,
+        isTaxInclusive: false,
+        lines: [],
+      },
+      linkedAccountId: '123',
+      accountOptions: [
+        {
+          id: '123',
+          taxCodeId: '456',
+        },
+      ],
+    };
+
+    const action = {
+      intent: CONVERT_TO_PRE_CONVERSION_BILL,
+    };
+
+    it('sets isPreConversion to true', () => {
+      const actual = billReducer(state, action);
+      expect(actual.isPreConversion).toEqual(true);
+    });
+
+    it('always updates the bill layout to be the Service layout', () => {
+      const actual = billReducer(state, action);
+      expect(actual.bill.layout).toEqual(BillLayout.SERVICE);
+    });
+
+    it('converts the table to only have one line of line type Service', () => {
+      const actual = billReducer(state, action);
+      expect(actual.bill.lines.length).toEqual(1);
+
+      expect(actual.bill.lines[0].type).toEqual(BillLineType.SERVICE);
+      expect(actual.bill.lines[0].lineTypeId).toEqual(LineTaxTypes.SERVICE);
+    });
+
+    it('sets the account to be the business linked account', () => {
+      const actual = billReducer(state, action);
+      expect(actual.bill.lines[0]).toEqual(
+        expect.objectContaining({
+          accountId: '123',
+          taxCodeId: '456',
+        })
+      );
+    });
+
+    it('prefills the rest of the line', () => {
+      const actual = billReducer(state, action);
+      expect(actual.bill.lines[0]).toEqual(
+        expect.objectContaining({
+          description: 'Historical Purchase',
+          amount: '',
+          jobId: '',
+        })
+      );
+    });
+
+    describe('prefill bill from in tray document', () => {
+      it('defaults the single line amount to be the prefilled amount if there was one when create new from in tray', () => {
+        const modifiedState = {
+          ...state,
+          billId: 'new',
+          source: 'inTray',
+          bill: {
+            ...state.bill,
+            lines: [
+              {
+                amount: '100.00',
+                taxAmount: '5.00',
+                taxExclusiveAmount: '95.00',
+              },
+            ],
+          },
+        };
+
+        const actual = billReducer(modifiedState, action);
+        expect(actual.bill.lines[0].amount).toEqual('100.00');
+        expect(actual.bill.lines[0].taxAmount).toEqual('5.00');
+        expect(actual.bill.lines[0].taxExclusiveAmount).toEqual('95.00');
+      });
+
+      it('defaults the single line amount to be the prefilled amount if there was one when prefill from the create new bill page', () => {
+        const modifiedState = {
+          ...state,
+          billId: 'new',
+          inTrayDocumentId: '123',
+          bill: {
+            ...state.bill,
+            lines: [
+              {
+                amount: '100.00',
+                taxAmount: '5.00',
+                taxExclusiveAmount: '95.00',
+              },
+            ],
+          },
+        };
+
+        const actual = billReducer(modifiedState, action);
+        expect(actual.bill.lines[0].amount).toEqual('100.00');
+        expect(actual.bill.lines[0].taxAmount).toEqual('5.00');
+        expect(actual.bill.lines[0].taxExclusiveAmount).toEqual('95.00');
+      });
+    });
+  });
+
   describe('LOAD_ACCOUNT_AFTER_CREATE', () => {
     it('merges new account payload into state', () => {
       const state = {
@@ -1260,6 +1370,30 @@ describe('billReducer', () => {
           },
         })
       );
+    });
+
+    it('does not use prefill issue date if it is before conversion date', () => {
+      const state = {
+        bill: {
+          issueDate: '2020/09/16',
+          lines: [],
+        },
+        conversionDate: '2005/01/01',
+      };
+
+      const action = {
+        intent: PREFILL_BILL_FROM_IN_TRAY,
+        response: {
+          bill: {
+            issueDate: '2000/01/01',
+          },
+          lines: [],
+        },
+      };
+
+      const actual = billReducer(state, action);
+      expect(actual.bill.issueDate).toEqual('2020/09/16');
+      expect(actual.prefillStatus.issueDate).toEqual(false);
     });
 
     it('does not prefill bill lines when there is no in tray data returned', () => {

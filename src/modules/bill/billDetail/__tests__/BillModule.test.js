@@ -146,6 +146,25 @@ export const setUpWithRun = ({
   };
 };
 
+export const setUpWithPreConversion = ({ isCreating = false }) => {
+  const { module, integration, store } = setUpWithRun({
+    isCreating,
+  });
+
+  module.updateBillOption({ kye: 'issueDate', value: '2000-01-01' });
+  module.validateIssueDate();
+  module.convertToPreConversionBill();
+
+  store.resetActions();
+  integration.resetRequests();
+
+  return {
+    module,
+    integration,
+    store,
+  };
+};
+
 export const setUpNewBillWithPrefilled = () => {
   const { module, integration, store, pushMessage } = setUp();
   module.popMessages = () => [

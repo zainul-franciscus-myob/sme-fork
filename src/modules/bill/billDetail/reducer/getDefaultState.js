@@ -113,5 +113,8 @@ export const getDefaultState = () => ({
   abn: undefined,
   showSplitView: false,
   conversionDate: '',
+  linkedAccountId: '',
   startOfFinancialYearDate: '',
+  isPreConversion: false,
+  showPreConversionAlert: false,
 });

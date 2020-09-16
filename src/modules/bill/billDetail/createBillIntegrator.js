@@ -1,5 +1,6 @@
 import {
   DELETE_BILL,
+  DELETE_PRE_CONVERSION_BILL_DETAIL,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   EXPORT_BILL_PDF,
   LINK_IN_TRAY_DOCUMENT,
@@ -16,6 +17,7 @@ import {
   getCalculateBillItemChangeContent,
   getCalculateBillLinesUrlParams,
   getDeleteBillUrlParams,
+  getDeletePreConversionBillUrlParams,
   getInTrayDocumentParams,
   getInTrayDocumentUrlParams,
   getLoadAbnFromSupplierUrlParams,
@@ -27,6 +29,9 @@ import {
   getSaveBillContent,
   getSaveBillIntent,
   getSaveBillUrlParams,
+  getSavePreConversionBillContent,
+  getSavePreConversionBillIntent,
+  getSavePreConversionBillUrlParams,
   getUnlinkInTrayDocumentParams,
   getUnlinkInTrayDocumentUrlParams,
 } from './selectors/BillIntegratorSelectors';
@@ -70,6 +75,33 @@ const createBillIntegrator = (store, integration) => ({
     integration.write({
       intent,
       content,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  savePreConversionBill: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = getSavePreConversionBillIntent(state);
+    const urlParams = getSavePreConversionBillUrlParams(state);
+    const content = getSavePreConversionBillContent(state);
+
+    integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  deletePreConversionBill: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const urlParams = getDeletePreConversionBillUrlParams(state);
+
+    integration.write({
+      intent: DELETE_PRE_CONVERSION_BILL_DETAIL,
       urlParams,
       onSuccess,
       onFailure,

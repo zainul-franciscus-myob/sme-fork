@@ -7,6 +7,7 @@ import {
   getAccountOptions,
   getExpenseAccountId,
   getIsBlocking,
+  getIsPreConversion,
   getIsReadOnly,
   getIsReportable,
   getIsSupplierDisabled,
@@ -37,6 +38,7 @@ const BillPrimaryOptions = ({
   isBlocking,
   isReadOnly,
   prefillStatus,
+  isPreConversion,
   shouldShowAbn,
   renderContactCombobox,
   onUpdateBillOption,
@@ -68,15 +70,17 @@ const BillPrimaryOptions = ({
         {supplierAddress}
       </ReadOnly>
     )}
-    <ReportableCheckbox
-      label="Report to ATO via TPAR"
-      checked={isReportable}
-      region={region}
-      name="isReportable"
-      onChange={handleCheckboxChange(onUpdateBillOption)}
-      disabled={isSupplierDisabled || isBlocking || isReadOnly}
-      width="xl"
-    />
+    {!isPreConversion && (
+      <ReportableCheckbox
+        label="Report to ATO via TPAR"
+        checked={isReportable}
+        region={region}
+        name="isReportable"
+        onChange={handleCheckboxChange(onUpdateBillOption)}
+        disabled={isSupplierDisabled || isBlocking || isReadOnly}
+        width="xl"
+      />
+    )}
     {shouldShowAccountCode && (
       <AccountCombobox
         allowClear
@@ -111,6 +115,7 @@ const mapStateToProps = (state) => ({
   prefillStatus: getPrefillStatus(state),
   isReadOnly: getIsReadOnly(state),
   shouldShowAbn: getShouldShowAbn(state),
+  isPreConversion: getIsPreConversion(state),
 });
 
 export default connect(mapStateToProps)(BillPrimaryOptions);

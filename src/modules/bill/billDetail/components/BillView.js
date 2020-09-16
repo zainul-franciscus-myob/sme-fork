@@ -7,9 +7,11 @@ import {
   getIsAlertShown,
   getIsBlocking,
   getIsModalShown,
+  getIsPreConversion,
   getIsReadOnly,
   getLoadingState,
   getReadOnlyMessage,
+  getShowPreConversionAlert,
 } from '../selectors/billSelectors';
 import {
   getIsDocumentLoading,
@@ -34,9 +36,19 @@ import PageView from '../../../../components/PageView/PageView';
 import UpgradeModal from './UpgradeModal';
 import styles from './BillView.module.css';
 
-const getOptionInfo = ({ isReadOnly, readOnlyMessage, showPrefillInfo }) => {
+const getOptionInfo = ({
+  isReadOnly,
+  readOnlyMessage,
+  showPrefillInfo,
+  showPreConversionAlert,
+}) => {
   if (isReadOnly) {
     return readOnlyMessage;
+  }
+
+  if (showPreConversionAlert) {
+    return `Bills dated before your opening balance month will not automatically update account balances.
+    Remember to include the bill amounts in the respective account's opening balance`;
   }
 
   if (showPrefillInfo) {
@@ -81,6 +93,7 @@ const BillView = ({
   onDismissAlert,
   onUpdateBillOption,
   onUpdateLayout,
+  onIssueDateBlur,
   exportPdfModalListeners,
   onAddSupplierButtonClick,
   onPrefillButtonClick,
@@ -94,8 +107,12 @@ const BillView = ({
   onCreatePaymentClick,
   onConfirmSaveAndRedirect,
   onDiscardAndRedirect,
+  preConversionModalListeners,
+  showPreConversionAlert,
+  onDismissPreConversionAlert,
+  isPreConversion,
 }) => {
-  const tableLayoutOption = (
+  const tableLayoutOption = isPreConversion || (
     <BillLayoutPopover
       layout={layout}
       isReadOnly={isReadOnly}
@@ -174,6 +191,7 @@ const BillView = ({
           onUnlinkDocumentConfirm={onUnlinkDocumentConfirm}
           onConfirmSaveAndRedirect={onConfirmSaveAndRedirect}
           onDiscardAndRedirect={onDiscardAndRedirect}
+          preConversionModalListeners={preConversionModalListeners}
         />
       )}
       {shouldShowInTrayDocument && !isSplitViewShown && (
@@ -190,8 +208,13 @@ const BillView = ({
     isReadOnly,
     readOnlyMessage,
     showPrefillInfo,
+    showPreConversionAlert,
   });
-  const onDismissOptionInfo = isReadOnly ? undefined : onClosePrefillInfo;
+
+  const onDismissOptionInfo =
+    (showPreConversionAlert && onDismissPreConversionAlert) ||
+    (showPrefillInfo && onClosePrefillInfo) ||
+    undefined;
 
   const view = (
     <MasterDetailLineItemTemplate
@@ -207,7 +230,10 @@ const BillView = ({
         />
       }
       secondaryOptions={
-        <BillSecondaryOptions onUpdateBillOption={onUpdateBillOption} />
+        <BillSecondaryOptions
+          onUpdateBillOption={onUpdateBillOption}
+          onIssueDateBlur={onIssueDateBlur}
+        />
       }
       tableLayoutOption={tableLayoutOption}
       table={
@@ -228,7 +254,7 @@ const BillView = ({
       subHeadChildren={subHeaderChildren}
       detail={detail}
       pageHead={stickyHeader}
-      showDetail={isSplitViewShown}
+      showDetail={isSplitViewShown && !isPreConversion}
       templateClassName={styles.wrapper}
     />
   );
@@ -254,6 +280,8 @@ const mapStateToProps = (state) => ({
   isReadOnly: getIsReadOnly(state),
   readOnlyMessage: getReadOnlyMessage(state),
   shouldShowInTrayDocument: getShouldShowInTrayDocument(state),
+  showPreConversionAlert: getShowPreConversionAlert(state),
+  isPreConversion: getIsPreConversion(state),
 });
 
 export default connect(mapStateToProps)(BillView);

@@ -12,6 +12,7 @@ import {
   getIsBlocking,
   getIsCreating,
   getIsForeignCurrency,
+  getIsPreConversion,
   getIsReadOnly,
   getShowExportPdfButton,
 } from '../selectors/billSelectors';
@@ -29,6 +30,7 @@ const BillActions = ({
   onDeleteButtonClick,
   onExportPdfButtonClick,
   onCreatePaymentClick,
+  isPreConversion,
 }) => {
   const exportPdfButton = (
     <Button
@@ -143,6 +145,19 @@ const BillActions = ({
     );
   }
 
+  if (isPreConversion) {
+    return (
+      <ButtonRow
+        primary={[cancelButton, saveButton]}
+        secondary={[
+          !isCreating && deleteButton,
+          !isCreating && separator,
+          !isCreating && createPaymentButton,
+        ]}
+      />
+    );
+  }
+
   return (
     <ButtonRow
       primary={[cancelButton, saveAndButton, saveButton]}
@@ -162,6 +177,7 @@ const mapStateToProps = (state) => ({
   isReadOnly: getIsReadOnly(state),
   isForeignCurrency: getIsForeignCurrency(state),
   showExportPdfButton: getShowExportPdfButton(state),
+  isPreConversion: getIsPreConversion(state),
 });
 
 export default connect(mapStateToProps)(BillActions);

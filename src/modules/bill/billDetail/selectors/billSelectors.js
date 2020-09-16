@@ -1,6 +1,6 @@
 import { Decimal } from 'decimal.js';
 import { createSelector } from 'reselect';
-import { isBefore } from 'date-fns';
+import { format, isBefore } from 'date-fns';
 
 import BillLayout from '../types/BillLayout';
 import BillLineType from '../types/BillLineType';
@@ -14,6 +14,7 @@ import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 
 export const getBusinessId = (state) => state.businessId;
 export const getRegion = (state) => state.region;
+export const getBill = (state) => state.bill;
 export const getBillId = (state) => state.billId;
 export const getBillLayout = (state) => state.bill.layout;
 export const getBillUid = (state) => state.bill.uid;
@@ -70,8 +71,17 @@ export const getTaxExclusiveLabel = (state) =>
 
 export const getIsModalShown = (state) => Boolean(state.modalType);
 export const getIsAlertShown = (state) => Boolean(state.alert);
+export const getShowPreConversionAlert = (state) =>
+  state.showPreConversionAlert;
+export const getIsPreConversion = (state) => state.isPreConversion;
 
-const getConversionDate = (state) => state.conversionDate;
+export const getConversionDate = (state) => state.conversionDate;
+
+export const getConversionMonthYear = (state) => {
+  const { conversionDate } = state;
+  return format(new Date(conversionDate), 'MMMM yyyy');
+};
+
 const getStartOfFinancialYearDate = (state) => state.startOfFinancialYearDate;
 
 export const getIsCreating = createSelector(
@@ -193,7 +203,12 @@ export const getModalContext = (state) => {
   return { businessId, region };
 };
 
-export const getShouldShowAccountCode = getIsCreatingFromInTray;
+export const getShouldShowAccountCode = createSelector(
+  getIsCreatingFromInTray,
+  getIsPreConversion,
+  (isCreatingFromInTray, isPreConversion) =>
+    isCreatingFromInTray && !isPreConversion
+);
 
 export const getIsSupplierDisabled = createSelector(
   getIsCreating,
@@ -366,7 +381,7 @@ export const getFreightTaxCode = createSelector(
       ?.displayName
 );
 
-const getIsBeforeConversionDate = createSelector(
+export const getIsBeforeConversionDate = createSelector(
   getIssueDate,
   getConversionDate,
   (issueDate, conversionDate) =>
