@@ -8,12 +8,9 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ACCOUNT_OPTIONS,
   LOAD_CUSTOMER,
-  LOAD_CUSTOMER_OPTIONS,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
   LOAD_INVOICE_LIST,
-  LOAD_ITEM_OPTION,
-  LOAD_ITEM_OPTIONS,
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_DUPLICATE_INVOICE_DETAIL,
@@ -47,10 +44,7 @@ import loadAbnDetail from './data/loadAbn.json';
 import loadAccountOptions from './data/loadAccountOptions';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadAddedJobResponse from './data/loadAddedJobResponse';
-import loadCustomerOptions from './data/loadCustomerOptions';
 import loadInvoiceHistory from './data/invoiceHistory.json';
-import loadItemOption from './data/loadItemOption';
-import loadItemOptions from './data/loadItemOptions';
 import loadItemSellingDetailsResponse from './data/loadItemSellingDetailsResponse';
 import payDirect from './data/loadPayDirect';
 import saveEmailSettingsSuccessResponse from './data/saveEmailSettingsSuccessResponse';
@@ -131,11 +125,8 @@ const MemoryInvoiceMapping = {
     onSuccess(new Blob([], { type: 'application/pdf' })),
   [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) =>
     onSuccess(loadAddedAccountResponse),
-  [LOAD_ITEM_OPTION]: ({ onSuccess }) => onSuccess(loadItemOption),
   [LOAD_INVOICE_HISTORY]: ({ onSuccess }) => onSuccess(loadInvoiceHistory),
   [LOAD_ACCOUNT_OPTIONS]: ({ onSuccess }) => onSuccess(loadAccountOptions),
-  [LOAD_ITEM_OPTIONS]: ({ onSuccess }) => onSuccess(loadItemOptions),
-  [LOAD_CUSTOMER_OPTIONS]: ({ onSuccess }) => onSuccess(loadCustomerOptions),
   [LOAD_ITEM_SELLING_DETAILS]: ({ onSuccess }) =>
     onSuccess(loadItemSellingDetailsResponse),
   [LOAD_NEXT_PAGE]: ({ onSuccess }) => onSuccess(invoiceListFilterResponse),

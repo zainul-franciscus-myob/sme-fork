@@ -17,15 +17,14 @@ const InvoiceItemTable = ({
     onUpdateRow,
     onRemoveRow,
     onUpdateAmount,
-    onAddItemButtonClick,
     onAddAccount,
     onAddJob,
     onLoadAccounts,
     onLoadJobs,
-    onLoadItems,
   },
   taxCodeLabel,
   isInvoiceJobColumnEnabled,
+  renderItemCombobox,
 }) => {
   const itemIdLabel = 'Item ID';
   const itemNameLabel = 'Description';
@@ -124,13 +123,12 @@ const InvoiceItemTable = ({
       labels={labels}
       onChange={onChange}
       onUpdateAmount={onUpdateAmount}
-      onAddItemButtonClick={onAddItemButtonClick}
       onAddAccount={onAddAccount}
       onAddJob={onAddJob}
       onLoadAccounts={onLoadAccounts}
       onLoadJobs={onLoadJobs}
-      onLoadItems={onLoadItems}
       isInvoiceJobColumnEnabled={isInvoiceJobColumnEnabled}
+      renderItemCombobox={renderItemCombobox}
     />
   );
 

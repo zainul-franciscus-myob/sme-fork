@@ -164,11 +164,6 @@ export const getLoadPayDirectUrlParams = (state) => {
   return { businessId };
 };
 
-export const getLoadItemOptionUrlParams = (state, { itemId }) => ({
-  businessId: getBusinessId(state),
-  itemId,
-});
-
 export const getInvoiceHistoryUrlParams = (state) => {
   const isCreating = getIsCreating(state);
 

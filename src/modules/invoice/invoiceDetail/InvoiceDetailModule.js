@@ -10,7 +10,6 @@ import {
 import {
   getAccountModalContext,
   getContactComboboxContext,
-  getContextForInventoryModal,
   getCustomerId,
   getInvoiceId,
   getIsBeforeConversionDate,
@@ -21,6 +20,7 @@ import {
   getIsPreConversion,
   getIsSubmitting,
   getIsTableEmpty,
+  getItemComboboxContext,
   getJobModalContext,
   getModalType,
   getNewLineIndex,
@@ -28,6 +28,7 @@ import {
   getShouldShowAbn,
   getShowOnlinePayment,
   getTaxCalculations,
+  getUniqueSelectedItemIds,
 } from './selectors/invoiceDetailSelectors';
 import {
   getCanSaveEmailSettings,
@@ -48,10 +49,10 @@ import AbnStatus from '../../../components/autoFormatter/AbnInput/AbnStatus';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
 import FeatureToggle from '../../../FeatureToggles';
-import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
 import InvoiceDetailElementId from './types/InvoiceDetailElementId';
 import InvoiceDetailModalType from './types/InvoiceDetailModalType';
 import InvoiceDetailView from './components/InvoiceDetailView';
+import ItemComboboxModule from '../../inventory/itemCombobox/ItemComboboxModule';
 import JobModalModule from '../../job/jobModal/JobModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import SaveActionType from './types/SaveActionType';
@@ -95,8 +96,12 @@ export default class InvoiceDetailModule {
     this.jobModalModule = new JobModalModule({
       integration,
     });
-    this.inventoryModalModule = new InventoryModalModule({ integration });
     this.contactComboboxModule = new ContactComboboxModule({ integration });
+    this.itemComboboxModule = new ItemComboboxModule({
+      integration,
+      onAlert: this.dispatcher.setAlert,
+    });
+
     this.navigateTo = navigateTo;
   }
 
@@ -173,6 +178,8 @@ export default class InvoiceDetailModule {
       this.dispatcher.loadInvoice(payload);
 
       this.updateContactCombobox();
+      this.updateItemCombobox();
+
       if (getShouldShowAbn(this.store.getState())) {
         this.loadAbnFromCustomer();
       }
@@ -843,7 +850,7 @@ export default class InvoiceDetailModule {
 
   resetState = () => {
     this.contactComboboxModule.resetState();
-    this.inventoryModalModule.resetState();
+    this.itemComboboxModule.resetState();
     this.accountModalModule.resetState();
     this.dispatcher.resetState();
   };
@@ -864,8 +871,8 @@ export default class InvoiceDetailModule {
       return;
     }
 
-    if (this.inventoryModalModule.isOpened()) {
-      this.inventoryModalModule.save();
+    if (this.itemComboboxModule.isCreateItemModalOpened()) {
+      this.itemComboboxModule.createItem();
       return;
     }
 
@@ -921,6 +928,7 @@ export default class InvoiceDetailModule {
     this.loadInvoice();
 
     this.loadContactCombobox();
+    this.loadItemCombobox();
 
     const showOnlinePayment = getShowOnlinePayment(this.store.getState());
     if (showOnlinePayment) {
@@ -934,47 +942,6 @@ export default class InvoiceDetailModule {
       this.loadInvoiceHistory();
     }
   }
-
-  loadItemOption = ({ itemId }, onChangeItemTableRow) => {
-    const onSuccess = (response) => {
-      this.dispatcher.loadItemOption(response);
-      this.dispatcher.setSubmittingState(false);
-      onChangeItemTableRow({ id: itemId });
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.setSubmittingState(false);
-      this.displayFailureAlert(message);
-    };
-
-    this.dispatcher.setSubmittingState(true);
-
-    this.integrator.loadItemOption({ onSuccess, onFailure, itemId });
-  };
-
-  saveItem = ({ message, itemId }, onChangeItemTableRow) => {
-    this.displaySuccessAlert(message);
-    this.loadItemOption({ itemId }, onChangeItemTableRow);
-    this.inventoryModalModule.resetState();
-  };
-
-  failLoadItem = ({ message }) => {
-    this.displayFailureAlert(message);
-    this.inventoryModalModule.resetState();
-  };
-
-  openInventoryModalModule = (onChangeItemTableRow) => {
-    const state = this.store.getState();
-    const context = getContextForInventoryModal(state);
-
-    this.inventoryModalModule.run({
-      context,
-      onSaveSuccess: (response) => {
-        this.saveItem(response, onChangeItemTableRow);
-      },
-      onLoadFailure: this.failLoadItem,
-    });
-  };
 
   loadInvoiceHistory = () => {
     this.dispatcher.setInvoiceHistoryLoading();
@@ -1014,22 +981,6 @@ export default class InvoiceDetailModule {
     };
 
     this.integrator.loadAccounts({ keywords, onSuccess, onFailure });
-  };
-
-  loadItems = ({ keywords, onSuccess }) => {
-    const onFailure = ({ message }) => {
-      this.dispatcher.setAlert({ type: 'danger', message });
-    };
-
-    this.integrator.loadItems({ keywords, onSuccess, onFailure });
-  };
-
-  loadCustomers = ({ keywords, onSuccess }) => {
-    const onFailure = ({ message }) => {
-      this.dispatcher.setAlert({ type: 'danger', message });
-    };
-
-    this.integrator.loadCustomers({ keywords, onSuccess, onFailure });
   };
 
   validateIssueDate = () => {
@@ -1081,16 +1032,34 @@ export default class InvoiceDetailModule {
       : null;
   };
 
+  loadItemCombobox = () => {
+    const state = this.store.getState();
+    const context = getItemComboboxContext(state);
+    this.itemComboboxModule.run(context);
+  };
+
+  updateItemCombobox = () => {
+    const state = this.store.getState();
+    const selectedItemIds = getUniqueSelectedItemIds(state);
+    if (selectedItemIds.length > 0) {
+      this.itemComboboxModule.load(selectedItemIds);
+    }
+  };
+
+  renderItemCombobox = (props) => {
+    return this.itemComboboxModule
+      ? this.itemComboboxModule.render(props)
+      : null;
+  };
+
   render = () => {
     const accountModal = this.accountModalModule.render();
     const jobModal = this.jobModalModule.render();
-    const inventoryModal = this.inventoryModalModule.render();
 
     const invoiceDetailView = (
       <InvoiceDetailView
         accountModal={accountModal}
         jobModal={jobModal}
-        inventoryModal={inventoryModal}
         onDismissAlert={this.dispatcher.dismissAlert}
         onChangeAmountToPay={this.dispatcher.updateInvoicePaymentAmount}
         serviceLayoutListeners={{
@@ -1107,11 +1076,9 @@ export default class InvoiceDetailModule {
           onRemoveRow: this.removeInvoiceLine,
           onUpdateRow: this.updateInvoiceLine,
           onUpdateAmount: this.calculateLinesOnAmountChange,
-          onAddItemButtonClick: this.openInventoryModalModule,
           onAddAccount: this.openAccountModal,
           onAddJob: this.openJobModal,
           onLoadAccounts: this.loadAccounts,
-          onLoadItems: this.loadItems,
         }}
         invoiceActionListeners={{
           onSaveButtonClick: this.handleSaveInvoice,
@@ -1167,10 +1134,10 @@ export default class InvoiceDetailModule {
           onConfirm: this.convertToPreConversionInvoice,
         }}
         renderContactCombobox={this.renderContactCombobox}
+        renderItemCombobox={this.renderItemCombobox}
         onInputAlert={this.dispatcher.setAlert}
         onUpdateHeaderOptions={this.updateHeaderOptions}
         onIssueDateBlur={this.validateIssueDate}
-        onLoadCustomers={this.loadCustomers}
         onUpdateInvoiceLayout={this.updateInvoiceLayout}
         onUpgradeModalDismiss={this.dispatcher.hideUpgradeModal}
         onUpgradeModalUpgradeButtonClick={this.subscribeOrUpgrade}

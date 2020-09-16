@@ -144,18 +144,6 @@
       "name": "Due in a number of days after the end of the month"
     }
   ],
-  "itemOptions": [
-    {
-      "id": "3",
-      "itemId": "100",
-      "description": "Cooler Large"
-    },
-    {
-      "id": "4",
-      "itemId": "101",
-      "description": "Cooler Medium"
-    }
-  ],
   "taxCodeOptions": [
     {
       "id": "2",

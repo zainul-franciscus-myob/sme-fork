@@ -4,7 +4,6 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CUSTOMER,
   LOAD_INVOICE_DETAIL,
-  LOAD_ITEM_OPTION,
   LOAD_JOB_AFTER_CREATE,
   RELOAD_INVOICE_DETAIL,
   REMOVE_INVOICE_LINE,
@@ -17,44 +16,6 @@ import InvoiceLineType from '../../types/InvoiceLineType';
 import invoiceDetailReducer from '../invoiceDetailReducer';
 
 describe('InvoiceDetailReducer', () => {
-  describe('LOAD_ITEM_OPTION', () => {
-    it('puts the item option at the top of item options', () => {
-      const state = {
-        itemOptions: [
-          {
-            id: '1',
-            itemId: 'a',
-            description: 'A',
-          },
-        ],
-      };
-
-      const action = {
-        intent: LOAD_ITEM_OPTION,
-        response: {
-          id: '2',
-          itemId: 'b',
-          description: 'B',
-        },
-      };
-
-      const actual = invoiceDetailReducer(state, action);
-
-      expect(actual.itemOptions).toEqual([
-        {
-          id: '2',
-          itemId: 'b',
-          description: 'B',
-        },
-        {
-          id: '1',
-          itemId: 'a',
-          description: 'A',
-        },
-      ]);
-    });
-  });
-
   describe('UPDATE_INVOICE_LAYOUT', () => {
     it('updates invoice layout to given layout', () => {
       const state = {

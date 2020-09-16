@@ -10,6 +10,7 @@ import ContactType from '../../../contact/contactCombobox/types/ContactType';
 import DisplayMode from '../../../contact/contactCombobox/types/DisplayMode';
 import InvoiceLayout from '../types/InvoiceLayout';
 import InvoiceLineType from '../types/InvoiceLineType';
+import ItemTypes from '../../../inventory/itemCombobox/ItemTypes';
 import Region from '../../../../common/types/Region';
 import buildAbnLink from '../../../../common/links/buildAbnLink';
 import calculateLineTotals from '../../../../common/taxCalculator/calculateLineTotals';
@@ -56,7 +57,6 @@ export const getNewLine = (state) => state.newLine;
 
 export const getExpirationTermOptions = (state) => state.expirationTermOptions;
 export const getTaxCodeOptions = (state) => state.taxCodeOptions;
-export const getItemOptions = (state) => state.itemOptions;
 export const getAccountOptions = (state) => state.accountOptions;
 export const getJobOptions = (state) => state.jobOptions;
 export const getSerialNumber = (state) => state.serialNumber;
@@ -369,25 +369,6 @@ export const getJobModalContext = (state) => {
   return { businessId, region };
 };
 
-export const getCustomerModalContext = (state) => {
-  const businessId = getBusinessId(state);
-  const region = getRegion(state);
-
-  return { businessId, region, contactType: 'Customer' };
-};
-
-export const getContextForInventoryModal = (state) => {
-  const businessId = getBusinessId(state);
-  const region = getRegion(state);
-
-  return {
-    businessId,
-    region,
-    isBuying: false,
-    isSelling: true,
-  };
-};
-
 export const getTaxCalculations = (state, isSwitchingTaxInclusive) => {
   const isTaxInclusive = getIsTaxInclusive(state);
   const isLineAmountsTaxInclusive = isSwitchingTaxInclusive
@@ -472,4 +453,32 @@ export const getContactComboboxContext = (state) => {
     contactType: ContactType.CUSTOMER,
     displayMode: DisplayMode.NAME_ONLY,
   };
+};
+
+export const getItemComboboxContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return {
+    businessId,
+    region,
+    itemType: ItemTypes.Sold,
+  };
+};
+
+export const getUniqueSelectedItemIds = (state) => {
+  const layout = getLayout(state);
+  const lines = getLines(state);
+
+  if (layout === InvoiceLayout.ITEM_AND_SERVICE && lines.length > 0) {
+    const selectedItemIds = lines.reduce((itemIds, line) => {
+      if (line.itemId) {
+        itemIds.push(line.itemId);
+      }
+      return itemIds;
+    }, []);
+    return [...new Set([...selectedItemIds])];
+  }
+
+  return [];
 };

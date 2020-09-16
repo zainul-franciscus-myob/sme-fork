@@ -36,7 +36,6 @@ const InvoiceDetailView = ({
   accountModal,
   jobModal,
   layout,
-  inventoryModal,
   loadingState,
   isCreating,
   alert,
@@ -61,6 +60,7 @@ const InvoiceDetailView = ({
   redirectToUrlListeners,
   exportPdfModalListeners,
   renderContactCombobox,
+  renderItemCombobox,
   onInputAlert,
   onDismissPreConversionAlert,
   onUpdateHeaderOptions,
@@ -73,7 +73,6 @@ const InvoiceDetailView = ({
   onClickOnRefNo,
   onFocusActivityHistory,
   onRedirectToCreatePayment,
-  onLoadCustomers,
 }) => {
   const options = (
     <InvoiceDetailOptions
@@ -81,7 +80,6 @@ const InvoiceDetailView = ({
       onInputAlert={onInputAlert}
       onUpdateHeaderOptions={onUpdateHeaderOptions}
       onIssueDateBlur={onIssueDateBlur}
-      onLoadCustomers={onLoadCustomers}
       onDismissPreConversionAlert={onDismissPreConversionAlert}
     />
   );
@@ -134,7 +132,11 @@ const InvoiceDetailView = ({
   );
 
   const itemAndServiceTable = (
-    <InvoiceItemTable listeners={itemLayoutListeners} footer={notesAndTotals} />
+    <InvoiceItemTable
+      listeners={itemLayoutListeners}
+      footer={notesAndTotals}
+      renderItemCombobox={renderItemCombobox}
+    />
   );
 
   const table = {
@@ -166,7 +168,6 @@ const InvoiceDetailView = ({
         {accountModal}
         {jobModal}
         {upgradeModal}
-        {inventoryModal}
         {modal}
         <div className={classNames(isReadOnly && styles.disabledTable)}>
           {table}

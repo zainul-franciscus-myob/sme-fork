@@ -69,7 +69,6 @@ const getDefaultState = () => ({
   accountOptions: [],
   jobOptions: [],
   taxCodeOptions: [],
-  itemOptions: [],
   expirationTermOptions: [],
   emailInvoice: {
     hasEmailReplyDetails: false,

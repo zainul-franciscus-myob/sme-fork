@@ -12,7 +12,6 @@ import {
   LOAD_CUSTOMER,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
-  LOAD_ITEM_OPTION,
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_JOB_AFTER_CREATE,
   LOAD_PAY_DIRECT,
@@ -187,7 +186,6 @@ const loadInvoiceDetail = (state, action) => {
     serialNumber: action.serialNumber,
     expirationTermOptions:
       action.expirationTermOptions || state.expirationTermOptions,
-    itemOptions: action.itemOptions || state.itemOptions,
     taxCodeOptions: action.taxCodeOptions || state.taxCodeOptions,
     emailInvoice: {
       ...state.emailInvoice,
@@ -303,11 +301,6 @@ const setInvoiceDetailHeaderOptions = (state, { key, value }) =>
 
 const updatePaymentAmount = (state, { amountPaid }) =>
   updateInvoiceState(state, { amountPaid });
-
-const loadItemOption = (state, action) => ({
-  ...state,
-  itemOptions: [action.response, ...state.itemOptions],
-});
 
 const updateInvoiceLayout = (state, action) => ({
   ...state,
@@ -509,7 +502,6 @@ const handlers = {
 
   [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
 
-  [LOAD_ITEM_OPTION]: loadItemOption,
   [UPDATE_INVOICE_ID_AFTER_CREATE]: updateInvoiceIdAfterCreate,
   [SET_DUPLICATE_ID]: setDuplicateId,
   [UPDATE_INVOICE_DETAIL_HEADER_OPTIONS]: setInvoiceDetailHeaderOptions,

@@ -8,12 +8,9 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ACCOUNT_OPTIONS,
   LOAD_CUSTOMER,
-  LOAD_CUSTOMER_OPTIONS,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
   LOAD_INVOICE_LIST,
-  LOAD_ITEM_OPTION,
-  LOAD_ITEM_OPTIONS,
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_DUPLICATE_INVOICE_DETAIL,
@@ -108,11 +105,6 @@ const HttpInvoiceMapping = {
     getPath: ({ businessId, invoiceId }) =>
       `/${businessId}/invoice/export_invoice_pdf/${invoiceId}`,
   },
-  [LOAD_ITEM_OPTION]: {
-    method: 'GET',
-    getPath: ({ businessId, itemId }) =>
-      `/${businessId}/invoice/load_item_option/${itemId}`,
-  },
   [LOAD_ACCOUNT_AFTER_CREATE]: {
     method: 'GET',
     getPath: ({ businessId, accountId }) =>
@@ -126,14 +118,6 @@ const HttpInvoiceMapping = {
   [LOAD_ACCOUNT_OPTIONS]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/invoice/load_account_options`,
-  },
-  [LOAD_ITEM_OPTIONS]: {
-    method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/invoice/load_item_options`,
-  },
-  [LOAD_CUSTOMER_OPTIONS]: {
-    method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/invoice/load_customer_options`,
   },
   [LOAD_ITEM_SELLING_DETAILS]: {
     method: 'GET',

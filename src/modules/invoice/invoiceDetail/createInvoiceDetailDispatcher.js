@@ -9,7 +9,6 @@ import {
   LOAD_CUSTOMER,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
-  LOAD_ITEM_OPTION,
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_JOB_AFTER_CREATE,
   LOAD_PAY_DIRECT,
@@ -236,13 +235,6 @@ const createInvoiceDetailDispatcher = (store) => ({
       key,
       value,
     }),
-
-  loadItemOption: (response) => {
-    store.dispatch({
-      intent: LOAD_ITEM_OPTION,
-      response,
-    });
-  },
 
   updateInvoiceLayout: (layout) => {
     store.dispatch({

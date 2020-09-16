@@ -8,10 +8,7 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ACCOUNT_OPTIONS,
   LOAD_CUSTOMER,
-  LOAD_CUSTOMER_OPTIONS,
   LOAD_INVOICE_HISTORY,
-  LOAD_ITEM_OPTION,
-  LOAD_ITEM_OPTIONS,
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_JOB_AFTER_CREATE,
   LOAD_PAY_DIRECT,
@@ -40,7 +37,6 @@ import {
   getLoadCustomerUrlParams,
   getLoadInvoiceIntent,
   getLoadInvoiceUrlParams,
-  getLoadItemOptionUrlParams,
   getLoadPayDirectUrlParams,
 } from './selectors/integratorSelectors';
 import {
@@ -266,19 +262,6 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
     });
   },
 
-  loadItemOption: ({ onSuccess, onFailure, itemId }) => {
-    const state = store.getState();
-    const intent = LOAD_ITEM_OPTION;
-    const urlParams = getLoadItemOptionUrlParams(state, { itemId });
-
-    integration.read({
-      intent,
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
-  },
-
   loadInvoiceHistory: ({ onSuccess, onFailure }) => {
     const state = store.getState();
 
@@ -296,40 +279,6 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
   loadAccounts: ({ onSuccess, onFailure, keywords }) => {
     const state = store.getState();
     const intent = LOAD_ACCOUNT_OPTIONS;
-
-    integration.read({
-      intent,
-      params: {
-        keywords,
-      },
-      urlParams: {
-        businessId: getBusinessId(state),
-      },
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  loadItems: ({ onSuccess, onFailure, keywords }) => {
-    const state = store.getState();
-    const intent = LOAD_ITEM_OPTIONS;
-
-    integration.read({
-      intent,
-      params: {
-        keywords,
-      },
-      urlParams: {
-        businessId: getBusinessId(state),
-      },
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  loadCustomers: ({ onSuccess, onFailure, keywords }) => {
-    const state = store.getState();
-    const intent = LOAD_CUSTOMER_OPTIONS;
 
     integration.read({
       intent,

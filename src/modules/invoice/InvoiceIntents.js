@@ -36,10 +36,7 @@ export const CREATE_INVOICE_DETAIL = Symbol('Create a new invoice');
 export const UPDATE_INVOICE_DETAIL = Symbol('Update a new invoice');
 export const DELETE_INVOICE_DETAIL = Symbol('Delete invoice detail');
 export const LOAD_CUSTOMER = Symbol('Load customer');
-export const SET_CUSTOMER_LOADING_STATE = Symbol('Set customer loading state');
-export const LOAD_CONTACT_AFTER_CREATE = Symbol('Load contact after create');
 export const LOAD_JOB_AFTER_CREATE = Symbol('Load job after create');
-export const SET_CONTACT_LOADING_STATE = Symbol('Set contact loading state');
 export const LOAD_PAY_DIRECT = Symbol('Load pay direct');
 export const SET_PAY_DIRECT_LOADING_STATE = Symbol(
   'Set pay direct loading state'
@@ -86,8 +83,6 @@ export const REMOVE_EMAIL_ATTACHMENT = Symbol('Remove email attachment');
 export const EXPORT_INVOICE_PDF = Symbol('Export invoice pdf');
 export const UPDATE_EXPORT_PDF_DETAIL = Symbol('Update pdf detail');
 
-export const LOAD_ITEM_OPTION = Symbol('Load item option');
-
 export const SET_UPGRADE_MODAL_SHOWING = Symbol('Set upgrade modal showing');
 
 export const SET_INVOICE_HISTORY_LOADING = Symbol(
@@ -102,7 +97,6 @@ export const LOAD_INVOICE_HISTORY = Symbol('Load invoice history');
 export const SET_REDIRECT_STATE = Symbol('Set redirect url');
 
 export const LOAD_ACCOUNT_OPTIONS = Symbol('Load account options');
-export const LOAD_ITEM_OPTIONS = Symbol('Load item options');
 export const LOAD_CUSTOMER_OPTIONS = Symbol('Load customer options');
 
 export const LOAD_ITEM_SELLING_DETAILS = Symbol('Load item selling details');
