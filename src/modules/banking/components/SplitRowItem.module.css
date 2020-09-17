@@ -4,7 +4,13 @@
 
 .splitInfo {
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: 1fr auto;
   grid-gap: var(--flx-spacing-x-tiny);
   padding: var(--flx-spacing-tiny) var(--flx-spacing-clear) var(--flx-spacing-tiny) var(--flx-spacing-x-small);
 }
+
+.ruleAppliedHidden {
+  grid-template-columns: auto;
+  padding-left: var(--flx-spacing-x-small);
+}
+

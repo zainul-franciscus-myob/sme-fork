@@ -217,6 +217,7 @@
       "taxCode": "",
       "note": "",
       "isReportable": false,
+      "hasQuantity": false,
       "allocateOrMatch": "Allocate me",
       "type": "unmatched"
     },
@@ -230,6 +231,7 @@
       "taxCode": "",
       "note": "",
       "isReportable": false,
+      "hasQuantity": false,
       "allocateOrMatch": "Allocate me",
       "type": "unmatched"
     },
@@ -250,6 +252,7 @@
       "taxCode": "GST",
       "note": "",
       "isReportable": true,
+      "hasQuantity": true,
       "selectedAccountId": "128",
       "type": "singleAllocation"
     },
@@ -270,6 +273,7 @@
       "taxCode": "GST",
       "note": "",
       "isReportable": true,
+      "hasQuantity": true,
       "selectedAccountId": "128",
       "type": "singleAllocation"
     },
@@ -283,6 +287,7 @@
       "taxCode": "",
       "note": "",
       "isReportable": false,
+      "hasQuantity": false,
       "allocateOrMatch": "1 match available",
       "type": "matched"
     },
@@ -295,6 +300,7 @@
       "journals": [],
       "taxCode": "",
       "isReportable": false,
+      "hasQuantity": false,
       "allocateOrMatch": "Possible invoice match found",
       "type": "paymentRuleMatched",
       "appliedRule": {
@@ -314,6 +320,7 @@
       "taxCode": "",
       "note": "",
       "isReportable": false,
+      "hasQuantity": false,
       "allocateOrMatch": "2 matches available",
       "type": "matched"
     },
@@ -327,6 +334,7 @@
       "taxCode": "",
       "note": "",
       "isReportable": false,
+      "hasQuantity": false,
       "allocateOrMatch": "Possible invoice match found",
       "type": "paymentRuleMatched"
     },
@@ -340,6 +348,7 @@
       "taxCode": "",
       "note": "",
       "isReportable": false,
+      "hasQuantity": false,
       "allocateOrMatch": "Possible bill match found",
       "type": "paymentRuleMatched"
     },
@@ -359,7 +368,8 @@
       ],
       "taxCode": "FRE",
       "note": "Lofty and wendy",
-      "isReportable": true,
+      "isReportable": false,
+      "hasQuantity": false,
       "type": "transfer"
     },
     {
@@ -378,7 +388,8 @@
       ],
       "taxCode": "FRE",
       "note": "",
-      "isReportable": false,
+      "isReportable": true,
+      "hasQuantity": true,
       "type": "splitAllocation"
     },
     {
@@ -402,7 +413,8 @@
       ],
       "taxCode": "FRE",
       "note": "",
-      "isReportable": false,
+      "isReportable": true,
+      "hasQuantity": false,
       "type": "splitAllocation"
     },
     {
@@ -427,6 +439,7 @@
       "taxCode": "",
       "note": "",
       "isReportable": false,
+      "hasQuantity": false,
       "type": "splitMatched"
     },
     {
@@ -472,6 +485,7 @@
       "taxCode": "GST",
       "note": "",
       "isReportable": true,
+      "hasQuantity": false,
       "selectedAccountId": "128",
       "type": "singleAllocation",
       "isRuleApplied": true

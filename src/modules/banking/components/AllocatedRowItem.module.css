@@ -1,8 +1,6 @@
 .allocated {
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  grid-gap: var(--flx-spacing-x-tiny);
+  display: flex;
 }
 
 .focusedAllocating {
@@ -23,13 +21,6 @@
   display: none;
 }
 
-.reportable {
-  display: flex;
-  padding-top: var(--flx-spacing-tiny);
-  padding-bottom: var(--flx-spacing-tiny);
-  padding-right: var(--flx-spacing-x-tiny);
-}
-
 .allocationInfo {
   position: relative;
   display: grid;
@@ -37,7 +28,7 @@
   grid-gap: var(--flx-spacing-x-tiny);
 }
 
-.reportableHidden {
+.ruleHidden {
   grid-template-columns: auto;
   padding-left: var(--flx-spacing-x-small);
 }
@@ -56,9 +47,9 @@
 }
 
 .allocatedWand {
+  display: flex;
+  padding: var(--flx-spacing-x-tiny);
   padding-left: var(--flx-spacing-x-small);
-  padding-top: var(--flx-spacing-tiny);
-  padding-bottom: var(--flx-spacing-tiny);
 }
 
 @media (min-width: 1024px) {

@@ -1,24 +1,12 @@
-import { Label, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
 import classNames from 'classnames';
 
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import AllocatedButton from './AllocatedButton';
 import AutoAllocated from './AutoAllocated';
+import QuantityLabel from './QuantityLabel';
+import ReportableLabel from './ReportableLabel';
 import styles from './AllocatedRowItem.module.css';
-
-const ReportableLabel = () => (
-  <Tooltip
-    className={styles.reportable}
-    triggerContent={
-      <Label type="boxed" color="blue" size="small">
-        R
-      </Label>
-    }
-  >
-    Reportable payment
-  </Tooltip>
-);
 
 const AllocatedRowItem = ({
   entry,
@@ -29,7 +17,13 @@ const AllocatedRowItem = ({
   onBlur,
   onAllocate,
 }) => {
-  const { allocateOrMatch, accountList, isReportable, isRuleApplied } = entry;
+  const {
+    allocateOrMatch,
+    accountList,
+    isReportable,
+    hasQuantity,
+    isRuleApplied,
+  } = entry;
 
   const comboboxStyling = classNames(styles.allocating, {
     [styles.hovering]: isHovering && !isFocused,
@@ -56,16 +50,15 @@ const AllocatedRowItem = ({
     <div className={styles.focusedAllocating}>
       {isRuleApplied && <AutoAllocated className={styles.allocatedWand} />}
       {combobox}
+      {hasQuantity && <QuantityLabel />}
       {isReportable && <ReportableLabel />}
     </div>
   );
 
-  const reportableHiddenStyling = isRuleApplied ? '' : styles.reportableHidden;
+  const ruleHiddenStyling = isRuleApplied ? '' : styles.ruleHidden;
   const defaultView = (
     <div className={styles.allocated}>
-      <div
-        className={classNames(styles.allocationInfo, reportableHiddenStyling)}
-      >
+      <div className={classNames(styles.allocationInfo, ruleHiddenStyling)}>
         {isRuleApplied && <AutoAllocated className={styles.allocatedWand} />}
         <AllocatedButton
           onClick={onFocusTransactionLine}
@@ -74,6 +67,7 @@ const AllocatedRowItem = ({
           {allocateOrMatch}
         </AllocatedButton>
       </div>
+      {hasQuantity && <QuantityLabel />}
       {isReportable && <ReportableLabel />}
     </div>
   );
