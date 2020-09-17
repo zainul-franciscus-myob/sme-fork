@@ -4,16 +4,15 @@
 .container {
   flex: 1 1 0;
   position: relative;
+  overflow: hidden;
 }
 
 .previewContainer {
   width: 100%;
-  position: absolute;
   background-color: var(--flx-background-color-card);
   box-shadow: var(--flx-shadow-card);
   padding: containerPadding;
   border-radius: var(--flx-border-radius-card);
-  overflow: hidden;
   margin-bottom: var(--flx-spacing-small);
 }
 

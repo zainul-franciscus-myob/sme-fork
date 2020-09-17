@@ -2,6 +2,7 @@
   flex: 0 0 auto;
   padding: 0;
   overflow: hidden;
+  height: 100%;
 }
 
 @media only screen and (min-width: 784px) {
@@ -10,4 +11,3 @@
     margin-right: var(--flx-spacing-small);
   }
 }
-
