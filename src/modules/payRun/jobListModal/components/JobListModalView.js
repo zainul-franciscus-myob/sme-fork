@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getIsOverAllocated,
   getJobAmount,
   getJobListModalLoadingState,
 } from '../../payRunCreate/employeePayList/EmployeePayListSelectors';
@@ -18,9 +19,10 @@ const JobListModalView = ({
   onAddJobAmountBlur,
   onAllJobsCheckboxChange,
   amount,
+  isOverAllocated,
   loadingState,
 }) => {
-  const alertComponent = amount.unallocated < 0 && (
+  const alertComponent = isOverAllocated && (
     <Alert type="danger">
       {
         'Unable to add jobs because the total allocated is more than the pay item amount.'
@@ -64,8 +66,7 @@ const JobListModalView = ({
           type="primary"
           onClick={onSave}
           disabled={
-            loadingState !== LoadingState.LOADING_SUCCESS ||
-            amount.unallocated < 0
+            loadingState !== LoadingState.LOADING_SUCCESS || isOverAllocated
           }
         >
           Add
@@ -79,6 +80,7 @@ const JobListModalView = ({
 
 const mapStateToProps = (state) => ({
   amount: getJobAmount(state),
+  isOverAllocated: getIsOverAllocated(state),
   loadingState: getJobListModalLoadingState(state),
 });
 

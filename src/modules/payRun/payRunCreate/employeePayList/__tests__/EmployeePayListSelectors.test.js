@@ -1102,147 +1102,181 @@ describe('EmployeePayListSelectors', () => {
   });
 
   describe('getShouldShowUnderAllocationWarning', () => {
-    it('should return true when NOT all of that payitem is allocated to selected jobs', () => {
-      const underAllocatedPayItemEntry = {
-        payItemId: '38',
-        amount: 30.9999999,
-        jobs: [
-          {
-            jobId: 1,
-            amount: '10.00',
-            isActive: true,
-          },
-          {
-            jobId: 2,
-            amount: '20.00',
-            isActive: false,
-          },
-        ],
-      };
-      const shouldShowWarning = getShouldShowUnderAllocationWarning(
-        underAllocatedPayItemEntry
-      );
-      expect(shouldShowWarning).toBeTruthy();
+    describe('should return true', () => {
+      [
+        {
+          amount: 30.9999999,
+          jobs: [{ amount: '10.00' }, { amount: '20.00' }],
+          ignoreUnderAllocationWarning: false,
+        },
+        {
+          amount: -100.0,
+          jobs: [{ amount: '-50.00' }, { amount: '-10.00' }],
+          ignoreUnderAllocationWarning: false,
+        },
+        {
+          amount: 100.0,
+          jobs: [{ amount: '-50.00' }, { amount: '50.00' }],
+          ignoreUnderAllocationWarning: false,
+        },
+      ].forEach(({ amount, jobs, ignoreUnderAllocationWarning }) => {
+        it(`for total amount: ${amount} jobs: ${JSON.stringify(
+          jobs
+        )} ignoreUnderAllocationWarning: ${ignoreUnderAllocationWarning}`, () => {
+          const state = {
+            amount,
+            jobs,
+          };
+          const shouldShowError = getShouldShowUnderAllocationWarning(state);
+
+          expect(shouldShowError).toBeTruthy();
+        });
+      });
     });
 
-    it('should return false when all of that payitem is allocated to selected jobs', () => {
-      const fullyAllocatedPayItemEntry = {
-        payItemId: '38',
-        amount: 100.011111,
-        jobs: [
-          {
-            jobId: 1,
-            amount: '50.00',
-            isActive: true,
-          },
-          {
-            jobId: 2,
-            amount: '50.00',
-            isActive: false,
-          },
-        ],
-      };
-      const shouldShowWarning = getShouldShowUnderAllocationWarning(
-        fullyAllocatedPayItemEntry
-      );
-      expect(shouldShowWarning).toBeFalsy();
-    });
+    describe('should return false', () => {
+      [
+        {
+          amount: 100.001111,
+          jobs: [{ amount: '50.00' }, { amount: '50.00' }],
+          ignoreUnderAllocationWarning: false,
+        },
+        {
+          amount: 100.0,
+          jobs: [{ amount: '50.00' }, { amount: '50.00' }],
+          ignoreUnderAllocationWarning: true,
+        },
+        {
+          amount: -100.0,
+          jobs: [{ amount: '-50.00' }, { amount: '-50.00' }],
+          ignoreUnderAllocationWarning: false,
+        },
+        {
+          amount: 100.0,
+          jobs: [],
+          ignoreUnderAllocationWarning: false,
+        },
+        {
+          amount: 100.0,
+          jobs: [{ amount: '-40.00' }, { amount: '-50.00' }],
+          ignoreUnderAllocationWarning: false,
+        },
+        {
+          amount: -100.0,
+          jobs: [{ amount: '40.00' }, { amount: '50.00' }],
+          ignoreUnderAllocationWarning: false,
+        },
+        {
+          amount: 0.0,
+          jobs: [{ amount: '-0.02' }, { amount: '0.01' }],
+          ignoreUnderAllocationWarning: false,
+        },
+        {
+          amount: 0.0,
+          jobs: [{ amount: '0.02' }, { amount: '-0.01' }],
+          ignoreUnderAllocationWarning: false,
+        },
+        {
+          amount: -10.0,
+          jobs: [{ amount: '0.02' }, { amount: '-0.02' }],
+          ignoreUnderAllocationWarning: false,
+        },
+      ].forEach(({ amount, jobs, ignoreUnderAllocationWarning }) => {
+        it(`for total amount: ${amount} jobs: ${JSON.stringify(jobs)}`, () => {
+          const state = {
+            amount,
+            jobs,
+            ignoreUnderAllocationWarning,
+          };
+          const shouldShowError = getShouldShowUnderAllocationWarning(state);
 
-    it('should return false when ignoreUnderAllocationWarning is true', () => {
-      const underAllocatedPayItemEntry = {
-        payItemId: '38',
-        amount: 100.0,
-        jobs: [
-          {
-            jobId: 1,
-            amount: '50.00',
-            isActive: true,
-          },
-          {
-            jobId: 2,
-            amount: '10.00',
-            isActive: false,
-          },
-        ],
-        ignoreUnderAllocationWarning: true,
-      };
-      const shouldShowWarning = getShouldShowUnderAllocationWarning(
-        underAllocatedPayItemEntry
-      );
-      expect(shouldShowWarning).toBeFalsy();
-    });
-
-    it('should return false when when there are no jobs allocated', () => {
-      const underAllocatedPayItemEntry = {
-        payItemId: '38',
-        amount: 100.0,
-        jobs: [],
-        ignoreUnderAllocationWarning: false,
-      };
-      const shouldShowWarning = getShouldShowUnderAllocationWarning(
-        underAllocatedPayItemEntry
-      );
-      expect(shouldShowWarning).toBeFalsy();
+          expect(shouldShowError).toBeFalsy();
+        });
+      });
     });
   });
 
   describe('getShouldShowOverAllocationError', () => {
-    it('should return true when the amount allocated to selected jobs is MORE than actual payitem amount', () => {
-      const overAllocatedPayItemEntry = {
-        payItemId: '38',
-        amount: 519.0999999999,
-        jobs: [
-          {
-            jobId: 1,
-            amount: '500.00',
-            isActive: true,
-          },
-          {
-            jobId: 2,
-            amount: '20.00',
-            isActive: false,
-          },
-        ],
-      };
-      const shouldShowError = getShouldShowOverAllocationError(
-        overAllocatedPayItemEntry
-      );
-      expect(shouldShowError).toBeTruthy();
+    describe('should return true', () => {
+      [
+        {
+          amount: 519.0999999999,
+          jobs: [{ amount: '500.00' }, { amount: '20.00' }],
+        },
+        {
+          amount: -300.0,
+          jobs: [{ amount: '-500.00' }, { amount: '199.00' }],
+        },
+        {
+          amount: -300.0,
+          jobs: [{ amount: '50.00' }, { amount: '50.00' }],
+        },
+        {
+          amount: -1.0,
+          jobs: [{ amount: '0.01' }, { amount: '0.01' }],
+        },
+        {
+          amount: 0.0,
+          jobs: [{ amount: '0.02' }, { amount: '-0.01' }],
+        },
+        {
+          amount: 0.0,
+          jobs: [{ amount: '-0.02' }, { amount: '0.01' }],
+        },
+        {
+          amount: -0.01,
+          jobs: [{ amount: '-0.02' }, { amount: '0.02' }],
+        },
+      ].forEach(({ amount, jobs }) => {
+        it(`for total amount: ${amount} jobs: ${JSON.stringify(jobs)}`, () => {
+          const state = {
+            amount,
+            jobs,
+          };
+          const shouldShowError = getShouldShowOverAllocationError(state);
+
+          expect(shouldShowError).toBeTruthy();
+        });
+      });
     });
 
-    it('should return false when the amount allocated to selected jobs is less than or equal to actual payitem amount', () => {
-      const fullyAllocatedPayItemEntry = {
-        payItemId: '38',
-        amount: 99.999999999,
-        jobs: [
-          {
-            jobId: 1,
-            amount: '110.00',
-            isActive: true,
-          },
-          {
-            jobId: 2,
-            amount: '-10.00',
-            isActive: false,
-          },
-        ],
-      };
-      const shouldShowError = getShouldShowOverAllocationError(
-        fullyAllocatedPayItemEntry
-      );
-      expect(shouldShowError).toBeFalsy();
-    });
+    describe('should return false', () => {
+      [
+        {
+          amount: 99.999999999,
+          jobs: [{ amount: '110.00' }, { amount: '-10.00' }],
+        },
+        {
+          amount: -0.01,
+          jobs: [],
+        },
+        {
+          amount: -300.0,
+          jobs: [{ amount: '-350.00' }, { amount: '50.00' }],
+        },
+        {
+          amount: 0.01,
+          jobs: [{ amount: '-0.02' }, { amount: '0.02' }],
+        },
+        {
+          amount: -0.01,
+          jobs: [{ amount: '-0.02' }, { amount: '0.01' }],
+        },
+        {
+          amount: -300.0,
+          jobs: [],
+        },
+      ].forEach(({ amount, jobs }) => {
+        it(`for total amount: ${amount} jobs: ${JSON.stringify(jobs)}`, () => {
+          const state = {
+            amount,
+            jobs,
+          };
+          const shouldShowError = getShouldShowOverAllocationError(state);
 
-    it('should return false when there is no amount allocated and the amount is negative', () => {
-      const fullyAllocatedPayItemEntry = {
-        payItemId: '38',
-        amount: -0.01,
-        jobs: [],
-      };
-      const shouldShowError = getShouldShowOverAllocationError(
-        fullyAllocatedPayItemEntry
-      );
-      expect(shouldShowError).toBeFalsy();
+          expect(shouldShowError).toBeFalsy();
+        });
+      });
     });
   });
 
