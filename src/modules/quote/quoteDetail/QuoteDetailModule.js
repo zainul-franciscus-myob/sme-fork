@@ -312,7 +312,7 @@ export default class QuoteDetailModule {
       this.dispatcher.setQuoteLineDirty(true);
     } else if (taxKeys.includes(key)) {
       this.calculateQuoteTaxCodeChange();
-    } else if (key === 'itemId') {
+    } else if (key === 'itemId' && value) {
       this.calculateQuoteItemChange(index, value);
     }
   };

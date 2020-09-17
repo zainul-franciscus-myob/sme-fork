@@ -492,7 +492,7 @@ export default class InvoiceDetailModule {
       this.dispatcher.setInvoiceItemLineDirty(true);
     }
 
-    if (key === 'itemId') {
+    if (key === 'itemId' && value) {
       this.calculateLinesOnItemChange({
         index,
         itemId: value,
