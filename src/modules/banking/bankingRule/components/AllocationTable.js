@@ -75,7 +75,7 @@ const AllocationTable = ({
       headerItems={headerItems}
       className={styles.allocationTable}
     >
-      <LineItemTable.Total>
+      <LineItemTable.Total className={styles.totals}>
         {showRemainingPercentage && (
           <LineItemTable.Totals
             title="Remaining"

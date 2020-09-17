@@ -2,6 +2,15 @@
   color: var(--flx-color-alert-error-link);
 }
 
+.allocationTable {
+  margin-bottom: 0;
+}
+
+/* height so the account combobox never gets cut off */
+.totals {
+  height: 10rem;
+}
+
 /* @FEELIX */
 /* need to force override the width due to
 conflicting line item table with the same
