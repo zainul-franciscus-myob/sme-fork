@@ -168,6 +168,9 @@ const buildJobAllocationAmount = (payItem) => {
   };
 };
 
+const roundToTwoDecimal = (number) =>
+  Math.round((number + Number.EPSILON) * 100) / 100;
+
 const getJobAllocationForValidation = (payItem) => {
   const hasJobAllocation = payItem.jobs && payItem.jobs.length > 0;
   const total = Number(payItem.amount);
@@ -176,8 +179,8 @@ const getJobAllocationForValidation = (payItem) => {
     : 0;
 
   return {
-    total: Number(formatAmount(total)),
-    allocated: Number(formatAmount(allocated)),
+    total: roundToTwoDecimal(total),
+    allocated: roundToTwoDecimal(allocated),
   };
 };
 

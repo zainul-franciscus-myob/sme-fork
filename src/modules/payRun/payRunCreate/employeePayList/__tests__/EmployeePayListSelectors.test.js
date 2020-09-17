@@ -1251,8 +1251,8 @@ describe('EmployeePayListSelectors', () => {
           jobs: [],
         },
         {
-          amount: -300.0,
-          jobs: [{ amount: '-350.00' }, { amount: '50.00' }],
+          amount: -1300.0,
+          jobs: [{ amount: '-1350.00' }, { amount: '50.00' }],
         },
         {
           amount: 0.01,
