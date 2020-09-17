@@ -107,6 +107,7 @@ describe('JobKeeperReducer', () => {
         const result = createReducer(state, action);
 
         expect(result.employees[0].firstFortnight).toBe('14');
+        expect(result.employees[0].tier).toBe('01');
       });
 
       it('return correct endfortnight (14) for JK2 when select firstFortnight for JK2 result in a gap', () => {
@@ -119,6 +120,7 @@ describe('JobKeeperReducer', () => {
         const result = createReducer(state, action);
 
         expect(result.employees[0].finalFortnight).toBe('14');
+        expect(result.employees[0].firstFortnight).toBe('16');
       });
     });
     describe('when feature toggle is off', () => {
@@ -143,7 +145,20 @@ describe('JobKeeperReducer', () => {
         result = createReducer(state, action);
 
         expect(result.employees[0].finalFortnight).toBe(null);
+        expect(result.employees[0].firstFortnight).toBe('16');
       });
+    });
+
+    it('return correct finalFortnight for JK2 when update ', () => {
+      const action = {
+        intent: UPDATE_EMPLOYEE_ROW,
+        key: 'finalFortnight',
+        value: '15',
+        rowId: 0,
+      };
+      const result = createReducer(state, action);
+
+      expect(result.employees[0].finalFortnight).toBe('15');
     });
   });
 

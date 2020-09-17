@@ -115,6 +115,13 @@ describe('JobKeeperSelector', () => {
           finalFortnight: '20',
           isDirty: false,
         },
+        {
+          lastName: 'Undefined',
+          payId: 4,
+          firstFortnight: undefined,
+          finalFortnight: undefined,
+          isDirty: false,
+        },
       ];
     });
 
@@ -129,6 +136,10 @@ describe('JobKeeperSelector', () => {
     it('should return false when tier is not selected for end fortnight >= 14', () => {
       state.employees[2].isDirty = true;
       expect(getAreModifiedEmployeesValid(state)).toBe(false);
+    });
+    it('should return true when tier is not selected for undefined first and final fortnight ', () => {
+      state.employees[3].isDirty = true;
+      expect(getAreModifiedEmployeesValid(state)).toBe(true);
     });
   });
 });

@@ -45,9 +45,11 @@ export const getAreModifiedEmployeesValid = (state) => {
       // condition 3: start JK2 and tier is not blank or prefilled
       // or still in jobkeeper 1
       ((item.firstFortnight >= 14 && !isTierBlankOrSuggested(item.tier)) ||
-        item.firstFortnight < 14) &&
+        item.firstFortnight < 14 ||
+        !item.firstFortnight) &&
       ((item.finalFortnight >= 14 && !isTierBlankOrSuggested(item.tier)) ||
-        item.finalFortnight < 14)
+        item.finalFortnight < 14 ||
+        !item.finalFortnight)
   );
   return valid;
 };

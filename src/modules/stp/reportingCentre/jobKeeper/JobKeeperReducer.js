@@ -149,6 +149,9 @@ const updateEmployeeRow = (state, { key, value, rowId }) => {
         (x) => x.employeeId === rowId
       );
       let { firstFortnight, finalFortnight } = e;
+      // make sure the update value is pass through
+      firstFortnight = key === 'firstFortnight' ? value : firstFortnight;
+      finalFortnight = key === 'finalFortnight' ? value : finalFortnight;
       if (state.isJobKeeper2Enabled)
         switch (key) {
           case 'tier':
