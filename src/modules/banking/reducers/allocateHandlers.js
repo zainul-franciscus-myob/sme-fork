@@ -38,6 +38,7 @@ export const allocateTransaction = (state, action) => {
             ...entry,
             appliedRule: action.appliedRule,
             isReportable: action.isReportable,
+            hasQuantity: action.hasQuantity,
             allocateOrMatch: action.allocateOrMatch,
             journals: action.journals,
             type: action.type,
