@@ -37,12 +37,12 @@ const SplitAllocationOptions = (props) => {
     showIsReportable,
     onUpdateSplitAllocationHeader,
     onUpdateSplitAllocationContactCombobox,
-    renderContactCombobox,
+    renderSplitAllocationContactCombobox,
   } = props;
 
   return (
     <div className={styles.splitAllocationFilterOptions}>
-      {renderContactCombobox({
+      {renderSplitAllocationContactCombobox({
         className: classNames(styles.filterInput, styles.contactCombobox),
         selectedId: contactId,
         name: 'contact',

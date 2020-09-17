@@ -7,11 +7,11 @@ import {
   getIsTableLoading,
   getIsWithdrawal,
   getOrder,
-} from '../transferMoneySelectors'; // @TODO: Refactor so it doesn't rely on list styling
+} from '../transferMoneySelectors';
 import EmptyView from '../../../components/EmptyView';
 import TableView from '../../../../../components/TableView/TableView';
 import TransferMoneyTableBody from './TransferMoneyTableBody';
-import styles from '../../../components/BankTransactionOpenEntryTable.module.css';
+import styles from '../../../components/BankTransactionOpenEntryTable.module.css'; // @TODO: Refactor so it doesn't rely on list styling
 
 const getTableConfig = (isWithdrawal) => ({
   select: {

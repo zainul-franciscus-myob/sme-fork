@@ -123,7 +123,12 @@ describe('BankingModule', () => {
     module.run({});
     store.resetActions();
     integration.resetRequests();
-    module.contactComboboxModule = {
+    module.splitAllocationContactComboboxModule = {
+      resetState: jest.fn(),
+      run: jest.fn(),
+    };
+
+    module.matchTransactionContactComboboxModule = {
       resetState: jest.fn(),
       run: jest.fn(),
     };
@@ -486,7 +491,9 @@ describe('BankingModule', () => {
           }),
         ]);
 
-        expect(module.contactComboboxModule.run).toHaveBeenCalled();
+        expect(
+          module.splitAllocationContactComboboxModule.run
+        ).toHaveBeenCalled();
       });
 
       it('it fails', () => {
@@ -583,6 +590,10 @@ describe('BankingModule', () => {
             intent: LOAD_ATTACHMENTS,
           }),
         ]);
+
+        expect(
+          module.matchTransactionContactComboboxModule.run
+        ).toHaveBeenCalled();
       });
 
       it('fails to load attachments', () => {
@@ -694,6 +705,10 @@ describe('BankingModule', () => {
             intent: LOAD_ATTACHMENTS,
           }),
         ]);
+
+        expect(
+          module.matchTransactionContactComboboxModule.run
+        ).not.toHaveBeenCalled();
       });
     });
 
@@ -762,6 +777,10 @@ describe('BankingModule', () => {
             intent: LOAD_ATTACHMENTS,
           }),
         ]);
+
+        expect(
+          module.matchTransactionContactComboboxModule.run
+        ).toHaveBeenCalled();
       });
     });
 
@@ -901,7 +920,9 @@ describe('BankingModule', () => {
           }),
         ]);
 
-        expect(module.contactComboboxModule.run).toHaveBeenCalled();
+        expect(
+          module.splitAllocationContactComboboxModule.run
+        ).toHaveBeenCalled();
       });
 
       it('successfully loads deposit', () => {
@@ -959,7 +980,9 @@ describe('BankingModule', () => {
           }),
         ]);
 
-        expect(module.contactComboboxModule.run).toHaveBeenCalled();
+        expect(
+          module.splitAllocationContactComboboxModule.run
+        ).toHaveBeenCalled();
       });
     });
   });

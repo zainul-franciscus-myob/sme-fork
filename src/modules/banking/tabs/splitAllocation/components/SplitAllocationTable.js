@@ -12,7 +12,7 @@ import {
 import {
   getIsBankingJobColumnEnabled,
   getIsLoadingAccount,
-} from '../../../selectors'; // @TODO: Refactor so it doesn't rely on list selector
+} from '../../../selectors';
 import SplitAllocationRow from './SplitAllocationRow';
 import TotalsContainer from '../../../components/TotalsContainer';
 import styles from './SplitAllocationTable.module.css';

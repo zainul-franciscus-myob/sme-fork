@@ -181,9 +181,6 @@ const loadBankTransactions = (state, action) => ({
   transferAccounts: action.transferAccounts,
   bulkAllocationAccounts: action.bulkAllocationAccounts,
   balances: action.balances,
-  contacts: action.contacts,
-  suppliers: action.suppliers,
-  customers: action.customers,
   taxCodes: action.taxCodes,
   jobs: action.jobs,
   entries: action.entries.map((entry) => ({

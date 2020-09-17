@@ -6,7 +6,7 @@ import {
   getIsBankingJobColumnEnabled,
   getIsFocused,
   getIsJobComboboxDisabled,
-} from '../../../selectors'; // @TODO: Refactor so it doesn't rely on list selector
+} from '../../../selectors';
 import {
   getLineDataByIndex,
   getNewLineData,

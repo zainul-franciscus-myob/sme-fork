@@ -2,7 +2,6 @@ import { createSelector } from 'reselect';
 
 import {
   getBusinessId,
-  getContacts,
   getEntries,
   getFilterOptions,
   getIsOpenTransactionWithdrawal,
@@ -88,12 +87,6 @@ export const getTableData = createSelector(getLinesLength, (len) =>
 export const getLineDataByIndex = createSelector(
   (state, props) => state.openEntry.allocate.lines[props.index],
   (line) => line || {}
-);
-
-export const getContact = createSelector(
-  getContacts,
-  getContactId,
-  (contacts, contactId) => contacts.find(({ id }) => id === contactId)
 );
 
 const getContactType = (state) => state.openEntry.allocate.contactType;

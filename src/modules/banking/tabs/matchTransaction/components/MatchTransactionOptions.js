@@ -10,25 +10,23 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getContacts,
   getIncludeClosedTransactionLabel,
   getMatchTransactionFilterOptions,
   getShowAllFilters,
   getShowIncludeClosedCheckbox,
 } from '../matchTransactionSelectors';
-import ContactCombobox from '../../../../../components/combobox/ContactCombobox';
 import FilterBarSearch from '../../../../../components/FilterBarSearch/FilterBarSearch';
 import FilterGroup from '../../../../../components/Feelix/FilterBar/FilterGroup';
 import MatchTransactionShowType from '../../../types/MatchTransactionShowType';
+import handleAutoCompleteChange from '../../../../../components/handlers/handleAutoCompleteChange';
 import handleCheckboxChange from '../../../../../components/handlers/handleCheckboxChange';
-import handleComboboxChange from '../../../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../../../components/handlers/handleInputChange';
 import handleSelectChange from '../../../../../components/handlers/handleSelectChange';
 import styles from './MatchTransactionOptions.module.css';
 
 const MatchTransactionOptions = (props) => {
   const {
-    contacts,
+    renderMatchTransactionContactCombobox,
     filterOptions: { showType, contactId, keywords, includeClosed },
     showAllFilters,
     includedClosedTransactionLabel,
@@ -88,19 +86,19 @@ const MatchTransactionOptions = (props) => {
       </Select>
       {showAllFilters && (
         <FilterGroup>
-          <ContactCombobox
-            label="Contact"
-            items={contacts}
-            selectedId={contactId}
-            name="contactId"
-            onChange={handleComboboxChange(
+          {renderMatchTransactionContactCombobox({
+            label: 'Contact',
+            selectedId: contactId,
+            name: 'contactId',
+            onChange: handleAutoCompleteChange(
               'contactId',
               onUpdateMatchTransactionOptions
-            )}
-            hintText="All"
-            allowClear
-            hasAllItem
-          />
+            ),
+            hintText: 'All',
+            allowClear: true,
+            hideAdd: true,
+            width: 'xl',
+          })}
           {showIncludeClosedCheckbox && (
             <CheckboxGroup
               label="Include closed transactions"
@@ -133,7 +131,6 @@ const MatchTransactionOptions = (props) => {
 
 const mapStateToProps = (state) => ({
   filterOptions: getMatchTransactionFilterOptions(state),
-  contacts: getContacts(state),
   showAllFilters: getShowAllFilters(state),
   includedClosedTransactionLabel: getIncludeClosedTransactionLabel(state),
   showIncludeClosedCheckbox: getShowIncludeClosedCheckbox(state),

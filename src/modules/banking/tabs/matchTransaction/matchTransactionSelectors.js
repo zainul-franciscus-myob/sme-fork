@@ -13,6 +13,8 @@ import {
   getWithdrawalAccounts,
 } from '../../selectors/index';
 import BankTransactionStatusTypes from '../../types/BankTransactionStatusTypes';
+import ContactType from '../../../contact/contactCombobox/types/ContactType';
+import DisplayMode from '../../../contact/contactCombobox/types/DisplayMode';
 import MatchTransactionShowType from '../../types/MatchTransactionShowType';
 import formatAmount from '../../../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
@@ -292,8 +294,6 @@ export const getTotals = createSelector(
   }
 );
 
-export const getContacts = (state) => state.contacts;
-
 export const getShowAllFilters = createSelector(
   getMatchTransactionFilterOptions,
   (filterOptions) =>
@@ -405,3 +405,17 @@ export const getSortingDisabled = createSelector(
   getShowType,
   (showType) => showType === MatchTransactionShowType.SELECTED
 );
+
+export const getMatchTransactionContactComboboxContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+  const { contactId } = getMatchTransactionFilterOptions(state);
+
+  return {
+    businessId,
+    region,
+    contactId,
+    contactType: ContactType.ALL,
+    displayMode: DisplayMode.NAME_AND_TYPE,
+  };
+};

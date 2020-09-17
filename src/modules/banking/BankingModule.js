@@ -50,6 +50,7 @@ import {
 } from './selectors/bulkActionSelectors';
 import {
   getDefaultMatchTransactionFilterRequestParams,
+  getMatchTransactionContactComboboxContext,
   getMatchTransactionFlipSortOrder,
   getMatchTransactionOrderBy,
   getShowType,
@@ -114,7 +115,13 @@ export default class BankingModule {
     this.receiveMoneyTaxCalculator = createTaxCalculator(
       TaxCalculatorTypes.receiveMoney
     );
-    this.contactComboboxModule = new ContactComboboxModule({ integration });
+
+    this.splitAllocationContactComboboxModule = new ContactComboboxModule({
+      integration,
+    });
+    this.matchTransactionContactComboboxModule = new ContactComboboxModule({
+      integration,
+    });
   }
 
   updateFilterOptions = ({ filterName, value }) => {
@@ -161,16 +168,22 @@ export default class BankingModule {
     const accountModal = this.accountModalModule.render();
     const jobModal = this.jobModalModule.render();
 
-    const renderContactCombobox = (props) => {
-      return this.contactComboboxModule
-        ? this.contactComboboxModule.render(props)
+    const renderSplitAllocationContactCombobox = (props) => {
+      return this.splitAllocationContactComboboxModule
+        ? this.splitAllocationContactComboboxModule.render(props)
+        : null;
+    };
+
+    const renderMatchTransactionContactCombobox = (props) => {
+      return this.matchTransactionContactComboboxModule
+        ? this.matchTransactionContactComboboxModule.render(props)
         : null;
     };
 
     const hotkeyHandlers = this.buildHotkeyHandlers();
 
     const splitAllocationContentProps = {
-      renderContactCombobox,
+      renderSplitAllocationContactCombobox,
       onUpdateSplitAllocationHeader: this.dispatcher
         .updateSplitAllocationHeader,
       onUpdateSplitAllocationContactCombobox: this
@@ -195,6 +208,7 @@ export default class BankingModule {
     };
 
     const matchTransactionContentProps = {
+      renderMatchTransactionContactCombobox,
       onUpdateMatchTransactionOptions: this.updateMatchTransactionOptions,
       onResetMatchTransactionOptions: this.resetMatchTransactionOptions,
       onSortMatchTransactions: this.sortMatchTransaction,
@@ -902,6 +916,7 @@ export default class BankingModule {
         payload,
         totalAmount
       );
+      this.loadMatchTransactionContactCombobox();
     });
 
     const onFailure = ({ message }) => {
@@ -1337,7 +1352,8 @@ export default class BankingModule {
     this.inTrayModalModule.resetState();
     this.accountModalModule.resetState();
     this.bankingRuleModule.resetState();
-    this.contactComboboxModule.resetState();
+    this.splitAllocationContactComboboxModule.resetState();
+    this.matchTransactionContactComboboxModule.resetState();
   };
 
   openJobModal = (onChange) => {
@@ -1375,10 +1391,16 @@ export default class BankingModule {
     this.replaceURLParams(getURLParams(state));
   };
 
+  loadMatchTransactionContactCombobox = () => {
+    const state = this.store.getState();
+    const context = getMatchTransactionContactComboboxContext(state);
+    this.matchTransactionContactComboboxModule.run(context);
+  };
+
   loadSplitAllocationContactCombobox = () => {
     const state = this.store.getState();
     const context = getSplitAllocateContactComboboxContext(state);
-    this.contactComboboxModule.run(context);
+    this.splitAllocationContactComboboxModule.run(context);
   };
 
   /*

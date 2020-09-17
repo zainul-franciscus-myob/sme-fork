@@ -181,7 +181,6 @@ describe('splitAllocationSelectors', () => {
             ],
           },
         },
-        contacts: [{ id: '222', contactType: 'Customer' }],
       };
 
       const expected = {
