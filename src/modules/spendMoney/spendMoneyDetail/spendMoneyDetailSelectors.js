@@ -6,6 +6,8 @@ import {
   LOAD_NEW_SPEND_MONEY,
   LOAD_SPEND_MONEY_DETAIL,
 } from '../SpendMoneyIntents';
+import ContactType from '../../contact/contactCombobox/types/ContactType';
+import DisplayMode from '../../contact/contactCombobox/types/DisplayMode';
 import ModalType from './components/ModalType';
 import Region from '../../../common/types/Region';
 import buildAbnLink from '../../../common/links/buildAbnLink';
@@ -19,7 +21,6 @@ const getSelectedDate = (state) => state.selectedDate;
 export const getSelectedPayToContactId = (state) =>
   state.spendMoney.selectedPayToContactId;
 const getPayFromAccounts = (state) => state.spendMoney.payFromAccounts;
-const getPayToContacts = (state) => state.spendMoney.payToContacts;
 export const getDate = (state) => state.spendMoney.date;
 const getDescription = (state) => state.spendMoney.description;
 export const getExpenseAccountId = (state) => state.spendMoney.expenseAccountId;
@@ -44,13 +45,13 @@ export const getIsAbnLoading = (state) => state.isAbnLoading;
 export const getStartOfFinancialYearDate = (state) =>
   state.startOfFinancialYearDate;
 export const getIsJobComboboxDisabled = (state) => state.isJobLoading;
+export const getContactType = (state) => state.contactType;
 
 const getHeadersProperties = createStructuredSelector({
   referenceId: getReferenceId,
   selectedPayFromAccountId: getSelectedPayFromId,
   selectedPayToContactId: getSelectedPayToContactId,
   payFromAccounts: getPayFromAccounts,
-  payToContacts: getPayToContacts,
   date: getDate,
   description: getDescription,
   expenseAccountId: getExpenseAccountId,
@@ -67,13 +68,9 @@ export const getIsSpendMoneyJobColumnEnabled = (state) =>
   state.isSpendMoneyJobColumnEnabled;
 
 export const getIsReportableDisabled = createSelector(
-  getPayToContacts,
   getSelectedPayToContactId,
-  (contacts, contactId) => {
-    const { contactType } = contacts.find(({ id }) => id === contactId) || {};
-
-    return contactType !== 'Supplier';
-  }
+  getContactType,
+  (contactId, contactType) => !contactId || contactType !== 'Supplier'
 );
 
 export const getIsCreating = (state) => state.spendMoneyId === 'new';
@@ -85,17 +82,12 @@ export const getIsCreatingFromInTray = createSelector(
 
 const getShouldShowReportable = (state) => state.region.toLowerCase() === 'au';
 
-const getContactType = (contactId, contacts) =>
-  contacts.find((contact) => contact.id === contactId).contactType;
-
 export const getShouldShowAccountCode = createSelector(
   getIsCreating,
   getSelectedPayToContactId,
-  getPayToContacts,
-  (isCreating, contactId, contacts) =>
-    isCreating &&
-    contactId &&
-    getContactType(contactId, contacts) === 'Supplier'
+  getContactType,
+  (isCreating, contactId, contactType) =>
+    isCreating && contactId && contactType === 'Supplier'
 );
 
 export const getShowBankStatementText = createSelector(
@@ -118,15 +110,10 @@ export const getHeaderOptions = createSelector(
     shouldShowAccountCode,
     showBankStatementText
   ) => {
-    const {
-      payFromAccounts = [],
-      payToContacts = [],
-      ...headerOptions
-    } = headerProps;
+    const { payFromAccounts = [], ...headerOptions } = headerProps;
 
     return {
       payFromAccounts,
-      payToContacts,
       ...headerOptions,
       isReportableDisabled,
       shouldShowReportable,
@@ -182,7 +169,6 @@ export const getSpendMoneyForCreatePayload = (state) => {
     referenceId,
     originalReferenceId,
     payFromAccounts,
-    payToContacts,
     lines,
     ...rest
   } = getSpendMoney(state);
@@ -201,7 +187,6 @@ export const getSpendMoneyForCreatePayload = (state) => {
 export const getSpendMoneyForUpdatePayload = (state) => {
   const {
     payFromAccounts,
-    payToContacts,
     originalReferenceId,
     lines,
     ...rest
@@ -259,14 +244,6 @@ export const getFilesForUpload = (state, files) =>
       state.attachments.find((attachment) => attachment.file === file).state ===
       'queued'
   );
-
-export const getIsContactReportable = (state, contactId) => {
-  const contacts = getPayToContacts(state);
-
-  const { isReportable } = contacts.find(({ id }) => id === contactId) || {};
-
-  return isReportable;
-};
 
 export const getTransactionListUrl = createSelector(
   getBusinessId,
@@ -412,11 +389,18 @@ export const getJobModalContext = (state) => {
   return { businessId, region };
 };
 
-export const getContactModalContext = (state) => {
+export const getContactComboboxContext = (state) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);
+  const contactId = getSelectedPayToContactId(state);
 
-  return { businessId, region };
+  return {
+    businessId,
+    region,
+    contactId,
+    contactType: ContactType.ALL,
+    displayMode: DisplayMode.NAME_AND_TYPE,
+  };
 };
 
 export const getLoadAddedAccountUrlParams = (state, accountId) => {
@@ -425,7 +409,7 @@ export const getLoadAddedAccountUrlParams = (state, accountId) => {
   return { businessId, accountId };
 };
 
-export const getLoadAddedContactUrlParams = (state, contactId) => {
+export const getLoadContactUrlParams = (state, contactId) => {
   const businessId = getBusinessId(state);
 
   return { businessId, contactId };

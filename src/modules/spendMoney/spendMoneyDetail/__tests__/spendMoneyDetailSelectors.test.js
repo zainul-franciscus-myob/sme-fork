@@ -3,7 +3,6 @@ import {
   getCalculatedTotalsPayload,
   getFilesForUpload,
   getIsBeforeStartOfFinancialYear,
-  getIsContactReportable,
   getIsLineAmountsTaxInclusive,
   getIsReportableDisabled,
   getLineDataByIndexSelector,
@@ -70,7 +69,6 @@ describe('spendMoneySelectors', () => {
       selectedPayFromAccountId: 'bar',
       selectedPayToContactId: 'contactId',
       payFromAccounts: [1, 2, 3, 4],
-      payToContacts: [1, 2, 3, 4],
       date: '12-1-2017',
       description: 'txt',
       isReportable: 'true',
@@ -248,37 +246,6 @@ describe('spendMoneySelectors', () => {
     });
   });
 
-  describe('getIsContactReportable', () => {
-    it.each([
-      ['when isReportable is true, it should return true', '1', true],
-      ['when isReportable is false, it should return false', '2', false],
-      [
-        'when isReportable is undefined, it should return undefined',
-        '3',
-        undefined,
-      ],
-      [
-        'when contact does not exists, it should return undefined',
-        '4',
-        undefined,
-      ],
-    ])('%s', (scenario, contactId, expected) => {
-      const state = {
-        spendMoney: {
-          payToContacts: [
-            { id: '1', isReportable: true },
-            { id: '2', isReportable: false },
-            { id: '3' },
-          ],
-        },
-      };
-
-      const actual = getIsContactReportable(state, contactId);
-
-      expect(actual).toEqual(expected);
-    });
-  });
-
   describe('getIsReportableDisabled', () => {
     it.each([
       ['Customer', true],
@@ -289,9 +256,8 @@ describe('spendMoneySelectors', () => {
       'when contact type is %s, it should return %s',
       (contactType, expected) => {
         const id = '1';
-        const contacts = [{ id, contactType }];
 
-        const actual = getIsReportableDisabled.resultFunc(contacts, id);
+        const actual = getIsReportableDisabled.resultFunc(id, contactType);
 
         expect(actual).toEqual(expected);
       }
@@ -299,9 +265,9 @@ describe('spendMoneySelectors', () => {
 
     it('should be disabled if contact has not been selected', () => {
       const id = '';
-      const contacts = [{ id: '1', contactType: 'Supplier' }];
+      const contactType = 'Supplier';
 
-      const actual = getIsReportableDisabled.resultFunc(contacts, id);
+      const actual = getIsReportableDisabled.resultFunc(id, contactType);
 
       expect(actual).toBeTruthy();
     });
@@ -353,24 +319,13 @@ describe('spendMoneySelectors', () => {
   });
 
   describe('getShouldShowAccountCode', () => {
-    const payToContacts = [
-      {
-        contactType: 'Customer',
-        id: '1',
-      },
-      {
-        contactType: 'Supplier',
-        id: '2',
-      },
-    ];
-
     it('returns true if is creating and selected contact is a supplier', () => {
       const state = {
         spendMoneyId: 'new',
         spendMoney: {
           selectedPayToContactId: '2',
-          payToContacts,
         },
+        contactType: 'Supplier',
       };
 
       const actual = getShouldShowAccountCode(state);
@@ -382,8 +337,8 @@ describe('spendMoneySelectors', () => {
         spendMoneyId: 'new',
         spendMoney: {
           selectedPayToContactId: '1',
-          payToContacts,
         },
+        contactType: 'Customer',
       };
 
       const actual = getShouldShowAccountCode(state);
@@ -395,8 +350,8 @@ describe('spendMoneySelectors', () => {
         spendMoneyId: '1',
         spendMoney: {
           selectedPayToContactId: '1',
-          payToContacts,
         },
+        contactType: 'Supplier',
       };
 
       const actual = getShouldShowAccountCode(state);

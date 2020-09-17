@@ -3,26 +3,29 @@ import {
   ADD_SPEND_MONEY_LINE,
   APPEND_ALERT_MESSAGE,
   CLEAR_ABN,
+  CLEAR_CONTACT_TYPE,
   CLEAR_IN_TRAY_DOCUMENT_URL,
+  CLEAR_IS_REPORTABLE,
   CLOSE_MODAL,
   DELETE_SPEND_MONEY_LINE,
   GET_TAX_CALCULATIONS,
   HIDE_PREFILL_INFO,
   LOAD_ABN_FROM_CONTACT,
   LOAD_ACCOUNT_AFTER_CREATE,
-  LOAD_CONTACT_AFTER_CREATE,
   LOAD_JOB_AFTER_CREATE,
   LOAD_REFERENCE_ID,
   LOAD_SUPPLIER_EXPENSE_ACCOUNT,
   OPEN_MODAL,
   OPEN_REMOVE_ATTACHMENT_MODAL,
   PREFILL_DATA_FROM_IN_TRAY,
+  PREFILL_SPEND_MONEY_ON_CONTACT,
   REMOVE_ATTACHMENT,
   REMOVE_ATTACHMENT_BY_INDEX,
   RESET_BANK_STATEMENT_TEXT,
   RESET_TOTALS,
   SET_ABN_LOADING_STATE,
   SET_ALERT,
+  SET_CONTACT_TYPE,
   SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_URL,
   SET_JOB_LOADING_STATE,
@@ -239,12 +242,32 @@ const createSpendMoneyDispatcher = (store) => ({
       ...payload,
     }),
 
-  loadContactAfterCreate: (contactId, payload) =>
+  prefillSpendMoneyOnContact: (contactType, isReportable, expenseAccountId) =>
     store.dispatch({
-      intent: LOAD_CONTACT_AFTER_CREATE,
-      contactId,
-      ...payload,
+      intent: PREFILL_SPEND_MONEY_ON_CONTACT,
+      contactType,
+      isReportable,
+      expenseAccountId,
     }),
+
+  setContactType: (contactType) => {
+    store.dispatch({
+      intent: SET_CONTACT_TYPE,
+      contactType,
+    });
+  },
+
+  clearContactType: () => {
+    store.dispatch({
+      intent: CLEAR_CONTACT_TYPE,
+    });
+  },
+
+  clearIsReportable: () => {
+    store.dispatch({
+      intent: CLEAR_IS_REPORTABLE,
+    });
+  },
 
   resetBankStatementText: ({ key, value }) => {
     store.dispatch({

@@ -5,7 +5,7 @@ import {
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ABN_FROM_CONTACT,
   LOAD_ACCOUNT_AFTER_CREATE,
-  LOAD_CONTACT_AFTER_CREATE,
+  LOAD_CONTACT,
   LOAD_JOB_AFTER_CREATE,
   LOAD_REFERENCE_ID,
   LOAD_SUPPLIER_EXPENSE_ACCOUNT,
@@ -18,9 +18,9 @@ import {
 import {
   getBusinessId,
   getLoadAddedAccountUrlParams,
-  getLoadAddedContactUrlParams,
   getLoadAddedJobUrlParams,
   getLoadContactDetailUrlParams,
+  getLoadContactUrlParams,
   getLoadSpendMoneyIntent,
   getLoadSpendMoneyRequestParams,
   getLoadSpendMoneyRequestUrlParams,
@@ -257,11 +257,11 @@ const createSpendMoneyIntegrator = (store, integration) => ({
     });
   },
 
-  loadContactAfterCreate: ({ id, onSuccess, onFailure }) => {
+  loadContact: ({ contactId, onSuccess, onFailure }) => {
     const state = store.getState();
 
-    const intent = LOAD_CONTACT_AFTER_CREATE;
-    const urlParams = getLoadAddedContactUrlParams(state, id);
+    const intent = LOAD_CONTACT;
+    const urlParams = getLoadContactUrlParams(state, contactId);
 
     integration.read({
       intent,
@@ -275,7 +275,7 @@ const createSpendMoneyIntegrator = (store, integration) => ({
     const state = store.getState();
 
     const intent = LOAD_ABN_FROM_CONTACT;
-    const urlParams = getLoadAddedContactUrlParams(state, contactId);
+    const urlParams = getLoadContactUrlParams(state, contactId);
 
     integration.read({
       intent,

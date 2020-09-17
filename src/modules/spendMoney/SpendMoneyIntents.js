@@ -49,7 +49,13 @@ export const HIDE_PREFILL_INFO = Symbol('Hide prefill info');
 export const LINK_IN_TRAY_DOCUMENT = Symbol('Link in tray document');
 
 export const LOAD_ACCOUNT_AFTER_CREATE = Symbol('Load an account after create');
-export const LOAD_CONTACT_AFTER_CREATE = Symbol('Load a contact after create');
+export const LOAD_CONTACT = Symbol('Load a contact');
+export const PREFILL_SPEND_MONEY_ON_CONTACT = Symbol(
+  'Prefill spend money based on a contact'
+);
+export const SET_CONTACT_TYPE = Symbol('Set contact type');
+export const CLEAR_CONTACT_TYPE = Symbol('clear contact type');
+export const CLEAR_IS_REPORTABLE = Symbol('clear is reportable');
 export const LOAD_JOB_AFTER_CREATE = Symbol('Load job after create');
 export const SET_JOB_LOADING_STATE = Symbol('Set job loading state');
 export const RESET_BANK_STATEMENT_TEXT = Symbol('Reset bank statement text');

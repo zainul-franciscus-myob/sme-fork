@@ -5,7 +5,7 @@ import {
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ABN_FROM_CONTACT,
   LOAD_ACCOUNT_AFTER_CREATE,
-  LOAD_CONTACT_AFTER_CREATE,
+  LOAD_CONTACT,
   LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_DUPLICATE_SPEND_MONEY,
   LOAD_NEW_SPEND_MONEY,
@@ -22,8 +22,8 @@ import abnDetail from './data/abnDetail';
 import attachmentDetailResponse from './data/attachmentDetail';
 import createSpendMoneyResponse from './data/createSpendMoney';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
-import loadAddedContactResponse from './data/loadAddedContactResponse';
 import loadAddedJobResponse from './data/loadAddedJobResponse';
+import loadContactResponse from './data/loadContactResponse';
 import newDuplicateSpendMoneyDetailEntry from './data/loadNewDuplicateSpendMoneyDetailEntry';
 import spendMoneyDetailEntry from './data/spendMoneyDetailEntry';
 import spendMoneyDetailPrefillResponse from './data/spendMoneyDetailPrefill';
@@ -83,8 +83,7 @@ const MemorySpendMoneyMapping = {
   [LINK_IN_TRAY_DOCUMENT]: linkInTrayDocument,
   [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) =>
     onSuccess(loadAddedAccountResponse),
-  [LOAD_CONTACT_AFTER_CREATE]: ({ onSuccess }) =>
-    onSuccess(loadAddedContactResponse),
+  [LOAD_CONTACT]: ({ onSuccess }) => onSuccess(loadContactResponse),
   [LOAD_ABN_FROM_CONTACT]: ({ onSuccess }) => onSuccess(abnDetail),
 };
 

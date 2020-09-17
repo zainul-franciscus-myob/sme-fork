@@ -26,6 +26,7 @@ import SpendMoneyModal from './SpendMoneyModal';
 import styles from './SpendMoneyDetailView.module.css';
 
 const SpendMoneyDetailView = ({
+  renderContactCombobox,
   accountModal,
   contactModal,
   jobModal,
@@ -48,7 +49,6 @@ const SpendMoneyDetailView = ({
   onConfirmDeleteButtonClick,
   modal,
   onAddAccount,
-  onAddContact,
   onAddJob,
   onUpdateRow,
   onAddRow,
@@ -66,9 +66,9 @@ const SpendMoneyDetailView = ({
 }) => {
   const primaryOptions = (
     <SpendMoneyDetailPrimaryOptions
+      renderContactCombobox={renderContactCombobox}
       onUpdateHeaderOptions={onUpdateHeaderOptions}
       onBlurBankStatementText={onBlurBankStatementText}
-      onAddContact={onAddContact}
     />
   );
   const secondaryOptions = (

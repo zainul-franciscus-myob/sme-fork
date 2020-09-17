@@ -15,7 +15,7 @@ import {
 } from '../../../common/taxCalculator';
 import {
   getAccountModalContext,
-  getContactModalContext,
+  getContactComboboxContext,
   getCreateUrl,
   getDate,
   getExpenseAccountId,
@@ -47,7 +47,8 @@ import {
   isReferenceIdDirty,
 } from './spendMoneyDetailSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
-import ContactModalModule from '../../contact/contactModal/ContactModalModule';
+import AlertType from '../../../common/types/AlertType';
+import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
 import FeatureToggle from '../../../FeatureToggles';
 import JobModalModule from '../../job/jobModal/JobModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -83,8 +84,9 @@ export default class SpendMoneyDetailModule {
     this.isToggleOn = isToggleOn;
 
     this.accountModalModule = new AccountModalModule({ integration });
-    this.contactModalModule = new ContactModalModule({ integration });
     this.jobModalModule = new JobModalModule({ integration });
+
+    this.contactComboboxModule = new ContactComboboxModule({ integration });
   }
 
   openAccountModal = (onChange) => {
@@ -147,38 +149,27 @@ export default class SpendMoneyDetailModule {
     this.integrator.loadJobAfterCreate({ id, onSuccess, onFailure });
   };
 
-  openContactModal = () => {
+  loadContact = (onChange) => {
     const state = this.store.getState();
-    const context = getContactModalContext(state);
+    const contactId = getSelectedPayToContactId(state);
 
-    this.contactModalModule.run({
-      context,
-      onSaveSuccess: (payload) => this.loadContactAfterCreate(payload),
-      onLoadFailure: (message) =>
-        this.dispatcher.setAlert({ type: 'danger', message }),
-    });
-  };
+    if (contactId) {
+      this.dispatcher.setSubmittingState(true);
 
-  loadContactAfterCreate = ({ message, id }) => {
-    this.dispatcher.setAlert({ type: 'success', message });
-    this.dispatcher.setSubmittingState(true);
-    this.contactModalModule.resetState();
+      const onSuccess = (payload) => {
+        this.dispatcher.setSubmittingState(false);
+        onChange(payload);
 
-    const onSuccess = (payload) => {
-      this.dispatcher.setSubmittingState(false);
-      this.dispatcher.loadContactAfterCreate(id, payload);
-
-      const state = this.store.getState();
-      if (getShouldShowAccountCode(state) && getExpenseAccountId(state)) {
         this.getTaxCalculations({ isSwitchingTaxInclusive: false });
-      }
-    };
+      };
 
-    const onFailure = () => {
-      this.dispatcher.setSubmittingState(false);
-    };
+      const onFailure = ({ message }) => {
+        this.dispatcher.setAlert({ type: AlertType.DANGER, message });
+        this.dispatcher.setSubmittingState(false);
+      };
 
-    this.integrator.loadContactAfterCreate({ id, onSuccess, onFailure });
+      this.integrator.loadContact({ contactId, onSuccess, onFailure });
+    }
   };
 
   prefillSpendMoneyFromInTray(inTrayDocumentId) {
@@ -190,6 +181,16 @@ export default class SpendMoneyDetailModule {
       if (hasPrefilledLines) {
         this.getTaxCalculations({ isSwitchingTaxInclusive: false });
       }
+
+      this.loadContact(({ contactType, isReportable, expenseAccountId }) => {
+        this.dispatcher.prefillSpendMoneyOnContact(
+          contactType,
+          isReportable,
+          expenseAccountId
+        );
+      });
+
+      this.updateContactCombobox();
     };
 
     const onFailure = ({ message }) => {
@@ -221,6 +222,9 @@ export default class SpendMoneyDetailModule {
     const onSuccess = (intent) => (response) => {
       this.dispatcher.loadSpendMoney(intent, response);
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.loadContact(({ contactType }) => {
+        this.dispatcher.setContactType(contactType);
+      });
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
 
       const state = this.store.getState();
@@ -228,6 +232,8 @@ export default class SpendMoneyDetailModule {
       if (contactId && getShouldLoadAbn(state)) {
         this.loadAbnFromContact(contactId);
       }
+
+      this.updateContactCombobox();
     };
 
     const onFailure = () => {
@@ -252,6 +258,8 @@ export default class SpendMoneyDetailModule {
       if (inTrayDocumentId) {
         this.prefillSpendMoneyFromInTray(inTrayDocumentId);
         this.openSplitView();
+      } else {
+        this.updateContactCombobox();
       }
     };
 
@@ -338,8 +346,21 @@ export default class SpendMoneyDetailModule {
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
     }
 
-    const stateAfterUpdate = this.store.getState();
     if (key === 'selectedPayToContactId') {
+      if (value) {
+        this.loadContact(({ contactType, isReportable, expenseAccountId }) => {
+          this.dispatcher.prefillSpendMoneyOnContact(
+            contactType,
+            isReportable,
+            expenseAccountId
+          );
+        });
+      } else {
+        this.dispatcher.clearContactType();
+        this.dispatcher.clearIsReportable();
+      }
+
+      const stateAfterUpdate = this.store.getState();
       if (getShouldShowAccountCode(stateAfterUpdate)) {
         this.loadSupplierExpenseAccount();
       }
@@ -682,16 +703,35 @@ export default class SpendMoneyDetailModule {
     });
   };
 
+  loadContactCombobox = () => {
+    const state = this.store.getState();
+    const context = getContactComboboxContext(state);
+    this.contactComboboxModule.run(context);
+  };
+
+  updateContactCombobox = () => {
+    const state = this.store.getState();
+    const contactId = getSelectedPayToContactId(state);
+    if (contactId) {
+      this.contactComboboxModule.load(contactId);
+    }
+  };
+
+  renderContactCombobox = (props) => {
+    return this.contactComboboxModule
+      ? this.contactComboboxModule.render(props)
+      : null;
+  };
+
   render = () => {
     const isCreating = getIsCreating(this.store.getState());
     const accountModal = this.accountModalModule.render();
-    const contactModal = this.contactModalModule.render();
     const jobModal = this.jobModalModule.render();
 
     const spendMoneyView = (
       <SpendMoneyDetailView
+        renderContactCombobox={this.renderContactCombobox}
         accountModal={accountModal}
-        contactModal={contactModal}
         jobModal={jobModal}
         onUpdateHeaderOptions={this.updateHeaderOptions}
         onSaveButtonClick={this.saveSpendMoney}
@@ -709,7 +749,6 @@ export default class SpendMoneyDetailModule {
         onAddRow={this.addSpendMoneyLine}
         onRemoveRow={this.deleteSpendMoneyLine}
         onAddAccount={this.openAccountModal}
-        onAddContact={this.openContactModal}
         onAddJob={this.openJobModal}
         onRowInputBlur={this.formatAndCalculateTotals}
         onAddAttachments={this.addAttachments}
@@ -758,6 +797,15 @@ export default class SpendMoneyDetailModule {
       const state = this.store.getState();
       const isCreating = getIsCreating(state);
       const duplicateId = isCreating ? id : getSpendMoneyId(state);
+
+      this.loadContact(({ contactType }) => {
+        this.dispatcher.setContactType(contactType);
+      });
+
+      const contactId = getSelectedPayToContactId(state);
+      if (contactId && getShouldLoadAbn(state)) {
+        this.loadAbnFromContact(contactId);
+      }
 
       this.pushMessage({
         type: SUCCESSFULLY_SAVED_SPEND_MONEY,
@@ -839,8 +887,8 @@ export default class SpendMoneyDetailModule {
       return;
     }
 
-    if (this.contactModalModule.isOpened()) {
-      this.contactModalModule.save();
+    if (this.contactComboboxModule.isContactModalOpened()) {
+      this.contactComboboxModule.createContact();
       return;
     }
 
@@ -908,12 +956,13 @@ export default class SpendMoneyDetailModule {
     this.readMessages();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.loadSpendMoney();
+    this.loadContactCombobox();
   }
 
   resetState() {
     this.dispatcher.resetState();
     this.accountModalModule.resetState();
-    this.contactModalModule.resetState();
+    this.contactComboboxModule.resetState();
   }
 
   handlePageTransition = (url) => {

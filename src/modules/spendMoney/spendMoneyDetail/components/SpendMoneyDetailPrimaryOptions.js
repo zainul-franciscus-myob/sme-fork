@@ -16,8 +16,8 @@ import {
 } from '../spendMoneyDetailSelectors';
 import AbnPopover from '../../../../components/autoFormatter/AbnInput/AbnPopover';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
-import ContactCombobox from '../../../../components/combobox/ContactCombobox';
 import ReportableCheckbox from '../../../../components/ReportableCheckbox/ReportableCheckbox';
+import handleAutoCompleteChange from '../../../../components/handlers/handleAutoCompleteChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 import styles from './SpendMoneyDetailPrimaryOptions.module.css';
 
@@ -26,7 +26,6 @@ const SpendMoneyDetailPrimaryOptions = ({
   headerOptions: {
     isReportable,
     description,
-    payToContacts,
     payFromAccounts,
     selectedPayToContactId,
     selectedPayFromAccountId,
@@ -46,7 +45,7 @@ const SpendMoneyDetailPrimaryOptions = ({
   onUpdateHeaderOptions,
   onBlurBankStatementText,
   prefillStatus,
-  onAddContact,
+  renderContactCombobox,
   shouldShowAbn,
 }) => {
   const handleCheckboxChange = (e) => {
@@ -88,21 +87,19 @@ const SpendMoneyDetailPrimaryOptions = ({
           [styles.prefilled]: prefillStatus.selectedPayToContactId,
         })}
       >
-        <ContactCombobox
-          items={payToContacts}
-          selectedId={selectedPayToContactId}
-          onChange={handleComboBoxChange('selectedPayToContactId')}
-          label="Contact (payee)"
-          name="Pay To Contacts"
-          hideLabel={false}
-          disabled={isSupplierBlocking}
-          addNewItem={{
-            label: 'Create contact',
-            onAddNew: onAddContact,
-          }}
-          allowClear
-          width="xl"
-        />
+        {renderContactCombobox({
+          selectedId: selectedPayToContactId,
+          name: 'payToContacts',
+          label: 'Contact (payee)',
+          hideLabel: false,
+          allowClear: true,
+          disabled: isSupplierBlocking,
+          onChange: handleAutoCompleteChange(
+            'selectedPayToContactId',
+            onUpdateHeaderOptions
+          ),
+          width: 'xl',
+        })}
         {abnInfo}
       </div>
       {shouldShowReportable && (

@@ -14,6 +14,7 @@ describe('SpendMoneyView', () => {
       <Provider store={store}>
         <SpendMoneyDetailView
           isCreating
+          renderContactCombobox={() => {}}
           onUpdateHeaderOptions={() => {}}
           onSaveButtonClick={() => {}}
           onCancelButtonClick={() => {}}

@@ -1,6 +1,8 @@
 import {
   ADD_SPEND_MONEY_LINE,
   CLEAR_ABN,
+  CLEAR_CONTACT_TYPE,
+  CLEAR_IS_REPORTABLE,
   CLOSE_MODAL,
   CREATE_SPEND_MONEY,
   DELETE_SPEND_MONEY,
@@ -8,15 +10,18 @@ import {
   GET_TAX_CALCULATIONS,
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ABN_FROM_CONTACT,
+  LOAD_CONTACT,
   LOAD_NEW_DUPLICATE_SPEND_MONEY,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
   LOAD_SPEND_MONEY_DETAIL,
   LOAD_SUPPLIER_EXPENSE_ACCOUNT,
   PREFILL_DATA_FROM_IN_TRAY,
+  PREFILL_SPEND_MONEY_ON_CONTACT,
   RESET_TOTALS,
   SET_ABN_LOADING_STATE,
   SET_ALERT,
+  SET_CONTACT_TYPE,
   SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_URL,
   SET_LOADING_STATE,
@@ -37,6 +42,7 @@ import {
   SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
 } from '../../../../common/types/MessageTypes';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
+import ContactType from '../../../contact/contactCombobox/types/ContactType';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import ModalType from '../components/ModalType';
 import SaveActionType from '../components/SaveActionType';
@@ -166,6 +172,7 @@ describe('SpendMoneyDetailModule', () => {
       const loadSpendMoneyActions = [
         expect.objectContaining({
           intent: SET_INITIAL_STATE,
+          context: expect.any(Object),
         }),
         {
           intent: SET_PREFILL_INTRAY_DOCUMENT_ID,
@@ -177,6 +184,7 @@ describe('SpendMoneyDetailModule', () => {
         },
         expect.objectContaining({
           intent: LOAD_NEW_SPEND_MONEY,
+          spendMoney: expect.any(Object),
         }),
         {
           intent: SET_LOADING_STATE,
@@ -195,6 +203,28 @@ describe('SpendMoneyDetailModule', () => {
         },
         expect.objectContaining({
           intent: PREFILL_DATA_FROM_IN_TRAY,
+          response: expect.any(Object),
+        }),
+        expect.objectContaining({
+          intent: GET_TAX_CALCULATIONS,
+        }),
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
+        expect.objectContaining({
+          intent: PREFILL_SPEND_MONEY_ON_CONTACT,
+          contactType: 'Supplier',
+          isReportable: false,
+          expenseAccountId: '456',
+        }),
+        expect.objectContaining({
+          intent: GET_TAX_CALCULATIONS,
+          taxCalculations: expect.any(Object),
         }),
       ];
 
@@ -207,13 +237,15 @@ describe('SpendMoneyDetailModule', () => {
           },
         ];
 
+        module.contactComboboxModule = {
+          run: jest.fn(),
+          load: jest.fn(),
+        };
+
         module.run({ spendMoneyId: 'new', businessId: '👺' });
 
         expect(store.getActions()).toEqual([
           ...loadSpendMoneyActions,
-          expect.objectContaining({
-            intent: GET_TAX_CALCULATIONS,
-          }),
           {
             intent: SET_SHOW_SPLIT_VIEW,
             showSplitView: true,
@@ -225,12 +257,21 @@ describe('SpendMoneyDetailModule', () => {
         ]);
 
         expect(integration.getRequests()).toEqual([
-          expect.objectContaining({ intent: LOAD_NEW_SPEND_MONEY }),
+          expect.objectContaining({
+            intent: LOAD_NEW_SPEND_MONEY,
+          }),
           expect.objectContaining({
             intent: PREFILL_DATA_FROM_IN_TRAY,
             urlParams: {
               businessId: '👺',
               inTrayDocumentId: '🍌',
+            },
+          }),
+          expect.objectContaining({
+            intent: LOAD_CONTACT,
+            urlParams: {
+              businessId: '👺',
+              contactId: '2',
             },
           }),
           expect.objectContaining({
@@ -241,6 +282,15 @@ describe('SpendMoneyDetailModule', () => {
             },
           }),
         ]);
+
+        const contactType = ContactType.ALL;
+
+        expect(module.contactComboboxModule.run).toHaveBeenCalledWith(
+          expect.objectContaining({
+            contactType,
+          })
+        );
+        expect(module.contactComboboxModule.load).toHaveBeenCalledWith('2');
       });
 
       it('fail to download in tray document', () => {
@@ -253,13 +303,15 @@ describe('SpendMoneyDetailModule', () => {
           },
         ];
 
+        module.contactComboboxModule = {
+          run: jest.fn(),
+          load: jest.fn(),
+        };
+
         module.run({ spendMoneyId: 'new', businessId: '👺' });
 
         expect(store.getActions()).toEqual([
           ...loadSpendMoneyActions,
-          expect.objectContaining({
-            intent: GET_TAX_CALCULATIONS,
-          }),
           {
             intent: SET_SHOW_SPLIT_VIEW,
             showSplitView: true,
@@ -278,12 +330,21 @@ describe('SpendMoneyDetailModule', () => {
         ]);
 
         expect(integration.getRequests()).toEqual([
-          expect.objectContaining({ intent: LOAD_NEW_SPEND_MONEY }),
+          expect.objectContaining({
+            intent: LOAD_NEW_SPEND_MONEY,
+          }),
           expect.objectContaining({
             intent: PREFILL_DATA_FROM_IN_TRAY,
             urlParams: {
               businessId: '👺',
               inTrayDocumentId: '🍌',
+            },
+          }),
+          expect.objectContaining({
+            intent: LOAD_CONTACT,
+            urlParams: {
+              businessId: '👺',
+              contactId: '2',
             },
           }),
           expect.objectContaining({
@@ -294,6 +355,15 @@ describe('SpendMoneyDetailModule', () => {
             },
           }),
         ]);
+
+        const contactType = ContactType.ALL;
+
+        expect(module.contactComboboxModule.run).toHaveBeenCalledWith(
+          expect.objectContaining({
+            contactType,
+          })
+        );
+        expect(module.contactComboboxModule.load).toHaveBeenCalledWith('2');
       });
 
       it('fail to prefill in tray document', () => {
@@ -305,6 +375,11 @@ describe('SpendMoneyDetailModule', () => {
             inTrayDocumentId: '🍌',
           },
         ];
+
+        module.contactComboboxModule = {
+          run: jest.fn(),
+          load: jest.fn(),
+        };
 
         module.run({ spendMoneyId: 'new', businessId: '👺' });
 
@@ -356,7 +431,9 @@ describe('SpendMoneyDetailModule', () => {
         ]);
 
         expect(integration.getRequests()).toEqual([
-          expect.objectContaining({ intent: LOAD_NEW_SPEND_MONEY }),
+          expect.objectContaining({
+            intent: LOAD_NEW_SPEND_MONEY,
+          }),
           expect.objectContaining({
             intent: PREFILL_DATA_FROM_IN_TRAY,
             urlParams: {
@@ -372,6 +449,14 @@ describe('SpendMoneyDetailModule', () => {
             },
           }),
         ]);
+
+        const contactType = ContactType.ALL;
+
+        expect(module.contactComboboxModule.run).toHaveBeenCalledWith(
+          expect.objectContaining({
+            contactType,
+          })
+        );
       });
     });
 
@@ -425,6 +510,10 @@ describe('SpendMoneyDetailModule', () => {
         },
       ];
 
+      module.contactComboboxModule = {
+        run: jest.fn(),
+      };
+
       module.run({ businessId: '👺', region: 'au', spendMoneyId: 'new' });
 
       expect(store.getActions()).toEqual([
@@ -457,6 +546,7 @@ describe('SpendMoneyDetailModule', () => {
           intent: RESET_TOTALS,
         },
       ]);
+
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: LOAD_NEW_SPEND_MONEY,
@@ -465,6 +555,14 @@ describe('SpendMoneyDetailModule', () => {
           },
         }),
       ]);
+
+      const contactType = ContactType.ALL;
+
+      expect(module.contactComboboxModule.run).toHaveBeenCalledWith(
+        expect.objectContaining({
+          contactType,
+        })
+      );
     });
 
     it('fails to load from save and create new', () => {
@@ -477,6 +575,10 @@ describe('SpendMoneyDetailModule', () => {
           selectedDate: '2020-04-23',
         },
       ];
+
+      module.contactComboboxModule = {
+        run: jest.fn(),
+      };
 
       module.run({ businessId: '👺', region: 'au', spendMoneyId: 'new' });
 
@@ -504,6 +606,7 @@ describe('SpendMoneyDetailModule', () => {
           isLoading: LoadingState.LOADING_FAIL,
         },
       ]);
+
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: LOAD_NEW_SPEND_MONEY,
@@ -512,6 +615,14 @@ describe('SpendMoneyDetailModule', () => {
           },
         }),
       ]);
+
+      const contactType = ContactType.ALL;
+
+      expect(module.contactComboboxModule.run).toHaveBeenCalledWith(
+        expect.objectContaining({
+          contactType,
+        })
+      );
     });
 
     it('successfully load duplicate', () => {
@@ -522,6 +633,11 @@ describe('SpendMoneyDetailModule', () => {
           duplicateId: '🦄',
         },
       ];
+
+      module.contactComboboxModule = {
+        run: jest.fn(),
+        load: jest.fn(),
+      };
 
       module.run({ businessId: '👺', region: 'au', spendMoneyId: 'new' });
 
@@ -554,6 +670,7 @@ describe('SpendMoneyDetailModule', () => {
           intent: GET_TAX_CALCULATIONS,
         }),
       ]);
+
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: LOAD_NEW_DUPLICATE_SPEND_MONEY,
@@ -563,6 +680,15 @@ describe('SpendMoneyDetailModule', () => {
           },
         }),
       ]);
+
+      const contactType = ContactType.ALL;
+
+      expect(module.contactComboboxModule.run).toHaveBeenCalledWith(
+        expect.objectContaining({
+          contactType,
+        })
+      );
+      expect(module.contactComboboxModule.load).toHaveBeenCalledWith('2');
     });
 
     it('fails to load duplicate', () => {
@@ -574,6 +700,10 @@ describe('SpendMoneyDetailModule', () => {
           duplicateId: '🦄',
         },
       ];
+
+      module.contactComboboxModule = {
+        run: jest.fn(),
+      };
 
       module.run({ businessId: '👺', region: 'au', spendMoneyId: 'new' });
 
@@ -600,6 +730,7 @@ describe('SpendMoneyDetailModule', () => {
           isLoading: LoadingState.LOADING_FAIL,
         },
       ]);
+
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: LOAD_NEW_DUPLICATE_SPEND_MONEY,
@@ -609,6 +740,14 @@ describe('SpendMoneyDetailModule', () => {
           },
         }),
       ]);
+
+      const contactType = ContactType.ALL;
+
+      expect(module.contactComboboxModule.run).toHaveBeenCalledWith(
+        expect.objectContaining({
+          contactType,
+        })
+      );
     });
 
     it('successfully loads existing with an abn', () => {
@@ -621,52 +760,97 @@ describe('SpendMoneyDetailModule', () => {
         },
       });
 
+      module.contactComboboxModule = {
+        run: jest.fn(),
+        load: jest.fn(),
+      };
+
       module.run({ businessId: '👺', region: 'au', spendMoneyId: '1' });
 
-      expect(store.getActions()).toEqual(
-        expect.arrayContaining([
-          {
-            intent: SET_INITIAL_STATE,
-            context: {
-              isSpendMoneyJobColumnEnabled: true,
-              businessId: '👺',
-              region: 'au',
-              spendMoneyId: '1',
-            },
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_INITIAL_STATE,
+          context: {
+            isSpendMoneyJobColumnEnabled: true,
+            businessId: '👺',
+            region: 'au',
+            spendMoneyId: '1',
           },
-          {
-            intent: SET_LOADING_STATE,
-            isLoading: LoadingState.LOADING,
-          },
-          expect.objectContaining({
-            intent: LOAD_SPEND_MONEY_DETAIL,
-          }),
-          {
-            intent: SET_LOADING_STATE,
-            isLoading: LoadingState.LOADING_SUCCESS,
-          },
-          expect.objectContaining({
-            intent: GET_TAX_CALCULATIONS,
-          }),
-        ])
-      );
+        },
+        {
+          intent: SET_LOADING_STATE,
+          isLoading: LoadingState.LOADING,
+        },
+        expect.objectContaining({
+          intent: LOAD_SPEND_MONEY_DETAIL,
+        }),
+        {
+          intent: SET_LOADING_STATE,
+          isLoading: LoadingState.LOADING_SUCCESS,
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
+        expect.objectContaining({
+          intent: SET_CONTACT_TYPE,
+          contactType: 'Supplier',
+        }),
+        expect.objectContaining({
+          intent: GET_TAX_CALCULATIONS,
+        }),
+        expect.objectContaining({
+          intent: GET_TAX_CALCULATIONS,
+        }),
+        {
+          intent: SET_ABN_LOADING_STATE,
+          isAbnLoading: true,
+        },
+        {
+          intent: SET_ABN_LOADING_STATE,
+          isAbnLoading: false,
+        },
+        {
+          intent: LOAD_ABN_FROM_CONTACT,
+          abn: expect.any(Object),
+        },
+      ]);
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: LOAD_SPEND_MONEY_DETAIL,
         }),
         expect.objectContaining({
+          intent: LOAD_CONTACT,
+          urlParams: { businessId: '👺', contactId: '123' },
+        }),
+        expect.objectContaining({
           intent: LOAD_ABN_FROM_CONTACT,
-          urlParams: {
-            contactId: '123',
-            businessId: '👺',
-          },
+          urlParams: { contactId: '123', businessId: '👺' },
         }),
       ]);
+
+      const contactType = ContactType.ALL;
+
+      expect(module.contactComboboxModule.run).toHaveBeenCalledWith(
+        expect.objectContaining({
+          contactType,
+        })
+      );
+      expect(module.contactComboboxModule.load).toHaveBeenCalledWith('123');
     });
 
     it('should not send request to load abn if it is NZ business', () => {
       const { integration, module } = setup();
+
+      module.contactComboboxModule = {
+        run: jest.fn(),
+        load: jest.fn(),
+      };
 
       module.run({ businessId: '👺', region: 'nz', spendMoneyId: '1' });
 
@@ -674,7 +858,20 @@ describe('SpendMoneyDetailModule', () => {
         expect.objectContaining({
           intent: LOAD_SPEND_MONEY_DETAIL,
         }),
+        expect.objectContaining({
+          intent: LOAD_CONTACT,
+          urlParams: { businessId: '👺', contactId: '2' },
+        }),
       ]);
+
+      const contactType = ContactType.ALL;
+
+      expect(module.contactComboboxModule.run).toHaveBeenCalledWith(
+        expect.objectContaining({
+          contactType,
+        })
+      );
+      expect(module.contactComboboxModule.load).toHaveBeenCalledWith('2');
     });
   });
 
@@ -699,6 +896,7 @@ describe('SpendMoneyDetailModule', () => {
               intent: LOAD_REFERENCE_ID,
             }),
           ]);
+
           expect(integration.getRequests()).toEqual([
             expect.objectContaining({
               intent: LOAD_REFERENCE_ID,
@@ -727,6 +925,7 @@ describe('SpendMoneyDetailModule', () => {
               intent: UPDATE_BANK_STATEMENT_TEXT,
             },
           ]);
+
           expect(integration.getRequests()).toEqual([]);
         });
       });
@@ -766,8 +965,80 @@ describe('SpendMoneyDetailModule', () => {
         },
         expect.objectContaining({
           intent: LOAD_ABN_FROM_CONTACT,
+          abn: expect.any(Object),
         }),
       ];
+
+      it('should prefill spend money for selected contact', () => {
+        const { module, store, integration } = setUpWithExisting();
+
+        module.updateHeaderOptions({
+          key: 'selectedPayToContactId',
+          value: '2',
+        });
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_SPEND_MONEY_HEADER,
+            key: 'selectedPayToContactId',
+            value: '2',
+          },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+          expect.objectContaining({
+            intent: PREFILL_SPEND_MONEY_ON_CONTACT,
+            contactType: 'Supplier',
+            isReportable: false,
+            expenseAccountId: '456',
+          }),
+          {
+            intent: GET_TAX_CALCULATIONS,
+            taxCalculations: expect.any(Object),
+          },
+          ...loadingAbnActions,
+        ]);
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_CONTACT,
+            urlParams: expect.objectContaining({
+              contactId: '2',
+            }),
+          }),
+          expect.objectContaining({
+            intent: LOAD_ABN_FROM_CONTACT,
+            urlParams: { businessId: 'bizId', contactId: '2' },
+          }),
+        ]);
+      });
+
+      it('should not prefill spend money if selected contact is empty', () => {
+        const { module, store, integration } = setUpWithExisting();
+
+        module.updateHeaderOptions({
+          key: 'selectedPayToContactId',
+          value: '',
+        });
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_SPEND_MONEY_HEADER,
+            key: 'selectedPayToContactId',
+            value: '',
+          },
+          {
+            intent: CLEAR_CONTACT_TYPE,
+          },
+          {
+            intent: CLEAR_IS_REPORTABLE,
+          },
+          {
+            intent: CLEAR_ABN,
+          },
+        ]);
+
+        expect(integration.getRequests()).toEqual([]);
+      });
 
       it('should load the abn from the selected contact', () => {
         const { module, store, integration } = setUpWithExisting();
@@ -783,6 +1054,18 @@ describe('SpendMoneyDetailModule', () => {
             key: 'selectedPayToContactId',
             value: '2',
           },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+          {
+            intent: PREFILL_SPEND_MONEY_ON_CONTACT,
+            contactType: 'Supplier',
+            isReportable: false,
+            expenseAccountId: '456',
+          },
+          {
+            intent: GET_TAX_CALCULATIONS,
+            taxCalculations: expect.any(Object),
+          },
           {
             intent: SET_ABN_LOADING_STATE,
             isAbnLoading: true,
@@ -797,6 +1080,10 @@ describe('SpendMoneyDetailModule', () => {
         ]);
 
         expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_CONTACT,
+            urlParams: { businessId: 'bizId', contactId: '2' },
+          }),
           expect.objectContaining({
             intent: LOAD_ABN_FROM_CONTACT,
             urlParams: expect.objectContaining({
@@ -825,9 +1112,26 @@ describe('SpendMoneyDetailModule', () => {
             key: 'selectedPayToContactId',
             value: '2',
           },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+          {
+            intent: PREFILL_SPEND_MONEY_ON_CONTACT,
+            contactType: 'Supplier',
+            isReportable: false,
+            expenseAccountId: '456',
+          },
+          {
+            intent: GET_TAX_CALCULATIONS,
+            taxCalculations: expect.any(Object),
+          },
         ]);
 
-        expect(integration.getRequests()).toEqual([]);
+        expect(integration.getRequests()).toEqual([
+          {
+            intent: LOAD_CONTACT,
+            urlParams: { businessId: 'bizId', contactId: '2' },
+          },
+        ]);
       });
 
       it('should clear the abn given the contact has been cleared', () => {
@@ -845,12 +1149,40 @@ describe('SpendMoneyDetailModule', () => {
             value: '',
           },
           {
+            intent: CLEAR_CONTACT_TYPE,
+          },
+          {
+            intent: CLEAR_IS_REPORTABLE,
+          },
+          {
             intent: CLEAR_ABN,
           },
         ]);
       });
 
       describe('when is creating new spend money', () => {
+        const updateSpendMoneyHeaderSupplier = [
+          {
+            intent: UPDATE_SPEND_MONEY_HEADER,
+            key: 'selectedPayToContactId',
+            value: '2',
+          },
+          {
+            intent: SET_SUBMITTING_STATE,
+            isSubmitting: true,
+          },
+          {
+            intent: SET_SUBMITTING_STATE,
+            isSubmitting: false,
+          },
+          {
+            intent: PREFILL_SPEND_MONEY_ON_CONTACT,
+            contactType: 'Supplier',
+            isReportable: false,
+            expenseAccountId: '456',
+          },
+        ];
+
         it('should load expense account id, calls tax calc. if contact is supplier and has default expense account', () => {
           const { module, store, integration } = setupWithNew();
           module.addSpendMoneyLine({ amount: '10' });
@@ -863,10 +1195,10 @@ describe('SpendMoneyDetailModule', () => {
           });
 
           expect(store.getActions()).toEqual([
+            ...updateSpendMoneyHeaderSupplier,
             {
-              intent: UPDATE_SPEND_MONEY_HEADER,
-              key: 'selectedPayToContactId',
-              value: '2',
+              intent: GET_TAX_CALCULATIONS,
+              taxCalculations: expect.any(Object),
             },
             {
               intent: SET_SUPPLIER_BLOCKING_STATE,
@@ -887,18 +1219,30 @@ describe('SpendMoneyDetailModule', () => {
           ]);
 
           expect(integration.getRequests()).toEqual([
-            expect.objectContaining({ intent: LOAD_SUPPLIER_EXPENSE_ACCOUNT }),
+            expect.objectContaining({
+              intent: LOAD_CONTACT,
+              urlParams: { businessId: 'bizId', contactId: '2' },
+            }),
+            expect.objectContaining({
+              intent: LOAD_SUPPLIER_EXPENSE_ACCOUNT,
+              urlParams: { businessId: 'bizId', contactId: '2' },
+            }),
             expect.objectContaining({
               intent: LOAD_ABN_FROM_CONTACT,
-              urlParams: expect.objectContaining({
-                contactId: '2',
-              }),
+              urlParams: { businessId: 'bizId', contactId: '2' },
             }),
           ]);
         });
 
         it('should not load expense account id if contact is not supplier', () => {
-          const { module, store } = setupWithNew();
+          const { module, store, integration } = setupWithNew();
+
+          integration.mapSuccess(LOAD_CONTACT, {
+            contactType: 'Customer',
+            isReportable: false,
+            expenseAccountId: '123',
+          });
+
           module.updateHeaderOptions({
             key: 'selectedPayToContactId',
             value: '1',
@@ -909,6 +1253,23 @@ describe('SpendMoneyDetailModule', () => {
               intent: UPDATE_SPEND_MONEY_HEADER,
               key: 'selectedPayToContactId',
               value: '1',
+            },
+            {
+              intent: SET_SUBMITTING_STATE,
+              isSubmitting: true,
+            },
+            {
+              intent: SET_SUBMITTING_STATE,
+              isSubmitting: false,
+            },
+            {
+              intent: PREFILL_SPEND_MONEY_ON_CONTACT,
+              contactType: 'Customer',
+              isReportable: false,
+              expenseAccountId: '123',
+            },
+            {
+              intent: RESET_TOTALS,
             },
             ...loadingAbnActions,
           ]);
@@ -924,10 +1285,9 @@ describe('SpendMoneyDetailModule', () => {
           });
 
           expect(store.getActions()).toEqual([
+            ...updateSpendMoneyHeaderSupplier,
             {
-              intent: UPDATE_SPEND_MONEY_HEADER,
-              key: 'selectedPayToContactId',
-              value: '2',
+              intent: RESET_TOTALS,
             },
             {
               intent: SET_SUPPLIER_BLOCKING_STATE,
@@ -944,8 +1304,18 @@ describe('SpendMoneyDetailModule', () => {
           ]);
 
           expect(integration.getRequests()).toEqual([
-            expect.objectContaining({ intent: LOAD_SUPPLIER_EXPENSE_ACCOUNT }),
-            expect.objectContaining({ intent: LOAD_ABN_FROM_CONTACT }),
+            expect.objectContaining({
+              intent: LOAD_CONTACT,
+              urlParams: { businessId: 'bizId', contactId: '2' },
+            }),
+            expect.objectContaining({
+              intent: LOAD_SUPPLIER_EXPENSE_ACCOUNT,
+              urlParams: { businessId: 'bizId', contactId: '2' },
+            }),
+            expect.objectContaining({
+              intent: LOAD_ABN_FROM_CONTACT,
+              urlParams: { businessId: 'bizId', contactId: '2' },
+            }),
           ]);
         });
       });
@@ -1188,11 +1558,45 @@ describe('SpendMoneyDetailModule', () => {
             intent: SET_SUBMITTING_STATE,
             isSubmitting: false,
           },
+          {
+            intent: SET_SUBMITTING_STATE,
+            isSubmitting: true,
+          },
+          {
+            intent: SET_SUBMITTING_STATE,
+            isSubmitting: false,
+          },
+          expect.objectContaining({
+            intent: SET_CONTACT_TYPE,
+            contactType: 'Supplier',
+          }),
+          expect.objectContaining({
+            intent: GET_TAX_CALCULATIONS,
+            taxCalculations: expect.any(Object),
+          }),
+          {
+            intent: SET_ABN_LOADING_STATE,
+            isAbnLoading: true,
+          },
+          {
+            intent: SET_ABN_LOADING_STATE,
+            isAbnLoading: false,
+          },
+          expect.objectContaining({
+            intent: LOAD_ABN_FROM_CONTACT,
+            abn: expect.any(Object),
+          }),
         ]);
 
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({
             intent: UPDATE_SPEND_MONEY,
+          }),
+          expect.objectContaining({
+            intent: LOAD_CONTACT,
+          }),
+          expect.objectContaining({
+            intent: LOAD_ABN_FROM_CONTACT,
           }),
         ]);
 
@@ -1547,13 +1951,6 @@ describe('SpendMoneyDetailModule', () => {
           integration.resetRequests();
         },
       },
-      {
-        type: 'contact quick add',
-        setup: (module, integration) => {
-          module.openContactModal();
-          integration.resetRequests();
-        },
-      },
     ].forEach((test) => {
       it(`should not save a spend money given the modal type ${test.type}`, () => {
         const { module, integration } = setUpWithPageEdited();
@@ -1586,5 +1983,19 @@ describe('SpendMoneyDetailModule', () => {
       ]);
       expect(module.navigateTo).toHaveBeenCalledWith('some-url');
     });
+
+    it('should create contact when contact modal is open', () => {
+      const { module } = setupWithNew();
+      module.contactComboboxModule = {
+        isContactModalOpened: () => true,
+        createContact: jest.fn(),
+      };
+
+      module.saveHandler();
+
+      expect(module.contactComboboxModule.createContact).toHaveBeenCalled();
+    });
   });
+
+  describe('loadContact', () => {});
 });

@@ -5,7 +5,7 @@ import {
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ABN_FROM_CONTACT,
   LOAD_ACCOUNT_AFTER_CREATE,
-  LOAD_CONTACT_AFTER_CREATE,
+  LOAD_CONTACT,
   LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_DUPLICATE_SPEND_MONEY,
   LOAD_NEW_SPEND_MONEY,
@@ -92,7 +92,7 @@ const HttpSpendMoneyMapping = {
     getPath: ({ businessId, accountId }) =>
       `/${businessId}/spendMoney/load_account/${accountId}`,
   },
-  [LOAD_CONTACT_AFTER_CREATE]: {
+  [LOAD_CONTACT]: {
     method: 'GET',
     getPath: ({ businessId, contactId }) =>
       `/${businessId}/spendMoney/load_contact/${contactId}`,

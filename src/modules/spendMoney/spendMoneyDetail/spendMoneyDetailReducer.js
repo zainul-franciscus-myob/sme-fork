@@ -3,14 +3,15 @@ import {
   ADD_SPEND_MONEY_LINE,
   APPEND_ALERT_MESSAGE,
   CLEAR_ABN,
+  CLEAR_CONTACT_TYPE,
   CLEAR_IN_TRAY_DOCUMENT_URL,
+  CLEAR_IS_REPORTABLE,
   CLOSE_MODAL,
   DELETE_SPEND_MONEY_LINE,
   GET_TAX_CALCULATIONS,
   HIDE_PREFILL_INFO,
   LOAD_ABN_FROM_CONTACT,
   LOAD_ACCOUNT_AFTER_CREATE,
-  LOAD_CONTACT_AFTER_CREATE,
   LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_DUPLICATE_SPEND_MONEY,
   LOAD_NEW_SPEND_MONEY,
@@ -20,12 +21,14 @@ import {
   OPEN_MODAL,
   OPEN_REMOVE_ATTACHMENT_MODAL,
   PREFILL_DATA_FROM_IN_TRAY,
+  PREFILL_SPEND_MONEY_ON_CONTACT,
   REMOVE_ATTACHMENT,
   REMOVE_ATTACHMENT_BY_INDEX,
   RESET_BANK_STATEMENT_TEXT,
   RESET_TOTALS,
   SET_ABN_LOADING_STATE,
   SET_ALERT,
+  SET_CONTACT_TYPE,
   SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_URL,
   SET_JOB_LOADING_STATE,
@@ -45,9 +48,7 @@ import {
 } from '../SpendMoneyIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
-  getIsContactReportable,
   getIsCreating,
-  getIsReportable,
   getShowBankStatementText,
 } from './spendMoneyDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -79,15 +80,14 @@ const getDefaultState = () => ({
     originalReferenceId: '',
     date: '',
     isTaxInclusive: false,
-    isReportable: undefined,
     description: '',
     selectedPayFromAccountId: '',
     selectedPayToContactId: '',
+    isReportable: undefined,
     originalExpenseAccountId: '',
     expenseAccountId: '',
     lines: [],
     payFromAccounts: [],
-    payToContacts: [],
     electronicClearingAccountId: '',
     bankStatementText: '',
     originalBankStatementText: '',
@@ -128,6 +128,7 @@ const getDefaultState = () => ({
   showPrefillInfo: false,
   startOfFinancialYearDate: '',
   isJobLoading: false,
+  contactType: undefined,
 });
 
 const pageEdited = { isPageEdited: true };
@@ -225,11 +226,6 @@ const updateAllLinesWithExpenseAccount = (
 };
 
 const updateHeader = (state, { key, value }) => {
-  const isReportable =
-    key === 'selectedPayToContactId'
-      ? getIsContactReportable(state, value)
-      : getIsReportable(state);
-
   const isPrefillFields = Object.keys(defaultPrefillStatus).includes(key);
 
   return {
@@ -237,7 +233,6 @@ const updateHeader = (state, { key, value }) => {
     ...pageEdited,
     spendMoney: {
       ...state.spendMoney,
-      isReportable,
       [key]: value,
       lines:
         state.spendMoney.lines.length > 0 && key === 'expenseAccountId'
@@ -602,18 +597,17 @@ const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   isPageEdited: true,
 });
 
-const contactIsSupplier = ({ contactType }) => contactType === 'Supplier';
-const loadContactAfterCreate = (
+const prefillSpendMoneyOnContact = (
   state,
-  { intent, expenseAccountId, contactId, ...rest }
+  { contactType, isReportable, expenseAccountId }
 ) => {
-  if (getIsCreating(state) && contactIsSupplier(rest)) {
+  if (getIsCreating(state) && contactType === 'Supplier') {
     return {
       ...state,
+      contactType,
       spendMoney: {
         ...state.spendMoney,
-        selectedPayToContactId: contactId,
-        payToContacts: [rest, ...state.spendMoney.payToContacts],
+        isReportable,
         expenseAccountId,
         lines:
           state.spendMoney.lines.length > 0
@@ -629,11 +623,31 @@ const loadContactAfterCreate = (
 
   return {
     ...state,
+    contactType,
     spendMoney: {
       ...state.spendMoney,
-      selectedPayToContactId: contactId,
-      payToContacts: [rest, ...state.spendMoney.payToContacts],
+      isReportable,
     },
+  };
+};
+
+const clearContactType = (state) => ({
+  ...state,
+  contactType: undefined,
+});
+
+const clearIsReportable = (state) => ({
+  ...state,
+  spendMoney: {
+    ...state.spendMoney,
+    isReportable: false,
+  },
+});
+
+const setContactType = (state, { contactType }) => {
+  return {
+    ...state,
+    contactType,
   };
 };
 
@@ -753,11 +767,14 @@ const handlers = {
   [PREFILL_DATA_FROM_IN_TRAY]: prefillDataFromInTray,
   [HIDE_PREFILL_INFO]: hidePrefillInfo,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
-  [LOAD_CONTACT_AFTER_CREATE]: loadContactAfterCreate,
+  [PREFILL_SPEND_MONEY_ON_CONTACT]: prefillSpendMoneyOnContact,
   [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
   [SET_JOB_LOADING_STATE]: setJobLoadingState,
   [RESET_BANK_STATEMENT_TEXT]: resetBankStatementText,
   [UPDATE_BANK_STATEMENT_TEXT]: updateBankStatementText,
+  [SET_CONTACT_TYPE]: setContactType,
+  [CLEAR_CONTACT_TYPE]: clearContactType,
+  [CLEAR_IS_REPORTABLE]: clearIsReportable,
   [SET_DUPLICATE_ID]: setDuplicateId,
   [SET_PREFILL_NEW]: setPrefillNew,
   [SET_PREFILL_INTRAY_DOCUMENT_ID]: setPrefillInTrayDocumentId,

@@ -5,13 +5,14 @@ import {
   APPEND_ALERT_MESSAGE,
   GET_TAX_CALCULATIONS,
   LOAD_ACCOUNT_AFTER_CREATE,
-  LOAD_CONTACT_AFTER_CREATE,
   LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_SPEND_MONEY,
   LOAD_SPEND_MONEY_DETAIL,
   LOAD_SUPPLIER_EXPENSE_ACCOUNT,
   PREFILL_DATA_FROM_IN_TRAY,
+  PREFILL_SPEND_MONEY_ON_CONTACT,
   RESET_BANK_STATEMENT_TEXT,
+  SET_CONTACT_TYPE,
   UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_SPEND_MONEY_HEADER,
   UPDATE_SPEND_MONEY_LINE,
@@ -165,15 +166,11 @@ describe('spendMoneyDetailReducer', () => {
 
   describe('updateHeader', () => {
     describe('selectedPayToContactId', () => {
-      it('should update selectedPayToContactId and isReportable', () => {
+      it('should update selectedPayToContactId', () => {
         const state = {
           spendMoney: {
             isReportable: false,
             selectedPayToContactId: '2',
-            payToContacts: [
-              { id: '1', isReportable: true },
-              { id: '2', isReportable: false },
-            ],
             lines: [],
           },
         };
@@ -187,7 +184,6 @@ describe('spendMoneyDetailReducer', () => {
         const actual = spendMoneyReducer(state, action);
 
         expect(actual.spendMoney.selectedPayToContactId).toEqual('1');
-        expect(actual.spendMoney.isReportable).toBeTruthy();
       });
     });
 
@@ -703,7 +699,7 @@ describe('spendMoneyDetailReducer', () => {
     });
   });
 
-  describe('loadContactAfterCreate', () => {
+  describe('prefillSpendMoneyOnContact', () => {
     const newContactId = '2';
 
     const newContact = {
@@ -716,125 +712,73 @@ describe('spendMoneyDetailReducer', () => {
       isReportable: false,
     };
 
-    const payToContacts = [
-      {
-        id: '1',
+    const state = {
+      spendMoneyId: 'new',
+      inTrayDocumentId: '1',
+      accounts: [],
+      spendMoney: {
+        expenseAccountId: '123',
+        lines: [
+          {
+            accountId: '123',
+          },
+        ],
       },
-    ];
+    };
 
-    it('should add the newly added contact into the payToContacts list', () => {
-      const state = {
-        spendMoney: {
-          payToContacts,
-        },
-      };
-
-      const action = {
-        intent: LOAD_CONTACT_AFTER_CREATE,
-        contactId: newContactId,
-        ...newContact,
-      };
-
-      const actual = spendMoneyReducer(state, action);
-
-      const { expenseAccountId, ...expectedContact } = newContact;
-      const expected = [expectedContact, payToContacts[0]];
-
-      expect(actual.spendMoney.payToContacts).toEqual(expected);
-      expect(actual.spendMoney.selectedPayToContactId).toEqual(newContactId);
-    });
-
-    it('should not update lines if spend money was prefilled but contact is a customer', () => {
-      const state = {
-        inTrayDocumentId: '1',
-        spendMoney: {
-          payToContacts,
-          lines: [],
-        },
-      };
-
+    it('should not update lines accountId if spend money lines was prefilled but contact is a customer', () => {
       const updatedContact = {
         ...newContact,
         contactType: 'Customer',
       };
 
       const action = {
-        intent: LOAD_CONTACT_AFTER_CREATE,
-        contactId: newContactId,
+        intent: PREFILL_SPEND_MONEY_ON_CONTACT,
         ...updatedContact,
       };
 
       const actual = spendMoneyReducer(state, action);
 
-      const { expenseAccountId, ...expectedContact } = updatedContact;
-      const expected = [expectedContact, payToContacts[0]];
-
-      expect(actual.spendMoney.payToContacts).toEqual(expected);
-      expect(actual.spendMoney.selectedPayToContactId).toEqual(newContactId);
+      expect(actual.contactType).toEqual('Customer');
+      expect(actual.spendMoney.isReportable).toEqual(false);
+      expect(actual.spendMoney.expenseAccountId).toEqual('123');
+      expect(actual.spendMoney.lines[0].accountId).toEqual('123');
     });
 
-    it('should not update lines if contact is a supplier but spend money was not prefilled', () => {
-      const state = {
-        spendMoney: {
-          payToContacts,
-          lines: [],
-        },
-      };
-
+    it('should update lines accountId if spend money lines was prefilled and contact is a supplier', () => {
       const updatedContact = {
         ...newContact,
         contactType: 'Supplier',
+        isReportable: true,
       };
 
       const action = {
-        intent: LOAD_CONTACT_AFTER_CREATE,
-        contactId: newContactId,
+        intent: PREFILL_SPEND_MONEY_ON_CONTACT,
         ...updatedContact,
       };
 
       const actual = spendMoneyReducer(state, action);
 
-      const { expenseAccountId, ...expectedContact } = updatedContact;
-      const expected = [expectedContact, payToContacts[0]];
-
-      expect(actual.spendMoney.payToContacts).toEqual(expected);
-      expect(actual.spendMoney.selectedPayToContactId).toEqual(newContactId);
+      expect(actual.contactType).toEqual('Supplier');
+      expect(actual.spendMoney.isReportable).toEqual(true);
+      expect(actual.spendMoney.expenseAccountId).toEqual('456');
+      expect(actual.spendMoney.lines[0].accountId).toEqual('456');
     });
+  });
 
-    it('should add expenseAccountId and update lines with the expense account id if the spend money was prefilled and contact is a supplier', () => {
+  describe('setContactType', () => {
+    it('should update Contact Type', () => {
       const state = {
-        spendMoneyId: 'new',
-        inTrayDocumentId: '1',
-        accounts: [],
-        spendMoney: {
-          payToContacts,
-          lines: [
-            {
-              accountId: '5',
-            },
-          ],
-        },
+        contactType: 'Customer',
       };
-
       const action = {
-        intent: LOAD_CONTACT_AFTER_CREATE,
-        contactId: newContactId,
-        ...newContact,
+        intent: SET_CONTACT_TYPE,
+        contactType: 'Supplier',
       };
 
       const actual = spendMoneyReducer(state, action);
 
-      const { expenseAccountId, ...expectedContact } = newContact;
-      const expected = [expectedContact, payToContacts[0]];
-
-      expect(actual.spendMoney.payToContacts).toEqual(expected);
-      expect(actual.spendMoney.selectedPayToContactId).toEqual(newContactId);
-      expect(actual.spendMoney.lines).toEqual([
-        {
-          accountId: '456',
-          taxCodeId: '',
-        },
-      ]);
+      expect(actual.contactType).toEqual('Supplier');
     });
   });
 
