@@ -84,7 +84,7 @@ class JobKeeperReporting extends React.Component {
         >
           View JobKeeper summary (PDF)
         </Button>
-        {featureToggles && featureToggles.isJobKeeper2Enabled && (
+        {featureToggles && featureToggles.isJobKeeperTierSuggestionEnabled && (
           <Button
             id="employee-benefit-report-btn"
             testid="employee-benefit-report-btn"
@@ -93,7 +93,7 @@ class JobKeeperReporting extends React.Component {
             icon={<Icons.GenericDocument />}
             className={styles['jobkeeper-reporting-btn']}
           >
-            View employee benefits report (PDF)
+            View employee tier recommendation (PDF)
           </Button>
         )}
       </div>

@@ -15,6 +15,7 @@ export default {
   isElectronicPaymentEnabled: true,
   isJobKeeper2Enabled: true,
   isJobKeeperCalculatorEnabled: true,
+  isJobKeeperTierSuggestionEnabled: true,
   isBankTransactionsFastModeEnabled: true,
   isAllowNegativesInPayRuns: true,
 };
