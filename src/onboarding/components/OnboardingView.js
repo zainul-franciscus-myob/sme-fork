@@ -3,9 +3,12 @@ import {
   ButtonRow,
   Card,
   Combobox,
+  Icons,
   Input,
   MYOBLogo,
-  Select,
+  RadioButton,
+  RadioButtonGroup,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
@@ -15,7 +18,7 @@ import BusinessRoles from '../fixtures/businessRoles';
 import LoadingPageState from '../../components/LoadingPageState/LoadingPageState';
 import handleComboboxChange from '../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../components/handlers/handleInputChange';
-import handleSelectChange from '../../components/handlers/handleSelectChange';
+import handleRadioButtonChange from '../../components/handlers/handleRadioButtonChange';
 import industries from '../fixtures/Industries';
 import styles from './OnboardingView.module.css';
 import welcomeImage from '../assets/welcome.svg';
@@ -37,6 +40,7 @@ class OnboardingView extends Component {
     this.state = {
       businessNameError: '',
       industryError: '',
+      businessRoleError: '',
       hasRendered: false,
     };
     this.dispatcher = props.dispatcher;
@@ -65,14 +69,16 @@ class OnboardingView extends Component {
 
     let businessNameError = null;
     let industryError = null;
+    let businessRoleError = null;
 
     if (businessName === '')
       businessNameError = 'You need to enter a business name';
     if (industryId === '') industryError = 'You need to select an industry';
+    if (businessRole === '') businessRoleError = 'You need to select your role';
 
-    this.setState({ businessNameError, industryError });
+    this.setState({ businessNameError, industryError, businessRoleError });
 
-    if (!businessNameError && !industryError) {
+    if (!businessNameError && !industryError && !businessRoleError) {
       this.onSave(event, { businessName, businessRole, industryId });
     }
   };
@@ -99,7 +105,7 @@ class OnboardingView extends Component {
 
     if (!businessId) return <LoadingPageState />;
 
-    const { businessNameError, industryError } = this.state;
+    const { businessNameError, industryError, businessRoleError } = this.state;
 
     return (
       <div className={styles.fullScreen}>
@@ -154,22 +160,39 @@ class OnboardingView extends Component {
             </div>
 
             <div>
-              <Select
-                className={styles.select}
-                defaultValue={businessRole}
+              <RadioButtonGroup
                 label="How would you best describe your role?"
                 name="businessRole"
-                onChange={handleSelectChange(onChangeBusinessRole)}
+                onChange={handleRadioButtonChange(
+                  'businessRole',
+                  onChangeBusinessRole
+                )}
+                value={businessRole}
                 requiredLabel="This is required"
-              >
-                {BusinessRoles.map((businessType) => (
-                  <Select.Option
-                    key={businessType}
-                    label={businessType}
-                    value={businessType}
-                  />
-                ))}
-              </Select>
+                errorMessage={businessRoleError}
+                renderRadios={({ id, value, ...props }) => {
+                  return BusinessRoles.map((businessType) => (
+                    <RadioButton
+                      {...props}
+                      className={styles.radioButtons}
+                      checked={value === businessType.id}
+                      key={businessType.id}
+                      value={businessType.id}
+                      label={businessType.title}
+                      labelAccessory={
+                        businessType.id === 'Student' ? (
+                          <Tooltip triggerContent={<Icons.Info />}>
+                            As a student or teacher using this trial you still
+                            get access to all our features
+                          </Tooltip>
+                        ) : (
+                          ''
+                        )
+                      }
+                    />
+                  ));
+                }}
+              />
             </div>
           </Card>
 
@@ -190,7 +213,7 @@ const mapStateToProps = ({
   proposedBusinessName,
 }) => ({
   businessName: proposedBusinessName,
-  businessRole: businessRole || 'Bookkeeper',
+  businessRole: businessRole || '',
   industryId: industryId || '',
 });
 

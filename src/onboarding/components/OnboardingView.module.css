@@ -3,14 +3,18 @@
   width: 10rem;
 }
 
-.img { display: none; }
+.img {
+  display: none;
+}
 
 .card {
   margin-bottom: var(--flx-spacing-small);
   padding-bottom: var(--flx-spacing-x-tiny);
 }
 
-.form { padding: var(--flx-spacing-small); }
+.form {
+  padding: var(--flx-spacing-small);
+}
 
 @media screen and (min-width: 1200px) {
   .fullScreen {
@@ -34,9 +38,13 @@
     top: var(--flx-spacing-large);
   }
 
-  .img { background: var(--flx-palette-storm-06); }
+  .img {
+    background: var(--flx-palette-storm-06);
+  }
 
-  .form { background: var(--flx-palette-white); }
+  .form {
+    background: var(--flx-palette-white);
+  }
 
   .card {
     background: none;
@@ -49,6 +57,10 @@
     color: var(--flx-palette-storm-72);
     font-weight: 300;
     margin-bottom: var(--flx-spacing-xx-large);
+  }
+
+  .radioButtons {
+    flex: 0 50%;
   }
 
   /* @FEELIX:
@@ -70,7 +82,10 @@
 
   .fullScreen :global(.combobox input),
   .fullScreen :global(.combobox a),
-  .input, .select { height: 5rem; }
+  .input,
+  .select {
+    height: 5rem;
+  }
 
   .fullScreen :global(.form-group) {
     margin-bottom: var(--flx-spacing-x-large);
@@ -83,5 +98,15 @@
 
   .fullScreen :global(.btn-primary) {
     padding: var(--flx-spacing-x-small) var(--flx-spacing-large);
+  }
+
+  .fullScreen :global(.flx-radio__group) {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .fullScreen :global(.magic-radio + label::before),
+  .fullScreen :global(.magic-radio + label::after) {
+    margin-top: var(--flx-spacing-tiny);
   }
 }
