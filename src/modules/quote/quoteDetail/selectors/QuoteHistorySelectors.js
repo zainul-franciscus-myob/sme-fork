@@ -11,7 +11,7 @@ export const getTime = (row) =>
     : '';
 
 export const getQuoteHistoryTable = (state) =>
-  state.activityHistory.map((activity) => ({
+  (state.activityHistory || []).map((activity) => ({
     ...activity,
     displayDate: getDate(activity.date),
     displayTime: getTime(activity),
