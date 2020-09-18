@@ -3,15 +3,9 @@ import {
   CREATE_BANKING_RULE_INVOICE,
   CREATE_BANKING_RULE_RECEIVE_MONEY,
   CREATE_BANKING_RULE_SPEND_MONEY,
-  LOAD_CONTACT,
 } from '../BankingRuleIntents';
 
 const HttpBankingRuleMapping = {
-  [LOAD_CONTACT]: {
-    method: 'GET',
-    getPath: ({ businessId, contactId }) =>
-      `/${businessId}/banking/banking_rule/load_contact/${contactId}`,
-  },
   [CREATE_BANKING_RULE_BILL]: {
     method: 'POST',
     getPath: ({ businessId }) =>

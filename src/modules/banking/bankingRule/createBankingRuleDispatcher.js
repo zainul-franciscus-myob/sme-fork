@@ -3,17 +3,15 @@ import {
   ADD_RULE_CONDITION,
   ADD_TABLE_ROW,
   CLOSE,
-  LOAD_CONTACT,
   OPEN,
   REMOVE_CONDITION_PREDICATE,
   REMOVE_TABLE_ROW,
   SET_ALERT,
   SET_SAVING_STATE,
   START_LOADING,
-  START_LOADING_CONTACT,
   STOP_LOADING,
-  STOP_LOADING_CONTACT,
   UPDATE_CONDITION_PREDICATE,
+  UPDATE_CONTACT,
   UPDATE_RULE_CONDITION,
   UPDATE_RULE_DETAILS,
   UPDATE_TABLE_ROW,
@@ -21,6 +19,13 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
 const createBankingRuleDispatcher = (store) => ({
+  updateContact: (contact) => {
+    store.dispatch({
+      intent: UPDATE_CONTACT,
+      ...contact,
+    });
+  },
+
   updateRuleDetails: (key, value) => {
     store.dispatch({
       intent: UPDATE_RULE_DETAILS,
@@ -119,25 +124,6 @@ const createBankingRuleDispatcher = (store) => ({
   stopLoading: () => {
     store.dispatch({
       intent: STOP_LOADING,
-    });
-  },
-
-  startLoadingContact: () => {
-    store.dispatch({
-      intent: START_LOADING_CONTACT,
-    });
-  },
-
-  stopLoadingContact: () => {
-    store.dispatch({
-      intent: STOP_LOADING_CONTACT,
-    });
-  },
-
-  loadContact: (response) => {
-    store.dispatch({
-      intent: LOAD_CONTACT,
-      ...response,
     });
   },
 

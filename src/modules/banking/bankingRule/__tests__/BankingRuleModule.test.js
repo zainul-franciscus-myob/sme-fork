@@ -1,13 +1,5 @@
-import {
-  LOAD_CONTACT,
-  OPEN,
-  SET_ALERT,
-  START_LOADING_CONTACT,
-  STOP_LOADING_CONTACT,
-  UPDATE_RULE_DETAILS,
-} from '../BankingRuleIntents';
+import { OPEN, UPDATE_RULE_DETAILS } from '../BankingRuleIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
-import AlertType from '../../../../common/types/AlertType';
 import BankingRuleModule from '../BankingRuleModule';
 import ContactType from '../../../contact/contactCombobox/types/ContactType';
 import Region from '../../../../common/types/Region';
@@ -168,77 +160,6 @@ describe('BankingRuleModule', () => {
           value: '🤖',
         },
       ]);
-    });
-
-    describe('when update contactId', () => {
-      it('successfully loads contact', () => {
-        const { module, store, integration } = setupWithRun();
-
-        module.updateRuleDetails({ key: 'contactId', value: '🥬' });
-
-        expect(store.getActions()).toEqual([
-          {
-            intent: UPDATE_RULE_DETAILS,
-            key: 'contactId',
-            value: '🥬',
-          },
-          {
-            intent: START_LOADING_CONTACT,
-          },
-          expect.objectContaining({
-            intent: LOAD_CONTACT,
-          }),
-          {
-            intent: STOP_LOADING_CONTACT,
-          },
-        ]);
-        expect(integration.getRequests()).toEqual([
-          expect.objectContaining({
-            intent: LOAD_CONTACT,
-            urlParams: {
-              businessId: '🌶',
-              contactId: '🥬',
-            },
-          }),
-        ]);
-      });
-
-      it('fails to loads contact', () => {
-        const { module, store, integration } = setupWithRun();
-        integration.mapFailure(LOAD_CONTACT);
-
-        module.updateRuleDetails({ key: 'contactId', value: '🥬' });
-
-        expect(store.getActions()).toEqual([
-          {
-            intent: UPDATE_RULE_DETAILS,
-            key: 'contactId',
-            value: '🥬',
-          },
-          {
-            intent: START_LOADING_CONTACT,
-          },
-          {
-            intent: SET_ALERT,
-            alert: {
-              type: AlertType.DANGER,
-              message: expect.any(String),
-            },
-          },
-          {
-            intent: STOP_LOADING_CONTACT,
-          },
-        ]);
-        expect(integration.getRequests()).toEqual([
-          expect.objectContaining({
-            intent: LOAD_CONTACT,
-            urlParams: {
-              businessId: '🌶',
-              contactId: '🥬',
-            },
-          }),
-        ]);
-      });
     });
 
     describe('when update ruleType', () => {

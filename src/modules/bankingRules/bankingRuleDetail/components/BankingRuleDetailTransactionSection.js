@@ -20,8 +20,8 @@ import {
   getTransactionDescription,
 } from '../bankingRuleDetailSelectors';
 import RuleTypes from '../RuleTypes';
-import handleAutoCompleteChange from '../../../../components/handlers/handleAutoCompleteChange';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
+import handleContactAutoCompleteChange from '../../../../components/handlers/handleContactAutoCompleteChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 import handleRadioButtonChange from '../../../../components/handlers/handleRadioButtonChange';
 import styles from './BankingRuleDetailTransactionSection.module.css';
@@ -29,7 +29,7 @@ import styles from './BankingRuleDetailTransactionSection.module.css';
 const BankingRuleBillTransactionSection = ({
   renderContactCombobox,
   contactId,
-  onRuleConditionsChange,
+  onContactChange,
   onAlert,
 }) => (
   <React.Fragment>
@@ -40,7 +40,7 @@ const BankingRuleBillTransactionSection = ({
         requiredLabel: 'This is required',
         hideLabel: false,
         allowClear: true,
-        onChange: handleAutoCompleteChange('contactId', onRuleConditionsChange),
+        onChange: handleContactAutoCompleteChange('contactId', onContactChange),
         onAlert,
         width: 'xl',
       })}
@@ -51,7 +51,7 @@ const BankingRuleBillTransactionSection = ({
 const BankingRuleInvoiceTransactionSection = ({
   renderContactCombobox,
   contactId,
-  onRuleConditionsChange,
+  onContactChange,
   onAlert,
 }) => (
   <React.Fragment>
@@ -62,7 +62,7 @@ const BankingRuleInvoiceTransactionSection = ({
         requiredLabel: 'This is required',
         hideLabel: false,
         allowClear: true,
-        onChange: handleAutoCompleteChange('contactId', onRuleConditionsChange),
+        onChange: handleContactAutoCompleteChange('contactId', onContactChange),
         onAlert,
         width: 'xl',
       })}
@@ -80,6 +80,7 @@ const BankingRuleSpendAndReceiveMoneyTransactionSection = ({
   isPaymentReportableCheckboxDisabled,
   showIsPaymentReportableCheckbox,
   showAllocationTable,
+  onContactChange,
   onRuleConditionsChange,
   onAlert,
 }) => (
@@ -91,9 +92,9 @@ const BankingRuleSpendAndReceiveMoneyTransactionSection = ({
           label: contactLabel,
           hideLabel: false,
           allowClear: true,
-          onChange: handleAutoCompleteChange(
+          onChange: handleContactAutoCompleteChange(
             'contactId',
-            onRuleConditionsChange
+            onContactChange
           ),
           onAlert,
         })}
@@ -143,6 +144,7 @@ const BankingRuleDetailTransactionSection = ({
   showIsPaymentReportableCheckbox,
   showAllocationTable,
   renderContactCombobox,
+  onContactChange,
   onRuleConditionsChange,
   onAlert,
 }) => {
@@ -151,7 +153,7 @@ const BankingRuleDetailTransactionSection = ({
       return (
         <BankingRuleBillTransactionSection
           renderContactCombobox={renderContactCombobox}
-          onRuleConditionsChange={onRuleConditionsChange}
+          onContactChange={onContactChange}
           contactId={contactId}
           onAlert={onAlert}
         />
@@ -160,7 +162,7 @@ const BankingRuleDetailTransactionSection = ({
       return (
         <BankingRuleInvoiceTransactionSection
           renderContactCombobox={renderContactCombobox}
-          onRuleConditionsChange={onRuleConditionsChange}
+          onContactChange={onContactChange}
           contactId={contactId}
           onAlert={onAlert}
         />
@@ -180,6 +182,7 @@ const BankingRuleDetailTransactionSection = ({
           showIsPaymentReportableCheckbox={showIsPaymentReportableCheckbox}
           showAllocationTable={showAllocationTable}
           onRuleConditionsChange={onRuleConditionsChange}
+          onContactChange={onContactChange}
           onAlert={onAlert}
         />
       );

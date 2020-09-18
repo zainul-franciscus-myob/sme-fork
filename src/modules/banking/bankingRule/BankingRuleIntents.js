@@ -1,3 +1,4 @@
+export const UPDATE_CONTACT = Symbol('Update contact');
 export const UPDATE_RULE_DETAILS = Symbol('Update rule details');
 export const UPDATE_RULE_CONDITION = Symbol('Update rule condition');
 export const ADD_RULE_CONDITION = Symbol('Add rule condition');
@@ -14,10 +15,7 @@ export const START_LOADING = Symbol('Start loading');
 export const STOP_LOADING = Symbol('Stop loading');
 export const OPEN = Symbol('Open');
 export const CLOSE = Symbol('Close');
-export const START_LOADING_CONTACT = Symbol('Start loading contact');
-export const STOP_LOADING_CONTACT = Symbol('Stop loading contact');
 
-export const LOAD_CONTACT = Symbol('Load contact');
 export const CREATE_BANKING_RULE_BILL = Symbol('Create banking rule bill');
 export const CREATE_BANKING_RULE_INVOICE = Symbol(
   'Create banking rule invoice'

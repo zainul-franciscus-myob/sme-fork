@@ -24,7 +24,6 @@ const getDefaultState = () => ({
   },
   isOpen: false,
   isLoading: false,
-  isContactLoading: false,
   contactType: undefined,
   bankAccounts: [],
   taxCodes: [],

@@ -16,7 +16,6 @@ import {
   getModalUrl,
   getOpenedModalType,
   getSaveUrl,
-  getShouldLoadContact,
   getSupplierComboboxContext,
 } from './bankingRuleDetailSelectors';
 import AlertType from '../../../common/types/AlertType';
@@ -60,6 +59,7 @@ export default class BankingRuleDetailModule {
     const bankingRuleDetailView = (
       <BankingRuleDetailView
         renderContactCombobox={renderContactCombobox}
+        onContactChange={this.updateContact}
         onRuleDetailsChange={this.updateForm}
         onRuleConditionsChange={this.updateForm}
         onConditionChange={this.updateRuleCondition}
@@ -96,11 +96,6 @@ export default class BankingRuleDetailModule {
     const onSuccess = (intent) => (bankingRule) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadBankingRule(intent, bankingRule);
-      if (getShouldLoadContact(this.store.getState())) {
-        this.loadContact(({ contactType }) => {
-          this.dispatcher.setContactType(contactType);
-        });
-      }
       this.loadContactCombobox();
     };
 
@@ -254,30 +249,15 @@ export default class BankingRuleDetailModule {
     if (key === 'ruleType') {
       this.loadContactCombobox();
     }
-
-    if (key === 'contactId') {
-      this.loadContact(({ contactType, isPaymentReportable }) => {
-        this.dispatcher.setContactType(contactType);
-        this.dispatcher.setIsPaymentReportable(isPaymentReportable);
-      });
-    }
   };
 
-  loadContact = (onSuccess) => {
-    const onSuccessInner = (contact) => {
-      onSuccess(contact);
-      this.dispatcher.stopLoadContact();
-    };
-    const onFailure = ({ message }) => {
-      this.dispatcher.displayAlert({
-        type: AlertType.DANGER,
-        message,
-      });
-      this.dispatcher.stopLoadContact();
-    };
-
-    this.dispatcher.startLoadContact();
-    this.integrator.loadContact({ onSuccess: onSuccessInner, onFailure });
+  updateContact = ({ key, value, contactType, isReportable }) => {
+    this.dispatcher.updateContact({
+      key,
+      value,
+      contactType,
+      isPaymentReportable: isReportable,
+    });
   };
 
   openDeleteModal = () => {

@@ -26,6 +26,7 @@ const BankingRuleDetailView = ({
   jobModal,
   pageTitle,
   showAllocationTable,
+  onContactChange,
   onRuleDetailsChange,
   onRuleConditionsChange,
   onConditionChange,
@@ -77,6 +78,7 @@ const BankingRuleDetailView = ({
         />
         <BankingRuleDetailTransactionSection
           renderContactCombobox={renderContactCombobox}
+          onContactChange={onContactChange}
           onRuleConditionsChange={onRuleConditionsChange}
           onAlert={onAlert}
         />

@@ -18,6 +18,7 @@ import SuggestMatchSection from './SuggestMatchSection';
 const BankingRuleView = ({
   onCancel,
   onSave,
+  onContactChange,
   onDetailsChange,
   onConditionChange,
   onConditionAdd,
@@ -48,6 +49,7 @@ const BankingRuleView = ({
       />
       {showShowAllocationSection && (
         <AllocationSection
+          onContactChange={onContactChange}
           onDetailsChange={onDetailsChange}
           onAddAllocationLine={onAddAllocationLine}
           onUpdateAllocationLine={onUpdateAllocationLine}
@@ -58,7 +60,7 @@ const BankingRuleView = ({
       )}
       {!showShowAllocationSection && (
         <SuggestMatchSection
-          onDetailsChange={onDetailsChange}
+          onContactChange={onContactChange}
           renderContactCombobox={renderContactCombobox}
           onAlert={onAlert}
         />

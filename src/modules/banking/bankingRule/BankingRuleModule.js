@@ -53,6 +53,7 @@ export default class BankingRuleModule {
         <BankingRuleView
           renderContactCombobox={renderContactCombobox}
           onDetailsChange={this.updateRuleDetails}
+          onContactChange={this.updateContact}
           onConditionChange={this.updateRuleCondition}
           onConditionAdd={this.addRuleCondition}
           onPredicateAdd={this.addConditionPredicate}
@@ -77,10 +78,16 @@ export default class BankingRuleModule {
     if (key === 'ruleType') {
       this.loadContactCombobox();
     }
+  };
 
-    if (key === 'contactId') {
-      this.loadContact();
-    }
+  updateContact = (contact) => {
+    const { key, value, contactType, isReportable } = contact;
+    this.dispatcher.updateContact({
+      key,
+      value,
+      contactType,
+      isPaymentReportable: isReportable,
+    });
   };
 
   addRuleCondition = () => {
@@ -122,23 +129,6 @@ export default class BankingRuleModule {
 
   removeTableRow = (index) => {
     this.dispatcher.removeTableRow(index);
-  };
-
-  loadContact = () => {
-    const onSuccess = (response) => {
-      this.dispatcher.loadContact(response);
-      this.dispatcher.stopLoadingContact();
-    };
-    const onFailure = ({ message }) => {
-      this.dispatcher.setAlert({
-        type: AlertType.DANGER,
-        message,
-      });
-      this.dispatcher.stopLoadingContact();
-    };
-
-    this.dispatcher.startLoadingContact();
-    this.integrator.loadContact({ onSuccess, onFailure });
   };
 
   createBankingRule = (onCreateBankingRule) => {

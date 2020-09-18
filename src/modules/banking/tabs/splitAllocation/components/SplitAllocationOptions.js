@@ -11,21 +11,13 @@ import {
   getIsSpendMoney,
   getShowIsReportableCheckbox,
 } from '../splitAllocationSelectors';
+import handleContactAutoCompleteChange from '../../../../../components/handlers/handleContactAutoCompleteChange';
 import handleInputChange from '../../../../../components/handlers/handleInputChange';
 import styles from './SplitAllocationOptions.module.css';
 
 const handleCheckboxChange = (handler) => (e) => {
   const { checked, name } = e.target;
   handler({ key: name, value: checked });
-};
-
-const handleContactAutoCompleteChange = (key, handler) => (item) => {
-  handler({
-    key,
-    value: item ? item.id : '',
-    contactType: item ? item.contactType : '',
-    isReportable: item ? item.isReportable : undefined,
-  });
 };
 
 const SplitAllocationOptions = (props) => {

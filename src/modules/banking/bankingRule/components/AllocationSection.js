@@ -7,7 +7,6 @@ import {
   getAllocations,
   getContactId,
   getDescription,
-  getIsContactLoading,
   getIsPaymentReportable,
   getRegion,
   getShouldShowReportableCheckbox,
@@ -15,13 +14,14 @@ import {
 import AllocationTable from './AllocationTable';
 import AllocationTypes from '../AllocationTypes';
 import ReportableCheckbox from '../../../../components/ReportableCheckbox/ReportableCheckbox';
-import handleAutoCompleteChange from '../../../../components/handlers/handleAutoCompleteChange';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
+import handleContactAutoCompleteChange from '../../../../components/handlers/handleContactAutoCompleteChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 import handleRadioButtonChange from '../../../../components/handlers/handleRadioButtonChange';
 import styles from './AllocationSection.module.css';
 
 const AllocationSection = ({
+  onContactChange,
   onDetailsChange,
   onAddAllocationLine,
   onUpdateAllocationLine,
@@ -34,7 +34,6 @@ const AllocationSection = ({
   allocationType,
   region,
   isPaymentReportable,
-  isContactLoading,
   shouldShowPaymentReportableCheckbox,
 }) => (
   <FieldGroup label="Create transaction with this information">
@@ -44,7 +43,7 @@ const AllocationSection = ({
         label: 'Contact',
         hideLabel: false,
         allowClear: true,
-        onChange: handleAutoCompleteChange('contactId', onDetailsChange),
+        onChange: handleContactAutoCompleteChange('contactId', onContactChange),
         onAlert,
         width: 'xl',
         className: styles.contact,
@@ -56,7 +55,6 @@ const AllocationSection = ({
           checked={isPaymentReportable}
           onChange={handleCheckboxChange(onDetailsChange)}
           region={region}
-          disabled={isContactLoading}
         />
       )}
     </div>
@@ -91,7 +89,6 @@ const mapStateToProps = (state) => ({
   allocationType: getAllocationType(state),
   allocations: getAllocations(state),
   isPaymentReportable: getIsPaymentReportable(state),
-  isContactLoading: getIsContactLoading(state),
   shouldShowPaymentReportableCheckbox: getShouldShowReportableCheckbox(state),
   region: getRegion(state),
 });

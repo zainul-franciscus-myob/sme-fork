@@ -116,7 +116,6 @@ export const getIsPaymentReportable = createSelector(
   getBankingRule,
   (bankingRule) => bankingRule.isPaymentReportable
 );
-export const getIsContactLoading = (state) => state.isContactLoading;
 
 const getContactType = (state) => state.contactType;
 export const getShouldShowReportableCheckbox = createSelector(

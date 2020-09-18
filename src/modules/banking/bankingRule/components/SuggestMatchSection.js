@@ -7,11 +7,11 @@ import {
   getContactLabel,
   getMatchSectionHeader,
 } from '../bankingRuleSelectors';
-import handleAutoCompleteChange from '../../../../components/handlers/handleAutoCompleteChange';
+import handleContactAutoCompleteChange from '../../../../components/handlers/handleContactAutoCompleteChange';
 import styles from './SuggestMatchSection.module.css';
 
 const SuggestMatchSection = ({
-  onDetailsChange,
+  onContactChange,
   onAlert,
   renderContactCombobox,
   contactId,
@@ -26,7 +26,7 @@ const SuggestMatchSection = ({
         requiredLabel: 'This is required',
         hideLabel: false,
         allowClear: true,
-        onChange: handleAutoCompleteChange('contactId', onDetailsChange),
+        onChange: handleContactAutoCompleteChange('contactId', onContactChange),
         onAlert,
         width: 'xl',
       })}

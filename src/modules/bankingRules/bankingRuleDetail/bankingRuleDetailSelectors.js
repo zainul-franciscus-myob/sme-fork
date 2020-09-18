@@ -164,7 +164,7 @@ export const getIsInputField = (state, { index }) => {
 
 export const getIsPaymentReportable = (state) => state.isPaymentReportable;
 export const getIsPaymentReportableCheckboxDisabled = (state) =>
-  state.contactType !== ContactType.SUPPLIER || state.isContactLoading;
+  state.contactType !== ContactType.SUPPLIER;
 export const getSaveBankingRuleContent = createStructuredSelector({
   name: getName,
   isInactiveRule: getIsInactiveRule,
@@ -241,21 +241,4 @@ export const getSupplierComboboxContext = buildGetContactComboboxContext(
 
 export const getContactComboboxContext = buildGetContactComboboxContext(
   ContactType.ALL
-);
-
-export const getLoadContactUrlParams = createSelector(
-  getBusinessId,
-  getContactId,
-  (businessId, contactId) => ({
-    businessId,
-    contactId,
-  })
-);
-
-export const getShouldLoadContact = createSelector(
-  getBankingRuleType,
-  getContactId,
-  (bankingRuleType, contactId) => {
-    return bankingRuleType === RuleTypes.spendMoney && Boolean(contactId);
-  }
 );

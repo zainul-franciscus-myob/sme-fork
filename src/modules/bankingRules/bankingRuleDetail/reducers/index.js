@@ -6,12 +6,9 @@ import {
   LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_BANKING_RULE,
   OPEN_MODAL,
-  SET_CONTACT_TYPE,
   SET_IS_PAGE_EDITED,
-  SET_IS_PAYMENT_REPORTABLE,
   SET_LOADING_STATE,
-  START_LOAD_CONTACT,
-  STOP_LOAD_CONTACT,
+  UPDATE_CONTACT,
   UPDATE_FORM,
 } from '../BankingRuleDetailIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
@@ -107,31 +104,15 @@ const loadJobAfterCreate = (state, { intent, ...job }) => ({
   isPageEdited: true,
 });
 
-const setContactType = (state, { contactType }) => {
-  return {
-    ...state,
-    contactType,
-  };
-};
-
-const setIsPaymentReportable = (state, { isPaymentReportable }) => {
+const updateContact = (
+  state,
+  { key, value, contactType, isPaymentReportable }
+) => {
   return {
     ...state,
     isPaymentReportable,
-  };
-};
-
-const startLoadContact = (state) => {
-  return {
-    ...state,
-    isContactLoading: true,
-  };
-};
-
-const stopLoadContact = (state) => {
-  return {
-    ...state,
-    isContactLoading: false,
+    contactType,
+    [key]: value,
   };
 };
 
@@ -148,10 +129,7 @@ const handlers = {
   [LOAD_NEW_BANKING_RULE]: loadBankingRuleDetail,
   [LOAD_BANKING_RULE]: loadBankingRuleDetail,
   [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
-  [SET_CONTACT_TYPE]: setContactType,
-  [SET_IS_PAYMENT_REPORTABLE]: setIsPaymentReportable,
-  [START_LOAD_CONTACT]: startLoadContact,
-  [STOP_LOAD_CONTACT]: stopLoadContact,
+  [UPDATE_CONTACT]: updateContact,
   ...allocationHandlers,
   ...conditionHandlers,
 };

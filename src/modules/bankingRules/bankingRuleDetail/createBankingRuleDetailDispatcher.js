@@ -10,14 +10,11 @@ import {
   OPEN_MODAL,
   REMOVE_CONDITION_PREDICATE,
   REMOVE_TABLE_ROW,
-  SET_CONTACT_TYPE,
   SET_IS_PAGE_EDITED,
-  SET_IS_PAYMENT_REPORTABLE,
   SET_JOB_LOADING_STATE,
   SET_LOADING_STATE,
-  START_LOAD_CONTACT,
-  STOP_LOAD_CONTACT,
   UPDATE_CONDITION_PREDICATE,
+  UPDATE_CONTACT,
   UPDATE_FORM,
   UPDATE_RULE_CONDITION,
 } from './BankingRuleDetailIntents';
@@ -115,6 +112,13 @@ const createBankingRuleDetailDispatcher = (store) => ({
     });
   },
 
+  updateContact: (contact) => {
+    store.dispatch({
+      intent: UPDATE_CONTACT,
+      ...contact,
+    });
+  },
+
   updateRuleCondition: (conditionIndex, key, value) => {
     store.dispatch({
       intent: UPDATE_RULE_CONDITION,
@@ -168,32 +172,6 @@ const createBankingRuleDetailDispatcher = (store) => ({
       intent: SET_JOB_LOADING_STATE,
       isJobLoading,
     }),
-
-  setContactType: (contactType) => {
-    store.dispatch({
-      intent: SET_CONTACT_TYPE,
-      contactType,
-    });
-  },
-
-  setIsPaymentReportable: (isPaymentReportable) => {
-    store.dispatch({
-      intent: SET_IS_PAYMENT_REPORTABLE,
-      isPaymentReportable,
-    });
-  },
-
-  startLoadContact: () => {
-    store.dispatch({
-      intent: START_LOAD_CONTACT,
-    });
-  },
-
-  stopLoadContact: () => {
-    store.dispatch({
-      intent: STOP_LOAD_CONTACT,
-    });
-  },
 });
 
 export default createBankingRuleDetailDispatcher;

@@ -4,15 +4,10 @@ import {
   DELETE_BANKING_RULE,
   DISPLAY_ALERT,
   LOAD_BANKING_RULE,
-  LOAD_CONTACT,
   LOAD_NEW_BANKING_RULE,
   OPEN_MODAL,
-  SET_CONTACT_TYPE,
   SET_IS_PAGE_EDITED,
-  SET_IS_PAYMENT_REPORTABLE,
   SET_LOADING_STATE,
-  START_LOAD_CONTACT,
-  STOP_LOAD_CONTACT,
   UPDATE_BANKING_RULE,
   UPDATE_FORM,
 } from '../BankingRuleDetailIntents';
@@ -172,97 +167,6 @@ describe('BankingRuleDetailModule', () => {
             }),
           ]);
         });
-      });
-    });
-
-    describe('when existing spend money rule with contact', () => {
-      const setupWithExistingSpendMoneyRule = () => {
-        const toolbox = setup();
-        const { integration } = toolbox;
-        integration.overrideMapping(LOAD_BANKING_RULE, ({ onSuccess }) => {
-          onSuccess({
-            ...loadBankingRuleDetail,
-            contactId: '🍉',
-            ruleType: RuleTypes.spendMoney,
-          });
-        });
-
-        return toolbox;
-      };
-
-      it('successfully load contact type', () => {
-        const {
-          module,
-          store,
-          integration,
-        } = setupWithExistingSpendMoneyRule();
-
-        module.run({
-          businessId: '🐛',
-          region: 'au',
-          bankingRuleId: '🦕',
-        });
-
-        expect(store.getActions()).toEqual(
-          expect.arrayContaining([
-            {
-              intent: START_LOAD_CONTACT,
-            },
-            expect.objectContaining({
-              intent: SET_CONTACT_TYPE,
-            }),
-            {
-              intent: STOP_LOAD_CONTACT,
-            },
-          ])
-        );
-        expect(integration.getRequests()).toContainEqual(
-          expect.objectContaining({
-            intent: LOAD_CONTACT,
-            urlParams: {
-              businessId: '🐛',
-              contactId: '🍉',
-            },
-          })
-        );
-      });
-
-      it('fails to load contact type', () => {
-        const {
-          module,
-          store,
-          integration,
-        } = setupWithExistingSpendMoneyRule();
-        integration.mapFailure(LOAD_CONTACT);
-
-        module.run({
-          businessId: '🐛',
-          region: 'au',
-          bankingRuleId: '🦕',
-        });
-
-        expect(store.getActions()).toEqual(
-          expect.arrayContaining([
-            {
-              intent: START_LOAD_CONTACT,
-            },
-            expect.objectContaining({
-              intent: DISPLAY_ALERT,
-            }),
-            {
-              intent: STOP_LOAD_CONTACT,
-            },
-          ])
-        );
-        expect(integration.getRequests()).toContainEqual(
-          expect.objectContaining({
-            intent: LOAD_CONTACT,
-            urlParams: {
-              businessId: '🐛',
-              contactId: '🍉',
-            },
-          })
-        );
       });
     });
 
@@ -528,46 +432,6 @@ describe('BankingRuleDetailModule', () => {
         },
       ]);
       expect(integration.getRequests()).toEqual([]);
-    });
-
-    describe('contactId', () => {
-      it('loads the contact and sets the contactType and isPaymentReportable', () => {
-        const { module, integration, store } = setupWithNew();
-
-        module.updateForm({ key: 'contactId', value: '🤷‍♀️' });
-
-        expect(store.getActions()).toEqual([
-          {
-            intent: SET_IS_PAGE_EDITED,
-          },
-          {
-            intent: UPDATE_FORM,
-            key: 'contactId',
-            value: '🤷‍♀️',
-          },
-          {
-            intent: START_LOAD_CONTACT,
-          },
-          expect.objectContaining({
-            intent: SET_CONTACT_TYPE,
-          }),
-          expect.objectContaining({
-            intent: SET_IS_PAYMENT_REPORTABLE,
-          }),
-          {
-            intent: STOP_LOAD_CONTACT,
-          },
-        ]);
-        expect(integration.getRequests()).toEqual([
-          expect.objectContaining({
-            intent: LOAD_CONTACT,
-            urlParams: {
-              businessId: '🐛',
-              contactId: '🤷‍♀️',
-            },
-          }),
-        ]);
-      });
     });
 
     describe('ruleType', () => {

@@ -2,9 +2,7 @@ import {
   getIsInputField,
   getIsPaymentReportableCheckboxDisabled,
   getRemainingPercentage,
-  getShouldLoadContact,
 } from '../bankingRuleDetailSelectors';
-import RuleTypes from '../RuleTypes';
 
 describe('bankingRuleDetailSelectors', () => {
   describe('getIsInputField', () => {
@@ -102,9 +100,8 @@ describe('bankingRuleDetailSelectors', () => {
   });
 
   describe('getIsPaymentReportableCheckboxDisabled', () => {
-    it('enabled when supplier and not loading', () => {
+    it('enabled when supplier', () => {
       const state = {
-        isContactLoading: false,
         contactType: 'Supplier',
       };
 
@@ -115,59 +112,12 @@ describe('bankingRuleDetailSelectors', () => {
 
     it('disabled when not supplier', () => {
       const state = {
-        isContactLoading: false,
         contactType: 'Customer',
       };
 
       const actual = getIsPaymentReportableCheckboxDisabled(state);
 
       expect(actual).toEqual(true);
-    });
-
-    it('disabled when still loading contact', () => {
-      const state = {
-        isContactLoading: true,
-        contactType: 'Supplier',
-      };
-
-      const actual = getIsPaymentReportableCheckboxDisabled(state);
-
-      expect(actual).toEqual(true);
-    });
-  });
-
-  describe('getShouldLoadContact', () => {
-    it('should load when is spend money with contact', () => {
-      const state = {
-        ruleType: RuleTypes.spendMoney,
-        contactId: '1',
-      };
-
-      const actual = getShouldLoadContact(state);
-
-      expect(actual).toEqual(true);
-    });
-
-    it('should not load when no contact', () => {
-      const state = {
-        ruleType: RuleTypes.spendMoney,
-        contactId: '',
-      };
-
-      const actual = getShouldLoadContact(state);
-
-      expect(actual).toEqual(false);
-    });
-
-    it('should not load when not spend money', () => {
-      const state = {
-        ruleType: RuleTypes.receiveMoney,
-        contactId: '1',
-      };
-
-      const actual = getShouldLoadContact(state);
-
-      expect(actual).toEqual(false);
     });
   });
 });

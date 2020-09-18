@@ -2,6 +2,7 @@
   "title": "Receive Money Banking Rule",
   "name": "Receive Money Banking Rule",
   "ruleType": "ReceiveMoney",
+  "contactType": "Customer",
   "isInactiveRule": true,
   "applyToAllAccounts": "One bank account",
   "transactionDescription": "This is a description",

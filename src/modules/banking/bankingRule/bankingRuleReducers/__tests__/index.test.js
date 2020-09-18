@@ -1,5 +1,5 @@
-import { LOAD_CONTACT } from '../../BankingRuleIntents';
 import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
+import { UPDATE_CONTACT } from '../../BankingRuleIntents';
 import ContactType from '../../../../contact/contactCombobox/types/ContactType';
 import bankingRuleReducer from '../index';
 import fieldTypes from '../../FieldTypes';
@@ -30,9 +30,11 @@ describe('bankingRuleReducer', () => {
   describe('loadContact', () => {
     it('sets isPaymentReportable and contactType', () => {
       const action = {
-        intent: LOAD_CONTACT,
+        intent: UPDATE_CONTACT,
         isPaymentReportable: true,
         contactType: ContactType.SUPPLIER,
+        key: 'contactId',
+        value: '1',
       };
       const state = {
         bankingRule: {},
@@ -42,6 +44,7 @@ describe('bankingRuleReducer', () => {
 
       expect(actual.contactType).toEqual(ContactType.SUPPLIER);
       expect(actual.bankingRule.isPaymentReportable).toEqual(true);
+      expect(actual.bankingRule.contactId).toEqual('1');
     });
   });
 });

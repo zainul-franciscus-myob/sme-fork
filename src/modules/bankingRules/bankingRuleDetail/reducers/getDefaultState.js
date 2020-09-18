@@ -32,7 +32,6 @@ const getDefaultState = () => ({
   modal: undefined,
   isPaymentReportable: undefined,
   contactType: undefined,
-  isContactLoading: false,
 });
 
 export default getDefaultState;

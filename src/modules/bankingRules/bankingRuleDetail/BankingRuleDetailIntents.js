@@ -25,8 +25,4 @@ export const REMOVE_CONDITION_PREDICATE = Symbol('Remove condition predicate');
 export const LOAD_JOB_AFTER_CREATE = Symbol('Load job after create');
 export const SET_JOB_LOADING_STATE = Symbol('Set job loading state');
 
-export const LOAD_CONTACT = Symbol('Load contact');
-export const SET_CONTACT_TYPE = Symbol('Set contact type');
-export const SET_IS_PAYMENT_REPORTABLE = Symbol('Set is payment reportable');
-export const START_LOAD_CONTACT = Symbol('Start load contact');
-export const STOP_LOAD_CONTACT = Symbol('Stop load contact');
+export const UPDATE_CONTACT = Symbol('Update contact');
