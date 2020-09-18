@@ -135,6 +135,22 @@ describe('QuoteListModule', () => {
         expect.objectContaining({ intent: SORT_AND_FILTER_QUOTE_LIST }),
       ]);
     });
+
+    it('successfully apply filter for status', () => {
+      const { store, integration, module } = setupWithRun();
+
+      module.updateFilterOptions({ filterName: 'status', value: 'Open' });
+
+      expect(store.getActions()).toEqual([
+        { intent: UPDATE_FILTER_OPTIONS, filterName: 'status', value: 'Open' },
+        { intent: SET_TABLE_LOADING_STATE, isTableLoading: true },
+        { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
+        expect.objectContaining({ intent: SORT_AND_FILTER_QUOTE_LIST }),
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: SORT_AND_FILTER_QUOTE_LIST }),
+      ]);
+    });
   });
 
   describe('resetFilterOptions', () => {

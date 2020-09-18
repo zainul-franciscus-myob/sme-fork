@@ -1,4 +1,4 @@
-import { DatePicker } from '@myob/myob-widgets';
+import { DatePicker, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -17,7 +17,13 @@ class QuoteListFilterOptions extends React.Component {
     const filterName = 'customerId';
     const { id: value } = item;
     const { onUpdateFilters } = this.props;
+    onUpdateFilters({ filterName, value });
+  };
 
+  onSelectChange = (e) => {
+    const filterName = 'status';
+    const { value } = e.target;
+    const { onUpdateFilters } = this.props;
     onUpdateFilters({ filterName, value });
   };
 
@@ -36,15 +42,28 @@ class QuoteListFilterOptions extends React.Component {
 
   render = () => {
     const {
-      filterOptions: { customerId, dateFrom, dateTo, keywords },
+      filterOptions: { customerId, dateFrom, dateTo, keywords, status },
       customerFilterOptions,
       total,
       onResetFilters,
     } = this.props;
 
+    const statusDropdown = ['All', 'Open', 'Accepted', 'Declined', 'Invoiced'];
+
     return (
       <div className={styles.filterOptions}>
         <FilterBar onReset={onResetFilters}>
+          <Select
+            key="status"
+            name="status"
+            label="Status"
+            value={status}
+            onChange={this.onSelectChange}
+          >
+            {statusDropdown.map((item) => (
+              <Select.Option key={item} value={item} label={item} />
+            ))}
+          </Select>
           <CustomerCombobox
             items={customerFilterOptions}
             selectedId={customerId}

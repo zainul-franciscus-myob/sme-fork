@@ -11,21 +11,46 @@ import PageView from '../../../../components/PageView/PageView';
 import PaginatedListTemplate from '../../../../components/PaginatedListTemplate/PaginatedListTemplate';
 import QuoteListFilterOptions from './QuoteListFilterOptions';
 import QuoteListTable from './QuoteListTable';
-import style from './QuoteListView.module.css';
+import QuoteListTableHeader from './QuoteListTableHeader';
+import styles from './QuoteListView.module.css';
 
-const QuoteListView = (props) => {
-  const {
-    loadingState,
-    alert,
-    loadMoreButtonStatus,
-    onDismissAlert,
-    onUpdateFilters,
-    onResetFilters,
-    onSort,
-    onAddQuote,
-    onLoadQuoteListNextPage,
-  } = props;
+const tableConfig = {
+  displayDate: { columnName: 'Date', valign: 'top' },
+  referenceId: { columnName: 'Quote number', valign: 'top' },
+  customer: { columnName: 'Customer', valign: 'top' },
+  purchaseOrder: {
+    columnName: 'Customer PO number',
+    valign: 'top',
+    className: styles.columnPurchaseOrder,
+  },
+  displayAmount: {
+    columnName: 'Amount ($)',
+    valign: 'top',
+    align: 'right',
+    width: '12.5rem',
+  },
+  emailStatus: {
+    columnName: 'Sent',
+    valign: 'top',
+    align: 'center',
+    width: '7.5rem',
+    className: styles.columnSent,
+  },
+  displayExpiryDate: { columnName: 'Expiry Date', valign: 'top' },
+  status: { columnName: 'Status', valign: 'top', width: '11rem' },
+};
 
+const QuoteListView = ({
+  loadingState,
+  alert,
+  loadMoreButtonStatus,
+  onDismissAlert,
+  onUpdateFilters,
+  onResetFilters,
+  onSort,
+  onAddQuote,
+  onLoadQuoteListNextPage,
+}) => {
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
       {alert.message}
@@ -45,10 +70,12 @@ const QuoteListView = (props) => {
     </PageHead>
   );
 
-  const quoteList = (
-    <div className={style.list}>
-      <QuoteListTable onSort={onSort} onAddQuote={onAddQuote} />
-    </div>
+  const tableHeader = (
+    <QuoteListTableHeader tableConfig={tableConfig} onSort={onSort} />
+  );
+
+  const listTable = (
+    <QuoteListTable tableConfig={tableConfig} onAddQuote={onAddQuote} />
   );
 
   const quoteListView = (
@@ -56,7 +83,8 @@ const QuoteListView = (props) => {
       pageHead={pageHead}
       filterBar={filterBar}
       alert={alertComponent}
-      listTable={quoteList}
+      tableHeader={tableHeader}
+      listTable={listTable}
       loadMoreButtonStatus={loadMoreButtonStatus}
       onLoadMoreButtonClick={onLoadQuoteListNextPage}
     />

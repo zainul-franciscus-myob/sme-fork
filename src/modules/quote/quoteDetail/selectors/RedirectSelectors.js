@@ -56,3 +56,8 @@ export const getInvoiceAndQuoteSettingsUrl = (state) => {
 
   return `${baseUrl}/salesSettings`;
 };
+
+export const getInvoiceUrl = (state, invoiceId) => {
+  const baseUrl = getBaseUrl(state);
+  return `${baseUrl}/invoice/${invoiceId}`;
+};

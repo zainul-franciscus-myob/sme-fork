@@ -29,6 +29,7 @@ import {
   SET_QUOTE_LINE_DIRTY,
   SET_QUOTE_SUBMITTING_STATE,
   SET_SUBMITTING_STATE,
+  TOGGLE_QUOTE_HISTORY_ACCORDION,
   UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
   UPDATE_EMAIL_QUOTE_DETAIL,
   UPDATE_LAYOUT,
@@ -80,7 +81,10 @@ const createQuoteDetailDispatcher = (store) => ({
   dismissModalAlert: () => store.dispatch({ intent: SET_MODAL_ALERT }),
 
   loadQuote: (payload) =>
-    store.dispatch({ intent: LOAD_QUOTE_DETAIL, ...payload }),
+    store.dispatch({
+      intent: LOAD_QUOTE_DETAIL,
+      ...payload,
+    }),
 
   reloadQuote: (payload) =>
     store.dispatch({ intent: RELOAD_QUOTE_DETAIL, ...payload }),
@@ -246,6 +250,11 @@ const createQuoteDetailDispatcher = (store) => ({
       intent: CACHE_ITEM_SELLING_DETAILS,
       itemId,
       itemSellingDetails,
+    }),
+
+  toggleQuoteHistoryAccordion: () =>
+    store.dispatch({
+      intent: TOGGLE_QUOTE_HISTORY_ACCORDION,
     }),
 });
 

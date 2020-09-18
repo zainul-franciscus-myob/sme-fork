@@ -1,12 +1,14 @@
-import { Button, Icons, TotalsHeader } from '@myob/myob-widgets';
+import { Button, Icons, Label, TotalsHeader } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
   getIsActionsDisabled,
   getIsCreating,
+  getIsOpenAndExpired,
   getIsReadOnly,
   getPageTitle,
+  getStatus,
   getTotals,
 } from '../selectors/QuoteDetailSelectors';
 import TotalsHeaderItemFormattedCurrency from '../../../../components/TotalsHeader/TotalsHeaderItemFormattedCurrency';
@@ -14,7 +16,9 @@ import TotalsHeaderItemFormattedCurrency from '../../../../components/TotalsHead
 const QuoteDetailPageHead = ({
   isCreating,
   isActionsDisabled,
+  isOpenAndExpired,
   isReadOnly,
+  status,
   totals: { totalAmount },
   pageTitle,
   onConvertToInvoiceButtonClick,
@@ -39,12 +43,40 @@ const QuoteDetailPageHead = ({
     </Button>,
   ];
 
+  const statusLabelColour = () => {
+    switch (status) {
+      case 'Open':
+        return isOpenAndExpired ? 'orange' : 'light-grey';
+      case 'Accepted':
+        return 'green';
+      case 'Declined':
+        return 'red';
+      case 'Invoiced':
+        return 'light-grey';
+      default:
+        return 'default';
+    }
+  };
+
   return (
-    <TotalsHeader title={pageTitle} totalItems={totalItems} actions={actions} />
+    <TotalsHeader
+      title={pageTitle}
+      totalItems={totalItems}
+      actions={actions}
+      tag={
+        <div>
+          <Label type="boxed" color={statusLabelColour()}>
+            {status}
+          </Label>
+        </div>
+      }
+    />
   );
 };
 
 const mapStateToProps = (state) => ({
+  status: getStatus(state),
+  isOpenAndExpired: getIsOpenAndExpired(state),
   isCreating: getIsCreating(state),
   isActionsDisabled: getIsActionsDisabled(state),
   totals: getTotals(state),

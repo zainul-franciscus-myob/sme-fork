@@ -41,6 +41,7 @@ import {
   getCreateInvoiceFromQuoteUrl,
   getCreateNewQuoteUrl,
   getInvoiceAndQuoteSettingsUrl,
+  getInvoiceUrl,
   getQuoteListURL,
 } from './selectors/RedirectSelectors';
 import {
@@ -457,6 +458,10 @@ export default class QuoteDetailModule {
     this.integrator.loadContactAddress({ onSuccess, onFailure });
   };
 
+  toggleQuoteHistoryAccordion = () => {
+    this.dispatcher.toggleQuoteHistoryAccordion();
+  };
+
   loadAccountAfterCreate = ({ message, id }, onChange) => {
     this.accountModalModule.close();
     this.displaySuccessAlert(message);
@@ -492,6 +497,12 @@ export default class QuoteDetailModule {
     } else {
       this.redirectToQuoteList();
     }
+  };
+
+  redirectToRefPage = (invoiceId) => {
+    const state = this.store.getState();
+    const url = getInvoiceUrl(state, invoiceId);
+    this.navigateTo(url, true);
   };
 
   openJobModal = (onChange) => {
@@ -772,6 +783,7 @@ export default class QuoteDetailModule {
           onUpdateLayout={this.updateLayout}
           onInputAlert={this.dispatcher.setAlert}
           serviceLayoutListeners={tableListeners}
+          onReferenceNoClick={this.redirectToRefPage}
           itemAndServiceLayoutListeners={tableListeners}
           quoteActionListeners={{
             onSaveButtonClick: this.saveQuote,
@@ -804,6 +816,7 @@ export default class QuoteDetailModule {
             onChangeExportPdfTemplate: this.dispatcher.changeExportPdfTemplate,
             onDismissAlert: this.dispatcher.dismissModalAlert,
           }}
+          onAccordionToggle={this.toggleQuoteHistoryAccordion}
         />
       </Provider>
     );

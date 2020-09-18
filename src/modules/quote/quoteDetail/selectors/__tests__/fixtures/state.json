@@ -15,6 +15,7 @@
     "issueDate": "2018-11-02",
     "purchaseOrderNumber": "123",
     "notesToCustomer": "Thank you!",
+    "isInvoiced": false,
     "lines": [
       {
         "id": "345",

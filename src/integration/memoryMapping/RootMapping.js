@@ -55,7 +55,6 @@ import PaySuperReadMapping from '../../modules/paySuper/paySuperRead/mappings/Me
 import PaySuperStsLoginMapping from '../../modules/stsLogin/mappings/MemoryPaySuperStsLoginMapping';
 import PayrollSettingsMapping from '../../modules/payrollSettings/mappings/MemoryPayrollSettingsMapping';
 import QuoteMapping from '../../modules/quote/mappings/MemoryQuoteMapping';
-import QuoteWithStatusMapping from '../../modules/quoteWithStatus/mappings/MemoryQuoteMapping';
 import ReceiveMoneyMapping from '../../modules/receiveMoney/mappings/MemoryReceiveMoneyMapping';
 import ReceiveRefundMapping from '../../modules/receiveRefund/mappings/MemoryReceiveRefundMapping';
 import ReportsSubscribeNowMapping from '../../modules/reportsSubscribeNow/mappings/MemorySubscriptionMapping';
@@ -170,7 +169,6 @@ const RootMapping = Object.freeze({
   ...EmployeeListNzMapping,
   ...TransactionListMapping,
   ...PayRunNzMapping,
-  ...QuoteWithStatusMapping,
   ...ReportsSubscribeNowMapping,
   ...BankingRuleModalMapping,
 });

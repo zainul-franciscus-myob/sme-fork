@@ -11,6 +11,7 @@ import {
   getQuoteLine,
   getReadOnlyMessage,
   getShowExportPdfButton,
+  getStatusDropdownOptions,
   getTotals,
 } from '../QuoteDetailSelectors';
 import ModalType from '../../ModalType';
@@ -39,6 +40,8 @@ describe('QuoteDetailSelectors', () => {
           purchaseOrderNumber: '123',
           note: 'Thank you!',
           isForeignCurrency: false,
+          status: 'Open',
+          isInvoiced: false,
         },
         commentOptions: [],
         expirationTermOptions: [
@@ -114,6 +117,7 @@ describe('QuoteDetailSelectors', () => {
         isCustomerDisabled: true,
         taxExclusiveLabel: 'Tax exclusive',
         taxInclusiveLabel: 'Tax inclusive',
+        status: 'Open',
       };
 
       const actual = getQuoteDetailOptions(state);
@@ -498,5 +502,33 @@ describe('QuoteDetailSelectors', () => {
         expect(actual).toEqual(expected);
       }
     );
+  });
+
+  describe('getStatusDropDownOptionsNotInvoiced', () => {
+    it('should not return Invoiced as dropdown option when isInvoiced false', () => {
+      const state = {
+        quote: {
+          isInvoiced: false,
+        },
+      };
+
+      const actual = getStatusDropdownOptions(state);
+
+      expect(actual).toEqual(['Open', 'Accepted', 'Declined']);
+    });
+  });
+
+  describe('getStatusDropDownOptionsInvoiced', () => {
+    it('should return Invoiced as dropdown option when isInvoiced true', () => {
+      const state = {
+        quote: {
+          isInvoiced: true,
+        },
+      };
+
+      const actual = getStatusDropdownOptions(state);
+
+      expect(actual).toEqual(['Open', 'Accepted', 'Declined', 'Invoiced']);
+    });
   });
 });

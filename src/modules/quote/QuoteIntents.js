@@ -88,3 +88,6 @@ export const SET_NEXT_PAGE_LOADING_STATE = Symbol(
 );
 
 export const RESET_CONTACT = Symbol('Reset contact');
+export const TOGGLE_QUOTE_HISTORY_ACCORDION = Symbol(
+  'Toggle quote history accordion'
+);

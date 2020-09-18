@@ -1,12 +1,20 @@
-import { Alert, DetailHeader, Input, ReadOnly } from '@myob/myob-widgets';
+import {
+  Alert,
+  DetailHeader,
+  Input,
+  ReadOnly,
+  Select,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React, { Fragment } from 'react';
 
 import {
   getIsBeforeStartOfFinancialYear,
+  getIsOpenAndExpired,
   getIsReadOnly,
   getQuoteDetailOptions,
   getReadOnlyMessage,
+  getStatusDropdownOptions,
 } from '../selectors/QuoteDetailSelectors';
 import BooleanRadioButtonGroup from '../../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
 import DatePicker from '../../../../components/DatePicker/DatePicker';
@@ -14,6 +22,7 @@ import PaymentTerms from '../../../../components/PaymentTerms/PaymentTerms';
 import handleAutoCompleteChange from '../../../../components/handlers/handleAutoCompleteChange';
 import handleDateChange from '../../../../components/handlers/handleDateChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
+import handleSelectChange from '../../../../components/handlers/handleSelectChange';
 import styles from './QuoteDetailOptions.module.css';
 
 const requiredLabel = 'Required';
@@ -28,6 +37,7 @@ const QuoteDetailOptions = (props) => {
     expirationTerm,
     expirationDays,
     expirationTermOptions,
+    status,
     isTaxInclusive,
     isBeforeStartOfFinancialYear,
     isCalculating,
@@ -38,7 +48,9 @@ const QuoteDetailOptions = (props) => {
     taxExclusiveLabel,
     renderContactCombobox,
     onUpdateHeaderOptions,
+    isExpired,
     onInputAlert,
+    statusOptions,
   } = props;
 
   const primary = (
@@ -100,7 +112,21 @@ const QuoteDetailOptions = (props) => {
         popoverLabel="Quote expires"
         requiredLabel={requiredLabel}
         disabled={isReadOnlyLayout}
+        displayWarning={isExpired}
+        warningMessage={'Expired'}
       />
+      <Select
+        key="status"
+        name="status"
+        label="Status"
+        value={status}
+        onChange={handleSelectChange(onUpdateHeaderOptions)}
+        disabled={isReadOnlyLayout}
+      >
+        {statusOptions.map((item) => (
+          <Select.Option key={item} value={item} label={item} />
+        ))}
+      </Select>
       <BooleanRadioButtonGroup
         name="isTaxInclusive"
         label="Amounts are"
@@ -128,6 +154,8 @@ const mapStateToProps = (state) => ({
   isReadOnlyLayout: getIsReadOnly(state),
   readOnlyMessage: getReadOnlyMessage(state),
   isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
+  isExpired: getIsOpenAndExpired(state),
+  statusOptions: getStatusDropdownOptions(state),
 });
 
 export default connect(mapStateToProps)(QuoteDetailOptions);

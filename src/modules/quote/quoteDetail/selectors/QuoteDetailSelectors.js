@@ -1,5 +1,5 @@
+import { addDays, isBefore, isPast } from 'date-fns';
 import { createSelector, createStructuredSelector } from 'reselect';
-import { isBefore } from 'date-fns';
 
 import {
   TaxCalculatorTypes,
@@ -13,6 +13,7 @@ import ModalType from '../ModalType';
 import QuoteLayout from '../QuoteLayout';
 import QuoteLineType from '../QuoteLineType';
 import calculateLineTotals from '../../../../common/taxCalculator/calculateLineTotals';
+import getExpiredDate from '../../../../components/PaymentTerms/handlers/getExpiredDate';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 
 const calculate = createTaxCalculator(TaxCalculatorTypes.quote);
@@ -49,6 +50,7 @@ export const getPurchaseOrderNumber = (state) =>
 export const getIssueDate = (state) => state.quote.issueDate;
 export const getExpirationTerm = (state) => state.quote.expirationTerm;
 export const getExpirationDays = (state) => Number(state.quote.expirationDays);
+export const getStatus = (state) => state.quote.status;
 export const getNote = (state) => state.quote.note;
 export const getIsTaxInclusive = (state) => state.quote.isTaxInclusive;
 export const getLines = (state) => state.quote.lines;
@@ -139,6 +141,7 @@ export const getQuoteDetailOptions = createStructuredSelector({
   expirationDays: getExpirationDays,
   expirationTerm: getExpirationTerm,
   expirationTermOptions: getExpirationTermOptions,
+  status: getStatus,
   isTaxInclusive: getIsTaxInclusive,
   isCalculating: getIsCalculating,
   isCustomerDisabled: getIsCustomerDisabled,
@@ -373,6 +376,28 @@ export const getContactComboboxContext = (state) => {
     contactType: ContactType.CUSTOMER,
     displayMode: DisplayMode.NAME_ONLY,
   };
+};
+
+export const getIsOpenAndExpired = (state) => {
+  const { quote } = state;
+  const { issueDate, expirationDays, expirationTerm } = quote;
+  const expiredDate = getExpiredDate({
+    issueDate,
+    expirationDays,
+    expirationTerm,
+  });
+  const status = getStatus(state);
+  return ['Prepaid', 'CashOnDelivery'].includes(expirationTerm)
+    ? false
+    : status === 'Open' && isPast(addDays(expiredDate, 1));
+};
+
+export const getStatusDropdownOptions = (state) => {
+  const { quote } = state;
+  const { isInvoiced } = quote;
+  return isInvoiced
+    ? ['Open', 'Accepted', 'Declined', 'Invoiced']
+    : ['Open', 'Accepted', 'Declined'];
 };
 
 export const getItemComboboxContext = (state) => {

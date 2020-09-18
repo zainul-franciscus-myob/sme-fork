@@ -1,4 +1,5 @@
 import LoadingState from '../../../../components/PageView/LoadingState';
+import QuoteHistoryAccordionStatus from '../types/QuoteHistoryAccordionStatus';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
 
 export const DEFAULT_UNITS = '1';
@@ -43,7 +44,10 @@ const getDefaultState = () => ({
     taxExclusiveFreightAmount: '0',
     freightTaxAmount: '0',
     freightTaxCodeId: '0',
+    isInvoiced: false,
     lines: [],
+    status: 'Open',
+    emailStatus: 'None',
   },
   newLine: {
     type: '',
@@ -84,6 +88,8 @@ const getDefaultState = () => ({
     template: '',
   },
   cachedItemSellingDetails: {},
+  quoteHistoryAccordionStatus: QuoteHistoryAccordionStatus.OPEN,
+  activityHistory: [],
 });
 
 export default getDefaultState;

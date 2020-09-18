@@ -6,12 +6,14 @@ import classNames from 'classnames';
 import {
   getAlert,
   getIsCalculating,
+  getIsCreating,
   getIsReadOnly,
   getLayout,
   getLoadingState,
   getModal,
 } from '../selectors/QuoteDetailSelectors';
 import LineItemTemplate from '../../../../components/Feelix/LineItemTemplate/LineItemTemplate';
+import MoreInformation from './MoreInformation';
 import PageView from '../../../../components/PageView/PageView';
 import QuoteDetailActions from './QuoteDetailActions';
 import QuoteDetailFooter from './QuoteDetailFooter';
@@ -43,6 +45,9 @@ const QuoteDetailView = ({
   quoteActionListeners,
   modalListeners,
   isReadOnly,
+  onAccordionToggle,
+  onReferenceNoClick,
+  isCreating,
 }) => {
   const actions = <QuoteDetailActions listeners={quoteActionListeners} />;
 
@@ -104,20 +109,28 @@ const QuoteDetailView = ({
   );
 
   const view = (
-    <LineItemTemplate
-      pageHead={pageHead}
-      alert={alertComponent}
-      options={options}
-      separatorOptions={layoutPopover}
-      actions={actions}
-    >
-      {modalComponent}
-      {accountModal}
-      {jobModal}
-      <div className={classNames(isReadOnly && styles.disabledTable)}>
-        {table}
-      </div>
-    </LineItemTemplate>
+    <React.Fragment>
+      <LineItemTemplate
+        pageHead={pageHead}
+        alert={alertComponent}
+        options={options}
+        separatorOptions={layoutPopover}
+        actions={actions}
+      >
+        {modalComponent}
+        {accountModal}
+        {jobModal}
+        <div className={classNames(isReadOnly && styles.disabledTable)}>
+          {table}
+        </div>
+      </LineItemTemplate>
+      {!isCreating && (
+        <MoreInformation
+          onAccordionToggle={onAccordionToggle}
+          onReferenceNoClick={onReferenceNoClick}
+        />
+      )}
+    </React.Fragment>
   );
 
   return <PageView loadingState={loadingState} view={view} />;
@@ -130,6 +143,7 @@ const mapStateToProps = (state) => ({
   layout: getLayout(state),
   isCalculating: getIsCalculating(state),
   isReadOnly: getIsReadOnly(state),
+  isCreating: getIsCreating(state),
 });
 
 export default connect(mapStateToProps)(QuoteDetailView);
