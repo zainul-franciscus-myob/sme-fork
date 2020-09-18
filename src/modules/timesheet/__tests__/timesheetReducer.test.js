@@ -2,6 +2,7 @@ import {
   ADD_ROW,
   CLOSE_UNSAVED_CHANGES_MODAL,
   LOAD_EMPLOYEE_TIMESHEET,
+  LOAD_JOB_AFTER_CREATE,
   REMOVE_ROW,
   SET_MODAL,
   SET_TIMESHEET_CELL,
@@ -730,6 +731,104 @@ describe('timesheetReducer', () => {
       expect(result).toEqual({
         modal: ModalType.UNSAVED,
         modalAction,
+      });
+    });
+  });
+
+  describe('LOAD_JOB_AFTER_CREATE', () => {
+    it('adds new job to jobOptions in state', () => {
+      const state = {
+        timesheetIsDirty: false,
+        timesheetRows: [
+          {
+            payItemId: '',
+            jobId: '',
+            jobOptions,
+            notes: 'some new notes',
+            startStopDescription: '',
+            day1: { hours: '', readonly: false },
+            day2: { hours: '', readonly: false },
+            day3: { hours: '', readonly: false },
+            day4: { hours: '', readonly: false },
+            day5: { hours: '', readonly: false },
+            day6: { hours: '', readonly: false },
+            day7: { hours: '', readonly: false },
+          },
+        ],
+        jobOptions,
+      };
+      const newJob = {
+        id: '4',
+        jobNumber: 'homelander',
+        jobName: 'Job 4 created from quick add modal',
+        isActive: true,
+      };
+      const action = {
+        intent: LOAD_JOB_AFTER_CREATE,
+        ...newJob,
+      };
+
+      const result = timesheetReducer(state, action);
+
+      expect(result.jobOptions).toEqual([newJob, ...jobOptions]);
+      expect(result.timesheetRows[0].jobOptions).toEqual([
+        newJob,
+        ...jobOptions,
+      ]);
+      expect(result.timesheetIsDirty).toEqual(true);
+    });
+
+    it('adds new job to jobOptions in each timesheetRow', () => {
+      const state = {
+        timesheetIsDirty: true,
+        timesheetRows: [
+          {
+            payItemId: '',
+            jobId: '',
+            jobOptions: [
+              {
+                id: '3',
+                jobNumber: '12345678901234',
+                jobName: 'Job 3 with an even longer name',
+                isActive: true,
+              },
+            ],
+            notes: 'some new notes',
+            startStopDescription: '',
+            day1: { hours: '', readonly: false },
+            day2: { hours: '', readonly: false },
+            day3: { hours: '', readonly: false },
+            day4: { hours: '', readonly: false },
+            day5: { hours: '', readonly: false },
+            day6: { hours: '', readonly: false },
+            day7: { hours: '', readonly: false },
+          },
+        ],
+        jobOptions,
+      };
+      const newJob = {
+        id: '4',
+        jobNumber: 'homelander',
+        jobName: 'Job 4 created from quick add modal',
+        isActive: true,
+      };
+      const action = {
+        intent: LOAD_JOB_AFTER_CREATE,
+        ...newJob,
+      };
+
+      const result = timesheetReducer(state, action);
+
+      result.timesheetRows.forEach((row) => {
+        expect(row.jobOptions).toEqual([
+          newJob,
+          {
+            id: '3',
+            jobNumber: '12345678901234',
+            jobName: 'Job 3 with an even longer name',
+            isActive: true,
+          },
+        ]);
       });
     });
   });

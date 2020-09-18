@@ -16,6 +16,7 @@ import TimesheetNotSetUpView from './TimesheetNotSetUpView';
 import UnsavedModal from '../../../components/modal/UnsavedModal';
 
 const TimesheetView = ({
+  jobModal,
   alert,
   isTimesheetSetUp,
   onEmptyStateLinkClick,
@@ -31,11 +32,13 @@ const TimesheetView = ({
   onDisplayStartStopTimesChange,
   onModalCancel,
   onModalDelete,
+  onCreateJobClick,
   modal,
   unsavedModalListeners,
 }) => {
   const view = (
     <BaseTemplate>
+      {jobModal}
       <PageHead title="Enter timesheet" />
       {alert && <Alert type={alert.type}>{alert.message}</Alert>}
       {modal === ModalType.DELETE && (
@@ -64,6 +67,7 @@ const TimesheetView = ({
           onHoursBlur={onHoursBlur}
           onDeleteClick={onDeleteClick}
           onDisplayStartStopTimesChange={onDisplayStartStopTimesChange}
+          onCreateJobClick={onCreateJobClick}
         />
       ) : (
         <TimesheetNotSetUpView onLinkClick={onEmptyStateLinkClick} />

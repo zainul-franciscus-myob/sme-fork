@@ -2,93 +2,90 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  ADD_ROW,
-  CLEAR_TIMESHEET_ROWS,
-  CLOSE_UNSAVED_CHANGES_MODAL,
-  DELETE_TIMESHEET,
-  LOAD_CONTEXT,
-  LOAD_EMPLOYEE_TIMESHEET,
-  LOAD_INITIAL_TIMESHEET,
-  LOAD_TIMESHEET,
-  REMOVE_ROW,
-  SAVE_TIMESHEET,
-  SET_ALERT,
-  SET_LOADING_STATE,
-  SET_MODAL,
-  SET_SELECTED_DATE,
-  SET_SELECTED_EMPLOYEE,
-  SET_TIMESHEET_CELL,
-  TOGGLE_DISPLAY_START_STOP_TIMES,
-} from './timesheetIntents';
-import { RESET_STATE } from '../../SystemIntents';
-import {
-  getBusinessId,
-  getDeleteTimesheetContent,
   getFormattedHours,
+  getModalContext,
   getPayrollSettingsUrl,
-  getSaveTimesheetContent,
   getSelectedEmployeeId,
   getTimesheetIsDirty,
   getUnsavedChangesModalAction,
-  getWeekStartDate,
 } from './timesheetSelectors';
 import FeatureToggle from '../../FeatureToggles';
+import JobModalModule from '../job/jobModal/JobModalModule';
 import LoadingState from '../../components/PageView/LoadingState';
 import ModalType from './ModalType';
 import Store from '../../store/Store';
 import TimesheetView from './components/TimesheetView';
 import UnsavedChangesModalActions from './UnsavedChangesModalActions';
+import createTimesheetDispatcher from './timesheetDispatcher';
+import createTimesheetIntegrator from './timesheetIntegrator';
 import reducer from './timesheetReducer';
 
 export default class TimesheetModule {
   constructor({ setRootView, integration, isToggleOn }) {
-    this.integration = integration;
     this.store = new Store(reducer);
     this.setRootView = setRootView;
     this.isToggleOn = isToggleOn;
+    this.jobModalModule = new JobModalModule({
+      integration,
+    });
+    this.dispatcher = createTimesheetDispatcher(this.store);
+    this.integrator = createTimesheetIntegrator(this.store, integration);
   }
 
   loadInitialTimesheet = () => {
-    const state = this.store.getState();
-    const intent = LOAD_INITIAL_TIMESHEET;
-    this.setLoadingState(LoadingState.LOADING);
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
-      this.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.store.dispatch({
-        intent,
-        response,
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.loadInitialTimesheet(response);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    };
+
+    this.integrator.loadInitialTimesheet({ onSuccess, onFailure });
+  };
+
+  openJobModal = (onChange) => {
+    const state = this.store.getState();
+    const jobModalContext = getModalContext(state);
+    this.jobModalModule.run({
+      context: jobModalContext,
+      onSaveSuccess: (payload) => this.loadJobAfterCreate(payload, onChange),
+      onLoadFailure: (message) =>
+        this.dispatcher.setAlert({
+          type: 'danger',
+          message,
+        }),
+    });
+  };
+
+  loadJobAfterCreate = ({ message, id }, onChange) => {
+    this.dispatcher.setAlert({
+      type: 'success',
+      message,
+    });
+    this.dispatcher.startBlockingTable();
+    this.jobModalModule.close();
+
+    const onSuccess = (payload) => {
+      this.dispatcher.stopBlockingTable();
+      this.dispatcher.loadJobAfterCreate({
+        ...payload,
+        id,
+      });
+      onChange({
+        ...payload,
+        id,
       });
     };
 
     const onFailure = () => {
-      this.setLoadingState(LoadingState.LOADING_FAIL);
+      this.dispatcher.stopBlockingTable();
     };
 
-    this.integration.read({
-      intent,
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
-  };
-
-  setSelectedEmployee = ({ value }) => {
-    this.store.dispatch({
-      intent: SET_SELECTED_EMPLOYEE,
-      selectedEmployeeId: value,
-    });
-  };
-
-  setLoadingState = (loadingState) => {
-    this.store.dispatch({
-      intent: SET_LOADING_STATE,
-      loadingState,
-    });
+    this.integrator.loadJobAfterCreate({ id, onSuccess, onFailure });
   };
 
   redirectToPayrollSettings = () => {
@@ -96,17 +93,8 @@ export default class TimesheetModule {
     window.location.href = getPayrollSettingsUrl(state);
   };
 
-  setAlert = ({ type, message }) => {
-    this.store.dispatch({
-      intent: SET_ALERT,
-      type,
-      message,
-    });
-  };
-
   clearAlert = () => {
-    this.store.dispatch({
-      intent: SET_ALERT,
+    this.dispatcher.setAlert({
       type: null,
       message: null,
     });
@@ -126,41 +114,28 @@ export default class TimesheetModule {
 
   loadSelectedEmployeeTimesheet = ({ value }) => {
     this.clearAlert();
-    const state = this.store.getState();
-    this.setSelectedEmployee({ value });
+    this.dispatcher.setSelectedEmployee(value);
 
-    const intent = LOAD_EMPLOYEE_TIMESHEET;
-    this.setLoadingState(LoadingState.LOADING);
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-    const params = {
-      date: getWeekStartDate(state),
-      employeeId: value,
-    };
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = ({ timesheetRows, allowedPayItems }) => {
-      this.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.store.dispatch({
-        intent,
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.loadSelectedEmployeeTimesheet({
         timesheetRows,
         allowedPayItems,
       });
     };
 
     const onFailure = ({ message }) => {
-      this.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.setAlert({
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    this.integration.read({
-      intent,
-      urlParams,
-      params,
+    this.integrator.loadSelectedEmployeeTimesheet({
+      value,
       onSuccess,
       onFailure,
     });
@@ -180,30 +155,13 @@ export default class TimesheetModule {
 
   changeSelectedDate = ({ value }) => {
     this.clearAlert();
-    this.store.dispatch({
-      intent: SET_SELECTED_DATE,
-      selectedDate: value,
-    });
-    const intent = LOAD_TIMESHEET;
+    this.dispatcher.setSelectedDate(value);
     const state = this.store.getState();
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-    const params = {
-      weekStartDate: value,
-    };
-    this.setLoadingState(LoadingState.LOADING);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
     const onSuccess = (response) => {
-      this.setLoadingState(LoadingState.LOADING_SUCCESS);
-
-      this.store.dispatch({
-        intent: LOAD_TIMESHEET,
-        response,
-      });
-
-      this.store.dispatch({
-        intent: CLEAR_TIMESHEET_ROWS,
-      });
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.loadTimesheet(response);
+      this.dispatcher.clearTimesheetRows();
 
       const selectedEmployeeId = getSelectedEmployeeId(state);
       if (
@@ -212,189 +170,86 @@ export default class TimesheetModule {
       ) {
         this.loadSelectedEmployeeTimesheet({ value: selectedEmployeeId });
       } else {
-        this.store.dispatch({
-          intent: SET_SELECTED_EMPLOYEE,
-          selectedEmployeeId: null,
-        });
+        this.dispatcher.setSelectedEmployee(null);
       }
     };
     const onFailure = ({ message }) => {
-      this.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.setAlert({
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    this.integration.read({
-      intent,
-      urlParams,
-      params,
-      onSuccess,
-      onFailure,
-    });
-  };
-
-  onRowChange = (index, name, value) => {
-    this.store.dispatch({
-      intent: SET_TIMESHEET_CELL,
-      index,
-      name,
-      value,
-    });
-  };
-
-  removeRow = (rowIndex) => {
-    this.store.dispatch({
-      intent: REMOVE_ROW,
-      rowIndex,
-    });
-  };
-
-  addRow = (rowData) => {
-    this.store.dispatch({
-      intent: ADD_ROW,
-      rowData,
-    });
-  };
-
-  toggleDisplayStartStopTimes = () => {
-    this.store.dispatch({
-      intent: TOGGLE_DISPLAY_START_STOP_TIMES,
-    });
+    this.integrator.loadTimesheet({ value, onSuccess, onFailure });
   };
 
   saveTimesheet = ({ onSuccess = () => {}, onFailure = () => {} }) => {
-    this.setLoadingState(LoadingState.LOADING);
-    const state = this.store.getState();
-    const intent = SAVE_TIMESHEET;
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-      employeeId: getSelectedEmployeeId(state),
-    };
-
-    const content = getSaveTimesheetContent(state);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
     const onSuccessFunc = ({ message }) => {
-      this.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.setAlert({
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setAlert({
         type: 'success',
         message,
       });
-      this.store.dispatch({
-        intent: CLEAR_TIMESHEET_ROWS,
-      });
-      this.store.dispatch({
-        intent: SET_SELECTED_EMPLOYEE,
-        selectedEmployeeId: 0,
-      });
+      this.dispatcher.clearTimesheetRows();
+      this.dispatcher.setSelectedEmployee(0);
       onSuccess();
     };
 
     const onFailureFunc = ({ message }) => {
-      this.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.setAlert({
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
       onFailure();
     };
 
-    this.integration.write({
-      intent,
-      urlParams,
-      content,
-      onSuccess: onSuccessFunc,
-      onFailure: onFailureFunc,
-    });
-  };
-
-  closeModal = () => {
-    this.store.dispatch({
-      intent: SET_MODAL,
-      modal: null,
-    });
+    this.integrator.saveTimesheet({ onSuccessFunc, onFailureFunc });
   };
 
   deleteTimesheet = () => {
-    this.setLoadingState(LoadingState.LOADING);
-    this.closeModal();
-    const state = this.store.getState();
-    const intent = DELETE_TIMESHEET;
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-      employeeId: getSelectedEmployeeId(state),
-    };
-
-    const content = getDeleteTimesheetContent(state);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+    this.dispatcher.closeModal();
 
     const onSuccess = ({ message }) => {
-      this.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.setAlert({
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setAlert({
         type: 'success',
         message,
       });
-      this.store.dispatch({
-        intent: CLEAR_TIMESHEET_ROWS,
-      });
-      this.store.dispatch({
-        intent: SET_SELECTED_EMPLOYEE,
-        selectedEmployeeId: 0,
-      });
+      this.dispatcher.clearTimesheetRows();
+      this.dispatcher.setSelectedEmployee(0);
     };
 
     const onFailure = ({ message }) => {
-      this.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.setAlert({
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    this.integration.write({
-      intent,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
+    this.integrator.deleteTimesheet({ onSuccess, onFailure });
   };
 
   onHoursBlur = (index, name, value) => {
-    this.store.dispatch({
-      intent: SET_TIMESHEET_CELL,
-      index,
-      name,
-      value: getFormattedHours(value),
-    });
+    this.dispatcher.setTimesheetCell(index, name, getFormattedHours(value));
   };
 
   openDeleteModal = () => {
-    this.store.dispatch({
-      intent: SET_MODAL,
-      modal: ModalType.DELETE,
-    });
+    this.dispatcher.setModal(ModalType.DELETE);
   };
 
   openUnsavedChangesModal = (action) => {
-    this.store.dispatch({
-      intent: SET_MODAL,
-      modal: ModalType.UNSAVED,
-      action,
-    });
-  };
-
-  closeUnsavedChangesModal = () => {
-    this.store.dispatch({
-      intent: CLOSE_UNSAVED_CHANGES_MODAL,
-    });
+    this.dispatcher.setModal(ModalType.UNSAVED, action);
   };
 
   unsavedChangesModalSave = () => {
     const state = this.store.getState();
     const modalAction = getUnsavedChangesModalAction(state);
-    this.closeUnsavedChangesModal();
+    this.dispatcher.closeUnsavedChangesModal();
     this.saveTimesheet({
       onSuccess: () => {
         this.handleUnsavedChangeModalAction(modalAction);
@@ -405,12 +260,8 @@ export default class TimesheetModule {
   unsavedChangesModalDiscard = () => {
     const state = this.store.getState();
     const modalAction = getUnsavedChangesModalAction(state);
-    this.closeUnsavedChangesModal();
+    this.dispatcher.closeUnsavedChangesModal();
     this.handleUnsavedChangeModalAction(modalAction);
-  };
-
-  unsavedChangesModalCancel = () => {
-    this.closeUnsavedChangesModal();
   };
 
   handleUnsavedChangeModalAction = (modalAction) => {
@@ -430,26 +281,32 @@ export default class TimesheetModule {
   };
 
   render = () => {
+    const jobModal = this.jobModalModule.render();
+
     const view = (
       <Provider store={this.store}>
         <TimesheetView
+          jobModal={jobModal}
           onEmptyStateLinkClick={this.redirectToPayrollSettings}
           onEmployeeChange={this.onSelectedEmployeeChange}
           onSelectedDateChange={this.onSelectedDateChange}
-          onRowChange={this.onRowChange}
-          onRemoveRow={this.removeRow}
-          onAddRow={this.addRow}
+          onRowChange={this.dispatcher.setTimesheetCell}
+          onRemoveRow={this.dispatcher.removeRow}
+          onAddRow={this.dispatcher.addRow}
           onHoursBlur={this.onHoursBlur}
           onSaveClick={() => this.saveTimesheet({})}
           onDeleteClick={this.openDeleteModal}
           onModalDelete={this.deleteTimesheet}
-          onModalCancel={this.closeModal}
+          onModalCancel={this.dispatcher.closeModal}
           unsavedModalListeners={{
-            onCancel: this.unsavedChangesModalCancel,
+            onCancel: this.dispatcher.closeUnsavedChangesModal,
             onUnsave: this.unsavedChangesModalDiscard,
             onSave: this.unsavedChangesModalSave,
           }}
-          onDisplayStartStopTimesChange={this.toggleDisplayStartStopTimes}
+          onDisplayStartStopTimesChange={
+            this.dispatcher.toggleDisplayStartStopTimes
+          }
+          onCreateJobClick={this.openJobModal}
         />
       </Provider>
     );
@@ -457,14 +314,11 @@ export default class TimesheetModule {
   };
 
   run = (context) => {
-    this.store.dispatch({
-      intent: LOAD_CONTEXT,
-      context: {
-        ...context,
-        isTimesheetJobColumnEnabled: this.isToggleOn(
-          FeatureToggle.EssentialsJobsPayrun
-        ),
-      },
+    this.dispatcher.loadContext({
+      ...context,
+      isTimesheetJobColumnEnabled: this.isToggleOn(
+        FeatureToggle.EssentialsJobsPayrun
+      ),
     });
     this.render();
     this.loadInitialTimesheet();
@@ -475,9 +329,7 @@ export default class TimesheetModule {
   };
 
   resetState = () => {
-    this.store.dispatch({
-      intent: RESET_STATE,
-    });
+    this.dispatcher.resetState();
   };
 
   redirectToUrl = (url) => {

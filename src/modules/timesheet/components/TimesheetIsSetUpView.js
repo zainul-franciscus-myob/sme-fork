@@ -20,6 +20,7 @@ import {
   getDisplayStartStopTimes,
   getEmployeeList,
   getFormattedHours,
+  getIsTableLoading,
   getIsTimesheetJobColumnEnabled,
   getPayItems,
   getRowHours,
@@ -75,8 +76,10 @@ const TimesheetIsSetUpView = ({
   onRemoveRow,
   onAddRow,
   onDisplayStartStopTimesChange,
+  onCreateJobClick,
   onHoursBlur,
   isTimesheetJobColumnEnabled,
+  isTableLoading,
   activeJobOptions,
 }) => {
   const baseTableLabels = [
@@ -143,7 +146,7 @@ const TimesheetIsSetUpView = ({
           key={field}
           decimalScale={2}
           numeralIntegerScale={2}
-          disabled={readonly || !isEmployeeSelected}
+          disabled={readonly || !isEmployeeSelected || isTableLoading}
         />
       );
     });
@@ -160,7 +163,7 @@ const TimesheetIsSetUpView = ({
           onChange={onChange}
           label="Pay item"
           hideLabel
-          disabled={!isEmployeeSelected}
+          disabled={!isEmployeeSelected || isTableLoading}
         >
           <Select.Option value={null} label=""></Select.Option>
           {payItems.map((payItem) => (
@@ -175,9 +178,12 @@ const TimesheetIsSetUpView = ({
           <JobCombobox
             label="job"
             onChange={handleComboBoxChange('jobId', onChange)}
+            addNewJob={() =>
+              onCreateJobClick(handleComboBoxChange('jobId', onChange))
+            }
             items={data.jobOptions ? data.jobOptions : activeJobOptions}
             selectedId={data.jobId}
-            disabled={!isEmployeeSelected}
+            disabled={!isEmployeeSelected || isTableLoading}
             allowClear
           />
         )}
@@ -189,7 +195,7 @@ const TimesheetIsSetUpView = ({
           hideLabel
           autoSize
           rows={1}
-          disabled={!isEmployeeSelected}
+          disabled={!isEmployeeSelected || isTableLoading}
         />
         {weekDayCells}
         <ReadOnly name="totals" label="totals" hideLabel>
@@ -204,7 +210,7 @@ const TimesheetIsSetUpView = ({
             rows={1}
             onChange={onChange}
             value={data.startStopDescription || ''}
-            disabled={!isEmployeeSelected}
+            disabled={!isEmployeeSelected || isTableLoading}
           />
         )}
       </LineItemTable.Row>
@@ -283,7 +289,7 @@ const TimesheetIsSetUpView = ({
             type="secondary"
             onClick={onDeleteClick}
             testid="deleteButton"
-            disabled={!isEmployeeSelected}
+            disabled={!isEmployeeSelected || isTableLoading}
           >
             Delete timesheet
           </Button>,
@@ -293,7 +299,7 @@ const TimesheetIsSetUpView = ({
             key="save"
             onClick={onSaveClick}
             testid="saveButton"
-            disabled={!isEmployeeSelected}
+            disabled={!isEmployeeSelected || isTableLoading}
           >
             Save
           </Button>,
@@ -316,6 +322,7 @@ const mapStateToProps = (state) => ({
   weekDayTotals: getWeekDayTotals(state),
   isTimesheetJobColumnEnabled: getIsTimesheetJobColumnEnabled(state),
   activeJobOptions: getActiveJobOptions(state),
+  isTableLoading: getIsTableLoading(state),
 });
 
 export default connect(mapStateToProps)(TimesheetIsSetUpView);

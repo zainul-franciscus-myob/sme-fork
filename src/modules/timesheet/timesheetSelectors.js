@@ -23,6 +23,7 @@ export const getIsTimesheetJobColumnEnabled = (state) =>
   state.isTimesheetJobColumnEnabled;
 export const getSelectedEmployeeId = (state) => state.selectedEmployeeId;
 export const getLoadingState = (state) => state.loadingState;
+export const getIsTableLoading = (state) => state.isTableLoading;
 export const getWeekStartDate = (state) => state.weekStartDate;
 export const getSelectedDate = (state) => state.selectedDate;
 export const getDisplayStartStopTimes = (state) => state.displayStartStopTimes;
@@ -110,3 +111,15 @@ export const getDeleteTimesheetContent = (state) => ({
 
 export const getTimesheetIsDirty = (state) => state.timesheetIsDirty;
 export const getUnsavedChangesModalAction = (state) => state.modalAction;
+
+export const getModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region };
+};
+
+export const getLoadAddedJobUrlParams = (state, jobId) => {
+  const businessId = getBusinessId(state);
+  return { businessId, jobId };
+};

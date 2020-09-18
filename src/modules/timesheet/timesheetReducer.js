@@ -5,6 +5,7 @@ import {
   LOAD_CONTEXT,
   LOAD_EMPLOYEE_TIMESHEET,
   LOAD_INITIAL_TIMESHEET,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_TIMESHEET,
   REMOVE_ROW,
   SET_ALERT,
@@ -12,6 +13,7 @@ import {
   SET_MODAL,
   SET_SELECTED_DATE,
   SET_SELECTED_EMPLOYEE,
+  SET_TABLE_LOADING_STATE,
   SET_TIMESHEET_CELL,
   TOGGLE_DISPLAY_START_STOP_TIMES,
 } from './timesheetIntents';
@@ -37,6 +39,7 @@ const getDefaultState = () => ({
   selectedEmployeeId: '',
   timesheetRows: [],
   timesheetIsDirty: false,
+  isTableLoading: false,
   modal: null,
   modalAction: null,
   employeeAllowedPayItems: [],
@@ -267,6 +270,21 @@ const closeUnsavedChangesModal = (state) => ({
   modalAction: null,
 });
 
+const loadJobAfterCreate = (state, { intent, ...job }) => ({
+  ...state,
+  jobOptions: [job, ...state.jobOptions],
+  timesheetRows: state.timesheetRows.map((line) => ({
+    ...line,
+    jobOptions: [job, ...line.jobOptions],
+  })),
+  timesheetIsDirty: true,
+});
+
+const setTableLoadingState = (state, { isTableLoading }) => ({
+  ...state,
+  isTableLoading,
+});
+
 const timesheetReducer = createReducer(getDefaultState(), {
   [LOAD_INITIAL_TIMESHEET]: loadInitialTimesheet,
   [LOAD_TIMESHEET]: loadTimesheet,
@@ -284,6 +302,8 @@ const timesheetReducer = createReducer(getDefaultState(), {
   [SET_ALERT]: setAlert,
   [SET_MODAL]: setModal,
   [CLOSE_UNSAVED_CHANGES_MODAL]: closeUnsavedChangesModal,
+  [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
+  [SET_TABLE_LOADING_STATE]: setTableLoadingState,
 });
 
 export default timesheetReducer;

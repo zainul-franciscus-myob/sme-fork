@@ -2,6 +2,7 @@ import {
   DELETE_TIMESHEET,
   LOAD_EMPLOYEE_TIMESHEET,
   LOAD_INITIAL_TIMESHEET,
+  LOAD_JOB_AFTER_CREATE,
   LOAD_TIMESHEET,
   SAVE_TIMESHEET,
 } from '../timesheetIntents';
@@ -30,6 +31,11 @@ const HttpTimesheetMapping = {
     method: 'DELETE',
     getPath: ({ businessId, employeeId }) =>
       `/${businessId}/timesheet/delete_timesheet/${employeeId}`,
+  },
+  [LOAD_JOB_AFTER_CREATE]: {
+    method: 'GET',
+    getPath: ({ businessId, jobId }) =>
+      `/${businessId}/timesheet/load_job/${jobId}`,
   },
 };
 
