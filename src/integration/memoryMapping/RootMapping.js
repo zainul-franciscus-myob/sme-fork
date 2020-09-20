@@ -59,6 +59,7 @@ import ReceiveMoneyMapping from '../../modules/receiveMoney/mappings/MemoryRecei
 import ReceiveRefundMapping from '../../modules/receiveRefund/mappings/MemoryReceiveRefundMapping';
 import ReportsSubscribeNowMapping from '../../modules/reportsSubscribeNow/mappings/MemorySubscriptionMapping';
 import RootBusinessDetailsMapping from '../../root/services/businessDetails/mappings/MemoryBusinessDetailsMapping';
+import RootLicenceMapping from '../../root/services/licence/mappings/MemoryLicenceMapping';
 import RootModuleMapping from '../../root/mappings/MemoryRootMapping';
 import SalesSettingsMapping from '../../modules/salesSettings/mappings/MemorySalesSettingsMapping';
 import SettingMapping from './SettingMapping';
@@ -162,6 +163,7 @@ const RootMapping = Object.freeze({
   ...TemplateBuilderMapping,
   ...BankStatementImportMapping,
   ...RootBusinessDetailsMapping,
+  ...RootLicenceMapping,
   ...FileUnavailableMapping,
   ...RootModuleMapping,
   ...InvoiceBusinessMapping,

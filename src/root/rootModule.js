@@ -19,6 +19,7 @@ import CreateRootDispatcher from './createRootDispatcher';
 import CreateRootIntegrator from './createRootIntegrator';
 import DrawerModule from '../drawer/DrawerModule';
 import FeatureToggle from '../FeatureToggles';
+import LicenceService from './services/licence';
 import ModuleAction from '../common/types/ModuleAction';
 import NavigationModule from '../navigation/NavigationModule';
 import OnboardingModule from '../onboarding/OnboardingModule';
@@ -69,6 +70,7 @@ export default class RootModule {
       integration,
       this.store
     );
+    this.licenceService = LicenceService(integration, this.store);
     this.lastBusinessId = null;
     this.startLeanEngage = startLeanEngage;
     this.recordPageVisit = recordPageVisit;
@@ -223,6 +225,7 @@ export default class RootModule {
       this.settingsService.load(),
       this.tasksService.load(),
       this.businessDetailsService.load(),
+      this.licenceService.confirm(),
     ]);
   };
 

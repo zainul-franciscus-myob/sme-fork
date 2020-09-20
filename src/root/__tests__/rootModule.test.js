@@ -34,6 +34,7 @@ describe('rootModule', () => {
       stubFunctionsOn(
         root.settingsService,
         root.businessDetailsService,
+        root.licenceService,
         root.nav,
         root.dispatcher,
         root.drawer,
