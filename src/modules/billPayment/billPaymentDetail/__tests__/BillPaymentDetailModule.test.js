@@ -457,6 +457,7 @@ describe('BillPaymentDetailModule', () => {
   describe('updateIsElectronicPayment', () => {
     it('should update account to electronic clearing when true', () => {
       const { module, store } = setupWithNew();
+      const { electronicClearingAccountId } = store.getState();
 
       module.updateIsElectronicPayment({ value: true });
 
@@ -464,7 +465,7 @@ describe('BillPaymentDetailModule', () => {
         expect.objectContaining({
           intent: UPDATE_HEADER_OPTION,
           key: 'accountId',
-          value: store.getState().electronicClearingAccountId,
+          value: electronicClearingAccountId,
         }),
         expect.objectContaining({
           intent: UPDATE_REFERENCE_ID,
@@ -472,20 +473,23 @@ describe('BillPaymentDetailModule', () => {
       ]);
     });
 
-    it('should use first bank account when false', () => {
+    it('should update account to bank account for bill payment when false', () => {
       const { module, store } = setupWithExisting();
-      module.updateIsElectronicPayment({ value: false });
 
-      expect(store.getActions()).toEqual([
-        {
-          intent: UPDATE_HEADER_OPTION,
-          key: 'accountId',
-          value: store.getState().accounts[0].id,
-        },
-        expect.objectContaining({
-          intent: UPDATE_REFERENCE_ID,
-        }),
-      ]);
+      module.updateIsElectronicPayment({ value: true });
+      module.updateIsElectronicPayment({ value: false });
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          {
+            intent: UPDATE_HEADER_OPTION,
+            key: 'accountId',
+            value: '123',
+          },
+          expect.objectContaining({
+            intent: UPDATE_REFERENCE_ID,
+          }),
+        ])
+      );
     });
   });
 

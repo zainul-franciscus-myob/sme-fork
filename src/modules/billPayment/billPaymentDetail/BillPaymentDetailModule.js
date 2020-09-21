@@ -119,7 +119,7 @@ export default class BillPaymentModule {
 
     const accountId = value
       ? state.electronicClearingAccountId
-      : state.accounts[0].id;
+      : state.defaultAccountId;
 
     this.updateHeaderOption({ key: 'accountId', value: accountId });
   };
