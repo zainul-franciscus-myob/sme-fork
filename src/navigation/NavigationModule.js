@@ -25,7 +25,6 @@ import ModuleAction from '../common/types/ModuleAction';
 import NavigationBar from './components/NavigationBar';
 import RouteName from '../router/RouteName';
 import Store from '../store/Store';
-import loadChangePlanUrl from '../modules/settings/subscription/loadChangePlanUrl';
 import loadSubscriptionUrl from '../modules/settings/subscription/loadSubscriptionUrl';
 import navReducer from './navReducer';
 
@@ -230,26 +229,8 @@ export default class NavigationModule {
     this.navigateTo(productManagementUrl, true);
   };
 
-  changePlan = async () => {
-    const businessId = getBusinessId(this.store.getState());
-    const url = await loadChangePlanUrl(
-      this.integration,
-      businessId,
-      window.location.href
-    );
-
-    if (!url) {
-      // eslint-disable-next-line no-console
-      console.warn('"Subscription details" url has no value');
-      return;
-    }
-
-    this.redirectToPage(url);
-  };
-
   render = (tasks, businessName = '', serialNumber = '', businessRole = '') => {
     const {
-      changePlan,
       createBusiness,
       onPageTransition,
       redirectToPage,
@@ -266,7 +247,6 @@ export default class NavigationModule {
           businessName={businessName}
           businessRole={businessRole}
           hasTasks={tasks && tasks.some((t) => !t.isComplete)}
-          onChangePlanClick={changePlan}
           onCreateBusinessClick={createBusiness}
           onHelpLinkClick={toggleHelp}
           onLogoutLinkClick={() => logout(true)}

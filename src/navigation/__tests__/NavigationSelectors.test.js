@@ -1,7 +1,6 @@
 import {
   getMenuLogoUrl,
   getSalesUrls,
-  getShouldDisplayChangePlan,
   getShouldDisplayPayrollMenu,
   getShouldDisplayPayrollNzMenu,
   getShouldDisplaySubscriptionNow,
@@ -89,22 +88,6 @@ describe('NavigationSelectors', () => {
       const currentUrl = 'currentUrl';
       const actual = getMenuLogoUrl(state)(currentUrl);
       expect(actual).toEqual(`#/au/${businessId}/dashboard`);
-    });
-  });
-
-  describe('getShouldDisplayChangePlan', () => {
-    describe('when the user has a paid subscription', () => {
-      it('displays the "Subscription details" option', () => {
-        const state = { subscriptionType: 'paid' };
-        expect(getShouldDisplayChangePlan(state)).toEqual(true);
-      });
-    });
-
-    describe('when the user does not have a paid subscription', () => {
-      it('does not display the "Subscription details" option', () => {
-        const state = { subscriptionType: 'trial' };
-        expect(getShouldDisplayChangePlan(state)).toEqual(false);
-      });
     });
   });
 

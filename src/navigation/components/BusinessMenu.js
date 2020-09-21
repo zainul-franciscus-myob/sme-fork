@@ -77,23 +77,10 @@ const getItems = ({
   isCurrentUserAdvisor,
   onMenuLinkClick,
   onLogoutLinkClick,
-  onSubscribeNowClick,
-  onChangePlanClick,
   onCreateBusinessClick,
   onManageMyProductClick,
 }) =>
   [
-    !urls.productManagementDetail &&
-      onSubscribeNowClick &&
-      getMenuLinkWithIcon(
-        '',
-        'Subscribe now',
-        <Icons.OpenExternalLink />,
-        onSubscribeNowClick
-      ),
-    !urls.productManagementDetail && onSubscribeNowClick && (
-      <Navigation.Separator key="separator" />
-    ),
     urls.businessDetails &&
       getMenuLink(urls.businessDetails, 'Business settings', onMenuLinkClick),
     urls.incomeAllocation &&
@@ -115,14 +102,6 @@ const getItems = ({
         onMenuLinkClick
       ),
     isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
-    !urls.productManagementDetail &&
-      onChangePlanClick &&
-      getMenuLinkWithIcon(
-        '',
-        'Change plan',
-        <Icons.OpenExternalLink />,
-        onChangePlanClick
-      ),
     urls.productManagementDetail &&
       getMenuLinkWithIcon(
         urls.productManagementDetail,
@@ -191,8 +170,6 @@ const BusinessMenu = ({
   onMenuSelect,
   onMenuLinkClick,
   onLogoutLinkClick,
-  onSubscribeNowClick,
-  onChangePlanClick,
   onCreateBusinessClick,
   onManageMyProductClick,
   isReadOnly,
@@ -219,8 +196,6 @@ const BusinessMenu = ({
         isCurrentUserAdvisor,
         onMenuLinkClick,
         onLogoutLinkClick,
-        onSubscribeNowClick,
-        onChangePlanClick,
         onCreateBusinessClick,
         onManageMyProductClick,
       })}

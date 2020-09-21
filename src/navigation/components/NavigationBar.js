@@ -10,7 +10,6 @@ import {
   getShouldDisplayAddMenu,
   getShouldDisplayBankingMenu,
   getShouldDisplayBusinessMenu,
-  getShouldDisplayChangePlan,
   getShouldDisplayContactMenu,
   getShouldDisplayCreateBusiness,
   getShouldDisplayInTray,
@@ -129,16 +128,12 @@ const getSettings = ({
   shouldDisplayAddMenu,
   shouldDisplayHelpMenu,
   shouldDisplayTasksMenu,
-  shouldDisplayChangePlan,
-  shouldDisplaySubscriptionNow,
   shouldDisplayCreateBusiness,
   onMenuSelect,
   onMenuLinkClick,
   onHelpLinkClick,
   onTasksLinkClick,
   onLogoutLinkClick,
-  onSubscribeNowClick,
-  onChangePlanClick,
   onCreateBusinessClick,
   onManageMyProductClick,
   hasTasks,
@@ -174,11 +169,7 @@ const getSettings = ({
         businessName={businessName}
         onMenuSelect={onMenuSelect}
         onMenuLinkClick={onMenuLinkClick}
-        onSubscribeNowClick={
-          shouldDisplaySubscriptionNow && onSubscribeNowClick
-        }
         onLogoutLinkClick={onLogoutLinkClick}
-        onChangePlanClick={shouldDisplayChangePlan && onChangePlanClick}
         onCreateBusinessClick={
           shouldDisplayCreateBusiness && onCreateBusinessClick
         }
@@ -198,7 +189,6 @@ const NavigationBar = ({
   hasTasks,
   isJobEnabled,
   menuLogoUrl,
-  onChangePlanClick,
   onCreateBusinessClick,
   onManageMyProductClick,
   onHelpLinkClick,
@@ -213,7 +203,6 @@ const NavigationBar = ({
   shouldDisplayAddMenu,
   shouldDisplayBankingMenu,
   shouldDisplayBusinessMenu,
-  shouldDisplayChangePlan,
   shouldDisplayContactMenu,
   shouldDisplayCreateBusiness,
   shouldDisplayHelpMenu,
@@ -251,7 +240,6 @@ const NavigationBar = ({
     onTasksLinkClick,
     onLogoutLinkClick,
     onSubscribeNowClick,
-    onChangePlanClick,
     onCreateBusinessClick,
     onManageMyProductClick,
     region,
@@ -259,7 +247,6 @@ const NavigationBar = ({
     shouldDisplayAddMenu,
     shouldDisplayHelpMenu,
     shouldDisplayTasksMenu,
-    shouldDisplayChangePlan,
     shouldDisplayCreateBusiness,
     shouldDisplaySubscriptionNow,
     hasTasks,
@@ -309,7 +296,6 @@ const mapStateToProps = (state) => ({
   shouldDisplayAddMenu: getShouldDisplayAddMenu(state),
   shouldDisplayBankingMenu: getShouldDisplayBankingMenu(state),
   shouldDisplayBusinessMenu: getShouldDisplayBusinessMenu(state),
-  shouldDisplayChangePlan: getShouldDisplayChangePlan(state),
   shouldDisplayContactMenu: getShouldDisplayContactMenu(state),
   shouldDisplayCreateBusiness: getShouldDisplayCreateBusiness(state),
   shouldDisplayHelpMenu: hasBusinessId(state),

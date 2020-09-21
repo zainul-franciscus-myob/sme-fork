@@ -174,7 +174,6 @@ export default class RootModule {
     );
 
     if (!url) {
-      // eslint-disable-next-line no-console
       console.warn('"Subscription details" url has no value');
       return;
     }
