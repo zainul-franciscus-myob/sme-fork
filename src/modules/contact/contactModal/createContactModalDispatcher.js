@@ -3,9 +3,11 @@ import {
   SET_ALERT,
   SET_CONTACT_MODAL_BILLING_ADDRESS,
   SET_CONTACT_MODAL_DETAILS,
+  SET_CONTACT_MODAL_PAYMENT_DETAILS,
   SET_CONTACT_MODAL_SHIPPING_ADDRESS,
   SET_LOADING_STATE,
   SET_SHOW_CONTACT_MODAL_BILLING_ADDRESS,
+  SET_SHOW_CONTACT_MODAL_PAYMENT_DETAILS,
   SET_SHOW_CONTACT_MODAL_SHIPPING_ADDRESS,
   SET_SUBMITTING_STATE,
 } from '../ContactIntents';
@@ -63,6 +65,19 @@ const createContactModalDispatcher = (store) => ({
   setContactModalShippingAddress: ({ key, value }) =>
     store.dispatch({
       intent: SET_CONTACT_MODAL_SHIPPING_ADDRESS,
+      key,
+      value,
+    }),
+
+  setShowContactModalPaymentDetails: (togglePaymentDetails) =>
+    store.dispatch({
+      intent: SET_SHOW_CONTACT_MODAL_PAYMENT_DETAILS,
+      togglePaymentDetails,
+    }),
+
+  setContactModalPaymentDetails: ({ key, value }) =>
+    store.dispatch({
+      intent: SET_CONTACT_MODAL_PAYMENT_DETAILS,
       key,
       value,
     }),

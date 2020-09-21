@@ -1,13 +1,8 @@
 import { FieldGroup, Icons, Input, Tooltip } from '@myob/myob-widgets';
-import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getIsLoadingAccount,
-  getPaymentDetails,
-} from '../contactDetailSelectors';
-import AccountNumberInput from '../../../../components/autoFormatter/BankDetailsInput/AccountNumberInput';
-import BSBInput from '../../../../components/autoFormatter/BankDetailsInput/BSBInput';
+import AccountNumberInput from '../../../components/autoFormatter/BankDetailsInput/AccountNumberInput';
+import BSBInput from '../../../components/autoFormatter/BankDetailsInput/BSBInput';
 
 const onInputChange = (handler) => (e) => {
   const { value, name } = e.target;
@@ -48,7 +43,6 @@ const PaymentDetails = ({
       value={accountName}
       onChange={onInputChange(onPaymentDetailsChange)}
       width="lg"
-      maxLength={32}
     />
     <Input
       name="statementText"
@@ -62,14 +56,8 @@ const PaymentDetails = ({
       value={statementText}
       onChange={onInputChange(onPaymentDetailsChange)}
       width="lg"
-      maxLength={18}
     />
   </FieldGroup>
 );
 
-const mapStateToProps = (state) => ({
-  ...getPaymentDetails(state),
-  isLoadingAccount: getIsLoadingAccount(state),
-});
-
-export default connect(mapStateToProps)(PaymentDetails);
+export default PaymentDetails;

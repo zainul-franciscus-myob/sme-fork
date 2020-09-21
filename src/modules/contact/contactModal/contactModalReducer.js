@@ -3,9 +3,11 @@ import {
   SET_ALERT,
   SET_CONTACT_MODAL_BILLING_ADDRESS,
   SET_CONTACT_MODAL_DETAILS,
+  SET_CONTACT_MODAL_PAYMENT_DETAILS,
   SET_CONTACT_MODAL_SHIPPING_ADDRESS,
   SET_LOADING_STATE,
   SET_SHOW_CONTACT_MODAL_BILLING_ADDRESS,
+  SET_SHOW_CONTACT_MODAL_PAYMENT_DETAILS,
   SET_SHOW_CONTACT_MODAL_SHIPPING_ADDRESS,
   SET_SUBMITTING_STATE,
 } from '../ContactIntents';
@@ -20,6 +22,8 @@ export const getDefaultState = () => ({
   showContactType: true,
   showBillingAddress: false,
   showShippingAddress: false,
+  togglePaymentDetails: false,
+  isElectronicPaymentEnabled: false,
   contact: {
     contactType: '',
     designation: '',
@@ -56,6 +60,12 @@ export const getDefaultState = () => ({
       website: '',
       businessContact: '',
       salutation: '',
+    },
+    paymentDetails: {
+      bankNumber: '',
+      accountNumber: '',
+      accountName: '',
+      statementText: '',
     },
   },
   contactTypeOptions: [],
@@ -101,7 +111,12 @@ const loadContactModal = (state, action) => ({
       ...state.contact.shippingAddress,
       ...action.contact.shippingAddress,
     },
+    paymentDetails: {
+      ...state.contact.paymentDetails,
+      ...action.contact.paymentDetails,
+    },
   },
+  isElectronicPaymentEnabled: action.isElectronicPaymentEnabled,
   contactTypeOptions: action.contactTypeOptions,
 });
 
@@ -148,6 +163,43 @@ const setContactModalShippingAddress = (state, { key, value }) => ({
   },
 });
 
+const setShowContactModalPaymentDetails = (
+  state,
+  { togglePaymentDetails }
+) => ({
+  ...state,
+  togglePaymentDetails,
+});
+
+const getAppliedFormatRestrictions = (currentText, text, length) => {
+  const pattern = `^(?=.{0,${length}}$)^[a-zA-Z0-9 \\&\\*\\.\\/\\-]*`;
+  const matchedText = text.match(pattern);
+
+  return matchedText === null ? currentText : matchedText[0].toUpperCase();
+};
+
+const setContactModalPaymentDetails = (state, action) => {
+  const maxLengthForFields = { accountName: 32, statementText: 18 };
+  const formattedText = maxLengthForFields[action.key]
+    ? getAppliedFormatRestrictions(
+        state.contact.paymentDetails[action.key],
+        action.value,
+        maxLengthForFields[action.key]
+      )
+    : action.value;
+
+  return {
+    ...state,
+    contact: {
+      ...state.contact,
+      paymentDetails: {
+        ...state.contact.paymentDetails,
+        [action.key]: formattedText,
+      },
+    },
+  };
+};
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -161,6 +213,8 @@ const handlers = {
   [SET_CONTACT_MODAL_BILLING_ADDRESS]: setContactModalBillingAddress,
   [SET_SHOW_CONTACT_MODAL_SHIPPING_ADDRESS]: setShowContactModalShippingAddress,
   [SET_CONTACT_MODAL_SHIPPING_ADDRESS]: setContactModalShippingAddress,
+  [SET_SHOW_CONTACT_MODAL_PAYMENT_DETAILS]: setShowContactModalPaymentDetails,
+  [SET_CONTACT_MODAL_PAYMENT_DETAILS]: setContactModalPaymentDetails,
 };
 
 export default createReducer(getDefaultState(), handlers);

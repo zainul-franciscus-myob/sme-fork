@@ -8,6 +8,7 @@
       "country": "Australia"
     }
   },
+  "isElectronicPaymentEnabled": true,
   "contactTypeOptions": [
     { "name": "Customer", "value": "Customer" },
     { "name": "Supplier", "value": "Supplier" },

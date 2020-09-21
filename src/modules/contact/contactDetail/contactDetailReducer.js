@@ -138,19 +138,20 @@ const updateContactDetails = (state, action) => ({
   ...pageEdited,
 });
 
-const getAppliedFormatRestrictions = (currentText, text) => {
-  const pattern = `^[a-zA-Z0-9 \\&\\*\\.\\/\\-]*`;
+const getAppliedFormatRestrictions = (currentText, text, length) => {
+  const pattern = `^(?=.{0,${length}}$)^[a-zA-Z0-9 \\&\\*\\.\\/\\-]*`;
   const matchedText = text.match(pattern);
 
   return matchedText === null ? currentText : matchedText[0].toUpperCase();
 };
 
 const updatePaymentDetails = (state, action) => {
-  const fieldsNeedFormatting = ['accountName', 'statementText'];
-  const formattedText = fieldsNeedFormatting.includes(action.key)
+  const maxLengthForFields = { accountName: 32, statementText: 18 };
+  const formattedText = maxLengthForFields[action.key]
     ? getAppliedFormatRestrictions(
         state.contact.paymentDetails[action.key],
-        action.value
+        action.value,
+        maxLengthForFields[action.key]
       )
     : action.value;
 

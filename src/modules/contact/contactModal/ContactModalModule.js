@@ -85,6 +85,10 @@ export default class ContactModalModule {
           onShippingAddressChange={
             this.dispatcher.setContactModalShippingAddress
           }
+          onPaymentDetailsButtonClick={
+            this.dispatcher.setShowContactModalPaymentDetails
+          }
+          onPaymentDetailsChange={this.dispatcher.setContactModalPaymentDetails}
           onSaveButtonClick={this.save}
           onCancelButtonClick={this.dispatcher.resetState}
         />

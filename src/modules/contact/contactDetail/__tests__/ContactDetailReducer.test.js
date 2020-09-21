@@ -23,11 +23,11 @@ describe('contactDetailReducer', () => {
       expect(actual.contact.paymentDetails.accountName).toEqual('ABC');
     });
 
-    it('reject illegal characters for account name', () => {
+    it('reject from first illegal character for account name', () => {
       const state = {
         contact: {
           paymentDetails: {
-            accountName: 'ABC',
+            accountName: '',
           },
         },
       };
@@ -35,7 +35,7 @@ describe('contactDetailReducer', () => {
       const action = {
         intent: UPDATE_PAYMENT_DETAILS,
         key: 'accountName',
-        value: 'ABC!@#$%',
+        value: 'ABC!@#$%DEF',
       };
 
       const actual = contactDetailReducer(state, action);
@@ -83,11 +83,11 @@ describe('contactDetailReducer', () => {
       expect(actual.contact.paymentDetails.statementText).toEqual('ABC');
     });
 
-    it('reject illegal characters for statement text', () => {
+    it('reject from first illegal character for statement text', () => {
       const state = {
         contact: {
           paymentDetails: {
-            statementText: 'ABC',
+            statementText: '',
           },
         },
       };
@@ -95,7 +95,7 @@ describe('contactDetailReducer', () => {
       const action = {
         intent: UPDATE_PAYMENT_DETAILS,
         key: 'statementText',
-        value: 'ABC!@#$%',
+        value: 'ABC!@#$%DEF',
       };
 
       const actual = contactDetailReducer(state, action);

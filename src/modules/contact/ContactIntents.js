@@ -53,6 +53,12 @@ export const SET_SHOW_CONTACT_MODAL_SHIPPING_ADDRESS = Symbol(
 export const SET_CONTACT_MODAL_SHIPPING_ADDRESS = Symbol(
   'Set contact modal shipping address input'
 );
+export const SET_SHOW_CONTACT_MODAL_PAYMENT_DETAILS = Symbol(
+  'Set show contact modal payment details section'
+);
+export const SET_CONTACT_MODAL_PAYMENT_DETAILS = Symbol(
+  'Set contact modal payment details input'
+);
 
 export const RESET_FILTERS = Symbol('Reset filters');
 

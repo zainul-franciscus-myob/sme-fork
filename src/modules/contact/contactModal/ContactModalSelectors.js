@@ -14,6 +14,7 @@ export const getIsSubmitting = (state) => state.isSubmitting;
 export const getShowContactType = (state) => state.showContactType;
 const getShowBillingAddress = (state) => state.showBillingAddress;
 const getShowShippingAddress = (state) => state.showShippingAddress;
+export const getShowPaymentDetails = (state) => state.togglePaymentDetails;
 
 export const getContact = (state) => state.contact;
 export const getContactType = (state) => state.contact.contactType;
@@ -27,8 +28,12 @@ export const getLastName = (state) => state.contact.lastName;
 export const getNotes = (state) => state.contact.notes;
 const getBillingAddress = (state) => state.contact.billingAddress;
 const getShippingAddress = (state) => state.contact.shippingAddress;
+export const getPaymentDetails = (state) => state.contact.paymentDetails;
 
 export const getContactTypeOptions = (state) => state.contactTypeOptions;
+
+export const getIsElectronicPaymentEnabled = (state) =>
+  state.isElectronicPaymentEnabled;
 
 export const getTitle = createSelector(
   getShowContactType,
@@ -120,6 +125,14 @@ export const getContactModalShippingAddress = createSelector(
   getShippingAddress,
   getShowShippingAddress,
   getContactModalAddress
+);
+
+export const getShouldShowPaymentDetails = createSelector(
+  getRegion,
+  getIsSupplier,
+  getIsElectronicPaymentEnabled,
+  (region, isSupplier, isElectronicPaymentEnabled) =>
+    region === 'au' && isSupplier && isElectronicPaymentEnabled
 );
 
 export const getLoadNewContactModalUrlParams = (state) => ({

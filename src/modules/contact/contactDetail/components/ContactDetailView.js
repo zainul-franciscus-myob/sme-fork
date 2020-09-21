@@ -7,6 +7,7 @@ import {
   getIsCreating,
   getLoadingState,
   getModalType,
+  getPaymentDetails,
   getShouldShowPaymentDetails,
 } from '../contactDetailSelectors';
 import BillingAddress from './BillingAddress';
@@ -18,7 +19,7 @@ import DeleteModal from '../../../../components/modal/DeleteModal';
 import FormCard from '../../../../components/FormCard/FormCard';
 import MoreDetails from './MoreDetails';
 import PageView from '../../../../components/PageView/PageView';
-import PaymentDetails from './PaymentDetails';
+import PaymentDetails from '../../components/PaymentDetails';
 import ShippingAddress from './ShippingAddress';
 
 const ContactDetailView = ({
@@ -41,6 +42,7 @@ const ContactDetailView = ({
   onDeleteButtonClick,
   onAddAccount,
   onAbnBlur,
+  paymentDetails,
 }) => {
   const alertComponent = alertMessage && (
     <Alert type="danger" onDismiss={onDismissAlert}>
@@ -87,7 +89,10 @@ const ContactDetailView = ({
         <BillingAddress onAddressChange={onBillingAddressChange} />
         <ShippingAddress onAddressChange={onShippingAddressChange} />
         {shouldShowPaymentDetails && (
-          <PaymentDetails onPaymentDetailsChange={onPaymentDetailsChange} />
+          <PaymentDetails
+            {...paymentDetails}
+            onPaymentDetailsChange={onPaymentDetailsChange}
+          />
         )}
         <MoreDetails onContactDetailsChange={onContactDetailsChange} />
       </FormCard>
@@ -103,6 +108,7 @@ const mapStateToProps = (state) => ({
   modalType: getModalType(state),
   alertMessage: getAlertMessage(state),
   shouldShowPaymentDetails: getShouldShowPaymentDetails(state),
+  paymentDetails: getPaymentDetails(state),
 });
 
 export default connect(mapStateToProps)(ContactDetailView);

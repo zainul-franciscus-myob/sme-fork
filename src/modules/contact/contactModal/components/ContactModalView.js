@@ -7,6 +7,7 @@ import {
   getIsActionDisabled,
   getIsOpen,
   getRegion,
+  getShouldShowPaymentDetails,
   getTitle,
 } from '../ContactModalSelectors';
 import AuContactModalDetails from './au/ContactModalDetails';
@@ -14,6 +15,7 @@ import BillingAddress from './inputs/BillingAddress';
 import ContactModalMoreInformation from './ContactModalMoreDetails';
 import NzContactModalDetails from './nz/ContactModalDetails';
 import PageView from '../../../../components/PageView/PageView';
+import PaymentDetailsWithToggle from './inputs/PaymentDetailsWithToggle';
 import ShippingAddress from './inputs/ShippingAddress';
 
 const ContactModalView = ({
@@ -22,6 +24,7 @@ const ContactModalView = ({
   isOpen,
   title,
   isActionDisabled,
+  shouldShowPaymentDetails,
   onClose,
   onDismissAlert,
   onDetailChange,
@@ -29,6 +32,8 @@ const ContactModalView = ({
   onBillingAddressChange,
   onShippingAddressButtonClick,
   onShippingAddressChange,
+  onPaymentDetailsButtonClick,
+  onPaymentDetailsChange,
   onCancelButtonClick,
   onSaveButtonClick,
 }) => {
@@ -54,6 +59,12 @@ const ContactModalView = ({
         onToggle={onShippingAddressButtonClick}
         onChange={onShippingAddressChange}
       />
+      {shouldShowPaymentDetails && (
+        <PaymentDetailsWithToggle
+          onToggle={onPaymentDetailsButtonClick}
+          onPaymentDetailsChange={onPaymentDetailsChange}
+        />
+      )}
       <ContactModalMoreInformation onChange={onDetailChange} />
     </>
   );
@@ -97,6 +108,7 @@ const mapStateToProps = (state) => ({
   isOpen: getIsOpen(state),
   title: getTitle(state),
   isActionDisabled: getIsActionDisabled(state),
+  shouldShowPaymentDetails: getShouldShowPaymentDetails(state),
 });
 
 export default connect(mapStateToProps)(ContactModalView);
