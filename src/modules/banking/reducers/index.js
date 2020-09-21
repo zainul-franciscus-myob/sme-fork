@@ -62,6 +62,7 @@ import {
   SET_PENDING_NOTE,
   SET_SUBMMITTING_NOTE_STATE,
   SET_TABLE_LOADING_STATE,
+  SET_TRANSACTION_STATUS_TYPE_TO_UNMATCHED,
   SET_TRANSFER_MONEY_DETAIL,
   SHOW_SELECTED_MATCH_TRANSACTIONS,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
@@ -165,6 +166,7 @@ import {
 } from '../tabs/transferMoney/transferMoneyHandlers';
 import FocusLocations from '../types/FocusLocations';
 import Periods from '../../../components/PeriodPicker/Periods';
+import StatusTypes from '../types/BankTransactionStatusTypes';
 import TransactionTypes from '../types/TransactionTypes';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
@@ -493,6 +495,28 @@ export const setLoadingSingleAccountState = (state, action) => ({
   isLoadingAccount: action.isLoadingAccount,
 });
 
+export const setTransactionStatusTypeToUnmatched = (state, action) => {
+  /*
+    Have to hard-code allocateOrMatch to "Allocate me" so the transaction looks
+    like an unmatched transaction to the user. This text is not set by sme-web
+    or sme-web-bff, which means that this hard-coding can get out of sync.
+  */
+  const entries = state.entries.map((entry, index) =>
+    index === action.index
+      ? {
+          ...entry,
+          type: StatusTypes.unmatched,
+          allocateOrMatch: 'Allocate me',
+        }
+      : entry
+  );
+
+  return {
+    ...state,
+    entries,
+  };
+};
+
 const handlers = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,
   [LOAD_BANK_TRANSACTIONS_NEXT_PAGE]: loadBankTransactionsNextPage,
@@ -586,6 +610,7 @@ const handlers = {
   [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
   [SET_JOB_LOADING_STATE]: setJobLoadingState,
   [POPULATE_REMAINING_AMOUNT]: populateRemainingAmount,
+  [SET_TRANSACTION_STATUS_TYPE_TO_UNMATCHED]: setTransactionStatusTypeToUnmatched,
 };
 
 const bankingReducer = createReducer(getDefaultState(), handlers);

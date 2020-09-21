@@ -8,10 +8,12 @@ import {
   ENTER,
   EQUALS,
   ESCAPE,
+  F2,
   F4,
   F8,
   FORWARD_SLASH,
   G,
+  L,
   M,
   OPTION,
   R,
@@ -1510,6 +1512,11 @@ export default class BankingModule {
     }
   };
 
+  setTransactionStatusTypeToUnmatched = ({ index }) => {
+    this.dispatcher.setTransactionStatusTypeToUnmatched(index);
+    this.setFocusToTransactionLine(index);
+  };
+
   buildHotkeyHandlers = () => {
     const hotkeysToExpandAccordionView = [
       {
@@ -1603,6 +1610,17 @@ export default class BankingModule {
       },
     ];
 
+    const hotkeysToQuickAllocateMatchedTransaction = [
+      {
+        key: F2,
+        action: this.setTransactionStatusTypeToUnmatched,
+      },
+      {
+        key: [OPTION, L],
+        action: this.setTransactionStatusTypeToUnmatched,
+      },
+    ];
+
     return {
       [HotkeyLocations.GLOBAL]: [
         {
@@ -1642,6 +1660,7 @@ export default class BankingModule {
         ...hotkeysToSetFocusToUnmatchedTransactionLine,
         ...hotkeysToCreateBankRule,
         ...hotkeysToExpandAccordionView,
+        ...hotkeysToQuickAllocateMatchedTransaction,
       ],
       [HotkeyLocations.APPROVED_TRANSACTION_BUTTON]: [
         {

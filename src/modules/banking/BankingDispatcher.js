@@ -43,6 +43,7 @@ import {
   SET_PENDING_NOTE,
   SET_SUBMMITTING_NOTE_STATE,
   SET_TABLE_LOADING_STATE,
+  SET_TRANSACTION_STATUS_TYPE_TO_UNMATCHED,
   SET_TRANSFER_MONEY_DETAIL,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   START_ENTRY_LOADING_STATE,
@@ -531,6 +532,12 @@ const createBankingDispatcher = (store) => ({
   populateRemainingAmount: (index) =>
     store.dispatch({
       intent: POPULATE_REMAINING_AMOUNT,
+      index,
+    }),
+
+  setTransactionStatusTypeToUnmatched: (index) =>
+    store.dispatch({
+      intent: SET_TRANSACTION_STATUS_TYPE_TO_UNMATCHED,
       index,
     }),
 

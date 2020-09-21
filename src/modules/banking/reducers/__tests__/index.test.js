@@ -1,5 +1,10 @@
-import { LOAD_JOB_AFTER_CREATE, SET_FOCUS } from '../../BankingIntents';
+import {
+  LOAD_JOB_AFTER_CREATE,
+  SET_FOCUS,
+  SET_TRANSACTION_STATUS_TYPE_TO_UNMATCHED,
+} from '../../BankingIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
+import BankTransactionStatusTypes from '../../types/BankTransactionStatusTypes';
 import FocusLocations from '../../types/FocusLocations';
 import Periods from '../../../../components/PeriodPicker/Periods';
 import TransactionTypes from '../../types/TransactionTypes';
@@ -265,6 +270,34 @@ describe('bankingReducer', () => {
         const actual = bankingReducer(updatedState, action);
 
         expect(actual.focus).toEqual(updatedState.focus);
+      });
+    });
+  });
+
+  describe('setTransactionStatusTypeToUnmatched', () => {
+    it('given an entry index, sets status type to unmatched ', () => {
+      const state = {
+        entries: [
+          {
+            type: BankTransactionStatusTypes.unmatched,
+            allocateOrMatch: 'Allocate me',
+          },
+          {
+            type: BankTransactionStatusTypes.matched,
+            allocateOrMatch: 'Possible match found',
+          },
+        ],
+      };
+
+      const index = 1;
+      const action = {
+        intent: SET_TRANSACTION_STATUS_TYPE_TO_UNMATCHED,
+        index,
+      };
+      const actual = bankingReducer(state, action);
+      expect(actual.entries[index]).toEqual({
+        type: BankTransactionStatusTypes.unmatched,
+        allocateOrMatch: 'Allocate me',
       });
     });
   });

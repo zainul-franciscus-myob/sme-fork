@@ -7,10 +7,12 @@ import {
   ENTER,
   EQUALS,
   ESCAPE,
+  F2,
   F4,
   F8,
   FORWARD_SLASH,
   G,
+  L,
   M,
   OPTION,
   R,
@@ -52,6 +54,7 @@ import {
   SET_OPEN_ENTRY_LOADING_STATE,
   SET_OPEN_ENTRY_POSITION,
   SET_TABLE_LOADING_STATE,
+  SET_TRANSACTION_STATUS_TYPE_TO_UNMATCHED,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
   START_ENTRY_LOADING_STATE,
@@ -2737,6 +2740,44 @@ describe('BankingModule', () => {
 
         // Assertion
         expect(store.getActions()).toEqual([]);
+      });
+    });
+
+    describe(HotkeyLocations.POSSIBLE_MATCHED_BUTTON, () => {
+      const location = HotkeyLocations.POSSIBLE_MATCHED_BUTTON;
+
+      describe.each([
+        [BankTransactionStatusTypes.matched],
+        [BankTransactionStatusTypes.paymentRuleMatched],
+      ])('given %s transaction', (transactionStatusType) => {
+        it.each([[F2], [[OPTION, L]]])(
+          `%s should set status type to ${BankTransactionStatusTypes.unmatched}`,
+          (hotkey) => {
+            // Setup
+            const { module, store, index } = setUpWithBankTransactionEntry({
+              type: transactionStatusType,
+            });
+
+            // Action
+            const event = { index };
+            const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+            hotkeyHandler.action(event);
+
+            // Assertion
+            expect(store.getActions()).toEqual([
+              {
+                intent: SET_TRANSACTION_STATUS_TYPE_TO_UNMATCHED,
+                index,
+              },
+              {
+                intent: SET_FOCUS,
+                index,
+                isFocused: true,
+                location: FocusLocations.MATCHED_OR_ALLOCATED_ELEMENT,
+              },
+            ]);
+          }
+        );
       });
     });
   });
