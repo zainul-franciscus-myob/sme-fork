@@ -1,8 +1,10 @@
 import {
+  CHANGE_BANK_STATEMENT_TEXT,
+  CHANGE_REFERENCE_ID,
   CLOSE_MODAL,
   LOAD_BILL_LIST,
+  LOAD_SUPPLIER_STATEMENT_TEXT,
   OPEN_MODAL,
-  RESET_BANK_STATEMENT_TEXT,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_REDIRECT_URL,
@@ -64,11 +66,16 @@ const createBillPaymentDetailDispatcher = (store) => ({
       value,
     });
   },
-  resetBankStatementText: ({ key, value }) => {
+  changeBankStatementText: (bankStatementText) => {
     store.dispatch({
-      intent: RESET_BANK_STATEMENT_TEXT,
-      key,
-      value,
+      intent: CHANGE_BANK_STATEMENT_TEXT,
+      bankStatementText,
+    });
+  },
+  updateBankStatementText: (bankStatementText) => {
+    store.dispatch({
+      intent: UPDATE_BANK_STATEMENT_TEXT,
+      bankStatementText,
     });
   },
   setAlertMessage: (alertMessage) => {
@@ -77,10 +84,22 @@ const createBillPaymentDetailDispatcher = (store) => ({
       alertMessage,
     });
   },
+  changeReferenceId: ({ value }) => {
+    store.dispatch({
+      intent: CHANGE_REFERENCE_ID,
+      referenceId: value,
+    });
+  },
   updateReferenceId: (referenceId) => {
     store.dispatch({
       intent: UPDATE_REFERENCE_ID,
       referenceId,
+    });
+  },
+  loadSupplierStatementText: (supplierStatementText) => {
+    store.dispatch({
+      intent: LOAD_SUPPLIER_STATEMENT_TEXT,
+      supplierStatementText,
     });
   },
   loadBillList: ({ entries }) => {
@@ -104,10 +123,6 @@ const createBillPaymentDetailDispatcher = (store) => ({
       ...response,
     });
   },
-  updateBankStatementText: () =>
-    store.dispatch({
-      intent: UPDATE_BANK_STATEMENT_TEXT,
-    }),
   setRedirectUrl: (redirectUrl) => {
     store.dispatch({
       intent: SET_REDIRECT_URL,

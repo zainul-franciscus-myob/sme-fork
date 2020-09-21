@@ -5,13 +5,13 @@ import {
   LOAD_BILL_LIST,
   LOAD_BILL_PAYMENT,
   LOAD_NEW_BILL_PAYMENT,
+  LOAD_SUPPLIER_STATEMENT_TEXT,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_REDIRECT_URL,
   SET_SUBMITTING_STATE,
   SET_TABLE_LOADING_STATE,
-  UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_BILL_PAYMENT,
   UPDATE_HEADER_OPTION,
   UPDATE_REFERENCE_ID,
@@ -92,7 +92,7 @@ describe('BillPaymentDetailModule', () => {
         intent: LOAD_BILL_PAYMENT,
       },
     ].forEach((test) => {
-      it(`successflly loads ${test.name}`, () => {
+      it(`successfully loads ${test.name}`, () => {
         const { module, store, integration } = setup();
 
         module.run({ billPaymentId: test.billPaymentId });
@@ -100,9 +100,9 @@ describe('BillPaymentDetailModule', () => {
         expect(store.getActions()).toEqual([
           {
             intent: SET_INITIAL_STATE,
-            context: {
+            context: expect.objectContaining({
               billPaymentId: test.billPaymentId,
-            },
+            }),
           },
           {
             intent: SET_LOADING_STATE,
@@ -134,9 +134,9 @@ describe('BillPaymentDetailModule', () => {
         expect(store.getActions()).toEqual([
           {
             intent: SET_INITIAL_STATE,
-            context: {
+            context: expect.objectContaining({
               billPaymentId: test.billPaymentId,
-            },
+            }),
           },
           {
             intent: SET_LOADING_STATE,
@@ -454,6 +454,41 @@ describe('BillPaymentDetailModule', () => {
     });
   });
 
+  describe('updateIsElectronicPayment', () => {
+    it('should update account to electronic clearing when true', () => {
+      const { module, store } = setupWithNew();
+
+      module.updateIsElectronicPayment({ value: true });
+
+      expect(store.getActions()).toEqual([
+        expect.objectContaining({
+          intent: UPDATE_HEADER_OPTION,
+          key: 'accountId',
+          value: store.getState().electronicClearingAccountId,
+        }),
+        expect.objectContaining({
+          intent: UPDATE_REFERENCE_ID,
+        }),
+      ]);
+    });
+
+    it('should use first bank account when false', () => {
+      const { module, store } = setupWithExisting();
+      module.updateIsElectronicPayment({ value: false });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: UPDATE_HEADER_OPTION,
+          key: 'accountId',
+          value: store.getState().accounts[0].id,
+        },
+        expect.objectContaining({
+          intent: UPDATE_REFERENCE_ID,
+        }),
+      ]);
+    });
+  });
+
   describe('updateHeaderOption', () => {
     it('updates option', () => {
       const { module, store } = setupWithExisting();
@@ -469,12 +504,25 @@ describe('BillPaymentDetailModule', () => {
       ]);
     });
 
+    it('bank statement text is updated when reference is edited', () => {
+      const { module, store, integration } = setupWithNew();
+      module.updateHeaderOption({ key: 'referenceId', value: '2' });
+
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          {
+            intent: UPDATE_HEADER_OPTION,
+            key: 'referenceId',
+            value: '2',
+          },
+        ])
+      );
+      expect(integration.getRequests()).toEqual([]);
+    });
+
     describe('update account id', () => {
-      it('only updates the bank statement text when reference id edited', () => {
-        const { module, store, integration } = setupWithExisting();
-        module.updateHeaderOption({ key: 'referenceId', value: '123' });
-        store.resetActions();
-
+      it('successfully updates reference id and bank text', () => {
+        const { module, store } = setupWithNew();
         module.updateHeaderOption({ key: 'accountId', value: '2' });
 
         expect(store.getActions()).toEqual([
@@ -484,51 +532,31 @@ describe('BillPaymentDetailModule', () => {
             value: '2',
           },
           {
-            intent: UPDATE_BANK_STATEMENT_TEXT,
-          },
-        ]);
-        expect(integration.getRequests()).toEqual([]);
-      });
-
-      it('successfully updates reference id', () => {
-        const { module, store, integration } = setupWithExisting();
-
-        module.updateHeaderOption({ key: 'accountId', value: '2' });
-
-        expect(store.getActions()).toEqual([
-          {
-            intent: UPDATE_HEADER_OPTION,
-            key: 'accountId',
-            value: '2',
-          },
-          expect.objectContaining({
             intent: UPDATE_REFERENCE_ID,
-          }),
-        ]);
-        expect(integration.getRequests()).toEqual([
-          expect.objectContaining({
-            intent: UPDATE_REFERENCE_ID,
-          }),
+            referenceId: 'BP0010003',
+          },
         ]);
       });
 
       it('fails to update reference id', () => {
-        const { module, store, integration } = setupWithExisting();
+        const { module, store, integration } = setupWithNew();
         integration.mapFailure(UPDATE_REFERENCE_ID);
 
         module.updateHeaderOption({ key: 'accountId', value: '2' });
 
-        expect(store.getActions()).toEqual([
-          {
-            intent: UPDATE_HEADER_OPTION,
-            key: 'accountId',
-            value: '2',
-          },
-          {
-            intent: SET_ALERT_MESSAGE,
-            alertMessage: 'fails',
-          },
-        ]);
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            {
+              intent: UPDATE_HEADER_OPTION,
+              key: 'accountId',
+              value: '2',
+            },
+            {
+              intent: SET_ALERT_MESSAGE,
+              alertMessage: 'fails',
+            },
+          ])
+        );
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({
             intent: UPDATE_REFERENCE_ID,
@@ -543,27 +571,32 @@ describe('BillPaymentDetailModule', () => {
 
         module.updateHeaderOption({ key: 'supplierId', value: '2' });
 
-        expect(store.getActions()).toEqual([
-          {
-            intent: UPDATE_HEADER_OPTION,
-            key: 'supplierId',
-            value: '2',
-          },
-          {
-            intent: SET_TABLE_LOADING_STATE,
-            isTableLoading: true,
-          },
-          {
-            intent: SET_TABLE_LOADING_STATE,
-            isTableLoading: false,
-          },
-          expect.objectContaining({
-            intent: LOAD_BILL_LIST,
-          }),
-        ]);
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            {
+              intent: UPDATE_HEADER_OPTION,
+              key: 'supplierId',
+              value: '2',
+            },
+            {
+              intent: SET_TABLE_LOADING_STATE,
+              isTableLoading: true,
+            },
+            {
+              intent: SET_TABLE_LOADING_STATE,
+              isTableLoading: false,
+            },
+            expect.objectContaining({
+              intent: LOAD_BILL_LIST,
+            }),
+          ])
+        );
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({
             intent: LOAD_BILL_LIST,
+          }),
+          expect.objectContaining({
+            intent: LOAD_SUPPLIER_STATEMENT_TEXT,
           }),
         ]);
       });
@@ -574,33 +607,79 @@ describe('BillPaymentDetailModule', () => {
 
         module.updateHeaderOption({ key: 'supplierId', value: '2' });
 
-        expect(store.getActions()).toEqual([
-          {
-            intent: UPDATE_HEADER_OPTION,
-            key: 'supplierId',
-            value: '2',
-          },
-          {
-            intent: SET_TABLE_LOADING_STATE,
-            isTableLoading: true,
-          },
-          {
-            intent: SET_TABLE_LOADING_STATE,
-            isTableLoading: false,
-          },
-          {
-            intent: SET_ALERT_MESSAGE,
-            alertMessage: 'fails',
-          },
-        ]);
-        expect(integration.getRequests()).toEqual([
-          expect.objectContaining({
-            intent: LOAD_BILL_LIST,
-          }),
-        ]);
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            {
+              intent: UPDATE_HEADER_OPTION,
+              key: 'supplierId',
+              value: '2',
+            },
+            {
+              intent: SET_ALERT_MESSAGE,
+              alertMessage: 'fails',
+            },
+          ])
+        );
+        expect(integration.getRequests()).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              intent: LOAD_BILL_LIST,
+            }),
+          ])
+        );
       });
 
-      it('does not load bills when empty', () => {
+      it('successfully load bills', () => {
+        const { module, store, integration } = setupWithExisting();
+        integration.mapFailure(LOAD_BILL_LIST);
+
+        module.updateHeaderOption({ key: 'supplierId', value: '2' });
+
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            {
+              intent: LOAD_SUPPLIER_STATEMENT_TEXT,
+              supplierStatementText: 'SUPP STATEMENT TXT',
+            },
+          ])
+        );
+        expect(integration.getRequests()).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              intent: LOAD_SUPPLIER_STATEMENT_TEXT,
+            }),
+          ])
+        );
+      });
+
+      it('fails to load statement text', () => {
+        const { module, store, integration } = setupWithExisting();
+        integration.mapFailure(LOAD_BILL_LIST);
+
+        module.updateHeaderOption({ key: 'supplierId', value: '2' });
+
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            {
+              intent: LOAD_SUPPLIER_STATEMENT_TEXT,
+              supplierStatementText: 'SUPP STATEMENT TXT',
+            },
+            {
+              intent: SET_ALERT_MESSAGE,
+              alertMessage: 'fails',
+            },
+          ])
+        );
+        expect(integration.getRequests()).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              intent: LOAD_SUPPLIER_STATEMENT_TEXT,
+            }),
+          ])
+        );
+      });
+
+      it('does not load bills and statement text when empty', () => {
         const { module, integration } = setupWithExisting();
 
         module.updateHeaderOption({ key: 'supplierId', value: '' });

@@ -1,20 +1,22 @@
-import { DetailHeader, Input, TextArea } from '@myob/myob-widgets';
+import {
+  Checkbox,
+  CheckboxGroup,
+  DetailHeader,
+  Input,
+  TextArea,
+  Tooltip,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getBillPaymentOptions,
-  getIsBeforeStartOfFinancialYear,
-} from '../BillPaymentDetailSelectors';
+import { getBillPaymentOptions } from '../BillPaymentDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import DatePicker from '../../../../components/DatePicker/DatePicker';
 import handleAutoCompleteChange from '../../../../components/handlers/handleAutoCompleteChange';
-
-const onTextFieldChange = (handler) => ({ target: { name: key, value } }) =>
-  handler({ key, value });
-
-const onComboBoxChange = (handler) => (key) => (item) =>
-  handler({ key, value: item.id });
+import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
+import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
+import handleInputChange from '../../../../components/handlers/handleInputChange';
+import handleTextAreaChange from '../../../../components/handlers/handleTextAreaChange';
 
 const onDateChange = (handler) => (key) => ({ value }) =>
   handler({ key, value });
@@ -26,16 +28,22 @@ const BillPaymentOptions = ({
   description,
   referenceId,
   bankStatementText,
-  showBankStatementText,
+  isElectronicPayment,
+  showElectronicPayments,
   renderContactCombobox,
+  onChangeReferenceId,
   onUpdateHeaderOption,
-  onBlurBankStatementText,
+  onChangeBankStatementText,
+  onUpdateBankStatementText,
   date,
+  onUpdateIsElectronicPayment,
   shouldDisableSupplier,
   isCreating,
   isBeforeStartOfFinancialYear,
 }) => {
   const requiredLabel = 'This is required';
+  const requiredBankStatementText =
+    'You have indicated that the transaction is to be paid electronically. All electronic payment must contain statement text.';
 
   const primary = (
     <>
@@ -50,21 +58,44 @@ const BillPaymentOptions = ({
         disabled: shouldDisableSupplier,
         onChange: handleAutoCompleteChange('supplierId', onUpdateHeaderOption),
       })}
+      {showElectronicPayments && (
+        <CheckboxGroup
+          label="Electronic Payment"
+          hideLabel
+          renderCheckbox={() => (
+            <Checkbox
+              name="isElectronicPayment"
+              label="Electronic payment"
+              checked={isElectronicPayment}
+              labelAccessory={
+                <Tooltip placement="right">
+                  Payment will be added to the bank file payments list
+                </Tooltip>
+              }
+              onChange={handleCheckboxChange(
+                onUpdateIsElectronicPayment,
+                'isElectronicPayment'
+              )}
+            />
+          )}
+        />
+      )}
       <AccountCombobox
         label="Bank account"
         hideLabel={false}
         items={accounts}
         selectedId={accountId}
-        onChange={onComboBoxChange(onUpdateHeaderOption)('accountId')}
+        disabled={isElectronicPayment}
+        onChange={handleComboboxChange('accountId', onUpdateHeaderOption)}
       />
-      {showBankStatementText && (
+      {isElectronicPayment && (
         <Input
           name="bankStatementText"
-          label="Bank statement text"
+          label="Statement text"
           value={bankStatementText}
-          onChange={onTextFieldChange(onUpdateHeaderOption)}
-          onBlur={onTextFieldChange(onBlurBankStatementText)}
-          requiredLabel={requiredLabel}
+          onChange={handleInputChange(onChangeBankStatementText)}
+          onBlur={handleInputChange(onUpdateBankStatementText)}
+          requiredLabel={requiredBankStatementText}
           maxLength={18}
         />
       )}
@@ -73,7 +104,7 @@ const BillPaymentOptions = ({
         label="Description of transaction"
         resize="vertical"
         value={description}
-        onChange={onTextFieldChange(onUpdateHeaderOption)}
+        onChange={handleTextAreaChange(onUpdateHeaderOption)}
         maxLength={255}
         rows={1}
         autoSize
@@ -87,7 +118,7 @@ const BillPaymentOptions = ({
         name="referenceId"
         label="Reference number"
         value={referenceId}
-        onChange={onTextFieldChange(onUpdateHeaderOption)}
+        onChange={handleInputChange(onChangeReferenceId)}
         requiredLabel={requiredLabel}
         maxLength={8}
       />
@@ -108,7 +139,6 @@ const BillPaymentOptions = ({
 
 const mapStateToProps = (state) => ({
   ...getBillPaymentOptions(state),
-  isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
 });
 
 export default connect(mapStateToProps)(BillPaymentOptions);

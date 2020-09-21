@@ -28,7 +28,6 @@ const getReferenceId = (state) => state.referenceId;
 const getDate = (state) => state.date;
 export const getShowPaidBills = (state) => state.showPaidBills;
 const getDescription = (state) => state.description;
-const getBankStatementText = (state) => state.bankStatementText;
 export const getIsPageEdited = (state) => state.isPageEdited;
 export const getModalType = (state) => state.modalType;
 export const getRedirectUrl = (state) => state.redirectUrl;
@@ -98,11 +97,30 @@ export const getShouldDisableSupplier = createSelector(
   }
 );
 
-export const getShowBankStatementText = createSelector(
+export const getIsElectronicPayment = createSelector(
   getAccountId,
   getElectronicClearingAccountId,
   (accountId, electronicClearingAccountId) =>
     accountId === electronicClearingAccountId
+);
+
+export const getBankStatementText = (state) => state.bankStatementText;
+
+export const getIsBeforeStartOfFinancialYear = (state) => {
+  const { startOfFinancialYearDate, date } = state;
+  const issueDate = new Date(date);
+  return (
+    issueDate &&
+    startOfFinancialYearDate &&
+    isBefore(issueDate, new Date(startOfFinancialYearDate))
+  );
+};
+
+const getShowElectronicPayments = createSelector(
+  getRegion,
+  (state) => state.isElectronicPaymentEnabled,
+  (region, isElectronicPaymentEnabled) =>
+    region === 'au' && isElectronicPaymentEnabled
 );
 
 export const getBillPaymentOptions = createStructuredSelector({
@@ -115,19 +133,18 @@ export const getBillPaymentOptions = createStructuredSelector({
   shouldDisableSupplier: getShouldDisableSupplier,
   isCreating: getIsCreating,
   bankStatementText: getBankStatementText,
-  showBankStatementText: getShowBankStatementText,
+  isElectronicPayment: getIsElectronicPayment,
+  isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear,
+  showElectronicPayments: getShowElectronicPayments,
 });
 
 export const getShouldLoadBillList = (key, value, state) => {
   const supplierId = getSupplierId(state);
 
-  if (key === 'supplierId' && value.length > 0) {
-    return true;
-  }
-  if (key === 'showPaidBills' && supplierId.length > 0) {
-    return true;
-  }
-  return false;
+  return (
+    (key === 'supplierId' && value.length > 0) ||
+    (key === 'showPaidBills' && supplierId.length > 0)
+  );
 };
 
 export const getLoadBillListParams = createSelector(
@@ -142,6 +159,15 @@ export const getLoadBillListParams = createSelector(
     params: {
       showPaidBills,
     },
+  })
+);
+
+export const getLoadSupplierStatementTextUrlParams = createSelector(
+  getBusinessId,
+  getSupplierId,
+  (businessId, supplierId) => ({
+    businessId,
+    supplierId,
   })
 );
 
@@ -192,7 +218,7 @@ const getCreateBillPaymentPayload = (state) => {
     date: getDate(state),
     referenceId: referenceId === originalReferenceId ? undefined : referenceId,
     description: getDescription(state),
-    bankStatementText: getShowBankStatementText(state)
+    bankStatementText: getIsElectronicPayment(state)
       ? getBankStatementText(state)
       : '',
     accountId: getAccountId(state),
@@ -204,7 +230,7 @@ const getCreateBillPaymentPayload = (state) => {
 const getUpdateBillPaymentPayload = (state) => ({
   date: getDate(state),
   referenceId: getReferenceId(state),
-  bankStatementText: getShowBankStatementText(state)
+  bankStatementText: getIsElectronicPayment(state)
     ? getBankStatementText(state)
     : '',
   description: getDescription(state),
@@ -250,16 +276,6 @@ export const getUpdateReferenceIdParams = createSelector(
     accountId,
   })
 );
-
-export const getIsBeforeStartOfFinancialYear = (state) => {
-  const { startOfFinancialYearDate, date } = state;
-  const issueDate = new Date(date);
-  return (
-    issueDate &&
-    startOfFinancialYearDate &&
-    isBefore(issueDate, new Date(startOfFinancialYearDate))
-  );
-};
 
 export const getContactComboboxContext = (state) => {
   const businessId = getBusinessId(state);

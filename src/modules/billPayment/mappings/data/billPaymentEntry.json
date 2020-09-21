@@ -26,6 +26,7 @@
   "accountId": "123",
   "supplierId": "1",
   "referenceId": "BP0000002",
+  "bankStatementText": "BNK TEXT",
   "description": "Payment; A-Z Stationery Supplies. If empty, something else here",
   "entries": [
     {

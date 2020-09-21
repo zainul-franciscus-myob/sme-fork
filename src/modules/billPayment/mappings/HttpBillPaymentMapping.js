@@ -4,6 +4,7 @@ import {
   LOAD_BILL_LIST,
   LOAD_BILL_PAYMENT,
   LOAD_NEW_BILL_PAYMENT,
+  LOAD_SUPPLIER_STATEMENT_TEXT,
   UPDATE_BILL_PAYMENT,
   UPDATE_REFERENCE_ID,
 } from '../BillPaymentIntents';
@@ -42,6 +43,11 @@ const HttpBillPaymentMapping = {
     method: 'DELETE',
     getPath: ({ businessId, billPaymentId }) =>
       `/${businessId}/billPayment/delete_bill_payment/${billPaymentId}`,
+  },
+  [LOAD_SUPPLIER_STATEMENT_TEXT]: {
+    method: 'GET',
+    getPath: ({ businessId, supplierId }) =>
+      `/${businessId}/contact/load_contact_detail/${supplierId}`,
   },
 };
 

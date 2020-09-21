@@ -26,6 +26,7 @@ import Store from '../../../store/Store';
 import billPaymentReducer from './billPaymentDetailReducer';
 import createBillPaymentDetailDispatcher from './createBillPaymentDetailDispatcher';
 import createBillPaymentDetailIntegrator from './createBillPaymentDetailIntegrator';
+import featureToggles from '../../../featureToggles/mappings/data/featureToggles';
 import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
@@ -39,9 +40,11 @@ export default class BillPaymentModule {
       this.store,
       integration
     );
-    this.navigateTo = navigateTo;
 
+    this.navigateTo = navigateTo;
     this.contactComboboxModule = new ContactComboboxModule({ integration });
+    this.isElectronicPaymentEnabled =
+      featureToggles?.isElectronicPaymentEnabled;
   }
 
   loadBillPayment = () => {
@@ -85,6 +88,19 @@ export default class BillPaymentModule {
     this.integrator.loadBillList({ onSuccess, onFailure });
   };
 
+  loadSupplierStatementText = () => {
+    const onSuccess = (response) => {
+      const { paymentDetails } = response.contact;
+      this.dispatcher.loadSupplierStatementText(paymentDetails.statementText);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setAlertMessage(message);
+    };
+
+    this.integrator.loadSupplierStatementText({ onSuccess, onFailure });
+  };
+
   updateHeaderOption = ({ key, value }) => {
     const state = this.store.getState();
 
@@ -94,16 +110,32 @@ export default class BillPaymentModule {
       this.loadBillList();
     }
 
-    if (key === 'accountId') {
-      this.updateReferenceId();
-    }
+    if (key === 'supplierId' && value) this.loadSupplierStatementText();
+    if (key === 'accountId') this.updateReferenceId();
+  };
+
+  updateIsElectronicPayment = ({ value }) => {
+    const state = this.store.getState();
+
+    const accountId = value
+      ? state.electronicClearingAccountId
+      : state.accounts[0].id;
+
+    this.updateHeaderOption({ key: 'accountId', value: accountId });
+  };
+
+  updateBankStatementText = ({ value }) => {
+    this.dispatcher.updateBankStatementText(value);
+  };
+
+  changeBankStatementText = ({ value }) => {
+    this.dispatcher.changeBankStatementText(value);
   };
 
   updateReferenceId = () => {
     const state = this.store.getState();
 
     if (getIsReferenceIdDirty(state)) {
-      this.dispatcher.updateBankStatementText();
       return;
     }
 
@@ -242,8 +274,11 @@ export default class BillPaymentModule {
     const billPaymentView = (
       <BillPaymentView
         renderContactCombobox={this.renderContactCombobox}
+        onChangeReferenceId={this.dispatcher.changeReferenceId}
         onUpdateHeaderOption={this.updateHeaderOption}
-        onBlurBankStatementText={this.dispatcher.resetBankStatementText}
+        onUpdateIsElectronicPayment={this.updateIsElectronicPayment}
+        onChangeBankStatementText={this.changeBankStatementText}
+        onUpdateBankStatementText={this.updateBankStatementText}
         onUpdateTableInputField={this.dispatcher.updateTableInputField}
         onSaveButtonClick={this.saveBillPayment}
         onCancelButtonClick={this.openCancelModal}
@@ -278,7 +313,10 @@ export default class BillPaymentModule {
   };
 
   run = (context) => {
-    this.dispatcher.setInitialState(context);
+    this.dispatcher.setInitialState({
+      ...context,
+      isElectronicPaymentEnabled: this.isElectronicPaymentEnabled,
+    });
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.dispatcher.setLoadingState(LoadingState.LOADING);

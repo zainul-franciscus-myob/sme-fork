@@ -1,7 +1,9 @@
 import {
+  CHANGE_REFERENCE_ID,
   LOAD_BILL_LIST,
   LOAD_NEW_BILL_PAYMENT,
-  RESET_BANK_STATEMENT_TEXT,
+  LOAD_SUPPLIER_STATEMENT_TEXT,
+  UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_REFERENCE_ID,
 } from '../../BillPaymentIntents';
 import billPaymentDetailReducer from '../billPaymentDetailReducer';
@@ -82,45 +84,89 @@ describe('billPaymentDetailReducer', () => {
     });
   });
 
-  describe('RESET_BANK_STATEMENT_TEXT', () => {
-    it("should reset bank statement text if it's cleared", () => {
+  describe('UPDATE_REFERENCE_ID', () => {
+    it('should set the bankStatementText to referenceId when no supplier default', () => {
       const state = {
-        bankStatementText: 'some-text',
-        originalBankStatementText: 'the-original-text',
+        accountId: '1',
+        electronicClearingAccountId: '1',
+        supplierStatementText: '',
+        referenceId: '1',
       };
 
       const action = {
-        intent: RESET_BANK_STATEMENT_TEXT,
-        value: '',
+        intent: UPDATE_REFERENCE_ID,
+        referenceId: '123',
       };
 
       const actual = billPaymentDetailReducer(state, action);
 
-      expect(actual.bankStatementText).toEqual('the-original-text');
+      expect(actual.bankStatementText).toEqual('PAYMENT 123');
+    });
+  });
+
+  describe('CHANGE_REFERENCE_ID', () => {
+    it('should set the bankStatementText to reference when referenceId changes and no supplier default', () => {
+      const state = {
+        accountId: '1',
+        electronicClearingAccountId: '1',
+        supplierStatementText: '',
+      };
+
+      const action = {
+        intent: CHANGE_REFERENCE_ID,
+        referenceId: '2',
+      };
+
+      const actual = billPaymentDetailReducer(state, action);
+
+      expect(actual.bankStatementText).toEqual('PAYMENT 2');
     });
 
-    it("should use the given value if it hasn't been cleared", () => {
+    it('should not set the bankStatementText when a supplier has a default', () => {
       const state = {
-        bankStatementText: 'some-text',
-        originalBankStatementText: 'the-original-text',
+        accountId: '1',
+        electronicClearingAccountId: '1',
+        supplierStatementText: 'SUPPLIER DEFAULT',
+        bankStatementText: 'SUPPLIER DEFAULT',
       };
 
       const action = {
-        intent: RESET_BANK_STATEMENT_TEXT,
-        value: 'some-new-value',
+        intent: CHANGE_REFERENCE_ID,
+        key: 'referenceId',
+        value: '2',
       };
 
       const actual = billPaymentDetailReducer(state, action);
 
-      expect(actual.bankStatementText).toEqual('some-new-value');
+      expect(actual.bankStatementText).toEqual('SUPPLIER DEFAULT');
+    });
+
+    it('should not set the bankStatementText user has edited', () => {
+      const state = {
+        accountId: '1',
+        electronicClearingAccountId: '1',
+        supplierStatementText: '',
+        bankStatementText: 'CUSTOM',
+      };
+
+      const action = {
+        intent: CHANGE_REFERENCE_ID,
+        key: 'referenceId',
+        value: '2',
+      };
+
+      const actual = billPaymentDetailReducer(state, action);
+
+      expect(actual.bankStatementText).toEqual('CUSTOM');
     });
   });
 
   describe('UPDATE_REFERENCE_ID', () => {
-    it('should set the bankStatementText to the new referenceId', () => {
+    it('should set the bankStatementText to referenceId when no supplier default', () => {
       const state = {
         accountId: '1',
         electronicClearingAccountId: '1',
+        supplierStatementText: '',
       };
 
       const action = {
@@ -130,26 +176,7 @@ describe('billPaymentDetailReducer', () => {
 
       const actual = billPaymentDetailReducer(state, action);
 
-      expect(actual.bankStatementText).toEqual('Payment 123');
-      expect(actual.originalBankStatementText).toEqual('Payment 123');
-    });
-
-    it('should not set the bankStatementText and should keep the originalBankStatementText', () => {
-      const state = {
-        accountId: '1',
-        electronicClearingAccountId: '2',
-        originalBankStatementText: 'Payment 567',
-      };
-
-      const action = {
-        intent: UPDATE_REFERENCE_ID,
-        referenceId: '123',
-      };
-
-      const actual = billPaymentDetailReducer(state, action);
-
-      expect(actual.bankStatementText).toEqual('');
-      expect(actual.originalBankStatementText).toEqual('Payment 567');
+      expect(actual.bankStatementText).toEqual('PAYMENT 123');
     });
   });
 
@@ -166,24 +193,93 @@ describe('billPaymentDetailReducer', () => {
 
       const actual = billPaymentDetailReducer(state, action);
 
-      expect(actual.bankStatementText).toEqual('Payment 123');
-      expect(actual.originalBankStatementText).toEqual('Payment 123');
+      expect(actual.bankStatementText).toEqual('PAYMENT 123');
     });
+  });
 
-    it('should not set the bankStatementText', () => {
-      const state = {};
+  describe('LOAD_SUPPLIER_STATEMENT_TEXT', () => {
+    it('should set the bankStatementText to supplier statement text', () => {
+      const state = {
+        bankStatementText: '',
+      };
 
       const action = {
-        intent: LOAD_NEW_BILL_PAYMENT,
-        electronicClearingAccountId: '2',
-        accountId: '1',
-        referenceId: '123',
+        intent: LOAD_SUPPLIER_STATEMENT_TEXT,
+        supplierStatementText: 'WAWA',
       };
 
       const actual = billPaymentDetailReducer(state, action);
 
-      expect(actual.bankStatementText).toEqual('');
-      expect(actual.originalBankStatementText).toEqual('');
+      expect(actual.bankStatementText).toEqual('WAWA');
+    });
+
+    it('should not set the bankStatementText when modified', () => {
+      const state = {
+        bankStatementText: 'MY TEXT',
+      };
+
+      const action = {
+        intent: LOAD_SUPPLIER_STATEMENT_TEXT,
+        supplierStatementText: 'WAWA',
+      };
+
+      const actual = billPaymentDetailReducer(state, action);
+
+      expect(actual.bankStatementText).toEqual('MY TEXT');
+    });
+  });
+
+  describe('UPDATE_BANK_STATEMENT_TEXT', () => {
+    it('should set the bankStatementText when modified', () => {
+      const state = {
+        supplierStatementText: 'SUPP TEXT',
+        bankStatementText: 'CUSTOM TEXT',
+        originalBankStatementText: 'CUSTOM TEXT',
+        referenceId: 'REF TEXT',
+      };
+
+      const action = {
+        intent: UPDATE_BANK_STATEMENT_TEXT,
+        bankStatementText: 'I IZ PAYING YOU',
+      };
+
+      const actual = billPaymentDetailReducer(state, action);
+
+      expect(actual.bankStatementText).toEqual('I IZ PAYING YOU');
+    });
+
+    it('should set the bankStatementText using reference when empty', () => {
+      const state = {
+        supplierStatementText: '',
+        bankStatementText: '',
+        referenceId: 'REF TEXT',
+      };
+
+      const action = {
+        intent: UPDATE_BANK_STATEMENT_TEXT,
+        bankStatementText: '',
+      };
+
+      const actual = billPaymentDetailReducer(state, action);
+
+      expect(actual.bankStatementText).toEqual('PAYMENT REF TEXT');
+    });
+
+    it('should set the bankStatementText using supplier text when empty', () => {
+      const state = {
+        supplierStatementText: 'SUPP TEXT',
+        bankStatementText: '',
+        referenceId: 'REF TEXT',
+      };
+
+      const action = {
+        intent: UPDATE_BANK_STATEMENT_TEXT,
+        bankStatementText: '',
+      };
+
+      const actual = billPaymentDetailReducer(state, action);
+
+      expect(actual.bankStatementText).toEqual('SUPP TEXT');
     });
   });
 });

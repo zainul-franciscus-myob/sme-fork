@@ -23,10 +23,13 @@ const BillPaymentDetailView = ({
   loadingState,
   modalType,
   title,
+  onUpdateIsElectronicPayment,
   isCreating,
   renderContactCombobox,
+  onChangeBankStatementText,
+  onChangeReferenceId,
   onUpdateHeaderOption,
-  onBlurBankStatementText,
+  onUpdateBankStatementText,
   onUpdateTableInputField,
   onCancelButtonClick,
   onDeleteButtonClick,
@@ -82,9 +85,12 @@ const BillPaymentDetailView = ({
       pageHead={title}
       options={
         <BillPaymentOptions
+          onUpdateIsElectronicPayment={onUpdateIsElectronicPayment}
           renderContactCombobox={renderContactCombobox}
+          onChangeBankStatementText={onChangeBankStatementText}
+          onUpdateBankStatementText={onUpdateBankStatementText}
           onUpdateHeaderOption={onUpdateHeaderOption}
-          onBlurBankStatementText={onBlurBankStatementText}
+          onChangeReferenceId={onChangeReferenceId}
         />
       }
       actions={actions}

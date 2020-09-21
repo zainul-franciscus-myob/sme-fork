@@ -1,10 +1,10 @@
 import {
   getBillEntries,
   getIsBeforeStartOfFinancialYear,
+  getIsElectronicPayment,
   getSaveBillPaymentPayload,
   getShouldDisableSupplier,
   getShouldLoadBillList,
-  getShowBankStatementText,
 } from '../BillPaymentDetailSelectors';
 
 describe('BillPaymentSelector', () => {
@@ -290,7 +290,7 @@ describe('BillPaymentSelector', () => {
     it('should use bank statement text in state if selected account is electronic cleared account', () => {
       const state = {
         billPaymentId: 'new',
-        bankStatementText: 'some-text',
+        bankStatementText: 'SOME-TEXT',
         entries: [],
         accountId: '1',
         electronicClearingAccountId: '1',
@@ -298,31 +298,45 @@ describe('BillPaymentSelector', () => {
 
       const actual = getSaveBillPaymentPayload(state);
 
-      expect(actual.bankStatementText).toEqual('some-text');
+      expect(actual.bankStatementText).toEqual('SOME-TEXT');
+    });
+
+    it('should have empty bank statement text when the selected account is not electronic clearing', () => {
+      const state = {
+        billPaymentId: 'new',
+        bankStatementText: 'SOME-TEXT',
+        entries: [],
+        accountId: '2',
+        electronicClearingAccountId: '1',
+      };
+
+      const actual = getSaveBillPaymentPayload(state);
+
+      expect(actual.bankStatementText).toEqual('');
     });
   });
 
-  describe('getShowBankStatementText', () => {
-    it('should show bank statement text when selected account is electronics clearing account', () => {
+  describe('getIsElectronicPayment', () => {
+    it('should be true when selected account is electronics clearing account', () => {
       const state = {
         accountId: '4',
         electronicClearingAccountId: '4',
       };
 
-      const showBankStatementText = getShowBankStatementText(state);
+      const isElectronicPayment = getIsElectronicPayment(state);
 
-      expect(showBankStatementText).toEqual(true);
+      expect(isElectronicPayment).toEqual(true);
     });
 
-    it('should not show bank statement text when selected account is not electronics clearing account', () => {
+    it('should be false when selected account is not electronics clearing account', () => {
       const state = {
         accountId: '1',
         electronicClearingAccountId: '4',
       };
 
-      const showBankStatementText = getShowBankStatementText(state);
+      const isElectronicPayment = getIsElectronicPayment(state);
 
-      expect(showBankStatementText).toEqual(false);
+      expect(isElectronicPayment).toEqual(false);
     });
   });
 
