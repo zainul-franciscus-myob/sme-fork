@@ -79,7 +79,7 @@ const formatBankStatementText = (bankStatementText) => {
 
   const maxLengthAu = 18;
   const pattern = `^(?=.{0,${maxLengthAu}}$)^[a-zA-Z0-9 \\&\\*\\.\\/\\-]*`;
-  const matches = bankStatementText.trim().match(pattern);
+  const matches = bankStatementText.trimLeft().match(pattern);
   const formattedText = matches ? matches[0] : '';
 
   return formattedText.toUpperCase();
