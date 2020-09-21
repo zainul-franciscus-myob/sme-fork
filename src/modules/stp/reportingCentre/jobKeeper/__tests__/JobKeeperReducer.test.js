@@ -5,83 +5,9 @@ import {
   TOGGLE_EMPLOYEE_BENEFIT_REPORT_MODAL,
   UPDATE_EMPLOYEE_ROW,
 } from '../JobKeeperIntents';
-import createReducer, {
-  computeAutoFillingFinalFortnightForJobKeeper2,
-  computeAutoFillingFirstFortnightForJobKeeper2,
-} from '../JobKeeperReducer';
+import createReducer from '../JobKeeperReducer';
 
 describe('JobKeeperReducer', () => {
-  describe('computeAutoFillingFirstFortnightForJobKeeper2', () => {
-    [
-      null,
-      undefined,
-      {},
-      { firstFortnight: '01' },
-      { finalFortnight: '01' },
-    ].forEach((value) => {
-      it(`return null for invalid initial state ${JSON.stringify(
-        value
-      )}`, () => {
-        const firstFortnight = '13';
-        expect(
-          computeAutoFillingFinalFortnightForJobKeeper2(value, firstFortnight)
-        ).toBe(null);
-      });
-    });
-    it('return 14 for state that has a gap between end JK1 and start JK2', () => {
-      const initialState = { firstFortnight: '02', finalFortnight: null };
-      let firstFortnight = '17';
-      expect(
-        computeAutoFillingFinalFortnightForJobKeeper2(
-          initialState,
-          firstFortnight
-        )
-      ).toBe('14');
-      firstFortnight = '15';
-      expect(
-        computeAutoFillingFinalFortnightForJobKeeper2(
-          initialState,
-          firstFortnight
-        )
-      ).toBe('14');
-    });
-    it('return null for state that has no gap between end JK1 and start JK2', () => {
-      let firstFortnight = '17';
-      expect(
-        computeAutoFillingFinalFortnightForJobKeeper2(
-          { firstFortnight: '02', finalFortnight: '09' },
-          firstFortnight
-        )
-      ).toBe(null);
-      firstFortnight = '14';
-      expect(
-        computeAutoFillingFinalFortnightForJobKeeper2(
-          { firstFortnight: '02', finalFortnight: null },
-          firstFortnight
-        )
-      ).toBe(null);
-    });
-  });
-
-  describe('computeAutoFillingFirstFortnightForJobKeeper2', () => {
-    it('should return 14 when tier is selected and there is a gap between JK1 and JK2: i.e: current firstForgnith < 14', () => {
-      expect(computeAutoFillingFirstFortnightForJobKeeper2('01', '12')).toBe(
-        '14'
-      );
-    });
-
-    it('should return original firstFortnights when tier is not selected', () => {
-      expect(computeAutoFillingFirstFortnightForJobKeeper2('', '12')).toBe(
-        '12'
-      );
-    });
-    it('should return original firstFortnights when it is already a JK2 week (>14', () => {
-      expect(computeAutoFillingFirstFortnightForJobKeeper2('02', '17')).toBe(
-        '17'
-      );
-    });
-  });
-
   describe('updateEmployeeRow', () => {
     let state = {};
     beforeEach(() => {
@@ -93,63 +19,50 @@ describe('JobKeeperReducer', () => {
       state = {
         employees: [{ ...sampleEmployee }],
         initialEmployees: [{ ...sampleEmployee }],
-        isJobKeeper2Enabled: true,
       };
     });
-    describe('when feature toggle is on', () => {
-      it('return correct firstFortnight (14) for JK2 when select tier', () => {
-        const action = {
-          intent: UPDATE_EMPLOYEE_ROW,
-          key: 'tier',
-          value: '01',
-          rowId: 0,
-        };
-        const result = createReducer(state, action);
 
-        expect(result.employees[0].firstFortnight).toBe('14');
-        expect(result.employees[0].tier).toBe('01');
-      });
+    it('update tier, should NOT autofill firstFortnight to 14 for JK2', () => {
+      const action = {
+        intent: UPDATE_EMPLOYEE_ROW,
+        key: 'tier',
+        value: '01',
+        rowId: 0,
+      };
+      const result = createReducer(state, action);
 
-      it('return correct endfortnight (14) for JK2 when select firstFortnight for JK2 result in a gap', () => {
-        const action = {
-          intent: UPDATE_EMPLOYEE_ROW,
-          key: 'firstFortnight',
-          value: '16',
-          rowId: 0,
-        };
-        const result = createReducer(state, action);
-
-        expect(result.employees[0].finalFortnight).toBe('14');
-        expect(result.employees[0].firstFortnight).toBe('16');
-      });
-    });
-    describe('when feature toggle is off', () => {
-      it('should not automatically update firstFortnight or finalFortnight for JK2', () => {
-        state.isJobKeeper2Enabled = false;
-        let action = {
-          intent: UPDATE_EMPLOYEE_ROW,
-          key: 'tier',
-          value: '01',
-          rowId: 0,
-        };
-        let result = createReducer(state, action);
-
-        expect(result.employees[0].firstFortnight).toBe('04');
-
-        action = {
-          intent: UPDATE_EMPLOYEE_ROW,
-          key: 'firstFortnight',
-          value: '16',
-          rowId: 0,
-        };
-        result = createReducer(state, action);
-
-        expect(result.employees[0].finalFortnight).toBe(null);
-        expect(result.employees[0].firstFortnight).toBe('16');
-      });
+      expect(result.employees[0].firstFortnight).toBe('04');
+      expect(result.employees[0].finalFortnight).toBe(null);
+      expect(result.employees[0].tier).toBe('01');
     });
 
-    it('return correct finalFortnight for JK2 when update ', () => {
+    it('update firstFortnight to JK2 option, should NOT autofill finalFortnight to 14 for JK2', () => {
+      const action = {
+        intent: UPDATE_EMPLOYEE_ROW,
+        key: 'firstFortnight',
+        value: '16',
+        rowId: 0,
+      };
+      const result = createReducer(state, action);
+
+      expect(result.employees[0].firstFortnight).toBe('16');
+      expect(result.employees[0].finalFortnight).toBe(null);
+      expect(result.employees[0].tier).toBeUndefined();
+    });
+    it('update firstFortnight to another JK1 option, return correct firstFortnight for JK1', () => {
+      const action = {
+        intent: UPDATE_EMPLOYEE_ROW,
+        key: 'firstFortnight',
+        value: '05',
+        rowId: 0,
+      };
+      const result = createReducer(state, action);
+
+      expect(result.employees[0].firstFortnight).toBe('05');
+      expect(result.employees[0].finalFortnight).toBe(null);
+      expect(result.employees[0].tier).toBeUndefined();
+    });
+    it('update finalFortnight to JK2 option, return correct finalFortnight for JK2', () => {
       const action = {
         intent: UPDATE_EMPLOYEE_ROW,
         key: 'finalFortnight',
@@ -158,7 +71,23 @@ describe('JobKeeperReducer', () => {
       };
       const result = createReducer(state, action);
 
+      expect(result.employees[0].firstFortnight).toBe('04');
       expect(result.employees[0].finalFortnight).toBe('15');
+      expect(result.employees[0].tier).toBeUndefined();
+    });
+
+    it('update finalFortnight to another JK1 option, return correct finalFortnight for JK1', () => {
+      const action = {
+        intent: UPDATE_EMPLOYEE_ROW,
+        key: 'finalFortnight',
+        value: '06',
+        rowId: 0,
+      };
+      const result = createReducer(state, action);
+
+      expect(result.employees[0].firstFortnight).toBe('04');
+      expect(result.employees[0].finalFortnight).toBe('06');
+      expect(result.employees[0].tier).toBeUndefined();
     });
   });
 

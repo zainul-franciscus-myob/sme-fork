@@ -17,7 +17,6 @@ import {
   TOGGLE_EMPLOYEE_BENEFIT_REPORT_MODAL,
   UPDATE_EMPLOYEE_ROW,
 } from './JobKeeperIntents';
-import { isTierBlankOrSuggested } from './JobKeeperSelector';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
 import uuid from '../../../../common/uuid/uuid';
@@ -103,79 +102,13 @@ const resetDirtyFlag = (state) => ({
   isDirty: false,
 });
 
-export const computeAutoFillingFirstFortnightForJobKeeper2 = (
-  tier,
-  firstFortnight
-) => {
-  // rule 1: when select tier, but hasn't start the JK2 (first fortnight < 14), then change
-  // first fortnight to 14 to indicate start JK2
-  return !isTierBlankOrSuggested(tier) &&
-    (!firstFortnight || firstFortnight < 14)
-    ? '14'
-    : firstFortnight;
-};
-export const computeAutoFillingFinalFortnightForJobKeeper2 = (
-  initialState,
-  firstFortnight
-) => {
-  // if there is no initial state or no fortnight (didn't start JK1)
-  // then return 0
-  if (
-    !initialState ||
-    (!initialState.firstFortnight && !initialState.finalFortnight)
-  )
-    return null;
-  // job keeper 1
-  if (
-    !!initialState.firstFortnight &&
-    Number(initialState.firstFortnight) < 14
-  ) {
-    // user go from JK1 to JK2 meaning end fornight is blank
-    // and select start fortnight >15 (meaning there is a gap)
-    if (!initialState.finalFortnight && Number(firstFortnight) >= 15) {
-      return '14';
-    }
-  }
-  // don't change for the rest
-  return null;
-};
-
-const updateEmployeeRow = (state, { key, value, rowId }) => {
-  return {
-    ...state,
-    isDirty: true,
-    employees: state.employees.map((e) => {
-      const initialState = state.initialEmployees.find(
-        (x) => x.employeeId === rowId
-      );
-      let { firstFortnight, finalFortnight } = e;
-      // make sure the update value is pass through
-      firstFortnight = key === 'firstFortnight' ? value : firstFortnight;
-      finalFortnight = key === 'finalFortnight' ? value : finalFortnight;
-      if (state.isJobKeeper2Enabled)
-        switch (key) {
-          case 'tier':
-            firstFortnight = computeAutoFillingFirstFortnightForJobKeeper2(
-              value,
-              e.firstFortnight
-            );
-            break;
-          case 'firstFortnight':
-            finalFortnight =
-              computeAutoFillingFinalFortnightForJobKeeper2(
-                initialState,
-                value
-              ) || finalFortnight;
-            break;
-          default:
-        }
-
-      return e.employeeId === rowId
-        ? { ...e, [key]: value, firstFortnight, finalFortnight, isDirty: true }
-        : { ...e };
-    }),
-  };
-};
+const updateEmployeeRow = (state, { key, value, rowId }) => ({
+  ...state,
+  isDirty: true,
+  employees: state.employees.map((e) =>
+    e.employeeId === rowId ? { ...e, [key]: value, isDirty: true } : { ...e }
+  ),
+});
 
 const setNewEventId = (state) => ({
   ...state,

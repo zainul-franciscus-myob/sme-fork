@@ -4,7 +4,6 @@ import React from 'react';
 
 import {
   getActiveSort,
-  getAreModifiedEmployeesValid,
   getEmployeeTierOptions,
   getEmployees,
   getFinalFortnightOptions,
@@ -23,17 +22,6 @@ import JobKeeperFilter from './JobKeeperFilter';
 import JobKeeperTable from './JobKeeperTable';
 import PageView from '../../../../../components/PageView/PageView';
 import styles from './JobKeeperView.module.css';
-
-export const allowNotifyTheATO = (
-  featureToggles,
-  areModifiedEmployeesValid
-) => {
-  return !(
-    featureToggles &&
-    featureToggles.isJobKeeper2Enabled &&
-    !areModifiedEmployeesValid
-  );
-};
 
 const JobKeeperView = ({
   payrollYears,
@@ -57,7 +45,6 @@ const JobKeeperView = ({
   dismissInitWarning,
   showInitWarning,
   onOpenEmployeeBenefitReport,
-  areModifiedEmployeesValid,
 }) => {
   const jobKeeperTable =
     featureToggles && featureToggles.isJobKeeper2Enabled ? (
@@ -92,11 +79,7 @@ const JobKeeperView = ({
 
   const actions = (
     <ButtonRow>
-      <Button
-        type="primary"
-        disabled={!allowNotifyTheATO(featureToggles, areModifiedEmployeesValid)}
-        onClick={onNotifyAtoClick}
-      >
+      <Button type="primary" onClick={onNotifyAtoClick}>
         Notify the ATO
       </Button>
     </ButtonRow>
@@ -165,7 +148,6 @@ const mapStateToProps = (state) => ({
   finalFortnightOptionsJK2: getFinalFortnightOptionsJK2(state),
   employeeTierOptions: getEmployeeTierOptions(state),
   showInitWarning: getShowInitWarning(state),
-  areModifiedEmployeesValid: getAreModifiedEmployeesValid(state),
 });
 
 export default connect(mapStateToProps)(JobKeeperView);
