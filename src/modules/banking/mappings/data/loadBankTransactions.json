@@ -27,6 +27,7 @@
       "displayName": "My Expense Account long long long long long long long long longlonglong long long1 end",
       "accountType": "Expense",
       "displayId": "2-345",
+      "jobId": "1",
       "taxCodeId": "123"
     },
     {

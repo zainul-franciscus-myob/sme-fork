@@ -14,8 +14,9 @@ describe('BankingRuleModule', () => {
   const setup = () => {
     const store = new TestStore(bankingRuleReducer);
     const integration = new TestIntegration();
+    const isToggleOn = () => true;
 
-    const module = new BankingRuleModule({ integration });
+    const module = new BankingRuleModule({ integration, isToggleOn });
     module.store = store;
     module.integrator = createBankingRuleIntegrator(store, integration);
     module.dispatcher = createBankingRuleDispatcher(store);
@@ -40,9 +41,11 @@ describe('BankingRuleModule', () => {
       },
       ruleType: RuleTypes.spendMoney,
       bankAccounts: [],
+      jobs: [],
       taxCodes: [],
       withdrawalAccounts: [],
       depositAccounts: [],
+      isBankingJobColumnEnabled: true,
     });
 
     store.resetActions();
@@ -71,9 +74,11 @@ describe('BankingRuleModule', () => {
         },
         ruleType: RuleTypes.spendMoney,
         bankAccounts: [],
+        jobs: [],
         taxCodes: [],
         withdrawalAccounts: [],
         depositAccounts: [],
+        isBankingJobColumnEnabled: true,
       };
 
       module.run(context);
@@ -131,9 +136,11 @@ describe('BankingRuleModule', () => {
             },
             ruleType,
             bankAccounts: [],
+            jobs: [],
             taxCodes: [],
             withdrawalAccounts: [],
             depositAccounts: [],
+            isBankingJobColumnEnabled: true,
           });
 
           expect(module.contactComboboxModule.resetState).toHaveBeenCalled();

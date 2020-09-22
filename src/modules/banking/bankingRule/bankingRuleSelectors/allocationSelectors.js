@@ -11,6 +11,8 @@ import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 
 export const getTaxCodes = (state) => state.taxCodes;
 
+export const getJobs = (state) => state.jobs.filter((job) => job.isActive);
+
 export const getAllocationType = createSelector(
   getBankingRule,
   (bankingRule) => bankingRule.allocationType

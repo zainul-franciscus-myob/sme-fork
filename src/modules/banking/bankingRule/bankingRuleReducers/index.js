@@ -71,6 +71,7 @@ const setInitialState = (
     bankAccounts,
     withdrawalAccounts,
     depositAccounts,
+    jobs,
     taxCodes,
   }
 ) => {
@@ -83,6 +84,7 @@ const setInitialState = (
     bankAccounts,
     withdrawalAccounts,
     depositAccounts,
+    jobs,
     taxCodes,
     bankingRule: {
       ...state.bankingRule,

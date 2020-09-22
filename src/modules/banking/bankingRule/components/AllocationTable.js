@@ -10,6 +10,7 @@ import {
   getTableData,
   getTaxCodeLabel,
 } from '../bankingRuleSelectors';
+import { getIsBankingJobColumnEnabled } from '../../selectors';
 import TableRow from './AllocationTableRow';
 import styles from './AllocationTable.module.css';
 
@@ -27,8 +28,10 @@ const AllocationTable = ({
   onAddRow,
   onRowChange,
   onRemoveRow,
+  isBankingJobColumnEnabled,
 }) => {
   const accountLabel = 'Account';
+  const jobLabel = 'Job';
   const remainingClassName = isPercentageRed ? '' : styles.remaining;
 
   const columnConfig = [
@@ -42,6 +45,9 @@ const AllocationTable = ({
           columnName: allocationLabel,
           styles: { width: '12.6rem' },
         },
+        ...(isBankingJobColumnEnabled
+          ? [{ columnName: jobLabel, styles: { width: '11.6rem' } }]
+          : []),
         {
           columnName: taxCodeLabel,
           styles: { width: '10.6rem' },
@@ -50,7 +56,7 @@ const AllocationTable = ({
     },
   ];
 
-  const labels = [accountLabel, allocationLabel, taxCodeLabel];
+  const labels = [accountLabel, allocationLabel, jobLabel, taxCodeLabel];
 
   const headerItems = [
     <LineItemTable.HeaderItem key={accountLabel} requiredLabel="required">
@@ -58,6 +64,9 @@ const AllocationTable = ({
     </LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem key={allocationLabel} requiredLabel="required">
       {allocationLabel}
+    </LineItemTable.HeaderItem>,
+    <LineItemTable.HeaderItem key={jobLabel}>
+      {jobLabel}
     </LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem key={taxCodeLabel}>
       {taxCodeLabel}
@@ -95,6 +104,7 @@ const mapStateToProps = (state) => ({
   remainingPercentage: getRemainingPercentage(state),
   isPercentageRed: getIsPercentageRed(state),
   taxCodeLabel: getTaxCodeLabel(state),
+  isBankingJobColumnEnabled: getIsBankingJobColumnEnabled(state),
 });
 
 export default connect(mapStateToProps)(AllocationTable);

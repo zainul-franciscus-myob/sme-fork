@@ -105,6 +105,7 @@ export default class BankingModule {
     this.replaceURLParams = replaceURLParams;
     this.bankingRuleModule = new BankingRuleModule({
       integration,
+      isToggleOn,
     });
     this.inTrayModalModule = new InTrayModalModule({ integration });
     this.accountModalModule = new AccountModalModule({

@@ -11,6 +11,7 @@ import {
 import AlertType from '../../../common/types/AlertType';
 import BankingRuleView from './components/BankingRuleView';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
+import FeatureToggle from '../../../FeatureToggles';
 import RuleTypes from './RuleTypes';
 import Store from '../../../store/Store';
 import bankingRuleReducer from './bankingRuleReducers';
@@ -18,10 +19,11 @@ import createBankingRuleDispatcher from './createBankingRuleDispatcher';
 import createBankingRuleIntegrator from './createBankingRuleIntegrator';
 
 export default class BankingRuleModule {
-  constructor({ integration }) {
+  constructor({ integration, isToggleOn }) {
     this.store = new Store(bankingRuleReducer);
     this.dispatcher = createBankingRuleDispatcher(this.store);
     this.integrator = createBankingRuleIntegrator(this.store, integration);
+    this.isToggleOn = isToggleOn;
     this.contactComboboxModule = new ContactComboboxModule({ integration });
   }
 
@@ -36,7 +38,10 @@ export default class BankingRuleModule {
   };
 
   run = (context) => {
-    this.dispatcher.setInitialState(context);
+    this.dispatcher.setInitialState({
+      isBankingJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
+      ...context,
+    });
     this.dispatcher.open();
     this.loadContactCombobox();
   };

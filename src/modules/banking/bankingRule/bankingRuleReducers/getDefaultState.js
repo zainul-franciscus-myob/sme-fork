@@ -26,9 +26,11 @@ const getDefaultState = () => ({
   isLoading: false,
   contactType: undefined,
   bankAccounts: [],
+  jobs: [],
   taxCodes: [],
   withdrawalAccounts: [],
   depositAccounts: [],
+  isBankingJobColumnEnabled: true,
 });
 
 export default getDefaultState;

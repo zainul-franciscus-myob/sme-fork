@@ -337,6 +337,7 @@ export const getBankingRuleModuleContext = createSelector(
   getFilterOptions,
   getBankAccounts,
   getOpenEntryActiveTabId,
+  getJobs,
   getTaxCodes,
   getWithdrawalAccounts,
   getDepositAccounts,
@@ -347,6 +348,7 @@ export const getBankingRuleModuleContext = createSelector(
     filterOptions,
     bankAccounts,
     activeTabId,
+    jobs,
     taxCodes,
     withdrawalAccounts,
     depositAccounts
@@ -381,6 +383,7 @@ export const getBankingRuleModuleContext = createSelector(
       },
       ruleType,
       bankAccounts,
+      jobs,
       taxCodes,
       withdrawalAccounts,
       depositAccounts,
