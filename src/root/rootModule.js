@@ -224,7 +224,6 @@ export default class RootModule {
       this.settingsService.load(),
       this.tasksService.load(),
       this.businessDetailsService.load(),
-      this.licenceService.confirm(),
     ]);
   };
 
