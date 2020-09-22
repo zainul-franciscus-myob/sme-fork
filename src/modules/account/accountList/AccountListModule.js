@@ -219,6 +219,7 @@ export default class AccountListModule {
 
     const onFailure = (error) => {
       const onBulkUpdateCompleted = () => {
+        this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
         this.dispatcher.setAlert({ message: error.message, type: 'danger' });
       };
       this.filterAccountList(onBulkUpdateCompleted);
