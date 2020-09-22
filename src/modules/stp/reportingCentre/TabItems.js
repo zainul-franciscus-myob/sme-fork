@@ -23,9 +23,6 @@ export const getTabItems = (featureToggles) => {
         { id: tabIds.atoSettings, label: 'ATO settings' },
       ];
   return featureToggles.isJobKeeperCalculatorEnabled
-    ? [
-        ...tabs,
-        { id: tabIds.gstCalculator, label: 'JobKeeper payment extension' },
-      ]
+    ? [...tabs, { id: tabIds.gstCalculator, label: 'JobKeeper eligibility' }]
     : tabs;
 };

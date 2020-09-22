@@ -93,7 +93,7 @@ class JobKeeperReporting extends React.Component {
             icon={<Icons.GenericDocument />}
             className={styles['jobkeeper-reporting-btn']}
           >
-            View employee tier recommendation (PDF)
+            View JobKeeper tier suggestions (PDF)
           </Button>
         )}
       </div>

@@ -111,7 +111,7 @@ const JobKeeperView = ({
                 rel="noopener noreferrer"
               >
                 <span className={styles.link}>
-                  Calculate employee payment rate
+                  Choosing employee JobKeeper tier levels
                 </span>
               </a>
             </p>
