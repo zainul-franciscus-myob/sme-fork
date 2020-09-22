@@ -26,4 +26,5 @@ In order for the build to use the latest installed/updated packages, follow thes
 4. Update the usages of `sme-web-buildnode` in:
     * [`env` script](../../ops/bin/env) for CI
     * [Dockerfile](../../ops/development/Dockerfile) for development environment
-5. The pipeline should now run with the latest packages, w00t! 
+5. The pipeline should now run with the latest packages, w00t!
+6. Post package update, after the PR is merged to master, update the docker image by run [build-development-image script](../../ops/bin/build-development-image).
