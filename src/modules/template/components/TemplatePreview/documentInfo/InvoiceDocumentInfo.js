@@ -5,9 +5,9 @@ import DocumentInfo from './DocumentInfo';
 import formatSlashDate from '../../../../../common/valueFormatters/formatDate/formatSlashDate';
 import styles from './DocumentInfo.module.css';
 
-const InvoiceDocumentInfo = () => (
+const InvoiceDocumentInfo = ({ gstRegistered }) => (
   <DocumentInfo
-    title="Tax invoice"
+    title={gstRegistered ? 'Tax invoice' : 'Invoice'}
     items={[
       { name: 'Purchase order no', value: '000000001' },
       { name: 'Invoice number', value: 'IV000000001' },

@@ -43,6 +43,9 @@ const getDefaultState = () => ({
   isAllowPaymentByDirectDeposit: true,
   isAllowPaymentByCheque: true,
   tempFile: undefined,
+  gstSettings: {
+    reportingFrequency: 'NotRegistered',
+  },
   payDirect: {
     isLoading: false,
     isRegistered: false,
@@ -98,6 +101,9 @@ const loadTemplate = (state, action) => ({
     originalHeaderImage: action.payload.template.headerImage,
     originalLogoImage: action.payload.template.logoImage,
   },
+  gstSettings: {
+    reportingFrequency: action.payload.reportingFrequency,
+  },
 });
 
 const loadNewTemplate = (state, action) => ({
@@ -112,6 +118,9 @@ const loadNewTemplate = (state, action) => ({
     ...action.payload.template,
     originalHeaderImage: action.payload?.template?.headerImage,
     originalLogoImage: action.payload?.template?.logoImage,
+  },
+  gstSettings: {
+    reportingFrequency: action.payload.reportingFrequency,
   },
 });
 

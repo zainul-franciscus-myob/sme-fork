@@ -6,6 +6,7 @@ import {
   getAlert,
   getBusinessDetailsOptionsForDisplay,
   getFeatureColour,
+  getGstRegistered,
   getHeaderBusinessDetailsStyle,
   getHeaderImage,
   getHeaderTextColour,
@@ -72,6 +73,7 @@ const TemplateView = ({
   isAllowOnlinePayment,
   isAllowPaymentByDirectDeposit,
   isAllowPaymentByCheque,
+  gstRegistered,
 }) => {
   const pageTitle = isCreating ? 'Create template' : 'Edit template';
   const pageHead = (
@@ -111,6 +113,7 @@ const TemplateView = ({
       isAllowOnlinePayment={isAllowOnlinePayment}
       isAllowPaymentByDirectDeposit={isAllowPaymentByDirectDeposit}
       isAllowPaymentByCheque={isAllowPaymentByCheque}
+      gstRegistered={gstRegistered}
     />
   );
 
@@ -177,6 +180,7 @@ const mapStateToProps = (state) => ({
   isAllowOnlinePayment: getIsAllowOnlinePayment(state),
   isAllowPaymentByDirectDeposit: getIsAllowPaymentByDirectDeposit(state),
   isAllowPaymentByCheque: getIsAllowPaymentByCheque(state),
+  gstRegistered: getGstRegistered(state),
 });
 
 export default connect(mapStateToProps)(TemplateView);

@@ -268,3 +268,6 @@ export const getLoadPayDirectUrlParams = createSelector(
   getBusinessId,
   (businessId) => ({ businessId })
 );
+
+export const getGstRegistered = (state) =>
+  state.gstSettings.reportingFrequency !== 'NotRegistered';

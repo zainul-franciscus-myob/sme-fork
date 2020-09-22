@@ -82,7 +82,7 @@ const BusinessSettingsView = ({
     </Alert>
   );
 
-  const pageFooter = (
+  const actions = (
     <ButtonRow>
       <Button
         disabled={isSubmitting}
@@ -114,12 +114,14 @@ const BusinessSettingsView = ({
           onConfirmSwitchTab={onConfirmSwitchTab}
         />
       )}
-      <FormTemplate pageHead={pageTitle} alert={alertComponent} sticky="none">
+      <FormTemplate
+        pageHead={pageTitle}
+        actions={actions}
+        alert={alertComponent}
+      >
         {subHeadTabs}
 
         <Content {...contentProps} />
-
-        {pageFooter}
       </FormTemplate>
     </>
   );

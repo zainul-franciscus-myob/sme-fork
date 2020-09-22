@@ -6,6 +6,7 @@ import {
   getAlert,
   getBusinessDetailsOptionsForDisplay,
   getFeatureColour,
+  getGstRegistered,
   getHeaderBusinessDetailsStyle,
   getHeaderImage,
   getHeaderTextColour,
@@ -68,6 +69,7 @@ const InvoiceLogoView = ({
   region,
   saleLayout,
   useAddressEnvelopePosition,
+  gstRegistered,
 }) => {
   const pageTitle = isCreating
     ? 'Build your invoice template'
@@ -111,6 +113,7 @@ const InvoiceLogoView = ({
       tradingName={tradingName}
       useAddressEnvelopePosition={useAddressEnvelopePosition}
       website={website}
+      gstRegistered={gstRegistered}
     />
   );
 
@@ -176,6 +179,7 @@ const mapStateToProps = (state) => ({
   region: getRegion(state),
   saleLayout: getSaleLayout(state),
   useAddressEnvelopePosition: getUseAddressEnvelopePosition(state),
+  gstRegistered: getGstRegistered(state),
 });
 
 export default connect(mapStateToProps)(InvoiceLogoView);

@@ -26,10 +26,10 @@ import getShouldShowDueDate from '../../template/components/TemplatePreview/hand
 import getShouldShowOnlinePayment from '../../template/components/TemplatePreview/handlers/getShouldShowOnlinePayment';
 import styles from '../../template/components/TemplatePreview/TemplatePreview.module.css';
 
-const getDocInfoForPreviewType = (type) => {
+const getDocInfoForPreviewType = (type, gstRegistered) => {
   switch (type) {
     case PreviewType.Invoice:
-      return <InvoiceDocumentInfo />;
+      return <InvoiceDocumentInfo gstRegistered={gstRegistered} />;
     case PreviewType.Quote:
       return <QuoteDocumentInfo />;
     case PreviewType.Statement:
@@ -125,6 +125,7 @@ const InvoiceTemplatePreview = ({
   isAllowOnlinePayment,
   isAllowPaymentByDirectDeposit,
   isAllowPaymentByCheque,
+  gstRegistered,
 }) => (
   <div className={styles.wrapper}>
     <div>
@@ -143,7 +144,7 @@ const InvoiceTemplatePreview = ({
         website={website}
         abn={abn}
       />
-      {getDocInfoForPreviewType(previewType)}
+      {getDocInfoForPreviewType(previewType, gstRegistered)}
       <ShippingInfo
         previewType={previewType}
         useAddressEnvelopePosition={useAddressEnvelopePosition}
