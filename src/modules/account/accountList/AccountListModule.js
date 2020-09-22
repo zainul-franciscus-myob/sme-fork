@@ -143,6 +143,7 @@ export default class AccountListModule {
       const prevNumAccounts = accountsBeforeDelete.length;
       const currNumAccounts = getRawEntries(this.store.getState()).length;
       const numDeleted = prevNumAccounts - currNumAccounts;
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       if (numDeleted === 0) return;
 
       const message = `${numDeleted} accounts deleted.`;
