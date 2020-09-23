@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getActiveSort,
+  getCurrentPayrollYearLabel,
   getEmployeeTierOptions,
   getEmployees,
   getFinalFortnightOptions,
@@ -45,6 +46,7 @@ const JobKeeperView = ({
   dismissInitWarning,
   showInitWarning,
   onOpenEmployeeBenefitReport,
+  currentPayrollYearLabel,
 }) => {
   const jobKeeperTable =
     featureToggles && featureToggles.isJobKeeper2Enabled ? (
@@ -119,6 +121,7 @@ const JobKeeperView = ({
         </div>
       )}
       <JobKeeperFilter
+        currentPayrollYearLabel={currentPayrollYearLabel}
         payrollYears={payrollYears}
         payrollYear={payrollYear}
         onPayrollYearChange={onPayrollYearChange}
@@ -148,6 +151,7 @@ const mapStateToProps = (state) => ({
   finalFortnightOptionsJK2: getFinalFortnightOptionsJK2(state),
   employeeTierOptions: getEmployeeTierOptions(state),
   showInitWarning: getShowInitWarning(state),
+  currentPayrollYearLabel: getCurrentPayrollYearLabel(state),
 });
 
 export default connect(mapStateToProps)(JobKeeperView);

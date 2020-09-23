@@ -1,4 +1,4 @@
-import { Card, Select } from '@myob/myob-widgets';
+import { Card, Field, Select } from '@myob/myob-widgets';
 import React from 'react';
 
 import JobKeeperReporting from './JobKeeperReporting';
@@ -6,6 +6,7 @@ import handleSelectChange from '../../../../../components/handlers/handleSelectC
 import styles from './JobKeeperFilter.module.css';
 
 const JobKeeperFilter = ({
+  currentPayrollYearLabel,
   payrollYears,
   payrollYear,
   onPayrollYearChange,
@@ -19,17 +20,28 @@ const JobKeeperFilter = ({
 
   const cardBody = (
     <>
-      <Select
-        label="Payroll year"
-        name="payrollYear"
-        value={payrollYear}
-        onChange={handleSelectChange(payrollYearChangeHandler)}
-        width="sm"
-      >
-        {payrollYears.map(({ year, label }) => (
-          <Select.Option value={year} label={label} key={year} />
-        ))}
-      </Select>
+      {featureToggles?.isJobKeeper2Enabled ? (
+        <Field
+          testId="JK2-payroll-year-current-fixed"
+          label="Payroll year"
+          renderField={() => (
+            <React.Fragment>{currentPayrollYearLabel}</React.Fragment>
+          )}
+        />
+      ) : (
+        <Select
+          testId="JK1-payroll-year-selector"
+          label="Payroll year"
+          name="payrollYear"
+          value={payrollYear}
+          onChange={handleSelectChange(payrollYearChangeHandler)}
+          width="sm"
+        >
+          {payrollYears.map(({ year, label }) => (
+            <Select.Option value={year} label={label} key={year} />
+          ))}
+        </Select>
+      )}
       {featureToggles && featureToggles.isJobKeeperReportingEnabled ? (
         <>
           <span className={styles.divider} />

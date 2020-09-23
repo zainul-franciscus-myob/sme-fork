@@ -361,6 +361,56 @@ describe('jobKeeperModule', () => {
       expect(oldInfo).toHaveLength(0);
     });
 
+    it('shows fixed current payroll year when feature toggle on', () => {
+      const read = jest.fn();
+      const module = new JobKeeperModule({
+        integration: {
+          read,
+        },
+        pushMessage: () => {},
+        featureToggles: {
+          isJobKeeper2Enabled: true,
+        },
+      });
+
+      const { wrapper } = constructModule(module);
+      const newPayrollYear = wrapper.find({
+        testId: 'JK2-payroll-year-current-fixed',
+      });
+      const oldPayrollYear = wrapper.find({
+        testId: 'JK1-payroll-year-selector',
+      });
+
+      expect(newPayrollYear).toHaveLength(1);
+      expect(oldPayrollYear).toHaveLength(0);
+    });
+
+    it('shows payroll year selectors when feature toggle off', () => {
+      const read = jest.fn();
+      const module = new JobKeeperModule({
+        integration: {
+          read,
+        },
+        pushMessage: () => {},
+        featureToggles: {
+          isJobKeeper2Enabled: false,
+        },
+      });
+
+      const { wrapper } = constructModule(module);
+      const newPayrollYear = wrapper.find({
+        testId: 'JK2-payroll-year-current-fixed',
+      });
+      const oldPayrollYear = wrapper
+        .find({
+          testId: 'JK1-payroll-year-selector',
+        })
+        .first();
+
+      expect(newPayrollYear).toHaveLength(0);
+      expect(oldPayrollYear).toHaveLength(1);
+    });
+
     describe('Employee tier Report', () => {
       it('should render employee benefit report button when feature toggle jobkeeper 2.0 is enabled', () => {
         const read = jest.fn();

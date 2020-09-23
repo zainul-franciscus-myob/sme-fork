@@ -43,6 +43,9 @@ export const getStpReportTabUrl = (state) =>
 
 export const getShowInitWarning = (state) => state.showInitWarning;
 
+export const getCurrentPayrollYearLabel = (state) =>
+  state.payrollYears[0]?.label;
+
 export const isEmployeeBenefitReportModalOpen = (state) =>
   state.isEmployeeBenefitReportModalOpen;
 

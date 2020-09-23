@@ -1,4 +1,7 @@
-import { getEmployeeBenefitReportContent } from '../JobKeeperSelector';
+import {
+  getCurrentPayrollYearLabel,
+  getEmployeeBenefitReportContent,
+} from '../JobKeeperSelector';
 
 describe('JobKeeperSelector', () => {
   it('should return content for employee benefit report', () => {
@@ -73,5 +76,23 @@ describe('JobKeeperSelector', () => {
     expect(result.employeeIds.includes('1001')).toBeTruthy();
     expect(result.employeeIds.includes('1002')).toBeTruthy();
     expect(result.employeeIds.includes('1003')).toBeFalsy();
+  });
+
+  it('should return first in payrollYears as current payroll year label', () => {
+    const state = {
+      payrollYears: [
+        {
+          year: '2021',
+          label: '2020/21',
+        },
+        {
+          year: '2020',
+          label: '2019/20',
+        },
+      ],
+    };
+    const result = getCurrentPayrollYearLabel(state);
+
+    expect(result).toBe('2020/21');
   });
 });
