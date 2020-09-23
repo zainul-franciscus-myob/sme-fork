@@ -41,14 +41,25 @@
       "taxCode": "ND"
     },
     "kiwiSaver": {
-      "employerSuperannuationContributionTax": 0
-    }
+      "kiwiSaverStatus" : 1,
+      "employeeContributionRate" : 3,
+      "employerContributionRate" : 13.50,
+      "employerSuperannuationContributionTax": 0.175
+    }   
   },
   "genderOptions": [
     { "name": "-", "value": "NotSet" },
     { "name": "Male", "value": "Male" },
     { "name": "Female", "value": "Female" },
     { "name": "Unspecified", "value": "Indeterminate" }
+  ],
+  "kiwiSaverStatusOptions": [{ "key": 1, "value": "Active Member" }],
+  "kiwiSaverEmployeeContributionOptions": [
+    { "key": 3, "value": "3" },
+    { "key": 4, "value": "4" },
+    { "key": 6, "value": "6" },
+    { "key": 8, "value": "8" },
+    { "key": 10, "value": "10" }
   ],
   "payCycleOptions": [
     { "id": "Weekly", "displayName": "Weekly" },

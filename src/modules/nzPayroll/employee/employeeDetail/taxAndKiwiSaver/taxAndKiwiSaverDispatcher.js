@@ -1,4 +1,5 @@
 import {
+  UPDATE_IRDNUMBER_ONBLUR,
   UPDATE_KIWISAVER_DETAIL,
   UPDATE_TAX_CODE,
   UPDATE_TAX_DETAIL,
@@ -7,6 +8,11 @@ import {
 const taxAndKiwiSaverDispatcher = (store) => ({
   updateTaxDetails: ({ key, value }) => {
     const intent = UPDATE_TAX_DETAIL;
+    store.dispatch({ intent, key, value });
+  },
+
+  updateIrdNumberOnBlur: ({ key, value }) => {
+    const intent = UPDATE_IRDNUMBER_ONBLUR;
     store.dispatch({ intent, key, value });
   },
 

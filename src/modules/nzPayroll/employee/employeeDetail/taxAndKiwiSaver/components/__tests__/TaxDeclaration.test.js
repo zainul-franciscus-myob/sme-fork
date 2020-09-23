@@ -9,7 +9,9 @@ describe('TaxDeclaration', () => {
 
     onTaxCodeChange: jest.fn(),
 
-    tax: { irdNumber: '999 888 777', taxCode: 'ND' },
+    onTaxInputBlur: jest.fn(),
+
+    tax: { irdNumber: '999 888 77', taxCode: 'ND' },
 
     taxCodeOptions: [
       { key: 'M', value: 'M' },
@@ -30,12 +32,20 @@ describe('TaxDeclaration', () => {
       });
     });
 
-    it('should call onTaxInputChange handler with key and value', () => {
+    it('should call onTaxInputChange handler with value', () => {
       const target = { name: 'irdNumber', value: '5' };
 
       field.props().onChange({ target });
 
-      expect(props.onTaxInputChange).toHaveBeenCalledWith({ target });
+      expect(props.onTaxInputChange).toHaveBeenCalled();
+    });
+
+    it('should call onTaxInputBlur handler with value', () => {
+      const target = { name: 'irdNumber', value: '5' };
+
+      field.props().onBlur({ target });
+
+      expect(props.onTaxInputBlur).toHaveBeenCalled();
     });
 
     it('should be disabled when taxCode is ND', () => {

@@ -12,6 +12,7 @@ export default class TaxAndKiwiSaverModule {
     return (
       <TaxAndKiwiSaverTab
         onTaxChange={this.dispatcher.updateTaxDetails}
+        onIrdNumberOnBlur={this.dispatcher.updateIrdNumberOnBlur}
         onTaxCodeChange={this.dispatcher.updateTaxCode}
         onKiwiSaverChange={this.dispatcher.updateKiwiSaverDetails}
       />

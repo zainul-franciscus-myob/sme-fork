@@ -21,6 +21,7 @@ const TaxAndKiwiSaverTab = ({
   tax,
   isIrdNumberEditable,
   onTaxChange,
+  onIrdNumberOnBlur,
   onTaxCodeChange,
   kiwiSaver,
   onKiwiSaverChange,
@@ -29,19 +30,14 @@ const TaxAndKiwiSaverTab = ({
   esctRate,
   esctOptions,
 }) => {
-  const onTaxInputChange = (event) =>
-    onTaxChange({
-      key: event.target.name,
-      value: event.target.value,
-    });
-
   return (
     <FormHorizontal layout="primary">
       <TaxDeclaration
         taxCodeOptions={taxCodeOptions}
         tax={tax}
         isIrdNumberEditable={isIrdNumberEditable}
-        onTaxInputChange={onTaxInputChange}
+        onTaxInputChange={onTaxChange}
+        onTaxInputBlur={onIrdNumberOnBlur}
         onTaxCodeChange={onTaxCodeChange}
       />
       <KiwiSaver

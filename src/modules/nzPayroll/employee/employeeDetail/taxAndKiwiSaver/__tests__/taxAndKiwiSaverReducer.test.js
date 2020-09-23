@@ -1,4 +1,5 @@
 import {
+  UPDATE_IRDNUMBER_ONBLUR,
   UPDATE_KIWISAVER_DETAIL,
   UPDATE_TAX_CODE,
   UPDATE_TAX_DETAIL,
@@ -41,7 +42,20 @@ describe('Tax and KiwiSaver Reducer', () => {
 
     expect(employeeDetailNzReducer(state, action)).toMatchObject({
       isPageEdited: true,
-      payrollDetails: { tax: { irdNumber: '000 000 000', taxCode: 'ND' } },
+      payrollDetails: { tax: { irdNumber: '000000000', taxCode: 'ND' } },
+    });
+  });
+
+  it('should add 0 to the begining of the Ird Number when Ird Number length is 8', () => {
+    const state = {
+      payrollDetails: { tax: { irdNumber: '12312312', taxCode: 'M' } },
+    };
+
+    const action = { intent: UPDATE_IRDNUMBER_ONBLUR, value: '12312312' };
+
+    expect(employeeDetailNzReducer(state, action)).toMatchObject({
+      isPageEdited: true,
+      payrollDetails: { tax: { irdNumber: '012312312', taxCode: 'M' } },
     });
   });
 

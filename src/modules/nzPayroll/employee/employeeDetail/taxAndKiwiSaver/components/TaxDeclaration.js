@@ -2,6 +2,7 @@ import { FieldGroup, Select } from '@myob/myob-widgets';
 import React from 'react';
 
 import TfnInput from '../../../../../../components/autoFormatter/TfnInput/TfnInput';
+import handleInputChange from '../../../../../../components/handlers/handleInputChange';
 import handleSelectChange from '../../../../../../components/handlers/handleSelectChange';
 
 const TaxDeclaration = ({
@@ -10,6 +11,7 @@ const TaxDeclaration = ({
   isIrdNumberEditable,
   onTaxInputChange,
   onTaxCodeChange,
+  onTaxInputBlur,
 }) => (
   <FieldGroup label="Tax declaration">
     <TfnInput
@@ -17,7 +19,8 @@ const TaxDeclaration = ({
       label="IRD number"
       requiredLabel="IRD number is required"
       width="sm"
-      onChange={onTaxInputChange}
+      onChange={handleInputChange(onTaxInputChange)}
+      onBlur={handleInputChange(onTaxInputBlur)}
       value={tax.irdNumber}
       disabled={!isIrdNumberEditable}
     />

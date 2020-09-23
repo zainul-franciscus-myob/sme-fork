@@ -40,6 +40,12 @@
     "tax": {
       "irdNumber": "777 222 34",
       "taxCode": "ND"
+    },
+    "kiwiSaver": {
+      "kiwiSaverStatus" : 1,
+      "employeeContributionRate" : 3,
+      "employerContributionRate" : 13.50,
+      "employerSuperannuationContributionTax": 0.175
     }
   }
 }
