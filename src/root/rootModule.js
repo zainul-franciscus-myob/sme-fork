@@ -8,6 +8,7 @@ import {
   getErrorPageUrl,
   getHasCheckedBrowserAlert,
   getIsPaidSubscription,
+  getIsSubscriptionExpired,
   getLeanEngageInfo,
   getModuleAction,
   getRegion,
@@ -227,6 +228,14 @@ export default class RootModule {
     ]);
   };
 
+  confirmLicence = async () => {
+    const state = this.store.getState();
+    const isSubscriptionExpired = getIsSubscriptionExpired(state);
+    if (!isSubscriptionExpired) {
+      await this.licenceService.confirm();
+    }
+  };
+
   navigateToErrorPage = () => {
     const state = this.store.getState();
     const url = getErrorPageUrl(state);
@@ -257,6 +266,7 @@ export default class RootModule {
       if (action[ModuleAction.LOAD_BUSINESS]) {
         try {
           await this.loadBusinessServices({ businessId });
+          await this.confirmLicence();
         } catch {
           this.navigateToErrorPage();
         }

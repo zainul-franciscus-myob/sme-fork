@@ -1,4 +1,32 @@
+import { LOAD_SUBSCRIPTION } from '../rootIntents';
 import RootModule from '../rootModule';
+import TestIntegration from '../../integration/TestIntegration';
+import TestStore from '../../store/TestStore';
+import createRootDispatcher from '../createRootDispatcher';
+import createRootIntegrator from '../createRootIntegrator';
+import rootReducer from '../rootReducer';
+import subscriptionResponse from '../mappings/data/subscription.json';
+
+const setup = () => {
+  const store = new TestStore(rootReducer);
+  const integration = new TestIntegration();
+  const module = new RootModule();
+  module.init({
+    integration,
+    router: {
+      replaceURLParamsAndReload: jest.fn(),
+      constructPath: jest.fn(),
+    },
+    recordPageVisit: jest.fn(),
+    trackUserEvent: jest.fn(),
+    startLeanEngage: jest.fn(),
+  });
+  module.store = store;
+  module.dispatcher = createRootDispatcher(store);
+  module.integrator = createRootIntegrator(store, integration);
+
+  return { store, module, integration };
+};
 
 describe('rootModule', () => {
   it('can be instantiated', () => {
@@ -123,6 +151,30 @@ describe('rootModule', () => {
         expect(root.navigateTo).toHaveBeenCalledWith(
           expect.stringContaining('/error')
         );
+      });
+    });
+
+    describe('confirmLicence', () => {
+      it('confirm licence', async () => {
+        const { module } = setup();
+        module.licenceService.confirm = jest.fn();
+
+        await module.run(buildRouteProps('id'), buildModule(), context);
+
+        expect(module.licenceService.confirm).toHaveBeenCalled();
+      });
+
+      it('does not confirm licence if subscription expired', async () => {
+        const { module, integration } = setup();
+        integration.mapSuccess(LOAD_SUBSCRIPTION, {
+          ...subscriptionResponse,
+          status: 'expired',
+        });
+        module.licenceService.confirm = jest.fn();
+
+        await module.run(buildRouteProps('id'), buildModule(), context);
+
+        expect(module.licenceService.confirm).not.toHaveBeenCalled();
       });
     });
 

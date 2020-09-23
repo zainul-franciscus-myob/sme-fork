@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 
 import ModuleAction from '../common/types/ModuleAction';
 import RouteName from '../router/RouteName';
+import SubscriptionStatus from '../common/types/SubscriptionStatus';
 import SubscriptionType from '../common/types/SubscriptionType';
 
 export const getBusinessId = (state) => state.businessId;
@@ -19,6 +20,9 @@ export const getHasCheckedBrowserAlert = (state) =>
   state.hasCheckedBrowserAlert;
 export const getIsPaidSubscription = (state) =>
   state.subscription.type === SubscriptionType.PAID;
+
+export const getIsSubscriptionExpired = (state) =>
+  state.subscription.status === SubscriptionStatus.EXPIRED;
 
 const getUserType = ({ isAdvisor }) => {
   if (isAdvisor === undefined) {
