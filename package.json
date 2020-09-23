@@ -6,8 +6,8 @@
     "@contentful/rich-text-react-renderer": "14.1.1",
     "@contentful/rich-text-types": "14.1.1",
     "@myob/ldal": "0.2.4",
-    "@myob/myob-styles": "6.1.0",
-    "@myob/myob-widgets": "6.1.0",
+    "@myob/myob-styles": "6.2.0",
+    "@myob/myob-widgets": "6.2.0",
     "@myob/tax-calculator": "0.0.16",
     "@splitsoftware/splitio": "10.14.1",
     "abortcontroller-polyfill": "1.5.0",
@@ -29,7 +29,6 @@
     "router5": "8.0.1",
     "router5-plugin-browser": "8.0.1",
     "shortid": "2.2.15",
-    "styled-components": "5.1.1",
     "uuid": "8.3.0",
     "whatwg-fetch": "3.4.1"
   },
