@@ -1,35 +1,84 @@
+import { LOAD_ACCOUNTS_AND_TRANSACTIONS } from '../ElectronicPaymentsCreateIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import electronicPaymentsCreateReducer from '../electronicPaymentsCreateReducer';
+import expectedLoadAccountsAndTransactions from './fixtures/expectedLoadAccountsAndTransactions';
+import loadAccountsAndTransactionsResponse from '../mappings/data/loadAccountsAndElectronicPayments';
 
 describe('ElectronicPaymentsCreateReducer', () => {
-  describe('setInitialState', () => {
+  describe('loadAccountsAndTransactions', () => {
     it('should set the payment type from the context if the isSpendMoneyEnabled toggle is true', () => {
-      const state = {
-        filterOptions: {
-          paymentType: '',
-        },
-      };
+      const state = {};
 
       const action = {
-        intent: SET_INITIAL_STATE,
-        context: {
-          paymentType: 'SpendMoney',
-          isSpendMoneyEnabled: true,
-        },
+        intent: LOAD_ACCOUNTS_AND_TRANSACTIONS,
+        response: loadAccountsAndTransactionsResponse,
       };
 
-      const expected = {
-        paymentType: 'SpendMoney',
-        isSpendMoneyEnabled: true,
-        filterOptions: {
-          paymentType: 'SpendMoney',
-        },
-      };
-
-      expect(electronicPaymentsCreateReducer(state, action)).toEqual(expected);
+      expect(electronicPaymentsCreateReducer(state, action)).toEqual(
+        expectedLoadAccountsAndTransactions
+      );
     });
+  });
 
-    it('should set the payment type to PayEmployees if the isSpendMoneyEnabled toggle is false', () => {
+  describe('setInitialState', () => {
+    it.each([
+      [
+        [
+          { name: 'Pay Bills', value: 'PayBills' },
+          { name: 'Pay Employees', value: 'PayEmployees' },
+          { name: 'Spend Money', value: 'SpendMoney' },
+        ],
+        true,
+        true,
+      ],
+      [
+        [
+          { name: 'Pay Bills', value: 'PayBills' },
+          { name: 'Pay Employees', value: 'PayEmployees' },
+        ],
+        true,
+        false,
+      ],
+      [
+        [
+          { name: 'Pay Employees', value: 'PayEmployees' },
+          { name: 'Spend Money', value: 'SpendMoney' },
+        ],
+        false,
+        true,
+      ],
+      [[{ name: 'Pay Employees', value: 'PayEmployees' }], false, false],
+    ])(
+      `options should be %s when isElectronicPaymentEnabled is %s and isSpendMoneyEnabled is %s`,
+      (options, isElectronicPaymentEnabled, isSpendMoneyEnabled) => {
+        const state = {
+          filterOptions: {
+            paymentType: '',
+          },
+        };
+
+        const action = {
+          intent: SET_INITIAL_STATE,
+          context: {
+            isElectronicPaymentEnabled,
+            isSpendMoneyEnabled,
+            paymentType: 'PayEmployees',
+          },
+        };
+
+        expect(electronicPaymentsCreateReducer(state, action)).toEqual({
+          isElectronicPaymentEnabled,
+          isSpendMoneyEnabled,
+          paymentType: 'PayEmployees',
+          filterOptions: {
+            paymentType: 'PayEmployees',
+          },
+          paymentTypes: options,
+        });
+      }
+    );
+
+    it('set selected payment type to the first valid one when url param is invalid', () => {
       const state = {
         filterOptions: {
           paymentType: '',
@@ -39,20 +88,34 @@ describe('ElectronicPaymentsCreateReducer', () => {
       const action = {
         intent: SET_INITIAL_STATE,
         context: {
-          paymentType: 'SpendMoney',
-          isSpendMoneyEnabled: false,
+          isElectronicPaymentEnabled: true,
+          isSpendMoneyEnabled: true,
+          paymentType: 'Invalid',
         },
       };
 
-      const expected = {
-        paymentType: 'SpendMoney',
-        isSpendMoneyEnabled: false,
+      expect(electronicPaymentsCreateReducer(state, action)).toEqual({
+        isElectronicPaymentEnabled: true,
+        isSpendMoneyEnabled: true,
+        paymentType: 'Invalid',
         filterOptions: {
-          paymentType: 'PayEmployees',
+          paymentType: 'PayBills',
         },
-      };
-
-      expect(electronicPaymentsCreateReducer(state, action)).toEqual(expected);
+        paymentTypes: [
+          {
+            name: 'Pay Bills',
+            value: 'PayBills',
+          },
+          {
+            name: 'Pay Employees',
+            value: 'PayEmployees',
+          },
+          {
+            name: 'Spend Money',
+            value: 'SpendMoney',
+          },
+        ],
+      });
     });
   });
 });

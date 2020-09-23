@@ -45,14 +45,59 @@ const getDefaultState = () => ({
   startOfFinancialYearDate: '',
 });
 
+const getEnabledValues = (featureTogglesConfig) => {
+  let values = ['PayEmployees'];
+
+  if (featureTogglesConfig.isSpendMoneyEnabled) {
+    values = ['SpendMoney', ...values];
+  }
+
+  if (featureTogglesConfig.isElectronicPaymentEnabled) {
+    values = ['PayBills', ...values];
+  }
+
+  return values;
+};
+
+const paymentTypeMappings = (featureTogglesConfig) => {
+  const enabledValues = getEnabledValues(featureTogglesConfig);
+
+  return [
+    {
+      name: 'Pay Bills',
+      value: 'PayBills',
+    },
+    {
+      name: 'Pay Employees',
+      value: 'PayEmployees',
+    },
+    {
+      name: 'Spend Money',
+      value: 'SpendMoney',
+    },
+  ].filter(({ value }) => enabledValues.includes(value));
+};
+
 const setInitialState = (state, { context }) => {
-  const { paymentType } = context;
+  const {
+    paymentType,
+    isSpendMoneyEnabled,
+    isElectronicPaymentEnabled,
+  } = context;
+  const paymentTypes = paymentTypeMappings({
+    isSpendMoneyEnabled,
+    isElectronicPaymentEnabled,
+  });
+
   return {
     ...state,
     ...context,
+    paymentTypes,
     filterOptions: {
       ...state.filterOptions,
-      paymentType: context.isSpendMoneyEnabled ? paymentType : 'PayEmployees',
+      paymentType: paymentTypes.some((option) => option.value === paymentType)
+        ? paymentType
+        : paymentTypes[0].value,
     },
   };
 };
@@ -60,7 +105,6 @@ const setInitialState = (state, { context }) => {
 const loadAccountsAndTransactions = (state, { response }) => ({
   ...state,
   accounts: response.accounts,
-  paymentTypes: response.paymentTypes,
   referenceNumber: response.referenceNumber,
   bankStatementDescription: response.bankStatementDescription,
   transactionDescription: response.transactionDescription,

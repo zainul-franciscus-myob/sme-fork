@@ -1,6 +1,8 @@
 import { DatePicker, FilterBar, Select } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import React from 'react';
 
+import { getShowPaymentTypeFilter } from '../ElectronicPaymentsCreateSelector';
 import handleSelectChange from '../../../../components/handlers/handleSelectChange';
 
 const ElectronicPaymentsCreateFilter = ({
@@ -10,7 +12,7 @@ const ElectronicPaymentsCreateFilter = ({
   dateTo,
   onUpdateFilterBarOptions,
   onResetFilterBarOptions,
-  isSpendMoneyEnabled,
+  showPaymentTypeFilter,
 }) => {
   const onDatePickerChange = (filterName) => ({ value }) => {
     onUpdateFilterBarOptions({ key: filterName, value });
@@ -19,7 +21,7 @@ const ElectronicPaymentsCreateFilter = ({
   return (
     <FilterBar onReset={onResetFilterBarOptions}>
       <FilterBar.Group>
-        {isSpendMoneyEnabled && (
+        {showPaymentTypeFilter && (
           <Select
             label="Payment type"
             name="paymentType"
@@ -48,4 +50,8 @@ const ElectronicPaymentsCreateFilter = ({
   );
 };
 
-export default ElectronicPaymentsCreateFilter;
+const mapStateToProps = (state) => ({
+  showPaymentTypeFilter: getShowPaymentTypeFilter(state),
+});
+
+export default connect(mapStateToProps)(ElectronicPaymentsCreateFilter);

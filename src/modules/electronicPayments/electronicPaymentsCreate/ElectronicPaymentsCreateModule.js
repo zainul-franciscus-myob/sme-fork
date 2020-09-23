@@ -48,6 +48,7 @@ export default class ElectronicPaymentsModule {
       this.integration
     );
     this.isSpendMoneyEnabled = featureToggles.isSpendMoneyBankPaymentEnabled;
+    this.isElectronicPaymentEnabled = featureToggles.isElectronicPaymentEnabled;
   }
 
   loadAccountsAndElectronicPayments = () => {
@@ -147,6 +148,7 @@ export default class ElectronicPaymentsModule {
     this.dispatcher.setInitialState({
       ...context,
       isSpendMoneyEnabled: this.isSpendMoneyEnabled,
+      isElectronicPaymentEnabled: this.isElectronicPaymentEnabled,
     });
     this.render();
     this.loadAccountsAndElectronicPayments();
@@ -172,7 +174,6 @@ export default class ElectronicPaymentsModule {
           onCancelButtonClick={this.dispatcher.closeModal}
           onRecordButtonClick={this.recordAndDownloadBankFile}
           onContinueButtonClick={this.recordAndDownloadBankFile}
-          isSpendMoneyEnabled={this.isSpendMoneyEnabled}
         />
       </Provider>
     );

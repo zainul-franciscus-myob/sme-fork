@@ -8,7 +8,7 @@ const ElectronicPaymentsCreateAlert = ({ alert, onDismissAlert }) =>
     </Alert>
   ) : (
     <Alert type="info">
-      Make sure the employee&apos;s BSB and account number is correct. You may
+      Make sure the recipient&apos;s BSB and account number is correct. You may
       not be able to recover a payment made to the wrong account.
     </Alert>
   );

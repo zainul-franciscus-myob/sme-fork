@@ -26,6 +26,9 @@ export const getSortOrder = (state) => state.sortOrder;
 export const getOrderBy = (state) => state.orderBy;
 export const flipSortOrder = (state) =>
   state.sortOrder === 'desc' ? 'asc' : 'desc';
+export const getIsElectronicPaymentEnabled = (state) =>
+  state.isElectronicPaymentEnabled;
+export const getIsSpendMoneyEnabled = (state) => state.isSpendMoneyEnabled;
 
 const getStartOfFinancialYearDate = (state) => state.startOfFinancialYearDate;
 const getTransactions = (state) => state.transactions;
@@ -107,4 +110,11 @@ export const getIsBeforeStartOfFinancialYear = createSelector(
     date &&
     startOfFinancialYearDate &&
     isBefore(new Date(date), new Date(startOfFinancialYearDate))
+);
+
+export const getShowPaymentTypeFilter = createSelector(
+  getIsElectronicPaymentEnabled,
+  getIsSpendMoneyEnabled,
+  (isElectronicPaymentEnabled, isSpendMoneyEnabled) =>
+    isElectronicPaymentEnabled || isSpendMoneyEnabled
 );

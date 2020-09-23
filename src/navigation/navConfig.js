@@ -116,7 +116,6 @@ export const featuresConfig = {
   bankFeeds: { routeName: RouteName.BANK_FEEDS },
   electronicPaymentBankCreate: {
     routeName: RouteName.ELECTRONIC_PAYMENTS_CREATE,
-    params: { paymentType: 'SpendMoney' },
   },
   spendMoneyCreate: {
     routeName: RouteName.SPEND_MONEY_DETAIL,
