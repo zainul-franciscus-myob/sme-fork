@@ -1,0 +1,10 @@
+.accountNameContainer {
+  display: flex;
+  max-width: 100%;
+  justify-content: flex-start;
+}
+.accountName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

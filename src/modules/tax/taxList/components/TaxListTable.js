@@ -4,18 +4,21 @@ import React from 'react';
 
 import { getTableHeaderTexts } from '../taxListSelectors';
 import TaxListTableBody from './TaxListTableBody';
+import widthConfig from './widthConfig';
 
 const tableConfig = {
-  taxCode: { width: '10rem' },
-  description: { width: '20rem' },
-  type: { width: '20rem' },
-  collectedAccountName: { width: 'flex-1' },
-  paidAccountName: { width: 'flex-1' },
-  rate: { width: '10rem', align: 'right' },
+  taxCode: { columnName: 'Tax code' },
+  description: { columnName: 'Description' },
+  type: { columnName: 'Type' },
+  collectedAccountName: { columnName: 'Account for tax collected' },
+  paidAccountName: { columnName: 'Account for tax paid' },
+  rate: { align: 'right', columnName: 'Rate (%)' },
 };
 
+const responsiveWidthConfig = widthConfig(tableConfig);
+
 const TaxListTable = ({ tableHeaderTexts }) => (
-  <Table>
+  <Table responsiveWidths={responsiveWidthConfig}>
     <Table.Header>
       <Table.HeaderItem {...tableConfig.taxCode}>
         {tableHeaderTexts.taxCode}
