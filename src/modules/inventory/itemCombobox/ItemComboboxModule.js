@@ -12,7 +12,6 @@ import itemComboboxReducer from './itemComboboxReducer';
 
 export default class ItemComboboxModule {
   constructor({ integration, onAlert = () => {} }) {
-    this.onChange = () => {};
     this.onAlert = onAlert;
 
     this.store = new Store(itemComboboxReducer);
@@ -139,8 +138,6 @@ export default class ItemComboboxModule {
   };
 
   render({ onChange = () => {}, ...otherProps }) {
-    this.onChange = onChange;
-
     this.itemModal = this.itemModalModule.render();
 
     return (

@@ -12,7 +12,6 @@ import jobComboboxReducer from './jobComboboxReducer';
 
 export default class JobComboboxModule {
   constructor({ integration, onAlert = () => {} }) {
-    this.onChange = () => {};
     this.onAlert = onAlert;
 
     this.store = new Store(jobComboboxReducer);
@@ -139,8 +138,6 @@ export default class JobComboboxModule {
   };
 
   render({ onChange = () => {}, ...otherProps }) {
-    this.onChange = onChange;
-
     this.jobModal = this.jobModalModule.render();
 
     return (

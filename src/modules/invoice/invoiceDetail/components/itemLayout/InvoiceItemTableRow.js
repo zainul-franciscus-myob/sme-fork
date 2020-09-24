@@ -181,6 +181,7 @@ const InvoiceItemTableRow = ({
           selectedId: jobId,
           disabled: isSubmitting || isReadOnly,
           onChange: handleAutoCompleteItemChange(onChange, 'jobId'),
+          left: true,
         })}
       <TaxCodeCombobox
         items={taxCodeOptions}

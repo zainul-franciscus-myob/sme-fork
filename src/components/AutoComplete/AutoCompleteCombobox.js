@@ -1,5 +1,6 @@
 import { Combobox } from '@myob/myob-widgets';
 import React, { useEffect, useRef, useState } from 'react';
+import classNames from 'classnames';
 
 import { buildItems, buildSelectedItem } from './helpers/buildItems';
 import AutoCompleteComboboxTypes from './AutoCompleteComboboxTypes';
@@ -10,6 +11,7 @@ import buildLoadMoreItem, {
 } from './helpers/buildLoadMoreItem';
 import debounce from '../../common/debounce/debounce';
 import getShouldShowLoadMoreButton from './helpers/getShouldShowLoadMoreButton';
+import styles from './AutoCompleteCombobox.module.css';
 
 const AutoCompleteCombobox = ({
   type = AutoCompleteComboboxTypes.STAND_ALONE,
@@ -23,6 +25,8 @@ const AutoCompleteCombobox = ({
   onSearch,
   onChange,
   noMatchFoundMessage = 'No item found',
+  className,
+  left,
   ...otherProps
 }) => {
   // All the Refs in this component are purely to keep state, where a change in the Ref value
@@ -252,6 +256,9 @@ const AutoCompleteCombobox = ({
 
   return (
     <Combobox
+      className={classNames(className, {
+        [styles.left]: left,
+      })}
       metaData={metaData}
       selected={selectedItem}
       items={comboboxItems}

@@ -126,6 +126,7 @@ const InvoiceServiceTableRow = ({
           selectedId: jobId,
           disabled: isSubmitting || isReadOnly,
           onChange: handleAutoCompleteItemChange(onChange, 'jobId'),
+          left: true,
         })}
       <TaxCodeCombobox
         label="Tax code"
