@@ -40,6 +40,10 @@
   padding-top: 1rem;
 }
 
+.bulkUpdateHeaderRow {
+  line-height: 31px;
+}
+
 @media (max-width: 768px) {
   .indent[data-indent-level] {
     padding-left: unset;

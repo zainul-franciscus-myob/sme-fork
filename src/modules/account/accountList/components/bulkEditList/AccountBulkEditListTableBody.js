@@ -21,6 +21,7 @@ const AccountRowItem = ({
     [styles.systemAccount]: isSystem,
     [styles.headerAccount]: isHeader,
     [styles.indent]: indentLevel > 0,
+    [styles.bulkUpdateHeaderRow]: true,
   });
 
   const isHidden = value === '' || value === undefined ? styles.hidden : '';
@@ -54,6 +55,8 @@ const onAmountChange = (handler, index) => ({ target }) => {
 const EditableAccountRowItem = ({ config, onChange, index, value }) => (
   <Table.RowItem columnName={config.columnName} {...config.styles}>
     <AmountInput
+      textAlign="right"
+      hideLabel
       name={`${config.fieldName}`}
       value={value}
       onChange={onAmountChange(onChange, index)}
