@@ -12,7 +12,6 @@ import {
   LOAD_INVOICE_HISTORY,
   LOAD_INVOICE_LIST,
   LOAD_ITEM_SELLING_DETAILS,
-  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_DUPLICATE_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
@@ -43,7 +42,6 @@ import invoiceServiceReadOnlyDetail from './data/serviceLayout/invoiceServiceRea
 import loadAbnDetail from './data/loadAbn.json';
 import loadAccountOptions from './data/loadAccountOptions';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
-import loadAddedJobResponse from './data/loadAddedJobResponse';
 import loadInvoiceHistory from './data/invoiceHistory.json';
 import loadItemSellingDetailsResponse from './data/loadItemSellingDetailsResponse';
 import payDirect from './data/loadPayDirect';
@@ -130,7 +128,6 @@ const MemoryInvoiceMapping = {
   [LOAD_ITEM_SELLING_DETAILS]: ({ onSuccess }) =>
     onSuccess(loadItemSellingDetailsResponse),
   [LOAD_NEXT_PAGE]: ({ onSuccess }) => onSuccess(invoiceListFilterResponse),
-  [LOAD_JOB_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedJobResponse),
   [CREATE_PRE_CONVERSION_INVOICE_DETAIL]: ({ onSuccess }) =>
     onSuccess({ ...successResponse, id: '1' }),
   [UPDATE_PRE_CONVERSION_INVOICE_DETAIL]: ({ onSuccess }) =>

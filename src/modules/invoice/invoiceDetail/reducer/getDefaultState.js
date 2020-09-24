@@ -57,7 +57,6 @@ const getDefaultState = () => ({
     accountId: '',
     discount: '',
     amount: '',
-    lineJobOptions: [],
   },
   originalAmountDue: '0',
   template: {
@@ -67,7 +66,6 @@ const getDefaultState = () => ({
   comments: [],
   serialNumber: '',
   accountOptions: [],
-  jobOptions: [],
   taxCodeOptions: [],
   expirationTermOptions: [],
   emailInvoice: {

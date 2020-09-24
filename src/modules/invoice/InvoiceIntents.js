@@ -36,7 +36,6 @@ export const CREATE_INVOICE_DETAIL = Symbol('Create a new invoice');
 export const UPDATE_INVOICE_DETAIL = Symbol('Update a new invoice');
 export const DELETE_INVOICE_DETAIL = Symbol('Delete invoice detail');
 export const LOAD_CUSTOMER = Symbol('Load customer');
-export const LOAD_JOB_AFTER_CREATE = Symbol('Load job after create');
 export const LOAD_PAY_DIRECT = Symbol('Load pay direct');
 export const SET_PAY_DIRECT_LOADING_STATE = Symbol(
   'Set pay direct loading state'

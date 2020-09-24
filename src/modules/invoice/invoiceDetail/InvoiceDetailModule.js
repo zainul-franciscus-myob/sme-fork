@@ -21,7 +21,7 @@ import {
   getIsSubmitting,
   getIsTableEmpty,
   getItemComboboxContext,
-  getJobModalContext,
+  getJobComboboxContext,
   getModalType,
   getNewLineIndex,
   getShouldSaveAndReload,
@@ -29,6 +29,7 @@ import {
   getShowOnlinePayment,
   getTaxCalculations,
   getUniqueSelectedItemIds,
+  getUniqueSelectedJobIds,
 } from './selectors/invoiceDetailSelectors';
 import {
   getCanSaveEmailSettings,
@@ -53,7 +54,7 @@ import InvoiceDetailElementId from './types/InvoiceDetailElementId';
 import InvoiceDetailModalType from './types/InvoiceDetailModalType';
 import InvoiceDetailView from './components/InvoiceDetailView';
 import ItemComboboxModule from '../../inventory/itemCombobox/ItemComboboxModule';
-import JobModalModule from '../../job/jobModal/JobModalModule';
+import JobComboboxModule from '../../job/jobCombobox/JobComboboxModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import SaveActionType from './types/SaveActionType';
 import Store from '../../../store/Store';
@@ -93,11 +94,12 @@ export default class InvoiceDetailModule {
     this.accountModalModule = new AccountModalModule({
       integration,
     });
-    this.jobModalModule = new JobModalModule({
-      integration,
-    });
     this.contactComboboxModule = new ContactComboboxModule({ integration });
     this.itemComboboxModule = new ItemComboboxModule({
+      integration,
+      onAlert: this.dispatcher.setAlert,
+    });
+    this.jobComboboxModule = new JobComboboxModule({
       integration,
       onAlert: this.dispatcher.setAlert,
     });
@@ -135,40 +137,6 @@ export default class InvoiceDetailModule {
     this.integrator.loadAccountAfterCreate({ id, onSuccess, onFailure });
   };
 
-  openJobModal = (onChange) => {
-    const state = this.store.getState();
-    const jobModalContext = getJobModalContext(state);
-    this.jobModalModule.run({
-      context: jobModalContext,
-      onSaveSuccess: (payload) => this.loadJobAfterCreate(payload, onChange),
-      onLoadFailure: (message) =>
-        this.dispatcher.setAlert({ type: 'danger', message }),
-    });
-  };
-
-  loadJobAfterCreate = ({ message, id }, onChange) => {
-    this.dispatcher.setAlert({ type: 'success', message });
-    this.dispatcher.setSubmittingState(true);
-    this.jobModalModule.close();
-
-    const onSuccess = (payload) => {
-      this.dispatcher.setSubmittingState(false);
-      this.dispatcher.loadJobAfterCreate({
-        ...payload,
-        id,
-      });
-      onChange({
-        ...payload,
-        id,
-      });
-    };
-
-    const onFailure = () => {
-      this.dispatcher.setSubmittingState(false);
-    };
-    this.integrator.loadJobAfterCreate({ id, onSuccess, onFailure });
-  };
-
   loadInvoice = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
@@ -179,6 +147,7 @@ export default class InvoiceDetailModule {
 
       this.updateContactCombobox();
       this.updateItemCombobox();
+      this.updateJobCombobox();
 
       if (getShouldShowAbn(this.store.getState())) {
         this.loadAbnFromCustomer();
@@ -851,6 +820,7 @@ export default class InvoiceDetailModule {
   resetState = () => {
     this.contactComboboxModule.resetState();
     this.itemComboboxModule.resetState();
+    this.jobComboboxModule.resetState();
     this.accountModalModule.resetState();
     this.dispatcher.resetState();
   };
@@ -873,6 +843,11 @@ export default class InvoiceDetailModule {
 
     if (this.itemComboboxModule.isCreateItemModalOpened()) {
       this.itemComboboxModule.createItem();
+      return;
+    }
+
+    if (this.jobComboboxModule.isCreateJobModalOpened()) {
+      this.jobComboboxModule.createJob();
       return;
     }
 
@@ -929,6 +904,7 @@ export default class InvoiceDetailModule {
 
     this.loadContactCombobox();
     this.loadItemCombobox();
+    this.loadJobCombobox();
 
     const showOnlinePayment = getShowOnlinePayment(this.store.getState());
     if (showOnlinePayment) {
@@ -1052,20 +1028,35 @@ export default class InvoiceDetailModule {
       : null;
   };
 
+  loadJobCombobox = () => {
+    const state = this.store.getState();
+    const context = getJobComboboxContext(state);
+    this.jobComboboxModule.run(context);
+  };
+
+  updateJobCombobox = () => {
+    const state = this.store.getState();
+    const selectedJobIds = getUniqueSelectedJobIds(state);
+    if (selectedJobIds.length > 0) {
+      this.jobComboboxModule.load(selectedJobIds);
+    }
+  };
+
+  renderJobCombobox = (props) => {
+    return this.jobComboboxModule ? this.jobComboboxModule.render(props) : null;
+  };
+
   render = () => {
     const accountModal = this.accountModalModule.render();
-    const jobModal = this.jobModalModule.render();
 
     const invoiceDetailView = (
       <InvoiceDetailView
         accountModal={accountModal}
-        jobModal={jobModal}
         onDismissAlert={this.dispatcher.dismissAlert}
         onChangeAmountToPay={this.dispatcher.updateInvoicePaymentAmount}
         serviceLayoutListeners={{
           onAddRow: this.addInvoiceLine,
           onRemoveRow: this.removeInvoiceLine,
-          onAddJob: this.openJobModal,
           onUpdateRow: this.updateInvoiceLine,
           onUpdateAmount: this.calculateLinesOnAmountChange,
           onAddAccount: this.openAccountModal,
@@ -1077,7 +1068,6 @@ export default class InvoiceDetailModule {
           onUpdateRow: this.updateInvoiceLine,
           onUpdateAmount: this.calculateLinesOnAmountChange,
           onAddAccount: this.openAccountModal,
-          onAddJob: this.openJobModal,
           onLoadAccounts: this.loadAccounts,
         }}
         invoiceActionListeners={{
@@ -1135,6 +1125,7 @@ export default class InvoiceDetailModule {
         }}
         renderContactCombobox={this.renderContactCombobox}
         renderItemCombobox={this.renderItemCombobox}
+        renderJobCombobox={this.renderJobCombobox}
         onInputAlert={this.dispatcher.setAlert}
         onUpdateHeaderOptions={this.updateHeaderOptions}
         onIssueDateBlur={this.validateIssueDate}

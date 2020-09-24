@@ -4,10 +4,13 @@ import {
   DELETE_JOB,
   FILTER_JOB_LIST,
   LOAD_CUSTOMER_AFTER_CREATE,
+  LOAD_JOB_COMBOBOX_OPTIONS,
+  LOAD_JOB_COMBOBOX_OPTIONS_BY_IDS,
   LOAD_JOB_DETAIL,
   LOAD_JOB_LIST,
   LOAD_JOB_MODAL,
   LOAD_NEW_JOB,
+  SEARCH_COMBOBOX_JOB,
   UPDATE_JOB,
 } from '../JobIntents';
 
@@ -55,6 +58,18 @@ const JobListMapping = {
     method: 'GET',
     getPath: ({ businessId, customerId }) =>
       `/${businessId}/job/load_contact/${customerId}`,
+  },
+  [LOAD_JOB_COMBOBOX_OPTIONS]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/job/load_job_options`,
+  },
+  [LOAD_JOB_COMBOBOX_OPTIONS_BY_IDS]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/job/load_job_options_by_ids`,
+  },
+  [SEARCH_COMBOBOX_JOB]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/job/load_job_options`,
   },
 };
 

@@ -21,3 +21,19 @@ export const LOAD_JOB_MODAL = Symbol('Load job modal');
 
 export const SET_CUSTOMER_LOADING_STATE = Symbol('Set contact loading state');
 export const LOAD_CUSTOMER_AFTER_CREATE = Symbol('Load contact after create');
+
+export const LOAD_JOB_COMBOBOX_OPTIONS = Symbol('Load job options');
+export const LOAD_JOB_COMBOBOX_OPTIONS_BY_IDS = Symbol(
+  'Load job combobox options by ids'
+);
+export const LOAD_JOB_COMBOBOX_OPTION_BY_ID = Symbol(
+  'Load job combobox option by id'
+);
+export const SET_JOB_COMBOBOX_LOADING_STATE = Symbol('Set job loading state');
+export const SET_JOB_COMBOBOX_OPTIONS_LOADING_STATE = Symbol(
+  'Set job options loading state'
+);
+export const SEARCH_COMBOBOX_JOB = Symbol('Search job by keyword');
+export const UPDATE_JOB_COMBOBOX_OPTIONS = Symbol(
+  'Update job combobox options'
+);

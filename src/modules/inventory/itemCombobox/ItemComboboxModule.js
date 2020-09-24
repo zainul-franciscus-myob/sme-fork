@@ -117,7 +117,8 @@ export default class ItemComboboxModule {
 
     this.itemModalModule.run({
       context,
-      onLoadFailure: () => {},
+      onLoadFailure: (message) =>
+        this.onAlert({ type: AlertType.DANGER, message }),
       onSaveSuccess: (payload) => this.loadItemAfterCreate(payload, onChange),
     });
   };

@@ -13,7 +13,6 @@ import {
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
   LOAD_ITEM_SELLING_DETAILS,
-  LOAD_JOB_AFTER_CREATE,
   LOAD_PAY_DIRECT,
   RELOAD_INVOICE_DETAIL,
   REMOVE_EMAIL_ATTACHMENT,
@@ -134,11 +133,6 @@ const setOriginalAmountDue = ({
   return calculateAmountDue(totals.totalAmount, amountPaid);
 };
 
-const buildLineJobOptions = ({ action, jobId }) =>
-  action.jobOptions
-    ? action.jobOptions.filter((job) => job.isActive || job.id === jobId)
-    : [];
-
 const loadInvoiceDetail = (state, action) => {
   const defaultState = getDefaultState();
 
@@ -155,10 +149,6 @@ const loadInvoiceDetail = (state, action) => {
       ...action.invoice,
       status: action.invoice.status || defaultState.invoice.status,
       lines: action.invoice.lines.map((line) => {
-        const lineJobOptions = buildLineJobOptions({
-          action,
-          jobId: line.jobId,
-        });
         if (
           [
             InvoiceLineType.SERVICE,
@@ -170,17 +160,16 @@ const loadInvoiceDetail = (state, action) => {
             ? new Decimal(line.taxExclusiveAmount).add(line.taxAmount).valueOf()
             : new Decimal(line.taxExclusiveAmount).valueOf();
 
-          return { ...line, amount, lineJobOptions };
+          return { ...line, amount };
         }
 
-        return { ...line, lineJobOptions };
+        return line;
       }),
     },
     originalAmountDue: setOriginalAmountDue(action.invoice),
     newLine: {
       ...state.newLine,
       ...action.newLine,
-      lineJobOptions: buildLineJobOptions({ action }),
     },
     comments: action.comments || state.comments,
     serialNumber: action.serialNumber,
@@ -273,22 +262,6 @@ const resetCustomer = (state) => ({
     address: '',
   },
   abn: undefined,
-});
-
-export const loadJobAfterCreate = (state, { intent, ...job }) => ({
-  ...state,
-  invoice: {
-    ...state.invoice,
-    lines: state.invoice.lines.map((line) => ({
-      ...line,
-      lineJobOptions: [job, ...line.lineJobOptions],
-    })),
-  },
-  newLine: {
-    ...state.newLine,
-    lineJobOptions: [job, ...state.newLine.lineJobOptions],
-  },
-  isPageEdited: true,
 });
 
 const updateInvoiceIdAfterCreate = (state, { invoiceId }) => ({
@@ -499,8 +472,6 @@ const handlers = {
 
   [LOAD_CUSTOMER]: loadCustomer,
   [RESET_CUSTOMER]: resetCustomer,
-
-  [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
 
   [UPDATE_INVOICE_ID_AFTER_CREATE]: updateInvoiceIdAfterCreate,
   [SET_DUPLICATE_ID]: setDuplicateId,

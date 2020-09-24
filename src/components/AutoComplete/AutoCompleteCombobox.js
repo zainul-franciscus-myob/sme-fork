@@ -163,7 +163,11 @@ const AutoCompleteCombobox = ({
       // to a specific row. When a row is "deleted", it's not unmounted from the DOM tree,
       // but its value is updated from the Page Module store, and so we need to manually
       // update its internal state which is not controlled by props
-      if (item && type === AutoCompleteComboboxTypes.ITEM_LINE) {
+      if (
+        item &&
+        (type === AutoCompleteComboboxTypes.ITEM_LINE ||
+          type === AutoCompleteComboboxTypes.JOB_LINE)
+      ) {
         resetState();
       } else {
         prevSelectedItem.current = item;
@@ -216,7 +220,10 @@ const AutoCompleteCombobox = ({
   };
 
   const onBlur = () => {
-    if (type === AutoCompleteComboboxTypes.ITEM_LINE) {
+    if (
+      type === AutoCompleteComboboxTypes.ITEM_LINE ||
+      type === AutoCompleteComboboxTypes.JOB_LINE
+    ) {
       resetState();
     } else {
       resetSearchStateOnBlur();

@@ -4,7 +4,6 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CUSTOMER,
   LOAD_INVOICE_DETAIL,
-  LOAD_JOB_AFTER_CREATE,
   RELOAD_INVOICE_DETAIL,
   REMOVE_INVOICE_LINE,
   SET_UPGRADE_MODAL_SHOWING,
@@ -503,85 +502,6 @@ describe('InvoiceDetailReducer', () => {
         expect(actual.originalAmountDue).toBe('15');
       });
     });
-
-    describe('job options on lines', () => {
-      const state = {};
-
-      const action = {
-        intent: LOAD_INVOICE_DETAIL,
-        invoice: {
-          issueDate: '2019-02-03',
-          lines: [
-            {
-              jobId: '1',
-            },
-            {
-              jobId: '2',
-            },
-            {
-              jobId: '3',
-            },
-          ],
-        },
-        newLine: {
-          lineJobOptions: [],
-        },
-        jobOptions: [
-          {
-            id: '1',
-            isActive: false,
-          },
-          {
-            id: '2',
-            isActive: false,
-          },
-          {
-            id: '3',
-            isActive: true,
-          },
-          {
-            id: '4',
-            isActive: true,
-          },
-        ],
-        subscription: {
-          isTrial: false,
-          monthlyLimit: { hasHitLimit: false },
-        },
-      };
-      it('shows inactive selected jobs against each line', () => {
-        const lineOneExpectedOptions = action.jobOptions.filter(
-          (job) => job.id !== '2'
-        );
-        const lineTwoExpectedOptions = action.jobOptions.filter(
-          (job) => job.id !== '1'
-        );
-        const lineThreeExpectedOptions = action.jobOptions.filter(
-          (job) => job.id !== '1' && job.id !== '2'
-        );
-
-        const actual = invoiceDetailReducer(state, action);
-
-        expect(actual.invoice.lines[0].lineJobOptions).toEqual(
-          lineOneExpectedOptions
-        );
-        expect(actual.invoice.lines[1].lineJobOptions).toEqual(
-          lineTwoExpectedOptions
-        );
-        expect(actual.invoice.lines[2].lineJobOptions).toEqual(
-          lineThreeExpectedOptions
-        );
-      });
-
-      it('shows active selected jobs against new line', () => {
-        const expectedJobOptions = action.jobOptions.filter(
-          (job) => job.isActive
-        );
-        const actual = invoiceDetailReducer(state, action);
-
-        expect(actual.newLine.lineJobOptions).toEqual(expectedJobOptions);
-      });
-    });
   });
 
   describe('RELOAD_INVOICE_DETAIL', () => {
@@ -676,54 +596,6 @@ describe('InvoiceDetailReducer', () => {
       const actual = invoiceDetailReducer(state, action);
 
       expect(actual.abn).not.toBeUndefined();
-    });
-  });
-
-  describe('LOAD_JOB_AFTER_CREATE', () => {
-    const lineJobOptions = [
-      {
-        id: '1',
-        jobNumber: '100',
-      },
-      {
-        id: '2',
-        jobNumber: '200',
-      },
-    ];
-    const state = {
-      invoice: {
-        lines: [{ lineJobOptions }, { lineJobOptions }, { lineJobOptions }],
-      },
-      newLine: {
-        lineJobOptions,
-      },
-    };
-
-    const action = {
-      intent: LOAD_JOB_AFTER_CREATE,
-      id: '3',
-      jobNumber: '300',
-    };
-
-    it('adds newly created job into the front of jobOptions on each line', () => {
-      const actual = invoiceDetailReducer(state, action);
-
-      expect(
-        actual.invoice.lines.map((line) => line.lineJobOptions[0])
-      ).toEqual([
-        { id: '3', jobNumber: '300' },
-        { id: '3', jobNumber: '300' },
-        { id: '3', jobNumber: '300' },
-      ]);
-    });
-
-    it('adds newly created job onto the front of jobOptions on new line', () => {
-      const actual = invoiceDetailReducer(state, action);
-
-      expect(actual.newLine.lineJobOptions[0]).toEqual({
-        id: '3',
-        jobNumber: '300',
-      });
     });
   });
 });

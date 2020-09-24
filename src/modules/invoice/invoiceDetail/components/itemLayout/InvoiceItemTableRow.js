@@ -13,7 +13,6 @@ import AccountCombobox from '../../../../../components/combobox/AccountCombobox'
 import Calculator from '../../../../../components/Calculator/Calculator';
 import InvoiceLineType from '../../types/InvoiceLineType';
 import InvoiceTableReadOnlyRowItem from '../InvoiceTableReadOnlyRowItem';
-import JobCombobox from '../../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../../components/combobox/TaxCodeCombobox';
 
 const onComboboxChange = (name, onChange) => (item) => {
@@ -64,7 +63,6 @@ const InvoiceItemTableRow = ({
     amount,
     jobId,
     taxCodeId,
-    lineJobOptions,
   },
   taxCodeOptions,
   accountOptions,
@@ -72,13 +70,12 @@ const InvoiceItemTableRow = ({
   isReadOnly,
   onUpdateAmount,
   onAddAccount,
-  onAddJob,
   isInvoiceJobColumnEnabled,
   renderItemCombobox,
+  renderJobCombobox,
   ...feelixInjectedProps
 }) => {
   const onChangeAccountId = onComboboxChange('accountId', onChange);
-  const onChangeJobId = onComboboxChange('jobId', onChange);
 
   if ([InvoiceLineType.HEADER, InvoiceLineType.SUB_TOTAL].includes(type)) {
     return (
@@ -176,19 +173,15 @@ const InvoiceItemTableRow = ({
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
-
-      {isInvoiceJobColumnEnabled && (
-        <JobCombobox
-          items={lineJobOptions}
-          selectedId={jobId}
-          onChange={onChangeJobId}
-          addNewJob={() => onAddJob(onChangeJobId)}
-          disabled={isSubmitting || isReadOnly}
-          allowClear
-          left
-        />
-      )}
-
+      {isInvoiceJobColumnEnabled &&
+        renderJobCombobox({
+          name: 'jobId',
+          label: 'Job',
+          hideLabel: true,
+          selectedId: jobId,
+          disabled: isSubmitting || isReadOnly,
+          onChange: handleAutoCompleteItemChange(onChange, 'jobId'),
+        })}
       <TaxCodeCombobox
         items={taxCodeOptions}
         selectedId={taxCodeId}

@@ -14,7 +14,6 @@ import AccountCombobox from '../../../../../components/combobox/AccountCombobox'
 import Calculator from '../../../../../components/Calculator/Calculator';
 import InvoiceLineType from '../../types/InvoiceLineType';
 import InvoiceTableReadOnlyRowItem from '../InvoiceTableReadOnlyRowItem';
-import JobCombobox from '../../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../../components/combobox/TaxCodeCombobox';
 
 const onComboboxChange = (name, onChange) => (item) => {
@@ -22,6 +21,15 @@ const onComboboxChange = (name, onChange) => (item) => {
     target: {
       name,
       value: item.id,
+    },
+  });
+};
+
+const handleAutoCompleteItemChange = (handler, name) => (item) => {
+  handler({
+    target: {
+      name,
+      value: item ? item.id : '',
     },
   });
 };
@@ -52,7 +60,7 @@ const InvoiceServiceTableRow = ({
   onChange,
   onUpdateAmount,
   onAddAccount,
-  onAddJob,
+  renderJobCombobox,
   isInvoiceJobColumnEnabled,
   ...feelixInjectedProps
 }) => {
@@ -63,11 +71,9 @@ const InvoiceServiceTableRow = ({
     jobId,
     taxCodeId,
     amount,
-    lineJobOptions,
   } = invoiceLine;
 
   const onChangeAccountId = onComboboxChange('accountId', onChange);
-  const onChangeJobId = onComboboxChange('jobId', onChange);
 
   if ([InvoiceLineType.HEADER, InvoiceLineType.SUB_TOTAL].includes(type)) {
     return (
@@ -112,18 +118,15 @@ const InvoiceServiceTableRow = ({
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
-      {isInvoiceJobColumnEnabled && (
-        <JobCombobox
-          label="Job"
-          onChange={onChangeJobId}
-          addNewJob={() => onAddJob(onChangeJobId)}
-          items={lineJobOptions}
-          selectedId={jobId}
-          disabled={isSubmitting || isReadOnly}
-          allowClear
-          left
-        />
-      )}
+      {isInvoiceJobColumnEnabled &&
+        renderJobCombobox({
+          name: 'jobId',
+          label: 'Job',
+          hideLabel: true,
+          selectedId: jobId,
+          disabled: isSubmitting || isReadOnly,
+          onChange: handleAutoCompleteItemChange(onChange, 'jobId'),
+        })}
       <TaxCodeCombobox
         label="Tax code"
         hideLabel

@@ -34,7 +34,6 @@ import styles from './InvoiceDetailView.module.css';
 
 const InvoiceDetailView = ({
   accountModal,
-  jobModal,
   layout,
   loadingState,
   isCreating,
@@ -61,6 +60,7 @@ const InvoiceDetailView = ({
   exportPdfModalListeners,
   renderContactCombobox,
   renderItemCombobox,
+  renderJobCombobox,
   onInputAlert,
   onDismissPreConversionAlert,
   onUpdateHeaderOptions,
@@ -128,6 +128,7 @@ const InvoiceDetailView = ({
     <InvoiceServiceTable
       listeners={serviceLayoutListeners}
       footer={notesAndTotals}
+      renderJobCombobox={renderJobCombobox}
     />
   );
 
@@ -136,6 +137,7 @@ const InvoiceDetailView = ({
       listeners={itemLayoutListeners}
       footer={notesAndTotals}
       renderItemCombobox={renderItemCombobox}
+      renderJobCombobox={renderJobCombobox}
     />
   );
 
@@ -166,7 +168,6 @@ const InvoiceDetailView = ({
         actions={actions}
       >
         {accountModal}
-        {jobModal}
         {upgradeModal}
         {modal}
         <div className={classNames(isReadOnly && styles.disabledTable)}>
