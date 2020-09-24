@@ -6,6 +6,7 @@ const getBillPaymentRoutes = ({
   integration,
   pushMessage,
   navigateTo,
+  featureToggles,
 }) => {
   const routes = [
     {
@@ -16,6 +17,7 @@ const getBillPaymentRoutes = ({
         integration,
         pushMessage,
         navigateTo,
+        featureToggles,
       }),
       documentTitle: 'Payment to supplier',
     },

@@ -26,12 +26,17 @@ import Store from '../../../store/Store';
 import billPaymentReducer from './billPaymentDetailReducer';
 import createBillPaymentDetailDispatcher from './createBillPaymentDetailDispatcher';
 import createBillPaymentDetailIntegrator from './createBillPaymentDetailIntegrator';
-import featureToggles from '../../../featureToggles/mappings/data/featureToggles';
 import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class BillPaymentModule {
-  constructor({ integration, setRootView, pushMessage, navigateTo }) {
+  constructor({
+    integration,
+    setRootView,
+    pushMessage,
+    navigateTo,
+    featureToggles,
+  }) {
     this.store = new Store(billPaymentReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
