@@ -1,9 +1,14 @@
 import {
   UPDATE_IRDNUMBER_ONBLUR,
   UPDATE_KIWISAVER_DETAIL,
+  UPDATE_KIWISAVER_EMPLOYER_CONTRIBUTION_RATE,
   UPDATE_TAX_CODE,
   UPDATE_TAX_DETAIL,
 } from './TaxAndKiwiSaverIntents';
+import formatNumberWithDecimalScaleRange from '../../../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
+
+const formatEmployerContributionRate = (contributionRate) =>
+  formatNumberWithDecimalScaleRange(contributionRate, 2, 2);
 
 const updateTaxDetails = (state, action) => ({
   ...state,
@@ -50,21 +55,38 @@ const updateTaxCode = (state, action) => ({
   },
 });
 
-const updateKiwiSaverDetails = (state, action) => ({
+const setKiwiSaverDetails = (state, partialKiwiSaver) => ({
   ...state,
   isPageEdited: true,
   payrollDetails: {
     ...state.payrollDetails,
     kiwiSaver: {
       ...state.payrollDetails.kiwiSaver,
-      [action.key]: action.value,
+      ...partialKiwiSaver,
     },
   },
 });
+
+const updateKiwiSaverDetails = (state, { key, value }) => {
+  const partialKiwiSaver = {
+    [key]: value,
+  };
+
+  return setKiwiSaverDetails(state, partialKiwiSaver);
+};
+
+const updateKiwiSaverEmployerContributionRate = (state, { value }) => {
+  const partialKiwiSaver = {
+    employerContributionRate: formatEmployerContributionRate(value),
+  };
+
+  return setKiwiSaverDetails(state, partialKiwiSaver);
+};
 
 export default {
   [UPDATE_TAX_DETAIL]: updateTaxDetails,
   [UPDATE_TAX_CODE]: updateTaxCode,
   [UPDATE_IRDNUMBER_ONBLUR]: updateIrdNumberOnBlur,
   [UPDATE_KIWISAVER_DETAIL]: updateKiwiSaverDetails,
+  [UPDATE_KIWISAVER_EMPLOYER_CONTRIBUTION_RATE]: updateKiwiSaverEmployerContributionRate,
 };

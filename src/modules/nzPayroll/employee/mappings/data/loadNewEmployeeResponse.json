@@ -54,7 +54,7 @@
     { "key": "CAE", "value": "CAE" }
   ],
   "kiwiSaverStatusOptions": [
-    { "key": 1, "value": "Active Member" }
+    { "key": 1, "value": "Active member" }
   ],
   "kiwiSaverEmployeeContributionOptions": [
     { "key": "3", "value": 3 },

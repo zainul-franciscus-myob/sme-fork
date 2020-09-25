@@ -10,9 +10,10 @@ describe('KiwiSaver', () => {
       employeeContributionRate: 2,
       employerContributionRate: 3,
     },
-    kiwiSaverStatusOptions: [{ key: 1, value: 'Active Member' }],
+    kiwiSaverStatusOptions: [{ key: 1, value: 'Active member' }],
     employeeContributionOptions: [{ key: '3', value: 3 }],
     onKiwiSaverInputChange: jest.fn(),
+    onEmployerContributionRateBlur: jest.fn(),
   };
   afterEach(jest.clearAllMocks);
   describe('KiwiSaver - Select Input field', () => {
@@ -25,7 +26,7 @@ describe('KiwiSaver', () => {
     it('should render kiwiSaverStatusSelect field with given props', () => {
       expect(kiwiSaverStatusSelect.props()).toMatchObject({
         value: props.kiwiSaver.kiwiSaverStatus,
-        label: 'KiwiSaver Status',
+        label: 'KiwiSaver status',
       });
     });
 
@@ -76,6 +77,17 @@ describe('KiwiSaver', () => {
       employerContributionRateInput.props().onChange({ target });
 
       expect(props.onKiwiSaverInputChange).toHaveBeenCalledWith(expected);
+    });
+
+    it('should call onKiwiSaverEmployerContributionRateBlur handler on blur with key and value for employerContributionRate', () => {
+      const target = { name: 'employerContributionRate', value: '3' };
+      const expected = { key: 'employerContributionRate', value: '3' };
+
+      employerContributionRateInput.props().onBlur({ target });
+
+      expect(props.onEmployerContributionRateBlur).toHaveBeenCalledWith(
+        expected
+      );
     });
   });
 });

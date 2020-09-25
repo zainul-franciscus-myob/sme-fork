@@ -1,6 +1,7 @@
 import {
   UPDATE_IRDNUMBER_ONBLUR,
   UPDATE_KIWISAVER_DETAIL,
+  UPDATE_KIWISAVER_EMPLOYER_CONTRIBUTION_RATE,
   UPDATE_TAX_CODE,
   UPDATE_TAX_DETAIL,
 } from '../TaxAndKiwiSaverIntents';
@@ -71,6 +72,23 @@ describe('Tax and KiwiSaver Reducer', () => {
     expect(employeeDetailNzReducer(state, action)).toMatchObject({
       isPageEdited: true,
       payrollDetails: { kiwiSaver: { kiwiSaverStatus: 2 } },
+    });
+  });
+
+  it('should format KiwiSaver employer contribution rate', () => {
+    const state = {
+      payrollDetails: { kiwiSaver: { employerContributionRate: 1 } },
+    };
+
+    const action = {
+      intent: UPDATE_KIWISAVER_EMPLOYER_CONTRIBUTION_RATE,
+      key: 'employerContributionRate',
+      value: '3',
+    };
+
+    expect(employeeDetailNzReducer(state, action)).toMatchObject({
+      isPageEdited: true,
+      payrollDetails: { kiwiSaver: { employerContributionRate: '3.00' } },
     });
   });
 });

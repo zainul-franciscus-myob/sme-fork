@@ -10,11 +10,12 @@ const KiwiSaver = ({
   kiwiSaverStatusOptions = [],
   employeeContributionOptions = [],
   onKiwiSaverInputChange,
+  onEmployerContributionRateBlur,
 }) => (
   <FieldGroup label="KiwiSaver">
     <Select
       name="kiwiSaverStatus"
-      label="KiwiSaver Status"
+      label="KiwiSaver status"
       width="sm"
       onChange={handleSelectChange(onKiwiSaverInputChange)}
       value={kiwiSaver.kiwiSaverStatus}
@@ -41,10 +42,11 @@ const KiwiSaver = ({
       label="Employer contribution rate (%)"
       width="sm"
       onChange={handleInputChange(onKiwiSaverInputChange)}
+      onBlur={handleInputChange(onEmployerContributionRateBlur)}
       numeralDecimalScaleMax={2}
       numeralIntegerScale={3}
       numeralPositiveOnly
-      textAlign="left"
+      textAlign="right"
       value={kiwiSaver.employerContributionRate}
     />
   </FieldGroup>

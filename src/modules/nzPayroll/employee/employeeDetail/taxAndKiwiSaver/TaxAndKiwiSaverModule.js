@@ -15,6 +15,9 @@ export default class TaxAndKiwiSaverModule {
         onIrdNumberOnBlur={this.dispatcher.updateIrdNumberOnBlur}
         onTaxCodeChange={this.dispatcher.updateTaxCode}
         onKiwiSaverChange={this.dispatcher.updateKiwiSaverDetails}
+        onKiwiSaverEmployerContributionRateOnBlur={
+          this.dispatcher.updateKiwiSaverEmployerContributionRate
+        }
       />
     );
   }

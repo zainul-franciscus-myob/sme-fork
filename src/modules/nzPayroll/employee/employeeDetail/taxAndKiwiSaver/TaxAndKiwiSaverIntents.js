@@ -3,3 +3,6 @@ export const UPDATE_IRDNUMBER_ONBLUR = Symbol('Update ird number on blur');
 export const UPDATE_TAX_DETAIL = Symbol('Update tax details');
 export const UPDATE_TAX_CODE = Symbol('Update tax code');
 export const UPDATE_KIWISAVER_DETAIL = Symbol('Update KiwiSaver details');
+export const UPDATE_KIWISAVER_EMPLOYER_CONTRIBUTION_RATE = Symbol(
+  'Update KiwiSaver employer contribution rate details'
+);

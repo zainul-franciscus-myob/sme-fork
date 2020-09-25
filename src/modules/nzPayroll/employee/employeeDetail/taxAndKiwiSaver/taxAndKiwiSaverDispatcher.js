@@ -1,6 +1,7 @@
 import {
   UPDATE_IRDNUMBER_ONBLUR,
   UPDATE_KIWISAVER_DETAIL,
+  UPDATE_KIWISAVER_EMPLOYER_CONTRIBUTION_RATE,
   UPDATE_TAX_CODE,
   UPDATE_TAX_DETAIL,
 } from './TaxAndKiwiSaverIntents';
@@ -26,6 +27,11 @@ const taxAndKiwiSaverDispatcher = (store) => ({
   updateKiwiSaverDetails: ({ key, value }) => {
     const intent = UPDATE_KIWISAVER_DETAIL;
     store.dispatch({ intent, key, value });
+  },
+
+  updateKiwiSaverEmployerContributionRate: ({ value }) => {
+    const intent = UPDATE_KIWISAVER_EMPLOYER_CONTRIBUTION_RATE;
+    store.dispatch({ intent, value });
   },
 });
 

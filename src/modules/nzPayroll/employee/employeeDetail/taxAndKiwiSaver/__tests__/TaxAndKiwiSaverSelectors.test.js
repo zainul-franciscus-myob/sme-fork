@@ -36,8 +36,8 @@ describe('TaxAndKiwiSaverSelectors', () => {
     expect(actual).toMatchObject(kiwiSaver);
   });
 
-  it('should get KiwiSaver Status options', () => {
-    const kiwiSaverStatusOptions = { key: 'active', value: 'Active Member' };
+  it('should get KiwiSaver status options', () => {
+    const kiwiSaverStatusOptions = { key: 'active', value: 'Active member' };
     const state = { kiwiSaverStatusOptions };
 
     const actual = getKiwiSaverStatusOptions(state);

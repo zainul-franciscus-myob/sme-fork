@@ -25,6 +25,7 @@ const TaxAndKiwiSaverTab = ({
   onTaxCodeChange,
   kiwiSaver,
   onKiwiSaverChange,
+  onKiwiSaverEmployerContributionRateOnBlur,
   employeeContributionOptions,
   kiwiSaverStatusOptions,
   esctRate,
@@ -45,6 +46,9 @@ const TaxAndKiwiSaverTab = ({
         kiwiSaverStatusOptions={kiwiSaverStatusOptions}
         employeeContributionOptions={employeeContributionOptions}
         onKiwiSaverInputChange={onKiwiSaverChange}
+        onEmployerContributionRateBlur={
+          onKiwiSaverEmployerContributionRateOnBlur
+        }
       />
       <EsctRate
         esctRate={esctRate}
