@@ -1,4 +1,4 @@
-import { Alert, Card, Icons, Table, Tooltip } from '@myob/myob-widgets';
+import { Alert, Button, Card, Icons, Table, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
 
 import EmployeeTierCombobox from './EmployeeTierCombobox';
@@ -53,6 +53,7 @@ const JobKeeperTable = ({
   finalFortnightOptions,
   isTableLoading,
   onEmployeeChange,
+  onOpenEmployeeBenefitReport,
 }) => {
   const header = (
     <Table.Header>
@@ -176,7 +177,23 @@ const JobKeeperTable = ({
 
   const cardBody = (
     <>
-      <h3>Confirm employees eligible for JobKeeper payment</h3>
+      <h3 testid="jobKeeperTableHeader">
+        Confirm employees eligible for JobKeeper payment
+        {featureToggles && featureToggles.isJobKeeperTierSuggestionEnabled && (
+          <div className={styles.tierReport}>
+            <Button
+              id="employee-benefit-report-btn"
+              testid="employee-benefit-report-btn"
+              onClick={onOpenEmployeeBenefitReport}
+              type="link"
+              icon={<Icons.GenericDocument />}
+              className={styles['jobkeeper-reporting-btn']}
+            >
+              View JobKeeper tier suggestions (PDF)
+            </Button>
+          </div>
+        )}
+      </h3>
       <p></p>
       <p testid="jobKeeperPaymentHeader">
         Only select the first JobKeeper fortnight for eligible employees and

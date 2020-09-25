@@ -162,257 +162,259 @@ describe('jobKeeperModule', () => {
   });
 
   describe('JobKeeper 2.0', () => {
-    it('show 12 items in month dropdown when JK2 feature toggle is on', () => {
-      const read = jest.fn();
-      const module = new JobKeeperModule({
-        integration: {
-          read,
-        },
-        pushMessage: () => {},
-        featureToggles: {
-          isJobKeeperReportingEnabled: true,
-          isJobKeeper2Enabled: true,
-        },
-      });
-      const { wrapper } = constructModule(module);
+    describe('with toggle isJobKeeper2Enabled', () => {
+      it('show 12 items in month dropdown when JK2 feature toggle is on', () => {
+        const read = jest.fn();
+        const module = new JobKeeperModule({
+          integration: {
+            read,
+          },
+          pushMessage: () => {},
+          featureToggles: {
+            isJobKeeperReportingEnabled: true,
+            isJobKeeper2Enabled: true,
+          },
+        });
+        const { wrapper } = constructModule(module);
 
-      const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
-      const options = panel.find('Select').find('Option');
+        const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
+        const options = panel.find('Select').find('Option');
 
-      expect(options.length).toBe(12);
-    });
-
-    it('show 6 items in month dropdown when JK2 feature toggle is off', () => {
-      const read = jest.fn();
-      const module = new JobKeeperModule({
-        integration: {
-          read,
-        },
-        pushMessage: () => {},
-        featureToggles: {
-          isJobKeeperReportingEnabled: true,
-          isJobKeeper2Enabled: false,
-        },
-      });
-      const { wrapper } = constructModule(module);
-
-      const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
-      const options = panel.find('Select').find('Option');
-
-      expect(options.length).toBe(6);
-    });
-
-    it('shows employee tier column when feature toggle on', () => {
-      const read = jest.fn();
-      const module = new JobKeeperModule({
-        integration: {
-          read,
-        },
-        pushMessage: () => {},
-        featureToggles: {
-          isJobKeeper2Enabled: true,
-        },
+        expect(options.length).toBe(12);
       });
 
-      const { wrapper } = constructModule(module);
-      const employeeTier = wrapper.find({ testId: 'test-employee-tier' });
+      it('show 6 items in month dropdown when JK2 feature toggle is off', () => {
+        const read = jest.fn();
+        const module = new JobKeeperModule({
+          integration: {
+            read,
+          },
+          pushMessage: () => {},
+          featureToggles: {
+            isJobKeeperReportingEnabled: true,
+            isJobKeeper2Enabled: false,
+          },
+        });
+        const { wrapper } = constructModule(module);
 
-      expect(employeeTier).toHaveLength(1);
-    });
+        const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
+        const options = panel.find('Select').find('Option');
 
-    it('hides employee tier column when feature toggle off', () => {
-      const read = jest.fn();
-      const module = new JobKeeperModule({
-        integration: {
-          read,
-        },
-        pushMessage: () => {},
-        featureToggles: {
-          isJobKeeper2Enabled: false,
-        },
+        expect(options.length).toBe(6);
       });
 
-      const { wrapper } = constructModule(module);
-      const employeeTier = wrapper.find({ testId: 'test-employee-tier' });
+      it('shows employee tier column when feature toggle on', () => {
+        const read = jest.fn();
+        const module = new JobKeeperModule({
+          integration: {
+            read,
+          },
+          pushMessage: () => {},
+          featureToggles: {
+            isJobKeeper2Enabled: true,
+          },
+        });
 
-      expect(employeeTier).toHaveLength(0);
-    });
+        const { wrapper } = constructModule(module);
+        const employeeTier = wrapper.find({ testId: 'test-employee-tier' });
 
-    it('shows tooltips when feature toggle on', () => {
-      const read = jest.fn();
-      const module = new JobKeeperModule({
-        integration: {
-          read,
-        },
-        pushMessage: () => {},
-        featureToggles: {
-          isJobKeeper2Enabled: true,
-        },
+        expect(employeeTier).toHaveLength(1);
       });
 
-      const { wrapper } = constructModule(module);
-      const firstFortnight = wrapper.find({
-        testId: 'test-firstFortnight-tooltip',
-      });
-      const finalFortnight = wrapper.find({
-        testId: 'test-finalFortnight-tooltip',
-      });
+      it('hides employee tier column when feature toggle off', () => {
+        const read = jest.fn();
+        const module = new JobKeeperModule({
+          integration: {
+            read,
+          },
+          pushMessage: () => {},
+          featureToggles: {
+            isJobKeeper2Enabled: false,
+          },
+        });
 
-      expect(firstFortnight).toHaveLength(1);
-      expect(finalFortnight).toHaveLength(1);
-    });
+        const { wrapper } = constructModule(module);
+        const employeeTier = wrapper.find({ testId: 'test-employee-tier' });
 
-    it('hides tooltips when feature toggle off', () => {
-      const read = jest.fn();
-      const module = new JobKeeperModule({
-        integration: {
-          read,
-        },
-        pushMessage: () => {},
-        featureToggles: {
-          isJobKeeper2Enabled: false,
-        },
+        expect(employeeTier).toHaveLength(0);
       });
 
-      const { wrapper } = constructModule(module);
-      const firstFortnight = wrapper.find({
-        testId: 'test-firstFortnight-tooltip',
-      });
-      const finalFortnight = wrapper.find({
-        testId: 'test-finalFortnight-tooltip',
-      });
+      it('shows tooltips when feature toggle on', () => {
+        const read = jest.fn();
+        const module = new JobKeeperModule({
+          integration: {
+            read,
+          },
+          pushMessage: () => {},
+          featureToggles: {
+            isJobKeeper2Enabled: true,
+          },
+        });
 
-      expect(firstFortnight).toHaveLength(0);
-      expect(finalFortnight).toHaveLength(0);
-    });
+        const { wrapper } = constructModule(module);
+        const firstFortnight = wrapper.find({
+          testId: 'test-firstFortnight-tooltip',
+        });
+        const finalFortnight = wrapper.find({
+          testId: 'test-finalFortnight-tooltip',
+        });
 
-    it('shows new alert and hides old info when feature toggle on', () => {
-      const read = jest.fn();
-      const module = new JobKeeperModule({
-        integration: {
-          read,
-        },
-        pushMessage: () => {},
-        featureToggles: {
-          isJobKeeper2Enabled: true,
-        },
-      });
-
-      const { wrapper } = constructModule(module);
-      const newAlert = wrapper.find({
-        testId: 'test-new-JK-warning',
-      });
-      const oldInfo = wrapper.find({
-        testId: 'test-old-JK-info',
+        expect(firstFortnight).toHaveLength(1);
+        expect(finalFortnight).toHaveLength(1);
       });
 
-      expect(newAlert).toHaveLength(1);
-      expect(oldInfo).toHaveLength(0);
-    });
+      it('hides tooltips when feature toggle off', () => {
+        const read = jest.fn();
+        const module = new JobKeeperModule({
+          integration: {
+            read,
+          },
+          pushMessage: () => {},
+          featureToggles: {
+            isJobKeeper2Enabled: false,
+          },
+        });
 
-    it('hides new alert and shows old info when feature toggle off', () => {
-      const read = jest.fn();
-      const module = new JobKeeperModule({
-        integration: {
-          read,
-        },
-        pushMessage: () => {},
-        featureToggles: {
-          isJobKeeper2Enabled: false,
-        },
+        const { wrapper } = constructModule(module);
+        const firstFortnight = wrapper.find({
+          testId: 'test-firstFortnight-tooltip',
+        });
+        const finalFortnight = wrapper.find({
+          testId: 'test-finalFortnight-tooltip',
+        });
+
+        expect(firstFortnight).toHaveLength(0);
+        expect(finalFortnight).toHaveLength(0);
       });
 
-      const { wrapper } = constructModule(module);
-      const newAlert = wrapper.find({
-        testId: 'test-new-JK-warning',
-      });
-      const oldInfo = wrapper.find({
-        testId: 'test-old-JK-info',
-      });
+      it('shows new alert and hides old info when feature toggle on', () => {
+        const read = jest.fn();
+        const module = new JobKeeperModule({
+          integration: {
+            read,
+          },
+          pushMessage: () => {},
+          featureToggles: {
+            isJobKeeper2Enabled: true,
+          },
+        });
 
-      expect(newAlert).toHaveLength(0);
-      expect(oldInfo).toHaveLength(1);
-    });
+        const { wrapper } = constructModule(module);
+        const newAlert = wrapper.find({
+          testId: 'test-new-JK-warning',
+        });
+        const oldInfo = wrapper.find({
+          testId: 'test-old-JK-info',
+        });
 
-    it('able to dismiss initial warning', () => {
-      const read = jest.fn();
-      const module = new JobKeeperModule({
-        integration: {
-          read,
-          readFile: read,
-        },
-        pushMessage: () => {},
-        featureToggles: {
-          isJobKeeper2Enabled: true,
-        },
-      });
-
-      module.dismissInitWarning();
-
-      const { wrapper } = constructModule(module);
-      const newAlert = wrapper.find({
-        testId: 'test-new-JK-warning',
-      });
-      const oldInfo = wrapper.find({
-        testId: 'test-old-JK-info',
+        expect(newAlert).toHaveLength(1);
+        expect(oldInfo).toHaveLength(0);
       });
 
-      expect(newAlert).toHaveLength(0);
-      expect(oldInfo).toHaveLength(0);
-    });
+      it('hides new alert and shows old info when feature toggle off', () => {
+        const read = jest.fn();
+        const module = new JobKeeperModule({
+          integration: {
+            read,
+          },
+          pushMessage: () => {},
+          featureToggles: {
+            isJobKeeper2Enabled: false,
+          },
+        });
 
-    it('shows fixed current payroll year when feature toggle on', () => {
-      const read = jest.fn();
-      const module = new JobKeeperModule({
-        integration: {
-          read,
-        },
-        pushMessage: () => {},
-        featureToggles: {
-          isJobKeeper2Enabled: true,
-        },
+        const { wrapper } = constructModule(module);
+        const newAlert = wrapper.find({
+          testId: 'test-new-JK-warning',
+        });
+        const oldInfo = wrapper.find({
+          testId: 'test-old-JK-info',
+        });
+
+        expect(newAlert).toHaveLength(0);
+        expect(oldInfo).toHaveLength(1);
       });
 
-      const { wrapper } = constructModule(module);
-      const newPayrollYear = wrapper.find({
-        testId: 'JK2-payroll-year-current-fixed',
-      });
-      const oldPayrollYear = wrapper.find({
-        testId: 'JK1-payroll-year-selector',
+      it('able to dismiss initial warning', () => {
+        const read = jest.fn();
+        const module = new JobKeeperModule({
+          integration: {
+            read,
+            readFile: read,
+          },
+          pushMessage: () => {},
+          featureToggles: {
+            isJobKeeper2Enabled: true,
+          },
+        });
+
+        module.dismissInitWarning();
+
+        const { wrapper } = constructModule(module);
+        const newAlert = wrapper.find({
+          testId: 'test-new-JK-warning',
+        });
+        const oldInfo = wrapper.find({
+          testId: 'test-old-JK-info',
+        });
+
+        expect(newAlert).toHaveLength(0);
+        expect(oldInfo).toHaveLength(0);
       });
 
-      expect(newPayrollYear).toHaveLength(1);
-      expect(oldPayrollYear).toHaveLength(0);
-    });
+      it('shows fixed current payroll year when feature toggle on', () => {
+        const read = jest.fn();
+        const module = new JobKeeperModule({
+          integration: {
+            read,
+          },
+          pushMessage: () => {},
+          featureToggles: {
+            isJobKeeper2Enabled: true,
+          },
+        });
 
-    it('shows payroll year selectors when feature toggle off', () => {
-      const read = jest.fn();
-      const module = new JobKeeperModule({
-        integration: {
-          read,
-        },
-        pushMessage: () => {},
-        featureToggles: {
-          isJobKeeper2Enabled: false,
-        },
-      });
-
-      const { wrapper } = constructModule(module);
-      const newPayrollYear = wrapper.find({
-        testId: 'JK2-payroll-year-current-fixed',
-      });
-      const oldPayrollYear = wrapper
-        .find({
+        const { wrapper } = constructModule(module);
+        const newPayrollYear = wrapper.find({
+          testId: 'JK2-payroll-year-current-fixed',
+        });
+        const oldPayrollYear = wrapper.find({
           testId: 'JK1-payroll-year-selector',
-        })
-        .first();
+        });
 
-      expect(newPayrollYear).toHaveLength(0);
-      expect(oldPayrollYear).toHaveLength(1);
+        expect(newPayrollYear).toHaveLength(1);
+        expect(oldPayrollYear).toHaveLength(0);
+      });
+
+      it('shows payroll year selectors when feature toggle off', () => {
+        const read = jest.fn();
+        const module = new JobKeeperModule({
+          integration: {
+            read,
+          },
+          pushMessage: () => {},
+          featureToggles: {
+            isJobKeeper2Enabled: false,
+          },
+        });
+
+        const { wrapper } = constructModule(module);
+        const newPayrollYear = wrapper.find({
+          testId: 'JK2-payroll-year-current-fixed',
+        });
+        const oldPayrollYear = wrapper
+          .find({
+            testId: 'JK1-payroll-year-selector',
+          })
+          .first();
+
+        expect(newPayrollYear).toHaveLength(0);
+        expect(oldPayrollYear).toHaveLength(1);
+      });
     });
 
-    describe('Employee tier Report', () => {
-      it('should render employee benefit report button when feature toggle jobkeeper 2.0 is enabled', () => {
+    describe('with toggle isJobKeeperTierSuggestionEnabled', () => {
+      it('should render employee tier report button when feature toggle jobkeeper 2.0 is enabled', () => {
         const read = jest.fn();
         const module = new JobKeeperModule({
           integration: {
@@ -427,14 +429,14 @@ describe('jobKeeperModule', () => {
         });
         const { wrapper } = constructModule(module);
 
-        const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
+        const panel = wrapper.find({ testid: 'jobKeeperTableHeader' });
         expect(
           panel.find({ testid: 'employee-benefit-report-btn' }).find('Button')
             .length
         ).toBe(1);
       });
 
-      it('should not render employee benefit report button when feature toggle jobkeeper 2.0 is disabled', () => {
+      it('should not render employee tier report button when feature toggle jobkeeper 2.0 is disabled', () => {
         const read = jest.fn();
         const module = new JobKeeperModule({
           integration: {
@@ -449,14 +451,14 @@ describe('jobKeeperModule', () => {
         });
         const { wrapper } = constructModule(module);
 
-        const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
+        const panel = wrapper.find({ testid: 'jobKeeperTableHeader' });
         expect(
           panel.find({ testid: 'employee-benefit-report-btn' }).find('Button')
             .length
         ).toBe(0);
       });
 
-      it('calls the open employee benefit report function when open report is clicked', () => {
+      it('calls the open employee tier report function when open report is clicked', () => {
         const module = new JobKeeperModule({
           integration: {
             read: jest.fn(),

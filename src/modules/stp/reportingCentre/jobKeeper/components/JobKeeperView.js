@@ -61,6 +61,7 @@ const JobKeeperView = ({
         activeSort={activeSort}
         onEmployeeChange={onEmployeeChange}
         onOpenJobKeeperReport={onOpenJobKeeperReport}
+        onOpenEmployeeBenefitReport={onOpenEmployeeBenefitReport}
       />
     ) : (
       <JobKeeperTable
@@ -74,6 +75,7 @@ const JobKeeperView = ({
         activeSort={activeSort}
         onEmployeeChange={onEmployeeChange}
         onOpenJobKeeperReport={onOpenJobKeeperReport}
+        onOpenEmployeeBenefitReport={onOpenEmployeeBenefitReport}
       />
     );
   // don't let user submit when user select JK2 fortnight and don't
@@ -127,7 +129,6 @@ const JobKeeperView = ({
         onPayrollYearChange={onPayrollYearChange}
         onOpenJobKeeperReport={onOpenJobKeeperReport}
         featureToggles={featureToggles}
-        onOpenEmployeeBenefitReport={onOpenEmployeeBenefitReport}
       />
       {jobKeeperTable}
       {actions}

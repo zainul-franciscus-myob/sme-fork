@@ -12,7 +12,6 @@ const JobKeeperFilter = ({
   onPayrollYearChange,
   onOpenJobKeeperReport,
   featureToggles,
-  onOpenEmployeeBenefitReport,
 }) => {
   const payrollYearChangeHandler = ({ value }) => {
     onPayrollYearChange(value);
@@ -48,7 +47,6 @@ const JobKeeperFilter = ({
           <JobKeeperReporting
             onOpenJobKeeperReport={onOpenJobKeeperReport}
             featureToggles={featureToggles}
-            onOpenEmployeeBenefitReport={onOpenEmployeeBenefitReport}
           />
         </>
       ) : null}

@@ -14,11 +14,7 @@ class JobKeeperReporting extends React.Component {
 
   render() {
     const {
-      props: {
-        onOpenJobKeeperReport,
-        featureToggles,
-        onOpenEmployeeBenefitReport,
-      },
+      props: { onOpenJobKeeperReport, featureToggles },
       state: { selectedMonth },
     } = this;
 
@@ -84,18 +80,6 @@ class JobKeeperReporting extends React.Component {
         >
           View JobKeeper summary (PDF)
         </Button>
-        {featureToggles && featureToggles.isJobKeeperTierSuggestionEnabled && (
-          <Button
-            id="employee-benefit-report-btn"
-            testid="employee-benefit-report-btn"
-            onClick={onOpenEmployeeBenefitReport}
-            type="link"
-            icon={<Icons.GenericDocument />}
-            className={styles['jobkeeper-reporting-btn']}
-          >
-            View JobKeeper tier suggestions (PDF)
-          </Button>
-        )}
       </div>
     );
   }
