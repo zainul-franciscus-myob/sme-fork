@@ -45,6 +45,7 @@ const RuleDetailsSection = ({
       onChange={handleSelectChange(onDetailsChange)}
       requiredLabel="This is required"
       className={styles.ruleType}
+      autoFocus="true"
     >
       {ruleTypes.map(({ name, value }) => (
         <Select.Option key={value} value={value} label={name} />
