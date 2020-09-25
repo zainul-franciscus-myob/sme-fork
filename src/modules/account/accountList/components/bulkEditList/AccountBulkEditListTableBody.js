@@ -52,6 +52,14 @@ const onAmountChange = (handler, index) => ({ target }) => {
   handler({ key: name, value: rawValue, index });
 };
 
+// The auto formatting only happens onBlur so we need to update
+// the state after it has format it to store the value
+const handleOnBlur = (handler, index, onBlur) => ({ target }) => {
+  const { name, rawValue } = target;
+  handler({ key: name, value: rawValue, index });
+  onBlur();
+};
+
 const EditableAccountRowItem = ({ config, onChange, onBlur, index, value }) => (
   <Table.RowItem columnName={config.columnName} {...config.styles}>
     <AmountInput
@@ -61,7 +69,7 @@ const EditableAccountRowItem = ({ config, onChange, onBlur, index, value }) => (
       name={`${config.fieldName}`}
       value={value}
       onChange={onAmountChange(onChange, index)}
-      onBlur={onBlur}
+      onBlur={handleOnBlur(onChange, index, onBlur)}
       numeralDecimalScaleMax={2}
       numeralDecimalScaleMin={2}
       numeralIntegerScale={13}
