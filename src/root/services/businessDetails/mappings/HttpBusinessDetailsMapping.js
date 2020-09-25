@@ -12,7 +12,7 @@ const HttpBusinessMapping = {
   [UPDATE_GLOBAL_BUSINESS_DETAILS]: {
     method: 'PUT',
     getPath: ({ businessId }) =>
-      `/${businessId}/business/update_business_settings`,
+      `/${businessId}/business/update_business_details`,
   },
 };
 

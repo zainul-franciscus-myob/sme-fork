@@ -12,7 +12,7 @@ const HttpInvoiceBusinessMapping = {
   [UPDATE_BUSINESS_DETAIL]: {
     method: 'PUT',
     getPath: ({ businessId }) =>
-      `/${businessId}/business/update_business_settings`,
+      `/${businessId}/business/update_business_details`,
   },
 };
 
