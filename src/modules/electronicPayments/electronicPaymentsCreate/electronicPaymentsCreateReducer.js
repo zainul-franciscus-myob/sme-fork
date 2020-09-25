@@ -53,7 +53,7 @@ const getEnabledValues = (featureTogglesConfig) => {
   }
 
   if (featureTogglesConfig.isElectronicPaymentEnabled) {
-    values = ['PayBills', ...values];
+    values = ['All', 'PayBills', ...values];
   }
 
   return values;
@@ -63,6 +63,10 @@ const paymentTypeMappings = (featureTogglesConfig) => {
   const enabledValues = getEnabledValues(featureTogglesConfig);
 
   return [
+    {
+      name: 'All',
+      value: 'All',
+    },
     {
       name: 'Pay Bills',
       value: 'PayBills',
@@ -128,7 +132,10 @@ const updateFilterOptions = (state, { key, value }) => ({
 
 const resetFilterOptions = (state) => ({
   ...state,
-  filterOptions: getDefaultState().filterOptions,
+  filterOptions: {
+    ...getDefaultState().filterOptions,
+    paymentType: state.paymentTypes[0].value,
+  },
 });
 
 const updateSelectedAccountId = (state, action) => ({

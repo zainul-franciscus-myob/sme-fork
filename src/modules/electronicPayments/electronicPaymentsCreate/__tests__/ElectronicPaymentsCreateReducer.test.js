@@ -24,6 +24,7 @@ describe('ElectronicPaymentsCreateReducer', () => {
     it.each([
       [
         [
+          { name: 'All', value: 'All' },
           { name: 'Pay Bills', value: 'PayBills' },
           { name: 'Pay Employees', value: 'PayEmployees' },
           { name: 'Spend Money', value: 'SpendMoney' },
@@ -33,6 +34,7 @@ describe('ElectronicPaymentsCreateReducer', () => {
       ],
       [
         [
+          { name: 'All', value: 'All' },
           { name: 'Pay Bills', value: 'PayBills' },
           { name: 'Pay Employees', value: 'PayEmployees' },
         ],
@@ -99,9 +101,13 @@ describe('ElectronicPaymentsCreateReducer', () => {
         isSpendMoneyEnabled: true,
         paymentType: 'Invalid',
         filterOptions: {
-          paymentType: 'PayBills',
+          paymentType: 'All',
         },
         paymentTypes: [
+          {
+            name: 'All',
+            value: 'All',
+          },
           {
             name: 'Pay Bills',
             value: 'PayBills',
