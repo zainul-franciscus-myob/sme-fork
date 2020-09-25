@@ -15,6 +15,7 @@ import {
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
   SET_REDIRECT_URL,
+  SET_REMAINING_HISTORICAL_BALANCE,
   SORT_AND_FILTER_ACCOUNT_LIST,
 } from '../AccountIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -38,6 +39,15 @@ const getDefaultState = () => ({
   modalType: '',
   redirectUrl: '',
   openingBalanceDate: '',
+  remainingHistoricalBalance: 0,
+  ignoredLinkedAccounts: {
+    equityAccountCurrentEarnings: {
+      accountId: '',
+    },
+    equityHistoricalBalancing: {
+      accountId: '',
+    },
+  },
 });
 
 const setInitialState = (state, { context, settings }) => ({
@@ -77,6 +87,9 @@ const loadAccountList = (state, action) => ({
   })),
   hasFlexibleAccountNumbers: action.hasFlexibleAccountNumbers,
   openingBalanceDate: action.openingBalanceDate,
+  ignoredLinkedAccounts: {
+    ...action.linkedAccounts,
+  },
 });
 
 const sortAndFilterAccountList = (state, action) => {
@@ -166,6 +179,14 @@ const setRedirectUrl = (state, { redirectUrl }) => ({
   redirectUrl,
 });
 
+const setRemainingHistoricalBalance = (
+  state,
+  { remainingHistoricalBalance }
+) => ({
+  ...state,
+  remainingHistoricalBalance,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -189,6 +210,8 @@ const handlers = {
 
   [SET_MODAL_TYPE]: setModalType,
   [SET_REDIRECT_URL]: setRedirectUrl,
+
+  [SET_REMAINING_HISTORICAL_BALANCE]: setRemainingHistoricalBalance,
 };
 
 const accountListReducer = createReducer(getDefaultState(), handlers);

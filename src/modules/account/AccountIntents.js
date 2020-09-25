@@ -52,3 +52,7 @@ export const SET_EDIT_MODE = Symbol('Set edit mode');
 export const SET_ACCOUNT_DETAILS = Symbol('Set account details');
 
 export const SET_REDIRECT_URL = Symbol('Set redirect url');
+
+export const SET_REMAINING_HISTORICAL_BALANCE = Symbol(
+  'Set Remaining Historical Balance'
+);

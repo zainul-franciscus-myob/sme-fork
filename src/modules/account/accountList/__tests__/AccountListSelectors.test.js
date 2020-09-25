@@ -1,12 +1,37 @@
 import {
   getAccountsForBulkDelete,
   getAccountsForBulkUpdate,
+  getAccountsForCalcHistoricalBalance,
   getImportChartOfAccountsUrl,
   getTableEntries,
 } from '../AccountListSelectors';
 
 describe('AccountListSelectors', () => {
   describe('getTableEntries', () => {
+    it('should return accounts for calculating historical balance', () => {
+      const state = {
+        entries: [
+          { id: 'id-1', isHeader: true },
+          { id: 'id-2', isHeader: false },
+          { id: 'id-3', isHeader: false },
+          { id: 'id-4', isHeader: false },
+        ],
+        ignoredLinkedAccounts: {
+          equityAccountCurrentEarnings: {
+            accountId: 'id-3',
+          },
+          equityHistoricalBalancing: {
+            accountId: 'id-4',
+          },
+        },
+      };
+      const expected = [{ id: 'id-2', isHeader: false }];
+
+      const actual = getAccountsForCalcHistoricalBalance(state);
+
+      expect(actual).toEqual(expected);
+    });
+
     it('should return table entries for the view', () => {
       const entries = [
         { id: 'id-1', level: 1 },

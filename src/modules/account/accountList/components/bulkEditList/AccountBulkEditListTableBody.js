@@ -52,7 +52,7 @@ const onAmountChange = (handler, index) => ({ target }) => {
   handler({ key: name, value: rawValue, index });
 };
 
-const EditableAccountRowItem = ({ config, onChange, index, value }) => (
+const EditableAccountRowItem = ({ config, onChange, onBlur, index, value }) => (
   <Table.RowItem columnName={config.columnName} {...config.styles}>
     <AmountInput
       textAlign="right"
@@ -61,7 +61,7 @@ const EditableAccountRowItem = ({ config, onChange, index, value }) => (
       name={`${config.fieldName}`}
       value={value}
       onChange={onAmountChange(onChange, index)}
-      onBlur={onAmountChange(onChange, index)}
+      onBlur={onBlur}
       numeralDecimalScaleMax={2}
       numeralDecimalScaleMin={2}
       numeralIntegerScale={13}
@@ -73,6 +73,7 @@ const AccountBulkEditListTableBody = ({
   tableConfig,
   entries,
   onAccountDetailsChange,
+  calculateRemainingHistoricalBalance,
 }) => {
   const rows = entries.map((entry, index) => {
     const {
@@ -133,6 +134,7 @@ const AccountBulkEditListTableBody = ({
             onChange={({ key, value }) =>
               onAccountDetailsChange({ index, key, value })
             }
+            onBlur={calculateRemainingHistoricalBalance}
           />
         )}
         <AccountRowItem

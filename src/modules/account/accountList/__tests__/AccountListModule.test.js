@@ -225,6 +225,105 @@ describe('AccountListModule', () => {
     });
   });
 
+  describe('calculate historical balance', () => {
+    it('calculates 0 when no account exists', () => {
+      const { module, store } = setupWithRun();
+
+      module.fetchAllAccounts();
+      module.calculateRemainingHistoricalBalance();
+
+      expect(store.getState().remainingHistoricalBalance).toBe(0);
+    });
+
+    it('adds opening balance of Asset accounts into historical balance', () => {
+      const { module, store } = setupWithRun();
+
+      module.fetchAllAccounts();
+
+      store.getState().entries[2].openingBalance = '10';
+      module.calculateRemainingHistoricalBalance();
+
+      expect(store.getState().remainingHistoricalBalance).toBe(10);
+    });
+
+    it('adds opening balance of Cost of sales accounts into historical balance', () => {
+      const { module, store } = setupWithRun();
+
+      module.fetchAllAccounts();
+
+      store.getState().entries[14].openingBalance = '10';
+      module.calculateRemainingHistoricalBalance();
+
+      expect(store.getState().remainingHistoricalBalance).toBe(10);
+    });
+
+    it('adds opening balance of Expense accounts into historical balance', () => {
+      const { module, store } = setupWithRun();
+
+      module.fetchAllAccounts();
+
+      store.getState().entries[15].openingBalance = '10';
+      module.calculateRemainingHistoricalBalance();
+
+      expect(store.getState().remainingHistoricalBalance).toBe(10);
+    });
+
+    it('adds opening balance of Other expense accounts into historical balance', () => {
+      const { module, store } = setupWithRun();
+
+      module.fetchAllAccounts();
+
+      store.getState().entries[16].openingBalance = '10';
+      module.calculateRemainingHistoricalBalance();
+
+      expect(store.getState().remainingHistoricalBalance).toBe(10);
+    });
+
+    it('subtracts opening balance of unknown accounts from historical balance', () => {
+      const { module, store } = setupWithRun();
+
+      module.fetchAllAccounts();
+
+      store.getState().entries[7].openingBalance = '10';
+      module.calculateRemainingHistoricalBalance();
+
+      expect(store.getState().remainingHistoricalBalance).toBe(-10);
+    });
+
+    it('subtracts opening balance of other types of accounts (e.g. liability) from historical balance', () => {
+      const { module, store } = setupWithRun();
+
+      module.fetchAllAccounts();
+
+      store.getState().entries[11].openingBalance = '10';
+      module.calculateRemainingHistoricalBalance();
+
+      expect(store.getState().remainingHistoricalBalance).toBe(-10);
+    });
+
+    it('does not include current year earnings in calculating historical balance', () => {
+      const { module, store } = setupWithRun();
+
+      module.fetchAllAccounts();
+
+      store.getState().entries[17].openingBalance = '10';
+      module.calculateRemainingHistoricalBalance();
+
+      expect(store.getState().remainingHistoricalBalance).toBe(0);
+    });
+
+    it('does not include existing historical balance in calculating historical balance', () => {
+      const { module, store } = setupWithRun();
+
+      module.fetchAllAccounts();
+
+      store.getState().entries[18].openingBalance = '10';
+      module.calculateRemainingHistoricalBalance();
+
+      expect(store.getState().remainingHistoricalBalance).toBe(0);
+    });
+  });
+
   describe('updateFilterOptions', () => {
     it('successfully filters', () => {
       const { module, store, integration } = setupWithRun();

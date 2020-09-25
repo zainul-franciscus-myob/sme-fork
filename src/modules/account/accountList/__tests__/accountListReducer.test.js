@@ -7,6 +7,7 @@ import {
   SET_ACCOUNT_DETAILS,
   SET_ALERT,
   SET_EDIT_MODE,
+  SET_REMAINING_HISTORICAL_BALANCE,
   SORT_AND_FILTER_ACCOUNT_LIST,
 } from '../../AccountIntents';
 import accountListReducer from '../accountListReducer';
@@ -21,6 +22,14 @@ describe('accountListReducer', () => {
         entries: [{ id: 1 }, { id: 2 }],
         hasFlexibleAccountNumbers: true,
         openingBalanceDate: '11/11/2020',
+        linkedAccounts: {
+          equityAccountCurrentEarnings: {
+            accountId: '1',
+          },
+          equityHistoricalBalancing: {
+            accountId: '2',
+          },
+        },
       };
       const actual = reducer({}, action);
       const expected = {
@@ -30,6 +39,14 @@ describe('accountListReducer', () => {
         ],
         hasFlexibleAccountNumbers: true,
         openingBalanceDate: '11/11/2020',
+        ignoredLinkedAccounts: {
+          equityAccountCurrentEarnings: {
+            accountId: '1',
+          },
+          equityHistoricalBalancing: {
+            accountId: '2',
+          },
+        },
       };
       expect(actual).toEqual(expected);
     });
@@ -192,6 +209,20 @@ describe('BULK_UPDATE_ACCOUNTS', () => {
     const actual = reducer(state, action);
 
     expect(actual.editingMode).toEqual(false);
+  });
+
+  it('set remaining historical balance', () => {
+    const state = {
+      remainingHistoricalBalance: 0,
+    };
+    const action = {
+      intent: SET_REMAINING_HISTORICAL_BALANCE,
+      remainingHistoricalBalance: 10,
+    };
+
+    const actual = reducer(state, action);
+
+    expect(actual.remainingHistoricalBalance).toEqual(10);
   });
 
   it('updates opening balance and marks entry as dirty', () => {

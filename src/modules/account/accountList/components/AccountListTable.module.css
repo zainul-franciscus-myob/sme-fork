@@ -40,6 +40,19 @@
   padding-top: 1rem;
 }
 
+.tooltip {
+  padding-left: 10px;
+  margin-top: -4px;
+}
+
+.remainingBalance {
+  margin-left: 2px !important;
+}
+
+.remainingBalance > div {
+  color: var(--flx-color-alert-error-link);
+}
+
 .bulkUpdateHeaderRow {
   line-height: 31px;
 }
@@ -71,6 +84,10 @@
   .deleteBar {
     border-bottom: 0;
     padding-bottom: 0;
+  }
+
+  .tooltip {
+    padding-left: 0px;
   }
 }
 

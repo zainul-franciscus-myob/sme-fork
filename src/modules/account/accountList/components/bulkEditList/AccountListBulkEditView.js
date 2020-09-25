@@ -1,14 +1,23 @@
-import { Button, ButtonRow, PageHead } from '@myob/myob-widgets';
+import {
+  Alert,
+  Button,
+  ButtonRow,
+  PageHead,
+  Tooltip,
+  TotalsHeader,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getAlert,
   getDirtyEntries,
   getLoadingState,
   getModalType,
   getOpeningBalanceDate,
   getRawEntries,
   getRedirectUrl,
+  getRemainingHistoricalBalance,
   getTableTaxCodeHeader,
 } from '../../AccountListSelectors';
 import AccountBulkEditListTableBody from './AccountBulkEditListTableBody';
@@ -19,9 +28,13 @@ import CancelModal from '../../../../../components/modal/CancelModal';
 import PageView from '../../../../../components/PageView/PageView';
 import StandardTemplate from '../../../../../components/Feelix/StandardTemplate/StandardTemplate';
 import UnsavedModal from '../../../../../components/modal/UnsavedModal';
+import formatCurrency from '../../../../../common/valueFormatters/formatCurrency';
 import styles from '../AccountListTable.module.css';
+import uuid from '../../../../../common/uuid/uuid';
 
 const AccountListBulkEditView = ({
+  alert,
+  onDismissAlert,
   loadingState,
   onAccountDetailsChange,
   taxCodeHeader,
@@ -29,14 +42,28 @@ const AccountListBulkEditView = ({
   openingBalanceDate,
   modalType,
   redirectUrl,
+  remainingHistoricalBalance,
   onBulkUpdateCancelClick,
   onBulkUpdateSaveClick,
   onBulkUpdateDiscardClick,
   onBulkUpdateModalCancelClick,
+  calculateRemainingHistoricalBalance,
 }) => {
+  const alertComponents =
+    alert &&
+    alert.map((a, i) => (
+      <Alert
+        type={a.type}
+        key={uuid()}
+        dismissAfter={a.type === 'success' && 8000}
+        onDismiss={() => onDismissAlert(i)}
+      >
+        {a.message}
+      </Alert>
+    ));
+
   const pageHead = (
     <PageHead title="Edit Accounts">
-      <span>Opening Balance Date {openingBalanceDate}</span>
       <ButtonRow className={styles.bulkUpdateButtonRow}>
         <Button type="secondary" onClick={onBulkUpdateCancelClick}>
           Cancel
@@ -79,6 +106,7 @@ const AccountListBulkEditView = ({
     <AccountBulkEditListTableBody
       tableConfig={tableConfig}
       onAccountDetailsChange={onAccountDetailsChange}
+      calculateRemainingHistoricalBalance={calculateRemainingHistoricalBalance}
     />
   );
 
@@ -100,9 +128,33 @@ const AccountListBulkEditView = ({
     );
   }
 
+  const totalItems = [
+    <TotalsHeader.TotalItem
+      key="openingBalanceDate"
+      label="Opening Balance Date"
+      count={openingBalanceDate}
+    />,
+    <Tooltip key="tooltip" className={styles.tooltip}>
+      This will be the opening balance of your Historical Balancing account
+    </Tooltip>,
+    <TotalsHeader.TotalItem
+      className={styles.remainingBalance}
+      key="remainingAllocation"
+      label="Remaining Balance"
+      count={formatCurrency(remainingHistoricalBalance)}
+    />,
+  ];
+
+  const subHeadChildren = <TotalsHeader totalItems={totalItems} />;
+
   const accountView = (
     <React.Fragment>
-      <StandardTemplate pageHead={pageHead} tableHeader={tableHeader}>
+      <StandardTemplate
+        alert={alertComponents}
+        pageHead={pageHead}
+        tableHeader={tableHeader}
+        subHeadChildren={subHeadChildren}
+      >
         {modal}
         <AccountListTable tableBody={tableBody} />
       </StandardTemplate>
@@ -113,6 +165,7 @@ const AccountListBulkEditView = ({
 };
 
 const mapStateToProps = (state) => ({
+  alert: getAlert(state),
   loadingState: getLoadingState(state),
   entries: getRawEntries(state),
   taxCodeHeader: getTableTaxCodeHeader(state),
@@ -120,6 +173,7 @@ const mapStateToProps = (state) => ({
   saveBtnEnabled: getDirtyEntries(state).length > 0,
   modalType: getModalType(state),
   redirectUrl: getRedirectUrl(state),
+  remainingHistoricalBalance: getRemainingHistoricalBalance(state),
 });
 
 export default connect(mapStateToProps)(AccountListBulkEditView);

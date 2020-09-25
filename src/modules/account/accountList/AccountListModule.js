@@ -7,6 +7,7 @@ import {
   SUCCESSFULLY_SAVED_ACCOUNT,
 } from '../../../common/types/MessageTypes';
 import {
+  getAccountsForCalcHistoricalBalance,
   getDirtyEntries,
   getFilterOptions,
   getImportChartOfAccountsUrl,
@@ -21,6 +22,7 @@ import LoadingState from '../../../components/PageView/LoadingState';
 import RouteName from '../../../router/RouteName';
 import Store from '../../../store/Store';
 import accountListReducer from './accountListReducer';
+import accountTypes from './accountTypes';
 import createAccountListDispatcher from './createAccountListDispatcher';
 import createAccountListIntegrator from './createAccountListIntegrator';
 import debounce from '../../../common/debounce/debounce';
@@ -79,6 +81,7 @@ export default class AccountListModule {
     const onSuccess = (response) => {
       this.dispatcher.setAccountListTableLoadingState(false);
       this.dispatcher.filterAccountList(response);
+      this.calculateRemainingHistoricalBalance();
     };
 
     const onFailure = (error) => {
@@ -258,6 +261,29 @@ export default class AccountListModule {
     }
   };
 
+  stringWithCommaToNumber = (numberString) => {
+    return parseFloat(numberString.replace(/,/g, ''));
+  };
+
+  calculateRemainingHistoricalBalance = () => {
+    const state = this.store.getState();
+    const remainingHistoricalBalance = getAccountsForCalcHistoricalBalance(
+      state
+    ).reduce((acc, entry) => {
+      const openingBalance = this.stringWithCommaToNumber(entry.openingBalance);
+      if (
+        entry.accountType === accountTypes.ASSET ||
+        entry.accountType === accountTypes.COST_OF_SALES ||
+        entry.accountType === accountTypes.EXPENSE ||
+        entry.accountType === accountTypes.OTHER_EXPENSE
+      )
+        return acc + openingBalance;
+      return acc - openingBalance;
+    }, 0);
+
+    this.dispatcher.setRemainingHistoricalBalance(remainingHistoricalBalance);
+  };
+
   render = () => {
     const accountView = (
       <AccountListRootView
@@ -278,6 +304,9 @@ export default class AccountListModule {
         onBulkUpdateCancelClick={this.clickBulkUpdateCancel}
         onBulkUpdateSaveClick={this.clickBulkUpdateSave}
         onBulkUpdateDiscardClick={this.clickBulkUpdateModalDiscard}
+        calculateRemainingHistoricalBalance={
+          this.calculateRemainingHistoricalBalance
+        }
       />
     );
 

@@ -17,6 +17,7 @@ import {
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
   SET_REDIRECT_URL,
+  SET_REMAINING_HISTORICAL_BALANCE,
   SORT_AND_FILTER_ACCOUNT_LIST,
 } from '../AccountIntents';
 
@@ -129,6 +130,11 @@ const createAccountListDispatcher = (store) => ({
   setRedirectUrl: (redirectUrl) => {
     const intent = SET_REDIRECT_URL;
     store.dispatch({ intent, redirectUrl });
+  },
+
+  setRemainingHistoricalBalance: (remainingHistoricalBalance) => {
+    const intent = SET_REMAINING_HISTORICAL_BALANCE;
+    store.dispatch({ intent, remainingHistoricalBalance });
   },
 });
 

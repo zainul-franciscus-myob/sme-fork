@@ -31,6 +31,9 @@ export const getRedirectUrl = (state) => state.redirectUrl;
 
 export const getOpeningBalanceDate = (state) => state.openingBalanceDate;
 
+export const getRemainingHistoricalBalance = (state) =>
+  state.remainingHistoricalBalance;
+
 const getHasFlexibleAccountNumbers = (state) => state.hasFlexibleAccountNumbers;
 
 const getAccountLink = (account, businessId, region) => {
@@ -102,4 +105,28 @@ export const getImportChartOfAccountsUrl = (state) => {
   const region = getRegion(state);
 
   return `/#/${region}/${businessId}/dataImportExport?importType=chartOfAccounts&exportType=chartOfAccounts`;
+};
+
+export const getIgnoredLinkedAccounts = (state) => state.ignoredLinkedAccounts;
+
+export const getAccountsForCalcHistoricalBalance = (state) => {
+  const entries = getRawEntries(state);
+  const ignoredLinkedAccounts = getIgnoredLinkedAccounts(state);
+  const equityAccountCurrentEarningsAccount =
+    ignoredLinkedAccounts.equityAccountCurrentEarnings;
+  const equityHistoricalBalancingAccount =
+    ignoredLinkedAccounts.equityHistoricalBalancing;
+
+  if (
+    equityHistoricalBalancingAccount.accountId === '' ||
+    equityAccountCurrentEarningsAccount.accountId === ''
+  )
+    return [];
+
+  return entries.filter(
+    (entry) =>
+      !entry.isHeader &&
+      entry.id !== equityHistoricalBalancingAccount.accountId &&
+      entry.id !== equityAccountCurrentEarningsAccount.accountId
+  );
 };
