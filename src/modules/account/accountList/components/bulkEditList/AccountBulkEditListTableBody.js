@@ -56,6 +56,7 @@ const EditableAccountRowItem = ({ config, onChange, index, value }) => (
   <Table.RowItem columnName={config.columnName} {...config.styles}>
     <AmountInput
       textAlign="right"
+      className={styles.textAlign}
       hideLabel
       name={`${config.fieldName}`}
       value={value}
