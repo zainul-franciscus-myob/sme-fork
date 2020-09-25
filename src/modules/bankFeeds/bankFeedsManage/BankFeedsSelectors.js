@@ -103,9 +103,6 @@ export const getCreateBankFeedsUrl = createSelector(
       : myDotUrl
 );
 
-export const getShouldLoadBankFeedsApplications = (state) =>
-  state.shouldLoadBankFeedsApplications;
-
 export const getShouldShowDisabledMessaging = (state) =>
   getBankFeedsBankAccounts(state).some(
     (account) => !account.isAccountSelectionEnabled

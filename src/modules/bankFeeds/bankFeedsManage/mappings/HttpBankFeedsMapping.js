@@ -2,7 +2,6 @@ import {
   DELETE_BANK_FEED,
   GET_BANK_FEEDS_ACCESS,
   LOAD_BANK_FEEDS,
-  LOAD_BANK_FEEDS_V2,
   REFRESH_BANK_FEEDS,
   SAVE_BANK_FEEDS,
 } from '../BankFeedsIntents';
@@ -11,10 +10,6 @@ const HttpBankFeedsMapping = {
   [LOAD_BANK_FEEDS]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/bankFeeds/load_bank_feeds`,
-  },
-  [LOAD_BANK_FEEDS_V2]: {
-    method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/bankFeeds/load_bank_feeds_V2`,
   },
   [SAVE_BANK_FEEDS]: {
     method: 'POST',

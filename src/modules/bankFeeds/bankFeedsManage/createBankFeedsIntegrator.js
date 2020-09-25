@@ -2,7 +2,6 @@ import {
   DELETE_BANK_FEED,
   GET_BANK_FEEDS_ACCESS,
   LOAD_BANK_FEEDS,
-  LOAD_BANK_FEEDS_V2,
   REFRESH_BANK_FEEDS,
   SAVE_BANK_FEEDS,
 } from './BankFeedsIntents';
@@ -12,7 +11,6 @@ import {
   getBusinessId,
   getDeleteBankFeedUrlParams,
   getSaveBankFeedsPayload,
-  getShouldLoadBankFeedsApplications,
 } from './BankFeedsSelectors';
 
 const createBankFeedsIntegrator = (store, integration) => ({
@@ -20,13 +18,8 @@ const createBankFeedsIntegrator = (store, integration) => ({
     const state = store.getState();
     const urlParams = getBankFeedsUrlParams(state);
 
-    const loadNewBankFeedsWorkflow = getShouldLoadBankFeedsApplications(state);
-    const intent = loadNewBankFeedsWorkflow
-      ? LOAD_BANK_FEEDS_V2
-      : LOAD_BANK_FEEDS;
-
     integration.read({
-      intent,
+      intent: LOAD_BANK_FEEDS,
       urlParams,
       onSuccess,
       onFailure,

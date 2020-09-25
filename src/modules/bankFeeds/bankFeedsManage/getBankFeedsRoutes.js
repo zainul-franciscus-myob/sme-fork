@@ -1,12 +1,7 @@
 import BankFeedsModule from './BankFeedsModule';
 import RouteName from '../../../router/RouteName';
 
-const getBankFeedsRoutes = ({
-  integration,
-  setRootView,
-  globalCallbacks,
-  isToggleOn,
-}) => {
+const getBankFeedsRoutes = ({ integration, setRootView, globalCallbacks }) => {
   const routes = [
     {
       name: RouteName.BANK_FEEDS,
@@ -15,7 +10,6 @@ const getBankFeedsRoutes = ({
         integration,
         setRootView,
         globalCallbacks,
-        isToggleOn,
       }),
       documentTitle: 'Bank feeds',
     },
