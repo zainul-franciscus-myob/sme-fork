@@ -1,36 +1,18 @@
-import { Alert, BaseTemplate, Card, PageHead, Tabs } from '@myob/myob-widgets';
+import { Alert, BaseTemplate, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
   getAlert,
-  getCurrentSubTab,
   getEmployeeFullName,
   getLoadingState,
-  getMainTab,
   getModal,
 } from '../EmployeeDetailNzSelectors';
-import { tabItems } from '../tabItems';
 import ConfirmModal from './ConfirmModal';
 import EmployeeDetailActions from './EmployeeDetailActions';
+import EmployeeDetailsMainTabs from './EmployeeDetailsMainTabs';
+import EmployeeDetailsSubTabBody from './EmployeeDetailsSubTabBody';
 import PageView from '../../../../../components/PageView/PageView';
-
-const CardBody = ({ subModules, mainTab, subTab, onSubTabSelected }) => {
-  const tab = tabItems.find(({ id }) => id === mainTab);
-  if (tab?.subTabs) {
-    return (
-      <>
-        <Tabs
-          onSelected={(sub) => onSubTabSelected(mainTab, sub)}
-          selected={subTab}
-          items={tab.subTabs}
-        />
-        {subModules[subTab]?.getView()}
-      </>
-    );
-  }
-  return subModules[mainTab]?.getView();
-};
 
 const EmployeeDetailsNzView = ({
   alert,
@@ -40,8 +22,6 @@ const EmployeeDetailsNzView = ({
   subModules,
   onMainTabSelected,
   onSubTabSelected,
-  mainTab,
-  subTab,
   onCancelButtonClick,
   onSaveButtonClick,
   onDeleteButtonClick,
@@ -70,19 +50,11 @@ const EmployeeDetailsNzView = ({
     <BaseTemplate>
       {alertComponent}
       <PageHead title={pageHeadTitle} />
-      <Tabs
-        selected={mainTab}
-        items={tabItems}
-        onSelected={onMainTabSelected}
+      <EmployeeDetailsMainTabs onMainTabSelected={onMainTabSelected} />
+      <EmployeeDetailsSubTabBody
+        onSubTabSelected={onSubTabSelected}
+        subModules={subModules}
       />
-      <Card>
-        <CardBody
-          subModules={subModules}
-          mainTab={mainTab}
-          subTab={subTab}
-          onSubTabSelected={onSubTabSelected}
-        />
-      </Card>
       {actionButtons}
       {confirmModal}
     </BaseTemplate>
@@ -94,8 +66,6 @@ const EmployeeDetailsNzView = ({
 const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   pageHeadTitle: getEmployeeFullName(state),
-  mainTab: getMainTab(state),
-  subTab: getCurrentSubTab(state),
   alert: getAlert(state),
   modal: getModal(state),
 });
