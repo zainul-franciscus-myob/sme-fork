@@ -2,6 +2,7 @@ import { Button, Icons, Modal } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
+import { getWelcomeVideoId } from '../../TasksSelectors';
 import WistiaVideoPlayer from '../../../../components/WistiaVideoPlayer/WistiaVideoPlayer';
 import styles from './index.module.css';
 
@@ -11,6 +12,7 @@ const Welcome = ({
   openIntroModal,
   closeIntroModal,
   isOpen,
+  welcomeVideoId,
 }) => {
   if (!task || task.isComplete) return null;
   const onCloseWelcomeTask = (e) => {
@@ -37,7 +39,7 @@ const Welcome = ({
           }}
         >
           <Modal.Body>
-            <WistiaVideoPlayer hashedId="nu4tdi39qw" />
+            <WistiaVideoPlayer hashedId={welcomeVideoId} />
           </Modal.Body>
         </Modal>
       )}
@@ -61,5 +63,6 @@ const Welcome = ({
 
 const mapStateToProps = (state) => ({
   isOpen: state.introModal.isOpen,
+  welcomeVideoId: getWelcomeVideoId(state),
 });
 export default connect(mapStateToProps)(Welcome);
