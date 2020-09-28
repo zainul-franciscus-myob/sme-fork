@@ -2,9 +2,11 @@ import {
   SELECT_ALL_EMPLOYEES,
   SELECT_EMPLOYEE,
   SET_JOB_KEEPER_INITIAL,
+  SET_LOADING_STATE,
   TOGGLE_EMPLOYEE_BENEFIT_REPORT_MODAL,
   UPDATE_EMPLOYEE_ROW,
 } from '../JobKeeperIntents';
+import LoadingState from '../../../../../components/PageView/LoadingState';
 import createReducer from '../JobKeeperReducer';
 
 describe('JobKeeperReducer', () => {
@@ -256,5 +258,16 @@ describe('JobKeeperReducer', () => {
     result.employees.forEach((employee) => {
       expect(employee.isSelected).toBe(false);
     });
+  });
+
+  it('sets the loading state', () => {
+    const action = {
+      intent: SET_LOADING_STATE,
+      loadingState: LoadingState.LOADING_SUCCESS,
+    };
+
+    const result = createReducer({}, action);
+
+    expect(result.loadingState).toEqual(LoadingState.LOADING_SUCCESS);
   });
 });

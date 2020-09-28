@@ -486,7 +486,7 @@ describe('jobKeeperModule', () => {
       it('calls the close modal function when open report is clicked', () => {
         const module = new JobKeeperModule({
           integration: {
-            read: jest.fn(),
+            read: ({ onSuccess }) => onSuccess(loadJobKeeperInitialEmployees),
           },
           pushMessage: () => {},
           featureToggles: {

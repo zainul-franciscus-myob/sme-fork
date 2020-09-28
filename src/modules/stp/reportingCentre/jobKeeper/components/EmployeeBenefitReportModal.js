@@ -28,6 +28,7 @@ const EmployeeBenefitReportModal = ({
   onViewReport,
   alertMessage,
   isOpen,
+  loadingState,
 }) => {
   const alertView = alertMessage && <Alert type="danger">{alertMessage}</Alert>;
   const selectedCount = employees.filter((e) => e.isSelected).length;
@@ -129,17 +130,14 @@ const EmployeeBenefitReportModal = ({
 
   return isOpen ? (
     <Modal title="Select employees for report" onCancel={onCloseModal}>
-      <PageView
-        isLoading={getLoadingState === LoadingState.LOADING}
-        view={view}
-      />
+      <PageView isLoading={loadingState === LoadingState.LOADING} view={view} />
     </Modal>
   ) : null;
 };
 
 const mapStateToProps = (state) => ({
   isOpen: isEmployeeBenefitReportModalOpen(state),
-  getLoadingState: getLoadingState(state),
+  loadingState: getLoadingState(state),
   employees: getEmployees(state),
   alertMessage: getAlertMessage(state),
 });
