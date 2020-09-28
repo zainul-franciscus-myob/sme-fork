@@ -9,8 +9,8 @@ import React from 'react';
 
 import {
   getAlert,
-  getHasError,
-  getIsLoading,
+  getIsSetupBankFeedsView,
+  getLoadingState,
   getModalType,
   // getLoadMoreButtonStatus, See comment below on <LoadMoreButton>
 } from '../selectors';
@@ -37,8 +37,8 @@ const BankingView = (props) => {
     accountModal,
     jobModal,
     renderBankingRuleModule,
-    hasError,
-    isLoading,
+    loadingState,
+    isSetupBankFeedsView,
     alert,
     bulkMessage,
     showBulkActions,
@@ -188,17 +188,17 @@ const BankingView = (props) => {
     </>
   );
 
-  const errorView = <NoContentView />;
+  const setupBankFeedsView = <NoContentView />;
 
-  const view = hasError ? errorView : transactionListView;
+  const view = isSetupBankFeedsView ? setupBankFeedsView : transactionListView;
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = (state) => ({
   alert: getAlert(state),
-  hasError: getHasError(state),
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
+  isSetupBankFeedsView: getIsSetupBankFeedsView(state),
   modalType: getModalType(state),
   bulkMessage: getBulkMessage(state),
   showBulkActions: showBulkActionsSelector(state),

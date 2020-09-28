@@ -6,18 +6,36 @@ import {
   getBulkSelectStatus,
   getIsBulkLoading,
 } from '../selectors/bulkActionSelectors';
-import { getIsTableEmpty, getIsTableLoading, getOrder } from '../selectors';
+import {
+  getIsCantLoadTransactionsView,
+  getIsTableEmpty,
+  getIsTableLoading,
+  getOrder,
+} from '../selectors';
 import BankTransactionTableBody from './BankTransactionTableBody';
 import BankTransactionTableHeader from './BankTransactionTableHeader';
 import ErrorViewImage from './no-results-found.svg';
 
-const emptyView = (header) => (
+const noTransactionsAvailableView = (header) => (
   <React.Fragment>
     {header}
     <Card>
       <PageState
-        title="No transactions found."
-        description="Perhaps checks the date or remove the filters and try again"
+        title="No transactions found"
+        description="Perhaps check the date or remove the filters and try again"
+        image={<img src={ErrorViewImage} alt="Please change your filters" />}
+      />
+    </Card>
+  </React.Fragment>
+);
+
+const cantLoadTransactionsView = (header) => (
+  <React.Fragment>
+    {header}
+    <Card>
+      <PageState
+        title="Something went wrong"
+        description="Please narrow the date range and try again"
         image={<img src={ErrorViewImage} alt="Please change your filters" />}
       />
     </Card>
@@ -37,6 +55,7 @@ const BankTransactionTable = ({
   splitAllocationProps,
   matchTransactionProps,
   transferMoneyProps,
+  isCantLoadTransactionsView,
   isTableEmpty,
   isTableLoading,
   isBulkLoading,
@@ -75,8 +94,11 @@ const BankTransactionTable = ({
   if (isTableLoading) {
     return spinnerView(header);
   }
+  if (isCantLoadTransactionsView) {
+    return cantLoadTransactionsView(header);
+  }
   if (isTableEmpty) {
-    return emptyView(header);
+    return noTransactionsAvailableView(header);
   }
 
   const body = (
@@ -115,6 +137,7 @@ const BankTransactionTable = ({
 const mapStateToProps = (state) => ({
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
+  isCantLoadTransactionsView: getIsCantLoadTransactionsView(state),
   isBulkLoading: getIsBulkLoading(state),
   order: getOrder(state),
   bulkSelectStatus: getBulkSelectStatus(state),

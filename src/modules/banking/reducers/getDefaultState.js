@@ -1,4 +1,6 @@
 import { getDefaultOpenPosition } from '../selectors';
+import BankingViewCodes from '../BankingViewCodes';
+import LoadingState from '../../../components/PageView/LoadingState';
 import MatchTransactionShowType from '../types/MatchTransactionShowType';
 import Periods from '../../../components/PeriodPicker/Periods';
 import TabItems from '../types/TabItems';
@@ -50,13 +52,13 @@ const getDefaultState = () => ({
     hasNextPage: false,
     offset: 0,
   },
+  viewCode: BankingViewCodes.TRANSACTIONS_VIEW,
+  loadingState: LoadingState.LOADING_SUCCESS,
   orderBy: 'Date',
   sortOrder: 'desc',
   alert: undefined,
   modalAlert: undefined,
   isModalBlocking: false,
-  hasError: false,
-  isLoading: true,
   isLoadingMore: false,
   isTableLoading: false,
   isBulkLoading: false,

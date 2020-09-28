@@ -1,4 +1,5 @@
 {
+  "viewCode": "TRANSACTIONS_VIEW",
   "sortOrder": "asc",
   "orderBy": "Date",
   "balances": {

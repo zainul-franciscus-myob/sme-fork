@@ -46,7 +46,6 @@ import {
   SET_ALERT,
   SET_ATTACHMENTS_LOADING_STATE,
   SET_BULK_LOADING_STATE,
-  SET_ERROR_STATE,
   SET_FOCUS,
   SET_LAST_ALLOCATED_ACCOUNT,
   SET_LOADING_STATE,
@@ -72,6 +71,7 @@ import BankTransactionStatusTypes from '../types/BankTransactionStatusTypes';
 import BankingModule from '../BankingModule';
 import FocusLocations from '../types/FocusLocations';
 import HotkeyLocations from '../hotkeys/HotkeyLocations';
+import LoadingState from '../../../components/PageView/LoadingState';
 import MatchTransactionShowType from '../types/MatchTransactionShowType';
 import ModalTypes from '../types/ModalTypes';
 import Periods from '../../../components/PeriodPicker/Periods';
@@ -233,11 +233,11 @@ describe('BankingModule', () => {
         },
         {
           intent: SET_LOADING_STATE,
-          isLoading: true,
+          loadingState: LoadingState.LOADING,
         },
         {
           intent: SET_LOADING_STATE,
-          isLoading: false,
+          loadingState: LoadingState.LOADING_SUCCESS,
         },
         expect.objectContaining({
           intent: LOAD_BANK_TRANSACTIONS,
@@ -267,15 +267,11 @@ describe('BankingModule', () => {
         },
         {
           intent: SET_LOADING_STATE,
-          isLoading: true,
+          loadingState: LoadingState.LOADING,
         },
         {
           intent: SET_LOADING_STATE,
-          isLoading: false,
-        },
-        {
-          intent: SET_ERROR_STATE,
-          hasError: true,
+          loadingState: LoadingState.LOADING_FAIL,
         },
       ]);
 

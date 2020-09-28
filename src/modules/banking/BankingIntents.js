@@ -2,7 +2,6 @@ export const SET_ALERT_MESSAGE = Symbol('Set alert message');
 export const SET_LOADING_STATE = Symbol('Set loading state');
 export const START_LOADING_MORE = Symbol('Start loading more');
 export const STOP_LOADING_MORE = Symbol('Stop loading more');
-export const SET_ERROR_STATE = Symbol('Set error state');
 export const SET_ALERT = Symbol('Set the Alert of the page');
 
 export const OPEN_MODAL = Symbol('Open a modal');

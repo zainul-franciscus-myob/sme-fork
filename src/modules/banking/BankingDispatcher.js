@@ -30,7 +30,6 @@ import {
   SET_BULK_LOADING_STATE,
   SET_EDITING_NOTE_STATE,
   SET_ENTRY_HOVERED,
-  SET_ERROR_STATE,
   SET_FOCUS,
   SET_JOB_LOADING_STATE,
   SET_LAST_ALLOCATED_ACCOUNT,
@@ -217,17 +216,10 @@ const createBankingDispatcher = (store) => ({
     });
   },
 
-  setErrorState: (hasError) => {
-    store.dispatch({
-      intent: SET_ERROR_STATE,
-      hasError,
-    });
-  },
-
-  setLoadingState: (isLoading) => {
+  setLoadingState: (loadingState) => {
     store.dispatch({
       intent: SET_LOADING_STATE,
-      isLoading,
+      loadingState,
     });
   },
 

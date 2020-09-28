@@ -1,4 +1,5 @@
 {
+  "viewCode": "TRANSACTIONS_VIEW",
   "sortOrder": "desc",
   "orderBy": "Date",
   "bankAccounts": [

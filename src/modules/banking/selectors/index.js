@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { businessEventTypes } from '../../../common/types/BusinessEventTypeMap';
+import BankingViewCodes from '../BankingViewCodes';
 import Config from '../../../Config';
 import FocusLocations from '../types/FocusLocations';
 import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
@@ -76,9 +77,13 @@ export const getIsTableEmpty = ({ entries }) => entries.length === 0;
 
 export const getIsTableLoading = (state) => state.isTableLoading;
 
-export const getIsLoading = (state) => state.isLoading;
+export const getIsCantLoadTransactionsView = (state) =>
+  state.viewCode === BankingViewCodes.EMPTY_TABLE_VIEW;
 
-export const getHasError = (state) => state.hasError;
+export const getIsSetupBankFeedsView = (state) =>
+  state.viewCode === BankingViewCodes.SET_UP_BANK_FEEDS_VIEW;
+
+export const getLoadingState = (state) => state.loadingState;
 
 export const getMyMyobLink = createSelector(getRegion, (region) =>
   region === Region.nz ? Config.MY_MYOB_NZ_URL : Config.MY_MYOB_AU_URL

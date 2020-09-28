@@ -44,7 +44,6 @@ import {
   SET_BULK_LOADING_STATE,
   SET_EDITING_NOTE_STATE,
   SET_ENTRY_HOVERED,
-  SET_ERROR_STATE,
   SET_FOCUS,
   SET_JOB_LOADING_STATE,
   SET_LAST_ALLOCATED_ACCOUNT,
@@ -177,6 +176,7 @@ const resetState = () => getDefaultState();
 
 const loadBankTransactions = (state, action) => ({
   ...state,
+  viewCode: action.viewCode,
   bankAccounts: action.bankAccounts,
   withdrawalAccounts: action.withdrawalAccounts,
   depositAccounts: action.depositAccounts,
@@ -220,6 +220,7 @@ const loadBankTransactionsNextPage = (state, action) => {
 
 const sortAndFilterBankTransactions = (state, action) => ({
   ...state,
+  viewCode: action.viewCode,
   entries: action.entries,
   balances: action.balances,
   sortOrder: action.sortOrder,
@@ -259,9 +260,9 @@ const setTableLoadingState = (state, action) => ({
   isTableLoading: action.isTableLoading,
 });
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const startLoadingMore = (state) => ({
@@ -272,11 +273,6 @@ const startLoadingMore = (state) => ({
 const stopLoadingMore = (state) => ({
   ...state,
   isLoadingMore: false,
-});
-
-const setErrorState = (state, action) => ({
-  ...state,
-  hasError: action.hasError,
 });
 
 const setAlert = (state, action) => ({
@@ -528,7 +524,6 @@ const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [START_LOADING_MORE]: startLoadingMore,
   [STOP_LOADING_MORE]: stopLoadingMore,
-  [SET_ERROR_STATE]: setErrorState,
   [SET_ALERT]: setAlert,
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,

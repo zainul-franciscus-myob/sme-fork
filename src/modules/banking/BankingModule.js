@@ -79,6 +79,7 @@ import HotkeyLocations from './hotkeys/HotkeyLocations';
 import Hotkeys from './hotkeys/Hotkeys';
 import InTrayModalModule from '../inTray/inTrayModal/InTrayModalModule';
 import JobModalModule from '../job/jobModal/JobModalModule';
+import LoadingState from '../../components/PageView/LoadingState';
 import MatchTransactionShowType from './types/MatchTransactionShowType';
 import Store from '../../store/Store';
 import TabItems from './types/TabItems';
@@ -345,10 +346,10 @@ export default class BankingModule {
 
   applyRuleToTransaction = ({ message, bankingRuleId }) => {
     this.dispatcher.collapseTransactionLine();
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (entries) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.applyRuleToTransactions(entries);
       this.dispatcher.setAlert({
         type: 'success',
@@ -357,7 +358,7 @@ export default class BankingModule {
     };
 
     const onFailure = (payload) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setAlert({
         type: 'danger',
         message: payload.message,
@@ -493,13 +494,12 @@ export default class BankingModule {
 
   loadBankTransactions = () => {
     const onSuccess = (payload) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadBankTransactions(payload);
     };
 
     const onFailure = () => {
-      this.dispatcher.setLoadingState(false);
-      this.dispatcher.setErrorState(true);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.loadBankTransactions({
@@ -1693,7 +1693,7 @@ export default class BankingModule {
       isFastModeEnabled,
     });
     this.render();
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.loadBankTransactions();
   }
 }
