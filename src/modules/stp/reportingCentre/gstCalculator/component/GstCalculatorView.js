@@ -54,7 +54,11 @@ const GstCalculatorView = ({
         extension, businesses need to prove a decline in turnover. You will need
         to run the Cash or Accruals reports (based on which method you report to
         the ATO) to obtain the figures.
-        <a href="https://help.myob.com/wiki/x/AQVMAw">
+        <a
+          href="https://help.myob.com/wiki/x/AQVMAw"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           How do I get the actual GST Turnover?
         </a>
       </p>
