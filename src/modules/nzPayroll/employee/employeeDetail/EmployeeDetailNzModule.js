@@ -17,8 +17,6 @@ import ContactDetailsNzTabModule from './contactDetails/ContactDetailsNzTabModul
 import EmployeeDetailsNzView from './components/EmployeeDetailsNzView';
 import EmploymentDetailsNzModule from './employmentDetails/EmploymentDetailsNzModule';
 import LeaveModule from './leave/LeaveModule';
-import LoadingState from '../../../../components/PageView/LoadingState';
-import ModalTypes from './ModalTypes';
 import SalaryAndWagesModule from './salaryAndWages/salaryAndWagesModule';
 import Store from '../../../../store/Store';
 import TaxAndKiwiSaverModule from './taxAndKiwiSaver/TaxAndKiwiSaverModule';
@@ -70,7 +68,7 @@ export default class EmployeeDetailNzModule {
     };
 
     const onFailure = () => {
-      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+      this.dispatcher.loadEmployeeDetailsFailed();
     };
 
     this.integrator.loadEmployeeDetails({ onSuccess, onFailure });
@@ -119,7 +117,7 @@ export default class EmployeeDetailNzModule {
   }
 
   saveEmployee = (onSuccess) => {
-    this.dispatcher.setSavingState();
+    this.dispatcher.updatingEmployeeDetail();
 
     const onFailure = (response) => {
       this.dispatcher.updateEmployeeFailed(response.message);
@@ -160,7 +158,7 @@ export default class EmployeeDetailNzModule {
 
   onDeleteButtonClick = () => {
     const url = getEmployeeListUrl(this.store.getState());
-    this.dispatcher.openModal({ type: ModalTypes.DELETE, url });
+    this.dispatcher.openDeleteModal(url);
   };
 
   onCancelButtonClick = () => {
@@ -174,12 +172,12 @@ export default class EmployeeDetailNzModule {
   };
 
   openUnsavedModal = (url) => {
-    this.dispatcher.openModal({ type: ModalTypes.UNSAVED, url });
+    this.dispatcher.openUnsavedModal(url);
   };
 
   deleteEmployee = () => {
     this.dispatcher.closeModal();
-    this.dispatcher.setIsSubmitting(true);
+    this.dispatcher.deletingEmployee();
 
     const onSuccess = (response) => {
       this.pushMessage({
@@ -190,8 +188,7 @@ export default class EmployeeDetailNzModule {
     };
 
     const onFailure = (response) => {
-      this.dispatcher.setIsSubmitting(false);
-      this.dispatcher.setAlert({ type: 'danger', message: response.message });
+      this.dispatcher.deleteEmployeeFailed(response.message);
     };
 
     this.integrator.deleteEmployee({ onSuccess, onFailure });

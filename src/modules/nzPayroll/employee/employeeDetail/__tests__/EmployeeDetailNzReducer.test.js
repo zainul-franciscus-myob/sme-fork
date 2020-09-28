@@ -86,23 +86,6 @@ describe('EmployeeDetailNzReducer', () => {
     });
   });
 
-  describe('setLoadingState', () => {
-    it('should set the loading state', () => {
-      const state = {
-        loadingState: LoadingState.LOADING,
-      };
-      const loadingState = LoadingState.LOADING_SUCCESS;
-      const action = {
-        intent: intents.SET_LOADING_STATE,
-        loadingState,
-      };
-
-      const result = employeeDetailNzReducer(state, action);
-
-      expect(result).toEqual({ loadingState });
-    });
-  });
-
   describe('loadEmployeeDetail', () => {
     it('should load the Employee Details', () => {
       const contactDetail = {
@@ -130,6 +113,16 @@ describe('EmployeeDetailNzReducer', () => {
         contactDetail,
         loadingState: LoadingState.LOADING_SUCCESS,
       });
+    });
+  });
+
+  describe('loadEmployeeDetailFailed', () => {
+    it('should change the loadingState to LOADING_FAIL', () => {
+      const action = {
+        intent: intents.LOAD_EMPLOYEE_DETAIL_FAILED,
+      };
+      const result = employeeDetailNzReducer(defaultState, action);
+      expect(result).toHaveProperty('loadingState', LoadingState.LOADING_FAIL);
     });
   });
 
@@ -231,7 +224,7 @@ describe('EmployeeDetailNzReducer', () => {
   describe('openModal', () => {
     it('should set modal in store', () => {
       const modal = { type: 'DELETE', url: 'url' };
-      const action = { intent: intents.OPEN_MODAL, modal };
+      const action = { intent: intents.OPEN_DELETE_MODAL, modal };
       const expectedState = { modal };
 
       const actual = employeeDetailNzReducer({}, action);
@@ -347,10 +340,10 @@ describe('EmployeeDetailNzReducer', () => {
     });
   });
 
-  describe('setIsSubmitting', () => {
+  describe('deletingEmployee', () => {
     it('should set isSubmitting in state', () => {
       const action = {
-        intent: intents.SET_SUBMITTING_STATE,
+        intent: intents.DELETING_EMPLOYEE,
         isSubmitting: true,
       };
 
@@ -360,14 +353,33 @@ describe('EmployeeDetailNzReducer', () => {
     });
   });
 
-  describe('setSavingState', () => {
+  describe('deleteEmployeeFailed', () => {
+    it('should set isSubmitting, and modal alert in state', () => {
+      const action = {
+        intent: intents.DELETE_EMPLOYEE_FAILED,
+        message: 'Failed',
+      };
+
+      const actual = employeeDetailNzReducer({}, action);
+
+      expect(actual).toEqual({
+        isSubmitting: false,
+        alert: {
+          type: 'danger',
+          message: 'Failed',
+        },
+      });
+    });
+  });
+
+  describe('updatingEmployeeDetails', () => {
     it('should set submitting state, loading state and modal', () => {
       const state = {
         loadingState: LoadingState.LOADING_SUCCESS,
         isSubmitting: false,
         modal: { type: 'DELETE' },
       };
-      const action = { intent: intents.SET_SAVING_STATE };
+      const action = { intent: intents.UPDATING_EMPLOYEE };
       const expectedState = {
         loadingState: LoadingState.LOADING,
         isSubmitting: true,

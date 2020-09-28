@@ -1,11 +1,13 @@
 import { mount } from 'enzyme';
 
-import { LOAD_EMPLOYEE_LIST, SET_LOADING_STATE } from '../../EmployeeNzIntents';
+import {
+  LOAD_EMPLOYEE_LIST,
+  LOAD_EMPLOYEE_LIST_FAILED,
+} from '../../EmployeeNzIntents';
 import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import EmployeeListNzModule from '../EmployeeListNzModule';
 import EmployeeListNzView from '../components/EmployeeListNzView';
 import LoadingFailPageState from '../../../../../components/PageView/LoadingFailPageState';
-import LoadingState from '../../../../../components/PageView/LoadingState';
 import TestIntegration from '../../../../../integration/TestIntegration';
 import TestStore from '../../../../../store/TestStore';
 import employeeListNzDispatcher from '../employeeListNzDispatcher';
@@ -80,8 +82,7 @@ describe('EmployeeListNzModule', () => {
           context: { businessId: 'id' },
         },
         {
-          intent: SET_LOADING_STATE,
-          loadingState: LoadingState.LOADING_FAIL,
+          intent: LOAD_EMPLOYEE_LIST_FAILED,
         },
       ]);
 

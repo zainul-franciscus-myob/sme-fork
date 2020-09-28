@@ -17,9 +17,9 @@ const employeeListNzDispatcher = ({ store }) => ({
     store.dispatch({ intent, ...response });
   },
 
-  setLoadingState: (loadingState) => {
-    const intent = intents.SET_LOADING_STATE;
-    store.dispatch({ intent, loadingState });
+  loadEmployeeListFailed: () => {
+    const intent = intents.LOAD_EMPLOYEE_LIST_FAILED;
+    store.dispatch({ intent });
   },
 
   setAlert: ({ type, message }) => {

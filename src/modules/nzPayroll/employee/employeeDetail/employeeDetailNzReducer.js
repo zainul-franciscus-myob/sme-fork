@@ -53,6 +53,11 @@ const loadContactDetail = (state, payload) => ({
   ...payload.contactDetail,
 });
 
+const loadPayrollDetail = (state, payload) => ({
+  ...state.payrollDetails,
+  ...payload.payrollDetails,
+});
+
 const loadEmployeeDetail = (state, action) => ({
   ...state,
   loadingState: LoadingState.LOADING_SUCCESS,
@@ -61,16 +66,21 @@ const loadEmployeeDetail = (state, action) => ({
   contactDetail: loadContactDetail(state, action.payload),
 });
 
-const setLoadingState = (state, { loadingState }) => ({
+const loadingEmployeeDetail = (state) => ({
   ...state,
-  loadingState,
+  isSubmitting: true,
 });
 
-const updateEmployeeDetail = (state, action) => ({
+const loadEmployeeDetailFailed = (state) => ({
   ...state,
-  loadingState: LoadingState.LOADING_SUCCESS,
+  loadingState: LoadingState.LOADING_FAIL,
+});
+
+const updateEmployeeDetails = (state, action) => ({
+  ...state,
   contactDetail: loadContactDetail(state, action),
-  payrollDetails: action.payrollDetails,
+  payrollDetails: loadPayrollDetail(state, action),
+  loadingState: LoadingState.LOADING_SUCCESS,
   alert: { type: 'success', message: action.message },
   isPageEdited: false,
   isSubmitting: false,
@@ -93,12 +103,18 @@ const closeModal = (state) => ({
   modal: undefined,
 });
 
-const setIsSubmitting = (state, action) => ({
+const deletingEmployee = (state) => ({
   ...state,
-  isSubmitting: action.isSubmitting,
+  isSubmitting: true,
 });
 
-const setSavingState = (state) => ({
+const deleteEmployeeFailed = (state, action) => ({
+  ...state,
+  isSubmitting: false,
+  alert: { type: 'danger', message: action.message },
+});
+
+const updatingEmployeeDetails = (state) => ({
   ...state,
   isSubmitting: true,
   loadingState: LoadingState.LOADING,
@@ -143,15 +159,18 @@ const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
   [intents.LOAD_EMPLOYEE_DETAIL]: loadEmployeeDetail,
-  [intents.SET_LOADING_STATE]: setLoadingState,
-  [intents.UPDATE_EMPLOYEE]: updateEmployeeDetail,
+  [intents.LOADING_EMPLOYEE_DETAIL]: loadingEmployeeDetail,
+  [intents.LOAD_EMPLOYEE_DETAIL_FAILED]: loadEmployeeDetailFailed,
+  [intents.UPDATE_EMPLOYEE]: updateEmployeeDetails,
   [intents.UPDATE_EMPLOYEE_FAILED]: updateEmployeeFailed,
   [intents.SET_ALERT]: setAlert,
   [intents.DISMISS_ALERT]: dismissAlert,
-  [intents.OPEN_MODAL]: openModal,
+  [intents.OPEN_DELETE_MODAL]: openModal,
+  [intents.OPEN_UNSAVED_MODAL]: openModal,
   [intents.CLOSE_MODAL]: closeModal,
-  [intents.SET_SUBMITTING_STATE]: setIsSubmitting,
-  [intents.SET_SAVING_STATE]: setSavingState,
+  [intents.DELETING_EMPLOYEE]: deletingEmployee,
+  [intents.DELETE_EMPLOYEE_FAILED]: deleteEmployeeFailed,
+  [intents.UPDATING_EMPLOYEE]: updatingEmployeeDetails,
   [intents.SET_MAIN_TAB]: setMainTab,
   [intents.SET_SUB_TAB]: setSubTab,
   ...contactDetailsNzTabReducer,

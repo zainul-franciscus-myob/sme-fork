@@ -6,7 +6,6 @@ import {
   SUCCESSFULLY_SAVED_NZ_EMPLOYEE,
 } from '../../../../common/types/MessageTypes';
 import EmployeeListNzView from './components/EmployeeListNzView';
-import LoadingState from '../../../../components/PageView/LoadingState';
 import Store from '../../../../store/Store';
 import employeeListNzDispatcher from './employeeListNzDispatcher';
 import employeeListNzIntegrator from './employeeListNzIntegrator';
@@ -36,7 +35,7 @@ export default class EmployeeListNzModule {
     };
 
     const onFailure = () => {
-      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+      this.dispatcher.loadEmployeeListFailed();
     };
 
     this.integrator.loadEmployeeList({ onSuccess, onFailure });

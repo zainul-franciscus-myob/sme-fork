@@ -9,7 +9,6 @@ import EmployeeDetailsNzView from '../components/EmployeeDetailsNzView';
 import EmploymentDetailsTab from '../employmentDetails/components/EmploymentDetailsTab';
 import LeaveTabView from '../leave/components/LeaveTabView';
 import LoadingFailPageState from '../../../../../components/PageView/LoadingFailPageState';
-import LoadingState from '../../../../../components/PageView/LoadingState';
 import SalaryAndWagesTabView from '../salaryAndWages/components/SalaryAndWagesTabView';
 import TaxAndKiwiSaverTab from '../taxAndKiwiSaver/components/TaxAndKiwiSaverTab';
 import TestIntegration from '../../../../../integration/TestIntegration';
@@ -106,8 +105,7 @@ describe('EmployeeDetailNzModule', () => {
           context,
         },
         {
-          intent: intents.SET_LOADING_STATE,
-          loadingState: LoadingState.LOADING_FAIL,
+          intent: intents.LOAD_EMPLOYEE_DETAIL_FAILED,
         },
       ]);
 
@@ -249,7 +247,7 @@ describe('EmployeeDetailNzModule', () => {
 
       expect(store.getActions()).toEqual([
         {
-          intent: intents.SET_SAVING_STATE,
+          intent: intents.UPDATING_EMPLOYEE,
         },
         {
           intent: intents.UPDATE_EMPLOYEE,
@@ -268,7 +266,9 @@ describe('EmployeeDetailNzModule', () => {
     it('should handle save failure', () => {
       const { store, integration, module, wrapper } = setup();
 
-      integration.mapFailure(intents.UPDATE_EMPLOYEE, { message: 'Failed' });
+      integration.mapFailure(intents.UPDATE_EMPLOYEE, {
+        message: 'Failed',
+      });
 
       module.run(context);
       wrapper.update();
@@ -280,7 +280,7 @@ describe('EmployeeDetailNzModule', () => {
 
       expect(store.getActions()).toEqual([
         {
-          intent: intents.SET_SAVING_STATE,
+          intent: intents.UPDATING_EMPLOYEE,
         },
         {
           intent: intents.UPDATE_EMPLOYEE_FAILED,
@@ -329,7 +329,7 @@ describe('EmployeeDetailNzModule', () => {
 
       expect(store.getActions()).toMatchObject([
         {
-          intent: intents.OPEN_MODAL,
+          intent: intents.OPEN_UNSAVED_MODAL,
           modal: { type: 'UNSAVED', url: expect.any(String) },
         },
       ]);
@@ -344,7 +344,7 @@ describe('EmployeeDetailNzModule', () => {
 
       expect(store.getActions()).toMatchObject([
         {
-          intent: intents.OPEN_MODAL,
+          intent: intents.OPEN_DELETE_MODAL,
           modal: { type: 'DELETE', url: expect.any(String) },
         },
       ]);
@@ -365,7 +365,7 @@ describe('EmployeeDetailNzModule', () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining([
           { intent: intents.CLOSE_MODAL },
-          { intent: intents.SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: intents.DELETING_EMPLOYEE },
         ])
       );
       expect(integration.getRequests()).toEqual([

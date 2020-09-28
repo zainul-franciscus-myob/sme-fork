@@ -1,7 +1,6 @@
 import * as intents from '../../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import { tabIds } from '../tabItems';
-import LoadingState from '../../../../../components/PageView/LoadingState';
 import employeeDetailNzDispatcher from '../employeeDetailNzDispatcher';
 
 describe('employeeDetailNzDispatcher', () => {
@@ -53,6 +52,19 @@ describe('employeeDetailNzDispatcher', () => {
     });
   });
 
+  describe('loadEmployeeDetailsFailed', () => {
+    it('should dispatch LOAD_EMPLOYEE_DETAIL_FAILED intent', () => {
+      const response = {};
+      dispatcher.loadEmployeeDetailsFailed(response);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: intents.LOAD_EMPLOYEE_DETAIL_FAILED,
+        })
+      );
+    });
+  });
+
   describe('updateEmployeeDetails', () => {
     it('should dispatch UPDATE_EMPLOYEE intent', () => {
       const response = {};
@@ -68,28 +80,52 @@ describe('employeeDetailNzDispatcher', () => {
   });
 
   describe('updateEmployeeFailed', () => {
-    it('should dispatch UPDATE_EMPLOYEE intent', () => {
-      const response = {};
-      dispatcher.updateEmployeeFailed(response);
+    it('should dispatch UPDATE_EMPLOYEE_FAILED intent', () => {
+      const message = {};
+      dispatcher.updateEmployeeFailed(message);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         expect.objectContaining({
           intent: intents.UPDATE_EMPLOYEE_FAILED,
-          ...response,
+          ...message,
         })
       );
     });
   });
 
-  describe('setLoadingState', () => {
-    it('should dispatch SET_LOADING_STATE intent', () => {
-      const loadingState = LoadingState.LOADING_SUCCESS;
-      dispatcher.setLoadingState(loadingState);
+  describe('deletingEmployee', () => {
+    it('should dispatch DELETING_EMPLOYEE intent', () => {
+      dispatcher.deletingEmployee();
 
       expect(store.dispatch).toHaveBeenCalledWith(
         expect.objectContaining({
-          intent: intents.SET_LOADING_STATE,
-          loadingState,
+          intent: intents.DELETING_EMPLOYEE,
+        })
+      );
+    });
+  });
+
+  describe('deleteEmployeeFailed', () => {
+    it('should dispatch DELETE_EMPLOYEE_FAILED intent', () => {
+      const message = {};
+      dispatcher.deleteEmployeeFailed(message);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: intents.DELETE_EMPLOYEE_FAILED,
+          ...message,
+        })
+      );
+    });
+  });
+
+  describe('updatingEmployeeDetail', () => {
+    it('should dispatch SAVING_EMPLOYEE_DETAIL intent', () => {
+      dispatcher.updatingEmployeeDetail();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: intents.UPDATING_EMPLOYEE,
         })
       );
     });

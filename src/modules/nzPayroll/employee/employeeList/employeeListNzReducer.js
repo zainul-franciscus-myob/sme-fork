@@ -21,9 +21,9 @@ const loadEmployeeList = (state, { ...employeeListResponse }) => ({
   entries: employeeListResponse.entries,
 });
 
-const setLoadingState = (state, { loadingState }) => ({
+const loadEmployeeListFailed = (state) => ({
   ...state,
-  loadingState,
+  loadingState: LoadingState.LOADING_FAIL,
 });
 
 const setAlert = (state, action) => ({
@@ -40,9 +40,9 @@ const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
   [intents.LOAD_EMPLOYEE_LIST]: loadEmployeeList,
-  [intents.SET_LOADING_STATE]: setLoadingState,
   [intents.SET_ALERT]: setAlert,
   [intents.DISMISS_ALERT]: dismissAlert,
+  [intents.LOAD_EMPLOYEE_LIST_FAILED]: loadEmployeeListFailed,
 };
 
 const employeeListNzReducer = createReducer(getDefaultState(), handlers);

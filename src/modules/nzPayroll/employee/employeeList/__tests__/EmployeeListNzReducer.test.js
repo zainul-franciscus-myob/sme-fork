@@ -1,27 +1,26 @@
 import {
   LOAD_EMPLOYEE_LIST,
+  LOAD_EMPLOYEE_LIST_FAILED,
   SET_ALERT,
-  SET_LOADING_STATE,
 } from '../../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import employeeListNzReducer from '../employeeListNzReducer';
 
 describe('employeeListNzReducer', () => {
-  describe('setLoadingState', () => {
-    it('should set loading state', () => {
+  describe('loadEmployeeListFailed', () => {
+    it('should set loading state to LOADING_FAIL', () => {
       const state = {
         loadingState: LoadingState.LOADING,
       };
 
       const action = {
-        intent: SET_LOADING_STATE,
-        loadingState: LoadingState.LOADING_SUCCESS,
+        intent: LOAD_EMPLOYEE_LIST_FAILED,
       };
 
       const result = employeeListNzReducer(state, action);
 
-      expect(result).toEqual({ loadingState: LoadingState.LOADING_SUCCESS });
+      expect(result).toEqual({ loadingState: LoadingState.LOADING_FAIL });
     });
   });
 

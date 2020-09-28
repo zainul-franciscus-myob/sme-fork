@@ -1,6 +1,8 @@
-import { LOAD_EMPLOYEE_LIST, SET_LOADING_STATE } from '../../EmployeeNzIntents';
+import {
+  LOAD_EMPLOYEE_LIST,
+  LOAD_EMPLOYEE_LIST_FAILED,
+} from '../../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../../SystemIntents';
-import LoadingState from '../../../../../components/PageView/LoadingState';
 import employeeListNzDispatcher from '../employeeListNzDispatcher';
 
 describe('employeeListNzDispatcher', () => {
@@ -47,13 +49,12 @@ describe('employeeListNzDispatcher', () => {
     });
   });
 
-  describe('setLoadingState', () => {
-    it('should dispatch SET_LOADING_STATE intent with the loading state', () => {
-      const loadingState = LoadingState.LOADING_SUCCESS;
-      dispatcher.setLoadingState(loadingState);
+  describe('loadEmployeeListFailed', () => {
+    it('should dispatch LOAD_EMPLOYEE_LIST_FAILED', () => {
+      dispatcher.loadEmployeeListFailed();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        expect.objectContaining({ intent: SET_LOADING_STATE, loadingState })
+        expect.objectContaining({ intent: LOAD_EMPLOYEE_LIST_FAILED })
       );
     });
   });

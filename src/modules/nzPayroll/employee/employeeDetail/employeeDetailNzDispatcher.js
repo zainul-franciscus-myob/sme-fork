@@ -1,5 +1,6 @@
 import * as intents from '../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
+import ModalTypes from './ModalTypes';
 
 const employeeDetailNzDispatcher = ({ store }) => ({
   setInitialState: (context) => {
@@ -27,9 +28,14 @@ const employeeDetailNzDispatcher = ({ store }) => ({
     store.dispatch({ intent, payload: response });
   },
 
-  setLoadingState: (loadingState) => {
-    const intent = intents.SET_LOADING_STATE;
-    store.dispatch({ intent, loadingState });
+  loadingEmployeeDetails: () => {
+    const intent = intents.LOADING_EMPLOYEE_DETAIL;
+    store.dispatch({ intent });
+  },
+
+  loadEmployeeDetailsFailed: () => {
+    const intent = intents.LOAD_EMPLOYEE_DETAIL_FAILED;
+    store.dispatch({ intent });
   },
 
   updateEmployeeDetails: (response) => {
@@ -42,9 +48,14 @@ const employeeDetailNzDispatcher = ({ store }) => ({
     store.dispatch({ intent, message });
   },
 
-  openModal: ({ type, url }) => {
-    const intent = intents.OPEN_MODAL;
-    store.dispatch({ intent, modal: { type, url } });
+  openUnsavedModal: (url) => {
+    const intent = intents.OPEN_UNSAVED_MODAL;
+    store.dispatch({ intent, modal: { type: ModalTypes.UNSAVED, url } });
+  },
+
+  openDeleteModal: (url) => {
+    const intent = intents.OPEN_DELETE_MODAL;
+    store.dispatch({ intent, modal: { type: ModalTypes.DELETE, url } });
   },
 
   closeModal: () => {
@@ -52,13 +63,18 @@ const employeeDetailNzDispatcher = ({ store }) => ({
     store.dispatch({ intent });
   },
 
-  setIsSubmitting: (isSubmitting) => {
-    const intent = intents.SET_SUBMITTING_STATE;
-    store.dispatch({ intent, isSubmitting });
+  deletingEmployee: () => {
+    const intent = intents.DELETING_EMPLOYEE;
+    store.dispatch({ intent });
   },
 
-  setSavingState: () => {
-    const intent = intents.SET_SAVING_STATE;
+  deleteEmployeeFailed: (message) => {
+    const intent = intents.DELETE_EMPLOYEE_FAILED;
+    store.dispatch({ intent, message });
+  },
+
+  updatingEmployeeDetail: () => {
+    const intent = intents.UPDATING_EMPLOYEE;
     store.dispatch({ intent });
   },
 

@@ -31,8 +31,8 @@ describe('employeeDetailNzIntegrator', () => {
     });
   });
 
-  describe('saveEmployeeDetails', () => {
-    it('should call integrator read with UPDATE_EMPLOYEE intent', () => {
+  describe('createOrSaveEmployeeDetails', () => {
+    it('should call integrator read with SAVE_EMPLOYEE_DETAIL intent', () => {
       const businessId = 1234;
       const employeeId = 12;
       const contactDetail = {};

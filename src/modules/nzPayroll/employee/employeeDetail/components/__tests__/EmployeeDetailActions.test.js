@@ -2,7 +2,7 @@ import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { SET_SAVING_STATE } from '../../../EmployeeNzIntents';
+import { UPDATING_EMPLOYEE } from '../../../EmployeeNzIntents';
 import EmployeeDetailActions from '../EmployeeDetailActions';
 import Store from '../../../../../../store/Store';
 import employeeDetailNzReducer from '../../employeeDetailNzReducer';
@@ -54,7 +54,7 @@ describe('EmployeeDetailActions', () => {
     });
 
     it('all action buttons should be disabled when saving', () => {
-      store.dispatch({ intent: SET_SAVING_STATE });
+      store.dispatch({ intent: UPDATING_EMPLOYEE });
       wrapper.update();
       const bottons = wrapper.find('Button');
 
