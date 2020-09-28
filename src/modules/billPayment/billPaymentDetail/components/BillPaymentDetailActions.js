@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getCanDelete,
   getIsActionsDisabled,
-  getIsCreating,
 } from '../BillPaymentDetailSelectors';
 
 const BillPaymentActions = ({
@@ -12,7 +12,7 @@ const BillPaymentActions = ({
   onCancelButtonClick,
   onDeleteButtonClick,
   isActionsDisabled,
-  isCreating,
+  canDelete,
 }) => (
   <ButtonRow
     primary={[
@@ -36,7 +36,7 @@ const BillPaymentActions = ({
       </Button>,
     ]}
     secondary={[
-      !isCreating && (
+      canDelete && (
         <Button
           key="delete"
           name="delete"
@@ -53,7 +53,7 @@ const BillPaymentActions = ({
 
 const mapStateToProps = (state) => ({
   isActionsDisabled: getIsActionsDisabled(state),
-  isCreating: getIsCreating(state),
+  canDelete: getCanDelete(state),
 });
 
 export default connect(mapStateToProps)(BillPaymentActions);

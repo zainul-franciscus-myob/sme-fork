@@ -31,6 +31,7 @@ const getDefaultState = () => ({
   accountId: '',
   defaultAccountId: '',
   electronicClearingAccountId: '',
+  isElectronicallyProcessed: false,
   showPaidBills: false,
   referenceId: '',
   originalReferenceId: '',
@@ -115,6 +116,7 @@ const loadBillPayment = (state, action) => ({
   description: action.description,
   bankStatementText: action.bankStatementText,
   electronicClearingAccountId: action.electronicClearingAccountId,
+  isElectronicallyProcessed: action.isElectronicallyProcessed,
   startOfFinancialYearDate: action.startOfFinancialYearDate,
 });
 

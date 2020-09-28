@@ -23,6 +23,7 @@ const getAccounts = (state) => state.accounts;
 const getAccountId = (state) => state.accountId;
 const getElectronicClearingAccountId = (state) =>
   state.electronicClearingAccountId;
+const getIsElectronicallyProcessed = (state) => state.isElectronicallyProcessed;
 export const getSupplierId = (state) => state.supplierId;
 const getReferenceId = (state) => state.referenceId;
 const getDate = (state) => state.date;
@@ -102,6 +103,13 @@ export const getIsElectronicPayment = createSelector(
   getElectronicClearingAccountId,
   (accountId, electronicClearingAccountId) =>
     accountId === electronicClearingAccountId
+);
+
+export const getCanDelete = createSelector(
+  getIsCreating,
+  getIsElectronicallyProcessed,
+  (isCreating, isElectronicallyProcessed) =>
+    !isCreating && !isElectronicallyProcessed
 );
 
 export const getBankStatementText = (state) => state.bankStatementText;
