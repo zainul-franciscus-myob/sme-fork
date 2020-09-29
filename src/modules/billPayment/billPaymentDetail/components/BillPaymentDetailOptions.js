@@ -43,7 +43,7 @@ const BillPaymentOptions = ({
 }) => {
   const requiredLabel = 'This is required';
   const requiredBankStatementText =
-    'You have indicated that the transaction is to be paid electronically. All electronic payment must contain statement text.';
+    'This will appear on your supplier’s bank statement to help identify the payment';
 
   const primary = (
     <>
