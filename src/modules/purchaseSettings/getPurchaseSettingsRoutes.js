@@ -4,12 +4,12 @@ import RouteName from '../../router/RouteName';
 const getPurchaseSettingsRoutes = ({ integration, setRootView }) => [
   {
     name: RouteName.PURCHASE_SETTINGS,
-    path: '/:region/:businessId/purchaseSettings/',
+    path: '/:region/:businessId/purchasesSettings/',
     module: new PurchaseSettingsModule({
       integration,
       setRootView,
     }),
-    documentTitle: 'Purchase settings',
+    documentTitle: 'Purchases settings',
   },
 ];
 

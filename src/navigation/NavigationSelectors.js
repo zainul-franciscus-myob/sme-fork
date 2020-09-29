@@ -312,8 +312,3 @@ export const getShouldDisplayLiveChat = createSelector(
     region === 'au' &&
     Config.GENESYS_CHAT
 );
-
-export const getShouldDisplayPurchaseSettings = createSelector(
-  getBusinessUrls,
-  (businessUrls) => Boolean(businessUrls.purchaseSettings)
-);

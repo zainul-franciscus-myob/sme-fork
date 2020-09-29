@@ -4,7 +4,7 @@ import React from 'react';
 const PurchaseSettingsView = () => {
   return (
     <BaseTemplate>
-      <PageHead title="Purchase settings" />
+      <PageHead title="Remittance settings" />
     </BaseTemplate>
   );
 };
