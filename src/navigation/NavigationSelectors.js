@@ -204,6 +204,7 @@ export const getBusinessUrls = createSelector(
     incomeAllocation: enabledUrls.incomeAllocation,
     salesSettings: enabledUrls.salesSettings,
     payrollSettings: enabledUrls.payrollSettings,
+    purchaseSettings: enabledUrls.purchaseSettings,
     reportSettings: enabledUrls.reportSettings,
     userList: enabledUrls.userList,
     dataImportExport: enabledUrls.dataImportExport,
@@ -310,4 +311,9 @@ export const getShouldDisplayLiveChat = createSelector(
     trialist &&
     region === 'au' &&
     Config.GENESYS_CHAT
+);
+
+export const getShouldDisplayPurchaseSettings = createSelector(
+  getBusinessUrls,
+  (businessUrls) => Boolean(businessUrls.purchaseSettings)
 );

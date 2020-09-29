@@ -9,6 +9,7 @@ import {
   getIsCurrentUserAdvisor,
   getIsReadOnly,
   getSerialNumber,
+  getShouldDisplayPurchaseSettings,
   getShouldShowPaymentDetail,
   getUserEmail,
 } from '../NavigationSelectors';
@@ -93,6 +94,8 @@ const getItems = ({
       ),
     urls.payrollSettings &&
       getMenuLink(urls.payrollSettings, 'Payroll settings', onMenuLinkClick),
+    urls.purchaseSettings &&
+      getMenuLink(urls.purchaseSettings, 'Purchase settings', onMenuLinkClick),
     getMenuLink(urls.reportSettings, 'Report settings', onMenuLinkClick),
     urls.userList && getMenuLink(urls.userList, 'Users', onMenuLinkClick),
     urls.dataImportExport &&
@@ -173,6 +176,7 @@ const BusinessMenu = ({
   onCreateBusinessClick,
   onManageMyProductClick,
   isReadOnly,
+  shouldShowPurchaseSettings,
 }) => (
   <div className={styles.businessMenu}>
     <Navigation.Menu
@@ -198,6 +202,7 @@ const BusinessMenu = ({
         onLogoutLinkClick,
         onCreateBusinessClick,
         onManageMyProductClick,
+        shouldShowPurchaseSettings,
       })}
       onSelect={onMenuSelect}
       active={activeNav === 'business'}
@@ -213,6 +218,7 @@ const mapStateToProps = (state) => ({
   isReadOnly: getIsReadOnly(state),
   isCurrentUserAdvisor: getIsCurrentUserAdvisor(state),
   shouldShowPaymentDetail: getShouldShowPaymentDetail(state),
+  shouldShowPurchaseSettings: getShouldDisplayPurchaseSettings(state),
 });
 
 export default connect(mapStateToProps)(BusinessMenu);

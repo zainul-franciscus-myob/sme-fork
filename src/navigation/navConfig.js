@@ -81,6 +81,7 @@ export const activeMapping = {
   [RouteName.USER_DETAIL]: 'business',
   [RouteName.DATA_IMPORT_EXPORT]: 'business',
   [RouteName.PAYMENT_DETAIL]: 'business',
+  [RouteName.PURCHASE_SETTINGS]: 'business',
 };
 
 export const featuresConfig = {
@@ -185,6 +186,7 @@ export const featuresConfig = {
   incomeAllocation: { routeName: RouteName.INCOME_ALLOCATION },
   salesSettings: { routeName: RouteName.SALES_SETTINGS },
   payrollSettings: { routeName: RouteName.PAYROLL_SETTINGS },
+  purchaseSettings: { routeName: RouteName.PURCHASE_SETTINGS },
   reportSettings: { routeName: RouteName.REPORT_SETTINGS },
   userList: { routeName: RouteName.USER_LIST },
   dataImportExport: { routeName: RouteName.DATA_IMPORT_EXPORT },

@@ -34,6 +34,7 @@ const RouteName = {
   INVOICE_PAYMENT_DETAIL: 'invoicePayment/invoicePaymentDetail',
   SALES_SETTINGS: 'salesSettings/salesSettingsDetail',
   PAYROLL_SETTINGS: 'payrollSettings/payrollSettings',
+  PURCHASE_SETTINGS: 'purchaseSettings/purchaseSettings',
   SUPER_FUND_DETAIL: 'superFund/superFundDetail',
   SUPPLIER_RETURN_LIST: 'supplierReturn/supplierReturnList',
   SUPPLIER_RETURN_RECEIVE_REFUND: 'supplierReturn/supplierReturnReceiveRefund',

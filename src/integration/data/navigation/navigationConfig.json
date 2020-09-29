@@ -62,6 +62,7 @@
     "incomeAllocation",
     "salesSettings",
     "payrollSettings",
+    "purchaseSettings",
     "reportSettings",
     "userList",
     "dataImportExport",
