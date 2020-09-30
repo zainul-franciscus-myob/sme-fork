@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 
 import { activeMapping } from './navConfig';
 import Config from '../Config';
+import Region from '../common/types/Region';
 import RouteName from '../router/RouteName';
 import getRegionToDialectText from '../dialect/getRegionToDialectText';
 
@@ -140,7 +141,7 @@ export const getShouldDisplayPayrollMenu = createSelector(
   getPayrollUrls,
   getRegion,
   (isLoading, urls, region) =>
-    !isLoading && region === 'au' && Object.values(urls).some(Boolean)
+    !isLoading && region === Region.au && Object.values(urls).some(Boolean)
 );
 
 export const getShouldDisplayPayrollNzMenu = createSelector(
@@ -148,7 +149,7 @@ export const getShouldDisplayPayrollNzMenu = createSelector(
   getPayrollNzUrls,
   getRegion,
   (isLoading, urls, region) =>
-    !isLoading && region === 'nz' && Object.values(urls).some(Boolean)
+    !isLoading && region === Region.nz && Object.values(urls).some(Boolean)
 );
 
 export const getBankingUrls = createSelector(getEnabledUrls, (enabledUrls) => ({
@@ -293,12 +294,6 @@ export const getShouldDisplayReportsMenu = createSelector(
 export const getShouldDisplaySubscriptionNow = (state) =>
   hasBusinessId(state) && Boolean(getTrialEndDate(state));
 
-export const getShouldDisplayCreateBusiness = (state) => {
-  const region = getRegion(state);
-
-  return region === 'au';
-};
-
 export const getShouldDisplayLiveChat = createSelector(
   hasBusinessId,
   getIsTrial,
@@ -309,6 +304,12 @@ export const getShouldDisplayLiveChat = createSelector(
     businessRole !== 'Student' &&
     !isAdvisor &&
     trialist &&
-    region === 'au' &&
+    region === Region.au &&
     Config.GENESYS_CHAT
+);
+
+export const getCreateNewBusinessUrl = createSelector(getRegion, (region) =>
+  region === Region.nz
+    ? Config.CREATE_BUSINESS_URL_NZ
+    : Config.CREATE_BUSINESS_URL_AU
 );

@@ -11,7 +11,6 @@ import {
   getShouldDisplayBankingMenu,
   getShouldDisplayBusinessMenu,
   getShouldDisplayContactMenu,
-  getShouldDisplayCreateBusiness,
   getShouldDisplayInTray,
   getShouldDisplayLiveChat,
   getShouldDisplayPayrollMenu,
@@ -128,7 +127,6 @@ const getSettings = ({
   shouldDisplayAddMenu,
   shouldDisplayHelpMenu,
   shouldDisplayTasksMenu,
-  shouldDisplayCreateBusiness,
   onMenuSelect,
   onMenuLinkClick,
   onHelpLinkClick,
@@ -170,9 +168,7 @@ const getSettings = ({
         onMenuSelect={onMenuSelect}
         onMenuLinkClick={onMenuLinkClick}
         onLogoutLinkClick={onLogoutLinkClick}
-        onCreateBusinessClick={
-          shouldDisplayCreateBusiness && onCreateBusinessClick
-        }
+        onCreateBusinessClick={onCreateBusinessClick}
         onManageMyProductClick={onManageMyProductClick}
       />
     ),
@@ -204,7 +200,6 @@ const NavigationBar = ({
   shouldDisplayBankingMenu,
   shouldDisplayBusinessMenu,
   shouldDisplayContactMenu,
-  shouldDisplayCreateBusiness,
   shouldDisplayHelpMenu,
   shouldDisplayHome,
   shouldDisplayInTray,
@@ -247,7 +242,6 @@ const NavigationBar = ({
     shouldDisplayAddMenu,
     shouldDisplayHelpMenu,
     shouldDisplayTasksMenu,
-    shouldDisplayCreateBusiness,
     shouldDisplaySubscriptionNow,
     hasTasks,
     businessName,
@@ -297,7 +291,6 @@ const mapStateToProps = (state) => ({
   shouldDisplayBankingMenu: getShouldDisplayBankingMenu(state),
   shouldDisplayBusinessMenu: getShouldDisplayBusinessMenu(state),
   shouldDisplayContactMenu: getShouldDisplayContactMenu(state),
-  shouldDisplayCreateBusiness: getShouldDisplayCreateBusiness(state),
   shouldDisplayHelpMenu: hasBusinessId(state),
   shouldDisplayHome: getShowUrls(state),
   shouldDisplayInTray: getShouldDisplayInTray(state),

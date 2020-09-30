@@ -13,6 +13,7 @@ import { RESET_STATE } from '../SystemIntents';
 import { featuresConfig } from './navConfig';
 import {
   getBusinessId,
+  getCreateNewBusinessUrl,
   getPaymentDetailUrl,
   getProductManagementUrl,
   getReportsUrl,
@@ -207,7 +208,8 @@ export default class NavigationModule {
       },
     };
     this.recordPageVisit(telemetryProps);
-    this.redirectToPage(this.config.CREATE_BUSINESS_URL);
+    const state = this.store.getState();
+    this.redirectToPage(getCreateNewBusinessUrl(state));
   };
 
   manageMyProduct = () => {
