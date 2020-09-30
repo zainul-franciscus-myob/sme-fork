@@ -220,6 +220,7 @@
       "note": "",
       "isReportable": false,
       "hasQuantity": false,
+      "hasAttachment": true,
       "allocateOrMatch": "Allocate me",
       "type": "unmatched"
     },
@@ -234,6 +235,7 @@
       "note": "",
       "isReportable": false,
       "hasQuantity": false,
+      "hasAttachment": true,
       "allocateOrMatch": "Allocate me",
       "type": "unmatched"
     },
@@ -255,6 +257,7 @@
       "note": "",
       "isReportable": true,
       "hasQuantity": true,
+      "hasAttachment": true,
       "selectedAccountId": "128",
       "type": "singleAllocation"
     },
@@ -276,6 +279,7 @@
       "note": "",
       "isReportable": true,
       "hasQuantity": true,
+      "hasAttachment": true,
       "selectedAccountId": "128",
       "type": "singleAllocation"
     },
@@ -290,6 +294,7 @@
       "note": "",
       "isReportable": false,
       "hasQuantity": false,
+      "hasAttachment": true,
       "allocateOrMatch": "1 match available",
       "type": "matched"
     },
@@ -303,6 +308,7 @@
       "taxCode": "",
       "isReportable": false,
       "hasQuantity": false,
+      "hasAttachment": true,
       "allocateOrMatch": "Possible invoice match found",
       "type": "paymentRuleMatched",
       "appliedRule": {
@@ -323,6 +329,7 @@
       "note": "",
       "isReportable": false,
       "hasQuantity": false,
+      "hasAttachment": true,
       "allocateOrMatch": "2 matches available",
       "type": "matched"
     },
@@ -337,6 +344,7 @@
       "note": "",
       "isReportable": false,
       "hasQuantity": false,
+      "hasAttachment": true,
       "allocateOrMatch": "Possible invoice match found",
       "type": "paymentRuleMatched"
     },
@@ -351,6 +359,7 @@
       "note": "",
       "isReportable": false,
       "hasQuantity": false,
+      "hasAttachment": true,
       "allocateOrMatch": "Possible bill match found",
       "type": "paymentRuleMatched"
     },
@@ -372,6 +381,7 @@
       "note": "Lofty and wendy",
       "isReportable": false,
       "hasQuantity": false,
+      "hasAttachment": true,
       "type": "transfer"
     },
     {
@@ -392,6 +402,7 @@
       "note": "",
       "isReportable": true,
       "hasQuantity": true,
+      "hasAttachment": true,
       "type": "splitAllocation"
     },
     {
@@ -417,6 +428,7 @@
       "note": "",
       "isReportable": true,
       "hasQuantity": false,
+      "hasAttachment": true,
       "type": "splitAllocation"
     },
     {
@@ -442,6 +454,7 @@
       "note": "",
       "isReportable": false,
       "hasQuantity": false,
+      "hasAttachment": true,
       "type": "splitMatched"
     },
     {
@@ -461,6 +474,8 @@
       "taxCode": "GST",
       "note": "",
       "isReportable": true,
+      "hasQuantity": true,
+      "hasAttachment": true,
       "selectedAccountId": "128",
       "type": "singleAllocation",
       "appliedRule": {
@@ -488,6 +503,7 @@
       "note": "",
       "isReportable": true,
       "hasQuantity": false,
+      "hasAttachment": false,
       "selectedAccountId": "128",
       "type": "singleAllocation",
       "isRuleApplied": true

@@ -49,6 +49,7 @@
 .allocatedWand {
   display: flex;
   padding: var(--flx-spacing-x-tiny);
+  padding-top: var(--flx-spacing-tiny);
   padding-left: var(--flx-spacing-x-small);
 }
 

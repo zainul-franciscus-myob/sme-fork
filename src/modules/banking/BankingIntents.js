@@ -176,6 +176,7 @@ export const LINK_IN_TRAY_DOCUMENT = Symbol('Link in tray document');
 export const SET_OPERATION_IN_PROGRESS_STATE = Symbol(
   'Set operation in progress state'
 );
+export const SET_ENTRY_HAS_ATTACHMENT = Symbol('Set entry has attachment');
 
 export const SET_EDITING_NOTE_STATE = Symbol('Set editing note state');
 export const SET_SUBMMITTING_NOTE_STATE = Symbol('Set submitting note state');

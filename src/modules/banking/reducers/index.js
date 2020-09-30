@@ -43,6 +43,7 @@ import {
   SET_ATTACHMENTS_LOADING_STATE,
   SET_BULK_LOADING_STATE,
   SET_EDITING_NOTE_STATE,
+  SET_ENTRY_HAS_ATTACHMENT,
   SET_ENTRY_HOVERED,
   SET_FOCUS,
   SET_JOB_LOADING_STATE,
@@ -491,6 +492,18 @@ export const setLoadingSingleAccountState = (state, action) => ({
   isLoadingAccount: action.isLoadingAccount,
 });
 
+export const setEntryHasAttachment = (state, { hasAttachment }) => ({
+  ...state,
+  entries: state.entries.map((entry, index) =>
+    index === state.openPosition
+      ? {
+          ...entry,
+          hasAttachment,
+        }
+      : entry
+  ),
+});
+
 export const setTransactionStatusTypeToUnmatched = (state, action) => {
   /*
     Have to hard-code allocateOrMatch to "Allocate me" so the transaction looks
@@ -594,6 +607,7 @@ const handlers = {
   [REMOVE_ATTACHMENT_BY_INDEX]: removeAttachmentByIndex,
   [REMOVE_ATTACHMENT]: removeAttachment,
   [SET_OPERATION_IN_PROGRESS_STATE]: setOperationInProgressState,
+  [SET_ENTRY_HAS_ATTACHMENT]: setEntryHasAttachment,
   [SHOW_SELECTED_MATCH_TRANSACTIONS]: showSelectedMatchTransactions,
   [SET_EDITING_NOTE_STATE]: setEditingNoteState,
   [SET_SUBMMITTING_NOTE_STATE]: setSubmittingNoteState,

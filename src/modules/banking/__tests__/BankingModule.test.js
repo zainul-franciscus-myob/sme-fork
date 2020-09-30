@@ -20,6 +20,7 @@ import {
   T,
 } from '../hotkeys/HotkeyEnums';
 import {
+  ADD_ATTACHMENTS,
   ADD_SPLIT_ALLOCATION_LINE,
   ALLOCATE_TRANSACTION,
   BULK_ALLOCATE_TRANSACTIONS,
@@ -38,6 +39,7 @@ import {
   LOAD_SPLIT_ALLOCATION,
   OPEN_MODAL,
   POPULATE_REMAINING_AMOUNT,
+  REMOVE_ATTACHMENT,
   RESET_BULK_ALLOCATION,
   RESET_MATCH_TRANSACTION_OPTIONS,
   SAVE_MATCH_TRANSACTION,
@@ -46,12 +48,14 @@ import {
   SET_ALERT,
   SET_ATTACHMENTS_LOADING_STATE,
   SET_BULK_LOADING_STATE,
+  SET_ENTRY_HAS_ATTACHMENT,
   SET_FOCUS,
   SET_LAST_ALLOCATED_ACCOUNT,
   SET_LOADING_STATE,
   SET_MATCH_TRANSACTION_LOADING_STATE,
   SET_OPEN_ENTRY_LOADING_STATE,
   SET_OPEN_ENTRY_POSITION,
+  SET_OPERATION_IN_PROGRESS_STATE,
   SET_TABLE_LOADING_STATE,
   SET_TRANSACTION_STATUS_TYPE_TO_UNMATCHED,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
@@ -65,6 +69,7 @@ import {
   UPDATE_MATCH_TRANSACTION_OPTIONS,
   UPDATE_PERIOD_DATE_RANGE,
   UPDATE_SPLIT_ALLOCATION_LINE,
+  UPLOAD_ATTACHMENT,
 } from '../BankingIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
 import BankTransactionStatusTypes from '../types/BankTransactionStatusTypes';
@@ -982,6 +987,93 @@ describe('BankingModule', () => {
         expect(
           module.splitAllocationContactComboboxModule.run
         ).toHaveBeenCalled();
+      });
+    });
+
+    describe('attachment', () => {
+      it('upload attachment successfully', () => {
+        const {
+          module,
+          integration,
+          store,
+        } = setUpWithOpenTransactionOnAllocateTab();
+        integration.mapSuccess(UPLOAD_ATTACHMENT, {
+          id: '🥬',
+          name: '🦕',
+        });
+        const file = { size: 1, name: 'New attachment' };
+        const files = [file];
+        module.addAttachments(files);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: ADD_ATTACHMENTS,
+            files,
+          },
+          {
+            intent: UPLOAD_ATTACHMENT,
+            file,
+            id: '🥬',
+            name: '🦕',
+          },
+          {
+            intent: SET_ENTRY_HAS_ATTACHMENT,
+            hasAttachment: true,
+          },
+        ]);
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: UPLOAD_ATTACHMENT,
+          }),
+        ]);
+      });
+
+      it('remove last attachment successfully', () => {
+        const { module, integration, store } = setUpWithRun();
+        integration.mapSuccess(LOAD_ATTACHMENTS, [
+          {
+            id: '🥬',
+            name: 'Invoice.pdf',
+            size: 1000000,
+          },
+        ]);
+        module.toggleLine(0);
+        module.openDeleteAttachmentModal(0);
+        store.resetActions();
+        integration.resetRequests();
+
+        module.removeAttachment();
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: CLOSE_MODAL,
+          },
+          {
+            intent: SET_OPERATION_IN_PROGRESS_STATE,
+            id: '🥬',
+            isInProgress: true,
+          },
+          {
+            intent: SET_OPERATION_IN_PROGRESS_STATE,
+            id: '🥬',
+            isInProgress: false,
+          },
+          {
+            intent: REMOVE_ATTACHMENT,
+            id: '🥬',
+          },
+          {
+            intent: SET_ENTRY_HAS_ATTACHMENT,
+            hasAttachment: false,
+          },
+        ]);
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: REMOVE_ATTACHMENT,
+          }),
+        ]);
       });
     });
   });

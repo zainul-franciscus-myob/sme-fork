@@ -1,5 +1,6 @@
 import {
   LOAD_JOB_AFTER_CREATE,
+  SET_ENTRY_HAS_ATTACHMENT,
   SET_FOCUS,
   SET_TRANSACTION_STATUS_TYPE_TO_UNMATCHED,
 } from '../../BankingIntents';
@@ -271,6 +272,29 @@ describe('bankingReducer', () => {
 
         expect(actual.focus).toEqual(updatedState.focus);
       });
+    });
+  });
+
+  describe('SET_ENTRY_HAS_ATTACHMENT', () => {
+    it('should set the hasAttachment correctly for the open entry', () => {
+      const state = {
+        openPosition: 0,
+        entries: [
+          { index: 0, hasAttachment: false },
+          { index: 1, hasAttachment: false },
+        ],
+      };
+      const action = {
+        intent: SET_ENTRY_HAS_ATTACHMENT,
+        hasAttachment: true,
+      };
+
+      const actual = bankingReducer(state, action);
+
+      expect(actual.entries).toEqual([
+        { hasAttachment: true, index: 0 },
+        { hasAttachment: false, index: 1 },
+      ]);
     });
   });
 

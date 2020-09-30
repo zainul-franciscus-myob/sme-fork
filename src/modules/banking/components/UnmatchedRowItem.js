@@ -3,6 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
+import AttachmentLabel from './AttachmentLabel';
 import styles from './UnmatchedRowItem.module.css';
 
 const UnmatchedRowItem = ({
@@ -14,15 +15,15 @@ const UnmatchedRowItem = ({
   onAllocate,
   onAddAccount,
 }) => {
-  const { accountList, allocateOrMatch } = entry;
+  const { accountList, allocateOrMatch, hasAttachment } = entry;
 
   const hintText = isFocused ? '' : allocateOrMatch;
-  const focusedViewStyling = classNames(styles.allocating, {
+  const comboboxStyling = classNames(styles.allocating, {
     [styles.hovering]: isHovering && !isFocused,
   });
 
-  const focusedView = (
-    <div className={focusedViewStyling}>
+  const combobox = (
+    <div className={comboboxStyling}>
       <AccountCombobox
         items={accountList}
         onChange={onAllocate}
@@ -39,6 +40,13 @@ const UnmatchedRowItem = ({
     </div>
   );
 
+  const focusedView = (
+    <div className={styles.focusedAllocating}>
+      {combobox}
+      {hasAttachment && <AttachmentLabel />}
+    </div>
+  );
+
   const defaultView = (
     <div className={styles.unallocated}>
       <Button
@@ -48,6 +56,7 @@ const UnmatchedRowItem = ({
       >
         {allocateOrMatch}
       </Button>
+      {hasAttachment && <AttachmentLabel className={styles.attachmentClip} />}
     </div>
   );
 

@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import AllocatedButton from './AllocatedButton';
+import AttachmentLabel from './AttachmentLabel';
 import AutoAllocated from './AutoAllocated';
 import QuantityLabel from './QuantityLabel';
 import ReportableLabel from './ReportableLabel';
@@ -21,6 +22,7 @@ const AllocatedRowItem = ({
     allocateOrMatch,
     accountList,
     isReportable,
+    hasAttachment,
     hasQuantity,
     isRuleApplied,
   } = entry;
@@ -50,6 +52,7 @@ const AllocatedRowItem = ({
     <div className={styles.focusedAllocating}>
       {isRuleApplied && <AutoAllocated className={styles.allocatedWand} />}
       {combobox}
+      {hasAttachment && <AttachmentLabel />}
       {hasQuantity && <QuantityLabel />}
       {isReportable && <ReportableLabel />}
     </div>
@@ -67,6 +70,7 @@ const AllocatedRowItem = ({
           {allocateOrMatch}
         </AllocatedButton>
       </div>
+      {hasAttachment && <AttachmentLabel />}
       {hasQuantity && <QuantityLabel />}
       {isReportable && <ReportableLabel />}
     </div>

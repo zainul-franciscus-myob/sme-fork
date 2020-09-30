@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import AllocatedButton from './AllocatedButton';
+import AttachmentLabel from './AttachmentLabel';
 import AutoAllocated from './AutoAllocated';
 import QuantityLabel from './QuantityLabel';
 import ReportableLabel from './ReportableLabel';
@@ -18,6 +19,7 @@ const SplitRowItem = ({ entry, ...props }) => (
       {entry.isRuleApplied && <AutoAllocated />}
       <AllocatedButton {...props}>{entry.allocateOrMatch}</AllocatedButton>
     </div>
+    {entry.hasAttachment && <AttachmentLabel />}
     {entry.hasQuantity && <QuantityLabel />}
     {entry.isReportable && <ReportableLabel />}
   </div>

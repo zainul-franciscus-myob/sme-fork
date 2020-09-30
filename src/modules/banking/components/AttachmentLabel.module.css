@@ -1,0 +1,6 @@
+.clip {
+  display: flex;
+  padding-top: var(--flx-spacing-tiny);
+  padding-bottom: var(--flx-spacing-tiny);
+  padding-right: var(--flx-spacing-x-tiny);
+}

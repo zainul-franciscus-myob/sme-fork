@@ -1,5 +1,6 @@
 import React from 'react';
 
+import AttachmentLabel from './AttachmentLabel';
 import FocusWrapper from './FocusWrapper';
 import styles from './MatchedRowItem.module.css';
 
@@ -20,6 +21,9 @@ const MatchedRowItem = ({ entry, isFocused, ...props }) => (
         </button>
       )}
     </FocusWrapper>
+    {entry.hasAttachment && (
+      <AttachmentLabel className={styles.attachmentClip} />
+    )}
   </div>
 );
 

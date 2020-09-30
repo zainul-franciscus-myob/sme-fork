@@ -1182,6 +1182,7 @@ export default class BankingModule {
   uploadAttachment = (file) => {
     const onSuccess = (response) => {
       this.dispatcher.uploadAttachment({ response, file });
+      this.dispatcher.setEntryHasAttachment(true);
     };
 
     const onFailure = ({ message }) => {
@@ -1252,6 +1253,10 @@ export default class BankingModule {
     const onSuccess = () => {
       this.dispatcher.setOperationInProgressState(id, false);
       this.dispatcher.removeAttachment(id);
+      const removingLastAttachment = state.openEntry.attachments.length === 1;
+      if (removingLastAttachment) {
+        this.dispatcher.setEntryHasAttachment(false);
+      }
     };
 
     const onFailure = ({ message }) => {

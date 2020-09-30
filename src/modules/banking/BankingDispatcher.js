@@ -29,6 +29,7 @@ import {
   SET_ATTACHMENTS_LOADING_STATE,
   SET_BULK_LOADING_STATE,
   SET_EDITING_NOTE_STATE,
+  SET_ENTRY_HAS_ATTACHMENT,
   SET_ENTRY_HOVERED,
   SET_FOCUS,
   SET_JOB_LOADING_STATE,
@@ -440,6 +441,13 @@ const createBankingDispatcher = (store) => ({
   removeAttachmentByIndex: (index) => {
     const intent = REMOVE_ATTACHMENT_BY_INDEX;
     store.dispatch({ intent, index });
+  },
+
+  setEntryHasAttachment: (hasAttachment) => {
+    store.dispatch({
+      intent: SET_ENTRY_HAS_ATTACHMENT,
+      hasAttachment,
+    });
   },
 
   setOperationInProgressState: (id, isInProgress) => {

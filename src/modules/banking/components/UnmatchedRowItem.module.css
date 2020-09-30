@@ -1,12 +1,17 @@
 .unallocated {
   display: flex;
-  padding: var(--flx-spacing-tiny) var(--flx-spacing-clear) var(--flx-spacing-tiny) var(--flx-spacing-x-small);
+  padding: 0 var(--flx-spacing-x-small);
   overflow: auto;
 }
 
 .unallocated :global(.btn-link) {
   padding-top: 0.2rem;
   padding-bottom: 0.3rem;
+}
+
+.focusedAllocating {
+  display: flex;
+  width: 100%;
 }
 
 .allocating {
@@ -44,4 +49,9 @@
 
 .hovering :global(a > svg) {
   opacity: 0.65
+}
+
+.attachmentClip {
+  display: flex;
+  padding: var(--flx-spacing-tiny);
 }
