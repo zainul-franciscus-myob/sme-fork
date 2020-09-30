@@ -16,8 +16,7 @@
       "selectedPayCycle": ""
     },
     "leave": {
-      "nextAnniversaryDate": "",
-      "holidayPay": "8.00"
+      "nextAnniversaryDate": ""
     },
     "tax": {
       "irdNumber": "000 000 000",
@@ -28,6 +27,9 @@
       "employeeContributionRate": null,
       "employerContributionRate": null,
       "employerSuperannuationContributionTax": 0
+    },
+    "holidayPay": {
+      "holidayPayRate": "8.00"
     }
   },
   "genderOptions": [

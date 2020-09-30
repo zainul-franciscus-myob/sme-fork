@@ -7,10 +7,10 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getLeaveDetails } from '../LeaveSelectors';
+import { getHolidayPay, getLeaveDetails } from '../LeaveSelectors';
 import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
 
-const LeaveTabView = ({ leave, onLeaveChange }) => {
+const LeaveTabView = ({ leave, holidayPay, onLeaveChange }) => {
   const onInputChange = (event) =>
     onLeaveChange({
       key: event.target.name,
@@ -25,13 +25,13 @@ const LeaveTabView = ({ leave, onLeaveChange }) => {
       <FieldGroup label="Holidays">
         <AmountInput
           label="Holiday pay (%)"
-          numeralDecimalScaleMax={4}
-          numeralIntegerScale={5}
+          numeralDecimalScaleMax={2}
+          numeralIntegerScale={3}
           numeralPositiveOnly
           width="xs"
           name="holidayPay"
           textAlign="right"
-          value={leave.holidayPay}
+          value={holidayPay.holidayPayRate}
           onChange={onInputChange}
           disabled // Disabled to meet EAP requirement
         />
@@ -106,6 +106,7 @@ const LeaveTabView = ({ leave, onLeaveChange }) => {
 
 const mapStateToProps = (state) => ({
   leave: getLeaveDetails(state),
+  holidayPay: getHolidayPay(state),
 });
 
 export default connect(mapStateToProps)(LeaveTabView);

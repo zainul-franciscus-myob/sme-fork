@@ -60,10 +60,14 @@ describe('LeaveTabView', () => {
   });
 
   describe('LeaveTabView fields', () => {
-    const { leave } = employeeDetail.payrollDetails;
+    const { holidayPay, leave } = employeeDetail.payrollDetails;
 
     it.each([
-      { label: 'Holiday pay (%)', name: 'holidayPay', data: leave.holidayPay },
+      {
+        label: 'Holiday pay (%)',
+        name: 'holidayPay',
+        data: holidayPay.holidayPayRate,
+      },
       {
         label: 'Annual entitlement (days)',
         name: 'sickLeaveAnnualEntitlement',

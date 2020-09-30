@@ -27,7 +27,6 @@
       "selectedPayCycle": "Weekly"
     },
     "leave": {
-      "holidayPay": "8.12",
       "sickLeaveCurrentBalance": "4.0",
       "sickLeaveAnnualEntitlement": "5.0",
       "sickLeaveMaximumToAccure": "5.0",
@@ -45,6 +44,9 @@
       "employeeContributionRate" : 3,
       "employerContributionRate" : 13.50,
       "employerSuperannuationContributionTax": 0.175
+    },
+    "holidayPay": {
+      "holidayPayRate": "8.12"
     }
   },
   "genderOptions": [
