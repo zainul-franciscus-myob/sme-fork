@@ -49,8 +49,8 @@ const PaymentDetails = ({
       label="Statement text"
       labelAccessory={
         <Tooltip triggerContent={<Icons.Info />}>
-          Type a description that will help to identify the transaction on the
-          bank statement
+          This will appear on your supplier’s bank statement to help identify
+          the payment
         </Tooltip>
       }
       value={statementText}
