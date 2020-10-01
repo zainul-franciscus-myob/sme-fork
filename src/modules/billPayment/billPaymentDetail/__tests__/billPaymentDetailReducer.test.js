@@ -2,7 +2,7 @@ import {
   CHANGE_REFERENCE_ID,
   LOAD_BILL_LIST,
   LOAD_NEW_BILL_PAYMENT,
-  LOAD_SUPPLIER_STATEMENT_TEXT,
+  LOAD_SUPPLIER_PAYMENT_INFO,
   UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_REFERENCE_ID,
 } from '../../BillPaymentIntents';
@@ -197,20 +197,23 @@ describe('billPaymentDetailReducer', () => {
     });
   });
 
-  describe('LOAD_SUPPLIER_STATEMENT_TEXT', () => {
-    it('should set the bankStatementText to supplier statement text', () => {
+  describe('LOAD_SUPPLIER_PAYMENT_INFO', () => {
+    it('should set the supplier payment info', () => {
       const state = {
         bankStatementText: '',
+        isPaymentDetailsComplete: false,
       };
 
       const action = {
-        intent: LOAD_SUPPLIER_STATEMENT_TEXT,
+        intent: LOAD_SUPPLIER_PAYMENT_INFO,
         supplierStatementText: 'WAWA',
+        isPaymentDetailsComplete: true,
       };
 
       const actual = billPaymentDetailReducer(state, action);
 
       expect(actual.bankStatementText).toEqual('WAWA');
+      expect(actual.isPaymentDetailsComplete).toEqual(true);
     });
 
     it('should not set the bankStatementText when modified', () => {
@@ -219,7 +222,7 @@ describe('billPaymentDetailReducer', () => {
       };
 
       const action = {
-        intent: LOAD_SUPPLIER_STATEMENT_TEXT,
+        intent: LOAD_SUPPLIER_PAYMENT_INFO,
         supplierStatementText: 'WAWA',
       };
 

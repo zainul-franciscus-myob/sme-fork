@@ -1,0 +1,37 @@
+.status {
+  display: grid;
+  grid-template-columns: var(--flx-spacing-medium) auto;
+  grid-gap: var(--flx-spacing-x-tiny);
+  align-items: center;
+  min-width: 12rem;
+}
+
+.popoverLink {
+  cursor: pointer;
+}
+
+.icon {
+  display: flex;
+}
+
+.iconInvalid :global(svg) {
+  fill: var(--flx-background-color-alert-error-icon);
+}
+
+.iconActive :global(svg) {
+  fill: var(--flx-background-color-alert-success-icon);
+}
+
+.popoverLinkText {
+  color: var(--flx-color-link);
+}
+
+.statusWrapper :global(.flx-loading-spinner--fade-in) {
+  align-self: center;
+}
+
+.statusWrapper {
+  display: flex;
+  margin-left: var(--flx-spacing-x-tiny);
+  margin-top: var(--flx-spacing-x-tiny);
+}

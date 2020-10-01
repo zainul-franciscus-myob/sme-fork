@@ -1,5 +1,6 @@
 export const SET_LOADING_STATE = Symbol('Set loading state');
 export const SET_TABLE_LOADING_STATE = Symbol('Set table loading state');
+export const SET_SUPPLIER_LOADING_STATE = Symbol('Set supplier loading state');
 export const LOAD_NEW_BILL_PAYMENT = Symbol('Load new bill payment');
 export const LOAD_BILL_PAYMENT = Symbol('Load bill payment');
 export const LOAD_BILL_LIST = Symbol('Load bill list');
@@ -17,6 +18,4 @@ export const OPEN_MODAL = Symbol('Open modal');
 export const CLOSE_MODAL = Symbol('Close modal');
 export const SET_ALERT_MESSAGE = Symbol('Set alert message');
 export const SET_REDIRECT_URL = Symbol('Set redirect url');
-export const LOAD_SUPPLIER_STATEMENT_TEXT = Symbol(
-  'Load Supplier statement text'
-);
+export const LOAD_SUPPLIER_PAYMENT_INFO = Symbol('Load Supplier payment info');

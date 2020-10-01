@@ -5,6 +5,7 @@ import {
   getSaveBillPaymentPayload,
   getShouldDisableSupplier,
   getShouldLoadBillList,
+  getShouldShowSupplierPopover,
 } from '../BillPaymentDetailSelectors';
 
 describe('BillPaymentSelector', () => {
@@ -379,6 +380,36 @@ describe('BillPaymentSelector', () => {
       const actual = getShouldDisableSupplier.resultFunc(false, true, '12');
 
       expect(actual).toBeTruthy();
+    });
+  });
+
+  describe('getShouldShowSupplierPopover', () => {
+    it('shows supplier popover when supplier selected and electronic payment checked', () => {
+      const actual = getShouldShowSupplierPopover.resultFunc(true, true, true);
+
+      expect(actual).toBeTruthy();
+    });
+
+    it('should not show supplier popover when supplier is not selected', () => {
+      const actual = getShouldShowSupplierPopover.resultFunc(false, true, true);
+
+      expect(actual).toBeFalsy();
+    });
+
+    it('should not show supplier popover when electronic payment is not enabled', () => {
+      const actual = getShouldShowSupplierPopover.resultFunc(
+        true,
+        false,
+        false
+      );
+
+      expect(actual).toBeFalsy();
+    });
+
+    it('should not show supplier popover when electronic payment is not checked', () => {
+      const actual = getShouldShowSupplierPopover.resultFunc(true, true, false);
+
+      expect(actual).toBeFalsy();
     });
   });
 });

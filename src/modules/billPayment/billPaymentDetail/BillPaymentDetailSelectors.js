@@ -15,6 +15,7 @@ import tableViewTypes from './tableViewTypes';
 
 export const getLoadingState = (state) => state.loadingState;
 export const getIsTableLoading = (state) => state.isTableLoading;
+export const getIsSupplierLoading = (state) => state.isSupplierLoading;
 export const getBusinessId = (state) => state.businessId;
 export const getRegion = (state) => state.region;
 export const getBillPaymentId = (state) => state.billPaymentId;
@@ -32,6 +33,8 @@ const getDescription = (state) => state.description;
 export const getIsPageEdited = (state) => state.isPageEdited;
 export const getModalType = (state) => state.modalType;
 export const getRedirectUrl = (state) => state.redirectUrl;
+export const getIsPaymentDetailsComplete = (state) =>
+  state.isPaymentDetailsComplete;
 
 export const getIsCreating = (state) => state.billPaymentId === 'new';
 export const getShouldDisableFields = (state) => state.billPaymentId !== 'new';
@@ -131,6 +134,22 @@ const getShowElectronicPayments = createSelector(
     region === 'au' && isElectronicPaymentEnabled
 );
 
+export const getSupplierLink = createSelector(
+  getBusinessId,
+  getRegion,
+  getSupplierId,
+  (businessId, region, supplierId) =>
+    `/#/${region}/${businessId}/contact/${supplierId}`
+);
+
+export const getShouldShowSupplierPopover = createSelector(
+  getSupplierId,
+  getShowElectronicPayments,
+  getIsElectronicPayment,
+  (supplierId, showElectronicPayments, isElectronicPayment) =>
+    supplierId && showElectronicPayments && isElectronicPayment
+);
+
 export const getBillPaymentOptions = createStructuredSelector({
   accounts: getAccounts,
   accountId: getAccountId,
@@ -144,6 +163,7 @@ export const getBillPaymentOptions = createStructuredSelector({
   isElectronicPayment: getIsElectronicPayment,
   isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear,
   showElectronicPayments: getShowElectronicPayments,
+  shouldShowSupplierPopover: getShouldShowSupplierPopover,
 });
 
 export const getShouldLoadBillList = (key, value, state) => {
@@ -170,7 +190,7 @@ export const getLoadBillListParams = createSelector(
   })
 );
 
-export const getLoadSupplierStatementTextUrlParams = createSelector(
+export const getLoadSupplierPaymentInfoUrlParams = createSelector(
   getBusinessId,
   getSupplierId,
   (businessId, supplierId) => ({

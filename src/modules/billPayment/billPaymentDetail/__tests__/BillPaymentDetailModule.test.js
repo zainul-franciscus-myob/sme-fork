@@ -5,12 +5,13 @@ import {
   LOAD_BILL_LIST,
   LOAD_BILL_PAYMENT,
   LOAD_NEW_BILL_PAYMENT,
-  LOAD_SUPPLIER_STATEMENT_TEXT,
+  LOAD_SUPPLIER_PAYMENT_INFO,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_REDIRECT_URL,
   SET_SUBMITTING_STATE,
+  SET_SUPPLIER_LOADING_STATE,
   SET_TABLE_LOADING_STATE,
   UPDATE_BILL_PAYMENT,
   UPDATE_HEADER_OPTION,
@@ -587,8 +588,16 @@ describe('BillPaymentDetailModule', () => {
               isTableLoading: true,
             },
             {
+              intent: SET_SUPPLIER_LOADING_STATE,
+              isSupplierLoading: true,
+            },
+            {
               intent: SET_TABLE_LOADING_STATE,
               isTableLoading: false,
+            },
+            {
+              intent: SET_SUPPLIER_LOADING_STATE,
+              isSupplierLoading: false,
             },
             expect.objectContaining({
               intent: LOAD_BILL_LIST,
@@ -600,7 +609,7 @@ describe('BillPaymentDetailModule', () => {
             intent: LOAD_BILL_LIST,
           }),
           expect.objectContaining({
-            intent: LOAD_SUPPLIER_STATEMENT_TEXT,
+            intent: LOAD_SUPPLIER_PAYMENT_INFO,
           }),
         ]);
       });
@@ -642,21 +651,22 @@ describe('BillPaymentDetailModule', () => {
         expect(store.getActions()).toEqual(
           expect.arrayContaining([
             {
-              intent: LOAD_SUPPLIER_STATEMENT_TEXT,
+              intent: LOAD_SUPPLIER_PAYMENT_INFO,
               supplierStatementText: 'SUPP STATEMENT TXT',
+              isPaymentDetailsComplete: false,
             },
           ])
         );
         expect(integration.getRequests()).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              intent: LOAD_SUPPLIER_STATEMENT_TEXT,
+              intent: LOAD_SUPPLIER_PAYMENT_INFO,
             }),
           ])
         );
       });
 
-      it('fails to load statement text', () => {
+      it('fails to load bill list', () => {
         const { module, store, integration } = setupWithExisting();
         integration.mapFailure(LOAD_BILL_LIST);
 
@@ -665,8 +675,9 @@ describe('BillPaymentDetailModule', () => {
         expect(store.getActions()).toEqual(
           expect.arrayContaining([
             {
-              intent: LOAD_SUPPLIER_STATEMENT_TEXT,
+              intent: LOAD_SUPPLIER_PAYMENT_INFO,
               supplierStatementText: 'SUPP STATEMENT TXT',
+              isPaymentDetailsComplete: false,
             },
             {
               intent: SET_ALERT_MESSAGE,
@@ -677,7 +688,7 @@ describe('BillPaymentDetailModule', () => {
         expect(integration.getRequests()).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              intent: LOAD_SUPPLIER_STATEMENT_TEXT,
+              intent: LOAD_SUPPLIER_PAYMENT_INFO,
             }),
           ])
         );

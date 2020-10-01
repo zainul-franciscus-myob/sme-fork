@@ -3,12 +3,13 @@ import {
   CHANGE_REFERENCE_ID,
   CLOSE_MODAL,
   LOAD_BILL_LIST,
-  LOAD_SUPPLIER_STATEMENT_TEXT,
+  LOAD_SUPPLIER_PAYMENT_INFO,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_REDIRECT_URL,
   SET_SUBMITTING_STATE,
+  SET_SUPPLIER_LOADING_STATE,
   SET_TABLE_LOADING_STATE,
   UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_HEADER_OPTION,
@@ -34,6 +35,12 @@ const createBillPaymentDetailDispatcher = (store) => ({
     store.dispatch({
       intent: SET_TABLE_LOADING_STATE,
       isTableLoading,
+    });
+  },
+  setSupplierLoadingState: (isSupplierLoading) => {
+    store.dispatch({
+      intent: SET_SUPPLIER_LOADING_STATE,
+      isSupplierLoading,
     });
   },
   setLoadingState: (loadingState) => {
@@ -96,10 +103,14 @@ const createBillPaymentDetailDispatcher = (store) => ({
       referenceId,
     });
   },
-  loadSupplierStatementText: (supplierStatementText) => {
+  loadSupplierPaymentInfo: ({
+    statementText: supplierStatementText,
+    isPaymentDetailsComplete,
+  }) => {
     store.dispatch({
-      intent: LOAD_SUPPLIER_STATEMENT_TEXT,
+      intent: LOAD_SUPPLIER_PAYMENT_INFO,
       supplierStatementText,
+      isPaymentDetailsComplete,
     });
   },
   loadBillList: ({ entries }) => {

@@ -93,17 +93,20 @@ export default class BillPaymentModule {
     this.integrator.loadBillList({ onSuccess, onFailure });
   };
 
-  loadSupplierStatementText = () => {
+  loadSupplierPaymentInfo = () => {
+    this.dispatcher.setSupplierLoadingState(true);
+
     const onSuccess = (response) => {
-      const { paymentDetails } = response.contact;
-      this.dispatcher.loadSupplierStatementText(paymentDetails.statementText);
+      this.dispatcher.setSupplierLoadingState(false);
+      this.dispatcher.loadSupplierPaymentInfo(response);
     };
 
     const onFailure = ({ message }) => {
+      this.dispatcher.setSupplierLoadingState(false);
       this.dispatcher.setAlertMessage(message);
     };
 
-    this.integrator.loadSupplierStatementText({ onSuccess, onFailure });
+    this.integrator.loadSupplierPaymentInfo({ onSuccess, onFailure });
   };
 
   updateHeaderOption = ({ key, value }) => {
@@ -115,7 +118,7 @@ export default class BillPaymentModule {
       this.loadBillList();
     }
 
-    if (key === 'supplierId' && value) this.loadSupplierStatementText();
+    if (key === 'supplierId' && value) this.loadSupplierPaymentInfo();
     if (key === 'accountId') this.updateReferenceId();
   };
 

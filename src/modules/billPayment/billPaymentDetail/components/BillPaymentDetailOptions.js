@@ -8,15 +8,18 @@ import {
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
+import classnames from 'classnames';
 
 import { getBillPaymentOptions } from '../BillPaymentDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import DatePicker from '../../../../components/DatePicker/DatePicker';
+import SupplierPaymentDetailsStatus from './SupplierPaymentDetailsStatus';
 import handleAutoCompleteChange from '../../../../components/handlers/handleAutoCompleteChange';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 import handleTextAreaChange from '../../../../components/handlers/handleTextAreaChange';
+import styles from './BillPaymentDetailOptions.module.css';
 
 const onDateChange = (handler) => (key) => ({ value }) =>
   handler({ key, value });
@@ -40,6 +43,7 @@ const BillPaymentOptions = ({
   shouldDisableSupplier,
   isCreating,
   isBeforeStartOfFinancialYear,
+  shouldShowSupplierPopover,
 }) => {
   const requiredLabel = 'This is required';
   const requiredBankStatementText =
@@ -47,17 +51,28 @@ const BillPaymentOptions = ({
 
   const primary = (
     <>
-      {renderContactCombobox({
-        selectedId: supplierId,
-        name: 'supplierId',
-        label: 'Supplier',
-        hideLabel: false,
-        hideAdd: true,
-        requiredLabel: isCreating ? requiredLabel : undefined,
-        allowClear: true,
-        disabled: shouldDisableSupplier,
-        onChange: handleAutoCompleteChange('supplierId', onUpdateHeaderOption),
-      })}
+      <div
+        className={classnames(styles.contactComboBox, {
+          [styles.maximiseContactCombobox]: !shouldShowSupplierPopover,
+        })}
+      >
+        {renderContactCombobox({
+          selectedId: supplierId,
+          name: 'supplierId',
+          label: 'Supplier',
+          hideLabel: false,
+          hideAdd: true,
+          requiredLabel: isCreating ? requiredLabel : undefined,
+          allowClear: true,
+          disabled: shouldDisableSupplier,
+          onChange: handleAutoCompleteChange(
+            'supplierId',
+            onUpdateHeaderOption
+          ),
+          width: 'xl',
+        })}
+        {shouldShowSupplierPopover && <SupplierPaymentDetailsStatus />}
+      </div>
       {showElectronicPayments && (
         <CheckboxGroup
           label="Electronic Payment"
@@ -87,6 +102,7 @@ const BillPaymentOptions = ({
         selectedId={accountId}
         disabled={isElectronicPayment}
         onChange={handleComboboxChange('accountId', onUpdateHeaderOption)}
+        width="xl"
       />
       {isElectronicPayment && (
         <Input
@@ -97,6 +113,7 @@ const BillPaymentOptions = ({
           onBlur={handleInputChange(onUpdateBankStatementText)}
           requiredLabel={requiredBankStatementText}
           maxLength={18}
+          width="xl"
         />
       )}
       <TextArea
@@ -108,6 +125,7 @@ const BillPaymentOptions = ({
         maxLength={255}
         rows={1}
         autoSize
+        width="xl"
       />
     </>
   );
@@ -134,7 +152,13 @@ const BillPaymentOptions = ({
     </>
   );
 
-  return <DetailHeader primary={primary} secondary={secondary} />;
+  return (
+    <DetailHeader
+      primary={primary}
+      secondary={secondary}
+      className={styles.detail}
+    />
+  );
 };
 
 const mapStateToProps = (state) => ({

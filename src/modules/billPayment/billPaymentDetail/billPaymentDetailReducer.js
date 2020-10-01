@@ -5,12 +5,13 @@ import {
   LOAD_BILL_LIST,
   LOAD_BILL_PAYMENT,
   LOAD_NEW_BILL_PAYMENT,
-  LOAD_SUPPLIER_STATEMENT_TEXT,
+  LOAD_SUPPLIER_PAYMENT_INFO,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_REDIRECT_URL,
   SET_SUBMITTING_STATE,
+  SET_SUPPLIER_LOADING_STATE,
   SET_TABLE_LOADING_STATE,
   UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_HEADER_OPTION,
@@ -38,6 +39,7 @@ const getDefaultState = () => ({
   description: '',
   supplierStatementText: '',
   bankStatementText: '',
+  isPaymentDetailsComplete: false,
   date: formatIsoDate(new Date()),
   entries: [],
   totalPaid: '',
@@ -45,6 +47,7 @@ const getDefaultState = () => ({
   isTableLoading: false,
   isSubmitting: false,
   isPageEdited: false,
+  isSupplierLoading: false,
   modalType: '',
   alertMessage: '',
   paymentAmount: '',
@@ -64,6 +67,11 @@ const setLoadingState = (state, { loadingState }) => ({
 const setTableLoadingState = (state, action) => ({
   ...state,
   isTableLoading: action.isTableLoading,
+});
+
+const setSupplierLoadingState = (state, action) => ({
+  ...state,
+  isSupplierLoading: action.isSupplierLoading,
 });
 
 const setInitialState = (state, action) => ({
@@ -118,6 +126,7 @@ const loadBillPayment = (state, action) => ({
   electronicClearingAccountId: action.electronicClearingAccountId,
   isElectronicallyProcessed: action.isElectronicallyProcessed,
   startOfFinancialYearDate: action.startOfFinancialYearDate,
+  isPaymentDetailsComplete: action.isPaymentDetailsComplete,
 });
 
 const loadBillList = (state, action) => ({
@@ -213,11 +222,12 @@ const changeReferenceId = updateWhenUsingDefaultStatementText(
   })
 );
 
-const loadSupplierStatementText = updateWhenUsingDefaultStatementText(
-  (state, { supplierStatementText }) => ({
+const loadSupplierPaymentInfo = updateWhenUsingDefaultStatementText(
+  (state, { supplierStatementText, isPaymentDetailsComplete }) => ({
     ...state,
     ...pageEdited,
     supplierStatementText,
+    isPaymentDetailsComplete,
   })
 );
 
@@ -258,11 +268,12 @@ const handlers = {
   [RESET_STATE]: resetState,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
+  [SET_SUPPLIER_LOADING_STATE]: setSupplierLoadingState,
   [SET_INITIAL_STATE]: setInitialState,
   [LOAD_NEW_BILL_PAYMENT]: loadNewBillPayment,
   [LOAD_BILL_PAYMENT]: loadBillPayment,
   [LOAD_BILL_LIST]: loadBillList,
-  [LOAD_SUPPLIER_STATEMENT_TEXT]: loadSupplierStatementText,
+  [LOAD_SUPPLIER_PAYMENT_INFO]: loadSupplierPaymentInfo,
   [UPDATE_HEADER_OPTION]: updateHeaderOption,
   [UPDATE_TABLE_INPUT_FIELD]: updateTableInputField,
   [UPDATE_REFERENCE_ID]: updateReferenceId,

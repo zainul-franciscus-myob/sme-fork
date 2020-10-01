@@ -1,14 +1,14 @@
 import {
   DELETE_BILL_PAYMENT,
   LOAD_BILL_LIST,
-  LOAD_SUPPLIER_STATEMENT_TEXT,
+  LOAD_SUPPLIER_PAYMENT_INFO,
   UPDATE_REFERENCE_ID,
 } from '../BillPaymentIntents';
 import {
   getBillPaymentUrlParams,
   getLoadBillListParams,
   getLoadBillPaymentIntent,
-  getLoadSupplierStatementTextUrlParams,
+  getLoadSupplierPaymentInfoUrlParams,
   getSaveBillPaymentIntent,
   getSaveBillPaymentPayload,
   getUpdateReferenceIdParams,
@@ -68,12 +68,12 @@ const createBillPaymentDetailIntegrator = (store, integration) => ({
       onFailure,
     });
   },
-  loadSupplierStatementText: ({ onSuccess, onFailure }) => {
+  loadSupplierPaymentInfo: ({ onSuccess, onFailure }) => {
     const state = store.getState();
 
     integration.read({
-      intent: LOAD_SUPPLIER_STATEMENT_TEXT,
-      urlParams: getLoadSupplierStatementTextUrlParams(state),
+      intent: LOAD_SUPPLIER_PAYMENT_INFO,
+      urlParams: getLoadSupplierPaymentInfoUrlParams(state),
       onSuccess,
       onFailure,
     });
