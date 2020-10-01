@@ -8,3 +8,19 @@
 :local .totalPaid span:first-child {
   padding-right: 1.6rem;
 }
+
+.successColor {
+  color: var(--flx-color-alert-success-link);
+}
+
+.electronicPaymentFooter {
+  padding-top: 10px;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.electronicPaymentFooter :global(.svg-icon-dollar) {
+  fill: var(--flx-color-alert-success-link);
+}

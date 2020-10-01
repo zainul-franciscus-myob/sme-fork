@@ -1,9 +1,11 @@
-import { Label, PageState, Table } from '@myob/myob-widgets';
+import { Icons, Label, PageState, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
   getBillEntries,
+  getElectronicPaymentReference,
+  getElectronicPaymentUrl,
   getEmptyViewType,
   getIsCreating,
   getIsTableEmpty,
@@ -38,6 +40,8 @@ const OverPaidInfoMessage = ({ overAmount }) => (
 const BillPaymentDetailTable = ({
   entries,
   totalAmount,
+  electronicPaymentUrl,
+  electronicPaymentReference,
   emptyViewType,
   onUpdateTableInputField,
   shouldDisableFields,
@@ -115,7 +119,7 @@ const BillPaymentDetailTable = ({
   ];
 
   const tableBody = (
-    <React.Fragment>
+    <>
       <Table.Body>
         {entries.map((row, index) => (
           <Table.Row key={row.id}>
@@ -178,7 +182,19 @@ const BillPaymentDetailTable = ({
         <span>Total amount paid</span>
         <span>{totalAmount}</span>
       </div>
-    </React.Fragment>
+      {electronicPaymentReference && (
+        <p className={styles.electronicPaymentFooter}>
+          <Icons.Dollar />
+          <span className={styles.successColor}>
+            &nbsp;Electronic payment recorded&nbsp;
+          </span>
+          Reference number&nbsp;
+          <span>
+            <a href={electronicPaymentUrl}>{electronicPaymentReference}</a>
+          </span>
+        </p>
+      )}
+    </>
   );
 
   const header = (
@@ -228,6 +244,8 @@ const mapStateToProps = (state) => ({
   shouldDisableFields: getShouldDisableFields(state),
   emptyViewType: getEmptyViewType(state),
   totalAmount: getTotalAmount(state),
+  electronicPaymentUrl: getElectronicPaymentUrl(state),
+  electronicPaymentReference: getElectronicPaymentReference(state),
 });
 
 export default connect(mapStateToProps)(BillPaymentDetailTable);

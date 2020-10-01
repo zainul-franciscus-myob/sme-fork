@@ -25,6 +25,9 @@ const getAccountId = (state) => state.accountId;
 const getElectronicClearingAccountId = (state) =>
   state.electronicClearingAccountId;
 const getIsElectronicallyProcessed = (state) => state.isElectronicallyProcessed;
+const getElectronicPaymentId = (state) => state.electronicPaymentId;
+export const getElectronicPaymentReference = (state) =>
+  state.electronicPaymentReference;
 export const getSupplierId = (state) => state.supplierId;
 const getReferenceId = (state) => state.referenceId;
 const getDate = (state) => state.date;
@@ -99,6 +102,14 @@ export const getShouldDisableSupplier = createSelector(
   (shouldDisableFields, isCreating, applyPaymentToBillId) => {
     return shouldDisableFields || (isCreating && applyPaymentToBillId);
   }
+);
+
+export const getElectronicPaymentUrl = createSelector(
+  getRegion,
+  getBusinessId,
+  getElectronicPaymentId,
+  (region, businessId, paymentId) =>
+    `/#/${region}/${businessId}/electronicPayments/${paymentId}`
 );
 
 export const getIsElectronicPayment = createSelector(
