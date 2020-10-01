@@ -10,7 +10,10 @@ import { connect } from 'react-redux';
 import React from 'react';
 import classnames from 'classnames';
 
-import { getBillPaymentOptions } from '../BillPaymentDetailSelectors';
+import {
+  getBillPaymentOptions,
+  getElectronicPaymentReference,
+} from '../BillPaymentDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import DatePicker from '../../../../components/DatePicker/DatePicker';
 import SupplierPaymentDetailsStatus from './SupplierPaymentDetailsStatus';
@@ -44,6 +47,7 @@ const BillPaymentOptions = ({
   isCreating,
   isBeforeStartOfFinancialYear,
   shouldShowSupplierPopover,
+  electronicPaymentReference,
 }) => {
   const requiredLabel = 'This is required';
   const requiredBankStatementText =
@@ -82,6 +86,7 @@ const BillPaymentOptions = ({
               name="isElectronicPayment"
               label="Electronic payment"
               checked={isElectronicPayment}
+              disabled={!isCreating}
               labelAccessory={
                 <Tooltip placement="right">
                   Payment will be added to the bank file payments list
@@ -100,7 +105,7 @@ const BillPaymentOptions = ({
         hideLabel={false}
         items={accounts}
         selectedId={accountId}
-        disabled={isElectronicPayment}
+        disabled={electronicPaymentReference || isElectronicPayment}
         onChange={handleComboboxChange('accountId', onUpdateHeaderOption)}
         width="xl"
       />
@@ -113,6 +118,7 @@ const BillPaymentOptions = ({
           onBlur={handleInputChange(onUpdateBankStatementText)}
           requiredLabel={requiredBankStatementText}
           maxLength={18}
+          disabled={electronicPaymentReference}
           width="xl"
         />
       )}
@@ -125,6 +131,7 @@ const BillPaymentOptions = ({
         maxLength={255}
         rows={1}
         autoSize
+        disabled={electronicPaymentReference}
         width="xl"
       />
     </>
@@ -139,6 +146,7 @@ const BillPaymentOptions = ({
         onChange={handleInputChange(onChangeReferenceId)}
         requiredLabel={requiredLabel}
         maxLength={8}
+        disabled={electronicPaymentReference}
       />
       <DatePicker
         label="Date"
@@ -148,6 +156,7 @@ const BillPaymentOptions = ({
         warningMessage={'The date is set to a previous financial year'}
         onSelect={onDateChange(onUpdateHeaderOption)('date')}
         requiredLabel={requiredLabel}
+        disabled={electronicPaymentReference}
       />
     </>
   );
@@ -163,6 +172,7 @@ const BillPaymentOptions = ({
 
 const mapStateToProps = (state) => ({
   ...getBillPaymentOptions(state),
+  electronicPaymentReference: getElectronicPaymentReference(state),
 });
 
 export default connect(mapStateToProps)(BillPaymentOptions);

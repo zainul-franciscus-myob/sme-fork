@@ -10,7 +10,6 @@ import {
   getIsCreating,
   getIsTableEmpty,
   getIsTableLoading,
-  getShouldDisableFields,
   getTotalAmount,
 } from '../BillPaymentDetailSelectors';
 import Calculator from '../../../../components/Calculator/Calculator';
@@ -44,7 +43,6 @@ const BillPaymentDetailTable = ({
   electronicPaymentReference,
   emptyViewType,
   onUpdateTableInputField,
-  shouldDisableFields,
   isCreating,
   isTableEmpty,
   isTableLoading,
@@ -139,7 +137,7 @@ const BillPaymentDetailTable = ({
             </Table.RowItem>
             <Table.RowItem {...tableConfig.discountAmount}>
               <Calculator
-                disabled={shouldDisableFields}
+                disabled={!isCreating}
                 textAlign="right"
                 name="discountAmount"
                 value={row.discountAmount}
@@ -157,7 +155,7 @@ const BillPaymentDetailTable = ({
             </Table.RowItem>
             <Table.RowItem {...tableConfig.paidAmount}>
               <Calculator
-                disabled={shouldDisableFields}
+                disabled={!isCreating}
                 textAlign="right"
                 name="paidAmount"
                 value={row.paidAmount}
@@ -241,7 +239,6 @@ const mapStateToProps = (state) => ({
   isCreating: getIsCreating(state),
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
-  shouldDisableFields: getShouldDisableFields(state),
   emptyViewType: getEmptyViewType(state),
   totalAmount: getTotalAmount(state),
   electronicPaymentUrl: getElectronicPaymentUrl(state),

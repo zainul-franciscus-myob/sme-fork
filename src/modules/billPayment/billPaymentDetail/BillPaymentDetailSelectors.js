@@ -40,7 +40,6 @@ export const getIsPaymentDetailsComplete = (state) =>
   state.isPaymentDetailsComplete;
 
 export const getIsCreating = (state) => state.billPaymentId === 'new';
-export const getShouldDisableFields = (state) => state.billPaymentId !== 'new';
 
 export const getIsActionsDisabled = (state) => state.isSubmitting;
 
@@ -96,11 +95,10 @@ export const getBillEntries = createSelector(
 );
 
 export const getShouldDisableSupplier = createSelector(
-  getShouldDisableFields,
   getIsCreating,
   getApplyPaymentToBillId,
-  (shouldDisableFields, isCreating, applyPaymentToBillId) => {
-    return shouldDisableFields || (isCreating && applyPaymentToBillId);
+  (isCreating, applyPaymentToBillId) => {
+    return !isCreating || (isCreating && applyPaymentToBillId);
   }
 );
 

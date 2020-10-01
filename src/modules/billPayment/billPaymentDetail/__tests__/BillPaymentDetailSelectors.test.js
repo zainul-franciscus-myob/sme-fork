@@ -365,13 +365,13 @@ describe('BillPaymentSelector', () => {
 
   describe('getShouldDisableSupplier', () => {
     it('enable supplier on creating new bill payment', () => {
-      const actual = getShouldDisableSupplier.resultFunc(false, true, '');
+      const actual = getShouldDisableSupplier.resultFunc(true, '');
 
       expect(actual).toBeFalsy();
     });
 
     it('disable supplier on editing bill payment', () => {
-      const actual = getShouldDisableSupplier.resultFunc(true, false, '');
+      const actual = getShouldDisableSupplier.resultFunc(false, '');
 
       expect(actual).toBeTruthy();
     });
