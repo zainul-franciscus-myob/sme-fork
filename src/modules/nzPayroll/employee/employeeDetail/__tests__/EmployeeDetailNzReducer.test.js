@@ -29,6 +29,19 @@ const defaultState = {
     email: '',
     notes: '',
   },
+  payrollDetails: {
+    employmentDetails: {
+      dateOfBirth: '',
+      gender: '',
+      startDate: '',
+      terminationDate: '',
+      employmentBasis: '',
+      employmentCategory: '',
+      employmentStatus: '',
+      paySlipDelivery: '',
+      paySlipEmail: '',
+    },
+  },
 };
 
 describe('EmployeeDetailNzReducer', () => {
@@ -102,15 +115,33 @@ describe('EmployeeDetailNzReducer', () => {
         phoneNumbers: ['03 93883848', '03 94839483', '03 94839482'],
         notes: '',
       };
-      const action = {
-        intent: intents.LOAD_EMPLOYEE_DETAIL,
-        payload: { contactDetail },
+
+      const payrollDetails = {
+        employmentDetails: {
+          dateOfBirth: '06/02/1987',
+          gender: 'Male',
+          startDate: '10/10/2018',
+          terminationDate: '10/10/2020',
+        },
       };
 
-      const result = employeeDetailNzReducer({}, action);
+      const action = {
+        intent: intents.LOAD_EMPLOYEE_DETAIL,
+        payload: { contactDetail, payrollDetails },
+      };
+
+      const state = {
+        contactDetail: {},
+        payrollDetails: {
+          employmentDetails: {},
+        },
+      };
+
+      const result = employeeDetailNzReducer(state, action);
 
       expect(result).toEqual({
         contactDetail,
+        payrollDetails,
         loadingState: LoadingState.LOADING_SUCCESS,
       });
     });
@@ -311,10 +342,17 @@ describe('EmployeeDetailNzReducer', () => {
       };
 
       const payrollDetails = {
+        employmentDetails: {
+          dateOfBirth: '06/02/1987',
+          gender: 'Male',
+          startDate: '10/10/2018',
+          terminationDate: '10/10/2020',
+        },
         wage: {
           hourlyRate: '543.21',
         },
       };
+
       const action = {
         intent: intents.UPDATE_EMPLOYEE,
         message: 'Nice work',

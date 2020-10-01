@@ -24,6 +24,14 @@ const employeeDetails = {
     phoneNumbers: ['03 93883848', '03 94839483', '03 94839482'],
     notes: 'notes goes here',
   },
+  payrollDetails: {
+    employmentDetails: {
+      dateOfBirth: '06/02/1987',
+      gender: 'Male',
+      startDate: '10/10/2018',
+      terminationDate: '10/10/2020',
+    },
+  },
 };
 
 const { contactDetail: cd } = employeeDetails;
@@ -138,6 +146,9 @@ describe('<ContactDetailsNzTab />', () => {
         contactDetail: {
           phoneNumbers: [],
         },
+        payrollDetails: {
+          employmentDetails: {},
+        },
       };
       store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, payload });
       wrapper.update();
@@ -154,6 +165,9 @@ describe('<ContactDetailsNzTab />', () => {
       const response = {
         contactDetail: {
           isInactive: false,
+        },
+        payrollDetails: {
+          employmentDetails: {},
         },
       };
       const wrapper = mountWithProvider(<ContactDetailsNzTabView />);
@@ -175,6 +189,9 @@ describe('<ContactDetailsNzTab />', () => {
       const response = {
         contactDetail: {
           isInactive: true,
+        },
+        payrollDetails: {
+          employmentDetails: {},
         },
       };
       const wrapper = mountWithProvider(<ContactDetailsNzTabView />);

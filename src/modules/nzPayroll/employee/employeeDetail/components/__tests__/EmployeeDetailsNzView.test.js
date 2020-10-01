@@ -62,6 +62,14 @@ describe('<EmployeeDetailNzView />', () => {
         isInactive: false,
         employeeNumber: '0012',
       },
+      payrollDetails: {
+        employmentDetails: {
+          dateOfBirth: '06/02/1987',
+          gender: 'Male',
+          startDate: '10/10/2018',
+          terminationDate: '10/10/2020',
+        },
+      },
     };
 
     beforeEach(() => {

@@ -9,6 +9,7 @@ import leaveReducer from './leave/leaveReducer';
 import salaryAndWageReducer from './salaryAndWages/salaryAndWageReducer';
 import taxAndKiwiSaverReducer from './taxAndKiwiSaver/taxAndKiwiSaverReducer';
 
+// @TODO: LOAD DEFAULT LEAVE DETAILS
 const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
   alert: undefined,
@@ -34,6 +35,19 @@ const getDefaultState = () => ({
     email: '',
     notes: '',
   },
+  payrollDetails: {
+    employmentDetails: {
+      dateOfBirth: '',
+      gender: '',
+      startDate: '',
+      terminationDate: '',
+      employmentBasis: '',
+      employmentCategory: '',
+      employmentStatus: '',
+      paySlipDelivery: '',
+      paySlipEmail: '',
+    },
+  },
 });
 
 const resetState = () => getDefaultState();
@@ -53,9 +67,14 @@ const loadContactDetail = (state, payload) => ({
   ...payload.contactDetail,
 });
 
+// @TODO: LOAD DEFAULT LEAVE DETAILS
 const loadPayrollDetail = (state, payload) => ({
   ...state.payrollDetails,
   ...payload.payrollDetails,
+  employmentDetails: {
+    ...state.payrollDetails.employmentDetails,
+    ...payload.payrollDetails.employmentDetails,
+  },
 });
 
 const loadEmployeeDetail = (state, action) => ({
@@ -64,6 +83,7 @@ const loadEmployeeDetail = (state, action) => ({
 
   ...action.payload,
   contactDetail: loadContactDetail(state, action.payload),
+  payrollDetails: loadPayrollDetail(state, action.payload),
 });
 
 const loadingEmployeeDetail = (state) => ({
