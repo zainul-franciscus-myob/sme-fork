@@ -36,6 +36,17 @@ export const getRemainingHistoricalBalance = (state) =>
 
 const getHasFlexibleAccountNumbers = (state) => state.hasFlexibleAccountNumbers;
 
+export const getAccountClassifications = (state) =>
+  state.accountClassifications;
+
+export const getAccountTypeName = (accountClassifications, accountType) =>
+  accountClassifications[accountType].displayName;
+
+export const getAccountSubTypes = (accountClassifications, accountType) =>
+  accountClassifications[accountType].type;
+
+export const getTaxCodeList = (state) => state.taxCodeList;
+
 const getAccountLink = (account, businessId, region) => {
   const { id } = account;
   return `/#/${region}/${businessId}/account/${id}`;
@@ -43,6 +54,14 @@ const getAccountLink = (account, businessId, region) => {
 
 const getSelectedAccountIds = (state) =>
   state.entries.filter((acc) => acc.selected).map((acc) => acc.id);
+
+export const getAccountNumberCounts = (accounts) => {
+  return accounts.reduce((acc, entry) => {
+    if (!acc[entry.accountNumber]) acc[entry.accountNumber] = 0;
+    acc[entry.accountNumber] += 1;
+    return acc;
+  }, {});
+};
 
 export const getAccountsForBulkDelete = createSelector(
   getSelectedAccountIds,
@@ -57,10 +76,23 @@ export const getModalType = (state) => state.modalType;
 export const getAccountsForBulkUpdate = (state) => ({
   accounts: state.entries
     .filter((entry) => entry.dirty)
-    .map(({ id, openingBalance }) => ({
-      id,
-      openingBalance,
-    })),
+    .map(
+      ({
+        id,
+        accountName,
+        accountNumber,
+        subAccountType,
+        taxCodeId,
+        openingBalance,
+      }) => ({
+        id,
+        accountName,
+        accountNumber,
+        subAccountType,
+        taxCodeId,
+        openingBalance,
+      })
+    ),
 });
 
 export const getTableEntries = createSelector(

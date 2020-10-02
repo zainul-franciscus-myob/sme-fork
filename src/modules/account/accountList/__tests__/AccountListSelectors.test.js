@@ -1,4 +1,5 @@
 import {
+  getAccountNumberCounts,
   getAccountsForBulkDelete,
   getAccountsForBulkUpdate,
   getAccountsForCalcHistoricalBalance,
@@ -150,6 +151,22 @@ describe('AccountListSelectors', () => {
             openingBalance: 111,
           },
         ],
+      };
+
+      expect(actual).toEqual(expected);
+    });
+    it('should return how many times an account number occurs', () => {
+      const entries = [
+        { id: 1, accountNumber: 1 },
+        { id: 2, accountNumber: 2 },
+        { id: 3, accountNumber: 1 },
+        { id: 4, accountNumber: 3 },
+      ];
+      const actual = getAccountNumberCounts(entries);
+      const expected = {
+        '1': 2,
+        '2': 1,
+        '3': 1,
       };
 
       expect(actual).toEqual(expected);

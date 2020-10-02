@@ -168,7 +168,7 @@ describe('AccountListModule', () => {
       ]);
     });
 
-    it('updates accounts and reloads list', () => {
+    it('updates account name and reloads list', () => {
       const { module, integration, store } = setupWithRun();
 
       module.loadAccountList();
@@ -176,8 +176,8 @@ describe('AccountListModule', () => {
       const accountId = store.getState().entries[2].id;
       module.changeAccountDetails({
         index: 2,
-        key: 'openingBalance',
-        value: 1111,
+        key: 'accountName',
+        value: 'Test Account Name',
       });
 
       module.clickBulkUpdateSave();
@@ -192,7 +192,167 @@ describe('AccountListModule', () => {
             accounts: [
               {
                 id: accountId,
-                openingBalance: 1111,
+                openingBalance: '0',
+                accountName: 'Test Account Name',
+                accountNumber: '1-1100',
+                subAccountType: 'Bank',
+                taxCodeId: 1,
+              },
+            ],
+          },
+        }),
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+        }),
+      ]);
+    });
+
+    it('updates account number and reloads list', () => {
+      const { module, integration, store } = setupWithRun();
+
+      module.loadAccountList();
+
+      const accountId = store.getState().entries[2].id;
+      module.changeAccountDetails({
+        index: 2,
+        key: 'accountNumber',
+        value: '1-2000',
+      });
+
+      module.clickBulkUpdateSave();
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_ACCOUNT_LIST,
+        }),
+        expect.objectContaining({
+          intent: UPDATE_ACCOUNTS,
+          content: {
+            accounts: [
+              {
+                id: accountId,
+                openingBalance: '0',
+                accountName: 'General Cheque Account #1',
+                accountNumber: '1-2000',
+                subAccountType: 'Bank',
+                taxCodeId: 1,
+              },
+            ],
+          },
+        }),
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+        }),
+      ]);
+    });
+
+    it('updates account type and reloads list', () => {
+      const { module, integration, store } = setupWithRun();
+
+      module.loadAccountList();
+
+      const accountId = store.getState().entries[2].id;
+      module.changeAccountDetails({
+        index: 2,
+        key: 'subAccountType',
+        value: 'OtherAsset',
+      });
+
+      module.clickBulkUpdateSave();
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_ACCOUNT_LIST,
+        }),
+        expect.objectContaining({
+          intent: UPDATE_ACCOUNTS,
+          content: {
+            accounts: [
+              {
+                id: accountId,
+                openingBalance: '0',
+                accountName: 'General Cheque Account #1',
+                accountNumber: '1-1100',
+                subAccountType: 'OtherAsset',
+                taxCodeId: 1,
+              },
+            ],
+          },
+        }),
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+        }),
+      ]);
+    });
+
+    it('updates tax code and reloads list', () => {
+      const { module, integration, store } = setupWithRun();
+
+      module.loadAccountList();
+
+      const accountId = store.getState().entries[2].id;
+      module.changeAccountDetails({
+        index: 2,
+        key: 'taxCodeId',
+        value: 2,
+      });
+
+      module.clickBulkUpdateSave();
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_ACCOUNT_LIST,
+        }),
+        expect.objectContaining({
+          intent: UPDATE_ACCOUNTS,
+          content: {
+            accounts: [
+              {
+                id: accountId,
+                openingBalance: '0',
+                accountName: 'General Cheque Account #1',
+                accountNumber: '1-1100',
+                subAccountType: 'Bank',
+                taxCodeId: 2,
+              },
+            ],
+          },
+        }),
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+        }),
+      ]);
+    });
+
+    it('updates opening balance and reloads list', () => {
+      const { module, integration, store } = setupWithRun();
+
+      module.loadAccountList();
+
+      const accountId = store.getState().entries[2].id;
+      module.changeAccountDetails({
+        index: 2,
+        key: 'openingBalance',
+        value: '1111',
+      });
+
+      module.clickBulkUpdateSave();
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_ACCOUNT_LIST,
+        }),
+        expect.objectContaining({
+          intent: UPDATE_ACCOUNTS,
+          content: {
+            accounts: [
+              {
+                id: accountId,
+                openingBalance: '1111',
+                accountName: 'General Cheque Account #1',
+                accountNumber: '1-1100',
+                subAccountType: 'Bank',
+                taxCodeId: 1,
               },
             ],
           },

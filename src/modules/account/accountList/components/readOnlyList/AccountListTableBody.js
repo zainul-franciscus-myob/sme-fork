@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import React from 'react';
 import classNames from 'classnames';
 
-import { getShowInactive, getTableEntries } from '../../AccountListSelectors';
+import {
+  getAccountClassifications,
+  getShowInactive,
+  getTableEntries,
+} from '../../AccountListSelectors';
 import styles from '../AccountListTable.module.css';
 
 const StatusRowItem = ({ tableConfig, isInactive }) => (
@@ -65,11 +69,22 @@ const onCheckboxChange = (onSelected, index) => (e) => {
   onSelected({ index, value: checked });
 };
 
+const getDisplayNameForSubAccountType = (
+  accountClassifications,
+  accountType,
+  subAccountType
+) => {
+  if (accountClassifications[accountType].type)
+    return accountClassifications[accountType].type[subAccountType].displayName;
+  return accountClassifications[accountType].displayName;
+};
+
 const AccountListTableBody = ({
   tableConfig,
   showInactive,
   entries,
   onAccountSelected,
+  accountClassifications,
 }) => {
   const rows = entries.map((entry, index) => {
     const {
@@ -77,7 +92,8 @@ const AccountListTableBody = ({
       id,
       accountNumber,
       accountName,
-      type,
+      accountType,
+      subAccountType,
       taxCode,
       linked,
       link,
@@ -119,7 +135,19 @@ const AccountListTableBody = ({
           isHeader={isHeader}
         />
         {showInactive && StatusRowItem({ tableConfig, isInactive })}
-        <AccountRowItem config={tableConfig.type} value={type} title={type} />
+        <AccountRowItem
+          config={tableConfig.type}
+          value={
+            isHeader
+              ? accountClassifications[accountType].displayName
+              : getDisplayNameForSubAccountType(
+                  accountClassifications,
+                  accountType,
+                  subAccountType
+                )
+          }
+          title={subAccountType}
+        />
         <AccountRowItem
           config={tableConfig.taxCode}
           value={taxCode}
@@ -158,6 +186,7 @@ const AccountListTableBody = ({
 const mapStateToProps = (state) => ({
   showInactive: getShowInactive(state),
   entries: getTableEntries(state),
+  accountClassifications: getAccountClassifications(state),
 });
 
 export default connect(mapStateToProps)(AccountListTableBody);

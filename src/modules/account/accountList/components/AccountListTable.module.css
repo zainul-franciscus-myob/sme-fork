@@ -57,6 +57,14 @@
   line-height: 31px;
 }
 
+.taxCodeRowItem {
+  overflow: visible;
+}
+
+.accountInputRowItem {
+  padding-top: 12px;
+}
+
 @media (max-width: 767px) {
   .textAlign {
     text-align: left;

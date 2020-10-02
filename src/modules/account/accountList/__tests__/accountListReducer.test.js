@@ -30,6 +30,11 @@ describe('accountListReducer', () => {
             accountId: '2',
           },
         },
+        accountClassifications: {
+          Asset: { displayName: 'Asset' },
+          Liability: { displayName: 'Liability' },
+        },
+        taxCodeList: [{ id: '1' }, { id: '2' }],
       };
       const actual = reducer({}, action);
       const expected = {
@@ -47,6 +52,11 @@ describe('accountListReducer', () => {
             accountId: '2',
           },
         },
+        accountClassifications: {
+          Asset: { displayName: 'Asset' },
+          Liability: { displayName: 'Liability' },
+        },
+        taxCodeList: [{ id: '1' }, { id: '2' }],
       };
       expect(actual).toEqual(expected);
     });

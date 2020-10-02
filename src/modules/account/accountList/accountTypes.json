@@ -1,6 +1,11 @@
 {
   "ASSET": "Asset",
-  "COST_OF_SALES": "Cost of sales",
+  "COST_OF_SALES": "CostOfSales",
+  "EQUITY": "Equity",
   "EXPENSE": "Expense",
-  "OTHER_EXPENSE": "Other expense"
+  "INCOME": "Income",
+  "LIABILITY": "Liability",
+  "OTHER_EXPENSE": "OtherExpense",
+  "OTHER_INCOME": "OtherIncome",
+  "UNKNOWN": "Unknown"
 }

@@ -1,151 +1,93 @@
 import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
-import classNames from 'classnames';
 
-import { getTableEntries } from '../../AccountListSelectors';
-import AmountInput from '../../../../../components/autoFormatter/AmountInput/AmountInput';
-import styles from '../AccountListTable.module.css';
-
-const AccountRowItem = ({
-  config,
-  value,
-  indentLevel,
-  isSystem,
-  isHeader,
-  isAccountNumber,
-  title,
-  hideAccountNumber,
-}) => {
-  const className = classNames({
-    [styles.systemAccount]: isSystem,
-    [styles.headerAccount]: isHeader,
-    [styles.indent]: indentLevel > 0,
-    [styles.bulkUpdateHeaderRow]: true,
-  });
-
-  const isHidden = value === '' || value === undefined ? styles.hidden : '';
-  const hideHeaderAccountNumber = hideAccountNumber && isAccountNumber;
-
-  return (
-    !config.isHidden &&
-    !hideHeaderAccountNumber && (
-      <Table.RowItem
-        columnName={config.columnName}
-        {...config.styles}
-        className={isHidden}
-      >
-        <span
-          title={title}
-          className={className}
-          data-indent-level={indentLevel}
-        >
-          {value}
-        </span>
-      </Table.RowItem>
-    )
-  );
-};
-
-const onAmountChange = (handler, index) => ({ target }) => {
-  const { name, rawValue } = target;
-  handler({ key: name, value: rawValue, index });
-};
-
-// The auto formatting only happens onBlur so we need to update
-// the state after it has format it to store the value
-const handleOnBlur = (handler, index, onBlur) => ({ target }) => {
-  const { name, rawValue } = target;
-  handler({ key: name, value: rawValue, index });
-  onBlur();
-};
-
-const EditableAccountRowItem = ({ config, onChange, onBlur, index, value }) => (
-  <Table.RowItem columnName={config.columnName} {...config.styles}>
-    <AmountInput
-      textAlign="right"
-      className={styles.textAlign}
-      hideLabel
-      name={`${config.fieldName}`}
-      value={value}
-      onChange={onAmountChange(onChange, index)}
-      onBlur={handleOnBlur(onChange, index, onBlur)}
-      numeralDecimalScaleMax={2}
-      numeralDecimalScaleMin={2}
-      numeralIntegerScale={13}
-    />
-  </Table.RowItem>
-);
+import {
+  getAccountClassifications,
+  getTableEntries,
+  getTaxCodeList,
+} from '../../AccountListSelectors';
+import AccountNameRowItem from './accountRowItems/AccountNameRowItem';
+import AccountNumberRowItem from './accountRowItems/AccountNumberRowItem';
+import AccountTypeRowItem from './accountRowItems/AccountTypeRowItem';
+import OpeningBalanceRowItem from './accountRowItems/OpeningBalanceRowItem';
+import ReadOnlyRowItem from './accountRowItems/ReadOnlyRowItem';
+import TaxCodeRowItem from './accountRowItems/TaxCodeRowItem';
 
 const AccountBulkEditListTableBody = ({
   tableConfig,
   entries,
   onAccountDetailsChange,
   calculateRemainingHistoricalBalance,
+  accountClassifications,
+  taxCodeList,
 }) => {
   const rows = entries.map((entry, index) => {
     const {
       id,
       accountNumber,
       accountName,
-      link,
       balance,
       isSystem,
       isHeader,
       indentLevel,
-      hideAccountNumber,
       openingBalance,
-      type,
+      subAccountType,
+      accountType,
       taxCode,
+      taxCodeId,
     } = entry;
 
     return (
       <Table.Row key={id}>
-        <AccountRowItem
+        <AccountNumberRowItem
           config={tableConfig.accountNumber}
-          value={accountNumber}
-          title={accountNumber}
+          accountNumber={accountNumber}
           indentLevel={indentLevel}
           isSystem={isSystem}
           isHeader={isHeader}
-          hideAccountNumber={hideAccountNumber}
-          isAccountNumber
+          index={index}
+          onChange={onAccountDetailsChange}
+          entries={entries}
         />
-        <AccountRowItem
+        <AccountNameRowItem
           config={tableConfig.accountName}
-          value={<a href={link}>{accountName}</a>}
-          title={accountName}
+          accountName={accountName}
           isSystem={isSystem}
           isHeader={isHeader}
+          index={index}
+          onChange={onAccountDetailsChange}
         />
-        <AccountRowItem config={tableConfig.type} value={type} title={type} />
-        <AccountRowItem
+        <AccountTypeRowItem
+          config={tableConfig.type}
+          isSystem={isSystem}
+          isHeader={isHeader}
+          accountClassifications={accountClassifications}
+          accountType={accountType}
+          subAccountType={subAccountType}
+          index={index}
+          onChange={onAccountDetailsChange}
+        />
+        <TaxCodeRowItem
           config={tableConfig.taxCode}
-          value={taxCode}
-          title={taxCode}
           isSystem={isSystem}
           isHeader={isHeader}
+          taxCodeList={taxCodeList}
+          taxCode={taxCode}
+          selectedTaxCodeId={taxCodeId}
+          index={index}
+          onChange={onAccountDetailsChange}
         />
-        {isHeader ? (
-          <AccountRowItem
-            config={tableConfig.openingBalance}
-            value={openingBalance}
-            title={openingBalance}
-            isSystem={isSystem}
-            isHeader={isHeader}
-          />
-        ) : (
-          <EditableAccountRowItem
-            config={tableConfig.openingBalance}
-            index={index}
-            value={openingBalance}
-            onChange={({ key, value }) =>
-              onAccountDetailsChange({ index, key, value })
-            }
-            onBlur={calculateRemainingHistoricalBalance}
-          />
-        )}
-        <AccountRowItem
+        <OpeningBalanceRowItem
+          config={tableConfig.openingBalance}
+          isSystem={isSystem}
+          isHeader={isHeader}
+          openingBalance={openingBalance}
+          index={index}
+          onChange={onAccountDetailsChange}
+          onBlur={calculateRemainingHistoricalBalance}
+        />
+        <ReadOnlyRowItem
           config={tableConfig.balance}
           value={balance}
           isSystem={isSystem}
@@ -160,6 +102,8 @@ const AccountBulkEditListTableBody = ({
 
 const mapStateToProps = (state) => ({
   entries: getTableEntries(state),
+  accountClassifications: getAccountClassifications(state),
+  taxCodeList: getTaxCodeList(state),
 });
 
 export default connect(mapStateToProps)(AccountBulkEditListTableBody);

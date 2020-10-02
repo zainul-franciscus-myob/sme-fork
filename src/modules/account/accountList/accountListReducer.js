@@ -48,6 +48,8 @@ const getDefaultState = () => ({
       accountId: '',
     },
   },
+  accountClassifications: {},
+  taxCodeList: [],
 });
 
 const setInitialState = (state, { context, settings }) => ({
@@ -90,6 +92,8 @@ const loadAccountList = (state, action) => ({
   ignoredLinkedAccounts: {
     ...action.linkedAccounts,
   },
+  accountClassifications: action.accountClassifications,
+  taxCodeList: action.taxCodeList,
 });
 
 const sortAndFilterAccountList = (state, action) => {

@@ -82,11 +82,24 @@ const AccountListBulkEditView = ({
   const tableConfig = {
     accountNumber: {
       columnName: 'Account number',
+      fieldName: 'accountNumber',
+      styles: { valign: 'middle', width: '20rem' },
+    },
+    accountName: {
+      columnName: 'Account name',
+      fieldName: 'accountName',
       styles: { valign: 'middle' },
     },
-    accountName: { columnName: 'Account name', styles: { valign: 'middle' } },
-    type: { columnName: 'Account type', styles: { valign: 'middle' } },
-    taxCode: { columnName: taxCodeHeader, styles: { valign: 'middle' } },
+    type: {
+      columnName: 'Account type',
+      fieldName: 'subAccountType',
+      styles: { valign: 'middle', width: '20rem' },
+    },
+    taxCode: {
+      columnName: taxCodeHeader,
+      fieldName: 'taxCodeId',
+      styles: { valign: 'middle', width: '12rem' },
+    },
     openingBalance: {
       columnName: 'Opening balance ($)',
       fieldName: 'openingBalance',

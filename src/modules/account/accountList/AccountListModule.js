@@ -201,6 +201,7 @@ export default class AccountListModule {
     this.dispatcher.setModalType('');
     this.dispatcher.setEditMode(false);
     this.dispatcher.setRedirectUrl('');
+    this.dispatcher.dismissAllAlerts();
     const onSuccess = ({ numAccountsUpdated, validationErrors }) => {
       const onBulkUpdateCompleted = () => {
         this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
@@ -270,6 +271,8 @@ export default class AccountListModule {
     const remainingHistoricalBalance = getAccountsForCalcHistoricalBalance(
       state
     ).reduce((acc, entry) => {
+      if (!entry.openingBalance) return acc;
+
       const openingBalance = this.stringWithCommaToNumber(entry.openingBalance);
       if (
         entry.accountType === accountTypes.ASSET ||
