@@ -102,6 +102,16 @@ export const getShouldDisableSupplier = createSelector(
   }
 );
 
+export const getDefaultAccountId = createSelector(
+  (state) => state.defaultAccountId,
+  getElectronicClearingAccountId,
+  getAccounts,
+  (accountId, electronicClearingAccountId, accounts) =>
+    accountId !== electronicClearingAccountId
+      ? accountId
+      : accounts.map((a) => a.id).find((id) => id !== accountId)
+);
+
 export const getElectronicPaymentUrl = createSelector(
   getRegion,
   getBusinessId,

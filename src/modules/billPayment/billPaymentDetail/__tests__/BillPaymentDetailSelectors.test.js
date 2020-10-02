@@ -1,5 +1,6 @@
 import {
   getBillEntries,
+  getDefaultAccountId,
   getIsBeforeStartOfFinancialYear,
   getIsElectronicPayment,
   getSaveBillPaymentPayload,
@@ -410,6 +411,67 @@ describe('BillPaymentSelector', () => {
       const actual = getShouldShowSupplierPopover.resultFunc(true, true, false);
 
       expect(actual).toBeFalsy();
+    });
+  });
+
+  describe('getDefaultAccountId', () => {
+    it('returns accountId when electronic clearing account is difference', () => {
+      const state = {
+        defaultAccountId: '1',
+        electronicClearingAccountId: '2',
+        accounts: [
+          {
+            id: '1',
+            displayName: 'Account',
+          },
+          {
+            id: '2',
+            displayName: 'Electronic Clearing Account',
+          },
+        ],
+      };
+
+      const actual = getDefaultAccountId(state);
+
+      expect(actual).toEqual('1');
+    });
+
+    it('returns other accountId when electronic clearing account and default account are the same', () => {
+      const state = {
+        defaultAccountId: '1',
+        electronicClearingAccountId: '1',
+        accounts: [
+          {
+            id: '1',
+            displayName: 'Account',
+          },
+          {
+            id: '2',
+            displayName: 'Other Account',
+          },
+        ],
+      };
+
+      const actual = getDefaultAccountId(state);
+
+      expect(actual).toEqual('2');
+    });
+
+    it('returns undefined when electronic clearing account is the only account', () => {
+      const state = {
+        defaultAccountId: '1',
+        electronicClearingAccountId: '1',
+        accounts: [
+          {
+            id: '1',
+            displayName: 'Electronic Clearing Account',
+          },
+        ],
+      };
+
+      const actual = getDefaultAccountId(state);
+
+      expect(actual).toBeUndefined();
     });
   });
 });

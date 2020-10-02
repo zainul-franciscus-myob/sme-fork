@@ -9,6 +9,7 @@ import {
   getApplyPaymentToBillId,
   getBusinessId,
   getContactComboboxContext,
+  getDefaultAccountId,
   getIsActionsDisabled,
   getIsCreating,
   getIsPageEdited,
@@ -127,7 +128,7 @@ export default class BillPaymentModule {
 
     const accountId = value
       ? state.electronicClearingAccountId
-      : state.defaultAccountId;
+      : getDefaultAccountId(state);
 
     this.updateHeaderOption({ key: 'accountId', value: accountId });
   };
