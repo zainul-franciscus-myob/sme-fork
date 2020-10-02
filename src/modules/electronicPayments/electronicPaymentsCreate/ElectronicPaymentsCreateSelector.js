@@ -33,11 +33,9 @@ export const getIsSpendMoneyEnabled = (state) => state.isSpendMoneyEnabled;
 const getStartOfFinancialYearDate = (state) => state.startOfFinancialYearDate;
 const getTransactions = (state) => state.transactions;
 const getEntryLink = (entry, businessId, region) => {
-  const { businessEventId, paymentType } = entry;
+  const { id, paymentType } = entry;
   const feature = PaymentTypeMap[paymentType];
-  return feature
-    ? `/#/${region}/${businessId}/${feature}/${businessEventId}`
-    : undefined;
+  return feature ? `/#/${region}/${businessId}/${feature}/${id}` : undefined;
 };
 export const getTableEntries = createSelector(
   getTransactions,
