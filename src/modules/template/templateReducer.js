@@ -38,6 +38,7 @@ const getDefaultState = () => ({
     email: '',
     website: '',
     abn: '',
+    gstNumber: '',
   },
   saleLayout: SaleLayout.ItemAndService,
   isAllowPaymentByDirectDeposit: true,
@@ -71,6 +72,7 @@ const getDefaultState = () => ({
     email: true,
     website: true,
     abn: true,
+    gstNumber: true,
     isDefault: false,
   },
 });

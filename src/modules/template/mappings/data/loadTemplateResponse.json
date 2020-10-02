@@ -20,7 +20,8 @@
     "phoneNumber": "03 9555 4567",
     "email": "support@winstonscc.com.au",
     "website": "www.winstonscc.com.au",
-    "abn": "80 000 000 001"
+    "abn": "80 000 000 001",
+    "gstNumber": "123 456 789"
   },
   "saleLayout": "Service",
   "isAllowPaymentByDirectDeposit": true,

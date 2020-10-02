@@ -55,6 +55,7 @@ const TemplateView = ({
     email,
     website,
     abn,
+    gstNumber,
   },
   previewType,
   saleLayout,
@@ -114,6 +115,7 @@ const TemplateView = ({
       isAllowPaymentByDirectDeposit={isAllowPaymentByDirectDeposit}
       isAllowPaymentByCheque={isAllowPaymentByCheque}
       gstRegistered={gstRegistered}
+      gstNumber={gstNumber}
     />
   );
 

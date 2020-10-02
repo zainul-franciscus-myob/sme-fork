@@ -1,11 +1,12 @@
 import { createSelector } from 'reselect';
 
 import {
+  AllBusinessDetailKeys,
   BusinessDetailDataMap,
-  BusinessDetailKey,
   BusinessDetailLabelMap,
   BusinessDetailPayloadMap,
   BusinessDetailTemplateMap,
+  CommonBusinessDetailKeys,
   HeaderBusinessDetailStyle,
 } from './templateOptions';
 
@@ -151,10 +152,17 @@ const convertImageToFile = (image, fileName) => {
 export const getBusinessDetails = (state) => state.businessDetails;
 
 export const getBusinessDetailsOptions = createSelector(
+  getRegion,
   getTemplate,
   getBusinessDetails,
-  (template, businessDetails) =>
-    Object.values(BusinessDetailKey).reduce(
+  (region, template, businessDetails) => {
+    const businessDetailsOptions = {
+      ...CommonBusinessDetailKeys,
+      ...(region === 'au' && { abn: 'abn' }),
+      ...(region === 'nz' && { gstNumber: 'gstNumber' }),
+    };
+
+    return Object.values(businessDetailsOptions).reduce(
       (result, key) => ({
         ...result,
         [key]: {
@@ -164,33 +172,42 @@ export const getBusinessDetailsOptions = createSelector(
         },
       }),
       {}
-    )
+    );
+  }
 );
 
 export const getBusinessDetailsOptionsForDisplay = createSelector(
+  getRegion,
   getBusinessDetailsOptions,
-  (businessDetailsOptions) => ({
+  (region, businessDetailsOptions) => ({
     businessName:
-      businessDetailsOptions[BusinessDetailKey.businessName].checked &&
-      businessDetailsOptions[BusinessDetailKey.businessName].value,
+      businessDetailsOptions[AllBusinessDetailKeys.businessName].checked &&
+      businessDetailsOptions[AllBusinessDetailKeys.businessName].value,
     tradingName:
-      businessDetailsOptions[BusinessDetailKey.tradingName].checked &&
-      businessDetailsOptions[BusinessDetailKey.tradingName].value,
+      businessDetailsOptions[AllBusinessDetailKeys.tradingName].checked &&
+      businessDetailsOptions[AllBusinessDetailKeys.tradingName].value,
     streetAddress:
-      businessDetailsOptions[BusinessDetailKey.address].checked &&
-      businessDetailsOptions[BusinessDetailKey.address].value,
+      businessDetailsOptions[AllBusinessDetailKeys.address].checked &&
+      businessDetailsOptions[AllBusinessDetailKeys.address].value,
     phoneNumber:
-      businessDetailsOptions[BusinessDetailKey.phoneNumber].checked &&
-      businessDetailsOptions[BusinessDetailKey.phoneNumber].value,
+      businessDetailsOptions[AllBusinessDetailKeys.phoneNumber].checked &&
+      businessDetailsOptions[AllBusinessDetailKeys.phoneNumber].value,
     email:
-      businessDetailsOptions[BusinessDetailKey.email].checked &&
-      businessDetailsOptions[BusinessDetailKey.email].value,
+      businessDetailsOptions[AllBusinessDetailKeys.email].checked &&
+      businessDetailsOptions[AllBusinessDetailKeys.email].value,
     website:
-      businessDetailsOptions[BusinessDetailKey.website].checked &&
-      businessDetailsOptions[BusinessDetailKey.website].value,
-    abn:
-      businessDetailsOptions[BusinessDetailKey.abn].checked &&
-      businessDetailsOptions[BusinessDetailKey.abn].value,
+      businessDetailsOptions[AllBusinessDetailKeys.website].checked &&
+      businessDetailsOptions[AllBusinessDetailKeys.website].value,
+    ...(region === 'au' && {
+      abn:
+        businessDetailsOptions[AllBusinessDetailKeys.abn].checked &&
+        businessDetailsOptions[AllBusinessDetailKeys.abn].value,
+    }),
+    ...(region === 'nz' && {
+      gstNumber:
+        businessDetailsOptions[AllBusinessDetailKeys.gstNumber].checked &&
+        businessDetailsOptions[AllBusinessDetailKeys.gstNumber].value,
+    }),
   })
 );
 

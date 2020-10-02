@@ -195,6 +195,7 @@ const TemplatePreview = ({
   isAllowPaymentByDirectDeposit,
   isAllowPaymentByCheque,
   gstRegistered,
+  gstNumber,
 }) => (
   <div className={styles.wrapper}>
     <div>
@@ -212,6 +213,7 @@ const TemplatePreview = ({
         email={email}
         website={website}
         abn={abn}
+        gstNumber={gstNumber}
       />
       {getDocInfoForPreviewType(previewType, gstRegistered)}
       <ShippingInfo

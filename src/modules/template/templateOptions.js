@@ -1,50 +1,60 @@
-export const BusinessDetailKey = {
+export const CommonBusinessDetailKeys = {
   tradingName: 'tradingName',
   businessName: 'businessName',
   address: 'address',
   phoneNumber: 'phoneNumber',
   email: 'email',
   website: 'website',
+};
+
+export const AllBusinessDetailKeys = {
+  ...CommonBusinessDetailKeys,
   abn: 'abn',
+  gstNumber: 'gstNumber',
 };
 
 export const BusinessDetailDataMap = {
-  [BusinessDetailKey.tradingName]: 'tradingName',
-  [BusinessDetailKey.businessName]: 'businessName',
-  [BusinessDetailKey.address]: 'address',
-  [BusinessDetailKey.phoneNumber]: 'phoneNumber',
-  [BusinessDetailKey.email]: 'email',
-  [BusinessDetailKey.website]: 'website',
-  [BusinessDetailKey.abn]: 'abn',
+  [AllBusinessDetailKeys.tradingName]: 'tradingName',
+  [AllBusinessDetailKeys.businessName]: 'businessName',
+  [AllBusinessDetailKeys.address]: 'address',
+  [AllBusinessDetailKeys.phoneNumber]: 'phoneNumber',
+  [AllBusinessDetailKeys.email]: 'email',
+  [AllBusinessDetailKeys.website]: 'website',
+  [AllBusinessDetailKeys.abn]: 'abn',
+  [AllBusinessDetailKeys.gstNumber]: 'gstNumber',
 };
+
 export const BusinessDetailTemplateMap = {
-  [BusinessDetailKey.tradingName]: 'tradingName',
-  [BusinessDetailKey.businessName]: 'businessName',
-  [BusinessDetailKey.address]: 'address',
-  [BusinessDetailKey.phoneNumber]: 'phoneNumber',
-  [BusinessDetailKey.email]: 'email',
-  [BusinessDetailKey.website]: 'website',
-  [BusinessDetailKey.abn]: 'abn',
+  [AllBusinessDetailKeys.tradingName]: 'tradingName',
+  [AllBusinessDetailKeys.businessName]: 'businessName',
+  [AllBusinessDetailKeys.address]: 'address',
+  [AllBusinessDetailKeys.phoneNumber]: 'phoneNumber',
+  [AllBusinessDetailKeys.email]: 'email',
+  [AllBusinessDetailKeys.website]: 'website',
+  [AllBusinessDetailKeys.abn]: 'abn',
+  [AllBusinessDetailKeys.gstNumber]: 'gstNumber',
 };
 
 export const BusinessDetailPayloadMap = {
-  [BusinessDetailKey.tradingName]: 'TradingName',
-  [BusinessDetailKey.businessName]: 'BusinessName',
-  [BusinessDetailKey.address]: 'StreetAddress',
-  [BusinessDetailKey.phoneNumber]: 'PhoneNumber',
-  [BusinessDetailKey.email]: 'Email',
-  [BusinessDetailKey.website]: 'Website',
-  [BusinessDetailKey.abn]: 'ABN',
+  [AllBusinessDetailKeys.tradingName]: 'TradingName',
+  [AllBusinessDetailKeys.businessName]: 'BusinessName',
+  [AllBusinessDetailKeys.address]: 'StreetAddress',
+  [AllBusinessDetailKeys.phoneNumber]: 'PhoneNumber',
+  [AllBusinessDetailKeys.email]: 'Email',
+  [AllBusinessDetailKeys.website]: 'Website',
+  [AllBusinessDetailKeys.abn]: 'ABN',
+  [AllBusinessDetailKeys.gstNumber]: 'ABN',
 };
 
 export const BusinessDetailLabelMap = {
-  [BusinessDetailKey.tradingName]: 'Trading name',
-  [BusinessDetailKey.businessName]: 'Business name',
-  [BusinessDetailKey.address]: 'Street address',
-  [BusinessDetailKey.phoneNumber]: 'Phone number',
-  [BusinessDetailKey.email]: 'Email',
-  [BusinessDetailKey.website]: 'Website',
-  [BusinessDetailKey.abn]: 'ABN',
+  [AllBusinessDetailKeys.tradingName]: 'Trading name',
+  [AllBusinessDetailKeys.businessName]: 'Business name',
+  [AllBusinessDetailKeys.address]: 'Street address',
+  [AllBusinessDetailKeys.phoneNumber]: 'Phone number',
+  [AllBusinessDetailKeys.email]: 'Email',
+  [AllBusinessDetailKeys.website]: 'Website',
+  [AllBusinessDetailKeys.abn]: 'ABN',
+  [AllBusinessDetailKeys.gstNumber]: 'GST number',
 };
 
 export const HeaderBusinessDetailStyle = {

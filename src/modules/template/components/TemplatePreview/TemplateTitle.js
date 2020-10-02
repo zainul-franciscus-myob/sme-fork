@@ -18,6 +18,7 @@ const TemplateTitle = ({
   email,
   website,
   abn,
+  gstNumber,
 }) => {
   switch (headerBusinessDetailsStyle) {
     case HeaderBusinessDetailStyle.fullWidthHeaderImage: {
@@ -45,6 +46,7 @@ const TemplateTitle = ({
           {email && <div>{email}</div>}
           {website && <div>{website}</div>}
           {abn && <div>{abn}</div>}
+          {gstNumber && <div>{gstNumber}</div>}
         </div>
       );
       const logo = logoImage && (
