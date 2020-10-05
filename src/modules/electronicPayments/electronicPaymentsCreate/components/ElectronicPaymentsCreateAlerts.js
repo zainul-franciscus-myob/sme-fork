@@ -4,7 +4,13 @@ import React from 'react';
 const ElectronicPaymentsCreateAlert = ({ alert, onDismissAlert }) =>
   alert ? (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
-      {alert.message}
+      {alert.message.split('\n').reduce((a, b) => (
+        <>
+          {a}
+          <br />
+          {b}
+        </>
+      ))}
     </Alert>
   ) : (
     <Alert type="info">
