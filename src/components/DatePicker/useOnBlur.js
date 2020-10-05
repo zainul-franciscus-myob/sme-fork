@@ -1,23 +1,27 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 const useOnBlur = ({ onSelect, onBlur }) => {
   const [lastCheckedValue, setLastCheckedValue] = useState('');
-  const [currentValue, setCurrentValue] = useState('');
+  const currentValueRef = useRef('');
 
   const newOnSelect = useCallback(
     (val) => {
-      setCurrentValue(val);
+      currentValueRef.current = val;
       onSelect(val);
     },
     [onSelect]
   );
 
   const newOnBlur = (e) => {
-    if (lastCheckedValue !== currentValue && e.target.tagName === 'INPUT') {
-      setLastCheckedValue(currentValue);
+    if (
+      lastCheckedValue !== currentValueRef.current &&
+      e.target.tagName === 'INPUT'
+    ) {
+      setLastCheckedValue(currentValueRef.current);
       onBlur(e);
     }
   };
+
   return { newOnSelect, newOnBlur };
 };
 
