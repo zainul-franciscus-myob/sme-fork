@@ -1,12 +1,12 @@
 .unallocated {
   display: flex;
-  padding: 0 var(--flx-spacing-x-small);
+  padding: var(--flx-spacing-tiny) var(--flx-spacing-clear) var(--flx-spacing-tiny) var(--flx-spacing-x-small);
   overflow: auto;
 }
 
 .unallocated :global(.btn-link) {
   padding-top: 0.2rem;
-  padding-bottom: 0.3rem;
+  padding-bottom: 0.2rem;
 }
 
 .focusedAllocating {
@@ -17,7 +17,7 @@
 .allocating {
   display: flex;
   width: 100%;
-  padding: 0.3rem var(--flx-spacing-x-small) 0.3rem 0.2rem;
+  padding: 0.3rem var(--flx-spacing-tiny) 0.3rem 0.2rem;
 }
 
 .allocating :global(.form-group) {
@@ -53,5 +53,5 @@
 
 .attachmentClip {
   display: flex;
-  padding: var(--flx-spacing-tiny);
+  padding: 0 var(--flx-spacing-tiny);
 }

@@ -62,7 +62,7 @@ const AllocatedRowItem = ({
   const defaultView = (
     <div className={styles.allocated}>
       <div className={classNames(styles.allocationInfo, ruleHiddenStyling)}>
-        {isRuleApplied && <AutoAllocated className={styles.allocatedWand} />}
+        {isRuleApplied && <AutoAllocated />}
         <AllocatedButton
           onClick={onFocusTransactionLine}
           onFocus={onFocusTransactionLine}

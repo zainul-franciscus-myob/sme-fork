@@ -1,11 +1,11 @@
 .matchInfo {
   display: flex;
-  padding: 0 var(--flx-spacing-x-small);
+  padding: var(--flx-spacing-tiny) var(--flx-spacing-clear) var(--flx-spacing-tiny) var(--flx-spacing-x-small);
 }
 
 .attachmentClip {
   display: flex;
-  padding: var(--flx-spacing-tiny);
+  padding: 0 var(--flx-spacing-tiny);
 }
 
 /*

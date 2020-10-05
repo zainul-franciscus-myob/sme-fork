@@ -10,7 +10,7 @@
 
 .allocating {
   width: 100%;
-  padding: 0.3rem var(--flx-spacing-x-small) 0.3rem 0.2rem;
+  padding: 0.3rem var(--flx-spacing-tiny) 0.3rem 0.2rem;
 }
 
 .allocating :global(.form-group) {
@@ -22,7 +22,7 @@
 }
 
 .allocationInfo {
-  position: relative;
+  padding: var(--flx-spacing-tiny) var(--flx-spacing-clear) var(--flx-spacing-tiny) var(--flx-spacing-x-small);
   display: grid;
   grid-template-columns: auto 1fr;
   grid-gap: var(--flx-spacing-x-tiny);
