@@ -3,7 +3,7 @@ set -euo pipefail
 
 hash docker 2>/dev/null || die "missing dep: docker"
 
-IMAGE_SHA_DIGEST=6cd1000e7ca251d9b685b1605001d5f091fd4a1266ed667fd61cfb802dc89ee2
+IMAGE_SHA_DIGEST=8c0d3a6d6c7e4065cee06b463dd021d480b4ecd38102fa911776294be33b7430
 
 docker run --rm \
   -v "$(pwd)":/app:cached \
