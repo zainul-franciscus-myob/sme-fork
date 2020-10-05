@@ -800,6 +800,7 @@ describe('BankingModule', () => {
           journals: [
             {
               journalId: '456',
+              journalUid: '123e4567-e89b-12d3-a456-426655440000',
               journalLineId: '123',
               sourceJournal: 'CashPayment',
             },
@@ -840,8 +841,9 @@ describe('BankingModule', () => {
           journals: [
             {
               journalId: '456',
+              journalUid: '123e4567-e89b-12d3-a456-426655440000',
               journalLineId: '123',
-              sourceJournal: 'CashPayment',
+              sourceJournal: 'CashReceipt',
             },
           ],
           taxCode: 'GST',
@@ -921,6 +923,10 @@ describe('BankingModule', () => {
           }),
           expect.objectContaining({
             intent: LOAD_ATTACHMENTS,
+            params: {
+              spendMoneyUid: '123e4567-e89b-12d3-a456-426655440000',
+              transactionUid: '123e4567-e89b-12d3-a456-789123456790',
+            },
           }),
         ]);
 
@@ -981,6 +987,10 @@ describe('BankingModule', () => {
           }),
           expect.objectContaining({
             intent: LOAD_ATTACHMENTS,
+            params: {
+              spendMoneyUid: undefined,
+              transactionUid: '123e4567-e89b-12d3-a456-789123456790',
+            },
           }),
         ]);
 

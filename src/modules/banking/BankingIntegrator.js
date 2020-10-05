@@ -32,6 +32,7 @@ import {
   getPendingNote,
   getSortBankTransactionsParams,
   getSortBankTransactionsUrlParams,
+  getSpendMoneyUid,
   getUnallocationPayload,
 } from './selectors';
 import {
@@ -219,7 +220,10 @@ const createBankingIntegrator = (store, integration) => ({
     const state = store.getState();
     const intent = LOAD_ATTACHMENTS;
 
-    const { transactionUid } = getBankTransactionLineByIndex(state, index);
+    const { transactionUid, journals } = getBankTransactionLineByIndex(
+      state,
+      index
+    );
 
     const urlParams = {
       businessId: getBusinessId(state),
@@ -227,6 +231,7 @@ const createBankingIntegrator = (store, integration) => ({
 
     const params = {
       transactionUid,
+      spendMoneyUid: getSpendMoneyUid(journals),
     };
 
     integration.read({
@@ -315,16 +320,18 @@ const createBankingIntegrator = (store, integration) => ({
     const state = store.getState();
     const index = getOpenPosition(state);
 
-    const { transactionUid, transactionId } = getBankTransactionLineByIndex(
-      state,
-      index
-    );
+    const {
+      transactionUid,
+      transactionId,
+      journals,
+    } = getBankTransactionLineByIndex(state, index);
 
     integration.write({
       intent: LINK_IN_TRAY_DOCUMENT,
       content: {
         id: transactionId,
         uid: transactionUid,
+        spendMoneyUid: getSpendMoneyUid(journals),
         inTrayDocumentId,
       },
       urlParams: {

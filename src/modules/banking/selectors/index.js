@@ -193,6 +193,11 @@ export const getBankTransactionLineByIndex = (state, index) => {
   return entries[index];
 };
 
+export const getSpendMoneyUid = (journals) =>
+  journals[0]?.sourceJournal === businessEventTypes.spendMoney
+    ? journals[0].journalUid
+    : undefined;
+
 export const getAppliedPaymentRuleContactId = ({ appliedRule = {} }) =>
   ['Invoice', 'Bill'].includes(appliedRule.ruleType)
     ? String(appliedRule.contactId)

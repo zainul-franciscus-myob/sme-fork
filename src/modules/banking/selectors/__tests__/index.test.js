@@ -13,6 +13,7 @@ import {
   getLocationOfTransactionLine,
   getSortBankTransactionsParams,
   getSortBankTransactionsUrlParams,
+  getSpendMoneyUid,
 } from '../index';
 import BankTransactionStatusTypes from '../../types/BankTransactionStatusTypes';
 import FocusLocations from '../../types/FocusLocations';
@@ -597,6 +598,47 @@ describe('Bank transactions index selectors', () => {
 
         expect(actual.ruleType).toEqual(ruleType);
       });
+    });
+  });
+
+  describe('getSpendMoneyUid', () => {
+    it(`should get uid if journal type is "${businessEventTypes.spendMoney}"`, () => {
+      const journalUid = '123e4567-e89b-12d3-a456-789123456790';
+      const journals = [
+        {
+          journalUid,
+          journalLineId: 1,
+          journalId: 1,
+          sourceJournal: businessEventTypes.spendMoney,
+        },
+      ];
+
+      const actual = getSpendMoneyUid(journals);
+
+      expect(actual).toEqual(journalUid);
+    });
+
+    it(`should get undefined if journal type is not "${businessEventTypes.spendMoney}"`, () => {
+      const journals = [
+        {
+          journalUid: '🍉',
+          journalLineId: 1,
+          journalId: 1,
+          sourceJournal: businessEventTypes.receiveMoney,
+        },
+      ];
+
+      const actual = getSpendMoneyUid(journals);
+
+      expect(actual).toEqual(undefined);
+    });
+
+    it('should get undefined if journal is empty', () => {
+      const journals = [];
+
+      const actual = getSpendMoneyUid(journals);
+
+      expect(actual).toEqual(undefined);
     });
   });
 });
