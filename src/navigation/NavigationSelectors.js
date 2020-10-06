@@ -298,14 +298,14 @@ export const getShouldDisplayLiveChat = createSelector(
   hasBusinessId,
   getIsTrial,
   getIsCurrentUserAdvisor,
-  getRegion,
-  (businessIdExists, trialist, isAdvisor, region) => (businessRole) =>
-    businessIdExists &&
-    businessRole !== 'Student' &&
-    !isAdvisor &&
-    trialist &&
-    region === Region.au &&
-    Config.GENESYS_CHAT
+  getBusinessId,
+  (businessIdExists, trialist, isAdvisor, businessId) => (businessRole) =>
+    (businessIdExists &&
+      businessRole !== 'Student' &&
+      !isAdvisor &&
+      trialist &&
+      Config.GENESYS_CHAT) ||
+    businessId === 'e2f45960-c44b-44de-bc38-4363ed9a771e'
 );
 
 export const getCreateNewBusinessUrl = createSelector(getRegion, (region) =>

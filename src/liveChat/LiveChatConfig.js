@@ -34,7 +34,8 @@ const liveChatConfig = (
       dataURL: 'https://eservices.myob.com/genesys/2/chat/myob2/',
       apikey: '',
       userData: {
-        opm_parameter_group: 'SME Trails Chat',
+        opm_parameter_group:
+          region === 'au' ? 'SME Trails Chat' : 'SME-Trial-NZ',
         businessId,
         businessName,
         email,
