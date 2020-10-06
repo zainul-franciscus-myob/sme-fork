@@ -12,6 +12,7 @@
       "netPay": 700,
       "super": 150,
       "note": "pay for Mary Jones",
+      "tier": "01",
       "payItems": [
         {
           "payItemId": 1,
@@ -133,6 +134,7 @@
       "deduction": 315,
       "netPay": 1005.15,
       "super": 200,
+      "tier": "02",
       "note": "pay for John Smith",
       "payItems": [
         {
@@ -222,6 +224,7 @@
       "deduction": 300,
       "netPay": 700,
       "super": 150,
+      "tier": null,
       "note": "Headmaster of Xavier's School for Gifted Youngsters ",
       "payItems": [
         {
@@ -268,7 +271,7 @@
           "calculatedHours": 0,
           "jobs": []
         },
-  
+
         {
           "payItemId": 5,
           "payItemName": "Superannuation deduction before tax",
@@ -312,6 +315,22 @@
           "calculatedAmount": 0,
           "calculatedHours": 20,
           "jobs": []
+        },
+        {
+          "payItemId": 10,
+          "payItemName": "JOBKEEPER-TOPUP",
+          "type": "SalaryWage",
+          "stpCategory": "AllowanceOther",
+          "amount": "750.00",
+          "hours": "0.00",
+          "calculatedAmount": 750,
+          "calculatedHours": 0,
+          "jobs": [
+            {
+              "jobId": "1",
+              "amount": "19.00"
+            }
+          ]
         }
       ]
     }

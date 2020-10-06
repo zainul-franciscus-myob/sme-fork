@@ -43,6 +43,7 @@
         "deduction": 300,
         "netPay": 700,
         "super": 150,
+        "tier": "na",
         "payItems": [
           {
             "payItemId": 1,
@@ -83,6 +84,22 @@
                 "amount": "13.00"
               }
             ]
+          },
+          {
+            "payItemId": 3,
+            "payItemName": "JOBKEEPER-TOPUP",
+            "type": "SalaryWage",
+            "stpCategory": "AllowanceOther",
+            "amount": "750.00",
+            "hours": "0.00",
+            "calculatedAmount": 750,
+            "calculatedHours": 0,
+            "jobs": [
+              {
+                "jobId": "1",
+                "amount": "19.00"
+              }
+            ]
           }
         ]
       },
@@ -94,6 +111,7 @@
         "deduction": 400,
         "netPay": 710,
         "super": 151,
+        "tier": "01",
         "payItems": [
           {
             "payItemId": 3,

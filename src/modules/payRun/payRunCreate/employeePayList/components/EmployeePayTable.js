@@ -41,16 +41,37 @@ const handleInputChange = (handler, employeeId) => (e) => {
     note: e.target.value,
   });
 };
+// featur
+export const shouldRenderJobKeeperAlert = (featureToggles, line) => {
+  // check feature toggle
+  const result =
+    featureToggles &&
+    featureToggles.isJobKeeperTierVisualCueEnabled &&
+    // if tier is return and not equal not applicable
+    !!line &&
+    ((!!line.tier && line.tier !== 'na') ||
+      // or has job keeper, but tier is not selected aka empty/ undefined
+      (!!line.payItems &&
+        line.payItems.length > 0 &&
+        hasJobKeeperPayItem(line.payItems) &&
+        !line.tier));
+
+  return result;
+};
+
 const renderAlert = (line) => {
   if (!!line && !!line.tier) {
-    if (line.tier === 'na') {
+    if (line.tier !== '01' && line.tier !== '02') {
       return '';
     }
+
     const tierMessage =
       line.tier === '01' ? 'Full rate (Tier 1)' : 'Part rate (Tier 2)';
     const message = `${line.name} is on JobKeeper ${tierMessage}.`;
+
     return <Alert type="info">{message}</Alert>;
   }
+
   return (
     <Alert type="warning">
       If you would like {line.name} to continue to receive JobKeeper payments
@@ -158,10 +179,9 @@ const EmployeePayTable = ({
                   </Table.Row>
                 }
               >
-                {featureToggles &&
-                  featureToggles.isJobKeeperTierVisualCueEnabled &&
-                  hasJobKeeperPayItem(line.payItems) &&
-                  renderAlert(line)}
+                {shouldRenderJobKeeperAlert(featureToggles, line)
+                  ? renderAlert(line)
+                  : ''}
                 <EtpModalOpenButton
                   line={line}
                   onOpenEtpModal={onOpenEtpModal}
