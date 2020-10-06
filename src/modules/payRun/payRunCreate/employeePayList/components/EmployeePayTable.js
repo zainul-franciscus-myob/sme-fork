@@ -1,5 +1,6 @@
 import {
   AccordionTable,
+  Alert,
   Card,
   Checkbox,
   FieldGroup,
@@ -16,6 +17,7 @@ import {
   getIsPartiallySelected,
   getNumberOfSelected,
   getTotals,
+  hasJobKeeperPayItem,
 } from '../EmployeePayListSelectors';
 import EmployeeRecalculatePayTable from './EmployeeRecalculatePayTable';
 import EtpModalOpenButton from './EtpModalOpenButton';
@@ -39,7 +41,23 @@ const handleInputChange = (handler, employeeId) => (e) => {
     note: e.target.value,
   });
 };
-
+const renderAlert = (line) => {
+  if (!!line && !!line.tier) {
+    if (line.tier === 'na') {
+      return '';
+    }
+    const tierMessage =
+      line.tier === '01' ? 'Full rate (Tier 1)' : 'Part rate (Tier 2)';
+    const message = `${line.name} is on JobKeeper ${tierMessage}.`;
+    return <Alert type="info">{message}</Alert>;
+  }
+  return (
+    <Alert type="warning">
+      If you would like {line.name} to continue to receive JobKeeper payments
+      you will need to assign a JobKeeper tier.
+    </Alert>
+  );
+};
 const EmployeePayTable = ({
   lines,
   isAllSelected,
@@ -140,6 +158,10 @@ const EmployeePayTable = ({
                   </Table.Row>
                 }
               >
+                {featureToggles &&
+                  featureToggles.isJobKeeperTierVisualCueEnabled &&
+                  hasJobKeeperPayItem(line.payItems) &&
+                  renderAlert(line)}
                 <EtpModalOpenButton
                   line={line}
                   onOpenEtpModal={onOpenEtpModal}

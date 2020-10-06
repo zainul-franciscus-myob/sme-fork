@@ -140,9 +140,9 @@
           "payItemName": "Salary Wage",
           "type": "SalaryWage",
           "stpCategory": "ETPTaxableComponent",
-          "amount": "200000.00",
+          "amount": "2000.00",
           "hours": "0.00",
-          "calculatedAmount": 200000,
+          "calculatedAmount": 2000,
           "calculatedHours": 0,
           "jobs": []
         },
@@ -210,6 +210,107 @@
           "hours": "0.00",
           "calculatedAmount": 222333,
           "calculatedHours": 0,
+          "jobs": []
+        }
+      ]
+    },
+    {
+      "employeeId": 23,
+      "name": "Charles Xaviers",
+      "gross": 4500,
+      "payg": 100,
+      "deduction": 300,
+      "netPay": 700,
+      "super": 150,
+      "note": "Headmaster of Xavier's School for Gifted Youngsters ",
+      "payItems": [
+        {
+          "payItemId": 1,
+          "payItemName": "Salary Wage",
+          "type": "SalaryWage",
+          "stpCategory": "GrossPayments",
+          "amount": "2000.00",
+          "hours": "0.00",
+          "calculatedAmount": 2000,
+          "calculatedHours": 0,
+          "jobs": []
+        },
+        {
+          "payItemId": 2,
+          "payItemName": "Hourly Wage",
+          "type": "HourlyWage",
+          "stpCategory": "GrossPayments",
+          "amount": "30000",
+          "hours": "38.50",
+          "calculatedAmount": 30000,
+          "calculatedHours": 38.5,
+          "jobs": []
+        },
+        {
+          "payItemId": 3,
+          "payItemName": "Annual leave",
+          "type": "HourlyWage",
+          "stpCategory": "GrossPayments",
+          "amount": "150.00",
+          "hours": "5.00",
+          "calculatedAmount": 150,
+          "calculatedHours": 5,
+          "jobs": []
+        },
+        {
+          "payItemId": 4,
+          "payItemName": "Sick leave",
+          "type": "HourlyWage",
+          "stpCategory": "GrossPayments",
+          "amount": "0.00",
+          "hours": "0.00",
+          "calculatedAmount": 0,
+          "calculatedHours": 0,
+          "jobs": []
+        },
+  
+        {
+          "payItemId": 5,
+          "payItemName": "Superannuation deduction before tax",
+          "type": "SuperannuationDeductionBeforeTax",
+          "stpCategory": "NotReportable",
+          "amount": "200.00",
+          "hours": "0.00",
+          "calculatedAmount": 200,
+          "calculatedHours": 0,
+          "jobs": []
+        },
+        {
+          "payItemId": 7,
+          "payItemName": "Superannuation deduction after tax",
+          "type": "SuperannuationDeductionAfterTax",
+          "stpCategory": "NotReportable",
+          "amount": "100.00",
+          "hours": "0.00",
+          "calculatedAmount": 100,
+          "calculatedHours": 0,
+          "jobs": []
+        },
+        {
+          "payItemId": 8,
+          "payItemName": "Annual leave accrual",
+          "type": "Entitlement",
+          "stpCategory": "NotReportable",
+          "amount": "0.00",
+          "hours": "20.00",
+          "calculatedAmount": 0,
+          "calculatedHours": 20,
+          "jobs": []
+        },
+        {
+          "payItemId": 9,
+          "payItemName": "Sick leave accrual",
+          "type": "Entitlement",
+          "stpCategory": "NotReportable",
+          "amount": "0.00",
+          "hours": "20.00",
+          "calculatedAmount": 0,
+          "calculatedHours": 20,
           "jobs": []
         }
       ]

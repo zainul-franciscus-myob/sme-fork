@@ -21,6 +21,7 @@ import {
   getTotals,
   getValidateEtpContent,
   getWagePayItemEntries,
+  hasJobKeeperPayItem,
   isEtpAlertForLineShown,
   isEtpSelectionForLineShown,
   isValidEtp,
@@ -1328,5 +1329,72 @@ describe('EmployeePayListSelectors', () => {
       );
       expect(payItemWithAllocatedJobs).toEqual(expected);
     });
+  });
+});
+describe('HasJobkeeper Payitem', () => {
+  it('returns true when employee has jobkeeper payitem', () => {
+    const payItems = [
+      {
+        payItemId: '11',
+        payItemName: 'PayGWithholding',
+        type: 'Tax',
+        amount: '222.00',
+        isSubmitting: true,
+        hours: '1.00',
+        ignoreUnderAllocationWarning: true,
+      },
+      {
+        payItemId: '11',
+        amount: '222.00',
+        isSubmitting: true,
+        hours: '1.00',
+        ignoreUnderAllocationWarning: true,
+        payItemName: 'JOBKEEPER-TOPUP',
+        type: 'SalaryWage',
+        stpCategory: 'AllowanceOther',
+      },
+    ];
+    expect(hasJobKeeperPayItem(payItems)).toEqual(true);
+  });
+
+  it('returns false when employee has no jobkeeper payitem', () => {
+    const payItems = [
+      {
+        payItemId: '14',
+        amount: '222.00',
+        isSubmitting: true,
+        hours: '1.00',
+        ignoreUnderAllocationWarning: true,
+        payItemName: 'JOBKEEPER-TOPUP',
+        type: 'Tax',
+        stpCategory: 'AllowanceOther',
+      },
+      {
+        payItemId: '12',
+        amount: '222.00',
+        isSubmitting: true,
+        hours: '1.00',
+        ignoreUnderAllocationWarning: true,
+        payItemName: 'JOBKEEPER-TOPUP',
+        type: 'SalaryWage',
+        stpCategory: 'ETPCategory',
+      },
+      {
+        payItemId: '17',
+        amount: '222.00',
+        isSubmitting: true,
+        hours: '1.00',
+        ignoreUnderAllocationWarning: true,
+        payItemName: 'SomePayItem',
+        type: 'SalaryWage',
+        stpCategory: 'AllowanceOther',
+      },
+    ];
+    expect(hasJobKeeperPayItem(payItems)).toEqual(false);
+  });
+
+  it('returns false when employee has no payitem', () => {
+    expect(hasJobKeeperPayItem([])).toEqual(false);
+    expect(hasJobKeeperPayItem()).toEqual(false);
   });
 });

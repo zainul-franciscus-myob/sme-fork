@@ -498,3 +498,15 @@ export const getLeaveWarning = (inputHours, leaveWarning) => {
   }
   return null;
 };
+
+export const hasJobKeeperPayItem = (payItems) => {
+  return (
+    !!payItems &&
+    payItems.some(
+      (payItem) =>
+        payItem.payItemName === 'JOBKEEPER-TOPUP' &&
+        payItem.stpCategory === 'AllowanceOther' &&
+        payItem.type === 'SalaryWage'
+    )
+  );
+};
