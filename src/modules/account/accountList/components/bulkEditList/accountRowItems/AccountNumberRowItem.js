@@ -2,7 +2,6 @@ import { Input, Table } from '@myob/myob-widgets';
 import React from 'react';
 import classNames from 'classnames';
 
-import { getAccountNumberCounts } from '../../../AccountListSelectors';
 import ReadOnlyRowItem from './ReadOnlyRowItem';
 import styles from '../../AccountListTable.module.css';
 
@@ -19,7 +18,7 @@ const AccountNumberRowItem = ({
   isSystem,
   index,
   onChange,
-  entries,
+  accountNumberCount,
 }) => {
   if (isSystem) {
     return (
@@ -49,12 +48,10 @@ const AccountNumberRowItem = ({
           value={accountNumber}
           onChange={handleOnChange(onChange, index)}
           errorMessage={
-            getAccountNumberCounts(entries)[accountNumber] > 1 &&
+            accountNumberCount[accountNumber] > 1 &&
             'Account number already exists'
           }
-          errorMessageInline={
-            getAccountNumberCounts(entries)[accountNumber] > 1
-          }
+          errorMessageInline={accountNumberCount[accountNumber] > 1}
         />
       </div>
     </Table.RowItem>

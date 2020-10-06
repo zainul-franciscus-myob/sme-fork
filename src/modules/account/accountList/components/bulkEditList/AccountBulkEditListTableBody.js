@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getAccountClassifications,
+  getAccountNumberCounts,
   getTableEntries,
   getTaxCodeList,
 } from '../../AccountListSelectors';
@@ -22,6 +23,7 @@ const AccountBulkEditListTableBody = ({
   accountClassifications,
   taxCodeList,
 }) => {
+  const accountNumberCount = getAccountNumberCounts(entries);
   const rows = entries.map((entry, index) => {
     const {
       id,
@@ -48,7 +50,7 @@ const AccountBulkEditListTableBody = ({
           isHeader={isHeader}
           index={index}
           onChange={onAccountDetailsChange}
-          entries={entries}
+          accountNumberCount={accountNumberCount}
         />
         <AccountNameRowItem
           config={tableConfig.accountName}
