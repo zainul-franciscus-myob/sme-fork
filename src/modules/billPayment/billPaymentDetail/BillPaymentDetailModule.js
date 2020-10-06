@@ -69,6 +69,7 @@ export default class BillPaymentModule {
 
     if (getSupplierId(state)) {
       this.loadBillList();
+      this.loadSupplierPaymentInfo();
     }
 
     this.loadContactCombobox();
