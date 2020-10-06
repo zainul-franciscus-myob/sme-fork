@@ -1,6 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import {
+  MAX_ACCOUNT_NUMBER_FLEX_LENGTH,
+  MAX_ACCOUNT_NUMBER_NON_FLEX_LENGTH,
+} from './AccountListConfig';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
   SUCCESSFULLY_DELETED_ACCOUNT,
@@ -235,6 +239,40 @@ export default class AccountListModule {
     this.dispatcher.setAccountDetails({ index, key, value });
   };
 
+  updateFlexAccountNumber = ({ index, key, value }) => {
+    if (value.length <= MAX_ACCOUNT_NUMBER_FLEX_LENGTH)
+      this.changeAccountDetails({ index, key, value });
+  };
+
+  updateNonFlexAccountNumber = ({ index, prefix, key, value }) => {
+    const startsWithPrefix = value.startsWith(prefix);
+    const onlyNumeric = new RegExp('^[0-9]*$').test(
+      value.substr(prefix.length)
+    );
+    const maxLength =
+      value.length <= prefix.length + MAX_ACCOUNT_NUMBER_NON_FLEX_LENGTH;
+    if (startsWithPrefix && onlyNumeric && maxLength)
+      this.changeAccountDetails({ index, key, value });
+  };
+
+  changeAccountNumber = ({ index, prefix, key, value }) => {
+    const state = this.store.getState();
+    if (state.hasFlexibleAccountNumbers)
+      this.updateFlexAccountNumber({ index, key, value });
+    else this.updateNonFlexAccountNumber({ index, prefix, key, value });
+  };
+
+  padAccountNumber = ({ index, prefix, key, value }) => {
+    const state = this.store.getState();
+    if (!state.hasFlexibleAccountNumbers) {
+      const autoCompletedNumber = value.padEnd(
+        prefix.length + MAX_ACCOUNT_NUMBER_NON_FLEX_LENGTH,
+        '0'
+      );
+      this.changeAccountDetails({ index, key, value: autoCompletedNumber });
+    }
+  };
+
   clickBulkUpdateModalDiscard = (url) => {
     this.dispatcher.setModalType('');
     this.dispatcher.setEditMode(false);
@@ -304,6 +342,8 @@ export default class AccountListModule {
         onBulkUpdateModalCancelClick={this.clickBulkUpdateModalCancel}
         onEditAccountsClick={this.clickEditAccounts}
         onAccountDetailsChange={this.changeAccountDetails}
+        onAccountNumberChange={this.changeAccountNumber}
+        onAccountNumberBlur={this.padAccountNumber}
         onBulkUpdateCancelClick={this.clickBulkUpdateCancel}
         onBulkUpdateSaveClick={this.clickBulkUpdateSave}
         onBulkUpdateDiscardClick={this.clickBulkUpdateModalDiscard}

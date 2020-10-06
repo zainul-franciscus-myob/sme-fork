@@ -5,9 +5,9 @@ import classNames from 'classnames';
 import ReadOnlyRowItem from './ReadOnlyRowItem';
 import styles from '../../AccountListTable.module.css';
 
-const handleOnChange = (handler, index) => (e) => {
+const handleOnChange = (handler, index, prefix) => (e) => {
   const { name, value } = e.target;
-  handler({ index, key: name, value });
+  handler({ index, prefix, key: name, value });
 };
 
 const AccountNumberRowItem = ({
@@ -18,6 +18,8 @@ const AccountNumberRowItem = ({
   isSystem,
   index,
   onChange,
+  onBlur,
+  prefix,
   accountNumberCount,
 }) => {
   if (isSystem) {
@@ -46,7 +48,8 @@ const AccountNumberRowItem = ({
           name={config.fieldName}
           width="xs"
           value={accountNumber}
-          onChange={handleOnChange(onChange, index)}
+          onChange={handleOnChange(onChange, index, prefix)}
+          onBlur={handleOnChange(onBlur, index, prefix)}
           errorMessage={
             accountNumberCount[accountNumber] > 1 &&
             'Account number already exists'

@@ -598,4 +598,190 @@ describe('AccountListModule', () => {
       ]);
     });
   });
+
+  describe('CHANGE_ACCOUNT_NUMBER when not flex account numbers', () => {
+    it('does not update if doesnt start with prefix', () => {
+      const { module, store } = setupWithRun();
+
+      module.dispatcher.loadAccountList({
+        hasFlexibleAccountNumbers: false,
+        entries: [{ id: 1, accountNumber: '1-0000' }],
+      });
+
+      const action = {
+        index: 0,
+        prefix: '1-',
+        key: 'accountNumber',
+        value: '12345',
+      };
+
+      module.changeAccountNumber(action);
+
+      expect(store.getState().entries[0].accountNumber).toEqual('1-0000');
+    });
+
+    it('does not update if editable part is longer than 4 characters', () => {
+      const { module, store } = setupWithRun();
+
+      module.dispatcher.loadAccountList({
+        hasFlexibleAccountNumbers: false,
+        entries: [{ id: 1, accountNumber: '1-0000' }],
+      });
+
+      const action = {
+        index: 0,
+        prefix: '1-',
+        key: 'accountNumber',
+        value: '1-12345',
+      };
+
+      module.changeAccountNumber(action);
+
+      expect(store.getState().entries[0].accountNumber).toEqual('1-0000');
+    });
+
+    it('does not update if editable part has alpha characters', () => {
+      const { module, store } = setupWithRun();
+
+      module.dispatcher.loadAccountList({
+        hasFlexibleAccountNumbers: false,
+        entries: [{ id: 1, accountNumber: '1-0000' }],
+      });
+
+      const action = {
+        index: 0,
+        prefix: '1-',
+        key: 'accountNumber',
+        value: '1-asb1',
+      };
+
+      module.changeAccountNumber(action);
+
+      expect(store.getState().entries[0].accountNumber).toEqual('1-0000');
+    });
+
+    it('updates if is prefixed correctly, has not alpha characters, and is less than 4 chars', () => {
+      const { module, store } = setupWithRun();
+
+      module.dispatcher.loadAccountList({
+        hasFlexibleAccountNumbers: false,
+        entries: [{ id: 1, accountNumber: '1-0000' }],
+      });
+
+      const action = {
+        index: 0,
+        prefix: '1-',
+        key: 'accountNumber',
+        value: '1-1234',
+      };
+
+      module.changeAccountNumber(action);
+
+      expect(store.getState().entries[0].accountNumber).toEqual('1-1234');
+    });
+  });
+
+  describe('CHANGE_ACCOUNT_NUMBER when is flex account numbers', () => {
+    it('does update if doesnt start with prefix', () => {
+      const { module, store } = setupWithRun();
+
+      module.dispatcher.loadAccountList({
+        hasFlexibleAccountNumbers: true,
+        entries: [{ id: 1, accountNumber: '1-0000' }],
+      });
+
+      const action = {
+        index: 0,
+        prefix: '',
+        key: 'accountNumber',
+        value: 'asb1',
+      };
+
+      module.changeAccountNumber(action);
+
+      expect(store.getState().entries[0].accountNumber).toEqual('asb1');
+    });
+
+    it('does not update if editable part is longer than 10 characters ', () => {
+      const { module, store } = setupWithRun();
+
+      module.dispatcher.loadAccountList({
+        hasFlexibleAccountNumbers: true,
+        entries: [{ id: 1, accountNumber: '1-0000' }],
+      });
+
+      const action = {
+        index: 0,
+        prefix: '',
+        key: 'accountNumber',
+        value: 'asb1f28jr50',
+      };
+
+      module.changeAccountNumber(action);
+
+      expect(store.getState().entries[0].accountNumber).toEqual('1-0000');
+    });
+
+    it('updates if is less than 10 chars', () => {
+      const { module, store } = setupWithRun();
+
+      module.dispatcher.loadAccountList({
+        hasFlexibleAccountNumbers: true,
+        entries: [{ id: 1, accountNumber: '1-0000' }],
+      });
+
+      const action = {
+        index: 0,
+        prefix: '',
+        key: 'accountNumber',
+        value: 'asb1f28jr5',
+      };
+
+      module.changeAccountNumber(action);
+
+      expect(store.getState().entries[0].accountNumber).toEqual('asb1f28jr5');
+    });
+  });
+
+  describe('PAD_ACCOUNT_NUMBER', () => {
+    it('pads up to 4 editable characters if flex is off', () => {
+      const { module, store } = setupWithRun();
+
+      module.dispatcher.loadAccountList({
+        hasFlexibleAccountNumbers: false,
+        entries: [{ id: 1, accountNumber: '1-0000' }],
+      });
+
+      const action = {
+        index: 0,
+        prefix: '1-',
+        key: 'accountNumber',
+        value: '1-1',
+      };
+
+      module.padAccountNumber(action);
+
+      expect(store.getState().entries[0].accountNumber).toEqual('1-1000');
+    });
+
+    it('does not pad characters if flex is on', () => {
+      const { module, store } = setupWithRun();
+
+      module.dispatcher.loadAccountList({
+        hasFlexibleAccountNumbers: true,
+        entries: [{ id: 1, accountNumber: '1-1' }],
+      });
+
+      const action = {
+        index: 0,
+        prefix: '',
+        key: 'accountNumber',
+        value: '2',
+      };
+
+      module.padAccountNumber(action);
+
+      expect(store.getState().entries[0].accountNumber).toEqual('1-1');
+    });
+  });
 });

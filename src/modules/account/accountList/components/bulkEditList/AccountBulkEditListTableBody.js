@@ -19,6 +19,8 @@ const AccountBulkEditListTableBody = ({
   tableConfig,
   entries,
   onAccountDetailsChange,
+  onAccountNumberChange,
+  onAccountNumberBlur,
   calculateRemainingHistoricalBalance,
   accountClassifications,
   taxCodeList,
@@ -49,7 +51,9 @@ const AccountBulkEditListTableBody = ({
           isSystem={isSystem}
           isHeader={isHeader}
           index={index}
-          onChange={onAccountDetailsChange}
+          onChange={onAccountNumberChange}
+          onBlur={onAccountNumberBlur}
+          prefix={accountClassifications[accountType].prefix}
           accountNumberCount={accountNumberCount}
         />
         <AccountNameRowItem

@@ -37,6 +37,8 @@ const AccountListBulkEditView = ({
   onDismissAlert,
   loadingState,
   onAccountDetailsChange,
+  onAccountNumberChange,
+  onAccountNumberBlur,
   taxCodeHeader,
   saveBtnEnabled,
   openingBalanceDate,
@@ -119,6 +121,8 @@ const AccountListBulkEditView = ({
     <AccountBulkEditListTableBody
       tableConfig={tableConfig}
       onAccountDetailsChange={onAccountDetailsChange}
+      onAccountNumberChange={onAccountNumberChange}
+      onAccountNumberBlur={onAccountNumberBlur}
       calculateRemainingHistoricalBalance={calculateRemainingHistoricalBalance}
     />
   );
