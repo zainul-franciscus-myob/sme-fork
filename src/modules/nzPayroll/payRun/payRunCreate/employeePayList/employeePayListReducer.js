@@ -1,6 +1,6 @@
 import {
   FORMAT_EMPLOYEE_PAY_ITEM,
-  LOAD_EMPLOYEE_PAYS,
+  LOAD_DRAFT_PAY_RUN,
   SET_PAY_ITEM_LINE_DIRTY,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
   UPDATE_EMPLOYEE_DAYS_PAID,
@@ -22,15 +22,21 @@ export const getEmployeePayListDefaultState = () => ({
   baseSalaryWagePayItemId: null,
 });
 
-const loadEmployeePays = (state, { employeePays }) => ({
+const loadDraftPayRun = (state, { createdDraftPayRun }) => ({
   ...state,
-  baseHourlyWagePayItemId: employeePays.baseHourlyWagePayItemId,
-  baseSalaryWagePayItemId: employeePays.baseSalaryWagePayItemId,
+  baseHourlyWagePayItemId: createdDraftPayRun.baseHourlyWagePayItemId,
+  baseSalaryWagePayItemId: createdDraftPayRun.baseSalaryWagePayItemId,
   lines: clearNegatives(
-    getEmployeePayLines(employeePays.employeePays, () => true),
-    [employeePays.baseSalaryWagePayItemId, employeePays.baseHourlyWagePayItemId]
+    getEmployeePayLines(createdDraftPayRun.employeePays, () => true),
+    [
+      createdDraftPayRun.baseSalaryWagePayItemId,
+      createdDraftPayRun.baseHourlyWagePayItemId,
+    ]
   ),
-  originalLines: getEmployeePayLines(employeePays.employeePays, () => true),
+  originalLines: getEmployeePayLines(
+    createdDraftPayRun.employeePays,
+    () => true
+  ),
 });
 
 const formatPayItemHours = (hours) =>
@@ -134,7 +140,7 @@ const setPayItemLineDirty = (state, action) => ({
 });
 
 export const employeePayListHandlers = {
-  [LOAD_EMPLOYEE_PAYS]: loadEmployeePays,
+  [LOAD_DRAFT_PAY_RUN]: loadDraftPayRun,
   [FORMAT_EMPLOYEE_PAY_ITEM]: formatEmployeePayItem,
   [UPDATE_IS_EMPLOYEE_SELECTED]: updateIsEmployeeSelected,
   [UPDATE_EMPLOYEE_DAYS_PAID]: updateEmployeeDaysPaid,

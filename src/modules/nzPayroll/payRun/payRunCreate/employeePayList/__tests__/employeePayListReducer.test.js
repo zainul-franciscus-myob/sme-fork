@@ -1,6 +1,6 @@
 import {
   FORMAT_EMPLOYEE_PAY_ITEM,
-  LOAD_EMPLOYEE_PAYS,
+  LOAD_DRAFT_PAY_RUN,
   SET_PAY_ITEM_LINE_DIRTY,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
   UPDATE_EMPLOYEE_DAYS_PAID,
@@ -421,7 +421,7 @@ describe('employeePayListReducer', () => {
     });
   });
 
-  describe('LOAD_EMPLOYEE_PAYS', () => {
+  describe('LOAD_DRAFT_PAY_RUN', () => {
     const state = {
       employeePayList: {
         baseHourlyWagePayItemId: 11,
@@ -430,8 +430,8 @@ describe('employeePayListReducer', () => {
     };
 
     const action = {
-      intent: LOAD_EMPLOYEE_PAYS,
-      employeePays: {
+      intent: LOAD_DRAFT_PAY_RUN,
+      createdDraftPayRun: {
         baseHourlyWagePayItemId: 2,
         baseSalaryWagePayItemId: 1,
         employeePays: [
@@ -493,8 +493,8 @@ describe('employeePayListReducer', () => {
 
     it('sets days paid', () => {
       const ourAction = {
-        intent: LOAD_EMPLOYEE_PAYS,
-        employeePays: employeePayList,
+        intent: LOAD_DRAFT_PAY_RUN,
+        createdDraftPayRun: employeePayList,
       };
       const actual = payRunReducer(state, ourAction);
       expect(actual.employeePayList.lines[0].daysPaid).toEqual(5);
@@ -502,8 +502,8 @@ describe('employeePayListReducer', () => {
 
     it('sets take home pay', () => {
       const ourAction = {
-        intent: LOAD_EMPLOYEE_PAYS,
-        employeePays: employeePayList,
+        intent: LOAD_DRAFT_PAY_RUN,
+        createdDraftPayRun: employeePayList,
       };
       const actual = payRunReducer(state, ourAction);
       expect(actual.employeePayList.lines[0].takeHomePay).toEqual(700);

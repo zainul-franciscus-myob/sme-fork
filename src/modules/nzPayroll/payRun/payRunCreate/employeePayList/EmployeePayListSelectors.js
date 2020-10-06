@@ -46,10 +46,10 @@ export const getTotals = createSelector(getEmployeePayLines, (lines) => {
     .filter((line) => line.isSelected)
     .reduce(
       (totals, line) => ({
-        gross: totals.gross + line.gross,
-        paye: totals.paye + line.paye,
-        takeHomePay: totals.takeHomePay + line.takeHomePay,
-        kiwiSaver: totals.kiwiSaver + line.kiwiSaver,
+        gross: totals.gross + Number(line.gross),
+        paye: totals.paye + Number(line.paye),
+        takeHomePay: totals.takeHomePay + Number(line.takeHomePay),
+        kiwiSaver: totals.kiwiSaver + Number(line.kiwiSaver),
       }),
       {
         gross: 0,
@@ -75,7 +75,8 @@ export const isPayItemLineDirty = createSelector(
 const isWagePayItem = (payItemType) =>
   ['SalaryWage', 'HourlyWage'].includes(payItemType);
 const isTaxPayItem = (payItemType) => ['Tax'].includes(payItemType);
-const isKiwiSaverPayItem = (payItemType) => ['KiwiSaver'].includes(payItemType);
+const isKiwiSaverPayItem = (payItemType) =>
+  ['KiwiSaverEmployee', 'KiwiSaverEmployers', 'ESCT'].includes(payItemType);
 
 const getEmployeeLineByEmployeeId = (state, employeeId) =>
   state.employeePayList.lines.find((line) => line.employeeId === employeeId);

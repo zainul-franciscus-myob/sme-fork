@@ -2,14 +2,14 @@ import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { LOAD_EMPLOYEE_PAYS } from '../../PayRunIntents';
+import { LOAD_DRAFT_PAY_RUN } from '../../PayRunIntents';
 import EmployeePayListSubModule from '../EmployeePayListSubModule';
 import PayRunModule from '../../PayRunModule';
 import TestIntegration from '../../../../../../integration/TestIntegration';
 import TestStore from '../../../../../../store/TestStore';
 import createEmployeePayListDispatcher from '../createEmployeePayListDispatcher';
 import createEmployeePayListIntegrator from '../createEmployeePayListIntegrator';
-import employeePays from '../../../mappings/data/payRun/loadEmployeePayList.json';
+import createdDraftPayRun from '../../../mappings/data/payRun/createDraftPayRun.json';
 import payRunReducer from '../../payRunReducer';
 
 describe('EmployeePayListSubModule', () => {
@@ -59,7 +59,10 @@ describe('EmployeePayListSubModule', () => {
     it('should hold id', () => {
       payRunModule.resetState();
 
-      store.dispatch({ intent: LOAD_EMPLOYEE_PAYS, employeePays });
+      store.dispatch({
+        intent: LOAD_DRAFT_PAY_RUN,
+        createdDraftPayRun,
+      });
 
       const employee = module.store.state.employeePayList.lines.find(
         (x) => x.employeeId === 21

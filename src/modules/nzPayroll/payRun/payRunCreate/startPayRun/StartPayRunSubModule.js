@@ -13,12 +13,12 @@ export default class StartPayRunSubModule {
     this.integrator = createStartPayRunIntegrator(store, integration);
   }
 
-  loadEmployeePaysAndMoveToNextStep = () => {
+  createDraftPayRunAndMoveToNextStep = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
-    const onSuccess = (employeePays) => {
+    const onSuccess = (createdDraftPayRun) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.dispatcher.loadEmployeePays(employeePays);
+      this.dispatcher.loadDraftPayRun(createdDraftPayRun);
       this.dispatcher.nextStep();
     };
 
@@ -26,7 +26,7 @@ export default class StartPayRunSubModule {
       this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.integrator.loadEmployeePays({ onSuccess, onFailure });
+    this.integrator.createDraftPayRun({ onSuccess, onFailure });
   };
 
   changePayPeriod = ({ key, value }) => {
@@ -37,7 +37,7 @@ export default class StartPayRunSubModule {
     return (
       <StartPayRunView
         onPayPeriodChange={this.changePayPeriod}
-        onNextButtonClick={this.loadEmployeePaysAndMoveToNextStep}
+        onNextButtonClick={this.createDraftPayRunAndMoveToNextStep}
       />
     );
   }

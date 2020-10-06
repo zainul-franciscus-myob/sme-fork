@@ -1,7 +1,8 @@
 export const SET_LOADING_STATE = Symbol('Set loading state');
 export const START_NEW_PAY_RUN = Symbol('Start new pay run');
 export const SET_PAY_PERIOD_DETAILS = Symbol('Set pay period details');
-export const LOAD_EMPLOYEE_PAYS = Symbol('Load employee pays');
+export const CREATE_DRAFT_PAY_RUN = Symbol('Create draft pay run');
+export const LOAD_DRAFT_PAY_RUN = Symbol('Load draft pay run');
 export const NEXT_STEP = Symbol('Next step');
 export const SET_PAY_ITEM_LINE_DIRTY = Symbol('Set pay item line dirty');
 export const UPDATE_EMPLOYEE_PAY_ITEM = Symbol('Update employee pay item');

@@ -3,6 +3,6 @@ export const getStartPayRun = (state) => state.startPayRun;
 export const getRegularPayCycleOptions = (state) =>
   state.startPayRun.regularPayCycleOptions || [];
 
-export const getLoadEmployeePaysRequestContent = (state) => ({
+export const getCreateDraftPayRunRequestContent = (state) => ({
   ...state.startPayRun.currentEditingPayRun,
 });

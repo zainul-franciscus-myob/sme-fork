@@ -1,5 +1,5 @@
 import {
-  getLoadEmployeePaysRequestContent,
+  getCreateDraftPayRunRequestContent,
   getRegularPayCycleOptions,
   getStartPayRun,
 } from '../StartPayRunSelectors';
@@ -40,7 +40,7 @@ describe('StartPayRunSelectors', () => {
       const expected = { payRun: 'test' };
       const state = { startPayRun: { currentEditingPayRun: expected } };
 
-      const actual = getLoadEmployeePaysRequestContent(state);
+      const actual = getCreateDraftPayRunRequestContent(state);
 
       expect(actual).toEqual(expected);
     });

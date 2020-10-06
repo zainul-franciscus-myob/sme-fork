@@ -3,10 +3,10 @@ import { Table } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { LOAD_EMPLOYEE_PAYS } from '../../../../PayRunIntents';
+import { LOAD_DRAFT_PAY_RUN } from '../../../../PayRunIntents';
 import PayDetailsTable from '../PayDetailsTable';
 import TestStore from '../../../../../../../../store/TestStore';
-import employeePayList from '../../../__tests__/fixtures/loadEmployeePayList';
+import createdDraftPayRun from '../../../__tests__/fixtures/createDraftPayRun';
 import payRunReducer from '../../../../payRunReducer';
 
 describe('Employee pay details table', () => {
@@ -19,8 +19,8 @@ describe('Employee pay details table', () => {
   beforeEach(() => {
     store = new TestStore(payRunReducer);
     const action = {
-      intent: LOAD_EMPLOYEE_PAYS,
-      employeePays: employeePayList,
+      intent: LOAD_DRAFT_PAY_RUN,
+      createdDraftPayRun,
     };
     store.dispatch(action);
   });

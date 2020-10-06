@@ -1,5 +1,5 @@
 import {
-  LOAD_EMPLOYEE_PAYS,
+  CREATE_DRAFT_PAY_RUN,
   RECALCULATE_PAY,
   RECORD_PAYMENTS,
   START_NEW_PAY_RUN,
@@ -10,9 +10,9 @@ const PayRunMapping = {
     method: 'GET',
     getPath: ({ businessId }) => `/nz/${businessId}/payRun/start_new_pay_run`,
   },
-  [LOAD_EMPLOYEE_PAYS]: {
+  [CREATE_DRAFT_PAY_RUN]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/nz/${businessId}/payRun/load_employee_pays`,
+    getPath: ({ businessId }) => `/nz/${businessId}/payRun/draft`,
   },
   [RECALCULATE_PAY]: {
     method: 'POST',

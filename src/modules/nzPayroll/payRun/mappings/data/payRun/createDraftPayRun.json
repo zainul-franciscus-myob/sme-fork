@@ -1,0 +1,160 @@
+{
+  "employeePays": [
+    {
+      "name": "Mary Jones",
+      "id": 217,
+      "employeeId": 21,
+      "daysPaid": 5,
+      "taxCode": "M",
+      "gross": "1500.00",
+      "takeHomePay": "700.00",
+      "kiwiSaver": "50.00",
+      "paye": "110.00",
+      "isSelected": true,
+      "payItems": [
+        {
+          "payItemId": 38,
+          "payItemName": "Hourly Wage",
+          "type": "HourlyWage",
+          "amount": "0.70",
+          "quantity": "12.30",
+          "rate": "20.00",
+          "calculationType": "Rate"
+        },
+        {
+          "amount": "100.00",
+          "payItemId": 39,
+          "payItemName": "Salary Wage",
+          "quantity": "0.00",
+          "type": "SalaryWage",
+          "rate": "0.00",
+          "calculationType": "Amount"
+        },
+        {
+          "amount": "100.00",
+          "payItemId": 40,
+          "payItemName": "B Hourly Wage",
+          "quantity": "0.00",
+          "type": "HourlyWage",
+          "rate": "20.00",
+          "calculationType": "Rate"
+        },
+        {
+          "amount": "200.00",
+          "payItemId": 6,
+          "payItemName": "Base Salary",
+          "quantity": "0.00",
+          "type": "SalaryWage",
+          "rate": "0.00",
+          "calculationType": "Amount"
+        },
+        {
+          "amount": "20.00",
+          "payItemId": 661,
+          "payItemName": "Employee Contribution 3%",
+          "quantity": "0.00",
+          "type": "KiwiSaverEmployee",
+          "rate": "0.00",
+          "calculationType": "Amount"
+        },
+        {
+          "amount": "20.00",
+          "payItemId": 662,
+          "payItemName": "Employer Contribution 3%",
+          "quantity": "0.00",
+          "type": "KiwiSaverEmployers",
+          "rate": "0.00",
+          "calculationType": "Amount"
+        },
+        {
+          "amount": "10.00",
+          "payItemId": 663,
+          "payItemName": "Employer superannuation contribution tax (ESCT) 10.5%",
+          "quantity": "0.00",
+          "type": "ESCT",
+          "rate": "0.00",
+          "calculationType": "Amount"
+        },
+        {
+          "amount": "110.00",
+          "payItemId": 77,
+          "payItemName": "PAYE Tax",
+          "quantity": "0.00",
+          "type": "Tax",
+          "rate": "0.00",
+          "calculationType": "Amount"
+        }
+      ]
+    },
+    {
+      "name": "Monte King",
+      "daysPaid": 4,
+      "employeeId": 22,
+      "id": 218,
+      "taxCode": "M",
+      "isSelected": false,
+      "gross": "1400.00",
+      "takeHomePay": "700.00",
+      "kiwiSaver": "30.00",
+      "paye": "90.00",
+      "payItems": [
+        {
+          "amount": "550.00",
+          "payItemId": 38,
+          "payItemName": "Hourly Wage",
+          "quantity": "13.00",
+          "type": "HourlyWage",
+          "rate": "20.00",
+          "calculationType": "Rate"
+        },
+        {
+          "amount": "100.00",
+          "payItemId": 39,
+          "payItemName": "Salary Wage",
+          "quantity": "0.00",
+          "type": "SalaryWage",
+          "rate": "0.00",
+          "calculationType": "Amount"
+        },
+        {
+          "amount": "10.00",
+          "payItemId": 661,
+          "payItemName": "Employee Contribution 3%",
+          "quantity": "0.00",
+          "type": "KiwiSaverEmployee",
+          "rate": "0.00",
+          "calculationType": "Amount"
+        },
+        {
+          "amount": "10.00",
+          "payItemId": 662,
+          "payItemName": "Employer Contribution 3%",
+          "quantity": "0.00",
+          "type": "KiwiSaverEmployers",
+          "rate": "0.00",
+          "calculationType": "Amount"
+        },
+        {
+          "amount": "10.00",
+          "payItemId": 663,
+          "payItemName": "Employer superannuation contribution tax (ESCT) 10.5%",
+          "quantity": "0.00",
+          "type": "ESCT",
+          "rate": "0.00",
+          "calculationType": "Amount"
+        },
+        {
+          "amount": "90.00",
+          "payItemId": 77,
+          "payItemName": "PAYE Tax",
+          "quantity": "0.00",
+          "type": "Tax",
+          "rate": "0.00",
+          "calculationType": "Amount"
+        }
+      ]
+    }
+  ],
+  "baseHourlyWagePayItemId": 7,
+  "baseSalaryWagePayItemId": 6
+}

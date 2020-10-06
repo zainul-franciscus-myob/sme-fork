@@ -4,12 +4,12 @@ import { mount } from 'enzyme';
 import React from 'react';
 
 import {
-  LOAD_EMPLOYEE_PAYS,
+  LOAD_DRAFT_PAY_RUN,
   UPDATE_IS_EMPLOYEE_SELECTED,
 } from '../../../PayRunIntents';
 import EmployeePayTable from '../EmployeesPayTable';
 import TestStore from '../../../../../../../store/TestStore';
-import employeePayList from '../../__tests__/fixtures/loadEmployeePayList';
+import createdDraftPayRun from '../../__tests__/fixtures/createDraftPayRun';
 import payRunReducer from '../../../payRunReducer';
 
 describe('EmployeePayTable', () => {
@@ -51,8 +51,8 @@ describe('EmployeePayTable', () => {
     it('should render employee line with correct values', () => {
       const wrapper = mountWithProvider(<EmployeePayTable {...props} />);
       const action = {
-        intent: LOAD_EMPLOYEE_PAYS,
-        employeePays: employeePayList,
+        intent: LOAD_DRAFT_PAY_RUN,
+        createdDraftPayRun,
       };
       store.dispatch(action);
       wrapper.update();
@@ -66,8 +66,8 @@ describe('EmployeePayTable', () => {
         'Mary Jones',
         '5',
         '1,500.00',
-        '100.00',
-        '150.00',
+        '110.00',
+        '50.00',
         '700.00',
       ];
 
@@ -79,8 +79,8 @@ describe('EmployeePayTable', () => {
     it('should render totals line with correct values', () => {
       const wrapper = mountWithProvider(<EmployeePayTable {...props} />);
       const action = {
-        intent: LOAD_EMPLOYEE_PAYS,
-        employeePays: employeePayList,
+        intent: LOAD_DRAFT_PAY_RUN,
+        createdDraftPayRun,
       };
       store.dispatch(action);
       wrapper.update();
@@ -90,7 +90,7 @@ describe('EmployeePayTable', () => {
         .find(Table.RowItem);
       const totalsRowTextValues = totalsRow.map((x) => x.text());
 
-      const expected = ['3,750.55', '225.00', '350.00', '1,705.15'];
+      const expected = ['2,900.00', '200.00', '80.00', '1,400.00'];
 
       expect(totalsRowTextValues).toEqual(expected);
     });
@@ -98,8 +98,8 @@ describe('EmployeePayTable', () => {
     it('should render totals only of selected employees', () => {
       const wrapper = mountWithProvider(<EmployeePayTable {...props} />);
       const action = {
-        intent: LOAD_EMPLOYEE_PAYS,
-        employeePays: employeePayList,
+        intent: LOAD_DRAFT_PAY_RUN,
+        createdDraftPayRun,
       };
       store.dispatch(action);
 
@@ -116,7 +116,7 @@ describe('EmployeePayTable', () => {
         .find(Table.RowItem);
       const totalsRowTextValues = totalsRow.map((x) => x.text());
 
-      const expected = ['1,500.00', '100.00', '150.00', '700.00'];
+      const expected = ['1,500.00', '110.00', '50.00', '700.00'];
 
       expect(totalsRowTextValues).toEqual(expected);
     });

@@ -1,18 +1,18 @@
-import { LOAD_EMPLOYEE_PAYS } from '../PayRunIntents';
+import { CREATE_DRAFT_PAY_RUN } from '../PayRunIntents';
 import { getBusinessId } from '../PayRunSelectors';
-import { getLoadEmployeePaysRequestContent } from './StartPayRunSelectors';
+import { getCreateDraftPayRunRequestContent } from './StartPayRunSelectors';
 import createPayRunIntegrator from '../createPayRunIntegrator';
 
 const createStartPayRunIntegrator = (store, integration) => ({
   ...createPayRunIntegrator(store, integration),
-  loadEmployeePays: ({ onSuccess, onFailure }) => {
+  createDraftPayRun: ({ onSuccess, onFailure }) => {
     const state = store.getState();
-    const intent = LOAD_EMPLOYEE_PAYS;
+    const intent = CREATE_DRAFT_PAY_RUN;
 
     const businessId = getBusinessId(state);
     const urlParams = { businessId };
 
-    const content = getLoadEmployeePaysRequestContent(state);
+    const content = getCreateDraftPayRunRequestContent(state);
 
     integration.write({
       intent,

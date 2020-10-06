@@ -77,7 +77,7 @@
           {
             "payItemId": "9",
             "payItemName": "Employer contribution",
-            "type": "KiwiSaver",
+            "type": "KiwiSaverEmployers",
             "amount": "10.00",
             "quantity": "0.00"
           },
