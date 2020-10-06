@@ -3,8 +3,10 @@ import {
   CALCULATE_SPLIT_ALLOCATION_TAX,
   DELETE_SPLIT_ALLOCATION_LINE,
   LOAD_NEW_SPLIT_ALLOCATION,
+  LOAD_PREFILL_SPLIT_ALLOCATION,
   LOAD_SPLIT_ALLOCATION,
   SAVE_SPLIT_ALLOCATION,
+  SET_SPLIT_ALLOCATION_LOADING_STATE,
   UPDATE_SPLIT_ALLOCATION_CONTACT,
   UPDATE_SPLIT_ALLOCATION_HEADER,
   UPDATE_SPLIT_ALLOCATION_LINE,
@@ -73,6 +75,20 @@ const createSplitAllocationDispatcher = (store) => ({
     store.dispatch({
       intent: LOAD_NEW_SPLIT_ALLOCATION,
       index,
+    });
+  },
+
+  loadPrefillSplitAllocation: (payload) => {
+    store.dispatch({
+      intent: LOAD_PREFILL_SPLIT_ALLOCATION,
+      ...payload,
+    });
+  },
+
+  setSplitAllocationLoadingState: (isLoading) => {
+    store.dispatch({
+      intent: SET_SPLIT_ALLOCATION_LOADING_STATE,
+      isLoading,
     });
   },
 

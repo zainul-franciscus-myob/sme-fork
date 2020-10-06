@@ -1,0 +1,6 @@
+{
+  "id": "10",
+  "type": "SpendMoney",
+  "name": "Banking Rule",
+  "isInactive": false
+}

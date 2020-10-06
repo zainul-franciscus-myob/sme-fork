@@ -234,6 +234,7 @@ describe('BankingModule', () => {
           context: {
             isBankingJobColumnEnabled: true,
             isFastModeEnabled: true,
+            isPrefillSplitAllocationEnabled: true,
           },
         },
         {
@@ -249,11 +250,13 @@ describe('BankingModule', () => {
         }),
       ]);
 
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: LOAD_BANK_TRANSACTIONS,
-        }),
-      ]);
+      expect(integration.getRequests()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            intent: LOAD_BANK_TRANSACTIONS,
+          }),
+        ])
+      );
     });
 
     it('fails to load bank transactions', () => {
@@ -268,6 +271,7 @@ describe('BankingModule', () => {
           context: {
             isBankingJobColumnEnabled: true,
             isFastModeEnabled: true,
+            isPrefillSplitAllocationEnabled: true,
           },
         },
         {
@@ -280,11 +284,13 @@ describe('BankingModule', () => {
         },
       ]);
 
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: LOAD_BANK_TRANSACTIONS,
-        }),
-      ]);
+      expect(integration.getRequests()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            intent: LOAD_BANK_TRANSACTIONS,
+          }),
+        ])
+      );
     });
 
     // @Disposable tests: Ensures our logic for setting isFastModeEnabled is correct
@@ -299,6 +305,7 @@ describe('BankingModule', () => {
         context: {
           isBankingJobColumnEnabled: true,
           isFastModeEnabled: true,
+          isPrefillSplitAllocationEnabled: true,
         },
       });
     });

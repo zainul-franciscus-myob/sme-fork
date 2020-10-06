@@ -1,0 +1,20 @@
+{
+  "bankingRuleOptions": [
+    {
+      "id": "3",
+      "type": "SpendMoney",
+      "name": "Banking Rule",
+      "isInactive": false
+    },
+    {
+      "id": "4",
+      "type": "ReceiveMoney",
+      "name": "Banking Rule",
+      "isInactive": false
+    }
+  ],
+  "pagination": {
+    "hasNextPage": true,
+    "offset": 4
+  }
+}

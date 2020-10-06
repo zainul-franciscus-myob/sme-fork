@@ -35,6 +35,7 @@ import {
   getIsEntryLoading,
   getIsOpenEntryEdited,
   getIsOpenTransactionWithdrawal,
+  getIsPrefillSplitAllocationEnabled,
   getIsTabDisabled,
   getJobModalContext,
   getLastAllocatedAccount,
@@ -46,6 +47,14 @@ import {
   getTaxCodes,
   getURLParams,
 } from './selectors';
+import {
+  getBankingRuleId,
+  getIsSpendMoney,
+  getLinesForTaxCalculation,
+  getReceiveMoneyBankingRuleComboboxContext,
+  getSpendMoneyBankingRuleComboboxContext,
+  getSplitAllocateContactComboboxContext,
+} from './tabs/splitAllocation/splitAllocationSelectors';
 import {
   getCanSelectMore,
   getIsEditedEntryInBulkSelection,
@@ -62,14 +71,11 @@ import {
   getInTrayModalContext,
 } from './selectors/attachmentsSelectors';
 import {
-  getLinesForTaxCalculation,
-  getSplitAllocateContactComboboxContext,
-} from './tabs/splitAllocation/splitAllocationSelectors';
-import {
   getMatchTransferMoneyFlipSortOrder,
   getMatchTransferMoneyOrderBy,
 } from './tabs/transferMoney/transferMoneySelectors';
 import AccountModalModule from '../account/accountModal/AccountModalModule';
+import BankingRuleComboboxModule from '../bankingRules/bankingRuleCombobox/BankingRuleComboboxModule';
 import BankingRuleModule from './bankingRule/BankingRuleModule';
 import BankingView from './components/BankingView';
 import ContactComboboxModule from '../contact/contactCombobox/ContactComboboxModule';
@@ -87,6 +93,7 @@ import bankingReducer from './reducers';
 import createBankingDispatcher from './BankingDispatcher';
 import createBankingIntegrator from './BankingIntegrator';
 import debounce from '../../common/debounce/debounce';
+import isFeatureEnabled from '../../common/feature/isFeatureEnabled';
 import openBlob from '../../common/blobOpener/openBlob';
 
 export default class BankingModule {
@@ -121,6 +128,12 @@ export default class BankingModule {
     );
 
     this.splitAllocationContactComboboxModule = new ContactComboboxModule({
+      integration,
+    });
+    this.spendMoneyBankingRuleComboboxModule = new BankingRuleComboboxModule({
+      integration,
+    });
+    this.receiveMoneyBankingRuleComboboxModule = new BankingRuleComboboxModule({
       integration,
     });
     this.matchTransactionContactComboboxModule = new ContactComboboxModule({
@@ -178,6 +191,30 @@ export default class BankingModule {
         : null;
     };
 
+    const renderReceiveMoneyBankingRuleCombobox = (props) => {
+      const state = this.store.getState();
+      const isPrefillSplitAllocationEnabled = getIsPrefillSplitAllocationEnabled(
+        state
+      );
+
+      return isPrefillSplitAllocationEnabled &&
+        this.receiveMoneyBankingRuleComboboxModule
+        ? this.receiveMoneyBankingRuleComboboxModule.render(props)
+        : null;
+    };
+
+    const renderSpendMoneyBankingRuleCombobox = (props) => {
+      const state = this.store.getState();
+      const isPrefillSplitAllocationEnabled = getIsPrefillSplitAllocationEnabled(
+        state
+      );
+
+      return isPrefillSplitAllocationEnabled &&
+        this.spendMoneyBankingRuleComboboxModule
+        ? this.spendMoneyBankingRuleComboboxModule.render(props)
+        : null;
+    };
+
     const renderMatchTransactionContactCombobox = (props) => {
       return this.matchTransactionContactComboboxModule
         ? this.matchTransactionContactComboboxModule.render(props)
@@ -188,8 +225,9 @@ export default class BankingModule {
 
     const splitAllocationContentProps = {
       renderSplitAllocationContactCombobox,
-      onUpdateSplitAllocationHeader: this.dispatcher
-        .updateSplitAllocationHeader,
+      renderReceiveMoneyBankingRuleCombobox,
+      renderSpendMoneyBankingRuleCombobox,
+      onUpdateSplitAllocationHeader: this.updateSplitAllocationHeader,
       onUpdateSplitAllocationContactCombobox: this
         .updateSplitAllocationContactCombobox,
       onAddSplitAllocationLine: this.addSplitAllocationLine,
@@ -745,6 +783,7 @@ export default class BankingModule {
       this.dispatcher.loadSplitAllocation(index, payload);
       this.loadSplitAllocationContactCombobox();
       this.calculateSplitAllocationTax();
+      this.updateSplitAllocationBankingRuleCombobox();
     });
 
     const onFailure = ({ message }) => {
@@ -798,6 +837,14 @@ export default class BankingModule {
     this.dispatcher.collapseTransactionLine();
   };
 
+  updateSplitAllocationHeader = ({ key, value }) => {
+    this.dispatcher.updateSplitAllocationHeader({ key, value });
+
+    if (key === 'bankingRuleId') {
+      this.loadPrefillSplitAllocation(value);
+    }
+  };
+
   updateSplitAllocationContactCombobox = (contact) => {
     const { key, value, contactType, isReportable } = contact;
     this.dispatcher.updateSplitAllocationContact({
@@ -805,6 +852,35 @@ export default class BankingModule {
       value,
       contactType,
       isReportable,
+    });
+  };
+
+  loadPrefillSplitAllocation = (bankingRuleId) => {
+    const state = this.store.getState();
+    const index = getOpenPosition(state);
+
+    this.dispatcher.setSplitAllocationLoadingState(true);
+
+    const onSuccess = this.ifOpen(index, (payload) => {
+      this.dispatcher.setSplitAllocationLoadingState(false);
+      this.dispatcher.loadPrefillSplitAllocation(payload);
+      this.loadSplitAllocationContactCombobox();
+      this.calculateSplitAllocationTax();
+    });
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSplitAllocationLoadingState(false);
+      this.dispatcher.collapseTransactionLine();
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.integrator.loadPrefillSplitAllocation({
+      bankingRuleId,
+      onSuccess,
+      onFailure,
     });
   };
 
@@ -1362,6 +1438,8 @@ export default class BankingModule {
     this.bankingRuleModule.resetState();
     this.splitAllocationContactComboboxModule.resetState();
     this.matchTransactionContactComboboxModule.resetState();
+    this.receiveMoneyBankingRuleComboboxModule.resetState();
+    this.spendMoneyBankingRuleComboboxModule.resetState();
   };
 
   openJobModal = (onChange) => {
@@ -1409,6 +1487,38 @@ export default class BankingModule {
     const state = this.store.getState();
     const context = getSplitAllocateContactComboboxContext(state);
     this.splitAllocationContactComboboxModule.run(context);
+  };
+
+  loadSplitAllocationBankingRuleCombobox = () => {
+    const state = this.store.getState();
+
+    const isPrefillSplitAllocationEnabled = getIsPrefillSplitAllocationEnabled(
+      state
+    );
+    if (isPrefillSplitAllocationEnabled) {
+      const smContext = getSpendMoneyBankingRuleComboboxContext(state);
+      this.spendMoneyBankingRuleComboboxModule.run(smContext);
+
+      const rmContext = getReceiveMoneyBankingRuleComboboxContext(state);
+      this.receiveMoneyBankingRuleComboboxModule.run(rmContext);
+    }
+  };
+
+  updateSplitAllocationBankingRuleCombobox = () => {
+    const state = this.store.getState();
+
+    const isPrefillSplitAllocationEnabled = getIsPrefillSplitAllocationEnabled(
+      state
+    );
+    const bankingRuleId = getBankingRuleId(state);
+    if (isPrefillSplitAllocationEnabled && bankingRuleId) {
+      const isSpendMoney = getIsSpendMoney(state);
+      if (isSpendMoney) {
+        this.spendMoneyBankingRuleComboboxModule.load(bankingRuleId);
+      } else {
+        this.receiveMoneyBankingRuleComboboxModule.load(bankingRuleId);
+      }
+    }
   };
 
   /*
@@ -1692,13 +1802,23 @@ export default class BankingModule {
       this.isToggleOn(FeatureToggle.FastModeLoadBankTransactions) ||
       isFastModeEnabledQueryParam;
 
+    const isPrefillSplitAllocationEnabled = isFeatureEnabled({
+      isFeatureCompleted: this.featureToggles.isBankLinkPayeeEnabled,
+      isEarlyAccess: this.isToggleOn(FeatureToggle.BankLinkPayee),
+    });
+
     this.dispatcher.setInitialState({
       ...rest,
       isBankingJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
       isFastModeEnabled,
+      isPrefillSplitAllocationEnabled,
     });
     this.render();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.loadBankTransactions();
+
+    if (isPrefillSplitAllocationEnabled) {
+      this.loadSplitAllocationBankingRuleCombobox();
+    }
   }
 }

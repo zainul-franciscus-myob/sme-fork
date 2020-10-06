@@ -45,6 +45,9 @@ export const getWithdrawalAccounts = (state) => state.withdrawalAccounts;
 export const getDepositAccounts = (state) => state.depositAccounts;
 export const getTransferAccounts = (state) => state.transferAccounts;
 
+export const getIsPrefillSplitAllocationEnabled = (state) =>
+  state.isPrefillSplitAllocationEnabled;
+
 export const getBankTableData = createSelector(
   (state) => state.entries.length,
   (len) => Array(len).fill({})

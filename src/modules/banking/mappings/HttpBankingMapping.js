@@ -11,6 +11,7 @@ import {
   LOAD_JOB_AFTER_CREATE,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_MATCH_TRANSFER_MONEY,
+  LOAD_PREFILL_SPLIT_ALLOCATION,
   LOAD_SPLIT_ALLOCATION,
   LOAD_TRANSFER_MONEY,
   OPEN_ATTACHMENT,
@@ -75,6 +76,11 @@ const HttpBankingMapping = {
     method: 'GET',
     getPath: ({ businessId, type, journalId }) =>
       `/${businessId}/banking/load_split_allocation/${type}/${journalId}`,
+  },
+  [LOAD_PREFILL_SPLIT_ALLOCATION]: {
+    method: 'GET',
+    getPath: ({ businessId, bankingRuleId }) =>
+      `/${businessId}/banking/load_prefill_split_allocation/${bankingRuleId}`,
   },
   [SAVE_SPLIT_ALLOCATION]: {
     method: 'POST',

@@ -73,6 +73,12 @@ export const LOAD_SPLIT_ALLOCATION = Symbol(
 export const LOAD_NEW_SPLIT_ALLOCATION = Symbol(
   'Load new split allocation transaction'
 );
+export const LOAD_PREFILL_SPLIT_ALLOCATION = Symbol(
+  'Load prefill split allocation'
+);
+export const SET_SPLIT_ALLOCATION_LOADING_STATE = Symbol(
+  'Set split allocation loading state'
+);
 export const CALCULATE_SPLIT_ALLOCATION_TAX = Symbol(
   'Calculate split allocation tax'
 );

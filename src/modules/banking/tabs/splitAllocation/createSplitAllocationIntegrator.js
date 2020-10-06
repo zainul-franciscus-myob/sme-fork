@@ -1,9 +1,13 @@
 import {
+  LOAD_PREFILL_SPLIT_ALLOCATION,
   LOAD_SPLIT_ALLOCATION,
   SAVE_SPLIT_ALLOCATION,
 } from '../../BankingIntents';
 import { getBankTransactionLineByIndex, getBusinessId } from '../../selectors';
-import { getSplitAllocationPayload } from './splitAllocationSelectors';
+import {
+  getSplitAllocationPayload,
+  getTotalAmount,
+} from './splitAllocationSelectors';
 
 const createBankingIntegrator = (store, integration) => ({
   loadSplitAllocation: ({ index, onSuccess, onFailure }) => {
@@ -24,6 +28,27 @@ const createBankingIntegrator = (store, integration) => ({
     integration.read({
       intent,
       urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadPrefillSplitAllocation: ({ bankingRuleId, onSuccess, onFailure }) => {
+    const intent = LOAD_PREFILL_SPLIT_ALLOCATION;
+
+    const state = store.getState();
+    const urlParams = {
+      businessId: getBusinessId(state),
+      bankingRuleId,
+    };
+    const params = {
+      total: getTotalAmount(state),
+    };
+
+    integration.read({
+      intent,
+      urlParams,
+      params,
       onSuccess,
       onFailure,
     });

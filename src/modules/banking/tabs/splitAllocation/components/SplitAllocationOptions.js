@@ -4,13 +4,16 @@ import React from 'react';
 import classNames from 'classnames';
 
 import {
+  getBankingRuleId,
   getContactId,
   getContactLabel,
   getDescription,
+  getIsLoading,
   getIsReportable,
   getIsSpendMoney,
   getShowIsReportableCheckbox,
 } from '../splitAllocationSelectors';
+import handleAutoCompleteChange from '../../../../../components/handlers/handleAutoCompleteChange';
 import handleContactAutoCompleteChange from '../../../../../components/handlers/handleContactAutoCompleteChange';
 import handleInputChange from '../../../../../components/handlers/handleInputChange';
 import styles from './SplitAllocationOptions.module.css';
@@ -26,11 +29,29 @@ const SplitAllocationOptions = (props) => {
     description,
     contactLabel,
     isReportable,
+    bankingRuleId,
+    isSpendMoney,
     showIsReportable,
+    isDisabled,
     onUpdateSplitAllocationHeader,
     onUpdateSplitAllocationContactCombobox,
     renderSplitAllocationContactCombobox,
+    renderReceiveMoneyBankingRuleCombobox,
+    renderSpendMoneyBankingRuleCombobox,
   } = props;
+
+  const bankingRuleComboboxProps = {
+    selectedId: bankingRuleId,
+    name: 'bankingRule',
+    label: 'Bank rule',
+    hideLabel: false,
+    allowClear: true,
+    onChange: handleAutoCompleteChange(
+      'bankingRuleId',
+      onUpdateSplitAllocationHeader
+    ),
+    disabled: isDisabled,
+  };
 
   return (
     <div className={styles.splitAllocationFilterOptions}>
@@ -48,6 +69,7 @@ const SplitAllocationOptions = (props) => {
         hintText: 'Select contact',
         hideAdd: true,
         width: 'xl',
+        disabled: isDisabled,
       })}
       {showIsReportable && (
         <div
@@ -62,6 +84,7 @@ const SplitAllocationOptions = (props) => {
             label="Report to ATO via TPAR"
             checked={isReportable}
             onChange={handleCheckboxChange(onUpdateSplitAllocationHeader)}
+            disabled={isDisabled}
           />
         </div>
       )}
@@ -71,7 +94,11 @@ const SplitAllocationOptions = (props) => {
         name="description"
         value={description}
         onChange={handleInputChange(onUpdateSplitAllocationHeader)}
+        disabled={isDisabled}
       />
+      {isSpendMoney
+        ? renderSpendMoneyBankingRuleCombobox(bankingRuleComboboxProps)
+        : renderReceiveMoneyBankingRuleCombobox(bankingRuleComboboxProps)}
     </div>
   );
 };
@@ -82,10 +109,12 @@ SplitAllocationOptions.defaultProps = {
 const mapStateToProps = (state) => ({
   contactId: getContactId(state),
   isReportable: getIsReportable(state),
+  bankingRuleId: getBankingRuleId(state),
   isSpendMoney: getIsSpendMoney(state),
   description: getDescription(state),
   showIsReportable: getShowIsReportableCheckbox(state),
   contactLabel: getContactLabel(state),
+  isDisabled: getIsLoading(state),
 });
 
 export default connect(mapStateToProps)(SplitAllocationOptions);

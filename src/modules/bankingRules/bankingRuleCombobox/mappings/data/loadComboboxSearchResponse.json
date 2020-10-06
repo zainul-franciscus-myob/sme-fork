@@ -1,0 +1,16 @@
+{
+  "bankingRuleOptions": [
+    {
+      "id": "1",
+      "type": "SpendMoney",
+      "name": "Banking Rule",
+      "isInactive": false
+    },
+    {
+      "id": "2",
+      "type": "SpendMoney",
+      "name": "Banking Rule",
+      "isInactive": false
+    }
+  ]
+}

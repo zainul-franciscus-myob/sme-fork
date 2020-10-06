@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getIndexOfLastLine,
+  getIsLoading,
   getTableData,
   getTaxAmountLabel,
   getTaxLabel,
@@ -67,6 +68,7 @@ const SplitAllocationTable = (props) => {
     onAddAccount,
     onAddJob,
     onBlur,
+    isLoading,
     isLoadingAccount,
     isBankingJobColumnEnabled,
   } = props;
@@ -149,7 +151,7 @@ const SplitAllocationTable = (props) => {
         onAddAccount,
         onAddJob,
         onBlur,
-        isLoadingAccount
+        isLoading || isLoadingAccount
       )}
       onAddRow={onAddRow(onAddSplitAllocationLine)}
       onRowChange={onRowChange(onUpdateSplitAllocationLine)}
@@ -175,6 +177,7 @@ const mapStateToProps = (state) => ({
   totals: getTotals(state),
   taxLabel: getTaxLabel(state),
   taxAmountLabel: getTaxAmountLabel(state),
+  isLoading: getIsLoading(state),
   isLoadingAccount: getIsLoadingAccount(state),
   isBankingJobColumnEnabled: getIsBankingJobColumnEnabled(state),
 });

@@ -18,4 +18,5 @@ export default {
   isJobKeeperTierVisualCueEnabled: true,
   isBankTransactionsFastModeEnabled: true,
   isAllowNegativesInPayRuns: true,
+  isBankLinkPayeeEnabled: true,
 };

@@ -6,6 +6,7 @@ import {
   getFilterOptions,
   getIsOpenTransactionWithdrawal,
 } from '../../selectors/index';
+import BankingRuleTypes from '../../../bankingRules/bankingRuleCombobox/BankingRuleTypes';
 import ContactType from '../../../contact/contactCombobox/types/ContactType';
 import DefaultLineTypeId from '../../types/DefaultLineTypeId';
 import DisplayMode from '../../../contact/contactCombobox/types/DisplayMode';
@@ -24,6 +25,11 @@ export const getNewLineData = (state) => state.openEntry.allocate.newLine;
 export const getContactId = (state) => state.openEntry.allocate.contactId;
 
 export const getIsReportable = (state) => state.openEntry.allocate.isReportable;
+
+export const getIsLoading = (state) => state.openEntry.allocate.isLoading;
+
+export const getBankingRuleId = (state) =>
+  state.openEntry.allocate.bankingRuleId;
 
 const getLines = (state) => state.openEntry.allocate.lines;
 
@@ -143,6 +149,7 @@ export const getSplitAllocationPayload = (state, index) => {
     contactId,
     isReportable,
     lines,
+    bankingRuleId,
   } = getAllocate(state);
 
   return {
@@ -163,6 +170,7 @@ export const getSplitAllocationPayload = (state, index) => {
         quantity,
       })
     ),
+    bankingRuleId,
   };
 };
 
@@ -177,5 +185,23 @@ export const getSplitAllocateContactComboboxContext = (state) => {
     contactId,
     contactType: ContactType.ALL,
     displayMode: DisplayMode.NAME_AND_TYPE,
+  };
+};
+
+export const getReceiveMoneyBankingRuleComboboxContext = (state) => {
+  const businessId = getBusinessId(state);
+
+  return {
+    businessId,
+    bankingRuleType: BankingRuleTypes.ReceiveMoney,
+  };
+};
+
+export const getSpendMoneyBankingRuleComboboxContext = (state) => {
+  const businessId = getBusinessId(state);
+
+  return {
+    businessId,
+    bankingRuleType: BankingRuleTypes.SpendMoney,
   };
 };

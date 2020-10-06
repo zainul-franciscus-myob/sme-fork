@@ -141,6 +141,7 @@
         "ruleName": "Water Rule"
       },
       "isRuleApplied": true,
+      "bankingRuleId": "90",
       "taxCode": "GST",
       "note": "",
       "isReportable": true,
@@ -196,6 +197,7 @@
         "ruleName": "Water Rule"
       },
       "isRuleApplied": true,
+      "bankingRuleId": "95",
       "journals": [
         {
           "journalId": "101",

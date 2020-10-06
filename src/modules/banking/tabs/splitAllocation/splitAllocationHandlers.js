@@ -6,6 +6,7 @@ import {
 } from '../../selectors';
 import {
   getDefaultTaxCodeId,
+  getNewLineData,
   getTotalAmount,
   getTotalDollarAmount,
   getTotalPercentageAmount,
@@ -186,7 +187,8 @@ export const loadSplitAllocation = (state, action) => {
 
   const { isSpendMoney, lines } = action.allocate;
 
-  const totalAmount = Number(openedEntry.withdrawal || openedEntry.deposit);
+  const { withdrawal, deposit, bankingRuleId = '' } = openedEntry;
+  const totalAmount = Number(withdrawal || deposit);
 
   const accounts = isSpendMoney
     ? getWithdrawalAccounts(state)
@@ -214,6 +216,7 @@ export const loadSplitAllocation = (state, action) => {
     totalAmount,
     lines: updatedLines,
     newLine,
+    bankingRuleId,
   };
 
   return loadOpenEntry(state, action.index, TabItems.allocate, allocate, false);
@@ -259,6 +262,46 @@ export const loadNewSplitAllocation = (state, action) => {
 
   return loadOpenEntry(state, action.index, TabItems.allocate, allocate, true);
 };
+
+export const loadPrefillSplitAllocation = (state, action) => {
+  const newLine = getNewLineData(state);
+  const { accounts, taxCodes, lineJobOptions } = newLine;
+
+  return {
+    ...state,
+    openEntry: {
+      ...state.openEntry,
+      allocate: {
+        ...state.openEntry.allocate,
+        ...action.allocate,
+        lines: action.allocate.lines.map((line) => ({
+          ...newLine,
+          ...line,
+          accountId: accounts.some((option) => option.id === line.accountId)
+            ? line.accountId
+            : '',
+          taxCodeId: taxCodes.some((option) => option.id === line.taxCodeId)
+            ? line.taxCodeId
+            : '',
+          jobId: lineJobOptions.some((option) => option.id === line.jobId)
+            ? line.jobId
+            : '',
+        })),
+      },
+    },
+  };
+};
+
+export const setSplitAllocationLoadingState = (state, { isLoading }) => ({
+  ...state,
+  openEntry: {
+    ...state.openEntry,
+    allocate: {
+      ...state.openEntry.allocate,
+      isLoading,
+    },
+  },
+});
 
 export const saveSplitAllocation = (state, action) => ({
   ...allocateTransaction(state, action),

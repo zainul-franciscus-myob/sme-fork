@@ -316,7 +316,8 @@
         "contactId": "123",
         "ruleName": "DEPOSIT PVT PVT- REDinv"
       },
-      "isRuleApplied": true
+      "isRuleApplied": true,
+      "bankingRuleId": "1"
     },
     {
       "transactionId": "4",
@@ -417,6 +418,7 @@
         "ruleName": "Water Rule"
       },
       "isRuleApplied": true,
+      "bankingRuleId": "2",
       "journals": [
         {
           "journalId": "101",
@@ -483,7 +485,8 @@
         "contactId": "123",
         "ruleName": "For Coffees"
       },
-      "isRuleApplied": true
+      "isRuleApplied": true,
+      "bankingRuleId": "18"
     },
     {
       "transactionId": "13",
@@ -506,7 +509,8 @@
       "hasAttachment": false,
       "selectedAccountId": "128",
       "type": "singleAllocation",
-      "isRuleApplied": true
+      "isRuleApplied": true,
+      "bankingRuleId": "1"
     }
   ],
   "pagination": {

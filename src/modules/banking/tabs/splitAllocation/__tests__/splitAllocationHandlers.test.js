@@ -2,6 +2,7 @@ import Decimal from 'decimal.js';
 
 import {
   CALCULATE_SPLIT_ALLOCATION_TAX,
+  LOAD_PREFILL_SPLIT_ALLOCATION,
   LOAD_SPLIT_ALLOCATION,
   POPULATE_REMAINING_AMOUNT,
   UPDATE_SPLIT_ALLOCATION_CONTACT,
@@ -81,6 +82,105 @@ describe('splitAllocationHandlers', () => {
           expectedJobOptions
         );
       });
+    });
+  });
+
+  describe('LOAD_PREFILL_SPLIT_ALLOCATION', () => {
+    const getState = () => {
+      const newLine = {
+        accountId: '',
+        jobId: '',
+        taxCodeId: '',
+        description: '',
+        amount: '',
+        quantity: '',
+        accounts: [{ id: '128' }],
+        taxCodes: [{ id: '123' }],
+        lineJobOptions: [{ id: '1' }],
+      };
+
+      return {
+        entries: [],
+        openEntry: {
+          attachments: [],
+          allocate: {
+            id: '',
+            date: '',
+            contactId: '',
+            description: '',
+            isReportable: false,
+            bankingRuleId: '',
+            lines: [{ ...newLine, amount: 1000, amountPercent: 100 }],
+            isSpendMoney: false,
+            newLine,
+          },
+        },
+      };
+    };
+
+    const getAction = (lines = []) => {
+      return {
+        intent: LOAD_PREFILL_SPLIT_ALLOCATION,
+        allocate: {
+          contactId: '2',
+          description: 'Banking rule description',
+          lines,
+        },
+      };
+    };
+
+    it('prefills allocation with banking rule detail', () => {
+      const state = getState(1000);
+      const action = getAction([
+        {
+          accountId: '123',
+          amount: '500.00',
+          amountPercent: '50.00',
+          jobId: '1',
+          taxCodeId: '123',
+        },
+        {
+          accountId: '128',
+          amount: '500.00',
+          amountPercent: '50.00',
+          jobId: '2',
+          taxCodeId: '123',
+        },
+      ]);
+      const actual = bankingReducer(state, action);
+
+      expect(actual.openEntry.allocate).toEqual(
+        expect.objectContaining({
+          contactId: '2',
+          description: 'Banking rule description',
+          lines: [
+            {
+              accountId: '',
+              amount: '500.00',
+              amountPercent: '50.00',
+              quantity: '',
+              description: '',
+              jobId: '1',
+              taxCodeId: '123',
+              accounts: [{ id: '128' }],
+              taxCodes: [{ id: '123' }],
+              lineJobOptions: [{ id: '1' }],
+            },
+            {
+              accountId: '128',
+              amount: '500.00',
+              amountPercent: '50.00',
+              quantity: '',
+              description: '',
+              jobId: '',
+              taxCodeId: '123',
+              accounts: [{ id: '128' }],
+              taxCodes: [{ id: '123' }],
+              lineJobOptions: [{ id: '1' }],
+            },
+          ],
+        })
+      );
     });
   });
 

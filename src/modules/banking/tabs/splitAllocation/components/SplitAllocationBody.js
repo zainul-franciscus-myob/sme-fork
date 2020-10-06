@@ -5,6 +5,8 @@ import SplitAllocationTable from './SplitAllocationTable';
 
 const SplitAllocationBody = ({
   renderSplitAllocationContactCombobox,
+  renderReceiveMoneyBankingRuleCombobox,
+  renderSpendMoneyBankingRuleCombobox,
   onUpdateSplitAllocationHeader,
   onUpdateSplitAllocationContactCombobox,
   onAddSplitAllocationLine,
@@ -19,6 +21,10 @@ const SplitAllocationBody = ({
       renderSplitAllocationContactCombobox={
         renderSplitAllocationContactCombobox
       }
+      renderReceiveMoneyBankingRuleCombobox={
+        renderReceiveMoneyBankingRuleCombobox
+      }
+      renderSpendMoneyBankingRuleCombobox={renderSpendMoneyBankingRuleCombobox}
       onUpdateSplitAllocationHeader={onUpdateSplitAllocationHeader}
       onUpdateSplitAllocationContactCombobox={
         onUpdateSplitAllocationContactCombobox

@@ -144,7 +144,7 @@ const SplitAllocationRow = (props) => {
           onChange={handleComboBoxChange('jobId', onChange)}
           items={lineJobOptions}
           selectedId={jobId}
-          disabled={isJobComboboxDisabled}
+          disabled={disabled || isJobComboboxDisabled}
           addNewJob={() => onAddJob(handleComboBoxChange('jobId', onChange))}
           allowClear
           left

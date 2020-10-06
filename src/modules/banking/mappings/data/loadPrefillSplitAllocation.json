@@ -1,0 +1,22 @@
+{
+  "allocate": {
+    "contactId": "2",
+    "description": "Banking rule description",
+    "lines": [
+      {
+        "accountId": "123",
+        "amount": "300.00",
+        "amountPercent": "50.00",
+        "jobId": "1",
+        "taxCodeId": "123"
+      },
+      {
+        "accountId": "128",
+        "amount": "300.00",
+        "amountPercent": "50.00",
+        "jobId": "2",
+        "taxCodeId": "123"
+      }
+    ]
+  }
+}

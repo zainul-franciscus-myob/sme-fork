@@ -11,6 +11,7 @@ import {
   LOAD_JOB_AFTER_CREATE,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_MATCH_TRANSFER_MONEY,
+  LOAD_PREFILL_SPLIT_ALLOCATION,
   LOAD_SPLIT_ALLOCATION,
   LOAD_TRANSFER_MONEY,
   OPEN_ATTACHMENT,
@@ -37,6 +38,7 @@ import filteredMatchTransactions from './data/sortAndFilterMatchTransactions';
 import linkInTrayDocumentResponse from './data/linkInTrayDocumentResponse';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadAddedJobResponse from './data/loadAddedJobResponse';
+import loadPrefillSplitAllocationResponse from './data/loadPrefillSplitAllocation';
 import loadReceiveMoney from './data/loadReceiveMoney';
 import loadSpendMoney from './data/loadSpendMoney';
 import matchAllocatedTransactions from './data/loadMatchAllocatedTransactions';
@@ -65,6 +67,8 @@ const loadSplitAlloation = ({ urlParams, onSuccess }) =>
   onSuccess(
     urlParams.type === 'spend_money' ? loadSpendMoney : loadReceiveMoney
   );
+const loadPrefillSplitAllocation = ({ onSuccess }) =>
+  onSuccess(loadPrefillSplitAllocationResponse);
 const saveSplitAllocation = ({ onSuccess }) =>
   onSuccess(allocatedBankTransaction);
 const loadMatchTransactions = ({ params, onSuccess }) =>
@@ -104,6 +108,7 @@ const MemoryBankingMapping = {
   [UNALLOCATE_TRANSACTION]: unallocateBankTransaction,
   [BULK_UNALLOCATE_TRANSACTIONS]: bulkUnallocateBankTransactions,
   [LOAD_SPLIT_ALLOCATION]: loadSplitAlloation,
+  [LOAD_PREFILL_SPLIT_ALLOCATION]: loadPrefillSplitAllocation,
   [SAVE_SPLIT_ALLOCATION]: saveSplitAllocation,
   [LOAD_MATCH_TRANSACTIONS]: loadMatchTransactions,
   [SORT_AND_FILTER_MATCH_TRANSACTIONS]: sortAndFilterMatchTransactions,

@@ -79,11 +79,13 @@ const getDefaultState = () => ({
     activeTabId: TabItems.allocate,
     description: '',
     allocate: {
+      isLoading: false,
       id: '',
       date: '',
       contactId: '',
       description: '',
       isReportable: false,
+      bankingRuleId: '',
       lines: [],
       isSpendMoney: false,
       totalAmount: 0,

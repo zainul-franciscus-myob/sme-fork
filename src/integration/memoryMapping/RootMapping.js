@@ -6,6 +6,7 @@ import BankLearnMapping from '../../modules/learning/bankingLearn/mappings/Memor
 import BankReconciliationMapping from '../../modules/bankReconciliation/mappings/MemoryBankReconciliationMapping';
 import BankStatementImportMapping from '../../modules/bankStatementImport/mappings/MemoryBankStatementImportMapping';
 import BankingMapping from '../../modules/banking/mappings/MemoryBankingMapping';
+import BankingRuleComboboxMapping from '../../modules/bankingRules/bankingRuleCombobox/mappings/MemoryBankingRuleComboboxMapping';
 import BankingRuleDetailMapping from '../../modules/bankingRules/bankingRuleDetail/mappings/MemoryBankingRuleDetailMapping';
 import BankingRuleMapping from '../../modules/bankingRules/bankingRuleList/mappings/MemoryBankingRuleMapping';
 import BankingRuleModalMapping from '../../modules/banking/bankingRule/mappings/MemoryBankingRuleMapping';
@@ -132,6 +133,7 @@ const RootMapping = Object.freeze({
   ...LinkedAccountsMapping,
   ...BankingRuleMapping,
   ...BankReconciliationMapping,
+  ...BankingRuleComboboxMapping,
   ...BankingRuleDetailMapping,
   ...PaySuperListMapping,
   ...PaySuperReadMapping,
