@@ -108,7 +108,6 @@ export default class JobKeeperModule {
 
     const onSuccess = ({ message }) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.dispatcher.setNewEventId();
       this.pushMessage({
         type: SUCCESSFULLY_UPDATED_JOB_KEEPER_PAYMENTS,
         content: message,
@@ -125,6 +124,7 @@ export default class JobKeeperModule {
   };
 
   openStpDeclarationModal = () => {
+    this.dispatcher.setNewEventId();
     const context = getStpDeclarationContext(this.store.getState());
     this.stpDeclarationModule.run(context, this.updateJobKeeperPayments);
   };

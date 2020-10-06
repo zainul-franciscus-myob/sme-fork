@@ -584,4 +584,19 @@ describe('jobKeeperModule', () => {
       });
     });
   });
+
+  describe('STP declaration modal', () => {
+    it('should set new event ID during declaration', () => {
+      const module = new JobKeeperModule({
+        integration: {},
+        pushMessage: () => {},
+        featureToggles: {},
+      });
+      const oldEventId = module.store.getState().eventId;
+
+      module.openStpDeclarationModal();
+
+      expect(module.store.getState().eventId).not.toEqual(oldEventId);
+    });
+  });
 });
