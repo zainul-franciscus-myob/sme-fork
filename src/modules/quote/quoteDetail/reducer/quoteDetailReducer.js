@@ -398,13 +398,13 @@ const calculateUnitPrice = (
   sellingPrice,
   taxAmount,
   itemIsTaxInclusive,
-  invoiceIsTaxInclusive
+  quoteIsTaxInclusive
 ) => {
   const itemTaxExclusivePrice = itemIsTaxInclusive
     ? sellingPrice - taxAmount
     : sellingPrice;
 
-  return invoiceIsTaxInclusive
+  return quoteIsTaxInclusive
     ? itemTaxExclusivePrice + taxAmount
     : itemTaxExclusivePrice;
 };
