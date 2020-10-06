@@ -86,7 +86,7 @@
       "accountNumber": "1-2100",
       "accountName": "General Cheque Account #1",
       "accountType": "Asset",
-      "subAccountType": "AccountsReceivable",
+      "subAccountType": "AccountReceivable",
       "taxCode": "GST",
       "taxCodeId": 1,
       "linked": "Linked",
@@ -101,7 +101,7 @@
       "accountNumber": "1-1200",
       "accountName": "General Cheque Account #1 Saving",
       "accountType": "Asset",
-      "subAccountType": "AccountsReceivable",
+      "subAccountType": "AccountReceivable",
       "taxCode": "GST",
       "taxCodeId": 1,
       "linked": "",
@@ -279,5 +279,49 @@
       "displayRate": "0%",
       "id": "2"
     }
-  ]
+  ],
+  "accountClassifications": {
+    "Asset": {
+      "displayName": "Asset",
+      "prefix": "1-",
+      "type": {
+        "Bank": { "displayName": "Bank" },
+        "AccountReceivable": { "displayName": "Account receivable" },
+        "OtherCurrentAsset": { "displayName": "Other current asset" },
+        "FixedAsset": { "displayName": "Fixed asset" },
+        "OtherAsset": { "displayName": "Other asset" }
+      }
+    },
+    "Liability": {
+      "displayName": "Liability",
+      "prefix": "2-",
+      "type": {
+        "CreditCard": { "displayName": "Credit card" },
+        "AccountsPayable": { "displayName": "Accounts payable" },
+        "OtherCurrentLiability": {
+          "displayName": "Other current liability"
+        },
+        "LongTermLiability": { "displayName": "Long term liability" },
+        "OtherLiability": { "displayName": "Other liability" }
+      }
+    },
+    "Equity": { "displayName": "Equity", "prefix": "3-" },
+    "Income": { "displayName": "Income", "prefix": "4-" },
+    "CostOfSales": {
+      "displayName": "Cost of sales",
+      "prefix": "5-"
+    },
+    "Expense": {
+      "displayName": "Expense",
+      "prefix": "6-"
+    },
+    "OtherIncome": {
+      "displayName": "Other income",
+      "prefix": "8-"
+    },
+    "OtherExpense": {
+      "displayName": "Other expense",
+      "prefix": "9-"
+    }
+  }
 }
