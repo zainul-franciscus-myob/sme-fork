@@ -12,6 +12,8 @@ import {
   UPDATE_FORM,
 } from '../BankingRuleDetailIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
+import { getIsCreating } from '../bankingRuleDetailSelectors';
+import RuleTypes from '../RuleTypes';
 import allocationHandlers from './allocationHandlers';
 import conditionHandlers from './conditionHandlers';
 import createReducer from '../../../../store/createReducer';
@@ -19,32 +21,79 @@ import getDefaultState from './getDefaultState';
 
 const resetState = () => getDefaultState();
 
-const setInitalState = (state, action) => ({
-  ...getDefaultState(),
-  businessId: action.context.businessId,
-  bankingRuleId: action.context.bankingRuleId,
-  region: action.context.region,
-  ruleType: action.context.ruleType ? action.context.ruleType : state.ruleType,
-});
+const setInitialState = (state, { context }) => {
+  const {
+    businessId,
+    region,
+    bankingRuleId,
+    ruleType,
+    isNoConditionRuleEnabled,
+  } = context;
+
+  return {
+    ...getDefaultState(),
+    businessId,
+    bankingRuleId,
+    region,
+    ruleType: ruleType || state.ruleType,
+    isNoConditionRuleEnabled,
+  };
+};
 
 const buildLineJobOptions = ({ action, jobId }) =>
   action.bankingRule.jobs
     ? action.bankingRule.jobs.filter((job) => job.isActive || job.id === jobId)
     : [];
 
-const loadBankingRuleDetail = (state, action) => ({
-  ...state,
-  ...action.bankingRule,
-  allocations: action.bankingRule.allocations.map((allocation) => ({
-    ...allocation,
-    lineJobOptions: buildLineJobOptions({ action, jobId: allocation.jobId }),
-  })),
-  newAllocationLine: {
-    ...state.newAllocationLine,
-    ...action.bankingRule.newAllocationLine,
-    lineJobOptions: buildLineJobOptions({ action }),
-  },
-});
+const getConditions = (
+  isCreating,
+  isAllowNoCondition,
+  bankingRuleConditions
+) => {
+  if (!isCreating) {
+    return bankingRuleConditions;
+  }
+
+  return isAllowNoCondition
+    ? []
+    : [
+        {
+          field: 'Description',
+          predicates: [
+            {
+              matcher: 'Contains',
+              value: '',
+            },
+          ],
+        },
+      ];
+};
+const loadBankingRuleDetail = (state, action) => {
+  const isCreating = getIsCreating(state);
+  const isAllowNoCondition =
+    state.isNoConditionRuleEnabled &&
+    (state.ruleType === RuleTypes.spendMoney ||
+      state.ruleType === RuleTypes.receiveMoney);
+
+  return {
+    ...state,
+    ...action.bankingRule,
+    conditions: getConditions(
+      isCreating,
+      isAllowNoCondition,
+      action.bankingRule.conditions
+    ),
+    allocations: action.bankingRule.allocations.map((allocation) => ({
+      ...allocation,
+      lineJobOptions: buildLineJobOptions({ action, jobId: allocation.jobId }),
+    })),
+    newAllocationLine: {
+      ...state.newAllocationLine,
+      ...action.bankingRule.newAllocationLine,
+      lineJobOptions: buildLineJobOptions({ action }),
+    },
+  };
+};
 
 const updateForm = (state, action) => {
   if (action.key === 'allocationType') {
@@ -118,7 +167,7 @@ const updateContact = (
 
 const handlers = {
   [RESET_STATE]: resetState,
-  [SET_INITIAL_STATE]: setInitalState,
+  [SET_INITIAL_STATE]: setInitialState,
   [SET_LOADING_STATE]: setLoadingState,
   [CLOSE_MODAL]: closeModal,
   [OPEN_MODAL]: openModal,

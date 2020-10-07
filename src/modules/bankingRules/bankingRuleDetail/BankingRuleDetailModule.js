@@ -21,6 +21,7 @@ import {
 import AlertType from '../../../common/types/AlertType';
 import BankingRuleDetailView from './components/BankingRuleDetailView';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
+import FeatureToggles from '../../../FeatureToggles';
 import JobModalModule from '../../job/jobModal/JobModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
@@ -29,11 +30,18 @@ import Store from '../../../store/Store';
 import bankingRuleDetailReducer from './reducers';
 import createBankingRuleDetailDispatcher from './createBankingRuleDetailDispatcher';
 import createBankingRuleDetailIntegrator from './createBankingRuleDetailIntegrator';
+import isFeatureEnabled from '../../../common/feature/isFeatureEnabled';
 import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class BankingRuleDetailModule {
-  constructor({ integration, setRootView, pushMessage }) {
+  constructor({
+    integration,
+    setRootView,
+    pushMessage,
+    featureToggles,
+    isToggleOn,
+  }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -45,6 +53,8 @@ export default class BankingRuleDetailModule {
     );
     this.jobModalModule = new JobModalModule({ integration });
     this.contactComboboxModule = new ContactComboboxModule({ integration });
+    this.isToggleOn = isToggleOn;
+    this.featureToggles = featureToggles;
   }
 
   render = () => {
@@ -349,7 +359,16 @@ export default class BankingRuleDetailModule {
   };
 
   run = (context) => {
-    this.dispatcher.setInitialState(context);
+    const isNoConditionRuleEnabled = isFeatureEnabled({
+      isFeatureCompleted: this.featureToggles.isBankLinkPayeeEnabled,
+      isEarlyAccess: this.isToggleOn(FeatureToggles.BankLinkPayee),
+    });
+
+    this.dispatcher.setInitialState({
+      isNoConditionRuleEnabled,
+      ...context,
+    });
+
     this.render();
     setupHotKeys(keyMap, {
       SAVE_ACTION: this.saveHandler,

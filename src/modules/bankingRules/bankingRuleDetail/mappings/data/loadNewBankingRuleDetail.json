@@ -8,17 +8,7 @@
   "contactId": "",
   "allocationType": "Percent",
   "allocations": [],
-  "conditions": [
-    {
-      "field": "Description",
-      "predicates": [
-        {
-          "matcher": "Contains",
-          "value": ""
-        }
-      ]
-    }
-  ],
+  "conditions": [],
   "bankAccounts": [
     {
       "id": "123",

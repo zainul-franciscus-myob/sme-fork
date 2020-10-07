@@ -7,6 +7,8 @@ const getBankingRuleRoutes = ({
   setRootView,
   popMessages,
   pushMessage,
+  isToggleOn,
+  featureToggles,
 }) => {
   const routes = [
     {
@@ -26,6 +28,8 @@ const getBankingRuleRoutes = ({
         integration,
         setRootView,
         pushMessage,
+        isToggleOn,
+        featureToggles,
       }),
       documentTitle: 'Banking rule',
     },
