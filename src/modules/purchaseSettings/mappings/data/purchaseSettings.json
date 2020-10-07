@@ -1,0 +1,6 @@
+{
+    "emailSettings": {
+        "remittanceAdviceEmailBody": "Remittance advice body sample",
+        "remittanceAdviceEmailSubject": "To Supplier"
+  }
+}
