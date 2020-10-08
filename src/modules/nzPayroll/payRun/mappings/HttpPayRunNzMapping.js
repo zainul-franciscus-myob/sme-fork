@@ -8,19 +8,21 @@ import {
 const PayRunMapping = {
   [START_NEW_PAY_RUN]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/nz/${businessId}/payRun/start_new_pay_run`,
+    getPath: ({ businessId }) => `/${businessId}/nz-payroll/payRun/start`,
   },
   [CREATE_DRAFT_PAY_RUN]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/nz/${businessId}/payRun/draft`,
+    getPath: ({ businessId }) => `/${businessId}/nz-payroll/payRun/draft`,
   },
   [RECALCULATE_PAY]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/nz/${businessId}/payRun/recalculate_pay`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/nz-payroll/payRun/recalculate_pay`,
   },
   [RECORD_PAYMENTS]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/nz/${businessId}/payRun/record_payments`,
+    getPath: ({ businessId }) =>
+      `/${businessId}/nz-payroll/payRun/record_payments`,
   },
 };
 
