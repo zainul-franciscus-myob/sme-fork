@@ -81,6 +81,7 @@ import BankingView from './components/BankingView';
 import ContactComboboxModule from '../contact/contactCombobox/ContactComboboxModule';
 import FeatureToggle from '../../FeatureToggles';
 import FocusLocations from './types/FocusLocations';
+import HelpPageRoutes from '../../drawer/help/HelpPageRoutes';
 import HotkeyLocations from './hotkeys/HotkeyLocations';
 import Hotkeys from './hotkeys/Hotkeys';
 import InTrayModalModule from '../inTray/inTrayModal/InTrayModalModule';
@@ -103,6 +104,7 @@ export default class BankingModule {
     isToggleOn,
     replaceURLParams,
     featureToggles,
+    loadHelpContentBasedOnRoute,
   }) {
     this.store = new Store(bankingReducer);
     this.setRootView = setRootView;
@@ -111,6 +113,7 @@ export default class BankingModule {
     this.isToggleOn = isToggleOn;
     this.featureToggles = featureToggles;
     this.replaceURLParams = replaceURLParams;
+    this.loadHelpContentBasedOnRoute = loadHelpContentBasedOnRoute;
     this.bankingRuleModule = new BankingRuleModule({
       integration,
       isToggleOn,
@@ -1637,6 +1640,12 @@ export default class BankingModule {
     this.setFocusToTransactionLine(index);
   };
 
+  openHelpPanelForKeyboardShortcuts = () => {
+    this.loadHelpContentBasedOnRoute(
+      HelpPageRoutes.BANKING_TRANSACTION_LIST_KEYBOARDSHORTCUTS
+    );
+  };
+
   buildHotkeyHandlers = () => {
     const hotkeysToExpandAccordionView = [
       {
@@ -1750,6 +1759,18 @@ export default class BankingModule {
         {
           key: [OPTION, G],
           action: this.setFocusToFirstUnmatchedLine,
+        },
+        {
+          key: [COMMAND, FORWARD_SLASH],
+          action: () => {
+            this.openHelpPanelForKeyboardShortcuts();
+          },
+        },
+        {
+          key: [CTRL, FORWARD_SLASH],
+          action: () => {
+            this.openHelpPanelForKeyboardShortcuts();
+          },
         },
         ...hotkeysAccessibleInAccordion,
       ],

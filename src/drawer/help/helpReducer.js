@@ -3,6 +3,7 @@ import {
   LOAD_HELP_CONTENT_FAILURE,
   LOAD_HELP_USER_SETTINGS,
   SET_ACTIVE_STATE,
+  SET_CUSTOM_HELP_PAGE_ROUTE,
   SET_LOADING_STATE,
   SET_OPEN_STATE,
   UPDATE_SEARCH_VALUE,
@@ -22,7 +23,7 @@ const setInitialState = (state, { currentRouteName, routeParams }) => ({
   isLoading: false,
   businessId: routeParams.businessId,
   region: routeParams.region,
-  currentRouteName,
+  defaultHelpPageRoute: currentRouteName,
 });
 
 const setLoadingState = (state, action) => ({
@@ -62,6 +63,11 @@ const updateSearchValue = (state, action) => ({
   searchValue: action.value,
 });
 
+const setCustomHelpPageRoute = (state, { helpPageRoute }) => ({
+  ...state,
+  customHelpPageRoute: helpPageRoute,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [SET_LOADING_STATE]: setLoadingState,
@@ -71,6 +77,7 @@ const handlers = {
   [UPDATE_SEARCH_VALUE]: updateSearchValue,
   [SET_ACTIVE_STATE]: setActiveState,
   [SET_OPEN_STATE]: setOpenState,
+  [SET_CUSTOM_HELP_PAGE_ROUTE]: setCustomHelpPageRoute,
 };
 
 const helpReducer = createReducer(getDefaultState(), handlers);

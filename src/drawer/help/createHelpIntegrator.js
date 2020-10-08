@@ -17,10 +17,11 @@ const createHelpIntegrator = (store, integration) => ({
       onFailure,
     });
   },
-  loadHelpContent: ({ onSuccess, onFailure }) => {
+
+  loadHelpContent: ({ onSuccess, onFailure, helpPageRoute }) => {
     const state = store.getState();
     const urlParams = getLoadHelpContentUrlParams(state);
-    const params = getLoadHelpContentParams(state);
+    const params = getLoadHelpContentParams(state, helpPageRoute);
 
     integration.read({
       intent: LOAD_HELP_CONTENT,

@@ -1,5 +1,10 @@
 import * as views from './drawerViews';
-import { CLOSE_DRAWER, TOGGLE_HELP, TOGGLE_TASKS } from './drawerIntents';
+import {
+  CLOSE_DRAWER,
+  TOGGLE_HELP,
+  TOGGLE_HELP_ON,
+  TOGGLE_TASKS,
+} from './drawerIntents';
 import { SET_INITIAL_STATE } from '../SystemIntents';
 
 const createDrawerDispatcher = (store) => ({
@@ -19,6 +24,10 @@ const createDrawerDispatcher = (store) => ({
   toggleHelp: () => {
     const intent = TOGGLE_HELP;
     store.dispatch({ intent, view: views.HELP });
+  },
+  toggleHelpOn: () => {
+    const intent = TOGGLE_HELP_ON;
+    store.dispatch({ intent });
   },
 });
 

@@ -2,9 +2,11 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  getIsActive,
+  getIsHelpContentLoaded,
+  getIsOpen,
   getSearchLink,
   getSearchValue,
-  isHelpContentLoaded,
   isUserHelpSettingsLoaded,
   shouldLoadHelpContent,
 } from './HelpSelectors';
@@ -75,15 +77,18 @@ export default class HelpModule {
   };
 
   loadHelpContent = () => {
-    if (!shouldLoadHelpContent(this.store.getState())) return;
+    const state = this.store.getState();
+
+    if (!shouldLoadHelpContent(state)) return;
 
     this.dispatcher.setLoadingState(true);
 
-    if (!isUserHelpSettingsLoaded(this.store.getState())) {
-      this.loadHelpUserSettings(this.getHelpContent);
+    if (!isUserHelpSettingsLoaded(state)) {
+      this.loadHelpUserSettings(() => this.getHelpContent());
       return;
     }
-    if (isHelpContentLoaded(this.store.getState())) {
+
+    if (getIsHelpContentLoaded(state)) {
       this.dispatcher.setLoadingState(false);
       return;
     }
@@ -100,15 +105,26 @@ export default class HelpModule {
       this.dispatcher.setLoadingState(false);
       this.dispatcher.loadHelpContentFailure();
     };
+
     this.integrator.loadHelpContent({
       onSuccess,
       onFailure,
     });
+
+    // Need to reset customHelpPageRoute so that defaultHelpPageRoute is used
+    // when not triggering Help manually (example: through keyboard shortcuts)
+    this.setCustomHelpPageRoute('');
+  };
+
+  setCustomHelpPageRoute = (helpPageRoute) => {
+    this.dispatcher.setCustomHelpPageRoute(helpPageRoute);
   };
 
   run = (context) => {
     this.dispatcher.setInitialState(context);
-    const { isActive, isOpen } = this.store.getState();
+    const state = this.store.getState();
+    const isActive = getIsActive(state);
+    const isOpen = getIsOpen(state);
     if (isActive && isOpen) {
       this.loadHelpContent();
     }

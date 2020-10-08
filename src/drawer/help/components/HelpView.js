@@ -5,6 +5,7 @@ import React from 'react';
 import {
   getHelpOnThisPageLinks,
   getHelpTitle,
+  getIsActive,
   getIsHelpFailedOrEmpty,
   getIsLoading,
   getRichTextContent,
@@ -82,7 +83,7 @@ const mapStateToProps = (state) => ({
   helpOnThisPageLinks: getHelpOnThisPageLinks(state),
   isLoading: getIsLoading(state),
   isHelpFailedOrEmpty: getIsHelpFailedOrEmpty(state),
-  isActive: state.isActive,
+  isActive: getIsActive(state),
 });
 
 export default connect(mapStateToProps)(HelpView);

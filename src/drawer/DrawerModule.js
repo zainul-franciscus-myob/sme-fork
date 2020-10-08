@@ -47,6 +47,11 @@ export default class DrawerModule {
 
   toggleTasks = () => this.dispatcher.toggleTasks();
 
+  loadHelpContentBasedOnRoute = (helpPageRoute) => {
+    this.subModules[views.HELP].setCustomHelpPageRoute(helpPageRoute);
+    this.dispatcher.toggleHelpOn();
+  };
+
   toggleHelp = () => this.dispatcher.toggleHelp();
 
   closeDrawer = () => this.dispatcher.closeDrawer();

@@ -182,6 +182,10 @@ export default class RootModule {
     this.navigateTo(url);
   };
 
+  loadHelpContentBasedOnRoute = (helpPageRoute) => {
+    this.drawer.loadHelpContentBasedOnRoute(helpPageRoute);
+  };
+
   render = (component) => {
     const root = document.getElementById('root');
     ReactDOM.unmountComponentAtNode(root);

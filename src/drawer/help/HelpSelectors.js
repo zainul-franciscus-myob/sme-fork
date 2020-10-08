@@ -8,7 +8,8 @@ export const getRegion = (state) => state.region;
 export const getIsLoading = (state) => state.isLoading;
 export const shouldLoadHelpContent = (state) => !!state.businessId;
 export const isUserHelpSettingsLoaded = (state) => !!state.userHelpSettings;
-export const isHelpContentLoaded = (state) => !!state.document;
+export const getIsActive = (state) => state.isActive;
+export const getIsOpen = (state) => state.isOpen;
 
 export const getHelpTitle = (state) =>
   state.document ? state.document.fields.title : undefined;
@@ -23,13 +24,21 @@ export const getQuickAnswers = (state) => (state.answers ? state.answers : []);
 
 export const getIsHelpFailedOrEmpty = (state) => state.document === undefined;
 
+export const getIsHelpContentLoaded = (state) => {
+  return (
+    !state.customHelpPageRoute &&
+    state.document &&
+    state.document.fields.pageId === state.defaultHelpPageRoute
+  );
+};
+
 export const getLoadHelpUserSettingsUrlParams = (state) => ({
   businessId: state.businessId,
 });
 
 export const getLoadHelpContentParams = (state) => ({
   region: state.region,
-  routeName: state.currentRouteName,
+  helpPageRoute: state.customHelpPageRoute || state.defaultHelpPageRoute,
   ...state.userHelpSettings,
 });
 

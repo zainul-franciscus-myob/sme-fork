@@ -60,6 +60,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
     subscribeOrUpgrade: rootModule.subscribeOrUpgrade,
     featureToggles,
     loadGlobalBusinessDetails: rootModule.loadGlobalBusinessDetails,
+    loadHelpContentBasedOnRoute: rootModule.loadHelpContentBasedOnRoute,
   });
 
   const routes = getRoutes(container);

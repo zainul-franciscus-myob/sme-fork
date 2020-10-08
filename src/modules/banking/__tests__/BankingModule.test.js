@@ -96,6 +96,7 @@ describe('BankingModule', () => {
     const pushMessage = () => {};
     const popMessages = () => [];
     const isToggleOn = () => true;
+    const loadHelpContentBasedOnRoute = () => {};
 
     // @TODO: To be deleted alongside our disposable test when we no longer need featureToggles
     const featureToggles = {
@@ -111,6 +112,7 @@ describe('BankingModule', () => {
       popMessages,
       isToggleOn,
       featureToggles,
+      loadHelpContentBasedOnRoute,
     });
     const store = new TestStore(bankingReducer);
     module.store = store;
@@ -2167,6 +2169,21 @@ describe('BankingModule', () => {
               isFocused: true,
             },
           ]);
+        }
+      );
+
+      it.each([[[COMMAND, FORWARD_SLASH]], [[CTRL, FORWARD_SLASH]]])(
+        '%s should open the help panel',
+        (hotkey) => {
+          const { module } = setUpWithBankTransactionEntries([]);
+
+          module.loadHelpContentBasedOnRoute = jest.fn();
+
+          // Action
+          const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+          hotkeyHandler.action();
+
+          expect(module.loadHelpContentBasedOnRoute).toHaveBeenCalled();
         }
       );
     });

@@ -3,6 +3,7 @@ import {
   LOAD_HELP_CONTENT_FAILURE,
   LOAD_HELP_USER_SETTINGS,
   SET_ACTIVE_STATE,
+  SET_CUSTOM_HELP_PAGE_ROUTE,
   SET_LOADING_STATE,
   SET_OPEN_STATE,
   UPDATE_SEARCH_VALUE,
@@ -57,6 +58,12 @@ const createHelpDispatcher = (store) => ({
     store.dispatch({
       intent: UPDATE_SEARCH_VALUE,
       value,
+    });
+  },
+  setCustomHelpPageRoute: (helpPageRoute) => {
+    store.dispatch({
+      intent: SET_CUSTOM_HELP_PAGE_ROUTE,
+      helpPageRoute,
     });
   },
 });
