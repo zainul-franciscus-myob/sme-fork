@@ -95,12 +95,14 @@ const BillPaymentDetailView = ({
         onChange={handleCheckboxChange(onShouldSendRemittanceChange)}
       />
       <br />
-      <Alert type="info">
-        {
-          "You'll have the option to send by email or export a PDF when you save this payment."
-        }
-        <a href="TBC">&nbsp;Learn more</a>
-      </Alert>
+      {shouldSendRemittance && (
+        <Alert type="info">
+          {
+            "You'll have the option to send by email or export a PDF when you save this payment."
+          }
+          <a href="TBC">&nbsp;Learn more</a>
+        </Alert>
+      )}
     </>
   );
 
