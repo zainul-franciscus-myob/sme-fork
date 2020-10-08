@@ -5,6 +5,7 @@ const getBillPaymentRoutes = ({
   setRootView,
   integration,
   pushMessage,
+  replaceURLParams,
   navigateTo,
   featureToggles,
 }) => {
@@ -16,6 +17,7 @@ const getBillPaymentRoutes = ({
         setRootView,
         integration,
         pushMessage,
+        replaceURLParams,
         navigateTo,
         featureToggles,
       }),

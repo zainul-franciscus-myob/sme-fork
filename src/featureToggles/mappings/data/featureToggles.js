@@ -19,4 +19,5 @@ export default {
   isBankTransactionsFastModeEnabled: true,
   isAllowNegativesInPayRuns: true,
   isBankLinkPayeeEnabled: true,
+  isPayBillRemittanceAdviceEnabled: true,
 };

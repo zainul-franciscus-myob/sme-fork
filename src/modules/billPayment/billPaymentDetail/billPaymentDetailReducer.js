@@ -14,8 +14,10 @@ import {
   SET_SUPPLIER_LOADING_STATE,
   SET_TABLE_LOADING_STATE,
   UPDATE_BANK_STATEMENT_TEXT,
+  UPDATE_BILL_PAYMENT_ID,
   UPDATE_HEADER_OPTION,
   UPDATE_REFERENCE_ID,
+  UPDATE_SHOULD_SEND_REMITTANCE,
   UPDATE_TABLE_INPUT_FIELD,
 } from '../BillPaymentIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -55,6 +57,8 @@ const getDefaultState = () => ({
   paymentAmount: '',
   applyPaymentToBillId: '',
   startOfFinancialYearDate: '',
+  shouldSendRemittance: false,
+  isPayBillRemittanceAdviceEnabled: false,
 });
 
 const pageEdited = { isPageEdited: true };
@@ -226,6 +230,11 @@ const changeReferenceId = updateWhenUsingDefaultStatementText(
   })
 );
 
+const updateBillPaymentId = (state, { billPaymentId }) => ({
+  ...state,
+  billPaymentId,
+});
+
 const loadSupplierPaymentInfo = updateWhenUsingDefaultStatementText(
   (state, { supplierStatementText, isPaymentDetailsComplete }) => ({
     ...state,
@@ -246,6 +255,11 @@ const updateTableInputField = (state, action) => ({
         }
       : entry
   ),
+});
+
+const shouldSendRemittance = (state, action) => ({
+  ...state,
+  shouldSendRemittance: action.shouldSendRemittance,
 });
 
 const openModal = (state, action) => ({
@@ -282,6 +296,7 @@ const handlers = {
   [UPDATE_TABLE_INPUT_FIELD]: updateTableInputField,
   [UPDATE_REFERENCE_ID]: updateReferenceId,
   [CHANGE_REFERENCE_ID]: changeReferenceId,
+  [UPDATE_BILL_PAYMENT_ID]: updateBillPaymentId,
   [CHANGE_BANK_STATEMENT_TEXT]: changeBankStatementText,
   [UPDATE_BANK_STATEMENT_TEXT]: updateBankStatementText,
   [SET_SUBMITTING_STATE]: setSubmittingState,
@@ -289,6 +304,7 @@ const handlers = {
   [CLOSE_MODAL]: closeModal,
   [SET_ALERT_MESSAGE]: setAlertMessage,
   [SET_REDIRECT_URL]: setRedirectUrl,
+  [UPDATE_SHOULD_SEND_REMITTANCE]: shouldSendRemittance,
 };
 
 const billPaymentDetailReducer = createReducer(getDefaultState(), handlers);

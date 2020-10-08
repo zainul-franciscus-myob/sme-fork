@@ -13,6 +13,8 @@ import formatAmount from '../../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../../common/valueFormatters/formatCurrency';
 import tableViewTypes from './tableViewTypes';
 
+export const getIsPayBillRemittanceAdviceEnabled = (state) =>
+  state.isPayBillRemittanceAdviceEnabled;
 export const getLoadingState = (state) => state.loadingState;
 export const getIsTableLoading = (state) => state.isTableLoading;
 export const getIsSupplierLoading = (state) => state.isSupplierLoading;
@@ -40,7 +42,7 @@ export const getIsPaymentDetailsComplete = (state) =>
   state.isPaymentDetailsComplete;
 
 export const getIsCreating = (state) => state.billPaymentId === 'new';
-
+export const getShouldSendRemittance = (state) => state.shouldSendRemittance;
 export const getIsActionsDisabled = (state) => state.isSubmitting;
 
 export const getTitle = createSelector(
@@ -271,6 +273,7 @@ const getCreateBillPaymentPayload = (state) => {
     accountId: getAccountId(state),
     supplierId: getSupplierId(state),
     entries: getBillEntriesForCreatePayload(state),
+    sendRemittance: getShouldSendRemittance(state),
   };
 };
 

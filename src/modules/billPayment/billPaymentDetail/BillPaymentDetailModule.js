@@ -18,6 +18,7 @@ import {
   getRedirectUrl,
   getRegion,
   getShouldLoadBillList,
+  getShouldSendRemittance,
   getSupplierId,
 } from './BillPaymentDetailSelectors';
 import BillPaymentView from './components/BillPaymentDetailView';
@@ -35,12 +36,14 @@ export default class BillPaymentModule {
     integration,
     setRootView,
     pushMessage,
+    replaceURLParams,
     navigateTo,
     featureToggles,
   }) {
     this.store = new Store(billPaymentReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
+    this.replaceURLParams = replaceURLParams;
     this.dispatcher = createBillPaymentDetailDispatcher(this.store);
     this.integrator = createBillPaymentDetailIntegrator(
       this.store,
@@ -51,6 +54,8 @@ export default class BillPaymentModule {
     this.contactComboboxModule = new ContactComboboxModule({ integration });
     this.isElectronicPaymentEnabled =
       featureToggles?.isElectronicPaymentEnabled;
+    this.isPayBillRemittanceAdviceEnabled =
+      featureToggles?.isPayBillRemittanceAdviceEnabled;
   }
 
   loadBillPayment = () => {
@@ -188,6 +193,12 @@ export default class BillPaymentModule {
     this.navigateTo(`/#/${region}/${businessId}/bill/${billId}`);
   };
 
+  reloadSavedBillPayment = ({ id }) => {
+    this.dispatcher.updateBillPaymentId(id);
+    this.replaceURLParams({ billPaymentId: id });
+    this.loadBillPayment();
+  };
+
   dismissAlert = () => this.dispatcher.setAlertMessage('');
 
   saveBillPayment = () => {
@@ -203,6 +214,10 @@ export default class BillPaymentModule {
         content: response.message,
       });
 
+      if (getShouldSendRemittance(state)) {
+        this.reloadSavedBillPayment(response);
+        return;
+      }
       const url = getRedirectUrl(state);
       if (url) {
         this.navigateTo(url);
@@ -300,6 +315,9 @@ export default class BillPaymentModule {
         onConfirmSaveAndRedirect={this.saveAndRedirect}
         onDiscardAndRedirect={this.discardAndRedirect}
         onCloseUnsaveModal={this.closeUnsaveModal}
+        onShouldSendRemittanceChange={
+          this.dispatcher.updateShouldSendRemittance
+        }
       />
     );
 
@@ -326,6 +344,7 @@ export default class BillPaymentModule {
     this.dispatcher.setInitialState({
       ...context,
       isElectronicPaymentEnabled: this.isElectronicPaymentEnabled,
+      isPayBillRemittanceAdviceEnabled: this.isPayBillRemittanceAdviceEnabled,
     });
     setupHotKeys(keyMap, this.handlers);
     this.render();

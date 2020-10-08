@@ -1,12 +1,14 @@
-import { Alert } from '@myob/myob-widgets';
+import { Alert, Checkbox, Separator } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
   getAlertMessage,
   getIsCreating,
+  getIsPayBillRemittanceAdviceEnabled,
   getLoadingState,
   getModalType,
+  getShouldSendRemittance,
   getTitle,
 } from '../BillPaymentDetailSelectors';
 import BillPaymentActions from './BillPaymentDetailActions';
@@ -18,6 +20,7 @@ import DeleteModal from '../../../../components/modal/DeleteModal';
 import LineItemTemplate from '../../../../components/Feelix/LineItemTemplate/LineItemTemplate';
 import PageView from '../../../../components/PageView/PageView';
 import UnsavedModal from '../../../../components/modal/UnsavedModal';
+import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 
 const BillPaymentDetailView = ({
   loadingState,
@@ -25,6 +28,7 @@ const BillPaymentDetailView = ({
   title,
   onUpdateIsElectronicPayment,
   isCreating,
+  isPayBillRemittanceAdviceEnabled,
   renderContactCombobox,
   onChangeBankStatementText,
   onChangeReferenceId,
@@ -42,6 +46,8 @@ const BillPaymentDetailView = ({
   onDeleteModal,
   alertMessage,
   onDismissAlert,
+  shouldSendRemittance,
+  onShouldSendRemittanceChange,
 }) => {
   let modal;
   if (modalType === 'cancel') {
@@ -80,6 +86,24 @@ const BillPaymentDetailView = ({
     />
   );
 
+  const sendRemittance = (
+    <>
+      <Checkbox
+        name="shouldSendRemittanceAdvice"
+        label="Send remittance advice"
+        checked={shouldSendRemittance}
+        onChange={handleCheckboxChange(onShouldSendRemittanceChange)}
+      />
+      <br />
+      <Alert type="info">
+        {
+          "You'll have the option to send by email or export a PDF when you save this payment."
+        }
+        <a href="TBC">&nbsp;Learn more</a>
+      </Alert>
+    </>
+  );
+
   const view = (
     <LineItemTemplate
       pageHead={title}
@@ -106,6 +130,8 @@ const BillPaymentDetailView = ({
       <BillPaymentDetailTable
         onUpdateTableInputField={onUpdateTableInputField}
       />
+      <Separator />
+      {isPayBillRemittanceAdviceEnabled && isCreating && sendRemittance}
     </LineItemTemplate>
   );
 
@@ -118,6 +144,8 @@ const mapStateToProps = (state) => ({
   alertMessage: getAlertMessage(state),
   title: getTitle(state),
   isCreating: getIsCreating(state),
+  shouldSendRemittance: getShouldSendRemittance(state),
+  isPayBillRemittanceAdviceEnabled: getIsPayBillRemittanceAdviceEnabled(state),
 });
 
 export default connect(mapStateToProps)(BillPaymentDetailView);
