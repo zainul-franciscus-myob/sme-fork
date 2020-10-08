@@ -912,6 +912,10 @@ export default class BankingModule {
     const onSuccess = (payload) => {
       this.dispatcher.setOpenEntryLoadingState(false);
       this.dispatcher.unallocateTransaction(payload);
+      this.dispatcher.setAlert({
+        type: 'success',
+        message: payload.message,
+      });
     };
 
     const onFailure = ({ message }) => {

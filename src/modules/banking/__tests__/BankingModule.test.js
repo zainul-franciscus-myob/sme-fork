@@ -64,6 +64,7 @@ import {
   START_LOADING_MORE,
   STOP_ENTRY_LOADING_STATE,
   STOP_LOADING_MORE,
+  UNALLOCATE_TRANSACTION,
   UNSELECT_TRANSACTIONS,
   UPDATE_FILTER_OPTIONS,
   UPDATE_MATCH_TRANSACTION_OPTIONS,
@@ -221,6 +222,88 @@ describe('BankingModule', () => {
     const toolbox = setUpWithRun();
     toolbox.module.replaceURLParams = jest.fn();
     return toolbox;
+  };
+
+  const setupWithAllocatedWithdrawal = () => {
+    const entry = {
+      transactionId: '3',
+      transactionUid: '123e4567-e89b-12d3-a456-789123456790',
+      date: '2018-10-01',
+      description: 'Bob the builder',
+      withdrawal: 2950.0,
+      allocateOrMatch: 'Internet',
+      journals: [
+        {
+          journalId: '456',
+          journalUid: '123e4567-e89b-12d3-a456-426655440000',
+          journalLineId: '123',
+          sourceJournal: 'CashPayment',
+        },
+      ],
+      taxCode: 'GST',
+      note: '',
+      isReportable: true,
+      selectedAccountId: '128',
+      type: 'singleAllocation',
+    };
+    const taxCalculations = {
+      lines: [
+        {
+          taxAmount: new Decimal('100'),
+        },
+        {
+          taxAmount: new Decimal('200'),
+        },
+      ],
+    };
+    const toolbox = setUpWithBankTransactionEntry(entry);
+
+    toolbox.module.spendMoneyTaxCalculator = jest
+      .fn()
+      .mockReturnValue(taxCalculations);
+
+    return { ...toolbox, taxCalculations };
+  };
+
+  const setupWithAllocatedDeposit = () => {
+    const entry = {
+      transactionId: '99',
+      transactionUid: '123e4567-e89b-12d3-a456-789123456790',
+      date: '2018-10-01',
+      description: 'Bob the builder',
+      deposit: 2950.0,
+      allocateOrMatch: 'Internet',
+      journals: [
+        {
+          journalId: '456',
+          journalUid: '123e4567-e89b-12d3-a456-426655440000',
+          journalLineId: '123',
+          sourceJournal: 'CashReceipt',
+        },
+      ],
+      taxCode: 'GST',
+      note: '',
+      isReportable: true,
+      selectedAccountId: '128',
+      type: 'singleAllocation',
+    };
+    const taxCalculations = {
+      lines: [
+        {
+          taxAmount: new Decimal('100'),
+        },
+        {
+          taxAmount: new Decimal('200'),
+        },
+      ],
+    };
+    const toolbox = setUpWithBankTransactionEntry(entry);
+
+    toolbox.module.receiveMoneyTaxCalculator = jest
+      .fn()
+      .mockReturnValue(taxCalculations);
+
+    return { ...toolbox, taxCalculations };
   };
 
   describe('run', () => {
@@ -796,88 +879,6 @@ describe('BankingModule', () => {
     });
 
     describe(`when open ${BankTransactionStatusTypes.singleAllocation}`, () => {
-      const setupWithAllocatedWithdrawal = () => {
-        const entry = {
-          transactionId: '3',
-          transactionUid: '123e4567-e89b-12d3-a456-789123456790',
-          date: '2018-10-01',
-          description: 'Bob the builder',
-          withdrawal: 2950.0,
-          allocateOrMatch: 'Internet',
-          journals: [
-            {
-              journalId: '456',
-              journalUid: '123e4567-e89b-12d3-a456-426655440000',
-              journalLineId: '123',
-              sourceJournal: 'CashPayment',
-            },
-          ],
-          taxCode: 'GST',
-          note: '',
-          isReportable: true,
-          selectedAccountId: '128',
-          type: 'singleAllocation',
-        };
-        const taxCalculations = {
-          lines: [
-            {
-              taxAmount: new Decimal('100'),
-            },
-            {
-              taxAmount: new Decimal('200'),
-            },
-          ],
-        };
-        const toolbox = setUpWithBankTransactionEntry(entry);
-
-        toolbox.module.spendMoneyTaxCalculator = jest
-          .fn()
-          .mockReturnValue(taxCalculations);
-
-        return { ...toolbox, taxCalculations };
-      };
-
-      const setupWithAllocatedDeposit = () => {
-        const entry = {
-          transactionId: '99',
-          transactionUid: '123e4567-e89b-12d3-a456-789123456790',
-          date: '2018-10-01',
-          description: 'Bob the builder',
-          deposit: 2950.0,
-          allocateOrMatch: 'Internet',
-          journals: [
-            {
-              journalId: '456',
-              journalUid: '123e4567-e89b-12d3-a456-426655440000',
-              journalLineId: '123',
-              sourceJournal: 'CashReceipt',
-            },
-          ],
-          taxCode: 'GST',
-          note: '',
-          isReportable: true,
-          selectedAccountId: '128',
-          type: 'singleAllocation',
-        };
-        const taxCalculations = {
-          lines: [
-            {
-              taxAmount: new Decimal('100'),
-            },
-            {
-              taxAmount: new Decimal('200'),
-            },
-          ],
-        };
-        const toolbox = setUpWithBankTransactionEntry(entry);
-
-        toolbox.module.receiveMoneyTaxCalculator = jest
-          .fn()
-          .mockReturnValue(taxCalculations);
-
-        return { ...toolbox, taxCalculations };
-      };
-
       it('successfully loads withdrawal', () => {
         const {
           module,
@@ -2898,6 +2899,81 @@ describe('BankingModule', () => {
       module.openBankingRuleModal();
 
       expect(module.bankingRuleModule.run).toHaveBeenCalled();
+    });
+  });
+
+  describe('unallocateOpenEntryTransaction', () => {
+    const setupWithOpenAllocated = () => {
+      const toolbox = setupWithAllocatedWithdrawal();
+      const { module, store, integration, index } = toolbox;
+
+      module.toggleLine(index);
+      store.resetActions();
+      integration.resetRequests();
+
+      return toolbox;
+    };
+
+    it('successfully unallocates', () => {
+      const { module, store, integration } = setupWithOpenAllocated();
+
+      module.unallocateOpenEntryTransaction();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_OPEN_ENTRY_LOADING_STATE,
+          isLoading: true,
+        },
+        {
+          intent: SET_OPEN_ENTRY_LOADING_STATE,
+          isLoading: false,
+        },
+        expect.objectContaining({
+          intent: UNALLOCATE_TRANSACTION,
+        }),
+        {
+          intent: SET_ALERT,
+          alert: {
+            type: 'success',
+            message: expect.any(String),
+          },
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: UNALLOCATE_TRANSACTION,
+        }),
+      ]);
+    });
+
+    it('fails to unallocate', () => {
+      const { module, store, integration } = setupWithOpenAllocated();
+      integration.mapFailure(UNALLOCATE_TRANSACTION);
+
+      module.unallocateOpenEntryTransaction();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_OPEN_ENTRY_LOADING_STATE,
+          isLoading: true,
+        },
+        {
+          intent: SET_OPEN_ENTRY_LOADING_STATE,
+          isLoading: false,
+        },
+        {
+          intent: SET_ALERT,
+          alert: {
+            type: 'danger',
+            message: expect.any(String),
+          },
+        },
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: UNALLOCATE_TRANSACTION,
+        }),
+      ]);
     });
   });
 });
