@@ -31,7 +31,7 @@ const getDefaultState = () => ({
   orderBy: 'DateOccurred',
   transactionDescription: '',
   referenceNumber: '',
-  dateOfPayment: '',
+  dateOfPayment: formatIsoDate(new Date()),
   bankStatementDescription: '',
   accounts: [],
   paymentTypes: [],
@@ -112,7 +112,6 @@ const loadAccountsAndTransactions = (state, { response }) => ({
   referenceNumber: response.referenceNumber,
   bankStatementDescription: response.bankStatementDescription,
   transactionDescription: response.transactionDescription,
-  dateOfPayment: response.dateOfPayment,
   transactions: response.transactions.map((e) => ({
     ...e,
     isSelected: false,
