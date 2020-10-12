@@ -63,6 +63,9 @@ export default class BillPaymentModule {
 
     const onSuccess = (response) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      if (getSupplierId(state)) {
+        this.loadSupplierPaymentInfo();
+      }
       this.dispatcher.loadBillPayment(response);
     };
 
@@ -74,7 +77,6 @@ export default class BillPaymentModule {
 
     if (getSupplierId(state)) {
       this.loadBillList();
-      this.loadSupplierPaymentInfo();
     }
 
     this.loadContactCombobox();
