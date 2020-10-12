@@ -3,6 +3,7 @@ import React from 'react';
 
 import { getIsSubmitting, getModalType } from './BankFeedsSelectors';
 import BankFeedsView from './components/BankFeedsView';
+import FeatureToggle from '../../../FeatureToggles';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalTypes from './ModalTypes';
 import Store from '../../../store/Store';
@@ -13,13 +14,14 @@ import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 class BankFeedsModule {
-  constructor({ integration, setRootView, globalCallbacks }) {
+  constructor({ integration, setRootView, globalCallbacks, isToggleOn }) {
     this.setRootView = setRootView;
     this.integration = integration;
     this.store = new Store(bankFeedsReducer);
     this.integrator = createBankFeedsIntegrator(this.store, this.integration);
     this.dispatcher = createBankFeedsDispatcher(this.store);
     this.globalCallbacks = globalCallbacks;
+    this.isToggleOn = isToggleOn;
   }
 
   loadBankFeeds = () => {
@@ -112,7 +114,10 @@ class BankFeedsModule {
     const onSuccess = (response) => {
       const canUserAccessNewFlow = response;
       dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      dispatcher.setNewBankFeedsAccess(canUserAccessNewFlow);
+      dispatcher.setNewBankFeedsAccess(
+        canUserAccessNewFlow &&
+          this.isToggleOn(FeatureToggle.InProductBankFeeds)
+      );
     };
 
     const onFailure = () =>

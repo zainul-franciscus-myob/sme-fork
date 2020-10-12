@@ -4,4 +4,5 @@ export default Object.freeze({
   StartNewFinancialYear: 'start-new-financial-year',
   FastModeLoadBankTransactions: 'fast-mode-load-bank-transactions',
   BankLinkPayee: 'banklink-payee',
+  InProductBankFeeds: 'in-product-bank-feeds',
 });

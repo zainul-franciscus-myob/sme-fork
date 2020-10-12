@@ -70,11 +70,10 @@ const getBankFeedsAction = (state) =>
 export const getNewBankFeedsAccess = (state) => state.accessToNewBankFeeds;
 
 export const getMyDotBankFeedsUrl = createSelector(
-  getRegion,
   getBusinessId,
   getSerialNumber,
   getBankFeedsAction,
-  (region, businessId, serialNumber, bankFeedsAction) => {
+  (businessId, serialNumber, bankFeedsAction) => {
     const baseUrl = Config.MANAGE_BANK_FEEDS_BASE_URL;
     const queryParams = getQueryFromParams({
       SerialNumber: serialNumber,
@@ -97,10 +96,8 @@ export const getCreateBankFeedsUrl = createSelector(
   getSmeBankFeedUrl,
   getMyDotBankFeedsUrl,
   getBusinessId,
-  (hasAccess, smeUrl, myDotUrl, businessId) =>
-    hasAccess && businessId === '3aa68c87-7256-4ad6-bb4c-a43ab196636c'
-      ? smeUrl
-      : myDotUrl
+  (useInProductBankFeeds, smeUrl, myDotUrl) =>
+    useInProductBankFeeds ? smeUrl : myDotUrl
 );
 
 export const getShouldShowDisabledMessaging = (state) =>
