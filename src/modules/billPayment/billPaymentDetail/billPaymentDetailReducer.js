@@ -17,7 +17,7 @@ import {
   UPDATE_BILL_PAYMENT_ID,
   UPDATE_HEADER_OPTION,
   UPDATE_REFERENCE_ID,
-  UPDATE_SHOULD_SEND_REMITTANCE,
+  UPDATE_SHOULD_SEND_REMITTANCE_ADVICE,
   UPDATE_TABLE_INPUT_FIELD,
 } from '../BillPaymentIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -57,7 +57,7 @@ const getDefaultState = () => ({
   paymentAmount: '',
   applyPaymentToBillId: '',
   startOfFinancialYearDate: '',
-  shouldSendRemittance: false,
+  shouldSendRemittanceAdvice: false,
   isPayBillRemittanceAdviceEnabled: false,
 });
 
@@ -257,9 +257,9 @@ const updateTableInputField = (state, action) => ({
   ),
 });
 
-const shouldSendRemittance = (state, action) => ({
+const shouldSendRemittanceAdvice = (state, action) => ({
   ...state,
-  shouldSendRemittance: action.shouldSendRemittance,
+  shouldSendRemittanceAdvice: action.shouldSendRemittanceAdvice,
 });
 
 const openModal = (state, action) => ({
@@ -304,7 +304,7 @@ const handlers = {
   [CLOSE_MODAL]: closeModal,
   [SET_ALERT_MESSAGE]: setAlertMessage,
   [SET_REDIRECT_URL]: setRedirectUrl,
-  [UPDATE_SHOULD_SEND_REMITTANCE]: shouldSendRemittance,
+  [UPDATE_SHOULD_SEND_REMITTANCE_ADVICE]: shouldSendRemittanceAdvice,
 };
 
 const billPaymentDetailReducer = createReducer(getDefaultState(), handlers);

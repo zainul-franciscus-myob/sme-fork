@@ -8,7 +8,7 @@ import {
   getIsPayBillRemittanceAdviceEnabled,
   getLoadingState,
   getModalType,
-  getShouldSendRemittance,
+  getShouldSendRemittanceAdvice,
   getTitle,
 } from '../BillPaymentDetailSelectors';
 import BillPaymentActions from './BillPaymentDetailActions';
@@ -46,8 +46,8 @@ const BillPaymentDetailView = ({
   onDeleteModal,
   alertMessage,
   onDismissAlert,
-  shouldSendRemittance,
-  onShouldSendRemittanceChange,
+  shouldSendRemittanceAdvice,
+  onShouldSendRemittanceAdviceChange,
 }) => {
   let modal;
   if (modalType === 'cancel') {
@@ -86,16 +86,16 @@ const BillPaymentDetailView = ({
     />
   );
 
-  const sendRemittance = (
+  const sendRemittanceAdvice = (
     <>
       <Checkbox
         name="shouldSendRemittanceAdvice"
         label="Send remittance advice"
-        checked={shouldSendRemittance}
-        onChange={handleCheckboxChange(onShouldSendRemittanceChange)}
+        checked={shouldSendRemittanceAdvice}
+        onChange={handleCheckboxChange(onShouldSendRemittanceAdviceChange)}
       />
       <br />
-      {shouldSendRemittance && (
+      {shouldSendRemittanceAdvice && (
         <Alert type="info">
           {
             "You'll have the option to send by email or export a PDF when you save this payment."
@@ -133,7 +133,7 @@ const BillPaymentDetailView = ({
         onUpdateTableInputField={onUpdateTableInputField}
       />
       <Separator />
-      {isPayBillRemittanceAdviceEnabled && isCreating && sendRemittance}
+      {isPayBillRemittanceAdviceEnabled && isCreating && sendRemittanceAdvice}
     </LineItemTemplate>
   );
 
@@ -146,7 +146,7 @@ const mapStateToProps = (state) => ({
   alertMessage: getAlertMessage(state),
   title: getTitle(state),
   isCreating: getIsCreating(state),
-  shouldSendRemittance: getShouldSendRemittance(state),
+  shouldSendRemittanceAdvice: getShouldSendRemittanceAdvice(state),
   isPayBillRemittanceAdviceEnabled: getIsPayBillRemittanceAdviceEnabled(state),
 });
 

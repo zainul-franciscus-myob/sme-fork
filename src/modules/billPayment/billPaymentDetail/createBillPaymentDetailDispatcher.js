@@ -15,7 +15,7 @@ import {
   UPDATE_BILL_PAYMENT_ID,
   UPDATE_HEADER_OPTION,
   UPDATE_REFERENCE_ID,
-  UPDATE_SHOULD_SEND_REMITTANCE,
+  UPDATE_SHOULD_SEND_REMITTANCE_ADVICE,
   UPDATE_TABLE_INPUT_FIELD,
 } from '../BillPaymentIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -111,10 +111,10 @@ const createBillPaymentDetailDispatcher = (store) => ({
       billPaymentId,
     });
   },
-  updateShouldSendRemittance: ({ value }) => {
+  updateShouldSendRemittanceAdvice: ({ value }) => {
     store.dispatch({
-      intent: UPDATE_SHOULD_SEND_REMITTANCE,
-      shouldSendRemittance: value,
+      intent: UPDATE_SHOULD_SEND_REMITTANCE_ADVICE,
+      shouldSendRemittanceAdvice: value,
     });
   },
   loadSupplierPaymentInfo: ({

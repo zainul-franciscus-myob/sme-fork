@@ -42,7 +42,8 @@ export const getIsPaymentDetailsComplete = (state) =>
   state.isPaymentDetailsComplete;
 
 export const getIsCreating = (state) => state.billPaymentId === 'new';
-export const getShouldSendRemittance = (state) => state.shouldSendRemittance;
+export const getShouldSendRemittanceAdvice = (state) =>
+  state.shouldSendRemittanceAdvice;
 export const getIsActionsDisabled = (state) => state.isSubmitting;
 
 export const getTitle = createSelector(
@@ -273,7 +274,7 @@ const getCreateBillPaymentPayload = (state) => {
     accountId: getAccountId(state),
     supplierId: getSupplierId(state),
     entries: getBillEntriesForCreatePayload(state),
-    sendRemittance: getShouldSendRemittance(state),
+    sendRemittanceAdvice: getShouldSendRemittanceAdvice(state),
   };
 };
 

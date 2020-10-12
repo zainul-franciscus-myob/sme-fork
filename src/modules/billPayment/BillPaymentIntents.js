@@ -14,8 +14,8 @@ export const CHANGE_REFERENCE_ID = Symbol('Change referenceId');
 export const CREATE_BILL_PAYMENT = Symbol('Create bill payment');
 export const UPDATE_BILL_PAYMENT = Symbol('Update bill payment');
 export const DELETE_BILL_PAYMENT = Symbol('Delete bill payment');
-export const UPDATE_SHOULD_SEND_REMITTANCE = Symbol(
-  'Update Should Send Remittance'
+export const UPDATE_SHOULD_SEND_REMITTANCE_ADVICE = Symbol(
+  'Update Should Send Remittance Advice'
 );
 export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
 export const OPEN_MODAL = Symbol('Open modal');

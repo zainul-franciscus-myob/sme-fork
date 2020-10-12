@@ -2,7 +2,7 @@ import {
   LOAD_PURCHASE_SETTINGS,
   SET_ALERT,
   SET_LOADING_STATE,
-  UPDATE_DEFAULT_REMITTANCE_EMAIL_FIELD,
+  UPDATE_DEFAULT_REMITTANCE_ADVICE_EMAIL_FIELD,
 } from './purchaseSettingsIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 
@@ -30,8 +30,8 @@ const createPurchaseSettingsDispatcher = (store) => ({
     store.dispatch({ intent, ...payload });
   },
 
-  updateDefaultRemittanceEmailField: ({ key, value }) => {
-    const intent = UPDATE_DEFAULT_REMITTANCE_EMAIL_FIELD;
+  updateDefaultRemittanceAdviceEmailField: ({ key, value }) => {
+    const intent = UPDATE_DEFAULT_REMITTANCE_ADVICE_EMAIL_FIELD;
     store.dispatch({
       intent,
       key,

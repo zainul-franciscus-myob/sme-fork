@@ -123,7 +123,7 @@ describe('PurchaseSettingsDetailModule', () => {
 
       store.setState({
         ...store.getState(),
-        defaultRemittanceEmailSettings: {
+        defaultRemittanceAdviceEmailSettings: {
           remittanceAdviceEmailBody: 'body',
           remittanceAdviceEmailSubject: 'subject',
         },

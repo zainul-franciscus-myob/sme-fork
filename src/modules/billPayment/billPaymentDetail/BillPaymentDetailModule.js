@@ -18,7 +18,7 @@ import {
   getRedirectUrl,
   getRegion,
   getShouldLoadBillList,
-  getShouldSendRemittance,
+  getShouldSendRemittanceAdvice,
   getSupplierId,
 } from './BillPaymentDetailSelectors';
 import BillPaymentView from './components/BillPaymentDetailView';
@@ -216,7 +216,7 @@ export default class BillPaymentModule {
         content: response.message,
       });
 
-      if (getShouldSendRemittance(state)) {
+      if (getShouldSendRemittanceAdvice(state)) {
         this.reloadSavedBillPayment(response);
         return;
       }
@@ -317,8 +317,8 @@ export default class BillPaymentModule {
         onConfirmSaveAndRedirect={this.saveAndRedirect}
         onDiscardAndRedirect={this.discardAndRedirect}
         onCloseUnsaveModal={this.closeUnsaveModal}
-        onShouldSendRemittanceChange={
-          this.dispatcher.updateShouldSendRemittance
+        onShouldSendRemittanceAdviceChange={
+          this.dispatcher.updateShouldSendRemittanceAdvice
         }
       />
     );

@@ -1,5 +1,5 @@
 export const getDefaultRemittanceAdviceEmailSettings = (state) =>
-  state.defaultRemittanceEmailSettings;
+  state.defaultRemittanceAdviceEmailSettings;
 
 export const getBusinessId = (state) => state.businessId;
 

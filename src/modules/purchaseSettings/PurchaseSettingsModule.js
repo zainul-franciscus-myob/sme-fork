@@ -68,8 +68,8 @@ export default class PurchaseSettingsModule {
   render = () => {
     const view = (
       <PurchaseSettingsView
-        onDefaultRemittanceEmailFieldChange={
-          this.dispatcher.updateDefaultRemittanceEmailField
+        onDefaultRemittanceAdviceEmailFieldChange={
+          this.dispatcher.updateDefaultRemittanceAdviceEmailField
         }
         saveEmailSettings={this.saveEmailSettings}
         onDismissAlert={this.dispatcher.dismissAlert}

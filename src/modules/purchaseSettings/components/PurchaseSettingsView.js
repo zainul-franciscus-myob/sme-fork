@@ -25,7 +25,7 @@ import handleInputChange from '../../../components/handlers/handleInputChange';
 import styles from './PurchaseSettingsView.module.css';
 
 const PurchaseSettingsView = ({
-  onDefaultRemittanceEmailFieldChange,
+  onDefaultRemittanceAdviceEmailFieldChange,
   saveEmailSettings,
   loadingState,
   emailSettings,
@@ -48,7 +48,10 @@ const PurchaseSettingsView = ({
 
   const view = (
     <>
-      <FormTemplate alert={alertComponent} pageHead="Remittance settings">
+      <FormTemplate
+        alert={alertComponent}
+        pageHead="Remittance Advice Settings"
+      >
         <>
           <div className={styles.templateContainer}>
             <Card>
@@ -61,7 +64,7 @@ const PurchaseSettingsView = ({
                     name="remittanceAdviceEmailSubject"
                     maxLength={256}
                     onChange={handleInputChange(
-                      onDefaultRemittanceEmailFieldChange
+                      onDefaultRemittanceAdviceEmailFieldChange
                     )}
                   />
                   <TextArea
@@ -73,7 +76,7 @@ const PurchaseSettingsView = ({
                     resize="vertical"
                     maxLength={4000}
                     onChange={handleInputChange(
-                      onDefaultRemittanceEmailFieldChange
+                      onDefaultRemittanceAdviceEmailFieldChange
                     )}
                   />
                 </FieldGroup>

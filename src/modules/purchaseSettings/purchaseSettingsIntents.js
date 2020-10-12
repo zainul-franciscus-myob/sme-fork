@@ -1,5 +1,5 @@
-export const UPDATE_DEFAULT_REMITTANCE_EMAIL_FIELD = Symbol(
-  'Update default remittance email field'
+export const UPDATE_DEFAULT_REMITTANCE_ADVICE_EMAIL_FIELD = Symbol(
+  'Update default remittance advice email field'
 );
 
 export const SET_LOADING_STATE = Symbol('Loading');
