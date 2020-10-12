@@ -10,6 +10,7 @@ import createReducer from '../../store/createReducer';
 const getDefaultState = () => ({
   defaultRemittanceEmailSettings: {},
   alert: {},
+  templateList: [],
 });
 
 const setInitialState = (state, action) => ({
@@ -24,13 +25,18 @@ const setLoadingState = (state, { loadingState }) => ({
   loadingState,
 });
 
-const loadPurchaseSettings = (state, { intent, emailSettings, ...rest }) => ({
+const loadPurchaseSettings = (
+  state,
+  { intent, emailSettings, templateList, displayTemplateList, ...rest }
+) => ({
   ...state,
   ...rest,
   defaultRemittanceEmailSettings: {
     ...state.defaultRemittanceEmailSettings,
     ...emailSettings,
   },
+  templateList,
+  displayTemplateList,
 });
 
 const updateDefaultRemittanceEmailField = (state, { key, value }) => ({

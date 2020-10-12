@@ -1,0 +1,3 @@
+.templateContainer > * {
+  margin-bottom: var(--flx-spacing-tiny);
+}

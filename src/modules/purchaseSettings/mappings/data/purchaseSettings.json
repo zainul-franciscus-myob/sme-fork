@@ -1,6 +1,12 @@
 {
-    "emailSettings": {
-        "remittanceAdviceEmailBody": "Remittance advice body sample",
-        "remittanceAdviceEmailSubject": "To Supplier"
-  }
+  "emailSettings": {
+    "remittanceAdviceEmailBody": "Remittance advice body sample",
+    "remittanceAdviceEmailSubject": "To Supplier"
+  },
+  "templateList": [
+    {
+      "name": "Default Remittance Advice Template"
+    }
+  ],
+  "displayTemplateList": true
 }
