@@ -30,7 +30,11 @@ describe('<PayDetailsFieldGroup />', () => {
       expect(field.props()).toMatchObject({
         value: props.hourlyRate,
         label: 'Hourly rate ($)',
+        numeralDecimalScaleMax: 4,
+        numeralDecimalScaleMin: 2,
       });
+
+      expect(field.prop('numeralPositiveOnly')).toBeDefined();
     });
 
     it('should execute the onWageDetailsChange callback', () => {
@@ -70,8 +74,13 @@ describe('<PayDetailsFieldGroup />', () => {
 
       expect(field.props()).toMatchObject({
         value: props.payPeriodHours,
-        label: 'Estimated hours in a pay cycle',
+        label: 'Hours in pay cycle',
+        numeralDecimalScaleMax: 4,
+        numeralDecimalScaleMin: 2,
       });
+
+      expect(field.prop('numeralPositiveOnly')).toBeDefined();
+      expect(field.prop('labelAccessory')).toBeDefined();
     });
 
     it('should execute the onWageDetailsChange callback', () => {
@@ -79,11 +88,11 @@ describe('<PayDetailsFieldGroup />', () => {
         .find({ name })
         .find(AmountInput)
         .find('input')
-        .simulate('change', { target: { name, value: '3.14' } });
+        .simulate('change', { target: { name, value: '3.14356' } });
 
       expect(props.onWageDetailsChange).toHaveBeenCalledWith({
         key: name,
-        value: '3.14',
+        value: '3.1435',
       });
     });
   });

@@ -48,7 +48,6 @@ const ContactDetailsNzTabView = ({
           name="firstName"
           value={contactDetail.firstName}
           onChange={onInputChange(onContactDetailsChange)}
-          requiredLabel="First name is required"
           width="lg"
         />
         <Input

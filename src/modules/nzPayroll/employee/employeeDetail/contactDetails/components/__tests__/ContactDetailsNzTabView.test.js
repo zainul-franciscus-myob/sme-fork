@@ -49,6 +49,16 @@ describe('<ContactDetailsNzTab />', () => {
       wrappingComponentProps: { store },
     });
 
+  it('should render First Name as not required', () => {
+    const wrapper = mountWithProvider(<ContactDetailsNzTabView />);
+    store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, payload: employeeDetails });
+    wrapper.update();
+
+    expect(
+      wrapper.find({ label: 'First name' }).first().prop('requiredLabel')
+    ).toBeUndefined();
+  });
+
   describe('should render Input fields', () => {
     const setup = () => {
       const wrapper = mountWithProvider(<ContactDetailsNzTabView />);
