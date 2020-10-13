@@ -14,6 +14,7 @@ import { featuresConfig } from './navConfig';
 import {
   getBusinessId,
   getCreateNewBusinessUrl,
+  getMyobTeamUrl,
   getPaymentDetailUrl,
   getProductManagementUrl,
   getReportsUrl,
@@ -102,6 +103,7 @@ export default class NavigationModule {
     const reportsUrl = getReportsUrl(state);
     const paymentDetailUrl = getPaymentDetailUrl(state);
     const productManagementUrl = getProductManagementUrl(state);
+    const myobTeamUrl = getMyobTeamUrl(state);
 
     const urls = Object.entries(featuresConfig).reduce(
       (acc, [key, feature]) => {
@@ -111,6 +113,7 @@ export default class NavigationModule {
           reportsUrl,
           paymentDetailUrl,
           productManagementUrl,
+          myobTeamUrl,
         });
         return acc;
       },
@@ -129,6 +132,7 @@ export default class NavigationModule {
     reportsUrl,
     paymentDetailUrl,
     productManagementUrl,
+    myobTeamUrl,
   }) => {
     switch (key) {
       case RouteName.REPORTS_PDF_STYLE_TEMPLATES:
@@ -149,6 +153,8 @@ export default class NavigationModule {
         return paymentDetailUrl;
       case RouteName.PRODUCT_MANAGEMENT_DETAIL:
         return productManagementUrl;
+      case RouteName.MYOB_TEAM_LINK:
+        return myobTeamUrl;
       default:
         return `/#${this.constructPath(feature.routeName, feature.params)}`;
     }
@@ -168,6 +174,7 @@ export default class NavigationModule {
       selfServicePortalUrl: this.config.SELF_SERVICE_PORTAL_URL,
       myReportsUrl: this.config.MY_REPORTS_URL,
       myobUrl: this.config.MYOB_URL,
+      myobTeamUrl: this.config.MYOB_TEAM_URL,
     });
   };
 

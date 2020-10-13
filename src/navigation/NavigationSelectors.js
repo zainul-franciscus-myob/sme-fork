@@ -51,6 +51,8 @@ export const getReportsUrl = createSelector(
     `${myReportsUrl}/#/${region}/${businessId}`
 );
 
+export const getMyobTeamUrl = (state) => state.myobTeamUrl;
+
 export const getActiveNav = createSelector(
   getCurrentRouteName,
   (currentRouteName) => activeMapping[currentRouteName] || ''
@@ -124,6 +126,7 @@ export const getPayrollUrls = createSelector(getEnabledUrls, (enabledUrls) => ({
   payItemList: enabledUrls.payItemList,
   timesheets: enabledUrls.timesheets,
   electronicPaymentCreate: enabledUrls.electronicPaymentPayrollCreate,
+  myobTeamLink: enabledUrls.myobTeamLink,
   superPaymentList: enabledUrls.superPaymentList,
   stpReporting: enabledUrls.stpReporting,
 }));
